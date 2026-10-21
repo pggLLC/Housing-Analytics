@@ -1,0 +1,639 @@
+{
+ "slug": "tierra-azul-alamosa",
+ "name": "Tierra Azul",
+ "city": "Alamosa",
+ "county": "Alamosa",
+ "award": "2025 Federal 9% housing tax credit (Round One)",
+ "units": 46,
+ "researched_on": "2026-10-20",
+ "headline": "Community Resources & Housing Development Corp. (CRHDC) is building 46 new rental apartments for individuals and families at 30% to 80% AMI at 800 Craft Drive in Alamosa, the first rental phase of its 43-acre Tierra Azul neighborhood, and won 2025 Round One federal 9% and state credits from CHFA.",
+ "why_it_matters": "It shows how a rural 9% deal got over the line once the city and nonprofit paid for the infrastructure separately with state and philanthropic grants (about $6M) and the city waived over $1M in fees; earlier tries in 2023 failed on infrastructure cost and readiness.",
+ "status": {
+  "label": "Under construction (per architect, May 2026)",
+  "detail": "Infrastructure work began after a 2025-03-24 groundbreaking. In April 2026 the Alamosa News reported water, sewer, streets and sidewalks in place and foundations being poured in phase one, and on 2026-05-20 the architect KEPHART said the 46-unit phase is actively under construction with completion expected in May 2027. No CHFA closing record or certificate of occupancy was found.",
+  "src": [
+   "mvj-2025-03-20",
+   "alamosa-news-2026-04-15",
+   "kephart-2026-05-20",
+   "alamosa-pc-2025-03-26"
+  ]
+ },
+ "next_step": "Watch for certificates of occupancy and lease-up of the 46 apartments around May 2027 (the city says infrastructure completion is a condition of occupancy).",
+ "key_numbers": [
+  {
+   "value": "46 homes, all income-restricted",
+   "meaning": "26 one-bedroom, 16 two-bedroom and 4 three-bedroom units across one 30-unit building and two 8-plexes, serving 30% to 80% AMI with income averaging.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,600,000 a year in federal 9% credit",
+   "meaning": "About $16M over the 10-year credit period, plus $650,000 in state credit.",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "value": "$1.2M state Housing Development Grant",
+   "meaning": "Approved by the State Housing Board for the 46 apartments, announced 2025-12-31.",
+   "src": [
+    "dola-2025-12-31"
+   ]
+  },
+  {
+   "value": "Over $1M in city fee waivers",
+   "meaning": "City of Alamosa contribution, per the application; separate grants of about $6.1M from DOLA paid for infrastructure for the first 137 units of the neighborhood.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "mvj-2025-03-20"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "800 Craft Drive, Alamosa, CO 81101 (near W. Eighth Street and S. Craft Drive)",
+   "src": [
+    "chfa-2025-r1-award",
+    "alamosa-pdp-staff-report"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, I/F: new construction, individuals and families",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "46 total, 46 low-income",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "One 2-story 30-unit building with units opening onto shared stairs, and two 8-plexes; Type VA/VB construction on slab; all-electric; NGBS Bronze target",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "kephart-2026-05-20"
+   ]
+  },
+  {
+   "item": "Clubhouse",
+   "value": "A separately financed 2,500-square-foot clubhouse with fitness space, community room and offices will serve the whole neighborhood",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "kephart-2026-05-20"
+   ]
+  },
+  {
+   "item": "Master plan",
+   "value": "About 412 homes on 43 acres (apartments, townhomes, triplexes, duplexes and single-family homes), rental and for-sale, serving 30% to 140% AMI",
+   "src": [
+    "kephart-2026-05-20",
+    "alamosa-pud-letter",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Residential High base zone with a Planned Unit Development; PDP allows up to 440 units at under 11 units per acre",
+   "src": [
+    "alamosa-pdp-staff-report"
+   ]
+  },
+  {
+   "item": "Market",
+   "value": "Capture rate 11.2% for the 50% AMI units and under 10% at other levels; Iron Horse is the only directly competing LIHTC property and reported 182 households on its wait list. The 70% and 80% AMI units are to start at or below 60% AMI rents",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "40% AMI",
+   "units": 4
+  },
+  {
+   "level": "50% AMI",
+   "units": 3
+  },
+  {
+   "level": "60% AMI",
+   "units": 19
+  },
+  {
+   "level": "70% AMI",
+   "units": 9
+  },
+  {
+   "level": "80% AMI",
+   "units": 6
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 26
+  },
+  {
+   "type": "2BR",
+   "units": 16
+  },
+  {
+   "type": "3BR",
+   "units": 4
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r1-descriptions",
+  "chfa-2025-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,600,000 per year",
+   "note": "Awarded in 2025 Round One, the amount requested.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-applicants"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$650,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing, Housing Development Grant",
+   "amount": "$1,200,000",
+   "note": "State Housing Board approval announced 2025-12-31, after the credit award.",
+   "src": [
+    "dola-2025-12-31"
+   ]
+  },
+  {
+   "source": "RCAC Capital Magnet Fund loan and grant",
+   "amount": "Not public",
+   "note": "Described as committed in the application.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction-to-permanent loan",
+   "amount": "Not public",
+   "note": "Lender not named.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "City of Alamosa fee waivers",
+   "amount": "Over $1,000,000",
+   "note": "Per the application.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Infrastructure grants (paid separately, to the city/CRHDC)",
+   "amount": "$6,116,170 from DOLA's Division of Local Government",
+   "note": "For water, sewer, stormwater and streets serving the first 137 units. The application names the Energy and Mineral Impact Fund, the Colorado Health Foundation and a CDOH Transformational Affordable Housing grant; a 2023 report cited a $4.2M Transformational Affordable Housing Grant to the city.",
+   "src": [
+    "mvj-2025-03-20",
+    "chfa-2025-r1-narratives",
+    "cr-2023-07-19"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Community Resources & Housing Development Corp. (501(c)(3) nonprofit and CHDO)",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Landowner",
+   "name": "CRHDC (bought the 42.99-acre parcel in 2021)",
+   "src": [
+    "alamosa-pdp-staff-report",
+    "alamosa-pud-letter"
+   ]
+  },
+  {
+   "role": "Architect and planner",
+   "name": "KEPHART",
+   "src": [
+    "kephart-2026-05-20",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Development consultants",
+   "name": "DGMA and GL Development Advisors",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (as proposed)",
+   "name": "Alcon (Alamosa-based), with Peak81 Consulting",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Infrastructure contractor",
+   "name": "Cooley and Sons",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "Civil engineer (PUD)",
+   "name": "Reynolds Engineering",
+   "src": [
+    "alamosa-pud-letter"
+   ]
+  },
+  {
+   "role": "Local partner",
+   "name": "City of Alamosa (lead applicant for infrastructure grants; fee waivers)",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "mvj-2025-03-20"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "City staff first met CRHDC about the site in January 2020. CRHDC bought the parcel in 2021, it was annexed into the city in June 2022, and the PUD/Preliminary Development Plan application was complete on 2023-02-16.",
+   "src": [
+    "alamosa-pdp-staff-report",
+    "alamosa-pud-letter"
+   ]
+  },
+  {
+   "text": "The PDP divides the site into three planning areas and asks for the designation to run for 25 years. The PUD letter describes six phases over 25 years. Final Development Plans are decided by the Planning Commission and ratified by City Council.",
+   "src": [
+    "alamosa-pdp-staff-report",
+    "alamosa-pud-letter"
+   ]
+  },
+  {
+   "text": "CRHDC first sought 9% credits in 2023 Round One with partners Overland Property Group and The Espinosa Group: 44 units in the December 2022 letter of intent and 46 units, all at or below 60% AMI, in the application. It was not awarded (inferred from the later resubmission); the 2025 application says infrastructure funding had been the obstacle to readiness.",
+   "src": [
+    "chfa-2023-r1-loi",
+    "chfa-2023-r1-narratives",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "For 2025 the infrastructure was fully funded and contracted for the 2025 construction season. City staff confirmed infrastructure completion is needed for certificates of occupancy but not building permits; site plan approval was in hand and the city offered a 30-day building permit review.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "City planning minutes in January and March 2025 said infrastructure would start in March 2025, self-help single-family homes would follow that summer, and build-out of the first two phases would take about four years. The developer obtained a CDOT access permit for the whole development.",
+   "src": [
+    "alamosa-pc-min-2025-01-22",
+    "alamosa-pc-2025-03-26"
+   ]
+  },
+  {
+   "text": "The city held a groundbreaking at 800 South Craft Drive on 2025-03-24 for the infrastructure phase.",
+   "src": [
+    "mvj-2025-03-20",
+    "kephart-2026-05-20"
+   ]
+  },
+  {
+   "text": "CRHDC's offices are about a quarter mile away; it plans on-site services such as ESL classes, financial literacy, health education and housing stability counseling.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2020-01",
+   "event": "City staff meet CRHDC about future projects",
+   "src": [
+    "alamosa-pdp-staff-report"
+   ]
+  },
+  {
+   "date": "2021",
+   "event": "CRHDC buys the 42.99-acre parcel",
+   "src": [
+    "alamosa-pdp-staff-report",
+    "alamosa-pud-letter"
+   ]
+  },
+  {
+   "date": "2022-06",
+   "event": "Parcel annexed into the City of Alamosa",
+   "src": [
+    "alamosa-pdp-staff-report"
+   ]
+  },
+  {
+   "date": "2022-12-08",
+   "event": "Listed on CHFA's 2023 Round One letters-of-intent report (44 units)",
+   "src": [
+    "chfa-2023-r1-loi"
+   ]
+  },
+  {
+   "date": "2023-02-16",
+   "event": "PUD/Preliminary Development Plan application deemed complete",
+   "src": [
+    "alamosa-pdp-staff-report"
+   ]
+  },
+  {
+   "date": "2023-07-19",
+   "event": "Report of a $4.2M state Transformational Affordable Housing Grant to the city for infrastructure",
+   "src": [
+    "cr-2023-07-19"
+   ]
+  },
+  {
+   "date": "2024-12-11",
+   "event": "Listed on CHFA's 2025 Round One letters-of-intent report (46 units)",
+   "src": [
+    "chfa-2025-r1-loi"
+   ]
+  },
+  {
+   "date": "2025-02-12",
+   "event": "Listed on CHFA's 2025 Round One applicant report",
+   "src": [
+    "chfa-2025-r1-applicants"
+   ]
+  },
+  {
+   "date": "2025-03-24",
+   "event": "Groundbreaking for Tierra Azul infrastructure",
+   "src": [
+    "mvj-2025-03-20"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "Listed on CHFA's 2025 Round One award report",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "date": "2025-12-31",
+   "event": "DOLA announces a $1.2M Housing Development Grant for the 46 apartments",
+   "src": [
+    "dola-2025-12-31"
+   ]
+  },
+  {
+   "date": "2026-04-15",
+   "event": "Alamosa News reports phase one infrastructure in place and foundations being poured",
+   "src": [
+    "alamosa-news-2026-04-15"
+   ]
+  },
+  {
+   "date": "2026-05-20",
+   "event": "KEPHART reports the 46-unit phase actively under construction",
+   "src": [
+    "kephart-2026-05-20"
+   ]
+  },
+  {
+   "date": "2027-05",
+   "event": "Expected completion of the 46-unit phase",
+   "src": [
+    "kephart-2026-05-20"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Tierra Azul PUD and Preliminary Development Plan set",
+   "url": "https://alamosa.novusagenda.com/Agendapublic/AttachmentViewer.ashx?AttachmentID=4618&ItemID=2901",
+   "kind": "site plan",
+   "made_by": "KEPHART for CRHDC, City of Alamosa agenda attachment",
+   "note": "8 pages: basemap on page 2, land use summary/site plan on page 3, phasing notes on page 4, street sections on page 6, grading and drainage on page 7",
+   "src": [
+    "alamosa-pdp-staff-report"
+   ]
+  },
+  {
+   "title": "Project renderings and update",
+   "url": "https://kephart.com/tierra-azul-affordable-housing-community-in-alamosa-colorado/",
+   "kind": "rendering",
+   "made_by": "KEPHART",
+   "note": "Architect's images on the project update page; the page does not label each image as a rendering or a photo",
+   "src": [
+    "kephart-2026-05-20"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The full neighborhood is described as 412 units by the PUD letter and KEPHART, 406 units by Construction Reporter, 396 units by the 2023 application, and a maximum of 440 units in the city staff report.",
+   "src": [
+    "alamosa-pud-letter",
+    "kephart-2026-05-20",
+    "cr-2023-07-19",
+    "chfa-2023-r1-narratives",
+    "alamosa-pdp-staff-report"
+   ]
+  },
+  {
+   "text": "KEPHART calls the 46 apartments Phase 1, while local reports describe phase one as 137 residential units.",
+   "src": [
+    "kephart-2026-05-20",
+    "mvj-2025-03-20",
+    "alamosa-digest-2026-04-28"
+   ]
+  },
+  {
+   "text": "The PUD letter and Construction Reporter say build-out will take about 25 years, while the Alamosa News says the phases will be completed over about the next ten years.",
+   "src": [
+    "alamosa-pud-letter",
+    "cr-2023-07-19",
+    "alamosa-news-2026-04-15"
+   ]
+  },
+  {
+   "text": "City records say CRHDC bought the land in 2021, while Enterprise says the CRHDC team secured land in 2020.",
+   "src": [
+    "alamosa-pdp-staff-report",
+    "alamosa-pud-letter",
+    "enterprise-2024-12-02"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost, equity investor and credit price, construction/permanent lender and loan amounts, and the RCAC Capital Magnet Fund amounts.",
+  "Date of the CHFA/financing closing and the building permit for the 46 apartments.",
+  "Date and resolution number of City Council approval of the PDP and of the Final Development Plan for planning area one.",
+  "Length of the CHFA affordability period (LURA) and rents.",
+  "Whether any project-based vouchers apply; the CHFA sources mention none."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-descriptions",
+   "title": "2025 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives (Tierra Azul, PDF pages 106-110)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-applicants",
+   "title": "2025 Round One - Applicant Report",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-loi",
+   "title": "2025 Round One Letters of Intent Report",
+   "publisher": "CHFA",
+   "date": "2024-12-11",
+   "url": "https://chfainfo.com/getattachment/ba28736a-7a08-4abd-b052-2cf8a13a22a4/2025-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-loi",
+   "title": "2023 Round 1 LOI Report",
+   "publisher": "CHFA",
+   "date": "2022-12-08",
+   "url": "https://www.chfainfo.com/getattachment/dbf61afd-d40d-4c59-bb1b-a891b4b66e53/2023-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (Tierra Azul Phase 1, PDF pages 114-118)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "kephart-2026-05-20",
+   "title": "Tierra Azul Affordable Housing Community in Alamosa, Colorado",
+   "publisher": "KEPHART",
+   "date": "2026-05-20",
+   "url": "https://kephart.com/tierra-azul-affordable-housing-community-in-alamosa-colorado/"
+  },
+  {
+   "id": "alamosa-news-2026-04-15",
+   "title": "Tierra Azul becoming a reality",
+   "publisher": "The Alamosa News",
+   "date": "2026-04-15",
+   "url": "https://www.alamosanews.com/stories/tierra-azul-becoming-a-reality,131501"
+  },
+  {
+   "id": "alamosa-digest-2026-04-28",
+   "title": "Alamosa Daily Digest, Tuesday, April 28, 2026",
+   "publisher": "Rural Newswire",
+   "date": "2026-04-28",
+   "url": "https://ruralnewswire.com/alamosa-daily-digest-2026-04-28/"
+  },
+  {
+   "id": "mvj-2025-03-20",
+   "title": "Groundbreaking ceremony for Tierra Azul housing development",
+   "publisher": "The Monte Vista Journal",
+   "date": "2025-03-20",
+   "url": "https://www.montevistajournal.com/stories/groundbreaking-ceremony-for-tierra-azul-housing-development,77928"
+  },
+  {
+   "id": "dola-2025-12-31",
+   "title": "Colorado State Housing Board Approves More Than $23 Million in New Investments to Build 380 Homes For Coloradans, Expands Ownership Opportunities",
+   "publisher": "Colorado Department of Local Affairs",
+   "date": "2025-12-31",
+   "url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-23-million-in-new-investments-to"
+  },
+  {
+   "id": "alamosa-pdp-staff-report",
+   "title": "Tierra Azul Preliminary Development Plan - Recommendation to City Council (agenda cover sheet and attachments)",
+   "publisher": "City of Alamosa",
+   "date": "2023",
+   "url": "https://alamosa.novusagenda.com/Agendapublic/CoverSheet.aspx?ItemID=2901&MeetingID=489"
+  },
+  {
+   "id": "alamosa-pud-letter",
+   "title": "Tierra Azul PUD & PDP Submittal, letter of intent",
+   "publisher": "City of Alamosa (applicant submittal)",
+   "date": "2023-01-13",
+   "url": "https://alamosa.novusagenda.com/Agendapublic/AttachmentViewer.ashx?AttachmentID=4617&ItemID=2901"
+  },
+  {
+   "id": "alamosa-pc-min-2025-01-22",
+   "title": "City of Alamosa Planning Commission Minutes, January 22, 2025",
+   "publisher": "City of Alamosa",
+   "date": "2025-01-22",
+   "url": "https://alamosa.novusagenda.com/Agendapublic/DisplayAgendaPDF.ashx?MinutesMeetingID=576"
+  },
+  {
+   "id": "alamosa-pc-2025-03-26",
+   "title": "City of Alamosa Planning Commission agenda packet, March 26, 2025 (minutes of prior meeting)",
+   "publisher": "City of Alamosa",
+   "date": "2025-03-26",
+   "url": "https://alamosa.novusagenda.com/Agendapublic/DisplayAgendaPDF.ashx?MeetingID=619"
+  },
+  {
+   "id": "cr-2023-07-19",
+   "title": "Innovative, Long-Range Planned Housing Community in Colorado Gets New Funding",
+   "publisher": "Construction Reporter",
+   "date": "2023-07-19",
+   "url": "https://constructionreporter.com/innovative-long-range-planned-housing-community-in-colorado-gets-new-funding"
+  },
+  {
+   "id": "enterprise-2024-12-02",
+   "title": "Transforming Alamosa: A Community-Led Approach to Affordable Housing",
+   "publisher": "Enterprise Community Partners",
+   "date": "2024-12-02",
+   "url": "https://enterprisecommunity.org/community-highlights/transforming-alamosa-community-led-approach-affordable-housing"
+  }
+ ]
+}

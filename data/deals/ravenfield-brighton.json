@@ -1,0 +1,472 @@
+{
+ "slug": "ravenfield-brighton",
+ "name": "Ravenfield",
+ "city": "Brighton",
+ "county": "Adams",
+ "award": "2025 Federal 9% housing tax credit (Round One)",
+ "units": 46,
+ "researched_on": "2026-10-20",
+ "headline": "The Brighton Housing Authority is building Ravenfield Senior Apartments, 46 income-restricted homes for adults 62+ at 30% to 60% AMI (11 with project-based vouchers) at 590 S. 27th Ave. in Brighton, after winning 2025 Round One federal 9% and state credits from CHFA.",
+ "why_it_matters": "A small housing authority acting as its own developer for the first time brought a 9% senior deal from site purchase to groundbreaking in about two and a half years. It used a county ARPA-backed land loan, its own vouchers and seller note, and the city's first water fee-in-lieu for affordable housing.",
+ "status": {
+  "label": "Under construction (groundbreaking reported 2026-05-27); completion expected 2027",
+  "detail": "The Brighton Blade reported the groundbreaking ceremony on 2026-05-27. BHA's director cited a roughly 15-month build, finishing around the middle of 2027; the article's headline says fall 2027. No public building permit or financing closing record was found.",
+  "src": [
+   "blade-2026-05-27"
+  ]
+ },
+ "next_step": "Watch for BHA leasing and waitlist announcements on the project website and a certificate of occupancy in mid-to-late 2027.",
+ "key_numbers": [
+  {
+   "value": "46 homes for seniors 62+, all income-restricted",
+   "meaning": "41 one-bedroom and 5 two-bedroom units at 30%, 50% and 60% AMI.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,600,000 a year in federal 9% credit",
+   "meaning": "About $16M over the 10-year credit period, plus $650,000 in state credit.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "value": "11 project-based vouchers",
+   "meaning": "From BHA, on all 9 units at 30% AMI and 2 at 50% AMI; the application calls it the first LIHTC deal in the market area with PBVs.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "value": "$700K state (DOH) funds and $600K to $800K city fee waivers",
+   "meaning": "Gap money shown on the project website and in the application.",
+   "src": [
+    "ravenfield-website",
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "590 S. 27th Ave., Brighton, CO 80601, just south of Southern Street",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "blade-2026-05-27"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, OA: new construction, older adult",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "46 total, 46 low-income",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "item": "Population",
+   "value": "Adults aged 62 and older",
+   "src": [
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three-story Type V wood-frame building on a post-tensioned slab, two elevators, cement board siding, cold-climate air-source heat pumps; Enterprise Green Communities with Energy Star",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Accessibility",
+   "value": "10 percent accessible units",
+   "src": [
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Former church-owned land in an established single-family neighborhood, next to a church, an urgent care and a paved ditch-side walking path to Sister City Park",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Rezoned in under five months by unanimous Planning Commission and City Council votes; site plan review started before the CHFA application",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Limited walkability; served by a City of Brighton/RTD micro-transit service that began 2025-01-01",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 9
+  },
+  {
+   "level": "50% AMI",
+   "units": 11
+  },
+  {
+   "level": "60% AMI",
+   "units": 26
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 41
+  },
+  {
+   "type": "2BR",
+   "units": 5
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r1-descriptions",
+  "chfa-2025-r1-narratives",
+  "ravenfield-website"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,600,000 per year",
+   "note": "Awarded in 2025 Round One. CHFA approved a cost basis override.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$650,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "$700,000",
+   "note": "Shown on the project website; not listed in the 2025 application's sources.",
+   "src": [
+    "ravenfield-website",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "City of Brighton fee waivers",
+   "amount": "$600,000 to $800,000",
+   "note": "The application cites $600,000 of waivers from the city's fee waiver matrix; the project website now says $800K. The city also allowed its first water fee-in-lieu for affordable housing instead of water rights dedication.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "source": "Project-based vouchers",
+   "amount": "11 units",
+   "note": "Provided by BHA.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Adams County ARPA-leveraged acquisition financing",
+   "amount": "Not public",
+   "note": "Financed BHA's purchase of the site.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "source": "Conventional construction-to-permanent loan",
+   "amount": "Not public",
+   "note": "Lender not named.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "BHA seller carry note, additional GP note and deferred developer fee",
+   "amount": "Not public",
+   "note": "CHFA says the sponsor will fund land costs and equity support.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it), developer and owner",
+   "name": "Brighton Housing Authority",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "role": "Development advisor",
+   "name": "GL Development Advisors",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "role": "Financing consultant",
+   "name": "RCH Jones Consulting",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "JLA Architects",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "I-Kota Construction",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "role": "Other project team (per project website)",
+   "name": "New Communities Law; IMEG (design engineers); Balanced Housing Solutions; Group14 Engineering; Affordable Housing Consultants",
+   "src": [
+    "ravenfield-website"
+   ]
+  },
+  {
+   "role": "Land acquisition financing",
+   "name": "Adams County",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "role": "Local partner (fee waivers, rezoning, water fee-in-lieu)",
+   "name": "City of Brighton",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "role": "Prior landowner",
+   "name": "The adjacent church (name not given), which sold through a competitive process",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "BHA bought the site from the adjacent church, which ran a competitive sale meant to secure a use that benefits the community. The purchase was financed through an Adams County program using ARPA funds. The price is not public.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "BHA says it spent over $30,000 on neighbor outreach, and that neighborhood opposition was not a factor in the rezoning. The design came from a charrette with city and county leaders and focus groups with BHA senior residents.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "BHA owns all of Brighton's senior LIHTC housing (all but 20 of the 213 comparable units in the market area). At the time of the market study only 4 were vacant, with a combined waitlist of 423 senior households.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "This is BHA's third affordable senior community in Brighton, after Libretto and Brighton Village, and a pivotal project in building BHA's capacity to act as its own developer.",
+   "src": [
+    "blade-2026-05-27"
+   ]
+  },
+  {
+   "text": "A City Council member said a second phase on the same property is being considered, probably another building with about double the capacity.",
+   "src": [
+    "blade-2026-05-27"
+   ]
+  },
+  {
+   "text": "BHA services will include Food Bank of the Rockies food delivery, RTD and ARC thrift store vouchers, resource fairs and clothing drives, and links to the Eagle View Adult Center.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "text": "Amenities: first-floor library with fireplace, large kitchen and dining room, a pocket amenity space on each floor, a rooftop patio, a community mud room with bike storage, raised garden beds, a fire pit and a walking path around the site. Units have in-unit washers and dryers, and upper units have Juliet balconies.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ravenfield-website",
+    "blade-2026-05-27"
+   ]
+  },
+  {
+   "text": "The design team says rounds of redesign saved over $500,000; two elevators and local permit, tap and impact fees push costs up.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023",
+   "event": "Brighton's first housing needs assessment, commissioned by BHA with the city, shows acute senior housing need",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "blade-2026-05-27"
+   ]
+  },
+  {
+   "date": "2025-01-01",
+   "event": "City/RTD micro-transit service begins",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "Listed on CHFA's 2025 Round One award report (federal 9% and state credits)",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "date": "2026-05-27",
+   "event": "Brighton Blade reports the groundbreaking ceremony held that Wednesday",
+   "src": [
+    "blade-2026-05-27"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Completion expected around mid-2027 (about 15 months of construction); the Blade headline says fall 2027",
+   "src": [
+    "blade-2026-05-27"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Ravenfield Senior Apartments rendering",
+   "url": "https://ravenfieldapartments.com/",
+   "kind": "rendering",
+   "made_by": "Brighton Housing Authority (project website)",
+   "note": "Sunset rendering on the home page; the page also links a press kit with a rendering",
+   "src": [
+    "ravenfield-website"
+   ]
+  },
+  {
+   "title": "Photo of the vacant site at 590 S. 27th Ave.",
+   "url": "https://www.thebrightonblade.com/news/brighton-breaks-ground-on-46-units-of-senior-housing/article_12a63373-800e-4fe9-9135-62a6ff1e511d.html",
+   "kind": "photo",
+   "made_by": "Brighton Blade",
+   "note": "Site photo in the groundbreaking article",
+   "src": [
+    "blade-2026-05-27"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The 2025 application puts the city's fee waivers at $600,000, while the project website says $800K.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "ravenfield-website"
+   ]
+  },
+  {
+   "text": "The Brighton Blade headline says completion by fall 2027, while the BHA director quoted in the article expects completion around the middle of 2027 after a 15-month build.",
+   "src": [
+    "blade-2026-05-27"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Land purchase price and terms of the Adams County ARPA-backed acquisition loan.",
+  "Construction-to-permanent lender and amount, tax credit investor and equity price, and total development cost.",
+  "Date of the financing closing and the building permit.",
+  "Rezoning ordinance number and date, and the city resolution for the fee waivers and water fee-in-lieu.",
+  "Length of the CHFA affordability period (LURA) and rents.",
+  "Status and timing of the second phase mentioned at groundbreaking."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-descriptions",
+   "title": "2025 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives (Ravenfield, PDF pages 86-90)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "blade-2026-05-27",
+   "title": "Brighton breaks ground on 46-units of senior housing",
+   "publisher": "Brighton Standard Blade",
+   "date": "2026-05-27",
+   "url": "https://www.thebrightonblade.com/news/brighton-breaks-ground-on-46-units-of-senior-housing/article_12a63373-800e-4fe9-9135-62a6ff1e511d.html"
+  },
+  {
+   "id": "ravenfield-website",
+   "title": "Ravenfield project website",
+   "publisher": "Brighton Housing Authority",
+   "date": "2026",
+   "url": "https://ravenfieldapartments.com/"
+  }
+ ]
+}

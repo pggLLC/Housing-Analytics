@@ -46,6 +46,21 @@ MATCH = {
     'silver-key-apartments-colorado-springs': {'agency': 'CHFA', 'year': 2026, 'names': ['Silver Key Apartments at North Weber']},
     'ute-mountain-homes-i-towaoc': {'agency': 'CHFA', 'year': 2026, 'names': ['Ute Mountain Homes I']},
     'wildflower-flats-fort-lupton': {'agency': 'CHFA', 'year': 2026, 'names': ['Wildflower Flats']},
+    '101-main-frisco': {'agency': 'CHFA', 'year': 2025, 'names': ['101 Main']},
+    'arapahoe-psh-aurora': {'agency': 'CHFA', 'year': 2025, 'names': ['Arapahoe PSH']},
+    'blossom-commons-westminster': {'agency': 'CHFA', 'year': 2025, 'names': ['Blossom Commons']},
+    'kite-route-crossing-superior': {'agency': 'CHFA', 'year': 2025, 'names': ['Kite Route Crossing']},
+    'marq-trinidad': {'agency': 'CHFA', 'year': 2025, 'names': ['Marq']},
+    'park-avenue-apartments-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Park Avenue Apartments']},
+    'ravenfield-brighton': {'agency': 'CHFA', 'year': 2025, 'names': ['Ravenfield']},
+    'rita-bass-apartments-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Rita Bass Apartments']},
+    'switchgrass-crossing-fort-collins': {'agency': 'CHFA', 'year': 2025, 'names': ['Switchgrass Crossing']},
+    'tapestry-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Tapestry LIHTC']},
+    'ives-ii-wheat-ridge': {'agency': 'CHFA', 'year': 2025, 'names': ['Ives II', 'Tax Credit Paired with 4% Ives II', 'Ives II 4']},
+    'tierra-azul-alamosa': {'agency': 'CHFA', 'year': 2025, 'names': ['Tierra Azul']},
+    'elmwood-north-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Elmwood North']},
+    'park-place-apartments-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Park Place Apartments']},
+    'st-louis-landing-building-c-fraser': {'agency': 'CHFA', 'year': 2025, 'names': ['St. Louis Landing Building C']},
 }
 
 REQUIRED = ['slug', 'name', 'city', 'award', 'researched_on', 'headline', 'status', 'key_numbers', 'sources']
@@ -56,7 +71,7 @@ FORBIDDEN = [
     (re.compile(r'indibuild', re.I), 'a developer brand that stays off the public site'),
     (re.compile(r'fruita', re.I), 'a Fruita project'),
     # Summaries read as reference pages, not research notes.
-    (re.compile(r'\b(I (found|could|did|read|checked)|my (calculation|inference|reading))\b'), 'first-person research wording'),
+    (re.compile(r'\b((?<!Phase )I (found|could|did|read|checked)|my (calculation|inference|reading))\b'), 'first-person research wording'),
 ]
 CITED = ['key_numbers', 'facts', 'money', 'parties', 'background', 'timeline', 'pictures', 'discrepancies']
 

@@ -1,0 +1,709 @@
+{
+ "slug": "park-avenue-apartments-denver",
+ "name": "Park Avenue Apartments",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2025 Federal 9% housing tax credit (Round One)",
+ "units": 60,
+ "researched_on": "2026-10-20",
+ "headline": "The Colorado Coalition for the Homeless is building 60 one-bedroom permanent supportive homes for people leaving homelessness (30% to 60% AMI) on the former La Quinta hotel site in Denver's Globeville neighborhood. It won 2025 Round One federal 9%, state and TOC credits from CHFA.",
+ "why_it_matters": "It shows how a COVID-era hotel shelter bought with city ARPA and state Operation Turnkey money can be turned into permanent supportive housing: 9% credits plus state vouchers on all 60 units, a city loan, Prop 123 money and a federal earmark. The deal financed in May 2026 and broke ground in July 2026, after two earlier tax credit bids had failed.",
+ "status": {
+  "label": "Under construction (groundbreaking 2026-07-22); lease-up expected 2027",
+  "detail": "CCH says it closed financing on Friday 2026-05-15, and its general contractor started demolition on 2026-05-18. BusinessDen photographed the hotel being demolished on 2026-06-02. City officials and CCH held a groundbreaking on 2026-07-22, and the city and CCH expect lease-up to start in 2027. No public certificate of occupancy or completion date exists yet.",
+  "src": [
+   "cch-2026-05-18",
+   "bden-2026-06-05",
+   "cch-2026-07-22",
+   "denver-host-2026-07-23"
+  ]
+ },
+ "next_step": "Watch Denver building permit and inspection records for 3721 N. Globeville Road, CCH lease-up notices in 2027, and a new council resolution for the $1.35M services agreement, which the city's file lists as tabled.",
+ "key_numbers": [
+  {
+   "value": "60 one-bedroom homes, all income-restricted",
+   "meaning": "Permanent supportive housing for people exiting homelessness: 26 at 30% AMI, 20 at 40%, 7 at 50% and 7 at 60%. State project-based vouchers cover all 60.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions",
+    "cch-2026-07-22"
+   ]
+  },
+  {
+   "value": "$1,600,000 a year in federal 9% credit",
+   "meaning": "About $16M over the 10-year credit period, plus $650,000 state credit and $78,000 TOC credit. CCH expected the credits to bring in more than $17M of private investment.",
+   "src": [
+    "chfa-2025-r1-award",
+    "cch-2025-05-14"
+   ]
+  },
+  {
+   "value": "$3.2M city loan plus $3.6M Prop 123",
+   "meaning": "Denver Council adopted the HOST loan on 2026-04-20 (Resolution 26-0501, 720-month term). The State Housing Board approved $3.6M of Prop 123 funds in November 2025.",
+   "src": [
+    "denver-26-0501",
+    "dola-2025-11-03"
+   ]
+  },
+  {
+   "value": "Groundbreaking 2026-07-22",
+   "meaning": "Financing closed 2026-05-15 and demolition began 2026-05-18. Lease-up is planned for 2027.",
+   "src": [
+    "cch-2026-05-18",
+    "cch-2026-07-22"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "3721 N. Globeville Road, Denver 80216 (the city and CCH's 2026 records). CHFA and the earlier filings use 3500-3600 Park Avenue West, at Park Avenue W and Globeville Road by the I-25 interchange.",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-narratives",
+    "denver-26-0501",
+    "cch-2026-05-18"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, SH: new construction, supportive housing (code meanings inferred from the project description)",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "60 total, 60 low-income; all one-bedroom, one-bath",
+   "src": [
+    "chfa-2025-r1-award",
+    "chfa-2025-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories and 61,244 sq ft, Type V-A wood frame with glulam timber beams (the application describes 3 and 4 stories). Trauma-informed design by Davis Partnership Architects.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "cch-2026-07-22"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "C-MX-8. Council rezoned it from I-B UO-2 by ordinance (Council Bill 22-1214), passed 2022-11-14. The applicant says the project is a use by right and needs no other public approvals.",
+   "src": [
+    "denver-22-1214",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "2.24 acres. This 60-unit building is the first phase; CCH's long-term goal is up to 200 units on the site.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "westword-2022-10-06"
+   ]
+  },
+  {
+   "item": "Census tract",
+   "value": "The applicant says the site is in a 2025 Qualified Census Tract",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD Route 38 stops at Park Avenue and Globeville Road, and the 41st & Fox light rail station (B and G lines) is about half a mile away. Residents get RTD EcoPasses.",
+   "src": [
+    "chfa-2025-r1-toc-narratives",
+    "cch-2026-05-18"
+   ]
+  },
+  {
+   "item": "Rental subsidy",
+   "value": "Colorado Division of Housing state project-based vouchers on all 60 units",
+   "src": [
+    "chfa-2025-r1-descriptions",
+    "cch-2026-07-22",
+    "denver-host-2026-07-23"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "The applicant says a partnership with Denver Housing Authority supports the property tax exemption",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 26
+  },
+  {
+   "level": "40% AMI",
+   "units": 20
+  },
+  {
+   "level": "50% AMI",
+   "units": 7
+  },
+  {
+   "level": "60% AMI",
+   "units": 7
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 60
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r1-descriptions",
+  "cch-2025-05-14"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,600,000 per year",
+   "note": "Awarded in 2025 Round One (award report as of 2025-05-08).",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$650,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$78,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-award"
+   ]
+  },
+  {
+   "source": "Wells Fargo tax credit equity and construction loan",
+   "amount": "Not public in sources read",
+   "note": "CCH names Wells Fargo as the equity investor and construction lender. The 2025 application had named FirstBank for the construction and permanent loans.",
+   "src": [
+    "cch-2026-05-18",
+    "cch-2026-07-22",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Denver HOST development loan",
+   "amount": "$3,200,000",
+   "note": "Resolution 26-0501, adopted by City Council 2026-04-20. The maturity is 720 months from the promissory note.",
+   "src": [
+    "denver-26-0501",
+    "denver-host-2026-07-23"
+   ]
+  },
+  {
+   "source": "Denver HOST supportive services funding",
+   "amount": "$1,350,000",
+   "note": "Through 2041-12-31. Resolution 26-0502 was approved by committee on 2026-04-15, but the city's file lists its status as tabled. The city's July 2026 release still counts the money.",
+   "src": [
+    "denver-26-0502",
+    "denver-host-2026-07-23"
+   ]
+  },
+  {
+   "source": "Proposition 123 funds (Colorado State Housing Board / Division of Housing)",
+   "amount": "$3,600,000",
+   "note": "Approved per DOLA's 2025-11-03 release.",
+   "src": [
+    "dola-2025-11-03"
+   ]
+  },
+  {
+   "source": "HUD Community Project Funding (congressional earmark, FY2024)",
+   "amount": "$4,116,279",
+   "note": "Listed as 'Park Avenue Inn - Colorado Coalition of the Homeless' in the CAGW earmark database. CCH credits Rep. DeGette and Senators Bennet and Hickenlooper.",
+   "src": [
+    "cagw-earmark",
+    "cch-2026-07-22"
+   ]
+  },
+  {
+   "source": "Federal Home Loan Bank of Dallas, Rocky Mountain Community Reinvestment Corporation, Denver Housing Authority",
+   "amount": "Not public",
+   "note": "Named as partners. The application listed FHLB AHP funds.",
+   "src": [
+    "cch-2026-07-22",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Earlier acquisition funding (2021-2022)",
+   "amount": "$5,000,000 city ARPA funding agreement",
+   "note": "Resolution 22-1097, adopted 2022-09-26, with Park Avenue Housing Corporation. It carries a 60-year covenant to convert the 103 shelter units to supportive housing. State Operation Turnkey money also helped buy the site. The new deal pays off the existing CDOH Operation Turnkey loan, which matures in 2026.",
+   "src": [
+    "denver-22-1097",
+    "cch-2026-05-18",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and owner/operator",
+   "name": "Colorado Coalition for the Homeless",
+   "src": [
+    "chfa-2025-r1-award",
+    "cch-2026-07-22"
+   ]
+  },
+  {
+   "role": "Acquisition entity named in the 2022 city funding agreement",
+   "name": "Park Avenue Housing Corporation",
+   "src": [
+    "denver-22-1097"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Davis Partnership Architects",
+   "src": [
+    "cch-2026-05-18",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Alliance Construction Solutions",
+   "src": [
+    "cch-2026-05-18",
+    "cch-2026-07-22"
+   ]
+  },
+  {
+   "role": "Design study partners",
+   "name": "Shopworks Architecture and Group 14 (University of Denver trauma-informed design study)",
+   "src": [
+    "cch-2026-07-22"
+   ]
+  },
+  {
+   "role": "Tax credit investor and construction lender",
+   "name": "Wells Fargo",
+   "src": [
+    "cch-2026-05-18"
+   ]
+  },
+  {
+   "role": "Public funders",
+   "name": "Denver Department of Housing Stability (HOST); Colorado Division of Housing (DOLA)",
+   "src": [
+    "denver-host-2026-07-23",
+    "dola-2025-11-03"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The site held the La Quinta hotel and the Old West Pancake House. CCH bought it in December 2021 with help from Denver HOST and state Operation Turnkey money, and used the 103-room hotel as non-congregate shelter during COVID and later as transitional housing.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "denver-host-2026-07-23",
+    "cch-2026-05-18"
+   ]
+  },
+  {
+   "text": "On 2022-09-26 the City Council approved $5M in ARPA funds for the acquisition (Resolution 22-1097). The agreement carries a 60-year covenant and requires the shelter units to become supportive housing within four years.",
+   "src": [
+    "denver-22-1097"
+   ]
+  },
+  {
+   "text": "The application says the shelter's grant-funded operations would expire in mid-2025 and that regulatory terms require the site to become affordable housing, so redevelopment money was needed to avoid default.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Council rezoned 3500 and 3600 Park Avenue West from industrial (I-B UO-2) to C-MX-8 by ordinance (Council Bill 22-1214), passed 2022-11-14. The committee had approved filing on 2022-10-04.",
+   "src": [
+    "denver-22-1214",
+    "westword-2022-10-06"
+   ]
+  },
+  {
+   "text": "The same 60-unit project applied in 2024 Round One for 9% credits and was not funded. It then applied in 2024 Round Two for state and 4% credits. The 2025 application says it was not funded in earlier rounds but held Division of Housing Tier 1 status.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r2-narratives",
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "The project is in Denver's Affordable Housing Review Team process, and its concept site development plan has been reviewed. HUD issued an environmental release. A Phase II found arsenic and lead below cleanup levels, and a vapor barrier is planned because of past bulk fuel storage on the site.",
+   "src": [
+    "chfa-2025-r1-narratives"
+   ]
+  },
+  {
+   "text": "Off-site work paid for by the project: a raised crosswalk and a pedestrian rapid flashing beacon at the free right turn onto I-25/I-70, plus a new curb, tree lawn and 8-foot detached sidewalk on Park Avenue.",
+   "src": [
+    "chfa-2025-r1-toc-narratives"
+   ]
+  },
+  {
+   "text": "The Park Avenue Inn shelter closed at the end of January 2026, and the site was empty and fenced by early February 2026.",
+   "src": [
+    "denver7-2026-02-07"
+   ]
+  },
+  {
+   "text": "On-site services from CCH staff include behavioral health, case management, addiction recovery, job readiness and financial literacy. The application says these are funded by Division of Housing tenancy support services, Medicaid, fundraising and cash flow.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "denver-host-2026-07-23"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-12",
+   "event": "CCH buys the La Quinta hotel site",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "bden-2026-06-05"
+   ]
+  },
+  {
+   "date": "2022-09-26",
+   "event": "Council adopts the $5M ARPA acquisition funding agreement (Resolution 22-1097)",
+   "src": [
+    "denver-22-1097"
+   ]
+  },
+  {
+   "date": "2022-11-14",
+   "event": "Council passes rezoning to C-MX-8 (Council Bill 22-1214)",
+   "src": [
+    "denver-22-1214"
+   ]
+  },
+  {
+   "date": "2024",
+   "event": "Applies in 2024 Round One (9%) and Round Two (state and 4%) without an award",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2025-02-12",
+   "event": "Listed on CHFA's 2025 Round One applicant report",
+   "src": [
+    "chfa-2025-r1-applicants"
+   ]
+  },
+  {
+   "date": "2025-05-08",
+   "event": "CHFA awards 2025 Round One credits",
+   "src": [
+    "chfa-2025-r1-award",
+    "cch-2025-05-14"
+   ]
+  },
+  {
+   "date": "2025-11-03",
+   "event": "State Housing Board approves $3.6M of Prop 123 funds",
+   "src": [
+    "dola-2025-11-03"
+   ]
+  },
+  {
+   "date": "2026-01",
+   "event": "Park Avenue Inn shelter closes",
+   "src": [
+    "denver7-2026-02-07"
+   ]
+  },
+  {
+   "date": "2026-04-20",
+   "event": "City Council adopts the $3.2M HOST loan (Resolution 26-0501)",
+   "src": [
+    "denver-26-0501"
+   ]
+  },
+  {
+   "date": "2026-05-15",
+   "event": "CCH closes financing",
+   "src": [
+    "cch-2026-05-18"
+   ]
+  },
+  {
+   "date": "2026-05-18",
+   "event": "Alliance Construction Solutions starts demolition",
+   "src": [
+    "cch-2026-05-18"
+   ]
+  },
+  {
+   "date": "2026-06-02",
+   "event": "Hotel demolition photographed",
+   "src": [
+    "bden-2026-06-05"
+   ]
+  },
+  {
+   "date": "2026-07-22",
+   "event": "Groundbreaking ceremony",
+   "src": [
+    "cch-2026-07-22",
+    "denver-host-2026-07-23"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Lease-up expected to begin",
+   "src": [
+    "cch-2026-07-22",
+    "denver-host-2026-07-23"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Exterior rendering of Park Avenue Apartments",
+   "url": "https://www.developingmycity.com/denver/news/park-avenue-apartments-globeville-supportive-housing",
+   "kind": "rendering",
+   "made_by": "Davis Partnership Architects, via Developing MyCity",
+   "note": "In the body of the article, captioned 'Exterior Rendering of Park Avenue Apartments'",
+   "src": [
+    "dmc-2026-05-25"
+   ]
+  },
+  {
+   "title": "Photo of the former La Quinta hotel being demolished",
+   "url": "https://businessden.com/hotel-along-park-avenue-comes-down-to-make-way-for-apartments/",
+   "kind": "photo",
+   "made_by": "BusinessDen",
+   "note": "Lead photo, dated 2026-06-02",
+   "src": [
+    "bden-2026-06-05"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CCH's May 2025 release says the Coalition bought the site in 2020, while the application narratives, CCH's 2026 releases and BusinessDen say December 2021 (the city says 2021).",
+   "src": [
+    "cch-2025-05-14",
+    "chfa-2025-r1-narratives",
+    "cch-2026-05-18",
+    "bden-2026-06-05",
+    "denver-host-2026-07-23"
+   ]
+  },
+  {
+   "text": "BusinessDen puts the 2021 purchase price at $11 million, while Westword said around $12 million.",
+   "src": [
+    "bden-2026-06-05",
+    "westword-2022-10-06"
+   ]
+  },
+  {
+   "text": "CHFA and the earlier filings give the address as 3500-3600 Park Avenue West, while the city's 2026 resolutions and CCH's 2026 releases use 3721 N. Globeville Road.",
+   "src": [
+    "chfa-2025-r1-award",
+    "denver-26-0501",
+    "cch-2026-05-18"
+   ]
+  },
+  {
+   "text": "The 2025 application names FirstBank as the construction and permanent lender, while CCH's 2026 releases say Wells Fargo provides the construction financing and tax credit equity.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "cch-2026-05-18",
+    "cch-2026-07-22"
+   ]
+  },
+  {
+   "text": "The application describes a building of 3 and 4 stories, while CCH and the city describe a four-story building.",
+   "src": [
+    "chfa-2025-r1-narratives",
+    "cch-2026-07-22",
+    "denver-host-2026-07-23"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost and the amounts of the Wells Fargo construction loan, the tax credit equity, the permanent debt and the FHLB AHP award. Press reports cite a $34M budget and a $15.3M loan, but those articles could not be fetched or are paywalled, so the figures are not used here.",
+  "Whether the $1.35M HOST services agreement was re-filed under a new resolution, since Resolution 26-0502 is listed as tabled.",
+  "Length of the CHFA affordability period (LURA) for the new building.",
+  "Building permit number and issue date, and the planned completion month.",
+  "Timing and funding for later phases on the 2.24-acre site, given CCH's goal of up to 200 units there."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r1-award",
+   "title": "2025 Round One - Award Report, Federal 9% and Standard State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-05-08",
+   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-descriptions",
+   "title": "2025 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-05",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives (Park Avenue Apartments, PDF pages 76-79)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-toc-narratives",
+   "title": "2025 Round One TOC credit narratives (Park Avenue Apartments, PDF page 12)",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/7c175cb8-9560-4d08-8e5d-9672e656aa6c/2025-TOC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-applicants",
+   "title": "2025 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2025-02-12",
+   "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One application narratives (Park Avenue Apartments, PDF pages 84-87)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two application narratives (Park Avenue Apartments, PDF pages 95-99)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "cch-2025-05-14",
+   "title": "CHFA awards over $2.3M in annual tax credits for Park Avenue Apartments (press release)",
+   "publisher": "Colorado Coalition for the Homeless",
+   "date": "2025-05-14",
+   "url": "https://www.coloradocoalition.org/sites/default/files/2025-05/PressRelease_CCH_ParkAvenueApartments_May2025_0.pdf"
+  },
+  {
+   "id": "cch-2026-05-18",
+   "title": "Colorado Coalition for the Homeless Takes Next Step in Highly Needed Supportive Housing Development in Denver (press release)",
+   "publisher": "Colorado Coalition for the Homeless",
+   "date": "2026-05-18",
+   "url": "https://www.coloradocoalition.org/sites/default/files/2026-05/PressRelease_CCH_ParkAvenueApartments_05182026.pdf"
+  },
+  {
+   "id": "cch-2026-07-22",
+   "title": "Local Leaders Break Ground for Park Avenue Apartments (press release)",
+   "publisher": "Colorado Coalition for the Homeless",
+   "date": "2026-07-22",
+   "url": "https://www.coloradocoalition.org/sites/default/files/2026-07/PressRelease_CCH_ParkAvenueApartmentsGroundbreaking_07222026_F.pdf"
+  },
+  {
+   "id": "denver-host-2026-07-23",
+   "title": "Local Leaders Break Ground on Park Avenue Apartments",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2026-07-23",
+   "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/Local-Leaders-Break-Ground-on-Park-Avenue-Apartments"
+  },
+  {
+   "id": "denver-26-0501",
+   "title": "Denver Council Resolution 26-0501: Loan Agreement with The Colorado Coalition for the Homeless, 3721 N Globeville Rd",
+   "publisher": "Denver City Council (Legistar)",
+   "date": "2026-04-20",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=56684&GUID=6BB46DEE-CB8A-4F48-809F-1F37DE1FEF58"
+  },
+  {
+   "id": "denver-26-0502",
+   "title": "Denver Council Resolution 26-0502: Funding Agreement with CCH for wraparound services, Park Avenue Apartments",
+   "publisher": "Denver City Council (Legistar)",
+   "date": "2026-04-15",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=56685&GUID=08EA60B1-75DC-4757-B219-A742CD676A97"
+  },
+  {
+   "id": "denver-22-1097",
+   "title": "Denver Council Resolution 22-1097: Funding Agreement with Park Avenue Housing Corporation, Park Avenue Inn",
+   "publisher": "Denver City Council (Legistar)",
+   "date": "2022-09-26",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=22164&GUID=6A98619E-9F4C-4F95-A50D-4F778BCF644F"
+  },
+  {
+   "id": "denver-22-1214",
+   "title": "Denver Council Bill 22-1214: rezoning 3500 and 3600 Park Avenue West to C-MX-8",
+   "publisher": "Denver City Council (Legistar)",
+   "date": "2022-11-14",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=22281&GUID=B8569274-D9EE-4F7A-BF39-09C94AFD29E8"
+  },
+  {
+   "id": "dola-2025-11-03",
+   "title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
+   "publisher": "Colorado Department of Local Affairs",
+   "date": "2025-11-03",
+   "url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to"
+  },
+  {
+   "id": "cagw-earmark",
+   "title": "Earmark database: Park Avenue Inn - Colorado Coalition of the Homeless (HUD Community Development Fund, FY2024)",
+   "publisher": "Citizens Against Government Waste",
+   "date": "2024",
+   "url": "https://www.cagw.org/earmark-single/?id=132184"
+  },
+  {
+   "id": "bden-2026-06-05",
+   "title": "Hotel along Park Avenue comes down to make way for apartments",
+   "publisher": "BusinessDen",
+   "date": "2026-06-05",
+   "url": "https://businessden.com/hotel-along-park-avenue-comes-down-to-make-way-for-apartments/"
+  },
+  {
+   "id": "dmc-2026-05-25",
+   "title": "Colorado Coalition for the Homeless Begins Construction on Park Avenue Apartments in Globeville",
+   "publisher": "Developing MyCity",
+   "date": "2026-05-25",
+   "url": "https://www.developingmycity.com/denver/news/park-avenue-apartments-globeville-supportive-housing"
+  },
+  {
+   "id": "denver7-2026-02-07",
+   "title": "CO Coalition for the Homeless shelter closes to make way for affordable housing",
+   "publisher": "Denver7",
+   "date": "2026-02-07",
+   "url": "https://www.denver7.com/follow-up/denver7-follow-up-colorado-coalition-for-the-homeless-shelter-closes-to-make-way-for-affordable-housing"
+  },
+  {
+   "id": "westword-2022-10-06",
+   "title": "Colorado Coalition for the Homeless Plans to Build 200 Affordable Units",
+   "publisher": "Denver Westword",
+   "date": "2022-10-06",
+   "url": "https://www.westword.com/news/colorado-coalition-homeless-covid-housing-zoning-covid-15147888/"
+  }
+ ]
+}

@@ -3,9 +3,26 @@
   "title": "Deal summaries",
   "generator": "scripts/deals/build_deal_summaries.py",
   "method": "One hand-researched record per CHFA award, from public sources only; every figure cites a source listed in the record.",
-  "count": 23
+  "count": 38
  },
  "deals": [
+  {
+   "slug": "101-main-frisco",
+   "name": "101 Main (The Bella)",
+   "city": "Frisco",
+   "county": "Summit",
+   "award": "2025 Federal 9% housing tax credit (Round One)",
+   "year": 2025,
+   "units": 52,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "101 Main"
+    ]
+   }
+  },
   {
    "slug": "123-manitou-manitou-springs",
    "name": "123 Manitou",
@@ -20,6 +37,23 @@
     "year": 2026,
     "names": [
      "123 Manitou"
+    ]
+   }
+  },
+  {
+   "slug": "arapahoe-psh-aurora",
+   "name": "Arapahoe PSH (now Wagoner on the Creek)",
+   "city": "Aurora",
+   "county": "Arapahoe",
+   "award": "2025 Federal 9% housing tax credit (Round One)",
+   "year": 2025,
+   "units": 60,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Arapahoe PSH"
     ]
    }
   },
@@ -54,6 +88,23 @@
     "year": 2026,
     "names": [
      "Barth Hotel"
+    ]
+   }
+  },
+  {
+   "slug": "blossom-commons-westminster",
+   "name": "Blossom Commons",
+   "city": "Westminster",
+   "county": "Jefferson",
+   "award": "2025 Federal 9% housing tax credit (Round One)",
+   "year": 2025,
+   "units": 50,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Blossom Commons"
     ]
    }
   },
@@ -123,6 +174,23 @@
     "year": 2026,
     "names": [
      "Crossroads at Divide"
+    ]
+   }
+  },
+  {
+   "slug": "elmwood-north-denver",
+   "name": "Elmwood North",
+   "city": "Denver (mailing address; site is in unincorporated Adams County)",
+   "county": "Adams",
+   "award": "2025 Middle-Income Housing Tax Credit (MIHTC)",
+   "year": 2025,
+   "units": 70,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Elmwood North"
     ]
    }
   },
@@ -229,6 +297,42 @@
    }
   },
   {
+   "slug": "ives-ii-wheat-ridge",
+   "name": "Ives II",
+   "city": "Wheat Ridge",
+   "county": "Jefferson",
+   "award": "2025 Federal 9% (Round One) and 4% housing tax credits (paired)",
+   "year": 2025,
+   "units": 98,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Ives II",
+     "Tax Credit Paired with 4% Ives II",
+     "Ives II 4"
+    ]
+   }
+  },
+  {
+   "slug": "kite-route-crossing-superior",
+   "name": "Kite Route Crossing",
+   "city": "Superior",
+   "county": "Boulder",
+   "award": "2025 Federal 9% housing tax credit (Round One)",
+   "year": 2025,
+   "units": 50,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Kite Route Crossing"
+    ]
+   }
+  },
+  {
    "slug": "lumberyard-apartments-aspen",
    "name": "Lumberyard Apartments (Phase B)",
    "city": "Aspen",
@@ -242,6 +346,23 @@
     "year": 2026,
     "names": [
      "Lumberyard Apartments"
+    ]
+   }
+  },
+  {
+   "slug": "marq-trinidad",
+   "name": "Marq (The Marq)",
+   "city": "Trinidad",
+   "county": "Las Animas",
+   "award": "2025 Federal 9% housing tax credit (Round One)",
+   "year": 2025,
+   "units": 40,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Marq"
     ]
    }
   },
@@ -297,6 +418,40 @@
    }
   },
   {
+   "slug": "park-avenue-apartments-denver",
+   "name": "Park Avenue Apartments",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 9% housing tax credit (Round One)",
+   "year": 2025,
+   "units": 60,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Park Avenue Apartments"
+    ]
+   }
+  },
+  {
+   "slug": "park-place-apartments-denver",
+   "name": "Park Place Apartments",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Middle-Income Housing Tax Credit (MIHTC)",
+   "year": 2025,
+   "units": 80,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Park Place Apartments"
+    ]
+   }
+  },
+  {
    "slug": "parkside-apartments-longmont",
    "name": "Parkside Apartments (scattered site)",
    "city": "Longmont",
@@ -310,6 +465,23 @@
     "year": 2026,
     "names": [
      "Parkside Apartments (scattered site)"
+    ]
+   }
+  },
+  {
+   "slug": "ravenfield-brighton",
+   "name": "Ravenfield",
+   "city": "Brighton",
+   "county": "Adams",
+   "award": "2025 Federal 9% housing tax credit (Round One)",
+   "year": 2025,
+   "units": 46,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Ravenfield"
     ]
    }
   },
@@ -331,6 +503,23 @@
    }
   },
   {
+   "slug": "rita-bass-apartments-denver",
+   "name": "Rita Bass Apartments (now marketed as The Ford Apartments)",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 9% housing tax credit (Round One)",
+   "year": 2025,
+   "units": 60,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Rita Bass Apartments"
+    ]
+   }
+  },
+  {
    "slug": "silver-key-apartments-colorado-springs",
    "name": "Silver Key Apartments at North Weber",
    "city": "Colorado Springs",
@@ -344,6 +533,74 @@
     "year": 2026,
     "names": [
      "Silver Key Apartments at North Weber"
+    ]
+   }
+  },
+  {
+   "slug": "st-louis-landing-building-c-fraser",
+   "name": "St. Louis Landing Building C",
+   "city": "Fraser",
+   "county": "Grand",
+   "award": "2025 Middle-Income Housing Tax Credit (MIHTC)",
+   "year": 2025,
+   "units": 70,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "St. Louis Landing Building C"
+    ]
+   }
+  },
+  {
+   "slug": "switchgrass-crossing-fort-collins",
+   "name": "Switchgrass Crossing",
+   "city": "Fort Collins",
+   "county": "Larimer",
+   "award": "2025 Federal 9% housing tax credit (Round One)",
+   "year": 2025,
+   "units": 45,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Switchgrass Crossing"
+    ]
+   }
+  },
+  {
+   "slug": "tapestry-denver",
+   "name": "Tapestry LIHTC (The Tapestry)",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 9% housing tax credit (Round One)",
+   "year": 2025,
+   "units": 72,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Tapestry LIHTC"
+    ]
+   }
+  },
+  {
+   "slug": "tierra-azul-alamosa",
+   "name": "Tierra Azul",
+   "city": "Alamosa",
+   "county": "Alamosa",
+   "award": "2025 Federal 9% housing tax credit (Round One)",
+   "year": 2025,
+   "units": 46,
+   "researched_on": "2026-10-20",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Tierra Azul"
     ]
    }
   },
