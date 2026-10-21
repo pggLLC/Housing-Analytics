@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-21T00:52:26.538297Z",
+  "generated": "2026-10-21T08:44:10.572225Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 912381
+      "bytes": 931615
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -74,12 +74,17 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 323118
+      "bytes": 502762
     },
     "data/alerts/brief-news-queue.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 18222
+      "bytes": 21003
+    },
+    "data/alerts/owner-news.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 324
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -316,25 +321,80 @@
       "placeholder": false,
       "bytes": 709323
     },
+    "data/deals/1001-lincoln-street-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 20706
+    },
+    "data/deals/101-main-frisco.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 21449
+    },
+    "data/deals/1139-delaware-street-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 20062
+    },
     "data/deals/123-manitou-manitou-springs.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 19213
+    },
+    "data/deals/34th-street-boulder.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13523
+    },
+    "data/deals/4965-washington-street-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 26327
+    },
+    "data/deals/arapahoe-psh-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 19555
     },
     "data/deals/ascent-at-salt-flats-grand-junction.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 12545
     },
+    "data/deals/atwood-commons-longmont.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 33128
+    },
     "data/deals/barth-hotel-denver.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 17585
     },
+    "data/deals/blossom-commons-westminster.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17359
+    },
+    "data/deals/bradley-ridge-colorado-springs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 19624
+    },
     "data/deals/cedar-creek-commons-montrose.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 13554
+    },
+    "data/deals/central-park-station-phase-i-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 19197
+    },
+    "data/deals/cole-train-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 20158
     },
     "data/deals/commons-at-mosaic-denver.json": {
       "featureCount": 0,
@@ -346,10 +406,20 @@
       "placeholder": false,
       "bytes": 14181
     },
+    "data/deals/crossbar-commons-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17774
+    },
     "data/deals/crossroads-at-divide-divide.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 14327
+    },
+    "data/deals/elmwood-north-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17201
     },
     "data/deals/fairbrooke-heights-fort-collins.json": {
       "featureCount": 0,
@@ -384,12 +454,27 @@
     "data/deals/index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9097
+      "bytes": 19169
+    },
+    "data/deals/ives-ii-wheat-ridge.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 18655
+    },
+    "data/deals/kite-route-crossing-superior.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 19257
     },
     "data/deals/lumberyard-apartments-aspen.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 27222
+    },
+    "data/deals/marq-trinidad.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15729
     },
     "data/deals/metro-center-apartments-aurora.json": {
       "featureCount": 0,
@@ -406,25 +491,80 @@
       "placeholder": false,
       "bytes": 27374
     },
+    "data/deals/park-avenue-apartments-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 24459
+    },
+    "data/deals/park-place-apartments-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 20888
+    },
     "data/deals/parkside-apartments-longmont.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 26943
+    },
+    "data/deals/ravenfield-brighton.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 14273
     },
     "data/deals/reserve-at-south-creek-englewood.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 17853
     },
+    "data/deals/rita-bass-apartments-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 20564
+    },
     "data/deals/silver-key-apartments-colorado-springs.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 22195
     },
+    "data/deals/st-louis-landing-building-c-fraser.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 19042
+    },
+    "data/deals/sugar-commons-sterling.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 19222
+    },
+    "data/deals/switchgrass-crossing-fort-collins.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17972
+    },
+    "data/deals/tapestry-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 24088
+    },
+    "data/deals/tierra-azul-alamosa.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 20457
+    },
+    "data/deals/university-building-lofts-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 25182
+    },
     "data/deals/ute-mountain-homes-i-towaoc.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 13999
+    },
+    "data/deals/village-on-eastbrook-fort-collins.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 22691
     },
     "data/deals/wildflower-flats-fort-lupton.json": {
       "featureCount": 0,
@@ -885,6 +1025,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 1737
+    },
+    "data/hna/forecast-error.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2676
     },
     "data/hna/geo-config.json": {
       "featureCount": 64,
@@ -7954,7 +8099,7 @@
     "data/jurisdiction-briefs/_round-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 262330
+      "bytes": 262394
     },
     "data/jurisdiction-briefs/_schema.json": {
       "featureCount": 0,
@@ -9049,7 +9194,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 318269
+      "bytes": 351673
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,

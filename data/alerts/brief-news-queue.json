@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-10-20T08:42:54Z",
-    "as_of": "2026-10-20",
+    "generated": "2026-10-21T08:44:04Z",
+    "as_of": "2026-10-21",
     "stale_days": 30,
-    "events_as_of": "2026-10-20",
+    "events_as_of": "2026-10-21",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,13 +14,29 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [
         {
           "title": "Denver officials celebrate opening of affordable housing community",
           "source": "CBS News",
           "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNSnd2ekRXR28ycWZoZnVaa3pCNExyYzVkcGdWenJERURiUTU3azlNTzhIZFBmdi1QX0NSSFU4UFdTdlNSY0s0QlBya0JRYmEwdjgzSWE0bHowNWxqSkZ0ajRlZ1pZc1V3Wjg1ZU5LUkkwMWxTaGctTVZ3aEYtcjR4YzVLQ1dlS0dMS0JRN1NNclB6eEZmZTNYdFpHY1YwRkI3dlZuOE9sZDZQZw?oc=5",
           "date": "2026-10-20",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Some of Colorado should see a snowier-than-average winter; find out how Denver will stack up",
+          "source": "CBS News",
+          "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOTVI3VHlEMTZIaHFXdnZUMmNWWV80Zm9oMlFQVlB2X0NIeDVKLVNuZHFHdVFUSFg1R25YUEdTUXlLN2hOZ2hybDZBT0RPX1lDakQ4TmtONzF0WWpMdHZGVlM2RG5uMEFJNFoxc1FCbVZteGNwSThuSmRWc2hCN0dqRXZPd202YlhROTJDQmQ2V001NHR3WnFOR0h1Q2V4ZFRSbUNFMXZON001RGFsa252dTVuUlgtaEVMeXM2S3NqeS1HamlneGpHZm9ERlV2QQ?oc=5",
+          "date": "2026-10-19",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "High interest rates stall Denver housing market as sellers outnumber buyers",
+          "source": "9News",
+          "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOR2tmcm5zOUhkWmlCV2R1VEx6STFSa0hvX3o0Q1poblpUUUlPalEtUVRRam03TUFPZGVLTnd5MzBxcjY1RWFCaXcyaFQ5d1RsN2QtNXpwZEM4QUkweGI1SFZGRE42eUVlbjJ4TWdfZlkwXy1fTm0xdEc4bUJWdWl6VTlTdzUyRTEwUV9sUzg4cHVKWGYtc0owTzFmcTBGR0NKdjEzRHpLUjdZQk9OQjYxNGpfNC1kVnV1REItaTR2dVBFR3lvcFJVbzZtTEFxeDQxZi1UcHRhZ2czdw?oc=5",
+          "date": "2026-10-19",
           "match": "place",
           "also": []
         },
@@ -88,7 +104,7 @@
         }
       ],
       "reasons": [
-        "1 new story naming it",
+        "3 new stories naming it",
         "4 older stories not read yet"
       ]
     },
@@ -99,8 +115,32 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [
+        {
+          "title": "Man dragged behind U-Haul after argument, Colorado Springs police say",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNQ1h0cC1ZSHEwbTFkRnVlNDRvbFk3LTNGQ21KSTFuMk8zbUk2NnVLT0laaXA5MGs2dUhFS3N0N3d2MkhyM1pmZ0tFUk45UTVNZXNabE13d0VNTkJpdk1UWDRpNHQzUHNOUllHMEs4eE1JZUZoMGlqdFJfZUZFWmdMaDBXRWNVMGwtdDlvYkdXZk1tRXJUR0lsdnFjSzNNeUFTcmc?oc=5",
+          "date": "2026-10-19",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs Airport named among best small airports in the U.S.",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQTVBEMHlySkNOZVdQdERPdXVRbUNDeWduWURBdEt6UDhwY1d0b0xIaFFMdnBZZVFwLVN1ZnJpWW43TUJaWldEUVhBUHhsOEs1T3JMZi05ZWF5RlFJZ3YxVlBxRElIejlGRHlRcUxiTnFZWk90RVFTZkwySmIyUUwtTzY4amlHZ1pBeDZQaW4yQXQwWHI1UmlvZzc2azB1UU9G?oc=5",
+          "date": "2026-10-19",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs firefighters responded to 2 fires overnight",
+          "source": "CBS News",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPV0pocGZnNk5EOTJKN0h0OUtKbGZ0UmlUZU5ld2tORXNzVFZtX3dyWVFQY2tMb3VQT0M0NlduMmRqZnNZWVZiZDBPbVhfbndaSWJUZm1GN3RTZmk2dDBNdDJ2RlpPVnh0ZWhxZnpQRGJPdl9ZcnZzSDFwM1ppRlVQcnktVHVfZGltWDFoSXI0WHcwTEVIR2QyZmx0dFNxTHJoLWc?oc=5",
+          "date": "2026-10-19",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Colorado Springs mayor addresses affordability, public safety and economic development in State of the City",
           "source": "Colorado Public Radio",
@@ -131,6 +171,7 @@
       ],
       "events": [],
       "reasons": [
+        "3 new stories naming it",
         "3 older stories not read yet"
       ]
     },
@@ -141,7 +182,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [
         {
           "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
@@ -175,7 +216,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [
         {
           "title": "Telluride School District talks housing developments",
@@ -200,7 +241,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": []
@@ -212,7 +253,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": []
@@ -224,7 +265,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": [
@@ -238,7 +279,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [
         {
@@ -259,7 +300,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": []
@@ -271,7 +312,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": []
@@ -283,7 +324,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": []
@@ -295,7 +336,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": []
@@ -307,7 +348,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": [
@@ -321,7 +362,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": [
@@ -335,7 +376,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": []
@@ -347,7 +388,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": [
@@ -361,7 +402,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": []
@@ -373,7 +414,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 2,
+      "days_since_review": 3,
       "stories": [],
       "events": [],
       "reasons": []

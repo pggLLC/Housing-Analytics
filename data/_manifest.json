@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-21T00:52:23.867Z",
+    "generated_at": "2026-10-21T08:44:07.557Z",
     "root": "data/",
-    "file_count": 1844,
-    "total_size_bytes": 196185894,
+    "file_count": 1873,
+    "total_size_bytes": 196967070,
     "kinds": {
-      "json": 1798,
+      "json": 1827,
       "geojson": 34,
       "csv": 12
     }
@@ -275,8 +275,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 323118,
-      "mtime": "2026-10-20T08:42:25.234Z",
+      "size_bytes": 502762,
+      "mtime": "2026-10-21T08:43:36.706Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -284,7 +284,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 475,
+      "primary_array_length": 763,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -298,8 +298,8 @@
     {
       "path": "alerts/brief-news-queue.json",
       "kind": "json",
-      "size_bytes": 18222,
-      "mtime": "2026-10-20T08:42:54.261Z",
+      "size_bytes": 21003,
+      "mtime": "2026-10-21T08:44:04.993Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -317,6 +317,21 @@
         "population",
         "priority"
       ]
+    },
+    {
+      "path": "alerts/owner-news.json",
+      "kind": "json",
+      "size_bytes": 324,
+      "mtime": "2026-10-21T08:43:38.017Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "items"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "allocations.json",
@@ -539,7 +554,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-21T00:52:20.323Z",
+      "mtime": "2026-10-21T08:35:17.627Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1383,6 +1398,99 @@
       ]
     },
     {
+      "path": "deals/1001-lincoln-street-denver.json",
+      "kind": "json",
+      "size_bytes": 20706,
+      "mtime": "2026-10-21T08:23:10.758Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 14,
+      "primary_array_first_keys": [
+        "item",
+        "value",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/101-main-frisco.json",
+      "kind": "json",
+      "size_bytes": 21449,
+      "mtime": "2026-10-21T02:25:05.813Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "parties",
+      "primary_array_length": 14,
+      "primary_array_first_keys": [
+        "role",
+        "name",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/1139-delaware-street-denver.json",
+      "kind": "json",
+      "size_bytes": 20062,
+      "mtime": "2026-10-21T08:23:10.758Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 14,
+      "primary_array_first_keys": [
+        "item",
+        "value",
+        "src"
+      ]
+    },
+    {
       "path": "deals/123-manitou-manitou-springs.json",
       "kind": "json",
       "size_bytes": 19213,
@@ -1407,6 +1515,103 @@
       "key_count": 24,
       "primary_array_key": "sources",
       "primary_array_length": 16,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/34th-street-boulder.json",
+      "kind": "json",
+      "size_bytes": 13523,
+      "mtime": "2026-10-21T08:23:10.758Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "timeline",
+      "primary_array_length": 9,
+      "primary_array_first_keys": [
+        "date",
+        "event",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/4965-washington-street-denver.json",
+      "kind": "json",
+      "size_bytes": 26327,
+      "mtime": "2026-10-21T08:23:10.758Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 23,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/arapahoe-psh-aurora.json",
+      "kind": "json",
+      "size_bytes": 19555,
+      "mtime": "2026-10-21T02:25:05.815Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 14,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -1447,6 +1652,39 @@
       ]
     },
     {
+      "path": "deals/atwood-commons-longmont.json",
+      "kind": "json",
+      "size_bytes": 33128,
+      "mtime": "2026-10-21T08:23:10.758Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 30,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
       "path": "deals/barth-hotel-denver.json",
       "kind": "json",
       "size_bytes": 17585,
@@ -1478,6 +1716,71 @@
       ]
     },
     {
+      "path": "deals/blossom-commons-westminster.json",
+      "kind": "json",
+      "size_bytes": 17359,
+      "mtime": "2026-10-21T02:25:05.815Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "money",
+      "primary_array_length": 12,
+      "primary_array_first_keys": [
+        "source",
+        "amount",
+        "note",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/bradley-ridge-colorado-springs.json",
+      "kind": "json",
+      "size_bytes": 19624,
+      "mtime": "2026-10-21T08:23:10.759Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 17,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
       "path": "deals/cedar-creek-commons-montrose.json",
       "kind": "json",
       "size_bytes": 13554,
@@ -1504,6 +1807,68 @@
       "primary_array_length": 8,
       "primary_array_first_keys": [
         "text",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/central-park-station-phase-i-denver.json",
+      "kind": "json",
+      "size_bytes": 19197,
+      "mtime": "2026-10-21T08:23:10.759Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 12,
+      "primary_array_first_keys": [
+        "item",
+        "value",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/cole-train-denver.json",
+      "kind": "json",
+      "size_bytes": 20158,
+      "mtime": "2026-10-21T08:23:10.759Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 13,
+      "primary_array_first_keys": [
+        "item",
+        "value",
         "src"
       ]
     },
@@ -1571,6 +1936,37 @@
       ]
     },
     {
+      "path": "deals/crossbar-commons-aurora.json",
+      "kind": "json",
+      "size_bytes": 17774,
+      "mtime": "2026-10-21T08:23:10.759Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 13,
+      "primary_array_first_keys": [
+        "item",
+        "value",
+        "src"
+      ]
+    },
+    {
       "path": "deals/crossroads-at-divide-divide.json",
       "kind": "json",
       "size_bytes": 14327,
@@ -1601,6 +1997,37 @@
         "publisher",
         "date",
         "url"
+      ]
+    },
+    {
+      "path": "deals/elmwood-north-denver.json",
+      "kind": "json",
+      "size_bytes": 17201,
+      "mtime": "2026-10-21T02:25:05.815Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "parties",
+      "primary_array_length": 10,
+      "primary_array_first_keys": [
+        "role",
+        "name",
+        "src"
       ]
     },
     {
@@ -1800,8 +2227,8 @@
     {
       "path": "deals/index.json",
       "kind": "json",
-      "size_bytes": 9097,
-      "mtime": "2026-10-20T22:41:21.659Z",
+      "size_bytes": 19169,
+      "mtime": "2026-10-21T08:23:10.760Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1809,7 +2236,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "deals",
-      "primary_array_length": 23,
+      "primary_array_length": 50,
       "primary_array_first_keys": [
         "slug",
         "name",
@@ -1820,6 +2247,69 @@
         "units",
         "researched_on",
         "match"
+      ]
+    },
+    {
+      "path": "deals/ives-ii-wheat-ridge.json",
+      "kind": "json",
+      "size_bytes": 18655,
+      "mtime": "2026-10-21T02:25:05.815Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "money",
+      "primary_array_length": 13,
+      "primary_array_first_keys": [
+        "source",
+        "amount",
+        "note",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/kite-route-crossing-superior.json",
+      "kind": "json",
+      "size_bytes": 19257,
+      "mtime": "2026-10-21T02:25:05.815Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "parties",
+      "primary_array_length": 13,
+      "primary_array_first_keys": [
+        "role",
+        "name",
+        "src"
       ]
     },
     {
@@ -1847,6 +2337,39 @@
       "key_count": 23,
       "primary_array_key": "sources",
       "primary_array_length": 18,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/marq-trinidad.json",
+      "kind": "json",
+      "size_bytes": 15729,
+      "mtime": "2026-10-21T02:25:05.815Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 10,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -1951,6 +2474,72 @@
       ]
     },
     {
+      "path": "deals/park-avenue-apartments-denver.json",
+      "kind": "json",
+      "size_bytes": 24459,
+      "mtime": "2026-10-21T02:25:05.815Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 21,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/park-place-apartments-denver.json",
+      "kind": "json",
+      "size_bytes": 20888,
+      "mtime": "2026-10-21T02:25:05.815Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 15,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
       "path": "deals/parkside-apartments-longmont.json",
       "kind": "json",
       "size_bytes": 26943,
@@ -1984,6 +2573,37 @@
       ]
     },
     {
+      "path": "deals/ravenfield-brighton.json",
+      "kind": "json",
+      "size_bytes": 14273,
+      "mtime": "2026-10-21T02:25:05.815Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 9,
+      "primary_array_first_keys": [
+        "item",
+        "value",
+        "src"
+      ]
+    },
+    {
       "path": "deals/reserve-at-south-creek-englewood.json",
       "kind": "json",
       "size_bytes": 17853,
@@ -2008,6 +2628,39 @@
       "key_count": 24,
       "primary_array_key": "sources",
       "primary_array_length": 19,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/rita-bass-apartments-denver.json",
+      "kind": "json",
+      "size_bytes": 20564,
+      "mtime": "2026-10-21T02:25:05.816Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 16,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -2050,6 +2703,198 @@
       ]
     },
     {
+      "path": "deals/st-louis-landing-building-c-fraser.json",
+      "kind": "json",
+      "size_bytes": 19042,
+      "mtime": "2026-10-21T02:25:05.816Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "timeline",
+      "primary_array_length": 15,
+      "primary_array_first_keys": [
+        "date",
+        "event",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/sugar-commons-sterling.json",
+      "kind": "json",
+      "size_bytes": 19222,
+      "mtime": "2026-10-21T08:23:10.762Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 13,
+      "primary_array_first_keys": [
+        "item",
+        "value",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/switchgrass-crossing-fort-collins.json",
+      "kind": "json",
+      "size_bytes": 17972,
+      "mtime": "2026-10-21T02:25:05.816Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 12,
+      "primary_array_first_keys": [
+        "item",
+        "value",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/tapestry-denver.json",
+      "kind": "json",
+      "size_bytes": 24088,
+      "mtime": "2026-10-21T02:25:05.816Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 17,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/tierra-azul-alamosa.json",
+      "kind": "json",
+      "size_bytes": 20457,
+      "mtime": "2026-10-21T02:25:05.816Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 18,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/university-building-lofts-denver.json",
+      "kind": "json",
+      "size_bytes": 25182,
+      "mtime": "2026-10-21T08:23:10.762Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 17,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
       "path": "deals/ute-mountain-homes-i-towaoc.json",
       "kind": "json",
       "size_bytes": 13999,
@@ -2076,6 +2921,37 @@
       "primary_array_length": 9,
       "primary_array_first_keys": [
         "text",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/village-on-eastbrook-fort-collins.json",
+      "kind": "json",
+      "size_bytes": 22691,
+      "mtime": "2026-10-21T08:23:10.762Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "timeline",
+      "primary_array_length": 15,
+      "primary_array_first_keys": [
+        "date",
+        "event",
         "src"
       ]
     },
@@ -4027,6 +4903,28 @@
       "key_count": 8,
       "primary_array_key": "ages",
       "primary_array_length": 101,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "hna/forecast-error.json",
+      "kind": "json",
+      "size_bytes": 2676,
+      "mtime": "2026-10-21T02:26:18.462Z",
+      "shape": "object",
+      "keys": [
+        "about",
+        "source",
+        "method",
+        "references",
+        "percentile",
+        "sizeClasses",
+        "yearsOut",
+        "errorPct",
+        "forecasts"
+      ],
+      "key_count": 9,
+      "primary_array_key": "yearsOut",
+      "primary_array_length": 20,
       "primary_array_first_keys": null
     },
     {
@@ -32950,8 +33848,8 @@
     {
       "path": "jurisdiction-briefs/_round-watch.json",
       "kind": "json",
-      "size_bytes": 262330,
-      "mtime": "2026-10-21T00:48:12.515Z",
+      "size_bytes": 262394,
+      "mtime": "2026-10-21T08:23:11.028Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -33568,8 +34466,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 233758,
-      "mtime": "2026-10-21T00:51:44.169Z",
+      "size_bytes": 237427,
+      "mtime": "2026-10-21T08:32:48.523Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -35145,7 +36043,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-21T00:52:22.184Z",
+      "mtime": "2026-10-21T08:35:19.254Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -35169,7 +36067,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-21T00:52:21.843Z",
+      "mtime": "2026-10-21T08:35:18.840Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -37410,7 +38308,7 @@
       "path": "policy/housing-events.json",
       "kind": "json",
       "size_bytes": 135841,
-      "mtime": "2026-10-20T08:42:54.175Z",
+      "mtime": "2026-10-21T08:44:04.914Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -37420,7 +38318,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "past",
-      "primary_array_length": 274,
+      "primary_array_length": 275,
       "primary_array_first_keys": [
         "title",
         "start",
@@ -38097,8 +38995,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 318269,
-      "mtime": "2026-10-20T14:15:42.022Z",
+      "size_bytes": 351673,
+      "mtime": "2026-10-21T08:43:58.338Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38108,7 +39006,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "stories",
-      "primary_array_length": 230,
+      "primary_array_length": 273,
       "primary_array_first_keys": [
         "title",
         "source",

@@ -1,0 +1,552 @@
+{
+ "slug": "crossbar-commons-aurora",
+ "name": "Crossbar Commons",
+ "city": "Aurora",
+ "county": "Adams",
+ "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+ "units": 104,
+ "researched_on": "2026-10-21",
+ "headline": "Mercy Housing Mountain Plains plans Crossbar Commons, a new four-story building with 104 family apartments for households earning 30% to 50% AMI, on city-owned land at 15961 E. Colfax Ave. in north Aurora. It won 2025 Round Two federal 4%, state and TOC credits from CHFA.",
+ "why_it_matters": "It is the first project from Aurora's land-banking program: the city bought the site in 2022, leases it for $100 a year and adds a $2.5M soft loan, which lets the deal reach 50% AMI and below without project-based vouchers.",
+ "status": {
+  "label": "Credits awarded; bond hearing held July 2026; closing not confirmed",
+  "detail": "The Aurora Housing Authority set a bond (TEFRA) hearing for 2026-07-29 on up to $14,000,000 of bonds for the project. The application targeted a financial closing in September 2026, but no public record of a closing, building permit or groundbreaking was found.",
+  "src": [
+   "aha-notices",
+   "chfa-2025-r2-narratives"
+  ]
+ },
+ "next_step": "Watch for the Aurora mayor's bond approval, the bond closing and a building permit or groundbreaking notice, and for the city's ground lease and loan documents.",
+ "key_numbers": [
+  {
+   "value": "104 family homes, all income-restricted",
+   "meaning": "51 one-bedroom, 35 two-bedroom, 15 three-bedroom and 3 four-bedroom units: 6 at 30% AMI and 98 at 50% AMI.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$2,072,238 a year in federal 4% credit",
+   "meaning": "About $20.7M over 10 years, plus $1,800,000 in state credit and $135,200 in TOC credit.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "value": "$13,940,000 in tax-exempt bonds",
+   "meaning": "CHFA lists itself as issuer. The Aurora Housing Authority later noticed a hearing on up to $14M of its own bonds for the project.",
+   "src": [
+    "chfa-2025-r2-award",
+    "aha-notices"
+   ]
+  },
+  {
+   "value": "City land plus a $2.5M soft loan",
+   "meaning": "A long-term ground lease at $100 a year on land the applicant values at $1.6M, and a subordinate low-interest cash-flow loan, per the application.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "15961 E. Colfax Ave. and 15978 E. 16th Ave., Aurora 80011",
+   "src": [
+    "chfa-2025-r2-award",
+    "aha-notices"
+   ]
+  },
+  {
+   "item": "County",
+   "value": "Adams (as CHFA's 2025 state credit report lists it)",
+   "src": [
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "I/F, N: individuals/families, new construction",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "104 total, 104 low-income",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 1.47 acres (64,015 sq ft) for the Colfax parcel, zoned MU-C; housing is allowed by right under current zoning",
+   "src": [
+    "nakeddenver-2023-07-16",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four-story wood-frame (Type V) building with two elevators, a north-south bar with two wings, glass storefront facing Colfax and surface parking",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-toc-narratives"
+   ]
+  },
+  {
+   "item": "Amenities",
+   "value": "Community room/classroom, courtyard, fitness and business centers, community kitchen, laundry on each floor, playground and a small soccer pitch in an interior plaza",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Location",
+   "value": "In a Qualified Census Tract on the Colfax corridor, across the street from Soccer City Aurora and about 500 feet from the High Line Canal Trail",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD Route 15 stop next to the site (every 7 to 30 minutes); Colfax light rail station (R Line) 1.4 miles away; East Colfax BRT expected about one mile west by the end of 2027. All households get RTD NECO passes",
+   "src": [
+    "chfa-2025-r2-toc-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric, solar-ready, NGBS Silver, heat pumps",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Expected owner entity",
+   "value": "MHMP 22 Aurora Global LLLP, or another Mercy Housing Mountain Plains affiliate",
+   "src": [
+    "aha-notices"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "A special limited partnership with the Aurora Housing Authority for a property tax exemption, per the application",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Environmental",
+   "value": "The Phase I ESA (2024-05-23) found one historical issue: a 1993 gasoline release from a former filling station, cleaned up in 1993, with a state no-further-action letter in 1999",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 6
+  },
+  {
+   "level": "50% AMI",
+   "units": 98
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 51
+  },
+  {
+   "type": "2BR",
+   "units": 35
+  },
+  {
+   "type": "3BR",
+   "units": 15
+  },
+  {
+   "type": "4BR",
+   "units": 3
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r2-descriptions",
+  "chfa-2025-r2-narratives",
+  "chfa-ahtc-2025-report"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,072,238 per year",
+   "note": "Awarded in 2025 Round Two. Amounts are as CHFA's award report prints them.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,800,000",
+   "note": "",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$135,200",
+   "note": "",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$13,940,000 (CHFA award report); up to $14,000,000 (Aurora Housing Authority hearing notice)",
+   "note": "The application planned $21,900,000 of construction bonds and $9,439,000 of permanent bonds under the 50% test, with CHFA as issuer using $11.9M of CHFA volume cap plus $10M of cap already committed by the Aurora Housing Authority. It said the sources would be updated for CHFA's new 25% test guidelines. A taxable construction loan of about $4,636,794 was also planned.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives",
+    "aha-notices"
+   ]
+  },
+  {
+   "source": "City of Aurora ground lease",
+   "amount": "$100 per year (land value $1,600,000 per the applicant)",
+   "note": "The city bought the Colfax and 16th Avenue parcels in 2022 for a little over $1.6M. The application says the city's option for the ground lease expires 16 months after application.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "nakeddenver-2023-07-16",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "source": "City of Aurora subordinate cash-flow loan",
+   "amount": "$2,500,000",
+   "note": "Low-interest soft loan, per the application. No council approval record was found.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Mercy Community Capital second mortgage",
+   "amount": "Not public",
+   "note": "Capital Magnet Fund money.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Conventional first mortgage (construction to permanent)",
+   "amount": "Not public",
+   "note": "Through the tax-exempt bond financing.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Mercy Housing Mountain Plains",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "role": "Expected owner entity",
+   "name": "MHMP 22 Aurora Global LLLP",
+   "src": [
+    "aha-notices"
+   ]
+  },
+  {
+   "role": "Landowner and ground lessor; gap lender",
+   "name": "City of Aurora",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA per the award report; the Aurora Housing Authority per its July 2026 hearing notice",
+   "src": [
+    "chfa-2025-r2-award",
+    "aha-notices"
+   ]
+  },
+  {
+   "role": "Property tax exemption partner and volume cap provider",
+   "name": "Housing Authority of the City of Aurora (Aurora Housing Authority)",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Mercy Housing Management Group",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Carvell Architects",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "role": "General contractor (at application)",
+   "name": "Alliance Construction Solutions",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Second-mortgage lender",
+   "name": "Mercy Community Capital",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Service partners (letters of support)",
+   "name": "Aurora Mental Health and Recovery, Colorado Soccer Foundation, Mango House, Children's Hospital Colorado, Project Worthmore and The Village Institute",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The City of Aurora bought the 15961 E. Colfax Ave. and 15978 E. 16th Ave. parcels in 2022 and in July 2023 issued its first housing development RFP for them, asking for a multifamily project with over 75% affordable units and offering the winner a License and Option to Lease Agreement.",
+   "src": [
+    "nakeddenver-2023-07-16"
+   ]
+  },
+  {
+   "text": "The city picked Mercy Housing through that competitive process in 2023. The application calls the project the first initiative of the city's new land-banking program for affordable housing.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The project was first called something else; the application attaches a narrative on the name change. The owner entity named in the bond notice is MHMP 22 Aurora Global LLLP. The name Crossbar refers to nearby soccer facilities.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "aha-notices"
+   ]
+  },
+  {
+   "text": "Mercy dropped the higher-AMI units from its first unit mix after partner feedback, so that every unit serves households at or below 50% AMI. It held two public workshops (MLK Library and Soccer City) and reports no opposition.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study reports a 15.0% overall capture rate and 2.1% vacancy for 30% and 50% AMI units in the market area, against 6.9% overall, and expects lease-up at 20 units a month.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The applicant says the only other family properties in the market area with all units at 50% AMI or below rely on project-based vouchers. Crossbar Commons has no project-based vouchers.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "At application, Mercy had finished concept review with the city and planned to complete site plan approval and get a building permit in time to close in September 2026, using Aurora's expedited permit review for affordable housing.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "A full-time resident services coordinator will run Mercy's family services model. Residents also get free Esusu rent reporting, Soccer City memberships and RTD NECO passes, which are paid from the operating budget.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-toc-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022",
+   "event": "City of Aurora buys the Colfax and 16th Avenue parcels",
+   "src": [
+    "nakeddenver-2023-07-16",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-07-16",
+   "event": "Aurora's first housing development RFP for the site is reported; proposals due 2023-08-18",
+   "src": [
+    "nakeddenver-2023-07-16"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "City selects Mercy Housing to develop the site",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-05-23",
+   "event": "Phase I environmental site assessment completed",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2025-11",
+   "event": "CHFA awards 2025 Round Two federal 4%, state and TOC credits (award report file dated 2025-11-13)",
+   "src": [
+    "chfa-2025-r2-award",
+    "bisnow-2025-11-12"
+   ]
+  },
+  {
+   "date": "2025-11-12",
+   "event": "Bisnow reports the award",
+   "src": [
+    "bisnow-2025-11-12"
+   ]
+  },
+  {
+   "date": "2025-12-31",
+   "event": "CHFA's 2025 state credit annual report lists the project with a rendering",
+   "src": [
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "date": "2026-07-20",
+   "event": "Aurora Housing Authority posts a bond hearing notice for up to $14,000,000",
+   "src": [
+    "aha-notices"
+   ]
+  },
+  {
+   "date": "2026-07-29",
+   "event": "Scheduled TEFRA bond hearing (by teleconference)",
+   "src": [
+    "aha-notices"
+   ]
+  },
+  {
+   "date": "2026-09",
+   "event": "Target financial closing in the application (not confirmed)",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering of Crossbar Commons",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf",
+   "kind": "rendering",
+   "made_by": "Carvell Architects, via CHFA",
+   "note": "Printed page 21 (PDF page 23) of CHFA's 2025 state AHTC annual report; image credits are on the last page",
+   "src": [
+    "chfa-ahtc-2025-report"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report and the application name CHFA as bond issuer, while the Aurora Housing Authority's July 2026 hearing notice has the Housing Authority issuing up to $14,000,000 of bonds for the project.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives",
+    "aha-notices"
+   ]
+  },
+  {
+   "text": "The application planned $21,900,000 of tax-exempt construction bonds, while CHFA's award report lists $13,940,000 of bonds and the Housing Authority notice caps the bonds at $14,000,000.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-award",
+    "aha-notices"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Aurora City Council or staff approvals of the ground lease and the $2.5M city loan (dates, resolution numbers, final terms) were not found in public records.",
+  "Which agency finally issues the bonds, whose volume cap is used, and whether the Aurora mayor approved the bonds after the July 2026 hearing.",
+  "Whether the financing closed in September 2026 as planned, and building permit and groundbreaking dates.",
+  "Total development cost, equity investor and price, first-mortgage lender, and the Mercy Community Capital loan amount.",
+  "Ground lease length, the CHFA LURA affordability period and the terms of the Aurora Housing Authority tax-exemption partnership.",
+  "The project's earlier name."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r2-award",
+   "title": "2025 Round Two - Award Report, Federal 4% and Accelerated State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-11-13",
+   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-descriptions",
+   "title": "2025 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r2-narratives",
+   "title": "2025 HTC Round Two application narratives (Crossbar Commons, PDF pages 36-40)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-toc-narratives",
+   "title": "2025 TOC Round Two narratives (Crossbar Commons, PDF pages 9-10)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/6935f661-2e97-4732-b427-de84231f2063/2025-TOC-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-ahtc-2025-report",
+   "title": "State Affordable Housing Tax Credit 2025 Annual Report",
+   "publisher": "CHFA",
+   "date": "2025-12-31",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf"
+  },
+  {
+   "id": "aha-notices",
+   "title": "Public Notices: Notice of Public Hearing, Multifamily Housing Revenue Bonds (Crossbar Commons Project), dated 2026-07-20",
+   "publisher": "Housing Authority of the City of Aurora",
+   "date": "2026-07-20",
+   "url": "https://www.aurorahousing.org/public-notices"
+  },
+  {
+   "id": "nakeddenver-2023-07-16",
+   "title": "Aurora Launches First Housing Development RFP for Affordable Housing Projects",
+   "publisher": "Naked Denver",
+   "date": "2023-07-16",
+   "url": "https://www.nakeddenver.com/post/aurora-launches-first-housing-development-rfp-for-affordable-housing-projects"
+  },
+  {
+   "id": "bisnow-2025-11-12",
+   "title": "7 Denver-Area Affordable Housing Projects Awarded Tax Credits",
+   "publisher": "Bisnow",
+   "date": "2025-11-12",
+   "url": "https://www.bisnow.com/news/denver/affordable-housing/affordable-housing-tax-credits-support-over-800-new-units-131863"
+  }
+ ]
+}

@@ -1,0 +1,926 @@
+{
+ "slug": "atwood-commons-longmont",
+ "name": "Atwood Commons",
+ "city": "Longmont",
+ "county": "Boulder",
+ "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+ "units": 72,
+ "researched_on": "2026-10-21",
+ "headline": "Brikwell's Atwood Commons is a planned four-story, 72-unit building for households earning 30% to 80% AMI at 130 Third Avenue in downtown Longmont, across from the OUR Center. It won 2025 Round Two federal 4% and state housing tax credits from CHFA, with $14.25M of tax-exempt bonds.",
+ "why_it_matters": "It shows how fragile voucher-backed underwriting has become: eight committed project-based vouchers were withdrawn in February 2026 after HUD budget talks, and the City of Longmont filled the $1.4M gap with a 100% fee waiver and a larger Affordable Housing Fund loan so the deal could close in summer 2026.",
+ "status": {
+  "label": "Bonds authorized; closing set for 2026-08-10 but not confirmed by a dated public record",
+  "detail": "The Longmont Housing Authority approved the tax exemption partnership on 2026-06-16 and the bond issuance on 2026-07-21, when staff said the project was on schedule to close financing and start construction on 2026-08-10. A preliminary official statement expected bond delivery in August 2026. No dated public record of the closing, a building permit or a groundbreaking was found.",
+  "src": [
+   "lha-min-2026-06-16",
+   "lha-min-2026-07-21",
+   "lha-bond-memo-2026-07-21",
+   "atwood-pos-2026"
+  ]
+ },
+ "next_step": "Watch for a final official statement or EMMA filing for the Longmont Housing Authority Series 2026 bonds, a City of Longmont building permit, and a CHFA carryover or 8609 listing.",
+ "key_numbers": [
+  {
+   "value": "72 homes, all income-restricted",
+   "meaning": "18 one-bedroom and 54 two-bedroom units at 30% to 80% AMI; 38 of them at or below 50% AMI.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions",
+    "lmt-cc-2026-04-28"
+   ]
+  },
+  {
+   "value": "$1,386,621 a year in federal 4% credit",
+   "meaning": "About $13.9M over 10 years, plus $1,733,276 of accelerated state credit and $14,250,000 of tax-exempt bonds.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "value": "About $31.8M total cost",
+   "meaning": "The April 2026 budget given to City Council totals $31,825,936, including $2.12M for land and $18.17M for construction.",
+   "src": [
+    "lmt-budget-2026"
+   ]
+  },
+  {
+   "value": "$1,742,842 city loan plus a 100% fee waiver",
+   "meaning": "Council added $742,842 to a $1M 2023 loan and waived all eligible development fees to fill a $1,398,271 gap left by lost project-based vouchers.",
+   "src": [
+    "lmt-cc-2026-04-28",
+    "lmt-twil-2026-05",
+    "atwood-pos-2026"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "130 Third Avenue, Longmont 80501 (northeast corner of E. 3rd Avenue and Atwood Street)",
+   "src": [
+    "chfa-2025-r2-award",
+    "lmt-cc-2026-04-28"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "I/F, N: new construction, individuals/families",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "72 total, 72 low-income",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One four-story, L-shaped, wood-frame (Type VA) elevator building on spread footings, with surface and tuck-under parking. Average unit sizes 538 sq ft (1BR) and 720 sq ft (2BR)",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About one acre in qualified census tract 134.01, zoned MU-D (Mixed Use Downtown). Sources give 1.06, 1.0036 and 0.9441 acres. Zoning is use-by-right. The site has existing structures over 50 years old",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "lmt-hci-app-2026",
+    "lmt-cc-2023-06-20",
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "42 on-site resident spaces, plus street parking on Atwood Street and 3rd Avenue",
+   "src": [
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "OUR Center, about 380 feet away, provides on-site and nearby services (meals, food pantry, financial literacy, employment referrals) under an MOU",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric, 135 kW rooftop solar, NGBS Bronze target, two EV chargers",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Bus stop about 260 feet away. RTD NECO passes budgeted for every household",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Accessibility",
+   "value": "7 Type A units and communication features in all units, per the city application; the narrative says 12.5% of units are designed for disabled households",
+   "src": [
+    "lmt-hci-app-2026",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Owner/borrower entity",
+   "value": "Brikwell Olive Grove Housing Owner, LLC, managed by Brikwell Olive Grove Housing Solutions, LLC",
+   "src": [
+    "atwood-pos-2026",
+    "lha-res-2026-15"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Exempt through a Longmont Housing Authority partnership: LHA Ventures, LLC joins as a 0.01% special limited partner for up to 18 years for a $172,511 fee at closing plus a $3,000 annual asset management fee and a right of first refusal",
+   "src": [
+    "lha-slp-memo-2026-06-16",
+    "lha-min-2026-06-16"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "Bond regulatory agreement: at least 40 years after 50% occupancy. City inclusionary agreement: permanent deed restriction with a buyout option after 30 years. See discrepancies",
+   "src": [
+    "atwood-regag-2026",
+    "lmt-r-2023-57",
+    "lmt-hci-app-2026",
+    "lmt-cc-2026-04-28"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 13
+  },
+  {
+   "level": "50% AMI",
+   "units": 25
+  },
+  {
+   "level": "60% AMI",
+   "units": 12
+  },
+  {
+   "level": "70% AMI",
+   "units": 12
+  },
+  {
+   "level": "80% AMI",
+   "units": 10
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 18
+  },
+  {
+   "type": "2BR",
+   "units": 54
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r2-descriptions",
+  "chfa-2025-r2-narratives",
+  "lmt-cc-2026-04-28",
+  "atwood-pos-2026"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,386,621 per year",
+   "note": "Awarded in 2025 Round Two; amounts subject to change.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,733,276",
+   "note": "",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Tax-exempt multifamily housing revenue bonds",
+   "amount": "$14,250,000",
+   "note": "CHFA's award report lists CHFA as issuer, but the Longmont Housing Authority authorized issuing its Series 2026 bonds (not to exceed $15,000,000) and the preliminary official statement names LHA as issuer with a $14,250,000 note. The bonds are cash-collateralized, with Stifel as underwriter and an initial mandatory tender date of 2029-03-01. Volume cap: about $3,415,747 of Longmont's 2025 allocation, with CHFA providing the rest after Council split the city's cap with Parkside & Mountain View Plaza (CHFA share inferred from the city documents).",
+   "src": [
+    "chfa-2025-r2-award",
+    "lha-res-2026-15",
+    "atwood-pos-2026",
+    "lmt-cc-2026-06-09",
+    "lmt-r-2026-33"
+   ]
+  },
+  {
+   "source": "Construction loan",
+   "amount": "Up to $21,000,000 (preliminary)",
+   "note": "JPMorgan Chase Bank, 27-month term, per the preliminary official statement. The 2025 application and April 2026 budget had instead assumed a Bellwether private placement ($26.425M construction; $9,291,729 permanent at 6.2%).",
+   "src": [
+    "atwood-pos-2026",
+    "chfa-2025-r2-narratives",
+    "lmt-budget-2026"
+   ]
+  },
+  {
+   "source": "Permanent loan",
+   "amount": "Not public",
+   "note": "Freddie Mac tax-exempt loan through Capital One at conversion, per the preliminary official statement.",
+   "src": [
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "source": "Tax credit equity (federal and state)",
+   "amount": "About $17.18M federal and $1.72M state in the plan of financing (preliminary)",
+   "note": "RBC Community Investments is the federal investor and Sugar Creek Realty LLC the state investor. The draft is not consistent: another passage gives $9,983,400 federal and $7,199,567 state.",
+   "src": [
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "source": "City of Longmont Affordable Housing Fund loan",
+   "amount": "$1,742,842",
+   "note": "$1,000,000 approved 2023-06-20 plus $742,842 approved 2026-04-28, combined into one loan; 1% interest, 40-year term, repaid from cash flow (preliminary terms).",
+   "src": [
+    "lmt-cc-2026-04-28",
+    "lmt-twil-2026-05",
+    "recap-2026-04-28",
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "source": "City of Longmont development fee waiver",
+   "amount": "100% of eligible fees (about $845,608 of fees in total)",
+   "note": "50% ($190,180) was granted administratively; Council waived the remaining $655,429 on 2026-04-28.",
+   "src": [
+    "lmt-cc-2026-04-28"
+   ]
+  },
+  {
+   "source": "Prop 123 Concessionary Debt (Affordable Housing Financing Fund)",
+   "amount": "$750,000",
+   "note": "Predevelopment loan, FY24-25 selections. It does not appear in the 2026 sources lists.",
+   "src": [
+    "ahff-fy2425-cd",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$1,306,699 (preliminary)",
+   "note": "The April 2026 budget showed $1,170,919 and a $3,000,977 developer fee.",
+   "src": [
+    "atwood-pos-2026",
+    "lmt-budget-2026"
+   ]
+  },
+  {
+   "source": "Solar tax credit",
+   "amount": "$106,973",
+   "note": "Per the April 2026 budget.",
+   "src": [
+    "lmt-budget-2026"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Brikwell Olive Grove Housing Partners, LLC",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "role": "Developer",
+   "name": "Brikwell (Brikwell Development LLC, Denver)",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "atwood-pos-2026",
+    "brikwell-atwood"
+   ]
+  },
+  {
+   "role": "Borrower/owner entity",
+   "name": "Brikwell Olive Grove Housing Owner, LLC",
+   "src": [
+    "atwood-pos-2026",
+    "lha-min-2026-06-16"
+   ]
+  },
+  {
+   "role": "Managing member",
+   "name": "Brikwell Olive Grove Housing Solutions, LLC",
+   "src": [
+    "atwood-pos-2026",
+    "lmt-hci-app-2026"
+   ]
+  },
+  {
+   "role": "Bond issuer and special limited partner (tax exemption)",
+   "name": "Longmont Housing Authority (through LHA Ventures, LLC as SLP)",
+   "src": [
+    "lha-res-2026-15",
+    "lha-slp-memo-2026-06-16",
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "role": "Gap lender and fee waiver",
+   "name": "City of Longmont",
+   "src": [
+    "lmt-cc-2026-04-28"
+   ]
+  },
+  {
+   "role": "Tax credit investors",
+   "name": "RBC Community Investments (federal); Sugar Creek Realty LLC (state)",
+   "src": [
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "role": "Construction lender; permanent lender",
+   "name": "JPMorgan Chase Bank; Capital One with Freddie Mac",
+   "src": [
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "role": "Bond underwriter; trustee",
+   "name": "Stifel, Nicolaus & Company; U.S. Bank Trust Company",
+   "src": [
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Krische Construction, Inc. (KCI), Longmont",
+   "src": [
+    "atwood-pos-2026",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Godden Sudik",
+   "src": [
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Yarco Company per the preliminary official statement; the Longmont Housing Authority per the CHFA application and the 2026 city application (see discrepancies)",
+   "src": [
+    "atwood-pos-2026",
+    "chfa-2025-r2-narratives",
+    "lmt-hci-app-2026"
+   ]
+  },
+  {
+   "role": "Resident services",
+   "name": "OUR Center (Outreach United Resource Center)",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The project entered Longmont's development review on 2020-11-25. The purchase contract dates from March 2023, and the site is still held under a purchase and sale agreement; land is budgeted at $2,121,221.",
+   "src": [
+    "lmt-cc-2023-06-20",
+    "lmt-hci-app-2026",
+    "lmt-budget-2026"
+   ]
+  },
+  {
+   "text": "In June 2023 the Longmont Housing Authority board, which is the City Council, took up a commitment to a property tax exemption partnership. Staff then estimated a 69% exemption worth about $935,000 over 15 years, because state law may not exempt the 70-80% AMI units.",
+   "src": [
+    "lha-slp-memo-2023-06-13",
+    "lha-res-2023-21",
+    "longmont-leader-2023-06-13"
+   ]
+  },
+  {
+   "text": "Council took up a voluntary alternative agreement (R-2023-57) on 2023-06-20 to meet inclusionary housing rules with 38 units at or below 50% AMI. The term sheet calls for permanent affordability with a buyout option after 30 years. The city also approved a $1,000,000 Affordable Housing Fund loan on 2023-06-20.",
+   "src": [
+    "lmt-cc-2023-06-20",
+    "lmt-r-2023-57",
+    "lmt-cc-2026-04-28"
+   ]
+  },
+  {
+   "text": "Earlier versions of the deal included 20% AMI units with project-based vouchers. The 2024 Round Two application had 4 units at 20% AMI and 9 at 30% AMI. By 2025 all 13 deepest units were at 30% AMI, with 8 carrying vouchers.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2025-r2-narratives",
+    "lmt-cc-2023-06-20"
+   ]
+  },
+  {
+   "text": "The 2025 award was the project's third tax credit attempt. LHA staff wrote that CHFA cited the lack of private activity bonds as the main reason the fall 2024 application failed, so the developer obtained Longmont's full 2025 bond allocation of $6,415,747 (R-2025-33, 2025-06-17).",
+   "src": [
+    "lha-2025-07-15-memo",
+    "lmt-r-2025-33",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "In February 2026, after talks with HUD, LHA said it could no longer provide the eight project-based vouchers its board had authorized on 2023-07-18, because doing so would put LHA in deficit. The lost rent ($109,824 a year) cut debt proceeds by $1,398,271.",
+   "src": [
+    "lmt-cc-2026-04-28",
+    "lmt-feewaiver-req"
+   ]
+  },
+  {
+   "text": "Council approved a 100% fee waiver and an extra $742,842 from the Affordable Housing Fund on 2026-04-28, ahead of the normal June funding cycle, so the deal could close in July 2026. An independent council newsletter reported both votes as 6-1.",
+   "src": [
+    "lmt-cc-2026-04-28",
+    "lmt-twil-2026-05",
+    "recap-2026-04-28"
+   ]
+  },
+  {
+   "text": "Once the deal won credits, CHFA agreed to supply more bond cap. Council then split the city's 2025 allocation, about $3,415,747 for Atwood Commons and $3,000,000 for Parkside & Mountain View Plaza (R-2026-33, on the 2026-06-09 agenda).",
+   "src": [
+    "lmt-cc-2026-06-09",
+    "lmt-r-2026-33"
+   ]
+  },
+  {
+   "text": "City staff report the 70% and 80% AMI units are underwritten at about 63% AMI rents. The 50 units at or below 60% AMI count toward Longmont's Prop 123 commitment.",
+   "src": [
+    "lmt-cc-2026-04-28"
+   ]
+  },
+  {
+   "text": "The Phase I and II environmental reports found about 300 cubic yards of diesel- and oil-impacted soil to be removed under supervision.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study found 50% and 60% AMI penetration slightly above CHFA's preferred level, but surveyed LIHTC properties were 96% occupied.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2020-11-25",
+   "event": "First development review submittal to the City of Longmont",
+   "src": [
+    "lmt-cc-2023-06-20"
+   ]
+  },
+  {
+   "date": "2023-06-13",
+   "event": "Longmont Housing Authority takes up a tax exemption partnership commitment (Resolution LHA-2023-21)",
+   "src": [
+    "lha-res-2023-21",
+    "longmont-leader-2023-06-13"
+   ]
+  },
+  {
+   "date": "2023-06-20",
+   "event": "City Council approves the $1,000,000 Affordable Housing Fund loan; the inclusionary housing agreement (R-2023-57) is on the same agenda",
+   "src": [
+    "lmt-cc-2026-04-28",
+    "lmt-cc-2023-06-20"
+   ]
+  },
+  {
+   "date": "2023-07-18",
+   "event": "LHA board authorizes eight project-based vouchers",
+   "src": [
+    "lmt-cc-2026-04-28"
+   ]
+  },
+  {
+   "date": "2024-05",
+   "event": "Site plan and plat approved, per the applicant",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "lmt-hci-app-2026"
+   ]
+  },
+  {
+   "date": "2024-08",
+   "event": "Applies in CHFA's 2024 Round Two; not awarded",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "lha-2025-07-15-memo"
+   ]
+  },
+  {
+   "date": "2025-02-19",
+   "event": "Listed for a $750,000 Prop 123 predevelopment loan",
+   "src": [
+    "ahff-fy2425-cd"
+   ]
+  },
+  {
+   "date": "2025-06-17",
+   "event": "Council assigns Longmont's 2025 bond allocation of $6,415,747 to LHA for the project (R-2025-33)",
+   "src": [
+    "lmt-r-2025-33",
+    "lmt-r-2026-33"
+   ]
+  },
+  {
+   "date": "2025-07-15",
+   "event": "LHA bond inducement resolution LHA-2025-09 (up to $20,000,000)",
+   "src": [
+    "lha-2025-07-15-memo"
+   ]
+  },
+  {
+   "date": "2025-11-05",
+   "event": "CHFA announces 2025 Round Two awards; award report dated 2025-11-07",
+   "src": [
+    "chfa-news-2025-11-05",
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "date": "2026-02",
+   "event": "LHA withdraws the eight project-based vouchers after talks with HUD",
+   "src": [
+    "lmt-cc-2026-04-28",
+    "lmt-feewaiver-req"
+   ]
+  },
+  {
+   "date": "2026-04-28",
+   "event": "Council approves a 100% fee waiver and an added $742,842 AHF loan",
+   "src": [
+    "lmt-agenda-2026-04-28",
+    "lmt-twil-2026-05",
+    "lmt-cc-2026-04-28",
+    "recap-2026-04-28"
+   ]
+  },
+  {
+   "date": "2026-06-09",
+   "event": "Council agenda item R-2026-33 splits the 2025 bond cap between Atwood Commons and Parkside & Mountain View Plaza",
+   "src": [
+    "lmt-cc-2026-06-09",
+    "lmt-r-2026-33"
+   ]
+  },
+  {
+   "date": "2026-06-16",
+   "event": "LHA board approves the tax exemption partnership (LHA-2026-12), 7-0",
+   "src": [
+    "lha-min-2026-06-16",
+    "lha-slp-memo-2026-06-16"
+   ]
+  },
+  {
+   "date": "2026-07-21",
+   "event": "LHA board approves the bond issuance (LHA-2026-15), 6-0",
+   "src": [
+    "lha-min-2026-07-21",
+    "lha-res-2026-15"
+   ]
+  },
+  {
+   "date": "2026-08-10",
+   "event": "Scheduled financial closing and construction start (not confirmed)",
+   "src": [
+    "lha-bond-memo-2026-07-21",
+    "lha-min-2026-07-21"
+   ]
+  },
+  {
+   "date": "2028-01",
+   "event": "Planned completion; lease-up January to October 2028, per the city application",
+   "src": [
+    "lmt-hci-app-2026",
+    "lmt-cc-2026-06-09"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Atwood Commons site rendering",
+   "url": "https://longmont.primegov.com/meeting/attachment/75151.pdf?name=Att%202-%20Site%20Rendering",
+   "kind": "rendering",
+   "made_by": "Project team, attached by the City of Longmont",
+   "note": "Single page; Attachment 2 to the 2023-06-20 council item on the inclusionary housing agreement",
+   "src": [
+    "lmt-cc-2023-06-20"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report lists CHFA as bond issuer, and the 2025 application said CHFA would issue, while the Longmont Housing Authority resolution, the city's June 2026 council communication and the preliminary official statement name the Longmont Housing Authority as issuer.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives",
+    "lha-res-2026-15",
+    "lmt-cc-2026-06-09",
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "text": "The applicant and the 2026 city funding application say the site plan and plat were approved in May 2024, while the April 2026 council communication says the project received entitlements in late 2025.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "lmt-hci-app-2026",
+    "lmt-cc-2026-04-28"
+   ]
+  },
+  {
+   "text": "The 2023 inclusionary term sheet calls for permanent affordability with a buyout option after 30 years, the April 2026 council communication says affordability in perpetuity, and the 2026 city funding application gives a 40-year affordability period.",
+   "src": [
+    "lmt-r-2023-57",
+    "lmt-cc-2026-04-28",
+    "lmt-hci-app-2026"
+   ]
+  },
+  {
+   "text": "The CHFA application and the 2026 city funding application name the Longmont Housing Authority as property manager, while the preliminary official statement names Yarco Company, Inc.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "lmt-hci-app-2026",
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "text": "Total cost appears as $31,825,936 in the April 2026 budget given to Council, $30,942,766 in the 2026 city funding application, and $34,482,508 of total sources in the preliminary official statement.",
+   "src": [
+    "lmt-budget-2026",
+    "lmt-hci-app-2026",
+    "atwood-pos-2026"
+   ]
+  },
+  {
+   "text": "CHFA's award description says the Longmont Housing Authority will provide eight project-based vouchers, while the April 2026 council communication says LHA withdrew them in February 2026.",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "lmt-cc-2026-04-28"
+   ]
+  },
+  {
+   "text": "The 2023 Longmont Leader article and LHA advisory memo describe 13 units at 20% AMI, while the 2023 council term sheet lists 13 units at or below 30% AMI (and its staff summary lists 4 at 20% and 9 at 30%).",
+   "src": [
+    "longmont-leader-2023-06-13",
+    "lha-slp-memo-2023-06-13",
+    "lmt-r-2023-57",
+    "lmt-cc-2023-06-20"
+   ]
+  },
+  {
+   "text": "LHA memos in 2025 and 2026 describe the project as serving 20% to 80% AMI, while CHFA, the city's 2026 council items and the preliminary official statement give 30% to 80% AMI.",
+   "src": [
+    "lha-2025-07-15-memo",
+    "lha-bond-memo-2026-07-21",
+    "chfa-2025-r2-descriptions",
+    "lmt-cc-2026-06-09",
+    "atwood-pos-2026"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the financing closed and construction started on or about 2026-08-10; no final official statement, permit or groundbreaking record was found.",
+  "Final bond terms (rate, CHFA's share of volume cap) and final equity pricing; the preliminary official statement is a draft with blanks and internally inconsistent equity figures.",
+  "Who will manage the property (Yarco or the Longmont Housing Authority).",
+  "Whether the $750,000 Prop 123 predevelopment loan was drawn and how it is repaid.",
+  "Final property tax exemption share under the LHA partnership.",
+  "Rents; the CHFA LURA affordability period."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r2-award",
+   "title": "2025 Round Two - Award Report, Federal 4% and Accelerated State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-11-07",
+   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-descriptions",
+   "title": "2025 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r2-narratives",
+   "title": "2025 HTC Round Two application narratives (Atwood Commons, PDF pages 16-20, written by the applicant)",
+   "publisher": "CHFA",
+   "date": "2025-08-06",
+   "url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two application narratives (Atwood Commons, PDF pages 36-40, written by the applicant)",
+   "publisher": "CHFA",
+   "date": "2024-08-09",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-news-2025-11-05",
+   "title": "CHFA Announces 2025 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2025-11-05",
+   "url": "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards"
+  },
+  {
+   "id": "ahff-fy2425-cd",
+   "title": "Affordable Housing Financing Fund, FY24-25 Concessionary Debt Selections",
+   "publisher": "OEDIT / CHFA (Prop 123 Affordable Housing Financing Fund)",
+   "date": "2025-02-19",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/08/Prop123-AHFF-FY24-25-ConcessionaryDebtSelections.pdf"
+  },
+  {
+   "id": "longmont-leader-2023-06-13",
+   "title": "Longmont Housing Authority considers partnership for affordable housing",
+   "publisher": "Longmont Leader",
+   "date": "2023-06-13",
+   "url": "https://www.longmontleader.com/local-news/longmont-housing-authority-considers-partnership-for-affordable-housing-7134371"
+  },
+  {
+   "id": "lmt-cc-2023-06-20",
+   "title": "City Council Communication, item 9.D: Voluntary Alternative Agreement for the Atwood Commons development",
+   "publisher": "City of Longmont",
+   "date": "2023-06-20",
+   "url": "https://longmont.primegov.com/meeting/document/2678.pdf?name=Council%20Communication%20Form"
+  },
+  {
+   "id": "lmt-r-2023-57",
+   "title": "Resolution R-2023-57 and term sheet: Voluntary Alternative Agreement for Atwood Commons (inclusionary housing)",
+   "publisher": "City of Longmont",
+   "date": "2023-06-09",
+   "url": "https://longmont.primegov.com/meeting/attachment/75170.pdf?name=Resolution%20Approving%20a%20Voluntary%20Alternative%20Housing%20Agreement%20for%20Atwood%20Commons%20Apartments%20as%20Satisfaction%20for%20Inclusionary%20Housing%20Requirements%20FINAL"
+  },
+  {
+   "id": "lha-slp-memo-2023-06-13",
+   "title": "Memo: Approval for a Property Tax Exemption Partnership with Brikwell Olive Grove Housing Solutions, LLC (Atwood Commons), LHA Advisory Board item 6b",
+   "publisher": "Longmont Housing Authority",
+   "date": "2023-06-13",
+   "url": "https://longmont.primegov.com/meeting/attachment/75156.pdf?name=6b%20-%20Atwood%20Commons%20SLP%20Memo"
+  },
+  {
+   "id": "lha-res-2023-21",
+   "title": "Resolution LHA-2023-21: Commitment to a Tax Exemption Partnership with Brikwell Olive Grove Housing Solutions, LLC (Atwood Commons)",
+   "publisher": "Longmont Housing Authority",
+   "date": "2023-06-13",
+   "url": "https://longmont.primegov.com/meeting/attachment/75176.pdf?name=5C2%20-%20Resolution%202023-21%20-%20Atwood%20Commons%20Tax%20Exemption%20Partnership"
+  },
+  {
+   "id": "lmt-r-2025-33",
+   "title": "Resolution R-2025-33: Assignment of the City's 2025 Private Activity Bond Allocation to the Longmont Housing Authority (Atwood Commons)",
+   "publisher": "City of Longmont",
+   "date": "2025-06-17",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=76a576ba-377e-45f6-b492-1f6a8549fddd"
+  },
+  {
+   "id": "lha-2025-07-15-memo",
+   "title": "Memo: Atwood Commons Private Activity Bond Acceptance and Issuance (Resolution LHA-2025-09)",
+   "publisher": "Longmont Housing Authority",
+   "date": "2025-07-15",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=eb5f2689-522d-417b-952e-2a99c5602378"
+  },
+  {
+   "id": "lmt-agenda-2026-04-28",
+   "title": "City Council Regular Session agenda, April 28, 2026 (item 12.A Atwood Commons)",
+   "publisher": "City of Longmont",
+   "date": "2026-04-28",
+   "url": "https://longmont.primegov.com/Portal/Meeting?meetingTemplateId=15977"
+  },
+  {
+   "id": "lmt-cc-2026-04-28",
+   "title": "City Council Communication, item 12.A: Atwood Commons Request for Additional Fee Waiver and Affordable Housing Fund Allocation",
+   "publisher": "City of Longmont",
+   "date": "2026-04-28",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=d477246f-4e0d-4f25-9f5d-43ac85630384"
+  },
+  {
+   "id": "lmt-feewaiver-req",
+   "title": "Attachment 1: Brikwell request for 100% development fee waiver and PBV gap analysis",
+   "publisher": "City of Longmont (applicant document)",
+   "date": "2026-04-06",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=839f6b1a-aec7-4204-8eaf-2cce15104312"
+  },
+  {
+   "id": "lmt-budget-2026",
+   "title": "Attachment 3: Atwood Commons Development Budget",
+   "publisher": "City of Longmont (applicant document)",
+   "date": "2026-04",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=6ac0d9c1-c5de-486d-8f58-072664ebc437"
+  },
+  {
+   "id": "lmt-hci-app-2026",
+   "title": "Attachment 4: Atwood Commons 2026 Housing and Community Investment funding application",
+   "publisher": "City of Longmont (applicant document)",
+   "date": "2026-04-13",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=4b1f8489-f376-4214-b205-9d7083df3d70"
+  },
+  {
+   "id": "lmt-twil-2026-05",
+   "title": "This Week in Longmont - May 4-10, 2026",
+   "publisher": "City of Longmont",
+   "date": "2026-05-04",
+   "url": "https://longmontcolorado.gov/news/this-week-in-longmont-may-4-10-2026/"
+  },
+  {
+   "id": "recap-2026-04-28",
+   "title": "April 28 Council Meeting: ... a Housing Project Got Saved ...",
+   "publisher": "Longmont City Council Recap (independent newsletter)",
+   "date": "2026-04",
+   "url": "https://longmontcitycouncilrecap.substack.com/p/april-28-council-meeting-longmont"
+  },
+  {
+   "id": "lmt-cc-2026-06-09",
+   "title": "City Council Communication, item 9.G: Amending and Affirming Resolution R-2025-33 (2025 PAB allocation)",
+   "publisher": "City of Longmont",
+   "date": "2026-06-09",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=11cfbb7f-76a8-40e7-9da5-2767c1c892e5"
+  },
+  {
+   "id": "lmt-r-2026-33",
+   "title": "Resolution R-2026-33: Amending and Affirming Resolution R-2025-33 (Atwood Commons and Parkside & Mountain View Plaza)",
+   "publisher": "City of Longmont",
+   "date": "2026-05-27",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=85c752b6-f585-4884-8441-599cad0a21f4"
+  },
+  {
+   "id": "lha-slp-memo-2026-06-16",
+   "title": "Memo: Atwood Commons Special Limited Partnership (Resolution LHA-2026-12)",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-06-16",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=63204482-e379-4173-8358-a2033b0f07a2"
+  },
+  {
+   "id": "lha-min-2026-06-16",
+   "title": "LHA Board of Commissioners minutes, June 16, 2026",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-06-16",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=2049dd77-b371-43ea-90eb-edd998e75714"
+  },
+  {
+   "id": "lha-bond-memo-2026-07-21",
+   "title": "Memo: Atwood Commons Bond Issuance",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-07-21",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=2c870746-b39f-4955-b37d-6d55aee24798"
+  },
+  {
+   "id": "lha-res-2026-15",
+   "title": "Resolution LHA-2026-15: Multifamily Housing Revenue Bonds (Atwood Commons Project) Series 2026",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-07-21",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=636cc0d8-5ef0-423b-9345-bd6a34fada85"
+  },
+  {
+   "id": "lha-min-2026-07-21",
+   "title": "LHA Board of Commissioners special meeting minutes, July 21, 2026",
+   "publisher": "Longmont Housing Authority",
+   "date": "2026-07-21",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=40560daf-165b-4dc9-adc1-4b0beb3a8e98"
+  },
+  {
+   "id": "atwood-pos-2026",
+   "title": "Preliminary Official Statement, Longmont Housing Authority Multifamily Housing Revenue Bonds (Atwood Commons Project) Series 2026 (substantially final draft, LHA packet item 3a6)",
+   "publisher": "Longmont Housing Authority (board packet)",
+   "date": "2026-07-21",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=041e62ef-bd52-4936-a871-17516051edef"
+  },
+  {
+   "id": "atwood-regag-2026",
+   "title": "Regulatory Agreement and Declaration of Restrictive Covenants (LHA, Atwood Commons), substantially final draft, LHA packet item 3a5",
+   "publisher": "Longmont Housing Authority (board packet)",
+   "date": "2026-07-21",
+   "url": "https://longmont.primegov.com/api/compilemeetingattachmenthistory/historyattachment/?historyId=f7a8ae0b-5f02-44db-8019-2c6b51073635"
+  },
+  {
+   "id": "brikwell-atwood",
+   "title": "Atwood Commons project page",
+   "publisher": "Brikwell",
+   "date": "2026-04-23",
+   "url": "https://brikwell.com/2026/04/23/atwood-commons/"
+  }
+ ]
+}
