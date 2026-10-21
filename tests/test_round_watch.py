@@ -12,7 +12,10 @@ Pins:
      details (those live only on the private developer site);
   8. a backtest sizes a project as printed before the cutoff, not by a
      later record;
-  9. every reason, the sponsor's included, carries its source rows.
+  9. every reason, the sponsor's included, carries its source rows;
+ 10. each deal carries its site region and its town's map location;
+ 11. each deal's history (when it joined, its last band change) carries
+     from the file it replaces, and the first build marks nothing new.
 """
 import copy
 import importlib.util
@@ -81,6 +84,50 @@ def test_loser_last_year_is_high_with_reason():
     assert i['why'][0]['source_url'] == URL and 'Hover Place' in i['why'][0]['quote']
     # a 9% loss is "the other round type" for Round Two: Watch at most
     assert items(out, 2)['Hover Place']['band'] == 'Watch'
+
+
+def test_region_and_town_location_for_the_map():
+    a, l, e = base()
+    a['applications'].append(app('Hover Place', 'Longmont', 2026, 1, 'not_awarded'))
+    multi = app('Hub', 'Aurora', 2026, 1, 'not_awarded')
+    multi.update(county_fips=None, county_fips_all=[], place_geoids=['0804000'])
+    a['applications'].append(multi)
+    out = rw.build(a, l, e, places={'0845970': {'name': 'Longmont city', 'lat': 40.17, 'lng': -105.1}},
+                   place_counties={'0804000': {'primary_county': '08005'}})
+    hover, hub = items(out, 1)['Hover Place'], items(out, 1)['Hub']
+    assert (hover['region'], hover['lat'], hover['lng']) == ('Front Range', 40.17, -105.1)
+    # a town that spans counties takes its main county's region; no centroid, no pin
+    assert hub['region'] == 'Front Range' and hub['lat'] is None
+
+
+def test_history_marks_new_and_moved_deals_only_after_tracking_starts():
+    a, l, e = base()
+    a['applications'].append(app('Hover Place', 'Longmont', 2026, 1, 'not_awarded'))
+    first = rw.carry_history(build(a, l, e), {'meta': {}, 'rounds': [{'items': []}, {'items': []}]})
+    assert all(i['first_listed'] is None for r in first['rounds'] for i in r['items'])   # seed: nothing new
+    assert rw.carry_history(build(a, l, e), copy.deepcopy(first)) == first                 # same data: no change
+    later = build(a, l, e)
+    later['meta']['generated_at'] = '2026-11-01'
+    later['rounds'][0]['items'].append(dict(items(later, 1)['Hover Place'], id='new-deal', name='New Deal'))
+    items(later, 1)['Hover Place']['band'] = 'Medium'
+    rw.carry_history(later, first)
+    assert items(later, 1)['New Deal']['first_listed'] == '2026-11-01'
+    moved = items(later, 1)['Hover Place']
+    assert moved['first_listed'] is None and (moved['band_before'], moved['band_since']) == ('High', '2026-11-01')
+    assert later['meta']['tracking_since'] == first['meta']['tracking_since']
+
+
+def test_backtest_counts_who_was_awarded():
+    a, l, e = base()
+    a['applications'] += [app('Came Back', 'Longmont', 2025, 1, 'not_awarded'), app('Came Back', 'Longmont', 2026, 1, 'awarded'),
+                          app('Tried Again', 'Lyons', 2025, 1, 'not_awarded'), app('Tried Again', 'Lyons', 2026, 1, 'not_awarded')]
+    a['applications'][-3]['award'] = {'source_url': 'https://example.com/award-2026.pdf'}
+    r = next(r for r in build(a, l, e)['backtest']['rounds'] if r['round'] == '2026 Round One')
+    assert r['bands']['High'] == {'listed': 2, 'applied': 2, 'awarded': 1}
+    assert {(p['name'], p['outcome']) for p in r['picks']} == {('Came Back', 'awarded'), ('Tried Again', 'not_awarded')}
+    assert r['undecided'] == 0 and r['awarded'] == 2   # Came Back and the filler
+    # both decisions link to the round's award report, not the applicant report
+    assert {p['decision_url'] for p in r['picks']} == {'https://example.com/award-2026.pdf'}
 
 
 def test_awarded_and_undecided_leave_the_list():

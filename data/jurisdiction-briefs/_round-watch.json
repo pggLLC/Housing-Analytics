@@ -31,8 +31,11 @@
   "sources": {
    "applications": "data/jurisdiction-briefs/_lihtc-applications.json",
    "ledger": "data/market/development-activity.json",
-   "award_orgs": "data/policy/funding-awards/ledger.json, dola-awards.json (grantee or sponsor as printed)"
-  }
+   "award_orgs": "data/policy/funding-awards/ledger.json, dola-awards.json (grantee or sponsor as printed)",
+   "map": "data/co-place-centroids.json (2024 Census Gazetteer town centroids)",
+   "regions": "scripts/hna/build_ranking_index.py REGIONS (DOLA planning regions in six groups)"
+  },
+  "tracking_since": "2026-10-18"
  },
  "backtest": {
   "rounds": [
@@ -47,17 +50,96 @@
     "bands": {
      "High": {
       "listed": 8,
-      "applied": 6
+      "applied": 6,
+      "awarded": 3
      },
      "Medium": {
       "listed": 13,
-      "applied": 1
+      "applied": 1,
+      "awarded": 0
      },
      "Watch": {
       "listed": 46,
-      "applied": 2
+      "applied": 2,
+      "awarded": 2
      }
-    }
+    },
+    "awarded": 12,
+    "undecided": 0,
+    "picks": [
+     {
+      "name": "Canyons Affordable Apartments",
+      "city": "Castle Pines",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Commons Phase II",
+      "city": "Colorado Springs",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "GardenWalk of Cañon City",
+      "city": "Canon City",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Kite Route Crossing",
+      "city": "Superior",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Marq",
+      "city": "Trinidad",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Park Avenue Apartments",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Pinewood Modular",
+      "city": "Aurora",
+      "band": "Medium",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "101 Main Street",
+      "city": "Frisco",
+      "band": "Watch",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Tierra Azul",
+      "city": "Alamosa",
+      "band": "Watch",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     }
+    ]
    },
    {
     "round": "2025 Round Two",
@@ -70,17 +152,88 @@
     "bands": {
      "High": {
       "listed": 17,
-      "applied": 7
+      "applied": 7,
+      "awarded": 5
      },
      "Medium": {
       "listed": 15,
-      "applied": 0
+      "applied": 0,
+      "awarded": 0
      },
      "Watch": {
       "listed": 40,
-      "applied": 1
+      "applied": 1,
+      "awarded": 0
      }
-    }
+    },
+    "awarded": 8,
+    "undecided": 1,
+    "picks": [
+     {
+      "name": "1001 Lincoln Street",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+     },
+     {
+      "name": "1139 Delaware Street",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+     },
+     {
+      "name": "Atwood Commons",
+      "city": "Longmont",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+     },
+     {
+      "name": "Reserves at Green Valley Ranch Phase II",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+     },
+     {
+      "name": "Stanley 98",
+      "city": "Aurora",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+     },
+     {
+      "name": "University Building Lofts",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+     },
+     {
+      "name": "Village on Eastbrook",
+      "city": "Fort Collins",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+     },
+     {
+      "name": "Metro Caring Housing",
+      "city": "Denver",
+      "band": "Watch",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+     }
+    ]
    },
    {
     "round": "2026 Round One",
@@ -93,17 +246,184 @@
     "bands": {
      "High": {
       "listed": 12,
-      "applied": 9
+      "applied": 9,
+      "awarded": 5
      },
      "Medium": {
       "listed": 17,
-      "applied": 8
+      "applied": 8,
+      "awarded": 5
      },
      "Watch": {
       "listed": 48,
-      "applied": 3
+      "applied": 3,
+      "awarded": 1
      }
-    }
+    },
+    "awarded": 14,
+    "undecided": 0,
+    "picks": [
+     {
+      "name": "123 Manitou",
+      "city": "Manitou Springs",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Commons Phase II",
+      "city": "Colorado Springs",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Crossroads at Divide",
+      "city": "Divide",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "GardenWalk of Cañon City",
+      "city": "Canon City",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Grove at Pinewood",
+      "city": "Aurora",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Harbart House",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Living Tower Senior Living",
+      "city": "Aurora",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Waldown",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Wildflower Flats",
+      "city": "Fort Lupton",
+      "band": "High",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "1886 Hover",
+      "city": "Longmont",
+      "band": "Medium",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Barth Hotel",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Commons at Mosaic",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Crawford Commons",
+      "city": "Clifton",
+      "band": "Medium",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Montbello Townhomes",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Mountain Vista Apartments",
+      "city": "Westminster",
+      "band": "Medium",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Silver Key Apartments at North Weber",
+      "city": "Colorado Springs",
+      "band": "Medium",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Stables II",
+      "city": "Aurora",
+      "band": "Medium",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "10660 E Colfax",
+      "city": "Aurora",
+      "band": "Watch",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "40th Ave Apartments",
+      "city": "Denver",
+      "band": "Watch",
+      "outcome": "not_awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     },
+     {
+      "name": "Metro Center Apartments",
+      "city": "Aurora",
+      "band": "Watch",
+      "outcome": "awarded",
+      "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+      "decision_url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+     }
+    ]
    },
    {
     "round": "2026 Round Two",
@@ -116,31 +436,137 @@
     "bands": {
      "High": {
       "listed": 11,
-      "applied": 6
+      "applied": 6,
+      "awarded": 0
      },
      "Medium": {
       "listed": 21,
-      "applied": 4
+      "applied": 4,
+      "awarded": 0
      },
      "Watch": {
       "listed": 53,
-      "applied": 2
+      "applied": 2,
+      "awarded": 0
      }
-    }
+    },
+    "awarded": 0,
+    "undecided": 26,
+    "picks": [
+     {
+      "name": "Castleton Heights",
+      "city": "Castle Rock",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     },
+     {
+      "name": "Haven at Salt Flats",
+      "city": "Grand Junction",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     },
+     {
+      "name": "Metro Caring Housing",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     },
+     {
+      "name": "Reserves at Green Valley Ranch Phase II",
+      "city": "Denver",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     },
+     {
+      "name": "Stanley 98",
+      "city": "Aurora",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     },
+     {
+      "name": "Starlight",
+      "city": "Littleton",
+      "band": "High",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     },
+     {
+      "name": "4745 N Federal Blvd",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     },
+     {
+      "name": "Irving Street Senior Apartments",
+      "city": "Westminster",
+      "band": "Medium",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     },
+     {
+      "name": "Platte River Commons",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     },
+     {
+      "name": "Welby",
+      "city": "Denver",
+      "band": "Medium",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     },
+     {
+      "name": "1218-1268 Dallas Street",
+      "city": "Aurora",
+      "band": "Watch",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     },
+     {
+      "name": "Ironton Apartments",
+      "city": "Aurora",
+      "band": "Watch",
+      "outcome": "pending",
+      "source_url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+      "decision_url": null
+     }
+    ]
    }
   ],
   "bands": {
    "High": {
     "listed": 48,
-    "applied": 28
+    "applied": 28,
+    "awarded": 13
    },
    "Medium": {
     "listed": 66,
-    "applied": 13
+    "applied": 13,
+    "awarded": 5
    },
    "Watch": {
     "listed": 187,
-    "applied": 8
+    "applied": 8,
+    "awarded": 3
    }
   },
   "applicants": 102,
@@ -205,6 +631,9 @@
      "city": "Longmont",
      "county": "Boulder County",
      "place_geoid": "0845970",
+     "region": "Front Range",
+     "lat": 40.168199,
+     "lng": -105.100522,
      "homes": 40,
      "sponsor": "The Inn Between",
      "award_orgs": [
@@ -248,7 +677,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "mountain-vista-08059",
@@ -256,6 +688,9 @@
      "city": "Westminster",
      "county": "Jefferson County",
      "place_geoid": "0883835",
+     "region": "Front Range",
+     "lat": 39.880122,
+     "lng": -105.061513,
      "homes": 52,
      "sponsor": "Grand Peaks Housing Solutions",
      "award_orgs": [
@@ -292,7 +727,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "stables-2-08005",
@@ -300,6 +738,9 @@
      "city": "Aurora",
      "county": "Arapahoe County",
      "place_geoid": "0804000",
+     "region": "Front Range",
+     "lat": 39.709537,
+     "lng": -104.720509,
      "homes": 52,
      "sponsor": "Grovewood Community Development Inc.",
      "award_orgs": [
@@ -336,7 +777,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "40th-avenue-08031",
@@ -344,6 +788,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 115,
      "sponsor": "Northeast Denver Housing Center",
      "award_orgs": [
@@ -380,7 +827,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "commons-phase-2-08041",
@@ -388,6 +838,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 53,
      "sponsor": "Rocky Mountain Communities",
      "award_orgs": [],
@@ -442,7 +895,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "harbart-house-08031",
@@ -450,6 +906,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 50,
      "sponsor": "Medici Development LLC",
      "award_orgs": [],
@@ -500,7 +959,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "liberty-house-08031",
@@ -508,6 +970,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 63,
      "sponsor": "Atlantis Community Housing",
      "award_orgs": [
@@ -540,7 +1005,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "scott-street-08015",
@@ -548,6 +1016,9 @@
      "city": "Salida",
      "county": "Chaffee County",
      "place_geoid": "0867280",
+     "region": "Mountains",
+     "lat": 38.529909,
+     "lng": -105.998018,
      "homes": 40,
      "sponsor": "Northpointe Development II Corporation",
      "award_orgs": [],
@@ -586,7 +1057,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "waldown-08031",
@@ -594,6 +1068,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 49,
      "sponsor": "Steele Properties Holdings V LLC",
      "award_orgs": [],
@@ -640,7 +1117,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "alameda-commons-08059",
@@ -648,6 +1128,9 @@
      "city": "Lakewood",
      "county": "Jefferson County",
      "place_geoid": "0843000",
+     "region": "Front Range",
+     "lat": 39.698939,
+     "lng": -105.117573,
      "homes": 50,
      "sponsor": "Spire Real Estate Holdings, LLC",
      "award_orgs": [],
@@ -672,7 +1155,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "evans-terrace-08005",
@@ -680,6 +1166,9 @@
      "city": "Aurora",
      "county": "Arapahoe County",
      "place_geoid": "0804000",
+     "region": "Front Range",
+     "lat": 39.709537,
+     "lng": -104.720509,
      "homes": 50,
      "sponsor": "MGL Partners",
      "award_orgs": [],
@@ -704,7 +1193,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "hazelbrook-hub-aurora",
@@ -712,6 +1204,9 @@
      "city": "Aurora",
      "county": null,
      "place_geoid": "0804000",
+     "region": "Front Range",
+     "lat": 39.709537,
+     "lng": -104.720509,
      "homes": 48,
      "sponsor": "ParidigmONE Inc",
      "award_orgs": [],
@@ -736,7 +1231,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "living-tower-senior-living-08001",
@@ -744,6 +1242,9 @@
      "city": "Aurora",
      "county": "Adams County",
      "place_geoid": "0804000",
+     "region": "Front Range",
+     "lat": 39.709537,
+     "lng": -104.720509,
      "homes": 50,
      "sponsor": "Blue Ridge Cascade",
      "award_orgs": [],
@@ -776,7 +1277,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "north-90-08109",
@@ -784,6 +1288,9 @@
      "city": "Center",
      "county": "Saguache County",
      "place_geoid": "0812855",
+     "region": "San Luis Valley",
+     "lat": 37.751236,
+     "lng": -106.110564,
      "homes": 30,
      "sponsor": "Northwest Real Estate Capital Corp.",
      "award_orgs": [],
@@ -808,7 +1315,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "rox-south-place-08031",
@@ -816,6 +1326,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 36,
      "sponsor": "Urban Peak",
      "award_orgs": [],
@@ -840,7 +1353,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "vista-pointe-08014",
@@ -848,6 +1364,9 @@
      "city": "Broomfield",
      "county": "Broomfield County",
      "place_geoid": "0809280",
+     "region": "Front Range",
+     "lat": 39.953593,
+     "lng": -105.050787,
      "homes": 55,
      "sponsor": "Broomfield Housing Alliance",
      "award_orgs": [],
@@ -872,7 +1391,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "miner-street-08019",
@@ -880,6 +1402,9 @@
      "city": "Idaho Springs",
      "county": "Clear Creek County",
      "place_geoid": "0838370",
+     "region": "Front Range",
+     "lat": 39.749349,
+     "lng": -105.503759,
      "homes": 65,
      "sponsor": "DW Development Group",
      "award_orgs": [
@@ -916,7 +1441,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "legacy-terrace-08059",
@@ -924,6 +1452,9 @@
      "city": "Wheat Ridge",
      "county": "Jefferson County",
      "place_geoid": "0884440",
+     "region": "Front Range",
+     "lat": 39.772675,
+     "lng": -105.104801,
      "homes": 50,
      "sponsor": null,
      "award_orgs": [
@@ -951,7 +1482,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "2455-york-08031",
@@ -959,6 +1493,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 56,
      "sponsor": null,
      "award_orgs": [
@@ -979,7 +1516,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "alpine-valley-08105",
@@ -987,6 +1527,9 @@
      "city": "Monte Vista",
      "county": "Rio Grande County",
      "place_geoid": "0851635",
+     "region": "San Luis Valley",
+     "lat": 37.57854,
+     "lng": -106.149915,
      "homes": 26,
      "sponsor": null,
      "award_orgs": [
@@ -1007,7 +1550,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "blue-room-house-one-08031",
@@ -1015,6 +1561,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 54,
      "sponsor": null,
      "award_orgs": [
@@ -1035,7 +1584,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "flour-mill-08015",
@@ -1043,6 +1595,9 @@
      "city": "Salida",
      "county": "Chaffee County",
      "place_geoid": "0867280",
+     "region": "Mountains",
+     "lat": 38.529909,
+     "lng": -105.998018,
      "homes": 20,
      "sponsor": null,
      "award_orgs": [
@@ -1063,7 +1618,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "hillside-village-rehab-08107",
@@ -1071,6 +1629,9 @@
      "city": null,
      "county": "Routt County",
      "place_geoid": null,
+     "region": "Mountains",
+     "lat": null,
+     "lng": null,
      "homes": 55,
      "sponsor": null,
      "award_orgs": [
@@ -1091,7 +1652,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "idaho-springs-affordable-senior-housing-project-08019",
@@ -1099,6 +1663,9 @@
      "city": "Idaho Springs",
      "county": "Clear Creek County",
      "place_geoid": "0838370",
+     "region": "Front Range",
+     "lat": 39.749349,
+     "lng": -105.503759,
      "homes": 24,
      "sponsor": null,
      "award_orgs": [
@@ -1119,7 +1686,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "lumberyard-phase-a-08097",
@@ -1127,6 +1697,9 @@
      "city": "Aspen",
      "county": "Pitkin County",
      "place_geoid": "0803620",
+     "region": "Mountains",
+     "lat": 39.195154,
+     "lng": -106.836807,
      "homes": 66,
      "sponsor": null,
      "award_orgs": [
@@ -1147,7 +1720,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "crossing-08015",
@@ -1155,6 +1731,9 @@
      "city": "Buena Vista",
      "county": "Chaffee County",
      "place_geoid": "0810105",
+     "region": "Mountains",
+     "lat": 38.831989,
+     "lng": -106.138657,
      "homes": 33,
      "sponsor": null,
      "award_orgs": [
@@ -1175,7 +1754,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "canyons-affordable-08035",
@@ -1183,6 +1765,9 @@
      "city": "Castle Pines",
      "county": "Douglas County",
      "place_geoid": "0812387",
+     "region": "Front Range",
+     "lat": 39.46249,
+     "lng": -104.870584,
      "homes": 50,
      "sponsor": "BMC Investments",
      "award_orgs": [],
@@ -1229,7 +1814,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "conifer-heights-08059",
@@ -1237,6 +1825,9 @@
      "city": "Conifer",
      "county": "Jefferson County",
      "place_geoid": null,
+     "region": "Front Range",
+     "lat": null,
+     "lng": null,
      "homes": 56,
      "sponsor": "Overland Property Group",
      "award_orgs": [],
@@ -1275,7 +1866,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "geode-flats-08077",
@@ -1283,6 +1877,9 @@
      "city": "Fruita",
      "county": "Mesa County",
      "place_geoid": "0828745",
+     "region": "Western Slope",
+     "lat": 39.155567,
+     "lng": -108.729584,
      "homes": 180,
      "sponsor": "TWG Development, LLC",
      "award_orgs": [],
@@ -1321,7 +1918,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "gibson-08031",
@@ -1329,6 +1929,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 147,
      "sponsor": "Gorman & Company, LLC",
      "award_orgs": [],
@@ -1371,7 +1974,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "mountain-view-08065",
@@ -1379,6 +1985,9 @@
      "city": "Leadville",
      "county": "Lake County",
      "place_geoid": "0844320",
+     "region": "Mountains",
+     "lat": 39.247277,
+     "lng": -106.29346,
      "homes": 74,
      "sponsor": null,
      "award_orgs": [
@@ -1406,7 +2015,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "penrose-place-08013",
@@ -1414,6 +2026,9 @@
      "city": "Boulder",
      "county": "Boulder County",
      "place_geoid": "0807850",
+     "region": "Front Range",
+     "lat": 40.024431,
+     "lng": -105.251251,
      "homes": 113,
      "sponsor": "Boulder Housing Partners",
      "award_orgs": [],
@@ -1452,7 +2067,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "prairie-run-08107",
@@ -1460,6 +2078,9 @@
      "city": "Hayden",
      "county": "Routt County",
      "place_geoid": "0835070",
+     "region": "Mountains",
+     "lat": 40.492217,
+     "lng": -107.264325,
      "homes": 50,
      "sponsor": "Gorman & Company, LLC",
      "award_orgs": [],
@@ -1510,7 +2131,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "renaissance-civic-center-08031",
@@ -1518,6 +2142,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 216,
      "sponsor": "Colorado Coalition for the Homeless",
      "award_orgs": [],
@@ -1556,7 +2183,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "121-main-08013",
@@ -1564,6 +2194,9 @@
      "city": "Longmont",
      "county": "Boulder County",
      "place_geoid": "0845970",
+     "region": "Front Range",
+     "lat": 40.168199,
+     "lng": -105.100522,
      "homes": 198,
      "sponsor": null,
      "award_orgs": [
@@ -1584,7 +2217,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "1530-13th-08031",
@@ -1592,6 +2228,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 190,
      "sponsor": "Evergreen Redevelopment, LLC",
      "award_orgs": [],
@@ -1616,7 +2255,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "a-line-flats-08031",
@@ -1624,6 +2266,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 191,
      "sponsor": "Elmington Affordable, LLC",
      "award_orgs": [],
@@ -1648,7 +2293,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "bristow-house-08041",
@@ -1656,6 +2304,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 185,
      "sponsor": null,
      "award_orgs": [
@@ -1676,7 +2327,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "carbondale-town-center-08045",
@@ -1684,6 +2338,9 @@
      "city": "Carbondale",
      "county": "Garfield County",
      "place_geoid": "0812045",
+     "region": "Western Slope",
+     "lat": 39.395559,
+     "lng": -107.21502,
      "homes": 39,
      "sponsor": "Artspace Projects",
      "award_orgs": [],
@@ -1708,7 +2365,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "cch-broomfield-senior-08014",
@@ -1716,6 +2376,9 @@
      "city": "Broomfield",
      "county": "Broomfield County",
      "place_geoid": "0809280",
+     "region": "Front Range",
+     "lat": 39.953593,
+     "lng": -105.050787,
      "homes": 96,
      "sponsor": "Christian Church Homes",
      "award_orgs": [],
@@ -1748,7 +2411,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "clear-creek-08001",
@@ -1756,6 +2422,9 @@
      "city": "Denver",
      "county": "Adams County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 47,
      "sponsor": "Atrium Housing",
      "award_orgs": [],
@@ -1780,7 +2449,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "dorcey-community-housing-08101",
@@ -1788,6 +2460,9 @@
      "city": "Pueblo",
      "county": "Pueblo County",
      "place_geoid": "0862000",
+     "region": "Front Range",
+     "lat": 38.269228,
+     "lng": -104.610816,
      "homes": 61,
      "sponsor": "Posada of Pueblo, Inc",
      "award_orgs": [],
@@ -1812,7 +2487,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "evergreen-terrace-08031",
@@ -1820,6 +2498,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 76,
      "sponsor": "Chelsea Investment Corporation",
      "award_orgs": [],
@@ -1844,7 +2525,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "federal-08031",
@@ -1852,6 +2536,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 50,
      "sponsor": "Silva Development Partners",
      "award_orgs": [],
@@ -1876,7 +2563,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "flats-north-broadway-08037",
@@ -1884,6 +2574,9 @@
      "city": "Eagle",
      "county": "Eagle County",
      "place_geoid": "0822200",
+     "region": "Mountains",
+     "lat": 39.64322,
+     "lng": -106.821344,
      "homes": 138,
      "sponsor": "Elmington Capital",
      "award_orgs": [],
@@ -1908,7 +2601,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "haven-lakeside-08041",
@@ -1916,6 +2612,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 73,
      "sponsor": "Dream Centers of Colorado Springs",
      "award_orgs": [],
@@ -1940,7 +2639,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "high-point-08031",
@@ -1948,6 +2650,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 204,
      "sponsor": "Chelsea Housing Group LLC",
      "award_orgs": [],
@@ -1972,7 +2677,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "iliff-08031",
@@ -1980,6 +2688,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 115,
      "sponsor": "REDI Corporation",
      "award_orgs": [],
@@ -2004,7 +2715,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "liberty-08077",
@@ -2012,6 +2726,9 @@
      "city": "Grand Junction",
      "county": "Mesa County",
      "place_geoid": "0831660",
+     "region": "Western Slope",
+     "lat": 39.089062,
+     "lng": -108.567452,
      "homes": 72,
      "sponsor": null,
      "award_orgs": [
@@ -2032,7 +2749,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "liggins-tower-08031",
@@ -2040,6 +2760,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 73,
      "sponsor": null,
      "award_orgs": [
@@ -2060,7 +2783,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "menola-08031",
@@ -2068,6 +2794,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 67,
      "sponsor": "Menola Homes LLC",
      "award_orgs": [],
@@ -2092,7 +2821,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "monarch-gardens-08015",
@@ -2100,6 +2832,9 @@
      "city": "Poncha Springs",
      "county": "Chaffee County",
      "place_geoid": "0860600",
+     "region": "Mountains",
+     "lat": 38.521109,
+     "lng": -106.072576,
      "homes": 36,
      "sponsor": "Northwest Real Estate Capital Corp.",
      "award_orgs": [],
@@ -2124,7 +2859,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "nueva-americana-scattered-site-08031",
@@ -2132,6 +2870,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 49,
      "sponsor": "Related Companies, L.P.",
      "award_orgs": [],
@@ -2156,7 +2897,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "odyssey-weber-08041",
@@ -2164,6 +2908,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 120,
      "sponsor": null,
      "award_orgs": [
@@ -2184,7 +2931,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "paragon-place-08031",
@@ -2192,6 +2942,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 55,
      "sponsor": "Cohen-Esrey Development Group LLC",
      "award_orgs": [],
@@ -2216,7 +2969,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "1600-pearl-08031",
@@ -2224,6 +2980,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 158,
      "sponsor": null,
      "award_orgs": [
@@ -2249,7 +3008,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "ridge-broomfield-08014",
@@ -2257,6 +3019,9 @@
      "city": "Broomfield",
      "county": "Broomfield County",
      "place_geoid": "0809280",
+     "region": "Front Range",
+     "lat": 39.953593,
+     "lng": -105.050787,
      "homes": 127,
      "sponsor": "Ridge at Broomfield, LLC",
      "award_orgs": [],
@@ -2281,7 +3046,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "rose-andom-08031",
@@ -2289,6 +3057,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 80,
      "sponsor": "Hope 4 HumanIT",
      "award_orgs": [],
@@ -2313,7 +3084,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "russell-house-08031",
@@ -2321,6 +3095,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 289,
      "sponsor": null,
      "award_orgs": [
@@ -2341,7 +3118,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "sheridan-station-east-phase-2-08031",
@@ -2349,6 +3129,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 104,
      "sponsor": "Brinshore Development",
      "award_orgs": [],
@@ -2381,7 +3164,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "springdale-08075",
@@ -2389,6 +3175,9 @@
      "city": "Sterling",
      "county": "Logan County",
      "place_geoid": "0873935",
+     "region": "Eastern Plains",
+     "lat": 40.620487,
+     "lng": -103.192582,
      "homes": 30,
      "sponsor": "Anawim",
      "award_orgs": [],
@@ -2413,7 +3202,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "street-louis-landing-08049",
@@ -2421,6 +3213,9 @@
      "city": "Fraser",
      "county": "Grand County",
      "place_geoid": "0828305",
+     "region": "Mountains",
+     "lat": 39.923294,
+     "lng": -105.805268,
      "homes": 129,
      "sponsor": null,
      "award_orgs": [
@@ -2441,7 +3236,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": "st-louis-landing-building-c-fraser"
+     "deal_summary": "st-louis-landing-building-c-fraser",
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "sugarbowl-grove-08041",
@@ -2449,6 +3247,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 117,
      "sponsor": null,
      "award_orgs": [
@@ -2469,7 +3270,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "approach-08031",
@@ -2477,6 +3281,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 153,
      "sponsor": null,
      "award_orgs": [
@@ -2497,7 +3304,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "lift-08059",
@@ -2505,6 +3315,9 @@
      "city": null,
      "county": "Jefferson County",
      "place_geoid": null,
+     "region": "Front Range",
+     "lat": null,
+     "lng": null,
      "homes": 139,
      "sponsor": null,
      "award_orgs": [
@@ -2525,7 +3338,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "meadows-08081",
@@ -2533,6 +3349,9 @@
      "city": "Craig",
      "county": "Moffat County",
      "place_geoid": "0817760",
+     "region": "Western Slope",
+     "lat": 40.51706,
+     "lng": -107.555396,
      "homes": 96,
      "sponsor": null,
      "award_orgs": [
@@ -2553,7 +3372,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "terminal-08077",
@@ -2561,6 +3383,9 @@
      "city": "Grand Junction",
      "county": "Mesa County",
      "place_geoid": "0831660",
+     "region": "Western Slope",
+     "lat": 39.089062,
+     "lng": -108.567452,
      "homes": 106,
      "sponsor": null,
      "award_orgs": [
@@ -2581,7 +3406,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "trinity-08041",
@@ -2589,6 +3417,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 75,
      "sponsor": null,
      "award_orgs": [],
@@ -2607,7 +3438,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "victoria-village-building-d-08049",
@@ -2615,6 +3449,9 @@
      "city": "Fraser",
      "county": "Grand County",
      "place_geoid": "0828305",
+     "region": "Mountains",
+     "lat": 39.923294,
+     "lng": -105.805268,
      "homes": 35,
      "sponsor": "Mountain Affordable Housing Development",
      "award_orgs": [],
@@ -2639,7 +3476,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "west-64th-08001",
@@ -2647,6 +3487,9 @@
      "city": "Arvada",
      "county": "Adams County",
      "place_geoid": "0803455",
+     "region": "Front Range",
+     "lat": 39.833728,
+     "lng": -105.150306,
      "homes": 192,
      "sponsor": "Devco Preservation LLC",
      "award_orgs": [],
@@ -2671,7 +3514,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "walker-commons-08031",
@@ -2679,6 +3525,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 81,
      "sponsor": "Volker Development, Inc.",
      "award_orgs": [],
@@ -2703,7 +3552,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "westview-prairiestar-08069",
@@ -2711,6 +3563,9 @@
      "city": "Berthoud",
      "county": "Larimer County",
      "place_geoid": "0806255",
+     "region": "Front Range",
+     "lat": 40.284675,
+     "lng": -104.965515,
      "homes": 48,
      "sponsor": "WVPS Holdings, LLC",
      "award_orgs": [],
@@ -2735,7 +3590,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     }
    ]
   },
@@ -2757,6 +3615,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 115,
      "sponsor": "Northeast Denver Housing Center",
      "award_orgs": [
@@ -2793,7 +3654,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "mountain-view-08065",
@@ -2801,6 +3665,9 @@
      "city": "Leadville",
      "county": "Lake County",
      "place_geoid": "0844320",
+     "region": "Mountains",
+     "lat": 39.247277,
+     "lng": -106.29346,
      "homes": 74,
      "sponsor": null,
      "award_orgs": [
@@ -2828,7 +3695,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "121-main-08013",
@@ -2836,6 +3706,9 @@
      "city": "Longmont",
      "county": "Boulder County",
      "place_geoid": "0845970",
+     "region": "Front Range",
+     "lat": 40.168199,
+     "lng": -105.100522,
      "homes": 198,
      "sponsor": null,
      "award_orgs": [
@@ -2856,7 +3729,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "1886-hover-08013",
@@ -2864,6 +3740,9 @@
      "city": "Longmont",
      "county": "Boulder County",
      "place_geoid": "0845970",
+     "region": "Front Range",
+     "lat": 40.168199,
+     "lng": -105.100522,
      "homes": 40,
      "sponsor": "The Inn Between",
      "award_orgs": [
@@ -2907,7 +3786,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "bristow-house-08041",
@@ -2915,6 +3797,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 185,
      "sponsor": null,
      "award_orgs": [
@@ -2935,7 +3820,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "liberty-08077",
@@ -2943,6 +3831,9 @@
      "city": "Grand Junction",
      "county": "Mesa County",
      "place_geoid": "0831660",
+     "region": "Western Slope",
+     "lat": 39.089062,
+     "lng": -108.567452,
      "homes": 72,
      "sponsor": null,
      "award_orgs": [
@@ -2963,7 +3854,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "liggins-tower-08031",
@@ -2971,6 +3865,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 73,
      "sponsor": null,
      "award_orgs": [
@@ -2991,7 +3888,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "odyssey-weber-08041",
@@ -2999,6 +3899,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 120,
      "sponsor": null,
      "award_orgs": [
@@ -3019,7 +3922,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "1600-pearl-08031",
@@ -3027,6 +3933,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 158,
      "sponsor": null,
      "award_orgs": [
@@ -3052,7 +3961,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "russell-house-08031",
@@ -3060,6 +3972,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 289,
      "sponsor": null,
      "award_orgs": [
@@ -3080,7 +3995,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "street-louis-landing-08049",
@@ -3088,6 +4006,9 @@
      "city": "Fraser",
      "county": "Grand County",
      "place_geoid": "0828305",
+     "region": "Mountains",
+     "lat": 39.923294,
+     "lng": -105.805268,
      "homes": 129,
      "sponsor": null,
      "award_orgs": [
@@ -3108,7 +4029,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": "st-louis-landing-building-c-fraser"
+     "deal_summary": "st-louis-landing-building-c-fraser",
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "sugarbowl-grove-08041",
@@ -3116,6 +4040,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 117,
      "sponsor": null,
      "award_orgs": [
@@ -3136,7 +4063,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "approach-08031",
@@ -3144,6 +4074,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 153,
      "sponsor": null,
      "award_orgs": [
@@ -3164,7 +4097,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "lift-08059",
@@ -3172,6 +4108,9 @@
      "city": null,
      "county": "Jefferson County",
      "place_geoid": null,
+     "region": "Front Range",
+     "lat": null,
+     "lng": null,
      "homes": 139,
      "sponsor": null,
      "award_orgs": [
@@ -3192,7 +4131,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "meadows-08081",
@@ -3200,6 +4142,9 @@
      "city": "Craig",
      "county": "Moffat County",
      "place_geoid": "0817760",
+     "region": "Western Slope",
+     "lat": 40.51706,
+     "lng": -107.555396,
      "homes": 96,
      "sponsor": null,
      "award_orgs": [
@@ -3220,7 +4165,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "terminal-08077",
@@ -3228,6 +4176,9 @@
      "city": "Grand Junction",
      "county": "Mesa County",
      "place_geoid": "0831660",
+     "region": "Western Slope",
+     "lat": 39.089062,
+     "lng": -108.567452,
      "homes": 106,
      "sponsor": null,
      "award_orgs": [
@@ -3248,7 +4199,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "trinity-08041",
@@ -3256,6 +4210,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 75,
      "sponsor": null,
      "award_orgs": [],
@@ -3274,7 +4231,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "miner-street-08019",
@@ -3282,6 +4242,9 @@
      "city": "Idaho Springs",
      "county": "Clear Creek County",
      "place_geoid": "0838370",
+     "region": "Front Range",
+     "lat": 39.749349,
+     "lng": -105.503759,
      "homes": 65,
      "sponsor": "DW Development Group",
      "award_orgs": [
@@ -3318,7 +4281,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "mountain-vista-08059",
@@ -3326,6 +4292,9 @@
      "city": "Westminster",
      "county": "Jefferson County",
      "place_geoid": "0883835",
+     "region": "Front Range",
+     "lat": 39.880122,
+     "lng": -105.061513,
      "homes": 52,
      "sponsor": "Grand Peaks Housing Solutions",
      "award_orgs": [
@@ -3362,7 +4331,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "stables-2-08005",
@@ -3370,6 +4342,9 @@
      "city": "Aurora",
      "county": "Arapahoe County",
      "place_geoid": "0804000",
+     "region": "Front Range",
+     "lat": 39.709537,
+     "lng": -104.720509,
      "homes": 52,
      "sponsor": "Grovewood Community Development Inc.",
      "award_orgs": [
@@ -3406,7 +4381,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "canyons-affordable-08035",
@@ -3414,6 +4392,9 @@
      "city": "Castle Pines",
      "county": "Douglas County",
      "place_geoid": "0812387",
+     "region": "Front Range",
+     "lat": 39.46249,
+     "lng": -104.870584,
      "homes": 50,
      "sponsor": "BMC Investments",
      "award_orgs": [],
@@ -3460,7 +4441,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "commons-phase-2-08041",
@@ -3468,6 +4452,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 53,
      "sponsor": "Rocky Mountain Communities",
      "award_orgs": [],
@@ -3522,7 +4509,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "conifer-heights-08059",
@@ -3530,6 +4520,9 @@
      "city": "Conifer",
      "county": "Jefferson County",
      "place_geoid": null,
+     "region": "Front Range",
+     "lat": null,
+     "lng": null,
      "homes": 56,
      "sponsor": "Overland Property Group",
      "award_orgs": [],
@@ -3568,7 +4561,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "geode-flats-08077",
@@ -3576,6 +4572,9 @@
      "city": "Fruita",
      "county": "Mesa County",
      "place_geoid": "0828745",
+     "region": "Western Slope",
+     "lat": 39.155567,
+     "lng": -108.729584,
      "homes": 180,
      "sponsor": "TWG Development, LLC",
      "award_orgs": [],
@@ -3614,7 +4613,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "gibson-08031",
@@ -3622,6 +4624,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 147,
      "sponsor": "Gorman & Company, LLC",
      "award_orgs": [],
@@ -3664,7 +4669,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "harbart-house-08031",
@@ -3672,6 +4680,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 50,
      "sponsor": "Medici Development LLC",
      "award_orgs": [],
@@ -3722,7 +4733,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "legacy-terrace-08059",
@@ -3730,6 +4744,9 @@
      "city": "Wheat Ridge",
      "county": "Jefferson County",
      "place_geoid": "0884440",
+     "region": "Front Range",
+     "lat": 39.772675,
+     "lng": -105.104801,
      "homes": 50,
      "sponsor": null,
      "award_orgs": [
@@ -3757,7 +4774,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "liberty-house-08031",
@@ -3765,6 +4785,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 63,
      "sponsor": "Atlantis Community Housing",
      "award_orgs": [
@@ -3797,7 +4820,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "penrose-place-08013",
@@ -3805,6 +4831,9 @@
      "city": "Boulder",
      "county": "Boulder County",
      "place_geoid": "0807850",
+     "region": "Front Range",
+     "lat": 40.024431,
+     "lng": -105.251251,
      "homes": 113,
      "sponsor": "Boulder Housing Partners",
      "award_orgs": [],
@@ -3843,7 +4872,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "prairie-run-08107",
@@ -3851,6 +4883,9 @@
      "city": "Hayden",
      "county": "Routt County",
      "place_geoid": "0835070",
+     "region": "Mountains",
+     "lat": 40.492217,
+     "lng": -107.264325,
      "homes": 50,
      "sponsor": "Gorman & Company, LLC",
      "award_orgs": [],
@@ -3901,7 +4936,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "renaissance-civic-center-08031",
@@ -3909,6 +4947,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 216,
      "sponsor": "Colorado Coalition for the Homeless",
      "award_orgs": [],
@@ -3947,7 +4988,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "scott-street-08015",
@@ -3955,6 +4999,9 @@
      "city": "Salida",
      "county": "Chaffee County",
      "place_geoid": "0867280",
+     "region": "Mountains",
+     "lat": 38.529909,
+     "lng": -105.998018,
      "homes": 40,
      "sponsor": "Northpointe Development II Corporation",
      "award_orgs": [],
@@ -3993,7 +5040,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "waldown-08031",
@@ -4001,6 +5051,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 49,
      "sponsor": "Steele Properties Holdings V LLC",
      "award_orgs": [],
@@ -4047,7 +5100,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "1530-13th-08031",
@@ -4055,6 +5111,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 190,
      "sponsor": "Evergreen Redevelopment, LLC",
      "award_orgs": [],
@@ -4079,7 +5138,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "2455-york-08031",
@@ -4087,6 +5149,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 56,
      "sponsor": null,
      "award_orgs": [
@@ -4107,7 +5172,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "a-line-flats-08031",
@@ -4115,6 +5183,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 191,
      "sponsor": "Elmington Affordable, LLC",
      "award_orgs": [],
@@ -4139,7 +5210,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "alameda-commons-08059",
@@ -4147,6 +5221,9 @@
      "city": "Lakewood",
      "county": "Jefferson County",
      "place_geoid": "0843000",
+     "region": "Front Range",
+     "lat": 39.698939,
+     "lng": -105.117573,
      "homes": 50,
      "sponsor": "Spire Real Estate Holdings, LLC",
      "award_orgs": [],
@@ -4171,7 +5248,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "alpine-valley-08105",
@@ -4179,6 +5259,9 @@
      "city": "Monte Vista",
      "county": "Rio Grande County",
      "place_geoid": "0851635",
+     "region": "San Luis Valley",
+     "lat": 37.57854,
+     "lng": -106.149915,
      "homes": 26,
      "sponsor": null,
      "award_orgs": [
@@ -4199,7 +5282,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "blue-room-house-one-08031",
@@ -4207,6 +5293,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 54,
      "sponsor": null,
      "award_orgs": [
@@ -4227,7 +5316,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "carbondale-town-center-08045",
@@ -4235,6 +5327,9 @@
      "city": "Carbondale",
      "county": "Garfield County",
      "place_geoid": "0812045",
+     "region": "Western Slope",
+     "lat": 39.395559,
+     "lng": -107.21502,
      "homes": 39,
      "sponsor": "Artspace Projects",
      "award_orgs": [],
@@ -4259,7 +5354,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "cch-broomfield-senior-08014",
@@ -4267,6 +5365,9 @@
      "city": "Broomfield",
      "county": "Broomfield County",
      "place_geoid": "0809280",
+     "region": "Front Range",
+     "lat": 39.953593,
+     "lng": -105.050787,
      "homes": 96,
      "sponsor": "Christian Church Homes",
      "award_orgs": [],
@@ -4299,7 +5400,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "clear-creek-08001",
@@ -4307,6 +5411,9 @@
      "city": "Denver",
      "county": "Adams County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 47,
      "sponsor": "Atrium Housing",
      "award_orgs": [],
@@ -4331,7 +5438,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "dorcey-community-housing-08101",
@@ -4339,6 +5449,9 @@
      "city": "Pueblo",
      "county": "Pueblo County",
      "place_geoid": "0862000",
+     "region": "Front Range",
+     "lat": 38.269228,
+     "lng": -104.610816,
      "homes": 61,
      "sponsor": "Posada of Pueblo, Inc",
      "award_orgs": [],
@@ -4363,7 +5476,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "evans-terrace-08005",
@@ -4371,6 +5487,9 @@
      "city": "Aurora",
      "county": "Arapahoe County",
      "place_geoid": "0804000",
+     "region": "Front Range",
+     "lat": 39.709537,
+     "lng": -104.720509,
      "homes": 50,
      "sponsor": "MGL Partners",
      "award_orgs": [],
@@ -4395,7 +5514,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "evergreen-terrace-08031",
@@ -4403,6 +5525,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 76,
      "sponsor": "Chelsea Investment Corporation",
      "award_orgs": [],
@@ -4427,7 +5552,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "federal-08031",
@@ -4435,6 +5563,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 50,
      "sponsor": "Silva Development Partners",
      "award_orgs": [],
@@ -4459,7 +5590,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "flats-north-broadway-08037",
@@ -4467,6 +5601,9 @@
      "city": "Eagle",
      "county": "Eagle County",
      "place_geoid": "0822200",
+     "region": "Mountains",
+     "lat": 39.64322,
+     "lng": -106.821344,
      "homes": 138,
      "sponsor": "Elmington Capital",
      "award_orgs": [],
@@ -4491,7 +5628,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "flour-mill-08015",
@@ -4499,6 +5639,9 @@
      "city": "Salida",
      "county": "Chaffee County",
      "place_geoid": "0867280",
+     "region": "Mountains",
+     "lat": 38.529909,
+     "lng": -105.998018,
      "homes": 20,
      "sponsor": null,
      "award_orgs": [
@@ -4519,7 +5662,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "haven-lakeside-08041",
@@ -4527,6 +5673,9 @@
      "city": "Colorado Springs",
      "county": "El Paso County",
      "place_geoid": "0816000",
+     "region": "Front Range",
+     "lat": 38.867255,
+     "lng": -104.760749,
      "homes": 73,
      "sponsor": "Dream Centers of Colorado Springs",
      "award_orgs": [],
@@ -4551,7 +5700,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "hazelbrook-hub-aurora",
@@ -4559,6 +5711,9 @@
      "city": "Aurora",
      "county": null,
      "place_geoid": "0804000",
+     "region": "Front Range",
+     "lat": 39.709537,
+     "lng": -104.720509,
      "homes": 48,
      "sponsor": "ParidigmONE Inc",
      "award_orgs": [],
@@ -4583,7 +5738,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "high-point-08031",
@@ -4591,6 +5749,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 204,
      "sponsor": "Chelsea Housing Group LLC",
      "award_orgs": [],
@@ -4615,7 +5776,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "hillside-village-rehab-08107",
@@ -4623,6 +5787,9 @@
      "city": null,
      "county": "Routt County",
      "place_geoid": null,
+     "region": "Mountains",
+     "lat": null,
+     "lng": null,
      "homes": 55,
      "sponsor": null,
      "award_orgs": [
@@ -4643,7 +5810,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "idaho-springs-affordable-senior-housing-project-08019",
@@ -4651,6 +5821,9 @@
      "city": "Idaho Springs",
      "county": "Clear Creek County",
      "place_geoid": "0838370",
+     "region": "Front Range",
+     "lat": 39.749349,
+     "lng": -105.503759,
      "homes": 24,
      "sponsor": null,
      "award_orgs": [
@@ -4671,7 +5844,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "iliff-08031",
@@ -4679,6 +5855,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 115,
      "sponsor": "REDI Corporation",
      "award_orgs": [],
@@ -4703,7 +5882,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "living-tower-senior-living-08001",
@@ -4711,6 +5893,9 @@
      "city": "Aurora",
      "county": "Adams County",
      "place_geoid": "0804000",
+     "region": "Front Range",
+     "lat": 39.709537,
+     "lng": -104.720509,
      "homes": 50,
      "sponsor": "Blue Ridge Cascade",
      "award_orgs": [],
@@ -4743,7 +5928,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "lumberyard-phase-a-08097",
@@ -4751,6 +5939,9 @@
      "city": "Aspen",
      "county": "Pitkin County",
      "place_geoid": "0803620",
+     "region": "Mountains",
+     "lat": 39.195154,
+     "lng": -106.836807,
      "homes": 66,
      "sponsor": null,
      "award_orgs": [
@@ -4771,7 +5962,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "menola-08031",
@@ -4779,6 +5973,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 67,
      "sponsor": "Menola Homes LLC",
      "award_orgs": [],
@@ -4803,7 +6000,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "monarch-gardens-08015",
@@ -4811,6 +6011,9 @@
      "city": "Poncha Springs",
      "county": "Chaffee County",
      "place_geoid": "0860600",
+     "region": "Mountains",
+     "lat": 38.521109,
+     "lng": -106.072576,
      "homes": 36,
      "sponsor": "Northwest Real Estate Capital Corp.",
      "award_orgs": [],
@@ -4835,7 +6038,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "north-90-08109",
@@ -4843,6 +6049,9 @@
      "city": "Center",
      "county": "Saguache County",
      "place_geoid": "0812855",
+     "region": "San Luis Valley",
+     "lat": 37.751236,
+     "lng": -106.110564,
      "homes": 30,
      "sponsor": "Northwest Real Estate Capital Corp.",
      "award_orgs": [],
@@ -4867,7 +6076,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "nueva-americana-scattered-site-08031",
@@ -4875,6 +6087,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 49,
      "sponsor": "Related Companies, L.P.",
      "award_orgs": [],
@@ -4899,7 +6114,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "paragon-place-08031",
@@ -4907,6 +6125,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 55,
      "sponsor": "Cohen-Esrey Development Group LLC",
      "award_orgs": [],
@@ -4931,7 +6152,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "ridge-broomfield-08014",
@@ -4939,6 +6163,9 @@
      "city": "Broomfield",
      "county": "Broomfield County",
      "place_geoid": "0809280",
+     "region": "Front Range",
+     "lat": 39.953593,
+     "lng": -105.050787,
      "homes": 127,
      "sponsor": "Ridge at Broomfield, LLC",
      "award_orgs": [],
@@ -4963,7 +6190,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "rose-andom-08031",
@@ -4971,6 +6201,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 80,
      "sponsor": "Hope 4 HumanIT",
      "award_orgs": [],
@@ -4995,7 +6228,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "rox-south-place-08031",
@@ -5003,6 +6239,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 36,
      "sponsor": "Urban Peak",
      "award_orgs": [],
@@ -5027,7 +6266,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "sheridan-station-east-phase-2-08031",
@@ -5035,6 +6277,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 104,
      "sponsor": "Brinshore Development",
      "award_orgs": [],
@@ -5067,7 +6312,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "springdale-08075",
@@ -5075,6 +6323,9 @@
      "city": "Sterling",
      "county": "Logan County",
      "place_geoid": "0873935",
+     "region": "Eastern Plains",
+     "lat": 40.620487,
+     "lng": -103.192582,
      "homes": 30,
      "sponsor": "Anawim",
      "award_orgs": [],
@@ -5099,7 +6350,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "crossing-08015",
@@ -5107,6 +6361,9 @@
      "city": "Buena Vista",
      "county": "Chaffee County",
      "place_geoid": "0810105",
+     "region": "Mountains",
+     "lat": 38.831989,
+     "lng": -106.138657,
      "homes": 33,
      "sponsor": null,
      "award_orgs": [
@@ -5127,7 +6384,10 @@
       }
      ],
      "applications": [],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "victoria-village-building-d-08049",
@@ -5135,6 +6395,9 @@
      "city": "Fraser",
      "county": "Grand County",
      "place_geoid": "0828305",
+     "region": "Mountains",
+     "lat": 39.923294,
+     "lng": -105.805268,
      "homes": 35,
      "sponsor": "Mountain Affordable Housing Development",
      "award_orgs": [],
@@ -5159,7 +6422,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "vista-pointe-08014",
@@ -5167,6 +6433,9 @@
      "city": "Broomfield",
      "county": "Broomfield County",
      "place_geoid": "0809280",
+     "region": "Front Range",
+     "lat": 39.953593,
+     "lng": -105.050787,
      "homes": 55,
      "sponsor": "Broomfield Housing Alliance",
      "award_orgs": [],
@@ -5191,7 +6460,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "west-64th-08001",
@@ -5199,6 +6471,9 @@
      "city": "Arvada",
      "county": "Adams County",
      "place_geoid": "0803455",
+     "region": "Front Range",
+     "lat": 39.833728,
+     "lng": -105.150306,
      "homes": 192,
      "sponsor": "Devco Preservation LLC",
      "award_orgs": [],
@@ -5223,7 +6498,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "walker-commons-08031",
@@ -5231,6 +6509,9 @@
      "city": "Denver",
      "county": "Denver County",
      "place_geoid": "0820000",
+     "region": "Front Range",
+     "lat": 39.76185,
+     "lng": -104.881105,
      "homes": 81,
      "sponsor": "Volker Development, Inc.",
      "award_orgs": [],
@@ -5255,7 +6536,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     },
     {
      "id": "westview-prairiestar-08069",
@@ -5263,6 +6547,9 @@
      "city": "Berthoud",
      "county": "Larimer County",
      "place_geoid": "0806255",
+     "region": "Front Range",
+     "lat": 40.284675,
+     "lng": -104.965515,
      "homes": 48,
      "sponsor": "WVPS Holdings, LLC",
      "award_orgs": [],
@@ -5287,7 +6574,10 @@
        "source_url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
       }
      ],
-     "deal_summary": null
+     "deal_summary": null,
+     "first_listed": null,
+     "band_before": null,
+     "band_since": null
     }
    ]
   }

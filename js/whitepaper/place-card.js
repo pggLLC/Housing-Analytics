@@ -288,7 +288,9 @@
     ].filter(Boolean).join('. ') + '.';
 
     var h = '<div class="pc-card" id="place-card">';
-    h += '<p class="pc-head"><span class="pc-badge pc-' + esc(reading) + '">' + esc(LABEL[reading]) + '</span> ' + esc(why) + '</p>';
+    // The badge carries its definition (js/whitepaper/dev-terms.js), opened by hover or tap.
+    h += '<p class="pc-head"><abbr class="pc-badge pc-' + esc(reading) + '" data-glossary="' + esc(LABEL[reading]) + '">' + esc(LABEL[reading]) + '</abbr> ' + esc(why) + '</p>' +
+      '<p class="ib-muted">The badge is the best site\'s <abbr data-glossary="ripeness">ripeness</abbr>: how close it is to a tax credit application, from its site dossier.</p>';
     if (opts.anti) h += '<p class="ib-anti-flag"><strong>Set aside</strong> ' + esc(opts.anti.date_dropped) + ': ' + esc(opts.anti.reason) + (opts.anti.revisit_date ? ' Revisit ' + esc(opts.anti.revisit_date) + '.' : '') + '</p>';
 
     h += aboutHtml(opts.about);
@@ -314,7 +316,7 @@
       : '<p class="ib-muted">No site on file in public program records (tax credit applications and Prop 123 land banking since 2023).</p>');
 
     if (sig.length) {
-      h += '<h3>Latest signals</h3><ul class="pc-sig">' + sig.map(function (s) {
+      h += '<h3>Latest <abbr data-glossary="signal">signals</abbr></h3><ul class="pc-sig">' + sig.map(function (s) {
         return '<li><strong>' + esc(s.date) + '</strong> ' + esc(s.signal_type) + ': ' + esc(s.summary) + (/^https:\/\//.test(s.source_url || '') ? ' ' + ext('source', s.source_url) : '') + '</li>';
       }).join('') + '</ul>';
     }
