@@ -1,0 +1,612 @@
+{
+ "slug": "glenwood-gardens-glenwood-springs",
+ "name": "Glenwood Gardens (now Canyon Vista Apartments)",
+ "city": "Glenwood Springs",
+ "county": "Garfield",
+ "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+ "units": 80,
+ "researched_on": "2026-10-21",
+ "headline": "Cohen-Esrey plans Glenwood Gardens, renamed Canyon Vista Apartments, 80 all-electric income-restricted apartments for households at 20% to 80% AMI on about four acres at 51993 Highway 6 in West Glenwood Springs, with eight Garfield County Housing Authority project-based vouchers; it won 2024 Round Two federal 4% and accelerated state credits with $25.13M of CHFA bonds but had not broken ground as of October 2026.",
+ "why_it_matters": "CHFA calls it the first new-construction family development in Glenwood Springs since 2011 and the area's first with 20% AMI units, and it shows how far a mountain-town 4% deal has to stack local money: about $3.8M of city lodging-tax funds, county bond cap and a Proposition 123 loan after federal sustainability money fell away.",
+ "status": {
+  "label": "Credits awarded and land use approved; financing closing and construction start not confirmed",
+  "detail": "City Council approved the site plan and 1041 review on 2025-04-03 and a total city package of about $3.8M on 2025-12-04, when the developer said closing could come within 60 days. The state selected the project for a $1.3M Proposition 123 concessionary loan in March-April 2026. In October 2026 the Aspen Daily News reported the project still working toward breaking ground, with a three-parcel plat only preliminarily approved by the planning commission.",
+  "src": [
+   "cogs-cc-minutes-2025-04-03",
+   "pi-2025-12-09",
+   "ahff-cd-fy26-r1",
+   "pi-2026-04-13",
+   "adn-2026-10-10"
+  ]
+ },
+ "next_step": "Watch for Glenwood Springs City Council action on the Canyon Vista plat, a CHFA bond closing and a building permit.",
+ "key_numbers": [
+  {
+   "value": "80 homes, all income-restricted",
+   "meaning": "4 studios, 21 one-bedroom, 52 two-bedroom and 3 three-bedroom units at 20% to 80% AMI; half the units at or below 50% AMI; eight project-based vouchers.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$2,127,517 a year in federal 4% credit",
+   "meaning": "About $21.3M over 10 years, plus $1,800,000 of accelerated state credit.",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "value": "$25,130,000 in CHFA bonds",
+   "meaning": "CHFA is the issuer; Garfield County voted 2-1 in July 2024 to give $3.9M of its 2024 bond cap. The application planned privately placed bonds paid down to $9.9M permanent and a $7.1M taxable construction loan.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "pi-2024-07-16"
+   ]
+  },
+  {
+   "value": "About $3.8M of city money plus $1.3M Prop 123",
+   "meaning": "Glenwood Springs 2C Workforce Housing Fund forgivable loan, fee backfill and an added $785,000; plus a preliminary $1.3M Proposition 123 concessionary loan.",
+   "src": [
+    "pi-2025-12-09",
+    "ahff-cd-fy26-r1"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "51993 Highway 6, Glenwood Springs 81601, between U.S. Highway 6 and Donegan Road in West Glenwood, between the Elks Lodge and Six Canyon Apartments; nearly four acres",
+   "src": [
+    "chfa-2024-r2-award",
+    "pi-2024-07-16",
+    "pi-2025-04-06"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Name",
+   "value": "Applied as Glenwood Gardens; city approvals and later funding use the name Canyon Vista Apartments",
+   "src": [
+    "chfa-2024-r2-award",
+    "pi-2025-04-06",
+    "ahff-cd-fy26-r1"
+   ]
+  },
+  {
+   "item": "Existing site",
+   "value": "Former Glenwood Gardens plant nursery with a few aging homes and a historic 1903 greenhouse first built at Redstone Castle for John Cleveland Osgood; a nonprofit is raising money to dismantle and save it",
+   "src": [
+    "pi-2025-04-06",
+    "pi-2026-04-13"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Two residential buildings approaching 40 feet, all units elevator-served, 138 parking spaces, storage unit with every home, rooftop deck, solar array on terraced retaining walls, relocated RFTA bus stop",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "pi-2025-04-06"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric, Energy Star, solar array sized for about 80% of electric baseload, per the application",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Local approvals",
+   "value": "Major Site/Architectural Plan (Planning File 01-25) and 1041 review (Planning File 05-25): Planning and Zoning Commission 2025-03-25; City Council approved both unanimously 2025-04-03 with seven design flexibility allowances for income-restricted housing",
+   "src": [
+    "cogs-pz-agenda-2025-03-25",
+    "cogs-cc-minutes-2025-04-03",
+    "pi-2025-04-06"
+   ]
+  },
+  {
+   "item": "Affordability period",
+   "value": "40-year covenant, per developers at the April 2025 council hearing",
+   "src": [
+    "pi-2025-04-06"
+   ]
+  },
+  {
+   "item": "Rents",
+   "value": "Examples given to council range from about $358 a month for a 20% AMI studio to about $2,130 for an 80% AMI three-bedroom",
+   "src": [
+    "pi-2025-04-06",
+    "adn-2026-10-10"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "West Mountain Regional Health Alliance resident services, funded in the operating budget",
+   "src": [
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "Difficult Development Area; non-metro county priority under the QAP",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "20% AMI",
+   "units": 3
+  },
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 7
+  },
+  {
+   "level": "50% AMI",
+   "units": 23
+  },
+  {
+   "level": "70% AMI",
+   "units": 10
+  },
+  {
+   "level": "80% AMI",
+   "units": 30
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 4
+  },
+  {
+   "type": "1BR",
+   "units": 21
+  },
+  {
+   "type": "2BR",
+   "units": 52
+  },
+  {
+   "type": "3BR",
+   "units": 3
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r2-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,127,517 per year",
+   "note": "2024 Round Two.",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,800,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$25,130,000",
+   "note": "CHFA is the conduit issuer; privately placed direct-purchase bonds sized at 55% of basis, paid down to $9.9M permanent, with a $7.1M taxable construction loan, per the application. Garfield County commissioners voted 2-1 to allocate $3.9M of the county's 2024 cap.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "pi-2024-07-16"
+   ]
+  },
+  {
+   "source": "City of Glenwood Springs 2C Workforce Housing Fund",
+   "amount": "About $3,800,000 total",
+   "note": "Forgivable loan approved July 2024 (forgiven over 15 years if workforce occupancy targets are met; target raised from 20 to 40 units), $730,640 fee backfill approved 2025-09-04 (5-2), and an added $785,000 approved 2025-12-04 (7-0), released in construction tranches and secured by a subordinate deed of trust. The 2024 application cited $1.57M of approved Prop 2C funds.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "pi-2025-04-06",
+    "pi-2025-09-11",
+    "cogs-cc-minutes-2025-09-04",
+    "pi-2025-12-09"
+   ]
+  },
+  {
+   "source": "Proposition 123 Concessionary Debt (Affordable Housing Financing Fund)",
+   "amount": "$1,300,000",
+   "note": "LIHTC gap finance loan, FY25-26 Round One selection dated 2026-03-24; preliminary until the project's financial review.",
+   "src": [
+    "ahff-cd-fy26-r1",
+    "pi-2026-04-13"
+   ]
+  },
+  {
+   "source": "Project-based vouchers",
+   "amount": "8 vouchers",
+   "note": "Garfield County Housing Authority, which also offered to be special limited partner.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Other sources named",
+   "amount": "Not public",
+   "note": "The application named subordinate loans from Impact Development Fund and the Colorado Clean Energy Fund and solar and 45L credits; in December 2025 the developer also cited added state housing dollars and a Colorado Health Foundation contribution. No amounts were found.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "pi-2025-12-09"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Cohen-Esrey (Cohen-Esrey Development Group)",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Cohen-Esrey Communities LLC",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Housing authority partner",
+   "name": "Garfield County Housing Authority (vouchers; offered special limited partnership)",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "KTGY Architects",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "cogs-cc-minutes-2025-04-03"
+   ]
+  },
+  {
+   "role": "General contractor (planned)",
+   "name": "Haselden Construction",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Civil engineer, planning consultant, geotechnical",
+   "name": "SGM; Land Studio; CTL Thompson",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Resident services",
+   "name": "West Mountain Regional Health Alliance",
+   "src": [
+    "chfa-2024-r2-descriptions"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Cohen-Esrey has worked on the site since October 2022. The 2023 Round Two application proposed 131 units with 20 vouchers and $36.4M of bonds; it was not funded (inferred from the 2024 reapplication), and the 2024 version was cut to 80 units with as-of-right zoning and no variance requests.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2024-r2-narratives",
+    "pi-2024-07-16"
+   ]
+  },
+  {
+   "text": "In July 2024 Garfield County commissioners voted 2-1 to give $3.9M of county bond cap; Commissioner John Martin opposed, citing density and displacement of the gardens in West Glenwood. The project was then estimated at about $46 million.",
+   "src": [
+    "pi-2024-07-16"
+   ]
+  },
+  {
+   "text": "At the April 2025 hearing, residents tied to the Mitchell Creek water district urged delay over a 1985 agreement on city water service inside the district; the application says the developer secured water rights that removed over $500,000 in tap and water fees.",
+   "src": [
+    "pi-2025-04-06",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "Use of federal funds triggered a Section 106 historic review; the city Historic Preservation Commission was told on 2025-07-07 it would get review materials.",
+   "src": [
+    "cogs-hpc-minutes-2025-07-07"
+   ]
+  },
+  {
+   "text": "In September 2025 the developer reported a funding gap of about $3 million after expected federal sustainability money changed; the application had expected Greenhouse Gas Reduction Fund eligibility.",
+   "src": [
+    "pi-2025-09-11",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application targeted a summer 2025 groundbreaking; in April 2025 developers expected September 2025 and an 18-month build; in December 2025 they projected lease-up in 2027.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "pi-2025-04-06",
+    "pi-2025-12-09"
+   ]
+  },
+  {
+   "text": "The market study cites a 12.2% capture rate under CHFA's method and zero vacancies at LIHTC and subsidized properties in the market area.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-10",
+   "event": "Cohen-Esrey begins work on the site",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-08",
+   "event": "131-unit version applies in CHFA 2023 Round Two",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-07-16",
+   "event": "Garfield County commissioners allocate $3.9M of 2024 bond cap (2-1)",
+   "src": [
+    "pi-2024-07-16"
+   ]
+  },
+  {
+   "date": "2024-11-27",
+   "event": "CHFA announces 2024 Round Two awards, including Glenwood Gardens",
+   "src": [
+    "chfa-news-2024-11-27",
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "date": "2025-03-25",
+   "event": "Planning and Zoning Commission reviews Planning Files 01-25 and 05-25",
+   "src": [
+    "cogs-pz-agenda-2025-03-25"
+   ]
+  },
+  {
+   "date": "2025-04-03",
+   "event": "City Council unanimously approves the Major Site/Architectural Plan and 1041 review for Canyon Vista",
+   "src": [
+    "cogs-cc-minutes-2025-04-03",
+    "pi-2025-04-06"
+   ]
+  },
+  {
+   "date": "2025-09-04",
+   "event": "City Council approves $730,640 fee backfill (5-2) and defers $785,000",
+   "src": [
+    "cogs-cc-minutes-2025-09-04",
+    "pi-2025-09-11"
+   ]
+  },
+  {
+   "date": "2025-12-04",
+   "event": "City Council approves about $3.8M total city package (7-0)",
+   "src": [
+    "pi-2025-12-09"
+   ]
+  },
+  {
+   "date": "2026-03-24",
+   "event": "Selected for $1.3M Proposition 123 concessionary debt (announced publicly in April 2026)",
+   "src": [
+    "ahff-cd-fy26-r1",
+    "pi-2026-04-13"
+   ]
+  },
+  {
+   "date": "2026-10",
+   "event": "Planning and Zoning Commission gives preliminary plat approval; not yet broken ground",
+   "src": [
+    "adn-2026-10-10"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Photo of the Canyon Vista site",
+   "url": "https://www.aspendailynews.com/news/gws-affordable-rental-project-moves-forward-after-delays-a6ab29ea",
+   "kind": "photo",
+   "made_by": "Drew Shaw, Aspen Daily News",
+   "note": "Article lead photo of the former Glenwood Gardens site",
+   "src": [
+    "adn-2026-10-10"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award description lists 3 three-bedroom units out of 80, while the Post Independent reported in July 2024 that 55 of the 80 units would be three-bedroom.",
+   "src": [
+    "chfa-2024-r2-descriptions",
+    "pi-2024-07-16"
+   ]
+  },
+  {
+   "text": "The Post Independent and the application describe two residential buildings, while the Aspen Daily News describes three new buildings.",
+   "src": [
+    "pi-2025-04-06",
+    "chfa-2024-r2-narratives",
+    "adn-2026-10-10"
+   ]
+  },
+  {
+   "text": "CHFA's award lists $25,130,000 in bonds, while the Post Independent reported the project would need just over $20 million of bond capacity.",
+   "src": [
+    "chfa-2024-r2-award",
+    "pi-2024-07-16"
+   ]
+  },
+  {
+   "text": "The application says Garfield County delegated its full 2024 bond allocation to the project, while the Post Independent reported $3.9 million of the county's 2024 allocation.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "pi-2024-07-16"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether and when the CHFA bonds and tax credit equity closed; the developer projected a closing in early 2026 and no record was found.",
+  "Who owns the land and on what terms (purchase or option), and the land price.",
+  "Total development cost now, equity investor, bond purchaser and the final general contractor.",
+  "Whether Division of Housing or Colorado Health Foundation funds were formally awarded, and amounts.",
+  "No public site plan or rendering was found in a city packet; the KTGY project page did not return HTTP 200."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Federal 4% and Accelerated State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-11-26",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-descriptions",
+   "title": "2024 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (Glenwood Garden, PDF pages 60-64)",
+   "publisher": "CHFA",
+   "date": "2024-08",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (Glenwood Gardens, starting PDF page 80)",
+   "publisher": "CHFA",
+   "date": "2023-08",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-news-2024-11-27",
+   "title": "CHFA Announces 2024 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2024-11-27",
+   "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards"
+  },
+  {
+   "id": "pi-2024-07-16",
+   "title": "Garfield County Commissioners vote to move forward on Glenwood Springs affordable housing project",
+   "publisher": "Glenwood Springs Post Independent",
+   "date": "2024-07-16",
+   "url": "https://www.postindependent.com/news/garfield-county-commissioners-vote-to-move-forward-on-glenwood-springs-affordable-housing-project/"
+  },
+  {
+   "id": "cogs-pz-agenda-2025-03-25",
+   "title": "Planning and Zoning Commission agenda, March 25, 2025",
+   "publisher": "City of Glenwood Springs",
+   "date": "2025-03-25",
+   "url": "https://www.cogs.us/AgendaCenter/ViewFile/Agenda/_03252025-1969"
+  },
+  {
+   "id": "cogs-cc-minutes-2025-04-03",
+   "title": "City Council meeting minutes, April 3, 2025",
+   "publisher": "City of Glenwood Springs",
+   "date": "2025-04-03",
+   "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_04032025-1953"
+  },
+  {
+   "id": "pi-2025-04-06",
+   "title": "Glenwood Springs City Council greenlights Canyon Vista project, bringing 80 new affordable housing units to West Glenwood",
+   "publisher": "Glenwood Springs Post Independent",
+   "date": "2025-04-06",
+   "url": "https://www.postindependent.com/news/glenwood-springs-city-council-greenlights-canyon-vista-project-bringing-80-new-affordable-housing-units-to-west-glenwood/"
+  },
+  {
+   "id": "cogs-hpc-minutes-2025-07-07",
+   "title": "Historic Preservation Commission minutes, July 7, 2025",
+   "publisher": "City of Glenwood Springs",
+   "date": "2025-07-07",
+   "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_07072025-1998"
+  },
+  {
+   "id": "cogs-cc-minutes-2025-09-04",
+   "title": "City Council meeting minutes, September 4, 2025",
+   "publisher": "City of Glenwood Springs",
+   "date": "2025-09-04",
+   "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_09042025-2057"
+  },
+  {
+   "id": "pi-2025-09-11",
+   "title": "Glenwood Springs approves $730,640 in fee coverage for Canyon Vista, delays larger grant",
+   "publisher": "Glenwood Springs Post Independent",
+   "date": "2025-09-11",
+   "url": "https://www.postindependent.com/news/glenwood-springs-approves-730640-in-fee-coverage-for-canyon-vista-delays-larger-grant/"
+  },
+  {
+   "id": "pi-2025-12-09",
+   "title": "Glenwood Springs commits $3.8 million to Canyon Vista affordable housing project after extended discussion",
+   "publisher": "Glenwood Springs Post Independent",
+   "date": "2025-12-09",
+   "url": "https://www.postindependent.com/news/glenwood-springs-commits-3-8-million-to-canyon-vista-affordable-housing-project-after-extended-discussion/"
+  },
+  {
+   "id": "ahff-cd-fy26-r1",
+   "title": "FY25-26 Concessionary Debt Program Selections - Round One (Proposition 123 Affordable Housing Financing Fund)",
+   "publisher": "Colorado Affordable Housing Financing Fund (OEDIT/CHFA)",
+   "date": "2026-03-24",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/04/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-Round-One.pdf"
+  },
+  {
+   "id": "pi-2026-04-13",
+   "title": "State award gives Canyon Vista Apartments another boost in Glenwood Springs",
+   "publisher": "Glenwood Springs Post Independent",
+   "date": "2026-04-13",
+   "url": "https://www.postindependent.com/news/state-award-gives-canyon-vista-apartments-another-boost-in-glenwood-springs/"
+  },
+  {
+   "id": "adn-2026-10-10",
+   "title": "GWS affordable rental project moves forward after delays",
+   "publisher": "Aspen Daily News",
+   "date": "2026-10-10",
+   "url": "https://www.aspendailynews.com/news/gws-affordable-rental-project-moves-forward-after-delays-a6ab29ea"
+  }
+ ]
+}

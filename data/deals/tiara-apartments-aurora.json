@@ -1,0 +1,410 @@
+{
+ "slug": "tiara-apartments-aurora",
+ "name": "Tiara Apartments",
+ "city": "Aurora",
+ "county": "Adams",
+ "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+ "units": 50,
+ "researched_on": "2026-10-21",
+ "headline": "KCG Development plans to buy and rehabilitate Tiara Apartments, a 50-unit 1962 Section 8 building for adults 62 and older at 12000 E. 16th Avenue next to the Anschutz Medical Campus in Aurora, at about $140,000 per unit; it won 2024 Round Two federal 4% and accelerated state credits from CHFA, with $10.3M of CHFA bonds.",
+ "why_it_matters": "It is a preservation deal for an expiring Section 8 Moderate Rehabilitation contract that the owner had been marketing to market-rate buyers; the plan converts it through RAD to a new 20-year project-based contract, but no public record shows the purchase or rehab has happened.",
+ "status": {
+  "label": "Credits awarded; acquisition and rehab start not confirmed",
+  "detail": "CHFA reserved the credits in November 2024. The application targeted a financial closing in the first half of 2025, within 90 days of the award, followed by construction; no public record of a sale, bond closing, RAD conversion, permit or start of rehab was found.",
+  "src": [
+   "chfa-2024-r2-award",
+   "chfa-news-2024-11-27",
+   "chfa-2024-r2-narratives"
+  ]
+ },
+ "next_step": "Watch for an Adams County deed transferring 12000 E. 16th Avenue to a KCG entity, a CHFA bond closing, a HUD RAD conversion record and a City of Aurora minor site plan amendment or building permit.",
+ "key_numbers": [
+  {
+   "value": "50 homes for adults 62+, all with rental assistance",
+   "meaning": "9 studios, 23 one-bedroom and 18 two-bedroom units at 30%, 50% and 60% AMI, all covered by a HAP contract.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$877,787 a year in federal 4% credit",
+   "meaning": "About $8.8M over 10 years, plus $1,330,000 of accelerated state credit.",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "value": "$10,300,000 in CHFA bonds",
+   "meaning": "Privately placed tax-exempt construction bonds; $6.09M permanent bonds and a taxable construction loan of about $4.55M per the application.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "Over $7M of hard-cost rehab (about $140,000 per unit)",
+   "meaning": "First substantial renovation since 1983: new elevator, building systems, air conditioning, envelope, ADA and vapor mitigation, with residents temporarily relocated.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "12000 E. 16th Avenue, Aurora 80010 (Adams County)",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "A/R, OA: acquisition/rehabilitation, older adults",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "50 total, 50 low-income",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One five-story building with a single elevator, built in 1962; last renovated in 1983; never had tax credits",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Subsidy",
+   "value": "HAP contract on 100% of units under the Section 8 Moderate Rehabilitation program, expiring in 2025; to be converted through RAD to a new 20-year Project-Based Rental Assistance contract",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Residents",
+   "value": "Elderly and disabled residents; historically 100% occupied",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Location",
+   "value": "Qualified Census Tract, one block from the Fitzsimons/Anschutz Medical Campus; two bus stops within 0.1 mile, light rail about 1 mile",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Site control",
+   "value": "Purchase and sale agreement dated February 2024, conditioned on a tax credit award; seller and price not public",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Aurora Housing Authority stated its intent to be special limited partner, giving a property tax exemption (about $60,000 a year, adding about $710,000 of borrowing capacity) and a permit fee waiver worth over $25,000",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Environmental",
+   "value": "Phase I flagged a former dry cleaner on the east adjoining property; Phase II found indoor vapor levels above EPA thresholds, so a vapor mitigation system is budgeted along with asbestos and lead paint abatement",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "City approval needed",
+   "value": "A minor amendment to the site plan, which the applicant expected to fit within a 90-day closing timeline",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Market study",
+   "value": "Because rents stay 100% subsidized, the study tested households at or below 30% AMI (41.1% income eligible); surveyed affordable properties average 98.9% occupancy",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 10
+  },
+  {
+   "level": "50% AMI",
+   "units": 15
+  },
+  {
+   "level": "60% AMI",
+   "units": 25
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 9
+  },
+  {
+   "type": "1BR",
+   "units": 23
+  },
+  {
+   "type": "2BR",
+   "units": 18
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r2-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$877,787 per year",
+   "note": "2024 Round Two; same as requested.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-applicants"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,330,000",
+   "note": "The applicant asked for a waiver of the state credit applicable percentage rate; the QCT location covers what it says would otherwise be a federal equity gap of over $1.4M.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA)",
+   "amount": "$10,300,000",
+   "note": "Construction-period bonds, private placement; permanent bonds $6,090,000; taxable construction loan about $4,550,000 (application).",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Capital Magnet Fund loan (Impact Development Fund)",
+   "amount": "Not public",
+   "note": "KCG intended to apply; no award record found.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Project-Based Rental Assistance (RAD conversion)",
+   "amount": "100% of units, 20-year contract",
+   "note": "Planned.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Aurora Housing Authority partnership (tax exemption and permit fee waiver)",
+   "amount": "About $60,000 a year in property tax; over $25,000 in permit fees",
+   "note": "Per the applicant.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/developer (as CHFA prints it)",
+   "name": "KCG Development, LLC (Tiara would be its first Colorado project)",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "KCG Residential (sister company)",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "KCG Design Services",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Palace Construction",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Resident services",
+   "name": "Portfolio Resident Services",
+   "src": [
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Relocation consultant",
+   "name": "Revival Development Services",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Tax credit consultant; green consultant; environmental consultant",
+   "name": "S.B. Clark Companies; Group 14; PSI",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Special limited partner (intended)",
+   "name": "Aurora Housing Authority",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The current owner had been marketing the property to market-rate investors and developers before KCG put it under contract in February 2024, conditioned on a tax credit award; the seller's name and price are not in the public application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "Rehab scope: all 50 unit interiors (kitchens and bathrooms), roofs, windows, siding and balconies, boilers, water heaters, electrical and plumbing, new air conditioning, a full elevator replacement, partial electrification, low-flow fixtures, four units upgraded for ADA plus accessible paths, cameras, lighting and perimeter fencing, a gazebo and expanded gardens.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The temporary relocation budget is over $500,000, including hotel stays, because of the single elevator and the abatement work.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "KCG says the City of Aurora, Aurora Housing Authority, Adams County and the Colorado Division of Housing expressed support, and the city connected it with the police department's PAR program; an attorney opinion on the 10-year rule was attached to the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "KCG reports over $1 billion of acquisitions and development nationally, more than 4,300 units and over 20 tax credit projects in nine states.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1962",
+   "event": "Building constructed",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "date": "1983",
+   "event": "Last renovation of any kind",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-02",
+   "event": "KCG signs purchase and sale agreement",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-11-27",
+   "event": "CHFA announces 2024 Round Two awards, including Tiara Apartments",
+   "src": [
+    "chfa-news-2024-11-27",
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "date": "2025",
+   "event": "Existing HAP contract set to expire; financial closing targeted for the first half of 2025",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [],
+ "open_questions": [
+  "Whether KCG closed on the purchase, and the seller, price and date (Adams County records were not reachable for this review).",
+  "Whether the CHFA bonds closed and rehab started; the first-half-2025 closing target has passed with no public record.",
+  "Status of the RAD conversion and whether the expiring Moderate Rehabilitation HAP contract was extended in the meantime.",
+  "Whether the Aurora Housing Authority partnership and the Capital Magnet Fund loan were finalized.",
+  "Total development cost, equity investor and price, bond purchaser, CHFA affordability period; no public site plans or renderings were found."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Federal 4% and Accelerated State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-11-26",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-descriptions",
+   "title": "2024 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (Tiara Apartments, PDF pages 130-134)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-applicants",
+   "title": "2024 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-news-2024-11-27",
+   "title": "CHFA announces 2024 Round Two Housing Tax Credit awards",
+   "publisher": "CHFA",
+   "date": "2024-11-27",
+   "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards"
+  }
+ ]
+}

@@ -49,6 +49,8 @@ const ALLOW_LIST = new Set([
   // Same CBS 406 to CI; verified live 2026-10-21 (200 with a browser UA);
   // cited by data/deals/grove-at-cottonwood-broomfield.json.
   "https://www.cbsnews.com/colorado/news/new-neuro-diverse-affordable-housing-broomfield",
+  // cited by data/deals/harvest-hill-broomfield.json; verified live 2026-10-21.
+  "https://www.cbsnews.com/colorado/news/harvest-hill-broomfield-groundbreaking-affordable-housing/",
   'https://cdphe.colorado.gov/air-pollution/building-performance-standard-rule',
   'https://dpt.colorado.gov/property-tax-exemption-for-senior-citizens-and-veterans-with-a-disability',
   'https://federalfunds.colorado.gov/solar-for-all',

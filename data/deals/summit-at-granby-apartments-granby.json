@@ -1,0 +1,743 @@
+{
+ "slug": "summit-at-granby-apartments-granby",
+ "name": "Summit at Granby Apartments",
+ "city": "Granby",
+ "county": "Grand",
+ "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+ "units": 67,
+ "researched_on": "2026-10-21",
+ "headline": "Summit Housing Group's Summit at Granby Apartments is a 67-unit modular new-construction family project (66 income-restricted at 30% to 80% AMI plus one employee unit) on Pioneer Drive in Granby, pitched as the town's first housing tax credit development; it won 2024 Round Two federal 4% and accelerated state credits from CHFA, with $16.82M of CHFA bonds.",
+ "why_it_matters": "Nearly two years after the award the project is still in Granby's final plat and site plan review, its original modular builder is in arbitration seeking $5.7M, and the neighboring HOA is contesting dues and road terms, so practitioners should treat it as at risk of further delay.",
+ "status": {
+  "label": "Credits awarded; land bought; town approvals still pending as of May 2026; no construction start found",
+  "detail": "Summit bought the site in February 2025. The town deemed its final plat and plan application complete on 2026-04-28 and issued review comments on 2026-05-12, targeting a 2026-07-06 Planning Commission hearing and a 2026-07-28 Board of Trustees date; no record of those hearings, a building permit, a bond closing or groundbreaking was found. Sky-Hi News (March 2026) showed the site as an empty lot and reported that modular builder Fading West had been ordered to stop work and is seeking $5.7M in arbitration.",
+  "src": [
+   "granby-deed-2025-02-26",
+   "granby-unified-response-2026-05-12",
+   "skyhi-2026-03-14"
+  ]
+ },
+ "next_step": "Watch Granby Planning Commission and Board of Trustees agendas for the final plat and plan, the parking adjustment, and any HOA agreement, then a CHFA bond closing and building permit.",
+ "key_numbers": [
+  {
+   "value": "67 homes, 66 income-restricted",
+   "meaning": "6 studios, 16 one-bedroom, 37 two-bedroom and 7 three-bedroom units at 30% to 80% AMI (average 60%), plus one employee unit.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$1,505,776 a year in federal 4% credit",
+   "meaning": "About $15.1M over 10 years, plus $764,007 of accelerated state credit (the applicant had asked for $1,424,472 of state credit).",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-applicants"
+   ]
+  },
+  {
+   "value": "$16,820,000 in CHFA bonds",
+   "meaning": "Privately placed with Bellwether Enterprise per the application, which proposed $17.5M ($8.04M permanent, $9.48M short-term construction).",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$31.5M to $31.6M development budget",
+   "meaning": "About $472,000 per unit in the application, reflecting mountain construction costs.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "23 Pioneer Drive, Granby 80446 (deed also lists 15 Pioneer Drive and 12 and 16 Morris Drive); Lots 1, 2, 7 and 8, Block 4, Silvercreek West First Addition, replatted as Amended Lot 1",
+   "src": [
+    "chfa-2024-r2-award",
+    "granby-deed-2025-02-26",
+    "granby-final-plat"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "67 total, 66 low-income",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Site size and zoning",
+   "value": "About 2.93 acres; zoned HGB (Highway General Business) within Silvercreek West PDOD #5-2002, where multifamily is allowed by right",
+   "src": [
+    "granby-parking-adjustment",
+    "granby-site-plan-review-2025-07-29",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "Difficult Development Area (2024)",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Two-story modular buildings on crawlspace foundations with interior hallways, hail-resistant roof and solar for common areas; 2026 plans show a north and a west building (\"Granby Alt-Mod\" plans by EVstudio)",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "granby-parking-adjustment",
+    "granby-arch-plans-2026"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "135 spaces required; 33 proposed as compact, which needs a Board of Trustees parking adjustment",
+   "src": [
+    "granby-parking-adjustment"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "Enterprise Green Communities; all-electric design with photovoltaic system per CHFA; heat-pump washer/dryers; EV charging",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Free Granby-Winter Park bus stop about 0.4 mile away; Amtrak station under half a mile",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Fraser River Valley Housing Partnership to be special limited partner, giving property tax abatement (about $23,000 per unit in value per the applicant)",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Market study",
+   "value": "Capture rate 14.9%; zero vacancy and a waitlist at the one LIHTC property in the market area",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Environmental",
+   "value": "Phase I (March 2025 report for 15 and 23 Pioneer Drive) posted by the town; the application says the Phase I found no recognized environmental conditions",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "granby-phase1-2025"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 10
+  },
+  {
+   "level": "50% AMI",
+   "units": 11
+  },
+  {
+   "level": "60% AMI",
+   "units": 5
+  },
+  {
+   "level": "70% AMI",
+   "units": 14
+  },
+  {
+   "level": "80% AMI",
+   "units": 19
+  },
+  {
+   "level": "Employee unit",
+   "units": 1
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 6
+  },
+  {
+   "type": "1BR",
+   "units": 16
+  },
+  {
+   "type": "2BR",
+   "units": 37
+  },
+  {
+   "type": "3BR",
+   "units": 7
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r2-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,505,776 per year",
+   "note": "2024 Round Two; the application had requested $1,474,852.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-applicants"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$764,007",
+   "note": "Requested $1,424,472; the application's capital stack counted $6,296,492 of state credit equity, based on the larger request.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-applicants",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA cap and conduit issuance)",
+   "amount": "$16,820,000",
+   "note": "Private placement; Bellwether Enterprise to buy the bonds and provide construction and permanent lending (35-year amortization) per the application.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Federal tax credit equity",
+   "amount": "$12,093,811 (application)",
+   "note": "Walker & Dunlop named as equity partner.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Permanent loan",
+   "amount": "$8,042,000 (application)",
+   "note": "",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "DOLA (Colorado Division of Housing) funds",
+   "amount": "$1,650,000 (application)",
+   "note": "No award record found.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Town of Granby (fee and permit waivers)",
+   "amount": "$1,240,800 (application)",
+   "note": "Up to $18,800 per unit.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Fraser River Valley Housing Partnership",
+   "amount": "$750,000 (application)",
+   "note": "Up to $11,194 per unit.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee / owner equity; 45L credits",
+   "amount": "$1,401,718; $28,140 (application)",
+   "note": "",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/developer (as CHFA prints it)",
+   "name": "Summit Housing Group, Inc. (Missoula, Montana)",
+   "src": [
+    "chfa-2024-r2-award",
+    "granby-shoa-letter-2026-03-09"
+   ]
+  },
+  {
+   "role": "Owner entity (application)",
+   "name": "The Summit at Granby Apartments LP",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Highland Property Management, Inc. (Summit affiliate)",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Resident services",
+   "name": "Mountain Family Center",
+   "src": [
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Special limited partner (tax abatement)",
+   "name": "Fraser River Valley Housing Partnership",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Modular builder (application) and general contractor (application)",
+   "name": "Fading West (now in arbitration with Summit); CS Structures",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "skyhi-2026-03-14"
+   ]
+  },
+  {
+   "role": "Civil engineer; 2026 building designer",
+   "name": "Sunny Civil; EVstudio",
+   "src": [
+    "granby-parking-adjustment",
+    "granby-arch-plans-2026"
+   ]
+  },
+  {
+   "role": "Lender/bond buyer and equity (application)",
+   "name": "Bellwether Enterprise Real Estate Capital; Walker & Dunlop",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Other local partners",
+   "name": "Grand County Housing Authority (waitlist and voucher help); Habitat for Humanity",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "role": "Land seller",
+   "name": "JJBJ LLC",
+   "src": [
+    "granby-deed-2025-02-26"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Summit first pitched a 45-unit, 30% to 60% AMI project on two Pioneer Drive lots; Granby trustees voted support on 2023-01-24 and the Fraser River Valley Housing Partnership on 2023-01-23. It then applied for competitive 9% credits in 2023 and in 2024 Round One (50 units, 49 low-income, $1,450,000 requested) without an award, before growing to 67 units with income averaging in the 4% round.",
+   "src": [
+    "skyhi-2023-01-27",
+    "chfa-2023-r1-narratives",
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r2-narratives",
+    "skyhi-2026-03-14"
+   ]
+  },
+  {
+   "text": "The Granby Board of Trustees took up a Summit Housing Group proposal on 2024-01-09 and a Summit at Granby letter of support on 2024-08-13.",
+   "src": [
+    "granby-bot-2024"
+   ]
+  },
+  {
+   "text": "Summit bought Lots 1, 2, 7 and 8, Block 4, Silvercreek West First Addition from JJBJ LLC for $1,700,000 by warranty deed dated 2025-02-26, recorded 2025-02-28 at reception no. 2025001842.",
+   "src": [
+    "granby-deed-2025-02-26",
+    "granby-final-plat"
+   ]
+  },
+  {
+   "text": "A town site plan review dated 2025-07-29 describes 68 residential units plus an office and a community room; the civil engineer's application (dated 2025-08-06) targeted Planning Commission approval on 2025-09-09 and grading in fall 2025, which did not happen on that schedule.",
+   "src": [
+    "granby-site-plan-review-2025-07-29",
+    "granby-parking-adjustment"
+   ]
+  },
+  {
+   "text": "Fading West, the Buena Vista modular maker picked in 2023 under a $10.2M agreement, is seeking $5.7M from Summit in arbitration after Summit ordered it to stop work; 2026 building plans by EVstudio carry the title \"Granby Alt-Mod\", suggesting an alternate modular design (inferred).",
+   "src": [
+    "skyhi-2026-03-14",
+    "granby-arch-plans-2026"
+   ]
+  },
+  {
+   "text": "In a 2026-03-09 letter Summit told the Silvercreek homeowners association that its LIHTC financing cannot carry HOA dues or widening Pioneer Drive beyond 24 feet and offered about $8,000 a year toward road maintenance; the HOA's 2026-05-08 response to the town says the project lacks its architectural approval and that dues are required.",
+   "src": [
+    "granby-shoa-letter-2026-03-09",
+    "granby-hoa-response-2026-05-08"
+   ]
+  },
+  {
+   "text": "The town deemed the final plat and plan application complete on 2026-04-28; review comments came from CDOT, East Grand School District, Granby Sanitation District, the HOA, Mountain Parks Electric and Xcel Energy.",
+   "src": [
+    "granby-unified-response-2026-05-12"
+   ]
+  },
+  {
+   "text": "Summit and its affiliates report LIHTC housing in Colorado, Montana, Wyoming, South Dakota, Utah and Idaho, including Academy Place in Broomfield; the project does not serve special-needs populations and no project-based vouchers are described.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-01-24",
+   "event": "Granby trustees vote to support the then 45-unit proposal",
+   "src": [
+    "skyhi-2023-01-27"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Competitive 9% application to CHFA; not awarded",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "skyhi-2026-03-14"
+   ]
+  },
+  {
+   "date": "2024-01-09",
+   "event": "Summit Housing Group proposal on Granby Board of Trustees agenda",
+   "src": [
+    "granby-bot-2024"
+   ]
+  },
+  {
+   "date": "2024",
+   "event": "2024 Round One 9% application (50 units); not awarded",
+   "src": [
+    "chfa-2024-r1-applicants",
+    "skyhi-2026-03-14"
+   ]
+  },
+  {
+   "date": "2024-08-13",
+   "event": "Summit at Granby letter of support on Granby Board of Trustees agenda",
+   "src": [
+    "granby-bot-2024"
+   ]
+  },
+  {
+   "date": "2024-11-27",
+   "event": "CHFA announces 2024 Round Two awards, including Summit at Granby Apartments",
+   "src": [
+    "chfa-news-2024-11-27",
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "date": "2025-02-28",
+   "event": "Warranty deed recorded: Summit buys the site for $1,700,000",
+   "src": [
+    "granby-deed-2025-02-26"
+   ]
+  },
+  {
+   "date": "2025-03",
+   "event": "Construction start targeted in the application (March/spring 2025)",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2025-07-29",
+   "event": "Town site plan review of a 68-unit plan",
+   "src": [
+    "granby-site-plan-review-2025-07-29"
+   ]
+  },
+  {
+   "date": "2025-08-06",
+   "event": "Final plat and site plan applications signed",
+   "src": [
+    "granby-parking-adjustment"
+   ]
+  },
+  {
+   "date": "2026-03-09",
+   "event": "Summit letter to the Silvercreek HOA on dues and road width",
+   "src": [
+    "granby-shoa-letter-2026-03-09"
+   ]
+  },
+  {
+   "date": "2026-03-14",
+   "event": "Sky-Hi News reports Fading West arbitration claim of $5.7M",
+   "src": [
+    "skyhi-2026-03-14"
+   ]
+  },
+  {
+   "date": "2026-04-28",
+   "event": "Town deems final plat and plan application complete",
+   "src": [
+    "granby-unified-response-2026-05-12"
+   ]
+  },
+  {
+   "date": "2026-05-12",
+   "event": "Town issues unified review comments; Planning Commission targeted for 2026-07-06 and trustees for 2026-07-28",
+   "src": [
+    "granby-unified-response-2026-05-12"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Site plan (north and west buildings, parking layout)",
+   "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/Summit_at_Granby_Apt_Parking_Adjustment.pdf",
+   "kind": "site plan",
+   "made_by": "Sunny Civil, for Summit Housing Group, via Town of Granby",
+   "note": "PDF page 6",
+   "src": [
+    "granby-parking-adjustment"
+   ]
+  },
+  {
+   "title": "Final plat, Amended Lot 1, Block 4, Silvercreek West First Addition",
+   "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/Summit_at_Granby_Apt_Final_Plat.pdf",
+   "kind": "plat",
+   "made_by": "Land surveyor for Summit Housing Group, via Town of Granby",
+   "note": "PDF pages 1-3",
+   "src": [
+    "granby-final-plat"
+   ]
+  },
+  {
+   "title": "Exterior elevations and material boards",
+   "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/Summit_at_Granby_Apt_Architectural__Lighting_Plans.pdf",
+   "kind": "rendering",
+   "made_by": "EVstudio, via Town of Granby",
+   "note": "Elevations on PDF pages 5 and 10; exterior material boards on pages 6 and 11",
+   "src": [
+    "granby-arch-plans-2026"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists 67 units, the town's July 2025 site plan review describes 68 residential units, and the March 2026 Sky-Hi News story describes a 76-unit project.",
+   "src": [
+    "chfa-2024-r2-award",
+    "granby-site-plan-review-2025-07-29",
+    "skyhi-2026-03-14"
+   ]
+  },
+  {
+   "text": "CHFA, the deed and the town documents give the address as 23 Pioneer Drive, while Sky-Hi News gives 24 Pioneer Drive.",
+   "src": [
+    "chfa-2024-r2-award",
+    "granby-deed-2025-02-26",
+    "skyhi-2026-03-14"
+   ]
+  },
+  {
+   "text": "The award report lists $16,820,000 in bonds, while the application proposed $17,525,754.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "CHFA awarded $764,007 of state credit, while the applicant requested $1,424,472 and its capital stack assumed $6,296,492 of state credit equity.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-applicants",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application dates the Fraser River Valley housing needs assessment to August 2024 in one place and August 2022 in another.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the Planning Commission and trustees approved the final plat, site plan and parking adjustment in July 2026, and whether the HOA dispute was settled.",
+  "Who will build the modular units now that Fading West was stopped, and the outcome of its arbitration claim.",
+  "Whether the CHFA bonds have closed and a building permit has been issued; the March 2025 start target has long passed.",
+  "How the smaller state credit award ($764,007 versus $1.42M requested) was filled, and whether the DOLA money was awarded.",
+  "Rents, CHFA affordability period and current total development cost."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Federal 4% and Accelerated State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-11-26",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-descriptions",
+   "title": "2024 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (Summit at Granby Apartments, PDF pages 125-129)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-applicants",
+   "title": "2024 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-news-2024-11-27",
+   "title": "CHFA announces 2024 Round Two Housing Tax Credit awards",
+   "publisher": "CHFA",
+   "date": "2024-11-27",
+   "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One Narratives (The Summit at Granby Apartments, from PDF page 103)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One Narratives (The Summit at Granby Apartments)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "skyhi-2023-01-27",
+   "title": "Granby trustees give support for low-income housing project",
+   "publisher": "Sky-Hi News",
+   "date": "2023-01-27",
+   "url": "https://www.skyhinews.com/news/granby-trustees-give-support-for-low-income-housing-project/"
+  },
+  {
+   "id": "skyhi-2026-03-14",
+   "title": "Modular builder Fading West demands millions from developer of Granby project (Denver Post story)",
+   "publisher": "Sky-Hi News",
+   "date": "2026-03-14",
+   "url": "https://www.skyhinews.com/news/modular-builder-fading-west-demands-millions-from-developer-of-granby-project/"
+  },
+  {
+   "id": "granby-bot-2024",
+   "title": "2024 Board of Trustees Meetings and Minutes (agendas of 2024-01-09 and 2024-08-13)",
+   "publisher": "Town of Granby",
+   "date": "2024",
+   "url": "https://townofgranby.com/?SEC=A6EE65BE-D768-4B5B-B628-322FEDA7210F"
+  },
+  {
+   "id": "granby-deed-2025-02-26",
+   "title": "Summit at Granby Apt Warranty Deed (Grand County reception no. 2025001842)",
+   "publisher": "Town of Granby (Grand County Clerk and Recorder copy)",
+   "date": "2025-02-28",
+   "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/Summit_at_Granby_Apt_Warranty_Deed.pdf"
+  },
+  {
+   "id": "granby-final-plat",
+   "title": "Final Plat, Amended Lot 1, Block 4, Silvercreek West First Addition",
+   "publisher": "Town of Granby (applicant submittal)",
+   "date": "2025-08",
+   "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/Summit_at_Granby_Apt_Final_Plat.pdf"
+  },
+  {
+   "id": "granby-parking-adjustment",
+   "title": "Summit at Granby Apt Parking Adjustment (application, letter, site plan, title commitment)",
+   "publisher": "Town of Granby (applicant submittal)",
+   "date": "2025-08-06",
+   "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/Summit_at_Granby_Apt_Parking_Adjustment.pdf"
+  },
+  {
+   "id": "granby-site-plan-review-2025-07-29",
+   "title": "Summit Apartments Site Plan Review, Completeness Review Response Letter 1",
+   "publisher": "Town of Granby",
+   "date": "2025-07-29",
+   "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/Summit_at_Granby_Apt_Completeness_Review_Response_Letter_1.pdf"
+  },
+  {
+   "id": "granby-arch-plans-2026",
+   "title": "Summit at Granby Apt Architectural and Lighting Plans",
+   "publisher": "Town of Granby (applicant submittal, EVstudio)",
+   "date": "2026-04",
+   "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/Summit_at_Granby_Apt_Architectural__Lighting_Plans.pdf"
+  },
+  {
+   "id": "granby-unified-response-2026-05-12",
+   "title": "Unified Response: Summit Apartments Final Plat and Plan Application",
+   "publisher": "Town of Granby Community Development Department",
+   "date": "2026-05-12",
+   "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/Unified_Response_Final_Plat_and_Plan_Review_Summit_Housing.pdf"
+  },
+  {
+   "id": "granby-shoa-letter-2026-03-09",
+   "title": "Summit Housing Group letter to Silvercreek Homeowners Association re Summit at Granby Apartments",
+   "publisher": "Town of Granby (posted record)",
+   "date": "2026-03-09",
+   "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/Ltr_SHOA_03092026.pdf"
+  },
+  {
+   "id": "granby-hoa-response-2026-05-08",
+   "title": "Master Homeowners Association of Silvercreek comments on Summit at Granby Apartments (Word document)",
+   "publisher": "Town of Granby (posted record)",
+   "date": "2026-05-08",
+   "url": "https://townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/Summit_at_Granby_Apartments.docx"
+  },
+  {
+   "id": "granby-phase1-2025",
+   "title": "Report of Phase I Environmental Site Assessment, 15 and 23 Pioneer Drive, Granby",
+   "publisher": "Town of Granby (applicant submittal)",
+   "date": "2025-03-02",
+   "url": "https://www.townofgranby.com/vertical/sites/%7B89161B06-4754-446C-B6BF-16585CE8AB42%7D/uploads/25_-_Report_Phase_I_ESA_20250302_-_15_and_23_Pioneer_Dr_PLUS_Granby_CO_80449.pdf"
+  }
+ ]
+}

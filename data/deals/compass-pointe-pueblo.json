@@ -1,0 +1,470 @@
+{
+ "slug": "compass-pointe-pueblo",
+ "name": "Compass Pointe",
+ "city": "Pueblo",
+ "county": "Pueblo",
+ "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+ "units": 192,
+ "researched_on": "2026-10-21",
+ "headline": "Kittle Property Group is building Compass Pointe, 192 income-restricted one- to four-bedroom apartments in six buildings for households at 30% to 80% AMI on a 14-acre site at Oakshire Lane and Beaumont Street in Pueblo's Eastwood neighborhood; it won 2024 Round Two federal 4% and accelerated state credits with $38.5M of CHFA bonds after two earlier tries.",
+ "why_it_matters": "It is one of the largest family LIHTC deals in Pueblo in years and shows a vertically integrated national sponsor filling a non-metro gap with city HOME money, assigned city bond cap, a $2M Division of Housing loan and a housing authority tax-exemption partnership.",
+ "status": {
+  "label": "Financing closed and construction under way (inferred); completion targeted 2027",
+  "detail": "Kittle's November 2025 announcement describes the project as financed by CHFA bonds, US Bank construction loan and equity, Cedar Rapids Bank & Trust permanent loan, and city HOME and DOH loans (closing inferred), and the Pueblo Housing Authority calls its special limited partner role a 2025 milestone. On 2026-10-20 the City of Pueblo said the project is scheduled for completion in 2027, and the county assessor lists a clubhouse with year built 2026. No building permit numbers were found.",
+  "src": [
+   "kittle-news-2025-11",
+   "hacp-2025-annual-report",
+   "kxrm-2026-10-20",
+   "pueblo-assessor-0428251002"
+  ]
+ },
+ "next_step": "Watch Pueblo Regional Building Department records for certificates of occupancy and the start of lease-up in 2027.",
+ "key_numbers": [
+  {
+   "value": "192 homes, all income-restricted",
+   "meaning": "48 one-bedroom, 72 two-bedroom, 64 three-bedroom and 8 four-bedroom units, using income averaging from 30% to 80% AMI (133 units at 60%).",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$3,618,656 a year in federal 4% credit",
+   "meaning": "About $36.2M over 10 years, plus $1,800,000 of accelerated state credit.",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "value": "$38,500,000 in CHFA bonds",
+   "meaning": "CHFA is the issuer, with City of Pueblo bond cap assigned to the deal; the application expected about $22.3M of long-term bonds and a roughly $16.5M taxable tail during construction.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$2.75M in public soft loans",
+   "meaning": "A $750,000 City of Pueblo HOME loan and a $2 million Colorado Division of Housing loan, per the sponsor.",
+   "src": [
+    "kittle-news-2025-11",
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "Southwest corner of Oakshire Lane and Beaumont Street, Pueblo 81001; assessor situs 2620-2680 Oakshire Ln, Lot 1 Compass Pointe Subdivision (parcel 04-282-51-002, 14.176 acres)",
+   "src": [
+    "chfa-2024-r2-award",
+    "pueblo-assessor-0428251002"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Six residential buildings (four three-story, two two-story), a freestanding clubhouse, a maintenance building and five garage buildings with 36 garages",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Amenities",
+   "value": "Clubhouse with leasing office, pool, fitness center, business center, game room, dog park, in-unit washers and dryers",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "kittle-news-2025-11"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric; residents pay sub-metered utilities except trash; NGBS certification",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Location",
+   "value": "Eastwood neighborhood, in a Qualified Census Tract; next to a Veterans Affairs facility, a solar garden and a park; transit stop within 225 feet; Baca Elementary about 425 feet away",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Zoned correctly for the use, per the application",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "Compass Pointe LP (Indianapolis address)",
+   "src": [
+    "pueblo-assessor-0428251002"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Housing Authority of the City of Pueblo is the special limited partner; the application planned property and sales/use tax exemption through it. The assessor shows an exempt value starting in 2026",
+   "src": [
+    "kittle-news-2025-11",
+    "chfa-2024-r2-narratives",
+    "pueblo-assessor-0428251002"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Resident services from local providers, United Way and YWCA Pueblo",
+   "src": [
+    "chfa-2024-r2-descriptions"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 10
+  },
+  {
+   "level": "40% AMI",
+   "units": 6
+  },
+  {
+   "level": "50% AMI",
+   "units": 9
+  },
+  {
+   "level": "60% AMI",
+   "units": 133
+  },
+  {
+   "level": "70% AMI",
+   "units": 18
+  },
+  {
+   "level": "80% AMI",
+   "units": 16
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 48
+  },
+  {
+   "type": "2BR",
+   "units": 72
+  },
+  {
+   "type": "3BR",
+   "units": 64
+  },
+  {
+   "type": "4BR",
+   "units": 8
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r2-descriptions",
+  "chfa-2024-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,618,656 per year",
+   "note": "2024 Round Two. Equity from US Bank, per the sponsor.",
+   "src": [
+    "chfa-2024-r2-award",
+    "kittle-news-2025-11"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,800,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$38,500,000",
+   "note": "CHFA is the issuer; the City of Pueblo committed to assign its bond cap. Application expected a private placement sized at the 55% test, about $22.3M of long-term bonds and a roughly $16.5M taxable tail during construction. US Bank is the construction lender and Cedar Rapids Bank & Trust the permanent lender, per the sponsor.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "kittle-news-2025-11"
+   ]
+  },
+  {
+   "source": "City of Pueblo HOME loan",
+   "amount": "$750,000",
+   "note": "Committed by the 2023 application and confirmed in the sponsor's 2025 announcement; the city also offered fee waivers.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2024-r2-narratives",
+    "kittle-news-2025-11"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing loan",
+   "amount": "$2,000,000",
+   "note": "Per the sponsor's announcement; the 2024 application had assumed no DOH funding. No DOH award record was found.",
+   "src": [
+    "kittle-news-2025-11",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Sponsor note and deferred developer fee",
+   "amount": "Not public",
+   "note": "The application describes a significant sponsor note, lease-up income contribution and deferred fee.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Kittle Property Group",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "Compass Pointe LP",
+   "src": [
+    "pueblo-assessor-0428251002"
+   ]
+  },
+  {
+   "role": "General contractor and property manager",
+   "name": "Kittle Property Group (vertically integrated developer, manager and general contractor, per the application; its role on this deal is inferred)",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Special limited partner",
+   "name": "Housing Authority of the City of Pueblo",
+   "src": [
+    "kittle-news-2025-11",
+    "hacp-2025-annual-report"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "role": "Construction lender and equity investor; permanent lender",
+   "name": "US Bank; Cedar Rapids Bank & Trust",
+   "src": [
+    "kittle-news-2025-11"
+   ]
+  },
+  {
+   "role": "Local consultants",
+   "name": "RCH Jones Consulting (financial) and Williford LLC; Cost Engineers, Inc. reviewed costs",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Land seller",
+   "name": "Concialdi and Colalancia family members (owners since 1993)",
+   "src": [
+    "pueblo-assessor-0428251002"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Compass Pointe LP bought the vacant 14.2-acre site on 2025-06-23 for $550,000 by special warranty deed (reception 2377424) from members of the Concialdi and Colalancia families, who had owned it since 1993.",
+   "src": [
+    "pueblo-assessor-0428251002"
+   ]
+  },
+  {
+   "text": "The 2024 award was the project's third CHFA application. The 2022 Round Two version was 132 units (32 one-, 68 two-, 24 three- and 8 four-bedroom) at 30%, 50% and 60% AMI; the 2023 Round Two version added 60 units to reach the current 192-unit, six-building plan with the same income mix.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2023-r2-narratives",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application cites an 8.3% capture rate, 0% vacancy in the market area, a Pueblo Housing Authority waitlist of 2,007 applicants, and lease-up of 15 units a month with no concessions.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The Pueblo Housing Authority's director described the partnership as a way to move households who have improved their incomes out of subsidized units and free those units for families most in need, per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "Letters of support came from the Mayor, the Pueblo Housing Authority, the Chamber of Commerce and the YWCA, per the application. The Phase I found no recognized environmental conditions.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "No project-based vouchers or homeless set-aside are described.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-08",
+   "event": "First CHFA application (2022 Round Two), 132 units",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-08",
+   "event": "Second CHFA application (2023 Round Two), 192 units",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-11-27",
+   "event": "CHFA announces 2024 Round Two awards, including Compass Pointe",
+   "src": [
+    "chfa-news-2024-11-27",
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "date": "2025-06-23",
+   "event": "Compass Pointe LP buys the site for $550,000",
+   "src": [
+    "pueblo-assessor-0428251002"
+   ]
+  },
+  {
+   "date": "2025-11",
+   "event": "Kittle announces the project and its financing package",
+   "src": [
+    "kittle-news-2025-11"
+   ]
+  },
+  {
+   "date": "2026",
+   "event": "County assessor records a clubhouse with year built 2026 on the parcel (partial value)",
+   "src": [
+    "pueblo-assessor-0428251002"
+   ]
+  },
+  {
+   "date": "2026-10-20",
+   "event": "City of Pueblo says Compass Pointe is scheduled for completion in 2027",
+   "src": [
+    "kxrm-2026-10-20"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [],
+ "open_questions": [
+  "Exact bond and financing closing date, and Pueblo building permit numbers and dates.",
+  "Total development cost, equity price and the size of the sponsor note.",
+  "Amount of City of Pueblo bond cap assigned and the date of the city's inducement or assignment action.",
+  "No public site plan, plat drawing or rendering was found in a city or county packet.",
+  "Rents and the length of the CHFA and HOME affordability covenants."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Federal 4% and Accelerated State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-11-26",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-descriptions",
+   "title": "2024 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (Compass Pointe, PDF pages 41-45)",
+   "publisher": "CHFA",
+   "date": "2024-08",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (Compass Pointe, starting PDF page 48)",
+   "publisher": "CHFA",
+   "date": "2023-08",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "2022 Round Two Narratives (Compass Pointe, starting PDF page 6)",
+   "publisher": "CHFA",
+   "date": "2022-08",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "chfa-news-2024-11-27",
+   "title": "CHFA Announces 2024 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2024-11-27",
+   "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards"
+  },
+  {
+   "id": "kittle-news-2025-11",
+   "title": "Bringing Sought-After Rental Housing to Pueblo, Colorado",
+   "publisher": "Kittle Property Group",
+   "date": "2025-11",
+   "url": "https://kittleproperties.com/news/"
+  },
+  {
+   "id": "hacp-2025-annual-report",
+   "title": "Housing Authority of the City of Pueblo 2025 Annual Report",
+   "publisher": "Housing Authority of the City of Pueblo",
+   "date": "2026-07",
+   "url": "https://hapueblo.org/wp-content/uploads/2026/07/Housing-Authority-2025-Annual-Report-2.pdf"
+  },
+  {
+   "id": "pueblo-assessor-0428251002",
+   "title": "Pueblo County Assessor, parcel 04-282-51-002 (Compass Pointe LP)",
+   "publisher": "Pueblo County Assessor",
+   "date": "2026-10-21",
+   "url": "https://puebloco-search.gsacorp.io/parcel/0428251002"
+  },
+  {
+   "id": "kxrm-2026-10-20",
+   "title": "Pueblo celebrates significant housing progress",
+   "publisher": "KXRM / FOX21 News Colorado (via Yahoo News)",
+   "date": "2026-10-20",
+   "url": "https://www.yahoo.com/news/articles/pueblo-celebrates-significant-housing-progress-233653529.html"
+  }
+ ]
+}
