@@ -122,6 +122,16 @@
     }).filter(Boolean);
   }
 
+  /** What the list shows now: its count by band, under the filters in use. */
+  function summaryText(shown, total, state) {
+    var n = { High: 0, Medium: 0, Watch: 0 };
+    shown.forEach(function (i) { n[i.band]++; });
+    var bands = ['High', 'Medium', 'Watch'].filter(function (b) { return n[b]; }).map(function (b) { return n[b] + ' ' + b; });
+    return 'Showing ' + shown.length + ' of ' + total + ' deals' + (bands.length ? ': ' + bands.join(', ') : '') +
+      (state.region && state.region !== 'all' ? ', ' + state.region : ', all regions') +
+      (state.fresh === 'new' ? ', new or moved only' : '') + '.';
+  }
+
   /** The viewer's own calendar date (not UTC, which in Colorado turns over at 6 or 7 pm). */
   function localDate(d) {
     function two(n) { return (n < 10 ? '0' : '') + n; }
@@ -512,8 +522,7 @@
       if (controls) controls.innerHTML = controlsHtml(data, state) + datesHtml(r, cal, today);
       if (refocus && controls.querySelector(refocus)) controls.querySelector(refocus).focus();
       var fresh = r.items.filter(function (i) { return freshTag(i, state.asOf); }).length;
-      var summary = 'Showing ' + shown.length + ' of ' + r.items.length + ': ' +
-        r.counts.High + ' High, ' + r.counts.Medium + ' Medium, ' + r.counts.Watch + ' Watch in all regions. ' +
+      var summary = summaryText(shown, r.items.length, state) + ' ' +
         (fresh ? fresh + ' new or moved in the last ' + FRESH_DAYS + ' days.'
           : 'None new or moved in the last ' + FRESH_DAYS + ' days (tracked since ' + fmtDate(data.meta.tracking_since || state.asOf) + ').');
       // a polite live region outside the redrawn list, so a screen reader hears each filter's result
@@ -613,6 +622,12 @@
       });
     }
     el.addEventListener('click', function (e) {
+      // the Deal Tracker form uses fixed field ids, so keep one form open at a time
+      var pab = e.target.closest ? e.target.closest('.rw-pab') : null;
+      if (pab) {
+        Array.prototype.forEach.call(el.querySelectorAll('.rw-pab [data-pab-form]'), function (f) { if (!pab.contains(f)) f.remove(); });
+        return;
+      }
       var t = e.target.closest ? e.target.closest('button, th[data-sort]') : null;
       if (!t) return;
       if (t.hasAttribute('data-sort')) {
@@ -650,5 +665,5 @@
   return { esc: esc, contactsFor: contactsFor, sortItems: sortItems, rowsHtml: rowsHtml, detailHtml: detailHtml,
     tableHtml: tableHtml, visibleItems: visibleItems, firstContactCell: firstContactCell, townsFor: townsFor,
     townsNear: townsNear, townPanelHtml: townPanelHtml, controlsHtml: controlsHtml, REGIONS: REGIONS,
-    freshTag: freshTag, roundDates: roundDates, localDate: localDate, datesHtml: datesHtml, csvFor: csvFor, CAL_URL: CAL_URL, statsHtml: statsHtml, backtestHtml: backtestHtml, mount: mount, DATA_URL: DATA_URL, CONTACTS_URL: CONTACTS_URL };
+    freshTag: freshTag, roundDates: roundDates, localDate: localDate, summaryText: summaryText, datesHtml: datesHtml, csvFor: csvFor, CAL_URL: CAL_URL, statsHtml: statsHtml, backtestHtml: backtestHtml, mount: mount, DATA_URL: DATA_URL, CONTACTS_URL: CONTACTS_URL };
 });
