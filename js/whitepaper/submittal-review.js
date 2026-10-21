@@ -75,7 +75,9 @@
   // 5.B.4 points only for the general partner the line names.
   var SPONSOR_LINES = { '5B4a-nonprofit': ['nonprofit', 'pha'], '5B4b-pha': ['pha'] };
   // Lines that only exist for a rehab or an existing tax credit project.
-  var CONDITION_LINES = { '5B3c-rehab': ['rehab', 'acquisition/rehab'], '5B3d-preservation': ['existingCredit', 'existing tax credit project'] };
+  // Line id -> [deal flags, any one of which qualifies; what to tick].
+  var CONDITION_LINES = { '5B3c-rehab': [['rehab'], 'acquisition/rehab'], '5B3d-preservation': [['existingCredit', 'subsidyExpiring'], 'existing tax credit project or rental assistance within three years of expiring'] };
+  function conditionMet(id, deal) { return CONDITION_LINES[id][0].some(function (f) { return !!deal[f]; }); }
   var SPLIT_BR = ['studio', '1br', '2br', '3br', '4br'];
   var ELECTION_LABEL = { '20-50': '20-50 election', '40-60': '40-60 election', 'average-income': 'Average Income' };
   // ── Deal facts ────────────────────────────────────────────────────────────
@@ -210,7 +212,7 @@
         line.possible = null;
         if (v != null && v > 0) { line.points = v; line.status = 'counted'; line.note = 'Points entered from CHFA\'s tier list.'; }
         else line.status = 'needs entry';
-      } else if (claims[l.id] && CONDITION_LINES[l.id] && !deal[CONDITION_LINES[l.id][0]]) {
+      } else if (claims[l.id] && CONDITION_LINES[l.id] && !conditionMet(l.id, deal)) {
         line.status = 'excluded'; line.note = 'Claimed, but the deal is not marked ' + CONDITION_LINES[l.id][1] + '. Tick it or remove the claim.';
       } else if (claims[l.id] && SPONSOR_LINES[l.id] && deal.sponsor && SPONSOR_LINES[l.id].indexOf(deal.sponsor) === -1) {
         line.status = 'excluded'; line.note = 'Claimed, but the general partner is set to ' + deal.sponsor + '. Change the general partner or remove the claim.';
@@ -416,12 +418,14 @@
   }
 
   // 3.L pairs a fixed amount of standard state credit, if requested: $650,000 with the pilot, $600,000 under 3.L.1.
+  // Which one applies turns on whether pilot gap funds are available, which is not known yet, so either fixed amount
+  // is 'depends' (basis says which case it fits) and anything else is 'off'.
   function stateCreditCheck(rules, amount) {
     var cc = rules.credit_caps, fixed = cc.state_standard_with_9pct_annual;
     var alt = cc.without_pilot ? cc.without_pilot.state_standard_with_9pct_annual : fixed;
     if (amount == null || amount === 0) return { status: 'none', fixed: fixed, altFixed: alt };
-    var status = amount === fixed ? 'ok' : amount === alt ? 'depends' : 'off';
-    return { status: status, fixed: fixed, altFixed: alt, value: amount };
+    var basis = amount === fixed ? 'pilot' : amount === alt ? 'no_pilot' : null;
+    return { status: basis ? 'depends' : 'off', basis: basis, fixed: fixed, altFixed: alt, value: amount };
   }
 
   // ── Whole review and summary ──────────────────────────────────────────────
@@ -448,7 +452,9 @@
     if (th.missing) risks.push({ level: 'red', text: th.missing + ' threshold item' + (th.missing > 1 ? 's are' : ' is') + ' missing; a missing threshold item stops the application.' });
     var stateCr = stateCreditCheck(rules, num(deal.stateCredits));
     if (stateCr.status === 'off') risks.push({ level: 'red', text: 'Standard state credit ' + money(stateCr.value) + ' is not the fixed amount CHFA pairs with a 9% application: ' + money(stateCr.fixed) + ' with the 3.B.9 pilot, or ' + money(stateCr.altFixed) + ' if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
-    if (stateCr.status === 'depends') risks.push({ level: 'yellow', text: 'Standard state credit ' + money(stateCr.value) + ' is the amount under 3.L.1, which applies only if pilot gap funds are not available; with the pilot it is ' + money(stateCr.fixed) + ' (QAP 3.L, not adopted).' });
+    if (stateCr.status === 'depends') risks.push({ level: 'yellow', text: stateCr.basis === 'pilot'
+      ? 'Standard state credit ' + money(stateCr.value) + ' is the amount paired with the 3.B.9 pilot; if pilot gap funds are not available it is ' + money(stateCr.altFixed) + ' (QAP 3.L and 3.L.1, not adopted). Confirm with CHFA which applies.'
+      : 'Standard state credit ' + money(stateCr.value) + ' is the amount under 3.L.1, which applies only if pilot gap funds are not available; with the pilot it is ' + money(stateCr.fixed) + ' (QAP 3.L, not adopted). Confirm with CHFA which applies.' });
     var creditWhat = credit.other ? 'Annual federal credit ' + money(credit.value) + ' plus ' + money(credit.other) + ' in other active applications (' + money(credit.total) + ')' : 'Annual federal credit ' + money(credit.value);
     if (credit.status === 'over') risks.push({ level: 'red', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap (QAP 3.L, not adopted).' });
     if (credit.status === 'depends') risks.push({ level: 'yellow', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap that applies with the 3.B.9 gap-fund pilot but within the ' + money(credit.altCap) + ' cap if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
@@ -811,7 +817,7 @@
     var $ = function (id) { return doc.getElementById(id); };
     var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '' };
 
-    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false, otherActiveCredits: null, stateCredits: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
+    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false, subsidyExpiring: false, otherActiveCredits: null, stateCredits: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
 
     // Form → state
     function readForm() {
@@ -823,6 +829,7 @@
       d.supportive = $('sr-supportive').checked;
       d.rehab = $('sr-rehab').checked;
       d.existingCredit = $('sr-existing').checked;
+      d.subsidyExpiring = $('sr-subsidy-expiring').checked;
       var oc = num($('sr-other-credits').value); d.otherActiveCredits = oc != null && oc >= 0 ? oc : null;
       if (!v.calculator) {
         var ac = num($('sr-credits').value); d.creditRequested = ac != null && ac >= 0 ? ac : null;
@@ -852,7 +859,7 @@
       $('sr-place').value = d.place || '';
       $('sr-sponsor').value = d.sponsor || 'for-profit';
       $('sr-election').value = d.election || '40-60';
-      $('sr-supportive').checked = !!d.supportive; $('sr-rehab').checked = !!d.rehab; $('sr-existing').checked = !!d.existingCredit;
+      $('sr-supportive').checked = !!d.supportive; $('sr-rehab').checked = !!d.rehab; $('sr-existing').checked = !!d.existingCredit; $('sr-subsidy-expiring').checked = !!d.subsidyExpiring;
       $('sr-other-credits').value = d.otherActiveCredits != null ? d.otherActiveCredits : '';
       $('sr-state-credits').value = d.stateCredits != null ? d.stateCredits : '';
       var req = d.creditRequested !== undefined ? d.creditRequested : (v.calculator ? null : v.engine.annualCredits);
