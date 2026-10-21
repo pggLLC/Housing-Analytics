@@ -125,7 +125,7 @@
     var w = rules.targeting.weights, t = mixTotals(mix, election), allowed = electionRows(rules, election || '40-60');
     if (!t.restricted) return { points: 0, rows: [] };
     var rows = [{ tier: 40, units: 0 }, { tier: 50, units: 0 }, { tier: 60, units: 0 }];
-    TIERS.forEach(function (tier) {
+    tiersOf(mix).forEach(function (tier) {
       var u = num(mix[tier]) || 0;
       if (tier <= 40) rows[0].units += u; else if (tier <= 50) rows[1].units += u; else if (tier <= 60) rows[2].units += u;
     });
@@ -140,7 +140,7 @@
   // Both readings of the Third Draft's "Up to" bands; the lower one counts.
   function eliPoints(rules, mix) {
     var t = mixTotals(mix);
-    var eli = (num(mix && mix[20]) || 0) + (num(mix && mix[30]) || 0);
+    var eli = tiersOf(mix).reduce(function (s, tier) { return tier <= 30 ? s + (num(mix && mix[tier]) || 0) : s; }, 0);
     var share = t.total ? eli / t.total : 0;
     var bands = rules.eli_targeting.bands;
     var atLeast = 0, upTo = 0;
@@ -239,7 +239,7 @@
   function prop123Status(prop123, place) {
     if (!prop123 || !Array.isArray(prop123.jurisdictions)) return { status: 'unknown', text: 'DOLA\'s Prop 123 list did not load, so OEDIT eligibility is not known. Reload the page.' };
     var j = findJurisdiction(prop123, place);
-    if (!j) return { status: 'no', text: 'Not on DOLA\'s Prop 123 commitment list (as of ' + ((prop123 && prop123.updated) || 'the last refresh') + ').' };
+    if (!j) return { status: 'no', text: 'Not on DOLA\'s Prop 123 commitment list (as of ' + (prop123.updated || 'the last refresh') + ').' };
     if (j.next_cycle && j.next_cycle.submitted) {
       return { status: 'yes', name: j.name, text: j.name + ' filed its 2027-2029 Prop 123 commitment on ' + j.next_cycle.submitted + '.' };
     }

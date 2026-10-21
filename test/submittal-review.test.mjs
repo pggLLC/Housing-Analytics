@@ -199,6 +199,10 @@ ok(SR.gapLane(rules, { mix: s90.mix }, { status: 'yes', text: 'filed' }).lane ==
 ok(SR.mixTotals(s90.mix, '40-60').restricted === 40 && SR.mixTotals(s90.mix, '40-60').total === 60, '90% units are not tax credit units but count in the total');
 ok(!SR.sameDeal({ mix: { 40: 40 } }, { mix: s90.mix }), 'dropping the 90% tier makes the export stale');
 
+// Codex review on 09373d457: every imported tier scores.
+near(SR.targetingPoints(rules, { 35: 10, 60: 10 }).points, 0.5 * 92.5 + 0.5 * 50, 'a 35% tier earns the 40% row');
+ok(SR.eliPoints(rules, { 25: 10, 60: 40 }).units === 10, 'a 25% tier counts as extremely low income');
+
 // Device fallback store saves versions without overwriting.
 const mem = {}; const st = SR.makeStore(() => Promise.reject(new Error('offline')), { getItem: (k) => mem[k] || null, setItem: (k, v) => { mem[k] = v; } });
 const s1 = await st.save({ name: 'Made-up site', label: 'one', data: { a: 1 } });
