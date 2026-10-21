@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T20:41:21.301Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T23:08:35.236Z. Do not edit by hand.
 
 ---
 
@@ -91,11 +91,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1894 JSON files found.
+1927 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 936.9 KB | ✅ | — |
+| `data/_manifest.json` | 955.9 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -159,9 +159,11 @@
 | `data/deals/4340-south-monaco-denver.json` | 21.2 KB | ✅ | — |
 | `data/deals/4965-washington-street-denver.json` | 25.7 KB | ✅ | — |
 | `data/deals/901-navajo-street-denver.json` | 23.2 KB | ✅ | — |
+| `data/deals/addie-at-metro-center-aurora.json` | 10.7 KB | ✅ | — |
 | `data/deals/albion-affordable-apartments-denver.json` | 16.5 KB | ✅ | — |
 | `data/deals/annex-boulder.json` | 16.3 KB | ✅ | — |
 | `data/deals/arapahoe-psh-aurora.json` | 19.1 KB | ✅ | — |
+| `data/deals/artspace-colorado-springs.json` | 12.3 KB | ✅ | — |
 | `data/deals/ascent-at-hover-crossing-longmont.json` | 16.8 KB | ✅ | — |
 | `data/deals/ascent-at-salt-flats-grand-junction.json` | 12.3 KB | ✅ | — |
 | `data/deals/aster-place-battlement-mesa.json` | 15.2 KB | ✅ | — |
@@ -170,9 +172,12 @@
 | `data/deals/beeler-park-flats-denver.json` | 17.0 KB | ✅ | — |
 | `data/deals/belmar-groves-apartments-lakewood.json` | 11.3 KB | ✅ | — |
 | `data/deals/benedict-glenwood-springs.json` | 17.4 KB | ✅ | — |
+| `data/deals/bentley-commons-colorado-springs.json` | 17.1 KB | ✅ | — |
 | `data/deals/blossom-commons-westminster.json` | 17.0 KB | ✅ | — |
+| `data/deals/bluebird-longmont.json` | 14.7 KB | ✅ | — |
 | `data/deals/bradley-ridge-colorado-springs.json` | 19.2 KB | ✅ | — |
 | `data/deals/brigits-village-frederick.json` | 15.8 KB | ✅ | — |
+| `data/deals/brush-village-ii-brush.json` | 11.9 KB | ✅ | — |
 | `data/deals/cedar-creek-commons-montrose.json` | 13.2 KB | ✅ | — |
 | `data/deals/central-park-station-phase-i-denver.json` | 18.7 KB | ✅ | — |
 | `data/deals/chrysalis-apartments-denver.json` | 22.2 KB | ✅ | — |
@@ -189,8 +194,10 @@
 | `data/deals/diagonal-plaza-boulder.json` | 17.3 KB | ✅ | — |
 | `data/deals/eagle-villas-eagle.json` | 16.1 KB | ✅ | — |
 | `data/deals/edge-iii-loveland.json` | 19.4 KB | ✅ | — |
+| `data/deals/elevate-at-aurora-aurora.json` | 14.3 KB | ✅ | — |
 | `data/deals/elmwood-north-denver.json` | 16.8 KB | ✅ | — |
 | `data/deals/fairbrooke-heights-fort-collins.json` | 18.8 KB | ✅ | — |
+| `data/deals/fitzsimons-gateway-apartments-aurora.json` | 13.7 KB | ✅ | — |
 | `data/deals/flats-at-sand-creek-colorado-springs.json` | 20.2 KB | ✅ | — |
 | `data/deals/flocrit-decatur-place-denver.json` | 13.8 KB | ✅ | — |
 | `data/deals/gardenwalk-of-canon-city.json` | 14.9 KB | ✅ | — |
@@ -203,48 +210,71 @@
 | `data/deals/grove-at-pinewood-aurora.json` | 16.9 KB | ✅ | — |
 | `data/deals/grove-in-bloom-fort-collins.json` | 17.5 KB | ✅ | — |
 | `data/deals/harvest-hill-broomfield.json` | 15.9 KB | ✅ | — |
+| `data/deals/heartside-hill-fort-collins.json` | 12.6 KB | ✅ | — |
 | `data/deals/henninger-legacy-homes-denver.json` | 16.7 KB | ✅ | — |
 | `data/deals/hughes-station-brighton.json` | 17.7 KB | ✅ | — |
 | `data/deals/iliff-senior-apartments-denver.json` | 17.0 KB | ✅ | — |
-| `data/deals/index.json` | 43.2 KB | ✅ | — |
+| `data/deals/index.json` | 55.6 KB | ✅ | — |
+| `data/deals/irving-at-mile-high-vista-denver.json` | 13.4 KB | ✅ | — |
 | `data/deals/ives-ii-wheat-ridge.json` | 18.2 KB | ✅ | — |
+| `data/deals/ives-wheat-ridge.json` | 11.9 KB | ✅ | — |
 | `data/deals/jacoby-meadows-windsor.json` | 15.8 KB | ✅ | — |
 | `data/deals/jet-wing-flats-colorado-springs.json` | 15.1 KB | ✅ | — |
 | `data/deals/kappa-tower-iii-denver.json` | 15.7 KB | ✅ | — |
 | `data/deals/kings-crossing-aurora.json` | 14.7 KB | ✅ | — |
 | `data/deals/kite-route-crossing-superior.json` | 18.8 KB | ✅ | — |
+| `data/deals/launchpad-apartments-colorado-springs.json` | 15.1 KB | ✅ | — |
+| `data/deals/legacy-senior-residences-arvada.json` | 12.8 KB | ✅ | — |
 | `data/deals/link-and-pin-denver.json` | 14.9 KB | ✅ | — |
 | `data/deals/loretto-heights-family-apartments-denver.json` | 16.1 KB | ✅ | — |
 | `data/deals/lumberyard-apartments-aspen.json` | 26.6 KB | ✅ | — |
 | `data/deals/maiker-uplands-westminster.json` | 17.2 KB | ✅ | — |
 | `data/deals/marq-trinidad.json` | 15.4 KB | ✅ | — |
+| `data/deals/marshall-homes-arvada.json` | 13.7 KB | ✅ | — |
 | `data/deals/marshall-pointe-apartments-arvada.json` | 12.7 KB | ✅ | — |
+| `data/deals/meadowmark-castle-rock.json` | 10.9 KB | ✅ | — |
 | `data/deals/metro-center-apartments-aurora.json` | 14.7 KB | ✅ | — |
 | `data/deals/mineral-point-crested-butte.json` | 22.1 KB | ✅ | — |
 | `data/deals/montbello-townhomes-denver.json` | 17.4 KB | ✅ | — |
 | `data/deals/montview-flats-littleton.json` | 15.3 KB | ✅ | — |
 | `data/deals/montview-heights-aurora.json` | 10.4 KB | ✅ | — |
 | `data/deals/mountain-view-plaza-longmont.json` | 26.7 KB | ✅ | — |
+| `data/deals/osborn-rocky-ford.json` | 10.3 KB | ✅ | — |
+| `data/deals/overlook-at-thornton-thornton.json` | 9.4 KB | ✅ | — |
 | `data/deals/overlook-at-uplands-westminster.json` | 12.9 KB | ✅ | — |
 | `data/deals/park-avenue-apartments-denver.json` | 23.9 KB | ✅ | — |
 | `data/deals/park-place-apartments-denver.json` | 20.4 KB | ✅ | — |
 | `data/deals/parkside-apartments-longmont.json` | 26.3 KB | ✅ | — |
 | `data/deals/point-of-the-pines-villas-colorado-springs.json` | 12.9 KB | ✅ | — |
 | `data/deals/ponderosa-pines-parker.json` | 16.5 KB | ✅ | — |
+| `data/deals/puwagaan-kaan-cortez.json` | 12.6 KB | ✅ | — |
+| `data/deals/rally-apartments-boulder.json` | 13.5 KB | ✅ | — |
 | `data/deals/range-view-saguache.json` | 17.7 KB | ✅ | — |
 | `data/deals/ravenfield-brighton.json` | 13.9 KB | ✅ | — |
 | `data/deals/rendezvous-montrose.json` | 15.8 KB | ✅ | — |
 | `data/deals/reserve-at-south-creek-englewood.json` | 17.4 KB | ✅ | — |
+| `data/deals/reserves-at-eagle-point-aurora.json` | 13.3 KB | ✅ | — |
 | `data/deals/residences-at-delta-ii-delta.json` | 15.3 KB | ✅ | — |
+| `data/deals/residences-at-dry-cedar-creek-montrose.json` | 13.8 KB | ✅ | — |
+| `data/deals/residences-at-durango-durango.json` | 13.6 KB | ✅ | — |
 | `data/deals/residences-at-willow-park-aurora.json` | 11.2 KB | ✅ | — |
+| `data/deals/residences-on-acoma-denver.json` | 14.3 KB | ✅ | — |
+| `data/deals/retreat-at-brighton-ridge-homes-brighton.json` | 11.7 KB | ✅ | — |
+| `data/deals/ridgegate-senior-lone-tree.json` | 14.9 KB | ✅ | — |
 | `data/deals/rifle-apartments-rifle.json` | 17.4 KB | ✅ | — |
 | `data/deals/rita-bass-apartments-denver.json` | 20.1 KB | ✅ | — |
 | `data/deals/royal-pine-apartments-colorado-springs.json` | 14.7 KB | ✅ | — |
+| `data/deals/sable-station-aurora.json` | 11.8 KB | ✅ | — |
 | `data/deals/sanctuary-on-potomac-aurora.json` | 17.5 KB | ✅ | — |
 | `data/deals/silver-key-apartments-colorado-springs.json` | 21.7 KB | ✅ | — |
+| `data/deals/silver-key-senior-apartments-colorado-springs.json` | 12.4 KB | ✅ | — |
+| `data/deals/smith-ranch-apartments-silverthorne.json` | 14.0 KB | ✅ | — |
 | `data/deals/sophia-englewood.json` | 9.2 KB | ✅ | — |
+| `data/deals/sp-crossing-commerce-city.json` | 12.4 KB | ✅ | — |
+| `data/deals/spine-road-apartments-boulder.json` | 11.1 KB | ✅ | — |
 | `data/deals/squire-village-northglenn.json` | 13.8 KB | ✅ | — |
 | `data/deals/st-louis-landing-building-c-fraser.json` | 18.6 KB | ✅ | — |
+| `data/deals/st-stephen-apartments-denver.json` | 13.1 KB | ✅ | — |
 | `data/deals/stables-aurora.json` | 16.5 KB | ✅ | — |
 | `data/deals/starrise-at-north-weld-village-greeley.json` | 20.4 KB | ✅ | — |
 | `data/deals/sugar-commons-sterling.json` | 18.8 KB | ✅ | — |
@@ -262,10 +292,13 @@
 | `data/deals/village-at-homewood-point-phase-ii-colorado-springs.json` | 13.3 KB | ✅ | — |
 | `data/deals/village-on-eastbrook-fort-collins.json` | 22.2 KB | ✅ | — |
 | `data/deals/vina-senior-residences-denver.json` | 19.2 KB | ✅ | — |
+| `data/deals/warren-village-iii-denver.json` | 12.2 KB | ✅ | — |
 | `data/deals/weatherstone-apartments-aurora.json` | 12.7 KB | ✅ | — |
 | `data/deals/wildflower-flats-fort-lupton.json` | 16.7 KB | ✅ | — |
 | `data/deals/williams-pointe-lakewood.json` | 18.6 KB | ✅ | — |
 | `data/deals/willoughby-corner-phase-2-lafayette.json` | 18.0 KB | ✅ | — |
+| `data/deals/willoughby-corner-phase-ia-senior-lafayette.json` | 15.0 KB | ✅ | — |
+| `data/deals/willoughby-corner-phase-ib-family-lafayette.json` | 15.4 KB | ✅ | — |
 | `data/deals/windtrail-park-fort-collins.json` | 19.6 KB | ✅ | — |
 | `data/derived/funding-vs-need.json` | 91.3 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
@@ -1793,7 +1826,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 11.0 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 236.9 KB | ✅ | — |
+| `data/manifest.json` | 240.6 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
