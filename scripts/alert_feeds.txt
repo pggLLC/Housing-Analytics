@@ -22,6 +22,17 @@ https://news.google.com/rss/search?q=DOLA+grant+housing+colorado&hl=en-US&gl=US&
 # ── NCSHA: National Council of State Housing Agencies ──
 https://www.ncsha.org/feed/
 
+# ── Google News: national housing trends, listed outlets only ──
+# Added 2026-10-20 (paul): "only very strong researched national
+# trends with very reputable sources". Each search is limited to
+# these sites; scripts/generate_policy_briefs.py keeps only
+# housing-trend headlines from them (NATIONAL_SOURCE_RE) and shows
+# them in the National trends panel, not in the Colorado news.
+https://news.google.com/rss/search?q=housing+%28site%3Awsj.com+OR+site%3Anytimes.com+OR+site%3Abloomberg.com+OR+site%3Areuters.com+OR+site%3Aapnews.com+OR+site%3Awashingtonpost.com+OR+site%3Aft.com+OR+site%3Aeconomist.com+OR+site%3Anpr.org%29&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%28homebuilders+OR+%22home+builders%22+OR+construction%29+%28site%3Awsj.com+OR+site%3Anytimes.com+OR+site%3Abloomberg.com+OR+site%3Areuters.com+OR+site%3Aapnews.com+OR+site%3Awashingtonpost.com+OR+site%3Aft.com+OR+site%3Aeconomist.com+OR+site%3Anpr.org%29&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=%28mortgage+OR+%22home+prices%22+OR+%22home+sales%22%29+%28site%3Awsj.com+OR+site%3Anytimes.com+OR+site%3Abloomberg.com+OR+site%3Areuters.com+OR+site%3Aapnews.com+OR+site%3Awashingtonpost.com+OR+site%3Aft.com+OR+site%3Aeconomist.com+OR+site%3Anpr.org%29&hl=en-US&gl=US&ceid=US:en
+https://news.google.com/rss/search?q=housing+%28site%3Ajchs.harvard.edu+OR+site%3Aurban.org+OR+site%3Abrookings.edu+OR+site%3Aternercenter.berkeley.edu+OR+site%3Apewtrusts.org+OR+site%3Aeyeonhousing.org+OR+site%3Afreddiemac.com+OR+site%3Anlihc.org%29&hl=en-US&gl=US&ceid=US:en
+
 # Removed 2026-06-10 (F253): novoco.com/rss.xml,
 # hudexchange.info/feed/, leg.colorado.gov/rss.xml all return
 # 404. The Google News queries above cover the same topical
