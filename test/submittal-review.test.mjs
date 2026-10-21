@@ -282,4 +282,10 @@ ok(SR.prop123Status(noReg, 'Town of Aguilar').status === 'unmatched', 'without t
 const normExp = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?rate-9=0.09', outputs: {}, inputs: { units: '10', 'units-40': '-5', 'units-60': '2.9' } });
 ok(!normExp.mix[40] && normExp.mix[60] === 2 && normExp.mix.market === 8, 'calculator tier counts are normalized like the engine');
 
+// Codex review on e11845a22: the 20% band is stressed too.
+const b20 = SR.bumpOneUnit({ 20: 30, 60: 70 });
+ok(b20 && b20.from === 20 && b20.to === 30, 'the AMI stress moves a 20% unit when it is the only tier under 60%');
+const as20 = SR.amiStress(rules, prop123, { deal: { mix: { 20: 30, 60: 70 }, place: filed.name }, claims: {} });
+ok(as20 && as20.laneBefore === 'DOH' && as20.laneAfter === 'OEDIT' && /lane flips/.test(as20.fails), 'a 20% bump that crosses 48% shows the lane flip');
+
 console.log(`submittal-review: ${checks} checks passed`);

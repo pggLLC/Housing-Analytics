@@ -340,10 +340,10 @@
     return out;
   }
 
-  // One unit moved up to the next band (from the highest tier from 30% to under 60%, imported tiers included), for the AMI stress test.
+  // One unit moved up to the next band (from the highest occupied tier under 60%, imported tiers included), for the AMI stress test.
   function bumpOneUnit(mix) {
     var out = {}; Object.keys(mix || {}).forEach(function (k) { out[k] = mix[k]; });
-    var cands = tiersOf(out).filter(function (t) { return t >= 30 && t < 60 && (num(out[t]) || 0) > 0; });
+    var cands = tiersOf(out).filter(function (t) { return t < 60 && (num(out[t]) || 0) > 0; });
     if (!cands.length) return null;
     var f = cands[cands.length - 1], next = TIERS.filter(function (t) { return t > f; })[0];
     out[f] = (num(out[f]) || 0) - 1; out[next] = (num(out[next]) || 0) + 1;
