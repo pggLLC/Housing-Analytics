@@ -263,9 +263,9 @@
     if (!c) return '<span class="rw-muted">None found yet</span>';
     var who = c.name ? esc(c.name) + (c.role ? ', ' + esc(c.role) : '') + '<br><span class="rw-muted">' + esc(c.org || '') + '</span>'
       : esc(c.org || '') + ' <span class="rw-muted">(main office)</span>';
-    var reach = c.phone ? '<a href="tel:' + esc(String(c.phone).replace(/[^0-9+]/g, '')) + '">' + esc(c.phone) + '</a>'
-      : c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>'
-        : safeUrl(c.url) ? '<a href="' + esc(c.url) + '" target="_blank" rel="noopener">Website</a>' : '';
+    var reach = c.phone ? '<a class="rw-reach" href="tel:' + esc(String(c.phone).replace(/[^0-9+]/g, '')) + '">' + esc(c.phone) + '</a>'
+      : c.email ? '<a class="rw-reach" href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>'
+        : safeUrl(c.url) ? '<a class="rw-reach" href="' + esc(c.url) + '" target="_blank" rel="noopener">Website</a>' : '';
     return who + (reach ? '<br>' + reach : '');
   }
 

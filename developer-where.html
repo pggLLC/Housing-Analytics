@@ -215,7 +215,8 @@
 
   <!-- With a region chosen: every town and county in it, ranked by housing need,
        since the shortlist above covers only the places with a policy record. -->
-  <section id="regionNeed" class="ib-region" hidden aria-live="polite"></section>
+  <p id="regionNeedStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+  <section id="regionNeed" class="ib-region" hidden></section>
 
   <!-- Prop 123 land banking awards. Kept below the shortlist so the shortlist stays the
        first answer. The public version, without named contacts, is land-banking-awards.html. -->
@@ -447,7 +448,9 @@
 
     function renderRegionNeed(region, onList) {
       const box = document.getElementById('regionNeed');
-      if (region === 'any') { box.hidden = true; box.innerHTML = ''; return; }
+      // A short status is announced; the table itself stays out of the live region.
+      const status = document.getElementById('regionNeedStatus');
+      if (region === 'any') { box.hidden = true; box.innerHTML = ''; status.textContent = ''; return; }
       box.hidden = false;
       box.innerHTML = '<p>Loading every place in ' + esc(region) + '…</p>';
       loadRanking().then(idx => {
@@ -458,6 +461,7 @@
         const counties = ((idx && idx.rankings) || []).filter(r => r.region === region && r.type === 'county');
         const names = {};
         counties.forEach(c => { names[c.geoid] = c.name; });
+        status.textContent = rows.length ? region + ': ' + rows.length + ' places ranked by housing need, below the shortlist.' : region + ': the housing needs ranking could not be loaded.';
         box.innerHTML = '<h2>' + esc(region) + ': every town ranked by housing need</h2>' +
           '<p>' + (onList ? onList + ' place' + (onList === 1 ? ' is' : 's are') + ' on the shortlist above. '
             : 'No place in ' + esc(region) + ' makes the shortlist above under these settings (it covers only places with a policy record). ') +
