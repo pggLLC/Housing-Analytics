@@ -13,6 +13,11 @@
  * all at 100% the model reproduces SDO's population by age, and its household
  * forecast. A scenario multiplies one or more of those three.
  *
+ * Migration can instead follow the ten years before the forecast
+ * (migration_from: 'past'): the same residual by age from SDO's estimates,
+ * averaged, each year in place of SDO's forecast migration, and the
+ * percentage then multiplies that.
+ *
  * Households: SDO's households by age of householder, as a rate on people of
  * that age in each year, applied to the scenario's people of that age.
  *
@@ -73,7 +78,8 @@
   /**
    * Project one county from its baseline file.
    * @param {Object} baseline - data/hna/scenario-baseline/<county>.json
-   * @param {Object} [params] - {births_pct, deaths_pct, migration_pct}; 100 = SDO's forecast
+   * @param {Object} [params] - {births_pct, deaths_pct, migration_pct}; 100 = SDO's forecast;
+   *   migration_from 'past' runs the baseline's past migration by age instead
    * @returns {Array<{year, population, households, births, deaths, migration}>}
    *   one row per year from baseYear to endYear; the base year has no flows.
    */
@@ -84,6 +90,8 @@
     const deathsMult = _pct(p.deaths_pct, 1);
     const migMult = _pct(p.migration_pct, 1);
     const steps = baseline.steps;
+    const past = p.migration_from === 'past' ? _pastProfile(baseline) : null;
+    if (p.migration_from === 'past' && !past) return [];
     const groups = baseline.households.groups;
     const hhRates = baseline.households.ratesByYear;
 
@@ -97,8 +105,8 @@
     }];
     for (let i = 0; i < steps.deathScale.length; i++) {
       const s = _step(pm, pf, baseline.rates, steps.deathScale[i], steps.birthScale[i], deathsMult, birthsMult);
-      const mm = steps.migrationMale[i];
-      const mf = steps.migrationFemale[i];
+      const mm = past ? past.male : steps.migrationMale[i];
+      const mf = past ? past.female : steps.migrationFemale[i];
       // Above 100%, SDO's net departures at an age can exceed the people of
       // that age; no more than everyone can leave, so a cohort stops at zero.
       let migration = 0;
@@ -155,6 +163,27 @@
     return total / n;
   }
 
+  // The baseline's average migration by age over the years before the
+  // forecast, or null when the file has none (an earlier build).
+  function _pastProfile(baseline) {
+    const past = baseline && baseline.pastMigration;
+    if (!past || !Array.isArray(past.male) || !Array.isArray(past.female) ||
+        past.male.length !== N_AGES || past.female.length !== N_AGES || !Array.isArray(past.years) || !past.years.length) return null;
+    return past;
+  }
+
+  /**
+   * Net migration a year the model carries at 100% with migration_from
+   * 'past': SDO's estimates for the years before the forecast, averaged.
+   * Null when the baseline has none.
+   * @returns {{annual: number, from: number, to: number}|null}
+   */
+  function pastMigration(baseline) {
+    const past = _pastProfile(baseline);
+    if (!past) return null;
+    return { annual: _sum(past.male) + _sum(past.female), from: past.years[0], to: past.years[past.years.length - 1] };
+  }
+
   /**
    * Parameters from a saved scenario. Scenarios saved before 2026-10-20 held
    * multipliers and a flat number of migrants a year, the same for every place.
@@ -170,12 +199,14 @@
   function paramsFromSaved(saved, sdoAnnualMigration) {
     const s = saved || {};
     if (s.migration_pct != null || s.births_pct != null || s.deaths_pct != null) {
-      return {
+      const out = {
         births_pct: _inRange('births_pct', _given(s.births_pct)),
         deaths_pct: _inRange('deaths_pct', _given(s.deaths_pct)),
         migration_pct: _inRange('migration_pct', _given(s.migration_pct)),
         migrationNote: null,
       };
+      if (s.migration_from === 'past') out.migration_from = 'past';
+      return out;
     }
     const fert = _given(s.fertility_multiplier);
     const mort = _given(s.mortality_multiplier);
@@ -258,6 +289,7 @@
     project: project,
     changeFromSdo: changeFromSdo,
     averageAnnualMigration: averageAnnualMigration,
+    pastMigration: pastMigration,
     paramsFromSaved: paramsFromSaved,
     countiesFor: countiesFor,
     DEFAULT_PARAMS: Object.freeze(Object.assign({}, DEFAULT_PARAMS)),

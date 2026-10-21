@@ -78,6 +78,17 @@ Each slider is a percentage of SDO's forecast for the place loaded, so a setting
 
 Migration scales SDO's net migration at every age. Where the people SDO has arriving form fewer households than those leaving (a college town's students and graduates), less migration means more homes; the page says so when it happens.
 
+### Migration from the years before the forecast
+
+Above the migration slider, the reader can choose what 100% means: SDO's forecast, or the ten years before it as SDO estimated them. The second carries recent migration forward, the usual alternative to a forecast's own migration assumption (Smith, Tayman and Swanson, 2013).
+
+- `scripts/hna/build_scenario_baseline.py` takes SDO's estimated population by age and sex for each of those years, with its estimated births and deaths. It applies the same residual as for the forecast years: next year's population by age, less survivors and newborns, with Colorado's rates scaled to SDO's totals.
+- The residuals are averaged into one year of net migration by age and sex (`pastMigration` in each county's baseline file). It adds up to SDO's estimated net migration for those years, to within a few people a year; the script stops if it does not.
+- With this choice, every forecast year gets that same migration by age, times the slider's percentage. Births and deaths still follow SDO's forecast, and so do household rates.
+- A town takes its county's past at the same share as its forecast.
+
+This differs from setting the slider to the past's share of SDO's forecast. In many counties SDO's forecast net migration is near zero, or runs the other way from the past, so no percentage of it can reproduce the past. In Vintage 2024 that includes Eagle County and several farm counties.
+
 ### The shaded range: how far past forecasts missed
 
 The chart shades where two in three past forecasts for a place of the loaded size landed, around SDO's line. It is the standard empirical way to size a forecast's error (Smith, Tayman and Swanson, *A Practitioner's Guide to State and Local Population Projections*, 2013, ch. 13; Rayer, "Population Forecast Errors: A Primer for Planners," *Journal of Planning Education and Research* 27, 2008). `scripts/hna/build_forecast_error.py` writes `data/hna/forecast-error.json` in four steps:

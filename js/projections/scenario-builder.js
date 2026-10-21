@@ -363,6 +363,21 @@
     return total * (Number.isFinite(_ctx.share) ? _ctx.share : 1);
   }
 
+  // The same for the years before SDO's forecast, at the same share, and those
+  // years; null when a county's file has none.
+  function _pastMigration() {
+    if (!_ctx || !_ctx.counties) return null;
+    let total = 0;
+    let span = null;
+    for (const c of _ctx.counties) {
+      const past = window.CohortComponentModel.pastMigration(c.baseline);
+      if (!past) return null;
+      total += past.annual;
+      span = span || past;
+    }
+    return { annual: total * (Number.isFinite(_ctx.share) ? _ctx.share : 1), from: span.from, to: span.to };
+  }
+
   // ---------------------------------------------------------------------------
   // Init
   // ---------------------------------------------------------------------------
@@ -378,6 +393,7 @@
     // one click does not fire once per earlier load.
     if (!_bound) {
       _bindSliders();
+      _bindMigrationFrom();
       _bindScenarioButtons();
       _bindSaveLoad();
       _listenI18n();
@@ -442,6 +458,23 @@
     });
   }
 
+  // Which migration the percentage scales: SDO's forecast, or the years
+  // before it ('past'), when the loaded place's files have them.
+  function _migrationFrom() {
+    const el = document.querySelector('input[name="sbMigrationFrom"][value="past"]');
+    return el && el.checked && !el.disabled ? 'past' : 'sdo';
+  }
+
+  function _bindMigrationFrom() {
+    document.querySelectorAll('input[name="sbMigrationFrom"]').forEach(el => {
+      el.addEventListener('change', () => {
+        _clearActiveBtn();
+        _updateMigrationHelp();
+        _runCustom();
+      });
+    });
+  }
+
   function _getSliderParams() {
     const out = {};
     SLIDERS.forEach(function (def) {
@@ -449,6 +482,7 @@
       const v = el ? Number(el.value) : NaN;
       out[def.key] = Number.isFinite(v) ? v : 100;
     });
+    if (_migrationFrom() === 'past') out.migration_from = 'past';
     return out;
   }
 
@@ -461,23 +495,63 @@
       if (el) el.value = value;
       if (display) display.textContent = value.toFixed(0) + '%';
     });
+    const from = params.migration_from === 'past' ? 'past' : 'sdo';
+    const radio = document.querySelector('input[name="sbMigrationFrom"][value="' + from + '"]');
+    if (radio && !radio.disabled) radio.checked = true;
+    else _checkSdo();
+    _updateMigrationHelp();
   }
 
-  // SDO's own migration figure beside the slider, so the percentage means a
-  // number of people for the place loaded.
+  function _checkSdo() {
+    const sdo = document.querySelector('input[name="sbMigrationFrom"][value="sdo"]');
+    if (sdo) sdo.checked = true;
+  }
+
+  // What 100% means for the place loaded, in people a year: SDO's forecast,
+  // and the years before it, whichever the percentage scales first.
   function _updateMigrationHelp() {
     const el = document.getElementById('sbMigrationSdo');
+    const basis = document.getElementById('sbMigrationBasis');
+    const pastRadio = document.querySelector('input[name="sbMigrationFrom"][value="past"]');
+    const pastLabel = document.getElementById('sbMigrationFromPast');
+    const past = _geography ? _pastMigration() : null;
+    if (pastRadio) {
+      pastRadio.disabled = !past;
+      if (!past && pastRadio.checked) _checkSdo();
+    }
+    const span = past ? past.from + '\u2013' + past.to : null;
+    if (pastLabel && span) pastLabel.textContent = span + ', as SDO estimated it';
+    const fromPast = _migrationFrom() === 'past';
+    const slider = document.getElementById('sbMigrationPct');
+    if (slider) {
+      slider.setAttribute('aria-label', 'People moving in minus people moving out, as a percentage of ' +
+        (fromPast ? 'the ' + span + ' average' : 'SDO\u2019s forecast'));
+    }
+    if (basis) {
+      basis.textContent = fromPast
+        ? '100% = the ' + span + ' average, by age, from SDO\u2019s estimates.'
+        : '100% = SDO\'s forecast of people moving in minus people moving out.';
+    }
     if (!el) return;
     const avg = _sdoAnnualMigration();
     if (avg == null || !_geography) {
       el.textContent = '';
       return;
     }
-    const n = Math.round(Math.abs(avg)).toLocaleString('en-US');
+    const count = (v) => 'about ' + Math.round(Math.abs(v)).toLocaleString('en-US');
     const where = _geography.displayName || 'this place';
-    el.textContent = avg >= 0
-      ? 'SDO’s forecast for ' + where + ': about ' + n + ' more people arrive than leave each year.'
-      : 'SDO’s forecast for ' + where + ': about ' + n + ' more people leave than arrive each year, so a higher percentage means more leave.';
+    const atShare = _ctx && !_ctx.isCounty ? ', at the same share of the county\u2019s estimates' : '';
+    const sdoText = avg >= 0
+      ? 'SDO’s forecast for ' + where + ': ' + count(avg) + ' more people arrive than leave each year'
+      : 'SDO’s forecast for ' + where + ': ' + count(avg) + ' more people leave than arrive each year';
+    const pastText = past ? 'In ' + span + atShare + ', ' + count(past.annual) +
+      (past.annual >= 0 ? ' more people arrived than left each year' : ' more people left than arrived each year') : null;
+    // A higher percentage means more leave where the migration it scales is
+    // a net departure.
+    const leaving = (fromPast ? past.annual : avg) < 0 ? ', so a higher percentage means more leave' : '';
+    el.textContent = fromPast
+      ? pastText + leaving + '. ' + sdoText + '.'
+      : sdoText + leaving + '.' + (pastText ? ' ' + pastText + '.' : '');
   }
 
   // ---------------------------------------------------------------------------
@@ -874,7 +948,7 @@
       // The settings the scenario loads with, so the list never names one the
       // projection does not use (a missing setting loads as SDO's 100%).
       const q = window.CohortComponentModel.paramsFromSaved(p);
-      return `Births ${q.births_pct}% | Deaths ${q.deaths_pct}% | Moving in (net) ${q.migration_pct}% of SDO's forecast`;
+      return `Births ${q.births_pct}% | Deaths ${q.deaths_pct}% | Moving in (net) ${q.migration_pct}% of ${q.migration_from === 'past' ? 'the years before SDO\'s forecast' : "SDO's forecast"}`;
     }
     // A value the record never set is shown as unset, not as 0.
     const given = (v) => (v == null || v === '' ? NaN : Number(v));
@@ -897,7 +971,9 @@
       assumptions: {
         births: `${params.births_pct}% of SDO's forecast`,
         deaths: `${params.deaths_pct}% of SDO's forecast`,
-        migration: `${params.migration_pct}% of SDO's forecast net migration`,
+        migration: params.migration_from === 'past'
+          ? `${params.migration_pct}% of net migration by age in SDO's estimates for the years before its forecast`
+          : `${params.migration_pct}% of SDO's forecast net migration`,
       },
       baselineSource: (_ctx && _ctx.counties[0].baseline.vintage) ? 'SDO ' + _ctx.counties[0].baseline.vintage : 'SDO forecast',
       // Parameters are not tied to a place; record the loaded geography (or
