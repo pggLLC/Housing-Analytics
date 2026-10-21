@@ -385,10 +385,11 @@
     answers = answers || {};
     var rows = rules.thresholds.map(function (t) {
       var a = answers[t.id] || '';
-      var appliesNow = (t.applies === 'rehab' && !!deal.rehab) || (t.applies === 'existing_credit' && !!deal.existingCredit);
+      var appliesNow = conditionHolds(t.applies, deal);
       if (a === 'na' && (!t.applies || appliesNow)) a = ''; // only a conditional item whose condition is false can be set aside
       if (!a && t.applies === 'rehab' && !deal.rehab) a = 'na';
       if (!a && t.applies === 'existing_credit' && !deal.existingCredit) a = 'na';
+      if (!a && t.applies === 'state_credit' && !appliesNow) a = 'na';
       return { id: t.id, label: t.label, page: t.page, quote: t.quote, answer: a || 'unchecked' };
     });
     return { rows: rows, missing: rows.filter(function (r) { return r.answer === 'missing'; }).length,
@@ -401,6 +402,9 @@
   // Which applies is not known until CHFA says, so a request between the two is flagged, not called over.
   // The cap is also per Applicant, Affiliate or Turn-key Project Developer: other active applications count against it.
   // Until those are entered (0 if none), only the per-project check is made and the applicant check stays open.
+  function conditionHolds(cond, deal) {
+    return (cond === 'rehab' && !!deal.rehab) || (cond === 'existing_credit' && !!deal.existingCredit) || (cond === 'state_credit' && num(deal.stateCredits) > 0);
+  }
   function creditCheck(rules, annualCredits, otherActive) {
     var cc = rules.credit_caps, cap = cc.federal_9pct_annual;
     var alt = cc.without_pilot ? cc.without_pilot.federal_9pct_annual : cap;
@@ -430,7 +434,10 @@
     // Model results describe the exported deal; once the mix or election is edited they no longer apply.
     var stale = !!(v.calculator && v.calculator.stale);
     var eng = stale ? {} : (v.engine || {});
-    var credit = creditCheck(rules, num(eng.annualCredits), num(deal.otherActiveCredits));
+    // The cap applies to the credit requested, not the calculator's modeled capacity. Versions saved before the request
+    // had its own field kept a typed request in engine.annualCredits.
+    var requested = deal.creditRequested !== undefined ? deal.creditRequested : (v.calculator ? null : (v.engine || {}).annualCredits);
+    var credit = creditCheck(rules, num(requested), num(deal.otherActiveCredits));
     var risks = [];
     if (deal.calcRegime) risks.push({ level: 'yellow', text: 'The Deal Calculator export used ' + deal.calcRegime + ' rent limits, not CHFA LIHTC, so only its unit mix is used here. Set rent limits to CHFA LIHTC and export again for gap, coverage, credit and stress results.' });
     if (deal.calc4) risks.push({ level: 'yellow', text: 'The Deal Calculator export was set to 4%, so only its unit mix is used here. Export the deal at 9% for gap, coverage, credit and stress results.' });
@@ -546,7 +553,10 @@
     // The calculator defaults to CHFA LIHTC rents; HOME, Prop 123, other-AMI and market rents are a different model.
     var regime = String(inp['rent-limit-regime'] || param('rent-limit-regime') || 'chfa_lihtc');
     var REGIME_LABEL = { home_high: 'High HOME', home_low: 'Low HOME', prop123: 'Prop 123', ami_formula: 'other AMI-formula', market: 'market-rate' };
-    return { mix: mix, engine: engine, query: query, nine: rate != null && rate > 0.06, chfa: regime === 'chfa_lihtc', regime: REGIME_LABEL[regime] || 'non-CHFA', election: election, exportedAt: snap.exportedAt || null };
+    // A blank request stays unknown: the calculator fills its output with modeled capacity, which is not a request.
+    var req = num(inp['credit-requested'] != null ? inp['credit-requested'] : param('credit-requested'));
+    var st = num(inp['state-annual'] != null ? inp['state-annual'] : param('state-annual'));
+    return { mix: mix, engine: engine, requested: req != null && req >= 0 ? req : null, stateAnnual: st != null && st >= 0 ? st : null, query: query, nine: rate != null && rate > 0.06, chfa: regime === 'chfa_lihtc', regime: REGIME_LABEL[regime] || 'non-CHFA', election: election, exportedAt: snap.exportedAt || null };
   }
 
   // ── Stress tests (browser only) ───────────────────────────────────────────
@@ -801,7 +811,7 @@
     var $ = function (id) { return doc.getElementById(id); };
     var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '' };
 
-    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false, otherActiveCredits: null, stateCredits: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
+    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false, otherActiveCredits: null, stateCredits: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
 
     // Form → state
     function readForm() {
@@ -814,8 +824,10 @@
       d.rehab = $('sr-rehab').checked;
       d.existingCredit = $('sr-existing').checked;
       var oc = num($('sr-other-credits').value); d.otherActiveCredits = oc != null && oc >= 0 ? oc : null;
-      var sc = num($('sr-state-credits').value); d.stateCredits = sc != null && sc >= 0 ? sc : null;
-      var ac = num($('sr-credits').value); if (ac != null && ac >= 0) v.engine.annualCredits = ac; else if (!v.calculator) delete v.engine.annualCredits;
+      if (!v.calculator) {
+        var ac = num($('sr-credits').value); d.creditRequested = ac != null && ac >= 0 ? ac : null;
+        var sc = num($('sr-state-credits').value); d.stateCredits = sc != null && sc >= 0 ? sc : null;
+      }
       doc.querySelectorAll('[data-claim]').forEach(function (el) {
         var id = el.getAttribute('data-claim');
         var n = num(el.value);
@@ -824,7 +836,7 @@
       });
       doc.querySelectorAll('[data-threshold]').forEach(function (el) {
         var tid = el.getAttribute('data-threshold'), rule = rules.thresholds.filter(function (t) { return t.id === tid; })[0];
-        var applies = rule && ((rule.applies === 'rehab' && d.rehab) || (rule.applies === 'existing_credit' && d.existingCredit));
+        var applies = rule && conditionHolds(rule.applies, d);
         if (el.value === 'na' && rule && (!rule.applies || applies)) el.value = ''; // "Does not apply" no longer holds once its condition is ticked
         v.thresholds[tid] = el.value;
         var ref = doc.querySelector('[data-tref="' + el.getAttribute('data-threshold') + '"]'); if (ref) v.thresholds[el.getAttribute('data-threshold') + ':ref'] = ref.value.slice(0, 200);
@@ -843,8 +855,9 @@
       $('sr-supportive').checked = !!d.supportive; $('sr-rehab').checked = !!d.rehab; $('sr-existing').checked = !!d.existingCredit;
       $('sr-other-credits').value = d.otherActiveCredits != null ? d.otherActiveCredits : '';
       $('sr-state-credits').value = d.stateCredits != null ? d.stateCredits : '';
-      $('sr-credits').value = v.engine.annualCredits != null ? v.engine.annualCredits : '';
-      $('sr-credits').disabled = !!v.calculator;
+      var req = d.creditRequested !== undefined ? d.creditRequested : (v.calculator ? null : v.engine.annualCredits);
+      $('sr-credits').value = req != null ? req : '';
+      $('sr-credits').disabled = !!v.calculator; $('sr-state-credits').disabled = !!v.calculator; // both come from the export
       doc.querySelectorAll('[data-claim]').forEach(function (el) {
         var id = el.getAttribute('data-claim'), c = v.claims[id];
         if (el.type === 'checkbox') el.checked = !!c; else el.value = c == null ? '' : c;
@@ -920,6 +933,7 @@
             if (c.nine && c.chfa) {
               v.calculator = { query: c.query, exportedAt: c.exportedAt, nine: true, election: c.election, mix: Object.assign({}, c.mix), stale: false };
               v.engine = c.engine;
+              v.deal.creditRequested = c.requested; v.deal.stateCredits = c.stateAnnual;
             } else {
               // A 4% model's credits and financing do not belong beside a 9% score: keep only the unit mix.
               v.calculator = null; v.engine = {};

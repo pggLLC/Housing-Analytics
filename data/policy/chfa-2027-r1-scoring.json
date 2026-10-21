@@ -353,12 +353,14 @@
     },
     {
       "id": "T15",
+      "applies": "state_credit",
       "label": "Public hearing in the community (state credit)",
       "page": 21,
       "quote": "The Applicant must have conducted a Public Hearing in the community in which the proposed project is located"
     },
     {
       "id": "T16",
+      "applies": "state_credit",
       "label": "Local government contribution, in writing (state credit)",
       "page": 21,
       "quote": "the Applicant must provide evidence that local government will provide some monetary, in-kind, or other contribution benefiting the proposed project."

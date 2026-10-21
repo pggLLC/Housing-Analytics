@@ -117,6 +117,21 @@ ok(SR.creditCheck(rules, 1000000).applicantKnown === false && /other active appl
 ok(SR.stateCreditCheck(rules, 650000).status === 'ok' && SR.stateCreditCheck(rules, 600000).status === 'depends' && SR.stateCreditCheck(rules, 700000).status === 'off' && SR.stateCreditCheck(rules, null).status === 'none', 'the paired state credit is checked against the fixed amounts');
 ok(/Standard state credit \$700,000 is not the fixed amount/.test(SR.review(rules, prop123, { deal: { mix: { 60: 50 }, place: '', stateCredits: 700000 }, claims: {}, thresholds: {}, engine: {} }).risks.map((x) => x.text).join(' ')), 'an off-amount state credit request is flagged');
 ok(/openLatest\(v\)\.then\(function \(ok\) \{ if \(!ok\) flash/.test(read('js/whitepaper/submittal-review.js')), 'a Versions-table open that fails says so');
+// Codex review on 758e670d4: the cap uses the request, not modeled capacity; state-credit thresholds are conditional.
+{
+  const reqBase = { url: 'http://127.0.0.1:8799/d?rate-9=0.09', outputs: { annualCredits: { value: 1900000 } }, inputs: { units: '10', 'units-60': '10' } };
+  const blankReq = SR.fromCalculatorExport(reqBase);
+  ok(blankReq.requested === null && blankReq.engine.annualCredits === 1900000, 'a blank calculator request stays unknown while modeled capacity is kept');
+  const withReq = SR.fromCalculatorExport({ ...reqBase, inputs: { ...reqBase.inputs, 'credit-requested': '1650000', 'state-annual': '650000' } });
+  ok(withReq.requested === 1650000 && withReq.stateAnnual === 650000, 'the export\'s request and state credit are read from its inputs');
+  const capRev = SR.review(rules, prop123, { deal: { mix: { 60: 10 }, place: '', creditRequested: null }, claims: {}, thresholds: {}, engine: { annualCredits: 1900000 }, calculator: { stale: false } });
+  ok(capRev.credit.status === 'unknown', 'modeled capacity alone is not checked against the cap');
+  ok(SR.review(rules, prop123, { deal: { mix: { 60: 10 }, place: '', creditRequested: 1900000 }, claims: {}, thresholds: {}, engine: {} }).credit.status === 'over', 'the requested credit is checked against the cap');
+  const noState = SR.thresholdStatus(rules, {}, { mix: { 60: 10 } });
+  const withState = SR.thresholdStatus(rules, {}, { mix: { 60: 10 }, stateCredits: 650000 });
+  const row = (st, id) => st.rows.filter((x) => x.id === id)[0].answer;
+  ok(row(noState, 'T15') === 'na' && row(noState, 'T16') === 'na' && row(withState, 'T15') === 'unchecked' && row(withState, 'T16') === 'unchecked', 'state-credit thresholds apply only when state credit is requested');
+}
 // The Third Draft strikes the 60% cap on the 40% row (red strikethrough, printed pp. 41-42), so it is not applied.
 ok(Math.abs(SR.targetingPoints(rules, { 40: 100 }, '40-60').points - 92.5) < 1e-9 && !rules.targeting.forty_cap && !/sr-subsidy/.test(read('developer-submittal-review.html')), 'the struck 40% row cap is not applied');
 
@@ -359,7 +374,7 @@ const srcJs6 = read('js/whitepaper/submittal-review.js');
 ok(/v\.deal\.calcRegime = c\.nine && !c\.chfa/.test(srcJs6) && /if \(c\.nine && c\.chfa\)/.test(srcJs6), 'only a 9% CHFA-rent export brings engine results and stress tests');
 ok(/\.catch\(function \(e\) \{\s*if \(state\.deal !== deal\) return;\s*clearForm\(\)/.test(srcJs6), 'a failed deal open clears the form before saving is allowed again');
 ok(/if \(tok !== compareTok\) return;/.test(srcJs6), 'a superseded comparison read is dropped');
-ok(/if \(ac != null && ac >= 0\) v\.engine\.annualCredits = ac/.test(srcJs6), 'a negative annual credit entry is not stored');
+ok(/d\.creditRequested = ac != null && ac >= 0 \? ac : null/.test(srcJs6), 'a negative annual credit entry is not stored');
 
 // Codex review on 733c63730: consolidated city forms, unreadable versions, device-store renames.
 for (const q of ['City of Denver', 'Denver County', 'City of Broomfield', 'City and County of Denver']) {
