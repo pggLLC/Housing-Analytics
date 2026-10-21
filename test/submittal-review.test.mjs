@@ -359,4 +359,9 @@ ok(/d\.name = body\.name;/.test(srcJs7), 'saving on this device keeps a renamed 
 ok(!!SR.fromCalculatorExport({ dealMode: 'ownership', inputs: { units: '12' }, outputs: {}, url: 'http://127.0.0.1:8799/deal-calculator.html' }).error, 'an ownership-mode export is refused');
 ok(!SR.fromCalculatorExport({ dealMode: 'rental', inputs: { 'rate-9': '0.09', units: '10', 'units-60': '10' }, outputs: {}, url: 'http://127.0.0.1:8799/deal-calculator.html' }).error, 'a rental-mode export still imports');
 
+// Codex review on 966fa921d: a stale "Does not apply" is reset in the form; Save waits for a version open.
+const srcJs8 = read('js/whitepaper/submittal-review.js');
+ok(/if \(el\.value === 'na' && rule && \(!rule\.applies \|\| applies\)\) el\.value = '';/.test(srcJs8), 'ticking a condition clears its "Does not apply" answer in the form and the saved version');
+ok(/state\.opening = t;/.test(srcJs8) && /if \(state\.loading \|\| state\.opening\)/.test(srcJs8), 'saving waits while a version is opening');
+
 console.log(`submittal-review: ${checks} checks passed`);
