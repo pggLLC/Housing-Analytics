@@ -535,6 +535,11 @@
           : 'None new or moved in the last ' + FRESH_DAYS + ' days (tracked since ' + fmtDate(data.meta.tracking_since || state.asOf) + ').');
       // a polite live region outside the redrawn list, so a screen reader hears each filter's result
       if (count) count.textContent = summary;
+      // Keep each live Deal Tracker mount (an open form and its unsaved edits) across the redraw.
+      var live = {};
+      Array.prototype.forEach.call(el.querySelectorAll('.rw-pab[data-pab-id]'), function (m) {
+        if (m.childNodes.length) live[m.getAttribute('data-pab-id')] = m;
+      });
       el.innerHTML = (count ? '' : '<p class="rw-muted">' + esc(summary) + '</p>') +
         (r.note ? '<p class="rw-muted">' + esc(r.note) + '</p>' : '') + tableHtml(r, contacts, state);
       var g = townsFor(shown);
@@ -549,7 +554,12 @@
       if (panel) { panel.innerHTML = ''; panel.hidden = true; }
       if (note) note.textContent = g.unmapped.length
         ? 'Not on the map, no town location on file: ' + g.unmapped.map(function (i) { return i.name; }).join(', ') + '.' : '';
-      Object.keys(state.open).forEach(function (id) { if (state.open[id]) attachTracker(id); });
+      Object.keys(state.open).forEach(function (id) {
+        if (!state.open[id]) return;
+        var fresh = el.querySelector('.rw-pab[data-pab-id="' + id.replace(/["\\]/g, '') + '"]');
+        if (fresh && live[id]) fresh.parentNode.replaceChild(live[id], fresh);
+        else attachTracker(id);
+      });
     }
 
     // "Add to Deal Tracker" for an open deal. The tracker keeps one row per
