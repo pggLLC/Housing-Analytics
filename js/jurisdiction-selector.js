@@ -935,6 +935,14 @@
           break;
         }
       }
+      // A routed page (the for-sale study) is named by the current route.
+      var WP = global.WorkflowProgress;
+      if (!label && WP && typeof WP.routeSteps === 'function') {
+        var route = WP.routeSteps();
+        for (var r = 0; r < route.length; r++) {
+          if (route[r].href === target) { label = route[r].label; break; }
+        }
+      }
     } catch (e) { /* fall through to the generic wording */ }
     btn.textContent = label ? ('Continue to ' + label + ' \u2192') : 'Continue \u2192';
   }
@@ -946,6 +954,18 @@
     } catch (e) { return null; }
     if (!raw) return null;
     var WP = global.WorkflowProgress;
+    // A step page's Next link also sends step=N. The reader may change the
+    // product on this page, so step N is read from the route as it is now
+    // (the rail's own href) rather than the page named when they left.
+    try {
+      var stepNum = Number(new global.URLSearchParams(global.location.search).get('step'));
+      if (stepNum && WP && typeof WP.routeSteps === 'function') {
+        var now = WP.routeSteps();
+        for (var n = 0; n < now.length; n++) {
+          if (now[n].num === stepNum && now[n].href !== 'select-jurisdiction.html') return now[n].href;
+        }
+      }
+    } catch (e) { /* fall back to next= */ }
     var steps = (WP && Object.prototype.toString.call(WP.STEPS) === '[object Array]')
       ? WP.STEPS.slice() : [];
     // A product route sends readers to pages STEPS does not list (the
@@ -1010,6 +1030,8 @@
     // rather than the rail's "Deal") are not available on the first pass.
     syncContinueLabel();
     if (global.addEventListener) global.addEventListener('load', syncContinueLabel);
+    // The product picked on this page changes where step=N leads.
+    if (global.document && global.document.addEventListener) global.document.addEventListener('workflow:product-changed', syncContinueLabel);
     el.sjRecent        = document.getElementById('sjRecent');
     el.sjRecentList    = document.getElementById('sjRecentList');
 
