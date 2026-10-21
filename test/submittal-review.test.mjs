@@ -166,6 +166,21 @@ let saveErr = null;
 await fullStore.save({ name: 'X', data: {} }).catch((e) => { saveErr = e; });
 ok(saveErr && /would not keep it/.test(saveErr.message), 'a device save that the browser refuses is reported as not saved');
 
+// Codex review on c733f11cf: no midpoint means no lane, bedroom splits and unticked tiers, conditional "does not apply", blocked storage.
+for (const st of [{ status: 'no' }, { status: 'yes', text: '' }]) {
+  const l = SR.gapLane(rules, { mix: { market: 20 } }, st);
+  ok(l.lane === 'unknown' && l.amount === undefined, 'market units alone give no lane (' + st.status + ')');
+}
+ok(SR.gapLane(rules, { mix: { market: 20 }, supportive: true }, { status: 'no' }).lane === 'DOH', 'supportive housing still resolves without a midpoint');
+const splitExp = SR.fromCalculatorExport({ url: 'https://x.test/d?rate-9=0.09', outputs: {},
+  inputs: { units: '30', 'chk-30': '1', 'units-30': '15', 'units-30-1br': '6', 'units-30-2br': '4', 'chk-60': '1', 'units-60': '20', 'chk-50': '0', 'units-50': '9' } });
+ok(splitExp.mix[30] === 10 && splitExp.mix[60] === 20 && !splitExp.mix[50], 'a bedroom split replaces the tier total and an unticked tier counts nothing');
+const thNa = SR.thresholdStatus(rules, { T2: 'na', T4: 'na' }, {});
+ok(thNa.rows.find((r) => r.id === 'T2').answer === 'unchecked' && thNa.rows.find((r) => r.id === 'T4').answer === 'na', 'only conditional thresholds can be marked as not applying');
+const thHtml = SR.formHtml(rules).thresholds;
+ok(/data-threshold="T4"[^]*?value="na"/.test(thHtml) && !/data-threshold="T2"><option value="">Not checked<\/option><option value="ready">Ready<\/option><option value="missing">Missing<\/option><option value="na"/.test(thHtml), 'the "Does not apply" choice appears only on conditional thresholds');
+ok(/setItem: function \(\) \{ throw new Error\('storage blocked'\); \}/.test(read('js/whitepaper/submittal-review.js')), 'blocked localStorage falls back to a store whose writes fail');
+
 // Device fallback store saves versions without overwriting.
 const mem = {}; const st = SR.makeStore(() => Promise.reject(new Error('offline')), { getItem: (k) => mem[k] || null, setItem: (k, v) => { mem[k] = v; } });
 const s1 = await st.save({ name: 'Made-up site', label: 'one', data: { a: 1 } });

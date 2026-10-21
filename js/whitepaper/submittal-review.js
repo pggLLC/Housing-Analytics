@@ -63,6 +63,7 @@
   function money(v) { return v == null ? '—' : (v < 0 ? '-$' : '$') + Math.round(Math.abs(v)).toLocaleString('en-US'); }
   function pts(v) { return v == null ? '—' : (Math.round(v * 100) / 100).toLocaleString('en-US', { maximumFractionDigits: 2 }); }
 
+  var SPLIT_BR = ['studio', '1br', '2br', '3br', '4br'];
   var ELECTION_LABEL = { '20-50': '20-50 election', '40-60': '40-60 election', 'average-income': 'Average Income' };
   // ── Deal facts ────────────────────────────────────────────────────────────
   // Federal minimum set-aside elections, as js/deal-engine.js models them: 70% and 80% designations are
@@ -247,6 +248,10 @@
     var out = { midpoint: mp ? mp.value : null, units: units, flags: [], quotes: [] };
     if (!units) { out.lane = 'unknown'; out.text = 'Enter the unit mix to test the gap-fund lane.'; return out; }
     var under = function (x) { return x <= g.doh.midpoint_max + 1e-9; };
+    if (!mp && !deal.supportive) {
+      out.lane = 'unknown'; out.text = 'Enter units by AMI tier to test the gap-fund lane; market-rate units alone have no AMI midpoint.';
+      return out;
+    }
     var split = mp && mp.marketUnits && under(mp.value) !== under(mp.overTotal);
     if (split && !deal.supportive) {
       out.lane = 'unknown';
@@ -303,6 +308,7 @@
     answers = answers || {};
     var rows = rules.thresholds.map(function (t) {
       var a = answers[t.id] || '';
+      if (a === 'na' && !t.applies) a = ''; // only conditional items (rehab, existing credits) can be set aside
       if (!a && t.applies === 'rehab' && !deal.rehab) a = 'na';
       if (!a && t.applies === 'existing_credit' && !deal.existingCredit) a = 'na';
       return { id: t.id, label: t.label, page: t.page, quote: t.quote, answer: a || 'unchecked' };
@@ -394,7 +400,14 @@
   function fromCalculatorExport(snap) {
     if (!snap || typeof snap !== 'object' || !snap.inputs || !snap.url) return null;
     var mix = {}, inp = snap.inputs;
-    TIERS.forEach(function (t) { var u = num(inp['units-' + t]); if (u) mix[t] = u; });
+    // Same precedence as js/deal-engine.js: a tier counts only when ticked, and a bedroom split replaces the tier total.
+    TIERS.forEach(function (t) {
+      var on = inp['chk-' + t];
+      if (on != null && (on === false || String(on) === '0' || String(on) === 'false')) return;
+      var split = SPLIT_BR.reduce(function (s, br) { var n = num(inp['units-' + t + '-' + br]); return s + (n > 0 ? Math.floor(n) : 0); }, 0);
+      var u = split > 0 ? split : num(inp['units-' + t]);
+      if (u) mix[t] = u;
+    });
     var units = num(inp.units);
     var restricted = TIERS.reduce(function (s, t) { return s + (mix[t] || 0); }, 0);
     if (units != null && units > restricted) mix.market = units - restricted;
@@ -914,7 +927,7 @@
     });
     var th = rules.thresholds.map(function (t) {
       return '<div class="sr-claim"><label for="sr-t-' + esc(t.id) + '">' + esc(t.id.replace('T', '#')) + ' ' + esc(t.label) + '</label>' +
-        '<select id="sr-t-' + esc(t.id) + '" data-threshold="' + esc(t.id) + '"><option value="">Not checked</option><option value="ready">Ready</option><option value="missing">Missing</option><option value="na">Does not apply</option></select>' +
+        '<select id="sr-t-' + esc(t.id) + '" data-threshold="' + esc(t.id) + '"><option value="">Not checked</option><option value="ready">Ready</option><option value="missing">Missing</option>' + (t.applies ? '<option value="na">Does not apply</option>' : '') + '</select>' +
         '<input type="text" class="sr-ref" data-tref="' + esc(t.id) + '" placeholder="Document and page" aria-label="Document and page for threshold ' + esc(t.id) + '"></div>';
     }).join('');
     return { claims: html, thresholds: th };
@@ -927,7 +940,8 @@
       var f = formHtml(res[0]);
       doc.getElementById('srClaims').innerHTML = f.claims;
       doc.getElementById('srThresholds').innerHTML = f.thresholds;
-      var storage; try { storage = window.localStorage; } catch (e) { storage = { getItem: function () { return null; }, setItem: function () {} }; }
+      // Blocked storage: reads find nothing and writes throw, so a device save reports "Not saved".
+      var storage; try { storage = window.localStorage; } catch (e) { storage = { getItem: function () { return null; }, setItem: function () { throw new Error('storage blocked'); } }; }
       mount(doc, res[0], res[1], makeStore(fetch.bind(window), storage));
     });
   }
