@@ -36,7 +36,7 @@ next(age+1, sex)   = people(age, sex) − deaths(age, sex) + migration(age+1, se
 - `f` is Colorado's births per woman by five-year age of mother, 2023, from NCHS Births: Final Data for 2023 (NVSR vol. 74 no. 1), Table 8. Their sum ×5 is the printed total fertility rate, 1,454.0 per 1,000; `scripts/hna/fetch_colorado_vital_rates.py` checks it.
 - `kd` and `kb` scale those Colorado rates so each county's deaths and births in each year equal SDO's. Only the age pattern comes from NCHS; every total comes from SDO.
 - `migration(age, sex)` is what SDO's forecast population by age leaves after the survivors and births above: the migration SDO's forecast implies, by age.
-- Above 100%, SDO's net departures at an age can outnumber the people of that age (at 150% they would in 37 of the 64 counties). No more than everyone can leave, so a cohort stops at zero and the migration shown counts only the people who left.
+- Net departures at an age can outnumber the people of that age: SDO's above 100% (at 150% they would in 37 of the 64 counties), or the past's (below) on a smaller cohort. No more than everyone can leave, so a cohort stops at zero, and the departures it could not supply come from everyone else in proportion to their numbers. Each year's net migration is then the one the setting asks for. Stopping departures alone would keep the arrivals at other ages: in Summit County at 200% it turned net departures into net arrivals.
 
 With every slider at 100% the model reproduces SDO's population for every county and year to within rounding (5 people, checked by the build script and by `test/scenario-baseline-reproduces-sdo.test.js`).
 
@@ -77,6 +77,17 @@ Each slider is a percentage of SDO's forecast for the place loaded, so a setting
 | 1.5× the migration | 100% | 100% | 150% |
 
 Migration scales SDO's net migration at every age. Where the people SDO has arriving form fewer households than those leaving (a college town's students and graduates), less migration means more homes; the page says so when it happens.
+
+### Migration from the years before the forecast
+
+Above the migration slider, the reader can choose what 100% means: SDO's forecast, or the ten years before it as SDO estimated them. The second carries recent migration forward, the usual alternative to a forecast's own migration assumption (Smith, Tayman and Swanson, 2013).
+
+- `scripts/hna/build_scenario_baseline.py` takes SDO's estimated population by age and sex for each of those years, with its estimated births and deaths. It applies the same residual as for the forecast years: next year's population by age, less survivors and newborns, with Colorado's rates scaled to SDO's totals.
+- The residuals are averaged into one year of net migration by age and sex (`pastMigration` in each county's baseline file). It adds up to SDO's estimated net migration for those years, to within a few people a year; the script stops if it does not.
+- With this choice, every forecast year gets that same migration by age, times the slider's percentage. Births and deaths still follow SDO's forecast, and so do household rates.
+- A town takes its county's past at the same share as its forecast.
+
+This differs from setting the slider to the past's share of SDO's forecast. In many counties SDO's forecast net migration is near zero, or runs the other way from the past, so no percentage of it can reproduce the past. In Vintage 2024 that includes Eagle County and several farm counties.
 
 ### The shaded range: how far past forecasts missed
 
