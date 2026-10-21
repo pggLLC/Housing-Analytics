@@ -102,6 +102,9 @@ ok(lines[1].includes('"\'=HYPERLINK(""x"")"'), 'a cell that starts like a formul
 ok(!RW.csvFor({ round: 'R', credit: '9%' }, [item], null, '2026-10-18').includes('@'), 'without the private file the spreadsheet holds no contacts');
 ok(RW.detailHtml(Object.assign({}, item, { place_geoid: '0845970' }), contacts).includes('class="rw-pab" data-pab-id="a"'), 'an open deal has a place for Add to Deal Tracker');
 
+const byContact = RW.sortItems([{ name: 'A', _contact: { name: 'Zed' } }, { name: 'B', _contact: null }, { name: 'C', _contact: { org: 'Acme' } }], 'contact', 'asc');
+ok(byContact.map((i) => i.name).join() === 'C,A,B', 'the First contact column sorts by the name it shows, deals without one last');
+
 // First contact in the list.
 ok(RW.firstContactCell(item, contacts).includes('Pat') && RW.firstContactCell(item, contacts).includes('mailto:pat@org.example'),
   'the list shows the best contact and how to reach them');

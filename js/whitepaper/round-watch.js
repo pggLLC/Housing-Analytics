@@ -75,7 +75,8 @@
     region: function (i) { return (i.region ? REGIONS.indexOf(i.region) : 99) * 10000 + BAND_RANK[i.band] * 1000 - i.score; },
     homes: function (i) { return i.homes == null ? Infinity : i.homes; },
     sponsor: function (i) { return String(i.sponsor || (i.award_orgs || [])[0] || '~').toLowerCase(); },
-    contact: function (i) { return i._contact ? 0 : 1; }
+    // by the name the column shows (person, else organisation); none last
+    contact: function (i) { return i._contact ? String(i._contact.name || i._contact.org || '~').toLowerCase() : '~~'; }
   };
 
   function days(from, to) {
@@ -278,7 +279,7 @@
 
   function tableHtml(round, contacts, state) {
     var items = visibleItems(round, state).map(function (i) {
-      return Object.assign({}, i, { _contact: contactsFor(contacts, i.id).length > 0, _tag: freshTag(i, state.asOf) });
+      return Object.assign({}, i, { _contact: contactsFor(contacts, i.id)[0] || null, _tag: freshTag(i, state.asOf) });
     });
     items = sortItems(items, state.sort, state.dir);
     if (!items.length) return '<p class="rw-muted">No deals match these filters.</p>';
@@ -471,7 +472,14 @@
     function draw() {
       var r = data.rounds[state.round];
       var shown = visibleItems(r, state);
+      // the controls are redrawn too: put focus back on the menu or tab the reader just used
+      var act = doc.activeElement, refocus = null;
+      if (controls && act && controls.contains(act)) {
+        refocus = act.getAttribute('data-filter') ? '[data-filter="' + act.getAttribute('data-filter') + '"]'
+          : act.getAttribute('data-round') ? '[data-round="' + act.getAttribute('data-round') + '"]' : null;
+      }
       if (controls) controls.innerHTML = controlsHtml(data, state) + datesHtml(r, cal, today);
+      if (refocus && controls.querySelector(refocus)) controls.querySelector(refocus).focus();
       var fresh = r.items.filter(function (i) { return freshTag(i, state.asOf); }).length;
       var summary = 'Showing ' + shown.length + ' of ' + r.items.length + ': ' +
         r.counts.High + ' High, ' + r.counts.Medium + ' Medium, ' + r.counts.Watch + ' Watch in all regions. ' +
@@ -524,7 +532,7 @@
     function download() {
       var r = data.rounds[state.round];
       var items = sortItems(visibleItems(r, state).map(function (i) {
-        return Object.assign({}, i, { _contact: contactsFor(contacts, i.id).length > 0 });
+        return Object.assign({}, i, { _contact: contactsFor(contacts, i.id)[0] || null });
       }), state.sort, state.dir);
       var w = doc.defaultView;
       try {
