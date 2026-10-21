@@ -30,7 +30,7 @@
   var PROP123_URL = 'data/policy/prop123_jurisdictions.json';
   var API = '/api/deals';
   var LOCAL_KEY = 'coho-submittal-review-local';
-  var TIERS = [20, 30, 40, 50, 60, 70, 80];
+  var TIERS = [20, 30, 40, 50, 60, 70, 80, 100, 110, 120]; // the Deal Calculator's AMI bands
   var NEAR_LINE = 0.5; // AMI-midpoint points either side of DOH's line that get a flag
 
   // Our judgement, not CHFA's: how hard each line is to add once a deal is drawn.
@@ -399,7 +399,16 @@
   // Reads a Deal Calculator "Export JSON" file: inputs carry units-<tier> without the dc- prefix.
   function fromCalculatorExport(snap) {
     if (!snap || typeof snap !== 'object' || !snap.inputs || !snap.url) return null;
-    var mix = {}, inp = snap.inputs;
+    var mix = {}, inp = snap.inputs, sched = snap.rentSchedule;
+    var fromSchedule = !!(sched && sched.mode === 'schedule' && Array.isArray(sched.rows) && sched.rows.length);
+    // A Market Analysis rent schedule replaces the manual grid in the engine, so its rows are the deal.
+    if (fromSchedule) {
+      sched.rows.forEach(function (r) {
+        var u = num(r && r.units); if (!(u > 0)) return;
+        var key = r.tier === 'market' ? 'market' : (TIERS.indexOf(num(r.tier)) !== -1 ? num(r.tier) : 'market');
+        mix[key] = (mix[key] || 0) + u;
+      });
+    } else
     // Same precedence as js/deal-engine.js: a tier counts only when ticked, and a bedroom split replaces the tier total.
     TIERS.forEach(function (t) {
       var on = inp['chk-' + t];
@@ -410,7 +419,7 @@
     });
     var units = num(inp.units);
     var restricted = TIERS.reduce(function (s, t) { return s + (mix[t] || 0); }, 0);
-    if (units != null && units > restricted) mix.market = units - restricted;
+    if (!fromSchedule && units != null && units > restricted) mix.market = units - restricted;
     var o = snap.outputs || {};
     var engine = {};
     ['fundingGap', 'dscr', 'deferredDeveloperFee', 'annualCredits', 'creditEquity', 'totalDevelopmentCost', 'stateCreditEquity', 'firstMortgage'].forEach(function (k) {

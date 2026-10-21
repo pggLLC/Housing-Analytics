@@ -181,6 +181,16 @@ const thHtml = SR.formHtml(rules).thresholds;
 ok(/data-threshold="T4"[^]*?value="na"/.test(thHtml) && !/data-threshold="T2"><option value="">Not checked<\/option><option value="ready">Ready<\/option><option value="missing">Missing<\/option><option value="na"/.test(thHtml), 'the "Does not apply" choice appears only on conditional thresholds');
 ok(/setItem: function \(\) \{ throw new Error\('storage blocked'\); \}/.test(read('js/whitepaper/submittal-review.js')), 'blocked localStorage falls back to a store whose writes fail');
 
+// Codex review on c491541d9: every calculator AMI band, and the active rent schedule.
+const hiExp = SR.fromCalculatorExport({ url: 'https://x.test/d?rate-9=0.09', outputs: {}, inputs: { units: '60', 'units-40': '50', 'units-100': '10' } });
+ok(hiExp.mix[100] === 10 && !hiExp.mix.market, '100% AMI units keep their AMI instead of becoming market units');
+near(SR.amiMidpoint(hiExp.mix).value, 50, 'a 100% band counts in the midpoint');
+const schedExp = SR.fromCalculatorExport({ url: 'https://x.test/d?rate-9=0.09', outputs: {}, inputs: { units: '40', 'units-60': '40' },
+  rentSchedule: { mode: 'schedule', rows: [{ tier: 30, units: 6 }, { tier: 50, units: 20 }, { tier: 50, units: 4 }, { tier: 'market', units: 10 }] } });
+ok(schedExp.mix[30] === 6 && schedExp.mix[50] === 24 && schedExp.mix.market === 10 && !schedExp.mix[60], 'an active rent schedule is the unit mix, not the hidden manual grid');
+ok(SR.fromCalculatorExport({ url: 'https://x.test/d', outputs: {}, inputs: { units: '10', 'units-60': '10' }, rentSchedule: { mode: 'manual', rows: [{ tier: 30, units: 99 }] } }).mix[60] === 10, 'a manual-mode export still reads the grid');
+ok(['100', '110', '120'].every((t) => read('developer-submittal-review.html').includes('id="sr-mix-' + t + '"')), 'the form has the 100-120% bands');
+
 // Device fallback store saves versions without overwriting.
 const mem = {}; const st = SR.makeStore(() => Promise.reject(new Error('offline')), { getItem: (k) => mem[k] || null, setItem: (k, v) => { mem[k] = v; } });
 const s1 = await st.save({ name: 'Made-up site', label: 'one', data: { a: 1 } });
