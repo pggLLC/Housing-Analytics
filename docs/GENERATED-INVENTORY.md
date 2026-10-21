@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-20T22:55:46.832Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T00:49:29.359Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-75 pages found.
+76 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -34,12 +34,13 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 81.9 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 40.1 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.6 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 80.7 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 81.1 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 50.5 KB |
 | `developer-methods.html` | Methodology — COHO Analytics | 7.4 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.2 KB |
+| `developer-round-watch.html` | Next Round Watch — COHO Analytics | 6.4 KB |
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 23.3 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 19.4 KB |
@@ -53,7 +54,7 @@
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 138.2 KB |
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 175.4 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 168.3 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 136.6 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 136.7 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 44.8 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.8 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 252.2 KB |
@@ -90,7 +91,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1798 JSON files found.
+1799 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1674,6 +1675,7 @@
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 411.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 341.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_news-used.json` | 67.4 KB | ✅ | — |
+| `data/jurisdiction-briefs/_round-watch.json` | 256.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verification-plan.json` | 176.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0803620.json` | 22.6 KB | ✅ | — |
@@ -1897,7 +1899,7 @@
 
 ## Test Files
 
-678 test files found.
+681 test files found.
 
 | File | Size |
 |------|------|
@@ -2109,7 +2111,7 @@
 | `test/guided-path-a11y.test.js` | 3.4 KB |
 | `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 5.0 KB |
-| `test/guided-path-product-routes.test.js` | 15.4 KB |
+| `test/guided-path-product-routes.test.js` | 16.6 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/helpers/deal-calculator-page.cjs` | 4.5 KB |
 | `test/helpers/deal-engine-b1-expected.cjs` | 3.7 KB |
@@ -2123,7 +2125,7 @@
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
 | `test/hna-age-and-growth-labels.test.js` | 9.2 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
-| `test/hna-build-rebase-recovery.test.js` | 7.7 KB |
+| `test/hna-build-rebase-recovery.test.js` | 7.9 KB |
 | `test/hna-car-loader.test.js` | 5.5 KB |
 | `test/hna-cdp-deep-link.test.js` | 4.9 KB |
 | `test/hna-chapter-handoff.test.mjs` | 7.8 KB |
@@ -2162,7 +2164,7 @@
 | `test/hna-ranking-low-evidence-badge.test.js` | 6.4 KB |
 | `test/hna-reading-path.test.js` | 5.3 KB |
 | `test/hna-rent-burden-bins.test.js` | 3.6 KB |
-| `test/hna-saved-scenario-matches-builder.test.js` | 8.7 KB |
+| `test/hna-saved-scenario-matches-builder.test.js` | 13.1 KB |
 | `test/hna-scenario-builder-saved.test.js` | 8.1 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-scorecard-small-place.test.js` | 4.8 KB |
@@ -2263,6 +2265,7 @@
 | `test/navigation-pill-label.test.js` | 2.7 KB |
 | `test/navigation-reaches-every-page.test.mjs` | 4.9 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
+| `test/next-step-link.test.js` | 8.7 KB |
 | `test/nhpd-coverage.test.js` | 14.2 KB |
 | `test/nlihc-out-of-reach.test.mjs` | 4.7 KB |
 | `test/no-synthesized-chfa-awards.test.js` | 3.9 KB |
@@ -2275,7 +2278,7 @@
 | `test/osm-amenities-count-by-type.test.js` | 1.9 KB |
 | `test/osm-amenities-transit-basis.test.js` | 7.8 KB |
 | `test/ownership-answer-leads.test.js` | 6.4 KB |
-| `test/ownership-decision-chain.test.js` | 7.3 KB |
+| `test/ownership-decision-chain.test.js` | 8.2 KB |
 | `test/ownership-finance.test.js` | 22.6 KB |
 | `test/ownership-funding-schema.test.js` | 5.6 KB |
 | `test/ownership-rental-separation.test.js` | 16.1 KB |
@@ -2389,10 +2392,11 @@
 | `test/resident-services.test.mjs` | 10.9 KB |
 | `test/resort-programs.test.mjs` | 7.8 KB |
 | `test/ripeness.test.mjs` | 12.9 KB |
+| `test/round-watch-page.test.mjs` | 5.5 KB |
 | `test/runtime-contrast-scanner-errors.test.mjs` | 7.7 KB |
 | `test/runtime-contrast-scanner-fixtures.test.mjs` | 8.1 KB |
 | `test/sale-price-evidence-is-named.test.mjs` | 16.3 KB |
-| `test/scenario-baseline-reproduces-sdo.test.js` | 11.7 KB |
+| `test/scenario-baseline-reproduces-sdo.test.js` | 12.4 KB |
 | `test/scenario-builder-loaded-geography.test.js` | 11.1 KB |
 | `test/scenario-presets-shared.test.js` | 5.7 KB |
 | `test/second-homes-str.test.mjs` | 7.6 KB |
@@ -2460,7 +2464,7 @@
 | `test/ui-audit-clean.test.js` | 4.3 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
 | `test/unit-suffix-convention.test.js` | 6.6 KB |
-| `test/unit/cohort-component-model.test.js` | 7.9 KB |
+| `test/unit/cohort-component-model.test.js` | 9.1 KB |
 | `test/unit/fema-flood.test.js` | 14.7 KB |
 | `test/unit/pma-barriers.test.js` | 4.0 KB |
 | `test/unit/pma-commuting.test.js` | 8.1 KB |
@@ -2569,6 +2573,7 @@
 | `tests/test_projection_household_series.py` | 13.0 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_ranking_index_transit_zone.py` | 11.8 KB |
+| `tests/test_round_watch.py` | 13.8 KB |
 | `tests/test_school_transport_exclusion.py` | 9.6 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
 | `tests/test_stage2_temporal.py` | 38.1 KB |
@@ -2598,7 +2603,7 @@
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
 | `.github/workflows/build-acs-reliability.yml` | 3.5 KB |
-| `.github/workflows/build-hna-data.yml` | 36.2 KB |
+| `.github/workflows/build-hna-data.yml` | 36.5 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 14.5 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
