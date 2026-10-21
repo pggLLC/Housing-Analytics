@@ -1222,17 +1222,35 @@
 }
 
 /* Folded sections: title and a one-line takeaway, chevron on the right. */
+/* Folded home sections read as section cards, not plain rows: an accent
+   edge, a real heading, the one-line takeaway, and a round open control.
+   paul 2026-10-21: the folded bars looked unformatted on the live page. */
 .home-fold {
   border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
   border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .06);
+  overflow: hidden;
 }
 
 .home-fold > summary {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: var(--sp3);
-  row-gap: 2px;
+  row-gap: 4px;
   min-height: 44px;
+  padding: var(--sp4) var(--sp4) var(--sp4) var(--sp4);
+  background: var(--card);
+}
+
+.home-fold > summary:hover {
+  background: var(--bg2);
+}
+
+.home-fold > summary:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
 }
 
 .home-fold > summary > :not(.home-fold__takeaway) {
@@ -1240,25 +1258,55 @@
   margin: 0;
 }
 
+/* The site sets h2 { font-size: var(--h2) !important }, so the heading size
+   is set through the variable. */
+details.home-fold > summary {
+  --h2: 1.25rem;
+}
+
+details.home-fold > summary > h2,
+details.home-fold > summary > .home-fold__title,
+details.home-fold > summary > .home-dignity__opening {
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--text);
+}
+
 .home-fold > summary::after {
   grid-column: 2;
   grid-row: 1 / span 2;
   align-self: center;
-}
-
-.home-fold__title {
-  font-size: 1.05rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  color: var(--accent) !important;
+  font-size: 1.4rem;
+  line-height: 1;
 }
 
 .home-fold__takeaway {
   grid-column: 1;
-  font-size: var(--small);
+  font-size: .95rem;
   font-weight: 400;
+  line-height: 1.45;
   color: var(--muted);
 }
 
 .home-fold[open] > summary ~ * {
   margin-inline: var(--sp4);
+}
+
+.home-fold[open] > summary + * {
+  margin-top: var(--sp4);
+}
+
+.home-fold[open] > :last-child {
+  margin-bottom: var(--sp4);
 }
 
 @media (max-width: 480px) {

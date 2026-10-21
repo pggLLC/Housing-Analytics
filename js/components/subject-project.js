@@ -780,7 +780,8 @@
           }, schedule.rows[i], ownerPays));
         });
         caption.textContent = tableLimit ? 'CHFA ' + (tableLimit.tableYear || '—') +
-          ' · effective ' + (tableLimit.effectiveDate || '—') : 'CHFA rent limits unavailable for these rows';
+          ' · effective ' + (tableLimit.effectiveDate || '—') : ((s.unit_mix || []).length
+          ? 'CHFA rent limits unavailable for these rows' : 'CHFA rent limits appear once a row is added');
         var basisCaption = RentLimits.allowanceBasisCaption(s.utility_allowance_basis, s.county_fips);
         if (basisCaption) caption.textContent += ' · ' + basisCaption;
         if ((s.unit_mix || []).length === 0) {
@@ -807,6 +808,12 @@
         var t = schedule.totals;
         totals.innerHTML = '';
         totals.setAttribute('data-unavailable-reason', t.unavailableReason || '');
+        // Walkthrough 2026-10-20 (R2): before any row exists, one instruction
+        // replaces nine "unavailable" totals.
+        if (!(getSubject().unit_mix || []).length) {
+          totals.appendChild($h('p', { 'data-role': 'schedule-empty' }, ['Add a unit-mix row to see scheduled rent and unit totals.']));
+          return;
+        }
         totals.appendChild($h('p', { 'data-role': 'schedule-unit-count' }, [
           'Scheduled: ' + (schedule.scheduledUnits == null ? 'unavailable' : schedule.scheduledUnits) +
           ' units · Project total: ' + (schedule.projectUnits == null ? 'unavailable' : schedule.projectUnits)
