@@ -123,10 +123,10 @@ ok(SR.fromCalculatorExport({ foo: 1 }) === null, 'other JSON is refused');
 
 // Codex review on bbc4a0302: the set-aside election picks the targeting table, the rate value (not the key) says 9%,
 // every hard-cost line is stressed, an edited deal sets the export's results aside, and a missing Prop 123 list is "unknown".
-const exp4 = SR.fromCalculatorExport({ url: 'https://x.test/deal-calculator.html?rate-9=0.04&minimum-set-aside=20-50&units=10&units-60=10', inputs: { 'units-60': 10, units: 10 }, outputs: {} });
+const exp4 = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/deal-calculator.html?rate-9=0.04&minimum-set-aside=20-50&units=10&units-60=10', inputs: { 'units-60': 10, units: 10 }, outputs: {} });
 ok(exp4.nine === false, 'rate-9=0.04 is a 4% export');
 ok(exp4.election === '20-50', 'the export carries its set-aside election');
-ok(SR.fromCalculatorExport({ url: 'https://x.test/d?units=1', inputs: { 'rate-9': '0.09', 'minimum-set-aside': 'average-income' }, outputs: {} }).election === 'average-income', 'election read from the export inputs');
+ok(SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?units=1', inputs: { 'rate-9': '0.09', 'minimum-set-aside': 'average-income' }, outputs: {} }).election === 'average-income', 'election read from the export inputs');
 const t2050 = SR.targetingPoints(rules, { 50: 20, 60: 80 }, '20-50'), t4060 = SR.targetingPoints(rules, { 50: 20, 60: 80 }, '40-60');
 near(t2050.points, 0.2 * 72.5, '20-50: 60% units have no row in the table');
 near(t4060.points, 0.2 * 72.5 + 0.8 * 50, '40-60 keeps the 60% row');
@@ -172,7 +172,7 @@ for (const st of [{ status: 'no' }, { status: 'yes', text: '' }]) {
   ok(l.lane === 'unknown' && l.amount === undefined, 'market units alone give no lane (' + st.status + ')');
 }
 ok(SR.gapLane(rules, { mix: { market: 20 }, supportive: true }, { status: 'no' }).lane === 'DOH', 'supportive housing still resolves without a midpoint');
-const splitExp = SR.fromCalculatorExport({ url: 'https://x.test/d?rate-9=0.09', outputs: {},
+const splitExp = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?rate-9=0.09', outputs: {},
   inputs: { units: '30', 'chk-30': '1', 'units-30': '15', 'units-30-1br': '6', 'units-30-2br': '4', 'chk-60': '1', 'units-60': '20', 'chk-50': '0', 'units-50': '9' } });
 ok(splitExp.mix[30] === 10 && splitExp.mix[60] === 20 && !splitExp.mix[50], 'a bedroom split replaces the tier total and an unticked tier counts nothing');
 const thNa = SR.thresholdStatus(rules, { T2: 'na', T4: 'na' }, {});
@@ -182,17 +182,17 @@ ok(/data-threshold="T4"[^]*?value="na"/.test(thHtml) && !/data-threshold="T2"><o
 ok(/setItem: function \(\) \{ throw new Error\('storage blocked'\); \}/.test(read('js/whitepaper/submittal-review.js')), 'blocked localStorage falls back to a store whose writes fail');
 
 // Codex review on c491541d9: every calculator AMI band, and the active rent schedule.
-const hiExp = SR.fromCalculatorExport({ url: 'https://x.test/d?rate-9=0.09', outputs: {}, inputs: { units: '60', 'units-40': '50', 'units-100': '10' } });
+const hiExp = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?rate-9=0.09', outputs: {}, inputs: { units: '60', 'units-40': '50', 'units-100': '10' } });
 ok(hiExp.mix[100] === 10 && !hiExp.mix.market, '100% AMI units keep their AMI instead of becoming market units');
 near(SR.amiMidpoint(hiExp.mix).value, 50, 'a 100% band counts in the midpoint');
-const schedExp = SR.fromCalculatorExport({ url: 'https://x.test/d?rate-9=0.09', outputs: {}, inputs: { units: '40', 'units-60': '40' },
+const schedExp = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?rate-9=0.09', outputs: {}, inputs: { units: '40', 'units-60': '40' },
   rentSchedule: { mode: 'schedule', rows: [{ tier: 30, units: 6 }, { tier: 50, units: 20 }, { tier: 50, units: 4 }, { tier: 'market', units: 10 }] } });
 ok(schedExp.mix[30] === 6 && schedExp.mix[50] === 24 && schedExp.mix.market === 10 && !schedExp.mix[60], 'an active rent schedule is the unit mix, not the hidden manual grid');
-ok(SR.fromCalculatorExport({ url: 'https://x.test/d', outputs: {}, inputs: { units: '10', 'units-60': '10' }, rentSchedule: { mode: 'manual', rows: [{ tier: 30, units: 99 }] } }).mix[60] === 10, 'a manual-mode export still reads the grid');
+ok(SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d', outputs: {}, inputs: { units: '10', 'units-60': '10' }, rentSchedule: { mode: 'manual', rows: [{ tier: 30, units: 99 }] } }).mix[60] === 10, 'a manual-mode export still reads the grid');
 ok(['100', '110', '120'].every((t) => read('developer-submittal-review.html').includes('id="sr-mix-' + t + '"')), 'the form has the 100-120% bands');
 
 // Codex review on 5950acd95: a schedule tier outside the form's bands (90%) keeps its AMI.
-const s90 = SR.fromCalculatorExport({ url: 'https://x.test/d?rate-9=0.09', outputs: {}, inputs: {}, rentSchedule: { mode: 'schedule', rows: [{ tier: 40, units: 40 }, { tier: 90, units: 20 }] } });
+const s90 = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?rate-9=0.09', outputs: {}, inputs: {}, rentSchedule: { mode: 'schedule', rows: [{ tier: 40, units: 40 }, { tier: 90, units: 20 }] } });
 ok(s90.mix[90] === 20 && !s90.mix.market, 'a 90% schedule row stays a 90% tier');
 near(SR.amiMidpoint(s90.mix).value, (40 * 40 + 20 * 90) / 60, '90% units count in the midpoint');
 ok(SR.gapLane(rules, { mix: s90.mix }, { status: 'yes', text: 'filed' }).lane === 'OEDIT', 'a 56.67% midpoint takes the OEDIT lane');
