@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T08:24:24.129Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T08:33:09.208Z. Do not edit by hand.
 
 ---
 
@@ -68,7 +68,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 65.3 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 136.0 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 151.5 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 151.6 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 76.7 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -95,7 +95,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 901.5 KB | ✅ | — |
+| `data/_manifest.json` | 909.4 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1726,7 +1726,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 11.0 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 230.3 KB | ✅ | — |
+| `data/manifest.json` | 231.9 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1947,7 +1947,7 @@
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
 | `test/ami-gap-sign-convention.test.js` | 4.9 KB |
 | `test/analytics.test.js` | 18.2 KB |
-| `test/answer-first-screen.test.js` | 1.6 KB |
+| `test/answer-first-screen.test.js` | 1.9 KB |
 | `test/api-config-wrapper-url-sanitization.test.js` | 3.0 KB |
 | `test/aria-list-ownership.test.js` | 2.1 KB |
 | `test/attribute-escaping.test.js` | 4.9 KB |
@@ -2603,7 +2603,7 @@
 | `tests/test_projection_household_series.py` | 13.0 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_ranking_index_transit_zone.py` | 11.8 KB |
-| `tests/test_round_watch.py` | 13.8 KB |
+| `tests/test_round_watch.py` | 15.0 KB |
 | `tests/test_school_transport_exclusion.py` | 9.6 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
 | `tests/test_stage2_temporal.py` | 38.1 KB |
