@@ -1,0 +1,501 @@
+{
+ "slug": "gateway-village-fort-morgan",
+ "name": "Gateway Village",
+ "city": "Fort Morgan",
+ "county": "Morgan",
+ "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+ "units": 120,
+ "researched_on": "2026-10-21",
+ "headline": "Rocky Mountain Communities is gut-rehabbing the 96-unit Gateway Village (built 1975) and adding a new 24-unit building for families at 50% to 80% AMI in Fort Morgan, with a 44-unit Section 8 contract renewed for 20 years; it won 2023 Round Two federal 4% and state credits with $24M of CHFA bonds.",
+ "why_it_matters": "It is a rural preservation-plus-expansion deal that stacks 4% and state credits, CHFA bonds with city, county and housing authority cap, a $5M state housing grant routed through the city, a HUD Green and Resilient Retrofit grant and a seller carryback note from the nonprofit owner.",
+ "status": {
+  "label": "Construction reported under way; no dated start or completion record found",
+  "detail": "RMC told the Fort Morgan Times in January 2025 that construction of the rehab and new units would start in February 2025, with residents benefiting by late 2026; RMC's property page (undated, read 2026-10-21) says the 96 units are undergoing a complete rehab. No dated permit, closing or completion record was found.",
+  "src": [
+   "fmt-2025-01-03",
+   "rmc-gateway"
+  ]
+ },
+ "next_step": "Watch for completion of the 24-unit building and lease-up notices from RMC or the City of Fort Morgan in late 2026 or 2027.",
+ "key_numbers": [
+  {
+   "value": "120 homes: 96 rehabbed, 24 new",
+   "meaning": "118 income-restricted at 50% to 80% AMI plus two employee units; 44 units carry a Section 8 contract.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-descriptions",
+    "fmt-2025-01-03",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "$2,163,996 a year in federal 4% credit",
+   "meaning": "About $21.6M over 10 years, plus $949,176 of state credit.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "value": "$24,000,000 in CHFA bonds",
+   "meaning": "Tax-exempt construction bonds within a planned $29M construction issue; permanent bonds planned at $8.66M.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "About $43M redevelopment",
+   "meaning": "RMC's own figure; it also lists a $5M state housing grant and a $750,000 HUD retrofit grant.",
+   "src": [
+    "rmc-2023-recap",
+    "fmt-2025-01-03"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "414 Southridge Road, Fort Morgan 80701",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, R; F: new construction plus rehab, family",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Existing property",
+   "value": "96 apartments built in 1975 (RMC's page says 1976), never fully renovated; across the street from Pioneer Elementary School and next to a park",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions",
+    "rmc-gateway"
+   ]
+  },
+  {
+   "item": "New building",
+   "value": "Three-story, 24-unit building replacing the old office, with leasing, laundry, community rooms, maintenance and a food pantry on the ground floor; elevator-served, all-electric with heat pumps, holds the fully accessible units",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "rosemann-gateway"
+   ]
+  },
+  {
+   "item": "Rehab scope",
+   "value": "Units gutted to structure (asbestos drywall removed), new insulation, siding, windows, exterior stairs, kitchens, baths, flooring, furnaces with heat pump condensers and water heaters; parking, drainage and landscaping work; NGBS certification",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "rosemann-gateway"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Use by right, per the application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "Morgan County is a Difficult Development Area; non-metro county priority under the QAP",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Relocation",
+   "value": "Residents moved to vacant units on site during work, with the right to return; no off-site moves",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Rental subsidy",
+   "value": "Section 8 HAP contract on 44 units (households under 50% AMI), to be assigned to the tax credit partnership for a new 20-year term at post-rehab rents; reported renewed with the state award",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "fmt-2025-01-03"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "50% AMI",
+   "units": 44
+  },
+  {
+   "level": "60% AMI",
+   "units": 53
+  },
+  {
+   "level": "80% AMI",
+   "units": 21
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 13
+  },
+  {
+   "type": "2BR",
+   "units": 30
+  },
+  {
+   "type": "3BR",
+   "units": 53
+  },
+  {
+   "type": "4BR",
+   "units": 22
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r2-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,163,996 per year",
+   "note": "2023 Round Two; the August 2023 applicant list showed $1,938,545 requested.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-applicants"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$949,176",
+   "note": "$1,100,000 was requested.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-applicants"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$24,000,000",
+   "note": "CHFA issuer, public sale with proceeds lent to the project; construction bonds of $29M ($24M tax-exempt, $5M taxable) and $8.66M permanent bonds; $24M equals 54% of aggregate basis. CHFA provides most of the cap, with cap assigned by local governments (the narrative names Morgan County in one place and the City of Fort Morgan and Brush Housing Authority in another).",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "State housing grant (Division of Housing, State Housing Board)",
+   "amount": "$5,000,000",
+   "note": "Awarded to the City of Fort Morgan in fall 2024 for the project, part of a $43M statewide round.",
+   "src": [
+    "fmt-2025-01-03"
+   ]
+  },
+  {
+   "source": "HUD Green and Resilient Retrofit Program grant",
+   "amount": "$750,000",
+   "note": "Announced 2024-12-16; for energy efficiency, rooftop solar with battery backup and EV charging.",
+   "src": [
+    "rmc-news",
+    "fmt-2025-01-03"
+   ]
+  },
+  {
+   "source": "Other sources named in the application",
+   "amount": "Not public",
+   "note": "US Bank equity, a CHFA loan, and a seller carryback note from the RMC affiliate for the sale price less existing debt.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Rocky Mountain Communities",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Current owner and seller",
+   "name": "Wholly owned affiliate of Rocky Mountain Communities (selling to a new RMC-managed tax credit partnership)",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Rocky Mountain Communities",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "rmc-gateway"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Equity investor (planned)",
+   "name": "US Bank",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Rosemann & Associates",
+   "src": [
+    "rosemann-gateway",
+    "rmc-future"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Taylor Kohrs",
+   "src": [
+    "rmc-future"
+   ]
+  },
+  {
+   "role": "Development consultant",
+   "name": "Medici Consulting Group",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Pass-through for state grant",
+   "name": "City of Fort Morgan",
+   "src": [
+    "fmt-2025-01-03"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "RMC bought Gateway Village from the local housing authority in 2016 to keep it affordable; tax counsel found the project meets the 10-year rule, and apart from the HAP contract no public money had been invested in it, per the application.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "This was a resubmittal after a 2022 application; changes included a rent comparability study for the HAP renewal, a fuller rehab scope covering all CNA items, a cheaper on-site relocation plan and hiring Medici Consulting Group.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study showed capture rates under 5% except 16% at 60% AMI; three older tax credit properties in Fort Morgan total 107 units, and nearby tax credit housing was over 99% occupied. RMC kept 80% AMI and market-level units because current residents at those incomes live there.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The Phase I report found one unit previously contaminated by methamphetamine, since cleaned and cleared; asbestos-containing drywall removal is the main unusual cost.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application expected schematic design submittal in February 2024 with approval in late April 2024; RMC's news page lists a 2024-02-02 Fort Morgan Times item saying construction was likely to begin in August, and in January 2025 RMC said construction would start in February 2025.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "rmc-news",
+    "fmt-2025-01-03"
+   ]
+  },
+  {
+   "text": "The property houses 344 low-income residents, per the January 2025 report.",
+   "src": [
+    "fmt-2025-01-03"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1975",
+   "event": "Gateway Village built",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2016",
+   "event": "Rocky Mountain Communities acquires the property from the local housing authority",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-08-11",
+   "event": "Listed on CHFA's 2023 Round Two applicant report",
+   "src": [
+    "chfa-2023-r2-applicants"
+   ]
+  },
+  {
+   "date": "2023-11-17",
+   "event": "CHFA announces 2023 Round Two awards, including Gateway Village",
+   "src": [
+    "chfa-news-2023-11-17",
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "date": "2024-02-02",
+   "event": "Fort Morgan Times reports construction likely to begin in August (headline listed by RMC)",
+   "src": [
+    "rmc-news"
+   ]
+  },
+  {
+   "date": "2024",
+   "event": "City of Fort Morgan receives a $5M state housing grant for the project (fall 2024)",
+   "src": [
+    "fmt-2025-01-03"
+   ]
+  },
+  {
+   "date": "2024-12-16",
+   "event": "RMC announces a $750,000 HUD Green and Resilient Retrofit grant",
+   "src": [
+    "rmc-news"
+   ]
+  },
+  {
+   "date": "2025-02",
+   "event": "Planned construction start for rehab and new units, per RMC",
+   "src": [
+    "fmt-2025-01-03"
+   ]
+  },
+  {
+   "date": "2026",
+   "event": "Energy upgrades expected to benefit residents by late 2026, per RMC",
+   "src": [
+    "fmt-2025-01-03"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report counts all 120 units as low-income, while CHFA's award description lists only 118 restricted units, the Fort Morgan Times reports two employee units, and the August 2023 applicant list showed 107 low-income units.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-descriptions",
+    "fmt-2025-01-03",
+    "chfa-2023-r2-applicants"
+   ]
+  },
+  {
+   "text": "The application lists 14 one-bedroom and 54 three-bedroom units, while CHFA's award description lists 13 and 53.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "text": "The application and CHFA say the property was built in 1975, while RMC's property page says 1976.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions",
+    "rmc-gateway"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing date, building permit records and a dated construction start.",
+  "Total development cost breakdown beyond RMC's roughly $43M figure, equity price and the seller carryback amount.",
+  "Terms of the $5M state grant through the City of Fort Morgan (grant or loan to the partnership) and any related covenant.",
+  "Exact amounts of local bond cap assigned to CHFA and by which jurisdictions.",
+  "Renewed Section 8 rents after HUD's review of the rent comparability study.",
+  "No public site plan or rendering in a planning packet was found."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round Two Federal 4% and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023-11-15",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-descriptions",
+   "title": "2023 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (Gateway Village Apartments, PDF pages 75-79)",
+   "publisher": "CHFA",
+   "date": "2023-08",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 Round Two State and Federal 4% Credit Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023-08-11",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-news-2023-11-17",
+   "title": "CHFA Announces 2023 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2023-11-17",
+   "url": "https://www.chfainfo.com/chfa-news/11172023-2023-r2-housing-tax-credit-awards"
+  },
+  {
+   "id": "fmt-2025-01-03",
+   "title": "$5 million DOLA grant to refurbish, expand Gateway Village Apartments",
+   "publisher": "The Fort Morgan Times",
+   "date": "2025-01-03",
+   "url": "https://www.fortmorgantimes.com/2025/01/03/5-million-dola-grant-to-refurbish-expand-gateway-village-apartments/"
+  },
+  {
+   "id": "rmc-gateway",
+   "title": "Gateway Village, Fort Morgan, CO",
+   "publisher": "Rocky Mountain Communities",
+   "date": "2026-10-21",
+   "url": "https://rockymountaincommunities.org/rmc-communities/gateway-village-fort-morgan-co/"
+  },
+  {
+   "id": "rmc-future",
+   "title": "Future Communities",
+   "publisher": "Rocky Mountain Communities",
+   "date": "2026-10-21",
+   "url": "https://rockymountaincommunities.org/future-communities/"
+  },
+  {
+   "id": "rmc-news",
+   "title": "Press Releases (news list)",
+   "publisher": "Rocky Mountain Communities",
+   "date": "2026-10-21",
+   "url": "https://rockymountaincommunities.org/news/"
+  },
+  {
+   "id": "rmc-2023-recap",
+   "title": "2023 was a year of progress and expansion for Rocky Mountain Communities",
+   "publisher": "Rocky Mountain Communities",
+   "date": "2024-02-08",
+   "url": "https://rockymountaincommunities.org/wp-content/uploads/2024/02/RMC2023RecapBlogPost.docx.pdf"
+  },
+  {
+   "id": "rosemann-gateway",
+   "title": "Gateway Village (project page)",
+   "publisher": "Rosemann & Associates",
+   "date": "2026-10-21",
+   "url": "https://rosemann.com/portfolio/gateway-village/"
+  }
+ ]
+}

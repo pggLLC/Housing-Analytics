@@ -501,7 +501,7 @@
    "title": "Denver Open Data, Commercial Construction Permits: query for 5601 N Chester Way (permit 2025-COMMCON-0001092 and follow-on permits)",
    "publisher": "City and County of Denver (ArcGIS open data)",
    "date": "2026-10-21",
-   "url": "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/arcgis/rest/services/ODC_DEV_COMMERCIALCONSTPERMIT_P/FeatureServer/317/query?where=ADDRESS+LIKE+%275601%25Chester%25%27&outFields=*&returnGeometry=false&f=pjson"
+   "url": "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/arcgis/rest/services/ODC_DEV_COMMERCIALCONSTPERMIT_P/FeatureServer/317/query?where=ADDRESS+LIKE+%275601%25Chester%25%27&outFields=*&returnGeometry=false&f=pjson&outSR=4326"
   },
   {
    "id": "keybank-deal",

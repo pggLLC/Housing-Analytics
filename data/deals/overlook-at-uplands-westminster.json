@@ -1,0 +1,417 @@
+{
+ "slug": "overlook-at-uplands-westminster",
+ "name": "Overlook at Uplands",
+ "city": "Westminster",
+ "county": "Adams",
+ "award": "2023 Federal 4% housing tax credit",
+ "units": 247,
+ "researched_on": "2026-10-21",
+ "headline": "St. Charles Town Company developed Overlook at Uplands, 247 new one- to three-bedroom apartments in seven buildings for households at 40% to 70% AMI on Clay Street in Westminster's Uplands master plan, with a 2023-cycle federal 4% credit, CHFA bonds and CHFA's largest-ever multifamily loan; it is now leasing.",
+ "why_it_matters": "The first large affordable rental piece of the contested 234-acre Uplands redevelopment of former church farmland, financed through CHFA's CAPABLE bond-loan program with a $67.2M construction-to-permanent loan; it is now leasing.",
+ "status": {
+  "label": "Financing closed (2024); leasing as of October 2026",
+  "detail": "CHFA reported its $67.2M construction-to-permanent loan in its September 2024 newsletter. As of 2026-10-21 the property's leasing website offers one- to three-bedroom homes with a move-in concession, and the City of Westminster lists it among its affordable rental communities. No public record found gives a certificate of occupancy date, and the deal is still on CHFA's 4% award report (no 8609s issued).",
+  "src": [
+   "chfa-impact-2024-09",
+   "overlook-leasing",
+   "westminster-affordable-rentals",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch for 8609 issuance (move to CHFA's 4% Completed Developments Report) and lease-up reports.",
+ "key_numbers": [
+  {
+   "value": "247 homes, all income-restricted",
+   "meaning": "77 one-, 130 two- and 40 three-bedroom units; 13 at 40%, 40 at 50%, 129 at 60% and 65 at 70% AMI (average about 60% AMI, computed).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$3,899,895 a year in federal 4% credit",
+   "meaning": "Federal credit runs 10 years; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-impact-2024-09"
+   ]
+  },
+  {
+   "value": "$43,640,000 in CHFA tax-exempt bonds",
+   "meaning": "CHFA is the issuer per its award report; CHFA's 2024 newsletter cites $45,770,000 of private activity bonds.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-impact-2024-09"
+   ]
+  },
+  {
+   "value": "$67,173,000 CHFA construction-to-permanent loan",
+   "meaning": "Through CHFA's CAPABLE program; CHFA called it the largest multifamily loan in its history.",
+   "src": [
+    "chfa-impact-2024-09"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "8775 Clay Street, Westminster 80031 (CHFA); leasing office at 8670 Clay Street",
+   "src": [
+    "chfa-4pct-award",
+    "overlook-leasing",
+    "westminster-affordable-rentals"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; in a QCT; not in a DDA or SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "247 units across seven buildings",
+   "src": [
+    "chfa-impact-2024-09"
+   ]
+  },
+  {
+   "item": "Master plan",
+   "value": "Part of Uplands, a 234-acre, up to 2,350-home redevelopment of former Pillar of Fire Church farmland between Federal and Lowell boulevards and 84th and 88th avenues, approved by Westminster City Council 5-2 in December 2021",
+   "src": [
+    "ccm-2023-09-28",
+    "denver7-2021-12-21"
+   ]
+  },
+  {
+   "item": "Amenities (leasing site)",
+   "value": "Pool and hot tub, splash pad, playground, dual basketball/soccer court, three barbecue areas, fitness center with yoga studio, clubroom, media room, business center; in-unit washer and dryer; carports and garages",
+   "src": [
+    "overlook-amenities"
+   ]
+  },
+  {
+   "item": "City description",
+   "value": "The City of Westminster lists it as a St. Charles Town Co project of 247 units for households at 40% to 70% AMI",
+   "src": [
+    "westminster-ahd"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "40% AMI",
+   "units": 13
+  },
+  {
+   "level": "50% AMI",
+   "units": 40
+  },
+  {
+   "level": "60% AMI",
+   "units": 129
+  },
+  {
+   "level": "70% AMI",
+   "units": 65
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 77
+  },
+  {
+   "type": "2BR",
+   "units": 130
+  },
+  {
+   "type": "3BR",
+   "units": 40
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,899,895 per year",
+   "note": "Cycle year 2023; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-impact-2024-09"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA)",
+   "amount": "$43,640,000",
+   "note": "CHFA's 2024 newsletter gives $45,770,000. Whose bond cap is not stated publicly.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-impact-2024-09"
+   ]
+  },
+  {
+   "source": "CHFA CAPABLE construction-to-permanent loan",
+   "amount": "$67,173,000",
+   "note": "Largest multifamily loan in CHFA's history, per CHFA.",
+   "src": [
+    "chfa-impact-2024-09"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "8775 Clay Developer, LLC",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Developer",
+   "name": "St. Charles Town Company",
+   "src": [
+    "chfa-impact-2024-09",
+    "westminster-ahd",
+    "bizwest-2024-04-08"
+   ]
+  },
+  {
+   "role": "Bond issuer, lender and credit allocator",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-impact-2024-09"
+   ]
+  },
+  {
+   "role": "Uplands master developers",
+   "name": "Partnership including Oread Capital & Development, Varde Partners, Peak Development and Dream Finders Homes",
+   "src": [
+    "ccm-2023-09-28"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Westminster City Council approved the Uplands master plan 5-2 in the early hours of 2021-12-21 after three nights of hearings; neighbors had fought to preserve the farmland.",
+   "src": [
+    "denver7-2021-12-21"
+   ]
+  },
+  {
+   "text": "The Uplands master developers broke ground on the overall site on 2023-09-27, with the governor attending and neighbors protesting at the entrance.",
+   "src": [
+    "ccm-2023-09-28"
+   ]
+  },
+  {
+   "text": "BizWest reported on 2024-04-08 that St. Charles Town Co. was scheduled to present its plans for several hundred apartments in Uplands to city officials, with a rendering taken from Westminster planning documents.",
+   "src": [
+    "bizwest-2024-04-08"
+   ]
+  },
+  {
+   "text": "CHFA's September 2024 newsletter reported the CAPABLE loan, implying the financing closed by about August 2024 (inferred from the newsletter date).",
+   "src": [
+    "chfa-impact-2024-09"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2023 Round One or Round Two applicant reports or the 2023 Round Two award report.",
+   "src": [
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-12-21",
+   "event": "Westminster City Council approves the Uplands master plan, 5-2",
+   "src": [
+    "denver7-2021-12-21"
+   ]
+  },
+  {
+   "date": "2023-09-27",
+   "event": "Groundbreaking for the overall Uplands development",
+   "src": [
+    "ccm-2023-09-28"
+   ]
+  },
+  {
+   "date": "2024-04-08",
+   "event": "St. Charles Town Co. scheduled to present its Uplands apartment plans to city officials",
+   "src": [
+    "bizwest-2024-04-08"
+   ]
+  },
+  {
+   "date": "2024-09",
+   "event": "CHFA reports its $67.2M CAPABLE loan and the 2023 credit and bond award",
+   "src": [
+    "chfa-impact-2024-09"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2023 (no 8609s issued yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-10-21",
+   "event": "Leasing website active with a move-in concession",
+   "src": [
+    "overlook-leasing"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Overlook at Uplands rendering",
+   "url": "https://www.impact.chfainfo.com/september2024-1",
+   "kind": "rendering",
+   "made_by": "St. Charles Town Company (credited by CHFA)",
+   "note": "Rental housing section image, CHFA Impact Report September 2024",
+   "src": [
+    "chfa-impact-2024-09"
+   ]
+  },
+  {
+   "title": "Rendering of planned Uplands apartment complex",
+   "url": "https://bizwest.com/2024/04/08/new-apartment-community-planned-at-uplands/",
+   "kind": "rendering",
+   "made_by": "Westminster planning documents (as credited by BizWest)",
+   "note": "Lead image of the article",
+   "src": [
+    "bizwest-2024-04-08"
+   ]
+  },
+  {
+   "title": "Overlook at Uplands photo gallery",
+   "url": "https://www.overlookatuplands.com/",
+   "kind": "photo",
+   "made_by": "Property leasing website",
+   "note": "Gallery section of the home page",
+   "src": [
+    "overlook-leasing"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report lists $43,640,000 of CHFA bonds, while CHFA's September 2024 newsletter cites $45,770,000 of private activity bonds.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-impact-2024-09"
+   ]
+  },
+  {
+   "text": "CHFA lists the address as 8775 Clay Street, while the leasing website and the city's affordable rental list give 8670 Clay Street.",
+   "src": [
+    "chfa-4pct-award",
+    "overlook-leasing",
+    "westminster-affordable-rentals"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Westminster site approvals for the parcel (official development plan, plat) with dates and resolution numbers; Westminster's planning commission minutes from 2024 were not reachable online.",
+  "Construction start and certificate of occupancy dates; groundbreaking coverage for this parcel (a 9News/Denver Business Journal report on construction starting was not reachable).",
+  "Whose private activity bond cap backs the CHFA bonds, and whether the bond amount is $43.64M or $45.77M.",
+  "Other public money: a $3,000,000 State Housing Board award for Overlook @ Uplands is indexed on DOLA's site, but the page returned an error and could not be verified.",
+  "Total development cost (reported elsewhere as about $89M, unverified), equity investor, general contractor, rents and affordability period."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-impact-2024-09",
+   "title": "CHFA Impact Report, September 2024 (CHFA Loan Supports Overlook at Uplands)",
+   "publisher": "CHFA",
+   "date": "2024-09",
+   "url": "https://www.impact.chfainfo.com/september2024-1"
+  },
+  {
+   "id": "westminster-ahd",
+   "title": "Affordable Housing Development",
+   "publisher": "City of Westminster",
+   "date": "2026",
+   "url": "https://www.westminsterco.gov/1061/Affordable-Housing-Development"
+  },
+  {
+   "id": "westminster-affordable-rentals",
+   "title": "Affordable Rentals and Housing (list)",
+   "publisher": "City of Westminster",
+   "date": "2026",
+   "url": "https://www.westminsterco.gov/DocumentCenter/View/5716"
+  },
+  {
+   "id": "overlook-leasing",
+   "title": "Overlook at Uplands (leasing website)",
+   "publisher": "Overlook at Uplands",
+   "date": "2026-10-21",
+   "url": "https://www.overlookatuplands.com/"
+  },
+  {
+   "id": "overlook-amenities",
+   "title": "Amenities, Overlook at Uplands",
+   "publisher": "Overlook at Uplands",
+   "date": "2026-10-21",
+   "url": "https://www.overlookatuplands.com/amenities"
+  },
+  {
+   "id": "bizwest-2024-04-08",
+   "title": "New apartment community planned at Uplands",
+   "publisher": "BizWest",
+   "date": "2024-04-08",
+   "url": "https://bizwest.com/2024/04/08/new-apartment-community-planned-at-uplands/"
+  },
+  {
+   "id": "ccm-2023-09-28",
+   "title": "Uplands groundbreaking draws star-studded guest list and protesters",
+   "publisher": "Colorado Community Media",
+   "date": "2023-09-28",
+   "url": "https://coloradocommunitymedia.com/2023/09/28/uplands-groundbreaking-draws-star-studded-guest-list-and-protesters"
+  },
+  {
+   "id": "denver7-2021-12-21",
+   "title": "Westminster approves Uplands project on century-old farmland following grueling deliberations",
+   "publisher": "Denver7",
+   "date": "2021-12-21",
+   "url": "https://www.denver7.com/news/local-news/westminster-approves-uplands-project-on-century-old-farmland-following-grueling-deliberations"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round 2 Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  }
+ ]
+}

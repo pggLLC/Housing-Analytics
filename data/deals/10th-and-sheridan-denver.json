@@ -1,0 +1,544 @@
+{
+ "slug": "10th-and-sheridan-denver",
+ "name": "10th and Sheridan (opened as Sheridan on 10th)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 60,
+ "researched_on": "2026-10-21",
+ "headline": "WellPower (the Mental Health Center of Denver) built Sheridan on 10th, a three-story, 60-unit permanent supportive housing building for chronically homeless adults at 30% AMI in Denver's Villa Park neighborhood, with a 2023 Round One 9% credit award from CHFA; it opened on 2025-06-24.",
+ "why_it_matters": "It is a completed, repeatable model of a behavioral health provider developing its own 9% supportive housing: trauma-informed design, Division of Housing vouchers on every unit, a forgivable $3.1M Denver linkage-fee loan, a Denver Housing Authority partnership for tax exemption, and an infrastructure cost share with neighboring landowners.",
+ "status": {
+  "label": "Open: grand opening 2025-06-24",
+  "detail": "Groundbreaking was in spring 2024 (Mile High CRE reported it on 2024-05-20) and WellPower held a ribbon-tying grand opening on 2025-06-24; WellPower's property page says \"Now Open\". Occupancy level and the CHFA placed-in-service date are not public.",
+  "src": [
+   "milehighcre-2024-05-20",
+   "wellpower-opening-2025-06-25",
+   "wellpower-sheridan-page"
+  ]
+ },
+ "next_step": "Watch for CHFA's placed-in-service record and any WellPower or Denver HOST report on occupancy and housing retention.",
+ "key_numbers": [
+  {
+   "value": "60 one-bedroom homes, all at 30% AMI",
+   "meaning": "For chronically homeless adults with disabilities; every unit carries a Colorado Division of Housing project-based voucher.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives",
+    "wellpower-sheridan-page"
+   ]
+  },
+  {
+   "value": "$1,450,000 a year in federal 9% credit",
+   "meaning": "The full amount requested; about $14.5M over 10 years (inferred).",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "value": "$3,100,000 Denver loan",
+   "meaning": "0% interest, 60-year term, forgiven at maturity if in compliance; from the Affordable Housing Fund linkage fee; adopted by Denver City Council on 2024-06-03 (Resolution 24-0343).",
+   "src": [
+    "denver-24-0343",
+    "denver-loan-agmt"
+   ]
+  },
+  {
+   "value": "About $650,000 a year in services",
+   "meaning": "The applicant's estimate of supportive services cost, escalating 3% a year, paid from Medicaid, Division of Housing services money, cash flow and a developer fee reserve.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "5045 and 5055 W. 10th Avenue, Denver 80204 per CHFA; Denver's loan agreement gives 5097 W. 10th Avenue",
+   "src": [
+    "chfa-2023-r1-award",
+    "denver-loan-agmt"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, permanent supportive housing; 60 units, 60 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "1.01 acres in the Villa Park neighborhood, zoned C-MX-5; Qualified Census Tract 9.04; two vacant single-family homes bought by WellPower in April 2020, then abated and demolished",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three stories, L-shaped, elevator; slab on grade, wood frame and structural steel; enclosed courtyard, basketball court; 11 surface parking spaces reached from the new W. 11th Avenue extension; about 50,266 sq ft",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "milehighcre-2024-05-20"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "One-bedroom, average about 411 sq ft, with no bedroom doors (trauma-informed design); fully furnished at opening",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "wellpower-opening-2025-06-25"
+   ]
+  },
+  {
+   "item": "Tenant referrals",
+   "value": "Half from the One Home coordinated entry system, half from WellPower's waiting lists and case management",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "About 0.5 miles south of RTD's Sheridan light rail station; Route 9 and Route 51 buses nearby; a path to the Lakewood Dry Gulch Trail",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "wellpower-groundbreaking-2024-06-03"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "Enterprise Green Communities, cool roof, PV-ready and electrification-ready",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "denver-24-0343"
+   ]
+  },
+  {
+   "item": "Affordability covenant (city)",
+   "value": "Denver covenant for at least 60 years at 30% AMI",
+   "src": [
+    "denver-24-0343",
+    "denver-loan-agmt"
+   ]
+  },
+  {
+   "item": "Ownership entity",
+   "value": "Sheridan Supportive Housing, LLLP; general partner Sheridan Supportive Housing GP, LLC, whose sole member is WellPower; investor limited partner USA Institutional Sheridan LLC",
+   "src": [
+    "denver-loan-agmt"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 60
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 60
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives",
+  "denver-24-0343"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,450,000 per year",
+   "note": "2023 Round One award, equal to the request. WellPower thanked American Express/Richman Capital at the opening (The Richman Group at the groundbreaking); the loan agreement names USA Institutional Sheridan LLC as investor limited partner.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "wellpower-opening-2025-06-25",
+    "wellpower-groundbreaking-2024-06-03",
+    "denver-loan-agmt"
+   ]
+  },
+  {
+   "source": "City and County of Denver (HOST) loan, Affordable Housing Fund linkage fee",
+   "amount": "$3,100,000",
+   "note": "0% interest, matures in 60 years, forgiven if in compliance; second lien behind the construction loan.",
+   "src": [
+    "denver-24-0343",
+    "denver-loan-agmt"
+   ]
+  },
+  {
+   "source": "Construction loan",
+   "amount": "Not public",
+   "note": "Legacy Bank & Trust Company holds the first-position construction deed of trust.",
+   "src": [
+    "denver-loan-agmt",
+    "wellpower-opening-2025-06-25"
+   ]
+  },
+  {
+   "source": "CHFA Capital Magnet Fund loan/grant",
+   "amount": "Not public",
+   "note": "Named in the application's financing plan.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing gap funding",
+   "amount": "Not public",
+   "note": "Named in the application; WellPower thanked DOLA and the Division of Housing.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "wellpower-opening-2025-06-25"
+   ]
+  },
+  {
+   "source": "Project-based vouchers",
+   "amount": "60 units",
+   "note": "From the Colorado Division of Housing, plus Division of Housing Tenancy Supportive Services funding.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Property tax exemption",
+   "amount": "Not public",
+   "note": "Through a special limited partnership with the Denver Housing Authority, per the application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor and developer (as CHFA prints it)",
+   "name": "Mental Health Center of Denver d/b/a WellPower",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Supportive services provider",
+   "name": "WellPower",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Owner",
+   "name": "Sheridan Supportive Housing, LLLP (general partner Sheridan Supportive Housing GP, LLC, controlled by WellPower)",
+   "src": [
+    "denver-loan-agmt"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Davis Partnership Architects",
+   "src": [
+    "wellpower-sheridan-page",
+    "milehighcre-2024-05-20"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Alliance Construction Solutions",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "milehighcre-2024-05-20"
+   ]
+  },
+  {
+   "role": "Property manager (proposed in the application)",
+   "name": "ComCap Management",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Construction lender",
+   "name": "Legacy Bank & Trust Company",
+   "src": [
+    "denver-loan-agmt",
+    "wellpower-opening-2025-06-25"
+   ]
+  },
+  {
+   "role": "Tax credit investor",
+   "name": "American Express/Richman Capital (The Richman Group); investor entity USA Institutional Sheridan LLC",
+   "src": [
+    "wellpower-opening-2025-06-25",
+    "wellpower-groundbreaking-2024-06-03",
+    "denver-loan-agmt"
+   ]
+  },
+  {
+   "role": "Other partners thanked by WellPower (roles not stated)",
+   "name": "S.B. Clark & Companies",
+   "src": [
+    "wellpower-opening-2025-06-25"
+   ]
+  },
+  {
+   "role": "Adjacent landowners in the road and drainage cost share",
+   "name": "Urban Land Conservancy, Yates Investment Partners, Morrison Group",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "wellpower-opening-2025-06-25"
+   ]
+  },
+  {
+   "role": "Public partners",
+   "name": "City and County of Denver (HOST), Colorado Division of Housing / DOLA, CHFA, Denver Housing Authority (tax exemption partner per the application)",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "denver-24-0343"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "WellPower's second 9% supportive housing project after Sanderson Apartments (60 units, 2017, part of Denver's Social Impact Bond); WellPower said Sheridan on 10th reuses lessons from Sanderson, such as the L-shaped plan for sightlines from reception to every entrance.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "wellpower-groundbreaking-2024-06-03"
+   ]
+  },
+  {
+   "text": "In August 2021 the city asked the four adjoining landowners to make an extension of W. 11th Avenue the primary site access; the owners agreed to a Drainage and Road Cost Share Agreement covering $1,581,401 of road extension and water detention costs, split among the four.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Entitlements were administrative: the Site Development Plan was submitted in September 2022, with approval tied to transportation engineering plans for the 11th Avenue extension and 10th Avenue sidewalks.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Denver's loan was approved by the Safety, Housing, Education & Homelessness Committee on 2024-03-20 and adopted by City Council on 2024-06-03; the agreement requires completion within 24 months and records a 60-year covenant.",
+   "src": [
+    "denver-24-0343",
+    "denver-loan-agmt"
+   ]
+  },
+  {
+   "text": "The loan agreement records the City's approval of WellPower's planned merger with Jefferson Center for Mental Health, then expected on 2024-07-01.",
+   "src": [
+    "denver-loan-agmt"
+   ]
+  },
+  {
+   "text": "Market study figures in the application: 12.4% capture rate; lease-up of 30 units a month, stabilized in about two months.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2020-04",
+   "event": "WellPower buys the land",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2021",
+   "event": "Community planning meetings with the Villa Park neighborhood organization (spring); city asks landowners to build the W. 11th Avenue extension (August)",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-09",
+   "event": "Site Development Plan submitted to Denver",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round One applicant report (request $1,450,000)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Awarded $1,450,000 in 2023 Round One federal 9% credit",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "date": "2024-03-20",
+   "event": "Denver council committee approves filing the $3.1M HOST loan",
+   "src": [
+    "denver-24-0343"
+   ]
+  },
+  {
+   "date": "2024-05-20",
+   "event": "Groundbreaking reported (completion then expected in spring 2025)",
+   "src": [
+    "milehighcre-2024-05-20",
+    "wellpower-groundbreaking-2024-06-03"
+   ]
+  },
+  {
+   "date": "2024-06-03",
+   "event": "Denver City Council adopts resolution 24-0343 approving the loan",
+   "src": [
+    "denver-24-0343"
+   ]
+  },
+  {
+   "date": "2025-06-24",
+   "event": "Grand opening (ribbon tying)",
+   "src": [
+    "wellpower-opening-2025-06-25",
+    "wellpower-sheridan-page"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Opening celebration photos",
+   "url": "https://www.wellpower.org/sheridan-on-10th/",
+   "kind": "photo",
+   "made_by": "WellPower",
+   "note": "\"Images from the Opening Celebration\" gallery on the property page",
+   "src": [
+    "wellpower-sheridan-page"
+   ]
+  },
+  {
+   "title": "Furnished apartment and ribbon-tying photos",
+   "url": "https://www.wellpower.org/blog/wellpowers-newest-supportive-housing-project-sheridan-on-10th-opens-doors-june-24/",
+   "kind": "photo",
+   "made_by": "WellPower",
+   "note": "Photos in the 2025-06-25 post",
+   "src": [
+    "wellpower-opening-2025-06-25"
+   ]
+  },
+  {
+   "title": "Groundbreaking photos",
+   "url": "https://milehighcre.com/groundbreaking-supportive-housing-project-sheridan-on-10th/",
+   "kind": "photo",
+   "made_by": "Mile High CRE",
+   "note": "Photos in the 2024-05-20 article",
+   "src": [
+    "milehighcre-2024-05-20"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists the address as 5045 and 5055 W. 10th Avenue, while Denver's loan agreement and Mile High CRE give 5097 W. 10th Avenue.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives",
+    "denver-loan-agmt",
+    "milehighcre-2024-05-20"
+   ]
+  },
+  {
+   "text": "CHFA, the application, Denver and WellPower's property page describe 60 one-bedroom units, while WellPower's opening post says \"60 studio and one-bedroom apartments\".",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives",
+    "denver-24-0343",
+    "wellpower-sheridan-page",
+    "wellpower-opening-2025-06-25"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost and the amounts of the CHFA Capital Magnet Fund, Division of Housing and Legacy Bank loans.",
+  "Whether the Denver Housing Authority special limited partnership for property tax exemption was used at closing (the loan agreement names only the investor limited partner).",
+  "Occupancy, lease-up pace and the CHFA placed-in-service date.",
+  "Length of the CHFA extended-use covenant.",
+  "Construction closing date (not found in public records)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report (public report as of 2025-02-26)",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "CHFA, 2023 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (Sheridan narrative, PDF pages 1-5)",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "wellpower-opening-2025-06-25",
+   "title": "WellPower's Newest Supportive Housing Project, Sheridan on 10th, Opens Doors June 24",
+   "publisher": "WellPower",
+   "date": "2025-06-25",
+   "url": "https://www.wellpower.org/blog/wellpowers-newest-supportive-housing-project-sheridan-on-10th-opens-doors-june-24/"
+  },
+  {
+   "id": "wellpower-sheridan-page",
+   "title": "Sheridan on 10th (property page)",
+   "publisher": "WellPower",
+   "date": "2025",
+   "url": "https://www.wellpower.org/sheridan-on-10th/"
+  },
+  {
+   "id": "wellpower-groundbreaking-2024-06-03",
+   "title": "Solving the Homeless and Housing Crises: WellPower Breaks Ground on New Project in Denver",
+   "publisher": "WellPower",
+   "date": "2024-06-03",
+   "url": "https://www.wellpower.org/blog/solving-the-homeless-and-housing-crises-wellpower-breaks-ground-on-new-project-in-denver/"
+  },
+  {
+   "id": "milehighcre-2024-05-20",
+   "title": "Groundbreaking: Supportive Housing Project Sheridan on 10th",
+   "publisher": "Mile High CRE",
+   "date": "2024-05-20",
+   "url": "https://milehighcre.com/groundbreaking-supportive-housing-project-sheridan-on-10th/"
+  },
+  {
+   "id": "denver-24-0343",
+   "title": "Denver City Council Resolution 24-0343, loan agreement with Mental Health Center of Denver (Sheridan Supportive Housing), legislative record",
+   "publisher": "City and County of Denver",
+   "date": "2024-06-03",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=25118&GUID=F6FEDC23-060E-4EB1-A081-07598CFBE613"
+  },
+  {
+   "id": "denver-loan-agmt",
+   "title": "Loan Agreement (Linkage Fee Revenue Fund), City and County of Denver and Mental Health Center of Denver, $3.1M (attachment to 24-0343)",
+   "publisher": "City and County of Denver",
+   "date": "2024",
+   "url": "https://denver.legistar1.com/denver/attachments/fb3ccaf9-0462-4140-8a72-1de59c7a58f2.pdf"
+  }
+ ]
+}

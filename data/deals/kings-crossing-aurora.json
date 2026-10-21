@@ -1,0 +1,510 @@
+{
+ "slug": "kings-crossing-aurora",
+ "name": "King's Crossing (King's Crossing Village)",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+ "units": 179,
+ "researched_on": "2026-10-21",
+ "headline": "Community Development Partners and Restoration Christian Ministries developed King's Crossing Village, a 179-unit intergenerational community (178 income-restricted at 30% to 80% AMI, 51 reserved for ages 55+) on church-owned parking lots in Aurora's Centretech neighborhood; it won 2023 Round Two federal 4% and state credits with $38M of CHFA bonds, broke ground in February 2025 and is leasing in October 2026.",
+ "why_it_matters": "It is a model of faith-based land use for housing: a congregation ground-leases its surplus parking to an experienced developer, serves as co-general partner and service provider, and the deal layers state, city ARPA and congressional funds with a housing authority tax exemption.",
+ "status": {
+  "label": "Leasing (October 2026); groundbreaking 2025-02-27",
+  "detail": "The developer announced the groundbreaking held on 2025-02-27; on 2026-10-21 the property's leasing site listed specific units available for move-in on 2026-10-19 and 2026-10-20. No certificate of occupancy or placed-in-service date was found.",
+  "src": [
+   "cdp-2025-02-28",
+   "ccd-2025-03-03",
+   "kcv-floorplans"
+  ]
+ },
+ "next_step": "Watch for the placed-in-service date of the last building and CHFA compliance records; the application had planned final completion in September 2026.",
+ "key_numbers": [
+  {
+   "value": "179 homes, 178 income-restricted",
+   "meaning": "54 one-, 54 two-, 54 three- and 16 four-bedroom restricted units at 30% to 80% AMI, plus one manager's unit; 51 units are reserved for ages 55+.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-descriptions",
+    "cdp-kcv"
+   ]
+  },
+  {
+   "value": "$3,595,286 a year in federal 4% credit",
+   "meaning": "About $36.0M over 10 years, plus $1,100,000 of state credit.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "value": "$38,000,000 in CHFA bonds",
+   "meaning": "About 55% of basis, planned to pay down to about $14.7M of long-term bonds; Citi provides the construction and permanent loans.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives",
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "value": "$11.12M in public gap funds",
+   "meaning": "$7.12M from the Colorado Division of Housing, $3M of HUD congressional funding and $1M of City of Aurora ARPA funds.",
+   "src": [
+    "cdp-kcv",
+    "dola-2024-10-09"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "15660 E. 6th Ave., Aurora 80011 (CHFA); the groundbreaking release gives the three buildings as 15800, 15860 and 15740 E. Sixth Ave.",
+   "src": [
+    "chfa-2023-r2-award",
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Level, irregular, about 5.74-acre parcel of former parking lots next to the church's operations center, with about 570 feet of frontage on East 6th Avenue",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Land",
+   "value": "Owned by Restoration Christian Fellowship, which entered a long-term ground lease with Community Development Partners, per the application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "MU-C (Mixed Use Corridor), no maximum density under Aurora's Unified Development Ordinance",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three buildings, wood frame with glulam post and beam on post-tensioned slabs, elevators and interior corridors; 100% electric with solar, heat pump water heaters and central ERV; 13-foot over-excavation for expansive soils",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "cdp-kcv"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "2023 Qualified Census Tract; about 0.3 miles from the Chambers Road and 6th Avenue bus stop",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Community for All Ages model; RCM staffs one full-time resident services coordinator and a resident services wing, with nearby daycare, cafe, employment, health and food programs",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions",
+    "cdp-kcv"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Housing Authority of the City of Aurora partnered to provide the tax exemption",
+   "src": [
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "Enterprise Green Communities and Energy Star (target)",
+   "src": [
+    "cdp-kcv"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 18
+  },
+  {
+   "level": "50% AMI",
+   "units": 73
+  },
+  {
+   "level": "70% AMI",
+   "units": 48
+  },
+  {
+   "level": "80% AMI",
+   "units": 39
+  },
+  {
+   "level": "Employee unit (unrestricted)",
+   "units": 1
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 54
+  },
+  {
+   "type": "2BR",
+   "units": 55
+  },
+  {
+   "type": "3BR",
+   "units": 54
+  },
+  {
+   "type": "4BR",
+   "units": 16
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r2-descriptions",
+  "cdp-kcv",
+  "chfa-2023-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,595,286 per year",
+   "note": "2023 Round Two; same as requested.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-applicants"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,100,000",
+   "note": "",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$38,000,000",
+   "note": "CHFA issuer; the application described a CHFA-issued conduit structure with tax-exempt drawdown bonds paying down to about $14.7M long-term, private placement, no taxable bonds.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "Construction and permanent loans",
+   "amount": "Not public",
+   "note": "Citi; Impact Development Fund provided an additional permanent loan.",
+   "src": [
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "source": "Tax credit equity",
+   "amount": "Not public",
+   "note": "Enterprise Community Partners.",
+   "src": [
+    "cdp-2025-02-28",
+    "cdp-kcv"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing (State Housing Board)",
+   "amount": "$7,120,000",
+   "note": "Announced 2024-10-09.",
+   "src": [
+    "dola-2024-10-09",
+    "cdp-kcv"
+   ]
+  },
+  {
+   "source": "HUD Community Project Funding (congressionally directed)",
+   "amount": "$3,000,000",
+   "note": "Awarded in 2023 to fill a cost-increase gap.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "cdp-kcv"
+   ]
+  },
+  {
+   "source": "City of Aurora ARPA funds",
+   "amount": "$1,000,000",
+   "note": "",
+   "src": [
+    "cdp-kcv",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "Named in the application.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Community Development Partners",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Co-general partner, land owner and service provider",
+   "name": "Restoration Christian Fellowship / Restoration Christian Ministries",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Equity investor",
+   "name": "Enterprise Community Partners",
+   "src": [
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "role": "Construction and permanent lender",
+   "name": "Citi",
+   "src": [
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "role": "Additional permanent lender",
+   "name": "Impact Development Fund",
+   "src": [
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "role": "Tax exemption partner",
+   "name": "Housing Authority of the City of Aurora",
+   "src": [
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "cdp-2025-02-28",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Deneuve Construction",
+   "src": [
+    "cdp-2025-02-28",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Apartment Management Consultants (per CDP; the application named FPI Management)",
+   "src": [
+    "cdp-kcv",
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The project carries out the late founding pastor's plan to turn the church's empty parking lots into housing; the church campus has hosted Safe Parking and Safe Outdoor Space programs with the Salvation Army and the City of Aurora, and eligible residents of those programs were to be offered housing.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "text": "It is Community Development Partners' first Colorado development; the developer works in California, Oregon, Nevada and Arizona.",
+   "src": [
+    "cdp-kcv",
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "text": "The market study gave an 11.2% required capture rate and a 4.7% surveyed vacancy rate, with 25 tax credit projects in the market area; the applicant said it would be the first tax credit project there using 80% AMI limits.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application planned a December 2023 site development plan submittal, permits in November 2024, construction start in early 2025 and final placed-in-service in September 2026; the groundbreaking took place on 2025-02-27.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "text": "The applicant cited a support letter from the Aurora mayor's office and no known opposition.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-08-11",
+   "event": "Listed on CHFA's 2023 Round Two applicant report",
+   "src": [
+    "chfa-2023-r2-applicants"
+   ]
+  },
+  {
+   "date": "2023-11-17",
+   "event": "CHFA announces 2023 Round Two awards, including King's Crossing",
+   "src": [
+    "chfa-news-2023-11-17",
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "date": "2024-10-09",
+   "event": "State Housing Board award of $7.12M announced",
+   "src": [
+    "dola-2024-10-09"
+   ]
+  },
+  {
+   "date": "2025-02-27",
+   "event": "Groundbreaking celebration",
+   "src": [
+    "cdp-2025-02-28",
+    "ccd-2025-03-03"
+   ]
+  },
+  {
+   "date": "2026-10",
+   "event": "Leasing site lists units available for move-in",
+   "src": [
+    "kcv-floorplans"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA lists the address as 15660 E. 6th Ave., while the groundbreaking release gives the three buildings as 15800, 15860 and 15740 E. Sixth Ave.",
+   "src": [
+    "chfa-2023-r2-award",
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "text": "The application credits the $3M congressional appropriation to a U.S. House member's office, while the groundbreaking release credits a U.S. Senator's office.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "cdp-2025-02-28"
+   ]
+  },
+  {
+   "text": "The application named FPI Management as property manager, while the developer's project page names Apartment Management Consultants.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "cdp-kcv"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing date and the final bond, loan and equity amounts; total development cost.",
+  "Ground lease term and rent paid to Restoration Christian Fellowship.",
+  "City of Aurora site development plan approval date and building permit numbers.",
+  "Placed-in-service dates for each building and current occupancy.",
+  "No public site plan or rendering in a city planning packet was found."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round Two Federal 4% and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023-11-15",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-descriptions",
+   "title": "2023 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (King's Crossing Village, PDF pages 111-115)",
+   "publisher": "CHFA",
+   "date": "2023-08",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 Round Two State and Federal 4% Credit Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023-08-11",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-news-2023-11-17",
+   "title": "CHFA Announces 2023 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2023-11-17",
+   "url": "https://www.chfainfo.com/chfa-news/11172023-2023-r2-housing-tax-credit-awards"
+  },
+  {
+   "id": "dola-2024-10-09",
+   "title": "Colorado State Housing Board Announces Over $19M in Rental Housing Awards, Providing 600 Units Statewide",
+   "publisher": "Colorado Department of Local Affairs",
+   "date": "2024-10-09",
+   "url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-announces-over-19m-in-rental-housing-awards-providing"
+  },
+  {
+   "id": "cdp-2025-02-28",
+   "title": "Restoration Christian Ministries and Community Development Partners kick off King's Crossing Village, a 179-unit affordable housing community in Aurora's Centretech neighborhood",
+   "publisher": "Community Development Partners",
+   "date": "2025-02-28",
+   "url": "https://www.communitydevpartners.com/restoration-christian-ministries-and-community-development-partners-kick-off-kings-crossing-village-a-179-unit-affordable-housing-community-in-auroras-centretech-neighborhood/"
+  },
+  {
+   "id": "ccd-2025-03-03",
+   "title": "Restoration Christian Ministries and Community Development Partners Break Ground on King's Crossing Village in Aurora's Centretech",
+   "publisher": "Colorado Construction & Design",
+   "date": "2025-03-03",
+   "url": "https://ccdmag.com/project-updates/kings-crossing-village-aurora/"
+  },
+  {
+   "id": "cdp-kcv",
+   "title": "King's Crossing Village (project page)",
+   "publisher": "Community Development Partners",
+   "date": "2026-10-21",
+   "url": "https://www.communitydevpartners.com/communities/kings-crossing-village/"
+  },
+  {
+   "id": "kcv-floorplans",
+   "title": "Floor Plans at King's Crossing Village (leasing site)",
+   "publisher": "King's Crossing Village",
+   "date": "2026-10-21",
+   "url": "https://www.kingscrossingvillage.com/floorplans"
+  }
+ ]
+}

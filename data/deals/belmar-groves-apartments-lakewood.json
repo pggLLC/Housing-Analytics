@@ -1,0 +1,381 @@
+{
+ "slug": "belmar-groves-apartments-lakewood",
+ "name": "Belmar Groves Apartments",
+ "city": "Lakewood",
+ "county": "Jefferson",
+ "award": "2023 Federal 4% housing tax credit",
+ "units": 118,
+ "researched_on": "2026-10-21",
+ "headline": "Metro West Housing Solutions (Lakewood's housing authority) completed a $66.5 million renovation of Belmar Groves, 118 existing one- to three-bedroom apartments at 259 S Teller St near Lakewood's Belmar district, financed with a 2023-cycle federal 4% credit and $30 million of its own tax-exempt bonds.",
+ "why_it_matters": "A housing-authority-issued bond and 4% resyndication that layered Division of Housing, Jefferson County, EPA brownfields money and city fee waivers to fully rehab an aging tax credit property in a high-cost location and deepen affordability to 50% AMI for 63 units.",
+ "status": {
+  "label": "Renovation completed (October 2025)",
+  "detail": "Jefferson County reported that construction began in August 2023 and the renovation was completed in October 2025. The deal is still on CHFA's 4% award report as of 2026-09-21, which means 8609 forms had not yet been issued.",
+  "src": [
+   "jeffco-2026-04-09",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch for the deal to move to CHFA's 4% Completed Developments Report (8609 issuance).",
+ "key_numbers": [
+  {
+   "value": "118 homes, all income-restricted",
+   "meaning": "36 one-, 70 two- and 12 three-bedroom units in 10 buildings; CHFA lists all 118 at 60% AMI, while the county says 63 are now at 50% AMI or below.",
+   "src": [
+    "chfa-4pct-award",
+    "jeffco-2026-04-09",
+    "studio646-portfolio"
+   ]
+  },
+  {
+   "value": "$2,296,538 a year in federal 4% credit",
+   "meaning": "Federal credit runs 10 years; the county reports $22.6M of tax credit equity. Amounts on CHFA's report are marked subject to change.",
+   "src": [
+    "chfa-4pct-award",
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "value": "$30,000,000 in tax-exempt bonds issued by Metro West Housing Solutions",
+   "meaning": "The housing authority is its own bond issuer; whose bond cap was used is not stated publicly.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$66.5 million renovation",
+   "meaning": "Total project cost reported by Jefferson County at completion.",
+   "src": [
+    "jeffco-2026-04-09"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "259 S Teller St, Lakewood 80226",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, acquisition/rehabilitation; not in a QCT, DDA or SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Location",
+   "value": "One block from the Belmar shopping district",
+   "src": [
+    "mwhs-2024-10-17"
+   ]
+  },
+  {
+   "item": "Prior financing",
+   "value": "Listed as a 4% tax credit and tax-exempt bond property placed in service in 2006 with 117 of 118 units low-income (listing site drawing on HUD LIHTC data)",
+   "src": [
+    "ahhub-listing"
+   ]
+  },
+  {
+   "item": "Rehab scope",
+   "value": "All 118 units renovated with reconfigured open kitchen, dining and living areas, new cabinets, counters, appliances, flooring, lighting and plumbing fixtures; new siding, windows, roofs and entry doors, with mansard roofs removed; new high-efficiency heating and cooling; accessibility upgrades",
+   "src": [
+    "jeffco-2026-04-09",
+    "mwhs-2024-10-17",
+    "studio646-portfolio"
+   ]
+  },
+  {
+   "item": "Community space",
+   "value": "Community building gutted and expanded by about 1,000 sq ft (lounge, computer lab, kitchenette); new 24-hour fitness room; rebuilt laundry, playground, community garden and barbecue areas; expanded green space",
+   "src": [
+    "studio646-portfolio",
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "item": "Environmental",
+   "value": "U.S. EPA provided $500,000; the renovation was supported by EPA grants per the housing authority (the grant's specific purpose is not stated in these sources)",
+   "src": [
+    "jeffco-2026-04-09",
+    "mwhs-2024-10-17"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 118
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 36
+  },
+  {
+   "type": "2BR",
+   "units": 70
+  },
+  {
+   "type": "3BR",
+   "units": 12
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,296,538 per year",
+   "note": "Cycle year 2023; about $22.6M of tax credit equity per Jefferson County.",
+   "src": [
+    "chfa-4pct-award",
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (Metro West Housing Solutions)",
+   "amount": "$30,000,000",
+   "note": "Whose bond cap is not stated publicly.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "$5.31M",
+   "note": "Form (grant or loan) not stated in the county release; the housing authority describes Division of Housing grants.",
+   "src": [
+    "jeffco-2026-04-09",
+    "mwhs-2024-10-17"
+   ]
+  },
+  {
+   "source": "U.S. Environmental Protection Agency",
+   "amount": "$500,000",
+   "note": "",
+   "src": [
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "source": "Jefferson County",
+   "amount": "$500,000",
+   "note": "",
+   "src": [
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "source": "City of Lakewood",
+   "amount": "Development fee waiver",
+   "note": "Value not stated.",
+   "src": [
+    "jeffco-2026-04-09"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it), owner and bond issuer",
+   "name": "Metro West Housing Solutions (Housing Authority of the City of Lakewood)",
+   "src": [
+    "chfa-4pct-award",
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "role": "Credit allocator",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award",
+    "mwhs-2024-10-17"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Studio 646 Architecture",
+   "src": [
+    "studio646-portfolio"
+   ]
+  },
+  {
+   "role": "Funders",
+   "name": "Colorado Division of Housing; Jefferson County; U.S. EPA; City of Lakewood (fee waivers)",
+   "src": [
+    "jeffco-2026-04-09"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Metro West Housing Solutions already controlled Belmar Groves, one of its 18 communities; the acquisition/rehabilitation label reflects a transfer into a new tax credit ownership (inferred), and no third-party sale or price was found in public records.",
+   "src": [
+    "mwhs-2024-10-17",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "Jefferson County described the property as not significantly updated in decades before the work, which began in August 2023.",
+   "src": [
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "text": "By August 2024, 32 of 118 units were fully renovated and exterior work on three buildings was complete; the housing authority then expected completion in early 2025. The county reported completion in October 2025.",
+   "src": [
+    "mwhs-2024-10-17",
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "text": "Before the renovation all units were restricted at 60% AMI; afterward 63 units are affordable at 50% AMI or below, per the county.",
+   "src": [
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2023 Round One or Round Two applicant reports or the 2023 Round Two award report.",
+   "src": [
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2006",
+   "event": "Original placed-in-service year as a 4% bond property (listing site using HUD LIHTC data)",
+   "src": [
+    "ahhub-listing"
+   ]
+  },
+  {
+   "date": "2023-08",
+   "event": "Renovation construction begins",
+   "src": [
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "date": "2024-08",
+   "event": "32 of 118 units renovated; exteriors on three buildings complete",
+   "src": [
+    "mwhs-2024-10-17"
+   ]
+  },
+  {
+   "date": "2025-10",
+   "event": "Renovation completed",
+   "src": [
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "date": "2026-04-09",
+   "event": "Jefferson County announces completion",
+   "src": [
+    "jeffco-2026-04-09"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2023 (no 8609s issued yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Belmar Groves renovation portfolio page",
+   "url": "https://www.646arch.com/belmar-groves",
+   "kind": "rendering",
+   "made_by": "Studio 646 Architecture",
+   "note": "Image gallery on the portfolio page (images not labeled as renderings or photos)",
+   "src": [
+    "studio646-portfolio"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report lists all 118 units at 60% AMI, while Jefferson County reports that 63 units are now affordable at 50% AMI or below.",
+   "src": [
+    "chfa-4pct-award",
+    "jeffco-2026-04-09"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whose private activity bond cap backs the $30M housing authority bonds, and bond closing date.",
+  "Final income mix under the new covenant (60% AMI for all units per CHFA, or 63 units at 50% AMI per the county), and the length of the new affordability period.",
+  "Transfer price from the housing authority to the tax credit partnership, the investor and lender, and the general contractor.",
+  "Purpose of the EPA grant (brownfields cleanup or other) and the form of the Division of Housing funds (a State Housing Board award of about $3.54M is indexed on DOLA's site, but the page returned an error and could not be verified).",
+  "Date of 8609 issuance."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "jeffco-2026-04-09",
+   "title": "Belmar Groves Apartments Renovation Expands Affordable Housing in Lakewood",
+   "publisher": "Jefferson County, Colorado",
+   "date": "2026-04-09",
+   "url": "https://www.jeffco.us/m/newsflash/Home/Detail/2583"
+  },
+  {
+   "id": "mwhs-2024-10-17",
+   "title": "An Update On Our Belmar Groves Renovation Project",
+   "publisher": "Metro West Housing Solutions",
+   "date": "2024-10-17",
+   "url": "https://mwhs.org/belmar-update/"
+  },
+  {
+   "id": "studio646-portfolio",
+   "title": "Belmar Groves (portfolio)",
+   "publisher": "Studio 646 Architecture",
+   "date": "2025",
+   "url": "https://www.646arch.com/belmar-groves"
+  },
+  {
+   "id": "ahhub-listing",
+   "title": "Belmar Groves (LIHTC listing)",
+   "publisher": "Affordable Housing Hub",
+   "date": "2026-10-21",
+   "url": "https://affordablehousinghub.org/housing/colorado/jefferson/lakewood/belmar-groves-2671-lihtc"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round 2 Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  }
+ ]
+}

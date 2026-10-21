@@ -1,0 +1,615 @@
+{
+ "slug": "edge-iii-loveland",
+ "name": "Edge III",
+ "city": "Loveland",
+ "county": "Larimer",
+ "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+ "units": 66,
+ "researched_on": "2026-10-21",
+ "headline": "Loveland Housing Authority built Edge III, the third and final phase of its Edge campus off East 15th Street near Boyd Lake Avenue in east Loveland: 66 studio, one- and two-bedroom apartments for households at 30% to 60% AMI in three three-story buildings; it won 2023 Round Two federal 4% and state credits with $13M of housing authority bonds and opened in early 2026.",
+ "why_it_matters": "It shows a housing authority finishing a phased campus on land it already owned, issuing its own bonds and combining city fee reimbursements, authority reserves and a CHFA permanent loan to deliver small units for a 4,000-household waitlist.",
+ "status": {
+  "label": "Completed and open (grand opening announced for 2026-02-18)",
+  "detail": "Loveland Housing Authority announced a grand opening for 2026-02-18 and its Edge III page says the property is now open and leasing; CHFA's April 2026 eNews congratulated the project on its grand opening. Two of three buildings were at or near completion in June 2025. A placed-in-service date was not found.",
+  "src": [
+   "lha-grand-opening-2026-02-12",
+   "lha-edge-iii-page",
+   "chfa-enews-2026-04",
+   "milehighcre-2025-06-26"
+  ]
+ },
+ "next_step": "Watch for stabilized occupancy and CHFA's placed-in-service and final credit allocation (8609) figures.",
+ "key_numbers": [
+  {
+   "value": "66 homes, all income-restricted",
+   "meaning": "24 studios, 30 one-bedroom and 12 two-bedroom units at 30% to 60% AMI (average 49% AMI), bringing The Edge to 205 units.",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "chfa-2023-r2-narratives",
+    "lha-edge-iii-page"
+   ]
+  },
+  {
+   "value": "$918,458 a year in federal 4% credit",
+   "meaning": "About $9.2M over 10 years, plus $999,389 of state credit.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "value": "$13,000,000 in housing authority bonds",
+   "meaning": "Issued by Loveland Housing Authority and privately placed; $8.5M retired at completion, leaving $4.5M permanent, per the application.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "About $1.42M in city fee relief",
+   "meaning": "Loveland approved fee waivers of up to $1,420,786 on 2023-07-18 under its affordable housing designation.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "loveland-fee-estimate"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA lists 3735 E 15th Street, Loveland 80538; the application gives Boyd Lake Avenue and 15th Street; the bond notice lists 3705, 3715 and 3725 E 15th Street; the authority's page gives 3875 E 15th St",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives",
+    "lha-tefra-2024-08-29",
+    "lha-edge-iii-page"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Three three-story walk-up buildings (about 52,170 sq ft), wood frame on slab, cement board siding with partial stone veneer, TPO flat roofs; Enterprise Green Communities 2020",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "milehighcre-2024-12-19"
+   ]
+  },
+  {
+   "item": "Unit sizes",
+   "value": "Studios 469 sq ft; one-bedrooms 605-621 sq ft; two-bedrooms 860 sq ft",
+   "src": [
+    "lha-edge-iii-page"
+   ]
+  },
+  {
+   "item": "Land",
+   "value": "Owned by Loveland Housing Authority, fully zoned with off-site improvements complete; the site is next to Edge I and II, removed from the metro district for funding purposes but still bound by its architectural guidelines",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "The Edge III LLLP (or another authority affiliate), per the bond notice",
+   "src": [
+    "lha-tefra-2024-08-29"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Aspire, the authority's nonprofit partner, provides resident navigation, health, veteran and transportation support; shared clubhouse, playground and community garden",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "lha-edge-iii-page"
+   ]
+  },
+  {
+   "item": "Vouchers",
+   "value": "Edge III accepts Housing Choice Vouchers; the application noted studios suit potential state vouchers for special populations such as homeless youth",
+   "src": [
+    "lha-edge-iii-page",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Leasing",
+   "value": "Lottery with a preference for people who live or work in Loveland; interest list deadline 2025-10-15",
+   "src": [
+    "lha-lottery-2025-09-30",
+    "lha-edge-iii-page"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 12
+  },
+  {
+   "level": "40% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 20
+  },
+  {
+   "level": "60% AMI",
+   "units": 26
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 24
+  },
+  {
+   "type": "1BR",
+   "units": 30
+  },
+  {
+   "type": "2BR",
+   "units": 12
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r2-descriptions",
+  "chfa-2023-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$918,458 per year",
+   "note": "2023 Round Two award, matching the application request (the letter of intent asked for $750,000).",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-loi"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$999,389",
+   "note": "2023 Round Two; the application requested $998,826.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-applicants",
+    "chfa-enews-2026-04"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$13,000,000",
+   "note": "Issued by Loveland Housing Authority, privately placed with a lender picked by RFP; all tax-exempt with a small taxable piece of the construction loan; the 2024 bond notice allowed up to $15,000,000 with a TEFRA hearing on 2024-09-16 and approval by Loveland City Council required.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives",
+    "lha-tefra-2024-08-29"
+   ]
+  },
+  {
+   "source": "Bond cap",
+   "amount": "$4,641,022 (city allocation)",
+   "note": "Loveland's Affordable Housing Commission voted on 2023-04-18 to allocate the City of Loveland's private activity bond allocation of $4,641,022 to the housing authority; the minutes do not name the project, so its use for Edge III is inferred.",
+   "src": [
+    "loveland-ahc-2023-06-08"
+   ]
+  },
+  {
+   "source": "CHFA permanent loan (SIMPLE)",
+   "amount": "$2,500,000",
+   "note": "Per CHFA's April 2026 eNews.",
+   "src": [
+    "chfa-enews-2026-04"
+   ]
+  },
+  {
+   "source": "City of Loveland fee waivers",
+   "amount": "Up to $1,420,786",
+   "note": "Approved by City Council on 2023-07-18; the city's fee estimate totals $1,420,785.10 across the three buildings; the city also forgives construction sales and use taxes, per the application.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "loveland-fee-estimate"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "$2,640,000 requested",
+   "note": "The application planned a Division of Housing request; the authority's board agenda of 2024-01-24 listed resolution 809 authorizing an application to the Division of Housing's Transformational Housing Loan Fund for Edge III. The award amount was not verified.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "lha-board-2024-01-24"
+   ]
+  },
+  {
+   "source": "Loveland Housing Authority reserves",
+   "amount": "About $2,250,000",
+   "note": "Per the application.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "Other funders named",
+   "amount": "Not public",
+   "note": "Wells Fargo and Loveland Housing Development Corporation are named among funders.",
+   "src": [
+    "milehighcre-2024-12-19",
+    "milehighcre-2025-06-26"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer and owner (as CHFA prints it)",
+   "name": "Loveland Housing Authority",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "The Edge III LLLP (expected)",
+   "src": [
+    "lha-tefra-2024-08-29"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Housing Authority of the City of Loveland (Loveland Housing Authority)",
+   "src": [
+    "chfa-2023-r2-award",
+    "lha-tefra-2024-08-29"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "OZ Architecture",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "milehighcre-2024-12-19"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Pinkard Construction",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "milehighcre-2024-12-19",
+    "ccd-edge-iii"
+   ]
+  },
+  {
+   "role": "Permanent lender",
+   "name": "CHFA (SIMPLE loan)",
+   "src": [
+    "chfa-enews-2026-04"
+   ]
+  },
+  {
+   "role": "Service partner",
+   "name": "Aspire",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "lha-edge-iii-page"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The Edge was built in phases on the old Crystal Rapids water park area by East 15th Street and Boyd Lake Avenue: Phase I (70 units, completed 2016) included homes for High Park Fire and 2013 flood survivors and supportive housing for homeless veterans, and Phase II added 69 units; Phase III completes the 205-unit campus.",
+   "src": [
+    "milehighcre-2024-12-19",
+    "ccd-edge-iii",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application cited a waitlist of nearly 4,000 households, portfolio vacancy under 2% and a 24% total capture rate, and requested a basis limit waiver because of construction costs and high tap fees.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application planned groundbreaking in summer 2024 (vertical construction in spring 2024) and completion by summer 2025; groundbreaking happened in December 2024 and the property opened in early 2026.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "milehighcre-2024-12-19",
+    "lha-grand-opening-2026-02-12"
+   ]
+  },
+  {
+   "text": "Pinkard reported in June 2025 that the project was on time and on budget despite spring weather delays, with two of three buildings at or nearing completion.",
+   "src": [
+    "milehighcre-2025-06-26"
+   ]
+  },
+  {
+   "text": "Letters of support came from the Mayor of Loveland, a Ward IV council member, the city's Community Partnership Office, Disabled Resource Services, the Salvation Army, Aspire 3D and the League of Women Voters, per the application.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-04-18",
+   "event": "Loveland Affordable Housing Commission votes to allocate the city's $4,641,022 private activity bond allocation to the housing authority",
+   "src": [
+    "loveland-ahc-2023-06-08"
+   ]
+  },
+  {
+   "date": "2023-07-18",
+   "event": "Loveland City Council approves fee waivers of up to $1,420,786",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-08-11",
+   "event": "Listed on CHFA's 2023 Round Two applicant report",
+   "src": [
+    "chfa-2023-r2-applicants"
+   ]
+  },
+  {
+   "date": "2023-11-17",
+   "event": "CHFA announces 2023 Round Two awards, including Edge III",
+   "src": [
+    "chfa-2023-r2-news",
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "date": "2024-01-24",
+   "event": "Housing authority board agenda includes resolution 809 for a Division of Housing loan application",
+   "src": [
+    "lha-board-2024-01-24"
+   ]
+  },
+  {
+   "date": "2024-09-16",
+   "event": "TEFRA public hearing on up to $15M of authority bonds",
+   "src": [
+    "lha-tefra-2024-08-29"
+   ]
+  },
+  {
+   "date": "2024-12",
+   "event": "Groundbreaking ceremony",
+   "src": [
+    "milehighcre-2024-12-19",
+    "ccd-edge-iii"
+   ]
+  },
+  {
+   "date": "2025-06-26",
+   "event": "Two of three buildings at or nearing completion",
+   "src": [
+    "milehighcre-2025-06-26"
+   ]
+  },
+  {
+   "date": "2025-10-15",
+   "event": "Lottery interest-list deadline",
+   "src": [
+    "lha-lottery-2025-09-30"
+   ]
+  },
+  {
+   "date": "2026-02-18",
+   "event": "Grand opening (as announced by the housing authority)",
+   "src": [
+    "lha-grand-opening-2026-02-12"
+   ]
+  },
+  {
+   "date": "2026-04-20",
+   "event": "CHFA eNews reports the grand opening and its $2.5M permanent loan",
+   "src": [
+    "chfa-enews-2026-04",
+    "chfa-enews-index"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Groundbreaking photo",
+   "url": "https://milehighcre.com/phase-iii-of-the-edge-breaks-ground/",
+   "kind": "photo",
+   "made_by": "Pinkard Construction (courtesy photo)",
+   "note": "Lead image of the article",
+   "src": [
+    "milehighcre-2024-12-19"
+   ]
+  },
+  {
+   "title": "Construction photo at top-out",
+   "url": "https://milehighcre.com/phase-iii-of-the-edge-affordable-apartments-tops-out/",
+   "kind": "photo",
+   "made_by": "Pinkard Construction (courtesy photo)",
+   "note": "Lead image of the article",
+   "src": [
+    "milehighcre-2025-06-26"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's 2023 award report lists $918,458 of federal 4% credit, while CHFA's April 2026 eNews says $933,636.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-enews-2026-04"
+   ]
+  },
+  {
+   "text": "The project address appears as 3735 E 15th Street in CHFA reports, 3705, 3715 and 3725 E 15th Street in the bond notice, and 3875 E 15th St on the housing authority's Edge III page.",
+   "src": [
+    "chfa-2023-r2-award",
+    "lha-tefra-2024-08-29",
+    "lha-edge-iii-page"
+   ]
+  },
+  {
+   "text": "CHFA's award description says Edge III was built with an all-electric design, while the housing authority's Edge III page lists gas heating among unit features.",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "lha-edge-iii-page"
+   ]
+  },
+  {
+   "text": "The housing authority announced a grand opening on 2026-02-18, while CHFA's April 2026 eNews says the grand opening was celebrated that month.",
+   "src": [
+    "lha-grand-opening-2026-02-12",
+    "chfa-enews-2026-04"
+   ]
+  },
+  {
+   "text": "Mile High CRE's groundbreaking article says Phase II was completed in 2021, while its June 2025 article says 2020.",
+   "src": [
+    "milehighcre-2024-12-19",
+    "milehighcre-2025-06-26"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing date, final bond amount and purchaser, equity investor and credit price, and total development cost.",
+  "Whether the Division of Housing awarded the requested $2.64M (a larger state award figure appears in search results but could not be verified at a working public link).",
+  "City Council approval of the bonds after the 2024 TEFRA hearing, and the city fee reimbursement mechanism.",
+  "Placed-in-service date and current occupancy."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round Two Federal 4% and State Credit Award Report (as of 2023-11-15)",
+   "publisher": "CHFA",
+   "date": "2023-11-15",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-descriptions",
+   "title": "2023 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (The Edge Apartments Phase III, PDF pages 64-68)",
+   "publisher": "CHFA",
+   "date": "2023-08",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 Round Two State and Federal 4% Credit Applicant Report (as of 2023-08-11)",
+   "publisher": "CHFA",
+   "date": "2023-08-11",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-loi",
+   "title": "2023 Round Two State and Federal 4% Credit Letters of Intent",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/7f19c63e-f96e-4477-aaa6-93233ce358d0/2023-Round-2-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-news",
+   "title": "CHFA Announces 2023 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2023-11-17",
+   "url": "https://www.chfainfo.com/chfa-news/11172023-2023-r2-housing-tax-credit-awards"
+  },
+  {
+   "id": "lha-tefra-2024-08-29",
+   "title": "TEFRA Notice (LHA Edge III): Notice of public hearing, Multifamily Housing Revenue Bond (The Edge Apartments Phase III)",
+   "publisher": "Loveland Housing Authority",
+   "date": "2024-08-29",
+   "url": "https://lovelandhousing.org/tefra-notice-lha-edge-iii/"
+  },
+  {
+   "id": "lha-edge-iii-page",
+   "title": "Edge III (community page)",
+   "publisher": "Loveland Housing Authority",
+   "date": "2026",
+   "url": "https://lovelandhousing.org/communities/edgeiii/"
+  },
+  {
+   "id": "lha-grand-opening-2026-02-12",
+   "title": "The Edge Apartments Phase III Grand Opening! Feb. 18th",
+   "publisher": "Loveland Housing Authority",
+   "date": "2026-02-12",
+   "url": "https://lovelandhousing.org/edge-iii-grand-opening/"
+  },
+  {
+   "id": "lha-lottery-2025-09-30",
+   "title": "Join the interest list by 10/15/25 to be in the lottery for Edge III - Opening early 2026!",
+   "publisher": "Loveland Housing Authority",
+   "date": "2025-09-30",
+   "url": "https://lovelandhousing.org/join-the-interest-list-by-10-15-25-to-be-in-the-lottery-for-edge-iii-opening-early-2026/"
+  },
+  {
+   "id": "lha-board-2024-01-24",
+   "title": "LHA/LHDC Board of Commissioners agenda, January 24, 2024",
+   "publisher": "Loveland Housing Authority",
+   "date": "2024-01-24",
+   "url": "https://lovelandhousing.org/wp-content/uploads/2024/01/LHA_LHDC-Board-Agenda_01_24_24.pdf"
+  },
+  {
+   "id": "chfa-enews-2026-04",
+   "title": "CHFA Multifamily Lending eNews: April 2026 (The Edge III Grand Opening)",
+   "publisher": "CHFA",
+   "date": "2026-04-20",
+   "url": "https://myemail.constantcontact.com/chfa-multifamily-lending-enews---april-2026.html?soid=1101682993035&aid=zpG_CxJd2pg"
+  },
+  {
+   "id": "chfa-enews-index",
+   "title": "Multifamily Lending eNews (archive page)",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/rental-housing/multifamily-lending/multifamily-lending-enews"
+  },
+  {
+   "id": "milehighcre-2024-12-19",
+   "title": "Phase III of The Edge Breaks Ground",
+   "publisher": "Mile High CRE",
+   "date": "2024-12-19",
+   "url": "https://milehighcre.com/phase-iii-of-the-edge-breaks-ground/"
+  },
+  {
+   "id": "milehighcre-2025-06-26",
+   "title": "Phase III of The Edge Affordable Apartments Tops Out",
+   "publisher": "Mile High CRE",
+   "date": "2025-06-26",
+   "url": "https://milehighcre.com/phase-iii-of-the-edge-affordable-apartments-tops-out/"
+  },
+  {
+   "id": "ccd-edge-iii",
+   "title": "Loveland Housing Authority Breaks Ground on Phase III of The Edge Affordable Apartment Community",
+   "publisher": "Colorado Construction & Design",
+   "date": "2024-12",
+   "url": "https://ccdmag.com/project-updates/lhu-edge-apartments/"
+  },
+  {
+   "id": "loveland-fee-estimate",
+   "title": "Fee Estimate Calculator - Loveland Housing Authority/Edge III (Fee Master 2023), Attachment 1",
+   "publisher": "City of Loveland",
+   "date": "2023",
+   "url": "https://cilovelandco.civicweb.net/document/144354/"
+  },
+  {
+   "id": "loveland-ahc-2023-06-08",
+   "title": "Affordable Housing Commission agenda packet, June 8, 2023 (includes 2023-04-18 special meeting minutes, packet page 10)",
+   "publisher": "City of Loveland",
+   "date": "2023-06-08",
+   "url": "https://cilovelandco.civicweb.net/document/142607/"
+  }
+ ]
+}

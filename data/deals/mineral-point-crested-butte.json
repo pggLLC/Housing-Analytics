@@ -1,0 +1,698 @@
+{
+ "slug": "mineral-point-crested-butte",
+ "name": "Mineral Point",
+ "city": "Crested Butte",
+ "county": "Gunnison",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 34,
+ "researched_on": "2026-10-21",
+ "headline": "TWG Development built Mineral Point, 34 studio, one- and two-bedroom apartments for households at 30% to 60% AMI in three two-story buildings at 601-607 Butte Avenue on Town of Crested Butte land, with a 2023 Round One 9% credit award; the buildings received temporary certificates of occupancy in summer 2026 but lease-up was still waiting on a management handoff in September 2026.",
+ "why_it_matters": "It shows a mountain town supplying a remediated former dump site on a 75-year ground lease plus several million dollars of loans and fees to land a 9% deal, and how contractor problems and a management-agreement standoff can push a credit-funded building close to its placed-in-service deadline (one occupied unit per building by 2026-12-31).",
+ "status": {
+  "label": "Built (temporary certificates of occupancy, summer 2026); lease-up start not confirmed",
+  "detail": "The Crested Butte News reported on 2026-09-02 that the units were completed and received a temporary certificate of occupancy in early August 2026, but Gunnison County Housing Authority was not yet accepting rental applications because its property management agreement with TWG was still pending (set for its board on 2026-09-15). ColoradoBiz reported on 2026-09-29 that Mineral Point 'has opened', while the property's leasing website still said 'Opening soon' on 2026-10-21. No public record confirms move-ins.",
+  "src": [
+   "cbn-2026-09-02",
+   "cbn-2026-07-01",
+   "cobiz-2026-09-29",
+   "mp-site"
+  ]
+ },
+ "next_step": "Watch Gunnison County Housing Authority board actions on the TWG management agreement and Crested Butte News reports of first move-ins before the 2026-12-31 occupancy deadline.",
+ "key_numbers": [
+  {
+   "value": "34 homes: 4 studios, 24 one-bedroom, 6 two-bedroom",
+   "meaning": "All at 30% to 60% AMI (4 at 30%, 3 at 40%, 6 at 50%, 21 at 60%); no project-based vouchers.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,250,000 a year in federal 9% credit",
+   "meaning": "About $12.5M over 10 years (inferred); the town expected it to raise about $11M of equity. Same amount as requested.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "cbn-2023-05-31"
+   ]
+  },
+  {
+   "value": "About $16.2M to $16.9M total cost",
+   "meaning": "Reported figures moved between $16.6M (2023 estimate), just under $16.9M (2024) and $16.2M (2025), roughly $480,000 to $500,000 per unit (inferred).",
+   "src": [
+    "cbn-2023-05-31",
+    "cbn-2024-07-31",
+    "cbn-2025-07-30"
+   ]
+  },
+  {
+   "value": "$5.86M of town money by December 2023",
+   "meaning": "Includes site cleanup, predevelopment and a $500,000 gap loan; the application estimated the town's total contribution at over $7.4M ($220,000 per unit).",
+   "src": [
+    "cbn-2023-12-06",
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "601, 603, 605, 607 Butte Avenue, Crested Butte, CO 81224 (Sixth Street and Butte Avenue; ColoradoBiz gives 603 Butte Ave.)",
+   "src": [
+    "chfa-2023-r1-award",
+    "cbn-2026-09-02",
+    "cobiz-2026-09-29"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, family; 34 units, 34 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Former name",
+   "value": "Sixth and Butte",
+   "src": [
+    "cbn-2023-05-31"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "1.26 acres in the R4 zone at the maximum allowed density; Parcel 5 of land dedicated to the town in the 2020 Slate River Annexation; part of a historic town dump",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "tocb-housing"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Three two-story walk-up buildings, slab on grade, composite wood and metal siding, gable roofs; about 26,700 sq ft in total",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "cobiz-2026-09-29"
+   ]
+  },
+  {
+   "item": "Energy standard",
+   "value": "All-electric with photovoltaics; designed to Zero Energy Ready Home requirements; achieved Enterprise Green Communities Plus Zero Emissions certification",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "cobiz-2026-09-29"
+   ]
+  },
+  {
+   "item": "Accessibility",
+   "value": "Six units meet mobility accessibility standards and two meet standards for visual and hearing impairments",
+   "src": [
+    "cbn-2023-12-06"
+   ]
+  },
+  {
+   "item": "Rents",
+   "value": "Expected range of $550 to $1,500 a month (2024 report); TWG said in 2025 the highest rent would be about $1,200 for a two-bedroom",
+   "src": [
+    "cbn-2024-07-31",
+    "cbn-2025-07-30"
+   ]
+  },
+  {
+   "item": "Income limit at lease-up",
+   "value": "Under 60% AMI, $59,400 a year for a two-person household (2026)",
+   "src": [
+    "cbn-2026-07-01",
+    "cbn-2026-09-02"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Free local Mountain Express bus within 300 feet; transit center with free regional service and daily Bustang to Denver about 1/4 mile away",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Gunnison Valley Regional Housing Authority was to join as special limited partner, bringing a tax exemption",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "TWG Crested Butte LLLP",
+   "src": [
+    "cbn-2024-12-18"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 4
+  },
+  {
+   "level": "40% AMI",
+   "units": 3
+  },
+  {
+   "level": "50% AMI",
+   "units": 6
+  },
+  {
+   "level": "60% AMI",
+   "units": 21
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 4
+  },
+  {
+   "type": "1BR",
+   "units": 24
+  },
+  {
+   "type": "2BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,250,000 per year",
+   "note": "2023 Round One; equal to the request. The application named City Real Estate Advisors (CREA) as the federal equity investor; the town expected about $11M of equity.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r1-narratives",
+    "cbn-2023-05-31"
+   ]
+  },
+  {
+   "source": "Town of Crested Butte (land, cleanup, predevelopment, taps, fee waivers, gap loan)",
+   "amount": "$5,860,000 by December 2023",
+   "note": "Net of state grants and tax credits, the town put its own cost at about $1.9M (about $56,000 per unit) at that time. The application estimated more than $7.4M in total.",
+   "src": [
+    "cbn-2023-12-06",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Town gap funding loan",
+   "amount": "$500,000",
+   "note": "Approved 2023-12-04; 2% interest, 40-year term, repayable at maturity, sale or refinance; subordinate to state loans.",
+   "src": [
+    "cbn-2023-12-06"
+   ]
+  },
+  {
+   "source": "Town loan refunding a land lease payment",
+   "amount": "$375,000",
+   "note": "Approved December 2024 after the tax credit investor's counsel judged the below-market lease rate a taxable event; expected to be forgiven at maturity in 17 years.",
+   "src": [
+    "cbn-2024-12-18"
+   ]
+  },
+  {
+   "source": "Brownfield remediation by the town",
+   "amount": "$2.6M",
+   "note": "Completed fall 2022 under CDPHE's Voluntary Cleanup Program; part of the town's contribution (inferred).",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing grants and loans",
+   "amount": "Not public",
+   "note": "The application said the deal was feasible only with DOH gap funding.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "cbn-2024-07-31"
+   ]
+  },
+  {
+   "source": "CHFA permanent loan",
+   "amount": "Not public",
+   "note": "Horizon Bank was the assumed construction lender in the application.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "cbn-2024-07-31"
+   ]
+  },
+  {
+   "source": "Valley Housing Fund grant",
+   "amount": "$100,000",
+   "note": "Partner Support Program grant for an unexpected budget shortfall, December 2023.",
+   "src": [
+    "cbn-2023-12-06",
+    "cobiz-2026-09-29"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "cbn-2024-07-31"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "TWG Development, LLC",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "role": "Owner",
+   "name": "TWG Crested Butte LLLP",
+   "src": [
+    "cbn-2024-12-18"
+   ]
+  },
+  {
+   "role": "Landowner and ground lessor",
+   "name": "Town of Crested Butte (75-year land lease)",
+   "src": [
+    "cbn-2025-07-30",
+    "cbn-2026-09-02"
+   ]
+  },
+  {
+   "role": "Special limited partner (as applied)",
+   "name": "Gunnison Valley Regional Housing Authority (dissolved in 2025)",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "cbn-2026-09-02"
+   ]
+  },
+  {
+   "role": "Property manager (pending)",
+   "name": "Gunnison County Housing Authority, under a management agreement with TWG still being finalized in September 2026",
+   "src": [
+    "cbn-2026-09-02"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Streamline General Contractors (hired by TWG)",
+   "src": [
+    "cbn-2025-06-11",
+    "cbn-2025-07-30"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "STUDIO Architecture",
+   "src": [
+    "cobiz-2026-09-29"
+   ]
+  },
+  {
+   "role": "Consultants",
+   "name": "RCH Jones Consulting (financial) and Williford, LLC",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Federal equity investor (as applied)",
+   "name": "City Real Estate Advisors (CREA)",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Construction lender (as applied)",
+   "name": "Horizon Bank",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Other funders",
+   "name": "Colorado Division of Housing, CHFA, Valley Housing Fund",
+   "src": [
+    "cbn-2024-07-31",
+    "cobiz-2026-09-29"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The town declared a housing emergency on 2021-06-07, then ran a master planning process for the Sixth and Butte parcels and chose TWG through a request for proposals; the town also agreed to share predevelopment costs so the project would be permit-ready by May 2023.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "tocb-housing",
+    "cobiz-2026-09-29"
+   ]
+  },
+  {
+   "text": "The site was part of a historic town dump. The town completed a $2.6M cleanup in fall 2022 under CDPHE's Voluntary Cleanup Program; the buildings have methane and radon vapor mitigation systems, and the town operates the soil gas mitigation system.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "cbn-2026-07-01",
+    "cbn-2026-09-02"
+   ]
+  },
+  {
+   "text": "The Board of Zoning and Architectural Review approved the design unanimously on 2022-12-20; the design follows the town's National Historic District guidelines, the 2021 building code and the town's all-electric and ZERH requirements.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "The application said the town ground lease and the housing authority's role would keep the homes at 30% to 60% AMI in perpetuity, and requested a waiver of the 1.30 debt coverage threshold because net operating income declines over time.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Market study (Novogradac) figures in the application: 5.5% capture rate, about four months to lease up, rents 11% to 59% below market comparables, and rental vacancy below 1% for seven years; Anthracite Place (2014 award) was the only other LIHTC property in town. By September 2026, 67 households were on the interest list.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "cbn-2026-09-02"
+   ]
+  },
+  {
+   "text": "Construction was late from the start: a delayed state review of right-of-way fire suppression lines held back summer 2024 work, and the town red-tagged the site at least twice; the second stop order (2025-05-29, over debris, OSHA safety, materials storage and no on-site supervisor) was lifted on 2025-06-10.",
+   "src": [
+    "cbn-2024-07-31",
+    "cbn-2025-06-11",
+    "cbn-2025-07-30"
+   ]
+  },
+  {
+   "text": "Move-in targets slipped from fall 2024 (2023 plan) to August 2025, then to February or March 2026, then to summer 2026. In July 2026 the town pulled building A's temporary certificate of occupancy over concrete grade corrections at unit entrances; temporary certificates were in place by early August 2026.",
+   "src": [
+    "cbn-2023-05-31",
+    "cbn-2024-07-31",
+    "cbn-2025-07-30",
+    "cbn-2026-07-01",
+    "cbn-2026-09-02"
+   ]
+  },
+  {
+   "text": "Sizeable equity installments are tied to certificates of occupancy, and TWG must have at least one unit occupied in each building by 2026-12-31 under the credit schedule, according to the town's housing director.",
+   "src": [
+    "cbn-2026-07-01",
+    "cbn-2025-07-30"
+   ]
+  },
+  {
+   "text": "Sixteen middle-income units on the adjacent parcel (planned with High Mountain Concepts, with no income caps but a local-work requirement) are a separate project and not part of the tax credit deal.",
+   "src": [
+    "cbn-2023-05-31",
+    "tocb-housing"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2020",
+   "event": "Town receives the parcels through the Slate River Annexation",
+   "src": [
+    "tocb-housing"
+   ]
+  },
+  {
+   "date": "2021-06-07",
+   "event": "Crested Butte Town Council declares a housing emergency",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-12-20",
+   "event": "Board of Zoning and Architectural Review approves the project unanimously",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round One applicant report (request $1,250,000)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2023-05",
+   "event": "CHFA notifies the town of the 9% credit award (reported 2023-05-31)",
+   "src": [
+    "cbn-2023-05-31"
+   ]
+  },
+  {
+   "date": "2023-12-04",
+   "event": "Town Council approves a $500,000 gap funding loan; Valley Housing Fund approves a $100,000 grant",
+   "src": [
+    "cbn-2023-12-06"
+   ]
+  },
+  {
+   "date": "2023-12-27",
+   "event": "Crested Butte News reports TWG closed on the project financing",
+   "src": [
+    "cbn-2023-12-27"
+   ]
+  },
+  {
+   "date": "2024-08-05",
+   "event": "Foundation pours slated to begin after early-summer sewer and site work",
+   "src": [
+    "cbn-2024-07-31"
+   ]
+  },
+  {
+   "date": "2024-12-16",
+   "event": "Town Council approves a $375,000 loan refunding a land lease payment made at construction closing",
+   "src": [
+    "cbn-2024-12-18"
+   ]
+  },
+  {
+   "date": "2025-05-29",
+   "event": "Town issues a second red-tag stop-work order; lifted 2025-06-10",
+   "src": [
+    "cbn-2025-06-11"
+   ]
+  },
+  {
+   "date": "2025-07-21",
+   "event": "TWG tells Town Council completion is targeted for the first quarter of 2026",
+   "src": [
+    "cbn-2025-07-30"
+   ]
+  },
+  {
+   "date": "2026-08",
+   "event": "Temporary certificate of occupancy issued (early August)",
+   "src": [
+    "cbn-2026-09-02"
+   ]
+  },
+  {
+   "date": "2026-09-15",
+   "event": "Gunnison County Housing Authority board scheduled to consider the TWG property management agreement",
+   "src": [
+    "cbn-2026-09-02"
+   ]
+  },
+  {
+   "date": "2026-09-29",
+   "event": "ColoradoBiz reports that Mineral Point has opened",
+   "src": [
+    "cobiz-2026-09-29"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Completed buildings",
+   "url": "https://coloradobiz.com/mineral-point-opens-34-affordable-apartments-crested-butte/",
+   "kind": "photo",
+   "made_by": "ColoradoBiz",
+   "note": "Lead photo in the 2026-09-29 article",
+   "src": [
+    "cobiz-2026-09-29"
+   ]
+  },
+  {
+   "title": "Property gallery and floor plans",
+   "url": "https://www.liveatmineralpoint.com/",
+   "kind": "photo",
+   "made_by": "Mineral Point leasing website",
+   "note": "Gallery and Floor plans pages",
+   "src": [
+    "mp-site"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "Reported total cost moved between an estimated $16.6 million in May 2023, $16 million in December 2023, just under $16.9 million in July 2024 and $16.2 million in July 2025.",
+   "src": [
+    "cbn-2023-05-31",
+    "cbn-2023-12-27",
+    "cbn-2024-07-31",
+    "cbn-2025-07-30"
+   ]
+  },
+  {
+   "text": "The application describes a 1.26-acre site, while a 2025 news report describes the leased site as one acre.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "cbn-2025-07-30"
+   ]
+  },
+  {
+   "text": "ColoradoBiz reported on 2026-09-29 that Mineral Point has opened, but the Crested Butte News reported on 2026-09-02 that the housing authority could not yet accept rental applications, and the property website still showed 'Opening soon' in October 2026.",
+   "src": [
+    "cobiz-2026-09-29",
+    "cbn-2026-09-02",
+    "mp-site"
+   ]
+  },
+  {
+   "text": "The application said TWG Construction usually serves as general contractor on TWG projects, while news reports say TWG subcontracted most of the work to Streamline General Contractors.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "cbn-2025-07-30",
+    "cbn-2025-06-11"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the Gunnison County Housing Authority management agreement was approved on 2026-09-15 and when the first residents moved in; whether the one-unit-per-building occupancy test is met by 2026-12-31.",
+  "Amounts of the Division of Housing grants and loans and the CHFA permanent loan, the construction lender at closing, the final equity investor and credit price.",
+  "Who now holds the special limited partner interest and the property tax exemption after Gunnison Valley Regional Housing Authority dissolved in 2025.",
+  "Final rents and the CHFA placed-in-service date.",
+  "Final town contribution after the $375,000 lease-refund loan, and the terms of the CHFA affordability covenant versus the perpetual affordability described in the application."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "2023 Round One Award Descriptions (Mineral Point)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (Mineral Point, PDF pages 61-65)",
+   "publisher": "CHFA",
+   "date": "2023-02",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "cbn-2023-05-31",
+   "title": "Mineral Point expected to reap millions of dollars in tax credits",
+   "publisher": "The Crested Butte News",
+   "date": "2023-05-31",
+   "url": "https://crestedbuttenews.com/2023/05/mineral-point-expected-to-reap-millions-of-dollars-in-tax-credits/"
+  },
+  {
+   "id": "cbn-2023-12-06",
+   "title": "Crested Butte approves another $500,000 for Mineral Point",
+   "publisher": "The Crested Butte News",
+   "date": "2023-12-06",
+   "url": "https://crestedbuttenews.com/2023/12/crested-butte-approves-another-500000-for-mineral-point/"
+  },
+  {
+   "id": "cbn-2023-12-27",
+   "title": "Briefs: Crested Butte (TWG closes on Mineral Point financing)",
+   "publisher": "The Crested Butte News",
+   "date": "2023-12-27",
+   "url": "https://crestedbuttenews.com/2023/12/briefs-crested-butte-136/"
+  },
+  {
+   "id": "cbn-2024-07-31",
+   "title": "Mineral Point construction ready to kick into high gear",
+   "publisher": "The Crested Butte News",
+   "date": "2024-07-31",
+   "url": "https://crestedbuttenews.com/2024/07/mineral-point-construction-ready-to-kick-into-high-gear/"
+  },
+  {
+   "id": "cbn-2024-12-18",
+   "title": "Briefs: Crested Butte (Mineral Point land lease refund loan)",
+   "publisher": "The Crested Butte News",
+   "date": "2024-12-18",
+   "url": "https://crestedbuttenews.com/2024/12/briefs-crested-butte-147/"
+  },
+  {
+   "id": "cbn-2025-06-11",
+   "title": "Elk Ave. Post Office lease extended! Mineral Point red tag lifted!",
+   "publisher": "The Crested Butte News",
+   "date": "2025-06-11",
+   "url": "https://crestedbuttenews.com/2025/06/elk-ave-post-office-lease-extended-mineral-point-red-tag-lifted/"
+  },
+  {
+   "id": "cbn-2025-07-30",
+   "title": "Mineral Point housing project pushed back",
+   "publisher": "The Crested Butte News",
+   "date": "2025-07-30",
+   "url": "https://crestedbuttenews.com/2025/07/mineral-point-housing-project-pushed-back/"
+  },
+  {
+   "id": "cbn-2026-07-01",
+   "title": "Mineral Point housing closer to being finished but...",
+   "publisher": "The Crested Butte News",
+   "date": "2026-07-01",
+   "url": "https://crestedbuttenews.com/2026/07/mineral-point-housing-closer-to-being-finished-but/"
+  },
+  {
+   "id": "cbn-2026-09-02",
+   "title": "Mineral Point housing project rental process delayed",
+   "publisher": "The Crested Butte News",
+   "date": "2026-09-02",
+   "url": "https://crestedbuttenews.com/2026/09/mineral-point-housing-project-rental-process-delayed/"
+  },
+  {
+   "id": "cobiz-2026-09-29",
+   "title": "Mineral Point opens 34 affordable apartments in Crested Butte",
+   "publisher": "ColoradoBiz",
+   "date": "2026-09-29",
+   "url": "https://coloradobiz.com/mineral-point-opens-34-affordable-apartments-crested-butte/"
+  },
+  {
+   "id": "tocb-housing",
+   "title": "Community Housing (Mineral Point project status and background)",
+   "publisher": "Town of Crested Butte",
+   "date": "2026",
+   "url": "https://townofcrestedbutte.colorado.gov/community-services/community-housing"
+  },
+  {
+   "id": "mp-site",
+   "title": "Mineral Point Crested Butte, CO (leasing website)",
+   "publisher": "Mineral Point",
+   "date": "2026-10-21",
+   "url": "https://www.liveatmineralpoint.com/"
+  }
+ ]
+}

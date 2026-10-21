@@ -1,0 +1,533 @@
+{
+ "slug": "brigits-village-frederick",
+ "name": "Brigit's Village",
+ "city": "Frederick",
+ "county": "Weld",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 40,
+ "researched_on": "2026-10-21",
+ "headline": "Brigit's Village, a nonprofit started by members of St. Brigit Episcopal Church, with BlueLine Development and an individual co-general partner, built a three-story, 40-unit intergenerational family building at 131 Aspen Drive in Frederick for households at 30% to 70% AMI, with a 2023 Round One 9% credit award from CHFA; it opened on 2025-08-26.",
+ "why_it_matters": "It was Frederick's first tax credit housing and won on its third 9% try; it shows a church-land nonprofit pairing with an experienced developer, a county housing authority partner for tax exemption and 16 vouchers, and town fee waivers that offset costly water-share requirements.",
+ "status": {
+  "label": "Open: grand opening 2025-08-26",
+  "detail": "Denver7 reported the grand opening on Tuesday 2025-08-26; the project website says construction is finished, and BlueLine's page markets the homes for lease. Occupancy and the CHFA placed-in-service date are not confirmed by a reachable public source.",
+  "src": [
+   "denver7-2025-08-26",
+   "bv-info",
+   "blueline-brigits"
+  ]
+ },
+ "next_step": "Watch for CHFA's placed-in-service record and Weld County Housing Authority or project reports on occupancy.",
+ "key_numbers": [
+  {
+   "value": "40 homes: 22 one-bedroom, 15 two-bedroom, 3 three-bedroom",
+   "meaning": "All at 30% to 70% AMI (8 at 30%, 8 at 50%, 11 at 60%, 13 at 70%); 16 units carry project-based vouchers.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,420,000 a year in federal 9% credit",
+   "meaning": "The full amount requested; about $14.2M over 10 years (inferred). The 2021 application had asked for $1,145,940.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "chfa-2021-r1-applicants"
+   ]
+  },
+  {
+   "value": "$535,000 in Town of Frederick fee waivers",
+   "meaning": "Nearly 90% of town fees, voted by the Board of Trustees; the town also required 10 water shares at about $70,000 each.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "value": "Over $20 million spent",
+   "meaning": "The project says it spent over $20M locally on labor and materials.",
+   "src": [
+    "bv-info"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "131 Aspen Drive, Frederick 80530, next to St. Brigit Episcopal Church, about 0.5 miles north of downtown Frederick",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives",
+    "blueline-brigits"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, family (intergenerational); 40 units, 40 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Flat, undeveloped 2.0-acre site sold to the partnership by the Brigit's Village nonprofit; zoned for the use with administrative review only; census tract 20.16, not a QCT or DDA",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One three-story, elevator, wood-frame building of about 38,600 gross sq ft on a structural slab; fiber-cement siding; TPO roof; 1,050 sq ft community room with teaching kitchen open to the public; fitness room; bike storage",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Unit amenities",
+   "value": "In-unit washer and dryer, dishwasher; owner-paid water, sewer and trash; no pets except service animals",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "blueline-brigits"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "NGBS Bronze; all-electric-ready mechanical design; EV-ready parking",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "No fixed-route transit in Frederick; Weld County runs a subsidized senior van service",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Ownership",
+   "value": "St. Brigit's Apartments, LLLP: general partners Brigit's Village GP, LLC (owned by the Brigit's Village nonprofit) and St. Brigit's GP, LLC (owned by an individual whom CHFA lists as owner); investor RBC Community Investments; Weld County Housing Authority as partner for property tax exemption",
+   "src": [
+    "bv-faq",
+    "chfa-2021-r1-applicants"
+   ]
+  },
+  {
+   "item": "Cash flow share",
+   "value": "The Brigit's Village nonprofit receives 25% of cash flow after deferred developer fee is paid",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 8
+  },
+  {
+   "level": "60% AMI",
+   "units": 11
+  },
+  {
+   "level": "70% AMI",
+   "units": 13
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 22
+  },
+  {
+   "type": "2BR",
+   "units": 15
+  },
+  {
+   "type": "3BR",
+   "units": 3
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,420,000 per year",
+   "note": "2023 Round One award, equal to the request. The application named Red Stone as equity investor; the project's FAQ names RBC Community Investments.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r1-narratives",
+    "bv-faq"
+   ]
+  },
+  {
+   "source": "Town of Frederick fee waivers",
+   "amount": "$535,000",
+   "note": "Approved by the Board of Trustees; the town supported the project on three occasions.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Weld County CDBG (Town of Frederick as sponsor)",
+   "amount": "$450,000 applied for; $200,000 assumed in the application",
+   "note": "Final award amount not verified from a reachable source.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing soft loan",
+   "amount": "Not public",
+   "note": "Named in the application; the project lists the Division of Housing among funders.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bv-faq"
+   ]
+  },
+  {
+   "source": "Construction-to-permanent loan",
+   "amount": "Not public",
+   "note": "Hilltop Bank was assumed in the application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Project-based vouchers",
+   "amount": "16 units",
+   "note": "For the 30% and 50% AMI units, from the Weld County housing authority (CHFA's description says Greeley-Weld Housing Authority).",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Property tax and sales/use tax exemption",
+   "amount": "Not public",
+   "note": "Through the Weld County Housing Authority as special limited partner.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bv-faq"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer organization",
+   "name": "BlueLine Development, Inc. (partnered with Brigit's Village; development consultant in the application)",
+   "src": [
+    "blueline-brigits",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Co-applicant and landowner",
+   "name": "Brigit's Village (501(c)(3) nonprofit started by St. Brigit Episcopal Church members)",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bv-faq"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "St. Brigit's Apartments, LLLP",
+   "src": [
+    "bv-faq",
+    "chfa-2021-r1-applicants"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "blueline-brigits"
+   ]
+  },
+  {
+   "role": "General contractor (named in the application)",
+   "name": "Deneuve",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Financial consultant",
+   "name": "RCH Jones Consulting",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "BlueLine Property Management",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bv-faq"
+   ]
+  },
+  {
+   "role": "Tax credit investor",
+   "name": "RBC Community Investments, LLC",
+   "src": [
+    "bv-faq"
+   ]
+  },
+  {
+   "role": "Housing authority partner",
+   "name": "Weld County Housing Authority (special limited partner and voucher provider)",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bv-faq"
+   ]
+  },
+  {
+   "role": "Public funders",
+   "name": "Town of Frederick, Weld County, Colorado Division of Housing",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bv-faq"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "St. Brigit's church volunteers began pursuing affordable housing on the site in 2015; the project first planned senior housing and became an intergenerational family deal.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bv-faq"
+   ]
+  },
+  {
+   "text": "The deal applied for 9% credits in 2021 Round One (request $1,145,940, as St. Brigit's Apartments, LLLP) and 2022 Round One before winning in 2023; between 2022 and 2023 hard costs rose about $1.56M and construction interest about $390,000 (rate assumption from 4.75% to 7.0%).",
+   "src": [
+    "chfa-2021-r1-applicants",
+    "chfa-2021-r1-narratives",
+    "chfa-2022-r1-narratives",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Main cost driver named by the applicant: the town's requirement to buy 10 water shares at about $70,000 each; the team planned to seek a partial reduction by using non-potable irrigation water, and had to extend domestic water and sanitary mains to the site.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "CHFA called it the first Housing Tax Credit development in Frederick; Brigit's Village's board president said it was the first affordable housing in Carbon Valley in 25 years.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "denver7-2025-08-26"
+   ]
+  },
+  {
+   "text": "Market study figures in the application: required capture rate 8.5% overall (6.9% and 6.3% for the 60% and 70% AMI units); the only LIHTC property in the market area was a 20-unit senior deal in Dacono built in 1998.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Brigit's Bounty, a community garden nonprofit next door, offers programs and a food share to residents.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2015",
+   "event": "St. Brigit's church volunteers begin pursuing affordable housing on the site",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2021",
+   "event": "First 9% application (2021 Round One, request $1,145,940)",
+   "src": [
+    "chfa-2021-r1-applicants",
+    "chfa-2021-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022",
+   "event": "Second 9% application (2022 Round One)",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round One applicant report (request $1,420,000)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Awarded $1,420,000 in 2023 Round One federal 9% credit",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "date": "2025-08-26",
+   "event": "Grand opening",
+   "src": [
+    "denver7-2025-08-26"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Completed building, photos and virtual tour",
+   "url": "https://bluelinedevelopment.com/community/brigits-village/",
+   "kind": "photo",
+   "made_by": "BlueLine Development",
+   "note": "Photo gallery, floor plans and virtual tour link on the community page",
+   "src": [
+    "blueline-brigits"
+   ]
+  },
+  {
+   "title": "Grand opening coverage",
+   "url": "https://www.denver7.com/news/front-range/first-ever-affordable-housing-project-has-its-grand-opening-in-frederick",
+   "kind": "photo",
+   "made_by": "Denver7",
+   "note": "Video and images in the 2025-08-26 story",
+   "src": [
+    "denver7-2025-08-26"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA and the 2023 application give 15 two-bedroom and 3 three-bedroom units, while the project's FAQ says 12 two-bedroom and 6 three-bedroom units (both total 40).",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives",
+    "bv-faq"
+   ]
+  },
+  {
+   "text": "The 2023 application named Red Stone as the federal equity investor, while the project's FAQ names RBC Community Investments.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bv-faq"
+   ]
+  },
+  {
+   "text": "The application names the Weld County Housing Authority as voucher provider, while CHFA's award description says the Greeley-Weld Housing Authority.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost (the project says over $20M spent locally), lender and loan amounts, and the Division of Housing and Weld County CDBG award amounts.",
+  "Construction start and closing dates.",
+  "Whether Deneuve remained the general contractor.",
+  "Occupancy, rents and the CHFA placed-in-service date.",
+  "Length of the CHFA extended-use covenant."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report (public report as of 2025-02-26)",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "CHFA, 2023 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (Brigit's Village, PDF pages 21-25)",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2021-r1-applicants",
+   "title": "2021 Round 1 Applicant Report",
+   "publisher": "CHFA",
+   "date": "2021",
+   "url": "https://www.chfainfo.com/getattachment/95a9e1ed-e93e-4905-81cc-37ca967dc28b/2021-Round-1-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2021-r1-narratives",
+   "title": "2021 Round 1 application narratives (Brigit's Village, PDF page 13)",
+   "publisher": "CHFA",
+   "date": "2021",
+   "url": "https://www.chfainfo.com/getattachment/1e64384f-8b7c-4a74-a4fc-3c16885f0faf/2021-Round-1-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "2022 Round 1 application narratives (Brigit's Village, PDF page 11)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "denver7-2025-08-26",
+   "title": "First-ever affordable housing project has its grand opening in Frederick",
+   "publisher": "Denver7",
+   "date": "2025-08-26",
+   "url": "https://www.denver7.com/news/front-range/first-ever-affordable-housing-project-has-its-grand-opening-in-frederick"
+  },
+  {
+   "id": "bv-faq",
+   "title": "Brigit's Village, Frequently Asked Questions",
+   "publisher": "Brigit's Village",
+   "date": "2025",
+   "url": "https://www.brigitsvillage.org/faq"
+  },
+  {
+   "id": "bv-info",
+   "title": "Brigit's Village, Construction Information",
+   "publisher": "Brigit's Village",
+   "date": "2025",
+   "url": "https://www.brigitsvillage.org/info"
+  },
+  {
+   "id": "blueline-brigits",
+   "title": "Brigit's Village Apartments (community page)",
+   "publisher": "BlueLine Development",
+   "date": "2025",
+   "url": "https://bluelinedevelopment.com/community/brigits-village/"
+  }
+ ]
+}

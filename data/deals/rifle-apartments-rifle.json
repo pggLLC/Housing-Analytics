@@ -1,0 +1,577 @@
+{
+ "slug": "rifle-apartments-rifle",
+ "name": "Rifle Apartments",
+ "city": "Rifle",
+ "county": "Garfield",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 60,
+ "researched_on": "2026-10-21",
+ "headline": "Evergreen Real Estate Group built Rifle Apartments, 60 family apartments for households at 30% to 80% AMI in three three-story buildings at 115, 123 and 131 Park Avenue in downtown Rifle, with a 2023 Round One 9% award; it held a grand opening on 2026-04-17 and was reported 95% leased.",
+ "why_it_matters": "It is a finished rural Western Slope 9% deal that won on its second try after moving to a larger site with surface parking, and that stacked Division of Housing gap and Transformational Housing loans, Colorado Clean Energy Fund and Capital Magnet Fund money with 14 Garfield County Housing Authority project-based vouchers.",
+ "status": {
+  "label": "Open: grand opening 2026-04-17; 95% leased",
+  "detail": "Evergreen broke ground on 2024-09-27 and announced completion with a grand opening on April 17 (2026, inferred from the 2026-04-27 report); Mile High CRE and ColoradoBiz reported the property 95% leased. Completion slipped from the fall 2025 target. The CHFA placed-in-service date is not public.",
+  "src": [
+   "mhcre-2024-09-30",
+   "mhcre-2026-04-27",
+   "cobiz-2026-05-07"
+  ]
+ },
+ "next_step": "Watch for CHFA's placed-in-service record and stabilized occupancy reports.",
+ "key_numbers": [
+  {
+   "value": "60 homes: 30 one-bedroom, 20 two-bedroom, 10 three-bedroom",
+   "meaning": "All income-restricted at 30% to 80% AMI; 14 units carry Garfield County Housing Authority project-based vouchers.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives",
+    "mhcre-2026-04-27"
+   ]
+  },
+  {
+   "value": "$1,450,000 a year in federal 9% credit",
+   "meaning": "About $14.5M over 10 years (inferred); Evergreen said it raised $12.3M of equity. Equal to the request.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "tca-2025-04-07"
+   ]
+  },
+  {
+   "value": "About $29M total cost",
+   "meaning": "$28,403,918 in the application, $29.2M in 2025; roughly $485,000 per unit (inferred).",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "tca-2025-04-07",
+    "pi-2024-09-30"
+   ]
+  },
+  {
+   "value": "$8M of Division of Housing money",
+   "meaning": "$3M of gap funding plus a $5M Transformational Housing loan, per Evergreen in 2025.",
+   "src": [
+    "tca-2025-04-07"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "115, 123 and 131 Park Avenue, Rifle (CHFA lists it as Highway 6 & Access Road, Rifle 81650)",
+   "src": [
+    "chfa-2023-r1-award",
+    "mhcre-2024-09-30"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, family; 60 units, 60 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Vacant 4.7-acre parcel along Rifle Creek, the largest vacant parcel in the Central Business District (Creekside Neighborhood sub-district), zoned for multifamily; just west of the Brenden Rifle 7 Theaters and north of U.S. Highway 6",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "pi-2023-01-11"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Three three-story walk-up buildings; brick, metal, stone, wood and fiber cement cladding; all-electric; about an acre of green space with a playground; 115 free parking spaces with EV-ready charging",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "mhcre-2026-04-27",
+    "tca-2025-04-07"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "National Green Building Standard Bronze (achieved)",
+   "src": [
+    "mhcre-2026-04-27",
+    "cobiz-2026-05-07"
+   ]
+  },
+  {
+   "item": "Rents (2024)",
+   "value": "1BR $496 to $1,456; 2BR $585 to $1,738; 3BR $668 to $2,000 a month",
+   "src": [
+    "pi-2024-09-30"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Across from the CDOT Park-n-Ride served by RFTA's Hogback route and other regional buses; connects to the Rifle Creek Trail",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "mhcre-2026-04-27"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Garfield County Housing Authority committed to act as special limited partner to obtain the HB 16-1006 property tax exemption, per the application",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Construction cost",
+   "value": "$318,185 per unit in the application budget",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 14
+  },
+  {
+   "level": "50% AMI",
+   "units": 18
+  },
+  {
+   "level": "60% AMI",
+   "units": 8
+  },
+  {
+   "level": "70% AMI",
+   "units": 10
+  },
+  {
+   "level": "80% AMI",
+   "units": 10
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 30
+  },
+  {
+   "type": "2BR",
+   "units": 20
+  },
+  {
+   "type": "3BR",
+   "units": 10
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,450,000 per year",
+   "note": "2023 Round One; equal to the request. Evergreen put the equity at $12.3M.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "tca-2025-04-07"
+   ]
+  },
+  {
+   "source": "KeyBank construction loan",
+   "amount": "$12.5M",
+   "note": "KeyBank Community Development Lending & Investment.",
+   "src": [
+    "tca-2025-04-07"
+   ]
+  },
+  {
+   "source": "CHFA permanent loan",
+   "amount": "$3M",
+   "note": "The application cited a CHFA letter of intent for $5,410,000 at 6.25% over 40 years.",
+   "src": [
+    "tca-2025-04-07",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing Transformational Housing Loan Fund",
+   "amount": "$5M",
+   "note": "The application had instead planned a $5M HB 22-1304 Infrastructure and Strong Communities grant applied for by the City of Rifle through DOLA.",
+   "src": [
+    "tca-2025-04-07",
+    "mhcre-2024-09-30",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing gap funding",
+   "amount": "$3M",
+   "note": "",
+   "src": [
+    "tca-2025-04-07",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Clean Energy Fund (AHIF funds)",
+   "amount": "$3.75M loan",
+   "note": "",
+   "src": [
+    "tca-2025-04-07",
+    "mhcre-2024-09-30"
+   ]
+  },
+  {
+   "source": "Impact Development Fund Capital Magnet Fund loan",
+   "amount": "$1M",
+   "note": "The application cited $510,000 at 2% over 18 years.",
+   "src": [
+    "tca-2025-04-07",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "45L energy credits",
+   "amount": "\"$134,00\" as printed (likely $134,000; inferred)",
+   "note": "",
+   "src": [
+    "tca-2025-04-07"
+   ]
+  },
+  {
+   "source": "City of Rifle local match",
+   "amount": "$600,000 (requested; final amount not confirmed)",
+   "note": "Council members expressed support at the 2023-01-04 workshop; it is not listed among the closing sources in 2024-2026 reports.",
+   "src": [
+    "pi-2023-01-11",
+    "chfa-2023-r1-narratives",
+    "mhcre-2026-04-27"
+   ]
+  },
+  {
+   "source": "Project-based vouchers",
+   "amount": "14 units",
+   "note": "From Garfield County Housing Authority, for households at or below 30% AMI.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "pi-2023-01-11"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Over 20% of the allowable fee (application)",
+   "note": "",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "mhcre-2024-09-30"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Evergreen Real Estate Group (through Evergreen Redevelopment LLC)",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Evergreen (Evergreen Real Estate Services, LLC per the application)",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "mhcre-2026-04-27"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Shaw Construction",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "tca-2025-04-07"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "ej architecture, pllc",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "mhcre-2024-09-30"
+   ]
+  },
+  {
+   "role": "Construction lender",
+   "name": "KeyBank Community Development Lending & Investment",
+   "src": [
+    "tca-2025-04-07"
+   ]
+  },
+  {
+   "role": "Housing authority (vouchers, special limited partner)",
+   "name": "Garfield County Housing Authority",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "pi-2023-01-11"
+   ]
+  },
+  {
+   "role": "Public and mission lenders",
+   "name": "Colorado Division of Housing, CHFA, Colorado Clean Energy Fund, Impact Development Fund",
+   "src": [
+    "tca-2025-04-07",
+    "mhcre-2026-04-27"
+   ]
+  },
+  {
+   "role": "City partner",
+   "name": "City of Rifle (Park Avenue extension and Park-n-Ride improvements; support letter signed by the full council)",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "pi-2024-09-30",
+    "mhcre-2026-04-27"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Evergreen's 2022 Round One application proposed a 50-unit, four-story elevator building with underground parking and 10 market-rate units at 139 Railroad Avenue; it was not funded, and the developer said CHFA and the city were concerned about the cost of structured parking and lack of green space, which led to the move to the larger Park Avenue site.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2023-r1-narratives",
+    "pi-2023-01-11",
+    "tca-2025-04-07"
+   ]
+  },
+  {
+   "text": "Rifle City Council reviewed the revised 60-unit plan at a workshop on 2023-01-04, where Evergreen asked for a $600,000 city match and the Garfield County Housing Authority said it would reserve 14 project-based vouchers if the project broke ground.",
+   "src": [
+    "pi-2023-01-11"
+   ]
+  },
+  {
+   "text": "The project is the first family LIHTC property built in Rifle since 2002, per the application; the two older family LIHTC properties in Rifle (Eagles Nest and White River Village) reported no vacancies and waitlists.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "mhcre-2026-04-27"
+   ]
+  },
+  {
+   "text": "The application said only a site plan review with a publicly noticed Planning Commission hearing remained before construction documents and a building permit.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "The city secured state funding to improve Park Avenue; by April 2026 the Park Avenue extension was complete and construction had begun on the Park Avenue bridge.",
+   "src": [
+    "pi-2024-09-30",
+    "mhcre-2026-04-27"
+   ]
+  },
+  {
+   "text": "Timeline slippage: the January 2023 plan aimed for a June 2024 groundbreaking and December 2025 opening; groundbreaking came on 2024-09-27 with completion set for fall 2025, and the grand opening was held in April 2026.",
+   "src": [
+    "pi-2023-01-11",
+    "mhcre-2024-09-30",
+    "mhcre-2026-04-27"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022",
+   "event": "First 9% application (2022 Round One, 139 Railroad Avenue) is not funded",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-01-04",
+   "event": "Rifle City Council workshop on the revised 60-unit Park Avenue plan",
+   "src": [
+    "pi-2023-01-11"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round One applicant report (request $1,450,000)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Awarded $1,450,000 in 2023 Round One 9% credit",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "date": "2024-09-27",
+   "event": "Ceremonial groundbreaking",
+   "src": [
+    "mhcre-2024-09-30",
+    "pi-2024-09-30"
+   ]
+  },
+  {
+   "date": "2025-04-07",
+   "event": "Evergreen reports construction on time and on budget, targeting fall 2025 completion",
+   "src": [
+    "tca-2025-04-07"
+   ]
+  },
+  {
+   "date": "2026-04-17",
+   "event": "Grand opening (year inferred from the 2026-04-27 report); 95% leased",
+   "src": [
+    "mhcre-2026-04-27",
+    "cobiz-2026-05-07"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Site plan for the 60-unit proposal west of the movie theater",
+   "url": "https://www.postindependent.com/adproof/evergreen-returns-developer-proposes-60-affordable-housing-units-just-west-of-rifle-movie-theater/",
+   "kind": "site plan",
+   "made_by": "Evergreen Real Estate Group (published by the Post Independent)",
+   "note": "Site plan image in the 2023-01-11 article",
+   "src": [
+    "pi-2023-01-11"
+   ]
+  },
+  {
+   "title": "Rendering of the complex",
+   "url": "https://www.postindependent.com/news/rifle-breaks-ground-on-affordable-housing-project/",
+   "kind": "rendering",
+   "made_by": "Project team (published by the Post Independent)",
+   "note": "Rendering and groundbreaking photo in the 2024-09-30 article",
+   "src": [
+    "pi-2024-09-30"
+   ]
+  },
+  {
+   "title": "Completed property",
+   "url": "https://milehighcre.com/evergreen-real-estate-group-completes-affordable-rifle-apartments/",
+   "kind": "photo",
+   "made_by": "Mile High CRE (from Evergreen)",
+   "note": "Photo in the 2026-04-27 article",
+   "src": [
+    "mhcre-2026-04-27"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award description gives the income mix as 14 units at 30% AMI, 18 at 50%, 8 at 60%, 10 at 70% and 10 at 80%, while preliminary documents reported in January 2023 showed 14 at 30%, 12 at 50%, 18 at 60%, 8 at 70% and 8 at 80%.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "pi-2023-01-11"
+   ]
+  },
+  {
+   "text": "The application put total development cost at $28,403,918, while Evergreen gave $29.2 million in 2025 and about $29 million at groundbreaking.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "tca-2025-04-07",
+    "pi-2024-09-30"
+   ]
+  },
+  {
+   "text": "The application cited a $5,410,000 CHFA permanent loan and a $510,000 Impact Development Fund loan, while Evergreen's 2025 account lists a $3 million CHFA permanent loan and $1 million from Impact Development Fund.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "tca-2025-04-07"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the City of Rifle provided the requested $600,000 match, and any council resolution numbers and Planning Commission site plan approval dates.",
+  "Construction closing date, credit price and final total development cost.",
+  "CHFA placed-in-service date, affordability covenant term, and the terms of the Garfield County Housing Authority property tax exemption.",
+  "Final rents at lease-up."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "2023 Round One Award Descriptions (Rifle Apartments)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (Rifle Apartments, PDF pages 86-91)",
+   "publisher": "CHFA",
+   "date": "2023-02",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "2022 Round One application narratives (Rifle Apartments, from PDF page 93)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "pi-2023-01-11",
+   "title": "Evergreen returns: Developer proposes 60 affordable-housing units just west of Rifle movie theater",
+   "publisher": "Glenwood Springs Post Independent",
+   "date": "2023-01-11",
+   "url": "https://www.postindependent.com/adproof/evergreen-returns-developer-proposes-60-affordable-housing-units-just-west-of-rifle-movie-theater/"
+  },
+  {
+   "id": "pi-2024-09-30",
+   "title": "Rifle breaks ground on affordable housing project",
+   "publisher": "Glenwood Springs Post Independent",
+   "date": "2024-09-30",
+   "url": "https://www.postindependent.com/news/rifle-breaks-ground-on-affordable-housing-project/"
+  },
+  {
+   "id": "mhcre-2024-09-30",
+   "title": "60-Unit Affordable Rental Community Breaks Ground in Rifle",
+   "publisher": "Mile High CRE",
+   "date": "2024-09-30",
+   "url": "https://milehighcre.com/60-unit-affordable-rental-community-breaks-ground-in-rifle/"
+  },
+  {
+   "id": "tca-2025-04-07",
+   "title": "Case Study: Second Effort Succeeds for Colorado Workforce Housing",
+   "publisher": "Tax Credit Advisor",
+   "date": "2025-04-07",
+   "url": "https://www.taxcreditadvisor.com/articles/case-study-second-effort-succeeds-for-colorado-workforce-housing/"
+  },
+  {
+   "id": "mhcre-2026-04-27",
+   "title": "Evergreen Real Estate Group Completes Affordable Rifle Apartments",
+   "publisher": "Mile High CRE",
+   "date": "2026-04-27",
+   "url": "https://milehighcre.com/evergreen-real-estate-group-completes-affordable-rifle-apartments/"
+  },
+  {
+   "id": "cobiz-2026-05-07",
+   "title": "Evergreen Real Estate Group opens 60-unit affordable housing in Rifle",
+   "publisher": "ColoradoBiz",
+   "date": "2026-05-07",
+   "url": "https://coloradobiz.com/evergreen-real-estate-group-opens-60-unit-affordable-housing-rifle/"
+  }
+ ]
+}
