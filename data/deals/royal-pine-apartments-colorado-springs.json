@@ -1,0 +1,463 @@
+{
+ "slug": "royal-pine-apartments-colorado-springs",
+ "name": "Royal Pine Apartments",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2023 Federal 4% housing tax credit",
+ "units": 232,
+ "researched_on": "2026-10-21",
+ "headline": "DBG Properties of Portland, Oregon, is building Royal Pine Apartments, 232 new one- to three-bedroom homes for households at 30% to 70% AMI in three four-story buildings at 4150 Royal Pine Dr in Colorado Springs' Briargate area, with a 2023-cycle federal 4% credit and City of Colorado Springs bonds.",
+ "why_it_matters": "A rare affordable deal in high-cost north Colorado Springs that survived neighbor opposition and a lawsuit; the delay voided the 2023 bond authority and forced a new $60M bond ordinance in 2025 using the city's banked bond cap.",
+ "status": {
+  "label": "Under construction (permits pulled November 2025); completion targeted July 2027",
+  "detail": "The Pikes Peak Regional Building Department issued permits in November 2025 and reported the project under construction on 2025-11-21. City presentations in May 2025 targeted completion by 2027-07-31. No financing closing date was found in public records.",
+  "src": [
+   "gazette-2025-12-15",
+   "kktv-2025-11-21",
+   "koaa-2025-05-13"
+  ]
+ },
+ "next_step": "Watch Pikes Peak Regional Building Department inspections and a certificate of occupancy around mid-2027.",
+ "key_numbers": [
+  {
+   "value": "232 homes, all income-restricted",
+   "meaning": "124 one-, 64 two- and 44 three-bedroom units; 17 at 30%, 164 at 60% and 51 at 70% AMI using income averaging (average 60% AMI, computed).",
+   "src": [
+    "chfa-4pct-award",
+    "koaa-2025-05-13",
+    "coloradopolitics-2023-05-22"
+   ]
+  },
+  {
+   "value": "$3,331,272 a year in federal 4% credit",
+   "meaning": "Federal credit runs 10 years; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$39,575,000 in City of Colorado Springs bonds",
+   "meaning": "Amount on CHFA's report; City Council authorized up to $60M in May 2025 after a 2023 authority of up to $40M expired.",
+   "src": [
+    "chfa-4pct-award",
+    "gazette-2025-05-13",
+    "coloradopolitics-2025-04-21"
+   ]
+  },
+  {
+   "value": "$4.5M state Housing Development Grant loan",
+   "meaning": "Cash-flow loan from the State Housing Board (October 2024).",
+   "src": [
+    "dola-2024-10-09"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "4150 Royal Pine Dr, Colorado Springs 80920 (near North Union Blvd. and North Powers Blvd.)",
+   "src": [
+    "chfa-4pct-award",
+    "coloradopolitics-2025-04-21"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; not in a QCT or DDA; in a SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Site and buildings",
+   "value": "Vacant, previously undisturbed 7.87-acre parcel zoned for multifamily; three four-story buildings (80, 80 and 72 units)",
+   "src": [
+    "dola-2024-10-09",
+    "coloradopolitics-2023-05-22"
+   ]
+  },
+  {
+   "item": "Amenities",
+   "value": "Recreation space, community gardens, children's play area and dog run",
+   "src": [
+    "constructionreporter-2024-03-07"
+   ]
+  },
+  {
+   "item": "Rents",
+   "value": "2023 estimates: 1BR about $1,115, 2BR $1,336, 3BR $1,539; May 2025 city slides at 60% AMI: 1BR $1,229, 2BR $1,466, 3BR $1,689",
+   "src": [
+    "coloradopolitics-2023-05-22",
+    "koaa-2025-05-13"
+   ]
+  },
+  {
+   "item": "Permit valuation",
+   "value": "About $39 million per the regional building department",
+   "src": [
+    "kktv-2025-11-21"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 17
+  },
+  {
+   "level": "60% AMI",
+   "units": 164
+  },
+  {
+   "level": "70% AMI",
+   "units": 51
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 124
+  },
+  {
+   "type": "2BR",
+   "units": 64
+  },
+  {
+   "type": "3BR",
+   "units": 44
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,331,272 per year",
+   "note": "Cycle year 2023; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (City of Colorado Springs, conduit issuer)",
+   "amount": "$39,575,000",
+   "note": "City bond cap: in 2023 the city planned to use most of its roughly $29.2M 2023 state allocation plus 2022 carryover; in 2025 the deal drew on bond capacity the city had banked since 2022. Final ordinance authorized up to $60M.",
+   "src": [
+    "chfa-4pct-award",
+    "coloradopolitics-2023-05-22",
+    "coloradopolitics-2025-04-21",
+    "gazette-2025-05-13"
+   ]
+  },
+  {
+   "source": "Housing Development Grant cash-flow loan (State Housing Board, DOLA Division of Housing)",
+   "amount": "Up to $4,500,000",
+   "note": "",
+   "src": [
+    "dola-2024-10-09"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "DBG Properties LLC (Portland, Oregon)",
+   "src": [
+    "chfa-4pct-award",
+    "coloradopolitics-2023-05-22",
+    "dola-2024-10-09"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "City of Colorado Springs",
+   "src": [
+    "chfa-4pct-award",
+    "gazette-2025-05-13"
+   ]
+  },
+  {
+   "role": "Credit allocator",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Civil engineer (development plan submittal)",
+   "name": "Drexel, Barrell & Company",
+   "src": [
+    "constructionreporter-2024-03-07"
+   ]
+  },
+  {
+   "role": "State funder",
+   "name": "Colorado Department of Local Affairs, Division of Housing",
+   "src": [
+    "dola-2024-10-09"
+   ]
+  },
+  {
+   "role": "Opponent (lawsuit)",
+   "name": "Preserve Pine Creek neighborhood group (named Preserve Pine Creek Neighborhood or Preserve Pine Creek Village in news reports)",
+   "src": [
+    "coloradopolitics-2025-04-21",
+    "gazette-2025-05-13"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "City staff presented the project at a 2023-05-22 council work session, describing income averaging and a city plan to use most of its 2023 bond allocation; DBG Properties had earlier built Academy Heights in the city.",
+   "src": [
+    "coloradopolitics-2023-05-22"
+   ]
+  },
+  {
+   "text": "On 2023-06-13 City Council voted 7-2 for an inducement resolution declaring intent to issue up to $40M of private activity bonds, over objections from Pine Creek neighbors about density, traffic, water and wildlife.",
+   "src": [
+    "coloradopolitics-2023-06-16",
+    "koaa-2025-05-13"
+   ]
+  },
+  {
+   "text": "Neighbors said city mailings in June 2023 did not mention an apartment complex; the city said multifamily was always an allowed use on the parcel.",
+   "src": [
+    "koaa-2023-07-05"
+   ]
+  },
+  {
+   "text": "The planning commission approved the development plan in early 2024 and City Council, at a February 2024 special meeting, allowed the project to proceed.",
+   "src": [
+    "constructionreporter-2024-03-07",
+    "coloradopolitics-2025-04-21",
+    "gazette-2025-05-13"
+   ]
+  },
+  {
+   "text": "A neighborhood group sued the city in 2023; El Paso County District Court dismissed the case (reported as January 2025), and a federal court recommended remand to the county court in April 2025. The delay caused the 2023 bond resolution to expire.",
+   "src": [
+    "coloradopolitics-2025-04-21",
+    "gazette-2025-05-13"
+   ]
+  },
+  {
+   "text": "On 2025-05-13 City Council passed the final ordinance authorizing up to $60M of bonds, 8-1; the city is a conduit issuer and is not liable for repayment.",
+   "src": [
+    "gazette-2025-05-13",
+    "koaa-2025-05-13"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2023 Round One or Round Two applicant reports or the 2023 Round Two award report.",
+   "src": [
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-05-22",
+   "event": "Council work session on up to $40M of bonds",
+   "src": [
+    "coloradopolitics-2023-05-22"
+   ]
+  },
+  {
+   "date": "2023-06-13",
+   "event": "Council approves inducement resolution, 7-2",
+   "src": [
+    "coloradopolitics-2023-06-16"
+   ]
+  },
+  {
+   "date": "2024-02",
+   "event": "Council allows the project to proceed after planning commission approval",
+   "src": [
+    "coloradopolitics-2025-04-21",
+    "constructionreporter-2024-03-07"
+   ]
+  },
+  {
+   "date": "2024-10-09",
+   "event": "State Housing Board $4.5M cash-flow loan announced",
+   "src": [
+    "dola-2024-10-09"
+   ]
+  },
+  {
+   "date": "2025-01",
+   "event": "Neighborhood lawsuit dismissed by El Paso County District Court (as reported)",
+   "src": [
+    "coloradopolitics-2025-04-21"
+   ]
+  },
+  {
+   "date": "2025-04-21",
+   "event": "Council work session on new bond request",
+   "src": [
+    "coloradopolitics-2025-04-21"
+   ]
+  },
+  {
+   "date": "2025-05-13",
+   "event": "Council passes final $60M bond ordinance, 8-1",
+   "src": [
+    "gazette-2025-05-13"
+   ]
+  },
+  {
+   "date": "2025-11",
+   "event": "Building permits issued; construction underway (reported 2025-11-21)",
+   "src": [
+    "gazette-2025-12-15",
+    "kktv-2025-11-21"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2023",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2027-07-31",
+   "event": "Targeted completion per May 2025 city slides",
+   "src": [
+    "koaa-2025-05-13"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Royal Pines project images",
+   "url": "https://www.coloradopolitics.com/2023/05/22/colorado-springs-plans-to-issue-40-million-in-bonds-for-over-200-new-affordable-rental-units-699dace9-9aad-5b2c-8418-03a9b0e89f59",
+   "kind": "rendering",
+   "made_by": "City of Colorado Springs (credited by Colorado Politics)",
+   "note": "Two images in the article credited to the City of Colorado Springs (type not labeled)",
+   "src": [
+    "coloradopolitics-2023-05-22"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report lists $39,575,000 of city bonds, while City Council's 2025 final ordinance authorized up to $60M and the 2023 inducement covered up to $40M.",
+   "src": [
+    "chfa-4pct-award",
+    "gazette-2025-05-13",
+    "coloradopolitics-2023-06-16"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Financing closing date, final bond amount, equity investor, lender, general contractor and total development cost.",
+  "Planning commission and council decision dates and file numbers for the development plan and the February 2024 appeal.",
+  "Length of the affordability covenant and any property tax arrangement.",
+  "Certificate of occupancy and lease-up dates."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "coloradopolitics-2023-05-22",
+   "title": "Colorado Springs plans to issue $40 million in bonds for over 200 new affordable rental units",
+   "publisher": "Colorado Politics",
+   "date": "2023-05-22",
+   "url": "https://www.coloradopolitics.com/2023/05/22/colorado-springs-plans-to-issue-40-million-in-bonds-for-over-200-new-affordable-rental-units-699dace9-9aad-5b2c-8418-03a9b0e89f59"
+  },
+  {
+   "id": "coloradopolitics-2023-06-16",
+   "title": "Colorado Springs to issue $40 million in bonds for affordable rental units in Briargate",
+   "publisher": "Colorado Politics",
+   "date": "2023-06-16",
+   "url": "https://www.coloradopolitics.com/2023/06/16/colorado-springs-to-issue-40-million-in-bonds-for-affordable-rental-units-in-briargate-836e1d71-04f1-5bd9-a854-96a72a52088c"
+  },
+  {
+   "id": "koaa-2023-07-05",
+   "title": "Pushback from Briargate neighborhood on proposed 232-unit affordable housing apartment complex",
+   "publisher": "KOAA News5",
+   "date": "2023-07-05",
+   "url": "https://koaa.com/news/covering-colorado/pushback-from-briargate-neighborhood-on-proposed-232-unit-affordable-housing-apartment-complex"
+  },
+  {
+   "id": "constructionreporter-2024-03-07",
+   "title": "Colorado Springs Approves New Apartment Complex in Ongoing Larger Effort to Build More Workforce Housing",
+   "publisher": "Construction Reporter",
+   "date": "2024-03-07",
+   "url": "https://constructionreporter.com/?p=18072"
+  },
+  {
+   "id": "dola-2024-10-09",
+   "title": "Colorado State Housing Board Announces Over $19M in Rental Housing Awards, Providing 600 Units Statewide",
+   "publisher": "Colorado Department of Local Affairs",
+   "date": "2024-10-09",
+   "url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-announces-over-19m-in-rental-housing-awards-providing"
+  },
+  {
+   "id": "coloradopolitics-2025-04-21",
+   "title": "Colorado Springs council hears proposal to issue $116 million in bonds for affordable housing",
+   "publisher": "Colorado Politics",
+   "date": "2025-04-21",
+   "url": "https://www.coloradopolitics.com/?p=174833"
+  },
+  {
+   "id": "koaa-2025-05-13",
+   "title": "Next step for affordable apartments in Briargate area of Colorado Springs Tuesday",
+   "publisher": "KOAA News5",
+   "date": "2025-05-13",
+   "url": "https://www.koaa.com/news/covering-colorado/next-step-for-affordable-apartments-in-briargate-area-of-colorado-springs-tuesday"
+  },
+  {
+   "id": "gazette-2025-05-13",
+   "title": "Bonds for 2 Colorado Springs affordable housing projects moved ahead",
+   "publisher": "The Gazette",
+   "date": "2025-05-13",
+   "url": "https://gazette.com/?p=1472461"
+  },
+  {
+   "id": "kktv-2025-11-21",
+   "title": "New affordable apartment complex under construction in north Colorado Springs",
+   "publisher": "KKTV",
+   "date": "2025-11-21",
+   "url": "https://www.kktv.com/2025/11/21/new-apartment-complex-under-construction-north-colorado-springs/"
+  },
+  {
+   "id": "gazette-2025-12-15",
+   "title": "Apartment construction picks up in November following slowdown in Colorado Springs",
+   "publisher": "The Gazette",
+   "date": "2025-12-15",
+   "url": "https://gazette.com/2025/12/15/apartment-construction-picks-up-in-november-following-slowdown-in-colorado-springs/"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round 2 Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  }
+ ]
+}

@@ -1,0 +1,512 @@
+{
+ "slug": "henninger-legacy-homes-denver",
+ "name": "Henninger Legacy Homes",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 60,
+ "researched_on": "2026-10-21",
+ "headline": "Atlantis Community Foundation is building Henninger Legacy Homes, a four-story, 60-unit permanent supportive housing building for people experiencing homelessness, people with disabilities and veterans, on Bayaud Enterprises' former headquarters site in Denver's Baker neighborhood, with a $1,450,000-a-year 2023 Round One 9% credit award from CHFA.",
+ "why_it_matters": "It pairs a nonprofit landowner's $0 site sale (in exchange for new office space in the building) with a forgivable 99-year Denver loan and rental subsidy on every unit (VASH, Section 811 and Section 8), a template for supportive housing on a service provider's own land.",
+ "status": {
+  "label": "Under construction (reported February 2026); opening slated for 2026, not yet confirmed",
+  "detail": "Denver approved a $3M loan on 2024-10-14 with a June 10, 2025 closing deadline; in December 2024 Atlantis said construction would start that month for a spring 2026 opening. Naked Denver reported construction under way on 2026-02-06, and Atlantis's property page lists the project as under construction and scheduled to open in 2026. No dated closing, completion or lease-up record was found.",
+  "src": [
+   "denver-cr24-1126",
+   "denver-host-loan-2024",
+   "ccm-2024-12-05",
+   "nakeddenver-2026-02-06",
+   "atlantis-henninger"
+  ]
+ },
+ "next_step": "Watch for a certificate of occupancy, a grand opening notice from Atlantis or Bayaud Enterprises, and CHFA's placed-in-service record.",
+ "key_numbers": [
+  {
+   "value": "60 one-bedroom homes, all at 30% AMI",
+   "meaning": "Every unit is subsidized: 10 HUD-VASH, 15 Section 811 PRA and 35 Section 8 vouchers, per Denver's request memo.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "denver-host-request-2024"
+   ]
+  },
+  {
+   "value": "$1,450,000 a year in federal 9% credit",
+   "meaning": "The full amount requested; about $14.5M over 10 years (inferred).",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "value": "$3,000,000 Denver loan, 0%, forgivable after 99 years",
+   "meaning": "Homelessness Resolution Fund money approved by City Council resolution CR24-1126, with a 99-year affordability covenant.",
+   "src": [
+    "denver-cr24-1126",
+    "denver-host-loan-2024",
+    "denver-host-request-2024"
+   ]
+  },
+  {
+   "value": "$0 site sale",
+   "meaning": "Bayaud Enterprises sold its site for nothing in exchange for new office space in the building.",
+   "src": [
+    "denver-host-request-2024"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA lists 333 W. Bayaud Avenue, Denver 80223; Denver's loan papers give 313 W. Bayaud Ave and 90 S. Elati St; Atlantis's property page gives 473 W. Bayaud Ave",
+   "src": [
+    "chfa-2023-r1-award",
+    "denver-cr24-1126",
+    "atlantis-henninger"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, permanent supportive housing; 60 units, 60 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Bayaud Enterprises' longtime headquarters; the office building is demolished (about 20% of the existing building kept) and replaced by the housing plus office space for Bayaud",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "ccm-2024-12-05",
+    "denver-host-request-2024"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, wood frame, post-tensioned slab, brick, stucco and lap siding; trauma-informed and universal design; all units designed for physical and cognitive accessibility",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "ccm-2024-12-05",
+    "atlantis-henninger"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "Zero Energy Ready Homes and Enterprise Green Communities 2020; all-electric with heat pump space and water heating",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Population",
+   "value": "People experiencing homelessness, people with disabilities and veterans; 10 units set aside for veterans with disabilities; referrals from OneHome, the VA, Atlantis and the Division of Housing",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "denver-host-request-2024",
+    "atlantis-henninger"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Zoned for the project; only administrative approvals needed, per the application",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Alameda light rail station less than half a mile south; RTD bus on Cherokee Street",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Ownership entity",
+   "value": "Henninger Legacy Homes LLLP, whose general partner is Henninger Legacy Homes GP LLC with Atlantis Community Foundation as sole member",
+   "src": [
+    "denver-host-loan-2024"
+   ]
+  },
+  {
+   "item": "Name",
+   "value": "Honors David Henninger, who founded Bayaud Enterprises in 1969",
+   "src": [
+    "ccm-2024-12-05"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 60
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 60
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives",
+  "denver-host-loan-2024"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,450,000 per year",
+   "note": "2023 Round One award, equal to the request. MHEG Fund 58, LP (Midwest Housing Equity Group) is named as a notice party in the Denver loan agreement, so it is likely the credit investor (inferred).",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "denver-host-loan-2024"
+   ]
+  },
+  {
+   "source": "City and County of Denver loan (Homelessness Resolution Fund)",
+   "amount": "$3,000,000",
+   "note": "0% interest, 99-year term, forgivable at maturity if in compliance; second lien behind the construction loan; closing deadline June 10, 2025.",
+   "src": [
+    "denver-host-loan-2024",
+    "denver-host-request-2024",
+    "denver-cr24-1126"
+   ]
+  },
+  {
+   "source": "Construction loan",
+   "amount": "Not public",
+   "note": "Colorado Federal Savings Bank holds the senior construction deed of trust.",
+   "src": [
+    "denver-host-loan-2024",
+    "nakeddenver-2026-02-06"
+   ]
+  },
+  {
+   "source": "Bayaud Enterprises loan",
+   "amount": "Not public",
+   "note": "Offsets the cost of the commercial office space, per the application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Site contribution",
+   "amount": "$0 sale",
+   "note": "Bayaud Enterprises' land, in exchange for office space in the new building.",
+   "src": [
+    "denver-host-request-2024"
+   ]
+  },
+  {
+   "source": "Rental subsidy",
+   "amount": "60 units",
+   "note": "10 HUD-VASH (VA referrals), 15 Section 811 Project Rental Assistance (Division of Housing with HCPF), 35 Section 8 via Coordinated Entry.",
+   "src": [
+    "denver-host-request-2024",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Supportive services funding",
+   "amount": "Not public",
+   "note": "Homeless bonus developer fee, property revenue, the Division of Housing's tenancy support services grant, employment and training sources, and Medicaid through the state supportive housing program, per the application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Atlantis Community Foundation (d/b/a Atlantis Community Housing)",
+   "src": [
+    "chfa-2023-r1-award",
+    "atlantis-henninger"
+   ]
+  },
+  {
+   "role": "Site partner and service provider (application)",
+   "name": "Bayaud Enterprises",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions",
+    "ccm-2024-12-05"
+   ]
+  },
+  {
+   "role": "On-site service provider (current property page)",
+   "name": "ServiceSource",
+   "src": [
+    "atlantis-henninger",
+    "nakeddenver-2026-02-06"
+   ]
+  },
+  {
+   "role": "Development consultant / partner",
+   "name": "Medici Consulting Group (application); Medici Communities (property page)",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "atlantis-henninger"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "atlantis-henninger"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "BC Buildings, LLC",
+   "src": [
+    "nakeddenver-2026-02-06"
+   ]
+  },
+  {
+   "role": "Construction lender",
+   "name": "Colorado Federal Savings Bank",
+   "src": [
+    "denver-host-loan-2024",
+    "nakeddenver-2026-02-06"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Brothers Property Management (property page); the application planned Archway Housing",
+   "src": [
+    "atlantis-henninger",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Public funder",
+   "name": "City and County of Denver, Department of Housing Stability",
+   "src": [
+    "denver-cr24-1126"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Atlantis Community Foundation, created in 1998 by the disability-rights nonprofit Atlantis Community Inc., had already turned its Baker holdings into 144 units of tax credit housing; this is its third recent LIHTC project, two blocks from the other two.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "ccm-2024-12-05"
+   ]
+  },
+  {
+   "text": "The application's service model centers on employment: three case managers and a mental health counselor, then job training and placement through Bayaud Enterprises, whose program offices and food bank move into the building.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "ccm-2024-12-05"
+   ]
+  },
+  {
+   "text": "Denver City Council's South Platte River Committee approved the $3M loan by consent on 2024-09-04 and the full council adopted resolution CR24-1126 on 2024-10-14; the loan requires a 99-year covenant at 30% AMI.",
+   "src": [
+    "denver-cr24-1126",
+    "denver-host-loan-2024",
+    "denver-host-request-2024"
+   ]
+  },
+  {
+   "text": "In December 2024 Atlantis said construction would begin that month with a groundbreaking in January and about 14 months of work, for a spring 2026 opening; Bayaud's offices moved to Lakewood during construction.",
+   "src": [
+    "ccm-2024-12-05"
+   ]
+  },
+  {
+   "text": "Market study and site findings in the application: lease-up expected in about two months, no vacancies at surveyed LIHTC properties, and an environmentally clean, flat infill site.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round One applicant report (request $1,450,000)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-09-04",
+   "event": "Denver council committee approves the $3M HOST loan by consent",
+   "src": [
+    "denver-cr24-1126"
+   ]
+  },
+  {
+   "date": "2024-10-14",
+   "event": "Denver City Council adopts resolution CR24-1126 approving the loan",
+   "src": [
+    "denver-cr24-1126"
+   ]
+  },
+  {
+   "date": "2024-12-05",
+   "event": "Atlantis says construction will begin in December 2024, groundbreaking in January 2025",
+   "src": [
+    "ccm-2024-12-05"
+   ]
+  },
+  {
+   "date": "2025-02-26",
+   "event": "As-of date of CHFA's public 2023 Round One award report (no footnote on this deal)",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "date": "2025-06-10",
+   "event": "Closing deadline for the Denver loan",
+   "src": [
+    "denver-host-loan-2024"
+   ]
+  },
+  {
+   "date": "2026-02-06",
+   "event": "Naked Denver reports construction under way, opening expected later in 2026",
+   "src": [
+    "nakeddenver-2026-02-06"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Project article photos",
+   "url": "https://www.coloradocommunitymedia.com/archives/capitol-hill/community/article_d0070e71-3b12-5f9d-b786-0d373fdded6e.html",
+   "kind": "photo",
+   "made_by": "Colorado Community Media",
+   "note": "Images in the 2024-12-05 article",
+   "src": [
+    "ccm-2024-12-05"
+   ]
+  },
+  {
+   "title": "Construction progress photo",
+   "url": "https://www.nakeddenver.com/post/baker-neighborhood-sees-progress-on-henninger-legacy-homes-project",
+   "kind": "photo",
+   "made_by": "Naked Denver",
+   "note": "Image in the 2026-02-06 post",
+   "src": [
+    "nakeddenver-2026-02-06"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists the address as 333 W. Bayaud Avenue, Denver's loan papers give 313 W. Bayaud Ave and 90 S. Elati St, and Atlantis's property page gives 473 W. Bayaud Ave.",
+   "src": [
+    "chfa-2023-r1-award",
+    "denver-cr24-1126",
+    "atlantis-henninger"
+   ]
+  },
+  {
+   "text": "The application and CHFA's award description name Bayaud Enterprises as lead service provider, while Atlantis's current property page and Naked Denver name ServiceSource.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions",
+    "atlantis-henninger",
+    "nakeddenver-2026-02-06"
+   ]
+  },
+  {
+   "text": "The application planned Archway Housing as property manager, while Atlantis's property page lists Brothers Property Management.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "atlantis-henninger"
+   ]
+  },
+  {
+   "text": "The application says all units will have project-based Section 8 vouchers, while Denver's memo splits subsidy among 10 VASH, 15 Section 811 PRA and 35 Section 8 vouchers.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "denver-host-request-2024"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the loan closing and groundbreaking happened on the planned dates (no dated closing or groundbreaking record found).",
+  "Completion, certificate of occupancy, lease-up and CHFA placed-in-service dates.",
+  "Total development cost, credit price, construction loan amount and any Division of Housing funding.",
+  "Whether ServiceSource replaced Bayaud Enterprises as service provider or is Bayaud under a new name (inferred possibility; not confirmed)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "CHFA, 2023 Round One Award Descriptions (Henninger Legacy Homes)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (Henninger Legacy Homes, PDF pages 46-50)",
+   "publisher": "CHFA",
+   "date": "2023-02",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "denver-cr24-1126",
+   "title": "City and County of Denver, File 24-1126 (Resolution CR24-1126): Loan Agreement with Atlantis Community Foundation",
+   "publisher": "Denver City Council (Legistar)",
+   "date": "2024-10-14",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=6843007&GUID=BB7ED8EB-4FDB-4C8A-A07B-D710D7D928BB"
+  },
+  {
+   "id": "denver-host-request-2024",
+   "title": "Ordinance/Resolution Request, Henninger HOST loan (attachment to File 24-1126)",
+   "publisher": "Denver Department of Housing Stability",
+   "date": "2024-08-19",
+   "url": "https://denver.legistar.com/View.ashx?M=F&ID=13260594&GUID=0FA5AC89-21FC-4410-917A-BA69945FC267"
+  },
+  {
+   "id": "denver-host-loan-2024",
+   "title": "Loan Agreement (Homelessness Resolution Fund), Atlantis Community Foundation, HOST-202474909 (attachment to File 24-1126)",
+   "publisher": "City and County of Denver",
+   "date": "2024",
+   "url": "https://denver.legistar.com/View.ashx?M=F&ID=13362620&GUID=DCCF7F8B-750F-43A0-8B8A-831019A0D380"
+  },
+  {
+   "id": "ccm-2024-12-05",
+   "title": "Affordable housing coming to Baker employment nonprofit Bayaud Enterprises",
+   "publisher": "Colorado Community Media",
+   "date": "2024-12-05",
+   "url": "https://www.coloradocommunitymedia.com/archives/capitol-hill/community/article_d0070e71-3b12-5f9d-b786-0d373fdded6e.html"
+  },
+  {
+   "id": "nakeddenver-2026-02-06",
+   "title": "Baker Neighborhood Sees Progress on Henninger Legacy Homes Project",
+   "publisher": "Naked Denver",
+   "date": "2026-02-06",
+   "url": "https://www.nakeddenver.com/post/baker-neighborhood-sees-progress-on-henninger-legacy-homes-project"
+  },
+  {
+   "id": "atlantis-henninger",
+   "title": "Henninger Legacy Homes (property page)",
+   "publisher": "Atlantis Community Housing",
+   "date": "2026",
+   "url": "https://atlantiscommunityhousing.org/henninger-legacy-homes"
+  }
+ ]
+}

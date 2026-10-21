@@ -3,7 +3,7 @@
   "title": "Deal summaries",
   "generator": "scripts/deals/build_deal_summaries.py",
   "method": "One hand-researched record per CHFA award, from public sources only; every figure cites a source listed in the record.",
-  "count": 88
+  "count": 116
  },
  "deals": [
   {
@@ -37,6 +37,23 @@
     "year": 2025,
     "names": [
      "101 Main"
+    ]
+   }
+  },
+  {
+   "slug": "10th-and-sheridan-denver",
+   "name": "10th and Sheridan (opened as Sheridan on 10th)",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 60,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "10th and Sheridan"
     ]
    }
   },
@@ -126,6 +143,40 @@
    }
   },
   {
+   "slug": "901-navajo-street-denver",
+   "name": "901 Navajo Street (Cranes Landing)",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2023,
+   "units": 190,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "901 Navajo Street"
+    ]
+   }
+  },
+  {
+   "slug": "albion-affordable-apartments-denver",
+   "name": "Albion Affordable Apartments (Rise at University Hills)",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2023,
+   "units": 169,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Albion Affordable Apartments"
+    ]
+   }
+  },
+  {
    "slug": "annex-boulder",
    "name": "Annex (Grace Commons Annex)",
    "city": "Boulder",
@@ -156,6 +207,23 @@
     "year": 2025,
     "names": [
      "Arapahoe PSH"
+    ]
+   }
+  },
+  {
+   "slug": "ascent-at-hover-crossing-longmont",
+   "name": "Ascent at Hover Crossing",
+   "city": "Longmont",
+   "county": "Boulder",
+   "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2023,
+   "units": 75,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Ascent at Hover Crossing"
     ]
    }
   },
@@ -245,6 +313,40 @@
    }
   },
   {
+   "slug": "belmar-groves-apartments-lakewood",
+   "name": "Belmar Groves Apartments",
+   "city": "Lakewood",
+   "county": "Jefferson",
+   "award": "2023 Federal 4% housing tax credit",
+   "year": 2023,
+   "units": 118,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Belmar Groves Apartments"
+    ]
+   }
+  },
+  {
+   "slug": "benedict-glenwood-springs",
+   "name": "The Benedict (Benedict Apartments)",
+   "city": "Glenwood Springs",
+   "county": "Garfield",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 34,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Benedict"
+    ]
+   }
+  },
+  {
    "slug": "blossom-commons-westminster",
    "name": "Blossom Commons",
    "city": "Westminster",
@@ -279,6 +381,24 @@
    }
   },
   {
+   "slug": "brigits-village-frederick",
+   "name": "Brigit's Village",
+   "city": "Frederick",
+   "county": "Weld",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 40,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Brigit's Village",
+     "Brigits Village"
+    ]
+   }
+  },
+  {
    "slug": "cedar-creek-commons-montrose",
    "name": "Cedar Creek Commons",
    "city": "Montrose",
@@ -309,6 +429,23 @@
     "year": 2025,
     "names": [
      "Central Park Station Phase I"
+    ]
+   }
+  },
+  {
+   "slug": "chrysalis-apartments-denver",
+   "name": "Chrysalis Apartments",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2023,
+   "units": 70,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Chrysalis Apartments"
     ]
    }
   },
@@ -467,6 +604,40 @@
    }
   },
   {
+   "slug": "denver-dry-goods-denver",
+   "name": "Denver Dry Goods",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2023,
+   "units": 106,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Denver Dry Goods"
+    ]
+   }
+  },
+  {
+   "slug": "diagonal-plaza-boulder",
+   "name": "Diagonal Plaza (opened as Hawthorn Court)",
+   "city": "Boulder",
+   "county": "Boulder",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 73,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Diagonal Plaza"
+    ]
+   }
+  },
+  {
    "slug": "eagle-villas-eagle",
    "name": "Eagle Villas (Eagle Villas Apartments)",
    "city": "Eagle",
@@ -480,6 +651,23 @@
     "year": 2025,
     "names": [
      "Eagle Villas"
+    ]
+   }
+  },
+  {
+   "slug": "edge-iii-loveland",
+   "name": "Edge III",
+   "city": "Loveland",
+   "county": "Larimer",
+   "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2023,
+   "units": 66,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Edge III"
     ]
    }
   },
@@ -565,6 +753,23 @@
     "year": 2026,
     "names": [
      "GardenWalk of Cañon City"
+    ]
+   }
+  },
+  {
+   "slug": "gateway-village-fort-morgan",
+   "name": "Gateway Village",
+   "city": "Fort Morgan",
+   "county": "Morgan",
+   "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2023,
+   "units": 120,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Gateway Village"
     ]
    }
   },
@@ -705,6 +910,40 @@
    }
   },
   {
+   "slug": "henninger-legacy-homes-denver",
+   "name": "Henninger Legacy Homes",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 60,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Henninger Legacy Homes"
+    ]
+   }
+  },
+  {
+   "slug": "hughes-station-brighton",
+   "name": "Hughes Station",
+   "city": "Brighton",
+   "county": "Adams",
+   "award": "2023 Federal 4% housing tax credit",
+   "year": 2023,
+   "units": 120,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Hughes Station"
+    ]
+   }
+  },
+  {
    "slug": "iliff-senior-apartments-denver",
    "name": "Iliff Senior Apartments",
    "city": "Denver",
@@ -741,6 +980,23 @@
    }
   },
   {
+   "slug": "jacoby-meadows-windsor",
+   "name": "Jacoby Meadows (Phase I)",
+   "city": "Windsor",
+   "county": "Weld",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 62,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Jacoby Meadows"
+    ]
+   }
+  },
+  {
    "slug": "jet-wing-flats-colorado-springs",
    "name": "Jet Wing Flats",
    "city": "Colorado Springs",
@@ -771,6 +1027,24 @@
     "year": 2024,
     "names": [
      "Kappa Tower III"
+    ]
+   }
+  },
+  {
+   "slug": "kings-crossing-aurora",
+   "name": "King's Crossing (King's Crossing Village)",
+   "city": "Aurora",
+   "county": "Arapahoe",
+   "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2023,
+   "units": 179,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "King's Crossing",
+     "Kings Crossing"
     ]
    }
   },
@@ -911,6 +1185,23 @@
    }
   },
   {
+   "slug": "mineral-point-crested-butte",
+   "name": "Mineral Point",
+   "city": "Crested Butte",
+   "county": "Gunnison",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 34,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Mineral Point"
+    ]
+   }
+  },
+  {
    "slug": "montbello-townhomes-denver",
    "name": "Montbello Townhomes (Phase 1)",
    "city": "Denver",
@@ -979,6 +1270,23 @@
    }
   },
   {
+   "slug": "overlook-at-uplands-westminster",
+   "name": "Overlook at Uplands",
+   "city": "Westminster",
+   "county": "Adams",
+   "award": "2023 Federal 4% housing tax credit",
+   "year": 2023,
+   "units": 247,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Overlook at Uplands"
+    ]
+   }
+  },
+  {
    "slug": "park-avenue-apartments-denver",
    "name": "Park Avenue Apartments",
    "city": "Denver",
@@ -1026,6 +1334,23 @@
     "year": 2026,
     "names": [
      "Parkside Apartments (scattered site)"
+    ]
+   }
+  },
+  {
+   "slug": "point-of-the-pines-villas-colorado-springs",
+   "name": "Point of the Pines Villas",
+   "city": "Colorado Springs",
+   "county": "El Paso",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 30,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Point of the Pines Villas"
     ]
    }
   },
@@ -1081,6 +1406,23 @@
    }
   },
   {
+   "slug": "rendezvous-montrose",
+   "name": "Rendezvous",
+   "city": "Montrose",
+   "county": "Montrose",
+   "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2023,
+   "units": 52,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Rendezvous"
+    ]
+   }
+  },
+  {
    "slug": "reserve-at-south-creek-englewood",
    "name": "Reserve at South Creek",
    "city": "Englewood (mailing address); unincorporated Arapahoe County (Dove Valley)",
@@ -1115,6 +1457,40 @@
    }
   },
   {
+   "slug": "residences-at-willow-park-aurora",
+   "name": "Residences at Willow Park",
+   "city": "Aurora",
+   "county": "Arapahoe",
+   "award": "2023 Federal 4% housing tax credit",
+   "year": 2023,
+   "units": 86,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Residences at Willow Park"
+    ]
+   }
+  },
+  {
+   "slug": "rifle-apartments-rifle",
+   "name": "Rifle Apartments",
+   "city": "Rifle",
+   "county": "Garfield",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 60,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Rifle Apartments"
+    ]
+   }
+  },
+  {
    "slug": "rita-bass-apartments-denver",
    "name": "Rita Bass Apartments (now marketed as The Ford Apartments)",
    "city": "Denver",
@@ -1128,6 +1504,23 @@
     "year": 2025,
     "names": [
      "Rita Bass Apartments"
+    ]
+   }
+  },
+  {
+   "slug": "royal-pine-apartments-colorado-springs",
+   "name": "Royal Pine Apartments",
+   "city": "Colorado Springs",
+   "county": "El Paso",
+   "award": "2023 Federal 4% housing tax credit",
+   "year": 2023,
+   "units": 232,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Royal Pine Apartments"
     ]
    }
   },
@@ -1162,6 +1555,23 @@
     "year": 2026,
     "names": [
      "Silver Key Apartments at North Weber"
+    ]
+   }
+  },
+  {
+   "slug": "sophia-englewood",
+   "name": "Sophia (The Sophia)",
+   "city": "Englewood",
+   "county": "Douglas",
+   "award": "2023 Federal 4% housing tax credit",
+   "year": 2023,
+   "units": 158,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Sophia"
     ]
    }
   },
@@ -1213,6 +1623,23 @@
     "year": 2024,
     "names": [
      "Stables"
+    ]
+   }
+  },
+  {
+   "slug": "starrise-at-north-weld-village-greeley",
+   "name": "StarRise at North Weld Village",
+   "city": "Greeley",
+   "county": "Weld",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 58,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "StarRise at North Weld Village"
     ]
    }
   },
@@ -1370,6 +1797,23 @@
    }
   },
   {
+   "slug": "trails-at-pagosa-springs-pagosa-springs",
+   "name": "Trails at Pagosa Springs (now marketed as Timberline at Pagosa Springs)",
+   "city": "Pagosa Springs",
+   "county": "Archuleta",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 50,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Trails at Pagosa Springs"
+    ]
+   }
+  },
+  {
    "slug": "university-building-lofts-denver",
    "name": "University Building Lofts",
    "city": "Denver",
@@ -1400,6 +1844,23 @@
     "year": 2026,
     "names": [
      "Ute Mountain Homes I"
+    ]
+   }
+  },
+  {
+   "slug": "village-at-homewood-point-phase-ii-colorado-springs",
+   "name": "Village at Homewood Point - Phase II",
+   "city": "Colorado Springs",
+   "county": "El Paso",
+   "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+   "year": 2023,
+   "units": 83,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Village at Homewood Point - Phase II"
     ]
    }
   },
@@ -1469,6 +1930,23 @@
     "year": 2026,
     "names": [
      "Wildflower Flats"
+    ]
+   }
+  },
+  {
+   "slug": "williams-pointe-lakewood",
+   "name": "Williams Pointe",
+   "city": "Lakewood",
+   "county": "Jefferson",
+   "award": "2023 Federal 9% housing tax credit (Round One)",
+   "year": 2023,
+   "units": 44,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2023,
+    "names": [
+     "Williams Pointe"
     ]
    }
   },

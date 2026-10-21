@@ -1,0 +1,511 @@
+{
+ "slug": "williams-pointe-lakewood",
+ "name": "Williams Pointe",
+ "city": "Lakewood",
+ "county": "Jefferson",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 44,
+ "researched_on": "2026-10-21",
+ "headline": "Metro West Housing Solutions, Lakewood's housing authority, won a $1,430,242-a-year 2023 Round One 9% award for Williams Pointe, 44 family apartments (20% to 70% AMI) on a steep 2.2-acre hillside it owns at 1515 Whippoorwill Drive in Applewood, but the project did not proceed: CHFA's award report marks it with an asterisk whose footnote reads 'Project did not proceed. Award returned by sponsor.'",
+ "why_it_matters": "It is a cautionary case of a by-right, sponsor-owned, low-land-cost 9% site failing on site cost and access: a hillside needing heavy grading and retaining walls, a single access route that neighbors and some planning commissioners called unsafe, a subdivision appeal and six rounds of site plan review, ending with the credits returned and the site plan withdrawn.",
+ "status": {
+  "label": "Did not proceed: award returned; site plan and building permit applications withdrawn",
+  "detail": "CHFA's 2023 Round One award report (as of 2025-02-26) footnotes Williams Pointe: 'Project did not proceed. Award returned by sponsor.' A neighborhood group post dated 2025-01-05 says MWHS withdrew its major site plan application and canceled its building permit application, and quotes an MWHS email saying it would not complete financing of Williams Pointe that year and would work on temporary and permanent uses of the property. The date the credits were returned is not public, and the project no longer appears on MWHS's future communities page.",
+  "src": [
+   "chfa-2023-r1-award",
+   "li-2025-01-05",
+   "mwhs-development"
+  ]
+ },
+ "next_step": "Watch Lakewood planning records and MWHS board materials for any new use or sale of 1515 Whippoorwill Drive, and CHFA applicant reports for a re-application.",
+ "key_numbers": [
+  {
+   "value": "$1,430,242 a year in federal 9% credit, returned",
+   "meaning": "About $14.3M over 10 years (inferred) went back to CHFA; the award report footnote says the sponsor returned it.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "value": "44 homes: 5 studio, 8 one-bedroom, 16 two-bedroom, 15 three-bedroom",
+   "meaning": "Average 50% AMI, with 6 units at 20% AMI, which the applicant said would be the first 20% AMI units in its market area.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "value": "About $6.6M in state money reported",
+   "meaning": "A Division of Housing loan of $4.4M and grant of $2.2M, as reported in September 2024 from a DOLA press release that could not be opened.",
+   "src": [
+    "li-2024-09-20"
+   ]
+  },
+  {
+   "value": "4-2 vote",
+   "meaning": "Lakewood's Planning Commission upheld the subdivision plat on 2024-08-21 after a five-and-a-half-hour hearing, per a resident news site; access safety stayed unresolved.",
+   "src": [
+    "li-2024-09-09"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1515 Whippoorwill Drive, Lakewood, CO 80215 (just east of Colfax Avenue and Youngfield Street, Applewood area)",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives",
+    "mwhs-hearing-brief-2024-08-14"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "Family, new construction; 44 units, 44 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Two unplatted parcels owned debt-free by MWHS for nearly 20 years, platted into one 2.233-acre lot (Applewood Heights Filing No. 2); zoned for the use by right; not in a QCT or DDA",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "mwhs-2023-05-30",
+    "lakewood-final-plat",
+    "lakewood-appeal-memo-2024-08-07"
+   ]
+  },
+  {
+   "item": "Buildings (as proposed)",
+   "value": "Two three-story wood-frame buildings on spread footings with retaining walls; flat TPO roofs; cold-climate heat pump PTACs; 8 covered stairways; Enterprise Green Communities 2020; all-electric ready",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Unit sizes (as proposed)",
+   "value": "About 518 sq ft (studio), 613 (1BR), 892 (2BR) and 1,085 (3BR, two baths)",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Services (as proposed)",
+   "value": "Part-time resident services coordinator paid by MWHS",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Access",
+   "value": "Sole entrance and exit via Youngfield Street and W. 15th Place (about a 10% grade, per neighbors); neighbors pressed for access from Colfax Avenue, saying the city's 2014 plans for the same site had required Colfax access",
+   "src": [
+    "mwhs-hearing-brief-2024-08-14",
+    "li-2024-07-05",
+    "li-2025-01-05"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Mixed Use Suburban; neighbors say the land was rezoned from R-1A in 2012. MWHS's brief cites City Council's decision to zone the property for the proposed use",
+   "src": [
+    "li-2024-07-05",
+    "mwhs-hearing-brief-2024-08-14"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "20% AMI",
+   "units": 6
+  },
+  {
+   "level": "40% AMI",
+   "units": 15
+  },
+  {
+   "level": "60% AMI",
+   "units": 13
+  },
+  {
+   "level": "70% AMI",
+   "units": 10
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 5
+  },
+  {
+   "type": "1BR",
+   "units": 8
+  },
+  {
+   "type": "2BR",
+   "units": 16
+  },
+  {
+   "type": "3BR",
+   "units": 15
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,430,242 per year (returned)",
+   "note": "2023 Round One award, equal to the application request; the December 2022 letter of intent had shown $1,450,000.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r1-loi"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing loan and grant",
+   "amount": "$4.4 million loan and $2.2 million grant (as reported)",
+   "note": "Reported by a resident news site in September 2024, citing a State Housing Board press release; whether the money was ever disbursed is not public.",
+   "src": [
+    "li-2024-09-20"
+   ]
+  },
+  {
+   "source": "Jefferson County HOME funds",
+   "amount": "Not public",
+   "note": "Planned at application.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "source": "MWHS equity (land and cash)",
+   "amount": "More than $25,000 per unit",
+   "note": "MWHS owned the land free of debt and said it would contribute cash from unrestricted funds.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "City of Lakewood fee waivers",
+   "amount": "$175,445.50",
+   "note": "Planning, building and park fees, about 1.5% of total development cost, per the application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Mortgage",
+   "amount": "Not public",
+   "note": "Planned at application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA prints it)",
+   "name": "Metro West Housing Solutions (Housing Authority of the City of Lakewood)",
+   "src": [
+    "chfa-2023-r1-award",
+    "lakewood-appeal-memo-2024-08-07"
+   ]
+  },
+  {
+   "role": "General contractor (as proposed)",
+   "name": "Calcon Constructors",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Appellants",
+   "name": "A group of nearby residents (Applewood Heights Community Organization)",
+   "src": [
+    "mwhs-hearing-brief-2024-08-14",
+    "li-2024-11-14"
+   ]
+  },
+  {
+   "role": "Approving bodies",
+   "name": "City of Lakewood Planning Director (plat approval) and Planning Commission (appeal)",
+   "src": [
+    "lakewood-appeal-memo-2024-08-07",
+    "lakewood-pc-resolution-draft"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The asterisk: CHFA's public 2023 Round One award report (as of 2025-02-26) marks Williams Pointe and Point of the Pines Villas with an asterisk, footnoted 'Project did not proceed. Award returned by sponsor.' The report still lists the original award amounts.",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "text": "MWHS named the project for its first development director, William (Bill) Lunsford, who bought the parcel early in his tenure; at award MWHS expected to start construction in early 2024 and open in August 2025.",
+   "src": [
+    "mwhs-2023-05-30",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "The application flagged the site as the largest cost driver: steep topography needing extensive grading and retaining walls, offset by the low land basis and a sizable MWHS cash contribution. The market analyst listed location as a minor weakness.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "MWHS filed a minor subdivision application at the city's direction to combine the parcels into one lot; the Planning Director approved the plat on 2024-06-26; nearby residents appealed on 2024-07-10, arguing the city lacked authority, the plat improperly segmented the project and the decision was arbitrary. City staff recommended denying the appeal.",
+   "src": [
+    "lakewood-appeal-memo-2024-08-07",
+    "lakewood-pc-resolution-draft",
+    "mwhs-hearing-brief-2024-08-14"
+   ]
+  },
+  {
+   "text": "MWHS's hearing brief argued the appellants opposed affordable housing on the site, that old plat covenants had expired after 1974, and that tap fees of almost $500,000 could not be required just to create a lot.",
+   "src": [
+    "mwhs-hearing-brief-2024-08-14"
+   ]
+  },
+  {
+   "text": "The Planning Commission denied the appeal 4-2 on 2024-08-21; one commissioner said the plat met subdivision standards but the project as proposed most likely did not meet some site plan standards, citing the driveway slope and intersection.",
+   "src": [
+    "li-2024-09-09"
+   ]
+  },
+  {
+   "text": "According to the neighborhood group, MWHS's fifth site plan revision in fall 2024 did not change the access, and on 2024-10-24 Lakewood's mayor wrote to the group that added vehicle trips would likely make that stretch of road less safe and that she was working with staff on the project. The group says the project went through six major site plan reviews before MWHS withdrew the site plan and canceled the building permit application.",
+   "src": [
+    "li-2024-11-14",
+    "li-2025-01-05"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-12-08",
+   "event": "Listed as '1515 Whippoorwill' on CHFA's 2023 Round 1 letters of intent report",
+   "src": [
+    "chfa-2023-r1-loi"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round 1 applicant report (federal 9% request $1,430,242)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2023-05-30",
+   "event": "MWHS announces the 9% award",
+   "src": [
+    "mwhs-2023-05-30"
+   ]
+  },
+  {
+   "date": "2024-06-26",
+   "event": "Planning Director approves the Applewood Heights Filing No. 2 plat (case FI24-0005)",
+   "src": [
+    "lakewood-pc-resolution-draft",
+    "mwhs-hearing-brief-2024-08-14"
+   ]
+  },
+  {
+   "date": "2024-07-10",
+   "event": "Nearby residents appeal the plat approval (case SAP24-0001)",
+   "src": [
+    "lakewood-pc-resolution-draft"
+   ]
+  },
+  {
+   "date": "2024-08-21",
+   "event": "Planning Commission denies the appeal, 4-2",
+   "src": [
+    "li-2024-09-09"
+   ]
+  },
+  {
+   "date": "2024-09",
+   "event": "Reported Division of Housing award of a $4.4M loan and $2.2M grant",
+   "src": [
+    "li-2024-09-20"
+   ]
+  },
+  {
+   "date": "2024-11",
+   "event": "MWHS withdraws the major site plan and cancels its building permit application, per the neighborhood group (posted 2025-01-05)",
+   "src": [
+    "li-2025-01-05"
+   ]
+  },
+  {
+   "date": "2025-02-26",
+   "event": "CHFA's award report marks the project 'did not proceed; award returned by sponsor'",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Final plat, Applewood Heights Filing No. 2",
+   "url": "https://lakewoodspeaks.org/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbGdwIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--dd22e6c48a4d02b68a63a4433fba6e727a81c367/Exhibit%202%20-%20Final%20Plat.pdf",
+   "kind": "plat",
+   "made_by": "Surveyor for MWHS, filed with City of Lakewood",
+   "note": "Pages 1-2 (2.233-acre lot)",
+   "src": [
+    "lakewood-final-plat"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "MWHS's award announcement says 11 of 26 applications were awarded, while CHFA's award report lists 12 Round One awards and BizWest reported 12.",
+   "src": [
+    "mwhs-2023-05-30",
+    "chfa-2023-r1-award",
+    "bizwest-2023-06-01"
+   ]
+  }
+ ],
+ "open_questions": [
+  "The date MWHS returned the credits to CHFA and whether CHFA reallocated them.",
+  "Whether any Division of Housing or Jefferson County money was committed or disbursed and later returned.",
+  "Total development cost and the predevelopment costs MWHS absorbed.",
+  "MWHS's plans for the site after withdrawal (the neighborhood group urged open space or expansion of the adjacent Blue Star Memorial Park).",
+  "Official Planning Commission minutes and the adopted resolution number for case SAP24-0001."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report (public award report as of 2025-02-26)",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "CHFA, 2023 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-loi",
+   "title": "2023 Round 1 LIHTC Letters of Intent report",
+   "publisher": "CHFA",
+   "date": "2022-12-08",
+   "url": "https://www.chfainfo.com/getattachment/dbf61afd-d40d-4c59-bb1b-a891b4b66e53/2023-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (PDF pages 128-132)",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "bizwest-2023-06-01",
+   "title": "CHFA tax credits to finance 4 low-income housing projects in region",
+   "publisher": "BizWest",
+   "date": "2023-06-01",
+   "url": "https://bizwest.com/2023/06/01/chfa-tax-credits-to-finance-4-low-income-housing-projects-in-region"
+  },
+  {
+   "id": "mwhs-2023-05-30",
+   "title": "CHFA Awards 2023 First Round Housing Tax Credit to Metro West Housing Solutions",
+   "publisher": "Metro West Housing Solutions",
+   "date": "2023-05-30",
+   "url": "https://mwhs.org/chfa-awards-2023-first-round-housing-tax-credit-to-metro-west-housing-solutions/"
+  },
+  {
+   "id": "mwhs-development",
+   "title": "Future Communities",
+   "publisher": "Metro West Housing Solutions",
+   "date": "2026",
+   "url": "https://mwhs.org/development-2/"
+  },
+  {
+   "id": "lakewood-appeal-memo-2024-08-07",
+   "title": "Appeal Overview Memo, Subdivision Appeal SAP24-0001 of Final Plat FI24-0005 (1515 Whippoorwill Dr.)",
+   "publisher": "City of Lakewood Planning Department",
+   "date": "2024-08-07",
+   "url": "https://lakewoodspeaks.org/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbXNwIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--655d7dc77c1e6c1dc781a87334589b02257ea799/SAP24-0001_APPEAL%20OVERVIEW%20MEMO.pdf"
+  },
+  {
+   "id": "mwhs-hearing-brief-2024-08-14",
+   "title": "Hearing Brief of Metro West, Appeal of Final Plat FI24-0005 (Planning Commission packet, Attachment E)",
+   "publisher": "City of Lakewood (Lakewood Speaks)",
+   "date": "2024-08-14",
+   "url": "https://lakewoodspeaks.org/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbW9wIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--9ba9b984302633d97a0b4c9d4173ad790b406496/Attachment%20E%20-%20Hearing%20Brief%20of%20Metro%20West%20(w_Exhbs%201-2).pdf"
+  },
+  {
+   "id": "lakewood-pc-resolution-draft",
+   "title": "Planning Commission draft resolution, SAP24-0001 (Appeal Denied OR Approved)",
+   "publisher": "City of Lakewood (Lakewood Speaks)",
+   "date": "2024-08",
+   "url": "https://lakewoodspeaks.org/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbXdwIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--b345ee258db1fdb9500201ee0c1a1640024a0c64/PC%20Draft%20Resolution%20SAP24-0001--Appeal%20Denied%20OR%20Approved.pdf"
+  },
+  {
+   "id": "lakewood-final-plat",
+   "title": "Exhibit 2 - Final Plat, Applewood Heights Filing No. 2 (Planning Commission packet)",
+   "publisher": "City of Lakewood (Lakewood Speaks)",
+   "date": "2024",
+   "url": "https://lakewoodspeaks.org/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbGdwIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--dd22e6c48a4d02b68a63a4433fba6e727a81c367/Exhibit%202%20-%20Final%20Plat.pdf"
+  },
+  {
+   "id": "li-2024-09-09",
+   "title": "Whippoorwill Development Appeal Denied",
+   "publisher": "Lakewood Informer (resident-generated news)",
+   "date": "2024-09-09",
+   "url": "https://lakewoodinformer.com/whippoorwill-development-appeal-denied/"
+  },
+  {
+   "id": "li-2024-09-20",
+   "title": "Metro West Receives Grant for the Whippoorwill Development",
+   "publisher": "Lakewood Informer (resident-generated news)",
+   "date": "2024-09-20",
+   "url": "https://lakewoodinformer.com/metro-west-receives-grant-for-the-whippoorwill-development/"
+  },
+  {
+   "id": "li-2024-07-05",
+   "title": "Concerns and Comments for Whippoorwill Dr",
+   "publisher": "Lakewood Informer (resident-generated news)",
+   "date": "2024-07-05",
+   "url": "https://lakewoodinformer.com/concerns-and-comments-for-whippoorwill-dr/"
+  },
+  {
+   "id": "li-2024-11-14",
+   "title": "1515 Whippoorwill Update: Letter to the City from our Attorney, email follow up from the Mayor",
+   "publisher": "Lakewood Informer (resident-generated news)",
+   "date": "2024-11-14",
+   "url": "https://lakewoodinformer.com/1515-whippoorwill-update-letter-to-the-city-from-our-attorney-email-follow-up-from-the-mayor/"
+  },
+  {
+   "id": "li-2025-01-05",
+   "title": "Whippoorwill Withdrawn (post from the neighborhood group, as of November 2024)",
+   "publisher": "Lakewood Informer (resident-generated news)",
+   "date": "2025-01-05",
+   "url": "https://lakewoodinformer.com/whippoorwill-withdrawn/"
+  }
+ ]
+}

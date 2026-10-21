@@ -1,0 +1,512 @@
+{
+ "slug": "jacoby-meadows-windsor",
+ "name": "Jacoby Meadows (Phase I)",
+ "city": "Windsor",
+ "county": "Weld",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 62,
+ "researched_on": "2026-10-21",
+ "headline": "The Windsor and Loveland housing authorities built Jacoby Meadows Phase I, a 62-unit (61 income-restricted plus one employee unit), three-story senior (55+) building in west Windsor's Windshire Park neighborhood for households at 30% to 80% AMI, with a $1,450,000-a-year 2023 Round One 9% credit award from CHFA; it was completed and ribbon-cut in October 2025.",
+ "why_it_matters": "It is Windsor's first new affordable senior rental, built on housing-authority-owned land with about $1.1M of town fee waivers and an HB22-1304 grant match, and it finished in 13 months after taking three CHFA rounds and a redesign to win credits.",
+ "status": {
+  "label": "Complete: ribbon cutting in the week of 2025-10-27",
+  "detail": "Groundbreaking was held on 2024-08-14, the building topped out by 2025-03-25, and Mile High CRE reported on 2025-10-27 that Pinkard had completed Phase I and held a ribbon cutting earlier that week. Lease-up status and the CHFA placed-in-service date are not public. Phase II (61 units) was still seeking funding.",
+  "src": [
+   "ccd-2024-08",
+   "mhcre-2025-03-25",
+   "mhcre-2025-10-27"
+  ]
+ },
+ "next_step": "Watch for CHFA's placed-in-service record and any Phase II funding application (CHFA or Division of Housing).",
+ "key_numbers": [
+  {
+   "value": "62 homes: 61 income-restricted for seniors 55+, one employee unit",
+   "meaning": "49 one-bedroom and 12 two-bedroom restricted units at 30% to 80% AMI; eight units carry Greeley-Weld County Housing Authority project-based vouchers.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,450,000 a year in federal 9% credit",
+   "meaning": "The full amount requested; about $14.5M over 10 years (inferred).",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "value": "$18 million Phase I cost",
+   "meaning": "Reported at completion, about $290,000 per unit (inferred); $17.5 million was given at groundbreaking.",
+   "src": [
+    "mhcre-2025-10-27",
+    "ccd-2024-08"
+   ]
+  },
+  {
+   "value": "$1,138,548 in Town of Windsor fee waivers",
+   "meaning": "Plus a $461,706 town match to a $1,385,119 HB22-1304 state grant application, per the application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA lists 15th Street at Windshire Drive, Windsor 80550; the application gives 1500 Windshire Drive",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, senior; 62 units, 61 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Part of the Windshire Park master-planned subdivision in west Windsor; land owned in fee by Windsor Housing Authority; zoned RMU-1 with senior housing as a use by right; next to the 80-unit Windsor Meadows family LIHTC property (2013 and 2015); not in a QCT or DDA",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "L-shaped, three stories, 40 feet, about 63,106 sq ft with two elevators; Type V-B wood frame on post-tensioned slab; fiber-cement siding with stone accents; about 3,377 sq ft of common space sized for the full 123-unit campus; no balconies (about $310,000 saved)",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Unit sizes",
+   "value": "About 665 sq ft (1BR) and 945 sq ft (2BR), with in-unit laundry",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "Enterprise Green Communities 2020; all-electric; PV-ready roof",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Density",
+   "value": "14.5 units per acre, the limit set by sanitary sewer capacity",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transportation",
+   "value": "No urban transit; residents can use the Windsor Ride program for people 55+, and management helps arrange rides",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Name",
+   "value": "Honors Johnny Jacoby, a Windsor Housing Authority resident killed in an unsolved 2015 shooting",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "ccd-2024-08"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 8
+  },
+  {
+   "level": "40% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 10
+  },
+  {
+   "level": "60% AMI",
+   "units": 19
+  },
+  {
+   "level": "70% AMI",
+   "units": 10
+  },
+  {
+   "level": "80% AMI",
+   "units": 6
+  },
+  {
+   "level": "Employee unit (unrestricted)",
+   "units": 1
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 49
+  },
+  {
+   "type": "2BR",
+   "units": 12
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,450,000 per year",
+   "note": "2023 Round One award, equal to the request. The investor is not public.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "source": "Town of Windsor fee waivers",
+   "amount": "$1,138,548",
+   "note": "",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "HB22-1304 state grant (Division of Housing) with Town of Windsor match",
+   "amount": "$1,385,119 applied for; $461,706 town match committed",
+   "note": "Status at application; the final grant award was not found, though the Division of Housing is named as a funder at completion.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "mhcre-2025-10-27"
+   ]
+  },
+  {
+   "source": "Windsor Housing Authority land note and other WHA funds",
+   "amount": "About $500,000 from other WHA sources; land note amount not public",
+   "note": "",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction and permanent financing",
+   "amount": "Not public",
+   "note": "Funders named at groundbreaking: CHFA, Wells Fargo, Impact Development Fund, Rocky Mountain Community Reinvestment Corporation and the Town of Windsor.",
+   "src": [
+    "ccd-2024-08",
+    "mhcre-2024-08-15"
+   ]
+  },
+  {
+   "source": "Project-based Section 8 vouchers",
+   "amount": "8 units",
+   "note": "From the Greeley-Weld County Housing Authority.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Loveland Housing Authority",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "role": "Applicant, landowner and owner-side partner",
+   "name": "Windsor Housing Authority",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Developer and property manager (application)",
+   "name": "Loveland Housing Authority (also holds an interest in the tax credit partnership)",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Pinkard Construction (framing by Pinkard Frameworks)",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "mhcre-2025-03-25",
+    "mhcre-2025-10-27"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "WORKSHOP8 Architecture",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "mhcre-2025-10-27"
+   ]
+  },
+  {
+   "role": "Civil engineer; land planning and landscape",
+   "name": "EPS Group; TB Group",
+   "src": [
+    "mhcre-2025-10-27"
+   ]
+  },
+  {
+   "role": "Lenders and funders named at groundbreaking",
+   "name": "Wells Fargo, Impact Development Fund, Rocky Mountain Community Reinvestment Corporation, CHFA, Town of Windsor",
+   "src": [
+    "ccd-2024-08"
+   ]
+  },
+  {
+   "role": "Voucher provider",
+   "name": "Greeley-Weld County Housing Authority",
+   "src": [
+    "chfa-2023-r1-descriptions"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The project took five years, three rounds of CHFA tax credit applications, a minor redesign and a significant redesign; the 2023 application followed the Town of Windsor raising the height limit from two stories to 40 feet, which allowed one three-story elevator building and prompted the new name.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "ccd-2024-08"
+   ]
+  },
+  {
+   "text": "The Windsor Town Board made senior housing a priority and the mayor asked WHA to target 55+ housing; the application notes Windsor had no senior tax credit property and the 48-unit Governor's Farm senior property had converted to market rate.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Local approvals in the application: preliminary plat and site plan submitted in late July 2022, final site plan expected March 2023 and final plat before the Planning Commission in April 2023; a community presentation on 2022-11-17 drew unanimous support.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Phase I carries site work and common space for a planned 123-unit senior campus: Phase II (61 units, connected by a covered walkway) and Phase III bungalows; Pinkard's president said Phase II was targeted three to five years after Phase I.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "ccd-2024-08"
+   ]
+  },
+  {
+   "text": "Construction met a bedrock-like layer and groundwater during sewer tie-ins, but framing finished in under two months and the 13-month build came in on time and on budget, per Pinkard.",
+   "src": [
+    "mhcre-2025-03-25",
+    "mhcre-2025-10-27"
+   ]
+  },
+  {
+   "text": "Market study in the application: a 9.6% capture rate, against a 1BR market rent of $1,950.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-07",
+   "event": "Preliminary plat and preliminary site plan submitted to the Town of Windsor",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-11-17",
+   "event": "Redesigned project presented to the community at the Windsor Community Recreation Center",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round One applicant report (request $1,450,000)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-08-14",
+   "event": "Groundbreaking ceremony",
+   "src": [
+    "ccd-2024-08",
+    "mhcre-2024-08-15"
+   ]
+  },
+  {
+   "date": "2025-02-26",
+   "event": "As-of date of CHFA's public 2023 Round One award report (no footnote on this deal)",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "date": "2025-03-25",
+   "event": "Pinkard announces topping out",
+   "src": [
+    "mhcre-2025-03-25",
+    "bizwest-2025-03-25"
+   ]
+  },
+  {
+   "date": "2025-10-27",
+   "event": "Mile High CRE reports Phase I complete, with a ribbon cutting earlier that week",
+   "src": [
+    "mhcre-2025-10-27"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Entry rendering and groundbreaking photos",
+   "url": "https://ccdmag.com/project-updates/pinkard-affordable-senior-apartments/",
+   "kind": "rendering",
+   "made_by": "WORKSHOP8 / Pinkard Construction (via CCD magazine)",
+   "note": "\"Windsor Jacoby Meadows Entry Rendering\" in the groundbreaking article",
+   "src": [
+    "ccd-2024-08"
+   ]
+  },
+  {
+   "title": "Topping-out photo",
+   "url": "https://milehighcre.com/affordable-senior-apartments-top-out-in-windsor/",
+   "kind": "photo",
+   "made_by": "Pinkard Construction (via Mile High CRE)",
+   "note": "Lead image of the 2025-03-25 article",
+   "src": [
+    "mhcre-2025-03-25"
+   ]
+  },
+  {
+   "title": "Completed building",
+   "url": "https://milehighcre.com/pinkard-completes-jacoby-meadows-affordable-senior-apartments/",
+   "kind": "photo",
+   "made_by": "Pinkard Construction (via Mile High CRE)",
+   "note": "Images in the 2025-10-27 article",
+   "src": [
+    "mhcre-2025-10-27"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists the address as 15th Street at Windshire Drive, while the application gives 1500 Windshire Drive.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "CHFA's award report names Loveland Housing Authority as owner, while its award description names Windsor Housing Authority and Loveland Housing Authority as developer and the trade press describes the project as built for Windsor Housing Authority.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-descriptions",
+    "mhcre-2025-10-27"
+   ]
+  },
+  {
+   "text": "The cost was given as $17.5 million at the August 2024 groundbreaking and $18 million at completion.",
+   "src": [
+    "ccd-2024-08",
+    "mhcre-2025-10-27"
+   ]
+  },
+  {
+   "text": "CHFA's award description lists 61 restricted units (49 one-bedroom, 12 two-bedroom) plus one employee unit, for 62 in all; its bedroom count covers only the 61 restricted units, so the employee unit's size is not stated.",
+   "src": [
+    "chfa-2023-r1-descriptions"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Lease-up and occupancy, current rents, and the CHFA placed-in-service date.",
+  "Whether the HB22-1304 grant was awarded and in what amount, and the size of the WHA land note.",
+  "Loan amounts from Wells Fargo, Impact Development Fund and Rocky Mountain Community Reinvestment Corporation, and the credit investor and price.",
+  "Whether Phase II (61 units) has applied for credits or other funding.",
+  "The CHFA affordability covenant term and any property tax exemption through the housing authority."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "CHFA, 2023 Round One Award Descriptions (Jacoby Meadows)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (Jacoby Meadows Phase I, PDF pages 51-55)",
+   "publisher": "CHFA",
+   "date": "2023-02",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "ccd-2024-08",
+   "title": "Pinkard Breaks Ground on Jacoby Meadows Senior Living Apartments",
+   "publisher": "Colorado Construction & Design (CCD) magazine",
+   "date": "2024-08",
+   "url": "https://ccdmag.com/project-updates/pinkard-affordable-senior-apartments/"
+  },
+  {
+   "id": "mhcre-2024-08-15",
+   "title": "Pinkard Breaks Ground on Affordable Senior Apartments in Windsor",
+   "publisher": "Mile High CRE",
+   "date": "2024-08-15",
+   "url": "https://milehighcre.com/pinkard-breaks-ground-on-affordable-senior-apartments-in-windsor/"
+  },
+  {
+   "id": "mhcre-2025-03-25",
+   "title": "Affordable Senior Apartments Top Out in Windsor",
+   "publisher": "Mile High CRE",
+   "date": "2025-03-25",
+   "url": "https://milehighcre.com/affordable-senior-apartments-top-out-in-windsor/"
+  },
+  {
+   "id": "bizwest-2025-03-25",
+   "title": "Builder tops out Windsor senior apartments",
+   "publisher": "BizWest",
+   "date": "2025-03-25",
+   "url": "https://bizwest.com/2025/03/25/builder-tops-out-windsor-senior-apartments"
+  },
+  {
+   "id": "mhcre-2025-10-27",
+   "title": "Pinkard Completes Jacoby Meadows Affordable Senior Apartments",
+   "publisher": "Mile High CRE",
+   "date": "2025-10-27",
+   "url": "https://milehighcre.com/pinkard-completes-jacoby-meadows-affordable-senior-apartments/"
+  }
+ ]
+}

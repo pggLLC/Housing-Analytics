@@ -1,0 +1,642 @@
+{
+ "slug": "chrysalis-apartments-denver",
+ "name": "Chrysalis Apartments",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+ "units": 70,
+ "researched_on": "2026-10-21",
+ "headline": "The Empowerment Program is replacing its 15-unit former Bainbridge Apartments at 18th and Franklin in Denver's City Park West with Chrysalis Apartments, a seven-story, 70-unit permanent supportive housing building with every home at 30% AMI and backed by state project-based vouchers; it won 2023 Round Two federal 4% and state credits with $17M of CHFA bonds and broke ground on 2025-11-19.",
+ "why_it_matters": "It shows a nonprofit service provider recycling its own aged LIHTC site into deeply targeted PSH by stacking 4% credits and state credits with 70 State Housing Vouchers, a $4.2M Prop 123 PSH grant and a forgivable Denver Homelessness Resolution Fund loan that the city enlarged to cover lost federal 45L credits.",
+ "status": {
+  "label": "Under construction (groundbreaking 2025-11-19); completion not yet reported",
+  "detail": "Pinkard Construction and partners held the groundbreaking on 2025-11-19 with a 14-month build expected, and demolition of the old buildings was complete by January 2026. No financing closing date or completion record was found; completion around early 2027 is inferred from the stated schedule.",
+  "src": [
+   "milehighcre-2025-11-24",
+   "dola-doh-2025-12-09",
+   "businessden-2026-01-15",
+   "nakeddenver-2026-01-27"
+  ]
+ },
+ "next_step": "Watch for Denver building inspection and certificate of occupancy records for 1777/1785 Franklin Street and lease-up notices from The Empowerment Program in 2027.",
+ "key_numbers": [
+  {
+   "value": "70 homes, all at 30% AMI",
+   "meaning": "30 studios, 35 one-bedroom and 5 two-bedroom units of permanent supportive housing, all with state project-based vouchers.",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "chfa-2023-r2-narratives",
+    "denver-rr25-0540-request"
+   ]
+  },
+  {
+   "value": "$1,138,362 a year in federal 4% credit",
+   "meaning": "About $11.4M over 10 years, plus $1,100,000 of state credit.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "value": "$17,000,000 in CHFA bonds",
+   "meaning": "$6M construction/permanent and $11M construction-only bonds; Denver indicated it would supply volume cap.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "$3,444,000 forgivable Denver loan",
+   "meaning": "0%, 60-year Homelessness Resolution Fund loan ($3.15M approved 2025-04-28, raised by $294,000 on 2025-12-15), with a 60-year covenant.",
+   "src": [
+    "denver-rr25-0540",
+    "denver-rr25-0540-loan",
+    "denver-rr25-1997-amendment",
+    "denver-rr25-1997-request"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1777 Franklin Street, Denver 80218 (City Park West), at 18th and Franklin; the December 2025 loan amendment describes the property as 1785 North Franklin Street",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives",
+    "denver-rr25-0540-loan",
+    "denver-rr25-1997-amendment"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, PSH: new construction, permanent supportive housing",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Population",
+   "value": "Adults experiencing homelessness with a disabling condition, Empowerment participants and referrals from Denver's Coordinated Assessment System, including people leaving the justice system",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "denver-rr25-0540-request",
+    "dola-shb-2025"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Seven stories, about 53,826 sq ft; light-gauge steel BYLD panelized framing over a concrete podium (described as the first BYLD structural system project in the United States); two elevators; all-electric with VTAC units; Zero Energy Ready Homes and Enterprise Green Communities; nine Type A accessible units; 9 parking spaces in the application",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "milehighcre-2024-03-15",
+    "nakeddenver-2025-05-01",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "The Empowerment Program is lead service provider: behavioral health, trauma and substance-use treatment, HIV/AIDS care, employment and education services, 24/7 peer support front desk; funded by state funds, Medicaid, a services reserve, grants and property cash flow",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Rental assistance",
+   "value": "70 State Housing Vouchers from the Colorado Division of Housing (project-based); the application allowed for vouchers from either the Division of Housing or Denver HOST",
+   "src": [
+    "dola-doh-2025-12-09",
+    "chfa-2023-r2-narratives",
+    "denver-rr25-0540-request"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "Chrysalis Apartments, LLLP, whose general partner is Empowerment Development Corporation II, an affiliate of The Empowerment Program, Inc.",
+   "src": [
+    "denver-rr25-0540-loan",
+    "denver-rr25-1997-amendment"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Nonprofit general partner structure intended to qualify for a 100% property tax exemption, per the application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Zoned for the use; concept review completed; seven stories maximizes the density Denver allows for affordable housing, per the application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "60-year Denver covenant; CHFA LURA also referenced in the loan agreement",
+   "src": [
+    "denver-rr25-0540-loan",
+    "denvergazette-2025-04-28"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 70
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 30
+  },
+  {
+   "type": "1BR",
+   "units": 35
+  },
+  {
+   "type": "2BR",
+   "units": 5
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r2-descriptions",
+  "chfa-2023-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,138,362 per year",
+   "note": "2023 Round Two award; the Round Two application requested $1,148,425 and the letter of intent $1,072,000.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-loi"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,100,000",
+   "note": "2023 Round Two.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$17,000,000",
+   "note": "CHFA issuer; $6,000,000 construction/permanent and $11,000,000 construction-only, 53.09% of projected aggregate basis; Denver HOST signalled willingness to provide volume cap in a 2023-07-26 letter; private placement or public sale depending on lender, per the application.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "City and County of Denver loan (Homelessness Resolution Fund)",
+   "amount": "$3,444,000",
+   "note": "Approved at $3,150,000 by resolution 25-0540 on 2025-04-28 (0% interest, 60-year term, forgiven at maturity if compliant); increased by $294,000 by resolution 25-1997 on 2025-12-15 to cover the loss of federal 45L tax credits; lent on to the LLLP and secured by a deed of trust; closing deadline moved from 2025-05-30 to 2026-10-22.",
+   "src": [
+    "denver-rr25-0540",
+    "denver-rr25-0540-loan",
+    "denver-rr25-1997-amendment",
+    "denver-rr25-1997-request"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing Proposition 123 PSH grant",
+   "amount": "$4,200,000",
+   "note": "State Housing Board award in the first half of 2025.",
+   "src": [
+    "dola-shb-2025",
+    "dola-doh-2025-12-09"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing tenancy support services",
+   "amount": "$205,000",
+   "note": "For the first five years, alongside 70 State Housing Vouchers.",
+   "src": [
+    "dola-doh-2025-12-09"
+   ]
+  },
+  {
+   "source": "Tax credit equity",
+   "amount": "Not public",
+   "note": "The city loan names Wincopin Circle LLLP (c/o Enterprise Community Asset Management) for notices, and the Division of Housing lists Enterprise Housing Credit Investments and Sugar Creek Capital as partners; the investor role is inferred.",
+   "src": [
+    "denver-rr25-0540-loan",
+    "dola-doh-2025-12-09"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "The Empowerment Program, Inc.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "Chrysalis Apartments, LLLP (general partner Empowerment Development Corporation II)",
+   "src": [
+    "denver-rr25-0540-loan"
+   ]
+  },
+  {
+   "role": "Owner's representative",
+   "name": "Community Capital Corporation",
+   "src": [
+    "milehighcre-2024-03-15",
+    "dola-doh-2025-12-09"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Radix Design",
+   "src": [
+    "milehighcre-2024-03-15",
+    "milehighcre-2025-11-24"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Pinkard Construction",
+   "src": [
+    "milehighcre-2024-03-15",
+    "milehighcre-2025-11-24"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Equity-side partners named at groundbreaking",
+   "name": "Enterprise Housing Credit Investments; Sugar Creek Capital",
+   "src": [
+    "dola-doh-2025-12-09"
+   ]
+  },
+  {
+   "role": "Property management partner (inferred)",
+   "name": "Ross-Envolve (the application names Ross as co-manager with Empowerment)",
+   "src": [
+    "dola-doh-2025-12-09",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Service provider",
+   "name": "The Empowerment Program, Inc.",
+   "src": [
+    "chfa-2023-r2-descriptions"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The site held the former Bainbridge Apartments, a 9% LIHTC property past its initial 15-year compliance period, plus an adjacent duplex; together they housed 15 income-restricted units whose residents, all on portable Denver subsidies, were to be relocated to other Empowerment properties.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chun-2023-02-06",
+    "denvergazette-2025-04-28"
+   ]
+  },
+  {
+   "text": "The project first sought competitive credit: The Empowerment Program applied in 2023 Round One for $1,450,000 of credit and then won federal 4% and state credit in 2023 Round Two.",
+   "src": [
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-news"
+   ]
+  },
+  {
+   "text": "The application requested a cost basis waiver, citing a 6.8% cost increase since the 2023-02-01 application, about a six-month construction delay, and Davis-Bacon wages estimated at $444,836 ($6,400 per unit).",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study gave the project its top score in every category except unit size (two-bedroom units slightly small) and projected lease-up of at least 30 units a month; proposed rents were $1,390 (studio), $1,585 (one-bedroom) and $1,925 (two-bedroom), supported by vouchers.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "Capitol Hill United Neighborhoods wrote a letter of support on 2023-02-06 after meeting with the team, citing Housing First, trauma-informed design and the decision to build without a natural gas line.",
+   "src": [
+    "chun-2023-02-06",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "Pinkard's 2024 announcement described a $20 million, 13-month project with groundbreaking anticipated in November 2024; groundbreaking came a year later, and BusinessDen headlined the project as a $36M development.",
+   "src": [
+    "milehighcre-2024-03-15",
+    "milehighcre-2025-11-24",
+    "businessden-2026-01-15"
+   ]
+  },
+  {
+   "text": "Denver's December 2025 amendment added a project-based voucher clause: if a HAP contract ends through no fault of the owner, HOST will negotiate in good faith over the affordability terms.",
+   "src": [
+    "denver-rr25-1997-amendment"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-02-06",
+   "event": "Capitol Hill United Neighborhoods letter of support",
+   "src": [
+    "chun-2023-02-06"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round One applicant report (not funded in that round)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2023-08-11",
+   "event": "Listed on CHFA's 2023 Round Two applicant report",
+   "src": [
+    "chfa-2023-r2-applicants"
+   ]
+  },
+  {
+   "date": "2023-11-17",
+   "event": "CHFA announces 2023 Round Two awards, including Chrysalis Apartments",
+   "src": [
+    "chfa-2023-r2-news",
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "date": "2024-03-15",
+   "event": "Pinkard Construction announced as general contractor",
+   "src": [
+    "milehighcre-2024-03-15"
+   ]
+  },
+  {
+   "date": "2025-04-28",
+   "event": "Denver City Council adopts resolution 25-0540 approving the $3.15M loan",
+   "src": [
+    "denver-rr25-0540",
+    "denvergazette-2025-04-28"
+   ]
+  },
+  {
+   "date": "2025-06-11",
+   "event": "State announces the $4.2M State Housing Board award",
+   "src": [
+    "dola-shb-2025"
+   ]
+  },
+  {
+   "date": "2025-11-19",
+   "event": "Groundbreaking ceremony",
+   "src": [
+    "milehighcre-2025-11-24",
+    "dola-doh-2025-12-09"
+   ]
+  },
+  {
+   "date": "2025-12-15",
+   "event": "City Council adopts resolution 25-1997 adding $294,000 to the city loan",
+   "src": [
+    "denver-rr25-1997-request",
+    "denver-rr25-1997-amendment"
+   ]
+  },
+  {
+   "date": "2026-01",
+   "event": "Demolition of the 1923 apartment building and 1903 duplex completed",
+   "src": [
+    "businessden-2026-01-15",
+    "nakeddenver-2026-01-27"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering of Chrysalis Apartments",
+   "url": "https://milehighcre.com/pinkard-awarded-denver-affordable-housing-infill-project/",
+   "kind": "rendering",
+   "made_by": "Radix Design",
+   "note": "Lead image of the article",
+   "src": [
+    "milehighcre-2024-03-15"
+   ]
+  },
+  {
+   "title": "Rendering of Chrysalis Apartments",
+   "url": "https://www.denvergazette.com/2025/04/28/denver-city-council-gives-nod-to-civic-center-station-renaming-70-unit-affordable-housing-community/",
+   "kind": "rendering",
+   "made_by": "Radix Design (courtesy photo)",
+   "note": "Image in the article body",
+   "src": [
+    "denvergazette-2025-04-28"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The application, CHUN and the sponsor describe the old buildings as holding 15 units, BusinessDen says 20, and Naked Denver describes a 13-unit apartment building plus a duplex.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chun-2023-02-06",
+    "milehighcre-2025-11-24",
+    "businessden-2026-01-15",
+    "nakeddenver-2025-05-01"
+   ]
+  },
+  {
+   "text": "CHFA and the city give the address as 1777 Franklin Street, 80218, while the application header uses zip 80206, BusinessDen says the demolished buildings were at 1767 and 1777 Franklin, and the city's December 2025 amendment describes the property as 1785 North Franklin Street.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives",
+    "businessden-2026-01-15",
+    "denver-rr25-1997-amendment"
+   ]
+  },
+  {
+   "text": "The application plans 9 parking spaces, while Naked Denver reports 8 surface spaces.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "nakeddenver-2025-05-01"
+   ]
+  },
+  {
+   "text": "CHFA lists 5 two-bedroom units, while the city loan agreement's unit table lists them as a second row of 5 one-bedroom units.",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "denver-rr25-0540-loan"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Financing closing date, total development cost (reports range from $20M construction to a $36M total), equity price and the bond purchaser or construction lender.",
+  "Whether the Denver loan has closed by its 2026-10-22 deadline.",
+  "Building permit numbers and the expected certificate of occupancy date.",
+  "Final property manager (Ross-Envolve is named as a partner) and the services budget."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round Two Federal 4% and State Credit Award Report (as of 2023-11-15)",
+   "publisher": "CHFA",
+   "date": "2023-11-15",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-descriptions",
+   "title": "2023 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (Chrysalis Apartments, PDF pages 43-47)",
+   "publisher": "CHFA",
+   "date": "2023-08",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 Round Two State and Federal 4% Credit Applicant Report (as of 2023-08-11)",
+   "publisher": "CHFA",
+   "date": "2023-08-11",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-loi",
+   "title": "2023 Round Two State and Federal 4% Credit Letters of Intent",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/7f19c63e-f96e-4477-aaa6-93233ce358d0/2023-Round-2-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-news",
+   "title": "CHFA Announces 2023 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2023-11-17",
+   "url": "https://www.chfainfo.com/chfa-news/11172023-2023-r2-housing-tax-credit-awards"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 Applicant Report, 9% and 4% Competitive Credit (as of 2023-02-08)",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "denver-rr25-0540-loan",
+   "title": "Loan Agreement (Homelessness Resolution Fund), City and County of Denver and The Empowerment Program, Inc., HOST-202577817 (attachment to resolution 25-0540)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2025-05-14",
+   "url": "https://denver.legistar1.com/denver/attachments/1280aee2-96ea-4404-833a-a3a1181a00a4.pdf"
+  },
+  {
+   "id": "denver-rr25-0540",
+   "title": "Resolution 25-0540 (filed resolution), loan agreement with The Empowerment Program, Inc. for 1777 Franklin St",
+   "publisher": "City and County of Denver",
+   "date": "2025-04-28",
+   "url": "https://denver.legistar1.com/denver/attachments/856b3364-3989-4a02-aec8-902fd57ae00c.pdf"
+  },
+  {
+   "id": "denver-rr25-0540-request",
+   "title": "Resolution request RR25-0540, HOST, Chrysalis Apartments (dated 2025-04-07)",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2025-04-07",
+   "url": "https://denver.legistar1.com/denver/attachments/8543f50e-5467-4314-ab1f-4de5ba87602f.docx"
+  },
+  {
+   "id": "denver-rr25-1997-amendment",
+   "title": "First Amendatory Agreement, City and County of Denver and The Empowerment Program, Inc., HOST-202582287-01 (attachment to resolution 25-1997)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2025-12",
+   "url": "https://denver.legistar1.com/denver/attachments/b1326b92-3206-4dbb-8033-576ca6b43665.pdf"
+  },
+  {
+   "id": "denver-rr25-1997-request",
+   "title": "Resolution request RR25-1997, HOST, Chrysalis Apartments loan amendment (dated 2025-11-20)",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2025-11-20",
+   "url": "https://denver.legistar1.com/denver/attachments/e07bda43-421e-4287-afac-ac11f69ee03d.docx"
+  },
+  {
+   "id": "dola-doh-2025-12-09",
+   "title": "Division of Housing Updates - December 9, 2025 (Chrysalis Apartments groundbreaking)",
+   "publisher": "Colorado Department of Local Affairs, Division of Housing",
+   "date": "2025-12-09",
+   "url": "https://content.govdelivery.com/accounts/CODOLA/bulletins/3fe77e1"
+  },
+  {
+   "id": "dola-shb-2025",
+   "title": "Colorado State Housing Board Invests Over $68.4 Million to Support More Than 2,200 Homes People Can Afford in First Half of 2025",
+   "publisher": "Colorado Department of Local Affairs",
+   "date": "2025-06-11",
+   "url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-invests-over-684-million-to-support-more-than-2200-homes"
+  },
+  {
+   "id": "milehighcre-2024-03-15",
+   "title": "Pinkard Awarded Denver Affordable Housing Infill Project",
+   "publisher": "Mile High CRE",
+   "date": "2024-03-15",
+   "url": "https://milehighcre.com/pinkard-awarded-denver-affordable-housing-infill-project/"
+  },
+  {
+   "id": "milehighcre-2025-11-24",
+   "title": "Pinkard Breaks Ground on Chrysalis Affordable Housing Project",
+   "publisher": "Mile High CRE",
+   "date": "2025-11-24",
+   "url": "https://milehighcre.com/pinkard-breaks-ground-on-chrysalis-affordable-housing-project/"
+  },
+  {
+   "id": "businessden-2026-01-15",
+   "title": "1920s City Park West apartment building demoed for $36M project",
+   "publisher": "BusinessDen",
+   "date": "2026-01-15",
+   "url": "https://businessden.com/?p=128346"
+  },
+  {
+   "id": "nakeddenver-2025-05-01",
+   "title": "Transformative Chrysalis Apartments to Rise in Denver's City Park West",
+   "publisher": "Naked Denver",
+   "date": "2025-05-01",
+   "url": "https://www.nakeddenver.com/post/transformative-chrysalis-apartments-to-rise-in-denvers-city-park-west"
+  },
+  {
+   "id": "nakeddenver-2026-01-27",
+   "title": "City Park West Site Poised for Supportive Housing Development",
+   "publisher": "Naked Denver",
+   "date": "2026-01-27",
+   "url": "https://www.nakeddenver.com/post/chrysalisapartmentscityparkwest"
+  },
+  {
+   "id": "denvergazette-2025-04-28",
+   "title": "Denver City Council gives nod to Civic Center Station renaming; 70-unit affordable housing community",
+   "publisher": "Denver Gazette",
+   "date": "2025-04-28",
+   "url": "https://www.denvergazette.com/2025/04/28/denver-city-council-gives-nod-to-civic-center-station-renaming-70-unit-affordable-housing-community/"
+  },
+  {
+   "id": "chun-2023-02-06",
+   "title": "Letter of support, 1777 N Franklin Street Development (\"The Chrysalis\")",
+   "publisher": "Capitol Hill United Neighborhoods, Inc. (CHUN)",
+   "date": "2023-02-06",
+   "url": "https://www.chundenver.org/uploads/7/5/9/8/75987511/1777_n_franklin_final.pdf"
+  }
+ ]
+}
