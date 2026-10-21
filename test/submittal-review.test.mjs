@@ -44,7 +44,8 @@ const mp = SR.amiMidpoint(mix);
 near(mp.value, (6 * 30 + 12 * 40 + 18 * 50 + 24 * 60) / 60, 'AMI midpoint is units x AMI over units');
 const tp = SR.targetingPoints(rules, mix);
 near(tp.points, 18 / 60 * 92.5 + 18 / 60 * 72.5 + 24 / 60 * 50, 'targeting = share x weight, 30% units counted in the 40% row');
-ok(SR.targetingPoints(rules, { 60: 10, 80: 10 }).points === 25, 'units over 60% earn no targeting points but count in the total');
+ok(SR.targetingPoints(rules, { 60: 10, 80: 10 }, 'average-income').points === 25, 'under Average Income, 80% units earn no targeting points but count in the total');
+ok(SR.targetingPoints(rules, { 60: 10, 80: 10 }, '40-60').points === 50, 'under 40-60, 80% units are not tax credit units and leave the denominator');
 
 // ELI: 10% exactly is 5 points both ways; 12% is 5 ("at least") or 10 ("up to"), and the lower counts.
 let e = SR.eliPoints(rules, mix);
@@ -143,6 +144,27 @@ const unk = SR.gapLane(rules, { mix: { 60: 50 } }, SR.prop123Status(null, 'Anywh
 ok(unk.lane === 'unknown' && unk.amount === undefined, 'no OEDIT or fallback lane until the Prop 123 list loads');
 ok(SR.gapLane(rules, { mix: { 30: 20, 40: 20 } }, SR.prop123Status(null, 'Anywhere')).lane === 'DOH', 'DOH eligibility does not need the Prop 123 list');
 ok(/id="sr-election"/.test(read('developer-submittal-review.html')), 'the page has the set-aside election');
+
+// Codex review on b15d1da9e: 70/80% units by election, the midpoint's two readings, the set-aside test, failed device saves.
+const wf = { 60: 80, 80: 20 };
+ok(SR.mixTotals(wf, '40-60').restricted === 80 && SR.mixTotals(wf, 'average-income').restricted === 100, '80% units are tax credit units only under Average Income');
+ok(SR.score(rules, { mix: wf, election: '40-60' }, {}).lines.find((l) => l.id === '5B3a-mixed').status === 'counted', 'a 40-60 deal with 20% workforce units earns the mixed-income points');
+const engine = require(path.join(ROOT, 'js/deal-engine.js'));
+for (const [el, m] of [['20-50', { 50: 10, 60: 90 }], ['20-50', { 50: 20, 60: 80 }], ['40-60', { 60: 39, market: 61 }], ['40-60', { 60: 40, market: 60 }], ['average-income', { 40: 50, 80: 50 }], ['average-income', { 50: 50, 70: 50 }], ['average-income', { 60: 50, market: 50 }]]) {
+  const total = Object.values(m).reduce((a, b) => a + b, 0), byPct = Object.fromEntries(Object.entries(m).filter(([k]) => k !== 'market'));
+  ok(SR.setAsideCheck(m, el).qualifies === engine.evaluateMinimumSetAside(el, total, byPct).qualifies, `set-aside test agrees with the Deal Calculator engine (${el} ${JSON.stringify(m)})`);
+}
+const thin = SR.score(rules, { mix: { 50: 10, 60: 90 }, election: '20-50' }, {});
+ok(!thin.primaryOk && !thin.meets && /does not meet the 20-50 election/.test(SR.review(rules, prop123, { deal: { mix: { 50: 10, 60: 90 }, election: '20-50' }, claims: {}, thresholds: {}, engine: {} }).risks[0].text), 'a deal that misses its set-aside is not eligible whatever its points');
+const mpMix = SR.amiMidpoint({ 60: 48, market: 12 });
+near(mpMix.value, 60, 'midpoint over units with an AMI'); near(mpMix.overTotal, 48, 'midpoint over total units');
+const split = SR.gapLane(rules, { mix: { 60: 48, market: 12 } }, { status: 'yes', text: '' });
+ok(split.lane === 'unknown' && split.amount === undefined && /Ask CHFA/.test(split.flags.join(' ')), 'when the two midpoint readings straddle 48%, no lane is chosen');
+ok(SR.gapLane(rules, { mix: { 60: 50, market: 5 } }, { status: 'yes', text: 'filed' }).lane === 'OEDIT', 'when both readings agree the lane resolves');
+const fullStore = SR.makeStore(() => Promise.reject(new Error('offline')), { getItem: () => null, setItem: () => { throw new Error('QuotaExceeded'); } });
+let saveErr = null;
+await fullStore.save({ name: 'X', data: {} }).catch((e) => { saveErr = e; });
+ok(saveErr && /would not keep it/.test(saveErr.message), 'a device save that the browser refuses is reported as not saved');
 
 // Device fallback store saves versions without overwriting.
 const mem = {}; const st = SR.makeStore(() => Promise.reject(new Error('offline')), { getItem: (k) => mem[k] || null, setItem: (k, v) => { mem[k] = v; } });

@@ -65,22 +65,48 @@
 
   var ELECTION_LABEL = { '20-50': '20-50 election', '40-60': '40-60 election', 'average-income': 'Average Income' };
   // ── Deal facts ────────────────────────────────────────────────────────────
-  // mix: {30: 6, 40: 12, ..., market: 0}. Every unit at or under 80% AMI is rent-restricted.
-  function mixTotals(mix) {
-    var restricted = 0, weighted = 0, market = num(mix && mix.market) || 0;
+  // Federal minimum set-aside elections, as js/deal-engine.js models them: 70% and 80% designations are
+  // tax credit units only under Average Income.
+  var SET_ASIDE = {
+    '20-50': { minimumShare: 0.20, setAsideCeiling: 50, creditCeiling: 60 },
+    '40-60': { minimumShare: 0.40, setAsideCeiling: 60, creditCeiling: 60 },
+    'average-income': { minimumShare: 0.40, setAsideCeiling: 80, creditCeiling: 80 }
+  };
+  function electionOf(e) { return SET_ASIDE[e] ? e : '40-60'; }
+
+  // mix: {30: 6, 40: 12, ..., market: 0}. restricted = tax credit units under the election; workforce = 70%/80%
+  // units that are not tax credit units under it; weighted sums AMI over every unit that has one.
+  function mixTotals(mix, election) {
+    var ceiling = SET_ASIDE[electionOf(election)].creditCeiling;
+    var restricted = 0, workforce = 0, weighted = 0, market = num(mix && mix.market) || 0;
     TIERS.forEach(function (t) {
       var u = num(mix && mix[t]) || 0;
-      restricted += u; weighted += u * t;
+      if (t <= ceiling) restricted += u; else workforce += u;
+      weighted += u * t;
     });
-    return { restricted: restricted, market: market, total: restricted + market, weighted: weighted };
+    return { restricted: restricted, workforce: workforce, market: market, total: restricted + workforce + market, weighted: weighted, withAmi: restricted + workforce };
+  }
+
+  // Does the mix meet its elected federal set-aside? Mirrors evaluateMinimumSetAside in js/deal-engine.js.
+  function setAsideCheck(mix, election) {
+    var e = electionOf(election), c = SET_ASIDE[e], t = mixTotals(mix, e), inSetAside = 0;
+    TIERS.forEach(function (tier) { if (tier <= c.setAsideCeiling) inSetAside += num(mix && mix[tier]) || 0; });
+    var reasons = [];
+    if (!t.total || inSetAside / t.total < c.minimumShare) reasons.push('fewer than ' + Math.round(c.minimumShare * 100) + '% of units are at or below ' + c.setAsideCeiling + '% AMI');
+    if (e === 'average-income') {
+      if (!t.restricted || t.weighted / t.restricted > 60 + 1e-9) reasons.push('the designated average is over 60% AMI');
+      if (t.restricted !== t.total) reasons.push('CHFA requires every unit to be designated low-income under Average Income');
+    }
+    return { election: e, qualifies: !reasons.length, reasons: reasons, share: t.total ? inSetAside / t.total : null };
   }
 
   // QAP 3.B.9: "the sum of the project's units multiplied by the AMI for each unit divided by the total units."
-  // Market units carry no AMI, so the midpoint is over the income-restricted units, and a deal with market units is flagged.
+  // Market units carry no AMI, so with market units there are two readings: over the units that have an AMI, and over
+  // total units with market units adding nothing. The lane resolves only when both readings agree.
   function amiMidpoint(mix) {
-    var t = mixTotals(mix);
-    if (!t.restricted) return null;
-    return { value: t.weighted / t.restricted, marketUnits: t.market };
+    var t = mixTotals(mix, 'average-income');
+    if (!t.withAmi) return null;
+    return { value: t.weighted / t.withAmi, overTotal: t.weighted / t.total, marketUnits: t.market };
   }
 
   // QAP 5.A.1: the 20-50 table has only the 50% and 40% rows, so 60% units earn no targeting points under it.
@@ -89,7 +115,7 @@
     return (tables[election] || tables['40-60'] || { rows: [60, 50, 40] }).rows;
   }
   function targetingPoints(rules, mix, election) {
-    var w = rules.targeting.weights, t = mixTotals(mix), allowed = electionRows(rules, election || '40-60');
+    var w = rules.targeting.weights, t = mixTotals(mix, election), allowed = electionRows(rules, election || '40-60');
     if (!t.restricted) return { points: 0, rows: [] };
     var rows = [{ tier: 40, units: 0 }, { tier: 50, units: 0 }, { tier: 60, units: 0 }];
     TIERS.forEach(function (tier) {
@@ -150,7 +176,7 @@
         quote: l.quote, unconfirmed: l.unconfirmed || null, change: l.change_note || null };
       if (l.auto === 'nine_percent_required') { line.points = l.points; line.status = 'counted'; line.auto = true; line.note = 'Required for 9% (Threshold #14).'; }
       else if (l.auto === 'mixed_income') {
-        var t = mixTotals(mix), share = t.total ? t.restricted / t.total : 1;
+        var t = mixTotals(mix, deal.election), share = t.total ? t.restricted / t.total : 1;
         line.auto = true; line.note = Math.round(share * 1000) / 10 + '% of units are tax credit units.';
         if (share <= 0.8 + 1e-9) { line.points = l.points; line.status = 'counted'; } else line.status = 'missing';
       } else if (l.points == null) {
@@ -180,13 +206,14 @@
 
     var total = lines.reduce(function (s, l) { return s + (l.points || 0); }, 0);
     var eu = lines.filter(function (l) { return l.id === '5A2-extended-use'; })[0];
-    var primaryOk = tp.points > 0 && !!(eu && eu.points > 0);
+    var sa = setAsideCheck(mix, deal.election);
+    var primaryOk = tp.points > 0 && !!(eu && eu.points > 0) && sa.qualifies;
     var min = rules.minimum_score.points;
     var addable = lines.filter(function (l) { return (l.status === 'not claimed' || (l.status === 'missing' && EFFORT[l.id])) && l.possible; })
       .filter(function (l) { return EFFORT[l.id] && EFFORT[l.id].rank < 9; })
       .map(function (l) { return { id: l.id, label: l.label, points: l.possible, how: EFFORT[l.id].how, rank: EFFORT[l.id].rank }; })
       .sort(function (a, b) { return a.rank - b.rank || b.points - a.points; });
-    return { lines: lines, total: total, minimum: min, margin: total - min, meets: primaryOk && total >= min, primaryOk: primaryOk,
+    return { lines: lines, total: total, minimum: min, margin: total - min, meets: primaryOk && total >= min, primaryOk: primaryOk, setAside: sa,
       addable: addable, needEntered: lines.some(function (l) { return l.id === '5B1-need' && l.status === 'counted'; }) };
   }
 
@@ -219,11 +246,19 @@
     var units = t.total;
     var out = { midpoint: mp ? mp.value : null, units: units, flags: [], quotes: [] };
     if (!units) { out.lane = 'unknown'; out.text = 'Enter the unit mix to test the gap-fund lane.'; return out; }
-    var dohEligible = !!deal.supportive || (mp && mp.value <= g.doh.midpoint_max + 1e-9);
+    var under = function (x) { return x <= g.doh.midpoint_max + 1e-9; };
+    var split = mp && mp.marketUnits && under(mp.value) !== under(mp.overTotal);
+    if (split && !deal.supportive) {
+      out.lane = 'unknown';
+      out.text = 'DOH or OEDIT: not known until CHFA says how market-rate units count in the AMI midpoint.';
+      out.flags.push('The AMI midpoint is ' + mp.value.toFixed(2) + '% over the ' + mixTotals(deal.mix, 'average-income').withAmi + ' units that have an AMI and ' + mp.overTotal.toFixed(2) + '% over all ' + units + ' units; DOH\'s ' + g.doh.midpoint_max + '% line falls between them. Ask CHFA.');
+      return out;
+    }
+    var dohEligible = !!deal.supportive || (mp && under(mp.value));
     if (mp && Math.abs(mp.value - g.doh.midpoint_max) <= NEAR_LINE) {
       out.flags.push('The AMI midpoint (' + mp.value.toFixed(2) + '%) is within half a point of DOH\'s ' + g.doh.midpoint_max + '% line. ' + g.doh.unconfirmed);
     }
-    if (mp && mp.marketUnits) out.flags.push('Market-rate units are left out of the midpoint; CHFA\'s wording divides by total units. Ask CHFA.');
+    if (mp && mp.marketUnits) out.flags.push('The midpoint leaves out market-rate units (' + mp.overTotal.toFixed(2) + '% if they count as zero over total units); both readings give the same lane. Confirm with CHFA.');
     if (dohEligible) {
       var grant = deal.sponsor === 'nonprofit' || deal.sponsor === 'pha';
       out.lane = 'DOH'; out.kind = grant ? 'grant' : 'cash flow loan at 2%';
@@ -297,7 +332,8 @@
     var credit = creditCheck(rules, num(eng.annualCredits));
     var risks = [];
     if (stale) risks.push({ level: 'yellow', text: 'The unit mix or set-aside election differs from the Deal Calculator export, so its gap, coverage, credit and stress results are not shown. Change the deal in the Deal Calculator and export it again.' });
-    if (!s.primaryOk) risks.push({ level: 'red', text: 'No points in a primary criterion, so the deal is not eligible.' });
+    if (!s.setAside.qualifies) risks.push({ level: 'red', text: 'The unit mix does not meet the ' + ELECTION_LABEL[s.setAside.election] + ': ' + s.setAside.reasons.join('; ') + '. The deal is not eligible for credits.' });
+    else if (!s.primaryOk) risks.push({ level: 'red', text: 'No points in a primary criterion, so the deal is not eligible.' });
     if (s.total < s.minimum) risks.push({ level: 'red', text: 'Score ' + pts(s.total) + ' is ' + pts(s.minimum - s.total) + ' points under the ' + s.minimum + ' minimum.' });
     if (th.missing) risks.push({ level: 'red', text: th.missing + ' threshold item' + (th.missing > 1 ? 's are' : ' is') + ' missing; a missing threshold item stops the application.' });
     if (credit.status === 'over') risks.push({ level: 'red', text: 'Annual federal credit ' + money(credit.value) + ' is over the ' + money(credit.cap) + ' cap (QAP 3.L, not adopted).' });
@@ -498,7 +534,10 @@
   function makeStore(fetchFn, storage) {
     var local = {
       read: function () { try { return JSON.parse(storage.getItem(LOCAL_KEY) || '{}'); } catch (e) { return {}; } },
-      write: function (o) { try { storage.setItem(LOCAL_KEY, JSON.stringify(o)); } catch (e) { /* storage full or blocked */ } }
+      // A failed write (storage full or blocked) throws, so the save is reported as not saved.
+      write: function (o) {
+        try { storage.setItem(LOCAL_KEY, JSON.stringify(o)); } catch (e) { throw new Error('this browser would not keep it (storage full or blocked)'); }
+      }
     };
     var mode = null; // 'server' or 'device'
     function api(path, opts) {
@@ -566,7 +605,7 @@
   function statHtml(r) {
     var s = r.score, l = r.lane, th = r.thresholds, g = num(r.engine.fundingGap);
     var tile = function (v, label, cls) { return '<div class="rw-stat' + (cls ? ' ' + cls : '') + '"><div class="rw-stat-v">' + v + '</div>' + label + '</div>'; };
-    return tile(esc(pts(s.total)) + '<span class="sr-of"> / ' + s.minimum + '</span>', s.meets ? 'CHFA points: clears the 9% minimum.' : (s.primaryOk ? 'CHFA points: ' + esc(pts(-s.margin)) + ' short of the 9% minimum.' : 'CHFA points: no primary criterion points yet.'), s.meets ? 'sr-ok' : 'sr-bad') +
+    return tile(esc(pts(s.total)) + '<span class="sr-of"> / ' + s.minimum + '</span>', s.meets ? 'CHFA points: clears the 9% minimum.' : (s.primaryOk ? 'CHFA points: ' + esc(pts(-s.margin)) + ' short of the 9% minimum.' : (s.setAside.qualifies ? 'CHFA points: no primary criterion points yet.' : 'CHFA points: the unit mix misses its set-aside election.')), s.meets ? 'sr-ok' : 'sr-bad') +
       tile(esc(l.lane === 'unknown' ? '—' : money(l.amount)), esc(l.lane === 'unknown' ? l.text : 'Gap funds: ' + l.lane + ' ' + l.kind + '.'), l.flags.length ? 'sr-warn' : '') +
       tile(String(th.missing) + '<span class="sr-of"> missing</span>', 'Threshold items: ' + th.ready + ' ready, ' + th.unchecked + ' not checked' + (th.na ? ', ' + th.na + ' do not apply' : '') + '.', th.missing ? 'sr-bad' : (th.unchecked ? 'sr-warn' : 'sr-ok')) +
       tile(g == null ? '—' : esc(money(g)), g == null ? 'Funding gap: load a Deal Calculator export to see it.' : 'Funding gap after modeled sources.', g > 0 ? 'sr-warn' : '');
@@ -733,10 +772,13 @@
       readForm();
       var btn = $('sr-stress-run'); btn.disabled = true;
       $('srStress').innerHTML = '<p>Running the Deal Calculator… 0 of ' + (STRESS.length + 1) + '</p>';
-      runStress(doc, v.calculator.query, rules, prop123, v, function (i, n) { $('srStress').innerHTML = '<p>Running the Deal Calculator… ' + (i + 1) + ' of ' + (n + 1) + '</p>'; })
-        .then(function (st) { state.stress = st; v.engine = Object.assign({}, v.engine, { fundingGap: st.base.fundingGap, dscr: st.base.dscr, deferredDeveloperFee: st.base.deferredDeveloperFee, annualCredits: st.base.annualCredits, creditEquity: st.base.creditEquity, totalDevelopmentCost: st.base.totalDevelopmentCost }); draw(); })
-        .catch(function (e) { $('srStress').innerHTML = '<p class="sr-flag">' + esc(e.message) + '</p>'; })
-        .then(function () { btn.disabled = false; });
+      var calc = v.calculator;
+      // A run belongs to the version and export it started on; an edit or another version while it runs discards it.
+      var current = function () { return state.version === v && v.calculator === calc && !calc.stale; };
+      runStress(doc, calc.query, rules, prop123, v, function (i, n) { if (current()) $('srStress').innerHTML = '<p>Running the Deal Calculator… ' + (i + 1) + ' of ' + (n + 1) + '</p>'; })
+        .then(function (st) { if (!current()) { draw(); return; } state.stress = st; v.engine = Object.assign({}, v.engine, { fundingGap: st.base.fundingGap, dscr: st.base.dscr, deferredDeveloperFee: st.base.deferredDeveloperFee, annualCredits: st.base.annualCredits, creditEquity: st.base.creditEquity, totalDevelopmentCost: st.base.totalDevelopmentCost }); draw(); })
+        .catch(function (e) { if (current()) $('srStress').innerHTML = '<p class="sr-flag">' + esc(e.message) + '</p>'; })
+        .then(function () { setStressButton(); });
     });
 
     // Saving and versions
@@ -897,6 +939,6 @@
 
   return { esc: esc, mixTotals: mixTotals, amiMidpoint: amiMidpoint, targetingPoints: targetingPoints, eliPoints: eliPoints, score: score,
     findJurisdiction: findJurisdiction, prop123Status: prop123Status, gapLane: gapLane, bumpOneUnit: bumpOneUnit, thresholdStatus: thresholdStatus,
-    creditCheck: creditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, HARD_COST_IDS: HARD_COST_IDS,
+    creditCheck: creditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, HARD_COST_IDS: HARD_COST_IDS,
     stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, STRESS: STRESS, RULES_URL: RULES_URL, API: API };
 });
