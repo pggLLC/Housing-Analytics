@@ -80,10 +80,17 @@ ok(SR.prop123Status(prop123, filed.name).status === 'yes', 'a 2027-2029 filing m
 if (firstOnly) ok(SR.prop123Status(prop123, firstOnly.name).status === 'to-confirm', 'a first-cycle-only place is "to confirm"');
 ok(SR.prop123Status(prop123, 'Town of Aguilar').status === 'no', 'a real town not on DOLA\'s list is not eligible');
 
-let lane = SR.gapLane(rules, { mix: { 30: 20, 40: 20, 50: 20 } }, { status: 'no' });
+let lane = SR.gapLane(rules, { mix: { 30: 20, 40: 20, 50: 20 }, applicant: 'for-profit' }, { status: 'no' });
 ok(lane.lane === 'DOH' && lane.kind === 'cash flow loan at 2%' && lane.amount === 2500000 && lane.capped, 'midpoint 40% goes to DOH, capped at $2.5M');
-lane = SR.gapLane(rules, { mix: { 30: 20, 40: 20, 50: 20 }, sponsor: 'nonprofit' }, { status: 'no' });
+lane = SR.gapLane(rules, { mix: { 30: 20, 40: 20, 50: 20 }, sponsor: 'nonprofit', applicant: 'nonprofit' }, { status: 'no' });
 ok(lane.kind === 'grant', 'DOH gives nonprofits a grant');
+lane = SR.gapLane(rules, { mix: { 30: 20, 40: 20, 50: 20 }, sponsor: 'nonprofit', applicant: 'for-profit' }, { status: 'no' });
+ok(lane.kind === 'cash flow loan at 2%', 'DOH terms follow the Applicant, not the general partner');
+lane = SR.gapLane(rules, { mix: { 30: 20, 40: 20, 50: 20 }, sponsor: 'nonprofit' }, { status: 'no' });
+ok(lane.kind === 'grant or 2% cash flow loan' && lane.flags.some((f) => /Applicant type/.test(f)), 'without the Applicant type the DOH term stays open');
+ok(SR.prop123Status(prop123, 'Central City').status === 'yes', 'Central City matches DOLA\'s "City of Central" record');
+const partialCmp = SR.compareTable(rules, prop123, [{ label: 'A', deal: { mix: { 60: 50 } }, claims: {}, stress: [{ fails: '', engine: { fundingGap: 0, dscr: null } }, { fails: '', engine: { dscr: 1.3 } }, { fails: '', yearOneOnly: true, engine: { dscr: 1.3 } }] }]);
+ok(/0 of 3 \(2 without a 15-year coverage check\)/.test(partialCmp), 'partly evaluated stress runs are counted apart');
 lane = SR.gapLane(rules, { mix }, { status: 'yes', text: 'filed' });
 ok(lane.lane === 'OEDIT' && lane.amount === 2250000 && lane.mustPay, 'over 48% in a Prop 123 place goes to OEDIT, capped at $2.25M');
 lane = SR.gapLane(rules, { mix }, { status: 'no' });
@@ -357,7 +364,7 @@ ok(SR.mustPayCoverage(rec({ dscr: 1.4 }), { years: full.map((y) => (y.year === 4
 ok(SR.mustPayCoverage(rec({ dscr: 1.4, allMustPayDscr: 1.2 }), null).dscr === null, 'year-one coverage alone does not stand in for the 15-year minimum');
 ok(/yearOneOnly: true/.test(read('js/whitepaper/submittal-review.js')) && /Holds in year one; later years not tested/.test(read('js/whitepaper/submittal-review.js')), 'the calculator\'s own year-one stresses do not claim to hold for 15 years');
 ok(['Town of Moffat', 'Town of Stratton'].every((n) => SR.prop123Status(prop123, n).status === 'yes'), 'a 2027-2029 filing with no first-cycle record counts as filed');
-const cmpSkip = SR.compareTable(rules, prop123, [{ v: 'a', label: 'A', deal: { mix: { 60: 50 } }, claims: {}, stress: [{ fails: '' }, { fails: 'gap opens', skipped: false }, { fails: '', skipped: true }] }]);
+const cmpSkip = SR.compareTable(rules, prop123, [{ v: 'a', label: 'A', deal: { mix: { 60: 50 } }, claims: {}, stress: [{ fails: '', engine: { dscr: 1.3 } }, { fails: 'gap opens', skipped: false }, { fails: '', skipped: true }] }]);
 ok(/1 of 2 \(1 not run\)/.test(cmpSkip), 'the comparison counts skipped stress tests apart');
 const cond = SR.score(rules, { mix }, { '5B3c-rehab': true, '5B3d-preservation': true });
 ok(cond.lines.filter((l) => /^5B3[cd]/.test(l.id)).every((l) => l.status === 'excluded' && l.points === 0), 'rehab and preservation points need the rehab and existing-credit flags');

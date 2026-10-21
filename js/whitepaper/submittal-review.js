@@ -287,7 +287,8 @@
 
   // Only a legal form ("City of Lamar", "Town of Lyons") marks a municipality; "Colorado City" and "Lake City" are proper names.
   function muniForm(q) { return /^(city and county of|city of|town of)\s/.test(String(q).toLowerCase().trim()); }
-  function bare(n) { return String(n).toLowerCase().trim().replace(/^(city and county of|city of|town of|county of)\s+/, '').replace(/\s+county$/, ''); }
+  // DOLA files Central City under its legal name, "City of Central".
+  function bare(n) { return String(n).toLowerCase().trim().replace(/^(city and county of|city of|town of|county of)\s+/, '').replace(/\s+county$/, '').replace(/^central city$/, 'central'); }
   // Census Gazetteer names end in "city", "town" or "CDP" ("Lake City town", "Canon City city").
   function gazName(n) { return String(n).toLowerCase().replace(/\s+(city|town|cdp)$/, ''); }
 
@@ -346,8 +347,10 @@
     }
     if (mp && mp.marketUnits) out.flags.push('The midpoint leaves out market-rate units (' + mp.overTotal.toFixed(2) + '% if they count as zero over total units); both readings give the same lane. Confirm with CHFA.');
     if (dohEligible) {
-      var grant = deal.sponsor === 'nonprofit' || deal.sponsor === 'pha';
-      out.lane = 'DOH'; out.kind = grant ? 'grant' : 'cash flow loan at 2%';
+      // DOH's terms follow the QAP-defined Applicant, which need not be the general partner.
+      var ap = deal.applicant;
+      out.lane = 'DOH'; out.kind = ap === 'nonprofit' || ap === 'pha' ? 'grant' : ap === 'for-profit' ? 'cash flow loan at 2%' : 'grant or 2% cash flow loan';
+      if (!ap) out.flags.push('DOH gives a grant to a nonprofit or housing authority Applicant and a 2% cash flow loan to a for-profit one. Enter the Applicant type to settle which.');
       out.perUnit = g.doh.per_unit; out.cap = g.doh.max;
       out.why = deal.supportive && !(mp && mp.value <= g.doh.midpoint_max) ? 'Supportive housing application.' : 'AMI midpoint ' + mp.value.toFixed(2) + '% is at or under ' + g.doh.midpoint_max + '%.';
       out.quotes = [g.doh.eligibility_quote, g.doh.terms_quote];
@@ -511,7 +514,12 @@
     ['Stress tests failed', function (v) {
       if (!v.stress) return 'not run';
       var ran = v.stress.filter(function (t) { return !t.skipped; }), skipped = v.stress.length - ran.length;
-      return ran.filter(function (t) { return t.fails; }).length + ' of ' + ran.length + (skipped ? ' (' + skipped + ' not run)' : '');
+      // A run without a 15-year coverage check was only partly evaluated.
+      var partial = ran.filter(function (t) { return !t.fails && !t.scoreOnly && (t.yearOneOnly || (t.engine || {}).dscr == null); }).length;
+      var notes = [];
+      if (partial) notes.push(partial + ' without a 15-year coverage check');
+      if (skipped) notes.push(skipped + ' not run');
+      return ran.filter(function (t) { return t.fails; }).length + ' of ' + ran.length + (notes.length ? ' (' + notes.join('; ') + ')' : '');
     }]
   ];
 
@@ -850,7 +858,7 @@
     var $ = function (id) { return doc.getElementById(id); };
     var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '' };
 
-    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false, subsidyExpiring: false, otherActiveCredits: null, stateCredits: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
+    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', applicant: '', supportive: false, rehab: false, existingCredit: false, subsidyExpiring: false, otherActiveCredits: null, stateCredits: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
 
     // Form → state
     function readForm() {
@@ -858,6 +866,7 @@
       TIERS.concat(['market']).forEach(function (t) { var el = $('sr-mix-' + t); var n = el ? num(el.value) : null; d.mix[t] = n > 0 ? Math.floor(n) : 0; });
       d.place = $('sr-place').value.trim();
       d.sponsor = $('sr-sponsor').value;
+      d.applicant = $('sr-applicant').value;
       d.election = $('sr-election').value;
       d.supportive = $('sr-supportive').checked;
       d.rehab = $('sr-rehab').checked;
@@ -891,6 +900,7 @@
       TIERS.concat(['market']).forEach(function (t) { var el = $('sr-mix-' + t); if (el) el.value = d.mix[t] ? d.mix[t] : ''; });
       $('sr-place').value = d.place || '';
       $('sr-sponsor').value = d.sponsor || 'for-profit';
+      $('sr-applicant').value = d.applicant || '';
       $('sr-election').value = d.election || '40-60';
       $('sr-supportive').checked = !!d.supportive; $('sr-rehab').checked = !!d.rehab; $('sr-existing').checked = !!d.existingCredit; $('sr-subsidy-expiring').checked = !!d.subsidyExpiring;
       $('sr-other-credits').value = d.otherActiveCredits != null ? d.otherActiveCredits : '';
