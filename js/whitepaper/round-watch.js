@@ -3,11 +3,17 @@
  * CHFA's next housing tax credit rounds, why each is on the list, and who to
  * call first.
  *
- * Joins two files the gated site serves:
+ * Joins three files the gated site serves:
  *   data/jurisdiction-briefs/_round-watch.json           scores, reasons, sources
  *       (scripts/funding/build_round_watch.py; no contacts)
  *   data/jurisdiction-briefs/_round-watch-contacts.json  contacts, from the
  *       private backend only (coho-backend gated/). Never in this repository.
+ *   data/chfa-qap-calendar.json  CHFA's letter of intent and application dates,
+ *       for the countdown above each round.
+ *
+ * Also: New and moved tags (30 days, from each deal's history in the data
+ * file), a spreadsheet download of the filtered list with contacts, and
+ * "Add to Deal Tracker" on each open deal (js/components/pipeline-*.js).
  *
  * A contact shows only with a public https source. Everything shown is
  * escaped. The map puts each deal at its town's Census centroid, coloured by
@@ -25,6 +31,9 @@
 
   var DATA_URL = 'data/jurisdiction-briefs/_round-watch.json';
   var CONTACTS_URL = 'data/jurisdiction-briefs/_round-watch-contacts.json';
+  var CAL_URL = 'data/chfa-qap-calendar.json';
+  var FRESH_DAYS = 30;   // New and moved tags show for 30 days
+  var ROUND_NO = { One: 1, Two: 2 };
   var BAND_RANK = { High: 0, Medium: 1, Watch: 2 };
   // the six site regions, west to east, as scripts/hna/build_ranking_index.py groups counties
   var REGIONS = ['Southwest', 'San Luis Valley', 'Western Slope', 'Mountains', 'Front Range', 'Eastern Plains'];
@@ -69,15 +78,87 @@
     contact: function (i) { return i._contact ? 0 : 1; }
   };
 
+  function days(from, to) {
+    var a = Date.parse(from + 'T00:00:00Z'), b = Date.parse(to + 'T00:00:00Z');
+    return isNaN(a) || isNaN(b) ? null : Math.round((b - a) / 86400000);
+  }
+
+  /** "New" when the deal joined the list in the last 30 days of data, or
+   *  "Up from Medium" / "Down from High" when its band moved in that time. */
+  function freshTag(i, asOf) {
+    var d;
+    if (i.first_listed && (d = days(i.first_listed, asOf)) != null && d <= FRESH_DAYS) return { kind: 'new', text: 'New' };
+    if (i.band_before && i.band_since && (d = days(i.band_since, asOf)) != null && d <= FRESH_DAYS) {
+      var up = BAND_RANK[i.band] < BAND_RANK[i.band_before];
+      return { kind: up ? 'up' : 'down', text: (up ? 'Up from ' : 'Down from ') + i.band_before };
+    }
+    return null;
+  }
+
   /** The deals a round shows under the current filters: likelihood (High
-   *  only, High and Medium, or all with Watch) and region. */
+   *  only, High and Medium, or all with Watch), region, and new or moved. */
   function visibleItems(round, state) {
     var level = state.level || (state.showWatch ? 'all' : 'hm');
     return round.items.filter(function (i) {
       if (level === 'high' && i.band !== 'High') return false;
       if (level === 'hm' && i.band === 'Watch') return false;
+      if (state.fresh === 'new' && !freshTag(i, state.asOf)) return false;
       return !state.region || state.region === 'all' || i.region === state.region;
     });
+  }
+
+  /** CHFA's letter of intent and application dates for a round, with days
+   *  to go from today. Dates from a QAP not yet adopted say so. */
+  function roundDates(round, cal) {
+    var m = /^(\d{4}) Round (One|Two)$/.exec(round.round || '');
+    if (!m || !cal || !cal.events) return [];
+    var key = m[1] + '-r' + ROUND_NO[m[2]] + '-';
+    return [['loi', 'Letter of intent due'], ['deadline', 'Applications due']].map(function (k) {
+      var e = cal.events.filter(function (x) { return x.id === key + k[0]; })[0];
+      return e ? { label: k[1], date: e.date, draft: e.qap_status === 'draft', url: e.url } : null;
+    }).filter(Boolean);
+  }
+
+  function fmtDate(iso) {
+    var mo = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var p = String(iso).split('-');
+    return p.length === 3 ? (+p[2]) + ' ' + mo[+p[1] - 1] + ' ' + p[0] : String(iso);
+  }
+
+  function datesHtml(round, cal, today) {
+    var ds = roundDates(round, cal);
+    if (!ds.length) return '';
+    var src = cal.metadata && safeUrl(cal.metadata.source_url);
+    return '<div class="rw-dates">' + ds.map(function (d) {
+      var n = days(today, d.date);
+      var left = n == null ? '' : n > 1 ? n + ' days to go' : n === 1 ? 'tomorrow' : n === 0 ? 'today' : 'passed';
+      return '<div class="rw-date' + (n != null && n >= 0 && n <= 30 ? ' rw-soon' : '') + '"><strong>' + esc(d.label) + '</strong> ' +
+        esc(fmtDate(d.date)) + ' <span class="rw-left">' + esc(left) + '</span></div>';
+    }).join('') + '<div class="rw-muted">CHFA dates' + (ds.some(function (d) { return d.draft; }) ? ' from the draft 2027-28 plan, not yet adopted' : '') +
+      (src ? '. <a href="' + esc(src) + '" target="_blank" rel="noopener">Source</a>' : '') + '.</div></div>';
+  }
+
+  // ---- Spreadsheet download ------------------------------------------------
+
+  function csvCell(v) {
+    var t = String(v == null ? '' : v);
+    if (/^[=+\-@\t\r]/.test(t)) t = "'" + t;   // a spreadsheet never runs a cell as a formula
+    return /[",\n\r]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+  }
+
+  /** The list as shown (same filters and order), one row per deal, with its
+   *  best contact when the private file loaded. */
+  function csvFor(round, items, contacts, asOf) {
+    var head = ['Round', 'Likelihood', 'Score', 'New or moved', 'Project', 'Town', 'County', 'Region', 'Homes', 'Sponsor',
+      'Why it is listed', 'Contact name', 'Contact role', 'Contact organisation', 'Phone', 'Email', 'Contact source', 'Contact as of'];
+    var rows = items.map(function (i) {
+      var c = contactsFor(contacts, i.id)[0] || {};
+      var tag = freshTag(i, asOf);
+      return [round.round + ' (' + round.credit + ')', i.band, i.score, tag ? tag.text : '', i.name, i.city, i.county, i.region,
+        i.homes, i.sponsor || (i.award_orgs || []).join('; '), i.why.map(function (w) { return w.text; }).join(' | '),
+        c.name, c.role, c.org, c.phone, c.email, c.source_url, c.as_of];
+    });
+    return [head].concat(rows).map(function (r) { return r.map(csvCell).join(','); }).join('\r\n') + '\r\n';
   }
 
   function sortItems(items, key, dir) {
@@ -144,6 +225,7 @@
       ? '<p><a href="deal-summary.html?d=' + esc(i.deal_summary) + '">Deal summary for this development</a></p>' : '';
     return '<div class="rw-detail"><h3>Why it is here</h3><ul class="rw-why">' + why + '</ul>' + summary +
       '<h3>First contact</h3>' + contactBlock +
+      (i.place_geoid ? '<div class="rw-pab" data-pab-id="' + esc(i.id) + '"></div>' : '') +
       (apps ? '<h3>CHFA applications on file</h3><ul class="rw-apps">' + apps + '</ul>' : '') + '</div>';
   }
 
@@ -171,7 +253,8 @@
       var isOpen = !!(open && open[i.id]);
       var rid = 'rw-d-' + esc(i.id);
       return '<tr class="rw-row rw-' + esc(i.band.toLowerCase()) + '">' +
-        '<td data-sort-value="' + esc(BAND_RANK[i.band]) + '"><span class="rw-band">' + esc(i.band) + '</span></td>' +
+        '<td data-sort-value="' + esc(BAND_RANK[i.band]) + '"><span class="rw-band">' + esc(i.band) + '</span>' +
+          (i._tag ? '<span class="rw-tag rw-tag-' + esc(i._tag.kind) + '">' + esc(i._tag.text) + '</span>' : '') + '</td>' +
         '<td><button type="button" class="rw-toggle" aria-expanded="' + isOpen + '" aria-controls="' + rid + '" data-id="' + esc(i.id) + '">' +
           esc(i.name) + '</button><div class="rw-muted">' + esc(i.city || '') + (i.county ? ', ' + esc(i.county) : '') + '</div></td>' +
         '<td>' + (i.region ? esc(i.region) : '<span class="rw-muted">—</span>') + '</td>' +
@@ -195,7 +278,7 @@
 
   function tableHtml(round, contacts, state) {
     var items = visibleItems(round, state).map(function (i) {
-      return Object.assign({}, i, { _contact: contactsFor(contacts, i.id).length > 0 });
+      return Object.assign({}, i, { _contact: contactsFor(contacts, i.id).length > 0, _tag: freshTag(i, state.asOf) });
     });
     items = sortItems(items, state.sort, state.dir);
     if (!items.length) return '<p class="rw-muted">No deals match these filters.</p>';
@@ -360,13 +443,17 @@
       }).join('') + '</select></label>' +
       '<label>Likelihood <select data-filter="level">' + Object.keys(LEVELS).map(function (k) {
         return '<option value="' + k + '"' + (state.level === k ? ' selected' : '') + '>' + esc(LEVELS[k]) + '</option>';
-      }).join('') + '</select></label></div>';
+      }).join('') + '</select></label>' +
+      '<label>Show <select data-filter="fresh"><option value="all">All deals</option><option value="new"' +
+        (state.fresh === 'new' ? ' selected' : '') + '>New or moved, last ' + FRESH_DAYS + ' days</option></select></label>' +
+      '<button type="button" class="rw-more" data-download="1">Download this list (spreadsheet)</button></div>';
   }
 
-  function mount(doc, data, contacts) {
+  function mount(doc, data, contacts, cal) {
     var el = doc.getElementById('roundWatch');
     if (!el) return;
-    var state = { round: 0, sort: 'band', dir: 'asc', level: 'hm', region: 'all', open: {} };
+    var state = { round: 0, sort: 'band', dir: 'asc', level: 'hm', region: 'all', fresh: 'all', open: {}, asOf: data.meta.generated_at };
+    var today = new Date().toISOString().slice(0, 10);
     doc.getElementById('rwStats').innerHTML = statsHtml(data);
     doc.getElementById('rwBacktest').innerHTML = backtestHtml(data.backtest);
     doc.getElementById('rwRolling').innerHTML = rollingHtml(data.rolling_4pct || []);
@@ -384,9 +471,12 @@
     function draw() {
       var r = data.rounds[state.round];
       var shown = visibleItems(r, state);
-      if (controls) controls.innerHTML = controlsHtml(data, state);
+      if (controls) controls.innerHTML = controlsHtml(data, state) + datesHtml(r, cal, today);
+      var fresh = r.items.filter(function (i) { return freshTag(i, state.asOf); }).length;
       var summary = 'Showing ' + shown.length + ' of ' + r.items.length + ': ' +
-        r.counts.High + ' High, ' + r.counts.Medium + ' Medium, ' + r.counts.Watch + ' Watch in all regions.';
+        r.counts.High + ' High, ' + r.counts.Medium + ' Medium, ' + r.counts.Watch + ' Watch in all regions. ' +
+        (fresh ? fresh + ' new or moved in the last ' + FRESH_DAYS + ' days.'
+          : 'None new or moved in the last ' + FRESH_DAYS + ' days (tracked since ' + fmtDate(data.meta.tracking_since || state.asOf) + ').');
       // a polite live region outside the redrawn list, so a screen reader hears each filter's result
       if (count) count.textContent = summary;
       el.innerHTML = (count ? '' : '<p class="rw-muted">' + esc(summary) + '</p>') +
@@ -403,6 +493,48 @@
       if (panel) { panel.innerHTML = ''; panel.hidden = true; }
       if (note) note.textContent = g.unmapped.length
         ? 'Not on the map, no town location on file: ' + g.unmapped.map(function (i) { return i.name; }).join(', ') + '.' : '';
+      Object.keys(state.open).forEach(function (id) { if (state.open[id]) attachTracker(id); });
+    }
+
+    // "Add to Deal Tracker" for an open deal. The tracker keeps one row per
+    // town, so the button edits that town's row if it is already there.
+    function attachTracker(id) {
+      var w = doc.defaultView;
+      var mountEl = el.querySelector('.rw-pab[data-pab-id="' + id.replace(/["\\]/g, '') + '"]');
+      var i = data.rounds[state.round].items.filter(function (x) { return x.id === id; })[0];
+      if (!mountEl || !i || mountEl.childNodes.length || !w || !w.PipelineAddButton || !w.PipelineStore) return;
+      var c = contactsFor(contacts, id)[0];
+      var loi = roundDates(data.rounds[state.round], cal)[0];
+      try {
+        w.PipelineAddButton.attach(mountEl, {
+          jurisdiction: String(i.city || '').replace(/ (city|town|CDP)$/, ''),
+          geoid: i.place_geoid,
+          defaults: {
+            stage: 'Signal',
+            confidence: i.band === 'High' ? 'high' : i.band === 'Medium' ? 'medium' : 'low',
+            product_type: data.rounds[state.round].credit === '9%' ? '9% LIHTC' : '4% LIHTC + State Credit',
+            next_action: 'Call ' + (c ? (c.name || c.org) : 'the sponsor') + ' about ' + i.name,
+            next_action_due: loi ? loi.date : '',
+            notes: 'Next round watch: ' + i.name + ' (' + i.band + ', ' + data.rounds[state.round].round + '). ' + (i.why[0] ? i.why[0].text : '')
+          }
+        });
+      } catch (e) { /* the list works without the tracker */ }
+    }
+
+    function download() {
+      var r = data.rounds[state.round];
+      var items = sortItems(visibleItems(r, state).map(function (i) {
+        return Object.assign({}, i, { _contact: contactsFor(contacts, i.id).length > 0 });
+      }), state.sort, state.dir);
+      var w = doc.defaultView;
+      try {
+        var blob = new w.Blob(['\ufeff' + csvFor(r, items, contacts, state.asOf)], { type: 'text/csv;charset=utf-8' });
+        var a = doc.createElement('a');
+        a.href = w.URL.createObjectURL(blob);
+        a.download = 'next-round-' + r.round.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + today + '.csv';
+        doc.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { w.URL.revokeObjectURL(a.href); }, 1000);
+      } catch (e) { /* no download in this browser */ }
     }
 
     function openDeal(id) {
@@ -410,6 +542,7 @@
       var row = doc.getElementById('rw-d-' + id);
       var btn = el.querySelector('.rw-toggle[data-id="' + id.replace(/["\\]/g, '') + '"]');
       if (row) row.hidden = false;
+      attachTracker(id);
       if (btn) {
         btn.setAttribute('aria-expanded', 'true');
         if (btn.scrollIntoView) btn.scrollIntoView({ block: 'center' });
@@ -431,6 +564,7 @@
     });
     if (controls) {
       controls.addEventListener('click', function (e) {
+        if (e.target.closest && e.target.closest('[data-download]')) { download(); return; }
         var t = e.target.closest ? e.target.closest('[data-round]') : null;
         if (t) { state.round = +t.getAttribute('data-round'); state.open = {}; draw(); }
       });
@@ -452,6 +586,7 @@
         var row = doc.getElementById('rw-d-' + id);
         if (row) row.hidden = !state.open[id];
         t.setAttribute('aria-expanded', String(!!state.open[id]));
+        if (state.open[id]) attachTracker(id);
       }
     });
     draw();
@@ -459,12 +594,12 @@
 
   function start(doc) {
     var get = function (u) { return fetch(u).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
-    Promise.all([get(DATA_URL), get(CONTACTS_URL)]).then(function (res) {
+    Promise.all([get(DATA_URL), get(CONTACTS_URL), get(CAL_URL)]).then(function (res) {
       if (!res[0]) {
         doc.getElementById('roundWatch').innerHTML = '<p>The watch list did not load. It is served only on the developer site.</p>';
         return;
       }
-      mount(doc, res[0], res[1]);
+      mount(doc, res[0], res[1], res[2]);
     });
   }
 
@@ -475,5 +610,6 @@
 
   return { esc: esc, contactsFor: contactsFor, sortItems: sortItems, rowsHtml: rowsHtml, detailHtml: detailHtml,
     tableHtml: tableHtml, visibleItems: visibleItems, firstContactCell: firstContactCell, townsFor: townsFor,
-    townsNear: townsNear, townPanelHtml: townPanelHtml, controlsHtml: controlsHtml, REGIONS: REGIONS, statsHtml: statsHtml, backtestHtml: backtestHtml, mount: mount, DATA_URL: DATA_URL, CONTACTS_URL: CONTACTS_URL };
+    townsNear: townsNear, townPanelHtml: townPanelHtml, controlsHtml: controlsHtml, REGIONS: REGIONS,
+    freshTag: freshTag, roundDates: roundDates, datesHtml: datesHtml, csvFor: csvFor, CAL_URL: CAL_URL, statsHtml: statsHtml, backtestHtml: backtestHtml, mount: mount, DATA_URL: DATA_URL, CONTACTS_URL: CONTACTS_URL };
 });

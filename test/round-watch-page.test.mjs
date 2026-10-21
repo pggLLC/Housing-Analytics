@@ -80,6 +80,28 @@ ok(panel.includes('data-open="h1"') && panel.includes('&lt;x&gt;') && !panel.inc
 const ctl = RW.controlsHtml({ rounds: [{ round: 'R', credit: '9%', items: R }] }, { round: 0, level: 'hm', region: 'Southwest' });
 ok(ctl.includes('<option value="Southwest" selected>') && !ctl.includes('value="Eastern Plains"'), 'the region menu lists only regions with deals');
 
+// New and moved tags, CHFA dates, the spreadsheet.
+ok(RW.freshTag({ first_listed: '2026-11-01', band: 'High' }, '2026-11-20').text === 'New', 'a deal listed in the last 30 days is New');
+ok(RW.freshTag({ first_listed: '2026-09-01', band: 'High' }, '2026-11-20') === null && RW.freshTag({ first_listed: null, band: 'High' }, '2026-11-20') === null,
+  'an older deal, or one listed before tracking, is not New');
+ok(RW.freshTag({ band: 'High', band_before: 'Medium', band_since: '2026-11-10' }, '2026-11-20').text === 'Up from Medium' &&
+  RW.freshTag({ band: 'Watch', band_before: 'High', band_since: '2026-11-10' }, '2026-11-20').kind === 'down', 'a band change shows its direction');
+ok(RW.visibleItems({ items: [Object.assign({}, R[0], { first_listed: '2026-11-01' }), R[1]] }, { level: 'all', region: 'all', fresh: 'new', asOf: '2026-11-02' })
+  .map((i) => i.id).join() === 'h1', 'the New or moved filter keeps only those');
+const cal = JSON.parse(read('data/chfa-qap-calendar.json'));
+const r1dates = RW.roundDates({ round: '2027 Round One' }, cal);
+ok(r1dates.length === 2 && r1dates[0].date === '2026-12-01' && r1dates[1].date === '2027-02-01', 'Round One shows CHFA\'s letter of intent and application dates');
+const dh = RW.datesHtml({ round: '2027 Round One' }, cal, '2026-11-21');
+ok(dh.includes('10 days to go') && dh.includes('rw-soon') && dh.includes('not yet adopted'), 'the countdown counts days, flags the last 30, and says the plan is a draft');
+ok(RW.roundDates({ round: '2027 Round Two' }, cal)[0].date === '2027-06-01' && RW.roundDates({ round: 'x' }, cal).length === 0, 'Round Two has its own dates; an unknown round shows none');
+const csv = RW.csvFor({ round: '2027 Round One', credit: '9%' }, [Object.assign({}, item, { name: '=HYPERLINK("x")', region: 'Front Range' })], contacts, '2026-10-18');
+const lines = csv.trim().split('\r\n');
+ok(lines.length === 2 && lines[0].startsWith('Round,Likelihood') && lines[1].includes('pat@org.example') && lines[1].includes('Front Range'),
+  'the spreadsheet has one row per deal with its best contact');
+ok(lines[1].includes('"\'=HYPERLINK(""x"")"'), 'a cell that starts like a formula is made plain text');
+ok(!RW.csvFor({ round: 'R', credit: '9%' }, [item], null, '2026-10-18').includes('@'), 'without the private file the spreadsheet holds no contacts');
+ok(RW.detailHtml(Object.assign({}, item, { place_geoid: '0845970' }), contacts).includes('class="rw-pab" data-pab-id="a"'), 'an open deal has a place for Add to Deal Tracker');
+
 // First contact in the list.
 ok(RW.firstContactCell(item, contacts).includes('Pat') && RW.firstContactCell(item, contacts).includes('mailto:pat@org.example'),
   'the list shows the best contact and how to reach them');
@@ -100,6 +122,7 @@ ok((read('scripts/audit/public-artifact-guard.mjs').match(/'developer-round-watc
 ok(/<meta name="robots" content="noindex, nofollow">/.test(page) && page.includes('js/whitepaper/round-watch.js'), 'the page is noindex and loads its script');
 ok(page.includes('js/vendor/leaflet.js') && page.indexOf('js/vendor/leaflet.js') < page.indexOf('js/whitepaper/round-watch.js') && page.includes('id="rwMap"'),
   'the page loads the map library before its script');
+ok(page.includes('js/components/pipeline-store.js') && page.includes('js/components/pipeline-add-button.js'), 'the page loads the Deal Tracker scripts');
 ok(/id="rwCount" aria-live="polite" aria-atomic="true"/.test(page), 'a filter change is announced to screen readers');
 const built = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/jurisdiction-briefs/_round-watch.json'), 'utf8'));
 const all = built.rounds.flatMap((r) => r.items);

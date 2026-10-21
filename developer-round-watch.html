@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="css/site-theme.css">
 <link rel="stylesheet" href="js/vendor/leaflet.css">
 <script src="js/developer-gate.js"></script>
+<script src="js/components/pipeline-store.js"></script>
+<script src="js/components/pipeline-add-button.js"></script>
 <style>
   .skip-link { position: absolute; top: -100px; left: var(--sp4); background: var(--accent); color: var(--on-accent, #fff); padding: 8px 16px; z-index: 1000; border-radius: var(--radius-sm, 6px); font-weight: 700; }
   .skip-link:focus { top: var(--sp3); }
@@ -73,6 +75,14 @@
   .rw-town h3 { margin: 0 0 .3rem; font-size: .95rem; }
   .rw-town ul { list-style: none; margin: 0 0 .5rem; padding: 0; }
   .rw-town li { margin-bottom: .2rem; }
+  .rw-tag { display: inline-block; margin-left: .35rem; font-size: .75rem; font-weight: 700; padding: 1px 6px; border-radius: 9999px; border: 1px solid var(--border); white-space: nowrap; }
+  .rw-tag-new, .rw-tag-up { border-color: var(--accent); color: var(--accent); }
+  .rw-tag-down { color: var(--muted); }
+  .rw-dates { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: baseline; margin: 0 0 var(--sp2); padding: .5rem .75rem; border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); background: var(--bg2); }
+  .rw-left { color: var(--muted); }
+  .rw-soon .rw-left { color: var(--accent); font-weight: 700; }
+  .rw-filters .rw-more { margin-top: 0; }
+  .rw-pab { margin-top: .5rem; }
   .rw-open { background: none; border: 0; min-height: 44px; padding: 0 .25rem; color: var(--accent); font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; text-align: left; }
 </style>
   <script defer src="js/components/table-header-tips.js"></script>
@@ -91,7 +101,7 @@
 
   <section class="dv-card rw-decide">
     <h2>What to decide</h2>
-    <p>Which High deals compete with yours in the same round and region, and whether to call a sponsor about partnering, buying in or stepping aside. <strong>Next step:</strong> open a High deal and start with its first contact.</p>
+    <p>Which High deals compete with yours in the same round and region, and whether to call a sponsor about partnering, buying in or stepping aside. <strong>Next step:</strong> open a High deal, call its first contact before the letter of intent date above the list, and add it to your Deal Tracker.</p>
   </section>
 
   <section class="dv-card">

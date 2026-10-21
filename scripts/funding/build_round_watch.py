@@ -44,7 +44,9 @@ The owner's excluded project (_lihtc-applications-excluded.json) is dropped.
 
 Writes data/jurisdiction-briefs/_round-watch.json (developer-gated: the
 public build leaves the folder out). No network, no clock: the output
-depends only on the inputs.
+depends only on the inputs and the file it replaces, which supplies each
+deal's history (the date it joined the list and its last band change) so
+the page can mark what is new or has moved.
 
 Usage:
   python3 scripts/funding/build_round_watch.py          # write
@@ -487,6 +489,36 @@ def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals
     }
 
 
+def carry_history(out, prev):
+    """Each deal's history from the file being replaced, matched by round
+    position (Round One to Round One) and deal id: first_listed, the date it
+    joined the list, and band_before/band_since, its band before the last
+    change and the date of that change. A deal that is new to the list gets
+    first_listed = this build's date. Deals already listed when tracking
+    began (the previous file has no history) get None, so the first build
+    marks nothing new. Rebuilding on the same data changes nothing."""
+    as_of = out['meta']['generated_at']
+    pm = (prev or {}).get('meta') or {}
+    tracked = 'tracking_since' in pm
+    out['meta']['tracking_since'] = pm.get('tracking_since') or as_of
+    for n, r in enumerate(out['rounds']):
+        prev_items = {}
+        if prev and n < len(prev.get('rounds') or []):
+            prev_items = {i['id']: i for i in prev['rounds'][n]['items']}
+        for i in r['items']:
+            old = prev_items.get(i['id'])
+            if old is None:
+                i['first_listed'] = as_of if (tracked or not prev) and as_of != out['meta']['tracking_since'] else None
+                i['band_before'] = i['band_since'] = None
+            else:
+                i['first_listed'] = old.get('first_listed')
+                if old['band'] != i['band'] and tracked:
+                    i['band_before'], i['band_since'] = old['band'], as_of
+                else:
+                    i['band_before'], i['band_since'] = old.get('band_before'), old.get('band_since')
+    return out
+
+
 def without_deal_links(doc):
     """The output with every deal summary link blanked, for the --check that
     lets links lag a deal batch until the next derived rebuild."""
@@ -517,6 +549,8 @@ def main():
                 dola['awards'] if isinstance(dola, dict) else dola,
                 read(DEALS)['deals'] if os.path.exists(DEALS) else [], read(CENTROIDS)['byGeoid'],
                 read(PLACE_COUNTIES)['places'])
+    prev = read(OUT) if os.path.exists(OUT) else None
+    carry_history(out, prev)
     text = json.dumps(out, indent=1, ensure_ascii=False) + '\n'
     if args.check:
         same = links_only = False

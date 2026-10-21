@@ -13,7 +13,9 @@ Pins:
   8. a backtest sizes a project as printed before the cutoff, not by a
      later record;
   9. every reason, the sponsor's included, carries its source rows;
- 10. each deal carries its site region and its town's map location.
+ 10. each deal carries its site region and its town's map location;
+ 11. each deal's history (when it joined, its last band change) carries
+     from the file it replaces, and the first build marks nothing new.
 """
 import copy
 import importlib.util
@@ -96,6 +98,23 @@ def test_region_and_town_location_for_the_map():
     assert (hover['region'], hover['lat'], hover['lng']) == ('Front Range', 40.17, -105.1)
     # a town that spans counties takes its main county's region; no centroid, no pin
     assert hub['region'] == 'Front Range' and hub['lat'] is None
+
+
+def test_history_marks_new_and_moved_deals_only_after_tracking_starts():
+    a, l, e = base()
+    a['applications'].append(app('Hover Place', 'Longmont', 2026, 1, 'not_awarded'))
+    first = rw.carry_history(build(a, l, e), {'meta': {}, 'rounds': [{'items': []}, {'items': []}]})
+    assert all(i['first_listed'] is None for r in first['rounds'] for i in r['items'])   # seed: nothing new
+    assert rw.carry_history(build(a, l, e), copy.deepcopy(first)) == first                 # same data: no change
+    later = build(a, l, e)
+    later['meta']['generated_at'] = '2026-11-01'
+    later['rounds'][0]['items'].append(dict(items(later, 1)['Hover Place'], id='new-deal', name='New Deal'))
+    items(later, 1)['Hover Place']['band'] = 'Medium'
+    rw.carry_history(later, first)
+    assert items(later, 1)['New Deal']['first_listed'] == '2026-11-01'
+    moved = items(later, 1)['Hover Place']
+    assert moved['first_listed'] is None and (moved['band_before'], moved['band_since']) == ('High', '2026-11-01')
+    assert later['meta']['tracking_since'] == first['meta']['tracking_since']
 
 
 def test_awarded_and_undecided_leave_the_list():
