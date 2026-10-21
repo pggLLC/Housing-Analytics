@@ -92,7 +92,11 @@ deal-versions/
 submittal-uploads/
 uploads/
 data/ripeness.json
-*contacts*.csv
+*contact*.csv
+*contact*.tsv
+*contact*.xls
+*contact*.xlsx
+*contact*.json
 *.docx
 *.doc
 *.pptx

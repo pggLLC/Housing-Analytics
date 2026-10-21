@@ -16,7 +16,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PRIVATE_PATHS = [
   { label: 'named contacts (coho-backend gated/)', re: /^data\/jurisdiction-briefs\/_(contacts|landscape)\// },
   { label: 'named contacts (coho-backend gated/)', re: /^data\/jurisdiction-briefs\/[^/]*contacts[^/]*\.(json|csv)$/i },
-  { label: 'contact export (coho-backend gated/)', re: /(^|\/)[^/]*contacts?[^/]*\.(csv|tsv|xlsx|xls)$/i },
+  { label: 'contact export (coho-backend gated/)', re: /(^|\/)[^/]*contacts?[^/]*\.(csv|tsv|xlsx|xls|json)$/i },
   { label: 'private pipeline files (coho-backend docs/)', re: /^docs\/(developer|indibuild)-pipeline-prototype\// },
   { label: 'coho-backend folder', re: /^(gated|dossiers|ripeness|private|internal)\// },
   { label: 'readiness readings built from dossiers (coho-backend build)', re: /^data\/ripeness\.json$/ },
@@ -72,11 +72,15 @@ const base = process.env.GITHUB_BASE_REF;
 if (base) {
   const git = (...a) => execFileSync('git', a, { cwd: ROOT, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
   let raw = '';
-  try { raw = git('log', '--format=', '--raw', '--no-abbrev', '--no-renames', '--diff-filter=AM', `origin/${base}..HEAD`); } catch { console.warn(`repo-private-data: origin/${base} not available; PR history not scanned`); }
-  for (const line of raw.split('\n')) {
-    const m = line.match(/^:\d+ \d+ [0-9a-f]+ ([0-9a-f]+) [AM]\t(.+)$/);
+  // -z: paths unquoted, NUL-separated. --diff-merges=remerge: a merge commit's
+  // own conflict resolution counts too, without re-listing the base's changes.
+  try { raw = git('log', '-z', '--format=', '--raw', '--no-abbrev', '--no-renames', '--diff-filter=AM', '--diff-merges=remerge', `origin/${base}..HEAD`); } catch { console.warn(`repo-private-data: origin/${base} not available; PR history not scanned`); }
+  const parts = raw.split('\0');
+  for (let i = 0; i + 1 < parts.length; i++) {
+    const m = parts[i].match(/^\n*:\d+ \d+ [0-9a-f]+ ([0-9a-f]+) [AM]$/);
     if (!m) continue;
-    for (const x of scanFile(m[2], () => { try { return git('cat-file', '-p', m[1]); } catch { return null; } })) findings.push(`${x} (in this PR's history)`);
+    const f = parts[++i];
+    for (const x of scanFile(f, () => { try { return git('cat-file', '-p', m[1]); } catch { return null; } })) findings.push(`${x} (in this PR's history)`);
   }
 }
 
@@ -91,7 +95,7 @@ const mustCatch = [
   ['data/jurisdiction-briefs/_contacts/0805265.json'], ['data/jurisdiction-briefs/_land-banking-contacts.json'],
   ['data/jurisdiction-briefs/_round-watch-contacts.json'], ['docs/developer-pipeline-prototype/04-network.csv'],
   ['dossiers/bayfield-750-orchard/index.html'], ['data/ripeness.json'], ['docs/Bayfield-Partnership-Terms-750-Orchard-Drive.pdf'],
-  ['notes/bayfield-call-sheet.md'], ['data/x.docx'], ['data/notes.md', '## Proposed partnership terms\n'],
+  ['notes/bayfield-call-sheet.md'], ['data/x.docx'], ['data/café-contacts.json'], ['x/contact.tsv'], ['data/notes.md', '## Proposed partnership terms\n'],
   ['data/people.csv', 'name,org,email,phone\n'],
   ['test/fixtures/private-contact-leak.csv', 'name,org,email,phone\nPat,Org,pat@example.com,555\n'],
   ['scripts/data/network.json', '{"relationship_tier": "warm"}'], ['.github/notes.md', '# Call sheet\n'],
