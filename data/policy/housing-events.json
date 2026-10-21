@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-10-20T08:42:54Z",
-    "as_of": "2026-10-20",
+    "generated": "2026-10-21T08:44:04Z",
+    "as_of": "2026-10-21",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -22,7 +22,7 @@
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
       "listed": 1331,
-      "upcoming": 27
+      "upcoming": 26
     },
     {
       "id": "housing_colorado",
@@ -42,18 +42,6 @@
     }
   ],
   "events": [
-    {
-      "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
-      "start": "2026-10-20",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/0da37daf-b480-4cb2-82b5-d04b5928661e@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
     {
       "title": "Training Webinar: CHFA Lender Basic Training",
       "start": "2026-10-21",
@@ -380,6 +368,18 @@
     }
   ],
   "past": [
+    {
+      "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
+      "start": "2026-10-20",
+      "end": null,
+      "time": "10:00",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://events.teams.microsoft.com/event/0da37daf-b480-4cb2-82b5-d04b5928661e@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
+      "source": "chfa",
+      "category": "homebuyer"
+    },
     {
       "title": "In Person: Own Your Tomorrow: Homebuyer Event",
       "start": "2026-10-17",

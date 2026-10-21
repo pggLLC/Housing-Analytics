@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-21T08:33:43.820Z",
+    "generated_at": "2026-10-21T11:28:47.746Z",
     "root": "data/",
-    "file_count": 1872,
-    "total_size_bytes": 196750915,
+    "file_count": 1884,
+    "total_size_bytes": 197249239,
     "kinds": {
-      "json": 1826,
+      "json": 1838,
       "geojson": 34,
       "csv": 12
     }
@@ -275,8 +275,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 323118,
-      "mtime": "2026-10-20T08:42:25.234Z",
+      "size_bytes": 502762,
+      "mtime": "2026-10-21T08:43:36.706Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -284,7 +284,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 475,
+      "primary_array_length": 763,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -298,8 +298,8 @@
     {
       "path": "alerts/brief-news-queue.json",
       "kind": "json",
-      "size_bytes": 18222,
-      "mtime": "2026-10-20T08:42:54.261Z",
+      "size_bytes": 21003,
+      "mtime": "2026-10-21T08:44:04.993Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -317,6 +317,21 @@
         "population",
         "priority"
       ]
+    },
+    {
+      "path": "alerts/owner-news.json",
+      "kind": "json",
+      "size_bytes": 324,
+      "mtime": "2026-10-21T08:43:38.017Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "items"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "allocations.json",
@@ -500,8 +515,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 645399,
-      "mtime": "2026-10-20T10:24:32.024Z",
+      "size_bytes": 659543,
+      "mtime": "2026-10-21T11:14:34.099Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -521,7 +536,7 @@
       ],
       "key_count": 16,
       "primary_array_key": "federal_notices",
-      "primary_array_length": 594,
+      "primary_array_length": 599,
       "primary_array_first_keys": [
         "key",
         "source",
@@ -539,7 +554,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-21T08:33:39.779Z",
+      "mtime": "2026-10-21T11:28:43.181Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1985,6 +2000,68 @@
       ]
     },
     {
+      "path": "deals/dawson-square-denver.json",
+      "kind": "json",
+      "size_bytes": 14340,
+      "mtime": "2026-10-21T11:12:41.177Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "timeline",
+      "primary_array_length": 8,
+      "primary_array_first_keys": [
+        "date",
+        "event",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/eagle-villas-eagle.json",
+      "kind": "json",
+      "size_bytes": 16471,
+      "mtime": "2026-10-21T11:12:41.177Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 10,
+      "primary_array_first_keys": [
+        "item",
+        "value",
+        "src"
+      ]
+    },
+    {
       "path": "deals/elmwood-north-denver.json",
       "kind": "json",
       "size_bytes": 17201,
@@ -2049,6 +2126,39 @@
       ]
     },
     {
+      "path": "deals/flats-at-sand-creek-colorado-springs.json",
+      "kind": "json",
+      "size_bytes": 20735,
+      "mtime": "2026-10-21T11:12:41.177Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 20,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
       "path": "deals/flocrit-decatur-place-denver.json",
       "kind": "json",
       "size_bytes": 14090,
@@ -2104,6 +2214,39 @@
       "key_count": 24,
       "primary_array_key": "sources",
       "primary_array_length": 11,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/green-valley-vistas-denver.json",
+      "kind": "json",
+      "size_bytes": 17977,
+      "mtime": "2026-10-21T11:12:41.177Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 13,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -2212,8 +2355,8 @@
     {
       "path": "deals/index.json",
       "kind": "json",
-      "size_bytes": 19169,
-      "mtime": "2026-10-21T08:23:10.760Z",
+      "size_bytes": 23323,
+      "mtime": "2026-10-21T11:12:41.178Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -2221,7 +2364,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "deals",
-      "primary_array_length": 50,
+      "primary_array_length": 61,
       "primary_array_first_keys": [
         "slug",
         "name",
@@ -2295,6 +2438,39 @@
         "role",
         "name",
         "src"
+      ]
+    },
+    {
+      "path": "deals/link-and-pin-denver.json",
+      "kind": "json",
+      "size_bytes": 15230,
+      "mtime": "2026-10-21T11:12:41.178Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 11,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
       ]
     },
     {
@@ -2422,6 +2598,37 @@
       "primary_array_first_keys": [
         "date",
         "event",
+        "src"
+      ]
+    },
+    {
+      "path": "deals/montview-heights-aurora.json",
+      "kind": "json",
+      "size_bytes": 10642,
+      "mtime": "2026-10-21T11:12:41.178Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 9,
+      "primary_array_first_keys": [
+        "item",
+        "value",
         "src"
       ]
     },
@@ -2558,6 +2765,39 @@
       ]
     },
     {
+      "path": "deals/ponderosa-pines-parker.json",
+      "kind": "json",
+      "size_bytes": 16870,
+      "mtime": "2026-10-21T11:12:41.179Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 11,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
       "path": "deals/ravenfield-brighton.json",
       "kind": "json",
       "size_bytes": 14273,
@@ -2685,6 +2925,37 @@
         "publisher",
         "date",
         "url"
+      ]
+    },
+    {
+      "path": "deals/squire-village-northglenn.json",
+      "kind": "json",
+      "size_bytes": 14092,
+      "mtime": "2026-10-21T11:12:41.179Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "facts",
+      "primary_array_length": 9,
+      "primary_array_first_keys": [
+        "item",
+        "value",
+        "src"
       ]
     },
     {
@@ -2847,6 +3118,72 @@
       ]
     },
     {
+      "path": "deals/tiffany-square-lakewood.json",
+      "kind": "json",
+      "size_bytes": 10596,
+      "mtime": "2026-10-21T11:12:41.179Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 8,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/townview-phase-i-denver.json",
+      "kind": "json",
+      "size_bytes": 19603,
+      "mtime": "2026-10-21T11:12:41.179Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 15,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
       "path": "deals/university-building-lofts-denver.json",
       "kind": "json",
       "size_bytes": 25182,
@@ -2998,6 +3335,39 @@
       "key_count": 24,
       "primary_array_key": "sources",
       "primary_array_length": 13,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "publisher",
+        "date",
+        "url"
+      ]
+    },
+    {
+      "path": "deals/windtrail-park-fort-collins.json",
+      "kind": "json",
+      "size_bytes": 20035,
+      "mtime": "2026-10-21T11:12:41.180Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "sources",
+      "primary_array_length": 15,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -3309,8 +3679,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1258450,
-      "mtime": "2026-10-20T10:21:23.427Z",
+      "size_bytes": 1259075,
+      "mtime": "2026-10-21T10:54:53.783Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -20650,8 +21020,8 @@
     {
       "path": "hna/scenario-baseline/08001.json",
       "kind": "json",
-      "size_bytes": 38770,
-      "mtime": "2026-10-20T22:40:06.462Z",
+      "size_bytes": 40152,
+      "mtime": "2026-10-21T11:27:48.973Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20665,9 +21035,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20675,8 +21046,8 @@
     {
       "path": "hna/scenario-baseline/08003.json",
       "kind": "json",
-      "size_bytes": 35199,
-      "mtime": "2026-10-20T22:40:06.463Z",
+      "size_bytes": 36460,
+      "mtime": "2026-10-21T11:27:48.973Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20690,9 +21061,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20700,8 +21072,8 @@
     {
       "path": "hna/scenario-baseline/08005.json",
       "kind": "json",
-      "size_bytes": 40827,
-      "mtime": "2026-10-20T22:40:06.463Z",
+      "size_bytes": 42276,
+      "mtime": "2026-10-21T11:27:48.973Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20715,9 +21087,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20725,8 +21098,8 @@
     {
       "path": "hna/scenario-baseline/08007.json",
       "kind": "json",
-      "size_bytes": 34903,
-      "mtime": "2026-10-20T22:40:06.463Z",
+      "size_bytes": 36142,
+      "mtime": "2026-10-21T11:27:48.973Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20740,9 +21113,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20750,8 +21124,8 @@
     {
       "path": "hna/scenario-baseline/08009.json",
       "kind": "json",
-      "size_bytes": 33796,
-      "mtime": "2026-10-20T22:40:06.463Z",
+      "size_bytes": 35032,
+      "mtime": "2026-10-21T11:27:48.973Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20765,9 +21139,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20775,8 +21150,8 @@
     {
       "path": "hna/scenario-baseline/08011.json",
       "kind": "json",
-      "size_bytes": 34322,
-      "mtime": "2026-10-20T22:40:06.463Z",
+      "size_bytes": 35547,
+      "mtime": "2026-10-21T11:27:48.973Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20790,9 +21165,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20800,8 +21176,8 @@
     {
       "path": "hna/scenario-baseline/08013.json",
       "kind": "json",
-      "size_bytes": 38920,
-      "mtime": "2026-10-20T22:40:06.463Z",
+      "size_bytes": 40321,
+      "mtime": "2026-10-21T11:27:48.973Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20815,9 +21191,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20825,8 +21202,8 @@
     {
       "path": "hna/scenario-baseline/08014.json",
       "kind": "json",
-      "size_bytes": 36353,
-      "mtime": "2026-10-20T22:40:06.463Z",
+      "size_bytes": 37644,
+      "mtime": "2026-10-21T11:27:48.973Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20840,9 +21217,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20850,8 +21228,8 @@
     {
       "path": "hna/scenario-baseline/08015.json",
       "kind": "json",
-      "size_bytes": 34864,
-      "mtime": "2026-10-20T22:40:06.463Z",
+      "size_bytes": 36093,
+      "mtime": "2026-10-21T11:27:48.974Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20865,9 +21243,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20875,8 +21254,8 @@
     {
       "path": "hna/scenario-baseline/08017.json",
       "kind": "json",
-      "size_bytes": 32424,
-      "mtime": "2026-10-20T22:40:06.464Z",
+      "size_bytes": 33630,
+      "mtime": "2026-10-21T11:27:48.974Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20890,9 +21269,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20900,8 +21280,8 @@
     {
       "path": "hna/scenario-baseline/08019.json",
       "kind": "json",
-      "size_bytes": 34833,
-      "mtime": "2026-10-20T22:40:06.464Z",
+      "size_bytes": 36064,
+      "mtime": "2026-10-21T11:27:48.974Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20915,9 +21295,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20925,8 +21306,8 @@
     {
       "path": "hna/scenario-baseline/08021.json",
       "kind": "json",
-      "size_bytes": 34660,
-      "mtime": "2026-10-20T22:40:06.464Z",
+      "size_bytes": 35914,
+      "mtime": "2026-10-21T11:27:48.974Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20940,9 +21321,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20950,8 +21332,8 @@
     {
       "path": "hna/scenario-baseline/08023.json",
       "kind": "json",
-      "size_bytes": 33639,
-      "mtime": "2026-10-20T22:40:06.464Z",
+      "size_bytes": 34839,
+      "mtime": "2026-10-21T11:27:48.974Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20965,9 +21347,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -20975,8 +21358,8 @@
     {
       "path": "hna/scenario-baseline/08025.json",
       "kind": "json",
-      "size_bytes": 33835,
-      "mtime": "2026-10-20T22:40:06.464Z",
+      "size_bytes": 35068,
+      "mtime": "2026-10-21T11:27:48.974Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -20990,9 +21373,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21000,8 +21384,8 @@
     {
       "path": "hna/scenario-baseline/08027.json",
       "kind": "json",
-      "size_bytes": 33890,
-      "mtime": "2026-10-20T22:40:06.464Z",
+      "size_bytes": 35086,
+      "mtime": "2026-10-21T11:27:48.975Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21015,9 +21399,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21025,8 +21410,8 @@
     {
       "path": "hna/scenario-baseline/08029.json",
       "kind": "json",
-      "size_bytes": 35975,
-      "mtime": "2026-10-20T22:40:06.464Z",
+      "size_bytes": 37232,
+      "mtime": "2026-10-21T11:27:48.975Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21040,9 +21425,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21050,8 +21436,8 @@
     {
       "path": "hna/scenario-baseline/08031.json",
       "kind": "json",
-      "size_bytes": 43619,
-      "mtime": "2026-10-20T22:40:06.465Z",
+      "size_bytes": 45129,
+      "mtime": "2026-10-21T11:27:48.975Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21065,9 +21451,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21075,8 +21462,8 @@
     {
       "path": "hna/scenario-baseline/08033.json",
       "kind": "json",
-      "size_bytes": 32794,
-      "mtime": "2026-10-20T22:40:06.465Z",
+      "size_bytes": 33977,
+      "mtime": "2026-10-21T11:27:48.975Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21090,9 +21477,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21100,8 +21488,8 @@
     {
       "path": "hna/scenario-baseline/08035.json",
       "kind": "json",
-      "size_bytes": 38969,
-      "mtime": "2026-10-20T22:40:06.465Z",
+      "size_bytes": 40356,
+      "mtime": "2026-10-21T11:27:48.975Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21115,9 +21503,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21125,8 +21514,8 @@
     {
       "path": "hna/scenario-baseline/08037.json",
       "kind": "json",
-      "size_bytes": 36686,
-      "mtime": "2026-10-20T22:40:06.465Z",
+      "size_bytes": 38017,
+      "mtime": "2026-10-21T11:27:48.976Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21140,9 +21529,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21150,8 +21540,8 @@
     {
       "path": "hna/scenario-baseline/08039.json",
       "kind": "json",
-      "size_bytes": 36600,
-      "mtime": "2026-10-20T22:40:06.465Z",
+      "size_bytes": 37877,
+      "mtime": "2026-10-21T11:27:48.976Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21165,9 +21555,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21175,8 +21566,8 @@
     {
       "path": "hna/scenario-baseline/08041.json",
       "kind": "json",
-      "size_bytes": 40736,
-      "mtime": "2026-10-20T22:40:06.466Z",
+      "size_bytes": 42147,
+      "mtime": "2026-10-21T11:27:48.976Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21190,9 +21581,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21200,8 +21592,8 @@
     {
       "path": "hna/scenario-baseline/08043.json",
       "kind": "json",
-      "size_bytes": 36804,
-      "mtime": "2026-10-20T22:40:06.466Z",
+      "size_bytes": 38089,
+      "mtime": "2026-10-21T11:27:48.976Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21215,9 +21607,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21225,8 +21618,8 @@
     {
       "path": "hna/scenario-baseline/08045.json",
       "kind": "json",
-      "size_bytes": 35617,
-      "mtime": "2026-10-20T22:40:06.466Z",
+      "size_bytes": 36903,
+      "mtime": "2026-10-21T11:27:48.976Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21240,9 +21633,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21250,8 +21644,8 @@
     {
       "path": "hna/scenario-baseline/08047.json",
       "kind": "json",
-      "size_bytes": 34402,
-      "mtime": "2026-10-20T22:40:06.466Z",
+      "size_bytes": 35603,
+      "mtime": "2026-10-21T11:27:48.976Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21265,9 +21659,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21275,8 +21670,8 @@
     {
       "path": "hna/scenario-baseline/08049.json",
       "kind": "json",
-      "size_bytes": 35005,
-      "mtime": "2026-10-20T22:40:06.466Z",
+      "size_bytes": 36277,
+      "mtime": "2026-10-21T11:27:48.977Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21290,9 +21685,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21300,8 +21696,8 @@
     {
       "path": "hna/scenario-baseline/08051.json",
       "kind": "json",
-      "size_bytes": 35472,
-      "mtime": "2026-10-20T22:40:06.466Z",
+      "size_bytes": 36751,
+      "mtime": "2026-10-21T11:27:48.977Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21315,9 +21711,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21325,8 +21722,8 @@
     {
       "path": "hna/scenario-baseline/08053.json",
       "kind": "json",
-      "size_bytes": 30927,
-      "mtime": "2026-10-20T22:40:06.467Z",
+      "size_bytes": 32073,
+      "mtime": "2026-10-21T11:27:48.977Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21340,9 +21737,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21350,8 +21748,8 @@
     {
       "path": "hna/scenario-baseline/08055.json",
       "kind": "json",
-      "size_bytes": 34197,
-      "mtime": "2026-10-20T22:40:06.467Z",
+      "size_bytes": 35406,
+      "mtime": "2026-10-21T11:27:48.977Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21365,9 +21763,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21375,8 +21774,8 @@
     {
       "path": "hna/scenario-baseline/08057.json",
       "kind": "json",
-      "size_bytes": 31934,
-      "mtime": "2026-10-20T22:40:06.467Z",
+      "size_bytes": 33131,
+      "mtime": "2026-10-21T11:27:48.977Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21390,9 +21789,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21400,8 +21800,8 @@
     {
       "path": "hna/scenario-baseline/08059.json",
       "kind": "json",
-      "size_bytes": 40422,
-      "mtime": "2026-10-20T22:40:06.467Z",
+      "size_bytes": 41841,
+      "mtime": "2026-10-21T11:27:48.977Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21415,9 +21815,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21425,8 +21826,8 @@
     {
       "path": "hna/scenario-baseline/08061.json",
       "kind": "json",
-      "size_bytes": 32231,
-      "mtime": "2026-10-20T22:40:06.467Z",
+      "size_bytes": 33437,
+      "mtime": "2026-10-21T11:27:48.978Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21440,9 +21841,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21450,8 +21852,8 @@
     {
       "path": "hna/scenario-baseline/08063.json",
       "kind": "json",
-      "size_bytes": 34145,
-      "mtime": "2026-10-20T22:40:06.467Z",
+      "size_bytes": 35403,
+      "mtime": "2026-10-21T11:27:48.978Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21465,9 +21867,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21475,8 +21878,8 @@
     {
       "path": "hna/scenario-baseline/08065.json",
       "kind": "json",
-      "size_bytes": 34428,
-      "mtime": "2026-10-20T22:40:06.467Z",
+      "size_bytes": 35658,
+      "mtime": "2026-10-21T11:27:48.978Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21490,9 +21893,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21500,8 +21904,8 @@
     {
       "path": "hna/scenario-baseline/08067.json",
       "kind": "json",
-      "size_bytes": 36216,
-      "mtime": "2026-10-20T22:40:06.468Z",
+      "size_bytes": 37516,
+      "mtime": "2026-10-21T11:27:48.978Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21515,9 +21919,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21525,8 +21930,8 @@
     {
       "path": "hna/scenario-baseline/08069.json",
       "kind": "json",
-      "size_bytes": 38723,
-      "mtime": "2026-10-20T22:40:06.468Z",
+      "size_bytes": 40083,
+      "mtime": "2026-10-21T11:27:48.978Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21540,9 +21945,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21550,8 +21956,8 @@
     {
       "path": "hna/scenario-baseline/08071.json",
       "kind": "json",
-      "size_bytes": 35042,
-      "mtime": "2026-10-20T22:40:06.468Z",
+      "size_bytes": 36296,
+      "mtime": "2026-10-21T11:27:48.978Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21565,9 +21971,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21575,8 +21982,8 @@
     {
       "path": "hna/scenario-baseline/08073.json",
       "kind": "json",
-      "size_bytes": 34120,
-      "mtime": "2026-10-20T22:40:06.468Z",
+      "size_bytes": 35332,
+      "mtime": "2026-10-21T11:27:48.979Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21590,9 +21997,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21600,8 +22008,8 @@
     {
       "path": "hna/scenario-baseline/08075.json",
       "kind": "json",
-      "size_bytes": 35029,
-      "mtime": "2026-10-20T22:40:06.468Z",
+      "size_bytes": 36312,
+      "mtime": "2026-10-21T11:27:48.979Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21615,9 +22023,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21625,8 +22034,8 @@
     {
       "path": "hna/scenario-baseline/08077.json",
       "kind": "json",
-      "size_bytes": 35920,
-      "mtime": "2026-10-20T22:40:06.468Z",
+      "size_bytes": 37247,
+      "mtime": "2026-10-21T11:27:48.979Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21640,9 +22049,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21650,8 +22060,8 @@
     {
       "path": "hna/scenario-baseline/08079.json",
       "kind": "json",
-      "size_bytes": 30947,
-      "mtime": "2026-10-20T22:40:06.469Z",
+      "size_bytes": 32103,
+      "mtime": "2026-10-21T11:27:48.979Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21665,9 +22075,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21675,8 +22086,8 @@
     {
       "path": "hna/scenario-baseline/08081.json",
       "kind": "json",
-      "size_bytes": 35010,
-      "mtime": "2026-10-20T22:40:06.469Z",
+      "size_bytes": 36253,
+      "mtime": "2026-10-21T11:27:48.979Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21690,9 +22101,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21700,8 +22112,8 @@
     {
       "path": "hna/scenario-baseline/08083.json",
       "kind": "json",
-      "size_bytes": 35529,
-      "mtime": "2026-10-20T22:40:06.469Z",
+      "size_bytes": 36770,
+      "mtime": "2026-10-21T11:27:48.979Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21715,9 +22127,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21725,8 +22138,8 @@
     {
       "path": "hna/scenario-baseline/08085.json",
       "kind": "json",
-      "size_bytes": 36164,
-      "mtime": "2026-10-20T22:40:06.469Z",
+      "size_bytes": 37418,
+      "mtime": "2026-10-21T11:27:48.980Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21740,9 +22153,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21750,8 +22164,8 @@
     {
       "path": "hna/scenario-baseline/08087.json",
       "kind": "json",
-      "size_bytes": 34792,
-      "mtime": "2026-10-20T22:40:06.469Z",
+      "size_bytes": 36041,
+      "mtime": "2026-10-21T11:27:48.980Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21765,9 +22179,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21775,8 +22190,8 @@
     {
       "path": "hna/scenario-baseline/08089.json",
       "kind": "json",
-      "size_bytes": 35610,
-      "mtime": "2026-10-20T22:40:06.469Z",
+      "size_bytes": 36855,
+      "mtime": "2026-10-21T11:27:48.980Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21790,9 +22205,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21800,8 +22216,8 @@
     {
       "path": "hna/scenario-baseline/08091.json",
       "kind": "json",
-      "size_bytes": 33659,
-      "mtime": "2026-10-20T22:40:06.470Z",
+      "size_bytes": 34868,
+      "mtime": "2026-10-21T11:27:48.980Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21815,9 +22231,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21825,8 +22242,8 @@
     {
       "path": "hna/scenario-baseline/08093.json",
       "kind": "json",
-      "size_bytes": 35342,
-      "mtime": "2026-10-20T22:40:06.470Z",
+      "size_bytes": 36582,
+      "mtime": "2026-10-21T11:27:48.980Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21840,9 +22257,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21850,8 +22268,8 @@
     {
       "path": "hna/scenario-baseline/08095.json",
       "kind": "json",
-      "size_bytes": 34061,
-      "mtime": "2026-10-20T22:40:06.470Z",
+      "size_bytes": 35280,
+      "mtime": "2026-10-21T11:27:48.980Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21865,9 +22283,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21875,8 +22294,8 @@
     {
       "path": "hna/scenario-baseline/08097.json",
       "kind": "json",
-      "size_bytes": 34916,
-      "mtime": "2026-10-20T22:40:06.470Z",
+      "size_bytes": 36195,
+      "mtime": "2026-10-21T11:27:48.981Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21890,9 +22309,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21900,8 +22320,8 @@
     {
       "path": "hna/scenario-baseline/08099.json",
       "kind": "json",
-      "size_bytes": 35318,
-      "mtime": "2026-10-20T22:40:06.470Z",
+      "size_bytes": 36560,
+      "mtime": "2026-10-21T11:27:48.981Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21915,9 +22335,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21925,8 +22346,8 @@
     {
       "path": "hna/scenario-baseline/08101.json",
       "kind": "json",
-      "size_bytes": 37416,
-      "mtime": "2026-10-20T22:40:06.470Z",
+      "size_bytes": 38757,
+      "mtime": "2026-10-21T11:27:48.981Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21940,9 +22361,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21950,8 +22372,8 @@
     {
       "path": "hna/scenario-baseline/08103.json",
       "kind": "json",
-      "size_bytes": 34386,
-      "mtime": "2026-10-20T22:40:06.471Z",
+      "size_bytes": 35621,
+      "mtime": "2026-10-21T11:27:48.981Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21965,9 +22387,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -21975,8 +22398,8 @@
     {
       "path": "hna/scenario-baseline/08105.json",
       "kind": "json",
-      "size_bytes": 35110,
-      "mtime": "2026-10-20T22:40:06.471Z",
+      "size_bytes": 36360,
+      "mtime": "2026-10-21T11:27:48.981Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -21990,9 +22413,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -22000,8 +22424,8 @@
     {
       "path": "hna/scenario-baseline/08107.json",
       "kind": "json",
-      "size_bytes": 35515,
-      "mtime": "2026-10-20T22:40:06.471Z",
+      "size_bytes": 36783,
+      "mtime": "2026-10-21T11:27:48.982Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -22015,9 +22439,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -22025,8 +22450,8 @@
     {
       "path": "hna/scenario-baseline/08109.json",
       "kind": "json",
-      "size_bytes": 34044,
-      "mtime": "2026-10-20T22:40:06.471Z",
+      "size_bytes": 35257,
+      "mtime": "2026-10-21T11:27:48.982Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -22040,9 +22465,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -22050,8 +22476,8 @@
     {
       "path": "hna/scenario-baseline/08111.json",
       "kind": "json",
-      "size_bytes": 31223,
-      "mtime": "2026-10-20T22:40:06.471Z",
+      "size_bytes": 32400,
+      "mtime": "2026-10-21T11:27:48.982Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -22065,9 +22491,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -22075,8 +22502,8 @@
     {
       "path": "hna/scenario-baseline/08113.json",
       "kind": "json",
-      "size_bytes": 34034,
-      "mtime": "2026-10-20T22:40:06.471Z",
+      "size_bytes": 35268,
+      "mtime": "2026-10-21T11:27:48.982Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -22090,9 +22517,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -22100,8 +22528,8 @@
     {
       "path": "hna/scenario-baseline/08115.json",
       "kind": "json",
-      "size_bytes": 32976,
-      "mtime": "2026-10-20T22:40:06.472Z",
+      "size_bytes": 34189,
+      "mtime": "2026-10-21T11:27:48.982Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -22115,9 +22543,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -22125,8 +22554,8 @@
     {
       "path": "hna/scenario-baseline/08117.json",
       "kind": "json",
-      "size_bytes": 35843,
-      "mtime": "2026-10-20T22:40:06.472Z",
+      "size_bytes": 37166,
+      "mtime": "2026-10-21T11:27:48.982Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -22140,9 +22569,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -22150,8 +22580,8 @@
     {
       "path": "hna/scenario-baseline/08119.json",
       "kind": "json",
-      "size_bytes": 35509,
-      "mtime": "2026-10-20T22:40:06.472Z",
+      "size_bytes": 36775,
+      "mtime": "2026-10-21T11:27:48.983Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -22165,9 +22595,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -22175,8 +22606,8 @@
     {
       "path": "hna/scenario-baseline/08121.json",
       "kind": "json",
-      "size_bytes": 34237,
-      "mtime": "2026-10-20T22:40:06.472Z",
+      "size_bytes": 35446,
+      "mtime": "2026-10-21T11:27:48.983Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -22190,9 +22621,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -22200,8 +22632,8 @@
     {
       "path": "hna/scenario-baseline/08123.json",
       "kind": "json",
-      "size_bytes": 37406,
-      "mtime": "2026-10-20T22:40:06.472Z",
+      "size_bytes": 38748,
+      "mtime": "2026-10-21T11:27:48.983Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -22215,9 +22647,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -22225,8 +22658,8 @@
     {
       "path": "hna/scenario-baseline/08125.json",
       "kind": "json",
-      "size_bytes": 35089,
-      "mtime": "2026-10-20T22:40:06.472Z",
+      "size_bytes": 36335,
+      "mtime": "2026-10-21T11:27:48.983Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -22240,9 +22673,10 @@
         "base",
         "steps",
         "households",
-        "sdo"
+        "sdo",
+        "pastMigration"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -34451,8 +34885,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 237427,
-      "mtime": "2026-10-21T08:32:48.523Z",
+      "size_bytes": 238982,
+      "mtime": "2026-10-21T11:27:49.095Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -36027,8 +36461,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16094,
-      "mtime": "2026-10-21T08:33:41.788Z",
+      "size_bytes": 16096,
+      "mtime": "2026-10-21T11:28:45.231Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -36052,7 +36486,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-21T08:33:41.297Z",
+      "mtime": "2026-10-21T11:28:44.716Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -38002,8 +38436,8 @@
     {
       "path": "policy/developer-ownership-funding.json",
       "kind": "json",
-      "size_bytes": 20803,
-      "mtime": "2026-09-25T12:55:19.120Z",
+      "size_bytes": 21833,
+      "mtime": "2026-10-21T11:12:41.455Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -38293,7 +38727,7 @@
       "path": "policy/housing-events.json",
       "kind": "json",
       "size_bytes": 135841,
-      "mtime": "2026-10-20T08:42:54.175Z",
+      "mtime": "2026-10-21T08:44:04.914Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38303,7 +38737,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "past",
-      "primary_array_length": 274,
+      "primary_array_length": 275,
       "primary_array_first_keys": [
         "title",
         "start",
@@ -38739,8 +39173,8 @@
     {
       "path": "policy/resale-conventions.json",
       "kind": "json",
-      "size_bytes": 7610,
-      "mtime": "2026-10-12T17:16:14.151Z",
+      "size_bytes": 7744,
+      "mtime": "2026-10-21T11:12:41.460Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -38822,8 +39256,8 @@
     {
       "path": "policy/soft-funding-status.json",
       "kind": "json",
-      "size_bytes": 45867,
-      "mtime": "2026-10-20T17:43:25.415Z",
+      "size_bytes": 46545,
+      "mtime": "2026-10-21T11:12:41.460Z",
       "shape": "object",
       "keys": [
         "lastUpdated",
@@ -38980,8 +39414,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 318269,
-      "mtime": "2026-10-20T14:15:42.022Z",
+      "size_bytes": 351673,
+      "mtime": "2026-10-21T08:43:58.338Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38991,7 +39425,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "stories",
-      "primary_array_length": 230,
+      "primary_array_length": 273,
       "primary_array_first_keys": [
         "title",
         "source",
@@ -39060,8 +39494,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 20361,
-      "mtime": "2026-10-20T10:21:25.517Z",
+      "size_bytes": 20349,
+      "mtime": "2026-10-21T10:54:56.627Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -39080,8 +39514,8 @@
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 169271,
-      "mtime": "2026-10-20T10:21:25.565Z",
+      "size_bytes": 171534,
+      "mtime": "2026-10-21T10:54:56.675Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39089,7 +39523,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 187,
+      "primary_array_length": 188,
       "primary_array_first_keys": [
         "date",
         "events"

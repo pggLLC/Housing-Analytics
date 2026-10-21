@@ -1,0 +1,539 @@
+{
+ "slug": "green-valley-vistas-denver",
+ "name": "Green Valley Vistas",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2025 Federal 4% housing tax credit",
+ "units": 156,
+ "researched_on": "2026-10-21",
+ "headline": "Brikwell and the Denver Housing Authority plan Green Valley Vistas, 156 new apartments for households at 30% to 80% AMI, including 49 three- and four-bedroom homes and an early childhood education center, on 3.6 acres at 5000 Tower Road in Green Valley Ranch. It won a 2025 federal 4% credit award from CHFA, backed by City of Denver bonds.",
+ "why_it_matters": "This is a layered public deal on former Denver Health land: a $4.75M Denver linkage-fee loan with a 99-year covenant, a $1.95M state grant, Denver bond cap topped up with just under $4M delegated by DHA, and DHA project-based vouchers. The bond issuance ordinance and the financial closing are the next things to watch.",
+ "status": {
+  "label": "Land bought (July 2026); bonds induced; financing not closed; construction not started",
+  "detail": "DHA and Brikwell closed on the land by 2026-07-15 and said construction will start once financing and permits are complete. Denver approved the $4.75M loan on 2026-06-22 and the bond inducement on 2026-07-27. No bond issuance ordinance, financial closing or building permit was found as of 2026-10-21. The city loan must close by 2027-03-27.",
+  "src": [
+   "dha-2026-07-15",
+   "den-cr26-0743",
+   "den-cr26-0997",
+   "den-loan-agreement"
+  ]
+ },
+ "next_step": "Watch for a Denver bond issuance ordinance for Green Valley Vistas at the Finance and Business Committee, then the financial closing and a building permit.",
+ "key_numbers": [
+  {
+   "value": "156 homes, all income-restricted (30% to 80% AMI, averaging 54% AMI)",
+   "meaning": "133 homes (85%) are at or below 60% AMI. The mix is 38 studios, 45 one-bedroom, 24 two-bedroom, 25 three-bedroom and 24 four-bedroom units.",
+   "src": [
+    "chfa-4pct-award",
+    "den-rr-inducement",
+    "den-rr-loan"
+   ]
+  },
+  {
+   "value": "$2,683,018 a year in federal 4% credit",
+   "meaning": "About $26.8M over 10 years. No state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$21,000,000 in City of Denver bonds",
+   "meaning": "The amount CHFA prints. Denver's inducement awards up to $27M of its bond cap, including just under $4M of cap that DHA is delegating to the city.",
+   "src": [
+    "chfa-4pct-award",
+    "den-cr26-0997",
+    "den-rr-inducement"
+   ]
+  },
+  {
+   "value": "$4,750,000 Denver loan plus a $1,950,000 state grant",
+   "meaning": "The city loan is a 1% cash-flow loan from linkage-fee money with a 99-year affordability covenant. The state grant is a May 2026 Division of Housing award.",
+   "src": [
+    "den-loan-agreement",
+    "den-cr26-0743",
+    "doh-loi-awards"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "5000 Tower Road, Denver 80249 (Green Valley Ranch, Council District 11)",
+   "src": [
+    "chfa-4pct-award",
+    "den-cr26-0743"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction. Not in a QCT or DDA, but in a SADDA. Section 8 column marked No.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "156 total, 156 low-income",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 3.6 acres (3.59 acres per the city), formerly owned by Denver Health",
+   "src": [
+    "dha-2026-07-15",
+    "den-rr-loan"
+   ]
+  },
+  {
+   "item": "Buildings and amenities",
+   "value": "Two residential buildings, per DHA: one four stories with shared amenities, and one three stories with a 5,700 sq ft early childhood education center. About 175 parking spaces and a 3,500 sq ft park and playground.",
+   "src": [
+    "dha-2026-07-15"
+   ]
+  },
+  {
+   "item": "Vouchers",
+   "value": "The city's loan request says the project will partner with DHA and include project-based vouchers for families",
+   "src": [
+    "den-rr-loan"
+   ]
+  },
+  {
+   "item": "Owner/borrower entity",
+   "value": "Green Valley Vistas Owner, LLC, a Colorado limited liability company. It was the contract purchaser of the land when the loan agreement was signed.",
+   "src": [
+    "den-loan-agreement",
+    "den-cr26-0997"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "99-year rental and occupancy covenant recorded at the city loan closing. All affordable units are floating.",
+   "src": [
+    "den-loan-agreement",
+    "den-cr26-0743"
+   ]
+  },
+  {
+   "item": "Accessibility",
+   "value": "At least 5% of units built accessible for people with mobility disabilities, plus another 2% under the loan agreement's accessibility terms",
+   "src": [
+    "den-loan-agreement"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 24
+  },
+  {
+   "level": "50% AMI",
+   "units": 52
+  },
+  {
+   "level": "60% AMI",
+   "units": 57
+  },
+  {
+   "level": "70% AMI",
+   "units": 13
+  },
+  {
+   "level": "80% AMI",
+   "units": 10
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 38
+  },
+  {
+   "type": "1BR",
+   "units": 45
+  },
+  {
+   "type": "2BR",
+   "units": 24
+  },
+  {
+   "type": "3BR",
+   "units": 25
+  },
+  {
+   "type": "4BR",
+   "units": 24
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "den-loan-agreement",
+  "den-rr-inducement"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,683,018 per year",
+   "note": "2025 cycle. CHFA marks the amounts subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (City and County of Denver, Department of Housing Stability)",
+   "amount": "$21,000,000 per CHFA. The inducement allows up to $27,000,000.",
+   "note": "Resolution CR26-0997, adopted 2026-07-27, awards up to $27M of Denver's bond cap, limited to the greater of 30% of eligible basis or the permanent loan amount. The award expires after one year unless extended. DHA is delegating just under $4M of its own bond cap to the city for the project. A final bond ordinance is still required.",
+   "src": [
+    "chfa-4pct-award",
+    "den-cr26-0997",
+    "den-cr26-0997-signed",
+    "den-rr-inducement"
+   ]
+  },
+  {
+   "source": "City of Denver HOST loan (linkage fee)",
+   "amount": "$4,750,000",
+   "note": "1% simple interest, repaid from cash flow starting about two years after the note date, and due at the 22nd anniversary. The request lists a 19-year term and names the Affordable Housing Fund as the source. The city will subordinate to senior debt of up to $52.5M. The loan agreement says the money helps finance the land purchase. Approved by Resolution CR26-0743 on 2026-06-22.",
+   "src": [
+    "den-loan-agreement",
+    "den-cr26-0743",
+    "den-cr26-0743-signed",
+    "den-rr-loan"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing, State Housing Development Grant (vendor fee)",
+   "amount": "$1,950,000",
+   "note": "Shown as a rental award to Brikwell in the May 2026 round. Earlier requests were $4.5M in the October 2025 LOI round and $2.5M in the February 2026 round, the latter under the applicant name Green Valley Housing Partners.",
+   "src": [
+    "doh-loi-awards"
+   ]
+  },
+  {
+   "source": "Land purchase",
+   "amount": "Not public",
+   "note": "DHA and Brikwell bought the land from Denver Health, closing by 2026-07-15. No price was disclosed.",
+   "src": [
+    "dha-2026-07-15",
+    "milehighcre-2026-07-16"
+   ]
+  },
+  {
+   "source": "Tax credit equity and construction loan",
+   "amount": "Not public",
+   "note": "The loan agreement refers to an investor member and senior loan financing but names neither.",
+   "src": [
+    "den-loan-agreement"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Brikwell",
+   "src": [
+    "chfa-4pct-award",
+    "dha-2026-07-15",
+    "brikwell-dev"
+   ]
+  },
+  {
+   "role": "Development partner; project-based vouchers; delegated bond cap",
+   "name": "Denver Housing Authority",
+   "src": [
+    "dha-2026-07-15",
+    "den-rr-loan",
+    "den-rr-inducement"
+   ]
+  },
+  {
+   "role": "Borrower/owner entity",
+   "name": "Green Valley Vistas Owner, LLC",
+   "src": [
+    "den-loan-agreement",
+    "den-cr26-0997"
+   ]
+  },
+  {
+   "role": "Bond issuer and lender",
+   "name": "City and County of Denver (Department of Finance and Department of Housing Stability)",
+   "src": [
+    "chfa-4pct-award",
+    "den-cr26-0997",
+    "den-cr26-0743"
+   ]
+  },
+  {
+   "role": "Land seller",
+   "name": "Denver Health",
+   "src": [
+    "dha-2026-07-15"
+   ]
+  },
+  {
+   "role": "State grant applicant name (February 2026 round)",
+   "name": "Green Valley Housing Partners",
+   "src": [
+    "doh-loi-awards"
+   ]
+  },
+  {
+   "role": "Borrower's counsel (notice copy in the loan agreement)",
+   "name": "New Communities Law, PLLC",
+   "src": [
+    "den-loan-agreement"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Denver had planned a micro-community for people experiencing homelessness at 5000 Tower Road. On 2023-11-30 it dropped that plan, saying the site was not economically viable to develop because of land development costs.",
+   "src": [
+    "denver7-2023-11-30"
+   ]
+  },
+  {
+   "text": "DHA and Brikwell closed on the 3.6-acre site from Denver Health by 2026-07-15. DHA says the purchase enables housing for households at 30% to 80% AMI and that construction will start after financing and permitting.",
+   "src": [
+    "dha-2026-07-15",
+    "milehighcre-2026-07-16"
+   ]
+  },
+  {
+   "text": "Denver's Community Planning and Housing Committee approved the HOST loan by consent on 2026-06-02, and City Council adopted Resolution CR26-0743 on 2026-06-22. The loan agreement sets a closing deadline of 2027-03-27.",
+   "src": [
+    "den-cr26-0743",
+    "den-cr26-0743-signed",
+    "den-loan-agreement"
+   ]
+  },
+  {
+   "text": "The Finance and Business Committee approved the bond inducement on 2026-07-14, and City Council adopted Resolution CR26-0997 on 2026-07-27. The resolution makes issuance subject to a bond purchase commitment, City approvals and design approval, and adoption of a final bond ordinance.",
+   "src": [
+    "den-cr26-0997",
+    "den-cr26-0997-signed"
+   ]
+  },
+  {
+   "text": "The city's loan request describes the project as family-oriented and focused on households below 60% AMI. It notes bus stops within two blocks, a light rail station within two miles, and elementary schools within a mile.",
+   "src": [
+    "den-rr-loan"
+   ]
+  },
+  {
+   "text": "The loan agreement assigns each income band across bedroom sizes. For example, the 24 units at 30% AMI are 6 studios, 6 one-bedroom, 4 two-bedroom, 4 three-bedroom and 4 four-bedroom units.",
+   "src": [
+    "den-loan-agreement"
+   ]
+  },
+  {
+   "text": "Brikwell's development page lists Green Valley Vistas as 156 units financed with 4% LIHTC.",
+   "src": [
+    "brikwell-dev"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-11-30",
+   "event": "Denver cancels its planned micro-community at 5000 Tower Road",
+   "src": [
+    "denver7-2023-11-30"
+   ]
+  },
+  {
+   "date": "2025-10",
+   "event": "Brikwell files a $4.5M letter of intent with the Division of Housing",
+   "src": [
+    "doh-loi-awards"
+   ]
+  },
+  {
+   "date": "2026-02",
+   "event": "$2.5M Division of Housing application (Green Valley Housing Partners)",
+   "src": [
+    "doh-loi-awards"
+   ]
+  },
+  {
+   "date": "2026-05",
+   "event": "Division of Housing May 2026 round lists a $1,950,000 rental award to Brikwell",
+   "src": [
+    "doh-loi-awards"
+   ]
+  },
+  {
+   "date": "2026-06-22",
+   "event": "Denver City Council approves the $4.75M HOST loan (CR26-0743)",
+   "src": [
+    "den-cr26-0743",
+    "den-cr26-0743-signed"
+   ]
+  },
+  {
+   "date": "2026-07-15",
+   "event": "DHA announces that it and Brikwell have completed the land purchase from Denver Health",
+   "src": [
+    "dha-2026-07-15"
+   ]
+  },
+  {
+   "date": "2026-07-27",
+   "event": "Denver City Council adopts the bond inducement for up to $27M (CR26-0997)",
+   "src": [
+    "den-cr26-0997",
+    "den-cr26-0997-signed"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2027-03-27",
+   "event": "Deadline to close the city loan under the loan agreement",
+   "src": [
+    "den-loan-agreement"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "DHA describes two buildings, one four stories and one three stories, while the city's loan request describes a three-story, garden-style community.",
+   "src": [
+    "dha-2026-07-15",
+    "den-rr-loan"
+   ]
+  },
+  {
+   "text": "The city's loan request and council summary give the loan a 19-year term, while the signed loan agreement makes it due on the 22nd anniversary of the promissory note.",
+   "src": [
+    "den-rr-loan",
+    "den-cr26-0743",
+    "den-loan-agreement"
+   ]
+  },
+  {
+   "text": "The city's loan request says the project will include DHA project-based vouchers, while CHFA's award report marks the Section 8 column No.",
+   "src": [
+    "den-rr-loan",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "DHA's release says the city contributed $4.75 million, while the city's records show a repayable cash-flow loan.",
+   "src": [
+    "dha-2026-07-15",
+    "den-loan-agreement"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Land purchase price and recorded deed date; whether DHA or the partnership holds the land, and whether a ground lease or a DHA property tax exemption is part of the structure.",
+  "Final bond ordinance, closed bond amount, bond buyer and construction lender.",
+  "Number of DHA project-based vouchers and their contract terms.",
+  "Total development cost, tax credit investor and equity price, general contractor and architect.",
+  "Early childhood education center operator.",
+  "Site development plan and building permit records. No public site plan or rendering was found, so pictures is empty."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "den-cr26-0743",
+   "title": "Denver File 26-0743: Resolution approving a Loan Agreement with Green Valley Vistas Owner, LLC (5000 Tower Road)",
+   "publisher": "City and County of Denver",
+   "date": "2026-06-22",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=56918&GUID=78E52465-6B2B-401F-8CFA-1121B0361DE9"
+  },
+  {
+   "id": "den-cr26-0743-signed",
+   "title": "Filed Resolution CR26-0743, Green Valley Vistas Owner, LLC",
+   "publisher": "City and County of Denver",
+   "date": "2026-06-22",
+   "url": "https://denver.legistar1.com/denver/attachments/cf4b6175-4ee2-4ae1-8a58-8a0f48841228.pdf"
+  },
+  {
+   "id": "den-loan-agreement",
+   "title": "Loan Agreement (Linkage Fee), City and County of Denver and Green Valley Vistas Owner, LLC, Contract HOST-202684489 (vendor-signed)",
+   "publisher": "City and County of Denver",
+   "date": "2026-05",
+   "url": "https://denver.legistar1.com/denver/attachments/401eb8cd-7dcd-48b2-8a50-dee6c1077601.pdf"
+  },
+  {
+   "id": "den-rr-loan",
+   "title": "Resolution Request, HOST Green Valley Vistas loan (26-0743)",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2026-05-21",
+   "url": "https://denver.legistar1.com/denver/attachments/dc76456e-df24-44fa-bbad-9e82d7400860.docx"
+  },
+  {
+   "id": "den-cr26-0997",
+   "title": "Denver File 26-0997: Resolution evidencing intent to issue up to $27,000,000 Multifamily Housing Revenue Bonds for Green Valley Vistas",
+   "publisher": "City and County of Denver",
+   "date": "2026-07-27",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=57172&GUID=C9DDCA17-78FC-47DD-AFBC-984750DCF518"
+  },
+  {
+   "id": "den-cr26-0997-signed",
+   "title": "Filed Resolution CR26-0997, Green Valley Vistas 2026 Inducement Resolution",
+   "publisher": "City and County of Denver",
+   "date": "2026-07-27",
+   "url": "https://denver.legistar1.com/denver/attachments/a8405566-b71a-41fb-ba29-b13a47ce7a68.pdf"
+  },
+  {
+   "id": "den-rr-inducement",
+   "title": "Resolution Request, PAB Inducement Resolution, Green Valley Vistas (26-0997)",
+   "publisher": "City and County of Denver, Department of Finance",
+   "date": "2026-07-02",
+   "url": "https://denver.legistar1.com/denver/attachments/c1c2c0cd-49a6-4509-af08-5e8a4476e031.docx"
+  },
+  {
+   "id": "dha-2026-07-15",
+   "title": "DHA and Brikwell Purchase Land from Denver Health for Green Valley Vistas Affordable Housing Development",
+   "publisher": "Denver Housing Authority",
+   "date": "2026-07-15",
+   "url": "https://www.denverhousing.org/press/dha-and-brikwell-purchase-land-from-denver-health-for-green-valley-vistas-affordable-housing-development/"
+  },
+  {
+   "id": "milehighcre-2026-07-16",
+   "title": "DHA and Brikwell Purchase Land from Denver Health for Affordable Housing",
+   "publisher": "Mile High CRE",
+   "date": "2026-07-16",
+   "url": "https://milehighcre.com/dha-and-brikwell-purchase-land-from-denver-health-for-affordable-housing"
+  },
+  {
+   "id": "doh-loi-awards",
+   "title": "Letters of Intent, Applications, Awards (October 2025, February 2026 and May 2026 rounds)",
+   "publisher": "Colorado Department of Local Affairs, Division of Housing",
+   "date": "2026",
+   "url": "https://doh.colorado.gov/letters-of-intent-applications-awards"
+  },
+  {
+   "id": "brikwell-dev",
+   "title": "Development",
+   "publisher": "Brikwell",
+   "date": "2026",
+   "url": "https://brikwell.com/development/"
+  },
+  {
+   "id": "denver7-2023-11-30",
+   "title": "City of Denver cancels plans for Green Valley Ranch micro-community",
+   "publisher": "Denver7",
+   "date": "2023-11-30",
+   "url": "https://denver7.com/news/front-range/denver/city-of-denver-cancels-plans-for-green-valley-ranch-micro-community"
+  }
+ ]
+}
