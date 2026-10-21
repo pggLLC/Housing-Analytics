@@ -1,0 +1,321 @@
+{
+ "slug": "montview-heights-aurora",
+ "name": "Montview Heights (Montview Heights Apartments)",
+ "city": "Aurora",
+ "county": "Adams",
+ "award": "2025 Federal 4% housing tax credit",
+ "units": 50,
+ "researched_on": "2026-10-21",
+ "headline": "Related Affordable plans to buy and renovate Montview Heights, an existing 50-unit, all-three-bedroom HUD Section 8 family property at 14389 East Montview Blvd in north Aurora (Adams County). It won a 2025 federal 4% credit award from CHFA backed by Aurora Housing Authority bonds.",
+ "why_it_matters": "This is a preservation deal. Every unit carries a project-based Section 8 contract that runs to 2040, and residents' average household income is about $21,000. The tax credit adds a 60% AMI restriction on all 50 large family units and pays for a rehab funded with Aurora Housing Authority bonds.",
+ "status": {
+  "label": "Credits awarded; bond hearing held March 2026; acquisition and closing not confirmed",
+  "detail": "The Aurora Housing Authority held a public hearing on the bonds on 2026-03-20. No record of the bond closing, the property sale to Related's partnership, or the start of the rehab was found. HUD's data still lists Avail Property Management as the agent.",
+  "src": [
+   "aha-tefra-2026",
+   "hud-mf-assisted",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch for the Aurora mayor's approval of the bonds, a recorded deed to Montview Heights Preservation, L.P. in Adams County, and a HUD transfer (2530) or Section 8 contract assignment.",
+ "key_numbers": [
+  {
+   "value": "50 three-bedroom homes, all at 60% AMI",
+   "meaning": "All 50 units are also covered by a HUD project-based Section 8 contract, so tenants pay rent based on income.",
+   "src": [
+    "chfa-4pct-award",
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "value": "$1,460,642 a year in federal 4% credit",
+   "meaning": "About $14.6M over 10 years, or roughly $292,000 of credit per unit. No state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$17,300,000 in Aurora Housing Authority bonds",
+   "meaning": "The amount CHFA prints, or about $346,000 per unit. The bond hearing notice allowed up to $25M for acquisition, rehabilitation and construction.",
+   "src": [
+    "chfa-4pct-award",
+    "aha-tefra-2026"
+   ]
+  },
+  {
+   "value": "HUD Section 8 contract to 2040-03-31",
+   "meaning": "Contract CO99H001023 covers all 50 units under the state-agency Section 8 new construction program.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "14389 East Montview Blvd, Aurora 80011 (Adams County portion of Aurora)",
+   "src": [
+    "chfa-4pct-award",
+    "aha-tefra-2026",
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, acquisition/rehabilitation, in a QCT (not a DDA or SADDA); Section 8 column marked Yes",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "50 total, 50 low-income; HUD lists 50 assisted units, all three-bedroom",
+   "src": [
+    "chfa-4pct-award",
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "item": "Age",
+   "value": "HUD's records give an occupancy date of 1978-10-26 (the original lease-up of the Section 8 new construction property, inferred)",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "item": "HUD program",
+   "value": "Section 8 HFDA/8 NC (new construction financed by a state housing finance agency). HUD category: Subsidized - Previously Insured.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "item": "Condition and residents (HUD data)",
+   "value": "Latest HUD physical inspection score 97 (inspection dated 2026-06-02). HUD's resident data shows an average household income of $20,997, about 86% of households below 30% of area median income, and about 191 residents.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "item": "Unit size",
+   "value": "Three bedrooms, 1.5 baths, about 1,100 sq ft, per a public listing",
+   "src": [
+    "aho-listing"
+   ]
+  },
+  {
+   "item": "Expected owner",
+   "value": "Montview Heights Preservation, L.P., a New York limited partnership, or another affiliate of Related Affordable, LLC",
+   "src": [
+    "aha-tefra-2026"
+   ]
+  },
+  {
+   "item": "Current management agent (HUD data)",
+   "value": "Avail Property Management, Inc.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 50
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "3BR",
+   "units": 50
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "hud-mf-assisted"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,460,642 per year",
+   "note": "2025 cycle. CHFA marks the amounts subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (Housing Authority of the City of Aurora)",
+   "amount": "$17,300,000 per CHFA. The hearing notice allowed up to $25,000,000.",
+   "note": "Multifamily Housing Revenue Bonds (Montview Heights Apartments Project) under Section 142(d). The Section 147(f) hearing was held 2026-03-20, and issuance requires approval by the Mayor of Aurora. Whose bond cap is used was not found.",
+   "src": [
+    "chfa-4pct-award",
+    "aha-tefra-2026"
+   ]
+  },
+  {
+   "source": "HUD project-based Section 8 (HAP contract CO99H001023)",
+   "amount": "50 units; contract rents at about 107% of HUD fair market rent (HUD rent-to-FMR ratio 106.54)",
+   "note": "The contract expires 2040-03-31.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "source": "Acquisition price, rehab budget, equity",
+   "amount": "Not public",
+   "note": "No sale record, purchase price or rehab scope was found in public sources.",
+   "src": [
+    "aha-tefra-2026"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Related Affordable, LLC",
+   "src": [
+    "chfa-4pct-award",
+    "aha-tefra-2026"
+   ]
+  },
+  {
+   "role": "Expected owner/borrower",
+   "name": "Montview Heights Preservation, L.P.",
+   "src": [
+    "aha-tefra-2026"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Housing Authority of the City of Aurora (Aurora Housing Authority)",
+   "src": [
+    "chfa-4pct-award",
+    "aha-tefra-2026"
+   ]
+  },
+  {
+   "role": "Current management agent (HUD data)",
+   "name": "Avail Property Management, Inc.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "role": "Section 8 contract administrator / funder",
+   "name": "U.S. Department of Housing and Urban Development (Denver hub)",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Montview Heights is a 50-unit family property built under HUD's Section 8 new construction program for state housing finance agency projects. HUD records its occupancy date as 1978-10-26 and lists it as previously insured, with no active HUD-insured financing.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "text": "The current Section 8 contract covers all 50 units and runs to 2040-03-31. The tax credit deal would add a 60% AMI LIHTC restriction on top of it.",
+   "src": [
+    "hud-mf-assisted",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "The Aurora Housing Authority's hearing notice says bond proceeds will finance or reimburse the acquisition, rehabilitation, renovation, construction and equipping of the roughly 50-unit project.",
+   "src": [
+    "aha-tefra-2026"
+   ]
+  },
+  {
+   "text": "The bonds are special, limited revenue obligations of the Authority; neither the City of Aurora nor the state is liable for them.",
+   "src": [
+    "aha-tefra-2026"
+   ]
+  },
+  {
+   "text": "HUD's resident data shows mostly very low-income families with children: about 124 children among about 191 residents, and about 61% of households headed by women with children.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1978-10-26",
+   "event": "Occupancy date in HUD records (original Section 8 new construction property)",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "date": "2026-03-20",
+   "event": "Aurora Housing Authority holds the Section 147(f) public hearing on up to $25M in bonds",
+   "src": [
+    "aha-tefra-2026"
+   ]
+  },
+  {
+   "date": "2026-06-02",
+   "event": "HUD physical inspection, scored 97",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2040-03-31",
+   "event": "Current HUD Section 8 contract expires",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [],
+ "open_questions": [
+  "Current owner (seller), sale price and closing date. The Adams County assessor and recorder records could not be reached from here.",
+  "Rehab scope and per-unit budget, general contractor and relocation plan.",
+  "Whose private activity bond cap backs the $17.3M (city, county or statewide balance), the bond buyer and the closing date.",
+  "Whether the Section 8 contract will be renewed or extended beyond 2040 as part of the deal, and whether HUD approved the transfer.",
+  "Total development cost, tax credit investor and equity price.",
+  "No public photos, site plan or rendering in a government packet were found, so pictures is empty."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "aha-tefra-2026",
+   "title": "Notice of Public Hearing, Housing Authority of the City of Aurora, Colorado, Multifamily Housing Revenue Bonds (Montview Heights Apartments Project)",
+   "publisher": "Aurora Housing Authority",
+   "date": "2026-03",
+   "url": "https://www.aurorahousing.org/public-notices"
+  },
+  {
+   "id": "hud-mf-assisted",
+   "title": "HUD Multifamily Properties - Assisted, record for Montview Heights (property ID 800003104)",
+   "publisher": "U.S. Department of Housing and Urban Development (HUD eGIS open data)",
+   "date": "2026-07-06",
+   "url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Multifamily_Properties_Assisted/FeatureServer/0/query?where=PROPERTY_ID%3D%27800003104%27&outFields=*&returnGeometry=false&f=json"
+  },
+  {
+   "id": "aho-listing",
+   "title": "Montview Heights in Aurora, Colorado",
+   "publisher": "Affordable Housing Online",
+   "date": "2026",
+   "url": "https://affordablehousingonline.com/housing-search/Colorado/Aurora/Montview-Heights/10010992"
+  }
+ ]
+}
