@@ -18,7 +18,7 @@ const PRIVATE_PATHS = [
   { label: 'named contacts (coho-backend gated/)', re: /^data\/jurisdiction-briefs\/[^/]*contacts[^/]*\.(json|csv)$/i },
   { label: 'contact export (coho-backend gated/)', re: /(^|\/)[^/]*contacts?[^/]*\.(csv|tsv|xlsx|xls|json)$/i },
   { label: 'private pipeline files (coho-backend docs/)', re: /^docs\/(developer|indibuild)-pipeline-prototype\// },
-  { label: 'coho-backend folder', re: /^(gated|dossiers|ripeness|private|internal)\// },
+  { label: 'coho-backend folder', re: /(^|\/)(gated|dossiers|ripeness|private|internal)\// },
   { label: 'readiness readings built from dossiers (coho-backend build)', re: /^data\/ripeness\.json$/ },
   { label: 'dossier, partnership terms or call sheet', re: /(^|\/)[^/]*(dossier|partnership-terms|call-sheet|seller-ask|term-sheet)[^/]*\.(md|json|csv|docx|pdf|html|txt)$/i },
   { label: 'saved deal or uploaded draft', re: /(^|\/)(saved-deals|deal-versions|submittal-uploads|uploads)\// },
@@ -30,6 +30,9 @@ const PRIVATE_TEXT = [
   { label: 'pipeline relationship field', re: /\brelationship_tier\b/ },
   { label: 'pipeline last-talked field', re: /\blast_talked\b/ },
   { label: 'pipeline next-action column', re: /\bnext_action(_due)?\b/, ext: /\.(csv|tsv|json)$/i },
+  { label: 'signal log column', re: /\bsignal_type\b/, ext: /\.(csv|tsv|json)$/i },
+  { label: 'anti-targets column', re: /\b(date_dropped|revisit_date)\b/, ext: /\.(csv|tsv|json)$/i },
+  { label: 'outreach templates column', re: /\b(template_name|notes_for_personalization)\b/, ext: /\.(csv|tsv|json)$/i },
   { label: 'partnership terms heading', re: /^#+\s*Proposed partnership terms\b/im },
   { label: 'call sheet heading', re: /^#+\s*Call sheet\b/im }
 ];
@@ -74,10 +77,10 @@ if (base) {
   let raw = '';
   // -z: paths unquoted, NUL-separated. --diff-merges=remerge: a merge commit's
   // own conflict resolution counts too, without re-listing the base's changes.
-  try { raw = git('log', '-z', '--format=', '--raw', '--no-abbrev', '--no-renames', '--diff-filter=AM', '--diff-merges=remerge', `origin/${base}..HEAD`); } catch { console.warn(`repo-private-data: origin/${base} not available; PR history not scanned`); }
+  try { raw = git('log', '-z', '--format=', '--raw', '--no-abbrev', '--no-renames', '--diff-filter=AMT', '--diff-merges=remerge', `origin/${base}..HEAD`); } catch { console.warn(`repo-private-data: origin/${base} not available; PR history not scanned`); }
   const parts = raw.split('\0');
   for (let i = 0; i + 1 < parts.length; i++) {
-    const m = parts[i].match(/^\n*:\d+ \d+ [0-9a-f]+ ([0-9a-f]+) [AM]$/);
+    const m = parts[i].match(/^\n*:\d+ \d+ [0-9a-f]+ ([0-9a-f]+) [AMT]$/);
     if (!m) continue;
     const f = parts[++i];
     for (const x of scanFile(f, () => { try { return git('cat-file', '-p', m[1]); } catch { return null; } })) findings.push(`${x} (in this PR's history)`);
@@ -100,7 +103,8 @@ const mustCatch = [
   ['test/fixtures/private-contact-leak.csv', 'name,org,email,phone\nPat,Org,pat@example.com,555\n'],
   ['scripts/data/network.json', '{"relationship_tier": "warm"}'], ['.github/notes.md', '# Call sheet\n'],
   ['data/jurisdiction-briefs/round-watch-contacts.json'], ['data/exports/bayfield-contacts.csv'], ['notes/x.pptx'],
-  ['data/renamed.csv', 'id,place,next_action,next_action_due\n'], ['data/big.json', 'x'.repeat(MAX_TEXT + 1)]
+  ['data/renamed.csv', 'id,place,next_action,next_action_due\n'], ['archive/private/x.json'], ['backup/dossiers/brief.pdf'],
+  ['data/a.csv', 'date,signal_type,place\n'], ['data/b.csv', 'org,date_dropped,revisit_date\n'], ['data/c.csv', 'template_name,body,notes_for_personalization\n'], ['data/big.json', 'x'.repeat(MAX_TEXT + 1)]
 ];
 for (const [f, t = ''] of mustCatch) if (!scanFile(f, () => t).length) { console.error('guard misses ' + f); process.exit(1); }
 const mustPass = [['js/components/pipeline-store.js', 'relationship_tier'], ['developer-pipeline.html', 'last_talked'], ['data/hna/x.json', '{"a":1}'],
