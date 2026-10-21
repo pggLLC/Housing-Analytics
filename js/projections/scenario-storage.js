@@ -168,6 +168,8 @@
     };
     // Migration from the years before SDO's forecast instead of its forecast.
     if (p.migration_from === 'past') out.migration_from = 'past';
+    // The base year's households per person by age, held, instead of SDO's.
+    if (p.headship === 'held') out.headship = 'held';
     return out;
   }
 

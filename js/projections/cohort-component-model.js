@@ -19,7 +19,9 @@
  * percentage then multiplies that.
  *
  * Households: SDO's households by age of householder, as a rate on people of
- * that age in each year, applied to the scenario's people of that age.
+ * that age in each year, applied to the scenario's people of that age. With
+ * headship 'held' the base year's rates stay as they are every year in place
+ * of the way SDO's forecast moves them (constant headship rates by age).
  *
  * _step below is build_scenario_baseline.py step(); keep the two the same.
  *
@@ -79,7 +81,8 @@
    * Project one county from its baseline file.
    * @param {Object} baseline - data/hna/scenario-baseline/<county>.json
    * @param {Object} [params] - {births_pct, deaths_pct, migration_pct}; 100 = SDO's forecast;
-   *   migration_from 'past' runs the baseline's past migration by age instead
+   *   migration_from 'past' runs the baseline's past migration by age instead;
+   *   headship 'held' keeps the base year's households per person by age
    * @returns {Array<{year, population, households, births, deaths, migration}>}
    *   one row per year from baseYear to endYear; the base year has no flows.
    */
@@ -94,6 +97,7 @@
     if (p.migration_from === 'past' && !past) return [];
     const groups = baseline.households.groups;
     const hhRates = baseline.households.ratesByYear;
+    const held = p.headship === 'held';
 
     let pm = baseline.base.male.slice();
     let pf = baseline.base.female.slice();
@@ -140,7 +144,7 @@
       rows.push({
         year: baseline.baseYear + i + 1,
         population: _sum(pm) + _sum(pf),
-        households: _households(pm, pf, groups, hhRates[i + 1]),
+        households: _households(pm, pf, groups, held ? hhRates[0] : hhRates[i + 1]),
         births: s.births,
         deaths: s.deaths,
         migration: migration,
@@ -224,6 +228,7 @@
         migrationNote: null,
       };
       if (s.migration_from === 'past') out.migration_from = 'past';
+      if (s.headship === 'held') out.headship = 'held';
       return out;
     }
     const fert = _given(s.fertility_multiplier);

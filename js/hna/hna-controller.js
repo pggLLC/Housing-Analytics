@@ -3995,7 +3995,8 @@
       return;
     }
     el.textContent = 'The custom line is this page\u2019s population line plus the change your saved Scenario Builder settings make to the State Demography Office\u2019s forecast, over the chart\u2019s years only.' +
-      (customMeta.migrationNote ? ' ' + customMeta.migrationNote : '');
+      (customMeta.migrationNote ? ' ' + customMeta.migrationNote : '') +
+      (customMeta.headshipNote ? ' ' + customMeta.headshipNote : '');
     el.hidden = false;
   }
 
@@ -4087,6 +4088,11 @@
       color: '#a855f7',
       series: series,
       migrationNote: params.migrationNote || null,
+      // Households per person change homes, not people, so they cannot move
+      // this population line; the reader is told rather than left to wonder.
+      headshipNote: params.headship === 'held'
+        ? 'It also holds households per person at 2024\u2019s, which changes the Scenario Builder\u2019s homes but not the number of people, so it does not move this line.'
+        : null,
     };
     setCustomScenarioDisclosure(meta);
     return meta;
