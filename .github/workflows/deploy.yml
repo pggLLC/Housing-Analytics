@@ -107,6 +107,9 @@ jobs:
       - name: Guard public site artifact
         run: node scripts/audit/public-artifact-guard.mjs dist
 
+      - name: Check site search finds every page
+        run: node test/site-search.test.mjs
+
       - name: Setup Pages
         # actions/configure-pages@v6 SHA (45bfe019…) was unreachable via
         # codeload CDN on 2026-05-26 — fresh major-version tag CDN-propagation
@@ -121,3 +124,12 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      # Same searches on the live site, so a deploy that breaks search shows up red here.
+      - name: Check site search on the live site
+        run: |
+          for i in 1 2 3 4 5 6; do
+            node test/site-search.test.mjs https://cohoanalytics.com/ && exit 0
+            sleep 30
+          done
+          exit 1
