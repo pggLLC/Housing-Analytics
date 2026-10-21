@@ -26,7 +26,7 @@ const PRIVATE_PATHS = [
 ];
 // Text that only private material carries.
 const PRIVATE_TEXT = [
-  { label: 'contact CSV header', re: /^name,[^\n]*\bemail\b[^\n]*\bphone\b/im },
+  { label: 'contact CSV header', re: /^\W*name\W*,[^\n]*\bemail\b[^\n]*\bphone\b/im },
   // A JSON file whose records carry both email and phone keys is a contact
   // list, whatever it is named (public agency lists, if ever added, go in ALLOWED).
   { label: 'JSON contact records (email + phone)', re: /"from_award_lists"\s*:|"email"\s*:[\s\S]*"phone"\s*:|"phone"\s*:[\s\S]*"email"\s*:/, ext: /\.json$/i },
@@ -52,6 +52,16 @@ const CODE_FILE = /\.(js|mjs|cjs|ts|py|sh)$|^developer[a-z-]*\.html$/i;
 const TEXT_EXT = /\.(md|json|csv|txt|html|tsv|yml|yaml)$/i;
 const MAX_TEXT = 30 * 1024 * 1024;
 
+// Bytes to text: UTF-16 exports (with their byte-order mark) and a UTF-8 BOM
+// would otherwise hide a header from the anchored patterns.
+function decode(buf) {
+  if (buf == null) return null;
+  if (typeof buf === 'string') return buf.replace(/^\uFEFF/, '');
+  if (buf[0] === 0xff && buf[1] === 0xfe) return buf.subarray(2).toString('utf16le');
+  if (buf[0] === 0xfe && buf[1] === 0xff) { const b = Buffer.from(buf.subarray(2)); b.swap16(); return b.toString('utf16le'); }
+  return buf.toString('utf8').replace(/^\uFEFF/, '');
+}
+
 // One file: what makes it private, if anything. readText is called only when
 // the content needs checking. The real scan and the self-test both use this.
 function scanFile(f, readText) {
@@ -59,7 +69,7 @@ function scanFile(f, readText) {
   const out = [];
   for (const { label, re } of PRIVATE_PATHS) if (re.test(f)) out.push(`${f}: ${label}`);
   if (!TEXT_EXT.test(f) || CODE_FILE.test(f)) return out;
-  const text = readText();
+  const text = decode(readText());
   if (text == null) return out;
   if (text.length > MAX_TEXT) return out.concat(`${f}: too large to check (${Math.round(text.length / 1048576)} MB); keep exports out of the public repo`);
   for (const { label, re, ext } of PRIVATE_TEXT) if ((!ext || ext.test(f)) && re.test(text)) out.push(`${f}: ${label}`);
@@ -69,7 +79,7 @@ function scanFile(f, readText) {
 const files = execFileSync('git', ['ls-files', '-z'], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }).split('\0').filter(Boolean);
 const findings = [];
 for (const f of files) {
-  findings.push(...scanFile(f, () => { try { return readFileSync(path.join(ROOT, f), 'utf8'); } catch { return null; } }));
+  findings.push(...scanFile(f, () => { try { return readFileSync(path.join(ROOT, f)); } catch { return null; } }));
 }
 
 // On a pull request, also every file the PR's own commits added or changed,
@@ -77,6 +87,7 @@ for (const f of files) {
 const base = process.env.GITHUB_BASE_REF;
 if (base) {
   const git = (...a) => execFileSync('git', a, { cwd: ROOT, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
+  const blob = (sha) => execFileSync('git', ['cat-file', '-p', sha], { cwd: ROOT, maxBuffer: 256 * 1024 * 1024 });
   let raw = '';
   // -z: paths unquoted, NUL-separated. --diff-merges=remerge: a merge commit's
   // own conflict resolution counts too, without re-listing the base's changes.
@@ -86,7 +97,7 @@ if (base) {
     const m = parts[i].match(/^\n*:\d+ \d+ [0-9a-f]+ ([0-9a-f]+) [AMT]$/);
     if (!m) continue;
     const f = parts[++i];
-    for (const x of scanFile(f, () => { try { return git('cat-file', '-p', m[1]); } catch { return null; } })) findings.push(`${x} (in this PR's history)`);
+    for (const x of scanFile(f, () => { try { return blob(m[1]); } catch { return null; } })) findings.push(`${x} (in this PR's history)`);
   }
 }
 
@@ -102,7 +113,8 @@ const mustCatch = [
   ['data/jurisdiction-briefs/_round-watch-contacts.json'], ['docs/developer-pipeline-prototype/04-network.csv'],
   ['dossiers/bayfield-750-orchard/index.html'], ['data/ripeness.json'], ['docs/Bayfield-Partnership-Terms-750-Orchard-Drive.pdf'],
   ['notes/bayfield-call-sheet.md'], ['data/x.docx'], ['data/café-contacts.json'], ['x/contact.tsv'], ['data/notes.md', '## Proposed partnership terms\n'],
-  ['data/people.csv', 'name,org,email,phone\n'],
+  ['data/people.csv', 'name,org,email,phone\n'], ['data/bom.csv', Buffer.from('\uFEFFname,org,email,phone\nPat,X,p@x,1\n', 'utf8')],
+  ['data/u16.csv', Buffer.concat([Buffer.from([0xff, 0xfe]), Buffer.from('name,org,email,phone\n', 'utf16le')])], ['data/q.csv', '"Name","Org","Email","Phone"\n'],
   ['test/fixtures/private-contact-leak.csv', 'name,org,email,phone\nPat,Org,pat@example.com,555\n'],
   ['scripts/data/network.json', '{"relationship_tier": "warm"}'], ['.github/notes.md', '# Call sheet\n'],
   ['data/jurisdiction-briefs/round-watch-contacts.json'], ['data/exports/bayfield-contacts.csv'], ['notes/x.pptx'],
