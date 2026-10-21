@@ -283,6 +283,9 @@ ok(typo.status === 'unmatched' && SR.gapLane(rules, { mix: { 50: 10, 60: 40 } },
 ok(SR.prop123Status(prop123, 'Highlands Ranch').status === 'unmatched' && /enter its county/.test(SR.prop123Status(prop123, 'Highlands Ranch').text), 'an unincorporated place asks for its county');
 ok(SR.prop123Status(prop123, 'Jackson County').status === 'no', 'a real county not on DOLA\'s list is not eligible');
 ok(SR.prop123Status(prop123, 'Lake City').status !== 'unmatched', 'a town whose name ends in "City" still matches');
+// Codex review on fc2a5fd1e: "City" inside a CDP's proper name is not a legal form.
+const coCity = SR.prop123Status(prop123, 'Colorado City');
+ok(coCity.status === 'unmatched' && /enter its county/.test(coCity.text), 'Colorado City CDP asks for its county instead of a spelling check');
 const noReg = Object.assign({}, prop123, { places: undefined });
 ok(SR.prop123Status(noReg, 'Town of Aguilar').status === 'unmatched', 'without the Census place list an unlisted town stays unresolved');
 const normExp = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?rate-9=0.09', outputs: {}, inputs: { units: '10', 'units-40': '-5', 'units-60': '2.9' } });

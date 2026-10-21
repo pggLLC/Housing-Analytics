@@ -258,10 +258,10 @@
     var consolidated = /^(denver|broomfield)$/.test(bare(q));
     if (consolidated) { /* keep the single consolidated record */ }
     else if (/\bcounty\b/.test(q)) same = same.filter(function (j) { return j.kind === 'county'; });
-    else if (/\b(city|town)\b/.test(q)) same = same.filter(function (j) { return j.kind !== 'county'; });
+    else if (muniForm(q)) same = same.filter(function (j) { return j.kind !== 'county'; });
     if (same.length > 1) return { ambiguous: same.map(function (j) { return j.name; }) }; // e.g. "Pueblo": the city or the county
     // A bare name can be both a county and a city or town even when only one of them is on DOLA's list ("Alamosa").
-    if (!/\b(county|city|town)\b/.test(q)) {
+    if (!/\bcounty\b/.test(q) && !muniForm(q)) {
       var b = bare(q);
       var isCounty = CO_COUNTIES.some(function (c) { return c.toLowerCase() === b; });
       var isPlace = (prop123.places || []).some(function (n) { return !/ CDP$/.test(n) && gazName(n) === b; });
@@ -273,6 +273,8 @@
     return same[0] || null;
   }
 
+  // Only a legal form ("City of Lamar", "Town of Lyons") marks a municipality; "Colorado City" and "Lake City" are proper names.
+  function muniForm(q) { return /^(city and county of|city of|town of)\s/.test(String(q).toLowerCase().trim()); }
   function bare(n) { return String(n).toLowerCase().trim().replace(/^(city and county of|city of|town of|county of)\s+/, '').replace(/\s+county$/, ''); }
   // Census Gazetteer names end in "city", "town" or "CDP" ("Lake City town", "Canon City city").
   function gazName(n) { return String(n).toLowerCase().replace(/\s+(city|town|cdp)$/, ''); }
@@ -283,7 +285,7 @@
     var county = CO_COUNTIES.some(function (c) { return c.toLowerCase() === b; });
     if (/\bcounty\b/.test(q)) return county ? 'county' : null;
     var hit = (prop123.places || []).filter(function (n) { return gazName(n) === b; });
-    if (/\b(city|town)\b/.test(q)) hit = hit.filter(function (n) { return !/ CDP$/.test(n); });
+    if (muniForm(q)) hit = hit.filter(function (n) { return !/ CDP$/.test(n); });
     if (hit.some(function (n) { return !/ CDP$/.test(n); })) return 'municipality';
     if (hit.length) return 'cdp';
     return county ? 'county' : null;
