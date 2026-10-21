@@ -1,0 +1,545 @@
+{
+ "slug": "harvest-hill-broomfield",
+ "name": "Harvest Hill",
+ "city": "Broomfield",
+ "county": "Broomfield",
+ "award": "2024 Federal 4% and noncompetitive state housing tax credits",
+ "units": 152,
+ "researched_on": "2026-10-21",
+ "headline": "Ulysses Development Group is building Harvest Hill, 152 new one- to three-bedroom apartments for households at 30% to 70% AMI at 11801 Wadsworth Blvd. in Broomfield, a quarter mile from RTD's Broomfield Station. It won a 2024-cycle federal 4% credit plus $800,000 of noncompetitive state credit from CHFA, with $31.5M of CHFA bonds.",
+ "why_it_matters": "A transit-oriented 4% bond deal that closed by stacking CHFA bonds and credits with city money, DOLA HOME funds and Section 811 vouchers, state More Housing Now and Colorado Clean Energy Fund money; it is now pre-leasing for November 2026 move-ins.",
+ "status": {
+  "label": "Financing closed (April 2025), under construction; pre-leasing for November 2026 move-ins",
+  "detail": "Mile High CRE reported the construction and permanent financing closing on 2025-04-14 and the groundbreaking on 2025-06-17; the architect reported framing in progress in November 2025, and the management company's site was pre-leasing for November 2026 move-ins as of 2026-10-21. Completion or a certificate of occupancy is not confirmed by a public record.",
+  "src": [
+   "milehighcre-2025-04-14",
+   "milehighcre-2025-06-18",
+   "kephart-update-2025-11",
+   "missionrock-leasing"
+  ]
+ },
+ "next_step": "Watch for a certificate of occupancy and first move-ins (November 2026 targeted by the leasing site; spring 2027 in the 2025 financing reports).",
+ "key_numbers": [
+  {
+   "value": "152 homes, all income-restricted",
+   "meaning": "48 one-, 68 two- and 36 three-bedroom units; 8 at 30%, 11 at 50%, 101 at 60% and 32 at 70% AMI (averaging about 60% AMI, computed).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$2,182,105 a year in federal 4% credit, plus $800,000 state credit",
+   "meaning": "Federal credit runs 10 years; amounts are marked subject to change. News reports put the credits at about $20M federal and $4.8M state.",
+   "src": [
+    "chfa-4pct-award",
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "value": "$31,461,443 in CHFA tax-exempt bonds",
+   "meaning": "CHFA is the bond issuer; U.S. Bank provided about $42M of construction loans and the tax credit equity.",
+   "src": [
+    "chfa-4pct-award",
+    "trd-2025-04-23",
+    "milehighcre-2025-04-14"
+   ]
+  },
+  {
+   "value": "About $67 million of financing",
+   "meaning": "Total financing reported at closing in April 2025.",
+   "src": [
+    "trd-2025-04-23"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "11801 Wadsworth Blvd., Broomfield 80020",
+   "src": [
+    "chfa-4pct-award",
+    "missionrock-leasing",
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; not in a QCT, DDA or SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "152 total, 152 low-income",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Site and building",
+   "value": "5.77 acres, about 26 units per acre; four-story center-hall building of about 160,000 sq ft; 255 parking spaces; average unit about 867 sq ft (units 624 to 1,161 sq ft)",
+   "src": [
+    "kephart-portfolio",
+    "kephart-update-2025-11",
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "About a quarter mile from RTD's Broomfield Station on US 36",
+   "src": [
+    "milehighcre-2025-06-18",
+    "cbs-2025-06-17"
+   ]
+  },
+  {
+   "item": "Amenities",
+   "value": "About 3,500 sq ft of shared space (clubroom, work-from-home lounge, children's playroom), two courtyards, playground, indoor storage for over 75 bikes, solar panels for common-area power; NGBS certification targeted",
+   "src": [
+    "kephart-update-2025-11",
+    "kephart-portfolio"
+   ]
+  },
+  {
+   "item": "Supportive units",
+   "value": "Eight Section 811 vouchers from DOLA for people who are or are at risk of being homeless",
+   "src": [
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "item": "Starting rents (leasing site, with a one-month-free concession annualized)",
+   "value": "1BR from $1,212, 2BR from $1,445, 3BR from $1,658",
+   "src": [
+    "missionrock-leasing"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 11
+  },
+  {
+   "level": "60% AMI",
+   "units": 101
+  },
+  {
+   "level": "70% AMI",
+   "units": 32
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 48
+  },
+  {
+   "type": "2BR",
+   "units": 68
+  },
+  {
+   "type": "3BR",
+   "units": 36
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,182,105 per year",
+   "note": "2024 cycle; amounts marked subject to change. Reported as over $20M of federal credits, with equity from U.S. Bank.",
+   "src": [
+    "chfa-4pct-award",
+    "milehighcre-2025-04-14"
+   ]
+  },
+  {
+   "source": "Noncompetitive state housing tax credit",
+   "amount": "$800,000",
+   "note": "Reported as $4.8M of accelerated state credits (consistent with $800,000 a year over six years, inferred).",
+   "src": [
+    "chfa-4pct-award",
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA)",
+   "amount": "$31,461,443",
+   "note": "Whose bond cap is not stated publicly.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Construction loans (U.S. Bank)",
+   "amount": "About $42M",
+   "note": "",
+   "src": [
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "source": "City and County of Broomfield",
+   "amount": "$2M per Mile High CRE; $4M per The Real Deal",
+   "note": "Form (loan, grant or fee relief) not stated.",
+   "src": [
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "source": "More Housing Now grant (DOLA Division of Local Government)",
+   "amount": "$2M",
+   "note": "",
+   "src": [
+    "milehighcre-2025-04-14"
+   ]
+  },
+  {
+   "source": "HOME Investment Partnerships funds (DOLA)",
+   "amount": "$2.6M",
+   "note": "Plus eight Section 811 vouchers.",
+   "src": [
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "source": "Colorado Clean Energy Fund",
+   "amount": "$1.8M",
+   "note": "$650,000 from its Affordable Housing Investment Funds and $1.15M of Clean Conversion Loan funds.",
+   "src": [
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Ulysses Development Group LLC",
+   "src": [
+    "chfa-4pct-award",
+    "milehighcre-2025-04-14"
+   ]
+  },
+  {
+   "role": "Bond issuer and credit allocator",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Tax credit investor and construction lender",
+   "name": "U.S. Bank",
+   "src": [
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Kephart",
+   "src": [
+    "kephart-portfolio",
+    "kephart-update-2025-11"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Taylor Kohrs",
+   "src": [
+    "kephart-update-2025-11"
+   ]
+  },
+  {
+   "role": "Property manager (leasing site)",
+   "name": "Mission Rock Residential",
+   "src": [
+    "missionrock-leasing"
+   ]
+  },
+  {
+   "role": "Local funder",
+   "name": "City and County of Broomfield",
+   "src": [
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "role": "State funder (HOME, Section 811 vouchers, More Housing Now)",
+   "name": "Colorado Department of Local Affairs",
+   "src": [
+    "milehighcre-2025-04-14"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "In February 2023 BizWest reported that Ulysses Development Group planned a 52-apartment workforce project called Harvest Station, for households up to 80% AMI, at the northwest corner of Wadsworth Boulevard and 118th Avenue, with a PUD amendment, final plat and site development plan before Broomfield's Land Use Review Committee. This is inferred to be an earlier version of the Harvest Hill site, given the same developer and corner; the outcome of that review was not found.",
+   "src": [
+    "bizwest-2023-02-27"
+   ]
+  },
+  {
+   "text": "Ulysses closed construction and permanent financing in April 2025, with groundbreaking then set for 2025-06-11; the ceremony was held on 2025-06-17 with Broomfield's mayor, state legislators and DOLA and CHFA staff.",
+   "src": [
+    "milehighcre-2025-04-14",
+    "milehighcre-2025-06-18",
+    "cbs-2025-06-17"
+   ]
+  },
+  {
+   "text": "The architect reported that construction, led by Taylor Kohrs, began in May 2025 and that framing was in progress by November 2025.",
+   "src": [
+    "kephart-update-2025-11"
+   ]
+  },
+  {
+   "text": "The groundbreaking coverage cites Broomfield's 2025 housing strategy finding that 62% of households are cost-burdened.",
+   "src": [
+    "milehighcre-2025-06-18"
+   ]
+  },
+  {
+   "text": "No public document found shows the deal in CHFA's 2024 competitive rounds (Round One applicants, Round Two applicants or awards).",
+   "src": [
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r2-applicants",
+    "chfa-2024-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-02-27",
+   "event": "BizWest reports Ulysses' 52-unit Harvest Station plan at Wadsworth and 118th going to Broomfield land-use review (inferred earlier version of the site)",
+   "src": [
+    "bizwest-2023-02-27"
+   ]
+  },
+  {
+   "date": "2025-04-14",
+   "event": "Construction and permanent financing closing reported (about $67M)",
+   "src": [
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "date": "2025-05",
+   "event": "Construction begins, per the architect",
+   "src": [
+    "kephart-update-2025-11"
+   ]
+  },
+  {
+   "date": "2025-06-17",
+   "event": "Groundbreaking ceremony",
+   "src": [
+    "milehighcre-2025-06-18",
+    "cbs-2025-06-17"
+   ]
+  },
+  {
+   "date": "2025-11-10",
+   "event": "Architect reports framing in progress",
+   "src": [
+    "kephart-update-2025-11"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2024",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-10",
+   "event": "Leasing site pre-leasing for November 2026 move-ins",
+   "src": [
+    "missionrock-leasing"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Completion targeted for spring 2027 in 2025 financing reports; developer page says end of 2026",
+   "src": [
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23",
+    "udg-project"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Harvest Hill project sheet with renderings",
+   "url": "https://kephart.com/wp-content/uploads/Harvest-Hill.pdf",
+   "kind": "rendering",
+   "made_by": "Kephart (architect)",
+   "note": "Project sheet PDF, page 1",
+   "src": [
+    "kephart-sheet"
+   ]
+  },
+  {
+   "title": "Harvest Hill portfolio images",
+   "url": "https://kephart.com/portfolio/harvest-hill/",
+   "kind": "rendering",
+   "made_by": "Kephart (architect)",
+   "note": "Image gallery at top of the portfolio page",
+   "src": [
+    "kephart-portfolio"
+   ]
+  },
+  {
+   "title": "Construction progress images",
+   "url": "https://kephart.com/project-update-harvest-hill-thoughtful-affordable-living/",
+   "kind": "photo",
+   "made_by": "Kephart (architect)",
+   "note": "Four images in the November 2025 project update",
+   "src": [
+    "kephart-update-2025-11"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "Mile High CRE reports a $2M contribution from the City and County of Broomfield, while The Real Deal reports $4M.",
+   "src": [
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23"
+   ]
+  },
+  {
+   "text": "The 2025 financing reports target completion in spring 2027, while the developer's project page says end of 2026 and the leasing site offers November 2026 move-ins.",
+   "src": [
+    "milehighcre-2025-04-14",
+    "trd-2025-04-23",
+    "udg-project",
+    "missionrock-leasing"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Broomfield council or land-use approvals (PUD amendment, plat, site development plan) and resolution numbers for the site, and the form and terms of the city's $2M or $4M contribution.",
+  "Whose private activity bond cap backs the $31.5M CHFA bonds.",
+  "Land seller, price and date; any ground lease or housing authority partnership for a property tax exemption.",
+  "Total development cost, permanent lender and the length of the affordability covenant.",
+  "Certificate of occupancy date and lease-up progress."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-applicants",
+   "title": "2024 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "milehighcre-2025-04-14",
+   "title": "$33M+ Secured for Transit-Oriented Affordable Housing in Broomfield",
+   "publisher": "Mile High CRE",
+   "date": "2025-04-14",
+   "url": "https://milehighcre.com/33m-secured-for-transit-oriented-affordable-housing-in-broomfield/"
+  },
+  {
+   "id": "trd-2025-04-23",
+   "title": "Ulysses scores $67M in financing to build affordable homes near Denver",
+   "publisher": "The Real Deal",
+   "date": "2025-04-23",
+   "url": "https://therealdeal.com/national/denver/2025/04/23/ulysses-scores-67-million-for-affordable-homes-near-denver/"
+  },
+  {
+   "id": "milehighcre-2025-06-18",
+   "title": "Groundbreaking: Harvest Hill Affordable Housing in Broomfield",
+   "publisher": "Mile High CRE",
+   "date": "2025-06-18",
+   "url": "https://milehighcre.com/groundbreaking-harvest-hill-affordable-housing-in-broomfield/"
+  },
+  {
+   "id": "cbs-2025-06-17",
+   "title": "Broomfield leaders help break ground on new affordable housing complex in the Colorado city",
+   "publisher": "CBS Colorado",
+   "date": "2025-06-17",
+   "url": "https://www.cbsnews.com/colorado/news/harvest-hill-broomfield-groundbreaking-affordable-housing/"
+  },
+  {
+   "id": "kephart-portfolio",
+   "title": "Harvest Hill (portfolio page)",
+   "publisher": "Kephart",
+   "date": "2025",
+   "url": "https://kephart.com/portfolio/harvest-hill/"
+  },
+  {
+   "id": "kephart-sheet",
+   "title": "Harvest Hill (project sheet PDF)",
+   "publisher": "Kephart",
+   "date": "2025",
+   "url": "https://kephart.com/wp-content/uploads/Harvest-Hill.pdf"
+  },
+  {
+   "id": "kephart-update-2025-11",
+   "title": "Project Update: Harvest Hill, Thoughtful Affordable Living",
+   "publisher": "Kephart",
+   "date": "2025-11-10",
+   "url": "https://kephart.com/project-update-harvest-hill-thoughtful-affordable-living/"
+  },
+  {
+   "id": "udg-project",
+   "title": "Harvest Hill (project page)",
+   "publisher": "Ulysses Development Group",
+   "date": "2026",
+   "url": "https://ulyssesdevelopment.com/communities/harvest-hill/"
+  },
+  {
+   "id": "missionrock-leasing",
+   "title": "Harvest Hill apartments in Broomfield (leasing site)",
+   "publisher": "Mission Rock Residential",
+   "date": "2026-10",
+   "url": "https://www.missionrockresidential.com/apartments/co/broomfield/harvest-hill/"
+  },
+  {
+   "id": "bizwest-2023-02-27",
+   "title": "Denver developer plans workforce-housing apartments in Broomfield",
+   "publisher": "BizWest",
+   "date": "2023-02-27",
+   "url": "https://bizwest.com/2023/02/27/denver-developer-plans-workforce-housing-apartments-in-broomfield/"
+  }
+ ]
+}

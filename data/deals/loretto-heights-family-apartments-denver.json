@@ -1,0 +1,516 @@
+{
+ "slug": "loretto-heights-family-apartments-denver",
+ "name": "Loretto Heights Family Apartments (Astraea at Loretto Heights)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2024 Federal 4% and noncompetitive state housing tax credits",
+ "units": 100,
+ "researched_on": "2026-10-21",
+ "headline": "Mercy Housing Mountain Plains is building Loretto Heights Family Apartments, now branded Astraea at Loretto Heights, 100 new one- to three-bedroom family apartments for households at 30% to 70% AMI on the former Loretto Heights University campus in southwest Denver. It won a 2024-cycle federal 4% credit plus $800,000 of noncompetitive state credit from CHFA, financed with Denver-issued bonds.",
+ "why_it_matters": "A Denver 4% deal with a clean public paper trail: city bond inducement, bond ordinance and a $3.78M linkage-fee gap loan with a 60-year covenant, all in Legistar, showing a roughly $44.5M budget for 100 family units.",
+ "status": {
+  "label": "Under construction (groundbreaking March 2026, topped out by July 2026); pre-leasing from December 2026",
+  "detail": "Mercy Housing reported the groundbreaking in March 2026 and the topping-off in July 2026, with pre-leasing expected in December 2026 and first residents in March 2027. The bond and loan closing date is not shown in a public record found.",
+  "src": [
+   "mercy-2026-04-27",
+   "mercy-2026-07-28",
+   "astraea-leasing"
+  ]
+ },
+ "next_step": "Watch for the start of pre-leasing in December 2026 and a certificate of occupancy ahead of March 2027 move-ins.",
+ "key_numbers": [
+  {
+   "value": "100 homes, all income-restricted",
+   "meaning": "45 one-, 31 two- and 24 three-bedroom units; 15 at 30%, 8 at 50%, 44 at 60% and 33 at 70% AMI (weighted average 58% AMI).",
+   "src": [
+    "chfa-4pct-award",
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "value": "$1,965,071 a year in federal 4% credit, plus $800,000 state credit",
+   "meaning": "Federal credit runs 10 years; amounts are marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$22,124,000 in Denver multifamily housing revenue bonds",
+   "meaning": "Issued from Denver's private activity bond cap; the council authorized up to $23M tax-exempt plus up to $5M taxable, bought by U.S. Bank.",
+   "src": [
+    "chfa-4pct-award",
+    "denver-ord-25-1226",
+    "denver-br-25-1226"
+   ]
+  },
+  {
+   "value": "About $44.5M budget, with a $3.78M city gap loan",
+   "meaning": "Denver Housing Stability loan from the Affordable Housing Fund (linkage fee), 1% simple interest, 20-year term, 60-year covenant.",
+   "src": [
+    "denver-loan-25-1275"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA prints 2934 S Pancratia Street, Denver 80236; the city's bond ordinance, loan agreement and Mercy's leasing site give 2980 S Pancratia Street",
+   "src": [
+    "chfa-4pct-award",
+    "denver-rr-25-0970",
+    "denver-ord-25-1226",
+    "denver-loan-25-1275",
+    "astraea-leasing"
+   ]
+  },
+  {
+   "item": "Legal description",
+   "value": "Lot 1, Block 6 and Lot 7, Block 3, Loretto Heights Filing No. 1",
+   "src": [
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; in a QCT; not in a DDA or SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "100 total, 100 low-income",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Five-story building on the Loretto Heights campus redevelopment in Harvey Park South, across from historic Pancratia Hall",
+   "src": [
+    "bisnow-2025-07-23",
+    "mercy-2026-04-27"
+   ]
+  },
+  {
+   "item": "Amenities and services",
+   "value": "Community lounge and patio, fitness center, indoor bike lockers, youth activity room, EV charging; resident services such as adult education, computer courses, after-school tutoring and job search help",
+   "src": [
+    "mercy-2026-04-27",
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "item": "Accessibility",
+   "value": "At least 5% of units built accessible for mobility disabilities, plus 2% for hearing or vision disabilities, under the city loan",
+   "src": [
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "item": "Ownership entity",
+   "value": "MHMP 20 Loretto LLLP (Mercy Housing Mountain Plains affiliate)",
+   "src": [
+    "denver-ord-25-1226",
+    "denver-loan-25-1275"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 15
+  },
+  {
+   "level": "50% AMI",
+   "units": 8
+  },
+  {
+   "level": "60% AMI",
+   "units": 44
+  },
+  {
+   "level": "70% AMI",
+   "units": 33
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 45
+  },
+  {
+   "type": "2BR",
+   "units": 31
+  },
+  {
+   "type": "3BR",
+   "units": 24
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "denver-loan-25-1275"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,965,071 per year",
+   "note": "2024 cycle; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Noncompetitive state housing tax credit",
+   "amount": "$800,000",
+   "note": "",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt multifamily housing revenue bonds (City and County of Denver), Series 2025A",
+   "amount": "$22,124,000 per CHFA; not to exceed $23,000,000 per the ordinance",
+   "note": "Uses Denver's private activity bond cap allocated by DOLA; U.S. Bank National Association is the initial bondholder and construction lender.",
+   "src": [
+    "chfa-4pct-award",
+    "denver-ord-25-1226",
+    "denver-br-25-1226",
+    "denver-rr-25-0970"
+   ]
+  },
+  {
+   "source": "Taxable multifamily housing revenue bonds (Denver), Series 2025B",
+   "amount": "Not to exceed $5,000,000",
+   "note": "Final amount not shown.",
+   "src": [
+    "denver-ord-25-1226"
+   ]
+  },
+  {
+   "source": "Denver Department of Housing Stability cash-flow loan",
+   "amount": "$3,782,000",
+   "note": "Affordable Housing Fund (linkage fee); 1% simple interest; due 240 months after the note; 60-year rental and occupancy covenant; senior debt capped at $31.7M construction and $16M permanent.",
+   "src": [
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "source": "Total development budget",
+   "amount": "$44,507,565",
+   "note": "Budget table in the city loan agreement, including $27,848,760 hard costs and site work, $2,435,545 land and buildings and $4,373,026 developer fee.",
+   "src": [
+    "denver-loan-25-1275"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Mercy Housing Mountain Plains",
+   "src": [
+    "chfa-4pct-award",
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "role": "Borrower and owner entity",
+   "name": "MHMP 20 Loretto LLLP",
+   "src": [
+    "denver-ord-25-1226",
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "City and County of Denver",
+   "src": [
+    "chfa-4pct-award",
+    "denver-ord-25-1226"
+   ]
+  },
+  {
+   "role": "Initial bondholder and construction lender",
+   "name": "U.S. Bank National Association",
+   "src": [
+    "denver-ord-25-1226",
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "role": "Gap lender",
+   "name": "Denver Department of Housing Stability",
+   "src": [
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "role": "Named as a senior lender in a subordination agreement form attached to the city loan (loan terms not shown)",
+   "name": "Mercy Housing, Inc.",
+   "src": [
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "role": "Bond counsel (prepared the ordinance)",
+   "name": "Kutak Rock LLP",
+   "src": [
+    "denver-ord-25-1226"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Denver City Council adopted resolution CR25-0970 on 2025-07-21, stating the city's intent to issue up to $23M of multifamily housing revenue bonds for the project from its private activity bond cap.",
+   "src": [
+    "denver-rr-25-0970",
+    "denver-legistar-25-0970"
+   ]
+  },
+  {
+   "text": "Council Bill 25-1226, authorizing up to $23M of tax-exempt Series 2025A and up to $5M of taxable Series 2025B bonds, was passed by council on 2025-09-22 and signed on 2025-09-23.",
+   "src": [
+    "denver-ord-25-1226",
+    "denver-legistar-25-1226"
+   ]
+  },
+  {
+   "text": "Council adopted resolution 25-1275 on 2025-09-22 approving the $3,782,000 Housing Stability loan to MHMP 20 Loretto LLLP; the agreement set a loan closing deadline of 2026-06-30 and excluded costs incurred before 2025-06-26.",
+   "src": [
+    "denver-legistar-25-1275",
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "text": "The site is part of the 70-acre Loretto Heights campus redevelopment, whose rezoning and development agreement with ACM Loretto VI, LLC, the Loretto Heights metropolitan districts and Pancratia Hall Partners was passed as Council Bill 21-0352 on 2021-05-10; the land seller and price for this parcel are not shown in the records found.",
+   "src": [
+    "denver-legistar-21-0352",
+    "denver-loan-25-1275"
+   ]
+  },
+  {
+   "text": "Mercy chose the name Astraea, linking it to the Sisters of Mercy and the Sisters of Loretto; the project sits across from Pancratia Hall, a separate 72-unit affordable conversion.",
+   "src": [
+    "mercy-2026-04-27"
+   ]
+  },
+  {
+   "text": "No public document found shows the deal in CHFA's 2024 competitive rounds (Round One applicants, Round Two applicants or awards).",
+   "src": [
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r2-applicants",
+    "chfa-2024-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-05-10",
+   "event": "Council passes the Loretto Heights rezoning and development agreement (CB 21-0352)",
+   "src": [
+    "denver-legistar-21-0352"
+   ]
+  },
+  {
+   "date": "2025-06-27",
+   "event": "Department of Finance requests the bond inducement resolution",
+   "src": [
+    "denver-rr-25-0970"
+   ]
+  },
+  {
+   "date": "2025-07-21",
+   "event": "Council adopts inducement resolution CR25-0970 (up to $23M of bonds)",
+   "src": [
+    "denver-legistar-25-0970"
+   ]
+  },
+  {
+   "date": "2025-07-23",
+   "event": "Bisnow reports council approval of up to $23M in bonds",
+   "src": [
+    "bisnow-2025-07-23"
+   ]
+  },
+  {
+   "date": "2025-09-22",
+   "event": "Council passes bond ordinance CB 25-1226 and adopts loan resolution 25-1275 ($3,782,000)",
+   "src": [
+    "denver-ord-25-1226",
+    "denver-legistar-25-1226",
+    "denver-legistar-25-1275"
+   ]
+  },
+  {
+   "date": "2026-03",
+   "event": "Groundbreaking ceremony; construction begins",
+   "src": [
+    "mercy-2026-04-27"
+   ]
+  },
+  {
+   "date": "2026-07-28",
+   "event": "Mercy reports topping-off",
+   "src": [
+    "mercy-2026-07-28"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2024",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-12",
+   "event": "Pre-leasing expected to begin",
+   "src": [
+    "astraea-leasing",
+    "mercy-2026-07-28"
+   ]
+  },
+  {
+   "date": "2027-03",
+   "event": "First residents expected",
+   "src": [
+    "mercy-2026-07-28"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA and the city's inducement request give the address as 2934 S Pancratia Street, while the inducement resolution, bond ordinance, loan agreement and Mercy's leasing site give 2980 S Pancratia Street.",
+   "src": [
+    "chfa-4pct-award",
+    "denver-rr-25-0970",
+    "denver-ord-25-1226",
+    "denver-loan-25-1275",
+    "astraea-leasing"
+   ]
+  }
+ ],
+ "open_questions": [
+  "The bond and loan closing date and final bond amounts by series.",
+  "Land seller, price and date for Lot 1, Block 6 and Lot 7, Block 3 of Loretto Heights Filing No. 1 (the budget carries $2.44M for land and buildings).",
+  "Permanent lender, tax credit investor and any state funds (DOLA) in the capital stack.",
+  "General contractor and architect.",
+  "Public site plans or renderings in a Denver site development plan record (none found)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-applicants",
+   "title": "2024 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "denver-rr-25-0970",
+   "title": "Resolution request, PAB inducement, Loretto Heights (RR25-0970)",
+   "publisher": "City and County of Denver, Department of Finance",
+   "date": "2025-06-27",
+   "url": "https://denver.legistar1.com/denver/attachments/831d5dcb-61e3-416f-8bcb-baf1bf215efe.docx"
+  },
+  {
+   "id": "denver-legistar-25-0970",
+   "title": "Legistar matter 25-0970: inducement resolution, Loretto Heights Family Apartments (adopted 2025-07-21)",
+   "publisher": "City and County of Denver (Legistar API)",
+   "date": "2025-07-21",
+   "url": "https://webapi.legistar.com/v1/denver/matters/27587"
+  },
+  {
+   "id": "denver-br-25-1226",
+   "title": "Bill request, Loretto Heights private activity bond issuance (BR25-1226)",
+   "publisher": "City and County of Denver, Department of Finance",
+   "date": "2025-08-15",
+   "url": "https://denver.legistar1.com/denver/attachments/8d5d76cd-a936-48f3-b2a0-00be35d76b5c.docx"
+  },
+  {
+   "id": "denver-ord-25-1226",
+   "title": "Council Bill 25-1226, bond ordinance, Loretto Heights Family Apartments (signed)",
+   "publisher": "City and County of Denver",
+   "date": "2025-09-23",
+   "url": "https://denver.legistar1.com/denver/attachments/ce9f24c7-b20b-4f9a-9f21-9285a5ebeec1.pdf"
+  },
+  {
+   "id": "denver-legistar-25-1226",
+   "title": "Legistar matter 25-1226: bond ordinance (passed)",
+   "publisher": "City and County of Denver (Legistar API)",
+   "date": "2025-09-23",
+   "url": "https://webapi.legistar.com/v1/denver/matters/27831"
+  },
+  {
+   "id": "denver-loan-25-1275",
+   "title": "Loan Agreement, City and County of Denver and MHMP 20 Loretto LLLP (HOST-202580935), vendor-signed",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2025",
+   "url": "https://denver.legistar1.com/denver/attachments/97d5e095-b05f-4eaf-b705-3b20cdc3e28c.pdf"
+  },
+  {
+   "id": "denver-legistar-25-1275",
+   "title": "Legistar matter 25-1275: loan agreement resolution (adopted 2025-09-22)",
+   "publisher": "City and County of Denver (Legistar API)",
+   "date": "2025-09-22",
+   "url": "https://webapi.legistar.com/v1/denver/matters/27875"
+  },
+  {
+   "id": "denver-legistar-21-0352",
+   "title": "Legistar matter 21-0352: Loretto Heights rezoning and IMP development agreement (passed 2021-05-10)",
+   "publisher": "City and County of Denver (Legistar API)",
+   "date": "2021-05-10",
+   "url": "https://webapi.legistar.com/v1/denver/matters/17873"
+  },
+  {
+   "id": "bisnow-2025-07-23",
+   "title": "65 Acres Released At Peña Station for Build-to-Suit Projects: The Denver Deal Sheet",
+   "publisher": "Bisnow",
+   "date": "2025-07-23",
+   "url": "https://www.bisnow.com/news/denver/construction-development/pena-station-development-65-acres-130261"
+  },
+  {
+   "id": "mercy-2026-04-27",
+   "title": "Reaching for new heights: Breaking ground on Astraea",
+   "publisher": "Mercy Housing",
+   "date": "2026-04-27",
+   "url": "https://www.mercyhousing.org/2026/04/breaking-ground-on-astraea/"
+  },
+  {
+   "id": "mercy-2026-07-28",
+   "title": "Astraea at Loretto Heights reaches new heights with topping-off milestone",
+   "publisher": "Mercy Housing",
+   "date": "2026-07-28",
+   "url": "https://www.mercyhousing.org/2026/07/astraea-at-loretto-heights-reaches-new-heights-with-topping-off-milestone/"
+  },
+  {
+   "id": "astraea-leasing",
+   "title": "Astraea at Loretto Heights (leasing site)",
+   "publisher": "Mercy Housing",
+   "date": "2026-10",
+   "url": "https://astraea.liveinhope.org/"
+  }
+ ]
+}
