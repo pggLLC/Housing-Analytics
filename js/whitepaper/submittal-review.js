@@ -139,9 +139,8 @@
     var tables = rules.targeting.tables || {};
     return (tables[election] || tables['40-60'] || { rows: [60, 50, 40] }).rows;
   }
-  // QAP 5.A.1 note: without project-based rental assistance or operating subsidies, no more than 60% of the low-income
-  // units count in the 40% row; the rest still serve tenants at or below 50% AMI, so they score in the 50% row.
-  function targetingPoints(rules, mix, election, subsidy) {
+  // The Third Draft strikes the 5.A.1 note that capped the 40% row at 60% of low-income units (red strikethrough, printed pp. 41-42).
+  function targetingPoints(rules, mix, election) {
     var w = rules.targeting.weights, t = mixTotals(mix, election), allowed = electionRows(rules, election || '40-60');
     if (!t.restricted) return { points: 0, rows: [] };
     var rows = [{ tier: 40, units: 0 }, { tier: 50, units: 0 }, { tier: 60, units: 0 }];
@@ -149,17 +148,12 @@
       var u = num(mix[tier]) || 0;
       if (tier <= 40) rows[0].units += u; else if (tier <= 50) rows[1].units += u; else if (tier <= 60) rows[2].units += u;
     });
-    var cap = rules.targeting.forty_cap, moved = 0;
-    if (cap && !subsidy) {
-      var most = Math.floor(cap.share * t.restricted + 1e-9);
-      if (rows[0].units > most) { moved = rows[0].units - most; rows[0].units = most; rows[1].units += moved; }
-    }
     var total = 0;
     rows.forEach(function (r) {
       r.share = r.units / t.restricted; r.inTable = allowed.indexOf(r.tier) !== -1;
       r.weight = r.inTable ? w[r.tier] : 0; r.points = r.share * r.weight; total += r.points;
     });
-    return { points: total, rows: rows, restricted: t.restricted, election: election || '40-60', moved: moved };
+    return { points: total, rows: rows, restricted: t.restricted, election: election || '40-60' };
   }
 
   // Both readings of the Third Draft's "Up to" bands; the lower one counts.
@@ -183,12 +177,11 @@
     claims = claims || {};
     var mix = deal.mix || {};
     var lines = [];
-    var tp = targetingPoints(rules, mix, deal.election, deal.rentalSubsidy);
+    var tp = targetingPoints(rules, mix, deal.election);
     var tg = rules.targeting;
     lines.push({ id: '5A1-targeting', group: 'primary', label: tg.label, possible: tg.weights['40'], points: tp.points,
       status: tp.points > 0 ? 'counted' : 'missing', auto: true, section: tg.section, page: tg.page, quote: tg.quote,
-      note: ELECTION_LABEL[tp.election || '40-60'] + ' table: ' + tp.rows.map(function (r) { return r.units + ' at ' + (r.tier === 40 ? '40% or below' : r.tier + '%') + ' = ' + pts(r.points) + (r.inTable === false && r.units ? ' (no row in this table)' : ''); }).join('; ') +
-        (tp.moved ? '. ' + tp.moved + ' units at 40% or below are scored in the 50% row: without project-based rental assistance or an operating subsidy, no more than 60% of tax credit units count in the 40% row' : '') });
+      note: ELECTION_LABEL[tp.election || '40-60'] + ' table: ' + tp.rows.map(function (r) { return r.units + ' at ' + (r.tier === 40 ? '40% or below' : r.tier + '%') + ' = ' + pts(r.points) + (r.inTable === false && r.units ? ' (no row in this table)' : ''); }).join('; ') });
     var lb = tg.lowest_ami_bonus;
     lines.push({ id: lb.id, group: 'primary', label: lb.label, possible: lb.points, points: claims[lb.id] ? lb.points : 0,
       status: claims[lb.id] ? 'counted' : 'not claimed', section: tg.section, page: lb.page, quote: lb.quote, unconfirmed: lb.unconfirmed });
@@ -796,7 +789,7 @@
     var $ = function (id) { return doc.getElementById(id); };
     var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '' };
 
-    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false, rentalSubsidy: false, otherActiveCredits: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
+    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false, otherActiveCredits: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
 
     // Form → state
     function readForm() {
@@ -808,7 +801,6 @@
       d.supportive = $('sr-supportive').checked;
       d.rehab = $('sr-rehab').checked;
       d.existingCredit = $('sr-existing').checked;
-      d.rentalSubsidy = $('sr-subsidy').checked;
       var oc = num($('sr-other-credits').value); d.otherActiveCredits = oc != null && oc >= 0 ? oc : null;
       var ac = num($('sr-credits').value); if (ac != null && ac >= 0) v.engine.annualCredits = ac; else if (!v.calculator) delete v.engine.annualCredits;
       doc.querySelectorAll('[data-claim]').forEach(function (el) {
@@ -836,7 +828,7 @@
       $('sr-sponsor').value = d.sponsor || 'for-profit';
       $('sr-election').value = d.election || '40-60';
       $('sr-supportive').checked = !!d.supportive; $('sr-rehab').checked = !!d.rehab; $('sr-existing').checked = !!d.existingCredit;
-      $('sr-subsidy').checked = !!d.rentalSubsidy; $('sr-other-credits').value = d.otherActiveCredits != null ? d.otherActiveCredits : '';
+      $('sr-other-credits').value = d.otherActiveCredits != null ? d.otherActiveCredits : '';
       $('sr-credits').value = v.engine.annualCredits != null ? v.engine.annualCredits : '';
       $('sr-credits').disabled = !!v.calculator;
       doc.querySelectorAll('[data-claim]').forEach(function (el) {
