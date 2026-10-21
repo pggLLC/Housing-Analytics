@@ -133,6 +133,7 @@
   <link rel="stylesheet" href="js/vendor/leaflet.css">
 <link rel="stylesheet" href="css/land-banking-map.css">
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/whitepaper/dev-terms.js"></script>
 </head>
 <body>
 <header id="siteHeader"></header>
@@ -147,6 +148,10 @@
       Filtered + scored shortlist tuned for liberal-leaning + recreational + small-to-mid CO towns.
       Sources: <strong>curated policy progress dataset</strong> (33 jurisdictions) + Prop 123 + HUD FMR + ACS + ZORI / Apartment List where available.
       Each row's score has a one-sentence reason — no naked numbers.
+    </p>
+    <p>
+      Places sort into <abbr data-glossary="tier">tiers</abbr> by score; the <abbr data-glossary="confidence">confidence</abbr> label says how much the score rests on.
+      A <abbr data-glossary="signal">signal</abbr> is a dated public event, such as an RFP or land offered, that can move a place up.
     </p>
   </div>
 
@@ -230,7 +235,7 @@
   </section>
 
   <footer style="margin-top:var(--sp4);padding-top:var(--sp3);border-top:1px solid var(--border);font-size:var(--tiny);color:var(--muted);">
-    <strong>IOI methodology:</strong>
+    <strong><abbr data-glossary="IOI">IOI</abbr> methodology:</strong>
     Need (CHAS-derived placeholder) +
     Capacity (HNA + Prop 123 + Land + Funding + Tap-fee) +
     Feasibility (Capture advantage placeholder) +

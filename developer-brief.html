@@ -219,6 +219,8 @@
 <script src="js/mix-check.js"></script>
 <script src="js/whitepaper/jurisdiction-whitepaper.js"></script>
 <script src="js/whitepaper/place-card.js"></script>
+<script src="js/components/inline-glossary.js"></script>
+<script src="js/whitepaper/dev-terms.js"></script>
 <script>
 (function () {
   'use strict';
@@ -484,6 +486,7 @@
         signals: mine.own.signals, ripeness: RIPENESS, anti: mine.own.anti, notes, notesState: state
       });
       if (notes) window.PlaceCard.wireNotes(mount, geoid, saveNote, list => { notes = list; draw(); });
+      if (window.InlineGlossary) window.InlineGlossary.decorate(mount);
     };
     redrawPlaceCard = () => { PIPE = pipelineRows(); draw(); };
     draw();

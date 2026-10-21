@@ -295,7 +295,7 @@
   }
 
   function communityDetail(c) {
-    var s = c.sites.map(function (x) { return '<li><strong>' + esc(x.name) + '</strong> <span class="rd-badge rd-' + esc(siteReading(x)) + '">' + esc(LABEL[siteReading(x)]) + '</span><br>' + esc(siteLine(x)) + '</li>'; }).join('');
+    var s = c.sites.map(function (x) { return '<li><strong>' + esc(x.name) + '</strong> <abbr class="rd-badge rd-' + esc(siteReading(x)) + '" data-glossary="' + esc(LABEL[siteReading(x)]) + '">' + esc(LABEL[siteReading(x)]) + '</abbr><br>' + esc(siteLine(x)) + '</li>'; }).join('');
     return '<ul class="rd-answers">' + (s || '<li>No site on file in the land banking, CHFA or state award records since 2023. A site here needs a search by hand.</li>') +
       (c.row.notes ? '<li><strong>Your note:</strong> ' + esc(c.row.notes) + '</li>' : '') +
       (c.signal ? '<li><strong>Latest signal:</strong> ' + esc(c.signal.summary || '') + ' ' + link('(source)', c.signal.source_url) + '</li>' : '') +
@@ -356,7 +356,7 @@
             : '<span class="rd-name" style="font-weight:700">' + esc(it.name) + '</span> <span class="rd-pin">' + esc(it.place || '') + (it.site.homes ? ', ' + esc(it.site.homes) + ' homes' : '') + '</span>';
           return '<li class="rd-row" draggable="true" data-key="' + esc(it.key) + '">' +
             '<div class="rd-pick"><label><input type="checkbox" data-rd-select="' + esc(it.key) + '"' + (sel ? ' checked' : '') + ' aria-label="Select ' + esc(it.name) + '"></label>' + (i + 1) + '</div>' +
-            '<div class="rd-main">' + nameHtml + ' <span class="rd-badge rd-' + esc(it.reading) + '">' + esc(LABEL[it.reading]) + '</span>' + (isPinned ? '<span class="rd-pin">pinned</span>' : '') +
+            '<div class="rd-main">' + nameHtml + ' <abbr class="rd-badge rd-' + esc(it.reading) + '" data-glossary="' + esc(LABEL[it.reading]) + '">' + esc(LABEL[it.reading]) + '</abbr>' + (isPinned ? '<span class="rd-pin">pinned</span>' : '') +
               '<p class="rd-why">' + esc(it.why) + '</p>' +
               '<label class="rd-report"><input type="checkbox" data-rd-report="' + esc(it.key) + '"' + (isReported(state, ui.tab, it) ? ' checked' : '') + ' aria-label="Daily update for ' + esc(it.name) + '"> Daily update</label>' +
               '<details><summary>Why, in detail</summary>' + (ui.tab === 'communities' ? communityDetail(it) : answersHtml(it.site)) + '</details></div>' +
@@ -368,6 +368,7 @@
         }).join('') + '</ol>' : '<p class="ws-status">' + (ui.selectedOnly ? 'Nothing selected yet. Tick the box beside a row to select it.' : 'Nothing in this list yet.') + '</p>') +
         '<p class="ws-status" style="margin-top:.6rem">Sites come from the state\'s Prop 123 land banking awards and CHFA tax credit applications since 2023, for the places in your pipeline or with a dossier; land banked only for ownership is left out. Rebuilt at each deploy, last ' + esc(data.generated || 'unknown') +
           '. A reading of ripe, ripening or not yet comes only from a site dossier; every other site shows as on file until one is written.</p></div>';
+      if (typeof window !== 'undefined' && window.InlineGlossary) window.InlineGlossary.decorate(el);
     }
 
     function shownKeys(all) { return arrange(lists[ui.tab], state[ui.tab], ui.mode, all ? false : ui.selectedOnly).map(function (it) { return it.key; }); }
