@@ -142,6 +142,7 @@ ok(stats.includes('5 of 10') && stats.includes('1 had a weaker sign and 4 showed
 
 // 4. Gating.
 const page = read('developer-round-watch.html');
+ok(page.includes('.rw-pab button, .rw-pab input, .rw-pab select { min-height: 44px; }'), 'Deal Tracker controls get 44px touch targets');
 ok(Nav.PAGES.some((p) => p.href === 'developer-round-watch.html'), 'the developer menu lists the page');
 ok(read('scripts/build-public-site.mjs').includes("'developer-round-watch.html'"), 'the public build leaves the page out');
 ok((read('scripts/audit/public-artifact-guard.mjs').match(/'developer-round-watch\.html'/g) || []).length === 2, 'the public artifact guard blocks the page and links to it');
