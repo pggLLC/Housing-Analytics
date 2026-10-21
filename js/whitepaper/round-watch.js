@@ -271,7 +271,7 @@
   var CO_BOUNDS = [[36.99, -109.06], [41.0, -102.04]];
   var MIN_HIT_RADIUS = 22;   // every pin answers a tap within 22px: a 44px target
 
-  /** Deals grouped by town, strongest first; deals with no town printed are
+  /** Deals grouped by town, strongest first; deals with no town location are
    *  returned apart, so the page can name them. */
   function townsFor(items) {
     var by = {}, towns = [], unmapped = [];
@@ -402,7 +402,7 @@
       }
       if (panel) { panel.innerHTML = ''; panel.hidden = true; }
       if (note) note.textContent = g.unmapped.length
-        ? 'Not on the map, no town printed: ' + g.unmapped.map(function (i) { return i.name; }).join(', ') + '.' : '';
+        ? 'Not on the map, no town location on file: ' + g.unmapped.map(function (i) { return i.name; }).join(', ') + '.' : '';
     }
 
     function openDeal(id) {
