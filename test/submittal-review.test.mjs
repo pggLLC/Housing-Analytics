@@ -329,7 +329,7 @@ ok(/\$\('sr-deal'\)\.value = \(state\.nav === nav && selectId\) \|\| state\.deal
 const srcJs5 = read('js/whitepaper/submittal-review.js');
 ok(/state\.loading = !!state\.deal;[^\n]*\n\s*drawCompare\(\);/.test(srcJs5), 'changing deals redraws the comparison');
 ok(/v\.claims\[id\] = el\.type === 'checkbox' \? el\.checked : \(n > 0 \? Math\.floor\(n\) : null\)/.test(srcJs5), 'typed claim points are whole and non-negative');
-ok(/if \(state\.loading\) \{ flash\('Wait for the deal to finish opening/.test(srcJs5) && /if \(state\.deal === deal\) state\.loading = false;/.test(srcJs5), 'saving waits until the picked deal has opened');
+ok(/if \(state\.loading \|\| state\.opening\) \{ flash\('Wait for the deal to finish opening/.test(srcJs5) && /if \(state\.deal === deal\) state\.loading = false;/.test(srcJs5), 'saving waits until the picked deal has opened');
 
 // Codex review on 851cbe4f6: rent regime, whole total homes, failed opens, stale comparisons, negative credits.
 {
