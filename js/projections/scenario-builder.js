@@ -55,6 +55,8 @@
     'low_growth':  { borderVar: '--warn',    bgFallback: 'rgba(168,70,8,0.15)'  },
     'high_growth': { borderVar: '--info',    bgFallback: 'rgba(29,78,216,0.15)' },
     'custom':      { borderVar: '--accent2', bgFallback: 'rgba(200,111,13,0.15)'},
+    // The shaded range around SDO's forecast, in its line's colour.
+    'band':        { borderVar: '--accent',  bgFallback: 'rgba(9,110,101,0.15)' },
   };
 
   function _resolveColors() {
@@ -98,6 +100,7 @@
   let _unavailableReason = null;  // why no projection is shown, when one is not
   let _bound = false;
   let _activeResults = {}; // scenarioId → homesSeries rows
+  let _forecastError = null; // data/hna/forecast-error.json, once the page has it
 
   // ---------------------------------------------------------------------------
   // Projection → homes
@@ -317,6 +320,36 @@
     return { year: end.year, growth, inCommuters: inc, total: inc == null ? growth : growth + inc };
   }
 
+  /**
+   * Where 2 in 3 past forecasts for a place of this size landed, around SDO's
+   * line. data/hna/forecast-error.json (scripts/hna/build_forecast_error.py)
+   * gives the population error by years out for each size of county; here it
+   * is that share of the place's population each year, in homes at SDO's
+   * households per person and the county's target vacancy. The record runs
+   * 20 years out, so the range stops there. Empty without the error file, the
+   * place's population or a county's vacancy.
+   */
+  function bandSeries(rows, ctx, fe) {
+    if (fe === undefined) fe = _forecastError;
+    if (!ctx || !rows || !rows.length || !fe || !Array.isArray(fe.errorPct) || !Array.isArray(fe.sizeClasses)) return [];
+    const pop0 = _num(rows[0].population);
+    if (pop0 == null || pop0 <= 0 || ctx.counties.some(c => c.vacancy == null)) return [];
+    const k = fe.sizeClasses.findIndex(s => pop0 >= s.min && (s.max == null || pop0 < s.max));
+    const errs = k < 0 ? null : fe.errorPct[k];
+    if (!Array.isArray(errs)) return [];
+    return rows.map((r, i) => {
+      const e = i === 0 ? 0 : _num(errs[i - 1]);
+      if (e == null || r.homesNeeded == null || r.population == null) return null;
+      let homes = 0, people = 0;
+      ctx.counties.forEach(c => {
+        homes += c.baseline.sdo.households[i] / (1 - c.vacancy);
+        people += c.baseline.sdo.population[i];
+      });
+      const w = (e / 100) * r.population * homes / people;
+      return { year: r.year, low: r.homesNeeded - w, high: r.homesNeeded + w, errorPct: e, sizeClass: fe.sizeClasses[k] };
+    });
+  }
+
   // SDO's net migration a year for the loaded place, averaged over the 20
   // years the key numbers cover, so the slider's 100% reads as people.
   function _sdoAnnualMigration() {
@@ -365,6 +398,13 @@
     _updateMigrationHelp();
     _runAllBuiltIn();
     _dispatchState();
+  }
+
+  // The page fetches the error file on its own, so a slow or failed fetch never
+  // holds up a projection; the range appears when the file does.
+  function setForecastError(fe) {
+    _forecastError = fe && Array.isArray(fe.errorPct) && Array.isArray(fe.sizeClasses) ? fe : null;
+    if (_ctx) _updateChart();
   }
 
   function _dispatchState() {
@@ -609,6 +649,25 @@
       });
 
     const labels = (_activeResults['baseline'] || []).map(r => r.year);
+    const band = datasets.length ? bandSeries(_activeResults['baseline'], _ctx) : [];
+    if (band.some(Boolean)) {
+      const edge = (key) => ({
+        label: key === 'high' ? BAND_LABEL : BAND_LABEL + ' (low end)',
+        scenarioId: 'band',
+        bandEdge: key,
+        data: band.map(b => (b ? Math.round(b[key]) : null)),
+        borderColor: resolved.band.border,
+        backgroundColor: resolved.band.bg,
+        borderWidth: 0,
+        pointRadius: 0,
+        tension: 0.3,
+        // Under the lines; the high edge fills down to the low one.
+        order: 10,
+        fill: key === 'high' ? '-1' : false,
+      });
+      datasets.push(edge('low'), edge('high'));
+    }
+    _updateBandNote(band);
 
     // No place loaded: show the explanation instead of an empty 0-1 grid.
     const empty = document.getElementById('sbChartEmpty');
@@ -631,11 +690,24 @@
       data: { labels, datasets },
       options: {
         responsive: true,
+        // Square on a phone: at the default 2:1 the five-entry legend and the
+        // axis labels leave the lines a sliver of a 390px screen.
+        aspectRatio: _aspectFor(canvas.parentElement ? canvas.parentElement.clientWidth : 0),
+        onResize: (chart, size) => {
+          const want = _aspectFor(size.width);
+          if (chart.options.aspectRatio !== want) { chart.options.aspectRatio = want; chart.resize(); }
+        },
         plugins: {
-          legend: { position: 'top' },
+          legend: {
+            position: 'top',
+            // One legend entry for the range: its high edge.
+            labels: { filter: (item, data) => data.datasets[item.datasetIndex].bandEdge !== 'low' },
+          },
           tooltip: {
             callbacks: {
-              label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()} homes`,
+              label: ctx => ctx.dataset.bandEdge
+                ? `${ctx.dataset.bandEdge === 'low' ? 'Low' : 'High'} end of where 2 in 3 past forecasts landed: ${ctx.parsed.y.toLocaleString()} homes`
+                : `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()} homes`,
             },
           },
         },
@@ -648,6 +720,37 @@
     });
 
     _wireThemeRefresh();
+  }
+
+  const _aspectFor = (width) => (width && width < 600 ? 1 : 2);
+
+  const BAND_LABEL = 'Where 2 in 3 past forecasts landed';
+
+  function _sizeText(s) {
+    const n = v => v.toLocaleString('en-US');
+    if (!s.min) return 'under ' + n(s.max) + ' people';
+    if (s.max == null) return 'over ' + n(s.min) + ' people';
+    return n(s.min) + ' to ' + n(s.max) + ' people';
+  }
+
+  /** The sentence under the chart: the range at 20 years, in percent and homes. */
+  function _updateBandNote(band) {
+    const el = document.getElementById('sbBandNote');
+    if (!el) return;
+    const end = band && band[HORIZON_YEARS];
+    if (!end) {
+      el.hidden = true;
+      el.textContent = '';
+      return;
+    }
+    const n = v => Math.abs(Math.round(v)).toLocaleString('en-US');
+    const range = Math.round(end.low) < 0
+      ? 'from a surplus of ' + n(end.low) + ' homes to ' + n(end.high) + ' needed'
+      : n(end.low) + ' to ' + n(end.high) + ' homes needed';
+    el.hidden = false;
+    el.textContent = 'Shaded: where 2 in 3 past forecasts landed for Colorado counties of ' + _sizeText(end.sizeClass) +
+      '. By ' + end.year + ' that is a population ' + Math.round(end.errorPct) + '% above or below SDO\u2019s forecast, or ' +
+      range + '.';
   }
 
   /* F156 — Re-resolve colors and re-render the chart when the user toggles
@@ -908,6 +1011,8 @@
     contextFor,
     describeContext,
     homesSeries,
+    bandSeries,
+    setForecastError,
     twentyYearFigure,
     getResults: () => ({ ..._activeResults }),
     BUILT_IN_SCENARIOS,

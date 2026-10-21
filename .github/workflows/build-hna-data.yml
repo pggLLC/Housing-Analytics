@@ -252,9 +252,14 @@ jobs:
         # The script is local (no network, no API key), so a failure is a
         # real problem with SDO's files or the script, not a blip. Gated by
         # test:scenario-presets (scenario-baseline-reproduces-sdo.test.js).
+        #
+        # The builder's shaded range (data/hna/forecast-error.json) is rebuilt
+        # from the same SDO estimates, so a revised vintage moves it too; it is
+        # local and fails only on a malformed SDO file (forecast-error-band.test.js).
         if: ${{ inputs.statewide_only != true }}
         run: |
           python3 scripts/hna/build_scenario_baseline.py 2>&1
+          python3 scripts/hna/build_forecast_error.py 2>&1
 
       - name: Phase 5 — Validate DOLA and FRED data quality
         if: ${{ inputs.statewide_only != true }}

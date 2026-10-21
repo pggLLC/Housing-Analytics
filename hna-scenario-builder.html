@@ -313,6 +313,8 @@
             <dd style="margin:0;">Each county's target vacancy, as on the HNA page</dd>
             <dt style="color:var(--muted);font-weight:600;">Towns and CDPs</dt>
             <dd style="margin:0;">The HNA page's share of county growth: from the place's share of county households and of 2020–2024 building permits (Census ACS and building permits); a few places without one use their share of county population</dd>
+            <dt style="color:var(--muted);font-weight:600;">Shaded range</dt>
+            <dd style="margin:0;">How far past forecasts missed: trend forecasts of every Colorado county from SDO's population estimates, 1970–2024, launched each year from 1980 and checked against SDO's later estimate. The range holds 2 in 3 of them, for counties of the place's size and that many years out (Smith, Tayman and Swanson, <em>A Practitioner's Guide to State and Local Population Projections</em>, 2013)</dd>
             <dt style="color:var(--muted);font-weight:600;">Model type</dt>
             <dd style="margin:0;"><strong>Modeled</strong>: cohort-component projection by single year of age; outputs are scenarios, not certified forecasts</dd>
           </dl>
@@ -324,10 +326,11 @@
           <div class="sb-chart-wrap" data-source="SDO county forecast (Vintage 2024) + cohort-component scenarios, county target vacancy" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="SDO Vintage 2024" data-source-type="modeled">
             <canvas id="sbProjectionChart"
               role="img"
-              aria-label="Line chart of homes needed since 2024 under SDO's forecast, half its migration, one and a half times its migration, and your scenario, 2024 to 2050">
+              aria-label="Line chart of homes needed since 2024 under SDO's forecast, half its migration, one and a half times its migration, and your scenario, 2024 to 2050, with a shaded range around SDO's forecast where 2 in 3 past forecasts landed">
             </canvas>
             <p id="sbChartEmpty" class="sb-chart-empty" hidden>No projection yet. Choose a geography above and select Load Geography Data to chart that place's projected housing need.</p>
           </div>
+          <p id="sbBandNote" class="sb-table-note" hidden></p>
         </div>
 
         <!-- Results table -->
@@ -571,6 +574,11 @@
       // Initialize with defaults (no geography selected yet).
       if (window.ScenarioBuilder) {
         window.ScenarioBuilder.init({});
+        // The chart's shaded range. Fetched on its own so it never holds up a
+        // projection; without it the projection shows with no range.
+        cachedJSON('data/hna/forecast-error.json')
+          .then(function (fe) { window.ScenarioBuilder.setForecastError(fe); })
+          .catch(function () {});
       }
     });
   </script>
