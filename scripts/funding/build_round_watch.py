@@ -477,6 +477,17 @@ def without_deal_links(doc):
     return doc
 
 
+def only_new_deal_links(committed, out):
+    """True when `out` differs from the committed file only by deal summary
+    links that are new. A link removed or changed still makes the file stale,
+    so the page never points at a summary that is gone."""
+    if without_deal_links(committed) != without_deal_links(out):
+        return False
+    return all(old['deal_summary'] in (None, new['deal_summary'])
+               for a, b in zip(committed['rounds'], out['rounds'])
+               for old, new in zip(a['items'], b['items']))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     ap.add_argument('--check', action='store_true')
@@ -494,7 +505,7 @@ def main():
             same = committed == text
             # a new deal summary only adds a link; it refreshes with the next derived
             # rebuild, so a deal batch merged on its own does not turn main red
-            links_only = not same and without_deal_links(json.loads(committed)) == without_deal_links(out)
+            links_only = not same and only_new_deal_links(json.loads(committed), out)
         print('round watch is %s' % ('current' if same else
                                      'current apart from deal summary links (they refresh on the next rebuild)' if links_only else
                                      'STALE: run python3 scripts/funding/build_round_watch.py'))

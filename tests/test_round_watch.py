@@ -279,6 +279,11 @@ def test_check_lets_only_deal_summary_links_lag():
     out = build(a, l, e)
     newer = json.loads(json.dumps(out))
     newer['rounds'][0]['items'][0]['deal_summary'] = 'linked-place-longmont'
-    assert rw.without_deal_links(out) == rw.without_deal_links(newer)
+    assert rw.only_new_deal_links(out, newer)
+    # a link removed or changed is stale: the page would point at a summary that is gone
+    assert not rw.only_new_deal_links(newer, out)
+    changed = json.loads(json.dumps(newer))
+    changed['rounds'][0]['items'][0]['deal_summary'] = 'renamed-place-longmont'
+    assert not rw.only_new_deal_links(newer, changed)
     newer['rounds'][0]['items'][0]['score'] += 1
-    assert rw.without_deal_links(out) != rw.without_deal_links(newer)
+    assert not rw.only_new_deal_links(out, newer)
