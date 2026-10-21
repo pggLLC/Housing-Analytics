@@ -74,7 +74,8 @@
   }
   // 5.B.4 points only for the general partner the line names.
   // 5.B.4 asks both that the QAP-defined Applicant qualify and that it hold the general partner role.
-  var SPONSOR_LINES = { '5B4a-nonprofit': ['nonprofit', 'pha'], '5B4b-pha': ['pha'] };
+  // Line id -> [Applicant types that qualify, Applicant general partner roles that qualify, how the QAP says the role].
+  var SPONSOR_LINES = { '5B4a-nonprofit': [['nonprofit', 'pha'], ['sole'], 'the sole general partner'], '5B4b-pha': [['pha'], ['sole', 'majority'], 'a sole or majority-interest co-general partner'] };
   // Lines that only exist for a rehab or an existing tax credit project.
   // Line id -> [deal flags, any one of which qualifies; what to tick].
   var CONDITION_LINES = { '5B3c-rehab': [['rehab'], 'acquisition/rehab'], '5B3d-preservation': [['existingCredit', 'subsidyExpiring'], 'existing tax credit project or rental assistance within three years of expiring'] };
@@ -222,10 +223,10 @@
         line.status = 'excluded'; line.note = 'Claimed, but the deal is not marked ' + CONDITION_LINES[l.id][1] + '. Tick it or remove the claim.';
       } else if (claims[l.id] && SPONSOR_LINES[l.id] && !deal.applicant) {
         line.status = 'excluded'; line.note = 'Claimed, but the Applicant type is not entered; 5.B.4 asks the Applicant itself to qualify. Enter it.';
-      } else if (claims[l.id] && SPONSOR_LINES[l.id] && SPONSOR_LINES[l.id].indexOf(deal.applicant) === -1) {
+      } else if (claims[l.id] && SPONSOR_LINES[l.id] && SPONSOR_LINES[l.id][0].indexOf(deal.applicant) === -1) {
         line.status = 'excluded'; line.note = 'Claimed, but the Applicant is set to ' + deal.applicant + '. Change the Applicant or remove the claim.';
-      } else if (claims[l.id] && SPONSOR_LINES[l.id] && deal.sponsor && SPONSOR_LINES[l.id].indexOf(deal.sponsor) === -1) {
-        line.status = 'excluded'; line.note = 'Claimed, but the general partner is set to ' + deal.sponsor + '. Change the general partner or remove the claim.';
+      } else if (claims[l.id] && SPONSOR_LINES[l.id] && SPONSOR_LINES[l.id][1].indexOf(deal.gpRole) === -1) {
+        line.status = 'excluded'; line.note = 'Claimed, but 5.B.4 needs the Applicant itself to be ' + SPONSOR_LINES[l.id][2] + (deal.gpRole ? '; its role is set otherwise.' : '; enter the Applicant\'s general partner role.');
       } else if (claims[l.id]) { line.points = l.points; line.status = 'counted'; }
       else line.status = 'not claimed';
       lines.push(line);
@@ -877,14 +878,14 @@
     var $ = function (id) { return doc.getElementById(id); };
     var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '' };
 
-    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', applicant: '', supportive: false, rehab: false, existingCredit: false, subsidyExpiring: false, otherActiveCredits: null, stateCredits: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
+    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', applicant: '', gpRole: '', supportive: false, rehab: false, existingCredit: false, subsidyExpiring: false, otherActiveCredits: null, stateCredits: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
 
     // Form → state
     function readForm() {
       var v = state.version, d = v.deal;
       TIERS.concat(['market']).forEach(function (t) { var el = $('sr-mix-' + t); var n = el ? num(el.value) : null; d.mix[t] = n > 0 ? Math.floor(n) : 0; });
       d.place = $('sr-place').value.trim();
-      d.sponsor = $('sr-sponsor').value;
+      d.gpRole = $('sr-gp-role').value;
       d.applicant = $('sr-applicant').value;
       d.election = $('sr-election').value;
       d.supportive = $('sr-supportive').checked;
@@ -918,7 +919,7 @@
       var v = state.version, d = v.deal;
       TIERS.concat(['market']).forEach(function (t) { var el = $('sr-mix-' + t); if (el) el.value = d.mix[t] ? d.mix[t] : ''; });
       $('sr-place').value = d.place || '';
-      $('sr-sponsor').value = d.sponsor || 'for-profit';
+      $('sr-gp-role').value = d.gpRole || '';
       $('sr-applicant').value = d.applicant || '';
       $('sr-election').value = d.election || '40-60';
       $('sr-supportive').checked = !!d.supportive; $('sr-rehab').checked = !!d.rehab; $('sr-existing').checked = !!d.existingCredit; $('sr-subsidy-expiring').checked = !!d.subsidyExpiring;
