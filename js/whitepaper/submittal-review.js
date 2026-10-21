@@ -254,7 +254,10 @@
     var exact = list.filter(function (j) { return j.name.toLowerCase() === q; })[0];
     if (exact) return exact;
     var same = list.filter(function (j) { return bare(j.name) === bare(q); });
-    if (/\bcounty\b/.test(q)) same = same.filter(function (j) { return j.kind === 'county'; });
+    // Denver and Broomfield are filed once as city and county, so "City of Denver" and "Denver County" both mean that record.
+    var consolidated = /^(denver|broomfield)$/.test(bare(q));
+    if (consolidated) { /* keep the single consolidated record */ }
+    else if (/\bcounty\b/.test(q)) same = same.filter(function (j) { return j.kind === 'county'; });
     else if (/\b(city|town)\b/.test(q)) same = same.filter(function (j) { return j.kind !== 'county'; });
     if (same.length > 1) return { ambiguous: same.map(function (j) { return j.name; }) }; // e.g. "Pueblo": the city or the county
     // A bare name can be both a county and a city or town even when only one of them is on DOLA's list ("Alamosa").
@@ -694,6 +697,7 @@
           var o = local.read();
           var id = body.deal || (String(body.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'deal') + '-' + Math.random().toString(16).slice(2, 8);
           var d = o[id] || (o[id] = { name: body.name, versions: [], baseline: '', hidden: [] });
+          d.name = body.name; // the latest save names the deal, so a rename sticks
           var meta = { v: stamp(), name: body.name, label: body.label || '', by: 'this device', at: new Date().toISOString(),
             score: body.summary && body.summary.score, gap: body.summary && body.summary.gap, lane: body.summary && body.summary.lane };
           d.versions.unshift(Object.assign({}, meta, { deal: id, parent: body.parent || '', data: body.data }));
@@ -958,7 +962,8 @@
     // Every deal pick or version open bumps state.nav; a slower, earlier request then lands on nothing.
     function openLatest(v) {
       var t = ++state.nav;
-      return getVersion(v).then(function (rec) { if (t === state.nav) openVersion(rec); });
+      // Resolves false when the version could not be read, so a deal pick can clear the form instead of keeping the old deal.
+      return getVersion(v).then(function (rec) { if (t !== state.nav) return true; openVersion(rec); return !!rec; });
     }
 
     function clearForm() { state.version = blankVersion(); state.stress = null; state.parent = ''; $('sr-label').value = ''; writeForm(); draw(); }
@@ -976,7 +981,7 @@
         if (!deal || state.deal !== deal) return;
         var first = state.versions.filter(function (v) { return state.hidden.indexOf(v.v) === -1; })[0];
         var pick = state.baseline && state.versions.some(function (v) { return v.v === state.baseline; }) ? state.baseline : first && first.v;
-        if (pick) return openLatest(pick);
+        if (pick) return openLatest(pick).then(function (ok) { if (!ok && state.deal === deal) { clearForm(); flash('That deal\'s latest version could not be read, so the form was cleared.'); } });
         clearForm(); // no version to open: never leave the previous deal's figures under this one
       }).catch(function (e) {
         if (state.deal !== deal) return;

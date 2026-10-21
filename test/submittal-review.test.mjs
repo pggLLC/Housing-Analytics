@@ -274,7 +274,7 @@ ok(noPlace.status === 'missing', 'an empty town or county is not read as "outsid
 const noPlaceLane = SR.gapLane(rules, { mix: { 50: 10, 60: 40 } }, noPlace);
 ok(noPlaceLane.lane === 'unknown' && noPlaceLane.amount === undefined && /town or county is entered/.test(noPlaceLane.text), 'no gap-fund amount until the place is entered');
 const srcJs2 = read('js/whitepaper/submittal-review.js');
-ok(/if \(t === state\.nav\) openVersion\(rec\)/.test(srcJs2) && !/getVersion\([^)]*\)\.then\(openVersion\)/.test(srcJs2), 'only the latest version open lands');
+ok(/if \(t !== state\.nav\) return true; openVersion\(rec\)/.test(srcJs2) && !/getVersion\([^)]*\)\.then\(openVersion\)/.test(srcJs2), 'only the latest version open lands');
 ok(/if \(state\.nav !== nav \|\| state\.version !== ver\)/.test(srcJs2), 'a save that finishes after navigation does not move the open deal');
 
 // Codex review on e11845a22: an unmatched or unincorporated place stays unresolved; calculator tier counts are whole and non-negative.
@@ -345,5 +345,14 @@ ok(/v\.deal\.calcRegime = c\.nine && !c\.chfa/.test(srcJs6) && /if \(c\.nine && 
 ok(/\.catch\(function \(e\) \{\s*if \(state\.deal !== deal\) return;\s*clearForm\(\)/.test(srcJs6), 'a failed deal open clears the form before saving is allowed again');
 ok(/if \(tok !== compareTok\) return;/.test(srcJs6), 'a superseded comparison read is dropped');
 ok(/if \(ac != null && ac >= 0\) v\.engine\.annualCredits = ac/.test(srcJs6), 'a negative annual credit entry is not stored');
+
+// Codex review on 733c63730: consolidated city forms, unreadable versions, device-store renames.
+for (const q of ['City of Denver', 'Denver County', 'City of Broomfield', 'City and County of Denver']) {
+  const st = SR.prop123Status(prop123, q).status;
+  ok(st !== 'unmatched' && st !== 'missing' && st !== 'ambiguous', q + ' finds the consolidated city and county record (' + st + ')');
+}
+const srcJs7 = read('js/whitepaper/submittal-review.js');
+ok(/if \(t !== state\.nav\) return true; openVersion\(rec\); return !!rec;/.test(srcJs7) && /openLatest\(pick\)\.then\(function \(ok\) \{ if \(!ok && state\.deal === deal\) \{ clearForm\(\)/.test(srcJs7), 'a version that reads as empty clears the form on a deal pick');
+ok(/d\.name = body\.name;/.test(srcJs7), 'saving on this device keeps a renamed deal\'s new name');
 
 console.log(`submittal-review: ${checks} checks passed`);
