@@ -3,7 +3,7 @@
   "title": "Deal summaries",
   "generator": "scripts/deals/build_deal_summaries.py",
   "method": "One hand-researched record per CHFA award, from public sources only; every figure cites a source listed in the record.",
-  "count": 50
+  "count": 61
  },
  "deals": [
   {
@@ -331,6 +331,40 @@
    }
   },
   {
+   "slug": "dawson-square-denver",
+   "name": "Dawson Square (Dawson Square Apartments)",
+   "city": "Denver (unincorporated Adams County, Thornton area; 80229)",
+   "county": "Adams",
+   "award": "2025 Federal 4% housing tax credit",
+   "year": 2025,
+   "units": 35,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Dawson Square"
+    ]
+   }
+  },
+  {
+   "slug": "eagle-villas-eagle",
+   "name": "Eagle Villas (Eagle Villas Apartments)",
+   "city": "Eagle",
+   "county": "Eagle",
+   "award": "2025 Federal 4% housing tax credit",
+   "year": 2025,
+   "units": 120,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Eagle Villas"
+    ]
+   }
+  },
+  {
    "slug": "elmwood-north-denver",
    "name": "Elmwood North",
    "city": "Denver (mailing address; site is in unincorporated Adams County)",
@@ -365,6 +399,23 @@
    }
   },
   {
+   "slug": "flats-at-sand-creek-colorado-springs",
+   "name": "Flats at Sand Creek",
+   "city": "Colorado Springs",
+   "county": "El Paso",
+   "award": "2025 Federal 4% housing tax credit",
+   "year": 2025,
+   "units": 144,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Flats at Sand Creek"
+    ]
+   }
+  },
+  {
    "slug": "flocrit-decatur-place-denver",
    "name": "FloCrit at Decatur Place",
    "city": "Denver",
@@ -395,6 +446,23 @@
     "year": 2026,
     "names": [
      "GardenWalk of Cañon City"
+    ]
+   }
+  },
+  {
+   "slug": "green-valley-vistas-denver",
+   "name": "Green Valley Vistas",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 4% housing tax credit",
+   "year": 2025,
+   "units": 156,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Green Valley Vistas"
     ]
    }
   },
@@ -486,6 +554,23 @@
    }
   },
   {
+   "slug": "link-and-pin-denver",
+   "name": "Link and Pin (Link and Pin Apartments)",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 4% and noncompetitive state housing tax credits",
+   "year": 2025,
+   "units": 150,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Link and Pin"
+    ]
+   }
+  },
+  {
    "slug": "lumberyard-apartments-aspen",
    "name": "Lumberyard Apartments (Phase B)",
    "city": "Aspen",
@@ -550,6 +635,23 @@
     "year": 2026,
     "names": [
      "Montbello Townhomes"
+    ]
+   }
+  },
+  {
+   "slug": "montview-heights-aurora",
+   "name": "Montview Heights (Montview Heights Apartments)",
+   "city": "Aurora",
+   "county": "Adams",
+   "award": "2025 Federal 4% housing tax credit",
+   "year": 2025,
+   "units": 50,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Montview Heights"
     ]
    }
   },
@@ -622,6 +724,23 @@
    }
   },
   {
+   "slug": "ponderosa-pines-parker",
+   "name": "Ponderosa Pines",
+   "city": "Parker",
+   "county": "Douglas",
+   "award": "2025 Federal 4% and noncompetitive state housing tax credits",
+   "year": 2025,
+   "units": 204,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Ponderosa Pines"
+    ]
+   }
+  },
+  {
    "slug": "ravenfield-brighton",
    "name": "Ravenfield",
    "city": "Brighton",
@@ -686,6 +805,23 @@
     "year": 2026,
     "names": [
      "Silver Key Apartments at North Weber"
+    ]
+   }
+  },
+  {
+   "slug": "squire-village-northglenn",
+   "name": "Squire Village (Squire Village Apartments)",
+   "city": "Northglenn",
+   "county": "Adams",
+   "award": "2025 Federal 4% housing tax credit",
+   "year": 2025,
+   "units": 50,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Squire Village"
     ]
    }
   },
@@ -775,6 +911,40 @@
    }
   },
   {
+   "slug": "tiffany-square-lakewood",
+   "name": "Tiffany Square (Tiffany Square Apartments)",
+   "city": "Lakewood",
+   "county": "Jefferson",
+   "award": "2025 Federal 4% housing tax credit",
+   "year": 2025,
+   "units": 52,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Tiffany Square"
+    ]
+   }
+  },
+  {
+   "slug": "townview-phase-i-denver",
+   "name": "Townview Phase I (Townview Apartments Redevelopment Phase 1)",
+   "city": "Denver",
+   "county": "Denver",
+   "award": "2025 Federal 4% and noncompetitive state housing tax credits",
+   "year": 2025,
+   "units": 160,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Townview Phase I"
+    ]
+   }
+  },
+  {
    "slug": "university-building-lofts-denver",
    "name": "University Building Lofts",
    "city": "Denver",
@@ -856,6 +1026,23 @@
     "year": 2026,
     "names": [
      "Willoughby Corner Phase 2"
+    ]
+   }
+  },
+  {
+   "slug": "windtrail-park-fort-collins",
+   "name": "Windtrail Park (Windtrail Park Apartments)",
+   "city": "Fort Collins",
+   "county": "Larimer",
+   "award": "2025 Federal 4% housing tax credit",
+   "year": 2025,
+   "units": 50,
+   "researched_on": "2026-10-21",
+   "match": {
+    "agency": "CHFA",
+    "year": 2025,
+    "names": [
+     "Windtrail Park"
     ]
    }
   }

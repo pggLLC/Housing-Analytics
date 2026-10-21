@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T08:34:51.479Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T11:28:11.603Z. Do not edit by hand.
 
 ---
 
@@ -49,7 +49,7 @@
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 37.6 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 38.5 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 39.2 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 137.6 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 138.4 KB |
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 175.6 KB |
@@ -91,11 +91,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1827 JSON files found.
+1839 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 909.4 KB | ✅ | — |
+| `data/_manifest.json` | 917.2 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -109,11 +109,12 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 315.5 KB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 17.8 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 491.0 KB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 20.5 KB | ✅ | — |
+| `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 630.3 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 644.1 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -168,38 +169,49 @@
 | `data/deals/crawford-commons-clifton.json` | 13.8 KB | ✅ | — |
 | `data/deals/crossbar-commons-aurora.json` | 17.4 KB | ✅ | — |
 | `data/deals/crossroads-at-divide-divide.json` | 14.0 KB | ✅ | — |
+| `data/deals/dawson-square-denver.json` | 14.0 KB | ✅ | — |
+| `data/deals/eagle-villas-eagle.json` | 16.1 KB | ✅ | — |
 | `data/deals/elmwood-north-denver.json` | 16.8 KB | ✅ | — |
 | `data/deals/fairbrooke-heights-fort-collins.json` | 18.8 KB | ✅ | — |
+| `data/deals/flats-at-sand-creek-colorado-springs.json` | 20.2 KB | ✅ | — |
 | `data/deals/flocrit-decatur-place-denver.json` | 13.8 KB | ✅ | — |
 | `data/deals/gardenwalk-of-canon-city.json` | 14.9 KB | ✅ | — |
+| `data/deals/green-valley-vistas-denver.json` | 17.6 KB | ✅ | — |
 | `data/deals/greenbriar-apartments-fort-collins.json` | 17.1 KB | ✅ | — |
 | `data/deals/gregory-highlands-ranch.json` | 23.0 KB | ✅ | — |
 | `data/deals/grove-at-pinewood-aurora.json` | 16.9 KB | ✅ | — |
-| `data/deals/index.json` | 18.7 KB | ✅ | — |
+| `data/deals/index.json` | 22.8 KB | ✅ | — |
 | `data/deals/ives-ii-wheat-ridge.json` | 18.2 KB | ✅ | — |
 | `data/deals/kite-route-crossing-superior.json` | 18.8 KB | ✅ | — |
+| `data/deals/link-and-pin-denver.json` | 14.9 KB | ✅ | — |
 | `data/deals/lumberyard-apartments-aspen.json` | 26.6 KB | ✅ | — |
 | `data/deals/marq-trinidad.json` | 15.4 KB | ✅ | — |
 | `data/deals/metro-center-apartments-aurora.json` | 14.7 KB | ✅ | — |
 | `data/deals/montbello-townhomes-denver.json` | 17.4 KB | ✅ | — |
+| `data/deals/montview-heights-aurora.json` | 10.4 KB | ✅ | — |
 | `data/deals/mountain-view-plaza-longmont.json` | 26.7 KB | ✅ | — |
 | `data/deals/park-avenue-apartments-denver.json` | 23.9 KB | ✅ | — |
 | `data/deals/park-place-apartments-denver.json` | 20.4 KB | ✅ | — |
 | `data/deals/parkside-apartments-longmont.json` | 26.3 KB | ✅ | — |
+| `data/deals/ponderosa-pines-parker.json` | 16.5 KB | ✅ | — |
 | `data/deals/ravenfield-brighton.json` | 13.9 KB | ✅ | — |
 | `data/deals/reserve-at-south-creek-englewood.json` | 17.4 KB | ✅ | — |
 | `data/deals/rita-bass-apartments-denver.json` | 20.1 KB | ✅ | — |
 | `data/deals/silver-key-apartments-colorado-springs.json` | 21.7 KB | ✅ | — |
+| `data/deals/squire-village-northglenn.json` | 13.8 KB | ✅ | — |
 | `data/deals/st-louis-landing-building-c-fraser.json` | 18.6 KB | ✅ | — |
 | `data/deals/sugar-commons-sterling.json` | 18.8 KB | ✅ | — |
 | `data/deals/switchgrass-crossing-fort-collins.json` | 17.6 KB | ✅ | — |
 | `data/deals/tapestry-denver.json` | 23.5 KB | ✅ | — |
 | `data/deals/tierra-azul-alamosa.json` | 20.0 KB | ✅ | — |
+| `data/deals/tiffany-square-lakewood.json` | 10.3 KB | ✅ | — |
+| `data/deals/townview-phase-i-denver.json` | 19.1 KB | ✅ | — |
 | `data/deals/university-building-lofts-denver.json` | 24.6 KB | ✅ | — |
 | `data/deals/ute-mountain-homes-i-towaoc.json` | 13.7 KB | ✅ | — |
 | `data/deals/village-on-eastbrook-fort-collins.json` | 22.2 KB | ✅ | — |
 | `data/deals/wildflower-flats-fort-lupton.json` | 16.7 KB | ✅ | — |
 | `data/deals/willoughby-corner-phase-2-lafayette.json` | 18.0 KB | ✅ | — |
+| `data/deals/windtrail-park-fort-collins.json` | 19.6 KB | ✅ | — |
 | `data/derived/funding-vs-need.json` | 91.3 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
@@ -1054,70 +1066,70 @@
 | `data/hna/ranking-scenarios/large-gap.json` | 48.8 KB | ✅ | — |
 | `data/hna/ranking-scenarios/rate-sensitive.json` | 48.8 KB | ✅ | — |
 | `data/hna/ranking-scenarios/rural-lens.json` | 48.8 KB | ✅ | — |
-| `data/hna/scenario-baseline/08001.json` | 37.9 KB | ✅ | — |
-| `data/hna/scenario-baseline/08003.json` | 34.4 KB | ✅ | — |
-| `data/hna/scenario-baseline/08005.json` | 39.9 KB | ✅ | — |
-| `data/hna/scenario-baseline/08007.json` | 34.1 KB | ✅ | — |
-| `data/hna/scenario-baseline/08009.json` | 33.0 KB | ✅ | — |
-| `data/hna/scenario-baseline/08011.json` | 33.5 KB | ✅ | — |
-| `data/hna/scenario-baseline/08013.json` | 38.0 KB | ✅ | — |
-| `data/hna/scenario-baseline/08014.json` | 35.5 KB | ✅ | — |
-| `data/hna/scenario-baseline/08015.json` | 34.0 KB | ✅ | — |
-| `data/hna/scenario-baseline/08017.json` | 31.7 KB | ✅ | — |
-| `data/hna/scenario-baseline/08019.json` | 34.0 KB | ✅ | — |
-| `data/hna/scenario-baseline/08021.json` | 33.8 KB | ✅ | — |
-| `data/hna/scenario-baseline/08023.json` | 32.9 KB | ✅ | — |
-| `data/hna/scenario-baseline/08025.json` | 33.0 KB | ✅ | — |
-| `data/hna/scenario-baseline/08027.json` | 33.1 KB | ✅ | — |
-| `data/hna/scenario-baseline/08029.json` | 35.1 KB | ✅ | — |
-| `data/hna/scenario-baseline/08031.json` | 42.6 KB | ✅ | — |
-| `data/hna/scenario-baseline/08033.json` | 32.0 KB | ✅ | — |
-| `data/hna/scenario-baseline/08035.json` | 38.1 KB | ✅ | — |
-| `data/hna/scenario-baseline/08037.json` | 35.8 KB | ✅ | — |
-| `data/hna/scenario-baseline/08039.json` | 35.7 KB | ✅ | — |
-| `data/hna/scenario-baseline/08041.json` | 39.8 KB | ✅ | — |
-| `data/hna/scenario-baseline/08043.json` | 35.9 KB | ✅ | — |
-| `data/hna/scenario-baseline/08045.json` | 34.8 KB | ✅ | — |
-| `data/hna/scenario-baseline/08047.json` | 33.6 KB | ✅ | — |
-| `data/hna/scenario-baseline/08049.json` | 34.2 KB | ✅ | — |
-| `data/hna/scenario-baseline/08051.json` | 34.6 KB | ✅ | — |
-| `data/hna/scenario-baseline/08053.json` | 30.2 KB | ✅ | — |
-| `data/hna/scenario-baseline/08055.json` | 33.4 KB | ✅ | — |
-| `data/hna/scenario-baseline/08057.json` | 31.2 KB | ✅ | — |
-| `data/hna/scenario-baseline/08059.json` | 39.5 KB | ✅ | — |
-| `data/hna/scenario-baseline/08061.json` | 31.5 KB | ✅ | — |
-| `data/hna/scenario-baseline/08063.json` | 33.3 KB | ✅ | — |
-| `data/hna/scenario-baseline/08065.json` | 33.6 KB | ✅ | — |
-| `data/hna/scenario-baseline/08067.json` | 35.4 KB | ✅ | — |
-| `data/hna/scenario-baseline/08069.json` | 37.8 KB | ✅ | — |
-| `data/hna/scenario-baseline/08071.json` | 34.2 KB | ✅ | — |
-| `data/hna/scenario-baseline/08073.json` | 33.3 KB | ✅ | — |
-| `data/hna/scenario-baseline/08075.json` | 34.2 KB | ✅ | — |
-| `data/hna/scenario-baseline/08077.json` | 35.1 KB | ✅ | — |
-| `data/hna/scenario-baseline/08079.json` | 30.2 KB | ✅ | — |
-| `data/hna/scenario-baseline/08081.json` | 34.2 KB | ✅ | — |
-| `data/hna/scenario-baseline/08083.json` | 34.7 KB | ✅ | — |
-| `data/hna/scenario-baseline/08085.json` | 35.3 KB | ✅ | — |
-| `data/hna/scenario-baseline/08087.json` | 34.0 KB | ✅ | — |
-| `data/hna/scenario-baseline/08089.json` | 34.8 KB | ✅ | — |
-| `data/hna/scenario-baseline/08091.json` | 32.9 KB | ✅ | — |
-| `data/hna/scenario-baseline/08093.json` | 34.5 KB | ✅ | — |
-| `data/hna/scenario-baseline/08095.json` | 33.3 KB | ✅ | — |
-| `data/hna/scenario-baseline/08097.json` | 34.1 KB | ✅ | — |
-| `data/hna/scenario-baseline/08099.json` | 34.5 KB | ✅ | — |
-| `data/hna/scenario-baseline/08101.json` | 36.5 KB | ✅ | — |
-| `data/hna/scenario-baseline/08103.json` | 33.6 KB | ✅ | — |
-| `data/hna/scenario-baseline/08105.json` | 34.3 KB | ✅ | — |
-| `data/hna/scenario-baseline/08107.json` | 34.7 KB | ✅ | — |
-| `data/hna/scenario-baseline/08109.json` | 33.2 KB | ✅ | — |
-| `data/hna/scenario-baseline/08111.json` | 30.5 KB | ✅ | — |
-| `data/hna/scenario-baseline/08113.json` | 33.2 KB | ✅ | — |
-| `data/hna/scenario-baseline/08115.json` | 32.2 KB | ✅ | — |
-| `data/hna/scenario-baseline/08117.json` | 35.0 KB | ✅ | — |
-| `data/hna/scenario-baseline/08119.json` | 34.7 KB | ✅ | — |
-| `data/hna/scenario-baseline/08121.json` | 33.4 KB | ✅ | — |
-| `data/hna/scenario-baseline/08123.json` | 36.5 KB | ✅ | — |
-| `data/hna/scenario-baseline/08125.json` | 34.3 KB | ✅ | — |
+| `data/hna/scenario-baseline/08001.json` | 39.2 KB | ✅ | — |
+| `data/hna/scenario-baseline/08003.json` | 35.6 KB | ✅ | — |
+| `data/hna/scenario-baseline/08005.json` | 41.3 KB | ✅ | — |
+| `data/hna/scenario-baseline/08007.json` | 35.3 KB | ✅ | — |
+| `data/hna/scenario-baseline/08009.json` | 34.2 KB | ✅ | — |
+| `data/hna/scenario-baseline/08011.json` | 34.7 KB | ✅ | — |
+| `data/hna/scenario-baseline/08013.json` | 39.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08014.json` | 36.8 KB | ✅ | — |
+| `data/hna/scenario-baseline/08015.json` | 35.2 KB | ✅ | — |
+| `data/hna/scenario-baseline/08017.json` | 32.8 KB | ✅ | — |
+| `data/hna/scenario-baseline/08019.json` | 35.2 KB | ✅ | — |
+| `data/hna/scenario-baseline/08021.json` | 35.1 KB | ✅ | — |
+| `data/hna/scenario-baseline/08023.json` | 34.0 KB | ✅ | — |
+| `data/hna/scenario-baseline/08025.json` | 34.2 KB | ✅ | — |
+| `data/hna/scenario-baseline/08027.json` | 34.3 KB | ✅ | — |
+| `data/hna/scenario-baseline/08029.json` | 36.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08031.json` | 44.1 KB | ✅ | — |
+| `data/hna/scenario-baseline/08033.json` | 33.2 KB | ✅ | — |
+| `data/hna/scenario-baseline/08035.json` | 39.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08037.json` | 37.1 KB | ✅ | — |
+| `data/hna/scenario-baseline/08039.json` | 37.0 KB | ✅ | — |
+| `data/hna/scenario-baseline/08041.json` | 41.2 KB | ✅ | — |
+| `data/hna/scenario-baseline/08043.json` | 37.2 KB | ✅ | — |
+| `data/hna/scenario-baseline/08045.json` | 36.0 KB | ✅ | — |
+| `data/hna/scenario-baseline/08047.json` | 34.8 KB | ✅ | — |
+| `data/hna/scenario-baseline/08049.json` | 35.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08051.json` | 35.9 KB | ✅ | — |
+| `data/hna/scenario-baseline/08053.json` | 31.3 KB | ✅ | — |
+| `data/hna/scenario-baseline/08055.json` | 34.6 KB | ✅ | — |
+| `data/hna/scenario-baseline/08057.json` | 32.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08059.json` | 40.9 KB | ✅ | — |
+| `data/hna/scenario-baseline/08061.json` | 32.7 KB | ✅ | — |
+| `data/hna/scenario-baseline/08063.json` | 34.6 KB | ✅ | — |
+| `data/hna/scenario-baseline/08065.json` | 34.8 KB | ✅ | — |
+| `data/hna/scenario-baseline/08067.json` | 36.6 KB | ✅ | — |
+| `data/hna/scenario-baseline/08069.json` | 39.1 KB | ✅ | — |
+| `data/hna/scenario-baseline/08071.json` | 35.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08073.json` | 34.5 KB | ✅ | — |
+| `data/hna/scenario-baseline/08075.json` | 35.5 KB | ✅ | — |
+| `data/hna/scenario-baseline/08077.json` | 36.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08079.json` | 31.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08081.json` | 35.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08083.json` | 35.9 KB | ✅ | — |
+| `data/hna/scenario-baseline/08085.json` | 36.5 KB | ✅ | — |
+| `data/hna/scenario-baseline/08087.json` | 35.2 KB | ✅ | — |
+| `data/hna/scenario-baseline/08089.json` | 36.0 KB | ✅ | — |
+| `data/hna/scenario-baseline/08091.json` | 34.1 KB | ✅ | — |
+| `data/hna/scenario-baseline/08093.json` | 35.7 KB | ✅ | — |
+| `data/hna/scenario-baseline/08095.json` | 34.5 KB | ✅ | — |
+| `data/hna/scenario-baseline/08097.json` | 35.3 KB | ✅ | — |
+| `data/hna/scenario-baseline/08099.json` | 35.7 KB | ✅ | — |
+| `data/hna/scenario-baseline/08101.json` | 37.8 KB | ✅ | — |
+| `data/hna/scenario-baseline/08103.json` | 34.8 KB | ✅ | — |
+| `data/hna/scenario-baseline/08105.json` | 35.5 KB | ✅ | — |
+| `data/hna/scenario-baseline/08107.json` | 35.9 KB | ✅ | — |
+| `data/hna/scenario-baseline/08109.json` | 34.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08111.json` | 31.6 KB | ✅ | — |
+| `data/hna/scenario-baseline/08113.json` | 34.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08115.json` | 33.4 KB | ✅ | — |
+| `data/hna/scenario-baseline/08117.json` | 36.3 KB | ✅ | — |
+| `data/hna/scenario-baseline/08119.json` | 35.9 KB | ✅ | — |
+| `data/hna/scenario-baseline/08121.json` | 34.6 KB | ✅ | — |
+| `data/hna/scenario-baseline/08123.json` | 37.8 KB | ✅ | — |
+| `data/hna/scenario-baseline/08125.json` | 35.5 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
@@ -1726,7 +1738,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 11.0 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 231.9 KB | ✅ | — |
+| `data/manifest.json` | 233.4 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1860,7 +1872,7 @@
 | `data/policy/co-developer-funding-guide.json` | 424.6 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
-| `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
+| `data/policy/developer-ownership-funding.json` | 21.3 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 567.3 KB | ✅ | — |
 | `data/policy/funding-awards/award-rows.json` | 254.7 KB | ✅ | — |
 | `data/policy/funding-awards/developer-aliases.json` | 7.4 KB | ✅ | — |
@@ -1891,20 +1903,20 @@
 | `data/policy/prop123-land-banking-awards.json` | 80.8 KB | ✅ | — |
 | `data/policy/prop123-rental-rules.json` | 33.2 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 130.0 KB | ✅ | — |
-| `data/policy/resale-conventions.json` | 7.4 KB | ✅ | — |
+| `data/policy/resale-conventions.json` | 7.6 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
 | `data/policy/resident-services.json` | 34.4 KB | ✅ | — |
-| `data/policy/soft-funding-status.json` | 44.8 KB | ✅ | — |
+| `data/policy/soft-funding-status.json` | 45.5 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 39.8 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
-| `data/policy_briefs.json` | 310.8 KB | ✅ | — |
+| `data/policy_briefs.json` | 343.4 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.9 KB | ✅ | — |
-| `data/polymarket-history.json` | 165.3 KB | ✅ | — |
+| `data/polymarket-history.json` | 167.5 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -1927,7 +1939,7 @@
 
 ## Test Files
 
-683 test files found.
+685 test files found.
 
 | File | Size |
 |------|------|
@@ -2321,6 +2333,7 @@
 | `test/paper-names-its-author.test.mjs` | 5.7 KB |
 | `test/paper-typed-facts.test.mjs` | 8.4 KB |
 | `test/parcel-source-honesty.test.js` | 5.4 KB |
+| `test/past-migration-option.test.js` | 17.9 KB |
 | `test/percentile-agrees-with-rank.test.mjs` | 5.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
 | `test/permit-declared-value.test.mjs` | 5.9 KB |
@@ -2379,6 +2392,7 @@
 | `test/pro-forma.test.js` | 2.9 KB |
 | `test/production-figure-names-its-reading.test.js` | 11.4 KB |
 | `test/production-need-counts-the-workforce.test.mjs` | 8.8 KB |
+| `test/production-read-names-both-parts.test.js` | 3.9 KB |
 | `test/project-scenario.test.js` | 7.8 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-administration.test.js` | 7.9 KB |
@@ -2494,7 +2508,7 @@
 | `test/ui-audit-clean.test.js` | 4.3 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
 | `test/unit-suffix-convention.test.js` | 6.6 KB |
-| `test/unit/cohort-component-model.test.js` | 9.1 KB |
+| `test/unit/cohort-component-model.test.js` | 10.0 KB |
 | `test/unit/fema-flood.test.js` | 14.7 KB |
 | `test/unit/pma-barriers.test.js` | 4.0 KB |
 | `test/unit/pma-commuting.test.js` | 8.1 KB |
