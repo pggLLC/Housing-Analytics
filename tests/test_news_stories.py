@@ -383,3 +383,4 @@ def test_latin_american_and_other_foreign_housing_stories_stay_out_of_national()
               'Cuba’s housing shortage deepens', 'Housing prices climb across Asia'):
         assert gpb.NATIONAL_SKIP_RE.search(t), t
     assert not gpb.NATIONAL_SKIP_RE.search('US pending home sales fall to record low as mortgage rates surge')
+    assert not gpb.NATIONAL_SKIP_RE.search('Asian Americans face a growing homeownership gap')
