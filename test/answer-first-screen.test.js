@@ -22,6 +22,9 @@ const start = dc.indexOf('class="dc-start"');
 assert(start > 0, 'Deal Calculator has a start instruction');
 assert(start < dc.indexOf('class="dc-lead"'), 'the instruction comes before the explainer');
 assert.match(dc.slice(start, start + 400), /href="#dc-inputs-col"/, 'the instruction links to the inputs');
+for (const mode of ['rental', 'ownership']) {
+  assert.match(dc, new RegExp('class="dc-start" data-dc-mode="' + mode + '"'), 'a start instruction in ' + mode + ' mode');
+}
 assert(read('js/deal-calculator.js').includes('id="dc-inputs-col"'), 'the link target exists');
 
 console.log('Answer-first screen: ' + (hnaPages.length + 1) + ' pages checked');
