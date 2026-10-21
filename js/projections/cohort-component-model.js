@@ -159,11 +159,13 @@
    * Parameters from a saved scenario. Scenarios saved before 2026-10-20 held
    * multipliers and a flat number of migrants a year, the same for every place.
    * The multipliers carry over as percentages, and the migrants a year become a
-   * percentage of SDO's average for the place loaded (sdoAnnualMigration).
-   * Where SDO expects no net arrivals, a number of migrants cannot be read as a
-   * percentage, so migration stays at SDO's forecast and `migrationNote` says so.
+   * percentage of SDO's average for the place loaded (sdoAnnualMigration),
+   * signed: where SDO expects net departures, a saved 0 is 0% and a saved net
+   * departure is a share of SDO's. A count in the opposite direction from SDO's
+   * forecast cannot be a share of it, so migration is set to 0%, the nearest
+   * setting; where SDO's average is zero or unknown it stays at SDO's forecast.
    * Every setting is held to RANGES, and `migrationNote` says when a saved
-   * migrant count was more than the builder can model.
+   * count could not be loaded as saved.
    */
   function paramsFromSaved(saved, sdoAnnualMigration) {
     const s = saved || {};
@@ -186,17 +188,27 @@
     // A record that never set a migrant count keeps SDO's migration.
     const annual = _given(s.net_migration_annual);
     if (annual == null) return out;
-    if (Number.isFinite(sdoAnnualMigration) && sdoAnnualMigration > 0) {
-      const pct = Math.round(100 * annual / sdoAnnualMigration);
-      out.migration_pct = _inRange('migration_pct', pct);
-      if (pct > RANGES.migration_pct[1]) {
-        out.migrationNote = 'This scenario was saved as ' + Math.round(annual).toLocaleString('en-US') +
-          ' people moving in a year, more than ' + RANGES.migration_pct[1] / 100 +
-          ' times SDO’s forecast for this place; migration is set to ' + RANGES.migration_pct[1] + '%, the most the builder models.';
-      }
-    } else {
-      out.migrationNote = 'This scenario was saved as ' + Math.round(annual).toLocaleString('en-US') +
-        ' people moving in a year. SDO expects more people to leave this place than arrive, so that number cannot be set as a share of its forecast; migration is at SDO’s forecast.';
+    const n = Math.round(Math.abs(annual)).toLocaleString('en-US');
+    const asSaved = 'This scenario was saved as ' +
+      (annual < 0 ? n + ' more people leaving than arriving each year' : n + ' people moving in a year');
+    const sdo = _given(sdoAnnualMigration);
+    if (sdo == null || sdo === 0) {
+      out.migrationNote = asSaved + '. ' + (sdo == null ? 'SDO’s migration forecast for this place is not available'
+        : 'SDO’s forecast for this place has no net migration') + ' to take a share of, so migration is at SDO’s forecast.';
+      return out;
+    }
+    const pct = Math.round(100 * annual / sdo);
+    out.migration_pct = _inRange('migration_pct', pct);
+    // The direction is read from the signs, not the rounded percentage, so a
+    // small count the other way (-50 against 10,000) is not rounded to 0%
+    // without a note.
+    if (annual * sdo < 0) {
+      out.migrationNote = asSaved + ', the opposite of SDO’s forecast for this place (' +
+        (sdo < 0 ? 'more people leaving than arriving' : 'more people arriving than leaving') +
+        '); migration is set to ' + RANGES.migration_pct[0] + '%, the nearest the builder models.';
+    } else if (pct > RANGES.migration_pct[1]) {
+      out.migrationNote = asSaved + ', more than ' + RANGES.migration_pct[1] / 100 +
+        ' times SDO’s forecast for this place; migration is set to ' + RANGES.migration_pct[1] + '%, the most the builder models.';
     }
     return out;
   }

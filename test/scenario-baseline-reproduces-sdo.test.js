@@ -154,9 +154,17 @@ for (const preset of global.ScenarioPresets.list) {
 const mesaMig = M.averageAnnualMigration(data.baselines['08077'], 20);
 const legacy = M.paramsFromSaved({ fertility_multiplier: 1.1, mortality_multiplier: 0.9, net_migration_annual: mesaMig / 2 }, mesaMig);
 assert.deepEqual([legacy.births_pct, legacy.deaths_pct, legacy.migration_pct], [110, 90, 50], 'legacy multipliers and migrants convert');
-const outflow = M.paramsFromSaved({ net_migration_annual: 500 }, -120);
-assert.equal(outflow.migration_pct, 100, 'where SDO expects net departures a number of migrants is not converted');
-assert(outflow.migrationNote, 'and the reader is told why');
+// Where SDO expects net departures, the conversion is signed: a saved 0 is
+// 0%, SDO's own departures are 100%, and arrivals load at 0% with a note.
+const leaving = countyRows.map((r) => [r.geoid, M.averageAnnualMigration(data.baselines[r.geoid], 20)]).filter(([, m]) => m < 0);
+assert(leaving.length >= 1, 'at least one county where SDO expects more people to leave than arrive');
+for (const [geoid, mig] of leaving) {
+  assert.equal(M.paramsFromSaved({ net_migration_annual: 0 }, mig).migration_pct, 0, `${geoid}: a saved 0 is 0%`);
+  assert.equal(M.paramsFromSaved({ net_migration_annual: mig }, mig).migration_pct, 100, `${geoid}: SDO's departures are 100%`);
+  const arrivals = M.paramsFromSaved({ net_migration_annual: 500 }, mig);
+  assert.equal(arrivals.migration_pct, 0, `${geoid}: arrivals load at the nearest setting`);
+  assert(arrivals.migrationNote, `${geoid}: and the reader is told why`);
+}
 
 // 7. No setting the sliders allow makes anyone a negative person: above 100%,
 //    SDO's departures at an age can outnumber the people of that age.

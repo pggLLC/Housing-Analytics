@@ -80,7 +80,7 @@ Migration scales SDO's net migration at every age. Where the people SDO has arri
 
 ### Saved scenarios from the earlier model
 
-Scenarios saved before 2026-10-20 held multipliers and a number of people moving in a year. Loading one converts the multipliers to percentages and the people a year to a percentage of SDO's average net migration for the place loaded. Where SDO expects more people to leave than arrive, a number of arrivals cannot be a percentage of it, so migration stays at 100% and the page says why. A count more than twice SDO's loads as 200%, the highest the builder models, again with a note, and a record that never set a count keeps SDO's migration.
+Scenarios saved before 2026-10-20 held multipliers and a number of people moving in a year. Loading one converts the multipliers to percentages and the people a year to a percentage of SDO's average net migration for the place loaded. The percentage is signed: where SDO expects more people to leave than arrive, a saved 0 loads as 0% and a saved net departure as its share of SDO's. A count in the opposite direction from SDO's forecast cannot be a share of it, so it loads at 0%, the nearest setting, and the page says why. A count more than twice SDO's loads as 200%, the highest the builder models, again with a note, and a record that never set a count keeps SDO's migration.
 
 ### Limitations
 
