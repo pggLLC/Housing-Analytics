@@ -1,0 +1,430 @@
+{
+ "slug": "village-at-homewood-point-phase-ii-colorado-springs",
+ "name": "Village at Homewood Point - Phase II",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+ "units": 83,
+ "researched_on": "2026-10-21",
+ "headline": "The Colorado Springs Housing Authority and MJT Properties are building Village at Homewood Point II, 83 one- and two-bedroom apartments for seniors 62+ at 40% to 60% AMI on housing authority land next to Phase I near downtown Colorado Springs; it won 2023 Round Two federal 4% and state credits with $17.62M of CHFA bonds and broke ground in May 2025.",
+ "why_it_matters": "It shows a housing authority keeping 100% ownership of a tax credit deal on its own land, with a private co-developer carrying guarantees, city HOME funds and fee rebates, and a county housing trust fund loan.",
+ "status": {
+  "label": "Under construction since about May 2025; leasing site says opening September 2026",
+  "detail": "A local TV report dated 2025-06-27 quoted the housing authority saying the project broke ground the previous month. The property website (read 2026-10-21) says it is now open and taking applications, with opening planned for September 2026, and the city lists it with an opening of 2025. No certificate of occupancy or placed-in-service record was found.",
+  "src": [
+   "koaa-2025-06-27",
+   "vhp2-site",
+   "cos-housing-solutions"
+  ]
+ },
+ "next_step": "Watch for a certificate of occupancy, placed-in-service date and lease-up reports from the Colorado Springs Housing Authority.",
+ "key_numbers": [
+  {
+   "value": "83 senior homes, all income-restricted",
+   "meaning": "50 one-bedroom and 33 two-bedroom units for ages 62+: 4 at 40%, 15 at 50% and 64 at 60% AMI.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$1,584,411 a year in federal 4% credit",
+   "meaning": "About $15.8M over 10 years, plus $1,100,000 of state credit.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "value": "$17,620,000 in CHFA bonds",
+   "meaning": "Tax-exempt bonds for a CHFA bond-financed loan, privately placed; CHFA also planned to be construction and permanent lender.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "$500,000 city HOME funds",
+   "meaning": "Plus $199,750.54 in city fee rebates.",
+   "src": [
+    "cos-housing-solutions"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "903 E. Colorado Ave, Colorado Springs 80903; directly west of Phase I, at East Pikes Peak Avenue and South Institute Street",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, S: new construction, senior",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Land",
+   "value": "Owned by the Colorado Springs Housing Authority; designated for multifamily use for about 18 years and previously approved by city planning",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Zoning and approvals",
+   "value": "MX-M CR (mixed-use medium scale), 54 units per acre allowed; Development Plan and drainage report approved by city planning in February 2023",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, two elevators, about 90,402 gross square feet (about 97,000 in a 2025 bid listing) with a podium garage; wood frame on post-tension foundation, hardboard siding and brick to match Phase I; solar shingles; EGC 2020 and electrification-ready",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "constructconnect-2025-02-24"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "Qualified Census Tract; less than half a mile from Memorial Park, bus stop at Pikes Peak Avenue and Institute Street",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Ownership",
+   "value": "100% owned by the Colorado Springs Housing Authority through the development; co-developer MJT Properties, Inc. provides all guarantees and compliance services",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Owner entity (as CHFA prints it)",
+   "value": "CS Pike Senior II L.P.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Underwriting waiver",
+   "value": "CHFA approved a cost basis override on 2023-06-28 (60% one-bedroom units hurt the cost basis calculation)",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "40% AMI",
+   "units": 4
+  },
+  {
+   "level": "50% AMI",
+   "units": 15
+  },
+  {
+   "level": "60% AMI",
+   "units": 64
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 50
+  },
+  {
+   "type": "2BR",
+   "units": 33
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r2-descriptions",
+  "chfa-2023-r2-narratives",
+  "constructconnect-2025-02-24"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,584,411 per year",
+   "note": "2023 Round Two; the August 2023 applicant list showed $1,559,120 requested.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-applicants"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,100,000",
+   "note": "",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$17,620,000",
+   "note": "CHFA issuer and lender, private placement; the narrative also lists total bonds of $26.69M ($20M construction, $6.69M permanent) with no taxable bonds, figures that do not reconcile with the $17.62M tax-exempt amount.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Colorado Springs HOME funds",
+   "amount": "$500,000",
+   "note": "Plus $199,750.54 in fee rebates.",
+   "src": [
+    "cos-housing-solutions",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "Other sources named in the application",
+   "amount": "Not public",
+   "note": "El Paso County housing trust fund loan, solar tax credits, a CHFA permanent loan, Division of Housing soft funds (support letter) and a deferred developer fee; National Equity Fund gave a letter of interest as investor.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Owner entity (as CHFA prints it)",
+   "name": "CS Pike Senior II L.P.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Co-developer, land owner and 100% owner",
+   "name": "Colorado Springs Housing Authority",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Co-developer and guarantor",
+   "name": "MJT Properties, Inc.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer and lender",
+   "name": "CHFA",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Shaw Builders, LLC",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Equity investor (letter of interest, 2023)",
+   "name": "National Equity Fund",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Terra Management Group (per the leasing site; the application named the housing authority)",
+   "src": [
+    "vhp2-site",
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The project was submitted twice before; after CHFA feedback it was consolidated from two phases into one and 40% and 50% AMI units were added.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The Phase I environmental report found one historical condition, a jet fuel spill from a removed above-ground tank that was remediated and closed by the state oil and public safety division in 2008.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study rated marketability excellent and found no weaknesses; two other proposed senior tax credit projects were expected to lease up before this one opened.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "A May 2021 site notice drew two neighbor inquiries (alley traffic, views, lighting, crime); the applicant said the alley will not be used and cited support letters from the city, county housing authority, Downtown Partnership and the mayor's office.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "A February 2025 bid listing said all trades were awarded, construction was expected to start in March 2025 and take 15 months, Davis-Bacon wages apply and permitting was in process.",
+   "src": [
+    "constructconnect-2025-02-24"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-05",
+   "event": "Notice of development posted at the site",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-02",
+   "event": "Development Plan and drainage report approved by city planning",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-06-28",
+   "event": "CHFA approves cost basis override",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-11-17",
+   "event": "CHFA announces 2023 Round Two awards, including Village at Homewood Point - Phase II",
+   "src": [
+    "chfa-news-2023-11-17",
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "date": "2025-02-24",
+   "event": "Bid listing reports all trades awarded and a March 2025 start expected",
+   "src": [
+    "constructconnect-2025-02-24"
+   ]
+  },
+  {
+   "date": "2025-05",
+   "event": "Groundbreaking (reported as the month before 2025-06-27)",
+   "src": [
+    "koaa-2025-06-27"
+   ]
+  },
+  {
+   "date": "2026-09",
+   "event": "Planned opening, per the leasing site",
+   "src": [
+    "vhp2-site"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "The city's Housing Solutions page lists the project as opened in 2025, while the property's own site gives a September 2026 opening and the groundbreaking was reported in May 2025.",
+   "src": [
+    "cos-housing-solutions",
+    "vhp2-site",
+    "koaa-2025-06-27"
+   ]
+  },
+  {
+   "text": "The application said the housing authority would manage the property, while the leasing site names Terra Management Group.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "vhp2-site"
+   ]
+  },
+  {
+   "text": "The application gives the building as 90,402 gross square feet, while a 2025 bid listing describes about 97,000 square feet.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "constructconnect-2025-02-24"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing date, final equity investor and price, and total development cost.",
+  "Amount of the El Paso County housing trust fund loan and whether Division of Housing funds were awarded (not confirmed by a reachable public page).",
+  "Ground lease or land contribution terms from the housing authority and the property tax treatment.",
+  "Certificate of occupancy and placed-in-service dates.",
+  "No public site plan in a planning packet was found; the leasing site's images are labeled AI-generated renderings and were not used."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round Two Federal 4% and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023-11-15",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-descriptions",
+   "title": "2023 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (Village at Homewood Point - Phase II, PDF pages 177-181)",
+   "publisher": "CHFA",
+   "date": "2023-08",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 Round Two State and Federal 4% Credit Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023-08-11",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-news-2023-11-17",
+   "title": "CHFA Announces 2023 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2023-11-17",
+   "url": "https://www.chfainfo.com/chfa-news/11172023-2023-r2-housing-tax-credit-awards"
+  },
+  {
+   "id": "constructconnect-2025-02-24",
+   "title": "Village at Homewood Point - Phase II (project listing)",
+   "publisher": "ConstructConnect",
+   "date": "2025-02-24",
+   "url": "https://projects.constructconnect.com/details/6686672-village-at-homewood-point-phase-ii&find_loc=colorado-80903"
+  },
+  {
+   "id": "koaa-2025-06-27",
+   "title": "Section 8 future unclear in Colorado Springs, application period still happening",
+   "publisher": "KOAA News5",
+   "date": "2025-06-27",
+   "url": "https://www.koaa.com/news/local-news/section-8-future-unclear-in-colorado-springs-application-period-still-happening"
+  },
+  {
+   "id": "cos-housing-solutions",
+   "title": "Housing Solutions",
+   "publisher": "City of Colorado Springs",
+   "date": "2026-10-21",
+   "url": "https://coloradosprings.gov/HousingSolutions"
+  },
+  {
+   "id": "vhp2-site",
+   "title": "Village at Homewood Point II (leasing site)",
+   "publisher": "Terra Management Group",
+   "date": "2026-10-21",
+   "url": "https://www.villageathomewoodpoint2.com/"
+  }
+ ]
+}

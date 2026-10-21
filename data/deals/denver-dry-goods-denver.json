@@ -1,0 +1,645 @@
+{
+ "slug": "denver-dry-goods-denver",
+ "name": "Denver Dry Goods",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+ "units": 106,
+ "researched_on": "2026-10-21",
+ "headline": "Perry Rose LLC, the Denver affiliate of Jonathan Rose Companies, is preserving the 51 apartments in the historic Denver Dry Goods Building at 700 16th Street (39 LIHTC units whose 1994 restrictions expired in 2023 plus 12 market units) and converting vacant office and retail floors into 55 more, for 106 homes at 30% to 80% AMI; it won 2023 Round Two federal 4% and state credits with $28.38M of CHFA bonds and has been under construction since 2025.",
+ "why_it_matters": "It is a downtown office-to-housing conversion that also rescues an expiring 1990s LIHTC property, layering 4%, state and historic credits on an $18.8M acquisition with Denver, DURA, CASR, Division of Housing and Community Opportunity Fund money in a roughly $67M deal.",
+ "status": {
+  "label": "Under construction since 2025; completion expected early 2027",
+  "detail": "The property assignment to the new owner was dated 2025-06-05 and recorded 2025-07-30, and BusinessDen reported on 2025-11-17 that the building is under construction again. Bisnow reported completion expected in early 2027; no completion or lease-up record was found.",
+  "src": [
+   "denver-rr25-0645-amendment",
+   "denver-rr25-1962-amendment",
+   "businessden-2025-11-17",
+   "bisnow-2025-08-06"
+  ]
+ },
+ "next_step": "Watch for Denver Landmark and building permit sign-offs, certificate of occupancy for the 55 new units and lease-up notices in 2027.",
+ "key_numbers": [
+  {
+   "value": "106 homes, all income-restricted",
+   "meaning": "51 existing units renovated (39 LIHTC, 12 converted market units) plus 55 new units in former commercial space, at 30% to 80% AMI with 17 units at 30% AMI.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-descriptions",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "$2,054,386 a year in federal 4% credit",
+   "meaning": "About $20.5M over 10 years, plus $1,100,000 of state credit.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "value": "$28,380,000 in CHFA bonds",
+   "meaning": "CHFA Risk Share construction bonds with $9,687,000 permanent bonds and a taxable construction loan of about $4.57M, per the application.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "$18.8M purchase; about $67M total",
+   "meaning": "Denver Building Housing, Ltd. sold to Denver Dry Preservation LLC for $18,800,000; Bisnow put the project at $67M.",
+   "src": [
+    "denver-rr25-0645-request",
+    "bisnow-2025-08-06"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "700 16th Street, Denver 80202, on the block of California Street between 15th and 16th Streets; the city's 1992 loan describes the residential floors as 1565 California Street",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives",
+    "denver-rr25-0645-amendment"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, A/R; F: new construction (adaptive reuse) plus acquisition/rehab, family",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Six-story, roughly 330,000 sq ft department store built from 1888 with three later additions; converted in 1994 to retail, office, affordable and market-rate housing with LIHTC, historic tax credits and tax increment financing",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "businessden-2025-11-17",
+    "bisnow-2025-08-06"
+   ]
+  },
+  {
+   "item": "Scope",
+   "value": "Convert steam heat to electric split-system heat pumps and baseboard heat (PTACs on the alley side), restore historic windows, tuckpoint and restore the façade, modernize elevators, new kitchens and appliances, and turn about 10,000 sq ft of basement into leasing and amenity space; about 12 months of work",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "denver-rr25-0645-request"
+   ]
+  },
+  {
+   "item": "Zoning and approvals",
+   "value": "Zoned D-C; concept plan filed in October 2023 for a change of occupancy of 74,765 sq ft; Landmark Preservation approval needed before permits",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "milehighcre-2023-10-27"
+   ]
+  },
+  {
+   "item": "Prior affordability",
+   "value": "1994 LURA expired in 2023; a city UDAG loan (originally $1,715,791; principal stated as $3,237,815 since a 2010 amendment) financed 51 units, about 75% of them restricted",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "denver-rr25-0645-amendment"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "Denver Dry Preservation LLC; investor member USA Institutional Denver Dry LLC; Community Opportunity Fund is a partial owner; a DHDP special member is named in the cash-flow waterfall",
+   "src": [
+    "denver-rr25-0646-loan",
+    "denver-rr25-0967-request"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "60-year Denver covenant",
+   "src": [
+    "denver-rr25-0646-request"
+   ]
+  },
+  {
+   "item": "Transit and parking",
+   "value": "Across from the 16th and California light rail stop; no on-site parking",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "Difficult to Develop Area (DDA basis boost)",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 17
+  },
+  {
+   "level": "40% AMI",
+   "units": 6
+  },
+  {
+   "level": "50% AMI",
+   "units": 12
+  },
+  {
+   "level": "60% AMI",
+   "units": 39
+  },
+  {
+   "level": "70% AMI",
+   "units": 20
+  },
+  {
+   "level": "80% AMI",
+   "units": 12
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 66
+  },
+  {
+   "type": "2BR",
+   "units": 40
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r2-descriptions",
+  "denver-rr25-0646-loan"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,054,386 per year",
+   "note": "2023 Round Two; same as the application request (the letter of intent asked for $2,300,000).",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-loi"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,100,000",
+   "note": "2023 Round Two.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$28,380,000",
+   "note": "CHFA issuer; CHFA Risk Share public placement; $9,687,000 permanent bonds; volume cap requested from CHFA (the letter of intent had sought $35,500,000).",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-loi"
+   ]
+  },
+  {
+   "source": "City and County of Denver loan (Affordable Housing Fund and Revolving Affordable Housing Loan Fund)",
+   "amount": "$5,500,000",
+   "note": "Resolution 25-0646 adopted 2025-06-02; 1% simple interest, cash-flow repayment, 42-year maturity; closing deadline 2026-01-17.",
+   "src": [
+    "denver-rr25-0646",
+    "denver-rr25-0646-loan"
+   ]
+  },
+  {
+   "source": "Assumed city loan (former UDAG)",
+   "amount": "$3,237,815",
+   "note": "Assigned from Denver Building Housing, Ltd. by resolution 25-0645 (2025-06-02), maturity reset to 2085-07-01 at 5% simple interest; changed to annual compounding by resolution 25-1962 (2025-12-02).",
+   "src": [
+    "denver-rr25-0645-amendment",
+    "denver-rr25-0645-request",
+    "denver-rr25-1962-amendment"
+   ]
+  },
+  {
+   "source": "Assumed Denver Urban Renewal Authority loan",
+   "amount": "$3,237,815",
+   "note": "Seventh mortgage in the city loan's cash-flow waterfall; Bisnow reports a $3.2M DURA loan assignment.",
+   "src": [
+    "denver-rr25-0646-loan",
+    "bisnow-2025-08-06"
+   ]
+  },
+  {
+   "source": "Denver CASR electrification grant",
+   "amount": "$1,300,000",
+   "note": "Contract with Community Opportunity Fund and Denver Dry Preservation LLC, 24 months, Climate Protection Funds; resolution 25-0967 adopted 2025-07-21.",
+   "src": [
+    "denver-rr25-0967-agreement",
+    "denver-rr25-0967-request"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing award",
+   "amount": "$5,300,000",
+   "note": "State Housing Board award in the first half of 2025.",
+   "src": [
+    "dola-shb-2025"
+   ]
+  },
+  {
+   "source": "Community Opportunity Fund loans",
+   "amount": "About $7.9M",
+   "note": "Third (about $5.3M), fourth (about $1.35M) and fifth (about $1.25M) mortgage loans in the city loan's waterfall; Bisnow says the fund contributed $8.6M in grants and financing.",
+   "src": [
+    "denver-rr25-0646-loan",
+    "bisnow-2025-08-06"
+   ]
+  },
+  {
+   "source": "Historic tax credit and LIHTC equity",
+   "amount": "Not public",
+   "note": "The application relies on historic tax credits; Bisnow names The Richman Group, and the investor member is USA Institutional Denver Dry LLC (affiliation with Richman inferred).",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "bisnow-2025-08-06",
+    "denver-rr25-0646-loan"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Perry Rose LLC (Denver affiliate of Jonathan Rose Companies)",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "Denver Dry Preservation LLC",
+   "src": [
+    "denver-rr25-0646-loan"
+   ]
+  },
+  {
+   "role": "Partial owner and lender",
+   "name": "Community Opportunity Fund",
+   "src": [
+    "denver-rr25-0967-request",
+    "denver-rr25-0646-loan"
+   ]
+  },
+  {
+   "role": "Investor member",
+   "name": "USA Institutional Denver Dry LLC",
+   "src": [
+    "denver-rr25-0646-loan"
+   ]
+  },
+  {
+   "role": "Seller",
+   "name": "Denver Building Housing, Ltd. (with Denver Dry Retail LLC owning other parts, per the application)",
+   "src": [
+    "denver-rr25-0645-request",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "OZ Architecture",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Public lenders",
+   "name": "City and County of Denver (HOST, CASR); Denver Urban Renewal Authority; Colorado Division of Housing",
+   "src": [
+    "denver-rr25-0646",
+    "denver-rr25-0967-agreement",
+    "bisnow-2025-08-06",
+    "dola-shb-2025"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Denver Building Housing, Ltd. agreed to sell the property to Denver Dry Preservation LLC for $18,800,000; the city's assignment agreement is dated 2025-06-05 and was recorded 2025-07-30 (reception 2025072236), so the acquisition is inferred to have closed by mid-2025.",
+   "src": [
+    "denver-rr25-0645-request",
+    "denver-rr25-0645-amendment",
+    "denver-rr25-1962-amendment"
+   ]
+  },
+  {
+   "text": "The 1994 conversion used LIHTC, historic credits, tax increment financing and a UDAG loan; the LURA expired in 2023, putting 39 LIHTC units at risk of going market-rate.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "After the pandemic emptied the building's office and retail space, the plan converts it into 55 apartments while about 10 market-rate households are to be relocated under HUD guidelines or income-qualified to stay; LIHTC residents move to a basement business center during daytime work in their units.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study showed a 22.6% total capture rate, above CHFA's 25% threshold only at 50% AMI (29.6%) and 60% AMI (56.7%), and 59 LIHTC projects in the market area.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "Klein Hornig provided the 10-year rule opinion supporting basis-eligible acquisition cost, and a cost basis waiver was requested for the steam conversion and historic constraints.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The Division of Housing award ($5.3M) and the Community Opportunity Fund third mortgage (about $5.3M) are the same size; whether the state money flows through the fund is not stated (inferred possibility only).",
+   "src": [
+    "dola-shb-2025",
+    "denver-rr25-0646-loan"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1992-12-04",
+   "event": "Original city UDAG development and loan agreement with Denver Building Housing, Ltd.",
+   "src": [
+    "denver-rr25-0645-amendment"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "1994 LURA expires",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-08-11",
+   "event": "Listed on CHFA's 2023 Round Two applicant report",
+   "src": [
+    "chfa-2023-r2-applicants"
+   ]
+  },
+  {
+   "date": "2023-10-27",
+   "event": "Concept plan for 55 new units reported",
+   "src": [
+    "milehighcre-2023-10-27"
+   ]
+  },
+  {
+   "date": "2023-11-17",
+   "event": "CHFA announces 2023 Round Two awards, including Denver Dry Goods",
+   "src": [
+    "chfa-2023-r2-news",
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "date": "2025-06-02",
+   "event": "City Council adopts the $5.5M loan (25-0646) and the loan assignment (25-0645)",
+   "src": [
+    "denver-rr25-0646",
+    "denver-rr25-0645-amendment"
+   ]
+  },
+  {
+   "date": "2025-06-11",
+   "event": "State announces the $5.3M State Housing Board award",
+   "src": [
+    "dola-shb-2025"
+   ]
+  },
+  {
+   "date": "2025-07-21",
+   "event": "City Council adopts the $1.3M CASR electrification contract (25-0967)",
+   "src": [
+    "denver-rr25-0967-request",
+    "denver-rr25-0967-agreement"
+   ]
+  },
+  {
+   "date": "2025-07-30",
+   "event": "Assignment agreement recorded",
+   "src": [
+    "denver-rr25-1962-amendment"
+   ]
+  },
+  {
+   "date": "2025-11-17",
+   "event": "BusinessDen reports work under way",
+   "src": [
+    "businessden-2025-11-17"
+   ]
+  },
+  {
+   "date": "2025-12-02",
+   "event": "City Council adopts the fifth amendment (25-1962) changing interest to annual compounding",
+   "src": [
+    "denver-rr25-1962-amendment"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Completion expected (early 2027)",
+   "src": [
+    "bisnow-2025-08-06"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Denver Dry Goods Building exterior",
+   "url": "https://businessden.com/work-underway-on-new-apartments-in-downtowns-dry-goods-building/",
+   "kind": "photo",
+   "made_by": "Perry Rose LLC (courtesy image)",
+   "note": "Lead image of the article",
+   "src": [
+    "businessden-2025-11-17"
+   ]
+  },
+  {
+   "title": "Denver Dry Goods Building",
+   "url": "https://www.bisnow.com/news/denver/affordable-housing/jonathan-rose-companies-denver-dry-goods-building-130466",
+   "kind": "photo",
+   "made_by": "Jonathan Rose Companies (courtesy image)",
+   "note": "Lead image of the article",
+   "src": [
+    "bisnow-2025-08-06"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists 66 one-bedroom and 40 two-bedroom units, while the city loan agreement lists 1 studio, 56 one-bedroom and 49 two-bedroom units and the city's resolution request says 2 studios, 56 one-bedroom and 48 two-bedroom units.",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "denver-rr25-0646-loan",
+    "denver-rr25-0646-request"
+   ]
+  },
+  {
+   "text": "The application says two floors of commercial space will become the 55 new units, while the city describes three floors and the concept plan names floor 2 of both buildings and floor 3 of the 15th Street building.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "denver-rr25-0646-request",
+    "milehighcre-2023-10-27"
+   ]
+  },
+  {
+   "text": "Bisnow describes 75,000 sq ft of vacant commercial space being converted, while BusinessDen describes 30,000 sq ft of office space plus a portion of vacant retail space.",
+   "src": [
+    "bisnow-2025-08-06",
+    "businessden-2025-11-17"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Financing closing date for the bonds and equity, credit prices, and the role of the DHDP special member (property tax exemption is likely but not confirmed).",
+  "General contractor and building permit numbers; Landmark Preservation approval date.",
+  "Whether the $5.3M Division of Housing award is the Community Opportunity Fund third mortgage or a separate source.",
+  "Rents and the fate of the 12 market-rate households."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round Two Federal 4% and State Credit Award Report (as of 2023-11-15)",
+   "publisher": "CHFA",
+   "date": "2023-11-15",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-descriptions",
+   "title": "2023 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (Denver Dry Preservation, PDF pages 53-57)",
+   "publisher": "CHFA",
+   "date": "2023-08",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 Round Two State and Federal 4% Credit Applicant Report (as of 2023-08-11)",
+   "publisher": "CHFA",
+   "date": "2023-08-11",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-loi",
+   "title": "2023 Round Two State and Federal 4% Credit Letters of Intent",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/7f19c63e-f96e-4477-aaa6-93233ce358d0/2023-Round-2-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-news",
+   "title": "CHFA Announces 2023 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2023-11-17",
+   "url": "https://www.chfainfo.com/chfa-news/11172023-2023-r2-housing-tax-credit-awards"
+  },
+  {
+   "id": "denver-rr25-0646-loan",
+   "title": "Loan Agreement (Affordable Housing Fund and Revolving Affordable Housing Loan Fund), City and County of Denver and Denver Dry Preservation LLC, HOST-202578422 (attachment to resolution 25-0646)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2025",
+   "url": "https://denver.legistar1.com/denver/attachments/51ebd70d-599e-4791-9c87-1dc3cfa7ae37.pdf"
+  },
+  {
+   "id": "denver-rr25-0646",
+   "title": "Resolution 25-0646 (filed resolution), loan agreement with Denver Dry Preservation, LLC",
+   "publisher": "City and County of Denver",
+   "date": "2025-06-02",
+   "url": "https://denver.legistar1.com/denver/attachments/0ca41885-5cec-495f-96dd-a3f232df76f9.pdf"
+  },
+  {
+   "id": "denver-rr25-0646-request",
+   "title": "Resolution request RR25-0646, HOST, Denver Dry Goods loan",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2025",
+   "url": "https://denver.legistar1.com/denver/attachments/6dec3db7-1585-49c3-99f7-d1fa499b7504.docx"
+  },
+  {
+   "id": "denver-rr25-0645-amendment",
+   "title": "Fourth Amendment, Modification, Assignment, and Assumption Agreement, Denver Building Housing, Ltd. and Denver Dry Preservation LLC, HOST-202577651-04 (attachment to resolution 25-0645)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2025-06-05",
+   "url": "https://denver.legistar1.com/denver/attachments/54964a67-a01e-4337-aac0-29f19ec148c2.pdf"
+  },
+  {
+   "id": "denver-rr25-0645-request",
+   "title": "Resolution request RR25-0645, HOST, Denver Dry Goods loan amendment and assignment",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2025",
+   "url": "https://denver.legistar1.com/denver/attachments/09f142bf-5b63-428a-b040-22921f5369cb.docx"
+  },
+  {
+   "id": "denver-rr25-0967-agreement",
+   "title": "Agreement, City and County of Denver, Community Opportunity Fund and Denver Dry Preservation LLC, CASR-202579275 (attachment to resolution 25-0967)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2025",
+   "url": "https://denver.legistar1.com/denver/attachments/f67e7e00-5a5c-4202-9c1c-9b97645c7bd4.pdf"
+  },
+  {
+   "id": "denver-rr25-0967-request",
+   "title": "Resolution request RR25-0967, CASR, Denver Dry electrification",
+   "publisher": "City and County of Denver, Office of Climate Action, Sustainability and Resiliency",
+   "date": "2025",
+   "url": "https://denver.legistar1.com/denver/attachments/a3049506-68b5-407d-934f-32636282571e.docx"
+  },
+  {
+   "id": "denver-rr25-1962-amendment",
+   "title": "Fifth Amendment and Modification Agreement, City and County of Denver and Denver Dry Preservation LLC, HOST-202582299-05 (attachment to resolution 25-1962)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2025-12",
+   "url": "https://denver.legistar1.com/denver/attachments/6fa987aa-4d01-44c6-8f52-dec01a83ee13.pdf"
+  },
+  {
+   "id": "dola-shb-2025",
+   "title": "Colorado State Housing Board Invests Over $68.4 Million to Support More Than 2,200 Homes People Can Afford in First Half of 2025",
+   "publisher": "Colorado Department of Local Affairs",
+   "date": "2025-06-11",
+   "url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-invests-over-684-million-to-support-more-than-2200-homes"
+  },
+  {
+   "id": "bisnow-2025-08-06",
+   "title": "Jonathan Rose Cos. Adding More Affordable Housing At Denver Dry Goods Building With $67M Project",
+   "publisher": "Bisnow",
+   "date": "2025-08-06",
+   "url": "https://www.bisnow.com/news/denver/affordable-housing/jonathan-rose-companies-denver-dry-goods-building-130466"
+  },
+  {
+   "id": "businessden-2025-11-17",
+   "title": "Work underway on new apartments in downtown's Dry Goods building",
+   "publisher": "BusinessDen",
+   "date": "2025-11-17",
+   "url": "https://businessden.com/work-underway-on-new-apartments-in-downtowns-dry-goods-building/"
+  },
+  {
+   "id": "milehighcre-2023-10-27",
+   "title": "Concept Plans for Denver Dry Goods Building Propose Conversion of Office into 55 Affordable Housing Units",
+   "publisher": "Mile High CRE",
+   "date": "2023-10-27",
+   "url": "https://milehighcre.com/concept-plans-for-denver-dry-goods-building-propose-conversion-of-office-into-55-affordable-housing-units/"
+  }
+ ]
+}

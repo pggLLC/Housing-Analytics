@@ -1,0 +1,574 @@
+{
+ "slug": "hughes-station-brighton",
+ "name": "Hughes Station",
+ "city": "Brighton",
+ "county": "Adams",
+ "award": "2023 Federal 4% housing tax credit",
+ "units": 120,
+ "researched_on": "2026-10-21",
+ "headline": "The Brighton Housing Authority is resyndicating and renovating Hughes Station, an existing 120-unit tax credit property for households at 30% to 60% AMI at 233 North Main Street in downtown Brighton, using a 2023-cycle federal 4% credit and CHFA bonds.",
+ "why_it_matters": "A housing authority preservation deal that recycles a property bought from a nonprofit in 2017: CHFA bonds, a CHFA HUD Risk Share loan, Capital Magnet Fund money, a $3.6M state grant, county CDBG and a seller carryback loan fund an $11M renovation while deepening affordability to an average of about 48% AMI.",
+ "status": {
+  "label": "Financing committed in 2024; renovation underway in 2025; resident celebration held July 2026",
+  "detail": "CHFA reported providing the construction-to-permanent loan in February 2025, and the housing authority said construction would run through 2025 and 2026. The housing authority's project site invited residents to a celebration on 2026-07-25 for 'the families who now call Hughes Station home'; no public record found confirms final completion or the issue of 8609 forms (the deal is still on CHFA's 4% award report, which excludes developments with 8609s issued).",
+  "src": [
+   "chfa-impact-2025-02",
+   "bha-press-kit-2025-03",
+   "hughesstation-celebration-2026",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch Brighton Housing Authority board packets for a construction completion report and CHFA's 4% Completed Developments Report for 8609 issuance.",
+ "key_numbers": [
+  {
+   "value": "120 homes, all income-restricted",
+   "meaning": "18 one-, 60 two- and 42 three-bedroom units; 18 at 30%, 18 at 40%, 51 at 50% and 33 at 60% AMI (average about 48% AMI).",
+   "src": [
+    "chfa-4pct-award",
+    "bha-agenda-2024-10-03",
+    "dola-2024-11-18"
+   ]
+  },
+  {
+   "value": "$1,185,643 a year in federal 4% credit",
+   "meaning": "Cycle year 2023 on CHFA's report (the housing authority says the reservation came in June 2024); expected to raise about $11.0M of equity from National Equity Fund.",
+   "src": [
+    "chfa-4pct-award",
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "value": "$14,500,000 in CHFA tax-exempt bonds",
+   "meaning": "CHFA is the issuer per the award report; CHFA's February 2025 newsletter cites $16,340,000 of private activity bonds.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-impact-2025-02"
+   ]
+  },
+  {
+   "value": "About $31.6M total budget",
+   "meaning": "Includes an $11M transfer price from the housing authority to the new partnership and about $11.2M of construction (2024 staff memo; subject to change).",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "233 North Main Street, Brighton 80601",
+   "src": [
+    "chfa-4pct-award",
+    "bha-drawing-board",
+    "bha-press-kit-2025-03"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, acquisition/rehabilitation; in a QCT; not in a DDA or SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Property",
+   "value": "120 units in nine buildings, built in the mid-2000s with original CHFA tax credits (2003 per a 2018 news report); its initial 15-year compliance period has ended, allowing resyndication",
+   "src": [
+    "bha-agenda-2024-10-03",
+    "ccm-2018-01-23"
+   ]
+  },
+  {
+   "item": "Ownership structure",
+   "value": "Hughes Station BHA LLLP; general partner Hughes Station BHA GP, LLC (housing authority is sole member) with 0.01%; limited partner NEF Assignment Corporation with 99.99%",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "item": "Rehab scope",
+   "value": "New cabinets, flooring and appliances in all units; new ADA-accessible units and re-engineered walkways for full ADA access; repairs to siding, exterior stairs and walkways with extended roof lines; new HVAC and Energy Star windows; parking resurfacing, lighting and security upgrades",
+   "src": [
+    "bha-agenda-2024-10-03",
+    "bha-press-kit-2025-03"
+   ]
+  },
+  {
+   "item": "Relocation",
+   "value": "On-site relocation plan; 24 units held vacant in 2024 to rotate residents; the housing authority also planned newly built Fifth Avenue units across the street for relocation",
+   "src": [
+    "bha-agenda-2024-10-03",
+    "ccm-2023-07-06"
+   ]
+  },
+  {
+   "item": "Construction schedule (2024 memo)",
+   "value": "Equity and lender closing expected early November 2024; construction start December 2024 for about 19 months",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 18
+  },
+  {
+   "level": "40% AMI",
+   "units": 18
+  },
+  {
+   "level": "50% AMI",
+   "units": 51
+  },
+  {
+   "level": "60% AMI",
+   "units": 33
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 18
+  },
+  {
+   "type": "2BR",
+   "units": 60
+  },
+  {
+   "type": "3BR",
+   "units": 42
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "bha-agenda-2024-10-03"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,185,643 per year",
+   "note": "Cycle year 2023 on the award report; amounts marked subject to change. Equity of about $11,025,000 from National Equity Fund in the 2024 budget.",
+   "src": [
+    "chfa-4pct-award",
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA)",
+   "amount": "$14,500,000",
+   "note": "CHFA's February 2025 newsletter gives $16,340,000. Whose bond cap is not stated publicly.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-impact-2025-02"
+   ]
+  },
+  {
+   "source": "CHFA construction loans (HUD Risk Share)",
+   "amount": "$11,700,000 senior plus $8,800,000 subordinate",
+   "note": "21-month construction terms at 5.54%; the senior loan converts to an $11.7M, 40-year permanent loan at 5.83%. CHFA reported the total as a $20.5M construction-to-permanent loan.",
+   "src": [
+    "bha-agenda-2024-10-03",
+    "chfa-impact-2025-02"
+   ]
+  },
+  {
+   "source": "CHFA Capital Magnet Fund",
+   "amount": "$500,000 loan and $250,000 grant",
+   "note": "Loan at 3% for 17 years, funded at stabilization.",
+   "src": [
+    "bha-agenda-2024-10-03",
+    "chfa-impact-2025-02"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing grant (State Housing Board)",
+   "amount": "$3,600,000",
+   "note": "Granted to the housing authority and lent to the partnership.",
+   "src": [
+    "dola-2024-11-18",
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "source": "Housing authority seller carryback loan",
+   "amount": "About $3.3M to $3.5M",
+   "note": "Part of the sale proceeds from the housing authority to the partnership.",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "source": "Housing authority Moving to Work loan",
+   "amount": "$260,000 to $370,000",
+   "note": "The memo gives both figures.",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "source": "Adams County CDBG",
+   "amount": "$176,000 to about $350,000",
+   "note": "Granted to the housing authority and lent to the partnership; the memo gives both figures.",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$1,069,498",
+   "note": "",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Brighton Housing Authority (Housing Authority of the City of Brighton)",
+   "src": [
+    "chfa-4pct-award",
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "role": "Bond issuer, lender and credit allocator",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-impact-2025-02"
+   ]
+  },
+  {
+   "role": "Tax credit investor",
+   "name": "National Equity Fund",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "role": "Development consultant",
+   "name": "GL Development Advisors",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "I-Kota",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Cuningham",
+   "src": [
+    "bha-agenda-2024-10-03",
+    "chfa-impact-2025-02"
+   ]
+  },
+  {
+   "role": "Civil engineer",
+   "name": "Wilson and Company",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "role": "Relocation consultant",
+   "name": "Revival Development Services",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "role": "Prior owner (to 2017)",
+   "name": "Almost Home, Inc.",
+   "src": [
+    "ccm-2018-01-23",
+    "bha-drawing-board"
+   ]
+  },
+  {
+   "role": "Property management partner (pre-rehab)",
+   "name": "Hendricks Communities and its affiliate Terra Management",
+   "src": [
+    "bha-drawing-board",
+    "ccm-2018-01-23"
+   ]
+  },
+  {
+   "role": "State funder",
+   "name": "Colorado Department of Local Affairs, Division of Housing",
+   "src": [
+    "dola-2024-11-18"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The Brighton Housing Authority took over Hughes Station from Almost Home, Inc., a homeless-services nonprofit that built and ran it, in a transaction reported at $10 million; the authority assumed the property's loans and Almost Home expected to net less than $1 million. The authority dates the purchase to 2017; the news report ran in January 2018.",
+   "src": [
+    "ccm-2018-01-23",
+    "bha-drawing-board",
+    "bha-press-kit-2025-03"
+   ]
+  },
+  {
+   "text": "Since 2021 the authority worked on a refinancing plan for significant deferred maintenance; CHFA issued conditional commitment letters on 2022-01-11 and final commitment letters on 2024-09-04.",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "text": "At a 2024-09-12 special meeting the housing authority board approved Resolution 24-09-03 to use authority investment funds for the CHFA commitment fees, and the 2024-10-03 board agenda carried Resolution 24-10-01 to form the partnership, convey the property and approve the rehab financing.",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "text": "The rehab deepens affordability: the property's original credits capped rents for households under 60% AMI, while the new mix puts 87 of 120 units at 50% AMI or below (computed from the CHFA mix).",
+   "src": [
+    "ccm-2018-01-23",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "The housing authority, a HUD Moving to Work agency since 2021, describes Hughes Station as the first stage of its asset management and development strategy for its tax credit properties.",
+   "src": [
+    "bha-agenda-2024-10-03",
+    "bha-press-kit-2025-03"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2023 Round One or Round Two applicant reports or the 2023 Round Two award report.",
+   "src": [
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2017",
+   "event": "Brighton Housing Authority acquires Hughes Station from Almost Home, Inc. (reported January 2018)",
+   "src": [
+    "bha-drawing-board",
+    "ccm-2018-01-23"
+   ]
+  },
+  {
+   "date": "2022-01-11",
+   "event": "CHFA conditional commitment letters for the refinance",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "date": "2024-06",
+   "event": "CHFA tax credit reservation of $1,185,643",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "date": "2024-09-04",
+   "event": "CHFA commitment letters for the rehab financing",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "date": "2024-10-03",
+   "event": "Housing authority board agenda carries Resolution 24-10-01 (entities, conveyance, rehab financing)",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "date": "2024-11-18",
+   "event": "State Housing Board $3.6M grant announced",
+   "src": [
+    "dola-2024-11-18"
+   ]
+  },
+  {
+   "date": "2025-02",
+   "event": "CHFA reports its $20.5M construction-to-permanent loan",
+   "src": [
+    "chfa-impact-2025-02"
+   ]
+  },
+  {
+   "date": "2025-04-09",
+   "event": "Housing authority renovation celebration and tours; construction to run through 2026",
+   "src": [
+    "bha-press-kit-2025-03"
+   ]
+  },
+  {
+   "date": "2026-07-25",
+   "event": "Resident celebration at Hughes Station",
+   "src": [
+    "hughesstation-celebration-2026"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2023 (no 8609s issued yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Color scheme elevation, Hughes Station",
+   "url": "https://www.impact.chfainfo.com/february2025",
+   "kind": "rendering",
+   "made_by": "Cuningham Architecture (credited by CHFA)",
+   "note": "Spotlight section image, CHFA Impact Report February 2025",
+   "src": [
+    "chfa-impact-2025-02"
+   ]
+  },
+  {
+   "title": "Hughes Station press kit",
+   "url": "https://hughesstation.com/wp-content/uploads/2025/03/BHA-Press-Kit-3-27-25.pdf",
+   "kind": "photo",
+   "made_by": "Brighton Housing Authority",
+   "note": "Pages 1-2",
+   "src": [
+    "bha-press-kit-2025-03"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report lists $14,500,000 of bonds, while CHFA's February 2025 newsletter cites $16,340,000 of private activity bonds.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-impact-2025-02"
+   ]
+  },
+  {
+   "text": "CHFA's award report lists the credit under cycle year 2023, while CHFA's newsletter says the credit was allocated in 2024 and the housing authority says the reservation came in June 2024.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-impact-2025-02",
+    "bha-agenda-2024-10-03"
+   ]
+  },
+  {
+   "text": "The housing authority's 2024 staff memo gives the address as 233 South Main Street, while CHFA and the authority's other materials give 233 North Main Street.",
+   "src": [
+    "bha-agenda-2024-10-03",
+    "chfa-4pct-award",
+    "bha-drawing-board"
+   ]
+  },
+  {
+   "text": "Within the same memo, the sources table shows $176,000 of county CDBG and a $260,000 Moving to Work loan, while the narrative describes about $350,000 of CDBG and a $370,000 Moving to Work loan.",
+   "src": [
+    "bha-agenda-2024-10-03"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Actual financing closing date (the memo targeted early November 2024) and final source amounts.",
+  "Completion date of the renovation and 8609 issuance.",
+  "Whose private activity bond cap backs the CHFA bonds, and whether the reported bond amount is $14.5M or $16.34M.",
+  "Length of the new affordability covenant (extended use period).",
+  "Whether the housing authority's ownership role provides a property tax exemption for the partnership."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "bha-agenda-2024-10-03",
+   "title": "Board Meeting Agenda packet, October 3, 2024 (incl. Staff Memo #1, Hughes Station Apartments Rehabilitation, Reso 24-10-01)",
+   "publisher": "Housing Authority of the City of Brighton (posted by City of Brighton)",
+   "date": "2024-10-03",
+   "url": "https://brightonco.gov/AgendaCenter/ViewFile/Agenda/_10032024-1838"
+  },
+  {
+   "id": "chfa-impact-2025-02",
+   "title": "CHFA Impact Report, February 2025 (Financing Supports Hughes Station)",
+   "publisher": "CHFA",
+   "date": "2025-02",
+   "url": "https://www.impact.chfainfo.com/february2025"
+  },
+  {
+   "id": "dola-2024-11-18",
+   "title": "Colorado State Housing Board Announces $6.85M in Housing Awards, Providing 185 Rental Units Statewide",
+   "publisher": "Colorado Department of Local Affairs",
+   "date": "2024-11-18",
+   "url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-announces-685m-in-housing-awards-providing-185-rental"
+  },
+  {
+   "id": "bha-press-kit-2025-03",
+   "title": "All Aboard the Hughes Station Express (press kit)",
+   "publisher": "Brighton Housing Authority",
+   "date": "2025-03-27",
+   "url": "https://hughesstation.com/wp-content/uploads/2025/03/BHA-Press-Kit-3-27-25.pdf"
+  },
+  {
+   "id": "hughesstation-celebration-2026",
+   "title": "Hughes Station Resident Celebration",
+   "publisher": "Brighton Housing Authority",
+   "date": "2026",
+   "url": "https://hughesstation.com/"
+  },
+  {
+   "id": "bha-drawing-board",
+   "title": "On the Drawing Board",
+   "publisher": "Brighton Housing Authority",
+   "date": "2024",
+   "url": "https://www.brightonhousingauthority.org/on-the-drawing-board"
+  },
+  {
+   "id": "ccm-2018-01-23",
+   "title": "Housing Authority takes over Hughes Station for $10 million",
+   "publisher": "Colorado Community Media (Brighton Standard Blade)",
+   "date": "2018-01-23",
+   "url": "https://www.coloradocommunitymedia.com/archives/brighton/news/article_78bed093-a663-5ded-bc2f-9392991baa36.html"
+  },
+  {
+   "id": "ccm-2023-07-06",
+   "title": "Brighton Housing Authority adding more affordable housing",
+   "publisher": "Colorado Community Media",
+   "date": "2023-07-06",
+   "url": "https://www.coloradocommunitymedia.com/archives/brighton/news/local-government/article_6627bac4-b3e0-5ed4-91a3-9a105fd7e3fc.html"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round 2 Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  }
+ ]
+}

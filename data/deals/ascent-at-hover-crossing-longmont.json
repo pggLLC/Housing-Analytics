@@ -1,0 +1,553 @@
+{
+ "slug": "ascent-at-hover-crossing-longmont",
+ "name": "Ascent at Hover Crossing",
+ "city": "Longmont",
+ "county": "Boulder",
+ "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+ "units": 75,
+ "researched_on": "2026-10-21",
+ "headline": "Pennrose and the Longmont Housing Authority built Ascent at Hover Crossing, 75 income-restricted one- to four-bedroom family apartments at 30% to 80% AMI with 18 project-based vouchers and an on-site early childhood center on housing authority land in north Longmont; it won 2023 Round Two federal 4% and state credits with $18.25M of CHFA bonds, broke ground in November 2024 and held its grand opening on 2026-03-03.",
+ "why_it_matters": "It shows a housing authority using ARPA money to buy land, then carrying back seller financing, vouchers and city soft funds to a national developer, and pairing the housing with a separately funded child care center.",
+ "status": {
+  "label": "Completed and open (grand opening 2026-03-03)",
+  "detail": "Groundbreaking was held in November 2024, the architect lists completion in January 2026, and Pennrose and the housing authority celebrated the grand opening on 2026-03-03. The early childhood center, run by OUR Center, was expected to open later in 2026. The project won a Housing Colorado Eagle Award on 2026-06-11.",
+  "src": [
+   "bizwest-2024-11-22",
+   "vmwp-project",
+   "pennrose-2026-03-03",
+   "coloradobiz-2026-04-01",
+   "longmont-2026-06-24"
+  ]
+ },
+ "next_step": "Watch for the opening of the Aspen Center early childhood classrooms and for the CHFA placed-in-service record.",
+ "key_numbers": [
+  {
+   "value": "75 homes, all income-restricted",
+   "meaning": "18 one-bedroom, 30 two-bedroom, 21 three-bedroom and 6 four-bedroom units under income averaging, 31 of them at 50% AMI or below.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-descriptions",
+    "vmwp-groundbreaking-2024-11"
+   ]
+  },
+  {
+   "value": "$1,296,664 a year in federal 4% credit",
+   "meaning": "About $13.0M over 10 years, plus $1,100,000 of state credit.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "value": "$18,250,000 in CHFA bonds",
+   "meaning": "CHFA is issuer and volume cap provider; bonds were to pay down to $11.5M of long-term bonds.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "$39M development",
+   "meaning": "FirstBank financed nearly $25M; RBC Community Investments and JPMorgan Chase provided equity.",
+   "src": [
+    "pennrose-2026-03-03",
+    "vmwp-groundbreaking-2024-11"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1764 & 1780 Hover St., Longmont 80501 (CHFA); the city and Pennrose now use 2225 18th Avenue; the site lies east of Hover Street and south of 18th Avenue",
+   "src": [
+    "chfa-2023-r2-award",
+    "longmont-2026-06-24",
+    "pennrose-portfolio",
+    "longmontleader-2023-04-19"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Site and buildings",
+   "value": "About 2.41 acres; two three-story wood-frame residential buildings (one holding an approximately 5,000 sq ft early childhood center) and a standalone community building; about 31 units per acre",
+   "src": [
+    "vmwp-project",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Mixed-Use Neighborhood (MU-N), which allows multifamily at 18 or more units per acre; entitlements administrative, per the application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric, NGBS Bronze and ENERGY STAR; 211 kW rooftop solar array owned by the City of Longmont",
+   "src": [
+    "vmwp-project",
+    "coloradobiz-2026-04-01",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Land",
+   "value": "Housing authority land, bought from the Longmont Housing Development Corporation with $800,000 of ARPA funds; the housing authority provided seller financing for the land",
+   "src": [
+    "longmontleader-2023-04-19",
+    "chfa-2023-r2-descriptions",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Ownership structure",
+   "value": "Longmont Housing Authority planned as co-general partner with Pennrose, per the application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Vouchers",
+   "value": "18 project-based vouchers from the Longmont Housing Authority",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "vmwp-groundbreaking-2024-11"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "Not in a Qualified Census Tract or Difficult Development Area",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 18
+  },
+  {
+   "level": "40% AMI",
+   "units": 9
+  },
+  {
+   "level": "50% AMI",
+   "units": 4
+  },
+  {
+   "level": "70% AMI",
+   "units": 33
+  },
+  {
+   "level": "80% AMI",
+   "units": 11
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 18
+  },
+  {
+   "type": "2BR",
+   "units": 30
+  },
+  {
+   "type": "3BR",
+   "units": 21
+  },
+  {
+   "type": "4BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r2-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,296,664 per year",
+   "note": "2023 Round Two; equity from RBC Community Investments and JPMorgan Chase.",
+   "src": [
+    "chfa-2023-r2-award",
+    "vmwp-groundbreaking-2024-11"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,100,000",
+   "note": "",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$18,250,000",
+   "note": "CHFA is issuer and volume cap provider; forward construction-to-permanent private placement with one lender, paying down to $11,500,000 of long-term bonds, per the application.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "FirstBank construction and permanent loans",
+   "amount": "Nearly $25,000,000",
+   "note": "As stated by FirstBank at the groundbreaking.",
+   "src": [
+    "vmwp-groundbreaking-2024-11"
+   ]
+  },
+  {
+   "source": "Longmont Housing Authority and City of Longmont soft funds",
+   "amount": "$2,400,000",
+   "note": "Local and ARPA funds, plus a seller carry-back loan on the land, per the application.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Health Foundation grant (early childhood center)",
+   "amount": "$2,000,000",
+   "note": "Grant agreement approved by the Longmont Housing Authority board in July 2024.",
+   "src": [
+    "vmwp-timescall-2024-07"
+   ]
+  },
+  {
+   "source": "Other public support",
+   "amount": "Not public",
+   "note": "Boulder County and the Colorado Division of Housing also committed financial support; amounts were not found. The application also planned 45L credit proceeds and deferred developer fee.",
+   "src": [
+    "vmwp-groundbreaking-2024-11",
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Pennrose LLC",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Land owner, co-general partner (planned) and property manager",
+   "name": "Longmont Housing Authority",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "pennrose-2026-03-03"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Lender",
+   "name": "FirstBank",
+   "src": [
+    "vmwp-groundbreaking-2024-11"
+   ]
+  },
+  {
+   "role": "Equity investors",
+   "name": "RBC Community Investments; JPMorgan Chase",
+   "src": [
+    "vmwp-groundbreaking-2024-11",
+    "coloradobiz-2026-04-01"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Van Meter Williams Pollack (VMWP)",
+   "src": [
+    "pennrose-2026-03-03",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Deneuve Construction Services",
+   "src": [
+    "pennrose-2026-03-03",
+    "coloradobiz-2026-04-01"
+   ]
+  },
+  {
+   "role": "Early childhood center operator",
+   "name": "OUR Center (Aspen Center at Hover Crossing)",
+   "src": [
+    "coloradobiz-2026-04-01",
+    "longmont-2026-06-24"
+   ]
+  },
+  {
+   "role": "Financial consultant",
+   "name": "RCH Jones Consulting",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The Longmont Housing Authority board, made up of City Council members, approved buying the parcel behind the Walgreens near Hover Street and 18th Avenue from the Longmont Housing Development Corporation with $800,000 of ARPA funds at its meeting reported on 2023-04-19 (meeting date 2023-04-18, inferred).",
+   "src": [
+    "longmontleader-2023-04-19"
+   ]
+  },
+  {
+   "text": "The housing authority picked Pennrose as developer partner through a competitive process; the city and housing authority formed a partnership in 2020 and this is their first development together.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "longmont-2026-06-24"
+   ]
+  },
+  {
+   "text": "Wild Plum Center consulted on the design of the early childhood center and was named as its future operator in 2024; by the 2026 opening, OUR Center was operating it.",
+   "src": [
+    "vmwp-groundbreaking-2024-11",
+    "vmwp-timescall-2024-07",
+    "coloradobiz-2026-04-01"
+   ]
+  },
+  {
+   "text": "The market study scored demand at 5 of 5, projected a 15-month lease-up to 97% occupancy, and noted some units are smaller than comparables; area tax credit properties were 98% occupied.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application reported no local opposition and requested a cost basis override from CHFA.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "Construction was expected to begin in August 2024 and last 16 to 18 months; the groundbreaking ceremony followed in November 2024.",
+   "src": [
+    "vmwp-timescall-2024-07",
+    "bizwest-2024-11-22"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-04-18",
+   "event": "Housing authority board approves buying the parcel with $800,000 of ARPA funds (date inferred from a 2023-04-19 report)",
+   "src": [
+    "longmontleader-2023-04-19"
+   ]
+  },
+  {
+   "date": "2023-11-15",
+   "event": "CHFA 2023 Round Two award report lists Ascent at Hover Crossing",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "date": "2024-07",
+   "event": "Housing authority board approves the $2M Colorado Health Foundation grant agreement for the early childhood center",
+   "src": [
+    "vmwp-timescall-2024-07"
+   ]
+  },
+  {
+   "date": "2024-11-21",
+   "event": "Groundbreaking ceremony (Thursday before the 2024-11-22 report, inferred)",
+   "src": [
+    "bizwest-2024-11-22"
+   ]
+  },
+  {
+   "date": "2026-01",
+   "event": "Completion, per the architect",
+   "src": [
+    "vmwp-project"
+   ]
+  },
+  {
+   "date": "2026-03-03",
+   "event": "Grand opening",
+   "src": [
+    "pennrose-2026-03-03"
+   ]
+  },
+  {
+   "date": "2026-06-11",
+   "event": "Housing Colorado 2026 Eagle Award",
+   "src": [
+    "longmont-2026-06-24"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Ascent at Hover Crossing project page: photos and renderings",
+   "url": "https://www.vmwp.com/projects/ascent-at-hover-crossing-housing-ece/",
+   "kind": "photo",
+   "made_by": "Van Meter Williams Pollack (renderings); photography by Matt Staver",
+   "note": "Gallery at the top of the page, including aerial photos and site renderings",
+   "src": [
+    "vmwp-project"
+   ]
+  },
+  {
+   "title": "Boulder County housing summit slide on the project",
+   "url": "https://assets.bouldercounty.gov/wp-content/uploads/2025/02/aaht-administrative-meeting-feb-2025.pdf",
+   "kind": "rendering",
+   "made_by": "Boulder County Housing Department presentation (architectural aerial rendering of the site)",
+   "note": "PDF page 21 (\"Underway: Ascent at Hover Crossing\" slide, 1780 Hover St address, expected completion January 2026)",
+   "src": [
+    "bouldercounty-2025-02"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award description gives 18 one-bedroom units (75 in total), while the application narrative and Pennrose's project page list 21 one-bedroom units, which with the other units would add to 78.",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "chfa-2023-r2-narratives",
+    "pennrose-portfolio"
+   ]
+  },
+  {
+   "text": "ColoradoBiz described the project as including market-rate housing, while CHFA lists all 75 units as low-income.",
+   "src": [
+    "coloradobiz-2026-04-01",
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "text": "Pennrose and ColoradoBiz call it a $39 million development, while BizWest called it a $23 million complex and the architect lists a $23M construction estimate.",
+   "src": [
+    "pennrose-2026-03-03",
+    "coloradobiz-2026-04-01",
+    "bizwest-2024-11-22",
+    "vmwp-project"
+   ]
+  },
+  {
+   "text": "At groundbreaking the partners expected residents in winter 2025 and the architect lists completion in January 2026, while the grand opening was held on 2026-03-03.",
+   "src": [
+    "vmwp-groundbreaking-2024-11",
+    "vmwp-project",
+    "pennrose-2026-03-03"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Financing closing date, credit price, and the final bond amount at closing.",
+  "Terms of the housing authority's land carry-back loan and the land price paid by the partnership.",
+  "Amounts committed by Boulder County and the Colorado Division of Housing.",
+  "Placed-in-service date, rents and lease-up status."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round Two Federal 4% and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023-11-15",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-descriptions",
+   "title": "2023 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (The Ascent at Hover Crossing, PDF pages 22-26)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "longmontleader-2023-04-19",
+   "title": "Financing moves forward for Longmont housing projects",
+   "publisher": "Longmont Leader",
+   "date": "2023-04-19",
+   "url": "https://www.longmontleader.com/local-news/financing-moves-forward-for-longmont-housing-projects-6874470"
+  },
+  {
+   "id": "vmwp-timescall-2024-07",
+   "title": "New, 75-unit apartment complex in Longmont will feature childhood center (Colorado Hometown Weekly/Times-Call article, reposted)",
+   "publisher": "Van Meter Williams Pollack",
+   "date": "2024-07-17",
+   "url": "https://www.vmwp.com/?p=13377"
+  },
+  {
+   "id": "vmwp-groundbreaking-2024-11",
+   "title": "Pennrose & Longmont Housing Authority Celebrate Groundbreaking of Ascent at Hover Crossing (Yield Pro article, reposted)",
+   "publisher": "Van Meter Williams Pollack",
+   "date": "2024-11-26",
+   "url": "https://www.vmwp.com/?p=13374"
+  },
+  {
+   "id": "bizwest-2024-11-22",
+   "title": "Ground broken for affordable apartments in northwest Longmont",
+   "publisher": "BizWest",
+   "date": "2024-11-22",
+   "url": "https://bizwest.com/2024/11/22/ground-broken-for-affordable-apartments-in-northwest-longmont/"
+  },
+  {
+   "id": "bouldercounty-2025-02",
+   "title": "Virtual Housing Summit: Affordable and Attainable Housing Tax Review and A Look Ahead",
+   "publisher": "Boulder County Housing Department",
+   "date": "2025-02",
+   "url": "https://assets.bouldercounty.gov/wp-content/uploads/2025/02/aaht-administrative-meeting-feb-2025.pdf"
+  },
+  {
+   "id": "pennrose-2026-03-03",
+   "title": "Pennrose and Longmont Housing Authority Celebrate Grand Opening of Ascent at Hover Crossing",
+   "publisher": "Pennrose",
+   "date": "2026-03-03",
+   "url": "https://www.pennrose.com/news-views/news/2026/pennrose-and-longmont-housing-authority-celebrate-grand-opening-of-ascent-at-hover-crossing"
+  },
+  {
+   "id": "coloradobiz-2026-04-01",
+   "title": "Pennrose opens 75-unit affordable housing with child care in Longmont",
+   "publisher": "ColoradoBiz",
+   "date": "2026-04-01",
+   "url": "https://coloradobiz.com/pennrose-opens-affordable-housing-child-care-longmont"
+  },
+  {
+   "id": "longmont-2026-06-24",
+   "title": "Ascent at Hover Crossing Wins Housing Award",
+   "publisher": "City of Longmont",
+   "date": "2026-06-24",
+   "url": "https://longmontcolorado.gov/news/ascent-at-hover-crossing-wins-housing-award/"
+  },
+  {
+   "id": "pennrose-portfolio",
+   "title": "Ascent at Hover Crossing (portfolio page)",
+   "publisher": "Pennrose",
+   "date": "2026",
+   "url": "https://pennrose.com/portfolio/ascent-at-hover-crossing"
+  },
+  {
+   "id": "vmwp-project",
+   "title": "Ascent at Hover Crossing, Longmont, CO (project page)",
+   "publisher": "Van Meter Williams Pollack",
+   "date": "2026",
+   "url": "https://www.vmwp.com/projects/ascent-at-hover-crossing-housing-ece/"
+  }
+ ]
+}

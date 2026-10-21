@@ -1,0 +1,611 @@
+{
+ "slug": "trails-at-pagosa-springs-pagosa-springs",
+ "name": "Trails at Pagosa Springs (now marketed as Timberline at Pagosa Springs)",
+ "city": "Pagosa Springs",
+ "county": "Archuleta",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-21",
+ "headline": "Generation Housing Partners, a Texas-based minority-owned developer, built a 50-unit family apartment complex for households at 30% to 80% AMI at 116 Alpha Drive near Walmart in uptown Pagosa Springs, with a $1,450,000-a-year 2023 Round One 9% award from CHFA; renamed Timberline, it was near completion in November 2025 and is now marketed for lease.",
+ "why_it_matters": "It shows what a rural resort-county 9% deal needed to close after cost increases: a second-try credit award, a $4.75 million Division of Housing Transformational Housing Fund loan, extra CHFA loans, a $1.4 million deferred fee, town fee waivers and a contested partial water and sewer fee waiver tied to the developer repairing the district's sewer lines.",
+ "status": {
+  "label": "Built (near completion November 2025); leasing marketed; occupancy not public",
+  "detail": "A Pagosa Daily Post photo dated November 2025 shows the Timberline apartments nearing completion, and an August 2026 Daily Post editorial says Generation Housing Partners constructed the 50-unit project; the property's website markets the homes and has a resident portal. In March 2025 the developer told the water district the site was not yet using water. No dated certificate of occupancy, placed-in-service date or occupancy figure was found.",
+  "src": [
+   "pdp-2025-11-25",
+   "pdp-2026-08-24",
+   "timberline-site",
+   "pagosasun-2025-03-26"
+  ]
+ },
+ "next_step": "Watch for CHFA's placed-in-service record and any town or Archuleta County Housing Authority record of occupancy or the property tax abatement.",
+ "key_numbers": [
+  {
+   "value": "50 homes: 22 one-bedroom, 12 two-bedroom, 16 three-bedroom",
+   "meaning": "All income-restricted from 30% to 80% AMI (average about 60% AMI), using income averaging; 20 units at 70% and 80% AMI target the missing middle.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives",
+    "pagosasun-2024-06-27"
+   ]
+  },
+  {
+   "value": "$1,450,000 a year in federal 9% credit",
+   "meaning": "Full request; the application expected about $12.76 million of equity. It won on the developer's second application.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r1-narratives",
+    "pagosasun-2024-06-02"
+   ]
+  },
+  {
+   "value": "$4.75 million state loan",
+   "meaning": "Transformational Housing Fund loan from the Division of Housing's State Housing Board in June 2024, up from a $2.5 million state loan assumed in the application.",
+   "src": [
+    "pagosasun-2024-06-27",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "value": "About $700,000 in water and sewer fee waivers",
+   "meaning": "PAWSD granted a partial waiver of capital investment fees (the developer had sought about $900,000), conditioned on the developer fixing up to 15 high-priority sewer defects.",
+   "src": [
+    "pagosasun-2024-06-02",
+    "pdp-2024-05-24"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "116 Alpha Drive, Pagosa Springs, CO 81147 (CHFA lists US Highway 160 and Alpha Drive; the Sun places it along Alpha Drive and Timberline Drive)",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives",
+    "pagosasun-2024-05-30",
+    "pagosasun-2025-03-26"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "Family, new construction; 50 units, 50 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "3.5 acres of a 22-acre master-planned tract owned by FCBMD CO LLC (a separate party from the developer), next to Walmart and across from Pinon Lake; zoned Mixed-Use Corridor, multifamily allowed by right up to 16 units an acre (project density about 14.3 an acre); a Difficult Development Area",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "pagosasun-2024-05-30"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Two two-story wood-frame residential buildings on post-tension slabs (one of 26 units and one of 24) plus a clubhouse; switched from previously approved three-story buildings",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "pdp-2024-05-23",
+    "pagosasun-2024-05-30"
+   ]
+  },
+  {
+   "item": "Design",
+   "value": "NGBS Bronze; zero-combustion all-electric systems; granite counters, 9-foot ceilings, balconies; fitness center, business center, dog park",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "timberline-site"
+   ]
+  },
+  {
+   "item": "Affordability period",
+   "value": "40 years, per the developer, which said it intends to keep ownership",
+   "src": [
+    "pagosasun-2024-06-02"
+   ]
+  },
+  {
+   "item": "Utilities",
+   "value": "Master-metered; developer builds and maintains its own lift station and high-pressure line",
+   "src": [
+    "pagosasun-2024-06-02",
+    "pagosasun-2024-08-04"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Nearest bus stop at Walmart, about 0.15 miles away",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 11
+  },
+  {
+   "level": "60% AMI",
+   "units": 14
+  },
+  {
+   "level": "70% AMI",
+   "units": 14
+  },
+  {
+   "level": "80% AMI",
+   "units": 6
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 22
+  },
+  {
+   "type": "2BR",
+   "units": 12
+  },
+  {
+   "type": "3BR",
+   "units": 16
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives",
+  "pagosasun-2024-06-02"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,450,000 per year",
+   "note": "2023 Round One award, equal to the request; the application estimated about $12,760,000 of equity.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing Transformational Housing Fund loan",
+   "amount": "$4.75 million",
+   "note": "State Housing Board award announced 2024-06-25. The 2023 application had assumed a $2.5 million DOH loan.",
+   "src": [
+    "pagosasun-2024-06-27",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Additional CHFA loans",
+   "amount": "Not public",
+   "note": "The developer said in May 2024 it had gone back to CHFA for additional loans after construction costs rose.",
+   "src": [
+    "pagosasun-2024-06-02"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$1.4 million",
+   "note": "Per the developer in May 2024; the application said the deferred fee would be repaid within the 15-year compliance period.",
+   "src": [
+    "pagosasun-2024-06-02",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction loan",
+   "amount": "About $13,000,000 (as planned)",
+   "note": "Legacy Bank, per the application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "PAWSD capital investment fee waiver",
+   "amount": "About $700,000 (partial)",
+   "note": "Approved 2024-05-23 under the district's earlier waiver policy (full waiver for units at or below 60% AMI, 50% for 60% to 80% AMI) instead of a full waiver of about $900,000; conditioned on sewer inflow and infiltration repairs.",
+   "src": [
+    "pagosasun-2024-06-02",
+    "pdp-2024-05-24"
+   ]
+  },
+  {
+   "source": "Town of Pagosa Springs fee waivers",
+   "amount": "Not public",
+   "note": "Permit fee waivers and expedited review; the developer said the town waived all fees. The application valued town and district in-kind support at about $700,000.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "pagosasun-2024-06-02"
+   ]
+  },
+  {
+   "source": "Property and sales tax abatement",
+   "amount": "Not public",
+   "note": "At application, the Archuleta County Housing Authority anticipated an application to join as special limited partner, which would qualify the project for the abatement; in 2024 the developer said the project is partnered with the housing authority.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "pagosasun-2024-06-02"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/developer (as CHFA prints it)",
+   "name": "Generation Housing Partners, LLC (Dallas, Texas; minority-owned, HUB-certified)",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives",
+    "pdp-2024-05-24"
+   ]
+  },
+  {
+   "role": "Land seller / master developer of the surrounding tract",
+   "name": "FCBMD CO LLC",
+   "src": [
+    "pagosasun-2024-05-30"
+   ]
+  },
+  {
+   "role": "Housing authority partner",
+   "name": "Archuleta County Housing Authority",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "pagosasun-2024-06-02"
+   ]
+  },
+  {
+   "role": "Construction lender (planned)",
+   "name": "Legacy Bank",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Civil engineer",
+   "name": "Davis Engineering Services (spoke for the project at the design hearing)",
+   "src": [
+    "pagosasun-2024-05-30"
+   ]
+  },
+  {
+   "role": "Geotechnical engineer",
+   "name": "Trautner Geotechnical Engineering",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Asset Living (inferred from the leasing contact domain on the property website)",
+   "src": [
+    "timberline-site"
+   ]
+  },
+  {
+   "role": "Public funders",
+   "name": "CHFA, Colorado Division of Housing, Town of Pagosa Springs, Pagosa Area Water and Sanitation District",
+   "src": [
+    "chfa-2023-r1-award",
+    "pagosasun-2024-06-27",
+    "pagosasun-2024-06-02"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The project applied in 2022 and won on its second application in 2023; the 2023 narrative added 70% and 80% AMI units using income averaging and noted that no existing Pagosa income-restricted project served those levels.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "pagosasun-2024-06-02"
+   ]
+  },
+  {
+   "text": "The planning commission approved the sketch design and the sketch subdivision of the master tract on 2024-02-13, and approved the final major design review unanimously on 2024-05-14, with conditions on stormwater, equipment screening and filing a final road design before a building permit. Neighbors in the Aspen Village subdivision raised traffic concerns about access through the Aspen Village Drive signal on US 160.",
+   "src": [
+    "pagosasun-2024-05-30",
+    "pdp-2024-05-23"
+   ]
+  },
+  {
+   "text": "PAWSD's capital investment fee had risen from about $6,530 to about $24,700 per unit, so a 50-unit project faced close to $1 million. A motion for a full waiver failed 2-3 on 2024-05-23; the board then approved a partial waiver 4-0 with one abstention and paused further waivers until after the 2025 board election. The Daily Post editorials on this were written by its editor, who sat on the PAWSD board.",
+   "src": [
+    "pagosasun-2024-06-02",
+    "pdp-2024-05-24"
+   ]
+  },
+  {
+   "text": "On 2024-07-25 PAWSD unanimously approved a main line extension acceptance agreement and a development agreement under which the developer repairs sewer inflow and infiltration problems downstream of the site; the minutes call the project 'Timberline (Trails at Pagosa Springs)'.",
+   "src": [
+    "pagosasun-2024-08-04",
+    "pawsd-2024-08-29"
+   ]
+  },
+  {
+   "text": "In March 2025 the developer asked PAWSD to bill the complex as one commercial account, saying it was charged for 51 equivalent units (about $4,000 a month in base rates) though designed to use about nine; the board formed a subcommittee. The developer said the waiver had only brought fees back down to about $300,000 after they rose to about $1.2 million during planning.",
+   "src": [
+    "pagosasun-2025-03-26"
+   ]
+  },
+  {
+   "text": "Soils on the site include fat clay over weathered and formational shale; the budget carried imported fill and extra equipment for cutting utilities in shale.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-12-08",
+   "event": "Listed on CHFA's 2023 Round 1 letters of intent report",
+   "src": [
+    "chfa-2023-r1-loi"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round 1 applicant report (federal 9% request $1,450,000)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2023-06-01",
+   "event": "BizWest reports CHFA's 2023 Round One 9% awards (12 statewide from 26 applications)",
+   "src": [
+    "bizwest-2023-06-01"
+   ]
+  },
+  {
+   "date": "2024-02-13",
+   "event": "Planning commission approves sketch design and sketch subdivision",
+   "src": [
+    "pagosasun-2024-05-30"
+   ]
+  },
+  {
+   "date": "2024-05-14",
+   "event": "Final major design review approved unanimously",
+   "src": [
+    "pagosasun-2024-05-30",
+    "mypagosa-116-alpha"
+   ]
+  },
+  {
+   "date": "2024-05-23",
+   "event": "PAWSD approves partial capital investment fee waiver",
+   "src": [
+    "pagosasun-2024-06-02"
+   ]
+  },
+  {
+   "date": "2024-06-25",
+   "event": "State Housing Board awards a $4.75 million Transformational Housing Fund loan",
+   "src": [
+    "pagosasun-2024-06-27"
+   ]
+  },
+  {
+   "date": "2024-07-25",
+   "event": "PAWSD approves main line extension and utility development agreements for 'Timberline (Trails at Pagosa Springs)'",
+   "src": [
+    "pagosasun-2024-08-04",
+    "pawsd-2024-08-29"
+   ]
+  },
+  {
+   "date": "2025-03-13",
+   "event": "PAWSD forms a subcommittee on the project's water and sewer base rates",
+   "src": [
+    "pagosasun-2025-03-26"
+   ]
+  },
+  {
+   "date": "2025-11",
+   "event": "Daily Post photo shows the apartments nearing completion",
+   "src": [
+    "pdp-2025-11-25"
+   ]
+  },
+  {
+   "date": "2026-08-24",
+   "event": "Daily Post editorial says Generation Housing Partners constructed the 50-unit project",
+   "src": [
+    "pdp-2026-08-24"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Site plan and building plans (Final Major Design Review application)",
+   "url": "https://mypagosa.org/apartments-sketch-mdr-and-subdivision-116-alpha-drive",
+   "kind": "site plan",
+   "made_by": "Applicant, posted by Town of Pagosa Springs",
+   "note": "Documents list on the page: 'Site Plan 012324', 'Plans - Updated 2/7' and 'Alpha LIHTC project' (the application)",
+   "src": [
+    "mypagosa-116-alpha"
+   ]
+  },
+  {
+   "title": "Location map and vacant parcel photo",
+   "url": "https://pagosadailypost.com/2024/05/23/editorial-when-governments-subsidize-workforce-housing-part-one/",
+   "kind": "photo",
+   "made_by": "Pagosa Daily Post",
+   "note": "Photo of the vacant parcel from Alpha Drive and a map relative to Aspen Village",
+   "src": [
+    "pdp-2024-05-23"
+   ]
+  },
+  {
+   "title": "Timberline apartments nearing completion, November 2025",
+   "url": "https://pagosadailypost.com/2025/11/25/editorial-addressing-the-housing-crisis-part-four/",
+   "kind": "photo",
+   "made_by": "Pagosa Daily Post",
+   "note": "Photo captioned 'Timberline very-low-income apartments, nearing completion, November 2025'",
+   "src": [
+    "pdp-2025-11-25"
+   ]
+  },
+  {
+   "title": "Property gallery and floor plans",
+   "url": "https://www.timberlinepagosasprings.com/",
+   "kind": "photo",
+   "made_by": "Timberline at Pagosa Springs (property website)",
+   "note": "Gallery and floor plan pages",
+   "src": [
+    "timberline-site"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The Pagosa Springs Sun says the partial fee waiver followed PAWSD's earlier 2022 resolution, while the Daily Post describes the earlier waiver policy as approved in 2020.",
+   "src": [
+    "pagosasun-2024-06-02",
+    "pdp-2024-05-24"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost, the amounts of the added CHFA loans, the equity investor and credit price.",
+  "Construction start date, building permit, certificate of occupancy and CHFA placed-in-service date; current occupancy and rents.",
+  "Whether the Archuleta County Housing Authority became special limited partner and the property and sales tax abatement took effect.",
+  "Land purchase price and date from FCBMD CO LLC, and the outcome of the PAWSD base-rate subcommittee.",
+  "Recorded term of the CHFA affordability covenant (the developer said 40 years)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report (public award report as of 2025-02-26)",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "CHFA, 2023 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-loi",
+   "title": "2023 Round 1 LIHTC Letters of Intent report",
+   "publisher": "CHFA",
+   "date": "2022-12-08",
+   "url": "https://www.chfainfo.com/getattachment/dbf61afd-d40d-4c59-bb1b-a891b4b66e53/2023-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (PDF pages 119-123)",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "bizwest-2023-06-01",
+   "title": "CHFA tax credits to finance 4 low-income housing projects in region",
+   "publisher": "BizWest",
+   "date": "2023-06-01",
+   "url": "https://bizwest.com/2023/06/01/chfa-tax-credits-to-finance-4-low-income-housing-projects-in-region"
+  },
+  {
+   "id": "pagosasun-2024-05-30",
+   "title": "Workforce housing apartments approved at final design hearing",
+   "publisher": "The Pagosa Springs Sun",
+   "date": "2024-05-30",
+   "url": "https://www.pagosasun.com/stories/workforce-housing-apartments-approved-at-final-design-hearing,40592"
+  },
+  {
+   "id": "pagosasun-2024-06-02",
+   "title": "PAWSD approves partial fee waivers for housing project",
+   "publisher": "The Pagosa Springs Sun",
+   "date": "2024-06-02",
+   "url": "https://www.pagosasun.com/stories/pawsd-approves-partial-fee-waivers-for-housing-project,40581"
+  },
+  {
+   "id": "pagosasun-2024-06-27",
+   "title": "Housing project receives $4.75 million grant",
+   "publisher": "The Pagosa Springs Sun",
+   "date": "2024-06-27",
+   "url": "https://www.pagosasun.com/stories/housing-project-receives-475-million-grant,44052"
+  },
+  {
+   "id": "pagosasun-2024-08-04",
+   "title": "Water district approves agreements with Timberline developers",
+   "publisher": "The Pagosa Springs Sun",
+   "date": "2024-08-04",
+   "url": "https://www.pagosasun.com/stories/water-district-approves-agreements-with-timberline-developers,47942"
+  },
+  {
+   "id": "pawsd-2024-08-29",
+   "title": "PAWSD Board of Directors packet, 2024-08-29 (minutes of the July 2024 regular meeting)",
+   "publisher": "Pagosa Area Water and Sanitation District",
+   "date": "2024-08-29",
+   "url": "https://www.pawsd.org/downloads/BOD-Packet-08-29-2024.pdf"
+  },
+  {
+   "id": "pagosasun-2025-03-26",
+   "title": "PAWSD forms subcommittee to investigate rates for affordable housing",
+   "publisher": "The Pagosa Springs Sun",
+   "date": "2025-03-26",
+   "url": "https://www.pagosasun.com/stories/pawsd-forms-subcommittee-to-investigate-rates-for-affordable-housing,74851"
+  },
+  {
+   "id": "pdp-2024-05-23",
+   "title": "EDITORIAL: When Governments Subsidize Workforce Housing, Part One",
+   "publisher": "Pagosa Daily Post",
+   "date": "2024-05-23",
+   "url": "https://pagosadailypost.com/2024/05/23/editorial-when-governments-subsidize-workforce-housing-part-one/"
+  },
+  {
+   "id": "pdp-2024-05-24",
+   "title": "EDITORIAL: When Governments Subsidize Workforce Housing, Part Two",
+   "publisher": "Pagosa Daily Post",
+   "date": "2024-05-24",
+   "url": "https://pagosadailypost.com/2024/05/24/editorial-when-governments-subsidize-workforce-housing-part-two/"
+  },
+  {
+   "id": "pdp-2025-11-25",
+   "title": "EDITORIAL: Addressing the Housing Crisis, Part Four",
+   "publisher": "Pagosa Daily Post",
+   "date": "2025-11-25",
+   "url": "https://pagosadailypost.com/2025/11/25/editorial-addressing-the-housing-crisis-part-four/"
+  },
+  {
+   "id": "pdp-2026-08-24",
+   "title": "EDITORIAL: 'Create an Educated Community About Housing Need and Solutions', Part One",
+   "publisher": "Pagosa Daily Post",
+   "date": "2026-08-24",
+   "url": "https://pagosadailypost.com/2026/08/24/editorial-create-an-educated-community-about-housing-need-and-solutions-part-one/"
+  },
+  {
+   "id": "mypagosa-116-alpha",
+   "title": "LIHTC Apartments - Final MDR (116 Alpha Drive)",
+   "publisher": "Town of Pagosa Springs (MyPagosa)",
+   "date": "2024",
+   "url": "https://mypagosa.org/apartments-sketch-mdr-and-subdivision-116-alpha-drive"
+  },
+  {
+   "id": "timberline-site",
+   "title": "Timberline at Pagosa Springs (property website)",
+   "publisher": "Timberline at Pagosa Springs",
+   "date": "2026",
+   "url": "https://www.timberlinepagosasprings.com/"
+  }
+ ]
+}

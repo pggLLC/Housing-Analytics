@@ -1,0 +1,542 @@
+{
+ "slug": "diagonal-plaza-boulder",
+ "name": "Diagonal Plaza (opened as Hawthorn Court)",
+ "city": "Boulder",
+ "county": "Boulder",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 73,
+ "researched_on": "2026-10-21",
+ "headline": "Boulder Housing Partners, the City of Boulder's housing authority, built a 73-unit, two-building family community on a former Diagonal Plaza parking lot in north-central Boulder with a $1,450,000-a-year 2023 Round One 9% credit award from CHFA; it opened as Hawthorn Court, with residents moving in by the end of August 2025.",
+ "why_it_matters": "It shows a housing authority turning a market-rate developer's inclusionary housing obligation into a free land donation (valued at $6.89M in the application), then stacking city gap money and 9% credits to go from award to occupancy in about 26 months.",
+ "status": {
+  "label": "Open: construction complete and residents moved in by end of August 2025",
+  "detail": "Groundbreaking was on May 14, 2024, per Mile High CRE, after FirstBank closed a $21 million loan. BHP says construction finished in August 2025 (fall 2025 elsewhere on the same page) and residents had moved in by the end of August; open houses were held from 2025-08-27. Occupancy level and the CHFA placed-in-service date are not public.",
+  "src": [
+   "mhcre-2024-07-29",
+   "bhp-hawthorn",
+   "bhp-open-house-2025"
+  ]
+ },
+ "next_step": "Watch for CHFA's placed-in-service record and BHP board materials reporting lease-up and any work on the adjacent Trammell Crow parcel.",
+ "key_numbers": [
+  {
+   "value": "73 homes: 40 one-bedroom, 27 two-bedroom, 6 three-bedroom",
+   "meaning": "All income-restricted at 30% to 60% AMI in the award; five 30% AMI three-bedroom units are set aside for families experiencing or at risk of homelessness, with BHP project-based vouchers.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,450,000 a year in federal 9% credit",
+   "meaning": "The full amount requested; about $14.5M over 10 years (inferred). BHP described the credits as worth up to $13 million.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "bhp-2023-06-award"
+   ]
+  },
+  {
+   "value": "Free land valued at $6.89M plus about $116,000 a unit of City of Boulder gap funding",
+   "meaning": "Trammell Crow Residential conveyed the site to BHP to meet part of its Boulder inclusionary housing obligation; the city money (about $8.5M at 73 units, inferred) was planned in the application.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bhp-2023-06-award"
+   ]
+  },
+  {
+   "value": "$21 million FirstBank loan",
+   "meaning": "Closed by July 2024 to fund construction; loan terms were not disclosed.",
+   "src": [
+    "mhcre-2024-07-29"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA lists 3320 28th Street, Boulder 80301; BHP's 2023 release gives 2850 Iris Avenue; the finished buildings are at 2950 and 2960 Hawthorn Avenue, Boulder 80304",
+   "src": [
+    "chfa-2023-r1-award",
+    "bhp-2023-06-award",
+    "bhp-hawthorn"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, family; 73 units, 73 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 1.45 acres (1.44 acres per BHP's current page) of a former parking lot next to BHP's 30-unit Diagonal Court, a former public housing site renovated in 2016; zoned Business Community 1 (BC-1) with a Development Agreement approving 73 units",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bhp-hawthorn"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Two buildings: a four-story elevator building and a three-story walk-up; post-tensioned slab, wood frame, brick and composite siding; surface parking",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "Zero Energy Ready Homes and Enterprise Green Communities; all-electric with a Net Zero Energy goal; a 60+ kW photovoltaic system required by the Boulder energy code (estimated $213,000)",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Resident benefits",
+   "value": "Free in-unit Wi-Fi, Boulder Recreation Center passes and RTD EcoPasses; shared access to Diagonal Court's community center and resident services",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "bhp-hawthorn"
+   ]
+  },
+  {
+   "item": "Rents (2023 estimate)",
+   "value": "One-bedroom rents of about $747 to $1,494 a month",
+   "src": [
+    "bhp-2023-06-award"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "Affordable in perpetuity because it uses City of Boulder resources, per the application",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "High-frequency routes on 28th Street (BOLT, 205, 208) and 30th Street (BOUND) within a quarter mile; Safeway across the street",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 10
+  },
+  {
+   "level": "40% AMI",
+   "units": 11
+  },
+  {
+   "level": "50% AMI",
+   "units": 14
+  },
+  {
+   "level": "60% AMI",
+   "units": 38
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 40
+  },
+  {
+   "type": "2BR",
+   "units": 27
+  },
+  {
+   "type": "3BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,450,000 per year",
+   "note": "2023 Round One award, equal to the request. The investor is not public.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "source": "Land donation",
+   "amount": "$6.89M (land value in the application)",
+   "note": "Conveyed at zero cost by Trammell Crow Residential to satisfy its Boulder inclusionary housing obligation, with BHP as the city's designee; the application floated a land lease to keep land value low for the investor.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bhp-2023-06-award"
+   ]
+  },
+  {
+   "source": "City of Boulder gap funding",
+   "amount": "About $116,000 per unit (application)",
+   "note": "About $8.5M at 73 units (inferred); the final city amount is not public.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Boulder County Worthy Cause grant",
+   "amount": "$500,000",
+   "note": "Awarded before the application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Trammell Crow site infrastructure",
+   "amount": "About $850,000 of savings",
+   "note": "Part of the site infrastructure was managed and funded by Trammell Crow Residential.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "FirstBank loan",
+   "amount": "$21 million",
+   "note": "Closed by July 2024; whether it also serves as the permanent loan is not public.",
+   "src": [
+    "mhcre-2024-07-29"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing gap funds",
+   "amount": "Not public",
+   "note": "BHP said in the application it would apply.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Project-based vouchers",
+   "amount": "5 units",
+   "note": "From BHP, for families experiencing homelessness, referred through the Boulder County Family Resource Network.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor, developer and property manager (as CHFA prints it)",
+   "name": "Boulder Housing Partners (Housing Authority of the City of Boulder)",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Land donor and adjacent market-rate developer",
+   "name": "Trammell Crow Residential",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bhp-2023-06-award"
+   ]
+  },
+  {
+   "role": "Architect (application)",
+   "name": "Coburn Design",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (application)",
+   "name": "Deneuve Construction",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Lender",
+   "name": "FirstBank",
+   "src": [
+    "mhcre-2024-07-29"
+   ]
+  },
+  {
+   "role": "Public funders",
+   "name": "City of Boulder; Boulder County (Worthy Cause)",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Diagonal Plaza is a long-declining shopping center site at 28th Street and Iris Avenue; in June 2021 Boulder City Council unanimously called up a concept plan from Trammell Crow Residential and BHP for nearly 200 homes, because the BC-1 zoning's open-space rule would have limited housing to about 50 to 60 units.",
+   "src": [
+    "boulderbeat-2021-06-24"
+   ]
+  },
+  {
+   "text": "Trammell Crow Residential is redeveloping about five adjacent acres into workforce housing and retail (230 market-rate apartments, per BHP); BHP's 73 affordable homes and the existing Diagonal Court form a 103-unit BHP campus with a shared park.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "bhp-2023-06-award",
+    "bouldercounty-aaht-2025-02"
+   ]
+  },
+  {
+   "text": "Planning Board unanimously approved the Site Review at a public hearing before the application; the application said the project was fully entitled, with technical documents due in March 2023 and permits targeted by the end of 2023.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Cost drivers named in the application: the Boulder energy code (solar array, high-efficiency HVAC at about $7,500 a unit more, aerosol air sealing at $86,000), extra storage and bike parking (about $3,100 a unit) and rooftop equipment screening ($118,000).",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Market study figures in the application: an affordable vacancy rate of about 1.0%, overall and 60% AMI capture rates above CHFA's 25% threshold, and expected lease-up of 30 units a month without concessions.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "BHP won two competitive CHFA awards in 2023, the first time in its history: this 9% award and a 4% plus state credit award for the 100-unit Rally Apartments at 2727 29th Street.",
+   "src": [
+    "bhp-2023-06-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-06-16",
+   "event": "Boulder City Council unanimously calls up the Diagonal Plaza concept plan",
+   "src": [
+    "boulderbeat-2021-06-24"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round One applicant report (request $1,450,000)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2023-06-22",
+   "event": "BHP announces the 9% award",
+   "src": [
+    "bhp-2023-06-award",
+    "bizwest-2023-06-23"
+   ]
+  },
+  {
+   "date": "2024-05-14",
+   "event": "Groundbreaking",
+   "src": [
+    "mhcre-2024-07-29"
+   ]
+  },
+  {
+   "date": "2024-07-29",
+   "event": "Mile High CRE reports FirstBank closed a $21 million loan",
+   "src": [
+    "mhcre-2024-07-29"
+   ]
+  },
+  {
+   "date": "2025-02-26",
+   "event": "As-of date of CHFA's public 2023 Round One award report (no footnote on this deal)",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "date": "2025-08-01",
+   "event": "Hawthorn Court interest list opens (August 1-10, 2025)",
+   "src": [
+    "bhp-interest-list"
+   ]
+  },
+  {
+   "date": "2025-08",
+   "event": "Construction complete and residents moved in by the end of August, per BHP",
+   "src": [
+    "bhp-hawthorn"
+   ]
+  },
+  {
+   "date": "2025-08-27",
+   "event": "First open house at 2950 Hawthorn Avenue",
+   "src": [
+    "bhp-open-house-2025"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering of the planned apartments",
+   "url": "https://bizwest.com/2023/06/23/diagonal-plaza-receives-federal-tax-credits-for-affordable-housing-project/",
+   "kind": "rendering",
+   "made_by": "Boulder Housing Partners (via BizWest)",
+   "note": "Lead image of the 2023-06-23 article",
+   "src": [
+    "bizwest-2023-06-23"
+   ]
+  },
+  {
+   "title": "Hawthorn Court site diagram with Diagonal Court and park",
+   "url": "https://assets.bouldercounty.gov/wp-content/uploads/2025/02/aaht-administrative-meeting-feb-2025.pdf",
+   "kind": "site plan",
+   "made_by": "Boulder Housing Partners (Boulder County housing summit deck)",
+   "note": "PDF page 13",
+   "src": [
+    "bouldercounty-aaht-2025-02"
+   ]
+  },
+  {
+   "title": "Completed building",
+   "url": "https://boulderhousing.org/bhp-developments/hawthorn-court/",
+   "kind": "photo",
+   "made_by": "Boulder Housing Partners",
+   "note": "Photo on the property page (September 2025)",
+   "src": [
+    "bhp-hawthorn"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's reports give the address as 3320 28th Street, BHP's 2023 release and BizWest give 2850 Iris Avenue, and BHP's current page gives 2950 and 2960 Hawthorn Avenue.",
+   "src": [
+    "chfa-2023-r1-award",
+    "bhp-2023-06-award",
+    "bizwest-2023-06-23",
+    "bhp-hawthorn"
+   ]
+  },
+  {
+   "text": "CHFA's award description sets incomes at 30% to 60% AMI (10 units at 30%), while BHP's current property and open-house pages describe Hawthorn Court as serving households at 40% to 60% AMI.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "bhp-hawthorn",
+    "bhp-open-house-2025"
+   ]
+  },
+  {
+   "text": "BHP and BizWest say the project won 9% federal and state housing tax credits, while CHFA's 2023 Round One award report lists only the federal 9% amount.",
+   "src": [
+    "bhp-2023-06-award",
+    "bizwest-2023-06-23",
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "text": "BHP's open-house notice describes 73 one- and two-bedroom homes, while CHFA and BHP's property page list six three-bedroom units.",
+   "src": [
+    "bhp-open-house-2025",
+    "chfa-2023-r1-descriptions",
+    "bhp-hawthorn"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost, credit investor and price, and whether the land was conveyed outright or ground-leased to the partnership.",
+  "The final City of Boulder gap amount and whether Division of Housing funds were awarded.",
+  "Whether the final architect and general contractor were the Coburn and Deneuve team named in the application.",
+  "Whether the 30% AMI units became 40% AMI units, and the current rents.",
+  "The CHFA placed-in-service date and current occupancy."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "CHFA, 2023 Round One Award Descriptions (Diagonal Plaza)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (Diagonal Plaza, PDF pages 41-45)",
+   "publisher": "CHFA",
+   "date": "2023-02",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "bhp-2023-06-award",
+   "title": "Boulder Housing Partners awarded competitive tax credits for Diagonal Plaza redevelopment",
+   "publisher": "Boulder Housing Partners",
+   "date": "2023-06-22",
+   "url": "https://boulderhousing.org/boulder-housing-partners-awarded-competitive-tax-credits-for-diagonal-plaza-redevelopment/"
+  },
+  {
+   "id": "bizwest-2023-06-23",
+   "title": "Diagonal Plaza receives federal tax credits for affordable housing project",
+   "publisher": "BizWest",
+   "date": "2023-06-23",
+   "url": "https://bizwest.com/2023/06/23/diagonal-plaza-receives-federal-tax-credits-for-affordable-housing-project/"
+  },
+  {
+   "id": "boulderbeat-2021-06-24",
+   "title": "After decade of decline, (partial) plans for Boulder's Diagonal Plaza",
+   "publisher": "Boulder Beat",
+   "date": "2021-06-24",
+   "url": "https://boulderbeat.news/2021/06/24/diagonal-plaza-development/"
+  },
+  {
+   "id": "mhcre-2024-07-29",
+   "title": "FirstBank Finances Boulder Affordable Housing Project",
+   "publisher": "Mile High CRE",
+   "date": "2024-07-29",
+   "url": "https://milehighcre.com/firstbank-finances-boulder-affordable-housing-project/"
+  },
+  {
+   "id": "bouldercounty-aaht-2025-02",
+   "title": "Affordable and Attainable Housing Tax Review and A Look Ahead (Virtual Housing Summit deck; Hawthorn Court slide)",
+   "publisher": "Boulder County Housing Department",
+   "date": "2025-02-10",
+   "url": "https://assets.bouldercounty.gov/wp-content/uploads/2025/02/aaht-administrative-meeting-feb-2025.pdf"
+  },
+  {
+   "id": "bhp-interest-list",
+   "title": "Hawthorn Court Interest List Now Open: August 1-10, 2025",
+   "publisher": "Boulder Housing Partners",
+   "date": "2025-08",
+   "url": "https://boulderhousing.org/hawthorn-interest-list/"
+  },
+  {
+   "id": "bhp-open-house-2025",
+   "title": "Open House Events",
+   "publisher": "Boulder Housing Partners",
+   "date": "2025-08",
+   "url": "https://boulderhousing.org/dont-miss-out-boulder-housing-open-house-events/"
+  },
+  {
+   "id": "bhp-hawthorn",
+   "title": "Hawthorn Court (development page)",
+   "publisher": "Boulder Housing Partners",
+   "date": "2025",
+   "url": "https://boulderhousing.org/bhp-developments/hawthorn-court/"
+  }
+ ]
+}

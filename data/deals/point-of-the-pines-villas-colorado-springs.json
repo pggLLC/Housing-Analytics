@@ -1,0 +1,370 @@
+{
+ "slug": "point-of-the-pines-villas-colorado-springs",
+ "name": "Point of the Pines Villas",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 30,
+ "researched_on": "2026-10-21",
+ "headline": "MEJansen Development Company won a 2023 Round One 9% award of $1,144,385 a year for Point of the Pines Villas, a planned 30-unit Medicaid assisted living building for residents with mental illness and brain injuries at 360 Elkton Drive in Colorado Springs, but CHFA's award report footnotes that the project did not proceed and the sponsor returned the award.",
+ "why_it_matters": "It is a returned 9% award: the credits went back to CHFA rather than producing housing, after the developer had applied in 2019, 2021 and 2023 for an assisted living expansion that relies on Medicaid waiver service payments.",
+ "status": {
+  "label": "Did not proceed; award returned by sponsor",
+  "detail": "CHFA's 2023 Round One award report (as of 2025-02-26) marks the name with an asterisk whose footnote reads: 'Project did not proceed. Award returned by sponsor.' The date of the return and the reason are not public. No permit, closing or construction record was found, and the project does not appear on CHFA's 2024 Round One applicant report or in the 2025 or 2026 Round One application narratives.",
+  "src": [
+   "chfa-2023-r1-award",
+   "chfa-2024-r1-applicants",
+   "chfa-2025-r1-narratives",
+   "chfa-2026-r1-narratives"
+  ]
+ },
+ "next_step": "Watch CHFA's later applicant reports for a re-application at 360 Elkton Drive, and Colorado Springs planning records for any other use of the site.",
+ "key_numbers": [
+  {
+   "value": "$1,144,385 a year of 9% credit, returned",
+   "meaning": "About $11.4M over 10 years (inferred) that went back to CHFA; equal to the amount requested.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "value": "30 one-bedroom assisted living units",
+   "meaning": "10 at 30% AMI and 20 at 60% AMI, all for Medicaid-eligible residents; 10 units set aside for people with brain injuries.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "value": "Third application in four rounds",
+   "meaning": "The developer applied in 2019 and in 2021 Round One (as a 48-unit studio building) before the 2023 award.",
+   "src": [
+    "chfa-2021-r1-narratives",
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "360 Elkton Drive, Colorado Springs, CO 80907, next to the developer's existing Point of the Pines Gardens assisted living facility, west of I-25 near the Garden of the Gods exit",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, assisted living; 30 units, 30 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "CHFA footnote",
+   "value": "Asterisk on the name: 'Project did not proceed. Award returned by sponsor.' (report as of 2025-02-26; Williams Pointe in Lakewood carries the same footnote)",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Building (as proposed)",
+   "value": "Three stories, 26,127 sq ft including 15,347 sq ft of common areas; Type V wood frame on a caisson foundation; stucco and stone exterior; elevator; 13 surface parking spaces",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Units (as proposed)",
+   "value": "Single-occupancy, fully accessible, furnished units each with bedroom, private bathroom and sitting area; trauma-informed design",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "OC zoning already in place, per the application",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Services (as proposed)",
+   "value": "Three meals a day, 24-hour oversight, medication administration, housekeeping and activities under Medicaid EBD and CMHS waivers; added Supportive Living Services for the 10 brain-injury units under the Medicaid Brain Injury Waiver; no nursing or medical services on site",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Resident charges (as proposed)",
+   "value": "$755 monthly co-pay ($380 rent, $375 food) plus $2,722 a month in assisted living service fees paid partly by the resident and partly by Medicaid",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Market study",
+   "value": "9% penetration rate for all 30 units; demand based on the over-75 population, which the applicant said understates need",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 10
+  },
+  {
+   "level": "60% AMI",
+   "units": 20
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 30
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,144,385 per year (returned)",
+   "note": "Awarded in 2023 Round One; CHFA reports the award was returned by the sponsor. The application requested a 26.84% basis boost.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction and permanent loans (as proposed)",
+   "amount": "Not public",
+   "note": "Bank of the San Juans, lender on the developer's earlier projects.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Tax credit equity (as proposed)",
+   "amount": "Not public",
+   "note": "Letters of interest from three syndicators.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee and land price discount (as proposed)",
+   "amount": "About 30% of the fee deferred; discount not public",
+   "note": "The developer owned the site and planned to sell it to the project below market value; fee rebates and construction sales tax refunds were also cited.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor and developer (as CHFA prints it)",
+   "name": "MEJansen Development Company",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "role": "Proposed manager and operator",
+   "name": "Accolade Living Services (affiliated with the developer)",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Proposed brain-injury services provider",
+   "name": "BrainCare (affiliated with the developer)",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Proposed lender",
+   "name": "Bank of the San Juans",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Landowner (at application)",
+   "name": "The developer, per the application",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The developer's affiliated companies built and operate earlier assisted living LIHTC properties in Colorado Springs and Pueblo: Trinity Life Gardens (2000), North Pointe Gardens (2003), Oakshire Gardens (2008), Pueblo West Gardens (2010/2014), Point of the Pines Gardens (2013) and Oakshire Commons (2018), per the application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "The 2021 Round One application (a re-submission of a 2019 application) proposed 48 studio units of about 325 sq ft in a 31,204 sq ft building for elderly and disabled residents; the 2023 version cut the building to 30 one-bedroom units focused on mental illness and brain injury, after follow-up meetings with CHFA staff and the Allocation Committee.",
+   "src": [
+    "chfa-2021-r1-narratives",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "The applicant said no other affordable assisted living facility in Colorado Springs, apart from its own, offers Medicaid residents single rooms with private bathrooms, and that many residents at its existing facilities were formerly homeless.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "The applicant said assisted living costs 30% to 40% more per square foot to build than apartments and that syndicators pay less for assisted living credits; a smaller footprint allowed an open detention pond and fewer retaining walls.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Construction was expected to start shortly after allocation and take about 14 months; no public record shows that it started.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2019",
+   "event": "First application to CHFA (referenced in the 2021 narrative)",
+   "src": [
+    "chfa-2021-r1-narratives"
+   ]
+  },
+  {
+   "date": "2021",
+   "event": "2021 Round One application for 48 units (not on the 2023 award list; outcome inferred as not funded)",
+   "src": [
+    "chfa-2021-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round One applicant report (request $1,144,385)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Awarded $1,144,385 in 2023 Round One 9% credit",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "date": "2025-02-26",
+   "event": "CHFA award report (as of this date) footnotes that the project did not proceed and the award was returned",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's award description calls the project Point of the Pines Village, while the award report, applicant report and narrative call it Point of the Pines Villas.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "The 2021 application gives the site's ZIP code as 80919, while the 2023 award report and narrative give 80907.",
+   "src": [
+    "chfa-2021-r1-narratives",
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "CHFA's award description says the building would serve elderly residents and persons with disabilities, while the 2023 narrative describes it as serving individuals with mental illness, including those with brain injuries.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "open_questions": [
+  "When and why the sponsor returned the credits (costs, equity pricing, Medicaid rates or financing are possible reasons, but none is public).",
+  "Whether the returned credits were re-awarded to another 2023 or later project.",
+  "Whether the developer still owns 360 Elkton Drive and has other plans for the site.",
+  "No public site plan or rendering was found; Colorado Springs planning records for the site were not located."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "2023 Round One Award Descriptions (Point of the Pines Villas)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (Point of the Pines Villas, PDF pages 76-80)",
+   "publisher": "CHFA",
+   "date": "2023-02",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2021-r1-narratives",
+   "title": "2021 Round One application narratives (Point of the Pines Villas, from PDF page 84)",
+   "publisher": "CHFA",
+   "date": "2021",
+   "url": "https://www.chfainfo.com/getattachment/1e64384f-8b7c-4a74-a4fc-3c16885f0faf/2021-Round-1-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 Round One - Applicant Report, Federal 9% Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r1-narratives",
+   "title": "2025 HTC Round One application narratives",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 HTC Round One application narratives",
+   "publisher": "CHFA",
+   "date": "2026",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  }
+ ]
+}
