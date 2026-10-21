@@ -78,6 +78,21 @@ Each slider is a percentage of SDO's forecast for the place loaded, so a setting
 
 Migration scales SDO's net migration at every age. Where the people SDO has arriving form fewer households than those leaving (a college town's students and graduates), less migration means more homes; the page says so when it happens.
 
+### The shaded range: how far past forecasts missed
+
+The chart shades where two in three past forecasts for a place of the loaded size landed, around SDO's line. It is the standard empirical way to size a forecast's error (Smith, Tayman and Swanson, *A Practitioner's Guide to State and Local Population Projections*, 2013, ch. 13; Rayer, "Population Forecast Errors: A Primer for Planners," *Journal of Planning Education and Research* 27, 2008). `scripts/hna/build_forecast_error.py` writes `data/hna/forecast-error.json` in four steps:
+
+1. It forecasts every Colorado county from each launch year since 1980, using SDO's population estimates from 1970 on. Each forecast is the average of a linear and an exponential trend over the ten years before launch.
+2. It compares each forecast 1 to 20 years out with SDO's later estimate for that year, measuring the miss as a percent of the forecast. The range is drawn around a forecast, so that is the measure it needs.
+3. It keeps the smallest miss that at least two in three forecasts stayed within, rounded up to a tenth of a point so the range holds no fewer. This is done separately by population at launch: under 5,000; 5,000 to 20,000; 20,000 to 100,000; and over 100,000. A later year never shows less error than an earlier one.
+4. Adams, Boulder, Broomfield, Jefferson and Weld count as one area. Broomfield was formed from the other four in 2001, and SDO's earlier estimates count its people in them.
+
+The values for each size and year out are in `data/hna/forecast-error.json` (`errorPct`), rebuilt with each SDO vintage. The sentence under the chart gives the loaded place's 20-year value.
+
+SDO does not publish its past county forecasts as data, so these trend forecasts stand in for its own. Rayer (2008, Table 5) finds trend and cohort-component county forecasts about equally precise.
+
+On the chart, each year's range is that year's error, taken as a share of the place's projected population and converted to homes. The conversion uses SDO's households per person and the county's target vacancy. A town uses its own population's size group. The record runs 20 years out, so the range stops there.
+
 ### Saved scenarios from the earlier model
 
 Scenarios saved before 2026-10-20 held multipliers and a number of people moving in a year. Loading one converts the multipliers to percentages and the people a year to a percentage of SDO's average net migration for the place loaded. The percentage is signed: where SDO expects more people to leave than arrive, a saved 0 loads as 0% and a saved net departure as its share of SDO's. A count in the opposite direction from SDO's forecast cannot be a share of it, so it loads at 0%, the nearest setting, and the page says why. A count more than twice SDO's loads as 200%, the highest the builder models, again with a note, and a record that never set a count keeps SDO's migration.
@@ -220,6 +235,7 @@ The Scenario Builder's arithmetic is implemented twice, and the two must stay th
 
 - `python3 scripts/hna/fetch_colorado_vital_rates.py` when NCHS publishes newer tables (the output is committed)
 - `python3 scripts/hna/build_scenario_baseline.py` after the SDO files change (the weekly HNA data build runs it)
+- `python3 scripts/hna/build_forecast_error.py` after the SDO files change, for the shaded range (the weekly HNA data build runs it; `test/forecast-error-band.test.js` fails if the file and the script disagree)
 
 The pipeline scenario files are rebuilt with `python3 scripts/hna/build_scenarios.py`.
 
