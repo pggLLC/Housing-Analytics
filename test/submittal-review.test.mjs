@@ -325,4 +325,10 @@ const srcJs4 = read('js/whitepaper/submittal-review.js');
 ok(/<label class="sr-pick-wrap"><input type="checkbox" class="sr-pick"/.test(srcJs4) && /\.sr-pick-wrap \{[^}]*min-width: 44px; min-height: 44px/.test(page), 'the compare checkbox has a 44px target');
 ok(/\$\('sr-deal'\)\.value = \(state\.nav === nav && selectId\) \|\| state\.deal \|\| '';/.test(srcJs4), 'a late deal-list refresh keeps the deal that is open');
 
+// Codex review on 8b85d2d62: the comparison clears on a deal change; whole housing-need points; no save while a deal opens.
+const srcJs5 = read('js/whitepaper/submittal-review.js');
+ok(/state\.loading = !!state\.deal;[^\n]*\n\s*drawCompare\(\);/.test(srcJs5), 'changing deals redraws the comparison');
+ok(/v\.claims\[id\] = el\.type === 'checkbox' \? el\.checked : \(n > 0 \? Math\.floor\(n\) : null\)/.test(srcJs5), 'typed claim points are whole and non-negative');
+ok(/if \(state\.loading\) \{ flash\('Wait for the deal to finish opening/.test(srcJs5) && /if \(state\.deal === deal\) state\.loading = false;/.test(srcJs5), 'saving waits until the picked deal has opened');
+
 console.log(`submittal-review: ${checks} checks passed`);

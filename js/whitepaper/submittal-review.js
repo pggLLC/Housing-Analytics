@@ -775,7 +775,8 @@
       var ac = num($('sr-credits').value); if (ac != null) v.engine.annualCredits = ac; else if (!v.calculator) delete v.engine.annualCredits;
       doc.querySelectorAll('[data-claim]').forEach(function (el) {
         var id = el.getAttribute('data-claim');
-        v.claims[id] = el.type === 'checkbox' ? el.checked : num(el.value);
+        var n = num(el.value);
+        v.claims[id] = el.type === 'checkbox' ? el.checked : (n > 0 ? Math.floor(n) : null); // whole points, as the form's step=1 asks
         var ref = doc.querySelector('[data-ref="' + id + '"]'); if (ref) v.claims[id + ':ref'] = ref.value.slice(0, 200);
       });
       doc.querySelectorAll('[data-threshold]').forEach(function (el) {
@@ -957,6 +958,8 @@
     $('sr-deal').addEventListener('change', function () {
       state.nav++;
       state.deal = $('sr-deal').value || null; state.picked = {}; state.parent = '';
+      state.loading = !!state.deal; // no saving until this deal's version has opened
+      drawCompare();
       var opt = $('sr-deal').selectedOptions[0];
       $('sr-name').value = state.deal ? opt.textContent.replace(/ \(\d+ versions?\)$/, '') : '';
       if (!state.deal) { state.version = blankVersion(); state.stress = null; $('sr-label').value = ''; writeForm(); draw(); }
@@ -966,7 +969,8 @@
         var first = state.versions.filter(function (v) { return state.hidden.indexOf(v.v) === -1; })[0];
         var pick = state.baseline && state.versions.some(function (v) { return v.v === state.baseline; }) ? state.baseline : first && first.v;
         if (pick) return openLatest(pick);
-      });
+      }).catch(function (e) { flash('Could not load that deal: ' + e.message); })
+        .then(function () { if (state.deal === deal) state.loading = false; });
     });
     $('sr-show-hidden').addEventListener('change', refreshVersions);
 
@@ -1000,6 +1004,7 @@
     }
 
     $('sr-save').addEventListener('click', function () {
+      if (state.loading) { flash('Wait for the deal to finish opening, then save.'); return; }
       readForm();
       var name = $('sr-name').value.trim();
       if (!name) { flash('Give the deal a name first.'); $('sr-name').focus(); return; }
