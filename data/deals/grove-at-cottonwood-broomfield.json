@@ -1,0 +1,515 @@
+{
+ "slug": "grove-at-cottonwood-broomfield",
+ "name": "Grove at Cottonwood",
+ "city": "Broomfield",
+ "county": "Broomfield",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 40,
+ "researched_on": "2026-10-21",
+ "headline": "The Broomfield Housing Alliance and BlueLine Development built the Grove at Cottonwood, a 40-unit, neuro-inclusive rental community at 30% to 60% AMI in Broomfield's Northmoor neighborhood, with 10 units set aside for adults with intellectual and developmental disabilities; it won 2024 Round One 9% and state credits and opened in 2026.",
+ "why_it_matters": "It is a finished, small-scale model for I/DD housing under the tax credit program: a housing authority's own land, 10 Section 811 vouchers from the Division of Housing and referral agreements with I/DD service agencies, delivered in about a year of construction.",
+ "status": {
+  "label": "Completed; certificate of occupancy July 2026; leasing up (grand opening 2026-09-02)",
+  "detail": "The project's construction page reports substantial completion and a certificate of occupancy in July 2026. Denver7 reported the grand opening on 2026-09-02, with 10 residents moved in, 10 more preparing to move in and 20 units still available.",
+  "src": [
+   "grove-construction",
+   "denver7-2026-09-02"
+  ]
+ },
+ "next_step": "Watch for full lease-up and for the recorded CHFA land use restriction agreement and placed-in-service year.",
+ "key_numbers": [
+  {
+   "value": "40 homes, 10 reserved for adults with I/DD",
+   "meaning": "30 one-bedroom and 10 two-bedroom units at 30% to 60% AMI; the 10 units at 30% AMI carry Section 811 project-based vouchers from the Colorado Division of Housing.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives",
+    "grove-leasing-faq"
+   ]
+  },
+  {
+   "value": "$1,400,247 a year in federal 9% credit plus $700,000 of state credit",
+   "meaning": "About $14.0M in federal credit over 10 years (inferred from the annual amount).",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "value": "$1.43M HOME-ARPA",
+   "meaning": "Committed by the Boulder Broomfield HOME Consortium before the 2024 application.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "About 12 months from groundbreaking to certificate of occupancy",
+   "meaning": "Groundbreaking in July 2025; certificate of occupancy in July 2026.",
+   "src": [
+    "cbs-2025-07-11",
+    "grove-construction"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1354 Cottonwood Street, Broomfield, CO 80020 (CHFA); the owner's Good Neighbor Policy lists 1355, 1374 and 1394 Cottonwood Street",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives",
+    "grove-good-neighbor"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, family, special population",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Three wood-frame Type VB buildings: one one-story, one two-story and one three-story with an elevator, plus a common house; 95% of units accessible, with only two walk-up units",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Unit sizes",
+   "value": "About 637-666 sq ft (1BR) and 864-920 sq ft (2BR)",
+   "src": [
+    "blueline-grove"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Land bought by the Broomfield Housing Alliance in May 2022 in the Northmoor neighborhood, next to the 8-acre Northmoor park and the Bal Swan Children's Center; more than half the site kept as open space",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "2021 IECC, Enterprise Green Communities 2020, targeting Zero Energy Ready Home certification; all-electric and solar-ready",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "Grove at Cottonwood, LLLP",
+   "src": [
+    "grove-good-neighbor"
+   ]
+  },
+  {
+   "item": "2026 maximum rents (1BR / 2BR)",
+   "value": "30% AMI $810 / $972; 50% AMI $1,350 / $1,576; 60% AMI $1,620 / $1,891 (the page labels the 2BR figures 2025)",
+   "src": [
+    "grove-leasing-faq"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI (Section 811 PBV)",
+   "units": 10
+  },
+  {
+   "level": "50% AMI",
+   "units": 9
+  },
+  {
+   "level": "60% AMI",
+   "units": 21
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 30
+  },
+  {
+   "type": "2BR",
+   "units": 10
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives",
+  "grove-leasing-faq"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,400,247 per year",
+   "note": "2024 Round One award; the February 2024 request was $1,450,000.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "HOME-ARPA (Boulder Broomfield HOME Consortium)",
+   "amount": "$1,430,000",
+   "note": "Committed before the application.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Section 811 project-based rental assistance (Colorado Division of Housing)",
+   "amount": "10 vouchers",
+   "note": "For the units reserved for residents with I/DD.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Land seller carry-back from the Broomfield Housing Alliance",
+   "amount": "Not public",
+   "note": "The alliance committed to carry back its equity in the land after paying off existing obligations.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Partial waiver of local fees",
+   "amount": "Not public",
+   "note": "Committed by Broomfield, per the narrative.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing, Impact Development Fund and deferred developer fee",
+   "amount": "Not public",
+   "note": "Assumed sources in the 2024 application; no public record of final amounts was found.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Services funding",
+   "amount": "Not public",
+   "note": "Imagine!, FRIENDS of Broomfield and Blue Spruce provide referrals and financial support for services.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it); co-developer and co-owner",
+   "name": "Broomfield Housing Alliance (Broomfield's independent housing authority, rebranded in January 2022)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Co-developer (CHFA's award description lists it as co-sponsor)",
+   "name": "BlueLine Development, Inc.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives",
+    "bha-development"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "Grove at Cottonwood, LLLP",
+   "src": [
+    "grove-good-neighbor"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "BlueLine Property Management",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "grove-good-neighbor"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Caddis Collaborative",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "bha-development"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Deneuve Construction",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "grove-construction"
+   ]
+  },
+  {
+   "role": "Development consultant; market analyst",
+   "name": "RCH Jones Consulting; THK",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "I/DD referral and service partners",
+   "name": "Imagine!, FRIENDS of Broomfield, Blue Spruce",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Origin: the idea came from parents seeking housing for adult children with I/DD and was developed with a CHFA Small-Scale Housing Technical Assistance Grant awarded in 2022. It is the Broomfield Housing Alliance's first development.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "bha-development"
+   ]
+  },
+  {
+   "text": "Under Section 811 rules the 10 I/DD units are filled through referral agencies, and the other 30 units cannot be limited to people with disabilities, so the community is mixed. An alliance-employed resident concierge drives a property van and coordinates services, in part because the market study found low walk and transit scores.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Local approvals: the narrative says council approved a rezoning, right-of-way vacation, PUD plan, final plat and site development plan in January 2024. Broomfield's council video index lists the public hearing on the Grove at Cottonwood Filing No. 1 rezoning and right-of-way vacation (second reading) on 2024-02-13.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "broomfield-ccm-2024-02-13"
+   ]
+  },
+  {
+   "text": "Neighbor concerns about density, height, traffic and parking led to dropping a through street, lowering building height, stepping density down toward single-family homes to the east and adding parking. Broomfield code required a Good Neighbor Policy; the alliance held neighbor meetings on 2024-10-21, 2024-11-06 and 2025-01-27.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "bha-development",
+    "grove-good-neighbor"
+   ]
+  },
+  {
+   "text": "CHFA granted a cost basis override for the site and design costs; the application asked for no other waiver.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Construction: groundbreaking in the week of 2025-07-11; foundations and utilities by September 2025; main building dried in by January 2026; exteriors mostly complete by May 2026; certificate of occupancy July 2026.",
+   "src": [
+    "cbs-2025-07-11",
+    "milehighcre-2025-07-23",
+    "grove-construction"
+   ]
+  },
+  {
+   "text": "Opening: the grand opening was held 2026-09-02. The leasing page says the interest list is longer than expected.",
+   "src": [
+    "denver7-2026-09-02",
+    "grove-leasing-faq"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-05",
+   "event": "Broomfield Housing Alliance buys the site",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (request $1,450,000)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-02-13",
+   "event": "Council public hearing on the Filing No. 1 rezoning and right-of-way vacation (second reading)",
+   "src": [
+    "broomfield-ccm-2024-02-13"
+   ]
+  },
+  {
+   "date": "2024-07-26",
+   "event": "Listed on CHFA's 2024 Round One award report ($1,400,247 federal 9%, $700,000 state)",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2025-07",
+   "event": "Groundbreaking",
+   "src": [
+    "cbs-2025-07-11",
+    "milehighcre-2025-07-23"
+   ]
+  },
+  {
+   "date": "2026-01",
+   "event": "Main building dried in",
+   "src": [
+    "grove-construction"
+   ]
+  },
+  {
+   "date": "2026-07",
+   "event": "Substantial completion and certificate of occupancy",
+   "src": [
+    "grove-construction"
+   ]
+  },
+  {
+   "date": "2026-09-02",
+   "event": "Grand opening; 10 residents moved in",
+   "src": [
+    "denver7-2026-09-02"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Construction progress photos, July 2025 to July 2026",
+   "url": "https://www.groveatcottonwood.org/construction",
+   "kind": "photo",
+   "made_by": "Broomfield Housing Alliance (project site)",
+   "note": "Project web page, not a paged document",
+   "src": [
+    "grove-construction"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA and the application narrative give the address as 1354 Cottonwood Street, while the owner's Good Neighbor Policy lists 1355, 1374 and 1394 Cottonwood Street and BlueLine's community page uses 1355 Cottonwood Street.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives",
+    "grove-good-neighbor",
+    "blueline-grove"
+   ]
+  },
+  {
+   "text": "The application narrative says council approved the rezoning, right-of-way vacation and related plans in January 2024, while Broomfield's council video index shows the rezoning and right-of-way vacation second-reading public hearing on 2024-02-13.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "broomfield-ccm-2024-02-13"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Total development cost, credit prices, the equity investor and the construction and permanent lenders.",
+  "Final amounts from the Division of Housing, Impact Development Fund and any federal funds (the project's news page quotes a member of Congress on helping bring the project across the finish line, but names no amount).",
+  "Broomfield ordinance numbers and dates for the rezoning, plat and site development plan.",
+  "The length of the CHFA affordability covenant (marketing materials say 'permanently affordable').",
+  "When lease-up reaches full occupancy."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One - Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 Round One - Applicant Report, Federal 9% Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One 9% application narratives (The Grove at Cottonwood, PDF pages 49-53)",
+   "publisher": "CHFA",
+   "date": "2024-02",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "bha-development",
+   "title": "Broomfield Housing Alliance, Development (The Grove at Cottonwood)",
+   "publisher": "Broomfield Housing Alliance",
+   "date": "2025",
+   "url": "https://www.broomfieldhousingalliance.org/development"
+  },
+  {
+   "id": "grove-good-neighbor",
+   "title": "The Grove at Cottonwood Good Neighbor Policy (Municipal Code 17-33-010)",
+   "publisher": "Broomfield Housing Alliance",
+   "date": "2025",
+   "url": "https://www.broomfieldhousingalliance.org/s/Grove-Good-Neighbor-Agreement-FINAL.pdf"
+  },
+  {
+   "id": "grove-construction",
+   "title": "The Grove at Cottonwood, Construction (progress updates July 2025 to July 2026)",
+   "publisher": "Broomfield Housing Alliance (groveatcottonwood.org)",
+   "date": "2026-07",
+   "url": "https://www.groveatcottonwood.org/construction"
+  },
+  {
+   "id": "grove-leasing-faq",
+   "title": "The Grove at Cottonwood, Leasing FAQ (income levels and 2026 rents)",
+   "publisher": "Broomfield Housing Alliance (groveatcottonwood.org)",
+   "date": "2026",
+   "url": "https://www.groveatcottonwood.org/leasing-1"
+  },
+  {
+   "id": "blueline-grove",
+   "title": "The Grove at Cottonwood (community page)",
+   "publisher": "BlueLine Development",
+   "date": "2026",
+   "url": "https://bluelinedevelopment.com/community/the-grove-at-cottonwood/"
+  },
+  {
+   "id": "broomfield-ccm-2024-02-13",
+   "title": "Regular City Council Meeting - February 13, 2024 (video chapters)",
+   "publisher": "City and County of Broomfield",
+   "date": "2024-02-13",
+   "url": "https://vod.broomfield.org/internetchannel/show/1327"
+  },
+  {
+   "id": "cbs-2025-07-11",
+   "title": "New neuro-diverse affordable housing coming to one Denver metro area community",
+   "publisher": "CBS Colorado",
+   "date": "2025-07-11",
+   "url": "https://www.cbsnews.com/colorado/news/new-neuro-diverse-affordable-housing-broomfield"
+  },
+  {
+   "id": "milehighcre-2025-07-23",
+   "title": "Neuro-Inclusive Housing Breaks Ground in Broomfield",
+   "publisher": "Mile High CRE",
+   "date": "2025-07-23",
+   "url": "https://milehighcre.com/neuro-inclusive-housing-breaks-ground-in-broomfield/"
+  },
+  {
+   "id": "denver7-2026-09-02",
+   "title": "Broomfield opens its first housing complex for adults with intellectual and developmental disabilities",
+   "publisher": "Denver7",
+   "date": "2026-09-02",
+   "url": "https://www.denver7.com/news/local-news/in-your-community/north-metro/broomfield-opens-its-first-housing-complex-for-adults-with-intellectual-and-developmental-disabilities"
+  }
+ ]
+}

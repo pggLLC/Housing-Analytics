@@ -1,0 +1,626 @@
+{
+ "slug": "current-grand-junction",
+ "name": "The Current",
+ "city": "Grand Junction",
+ "county": "Mesa",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 54,
+ "researched_on": "2026-10-21",
+ "headline": "The Grand Junction Housing Authority is building The Current, a 54-unit, four-story family rental for households at 30% to 60% AMI at 674 Durham Drive in northwest Grand Junction, the first phase of its 15-acre Confluence site, after winning 2024 Round One 9% and state housing tax credits.",
+ "why_it_matters": "It shows what it took to rescue a 9% deal after equity prices fell: the housing authority paused it in January 2025, then stacked city money, two state grants, a $4.1M Prop 123 concessionary loan and a congressional grant before construction started.",
+ "status": {
+  "label": "Under construction (framing, April 2026); completion estimated January 2027",
+  "detail": "Housing authority board minutes of 2026-04-14 report framing going up, a topping-out ceremony scheduled for the following week and an estimated completion date of January 2027. The authority's project page says pre-leasing begins in fall 2026 and opening is set for early 2027. No public record of the financing closing date or building permit date was found.",
+  "src": [
+   "gjha-2026-04-14",
+   "gjha-thecurrent"
+  ]
+ },
+ "next_step": "Watch the housing authority's board minutes and project page for completion, a certificate of occupancy and the start of pre-leasing (fall 2026).",
+ "key_numbers": [
+  {
+   "value": "54 homes, all at 30% to 60% AMI",
+   "meaning": "38 one-bedroom and 16 two-bedroom units; 8 units at 30% AMI are backed by project-based vouchers from the housing authority.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,423,913 a year in federal 9% credit plus $700,000 of state credit",
+   "meaning": "About $14.2M in federal credit over 10 years (inferred from the annual amount).",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "value": "$4,078,646 Prop 123 concessionary loan",
+   "meaning": "Announced by the state in July 2025 to close a gap that had stalled the deal; CHFA's commitment set its closing at permanent conversion in May 2027.",
+   "src": [
+    "prop123-2025-07-30",
+    "gjha-2025-10-07"
+   ]
+  },
+  {
+   "value": "$1.5M City of Grand Junction commitment",
+   "meaning": "Approved by Resolution No. 07-24 on 2024-01-30, on top of city help buying the 15-acre site.",
+   "src": [
+    "gj-res-07-24",
+    "gj-ccm-2024-01-30"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "674 Durham Drive, Grand Junction, CO 81505 (near 23 3/4 Road and F 3/4 Road; city resolutions use 674 23 3/4 Road)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives",
+    "gj-res-07-24"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, family",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One four-story, 61,872 sq ft Type VA wood-frame building on helical piers or piles, two elevators, all-electric (cold-climate air source heat pumps), National Green Building Standard bronze",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "1.6-acre lot (33.75 units per acre) in the 15-acre Confluence subdivision, west of 24 Road and north of the future F 1/2 Road Parkway, near Mesa Mall, Community Hospital and Canyon View Park",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Accessible units",
+   "value": "Three ADA-accessible apartments",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "40 years (city resolution and the application narrative)",
+   "src": [
+    "gj-res-07-24",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "The Current LLLP (housing authority board items on its partnership agreement and on conveying 674 Durham Drive to it)",
+   "src": [
+    "gjha-2025-07-08-agenda",
+    "gjha-2025-10-07"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 8
+  },
+  {
+   "level": "40% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 16
+  },
+  {
+   "level": "60% AMI",
+   "units": 22
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 38
+  },
+  {
+   "type": "2BR",
+   "units": 16
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,423,913 per year",
+   "note": "2024 Round One award; the February 2024 request was $1,450,000.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "source": "Prop 123 concessionary debt (OEDIT/CHFA)",
+   "amount": "$4,078,646",
+   "note": "Announced 2025-07-30. Housing authority minutes say CHFA's commitment letter set the closing of this debt at permanent conversion in May 2027, later than the March 2026 date staff had expected.",
+   "src": [
+    "prop123-2025-07-30",
+    "gjha-2025-10-07"
+   ]
+  },
+  {
+   "source": "City of Grand Junction gap funding",
+   "amount": "$1,500,000",
+   "note": "Resolution No. 07-24 (2024-01-30). Resolution No. 82-24 (2024-11-20) used $501,031 of it as the match for a state infrastructure grant request.",
+   "src": [
+    "gj-res-07-24",
+    "gj-ccm-2024-01-30",
+    "gj-res-82-24"
+   ]
+  },
+  {
+   "source": "City pre-development funds and development fee exemption",
+   "amount": "$390,000 and $757,184",
+   "note": "As stated in the application narrative, with expedited site plan review.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "DOLA Innovative Affordable Housing Incentive grant plus city match (land)",
+   "amount": "$2,250,000 grant plus $750,000 city match",
+   "note": "Used to buy the 15-acre site for the housing authority; the purchase price was $2,812,500 plus about $187,500 of due diligence and design costs.",
+   "src": [
+    "gj-res-13-23",
+    "gj-res-82-24"
+   ]
+  },
+  {
+   "source": "DOLA energy impact (More Housing Now) infrastructure grant",
+   "amount": "$500,000",
+   "note": "The city requested $1,000,000 for phase one infrastructure; the housing authority reported a $500,000 award in March 2025.",
+   "src": [
+    "gj-res-82-24",
+    "gjha-2025-03-27",
+    "gjha-2025-05-13"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing grant (application)",
+   "amount": "$2,700,000 requested",
+   "note": "Applied for in May 2025; no public record of the award amount was found.",
+   "src": [
+    "gjha-2025-03-27",
+    "gjha-2025-05-13"
+   ]
+  },
+  {
+   "source": "Housing authority sponsor loan, gap loan and deferred developer fee",
+   "amount": "$3,000,000, $323,578 and $440,000 (2024 application)",
+   "note": "September 2025 minutes say the authority's contribution fell to $1,950,000 after a HUD congressional grant was added; October 2025 minutes again refer to a $3,000,000 cash infusion.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "gjha-2025-09-09",
+    "gjha-2025-10-07"
+   ]
+  },
+  {
+   "source": "HUD congressional (earmark) grant",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "gjha-2025-09-09",
+    "gjha-2025-10-07"
+   ]
+  },
+  {
+   "source": "Western Colorado Community Foundation",
+   "amount": "$50,000",
+   "note": "Committed per the application narrative.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction-to-permanent loan",
+   "amount": "Not public",
+   "note": "Board chose Bank of Colorado (quoted 6.29%) over ANB Bank on 2025-05-16.",
+   "src": [
+    "gjha-2025-05-16"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor, developer and property manager (as CHFA prints it)",
+   "name": "Grand Junction Housing Authority",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "The Current LLLP",
+   "src": [
+    "gjha-2025-07-08-agenda",
+    "gjha-2025-10-07"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "OZ Architecture",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Shaw Construction",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "gjha-2026-04-14"
+   ]
+  },
+  {
+   "role": "Federal credit equity investor",
+   "name": "Red Stone (Redstone) Equity Partners",
+   "src": [
+    "gjha-2025-05-16",
+    "gjha-2025-09-09"
+   ]
+  },
+  {
+   "role": "State credit investor",
+   "name": "Monarch",
+   "src": [
+    "gjha-2025-09-09"
+   ]
+  },
+  {
+   "role": "Construction/permanent lender (selected)",
+   "name": "Bank of Colorado",
+   "src": [
+    "gjha-2025-05-16"
+   ]
+  },
+  {
+   "role": "Market analyst; geotechnical engineer; civil engineer",
+   "name": "Novogradac; Huddleston-Berry Engineering & Testing; SGM",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Local funder and land partner",
+   "name": "City of Grand Junction",
+   "src": [
+    "gj-res-07-24",
+    "gj-res-13-23"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Land: in January 2023 the city applied for a $2.25M DOLA grant, with a $750,000 city match, to buy a 15-acre site on the 24 Road corridor for the housing authority at $2,812,500; the city later said the grant succeeded and the land was bought for a planned development of up to 300 affordable units in three phases.",
+   "src": [
+    "gj-res-13-23",
+    "gj-res-82-24"
+   ]
+  },
+  {
+   "text": "The Current is phase one. The first phase has to build public street access, about a quarter mile of new sanitary sewer and stormwater detention for the whole site, and moisture-sensitive soils call for pile foundations. To cut costs the team switched to a pitched roof and dropped 8 units from the south wing.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "City support: on 2024-01-30 council adopted Resolution No. 07-24 committing $1.5M so the application could meet CHFA's 2024-02-01 deadline. The narrative also cites $390,000 of city pre-development money and a $757,184 fee exemption.",
+   "src": [
+    "gj-ccm-2024-01-30",
+    "gj-res-07-24",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Stall: lower-than-expected credit pricing left a $1M gap and construction was postponed (city resolution of 2024-11-20). On 2025-01-24 the housing authority board voted not to accept any of the six lending and five equity proposals it had received and paused the project.",
+   "src": [
+    "gj-res-82-24",
+    "gjha-2025-01-24"
+   ]
+  },
+  {
+   "text": "Restart: in 2025 the authority won $500,000 for infrastructure, applied for $2.7M from the Division of Housing, signed a letter of intent with Red Stone Equity Partners and picked Bank of Colorado as lender (May 2025), and got a $4,078,646 Prop 123 concessionary loan (July 2025). It planned to file a CHFA carryover application by 2025-11-01.",
+   "src": [
+    "gjha-2025-03-27",
+    "gjha-2025-05-13",
+    "gjha-2025-05-16",
+    "prop123-2025-07-30",
+    "gjha-2025-08-12"
+   ]
+  },
+  {
+   "text": "In September 2025 the authority hoped to hold a groundbreaking the week of 2025-10-20. In October 2025 staff listed what was still open: lower federal credit pricing, timing of Division of Housing funds, added state credits, a sources-and-uses gap, a congressional earmark and multiple environmental reviews. The board postponed resolutions conveying 674 Durham Drive to The Current LLLP after CHFA's commitment letter pushed the concessionary loan closing to May 2027.",
+   "src": [
+    "gjha-2025-09-09",
+    "gjha-2025-10-07"
+   ]
+  },
+  {
+   "text": "By 2026-04-14 the building was framing, with Shaw building wall sections off site, and completion was estimated for January 2027 (the city's November 2024 grant request had targeted a certificate of occupancy by August 2026).",
+   "src": [
+    "gjha-2026-04-14",
+    "gj-res-82-24"
+   ]
+  },
+  {
+   "text": "Rents and services: the housing authority expects to give 8 project-based vouchers for the 30% AMI units; water, sewer and trash are included in rent.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives",
+    "gjha-thecurrent"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-01-18",
+   "event": "City Resolution No. 13-23 authorizes the DOLA grant request to buy the 15-acre site",
+   "src": [
+    "gj-res-13-23"
+   ]
+  },
+  {
+   "date": "2024-01-30",
+   "event": "City council adopts Resolution No. 07-24 committing $1.5M",
+   "src": [
+    "gj-ccm-2024-01-30",
+    "gj-res-07-24"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (request $1,450,000)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-07-26",
+   "event": "Listed on CHFA's 2024 Round One award report ($1,423,913 federal 9%, $700,000 state)",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2024-11-20",
+   "event": "City Resolution No. 82-24: construction postponed over a $1M gap; DOLA infrastructure grant requested",
+   "src": [
+    "gj-res-82-24"
+   ]
+  },
+  {
+   "date": "2025-01-24",
+   "event": "Housing authority board rejects all lending and equity proposals and pauses the project",
+   "src": [
+    "gjha-2025-01-24"
+   ]
+  },
+  {
+   "date": "2025-05-16",
+   "event": "Board approves letter of intent with Red Stone Equity Partners and picks Bank of Colorado as lender",
+   "src": [
+    "gjha-2025-05-16"
+   ]
+  },
+  {
+   "date": "2025-07-30",
+   "event": "State announces $4,078,646 Prop 123 concessionary debt award",
+   "src": [
+    "prop123-2025-07-30"
+   ]
+  },
+  {
+   "date": "2025-10-07",
+   "event": "Board defers conveyance of 674 Durham Drive to The Current LLLP after CHFA sets concessionary loan closing for May 2027",
+   "src": [
+    "gjha-2025-10-07"
+   ]
+  },
+  {
+   "date": "2026-04-14",
+   "event": "Board minutes: framing under way, topping out scheduled, completion estimated January 2027",
+   "src": [
+    "gjha-2026-04-14"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Exterior and interior renderings, floor plans and a construction photo",
+   "url": "https://www.gjha.org/thecurrent",
+   "kind": "rendering",
+   "made_by": "Grand Junction Housing Authority (project page)",
+   "note": "Project web page, not a paged document",
+   "src": [
+    "gjha-thecurrent"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The state's Prop 123 announcement describes the Confluence subdivision as 360 units, while the city's resolutions describe the 15-acre site as about 300 units (or up to 300) in three phases.",
+   "src": [
+    "prop123-2025-07-30",
+    "gj-res-13-23",
+    "gj-res-82-24"
+   ]
+  },
+  {
+   "text": "September 2025 housing authority minutes say its cash contribution fell from $3,000,000 to $1,950,000 after a HUD congressional grant was added, while October 2025 minutes still list a $3,000,000 cash infusion from the authority as an assumption.",
+   "src": [
+    "gjha-2025-09-09",
+    "gjha-2025-10-07"
+   ]
+  }
+ ],
+ "open_questions": [
+  "The date the tax credit partnership and construction loan closed, and the building permit date.",
+  "Whether the Division of Housing awarded the $2.7M grant, and on what terms.",
+  "The amount of the HUD congressional grant.",
+  "Total development cost and the federal and state credit prices.",
+  "Final rents, and when the 8 project-based vouchers start.",
+  "Timing of later Confluence phases."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One - Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 Round One - Applicant Report, Federal 9% Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One 9% application narratives (The Current, PDF pages 33-37)",
+   "publisher": "CHFA",
+   "date": "2024-02",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "gj-res-13-23",
+   "title": "City of Grand Junction Resolution No. 13-23 (DOLA Innovative Affordable Housing Incentives grant request for the 15-acre site)",
+   "publisher": "City of Grand Junction",
+   "date": "2023-01-18",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1106123/File/document"
+  },
+  {
+   "id": "gj-ccm-2024-01-30",
+   "title": "Grand Junction City Council, Minutes of the Special Meeting, January 30, 2024",
+   "publisher": "City of Grand Junction",
+   "date": "2024-01-30",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1124133/File/document"
+  },
+  {
+   "id": "gj-res-07-24",
+   "title": "City of Grand Junction Resolution No. 07-24 (funds for The Current)",
+   "publisher": "City of Grand Junction",
+   "date": "2024-01-30",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1123561/File/document"
+  },
+  {
+   "id": "gj-res-82-24",
+   "title": "City of Grand Junction Resolution No. 82-24 (DOLA More Housing Now grant request for phase one infrastructure)",
+   "publisher": "City of Grand Junction",
+   "date": "2024-11-20",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1141178/File/document"
+  },
+  {
+   "id": "gjha-2025-01-24",
+   "title": "Grand Junction Housing Authority, minutes of the January 24, 2025 special board meeting",
+   "publisher": "Grand Junction Housing Authority (via City of Grand Junction records)",
+   "date": "2025-01-24",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1153917/File/document"
+  },
+  {
+   "id": "gjha-2025-03-27",
+   "title": "Grand Junction Housing Authority, March 2025 special board meeting minutes",
+   "publisher": "Grand Junction Housing Authority (via City of Grand Junction records)",
+   "date": "2025-03-27",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1155250/File/document"
+  },
+  {
+   "id": "gjha-2025-05-13",
+   "title": "Grand Junction Housing Authority, May 2025 regular board meeting minutes",
+   "publisher": "Grand Junction Housing Authority (via City of Grand Junction records)",
+   "date": "2025-05-13",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1158706/File/document"
+  },
+  {
+   "id": "gjha-2025-05-16",
+   "title": "Grand Junction Housing Authority, May 2025 special board meeting minutes",
+   "publisher": "Grand Junction Housing Authority (via City of Grand Junction records)",
+   "date": "2025-05-16",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1158702/File/document"
+  },
+  {
+   "id": "gjha-2025-07-08-agenda",
+   "title": "Grand Junction Housing Authority, July 8, 2025 board meeting agenda",
+   "publisher": "Grand Junction Housing Authority (via City of Grand Junction records)",
+   "date": "2025-07-08",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1158703/File/document"
+  },
+  {
+   "id": "gjha-2025-08-12",
+   "title": "Grand Junction Housing Authority, August 2025 regular board meeting minutes",
+   "publisher": "Grand Junction Housing Authority (via City of Grand Junction records)",
+   "date": "2025-08-12",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1163133/File/document"
+  },
+  {
+   "id": "gjha-2025-09-09",
+   "title": "Grand Junction Housing Authority, September 2025 regular board meeting minutes",
+   "publisher": "Grand Junction Housing Authority (via City of Grand Junction records)",
+   "date": "2025-09-09",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1163134/File/document"
+  },
+  {
+   "id": "gjha-2025-10-07",
+   "title": "Grand Junction Housing Authority, October 2025 special board meeting minutes",
+   "publisher": "Grand Junction Housing Authority (via City of Grand Junction records)",
+   "date": "2025-10-07",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1163136/File/document"
+  },
+  {
+   "id": "gjha-2026-04-14",
+   "title": "Grand Junction Housing Authority, April 2026 regular board meeting minutes",
+   "publisher": "Grand Junction Housing Authority (via City of Grand Junction records)",
+   "date": "2026-04-14",
+   "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1169598/File/document"
+  },
+  {
+   "id": "prop123-2025-07-30",
+   "title": "Housing Coloradans Can Afford: Proposition 123 Concessionary Debt Funds to Support the Creation of 728 Rental Units",
+   "publisher": "Office of the Governor of Colorado",
+   "date": "2025-07-30",
+   "url": "https://governorsoffice.colorado.gov/governor/news/housing-coloradans-can-afford-proposition-123-concessionary-debt-funds-support-creation-728"
+  },
+  {
+   "id": "gjha-thecurrent",
+   "title": "The Current (project page)",
+   "publisher": "Grand Junction Housing Authority",
+   "date": "2026",
+   "url": "https://www.gjha.org/thecurrent"
+  }
+ ]
+}

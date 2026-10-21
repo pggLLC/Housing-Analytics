@@ -84,6 +84,19 @@ MATCH = {
     'tiffany-square-lakewood': {'agency': 'CHFA', 'year': 2025, 'names': ['Tiffany Square']},
     'townview-phase-i-denver': {'agency': 'CHFA', 'year': 2025, 'names': ['Townview Phase I']},
     'windtrail-park-fort-collins': {'agency': 'CHFA', 'year': 2025, 'names': ['Windtrail Park']},
+    'annex-boulder': {'agency': 'CHFA', 'year': 2024, 'names': ['Annex']},
+    'aster-place-battlement-mesa': {'agency': 'CHFA', 'year': 2024, 'names': ['Aster Place']},
+    'beeler-park-flats-denver': {'agency': 'CHFA', 'year': 2024, 'names': ['Beeler Park Flats']},
+    'current-grand-junction': {'agency': 'CHFA', 'year': 2024, 'names': ['Current']},
+    'grove-at-cottonwood-broomfield': {'agency': 'CHFA', 'year': 2024, 'names': ['Grove at Cottonwood']},
+    'iliff-senior-apartments-denver': {'agency': 'CHFA', 'year': 2024, 'names': ['Iliff Senior Apartments']},
+    'kappa-tower-iii-denver': {'agency': 'CHFA', 'year': 2024, 'names': ['Kappa Tower III']},
+    'montview-flats-littleton': {'agency': 'CHFA', 'year': 2024, 'names': ['Montview Flats']},
+    'range-view-saguache': {'agency': 'CHFA', 'year': 2024, 'names': ['Range View']},
+    'residences-at-delta-ii-delta': {'agency': 'CHFA', 'year': 2024, 'names': ['Residences at Delta II']},
+    'sanctuary-on-potomac-aurora': {'agency': 'CHFA', 'year': 2024, 'names': ['Sanctuary on Potomac']},
+    'sunrise-at-shiloh-mesa-colorado-springs': {'agency': 'CHFA', 'year': 2024, 'names': ['Sunrise at Shiloh Mesa']},
+    'vina-senior-residences-denver': {'agency': 'CHFA', 'year': 2024, 'names': ['Viña Senior Residences', 'Vina Senior Residences']},
 }
 
 REQUIRED = ['slug', 'name', 'city', 'award', 'researched_on', 'headline', 'status', 'key_numbers', 'sources']

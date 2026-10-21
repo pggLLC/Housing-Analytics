@@ -1,0 +1,515 @@
+{
+ "slug": "montview-flats-littleton",
+ "name": "Montview Flats",
+ "city": "Littleton",
+ "county": "Arapahoe",
+ "award": "2024 Federal 9% and state housing tax credits (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-21",
+ "headline": "South Metro Housing Options, Littleton's housing authority, built Montview Flats, a 50-unit, four-story family building at 5848 S. Rapp St. in downtown Littleton for households at 30% to 70% AMI, with a 2024 Round One 9% and state credit award from CHFA; it held its grand opening on 2026-06-30.",
+ "why_it_matters": "It is a finished example of a housing authority using a city inclusionary housing ordinance (fee-in-lieu money plus parking and density relief) on a 0.69-acre infill site, stacked with 9% credits, ARPA, CDBG and Division of Housing gap money, and opening about 11 months after groundbreaking.",
+ "status": {
+  "label": "Open: grand opening 2026-06-30; leasing under way",
+  "detail": "Groundbreaking was held on 2025-07-30 and the grand opening on 2026-06-30, per the Littleton Independent. SMHO's property page says the building opened in 2026, is taking applications and offers a first-month-free move-in special. Occupancy level and the CHFA placed-in-service date are not public.",
+  "src": [
+   "li-2025-07-31",
+   "li-2026-07-01",
+   "smho-montview"
+  ]
+ },
+ "next_step": "Watch for CHFA's placed-in-service record and SMHO board materials reporting occupancy.",
+ "key_numbers": [
+  {
+   "value": "50 homes: 37 one-bedroom, 13 two-bedroom",
+   "meaning": "All income-restricted at 30% to 70% AMI; 30 units at or below 50% AMI; 8 units carry SMHO project-based vouchers.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "chfa-2024-r1-narratives",
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "value": "$1,352,727 a year in federal 9% credit plus $700,000 of state credit",
+   "meaning": "About $13.5M in federal credit over 10 years (inferred). The applicant had requested $1,450,000 a year.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "value": "$25,631,984 total cost",
+   "meaning": "Reported at the 2026 opening, about $513,000 per unit (inferred); SMHO gave $26.6M at the 2025 groundbreaking.",
+   "src": [
+    "li-2026-07-01",
+    "li-2025-07-31"
+   ]
+  },
+  {
+   "value": "11 funding sources",
+   "meaning": "Including Littleton inclusionary housing fees ($900,000), Littleton ARPA funds, Arapahoe County CDBG ($300,000), Centennial, the Division of Housing and an SMHO carryback loan.",
+   "src": [
+    "li-2025-07-31",
+    "li-2026-07-01",
+    "smho-letter-2026-03-06",
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "5848-5868 South Rapp Street, Littleton, CO 80120 (next door to SMHO's main office)",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "Family, new construction; 50 units, 50 low-income",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "0.69-acre infill site one block from Main Street; zoned by right with administrative approvals only",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, elevator, wood frame on drilled piers and grade beams; brick, stucco and metal panel cladding; rooftop deck and interior courtyard; rooftop and underground stormwater detention",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "li-2025-07-31"
+   ]
+  },
+  {
+   "item": "Unit sizes",
+   "value": "About 529 sq ft (1BR) and 784 sq ft (2BR)",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Rents",
+   "value": "From $788 to $2,206 a month, per the Littleton Independent; utilities included, per SMHO",
+   "src": [
+    "li-2026-07-01",
+    "smho-montview"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "NGBS Bronze; PTAC heating and cooling; all-electric-ready and solar-ready roof",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "0.3 miles from the RTD D Line station; bus stop about 300 feet south; next to Arapahoe Community College",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "SMHO said it would provide a property tax exemption",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 10
+  },
+  {
+   "level": "40% AMI",
+   "units": 6
+  },
+  {
+   "level": "50% AMI",
+   "units": 14
+  },
+  {
+   "level": "60% AMI",
+   "units": 12
+  },
+  {
+   "level": "70% AMI",
+   "units": 8
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 37
+  },
+  {
+   "type": "2BR",
+   "units": 13
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r1-descriptions",
+  "chfa-2024-r1-narratives",
+  "li-2026-07-01"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,352,727 per year",
+   "note": "2024 Round One award; the application requested $1,450,000. RBC Community Investments was the federal credit investor.",
+   "src": [
+    "chfa-2024-r1-award",
+    "chfa-2024-r1-applicants",
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "source": "Colorado standard state housing tax credit",
+   "amount": "$700,000",
+   "note": "Sugar Creek Capital was the state credit investor.",
+   "src": [
+    "chfa-2024-r1-award",
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "source": "Construction and permanent loans",
+   "amount": "Not public",
+   "note": "ANB Bank provided both.",
+   "src": [
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "source": "City of Littleton inclusionary housing ordinance funds",
+   "amount": "$900,000",
+   "note": "",
+   "src": [
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "source": "City of Littleton ARPA funds",
+   "amount": "$725,00 as printed (likely $725,000; inferred)",
+   "note": "The narrative says the ARPA funds had to be spent by 2026.",
+   "src": [
+    "li-2026-07-01",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Arapahoe County CDBG",
+   "amount": "$300,000",
+   "note": "",
+   "src": [
+    "smho-letter-2026-03-06"
+   ]
+  },
+  {
+   "source": "City of Centennial",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "li-2025-07-31"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing gap funding",
+   "amount": "Not public",
+   "note": "The division's director said at the groundbreaking that SMHO had not planned to apply for state funding but needed it when unexpected costs arose.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "li-2025-07-31"
+   ]
+  },
+  {
+   "source": "SMHO carryback loan and deferred developer fee",
+   "amount": "Not public",
+   "note": "SMHO invested over $3M to secure the site, per the narrative.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "source": "Project-based vouchers",
+   "amount": "8 units",
+   "note": "From SMHO, for the 30% AMI units.",
+   "src": [
+    "chfa-2024-r1-descriptions",
+    "li-2026-07-01"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "South Metro Housing Options (Housing Authority of the City of Littleton d/b/a SMHO)",
+   "src": [
+    "chfa-2024-r1-award",
+    "smho-letter-2026-03-06"
+   ]
+  },
+  {
+   "role": "Development consultant",
+   "name": "GL Development Advisors",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Calcon Constructors",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "role": "Construction and permanent lender",
+   "name": "ANB Bank",
+   "src": [
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "role": "Federal credit investor",
+   "name": "RBC Community Investments",
+   "src": [
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "role": "State credit investor",
+   "name": "Sugar Creek Capital",
+   "src": [
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "role": "Public funders",
+   "name": "City of Littleton, Arapahoe County, City of Centennial, Colorado Division of Housing",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "li-2025-07-31",
+    "smho-letter-2026-03-06"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "South Metro Housing Options (leasing from an on-site office)",
+   "src": [
+    "smho-montview"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Littleton's inclusionary housing ordinance, passed unanimously in November 2022, made the project possible: it requires 5% affordable units or a fee-in-lieu from developments of five or more units, and gives affordable projects fee rebates and relief from parking, density and lot-size rules. Montview Flats used that relief and $900,000 of the fee money.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "text": "SMHO's first 9% deal in 30 years was Overlook at Powers Park (51 senior units, completed January 2024) with Metro West Housing Solutions; for Montview Flats SMHO took the lead role and reused the Overlook architect, contractor and financial consultant.",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "smho-letter-2026-03-06"
+   ]
+  },
+  {
+   "text": "Environmental: the Phase I prompted a limited Phase II, with a CDPHE-accepted mitigation plan; a 69-decibel noise level (above HUD's 65 dB action level) required wall assemblies that bring interior noise to 45 dB or less.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Cost drivers named by the applicant: hydrodynamic separators and an underground detention vault because the streets have no storm sewer, plus downtown zoning rules on articulation, massing and exterior materials.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Market study figures in the application: 5.3% overall capture rate (7.3% including projects under construction) and 4.8% market-area vacancy in the third quarter of 2023.",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "Construction took about 11 months from the 2025-07-30 groundbreaking to the 2026-06-30 grand opening; at groundbreaking SMHO had expected a grand opening by late 2026, and SMHO's March 2026 letter said Summer 2026.",
+   "src": [
+    "li-2025-07-31",
+    "li-2026-07-01",
+    "smho-letter-2026-03-06"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-11",
+   "event": "Littleton passes its Inclusionary Housing Ordinance",
+   "src": [
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "date": "2024-02-09",
+   "event": "Listed on CHFA's 2024 Round One applicant report (federal 9% request $1,450,000)",
+   "src": [
+    "chfa-2024-r1-applicants"
+   ]
+  },
+  {
+   "date": "2024-07-26",
+   "event": "Listed on CHFA's 2024 Round One award report (as-of date printed on the report)",
+   "src": [
+    "chfa-2024-r1-award"
+   ]
+  },
+  {
+   "date": "2025-07-30",
+   "event": "Groundbreaking ceremony",
+   "src": [
+    "li-2025-07-31"
+   ]
+  },
+  {
+   "date": "2026-03-06",
+   "event": "SMHO letter (sent with Arapahoe County's support letter) says the project will be completed in Summer 2026",
+   "src": [
+    "smho-letter-2026-03-06"
+   ]
+  },
+  {
+   "date": "2026-06-30",
+   "event": "Grand opening and ribbon cutting",
+   "src": [
+    "li-2026-07-01"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Groundbreaking photos and interior rendering",
+   "url": "https://www.littletonindependent.net/archives/news/housing/article_2939103f-a6b1-5d05-b799-83ffdb1e26ef.html",
+   "kind": "photo",
+   "made_by": "Littleton Independent (photos by Isabel Guzman)",
+   "note": "Photos in the 2025-07-31 article, including one of the project's interior renderings",
+   "src": [
+    "li-2025-07-31"
+   ]
+  },
+  {
+   "title": "Completed building and ribbon cutting",
+   "url": "https://www.littletonindependent.net/news/montview-flats-officially-opens-in-littleton/article_50a8c749-8a97-4992-8c0b-bb00af88aea2.html",
+   "kind": "photo",
+   "made_by": "Littleton Independent",
+   "note": "Photos in the 2026-07-01 article",
+   "src": [
+    "li-2026-07-01"
+   ]
+  },
+  {
+   "title": "Community, apartment and model-unit photos; unit layouts",
+   "url": "https://smho.co/montview-flats/",
+   "kind": "photo",
+   "made_by": "South Metro Housing Options",
+   "note": "Photo galleries and unit layout examples on the property page",
+   "src": [
+    "smho-montview"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "SMHO put the project cost at $26.6 million at the July 2025 groundbreaking, while the Littleton Independent's opening article gives $25,631,984.",
+   "src": [
+    "li-2025-07-31",
+    "li-2026-07-01"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Occupancy and lease-up pace (SMHO is offering a first month free), and the CHFA placed-in-service date.",
+  "Amounts of the Division of Housing, City of Centennial, ANB Bank and SMHO carryback loans, and the credit prices.",
+  "Whether the ARPA figure printed as \"$725,00\" is $725,000.",
+  "How the gap left by the $97,273-a-year smaller-than-requested credit award was filled (inferred from the request and award).",
+  "The term of the CHFA affordability covenant and the terms of SMHO's property tax exemption."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r1-award",
+   "title": "2024 Round One Federal 9% and Standard State Credit Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-07-26",
+   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-descriptions",
+   "title": "CHFA, 2024 Round One Award Descriptions (Montview Flats)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One application narratives (Montview Flats, PDF pages 79-83)",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 Round One - Applicant Report, Federal 9% Housing Tax Credit",
+   "publisher": "CHFA",
+   "date": "2024-02-09",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "li-2025-07-31",
+   "title": "New affordable housing units coming soon to Littleton",
+   "publisher": "Littleton Independent (Colorado Community Media)",
+   "date": "2025-07-31",
+   "url": "https://www.littletonindependent.net/archives/news/housing/article_2939103f-a6b1-5d05-b799-83ffdb1e26ef.html"
+  },
+  {
+   "id": "li-2026-07-01",
+   "title": "Montview Flats officially opens in Littleton",
+   "publisher": "Littleton Independent (Colorado Community Media)",
+   "date": "2026-07-01",
+   "url": "https://www.littletonindependent.net/news/montview-flats-officially-opens-in-littleton/article_50a8c749-8a97-4992-8c0b-bb00af88aea2.html"
+  },
+  {
+   "id": "smho-montview",
+   "title": "Montview Flats (property page)",
+   "publisher": "South Metro Housing Options",
+   "date": "2026",
+   "url": "https://smho.co/montview-flats/"
+  },
+  {
+   "id": "smho-letter-2026-03-06",
+   "title": "Arapahoe County and SMHO letters supporting the Starlight community funding request (SMHO letter of 2026-03-06 describes Montview Flats)",
+   "publisher": "Office of U.S. Representative Jason Crow",
+   "date": "2026-03-13",
+   "url": "https://crow.house.gov/sites/evo-subsites/crow.house.gov/files/evo-media-document/arapahoecountystarlight.los_.pdf"
+  }
+ ]
+}
