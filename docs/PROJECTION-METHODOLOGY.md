@@ -84,15 +84,10 @@ The chart shades where two in three past forecasts for a place of the loaded siz
 
 1. It forecasts every Colorado county from each launch year since 1980, using SDO's population estimates from 1970 on. Each forecast is the average of a linear and an exponential trend over the ten years before launch.
 2. It compares each forecast 1 to 20 years out with SDO's later estimate for that year, measuring the miss as a percent of the forecast. The range is drawn around a forecast, so that is the measure it needs.
-3. It keeps the miss that two in three forecasts stayed within (the 67th percentile). This is done separately by population at launch: under 5,000; 5,000 to 20,000; 20,000 to 100,000; and over 100,000. A later year never shows less error than an earlier one.
+3. It keeps the smallest miss that at least two in three forecasts stayed within, rounded up to a tenth of a point so the range holds no fewer. This is done separately by population at launch: under 5,000; 5,000 to 20,000; 20,000 to 100,000; and over 100,000. A later year never shows less error than an earlier one.
 4. Adams, Boulder, Broomfield, Jefferson and Weld count as one area. Broomfield was formed from the other four in 2001, and SDO's earlier estimates count its people in them.
 
-| Population at launch | 10 years out | 20 years out |
-|---|---|---|
-| Under 5,000 | 18.2% | 32.5% |
-| 5,000 to 20,000 | 16.0% | 28.7% |
-| 20,000 to 100,000 | 14.3% | 28.1% |
-| Over 100,000 | 7.6% | 15.6% |
+The values for each size and year out are in `data/hna/forecast-error.json` (`errorPct`), rebuilt with each SDO vintage. The sentence under the chart gives the loaded place's 20-year value.
 
 SDO does not publish its past county forecasts as data, so these trend forecasts stand in for its own. Rayer (2008, Table 5) finds trend and cohort-component county forecasts about equally precise.
 

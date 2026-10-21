@@ -17,8 +17,9 @@ Education and Research 27, 2008):
      drawn around a forecast (SDO's), so this is the measure it needs: a miss
      of e% of the actual would put the forecast's range at F/(1+e) to F/(1-e).
   3. Group the errors by the county's population at launch and by years out,
-     and keep the error two in three forecasts stayed within (the 67th
-     percentile). A later horizon never shows less error than an earlier one.
+     and keep the smallest error at least two in three forecasts stayed
+     within (nearest rank), rounded up to a tenth of a point so the range
+     holds no fewer. A later horizon never shows less error than an earlier one.
 
 Rayer (2008, Table 5) finds trend and cohort-component forecasts about equally
 precise, so the record of these forecasts stands in for SDO's, whose past
@@ -36,6 +37,7 @@ test/forecast-error-band.test.js checks the file matches this script's output.
 import csv
 import io
 import json
+import math
 import os
 import sys
 
@@ -77,11 +79,9 @@ def size_class(p):
 
 
 def percentile(values, q):
+    """The smallest error that at least q of the values are at or below (nearest rank)."""
     v = sorted(values)
-    k = (len(v) - 1) * q
-    i = int(k)
-    j = min(i + 1, len(v) - 1)
-    return v[i] + (v[j] - v[i]) * (k - i)
+    return v[max(0, math.ceil(q * len(v)) - 1)]
 
 
 def main():
@@ -118,7 +118,8 @@ def main():
         row, worst = [], 0.0
         for e in by_h:
             worst = max(worst, percentile(e, PERCENTILE))
-            row.append(round(worst, 1))
+            # Rounded up, so the range still holds at least two in three.
+            row.append(math.ceil(worst * 10) / 10)
         error_pct.append(row)
         counts.append([len(e) for e in by_h])
 
@@ -127,7 +128,8 @@ def main():
                   'county population stayed within, by population at launch and years out.'),
         'source': f'Colorado State Demography Office county population estimates, {first}-{last} ({vintage})',
         'method': ('Launch years {0}-{1}; 10-year base period; average of linear and exponential trend; '
-                   'miss against SDO\'s later estimate as a percent of the forecast; 67th percentile, never falling with years out. '
+                   'miss against SDO\'s later estimate as a percent of the forecast; the smallest miss at least two in three '
+                   'stayed within, rounded up to a tenth of a point and never falling with years out. '
                    'Adams, Boulder, Broomfield, Jefferson and Weld combined.').format(first + BASE_PERIOD, last - 1),
         'references': [
             'Smith, Tayman and Swanson, A Practitioner\'s Guide to State and Local Population Projections (Springer, 2013), ch. 13',

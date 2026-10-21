@@ -31,9 +31,9 @@ assert.deepEqual(fe, JSON.parse(fs.readFileSync(tmp, 'utf8')),
 
 // 2. The same study, written again: SDO's county estimates, Broomfield and the
 //    four counties it came from as one area, every launch year from 1980 with
-//    a 10-year base, the average of linear and exponential trend, the 67th
-//    percentile of the miss as a percent of the forecast, never falling with
-//    years out.
+//    a 10-year base, the average of linear and exponential trend, the miss
+//    as a percent of the forecast that at least 2 in 3 stayed within (nearest
+//    rank), rounded up to a tenth, never falling with years out.
 const lines = read('data/hna/source/dola_components_county.csv').split(/\r?\n/);
 const head = lines.findIndex((l) => l.startsWith('id,'));
 const cols = lines[head].split(',');
@@ -66,20 +66,20 @@ for (const s of pop.values()) {
 }
 const pctl = (v, q) => {
   const a = [...v].sort((x, y) => x - y);
-  const k = (a.length - 1) * q, i = Math.floor(k), j = Math.min(i + 1, a.length - 1);
-  return a[i] + (a[j] - a[i]) * (k - i);
+  return a[Math.max(0, Math.ceil(q * a.length) - 1)];
 };
 errs.forEach((byH, c) => {
   let worst = 0;
   byH.forEach((e, h) => {
     worst = Math.max(worst, pctl(e, 2 / 3));
-    assert(Math.abs(fe.errorPct[c][h] - worst) <= 0.051,
-      `size ${c}, ${h + 1} years out: file ${fe.errorPct[c][h]}%, recomputed ${worst.toFixed(2)}%`);
+    // Within one rounding step: a last-bit difference can tip a ceiling.
+    assert(Math.abs(fe.errorPct[c][h] - Math.ceil(worst * 10) / 10) <= 0.1001,
+      `size ${c}, ${h + 1} years out: file ${fe.errorPct[c][h]}%, recomputed ${worst.toFixed(3)}%`);
     assert.equal(fe.forecasts[c][h], e.length, `size ${c}, ${h + 1} years out: forecast count`);
     // What the chart claims: a range of this many percent either side of a
     // forecast held at least 2 in 3 past outcomes.
-    const inside = e.filter((x) => x <= fe.errorPct[c][h] + 0.05).length / e.length;
-    assert(inside >= 0.66, `size ${c}, ${h + 1} years out: ${(inside * 100).toFixed(1)}% of past outcomes inside the range, not 2 in 3`);
+    const inside = e.filter((x) => x <= fe.errorPct[c][h]).length / e.length;
+    assert(inside >= 2 / 3, `size ${c}, ${h + 1} years out: ${(inside * 100).toFixed(1)}% of past outcomes inside the range, not 2 in 3`);
   });
 });
 
