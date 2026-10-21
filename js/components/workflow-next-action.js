@@ -392,8 +392,10 @@
       if (skippedContext.length) {
         var names = [];
         for (var ci = 0; ci < skippedContext.length; ci++) names.push(STEP_LABELS[skippedContext[ci]]);
+        // The link ends the line rather than sitting mid-sentence: the 44px
+        // touch target (responsive.css) would otherwise break the sentence.
         body += ' <span class="wf-next-action__advisory">Optional context not yet run: ' + names.join(', ') +
-          ' (<a href="' + STEP_URLS[skippedContext[0]] + '">open ' + STEP_LABELS[skippedContext[0]] + '</a>). Results here do not depend on it.</span>';
+          '. Results here do not depend on it. <a href="' + STEP_URLS[skippedContext[0]] + '">Open ' + STEP_LABELS[skippedContext[0]] + '</a></span>';
       }
       // #1837 F3: from step 4 on, "what do I do next" had no forward control;
       // the only link in this state was the optional-context one, which points

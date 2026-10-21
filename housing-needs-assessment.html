@@ -332,6 +332,36 @@
         </div>
       </div>
     </div>
+    <!-- Walkthrough 2026-10-20 (R2): the short answer sat below a hero about
+         1.5 phone screens tall, so a reader met a menu and controls before any
+         number. It now leads the page; each tile links to its workings. -->
+    <section id="hnaDecisionStrip" class="hna-decision-strip" aria-label="Executive decision indicators" hidden>
+      <a class="hna-decision-tile" href="#hnaScorecardPanel" data-decision-key="need">
+        <span class="hna-decision-label">Need severity</span>
+        <strong id="decisionNeedValue">—</strong>
+        <span id="decisionNeedRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#statRentBurden" data-decision-key="affordability">
+        <span class="hna-decision-label">Affordability pressure</span>
+        <strong id="decisionAffordabilityValue">—</strong>
+        <span id="decisionAffordabilityRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#statUnitsNeed" data-decision-key="production">
+        <span class="hna-decision-label">20-yr production need</span>
+        <strong id="decisionProductionValue">—</strong>
+        <span id="decisionProductionRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#affordable-ownership-need-section" data-decision-key="ownership">
+        <span class="hna-decision-label">Ownership feasibility</span>
+        <strong id="decisionOwnershipValue">—</strong>
+        <span id="decisionOwnershipRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#hnaGapCoveragePanel" data-decision-key="confidence">
+        <span class="hna-decision-label">Ownership data</span>
+        <strong id="decisionConfidenceValue">—</strong>
+        <span id="decisionConfidenceRead">Loading</span>
+      </a>
+    </section>
     <section class="hero" style="padding-bottom:0;">
       <div style="padding:0 var(--sp4) var(--sp4);">
         <div class="kicker">Colorado • Public Data</div>
@@ -409,33 +439,6 @@
       </div>
     </section>
 
-    <section id="hnaDecisionStrip" class="hna-decision-strip" aria-label="Executive decision indicators" hidden>
-      <a class="hna-decision-tile" href="#hnaScorecardPanel" data-decision-key="need">
-        <span class="hna-decision-label">Need severity</span>
-        <strong id="decisionNeedValue">—</strong>
-        <span id="decisionNeedRead">Loading</span>
-      </a>
-      <a class="hna-decision-tile" href="#statRentBurden" data-decision-key="affordability">
-        <span class="hna-decision-label">Affordability pressure</span>
-        <strong id="decisionAffordabilityValue">—</strong>
-        <span id="decisionAffordabilityRead">Loading</span>
-      </a>
-      <a class="hna-decision-tile" href="#statUnitsNeed" data-decision-key="production">
-        <span class="hna-decision-label">20-yr production need</span>
-        <strong id="decisionProductionValue">—</strong>
-        <span id="decisionProductionRead">Loading</span>
-      </a>
-      <a class="hna-decision-tile" href="#affordable-ownership-need-section" data-decision-key="ownership">
-        <span class="hna-decision-label">Ownership feasibility</span>
-        <strong id="decisionOwnershipValue">—</strong>
-        <span id="decisionOwnershipRead">Loading</span>
-      </a>
-      <a class="hna-decision-tile" href="#hnaGapCoveragePanel" data-decision-key="confidence">
-        <span class="hna-decision-label">Ownership data</span>
-        <strong id="decisionConfidenceValue">—</strong>
-        <span id="decisionConfidenceRead">Loading</span>
-      </a>
-    </section>
 
       <!-- Place-vs-county comparison. Hidden unless a place or CDP is selected:
            a county has nothing above it to compare against, and statewide has
