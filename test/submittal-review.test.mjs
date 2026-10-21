@@ -120,6 +120,30 @@ ok(exp.mix[30] === 6 && exp.mix[60] === 24 && !exp.mix.market && exp.engine.fund
 ok(exp.nine && !/cohoanalytics/.test(exp.query), 'the stress runner gets the settings, not the exporting site');
 ok(SR.fromCalculatorExport({ foo: 1 }) === null, 'other JSON is refused');
 
+// Codex review on bbc4a0302: the set-aside election picks the targeting table, the rate value (not the key) says 9%,
+// every hard-cost line is stressed, an edited deal sets the export's results aside, and a missing Prop 123 list is "unknown".
+const exp4 = SR.fromCalculatorExport({ url: 'https://x.test/deal-calculator.html?rate-9=0.04&minimum-set-aside=20-50&units=10&units-60=10', inputs: { 'units-60': 10, units: 10 }, outputs: {} });
+ok(exp4.nine === false, 'rate-9=0.04 is a 4% export');
+ok(exp4.election === '20-50', 'the export carries its set-aside election');
+ok(SR.fromCalculatorExport({ url: 'https://x.test/d?units=1', inputs: { 'rate-9': '0.09', 'minimum-set-aside': 'average-income' }, outputs: {} }).election === 'average-income', 'election read from the export inputs');
+const t2050 = SR.targetingPoints(rules, { 50: 20, 60: 80 }, '20-50'), t4060 = SR.targetingPoints(rules, { 50: 20, 60: 80 }, '40-60');
+near(t2050.points, 0.2 * 72.5, '20-50: 60% units have no row in the table');
+near(t4060.points, 0.2 * 72.5 + 0.8 * 50, '40-60 keeps the 60% row');
+ok(rules.targeting.tables['20-50'].rows.indexOf(60) === -1 && rules.targeting.tables['20-50'].page === 41, '20-50 table is sourced and has no 60% row');
+ok(SR.score(rules, { mix: { 50: 20, 60: 80 }, election: '20-50' }, {}).lines[0].points < SR.score(rules, { mix: { 50: 20, 60: 80 } }, {}).lines[0].points, 'score uses the election');
+const basis = require(path.join(ROOT, 'js/deal-cost-basis.js'));
+ok(basis.HARD_COST_IDS.every((id) => SR.HARD_COST_IDS.indexOf(id) !== -1), 'the +10% test covers every canonical hard-cost line');
+ok(SR.sameDeal({ mix: { 30: 6, 60: 24, 40: 0 }, election: '40-60' }, { mix: { 30: 6, 60: 24 }, election: '40-60' }), 'an unchanged deal still matches its export');
+ok(!SR.sameDeal({ mix: { 30: 7, 60: 24 }, election: '40-60' }, { mix: { 30: 6, 60: 24 }, election: '40-60' }), 'an edited mix no longer matches its export');
+ok(!SR.sameDeal({ mix: { 30: 6, 60: 24 }, election: '20-50' }, { mix: { 30: 6, 60: 24 }, election: '40-60' }), 'an edited election no longer matches its export');
+const staleReview = SR.review(rules, prop123, { deal: { mix: { 30: 7, 60: 24 } }, claims: {}, thresholds: {}, engine: { fundingGap: 99, annualCredits: 2000000 }, calculator: { stale: true } });
+ok(staleReview.engine.fundingGap === undefined && staleReview.credit.status === 'unknown' && /export it again/.test(staleReview.risks.map((x) => x.text).join(' ')), 'a stale export hides its gap and credit and says so');
+ok(SR.prop123Status(null, 'Town of Bayfield').status === 'unknown', 'no Prop 123 list means unknown, not "not listed"');
+const unk = SR.gapLane(rules, { mix: { 60: 50 } }, SR.prop123Status(null, 'Anywhere'));
+ok(unk.lane === 'unknown' && unk.amount === undefined, 'no OEDIT or fallback lane until the Prop 123 list loads');
+ok(SR.gapLane(rules, { mix: { 30: 20, 40: 20 } }, SR.prop123Status(null, 'Anywhere')).lane === 'DOH', 'DOH eligibility does not need the Prop 123 list');
+ok(/id="sr-election"/.test(read('developer-submittal-review.html')), 'the page has the set-aside election');
+
 // Device fallback store saves versions without overwriting.
 const mem = {}; const st = SR.makeStore(() => Promise.reject(new Error('offline')), { getItem: (k) => mem[k] || null, setItem: (k, v) => { mem[k] = v; } });
 const s1 = await st.save({ name: 'Made-up site', label: 'one', data: { a: 1 } });

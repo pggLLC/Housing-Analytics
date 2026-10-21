@@ -63,6 +63,7 @@
   function money(v) { return v == null ? '—' : (v < 0 ? '-$' : '$') + Math.round(Math.abs(v)).toLocaleString('en-US'); }
   function pts(v) { return v == null ? '—' : (Math.round(v * 100) / 100).toLocaleString('en-US', { maximumFractionDigits: 2 }); }
 
+  var ELECTION_LABEL = { '20-50': '20-50 election', '40-60': '40-60 election', 'average-income': 'Average Income' };
   // ── Deal facts ────────────────────────────────────────────────────────────
   // mix: {30: 6, 40: 12, ..., market: 0}. Every unit at or under 80% AMI is rent-restricted.
   function mixTotals(mix) {
@@ -82,8 +83,13 @@
     return { value: t.weighted / t.restricted, marketUnits: t.market };
   }
 
-  function targetingPoints(rules, mix) {
-    var w = rules.targeting.weights, t = mixTotals(mix);
+  // QAP 5.A.1: the 20-50 table has only the 50% and 40% rows, so 60% units earn no targeting points under it.
+  function electionRows(rules, election) {
+    var tables = rules.targeting.tables || {};
+    return (tables[election] || tables['40-60'] || { rows: [60, 50, 40] }).rows;
+  }
+  function targetingPoints(rules, mix, election) {
+    var w = rules.targeting.weights, t = mixTotals(mix), allowed = electionRows(rules, election || '40-60');
     if (!t.restricted) return { points: 0, rows: [] };
     var rows = [{ tier: 40, units: 0 }, { tier: 50, units: 0 }, { tier: 60, units: 0 }];
     TIERS.forEach(function (tier) {
@@ -91,8 +97,11 @@
       if (tier <= 40) rows[0].units += u; else if (tier <= 50) rows[1].units += u; else if (tier <= 60) rows[2].units += u;
     });
     var total = 0;
-    rows.forEach(function (r) { r.share = r.units / t.restricted; r.weight = w[r.tier]; r.points = r.share * r.weight; total += r.points; });
-    return { points: total, rows: rows, restricted: t.restricted };
+    rows.forEach(function (r) {
+      r.share = r.units / t.restricted; r.inTable = allowed.indexOf(r.tier) !== -1;
+      r.weight = r.inTable ? w[r.tier] : 0; r.points = r.share * r.weight; total += r.points;
+    });
+    return { points: total, rows: rows, restricted: t.restricted, election: election || '40-60' };
   }
 
   // Both readings of the Third Draft's "Up to" bands; the lower one counts.
@@ -116,11 +125,11 @@
     claims = claims || {};
     var mix = deal.mix || {};
     var lines = [];
-    var tp = targetingPoints(rules, mix);
+    var tp = targetingPoints(rules, mix, deal.election);
     var tg = rules.targeting;
     lines.push({ id: '5A1-targeting', group: 'primary', label: tg.label, possible: tg.weights['40'], points: tp.points,
       status: tp.points > 0 ? 'counted' : 'missing', auto: true, section: tg.section, page: tg.page, quote: tg.quote,
-      note: tp.rows.map(function (r) { return r.units + ' at ' + (r.tier === 40 ? '40% or below' : r.tier + '%') + ' = ' + pts(r.points); }).join('; ') });
+      note: ELECTION_LABEL[tp.election || '40-60'] + ' table: ' + tp.rows.map(function (r) { return r.units + ' at ' + (r.tier === 40 ? '40% or below' : r.tier + '%') + ' = ' + pts(r.points) + (r.inTable === false && r.units ? ' (no row in this table)' : ''); }).join('; ') });
     var lb = tg.lowest_ami_bonus;
     lines.push({ id: lb.id, group: 'primary', label: lb.label, possible: lb.points, points: claims[lb.id] ? lb.points : 0,
       status: claims[lb.id] ? 'counted' : 'not claimed', section: tg.section, page: lb.page, quote: lb.quote, unconfirmed: lb.unconfirmed });
@@ -194,6 +203,7 @@
 
   // 'yes' = filed for 2027-2029; 'to-confirm' = on DOLA's list without a 2027-2029 filing yet; 'no' = not on the list.
   function prop123Status(prop123, place) {
+    if (!prop123 || !Array.isArray(prop123.jurisdictions)) return { status: 'unknown', text: 'DOLA\'s Prop 123 list did not load, so OEDIT eligibility is not known. Reload the page.' };
     var j = findJurisdiction(prop123, place);
     if (!j) return { status: 'no', text: 'Not on DOLA\'s Prop 123 commitment list (as of ' + ((prop123 && prop123.updated) || 'the last refresh') + ').' };
     if (j.next_cycle && j.next_cycle.submitted) {
@@ -220,7 +230,11 @@
       out.perUnit = g.doh.per_unit; out.cap = g.doh.max;
       out.why = deal.supportive && !(mp && mp.value <= g.doh.midpoint_max) ? 'Supportive housing application.' : 'AMI midpoint ' + mp.value.toFixed(2) + '% is at or under ' + g.doh.midpoint_max + '%.';
       out.quotes = [g.doh.eligibility_quote, g.doh.terms_quote];
-    } else if (p123 && p123.status !== 'no') {
+    } else if (!p123 || p123.status === 'unknown') {
+      out.lane = 'unknown'; out.text = 'OEDIT or DOH fallback: not known until DOLA\'s Prop 123 list loads.';
+      out.flags.push(p123 ? p123.text : 'Prop 123 status not known.');
+      return out;
+    } else if (p123.status !== 'no') {
       out.lane = 'OEDIT'; out.kind = 'Prop 123 concessionary loan, 2.5%, 40-year, must-pay';
       out.perUnit = g.oedit.per_unit; out.cap = g.oedit.max;
       out.why = 'AMI midpoint ' + mp.value.toFixed(2) + '% is over DOH\'s ' + g.doh.midpoint_max + '% line, and ' + p123.text;
@@ -277,9 +291,12 @@
     var p = prop123Status(prop123, deal.place);
     var lane = gapLane(rules, deal, p);
     var th = thresholdStatus(rules, v.thresholds, deal);
-    var eng = v.engine || {};
+    // Model results describe the exported deal; once the mix or election is edited they no longer apply.
+    var stale = !!(v.calculator && v.calculator.stale);
+    var eng = stale ? {} : (v.engine || {});
     var credit = creditCheck(rules, num(eng.annualCredits));
     var risks = [];
+    if (stale) risks.push({ level: 'yellow', text: 'The unit mix or set-aside election differs from the Deal Calculator export, so its gap, coverage, credit and stress results are not shown. Change the deal in the Deal Calculator and export it again.' });
     if (!s.primaryOk) risks.push({ level: 'red', text: 'No points in a primary criterion, so the deal is not eligible.' });
     if (s.total < s.minimum) risks.push({ level: 'red', text: 'Score ' + pts(s.total) + ' is ' + pts(s.minimum - s.total) + ' points under the ' + s.minimum + ' minimum.' });
     if (th.missing) risks.push({ level: 'red', text: th.missing + ' threshold item' + (th.missing > 1 ? 's are' : ' is') + ' missing; a missing threshold item stops the application.' });
@@ -351,17 +368,25 @@
       engine[k] = o[k] && typeof o[k].value === 'number' ? o[k].value : null;
       if (o[k] && o[k].value == null && o[k].unavailableReason) engine[k + 'Reason'] = o[k].unavailableReason;
     });
-    var q = String(snap.url).indexOf('?');
-    return { mix: mix, engine: engine, query: q === -1 ? '' : String(snap.url).slice(q + 1), nine: /(^|&)rate-9=/.test(String(snap.url).slice(q + 1)), exportedAt: snap.exportedAt || null };
+    var q = String(snap.url).indexOf('?'), query = q === -1 ? '' : String(snap.url).slice(q + 1);
+    var param = function (k) { var m = query.match(new RegExp('(?:^|&)' + k + '=([^&]*)')); return m ? decodeURIComponent(m[1]) : null; };
+    // The credit-rate radios share one key: rate-9=0.09 is 9%, rate-9=0.04 is 4%.
+    var rate = num(inp['rate-9'] != null ? inp['rate-9'] : param('rate-9'));
+    var election = String(inp['minimum-set-aside'] || param('minimum-set-aside') || '40-60');
+    if (!ELECTION_LABEL[election]) election = '40-60';
+    return { mix: mix, engine: engine, query: query, nine: rate != null && rate > 0.06, election: election, exportedAt: snap.exportedAt || null };
   }
 
   // ── Stress tests (browser only) ───────────────────────────────────────────
-  var HARD_COST_IDS = ['building_acquisition', 'off_site', 'site_work', 'demolition', 'permits', 'tap_fees', 'structures'];
+  // DOH's starred hard-cost lines; js/deal-cost-basis.js holds the list (read from the calculator frame when loaded).
+  var HARD_COST_IDS = ['building_acquisition', 'off_site', 'site_work', 'demolition', 'permits', 'tap_fees', 'structures',
+    'general_requirements', 'overhead_profit', 'contractor_contingency', 'owner_contingency'];
   var STRESS = [
     { id: 'cost10', label: 'Hard cost +10%', why: 'The usual reason a gap opens after award.',
-      apply: function (d) {
+      apply: function (d, w) {
         var delta = 0, t = d.getElementById('dc-tdc');
-        HARD_COST_IDS.forEach(function (id) {
+        var ids = (w && w.DealCostBasis && w.DealCostBasis.HARD_COST_IDS) || HARD_COST_IDS;
+        ids.forEach(function (id) {
           var el = d.getElementById('dc-cost-' + id), v = el && num(el.value);
           if (v) { var nv = Math.round(v * 1.1); delta += nv - v; el.value = String(nv); }
         });
@@ -576,11 +601,17 @@
       }).join('') + '</tbody></table></div>';
   }
 
+  function sameDeal(d, calc) {
+    if (!calc || !calc.mix) return true; // versions saved before the export's mix was kept
+    if ((d.election || '40-60') !== (calc.election || '40-60')) return false;
+    return TIERS.concat(['market']).every(function (t) { return (num(d.mix[t]) || 0) === (num(calc.mix[t]) || 0); });
+  }
+
   function mount(doc, rules, prop123, store) {
     var $ = function (id) { return doc.getElementById(id); };
     var state = { deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '' };
 
-    function blankVersion() { return { deal: { mix: {}, place: '', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
+    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', sponsor: 'for-profit', supportive: false, rehab: false, existingCredit: false }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
 
     // Form → state
     function readForm() {
@@ -588,6 +619,7 @@
       TIERS.concat(['market']).forEach(function (t) { var el = $('sr-mix-' + t); d.mix[t] = el ? (num(el.value) || 0) : 0; });
       d.place = $('sr-place').value.trim();
       d.sponsor = $('sr-sponsor').value;
+      d.election = $('sr-election').value;
       d.supportive = $('sr-supportive').checked;
       d.rehab = $('sr-rehab').checked;
       d.existingCredit = $('sr-existing').checked;
@@ -607,6 +639,7 @@
       TIERS.concat(['market']).forEach(function (t) { var el = $('sr-mix-' + t); if (el) el.value = d.mix[t] ? d.mix[t] : ''; });
       $('sr-place').value = d.place || '';
       $('sr-sponsor').value = d.sponsor || 'for-profit';
+      $('sr-election').value = d.election || '40-60';
       $('sr-supportive').checked = !!d.supportive; $('sr-rehab').checked = !!d.rehab; $('sr-existing').checked = !!d.existingCredit;
       $('sr-credits').value = v.engine.annualCredits != null ? v.engine.annualCredits : '';
       $('sr-credits').disabled = !!v.calculator;
@@ -621,7 +654,11 @@
       });
       $('sr-docs').innerHTML = v.documents.length ? v.documents.map(function (f) { return '<li>' + esc(f.name) + ' <span class="sr-muted">(' + Math.round(f.size / 1024) + ' KB, fingerprint ' + esc(f.sha256.slice(0, 12)) + '…, not stored)</span></li>'; }).join('') : '<li class="sr-muted">None yet.</li>';
       $('sr-calc-status').textContent = v.calculator ? 'Deal Calculator export loaded' + (v.calculator.exportedAt ? ' (exported ' + v.calculator.exportedAt.slice(0, 10) + ')' : '') + '. Unit mix and model results come from it.' : 'No Deal Calculator export loaded. Type the unit mix below; stress tests need an export.';
-      $('sr-stress-run').disabled = !v.calculator;
+      setStressButton();
+    }
+    function setStressButton() {
+      var v = state.version;
+      $('sr-stress-run').disabled = !v.calculator || !!v.calculator.stale;
     }
 
     function draw() {
@@ -648,8 +685,18 @@
       return r;
     }
 
-    // The engine runs depend only on the calculator export, so a form change keeps them.
-    function onChange() { readForm(); draw(); }
+    // The engine runs depend only on the calculator export: claims and thresholds keep them, but an
+    // edited unit mix or election no longer matches the exported deal, so its results are set aside.
+    function onChange() {
+      readForm();
+      var c = state.version.calculator;
+      if (c) {
+        var stale = !sameDeal(state.version.deal, c);
+        if (stale && !c.stale) state.stress = null;
+        c.stale = stale; setStressButton();
+      }
+      draw();
+    }
 
     // Uploads: a calculator export fills the deal; any other file is fingerprinted, never stored.
     $('sr-file').addEventListener('change', function (ev) {
@@ -661,8 +708,8 @@
             var c = fromCalculatorExport(snap);
             if (!c) { flash('That JSON is not a Deal Calculator export.'); return; }
             var v = state.version;
-            v.calculator = { query: c.query, exportedAt: c.exportedAt, nine: c.nine };
-            v.engine = c.engine; v.deal.mix = c.mix;
+            v.calculator = { query: c.query, exportedAt: c.exportedAt, nine: c.nine, election: c.election, mix: Object.assign({}, c.mix), stale: false };
+            v.engine = c.engine; v.deal.mix = c.mix; v.deal.election = c.election;
             if (!c.nine) flash('This export is set to 4%. The score is for a 9% Round One application.');
             writeForm(); state.stress = null; draw();
           });
@@ -850,6 +897,6 @@
 
   return { esc: esc, mixTotals: mixTotals, amiMidpoint: amiMidpoint, targetingPoints: targetingPoints, eliPoints: eliPoints, score: score,
     findJurisdiction: findJurisdiction, prop123Status: prop123Status, gapLane: gapLane, bumpOneUnit: bumpOneUnit, thresholdStatus: thresholdStatus,
-    creditCheck: creditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, fromCalculatorExport: fromCalculatorExport,
+    creditCheck: creditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, HARD_COST_IDS: HARD_COST_IDS,
     stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, STRESS: STRESS, RULES_URL: RULES_URL, API: API };
 });

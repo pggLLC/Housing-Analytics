@@ -46,7 +46,35 @@
       "50": 72.5,
       "40": 92.5
     },
-    "rule": "Points = for each tier, (rent-restricted units at that tier / total rent-restricted units) x weight, summed. Units below 40% AMI count in the 40% row. Units above 60% AMI earn no targeting points.",
+    "tables": {
+      "20-50": {
+        "rows": [
+          50,
+          40
+        ],
+        "page": 41,
+        "quote": "(a) Threshold 20 percent at 50 percent AMI"
+      },
+      "40-60": {
+        "rows": [
+          60,
+          50,
+          40
+        ],
+        "page": 41,
+        "quote": "(b) Threshold 40 percent at 60 percent AMI"
+      },
+      "average-income": {
+        "rows": [
+          60,
+          50,
+          40
+        ],
+        "page": 42,
+        "quote": "(c) Threshold Average Income"
+      }
+    },
+    "rule": "Points = for each tier, (rent-restricted units at that tier / total rent-restricted units) x weight, summed. Units below 40% AMI count in the 40% row. Units above 60% AMI earn no targeting points. The table follows the minimum set-aside election: the 20-50 table has no 60% row, so 60% units earn no points under it.",
     "quote": "projects located in all counties will be allowed to use the weight factor of 50 for selecting the 60 percent AMI threshold, a weight factor of 72.5 for selecting the 50 percent AMI threshold, and a weight factor of 92.5 for selecting the 40 percent AMI threshold.",
     "change_note": "The Third Draft strikes the note that capped the 40% row at 60 percent of low-income units.",
     "lowest_ami_bonus": {
