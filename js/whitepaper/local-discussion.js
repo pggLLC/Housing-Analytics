@@ -177,7 +177,7 @@
     }).join('');
     return (mine ? '<ul class="ld-list">' + mine + '</ul>' : '') +
       '<form class="ld-form" data-geoid="' + esc(geoid) + '"><fieldset><legend>Add an agenda, minutes or news link</legend>' +
-      '<label>Link (https://)<input name="url" type="url" inputmode="url" placeholder="https://"></label>' +
+      '<label>Link to the agenda, minutes or article<input name="url" type="url" inputmode="url" placeholder="Paste the web address"></label>' +
       '<label>Meeting date<input name="date" type="date"></label>' +
       '<label>Board<input name="body" type="text" placeholder="e.g. Town Board"></label>' +
       '<label>If the page will not open for us, paste its text<textarea name="text" rows="3"></textarea></label>' +
@@ -249,7 +249,7 @@
         var f = form.elements, status = form.querySelector('.ld-status');
         var body = { geoid: geoid, url: f.url.value.trim(), date: f.date.value, body: f.body.value.trim(), text: f.text.value };
         if (!body.url && !body.text.trim()) { status.textContent = 'Add a link or paste the text.'; status.focus(); return; }
-        post('api/discussion', body).then(function (list) { o.links = arr(list); draw(); }, function () { status.textContent = 'Not added. Check the link starts with https:// and you are still signed in.'; status.focus(); });
+        post('api/discussion', body).then(function (list) { o.links = arr(list); draw(); }, function () { status.textContent = 'Not added. Check the link is a full web address starting with https, and that you are still signed in.'; status.focus(); });
       });
       Array.prototype.forEach.call(el.querySelectorAll('.ld-remove'), function (b) {
         b.addEventListener('click', function () {
