@@ -145,6 +145,7 @@
   .ib-find-row button { padding:.6rem 1rem; border-radius:var(--radius-sm); border:1px solid var(--accent); background:var(--accent); color:var(--on-accent, #fff); font-weight:700; font-size:1rem; cursor:pointer; }
 </style>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/whitepaper/dev-terms.js"></script>
 </head>
 <body>
 <header id="siteHeader"></header>
@@ -179,16 +180,16 @@
       <li><strong>Outreach</strong> — you're in active conversation with the community.</li>
       <li><strong>IC</strong> — internal review of the opportunity is underway.</li>
       <li><strong>Active</strong> — working together on a defined project.</li>
-      <li><strong>On Pause</strong> — moved to the anti-targets list; explicitly set aside to revisit later.</li>
+      <li><strong>On Pause</strong> — moved to the <abbr data-glossary="anti-target">anti-targets</abbr> list; explicitly set aside to revisit later.</li>
     </ul>
-    <p style="margin:.6rem 0 0; color:var(--muted); font-size:.85rem;">The pipeline, signal log, anti-targets and network live in your private files; the gated site reads them. The full methodology is on the <a href="developer-pipeline.html#how">Pipeline</a> page.</p>
+    <p style="margin:.6rem 0 0; color:var(--muted); font-size:.85rem;">The pipeline, <abbr data-glossary="signal log">signal log</abbr>, anti-targets and network live in your private files; the gated site reads them. The full methodology is on the <a href="developer-pipeline.html#how">Pipeline</a> page.</p>
   </details>
 
   <!-- Read from the private files on the gated site (js/components/private-workspace.js). -->
   <div class="ib-stat-row" id="wsStats" aria-live="polite">
     <div class="ib-stat"><div class="ib-stat-label">In the pipeline</div><div class="ib-stat-value" id="stat-pipeline">…</div><div class="ib-stat-sub"><a href="developer-pipeline.html">Open the pipeline</a></div></div>
     <div class="ib-stat"><div class="ib-stat-label">In conversation</div><div class="ib-stat-value" id="stat-outreach">…</div><div class="ib-stat-sub">Outreach, review or active</div></div>
-    <div class="ib-stat"><div class="ib-stat-label">Strong signals, 30 days</div><div class="ib-stat-value" id="stat-strong">…</div><div class="ib-stat-sub"><a href="developer-pipeline.html#signals">Signal log</a></div></div>
+    <div class="ib-stat"><div class="ib-stat-label"><abbr data-glossary="strong signal">Strong signals</abbr>, 30 days</div><div class="ib-stat-value" id="stat-strong">…</div><div class="ib-stat-sub"><a href="developer-pipeline.html#signals">Signal log</a></div></div>
     <div class="ib-stat"><div class="ib-stat-label">Network contacts</div><div class="ib-stat-value" id="stat-contacts">…</div><div class="ib-stat-sub"><a href="developer-pipeline.html#network">Find a contact</a></div></div>
   </div>
   <p id="wsHomeStatus" class="ib-stat-sub" role="status" style="margin:-.8rem 0 var(--sp3);"></p>
@@ -200,6 +201,7 @@
 
   <div class="ib-section-card">
     <h2>Recent strong signals <span class="meta">last 30 days</span></h2>
+    <p class="ib-stat-sub" style="margin:0 0 .5rem;">A <abbr data-glossary="signal">signal</abbr> is a dated public event that could open a deal; a strong one calls for action this week.</p>
     <div id="signals-list"><div class="ib-empty">Loading…</div></div>
   </div>
 

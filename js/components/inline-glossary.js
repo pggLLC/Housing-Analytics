@@ -185,9 +185,16 @@
     'census designated place': 'CDP'
   };
 
+  // Terms a page adds with InlineGlossary.define(): looked up for explicit
+  // <abbr data-glossary> marks only, never auto-decorated, so a page-specific
+  // word ("signal") cannot be wrapped on a page that uses it loosely.
+  var EXTRA = {};
+
   function lookup(term) {
     if (!term) return null;
     if (TERMS[term]) return TERMS[term];
+    if (EXTRA[term]) return EXTRA[term];
+    if (EXTRA[String(term).toLowerCase()]) return EXTRA[String(term).toLowerCase()];
     var alias = ALIASES[String(term).toLowerCase().trim()];
     if (alias && TERMS[alias]) return TERMS[alias];
     return null;
@@ -204,6 +211,8 @@
       el.classList.add('ig-term');
       el.setAttribute('tabindex', '0');
       el.setAttribute('aria-label', key + ' — ' + def);
+      // A tap on a phone focuses the term, which opens its bubble (there is no hover).
+      el.addEventListener('click', function () { el.focus(); });
       el.__igDecorated = true;
     });
   }
@@ -302,6 +311,14 @@
       '  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);',
       '  pointer-events: none;',
       '  white-space: normal;',
+      '}',
+      // On a phone the bubble opens from a tap and would run off the right edge
+      // (and widen the page) for a term near it: pin it across the bottom instead.
+      '@media (max-width: 600px) {',
+      '  .ig-term:hover::after, .ig-term:focus::after {',
+      '    position: fixed; left: 16px; right: 16px; top: auto; bottom: 16px;',
+      '    width: auto; max-width: none; margin-top: 0;',
+      '  }',
       '}'
     ].join('\n');
     document.head.appendChild(s);
@@ -314,7 +331,16 @@
       decorateExplicit(root);
       autoDecorate(root);
     },
-    terms: function () { return Object.assign({}, TERMS); }
+    // Explicit <abbr data-glossary> marks only: for terms added by define() and
+    // for re-rendered mounts, without a second automatic first-use scan.
+    decorateMarks: function (root) {
+      ensureStyles();
+      decorateExplicit(root);
+    },
+    terms: function () { return Object.assign({}, TERMS); },
+    define: function (terms) {
+      Object.keys(terms || {}).forEach(function (k) { EXTRA[k] = terms[k]; });
+    }
   };
 
   global.InlineGlossary = InlineGlossary;

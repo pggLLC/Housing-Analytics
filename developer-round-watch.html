@@ -6,7 +6,10 @@
 <title>Next Round Watch — COHO Analytics</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
+<link rel="stylesheet" href="js/vendor/leaflet.css">
 <script src="js/developer-gate.js"></script>
+<script src="js/components/pipeline-store.js"></script>
+<script src="js/components/pipeline-add-button.js"></script>
 <style>
   .skip-link { position: absolute; top: -100px; left: var(--sp4); background: var(--accent); color: var(--on-accent, #fff); padding: 8px 16px; z-index: 1000; border-radius: var(--radius-sm, 6px); font-weight: 700; }
   .skip-link:focus { top: var(--sp3); }
@@ -47,12 +50,48 @@
     #roundWatch .rw-row { border-top: 1px solid var(--border); padding-top: .5rem; }
     #roundWatch .rw-row td { border: 0; padding: .1rem 0; text-align: left; }
     #roundWatch .rw-row td.rw-num::before { content: 'Homes: '; color: var(--muted); }
-    #roundWatch .rw-row td:nth-child(4)::before { content: 'Sponsor: '; color: var(--muted); }
+    #roundWatch .rw-row td:nth-child(3)::before { content: 'Region: '; color: var(--muted); }
+    #roundWatch .rw-row td:nth-child(5)::before { content: 'Sponsor: '; color: var(--muted); }
+    #roundWatch .rw-row td.rw-first::before { content: 'First contact: '; color: var(--muted); }
+    #rwMap { height: 320px; }
     #roundWatch .rw-detail-row td { border: 0; padding: 0 0 .5rem; }
     #roundWatch .rw-detail-row[hidden] { display: none; }
     .rw-quote { overflow-wrap: anywhere; }
   }
   .rw-detail { overflow-wrap: anywhere; }
+  .rw-filters { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; margin: .25rem 0 var(--sp2); }
+  .rw-filters label { display: flex; align-items: center; gap: .5rem; font-weight: 600; }
+  .rw-filters select { min-height: 44px; padding: .3rem .6rem; border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); background: var(--card); color: var(--text); font: inherit; }
+  .rw-medium .rw-band { border: 2px solid var(--accent2); }
+  .rw-first { min-width: 10rem; }
+  #rwMap { height: 420px; border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); }
+  #rwMap .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; font-size: 22px; }
+  .rw-legend { display: flex; flex-wrap: wrap; gap: 1rem; margin: .5rem 0 0; font-size: .85rem; color: var(--muted); }
+  .rw-legend span::before { content: ''; display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: .35rem; vertical-align: -1px; border: 1px solid #fff; }
+  .rw-legend .lg-high::before { background: var(--accent); }
+  .rw-legend .lg-medium::before { background: var(--accent2); }
+  .rw-legend .lg-watch::before { background: var(--muted); }
+  #rwMapDetail { margin-top: .6rem; padding: var(--sp2) var(--sp3); border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); background: var(--bg2); }
+  .rw-town h3 { margin: 0 0 .3rem; font-size: .95rem; }
+  .rw-town ul { list-style: none; margin: 0 0 .5rem; padding: 0; }
+  .rw-town li { margin-bottom: .2rem; }
+  .rw-tag { display: inline-block; margin-left: .35rem; font-size: .75rem; font-weight: 700; padding: 1px 6px; border-radius: 9999px; border: 1px solid var(--border); white-space: nowrap; }
+  .rw-tag-new, .rw-tag-up { border-color: var(--accent); color: var(--accent); }
+  .rw-tag-down { color: var(--muted); }
+  .rw-dates { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: baseline; margin: 0 0 var(--sp2); padding: .5rem .75rem; border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); background: var(--bg2); }
+  .rw-left { color: var(--muted); }
+  .rw-soon .rw-left { color: var(--accent); font-weight: 700; }
+  .rw-filters .rw-more { margin-top: 0; }
+  .rw-pab { margin-top: .5rem; }
+  /* calling the first contact is the main action: full-size touch targets */
+  .rw-reach { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+  /* the shared Deal Tracker button, form fields and save/cancel get full-size touch targets here */
+  .rw-pab button, .rw-pab input, .rw-pab select { min-height: 44px; }
+  .rw-picks a { display: inline-flex; align-items: center; min-height: 44px; }
+  .rw-picks { list-style: none; margin: 0 0 .75rem; padding: 0; }
+  .rw-picks li { margin-bottom: .35rem; line-height: 1.5; }
+  #rwBacktest h4 { margin: .75rem 0 .3rem; font-size: .9rem; }
+  .rw-open { background: none; border: 0; min-height: 44px; padding: 0 .25rem; color: var(--accent); font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; text-align: left; }
 </style>
   <script defer src="js/components/table-header-tips.js"></script>
   <script defer src="js/components/table-sort.js"></script>
@@ -70,11 +109,19 @@
 
   <section class="dv-card rw-decide">
     <h2>What to decide</h2>
-    <p>Which High deals compete with yours in the same round and region, and whether to call a sponsor about partnering, buying in or stepping aside. <strong>Next step:</strong> open a High deal and start with its first contact.</p>
+    <p>Which High deals compete with yours in the same round and region, and whether to call a sponsor about partnering, buying in or stepping aside. <strong>Next step:</strong> open a High deal, call its first contact before the letter of intent date above the list, and add it to your Deal Tracker.</p>
   </section>
 
   <section class="dv-card">
     <h2>The list</h2>
+    <div id="rwControls"></div>
+    <div id="rwMapWrap">
+      <div id="rwMap" role="region" aria-label="Map of the listed deals by town, coloured by likelihood"></div>
+      <p class="rw-legend"><span class="lg-high">High</span><span class="lg-medium">Medium</span><span class="lg-watch">Watch</span>Bigger dot: more deals in the town. Tap a dot to see them; every deal on the map is also in the list below.</p>
+      <div id="rwMapDetail" hidden></div>
+      <p class="rw-muted" id="rwMapNote"></p>
+    </div>
+    <p class="rw-muted" id="rwCount" aria-live="polite" aria-atomic="true"></p>
     <div id="roundWatch"><p>Loading…</p></div>
   </section>
 
@@ -86,7 +133,7 @@
 
   <details class="dv-card">
     <summary>How well this has worked</summary>
-    <p>Each past round was scored as of the day CHFA published its applicant report, using only what was public then, and checked against who applied.</p>
+    <p>Each past round was scored as of the day CHFA published its applicant report, using only what was public then, and checked against who applied and who CHFA awarded credit.</p>
     <div class="rw-scroll" id="rwBacktest"></div>
   </details>
 
@@ -100,6 +147,8 @@
 <footer id="site-footer"></footer>
 <script src="js/navigation.js"></script>
 <script src="js/whitepaper/developer-nav.js"></script>
+<script src="js/vendor/leaflet.js"></script>
+<script src="js/config/basemaps.js"></script>
 <script src="js/whitepaper/round-watch.js"></script>
 </body>
 </html>
