@@ -33,7 +33,7 @@
   // A count or share the backend did not supply (absent, null, not a number, or below zero) is unknown, never zero.
   function has(v) { return typeof v === 'number' && Number.isFinite(v) && v >= 0; }
   function share(v) { return has(v) && v <= 100; }
-  function rising(n) { var w = n && n.rising; return w && label(w.term) && label(w.quarter) && share(w.from) && share(w.to) ? w : null; }
+  function rising(n) { var w = n && n.rising; return w && label(w.term) && label(w.quarter) && share(w.from) && share(w.to) && w.to > w.from ? w : null; }
   function num(v) { return has(v) ? Math.round(v) : 0; }
   function arr(v) { return Array.isArray(v) ? v.filter(function (x) { return x && typeof x === 'object'; }) : []; }
   function obj(v) { return v && typeof v === 'object' && !Array.isArray(v) ? v : {}; }
@@ -251,13 +251,20 @@
   function mount(el, geoid, name) {
     if (!el) return;
     var o = { geoid: geoid, name: name, result: null, links: [], watched: false, watchState: 'loading' };
-    var draw = function () { el.innerHTML = render(o); wire(); };
+    // After a save the panel is redrawn; focus returns to the control used and its status says what happened.
+    var draw = function (focusSel, statusSel, msg) {
+      el.innerHTML = render(o); wire();
+      var f = focusSel && el.querySelector(focusSel), s = statusSel && el.querySelector(statusSel);
+      if (s && msg) s.textContent = msg;
+      if (f) { var d = f.closest && f.closest('details'); if (d) d.open = true; f.focus(); }
+    };
     function wire() {
       var sw = el.querySelector('.ld-switch');
       if (sw) sw.addEventListener('click', function () {
         sw.disabled = true;
         post('api/watch', { geoid: geoid, name: name, on: !o.watched }).then(function (list) {
-          o.watched = arr(list).some(function (w) { return w.geoid === geoid; }); draw();
+          o.watched = arr(list).some(function (w) { return w.geoid === geoid; });
+          draw('.ld-switch', '.ld-switch-status', o.watched ? 'Saved: planning to submit.' : 'Saved: no longer marked.');
         }, function (e) {
           sw.disabled = false;
           var s = el.querySelector('.ld-switch-status'); if (s) s.textContent = /full/.test(e.message) ? 'The watch list is full (20 places). Unmark one first.' : 'Not saved. Check you are still signed in.';
@@ -269,12 +276,12 @@
         var f = form.elements, status = form.querySelector('.ld-status');
         var body = { geoid: geoid, url: f.url.value.trim(), date: f.date.value, body: f.body.value.trim(), text: f.text.value };
         if (!body.url && !body.text.trim()) { status.textContent = 'Add a link or paste the text.'; status.focus(); return; }
-        post('api/discussion', body).then(function (list) { o.links = arr(list); draw(); }, function () { status.textContent = 'Not added. Check the link is a full web address starting with https, and that you are still signed in.'; status.focus(); });
+        post('api/discussion', body).then(function (list) { o.links = arr(list); draw('.ld-status', '.ld-status', 'Added. It is counted in the next weekly read.'); }, function () { status.textContent = 'Not added. Check the link is a full web address starting with https, and that you are still signed in.'; status.focus(); });
       });
       Array.prototype.forEach.call(el.querySelectorAll('.ld-remove'), function (b) {
         b.addEventListener('click', function () {
           b.disabled = true;
-          post('api/discussion', { geoid: geoid, remove: b.getAttribute('data-link') }).then(function (list) { o.links = arr(list); draw(); }, function () { b.disabled = false; });
+          post('api/discussion', { geoid: geoid, remove: b.getAttribute('data-link') }).then(function (list) { o.links = arr(list); draw('.ld-status', '.ld-status', 'Link removed.'); }, function () { b.disabled = false; });
         });
       });
     }

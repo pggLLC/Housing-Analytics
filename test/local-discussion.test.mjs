@@ -107,6 +107,9 @@ const gaps = JSON.parse(JSON.stringify(result)); delete gaps.lexicon.counts['202
 const gh = R(gaps);
 ok(/Counts for 2026-Q2 did not come through/.test(gh) && !/counted in 2026-Q2/.test(gh), 'a quarter missing its counts is unavailable');
 ok(L.keyNumbers(gaps)[2].big === 'Steady' && !/999%/.test(gh), 'shares above 100 are not shown');
+const falling = JSON.parse(JSON.stringify(result)); falling.numbers.rising = { term: 'attainable', from: 31, to: 8, quarter: '2026-Q3' };
+ok(L.keyNumbers(falling)[2].big === 'Steady' && !/moving toward/.test(L.meaning(falling)), 'a falling word is not called rising');
+ok(/draw\('\.ld-switch', '\.ld-switch-status'/.test(read('js/whitepaper/local-discussion.js')), 'focus returns to the switch after a save, with a status');
 ok(/past 4 quarters/.test(html) && /at least 20 words/.test(L.keyNumbers(result)[2].text), 'a shown shift states the rule');
 
 // Not watched and not read yet.
