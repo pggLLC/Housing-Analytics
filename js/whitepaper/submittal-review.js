@@ -85,6 +85,17 @@
     'average-income': { minimumShare: 0.40, setAsideCeiling: 80, creditCeiling: 80 }
   };
   function electionOf(e) { return SET_ASIDE[e] ? e : '40-60'; }
+  // The form's guidance line, written from SET_ASIDE so the words follow the ceilings.
+  function taxCreditNote() {
+    var by = {};
+    Object.keys(SET_ASIDE).forEach(function (e) { var c = SET_ASIDE[e].creditCeiling; (by[c] = by[c] || []).push(e); });
+    return 'Homes by income level (% of area median income). ' + Object.keys(by).sort(function (a, b) { return a - b; }).map(function (c) {
+      var names = by[c].map(function (e) { return e === 'average-income' ? 'Average Income' : 'the ' + e; });
+      var wf = [70, 80].filter(function (t) { return t > c; });
+      return 'Under ' + names.join(' and ') + (by[c].length > 1 || by[c][0] !== 'average-income' ? ' election' + (by[c].length > 1 ? 's' : '') : '') +
+        ', units at or under ' + c + '% are tax credit units' + (wf.length ? ' and ' + wf.join('% and ') + '% units count as workforce units' : '') + '.';
+    }).join(' ');
+  }
 
   // mix: {30: 6, 40: 12, ..., market: 0}. restricted = tax credit units under the election; workforce = 70%/80%
   // units that are not tax credit units under it; weighted sums AMI over every unit that has one.
@@ -384,6 +395,7 @@
     var eng = stale ? {} : (v.engine || {});
     var credit = creditCheck(rules, num(eng.annualCredits));
     var risks = [];
+    if (deal.calc4) risks.push({ level: 'yellow', text: 'The Deal Calculator export was set to 4%, so only its unit mix is used here. Export the deal at 9% for gap, coverage, credit and stress results.' });
     if (stale) risks.push({ level: 'yellow', text: 'The unit mix or set-aside election differs from the Deal Calculator export, so its gap, coverage, credit and stress results are not shown. Change the deal in the Deal Calculator and export it again.' });
     if (!s.setAside.qualifies) risks.push({ level: 'red', text: 'The unit mix does not meet the ' + ELECTION_LABEL[s.setAside.election] + ': ' + s.setAside.reasons.join('; ') + '. The deal is not eligible for credits.' });
     else if (!s.primaryOk) risks.push({ level: 'red', text: 'No points in a primary criterion, so the deal is not eligible.' });
@@ -495,19 +507,20 @@
           var el = d.getElementById('dc-cost-' + id), v = el && num(el.value);
           if (v) { var nv = Math.round(v * 1.1); delta += nv - v; el.value = String(nv); }
         });
-        if (!t || !num(t.value)) return 'No total development cost entered.';
+        if (!t || !num(t.value)) return { skip: 'No total development cost entered.' };
         // Itemized lines may not exceed Total Development Cost, so the total moves with them.
         if (delta) { t.value = String(num(t.value) + delta); return null; }
         t.value = String(Math.round(num(t.value) * 1.1));
         return 'No itemized hard costs, so total cost +10%.';
       } },
     { id: 'rate15', label: 'Loan rate +1.5 points', why: 'Permanent loan sizing.',
-      apply: function (d) { var el = d.getElementById('dc-rate'); if (el && num(el.value) != null) el.value = String(num(el.value) + 1.5); else return 'No loan rate entered.'; return null; } },
+      apply: function (d) { var el = d.getElementById('dc-rate'); if (el && num(el.value) != null) el.value = String(num(el.value) + 1.5); else return { skip: 'No loan rate entered.' }; return null; } },
     { id: 'equity05', label: 'Equity price -$0.05', why: 'Investor pricing moves before closing.',
       apply: function (d, w) {
         var el = d.getElementById('dc-equity-price'); var base = el && num(el.value);
         if (base == null) { var r = w.__DealCalc.getResult(); base = r && num(r.equityPrice); }
-        if (el && base != null) el.value = String(Math.round((base - 0.05) * 1000) / 1000); return null;
+        if (!el || base == null) return { skip: 'No equity price entered or modeled.' };
+        el.value = String(Math.round((base - 0.05) * 1000) / 1000); return null;
       } }
   ];
 
@@ -552,6 +565,12 @@
         var w = f.contentWindow, d = w.document, note = null;
         if (i > 0) {
           note = STRESS[i - 1].apply(d, w);
+          if (note && note.skip) {
+            f.remove();
+            results.push({ id: STRESS[i - 1].id, label: STRESS[i - 1].label, why: STRESS[i - 1].why, note: note.skip, engine: {}, skipped: true });
+            if (onProgress) onProgress(i, STRESS.length);
+            return step(i + 1);
+          }
           w.__DealCalc.recalculate();
         }
         var e = readEngine(w);
@@ -566,11 +585,11 @@
       // The engine's own coverage tests (rents -10%, vacancy +5 points, operating cost +10%) come with the base run.
       var es = base.engineStress || {};
       [['rent10', 'Rents -10%', 'Rent limits or market rents come in lower.'], ['opex10', 'Operating cost +10%', 'Insurance and utilities keep rising.'], ['vac5', 'Vacancy +5 points', 'Slower lease-up or turnover.']].forEach(function (k) {
-        var s = es[k[0]];
-        results.push({ id: k[0], label: k[1], why: k[2], note: 'Debt coverage only (the calculator\'s own stress test); the loan is not resized.',
-          engine: { dscr: s ? num(s.dscr) : null, fundingGap: null, deferredDeveloperFee: null, paybackYear: null }, coverageOnly: true });
+        var s = es[k[0]], dscr = s ? num(s.dscr) : null;
+        results.push({ id: k[0], label: k[1], why: k[2], note: dscr == null ? 'The calculator did not report coverage for this test (no must-pay debt or income entered).' : 'Debt coverage only (the calculator\'s own stress test); the loan is not resized.',
+          engine: { dscr: dscr, fundingGap: null, deferredDeveloperFee: null, paybackYear: null }, coverageOnly: true, skipped: dscr == null });
       });
-      results.forEach(function (t) { t.fails = stressFails(rules, t, base); });
+      results.forEach(function (t) { t.fails = t.skipped ? '' : stressFails(rules, t, base); });
       return { base: base, tests: results };
     });
   }
@@ -707,7 +726,7 @@
         var e = t.engine || {};
         return '<tr><td><strong>' + esc(t.label) + '</strong><div class="sr-muted">' + esc(t.why) + (t.note ? ' ' + esc(t.note) : '') + '</div></td>' +
           '<td class="sr-num">' + esc(cell(e.fundingGap, money)) + '</td><td class="sr-num">' + esc(cell(e.dscr, ratio)) + '</td><td class="sr-num">' + esc(cell(e.deferredDeveloperFee, money)) + '</td>' +
-          '<td>' + (t.fails ? '<span class="sr-flag">Fails: ' + esc(t.fails) + '</span>' : 'Holds') + '</td></tr>';
+          '<td>' + (t.skipped ? '<span class="sr-muted">Not run</span>' : t.fails ? '<span class="sr-flag">Fails: ' + esc(t.fails) + '</span>' : 'Holds') + '</td></tr>';
       }).join('') + '</tbody></table></div>';
   }
 
@@ -726,7 +745,7 @@
     // Form → state
     function readForm() {
       var v = state.version, d = v.deal;
-      TIERS.concat(['market']).forEach(function (t) { var el = $('sr-mix-' + t); d.mix[t] = el ? (num(el.value) || 0) : 0; });
+      TIERS.concat(['market']).forEach(function (t) { var el = $('sr-mix-' + t); var n = el ? num(el.value) : null; d.mix[t] = n > 0 ? Math.floor(n) : 0; });
       d.place = $('sr-place').value.trim();
       d.sponsor = $('sr-sponsor').value;
       d.election = $('sr-election').value;
@@ -824,9 +843,15 @@
             var c = fromCalculatorExport(snap);
             if (!c) { flash('That JSON is not a Deal Calculator export.'); return; }
             var v = started;
-            v.calculator = { query: c.query, exportedAt: c.exportedAt, nine: c.nine, election: c.election, mix: Object.assign({}, c.mix), stale: false };
-            v.engine = c.engine; v.deal.mix = c.mix; v.deal.election = c.election;
-            if (!c.nine) flash('This export is set to 4%. The score is for a 9% Round One application.');
+            v.deal.mix = c.mix; v.deal.election = c.election; v.deal.calc4 = !c.nine;
+            if (c.nine) {
+              v.calculator = { query: c.query, exportedAt: c.exportedAt, nine: true, election: c.election, mix: Object.assign({}, c.mix), stale: false };
+              v.engine = c.engine;
+            } else {
+              // A 4% model's credits and financing do not belong beside a 9% score: keep only the unit mix.
+              v.calculator = null; v.engine = {};
+              flash('This export is set to 4%, so only its unit mix was used. Export the deal at 9% for gap, coverage, credit and stress results.');
+            }
             writeForm(); state.stress = null; draw();
           });
         } else {
@@ -985,6 +1010,7 @@
     var flashTimer;
     function flash(msg) { var el = $('srFlash'); el.textContent = msg; clearTimeout(flashTimer); flashTimer = setTimeout(function () { el.textContent = ''; }, 9000); }
 
+    if ($('sr-mix-note')) $('sr-mix-note').textContent = taxCreditNote();
     $('srAsOf').textContent = 'QAP 2027-28 Third Draft (not adopted), checked ' + rules.checked_at;
     writeForm(); draw(); refreshDeals(); refreshVersions(); drawCompare();
   }
@@ -1033,6 +1059,6 @@
 
   return { esc: esc, mixTotals: mixTotals, amiMidpoint: amiMidpoint, targetingPoints: targetingPoints, eliPoints: eliPoints, score: score,
     findJurisdiction: findJurisdiction, prop123Status: prop123Status, gapLane: gapLane, bumpOneUnit: bumpOneUnit, thresholdStatus: thresholdStatus,
-    creditCheck: creditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, HARD_COST_IDS: HARD_COST_IDS,
+    creditCheck: creditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, taxCreditNote: taxCreditNote, SET_ASIDE: SET_ASIDE, HARD_COST_IDS: HARD_COST_IDS,
     stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, STRESS: STRESS, RULES_URL: RULES_URL, API: API };
 });

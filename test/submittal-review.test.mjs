@@ -236,7 +236,13 @@ const t17 = rules.thresholds.find((t) => t.applies === 'existing_credit');
 if (t17) ok(SR.thresholdStatus(rules, { [t17.id]: 'na' }, { existingCredit: true }).rows.find((r) => r.id === t17.id).answer === 'unchecked', 'an existing-credit deal cannot mark that threshold as not applying');
 
 // Codex review on 0d6fc3d83: election-specific tax credit guidance; "New deal" starts blank.
-ok(/20-50 and 40-60 elections, units at or under 60% are tax credit units/.test(page) && !/Units at or under 80% are tax credit units\./.test(page), 'the page explains which units are tax credit units under each election');
+// The guidance is written from SET_ASIDE; check it against the ceilings and against what the scorer counts.
+const note = SR.taxCreditNote();
+ok(page.includes('id="sr-mix-note">' + note + '<'), 'the page carries the guidance generated from SET_ASIDE');
+for (const [e, c] of Object.entries(SR.SET_ASIDE)) {
+  ok(new RegExp((e === 'average-income' ? 'Average Income' : e) + '[^.]*units at or under ' + c.creditCeiling + '% are tax credit units').test(note), 'the note gives the ' + e + ' ceiling of ' + c.creditCeiling + '%');
+  ok(SR.mixTotals({ [c.creditCeiling]: 1, [c.creditCeiling + 10]: 1 }, e).restricted === 1, 'the scorer counts tax credit units up to ' + c.creditCeiling + '% under ' + e);
+}
 ok(/if \(!state\.deal\) \{ state\.version = blankVersion\(\);/.test(read('js/whitepaper/submittal-review.js')), 'choosing "New deal" clears the loaded version');
 
 // Codex review on 596f5ed78: same-name city and county, set-aside in the AMI stress, T17 wording, document reads bound to their version.
@@ -287,5 +293,15 @@ const b20 = SR.bumpOneUnit({ 20: 30, 60: 70 });
 ok(b20 && b20.from === 20 && b20.to === 30, 'the AMI stress moves a 20% unit when it is the only tier under 60%');
 const as20 = SR.amiStress(rules, prop123, { deal: { mix: { 20: 30, 60: 70 }, place: filed.name }, claims: {} });
 ok(as20 && as20.laneBefore === 'DOH' && as20.laneAfter === 'OEDIT' && /lane flips/.test(as20.fails), 'a 20% bump that crosses 48% shows the lane flip');
+
+// Codex review on 10981b5c7: typed counts are whole and non-negative; 4% exports keep only the mix; skipped stress tests are "Not run".
+const srcJs3 = read('js/whitepaper/submittal-review.js');
+ok(/d\.mix\[t\] = n > 0 \? Math\.floor\(n\) : 0/.test(srcJs3), 'typed unit counts are normalized to whole, non-negative numbers');
+const r4 = SR.review(rules, prop123, { deal: { mix: { 60: 50 }, place: filed.name, calc4: true }, claims: {}, engine: {} });
+ok(r4.risks.some((x) => /export was set to 4%/.test(x.text)), 'a 4% export is flagged and its model results are not used');
+ok(/v\.calculator = null; v\.engine = \{\};/.test(srcJs3), 'a 4% export does not keep the engine results or enable stress tests');
+const skipHtml = SR.stressHtml ? SR.stressHtml(rules, { base: {}, tests: [{ label: 'Loan rate +1.5 points', why: '', note: 'No loan rate entered.', engine: {}, skipped: true, fails: '' }] }) : null;
+if (skipHtml) ok(/Not run/.test(skipHtml) && !/Holds/.test(skipHtml), 'a skipped stress test reads "Not run", not "Holds"');
+else ok(/t\.skipped \? '<span class="sr-muted">Not run<\/span>'/.test(srcJs3), 'a skipped stress test reads "Not run", not "Holds"');
 
 console.log(`submittal-review: ${checks} checks passed`);
