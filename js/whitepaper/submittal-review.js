@@ -480,6 +480,8 @@
   // Reads a Deal Calculator "Export JSON" file: inputs carry units-<tier> without the dc- prefix.
   function fromCalculatorExport(snap) {
     if (!snap || typeof snap !== 'object' || !snap.inputs || !snap.url) return null;
+    // An ownership-mode export leaves out the rental rate and AMI tiers, so it has no tax credit unit mix to read.
+    if (snap.dealMode === 'ownership') return { error: 'That export is a for-sale (ownership) deal. Switch the Deal Calculator to rental, set the AMI tiers, and export again.' };
     var mix = {}, inp = snap.inputs, sched = snap.rentSchedule;
     var fromSchedule = !!(sched && sched.mode === 'schedule' && Array.isArray(sched.rows) && sched.rows.length);
     // A Market Analysis rent schedule replaces the manual grid in the engine, so its rows are the deal.

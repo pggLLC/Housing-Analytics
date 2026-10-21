@@ -355,4 +355,8 @@ const srcJs7 = read('js/whitepaper/submittal-review.js');
 ok(/if \(t !== state\.nav\) return true; openVersion\(rec\); return !!rec;/.test(srcJs7) && /openLatest\(pick\)\.then\(function \(ok\) \{ if \(!ok && state\.deal === deal\) \{ clearForm\(\)/.test(srcJs7), 'a version that reads as empty clears the form on a deal pick');
 ok(/d\.name = body\.name;/.test(srcJs7), 'saving on this device keeps a renamed deal\'s new name');
 
+// Codex review on 017fa683c: ownership-mode exports are refused before any unit mix is applied.
+ok(!!SR.fromCalculatorExport({ dealMode: 'ownership', inputs: { units: '12' }, outputs: {}, url: 'http://127.0.0.1:8799/deal-calculator.html' }).error, 'an ownership-mode export is refused');
+ok(!SR.fromCalculatorExport({ dealMode: 'rental', inputs: { 'rate-9': '0.09', units: '10', 'units-60': '10' }, outputs: {}, url: 'http://127.0.0.1:8799/deal-calculator.html' }).error, 'a rental-mode export still imports');
+
 console.log(`submittal-review: ${checks} checks passed`);
