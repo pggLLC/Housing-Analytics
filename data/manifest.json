@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-20T22:56:26.332851Z",
+  "generated": "2026-10-21T00:50:08.906166Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 911791
+      "bytes": 912381
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7950,6 +7950,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 69002
+    },
+    "data/jurisdiction-briefs/_round-watch.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 262330
     },
     "data/jurisdiction-briefs/_schema.json": {
       "featureCount": 0,

@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-20T22:56:22.267Z",
+    "generated_at": "2026-10-21T00:50:04.787Z",
     "root": "data/",
-    "file_count": 1843,
-    "total_size_bytes": 195923430,
+    "file_count": 1844,
+    "total_size_bytes": 196185760,
     "kinds": {
-      "json": 1797,
+      "json": 1798,
       "geojson": 34,
       "csv": 12
     }
@@ -539,7 +539,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-20T22:56:17.521Z",
+      "mtime": "2026-10-21T00:50:00.675Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -32948,6 +32948,33 @@
       ]
     },
     {
+      "path": "jurisdiction-briefs/_round-watch.json",
+      "kind": "json",
+      "size_bytes": 262330,
+      "mtime": "2026-10-21T00:48:12.515Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "backtest",
+        "rounds",
+        "rolling_4pct"
+      ],
+      "key_count": 4,
+      "primary_array_key": "rolling_4pct",
+      "primary_array_length": 12,
+      "primary_array_first_keys": [
+        "name",
+        "city",
+        "homes",
+        "sponsor",
+        "stage",
+        "outcome",
+        "source_url",
+        "quote",
+        "as_of"
+      ]
+    },
+    {
       "path": "jurisdiction-briefs/_schema.json",
       "kind": "json",
       "size_bytes": 3550,
@@ -35118,7 +35145,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-20T22:56:19.543Z",
+      "mtime": "2026-10-21T00:50:02.705Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -35142,7 +35169,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-20T22:56:19.013Z",
+      "mtime": "2026-10-21T00:50:02.173Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
