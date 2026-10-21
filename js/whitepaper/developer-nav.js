@@ -16,6 +16,7 @@
     { href: 'developer.html', label: 'Home' },
     { href: 'developer-brief.html', label: 'Jurisdiction reports', also: ['developer-whitepaper.html'] },
     { href: 'developer-where.html', label: 'Where to build' },
+    { href: 'developer-round-watch.html', label: 'Next round' },
     { href: 'developer-pipeline.html', label: 'Pipeline' },
     { href: 'developer-methods.html', label: 'Methodology' },
     { href: 'developer-about.html', label: 'About' }
