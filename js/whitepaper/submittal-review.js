@@ -472,7 +472,9 @@
 
   function summaryLines(r) {
     return [
-      'Score: ' + pts(r.score.total) + ' of ' + r.score.minimum + ' needed' + (r.score.meets ? ' (clears it)' : ' (short)') + '.',
+      'Score: ' + pts(r.score.total) + ' of ' + r.score.minimum + ' needed' + (r.score.meets ? ' (clears it)'
+        : !r.score.setAside.qualifies ? ' (not eligible: the unit mix misses its set-aside election)'
+        : !r.score.primaryOk ? ' (not eligible: no primary criterion points)' : ' (short)') + '.',
       'Gap funds: ' + r.lane.text + '.',
       'Funding gap: ' + (num(r.engine.fundingGap) == null ? 'not run' : money(num(r.engine.fundingGap))) + '.',
       'Biggest risk: ' + (r.risks[0] ? r.risks[0].text : 'none found.'),

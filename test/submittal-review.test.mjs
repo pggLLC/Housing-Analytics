@@ -345,6 +345,9 @@ const over = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?rate-9=0.09
 ok(over && over.error && /16 homes in AMI tiers but 10 total/.test(over.error) && !over.mix, 'an export with more tier units than homes is refused');
 const cmpReq = SR.compareTable(rules, prop123, [{ label: 'A', deal: { mix: { 60: 50 }, creditRequested: null }, claims: {}, calculator: { source: 'x' }, engine: { annualCredits: 1500000 } }, { label: 'B', deal: { mix: { 60: 50 }, creditRequested: 1200000 }, claims: {}, engine: {} }]);
 ok(/Annual federal credit requested<\/th><td[^>]*>—<\/td><td[^>]*>\$1,200,000/.test(cmpReq) && /Modeled credit capacity<\/th><td[^>]*>\$1,500,000/.test(cmpReq), 'the comparison shows the requested credit, blank when not entered, apart from modeled capacity');
+const inelig = SR.review(rules, prop123, { deal: { mix: { 60: 50 } }, claims: {}, thresholds: {}, engine: {} });
+inelig.score.total = 140; inelig.score.meets = false; inelig.score.primaryOk = false;
+ok(/140 of 130 needed \(not eligible/.test(SR.summaryLines(inelig)[0]), 'an ineligible deal over 130 is not called short');
 const cmpSkip = SR.compareTable(rules, prop123, [{ v: 'a', label: 'A', deal: { mix: { 60: 50 } }, claims: {}, stress: [{ fails: '' }, { fails: 'gap opens', skipped: false }, { fails: '', skipped: true }] }]);
 ok(/1 of 2 \(1 not run\)/.test(cmpSkip), 'the comparison counts skipped stress tests apart');
 const cond = SR.score(rules, { mix }, { '5B3c-rehab': true, '5B3d-preservation': true });
