@@ -1,0 +1,674 @@
+{
+ "slug": "village-on-eastbrook-fort-collins",
+ "name": "Village on Eastbrook",
+ "city": "Fort Collins",
+ "county": "Larimer",
+ "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+ "units": 73,
+ "researched_on": "2026-10-21",
+ "headline": "Housing Catalyst, the Fort Collins housing authority, is building Village on Eastbrook, a three-story, all-electric building with 73 one- and two-bedroom apartments for households at 30% to 80% AMI (average 57.5%) at 3221 Eastbrook Drive in southeast Fort Collins. It won 2025 Round Two federal 4% and accelerated state credits from CHFA.",
+ "why_it_matters": "It shows a housing authority using Prop 123 land banking money to buy a fully entitled site, issuing its own bonds on a general revenue pledge, and swapping city CDBG/HOME money for local capital tax dollars to avoid Build America, Buy America costs. The deal closed in spring 2026 and broke ground on 2026-06-09.",
+ "status": {
+  "label": "Under construction; financing closed spring 2026, groundbreaking 2026-06-09",
+  "detail": "Fort Collins Affordable Housing Board minutes of 2026-05-07 record that Housing Catalyst had closed on the project the week before and was in construction. Housing Catalyst held a groundbreaking on 2026-06-09, posted monthly construction updates through September 2026, and expects completion in summer 2027, with applications from February 2027 and move-ins from June 2027 (subject to change).",
+  "src": [
+   "fc-2026-06-16-packet",
+   "hc-groundbreaking-2026-06-10",
+   "hc-live-page",
+   "hc-project-page"
+  ]
+ },
+ "next_step": "Watch Housing Catalyst's construction updates and leasing page for the February 2027 application opening, then a certificate of occupancy and CHFA 8609 in 2027.",
+ "key_numbers": [
+  {
+   "value": "73 homes, all income-restricted",
+   "meaning": "44 one-bedroom and 29 two-bedroom units at 30% to 80% AMI under income averaging, average 57.5% AMI.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "value": "$1,251,131 a year in federal 4% credit",
+   "meaning": "Plus $1,800,000 in accelerated state credit and $17,920,000 in private activity bonds, per CHFA's award report.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "value": "About $34.9M total cost",
+   "meaning": "$478,500 per unit, per Housing Catalyst's December 2025 request to the city. Hard costs were estimated at $20,426,145 including solar.",
+   "src": [
+    "fc-ord009-2026-att2",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "value": "$1.61M Prop 123 land banking award",
+   "meaning": "One of the first 16 state land banking awards (January 2024); it paid for the land of a site sold with full entitlements and plans.",
+   "src": [
+    "hc-prop123-2024-01-31",
+    "oedit-prop123-2024-01-31"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "3221 Eastbrook Drive, Fort Collins 80525",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "I/F, N: individuals/families, new construction",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "73 total, 73 low-income",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "2.9 acres of vacant land, about 25 units per acre; not in a QCT; one block west of Fort Collins High School and next to the Power Trail",
+   "src": [
+    "hc-prop123-2024-01-31",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One three-story, L-shaped, wood-frame (Type VB) building with two elevators; all units Type A accessible or Type B adaptable",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "hc-project-page"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric with a 333 kW rooftop and carport solar array expected to offset about 70% of building energy use; Enterprise Green Communities and ENERGY STAR Multifamily New Construction; 8 EV-ready spaces",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "hc-project-page"
+   ]
+  },
+  {
+   "item": "Design certification",
+   "value": "All units to be certified under Colorado State University's Institute for the Built Environment Lifelong Homes Pilot Certification",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "124 spaces, 71 under solar carports",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Bus routes 11 and 12 within half a mile were suspended at application; free on-demand taxi service runs during bus hours",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Utilities",
+   "value": "Single electric meter; Housing Catalyst pays all utilities and provides free Wi-Fi through Fort Collins Connexion",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "hc-live-page"
+   ]
+  },
+  {
+   "item": "Bond issuer and cap",
+   "value": "Housing Catalyst issues the bonds itself as a public offering with a general revenue pledge (S&P AA- rating), using volume cap from the City of Fort Collins and Larimer County",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Project-based vouchers",
+   "value": "None; the applicant removed all PBVs because of federal funding uncertainty",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "fc-ord009-2026-att2"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 21
+  },
+  {
+   "level": "60% AMI",
+   "units": 18
+  },
+  {
+   "level": "70% AMI",
+   "units": 10
+  },
+  {
+   "level": "80% AMI",
+   "units": 12
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 44
+  },
+  {
+   "type": "2BR",
+   "units": 29
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r2-descriptions",
+  "chfa-2025-r2-narratives",
+  "fc-ord009-2026-att2"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,251,131 per year",
+   "note": "2025 Round Two. Housing Catalyst's December 2025 sources table shows $10.3M of federal LIHTC equity.",
+   "src": [
+    "chfa-2025-r2-award",
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,800,000",
+   "note": "Sources table shows $7.8M of state LIHTC equity.",
+   "src": [
+    "chfa-2025-r2-award",
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "source": "Private activity bonds (Housing Catalyst, issuer)",
+   "amount": "$17,920,000 (CHFA award report)",
+   "note": "The narrative describes $7,620,000 of long-term construction-to-permanent tax-exempt bonds, $9,700,000 of short-term tax-exempt bonds and $7,000,000 of short-term taxable bonds. The sources table shows a $7.6M first mortgage from the bonds.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives",
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "source": "Proposition 123 Land Banking (state, via CHFA/OEDIT)",
+   "amount": "$1,610,000 award",
+   "note": "Announced 2024-01-31. The December 2025 sources table carries $1.3M from this source.",
+   "src": [
+    "hc-prop123-2024-01-31",
+    "oedit-prop123-2024-01-31",
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "source": "City of Fort Collins Affordable Housing Capital Fund",
+   "amount": "$1,200,000 (requested)",
+   "note": "$1.0M of 2026-35 quarter-cent capital tax plus $200,000 of earlier CCIP money, replacing a $1.2M CDBG/HOME award from the 2024 competitive process that Housing Catalyst would return. Appropriated through Ordinance No. 009, 2026; staff planned a funding-agreement resolution for 2026-02-03. Board minutes of 2026-05-07 say $2M of the capital tax was already designated to Windtrail Park and Village on Eastbrook.",
+   "src": [
+    "fc-ord009-2026-att2",
+    "fc-2026-06-16-packet"
+   ]
+  },
+  {
+   "source": "City of Fort Collins Affordable Housing Fund (general fund)",
+   "amount": "$300,000",
+   "note": "Remainder of the $1.5M city award from the 2024 competitive process.",
+   "src": [
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "source": "City fee credits",
+   "amount": "About $0.1M",
+   "note": "",
+   "src": [
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing grant",
+   "amount": "About $1.5M (pending in December 2025)",
+   "note": "No award record found.",
+   "src": [
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "source": "Housing Catalyst owner equity",
+   "amount": "About $2.1M in the December 2025 table; the narrative says up to $3.45M",
+   "note": "",
+   "src": [
+    "fc-ord009-2026-att2",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "About $1.3M",
+   "note": "The narrative says over $1 million.",
+   "src": [
+    "fc-ord009-2026-att2",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Seller carryback note on the land (Housing Catalyst)",
+   "amount": "$0.8M in the December 2025 table; $2.2M in the narrative",
+   "note": "",
+   "src": [
+    "fc-ord009-2026-att2",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "Section 48 solar investment tax credits",
+   "amount": "About $0.6M",
+   "note": "",
+   "src": [
+    "fc-ord009-2026-att2",
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (CHFA prints it as \"Housing Catalyst Housing Catalyst\"), developer, owner and bond issuer",
+   "name": "Housing Catalyst (Housing Authority of the City of Fort Collins)",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property management and resident services",
+   "name": "Housing Catalyst",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Cost estimator / contractor brought on early",
+   "name": "Alliance Construction Solutions",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect of the entitled design",
+   "name": "ALM2S",
+   "src": [
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "role": "Financial consultant",
+   "name": "RCH Jones",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Market analyst",
+   "name": "Prior & Associates",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "role": "Design partners",
+   "name": "CSU Institute for the Built Environment (Lifelong Homes) and Partnership for Age Friendly Communities",
+   "src": [
+    "hc-prop123-2024-01-31",
+    "hc-tc-award-2025-11-07"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "A local developer offered Housing Catalyst the 2.9-acre vacant parcel with architectural plans, permits and approvals for a fully entitled apartment building. Prop 123 land banking money paid for the land portion of the purchase, and Housing Catalyst bought the site in 2024.",
+   "src": [
+    "hc-prop123-2024-01-31",
+    "fc-ord009-2026-att2",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The project went through city development review under the earlier owner: a virtual neighborhood meeting on 2022-08-22, and unanimous Planning and Zoning Commission approval on 2022-12-14, per the applicant. The Final Development Plan and Development Agreement were approved by 2025.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "Housing Catalyst first sought a 4% federal and state credit award in August 2024. It said two competitive tax credit applications were needed, which pushed the construction start from spring 2025 to spring 2026.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "text": "Early plans capped average income at 60% AMI, with all units at or below 60% AMI and up to 25 project-based vouchers. The awarded plan uses income averaging from 30% to 80% AMI (average 57.5%) with no PBVs.",
+   "src": [
+    "hc-prop123-2024-01-31",
+    "fc-ord009-2026-att2",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "Housing Catalyst asked the city in December 2025 to swap its $1.2M CDBG/HOME award for local capital tax money, saying Build America, Buy America compliance would add $700,000 to $1.7M in costs. The total city subsidy stays at $1.5M, about $20,500 per unit.",
+   "src": [
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "text": "The market study (June 2025) found 3.1% overall vacancy in the primary market area, 0.9% at Class B LIHTC properties and 0.0% at senior LIHTC properties. The nearest tax credit property is Fox Meadows Apartments, about 0.7 mile away. The analyst noted a nearby active railway; the design adds noise attenuation.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The budget includes a 1% Build America, Buy America contingency and a 1.5% tariff contingency. Construction was planned to take about 12 months because utilities, curb, gutter, sidewalk and driveway were already in place.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The 2024 city application described a 40-year LIHTC affordability restriction, plus city and Division of Housing use restrictions of about 15 or 20 years.",
+   "src": [
+    "fc-ord009-2026-att2"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-08-22",
+   "event": "Virtual neighborhood meeting in city development review (earlier owner)",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-12-14",
+   "event": "Planning and Zoning Commission approves the project unanimously",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-01-31",
+   "event": "State announces a $1,610,000 Prop 123 land banking award to Housing Catalyst",
+   "src": [
+    "hc-prop123-2024-01-31",
+    "oedit-prop123-2024-01-31",
+    "bizwest-2024-01-31"
+   ]
+  },
+  {
+   "date": "2024-02-16",
+   "event": "Deadline for the city's FY24 spring competitive process; the application led to a $1.5M city award",
+   "src": [
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "date": "2024-04-09",
+   "event": "Housing Catalyst issues a general contractor RFP (responses due 2024-05-10)",
+   "src": [
+    "hc-gc-rfp-2024-04-09"
+   ]
+  },
+  {
+   "date": "2024-08",
+   "event": "First 4% federal and state credit application to CHFA",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "date": "2025-11-07",
+   "event": "Housing Catalyst announces the 2025 Round Two award",
+   "src": [
+    "hc-tc-award-2025-11-07"
+   ]
+  },
+  {
+   "date": "2025-11-13",
+   "event": "CHFA's 2025 Round Two award report (PDF date) lists the project",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "date": "2025-12-22",
+   "event": "Housing Catalyst asks the city for $1.2M of capital tax money to replace CDBG/HOME funds; building permits submitted",
+   "src": [
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "date": "2026-01",
+   "event": "Ordinance No. 009, 2026 appropriates the capital tax money; staff plan a funding-agreement resolution for 2026-02-03",
+   "src": [
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "date": "2026-04",
+   "event": "Financial closing (Affordable Housing Board minutes of 2026-05-07 say it closed \"last week\")",
+   "src": [
+    "fc-2026-06-16-packet"
+   ]
+  },
+  {
+   "date": "2026-06-09",
+   "event": "Groundbreaking ceremony",
+   "src": [
+    "hc-groundbreaking-2026-06-10"
+   ]
+  },
+  {
+   "date": "2026-09",
+   "event": "Latest posted construction update",
+   "src": [
+    "hc-live-page"
+   ]
+  },
+  {
+   "date": "2027-02",
+   "event": "Applications expected to open (subject to change)",
+   "src": [
+    "hc-live-page"
+   ]
+  },
+  {
+   "date": "2027-06",
+   "event": "Move-ins expected to start; construction completion targeted for summer 2027",
+   "src": [
+    "hc-live-page",
+    "hc-project-page"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Aerial rendering of Village on Eastbrook",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-b46a56ade860446797870b68cd984b93/ITEM-Attachment-003-139ac70a8eff4ad8986a03cd529c721d.pdf",
+   "kind": "rendering",
+   "made_by": "Housing Catalyst project team, in a City of Fort Collins council attachment",
+   "note": "PDF page 4 of Ordinance No. 009, 2026, AIS Attachment No. 2 (Housing Catalyst request letter)",
+   "src": [
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "title": "Project and construction update pages",
+   "url": "https://housingcatalyst.com/find-a-home/live-at-the-village-on-eastbrook/",
+   "kind": "photo",
+   "made_by": "Housing Catalyst",
+   "note": "Leasing page with links to July, August and September 2026 construction updates",
+   "src": [
+    "hc-live-page"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report lists $17,920,000 in bonds, while the application narrative puts total tax-exempt bonds at $17,320,000 (plus $7,000,000 of short-term taxable bonds).",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application narrative describes a $2.2 million Housing Catalyst carryback note for the land, while the December 2025 sources table shows a $0.8 million seller carry.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "text": "Housing Catalyst and the state announced a $1,610,000 Prop 123 land banking award, while the December 2025 sources table shows $1.3 million from that source.",
+   "src": [
+    "hc-prop123-2024-01-31",
+    "oedit-prop123-2024-01-31",
+    "fc-ord009-2026-att2"
+   ]
+  },
+  {
+   "text": "Housing Catalyst's November 2025 award announcement expected completion in spring 2027, while its project and leasing pages say summer 2027.",
+   "src": [
+    "hc-tc-award-2025-11-07",
+    "hc-project-page",
+    "hc-live-page"
+   ]
+  }
+ ],
+ "open_questions": [
+  "The resolution number, date and final amount of the city funding agreement planned for 2026-02-03 (city council records could not be retrieved).",
+  "Whether the Colorado Division of Housing grant (about $1.5M, pending in December 2025) was awarded, and its amount.",
+  "The exact closing date, final bond amounts and series, the tax credit investor and equity price.",
+  "The general contractor at closing (Alliance Construction Solutions priced the plans; no contract record was found).",
+  "The CHFA LURA affordability term and any city or state covenant terms.",
+  "How much Larimer County and the City of Fort Collins each contributed in private activity bond cap."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r2-award",
+   "title": "2025 Round Two - Award Report, Federal 4% and Accelerated State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-11-13",
+   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-descriptions",
+   "title": "2025 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r2-narratives",
+   "title": "2025 HTC Round Two application narratives (Village on Eastbrook, PDF pages 101-105)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf"
+  },
+  {
+   "id": "fc-ord009-2026-att2",
+   "title": "City of Fort Collins, Ordinance No. 009, 2026, AIS Attachment No. 2: Affordable Housing Appropriation Detail (staff summary, Housing Catalyst request letter of 2025-12-22 with sources table, 2024 competitive process application and market study)",
+   "publisher": "City of Fort Collins",
+   "date": "2026-01",
+   "url": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/fortcollco-meet-b46a56ade860446797870b68cd984b93/ITEM-Attachment-003-139ac70a8eff4ad8986a03cd529c721d.pdf"
+  },
+  {
+   "id": "fc-2026-06-16-packet",
+   "title": "City of Fort Collins, City Council agenda packet, 16 June 2026 (Affordable Housing Board minutes of 2026-05-07, packet pp. 345-348)",
+   "publisher": "City of Fort Collins",
+   "date": "2026-06-16",
+   "url": "https://mccmeetings.blob.core.usgovcloudapi.net/fortcollco-pubu/MEET-Packet-d2650790b0bd473b957ff2b78b58a288.pdf"
+  },
+  {
+   "id": "hc-prop123-2024-01-31",
+   "title": "Housing Catalyst awarded $1.6 million in Proposition 123 Land Banking funds for Village on Eastbrook",
+   "publisher": "Housing Catalyst",
+   "date": "2024-01-31",
+   "url": "https://housingcatalyst.com/housing-catalyst-awarded-1-6-million-in-proposition-123-land-banking-fund-for-village-on-eastbrook/"
+  },
+  {
+   "id": "oedit-prop123-2024-01-31",
+   "title": "Laying Groundwork for More Housing That is Affordable: Polis Administration Announces First Recipients of Proposition 123 Land Banking Funds",
+   "publisher": "Colorado Office of Economic Development and International Trade",
+   "date": "2024-01-31",
+   "url": "https://oedit.colorado.gov/press-release/laying-groundwork-for-more-housing-that-is-affordable-polis-administration-announces"
+  },
+  {
+   "id": "bizwest-2024-01-31",
+   "title": "Fort Collins affordable-housing project wins state Prop 123 funds",
+   "publisher": "BizWest",
+   "date": "2024-01-31",
+   "url": "https://bizwest.com/2024/01/31/fort-collins-affordable-housing-project-wins-state-prop-123-funds/"
+  },
+  {
+   "id": "hc-gc-rfp-2024-04-09",
+   "title": "Request for Proposals: General Contractors (Village on Eastbrook)",
+   "publisher": "Housing Catalyst",
+   "date": "2024-04-09",
+   "url": "https://housingcatalyst.com/request-for-proposals-general-contractors-eastbrook/"
+  },
+  {
+   "id": "hc-tc-award-2025-11-07",
+   "title": "Village on Eastbrook awarded federal and state housing tax credits",
+   "publisher": "Housing Catalyst",
+   "date": "2025-11-07",
+   "url": "https://housingcatalyst.com/village-on-eastbrook-awarded-federal-and-state-housing-tax-credits/"
+  },
+  {
+   "id": "hc-groundbreaking-2026-06-10",
+   "title": "Housing Catalyst Breaks Ground on Village on Eastbrook in Southeast Fort Collins",
+   "publisher": "Housing Catalyst",
+   "date": "2026-06-10",
+   "url": "https://housingcatalyst.com/housing-catalyst-breaks-ground-on-village-on-eastbrook-in-southeast-fort-collins/"
+  },
+  {
+   "id": "hc-project-page",
+   "title": "Village on Eastbrook (current development page)",
+   "publisher": "Housing Catalyst",
+   "date": "2026-08-13",
+   "url": "https://housingcatalyst.com/property-portfolio/current-developments/village-on-eastbrook/"
+  },
+  {
+   "id": "hc-live-page",
+   "title": "Live at the Village on Eastbrook (leasing and construction updates page)",
+   "publisher": "Housing Catalyst",
+   "date": "2026-10-01",
+   "url": "https://housingcatalyst.com/find-a-home/live-at-the-village-on-eastbrook/"
+  }
+ ]
+}

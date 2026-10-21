@@ -1,0 +1,632 @@
+{
+ "slug": "cole-train-denver",
+ "name": "Cole Train (Cole Train Apartments)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2025 Federal 4% and state housing tax credits (Round Two)",
+ "units": 63,
+ "researched_on": "2026-10-21",
+ "headline": "Medici Development plans Cole Train, a four-story brick building with 63 apartments for households at 30% to 60% AMI, on a vacant part of the Urban Land Conservancy's Tramway Nonprofit Center block at 1675 E. 35th Avenue in Denver's Cole neighborhood. It won 2025 Round Two federal 4%, state and TOC credits from CHFA.",
+ "why_it_matters": "It shows a community land trust deal: ULC keeps the land and leases it to the developer, affordability is set for at least 99 years, and residents get services from the nonprofits next door; it needed a contested PUD rezoning, which Council passed unanimously on 2026-02-23.",
+ "status": {
+  "label": "Credits awarded and site rezoned; construction not started",
+  "detail": "Denver City Council passed the rezoning (CB25-1069, PUD-G 38) on 2026-02-23. In March 2026 ULC said groundbreaking is planned for early 2027 with opening in late 2027 or early 2028. No public record of a closing, building permit or groundbreaking was found as of 2026-10-21.",
+  "src": [
+   "denver-cb25-1069",
+   "ulc-2026-03-10"
+  ]
+ },
+ "next_step": "Watch for a Denver City Council HOST loan resolution, building permits for 1675 E. 35th Avenue, and the CHFA bond closing ahead of the planned early 2027 groundbreaking.",
+ "key_numbers": [
+  {
+   "value": "63 homes, all income-restricted",
+   "meaning": "8 studios, 29 one-bedroom, 22 two-bedroom and 4 three-bedroom units at 30%, 40%, 50% and 60% AMI.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$887,121 a year in federal 4% credit",
+   "meaning": "About $8.9M over 10 years, plus $1,108,901 accelerated state credit and $81,900 TOC credit.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "value": "$6,720,000 in CHFA-issued bonds",
+   "meaning": "CHFA is the bond issuer; the application planned $12.0M of tax-exempt bonds plus $4.0M taxable, privately placed with ANB Bank.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "value": "99-year affordability",
+   "meaning": "ULC keeps the land in its community land trust for at least 99 years and Medici leases it; the city's Affordable Housing Plan also carries a 99-year covenant.",
+   "src": [
+    "ulc-2026-03-10",
+    "denver-cpd-presentation-2026-02-23",
+    "denver-staff-report-2026-02-19"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1675 E. 35th Avenue, Denver 80205 (northwest corner of Gilpin Street and 35th Avenue)",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-toc-narratives",
+    "bden-2025-06-26"
+   ]
+  },
+  {
+   "item": "Neighborhood",
+   "value": "Cole, Council District 9",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "denver-staff-report-2026-02-19"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "I/F, N: individuals/families, new construction",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "63 total, 63 low-income",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories of wood frame, one elevator, interior corridors, mainly brick exterior to match the historic Tramway building, post-tensioned slab",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "ulc-2026-03-10"
+   ]
+  },
+  {
+   "item": "Density",
+   "value": "71 units an acre, per the application",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "chfa-2025-r2-toc-narratives"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "50 on-site stalls, some shared with Tramway staff by day; residents may use ULC's lot across Gilpin Street in the evening",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "ulc-2026-03-10"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Route 38 on Bruce Randolph Boulevard (every 15 minutes) one block south, Route 12 on Downing two blocks west, and the 38th and Blake A Line station about seven blocks west. The operating budget includes RTD EcoPasses",
+   "src": [
+    "chfa-2025-r2-toc-narratives",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric and solar-ready, certifying to the DOE Efficient New Homes (formerly Zero Energy Ready Homes) program; the application also targets Enterprise Green Communities 2020",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Rezoned from R-MU-20 with waivers and PUD 534 to PUD-G 38 (application 2024I-00122). Subarea B, the housing site, allows only multi-unit homes up to 4 stories and 45 feet",
+   "src": [
+    "denver-cb25-1069",
+    "denver-staff-report-2026-02-19",
+    "ulc-rezoning"
+   ]
+  },
+  {
+   "item": "Rezoning property owner of record",
+   "value": "Phillips Center LLC; ULC was the rezoning applicant",
+   "src": [
+    "denver-staff-report-2026-02-19",
+    "denver-cpd-presentation-2026-02-23"
+   ]
+  },
+  {
+   "item": "Neighboring use",
+   "value": "The Tramway Nonprofit Center, a former Denver Tramway Company bus and streetcar building on the State and National Registers, housing more than 15 nonprofits",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "denver-staff-report-2026-02-19"
+   ]
+  },
+  {
+   "item": "Tenant priority",
+   "value": "Priority for Cole residents recently displaced or at risk of displacement",
+   "src": [
+    "ulc-2026-03-10",
+    "denver-cpd-presentation-2026-02-23"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 8
+  },
+  {
+   "level": "40% AMI",
+   "units": 9
+  },
+  {
+   "level": "50% AMI",
+   "units": 24
+  },
+  {
+   "level": "60% AMI",
+   "units": 22
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 8
+  },
+  {
+   "type": "1BR",
+   "units": 29
+  },
+  {
+   "type": "2BR",
+   "units": 22
+  },
+  {
+   "type": "3BR",
+   "units": 4
+  }
+ ],
+ "mix_src": [
+  "chfa-2025-r2-descriptions",
+  "chfa-ahtc-2025-report"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$887,121 per year",
+   "note": "Awarded in 2025 Round Two.",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,108,901",
+   "note": "",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "source": "Transit-Oriented Communities (TOC) credit",
+   "amount": "$81,900",
+   "note": "The applicant says the TOC equity lowers debt enough to pay for EcoPasses.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-toc-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$6,720,000 (CHFA award report)",
+   "note": "CHFA is the issuer. The application planned $12.0M of tax-exempt bonds to meet the 50% test, $4.0M of taxable construction bonds and a $5.6M permanent loan, privately placed with ANB Bank.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "source": "City and State low-interest loans",
+   "amount": "Not public",
+   "note": "The application names city and state loans without amounts; ULC says the project has affordability agreements with CHFA and Denver HOST. No Denver City Council loan resolution was found as of 2026-10-21.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "ulc-2026-03-10"
+   ]
+  },
+  {
+   "source": "Urban Land Conservancy ground lease",
+   "amount": "Not public",
+   "note": "ULC keeps the land; Medici owns the building and leases the land.",
+   "src": [
+    "ulc-2026-03-10",
+    "bden-2026-02-25"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Medici Development LLC (also reported as Medici Communities)",
+   "src": [
+    "chfa-2025-r2-award",
+    "bden-2026-02-25",
+    "nakeddenver-2026-03-08"
+   ]
+  },
+  {
+   "role": "Landowner, land trust and rezoning applicant",
+   "name": "Urban Land Conservancy (ULC)",
+   "src": [
+    "ulc-2026-03-10",
+    "denver-cpd-presentation-2026-02-23"
+   ]
+  },
+  {
+   "role": "Services partner",
+   "name": "Tramway Nonprofit Center tenants, under an MOU between Medici and ULC",
+   "src": [
+    "chfa-2025-r2-descriptions",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "role": "Bond purchaser (planned)",
+   "name": "ANB Bank",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Kephart",
+   "src": [
+    "nakeddenver-2026-03-08"
+   ]
+  },
+  {
+   "role": "Property manager (planned)",
+   "name": "Asset Living",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Medici and ULC built Walnut Flats about half a mile away (opened 2020) and also worked together on Evans Station.",
+   "src": [
+    "ulc-2026-03-10",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "ULC began community meetings on the vacant parcel in 2018; residents named affordable housing as their top choice for the site.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "ulc-2026-03-10"
+   ]
+  },
+  {
+   "text": "The project was a use by right under the old zoning, but ULC sought a custom PUD to protect the Tramway building, remove a 10,000 sq ft office cap and allow the housing. Planning Board recommended approval 7-0 on 2025-07-16.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "denver-staff-report-2026-02-19"
+   ]
+  },
+  {
+   "text": "The council committee step set for 2025-07-29 was postponed for mediation with some Cole residents, which centered on the four-story height. ULC offered shared parking, resident amenities, priority for displaced Cole residents and community use of the Tramway building, which did not resolve every concern.",
+   "src": [
+    "denver-cpd-presentation-2026-02-23"
+   ]
+  },
+  {
+   "text": "A protest petition filed 2026-02-17 reached 19.7% of nearby land area, short of the 20% needed to require a council supermajority. Council passed the rezoning unanimously on 2026-02-23 after 33 speakers in support and four opposed.",
+   "src": [
+    "denver-cpd-presentation-2026-02-23",
+    "bden-2026-02-25",
+    "denver-cb25-1069"
+   ]
+  },
+  {
+   "text": "ULC signed an Affordable Housing Plan with HOST: if the tax credit project is not built, any apartments on the site must be 100% at or below 80% AMI for 99 years, with no fee-in-lieu.",
+   "src": [
+    "denver-staff-report-2026-02-19",
+    "denver-cpd-presentation-2026-02-23"
+   ]
+  },
+  {
+   "text": "The project is in Denver's Affordable Housing Review Team (Proposition 123 fast-track) review.",
+   "src": [
+    "denver-staff-report-2026-02-19",
+    "nakeddenver-2026-03-08"
+   ]
+  },
+  {
+   "text": "DOLA confirmed the site is in a Transit-Oriented Communities transit area under HB24-1313.",
+   "src": [
+    "chfa-2025-r2-toc-narratives"
+   ]
+  },
+  {
+   "text": "The applicant's market study found rents at least 14% below Class B market comparables and an 18% capture rate, and the applicant did not request a basis boost.",
+   "src": [
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "BusinessDen's $2.1 million in tax credits matches the combined CHFA federal, state and TOC awards (inferred from the sums).",
+   "src": [
+    "bden-2026-02-25",
+    "chfa-2025-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2018",
+   "event": "ULC starts community outreach on the vacant parcel",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "ulc-2026-03-10"
+   ]
+  },
+  {
+   "date": "2025-01-16",
+   "event": "ULC posts its rezoning page",
+   "src": [
+    "ulc-rezoning"
+   ]
+  },
+  {
+   "date": "2025-06-09",
+   "event": "Denver sends notice of the rezoning application (2024I-00122)",
+   "src": [
+    "denver-staff-report-2026-02-19"
+   ]
+  },
+  {
+   "date": "2025-06-26",
+   "event": "BusinessDen reports the rezoning request for a 63-unit building",
+   "src": [
+    "bden-2025-06-26"
+   ]
+  },
+  {
+   "date": "2025-07-16",
+   "event": "Denver Planning Board recommends the rezoning 7-0",
+   "src": [
+    "denver-staff-report-2026-02-19"
+   ]
+  },
+  {
+   "date": "2025-11-13",
+   "event": "Listed on CHFA's 2025 Round Two award report",
+   "src": [
+    "chfa-2025-r2-award"
+   ]
+  },
+  {
+   "date": "2025-12-31",
+   "event": "Included in CHFA's state credit annual report with a rendering",
+   "src": [
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "date": "2026-01-13",
+   "event": "Council's Community Planning and Housing Committee files the bill after mediation",
+   "src": [
+    "denver-cb25-1069"
+   ]
+  },
+  {
+   "date": "2026-02-23",
+   "event": "City Council passes CB25-1069 unanimously; Mayor signs 2026-02-24",
+   "src": [
+    "denver-cb25-1069",
+    "bden-2026-02-25"
+   ]
+  },
+  {
+   "date": "2026-03-10",
+   "event": "ULC announces the project, with groundbreaking planned for early 2027",
+   "src": [
+    "ulc-2026-03-10"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Groundbreaking planned (early 2027); opening late 2027 or early 2028",
+   "src": [
+    "ulc-2026-03-10"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Rendering of Cole Train",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf",
+   "kind": "rendering",
+   "made_by": "Medici Communities, via CHFA",
+   "note": "Printed page 5 (PDF page 7) of CHFA's 2025 state AHTC annual report; image credits are on the last page",
+   "src": [
+    "chfa-ahtc-2025-report"
+   ]
+  },
+  {
+   "title": "Rendering of the four-story brick building",
+   "url": "https://urbanlandc.org/cole-train-apartments-to-bring-more-than-60-affordable-homes-to-cole-neighborhood/",
+   "kind": "rendering",
+   "made_by": "Urban Land Conservancy (no credit given)",
+   "note": "Lead image of the article, plus a Tramway aerial photo",
+   "src": [
+    "ulc-2026-03-10"
+   ]
+  },
+  {
+   "title": "Rezoning site and subarea maps",
+   "url": "https://denver.legistar1.com/denver/attachments/621612c2-ee9d-4f79-921b-a9987a8c1347.pdf",
+   "kind": "site plan",
+   "made_by": "Denver Community Planning and Development",
+   "note": "Council hearing presentation; site context on slides 5 and 8-10, proposed PUD subareas on slides 16-17",
+   "src": [
+    "denver-cpd-presentation-2026-02-23"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The application says the housing parcel is about 38,000 sq ft, slightly over half an acre, while Naked Denver describes a 0.84-acre site and BusinessDen says ULC is leasing 2.3 acres to Medici.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "nakeddenver-2026-03-08",
+    "bden-2026-02-25"
+   ]
+  },
+  {
+   "text": "The application says ULC acquired the Tramway building in 2017, while ULC says it has owned and operated the Tramway Nonprofit Center since 2007.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "ulc-2026-03-10"
+   ]
+  },
+  {
+   "text": "BusinessDen reported in February 2026 that construction was expected to begin in 2026, while ULC said in March 2026 that groundbreaking is planned for early 2027.",
+   "src": [
+    "bden-2026-02-25",
+    "ulc-2026-03-10"
+   ]
+  },
+  {
+   "text": "CHFA's award report shows $6,720,000 in bonds, while the application planned $12.0 million of tax-exempt bonds plus $4.0 million taxable.",
+   "src": [
+    "chfa-2025-r2-award",
+    "chfa-2025-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application describes the Tramway building as 65,000 sq ft, the city staff report as about 63,000 sq ft of office, and BusinessDen as 60,000 sq ft.",
+   "src": [
+    "chfa-2025-r2-narratives",
+    "denver-staff-report-2026-02-19",
+    "bden-2026-02-25"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Amounts and terms of the Denver HOST and state (DOLA) loans; no council loan record was found.",
+  "Ground lease term and rent, and how Phillips Center LLC (owner of record in the rezoning file) relates to ULC.",
+  "Total development cost, equity investor and price, and final bond and permanent loan amounts.",
+  "Building permit, closing and groundbreaking dates.",
+  "CHFA LURA affordability period and any property tax exemption structure.",
+  "Rents and how the displaced-resident priority will work under fair housing rules."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2025-r2-award",
+   "title": "2025 Round Two - Award Report, Federal 4% and Accelerated State Housing Tax Credit (with TOC Credit if applicable)",
+   "publisher": "CHFA",
+   "date": "2025-11-13",
+   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-descriptions",
+   "title": "2025 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2025-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2025-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2025-r2-narratives",
+   "title": "2025 HTC Round Two application narratives (Cole Train Apartments, PDF pages 31-35)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2025-r2-toc-narratives",
+   "title": "2025 TOC Round Two narratives (Cole Train Apartments, PDF pages 7-8)",
+   "publisher": "CHFA",
+   "date": "2025",
+   "url": "https://www.chfainfo.com/getattachment/6935f661-2e97-4732-b427-de84231f2063/2025-TOC-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-ahtc-2025-report",
+   "title": "State Affordable Housing Tax Credit 2025 Annual Report",
+   "publisher": "CHFA",
+   "date": "2025-12-31",
+   "url": "https://www.chfainfo.com/getattachment/ba2f5ff5-59e9-4212-bbe6-1ed3a9fea9f3/2025-AHTC-YE-Report-Letter.pdf"
+  },
+  {
+   "id": "denver-cb25-1069",
+   "title": "Denver Council Bill CB25-1069: rezoning of 1675 E. 35th Avenue, 3532 N. Franklin Street, 3558 N. Gilpin Street in Cole",
+   "publisher": "City and County of Denver",
+   "date": "2026-02-23",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=27678&GUID=9A09E008-499F-4508-87E4-A6B3C7852871"
+  },
+  {
+   "id": "denver-staff-report-2026-02-19",
+   "title": "Rezoning Application #2024I-00122 staff report to City Council",
+   "publisher": "City and County of Denver, Community Planning and Development",
+   "date": "2026-02-19",
+   "url": "https://denver.legistar1.com/denver/attachments/6dd63c0f-dfac-4454-870d-2b9444b39d4d.pdf"
+  },
+  {
+   "id": "denver-cpd-presentation-2026-02-23",
+   "title": "Tramway rezoning presentation to City Council (R-MU-20 waivers and PUD 534 to PUD-G 38)",
+   "publisher": "City and County of Denver, Community Planning and Development",
+   "date": "2026-02-23",
+   "url": "https://denver.legistar1.com/denver/attachments/621612c2-ee9d-4f79-921b-a9987a8c1347.pdf"
+  },
+  {
+   "id": "ulc-2026-03-10",
+   "title": "Cole Train apartments to bring more than 60 affordable homes to Cole neighborhood",
+   "publisher": "Urban Land Conservancy",
+   "date": "2026-03-10",
+   "url": "https://urbanlandc.org/cole-train-apartments-to-bring-more-than-60-affordable-homes-to-cole-neighborhood/"
+  },
+  {
+   "id": "ulc-rezoning",
+   "title": "Cole Tramway Rezoning",
+   "publisher": "Urban Land Conservancy",
+   "date": "2026-02-23",
+   "url": "https://urbanlandc.org/cole-tramway-rezoning/"
+  },
+  {
+   "id": "bden-2025-06-26",
+   "title": "Local affordable developers seek rezoning for Cole apartment project",
+   "publisher": "BusinessDen",
+   "date": "2025-06-26",
+   "url": "https://businessden.com/local-affordable-developers-seek-rezoning-for-cole-apartment-project/"
+  },
+  {
+   "id": "bden-2026-02-25",
+   "title": "Cole site slated for apartments rezoned despite concern from neighbors",
+   "publisher": "BusinessDen",
+   "date": "2026-02-25",
+   "url": "https://businessden.com/2026/02/25/cole-site-slated-for-apartments-rezoned-despite-concern-from-neighbors/"
+  },
+  {
+   "id": "nakeddenver-2026-03-08",
+   "title": "63-Unit Apartment Development Proposed in Cole at 1675 E 35th Avenue",
+   "publisher": "Naked Denver",
+   "date": "2026-03-08",
+   "url": "https://www.nakeddenver.com/post/63-unit-apartment-development-proposed-in-cole-at-1675-e-35th-avenue"
+  }
+ ]
+}

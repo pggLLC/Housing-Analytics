@@ -1,0 +1,758 @@
+{
+ "slug": "4965-washington-street-denver",
+ "name": "4965 Washington Street",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2025 Federal 4% housing tax credit",
+ "units": 170,
+ "researched_on": "2026-10-21",
+ "headline": "Evergreen Real Estate Group, Rocky Mountain Communities and the GES Coalition (as Globeville Redevelopment Partners) are building 4965 Washington Street, a five-story mass-timber building with 170 family apartments for households at 30% to 80% AMI above a new Denver Public Library branch, on city-owned land in Globeville. It won a 2025 federal 4% credit award from CHFA backed by Denver Housing Authority bonds.",
+ "why_it_matters": "It stacks nearly every city tool on one site: land the city bought with CDBG and linkage fees and leases back for $10 a year for 99 years, a $9.8M HOST gap loan, 20 city-funded project-based vouchers, the city's bond cap delegated to DHA, and a $9.1M city purchase of the library condo at completion.",
+ "status": {
+  "label": "Under construction since January 2026; completion expected fall 2027",
+  "detail": "National Equity Fund reported on 2026-01-26 that financing had closed and construction had started, with officials marking it earlier that month, and Naked Denver reported on 2026-03-19 that construction was underway. Completion is expected in fall 2027, with preleasing in summer 2027; the land lease requires substantial completion by 2027-11-30.",
+  "src": [
+   "nef-2026-01-26",
+   "rebusiness-2026-01-30",
+   "nakeddenver-2026-03-19",
+   "denver-land-lease"
+  ]
+ },
+ "next_step": "Watch for the city's closing on the library condominium unit (RISE bond money, agreement runs to 2027-12-31), a certificate of occupancy and summer 2027 preleasing.",
+ "key_numbers": [
+  {
+   "value": "170 homes, all income-restricted, 85 of them at or below 50% AMI",
+   "meaning": "60 units at 30% AMI, 25 at 50%, 22 at 70% and 63 at 80%; half the homes have three or four bedrooms, and 20 are permanent supportive housing units.",
+   "src": [
+    "chfa-4pct-award",
+    "denver-sprc-2025-05-14",
+    "denver-rr25-0702"
+   ]
+  },
+  {
+   "value": "$5,754,471 a year in federal 4% credit",
+   "meaning": "About $57.5M over 10 years, with $57,700,000 of Denver Housing Authority private activity bonds per CHFA; no state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "About $132M total cost",
+   "meaning": "News reports at groundbreaking say $132M; the city's March 2025 HUD notice estimated $123,131,808.",
+   "src": [
+    "rebusiness-2026-01-30",
+    "connectcre-2026-01-30",
+    "denver-host-frrof-2025-03-20"
+   ]
+  },
+  {
+   "value": "$9.8M city gap loan plus $22.6M in city voucher funding",
+   "meaning": "A 20-year HOST loan ($4M must-pay, $5.8M paid from cash flow) and a 20-year, $22,550,681 contract for 20 city Homeless Resolution project-based vouchers.",
+   "src": [
+    "denver-25-0702",
+    "denver-sprc-2025-05-14",
+    "denver-25-1110"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "4965 Washington Street, Denver 80216 (Globeville). The site combines 4995 Washington Street with 4964 N. Pearl Street and 624 E. 50th Street; earlier records use the 4995 Washington address",
+   "src": [
+    "chfa-4pct-award",
+    "denver-sprc-2025-05-14",
+    "denver-22-1270"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; in a QCT; not DDA or SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "170 total, 170 low-income",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 3.2 acres, zoned G-MS-5, a former car dealership",
+   "src": [
+    "denver-sprc-2025-05-14",
+    "rebusiness-2026-01-30"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Five stories, about 250,000 sq ft, prefabricated cross-laminated timber with a steel-frame facade, all-electric; described as the first affordable development in Colorado to use CLT as a major design component",
+   "src": [
+    "nakeddenver-2026-03-19",
+    "connectcre-2026-01-30",
+    "nef-2026-01-26",
+    "denver-sprc-2025-05-14"
+   ]
+  },
+  {
+   "item": "Ground floor",
+   "value": "A Denver Public Library branch of about 10,000 sq ft (Globeville's first permanent branch) and about 4,100 sq ft of community commercial space owned by the GES Coalition, planned as a cafe run by Tierra Colectiva",
+   "src": [
+    "denver-sprc-2025-05-14",
+    "rebusiness-2026-01-30",
+    "connectcre-2026-01-30"
+   ]
+  },
+  {
+   "item": "Ownership structure",
+   "value": "A small planned community of three condominium units: the housing (owner entity), the library (to be bought by the city) and the commercial space (GES Coalition)",
+   "src": [
+    "denver-sprc-2025-05-14",
+    "denver-25-1225"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "4965 Washington Street LLLP, a Colorado limited liability limited partnership, an affiliate of Evergreen Real Estate Group and Rocky Mountain Communities",
+   "src": [
+    "dha-tefra-2025-09-04",
+    "denver-25-0702"
+   ]
+  },
+  {
+   "item": "Parking and open space",
+   "value": "111 parking spaces, including EV charging, and about 50,000 sq ft of outdoor space",
+   "src": [
+    "denver-sprc-2025-05-14",
+    "rebusiness-2026-01-30"
+   ]
+  },
+  {
+   "item": "Supportive housing",
+   "value": "20 permanent supportive housing units for households at or below 30% AMI experiencing homelessness, with on-site services by Family Tree",
+   "src": [
+    "denver-25-1110",
+    "denver-pbv-contract",
+    "denver-sprc-2025-05-14"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "City covenant runs with the land for at least 99 years; the land lease runs 99 years",
+   "src": [
+    "denver-rr25-0702",
+    "denver-25-1225"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 60
+  },
+  {
+   "level": "50% AMI",
+   "units": 25
+  },
+  {
+   "level": "70% AMI",
+   "units": 22
+  },
+  {
+   "level": "80% AMI",
+   "units": 63
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 70
+  },
+  {
+   "type": "2BR",
+   "units": 15
+  },
+  {
+   "type": "3BR",
+   "units": 52
+  },
+  {
+   "type": "4BR",
+   "units": 33
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "denver-sprc-2025-05-14"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$5,754,471 per year",
+   "note": "2025 cycle; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (Denver Housing Authority)",
+   "amount": "$57,700,000 per CHFA; up to $85,000,000 per the TEFRA notice",
+   "note": "Multifamily Housing Revenue Bonds (4965 Washington Street Apartments Project). The city planned to delegate its private activity bond cap to DHA. TEFRA hearing held 2025-09-12.",
+   "src": [
+    "chfa-4pct-award",
+    "dha-tefra-2025-09-04",
+    "denver-sprc-2025-05-14",
+    "connectcre-2026-01-30"
+   ]
+  },
+  {
+   "source": "City and County of Denver (HOST) gap loan",
+   "amount": "$9,800,000",
+   "note": "Council Resolution 25-0702, passed 2025-09-08. 240-month term: $4M must-pay, interest-only debt and $5.8M subordinate debt entitled to 75% of surplus cash flow. Funded by $300,000 of CASR green building funds and $9.5M of HOST local funds.",
+   "src": [
+    "denver-25-0702",
+    "denver-sprc-2025-05-14",
+    "denver-rr25-0702"
+   ]
+  },
+  {
+   "source": "City Homeless Resolution project-based vouchers",
+   "amount": "$22,550,681 over 20 years",
+   "note": "Council Resolution 25-1110, passed 2025-09-08; 20 vouchers for 20 supportive housing units.",
+   "src": [
+    "denver-25-1110",
+    "denver-pbv-contract"
+   ]
+  },
+  {
+   "source": "City purchase of the library condominium unit",
+   "amount": "$9,100,000",
+   "note": "Council Resolution 25-1224, passed 2025-09-08; RISE general obligation bond funds; closing after construction, agreement end date 2027-12-31.",
+   "src": [
+    "denver-25-1224",
+    "denver-sprc-2025-05-14"
+   ]
+  },
+  {
+   "source": "City land (ground lease)",
+   "amount": "$10 per year for 99 years",
+   "note": "Council Resolution 25-1225, passed 2025-09-08. The city bought 4995 Washington for $6,000,000 in 2019 using CDBG money ($5,997,770.19 per HOST's HUD notice), and the two added parcels in 2024.",
+   "src": [
+    "denver-25-1225",
+    "denver-sprc-2025-05-14",
+    "denver-18-1414",
+    "denver-host-frrof-2025-03-20"
+   ]
+  },
+  {
+   "source": "Tax credit equity",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Evergreen Redevelopment, LLC",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Developer partnership",
+   "name": "Globeville Redevelopment Partners LLC (Evergreen Real Estate Group, Rocky Mountain Communities and the GES Coalition)",
+   "src": [
+    "denver-22-1270",
+    "cobiz-2022-10-12",
+    "rebusiness-2026-01-30"
+   ]
+  },
+  {
+   "role": "Owner/borrower entity",
+   "name": "4965 Washington Street LLLP",
+   "src": [
+    "denver-25-0702",
+    "dha-tefra-2025-09-04"
+   ]
+  },
+  {
+   "role": "Landowner and lessor",
+   "name": "City and County of Denver",
+   "src": [
+    "denver-25-1225"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Housing Authority of the City and County of Denver (Denver Housing Authority)",
+   "src": [
+    "chfa-4pct-award",
+    "dha-tefra-2025-09-04"
+   ]
+  },
+  {
+   "role": "Commercial condo owner",
+   "name": "The GES Coalition, Inc., a Globeville community land trust",
+   "src": [
+    "denver-sprc-2025-05-14"
+   ]
+  },
+  {
+   "role": "Library",
+   "name": "Denver Public Library (city to own the library unit)",
+   "src": [
+    "denver-25-1224"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "John Ronan Architects; EJ Architecture is also listed as a project partner",
+   "src": [
+    "nakeddenver-2025-10-14",
+    "connectcre-2026-01-30"
+   ]
+  },
+  {
+   "role": "General contractors",
+   "name": "Milender White and Gilmore Construction",
+   "src": [
+    "nakeddenver-2025-10-14",
+    "connectcre-2026-01-30"
+   ]
+  },
+  {
+   "role": "Supportive services",
+   "name": "Family Tree",
+   "src": [
+    "denver-sprc-2025-05-14"
+   ]
+  },
+  {
+   "role": "Property manager (after completion)",
+   "name": "Evergreen Real Estate Group",
+   "src": [
+    "rebusiness-2026-01-30"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Denver Council approved the purchase of 4995 Washington Street from TRE 4995 LLC for $6,000,000 in December 2018 (file 18-1414) for future housing and mixed-use development; the city paid for it with CDBG funds.",
+   "src": [
+    "denver-18-1414",
+    "denver-sprc-2025-05-14",
+    "denver-host-frrof-2025-03-20"
+   ]
+  },
+  {
+   "text": "The city sought developers in January 2022, preferring a 99-year ground lease at a nominal $10 a year, and HOST and the Department of Finance picked Globeville Redevelopment Partners through an RFP in September 2022.",
+   "src": [
+    "bden-2022-01-31",
+    "bizwest-2022-10-04",
+    "cobiz-2022-10-12"
+   ]
+  },
+  {
+   "text": "Council approved a site control and ground lease option agreement with Globeville Redevelopment Partners on 2022-10-24 (file 22-1270) and extended it to 2025-06-30 on 2025-03-17 (file 25-0259), adding two parcels bought in 2024.",
+   "src": [
+    "denver-22-1270",
+    "denver-25-0259"
+   ]
+  },
+  {
+   "text": "In June 2024 Council approved buying 4964 N. Pearl Street and 624 E. 50th Street from Globeville Redevelopment Partners for $2,350,000 (file 24-0638) to enlarge the site and improve access; the city's 2025 briefing says linkage fees paid for them.",
+   "src": [
+    "denver-24-0638",
+    "denver-sprc-2025-05-14"
+   ]
+  },
+  {
+   "text": "HOST issued a finding of no significant impact on 2025-03-20 and planned to ask HUD to release the CDBG money tied to the parcel; no new HUD money was attached to the project.",
+   "src": [
+    "denver-host-frrof-2025-03-20"
+   ]
+  },
+  {
+   "text": "On 2025-09-08 Council passed four measures together: the $9.8M HOST loan, the 20-voucher contract, the $9.1M library purchase and the 99-year land lease, which is assigned to 4965 Washington Street LLLP at closing.",
+   "src": [
+    "denver-25-0702",
+    "denver-25-1110",
+    "denver-25-1224",
+    "denver-25-1225"
+   ]
+  },
+  {
+   "text": "The land lease requires construction to start within 60 days of its effective date and substantial completion by 2027-11-30, unless the city's real estate director extends those dates.",
+   "src": [
+    "denver-land-lease"
+   ]
+  },
+  {
+   "text": "The city's RFP terms required at least half the units to have three or four bedrooms and at least 35% of units at or below 30% AMI; the unit mix meets both.",
+   "src": [
+    "denver-sprc-2025-05-14",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "The GES Coalition's ownership interest in the commercial unit is meant to allow below-market rent for a community cafe or market.",
+   "src": [
+    "denver-sprc-2025-05-14"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2018-12-10",
+   "event": "Council approves the $6,000,000 purchase of 4995 Washington Street (file 18-1414)",
+   "src": [
+    "denver-18-1414"
+   ]
+  },
+  {
+   "date": "2022-01",
+   "event": "City seeks a developer for the site",
+   "src": [
+    "bden-2022-01-31"
+   ]
+  },
+  {
+   "date": "2022-10-24",
+   "event": "Council approves the site control and ground lease option agreement with Globeville Redevelopment Partners (file 22-1270)",
+   "src": [
+    "denver-22-1270"
+   ]
+  },
+  {
+   "date": "2024-06-10",
+   "event": "Council approves buying two adjacent parcels for $2,350,000 (file 24-0638)",
+   "src": [
+    "denver-24-0638"
+   ]
+  },
+  {
+   "date": "2025-03-17",
+   "event": "Council extends the site control agreement and adds the parcels (file 25-0259)",
+   "src": [
+    "denver-25-0259"
+   ]
+  },
+  {
+   "date": "2025-03-20",
+   "event": "HOST publishes its environmental finding and notice to request release of CDBG funds",
+   "src": [
+    "denver-host-frrof-2025-03-20"
+   ]
+  },
+  {
+   "date": "2025-05-14",
+   "event": "City briefs Council's South Platte River Committee on the lease, loan and library purchase",
+   "src": [
+    "denver-sprc-2025-05-14"
+   ]
+  },
+  {
+   "date": "2025-09-08",
+   "event": "Council passes the HOST loan, voucher contract, library purchase and 99-year land lease",
+   "src": [
+    "denver-25-0702",
+    "denver-25-1110",
+    "denver-25-1224",
+    "denver-25-1225"
+   ]
+  },
+  {
+   "date": "2025-09-12",
+   "event": "Denver Housing Authority TEFRA hearing on up to $85M of bonds",
+   "src": [
+    "dha-tefra-2025-09-04"
+   ]
+  },
+  {
+   "date": "2026-01",
+   "event": "Financing closes and construction starts, marked by officials",
+   "src": [
+    "nef-2026-01-26",
+    "rebusiness-2026-01-30"
+   ]
+  },
+  {
+   "date": "2026-03-19",
+   "event": "Naked Denver reports construction underway",
+   "src": [
+    "nakeddenver-2026-03-19"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Preleasing expected in summer 2027 and completion in fall 2027",
+   "src": [
+    "rebusiness-2026-01-30",
+    "nakeddenver-2026-03-19"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Renderings of the building and library",
+   "url": "https://denver.legistar1.com/denver/attachments/5ed761a5-ff6c-4300-9aeb-283e0e0d7381.pdf",
+   "kind": "rendering",
+   "made_by": "John Ronan Architects, in a City of Denver Council committee presentation",
+   "note": "Slides 1, 8, 9, 10, 13 and 15 of the 2025-05-14 South Platte River Committee deck",
+   "src": [
+    "denver-sprc-2025-05-14"
+   ]
+  },
+  {
+   "title": "Renderings of the library and housing hub",
+   "url": "https://www.nakeddenver.com/post/globevilles-new-library-affordable-housing-hub",
+   "kind": "rendering",
+   "made_by": "Naked Denver article images",
+   "note": "Article images, October 2025",
+   "src": [
+    "nakeddenver-2025-10-14"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists $57,700,000 of Denver Housing Authority bonds, while the DHA TEFRA notice allows up to $85,000,000 and Connect CRE reports $85 million in DHA revenue bonds.",
+   "src": [
+    "chfa-4pct-award",
+    "dha-tefra-2025-09-04",
+    "connectcre-2026-01-30"
+   ]
+  },
+  {
+   "text": "HOST's March 2025 HUD notice estimates total project cost at $123,131,808, while 2026 news reports put it at $132 million.",
+   "src": [
+    "denver-host-frrof-2025-03-20",
+    "rebusiness-2026-01-30",
+    "connectcre-2026-01-30",
+    "nakeddenver-2026-03-19"
+   ]
+  },
+  {
+   "text": "The city's May 2025 briefing lists the ground lease rent restrictions as 50 units at 80% AMI and 35 at 70% AMI, while the unit table in the same briefing and CHFA show 63 at 80% AMI and 22 at 70% AMI.",
+   "src": [
+    "denver-sprc-2025-05-14",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "The city's May 2025 briefing puts the library purchase at $9,000,000, while the resolution Council passed sets $9,100,000 and Naked Denver describes a $12 million RISE bond investment in the library.",
+   "src": [
+    "denver-sprc-2025-05-14",
+    "denver-25-1224",
+    "nakeddenver-2025-10-14"
+   ]
+  },
+  {
+   "text": "Council approved buying the two added parcels for $2,350,000, while the city's 2025 briefing lists their prices as $850,000 and $1,300,000 ($2,150,000 together).",
+   "src": [
+    "denver-24-0638",
+    "denver-sprc-2025-05-14"
+   ]
+  },
+  {
+   "text": "Naked Denver described eligible households as earning 30% to 60% of AMI, while the city, CHFA and other reports say 30% to 80%.",
+   "src": [
+    "nakeddenver-2025-10-14",
+    "denver-rr25-0702",
+    "chfa-4pct-award",
+    "rebusiness-2026-01-30"
+   ]
+  },
+  {
+   "text": "Naked Denver in October 2025 reported a groundbreaking ceremony scheduled for October 23, while National Equity Fund and REBusiness describe the closing and groundbreaking as taking place in January 2026.",
+   "src": [
+    "nakeddenver-2025-10-14",
+    "nef-2026-01-26",
+    "rebusiness-2026-01-30"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Final bond amount issued, bond purchaser and construction and permanent lenders.",
+  "Tax credit investor and equity price; National Equity Fund published the groundbreaking news but its role is not stated.",
+  "Exact closing date and the effective date of the land lease.",
+  "Whether the 20 voucher units are counted within the 30% AMI tier (inferred from the voucher contract, which targets households at or below 30% AMI).",
+  "Building permit numbers and certificate of occupancy date."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "denver-18-1414",
+   "title": "Denver Council File 18-1414: Purchase and Sale Agreement with TRE 4995 LLC for 4995 Washington Street",
+   "publisher": "City and County of Denver",
+   "date": "2018-12-10",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=13408&GUID=A4DA9C79-87DE-4F27-B77A-70D63D4BBEC0"
+  },
+  {
+   "id": "denver-22-1270",
+   "title": "Denver Council File 22-1270: Agreement with Globeville Redevelopment Partners, LLC (site control and option for ground lease)",
+   "publisher": "City and County of Denver",
+   "date": "2022-10-24",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=22337&GUID=B5410135-CE06-4405-8D2E-27FE5D8F09DC"
+  },
+  {
+   "id": "denver-24-0638",
+   "title": "Denver Council File 24-0638: Purchase and Sale Agreement for 4964 N. Pearl Street and 624 E. 50th Street",
+   "publisher": "City and County of Denver",
+   "date": "2024-06-10",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=25415&GUID=DEB06C16-742B-44A6-8ACE-E7DAC2D45535"
+  },
+  {
+   "id": "denver-25-0259",
+   "title": "Denver Council File 25-0259: Amendatory Site Control and Option for Ground Lease, Globeville Redevelopment Partners",
+   "publisher": "City and County of Denver",
+   "date": "2025-03-17",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=26909&GUID=5C6AC908-B82D-424F-BA8E-54E633792ED2"
+  },
+  {
+   "id": "denver-25-0702",
+   "title": "Denver Council File 25-0702: Loan Agreement with 4965 Washington Street LLLP",
+   "publisher": "City and County of Denver",
+   "date": "2025-09-08",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=27328&GUID=512B144B-558A-4518-AEB9-728CEBB4B33E"
+  },
+  {
+   "id": "denver-rr25-0702",
+   "title": "Resolution request RR25-0702, HOST loan to 4965 Washington Street (key contract terms)",
+   "publisher": "City and County of Denver",
+   "date": "2025-04-30",
+   "url": "https://denver.legistar1.com/denver/attachments/c8429917-d002-4ce4-af96-a27c1bf2ac7a.docx"
+  },
+  {
+   "id": "denver-25-1110",
+   "title": "Denver Council File 25-1110: Contract with 4965 Washington Street LLLP for Homeless Resolution Project Based Vouchers",
+   "publisher": "City and County of Denver",
+   "date": "2025-09-08",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=27715&GUID=1B1FCC99-B9E8-4E49-8D6C-6FB3C332718B"
+  },
+  {
+   "id": "denver-pbv-contract",
+   "title": "Project-Based Voucher Program Agreement (Homelessness Resolution), City and County of Denver and 4965 Washington Street LLLP",
+   "publisher": "City and County of Denver",
+   "date": "2025",
+   "url": "https://denver.legistar1.com/denver/attachments/ea196ebb-2ca8-4713-ab74-65364b2dfcfa.pdf"
+  },
+  {
+   "id": "denver-25-1224",
+   "title": "Denver Council File 25-1224: Purchase and Sale Agreement for the Denver Public Library unit at 4965 N. Washington Street",
+   "publisher": "City and County of Denver",
+   "date": "2025-09-08",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=27829&GUID=9A444AB8-DDE5-4DD8-89CD-427CB6A89C55"
+  },
+  {
+   "id": "denver-25-1225",
+   "title": "Denver Council File 25-1225: 99-year Land Lease for 4965 North Washington Street",
+   "publisher": "City and County of Denver",
+   "date": "2025-09-08",
+   "url": "https://denver.legistar.com/LegislationDetail.aspx?ID=27830&GUID=4BADAE51-0D83-4DA1-B5AF-4C6C73917CDF"
+  },
+  {
+   "id": "denver-land-lease",
+   "title": "Land Lease, City and County of Denver and 4965 Washington Street (vendor-signed)",
+   "publisher": "City and County of Denver",
+   "date": "2025",
+   "url": "https://denver.legistar1.com/denver/attachments/fbb6f9df-a260-420e-b59c-5ab5a807a2a7.pdf"
+  },
+  {
+   "id": "denver-sprc-2025-05-14",
+   "title": "Proposed Ground Lease, Gap Financing and Purchase and Sale Agreement for Globeville Library as part of the 4965 Washington Affordable Housing Project (South Platte River Committee presentation)",
+   "publisher": "City and County of Denver",
+   "date": "2025-05-14",
+   "url": "https://denver.legistar1.com/denver/attachments/5ed761a5-ff6c-4300-9aeb-283e0e0d7381.pdf"
+  },
+  {
+   "id": "denver-host-frrof-2025-03-20",
+   "title": "Notice of Finding of No Significant Impact and Notice of Intent to Request Release of Funds, 4965 Washington Redevelopment Project",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2025-03-20",
+   "url": "https://www.denvergov.org/files/assets/public/v/1/housing-stability/documents/4965washtingtonredevelopment_publicnoticelh_2025-03-20.pdf"
+  },
+  {
+   "id": "dha-tefra-2025-09-04",
+   "title": "Notice of Public Hearing, Multifamily Housing Revenue Bonds (4965 Washington Street Apartments Project)",
+   "publisher": "Denver Housing Authority",
+   "date": "2025-09-04",
+   "url": "https://www.denverhousing.org/wp-content/uploads/2025/09/TEFRA-Notice.pdf"
+  },
+  {
+   "id": "bden-2022-01-31",
+   "title": "Developer sought to build Globeville site's income-restricted housing",
+   "publisher": "BusinessDen",
+   "date": "2022-01-31",
+   "url": "https://businessden.com/developer-sought-to-build-globeville-sites-income-restricted-housing/"
+  },
+  {
+   "id": "bizwest-2022-10-04",
+   "title": "City selects developer to build income-restricted apartments on Globeville site",
+   "publisher": "BizWest (from BusinessDen)",
+   "date": "2022-10-04",
+   "url": "https://bizwest.com/2022/10/04/city-selects-developer-to-build-income-restricted-apartments-on-globeville-site/"
+  },
+  {
+   "id": "cobiz-2022-10-12",
+   "title": "Evergreen Real Estate Group Leads Affordable Housing Development in Globeville",
+   "publisher": "ColoradoBiz",
+   "date": "2022-10-12",
+   "url": "https://coloradobiz.com/evergreen-real-estate-group-leads-affordable-housing-development-in-globeville/"
+  },
+  {
+   "id": "nakeddenver-2025-10-14",
+   "title": "Globeville's new library and affordable housing hub",
+   "publisher": "Naked Denver",
+   "date": "2025-10-14",
+   "url": "https://www.nakeddenver.com/post/globevilles-new-library-affordable-housing-hub"
+  },
+  {
+   "id": "nef-2026-01-26",
+   "title": "First Mass Timber Affordable Housing Project in Denver Will Offer 170 Family Homes, Public Library on Ground Floor",
+   "publisher": "National Equity Fund",
+   "date": "2026-01-26",
+   "url": "https://nefinc.org/news/first-mass-timber-affordable-housing-project-in-denver-will-offer-170-family-homes-public-library-on-ground-floor/"
+  },
+  {
+   "id": "rebusiness-2026-01-30",
+   "title": "Evergreen Real Estate Group, Globeville Redevelopment Break Ground on $132M Affordable Housing Project in Denver",
+   "publisher": "REBusinessOnline",
+   "date": "2026-01-30",
+   "url": "https://rebusinessonline.com/evergreen-real-estate-group-globeville-redevelopment-break-ground-on-132m-affordable-housing-project-in-denver/"
+  },
+  {
+   "id": "connectcre-2026-01-30",
+   "title": "Numerous Partners Team Up to Build Unique Denver Apartment Community",
+   "publisher": "Connect CRE",
+   "date": "2026-01-30",
+   "url": "https://www.connectcre.com/stories/numerous-partners-team-up-to-build-unique-denver-apartment-community/"
+  },
+  {
+   "id": "nakeddenver-2026-03-19",
+   "title": "Construction underway on Globeville's first library and affordable housing hub",
+   "publisher": "Naked Denver",
+   "date": "2026-03-19",
+   "url": "https://www.nakeddenver.com/post/construction-underway-on-globeville-s-first-library-and-affordable-housing-hub"
+  }
+ ]
+}

@@ -251,6 +251,18 @@ async function collectAllUrls() {
     }
   } catch (_) {}
 
+  // 2b. data/deals/*.json (hand-researched deal summaries: sources and pictures)
+  try {
+    const dealsDir = path.join(ROOT, 'data', 'deals');
+    const dealFiles = await fs.readdir(dealsDir);
+    for (const f of dealFiles.filter((f) => f.endsWith('.json') && f !== 'index.json')) {
+      try {
+        const parsed = JSON.parse(await fs.readFile(path.join(dealsDir, f), 'utf8'));
+        for (const u of collectUrlsFromObject(parsed)) addUrl(urls, u);
+      } catch (_) {}
+    }
+  } catch (_) {}
+
   // 3. Root-level *.html files (href attrs)
   const hrefRx = /href\s*=\s*["']([^"']+)["']/gi;
   const rootEntries = await fs.readdir(ROOT, { withFileTypes: true });

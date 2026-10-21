@@ -1,0 +1,581 @@
+{
+ "slug": "bradley-ridge-colorado-springs",
+ "name": "Bradley Ridge (Bradley Ridge Apartments)",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2025 Federal 4% housing tax credit",
+ "units": 336,
+ "researched_on": "2026-10-21",
+ "headline": "Lincoln Avenue Communities is building Bradley Ridge, 336 two- to four-bedroom apartments in 14 buildings for households at or below 60% AMI, with an on-site Early Connections child care center, on 20 acres off Bradley Road southeast of the Colorado Springs Airport. It won a 2025 federal 4% credit award from CHFA backed by City of Colorado Springs bonds.",
+ "why_it_matters": "The land sits with a nonprofit, the Pikes Peak Real Estate Foundation, which bought it with a $4.85M Prop 123 land banking award and leases it to the developer for $1 a year for 99 years. The city stacked its own bond cap with $12M of statewide balance to reach $76.8M of bonds.",
+ "status": {
+  "label": "Construction started (contractor post, December 2025); closing date not confirmed",
+  "detail": "City Council passed the bond ordinance on 2025-09-09 and the city targeted a 2025-10-08 financial closing. CSI Construction Company posted on 2025-12-08 that it had broken ground. No public record found confirms the closing date or the land purchase. The city expects construction to be complete on 2028-01-10.",
+  "src": [
+   "cos-ord-25-72",
+   "cos-pres-2025-08",
+   "csi-2025-12-08"
+  ]
+ },
+ "next_step": "Watch for building permits and construction updates, the Early Connections center opening, and lease-up in 2028.",
+ "key_numbers": [
+  {
+   "value": "336 homes, all at 60% AMI",
+   "meaning": "168 two-bedroom, 84 three-bedroom and 84 four-bedroom units (924 bedrooms), with about 20 set aside for veterans.",
+   "src": [
+    "chfa-4pct-award",
+    "cos-pres-2025-08",
+    "gazette-2025-05-19"
+   ]
+  },
+  {
+   "value": "$7,005,107 a year in federal 4% credit",
+   "meaning": "About $70M over 10 years; no state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$76,832,223 in City of Colorado Springs bonds",
+   "meaning": "Capped at 52% of eligible basis: $64.8M of city bond cap plus $5M of fall 2024 and $7M of spring 2025 statewide balance (the latter through the Colorado Springs Housing Authority).",
+   "src": [
+    "chfa-4pct-award",
+    "cos-ord-25-72",
+    "cos-pres-2025-08"
+   ]
+  },
+  {
+   "value": "$4,850,000 Prop 123 land banking award",
+   "meaning": "To the Pikes Peak Real Estate Foundation to buy the site; the largest award in the round announced 2025-05-07.",
+   "src": [
+    "gov-2025-05-07",
+    "gazette-2025-05-19"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA prints Legacy Hill Drive & Bradley; the city's bond resolution places the site at the southwest corner of Bradley Ridge Drive and Bradley Landing Boulevard, Colorado Springs 80925 (Council District 4, near Bradley Road and South Powers)",
+   "src": [
+    "chfa-4pct-award",
+    "cos-res-65-25-signed",
+    "cos-pres-2025-08"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; not in a QCT or DDA; in a SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "336 total, 336 low-income",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Site and buildings",
+   "value": "About 20 acres of vacant land; 14 buildings of 24 units each, plus a clubhouse, dog parks and open space",
+   "src": [
+    "gazette-2025-05-19",
+    "csi-2025-12-08"
+   ]
+  },
+  {
+   "item": "Child care",
+   "value": "A standalone Early Connections Learning Centers center for children from 6 weeks old, with resident preference and sliding-scale tuition (infant care $228 a week against a $400 market rate). The city describes 8,500 sq ft for 60-65 children and 20 staff",
+   "src": [
+    "cos-pres-2025-08",
+    "krdo-2025-05-13",
+    "gazette-2025-05-19"
+   ]
+  },
+  {
+   "item": "Rents",
+   "value": "About $1,514 a month for a two-bedroom per city presentations; the Gazette cites a $1,755 maximum for a three-bedroom at 60% AMI under CHFA's 2025 El Paso County limits, including utilities and parking",
+   "src": [
+    "gazette-2025-05-13",
+    "gazette-2025-05-19"
+   ]
+  },
+  {
+   "item": "Market rent gap",
+   "value": "The city's market study figures put average market rents at $1,955 (2BR), $2,175 (3BR) and $2,573 (4BR), which are $440, $424 and $621 above the project's rents",
+   "src": [
+    "cos-pres-2025-08"
+   ]
+  },
+  {
+   "item": "Owner/borrower entity",
+   "value": "Bradley Ridge Apartments LP, a Colorado limited partnership; general partner Bradley Ridge GP LLC, a Delaware LLC",
+   "src": [
+    "cos-res-65-25-signed",
+    "cos-loan-agreement-draft"
+   ]
+  },
+  {
+   "item": "Bond affordability test",
+   "value": "At least 40% of units for low-income tenants during the qualified project period under the bond regulatory agreement (the tax credit restricts all 336 units to 60% AMI)",
+   "src": [
+    "cos-tra-draft",
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 336
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "2BR",
+   "units": 168
+  },
+  {
+   "type": "3BR",
+   "units": 84
+  },
+  {
+   "type": "4BR",
+   "units": 84
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "cos-pres-2025-08"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$7,005,107 per year",
+   "note": "2025 cycle; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (City of Colorado Springs)",
+   "amount": "$76,832,223 per CHFA; not to exceed $76,832,222.72 per Ordinance 25-72",
+   "note": "Multifamily Housing Revenue Bonds (Bradley Ridge Apartments Project), Series 2025. Bond cap: $64,832,222.72 city, $5,000,000 fall 2024 statewide balance, $7,000,000 spring 2025 statewide balance through the Colorado Springs Housing Authority. Stifel, Nicolaus & Company is underwriter and Zions Bancorporation is trustee.",
+   "src": [
+    "chfa-4pct-award",
+    "cos-ord-25-72",
+    "cos-ord-25-72-signed",
+    "cos-pres-2025-08",
+    "cos-ord-draft"
+   ]
+  },
+  {
+   "source": "Construction loan and permanent bond purchase",
+   "amount": "Not public",
+   "note": "The draft bond documents name JPMorgan Chase Bank, N.A. as construction lender and, under a forward bond purchase agreement, as buyer of the remaining bonds at conversion. The draft regulatory agreement includes a Fannie Mae rider that applies after conversion.",
+   "src": [
+    "cos-ord-draft",
+    "cos-loan-agreement-draft",
+    "cos-tra-draft"
+   ]
+  },
+  {
+   "source": "Prop 123 land banking (Affordable Housing Financing Fund)",
+   "amount": "$4,850,000",
+   "note": "Awarded to the Pikes Peak Real Estate Foundation for site acquisition; announced 2025-05-07.",
+   "src": [
+    "gov-2025-05-07",
+    "gazette-2025-05-19"
+   ]
+  },
+  {
+   "source": "Ground lease",
+   "amount": "$1 per year for 99 years",
+   "note": "The Foundation owns the land and leases it to Lincoln Avenue, per the Gazette.",
+   "src": [
+    "gazette-2025-05-19"
+   ]
+  },
+  {
+   "source": "Tax credit equity",
+   "amount": "Not public",
+   "note": "The bond loan agreement refers to an investor limited partner but does not name it.",
+   "src": [
+    "cos-loan-agreement-draft"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer, owner and manager",
+   "name": "Lincoln Avenue Communities",
+   "src": [
+    "chfa-4pct-award",
+    "gazette-2025-05-19"
+   ]
+  },
+  {
+   "role": "Borrower/owner entity",
+   "name": "Bradley Ridge Apartments LP (general partner Bradley Ridge GP LLC)",
+   "src": [
+    "cos-res-65-25-signed",
+    "cos-loan-agreement-draft"
+   ]
+  },
+  {
+   "role": "Landowner and Prop 123 recipient",
+   "name": "Pikes Peak Real Estate Foundation",
+   "src": [
+    "gov-2025-05-07",
+    "gazette-2025-05-19"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "City of Colorado Springs",
+   "src": [
+    "chfa-4pct-award",
+    "cos-ord-25-72"
+   ]
+  },
+  {
+   "role": "Child care operator",
+   "name": "Early Connections Learning Centers",
+   "src": [
+    "cos-pres-2025-08",
+    "gazette-2025-05-19"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "CSI Construction Company",
+   "src": [
+    "csi-2025-12-08"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Way Architects (listed as a project partner)",
+   "src": [
+    "csi-2025-12-08"
+   ]
+  },
+  {
+   "role": "Construction lender and permanent bond purchaser (draft documents)",
+   "name": "JPMorgan Chase Bank, N.A.",
+   "src": [
+    "cos-loan-agreement-draft",
+    "cos-ord-draft"
+   ]
+  },
+  {
+   "role": "Bond counsel",
+   "name": "Kutak Rock LLP",
+   "src": [
+    "cos-res-65-25-signed"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The Pikes Peak Real Estate Foundation buys the vacant parcel and handles groundwork, and Lincoln Avenue builds, owns and manages the apartments under a 99-year, $1-a-year lease. The Foundation said the land purchase was waiting on final bond approval.",
+   "src": [
+    "gazette-2025-05-19",
+    "gazette-2025-09-08"
+   ]
+  },
+  {
+   "text": "City Council adopted Resolution 65-25 on 2025-05-13 declaring its intent to issue up to $76,832,222.72 of bonds, after a 2025-04-21 work session.",
+   "src": [
+    "cos-res-65-25",
+    "cos-res-65-25-signed"
+   ]
+  },
+  {
+   "text": "Council approved Ordinance 25-72 on first reading on 2025-08-26 and passed it finally on 2025-09-09, on the consent agenda; it was approved on 2025-09-12. The ordinance approves the indenture, loan agreement, bond purchase agreement, forward bond purchase agreement and tax regulatory agreement.",
+   "src": [
+    "cos-ord-25-72",
+    "cos-ord-25-72-signed",
+    "gazette-2025-09-08"
+   ]
+  },
+  {
+   "text": "The city says it issues the bonds on behalf of the developer and is not liable for repaying them.",
+   "src": [
+    "gazette-2025-05-13"
+   ]
+  },
+  {
+   "text": "The Gazette reports that Lincoln Avenue's first affordable project in Colorado Springs was InterQuest Ridge in the north of the city.",
+   "src": [
+    "gazette-2025-05-19"
+   ]
+  },
+  {
+   "text": "El Paso County is short an estimated 16,000 child care slots for children under 5, which the child care center is meant to help address.",
+   "src": [
+    "gazette-2025-05-19",
+    "krdo-2025-05-13"
+   ]
+  },
+  {
+   "text": "In May 2025 KKTV reported groundbreaking was expected in late 2025 or early 2026.",
+   "src": [
+    "kktv-2025-05-08"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2025-04-21",
+   "event": "City Council work session on the inducement resolution",
+   "src": [
+    "cos-res-65-25"
+   ]
+  },
+  {
+   "date": "2025-05-07",
+   "event": "State announces the $4,850,000 Prop 123 land banking award to the Pikes Peak Real Estate Foundation",
+   "src": [
+    "gov-2025-05-07"
+   ]
+  },
+  {
+   "date": "2025-05-13",
+   "event": "City Council adopts inducement Resolution 65-25",
+   "src": [
+    "cos-res-65-25",
+    "gazette-2025-05-13"
+   ]
+  },
+  {
+   "date": "2025-08-26",
+   "event": "Bond ordinance passes first reading",
+   "src": [
+    "cos-ord-25-72"
+   ]
+  },
+  {
+   "date": "2025-09-09",
+   "event": "City Council finally passes Ordinance 25-72 authorizing up to $76,832,222.72 of bonds",
+   "src": [
+    "cos-ord-25-72",
+    "cos-ord-25-72-signed"
+   ]
+  },
+  {
+   "date": "2025-10-08",
+   "event": "Target date for financial closing in the city's presentation (actual closing not confirmed)",
+   "src": [
+    "cos-pres-2025-08"
+   ]
+  },
+  {
+   "date": "2025-12-08",
+   "event": "CSI Construction Company posts that it has broken ground",
+   "src": [
+    "csi-2025-12-08"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2025",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2028-01-10",
+   "event": "Construction completion expected, per the city",
+   "src": [
+    "cos-pres-2025-08"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Aerial rendering of the site",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/1d72ed2c-76a8-4f8e-b3e8-ba46aace97e6.pdf",
+   "kind": "rendering",
+   "made_by": "Project team, in a City of Colorado Springs Council presentation",
+   "note": "Slide 5 of the Bradley Ridge bond ordinance presentation",
+   "src": [
+    "cos-pres-2025-08"
+   ]
+  },
+  {
+   "title": "Rendering of the clubhouse",
+   "url": "https://gazette.com/2025/09/08/bradley-ridge-apartments-clubhouse/",
+   "kind": "rendering",
+   "made_by": "The Gazette (architectural rendering)",
+   "note": "Image page, September 2025",
+   "src": [
+    "gazette-2025-09-08-image"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The city expects construction to be complete on 2028-01-10, while the Gazette reported a projected completion in March 2028 and a first phase opening in spring 2028.",
+   "src": [
+    "cos-pres-2025-08",
+    "gazette-2025-05-13",
+    "gazette-2025-05-19"
+   ]
+  },
+  {
+   "text": "The city's presentation targeted financial closing on 2025-10-08, while the Gazette reported a November 2025 target.",
+   "src": [
+    "cos-pres-2025-08",
+    "gazette-2025-05-13"
+   ]
+  },
+  {
+   "text": "The city describes the child care center as serving 60-65 children from 6 weeks to 5 years old, while the Gazette reports 70 seats for children from 6 weeks to 6 years old.",
+   "src": [
+    "cos-pres-2025-08",
+    "gazette-2025-05-19",
+    "gazette-2025-09-08"
+   ]
+  },
+  {
+   "text": "The Gazette reported in May 2025 that Council had approved the $76 million bond, while Council records show that the May vote was only the inducement resolution and the bond ordinance passed on 2025-09-09.",
+   "src": [
+    "gazette-2025-05-19",
+    "cos-res-65-25",
+    "cos-ord-25-72"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Actual financial closing date, closed bond amount and construction loan amount.",
+  "Date and price of the Foundation's land purchase and the recorded ground lease.",
+  "Total development cost, tax credit investor and equity price.",
+  "Site development plan approval and building permit records (not found in the city's public council records).",
+  "Whether Fannie Mae or JPMorgan holds the permanent loan after conversion; the draft documents mention both.",
+  "Lease-up timing; an apartment listing site appears to advertise the property, but it could not be checked."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "cos-res-65-25",
+   "title": "Colorado Springs File 25-205: Resolution declaring intent to issue multifamily housing revenue bonds for Bradley Ridge Apartments",
+   "publisher": "City of Colorado Springs",
+   "date": "2025-05-13",
+   "url": "https://coloradosprings.legistar.com/LegislationDetail.aspx?ID=12454&GUID=E99488FE-F9DA-4CA2-BE86-7DCA55864C79"
+  },
+  {
+   "id": "cos-res-65-25-signed",
+   "title": "Signed Resolution No. 65-25 (Bradley Ridge Apartments inducement)",
+   "publisher": "City of Colorado Springs",
+   "date": "2025-05-13",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/0c1e4c9e-97e1-427b-adee-24300cae51d1.pdf"
+  },
+  {
+   "id": "cos-ord-25-72",
+   "title": "Colorado Springs File 25-380: Ordinance authorizing Multifamily Housing Revenue Bonds (Bradley Ridge Apartments Project), Series 2025",
+   "publisher": "City of Colorado Springs",
+   "date": "2025-09-09",
+   "url": "https://coloradosprings.legistar.com/LegislationDetail.aspx?ID=12648&GUID=63DF4BA5-2AD0-44DB-B59B-884DE1B3A939"
+  },
+  {
+   "id": "cos-ord-25-72-signed",
+   "title": "Signed Ordinance No. 25-72 (Bradley Ridge Apartments bonds)",
+   "publisher": "City of Colorado Springs",
+   "date": "2025-09-12",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/8b40996f-fceb-453c-a6ab-13ba62343b7b.pdf"
+  },
+  {
+   "id": "cos-ord-draft",
+   "title": "Ordinance - Bradley Ridge Apartments 2025 (council packet draft)",
+   "publisher": "City of Colorado Springs",
+   "date": "2025-08",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/aa3a3e56-0ea7-4152-9b6f-95fa303e4d62.docx"
+  },
+  {
+   "id": "cos-pres-2025-08",
+   "title": "Bradley Ridge: An Ordinance Authorizing the Issuance of up to $76,832,222.72 in Private Activity Bonds (council presentation)",
+   "publisher": "City of Colorado Springs, Housing & Homelessness Response Department",
+   "date": "2025-08",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/1d72ed2c-76a8-4f8e-b3e8-ba46aace97e6.pdf"
+  },
+  {
+   "id": "cos-loan-agreement-draft",
+   "title": "Loan Agreement, Bradley Ridge Apartments 2025 (council packet draft)",
+   "publisher": "City of Colorado Springs",
+   "date": "2025-08",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/0df01f18-b659-49e9-9b77-e06477f76ff5.docx"
+  },
+  {
+   "id": "cos-tra-draft",
+   "title": "Tax Regulatory Agreement, Bradley Ridge Apartments 2025 (council packet draft)",
+   "publisher": "City of Colorado Springs",
+   "date": "2025-08",
+   "url": "https://legistar2.granicus.com/coloradosprings/attachments/48d0cdd8-1e60-403e-8900-eec44e2ae446.docx"
+  },
+  {
+   "id": "gov-2025-05-07",
+   "title": "Proposition 123 Land Banking Funds to Support New Housing Options Coloradans can Afford Across the State",
+   "publisher": "Office of the Governor of Colorado",
+   "date": "2025-05-07",
+   "url": "https://governorsoffice.colorado.gov/news/proposition-123-land-banking-funds-support-new-housing-options-coloradans-can-afford-across"
+  },
+  {
+   "id": "kktv-2025-05-08",
+   "title": "2 affordable housing projects set to break ground in Colorado Springs",
+   "publisher": "KKTV",
+   "date": "2025-05-08",
+   "url": "https://www.kktv.com/2025/05/09/2-affordable-housing-projects-set-break-ground-colorado-springs/"
+  },
+  {
+   "id": "gazette-2025-05-13",
+   "title": "Bonds for 2 Colorado Springs affordable housing projects moved ahead",
+   "publisher": "The Gazette",
+   "date": "2025-05-13",
+   "url": "https://gazette.com/?p=1472461"
+  },
+  {
+   "id": "krdo-2025-05-13",
+   "title": "Affordable apartment complex development plan in Colorado Springs features discounted childcare",
+   "publisher": "KRDO",
+   "date": "2025-05-13",
+   "url": "https://krdo.com/news/2025/05/13/affordable-apartment-complex-development-plan-in-colorado-springs-features-discounted-childcare/"
+  },
+  {
+   "id": "gazette-2025-05-19",
+   "title": "Proposed 336-unit affordable housing complex to include on-site child care center in Colorado Springs",
+   "publisher": "The Gazette",
+   "date": "2025-05-19",
+   "url": "https://gazette.com/2025/05/19/proposed-336-unit-affordable-housing-complex-to-include-on-site-child-care-center-in-colorado-springs/"
+  },
+  {
+   "id": "gazette-2025-09-08",
+   "title": "2 affordable housing projects in Colorado Springs on different paths",
+   "publisher": "The Gazette",
+   "date": "2025-09-08",
+   "url": "https://gazette.com/?p=1509420"
+  },
+  {
+   "id": "gazette-2025-09-08-image",
+   "title": "Bradley Ridge Apartments clubhouse (rendering)",
+   "publisher": "The Gazette",
+   "date": "2025-09-08",
+   "url": "https://gazette.com/2025/09/08/bradley-ridge-apartments-clubhouse/"
+  },
+  {
+   "id": "csi-2025-12-08",
+   "title": "Bradley Ridge Apartments Breaks Ground",
+   "publisher": "CSI Construction Company",
+   "date": "2025-12-08",
+   "url": "https://www.csigc.com/news/bradley-ridge-apartments-breaks-ground"
+  }
+ ]
+}
