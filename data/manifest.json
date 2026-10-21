@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-21T20:42:00.805914Z",
+  "generated": "2026-10-21T23:09:14.646579Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 978800
+      "bytes": 1001547
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -366,6 +366,11 @@
       "placeholder": false,
       "bytes": 23723
     },
+    "data/deals/addie-at-metro-center-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 10921
+    },
     "data/deals/albion-affordable-apartments-denver.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -380,6 +385,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 19555
+    },
+    "data/deals/artspace-colorado-springs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12550
     },
     "data/deals/ascent-at-hover-crossing-longmont.json": {
       "featureCount": 0,
@@ -421,10 +431,20 @@
       "placeholder": false,
       "bytes": 17836
     },
+    "data/deals/bentley-commons-colorado-springs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17516
+    },
     "data/deals/blossom-commons-westminster.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 17359
+    },
+    "data/deals/bluebird-longmont.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15094
     },
     "data/deals/bradley-ridge-colorado-springs.json": {
       "featureCount": 0,
@@ -435,6 +455,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 16225
+    },
+    "data/deals/brush-village-ii-brush.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12224
     },
     "data/deals/cedar-creek-commons-montrose.json": {
       "featureCount": 0,
@@ -516,6 +541,11 @@
       "placeholder": false,
       "bytes": 19840
     },
+    "data/deals/elevate-at-aurora-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 14634
+    },
     "data/deals/elmwood-north-denver.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -525,6 +555,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 19207
+    },
+    "data/deals/fitzsimons-gateway-apartments-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 14006
     },
     "data/deals/flats-at-sand-creek-colorado-springs.json": {
       "featureCount": 0,
@@ -586,6 +621,11 @@
       "placeholder": false,
       "bytes": 16330
     },
+    "data/deals/heartside-hill-fort-collins.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12940
+    },
     "data/deals/henninger-legacy-homes-denver.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -604,12 +644,22 @@
     "data/deals/index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 44278
+      "bytes": 56891
+    },
+    "data/deals/irving-at-mile-high-vista-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13718
     },
     "data/deals/ives-ii-wheat-ridge.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 18655
+    },
+    "data/deals/ives-wheat-ridge.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12176
     },
     "data/deals/jacoby-meadows-windsor.json": {
       "featureCount": 0,
@@ -636,6 +686,16 @@
       "placeholder": false,
       "bytes": 19257
     },
+    "data/deals/launchpad-apartments-colorado-springs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15503
+    },
+    "data/deals/legacy-senior-residences-arvada.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13071
+    },
     "data/deals/link-and-pin-denver.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -661,10 +721,20 @@
       "placeholder": false,
       "bytes": 15729
     },
+    "data/deals/marshall-homes-arvada.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 14011
+    },
     "data/deals/marshall-pointe-apartments-arvada.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 13000
+    },
+    "data/deals/meadowmark-castle-rock.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 11120
     },
     "data/deals/metro-center-apartments-aurora.json": {
       "featureCount": 0,
@@ -696,6 +766,16 @@
       "placeholder": false,
       "bytes": 27374
     },
+    "data/deals/osborn-rocky-ford.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 10499
+    },
+    "data/deals/overlook-at-thornton-thornton.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 9597
+    },
     "data/deals/overlook-at-uplands-westminster.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -726,6 +806,16 @@
       "placeholder": false,
       "bytes": 16870
     },
+    "data/deals/puwagaan-kaan-cortez.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12854
+    },
+    "data/deals/rally-apartments-boulder.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13782
+    },
     "data/deals/range-view-saguache.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -746,15 +836,45 @@
       "placeholder": false,
       "bytes": 17853
     },
+    "data/deals/reserves-at-eagle-point-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13592
+    },
     "data/deals/residences-at-delta-ii-delta.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 15661
     },
+    "data/deals/residences-at-dry-cedar-creek-montrose.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 14162
+    },
+    "data/deals/residences-at-durango-durango.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13967
+    },
     "data/deals/residences-at-willow-park-aurora.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 11512
+    },
+    "data/deals/residences-on-acoma-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 14690
+    },
+    "data/deals/retreat-at-brighton-ridge-homes-brighton.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 11987
+    },
+    "data/deals/ridgegate-senior-lone-tree.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15238
     },
     "data/deals/rifle-apartments-rifle.json": {
       "featureCount": 0,
@@ -771,6 +891,11 @@
       "placeholder": false,
       "bytes": 15045
     },
+    "data/deals/sable-station-aurora.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12076
+    },
     "data/deals/sanctuary-on-potomac-aurora.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -781,10 +906,30 @@
       "placeholder": false,
       "bytes": 22195
     },
+    "data/deals/silver-key-senior-apartments-colorado-springs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12718
+    },
+    "data/deals/smith-ranch-apartments-silverthorne.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 14338
+    },
     "data/deals/sophia-englewood.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 9403
+    },
+    "data/deals/sp-crossing-commerce-city.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12657
+    },
+    "data/deals/spine-road-apartments-boulder.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 11389
     },
     "data/deals/squire-village-northglenn.json": {
       "featureCount": 0,
@@ -795,6 +940,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 19042
+    },
+    "data/deals/st-stephen-apartments-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 13374
     },
     "data/deals/stables-aurora.json": {
       "featureCount": 0,
@@ -881,6 +1031,11 @@
       "placeholder": false,
       "bytes": 19676
     },
+    "data/deals/warren-village-iii-denver.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12534
+    },
     "data/deals/weatherstone-apartments-aurora.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -900,6 +1055,16 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 18416
+    },
+    "data/deals/willoughby-corner-phase-ia-senior-lafayette.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15309
+    },
+    "data/deals/willoughby-corner-phase-ib-family-lafayette.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15814
     },
     "data/deals/windtrail-park-fort-collins.json": {
       "featureCount": 0,
