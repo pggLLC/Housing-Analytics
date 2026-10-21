@@ -263,6 +263,16 @@
               100% = SDO's forecast of deaths; below 100% means people live longer.
             </p>
           </div>
+
+          <!-- Households per person by age (headship rates) -->
+          <div class="sb-slider-group">
+            <fieldset class="sb-mig-from sb-headship">
+              <legend>Households per person, by age</legend>
+              <label><input type="radio" name="sbHeadship" value="sdo" checked> <span>SDO's forecast</span></label>
+              <label><input type="radio" name="sbHeadship" value="held"> <span id="sbHeadshipHeldLabel">Held at 2024's</span></label>
+            </fieldset>
+            <p class="sb-slider-help" id="sbHeadshipHelp"></p>
+          </div>
         </div>
 
         <!-- Save scenario -->
@@ -297,7 +307,7 @@
         <div class="sb-formula-note" role="note">
           <strong>How homes are counted:</strong>
           homes needed = households added since 2024 ÷ (1 − the county's target vacancy), as on the HNA page.
-          Households = SDO's households per person in four age groups × the scenario's people in each group.
+          Households = households per person in four age groups (SDO's forecast, or 2024's held) × the scenario's people in each group.
           <a href="docs/PROJECTION-METHODOLOGY.md">Methodology →</a>
         </div>
         <!-- Model assumptions disclosure -->
@@ -313,7 +323,7 @@
             <dt style="color:var(--muted);font-weight:600;">Migration by age</dt>
             <dd style="margin:0;">SDO's forecast: the change in its population by age that births and deaths do not explain. Or the same residual from SDO's estimates for the ten years before the forecast, averaged and carried forward each year (Smith, Tayman and Swanson, 2013)</dd>
             <dt style="color:var(--muted);font-weight:600;">Households</dt>
-            <dd style="margin:0;">SDO's household forecast by age of householder (18-24, 25-44, 45-64, 65 and over)</dd>
+            <dd style="margin:0;">SDO's household forecast by age of householder (18-24, 25-44, 45-64, 65 and over). Or its 2024 households per person in each group, held the same every year: the constant headship rate method (Smith, Tayman and Swanson, 2013)</dd>
             <dt style="color:var(--muted);font-weight:600;">Vacancy target</dt>
             <dd style="margin:0;">Each county's target vacancy, as on the HNA page</dd>
             <dt style="color:var(--muted);font-weight:600;">Towns and CDPs</dt>

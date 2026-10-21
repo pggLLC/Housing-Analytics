@@ -15,7 +15,8 @@
 //   5. Migration adds the stored people by age, scaled by the slider; no
 //      more than everyone of an age can leave, and departures a cohort cannot
 //      supply come from everyone else, so the net is the one asked for.
-//   6. Households: each group's rate x the scenario's people of that age.
+//   6. Households: each group's rate x the scenario's people of that age;
+//      with headship 'held', the base year's rates every year.
 //   7. changeFromSdo is zero at 100% and the difference from 100% otherwise.
 //   8. averageAnnualMigration over a window and over the whole forecast.
 //   9. paramsFromSaved reads new records, converts earlier ones, holds every
@@ -134,6 +135,14 @@ const close = (a, b, msg) => assert(Math.abs(a - b) < 1e-9, `${msg}: ${a} vs ${b
 {
   const b = baseline({ people: [[20, 50, 50], [40, 100, 100]], hhRates: [0.2, 0.5] });
   close(M.project(b)[0].households, 100 * 0.2 + 200 * 0.5, 'households = rate x people of that age');
+  // Rates that move: 18-24 from 0.2 to 0.1, 25+ from 0.5 to 0.6. Ages 20 and
+  // 40 are 21 and 41 a year on, still in their groups.
+  b.households.ratesByYear[1] = [0.1, 0.6];
+  close(M.project(b)[1].households, 100 * 0.1 + 200 * 0.6, 'SDO\'s rates for the year');
+  const held = M.project(b, { headship: 'held' });
+  close(held[0].households, M.project(b)[0].households, 'held: the base year is the same');
+  close(held[1].households, 100 * 0.2 + 200 * 0.5, 'held: the base year\'s rates a year on');
+  close(M.project(b, { headship: 'other' })[1].households, 100 * 0.1 + 200 * 0.6, 'anything else is SDO\'s');
 }
 
 // 7. changeFromSdo
@@ -188,6 +197,8 @@ const close = (a, b, msg) => assert(Math.abs(a - b) < 1e-9, `${msg}: ${a} vs ${b
   const big = M.paramsFromSaved({ net_migration_annual: 500 }, 10);
   assert.equal(big.migration_pct, M.RANGES.migration_pct[1], 'a count far above SDO\'s is held to the slider\'s top');
   assert(/500 people moving in a year/.test(big.migrationNote), 'and the note says what was saved');
+  assert.equal(M.paramsFromSaved({ migration_pct: 100, headship: 'held' }).headship, 'held', 'a saved held headship loads held');
+  assert.equal(M.paramsFromSaved({ migration_pct: 100, headship: 'x' }).headship, undefined, 'and nothing else does');
   assert.deepEqual(M.paramsFromSaved({ births_pct: 400, deaths_pct: 10, migration_pct: -5 }),
     { births_pct: 150, deaths_pct: 80, migration_pct: 0, migrationNote: null }, 'new records are held to the sliders\' ranges');
 }

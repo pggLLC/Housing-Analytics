@@ -398,6 +398,7 @@
     if (!_bound) {
       _bindSliders();
       _bindMigrationFrom();
+      _bindHeadship();
       _bindScenarioButtons();
       _bindSaveLoad();
       _listenI18n();
@@ -416,6 +417,7 @@
     _activeResults = {};
 
     _updateMigrationHelp();
+    _updateHeadshipHelp();
     _runAllBuiltIn();
     _dispatchState();
   }
@@ -489,6 +491,7 @@
       out[def.key] = Number.isFinite(v) ? v : 100;
     });
     if (_migrationFrom() === 'past') out.migration_from = 'past';
+    if (_headshipChoice() === 'held') out.headship = 'held';
     return out;
   }
 
@@ -503,6 +506,10 @@
     });
     _migrationChoice = params.migration_from === 'past' ? 'past' : 'sdo';
     _updateMigrationHelp();
+    const headship = document.querySelector('input[name="sbHeadship"][value="' +
+      (params.headship === 'held' ? 'held' : 'sdo') + '"]');
+    if (headship) headship.checked = true;
+    _updateHeadshipHelp();
   }
 
   // What 100% means for the place loaded, in people a year: SDO's forecast,
@@ -551,6 +558,60 @@
     el.textContent = fromPast
       ? pastText + leaving + '. ' + sdoText + '.'
       : sdoText + leaving + '.' + (pastText ? ' ' + pastText + '.' : '');
+  }
+
+  // Households per person by age: as SDO's forecast moves them, or held at
+  // the base year's ('held'), the constant-headship alternative.
+  function _headshipChoice() {
+    const el = document.querySelector('input[name="sbHeadship"][value="held"]');
+    return el && el.checked ? 'held' : 'sdo';
+  }
+
+  function _bindHeadship() {
+    document.querySelectorAll('input[name="sbHeadship"]').forEach(el => {
+      el.addEventListener('change', () => {
+        _clearActiveBtn();
+        _updateHeadshipHelp();
+        _runCustom();
+        _announceResult();
+      });
+    });
+  }
+
+  // The rates for the place loaded, in the base year and twenty years on in
+  // SDO's forecast. A town takes its share of its county's households, so its
+  // county's rates are the ones that apply; a place in several counties runs
+  // each county's own, too many to list here.
+  function _updateHeadshipHelp() {
+    const el = document.getElementById('sbHeadshipHelp');
+    const label = document.getElementById('sbHeadshipHeldLabel');
+    const c = _ctx && _ctx.counties && _ctx.counties.length === 1 ? _ctx.counties[0].baseline : null;
+    const base = _ctx && _ctx.counties ? _ctx.counties[0].baseline.baseYear : null;
+    if (label && base) label.textContent = 'Held at ' + base + '\u2019s';
+    if (!el) return;
+    if (!_ctx) {
+      el.textContent = '';
+      return;
+    }
+    const held = _headshipChoice() === 'held';
+    const hh = c && c.households;
+    const end = hh && hh.ratesByYear[HORIZON_YEARS];
+    if (!end) {
+      el.textContent = held
+        ? 'Each county\u2019s ' + base + ' households per person in each age group stay the same every year.'
+        : 'SDO\u2019s forecast moves each county\u2019s households per person in each age group over time.';
+      return;
+    }
+    const r = (v) => v.toFixed(2);
+    const ages = hh.groups.map(g => g.maxAge >= 100 ? g.minAge + ' and over' : g.minAge + '\u2013' + g.maxAge);
+    const year = base + HORIZON_YEARS;
+    const where = c.name || 'this county';
+    el.textContent = held
+      ? where + '\u2019s ' + base + ' households per person stay the same every year: ' +
+        ages.map((a, i) => a + ' ' + r(hh.ratesByYear[0][i])).join(', ') + '. SDO\u2019s forecast moves them to ' +
+        end.slice(0, -1).map(r).join(', ') + ' and ' + r(end[end.length - 1]) + ' by ' + year + '.'
+      : 'SDO\u2019s forecast moves households per person in each age group. ' + where + ', ' + base + ' to ' + year + ': ' +
+        ages.map((a, i) => a + ' from ' + r(hh.ratesByYear[0][i]) + ' to ' + r(end[i])).join(', ') + '.';
   }
 
   // ---------------------------------------------------------------------------
@@ -970,7 +1031,8 @@
       // The settings the scenario loads with, so the list never names one the
       // projection does not use (a missing setting loads as SDO's 100%).
       const q = window.CohortComponentModel.paramsFromSaved(p);
-      return `Births ${q.births_pct}% | Deaths ${q.deaths_pct}% | Moving in (net) ${q.migration_pct}% of ${q.migration_from === 'past' ? 'the years before SDO\'s forecast' : "SDO's forecast"}`;
+      return `Births ${q.births_pct}% | Deaths ${q.deaths_pct}% | Moving in (net) ${q.migration_pct}% of ${q.migration_from === 'past' ? 'the years before SDO\'s forecast' : "SDO's forecast"}` +
+        (q.headship === 'held' ? ' | Households per person held' : '');
     }
     // A value the record never set is shown as unset, not as 0.
     const given = (v) => (v == null || v === '' ? NaN : Number(v));
@@ -996,6 +1058,9 @@
         migration: params.migration_from === 'past'
           ? `${params.migration_pct}% of net migration by age in SDO's estimates for the years before its forecast`
           : `${params.migration_pct}% of SDO's forecast net migration`,
+        households: params.headship === 'held'
+          ? "SDO's base-year households per person by age, held"
+          : "SDO's household forecast by age",
       },
       baselineSource: (_ctx && _ctx.counties[0].baseline.vintage) ? 'SDO ' + _ctx.counties[0].baseline.vintage : 'SDO forecast',
       // Parameters are not tied to a place; record the loaded geography (or
