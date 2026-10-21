@@ -132,6 +132,12 @@ ok(/openLatest\(v\)\.then\(function \(ok\) \{ if \(!ok\) flash/.test(read('js/wh
   const row = (st, id) => st.rows.filter((x) => x.id === id)[0].answer;
   ok(row(noState, 'T15') === 'na' && row(noState, 'T16') === 'na' && row(withState, 'T15') === 'unchecked' && row(withState, 'T16') === 'unchecked', 'state-credit thresholds apply only when state credit is requested');
 }
+// Codex review on 0d0ddd308: a replacing 4% or non-CHFA export drops the earlier model's credits; failed comparison reads say so.
+{
+  const src = read('js/whitepaper/submittal-review.js');
+  ok(/if \(hadCalc\) \{ v\.deal\.creditRequested = null; v\.deal\.stateCredits = null; \}/.test(src), 'credits from a replaced 9% export are cleared');
+  ok(/if \(vs\.some\(function \(x\) \{ return !x; \}\)\) \{ \$\('srCompare'\)\.innerHTML = failed/.test(src) && /function \(\) \{ if \(tok === compareTok\) \$\('srCompare'\)\.innerHTML = failed; \}/.test(src), 'a comparison with an unreadable version shows that instead of a partial table');
+}
 // The Third Draft strikes the 60% cap on the 40% row (red strikethrough, printed pp. 41-42), so it is not applied.
 ok(Math.abs(SR.targetingPoints(rules, { 40: 100 }, '40-60').points - 92.5) < 1e-9 && !rules.targeting.forty_cap && !/sr-subsidy/.test(read('developer-submittal-review.html')), 'the struck 40% row cap is not applied');
 
@@ -292,7 +298,7 @@ ok(spNp.lines.find((l) => l.id === '5B4a-nonprofit').points === 5 && spNp.lines.
 const spPha = SR.score(rules, { mix, sponsor: 'pha' }, { '5B4b-pha': true });
 ok(spPha.lines.find((l) => l.id === '5B4b-pha').points === 7, 'a housing authority general partner gets the housing authority line');
 const srcJs = read('js/whitepaper/submittal-review.js');
-ok(/var v = started;/.test(srcJs) && /was not imported: another deal or version was opened/.test(srcJs), 'a calculator import finished after navigation is dropped');
+ok(/var v = started, hadCalc = !!v.calculator;/.test(srcJs) && /was not imported: another deal or version was opened/.test(srcJs), 'a calculator import finished after navigation is dropped');
 ok(/if \(state\.deal !== deal\) return; \/\/ another deal was picked/.test(srcJs) && /key = deal \+ '\/' \+ v/.test(srcJs), 'a late version list or version from another deal is dropped');
 
 // Codex review on 9466d2780: an empty place stays unresolved; late saves and version opens are dropped.

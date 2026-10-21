@@ -927,7 +927,7 @@
             var c = fromCalculatorExport(snap);
             if (!c) { flash('That JSON is not a Deal Calculator export.'); return; }
             if (c.error) { flash(c.error); return; }
-            var v = started;
+            var v = started, hadCalc = !!v.calculator;
             v.deal.mix = c.mix; v.deal.election = c.election; v.deal.calc4 = !c.nine;
             v.deal.calcRegime = c.nine && !c.chfa ? c.regime : null;
             if (c.nine && c.chfa) {
@@ -936,6 +936,8 @@
               v.deal.creditRequested = c.requested; v.deal.stateCredits = c.stateAnnual;
             } else {
               // A 4% model's credits and financing do not belong beside a 9% score: keep only the unit mix.
+              // Credits imported with an earlier 9% export described that model; typed ones stay.
+              if (hadCalc) { v.deal.creditRequested = null; v.deal.stateCredits = null; }
               v.calculator = null; v.engine = {};
               flash(c.nine ? 'This export uses ' + c.regime + ' rent limits, not CHFA LIHTC, so only its unit mix was used. Set rent limits to CHFA LIHTC and export again for gap, coverage, credit and stress results.'
                 : 'This export is set to 4%, so only its unit mix was used. Export the deal at 9% for gap, coverage, credit and stress results.');
@@ -1077,11 +1079,13 @@
       var ids = Object.keys(state.picked).filter(function (k) { return state.picked[k]; });
       if (ids.length < 2) { $('srCompare').innerHTML = '<p class="sr-muted">Tick two to four versions above to compare them. Changed rows are highlighted.</p>'; return; }
       if (ids.length > 4) { $('srCompare').innerHTML = '<p class="sr-flag">Pick four or fewer.</p>'; return; }
+      var failed = '<p class="sr-flag">One of the ticked versions could not be read, so there is no comparison. Untick it or try again.</p>';
       Promise.all(ids.map(getVersion)).then(function (vs) {
         if (tok !== compareTok) return;
-        vs = vs.filter(Boolean).sort(function (a, b) { return a.v < b.v ? -1 : 1; });
+        if (vs.some(function (x) { return !x; })) { $('srCompare').innerHTML = failed; return; }
+        vs = vs.sort(function (a, b) { return a.v < b.v ? -1 : 1; });
         $('srCompare').innerHTML = compareTable(rules, prop123, vs);
-      });
+      }, function () { if (tok === compareTok) $('srCompare').innerHTML = failed; });
     }
 
     $('sr-save').addEventListener('click', function () {
