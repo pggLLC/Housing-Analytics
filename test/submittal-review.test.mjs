@@ -237,4 +237,16 @@ if (t17) ok(SR.thresholdStatus(rules, { [t17.id]: 'na' }, { existingCredit: true
 ok(/20-50 and 40-60 elections, units at or under 60% are tax credit units/.test(page) && !/Units at or under 80% are tax credit units\./.test(page), 'the page explains which units are tax credit units under each election');
 ok(/if \(!state\.deal\) \{ state\.version = blankVersion\(\);/.test(read('js/whitepaper/submittal-review.js')), 'choosing "New deal" clears the loaded version');
 
+// Codex review on 596f5ed78: same-name city and county, set-aside in the AMI stress, T17 wording, document reads bound to their version.
+const amb = SR.prop123Status(prop123, 'Pueblo');
+ok(amb.status === 'ambiguous' && /Pueblo County/.test(amb.text) && /City of Pueblo/.test(amb.text), 'a bare shared name asks for the city or the county');
+ok(SR.prop123Status(prop123, 'Pueblo County').status !== 'ambiguous' && SR.prop123Status(prop123, 'City of Pueblo').status !== 'ambiguous', 'a named city or county still resolves');
+const ambLane = SR.gapLane(rules, { mix: { 50: 10, 60: 40 } }, amb);
+ok(ambLane.lane === 'unknown' && ambLane.amount === undefined, 'an ambiguous place gets no OEDIT amount');
+const sa20 = SR.amiStress(rules, prop123, { deal: { mix: { 50: 10, 60: 40 }, election: '20-50' }, claims: {} });
+ok(sa20 && sa20.setAsideBefore === true && sa20.setAsideAfter === false && /set-aside election/.test(sa20.fails), 'the AMI stress fails when the set-aside breaks');
+const t17r = rules.thresholds.find((t) => t.id === 'T17');
+ok(/year 10 or later of Extended Use/.test(t17r.label) && /year 25 or later beginning with the first year/.test(t17r.quote), 'T17 states the year-10 Extended Use test');
+ok(/if \(state\.version !== started\)/.test(read('js/whitepaper/submittal-review.js')), 'a file read finished after navigation is not added to another version');
+
 console.log(`submittal-review: ${checks} checks passed`);

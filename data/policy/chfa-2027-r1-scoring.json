@@ -365,9 +365,9 @@
     },
     {
       "id": "T17",
-      "label": "Existing tax credit project: year 25 or later, or 50% expansion",
+      "label": "Existing tax credit project: year 10 or later of Extended Use (year 25 from the first credit year), a 50% new-construction expansion, or homeless or Special Populations housing",
       "page": 22,
-      "quote": "Applicants seeking new Housing Tax Credits for existing federal credit projects will not be eligible for the Competitive Housing Tax Credits unless the project is in year 10 or later of the Extended Use period",
+      "quote": "Applicants seeking new Housing Tax Credits for existing federal credit projects will not be eligible for the Competitive Housing Tax Credits unless the project is in year 10 or later of the Extended Use period (i.e. year 25 or later beginning with the first year of the credit period), except for projects serving Persons experiencing Homelessness or Special Populations or unless proposing a minimum of 50 percent expansion with newly constructed units.",
       "applies": "existing_credit"
     }
   ],

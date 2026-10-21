@@ -231,14 +231,19 @@
     var list = prop123.jurisdictions;
     var bare = function (n) { return String(n).toLowerCase().replace(/^(city and county of|city of|town of|county of)\s+/, '').replace(/\s+county$/, ''); };
     var exact = list.filter(function (j) { return j.name.toLowerCase() === q; })[0];
-    return exact || list.filter(function (j) { return bare(j.name) === bare(q) && (/county/i.test(q) === (j.kind === 'county')); })[0] ||
-      list.filter(function (j) { return bare(j.name) === bare(q); })[0] || null;
+    if (exact) return exact;
+    var same = list.filter(function (j) { return bare(j.name) === bare(q); });
+    if (/\bcounty\b/.test(q)) same = same.filter(function (j) { return j.kind === 'county'; });
+    else if (/\b(city|town)\b/.test(q)) same = same.filter(function (j) { return j.kind !== 'county'; });
+    if (same.length > 1) return { ambiguous: same.map(function (j) { return j.name; }) }; // e.g. "Pueblo": the city or the county
+    return same[0] || null;
   }
 
   // 'yes' = filed for 2027-2029; 'to-confirm' = on DOLA's list without a 2027-2029 filing yet; 'no' = not on the list.
   function prop123Status(prop123, place) {
     if (!prop123 || !Array.isArray(prop123.jurisdictions)) return { status: 'unknown', text: 'DOLA\'s Prop 123 list did not load, so OEDIT eligibility is not known. Reload the page.' };
     var j = findJurisdiction(prop123, place);
+    if (j && j.ambiguous) return { status: 'ambiguous', text: '"' + place + '" could be ' + j.ambiguous.join(' or ') + '. Enter which one.' };
     if (!j) return { status: 'no', text: 'Not on DOLA\'s Prop 123 commitment list (as of ' + (prop123.updated || 'the last refresh') + ').' };
     if (j.next_cycle && j.next_cycle.submitted) {
       return { status: 'yes', name: j.name, text: j.name + ' filed its 2027-2029 Prop 123 commitment on ' + j.next_cycle.submitted + '.' };
@@ -279,6 +284,10 @@
     } else if (!p123 || p123.status === 'unknown') {
       out.lane = 'unknown'; out.text = 'OEDIT or DOH fallback: not known until DOLA\'s Prop 123 list loads.';
       out.flags.push(p123 ? p123.text : 'Prop 123 status not known.');
+      return out;
+    } else if (p123.status === 'ambiguous') {
+      out.lane = 'unknown'; out.text = 'OEDIT or DOH fallback: not known until the place names the city or town or the county.';
+      out.flags.push(p123.text);
       return out;
     } else if (p123.status === 'to-confirm') {
       out.lane = 'unknown'; out.text = 'OEDIT or DOH fallback: not known until ' + (p123.name || 'the jurisdiction') + ' files a 2027-2029 Prop 123 commitment.';
@@ -546,7 +555,8 @@
     var r1 = review(rules, prop123, version), r2 = review(rules, prop123, v2);
     var t = { id: 'ami1', label: 'One unit from ' + bump.from + '% to ' + bump.to + '% AMI', why: 'Shows whether the gap-fund lane or targeting points flip.',
       note: 'Score ' + pts(r1.score.total) + ' → ' + pts(r2.score.total) + '; midpoint ' + (r1.lane.midpoint || 0).toFixed(2) + '% → ' + (r2.lane.midpoint || 0).toFixed(2) + '%; lane ' + r1.lane.lane + ' → ' + r2.lane.lane + '.',
-      engine: { fundingGap: null, dscr: null }, scoreBefore: r1.score.total, scoreAfter: r2.score.total, laneAfter: r2.lane.lane, laneBefore: r1.lane.lane, scoreOnly: true };
+      engine: { fundingGap: null, dscr: null }, scoreBefore: r1.score.total, scoreAfter: r2.score.total, laneAfter: r2.lane.lane, laneBefore: r1.lane.lane, scoreOnly: true,
+      setAsideBefore: r1.score.setAside.qualifies, setAsideAfter: r2.score.setAside.qualifies };
     t.fails = stressFails(rules, t, {});
     return t;
   }
@@ -559,6 +569,7 @@
     if (e.dscr != null && e.dscr < dcr) why.push('coverage ' + e.dscr.toFixed(2) + 'x is under CHFA\'s ' + dcr.toFixed(2) + 'x minimum');
     if (t.scoreAfter != null && t.scoreBefore >= min && t.scoreAfter < min) why.push('score falls under ' + min);
     if (t.laneAfter && t.laneAfter !== t.laneBefore) why.push('lane flips to ' + t.laneAfter);
+    if (t.setAsideBefore && t.setAsideAfter === false) why.push('the unit mix no longer meets its set-aside election');
     return why.length ? why.join('; ') : '';
   }
 
@@ -789,9 +800,11 @@
             writeForm(); state.stress = null; draw();
           });
         } else {
+          var started = state.version;
           file.arrayBuffer().then(function (buf) { return crypto.subtle.digest('SHA-256', buf); }).then(function (h) {
+            if (state.version !== started) { flash(file.name + ' was not recorded: another deal or version was opened while it was read. Add it again.'); return; }
             var hex = Array.prototype.map.call(new Uint8Array(h), function (x) { return x.toString(16).padStart(2, '0'); }).join('');
-            state.version.documents.push({ name: file.name.slice(0, 160), size: file.size, sha256: hex, added: new Date().toISOString().slice(0, 10) });
+            started.documents.push({ name: file.name.slice(0, 160), size: file.size, sha256: hex, added: new Date().toISOString().slice(0, 10) });
             writeForm();
             flash(file.name + ' recorded by name and fingerprint. Type its figures and page numbers into the form; the file itself is not kept.');
           });
