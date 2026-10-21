@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submittal Review — COHO Analytics</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/site-theme.css">
+<script src="js/developer-gate.js"></script>
+<style>
+  .skip-link { position: absolute; top: -100px; left: var(--sp4); background: var(--accent); color: var(--on-accent, #fff); padding: 8px 16px; z-index: 1000; border-radius: var(--radius-sm, 6px); font-weight: 700; }
+  .skip-link:focus { top: var(--sp3); }
+  .dv-page { max-width: 1100px; margin: 0 auto; padding: var(--sp3); }
+  .dv-page h1 { margin: 0 0 .4rem; }
+  .dv-lede { color: var(--muted); line-height: 1.55; margin: 0 0 var(--sp3); }
+  .dv-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp3); margin-bottom: var(--sp3); min-width: 0; }
+  .dv-card h2 { margin: 0 0 var(--sp2); font-size: 1.1rem; }
+  .dv-card h3 { margin: var(--sp2) 0 .4rem; font-size: 1rem; }
+  .dv-card p, .dv-card li { line-height: 1.55; }
+  .rw-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp2); margin-bottom: var(--sp3); }
+  .rw-stat { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp2) var(--sp3); line-height: 1.45; }
+  .rw-stat-v { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+  .rw-stat.sr-bad { border-left: 4px solid var(--bad); }
+  .rw-stat.sr-warn { border-left: 4px solid var(--warn); }
+  .rw-stat.sr-ok { border-left: 4px solid var(--good); }
+  .sr-of { font-size: .95rem; color: var(--muted); font-weight: 600; }
+  .rw-decide { border-left: 4px solid var(--accent); }
+  .rw-decide ul, #srAdd, #sr-docs { padding-left: 1.2rem; }
+  .rw-band { display: inline-block; font-weight: 700; font-size: .8rem; padding: 2px 8px; border-radius: 9999px; border: 1px solid var(--accent); color: var(--accent); }
+  .rw-quote { margin: .25rem 0 .25rem .5rem; padding-left: .6rem; border-left: 2px solid var(--border); color: var(--muted); font-size: .8rem; overflow-wrap: anywhere; }
+  .sr-muted { color: var(--muted); font-size: .85rem; }
+  .sr-flag, .sr-red { color: var(--bad); }
+  .sr-yellow { color: var(--text); }
+  .sr-yellow::marker { color: var(--warn); }
+  .sr-red::marker { color: var(--bad); }
+  .sr-scroll { overflow-x: auto; }
+  .sr-table { border-collapse: collapse; width: 100%; font-size: var(--small, .9rem); }
+  .sr-table th, .sr-table td { text-align: left; padding: .45rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .sr-num { text-align: right !important; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .sr-total td { font-weight: 700; }
+  .sr-diff th, .sr-diff td { background: color-mix(in oklab, var(--accent) 9%, transparent 91%); }
+  .sr-row { display: flex; flex-wrap: wrap; gap: var(--sp2); align-items: end; }
+  .sr-row > label, .sr-field { display: flex; flex-direction: column; gap: .25rem; font-weight: 600; font-size: .9rem; min-width: 0; }
+  .sr-mix { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: .5rem; }
+  .sr-mix label { display: flex; flex-direction: column; gap: .2rem; font-size: .85rem; font-weight: 600; }
+  input[type="text"], input[type="number"], select { min-height: 44px; padding: .35rem .5rem; border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); background: var(--card); color: var(--text); font: inherit; box-sizing: border-box; max-width: 100%; }
+  .sr-small { width: 6rem; }
+  .sr-claim { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 14rem); gap: .25rem .75rem; align-items: center; padding: .35rem 0; border-bottom: 1px solid var(--border); }
+  .sr-claim label { display: flex; gap: .5rem; align-items: center; min-height: 44px; line-height: 1.35; }
+  .sr-claim input[type="checkbox"] { width: 22px; height: 22px; flex: none; }
+  .sr-pick-wrap { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; cursor: pointer; }
+  .sr-pick { width: 22px; height: 22px; }
+  .sr-check { display: flex; gap: .5rem; align-items: center; min-height: 44px; font-weight: 600; }
+  .sr-check input { width: 22px; height: 22px; }
+  .sr-btn, .sr-primary { min-height: 44px; padding: .4rem .9rem; border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); background: var(--card); color: var(--text); font-weight: 600; cursor: pointer; margin: .15rem 0; }
+  .sr-primary { background: var(--accent); color: var(--on-accent, #fff); border-color: var(--accent); }
+  .sr-primary[disabled], .sr-btn[disabled] { opacity: .55; cursor: not-allowed; }
+  #srFlash { min-height: 1.4em; font-weight: 600; color: var(--accent); }
+  details.dv-card > summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+  @media (max-width: 640px) {
+    .sr-claim { grid-template-columns: 1fr; }
+    .sr-row > label, .sr-field { flex: 1 1 100%; }
+    .sr-row input, .sr-row select { width: 100%; }
+  }
+</style>
+  <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/table-sort.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<header id="siteHeader"></header>
+<main class="dv-page" id="main-content">
+  <nav id="devNav" class="ib-section-nav"></nav>
+
+  <h1>Submittal review</h1>
+  <p class="dv-lede">Check a draft 2027 Round One (9%) application against CHFA's scoring, its required items, and the DOH or OEDIT gap-fund test before it goes in. Rules: <span id="srAsOf">…</span>. Letter of intent due 1 Dec 2026; application due 1 Feb 2027.</p>
+
+  <div id="srMain">
+    <div id="srStats" class="rw-stats" aria-live="polite"></div>
+
+    <section class="dv-card rw-decide">
+      <h2>What to decide</h2>
+      <p id="srNext"></p>
+      <ul id="srRisks"></ul>
+    </section>
+
+    <section class="dv-card">
+      <h2>Load a draft</h2>
+      <div class="sr-row">
+        <label for="sr-deal">Deal<select id="sr-deal"><option value="">New deal</option></select></label>
+        <label for="sr-name">Deal name<input type="text" id="sr-name" maxlength="120" placeholder="Site name and town"></label>
+      </div>
+      <p><label class="sr-field" for="sr-file">Add files: a Deal Calculator export (.json) fills the unit mix and model results. A PDF, Word or Excel file is recorded by name and fingerprint only; type its figures and pages below.
+        <input type="file" id="sr-file" multiple accept=".json,.pdf,.doc,.docx,.xls,.xlsx,application/json,application/pdf"></label></p>
+      <p class="sr-muted" id="sr-calc-status"></p>
+      <p id="srFlash" role="status"></p>
+      <h3>Files recorded</h3>
+      <ul id="sr-docs"></ul>
+      <p class="sr-muted">Export a deal from the <a href="deal-calculator.html">Deal Calculator</a> with "Export JSON".</p>
+    </section>
+
+    <form id="srForm" onsubmit="return false">
+      <section class="dv-card">
+        <h2>The deal</h2>
+        <p class="sr-muted" id="sr-mix-note">Homes by income level (% of area median income). Under the 20-50 and the 40-60 elections, units at or under 60% are tax credit units and 70% and 80% units count as workforce units. Under Average Income, units at or under 80% are tax credit units.</p>
+        <div class="sr-mix">
+          <label for="sr-mix-20">20%<input type="number" min="0" step="1" inputmode="numeric" id="sr-mix-20"></label>
+          <label for="sr-mix-30">30%<input type="number" min="0" step="1" inputmode="numeric" id="sr-mix-30"></label>
+          <label for="sr-mix-40">40%<input type="number" min="0" step="1" inputmode="numeric" id="sr-mix-40"></label>
+          <label for="sr-mix-50">50%<input type="number" min="0" step="1" inputmode="numeric" id="sr-mix-50"></label>
+          <label for="sr-mix-60">60%<input type="number" min="0" step="1" inputmode="numeric" id="sr-mix-60"></label>
+          <label for="sr-mix-70">70%<input type="number" min="0" step="1" inputmode="numeric" id="sr-mix-70"></label>
+          <label for="sr-mix-80">80%<input type="number" min="0" step="1" inputmode="numeric" id="sr-mix-80"></label>
+          <label for="sr-mix-100">100%<input type="number" min="0" step="1" inputmode="numeric" id="sr-mix-100"></label>
+          <label for="sr-mix-110">110%<input type="number" min="0" step="1" inputmode="numeric" id="sr-mix-110"></label>
+          <label for="sr-mix-120">120%<input type="number" min="0" step="1" inputmode="numeric" id="sr-mix-120"></label>
+          <label for="sr-mix-market">Market<input type="number" min="0" step="1" inputmode="numeric" id="sr-mix-market"></label>
+        </div>
+        <div class="sr-row" style="margin-top:var(--sp2)">
+          <label for="sr-place">Town or county (for Prop 123)<input type="text" id="sr-place" placeholder="Town of Bayfield"></label>
+          <label for="sr-applicant">Applicant (QAP definition)<select id="sr-applicant"><option value="">Not entered</option><option value="for-profit">For-profit</option><option value="nonprofit">Nonprofit</option><option value="pha">Housing authority</option></select></label>
+          <label for="sr-gp-role">Applicant's general partner role<select id="sr-gp-role"><option value="">Not entered</option><option value="sole">Sole general partner</option><option value="majority">Majority-interest co-general partner</option><option value="minority">Minority co-general partner</option><option value="none">Not a general partner</option></select></label>
+          <label for="sr-election">Minimum set-aside election<select id="sr-election"><option value="20-50">20-50</option><option value="40-60" selected>40-60</option><option value="average-income">Average Income</option></select></label>
+          <label for="sr-credits">Annual federal credit requested<input type="number" min="0" step="1000" inputmode="numeric" id="sr-credits"></label>
+          <label for="sr-state-credits">Annual standard state credit requested (blank if none)<input type="number" min="0" step="1000" inputmode="numeric" id="sr-state-credits"></label>
+          <label for="sr-other-credits">Federal credit in your other active applications (0 if none)<input type="number" min="0" step="1000" inputmode="numeric" id="sr-other-credits"></label>
+        </div>
+        <label class="sr-check"><input type="checkbox" id="sr-supportive"> Supportive housing application</label>
+        <label class="sr-check"><input type="checkbox" id="sr-rehab"> Acquisition or rehab</label>
+        <label class="sr-check"><input type="checkbox" id="sr-existing"> Existing tax credit project</label>
+        <label class="sr-check"><input type="checkbox" id="sr-subsidy-expiring"> Rental assistance or operating subsidy contract expires within three years</label>
+        <p class="sr-muted" id="srCredit"></p>
+      </section>
+
+      <section class="dv-card">
+        <h2>Gap funds (QAP 3.B.9 pilot)</h2>
+        <div id="srLane"></div>
+      </section>
+
+      <section class="dv-card">
+        <h2>Points to add</h2>
+        <p class="sr-muted">Ordered by how easy each is to add once a deal is drawn. That order is our judgement, not CHFA's.</p>
+        <ul id="srAdd"></ul>
+      </section>
+
+      <details class="dv-card">
+        <summary>What the application claims</summary>
+        <p class="sr-muted">Tick each scoring item the application claims, with the document and page that backs it. Targeting, extended use and mixed income come from the unit mix.</p>
+        <div id="srClaims"></div>
+      </details>
+
+      <details class="dv-card">
+        <summary>Required items (thresholds)</summary>
+        <p class="sr-muted">A missing threshold item stops an application. QAP 3.B.4: "All threshold items must be met and provided by the applicable Preliminary Application deadline to compete in a round or to proceed in the review process."</p>
+        <div id="srThresholds"></div>
+      </details>
+    </form>
+
+    <details class="dv-card">
+      <summary>Score line by line, with CHFA's words</summary>
+      <div id="srLines"></div>
+    </details>
+
+    <section class="dv-card">
+      <h2>Stress tests</h2>
+      <p class="sr-muted">Each test reloads the Deal Calculator with this deal, changes one thing and reads its results. It takes about a minute.</p>
+      <button type="button" class="sr-primary" id="sr-stress-run" disabled>Run stress tests</button>
+      <div id="srStress"></div>
+    </section>
+
+    <section class="dv-card">
+      <h2>Save and compare</h2>
+      <p class="sr-muted" id="srStore"></p>
+      <h3>This version in five lines</h3>
+      <ul id="srSummary"></ul>
+      <div class="sr-row">
+        <label for="sr-label">Version label<input type="text" id="sr-label" maxlength="120" placeholder="R1 draft, 60 homes, OEDIT"></label>
+        <button type="button" class="sr-primary" id="sr-save">Save as a new version</button>
+      </div>
+      <h3>Versions</h3>
+      <label class="sr-check"><input type="checkbox" id="sr-show-hidden"> Show hidden versions</label>
+      <div id="srVersions"></div>
+      <h3>Comparison</h3>
+      <div id="srCompare"></div>
+    </section>
+
+    <details class="dv-card">
+      <summary>Sources and limits</summary>
+      <ul>
+        <li>Scoring, thresholds, credit caps and gap funds: <a href="https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf">CHFA 2027-28 QAP Third Draft</a> (posted 11 Sep 2026). CHFA had not adopted it when this was checked; every figure here is "not adopted" until it is.</li>
+        <li>Prop 123 status: DOLA's commitment filings (<a href="https://cdola.colorado.gov/commitment-filings">cdola.colorado.gov/commitment-filings</a>). 2027-2029 filings are due 1 Nov 2026.</li>
+        <li>Housing need points and the lowest-AMI county list come from CHFA's application materials, not the QAP. Enter them only from CHFA's list.</li>
+        <li>A score is not an award. QAP Section 5: "Regardless of numerical ranking, the scoring does not operate to vest in an Applicant or project any right or reservation or allocation of Housing Tax Credits in any amount."</li>
+        <li>Files you add are not uploaded or kept. Only the figures you type, the file name and a fingerprint are saved.</li>
+        <li>Who else may apply in Round One: <a href="developer-round-watch.html">Next round</a>. Something unclear? <a href="developer-about.html#ask">Ask pggLLC</a>.</li>
+      </ul>
+    </details>
+  </div>
+</main>
+<footer id="site-footer"></footer>
+<script src="js/navigation.js"></script>
+<script src="js/whitepaper/developer-nav.js"></script>
+<script src="js/whitepaper/submittal-review.js"></script>
+</body>
+</html>
