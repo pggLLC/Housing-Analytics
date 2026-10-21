@@ -262,3 +262,24 @@ def test_rolling_application_takes_a_deal_off_the_list_from_its_date():
     ent = D.rolling[0]['_entity']
     assert ent in rw.score_round(D, (2026, 2), '2026-08-11')
     assert ent not in rw.score_round(D, (2027, 1), '2026-10-12')
+
+
+def test_ledger_application_event_keeps_its_report_date():
+    a, l, e = base()
+    chfa = {'agency': 'CHFA', 'program': 'Housing tax credit 9% application', 'stage': 'not_funded', 'year': 2025,
+            'announced': None, 'as_of': '2025-02-12', 'source_url': URL, 'quote': 'Name: Manitou Test; Total Units: 43'}
+    d = dola('Manitou Test', '2025-11')
+    d['quote'] += '; Total Units: 50'
+    p = project('p-manitou', 'Manitou Test', 'Longmont', 50, [chfa, d])
+    assert rw.size_as_of(p, [], [chfa, d], False) == 50
+
+
+def test_check_lets_only_deal_summary_links_lag():
+    a, l, e = base()
+    a['applications'].append(app('Linked Place', 'Longmont', 2026, 1, 'not_awarded'))
+    out = build(a, l, e)
+    newer = json.loads(json.dumps(out))
+    newer['rounds'][0]['items'][0]['deal_summary'] = 'linked-place-longmont'
+    assert rw.without_deal_links(out) == rw.without_deal_links(newer)
+    newer['rounds'][0]['items'][0]['score'] += 1
+    assert rw.without_deal_links(out) != rw.without_deal_links(newer)

@@ -174,11 +174,12 @@ def size_as_of(p, apps, events, live):
     """Homes as known at the cutoff. The ledger keeps the size from its
     latest record, which may postdate a past round, so a backtest takes the
     latest size printed by a record public by then: an earlier application,
-    or a funding record (its quote). Year-only records date to year end."""
+    or a funding record (its quote), dated by its announcement or report date.
+    Year-only records date to year end."""
     if live:
         return (p or {}).get('total_units') or (apps[-1]['total_units'] if apps else None)
     # (date as printed, 0 record / 1 application, homes): same-day ties go to the application
-    sized = [((e.get('announced') or '%d-12-31' % e['year']).split('/')[0], 0, int(m.group(1))) for e in events
+    sized = [((e.get('announced') or e.get('as_of') or '%d-12-31' % e['year']).split('/')[0], 0, int(m.group(1))) for e in events
              for m in [SIZE_IN_QUOTE.search(e.get('quote') or '')] if m]
     sized += [(a.get('source_as_of') or '%d-12-31' % a['year'], 1, a['total_units']) for a in apps if a.get('total_units')]
     return max(sized)[2] if sized else None
@@ -466,6 +467,16 @@ def build(apps_doc, ledger_doc, excluded_doc, award_rows=(), dola_rows=(), deals
     }
 
 
+def without_deal_links(doc):
+    """The output with every deal summary link blanked, for the --check that
+    lets links lag a deal batch until the next derived rebuild."""
+    doc = json.loads(json.dumps(doc))
+    for r in doc.get('rounds', []):
+        for i in r.get('items', []):
+            i['deal_summary'] = None
+    return doc
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     ap.add_argument('--check', action='store_true')
@@ -476,12 +487,18 @@ def main():
                 read(DEALS)['deals'] if os.path.exists(DEALS) else [])
     text = json.dumps(out, indent=1, ensure_ascii=False) + '\n'
     if args.check:
-        same = False
+        same = links_only = False
         if os.path.exists(OUT):
             with open(OUT, encoding='utf-8') as f:
-                same = f.read() == text
-        print('round watch is %s' % ('current' if same else 'STALE: run python3 scripts/funding/build_round_watch.py'))
-        return 0 if same else 1
+                committed = f.read()
+            same = committed == text
+            # a new deal summary only adds a link; it refreshes with the next derived
+            # rebuild, so a deal batch merged on its own does not turn main red
+            links_only = not same and without_deal_links(json.loads(committed)) == without_deal_links(out)
+        print('round watch is %s' % ('current' if same else
+                                     'current apart from deal summary links (they refresh on the next rebuild)' if links_only else
+                                     'STALE: run python3 scripts/funding/build_round_watch.py'))
+        return 0 if same or links_only else 1
     with open(OUT, 'w', encoding='utf-8') as f:
         f.write(text)
     for r in out['rounds']:
