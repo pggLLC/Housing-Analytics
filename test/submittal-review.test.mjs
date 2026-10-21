@@ -355,6 +355,7 @@ ok(cov15.dscr === 1.1 && cov15.dscrYear === 9, 'coverage is the weakest all-must
 ok(SR.mustPayCoverage(rec({ dscr: 1.4 }), { years: full.slice(0, 5) }).dscr === null && /runs 5 years/.test(SR.mustPayCoverage(rec({ dscr: 1.4 }), { years: full.slice(0, 5) }).dscrReason), 'a 5-year forecast leaves coverage unavailable');
 ok(SR.mustPayCoverage(rec({ dscr: 1.4 }), { years: full.map((y) => (y.year === 4 ? { year: 4, allMustPayCoverage: null } : y)) }).dscr === null, 'a gap in years 1-15 leaves coverage unavailable');
 ok(SR.mustPayCoverage(rec({ dscr: 1.4, allMustPayDscr: 1.2 }), null).dscr === null, 'year-one coverage alone does not stand in for the 15-year minimum');
+ok(/yearOneOnly: true/.test(read('js/whitepaper/submittal-review.js')) && /Holds in year one; later years not tested/.test(read('js/whitepaper/submittal-review.js')), 'the calculator\'s own year-one stresses do not claim to hold for 15 years');
 ok(['Town of Moffat', 'Town of Stratton'].every((n) => SR.prop123Status(prop123, n).status === 'yes'), 'a 2027-2029 filing with no first-cycle record counts as filed');
 const cmpSkip = SR.compareTable(rules, prop123, [{ v: 'a', label: 'A', deal: { mix: { 60: 50 } }, claims: {}, stress: [{ fails: '' }, { fails: 'gap opens', skipped: false }, { fails: '', skipped: true }] }]);
 ok(/1 of 2 \(1 not run\)/.test(cmpSkip), 'the comparison counts skipped stress tests apart');

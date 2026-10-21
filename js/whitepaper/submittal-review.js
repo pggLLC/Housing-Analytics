@@ -690,12 +690,13 @@
       });
     }
     return step(0).then(function () {
-      // The engine's own coverage tests (rents -10%, vacancy +5 points, operating cost +10%) come with the base run.
+      // The engine's own coverage tests (rents -10%, vacancy +5 points, operating cost +10%) come with the base run. They
+      // stress year one only, so a pass says nothing about years 2-15; a year-one shortfall still fails.
       var es = base.engineStress || {};
       [['rent10', 'Rents -10%', 'Rent limits or market rents come in lower.'], ['opex10', 'Operating cost +10%', 'Insurance and utilities keep rising.'], ['vac5', 'Vacancy +5 points', 'Slower lease-up or turnover.']].forEach(function (k) {
         var s = es[k[0]], dscr = s ? num(s.dscr) : null;
-        results.push({ id: k[0], label: k[1], why: k[2], note: dscr == null ? 'The calculator did not report coverage for this test (no must-pay debt or income entered).' : 'Debt coverage only (the calculator\'s own stress test); the loan is not resized.',
-          engine: { dscr: dscr, fundingGap: null, deferredDeveloperFee: null, paybackYear: null }, coverageOnly: true, skipped: dscr == null });
+        results.push({ id: k[0], label: k[1], why: k[2], note: dscr == null ? 'The calculator did not report coverage for this test (no must-pay debt or income entered).' : 'Year-one debt coverage only (the calculator\'s own stress test); years 2-15 are not tested and the loan is not resized.',
+          engine: { dscr: dscr, dscrYear: dscr == null ? null : 1, fundingGap: null, deferredDeveloperFee: null, paybackYear: null }, coverageOnly: true, yearOneOnly: true, skipped: dscr == null });
       });
       results.forEach(function (t) { t.fails = t.skipped ? '' : stressFails(rules, t, base); });
       return { base: base, tests: results };
@@ -834,8 +835,8 @@
       st.tests.map(function (t) {
         var e = t.engine || {};
         return '<tr><td><strong>' + esc(t.label) + '</strong><div class="sr-muted">' + esc(t.why) + (t.note ? ' ' + esc(t.note) : '') + '</div></td>' +
-          '<td class="sr-num">' + esc(cell(e.fundingGap, money)) + '</td><td class="sr-num">' + esc(cell(e.dscr, ratio)) + '</td><td class="sr-num">' + esc(cell(e.deferredDeveloperFee, money)) + '</td>' +
-          '<td>' + (t.skipped ? '<span class="sr-muted">Not run</span>' : t.fails ? '<span class="sr-flag">Fails: ' + esc(t.fails) + '</span>' : (!t.scoreOnly && (t.engine || {}).dscr == null ? 'Holds; coverage not checked' : 'Holds')) + '</td></tr>';
+          '<td class="sr-num">' + esc(cell(e.fundingGap, money)) + '</td><td class="sr-num">' + esc(cell(e.dscr, ratio)) + (e.dscr != null && e.dscrYear ? ' <span class="sr-muted">(yr ' + esc(String(e.dscrYear)) + ')</span>' : '') + '</td><td class="sr-num">' + esc(cell(e.deferredDeveloperFee, money)) + '</td>' +
+          '<td>' + (t.skipped ? '<span class="sr-muted">Not run</span>' : t.fails ? '<span class="sr-flag">Fails: ' + esc(t.fails) + '</span>' : (t.yearOneOnly ? 'Holds in year one; later years not tested' : !t.scoreOnly && (t.engine || {}).dscr == null ? 'Holds; coverage not checked' : 'Holds')) + '</td></tr>';
       }).join('') + '</tbody></table></div>';
   }
 
