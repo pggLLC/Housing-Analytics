@@ -161,7 +161,7 @@
         'Mark this place to track council and commission agendas, minutes and local news about housing here, and how the local words change.') + '</p>' +
         (on ? linksForm(o.geoid, o.links) : '') + '</section>';
     }
-    if (!on) h += '<p class="ib-muted">' + (r.starting_place ? esc(name) + ' is on the starting list, so it is read every week either way.'
+    if (!on) h += '<p class="ib-muted">' + (r.starting_place ? esc(r.name || name) + ' is on the starting list, so it is read every week either way.'
       : 'Not marked, so this read from ' + esc(day(r.updated)) + ' will not be updated.') + '</p>';
     var lvl = LEVEL[(r.how_read || {}).level] || LEVEL.hand;
     h += '<div class="ld-numbers">' + keyNumbers(r).map(function (k) {
