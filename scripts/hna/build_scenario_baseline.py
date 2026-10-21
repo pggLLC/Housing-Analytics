@@ -24,6 +24,13 @@ Households are SDO's household forecast by age of householder: each group's
 rate (households / people of that age in SDO's forecast) times the scenario's
 people of that age. At 100% that is SDO's forecast.
 
+Each file also carries the ten years before the forecast (pastMigration):
+SDO's estimated net migration each year, and the same residual by age and sex
+from SDO's estimates (population by age, births and deaths, with the rates
+above), averaged. The builder can run that average each year in place of
+SDO's forecast migration, the standard alternative of carrying recent
+migration forward.
+
 Inputs, all cached by build_hna_data.py (DOLA phase) except the last:
   data/hna/source/dola_sya_county.csv         SDO single year of age, est. + forecast
   data/hna/source/dola_components_county.csv  SDO births, deaths, net migration
@@ -53,6 +60,7 @@ N_AGES = 101             # 0..99 and 100+
 FERTILE = range(10, 50)  # ages 10-49, the NCHS birth-rate groups
 # SDO age_group_id 1-4; id 0 is the total.
 HH_GROUPS = [('18-24', 18, 24), ('25-44', 25, 44), ('45-64', 45, 64), ('65+', 65, 100)]
+PAST_YEARS = 10          # years of estimated migration the builder can carry forward
 SEX_RATIO = 1.05
 # Colorado's 64 county FIPS codes: the odd numbers 1-125 and Broomfield, 14.
 CO_COUNTIES = sorted(set(range(1, 126, 2)) | {14})
@@ -128,7 +136,7 @@ def main():
         if c == 0:
             continue
         y = int(r['year'])
-        if BASE_YEAR <= y <= END_YEAR:
+        if BASE_YEAR - PAST_YEARS <= y <= END_YEAR:
             d = sya.setdefault(c, {}).setdefault(y, ([0.0] * N_AGES, [0.0] * N_AGES))
             key = (c, y, int(r['age']))
             rows_by_age[key] = rows_by_age.get(key, 0) + 1
@@ -156,7 +164,9 @@ def main():
     # A download cut short inside a year keeps that year but loses some ages,
     # which would otherwise read as nobody of those ages.
     years = list(range(BASE_YEAR, END_YEAR + 1))
-    gaps = [f'08{c:03d} {y} age {a}' for c in CO_COUNTIES for y in years for a in range(N_AGES)
+    past_years = list(range(BASE_YEAR - PAST_YEARS + 1, BASE_YEAR + 1))
+    gaps = [f'08{c:03d} {y} age {a}' for c in CO_COUNTIES for y in [past_years[0] - 1] + past_years[:-1] + years
+            for a in range(N_AGES)
             if rows_by_age.get((c, y, a), 0) != 1]
     # SDO's file runs from age 0 to 100 (100 and over); any other age would be
     # added into the oldest or, below zero, the wrong cohort above.
@@ -169,6 +179,7 @@ def main():
     # leaving some counties on the new vintage and some on the old.
     hh_ids = set(range(len(HH_GROUPS) + 1))
     worst = 0.0
+    past_drift = 0.0
     outputs = {}
     for c in sorted(sya):
         geoid = f'08{c:03d}'
@@ -177,6 +188,25 @@ def main():
         if (any(y not in path for y in years) or any(y not in comp_c for y in years[1:])
                 or any(not hh_ids <= set(hh_c.get(y, {})) for y in years)):
             raise SystemExit(f'{geoid}: SDO files do not cover {BASE_YEAR}-{END_YEAR}; nothing written')
+        if (any(comp_c.get(y, {}).get('datatype') != 'Estimate' for y in past_years)
+                or any(y - 1 not in path for y in past_years)):
+            raise SystemExit(f'{geoid}: SDO files lack estimates for {past_years[0] - 1}-{past_years[-1]}; nothing written')
+        # The ten years before the forecast, by the same residual: SDO's
+        # estimated population by age next year, less survivors and newborns.
+        past_m, past_f = [0.0] * N_AGES, [0.0] * N_AGES
+        for y in past_years:
+            pm, pf = path[y - 1]
+            nm, nf = path[y]
+            row = comp_c[y]
+            kd = death_scale(pm, pf, qm, qf, float(row['deaths']))
+            expected_b = sum(pf[a] * asfr[a] for a in FERTILE)
+            kb = float(row['births']) / expected_b if expected_b > 0 else 0.0
+            sm, sf, _, _ = step(pm, pf, qm, qf, asfr, kd, kb)
+            for a in range(N_AGES):
+                past_m[a] += (nm[a] - sm[a]) / PAST_YEARS
+                past_f[a] += (nf[a] - sf[a]) / PAST_YEARS
+        past_net = [int(float(comp_c[y]['netmig'])) for y in past_years]
+        past_drift = max(past_drift, abs(sum(past_m) + sum(past_f) - sum(past_net) / PAST_YEARS))
         kds, kbs, mig_m, mig_f = [], [], [], []
         sdo_births, sdo_deaths, sdo_mig = [], [], []
         for y in years[:-1]:
@@ -249,12 +279,21 @@ def main():
                 'deaths': sdo_deaths,
                 'netMigration': sdo_mig,
             },
+            'pastMigration': {
+                'years': past_years,
+                'netMigration': past_net,
+                'male': [round(v, 2) for v in past_m],
+                'female': [round(v, 2) for v in past_f],
+            },
         }
         outputs[geoid] = out
     # Migration is stored to the hundredth of a person, so the rebuilt path can
     # differ from SDO's by rounding alone: a few people over 26 years.
     if worst > 5:
         raise SystemExit(f'default path drifts from SDO by {worst:.1f} people in some year; expected 5 or fewer; nothing written')
+    # The residual by age should add up to SDO's estimated net migration.
+    if past_drift > 5:
+        raise SystemExit(f'past migration by age differs from SDO\'s estimated total by {past_drift:.1f} people a year; nothing written')
 
     os.makedirs(OUT_DIR, exist_ok=True)
     for geoid, out in outputs.items():
@@ -262,7 +301,7 @@ def main():
             json.dump(out, f, separators=(',', ':'))
             f.write('\n')
     print(f'wrote {len(outputs)} county files to {os.path.relpath(OUT_DIR, ROOT)} ({vintage}); '
-          f'largest drift from SDO population {worst:.2f} people')
+          f'largest drift from SDO population {worst:.2f} people; past migration by age within {past_drift:.2f} a year of SDO\'s totals')
 
 
 if __name__ == '__main__':
