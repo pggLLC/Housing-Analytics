@@ -1,0 +1,422 @@
+{
+ "slug": "warren-village-iii-denver",
+ "name": "Warren Village III",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "researched_on": "2026-10-21",
+ "units": 89,
+ "headline": "Warren Village III (opened as Warren Village at Alameda) is an 89-home supportive housing campus for single-parent families leaving homelessness, with a 100-child early learning center, on Denver Housing Authority land in Athmar Park; Warren Village won 2022 Round Two federal 4% and $1M state credits and opened it in spring 2025.",
+ "why_it_matters": "It is Denver's first family supportive housing deal: 79 of 89 units carry project-based vouchers (50 from DHA, 29 city-funded), the land is a $100-a-year, 99-year DHA ground lease from the D3 bond program, and the city added $3.81M in gap money and 15 years of services funding.",
+ "status": {
+  "label": "Completed and open (grand opening by May 2025)",
+  "detail": "Denver announced the grand opening in early May 2025 after an August 2023 groundbreaking. No public 8609 or placed-in-service date was found.",
+  "src": [
+   "denver-host-2025-05",
+   "milehighcre-2025-05",
+   "cbs-2023-08"
+  ]
+ },
+ "next_step": "Look for CHFA's completed-developments (8609) listing and early operating results for the voucher units and the early learning center.",
+ "key_numbers": [
+  {
+   "value": "89 homes, 79 with project-based vouchers",
+   "meaning": "Supportive housing for single parents and their children who are homeless or at risk; 50 vouchers from DHA, 29 funded by Denver.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives",
+    "denver-host-2025-05"
+   ]
+  },
+  {
+   "value": "$2,484,288 a year in federal 4% credit",
+   "meaning": "Plus $1,000,000 of state credit; CHFA issued $26,000,000 in bonds.",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "value": "$50.8M total cost",
+   "meaning": "About $571,000 per home (inferred), driven by a two-building campus with 15-20% non-residential service space.",
+   "src": [
+    "denver-host-2025-05",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "value": "100-child early learning center",
+   "meaning": "Run by Warren Village on site; described by Denver as the first co-located at a supportive housing development in Colorado.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives",
+    "denver-host-2025-05"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address (CHFA)",
+   "value": "1394 W. Alameda Ave., Denver 80223 (campus also includes 1373 W. Nevada)",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA code)",
+   "value": "N, M: new construction, mixed population",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "89 total, 89 low-income",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Two Type V-A wood-frame buildings of three and four stories linked by a path: north building on Alameda with services space, south building on Nevada with the early learning center; 42 parking spaces",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "denver-host-2025-05"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "Census tract 13.02, a 2022 qualified census tract; use-by-right zoning, no rezoning needed",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Bus routes 3 and 4 at the front door, a five-minute ride to Alameda light-rail station",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Warren Village family advocates (case managers) plus WellPower for mental health and substance use services",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "NGBS Silver target; flat roofs built for future solar",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 40
+  },
+  {
+   "level": "50% AMI",
+   "units": 44
+  },
+  {
+   "level": "60% AMI",
+   "units": 5
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 7
+  },
+  {
+   "type": "2BR",
+   "units": 63
+  },
+  {
+   "type": "3BR",
+   "units": 19
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,484,288 per year",
+   "note": "Annual credit, runs 10 years.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,000,000",
+   "note": "",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$26,000,000",
+   "note": "Application: sized near the 55% test, paid down to $11,450,000 of long-term bonds; private placement planned. Whose bond cap was used is not stated.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Denver Department of Housing Stability gap loan",
+   "amount": "$3,810,000",
+   "note": "Construction gap financing from the Homelessness Resolution Fund.",
+   "src": [
+    "denver-host-2025-05"
+   ]
+  },
+  {
+   "source": "Denver project-based vouchers (29 units)",
+   "amount": "Up to $22.7M over 20 years",
+   "note": "Homelessness Resolution Fund.",
+   "src": [
+    "denver-host-2025-05"
+   ]
+  },
+  {
+   "source": "Denver supportive services agreement",
+   "amount": "$1,777,500 over 15 years",
+   "note": "",
+   "src": [
+    "denver-host-2025-05"
+   ]
+  },
+  {
+   "source": "Denver Housing Authority project-based vouchers (50 units) and land",
+   "amount": "Not quantified",
+   "note": "Site acquired through DHA's D3 (DHA Delivers for Denver) program; ground lease at $100 a year.",
+   "src": [
+    "denver-host-2025-05",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing, Warren Village capital campaign, federal funds, deferred developer fee",
+   "amount": "Amounts not public",
+   "note": "Denver also credits federal funding secured by the area's member of Congress.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "denver-host-2025-05"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it), owner/operator and services provider",
+   "name": "Warren Village Inc.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions",
+    "denver-host-2025-05"
+   ]
+  },
+  {
+   "role": "Turn-key development consultant",
+   "name": "Urban Ventures, LLC",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Landowner (99-year ground lease) and voucher provider",
+   "name": "Denver Housing Authority",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions",
+    "denver-host-2025-05"
+   ]
+  },
+  {
+   "role": "Gap lender, voucher and services funder",
+   "name": "City and County of Denver, Department of Housing Stability",
+   "src": [
+    "denver-host-2025-05"
+   ]
+  },
+  {
+   "role": "Behavioral health partner",
+   "name": "WellPower",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "LIHTC consultant (application)",
+   "name": "RCH Jones Housing",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager (application)",
+   "name": "BlueLine Property Management",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Warren Village has run its 93-unit Gilpin Street campus in Denver since 1974; this is its first new campus, won through a DHA request for qualifications for family supportive housing on DHA-owned parcels under the D3 bond program.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "At application Warren Village held a ground lease option and was negotiating a 99-year DHA ground lease at $100 a year.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "All 79 voucher units were to be leased first to 30% AMI households, with half designated 50% AMI so families can stay as incomes rise; 10 non-voucher units sit at 50% and 60% AMI.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Denver Community Planning and Development gave concept approval and assigned an Affordable Housing Review Team to expedite permits; a site development plan submittal was expected in August 2022.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The Phase I environmental report found one recognized environmental condition; earlier Phase II work found no contamination from former uses, but groundwater use was not recommended because of elevated arsenic.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application assumed a 1.40 debt-service coverage ratio and sought a CHFA cost-basis waiver.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-08-12",
+   "event": "CHFA posts Round Two application narratives including Warren Village III",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-11",
+   "event": "CHFA awards 2022 Round Two federal 4% and state credits (month per CBS)",
+   "src": [
+    "chfa-2022-r2-award",
+    "cbs-2023-08"
+   ]
+  },
+  {
+   "date": "2023-08-30",
+   "event": "Groundbreaking",
+   "src": [
+    "cbs-2023-08"
+   ]
+  },
+  {
+   "date": "2025-05",
+   "event": "Denver announces the grand opening of Warren Village at Alameda",
+   "src": [
+    "denver-host-2025-05",
+    "milehighcre-2025-05"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA lists the address as 1394 W. Alameda Ave., while Denver's opening announcement gives 1390 W. Alameda Ave.",
+   "src": [
+    "chfa-2022-r2-award",
+    "denver-host-2025-05"
+   ]
+  },
+  {
+   "text": "CHFA's award description sets income limits at 30%, 50% and 60% AMI, while Denver's opening announcement says units serve households up to 30%, 50% or 80% AMI.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "denver-host-2025-05"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing date, equity investor and credit price, permanent lender.",
+  "Colorado Division of Housing award amount and any federal earmark amount.",
+  "General contractor and architect (not named in the public sources found).",
+  "Placed-in-service date and 8609 issuance.",
+  "Exact terms of the recorded DHA ground lease and any property-tax exemption through DHA."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "2022 Round 2, 4% Federal Credit and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "2022 Round Two 4% Housing Credit Application Narratives",
+   "publisher": "CHFA",
+   "date": "2022-08-12",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "denver-host-2025-05",
+   "title": "Denver Opens New Affordable Housing Targeting Single-Parent Families",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2025-05",
+   "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/New-Affordable-Housing-Targeting-Single-Parent-Families-Opens-in-West-Denver"
+  },
+  {
+   "id": "milehighcre-2025-05",
+   "title": "Affordable Housing Targeting Single-Parent Families Opens in Denver",
+   "publisher": "Mile High CRE",
+   "date": "2025-05-06",
+   "url": "https://milehighcre.com/affordable-housing-targeting-single-parent-families-opens-in-denver/"
+  },
+  {
+   "id": "cbs-2023-08",
+   "title": "Crews break ground on Warren Village III affordable housing, services expansion",
+   "publisher": "CBS News Colorado",
+   "date": "2023-08-30",
+   "url": "https://www.cbsnews.com/colorado/news/crews-break-ground-on-warren-village-iii-affordable-housing-services-expansion/"
+  }
+ ]
+}

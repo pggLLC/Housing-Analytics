@@ -1,0 +1,402 @@
+{
+ "slug": "brush-village-ii-brush",
+ "name": "Brush Village II (opened as Meadow Vista Apartments)",
+ "city": "Brush",
+ "county": "Morgan",
+ "award": "2022 Federal 9% housing tax credit (Round One)",
+ "units": 45,
+ "researched_on": "2026-10-21",
+ "headline": "Northpointe Development's Brush Village II, a 45-unit family rental at Mill and Boxer streets in Brush for households at 30% to 60% AMI, won $1,292,500 a year in 2022 federal 9% credits and opened in August 2024 as Meadow Vista Apartments.",
+ "why_it_matters": "It was the first housing tax credit deal in Brush in 28 years, done by an out-of-state developer's first Colorado award with city fee waivers, ARPA money and a housing authority tax exemption, and it went from award to certificate of occupancy in about 26 months.",
+ "status": {
+  "label": "Built; certificate of occupancy 2024-08-01, move-ins began August 2024",
+  "detail": "The City of Brush says the 45-unit building on Mill Street began in May 2023 and received its certificate of occupancy on 2024-08-01; the property website says move-in began 2024-08-01. Linking Meadow Vista to Brush Village II is inferred: same developer, 45 units, Boxer Street address, and the contractor repeats CHFA's description (first credit deal in Brush in 28 years, park and community garden). No 8609 record was found.",
+  "src": [
+   "brush-projects",
+   "meadow-vista-site",
+   "kci-meadow-vista",
+   "chfa-2022-r1-descriptions"
+  ]
+ },
+ "next_step": "Check CHFA or HUD placed-in-service data for Meadow Vista to confirm the 8609 year and final credit amount, and Brush council records for the ARPA grant and fee-waiver agreement.",
+ "key_numbers": [
+  {
+   "value": "45 homes: 29 one-bedroom, 16 two-bedroom",
+   "meaning": "All income-restricted: 5 at 30% AMI, 19 at 50% and 21 at 60%.",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "value": "$1,292,500 a year in federal 9% credit",
+   "meaning": "About $12.9M over 10 years (inferred), with a requested discretionary basis boost.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "value": "About $450,000 in local support",
+   "meaning": "City of Brush ARPA funds, tap/impact/permit fee waivers and sales-tax exemption, plus a Brush Housing Authority property tax exemption (about $10,000 per unit).",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "value": "Certificate of occupancy 2024-08-01",
+   "meaning": "Construction ran from May or June 2023 to August 2024.",
+   "src": [
+    "brush-projects",
+    "kci-meadow-vista"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA: Mill St. & Boxer St., Brush 80723; property website: 2 Boxer Street, Brush, CO 80723",
+   "src": [
+    "chfa-2022-r1-award",
+    "meadow-vista-site"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three-story elevator building, about 47,835 gross sq ft, wood frame on slab, brick and fiber-cement siding; units about 615 sq ft (1BR) to 916 sq ft (2BR) with in-unit washer/dryer",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "3.93 acres, census tract 7.00 (not a QCT or DDA), zoned RE-2J-BR, next to the 1994 Brush Village tax credit property and across Mill Street from the school campus",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Open space deal",
+   "value": "Improvements in lieu of land dedication: the developer improves city-owned land between the site and Brush Village as a public park and community garden",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-descriptions",
+    "kci-meadow-vista"
+   ]
+  },
+  {
+   "item": "Parking",
+   "value": "Zoning required 77 spaces; a variance to 57 was in process at application",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "NGBS Bronze target",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 19
+  },
+  {
+   "level": "60% AMI",
+   "units": 21
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 29
+  },
+  {
+   "type": "2BR",
+   "units": 16
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r1-descriptions",
+  "chfa-2022-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,292,500 per year",
+   "note": "No state credit shown on the 2022 Round One report. Equity investor named at application: WNC.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing soft loan",
+   "amount": "$65,000 per unit (planned; about $2.9M for 45 units, inferred)",
+   "note": "Enhanced Development Gap guidelines for rural communities, as stated at application.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "CHFA permanent loan",
+   "amount": "Not stated",
+   "note": "Planned at application; construction loan from Legacy Bank planned.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "City of Brush and Brush Housing Authority",
+   "amount": "About $450,000 (planned)",
+   "note": "ARPA funds, fee waivers, sales and use tax exemption, plus property tax exemption with the housing authority as special limited partner.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA prints it)",
+   "name": "Northpointe Development II Corporation",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "role": "Developer",
+   "name": "Northpointe Development Corporation (Wisconsin; first Colorado award)",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "shopworks-meadow-vista"
+   ]
+  },
+  {
+   "role": "Special limited partner / tax exemption",
+   "name": "Brush Housing Authority",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Land seller (at a discount)",
+   "name": "Northeast Colorado Housing Inc.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "shopworks-meadow-vista"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "KCI Construction",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "kci-meadow-vista"
+   ]
+  },
+  {
+   "role": "Property manager (at application)",
+   "name": "Hudson Property Management",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Financial consultants (at application)",
+   "name": "RCH Jones Consulting; Williford, LLC",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Land: the developer bought the site at a discount from Northeast Colorado Housing Inc., a mission-aligned agency.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Approvals: the site was already zoned for the use and final site plan review was administrative (no public hearing); site plan approval was expected by late 2022.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Market: the narrative says the market area had five older tax credit properties (138 units), four nearing the end of their land use restrictions, no tax credit awards since 2014, and no unsubsidized 30% or 50% units.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "The developer said it was interested in buying and recapitalizing the adjacent 1994 Brush Village property.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Built by KCI Construction from June 2023 to August 2024 per the contractor; the city says work began in May 2023.",
+   "src": [
+    "kci-meadow-vista",
+    "brush-projects"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-02-09",
+   "event": "Listed on CHFA's 2022 Round One applicant report",
+   "src": [
+    "chfa-2022-r1-applicants"
+   ]
+  },
+  {
+   "date": "2022-05-25",
+   "event": "Awarded $1,292,500 a year in federal 9% credits",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "date": "2023-05",
+   "event": "Construction begins (city); contractor gives June 2023",
+   "src": [
+    "brush-projects",
+    "kci-meadow-vista"
+   ]
+  },
+  {
+   "date": "2024-08-01",
+   "event": "Certificate of occupancy issued; move-ins begin as Meadow Vista Apartments",
+   "src": [
+    "brush-projects",
+    "meadow-vista-site"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Meadow Vista Apartments project photos",
+   "url": "https://shopworksarc.com/works/meadow-vista/",
+   "kind": "photo",
+   "made_by": "Shopworks Architecture",
+   "note": "Project page gallery",
+   "src": [
+    "shopworks-meadow-vista"
+   ]
+  },
+  {
+   "title": "Meadow Vista Housing construction project page",
+   "url": "https://www.kciconst.com/portfolio/meadow-vista-housing/",
+   "kind": "photo",
+   "made_by": "KCI Construction",
+   "note": "Project page",
+   "src": [
+    "kci-meadow-vista"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award and applicant reports locate the site at Mill St. and Boxer St. (the property's address is 2 Boxer Street), while the application narrative places it at the northwest corner of Mill Street and Weisbart Street.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-applicants",
+    "meadow-vista-site",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "The City of Brush says construction began in May 2023, while the general contractor gives June 2023 as the start.",
+   "src": [
+    "brush-projects",
+    "kci-meadow-vista"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Final total development cost, equity price, final DOH loan amount and final CHFA permanent loan.",
+  "City of Brush council actions (ARPA grant, fee waiver agreement) with dates and resolution numbers; the parking variance outcome.",
+  "Current property manager and whether the income mix changed (one listing site describes 30% to 80% AMI; not confirmed from a primary source).",
+  "8609 issuance and placed-in-service year; whether the developer bought the adjacent Brush Village."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r1-award",
+   "title": "CHFA, 2022 Round One - 9% Competitive Housing Credit Award Report (public award report dated 2022-05-25)",
+   "publisher": "CHFA",
+   "date": "2022-05-25",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-descriptions",
+   "title": "CHFA, 2022 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r1-applicants",
+   "title": "CHFA, 2022 Housing Tax Credit Round One Applicant Report (26 applications)",
+   "publisher": "CHFA",
+   "date": "2022-02-09",
+   "url": "https://www.chfainfo.com/getattachment/a5bd1311-e59e-42db-82b1-b5e6d0e9fd26/2022-HTC-Round-1-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One 9% application narratives (Brush Village II, PDF pages 16-20)",
+   "publisher": "CHFA",
+   "date": "2022-02-14",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "brush-projects",
+   "title": "Current Projects (Meadow Vista Apartments entry)",
+   "publisher": "City of Brush",
+   "date": "2025",
+   "url": "https://www.brushcolo.com/community/development/current_projects.php"
+  },
+  {
+   "id": "kci-meadow-vista",
+   "title": "Meadow Vista Housing (project page)",
+   "publisher": "KCI Construction",
+   "date": "2024",
+   "url": "https://www.kciconst.com/portfolio/meadow-vista-housing/"
+  },
+  {
+   "id": "shopworks-meadow-vista",
+   "title": "Meadow Vista Apartments (project page)",
+   "publisher": "Shopworks Architecture",
+   "date": "2024",
+   "url": "https://shopworksarc.com/works/meadow-vista/"
+  },
+  {
+   "id": "meadow-vista-site",
+   "title": "Meadow Vista Apartments (property website)",
+   "publisher": "Meadow Vista Apartments",
+   "date": "2026",
+   "url": "https://www.livemeadowvista.com/"
+  }
+ ]
+}

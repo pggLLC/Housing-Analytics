@@ -1,0 +1,492 @@
+{
+ "slug": "elevate-at-aurora-aurora",
+ "name": "Elevate at Aurora",
+ "city": "Aurora",
+ "county": "Adams",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "units": 137,
+ "researched_on": "2026-10-21",
+ "headline": "Elevate at Aurora is a 137-apartment affordable community at 1671 Altura Boulevard, about a mile east of the Anschutz Medical Campus, built by Columbia Ventures on land owned by Living Hope Community Church together with a community building for the workforce nonprofit CrossPurpose; it won $2,689,571 a year in federal 4% credit and $1,000,000 in state credit in CHFA's 2022 Round Two.",
+ "why_it_matters": "It pairs income-restricted housing from 30% to 70% of AMI with an on-site career training center on church land, financed with a church/foundation-funded community facility kept off the housing budget through a triple-net lease, a model for faith-land and workforce partnerships.",
+ "status": {
+  "label": "Completed: certificates of occupancy dated 2026-03-16",
+  "detail": "Aurora issued permits for the four apartment buildings (137 units) on 2023-10-19 and for the clubhouse/community building on 2023-10-05; the city's certificate of occupancy layer shows COs dated 2026-03-16 for all five addresses. No placed-in-service or 8609 record or official opening announcement was found.",
+  "src": [
+   "aurora-permits-elevate",
+   "aurora-co-2026"
+  ]
+ },
+ "next_step": "Watch for a grand opening or lease-up announcement and CHFA records showing the placed-in-service year.",
+ "key_numbers": [
+  {
+   "value": "137 homes, all income-restricted",
+   "meaning": "7 at 30% AMI, 7 at 40%, 34 at 50%, 55 at 60% and 34 at 70%; studios to three bedrooms.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$2,689,571 a year federal 4% credit plus $1,000,000 state credit",
+   "meaning": "About $26.9M in federal credit over 10 years (inferred from the annual amount).",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "value": "$36.3M from KeyBank",
+   "meaning": "$30M of tax credit equity (including $5.5M for the state credit) and a $6.3M equity bridge loan; KeyBank also placed $31.245M of bonds as a tax-exempt loan.",
+   "src": [
+    "keybank-2023-10-17"
+   ]
+  },
+  {
+   "value": "COs issued 2026-03-16",
+   "meaning": "All four apartment buildings and the community building.",
+   "src": [
+    "aurora-co-2026"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1671 Altura Boulevard, Aurora 80011; city permits also use 1681 N Altura Blvd and 1672, 1682 and 1692 N Eagle St for the buildings",
+   "src": [
+    "chfa-2022-r2-award",
+    "aurora-permits-elevate"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "4.7-acre parcel owned by Living Hope Community Church; platted as Altura Farms Tract 10 Filing 1 (case 2023-3007)",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "aurora-co-2026"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Four three-story walk-up apartment buildings (35, 42, 42 and 18 units) with breezeways, plus a one-story community service facility; surface parking",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "aurora-permits-elevate"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Rezoned from R-2 to R-4 (high density) with unanimous City Council approval in February 2022",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Location",
+   "value": "Across from Altura Elementary, near a King Soopers, two blocks from Colfax 15/15L buses and 0.9 mile from the R Line Colfax station; in a Qualified Census Tract",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "NGBS Bronze, electrification-ready; rooftop solar permits issued 2025",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "aurora-permits-elevate"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 7
+  },
+  {
+   "level": "50% AMI",
+   "units": 34
+  },
+  {
+   "level": "60% AMI",
+   "units": 55
+  },
+  {
+   "level": "70% AMI",
+   "units": 34
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 6
+  },
+  {
+   "type": "1BR",
+   "units": 62
+  },
+  {
+   "type": "2BR",
+   "units": 52
+  },
+  {
+   "type": "3BR",
+   "units": 17
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions",
+  "chfa-2022-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,689,571 per year",
+   "note": "The applicant report showed a $2,692,042 request.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,000,000",
+   "note": "KeyBank bought it for $5.5M of state credit equity.",
+   "src": [
+    "chfa-2022-r2-award",
+    "keybank-2023-10-17"
+   ]
+  },
+  {
+   "source": "Tax-exempt bonds (CHFA issuer)",
+   "amount": "$29,295,000 (award report); $31,245,000 placed by KeyBank",
+   "note": "Structured as a construction-to-permanent tax-exempt loan placed with a KeyBank capital markets investor; the application planned $16,190,000 of permanent bonds and a $10,867,892 taxable construction loan.",
+   "src": [
+    "chfa-2022-r2-award",
+    "keybank-2023-10-17",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax credit equity (KeyBank CDLI)",
+   "amount": "$30,000,000",
+   "note": "Includes $5.5M of state credit equity and $292,744 of solar tax credit equity; plus a $6.3M equity bridge loan.",
+   "src": [
+    "keybank-2023-10-17"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing loan",
+   "amount": "$4,700,000",
+   "note": "",
+   "src": [
+    "keybank-2023-10-17"
+   ]
+  },
+  {
+   "source": "CHFA Capital Magnet Fund",
+   "amount": "$800,000 loan and $190,000 grant",
+   "note": "",
+   "src": [
+    "keybank-2023-10-17"
+   ]
+  },
+  {
+   "source": "City of Aurora HOME and ARPA",
+   "amount": "$1,000,000 HOME and $750,000 ARPA",
+   "note": "The application cited $1,750,000 in city HOME and ARPA approvals.",
+   "src": [
+    "keybank-2023-10-17",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Community service facility funding",
+   "amount": "Not public",
+   "note": "Conditionally committed by Living Hope Community Church, the Gamel Family Trust and the Anschutz Foundation; CrossPurpose said it would invest $3.5M in its space.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "gazette-2024-11-26"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "CV Colorado, LLC",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "role": "Developer",
+   "name": "Columbia Ventures Colorado, LLC (affiliate of Columbia Ventures, LLC, Atlanta)",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "keybank-2023-10-17"
+   ]
+  },
+  {
+   "role": "Special limited partner (tax exemption)",
+   "name": "Housing Authority of the City of Aurora",
+   "src": [
+    "keybank-2023-10-17",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Landowner",
+   "name": "Living Hope Community Church",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Community facility tenant and service partner",
+   "name": "CrossPurpose",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "keybank-2023-10-17"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (per application)",
+   "name": "I-Kota",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Civil engineer",
+   "name": "Ware Malcomb",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Financial consultant",
+   "name": "S.B. Clark Companies",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Equity investor and bond placement",
+   "name": "KeyBank (CDLI and Commercial Mortgage Group)",
+   "src": [
+    "keybank-2023-10-17"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Living Hope Community Church bought the land at a reduced price from a farmer who wanted it to go to a ministry; it sat vacant for about a decade before the church and CrossPurpose brought in partners.",
+   "src": [
+    "gazette-2024-11-26"
+   ]
+  },
+  {
+   "text": "The application planned a 15,250 sq ft community service facility, mainly CrossPurpose's Aurora location, run through a triple-net lease so the housing budget does not depend on it; KeyBank's release says it also houses Living Hope Community Church.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "keybank-2023-10-17"
+   ]
+  },
+  {
+   "text": "Aurora issued a demolition permit for an existing structure on the site in August 2023; the Phase I found no recognized environmental conditions and an asbestos survey was included in demolition costs.",
+   "src": [
+    "aurora-permits-elevate",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application included a cost basis waiver request and expected construction to start in the third quarter of 2023.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The 70% AMI units and the developer's stated Average Income experience suggest an income-averaging set-aside (inferred; not stated in CHFA's description).",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "text": "No asterisk footnote applies to this row in the award report; its asterisks only key the Type and Target codes.",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-02",
+   "event": "Aurora City Council unanimously rezones the site to R-4",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-07-20",
+   "event": "Virtual public meeting (no members of the public attended)",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2022-08-10",
+   "event": "Listed on CHFA's 2022 Round Two applicant report",
+   "src": [
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "date": "2023-04-28",
+   "event": "Building permit applications filed for the five buildings",
+   "src": [
+    "aurora-permits-elevate"
+   ]
+  },
+  {
+   "date": "2023-08-28",
+   "event": "Demolition permit issued",
+   "src": [
+    "aurora-permits-elevate"
+   ]
+  },
+  {
+   "date": "2023-10-05",
+   "event": "Clubhouse/community building permit issued",
+   "src": [
+    "aurora-permits-elevate"
+   ]
+  },
+  {
+   "date": "2023-10-17",
+   "event": "KeyBank announces $36.3M of financing",
+   "src": [
+    "keybank-2023-10-17"
+   ]
+  },
+  {
+   "date": "2023-10-19",
+   "event": "Permits issued for the four apartment buildings (137 units)",
+   "src": [
+    "aurora-permits-elevate"
+   ]
+  },
+  {
+   "date": "2024-11-26",
+   "event": "Gazette reports the complex under construction with move-ins expected in 2025",
+   "src": [
+    "gazette-2024-11-26"
+   ]
+  },
+  {
+   "date": "2026-03-16",
+   "event": "Certificates of occupancy for all five addresses",
+   "src": [
+    "aurora-co-2026"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "The award report lists $29,295,000 of CHFA bonds, while KeyBank says it placed $31,245,000 of private activity bonds.",
+   "src": [
+    "chfa-2022-r2-award",
+    "keybank-2023-10-17"
+   ]
+  },
+  {
+   "text": "The application describes a 15,250 sq ft community service facility, while the Gazette reports CrossPurpose investing in 16,000 sq ft of space.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "gazette-2024-11-26"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Opening date, lease-up status and the name the property leases under (search results showed third-party listings under another name; not verified).",
+  "Total development cost, final general contractor and permanent loan terms.",
+  "Placed-in-service date and 8609s; affordability period and recorded covenant.",
+  "Terms of the land deal with Living Hope Community Church (sale or ground lease)."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "2022 Round 2, 4% Federal Credit and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-05-06",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "2022 Round Two 4% housing credit application narratives",
+   "publisher": "CHFA",
+   "date": "2022-08-12",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-applicants",
+   "title": "2022 HTC Round 2 Applicant Report",
+   "publisher": "CHFA",
+   "date": "2022-08-10",
+   "url": "https://www.chfainfo.com/getattachment/5dd1a6f7-79cd-4020-b9f2-e404897712f4/2022-HTC-Round-2-Applicant-Report.pdf"
+  },
+  {
+   "id": "keybank-2023-10-17",
+   "title": "KeyBank Provides $36.3 Million of Financing for Affordable Multifamily Housing in Colorado",
+   "publisher": "KeyBank via 3BL",
+   "date": "2023-10-17",
+   "url": "https://www.3blmedia.com/news/keybank-provides-363-million-financing-affordable-multifamily-housing-colorado"
+  },
+  {
+   "id": "gazette-2024-11-26",
+   "title": "Aurora nonprofit develops affordable housing, career development campus",
+   "publisher": "The Gazette",
+   "date": "2024-11-26",
+   "url": "https://gazette.com/2024/11/26/aurora-nonprofit-develops-affordable-housing-career-development-campus/"
+  },
+  {
+   "id": "aurora-permits-elevate",
+   "title": "City of Aurora Open Data, Building Permits layer, query for permits described as Elevate",
+   "publisher": "City of Aurora",
+   "date": "2026-10-21",
+   "url": "https://ags.auroragov.org/aurora/rest/services/OpenData/MapServer/44/query?where=FolderDescription+LIKE+%27%25ELEVATE%25%27&outFields=Permit_%2CInDate%2CIssueDate%2CSubDesc%2CFolderDescription%2CAddress%2Cvaluation&returnGeometry=false&f=html&outSR=4326"
+  },
+  {
+   "id": "aurora-co-2026",
+   "title": "City of Aurora, COed addresses 2026 layer, Altura Farms Tract 10 Filing 1",
+   "publisher": "City of Aurora",
+   "date": "2026-10-21",
+   "url": "https://ags.auroragov.org/aurora/rest/services/AuroraBuilding2/MapServer/29/query?where=SUBDIVISION_NAME+LIKE+%27%25ALTURA+FARMS+TRACT+10%25%27&outFields=ADDRESS%2CCO_ISSUED%2CCO_DATE%2CSUBDIVISION_NAME%2CSUBDIVISION_CASE_NUMBER&returnGeometry=false&f=html&outSR=4326"
+  }
+ ]
+}

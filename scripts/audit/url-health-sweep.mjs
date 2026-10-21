@@ -102,6 +102,9 @@ const ALLOW_LIST = new Set([
   // Kittle Property Group answers non-browser clients with a 307 loop; verified
   // live 2026-10-21 (200 with a browser UA); cited by data/deals/compass-pointe-pueblo.json.
   'https://kittleproperties.com/uncategorized/bringing-sought-after-rental-housing-to-pueblo-colorado/',
+  // FinancialContent's Business Wire reprint loops redirects for non-browser clients; verified
+  // live 2026-10-21 (200 with a browser UA); cited by data/deals/addie-at-metro-center-aurora.json.
+  'https://markets.financialcontent.com/woonsocketcall/article/bizwire-2024-1-8-april-housing-and-dominium-bring-development-partnership-to-colorado-with-plans-for-222-new-affordable-housing-units',
   'https://cdphe.colorado.gov/air-pollution/building-performance-standard-rule',
   'https://dpt.colorado.gov/property-tax-exemption-for-senior-citizens-and-veterans-with-a-disability',
   'https://federalfunds.colorado.gov/solar-for-all',

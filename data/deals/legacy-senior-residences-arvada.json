@@ -1,0 +1,403 @@
+{
+ "slug": "legacy-senior-residences-arvada",
+ "name": "Legacy Senior Residences",
+ "city": "Arvada",
+ "county": "Jefferson",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "units": 72,
+ "researched_on": "2026-10-21",
+ "headline": "Legacy Senior Residences is a 72-apartment, three-story building for adults 55 and older at Sheridan Boulevard and W. 64th Avenue in Arvada, developed by Cornerstone Housing Group with the Arvada Housing Authority, with 8 voucher units for seniors leaving homelessness; after missing in 2021 it won $1,078,412 a year in federal 4% credit and $1,000,000 in state credit in CHFA's 2022 Round Two.",
+ "why_it_matters": "It delivers a City Council senior-housing goal on a tight infill site with city-mandated road and drainage work, using Arvada's own bond cap, an $840,000 city loan, 8 project-based vouchers tied to the city's Homeless Navigation Program and a housing authority partnership for tax exemption.",
+ "status": {
+  "label": "Credits awarded; construction and opening not confirmed by a retrievable dated record",
+  "detail": "Arvada's address file shows the city retired the 5430 W 64th Ave address as replatted and assigned 5353 W 63rd Ave to a 72-unit Legacy Senior Residences building on 2023-05-22. That shows platting and addressing, not construction; no permit, closing, groundbreaking or opening record could be retrieved from a public page.",
+  "src": [
+   "arvada-address-legacy"
+  ]
+ },
+ "next_step": "Find a dated record of closing, building permit, certificate of occupancy or lease-up (City of Arvada, Arvada Housing Authority reports, CHFA).",
+ "key_numbers": [
+  {
+   "value": "72 senior homes (55+), all income-restricted",
+   "meaning": "8 at 30% AMI with vouchers, 4 at 50% and 60 at 60%; 38 one-bedrooms and 34 two-bedrooms.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$1,078,412 a year federal 4% credit plus $1,000,000 state credit",
+   "meaning": "About $10.8M in federal credit over 10 years (inferred from the annual amount).",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "value": "About $31.1M total sources",
+   "meaning": "Application budget: $15.8M tax-exempt bonds (plus $8.2M taxable tail in construction), $1.8M Division of Housing, $840,000 City of Arvada.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "value": "8 project-based vouchers",
+   "meaning": "From the Arvada Housing Authority, for residents coming from homelessness with city Homeless Navigation services.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "5430 W 64th Ave, Arvada 80003 (CHFA); now addressed 5353 W 63rd Ave (city address file); southwest corner of Sheridan Blvd and 64th Ave",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives",
+    "arvada-address-legacy"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, S: new construction, senior",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Site and building",
+   "value": "4.14 acres; one three-story wood-frame building with two elevators, 24 garages and surface parking; 8 accessible units",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Rents",
+   "value": "All utilities included; application rents $1,099 to $1,582 a month by unit type and AMI",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "All-electric, NGBS 2020 Bronze; eight Level 2 EV chargers",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD Route 51 within 0.13 mile; Arvada Gold Strike station within 0.5 mile",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Parcel",
+   "value": "Jefferson County PIN 39-121-22-014 (per Arvada's address file)",
+   "src": [
+    "arvada-address-legacy"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 4
+  },
+  {
+   "level": "60% AMI",
+   "units": 60
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 38
+  },
+  {
+   "type": "2BR",
+   "units": 34
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions",
+  "chfa-2022-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,078,412 per year",
+   "note": "Application expected $9,597,867 of federal equity.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,000,000",
+   "note": "Application expected $4,500,000 of state credit equity.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt bonds (CHFA conduit issuer)",
+   "amount": "$15,800,000",
+   "note": "Plus an $8,200,000 taxable tail during construction; $11,815,000 permanent; private placement with Fallbrook. Arvada's 2021 bond cap allocation was assigned to CHFA.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing federal funds",
+   "amount": "$1,800,000",
+   "note": "As budgeted in the application.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Arvada",
+   "amount": "$840,000",
+   "note": "Requested at application; CHFA says the city and Arvada Housing Authority are providing financial support.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "source": "Deferred developer fee and developer equity",
+   "amount": "$2,070,000 deferred fee; $445,142 developer equity",
+   "note": "Cornerstone said it was committing 70% of the developer fee.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Cornerstone Housing Group, LLC",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "role": "Owner",
+   "name": "Legacy-Arvada Partners, LP, a joint venture of Cornerstone Housing Group, LLC and the Arvada Housing Authority",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Housing authority partner and voucher provider",
+   "name": "Arvada Housing Authority",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Beacon Management",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond purchaser (per application)",
+   "name": "Fallbrook",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Service partners",
+   "name": "City of Arvada Homeless Navigation Program; Seniors Resource Center; Via Mobility Services; Denver Urban Gardens; U.S. Bank (financial education)",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Arvada City Council set a goal of a senior attainable housing development of 50 or more units by 2019; Legacy is the project meant to meet it.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The project first applied in CHFA's 2021 Round Two (requesting $929,622 of federal credit, $1,000,000 of state credit and $13,810,000 of bonds) and was not on that round's award report; for 2022 it dropped income averaging for fixed 30%, 50% and 60% AMI set-asides.",
+   "src": [
+    "chfa-2021-r2-applicants",
+    "chfa-2021-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "In February 2022 the project asked for $12,600,000 of bond cap from CHFA's 4% PAB pool.",
+   "src": [
+    "chfa-2022-pab-pool-loi"
+   ]
+  },
+  {
+   "text": "Cornerstone bought the land in 2021 for $1,800,000 ($25,000 per unit).",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Approvals: multifamily use by right; Preliminary Development Plan approved in 2019; Final Development Plan expected August 2022.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The city required Benton Street to be extended through the site, 0.5 acre ($163,500) dedicated for a new W 63rd Ave, a private access road with a city easement, a larger detention pond taking neighboring runoff and buried utility lines; expansive soils forced helical piers and a full crawl space.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Arvada's address file retired 5430 W 64th Ave as replatted and assigned 5353 W 63rd Ave to the 72-unit building in May 2023, consistent with the new W 63rd Ave.",
+   "src": [
+    "arvada-address-legacy",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "No asterisk footnote applies to this row in the award report; its asterisks only key the Type and Target codes.",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2019",
+   "event": "Preliminary Development Plan approved; first community outreach",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2021",
+   "event": "Cornerstone buys the site; city bond cap allocated and assigned to CHFA",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2021-08-09",
+   "event": "Listed on CHFA's 2021 Round Two applicant report (not awarded)",
+   "src": [
+    "chfa-2021-r2-applicants",
+    "chfa-2021-r2-award"
+   ]
+  },
+  {
+   "date": "2022-02-25",
+   "event": "Listed on CHFA's 2022 4% PAB pool LOI report ($12.6M requested)",
+   "src": [
+    "chfa-2022-pab-pool-loi"
+   ]
+  },
+  {
+   "date": "2022-08-10",
+   "event": "Listed on CHFA's 2022 Round Two applicant report",
+   "src": [
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "date": "2023-05-22",
+   "event": "City assigns 5353 W 63rd Ave to the 72-unit building and retires 5430 W 64th Ave",
+   "src": [
+    "arvada-address-legacy"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's reports give the address as 5430 W 64th Ave, while Arvada's address file retired that address in 2023 and lists the building at 5353 W 63rd Ave.",
+   "src": [
+    "chfa-2022-r2-award",
+    "arvada-address-legacy"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether and when the deal closed, got building permits, finished construction and opened; search snippets pointed to Arvada Housing Authority reports and a rental listing describing a loan closing and current leasing, but those pages blocked retrieval, so they are not relied on here.",
+  "Final bond amount and Division of Housing award amount and date.",
+  "Total development cost, equity investor and general contractor.",
+  "Affordability period and recorded covenant; placed-in-service date and 8609s."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "2022 Round 2, 4% Federal Credit and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-05-06",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "2022 Round Two 4% housing credit application narratives",
+   "publisher": "CHFA",
+   "date": "2022-08-12",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-applicants",
+   "title": "2022 HTC Round 2 Applicant Report",
+   "publisher": "CHFA",
+   "date": "2022-08-10",
+   "url": "https://www.chfainfo.com/getattachment/5dd1a6f7-79cd-4020-b9f2-e404897712f4/2022-HTC-Round-2-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2021-r2-applicants",
+   "title": "2021 Round 2 Applicant Report",
+   "publisher": "CHFA",
+   "date": "2021-08-09",
+   "url": "https://www.chfainfo.com/getattachment/29533140-f19c-40f7-9c5f-70c9d9b295b5/2021-Round-2-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2021-r2-award",
+   "title": "2021 Round 2 Award Report",
+   "publisher": "CHFA",
+   "date": "2021",
+   "url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-pab-pool-loi",
+   "title": "2022 4 percent PAB Pool LOI Report",
+   "publisher": "CHFA",
+   "date": "2022-02-25",
+   "url": "https://www.chfainfo.com/getattachment/69e91478-f407-4ec2-a0b9-eae9c40f4ec4/2022-4-percent-PAB-Pool-LOI-Report.pdf"
+  },
+  {
+   "id": "arvada-address-legacy",
+   "title": "City of Arvada Master Address File (CRW_AdvancedGIS layer 0), query for 5353 W 63rd Ave and 5430 W 64th Ave",
+   "publisher": "City of Arvada",
+   "date": "2026-10-21",
+   "url": "https://maps.arvada.org/arcgis/rest/services/Building/CRW_AdvancedGIS/MapServer/0/query?where=STREET_NUMBER+IN+%285353%2C5430%29+AND+STREET_NAME+IN+%28%2763RD%27%2C%2764TH%27%29+AND+%28NUM_UNITS%3D72+OR+ADDR_TYPE%3D%27RETIRED%27%29&outFields=ADDRESS%2CPIN%2CGIS_DATE%2CADDR_TYPE%2CADDR_SUBTYPE%2CNAME%2CNUM_UNITS%2CCOMPLEX_NAME&returnGeometry=false&f=json&outSR=4326"
+  }
+ ]
+}

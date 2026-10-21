@@ -1,0 +1,441 @@
+{
+ "slug": "heartside-hill-fort-collins",
+ "name": "Heartside Hill",
+ "city": "Fort Collins",
+ "county": "Larimer",
+ "award": "2022 Federal 4% and state housing tax credits (Round Two)",
+ "units": 71,
+ "researched_on": "2026-10-21",
+ "headline": "Heartside Hill is a 71-apartment affordable community (one to four bedrooms, 30% to 60% of AMI) by CARE Housing on land donated by Heart of the Rockies Christian Church at Lemay Avenue and Trilby Road in south Fort Collins, part of a campus with Habitat for Humanity homes, L'Arche homes and a community building; it won $1,171,431 a year in federal 4% credit and $989,961 in state credit in CHFA's 2022 Round Two and opened in August 2025.",
+ "why_it_matters": "It is a working example of church-donated land turned into a mixed campus (rentals, for-sale homes, homes for adults with disabilities and an early childhood center), with 16 project-based vouchers and Zero Energy Ready construction, and it won a national AHTCC award in 2026.",
+ "status": {
+  "label": "Open: opened 2025-08-07 and leasing",
+  "detail": "Denver7 reported that Heartside Hill officially opened on Thursday 2025-08-07, and CARE Communities' site says the apartments are open and accepting applications. No dated construction-start or placed-in-service record was found.",
+  "src": [
+   "denver7-2025-08-07",
+   "care-home"
+  ]
+ },
+ "next_step": "Look for CHFA records of the placed-in-service year and 8609s, and the City of Fort Collins permit and certificate of occupancy history.",
+ "key_numbers": [
+  {
+   "value": "71 homes, all income-restricted",
+   "meaning": "5 at 30% AMI, 8 at 40%, 8 at 50% and 50 at 60%; 36 of 71 have three or four bedrooms.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$1,171,431 a year federal 4% credit plus $989,961 state credit",
+   "meaning": "About $11.7M in federal credit over 10 years (inferred from the annual amount).",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "value": "16 project-based vouchers",
+   "meaning": "From Housing Catalyst, on the 30%, 40% and some 50% AMI units.",
+   "src": [
+    "chfa-2022-r2-descriptions",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "value": "Land donated",
+   "meaning": "Heart of the Rockies Christian Church (Disciples of Christ) gave 8.84 acres to three nonprofits.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "6501 Brittany Street, Fort Collins 80525; northwest corner of Lemay Avenue and Trilby Road",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Six three-story 12-plex walk-up buildings with breezeways; drilled pier and grade beam foundations for expansive soils; clubhouse",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Campus",
+   "value": "Also 9 Fort Collins Habitat for Humanity homes, 2 L'Arche homes for adults with intellectual and developmental disabilities and a community building with early childhood education (Teaching Tree)",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "denver7-2025-08-07"
+   ]
+  },
+  {
+   "item": "Zoning and density",
+   "value": "L-M-N zone; open-space design concentrates 30.2 units per acre on the multifamily parcel versus the zone's 12 per acre",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "Zero Energy Ready Homes, Enterprise Green Communities, electrification-ready",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Sponsor's current name",
+   "value": "CARE Housing now operates as CARE Communities",
+   "src": [
+    "care-home",
+    "care-ahtcc-2026-10-02"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "40% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 8
+  },
+  {
+   "level": "60% AMI",
+   "units": 50
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 6
+  },
+  {
+   "type": "2BR",
+   "units": 29
+  },
+  {
+   "type": "3BR",
+   "units": 30
+  },
+  {
+   "type": "4BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r2-descriptions",
+  "chfa-2022-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,171,431 per year",
+   "note": "",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$989,961",
+   "note": "",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt bonds (CHFA issuer)",
+   "amount": "$16,100,000 (award report)",
+   "note": "The application described $16,550,000 of construction bonds privately placed with the lender, with $10,550,000 remaining after conversion.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Fort Collins",
+   "amount": "$1,100,000",
+   "note": "Secured at application.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Larimer County",
+   "amount": "$500,000 (verbal support at application)",
+   "note": "",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Project-based vouchers and tax exemption",
+   "amount": "16 vouchers",
+   "note": "Housing Catalyst preliminarily approved the vouchers and a special limited partnership for property and sales/use tax exemption.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "source": "Community building",
+   "amount": "Not public",
+   "note": "Financed separately with ARPA funds and private donations.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "CARE Housing, Inc. (now CARE Communities)",
+   "src": [
+    "chfa-2022-r2-award",
+    "care-home"
+   ]
+  },
+  {
+   "role": "Land donor",
+   "name": "Heart of the Rockies Christian Church (Disciples of Christ)",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Land holding entity",
+   "name": "Community at Heart LLC (CARE is managing member)",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Voucher provider and tax-exemption partner",
+   "name": "Housing Catalyst",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "chfa-2022-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "alm2s",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "General contractor (per application)",
+   "name": "Palace Construction",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Tax credit consultant",
+   "name": "Morgan & Associates",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Owner's representative",
+   "name": "G2 Strategies",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "role": "Campus partners",
+   "name": "Fort Collins Habitat for Humanity; L'Arche Northern Colorado",
+   "src": [
+    "denver7-2025-08-07",
+    "care-ahtcc-2026-10-02"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The church chose three nonprofits to receive the land; the property was conveyed to Community at Heart LLC and CARE holds a purchase option for the apartment parcel.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The Fort Collins Planning and Zoning Commission unanimously approved the overall development plan after nearly three hours of debate; neighbors' input led CARE to put the apartments on the south side next to existing multifamily housing and the single-family homes on the north.",
+   "src": [
+    "bizwest-2022-09-16",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "Expansive bentonite clay required 30-foot drilled piers (about $200,000 more per building) and deep over-excavation of drive lanes; the application requested a basis limit waiver and cut almost $4M through redesign.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application expected vertical construction to start in June 2023 after building permits.",
+   "src": [
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "In October 2026 CARE reported a national award from the Affordable Housing Tax Credit Coalition in the Resilient and Healthy Housing category.",
+   "src": [
+    "care-ahtcc-2026-10-02"
+   ]
+  },
+  {
+   "text": "No asterisk footnote applies to this row in the award report; its asterisks only key the Type and Target codes.",
+   "src": [
+    "chfa-2022-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-08-10",
+   "event": "Listed on CHFA's 2022 Round Two applicant report",
+   "src": [
+    "chfa-2022-r2-applicants"
+   ]
+  },
+  {
+   "date": "2022-09-15",
+   "event": "Planning and Zoning Commission approves the plan unanimously",
+   "src": [
+    "bizwest-2022-09-16",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "date": "2025-08-07",
+   "event": "Heartside Hill officially opens",
+   "src": [
+    "denver7-2025-08-07"
+   ]
+  },
+  {
+   "date": "2026-10-02",
+   "event": "CARE announces AHTCC national recognition for Heartside Hill",
+   "src": [
+    "care-ahtcc-2026-10-02"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report and application count 71 apartments, while Denver7 reported 72 affordable rental units at opening.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives",
+    "denver7-2025-08-07"
+   ]
+  },
+  {
+   "text": "The award report lists $16,100,000 of bonds, while the application described $16,550,000 of construction bonds.",
+   "src": [
+    "chfa-2022-r2-award",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application says the donated property is 8.84 acres, while the planning approval coverage describes a site of just under 11 acres.",
+   "src": [
+    "chfa-2022-r2-narratives",
+    "constructionreporter-2022-09-26"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Construction start, building permit and certificate of occupancy dates (City of Fort Collins documents could not be retrieved).",
+  "Final bond amount, lender, equity investor and total development cost.",
+  "Final city, county and state soft funding amounts.",
+  "Placed-in-service date and 8609s; affordability period."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r2-award",
+   "title": "2022 Round 2, 4% Federal Credit and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-05-06",
+   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-descriptions",
+   "title": "2022 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "2022 Round Two 4% housing credit application narratives",
+   "publisher": "CHFA",
+   "date": "2022-08-12",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-applicants",
+   "title": "2022 HTC Round 2 Applicant Report",
+   "publisher": "CHFA",
+   "date": "2022-08-10",
+   "url": "https://www.chfainfo.com/getattachment/5dd1a6f7-79cd-4020-b9f2-e404897712f4/2022-HTC-Round-2-Applicant-Report.pdf"
+  },
+  {
+   "id": "bizwest-2022-09-16",
+   "title": "FoCo planners OK Heartside Hill, 2nd Bloom filing",
+   "publisher": "BizWest",
+   "date": "2022-09-16",
+   "url": "https://bizwest.com/2022/09/16/foco-planners-ok-heartside-hill-2nd-bloom-filing/"
+  },
+  {
+   "id": "constructionreporter-2022-09-26",
+   "title": "Innovative Fort Collins Residential Project Gets Thumbs Up",
+   "publisher": "Construction Reporter",
+   "date": "2022-09-26",
+   "url": "https://constructionreporter.com/innovative-fort-collins-residential-project-gets-thumbs-up/"
+  },
+  {
+   "id": "denver7-2025-08-07",
+   "title": "New affordable housing in Fort Collins aims to provide more inclusive options",
+   "publisher": "Denver7",
+   "date": "2025-08-07",
+   "url": "https://www.denver7.com/news/local-news/new-affordable-housing-in-fort-collins-aims-to-provide-more-inclusive-options-for-the-community"
+  },
+  {
+   "id": "care-home",
+   "title": "CARE Communities home page (Heartside Hill now open and accepting applications)",
+   "publisher": "CARE Communities",
+   "date": "2026-10-21",
+   "url": "https://www.carecommunitiesnoco.org/"
+  },
+  {
+   "id": "care-ahtcc-2026-10-02",
+   "title": "Heartside Hill Earns National Recognition from the Affordable Housing Tax Credit Coalition",
+   "publisher": "CARE Communities",
+   "date": "2026-10-02",
+   "url": "https://www.carecommunitiesnoco.org/2026/10/02/heartside-hill-earns-national-recognition-from-the-affordable-housing-tax-credit-coalition-in-the-resilient-and-healthy-housing-category/"
+  }
+ ]
+}

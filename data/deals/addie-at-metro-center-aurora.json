@@ -1,0 +1,378 @@
+{
+ "slug": "addie-at-metro-center-aurora",
+ "name": "Addie at Metro Center",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2022 Federal 4% housing tax credit",
+ "researched_on": "2026-10-21",
+ "units": 222,
+ "headline": "Addie at Metro Center (developed as Atria at Metro Center Station) is a 222-home, four-story apartment building for adults 55 and older at 30% to 70% AMI, across from the Aurora Municipal Center; Dominium's project entity won a 2022 federal 4% award with $51.6M of CHFA bonds.",
+ "why_it_matters": "It is one of the largest senior tax-credit buildings in metro Denver, uses income averaging (exactly 60% AMI on average) and drew Aurora HOME money and Aurora bond cap, so lease-up at 70% AMI rents is worth watching.",
+ "status": {
+  "label": "Construction financed in early 2024; completion and 8609 not confirmed",
+  "detail": "April Housing said in January 2024 that Blackstone was providing $37M of credit equity to start construction. The deal is still on CHFA's 2026-09-21 list, which leaves out developments with 8609s issued. No dated public record of completion or opening was found.",
+  "src": [
+   "april-2024-01",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch for a certificate of occupancy or opening announcement and for the deal to move to CHFA's 4% completed-developments (8609) report.",
+ "key_numbers": [
+  {
+   "value": "222 homes for ages 55+",
+   "meaning": "106 one-bedroom and 116 two-bedroom apartments, all income-restricted.",
+   "src": [
+    "chfa-4pct-award",
+    "april-2024-01"
+   ]
+  },
+  {
+   "value": "$4,593,149 a year in federal 4% credit",
+   "meaning": "About $45.9M over 10 years; no state credit.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$51.6M in CHFA bonds",
+   "meaning": "Tax-exempt private activity bonds issued by CHFA; Aurora had committed $5M of its own bond cap in 2022.",
+   "src": [
+    "chfa-4pct-award",
+    "aurora-hpc-2022-07"
+   ]
+  },
+  {
+   "value": "$37M tax credit equity",
+   "meaning": "From Blackstone through April Housing, announced January 2024.",
+   "src": [
+    "april-2024-01"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "15025 E Center Avenue, Aurora, CO 80012",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Type",
+   "value": "New construction, older adult",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "QCT / DDA",
+   "value": "In a qualified census tract; not in a DDA",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Section 8",
+   "value": "No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four-story Type V wood frame, about 289,000 sq ft, 53-space partly underground garage, clubhouse, pool and spa",
+   "src": [
+    "pk-atria"
+   ]
+  },
+  {
+   "item": "Amenities",
+   "value": "Clubhouse, business center, fitness room, library, beauty salon, pocket park and public art",
+   "src": [
+    "april-2024-01"
+   ]
+  },
+  {
+   "item": "Location",
+   "value": "Across from the Aurora Municipal Center, near RTD light rail",
+   "src": [
+    "pk-atria",
+    "april-2024-01"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 6
+  },
+  {
+   "level": "40% AMI",
+   "units": 6
+  },
+  {
+   "level": "50% AMI",
+   "units": 10
+  },
+  {
+   "level": "60% AMI",
+   "units": 160
+  },
+  {
+   "level": "70% AMI",
+   "units": 40
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 106
+  },
+  {
+   "type": "2BR",
+   "units": 116
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$4,593,149 per year",
+   "note": "Amount marked subject to change by CHFA. Annual credit, runs 10 years.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$51,600,000",
+   "note": "",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax credit equity",
+   "amount": "$37,000,000",
+   "note": "Blackstone via April Housing.",
+   "src": [
+    "april-2024-01"
+   ]
+  },
+  {
+   "source": "City of Aurora HOME funds",
+   "amount": "$1,000,000 (recommended)",
+   "note": "Recommended by Aurora's review committee in March 2022 for 'Aurora Metro Center Station Senior Housing'; final contract amount not found.",
+   "src": [
+    "aurora-hpc-2022-03"
+   ]
+  },
+  {
+   "source": "City of Aurora private activity bond cap",
+   "amount": "$5,000,000",
+   "note": "Approved by City Council on 2022-05-09 as part of a $21M round; staff recommended routing Aurora's $21,387,505 2022 allocation through the Aurora Housing Authority to the three projects.",
+   "src": [
+    "aurora-hpc-2022-07",
+    "aurora-hpc-2022-03"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Aurora Leased Housing Development I, LLC",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Developer, owner and manager",
+   "name": "Dominium",
+   "src": [
+    "april-2024-01",
+    "pk-atria"
+   ]
+  },
+  {
+   "role": "Tax credit equity",
+   "name": "April Housing (Blackstone Real Estate portfolio company)",
+   "src": [
+    "april-2024-01"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Todd & Associates",
+   "src": [
+    "pk-atria"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "W.D. Construction",
+   "src": [
+    "pk-atria"
+   ]
+  },
+  {
+   "role": "Gap funder and bond-cap allocator",
+   "name": "City of Aurora (with Aurora Housing Authority as conduit for the 2022 bond cap)",
+   "src": [
+    "aurora-hpc-2022-03",
+    "aurora-hpc-2022-07"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "CHFA's name (Addie at Metro Center) differs from the name used in 2024 by April Housing and the engineer (Atria at Metro Center / Atria at Metro Center Station); they are taken to be the same project because of the matching 222 senior units, Dominium sponsorship and location across from the Aurora Municipal Center (inferred).",
+   "src": [
+    "chfa-4pct-award",
+    "april-2024-01",
+    "pk-atria"
+   ]
+  },
+  {
+   "text": "Aurora's March 2022 funding round noted the project's shovel-readiness and recommended $1M HOME and $5M of private activity bonds for 'Aurora Metro Center Station Senior Housing' (222 senior units).",
+   "src": [
+    "aurora-hpc-2022-03"
+   ]
+  },
+  {
+   "text": "Aurora City Council approved the first Community Development Investment round on 2022-05-09, including $5M of bond cap for the project; by July 2022 the project was listed among HUD-funded projects needing environmental review.",
+   "src": [
+    "aurora-hpc-2022-07",
+    "aurora-cac-2022-07"
+   ]
+  },
+  {
+   "text": "The income mix averages exactly 60% AMI, consistent with the income-averaging test; 40 units at 70% AMI are offset by 22 units at 30-50% AMI (inferred from CHFA's mix).",
+   "src": [
+    "chfa-4pct-award",
+    "april-2024-01"
+   ]
+  },
+  {
+   "text": "It is described as Dominium's first development in Aurora and its third with April Housing and Blackstone.",
+   "src": [
+    "pk-atria",
+    "april-2024-01"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-03-03",
+   "event": "Aurora housing committee reviews recommendation of $1M HOME and $5M bonds",
+   "src": [
+    "aurora-hpc-2022-03"
+   ]
+  },
+  {
+   "date": "2022-05-09",
+   "event": "Aurora City Council approves first Community Development Investment round, including $5M bond cap",
+   "src": [
+    "aurora-hpc-2022-07"
+   ]
+  },
+  {
+   "date": "2022",
+   "event": "CHFA 2022 cycle 4% award",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2024-01-08",
+   "event": "April Housing announces $37M of Blackstone credit equity to begin development",
+   "src": [
+    "april-2024-01"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Still on CHFA's active 4% award list (no 8609 yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA's report lists the building as Addie at Metro Center, while April Housing's 2024 release and the structural engineer call it Atria at Metro Center.",
+   "src": [
+    "chfa-4pct-award",
+    "april-2024-01",
+    "pk-atria"
+   ]
+  },
+  {
+   "text": "April Housing's release headline places the development in Denver, while CHFA and the release body place it in Aurora.",
+   "src": [
+    "april-2024-01",
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing date, construction and permanent lenders.",
+  "Final Aurora HOME loan amount and agreement; whether the Aurora bond cap was combined with CHFA's.",
+  "Certificate of occupancy, opening date, lease-up and 8609 issuance (commercial rental listings were found but could not be checked).",
+  "Total development cost.",
+  "Aurora site plan approval date and case number."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "april-2024-01",
+   "title": "April Housing and Dominium Bring Development Partnership to Colorado with Plans for 222 New, Affordable Housing Units (Business Wire release, syndicated)",
+   "publisher": "April Housing via Business Wire",
+   "date": "2024-01-08",
+   "url": "https://markets.financialcontent.com/woonsocketcall/article/bizwire-2024-1-8-april-housing-and-dominium-bring-development-partnership-to-colorado-with-plans-for-222-new-affordable-housing-units"
+  },
+  {
+   "id": "pk-atria",
+   "title": "Atria at Metro Center Station (project portfolio page)",
+   "publisher": "PK Associates (structural engineer)",
+   "date": "",
+   "url": "https://pkastructural.com/portfolio/atria-at-metro-center-station/"
+  },
+  {
+   "id": "aurora-hpc-2022-03",
+   "title": "Housing, Neighborhood Services & Redevelopment Policy Committee minutes, March 3, 2022",
+   "publisher": "City of Aurora",
+   "date": "2022-03-03",
+   "url": "https://www.auroragov.org//Userfiles/DBFiles/server_1881137/202206/18602495/03_03_2022_housing_neighborhood_services_and_redevelopment_minutes.pdf"
+  },
+  {
+   "id": "aurora-hpc-2022-07",
+   "title": "Housing, Neighborhood Services & Redevelopment Policy Committee minutes, July 7, 2022",
+   "publisher": "City of Aurora",
+   "date": "2022-07-07",
+   "url": "https://www.auroragov.org//Userfiles/DBFiles/server_1881137/202208/18799706/07_07_2022_housing_neighborhood_services_and_redevelopment_minutes.pdf"
+  },
+  {
+   "id": "aurora-cac-2022-07",
+   "title": "Citizens Advisory Committee on Housing and Community Development minutes, July 12, 2022",
+   "publisher": "City of Aurora",
+   "date": "2022-07-12",
+   "url": "https://www.auroragov.org//Userfiles/DBFiles/server_1881137/202209/18931176/07_12_2022_citizens_advisory_committee_hcd.pdf"
+  }
+ ]
+}
