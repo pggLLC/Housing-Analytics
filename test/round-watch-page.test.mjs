@@ -100,6 +100,7 @@ ok((read('scripts/audit/public-artifact-guard.mjs').match(/'developer-round-watc
 ok(/<meta name="robots" content="noindex, nofollow">/.test(page) && page.includes('js/whitepaper/round-watch.js'), 'the page is noindex and loads its script');
 ok(page.includes('js/vendor/leaflet.js') && page.indexOf('js/vendor/leaflet.js') < page.indexOf('js/whitepaper/round-watch.js') && page.includes('id="rwMap"'),
   'the page loads the map library before its script');
+ok(/id="rwCount" aria-live="polite" aria-atomic="true"/.test(page), 'a filter change is announced to screen readers');
 const built = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/jurisdiction-briefs/_round-watch.json'), 'utf8'));
 const all = built.rounds.flatMap((r) => r.items);
 ok(all.every((i) => i.region === null || RW.REGIONS.includes(i.region)) && all.filter((i) => typeof i.lat === 'number').length >= all.length * 0.9,

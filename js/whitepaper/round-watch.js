@@ -376,6 +376,7 @@
     var controls = doc.getElementById('rwControls');
     var panel = doc.getElementById('rwMapDetail');
     var note = doc.getElementById('rwMapNote');
+    var count = doc.getElementById('rwCount');
     var m = null;
     try { m = initMap(doc, doc.getElementById('rwMap')); } catch (e) { m = null; }
     if (!m && doc.getElementById('rwMapWrap')) doc.getElementById('rwMapWrap').hidden = true;
@@ -384,9 +385,12 @@
       var r = data.rounds[state.round];
       var shown = visibleItems(r, state);
       if (controls) controls.innerHTML = controlsHtml(data, state);
-      el.innerHTML = '<p class="rw-muted">Showing ' + esc(shown.length) + ' of ' + esc(r.items.length) + ': ' +
-        esc(r.counts.High) + ' High, ' + esc(r.counts.Medium) + ' Medium, ' + esc(r.counts.Watch) + ' Watch in all regions.' +
-        (r.note ? ' ' + esc(r.note) : '') + '</p>' + tableHtml(r, contacts, state);
+      var summary = 'Showing ' + shown.length + ' of ' + r.items.length + ': ' +
+        r.counts.High + ' High, ' + r.counts.Medium + ' Medium, ' + r.counts.Watch + ' Watch in all regions.';
+      // a polite live region outside the redrawn list, so a screen reader hears each filter's result
+      if (count) count.textContent = summary;
+      el.innerHTML = (count ? '' : '<p class="rw-muted">' + esc(summary) + '</p>') +
+        (r.note ? '<p class="rw-muted">' + esc(r.note) + '</p>' : '') + tableHtml(r, contacts, state);
       var g = townsFor(shown);
       drawPins(doc, m, g.towns);
       // a region zooms to its own pins; all regions shows the whole state
