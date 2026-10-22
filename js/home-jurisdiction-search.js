@@ -88,11 +88,14 @@
    * picked. A fact the digest cannot support is left out, never shown as 0.
    */
 
+  // Practitioners first, one door each; the keys stay stable so shared ?door= links keep working.
   var DOORS = {
-    rent: 'I rent or need a place',
-    council: 'I serve on a council or board',
-    build: 'I build housing',
-    analyze: 'I study the data'
+    council: 'I work for a town or county',
+    build: 'I develop housing',
+    operate: 'I run a housing authority or nonprofit',
+    fund: 'I fund, lend or invest',
+    analyze: 'I research or report on housing',
+    rent: 'I need a place to live'
   };
 
   function digestUrl(geoid) {
@@ -203,6 +206,20 @@
         { label: 'Where tax-credit housing scores well: Opportunity Finder', href: 'lihtc-opportunity-finder.html' },
         { label: 'Test a project: Deal Calculator', href: 'deal-calculator.html' + (isPlace ? '?geoid=' + entry.geoid : '') },
         { label: 'Funding programs that fit', href: 'colorado-deep-dive.html#tab-funding' },
+        report
+      ];
+    } else if (door === 'operate') {
+      links = [
+        { label: 'What a housing authority can do', href: 'housing-authority-guide.html' },
+        { label: 'Homes at risk of losing affordability: Preservation', href: 'preservation.html' },
+        { label: 'Resident services', href: 'resident-services.html' },
+        report
+      ];
+    } else if (door === 'fund') {
+      links = [
+        { label: 'Where housing money goes', href: 'where-housing-money-goes.html' },
+        { label: 'Colorado tax credit awards by year', href: 'colorado-deep-dive.html#tab-history' },
+        { label: 'Funded deals, one page each', href: 'deal-summary.html' },
         report
       ];
     } else if (door === 'analyze') {
