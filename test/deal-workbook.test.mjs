@@ -364,6 +364,34 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   ok(/Saved deals did not load/.test(el('wbDeals').innerHTML), 'a saved-deal list that never answers times out and says so');
   globalThis.fetch = saved.fetch; if (saved.window === undefined) delete globalThis.window; else globalThis.window = saved.window;
 }
+{
+  // A saved version whose calculator is still running is dropped when the saved deal or version changes.
+  const fx = fixture();
+  const run = async (change) => {
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    let frame;
+    const doc = { getElementById: el, baseURI: 'https://example.org/developer-deal-workbook.html', querySelectorAll: () => [],
+      body: { appendChild(f) { frame = f; } },
+      createElement: () => ({ style: {}, setAttribute() {}, remove() {}, handlers: {}, addEventListener(t, f) { this.handlers[t] = f; },
+        contentWindow: { __DealCalc: { getResult: () => fx.result, getOutputRecords: () => [], getPermanentFinancing: () => fx.permanentFinancing }, document: { querySelector: () => null } } }) };
+    const saved = { fetch: globalThis.fetch, window: globalThis.window };
+    globalThis.fetch = (u) => /deal=/.test(String(u)) ? Promise.resolve({ ok: true, json: () => Promise.resolve({ data: { calculator: { query: 'a=1' }, deal: {} } }) }) : Promise.resolve({ ok: false, json: () => null });
+    globalThis.window = { addEventListener() {} };
+    WB.start(doc, 200);
+    el('wbDeals').value = 'd1'; el('wbDeals').selectedOptions = [{ textContent: 'Deal B' }]; el('wbVersions').value = '3';
+    el('wbOpenSaved').handlers.click();
+    for (let i = 0; i < 20 && !frame; i++) await new Promise((r) => setTimeout(r, 5));
+    if (change) { el('wbVersions').value = '4'; el('wbVersions').handlers.change(); }
+    frame.handlers.load();
+    await new Promise((r) => setTimeout(r, 2600));
+    globalThis.fetch = saved.fetch; if (saved.window === undefined) delete globalThis.window; else globalThis.window = saved.window;
+    return el('wbOut').innerHTML;
+  };
+  ok((await run(false)).includes('Deal B'), 'a saved version renders when the choice stays put');
+  ok((await run(true)) === '', 'a saved version still running is dropped when the version changes');
+}
+const highNoRows = mut0((s) => { s.result.projection.rows = []; s.result.costBasis.underwriting = { high: { firstYear: 1.45, exceeds: true } }; });
+ok(/warn: Year-one coverage of 1\.45x is above/.test(texts(highNoRows)), 'high year-one coverage is flagged from the engine check when there are no projection rows');
 const feeOpen = mut0((s) => { s.permanentFinancing.deferredDevFee = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { deferredDevFee: 'Operating inputs are incomplete.' }); });
 ok(feeOpen.sources.rows.some((x) => x.amount === null && x.label === 'Deferred developer fee: not known, Operating inputs are incomplete.'), 'an unknown deferred fee stays in the sources with its reason');
 

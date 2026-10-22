@@ -362,8 +362,10 @@
           m.coverage.rows15 < YEARS ? 'set the calculator to project ' + YEARS + ' years' : null].filter(Boolean).join('; ') + '.', source: min.dscr });
       else out.push({ level: 'ok', text: 'Debt coverage on all must-pay debt stays at or above ' + ratio(w.ratio) + ' (weakest: year ' + w.year + '); CHFA\'s minimum is ' + ratio(min.dscr.value) + '.', source: min.dscr });
     } else if (m.coverage.reason) out.push({ level: 'warn', text: 'Debt coverage is not available: ' + m.coverage.reason });
-    var y1 = m.cashFlow.rows[0];
-    if (y1 && y1.dscr != null && min.high && y1.dscr > min.high.value) out.push({ level: 'warn', text: 'Year-one coverage of ' + ratio(y1.dscr) + ' is above ' + ratio(min.high.value) + ', so CHFA may award less credit. A larger loan or lower rents would bring it down.', source: min.high });
+    // Year-one coverage can be known without projection rows (bad growth inputs), so fall back to the engine's check.
+    var y1 = m.cashFlow.rows[0], hc = (r && r.costBasis && r.costBasis.underwriting && r.costBasis.underwriting.high) || {};
+    var y1dscr = y1 && y1.dscr != null ? y1.dscr : num(hc.firstYear);
+    if (y1dscr != null && min.high && y1dscr > min.high.value) out.push({ level: 'warn', text: 'Year-one coverage of ' + ratio(y1dscr) + ' is above ' + ratio(min.high.value) + ', so CHFA may award less credit. A larger loan or lower rents would bring it down.', source: min.high });
 
     m.loans.forEach(function (l) {
       if (!l.amount) return;
@@ -685,7 +687,10 @@
       if (!deals.length) { $('wbDeals').innerHTML = '<option value="">No saved deals yet</option>'; return; }
       $('wbDeals').innerHTML = '<option value="">Choose a deal</option>' + deals.map(function (d) { return '<option value="' + esc(d.id) + '">' + esc(d.name || d.id) + '</option>'; }).join('');
     });
+    // Changing the saved deal or version abandons a saved version still loading, so it never renders under the new choice.
+    $('wbVersions').addEventListener('change', function () { ++tok; });
     $('wbDeals').addEventListener('change', function () {
+      ++tok;
       var deal = $('wbDeals').value; $('wbVersions').innerHTML = ''; if (!deal) return;
       settleWithin(api('?deal=' + encodeURIComponent(deal)), wait).then(function (j) {
         if ($('wbDeals').value !== deal) return;
