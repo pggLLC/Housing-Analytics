@@ -182,7 +182,8 @@
 .sb-mig-from input:disabled + span {
   color: var(--muted);
 }
-/* Households per person stands alone, so its legend is the group's label. */
+/* Households per person and a town's share stand alone, so each legend is
+   its group's label. */
 .sb-headship legend {
   color: var(--text);
   font-size: 0.87rem;
