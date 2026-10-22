@@ -171,23 +171,27 @@
       var at15 = l.rows && l.rows[YEARS - 1] ? num(l.rows[YEARS - 1].balance) : null;
       return { label: l.senior ? 'First mortgage' : (labels[l.program] || l.program || 'Loan'), amount: num(l.amount), rate: num(l.rate),
         type: l.type, typeLabel: LOAN_TYPES[l.type] || l.type, ioYears: num(l.ioYears), amortization: num(l.amortization), maturity: num(l.maturity),
-        year1: l.rows && l.rows[0] ? num(l.rows[0].due) : null, balance15: at15 };
+        year1: l.rows && l.rows[0] ? num(l.rows[0].due) : null, balance15: at15,
+        // A loan maturing inside the workbook carries its balloon on the maturity-year row; later rows are blank.
+        balloon: num(l.maturity) != null && num(l.maturity) <= YEARS ? num(((l.rows || []).filter(function (x) { return num(x.year) === num(l.maturity); })[0] || {}).maturityDue) : null };
     });
     model.loansReason = loans.length ? null : ((r.obligations && r.obligations.unavailableReason) || null);
 
     // Deferred fee.
-    var feePaid15 = model.cashFlow.rows.reduce(function (s, y) { return s == null || y.feePaid == null ? null : s + y.feePaid; }, 0);
+    var feeRows = model.cashFlow.rows, gapRow = feeRows.filter(function (y) { return y.feePaid == null; })[0];
+    var feePaid15 = feeRows.length < YEARS ? null : feeRows.reduce(function (s, y) { return s == null || y.feePaid == null ? null : s + y.feePaid; }, 0);
     model.deferredFee = { amount: dfee, reason: un.deferredDevFee || null, developerFee: num(r.devFeeTotal),
       share: dfee != null && num(r.devFeeTotal) ? dfee / num(r.devFeeTotal) : null,
       // A payoff after year 15 is outside this workbook: it counts as unpaid here, with the year noted.
       paybackYear: r.exit && num(r.exit.dfYr) != null && num(r.exit.dfYr) <= YEARS ? num(r.exit.dfYr) : null,
-      paidLater: r.exit && num(r.exit.dfYr) > YEARS ? num(r.exit.dfYr) : null, owedAt15: dfee != null && feePaid15 != null ? Math.max(0, dfee - feePaid15) : null };
+      paidLater: r.exit && num(r.exit.dfYr) > YEARS ? num(r.exit.dfYr) : null,
+      payoffReason: gapRow ? 'year ' + gapRow.year + ' is not projected' + (gapRow.reason ? ' (' + gapRow.reason + ')' : '') : feeRows.length < YEARS ? 'the projection runs ' + feeRows.length + ' years, not ' + YEARS : null, owedAt15: dfee != null && feePaid15 != null ? Math.max(0, dfee - feePaid15) : null };
 
     model.gap = { amount: num(r.fundingGap), reason: un.fundingGap || null };
     model.exec = {
       credit: model.basis.credit, creditReason: model.basis.creditReason, gap: model.gap.amount, gapReason: model.gap.reason,
       weakest: model.coverage.weakest, coverageFull: model.coverage.full, coverageReason: model.coverage.reason,
-      paybackYear: model.deferredFee.paybackYear, deferredFee: dfee, owedAt15: model.deferredFee.owedAt15
+      paybackYear: model.deferredFee.paybackYear, deferredFee: dfee, owedAt15: model.deferredFee.owedAt15, payoffReason: model.deferredFee.payoffReason
     };
     model.findings = findings(model, r);
     return model;
@@ -227,7 +231,7 @@
     m.loans.forEach(function (l) {
       if (!l.amount) return;
       if (l.type === 'interest_only' || l.type === 'io_then_amortizing') out.push({ level: 'warn', text: l.label + ' is modeled ' + (l.type === 'interest_only' ? 'interest-only to maturity' : 'interest-only for ' + l.ioYears + ' years') + '. Get that term in the lender\'s letter; an amortizing loan would cost more each year.' });
-      if (l.balance15 != null && l.maturity != null && l.maturity <= YEARS && l.balance15 > 0.5) out.push({ level: 'warn', text: l.label + ' matures in year ' + l.maturity + ' with ' + money(l.balance15) + ' still owed.' });
+      if (l.balloon != null && l.balloon > 0.5) out.push({ level: 'warn', text: l.label + ' matures in year ' + l.maturity + ' with ' + money(l.balloon) + ' due. The calculator assumes no refinancing, so years after that are not projected.' });
     });
 
     var cap = m.basis.cap || {};
@@ -239,7 +243,8 @@
     var df = m.deferredFee;
     if (df.amount) {
       if (df.paybackYear != null) out.push({ level: 'ok', text: 'The deferred fee of ' + money(df.amount) + ' is paid off from cash flow in year ' + df.paybackYear + '.' });
-      else if (df.owedAt15 != null) out.push({ level: 'bad', text: 'The deferred fee is not paid off in 15 years: ' + money(df.owedAt15) + ' of ' + money(df.amount) + ' is still owed' + (df.paidLater ? ' (paid off in year ' + df.paidLater + ')' : '') + '.' });
+      else if (df.owedAt15 == null) out.push({ level: 'warn', text: 'Whether the deferred fee is paid off in 15 years is not known: ' + (df.payoffReason || 'the cash flow is incomplete') + '.' });
+      else out.push({ level: 'bad', text: 'The deferred fee is not paid off in 15 years: ' + money(df.owedAt15) + ' of ' + money(df.amount) + ' is still owed' + (df.paidLater ? ' (paid off in year ' + df.paidLater + ')' : '') + '.' });
     }
     if (m.gap.amount != null) {
       if (m.gap.amount > 0.5) out.push({ level: 'bad', text: 'The deal is ' + money(m.gap.amount) + ' short after every source modeled.' });
@@ -272,7 +277,9 @@
       tile(e.credit == null ? '—' : esc(money(e.credit)), e.credit == null ? 'Yearly credit: ' + esc(e.creditReason || 'not available') : 'Yearly federal credit (' + esc(m.creditType === '4' ? '4%' : '9%') + ')') +
       tile(e.gap == null ? '—' : esc(money(e.gap)), e.gap == null ? 'Funding gap: ' + esc(e.gapReason || 'not available') : 'Funding gap after every modeled source', e.gap > 0.5 ? 'sr-bad' : 'sr-ok') +
       tile(w ? esc(ratio(w.ratio)) : '—', w ? 'Weakest debt coverage, all must-pay debt (year ' + w.year + ')' : 'Debt coverage: ' + esc(e.coverageReason || 'not available'), w && minDscr != null ? (w.ratio < minDscr ? 'sr-bad' : e.coverageFull ? 'sr-ok' : '') : '') +
-      tile(e.paybackYear != null ? 'Year ' + e.paybackYear : (e.deferredFee ? 'Not in 15 yrs' : '—'), e.deferredFee ? 'Deferred fee of ' + esc(money(e.deferredFee)) + ' paid off' : 'No deferred developer fee', e.deferredFee && e.paybackYear == null ? 'sr-bad' : '') +
+      tile(e.paybackYear != null ? 'Year ' + e.paybackYear : (e.deferredFee && e.owedAt15 != null ? 'Not in 15 yrs' : '—'),
+        !e.deferredFee ? 'No deferred developer fee' : e.paybackYear == null && e.owedAt15 == null ? 'Deferred fee payoff: not known, ' + esc(e.payoffReason || 'cash flow incomplete') : 'Deferred fee of ' + esc(money(e.deferredFee)) + ' paid off',
+        e.deferredFee && e.paybackYear == null && e.owedAt15 != null ? 'sr-bad' : '') +
       '</div>';
     var top = m.findings.filter(function (f) { return f.level !== 'ok'; });
     h += top.length ? '<h3>What to check</h3><ul>' + top.map(function (f) { return '<li class="' + (f.level === 'bad' ? 'sr-red' : 'sr-yellow') + '">' + esc(f.text) + quote(f.source) + '</li>'; }).join('') + '</ul>'
