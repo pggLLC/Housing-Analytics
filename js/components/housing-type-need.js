@@ -368,7 +368,7 @@
       // also raised at the top (40 → 45) so only truly extreme severe-burden
       // places saturate; CO baseline severe burden is high enough that the
       // original pivot was too generous.
-      ind('Severe renter cost burden (35% or more of income)', 0.30,
+      ind('Renters paying 35% or more of income for housing', 0.30,
         acs.renterCB35,
         ramp(acs.renterCB35, [[10, 0], [20, 35], [30, 65], [45, 100]])),
       // Bumped to 0.25 from 0.20 — the CHAS share of renters at ≤30% AMI

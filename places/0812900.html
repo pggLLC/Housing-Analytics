@@ -319,8 +319,8 @@
         <div class="place-stat"><span class="label">Renter cost-burden (>=30%, HUD CHAS 2018-22)</span><span class="value" id="psRenterCb30">—</span></div>
         <div class="place-stat"><span class="label">Renter severe (>=50%, HUD CHAS 2018-22)</span><span class="value" id="psRenterCb50">—</span></div>
         <div class="place-stat"><span class="label">Owner cost-burden (>=30%, HUD CHAS 2018-22)</span><span class="value" id="psOwnerCb30">—</span></div>
-        <div class="place-stat"><span class="label">Total renter HHs</span><span class="value" id="psRenterTotal">—</span></div>
-        <div class="place-stat"><span class="label">Total owner HHs</span><span class="value" id="psOwnerTotal">—</span></div>
+        <div class="place-stat"><span class="label">Renter households</span><span class="value" id="psRenterTotal">—</span></div>
+        <div class="place-stat"><span class="label">Owner households</span><span class="value" id="psOwnerTotal">—</span></div>
       </div>
       <div class="place-card">
         <h2>AMI tier breakdown (renters)</h2>
@@ -356,7 +356,7 @@
         <div class="place-stat"><span class="label">Tenure strategy</span><span class="value" id="psOwnRecommendation">—</span></div>
         <div class="place-stat"><span class="label">Rental pressure</span><span class="value" id="psOwnRentalPressure">—</span></div>
         <div class="place-stat"><span class="label">Ownership pressure</span><span class="value" id="psOwnOwnershipPressure">—</span></div>
-        <div class="place-stat"><span class="label">Ownership-fit renter base</span><span class="value" id="psOwnFitBase">—</span></div>
+        <div class="place-stat"><span class="label">Renters who might buy</span><span class="value" id="psOwnFitBase">—</span></div>
         <p class="place-explain">Screening estimate only. <a href="../housing-needs-assessment.html?type=place&geoid=0812900#hnaAffordableOwnershipNeed">Full HNA section</a> · <a href="../docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md">Methodology</a></p>
       </div>
       <div class="place-card">
@@ -421,7 +421,7 @@
         setV('psOwnRecommendation', own.recommendation || 'Verify locally');
         setVc('psOwnRentalPressure', own.rental_pressure_tier || 'Verify locally', tierClass(own.rental_pressure_tier));
         setVc('psOwnOwnershipPressure', own.ownership_pressure_tier || 'Verify locally', tierClass(own.ownership_pressure_tier));
-        setV('psOwnFitBase', fmt(own.moderate_income_renter_households) + ' renter HHs');
+        setV('psOwnFitBase', fmt(own.moderate_income_renter_households) + ' renter households earning 51–100% of area median income');
       })();
       var chasMeta = data.chas_meta || {};
       var chasMethods = {
