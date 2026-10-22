@@ -255,4 +255,11 @@ ok(hist.sources.rows.some((x) => x.label === 'Historic credit equity' && x.amoun
 const noMustPay = mut0((s) => { s.result.coverage.years.forEach((y) => { y.allMustPayCoverage = null; y.seniorCoverage = null; y.unavailableReason = null; }); s.result.unavailable = Object.assign({}, s.result.unavailable); delete s.result.unavailable.coverage; delete s.result.unavailable.allMustPayDSCR; });
 ok(!noMustPay.coverage.full && noMustPay.coverage.known15 === 0 && /warn: Debt coverage is not available: Coverage requires positive must-pay debt service\./.test(texts(noMustPay)), 'null ratios with no row reason count as unmeasured and say why');
 
+const VAC8 = R.pro_forma_vacancy.rate_full_section8;
+ok(texts(mut((s) => { s.result.vacancyRate = VAC8 - 0.01; })).includes(`bad: Vacancy of ${p1(VAC8 - 0.01)} is under CHFA's ${Math.round(VAC * 100)}% minimum and under the ${Math.round(VAC8 * 100)}%`), 'vacancy under the Section 8 floor fails');
+ok(texts(mut((s) => { s.result.vacancyRate = (VAC + VAC8) / 2; })).includes(`warn: Vacancy of ${p1((VAC + VAC8) / 2)}`) && !/bad: Vacancy/.test(texts(mut((s) => { s.result.vacancyRate = (VAC + VAC8) / 2; }))), 'vacancy between the two floors is a question');
+const never = new Promise(() => {});
+ok((await WB.settleWithin(never, 20)) === null, 'a stalled rules request settles as null');
+ok((await WB.settleWithin(Promise.resolve({ a: 1 }), 1000)).a === 1 && (await WB.settleWithin(Promise.reject(new Error('x')), 1000)) === null, 'settled requests pass through, failures become null');
+
 console.log(`deal-workbook: ${checks} checks passed`);

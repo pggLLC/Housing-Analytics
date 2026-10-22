@@ -60,7 +60,7 @@
       return { value: num(x[field]), quote: x.quote, where: ((src[x.source] || {}).title || x.source) + ', ' + x.location };
     }
     return {
-      vacancy: rule('pro_forma_vacancy', 'rate'), rentGrowth: rule('pro_forma_rent_growth', 'rate'),
+      vacancy: rule('pro_forma_vacancy', 'rate'), vacancySection8: rule('pro_forma_vacancy', 'rate_full_section8'), rentGrowth: rule('pro_forma_rent_growth', 'rate'),
       expGrowth: rule('pro_forma_expense_growth', 'rate'), opex: rule('pupa_minimum', 'per_unit_annual'), opexSection8: rule('pupa_minimum', 'per_unit_annual_section8'),
       reserve: rule('replacement_reserve_minimum', 'family_per_unit_annual'), reserveSenior: rule('replacement_reserve_minimum', 'senior_per_unit_annual'),
       dscr: rule('min_debt_coverage', 'min_coverage'), high: rule('high_coverage_credit_reduction', 'threshold')
@@ -276,7 +276,12 @@
       out.push({ level: seniorOk ? 'warn' : 'bad', text: 'Replacement reserve of ' + money(o.reservePerUnit) + ' a unit is under CHFA\'s ' + money(resMin.value) + ' family minimum' +
         (seniorOk ? ' (it meets the ' + money(min.reserveSenior.value) + ' senior minimum, so it holds only if this is senior housing). Confirm the deal type.' : '.'), source: resMin });
     }
-    if (min.vacancy && o.vacancy != null && o.vacancy < min.vacancy.value - 1e-9) out.push({ level: 'warn', text: 'Vacancy of ' + pct(o.vacancy, 1) + ' is under CHFA\'s ' + pct(min.vacancy.value) + ' minimum (5% only with project-based Section 8 on every unit).', source: min.vacancy });
+    // Under the Section 8 floor no deal type passes; between the two it holds only with Section 8 on every unit.
+    if (min.vacancy && o.vacancy != null && o.vacancy < min.vacancy.value - 1e-9) {
+      var v8 = min.vacancySection8, underAll = !v8 || o.vacancy < v8.value - 1e-9;
+      out.push({ level: underAll ? 'bad' : 'warn', text: 'Vacancy of ' + pct(o.vacancy, 1) + ' is under CHFA\'s ' + pct(min.vacancy.value) + ' minimum' +
+        (v8 ? (underAll ? ' and under the ' + pct(v8.value) + ' it allows with project-based Section 8 on every unit.' : '; ' + pct(v8.value) + ' holds only with project-based Section 8 on every unit. Confirm the deal has it.') : '.'), source: underAll && v8 ? v8 : min.vacancy });
+    }
     if (min.rentGrowth && o.rentGrowth != null && o.rentGrowth > min.rentGrowth.value + 1e-9) out.push({ level: 'warn', text: 'Rents grow ' + pct(o.rentGrowth, 1) + ' a year; CHFA underwrites ' + pct(min.rentGrowth.value) + '.', source: min.rentGrowth });
     if (min.expGrowth && o.expGrowth != null && o.expGrowth < min.expGrowth.value - 1e-9) out.push({ level: 'warn', text: 'Costs grow ' + pct(o.expGrowth, 1) + ' a year; CHFA underwrites ' + pct(min.expGrowth.value) + '.', source: min.expGrowth });
     // A check with no figure did not run: say so, rather than leave a dash that reads as a pass.
@@ -534,11 +539,19 @@
     return null;
   }
 
+  // A request that stalls settles as null after ms, so the workbook builds without it rather than waiting forever.
+  function settleWithin(p, ms) {
+    return new Promise(function (resolve) {
+      var t = setTimeout(function () { resolve(null); }, ms);
+      p.then(function (v) { clearTimeout(t); resolve(v); }, function () { clearTimeout(t); resolve(null); });
+    });
+  }
+
   function start(doc) {
     var $ = function (id) { return doc.getElementById(id); };
     var tok = 0;
     // Every workbook waits for the rules request to settle, so a fast calculator never builds without them.
-    var rulesReady = fetch(RULES_URL).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+    var rulesReady = settleWithin(fetch(RULES_URL).then(function (r) { return r.ok ? r.json() : null; }), 20000);
     function status(t) { $('wbStatus').textContent = t; }
     function api(path) {
       return fetch(API + path, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); });
@@ -612,5 +625,5 @@
     else start(document);
   }
 
-  return { build: build, render: render, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, money: money, RULES_URL: RULES_URL, API: API };
+  return { build: build, render: render, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, money: money, RULES_URL: RULES_URL, API: API };
 });
