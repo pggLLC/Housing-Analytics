@@ -252,6 +252,9 @@ ok(/set the calculator to project 15 years\./.test(texts(mut((s) => { s.result.c
 const hist = mut0((s) => { s.permanentFinancing.historic = [{ id: 'h1', program: 'historic_tc', amount: 400000 }, { id: 'h2', program: 'historic_tc', amount: null }]; s.permanentFinancing.taxCredit.historic = null; });
 ok(hist.sources.rows.some((x) => x.label === 'Historic credit equity' && x.amount === 400000) && hist.sources.rows.some((x) => x.amount === null && /Historic credit equity: not known/.test(x.label)), 'a historic tranche without an amount stays in the sources as unknown');
 
+const ungrouped = mut0((s) => { s.permanentFinancing.unclassified = [{ id: 'u1', program: null, label: 'Foundation loan', amount: 250000, reason: "Choose where this source counts in DOH's layout." }]; });
+ok(ungrouped.sources.rows.some((x) => x.amount === 250000 && x.label === "Foundation loan: not yet grouped, Choose where this source counts in DOH's layout."), 'a source with no DOH group keeps its reason');
+
 const noMustPay = mut0((s) => { s.result.coverage.years.forEach((y) => { y.allMustPayCoverage = null; y.seniorCoverage = null; y.unavailableReason = null; }); s.result.unavailable = Object.assign({}, s.result.unavailable); delete s.result.unavailable.coverage; delete s.result.unavailable.allMustPayDSCR; });
 ok(!noMustPay.coverage.full && noMustPay.coverage.known15 === 0 && /warn: Debt coverage is not available: Coverage requires positive must-pay debt service\./.test(texts(noMustPay)), 'null ratios with no row reason count as unmeasured and say why');
 
@@ -289,6 +292,7 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   el('wbOpenLink').handlers.click();
   ok(el('wbOut').innerHTML === '' && el('wbPrint').hidden && el('wbOpenCalc').hidden && /no Deal Calculator settings/.test(el('wbStatus').textContent), 'an invalid new input clears the last deal and its print button');
   await new Promise((r) => setTimeout(r, 0));
+  ok(/team site only/.test(el('wbDeals').innerHTML), 'a refused saved-deal list says the deals are on the team site');
   // A saved version that fails to load clears the last deal too.
   el('wbOut').innerHTML = '<p>Deal A</p>'; el('wbPrint').hidden = false;
   el('wbDeals').value = 'd1'; el('wbDeals').selectedOptions = [{ textContent: 'Deal B' }]; el('wbVersions').value = '3';
@@ -303,6 +307,7 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   ok(/Loading that saved version/.test(el('wbStatus').textContent), 'a saved version says it is loading');
   await new Promise((r) => setTimeout(r, 60));
   ok(/That version did not load/.test(el('wbStatus').textContent), 'a saved version that never answers times out and says so');
+  ok(/Saved deals did not load/.test(el('wbDeals').innerHTML), 'a saved-deal list that never answers times out and says so');
   globalThis.fetch = saved.fetch; if (saved.window === undefined) delete globalThis.window; else globalThis.window = saved.window;
 }
 const feeOpen = mut0((s) => { s.permanentFinancing.deferredDevFee = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { deferredDevFee: 'Operating inputs are incomplete.' }); });

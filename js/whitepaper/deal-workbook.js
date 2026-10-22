@@ -109,7 +109,10 @@
       });
       ['government', 'other', 'owner', 'unclassified'].forEach(function (k) {
         (pf[k] || []).forEach(function (s) { var prog = s.program ? (labels[s.program] || s.program) : null;
-          sources.push({ label: s.label && prog ? s.label + ' (' + prog + ')' : (s.label || prog || 'Other source'), amount: num(s.amount != null ? s.amount : s.principal) }); });
+          var name = s.label && prog ? s.label + ' (' + prog + ')' : (s.label || prog || 'Other source');
+          // A source with no DOH group keeps the engine's reason, so it never reads as classified.
+          if (k === 'unclassified' && s.reason) name += ': not yet grouped, ' + s.reason;
+          sources.push({ label: name, amount: num(s.amount != null ? s.amount : s.principal) }); });
       });
       if (num(pf.deferredDevFee)) sources.push({ label: 'Deferred developer fee', amount: num(pf.deferredDevFee) });
       else if (pf.deferredDevFee == null && un.deferredDevFee) sources.push({ label: 'Deferred developer fee: not known, ' + un.deferredDevFee, amount: null });
@@ -591,19 +594,23 @@
       }, function (err) { if (my === tok) status(err.message); });
     }
     // Saved deals: the team's, from the private backend. Without it, the picker says so and the other routes still work.
-    api('').then(function (j) {
-      var deals = (j && j.deals) || [];
+    // A list request that stalls says so instead of leaving the picker on Loading.
+    settleWithin(api('').then(null, function () { return { offline: true }; }), wait).then(function (j) {
+      if (j == null) { $('wbDeals').innerHTML = '<option value="">Saved deals did not load. Reload the page to try again.</option>'; $('wbDeals').disabled = true; return; }
+      if (j.offline) { $('wbDeals').innerHTML = '<option value="">Saved deals are on the team site only</option>'; $('wbDeals').disabled = true; return; }
+      var deals = j.deals || [];
       if (!deals.length) { $('wbDeals').innerHTML = '<option value="">No saved deals yet</option>'; return; }
       $('wbDeals').innerHTML = '<option value="">Choose a deal</option>' + deals.map(function (d) { return '<option value="' + esc(d.id) + '">' + esc(d.name || d.id) + '</option>'; }).join('');
-    }, function () { $('wbDeals').innerHTML = '<option value="">Saved deals are on the team site only</option>'; $('wbDeals').disabled = true; });
+    });
     $('wbDeals').addEventListener('change', function () {
       var deal = $('wbDeals').value; $('wbVersions').innerHTML = ''; if (!deal) return;
-      api('?deal=' + encodeURIComponent(deal)).then(function (j) {
+      settleWithin(api('?deal=' + encodeURIComponent(deal)), wait).then(function (j) {
         if ($('wbDeals').value !== deal) return;
+        if (j == null) { status('That deal\'s versions did not load.'); return; }
         var vs = (j && j.versions) || [], hidden = (j && j.hidden) || [];
         vs = vs.filter(function (v) { return hidden.indexOf(v.v) === -1; });
         $('wbVersions').innerHTML = vs.map(function (v) { return '<option value="' + esc(v.v) + '">' + esc((v.label || 'Version') + ' · ' + String(v.at || '').slice(0, 10) + (v.by ? ' · ' + v.by : '')) + '</option>'; }).join('');
-      }, function () { if ($('wbDeals').value === deal) status('That deal\'s versions did not load.'); });
+      });
     });
     $('wbOpenSaved').addEventListener('click', function () {
       var deal = $('wbDeals').value, v = $('wbVersions').value;
