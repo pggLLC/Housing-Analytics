@@ -106,6 +106,9 @@ ok(!/<script/i.test(WB.render(m, '<script>x</script>')), 'a deal name is escaped
 ok(WB.queryFrom('https://cohoanalytics.com/deal-calculator.html?county-select=08067&units=60#x') === 'county-select=08067&units=60', 'a share link gives its settings');
 ok(WB.queryFrom({ url: 'http://localhost/deal-calculator.html?units=60' }) === 'units=60', 'an export file gives its settings');
 ok(WB.queryFrom({ data: { calculator: { query: 'units=12' } } }) === 'units=12', 'a saved Submittal review version gives its settings');
+ok(WB.calcUrl('units=60&county-select=08067', 'http://localhost/a/developer-deal-workbook.html') === 'http://localhost/a/deal-calculator.html?units=60&county-select=08067', 'the calculator link stays on the same folder');
+ok(WB.calcUrl('"><script>x</script>&units=1', 'http://localhost/a/p.html').indexOf('<') === -1, 'pasted markup is encoded, never passed through');
+ok(new URL(WB.calcUrl('javascript:alert(1)', 'http://localhost/a/p.html')).protocol === 'http:', 'a pasted script link cannot change where the link goes');
 ok(WB.queryFrom('just some text') === null && WB.queryFrom({}) === null, 'anything else gives nothing');
 
 // ── Gating ─────────────────────────────────────────────────────────────────

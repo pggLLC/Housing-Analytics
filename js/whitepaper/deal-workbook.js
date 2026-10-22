@@ -367,13 +367,23 @@
     return h;
   }
 
+  // A pasted link or file is untrusted text. Rebuild it as parsed name/value pairs
+  // on a same-folder deal-calculator.html URL, so nothing else can ride along.
+  function calcUrl(query, base) {
+    var u = new URL('deal-calculator.html', base);
+    var clean = new URLSearchParams();
+    new URLSearchParams(String(query || '')).forEach(function (v, k) { clean.append(k, v); });
+    u.search = clean.toString();
+    return u.href;
+  }
+
   // ── Browser ───────────────────────────────────────────────────────────────
   function loadFrame(doc, query, timeoutMs) {
     return new Promise(function (resolve, reject) {
       var f = doc.createElement('iframe');
       f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
       f.style.cssText = 'position:absolute;width:1200px;height:900px;left:-10000px;top:0;border:0;visibility:hidden';
-      f.src = 'deal-calculator.html' + (query ? '?' + query : '');
+      f.src = calcUrl(query, doc.baseURI);
       var t0 = Date.now(), last = '', same = 0;
       function poll() {
         try {
@@ -423,7 +433,7 @@
       var my = ++tok;
       status('Running the Deal Calculator for this deal…');
       $('wbOut').innerHTML = '';
-      $('wbOpenCalc').href = 'deal-calculator.html?' + query; $('wbOpenCalc').hidden = false;
+      $('wbOpenCalc').href = calcUrl(query, doc.baseURI); $('wbOpenCalc').hidden = false;
       loadFrame(doc, query).then(function (f) {
         if (my !== tok) { f.remove(); return; }
         var snap = readCalc(f.contentWindow); f.remove();
@@ -476,5 +486,5 @@
     else start(document);
   }
 
-  return { build: build, render: render, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, money: money, RULES_URL: RULES_URL, API: API };
+  return { build: build, render: render, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, money: money, RULES_URL: RULES_URL, API: API };
 });
