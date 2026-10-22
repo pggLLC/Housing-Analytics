@@ -182,7 +182,7 @@
           })
           .catch(function (error) {
             mount.textContent = '';
-            var p = el('p', 'Map unavailable. ' + error.message, mount, 'brief-note');
+            var p = el('p', 'Map unavailable. ' + error.message + ' Any transit zone screen here is screen only, awaiting OEDIT confirmation.', mount, 'brief-note');
             p.setAttribute('data-tzm-state', 'unavailable');
           });
       }
