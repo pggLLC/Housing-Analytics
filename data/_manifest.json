@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-22T10:32:12.667Z",
+    "generated_at": "2026-10-22T10:35:42.893Z",
     "root": "data/",
-    "file_count": 1975,
-    "total_size_bytes": 198904758,
+    "file_count": 1977,
+    "total_size_bytes": 199171008,
     "kinds": {
-      "json": 1929,
+      "json": 1931,
       "geojson": 34,
       "csv": 12
     }
@@ -515,8 +515,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 659543,
-      "mtime": "2026-10-21T11:14:34.099Z",
+      "size_bytes": 661315,
+      "mtime": "2026-10-22T10:35:40.803Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -536,7 +536,7 @@
       ],
       "key_count": 16,
       "primary_array_key": "federal_notices",
-      "primary_array_length": 599,
+      "primary_array_length": 602,
       "primary_array_first_keys": [
         "key",
         "source",
@@ -21929,8 +21929,8 @@
     {
       "path": "hna/local-resources.json",
       "kind": "json",
-      "size_bytes": 183369,
-      "mtime": "2026-10-18T08:06:44.500Z",
+      "size_bytes": 183468,
+      "mtime": "2026-10-22T10:35:40.763Z",
       "shape": "object",
       "keys": [
         "state:08",
@@ -22031,6 +22031,27 @@
       "key_count": 2,
       "primary_array_key": null,
       "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "hna/place-hamilton-perry.json",
+      "kind": "json",
+      "size_bytes": 89528,
+      "mtime": "2026-10-22T10:35:40.763Z",
+      "shape": "object",
+      "keys": [
+        "source",
+        "method",
+        "years",
+        "groups",
+        "offeredWhen",
+        "counties",
+        "places",
+        "leftOut"
+      ],
+      "key_count": 8,
+      "primary_array_key": "groups",
+      "primary_array_length": 5,
       "primary_array_first_keys": null
     },
     {
@@ -25631,6 +25652,24 @@
       "key_count": 4,
       "primary_array_key": "sources",
       "primary_array_length": 2,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "hna/source/census_age_2010_2020.json",
+      "kind": "json",
+      "size_bytes": 175026,
+      "mtime": "2026-10-22T10:35:40.764Z",
+      "shape": "object",
+      "keys": [
+        "source",
+        "retrieved",
+        "groups",
+        "place",
+        "county"
+      ],
+      "key_count": 5,
+      "primary_array_key": "groups",
+      "primary_array_length": 19,
       "primary_array_first_keys": null
     },
     {
@@ -39237,8 +39276,8 @@
     {
       "path": "metadata/rent_burden_sources.json",
       "kind": "json",
-      "size_bytes": 8527,
-      "mtime": "2026-09-25T12:55:19.119Z",
+      "size_bytes": 8518,
+      "mtime": "2026-10-22T10:35:40.764Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -41412,8 +41451,8 @@
     {
       "path": "policy/funding-awards/documents.json",
       "kind": "json",
-      "size_bytes": 48971,
-      "mtime": "2026-10-18T15:35:08.185Z",
+      "size_bytes": 48891,
+      "mtime": "2026-10-22T10:35:40.764Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -41528,8 +41567,8 @@
     {
       "path": "policy/funding-awards/reviewed-documents.json",
       "kind": "json",
-      "size_bytes": 23656,
-      "mtime": "2026-10-18T15:35:08.186Z",
+      "size_bytes": 23576,
+      "mtime": "2026-10-22T10:35:40.765Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -41543,8 +41582,8 @@
     {
       "path": "policy/funding-watch-sources.json",
       "kind": "json",
-      "size_bytes": 12129,
-      "mtime": "2026-10-18T13:47:12.957Z",
+      "size_bytes": 12123,
+      "mtime": "2026-10-22T10:35:40.765Z",
       "shape": "object",
       "keys": [
         "schema",
