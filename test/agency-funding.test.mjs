@@ -134,6 +134,17 @@ ok(M.measureOf(s, 'ALL') === s.homes, 'all three agencies together are measured 
 ok(M.measureOf(s, 'CHFA') === s.credits && M.measureOf(s, 'OEDIT') === s.dollars, 'one agency is measured in its own unit');
 const sumDollars = awards.reduce((t, a) => t + (a.dollars || 0), 0);
 ok(s.dollars === sumDollars, 'summarised dollars equal the sum of award dollars (no credits mixed in)');
+// Bonds (a loan to the project) stay apart from credits and dollars.
+ok(awards.filter((a) => a.agency !== 'CHFA').every((a) => a.bonds === null), 'only CHFA 4% awards carry bonds');
+ok(chfa.filter((a) => a.bonds).every((a) => /4%/.test(a.program)), 'bonds appear only on 4% awards');
+const ledgerBonds = ledger.awards.reduce((t, r) => t + (M.agencyOf(r.agency) === 'CHFA' && !M.isExcluded(r.name) ? (r.bond_amount || 0) : 0), 0);
+ok(s.bonds === ledgerBonds && s.bonds > 0, `summarised bonds equal the ledger's bond amounts (${s.bonds} vs ${ledgerBonds})`);
+// Prop 123 money splits by program and the parts add back to OEDIT's dollars.
+const oedit = awards.filter((a) => a.agency === 'OEDIT');
+ok(oedit.every((a) => a.oeditKind), 'every Prop 123 award has a program type (loans, equity, land, modular)');
+const kinds = s.byAgency.OEDIT.byKind;
+ok(Object.values(kinds).reduce((t, v) => t + v, 0) === s.byAgency.OEDIT.dollars, 'Prop 123 program columns add back to OEDIT dollars');
+ok(kinds.loans > 0 && kinds.equity > 0 && kinds.land > 0, 'loans, equity and land banking each have money');
 ok(M.perResident(100, 0) === null && M.perResident(null, 10) === null, 'per resident is null, not 0, with no population or no value');
 
 // ── flow diagram: program to region, in homes ───────────────────────────────
