@@ -198,7 +198,7 @@
           '<figcaption style="font-weight:600;margin-bottom:.2rem;">Transit stops and the ' + esc(String(data.meta.radius_miles)) + '-mile screen ' + (statewide ? 'across ' : 'around ') + esc(name) + '</figcaption>' +
           legend(data.meta.radius_miles, statewide) +
           '<div class="tzm__map" role="img" aria-label="' + esc('Map of ' + name + ' with confirmed transit stops and the area within ' +
-            data.meta.radius_miles + ' miles of them shaded. Awaiting OEDIT confirmation.') + '" ' +
+            data.meta.radius_miles + ' miles of them shaded. ' + badgeText(mapStatus) + '.') + '" ' +
             'style="height:min(62vh,380px);min-height:280px;width:100%;border-radius:8px;border:1px solid var(--border,#d0d7de);"></div>' +
           statuteLine(mapStatus) +
           sourceLine(data, mapStatus) +

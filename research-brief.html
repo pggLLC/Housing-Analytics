@@ -183,7 +183,7 @@
           })
           .catch(function (error) {
             mount.textContent = '';
-            var p = el('p', 'Map unavailable. ' + error.message + ' Any transit zone screen here is screen only, awaiting OEDIT confirmation.', mount, 'brief-note');
+            var p = el('p', 'Map unavailable. ' + error.message + ' A transit-stop screen is not a zone designation; only OEDIT\u2019s Transit and Housing Investment Zone map decides eligibility.', mount, 'brief-note');
             p.setAttribute('data-tzm-state', 'unavailable');
           });
       }
