@@ -118,7 +118,8 @@
     "      <button type=\"button\" data-hm-mrows=\"developer\" aria-pressed=\"false\">Developers</button>",
     "    </span>",
     "  </div>",
-    "  <div class=\"hm-scroll\" style=\"margin-top:var(--sp2);\" data-hm-matrix></div>",
+    "  <div data-hm-matrix-note style=\"margin-top:var(--sp2);\"></div>",
+    "  <div class=\"hm-scroll\" data-hm-matrix></div>",
     "</section>",
     "",
     "<section aria-labelledby=\"hm-table-h\" style=\"margin:var(--sp5) 0;\">",
@@ -507,8 +508,10 @@
       : 'Totals: tax credits a year, bonds, Prop 123 money by program, DOLA grants and loans, and homes. No column is added to another.') + ' Sorted by homes. All three agencies are shown whatever "Who paid" is set to.</p>';
     var more = groups.length > LIMIT
       ? '<button type="button" class="btn" style="margin-top:var(--sp2);" data-hm-matrix-all>' + (state.matrixAll ? 'Show the top ' + LIMIT : 'Show all ' + groups.length) + '</button>' : '';
+    // The note sits outside the sideways-scrolling box so it never slides off the screen.
+    $('[data-hm-matrix-note]').innerHTML = groups.length ? note : '';
     $('[data-hm-matrix]').innerHTML = groups.length
-      ? note + '<table class="hm-table hm-matrix"><caption class="sr-only">Awards by ' + by + ' and agency, ' + esc(yearsText()) +
+      ? '<table class="hm-table hm-matrix"><caption class="sr-only">Awards by ' + by + ' and agency, ' + esc(yearsText()) +
         '. Every agency is shown here whatever "Who paid" is set to.</caption><thead>' + head + '</thead><tbody>' + body + '</tbody></table>' + more
       : '<p class="hm-muted">No awards for these years.</p>';
   }
