@@ -645,6 +645,11 @@ def same_national_story(s: dict, kept: list[dict]) -> dict | None:
     for k in kept:
         if k['scope'] not in ('national', 'federal'):
             continue
+        # Federal stories fold only into the same outlet's rewrite: "HUD cuts
+        # housing voucher funding" and "HUD expands housing voucher
+        # eligibility" are two actions (Codex review of #2459).
+        if 'federal' in (k['scope'], s['scope']) and k['source'] != s['source']:
+            continue
         try:
             gap = abs((date.fromisoformat(k['date']) - day).days)
         except ValueError:

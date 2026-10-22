@@ -267,8 +267,11 @@ def test_a_reworded_headline_from_the_same_outlet_is_one_story(geos):
     stories, _ = gpb.build_stories([
         alert('Treasury Yields Fall on String of Weak Housing Data', 'WSJ', date='2026-10-20'),
         alert('Treasury Yields Edge Lower Amid String of Weak Housing Data', 'WSJ', date='2026-10-20'),
+        # Two outlets, two federal actions.
+        alert('HUD cuts housing voucher funding', 'Reuters', date='2026-10-20'),
+        alert('HUD expands housing voucher eligibility', 'AP News', date='2026-10-20'),
     ], geos)
-    assert len(stories) == 1
+    assert len(stories) == 3
 
 
 def test_an_indirect_housing_headline_stays(geos):
