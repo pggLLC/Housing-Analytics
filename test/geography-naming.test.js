@@ -62,15 +62,14 @@ function site(w, geoid) {
 function docsLink(doc, host) {
   const links = [...host.querySelectorAll('a')].filter(a => a.getAttribute('href').includes('MARKET_ANALYSIS_METHOD'));
   assert.equal(links.length, 1);
-  // The link points at the copy of the method note the site serves itself,
-  // not at the code host, and its anchor names a real heading.
+  // The link points at the copy of the method note the site serves itself.
+  // The site serves Markdown unrendered, so a #fragment cannot land; the
+  // section the link answers must be the note's first heading instead.
   const href = links[0].getAttribute('href');
-  const [docPath, hash] = href.split('#');
-  assert(docPath.startsWith('docs/'));
-  assert(fs.existsSync(docPath)); assert(hash);
-  const target = { hash: '#' + hash };
-  const headings = read(docPath).split('\n').filter(line => /^## /.test(line)).map(line => line.slice(3));
-  assert(headings.some(heading => heading.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-') === target.hash.slice(1)));
+  assert(href.startsWith('docs/') && !href.includes('#'));
+  assert(fs.existsSync(href));
+  const first = read(href).split('\n').find(line => /^## /.test(line));
+  assert.equal(first, '## Jurisdiction, market area and project site');
 }
 let passed = 0, failed = 0;
 async function test(name, fn) {
