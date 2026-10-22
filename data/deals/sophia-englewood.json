@@ -1,0 +1,322 @@
+{
+ "slug": "sophia-englewood",
+ "name": "Sophia (The Sophia)",
+ "city": "Englewood",
+ "county": "Douglas",
+ "award": "2023 Federal 4% housing tax credit",
+ "units": 158,
+ "researched_on": "2026-10-21",
+ "headline": "Shea Properties developed The Sophia, 158 new one- and two-bedroom apartments for adults 55 and older at 60% AMI in a six-story building in the Meridian International Business Center in unincorporated Douglas County (Englewood address), with a 2023-cycle federal 4% credit and Douglas County Housing Partnership bonds; it is now leasing.",
+ "why_it_matters": "A private developer's senior 4% deal in a suburban office park, financed with bonds issued by the county's housing partnership; it adds 158 income-restricted homes for older adults near I-25 and E-470.",
+ "status": {
+  "label": "Construction started 2024; now leasing (October 2026)",
+  "detail": "JHL Constructors announced the start of construction on 2024-04-30 with completion scheduled for summer 2025. As of 2026-10-21 Shea's property page describes a 55+ affordable community now leasing at 9696 Maroon Circle. No certificate of occupancy date was found, and the deal is still on CHFA's 4% award report (no 8609s issued).",
+  "src": [
+   "milehighcre-2024-04-30",
+   "shea-sophia",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch for 8609 issuance (move to CHFA's 4% Completed Developments Report) and lease-up.",
+ "key_numbers": [
+  {
+   "value": "158 homes for adults 55+, all at 60% AMI",
+   "meaning": "117 one- and 41 two-bedroom units.",
+   "src": [
+    "chfa-4pct-award",
+    "milehighcre-2024-04-30"
+   ]
+  },
+  {
+   "value": "$2,788,896 a year in federal 4% credit",
+   "meaning": "Federal credit runs 10 years; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$28,900,000 of Douglas County Housing Partnership bonds (CHFA report)",
+   "meaning": "Bond counsel reported $30,000,000 of the partnership's Multifamily Housing Revenue Notes (The Sophia Project), Series 2024.",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-2024-03"
+   ]
+  },
+  {
+   "value": "Six stories, 153,200 sq ft on about 8.4 acres",
+   "meaning": "Built to 2020 Enterprise Green Communities criteria.",
+   "src": [
+    "milehighcre-2024-04-30",
+    "kutak-2024-03"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA: northeast corner of Maroon Cir and Meridian Blvd, Englewood 80112; leasing address 9696 Maroon Circle, Englewood 80112",
+   "src": [
+    "chfa-4pct-award",
+    "shea-sophia"
+   ]
+  },
+  {
+   "item": "Jurisdiction",
+   "value": "Unincorporated Douglas County, in the Meridian International Business Center",
+   "src": [
+    "kutak-2024-03"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Older adult, new construction; not in a QCT or DDA; in a SADDA; Section 8 column marked No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Amenities",
+   "value": "Fitness center, craft room, resident lounge, gathering spaces on each floor, fire pit and pet spa; in-home laundry, zoned air conditioning and walk-in showers",
+   "src": [
+    "shea-sophia"
+   ]
+  },
+  {
+   "item": "Eligibility",
+   "value": "Ages 55+; household income within HUD limits published by CHFA",
+   "src": [
+    "shea-sophia"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 158
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 117
+  },
+  {
+   "type": "2BR",
+   "units": 41
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,788,896 per year",
+   "note": "Cycle year 2023; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt multifamily housing revenue notes (Douglas County Housing Partnership)",
+   "amount": "$28,900,000 (CHFA) or $30,000,000 (bond counsel)",
+   "note": "Series 2024 notes financed part of acquisition and construction. Whose bond cap is not stated publicly.",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-2024-03"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Sophia Developer, LLC",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Developer and leasing",
+   "name": "Shea Properties",
+   "src": [
+    "milehighcre-2024-04-30",
+    "shea-sophia"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Douglas County Housing Partnership",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-2024-03"
+   ]
+  },
+  {
+   "role": "Bond counsel",
+   "name": "Kutak Rock LLP",
+   "src": [
+    "kutak-2024-03"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "JHL Constructors",
+   "src": [
+    "milehighcre-2024-04-30"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Galloway & Company",
+   "src": [
+    "milehighcre-2024-04-30"
+   ]
+  },
+  {
+   "role": "Credit allocator",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award",
+    "shea-sophia"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The Douglas County Housing Partnership issued Series 2024 multifamily housing revenue notes for The Sophia, reported by bond counsel in March 2024, for a senior 55+ affordable facility of about 158 units on about 8.4 acres northeast of Meridian Boulevard and the western end of Maroon Circle.",
+   "src": [
+    "kutak-2024-03"
+   ]
+  },
+  {
+   "text": "JHL Constructors began construction with Shea Properties and Galloway in spring 2024, scheduling completion for summer 2025.",
+   "src": [
+    "milehighcre-2024-04-30"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2023 Round One or Round Two applicant reports or the 2023 Round Two award report.",
+   "src": [
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2024-03",
+   "event": "Douglas County Housing Partnership Series 2024 notes reported by bond counsel",
+   "src": [
+    "kutak-2024-03"
+   ]
+  },
+  {
+   "date": "2024-04-30",
+   "event": "Construction start announced",
+   "src": [
+    "milehighcre-2024-04-30"
+   ]
+  },
+  {
+   "date": "2025",
+   "event": "Completion scheduled for summer 2025 (per 2024 announcement)",
+   "src": [
+    "milehighcre-2024-04-30"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2023 (no 8609s issued yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-10-21",
+   "event": "Shea's property page shows the community now leasing",
+   "src": [
+    "shea-sophia"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "The Sophia photo gallery",
+   "url": "https://www.sheaapartments.com/apartments/the-sophia-1",
+   "kind": "photo",
+   "made_by": "Shea Properties (leasing page)",
+   "note": "Gallery images on the property page",
+   "src": [
+    "shea-sophia"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report lists $28,900,000 of Douglas County Housing Partnership bonds, while bond counsel reports $30,000,000 of notes issued.",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-2024-03"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whose private activity bond cap backs the notes.",
+  "Douglas County land use approvals (site improvement plan) with dates and file numbers; land seller and price.",
+  "Equity investor, lender and total development cost; rents.",
+  "Whether the Housing Partnership holds an ownership interest that provides a property tax exemption.",
+  "Certificate of occupancy date, opening date and lease-up progress."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "kutak-2024-03",
+   "title": "Kutak Rock Serves as Bond Counsel to Douglas County Housing Partnership for The Sophia Project",
+   "publisher": "Kutak Rock LLP",
+   "date": "2024-03",
+   "url": "https://www.kutakrock.com/newspublications/news/2024/march/kutak-rock-bond-counsel-sophia-project"
+  },
+  {
+   "id": "milehighcre-2024-04-30",
+   "title": "JHL Begins Construction on The Sophia Apartments",
+   "publisher": "Mile High CRE",
+   "date": "2024-04-30",
+   "url": "https://milehighcre.com/jhl-constructors-begins-construction-on-the-sophia-apartments/"
+  },
+  {
+   "id": "shea-sophia",
+   "title": "The Sophia (property page)",
+   "publisher": "Shea Apartments (Shea Properties)",
+   "date": "2026-10-21",
+   "url": "https://www.sheaapartments.com/apartments/the-sophia-1"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round 2 Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  }
+ ]
+}

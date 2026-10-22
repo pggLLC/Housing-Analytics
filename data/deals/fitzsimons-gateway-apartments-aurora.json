@@ -1,0 +1,424 @@
+{
+ "slug": "fitzsimons-gateway-apartments-aurora",
+ "name": "Fitzsimons Gateway Apartments",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2022 Federal 4% housing tax credit",
+ "units": 210,
+ "researched_on": "2026-10-21",
+ "headline": "Fitzsimons Gateway is a 210-home, six-story affordable building for households at 30% to 70% AMI at the southeast corner of Colfax Avenue and Peoria Street in Aurora, across from the Anschutz Medical Campus, developed by BMC Investments with Mile High Development on land held in Urban Land Conservancy's community land trust; it won $3,541,829 a year in 2022 federal 4% credit with $39.1M of CHFA private activity bonds.",
+ "why_it_matters": "It stacks a 99-year land trust ground position, Prop 123 concessionary debt (the first project to break ground using it) and a dozen other financing partners, and took two years from credit award to groundbreaking, a useful case for gap-heavy 4% deals near job centers.",
+ "status": {
+  "label": "Built: certificate of occupancy dated 2026-05-14 in Aurora's records; 8609s not yet issued",
+  "detail": "Aurora's building permit for the 210-unit building was issued 2023-11-16, the groundbreaking was 2024-09-17, the structure topped out by July 2025, and Aurora's 2026 certificate of occupancy layer lists 12100 E Colfax Ave with a CO dated 2026-05-14. CHFA still lists the deal on its 2026-09-21 award report, which excludes developments with 8609s issued. No public lease-up figures were found.",
+  "src": [
+   "aurora-permits-fitz",
+   "mhcre-fitz-groundbreaking",
+   "mhcre-fitz-topout",
+   "aurora-co-2026-fitz",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch for lease-up news from the developers and for the deal moving to CHFA's 4% completed developments report once 8609s are issued.",
+ "key_numbers": [
+  {
+   "value": "210 homes, all income-restricted (30% to 70% AMI)",
+   "meaning": "171 one-bedrooms and 39 two-bedrooms; 30 units at 30% AMI, 41 at 50%, 73 at 60% and 66 at 70%.",
+   "src": [
+    "chfa-4pct-award",
+    "mhcre-fitz-groundbreaking"
+   ]
+  },
+  {
+   "value": "$3,541,829 a year in federal 4% credit",
+   "meaning": "About $35.4M over the 10-year credit period (inferred from the annual amount); no state credit shown.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$39.1M CHFA private activity bonds",
+   "meaning": "Issued by CHFA from its 4% bond pool; the 2022 letter of intent asked for $36M.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2022-pab-loi",
+    "key-fitz"
+   ]
+  },
+  {
+   "value": "99-year land trust",
+   "meaning": "Urban Land Conservancy owns the 1.7-acre site and holds it in its community land trust.",
+   "src": [
+    "mhcre-fitz-groundbreaking",
+    "ulc-fitz"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "CHFA lists \"Peoria at Colfax\", Aurora 80011; Aurora permit and CO records use 12100 E Colfax Ave",
+   "src": [
+    "chfa-4pct-award",
+    "aurora-permits-fitz",
+    "aurora-co-2026-fitz"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; in a Qualified Census Tract (QCT: Yes, DDA: No); Section 8: No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Six stories on a 1.7-acre site next to BMC's Hyatt House Fitzsimons; two levels of garage parking, three courtyards, masonry and stucco facade; 178,000 sq ft at groundbreaking, 239,723 sq ft in the topping-out release",
+   "src": [
+    "mhcre-fitz-groundbreaking",
+    "mhcre-fitz-topout"
+   ]
+  },
+  {
+   "item": "Building permit",
+   "value": "Permit 22-2258600 (210-unit multifamily building), applied 2022-12-20, issued 2023-11-16, declared valuation $49,633,288",
+   "src": [
+    "aurora-permits-fitz"
+   ]
+  },
+  {
+   "item": "Certificate of occupancy",
+   "value": "12100 E Colfax Ave, CO issued, dated 2026-05-14 (Fitzsimons Promenade #01 subdivision)",
+   "src": [
+    "aurora-co-2026-fitz"
+   ]
+  },
+  {
+   "item": "Design and construction",
+   "value": "Architect KTGY; general contractor Alliance Construction Solutions; property manager ComCap Management",
+   "src": [
+    "mhcre-fitz-groundbreaking",
+    "mhcre-fitz-topout"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 30
+  },
+  {
+   "level": "50% AMI",
+   "units": 41
+  },
+  {
+   "level": "60% AMI",
+   "units": 73
+  },
+  {
+   "level": "70% AMI",
+   "units": 66
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 171
+  },
+  {
+   "type": "2BR",
+   "units": 39
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "mhcre-fitz-groundbreaking"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,541,829 per year",
+   "note": "2022 cycle; subject to change per CHFA.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$39,100,000",
+   "note": "Sold by KeyBanc Capital Markets; the 2022 CHFA bond-pool letter of intent requested $36,000,000.",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2022-pab-loi",
+    "key-fitz"
+   ]
+  },
+  {
+   "source": "KeyBank construction loan and Fannie Mae M.TEB forward commitment (permanent)",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "key-fitz"
+   ]
+  },
+  {
+   "source": "Proposition 123 concessionary debt (OEDIT program administered by CHFA)",
+   "amount": "Not public",
+   "note": "The groundbreaking release says Fitzsimons Gateway was the first project to break ground using it.",
+   "src": [
+    "mhcre-fitz-groundbreaking"
+   ]
+  },
+  {
+   "source": "Other named financing partners",
+   "amount": "Not public",
+   "note": "Greenline Ventures, ZOMA Capital, U.S. Bancorp Impact Finance, Mercy Community Capital, Impact Development Fund, Colorado Division of Housing, City of Aurora, Aurora Urban Renewal Authority and the Aurora Housing Authority.",
+   "src": [
+    "mhcre-fitz-groundbreaking"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "BMC Investments",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Co-developer",
+   "name": "Mile High Development",
+   "src": [
+    "mhcre-fitz-groundbreaking",
+    "ulc-fitz"
+   ]
+  },
+  {
+   "role": "Landowner (community land trust)",
+   "name": "Urban Land Conservancy",
+   "src": [
+    "mhcre-fitz-groundbreaking",
+    "ulc-fitz"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Colorado Housing and Finance Authority",
+   "src": [
+    "chfa-4pct-award",
+    "key-fitz"
+   ]
+  },
+  {
+   "role": "Construction lender, permanent loan (Fannie Mae) and bond underwriter",
+   "name": "KeyBank Community Development Lending & Investment / KeyBanc Capital Markets",
+   "src": [
+    "key-fitz"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Alliance Construction Solutions",
+   "src": [
+    "mhcre-fitz-groundbreaking",
+    "mhcre-fitz-topout"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "KTGY",
+   "src": [
+    "mhcre-fitz-groundbreaking"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "ComCap Management",
+   "src": [
+    "mhcre-fitz-groundbreaking"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "It is BMC Investments' first low-income housing tax credit project and was billed as the launch of a BMC affordable platform targeting more than 500 units in metro Denver over five years.",
+   "src": [
+    "mhcre-fitz-groundbreaking"
+   ]
+  },
+  {
+   "text": "Urban Land Conservancy owns the land and holds it in its community land trust, which it says ensures at least 99 years of affordability; the building is owned separately (ground lease terms are not public).",
+   "src": [
+    "mhcre-fitz-groundbreaking",
+    "ulc-fitz"
+   ]
+  },
+  {
+   "text": "The developers described the financing as involving more than a dozen partners; it closed and broke ground in September 2024, about two years after the 2022 credit cycle and ten months after Aurora issued the building permit.",
+   "src": [
+    "mhcre-fitz-groundbreaking",
+    "aurora-permits-fitz",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "Aurora permit data show later revisions, including a 2025 fire alarm revision adding notification devices for five new ADA units, and access-control permits filed in October 2026.",
+   "src": [
+    "aurora-permits-fitz"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2022 Round One or Round Two competitive application narratives; it was a rolling 4% bond deal only.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "CHFA's 4% award report says it leaves out developments whose IRS Form 8609s have been issued; this deal is still listed on the 2026-09-21 report, so 8609s had not been issued by then (inferred from the report's note).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022",
+   "event": "Letter of intent to CHFA's 2022 4% bond pool: 210 units, $36M of bond cap requested",
+   "src": [
+    "chfa-2022-pab-loi"
+   ]
+  },
+  {
+   "date": "2022-12-20",
+   "event": "Building permit application filed with Aurora (22-2258600)",
+   "src": [
+    "aurora-permits-fitz"
+   ]
+  },
+  {
+   "date": "2023-11-16",
+   "event": "Aurora issues the building permit",
+   "src": [
+    "aurora-permits-fitz"
+   ]
+  },
+  {
+   "date": "2024-09-17",
+   "event": "Groundbreaking; construction starts, completion targeted for Q3 2026",
+   "src": [
+    "mhcre-fitz-groundbreaking"
+   ]
+  },
+  {
+   "date": "2025-07",
+   "event": "Topping out of the structure (release published 2025-07-17)",
+   "src": [
+    "mhcre-fitz-topout"
+   ]
+  },
+  {
+   "date": "2026-05-14",
+   "event": "Certificate of occupancy date for 12100 E Colfax Ave in Aurora's records",
+   "src": [
+    "aurora-co-2026-fitz"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Still listed on CHFA's Federal 4% award report (no 8609s yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "The groundbreaking release describes a 178,000 square foot building, while the topping-out release describes a 239,723 square foot development (the second figure may include the garage).",
+   "src": [
+    "mhcre-fitz-groundbreaking",
+    "mhcre-fitz-topout"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Size of the Prop 123 concessionary loan and of the Division of Housing, City of Aurora, Aurora Urban Renewal Authority and Aurora Housing Authority pieces (a Division of Housing press release that reportedly listed a $5M award no longer loads).",
+  "Ground lease terms with Urban Land Conservancy and whether the Aurora Housing Authority holds an ownership interest for a property tax exemption.",
+  "Total development cost, equity investor and price, lease-up progress and rents.",
+  "Whether the 2026-05-14 certificate of occupancy covers the whole building or is partial."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable); amounts marked subject to change; the report excludes developments with 8609s issued",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2022-pab-loi",
+   "title": "2022 CHFA 4% PAB Pool Letters of Intent",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/69e91478-f407-4ec2-a0b9-eae9c40f4ec4/2022-4-percent-PAB-Pool-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "CHFA, 2022 Round Two application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "mhcre-fitz-groundbreaking",
+   "title": "Groundbreaking: Fitzsimons Gateway Affordable Housing Community",
+   "publisher": "Mile High CRE",
+   "date": "2024-09-18",
+   "url": "https://milehighcre.com/groundbreaking-fitzsimons-gateway-affordable-housing-community/"
+  },
+  {
+   "id": "mhcre-fitz-topout",
+   "title": "Fitzsimons Gateway Affordable Housing Project Tops Out",
+   "publisher": "Mile High CRE",
+   "date": "2025-07-17",
+   "url": "https://milehighcre.com/fitzsimons-gateway-affordable-housing-project-tops-out/"
+  },
+  {
+   "id": "key-fitz",
+   "title": "Fitzsimons Gateway Apartments: Construction Loan, Permanent Financing, and Bond Underwriting",
+   "publisher": "KeyBank",
+   "date": "2024",
+   "url": "https://key.com/businesses-institutions/our-transactions/deals/fitzsimons-gateway-apartments.html"
+  },
+  {
+   "id": "ulc-fitz",
+   "title": "Fitzsimons Gateway Apartments (community land trust property)",
+   "publisher": "Urban Land Conservancy",
+   "date": "2026",
+   "url": "https://urbanlandc.org/?p=2612"
+  },
+  {
+   "id": "aurora-permits-fitz",
+   "title": "City of Aurora open data, building permits layer, query for property 12100 E Colfax Ave (PropertyRSN 16674; queried 2026-10-21)",
+   "publisher": "City of Aurora",
+   "date": "2026-10-21",
+   "url": "https://ags.auroragov.org/aurora/rest/services/OpenData/MapServer/44/query?where=PropertyRSN%3D16674&outFields=Permit_%2CInDate%2CIssueDate%2CSubDesc%2CFolderDescription%2CAddress%2Cvaluation&returnGeometry=false&f=html&outSR=4326"
+  },
+  {
+   "id": "aurora-co-2026-fitz",
+   "title": "City of Aurora, COed addresses 2026 layer, query for 12100 E Colfax Ave (queried 2026-10-21)",
+   "publisher": "City of Aurora",
+   "date": "2026-10-21",
+   "url": "https://ags.auroragov.org/aurora/rest/services/AuroraBuilding2/MapServer/29/query?where=ADDRESS+LIKE+%2712100+E+COLFAX%25%27&outFields=ADDRESS%2CCO_ISSUED%2CCO_DATE%2CSUBDIVISION_NAME&returnGeometry=false&f=html&outSR=4326"
+  }
+ ]
+}

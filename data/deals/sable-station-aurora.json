@@ -1,0 +1,407 @@
+{
+ "slug": "sable-station-aurora",
+ "name": "Sable Station",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2022 Federal 4% housing tax credit",
+ "units": 154,
+ "researched_on": "2026-10-21",
+ "headline": "Sable Station (financed as 15 Sable Apartments) is a 154-home, four-story affordable building for households at or below 70% AMI at 14455 E. Ellsworth Ave. in Aurora, on land bought from RTD near Aurora City Center, developed by DBG Properties with Featherstone Development; it won $2,197,931 a year in 2022 federal 4% credit with $24.9M of CHFA bonds and is now leasing.",
+ "why_it_matters": "A transit-oriented 4% deal on land bought from RTD that pairs a property tax abatement partnership with the Aurora Housing Authority and a single private-placement construction-to-permanent loan, a stack other suburban developers can copy.",
+ "status": {
+  "label": "Open and leasing; no certificate of occupancy record found; 8609s not yet issued",
+  "detail": "Aurora issued the building permit on 2023-04-10; a wall sign permit for Sable Station Apts was issued in February 2026 and Mission Rock Residential markets units as ready now (viewed 2026-10-21). Aurora's 2023 to 2026 certificate of occupancy layers have no entry for 14455 E Ellsworth Ave, and CHFA still lists the deal on its 2026-09-21 award report, which excludes developments with 8609s issued.",
+  "src": [
+   "aurora-permits-sable",
+   "mr-sable",
+   "aurora-co-2026-sable",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch for 8609 issuance and any opening announcement or lease-up figures.",
+ "key_numbers": [
+  {
+   "value": "154 homes, all at or below 70% AMI",
+   "meaning": "12 units at 30% AMI, 106 at 60% and 36 at 70%; 78 one-bedrooms, 68 two-bedrooms, 8 three-bedrooms.",
+   "src": [
+    "chfa-4pct-award",
+    "mhcre-sable"
+   ]
+  },
+  {
+   "value": "$2,197,931 a year in federal 4% credit",
+   "meaning": "About $22.0M over 10 years (inferred); no state credit shown.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$24.9M CHFA bonds; $43.1M BWE loan",
+   "meaning": "CHFA issued $24,895,000 of bonds; Bellwether Enterprise placed $43,135,000 of tax-exempt and taxable construction-to-permanent loans.",
+   "src": [
+    "chfa-4pct-award",
+    "mhcre-sable"
+   ]
+  },
+  {
+   "value": "$56M project; 40-year affordability",
+   "meaning": "Total cost and affordability commitment as reported at the 2023 loan closing.",
+   "src": [
+    "mhcre-sable"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "14455 E Ellsworth Ave., Aurora 80011",
+   "src": [
+    "chfa-4pct-award",
+    "aurora-permits-sable",
+    "mr-sable"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction; in a Qualified Census Tract (QCT: Yes); Section 8: No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building permit",
+   "value": "Permit 22-2251165 (154 units, Sable Apartments), applied 2022-11-29, issued 2023-04-10, declared valuation $28,516,916; site plan 2022-4046",
+   "src": [
+    "aurora-permits-sable"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories; community room, fitness center, game lawn, patio, children's play area; 120 kW rooftop solar permitted 2025-01-23",
+   "src": [
+    "mhcre-sable",
+    "aurora-permits-sable"
+   ]
+  },
+  {
+   "item": "Architect",
+   "value": "Shopworks",
+   "src": [
+    "mhcre-sable"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 12
+  },
+  {
+   "level": "60% AMI",
+   "units": 106
+  },
+  {
+   "level": "70% AMI",
+   "units": 36
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 78
+  },
+  {
+   "type": "2BR",
+   "units": 68
+  },
+  {
+   "type": "3BR",
+   "units": 8
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "mhcre-sable"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,197,931 per year",
+   "note": "2022 cycle; subject to change per CHFA.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA issuer)",
+   "amount": "$24,895,000",
+   "note": "From CHFA's 2022 4% bond pool (letter of intent requested $23,000,000).",
+   "src": [
+    "chfa-4pct-award",
+    "chfa-2022-pab-loi"
+   ]
+  },
+  {
+   "source": "Bellwether Enterprise private placement, tax-exempt and taxable construction-to-permanent loans",
+   "amount": "$43,135,000",
+   "note": "18-year term, 40-year amortization, interest-only for the first six years.",
+   "src": [
+    "mhcre-sable",
+    "mba-sable"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing subordinate loan",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "mhcre-sable"
+   ]
+  },
+  {
+   "source": "Tax credit equity (Affordable Housing Partners, Arizona)",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "mhcre-sable"
+   ]
+  },
+  {
+   "source": "Property tax abatement through a partnership with the Aurora Housing Authority",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "mhcre-sable"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "DBG Properties LLC",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Co-developer and borrower",
+   "name": "Featherstone Development",
+   "src": [
+    "mhcre-sable"
+   ]
+  },
+  {
+   "role": "Tax abatement partner",
+   "name": "Aurora Housing Authority",
+   "src": [
+    "mhcre-sable"
+   ]
+  },
+  {
+   "role": "Land seller",
+   "name": "Regional Transportation District (RTD)",
+   "src": [
+    "mhcre-sable"
+   ]
+  },
+  {
+   "role": "Lender",
+   "name": "Bellwether Enterprise Real Estate Capital (BWE)",
+   "src": [
+    "mhcre-sable"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Colorado Housing and Finance Authority",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Tax credit investor",
+   "name": "Affordable Housing Partners",
+   "src": [
+    "mhcre-sable"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks",
+   "src": [
+    "mhcre-sable"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Mission Rock Residential",
+   "src": [
+    "mr-sable",
+    "aurora-permits-sable"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The site was bought from RTD; the developers said it took three years and multiple versions of the plan, with support from the City of Aurora's Housing and Community Services Department, to reach groundbreaking.",
+   "src": [
+    "mhcre-sable"
+   ]
+  },
+  {
+   "text": "The Aurora Housing Authority partnership provides a property tax abatement (structure, such as housing authority ownership, not described publicly).",
+   "src": [
+    "mhcre-sable"
+   ]
+  },
+  {
+   "text": "BWE closed the loan in under 90 days in spring 2023; Aurora issued the building permit in April 2023, after a February 2023 revision switching the foundation from footings to drilled piers.",
+   "src": [
+    "mhcre-sable",
+    "aurora-permits-sable"
+   ]
+  },
+  {
+   "text": "Aurora permit data show 2026 damage-repair permits filed under Mission Rock Sable Station, indicating the building is in operation (inferred).",
+   "src": [
+    "aurora-permits-sable"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2022 Round One or Round Two competitive application narratives; it was a rolling 4% bond deal only.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "CHFA's 4% award report says it leaves out developments whose IRS Form 8609s have been issued; this deal is still listed on the 2026-09-21 report, so 8609s had not been issued by then (inferred from the report's note).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022",
+   "event": "Letter of intent to CHFA's 2022 4% bond pool as 15 Sable Apartments: 154 units, $23M requested",
+   "src": [
+    "chfa-2022-pab-loi"
+   ]
+  },
+  {
+   "date": "2022-11-29",
+   "event": "Building permit application filed (22-2251165)",
+   "src": [
+    "aurora-permits-sable"
+   ]
+  },
+  {
+   "date": "2023-04",
+   "event": "BWE closes $43.1M construction financing (reported 2023-04-20)",
+   "src": [
+    "mhcre-sable"
+   ]
+  },
+  {
+   "date": "2023-04-10",
+   "event": "Aurora issues the building permit",
+   "src": [
+    "aurora-permits-sable"
+   ]
+  },
+  {
+   "date": "2026-02-05",
+   "event": "Wall sign permit issued for Sable Station Apts",
+   "src": [
+    "aurora-permits-sable"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Still listed on CHFA's Federal 4% award report (no 8609s yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2026-10-21",
+   "event": "Mission Rock markets units as ready now with a move-in special",
+   "src": [
+    "mr-sable"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [],
+ "open_questions": [
+  "Opening or first move-in date, and the certificate of occupancy date (none found in Aurora's CO layers).",
+  "Size of the Division of Housing loan, equity price and RTD land price.",
+  "Terms of the Aurora Housing Authority tax abatement partnership."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable); amounts marked subject to change; the report excludes developments with 8609s issued",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2022-pab-loi",
+   "title": "2022 CHFA 4% PAB Pool Letters of Intent",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/69e91478-f407-4ec2-a0b9-eae9c40f4ec4/2022-4-percent-PAB-Pool-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "CHFA, 2022 Round Two application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "mhcre-sable",
+   "title": "New Affordable Housing Project in Aurora Secures Construction Financing",
+   "publisher": "Mile High CRE",
+   "date": "2023-04-20",
+   "url": "https://milehighcre.com/new-affordable-housing-project-in-aurora-secures-construction-financing/"
+  },
+  {
+   "id": "mba-sable",
+   "title": "Dealmaker: BWE Secures $43M For New Affordable Housing in Colorado",
+   "publisher": "MBA Newslink",
+   "date": "2023-05-04",
+   "url": "https://newslink.mba.org/mba-newslinks/2023/may/mba-newslink-friday-may-5-2023/dealmaker-bwe-secures-43m-for-new-affordable-housing-in-colorado/"
+  },
+  {
+   "id": "mr-sable",
+   "title": "Sable Station (leasing page, viewed 2026-10-21)",
+   "publisher": "Mission Rock Residential",
+   "date": "2026-10-21",
+   "url": "https://www.missionrockresidential.com/apartments/co/aurora/sable-station/"
+  },
+  {
+   "id": "aurora-permits-sable",
+   "title": "City of Aurora open data, building permits layer, query for property 14455 E Ellsworth Ave (PropertyRSN 29782; queried 2026-10-21)",
+   "publisher": "City of Aurora",
+   "date": "2026-10-21",
+   "url": "https://ags.auroragov.org/aurora/rest/services/OpenData/MapServer/44/query?where=PropertyRSN%3D29782&outFields=Permit_%2CInDate%2CIssueDate%2CSubDesc%2CFolderDescription%2CAddress%2Cvaluation&returnGeometry=false&f=html&outSR=4326"
+  },
+  {
+   "id": "aurora-co-2026-sable",
+   "title": "City of Aurora, COed addresses 2026 layer, query for E Ellsworth Ave addresses (queried 2026-10-21; the 2023 to 2025 layers were also checked)",
+   "publisher": "City of Aurora",
+   "date": "2026-10-21",
+   "url": "https://ags.auroragov.org/aurora/rest/services/AuroraBuilding2/MapServer/29/query?where=ADDRESS+LIKE+%27%25ELLSWORTH%25%27&outFields=ADDRESS%2CCO_ISSUED%2CCO_DATE%2CSUBDIVISION_NAME&returnGeometry=false&f=html&outSR=4326"
+  }
+ ]
+}

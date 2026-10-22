@@ -1,0 +1,547 @@
+{
+ "slug": "stables-aurora",
+ "name": "Stables (The Stables, Phase I)",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+ "units": 85,
+ "researched_on": "2026-10-21",
+ "headline": "Grovewood Community Development's The Stables is an 85-unit new-construction family building for households at 30% to 80% AMI on the 4.79-acre former Aurora Horse Boarding Stables site at 10850 E. Exposition Avenue, Aurora; it won 2024 Round Two federal 4% and accelerated state credits from CHFA, with $22.56M of CHFA bonds, and broke ground by early February 2026.",
+ "why_it_matters": "It shows how a nonprofit stacked city and county money (CDBG, HOME, ARPA, PAB cap transfers) with state AHIF acquisition debt to win an infill site against market-rate bidders, and it is one of the few 2024 Round Two deals with a dated groundbreaking.",
+ "status": {
+  "label": "Groundbreaking reported 2026-02-02; completion not yet public",
+  "detail": "Mile High CRE and ColoradoBiz reported on 2026-02-02 that Grovewood had broken ground on Phase I, naming the lender, equity investors and general contractor. No public record of the bond closing date, building permit number or completion date was found; the application had targeted a fourth-quarter 2025 construction start.",
+  "src": [
+   "milehighcre-2026-02-02",
+   "coloradobiz-2026-02-02",
+   "chfa-2024-r2-narratives"
+  ]
+ },
+ "next_step": "Watch for a lease-up or completion notice and for any CHFA or city record of the Phase II senior building (49 or 52 units).",
+ "key_numbers": [
+  {
+   "value": "85 homes, all income-restricted",
+   "meaning": "11 one-bedroom, 56 two-bedroom and 18 three-bedroom units, income-averaged at 30% to 80% AMI (average 55.6%).",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$2,040,378 a year in federal 4% credit",
+   "meaning": "About $20.4M over 10 years, plus $1,800,000 of accelerated state credit.",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "value": "$22,560,000 in CHFA bonds",
+   "meaning": "Tax-exempt construction bonds through a CHFA risk-share loan, using CHFA cap plus cap transferred from the City of Aurora ($3.7M) and Arapahoe County ($5.0M conditionally committed).",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "Groundbreaking reported 2026-02-02",
+   "meaning": "Calcon Constructors is the general contractor and Shopworks Architecture the architect.",
+   "src": [
+    "milehighcre-2026-02-02",
+    "coloradobiz-2026-02-02"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "10850 East Exposition Avenue, Aurora 80012 (just east of S. Havana Street)",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "85 total, 85 low-income",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Requested vs awarded",
+   "value": "The applicant report shows the same federal credit ($2,040,378), state credit ($1,800,000) and bond amount ($22,560,000) as the award",
+   "src": [
+    "chfa-2024-r2-applicants",
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "4.79 acres, former Aurora Horse Boarding Stables (in operation on the site since 1947); census tract 801, a Qualified Census Tract; Rangeview/Expo Park area next to Exposition Park and the Highline Canal Trail",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions",
+    "milehighcre-2026-02-02"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Rezoned from R-1 to R-4 by Aurora City Council on 2024-06-10; site plan, final plat and building permits were still ahead at application",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One four-story, 85-unit wood-frame (Type V-A) building with two elevators, gabled roofs and lap siding/brick that echo the former stable; trauma-informed design",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Overall campus",
+   "value": "Two-phase intergenerational campus: Phase I 85 family units, Phase II senior (62+) units",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "milehighcre-2026-02-02",
+    "connectcre-2026-02-06"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "Enterprise Green Communities; electrification-ready (CHFA: all-electric-ready design)",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "RTD Route 105 stop at S. Havana and Exposition about 0.3 mile away; Florida light rail station about 3 miles",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Environmental",
+   "value": "Phase I found no recognized environmental conditions; Arapahoe County completed the NEPA review",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Market study",
+   "value": "Overall capture rate 11.3%; LIHTC vacancy in the market area at or near 0%; lease-up projected at 20 units a month",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 8
+  },
+  {
+   "level": "40% AMI",
+   "units": 8
+  },
+  {
+   "level": "50% AMI",
+   "units": 27
+  },
+  {
+   "level": "60% AMI",
+   "units": 27
+  },
+  {
+   "level": "80% AMI",
+   "units": 15
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 11
+  },
+  {
+   "type": "2BR",
+   "units": 56
+  },
+  {
+   "type": "3BR",
+   "units": 18
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r2-descriptions",
+  "chfa-2024-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,040,378 per year",
+   "note": "2024 Round Two.",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,800,000",
+   "note": "Sugar Creek Capital is named among the equity sources; its role as state credit buyer is inferred.",
+   "src": [
+    "chfa-2024-r2-award",
+    "milehighcre-2026-02-02"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA)",
+   "amount": "$22,560,000",
+   "note": "Construction-period bonds via CHFA risk-share loan, public sale; permanent bonds $11,395,000; taxable construction loan $6,194,673 (application figures). Cap from CHFA plus transfers from the City of Aurora and Arapahoe County.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Aurora CDBG (site acquisition)",
+   "amount": "$500,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Aurora HOME",
+   "amount": "$1,120,000",
+   "note": "Per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Aurora private activity bond cap transfer",
+   "amount": "$3,700,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Arapahoe County ARPA (acquisition and predevelopment)",
+   "amount": "$2,000,000",
+   "note": "",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Arapahoe County HOME and PAB cap",
+   "amount": "$272,500 HOME; $5,000,000 PAB",
+   "note": "Conditionally committed at application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Impact Development Fund land loan (AHIF, Colorado Division of Housing funds) and Capital Magnet Fund",
+   "amount": "$800,000 of a $1.6M AHIF loan; $544,000 Capital Magnet Fund",
+   "note": "",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "The Recovery Foundation grant",
+   "amount": "$500,000",
+   "note": "Conditional on a tax credit award.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Other closing-stage sources",
+   "amount": "Not public",
+   "note": "The groundbreaking release names the Colorado Division of Housing, ANB Bank, The Richman Group, Sugar Creek Capital and the Aurora Housing Authority among grant, loan and equity sources; Connect CRE also names Proposition 123 funding.",
+   "src": [
+    "milehighcre-2026-02-02",
+    "connectcre-2026-02-06"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/developer (as CHFA prints it)",
+   "name": "Grovewood Community Development, Inc. (formerly Community Housing Development Association)",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "milehighcre-2026-02-02"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Calcon Constructors",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "milehighcre-2026-02-02"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Silva-Markham Partners",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Financial consultant; owner's rep",
+   "name": "S.B. Clark Companies; 2 Oaks Partners",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Legal counsel; auditor",
+   "name": "Holland & Hart (with longtime counsel); Haynie & Company",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Lender and equity (named at groundbreaking)",
+   "name": "ANB Bank; The Richman Group; Sugar Creek Capital",
+   "src": [
+    "milehighcre-2026-02-02"
+   ]
+  },
+  {
+   "role": "Public partners",
+   "name": "City of Aurora, Arapahoe County, Colorado Division of Housing, Aurora Housing Authority, Impact Development Fund",
+   "src": [
+    "milehighcre-2026-02-02",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The stables site stayed with one family from 1947 until Grovewood bought it in August 2023; the application says the sellers chose Grovewood over market-rate bidders because of the affordable housing use. No purchase price was found in public records reviewed.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "milehighcre-2026-02-02"
+   ]
+  },
+  {
+   "text": "Aurora City Council approved the rezoning from R-1 agricultural to R-4 high-density residential on 2024-06-10, after a 2024-04-09 community meeting; the applicant reports no local opposition and letters of support from the Ward 3 council member, an Arapahoe County commissioner, Cherry Creek School District and the Village East Neighborhood Association.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "Value engineering cut about $1.9M of hard cost; Phase I carries most of the site work for both phases (stormwater, utilities and access off Exposition Avenue).",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The project is not set aside for homeless or special-needs households, though Grovewood's mission includes residents with developmental disabilities, mental illness or substance use disorders; no project-based vouchers are described.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "Grovewood owns 282 units across nine properties in Aurora, Englewood and Littleton and was finishing the 81-unit Sapling Grove Apartments in Aurora; Exponent, an existing LIHTC property, adjoins the site.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "Mile High CRE says the site adjoins Aurora Housing Authority property; the Aurora Housing Authority is named as a funding partner, but the terms (for example a tax-exemption partnership) are not public.",
+   "src": [
+    "milehighcre-2026-02-02"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-08",
+   "event": "Grovewood buys the former Aurora Horse Boarding Stables site",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-04-09",
+   "event": "Community meeting for the rezoning",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-05-14",
+   "event": "Project presented at the Ward 3 council member's town hall",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-06-10",
+   "event": "Aurora City Council approves rezoning from R-1 to R-4",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-11-27",
+   "event": "CHFA announces 2024 Round Two awards, including Stables",
+   "src": [
+    "chfa-news-2024-11-27",
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "date": "2025-Q4",
+   "event": "Construction start targeted in the application",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2026-02-02",
+   "event": "Groundbreaking on Phase I reported by Mile High CRE and ColoradoBiz",
+   "src": [
+    "milehighcre-2026-02-02",
+    "coloradobiz-2026-02-02"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Groundbreaking photo",
+   "url": "https://milehighcre.com/groundbreaking-the-stables-affordable-housing/",
+   "kind": "photo",
+   "made_by": "Grovewood Community Development, via Mile High CRE",
+   "note": "Lead image of the article",
+   "src": [
+    "milehighcre-2026-02-02"
+   ]
+  },
+  {
+   "title": "Stables II senior building exterior rendering",
+   "url": "https://coloradobiz.com/the-stables-affordable-housing-aurora/",
+   "kind": "rendering",
+   "made_by": "Grovewood Community Development, via ColoradoBiz",
+   "note": "Lead image of the article; shows the Phase II senior building, not the Phase I family building",
+   "src": [
+    "coloradobiz-2026-02-02"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The CHFA application and Connect CRE describe a 134-unit campus with a 49-unit senior Phase II, while the groundbreaking coverage describes 137 units with a 52-unit senior Phase II.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "connectcre-2026-02-06",
+    "milehighcre-2026-02-02",
+    "coloradobiz-2026-02-02"
+   ]
+  },
+  {
+   "text": "Connect CRE lists Proposition 123 funding among the sources, while the CHFA application lists no Proposition 123 money (its state money is a Division of Housing AHIF land loan through Impact Development Fund).",
+   "src": [
+    "connectcre-2026-02-06",
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Bond closing date, building permit number and expected completion date for Phase I.",
+  "Purchase price paid for the stables site in August 2023.",
+  "Total development cost for Phase I (Connect CRE gives $66M, apparently for the whole campus), equity pricing, and the roles of ANB Bank, The Richman Group and Sugar Creek Capital.",
+  "Amounts from the Colorado Division of Housing, any Proposition 123 award, and the Aurora Housing Authority's role and contribution.",
+  "Final Aurora site plan and plat approval dates; rents; CHFA affordability period."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Federal 4% and Accelerated State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-11-26",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-descriptions",
+   "title": "2024 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (The Stables, PDF pages 115-119)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-applicants",
+   "title": "2024 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-news-2024-11-27",
+   "title": "CHFA announces 2024 Round Two Housing Tax Credit awards",
+   "publisher": "CHFA",
+   "date": "2024-11-27",
+   "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards"
+  },
+  {
+   "id": "milehighcre-2026-02-02",
+   "title": "Groundbreaking: The Stables Affordable Housing",
+   "publisher": "Mile High CRE",
+   "date": "2026-02-02",
+   "url": "https://milehighcre.com/groundbreaking-the-stables-affordable-housing/"
+  },
+  {
+   "id": "coloradobiz-2026-02-02",
+   "title": "The Stables brings affordable housing to Aurora families, seniors",
+   "publisher": "ColoradoBiz",
+   "date": "2026-02-02",
+   "url": "https://coloradobiz.com/the-stables-affordable-housing-aurora/"
+  },
+  {
+   "id": "connectcre-2026-02-06",
+   "title": "Former Aurora Stables Converting to Affordable Apartments",
+   "publisher": "Connect CRE",
+   "date": "2026-02-06",
+   "url": "https://www.connectcre.com/stories/former-aurora-stables-converting-to-affordable-apartments/"
+  }
+ ]
+}

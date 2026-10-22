@@ -1,0 +1,384 @@
+{
+ "slug": "meadowmark-castle-rock",
+ "name": "Meadowmark",
+ "city": "Castle Rock",
+ "county": "Douglas",
+ "award": "2022 Federal 4% housing tax credit",
+ "units": 200,
+ "researched_on": "2026-10-21",
+ "headline": "The Meadowmark is a 200-home affordable community for adults 55 and older at 3223 Timber Mill Parkway in The Meadows neighborhood of Castle Rock, developed by Ulysses Development Group; it won $3,091,143 a year in 2022 federal 4% credit with bonds issued by the Douglas County Housing Partnership, opened to residents in December 2024 and held its grand opening on 2025-04-30.",
+ "why_it_matters": "It shows a county housing partnership using its own bond issuing power to finance the largest senior affordable property in Douglas County, with a DOLA loan and a Freddie Mac permanent loan in the stack.",
+ "status": {
+  "label": "Open: residents moving in from December 2024; grand opening 2025-04-30; 8609s not yet issued",
+  "detail": "Ground broke 2023-06-13; the developer announced first move-ins on 2024-12-11 and held a grand opening on 2025-04-30, and Mission Rock Residential now markets the property. CHFA still lists it on its 2026-09-21 award report, which excludes developments with 8609s issued.",
+  "src": [
+   "mhcre-mm-groundbreaking",
+   "mhcre-mm-first",
+   "mhcre-mm-open",
+   "mr-mm",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch for 8609 issuance, when the deal moves to CHFA's 4% completed developments report.",
+ "key_numbers": [
+  {
+   "value": "200 homes for ages 55+, all income-restricted",
+   "meaning": "10 units at 30% AMI, 167 at 60% and 23 at 70%; 130 one-bedrooms and 70 two-bedrooms.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$3,091,143 a year in federal 4% credit",
+   "meaning": "About $30.9M over 10 years (inferred); the developer reports $28.8M of credit equity from Raymond James.",
+   "src": [
+    "chfa-4pct-award",
+    "mhcre-mm-open"
+   ]
+  },
+  {
+   "value": "$34.8M Douglas County Housing Partnership notes",
+   "meaning": "Revenue Notes (The Meadowmark Project) Series 2023, $34,849,421; CHFA's report shows $34,465,000.",
+   "src": [
+    "kutak-mm",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$6M from DOLA; $31.3M Freddie Mac permanent loan",
+   "meaning": "Other pieces named at the grand opening.",
+   "src": [
+    "mhcre-mm-open"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "3223 Timber Mill Parkway, Castle Rock (northeast corner of Timber Mill Parkway and North Meadows Drive); CHFA lists Meadows Filing 19, Lot 2, North Parcel D2A, zip 80109",
+   "src": [
+    "mr-mm",
+    "kutak-mm",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Older adult, new construction; in a Small Area Difficult Development Area (SADDA: Yes); Section 8: No",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, about 183,000 sq ft on 5.4 acres, 255 parking spaces, 14 EV charging stations",
+   "src": [
+    "kutak-mm",
+    "mhcre-mm-first"
+   ]
+  },
+  {
+   "item": "Age restriction",
+   "value": "55 and older",
+   "src": [
+    "mhcre-mm-groundbreaking",
+    "mhcre-mm-open"
+   ]
+  },
+  {
+   "item": "Marketed rents (viewed 2026-10-21)",
+   "value": "Mission Rock advertises one-bedrooms from $999 and two-bedrooms from $1,165 with two months free annualized",
+   "src": [
+    "mr-mm"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 10
+  },
+  {
+   "level": "60% AMI",
+   "units": 167
+  },
+  {
+   "level": "70% AMI",
+   "units": 23
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 130
+  },
+  {
+   "type": "2BR",
+   "units": 70
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,091,143 per year",
+   "note": "2022 cycle; subject to change per CHFA.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax credit equity (Raymond James)",
+   "amount": "$28.8 million",
+   "note": "As reported by the developer.",
+   "src": [
+    "mhcre-mm-open"
+   ]
+  },
+  {
+   "source": "Tax-exempt revenue notes (Douglas County Housing Partnership issuer)",
+   "amount": "$34,849,421",
+   "note": "Series 2023, bond counsel Kutak Rock; CHFA's report shows $34,465,000 and the grand opening release $34.89 million.",
+   "src": [
+    "kutak-mm",
+    "chfa-4pct-award",
+    "mhcre-mm-open"
+   ]
+  },
+  {
+   "source": "UMB Bank tax-exempt and taxable construction loans",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "mhcre-mm-open"
+   ]
+  },
+  {
+   "source": "Colorado Department of Local Affairs",
+   "amount": "$6 million",
+   "note": "Form (grant or loan) not stated.",
+   "src": [
+    "mhcre-mm-open"
+   ]
+  },
+  {
+   "source": "Freddie Mac permanent loan (serviced by Berkadia)",
+   "amount": "$31.3 million",
+   "note": "",
+   "src": [
+    "mhcre-mm-open"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it) and developer",
+   "name": "Ulysses Development Group",
+   "src": [
+    "chfa-4pct-award",
+    "mhcre-mm-groundbreaking"
+   ]
+  },
+  {
+   "role": "Bond issuer and partner",
+   "name": "Douglas County Housing Partnership",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-mm",
+    "mhcre-mm-groundbreaking"
+   ]
+  },
+  {
+   "role": "Tax credit investor",
+   "name": "Raymond James",
+   "src": [
+    "mhcre-mm-open"
+   ]
+  },
+  {
+   "role": "Construction lender",
+   "name": "UMB Bank",
+   "src": [
+    "mhcre-mm-open"
+   ]
+  },
+  {
+   "role": "Permanent loan servicer (Freddie Mac)",
+   "name": "Berkadia",
+   "src": [
+    "mhcre-mm-open"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Mission Rock Residential (selected March 2025)",
+   "src": [
+    "mhcre-mm-mgmt",
+    "mr-mm"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "It was Ulysses Development Group's first Colorado project; the developer called it the third-largest senior affordable community built in metro Denver in the previous ten years and the largest in Douglas County.",
+   "src": [
+    "mhcre-mm-groundbreaking"
+   ]
+  },
+  {
+   "text": "The Douglas County Housing Partnership issued the tax-exempt notes for the acquisition, construction and equipping of the property, so the bond cap came through the county partnership rather than CHFA's pool (inferred from the issuer named).",
+   "src": [
+    "kutak-mm",
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "text": "The groundbreaking forecast a 20-month build and opening in early 2025; first residents moved in in December 2024, a little ahead of that.",
+   "src": [
+    "mhcre-mm-groundbreaking",
+    "mhcre-mm-first"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2022 Round One or Round Two competitive application narratives; it was a rolling 4% bond deal only.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r2-narratives"
+   ]
+  },
+  {
+   "text": "CHFA's 4% award report says it leaves out developments whose IRS Form 8609s have been issued; this deal is still listed on the 2026-09-21 report, so 8609s had not been issued by then (inferred from the report's note).",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-04",
+   "event": "Douglas County Housing Partnership issues $34,849,421 of Revenue Notes, Series 2023 (announced 2023-04-25)",
+   "src": [
+    "kutak-mm"
+   ]
+  },
+  {
+   "date": "2023-06-13",
+   "event": "Groundbreaking",
+   "src": [
+    "mhcre-mm-groundbreaking"
+   ]
+  },
+  {
+   "date": "2024-12",
+   "event": "First residents move in (announced 2024-12-11)",
+   "src": [
+    "mhcre-mm-first"
+   ]
+  },
+  {
+   "date": "2025-03",
+   "event": "Mission Rock Residential selected as property manager",
+   "src": [
+    "mhcre-mm-mgmt"
+   ]
+  },
+  {
+   "date": "2025-04-30",
+   "event": "Grand opening with the Governor",
+   "src": [
+    "mhcre-mm-open"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Still listed on CHFA's Federal 4% award report (no 8609s yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "The bond amount is $34,465,000 in CHFA's award report, $34,849,421 in the bond counsel's notice and $34.89 million in the grand opening release.",
+   "src": [
+    "chfa-4pct-award",
+    "kutak-mm",
+    "mhcre-mm-open"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Town of Castle Rock approvals (site development plan) and dates.",
+  "Whether the Douglas County Housing Partnership holds an ownership interest for a property tax exemption.",
+  "Total development cost and the form of the $6M DOLA award.",
+  "Occupancy and lease-up figures."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "CHFA, Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable); amounts marked subject to change; the report excludes developments with 8609s issued",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "chfa-2022-r2-narratives",
+   "title": "CHFA, 2022 Round Two application narratives (checked; this deal does not appear)",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf"
+  },
+  {
+   "id": "kutak-mm",
+   "title": "Kutak Rock Serves as Bond Counsel for The Meadowmark Project in Castle Rock, Colorado",
+   "publisher": "Kutak Rock",
+   "date": "2023-04-25",
+   "url": "https://www.kutakrock.com/newspublications/news/2023/april/kutak-rock-bond-counsel-meadowmark-project"
+  },
+  {
+   "id": "mhcre-mm-groundbreaking",
+   "title": "UDG Breaks Ground on New Affordable Senior Housing Project",
+   "publisher": "Mile High CRE",
+   "date": "2023-06-16",
+   "url": "https://milehighcre.com/udg-breaks-ground-on-new-affordable-senior-housing-project/"
+  },
+  {
+   "id": "mhcre-mm-first",
+   "title": "First Residents at The Meadowmark Senior Housing Move In",
+   "publisher": "Mile High CRE",
+   "date": "2024-12-11",
+   "url": "https://milehighcre.com/first-residents-at-the-meadowmark-senior-housing-move-in/"
+  },
+  {
+   "id": "mhcre-mm-mgmt",
+   "title": "Mission Rock Residential Selected to Manage The Meadowmark",
+   "publisher": "Mile High CRE",
+   "date": "2025-03-31",
+   "url": "https://milehighcre.com/?p=54719"
+  },
+  {
+   "id": "mhcre-mm-open",
+   "title": "Grand Opening: The Meadowmark in Castle Rock",
+   "publisher": "Mile High CRE",
+   "date": "2025-05-01",
+   "url": "https://milehighcre.com/grand-opening-the-meadowmark-in-castle-rock/"
+  },
+  {
+   "id": "mr-mm",
+   "title": "The Meadowmark, 55+ Affordable Apartment Community in Castle Rock, CO (viewed 2026-10-21)",
+   "publisher": "Mission Rock Residential",
+   "date": "2026-10-21",
+   "url": "https://www.missionrockresidential.com/apartments/co/castle-rock/the-meadowmark/"
+  }
+ ]
+}

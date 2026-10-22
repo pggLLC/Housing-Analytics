@@ -1,0 +1,484 @@
+{
+ "slug": "jet-wing-flats-colorado-springs",
+ "name": "Jet Wing Flats",
+ "city": "Colorado Springs",
+ "county": "El Paso",
+ "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+ "units": 68,
+ "researched_on": "2026-10-21",
+ "headline": "Commonwealth Development Corporation of America and the nonprofit Solid Rock Community Development Corporation are building Jet Wing Flats, a 68-unit, all income-restricted family apartment building for households at 30% to 80% AMI, with 30% AMI units filled through Coordinated Entry, at 2040 Jet Wing Drive in southeast Colorado Springs. It won 2024 Round Two federal 4% and accelerated state credits from CHFA, with $14.72M of CHFA bonds.",
+ "why_it_matters": "It shows a small 4% deal made to work with layered soft money (El Paso County Housing Trust Fund, City HOME, Colorado Health Foundation and a $1M state Housing Development Grant), and local news reports construction under way since January 2026.",
+ "status": {
+  "label": "Under construction per local news (started January 2026); completion expected spring 2027",
+  "detail": "KOAA reported on 2026-09-21 that construction started in January (2026 inferred from the article date) and completion is expected in spring 2027, with Greccio Housing opening an interest list about 90 days before move-in. No CHFA bond closing record or building permit was found to confirm the start date independently.",
+  "src": [
+   "koaa-2026-09-21",
+   "chfa-2024-r2-award"
+  ]
+ },
+ "next_step": "Watch for Greccio Housing's interest list (about 90 days before completion), a certificate of occupancy, and CHFA placed-in-service records in 2027.",
+ "key_numbers": [
+  {
+   "value": "68 homes, all income-restricted",
+   "meaning": "24 one-bedroom, 28 two-bedroom and 16 three-bedroom units at 30% to 80% AMI; 48% are at or below 50% AMI.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$1,355,280 a year in federal 4% credit",
+   "meaning": "About $13.6M over 10 years, plus $1,800,000 of accelerated state credit (raised by waiver request).",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$14,719,687 in CHFA private activity bonds",
+   "meaning": "Construction-period tax-exempt bonds with a $6,090,450 taxable tail; CHFA to provide a $6.3M long-term bond at conversion.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "About $23 million project",
+   "meaning": "Total cost reported by local news.",
+   "src": [
+    "koaa-2026-09-21"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "2040 Jet Wing Drive, Colorado Springs 80916, near Chelton Road in the Southborough neighborhood",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "koaa-2026-09-21"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "68 total, 68 low-income",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "2.73-acre vacant site, rezoned for multifamily at 25 units per acre; in a 2024 Qualified Census Tract and an Enterprise Zone; part of the Chelton Crossing retail and multifamily redevelopment",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2023-r2-narratives",
+    "gazette-2024-12-18"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three-story timber-frame, slab-on-grade building with two elevators, double-loaded corridors, surface parking and in-unit washers and dryers; trauma-informed design",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric; Zero Energy Ready Homes and LEED Silver targeted; EPA Indoor airPLUS",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Affordability period",
+   "value": "Initial 40-year affordability period; Solid Rock CDC has an option to take full ownership after year 15",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Homeless set-aside",
+   "value": "All 30% AMI units (7) are filled through the Pikes Peak Continuum of Care Coordinated Entry system, with Family Promise case management",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "The application says a commitment of tax exemption was obtained from the local housing authority",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Rents (estimates)",
+   "value": "About $650 a month for a one-bedroom at 30% AMI up to about $2,400 for a three-bedroom at 80% AMI, subject to change",
+   "src": [
+    "koaa-2026-09-21"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 7
+  },
+  {
+   "level": "50% AMI",
+   "units": 19
+  },
+  {
+   "level": "60% AMI",
+   "units": 20
+  },
+  {
+   "level": "80% AMI",
+   "units": 15
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 24
+  },
+  {
+   "type": "2BR",
+   "units": 28
+  },
+  {
+   "type": "3BR",
+   "units": 16
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r2-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,355,280 per year",
+   "note": "2024 Round Two. The Gazette's figure of $3.15 million in credits matches the federal annual amount plus the state credit (inferred).",
+   "src": [
+    "chfa-2024-r2-award",
+    "gazette-2024-12-18"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,800,000",
+   "note": "The sponsor requested a waiver on July 30 (2024) to raise the state credit to $1.8M.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$14,719,687",
+   "note": "CHFA issuer, privately placed with the construction lender (Sterling Bank), plus a $6,090,450 taxable tail. At conversion the construction loan is retired and CHFA provides a $6,300,000 long-term bond.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing, Housing Development Grant",
+   "amount": "$1,000,000",
+   "note": "Approved by the State Housing Board, announced 2025-11-03.",
+   "src": [
+    "dola-2025-11-03"
+   ]
+  },
+  {
+   "source": "Colorado Health Foundation",
+   "amount": "$950,000",
+   "note": "Soft funding secured per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "El Paso County Housing Trust Fund",
+   "amount": "$500,000",
+   "note": "Soft funding secured per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Colorado Springs HOME funds",
+   "amount": "$500,000",
+   "note": "Soft funding secured per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "45L energy-efficiency credits",
+   "amount": "Not public",
+   "note": "Added as a source after the 2023 application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Commonwealth Development Corporation of America",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "role": "Co-sponsor (nonprofit)",
+   "name": "Solid Rock Community Development Corporation",
+   "src": [
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Property manager and resident services",
+   "name": "Greccio Housing",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "koaa-2026-09-21"
+   ]
+  },
+  {
+   "role": "Construction lender",
+   "name": "Sterling Bank (named in the 2024 application; Legacy Bank and Trust was named in 2023)",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "role": "Service partners",
+   "name": "Pikes Peak Continuum of Care, Family Promise, Southeast Colorado Springs Community Investment Trust",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The deal first applied in 2023 Round Two (listed as JetWing Flats at 2030 Jet Wing Drive), requesting $1,143,373 federal credit, $980,000 state credit and about $12.8M of bonds, with Legacy Bank and Trust as lender. It reapplied in 2024 after adding 45L credits, a service-provider MOU, a housing authority tax exemption commitment, 25% design development drawings and a local general contractor.",
+   "src": [
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-narratives",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "Colorado Springs city staff approved the development plan on 2023-10-12 after the site was rezoned; the city letter of recommendation says the project will be prioritized by the city and Pikes Peak Regional Building Department.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The Gazette reported in December 2024 that the land was already owned and that the project sits in Chelton Crossing, a retail and multifamily redevelopment at Chelton Road and Jet Wing Drive, about 3 miles from Solid Rock's first project, the Village at Solid Rock.",
+   "src": [
+    "gazette-2024-12-18"
+   ]
+  },
+  {
+   "text": "Residents can buy shares in the Southeast Colorado Springs Community Investment Trust, which will own the planned commercial building and pay dividends from its tenants, and get free financial literacy courses.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study reported 3.6% LIHTC vacancy and capture rates of 1.9% at 30% AMI, 2.4% at 40% AMI and 6.6% at 50% AMI. Construction costs were estimated at $239.31 per square foot, with a 2% contractor contingency and $239,557 for escalation.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "No opposition is known, per the applicant; outreach included neighborhood meetings, the RISE Coalition and public sessions during rezoning.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023",
+   "event": "Applies in CHFA 2023 Round Two; not awarded (inferred from the 2024 reapplication)",
+   "src": [
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-10-12",
+   "event": "Colorado Springs staff approve the development plan",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-08-15",
+   "event": "Listed on CHFA's 2024 Round Two applicant report",
+   "src": [
+    "chfa-2024-r2-applicants"
+   ]
+  },
+  {
+   "date": "2024-11-26",
+   "event": "Listed on CHFA's 2024 Round Two award report",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "date": "2025-11-03",
+   "event": "State Housing Board awards $1M Housing Development Grant",
+   "src": [
+    "dola-2025-11-03"
+   ]
+  },
+  {
+   "date": "2026-01",
+   "event": "Construction starts (year inferred from the September 2026 report)",
+   "src": [
+    "koaa-2026-09-21"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Completion expected in spring 2027",
+   "src": [
+    "koaa-2026-09-21"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "CHFA and the applications give 68 units, while the Gazette and KOAA report about 70 apartments.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "gazette-2024-12-18",
+    "koaa-2026-09-21"
+   ]
+  },
+  {
+   "text": "The 2023 application describes a 3.5-acre site, while the 2024 application describes a 2.73-acre site.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The 2023 applicant report lists the address as 2030 Jet Wing Drive, while the 2024 reports list 2040 Jet Wing Drive.",
+   "src": [
+    "chfa-2023-r2-applicants",
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "text": "The 2024 application describes income averaging through a mix of 30%, 40%, 50% and 80% AMI units, while CHFA's award description also lists 20 units at 60% AMI.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether and when the CHFA bonds closed; no closing record was found, and the construction start rests on one news report.",
+  "The general contractor's name, the equity investor and price, and the landowner and land terms (the Gazette says the land was already owned but not by whom).",
+  "Which housing authority provides the tax exemption and on what terms.",
+  "No public site plan or rendering was found in a city or CHFA document."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Federal 4% and Accelerated State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-11-26",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-descriptions",
+   "title": "2024 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (Jet Wing Flats, PDF pages 80-84)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-applicants",
+   "title": "2024 Round Two Federal 4% and State Credit Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-08-15",
+   "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (Jet Wing Flats, PDF pages 106-110)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "gazette-2024-12-18",
+   "title": "Affordable housing project catches Gov. Polis' eye during Colorado Springs visit",
+   "publisher": "The Gazette",
+   "date": "2024-12-18",
+   "url": "https://gazette.com/2024/12/18/affordable-housing-project-catches-gov-polis-eye-during-colorado-springs-visit/"
+  },
+  {
+   "id": "dola-2025-11-03",
+   "title": "Colorado State Housing Board Approves More Than $46.5 Million in New Investments to Provide Over 700 Housing Opportunities to Coloradans",
+   "publisher": "Colorado Department of Local Affairs",
+   "date": "2025-11-03",
+   "url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-approves-more-than-465-million-in-new-investments-to"
+  },
+  {
+   "id": "koaa-2026-09-21",
+   "title": "New affordable housing coming to southeast Colorado Springs",
+   "publisher": "KOAA News5",
+   "date": "2026-09-21",
+   "url": "https://www.koaa.com/news/local-news/in-your-community/southeast-side/new-affordable-housing-coming-to-southeast-colorado-springs"
+  }
+ ]
+}

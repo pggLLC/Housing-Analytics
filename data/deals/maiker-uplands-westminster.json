@@ -1,0 +1,533 @@
+{
+ "slug": "maiker-uplands-westminster",
+ "name": "Maiker Uplands (now Verrbena)",
+ "city": "Westminster",
+ "county": "Adams",
+ "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+ "units": 70,
+ "researched_on": "2026-10-21",
+ "headline": "Maiker Housing Partners (the Adams County Housing Authority) is building Maiker Uplands, since renamed Verrbena, a four-story, 70-unit, all income-restricted building for households at 30% to 70% AMI, including units for adults with intellectual and developmental disabilities and a ground-floor Adams County Head Start space, at 2880 W. 88th Avenue in Westminster's Uplands master plan. It won 2024 Round Two federal 4% and accelerated state credits from CHFA, with $17.52M of bonds issued by the housing authority itself.",
+ "why_it_matters": "A housing authority issuing its own bonds and pairing a 4% deal with neuro-inclusive (Kelsey standard) units and a Head Start preschool inside a market-rate master plan, where affordable units gate the release of market-rate homes; reported construction start in 2026 and equity closing in May 2026.",
+ "status": {
+  "label": "Under construction per architect and trade press; completion expected July 2027",
+  "detail": "A Colorado Real Estate Journal article reposted by the architect on 2026-06-17 says Maiker closed $16.68M of equity in May (2026 inferred) and construction started in March, with completion expected in July 2027; the architect's project page lists it as under construction. No building permit or bond closing record was found in city or issuer documents.",
+  "src": [
+   "vmwp-crej-2026-06-17",
+   "vmwp-project",
+   "chfa-2024-r2-award"
+  ]
+ },
+ "next_step": "Watch for Westminster certificate of occupancy and lease-up notices for Verrbena around mid-2027, and the Head Start tenant improvement permit.",
+ "key_numbers": [
+  {
+   "value": "70 homes, all income-restricted",
+   "meaning": "48 one-bedroom and 22 two-bedroom units at 30% to 70% AMI, with 12 project-based vouchers for residents with intellectual and developmental disabilities.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$1,653,187 a year in federal 4% credit",
+   "meaning": "About $16.5M over 10 years, plus $1,786,024 of accelerated state credit.",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "value": "$17,520,080 in tax-exempt bonds",
+   "meaning": "Issued by the Adams County Housing Authority (Maiker) on its own; $7.6M of the bonds carry into the permanent loan.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "About $35M total cost",
+   "meaning": "Per the application, with hard costs of about $330,000 per unit; the closed equity syndication was reported at $16.68M.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "vmwp-crej-2026-06-17"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "2880 W. 88th Avenue, Westminster 80260, near Federal Boulevard and 88th Avenue in the 234-acre Uplands master plan",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "vmwp-crej-2026-06-17"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N; F, SP: new construction, family and special populations",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "70 total, 70 low-income",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "New name",
+   "value": "Verrbena (the application said 'Maiker Uplands' was a temporary name)",
+   "src": [
+    "vmwp-crej-2026-06-17",
+    "vmwp-project",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four-story Type VA building, about 77,188 gross sq ft and 46,136 net rentable sq ft, with a roughly 7,389 sq ft community service facility leased to Adams County Head Start (10-year renewable lease, up to 80 children, 10 priority slots for residents) and a 4,000 sq ft shared playground",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Disability-inclusive units",
+   "value": "The 2024 Round Two application has 18 I/DD units (12 with project-based vouchers and 6 at 30% AMI) designed to The Kelsey inclusive design standards, with services from North Metro Services",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "2.173-acre parcel per the application (2.03 acres per the architect), built to about 35 units per acre, in Qualified Census Tract 93.20; the seller is the master developer VPDF Uplands, which builds the adjacent streets",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "vmwp-project"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric, Zero Energy Ready Homes certification, solar on roof, walkways and carports; 59 electric-ready parking stalls",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Master plan tie",
+   "value": "Per the application, 1,176 market-rate units in the Uplands cannot be built until 300 affordable units are developed; this project and the 247-unit Overlook at Uplands next door make up 317 affordable units",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "westminster-2025-midyear"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 18
+  },
+  {
+   "level": "40% AMI",
+   "units": 11
+  },
+  {
+   "level": "50% AMI",
+   "units": 19
+  },
+  {
+   "level": "70% AMI",
+   "units": 22
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 48
+  },
+  {
+   "type": "2BR",
+   "units": 22
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r2-descriptions",
+  "chfa-2024-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,653,187 per year",
+   "note": "2024 Round Two.",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,786,024",
+   "note": "",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$17,520,080",
+   "note": "Issued by the Adams County Housing Authority (Maiker). The application uses the full amount for construction and $7,623,534 for the permanent loan, plus $6,899,783 of taxable bonds; aggregate basis was $33,122,057 (50% test $16,561,028).",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "LIHTC equity",
+   "amount": "$16,678,410",
+   "note": "Equity syndication led by Walker & Dunlop Affordable Housing Equity with Freddie Mac as investor, closed in May (2026 inferred). The application had modeled $22.1M of federal and state credit equity using Wells Fargo's pricing.",
+   "src": [
+    "vmwp-crej-2026-06-17",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Construction and permanent loans",
+   "amount": "$24.4M construction; $7.6M permanent",
+   "note": "Per the application; lender subject to an RFP.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Adams County NSP funds",
+   "amount": "$1,400,000 (anticipated)",
+   "note": "Per the application; no award record found.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "City of Westminster HOME, CDBG and fee relief",
+   "amount": "$800,000 HOME; $300,000 CDBG; $386,000 tap fee reduction (offered)",
+   "note": "Per the application, plus permit fee, building standards and sales tax incentives; no council approval record was verified.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Maiker cash flow loan",
+   "amount": "$1,074,591",
+   "note": "Planned to close the gap; Maiker hoped to reduce it with energy and solar credits and cost cuts.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer and owner (as CHFA prints it)",
+   "name": "Maiker Housing Partners (Adams County Housing Authority)",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "Adams County Housing Authority",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "role": "Equity syndicator and investor",
+   "name": "Walker & Dunlop Affordable Housing Equity; Freddie Mac",
+   "src": [
+    "vmwp-crej-2026-06-17"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Deneuve Construction Services (JHL Constructors was named in the application)",
+   "src": [
+    "vmwp-crej-2026-06-17",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Van Meter Williams Pollack LLP",
+   "src": [
+    "vmwp-crej-2026-06-17",
+    "vmwp-project"
+   ]
+  },
+  {
+   "role": "Engineers",
+   "name": "Enayar Schneider Smith (structural), Boulder Engineering (MEP), Wilson & Co. (civil), Group 14 (energy), IMEG (low voltage)",
+   "src": [
+    "vmwp-crej-2026-06-17"
+   ]
+  },
+  {
+   "role": "Head Start tenant",
+   "name": "Adams County Head Start",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "I/DD service provider",
+   "name": "North Metro Services",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "role": "Land seller and master developer",
+   "name": "VPDF Uplands",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Maiker first applied in 2024 Round One with a paired structure: a 38-unit 9% condominium ('Orion', including 10 I/DD units) and a 32-unit 4% bond condominium ('Vega') in one 70-unit building serving 30% to 60% AMI, plus the Head Start space. After that round it reapplied as a single 70-unit 4% deal at 30% to 70% AMI (inferred that the Round One bid was not awarded).",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "Westminster's Planning Commission approved the official development plan 7-0 on 2024-07-09, with a City Council hearing scheduled for 2024-09-09, per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application warned that delay past a 2025 start could cost the Adams County NSP money, city support tied to the city's Proposition 123 commitment, alignment with the public sewer main, and the Head Start anchor tenant.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r1-narratives"
+   ]
+  },
+  {
+   "text": "The market study (JRES Intelica, 2024-07-22) found capture rates of 2.4% at 30% AMI, 3.6% at 40%, 12.8% at 50% and 10.5% at 70% AMI, and 14.4% overall. The Phase I (Terracon, 2023-09-18) found no recognized environmental conditions.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "Neighborhood meetings drew few opponents; most concerns were about off-site improvements, per the applicant.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "Maiker announced the tax credit award on 2024-12-18. Westminster listed Maiker at Uplands (70 units) among 317 affordable units under development review or in progress as of August 2025.",
+   "src": [
+    "maiker-2024-12-18",
+    "westminster-2025-midyear"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2024",
+   "event": "Applies in CHFA 2024 Round One as a paired 9%/4% deal; not awarded (inferred from the Round Two reapplication)",
+   "src": [
+    "chfa-2024-r1-narratives",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-07-09",
+   "event": "Westminster Planning Commission approves the official development plan 7-0",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-08-15",
+   "event": "Listed on CHFA's 2024 Round Two applicant report",
+   "src": [
+    "chfa-2024-r2-applicants"
+   ]
+  },
+  {
+   "date": "2024-09-09",
+   "event": "City Council hearing on the development plan scheduled (outcome not verified)",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-11-26",
+   "event": "Listed on CHFA's 2024 Round Two award report",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "date": "2024-12-18",
+   "event": "Maiker announces tax credits secured for the Uplands project",
+   "src": [
+    "maiker-2024-12-18"
+   ]
+  },
+  {
+   "date": "2026-03",
+   "event": "Construction starts (year inferred from the June 2026 article)",
+   "src": [
+    "vmwp-crej-2026-06-17"
+   ]
+  },
+  {
+   "date": "2026-05",
+   "event": "$16.68M equity syndication closes (Walker & Dunlop, Freddie Mac)",
+   "src": [
+    "vmwp-crej-2026-06-17"
+   ]
+  },
+  {
+   "date": "2027-07",
+   "event": "Completion expected",
+   "src": [
+    "vmwp-crej-2026-06-17"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Verrbena (Maiker Uplands) renderings",
+   "url": "https://www.vmwp.com/projects/maiker-uplands/",
+   "kind": "rendering",
+   "made_by": "Van Meter Williams Pollack LLP (project architect)",
+   "note": "Project page image gallery: four-story building, infill context, disability-forward design, balconies",
+   "src": [
+    "vmwp-project"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The 2024 Round Two application has 18 units for residents with intellectual and developmental disabilities, while the City of Westminster and Maiker's December 2024 announcement say 10 such units.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "westminster-affordable-dev",
+    "maiker-2024-12-18"
+   ]
+  },
+  {
+   "text": "The application gives a 2.173-acre parcel, while the architect gives 2.03 acres.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "vmwp-project"
+   ]
+  },
+  {
+   "text": "The application describes a roughly 7,389 sq ft Head Start space plus a 4,000 sq ft playground, while the trade press describes an 11,000 sq ft Head Start daycare and playground.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "vmwp-crej-2026-06-17"
+   ]
+  },
+  {
+   "text": "The architect's project page lists completion in 2026, while the trade press reports expected completion in July 2027.",
+   "src": [
+    "vmwp-project",
+    "vmwp-crej-2026-06-17"
+   ]
+  },
+  {
+   "text": "The application names JHL Constructors as general contractor, while the trade press names Deneuve Construction Services.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "vmwp-crej-2026-06-17"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the housing authority's bonds have closed and when building permits were issued; the construction start rests on trade press and the architect.",
+  "Final city assistance (HOME, CDBG, fee and tax rebates) and whether Adams County NSP funds were awarded; no verifiable council resolution was found.",
+  "How the closed $16.68M equity compares with the $22.1M of credit equity the application modeled.",
+  "Land price paid to VPDF Uplands, total development cost at closing, and the CHFA affordability period.",
+  "Rents and the final count of I/DD units."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Federal 4% and Accelerated State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-11-26",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-descriptions",
+   "title": "2024 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (Maiker Uplands, PDF pages 90-94)",
+   "publisher": "CHFA",
+   "date": "2024-08",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-applicants",
+   "title": "2024 Round Two Federal 4% and State Credit Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-08-15",
+   "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-narratives",
+   "title": "2024 Round One Narratives (\"Orion\" - Maiker Uplands 9%, PDF pages 69-73)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/673cbb77-3144-4af9-9134-cbbd48bf3e43/2024-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "vmwp-crej-2026-06-17",
+   "title": "Maiker receives equity syndication for Verrbena project (repost of Colorado Real Estate Journal article)",
+   "publisher": "Van Meter Williams Pollack LLP / Colorado Real Estate Journal",
+   "date": "2026-06-17",
+   "url": "https://www.vmwp.com/maiker-receives-equity-syndication-for-verrbena-project/"
+  },
+  {
+   "id": "vmwp-project",
+   "title": "Verrbena (Maiker Uplands) project page",
+   "publisher": "Van Meter Williams Pollack LLP",
+   "date": "2026",
+   "url": "https://www.vmwp.com/projects/maiker-uplands/"
+  },
+  {
+   "id": "maiker-2024-12-18",
+   "title": "Creating Inclusive Communities: Tax Credits Secured for Uplands Project",
+   "publisher": "Maiker Housing Partners",
+   "date": "2024-12-18",
+   "url": "https://maikerhp.org/creating-inclusive-communities-tax-credits-secured-for-uplands-project/"
+  },
+  {
+   "id": "westminster-affordable-dev",
+   "title": "Affordable Housing Development",
+   "publisher": "City of Westminster",
+   "date": "2026",
+   "url": "https://www.westminsterco.gov/1061/Affordable-Housing-Development"
+  },
+  {
+   "id": "westminster-2025-midyear",
+   "title": "2025 Mid-Year Strategic Plan Review and Status Update",
+   "publisher": "City of Westminster",
+   "date": "2025-08",
+   "url": "https://www.westminsterco.gov/DocumentCenter/View/5266/2025-Mid-Year-Status-Detailed-Updates_2025-Revised-Strategic-Plan"
+  }
+ ]
+}

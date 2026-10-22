@@ -1,0 +1,697 @@
+{
+ "slug": "901-navajo-street-denver",
+ "name": "901 Navajo Street (Cranes Landing)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+ "units": 190,
+ "researched_on": "2026-10-21",
+ "headline": "Mercy Housing Mountain Plains is building 901 Navajo Street, renamed Cranes Landing: 190 income-restricted homes (94 permanent supportive, 96 family units at 30% to 60% AMI) with an American Indian/Alaska Native focus and an on-site clinic run by Denver Indian Health and Family Services, on Denver Housing Authority land by the 10th & Osage light rail station; it won 2023 Round Two federal 4% and state credits with $46.4M of CHFA bonds, broke ground in March 2025 and was pre-leasing in August 2026.",
+ "why_it_matters": "It shows how a D3 housing authority ground lease, 94 city-funded project-based vouchers, a 99-year city covenant and a separately financed New Markets clinic condominium can be stacked under one 4% bond deal to serve a specific underserved population within fair housing rules.",
+ "status": {
+  "label": "Under construction (groundbreaking 2025-03-20); pre-leasing since 2026-08-24, opening expected December 2026",
+  "detail": "The contractor's construction start was reported on 2025-01-13 and the ground blessing and groundbreaking took place on 2025-03-20. The building topped out in November 2025; Mercy began pre-leasing on 2026-08-24 and its leasing page says it opens in December 2026, while a February 2026 article put first residents in January 2027. No financing closing date was published; closing is inferred from the start of construction.",
+  "src": [
+   "milehighcre-2025-01-13",
+   "corona-2025-04-17",
+   "mercy-2026-03-06",
+   "mercy-2026-08-preleasing",
+   "mercy-craneslanding",
+   "coloradotrust-2026-02-05"
+  ]
+ },
+ "next_step": "Watch for the certificate of occupancy, which starts the 20-year city rental subsidy term, and for the opening of the clinic in early 2027.",
+ "key_numbers": [
+  {
+   "value": "190 homes, all income-restricted",
+   "meaning": "94 at 30% AMI set aside as permanent supportive housing, plus 20 at 40%, 32 at 50% and 44 at 60% AMI; one- to four-bedroom units.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$4,381,283 a year in federal 4% credit",
+   "meaning": "About $43.8M over 10 years, plus $1,100,000 of state credit.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "value": "$46,385,000 in CHFA bonds",
+   "meaning": "CHFA is issuer and volume cap provider; the application planned $22.55M of permanent bonds and a taxable construction loan of about $4.1M.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "About $16.6M in city and state gap money",
+   "meaning": "An $8.55M forgivable Denver loan and up to $8M of state Division of Housing grants, plus $73.7M of city rental subsidies over 20 years for the 94 supportive units.",
+   "src": [
+    "denver-rr24-1480-loan",
+    "dola-2024-10-09",
+    "denver-rr24-1261"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "901 Navajo Street, Denver 80204 (CHFA); the city now uses 1347 W. 9th Avenue, formerly known as 901 Navajo St; La Alma-Lincoln Park neighborhood, Council District 3",
+   "src": [
+    "chfa-2023-r2-award",
+    "denver-rr24-1480-loan",
+    "mercy-craneslanding"
+   ]
+  },
+  {
+   "item": "Name",
+   "value": "Renamed Cranes Landing in early 2026; previously called 9th & Navajo St",
+   "src": [
+    "mercy-2026-03-06"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N; F, PSH: new construction, family and permanent supportive housing",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Seven stories: two-story concrete podium with five wood-frame floors above, one level of underground parking (85 spaces, 22 shared with the clinic); a family wing and a supportive housing wing with separate service cores; about 304 kW of rooftop solar planned; all-electric with cold-climate heat pumps",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Clinic",
+   "value": "Federally Qualified Health Center owned and operated by Denver Indian Health and Family Services in a separate condominium unit, financed with New Markets Tax Credit equity, the clinic operator's equity and a capital campaign rather than housing credits or bonds",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "dola-2024-10-09",
+    "denver-rr24-1480-loan"
+   ]
+  },
+  {
+   "item": "Land",
+   "value": "Denver Housing Authority site, picked in 2023 through DHA's D3 (DHA Delivers for Denver) process; long-term ground lease at $100 a year; 9th and Navajo St Owners Association is the ground tenant and creates a planned community whose housing unit goes to the owner entity",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "kunc-2023-05-06",
+    "denver-rr24-1480-loan"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "MHMP 21 Navajo LLLP, whose general partner MHMP 21 Navajo GP LLC is controlled by Mercy Housing Mountain Plains",
+   "src": [
+    "denver-rr24-1480-loan"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Denver Housing Authority to be special limited partner for the property tax exemption, per the application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Vouchers and services",
+   "value": "94 project-based vouchers from Denver's Department of Housing Stability; case management and services from WellPower, Native American Housing Circle and Mercy Housing",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "denver-rr24-1261",
+    "mercy-2025-04-14"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "Denver rental and occupancy covenant of 99 years from recording",
+   "src": [
+    "denver-rr24-1480-loan"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "Qualified Census Tract; about 425 feet from the 10th & Osage light rail station",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 94
+  },
+  {
+   "level": "40% AMI",
+   "units": 20
+  },
+  {
+   "level": "50% AMI",
+   "units": 32
+  },
+  {
+   "level": "60% AMI",
+   "units": 44
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 112
+  },
+  {
+   "type": "2BR",
+   "units": 41
+  },
+  {
+   "type": "3BR",
+   "units": 31
+  },
+  {
+   "type": "4BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r2-descriptions",
+  "chfa-2023-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$4,381,283 per year",
+   "note": "2023 Round Two. National Equity Fund reports Fannie Mae Multifamily as an investor.",
+   "src": [
+    "chfa-2023-r2-award",
+    "nef-2025-04-17"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,100,000",
+   "note": "The application says the state credit per unit is under $6,000.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$46,385,000",
+   "note": "CHFA is issuer and volume cap provider; private placement; $22,550,000 permanent bonds and a taxable construction loan of about $4,100,000, per the application.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "City and County of Denver loan (linkage fee and Homelessness Resolution Fund)",
+   "amount": "$8,550,000",
+   "note": "$1,972,727 linkage fee plus $6,577,273 Homelessness Resolution Fund; 0% interest, 99-year maturity, forgiven if in compliance; lent on to MHMP 21 Navajo LLLP; resolution CR24-1480 adopted 2024-11-18; closing deadline 2025-10-14.",
+   "src": [
+    "denver-rr24-1480-loan",
+    "denver-rr24-1480"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing grants",
+   "amount": "Up to $8,000,000",
+   "note": "Up to $5,640,000 Prop 123 grant for people experiencing homelessness ($60,000 per unit) and up to $2,360,000 Housing Development Grant; State Housing Board award announced 2024-10-09.",
+   "src": [
+    "dola-2024-10-09"
+   ]
+  },
+  {
+   "source": "Denver rental subsidies for 94 supportive units",
+   "amount": "$73,694,595",
+   "note": "Homelessness Resolution Fund agreement with MHMP 21 Navajo LLLP for 20 years after certificate of occupancy; resolution 24-1261 adopted 2024-11-25.",
+   "src": [
+    "denver-rr24-1261"
+   ]
+  },
+  {
+   "source": "Denver supportive services funding",
+   "amount": "$2,820,000",
+   "note": "Twenty annual payments of $141,000 through 2046-12-31; resolution 25-1798 adopted 2025-11-24.",
+   "src": [
+    "denver-rr25-1798"
+   ]
+  },
+  {
+   "source": "Other sources named in the application",
+   "amount": "Not public",
+   "note": "Energy tax credits (45L and 48), a subordinate AHIF loan, and a services reserve funded from up to $3.4M of paid developer fee.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Mercy Housing Mountain Plains",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "MHMP 21 Navajo LLLP (general partner MHMP 21 Navajo GP LLC)",
+   "src": [
+    "denver-rr24-1480-loan"
+   ]
+  },
+  {
+   "role": "Land owner and ground lessor; planned special limited partner",
+   "name": "Denver Housing Authority",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "kunc-2023-05-06"
+   ]
+  },
+  {
+   "role": "Partners",
+   "name": "Native American Housing Circle; Denver Indian Health and Family Services (clinic owner and operator)",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "dola-2024-10-09"
+   ]
+  },
+  {
+   "role": "Supportive services",
+   "name": "WellPower",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "mercy-2025-04-14"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "RATIO",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "milehighcre-2025-01-13"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "Alliance Construction Solutions",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "milehighcre-2025-01-13"
+   ]
+  },
+  {
+   "role": "Tax credit syndicator",
+   "name": "National Equity Fund",
+   "src": [
+    "nef-2025-04-17"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Mercy Housing Management Group",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The site was bought in 2020 for about $4 million through a City of Denver and Denver Housing Authority partnership for supportive housing, funded by bonds backed by the Affordable Housing Fund mill levy; DHA chose Mercy through a competitive process and it is DHA's sixth site under that program.",
+   "src": [
+    "kunc-2023-05-06",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The 94 supportive units are reserved for people experiencing homelessness with a disabling condition: 81 one-bedroom, 5 two-bedroom, 6 three-bedroom and 2 four-bedroom units, per the application.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "Mercy designed the building with the Native American Housing Circle, holding focus groups with American Indian and Alaska Native community members; the plan includes a round traditional gathering space, and fair housing rules mean the property cannot exclude other qualifying applicants.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "coloradotrust-2026-02-05"
+   ]
+  },
+  {
+   "text": "The project had to build two new street segments (extending 9th Avenue and Osage Street as shared streets); the city vacated a strip of right-of-way at 901 Navajo (ordinance 24-1207, passed 2024-10-09) and accepted dedications of North Osage Street and West 9th Avenue deeded by DHA in November 2024 (resolution 24-1792, adopted 2025-01-06).",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "denver-24-1207-vacation",
+    "denver-24-1792-dedication"
+   ]
+  },
+  {
+   "text": "A July 2023 Phase II study found low-level tetrachloroethylene below groundwater standards on a former coal and petroleum storage site; the budget covers removal of contaminated soil under a materials management plan.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study put the family-unit capture rate at 51.5% and the supportive-unit capture rate at 15.5%, with 3.3% vacancy at area tax credit properties.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application targeted a September 2024 closing; construction started in early 2025, and Mercy reported topping out in November 2025.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "milehighcre-2025-01-13",
+    "mercy-2026-03-06"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2020",
+   "event": "Site acquired for about $4 million through a Denver and DHA supportive housing partnership",
+   "src": [
+    "kunc-2023-05-06"
+   ]
+  },
+  {
+   "date": "2023-05-06",
+   "event": "Mercy's selection by DHA reported; 187 units then planned",
+   "src": [
+    "kunc-2023-05-06"
+   ]
+  },
+  {
+   "date": "2023-11-15",
+   "event": "CHFA 2023 Round Two award report lists 901 Navajo Street",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "date": "2024-10-09",
+   "event": "State Housing Board awards up to $8M in Division of Housing grants",
+   "src": [
+    "dola-2024-10-09"
+   ]
+  },
+  {
+   "date": "2024-10-09",
+   "event": "Council passes right-of-way vacation ordinance 24-1207",
+   "src": [
+    "denver-24-1207-vacation"
+   ]
+  },
+  {
+   "date": "2024-11-18",
+   "event": "Council adopts the $8.55M loan agreement (CR24-1480)",
+   "src": [
+    "denver-rr24-1480"
+   ]
+  },
+  {
+   "date": "2024-11-25",
+   "event": "Council adopts the $73.7M 20-year rental subsidy agreement (24-1261)",
+   "src": [
+    "denver-rr24-1261"
+   ]
+  },
+  {
+   "date": "2025-01-13",
+   "event": "Alliance Construction Solutions reported to have started construction",
+   "src": [
+    "milehighcre-2025-01-13"
+   ]
+  },
+  {
+   "date": "2025-03-20",
+   "event": "Ground blessing and groundbreaking ceremony",
+   "src": [
+    "corona-2025-04-17",
+    "nef-2025-04-17"
+   ]
+  },
+  {
+   "date": "2025-11",
+   "event": "Building topped out",
+   "src": [
+    "mercy-2026-03-06"
+   ]
+  },
+  {
+   "date": "2025-11-24",
+   "event": "Council adopts $2.82M supportive services funding agreement (25-1798)",
+   "src": [
+    "denver-rr25-1798"
+   ]
+  },
+  {
+   "date": "2026-03-06",
+   "event": "Mercy announces the new name, Cranes Landing",
+   "src": [
+    "mercy-2026-03-06"
+   ]
+  },
+  {
+   "date": "2026-08-24",
+   "event": "Pre-leasing begins",
+   "src": [
+    "mercy-2026-08-preleasing"
+   ]
+  },
+  {
+   "date": "2026-12",
+   "event": "Opening expected, per the leasing page",
+   "src": [
+    "mercy-craneslanding"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Right-of-way dedication illustration, North Osage Street and West 9th Avenue",
+   "url": "https://denver.legistar1.com/denver/attachments/32283dc9-d018-42f8-b9e9-c9e1baf67ae4.pdf",
+   "kind": "plat",
+   "made_by": "Matrix Design Group for the City and County of Denver, file 2024-DEDICATION-0000058",
+   "note": "PDF page 13 (Exhibit A illustration, sheet 4 of 4); recorded deed from DHA pages 8-12",
+   "src": [
+    "denver-24-1792-dedication"
+   ]
+  },
+  {
+   "title": "Right-of-way vacation exhibit and city comment report",
+   "url": "https://denver.legistar1.com/denver/attachments/43f9978d-3e1f-48b6-bfce-a5d97c26ce91.pdf",
+   "kind": "site plan",
+   "made_by": "Project civil engineer, via City and County of Denver file 2024-VACA-0000004",
+   "note": "PDF page 4 (vacation exhibit drawing); review comments pages 5-10",
+   "src": [
+    "denver-24-1207-vacation"
+   ]
+  },
+  {
+   "title": "Rendering of 901 Navajo",
+   "url": "https://milehighcre.com/construction-begins-on-affordable-housing-project-901-navajo/",
+   "kind": "rendering",
+   "made_by": "RATIO Architects (credited by Mile High CRE)",
+   "note": "Lead image of the article",
+   "src": [
+    "milehighcre-2025-01-13"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award description gives 112 one-bedroom, 41 two-bedroom, 31 three-bedroom and 6 four-bedroom units, while the Denver loan agreement designates 109 one-bedroom, 49 two-bedroom, 26 three-bedroom and 6 four-bedroom units.",
+   "src": [
+    "chfa-2023-r2-descriptions",
+    "denver-rr24-1480-loan"
+   ]
+  },
+  {
+   "text": "The 2023 announcement described 187 units, while CHFA, the city and later reports give 190.",
+   "src": [
+    "kunc-2023-05-06",
+    "chfa-2023-r2-award",
+    "denver-rr24-1480-loan"
+   ]
+  },
+  {
+   "text": "The clinic is described as 16,000 square feet by the contractor announcement and as 18,000 square feet by Mercy and the Colorado Trust.",
+   "src": [
+    "milehighcre-2025-01-13",
+    "mercy-2025-04-14",
+    "coloradotrust-2026-02-05"
+   ]
+  },
+  {
+   "text": "Mercy's leasing page says the property opens in December 2026, while the Colorado Trust reported residents would not move in until January 2027.",
+   "src": [
+    "mercy-craneslanding",
+    "coloradotrust-2026-02-05"
+   ]
+  },
+  {
+   "text": "The total cost including the clinic was estimated at $85 million in 2023 and reported as $111 million in 2026.",
+   "src": [
+    "kunc-2023-05-06",
+    "coloradotrust-2026-02-05"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Financing closing date, credit price, bond purchaser and the final housing-only development cost.",
+  "Terms and recording date of the DHA ground lease and the planned community declaration.",
+  "Whether the AHIF loan was made and its amount.",
+  "New Markets Tax Credit allocators and amounts for the clinic.",
+  "Certificate of occupancy date and placed-in-service date."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round Two Federal 4% and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023-11-15",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-descriptions",
+   "title": "2023 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (901 Navajo Street, PDF pages 1-6)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "kunc-2023-05-06",
+   "title": "Denver's first Native American affordable housing project aims to make amends for U.S. policy (The Colorado Sun, republished)",
+   "publisher": "KUNC",
+   "date": "2023-05-06",
+   "url": "https://www.kunc.org/news/2023-05-06/denvers-first-native-american-affordable-housing-project-aims-to-make-amends-for-u-s-policy"
+  },
+  {
+   "id": "dola-2024-10-09",
+   "title": "Colorado State Housing Board Announces Over $19M in Rental Housing Awards, Providing 600 Units Statewide",
+   "publisher": "Colorado Department of Local Affairs",
+   "date": "2024-10-09",
+   "url": "https://cdola.colorado.gov/press-release/colorado-state-housing-board-announces-over-19m-in-rental-housing-awards-providing"
+  },
+  {
+   "id": "denver-rr24-1480-loan",
+   "title": "Loan Agreement (Linkage Fee / Homelessness Resolution Funds), City and County of Denver and Mercy Housing Mountain Plains, HOST-202476529 (attachment to 24-1480)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2024",
+   "url": "https://denver.legistar1.com/denver/attachments/a5e51216-7a1a-4f03-9bdd-2ce3f50244e1.pdf"
+  },
+  {
+   "id": "denver-rr24-1480",
+   "title": "Resolution CR24-1480 (signed), loan agreement with Mercy Housing Mountain Plains",
+   "publisher": "City and County of Denver",
+   "date": "2024-11-18",
+   "url": "https://denver.legistar1.com/denver/attachments/28c42f98-19ed-44bb-80a7-38dc30127fe6.pdf"
+  },
+  {
+   "id": "denver-rr24-1261",
+   "title": "Funding Agreement, City and County of Denver and MHMP 21 Navajo LLLP, $73,694,595, Homelessness Resolution Fund, 901 Navajo Street (attachment to 24-1261)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2024-11-25",
+   "url": "https://denver.legistar1.com/denver/attachments/c4ff662f-5b2a-4672-9975-10e6ca93f5f5.pdf"
+  },
+  {
+   "id": "denver-rr25-1798",
+   "title": "Resolution 25-1798 (filed), funding agreement with MHMP 21 Navajo LLLP for supportive services",
+   "publisher": "City and County of Denver",
+   "date": "2025-11-24",
+   "url": "https://denver.legistar1.com/denver/attachments/1865cfb8-6794-44d1-863a-c58ccf41be3c.pdf"
+  },
+  {
+   "id": "denver-24-1207-vacation",
+   "title": "2024-VACA-0000004 supplemental documents, 901 Navajo Street (attachment to ordinance 24-1207)",
+   "publisher": "City and County of Denver, Department of Transportation and Infrastructure",
+   "date": "2024-06-27",
+   "url": "https://denver.legistar1.com/denver/attachments/43f9978d-3e1f-48b6-bfce-a5d97c26ce91.pdf"
+  },
+  {
+   "id": "denver-24-1792-dedication",
+   "title": "2024-DEDICATION-0000058, 901 N Navajo St, signed request with recorded deed and legal description (attachment to resolution 24-1792)",
+   "publisher": "City and County of Denver, Department of Transportation and Infrastructure",
+   "date": "2024-12",
+   "url": "https://denver.legistar1.com/denver/attachments/32283dc9-d018-42f8-b9e9-c9e1baf67ae4.pdf"
+  },
+  {
+   "id": "milehighcre-2025-01-13",
+   "title": "Construction Begins on Affordable Housing Project 901 Navajo",
+   "publisher": "Mile High CRE",
+   "date": "2025-01-13",
+   "url": "https://milehighcre.com/construction-begins-on-affordable-housing-project-901-navajo/"
+  },
+  {
+   "id": "corona-2025-04-17",
+   "title": "Celebrating Our Community Partners: DIHFS' New Denver Clinic",
+   "publisher": "Corona Insights",
+   "date": "2025-04-17",
+   "url": "https://www.coronainsights.com/2025/04/celebrating-our-community-partners-dihfs-new-denver-clinic/"
+  },
+  {
+   "id": "nef-2025-04-17",
+   "title": "Mercy Housing Breaks Ground on 190-Unit Affordable Housing Development on Historic Site in Denver",
+   "publisher": "National Equity Fund",
+   "date": "2025-04-17",
+   "url": "https://www.nationalequityfund.org/news/mercy-housing-breaks-ground-on-190-unit-affordable-housing-development-on-historic-site-in-denver/"
+  },
+  {
+   "id": "mercy-2025-04-14",
+   "title": "Honoring History at Cranes Landing",
+   "publisher": "Mercy Housing",
+   "date": "2025-04-14",
+   "url": "https://www.mercyhousing.org/2025/04/honoring-history-at-9th-navajo-street/"
+  },
+  {
+   "id": "coloradotrust-2026-02-05",
+   "title": "Denver is building its first affordable housing project designed for Native Americans",
+   "publisher": "The Colorado Trust (Collective Colorado)",
+   "date": "2026-02-05",
+   "url": "https://collective.coloradotrust.org/stories/denver-is-building-its-first-affordable-housing-project-designed-for-native-americans/"
+  },
+  {
+   "id": "mercy-2026-03-06",
+   "title": "Cranes Landing takes flight",
+   "publisher": "Mercy Housing",
+   "date": "2026-03-06",
+   "url": "https://www.mercyhousing.org/2026/03/craneslanding-takes-flight/"
+  },
+  {
+   "id": "mercy-2026-08-preleasing",
+   "title": "Cranes Landing starts pre-leasing",
+   "publisher": "Mercy Housing",
+   "date": "2026-08",
+   "url": "https://www.mercyhousing.org/2026/08/cranes-landing-starts-pre-leasing/"
+  },
+  {
+   "id": "mercy-craneslanding",
+   "title": "Cranes Landing leasing page",
+   "publisher": "Mercy Housing",
+   "date": "2026-10",
+   "url": "https://www.mercyhousing.org/mountain-plains/craneslanding/"
+  }
+ ]
+}

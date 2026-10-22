@@ -1,0 +1,650 @@
+{
+ "slug": "starrise-at-north-weld-village-greeley",
+ "name": "StarRise at North Weld Village",
+ "city": "Greeley",
+ "county": "Weld",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 58,
+ "researched_on": "2026-10-21",
+ "headline": "High Plains Housing Development Corp. built StarRise, a 58-unit permanent supportive housing building for chronically homeless adults at 30% AMI on a donated former produce-warehouse site at 123 9th Avenue in north Greeley, with a $1,450,000-a-year 2023 Round One 9% award from CHFA; residents began moving in on 2025-10-01 and it was full by 2025-12-23.",
+ "why_it_matters": "It is a finished, fully leased example of a small nonprofit pairing 9% credits with a donated site, Division of Housing project-based vouchers on every unit, a Greeley-Weld Housing Authority property tax exemption partnership and roughly a quarter of the cost in local and philanthropic money, and it leased up in about 90 days through coordinated entry.",
+ "status": {
+  "label": "Open and fully leased: move-ins began 2025-10-01; full by 2025-12-23",
+  "detail": "Groundbreaking was on 2024-06-20 and the contractor lists a May 2024 to September 2025 construction period. The Gazette reported residents began moving in on 2025-10-01 and the building was full on 2025-12-23; in June 2026 it won Housing Colorado's Project Eagle Award and People's Choice Award. The CHFA placed-in-service date is not public.",
+  "src": [
+   "bizwest-2024-06-20",
+   "kci-starrise",
+   "gazette-2026-02-07",
+   "northforty-2026-06-21",
+   "bizwest-2026-06-18"
+  ]
+ },
+ "next_step": "Watch for High Plains' CHFA tax credit application for Phase 2 (the Phoenix Project), which the executive director expects to file in February 2028.",
+ "key_numbers": [
+  {
+   "value": "58 one-bedroom homes, all at 30% AMI",
+   "meaning": "Every unit is set aside for people experiencing chronic homelessness with a disability, with Division of Housing project-based vouchers so tenants pay 30% of income.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,450,000 a year in federal 9% credit",
+   "meaning": "The full amount requested; about $14.5M over 10 years (inferred). No state credit is shown on CHFA's report.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "value": "$27 million total project cost",
+   "meaning": "About $466,000 per unit (inferred); construction itself was about $16.8M to $18.0M depending on the source.",
+   "src": [
+    "noco-optimist-2023-12-22",
+    "breakingground-starrise",
+    "workshop8-starrise",
+    "kci-starrise"
+   ]
+  },
+  {
+   "value": "Full in about 90 days",
+   "meaning": "Move-ins started 2025-10-01 and the building reached full occupancy 2025-12-23.",
+   "src": [
+    "gazette-2026-02-07",
+    "northforty-2026-06-21"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "123 9th Avenue, Greeley, CO 80631 (Clayton neighborhood of north Greeley)",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, permanent supportive housing; 58 units, 58 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "6.5-acre infill former North Weld Produce Co. property (a 1908 cannery later used for onion storage), donated by Dennis Hoshiko in 2020; in a qualified census tract; rezoned from Industrial Light to Mixed Use High Intensity before the 2023 application",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "noco-optimist-2023-12-22",
+    "gazette-2026-02-07"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "One four-story, wood-frame (Type V-A), sprinklered, two-elevator building attached to a renovated 1934 brick industrial building that holds the common space (food pantry, fitness area, maker space, kitchen, offices, health provider room)",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "workshop8-starrise",
+    "given-starrise"
+   ]
+  },
+  {
+   "item": "Size",
+   "value": "About 56,024 sq ft per BizWest's project listing; about 60,000 sq ft per the MEP engineer",
+   "src": [
+    "breakingground-starrise",
+    "given-starrise"
+   ]
+  },
+  {
+   "item": "Design",
+   "value": "Trauma-informed design (assessment by Shopworks Architecture with 22 service providers and shelter residents in October 2022); NGBS Bronze target; heat pumps; all-electric ready and solar ready",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "workshop8-starrise"
+   ]
+  },
+  {
+   "item": "Floodplain",
+   "value": "The site was in the 100-year floodplain at application, so the first floor was raised; the city had asked FEMA to remap it to the 500-year floodplain",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Lease-up method",
+   "value": "Housing First, filled through the Northern Colorado Continuum of Care coordinated entry system",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "item": "Transit and services",
+   "value": "One block from the Greeley-Evans Transit hub; near Sunrise Community Health clinics and Weld County Human Services",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 58
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 58
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,450,000 per year",
+   "note": "2023 Round One award, equal to the request. The application named NEF as the equity investor (letter of interest).",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Weld Trust",
+   "amount": "$2.5 million",
+   "note": "Committed at application (about 10% of the cost); later described as a Weld Trust Flagship Award.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "uw-weld-2023"
+   ]
+  },
+  {
+   "source": "Land donor cash gift",
+   "amount": "$1.5 million",
+   "note": "The donor of the site also pledged cash, per the application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "City of Greeley (ARPA)",
+   "amount": "Up to $1 million (as pledged at application)",
+   "note": "Final amount not public.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Greeley Urban Renewal Authority",
+   "amount": "Up to $1 million (as available at application)",
+   "note": "Described later as GURA CDBG program funds; final amount not public.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "noco-optimist-2023-12-22"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing",
+   "amount": "Not verified",
+   "note": "58 project-based vouchers plus gap funding were sought; DOH program funding is confirmed by the sponsor's partners, but the gap award amount could not be checked against a working DOLA page.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "uw-weld-2023"
+   ]
+  },
+  {
+   "source": "Construction and permanent loans",
+   "amount": "Not public",
+   "note": "FirstBank gave a letter of intent for both at application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Capital campaign",
+   "amount": "$2 million gap",
+   "note": "In December 2023 High Plains had raised $25M of $27M and ran a campaign through February 2024; Weld County commissioners declined to contribute.",
+   "src": [
+    "noco-optimist-2023-12-22"
+   ]
+  },
+  {
+   "source": "Property tax exemption",
+   "amount": "Not public",
+   "note": "Through a partnership with the Greeley-Weld Housing Authority.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA prints it: High Plain Housing Development Corp)",
+   "name": "High Plains Housing Development Corp. (Greeley nonprofit founded 1994)",
+   "src": [
+    "chfa-2023-r1-award",
+    "uw-weld-2023"
+   ]
+  },
+  {
+   "role": "Development consultant",
+   "name": "GL Development Advisors (with Dwelling Development and BeauxSimone Consulting at application)",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "breakingground-starrise"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "WORKSHOP8",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "workshop8-starrise"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "KCI Construction (Longmont)",
+   "src": [
+    "uw-weld-2023",
+    "kci-starrise",
+    "breakingground-starrise"
+   ]
+  },
+  {
+   "role": "MEP engineer",
+   "name": "Given & Associates",
+   "src": [
+    "given-starrise"
+   ]
+  },
+  {
+   "role": "Lead service provider",
+   "name": "Volunteers of America Colorado",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Behavioral health and voucher administrator",
+   "name": "North Range Behavioral Health",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Health partner",
+   "name": "Sunrise Community Health",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "uw-weld-2023"
+   ]
+  },
+  {
+   "role": "Property manager (as planned at application)",
+   "name": "Rocky Mountain Communities",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Tax exemption partner",
+   "name": "Greeley-Weld Housing Authority",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Land donor",
+   "name": "Dennis Hoshiko (Hoshiko family)",
+   "src": [
+    "noco-optimist-2023-12-22",
+    "gazette-2026-02-07"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "StarRise is Phase 1 of a planned five-phase North Weld Village campus. Phase 2, the Phoenix Project, is planned on the site of the original cannery building, which the Gazette reported was recently destroyed by fire; it is planned as 50 units for very low-income households, with a CHFA credit application expected in February 2028 and construction by May 2029. Earlier statements had described Phase 2 as 90 units.",
+   "src": [
+    "gazette-2026-02-07",
+    "uw-weld-2023",
+    "noco-optimist-2023-12-22"
+   ]
+  },
+  {
+   "text": "High Plains was set up in 1994 by the City of Greeley, Weld County and United Way of Weld County, developed three tax credit properties (64 units) in its early years, and reorganized in 2018.",
+   "src": [
+    "uw-weld-2023"
+   ]
+  },
+  {
+   "text": "The application said local support made up about 25% of total development cost ($6.5 million), and that no CHFA basis boost or underwriting waiver was needed.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "At a January 4, 2023 neighborhood open house (98 neighbors invited by mail in English and Spanish) no residential neighbors attended; the only business response was positive.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Supportive services are funded from operating cash flow, Medicaid billing, Division of Housing tenant support services money, a capitalized service reserve and paid developer fee, per the application.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "KCI Construction says it helped High Plains prepare the LIHTC application in January 2023.",
+   "src": [
+    "kci-starrise"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2020",
+   "event": "Dennis Hoshiko donates the North Weld Produce property to High Plains",
+   "src": [
+    "gazette-2026-02-07"
+   ]
+  },
+  {
+   "date": "2022-12-08",
+   "event": "Listed (as North Weld Village) on CHFA's 2023 Round 1 letters of intent report",
+   "src": [
+    "chfa-2023-r1-loi"
+   ]
+  },
+  {
+   "date": "2023-01-04",
+   "event": "Neighborhood open house",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round 1 applicant report (federal 9% request $1,450,000)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2023-06-01",
+   "event": "BizWest reports CHFA's 2023 Round One 9% awards (12 statewide from 26 applications)",
+   "src": [
+    "bizwest-2023-06-01"
+   ]
+  },
+  {
+   "date": "2023-12-22",
+   "event": "High Plains reports a $2M gap on a $27M project and a capital campaign through February 2024",
+   "src": [
+    "noco-optimist-2023-12-22"
+   ]
+  },
+  {
+   "date": "2024-06-20",
+   "event": "Groundbreaking",
+   "src": [
+    "bizwest-2024-06-20"
+   ]
+  },
+  {
+   "date": "2024-07-02",
+   "event": "KFKA reports construction under way, with Phase 1 expected by November 2025",
+   "src": [
+    "kfka-2024-07-02"
+   ]
+  },
+  {
+   "date": "2025-09",
+   "event": "Construction completed",
+   "src": [
+    "gazette-2026-02-07",
+    "kci-starrise"
+   ]
+  },
+  {
+   "date": "2025-10-01",
+   "event": "First residents move in",
+   "src": [
+    "gazette-2026-02-07"
+   ]
+  },
+  {
+   "date": "2025-12-23",
+   "event": "Building reaches full occupancy",
+   "src": [
+    "gazette-2026-02-07"
+   ]
+  },
+  {
+   "date": "2026-06-11",
+   "event": "Wins Housing Colorado's Project Eagle Award and People's Choice Award",
+   "src": [
+    "northforty-2026-06-21",
+    "bizwest-2026-06-18"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Project images and description",
+   "url": "https://workshop8.us/item/starrise-at-north-weld-village/",
+   "kind": "rendering",
+   "made_by": "WORKSHOP8 (architect)",
+   "note": "Image gallery on the architect's project page",
+   "src": [
+    "workshop8-starrise"
+   ]
+  },
+  {
+   "title": "Project image (credited to WORKSHOP8)",
+   "url": "https://www.givenandassociates.com/projects/starrise-at-north-weld-village",
+   "kind": "rendering",
+   "made_by": "WORKSHOP8, on the MEP engineer's page",
+   "note": "Image on the project page",
+   "src": [
+    "given-starrise"
+   ]
+  },
+  {
+   "title": "Completed building and residents",
+   "url": "https://www.denvergazette.com/2026/02/07/greeleys-starrise-apartments-offers-permanent-residency-to-the-homeless/",
+   "kind": "photo",
+   "made_by": "The Gazette",
+   "note": "Photos in the 2026-02-07 article",
+   "src": [
+    "gazette-2026-02-07"
+   ]
+  },
+  {
+   "title": "Contractor portfolio page",
+   "url": "https://www.kciconst.com/portfolio/starrise-apartments/",
+   "kind": "photo",
+   "made_by": "KCI Construction",
+   "note": "Photos on the portfolio page",
+   "src": [
+    "kci-starrise"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's reports print the sponsor as High Plain Housing Development Corp, while the sponsor and its partners use High Plains Housing Development Corp.",
+   "src": [
+    "chfa-2023-r1-award",
+    "uw-weld-2023"
+   ]
+  },
+  {
+   "text": "The architect lists a construction cost of $16,772,779, while the general contractor lists $18,032,647.",
+   "src": [
+    "workshop8-starrise",
+    "kci-starrise"
+   ]
+  },
+  {
+   "text": "BizWest reported the groundbreaking on 2024-06-20 and the contractor gives a May 2024 start, while the Gazette says construction began in July 2024.",
+   "src": [
+    "bizwest-2024-06-20",
+    "kci-starrise",
+    "gazette-2026-02-07"
+   ]
+  },
+  {
+   "text": "BizWest's project listing gives 56,024 sq ft, while the MEP engineer describes about 60,000 sq ft.",
+   "src": [
+    "breakingground-starrise",
+    "given-starrise"
+   ]
+  },
+  {
+   "text": "Phase 2 was described as 90 units in 2023, but as 50 units in the Gazette's 2026 article.",
+   "src": [
+    "uw-weld-2023",
+    "noco-optimist-2023-12-22",
+    "gazette-2026-02-07"
+   ]
+  }
+ ],
+ "open_questions": [
+  "The Division of Housing gap award amount and terms (a DOLA press release cited in search results could not be opened), and the final City of Greeley, GURA and Weld Trust amounts.",
+  "Credit equity price and investor at closing, construction and permanent lender amounts, and the financial closing date.",
+  "Who manages the property now (Rocky Mountain Communities was named at application) and the CHFA placed-in-service date.",
+  "Term of the CHFA affordability covenant and terms of the Greeley-Weld Housing Authority tax exemption.",
+  "Whether the FEMA map revision removing the site from the 100-year floodplain was adopted."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report (public award report as of 2025-02-26)",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "CHFA, 2023 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-loi",
+   "title": "2023 Round 1 LIHTC Letters of Intent report",
+   "publisher": "CHFA",
+   "date": "2022-12-08",
+   "url": "https://www.chfainfo.com/getattachment/dbf61afd-d40d-4c59-bb1b-a891b4b66e53/2023-Round-1-LOI-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (PDF pages 97-100)",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "bizwest-2023-06-01",
+   "title": "CHFA tax credits to finance 4 low-income housing projects in region",
+   "publisher": "BizWest",
+   "date": "2023-06-01",
+   "url": "https://bizwest.com/2023/06/01/chfa-tax-credits-to-finance-4-low-income-housing-projects-in-region"
+  },
+  {
+   "id": "uw-weld-2023",
+   "title": "High Plains Housing Development Corp. Receives Competitive Award to Help End Homelessness in Greeley",
+   "publisher": "United Way of Weld County",
+   "date": "2023",
+   "url": "https://www.unitedway-weld.org/high-plains-housing-development-corp-receives-competitive-award-to-help-end-homelessness-in-greeley/"
+  },
+  {
+   "id": "noco-optimist-2023-12-22",
+   "title": "High Plains Housing Development Corp. aims to help Greeley's chronically homeless with permanent housing",
+   "publisher": "The NoCo Optimist",
+   "date": "2023-12-22",
+   "url": "https://www.thenocooptimist.com/news/high-plains-housing-development-corp-aims-to-help-greeleys-chronically-homeless-with-permanent-housing"
+  },
+  {
+   "id": "bizwest-2024-06-20",
+   "title": "Greeley leaders break ground on apartment complex to house chronically homeless",
+   "publisher": "BizWest",
+   "date": "2024-06-20",
+   "url": "https://bizwest.com/2024/06/20/greeley-leaders-break-ground-on-apartment-complex-to-house-chronically-homeless"
+  },
+  {
+   "id": "kfka-2024-07-02",
+   "title": "Construction Underway On Housing Development In Greeley",
+   "publisher": "1310 KFKA",
+   "date": "2024-07-02",
+   "url": "https://1310kfka.com/news/06/construction-underway-on-housing-development-in-greeley/"
+  },
+  {
+   "id": "breakingground-starrise",
+   "title": "Star Rise Apartments Greeley (project listing)",
+   "publisher": "BizWest BreakingGround",
+   "date": "2025-03-29",
+   "url": "https://breakingground.biz/breaking-ground/star-rise-apartments-greeley-2/"
+  },
+  {
+   "id": "workshop8-starrise",
+   "title": "StarRise at North Weld Village (project page)",
+   "publisher": "WORKSHOP8",
+   "date": "2025",
+   "url": "https://workshop8.us/item/starrise-at-north-weld-village/"
+  },
+  {
+   "id": "given-starrise",
+   "title": "StarRise at North Weld Village (project page)",
+   "publisher": "Given & Associates",
+   "date": "2026",
+   "url": "https://www.givenandassociates.com/projects/starrise-at-north-weld-village"
+  },
+  {
+   "id": "kci-starrise",
+   "title": "StarRise Apartments (portfolio page)",
+   "publisher": "KCI Construction",
+   "date": "2025",
+   "url": "https://www.kciconst.com/portfolio/starrise-apartments/"
+  },
+  {
+   "id": "gazette-2026-02-07",
+   "title": "Greeley's StarRise Apartments offers permanent residency to the homeless",
+   "publisher": "The Gazette / Denver Gazette",
+   "date": "2026-02-07",
+   "url": "https://www.denvergazette.com/2026/02/07/greeleys-starrise-apartments-offers-permanent-residency-to-the-homeless/"
+  },
+  {
+   "id": "bizwest-2026-06-18",
+   "title": "Greeley apartment complex wins 2 Housing Colorado awards",
+   "publisher": "BizWest",
+   "date": "2026-06-18",
+   "url": "https://bizwest.com/2026/06/18/greeley-apartment-complex-wins-2-housing-colorado-awards/"
+  },
+  {
+   "id": "northforty-2026-06-21",
+   "title": "StarRise Wins Historic Double Honor at State Housing Awards",
+   "publisher": "North Forty News",
+   "date": "2026-06-21",
+   "url": "https://northfortynews.com/category/life-in-noco/starrise-wins-historic-double-honor-at-state-housing-awards/"
+  }
+ ]
+}

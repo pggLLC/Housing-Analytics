@@ -537,7 +537,7 @@
    "title": "Larimer County Tax Parcels layer query, parcels 9723371001 and 9723371002",
    "publisher": "Larimer County GIS",
    "date": "2026-10-08",
-   "url": "https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/3/query?where=PARCELNUM+in+%28%279723371001%27%2C%279723371002%27%29&outFields=PARCELNUM%2CLOCADDRESS%2CNAME%2CRUNDATE&returnGeometry=false&f=json"
+   "url": "https://maps1.larimer.org/arcgis/rest/services/MapServices/Parcels/MapServer/3/query?where=PARCELNUM+in+%28%279723371001%27%2C%279723371002%27%29&outFields=PARCELNUM%2CLOCADDRESS%2CNAME%2CRUNDATE&returnGeometry=false&f=json&outSR=4326"
   },
   {
    "id": "cosos-windtrail-lllp",

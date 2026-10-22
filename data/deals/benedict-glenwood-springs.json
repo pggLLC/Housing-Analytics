@@ -1,0 +1,558 @@
+{
+ "slug": "benedict-glenwood-springs",
+ "name": "The Benedict (Benedict Apartments)",
+ "city": "Glenwood Springs",
+ "county": "Garfield",
+ "award": "2023 Federal 9% housing tax credit (Round One)",
+ "units": 34,
+ "researched_on": "2026-10-21",
+ "headline": "Archdiocesan Housing, Inc. (Catholic Charities Housing) built The Benedict, a four-story, 34-unit one-bedroom building for seniors 55 and older at 30% to 80% AMI on Midland Avenue in Glenwood Springs, with a 2023 Round One 9% credit award from CHFA; it held its grand opening on 2025-08-07.",
+ "why_it_matters": "It shows how a decades-old restricted charitable gift (the Benedict Fund, grown to more than $5M), city fee waivers and income averaging up to 80% AMI can make a small 9% senior deal work on a 0.55-acre mountain-town site.",
+ "status": {
+  "label": "Open: grand opening 2025-08-07; leasing from late August 2025",
+  "detail": "Catholic Charities reported the building under construction on 2024-11-27 and ahead of schedule on 2025-02-10; Aspen Journalism/Aspen Public Radio reported the 2025-08-07 ribbon cutting and that residents could start signing leases later that month. Occupancy and the CHFA placed-in-service date are not public.",
+  "src": [
+   "ccdenver-2024-11-27",
+   "ccdenver-2025-02-10",
+   "apr-2025-08-13"
+  ]
+ },
+ "next_step": "Watch for CHFA's placed-in-service record and Catholic Charities reports on lease-up.",
+ "key_numbers": [
+  {
+   "value": "34 one-bedroom homes for seniors 55+",
+   "meaning": "7 at 30% AMI, 4 at 40%, 17 at 70% and 6 at 80% AMI; 7 units carry Garfield County Housing Authority project-based vouchers.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "value": "$1,449,710 a year in federal 9% credit",
+   "meaning": "The full amount requested; about $14.5M over 10 years (inferred).",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "value": "About $23 million total cost",
+   "meaning": "Roughly $676,000 per unit (inferred); Catholic Charities Housing said it would put in $8.5M of its own funds.",
+   "src": [
+    "apr-2025-08-13",
+    "pi-2024-01-25",
+    "ccdenver-2024-03-12"
+   ]
+  },
+  {
+   "value": "$3.25M Benedict Fund loan plus a $750,000 land note",
+   "meaning": "Sponsor money from a 1990s gift by Fritz and Fabi Benedict restricted to Roaring Fork Valley housing.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions",
+    "apr-2025-08-13"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "2800 Midland Avenue, Glenwood Springs 81601 per CHFA; Aspen Journalism gives 2700 Midland Ave.; at the Midland Avenue and 27th Street roundabout",
+   "src": [
+    "chfa-2023-r1-award",
+    "apr-2025-08-13",
+    "pi-2024-01-25"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "New construction, senior; 34 units, 34 low-income",
+   "src": [
+    "chfa-2023-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "0.55 acres zoned Resort (RE), bought in 2021 for $745,000; originally earmarked for medical offices by the developers of the neighboring senior living facility; Garfield County is a Difficult Development Area",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "apr-2025-08-13"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories (57 ft 2 in, under the 60 ft limit), wood frame over a glulam post-and-beam parking level on drilled piers; one elevator; top-floor amenity room and terrace; design draws on Fritz Benedict's Frank Lloyd Wright-influenced style",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "pi-2024-01-25",
+    "ccdenver-2025-02-10"
+   ]
+  },
+  {
+   "item": "Unit amenities",
+   "value": "In-unit washer and dryer, dishwasher, wall air conditioning; \"Colorado closet\" storage for skis and bikes",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "ccdenver-2025-02-10"
+   ]
+  },
+  {
+   "item": "Rents",
+   "value": "About $550 to $1,500 a month, per the city planner at approval",
+   "src": [
+    "pi-2024-01-25",
+    "denvercatholic-2024-04-17"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "About 0.2 miles (1,500 ft) from the RFTA Bus Rapid Transit station at 27th Street; bus passes planned for residents",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "ccdenver-2025-02-10",
+    "pi-2024-01-25"
+   ]
+  },
+  {
+   "item": "Green standard",
+   "value": "NGBS Bronze; all-electric-ready design",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Local affordability term",
+   "value": "Units restricted to 30% to 80% AMI for 40 years under the city approval, beyond the city's 20% at 100% AMI community housing rule",
+   "src": [
+    "pi-2024-01-25",
+    "ccdenver-2024-03-12"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 7
+  },
+  {
+   "level": "40% AMI",
+   "units": 4
+  },
+  {
+   "level": "70% AMI",
+   "units": 17
+  },
+  {
+   "level": "80% AMI",
+   "units": 6
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 34
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r1-descriptions",
+  "chfa-2023-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,449,710 per year",
+   "note": "2023 Round One award, equal to the request; uses income averaging.",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Benedict Fund soft loan from Archdiocesan Housing",
+   "amount": "$3,250,000",
+   "note": "Printed as \"$3,2500,000\" in the narrative list but $3,250,000 elsewhere in the narrative; CHFA's description says $3.2 million.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "source": "Land note from Archdiocesan Housing",
+   "amount": "$750,000",
+   "note": "",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "State housing award (Colorado Division of Housing)",
+   "amount": "$1.7 million",
+   "note": "Reported by Aspen Journalism; the application planned Division of Housing HDG funds.",
+   "src": [
+    "apr-2025-08-13",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "City of Glenwood Springs fee waivers",
+   "amount": "About $360,000",
+   "note": "Development and impact fees.",
+   "src": [
+    "apr-2025-08-13",
+    "pi-2024-01-25"
+   ]
+  },
+  {
+   "source": "Permanent mortgage",
+   "amount": "Not public",
+   "note": "A small permanent bank loan through a local source, per the sponsor.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "pi-2024-01-25"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "Not public",
+   "note": "",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "source": "Project-based vouchers",
+   "amount": "7 units",
+   "note": "From the Garfield County Housing Authority.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives",
+    "apr-2025-08-13"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Archdiocesan Housing, Inc. (operating as Catholic Charities Housing)",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-descriptions",
+    "gs-minutes-2024-01-18"
+   ]
+  },
+  {
+   "role": "Development consultant",
+   "name": "BlueLine Development",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "pi-2024-01-25"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "gs-minutes-2024-01-18"
+   ]
+  },
+  {
+   "role": "Planner",
+   "name": "Norris Design",
+   "src": [
+    "gs-minutes-2024-01-18"
+   ]
+  },
+  {
+   "role": "General contractor (named in the application)",
+   "name": "FCI Constructors",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Archdiocesan Housing manages its own portfolio (inferred from the application)",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "role": "Voucher provider",
+   "name": "Garfield County Housing Authority",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "apr-2025-08-13"
+   ]
+  },
+  {
+   "role": "Public funders",
+   "name": "Colorado Division of Housing; City of Glenwood Springs (fee waivers)",
+   "src": [
+    "apr-2025-08-13"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Fritz and Fabi Benedict gave about $2.1 million in the 1990s for affordable housing anywhere in the Roaring Fork Valley; Catholic Charities invested it, it grew to more than $5 million, and several earlier attempts to use it (including two Glenwood Springs sites and one near Basalt) failed before this project.",
+   "src": [
+    "apr-2025-08-13"
+   ]
+  },
+  {
+   "text": "Glenwood Springs City Council approved Planning File #63-23, \"The Benedict\" Major Site/Architectural Plan, on 2024-01-18 by a 6-1 vote, with staff conditions and a parking management plan required before building permit; the project used code flexibility for three standards (building orientation, height transitions, planting strip and street trees).",
+   "src": [
+    "gs-minutes-2024-01-18",
+    "gs-agenda-2024-01-18",
+    "pi-2024-01-25"
+   ]
+  },
+  {
+   "text": "The city requires 20% of units at 100% AMI; the sponsor proposed all units at 30% to 80% AMI for 40 years, with local workforce preference recommended afterward; council discussed but could not guarantee a local-resident preference because of fair housing rules.",
+   "src": [
+    "pi-2024-01-25"
+   ]
+  },
+  {
+   "text": "Applicant's cost drivers: mountain-town construction costs and supply-chain volatility; cost containment through small units on a small site.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "Market study figures in the application: Garfield County vacancy fell from 10.2% to 0.9% over five years; the market area has six LIHTC projects, two age-restricted with 126 units.",
+   "src": [
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "text": "An anonymous donor gave $60,000 for custom stained-glass windows in the common areas.",
+   "src": [
+    "ccdenver-2025-02-10"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021",
+   "event": "Archdiocesan Housing buys the site for $745,000 (work with the city began November 2021)",
+   "src": [
+    "apr-2025-08-13",
+    "chfa-2023-r1-narratives"
+   ]
+  },
+  {
+   "date": "2023-02-08",
+   "event": "Listed on CHFA's 2023 Round One applicant report (request $1,449,710)",
+   "src": [
+    "chfa-2023-r1-applicants"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Awarded $1,449,710 in 2023 Round One federal 9% credit",
+   "src": [
+    "chfa-2023-r1-award",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "date": "2024-01-18",
+   "event": "Glenwood Springs City Council approves the major site and architectural plan, 6-1",
+   "src": [
+    "gs-minutes-2024-01-18"
+   ]
+  },
+  {
+   "date": "2024-11-27",
+   "event": "Catholic Charities reports the building under construction, finish expected September 2025",
+   "src": [
+    "ccdenver-2024-11-27"
+   ]
+  },
+  {
+   "date": "2025-02-10",
+   "event": "Catholic Charities reports construction ahead of schedule (originally due late August 2025)",
+   "src": [
+    "ccdenver-2025-02-10"
+   ]
+  },
+  {
+   "date": "2025-08-07",
+   "event": "Grand opening and ribbon cutting",
+   "src": [
+    "apr-2025-08-13"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "3D rendering of the building",
+   "url": "https://www.denvercatholic.org/catholic-charities-benedict-senior-housing-in-glenwood-springs-is-moving-forward",
+   "kind": "rendering",
+   "made_by": "Not credited (published by Denver Catholic for Catholic Charities Housing)",
+   "note": "Rendering at the top of the 2024-04-17 article",
+   "src": [
+    "denvercatholic-2024-04-17"
+   ]
+  },
+  {
+   "title": "Completed building, entry plaques and opening ceremony",
+   "url": "https://www.aspenpublicradio.org/social-justice/2025-08-13/new-affordable-senior-housing-opens-as-region-confronts-aging-demographics-rising-costs",
+   "kind": "photo",
+   "made_by": "Aspen Journalism and Aspen Public Radio (Eleanor Bennett)",
+   "note": "Photos in the 2025-08-13 article",
+   "src": [
+    "apr-2025-08-13"
+   ]
+  },
+  {
+   "title": "Construction progress photos",
+   "url": "https://ccdenver.org/catholic-charities-affordable-senior-housing-project-ahead-of-schedule-in-glenwood-springs/",
+   "kind": "photo",
+   "made_by": "Catholic Charities of Denver",
+   "note": "Photos in the 2025-02-10 post",
+   "src": [
+    "ccdenver-2025-02-10"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA gives the address as 2800 Midland Avenue, while Aspen Journalism gives 2700 Midland Ave.",
+   "src": [
+    "chfa-2023-r1-award",
+    "apr-2025-08-13"
+   ]
+  },
+  {
+   "text": "CHFA, the application, the Post Independent and Aspen Journalism describe housing for people 55 and older, while Catholic Charities' March 2024 announcement and Denver Catholic said 62 and older.",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives",
+    "pi-2024-01-25",
+    "apr-2025-08-13",
+    "ccdenver-2024-03-12",
+    "denvercatholic-2024-04-17"
+   ]
+  },
+  {
+   "text": "CHFA and the application list 34 one-bedroom units, while a November 2024 Catholic Charities post says there would be \"a few studios\".",
+   "src": [
+    "chfa-2023-r1-descriptions",
+    "chfa-2023-r1-narratives",
+    "ccdenver-2024-11-27"
+   ]
+  },
+  {
+   "text": "The application puts the Benedict Fund contribution at $3,250,000, while CHFA's award description says $3.2 million.",
+   "src": [
+    "chfa-2023-r1-narratives",
+    "chfa-2023-r1-descriptions"
+   ]
+  },
+  {
+   "text": "The Post Independent reported 42 parking spaces at approval, while Catholic Charities later described 25 spaces under the building plus 8 to 10 surface spaces.",
+   "src": [
+    "pi-2024-01-25",
+    "ccdenver-2025-02-10"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Permanent lender and loan amount, tax credit investor and credit price.",
+  "Exact Division of Housing award type and date (Aspen Journalism links a State Housing Board release that could not be retrieved).",
+  "Whether FCI Constructors remained the general contractor.",
+  "Occupancy and the CHFA placed-in-service date.",
+  "Length of the CHFA extended-use covenant and whether the property has a property tax exemption."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r1-award",
+   "title": "2023 Round One - Federal 9% Housing Tax Credit Award Report (public report as of 2025-02-26)",
+   "publisher": "CHFA",
+   "date": "2025-02-26",
+   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-descriptions",
+   "title": "CHFA, 2023 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r1-narratives",
+   "title": "2023 Round One application narratives (The Benedict, PDF pages 16-20)",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/67ec6beb-18c8-41c7-bed2-3b254157df9a/2023-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 Round 1 - Applicant Report, 9% and 4% Competitive Credit",
+   "publisher": "CHFA",
+   "date": "2023-02-08",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "apr-2025-08-13",
+   "title": "New affordable senior housing opens as region confronts aging demographics, rising costs",
+   "publisher": "Aspen Public Radio / Aspen Journalism",
+   "date": "2025-08-13",
+   "url": "https://www.aspenpublicradio.org/social-justice/2025-08-13/new-affordable-senior-housing-opens-as-region-confronts-aging-demographics-rising-costs"
+  },
+  {
+   "id": "pi-2024-01-25",
+   "title": "Glenwood Springs City Council approves senior affordable housing project",
+   "publisher": "Glenwood Springs Post Independent",
+   "date": "2024-01-25",
+   "url": "https://www.postindependent.com/news/glenwood-springs-city-council-approves-senior-affordable-housing-project/"
+  },
+  {
+   "id": "gs-minutes-2024-01-18",
+   "title": "Minutes, Glenwood Springs City Council meeting of January 18, 2024 (Item 14)",
+   "publisher": "City of Glenwood Springs",
+   "date": "2024-01-18",
+   "url": "https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_01182024-1678"
+  },
+  {
+   "id": "gs-agenda-2024-01-18",
+   "title": "Agenda, Glenwood Springs City Council regular meeting of January 18, 2024 (Item 14)",
+   "publisher": "City of Glenwood Springs",
+   "date": "2024-01-18",
+   "url": "https://www.cogs.us/AgendaCenter/ViewFile/Agenda/_01182024-1678"
+  },
+  {
+   "id": "ccdenver-2024-03-12",
+   "title": "The Benedict is Moving Forward",
+   "publisher": "Catholic Charities of Denver",
+   "date": "2024-03-12",
+   "url": "https://ccdenver.org/the-benedict-is-moving-forward/"
+  },
+  {
+   "id": "denvercatholic-2024-04-17",
+   "title": "Catholic Charities' Benedict Senior Housing in Glenwood Springs is Moving Forward",
+   "publisher": "Denver Catholic",
+   "date": "2024-04-17",
+   "url": "https://www.denvercatholic.org/catholic-charities-benedict-senior-housing-in-glenwood-springs-is-moving-forward"
+  },
+  {
+   "id": "ccdenver-2024-11-27",
+   "title": "The Benedict Apartments: A New Beginning in Glenwood Springs",
+   "publisher": "Catholic Charities of Denver",
+   "date": "2024-11-27",
+   "url": "https://ccdenver.org/the-benedict-apartments-a-new-beginning-in-glenwood-springs/"
+  },
+  {
+   "id": "ccdenver-2025-02-10",
+   "title": "Catholic Charities Affordable Senior Housing Project Ahead of Schedule in Glenwood Springs",
+   "publisher": "Catholic Charities of Denver",
+   "date": "2025-02-10",
+   "url": "https://ccdenver.org/catholic-charities-affordable-senior-housing-project-ahead-of-schedule-in-glenwood-springs/"
+  }
+ ]
+}

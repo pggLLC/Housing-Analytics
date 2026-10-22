@@ -1,0 +1,467 @@
+{
+ "slug": "st-stephen-apartments-denver",
+ "name": "St. Stephen Apartments",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2022 Federal 9% housing tax credit (Round One)",
+ "researched_on": "2026-10-21",
+ "units": 50,
+ "headline": "St. Stephen Apartments (St. Stephen Senior Apartments) is a 50-home, all income-restricted building for adults 62+ in Denver's Central Park neighborhood, built by MGL Partners on land ground-leased from St. Stephen Missionary Baptist Church with a 2022 Round One federal 9% award; it opened in summer 2025.",
+ "why_it_matters": "It is a finished faith-land deal: a long, low-cost church ground lease that pays the congregation an annuity and passes the church's property tax exemption through to the project by making the church a general partner.",
+ "status": {
+  "label": "Built and fully leased (grand opening 2025-09-11)",
+  "detail": "Groundbreaking was 2023-11-14; first residents moved in in summer 2025 and the grand opening on 2025-09-11 reported the building fully leased. Another 2026 CHFA application lists it as opened in August 2025. No placed-in-service or 8609 record was found online.",
+  "src": [
+   "mhcre-2023-11-15",
+   "mhcre-2025-09-11",
+   "ccd-2025-09-17",
+   "chfa-2026-r1-narratives"
+  ]
+ },
+ "next_step": "Watch for CHFA compliance or placed-in-service records and confirm the source and amount of the state credits the opening release mentions.",
+ "key_numbers": [
+  {
+   "value": "50 homes for adults 62+",
+   "meaning": "45 one-bedroom and 5 two-bedroom homes.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,255,389 a year in federal 9% credit",
+   "meaning": "About $12.6M over 10 years; the 2022 award report shows no state credit.",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "value": "Average 48.6% AMI",
+   "meaning": "5 homes at 30% AMI, 12 at 40%, 18 at 50% and 15 at 60%.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$19.6M final cost",
+   "meaning": "Up from $17.56M in the 2022 application.",
+   "src": [
+    "mhcre-2025-09-11",
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address (award report)",
+   "value": "2050 N. Uinta (application: 2050 Uinta Street), Denver 80238",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Address (as built)",
+   "value": "2189 N Valentia Street, Denver",
+   "src": [
+    "ccd-2025-09-17",
+    "mhcre-2025-09-11"
+   ]
+  },
+  {
+   "item": "Type (CHFA code)",
+   "value": "N, S: new construction, senior",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Former name",
+   "value": "Uinta Senior Apartments",
+   "src": [
+    "ccd-2025-09-17"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "0.6-acre portion of the church's land in a Difficult Development Area, zoned R-MU-20 (multifamily by right); new zone lot created by a ZLAM filed January 2022",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, two elevators, 19 surface spaces plus shared church parking; hydronic heating, all-electric ready, solar-ready; NGBS Bronze",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Team",
+   "value": "Santulan Architecture, BC Builders (GC), Silva Management Partners (on-site management)",
+   "src": [
+    "mhcre-2023-11-15",
+    "mhcre-2025-09-11"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 5
+  },
+  {
+   "level": "40% AMI",
+   "units": 12
+  },
+  {
+   "level": "50% AMI",
+   "units": 18
+  },
+  {
+   "level": "60% AMI",
+   "units": 15
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 45
+  },
+  {
+   "type": "2BR",
+   "units": 5
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r1-descriptions",
+  "chfa-2022-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,255,389 per year",
+   "note": "Application put equity at $11,298,504; Wells Fargo was the equity investor and construction lender.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives",
+    "mhcre-2025-09-11"
+   ]
+  },
+  {
+   "source": "State housing tax credit",
+   "amount": "Not stated",
+   "note": "The opening releases say state credits allocated by CHFA were used; the 2022 Round One report shows none.",
+   "src": [
+    "mhcre-2025-09-11",
+    "ccd-2025-09-17"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing Enhanced Gap Funds",
+   "amount": "$2,750,000",
+   "note": "As proposed; DOH support confirmed at opening.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ccd-2025-09-17"
+   ]
+  },
+  {
+   "source": "Permanent debt",
+   "amount": "$2,735,000",
+   "note": "As proposed.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Denver Department of Housing Stability (HOST)",
+   "amount": "$500,000",
+   "note": "As proposed; HOST support confirmed at opening.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "ccd-2025-09-17"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$272,118",
+   "note": "Developer fee requested at 12% rather than the 15% allowed.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Other partners",
+   "amount": "Not stated",
+   "note": "Impact Development Fund and Brookfield Residential.",
+   "src": [
+    "mhcre-2025-09-11",
+    "ccd-2025-09-17"
+   ]
+  },
+  {
+   "source": "Church ground lease",
+   "amount": "$40,000 a year",
+   "note": "Lease rent paid to the church (per application).",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/developer (as CHFA prints it)",
+   "name": "MGL Partners",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "role": "Landowner / ground lessor; administrative general partner",
+   "name": "St. Stephen Missionary Baptist Church",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "mhcre-2023-11-15"
+   ]
+  },
+  {
+   "role": "Construction lender and equity investor",
+   "name": "Wells Fargo",
+   "src": [
+    "mhcre-2025-09-11",
+    "ccd-2025-09-17"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "BC Builders",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "mhcre-2023-11-15"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Santulan Architecture",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "mhcre-2023-11-15"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Silva Management Partners (Silva-Markham Partners)",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "mhcre-2025-09-11"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The church and MGL signed an MOU in 2021 and a land lease in early 2022; the church keeps the new zone lot and leases it into the tax-credit partnership, giving the historically African American congregation (in Denver since 1900, at this site since 2015) a steady income.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "The church becomes an administrative general partner so its property tax exemption flows through to the project; it also provides vehicle access easements and shared parking.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Residents get RTD NECO passes (budgeted for one year) and access to the church's food bank and van transport.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "text": "The market study's capture rates (63.4% overall; 76.1% at 50% AMI and 74% at 60%) were well above CHFA guidelines; the application cited 100% occupancy and waiting lists at the market area's 800 senior tax-credit units.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "At award, MGL slated financial close for May 2023 and completion by summer 2024; construction instead began in November 2023 and finished in summer 2025.",
+   "src": [
+    "mhcre-2022-06-21",
+    "mhcre-2023-11-15",
+    "ccd-2025-09-17"
+   ]
+  },
+  {
+   "text": "At the groundbreaking the partners listed CHFA, Wells Fargo, Impact Development Fund, the Colorado Division of Housing, the City and County of Denver and Brookfield Residential as funders.",
+   "src": [
+    "mhcre-2023-11-15"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021",
+   "event": "Church and MGL sign an MOU",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-01",
+   "event": "Zone lot amendment filed with Denver; land lease executed in early 2022",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-05-25",
+   "event": "CHFA Round One award report lists $1,255,389 federal 9% credit",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "date": "2022-06-21",
+   "event": "MGL announces the award; closing targeted for May 2023",
+   "src": [
+    "mhcre-2022-06-21"
+   ]
+  },
+  {
+   "date": "2023-11-14",
+   "event": "Groundbreaking",
+   "src": [
+    "mhcre-2023-11-15"
+   ]
+  },
+  {
+   "date": "2025-08",
+   "event": "Opened (as listed in a 2026 CHFA application by another developer)",
+   "src": [
+    "chfa-2026-r1-narratives"
+   ]
+  },
+  {
+   "date": "2025-09-11",
+   "event": "Grand opening; building fully leased",
+   "src": [
+    "mhcre-2025-09-11",
+    "ccd-2025-09-17"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Completed building photos",
+   "url": "https://ccdmag.com/aec-industry-news/senior-housing-mgl/",
+   "kind": "photo",
+   "made_by": "Colorado Construction & Design (article images)",
+   "note": "Images in the 2025-09-17 article",
+   "src": [
+    "ccd-2025-09-17"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report gives the address as 2050 N. Uinta, while the opening releases give 2189 N Valentia Street.",
+   "src": [
+    "chfa-2022-r1-award",
+    "ccd-2025-09-17",
+    "mhcre-2025-09-11"
+   ]
+  },
+  {
+   "text": "The application says the congregation voted to lease the land for the next 50 years, while the groundbreaking and opening releases describe a 65-year land lease.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "mhcre-2023-11-15",
+    "ccd-2025-09-17"
+   ]
+  },
+  {
+   "text": "The 2022 Round One award report shows only federal 9% credit for this deal, while the opening releases say it was financed with federal and state tax credits allocated by CHFA.",
+   "src": [
+    "chfa-2022-r1-award",
+    "mhcre-2025-09-11",
+    "ccd-2025-09-17"
+   ]
+  },
+  {
+   "text": "The application budgeted $17,555,622, while the opening releases give a $19.6 million development.",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "mhcre-2025-09-11",
+    "ccd-2025-09-17"
+   ]
+  }
+ ],
+ "open_questions": [
+  "When and how state credits were added, and the amount (not in the 2022 Round One, 2022 Round Two, 2023 award reports or the 4% list).",
+  "Financial closing date and final debt amounts.",
+  "Affordability period and recorded covenant.",
+  "Placed-in-service date and 8609 issuance.",
+  "Denver HOST loan agreement or council action, if any (not found).",
+  "2022 Round One applicant report not located on chfainfo.com."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r1-award",
+   "title": "2022 Round One - 9% Competitive Housing Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2022-05-25",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-descriptions",
+   "title": "2022 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "2022 Round One 9% Housing Credit Application Narratives (St. Stephen Senior Apartments, PDF pp. 116-120)",
+   "publisher": "CHFA",
+   "date": "2022-02-14",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "chfa-2026-r1-narratives",
+   "title": "2026 HTC Round One Application Narratives (Stables II Senior Housing market discussion listing St. Stephen Apartments, PDF pp. 133)",
+   "publisher": "CHFA",
+   "date": "2026-02-09",
+   "url": "https://www.chfainfo.com/getattachment/ef9795e3-70e4-4b42-9067-65d1f931fe40/2026-HTC-Round-One-Narratives.pdf"
+  },
+  {
+   "id": "mhcre-2022-06-21",
+   "title": "MGL Partners Awarded Low Income Housing Tax Credits for Construction of Senior Apartment Community",
+   "publisher": "Mile High CRE",
+   "date": "2022-06-21",
+   "url": "https://milehighcre.com/mgl-partners-awarded-low-income-housing-tax-credits-for-construction-of-senior-apartment-community/"
+  },
+  {
+   "id": "mhcre-2023-11-15",
+   "title": "Affordable Senior Housing Community Breaks Ground in Denver's Central Park",
+   "publisher": "Mile High CRE",
+   "date": "2023-11-15",
+   "url": "https://milehighcre.com/affordable-senior-housing-community-breaks-ground-in-denvers-central-park/"
+  },
+  {
+   "id": "mhcre-2025-09-11",
+   "title": "MGL Partners Celebrates Grand Opening of The St. Stephen",
+   "publisher": "Mile High CRE",
+   "date": "2025-09-11",
+   "url": "https://milehighcre.com/mgl-partners-celebrates-grand-opening-of-the-st-stephen/"
+  },
+  {
+   "id": "ccd-2025-09-17",
+   "title": "50-Unit Affordable Senior Housing Opens in Denver's Central Park Neighborhood",
+   "publisher": "Colorado Construction & Design",
+   "date": "2025-09-17",
+   "url": "https://ccdmag.com/aec-industry-news/senior-housing-mgl/"
+  }
+ ]
+}

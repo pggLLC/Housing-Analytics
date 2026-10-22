@@ -1,0 +1,516 @@
+{
+ "slug": "grove-in-bloom-fort-collins",
+ "name": "Grove in Bloom",
+ "city": "Fort Collins",
+ "county": "Larimer",
+ "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+ "units": 264,
+ "researched_on": "2026-10-21",
+ "headline": "Pedcor Investments plans Grove in Bloom, a 264-unit, all income-restricted family apartment community (eleven three-story buildings) for households at 30% to 80% AMI in the Bloom master-planned community in east Fort Collins. It won 2024 Round Two federal 4% and accelerated state credits from CHFA, with up to $64,992,920 of CHFA private activity bonds.",
+ "why_it_matters": "It is one of the largest 4% deals in the round and pairs dollar-for-dollar tax-exempt bonds with a HUD 221(d)(4) loan, with a Housing Catalyst partnership supplying the property tax exemption; the city reported its Bloom filing under construction in April 2026, but no bond closing record was found.",
+ "status": {
+  "label": "Credits awarded; Bloom Filing 3 reported under construction (April 2026); bond closing not confirmed",
+  "detail": "CHFA reserved the credits in November 2024 and held a TEFRA hearing on the bonds on 2025-09-10. The City of Fort Collins' Bloom page says in an April 2026 update that Bloom Filing 3 (the 360-apartment filing that contains this project) is under construction and that 264 of its units are planned as affordable housing. No public bond closing or building permit record specific to Grove in Bloom was found; the application had targeted a June 2025 financial closing.",
+  "src": [
+   "chfa-2024-r2-award",
+   "chfa-tefra-grove-2025",
+   "fc-bloom-ourcity",
+   "chfa-2024-r2-narratives"
+  ]
+ },
+ "next_step": "Watch for a CHFA bond closing, a HUD 221(d)(4) firm commitment, and Fort Collins building permits or a final development plan record for Bloom Filing 3.",
+ "key_numbers": [
+  {
+   "value": "264 homes, all income-restricted",
+   "meaning": "84 one-bedroom, 132 two-bedroom and 48 three-bedroom units, using income averaging from 30% to 80% AMI.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$4,730,725 a year in federal 4% credit",
+   "meaning": "About $47.3M over 10 years, plus $1,714,655 of accelerated state credit.",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "value": "Up to $64,992,920 in CHFA private activity bonds",
+   "meaning": "CHFA is issuer and volume cap provider; the bonds are to be paired with a HUD 221(d)(4) GNMA-backed loan and a bridge loan.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "chfa-tefra-grove-2025"
+   ]
+  },
+  {
+   "value": "Won on its second CHFA application",
+   "meaning": "Applied in 2023 Round Two with a deeper 30% AMI share and larger solar array before winning in 2024 Round Two.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-applicants",
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Location",
+   "value": "North and west of E. Mulberry Street and Greenfield Court, southeast of the southern terminus of Delozier Road, Fort Collins 80524, in the Bloom community (Mulberry PUD)",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-tefra-grove-2025",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Units",
+   "value": "264 total, 264 low-income",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "City filing",
+   "value": "Bloom Filing 3 Multi-Family Dwellings, PDP220011: 15 three-story, 24-unit buildings (360 apartments) on 16.36 acres zoned LMN and MMN, approved by the Planning and Zoning Commission on 2023-12-21. At least 264 of the 360 units are to be LIHTC affordable; the 2023 CHFA application says the other 96 units are a separate development at 80% AMI and market rate. Grove in Bloom's eleven buildings are inferred to be part of this filing.",
+   "src": [
+    "fc-bloom-ourcity",
+    "fc-filing3-records",
+    "fc-filing3-narrative",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Buildings",
+   "value": "Eleven three-story, 24-unit garden buildings, wood frame on concrete foundations with pitched asphalt shingle roofs, fiber cement and masonry exteriors; clubhouse, pool, playground, dog park",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Energy",
+   "value": "All-electric with rooftop solar estimated at 600 kW (cut from 1,485 kW in the earlier application to reduce cost)",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Expected owner entity",
+   "value": "Pedcor Investments-2023-CLXXXVI, L.P. (an Indiana limited partnership) or another Pedcor affiliate",
+   "src": [
+    "chfa-tefra-grove-2025"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Housing Catalyst (the Fort Collins housing authority) is to be a partner, providing a property tax exemption",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Bus stop about 0.3 to 0.6 mile away; the sponsor will run a resident shuttle to a downtown bus stop and a shopping center",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Census tract",
+   "value": "The 2024 application says the tract lost its Qualified Census Tract status in 2024; the 2023 application described it as a QCT",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 14
+  },
+  {
+   "level": "40% AMI",
+   "units": 15
+  },
+  {
+   "level": "50% AMI",
+   "units": 42
+  },
+  {
+   "level": "60% AMI",
+   "units": 136
+  },
+  {
+   "level": "70% AMI",
+   "units": 48
+  },
+  {
+   "level": "80% AMI",
+   "units": 9
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 84
+  },
+  {
+   "type": "2BR",
+   "units": 132
+  },
+  {
+   "type": "3BR",
+   "units": 48
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r2-descriptions",
+  "chfa-2024-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$4,730,725 per year",
+   "note": "2024 Round Two. The applicant report lists $4,280,300 requested.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-applicants"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,714,655",
+   "note": "The applicant report lists $1,705,822 requested.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-applicants"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$64,992,920",
+   "note": "CHFA is issuer and volume cap provider; the request is 55% of aggregate basis. The bonds are to be privately placed and paired dollar-for-dollar with a HUD 221(d)(4) GNMA security, with the remainder paired with a bridge loan repaid at construction completion. The 2023 application had requested $58,285,000.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "chfa-tefra-grove-2025",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "HUD 221(d)(4) first mortgage",
+   "amount": "Not public",
+   "note": "Long-term permanent loan; the application expected a HUD firm commitment by April 2025.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Renewable energy tax credits and 45L proceeds",
+   "amount": "Not public",
+   "note": "Named as financing sources alongside investor equity.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Housing Catalyst partnership (property tax exemption)",
+   "amount": "Not public",
+   "note": "The applicant requested a waiver of CHFA's $4,500 per-unit operating expense minimum because the exemption removes property taxes from expenses.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Pedcor Investments (Pedcor Development Associates, LLC in the applicant report)",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-applicants"
+   ]
+  },
+  {
+   "role": "Expected owner entity",
+   "name": "Pedcor Investments-2023-CLXXXVI, L.P.",
+   "src": [
+    "chfa-tefra-grove-2025"
+   ]
+  },
+  {
+   "role": "Housing authority partner",
+   "name": "Housing Catalyst",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-tefra-grove-2025"
+   ]
+  },
+  {
+   "role": "Planner for the city filing",
+   "name": "Vignette Studios",
+   "src": [
+    "fc-filing3-narrative"
+   ]
+  },
+  {
+   "role": "Prior landowner (per county records cited in the 2022 city filing)",
+   "name": "Springer-Fisher, Inc.",
+   "src": [
+    "fc-filing3-narrative"
+   ]
+  },
+  {
+   "role": "Service partners",
+   "name": "Health District of Northern Larimer County (health screenings), Starlight Health (direct primary care for 30% AMI households), Serve 6.8 (financial literacy), NOCO Tutoring & Enrichment (after-school tutoring)",
+   "src": [
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The Mulberry PUD master plan (ODP210002), about 1,600 homes on 226 acres now branded Bloom, was approved by Fort Collins City Council on 2021-12-16.",
+   "src": [
+    "fc-bloom-ourcity"
+   ]
+  },
+  {
+   "text": "Pedcor took part in the master developer's subdivision process and says it negotiated higher-density three-story buildings and cost-efficient design standards. Site costs are higher than typical but are offset dollar-for-dollar by a lower land cost, per the applicant; the land price is not public.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "In 2023 Round Two the same 264-unit plan offered 41 units at 30% AMI and the rest at 50% to 70% AMI, with $58,285,000 of bonds, $4,796,901 federal and $1,100,000 state credit requested. After feedback that 15% at 30% AMI was high for its size, the 2024 version cut 30% AMI units to 14 and added 40% and 80% AMI bands.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-applicants",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study cited a 1.5% overall multifamily vacancy rate and 0.7% for comparable affordable properties, with four of five affordable properties in the market area keeping waitlists (one up to 111 households). Its main weakness was a low walk score.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The Phase I found no environmental issues. A neighborhood meeting was held for the master plan with no opposition to this site, per the applicant.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The applicant says Pedcor has developed five 4% credit deals in Colorado in the past 10 years and manages a national portfolio of over 25,000 affordable units.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-12-16",
+   "event": "Fort Collins City Council approves the Mulberry PUD master plan (Bloom)",
+   "src": [
+    "fc-bloom-ourcity"
+   ]
+  },
+  {
+   "date": "2022-08",
+   "event": "Bloom Filing 3 (360 apartments, Pedcor as proposed owner) submitted to the city",
+   "src": [
+    "fc-filing3-narrative",
+    "fc-filing3-records"
+   ]
+  },
+  {
+   "date": "2023",
+   "event": "Applies in CHFA 2023 Round Two; not awarded (inferred from the 2024 reapplication)",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-applicants",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-12-21",
+   "event": "Planning and Zoning Commission approves Bloom Filing 3 project development plan",
+   "src": [
+    "fc-bloom-ourcity"
+   ]
+  },
+  {
+   "date": "2024-08-15",
+   "event": "Listed on CHFA's 2024 Round Two applicant report",
+   "src": [
+    "chfa-2024-r2-applicants"
+   ]
+  },
+  {
+   "date": "2024-11-26",
+   "event": "Listed on CHFA's 2024 Round Two award report",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "date": "2025-09-10",
+   "event": "CHFA TEFRA public hearing on up to $64,992,920 of bonds (notice dated 2025-09-03)",
+   "src": [
+    "chfa-tefra-grove-2025"
+   ]
+  },
+  {
+   "date": "2026-04",
+   "event": "City update reports Bloom Filing 3 under construction, with 264 units planned as affordable",
+   "src": [
+    "fc-bloom-ourcity"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Bloom Filing Three site plan set",
+   "url": "https://records.fcgov.com/WebLink/ElectronicFile.aspx?docid=18288230&dbid=0&repo=FortCollins",
+   "kind": "site plan",
+   "made_by": "Vignette Studios for the developer, via City of Fort Collins development review records",
+   "note": "Six sheets dated 2023-09-13: cover sheet on PDF page 1, overall site plan on page 2, north and south site plans on pages 4-5. Covers all 15 buildings of the filing, not only the 11 tax credit buildings.",
+   "src": [
+    "fc-filing3-records"
+   ]
+  },
+  {
+   "title": "Bloom Filing Three architectural elevations",
+   "url": "https://records.fcgov.com/WebLink/ElectronicFile.aspx?docid=18288227&dbid=0&repo=FortCollins",
+   "kind": "rendering",
+   "made_by": "Project design team, via City of Fort Collins development review records",
+   "note": "24-page elevation set dated 2023-11-08 (building types, clubhouse and garages)",
+   "src": [
+    "fc-filing3-records"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "The award report gives $4,730,725 of federal credit and $1,714,655 of state credit, while the applicant report lists $4,280,300 federal and $1,705,822 state requested.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-applicants"
+   ]
+  },
+  {
+   "text": "CHFA's award description names the health screening partner as the Health District of Northern Larimer County, while the application calls it the Health District of Northern Colorado.",
+   "src": [
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The 2022 city filing narrative says the affordable units will serve households at or below 60% AMI, while the CHFA award includes 57 units at 70% and 80% AMI under income averaging.",
+   "src": [
+    "fc-filing3-narrative",
+    "chfa-2024-r2-descriptions"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Whether the CHFA bonds and HUD 221(d)(4) loan have closed; the application targeted June 2025 and the TEFRA hearing was not held until September 2025.",
+  "Whether the April 2026 'under construction' status for Bloom Filing 3 covers the tax credit buildings or only other parts of the filing; no building permit record specific to Grove in Bloom was found.",
+  "Land price and seller terms, total development cost, equity investor and price, general contractor and property manager.",
+  "Terms of the Housing Catalyst partnership and the length of the CHFA affordability period.",
+  "Rents, and the status and income mix of the separate 96-unit portion of Bloom Filing 3."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Federal 4% and Accelerated State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-11-26",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-descriptions",
+   "title": "2024 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (The Grove in Bloom, PDF pages 65-69)",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-applicants",
+   "title": "2024 Round Two Federal 4% and State Credit Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024-08-15",
+   "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (The Grove in Bloom, PDF pages 85-87)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-tefra-grove-2025",
+   "title": "Notice of Public Hearing, CHFA Multifamily Housing Revenue Obligations (The Grove in Bloom Apartment Homes Project)",
+   "publisher": "CHFA",
+   "date": "2025-09-03",
+   "url": "https://www.chfainfo.com/getattachment/7bb37a0c-bd38-45ac-9719-276aceb7c5a3/TEFRA-Notice-CHFA-The-Grove-Sept2025.pdf"
+  },
+  {
+   "id": "fc-bloom-ourcity",
+   "title": "Bloom Development Proposal (project phases and April 2026 updates)",
+   "publisher": "City of Fort Collins, OurCity",
+   "date": "2026-05",
+   "url": "https://ourcity.fcgov.com/bloom-development-proposal"
+  },
+  {
+   "id": "fc-filing3-records",
+   "title": "Bloom Filing 3 Multi-Family Dwellings - PDP220011 (development review records folder)",
+   "publisher": "City of Fort Collins",
+   "date": "2023-11-08",
+   "url": "https://records.fcgov.com/WebLink/Browse.aspx?id=21889044&dbid=0&repo=FortCollins"
+  },
+  {
+   "id": "fc-filing3-narrative",
+   "title": "Bloom Filing Three project narrative (PDP submittal)",
+   "publisher": "City of Fort Collins development review records (prepared by Vignette Studios)",
+   "date": "2022-08-03",
+   "url": "https://records.fcgov.com/WebLink/ElectronicFile.aspx?docid=15547423&dbid=0&repo=FortCollins"
+  }
+ ]
+}

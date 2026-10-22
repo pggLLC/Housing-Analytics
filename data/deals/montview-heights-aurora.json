@@ -308,7 +308,7 @@
    "title": "HUD Multifamily Properties - Assisted, record for Montview Heights (property ID 800003104)",
    "publisher": "U.S. Department of Housing and Urban Development (HUD eGIS open data)",
    "date": "2026-07-06",
-   "url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Multifamily_Properties_Assisted/FeatureServer/0/query?where=PROPERTY_ID%3D%27800003104%27&outFields=*&returnGeometry=false&f=json"
+   "url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Multifamily_Properties_Assisted/FeatureServer/0/query?where=PROPERTY_ID%3D%27800003104%27&outFields=*&returnGeometry=false&f=json&outSR=4326"
   },
   {
    "id": "aho-listing",

@@ -1,0 +1,512 @@
+{
+ "slug": "creekside-flats-denver",
+ "name": "Creekside Flats",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+ "units": 150,
+ "researched_on": "2026-10-21",
+ "headline": "Archway Communities is building Creekside Flats, 150 income-restricted one- to three-bedroom apartments for households at 30% to 80% AMI next to RTD's Sheridan light rail station in west Denver's Villa Park, replacing the 62-unit Jody Apartments on Urban Land Conservancy land trust ground; it won 2024 Round Two federal 4% and accelerated state credits with $34M of CHFA bonds and broke ground in 2026.",
+ "why_it_matters": "It shows a TOD redevelopment that more than doubles an expiring HOME-funded property on community land trust ground, using bond cap from Jefferson County, a $7.5M Denver linkage-fee loan and a 60-year city covenant.",
+ "status": {
+  "label": "Under construction (groundbreaking 2026); first residents expected 2027",
+  "detail": "Denver's housing department announced the groundbreaking on 2026-06-11 and Archway posted it on 2026-07-08, with first residents expected in 2027. City Council approved the $7.5M city loan and a right-of-way encroachment permit on 2026-03-09. Financing closing is inferred from the groundbreaking; no closing date was published.",
+  "src": [
+   "denver-host-2026-06-11",
+   "archway-2026-07-08",
+   "denver-rr26-0178",
+   "denver-rr26-0212"
+  ]
+ },
+ "next_step": "Watch for Denver building inspection milestones under project 2023-PROJMSTR-0000144 and lease-up notices in 2027.",
+ "key_numbers": [
+  {
+   "value": "150 homes, all income-restricted",
+   "meaning": "65 one-bedroom, 61 two-bedroom and 24 three-bedroom units at 30% to 80% AMI, with 22 units at 30% AMI.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions",
+    "denver-rr26-0178"
+   ]
+  },
+  {
+   "value": "$2,994,139 a year in federal 4% credit",
+   "meaning": "About $29.9M over 10 years, plus $1,800,000 of accelerated state credit.",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "value": "$34,000,000 in CHFA bonds",
+   "meaning": "CHFA is the issuer; the city says Jefferson County contributed $10 million of its bond cap. The application planned $22.75M of permanent bonds and a taxable construction loan of about $14.08M.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "denver-host-2026-06-11"
+   ]
+  },
+  {
+   "value": "$7.5M Denver gap loan",
+   "meaning": "Linkage-fee loan at 1% simple interest, 30-year term, with a 60-year affordability covenant.",
+   "src": [
+    "denver-rr26-0178",
+    "denver-host-2026-06-11"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "5375 W. 10th Avenue, Denver 80214 (Villa Park), less than a quarter mile from Sheridan Station; the site sits on the Denver-Lakewood line by Dry Gulch (inferred from the city civil exhibit)",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions",
+    "archway-2026-07-08",
+    "denver-encroachment-2026"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Four stories, wood frame, tuck-under parking, two stairs and two elevators; electrification-ready with photovoltaic arrays; trauma-informed design",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "C-MX-8; Denver planning confirmed the use and density are allowed with administrative approvals only, per the application",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Land",
+   "value": "Land owned by ULC CLT, LLC (Urban Land Conservancy community land trust) since 2007; the project owner is the ground lessee",
+   "src": [
+    "denver-jody-assignment",
+    "denver-rr26-0178",
+    "ulc-creekside"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "Creekside LLLP, whose general partner Creekside GP LLC is controlled by Archway Investment Corporation",
+   "src": [
+    "denver-rr26-0178"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Denver Housing Authority to join as special limited partner for property tax exemption, per the application",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Accessibility",
+   "value": "All units visitable; 16 homes fully accessible for mobility and 8 for sensory impairments",
+   "src": [
+    "denver-host-2026-06-11"
+   ]
+  },
+  {
+   "item": "Services and set-aside",
+   "value": "Partnership with Urban Peak for up to 10 units for youth exiting homelessness; Ardent Grove mental health services, Jovie childcare, food pantry, RTD EcoPasses",
+   "src": [
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives",
+    "denver-host-2026-06-11"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "Qualified Census Tract",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 22
+  },
+  {
+   "level": "50% AMI",
+   "units": 15
+  },
+  {
+   "level": "60% AMI",
+   "units": 76
+  },
+  {
+   "level": "70% AMI",
+   "units": 11
+  },
+  {
+   "level": "80% AMI",
+   "units": 26
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 65
+  },
+  {
+   "type": "2BR",
+   "units": 61
+  },
+  {
+   "type": "3BR",
+   "units": 24
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r2-descriptions",
+  "denver-rr26-0178"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,994,139 per year",
+   "note": "2024 Round Two.",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,800,000",
+   "note": "The applicant said state credits were necessary for feasibility.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$34,000,000",
+   "note": "CHFA is the issuer; privately placed construction bonds, $22,753,000 permanent bonds and a taxable construction loan of about $14,078,200, per the application. Jefferson County contributed $10 million of private activity bond cap through a partnership with Denver.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "denver-host-2026-06-11"
+   ]
+  },
+  {
+   "source": "City and County of Denver loan (linkage fee)",
+   "amount": "$7,500,000",
+   "note": "Loan to Archway Investment Corporation, re-lent to Creekside LLLP; 1% simple interest, 360-month maturity; council resolution 26-0178 adopted 2026-03-09; closing deadline 2026-12-08; 60-year covenant.",
+   "src": [
+    "denver-rr26-0178"
+   ]
+  },
+  {
+   "source": "Other sources named in the application",
+   "amount": "Not public",
+   "note": "An FHLB grant, deferred developer fee, and a request for HUD Community Project Funding recommended by Senators Bennet and Hickenlooper; no award amounts were found. Archway also credits State of Colorado support.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "archway-2026-07-08"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Archway Investment Corporation (Archway Communities)",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "Creekside LLLP (general partner Creekside GP LLC)",
+   "src": [
+    "denver-rr26-0178"
+   ]
+  },
+  {
+   "role": "Land owner (community land trust)",
+   "name": "Urban Land Conservancy (ULC CLT, LLC)",
+   "src": [
+    "denver-jody-assignment",
+    "ulc-creekside"
+   ]
+  },
+  {
+   "role": "Special limited partner",
+   "name": "Denver Housing Authority (planned)",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "archway-2026-07-08"
+   ]
+  },
+  {
+   "role": "Cost estimator",
+   "name": "Calcon (2024 estimate; final general contractor not confirmed)",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "Prior owner of improvements",
+   "name": "Sheridan Homes, LLC (c/o NEWSED)",
+   "src": [
+    "denver-jody-assignment"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Sheridan Homes, LLC (c/o NEWSED) bought a leasehold interest in the Jody Apartments in 2007 with a Denver HOME loan ($750,000, later raised to $923,100), while the land was deeded to ULC CLT, LLC; a 40-year affordability covenant was recorded on 2008-01-03 and ran to 2048.",
+   "src": [
+    "denver-jody-assignment"
+   ]
+  },
+  {
+   "text": "On or about 2023-07-27 Sheridan repaid the city loan and sold the improvements to Archway Jody Acquisition LLC; City Council approved the assignment on 2024-01-16 (resolution 23-1673), tolling the remaining covenant term from 2023-07-27 until a final certificate of occupancy for the redevelopment. The sale price was not found.",
+   "src": [
+    "denver-jody-assignment",
+    "denver-rr23-1673"
+   ]
+  },
+  {
+   "text": "The old building had 62 units; Archway relocated all 50 remaining households under the federal Uniform Relocation Act (completed November 2023), finished asbestos abatement in June 2024 and then demolished it.",
+   "src": [
+    "denver-host-2026-06-11",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "A CDPHE Voluntary Cleanup Program application was accepted with no further action, opening Brownfields tax credit opportunities, per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study shows a 15.9% overall capture rate (39.2% at 60% AMI) and 29 tax credit properties in the market area; the analyst flagged units smaller than comparables and a high share of three-bedroom units.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "Council member Torres of District 3 supported the project, and Archway met with West Denver Renaissance Collaborative, Servicios de la Raza, Lifespan Local and the Denver Indian Center, per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application had planned a financing close in the second quarter of 2025; the groundbreaking came in 2026.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "denver-host-2026-06-11"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2007-12-20",
+   "event": "Land deeded to ULC CLT, LLC; Sheridan Homes takes the improvements with a Denver HOME loan",
+   "src": [
+    "denver-jody-assignment"
+   ]
+  },
+  {
+   "date": "2023-07-27",
+   "event": "Archway Jody Acquisition LLC buys the Jody Apartments improvements",
+   "src": [
+    "denver-jody-assignment"
+   ]
+  },
+  {
+   "date": "2023-11",
+   "event": "Relocation of former tenants completed",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-01-16",
+   "event": "City Council approves assignment of the HOME covenant to Archway (resolution 23-1673)",
+   "src": [
+    "denver-rr23-1673"
+   ]
+  },
+  {
+   "date": "2024-06",
+   "event": "Asbestos abatement completed",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-11-27",
+   "event": "CHFA announces 2024 Round Two awards, including Creekside Flats",
+   "src": [
+    "chfa-news-2024-11-27",
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "date": "2026-03-09",
+   "event": "City Council adopts the $7.5M loan agreement (26-0178) and a right-of-way encroachment permit for ULC CLT (26-0212)",
+   "src": [
+    "denver-rr26-0178",
+    "denver-rr26-0212"
+   ]
+  },
+  {
+   "date": "2026-06-11",
+   "event": "Denver announces the groundbreaking",
+   "src": [
+    "denver-host-2026-06-11"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "First residents expected",
+   "src": [
+    "archway-2026-07-08"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Civil site exhibit for storm pipe and retaining wall encroachment",
+   "url": "https://denver.legistar1.com/denver/attachments/93833667-debd-49d5-8e33-ea2523d4b701.pdf",
+   "kind": "site plan",
+   "made_by": "Project civil engineer for Shopworks Architecture, via City and County of Denver encroachment file 2025-ENCROACHMENT-0000019",
+   "note": "PDF page 7 (plan sheet showing the Denver-Lakewood line, Dry Gulch and floodplain); legal description exhibits pages 8-10",
+   "src": [
+    "denver-encroachment-2026"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA, the City of Denver and the application place the project in Denver's Villa Park, while Archway's groundbreaking post describes it as serving the Lakewood community.",
+   "src": [
+    "chfa-2024-r2-descriptions",
+    "denver-host-2026-06-11",
+    "archway-2026-07-08"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Exact financing closing date, equity investor and credit price, bond purchaser, and total development cost.",
+  "Price Archway paid Sheridan Homes for the Jody Apartments improvements in 2023.",
+  "Ground lease terms with ULC.",
+  "General contractor (Calcon priced the 2024 design) and building permit numbers.",
+  "Whether the FHLB grant, HUD Community Project Funding and any Division of Housing money were awarded."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Federal 4% and Accelerated State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-11-26",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-descriptions",
+   "title": "2024 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (Creekside Flats, PDF pages 46-50)",
+   "publisher": "CHFA",
+   "date": "2024-08",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-news-2024-11-27",
+   "title": "CHFA Announces 2024 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2024-11-27",
+   "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards"
+  },
+  {
+   "id": "denver-jody-assignment",
+   "title": "Second Amendment, Assignment, and Assumption Agreement, Sheridan Homes LLC and Archway Jody Acquisition LLC (attachment to resolution 23-1673)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2023",
+   "url": "https://denver.legistar1.com/denver/attachments/5fe43a7b-75fe-4ed7-9077-ace7e812f487.pdf"
+  },
+  {
+   "id": "denver-rr23-1673",
+   "title": "Resolution 23-1673 (signed), assignment of affordable housing obligations at 5375 West 10th Avenue",
+   "publisher": "City and County of Denver",
+   "date": "2024-01-16",
+   "url": "https://denver.legistar1.com/denver/attachments/86c31953-074c-4805-a80c-ee1eba4f28e1.pdf"
+  },
+  {
+   "id": "denver-rr26-0178",
+   "title": "Loan Agreement (Linkage Fee), City and County of Denver and Archway Investment Corporation, Inc., HOST-202683228 (attachment to resolution 26-0178)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2026",
+   "url": "https://denver.legistar1.com/denver/attachments/e4b0d155-bcec-494f-9223-e1b6b00e04d8.pdf"
+  },
+  {
+   "id": "denver-rr26-0212",
+   "title": "Resolution 26-0212, revocable encroachment permit to ULC CLT, LLC at 5375 West 10th Avenue (filed resolution)",
+   "publisher": "City and County of Denver",
+   "date": "2026-03-09",
+   "url": "https://denver.legistar1.com/denver/attachments/988c7fd9-dc36-443e-867f-6fcfd3d1bb03.pdf"
+  },
+  {
+   "id": "denver-encroachment-2026",
+   "title": "2025-ENCROACHMENT-0000019 supplemental documents, Tier III AHRT 5375 W 10th Ave (attachment to resolution 26-0212)",
+   "publisher": "City and County of Denver, Department of Transportation and Infrastructure",
+   "date": "2026-02-19",
+   "url": "https://denver.legistar1.com/denver/attachments/93833667-debd-49d5-8e33-ea2523d4b701.pdf"
+  },
+  {
+   "id": "denver-host-2026-06-11",
+   "title": "Denver Celebrates Groundbreaking of Creekside Flats, a 150-Unit Affordable Housing Community at Sheridan Station",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2026-06-11",
+   "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/Denver-Celebrates-Groundbreaking-of-Creekside-Flats-a-150%E2%80%91Unit-Affordable-Housing-Community-at-Sheridan-Station"
+  },
+  {
+   "id": "archway-2026-07-08",
+   "title": "Archway Breaks Ground on Creekside Flats, New Affordable Housing in Denver",
+   "publisher": "Archway Communities",
+   "date": "2026-07-08",
+   "url": "https://archwaycommunities.org/archway-breaks-ground-on-creekside-flats/"
+  },
+  {
+   "id": "ulc-creekside",
+   "title": "Creekside Flats",
+   "publisher": "Urban Land Conservancy",
+   "date": "2024-11-18",
+   "url": "https://urbanlandc.org/place/creekside-flats/"
+  }
+ ]
+}

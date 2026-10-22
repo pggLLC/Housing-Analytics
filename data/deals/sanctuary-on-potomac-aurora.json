@@ -502,14 +502,14 @@
    "title": "City of Aurora open data, building permits layer (Multi-Family Building), query for property 1280 S Potomac St (queried 2026-10-21)",
    "publisher": "City of Aurora",
    "date": "2026-10-21",
-   "url": "https://ags.auroragov.org/aurora/rest/services/OpenData/MapServer/44/query?where=PropertyRSN%3D236791&outFields=Permit_%2CInDate%2CIssueDate%2CSubDesc%2CFolderDescription%2CAddress%2Cvaluation&returnGeometry=false&f=html"
+   "url": "https://ags.auroragov.org/aurora/rest/services/OpenData/MapServer/44/query?where=PropertyRSN%3D236791&outFields=Permit_%2CInDate%2CIssueDate%2CSubDesc%2CFolderDescription%2CAddress%2Cvaluation&returnGeometry=false&f=html&outSR=4326"
   },
   {
    "id": "aurora-co-2026",
    "title": "City of Aurora open data, Certificate of Occupancy 2026 layer, query for S Potomac St addresses (queried 2026-10-21)",
    "publisher": "City of Aurora",
    "date": "2026-10-21",
-   "url": "https://ags.auroragov.org/aurora/rest/services/AuroraBuilding2/MapServer/29/query?where=ADDRESS+LIKE+%27%25POTOMAC%25%27&outFields=ADDRESS%2CCO_ISSUED%2CCO_DATE%2CSUBDIVISION_NAME&returnGeometry=false&f=html"
+   "url": "https://ags.auroragov.org/aurora/rest/services/AuroraBuilding2/MapServer/29/query?where=ADDRESS+LIKE+%27%25POTOMAC%25%27&outFields=ADDRESS%2CCO_ISSUED%2CCO_DATE%2CSUBDIVISION_NAME&returnGeometry=false&f=html&outSR=4326"
   }
  ]
 }

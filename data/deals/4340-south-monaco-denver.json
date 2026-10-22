@@ -1,0 +1,651 @@
+{
+ "slug": "4340-south-monaco-denver",
+ "name": "4340 South Monaco (Lofts on Monaco)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2024 Federal 4% and state housing tax credits (Round Two)",
+ "units": 143,
+ "researched_on": "2026-10-21",
+ "headline": "Shea Properties converted a vacant 124,000 sq ft, four-story 2001 office building at 4340 S. Monaco Street near the Denver Tech Center into 143 income-restricted apartments for households at 30% to 70% AMI, financed with 2024 Round Two federal 4% and accelerated state credits and $26.6M of City and County of Denver bonds; it opened as Lofts on Monaco in June 2026.",
+ "why_it_matters": "It is the Denver region's first post-pandemic office-to-affordable conversion to reach completion, and the application shows the pieces that made it work: a preserved DDA basis boost, a seller carryback note, a Denver Housing Authority tax-exemption partnership and bond cap pooled from Denver, Centennial and Englewood.",
+ "status": {
+  "label": "Completed and leasing (opened June 2026)",
+  "detail": "BusinessDen reported that Lofts on Monaco opened in mid-June 2026, and the general contractor JHL Constructors announced the grand opening on 2026-07-27 with residents moving in. Shea closed on the building purchase in April 2025 and did the conversion over about a year.",
+  "src": [
+   "bden-2026-07-31",
+   "jhl-2026-07-27",
+   "bden-2025-04-15"
+  ]
+ },
+ "next_step": "Watch for CHFA's placed-in-service record (8609s) and stabilized occupancy, and for the permanent loan conversion of the Denver bonds.",
+ "key_numbers": [
+  {
+   "value": "143 homes, all income-restricted",
+   "meaning": "23 studios, 89 one-bedroom, 25 two-bedroom, 3 three-bedroom and 3 four-bedroom units, at 30%, 60% and 70% AMI with income averaging.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$2,349,010 a year in federal 4% credit",
+   "meaning": "About $23.5M over 10 years, plus $1,800,000 of accelerated state credit; the application priced total credit equity at $28.07M ($19.97M federal, $8.1M state).",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "value": "$26,600,000 in City and County of Denver bonds",
+   "meaning": "Denver is the issuer (council authorized up to $29M, Series 2025A and 2025B); the application says the cap came from Denver ($17.7M), Centennial ($6.7M) and Englewood ($2.1M).",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "denver-cb25-0165"
+   ]
+  },
+  {
+   "value": "About $55.3M total cost, $386,800 per unit",
+   "meaning": "Per the application, including a $12M building purchase (BusinessDen) partly financed by a $9.84M seller carryback note.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "bden-2025-04-15"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "4340 S. Monaco Street, Denver 80237 (Southmoor Park statistical neighborhood, next to the Denver Tech Center, across the street from Cherry Hills Village)",
+   "src": [
+    "chfa-2024-r2-award",
+    "denver-rezone-cc-pres",
+    "bden-2024-07-16"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new, family in the award report; the applicant report and the CHFA letter of intent list it as acquisition/rehab",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-applicants",
+    "denver-chfa-loi"
+   ]
+  },
+  {
+   "item": "Existing building",
+   "value": "Four-story, about 124,000 sq ft precast concrete office building built in 2001, formerly occupied by Invesco, vacant about six years; about 176 surface spaces plus access to about 285 garage spaces",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "trd-2024-11-06"
+   ]
+  },
+  {
+   "item": "Conversion scope",
+   "value": "Interior demolition and rebuild: new mechanical, plumbing, electrical and fire sprinkler systems, elevator upgrades, roof resealed; existing windows and exterior kept. Change of use to Type IIB construction",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Rezoned from B-4 with waivers and conditions (UO-1, UO-2) to PUD-G 34 for the 12.58-acre 4340-4350 S. Monaco parcel (case 2024I-00027, Council Bill 24-0617), passed 2024-08-12",
+   "src": [
+    "denver-cb24-0617",
+    "denver-rezone-cc-pres"
+   ]
+  },
+  {
+   "item": "Owner/borrower entity",
+   "value": "4340 South Monaco, LLC",
+   "src": [
+    "denver-cb25-0165"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Denver Housing Authority named as special limited partner, per the application",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Energy and services",
+   "value": "All-electric design, Enterprise Green Communities and Energy Star; resident services with a local YMCA (after-school, nutrition, wellness, financial planning)",
+   "src": [
+    "chfa-2024-r2-descriptions",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "Less than 1 mile from Belleview light rail and bus station, per the application",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "The site was in a Difficult Development Area that expired at the end of 2023; a bond application filed with Denver on 2023-12-11 preserved the 30% basis boost (worth about $4M) until December 2025",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 16
+  },
+  {
+   "level": "60% AMI",
+   "units": 80
+  },
+  {
+   "level": "70% AMI",
+   "units": 47
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "Studio",
+   "units": 23
+  },
+  {
+   "type": "1BR",
+   "units": 89
+  },
+  {
+   "type": "2BR",
+   "units": 25
+  },
+  {
+   "type": "3BR",
+   "units": 3
+  },
+  {
+   "type": "4BR",
+   "units": 3
+  }
+ ],
+ "mix_src": [
+  "chfa-2024-r2-descriptions",
+  "chfa-2024-r2-narratives",
+  "denver-pab-inducement"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,349,010 per year",
+   "note": "2024 Round Two; the CHFA letter of intent had estimated $2,405,000.",
+   "src": [
+    "chfa-2024-r2-award",
+    "denver-chfa-loi"
+   ]
+  },
+  {
+   "source": "Colorado accelerated state housing tax credit",
+   "amount": "$1,800,000",
+   "note": "Application projects $8,100,000 of state credit equity; this is the sponsor's first deal using state credits.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt multifamily housing revenue bonds",
+   "amount": "$26,600,000",
+   "note": "City and County of Denver is the issuer. Council adopted an inducement resolution (24-1446) on 2024-11-04 and passed a bond ordinance (CB25-0165, Series 2025A and 2025B, not to exceed $29M) on 2025-03-03. The application had Zions buying the bonds by private placement and keeping $20,975,000 as the permanent loan; the ordinance names Stifel, Nicolaus as underwriter, U.S. Bank Trust Company as trustee and Lument Real Estate Capital as permanent lender.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-narratives",
+    "denver-pab-inducement",
+    "denver-cb25-0165"
+   ]
+  },
+  {
+   "source": "Seller carryback note",
+   "amount": "$9,842,500",
+   "note": "Subordinate note from the seller, paid off at permanent conversion, per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Taxable construction loan",
+   "amount": "$2,015,000",
+   "note": "Per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Shea Properties subordinate gap loan",
+   "amount": "$1,930,000",
+   "note": "Paid down to $984,000 at conversion, cash-flow payments, per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "$3,755,461 at permanent",
+   "note": "Per the application.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "source": "Other public funds",
+   "amount": "None",
+   "note": "The application says no past local, state or federal resources were invested in the project.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Shea Properties",
+   "src": [
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "role": "Owner/borrower entity",
+   "name": "4340 South Monaco, LLC",
+   "src": [
+    "denver-cb25-0165"
+   ]
+  },
+  {
+   "role": "Management company",
+   "name": "Shea Properties",
+   "src": [
+    "denver-chfa-loi"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "City and County of Denver (Department of Housing Stability)",
+   "src": [
+    "chfa-2024-r2-award",
+    "denver-cb25-0165"
+   ]
+  },
+  {
+   "role": "Special limited partner",
+   "name": "Denver Housing Authority",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "JHL Constructors",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "jhl-2026-07-27"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Davis Partnership",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "jhl-2026-07-27"
+   ]
+  },
+  {
+   "role": "Prior owner (seller)",
+   "name": "Orion Office REIT",
+   "src": [
+    "trd-2024-11-06"
+   ]
+  },
+  {
+   "role": "Bond underwriter, trustee, permanent lender (per bond ordinance)",
+   "name": "Stifel, Nicolaus & Company; U.S. Bank Trust Company, N.A.; Lument Real Estate Capital",
+   "src": [
+    "denver-cb25-0165"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Shea submitted conversion plans to Denver in February 2024 and was then under contract to buy the building, next door to its 140-unit Tangent Apartments (built 2019).",
+   "src": [
+    "bden-2024-03-13",
+    "villager-2024-03-20"
+   ]
+  },
+  {
+   "text": "Shea closed on the building in April 2025 for $12 million, about $97 per sq ft, per public records cited by BusinessDen. The Real Deal names the seller as Orion Office REIT.",
+   "src": [
+    "bden-2025-04-15",
+    "trd-2024-11-06"
+   ]
+  },
+  {
+   "text": "The rezoning was first heard on 2024-06-17 but sent back because three Cherry Hills Village homes within 200 feet had not been notified. Cherry Hills Village's mayor objected (letter dated June 12, 2024) that residents would be stranded without transit, groceries or medical care, and the Greenwood Village mayor also wrote. The re-noticed bill passed 13-0 on 2024-08-12.",
+   "src": [
+    "bden-2024-07-16",
+    "denver-cb24-0617",
+    "bden-2024-08-14",
+    "denver-rezone-cc-pres"
+   ]
+  },
+  {
+   "text": "The PUD-G 34 covers the whole 12.58-acre parcel, including a second office building to the south that Shea did not buy; existing structures follow S-CC-5 form standards with height and setback flexibility, and new construction would follow S-MX-5.",
+   "src": [
+    "denver-rezone-cc-pres",
+    "bden-2024-07-16"
+   ]
+  },
+  {
+   "text": "The project went through Denver's Affordable Housing Review Team (AHRT) process; the planning office recommended approval and recorded four supporting and two opposing comments.",
+   "src": [
+    "denver-rezone-cc-pres"
+   ]
+  },
+  {
+   "text": "The application cites a 3.6% capture rate, with only three existing non-Section 8 family LIHTC properties in a 38-tract market area, and says no threshold basis waiver was needed.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application says the project would be infeasible without a 2024 state credit award because the preserved DDA boost would expire in December 2025.",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "text": "No project-based vouchers or homeless set-aside are described.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "chfa-2024-r2-descriptions"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-12-11",
+   "event": "Bond application filed with the City and County of Denver, preserving the DDA basis boost",
+   "src": [
+    "chfa-2024-r2-narratives"
+   ]
+  },
+  {
+   "date": "2024-02",
+   "event": "Conversion plans submitted to Denver",
+   "src": [
+    "bden-2024-03-13"
+   ]
+  },
+  {
+   "date": "2024-05-01",
+   "event": "Denver Planning Board public hearing on rezoning case 2024I-00027",
+   "src": [
+    "denver-rezone-cc-pres"
+   ]
+  },
+  {
+   "date": "2024-06-17",
+   "event": "Council hearing; bill sent back to committee to cure notice defects",
+   "src": [
+    "denver-cb24-0617"
+   ]
+  },
+  {
+   "date": "2024-08-12",
+   "event": "City Council passes the rezoning, Council Bill 24-0617, 13-0",
+   "src": [
+    "denver-cb24-0617",
+    "bden-2024-08-14"
+   ]
+  },
+  {
+   "date": "2024-11-04",
+   "event": "City Council adopts PAB inducement resolution 24-1446 (up to $29M)",
+   "src": [
+    "denver-pab-inducement"
+   ]
+  },
+  {
+   "date": "2024-11-27",
+   "event": "CHFA announces 2024 Round Two awards, including 4340 South Monaco",
+   "src": [
+    "chfa-news-2024-11-27",
+    "chfa-2024-r2-award"
+   ]
+  },
+  {
+   "date": "2025-03-03",
+   "event": "City Council passes bond ordinance CB25-0165 (Series 2025A and 2025B); city announces the approval 2025-03-04",
+   "src": [
+    "denver-cb25-0165",
+    "denver-host-2025-03-04"
+   ]
+  },
+  {
+   "date": "2025-04",
+   "event": "Shea closes on the building for $12 million",
+   "src": [
+    "bden-2025-04-15"
+   ]
+  },
+  {
+   "date": "2026-06",
+   "event": "Lofts on Monaco opens to residents (mid-June)",
+   "src": [
+    "bden-2026-07-31"
+   ]
+  },
+  {
+   "date": "2026-07-27",
+   "event": "Grand opening announced by JHL Constructors",
+   "src": [
+    "jhl-2026-07-27"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Existing site context photos and zoning maps",
+   "url": "https://denver.legistar1.com/denver/attachments/7ed83a45-d3f4-4b11-ade6-9dbc14d0ac67.pdf",
+   "kind": "photo",
+   "made_by": "City and County of Denver, Community Planning and Development",
+   "note": "Rezoning hearing presentation: location map page 3, existing zoning pages 7-8, existing context photos pages 9-10",
+   "src": [
+    "denver-rezone-cc-pres"
+   ]
+  },
+  {
+   "title": "Photo of 4340 S. Monaco Street before conversion",
+   "url": "https://villagerpublishing.com/shea-homes-plans-to-convert-a-dtc-office-building-to-affordable-housing/",
+   "kind": "photo",
+   "made_by": "Freda Miklin, The Villager",
+   "note": "Article photo of the building with the neighboring Tangent Apartments",
+   "src": [
+    "villager-2024-03-20"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA's award report codes the project as new construction, while CHFA's applicant report and the CHFA letter of intent list it as acquisition/rehab.",
+   "src": [
+    "chfa-2024-r2-award",
+    "chfa-2024-r2-applicants",
+    "denver-chfa-loi"
+   ]
+  },
+  {
+   "text": "The Real Deal reported in November 2024 that Shea bought the property in spring 2024, while BusinessDen reported the purchase closed in April 2025 for $12 million and The Villager described Shea as under contract in March 2024.",
+   "src": [
+    "trd-2024-11-06",
+    "bden-2025-04-15",
+    "villager-2024-03-20"
+   ]
+  },
+  {
+   "text": "The application names Zions as bond purchaser and permanent lender, while the bond ordinance names Lument Real Estate Capital as permanent lender and Stifel, Nicolaus as underwriter.",
+   "src": [
+    "chfa-2024-r2-narratives",
+    "denver-cb25-0165"
+   ]
+  },
+  {
+   "text": "The Real Deal says Shea secured $6 million of private activity bonds allocated by Denver's housing department, while the application says Denver allocated $17.7 million of bond cap.",
+   "src": [
+    "trd-2024-11-06",
+    "chfa-2024-r2-narratives"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Exact bond closing date and final bond amounts for Series 2025A and 2025B.",
+  "Final total development cost, equity investor and credit price.",
+  "Terms of the Denver Housing Authority partnership and the length of the CHFA and city affordability covenants.",
+  "Rents, lease-up pace and whether the RTD bus stop next to the site was reinstated.",
+  "Exact construction start date and building permit numbers."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Federal 4% and Accelerated State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024-11-26",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-descriptions",
+   "title": "2024 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2024-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2024-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2024-r2-narratives",
+   "title": "2024 Round Two Narratives (4340 S Monaco Apartments, PDF pages 26-30)",
+   "publisher": "CHFA",
+   "date": "2024-08",
+   "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-applicants",
+   "title": "2024 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-news-2024-11-27",
+   "title": "CHFA Announces 2024 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2024-11-27",
+   "url": "https://www.chfainfo.com/chfa-news/11272024-2024-htc-round-two-awards"
+  },
+  {
+   "id": "denver-chfa-loi",
+   "title": "4340 S Monaco, 2024 LOI - Round Two Federal 4% and State (attachment to Council Bill 24-0617)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2024",
+   "url": "https://denver.legistar1.com/denver/attachments/767e683c-c056-4d63-b7ea-a63a49227b30.pdf"
+  },
+  {
+   "id": "denver-rezone-cc-pres",
+   "title": "4340-4350 S Monaco Street rezoning, case 2024i00027, City Council hearing presentation",
+   "publisher": "City and County of Denver, Community Planning and Development",
+   "date": "2024-06-17",
+   "url": "https://denver.legistar1.com/denver/attachments/7ed83a45-d3f4-4b11-ade6-9dbc14d0ac67.pdf"
+  },
+  {
+   "id": "denver-cb24-0617",
+   "title": "Council Bill 24-0617, ordinance changing the zoning classification for 4340-4350 South Monaco Street (signed)",
+   "publisher": "City and County of Denver",
+   "date": "2024-08-13",
+   "url": "https://denver.legistar1.com/denver/attachments/5613c85b-5b7d-40e3-b1db-85b74f7955ba.pdf"
+  },
+  {
+   "id": "denver-pab-inducement",
+   "title": "Private Activity Bond Inducement: 4340 South Monaco Apartments (RR24-1446 committee presentation)",
+   "publisher": "City and County of Denver, Department of Finance",
+   "date": "2024-10-22",
+   "url": "https://denver.legistar1.com/denver/attachments/9e013c1f-d25d-46a0-a4c6-fb37fd71f43b.pdf"
+  },
+  {
+   "id": "denver-cb25-0165",
+   "title": "Council Bill 25-0165, ordinance authorizing up to $29,000,000 Multifamily Housing Revenue Bonds (4340 South Monaco Project) Series 2025A and 2025B (signed)",
+   "publisher": "City and County of Denver",
+   "date": "2025-03-06",
+   "url": "https://denver.legistar1.com/denver/attachments/830e7d27-fec1-43a7-a444-70df74d90aa2.pdf"
+  },
+  {
+   "id": "denver-host-2025-03-04",
+   "title": "Denver Approves Private Activity Bonds for 4340 South Monaco Project",
+   "publisher": "City and County of Denver, Department of Housing Stability",
+   "date": "2025-03-04",
+   "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/News/Denver-Approves-up-to-29-Million-in-Private-Activity-Bonds-for-4340-South-Monaco-Project"
+  },
+  {
+   "id": "bden-2024-03-13",
+   "title": "Developer seeks financing to convert DTC office into income-restricted housing",
+   "publisher": "BusinessDen",
+   "date": "2024-03-13",
+   "url": "https://businessden.com/2024/03/13/developer-seeks-financing-to-convert-dtc-office-into-income-restricted-housing/"
+  },
+  {
+   "id": "villager-2024-03-20",
+   "title": "Shea Properties plans to convert a DTC office building to affordable housing",
+   "publisher": "The Villager",
+   "date": "2024-03-20",
+   "url": "https://villagerpublishing.com/shea-homes-plans-to-convert-a-dtc-office-building-to-affordable-housing/"
+  },
+  {
+   "id": "bden-2024-07-16",
+   "title": "'You're stranding low-income families': Cherry Hills mayor objects to Denver rezone",
+   "publisher": "BusinessDen",
+   "date": "2024-07-16",
+   "url": "https://old.businessden.com/?p=121359"
+  },
+  {
+   "id": "bden-2024-08-14",
+   "title": "Council rezone vote paves way for DTC office-to-residential conversion",
+   "publisher": "BusinessDen",
+   "date": "2024-08-14",
+   "url": "https://businessden.com/shea-properties-4340-monaco-denver-project/"
+  },
+  {
+   "id": "trd-2024-11-06",
+   "title": "Shea OK'd for $29M public bond for office-home conversion in Denver",
+   "publisher": "The Real Deal",
+   "date": "2024-11-06",
+   "url": "https://therealdeal.com/national/denver/2024/11/06/shea-okd-for-29m-public-bond-for-denver-conversion-project/"
+  },
+  {
+   "id": "bden-2025-04-15",
+   "title": "Shea pays $12M for DTC office slated for residential conversion",
+   "publisher": "BusinessDen",
+   "date": "2025-04-15",
+   "url": "https://businessden.com/2025/04/15/shea-pays-12m-for-dtc-office-slated-for-residential-conversion/"
+  },
+  {
+   "id": "bden-2026-07-31",
+   "title": "DTC office conversion project welcomes first residents",
+   "publisher": "BusinessDen",
+   "date": "2026-07-31",
+   "url": "https://businessden.com/dtc-office-conversion-project-welcomes-first-residents/"
+  },
+  {
+   "id": "jhl-2026-07-27",
+   "title": "Grand Opening of The Lofts on Monaco",
+   "publisher": "JHL Constructors",
+   "date": "2026-07-27",
+   "url": "https://www.jhlconstructors.com/grand-opening-of-the-lofts-on-monaco/"
+  }
+ ]
+}

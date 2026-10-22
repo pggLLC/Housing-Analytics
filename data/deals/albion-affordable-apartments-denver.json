@@ -1,0 +1,509 @@
+{
+ "slug": "albion-affordable-apartments-denver",
+ "name": "Albion Affordable Apartments (Rise at University Hills)",
+ "city": "Denver",
+ "county": "Denver",
+ "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+ "units": 169,
+ "researched_on": "2026-10-21",
+ "headline": "Delwest Development is building Albion Affordable Apartments, now marketed as Rise at University Hills: about 170 two- to four-bedroom family apartments for households at 30% to 70% AMI at South Albion Street and East Iliff Avenue near RTD's Colorado Station, with an on-site early childhood center; it won 2023 Round Two federal 4% and state credits with $43.75M of CHFA bonds and is due for completion in summer 2027.",
+ "why_it_matters": "It is a rare family-sized (no studios or one-bedrooms) tax credit deal in a high-cost, high-opportunity part of southeast Denver, assembled from four commercial parcels with a $6.76M city land acquisition loan and a city all-electric rebate.",
+ "status": {
+  "label": "Under construction per the developer (page dated 2026-10-07); completion expected summer 2027",
+  "detail": "Delwest closed on the land in October 2024 and its project page, published 2026-10-07, says the seven-story building is under construction with completion in summer 2027. The city extended the deadline for completing the project to 2027-11-01 in May 2025 and signed a heat pump rebate agreement in December 2025. No financing closing or groundbreaking date was found.",
+  "src": [
+   "businessden-2024-11-07",
+   "delwest-rise",
+   "denver-rr25-0644-amend",
+   "denver-rr25-1808-heat"
+  ]
+ },
+ "next_step": "Watch Denver permit and inspection records for 2280 S. Albion Street and for lease-up notices in 2027.",
+ "key_numbers": [
+  {
+   "value": "169 homes, all income-restricted",
+   "meaning": "124 two-bedroom, 29 three-bedroom and 16 four-bedroom units: 27 at 30% AMI, 61 at 60% and 81 at 70%.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "value": "$3,770,714 a year in federal 4% credit",
+   "meaning": "About $37.7M over 10 years, plus $1,100,000 of state credit.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "value": "$43,750,000 in CHFA bonds",
+   "meaning": "CHFA is the issuer; the application also planned $29.8M of CHFA permanent loans.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "$6.76M Denver land loan",
+   "meaning": "Linkage-fee loan at 1% simple interest, repaid from cash flow over 40 years, with a 99-year affordability covenant.",
+   "src": [
+    "denver-rr24-1127-loan"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "Northeast corner of S. Albion St and E. Iliff Ave, Denver 80222 (CHFA); 2222 to 2280 S. Albion Street (city loan); University Hills neighborhood, Council District 4",
+   "src": [
+    "chfa-2023-r2-award",
+    "denver-rr24-1127-loan",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Name",
+   "value": "Marketed as Rise at University Hills",
+   "src": [
+    "delwest-rise"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Five stories of wood frame over a two-story concrete podium with structured parking (seven stories), nine two-story four-bedroom townhomes along Albion Street, a 10,000 sq ft clubhouse and a small commercial space; about 114 units per acre",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "delwest-rise"
+   ]
+  },
+  {
+   "item": "Early childhood center",
+   "value": "Licensed space for an early childhood center with Wildflower Schools at a $1-a-year lease, with preference for children eligible for the Colorado Child Care Assistance Program and Universal Preschool; Boys & Girls Clubs of Metro Denver programming planned",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Owner entity",
+   "value": "Albion Apartments LLLP; Albion Apartments LLC is an affiliate controlled through the same sole member",
+   "src": [
+    "denver-rr24-1127-loan",
+    "denver-rr25-1808-heat"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Existing zoning allows the use; plans reviewed under Denver's Affordable Housing Review Team, per the application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Denver Housing Authority property tax abatement anticipated, per the application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Transit",
+   "value": "About 0.2 miles from RTD's Colorado Station; RTD passes for all residents",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Affordability term",
+   "value": "Denver rental and occupancy covenant of 99 years from recording",
+   "src": [
+    "denver-rr24-1127-loan"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 27
+  },
+  {
+   "level": "60% AMI",
+   "units": 61
+  },
+  {
+   "level": "70% AMI",
+   "units": 81
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "2BR",
+   "units": 124
+  },
+  {
+   "type": "3BR",
+   "units": 29
+  },
+  {
+   "type": "4BR",
+   "units": 16
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r2-descriptions",
+  "chfa-2023-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$3,770,714 per year",
+   "note": "2023 Round Two; the application budgeted $33.7M of federal credit equity.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,100,000",
+   "note": "The application budgeted $4.6M of state credit equity.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$43,750,000",
+   "note": "CHFA is the issuer; the application listed up to $29.21M of construction loans and $29.8M of CHFA permanent loans.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "Construction loan",
+   "amount": "$58,000,000 (form agreement)",
+   "note": "The city's May 2025 loan amendment attaches a subordination form naming Wells Fargo Bank as senior lender on a $58M convertible construction loan dated 2025; the city caps senior debt at $58M construction and $33M permanent.",
+   "src": [
+    "denver-rr25-0644-amend",
+    "denver-rr24-1127-loan"
+   ]
+  },
+  {
+   "source": "City and County of Denver loan (linkage fee)",
+   "amount": "$6,760,000",
+   "note": "For land acquisition; 1% simple interest, cash-flow payments, 40-year maturity; resolution 24-1127 adopted 2024-09-23; note dated 2024-10-07 and deed of trust recorded 2024-10-08; amended by resolution 25-0644 on 2025-05-19 to change transfer, cure and notice terms and set a 2027-11-01 completion date.",
+   "src": [
+    "denver-rr24-1127-loan",
+    "denver-rr24-1127",
+    "denver-rr25-0644-amend"
+   ]
+  },
+  {
+   "source": "Denver all-electric affordable housing rebate",
+   "amount": "$600,000",
+   "note": "Office of Climate Action, Sustainability and Resiliency pilot rebate for heat pump equipment; resolution 25-1808 adopted 2025-12-22; work to be completed within 36 months.",
+   "src": [
+    "denver-rr25-1808-heat"
+   ]
+  },
+  {
+   "source": "Other sources named in the application",
+   "amount": "Not public",
+   "note": "The application sought $7.68M each from Denver and the Colorado Division of Housing and deferred $3.7M (45%) of developer fee; no Division of Housing award was found.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Delwest Development Corporation",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Owner entity",
+   "name": "Albion Apartments LLLP",
+   "src": [
+    "denver-rr24-1127-loan"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Construction lender (per subordination form)",
+   "name": "Wells Fargo Bank, N.A.",
+   "src": [
+    "denver-rr25-0644-amend"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Delwest Management Corp.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Early childhood partner (planned)",
+   "name": "Wildflower Schools",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Youth programs partner (planned)",
+   "name": "Boys & Girls Clubs of Metro Denver",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The site assembles four occupied parcels with one-story 1950s-60s commercial buildings (2222, 2236-2250 and 2280 S. Albion Street) from three sellers; a fifth parcel at 4175 E. Iliff Ave was dropped because of its different zoning, per the application.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "Delwest closed on the roughly 1.5-acre site in October 2024 for $7.5 million, per BusinessDen.",
+   "src": [
+    "businessden-2024-11-07"
+   ]
+  },
+  {
+   "text": "Albion Apartments LLLP deeded two small corner parcels to the city on 2025-02-13 for South Albion Street and East Iliff Avenue right-of-way; council accepted the dedication on 2025-04-07 (resolution 25-0366). The city's summary says the project demolishes four commercial buildings for a mixed-use apartment building.",
+   "src": [
+    "denver-rr25-0366-dedication"
+   ]
+  },
+  {
+   "text": "The 2023 application described gas-fired central boilers designed for later conversion; by December 2025 the owner had signed a city rebate agreement committing to an all-electric building under the 2022 Denver Energy Code.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "denver-rr25-1808-heat"
+   ]
+  },
+  {
+   "text": "The application stressed applying in 2023 because the census tract's Qualified Census Tract status was under review and could be lost.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study's capture rates were 6.4% or lower at every income level; other tax credit properties in the market area were 98% occupied with waiting lists of 36 to 300 households.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The application planned construction from April 2025 to about April 2027 and lease-up by the end of 2027; the contractor estimate was about $294,000 per unit and a basis limit waiver was requested.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2023-06-02",
+   "event": "Phase I environmental site assessment finds no recognized environmental conditions",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-11-15",
+   "event": "CHFA 2023 Round Two award report lists Albion Affordable Apartments",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "date": "2024-09-23",
+   "event": "Council adopts the $6.76M land acquisition loan (24-1127)",
+   "src": [
+    "denver-rr24-1127"
+   ]
+  },
+  {
+   "date": "2024-10",
+   "event": "Land purchase closes for $7.5M",
+   "src": [
+    "businessden-2024-11-07"
+   ]
+  },
+  {
+   "date": "2024-10-08",
+   "event": "City deed of trust and covenant recorded",
+   "src": [
+    "denver-rr25-0644-amend"
+   ]
+  },
+  {
+   "date": "2025-04-07",
+   "event": "Council accepts right-of-way dedication at S. Albion St and E. Iliff Ave (25-0366)",
+   "src": [
+    "denver-rr25-0366-dedication"
+   ]
+  },
+  {
+   "date": "2025-05-19",
+   "event": "Council adopts the loan amendment (25-0644); completion deadline 2027-11-01",
+   "src": [
+    "denver-rr25-0644-amend"
+   ]
+  },
+  {
+   "date": "2025-12-22",
+   "event": "Council adopts the $600,000 all-electric rebate agreement (25-1808)",
+   "src": [
+    "denver-rr25-1808-heat"
+   ]
+  },
+  {
+   "date": "2026-10-07",
+   "event": "Delwest project page describes the building as under construction",
+   "src": [
+    "delwest-rise"
+   ]
+  },
+  {
+   "date": "2027",
+   "event": "Completion expected in summer 2027",
+   "src": [
+    "delwest-rise"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Right-of-way dedication exhibit showing the site's corner parcels",
+   "url": "https://denver.legistar1.com/denver/attachments/972392b7-3600-482d-9eb6-9c609acbf34a.pdf",
+   "kind": "plat",
+   "made_by": "Engineering Service Company for the City and County of Denver, file 2024-DEDICATION-0000064",
+   "note": "PDF page 10 (Exhibit A drawing, Block 102, Warren's University Heights Second Filing); location map page 5; recorded deed pages 7-8",
+   "src": [
+    "denver-rr25-0366-dedication"
+   ]
+  },
+  {
+   "title": "Rise at University Hills exterior renderings",
+   "url": "https://delwest.com/portfolio/rise-at-university-hills/",
+   "kind": "rendering",
+   "made_by": "Delwest (developer's project page)",
+   "note": "West-facing exterior renderings at the top of the page",
+   "src": [
+    "delwest-rise"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists 169 units with 61 at 60% AMI, while the Denver loan agreement, BusinessDen and Delwest describe 170 units, and the loan agreement sets 62 units at 60% AMI.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-descriptions",
+    "denver-rr24-1127-loan",
+    "businessden-2024-11-07",
+    "delwest-rise"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Financing closing date, equity investor and credit price, and total development cost.",
+  "Building permit numbers and the groundbreaking date.",
+  "Whether Denver or the Division of Housing made the $7.68M gap loans sought in the application.",
+  "Whether Denver Housing Authority joined for the property tax exemption.",
+  "General contractor and the operator of the early childhood center."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round Two Federal 4% and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023-11-15",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-descriptions",
+   "title": "2023 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (Albion Affordable Apartments, PDF pages 17-21)",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "denver-rr24-1127-loan",
+   "title": "Loan Agreement (Linkage Fee), City and County of Denver and Albion Apartments LLLP, HOST-202475519 (attachment to 24-1127)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2024-09-25",
+   "url": "https://denver.legistar1.com/denver/attachments/13a74938-f501-431e-9039-8e98ea3e064c.pdf"
+  },
+  {
+   "id": "denver-rr24-1127",
+   "title": "Resolution 24-1127 (signed), loan agreement with Albion Apartments LLLP",
+   "publisher": "City and County of Denver",
+   "date": "2024-09-23",
+   "url": "https://denver.legistar1.com/denver/attachments/e235b4df-1b63-4f42-9e34-d236c730d37f.pdf"
+  },
+  {
+   "id": "businessden-2024-11-07",
+   "title": "Developer planning apartments pays $7.5M for site in University Hills",
+   "publisher": "BusinessDen",
+   "date": "2024-11-07",
+   "url": "https://businessden.com/developer-planning-apartments-pays-7-5m-for-site-in-university-hills/"
+  },
+  {
+   "id": "denver-rr25-0366-dedication",
+   "title": "2024-DEDICATION-0000064, 2280 S Albion, signed request with recorded deed and exhibits (attachment to resolution 25-0366)",
+   "publisher": "City and County of Denver, Department of Transportation and Infrastructure",
+   "date": "2025-04-07",
+   "url": "https://denver.legistar1.com/denver/attachments/972392b7-3600-482d-9eb6-9c609acbf34a.pdf"
+  },
+  {
+   "id": "denver-rr25-0644-amend",
+   "title": "First Amendment to Loan Agreement, Albion Apartments LLLP, vendor signed (attachment to resolution 25-0644)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2025-05-19",
+   "url": "https://denver.legistar1.com/denver/attachments/eb0bfb9f-8682-4936-a4d4-e68954332382.pdf"
+  },
+  {
+   "id": "denver-rr25-1808-heat",
+   "title": "Agreement, Pilot Rebate Program for All-Electric Affordable Housing, Albion Apartments LLC and Albion Apartments LLLP, CASR-202581917 (attachment to resolution 25-1808)",
+   "publisher": "City and County of Denver (Legistar)",
+   "date": "2025-12-22",
+   "url": "https://denver.legistar1.com/denver/attachments/19bb133d-08fd-441f-91bd-87b2859963ca.pdf"
+  },
+  {
+   "id": "delwest-rise",
+   "title": "Rise at University Hills",
+   "publisher": "Delwest",
+   "date": "2026-10-07",
+   "url": "https://delwest.com/portfolio/rise-at-university-hills/"
+  }
+ ]
+}

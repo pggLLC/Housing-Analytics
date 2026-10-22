@@ -1,0 +1,348 @@
+{
+ "slug": "residences-at-willow-park-aurora",
+ "name": "Residences at Willow Park",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2023 Federal 4% housing tax credit",
+ "units": 86,
+ "researched_on": "2026-10-21",
+ "headline": "The Aurora Housing Authority is renovating its 68-unit project-based Section 8 townhome community, Residences at Willow Park at 14001 E. Colorado Drive, and adding a new building on the site, using a 2023-cycle federal 4% credit and $17 million of CHFA bonds for 86 income-restricted homes in total.",
+ "why_it_matters": "A housing authority recapitalization that preserves 100% project-based Section 8 housing and adds new units on the same land; unit counts and bedroom mix differ across public sources and should be checked before relying on them.",
+ "status": {
+  "label": "Rehab and new building targeted for late 2025 to spring 2026; townhome waitlists reopened in 2026; completion not confirmed",
+  "detail": "In October 2025 the housing authority told Aurora's housing policy committee that the new building would be complete by the end of 2025 and the renovation of the 68 existing units by spring 2026. The authority opened waitlists for the three-bedroom townhomes (January 2026) and two-bedroom townhomes (April 2026), and its leasing site welcomes 18 brand-new apartments at Willow Park Flats on the same site. No completion or 8609 record found; the deal is still on CHFA's 4% award report.",
+  "src": [
+   "aurora-hnsr-2025-11-19",
+   "aha-public-notices",
+   "willowpark-leasing",
+   "chfa-4pct-award"
+  ]
+ },
+ "next_step": "Watch Aurora Housing Authority and city committee updates for completion of the renovation and 8609 issuance.",
+ "key_numbers": [
+  {
+   "value": "86 homes, all income-restricted (CHFA)",
+   "meaning": "CHFA lists 66 one- and 20 two-bedroom units: 4 at 30%, 26 at 50% and 56 at 60% AMI; the Section 8 column is marked Yes.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$1,511,893 a year in federal 4% credit",
+   "meaning": "Federal credit runs 10 years; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$17,000,000 in CHFA tax-exempt bonds",
+   "meaning": "CHFA is the bond issuer; whose bond cap is not stated publicly.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "68 existing units rehabbed plus a new building",
+   "meaning": "The housing authority reported 22 new units in October 2025; its leasing site names 18 new apartments at Willow Park Flats.",
+   "src": [
+    "aurora-hnsr-2025-11-19",
+    "willowpark-leasing"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "14001 E. Colorado Drive, Aurora 80012 (leasing office)",
+   "src": [
+    "chfa-4pct-award",
+    "aha-public-notices",
+    "willowpark-leasing"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, new construction and acquisition/rehabilitation; in a QCT; not in a DDA or SADDA; Section 8 column marked Yes",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Existing property",
+   "value": "68 units of project-based Section 8 (PBRA) and tax credit housing in 2- and 3-bedroom units, mostly multi-story townhomes, in 17 buildings; residents pay 30% of adjusted income",
+   "src": [
+    "willowpark-leasing",
+    "given-portfolio",
+    "aha-public-notices"
+   ]
+  },
+  {
+   "item": "Scope",
+   "value": "Complete interior rehab of all 68 existing units and a new three-story walk-up building with updated ADA-compliant apartments; designed to Enterprise Green Communities standards",
+   "src": [
+    "aurora-hnsr-2025-11-19",
+    "given-portfolio"
+   ]
+  },
+  {
+   "item": "Willow Park Flats",
+   "value": "18 brand-new affordable apartments on the same site, managed by the housing authority as a separate property and program",
+   "src": [
+    "willowpark-leasing"
+   ]
+  },
+  {
+   "item": "House rules",
+   "value": "Pet-free and smoke-free community",
+   "src": [
+    "aha-public-notices"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 4
+  },
+  {
+   "level": "50% AMI",
+   "units": 26
+  },
+  {
+   "level": "60% AMI",
+   "units": 56
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 66
+  },
+  {
+   "type": "2BR",
+   "units": 20
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$1,511,893 per year",
+   "note": "Cycle year 2023; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA)",
+   "amount": "$17,000,000",
+   "note": "Whose bond cap is not stated publicly.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Project-based Section 8 (HUD PBRA)",
+   "amount": "Rental subsidy on the existing units",
+   "note": "Contract term and unit count after rehab not public.",
+   "src": [
+    "willowpark-leasing",
+    "given-portfolio",
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it), owner and manager",
+   "name": "Aurora Housing Authority (Housing Authority of the City of Aurora)",
+   "src": [
+    "chfa-4pct-award",
+    "willowpark-leasing"
+   ]
+  },
+  {
+   "role": "Bond issuer and credit allocator",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "MEP engineer",
+   "name": "Given & Associates",
+   "src": [
+    "given-portfolio"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "The housing authority described the project to Aurora's Housing, Neighborhood Services and Redevelopment Policy Committee on 2025-10-15 as an acquisition-rehabilitation of a 100% Section 8 property: a full interior rehab of 68 units plus a new 22-unit building, with the new building due by the end of 2025 and renovations finishing in spring 2026.",
+   "src": [
+    "aurora-hnsr-2025-11-19"
+   ]
+  },
+  {
+   "text": "CHFA's count of 86 units equals the 68 existing units plus the 18 new Willow Park Flats apartments (inferred), even though the housing authority calls the Flats a separate property and program; the October 2025 update instead cited 22 new units.",
+   "src": [
+    "chfa-4pct-award",
+    "willowpark-leasing",
+    "aurora-hnsr-2025-11-19"
+   ]
+  },
+  {
+   "text": "In 2026 the housing authority reopened pre-application waitlists for the three-bedroom townhomes (on-site 2026-01-26 to 2026-01-28) and two-bedroom townhomes (on-site 2026-04-20 to 2026-04-22); the three-bedroom list has since closed.",
+   "src": [
+    "aha-public-notices",
+    "willowpark-leasing"
+   ]
+  },
+  {
+   "text": "The deal does not appear in CHFA's 2023 Round One or Round Two applicant reports or the 2023 Round Two award report.",
+   "src": [
+    "chfa-2023-r1-applicants",
+    "chfa-2023-r2-applicants",
+    "chfa-2023-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2025-10-15",
+   "event": "Housing authority update to Aurora's housing policy committee: new building due end of 2025, rehab due spring 2026",
+   "src": [
+    "aurora-hnsr-2025-11-19"
+   ]
+  },
+  {
+   "date": "2026-01-26",
+   "event": "Three-bedroom townhome waitlist opens",
+   "src": [
+    "aha-public-notices"
+   ]
+  },
+  {
+   "date": "2026-04-20",
+   "event": "Two-bedroom townhome waitlist opens",
+   "src": [
+    "aha-public-notices"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2023 (no 8609s issued yet)",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Residences at Willow Park and Willow Park Flats photos",
+   "url": "https://residences-at-willow-park.rentcafewebsite.com/",
+   "kind": "photo",
+   "made_by": "Aurora Housing Authority leasing site",
+   "note": "Photos page linked from the home page",
+   "src": [
+    "willowpark-leasing"
+   ]
+  },
+  {
+   "title": "Residences at Willow Park project image",
+   "url": "https://www.givenandassociates.com/projects/residences-at-willow-park",
+   "kind": "rendering",
+   "made_by": "Housing Authority of Aurora (credited by Given & Associates)",
+   "note": "Image on the project page",
+   "src": [
+    "given-portfolio"
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "text": "CHFA lists 86 units, while the housing authority's October 2025 update describes 68 existing units plus 22 new units (90), and its leasing site describes 68 units at the Residences plus 18 new units at Willow Park Flats.",
+   "src": [
+    "chfa-4pct-award",
+    "aurora-hnsr-2025-11-19",
+    "willowpark-leasing"
+   ]
+  },
+  {
+   "text": "CHFA lists 66 one-bedroom and 20 two-bedroom units, while the housing authority and its engineer describe the Residences as two- and three-bedroom units.",
+   "src": [
+    "chfa-4pct-award",
+    "willowpark-leasing",
+    "given-portfolio",
+    "aha-public-notices"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Correct unit count and bedroom mix for the tax credit project, and whether Willow Park Flats is inside the credit deal.",
+  "Financing closing date, CHFA loan terms, equity investor, general contractor and total development cost (a May 2024 Sentinel Colorado report cited about $23.9M of CHFA construction-to-permanent financing, but the page could not be retrieved for verification).",
+  "Whose private activity bond cap backs the $17M CHFA bonds.",
+  "Section 8 contract renewal terms and the length of the new affordability covenant.",
+  "Completion date of the renovation and 8609 issuance."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "aurora-hnsr-2025-11-19",
+   "title": "Housing, Neighborhood Services and Redevelopment Policy Committee agenda, November 19, 2025 (incl. draft minutes of October 15, 2025)",
+   "publisher": "City of Aurora",
+   "date": "2025-11-19",
+   "url": "https://www.auroragov.org/common/pages/GetFile.ashx?key=j1dBATGp"
+  },
+  {
+   "id": "aha-public-notices",
+   "title": "Public Notices",
+   "publisher": "Aurora Housing Authority",
+   "date": "2026",
+   "url": "https://www.aurorahousing.org/public-notices"
+  },
+  {
+   "id": "willowpark-leasing",
+   "title": "Residences at Willow Park and Willow Park Flats (leasing site)",
+   "publisher": "Aurora Housing Authority",
+   "date": "2026-10-21",
+   "url": "https://residences-at-willow-park.rentcafewebsite.com/"
+  },
+  {
+   "id": "given-portfolio",
+   "title": "Residences at Willow Park (project page)",
+   "publisher": "Given & Associates",
+   "date": "2026",
+   "url": "https://www.givenandassociates.com/projects/residences-at-willow-park"
+  },
+  {
+   "id": "chfa-2023-r1-applicants",
+   "title": "2023 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round 2 Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  }
+ ]
+}

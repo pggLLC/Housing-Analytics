@@ -1,0 +1,522 @@
+{
+ "slug": "rendezvous-montrose",
+ "name": "Rendezvous",
+ "city": "Montrose",
+ "county": "Montrose",
+ "award": "2023 Federal 4% and state housing tax credits (Round Two)",
+ "units": 52,
+ "researched_on": "2026-10-21",
+ "headline": "Volunteers of America National Services combined a renovation of the 30-unit Pavilion Gardens (converted from family to senior housing) with a new 22-unit building to create Rendezvous, 52 apartments for adults 55+ at 30% to 60% AMI on VOA's Montrose senior campus; it won 2023 Round Two federal 4% and state credits with $10.96M of CHFA bonds, closed and broke ground in October 2024 and opened in September 2025.",
+ "why_it_matters": "It shows how a nonprofit can reposition an under-occupied rural family property into senior housing next to its existing services, using short-term bonds with no permanent bond debt, a foundation PRI in place of a taxable tail, a $2.6M CDBG grant passed through the city and housing authority vouchers and tax exemption.",
+ "status": {
+  "label": "Complete and open (grand opening 2025-09-24)",
+  "detail": "VOANS closed its financing and broke ground in October 2024; the grand opening was held on 2025-09-24, and on 2026-02-03 Montrose City Council held the CDBG closeout hearing, with staff reporting the acquisition completed and renovations finalized.",
+  "src": [
+   "voans-2024-12-12",
+   "montrose-press-2025-09-16",
+   "voa-2025-09-16",
+   "montrose-council-2026-02-03"
+  ]
+ },
+ "next_step": "Watch for CHFA placed-in-service and compliance records and the planned future 44-unit phase on the adjacent land.",
+ "key_numbers": [
+  {
+   "value": "52 senior homes, all income-restricted",
+   "meaning": "28 one-bedroom and 24 two-bedroom units for ages 55+ at 30% to 60% AMI (income average 50%); 30 renovated, 22 new.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-descriptions",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "$958,961 a year in federal 4% credit",
+   "meaning": "About $9.6M over 10 years, plus $1,100,000 of state credit.",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "value": "$10,960,000 in CHFA bonds",
+   "meaning": "Short-term privately placed tax-exempt bonds only; no long-term bonds, with VOA committed to take out the bonds with a below-market loan.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "value": "About $23M project",
+   "meaning": "Includes $4.6M from the State Housing Board in 2024: a $2.6M CDBG grant through the City of Montrose and a $2M Division of Housing loan request.",
+   "src": [
+    "montrose-press-2025-09-16",
+    "montrose-press-2024-09-03",
+    "montrose-council-2026-02-03"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "2366 Robins Way, Montrose 81401 (the city spells it Robbins Way)",
+   "src": [
+    "chfa-2023-r2-award",
+    "montrose-council-2026-02-03"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, A/R; S: new construction plus acquisition/rehab, senior",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "item": "Existing property",
+   "value": "Pavilion Gardens, 30 family units at 50% and 60% AMI built in 2000 in nine one-story and townhome-style buildings, owned by a VOA entity for more than 10 years",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "montrose-press-2025-09-16"
+   ]
+  },
+  {
+   "item": "Rehab scope",
+   "value": "Twelve two-story three-bedroom units converted to one-story two-bedroom units with a closet replacing the stairs; interiors matched to the new building; playground and basketball court replaced by a pickleball court and seating",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "montrose-press-2024-09-03"
+   ]
+  },
+  {
+   "item": "New building",
+   "value": "Two-story, elevator-served, 22 trauma-informed-design units on an adjacent vacant lot (the application gives both 1.97 acres and a 1.16-acre lot), wood frame on micropiles, electrification-ready; Enterprise Green Communities, WELL and Energy Star targets",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Pavilion Gardens lot R-3A; new lot rezoned to R-4 in 2020, allowing 22 units; subdivision complete before application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Rental subsidy",
+   "value": "Eight project-based vouchers from the Montrose County Housing Authority",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Property tax",
+   "value": "Montrose County Housing Authority to serve as special limited partner for the exemption, per the application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "item": "Services",
+   "value": "Part-time services coordinator; VOA Montrose campus with two Section 202 senior properties, assisted living, a PACE center and the senior center nearby",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "chfa-2023-r2-descriptions"
+   ]
+  },
+  {
+   "item": "Location designation",
+   "value": "Non-metro county priority (Montrose County population 43,811); Difficult Development Area status cited as a reason to win in 2023",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 9
+  },
+  {
+   "level": "40% AMI",
+   "units": 5
+  },
+  {
+   "level": "50% AMI",
+   "units": 14
+  },
+  {
+   "level": "60% AMI",
+   "units": 24
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 28
+  },
+  {
+   "type": "2BR",
+   "units": 24
+  }
+ ],
+ "mix_src": [
+  "chfa-2023-r2-descriptions",
+  "chfa-2023-r2-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$958,961 per year",
+   "note": "2023 Round Two; same as requested.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-applicants"
+   ]
+  },
+  {
+   "source": "Colorado state housing tax credit",
+   "amount": "$1,100,000",
+   "note": "",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds",
+   "amount": "$10,960,000",
+   "note": "CHFA issuer, privately placed, short-term only; cap requested from CHFA, noting Montrose County has transferred its cap to CHFA in recent years.",
+   "src": [
+    "chfa-2023-r2-award",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "source": "Community Development Block Grant (via City of Montrose)",
+   "amount": "$2,600,000",
+   "note": "Awarded September 2024 for acquisition of the 30-unit building; the city was pass-through with no local match; closeout hearing 2026-02-03.",
+   "src": [
+    "montrose-council-2026-02-03",
+    "montrose-council-2026-02-02",
+    "montrose-press-2024-09-03"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing loan",
+   "amount": "$2,000,000 (requested)",
+   "note": "Part of $4.6M the State Housing Board awarded for Rendezvous in 2024.",
+   "src": [
+    "montrose-press-2024-09-03",
+    "montrose-press-2025-09-16"
+   ]
+  },
+  {
+   "source": "Construction loan and equity",
+   "amount": "Not public",
+   "note": "US Bank equity and construction loan.",
+   "src": [
+    "voans-2024-12-12"
+   ]
+  },
+  {
+   "source": "Other sources named in the application",
+   "amount": "Various",
+   "note": "Colorado Health Foundation PRI construction loan instead of a taxable tail; VOA carryback loans and existing VOA subordinate loan (over $500K); $750K VOA Capital Magnet Fund loan; deferred fee; about $50K city fee waivers. Existing CHFA and HOME loans to be paid off.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Developer (as CHFA prints it)",
+   "name": "Volunteers of America National Services",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Property manager and service provider",
+   "name": "Volunteers of America Colorado",
+   "src": [
+    "voans-2024-12-12",
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "role": "Bond issuer",
+   "name": "CHFA",
+   "src": [
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "role": "Equity investor and construction lender",
+   "name": "US Bank",
+   "src": [
+    "voans-2024-12-12"
+   ]
+  },
+  {
+   "role": "Housing authority (vouchers, special limited partner)",
+   "name": "Montrose County Housing Authority",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "voans-2024-12-12"
+   ]
+  },
+  {
+   "role": "CDBG pass-through",
+   "name": "City of Montrose",
+   "src": [
+    "montrose-council-2026-02-03"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "FCI Constructors",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "montrose-press-2025-09-16"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Shopworks Architecture",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "montrose-press-2025-09-16"
+   ]
+  },
+  {
+   "role": "Relocation consultant",
+   "name": "Revival Development Services",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Rendezvous competed unsuccessfully in the 2021 9% round and was restructured as a 4% plus state credit deal on CHFA's feedback.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "Pavilion Gardens struggled with occupancy as a family property surrounded by senior housing (about 10% vacancy), which drove the conversion to senior units; the state noted the property's history of struggling with occupancy.",
+   "src": [
+    "chfa-2023-r2-narratives",
+    "montrose-press-2024-09-03"
+   ]
+  },
+  {
+   "text": "About 13 households who did not meet the age rule needed permanent relocation under the Uniform Relocation Act; VOA planned to coordinate moves to a nearby new family tax credit development and to cover any relocation costs above budget.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The market study gave a 13.3% overall capture rate; the one comparable senior tax credit property had a waitlist of over 486 households.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "VOA plans a future phase of about 44 more units next to the new building.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "text": "The applicant requested a cost basis waiver.",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2000",
+   "event": "Pavilion Gardens opens as a family property",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2020",
+   "event": "Adjacent vacant lot rezoned to R-4",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2021",
+   "event": "Unsuccessful 9% application",
+   "src": [
+    "chfa-2023-r2-narratives"
+   ]
+  },
+  {
+   "date": "2023-11-17",
+   "event": "CHFA announces 2023 Round Two awards, including Rendezvous",
+   "src": [
+    "chfa-news-2023-11-17",
+    "chfa-2023-r2-award"
+   ]
+  },
+  {
+   "date": "2024-06-11",
+   "event": "VOA presents the project to the State Housing Board",
+   "src": [
+    "montrose-press-2024-09-03"
+   ]
+  },
+  {
+   "date": "2024-09",
+   "event": "City of Montrose awarded $2.6M CDBG for the project",
+   "src": [
+    "montrose-council-2026-02-03"
+   ]
+  },
+  {
+   "date": "2024-10",
+   "event": "Financing closes and construction begins",
+   "src": [
+    "voans-2024-12-12"
+   ]
+  },
+  {
+   "date": "2025-09-24",
+   "event": "Grand opening",
+   "src": [
+    "montrose-press-2025-09-16",
+    "voa-2025-09-16"
+   ]
+  },
+  {
+   "date": "2026-02-03",
+   "event": "City Council holds CDBG closeout hearing",
+   "src": [
+    "montrose-council-2026-02-03"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [
+  {
+   "text": "In 2024 the state documents put the cost at $22.28 million, while the 2025 opening coverage calls it a $23 million investment.",
+   "src": [
+    "montrose-press-2024-09-03",
+    "montrose-press-2025-09-16"
+   ]
+  },
+  {
+   "text": "VOA Colorado's property page describes Rendezvous as 22 apartments, while CHFA and the opening announcements count 52.",
+   "src": [
+    "voa-rendezvous",
+    "chfa-2023-r2-award",
+    "voa-2025-09-16"
+   ]
+  },
+  {
+   "text": "VOANS gives the income range as about $20,000 to $45,000, while the 2025 opening coverage gives $21,000 to $49,000.",
+   "src": [
+    "voans-2024-12-12",
+    "montrose-press-2025-09-16"
+   ]
+  }
+ ],
+ "open_questions": [
+  "Final total development cost breakdown, equity price and the size of the VOA carryback and below-market takeout loan.",
+  "Whether the $2M Division of Housing loan was funded as requested.",
+  "Affordability covenant length and the CDBG-related covenant terms.",
+  "Exact construction completion and placed-in-service dates for each building.",
+  "No public site plan or rendering in a city planning packet was found."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2023-r2-award",
+   "title": "2023 Round Two Federal 4% and State Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2023-11-15",
+   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-descriptions",
+   "title": "2023 Round Two Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2023-11",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2023-round-two-award-descriptions"
+  },
+  {
+   "id": "chfa-2023-r2-narratives",
+   "title": "2023 Round Two Narratives (Rendezvous, PDF pages 157-161)",
+   "publisher": "CHFA",
+   "date": "2023-08",
+   "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf"
+  },
+  {
+   "id": "chfa-2023-r2-applicants",
+   "title": "2023 Round Two State and Federal 4% Credit Applicant Report",
+   "publisher": "CHFA",
+   "date": "2023-08-11",
+   "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-news-2023-11-17",
+   "title": "CHFA Announces 2023 Round Two Housing Tax Credit Awards",
+   "publisher": "CHFA",
+   "date": "2023-11-17",
+   "url": "https://www.chfainfo.com/chfa-news/11172023-2023-r2-housing-tax-credit-awards"
+  },
+  {
+   "id": "montrose-press-2024-09-03",
+   "title": "Big grants boost senior and affordable housing in Montrose",
+   "publisher": "Montrose Daily Press",
+   "date": "2024-09-03",
+   "url": "https://www.montrosepress.com/news/big-grants-boost-senior-and-affordable-housing-in-montrose/article_1572e992-6708-11ef-8751-47ae00688b73.html"
+  },
+  {
+   "id": "voans-2024-12-12",
+   "title": "Volunteers of America National Services closes on its new 52-unit affordable housing development, Rendezvous, for older adults in Montrose, Colo.",
+   "publisher": "Volunteers of America National Services",
+   "date": "2024-12-12",
+   "url": "https://www.voans.org/volunteers-of-america-national-services-closes-on-its-new-52-unit-affordable-housing-development-rendezvous-for-older-adults-in-montrose-colo/"
+  },
+  {
+   "id": "montrose-press-2025-09-16",
+   "title": "Rendezvous housing for seniors set for grand opening",
+   "publisher": "Montrose Daily Press",
+   "date": "2025-09-16",
+   "url": "https://www.montrosepress.com/news/rendezvous-housing-for-seniors-set-for-grand-opening/article_b77303e6-ae4c-44f6-b9a2-ece40a996246.html"
+  },
+  {
+   "id": "voa-2025-09-16",
+   "title": "Rendezvous Housing for Seniors Set for Grand Opening",
+   "publisher": "Volunteers of America Colorado",
+   "date": "2025-09-16",
+   "url": "https://www.voacolorado.org/rendezvous-housing-for-seniors-set-for-grand-opening/"
+  },
+  {
+   "id": "voa-rendezvous",
+   "title": "Rendezvous Apartments (property page)",
+   "publisher": "Volunteers of America Colorado",
+   "date": "2026-10-21",
+   "url": "https://www.voacolorado.org/locations/rendezvous-apartments"
+  },
+  {
+   "id": "montrose-council-2026-02-02",
+   "title": "City Council Work Session: Monday, February 2, 2026 (summary)",
+   "publisher": "City of Montrose",
+   "date": "2026-02-02",
+   "url": "https://www.cityofmontrose.org/m/newsflash/Home/Detail/2231"
+  },
+  {
+   "id": "montrose-council-2026-02-03",
+   "title": "City Council Regular Meeting: Tuesday, February 3, 2026 (summary)",
+   "publisher": "City of Montrose",
+   "date": "2026-02-03",
+   "url": "https://www.cityofmontrose.org/m/newsflash/Home/Detail/2232"
+  }
+ ]
+}

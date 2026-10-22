@@ -582,7 +582,7 @@
    "title": "City and County of Denver open data, Commercial Construction Permits, query for 2150 E 49th Ave (queried 2026-10-21)",
    "publisher": "City and County of Denver",
    "date": "2026-10-21",
-   "url": "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/arcgis/rest/services/ODC_DEV_COMMERCIALCONSTPERMIT_P/FeatureServer/317/query?where=ADDRESS+LIKE+%272150+E+49th%25%27&outFields=DATE_ISSUED%2CPERMIT_NUM%2CADDRESS%2CCLASS%2CUNITS%2CVALUATION%2CCONTRACTOR_NAME%2CDATE_RECEIVED&returnGeometry=false&f=html"
+   "url": "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/arcgis/rest/services/ODC_DEV_COMMERCIALCONSTPERMIT_P/FeatureServer/317/query?where=ADDRESS+LIKE+%272150+E+49th%25%27&outFields=DATE_ISSUED%2CPERMIT_NUM%2CADDRESS%2CCLASS%2CUNITS%2CVALUATION%2CCONTRACTOR_NAME%2CDATE_RECEIVED&returnGeometry=false&f=html&outSR=4326"
   },
   {
    "id": "cv-project-page",

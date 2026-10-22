@@ -1,0 +1,333 @@
+{
+ "slug": "osborn-rocky-ford",
+ "name": "Osborn (The Osborn)",
+ "city": "Rocky Ford",
+ "county": "Otero",
+ "award": "2022 Federal 9% housing tax credit (Round One)",
+ "units": 30,
+ "researched_on": "2026-10-21",
+ "headline": "Tri-County Housing, Inc. (Total Concept) won $930,000 a year in 2022 federal 9% credits for The Osborn, a 30-unit permanent supportive housing building replacing a motel it owns at 515 Elm Ave. in Rocky Ford, the first such project in southeast Colorado, with Division of Housing vouchers on all 30 units.",
+ "why_it_matters": "It is a test of rural PSH on the Eastern Plains: no permanent loan, all-unit project-based vouchers and DOH gap money, and four years after award no public record confirms construction, so it is a deal to check before counting its 30 units.",
+ "status": {
+  "label": "Credits awarded 2022; construction start and completion not confirmed",
+  "detail": "No dated public record of a financing closing, building permit, demolition, groundbreaking or opening was found. The architect's project page lists 'Date complete: 2026' without supporting detail. The deal does not reappear in CHFA's 2023-2024 award reports or the 4% award report.",
+  "src": [
+   "completiva-osborn",
+   "chfa-2022-r1-award"
+  ]
+ },
+ "next_step": "Check City of Rocky Ford building permit and demolition records for 515 Elm Ave., Otero County recorder for a CHFA land use restriction agreement, and DOLA State Housing Board award records for the Division of Housing grant.",
+ "key_numbers": [
+  {
+   "value": "30 homes: 24 one-bedroom, 6 two-bedroom",
+   "meaning": "9 at 30% AMI and 21 at 60% AMI, all for households leaving homelessness, all with Division of Housing project-based vouchers.",
+   "src": [
+    "chfa-2022-r1-descriptions",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "value": "$930,000 a year in federal 9% credit",
+   "meaning": "About $9.3M over 10 years (inferred); the request was cut by about $45,000 a year from the letter-of-interest estimate.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "value": "$75,000 per unit of DOH gap funding (planned)",
+   "meaning": "About $2.25M for 30 units (inferred), which lets the deal carry no permanent mortgage.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "value": "$7,000,000 project cost",
+   "meaning": "As listed by the architect.",
+   "src": [
+    "completiva-osborn"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "515 Elm Ave., Rocky Ford, CO 81067 (between Swink and Elm avenues, west of North 6th Street)",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, PSH: new construction, permanent supportive housing",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Site",
+   "value": "About 0.6 acre, census tract 9681.00 (a Qualified Census Tract); existing motel owned by the sponsor to be demolished",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "item": "Building",
+   "value": "Three-story elevator building, brick and fiber cement, two-story masonry base, wraparound porch, gated entry; units furnished; trauma-informed design",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "chfa-2022-r1-descriptions",
+    "completiva-osborn"
+   ]
+  },
+  {
+   "item": "Service area",
+   "value": "Households leaving homelessness from Baca, Bent, Crowley, Kiowa, Otero and Prowers counties",
+   "src": [
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "item": "Zoning",
+   "value": "Special Use Permit to demolish the motel and build multifamily: Planning Commission recommended 2021-11-08, City Council approved 2021-11-09 (both unanimous)",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 9
+  },
+  {
+   "level": "60% AMI",
+   "units": 21
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 24
+  },
+  {
+   "type": "2BR",
+   "units": 6
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r1-descriptions",
+  "chfa-2022-r1-narratives"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$930,000 per year",
+   "note": "No state credit shown on the 2022 Round One report. Three equity letters of interest at application.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Colorado Division of Housing gap funding",
+   "amount": "$75,000 per PSH unit (planned)",
+   "note": "Under the 2021-2022 DOH PSH request for applications; amount not confirmed from a reachable DOLA record.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Construction loan (JPMorgan Chase)",
+   "amount": "Not stated",
+   "note": "No permanent loan planned.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Deferred developer fee",
+   "amount": "About 20% of fee (planned)",
+   "note": "To be repaid within 13 years.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "source": "Town of Rocky Ford and Otero County",
+   "amount": "Not stated",
+   "note": "Mainly reduced or waived fees and expedited review.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor/owner (as CHFA prints it) and developer",
+   "name": "Tri-County Housing, Inc. dba Total Concept",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Lead service provider",
+   "name": "Southeast Health Group (Southeast Mental Health Services, Partnership for Progress, Southeast Wellness Works, Family Guidance Institute)",
+   "src": [
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Rental assistance",
+   "name": "Colorado Division of Housing (30 project-based vouchers)",
+   "src": [
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "role": "Architect",
+   "name": "Studio Completiva",
+   "src": [
+    "chfa-2022-r1-narratives",
+    "completiva-osborn"
+   ]
+  },
+  {
+   "role": "General contractor (at application)",
+   "name": "Commonwealth",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "role": "Relocation consultant (at application)",
+   "name": "H. C. Peck & Associates",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Prior use: an existing motel owned by Total Concept with ten occupied units; the budget carried $250,000 for permanent relocation under a Uniform Relocation Act plan and $114,869 for demolition.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Origin: Total Concept began planning regional PSH in 2019 with an Enterprise Community Partners capacity grant and assessed Eastern Plains sites in 2020 before choosing its Rocky Ford motel.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Environmental: a nearby gas station leak led to a Phase II assessment (2022-01-20) that found no exceedances.",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "text": "Sponsor's portfolio: Total Concept, based in Fowler, owns and manages small rural properties including a 25-unit tax credit property in Las Animas and 24-unit and 20-unit complexes in La Junta; the narrative calls The Osborn the first tax-credit-funded PSH project in the region and for Total Concept.",
+   "src": [
+    "totalconcept-home",
+    "chfa-2022-r1-narratives"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2021-11-08",
+   "event": "Rocky Ford Planning Commission unanimously recommends the Special Use Permit",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2021-11-09",
+   "event": "Rocky Ford City Council unanimously approves the Special Use Permit",
+   "src": [
+    "chfa-2022-r1-narratives"
+   ]
+  },
+  {
+   "date": "2022-02-09",
+   "event": "Listed on CHFA's 2022 Round One applicant report",
+   "src": [
+    "chfa-2022-r1-applicants"
+   ]
+  },
+  {
+   "date": "2022-05-25",
+   "event": "Awarded $930,000 a year in federal 9% credits",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "The Osborn design images",
+   "url": "https://www.studiocompletiva.com/the-osborn",
+   "kind": "rendering",
+   "made_by": "Studio Completiva (architect)",
+   "note": "Project page; whether images are renderings or photos is not labeled",
+   "src": [
+    "completiva-osborn"
+   ]
+  }
+ ],
+ "discrepancies": [],
+ "open_questions": [
+  "Whether the deal closed and construction started; no permit, closing, demolition or opening record was found.",
+  "Final DOH grant amount (a State Housing Board award of $2,825,000 is reported in search results for a DOLA press release that could not be retrieved) and DOH voucher contract.",
+  "Total development cost from a primary source (the architect lists $7M), equity investor and price.",
+  "Status of the ten motel households' relocation.",
+  "8609 issuance or any credit return or exchange."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r1-award",
+   "title": "CHFA, 2022 Round One - 9% Competitive Housing Credit Award Report (public award report dated 2022-05-25)",
+   "publisher": "CHFA",
+   "date": "2022-05-25",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-descriptions",
+   "title": "CHFA, 2022 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r1-applicants",
+   "title": "CHFA, 2022 Housing Tax Credit Round One Applicant Report (26 applications)",
+   "publisher": "CHFA",
+   "date": "2022-02-09",
+   "url": "https://www.chfainfo.com/getattachment/a5bd1311-e59e-42db-82b1-b5e6d0e9fd26/2022-HTC-Round-1-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-narratives",
+   "title": "CHFA, 2022 Round One 9% application narratives (The Osborn, PDF pages 66-70)",
+   "publisher": "CHFA",
+   "date": "2022-02-14",
+   "url": "https://www.chfainfo.com/getattachment/4d42492b-9883-4a86-b7d4-676ddfab7ffa/2022-round1-narratives.pdf"
+  },
+  {
+   "id": "completiva-osborn",
+   "title": "The Osborn (project page)",
+   "publisher": "Studio Completiva (architect)",
+   "date": "2026",
+   "url": "https://www.studiocompletiva.com/the-osborn"
+  },
+  {
+   "id": "totalconcept-home",
+   "title": "Total Concept home page (portfolio and accomplishments)",
+   "publisher": "Total Concept (Tri-County Housing, Inc.)",
+   "date": "2026",
+   "url": "https://www.totalconcept.net/"
+  }
+ ]
+}

@@ -1,0 +1,411 @@
+{
+ "slug": "weatherstone-apartments-aurora",
+ "name": "Weatherstone Apartments",
+ "city": "Aurora",
+ "county": "Arapahoe",
+ "award": "2024 Federal 4% housing tax credit",
+ "units": 204,
+ "researched_on": "2026-10-21",
+ "headline": "Steele Properties is recapitalizing and renovating Weatherstone Apartments, a 204-unit 1981 family complex in north Aurora where every unit carries project-based Section 8. It won a 2024-cycle federal 4% credit from CHFA with $38.4M of CHFA bonds and no state credit.",
+ "why_it_matters": "A preservation deal for deeply subsidized housing: the HUD contract on all 204 units now runs to 2044, and county and HUD records show the 2024 transfer and a HUD risk-share insured loan, a pattern for keeping aging Section 8 stock affordable without new construction.",
+ "status": {
+  "label": "Closed September 2024 (inferred from deed and HUD loan records); rehab underway from early 2025, completion not confirmed",
+  "detail": "Arapahoe County shows a transfer to Steele Weatherstone LLC recorded 2024-09-09 for $42,251,853, and HUD shows an FHA risk-share insured loan endorsed 2024-09-04. The general contractor's $13.76M rehab began by March 2025 with completion anticipated in March 2026; no record found confirms completion.",
+  "src": [
+   "arapahoe-parcels",
+   "hud-mf-assisted",
+   "milehighcre-2025-03-05"
+  ]
+ },
+ "next_step": "Look for a rehab completion notice or final CHFA placed-in-service documentation, and confirm the seller on deed reception E4057962.",
+ "key_numbers": [
+  {
+   "value": "204 homes, all income-restricted and all with Section 8",
+   "meaning": "18 one-, 168 two- and 18 three-bedroom units, all at 60% AMI under the credit; the HUD project-based contract on all 204 units runs to 2044-09-30.",
+   "src": [
+    "chfa-4pct-award",
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "value": "$2,959,274 a year in federal 4% credit",
+   "meaning": "No state credit; federal credit runs 10 years; amounts marked subject to change.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "value": "$38,407,703 in CHFA tax-exempt bonds",
+   "meaning": "HUD also records a $44,642,000 FHA Section 542(c) HFA risk-share insured loan endorsed in September 2024 (CHFA as the risk-share lender inferred).",
+   "src": [
+    "chfa-4pct-award",
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "value": "$42.3M transfer price; $13.8M rehab contract",
+   "meaning": "Deed price recorded by Arapahoe County in September 2024 (marked unqualified, consistent with a related-party sale, inferred); FTK's renovation contract is $13,759,700.",
+   "src": [
+    "arapahoe-parcels",
+    "arapahoe-sales",
+    "milehighcre-2025-03-05"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "15594 E 12th Avenue, Aurora 80011; the assessor's two parcels carry situs addresses 15400 E 13th Ave and 15500 E 12th Ave",
+   "src": [
+    "chfa-4pct-award",
+    "steele-property",
+    "arapahoe-parcels"
+   ]
+  },
+  {
+   "item": "Type (CHFA)",
+   "value": "Family, acquisition/rehabilitation; in a QCT; not in a DDA or SADDA; Section 8 column marked Yes",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "item": "Units and buildings",
+   "value": "204 units in 26 buildings, built 1981; renovated in 2005 and by Steele in 2008",
+   "src": [
+    "chfa-4pct-award",
+    "steele-property",
+    "milehighcre-2025-03-05"
+   ]
+  },
+  {
+   "item": "HUD Section 8 contract",
+   "value": "Contract CO99E000007, project-based Section 8 (PD/8 Existing), 204 assisted units, expiring 2044-09-30",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "item": "Parcels and owner of record",
+   "value": "Parcels 1975-05-2-11-001 and 1975-05-2-10-003, owner Steele Weatherstone LLC, deed reception E4057962",
+   "src": [
+    "arapahoe-parcels"
+   ]
+  },
+  {
+   "item": "Property manager",
+   "value": "Monroe Group, Ltd.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "item": "Rehab scope",
+   "value": "Interior paint, countertops, bathroom upgrades and plumbing fixtures, flooring, cabinets and HVAC replacement; exterior paint, paving, playground, landscaping and accessibility improvements",
+   "src": [
+    "milehighcre-2025-03-05"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "60% AMI",
+   "units": 204
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 18
+  },
+  {
+   "type": "2BR",
+   "units": 168
+  },
+  {
+   "type": "3BR",
+   "units": 18
+  }
+ ],
+ "mix_src": [
+  "chfa-4pct-award",
+  "hud-mf-assisted"
+ ],
+ "money": [
+  {
+   "source": "Federal 4% housing tax credit",
+   "amount": "$2,959,274 per year",
+   "note": "2024 cycle; amounts marked subject to change; no state credit shown.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "Tax-exempt private activity bonds (CHFA)",
+   "amount": "$38,407,703",
+   "note": "Whose bond cap is not stated publicly.",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "source": "FHA Section 542(c) HFA risk-share insured mortgage",
+   "amount": "$44,642,000 original amount",
+   "note": "HUD initial endorsement 2024-09-04; the general contractor's announcement names CHFA as lender.",
+   "src": [
+    "hud-mf-assisted",
+    "milehighcre-2025-03-05"
+   ]
+  },
+  {
+   "source": "Project-based Section 8 (HUD)",
+   "amount": "204 units",
+   "note": "Contract CO99E000007 expires 2044-09-30.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "source": "Acquisition price (deed)",
+   "amount": "$42,251,853",
+   "note": "Recorded 2024-09-09 (sales layer date 2024-09-05); seller not shown in the county layer.",
+   "src": [
+    "arapahoe-parcels",
+    "arapahoe-sales"
+   ]
+  },
+  {
+   "source": "Rehab construction contract (FTK Construction Services)",
+   "amount": "$13,759,700",
+   "note": "",
+   "src": [
+    "milehighcre-2025-03-05"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Sponsor (as CHFA prints it)",
+   "name": "Steele Properties IV LLC",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "role": "Owner of record",
+   "name": "Steele Weatherstone LLC",
+   "src": [
+    "arapahoe-parcels"
+   ]
+  },
+  {
+   "role": "Bond issuer, credit allocator and lender",
+   "name": "CHFA",
+   "src": [
+    "chfa-4pct-award",
+    "milehighcre-2025-03-05"
+   ]
+  },
+  {
+   "role": "General contractor",
+   "name": "FTK Construction Services",
+   "src": [
+    "milehighcre-2025-03-05"
+   ]
+  },
+  {
+   "role": "Property manager",
+   "name": "Monroe Group, Ltd.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "role": "Section 8 contract and mortgage insurance",
+   "name": "HUD",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "Steele's own page lists Weatherstone as a project-based Section 8 family LIHTC community with Steele renovations in 2008, so Steele interests are inferred to have owned it before the 2024 transfer; the September 2024 deed to Steele Weatherstone LLC is inferred to be a related-party recapitalization, and the seller is not shown in the sources found.",
+   "src": [
+    "steele-property",
+    "arapahoe-parcels",
+    "arapahoe-sales"
+   ]
+  },
+  {
+   "text": "HUD's assisted-housing data shows the property's existing tax credit flag and a single project-based Section 8 contract covering all 204 units, expiring 2044-09-30.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "text": "The 2024 refinancing carries an FHA Section 542(c) HFA risk-share insured loan of $44,642,000 endorsed 2024-09-04, maturing in 2066.",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "text": "FTK Construction Services announced a $13,759,700 renovation contract in March 2025, with CHFA as lender and completion anticipated in March 2026.",
+   "src": [
+    "milehighcre-2025-03-05"
+   ]
+  },
+  {
+   "text": "No public document found shows the deal in CHFA's 2024 competitive rounds (Round One applicants, Round Two applicants or awards).",
+   "src": [
+    "chfa-2024-r1-applicants",
+    "chfa-2024-r2-applicants",
+    "chfa-2024-r2-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "1981",
+   "event": "Built",
+   "src": [
+    "steele-property",
+    "milehighcre-2025-03-05"
+   ]
+  },
+  {
+   "date": "2008",
+   "event": "Renovated by Steele",
+   "src": [
+    "steele-property"
+   ]
+  },
+  {
+   "date": "2024-09-04",
+   "event": "HUD endorses the $44.6M FHA risk-share insured loan",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  },
+  {
+   "date": "2024-09-09",
+   "event": "Deed to Steele Weatherstone LLC recorded ($42,251,853)",
+   "src": [
+    "arapahoe-parcels"
+   ]
+  },
+  {
+   "date": "2025-03-05",
+   "event": "Renovation by FTK Construction Services reported underway",
+   "src": [
+    "milehighcre-2025-03-05"
+   ]
+  },
+  {
+   "date": "2026-03",
+   "event": "Rehab completion anticipated (not confirmed)",
+   "src": [
+    "milehighcre-2025-03-05"
+   ]
+  },
+  {
+   "date": "2026-09-21",
+   "event": "Listed on CHFA's Federal 4% award report under cycle year 2024",
+   "src": [
+    "chfa-4pct-award"
+   ]
+  },
+  {
+   "date": "2044-09-30",
+   "event": "Current HUD Section 8 contract expires",
+   "src": [
+    "hud-mf-assisted"
+   ]
+  }
+ ],
+ "pictures": [
+  {
+   "title": "Weatherstone renovation article photo",
+   "url": "https://milehighcre.com/renovation-underway-at-weatherstone-apartments-in-aurora/",
+   "kind": "photo",
+   "made_by": "Image published with the Mile High CRE article",
+   "note": "Lead image of the 2025-03-05 article",
+   "src": [
+    "milehighcre-2025-03-05"
+   ]
+  }
+ ],
+ "discrepancies": [],
+ "open_questions": [
+  "Seller and grantor on deed reception E4057962, and whether the transfer was between Steele affiliates.",
+  "Prior affordability covenants (an earlier LIHTC extended use agreement) and the length of the new CHFA covenant.",
+  "Whether the rehab finished in March 2026 as planned.",
+  "Equity investor, total development cost and per-unit rehab spend beyond the $13.76M contract.",
+  "Whose private activity bond cap backs the $38.4M CHFA bonds."
+ ],
+ "sources": [
+  {
+   "id": "chfa-4pct-award",
+   "title": "Federal 4% Housing Tax Credit Awards (with State and TOC Credit, if applicable)",
+   "publisher": "CHFA",
+   "date": "2026-09-21",
+   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+  },
+  {
+   "id": "chfa-2024-r1-applicants",
+   "title": "2024 HTC Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-applicants",
+   "title": "2024 HTC Round Two Applicant Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+  },
+  {
+   "id": "chfa-2024-r2-award",
+   "title": "2024 Round Two Housing Tax Credit Award Report",
+   "publisher": "CHFA",
+   "date": "2024",
+   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+  },
+  {
+   "id": "hud-mf-assisted",
+   "title": "HUD Multifamily Properties - Assisted (property 800003233, Weatherstone), open data feature service query",
+   "publisher": "HUD",
+   "date": "2026-07-06",
+   "url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Multifamily_Properties_Assisted/FeatureServer/0/query?where=PROPERTY_ID%3D%27800003233%27&outFields=PROPERTY_NAME_TEXT,ADDRESS_LINE1_TEXT,TOTAL_UNIT_COUNT,TOTAL_ASSISTED_UNIT_COUNT,CONTRACT1,PROGRAM_TYPE1,EXPIRATION_DATE1,BD1_CNT1,BD2_CNT1,BD3_CNT1,SOA_NAME1,ORIGINAL_LOAN_AMOUNT,INITIAL_ENDORSEMENT_DATE,TAXCREDIT1,MGMT_AGENT_ORG_NAME&returnGeometry=false&f=pjson&outSR=4326"
+  },
+  {
+   "id": "arapahoe-parcels",
+   "title": "Arapahoe County ArapaMAP, Parcels - Owners layer (owner, reception number, sale date and price for the Weatherstone parcels)",
+   "publisher": "Arapahoe County",
+   "date": "2026-10-21",
+   "url": "https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP/MapServer/277/query?where=Owner+like+%27%25WEATHERSTONE%25%27&outFields=PARCEL_ID,Situs_Address,Owner,REC_NMBR,Sale_Date,Price&returnGeometry=false&f=pjson&outSR=4326"
+  },
+  {
+   "id": "arapahoe-sales",
+   "title": "Arapahoe County ArapaMAP, Current Sales layer (parcel 1975-05-2-10-003)",
+   "publisher": "Arapahoe County",
+   "date": "2026-10-21",
+   "url": "https://gis.arapahoegov.com/arcgis/rest/services/ArapaMAP/MapServer/154/query?where=PIN%3D%271975-05-2-10-003%27&outFields=PIN,price,qu_flg,saledate&returnGeometry=false&f=pjson&outSR=4326"
+  },
+  {
+   "id": "milehighcre-2025-03-05",
+   "title": "Renovation Underway at Weatherstone Apartments in Aurora",
+   "publisher": "Mile High CRE",
+   "date": "2025-03-05",
+   "url": "https://milehighcre.com/renovation-underway-at-weatherstone-apartments-in-aurora/"
+  },
+  {
+   "id": "steele-property",
+   "title": "Weatherstone Apartments (property page)",
+   "publisher": "Steele Properties",
+   "date": "2026",
+   "url": "https://www.steelellc.com/property/weatherstone-apartments/"
+  }
+ ]
+}
