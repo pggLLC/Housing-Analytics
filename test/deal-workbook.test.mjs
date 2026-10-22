@@ -225,4 +225,8 @@ ok(residue.exec.paybackYear === 10, 'a floating-point residue on a paid fee stil
 const noCalcCredit = mut0((s) => { s.result.costBasis.basis.calculatedCredit = null; });
 ok(noCalcCredit.basis.rate === null, 'an unavailable calculated credit leaves the credit rate unknown, not 0%');
 
+const noEquity = mut0((s) => { s.permanentFinancing.taxCredit.nine = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { annualCredits: 'Eligible basis is incomplete.' }); });
+ok(noEquity.sources.rows.some((x) => x.amount === null && /Federal 9% credit equity: not known, Eligible basis is incomplete\./.test(x.label)), 'an unsized federal credit stays in the sources as unknown, with the reason');
+ok(!mut0((s) => { s.permanentFinancing.taxCredit.four = null; }).sources.rows.some((x) => /4% credit/.test(x.label)), 'the other credit type is not listed for a 9% deal');
+
 console.log(`deal-workbook: ${checks} checks passed`);

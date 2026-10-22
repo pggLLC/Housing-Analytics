@@ -88,8 +88,13 @@
         sources.push({ label: m.source === 'senior' ? 'First mortgage' : (m.label || 'Mortgage') + (m.program ? ' (' + (labels[m.program] || m.program) + ')' : ''), amount: num(m.principal) });
       });
       var tc = pf.taxCredit || {};
-      if (num(tc.nine)) sources.push({ label: 'Federal 9% credit equity', amount: num(tc.nine) });
-      if (num(tc.four)) sources.push({ label: 'Federal 4% credit equity', amount: num(tc.four) });
+      // The deal's own federal credit stays in the list when it could not be sized: unknown is not none.
+      var fedKey = String(r.creditType) === '4' ? 'four' : 'nine';
+      ['nine', 'four'].forEach(function (k) {
+        var label = 'Federal ' + (k === 'four' ? '4%' : '9%') + ' credit equity';
+        if (num(tc[k])) sources.push({ label: label, amount: num(tc[k]) });
+        else if (k === fedKey && num(tc[k]) == null) sources.push({ label: label + ': not known, ' + (un.annualCredits || 'the credit was not calculated'), amount: null });
+      });
       if (num(tc.state)) sources.push({ label: 'Colorado state credit equity', amount: num(tc.state) });
       if (num(tc.added)) sources.push({ label: tc.addedLabel || 'Other credit equity', amount: num(tc.added) });
       if (num(tc.historic)) sources.push({ label: 'Historic credit equity', amount: num(tc.historic) });
