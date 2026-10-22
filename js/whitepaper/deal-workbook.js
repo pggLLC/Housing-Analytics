@@ -117,7 +117,8 @@
     } else model.sources = { rows: [], reason: (pf && pf.reasons && pf.reasons[0]) || un.fundingGap || 'The calculator could not build the sources for this deal.' };
 
     // Uses: the itemized budget by group.
-    var bg = r.budget && r.budget.groups;
+    // A budget line the engine could not read leaves partial groups behind; its reason wins over them.
+    var bg = r.budget && !r.budget.reason && r.budget.groups;
     model.uses = bg ? {
       rows: USE_GROUPS.map(function (g) { return { label: g[1], amount: num(bg[g[0]]) }; }).filter(function (x) { return x.amount; }),
       notItemized: num(r.budget.notItemized), tdc: num(r.tdc)

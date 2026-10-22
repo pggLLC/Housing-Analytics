@@ -294,4 +294,23 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
 const feeOpen = mut0((s) => { s.permanentFinancing.deferredDevFee = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { deferredDevFee: 'Operating inputs are incomplete.' }); });
 ok(feeOpen.sources.rows.some((x) => x.amount === null && x.label === 'Deferred developer fee: not known, Operating inputs are incomplete.'), 'an unknown deferred fee stays in the sources with its reason');
 
+{
+  // The calculator's request counter: a response counts until its body has arrived, not just its headers.
+  const html = read('deal-calculator.html');
+  const src = html.slice(html.indexOf('window.__dealCalcPendingFetches') > -1 ? html.lastIndexOf('<script>', html.indexOf('window.__dealCalcPendingFetches')) + 8 : 0, html.indexOf('</script>', html.indexOf('window.__dealCalcPendingFetches')));
+  let release;
+  const body = new ReadableStream({ start(c) { release = () => { c.enqueue(new TextEncoder().encode('{"a":1}')); c.close(); }; } });
+  const win = { fetch: () => Promise.resolve(new Response(body)) };
+  new Function('window', src)(win);
+  const res = await win.fetch('data/big.json');
+  await new Promise((r) => setTimeout(r, 0));
+  ok(win.__dealCalcPendingFetches() === 1, 'a request whose body is still downloading still counts as pending');
+  release();
+  const parsed = await res.json();
+  await new Promise((r) => setTimeout(r, 0));
+  ok(parsed.a === 1 && win.__dealCalcPendingFetches() === 0, 'the request stops counting once its body has arrived, and the page can still read it');
+}
+const badBudget = mut0((s) => { s.result.budget.reason = 'Line 4 has no amount.'; });
+ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no amount.', 'a budget the engine could not read shows its reason, not partial groups');
+
 console.log(`deal-workbook: ${checks} checks passed`);
