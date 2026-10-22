@@ -254,8 +254,19 @@ ok(model.places.some((p) => p.flags.length), 'recorded denials show as red flags
 {
   const byName = (nm) => model.places.find((p) => p.name === nm);
   const lm = byName('Longmont (city)');
-  ok(lm.factors.hna.points === 10 && lm.factors.planGoal.points === 10 && lm.factors.planGoal.quote && lm.factors.authority.points >= 8,
-    `Longmont: own HNA, a quoted 12% goal and an authority with deals (${lm.factors.hna.points}/${lm.factors.planGoal.points}/${lm.factors.authority.points})`);
+  ok(lm.factors.hna.points === 10 && lm.factors.authority.points >= 8,
+    `Longmont: own HNA and an authority with deals (${lm.factors.hna.points}/${lm.factors.authority.points})`);
+  // Longmont's 12% goal is quoted from its HNA, not yet from an adopted plan, so it is not scored.
+  ok(lm.factors.planGoal.points === null, `Longmont: a goal seen only in an HNA is not scored (${lm.factors.planGoal.points})`);
+  const bo = byName('Boulder (city)');
+  ok(bo.factors.planGoal.points === 10 && /Boulder Valley Comprehensive Plan/.test(bo.factors.planGoal.value) && bo.factors.planGoal.quote,
+    'Boulder: the quoted 15% goal in the Boulder Valley Comprehensive Plan scores 10');
+  // Every specific or general goal names the adopted plan it comes from.
+  for (const [g, rec] of Object.entries(docs.commitment.goals)) {
+    if (rec.status === 'specific' || rec.status === 'general') ok(rec.plan, `${g}: a scored goal names its adopted plan`);
+  }
+  ok(byName('Frisco (town)').factors.planGoal.points === 2, 'Frisco: a need estimate in its plan is not a goal (2)');
+  ok(byName('Greeley (city)').factors.planGoal.points === null, 'Greeley: an expired all-housing target is not an affordable goal');
   // A town or community is covered by its county's assessment at the regional rule (6 at most), never its own 10.
   for (const p of model.places) {
     const h = p.factors.hna;

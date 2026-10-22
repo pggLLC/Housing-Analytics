@@ -790,27 +790,11 @@
       "note": null,
       "checked": "2026-10-22"
     },
-    "08055": {
-      "status": "general",
-      "quote": "Provide a full range of decent housing choices in Huerfano County.",
-      "plan": null,
-      "url": "https://www.walsenburg.org/media/7061",
-      "note": null,
-      "checked": "2026-10-22"
-    },
     "08059": {
       "status": "specific",
       "quote": "Increase the supply of affordable housing by 3% per year",
       "plan": "Jefferson County 15-Year Housing Strategic Plan",
       "url": "https://www.jeffco.us/DocumentCenter/View/50060/Jeffco-15-Year-Housing-Strategic-Plan-PDF",
-      "note": null,
-      "checked": "2026-10-22"
-    },
-    "08067": {
-      "status": "general",
-      "quote": "RHA's focus area for housing investments will be units below 150% AMI.",
-      "plan": null,
-      "url": "https://laplatahousing.colorado.gov/sites/laplatahousing/files/documents/La%20Plata%20HNA%20Executive%20Summary.pdf",
       "note": null,
       "checked": "2026-10-22"
     },
@@ -847,19 +831,11 @@
       "checked": "2026-10-22"
     },
     "0828690": {
-      "status": "specific",
+      "status": "need_only",
       "quote": "The plan identified the need for an additional 329 workforce units (151 ownership and 178 rental) over the next 10 years.",
       "plan": "Frisco Strategic Housing Plan",
       "url": "https://www.friscogov.com/your-government/workforce-housing/",
-      "note": null,
-      "checked": "2026-10-22"
-    },
-    "0832155": {
-      "status": "general",
-      "quote": "2,042 multi-family units built",
-      "plan": "Strategic Housing Plan (2018, element of Imagine Greeley)",
-      "url": "https://greeleygov.com/docs/default-source/community-development/long-range-planning/strategic-housing-plan.pdf",
-      "note": "all-housing production target 2019-2024, not affordable-specific; expired",
+      "note": "The 329 units are the plan's need estimate; the 50% year-round-occupancy goal is only to be evaluated, so no adopted affordable goal (review 2026-10-22).",
       "checked": "2026-10-22"
     },
     "0843000": {
@@ -867,14 +843,6 @@
       "quote": "Foster a diverse housing market in Lakewood by expanding access to a variety of affordable and accessible housing options",
       "plan": "Envision Lakewood 2040, Goal 19",
       "url": "https://compplan.lakewoodco.gov/goal/19",
-      "note": null,
-      "checked": "2026-10-22"
-    },
-    "0845970": {
-      "status": "specific",
-      "quote": "a housing goal of achieving 12% of its housing stock deed-restricted and affordable by 2035",
-      "plan": null,
-      "url": "https://longmontcolorado.gov/showpublisheddocument-36303",
       "note": null,
       "checked": "2026-10-22"
     },
@@ -907,14 +875,6 @@
       "quote": "acquiring an additional 1,000 deed restricted units by the year 2027",
       "plan": "2027 Housing Strategic Plan (2017; Vail Local Housing Authority and Town Council)",
       "url": "https://www.vail.gov/government/departments/housing/vailindeed/about-us",
-      "note": null,
-      "checked": "2026-10-22"
-    },
-    "0882350": {
-      "status": "general",
-      "quote": "Promote the preservation of the existing housing stock and older neighborhoods in Gardner, La Veta/Cuchara, and Walsenburg",
-      "plan": null,
-      "url": "https://www.walsenburg.org/media/7061",
       "note": null,
       "checked": "2026-10-22"
     }

@@ -117,7 +117,7 @@
     hna: { label: 'Housing needs assessment', source: SRC.hnaList,
       rule: 'Its own assessment, dated within 5 years (DOLA-approved, or found on its website): 10. Covered only by a county or regional one: 6. One under way: 3. Its latest is older than 5 years: 2. A town or Census community inherits its county\'s assessment as a regional one. Not on DOLA\'s list and not read yet: not checked.' },
     planGoal: { label: 'Written affordable-housing goal', source: SRC.plans,
-      rule: 'An adopted plan with a specific goal (a number of homes, a share of homes, or a dated target), quoted: 10. Only general wording: 5. Only a need estimate, no goal: 2. Plans read, no housing goal: 0. Not read yet: not checked.' },
+      rule: 'An adopted plan, named and linked, with a specific affordable-housing goal (a number of homes, a share of homes, or a dated target), quoted: 10. Only general wording: 5. Goal language seen only in an HNA or a partner\'s report is not scored until the adopting plan is linked. Only a need estimate, no goal: 2. Plans read, no housing goal: 0. Not read yet: not checked.' },
     authority: { label: 'Housing authority', source: SRC.authorities,
       rule: 'The strongest authority serving the place (its own, or its county\'s). Tax-credit awards 2022–2026 where it was sponsor, developer, owner, partner or bond issuer: 3 or more: 6; 2: 5; 1: 4. Plus HUD-assisted homes per 1,000 residents of the area it serves: 15 or more: 4; 5 to 15: 3; under 5: 2. Up to 10. No authority on either list: not checked, since some authorities run no HUD programs.' },
     prop123Vote: { label: 'Prop 123 vote (2022)', source: null,

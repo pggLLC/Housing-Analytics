@@ -272,8 +272,12 @@ def build():
         gl = r.get('goal') or {}
         gst = gl.get('status')
         # A goal seen only in news coverage is left unread until the official document confirms it.
+        plan = gl.get('plan') or (r.get('plan') or {}).get('title')
+        # A goal scores only from an adopted plan named on the row: goal language seen
+        # only in an HNA or a partner's report stays unread until the plan is linked.
+        if gst in ('specific', 'general') and not plan:
+            gst = None
         if gst in ('specific', 'general', 'need_only', 'none') and not re.search(r'news-reported', gl.get('note') or ''):
-            plan = gl.get('plan') or (r.get('plan') or {}).get('title')
             for g in ids:
                 goals[g] = {'status': gst, 'quote': gl.get('quote'), 'plan': plan,
                             # With no plan link, the goal (or its absence) was read in the HNA itself.
