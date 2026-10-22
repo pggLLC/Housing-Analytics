@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-22T13:07:32.277Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-22T14:51:53.517Z. Do not edit by hand.
 
 ---
 
@@ -53,8 +53,8 @@
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.3 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 137.5 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 138.3 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 175.5 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 168.4 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 175.6 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 168.5 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 136.8 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 44.8 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.8 KB |
@@ -79,7 +79,7 @@
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
 | `regional.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
-| `research-brief.html` | Research Brief | COHO Analytics | 22.8 KB |
+| `research-brief.html` | Research Brief | COHO Analytics | 24.7 KB |
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 25.8 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
@@ -92,7 +92,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1933 JSON files found.
+1934 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -393,7 +393,7 @@
 | `data/hna/forecast-error.json` | 2.6 KB | ✅ | — |
 | `data/hna/geo-config.json` | 63.9 KB | ✅ | — |
 | `data/hna/geography-registry.json` | 120.4 KB | ✅ | — |
-| `data/hna/hna-views.json` | 13.1 KB | ✅ | — |
+| `data/hna/hna-views.json` | 13.4 KB | ✅ | — |
 | `data/hna/home-value-cascade.json` | 130.8 KB | ✅ | — |
 | `data/hna/housing-units-b25001.json` | 36.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08001.json` | 39.8 KB | ✅ | — |
@@ -1776,6 +1776,7 @@
 | `data/hna/summary/0886475.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/0886750.json` | 4.0 KB | ✅ | — |
 | `data/hna/transit-zone-by-geography.json` | 390.0 KB | ✅ | — |
+| `data/hna/transit-zone-map.json` | 438.4 KB | ✅ | — |
 | `data/hna/vacancy-status.json` | 458.0 KB | ✅ | — |
 | `data/hna/workforce-need.json` | 265.1 KB | ✅ | — |
 | `data/hna/zhvi-place-crosswalk.json` | 46.1 KB | ✅ | — |
@@ -2003,12 +2004,12 @@
 | `data/policy/soft-funding-status.json` | 45.5 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 39.8 KB | ✅ | — |
-| `data/policy/thiz-map-status.json` | 2.1 KB | ✅ | — |
+| `data/policy/thiz-map-status.json` | 3.7 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
 | `data/policy_briefs.json` | 368.4 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 178.1 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.9 KB | ✅ | — |
 | `data/polymarket-history.json` | 169.7 KB | ✅ | — |
@@ -2034,7 +2035,7 @@
 
 ## Test Files
 
-692 test files found.
+693 test files found.
 
 | File | Size |
 |------|------|
@@ -2048,7 +2049,7 @@
 | `test/acs-vintage-label-integrity.test.js` | 3.9 KB |
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 6.0 KB |
-| `test/agency-funding.test.mjs` | 15.8 KB |
+| `test/agency-funding.test.mjs` | 16.8 KB |
 | `test/ahcia-status.test.mjs` | 7.0 KB |
 | `test/ami-gap-contract.test.js` | 13.5 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
@@ -2604,6 +2605,7 @@
 | `test/transit-stops-consumers.test.js` | 10.5 KB |
 | `test/transit-zone-absence.test.mjs` | 37.4 KB |
 | `test/transit-zone-funding-line.test.js` | 26.8 KB |
+| `test/transit-zone-map.test.js` | 7.2 KB |
 | `test/transit-zone.test.js` | 39.7 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/ui-audit-clean.test.js` | 4.3 KB |
@@ -2789,7 +2791,7 @@
 | `.github/workflows/fetch-hmda-data.yml` | 4.3 KB |
 | `.github/workflows/fetch-kalshi.yml` | 5.5 KB |
 | `.github/workflows/fetch-market-rents.yml` | 8.6 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 20.7 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 21.4 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 9.1 KB |
 | `.github/workflows/funding-awards.yml` | 5.8 KB |
 | `.github/workflows/local-incentives-watch.yml` | 1.8 KB |
