@@ -224,7 +224,19 @@
       var map = L.map(el, { scrollWheelZoom: false, tap: false, zoomSnap: 0.25 });
       current = map;
       var base = root.COHOBasemaps ? (dark ? root.COHOBasemaps.dark() : root.COHOBasemaps.light()) : null;
-      if (base) base.addTo(map);
+      if (base) {
+        base.addTo(map);
+        // Same fallback as the main HNA map: if the Esri/CARTO tiles cannot be
+        // reached, swap to OpenStreetMap so roads and place names stay.
+        base.once('tileerror', function () {
+          if (current !== map) return;
+          try { map.removeLayer(base); } catch (e) { /* already gone */ }
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19
+          }).addTo(map).bringToBack();
+          mount.setAttribute('data-tzm-basemap', 'osm');
+        });
+      }
 
       L.geoJSON({ type: 'Feature', geometry: data.zone, properties: {} }, {
         interactive: false,
@@ -237,7 +249,6 @@
       }).addTo(map);
 
       var bounds = outline.getBounds();
-      var shown = statewide ? null : bounds.pad(0.35);
       // SVG, not canvas: the site's stylesheets size every <canvas> for
       // Chart.js (site-theme.css `canvas { width: 100% !important }`), which
       // collapses Leaflet's canvas layer to nothing.
@@ -258,14 +269,14 @@
       }
       var stopLayer = L.layerGroup().addTo(map);
       var drawn = 0;
-      if (statewide) {
-        map.on('moveend', function () {
-          drawn = map.getZoom() >= STATEWIDE_STOP_ZOOM ? drawStops(stopLayer, map.getBounds().pad(0.2)) : (stopLayer.clearLayers(), 0);
-          mount.setAttribute('data-tzm-stops-drawn', String(drawn));
-        });
-      } else {
-        drawn = drawStops(stopLayer, shown);
-      }
+      // Stops follow the view on every map, so panning past the first view
+      // never shows shading without the stops behind it. Statewide, stops
+      // wait for a street-level zoom.
+      map.on('moveend', function () {
+        drawn = (!statewide || map.getZoom() >= STATEWIDE_STOP_ZOOM)
+          ? drawStops(stopLayer, map.getBounds().pad(0.35)) : (stopLayer.clearLayers(), 0);
+        mount.setAttribute('data-tzm-stops-drawn', String(drawn));
+      });
 
       // On the map, not only below it: a screenshot keeps this.
       var Badge = L.Control.extend({
