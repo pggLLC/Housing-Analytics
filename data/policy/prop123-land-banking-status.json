@@ -72,18 +72,25 @@
     },
     "fy23-24-city-of-grand-junction-salt-flats": {
       "status": "applied",
-      "text": "The city bought the 21.78-acre site in February 2025 and asked developers for letters of interest. A nonprofit partner applied for 2026 4% tax credits for 62 senior and veteran rental homes on part of it (Haven at Salt Flats); CHFA has not announced that round.",
+      "text": "The city closed on the 21.78-acre site in January 2025 and picked development teams for it later that year. One partner applied for 2026 4% tax credits for 62 senior and veteran rental homes on part of the site (Haven at Salt Flats); CHFA has not announced that round.",
       "sources": [
         {
-          "title": "City of Grand Junction, 11 Feb 2025",
-          "url": "https://www.gjcity.org/DocumentCenter/View/14524/City-of-Grand-Junction-Acquires-Salt-Flats-PDF"
+          "title": "City of Grand Junction, Ordinance 5275 (closing 9 Jan 2025)",
+          "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1159176/File/document",
+          "date": "2025-08-20"
+        },
+        {
+          "title": "KKCO 11 News, 28 Aug 2025",
+          "url": "https://www.kkco11news.com/2025/08/29/grand-junction-holds-community-meeting-about-affordable-housing-project/",
+          "date": "2025-08-28"
         },
         {
           "title": "CHFA 2026 Round Two applicant report",
-          "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+          "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+          "date": "2026"
         }
       ],
-      "quote": "The City will partner with non-profit and for-project housing developers ... Developer letters of interest are due February 21, 2025",
+      "quote": "Name: Haven at Salt Flats; Address: 450 28 Road; City: Grand Junction; Total Units: 62; LI Units: 62",
       "from": "research",
       "checked": "2026-10-22",
       "label": "Applied for building money"
@@ -161,11 +168,13 @@
       "sources": [
         {
           "title": "City of Salida, Scott Street project page",
-          "url": "https://www.cityofsalida.com/commdev/page/affordable-senior-housing-project-scott-street"
+          "url": "https://www.cityofsalida.com/commdev/page/affordable-senior-housing-project-scott-street",
+          "date": "2026"
         },
         {
           "title": "CHFA 2026 Round One applicant report",
-          "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+          "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+          "date": "2026"
         }
       ],
       "quote": "was not selected ... resubmit again in the next grant cycle in early 2027",
@@ -457,14 +466,15 @@
     },
     "fy25-26-rural-leadville-railyards": {
       "status": "partner",
-      "text": "The grantee is buying three lots at the Railyard with an affordable housing developer as partner, to build a 45-home apartment building. The article gives no timeline.",
+      "text": "The grantee and a developer partner plan Alpenglow Commons, 44 apartments at 1201 Poplar Street in the Railyard neighborhood. In June 2026 the next steps were planning and zoning meetings; the design was not final.",
       "sources": [
         {
-          "title": "Leadville Herald (undated)",
-          "url": "https://www.leadvilleherald.com/opinion/advocates-receive-1-2-million-land-banking-award-from-state/article_03c5b1b1-eb50-43fc-bcfe-7fdd6e797162.html"
+          "title": "Leadville Herald, 4 Jun 2026",
+          "url": "https://www.leadvilleherald.com/news/new-multi-story-apartment-building-coming-to-leadville/article_bc35680c-f2e2-46aa-8be3-ffd2ec7c23fa.html",
+          "date": "2026-06-04"
         }
       ],
-      "quote": "a partnership with affordable housing developer ... to build a 45-unit apartment building",
+      "quote": "The building is planned to be two to three stories, housing 44 apartments ... The next steps will be planning and zoning meetings, where they will need to request a density easement",
       "from": "research",
       "checked": "2026-10-22",
       "label": "Development partner chosen"
@@ -475,7 +485,8 @@
       "sources": [
         {
           "title": "Durango Telegraph, 23 Oct 2025",
-          "url": "https://www.durangotelegraph.com/news/top-stories/rivergate-workforce-housing-moves-ahead/"
+          "url": "https://www.durangotelegraph.com/news/top-stories/rivergate-workforce-housing-moves-ahead/",
+          "date": "2025-10-23"
         }
       ],
       "quote": "In June 2025, the City launched a search to find a development partner. ... In exchange for developing the lot, the City intends to donate the land to the developer, provided agreed-upon milestones are met.",

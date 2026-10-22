@@ -54,6 +54,7 @@ LABELS = {
     'none': 'No later state funding on record',
 }
 RANK = {k: i for i, k in enumerate(LABELS)}
+DATE = re.compile(r'^\d{4}(-\d{2}(-\d{2})?)?$')
 LEDGER_STAGE = {'funded': 'financed', 'under_construction': 'financed', 'applied': 'applied',
                 'letter_of_intent': 'applied', 'not_funded': 'not_funded'}
 
@@ -132,8 +133,9 @@ def build():
             if note['status'] not in LABELS or note['status'] in ('financed', 'none'):
                 raise SystemExit(f"{a['id']}: research status must be one of applied, partner, seeking, not_funded, none_found")
             if note['status'] != 'none_found' and not (note.get('text') and note.get('quote') and note.get('sources')
-                                                         and all(str(s.get('url', '')).startswith('https://') for s in note['sources'])):
-                raise SystemExit(f"{a['id']}: a {note['status']} note needs text, a quote and https sources")
+                                                         and all(str(s.get('url', '')).startswith('https://') and DATE.match(str(s.get('date', '')))
+                                                                 for s in note['sources'])):
+                raise SystemExit(f"{a['id']}: a {note['status']} note needs text, a quote and dated https sources")
         if led and (led['status'] == 'financed' or not note):
             row = led
         elif note:
@@ -166,7 +168,10 @@ def main():
     data = build()
     text = json.dumps(data, indent=2, ensure_ascii=False) + '\n'
     if args.check:
-        current = open(OUT, encoding='utf-8').read() if os.path.exists(OUT) else ''
+        current = ''
+        if os.path.exists(OUT):
+            with open(OUT, encoding='utf-8') as fh:
+                current = fh.read()
         if current != text:
             print(f'{os.path.relpath(OUT, ROOT)} is stale: run python3 scripts/funding/build_land_banking_status.py', file=sys.stderr)
             sys.exit(1)
