@@ -233,7 +233,7 @@
     const card = el('div', {
       class: 'ps-card' + (isActive ? ' ps-card--active' : ''),
       tabindex: '0',
-      role: 'article',
+      role: 'listitem',
       'aria-label': `Policy scenario: ${s.label}`,
       style: `--ps-accent: ${s.color}`,
       'data-id': s.id,

@@ -611,7 +611,7 @@
     }).join('');
     const summary = sc.totalScore + ' of ' + sc.knownDimensions + ' commitment dimensions confirmed';
     var cta = sc.knownDimensions < 7
-      ? '<p style="margin-top:.5rem;font-size:.8125rem;color:var(--muted)">Know more about this jurisdiction\'s housing policies? <a href="https://github.com/pggLLC/Housing-Analytics/issues/new?title=Housing+policy+data+for+' + encodeURIComponent(sc.name || '') + '&labels=data-contribution" target="_blank" rel="noopener" style="color:var(--accent)">Submit data</a></p>'
+      ? '<p style="margin-top:.5rem;font-size:.8125rem;color:var(--muted)">Know more about this jurisdiction\'s housing policies? <a href="https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform?usp=pp_url&entry.440415848=' + encodeURIComponent((location.pathname || '/') + ' · housing policy data for ' + (sc.name || '')) + '" target="_blank" rel="noopener" style="color:var(--accent)">Submit data</a></p>'
       : '';
     return '<div class="hca-scorecard-panel"><h4>Housing Policy Commitment</h4><div class="hca-scorecard-grid">' + items + '</div><div class="hca-scorecard-summary">' + summary + '</div>' + cta + '</div>';
   }

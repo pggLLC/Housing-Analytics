@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-10-21T08:44:04Z",
-    "as_of": "2026-10-21",
+    "generated": "2026-10-22T08:46:12Z",
+    "as_of": "2026-10-22",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -22,7 +22,7 @@
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
       "listed": 1331,
-      "upcoming": 26
+      "upcoming": 25
     },
     {
       "id": "housing_colorado",
@@ -42,18 +42,6 @@
     }
   ],
   "events": [
-    {
-      "title": "Training Webinar: CHFA Lender Basic Training",
-      "start": "2026-10-21",
-      "end": null,
-      "time": "11:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/dabc8589-4c53-4867-9cc1-ca81a34ade6e@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
     {
       "title": "October 2026 CHFA Board of Directors Meeting",
       "start": "2026-10-22",
@@ -368,6 +356,18 @@
     }
   ],
   "past": [
+    {
+      "title": "Training Webinar: CHFA Lender Basic Training",
+      "start": "2026-10-21",
+      "end": null,
+      "time": "11:00",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://events.teams.microsoft.com/event/dabc8589-4c53-4867-9cc1-ca81a34ade6e@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
+      "source": "chfa",
+      "category": "homebuyer"
+    },
     {
       "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
       "start": "2026-10-20",
@@ -3643,30 +3643,6 @@
       "online": true,
       "organizer": "CHFA",
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-insurance-special-coverages-and-claims-webinar-10-22-2025",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "Training Webinar: CHFA Loan Purchase Training",
-      "start": "2025-10-21",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://attendee.gotowebinar.com/register/3111476517634407515",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "chfareach: Beginner HUD Compliance Training: Foundations for Onsite Teams in a Post-HOTMA World, Webinar",
-      "start": "2025-10-21",
-      "end": null,
-      "time": "09:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-beginner-hud-compliance-training-foundations-for-onsite-teams-in-a-post-hotma-world-webina",
       "source": "chfa",
       "category": "compliance"
     }

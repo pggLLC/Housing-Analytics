@@ -7,9 +7,8 @@
  * none carried an `abbr` field: every chart label was blank, and every region
  * filter on the dashboard matched no state.
  *
- * Agreement checked here: each record's `abbr` equals its key, and every
- * postal code the dashboard's REGIONS map names is a record in the data, so
- * each region filter selects the states it lists.
+ * Agreement checked here: each record's `abbr` equals its key. (The
+ * dashboard and regional pages came off the public site on 10-22.)
  */
 const assert = require('assert');
 const fs = require('fs');
@@ -25,19 +24,6 @@ for (const key of keys) {
 }
 console.log(`  ✅ all ${keys.length} state records carry abbr equal to their key`);
 
-const html = fs.readFileSync(path.join(ROOT, 'dashboard.html'), 'utf8');
-const m = html.match(/const REGIONS = (\{[\s\S]*?\});/);
-assert.ok(m, 'dashboard.html REGIONS map not found');
-const REGIONS = Function(`return (${m[1]});`)();
-const regionNames = Object.keys(REGIONS);
-assert.ok(regionNames.length >= 4, 'REGIONS map has no regions to check');
-
-const byAbbr = new Set(Object.values(data.states).map((s) => s.abbr));
-for (const [region, codes] of Object.entries(REGIONS)) {
-  const matched = codes.filter((c) => byAbbr.has(c));
-  assert.deepStrictEqual(matched, codes, `dashboard region "${region}" names codes absent from the data`);
-}
-console.log(`  ✅ every postal code in the dashboard's ${regionNames.length} regions matches a state record`);
 
 // 2026 ceilings follow the IRS rule in every copy of the data: the greater of
 // $3.416 x population or $3,953,600 (Rev. Proc. 2025-32, section 4.08), with

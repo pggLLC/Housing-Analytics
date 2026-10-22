@@ -341,7 +341,7 @@
       if (window.MethodFooter) {
         rendered.push(window.MethodFooter.html({
           source:    'data/tax-abatement-inventory.json (curated)',
-          sourceUrl: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/tax-abatement-inventory.json',
+          sourceUrl: 'data/tax-abatement-inventory.json',
           vintage:   data.metadata && data.metadata.generated,
           method:    'Curated from each jurisdiction\'s published affordable-housing ordinance, IGA, or property-tax abatement program page. Top 30 CO jurisdictions where affordable housing is actively developing.',
           confidence:'med'

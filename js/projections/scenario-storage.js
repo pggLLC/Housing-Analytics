@@ -170,6 +170,8 @@
     if (p.migration_from === 'past') out.migration_from = 'past';
     // The base year's households per person by age, held, instead of SDO's.
     if (p.headship === 'held') out.headship = 'held';
+    // A town's share of each age group, Hamilton-Perry, instead of the HNA page's.
+    if (p.town_share === 'hamilton_perry') out.town_share = 'hamilton_perry';
     return out;
   }
 

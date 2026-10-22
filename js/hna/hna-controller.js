@@ -3994,9 +3994,12 @@
       el.hidden = true;
       return;
     }
-    el.textContent = 'The custom line is this page\u2019s population line plus the change your saved Scenario Builder settings make to the State Demography Office\u2019s forecast, over the chart\u2019s years only.' +
+    el.textContent = (customMeta.byAge
+      ? 'The custom line is the Scenario Builder\u2019s projection for this place with your saved settings, from this page\u2019s population in its first year, over the chart\u2019s years only. It gives the place a share of each age group of its county (Hamilton-Perry, from the 2010 and 2020 Census) in place of this page\u2019s one share, so it differs from this page\u2019s line even where nothing else changes.'
+      : 'The custom line is this page\u2019s population line plus the change your saved Scenario Builder settings make to the State Demography Office\u2019s forecast, over the chart\u2019s years only.') +
       (customMeta.migrationNote ? ' ' + customMeta.migrationNote : '') +
-      (customMeta.headshipNote ? ' ' + customMeta.headshipNote : '');
+      (customMeta.headshipNote ? ' ' + customMeta.headshipNote : '') +
+      (customMeta.townShareNote ? ' ' + customMeta.townShareNote : '');
     el.hidden = false;
   }
 
@@ -4007,7 +4010,10 @@
   // is this page's line exactly. A town or CDP takes the change at the share of
   // county growth this page gives it (the place ledger's blended share, else
   // its share of the county's people), summed over the same counties the
-  // Scenario Builder uses (CohortComponentModel.countiesFor). isStale, when
+  // Scenario Builder uses (CohortComponentModel.countiesFor). A scenario saved
+  // with a town's share of each age group (town_share 'hamilton_perry') draws
+  // the builder's projection for the town instead, from this page's first
+  // year (CohortComponentModel.townProjection). isStale, when
   // given, says a later render has started: the files load before the line is
   // worked out, so a load that finishes after the reader changed scenario or
   // place writes nothing.
@@ -4062,6 +4068,26 @@
     const sdoMigration = migrations.some(function (m) { return m == null; }) ? null
       : migrations.reduce(function (a, m) { return a + m; }, 0);
     const params = M.paramsFromSaved(rec.parameters || {}, sdoMigration == null ? null : sdoMigration * share);
+    // Saved with a town's share of each age group: the builder's people for
+    // the town by year, where the town has Hamilton-Perry shares.
+    let byAge = null;
+    let townShareNote = null;
+    if (params.town_share === 'hamilton_perry' && isSubCounty) {
+      if (window.HNAState.state.hamiltonPerry === undefined) {
+        window.HNAState.state.hamiltonPerry = await loadJson('data/hna/place-hamilton-perry.json').catch(function () { return null; });
+      }
+      if (isStale && isStale()) return null;
+      const hp = window.HNAState.state.hamiltonPerry;
+      const shareAt = hp ? M.townShares(hp, selection.geoid, fipsList) : null;
+      if (shareAt) {
+        byAge = {};
+        M.townProjection(baselines, params, shareAt).forEach(function (row) { byAge[row.year] = row.population; });
+      } else {
+        townShareNote = hp
+          ? 'It was saved with a town\u2019s share of each age group (Hamilton-Perry), which this place does not have, so the line uses this page\u2019s share.'
+          : 'It was saved with a town\u2019s share of each age group (Hamilton-Perry), but the Census counts by age did not load, so the line uses this page\u2019s share.';
+      }
+    }
     const changeByYear = {};
     baselines.forEach(function (b) {
       M.changeFromSdo(b, params).forEach(function (row) {
@@ -4070,8 +4096,16 @@
       });
     });
     // Only the chart's own years: no padded or extrapolated tail.
+    const first = byAge && years && years.length ? byAge[Number(years[0])] : null;
     const series = (years || [])
       .map(function (year, idx) {
+        if (byAge) {
+          const start = window.HNAUtils.safeNum(popSel[0]);
+          const now = byAge[Number(year)];
+          if (start == null || first == null || now == null) return null;
+          const population = start + now - first;
+          return { year: Number(year), population: population, pop: population };
+        }
         const base = window.HNAUtils.safeNum(popSel[idx]);
         const change = changeByYear[Number(year)];
         if (base == null || !change) return null;
@@ -4093,6 +4127,8 @@
       headshipNote: params.headship === 'held'
         ? 'It also holds households per person at 2024\u2019s, which changes the Scenario Builder\u2019s homes but not the number of people, so it does not move this line.'
         : null,
+      byAge: !!byAge,
+      townShareNote: townShareNote,
     };
     setCustomScenarioDisclosure(meta);
     return meta;
