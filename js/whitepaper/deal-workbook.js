@@ -446,8 +446,9 @@
             same = o === last && !busy ? same + 1 : 0; last = o;
             if (same >= 4) return resolve(f);
           }
-        } catch (e) { return reject(e); }
-        if (Date.now() - t0 > (timeoutMs || 45000)) return reject(new Error('The Deal Calculator did not finish loading.'));
+        } catch (e) { f.remove(); return reject(e); }
+        // A calculator left running would keep loading in the background, and each retry would add another.
+        if (Date.now() - t0 > (timeoutMs || 45000)) { f.remove(); return reject(new Error('The Deal Calculator did not finish loading.')); }
         setTimeout(poll, pollMs || 400);
       }
       f.addEventListener('load', function () { setTimeout(poll, pollMs || 400); });
@@ -490,9 +491,12 @@
     function api(path) {
       return fetch(API + path, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); });
     }
-    function open(query, title) {
+    // Each user action takes the next generation when it starts, so the latest action wins even if an earlier
+    // one finishes loading after it. A slow saved version or file read passes the generation it took.
+    function open(query, title, reserved) {
+      var my = reserved != null ? reserved : ++tok;
+      if (my !== tok) return;
       if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
-      var my = ++tok;
       status('Running the Deal Calculator for this deal…');
       $('wbOut').innerHTML = '';
       $('wbOpenCalc').href = calcUrl(query, doc.baseURI); $('wbOpenCalc').hidden = false;
@@ -523,24 +527,25 @@
     $('wbOpenSaved').addEventListener('click', function () {
       var deal = $('wbDeals').value, v = $('wbVersions').value;
       if (!deal || !v) { status('Choose a deal and a version.'); return; }
-      var gen = tok, name = $('wbDeals').selectedOptions[0].textContent;
+      var gen = ++tok, name = $('wbDeals').selectedOptions[0].textContent;
       api('?deal=' + encodeURIComponent(deal) + '&v=' + encodeURIComponent(v)).then(function (x) {
         // Another deal was opened, or the choice changed, while this one loaded.
         if (gen !== tok || $('wbDeals').value !== deal || $('wbVersions').value !== v) return;
         var q = queryFrom(x);
         if (!q) { status('That version was saved without a Deal Calculator export. Open it in Submittal review, load an export, and save again.'); return; }
-        open(q, name);
+        open(q, name, gen);
       }, function () { if (gen === tok) status('That version did not load.'); });
     });
     $('wbOpenLink').addEventListener('click', function () { open(queryFrom($('wbLink').value), null); });
     $('wbFile').addEventListener('change', function () {
-      var file = $('wbFile').files[0], gen = tok; if (!file) return;
+      var file = $('wbFile').files[0]; if (!file) return;
+      var gen = ++tok;
       file.text().then(function (t) {
         // Another file was picked, or another deal opened, while this one was read.
         if ($('wbFile').files[0] !== file || gen !== tok) return;
         var j; try { j = JSON.parse(t); } catch (e) { status('That file is not a Deal Calculator export.'); return; }
         if (j && j.dealMode === 'ownership') { status('That export is a for-sale deal. The workbook covers rental tax credit deals.'); return; }
-        open(queryFrom(j), file.name.replace(/\.json$/i, ''));
+        open(queryFrom(j), file.name.replace(/\.json$/i, ''), gen);
       });
     });
     $('wbPrint').addEventListener('click', function () { window.print(); });

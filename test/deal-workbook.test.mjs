@@ -184,6 +184,11 @@ function fakeFrameDoc(win) {
   setTimeout(() => { pending = 0; }, 120);
   await WB.loadFrame(fakeFrameDoc(win), 'units=1', 5000, 10);
   ok(Date.now() - t0 >= 120, 'the workbook waits for the calculator\'s data requests before reading it');
+  let removed = false, failed = null;
+  const stuck = fakeFrameDoc({ __DealCalc: { getResult: () => ({}), getOutputRecords: () => [1] }, __dealCalcPendingFetches: () => 1 });
+  const fr = stuck.createElement(); fr.remove = () => { removed = true; };
+  await WB.loadFrame(stuck, 'units=1', 60, 10).catch((e) => { failed = e; });
+  ok(failed && removed, 'a calculator that never settles is removed when the wait times out');
   ok(/__dealCalcPendingFetches/.test(read('deal-calculator.html')) && read('deal-calculator.html').indexOf('__dealCalcPendingFetches') < read('deal-calculator.html').indexOf('js/path-resolver.js'), 'the calculator counts its data requests from its first script');
 }
 
