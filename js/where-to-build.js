@@ -147,9 +147,9 @@
 
   // Files each factor rests on (the HNA ranking is required for any score at all).
   var NEEDS = { prop123: ['prop123'], approvals: ['support'], incentives: ['fees', 'coverage'], localFund: ['funds', 'coverage'],
-    landBank: ['awards'], rentCushion: ['hud'], parks: ['context'], prop123Vote: ['context'], presVote: ['context'] };
+    landBank: ['awards', 'lbStatus'], rentCushion: ['hud'], parks: ['context'], prop123Vote: ['context'], presVote: ['context'] };
   var DOC_FILES = { prop123: 'prop123_jurisdictions.json', support: 'local-support.json', fees: 'fee-reductions.json', funds: 'local-housing-funds.json',
-    coverage: 'incentive-coverage.json', awards: 'prop123-land-banking-awards.json', hud: 'hud-fmr-income-limits.json', context: 'where-to-build-context.json' };
+    coverage: 'incentive-coverage.json', awards: 'prop123-land-banking-awards.json', lbStatus: 'prop123-land-banking-status.json', hud: 'hud-fmr-income-limits.json', context: 'where-to-build-context.json' };
   // Status dates may be YYYY or YYYY-MM; read them as the earliest day they allow, so a signal never looks newer than its source.
   function fullDate(d) {
     d = String(d || '');

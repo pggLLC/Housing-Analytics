@@ -150,7 +150,8 @@ ok(page.indexOf('id="summary"') < page.indexOf('class="ib-filters"'), 'the execu
     ok(sig.length && sig.every((g) => g.date === '2026-07-01' && g.url === 'https://example.org/b'), 'a month-only source still makes a dated signal');
   }
   const noModel = W.build({ ...docs, lbStatus: null }, TODAY);
-  ok(noModel.places.some((p) => p.factors.landBank.points === 7), 'without the status file an award scores 7 and says so');
+  ok(noModel.missing.includes('prop123-land-banking-status.json') && noModel.places.every((p) => p.factors.landBank.points === null),
+    'without the status file land is not checked (no fallback score) and the page names the file');
 }
 
 // ---- 6c. A Census community inherits its county's money, so it scores as county money (6), not its own (10).
@@ -163,7 +164,7 @@ ok(model.places.some((p) => p.type === 'cdp' && /\(through /.test(p.factors.loca
 ok(page.includes('meta.parks_generated') && docs.context.meta.parks_generated, 'parks show the OpenStreetMap file date, not the vote date');
 
 // ---- 6d. A file that fails to load leaves its factors unchecked, never a zero for every place.
-for (const [key, ids] of [['prop123', ['prop123']], ['awards', ['landBank']], ['support', ['approvals']], ['context', ['parks', 'prop123Vote', 'presVote']], ['funds', ['localFund']]]) {
+for (const [key, ids] of [['prop123', ['prop123']], ['awards', ['landBank']], ['lbStatus', ['landBank']], ['support', ['approvals']], ['context', ['parks', 'prop123Vote', 'presVote']], ['funds', ['localFund']]]) {
   const m = W.build({ ...docs, [key]: null }, TODAY);
   ok(m.missing.length === 1, `${key} missing is reported (${m.missing})`);
   ok(m.places.every((p) => ids.every((id) => p.factors[id].points === null && /did not load/.test(p.factors[id].value))), `${key} missing: ${ids.join(', ')} show as not checked`);

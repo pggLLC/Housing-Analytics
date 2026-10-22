@@ -458,7 +458,7 @@
         basisBoost: asOf(docs.ranking.metadata && docs.ranking.metadata.generatedAt),
         need: asOf(docs.ranking.metadata && docs.ranking.metadata.generatedAt),
         amenities: asOf(docs.ranking.metadata && docs.ranking.metadata.generatedAt),
-        landBank: asOf(docs.awards && docs.awards.meta && docs.awards.meta.generated) + (docs.lbStatus ? '; status ' + asOf(docs.lbStatus.meta.generated_from && docs.lbStatus.meta.generated_from.research_checked) : '; status file not loaded, so every award scores 7'),
+        landBank: asOf(docs.awards && docs.awards.meta && docs.awards.meta.generated) + (docs.lbStatus ? '; status ' + asOf(docs.lbStatus.meta.generated_from && docs.lbStatus.meta.generated_from.research_checked) : '; status file not loaded, so land is not scored'),
         rentCushion: asOf(docs.hud && docs.hud.meta && docs.hud.meta.generated) + (docs.hud && docs.hud.meta ? ' (FMR FY' + docs.hud.meta.fiscal_year + ', income limits FY' + docs.hud.meta.income_limits_fiscal_year + ')' : ''),
         parks: 'OpenStreetMap file ' + asOf(docs.context && docs.context.meta && docs.context.meta.parks_generated),
         prop123Vote: 'certified 2022 results, read ' + asOf(docs.context && docs.context.meta && docs.context.meta.votes_retrieved),
