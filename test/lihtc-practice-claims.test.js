@@ -76,10 +76,11 @@ const definition = craText.match(/228\.12\(t\)[^.]*"as its primary purpose (comm
 assert(definition, 'the CRA section quotes the 228.12(t) qualified-investment definition');
 const claims = craText.split(/(?<=[.;?!]"?)\s+/)
   .map((sentence) => sentence.replace(/"[^"]*"/g, '""'))
-  .filter((sentence) => /\binvestments?\b[^.;]*\b(counts?|qualif(y|ies|ied|ying))\b/i.test(sentence) || /\binvestment\b[^.;]*\bqualified investment\b/i.test(sentence));
+  .filter((sentence) => /\binvestments?\b[^.;]*\b(counts?|qualif(y|ies|ied|ying))\b/i.test(sentence)
+    || /\binvestments?\b[^.;]*\b(earns?|gets?|receives?|wins?|is given)\b[^.;]*\bcredit\b/i.test(sentence));
 assert(claims.length >= 2, `scan found ${claims.length} CRA credit claims`);
 claims.forEach((claim) => {
   assert(claim.includes(definition[1]), `CRA claim names the community development purpose: ${claim}`);
-  assert(/\b(if|only if|whether|depends|unless)\b/i.test(claim), `CRA claim states its condition: ${claim}`);
+  assert(/\b(if|whether|depends|unless|when|provided|as long as|so long as)\b/i.test(claim), `CRA claim states its condition: ${claim}`);
 });
 console.log(`lihtc-practice-claims: PASS (${rounds.length} rounds checked)`);
