@@ -256,7 +256,9 @@ const hist = mut0((s) => { s.permanentFinancing.historic = [{ id: 'h1', program:
 ok(hist.sources.rows.some((x) => x.label === 'Historic credit equity' && x.amount === 400000) && hist.sources.rows.some((x) => x.amount === null && /Historic credit equity: not known/.test(x.label)), 'a historic tranche without an amount stays in the sources as unknown');
 
 const noMort = mut0((s) => { s.permanentFinancing.hardMortgages.forEach((h) => { if (h.source === 'senior') h.principal = null; }); s.result.mortgage = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { mortgage: 'Operating inputs are incomplete.' }); });
-ok(noMort.sources.rows.some((x) => x.amount === null && x.label === 'First mortgage: not known, Operating inputs are incomplete.'), 'an unsized first mortgage keeps the engine reason');
+ok(noMort.sources.rows.some((x) => x.amount === null && x.label === 'First mortgage: not known, Operating inputs are incomplete'), 'an unsized first mortgage keeps the engine reason');
+const noType = mut0((s) => { s.permanentFinancing.hardMortgages.forEach((h) => { if (h.source === 'senior') h.reason = "Choose the first mortgage's DOH loan type."; }); });
+ok(noType.sources.rows.some((x) => x.amount > 0 && x.label === "First mortgage: Choose the first mortgage's DOH loan type."), 'a sized first mortgage with no DOH loan type keeps that note');
 ok(m.sources.rows.some((x) => x.label === 'First mortgage' && x.amount > 0), 'a sized first mortgage keeps its plain label');
 const blankGov = mut0((s) => { s.permanentFinancing.government = [{ id: 'g1', program: null, label: 'County loan', amount: null }]; });
 ok(blankGov.sources.rows.some((x) => x.amount === null && x.label === 'County loan: not known, enter the amount'), 'a classified source with no amount says so');

@@ -86,9 +86,12 @@
     if (pf && pf.totals) {
       (pf.hardMortgages || []).forEach(function (m) {
         var name = m.source === 'senior' ? 'First mortgage' : (m.label || 'Mortgage') + (m.program ? ' (' + (labels[m.program] || m.program) + ')' : '');
-        // A loan the engine could not size keeps its reason, so the unknown total says what to fix.
-        var why = num(m.principal) == null ? (m.reason || (m.source === 'senior' ? un.mortgage : null) || 'enter the loan amount') : null;
-        sources.push({ label: why ? name + ': not known, ' + why : name, amount: num(m.principal) });
+        // A loan the engine could not size says why, and one with no DOH loan type keeps that note too, so
+        // neither reads as resolved.
+        var amt = num(m.principal), notes = [];
+        if (amt == null) notes.push('not known, ' + ((m.source === 'senior' ? un.mortgage : null) || 'enter the loan amount').replace(/\.$/, ''));
+        if (m.reason) notes.push(m.reason);
+        sources.push({ label: notes.length ? name + ': ' + notes.join('; ') : name, amount: amt });
       });
       var tc = pf.taxCredit || {};
       // The deal's own federal credit stays in the list when it could not be sized: unknown is not none.
