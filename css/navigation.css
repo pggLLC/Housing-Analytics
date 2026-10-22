@@ -594,3 +594,37 @@ footer.site-footer .footer-wrap {
   .footer-col { gap: 0; }
   .footer-about-links { gap: 0 16px; }
 }
+
+/* ── Member sign in (navigation.js memberLink) ────────────────────────
+   Wide screens: a small outlined link after Search. Below 1100px the menu
+   already wraps to two rows and the link would push "Scoping a Project" out
+   of the header, so it is hidden there; it stays in the footer and, on
+   phones, at the bottom of the menu drawer. */
+.nav-member-signin {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 4px 12px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.nav-member-signin:hover,
+.nav-member-signin:focus-visible { text-decoration: underline; }
+@media (max-width: 1099px) {
+  .nav-member-signin { display: none; }
+}
+.mobile-nav-links a.mobile-nav-member-signin {
+  display: block;
+  margin: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-weight: 600;
+}
+.footer-member-signin { font-weight: 600; }
