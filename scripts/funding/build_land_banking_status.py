@@ -38,6 +38,7 @@ import json
 import os
 import re
 import sys
+from urllib.parse import urlparse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 AWARDS = os.path.join(ROOT, 'data/policy/prop123-land-banking-awards.json')
@@ -63,6 +64,11 @@ LEDGER_STAGE = {'funded': 'financed', 'under_construction': 'financed', 'applied
 def read_json(path):
     with open(path, encoding='utf-8') as fh:
         return json.load(fh)
+
+
+def is_https(url):
+    u = urlparse(str(url or ''))
+    return u.scheme == 'https' and bool(u.netloc)
 
 
 def norm(s):
@@ -140,7 +146,7 @@ def build():
             if note['status'] not in LABELS or note['status'] in ('financed', 'none'):
                 raise SystemExit(f"{a['id']}: research status must be one of applied, partner, seeking, not_funded, none_found")
             if note['status'] != 'none_found' and not (note.get('text') and note.get('quote') and note.get('sources')
-                                                         and all(str(s.get('url', '')).startswith('https://') and DATE.match(str(s.get('date', '')))
+                                                         and all(is_https(s.get('url')) and DATE.match(str(s.get('date', '')))
                                                                  for s in note['sources'])):
                 raise SystemExit(f"{a['id']}: a {note['status']} note needs text, a quote and dated https sources")
         if led and (led['status'] == 'financed' or not note):
