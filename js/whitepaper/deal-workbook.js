@@ -211,7 +211,7 @@
     model.exec = {
       credit: model.basis.credit, creditReason: model.basis.creditReason, gap: model.gap.amount, gapReason: model.gap.reason,
       weakest: model.coverage.weakest, coverageFull: model.coverage.full, coverageReason: model.coverage.reason,
-      paybackYear: model.deferredFee.paybackYear, deferredFee: dfee, owedAt15: model.deferredFee.owedAt15, payoffReason: model.deferredFee.payoffReason
+      paybackYear: model.deferredFee.paybackYear, deferredFee: dfee, deferredFeeReason: model.deferredFee.reason, owedAt15: model.deferredFee.owedAt15, payoffReason: model.deferredFee.payoffReason
     };
     model.findings = findings(model, r);
     return model;
@@ -270,7 +270,9 @@
     if (m.basis.boost && m.basis.boost.applied === false && m.basis.boost.reason) out.push({ level: 'ok', text: 'No basis boost: ' + m.basis.boost.reason });
 
     var df = m.deferredFee;
-    if (df.amount) {
+    // Unknown is not the same as none: the engine says why it could not size the fee.
+    if (df.amount == null) out.push({ level: 'warn', text: 'The deferred developer fee is not known: ' + (df.reason || 'the calculator did not size it') + '.' });
+    else if (df.amount) {
       if (df.paybackYear != null) out.push({ level: 'ok', text: 'The deferred fee of ' + money(df.amount) + ' is paid off from cash flow in year ' + df.paybackYear + '.' });
       else if (df.owedAt15 == null) out.push({ level: 'warn', text: 'Whether the deferred fee is paid off in 15 years is not known: ' + (df.payoffReason || 'the cash flow is incomplete') + '.' });
       else out.push({ level: 'bad', text: 'The deferred fee is not paid off in 15 years: ' + money(df.owedAt15) + ' of ' + money(df.amount) + ' is still owed' + (df.paidLater ? ' (paid off in year ' + df.paidLater + ')' : '') + '.' });
@@ -308,7 +310,8 @@
       tile(e.gap == null ? '—' : esc(money(e.gap)), e.gap == null ? 'Funding gap: ' + esc(e.gapReason || 'not available') : 'Funding gap after every modeled source', e.gap > 0.5 ? 'sr-bad' : 'sr-ok') +
       tile(w ? esc(ratio(w.ratio)) : '—', w ? 'Weakest debt coverage, all must-pay debt (year ' + w.year + ')' : 'Debt coverage: ' + esc(e.coverageReason || 'not available'), w && minDscr != null ? (w.ratio < minDscr ? 'sr-bad' : e.coverageFull ? 'sr-ok' : '') : '') +
       tile(e.paybackYear != null ? 'Year ' + e.paybackYear : (e.deferredFee && e.owedAt15 != null ? 'Not in 15 yrs' : '—'),
-        !e.deferredFee ? 'No deferred developer fee' : e.paybackYear != null ? 'Deferred fee of ' + esc(money(e.deferredFee)) + ' paid off' :
+        e.deferredFee == null ? 'Deferred fee: not known, ' + esc(e.deferredFeeReason || 'not available') :
+          !e.deferredFee ? 'No deferred developer fee' : e.paybackYear != null ? 'Deferred fee of ' + esc(money(e.deferredFee)) + ' paid off' :
           e.owedAt15 != null ? 'Deferred fee of ' + esc(money(e.deferredFee)) + ': ' + esc(money(e.owedAt15)) + ' still owed at year 15' :
           'Deferred fee payoff: not known, ' + esc(e.payoffReason || 'cash flow incomplete'),
         e.deferredFee && e.paybackYear == null && e.owedAt15 != null ? 'sr-bad' : '') +
@@ -329,7 +332,8 @@
       .concat(s.gap != null && Math.abs(s.gap) > 0.5 ? [{ cls: 'sr-total', cells: [s.gap > 0 ? 'Gap' : 'Surplus', esc(money(Math.abs(s.gap))), esc(s.tdc ? pct(Math.abs(s.gap) / s.tdc) : '—')] }] : []), { num: [1, 2], fixed: true })
       : '<p class="sr-muted">' + esc(s.reason) + '</p>';
     h += '</div><div><h3>Uses</h3>';
-    h += u.rows.length ? table(['Use', 'Amount', 'Per home'], u.rows.map(function (x) {
+    // A budget with nothing itemized still shows its one "Not itemized" line rather than a bare total.
+    h += u.rows.length || u.notItemized > 0.5 ? table(['Use', 'Amount', 'Per home'], u.rows.map(function (x) {
       return { cells: [esc(x.label), esc(money(x.amount)), esc(m.units ? money(x.amount / m.units) : '—')] };
     }).concat(u.notItemized > 0.5 ? [{ cells: ['Not itemized', esc(money(u.notItemized)), esc(m.units ? money(u.notItemized / m.units) : '—')] }] : [])
       .concat([{ cls: 'sr-total', cells: ['Total development cost', esc(money(u.tdc)), esc(m.units ? money(u.tdc / m.units) : '—')] }]), { num: [1, 2], fixed: true })

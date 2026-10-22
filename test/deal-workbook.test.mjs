@@ -192,4 +192,13 @@ function fakeFrameDoc(win) {
   ok(/__dealCalcPendingFetches/.test(read('deal-calculator.html')) && read('deal-calculator.html').indexOf('__dealCalcPendingFetches') < read('deal-calculator.html').indexOf('js/path-resolver.js'), 'the calculator counts its data requests from its first script');
 }
 
+// ── Unknown versus none ────────────────────────────────────────────────────
+const feeUnknown = mut0((s) => { s.result.deferredDevFee = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { deferredDevFee: 'Operating inputs are incomplete.' }); });
+ok(/Deferred fee: not known, Operating inputs are incomplete\./.test(WB.render(feeUnknown)) && !/No deferred developer fee/.test(WB.render(feeUnknown)), 'an unknown deferred fee is shown as unknown with its reason, not as none');
+ok(/warn: The deferred developer fee is not known: Operating inputs are incomplete\./.test(feeUnknown.findings.map((f) => f.level + ': ' + f.text).join('\n')), 'an unknown deferred fee is a finding');
+const feeNone = mut0((s) => { s.result.deferredDevFee = 0; });
+ok(/No deferred developer fee/.test(WB.render(feeNone)), 'a zero deferred fee still reads as none');
+const noItems = mut0((s) => { const b = s.result.budget; Object.keys(b.groups).forEach((k) => { b.groups[k] = 0; }); b.itemized = 0; b.notItemized = s.result.tdc; });
+ok(noItems.uses.rows.length === 0 && /Not itemized/.test(WB.render(noItems)), 'a budget with nothing itemized shows its Not itemized line');
+
 console.log(`deal-workbook: ${checks} checks passed`);
