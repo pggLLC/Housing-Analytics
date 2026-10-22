@@ -60,15 +60,12 @@ const AUDIT_PAGES = [
   'hna-what-to-do.html',
   'hna-comparative-analysis.html',
   'economic-dashboard.html',
-  'lihtc-allocations.html',
   'colorado-deep-dive.html',
   // Tabs other than the first are hidden, and axe skips hidden content, so a
   // tab that holds a whole former page is audited by opening it by hash.
   // historical-trends.html is a redirect stub to this tab.
   'colorado-deep-dive.html#tab-history',
   'lihtc-guide-for-stakeholders.html',
-  'dashboard.html',
-  'regional.html',
   'market-analysis.html',
   'deal-calculator.html',
   'land-value.html',
@@ -96,11 +93,8 @@ const READY = {
   'hna-what-to-do.html':                 { selector: '#hnaHousingTypeNeed div' },
   'hna-comparative-analysis.html':       { selector: '#hcaTableBody tr', min: 50 },
   'economic-dashboard.html':             { selector: '#sec-housing .value', min: 5, notText: 'Loading…' },
-  'lihtc-allocations.html':              { selector: '#states-body tr', min: 20 },
   'colorado-deep-dive.html':             { selector: '#coMap path', min: 64 },
   'colorado-deep-dive.html#tab-history': { selector: '#chfaTable td', min: 20 },
-  'dashboard.html':                      { selector: '#states-table-body tr', min: 5 },
-  'regional.html':                       { selector: '#states-table-body tr', min: 10 },
   'market-analysis.html':                { selector: '#pmaMap path', min: 64 },
   'deal-calculator.html':                { selector: '#dc-county-select option', min: 64 },
   'land-value.html':                     { selector: '#landValueMount label', min: 5 },

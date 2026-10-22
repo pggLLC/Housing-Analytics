@@ -735,8 +735,7 @@ document.addEventListener('DOMContentLoaded', function () {
     why: 'Colorado-specific context is essential for LIHTC development. Statewide trends, CHFA priorities, Prop 123 dynamics, and competitive landscape all influence deal positioning. This page provides the state-level view that complements jurisdiction-level analysis.',
     not: 'This is a data exploration page, not a scored analysis. It does not recommend specific sites or rank jurisdictions. Some data is manually updated (CAR reports) and may lag by 1-2 months. Historical allocation data from HUD has a 12-24 month reporting lag.',
     nextSteps: [
-      { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'Rank geographies by housing need' },
-      { label: 'LIHTC Allocations', href: 'lihtc-allocations.html', desc: 'National allocation context' }
+      { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'Rank geographies by housing need' }
     ]
   });
 });
@@ -1501,7 +1500,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   <div class="tab-panel" id="tab-state-comparison" role="tabpanel" aria-labelledby="tab-btn-state-comparison">
 <h2 style="margin-bottom:.5rem;">Colorado Snapshot</h2>
 <p style="color:var(--muted);font-size:.95rem;margin:0 0 1.5rem;max-width:80ch;">
-  Colorado's credit per resident, vacancy, credit pricing, employment and
+  Colorado's credit ceiling, credit per resident, vacancy, credit pricing, employment and
   foreclosure risk. Each card links its source.
 </p>
 <div class="chart-card" style="margin: 1.5rem 0;">
@@ -1515,6 +1514,12 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
      link. Static cards stay only when the data isn't publicly available
      (e.g. private 9% credit pricing). User can see what's real. -->
 <div class="comparison-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: .65rem;">
+<!-- Colorado's 2026 federal 9% credit ceiling, from data/allocations.json -->
+<div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: .8125rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Colorado 9% Credit Ceiling (2026)</div>
+<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.15rem;" id="cddCoCeiling">—</div>
+<div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;">Yearly credit, before carryforward and returns · <a href="https://www.irs.gov/irb/2026-15_IRB" target="_blank" rel="noopener">IRS Notice 2026-22</a></div>
+</div>
 <!-- LIHTC Allocation Per Capita — computed live from CHFA + BLS pop -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
 <div style="font-size: .8125rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Federal Credit per Resident (2026)</div>
@@ -1560,6 +1565,14 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       JSON.stringify(d || {}, function (k, v) { if (k === 'ceiling_2026' && v && v.per_capita > 0) pc = v.per_capita; return v; });
       var el = document.getElementById('cddLihtcPerCap');
       if (el && pc) el.textContent = '$' + pc.toFixed(2);
+    }).catch(function(){});
+  // Colorado's ceiling: $3.416 per resident times the 2026 IRS population figure.
+  fetch('data/allocations.json', { cache: 'no-cache' })
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) {
+      var co = d && d.states && d.states.CO;
+      var el = document.getElementById('cddCoCeiling');
+      if (el && co && co.allocation > 0) el.textContent = '$' + (co.allocation / 1e6).toFixed(1) + 'M';
     }).catch(function(){});
 })();
 </script>

@@ -170,9 +170,9 @@ test('legislation does not price equity from unsourced constants', () => {
   assert.doesNotMatch(read('js/cra-expansion-forecast.js'), /getCurrentBills/);
 });
 
-test('the price chips on Dashboard, Regional and the Deep Dive lead with the Colorado median from the file', async () => {
+test('the Deep Dive price chip leads with the Colorado median from the file', async () => {
   const CO = BENCH.pricing.by_state.CO.median_all_credits;
-  for (const page of ['dashboard.html', 'regional.html', 'colorado-deep-dive.html']) {
+  for (const page of ['colorado-deep-dive.html']) {
     const typed = [...new JSDOM(read(page)).window.document.querySelectorAll('div, span')]
       .filter((el) => /^\$0\.\d\d$/.test(el.textContent.trim()));
     assert.equal(typed.length, 0,
