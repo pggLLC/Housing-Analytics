@@ -79,7 +79,6 @@
   //     source CHFA QAP underwriters actually use; vacancy + per-BR.
   //
   // Both soft-load; the cap math still runs off ZORI when either is missing.
-  var _alData = null;       // cached apartment_list_co.json
   var _dolaSurvey = null;   // cached dola_rent_survey_co.json
   // Published jurisdiction B25064; absence is retained when Census suppresses it.
   var _acsRent = null;      // cached acs_median_rent_co.json
@@ -6357,18 +6356,6 @@
       if (_countyFips) { _renderZoriMarketContext(_countyFips); recalculate(); }
     }).catch(function () { _renterBedroomMix = null; if (_countyFips) recalculate(); });
 
-    // F96 — Apartment List monthly rent index (CO cities). Triangulation
-    // source. Soft-load; AL line just hides when missing.
-    fetch(_gapResolver('data/market/apartment_list_co.json')).then(function (r) {
-      return r.ok ? r.json() : null;
-    }).then(function (data) {
-      if (data && data.cities) {
-        _alData = data;
-        if (_countyFips) {
-          try { _renderZoriMarketContext(_countyFips); } catch (_) {}
-        }
-      }
-    }).catch(function () { /* skip — AL is optional */ });
 
     // F96 — DOLA Apartment Rent Survey snapshot (regional). Soft-load.
     // The PDF is WAF-blocked at DOLA's end; the JSON here is built from
@@ -6499,14 +6486,6 @@
       return;
     }
 
-    // F96 — Apartment List triangulation (city-level). Pick the largest
-    // city ZORI tracks for this county as the lookup key (ZORI city
-    // records carry a county FIPS that we matched to the selected fips).
-    // Simpler approach: try to derive the dominant city from the county
-    // name by checking ZORI city records that fall in this county.
-    var alLine = _alTriangulationLine(fips);
-    if (alLine) html += '<div style="margin-top:.25rem;">' + alLine + '</div>';
-
     // F96 — DOLA Survey triangulation (regional). Always 14 CO regions;
     // we look up the region for this county via the survey's county
     // map.
@@ -6515,52 +6494,6 @@
 
     el.innerHTML = html;
     el.style.color = 'var(--muted)';
-  }
-
-  /**
-   * F96 — Build a one-line Apartment List comparison string for the
-   * selected county. AL is city-level; we surface the largest AL-tracked
-   * city associated with this county (best-effort name match).
-   */
-  function _alTriangulationLine(fips) {
-    if (!_alData || !_alData.cities) return '';
-    // Naive approach: pick whichever AL city's "county" field matches.
-    // The AL JSON we built doesn't carry county FIPS (it's a city-level
-    // index), so we match by name against ZORI's county→city associations
-    // when possible. Fallback: just pick the highest-rent AL city to
-    // surface as "regional benchmark".
-    var bestCity = null;
-    var bestRent = -1;
-    // Best-effort: look at ZORI cities for this county to find candidate
-    // names, then look those names up in AL.
-    if (_zoriData && _zoriData.cities) {
-      Object.keys(_zoriData.cities).forEach(function (k) {
-        var zc = _zoriData.cities[k];
-        // ZORI city records don't always carry a FIPS either; fall back
-        // to name match. Skip this attempt.
-      });
-    }
-    // Pragmatic fallback: pick the AL city with highest rent_overall as
-    // a "metro benchmark" line. Surfaces the per-BR detail AL provides
-    // that ZORI's smoothed index doesn't.
-    Object.keys(_alData.cities).forEach(function (k) {
-      var c = _alData.cities[k];
-      if (typeof c.rent_overall === 'number' && c.rent_overall > bestRent) {
-        bestRent = c.rent_overall;
-        bestCity = c;
-      }
-    });
-    if (!bestCity) return '';
-    var bits = [];
-    if (bestCity.rent_1br)     bits.push('1BR $' + bestCity.rent_1br.toLocaleString());
-    if (bestCity.rent_2br)     bits.push('2BR $' + bestCity.rent_2br.toLocaleString());
-    if (bestCity.rent_overall) bits.push('all $' + bestCity.rent_overall.toLocaleString());
-    var yoy = (typeof bestCity.yoy_change_pct === 'number')
-      ? ' (' + (bestCity.yoy_change_pct >= 0 ? '+' : '') + bestCity.yoy_change_pct.toFixed(1) + '% YoY)'
-      : '';
-    return '<strong>' + (bestCity.name || 'Region') + '</strong> Apartment List: ' +
-      bits.join(' / ') + yoy +
-      '. <span style="opacity:.75;">City-level per-BR triangulation.</span>';
   }
 
   /**

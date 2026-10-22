@@ -38,7 +38,8 @@ const __dirname  = path.dirname(__filename);
 const REPO_ROOT  = path.resolve(__dirname, '..');
 
 const DRY_RUN = process.argv.includes('--dry');
-const CURRENT_YEAR = 2026;
+// Same clock the Finder page uses, so the build and the page agree on the year.
+const CURRENT_YEAR = new Date().getFullYear();
 const MAX_RECENCY_YEARS = 4;  // matches F146 / compare.js / OF
 
 const RANKING_INDEX_PATH = path.join(REPO_ROOT, 'data', 'hna', 'ranking-index.json');
