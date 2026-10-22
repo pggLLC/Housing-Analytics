@@ -65,8 +65,8 @@ def read_json(path):
         return json.load(fh)
 
 
-def words(s):
-    return set(re.findall(r'[a-z0-9]+', (s or '').lower()))
+def norm(s):
+    return re.sub(r'[^a-z0-9]', '', (s or '').lower())
 
 
 def ledger_project(award, projects):
@@ -76,13 +76,14 @@ def ledger_project(award, projects):
         for e in p['events']:
             if (e['stage'] == 'land_funded' and e.get('source_url') == award['source_url']
                     and e.get('amount') == award['amount_awarded']):
-                hits.append(p)
+                hits.append((p, e))
                 break
     if len(hits) > 1:
-        # two awards of the same amount on one list: keep the one whose name matches
-        named = [p for p in hits if words(award['project']) & words(' '.join(e.get('quote', '') for e in p['events']))]
-        hits = named or hits
-    return hits[0] if len(hits) == 1 else None
+        # two awards of the same amount on one list: keep the one whose land event
+        # prints this award's whole project name
+        name = norm(award['project'])
+        hits = [(p, e) for p, e in hits if name and name in norm(e.get('quote'))]
+    return hits[0][0] if len(hits) == 1 else None
 
 
 def event_stage(e):
@@ -128,9 +129,12 @@ def build():
     unknown = sorted(set(entries) - ids)
     if unknown:
         raise SystemExit(f'research notes for awards that are not on the list: {unknown}')
-    out = {}
+    out, unlinked = {}, []
     for a in awards:
-        led = from_ledger(ledger_project(a, ledger['projects']))
+        project = ledger_project(a, ledger['projects'])
+        if not project:
+            unlinked.append(a['id'])
+        led = from_ledger(project)
         note = entries.get(a['id'])
         if note:
             if note['status'] not in LABELS or note['status'] in ('financed', 'none'):
@@ -157,6 +161,8 @@ def build():
                                'research_checked': research.get('checked')},
             'labels': LABELS,
             'counts': counts,
+            # awards with no single ledger project to read; each shows "none" until fixed
+            'unlinked': unlinked,
             'note': 'A status reads only public state award records and dated public sources. '
                     '"Building money awarded" means another state award to the same project, before or after the land award, not that homes are built.',
         },

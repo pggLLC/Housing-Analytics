@@ -393,6 +393,7 @@ ledgerAgreement(DATA);
   const ST = json('data/policy/prop123-land-banking-status.json');
   ok(DATA.awards.every((a) => ST.status[a.id] && ST.meta.labels[ST.status[a.id].status] === ST.status[a.id].label), 'every award has a status with a known label');
   ok(Object.keys(ST.status).length === DATA.awards.length, 'the status file has no award the list lacks');
+  ok(Array.isArray(ST.meta.unlinked) && ST.meta.unlinked.length === 0, `every award links to one ledger project (${(ST.meta.unlinked || []).join(', ')})`);
   const rebuilt = spawnSync('python3', [join(ROOT, 'scripts/funding/build_land_banking_status.py'), '--check'], { encoding: 'utf8' });
   ok(rebuilt.status === 0, `the status file is current (${(rebuilt.stderr || '').trim()})`);
   for (const [id, st] of Object.entries(ST.status)) {

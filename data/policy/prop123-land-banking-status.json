@@ -24,6 +24,7 @@
       "none_found": 9,
       "none": 37
     },
+    "unlinked": [],
     "note": "A status reads only public state award records and dated public sources. \"Building money awarded\" means another state award to the same project, before or after the land award, not that homes are built."
   },
   "status": {
