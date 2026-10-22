@@ -168,6 +168,8 @@ ok(WB.queryFrom({ data: { calculator: { query: 'units=12' } } }) === 'units=12',
 ok(WB.calcUrl('units=60&county-select=08067', 'http://localhost/a/developer-deal-workbook.html') === 'http://localhost/a/deal-calculator.html?units=60&county-select=08067', 'the calculator link stays on the same folder');
 ok(WB.calcUrl('"><script>x</script>&units=1', 'http://localhost/a/p.html').indexOf('<') === -1, 'pasted markup is encoded, never passed through');
 ok(new URL(WB.calcUrl('javascript:alert(1)', 'http://localhost/a/p.html')).protocol === 'http:', 'a pasted script link cannot change where the link goes');
+ok(WB.queryFrom('https://example.com/search?q=housing') === null && WB.queryFrom('https://example.com/a=b') === null, 'a link to another page gives nothing');
+ok(WB.queryFrom('?units=60') === 'units=60' && WB.queryFrom('units=60') === 'units=60' && WB.queryFrom('/deal-calculator?units=60') === 'units=60', 'a bare query string or the calculator path still gives its settings');
 ok(WB.queryFrom('just some text') === null && WB.queryFrom({}) === null, 'anything else gives nothing');
 
 // ── Gating ─────────────────────────────────────────────────────────────────
@@ -271,6 +273,7 @@ ok(gapGone.includes('Funding gap: Operating inputs are incomplete.') && !/sr-ok|
 
 const fiveYr = mut0((s) => { s.result.projection.years = 5; });
 ok(fiveYr.cashFlow.rows.length === 5 && fiveYr.cashFlow.rows[4].year === 5, 'the cash flow stops at the calculator\'s forecast horizon');
+ok(WB.render(fiveYr).includes('>5-year cash flow</h2>') && !WB.render(fiveYr).includes('15-year cash flow'), 'the cash flow heading names the forecast horizon');
 const withAm = mut0((s) => { s.result.projection.rows.forEach((y) => { y.assetMgmtFee = 7500; y.cashFlow = y.cashFlow == null ? null : y.cashFlow - 7500; }); });
 const amHtml = WB.render(withAm);
 ok(withAm.cashFlow.rows[0].assetMgmt === 7500 && amHtml.includes('Asset management fee paid') && amHtml.includes('-$7,500'), 'asset management fees paid show between debt service and cash flow');

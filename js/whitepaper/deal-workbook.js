@@ -459,7 +459,7 @@
 
     // Cash flow
     var cf = m.cashFlow;
-    h += '<section class="dv-card" aria-labelledby="wbCF"><h2 id="wbCF">15-year cash flow</h2>';
+    h += '<section class="dv-card" aria-labelledby="wbCF"><h2 id="wbCF">' + ((cf.rows && cf.rows.length) || 15) + '-year cash flow</h2>';
     if (cf.rows.length) {
       var lines = [
         ['Gross rent', 'grossRents'], ['Other income', 'otherIncome'], ['Less vacancy', 'vacancy', -1], ['Effective gross income', 'egi', 1, true],
@@ -544,8 +544,10 @@
     if (!x) return null;
     if (typeof x === 'string') {
       var s = x.trim(), q = s.indexOf('?');
+      // A link counts only when it points at the Deal Calculator; a bare query string from an export still works.
+      if (q > 0 && !/(^|\/)deal-calculator(\.html)?$/i.test(s.slice(0, q))) return null;
       if (q !== -1) return s.slice(q + 1).replace(/#.*$/, '') || null;
-      return /=/.test(s) ? s : null;
+      return /=/.test(s) && !/^[a-z][a-z0-9+.-]*:/i.test(s) ? s : null;
     }
     if (x.url) return queryFrom(String(x.url));
     if (x.calculator && x.calculator.query) return x.calculator.query;
