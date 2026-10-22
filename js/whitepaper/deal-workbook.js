@@ -72,7 +72,7 @@
   function build(snap, rules) {
     var r = snap && snap.result;
     if (!r) return { error: 'The Deal Calculator gave no result for this deal.' };
-    if (r.forSale && r.forSale.status && !r.pricedRows) return { error: 'This is a for-sale deal. The workbook covers rental tax credit deals.' };
+    if (snap.mode === 'ownership' || (r.forSale && r.forSale.status && !r.pricedRows)) return { error: 'This is a for-sale deal. The workbook covers rental tax credit deals.' };
     var un = r.unavailable || {};
     var units = num(r.units);
     var min = chfaMinimums(rules);
@@ -92,7 +92,7 @@
       if (num(tc.state)) sources.push({ label: 'Colorado state credit equity', amount: num(tc.state) });
       if (num(tc.added)) sources.push({ label: tc.addedLabel || 'Other credit equity', amount: num(tc.added) });
       if (num(tc.historic)) sources.push({ label: 'Historic credit equity', amount: num(tc.historic) });
-      ['government', 'other', 'unclassified'].forEach(function (k) {
+      ['government', 'other', 'owner', 'unclassified'].forEach(function (k) {
         (pf[k] || []).forEach(function (s) { var prog = s.program ? (labels[s.program] || s.program) : null;
           sources.push({ label: s.label && prog ? s.label + ' (' + prog + ')' : (s.label || prog || 'Other source'), amount: num(s.amount != null ? s.amount : s.principal) }); });
       });
@@ -159,7 +159,11 @@
       })
     };
     var cov = r.coverage || {};
-    model.coverage = { weakest: cov.weakestAllMustPay || null, weakestSenior: cov.weakestSenior || null, measured: num(cov.measuredYears), reason: un.coverage || null };
+    // CHFA's minimum runs through year 15, so a ratio counts only when all 15 years were measured.
+    var first15 = (cov.years || []).slice(0, YEARS);
+    var known15 = first15.filter(function (y) { return !y.unavailableReason; }).length;
+    model.coverage = { weakest: cov.weakestAllMustPay || null, weakestSenior: cov.weakestSenior || null, measured: num(cov.measuredYears),
+      known15: known15, full: known15 === YEARS, reason: un.coverage || null };
 
     // Loans.
     var loans = (r.obligations && r.obligations.loans) || [];
@@ -175,12 +179,14 @@
     var feePaid15 = model.cashFlow.rows.reduce(function (s, y) { return s == null || y.feePaid == null ? null : s + y.feePaid; }, 0);
     model.deferredFee = { amount: dfee, reason: un.deferredDevFee || null, developerFee: num(r.devFeeTotal),
       share: dfee != null && num(r.devFeeTotal) ? dfee / num(r.devFeeTotal) : null,
-      paybackYear: r.exit ? num(r.exit.dfYr) : null, owedAt15: dfee != null && feePaid15 != null ? Math.max(0, dfee - feePaid15) : null };
+      // A payoff after year 15 is outside this workbook: it counts as unpaid here, with the year noted.
+      paybackYear: r.exit && num(r.exit.dfYr) != null && num(r.exit.dfYr) <= YEARS ? num(r.exit.dfYr) : null,
+      paidLater: r.exit && num(r.exit.dfYr) > YEARS ? num(r.exit.dfYr) : null, owedAt15: dfee != null && feePaid15 != null ? Math.max(0, dfee - feePaid15) : null };
 
     model.gap = { amount: num(r.fundingGap), reason: un.fundingGap || null };
     model.exec = {
       credit: model.basis.credit, creditReason: model.basis.creditReason, gap: model.gap.amount, gapReason: model.gap.reason,
-      weakest: model.coverage.weakest, coverageReason: model.coverage.reason,
+      weakest: model.coverage.weakest, coverageFull: model.coverage.full, coverageReason: model.coverage.reason,
       paybackYear: model.deferredFee.paybackYear, deferredFee: dfee, owedAt15: model.deferredFee.owedAt15
     };
     model.findings = findings(model, r);
@@ -202,7 +208,9 @@
     var o = m.operating;
     if (min.opex && o.opexPerUnit != null && o.opexPerUnit < min.opex.value) out.push({ level: 'bad', text: 'Operating cost of ' + money(o.opexPerUnit) + ' a unit is under CHFA\'s ' + money(min.opex.value) + ' minimum.', source: min.opex });
     var resMin = min.reserve;
-    if (resMin && o.reservePerUnit != null && o.reservePerUnit < (min.reserveSenior ? min.reserveSenior.value : resMin.value)) out.push({ level: 'bad', text: 'Replacement reserve of ' + money(o.reservePerUnit) + ' a unit is under CHFA\'s minimum.', source: resMin });
+    // The calculator does not record whether a deal is senior housing, so the family minimum applies.
+    if (resMin && o.reservePerUnit != null && o.reservePerUnit < resMin.value) out.push({ level: 'bad', text: 'Replacement reserve of ' + money(o.reservePerUnit) + ' a unit is under CHFA\'s ' + money(resMin.value) + ' family minimum' +
+      (min.reserveSenior && o.reservePerUnit >= min.reserveSenior.value ? ' (it meets the ' + money(min.reserveSenior.value) + ' senior minimum, if this is senior housing)' : '') + '.', source: resMin });
     if (min.vacancy && o.vacancy != null && o.vacancy < min.vacancy.value - 1e-9) out.push({ level: 'warn', text: 'Vacancy of ' + pct(o.vacancy, 1) + ' is under CHFA\'s ' + pct(min.vacancy.value) + ' minimum (5% only with project-based Section 8 on every unit).', source: min.vacancy });
     if (min.rentGrowth && o.rentGrowth != null && o.rentGrowth > min.rentGrowth.value + 1e-9) out.push({ level: 'warn', text: 'Rents grow ' + pct(o.rentGrowth, 1) + ' a year; CHFA underwrites ' + pct(min.rentGrowth.value) + '.', source: min.rentGrowth });
     if (min.expGrowth && o.expGrowth != null && o.expGrowth < min.expGrowth.value - 1e-9) out.push({ level: 'warn', text: 'Costs grow ' + pct(o.expGrowth, 1) + ' a year; CHFA underwrites ' + pct(min.expGrowth.value) + '.', source: min.expGrowth });
@@ -210,6 +218,7 @@
     var w = m.coverage.weakest;
     if (w && min.dscr && num(w.ratio) != null) {
       if (w.ratio < min.dscr.value) out.push({ level: 'bad', text: 'Debt coverage on all must-pay debt falls to ' + ratio(w.ratio) + ' in year ' + w.year + ', under CHFA\'s ' + ratio(min.dscr.value) + ' minimum.', source: min.dscr });
+      else if (!m.coverage.full) out.push({ level: 'warn', text: 'Debt coverage was measured for ' + m.coverage.known15 + ' of the first ' + YEARS + ' years (weakest ' + ratio(w.ratio) + ' in year ' + w.year + '). CHFA\'s ' + ratio(min.dscr.value) + ' minimum runs through year ' + YEARS + '; set the calculator to project ' + YEARS + ' years.', source: min.dscr });
       else out.push({ level: 'ok', text: 'Debt coverage on all must-pay debt stays at or above ' + ratio(w.ratio) + ' (weakest: year ' + w.year + '); CHFA\'s minimum is ' + ratio(min.dscr.value) + '.', source: min.dscr });
     } else if (m.coverage.reason) out.push({ level: 'warn', text: 'Debt coverage is not available: ' + m.coverage.reason });
     var y1 = m.cashFlow.rows[0];
@@ -230,7 +239,7 @@
     var df = m.deferredFee;
     if (df.amount) {
       if (df.paybackYear != null) out.push({ level: 'ok', text: 'The deferred fee of ' + money(df.amount) + ' is paid off from cash flow in year ' + df.paybackYear + '.' });
-      else if (df.owedAt15 != null) out.push({ level: 'bad', text: 'The deferred fee is not paid off in 15 years: ' + money(df.owedAt15) + ' of ' + money(df.amount) + ' is still owed.' });
+      else if (df.owedAt15 != null) out.push({ level: 'bad', text: 'The deferred fee is not paid off in 15 years: ' + money(df.owedAt15) + ' of ' + money(df.amount) + ' is still owed' + (df.paidLater ? ' (paid off in year ' + df.paidLater + ')' : '') + '.' });
     }
     if (m.gap.amount != null) {
       if (m.gap.amount > 0.5) out.push({ level: 'bad', text: 'The deal is ' + money(m.gap.amount) + ' short after every source modeled.' });
@@ -262,7 +271,7 @@
     h += '<section class="dv-card rw-decide" aria-labelledby="wbExec"><h2 id="wbExec">Executive view' + (title ? ': ' + esc(title) : '') + '</h2><div class="rw-stats">' +
       tile(e.credit == null ? '—' : esc(money(e.credit)), e.credit == null ? 'Yearly credit: ' + esc(e.creditReason || 'not available') : 'Yearly federal credit (' + esc(m.creditType === '4' ? '4%' : '9%') + ')') +
       tile(e.gap == null ? '—' : esc(money(e.gap)), e.gap == null ? 'Funding gap: ' + esc(e.gapReason || 'not available') : 'Funding gap after every modeled source', e.gap > 0.5 ? 'sr-bad' : 'sr-ok') +
-      tile(w ? esc(ratio(w.ratio)) : '—', w ? 'Weakest debt coverage, all must-pay debt (year ' + w.year + ')' : 'Debt coverage: ' + esc(e.coverageReason || 'not available'), w && minDscr != null ? (w.ratio < minDscr ? 'sr-bad' : 'sr-ok') : '') +
+      tile(w ? esc(ratio(w.ratio)) : '—', w ? 'Weakest debt coverage, all must-pay debt (year ' + w.year + ')' : 'Debt coverage: ' + esc(e.coverageReason || 'not available'), w && minDscr != null ? (w.ratio < minDscr ? 'sr-bad' : e.coverageFull ? 'sr-ok' : '') : '') +
       tile(e.paybackYear != null ? 'Year ' + e.paybackYear : (e.deferredFee ? 'Not in 15 yrs' : '—'), e.deferredFee ? 'Deferred fee of ' + esc(money(e.deferredFee)) + ' paid off' : 'No deferred developer fee', e.deferredFee && e.paybackYear == null ? 'sr-bad' : '') +
       '</div>';
     var top = m.findings.filter(function (f) { return f.level !== 'ok'; });
@@ -405,7 +414,8 @@
     var dc = w.__DealCalc;
     return { result: dc.getResult(), permanentFinancing: dc.getPermanentFinancing ? dc.getPermanentFinancing() : null,
       rentLimits: dc.getRentLimitsMetadata ? dc.getRentLimitsMetadata() : null, utilityAllowance: dc.getUtilityAllowanceMetadata ? dc.getUtilityAllowanceMetadata() : null,
-      amiByBr: dc.getAmiLimitsByBr ? dc.getAmiLimitsByBr() : null, labels: (w.DealPermanentFinancing && w.DealPermanentFinancing.PROGRAM_LABELS) || {} };
+      amiByBr: dc.getAmiLimitsByBr ? dc.getAmiLimitsByBr() : null,
+      mode: (function () { var c = w.document.querySelector('input[name="dc-deal-mode"]:checked'); return c ? c.value : null; })(), labels: (w.DealPermanentFinancing && w.DealPermanentFinancing.PROGRAM_LABELS) || {} };
   }
   // The calculator settings carried by a share link, an export file's url, or a saved version.
   function queryFrom(x) {
