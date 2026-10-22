@@ -15,7 +15,7 @@ const docs = {
   ranking: json('data/hna/ranking-index.json'),
   prop123: json('data/policy/prop123_jurisdictions.json'),
   awards: json('data/policy/prop123-land-banking-awards.json'),
-  lbStatus: null,
+  lbStatus: json('data/policy/prop123-land-banking-status.json'),
   hud: json('data/hud-fmr-income-limits.json'),
   context: json('data/policy/where-to-build-context.json'),
   support: json('data/policy/local-support.json'),
@@ -103,6 +103,20 @@ ok(page.indexOf('id="summary"') < page.indexOf('class="ib-filters"'), 'the execu
   ok(Math.abs(v.prop123_2022.statewide.yes_share - 0.526) < 0.002, 'Prop 123 passed statewide with about 52.6%');
   const durango = model.places.find((x) => x.name === 'Durango (city)');
   ok(durango.factors.prop123Vote.value.startsWith('La Plata County voted'), 'a town shows its county\'s vote');
+}
+
+// ---- 6b. Land-bank land is scored by the status file: land with no developer on record scores highest.
+{
+  const st = docs.lbStatus.status;
+  const ids = Object.keys(st);
+  ok(ids.length === docs.awards.awards.length, 'every award has a status');
+  for (const p of model.places) {
+    const f = p.factors.landBank;
+    ok(f.points === 0 || [10, 8, 5, 4, 2].includes(f.points), `${p.name}: land-bank points follow the status rule (${f.points})`);
+    ok(!/status not loaded/.test(f.value), `${p.name}: the status file is read`);
+  }
+  const noModel = W.build({ ...docs, lbStatus: null }, TODAY);
+  ok(noModel.places.some((p) => p.factors.landBank.points === 7), 'without the status file an award scores 7 and says so');
 }
 
 // ---- 7. Red flags and signals are dated and sourced.
