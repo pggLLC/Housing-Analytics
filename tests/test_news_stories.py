@@ -269,6 +269,8 @@ def test_crime_weather_and_border_stories_are_left_out(geos):
         alert('Most Americans want to halt all data center construction', 'The Washington Post'),
         alert('Fire destroys apartment construction site', 'Reuters', date='2026-08-06'),
         alert('US border wall construction costs rise', 'Reuters', date='2026-08-07'),
+        alert('Denver funds winter shelter expansion', 'Denverite'),
+        alert('New fire code requires sprinklers in Denver apartment buildings', 'Denver7'),
     ], geos)
     assert set(by_title(stories)) == {
         'Water bill with funding for Colorado projects passes the House',
@@ -284,6 +286,8 @@ def test_crime_weather_and_border_stories_are_left_out(geos):
         'US homebuilder fires 100 workers as sales slump',
         'US building permits crash to 10-year low',
         'Former police station converted into 40 apartments',
+        'Denver funds winter shelter expansion',
+        'New fire code requires sprinklers in Denver apartment buildings',
     }
 
 
@@ -302,8 +306,10 @@ def test_a_reworded_headline_from_the_same_outlet_is_one_story(geos):
         alert('HUD cuts mortgage insurance premiums', 'AP News', date='2026-10-20'),
         alert('HUD approves affordable housing grants for veterans', 'NPR', date='2026-10-20'),
         alert('HUD approves affordable housing grants for seniors', 'NPR', date='2026-10-20'),
+        alert('HUD approves housing voucher program', 'The Economist', date='2026-10-20'),
+        alert('HUD extends housing voucher program', 'The Economist', date='2026-10-20'),
     ], geos)
-    assert len(stories) == 10
+    assert len(stories) == 12
 
 
 def test_an_indirect_housing_headline_stays(geos):

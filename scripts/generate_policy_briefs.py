@@ -446,7 +446,7 @@ OFF_TOPIC_RE = re.compile(
     # paul, 2026-10-22: a snowy-winter forecast, the Big Bend border wall and
     # a healthcare grant all reached Housing News. Snowmass and Winter Park
     # are towns, not weather.
-    r'snow(?!mass)\w*|winter(?!\s+park)|weather|storms?|avalanche\w*|border wall|data cent(?:er|re)s?|'
+    r'snow(?!mass)\w*|winter(?!\s+(?:park|shelters?|housing|beds?))|weather|storms?|avalanche\w*|border wall|data cent(?:er|re)s?|'
     r'police|airports?|school enrollment|healthcare|hospitals?|judges?|race to succeed|governor\'?s race|'
     # A road crash is off topic; "Homebuilder Sentiment Crashes" keeps its housing word.
     r'crash\w*)\b', re.I)
@@ -464,7 +464,7 @@ WEAK_HOUSING_RE = re.compile(
 # 40 apartments" is a housing project (Codex review of #2459).
 INCIDENT_RE = re.compile(
     r'\b(arrest\w*|suspect\w*|suspicion|shooting|stabbing|homicide|murder\w*|arson\w*|'
-    r'fires?|firefighters?|blaze|vandal\w*|shelter-in-place|standoff)\b', re.I)
+    r'fires?(?![\s-]+(?:codes?|safety|sprinklers?|alarms?|marshal))|firefighters?|blaze|vandal\w*|shelter-in-place|standoff)\b', re.I)
 HOUSING_POLICY_RE = re.compile(
     r'\b(housing|afford\w*|rent(?:s|ers?|al|als)?|tenant\w*|landlord\w*|evict\w*|(?:re)?zon(?:e|es|ed|ing)|'
     r'homeless\w*|lihtc|tax credits?|rebuild\w*|recovery|displace\w*|mortgage\w*|chfa|hud|'
@@ -655,6 +655,10 @@ def _words(title: str) -> set[str]:
 
 # Words a rewrite swaps without changing the story.
 REWRITE_FILLER = {'edge', 'edges', 'amid', 'after', 'as', 'while', 'further', 'slightly', 'sharply', 'again'}
+# Only market movement is interchangeable wording; "approves" and "extends"
+# are different actions (Codex review of #2459).
+MOVE_RE = re.compile(r'(?:ris(?:e|es|ing)|rose|fall\w*|fell|lower\w*|higher|drop\w*|slid\w*|slip\w*|'
+                     r'climb\w*|jump\w*|gain\w*|declin\w*|sink\w*|sank)', re.I)
 
 
 def _same_subject(a: str, b: str) -> bool:
@@ -666,8 +670,7 @@ def _same_subject(a: str, b: str) -> bool:
     (Codex review of #2459).
     """
     def core(t: str) -> set[str]:
-        return {w for w in _words(t) if w not in REWRITE_FILLER and not UP_RE.fullmatch(w)
-                and not DOWN_RE.fullmatch(w)}
+        return {w for w in _words(t) if w not in REWRITE_FILLER and not MOVE_RE.fullmatch(w)}
     ca, cb = core(a), core(b)
     return bool(ca) and ca == cb
 
