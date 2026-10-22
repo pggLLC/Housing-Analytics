@@ -120,8 +120,8 @@ ok(/bad: 60% AMI 2BR rent of \$1,600 is over its \$1,549 gross limit before any 
 const noPay = mut((s) => { s.result.exit.dfYr = null; s.result.projection.rows.forEach((y) => { y.deferredFeePaid = 10000; }); });
 ok(/bad: The deferred fee is not paid off in 15 years: \$610,000 of \$760,000/.test(texts(noPay)), 'an unpaid deferred fee is flagged with what is still owed');
 ok(/\$610,000 still owed at year 15/.test(WB.render(noPay)) && !/paid off<\/div>/.test(WB.render(noPay)), 'the fee tile calls an unpaid fee owed, not paid off');
-const unknownFee = mut((s) => { s.result.exit.dfYr = null; s.result.projection.rows[11].deferredFeePaid = null; s.result.projection.rows[11].unavailableReason = 'loan matured'; });
-ok(/warn: Whether the deferred fee is paid off in 15 years is not known: year 12 is not projected \(loan matured\)/.test(texts(unknownFee)) && !/Not in 15 yrs/.test(WB.render(unknownFee)), 'an incomplete cash flow leaves the fee payoff unknown, not unpaid');
+const unknownFee = mut((s) => { s.result.exit.dfYr = null; s.result.projection.rows[4].deferredFeePaid = null; s.result.projection.rows[4].unavailableReason = 'loan matured'; });
+ok(/warn: Whether the deferred fee is paid off in 15 years is not known: year 5 is not projected \(loan matured\)/.test(texts(unknownFee)) && !/Not in 15 yrs/.test(WB.render(unknownFee)), 'an incomplete cash flow leaves the fee payoff unknown, not unpaid');
 const balloon = mut((s) => { const l = s.result.obligations.loans.find((x) => x.senior); l.maturity = 10; l.rows[9].maturityDue = 2800000; l.rows.slice(10).forEach((x) => { x.balance = null; }); });
 ok(/warn: First mortgage matures in year 10 with \$2,800,000 due/.test(texts(balloon)), 'a balloon inside 15 years is read from the maturity-year row');
 const late = mut((s) => { s.result.exit.dfYr = 20; s.result.projection.rows.forEach((y) => { y.deferredFeePaid = 10000; }); });
@@ -200,5 +200,11 @@ const feeNone = mut0((s) => { s.result.deferredDevFee = 0; });
 ok(/No deferred developer fee/.test(WB.render(feeNone)), 'a zero deferred fee still reads as none');
 const noItems = mut0((s) => { const b = s.result.budget; Object.keys(b.groups).forEach((k) => { b.groups[k] = 0; }); b.itemized = 0; b.notItemized = s.result.tdc; });
 ok(noItems.uses.rows.length === 0 && /Not itemized/.test(WB.render(noItems)), 'a budget with nothing itemized shows its Not itemized line');
+
+// ── Signed gap and a payoff after the exit hold ────────────────────────────
+const surplus = mut0((s) => { s.result.fundingGap = 0; s.result.gap = -50000; });
+ok(surplus.exec.gap === -50000 && /ok: Sources exceed costs by \$50,000/.test(surplus.findings.map((f) => f.level + ': ' + f.text).join('\n')) && /\$50,000<\/div>Surplus: sources exceed costs/.test(WB.render(surplus)), 'a surplus is reported from the signed gap');
+const shortHold = mut0((s) => { s.result.exit.dfYr = null; s.result.deferredDevFee = 100000; s.result.projection.rows.forEach((y) => { y.deferredFeePaid = 10000; }); });
+ok(shortHold.exec.paybackYear === 10 && !/Not in 15 yrs/.test(WB.render(shortHold)), 'a payoff after a short exit hold but by year 15 is found from the cash flow');
 
 console.log(`deal-workbook: ${checks} checks passed`);

@@ -198,16 +198,21 @@
     model.loansReason = loans.length ? null : ((r.obligations && r.obligations.unavailableReason) || null);
 
     // Deferred fee.
-    var feeRows = model.cashFlow.rows, gapRow = feeRows.filter(function (y) { return y.feePaid == null; })[0];
+    var feeRows = model.cashFlow.rows;
+    var paidOff = dfee > 0 ? feeRows.filter(function (y) { return y.feeOwed === 0; })[0] : null;
+    var gapRow = feeRows.filter(function (y) { return y.feePaid == null; })[0];
     var feePaid15 = feeRows.length < YEARS ? null : feeRows.reduce(function (s, y) { return s == null || y.feePaid == null ? null : s + y.feePaid; }, 0);
     model.deferredFee = { amount: dfee, reason: un.deferredDevFee || null, developerFee: num(r.devFeeTotal),
       share: dfee != null && num(r.devFeeTotal) ? dfee / num(r.devFeeTotal) : null,
       // A payoff after year 15 is outside this workbook: it counts as unpaid here, with the year noted.
-      paybackYear: r.exit && num(r.exit.dfYr) != null && num(r.exit.dfYr) <= YEARS ? num(r.exit.dfYr) : null,
+      // The calculator looks for the payoff only within its exit hold, which can be shorter than 15 years, so
+      // the year the carried balance first reaches zero counts too.
+      paybackYear: paidOff ? paidOff.year : r.exit && num(r.exit.dfYr) != null && num(r.exit.dfYr) <= YEARS ? num(r.exit.dfYr) : null,
       paidLater: r.exit && num(r.exit.dfYr) > YEARS ? num(r.exit.dfYr) : null,
       payoffReason: gapRow ? 'year ' + gapRow.year + ' is not projected' + (gapRow.reason ? ' (' + gapRow.reason + ')' : '') : feeRows.length < YEARS ? 'the projection runs ' + feeRows.length + ' years, not ' + YEARS : null, owedAt15: dfee != null && feePaid15 != null ? Math.max(0, dfee - feePaid15) : null };
 
-    model.gap = { amount: num(r.fundingGap), reason: un.fundingGap || null };
+    // fundingGap is floored at zero; the signed gap shows a surplus when sources exceed costs.
+    model.gap = { amount: num(r.gap) != null ? num(r.gap) : num(r.fundingGap), reason: un.fundingGap || null };
     model.exec = {
       credit: model.basis.credit, creditReason: model.basis.creditReason, gap: model.gap.amount, gapReason: model.gap.reason,
       weakest: model.coverage.weakest, coverageFull: model.coverage.full, coverageReason: model.coverage.reason,
@@ -307,7 +312,7 @@
     var minDscr = m.operating.min.dscr ? m.operating.min.dscr.value : null;
     h += '<section class="dv-card rw-decide" aria-labelledby="wbExec"><h2 id="wbExec">Executive view' + (title ? ': ' + esc(title) : '') + '</h2><div class="rw-stats">' +
       tile(e.credit == null ? '—' : esc(money(e.credit)), e.credit == null ? 'Yearly credit: ' + esc(e.creditReason || 'not available') : 'Yearly federal credit (' + esc(m.creditType === '4' ? '4%' : '9%') + ')') +
-      tile(e.gap == null ? '—' : esc(money(e.gap)), e.gap == null ? 'Funding gap: ' + esc(e.gapReason || 'not available') : 'Funding gap after every modeled source', e.gap > 0.5 ? 'sr-bad' : 'sr-ok') +
+      tile(e.gap == null ? '—' : esc(money(e.gap < -0.5 ? -e.gap : e.gap)), e.gap == null ? 'Funding gap: ' + esc(e.gapReason || 'not available') : e.gap < -0.5 ? 'Surplus: sources exceed costs' : 'Funding gap after every modeled source', e.gap > 0.5 ? 'sr-bad' : 'sr-ok') +
       tile(w ? esc(ratio(w.ratio)) : '—', w ? 'Weakest debt coverage, all must-pay debt (year ' + w.year + ')' : 'Debt coverage: ' + esc(e.coverageReason || 'not available'), w && minDscr != null ? (w.ratio < minDscr ? 'sr-bad' : e.coverageFull ? 'sr-ok' : '') : '') +
       tile(e.paybackYear != null ? 'Year ' + e.paybackYear : (e.deferredFee && e.owedAt15 != null ? 'Not in 15 yrs' : '—'),
         e.deferredFee == null ? 'Deferred fee: not known, ' + esc(e.deferredFeeReason || 'not available') :
