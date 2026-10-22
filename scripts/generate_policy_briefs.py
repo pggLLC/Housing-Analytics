@@ -444,8 +444,9 @@ OFF_TOPIC_RE = re.compile(
     r'horror|film|movie|interstate|i-70|closes again|road closure|flooding|mud and debris|ash borer|'
     r'pest|fitness|rideshare|ice facility|wealthiest|photos of|'
     # paul, 2026-10-22: a snowy-winter forecast, the Big Bend border wall and
-    # a healthcare grant all reached Housing News.
-    r'snow\w*|winter|weather|storms?|avalanche\w*|border wall|data cent(?:er|re)s?|'
+    # a healthcare grant all reached Housing News. Snowmass and Winter Park
+    # are towns, not weather.
+    r'snow(?!mass)\w*|winter(?!\s+park)|weather|storms?|avalanche\w*|border wall|data cent(?:er|re)s?|'
     r'airports?|school enrollment|healthcare|hospitals?|judge|race to succeed|governor\'?s race|'
     # A road crash is off topic; "Homebuilder Sentiment Crashes" keeps its housing word.
     r'crash\w*)\b', re.I)
@@ -461,7 +462,7 @@ WEAK_HOUSING_RE = re.compile(
 # "Marshall Fire survivors rebuild homes", "shooting at homeless shelter".
 INCIDENT_RE = re.compile(
     r'\b(arrest\w*|suspect\w*|suspicion|police|shooting|stabbing|homicide|murder\w*|arson\w*|'
-    r'(?<!on )fires?|firefighters?|blaze|vandal\w*|shelter-in-place|standoff)\b', re.I)
+    r'fires?|firefighters?|blaze|vandal\w*|shelter-in-place|standoff)\b', re.I)
 HOUSING_POLICY_RE = re.compile(
     r'\b(housing|afford\w*|rent(?:s|ers?|al|als)?|tenant\w*|landlord\w*|evict\w*|(?:re)?zon(?:e|es|ed|ing)|'
     r'homeless\w*|lihtc|tax credits?|rebuild\w*|recovery|displace\w*|mortgage\w*|chfa|hud|'

@@ -259,6 +259,9 @@ def test_crime_weather_and_border_stories_are_left_out(geos):
         # Market language, not weather or a fire (Codex review of #2459).
         alert('Builders forecast fewer single-family starts next year', 'Reuters', date='2026-08-02'),
         alert('Home prices are on fire as inventory tightens', 'Reuters', date='2026-08-03'),
+        alert('Pueblo apartment complex is on fire', 'Pueblo Chieftain'),
+        alert('Snowmass Village development breaks ground', 'Aspen Daily News'),
+        alert('Winter Park approves workforce neighborhood development', 'Sky-Hi News'),
     ], geos)
     assert set(by_title(stories)) == {
         'Water bill with funding for Colorado projects passes the House',
@@ -269,6 +272,8 @@ def test_crime_weather_and_border_stories_are_left_out(geos):
         'US Homebuilder Sentiment Crashes to 14-Year Low',
         'Builders forecast fewer single-family starts next year',
         'Home prices are on fire as inventory tightens',
+        'Snowmass Village development breaks ground',
+        'Winter Park approves workforce neighborhood development',
     }
 
 
