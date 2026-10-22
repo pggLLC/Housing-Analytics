@@ -61,4 +61,14 @@ assert(shownNum, 'homes stat shows a number');
 assert.equal(Number(shownNum[1].replace(/,/g, '')), ACTION.homes, `homes figure ${shownNum[1]} is the ACTION fact sheet's total`);
 const law = JSON.parse(read('data/policy/tax-credit-legislation.json'));
 assert(JSON.stringify(law).includes('119-21') && stat.includes('Public Law 119-21'), 'caveat names the law the watch file records as enacted');
+// CRA: being inside a bank's assessment area is about place, not whether the
+// investment qualifies. Until 2026-10-22 the deal team page said an investment
+// there "counts without argument"; 12 CFR 228.12(t) also requires a primary
+// community development purpose.
+const team = read('affordable-deal-team.html');
+const craCard = team.match(/<h3>Conservative: the bank's own assessment areas<\/h3>[\s\S]*?<\/div>/);
+assert(craCard, 'deal team page has the conservative CRA card');
+assert(!/counts without argument|counts automatically|always counts/i.test(craCard[0]), 'no unconditional CRA-credit claim');
+assert(/whether the investment counts still depends on it qualifying as community development/.test(craCard[0]), 'states the qualifying condition');
+assert(/228\.12\(t\)/.test(craCard[0]), 'cites the qualified-investment definition');
 console.log(`lihtc-practice-claims: PASS (${rounds.length} rounds checked)`);
