@@ -497,7 +497,7 @@ NATIONAL_TREND_RE = re.compile(
 # advice pieces, and other countries' housing news. The searches are global,
 # so the country list is long (Codex review of #2404: "Dutch home prices").
 NATIONAL_SKIP_RE = re.compile(
-    r'^(?:opinion|commentary|column|op-ed|editorial|letters?)\b|\b(?:photos?|around the world)\b|\b(?:i|i\'m|i’m|my|we|you|your)\b|'
+    r'\bborder wall\b|^(?:opinion|commentary|column|op-ed|editorial|letters?)\b|\b(?:photos?|around the world)\b|\b(?:i|i\'m|i’m|my|we|you|your)\b|'
     r'\b(?:china|chinese|beijing|shanghai|u\.?k\.?|britain|british|england|english|scotland|scottish|'
     r'wales|welsh|london|canada|canadian|toronto|vancouver|montreal|ontario|australia\w*|sydney|'
     r'melbourne|new zealand|ireland|irish|dublin|europe\w*|euro ?zone|eu|germany|german|berlin|france|'
@@ -532,12 +532,12 @@ def is_national_trend(title: str, source: str) -> bool:
 
 def is_housing_headline(title: str, source: str = '') -> bool:
     title = title or ''
+    if INCIDENT_RE.search(title) and not HOUSING_POLICY_RE.search(title):
+        return False
     # A listed national outlet's story has already passed the stricter
     # NATIONAL_TREND_RE test ("US building permits crash to 10-year low").
     if NATIONAL_SOURCE_RE.match((source or '').strip()) and is_national_trend(title, source):
         return True
-    if INCIDENT_RE.search(title) and not HOUSING_POLICY_RE.search(title):
-        return False
     strong = any(not WEAK_HOUSING_RE.fullmatch(m.group(0)) for m in HOUSING_TITLE_RE.finditer(title))
     return strong or not OFF_TOPIC_RE.search(title)
 
@@ -653,9 +653,23 @@ def _words(title: str) -> set[str]:
             if w not in NATIONAL_STOPWORDS}
 
 
-def _word_overlap(a: str, b: str) -> float:
-    wa, wb = _words(a), _words(b)
-    return len(wa & wb) / min(len(wa), len(wb)) if wa and wb else 0.0
+# Words a rewrite swaps without changing the story.
+REWRITE_FILLER = {'edge', 'edges', 'amid', 'after', 'as', 'while', 'further', 'slightly', 'sharply', 'again'}
+
+
+def _same_subject(a: str, b: str) -> bool:
+    """Same words once the verbs of movement and filler are set aside.
+
+    "Treasury Yields Fall on String of Weak Housing Data" and "Treasury
+    Yields Edge Lower Amid String of Weak Housing Data" are one story; "HUD
+    approves housing grants for veterans" and "... for seniors" are two
+    (Codex review of #2459).
+    """
+    def core(t: str) -> set[str]:
+        return {w for w in _words(t) if w not in REWRITE_FILLER and not UP_RE.fullmatch(w)
+                and not DOWN_RE.fullmatch(w)}
+    ca, cb = core(a), core(b)
+    return bool(ca) and ca == cb
 
 
 # "HUD raises mortgage insurance premiums" and "HUD cuts mortgage insurance
@@ -696,12 +710,8 @@ def same_national_story(s: dict, kept: list[dict]) -> dict | None:
         # One phrase is enough on the same day ("housing starts"); across
         # days it takes two, so "build houses" alone does not fold the WSJ
         # immigration story into a Virginia subdivision story.
-        # A federal rewrite repeats most of its words: "Treasury Yields Fall
-        # on String of Weak Housing Data" and "Treasury Yields Edge Lower
-        # Amid String of Weak Housing Data" share six of seven. "HUD cuts
-        # housing voucher funding for veterans" and "HUD expands housing
-        # voucher funding for families" share four of six and are two actions.
-        if federal and (gap or _word_overlap(s['title'], k['title']) < 0.75
+        # A federal rewrite keeps the same subject and the same direction.
+        if federal and (gap or not _same_subject(s['title'], k['title'])
                         or _opposite_moves(s['title'], k['title'])):
             continue
         if (gap == 0 or shared >= 2) and gap <= 3 and shared:
