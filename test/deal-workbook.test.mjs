@@ -252,4 +252,7 @@ ok(/set the calculator to project 15 years\./.test(texts(mut((s) => { s.result.c
 const hist = mut0((s) => { s.permanentFinancing.historic = [{ id: 'h1', program: 'historic_tc', amount: 400000 }, { id: 'h2', program: 'historic_tc', amount: null }]; s.permanentFinancing.taxCredit.historic = null; });
 ok(hist.sources.rows.some((x) => x.label === 'Historic credit equity' && x.amount === 400000) && hist.sources.rows.some((x) => x.amount === null && /Historic credit equity: not known/.test(x.label)), 'a historic tranche without an amount stays in the sources as unknown');
 
+const noMustPay = mut0((s) => { s.result.coverage.years.forEach((y) => { y.allMustPayCoverage = null; y.seniorCoverage = null; y.unavailableReason = null; }); s.result.unavailable = Object.assign({}, s.result.unavailable); delete s.result.unavailable.coverage; delete s.result.unavailable.allMustPayDSCR; });
+ok(!noMustPay.coverage.full && noMustPay.coverage.known15 === 0 && /warn: Debt coverage is not available: Coverage requires positive must-pay debt service\./.test(texts(noMustPay)), 'null ratios with no row reason count as unmeasured and say why');
+
 console.log(`deal-workbook: ${checks} checks passed`);

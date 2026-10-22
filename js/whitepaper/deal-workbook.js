@@ -191,7 +191,9 @@
     var cov = r.coverage || {};
     // CHFA's minimum runs through year 15, so a ratio counts only when all 15 years were measured.
     var first15 = (cov.years || []).slice(0, YEARS);
-    var known15 = first15.filter(function (y) { return !y.unavailableReason; }).length;
+    // A row counts as measured only with a ratio: with no must-pay debt the engine leaves it null without a row reason.
+    function covReason(y) { return y.unavailableReason || (num(y.allMustPayCoverage) != null ? null : un.allMustPayDSCR || 'Coverage requires positive must-pay debt service.'); }
+    var known15 = first15.filter(function (y) { return !covReason(y); }).length, gapReason = first15.map(covReason).filter(Boolean)[0] || null;
     // The engine's weakest year spans its whole horizon; the workbook's test is the first 15 years only.
     function weakest15(key) {
       var known = first15.filter(function (y) { return num(y[key]) != null; });
@@ -201,10 +203,9 @@
     }
     model.coverage = { weakest: cov.years ? weakest15('allMustPayCoverage') : null, weakestSenior: cov.years ? weakest15('seniorCoverage') : null, measured: num(cov.measuredYears),
       known15: known15, full: known15 === YEARS, rows15: first15.length,
-      gapReason: (first15.find(function (y) { return y.unavailableReason; }) || {}).unavailableReason || null,
+      gapReason: gapReason,
       // With no measurable year the engine's reason sits on the rows, not on un.coverage.
-      reason: un.coverage || (first15.length && !first15.some(function (y) { return num(y.allMustPayCoverage) != null; })
-        ? (first15.find(function (y) { return y.unavailableReason; }) || {}).unavailableReason || null : null) };
+      reason: un.coverage || (first15.length && !known15 ? gapReason : null) };
 
     // Loans.
     var loans = (r.obligations && r.obligations.loans) || [];
