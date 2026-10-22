@@ -136,5 +136,42 @@ assert.equal(range([{ level: 'Manager unit' }]), '');
     assert.ok(dl.textContent.includes('All write-ups for Boulder County'));
   }
 
+  // 10. The five-card preview for a town in several counties keeps each county that has a
+  //     write-up (Aurora: Arapahoe, Adams, Douglas), and links only to counties that have one
+  //     (Brook Forest: Jefferson yes, Clear Creek none yet).
+  async function dealsFor(current) {
+    const d3 = new JSDOM('<div id="d" data-place-deals></div>', { runScripts: 'outside-only', url: 'http://127.0.0.1/hna-what-to-do.html' });
+    d3.window.HNAState = { state: { current } };
+    d3.window.fetch = (url) => Promise.resolve({ ok: true, json: () => Promise.resolve(JSON.parse(read(url))) });
+    d3.window.eval(source);
+    await new Promise((r) => setTimeout(r, 50));
+    return d3.window.document.getElementById('d');
+  }
+  {
+    const el = await dealsFor({ geoType: 'place', geoid: '0804000', label: 'Aurora (city)', contextCounty: '08005' });
+    const metas = [...el.querySelectorAll('.pdl-deal__meta')].map((m) => m.textContent);
+    assert.equal(metas.length, 5);
+    for (const c of ['Arapahoe', 'Adams', 'Douglas']) {
+      if (deals.some((d) => d.county === c)) assert.ok(metas.some((m) => m.includes(c + ' County')), 'Aurora preview is missing ' + c + ' County');
+    }
+    const bf = await dealsFor({ geoType: 'place', geoid: '0808950', label: 'Brook Forest (CDP)', contextCounty: '08059' });
+    const hrefs = [...bf.querySelectorAll('a')].map((a) => a.getAttribute('href'));
+    assert.ok(hrefs.includes('deal-summary.html?county=Jefferson'));
+    assert.ok(!hrefs.some((h) => /county=Clear/.test(h)), 'no link to a county without write-ups');
+  }
+
+  // 11. deal-summary.html?county=<county with no write-up> keeps that county selected (empty
+  //     list), instead of falling back to every write-up.
+  {
+    const html = '<article data-deal-summary><div data-ds-view></div></article>';
+    const d4 = new JSDOM(html, { runScripts: 'outside-only', url: 'http://127.0.0.1/deal-summary.html?county=Clear%20Creek' });
+    d4.window.fetch = (url) => Promise.resolve({ ok: true, json: () => Promise.resolve(JSON.parse(read(url))) });
+    d4.window.eval(ds);
+    await new Promise((r) => setTimeout(r, 50));
+    const doc = d4.window.document;
+    assert.equal(doc.getElementById('dsCounty').value, 'Clear Creek');
+    assert.ok(doc.querySelector('[data-ds-count]').textContent.startsWith('Showing 0 of'), doc.querySelector('[data-ds-count]').textContent);
+  }
+
   console.log('place-deals-limits: PASS (' + deals.length + ' write-ups, ' + limits.counties.length + ' counties)');
 })().catch((e) => { console.error(e); process.exit(1); });

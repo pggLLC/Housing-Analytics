@@ -172,7 +172,7 @@
         .sort(function (a, b) { return (b.year || 0) - (a.year || 0) || String(a.name).localeCompare(String(b.name)); });
       var where = joinNames(names) + (multi ? ' counties' : ' County');
       var spans = multi && ctx.place ? esc(ctx.place) + ' spans ' + esc(where) + ', so write-ups from each are listed. ' : '';
-      var links = names.map(function (n) {
+      var links = names.filter(function (n) { return all.some(function (d) { return d.county === n; }); }).map(function (n) {
         return '<a href="deal-summary.html?county=' + encodeURIComponent(n) + '">All write-ups for ' + esc(n) + ' County</a>';
       }).join(' · ');
       if (!rows.length) {
@@ -182,7 +182,14 @@
           esc(where) + '. Every CHFA, OEDIT and DOLA award is listed on <a href="where-housing-money-goes.html">Where Colorado\'s Housing Money Goes</a>.</p>';
         return;
       }
-      var shown = rows.slice(0, SHOW_DEALS);
+      // Newest first, but a town in several counties gets each county's newest write-up in the preview.
+      var shown = [];
+      names.forEach(function (n) {
+        var first = rows.filter(function (d) { return d.county === n; })[0];
+        if (first && shown.length < SHOW_DEALS) shown.push(first);
+      });
+      rows.forEach(function (d) { if (shown.length < SHOW_DEALS && shown.indexOf(d) === -1) shown.push(d); });
+      shown.sort(function (a, b) { return rows.indexOf(a) - rows.indexOf(b); });
       return Promise.all(shown.map(function (d) {
         return fetchJson('data/deals/' + d.slug + '.json').catch(function () { return null; });
       })).then(function (details) {
@@ -201,7 +208,7 @@
           ' ha' + (rows.length === 1 ? 's' : 've') + ' a sourced write-up' +
           (ctx.place && !multi ? '. The list covers the whole county ' + esc(ctx.place) + ' is in' : '') + '.</p>' +
           '<ul class="pdl-list">' + items + '</ul>' +
-          '<p class="pdl-note">' + (rows.length > SHOW_DEALS ? 'Showing the ' + SHOW_DEALS + ' newest. ' : '') + links +
+          '<p class="pdl-note">' + (rows.length > SHOW_DEALS ? 'Showing ' + SHOW_DEALS + ' of ' + rows.length + (multi ? ', including the newest from each county. ' : ', newest first. ') : '') + links +
           '. Each write-up gives the income and bedroom mix, the public money, who is involved and what is still open, with sources. ' +
           'Total development cost is shown only where a public record prints it.</p>';
       });

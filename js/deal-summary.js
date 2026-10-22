@@ -176,7 +176,15 @@
     var count = view.querySelector('[data-ds-count]');
     var fCounty = view.querySelector('#dsCounty'), fYear = view.querySelector('#dsYear'), fCredit = view.querySelector('#dsCredit');
     var want = paramFromUrl('county');
-    if (want && counties.indexOf(want) !== -1) fCounty.value = want;
+    if (want) {
+      // A county with no write-up yet stays selected and shows the empty state, not every county.
+      if (counties.indexOf(want) === -1 && /^[A-Za-z .'-]{2,40}$/.test(want)) {
+        var opt = document.createElement('option');
+        opt.value = want; opt.textContent = want + ' County';
+        fCounty.appendChild(opt);
+      }
+      if (fCounty.querySelector('option[value="' + want.replace(/"/g, '') + '"]')) fCounty.value = want;
+    }
 
     function draw() {
       var rows = all.filter(function (r) {
