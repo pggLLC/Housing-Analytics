@@ -58,6 +58,13 @@ m.rents.rows.forEach((x) => {
 // A utility allowance comes off the limit: the calculator keys it 'efficiency', '1BR', '2BR'...
 const withUa = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: { efficiency: 60, '1BR': 80, '2BR': 100, '3BR': 120, '4BR': 140 } }; });
 ok(withUa.rents.rows.every((x) => x.allowance === 100 && x.headroom === x.limit - 100 - x.rent), 'a 2BR utility allowance comes off each 2BR limit');
+const withFees = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: { efficiency: 60, '1BR': 80, '2BR': 100, '3BR': 120, '4BR': 140 }, feesPerBedroom: { '2BR': 25 } }; });
+ok(withFees.rents.rows.every((x) => x.headroom === x.limit - 125 - x.rent), 'tenant-paid fees come off the limit with the allowance');
+const sched = mut0((s) => { s.utilityAllowance = { applied: false, reason: 'included_in_schedule_rents' }; });
+ok(sched.rentsFromSchedule && sched.rents.rows.every((x) => x.headroom == null), 'schedule rents are not re-checked against a zero allowance');
+ok(/ok: Rents come from the Market Analysis rent schedule/.test(sched.findings.map((f) => f.level + ': ' + f.text).join('\n')) && !/No utility allowance is applied/.test(sched.findings.map((f) => f.text).join('\n')), 'schedule rents raise no owner-pays-utilities warning');
+const noRent = mut0((s) => { s.result.unavailable = Object.assign({}, s.result.unavailable, { annualRents: 'AMI limits did not load.' }); s.result.pricedRows.forEach((p) => { p.contractRent = null; }); });
+ok(/AMI limits did not load\./.test(WB.render(noRent)) && /<table/.test(WB.render(noRent)), 'the rent reason shows even when row shells exist');
 ok(/bad: 30% AMI 2BR rent of \$774 is \$100 over/.test(withUa.findings.map((f) => f.level + ': ' + f.text).join('\n')), 'a gross-limit rent with tenant-paid utilities is over the limit');
 const uaGap = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: { '1BR': 80 } }; });
 ok(uaGap.rents.rows.every((x) => x.allowance === null && x.headroom === null), 'an allowance missing for a size leaves that row unchecked, not checked against $0');

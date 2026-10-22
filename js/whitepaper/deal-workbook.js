@@ -125,13 +125,17 @@
     var rl = snap.rentLimits || {};
     model.rentLimits = { source: rl.source || null, year: num(rl.tableYear), effective: rl.effectiveDate || null, regime: rl.regime || null };
     model.utilityAllowanceApplied = !!ua.applied;
+    // A Market Analysis rent schedule prices each rent net of its allowance and fees and checks it against the
+    // limit there; the calculator keeps only the net rent, so the workbook cannot repeat that check.
+    model.rentsFromSchedule = ua.reason === 'included_in_schedule_rents';
     var rentRows = (r.pricedRows || []).map(function (p) {
       var brKey = BR_KEY[String(p.bedrooms || '').toUpperCase()] || null;
       var limit = brKey && ami[p.tier] ? num(ami[p.tier][brKey]) : null;
-      var allowance = ua.applied && ua.perBedroom && brKey ? num(ua.perBedroom[UA_KEY[brKey]]) : (ua.applied ? null : 0);
+      var allowance = model.rentsFromSchedule ? null : ua.applied && ua.perBedroom && brKey ? num(ua.perBedroom[UA_KEY[brKey]]) : (ua.applied ? null : 0);
+      var fees = ua.applied && ua.feesPerBedroom && brKey ? (num(ua.feesPerBedroom[UA_KEY[brKey]]) || 0) : 0;
       var rent = num(p.contractRent);
-      var maxNet = limit != null && allowance != null ? limit - allowance : null;
-      return { tier: p.tier, bedrooms: p.bedrooms, units: num(p.units), rent: rent, limit: limit, allowance: allowance,
+      var maxNet = limit != null && allowance != null ? limit - allowance - fees : null;
+      return { tier: p.tier, bedrooms: p.bedrooms, units: num(p.units), rent: rent, limit: limit, allowance: allowance, fees: fees || null,
         headroom: maxNet != null && rent != null ? maxNet - rent : null, annual: rent != null && num(p.units) != null ? rent * num(p.units) * 12 : null };
     });
     model.rents = { rows: rentRows, annual: num(r.annualRents), reason: un.annualRents || null };
@@ -215,7 +219,8 @@
     if (m.rentLimits.year != null) out.push({ level: 'ok', text: 'Rent limits: ' + (m.rentLimits.source || 'CHFA') + (m.rentLimits.effective ? ', effective ' + m.rentLimits.effective : '') + '.' });
     var over = m.rents.rows.filter(function (x) { return x.headroom != null && x.headroom < -0.5; });
     over.forEach(function (x) { out.push({ level: 'bad', text: x.tier + '% AMI ' + x.bedrooms + ' rent of ' + money(x.rent) + ' is ' + money(-x.headroom) + ' over the most it can charge (' + money(x.limit) + ' gross limit' + (x.allowance ? ' less ' + money(x.allowance) + ' utility allowance' : '') + ').' }); });
-    if (!m.utilityAllowanceApplied && m.rents.rows.length) out.push({ level: 'warn', text: 'No utility allowance is applied, so each rent is the full gross limit. That holds only if the owner pays all utilities. If tenants pay any, the rent must come down by the allowance.' });
+    if (m.rentsFromSchedule && m.rents.rows.length) out.push({ level: 'ok', text: 'Rents come from the Market Analysis rent schedule, which takes out each utility allowance and fee and checks the rent against its limit. Check the limits there.' });
+    else if (!m.utilityAllowanceApplied && m.rents.rows.length) out.push({ level: 'warn', text: 'No utility allowance is applied, so each rent is the full gross limit. That holds only if the owner pays all utilities. If tenants pay any, the rent must come down by the allowance.' });
 
     var o = m.operating;
     if (min.opex && o.opexPerUnit != null && o.opexPerUnit < min.opex.value) out.push({ level: 'bad', text: 'Operating cost of ' + money(o.opexPerUnit) + ' a unit is under CHFA\'s ' + money(min.opex.value) + ' minimum.', source: min.opex });
@@ -339,10 +344,11 @@
     h += '<section class="dv-card" aria-labelledby="wbRents"><h2 id="wbRents">Rents by AMI tier</h2>';
     h += rr.rows.length ? table(['AMI', 'Size', 'Homes', 'Rent', 'Gross limit', 'Utility allowance', 'Room under limit', 'Rent a year'], rr.rows.map(function (x) {
       return { cls: x.headroom != null && x.headroom < -0.5 ? 'sr-diff' : '', cells: [esc(x.tier + '%'), esc(x.bedrooms), esc(x.units), esc(money(x.rent)), esc(money(x.limit)),
-        esc(x.allowance == null ? '—' : (m.utilityAllowanceApplied ? money(x.allowance) : 'None')), esc(x.headroom == null ? '—' : money(x.headroom)), esc(money(x.annual))] };
+        esc(m.rentsFromSchedule ? 'In schedule' : x.allowance == null ? '—' : (m.utilityAllowanceApplied ? money(x.allowance + (x.fees || 0)) : 'None')), esc(x.headroom == null ? '—' : money(x.headroom)), esc(money(x.annual))] };
     }).concat([{ cls: 'sr-total', cells: ['Total', '', esc(rr.rows.reduce(function (a, x) { return a + (x.units || 0); }, 0)), '', '', '', '', esc(money(rr.annual))] }]), { num: [2, 3, 4, 5, 6, 7] })
-      : '<p class="sr-muted">' + esc(rr.reason || 'No rents.') + '</p>';
-    if (m.rentLimits.source) h += '<p class="sr-muted">Limits: ' + esc(m.rentLimits.source) + (m.rentLimits.effective ? ', effective ' + esc(m.rentLimits.effective) : '') + '.' + (m.utilityAllowanceApplied ? '' : ' No utility allowance applied.') + '</p>';
+      : '';
+    if (rr.reason || !rr.rows.length) h += '<p class="sr-muted">' + esc(rr.reason || 'No rents.') + '</p>';
+    if (m.rentLimits.source) h += '<p class="sr-muted">Limits: ' + esc(m.rentLimits.source) + (m.rentLimits.effective ? ', effective ' + esc(m.rentLimits.effective) : '') + '.' + (m.rentsFromSchedule ? ' Rents are net of the allowances and fees set in the Market Analysis rent schedule.' : m.utilityAllowanceApplied ? ' Allowance column includes any tenant-paid fees.' : ' No utility allowance applied.') + '</p>';
     h += '</section>';
 
     // Operating
@@ -480,10 +486,11 @@
     $('wbDeals').addEventListener('change', function () {
       var deal = $('wbDeals').value; $('wbVersions').innerHTML = ''; if (!deal) return;
       api('?deal=' + encodeURIComponent(deal)).then(function (j) {
+        if ($('wbDeals').value !== deal) return;
         var vs = (j && j.versions) || [], hidden = (j && j.hidden) || [];
         vs = vs.filter(function (v) { return hidden.indexOf(v.v) === -1; });
         $('wbVersions').innerHTML = vs.map(function (v) { return '<option value="' + esc(v.v) + '">' + esc((v.label || 'Version') + ' · ' + String(v.at || '').slice(0, 10) + (v.by ? ' · ' + v.by : '')) + '</option>'; }).join('');
-      }, function () { status('That deal\'s versions did not load.'); });
+      }, function () { if ($('wbDeals').value === deal) status('That deal\'s versions did not load.'); });
     });
     $('wbOpenSaved').addEventListener('click', function () {
       var deal = $('wbDeals').value, v = $('wbVersions').value;
