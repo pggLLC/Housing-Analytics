@@ -130,6 +130,16 @@
       : 'Screen only — awaiting OEDIT confirmation';
   }
 
+  // 44px zoom buttons (AGENTS.md touch-target rule), as css/land-banking-map.css
+  // does for its map. Injected once: this component has no stylesheet of its own.
+  function ensureStyle() {
+    if (document.getElementById('tzm-style')) return;
+    var st = document.createElement('style');
+    st.id = 'tzm-style';
+    st.textContent = '.tzm__map .leaflet-control-zoom a { width:44px; height:44px; line-height:44px; font-size:22px; }';
+    document.head.appendChild(st);
+  }
+
   function inBounds(b, lat, lon) {
     return lat >= b.getSouth() && lat <= b.getNorth() && lon >= b.getWest() && lon <= b.getEast();
   }
@@ -197,13 +207,14 @@
         '<figure class="tzm" style="margin:.2rem 0 .8rem;">' +
           '<figcaption style="font-weight:600;margin-bottom:.2rem;">Transit stops and the ' + esc(String(data.meta.radius_miles)) + '-mile screen ' + (statewide ? 'across ' : 'around ') + esc(name) + '</figcaption>' +
           legend(data.meta.radius_miles, statewide) +
-          '<div class="tzm__map" role="img" aria-label="' + esc('Map of ' + name + ' with confirmed transit stops and the area within ' +
+          '<div class="tzm__map" role="region" aria-label="' + esc('Map of ' + name + ' with confirmed transit stops and the area within ' +
             data.meta.radius_miles + ' miles of them shaded. ' + badgeText(mapStatus) + '.') + '" ' +
             'style="height:min(62vh,380px);min-height:280px;width:100%;border-radius:8px;border:1px solid var(--border,#d0d7de);"></div>' +
           statuteLine(mapStatus) +
           sourceLine(data, mapStatus) +
         '</figure>';
       var el = mount.querySelector('.tzm__map');
+      ensureStyle();
 
       var dark = isDark();
       var accent = cssVar('--accent', '#096e65');
