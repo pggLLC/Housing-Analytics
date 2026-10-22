@@ -213,13 +213,15 @@
     // Loans.
     var loans = (r.obligations && r.obligations.loans) || [];
     model.loans = loans.map(function (l) {
-      var at15 = l.rows && l.rows[YEARS - 1] ? num(l.rows[YEARS - 1].balance) : null;
+      // Balances and balloons stop where the calculator's forecast does, like the cash flow.
+      var at15 = l.rows && l.rows[lastYear - 1] ? num(l.rows[lastYear - 1].balance) : null;
       return { label: l.senior ? 'First mortgage' : (labels[l.program] || l.program || 'Loan'), amount: num(l.amount), rate: num(l.rate),
         type: l.type, typeLabel: LOAN_TYPES[l.type] || l.type, ioYears: num(l.ioYears), amortization: num(l.amortization), maturity: num(l.maturity),
         year1: l.rows && l.rows[0] ? num(l.rows[0].due) : null, balance15: at15,
         // A loan maturing inside the workbook carries its balloon on the maturity-year row; later rows are blank.
-        balloon: num(l.maturity) != null && num(l.maturity) <= YEARS ? num(((l.rows || []).filter(function (x) { return num(x.year) === num(l.maturity); })[0] || {}).maturityDue) : null };
+        balloon: num(l.maturity) != null && num(l.maturity) <= lastYear ? num(((l.rows || []).filter(function (x) { return num(x.year) === num(l.maturity); })[0] || {}).maturityDue) : null };
     });
+    model.loansYear = lastYear;
     model.loansReason = loans.length ? null : ((r.obligations && r.obligations.unavailableReason) || null);
 
     // Deferred fee.
@@ -444,7 +446,7 @@
     // Loans
     if (!m.loans.length && m.loansReason) h += '<section class="dv-card" aria-labelledby="wbLoans"><h2 id="wbLoans">Loans</h2><p class="sr-muted">' + esc('Loan details are not available: ' + m.loansReason) + '</p></section>';
     if (m.loans.length) {
-      h += '<section class="dv-card" aria-labelledby="wbLoans"><h2 id="wbLoans">Loans</h2>' + table(['Loan', 'Amount', 'Rate', 'Repayment', 'Amortization', 'Maturity', 'Year-1 payment', 'Owed after year 15'], m.loans.map(function (l) {
+      h += '<section class="dv-card" aria-labelledby="wbLoans"><h2 id="wbLoans">Loans</h2>' + table(['Loan', 'Amount', 'Rate', 'Repayment', 'Amortization', 'Maturity', 'Year-1 payment', 'Owed after year ' + m.loansYear], m.loans.map(function (l) {
         return { cells: [esc(l.label), esc(money(l.amount)), esc(l.rate == null ? '—' : l.rate + '%'), esc(l.typeLabel + (l.type === 'io_then_amortizing' ? ' (' + l.ioYears + ' yrs)' : '')),
           esc(l.amortization == null ? '—' : l.amortization + ' yrs'), esc(l.maturity == null ? '—' : 'Year ' + l.maturity), esc(money(l.year1)), esc(money(l.balance15))] };
       }), { num: [1, 2, 6, 7] }) + '</section>';

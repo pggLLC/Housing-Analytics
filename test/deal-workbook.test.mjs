@@ -273,4 +273,8 @@ const amHtml = WB.render(withAm);
 ok(withAm.cashFlow.rows[0].assetMgmt === 7500 && amHtml.includes('Asset management fee paid') && amHtml.includes('-$7,500'), 'asset management fees paid show between debt service and cash flow');
 ok(!WB.render(m).includes('Bridge loan payments'), 'a deduction the deal does not have is left out');
 
+const shortLoan = mut0((s) => { s.result.projection.years = 5; const l = s.result.obligations.loans.find((x) => x.senior); l.maturity = 10; l.rows[9].maturityDue = 2800000; l.rows[4].balance = 3100000; });
+const sl = shortLoan.loans.find((l) => l.label === 'First mortgage');
+ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(texts(shortLoan)) && WB.render(shortLoan).includes('Owed after year 5'), 'loan balances and balloons stop at the forecast horizon');
+
 console.log(`deal-workbook: ${checks} checks passed`);
