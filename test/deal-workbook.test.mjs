@@ -240,4 +240,10 @@ ok(og.includes("warn: CHFA's operating cost check did not run: Enter the insuran
 ok(texts(mut0((s) => { s.result.operatingSummary.perUnitYear = PUPA8 + 500; s.result.propTaxPerUnit = null; s.result.netPropTax = null; })).includes("CHFA's operating cost plus property tax check did not run"), 'a missing tax on an otherwise high cost still says the full check did not run');
 ok(!/check did not run/.test(texts(m)), 'a complete deal has no skipped checks');
 
+const addOut = mut0((s) => { s.permanentFinancing.taxCredit.added = 0; s.result.creditStack = { federal: 1, state: 0, added: 0, label: 'Transformational Housing credit', counted: false, reason: 'Transformational Housing credit is not counted in the sources: Enter the program year.' }; });
+ok(addOut.sources.rows.some((x) => x.amount === null && /Transformational Housing credit: not counted, Transformational Housing credit is not counted in the sources: Enter the program year\./.test(x.label)), 'an added credit the engine left out stays in the sources with its reason');
+ok(!m.sources.rows.some((x) => /not counted/.test(x.label)), 'no added-credit row when none is entered');
+const covGone = mut0((s) => { s.result.coverage.years.forEach((y) => { y.allMustPayCoverage = null; y.seniorCoverage = null; y.unavailableReason = 'NOI is unavailable for loan payments.'; }); s.result.unavailable = Object.assign({}, s.result.unavailable); delete s.result.unavailable.coverage; });
+ok(covGone.coverage.reason === 'NOI is unavailable for loan payments.' && /warn: Debt coverage is not available: NOI is unavailable for loan payments\./.test(texts(covGone)), 'coverage with no measurable year carries the row reason into a finding');
+
 console.log(`deal-workbook: ${checks} checks passed`);

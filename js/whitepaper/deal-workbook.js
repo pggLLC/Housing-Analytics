@@ -98,7 +98,10 @@
       var sc = (r.costBasis && r.costBasis.stateCredit) || {};
       if (num(tc.state)) sources.push({ label: 'Colorado state credit equity', amount: num(tc.state) });
       else if (sc.entered && num(tc.state) == null) sources.push({ label: 'Colorado state credit equity: not known, ' + (sc.reason || 'its terms are incomplete'), amount: null });
+      var cs = r.creditStack || {};
       if (num(tc.added)) sources.push({ label: tc.addedLabel || 'Other credit equity', amount: num(tc.added) });
+      // An added credit the engine left out keeps its row so the stack does not read as complete.
+      else if (cs.reason && !cs.counted) sources.push({ label: (cs.label || 'Added credit') + ': not counted, ' + cs.reason, amount: null });
       if (num(tc.historic)) sources.push({ label: 'Historic credit equity', amount: num(tc.historic) });
       ['government', 'other', 'owner', 'unclassified'].forEach(function (k) {
         (pf[k] || []).forEach(function (s) { var prog = s.program ? (labels[s.program] || s.program) : null;
@@ -193,7 +196,10 @@
       return { year: num(w.year), ratio: num(w[key]) };
     }
     model.coverage = { weakest: cov.years ? weakest15('allMustPayCoverage') : null, weakestSenior: cov.years ? weakest15('seniorCoverage') : null, measured: num(cov.measuredYears),
-      known15: known15, full: known15 === YEARS, reason: un.coverage || null };
+      known15: known15, full: known15 === YEARS,
+      // With no measurable year the engine's reason sits on the rows, not on un.coverage.
+      reason: un.coverage || (first15.length && !first15.some(function (y) { return num(y.allMustPayCoverage) != null; })
+        ? (first15.find(function (y) { return y.unavailableReason; }) || {}).unavailableReason || null : null) };
 
     // Loans.
     var loans = (r.obligations && r.obligations.loans) || [];
