@@ -104,7 +104,14 @@ ok(!/interest-only/.test(texts(io)), 'an amortizing soft loan raises no interest
 
 // Unknowns stay unknown: no rules file means no CHFA comparisons, never a comparison against 0.
 const noRules = WB.build(fixture(), null);
-ok(!noRules.error && !/CHFA's/.test(texts(noRules).replace(/CHFA HTF/g, '')), 'without the rules file, nothing is compared against a CHFA minimum');
+ok(!noRules.error && !/CHFA's/.test(texts(noRules).replace(/CHFA HTF/g, '').replace(/warn: CHFA's underwriting rules did not load[^\n]*/, '')), 'without the rules file, nothing is compared against a CHFA minimum');
+ok(/warn: CHFA's underwriting rules did not load/.test(texts(noRules)) && !/Nothing in the figures needs a second look/.test(WB.render(noRules)), 'without the rules file, the workbook says the CHFA checks were not run');
+{
+  const html = WB.render(m);
+  const tables = html.match(/<table[^>]*>/g);
+  ok(/id="wbCF"|Cash flow/.test(html) && tables.length >= 5, 'the workbook has its statement tables');
+  ok((html.match(/<table class="sr-table" data-no-sort>/g) || []).length >= 4, 'sources, uses, operating and cash flow statements opt out of sorting');
+}
 const blank = mut((s) => { s.result.fundingGap = null; s.result.unavailable.fundingGap = 'Select a county to load AMI rent limits.'; });
 ok(blank.exec.gap === null && /Funding gap is not available: Select a county/.test(texts(blank)), 'an unavailable gap carries its reason, not $0');
 ok(!!WB.build({ result: null }, rules).error, 'no engine result is an error, not an empty workbook');

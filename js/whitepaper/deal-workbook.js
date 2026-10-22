@@ -77,7 +77,7 @@
     var units = num(r.units);
     var min = chfaMinimums(rules);
     var labels = (snap && snap.labels) || {};
-    var model = { units: units, creditType: r.creditType, findings: [] };
+    var model = { units: units, creditType: r.creditType, findings: [], rulesMissing: !rules };
 
     // Sources: DOH's permanent financing view, which the calculator already classifies.
     var pf = snap.permanentFinancing;
@@ -208,6 +208,7 @@
   // Each: { level: 'bad' | 'warn' | 'ok', text, source? }. Only what the figures show; nothing guessed.
   function findings(m, r) {
     var out = [], min = m.operating.min;
+    if (m.rulesMissing) out.push({ level: 'warn', text: 'CHFA\'s underwriting rules did not load, so operating cost, reserve, vacancy, growth and debt coverage were not checked against its minimums. Reload the page to check them.' });
     var thisYear = new Date().getFullYear();
     if (m.rentLimits.regime && m.rentLimits.regime !== 'chfa_lihtc') out.push({ level: 'warn', text: 'Rents use ' + m.rentLimits.regime + ' limits, not CHFA tax credit limits.' });
     if (m.rentLimits.year != null && m.rentLimits.year < thisYear) out.push({ level: 'warn', text: 'Rent limits are the ' + m.rentLimits.year + ' tables. Check for newer CHFA tables before relying on these rents.' });
@@ -265,7 +266,8 @@
   // ── HTML (pure) ───────────────────────────────────────────────────────────
   function table(head, rows, opts) {
     var numCols = (opts && opts.num) || [];
-    return '<div class="sr-scroll"><table class="sr-table"><thead><tr>' + head.map(function (h, i) {
+    // Statements (sources, uses, operating lines, the cash flow) keep their accounting order; lists can sort.
+    return '<div class="sr-scroll"><table class="sr-table"' + (opts && opts.fixed ? ' data-no-sort' : '') + '><thead><tr>' + head.map(function (h, i) {
       return '<th scope="col"' + (numCols.indexOf(i) !== -1 ? ' class="sr-num"' : '') + '>' + esc(h) + '</th>';
     }).join('') + '</tr></thead><tbody>' + rows.map(function (r) {
       var cls = r.cls ? ' class="' + r.cls + '"' : '';
@@ -301,13 +303,13 @@
     h += s.rows.length ? table(['Source', 'Amount', 'Share'], s.rows.map(function (x) {
       return { cells: [esc(x.label), esc(money(x.amount)), esc(s.tdc ? pct(x.amount / s.tdc) : '—')] };
     }).concat([{ cls: 'sr-total', cells: ['Total sources', esc(money(s.total)), esc(s.tdc ? pct(s.total / s.tdc) : '—')] }])
-      .concat(s.gap != null && Math.abs(s.gap) > 0.5 ? [{ cls: 'sr-total', cells: [s.gap > 0 ? 'Gap' : 'Surplus', esc(money(Math.abs(s.gap))), esc(s.tdc ? pct(Math.abs(s.gap) / s.tdc) : '—')] }] : []), { num: [1, 2] })
+      .concat(s.gap != null && Math.abs(s.gap) > 0.5 ? [{ cls: 'sr-total', cells: [s.gap > 0 ? 'Gap' : 'Surplus', esc(money(Math.abs(s.gap))), esc(s.tdc ? pct(Math.abs(s.gap) / s.tdc) : '—')] }] : []), { num: [1, 2], fixed: true })
       : '<p class="sr-muted">' + esc(s.reason) + '</p>';
     h += '</div><div><h3>Uses</h3>';
     h += u.rows.length ? table(['Use', 'Amount', 'Per home'], u.rows.map(function (x) {
       return { cells: [esc(x.label), esc(money(x.amount)), esc(m.units ? money(x.amount / m.units) : '—')] };
     }).concat(u.notItemized > 0.5 ? [{ cells: ['Not itemized', esc(money(u.notItemized)), esc(m.units ? money(u.notItemized / m.units) : '—')] }] : [])
-      .concat([{ cls: 'sr-total', cells: ['Total development cost', esc(money(u.tdc)), esc(m.units ? money(u.tdc / m.units) : '—')] }]), { num: [1, 2] })
+      .concat([{ cls: 'sr-total', cells: ['Total development cost', esc(money(u.tdc)), esc(m.units ? money(u.tdc / m.units) : '—')] }]), { num: [1, 2], fixed: true })
       : '<p class="sr-muted">' + esc(u.reason) + ' Total development cost: ' + esc(money(u.tdc)) + '.</p>';
     h += '</div></div></section>';
 
@@ -328,7 +330,7 @@
       br.push(['Yearly credit used', b.credit == null ? '— ' + (b.creditReason || '') : money(b.credit)]);
       br.push(['Equity price', b.price == null ? '—' : '$' + b.price.toFixed(3)]);
       br.push(['Credit equity (10 years of credit × price)', money(b.equity)]);
-      h += table(['Line', 'Amount'], br.map(function (x) { return { cells: [esc(x[0]), esc(x[1])] }; }), { num: [1] });
+      h += table(['Line', 'Amount'], br.map(function (x) { return { cells: [esc(x[0]), esc(x[1])] }; }), { num: [1], fixed: true });
     }
     h += '</section>';
 
@@ -354,7 +356,7 @@
       ['Cost growth a year', pct(o.expGrowth, 1), mn.expGrowth ? pct(mn.expGrowth.value) : '—']
     ];
     h += '<section class="dv-card" aria-labelledby="wbOp"><h2 id="wbOp">Operating costs and assumptions</h2>' +
-      table(['Line', 'This deal', 'CHFA underwriting'], opRows.map(function (x) { return { cells: [esc(x[0]), esc(x[1]), esc(x[2])] }; }), { num: [1] }) +
+      table(['Line', 'This deal', 'CHFA underwriting'], opRows.map(function (x) { return { cells: [esc(x[0]), esc(x[1]), esc(x[2])] }; }), { num: [1], fixed: true }) +
       '<p class="sr-muted">CHFA figures: ' + esc(mn.opex ? mn.opex.where.replace(/, Section.*$/, '') : 'not on file') + ', Section 4.B and 4.C.</p></section>';
 
     // Loans
@@ -384,7 +386,7 @@
           return esc(money(ln[2] === -1 ? -v : v));
         })) };
       });
-      h += '<div class="wb-cf">' + table(head, body, { num: cf.rows.map(function (_, i) { return i + 1; }) }) + '</div>';
+      h += '<div class="wb-cf">' + table(head, body, { num: cf.rows.map(function (_, i) { return i + 1; }), fixed: true }) + '</div>';
     } else h += '<p class="sr-muted">' + esc(cf.reason) + '</p>';
     h += '</section>';
     return h;
@@ -447,7 +449,9 @@
 
   function start(doc) {
     var $ = function (id) { return doc.getElementById(id); };
-    var rules = null, tok = 0;
+    var tok = 0;
+    // Every workbook waits for the rules request to settle, so a fast calculator never builds without them.
+    var rulesReady = fetch(RULES_URL).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
     function status(t) { $('wbStatus').textContent = t; }
     function api(path) {
       return fetch(API + path, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); });
@@ -458,7 +462,8 @@
       status('Running the Deal Calculator for this deal…');
       $('wbOut').innerHTML = '';
       $('wbOpenCalc').href = calcUrl(query, doc.baseURI); $('wbOpenCalc').hidden = false;
-      loadFrame(doc, query).then(function (f) {
+      Promise.all([loadFrame(doc, query), rulesReady]).then(function (got) {
+        var f = got[0], rules = got[1];
         if (my !== tok) { f.remove(); return; }
         var snap = readCalc(f.contentWindow); f.remove();
         $('wbOut').innerHTML = render(build(snap, rules), title);
@@ -466,10 +471,6 @@
         if ($('wbOut').scrollIntoView) $('wbOut').scrollIntoView({ block: 'start' });
       }, function (err) { if (my === tok) status(err.message); });
     }
-    fetch(RULES_URL).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }).then(function (j) {
-      rules = j;
-      if (!j) status('CHFA\'s underwriting rules did not load, so the checks against its minimums are left out.');
-    });
     // Saved deals: the team's, from the private backend. Without it, the picker says so and the other routes still work.
     api('').then(function (j) {
       var deals = (j && j.deals) || [];
