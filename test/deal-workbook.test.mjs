@@ -262,4 +262,8 @@ const never = new Promise(() => {});
 ok((await WB.settleWithin(never, 20)) === null, 'a stalled rules request settles as null');
 ok((await WB.settleWithin(Promise.resolve({ a: 1 }), 1000)).a === 1 && (await WB.settleWithin(Promise.reject(new Error('x')), 1000)) === null, 'settled requests pass through, failures become null');
 
+const gapGone = WB.render(mut0((s) => { s.result.gap = null; s.result.fundingGap = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { fundingGap: 'Operating inputs are incomplete.' }); }));
+const gapTile = gapGone.split('Funding gap: Operating inputs are incomplete.')[0].split('<div').slice(-2).join('<div');
+ok(gapGone.includes('Funding gap: Operating inputs are incomplete.') && !/sr-ok|sr-bad/.test(gapTile), 'an unknown funding gap gets no pass or fail colour');
+
 console.log(`deal-workbook: ${checks} checks passed`);
