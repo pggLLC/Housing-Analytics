@@ -173,8 +173,9 @@
       }
       function transitZoneMap(mount) {
         mount.textContent = 'Loading the transit zone map…';
-        loadAsset('js/vendor/leaflet.css').catch(function () {});
-        loadAsset('js/vendor/leaflet.js')
+        // The stylesheet is awaited too: without it Leaflet's panes and
+        // controls are unpositioned, a broken map rather than an absent one.
+        Promise.all([loadAsset('js/vendor/leaflet.css'), loadAsset('js/vendor/leaflet.js')])
           .then(function () { return Promise.all([loadAsset('js/config/basemaps.js'), loadAsset('js/transit-zone-map.js')]); })
           .then(function () { return readJson('data/policy/thiz-map-status.json'); })
           .then(function (mapStatus) {
