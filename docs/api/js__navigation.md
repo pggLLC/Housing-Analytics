@@ -17,7 +17,7 @@ SCOPING A FOR-SALE PROJECT (entry points):
 
 EXPLORE (comparative & context):
   Compare Jurisdictions, Colorado Deep Dive, Market Intelligence,
-  CHFA Portfolio, Economic Dashboard, LIHTC Allocations, Preservation
+  CHFA Portfolio, Prop 123 Land Banking Awards, Economic Dashboard, Preservation
   Tracking
 
 DATA (transparency & quality):

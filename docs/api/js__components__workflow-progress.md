@@ -1,7 +1,7 @@
 # `js/components/workflow-progress.js`
 
 workflow-progress.js — COHO Analytics
-Reusable 5-step workflow progress bar component.
+Reusable 7-step workflow progress bar component.
 
 Reads step completion from WorkflowState when available, so each page no
 longer needs to inline duplicate progress-bar styles and markup.
@@ -13,4 +13,16 @@ Usage:
 
 Requires: workflow-state.js (optional but recommended)
 
-_No documented symbols — module has a file-header comment only._
+## Symbols
+
+### `getProduct()`
+
+The product the reader chose, or null when none has been chosen. The
+ active project's choice wins; a per-browser copy covers a reader who
+ chose before any project existed.
+
+### `stepsFor(product)`
+
+STEPS as they apply to a product. Overridden slots carry `routed: true`
+ and an `action` sentence for the next-step banner; slots with a second
+ page carry `companion: { label, href, action }`.

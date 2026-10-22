@@ -89,3 +89,20 @@ ACS aggregation that are on the far side of a highway or water body.
 @param {Array}  tractCentroids - [{geoid, lat, lon}]
 @param {Array}  barrierFeatures - GeoJSON features from natural_barriers_co.geojson
 @returns {Array} GEOIDs of excluded tracts
+
+### `proposeTractExclusions(siteLat, siteLon, tracts, barrierFeatures, siteGeoid)`
+
+Propose which tracts a supported natural feature separates from the site.
+A tract is proposed when the straight line from the site to its centroid
+crosses a feature. Nothing is removed here: the tract picker shows the
+proposals and the analyst applies them, keeping any tract that a bridge
+or interchange connects.
+
+@param {number} siteLat
+@param {number} siteLon
+@param {Array}  tracts   [{geoid, lat, lon}]
+@param {Array|null} barrierFeatures features of natural_barriers_co.geojson; null when it did not load
+@param {string} [siteGeoid] the tract containing the site, which is never proposed
+@returns {{status: string, reason: string|null, supported: string, exclusions: Array<{geoid, feature, featureType}>}}
+  status: 'proposed' (features were tested), 'no_features' (none of the
+  supported types near the site or the tracts), or 'unavailable' (no data).

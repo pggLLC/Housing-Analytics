@@ -28,3 +28,16 @@ Curation/QA rules (see data/jurisdiction-briefs/README.md):
 
 Load the brief for the placeGeoid, falling back to countyFips when
 the place has no brief on file. Returns the brief object or null.
+
+### `_renderNews(brief, queue, now)`
+
+The news panel for one brief, from the queue file. `queue` null means the
+file could not be loaded; that is said, not shown as "no news".
+
+### `_renderActivity(geoid, label, data)`
+
+Who has applied for Housing Tax Credits in this jurisdiction, from
+CHFA's applicant reports, and what became of each application. `data`
+null means the file could not be loaded; that is said, not shown as
+"no applications". A 7-digit geoid matches by place, a 5-digit one by
+county; a scattered-site application shows in every place it builds in.

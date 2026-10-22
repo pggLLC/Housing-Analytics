@@ -23,6 +23,16 @@ so users can explore the underlying data.
 Render a source badge string (safe HTML) showing the ACS year, table label,
 and a clickable [Source] link to data.census.gov.
 
+### `acsEntryFor(profile, field, value)`
+
+The published-margins entry (data/hna/acs-reliability.json, via
+window.ACSReliability) whose estimate is this figure, or null when the
+file is not loaded, the geography is unknown, or the number differs.
+
+### `acsSeriesText(series, year)`
+
+"2024 1-year" or "2020-2024 5-year" for an ACS series code and end year.
+
 ### `countyFromGeoid(geoType, geoid)`
 
 Map a Colorado geography (place / CDP / county / state) to its
@@ -77,14 +87,19 @@ the more reliable source.
 
 History note (2026-06-01): The static CE01/CE02/CE03 fields on
 place blobs are broken — every place record has CE03 = 0 because
-the tract-level LODES file at data/market/lodes_co.json itself
-has high_wage = 0 for all 1,447 CO tracts (build_lodes_co.py is
-dropping CS03 from the LODES WAC pull). The annualWages object is
-built from a different pipeline (county-apportioned) and is
-correct. Until the underlying data is rebuilt, prefer annualWages.
+the tract-level LODES file at data/market/lodes_co.json had
+high_wage = 0 for all 1,447 CO tracts (fetch_lodes.py read the WAC
+sex columns CS01/CS02 as wage tiers; fixed 2026-10-18 to read the
+CE01-CE03 earnings tiers). The annualWages object is built from a
+different pipeline (county-apportioned) and is still preferred.
 
 @param {object} lehd
 @returns {{low, medium, high, total}|null}
+
+### `prop123CycleYears(year)`
+
+Years of the 2024–2026 cycle that have passed by the end of `year`:
+0 in 2023, 1 in 2024, … capped at 3 from 2026 on.
 
 ### `REGIONAL_AMI_FACTORS`
 
@@ -106,17 +121,37 @@ not-burdened renter share to actual ≤60% AMI renter share by county group.
 
 ### `calculateGrowthTarget(baseline, yearsAhead)`
 
-Calculate the 3% annual growth target for a given baseline and year offset.
-@param {number} baseline - Starting 60% AMI rental count
-@param {number} yearsAhead - Years from baseline (0 = baseline year)
-@returns {number}
+The 2024–2026 cycle's target stock: the baseline plus 3% of the
+baseline for each cycle year (simple, not compound). Capped at three
+years, because later cycles use HB26-1313's permit formula.
+@param {number} baseline - Baseline affordable-home count
+@param {number} yearsAhead - Cycle years elapsed (0 = baseline year)
+@returns {number|null} null when there is no baseline
 
 ### `checkFastTrackEligibility(population, geoType)`
 
-Check if a jurisdiction is eligible for Prop 123 fast-track.
-@param {number} population
+Who runs fast-track review for a geography. The law sets no
+population threshold; a city, town or county adopts the process, and
+a census-designated place is covered by its county's process for
+unincorporated areas (C.R.S. § 29-32-105(1)(b), (2)).
+@param {number} [population] - unused; kept for older callers
 @param {string} geoType - 'county' | 'place' | 'cdp'
-@returns {{eligible, threshold, reason}}
+@returns {{eligible, threshold, reason}} threshold is always null
+
+### `calculateFastTrackTimeline(projectUnits, affordableUnits, jurisdiction_type)`
+
+Does a project qualify for Prop 123 fast-track review?
+At least half its homes must be affordable — rentals at or below 60%
+AMI, for-sale at or below 100% AMI — and the local government must
+then reach a final decision within 90 calendar days of a complete
+application (C.R.S. § 29-32-101(2), § 29-32-105(2)(a)).
+
+The law sets no standard review time, so there is no time-savings
+figure: standardDays and timelineSavings are null, never an estimate.
+
+@param {number} projectUnits    - total homes in the project
+@param {number} affordableUnits - homes that are affordable as above
+@param {string} jurisdiction_type - 'county' | 'place' | 'cdp'
 
 ### `getJurisdictionComplianceStatus(geoid, geoType, profile, countyFips)`
 

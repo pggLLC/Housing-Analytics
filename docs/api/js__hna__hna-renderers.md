@@ -83,6 +83,15 @@ renderBoundary — draw or replace the GeoJSON boundary layer on the HNA map.
 @param {GeoJSON.FeatureCollection} gj
 @param {string} geoType - 'county'|'place'|'cdp'|'state'
 
+### `applySnapshotReliability(geoid, geoType, cards, token)`
+
+applySnapshotReliability — put the Census margin of error and reliability
+in each snapshot card's source line, with the year and series the figure
+actually came from (data/hna/acs-reliability.json). A card is left as it
+is when its number is not the estimate the file describes.
+@param {Array<{id:string, field:string, value:?number, unit:string, table:string, caveat?:string}>} cards
+@returns {Promise<number>} how many cards were annotated
+
 ### `renderSnapshot(profile, s0801, label, prevProfile)`
 
 renderSnapshot — populate the executive summary stat cards.
@@ -96,19 +105,6 @@ renderSnapshot — populate the executive summary stat cards.
 renderHousingCharts — render housing stock composition (chartStock) and
 tenure mix (chartTenure) bar charts.
 @param {object} profile - ACS DP04/DP05 profile
-
-### `renderAffordChart(profile)`
-
-renderAffordChart — render the homeownership affordability chart
-(chartAfford). Bar 1 = median household income for the selected
-geography; Bar 2 = annual income required to afford the typical
-owner-occupied home under a 30-yr fixed PITI mortgage at AFFORD.*
-assumptions, computed by U().computeIncomeNeeded(homeValue).
-
-Previously this computed rent-based affordability ((rent*12)/0.30)
-while the surrounding HTML claimed "mortgage model" — fixed.
-
-@param {object} profile
 
 ### `renderModeShare(s0801)`
 
@@ -311,7 +307,7 @@ board) + local advocate orgs that aren't on file yet.
 ### `getAssumptions()`
 
 getAssumptions — read the current values of the projection assumption controls.
-@returns {{ horizon: number, targetVac: number, headshipMode: string }}
+@returns {{ horizon: number, targetVac: number, headshipMode: 'forecast'|'current'|'trend' }}
 
 ### `renderProjectionCalculationTrace(trace)`
 
@@ -465,19 +461,6 @@ Caveat shown inline: this panel uses the county-by-year trend slice.
 Census BPS also publishes place records for reporting jurisdictions;
 unincorporated areas and CDPs are county-permitted and legitimately have
 no place record.
-
-### `renderProp123BaselineAndFastTrack(profile, geoType, geoLabel)`
-
-Populate the Prop 123 baseline / fast-track cards on HNA. The HTML
-ships these with "Select a geography…" placeholders that never
-cleared because no renderer touched them. With a profile in hand
-we can derive a directional baseline (6% of housing stock) and
-surface the fast-track eligibility check the utility already
-computes (population threshold per HB 22-1093).
-
-The baseline is intentionally a directional estimate — the
-jurisdiction-specific number comes from CDOLA Prop 123
-commitment filings. Labelled so the user knows it's an estimate.
 
 ### `_scorecardScore(subjectPlaceRec, countyRec, econRec, dist, isPlaceSubject)`
 

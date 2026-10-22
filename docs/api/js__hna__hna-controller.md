@@ -68,6 +68,14 @@ Uses ACS 5-year (acs5) for reliability across all Colorado geography sizes.
 Called from update() when a cached profile exists but lacks DP03_0052E
 (the income bracket field that gates all extended chart rendering).
 
+### `mergeExtended(profile, ext)`
+
+The cached profile with the extended fetch merged in. The live values win
+on overlap, except a null that would erase a cached value (the fetch can
+partly succeed). _liveFields names the fields now holding a live value:
+they are not the stored estimates the margins file describes, so the
+snapshot cards give them no margin even when the numbers agree.
+
 ### `renderProductionVsNeed(selection, incUnits, baseYear, endYear, usedPlaceProjection, basis)`
 
 renderProductionVsNeed — fill the "Recent production" / "Production ÷ need"
@@ -75,6 +83,13 @@ stats and the note under the housing-need summary. incUnits/endYear come
 from applyAssumptions so the ratio always matches the displayed need at
 the selected horizon. Place/CDP permits are the place's own BPS record —
 NEVER the county's (CDPs are county-permitted; say so instead).
+
+### `_workforceNeedDoc`
+
+Present in-commuter need from data/hna/workforce-need.json: the homes the
+lower- and middle-wage people who commute in would take if a stated share
+of them moved closer (25% and 50%; no statewide source measures the share).
+Null with a reason when the file or the geography has no figure.
 
 ### `_rentBurdenEvidence(metric)`
 
@@ -93,32 +108,25 @@ to the digest's grade of pct_cost_burdened: an unusable rate keeps its
 number but reads as low evidence. Runs at the end of update(), after
 every renderer that writes the tile.
 
-### `residentReadingName(netOfStock)`
+### `_replacementAtHorizon(proj, placeRec, usedPlaceProjection, selection, year, stateSeries)`
 
-What the resident-side reading is called, by what it counts.
-
-Two different quantities have both been called "resident growth". The
-ranking index, the digest and the Recommendation publish
-future_units_growth_20yr: the CHANGE in homes needed as households grow
-(DOLA's incremental_units_needed_dola, or the place ledger built on it) --
-Mesa County 12,727 by 2044. This page, where it computes the reading from
-the county projection itself, subtracts the homes in the market today
-from the homes needed at the horizon, which also counts any shortfall in
-today's stock against the target vacancy -- Mesa County 16,071. Both are
-deliberate (the stock-net form is what stops a resort county being told
-it has surplus housing; see _productionNeed), but they are not the same
-figure and must not share a name. test/growth-figure-agrees.test.js holds
-the rule: the same name on both surfaces means the same number.
+Homes lost from today's stock by the horizon year, from the same
+projection the growth reading came from: the place ledger's
+replacement_cumulative when the page used it, else the county file's
+housing_need.replacement. A place without its own ledger gets null with a
+reason rather than a county figure it did not earn. Colorado reads
+stateSeries, the sum of the county series. Pure.
 
 ### `buildNeedReconciliation(input)`
 
 How the need figures on this page fit together (audit F4).
 
 Fruita showed 103, ~722, +635, 819 and 2,302 on one page and nothing said
-how they related: 2,302 is the workforce reading, used because it is the
-larger of two readings; 819 is the resident-growth reading it beat; 103
+how they related: 2,302 was then the jobs reading, used because it was the
+larger of two readings; 819 was the resident-growth reading it beat; 103
 is today's rental shortfall at <=30% AMI, a different question; +635 is
-the households chart, which counts households, not homes.
+the households chart, which counts households, not homes. The figure is
+now growth plus today's in-commuters, and each part has its own row.
 
 Every value is one some other part of the page already shows, passed in
 rather than recomputed, so this block cannot drift from what it explains.

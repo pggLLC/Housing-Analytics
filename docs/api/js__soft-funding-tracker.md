@@ -20,13 +20,13 @@ Usage:
 Exposed as window.SoftFundingTracker (browser) and module.exports (Node).
 
 @typedef {Object} FundingCheckResult
-@property {number}       available       — estimated remaining dollars
+@property {number|null}  available       — published remaining dollars, or unknown
 @property {string}       program         — program name
 @property {string|null}  deadline        — ISO date string or null
 @property {number|null}  daysRemaining   — calendar days to deadline
 @property {string}       competitiveness — 'high'|'moderate'|'low'
 @property {string}       narrative       — human-readable summary
-@property {number}       confidence      — 0–1 likelihood estimate
+@property {number|null}  confidence      — 0–1 likelihood estimate, unknown without a balance
 @property {string|null}  warning         — warning message or null
 @property {Array<Object>} programs       — all matching programs for this county
 
@@ -103,4 +103,4 @@ Sums available amounts from all matching programs (excluding market & volume cap
 
 @param {string} countyFips
 @param {string} executionType
-@returns {{total: number, programCount: number, programs: Array}}
+@returns {{total: number|null, programCount: number, programs: Array, unavailableReason: string|null}}

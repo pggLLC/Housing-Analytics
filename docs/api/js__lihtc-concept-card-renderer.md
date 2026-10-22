@@ -18,6 +18,8 @@ Features rendered:
   • Indicative capital stack (collapsible <details>)
   • Important caveats (yellow warning box)
   • Housing Needs Fit section — HNA alignment, coverage %, gaps
+  • Mix check — renters the homes-short counts miss, and whether the mix
+    pays its way over 15 years (rec.mixCheck, built with js/mix-check.js)
   • Export JSON button
 
 Depends on (all optional — card gracefully degrades):
@@ -46,6 +48,13 @@ Build an HTML table row with a label/value pair.
 ### `_sumObj(obj)`
 
 Sum all numeric values in an object.
+
+### `mixCheckHtml(mc, opts)`
+
+HTML for rec.mixCheck: the need notes, one sentence on whether the
+recommended mix pays its way over CHFA's 15-year pro forma, the per-tier
+lines (opts.tierLines !== false) and the assumptions in small print.
+Shared by this card and the Deal Calculator's concept card.
 
 ### `render(container, rec, hnsFit, constraints)`
 
