@@ -92,6 +92,8 @@ const mut = (fn) => { const s = fixture(); fn(s); return WB.build(s, rules); };
 ok(/bad: Operating cost plus property tax of \$3,900 a unit is under CHFA's \$4,500/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 3000; s.result.propTaxPerUnit = 900; }))), 'operating cost plus tax under $4,500 is flagged');
 ok(!/Operating cost/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 4200; s.result.propTaxPerUnit = 900; }))), 'property tax counts toward the $4,500 minimum (and $5,000)');
 ok(/warn: Operating cost of \$4,000 a unit is under CHFA's \$4,500 minimum before property tax/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 4000; s.result.propTaxPerUnit = null; }))), 'without the tax, a low cost is a question, not a failure');
+const exempt = mut((s) => { s.result.operatingSummary.perUnitYear = 4200; s.result.propTaxPerUnit = 900; s.result.netPropTax = 0; });
+ok(exempt.operating.taxPerUnit === 0 && /bad: Operating cost of \$4,200 a unit is under/.test(texts(exempt)), 'a tax exemption is counted: the net tax, not the gross input');
 ok(/warn: Operating cost plus property tax of \$4,600 a unit meets CHFA's \$4,500 minimum but not the \$5,000/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 3700; s.result.propTaxPerUnit = 900; }))), 'a cost between the two minimums is flagged against the Section 8 minimum, not passed');
 ok(!/Operating cost/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 4100; s.result.propTaxPerUnit = 900; }))), 'operating cost plus tax at $5,000 is not flagged');
 ok(/warn: Vacancy of 5\.0%/.test(texts(mut((s) => { s.result.vacancyRate = 0.05; }))), 'vacancy under 7% is flagged');

@@ -148,7 +148,7 @@
     // Operating costs per unit, against CHFA's minimums.
     var os = r.operatingSummary || {};
     model.operating = {
-      opexPerUnit: num(os.perUnitYear), reservePerUnit: num(r.repReservePerUnit), taxPerUnit: num(r.propTaxPerUnit),
+      opexPerUnit: num(os.perUnitYear), reservePerUnit: num(r.repReservePerUnit), taxPerUnit: num(r.netPropTax) != null && units ? num(r.netPropTax) / units : num(r.propTaxPerUnit),
       vacancy: num(r.vacancyRate), rentGrowth: r.exit ? num(r.exit.rentGrowth) : null, expGrowth: r.exit ? num(r.exit.expGrowth) : null,
       groups: os.groups || null, min: min
     };
@@ -521,6 +521,7 @@
     $('wbFile').addEventListener('change', function () {
       var file = $('wbFile').files[0]; if (!file) return;
       file.text().then(function (t) {
+        if ($('wbFile').files[0] !== file) return; // another file was picked while this one was read
         var j; try { j = JSON.parse(t); } catch (e) { status('That file is not a Deal Calculator export.'); return; }
         if (j && j.dealMode === 'ownership') { status('That export is a for-sale deal. The workbook covers rental tax credit deals.'); return; }
         open(queryFrom(j), file.name.replace(/\.json$/i, ''));
