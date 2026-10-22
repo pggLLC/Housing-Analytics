@@ -87,7 +87,7 @@
 
         <section class="lbm" data-land-banking-map aria-labelledby="lbm-heading">
           <h2 id="lbm-heading">Where the awards are</h2>
-          <p>Each award buys a site now so homes can be built there later, at rents or prices that households with low or moderate incomes can afford. Tap a town, or search for one, to see who received the money and what they plan.</p>
+          <p>Each award buys a site now so homes can be built there later, at rents or prices that households with low or moderate incomes can afford. Tap a town, or search for one, to see who received the money, what they plan, and where the site stands now.</p>
           <label for="lbmSearch">Find a town, county or grantee</label>
           <input id="lbmSearch" type="search" placeholder="e.g. Leadville" autocomplete="off">
           <p class="lbm-count" data-lbm-count aria-live="polite">Loading awards…</p>
@@ -109,6 +109,7 @@
               <thead><tr>
                 <th data-tip="The yearly award round the list comes from. Colorado's fiscal year runs July to June, so the 2024-25 round was awarded in 2025.">Round</th>
                 <th data-tip="The project name as printed in CHFA's award list. A dated note under a name says what has happened to the site since, with its source.">Project</th>
+                <th data-tip="Where the site stands since the award, from later state awards to the same project (tax credits, Division of Housing, Prop 123) or a dated public source. &quot;Building money awarded&quot; is not the same as built.">Status</th>
                 <th data-tip="The organization CHFA's award list names as receiving the money.">Received by</th>
                 <th data-tip="The town CHFA's list gives for the site. The list names a town, not an address.">Town</th>
                 <th data-tip="Whether the homes planned on the land are to rent, to buy, or both, as the award list says.">Homes planned</th>
@@ -116,7 +117,7 @@
                 <th data-tip="The grantee's estimate of how many homes the land will hold. These are plans, not homes built.">Est. homes</th>
                 <th data-tip="CHFA's award list for the round, with the row exactly as printed.">Source</th>
               </tr></thead>
-              <tbody data-lb-rows><tr><td colspan="8">Loading…</td></tr></tbody>
+              <tbody data-lb-rows><tr><td colspan="9">Loading…</td></tr></tbody>
             </table>
           </div>
           <p><button type="button" class="btn btn-outline" data-lb-more hidden>Show all awards</button></p>

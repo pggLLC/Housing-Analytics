@@ -13,6 +13,10 @@
  * per town; an award listing several towns has a pin in each. Pins sit at the town's
  * Census centre because CHFA lists towns, not addresses.
  *
+ * Each award's status since the award (later state funding, a partner chosen, or
+ * nothing found) comes from data/policy/prop123-land-banking-status.json
+ * (scripts/funding/build_land_banking_status.py), loaded alongside the awards.
+ *
  * Every count on the section is computed here from the awards file, so the summary
  * line and the pins cannot disagree with it. A contact the award list did not print
  * is labelled "to confirm" until someone confirms it.
@@ -25,6 +29,7 @@
   'use strict';
 
   var AWARDS = 'data/policy/prop123-land-banking-awards.json';
+  var STATUS = 'data/policy/prop123-land-banking-status.json';
   var PURPOSE_TEXT = { 'Rental': 'rental', 'Homeownership': 'for-sale', 'Rental and Homeownership': 'rental and for-sale' };
 
   function esc(v) {
@@ -142,8 +147,10 @@
     return '<div class="lbm-popup"><h4>' + esc(town.name) + (town.county ? ' <span class="lbm-note">(' + esc(town.county) + ')</span>' : '') + '</h4><ul>' +
       town.awards.map(function (a) {
         var since = sinceHtml(a);
+        var status = statusHtml(a);
         return '<li><strong>' + esc(projectName(a)) + '</strong>: ' + esc(sponsorName(a)) + ', ' + money(a.amount_awarded) + ', about ' +
           int(a.estimated_units) + ' ' + esc(PURPOSE_TEXT[a.purpose] || String(a.purpose || '').toLowerCase()) + ' homes (' + esc(roundLabel(data, a.round)) + ').' +
+          (status ? '<br>' + status : '') +
           (since ? '<br>' + since : '') +
           (mode === 'gated' ? '<br>Contact: ' + contactHtml((contacts || {})[a.id], data, contactsMissing)
             : '<br>Questions: ' + publicContactHtml(a, data)) + '</li>';
@@ -395,10 +402,33 @@
 
   // One request per page load, so a page that also renders the awards elsewhere
   // (the public table) shows the same snapshot as the map.
+  // The status file is optional: without it the awards show as before, with no status line.
   var awardsLoad = null;
   function loadAwards() {
-    if (!awardsLoad) awardsLoad = getJSON(AWARDS, false);
+    if (!awardsLoad) awardsLoad = Promise.all([getJSON(AWARDS, false), getJSON(STATUS, true)]).then(function (r) {
+      return attachStatus(r[0], r[1]);
+    });
     return awardsLoad;
+  }
+
+  function attachStatus(data, status) {
+    var by = (status && status.status) || {};
+    (data.awards || []).forEach(function (a) { if (by[a.id]) a.status = by[a.id]; });
+    return data;
+  }
+
+  // Where the site stands since the award: a label, then the dated, sourced detail.
+  function statusHtml(a, cls) {
+    var s = a && a.status;
+    if (!s || !s.label) return '';
+    var links = (s.sources || []).map(function (x) {
+      var u = safeUrl(x.url);
+      return u ? '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(x.title) + '</a>' : esc(x.title);
+    }).join('; ');
+    var checked = s.status === 'none_found' && s.checked ? ' (checked ' + esc(s.checked) + ')' : '';
+    // The table's Status column names itself; the map popup needs the word.
+    return '<span class="' + (cls || 'lbm-status') + '"><strong>' + (cls ? '' : 'Status: ') + esc(s.label) + '</strong>' + checked + '.' +
+      (s.text ? ' ' + esc(s.text) : '') + (links ? ' <span class="lbm-note">(' + links + ')</span>' : '') + '</span>';
   }
 
   function start() {
@@ -418,5 +448,5 @@
   }
 
   return { contactIndex: contactIndex, filterAwards: filterAwards, summarize: summarize, groupByTown: groupByTown,
-    popupHtml: popupHtml, sinceHtml: sinceHtml, projectName: projectName, sponsorName: sponsorName, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townsNear: townsNear, onTap: onTap, townListHtml: townListHtml, contactHtml: contactHtml, publicContactHtml: publicContactHtml, pageConfig: pageConfig, loadAwards: loadAwards, start: start, countText: countText, boot: boot, AWARDS: AWARDS };
+    popupHtml: popupHtml, sinceHtml: sinceHtml, projectName: projectName, sponsorName: sponsorName, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townsNear: townsNear, onTap: onTap, townListHtml: townListHtml, contactHtml: contactHtml, publicContactHtml: publicContactHtml, pageConfig: pageConfig, loadAwards: loadAwards, attachStatus: attachStatus, statusHtml: statusHtml, start: start, countText: countText, boot: boot, AWARDS: AWARDS, STATUS: STATUS };
 }));
