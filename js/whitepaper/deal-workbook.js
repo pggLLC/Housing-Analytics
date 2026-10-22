@@ -69,6 +69,10 @@
 
   // ── The workbook model (pure) ─────────────────────────────────────────────
   // snap: { result, permanentFinancing, rentLimits, utilityAllowance, amiByBr, labels } read from the calculator.
+  // The engine's notes on two CHFA tests it does not run (js/deal-cost-basis.js); a test keeps these in step.
+  var BOND_TEST_NOTE = 'Assumes the tax-exempt bonds meet the aggregate basis test. Otherwise CHFA allows 4% credit only on the share of eligible basis the bonds finance (CHFA 2025-2026 QAP, PDF page 54). Not checked here.';
+  var REHAB_MINIMUM_NOTE = 'CHFA also requires rehabilitation hard costs, not counting acquisition or soft costs, above the greater of 20% of the building\'s adjusted basis or $20,000 per unit (CHFA 2025-2026 QAP, PDF page 35). Not checked here.';
+
   function build(snap, rules) {
     var r = snap && snap.result;
     if (!r) return { error: 'The Deal Calculator gave no result for this deal.' };
@@ -154,6 +158,9 @@
         // Credit capacity can fail after the basis is done (no first mortgage, no CHFA rule); an entered award
         // then carries the credit without that test.
         capacityReason: (b.reasons || {}).capacity || null,
+        // Two CHFA tests the calculator leaves unchecked: the bond test on every 4% deal, and the rehab minimum
+        // whenever acquisition basis earns credit.
+        unchecked: [String(r.creditType) === '4' ? BOND_TEST_NOTE : null, num(b.acquisitionQualified) > 0 ? REHAB_MINIMUM_NOTE : null].filter(Boolean),
         // CHFA's third reservation test is published only in its Excel application, so the engine never runs it.
         costLimit: b.costLimitMethod && !b.costLimitMethod.checked ? (b.costLimitMethod.reason || 'CHFA\'s cost basis limits were not checked.') : null,
         // Where the basis calculation stopped; an entered award can still carry the credit past it.
@@ -353,6 +360,7 @@
     if (gm.binding) out.push({ level: 'warn', text: 'CHFA\'s gap method limits the credit: the deal needs only ' + money(num(gm.credit)) + ' a year to fill its gap.', source: gm.citation ? { where: gm.citation } : null });
     if (m.basis.stopReason) out.push({ level: 'warn', text: 'Eligible and qualified basis were not fully calculated: ' + m.basis.stopReason.replace(/\.$/, '') + '.' + (m.basis.credit != null ? ' The yearly credit shown is the entered award, not one the basis supports.' : '') });
     if (m.basis.capacityReason) out.push({ level: 'warn', text: 'The credit capacity CHFA allows was not established: ' + m.basis.capacityReason.replace(/\.$/, '') + '.' + (m.basis.credit != null ? ' The yearly credit shown is not tested against it.' : '') });
+    (m.basis.unchecked || []).forEach(function (n) { if (m.basis.calculated != null || m.basis.credit != null) out.push({ level: 'warn', text: 'Not checked: ' + n }); });
     (m.basis.flags || []).forEach(function (f) { out.push({ level: 'warn', text: 'Credit: ' + f }); });
     if (m.basis.costLimit && m.basis.calculated != null) out.push({ level: 'warn', text: 'CHFA\'s cost basis limit (Method Three) was not checked: ' + m.basis.costLimit.replace(/\.$/, '') + '. Check the credit against it in CHFA\'s application.' });
     // No designation, or one that does not apply to this credit type, is a settled answer; a designation left
@@ -457,6 +465,7 @@
       br.push(['Credit equity (10 years of credit × price)', money(b.equity)]);
       h += table(['Line', 'Amount'], br.map(function (x) { return { cells: [esc(x[0]), esc(x[1])] }; }), { num: [1], fixed: true });
       if (b.costLimit) h += '<p class="sr-muted">Not checked: ' + esc(b.costLimit) + '</p>';
+      (b.unchecked || []).forEach(function (n) { h += '<p class="sr-muted">' + esc(n) + '</p>'; });
     }
     h += '</section>';
 

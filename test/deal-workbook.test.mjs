@@ -281,6 +281,13 @@ ok(ungroupedBlank.sources.rows.some((x) => x.amount === null && x.label === "Ban
 const noCapacity = mut0((s) => { s.result.costBasis.basis.reasons = { capacity: "Credit capacity needs CHFA's gap calculation, which cannot run yet: Enter the first mortgage." }; });
 ok(texts(noCapacity).includes("warn: The credit capacity CHFA allows was not established: Credit capacity needs CHFA's gap calculation, which cannot run yet: Enter the first mortgage. The yearly credit shown is not tested against it.") && WB.render(noCapacity).includes('Credit capacity'), 'a credit capacity test that could not run is a warning, with the engine\'s reason');
 ok(!/credit capacity CHFA allows/.test(texts(m)), 'a complete deal has no capacity warning');
+{ const CB = require(path.join(ROOT, 'js/deal-cost-basis.js')); const wbSrc = read('js/whitepaper/deal-workbook.js');
+  ok(wbSrc.includes(JSON.stringify(CB.BOND_TEST_NOTE).slice(1, -1)) && wbSrc.includes(CB.REHAB_MINIMUM_NOTE.replace("'", "\\'")), 'the bond test and rehab minimum notes match the engine'); }
+const four = mut0((s) => { s.result.creditType = '4'; });
+ok(texts(four).includes('warn: Not checked: Assumes the tax-exempt bonds meet the aggregate basis test.') && WB.render(four).includes('aggregate basis test'), 'a 4% deal says the bond test was not checked');
+ok(!/aggregate basis test|rehabilitation hard costs/.test(texts(m)), 'a new 9% deal has neither note');
+const acq = mut0((s) => { s.result.costBasis.basis.acquisitionQualified = 400000; });
+ok(texts(acq).includes('warn: Not checked: CHFA also requires rehabilitation hard costs'), 'acquisition basis says the rehab minimum was not checked');
 const ungrouped = mut0((s) => { s.permanentFinancing.unclassified = [{ id: 'u1', program: null, label: 'Foundation loan', amount: 250000, reason: "Choose where this source counts in DOH's layout." }]; });
 ok(ungrouped.sources.rows.some((x) => x.amount === 250000 && x.label === "Foundation loan: not yet grouped, Choose where this source counts in DOH's layout."), 'a source with no DOH group keeps its reason');
 
