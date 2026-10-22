@@ -117,6 +117,14 @@
       '</ul>';
   }
 
+  // Follows thiz-map-status.json, as TransitZone.designation() does, so the
+  // badge never says "awaiting" beside a note that the map is out.
+  function badgeText(mapStatus) {
+    return mapStatus && mapStatus.status === 'published'
+      ? 'Screen only — check OEDIT’s published zone map'
+      : 'Screen only — awaiting OEDIT confirmation';
+  }
+
   function inBounds(b, lat, lon) {
     return lat >= b.getSouth() && lat <= b.getNorth() && lon >= b.getWest() && lon <= b.getEast();
   }
@@ -228,7 +236,7 @@
           var d = L.DomUtil.create('div', 'tzm__badge');
           d.setAttribute('style', 'background:var(--card,#ffffff);color:var(--text,#1f2937);box-shadow:0 1px 3px rgba(0,0,0,.25);border-left:3px solid var(--warn,#d97706);' +
             'padding:.25rem .5rem;font-size:.8rem;font-weight:600;border-radius:4px;max-width:12rem;line-height:1.25;');
-          d.textContent = 'Screen only — awaiting OEDIT confirmation';
+          d.textContent = badgeText(mapStatus);
           return d;
         }
       });
@@ -254,7 +262,7 @@
     });
   }
 
-  var api = { render: render, MAP_FILE: MAP_FILE };
+  var api = { render: render, badgeText: badgeText, MAP_FILE: MAP_FILE };
   root.TransitZoneMap = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof window !== 'undefined' ? window : globalThis);

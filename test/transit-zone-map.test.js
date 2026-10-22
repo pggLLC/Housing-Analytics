@@ -142,6 +142,15 @@ test('a throw while drawing: "Map unavailable", never an empty map box', () => {
   });
 });
 
+test('the on-map badge follows the zone map status', () => {
+  const TZM = require('../js/transit-zone-map.js');
+  assert.equal(TZM.badgeText({ status: 'not_published' }), 'Screen only — awaiting OEDIT confirmation');
+  assert.equal(TZM.badgeText(null), 'Screen only — awaiting OEDIT confirmation');
+  assert.match(TZM.badgeText({ status: 'published' }), /published zone map/);
+  assert.equal(TZM.badgeText(status), status.status === 'published'
+    ? TZM.badgeText({ status: 'published' }) : 'Screen only — awaiting OEDIT confirmation');
+});
+
 Promise.all(pending).then(() => {
   console.log(`\n${passed} passed`);
 }).catch((e) => { console.error('  ✗ ' + e.message); process.exit(1); });
