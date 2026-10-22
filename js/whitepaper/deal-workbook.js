@@ -133,7 +133,8 @@
       var limit = brKey && ami[p.tier] ? num(ami[p.tier][brKey]) : null;
       var allowance = model.rentsFromSchedule ? null : ua.applied && ua.perBedroom && brKey ? num(ua.perBedroom[UA_KEY[brKey]]) : (ua.applied ? null : 0);
       var fees = ua.applied && ua.feesPerBedroom && brKey ? (num(ua.feesPerBedroom[UA_KEY[brKey]]) || 0) : 0;
-      var rent = num(p.contractRent);
+      // Market-rate rows carry their price in rent, restricted rows in contractRent.
+      var rent = num(p.contractRent != null ? p.contractRent : p.rent);
       var maxNet = limit != null && allowance != null ? limit - allowance - fees : null;
       return { tier: p.tier, bedrooms: p.bedrooms, units: num(p.units), rent: rent, limit: limit, allowance: allowance, fees: fees || null,
         headroom: maxNet != null && rent != null ? maxNet - rent : null, annual: rent != null && num(p.units) != null ? rent * num(p.units) * 12 : null };
@@ -306,8 +307,8 @@
     var s = m.sources, u = m.uses;
     h += '<section class="dv-card" aria-labelledby="wbSU"><h2 id="wbSU">Sources and uses</h2><div class="wb-two"><div><h3>Sources</h3>';
     h += s.rows.length ? table(['Source', 'Amount', 'Share'], s.rows.map(function (x) {
-      return { cells: [esc(x.label), esc(money(x.amount)), esc(s.tdc ? pct(x.amount / s.tdc) : '—')] };
-    }).concat([{ cls: 'sr-total', cells: ['Total sources', esc(money(s.total)), esc(s.tdc ? pct(s.total / s.tdc) : '—')] }])
+      return { cells: [esc(x.label), esc(money(x.amount)), esc(s.tdc && x.amount != null ? pct(x.amount / s.tdc) : '—')] };
+    }).concat([{ cls: 'sr-total', cells: ['Total sources', esc(money(s.total)), esc(s.tdc && s.total != null ? pct(s.total / s.tdc) : '—')] }])
       .concat(s.gap != null && Math.abs(s.gap) > 0.5 ? [{ cls: 'sr-total', cells: [s.gap > 0 ? 'Gap' : 'Surplus', esc(money(Math.abs(s.gap))), esc(s.tdc ? pct(Math.abs(s.gap) / s.tdc) : '—')] }] : []), { num: [1, 2], fixed: true })
       : '<p class="sr-muted">' + esc(s.reason) + '</p>';
     h += '</div><div><h3>Uses</h3>';
@@ -343,7 +344,7 @@
     var rr = m.rents;
     h += '<section class="dv-card" aria-labelledby="wbRents"><h2 id="wbRents">Rents by AMI tier</h2>';
     h += rr.rows.length ? table(['AMI', 'Size', 'Homes', 'Rent', 'Gross limit', 'Utility allowance', 'Room under limit', 'Rent a year'], rr.rows.map(function (x) {
-      return { cls: x.headroom != null && x.headroom < -0.5 ? 'sr-diff' : '', cells: [esc(x.tier + '%'), esc(x.bedrooms), esc(x.units), esc(money(x.rent)), esc(money(x.limit)),
+      return { cls: x.headroom != null && x.headroom < -0.5 ? 'sr-diff' : '', cells: [esc(typeof x.tier === 'number' ? x.tier + '%' : 'Market rate'), esc(x.bedrooms), esc(x.units), esc(money(x.rent)), esc(money(x.limit)),
         esc(m.rentsFromSchedule ? 'In schedule' : x.allowance == null ? '—' : (m.utilityAllowanceApplied ? money(x.allowance + (x.fees || 0)) : 'None')), esc(x.headroom == null ? '—' : money(x.headroom)), esc(money(x.annual))] };
     }).concat([{ cls: 'sr-total', cells: ['Total', '', esc(rr.rows.reduce(function (a, x) { return a + (x.units || 0); }, 0)), '', '', '', '', esc(money(rr.annual))] }]), { num: [2, 3, 4, 5, 6, 7] })
       : '';
@@ -366,6 +367,7 @@
       '<p class="sr-muted">CHFA figures: ' + esc(mn.opex ? mn.opex.where.replace(/, Section.*$/, '') : 'not on file') + ', Section 4.B and 4.C.</p></section>';
 
     // Loans
+    if (!m.loans.length && m.loansReason) h += '<section class="dv-card" aria-labelledby="wbLoans"><h2 id="wbLoans">Loans</h2><p class="sr-muted">' + esc('Loan details are not available: ' + m.loansReason) + '</p></section>';
     if (m.loans.length) {
       h += '<section class="dv-card" aria-labelledby="wbLoans"><h2 id="wbLoans">Loans</h2>' + table(['Loan', 'Amount', 'Rate', 'Repayment', 'Amortization', 'Maturity', 'Year-1 payment', 'Owed after year 15'], m.loans.map(function (l) {
         return { cells: [esc(l.label), esc(money(l.amount)), esc(l.rate == null ? '—' : l.rate + '%'), esc(l.typeLabel + (l.type === 'io_then_amortizing' ? ' (' + l.ioYears + ' yrs)' : '')),
@@ -495,11 +497,14 @@
     $('wbOpenSaved').addEventListener('click', function () {
       var deal = $('wbDeals').value, v = $('wbVersions').value;
       if (!deal || !v) { status('Choose a deal and a version.'); return; }
+      var gen = tok, name = $('wbDeals').selectedOptions[0].textContent;
       api('?deal=' + encodeURIComponent(deal) + '&v=' + encodeURIComponent(v)).then(function (x) {
+        // Another deal was opened, or the choice changed, while this one loaded.
+        if (gen !== tok || $('wbDeals').value !== deal || $('wbVersions').value !== v) return;
         var q = queryFrom(x);
         if (!q) { status('That version was saved without a Deal Calculator export. Open it in Submittal review, load an export, and save again.'); return; }
-        open(q, $('wbDeals').selectedOptions[0].textContent);
-      }, function () { status('That version did not load.'); });
+        open(q, name);
+      }, function () { if (gen === tok) status('That version did not load.'); });
     });
     $('wbOpenLink').addEventListener('click', function () { open(queryFrom($('wbLink').value), null); });
     $('wbFile').addEventListener('change', function () {

@@ -60,6 +60,13 @@ const withUa = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: {
 ok(withUa.rents.rows.every((x) => x.allowance === 100 && x.headroom === x.limit - 100 - x.rent), 'a 2BR utility allowance comes off each 2BR limit');
 const withFees = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: { efficiency: 60, '1BR': 80, '2BR': 100, '3BR': 120, '4BR': 140 }, feesPerBedroom: { '2BR': 25 } }; });
 ok(withFees.rents.rows.every((x) => x.headroom === x.limit - 125 - x.rent), 'tenant-paid fees come off the limit with the allowance');
+const withMarket = mut0((s) => { s.result.pricedRows.push({ tier: 'market', bedrooms: '2BR', units: 4, rent: 1900 }); });
+const mrow = withMarket.rents.rows.find((x) => x.tier === 'market');
+ok(mrow.rent === 1900 && mrow.annual === 1900 * 4 * 12 && /Market rate/.test(WB.render(withMarket)) && !/market%/.test(WB.render(withMarket)), 'market-rate rows show their rent');
+const nullSrc = mut0((s) => { s.permanentFinancing.hardMortgages[0].principal = null; });
+ok(!/<td class="sr-num">0%<\/td>/.test(WB.render(nullSrc)), 'an unknown source amount shows no share, not 0%');
+const noLoans = mut0((s) => { s.result.obligations = { loans: [], unavailableReason: 'Enter the senior loan rate.' }; });
+ok(/Loan details are not available: Enter the senior loan rate\./.test(WB.render(noLoans)), 'a missing loan schedule says why');
 const sched = mut0((s) => { s.utilityAllowance = { applied: false, reason: 'included_in_schedule_rents' }; });
 ok(sched.rentsFromSchedule && sched.rents.rows.every((x) => x.headroom == null), 'schedule rents are not re-checked against a zero allowance');
 ok(/ok: Rents come from the Market Analysis rent schedule/.test(sched.findings.map((f) => f.level + ': ' + f.text).join('\n')) && !/No utility allowance is applied/.test(sched.findings.map((f) => f.text).join('\n')), 'schedule rents raise no owner-pays-utilities warning');
