@@ -149,6 +149,13 @@ ok(page.indexOf('id="summary"') < page.indexOf('class="ib-filters"'), 'the execu
     const sig = W.build({ ...docs, lbStatus: lb }, TODAY).places.flatMap((p) => p.signals).filter((g) => /seeking a developer/.test(g.text));
     ok(sig.length && sig.every((g) => g.date === '2026-07-01' && g.url === 'https://example.org/b'), 'a month-only source still makes a dated signal');
   }
+  // A signal that has faded to 0 (a year old, or a day short of it) is not shown as "+0".
+  for (const old of ['2025-10-22', '2025-10-23']) {
+    const award = docs.awards.awards.find((a) => model.places.some((p) => p.type !== 'county' && (p.factors.landBank.awards || []).some((x) => x.id === a.id)));
+    const lb = { ...docs.lbStatus, status: { ...st, [award.id]: { ...st[award.id], status: 'seeking', sources: [{ title: 'Old notice', url: 'https://example.org/old', date: old }] } } };
+    const m = W.build({ ...docs, lbStatus: lb }, TODAY);
+    ok(!m.places.some((p) => p.signals.some((g) => /seeking a developer/.test(g.text))), `a signal dated ${old} has faded and is not shown`);
+  }
   const noModel = W.build({ ...docs, lbStatus: null }, TODAY);
   ok(noModel.missing.includes('prop123-land-banking-status.json') && noModel.places.every((p) => p.factors.landBank.points === null),
     'without the status file land is not checked (no fallback score) and the page names the file');

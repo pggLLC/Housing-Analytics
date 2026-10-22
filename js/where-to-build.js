@@ -410,8 +410,10 @@
     var d = String(date || '').slice(0, 10);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return;
     var age = dayDiff(d, today);
-    if (age < 0 || age > 365) return;
-    list.push({ date: d, text: text, url: url || null, points: round1(5 * (1 - age / 365)) });
+    if (age < 0 || age >= 365) return;
+    var pts = round1(5 * (1 - age / 365));
+    if (pts <= 0) return;   // a signal that has faded to 0 is no longer a signal
+    list.push({ date: d, text: text, url: url || null, points: pts });
   }
 
   function regionFor(countyGeoid) {
