@@ -199,17 +199,19 @@ ledgerAgreement(DATA);
 
 // ---- 6. "Where to build" finds Prop 123 records for its own names.
 {
-  const page = read('developer-where.html');
-  const fn = page.match(/function prop123Key\(name\) \{[\s\S]*?\n  \}/);
-  ok(fn, 'found the scorer\'s Prop 123 name key');
-  const prop123Key = new Function(fn[0] + '; return prop123Key;')();
-  const dola = new Set(json('data/policy/prop123_jurisdictions.json').jurisdictions.map((j) => prop123Key(j.name)));
-  const prog = Object.values(json('data/policy/jurisdiction-housing-progress.json').by_geoid);
-  const matched = prog.filter((r) => dola.has(prop123Key(r.name))).length;
-  ok(prog.length > 0 && matched >= prog.length - 2, `the scorer matches ${matched} of ${prog.length} progress names to DOLA's list`);
-  const naive = prog.filter((r) => new Set(json('data/policy/prop123_jurisdictions.json').jurisdictions.map((j) => j.name.toLowerCase())).has(r.name.toLowerCase())).length;
-  ok(naive < matched, 'sabotage: the old lowercase-only lookup matches fewer');
-  ok(/prop123Map\[prop123Key\(rec\.name\)\]/.test(page) && /prop123Key\(p\.jurisdiction \|\| p\.name\)/.test(page), 'both sides of the lookup use the key');
+  const W = require(join(ROOT, 'js/where-to-build.js'));
+  const dola = json('data/policy/prop123_jurisdictions.json').jurisdictions;
+  const rankings = json('data/hna/ranking-index.json').rankings;
+  const placeKeys = new Set(rankings.filter((r) => r.type !== 'county').map((r) => W.nameKey(r.name)));
+  const countyKeys = new Set(rankings.filter((r) => r.type === 'county').map((r) => W.nameKey(r.name)));
+  const towns = dola.filter((j) => j.kind === 'municipality');
+  const matched = towns.filter((j) => placeKeys.has(W.nameKey(j.name))).length;
+  ok(towns.length > 100 && matched === towns.length, `the scorer matches ${matched} of ${towns.length} DOLA town filings to a ranked place`);
+  ok(dola.filter((j) => j.kind === 'county').every((j) => countyKeys.has(W.nameKey(j.name))), 'every DOLA county filing matches a ranked county');
+  const naive = towns.filter((j) => placeKeys.has(W.prop123Key(j.name))).length;
+  ok(naive < matched, 'sabotage: the old prefix-only key matches fewer');
+  ok(W.nameKey('Cañon City (city)') === W.nameKey('City of Canon City') && W.nameKey('Mt. Crested Butte (town)') === W.nameKey('Town of Mount Crested Butte'),
+    'accents and Mt./Mount spellings match');
 }
 
 // ---- 7. The Where to build map agrees with the awards file and keeps contacts honest.
