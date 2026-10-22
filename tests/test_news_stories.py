@@ -238,6 +238,39 @@ def test_headlines_that_are_not_about_housing_are_left_out(geos):
     }
 
 
+def test_crime_weather_and_border_stories_are_left_out(geos):
+    # paul, 2026-10-22: each of these reached Housing News.
+    stories, _ = gpb.build_stories([
+        alert('Trump asks US Supreme Court to allow Big Bend border wall construction', 'Reuters'),
+        alert('Man arrested on suspicion of setting fires near Pueblo apartments', 'Colorado Springs Gazette'),
+        alert('Some of Colorado should see a snowier-than-average winter; find out how Denver will stack up',
+              'CBS News'),
+        alert('Fire at abandoned building on Platte Avenue under investigation', 'Colorado Springs Gazette'),
+        alert('Shooting leads to shelter-in-place in Colorado Springs neighborhood', 'Colorado Springs Gazette'),
+        alert('Water bill with funding for Colorado projects passes the House', 'Colorado Public Radio'),
+        # A housing word still keeps a story with one of those words in it.
+        alert('Colorado denied additional FEMA aid for Aspen Acres Fire recovery', 'Pueblo Chieftain'),
+        alert("Colorado's largest data center could rise next to homes", 'Colorado Newsline'),
+        alert('Pueblo apartment fire displaces 40 renters', 'Pueblo Chieftain'),
+        alert('US Homebuilder Sentiment Drops to 14-Year Low on Weak Sales', 'Bloomberg.com'),
+    ], geos)
+    assert set(by_title(stories)) == {
+        'Water bill with funding for Colorado projects passes the House',
+        'Colorado denied additional FEMA aid for Aspen Acres Fire recovery',
+        "Colorado's largest data center could rise next to homes",
+        'Pueblo apartment fire displaces 40 renters',
+        'US Homebuilder Sentiment Drops to 14-Year Low on Weak Sales',
+    }
+
+
+def test_a_reworded_headline_from_the_same_outlet_is_one_story(geos):
+    stories, _ = gpb.build_stories([
+        alert('Treasury Yields Fall on String of Weak Housing Data', 'WSJ', date='2026-10-20'),
+        alert('Treasury Yields Edge Lower Amid String of Weak Housing Data', 'WSJ', date='2026-10-20'),
+    ], geos)
+    assert len(stories) == 1
+
+
 def test_an_indirect_housing_headline_stays(geos):
     stories, _ = gpb.build_stories([
         alert("Hope is at the core of organization\u2019s purpose | NONPROFIT REGISTER", 'Colorado Politics'),

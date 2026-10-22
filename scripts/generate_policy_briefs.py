@@ -431,7 +431,7 @@ COLORADO_STREET_RE = re.compile(
 # "house" is not a housing word: it is also the state House and the U.S. House.
 HOUSING_TITLE_RE = re.compile(
     r'\b(housing|houses|homes?|to house|house (?:and|people|residents|workers|families)|homeless\w*|'
-    r'home ?own\w*|home ?buy\w*|rent\w*|tenant\w*|landlord\w*|apartment\w*|evict\w*|mortgage\w*|'
+    r'home ?own\w*|home ?buy\w*|home-?build\w*|homebuild\w*|rent\w*|tenant\w*|landlord\w*|apartment\w*|evict\w*|mortgage\w*|'
     r'(?:re)?zon(?:e|es|ed|ing)|land|lots?|parcels?|develop\w*|units?|afford\w*|lihtc|tax credits?|chfa|'
     r'prop(?:osition)?\s*123|hud|section 8|vouchers?|real estate|condo\w*|townhom\w*|densit\w*|adus?|'
     r'accessory dwelling|permit\w*|construct\w*|builders?|buildings?|shelters?|propert(?:y|ies)|'
@@ -442,7 +442,27 @@ OFF_TOPIC_RE = re.compile(
     r'\b(murder\w*|homicide|bail|convict\w*|sentenced|arrest\w*|shooting|stabbing|citizenship|'
     r'fundrais\w*|house race|q&a|candidates? (?:for|running)|running for|'
     r'horror|film|movie|interstate|i-70|closes again|road closure|flooding|mud and debris|ash borer|'
-    r'pest|fitness|rideshare|ice facility|wealthiest|photos of)\b', re.I)
+    r'pest|fitness|rideshare|ice facility|wealthiest|photos of|'
+    # paul, 2026-10-22: a snowy-winter forecast, the Big Bend border wall and
+    # a healthcare grant all reached Housing News.
+    r'snow\w*|winter|weather|forecast\w*|storms?|avalanche\w*|border wall|data cent(?:er|re)s?|'
+    r'airports?|school enrollment|healthcare|hospitals?|judge|race to succeed|governor\'?s race)\b', re.I)
+# These words are in HOUSING_TITLE_RE because housing stories use them, but
+# so does everything else: "border wall construction", "water bill", "fire at
+# abandoned building". On their own they do not outweigh an off-topic word.
+WEAK_HOUSING_RE = re.compile(
+    r'(?:construct\w*|land|lots?|parcels?|permit\w*|buildings?|builders?|shelters?|propert(?:y|ies)|water|'
+    r'sewer|infrastructure|grants?|growth|bonds?|neighborhoods?|workforce|groundbreaking|annex\w*)', re.I)
+# A crime, fire or police story is not housing news because it happened at an
+# apartment ("Man arrested on suspicion of setting fires near Pueblo
+# apartments", paul 2026-10-22). Only a housing-policy word keeps one:
+# "Marshall Fire survivors rebuild homes", "shooting at homeless shelter".
+INCIDENT_RE = re.compile(
+    r'\b(arrest\w*|suspect\w*|suspicion|police|shooting|stabbing|homicide|murder\w*|arson\w*|'
+    r'fires?|firefighters?|blaze|crash\w*|vandal\w*|shelter-in-place|standoff)\b', re.I)
+HOUSING_POLICY_RE = re.compile(
+    r'\b(housing|afford\w*|rent(?:s|ers?|al|als)?|tenant\w*|landlord\w*|evict\w*|(?:re)?zon(?:e|es|ed|ing)|'
+    r'homeless\w*|lihtc|tax credits?|rebuild\w*|recovery|displace\w*|mortgage\w*|chfa|hud)\b', re.I)
 
 
 # National housing trends, from a short list of outlets and research
@@ -504,7 +524,10 @@ def is_national_trend(title: str, source: str) -> bool:
 
 def is_housing_headline(title: str, source: str = '') -> bool:
     title = title or ''
-    return bool(HOUSING_TITLE_RE.search(title)) or not OFF_TOPIC_RE.search(title)
+    if INCIDENT_RE.search(title) and not HOUSING_POLICY_RE.search(title):
+        return False
+    strong = any(not WEAK_HOUSING_RE.fullmatch(m.group(0)) for m in HOUSING_TITLE_RE.finditer(title))
+    return strong or not OFF_TOPIC_RE.search(title)
 
 
 def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
@@ -620,7 +643,7 @@ def same_national_story(s: dict, kept: list[dict]) -> dict | None:
     except ValueError:
         return None
     for k in kept:
-        if k['scope'] != 'national':
+        if k['scope'] not in ('national', 'federal'):
             continue
         try:
             gap = abs((date.fromisoformat(k['date']) - day).days)
@@ -678,7 +701,11 @@ def build_stories(alerts: list[dict], geos: dict | None = None) -> tuple[list[di
     for s in raw:
         key = norm_title(s['title'])
         seen = by_key.get(key)
-        if not seen and s['scope'] == 'national':
+        # A reworded headline from the same outlet on the same day is one
+        # story too: WSJ ran "Treasury Yields Fall on String of Weak Housing
+        # Data" and "Treasury Yields Edge Lower Amid String of Weak Housing
+        # Data" on 2026-10-20 (paul, 2026-10-22).
+        if not seen and s['scope'] in ('national', 'federal'):
             seen = same_national_story(s, stories)
         if seen:
             counts['merged'] += 1
