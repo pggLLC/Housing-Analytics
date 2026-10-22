@@ -273,6 +273,16 @@
             </fieldset>
             <p class="sb-slider-help" id="sbHeadshipHelp"></p>
           </div>
+
+          <!-- A town's share of its county: one share, or one for each age group -->
+          <div class="sb-slider-group" id="sbTownShareGroup" hidden>
+            <fieldset class="sb-mig-from sb-headship">
+              <legend>A town's share of its county</legend>
+              <label><input type="radio" name="sbTownShare" value="hna" checked> <span>The HNA page's, the same at every age</span></label>
+              <label><input type="radio" name="sbTownShare" value="hamilton_perry" disabled> <span>By age, from the 2010 and 2020 Census (Hamilton-Perry)</span></label>
+            </fieldset>
+            <p class="sb-slider-help" id="sbTownShareHelp"></p>
+          </div>
         </div>
 
         <!-- Save scenario -->
@@ -327,7 +337,7 @@
             <dt style="color:var(--muted);font-weight:600;">Vacancy target</dt>
             <dd style="margin:0;">Each county's target vacancy, as on the HNA page</dd>
             <dt style="color:var(--muted);font-weight:600;">Towns and CDPs</dt>
-            <dd style="margin:0;">The HNA page's share of county growth: from the place's share of county households and of 2020–2024 building permits (Census ACS and building permits); a few places without one use their share of county population</dd>
+            <dd style="margin:0;">The HNA page's share of county growth: from the place's share of county households and of 2020–2024 building permits (Census ACS and building permits); a few places without one use their share of county population. Or a share of each age group: the place's and the county's people by age and sex in the 2010 and 2020 Census (<a href="https://data.census.gov/table/DECENNIALDHC2020.P12" target="_blank" rel="noopener">table P12</a>), each age group's ten-year change carried forward (Hamilton and Perry, 1962; Smith, Tayman and Swanson, 2013)</dd>
             <dt style="color:var(--muted);font-weight:600;">Shaded range</dt>
             <dd style="margin:0;">How far past forecasts missed: trend forecasts of every Colorado county from SDO's population estimates, 1970–2024, launched each year from 1980 and checked against SDO's later estimate. The range holds 2 in 3 of them, for counties of the place's size and that many years out (Smith, Tayman and Swanson, <em>A Practitioner's Guide to State and Local Population Projections</em>, 2013)</dd>
             <dt style="color:var(--muted);font-weight:600;">Model type</dt>
@@ -546,13 +556,16 @@
 
         var seq = ++loadSeq;
         loading = true;
+        // A town's Hamilton-Perry shares are a choice, not the default, so a
+        // failed fetch leaves the town loaded without them.
         var placeFiles = entry.type === 'county'
-          ? Promise.resolve({ ledger: {}, cross: {} })
+          ? Promise.resolve({ ledger: {}, cross: {}, hamiltonPerry: null })
           : Promise.all([
               cachedJSON('data/hna/projections/places.json'),
-              cachedJSON('data/hna/cross-county-places.json')
+              cachedJSON('data/hna/cross-county-places.json'),
+              cachedJSON('data/hna/place-hamilton-perry.json').catch(function () { return null; })
             ]).then(function (r) {
-              return { ledger: (r[0] && r[0].places) || {}, cross: (r[1] && r[1].places) || {} };
+              return { ledger: (r[0] && r[0].places) || {}, cross: (r[1] && r[1].places) || {}, hamiltonPerry: r[2] };
             });
         placeFiles
           .then(function (pf) {
@@ -563,7 +576,7 @@
                 cachedJSON('data/hna/projections/' + fips + '.json')
               ]);
             })).then(function (pairs) {
-              var data = { baselines: {}, projections: {}, ledger: pf.ledger, cross: pf.cross };
+              var data = { baselines: {}, projections: {}, ledger: pf.ledger, cross: pf.cross, hamiltonPerry: pf.hamiltonPerry };
               pairs.forEach(function (pair, i) {
                 data.baselines[fipsList[i]] = pair[0];
                 data.projections[fipsList[i]] = pair[1];

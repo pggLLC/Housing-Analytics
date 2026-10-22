@@ -826,8 +826,13 @@ function initPolicyPanel(panelId) {
     try {
       var hash = window.location.hash.replace('#', '');
       var bar = document.querySelector('.page-tabs');
+      var inner = hash && document.querySelector('.tab-nav [aria-controls="' + hash + '"]');
       if (hash && hash !== 'tab-deepdive' && bar && bar.querySelector('[aria-controls="' + hash + '"]')) {
         bar.scrollIntoView({ block: 'start' });
+      } else if (inner) {
+        /* An inner Deep Dive tab (#tab-state-comparison from the retired
+           allocation pages): start at that tab's own bar. */
+        (inner.closest('[role="tablist"]') || inner).scrollIntoView({ block: 'start' });
       } else {
         window.scrollTo(0, 0);
       }

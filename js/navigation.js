@@ -16,7 +16,7 @@
  *
  * EXPLORE (comparative & context):
  *   Compare Jurisdictions, Colorado Deep Dive, Market Intelligence,
- *   CHFA Portfolio, Prop 123 Land Banking Awards, Economic Dashboard, LIHTC Allocations, Preservation
+ *   CHFA Portfolio, Prop 123 Land Banking Awards, Economic Dashboard, Preservation
  *   Tracking
  *
  * DATA (transparency & quality):
@@ -69,7 +69,6 @@
         { label: "Where Colorado's Housing Money Goes", href: "where-housing-money-goes.html", desc: "Every CHFA, OEDIT and DOLA award by county, town and developer", isNew: true },
         { label: "Prop 123 Land Banking Awards", href: "land-banking-awards.html", desc: "Every Prop 123 land banking award, mapped", isNew: true },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
-        { label: "LIHTC Allocations",     href: "lihtc-allocations.html",         desc: "National per-capita allocation data" },
         { label: "Preservation Tracking", href: "preservation.html",              desc: "NHPD subsidy expiry risk" },
       ]
     },
@@ -155,6 +154,17 @@
     return String(str == null ? '' : str)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;')
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Member sign in: the paid developer site, behind Cloudflare Access. Not shown
+  // on the developer pages themselves (they carry their own Sign out).
+  const MEMBER_SITE_URL = 'https://coho-backend.communityplanner.workers.dev/';
+  function onMemberSite() {
+    const page = (location.pathname.split('/').pop() || '');
+    return /^developer/.test(page) || /\.workers\.dev$/.test(location.hostname);
+  }
+  function memberLink(cls) {
+    return onMemberSite() ? '' : `<a class="${cls}" href="${MEMBER_SITE_URL}">Member sign in</a>`;
   }
 
   function relToRoot() {
@@ -383,6 +393,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           </button>
         </form>
+        ${memberLink('nav-member-signin')}
         <button id="mobileNavToggle" class="mobile-menu-btn" type="button"
           aria-label="Open navigation menu"
           aria-expanded="false"
@@ -424,6 +435,7 @@
             </div>
           </div>
         `).join('')}
+        ${memberLink('mobile-nav-member-signin')}
       </nav>
     `;
 
@@ -473,6 +485,7 @@
             <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
             <a href="${feedbackFormHref()}" target="_blank" rel="noopener" data-feedback-link>Questions or feedback</a>
             <a href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a>
+            ${memberLink('footer-member-signin')}
           </p>
         </div>
         <div class="footer-col">

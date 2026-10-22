@@ -2,7 +2,7 @@
   "meta": {
     "generated_at": "2026-06-09",
     "generated_by": "F207a — CHAS reliability source registry per spec",
-    "description": "Authoritative registry of every data source the CHAS reliability check considers. Per the spec's QA reviewer (Claude 2026-06-09), the ACS 5-year layer is a same-vintage definitional cross-check, NOT a freshness source — only ACS 1-year is genuinely newer than CHAS 2018–2022.",
+    "description": "Authoritative registry of every data source the CHAS reliability check considers. Per the spec's QA review (2026-06-09), the ACS 5-year layer is a same-vintage definitional cross-check, NOT a freshness source — only ACS 1-year is genuinely newer than CHAS 2018–2022.",
     "spec_version": "QA-FIX 1 through QA-FIX 5 applied"
   },
   "sources": [
