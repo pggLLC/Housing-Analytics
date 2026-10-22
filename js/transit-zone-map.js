@@ -89,8 +89,9 @@
     return '<p class="tzm__rule" style="margin:.5rem 0 0;">' +
       'HB26-1065 defines a zone as “' + esc(st.zone.quote) + '” (' + esc(st.zone.cite) + '), and a transportation facility as “' +
       esc(st.facility.quote) + '” (' + esc(st.facility.cite) + '). It has no service-frequency test. ' +
-      'This map shades ' + esc(String(mapStatus.zone_radius_miles)) + ' miles around every confirmed bus or rail stop, more places than the stations OEDIT will count, ' +
-      'so read the shading as the most a zone could cover here, not the zone.</p>';
+      'This map shades ' + esc(String(mapStatus.zone_radius_miles)) + ' miles around every confirmed bus or rail stop running today. OEDIT will count only stations, ' +
+      'so most zones should be smaller than the shading, but a planned station named in a transit plan could add a zone where no stop runs yet. ' +
+      'Read the shading as a screen, not the zone.</p>';
   }
 
   function sourceLine(data, mapStatus) {
@@ -245,6 +246,11 @@
       mount.setAttribute('data-tzm-state', 'ok');
       mount.setAttribute('data-tzm-stops-drawn', String(drawn));
       return 'ok';
+    }).catch(function (err) {
+      // A throw while drawing (bad geometry, a Leaflet error) must not leave
+      // an empty map box behind.
+      if (current) { try { current.remove(); } catch (e) { /* already gone */ } current = null; }
+      return unavailable('The map could not be drawn' + (err && err.message ? ': ' + err.message : '') + '.');
     });
   }
 
