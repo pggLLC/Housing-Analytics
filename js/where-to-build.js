@@ -452,8 +452,9 @@
     var base = den > 0 ? (num / den) * 100 : 0;
     var signalPts = Math.min(10, place.signals.reduce(function (s, x) { return s + x.points; }, 0));
     var flagPts = Math.min(30, place.flags.length * 15);
-    // Rounded once to a tenth for the printed sum, then to a whole number, so the row's arithmetic reconciles.
-    var exact = round1(clamp(base + signalPts - flagPts, 0, 100));
+    // The total is summed from the operands as printed (each to a tenth), then rounded to a whole number,
+    // so the row's arithmetic reconciles under any weights.
+    var exact = round1(clamp(round1(base) + round1(signalPts) - flagPts, 0, 100));
     var value = Math.round(exact);
     var share = total > 0 ? checkedW / total : 0;
     var confidence = share >= 0.8 ? 'High' : share >= 0.5 ? 'Medium' : 'Low';

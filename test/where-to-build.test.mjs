@@ -39,14 +39,26 @@ ok(scored.filter((x) => x.s.tier === 1).length >= 10, 'some places reach Target 
 for (const { p, s } of scored.slice(0, 40)) {
   let num = 0, den = 0;
   for (const part of s.parts) if (part.weight > 0 && part.factor.points != null) { num += part.weight * part.factor.points; den += part.weight * 10; }
-  const expect = Math.round(Math.round(10 * Math.max(0, Math.min(100, num / den * 100 + Math.min(10, p.signals.reduce((a, g) => a + g.points, 0)) - Math.min(30, p.flags.length * 15)))) / 10);
+  const r1 = (x) => Math.round(x * 10) / 10;
+  const expect = Math.round(r1(Math.max(0, Math.min(100, r1(num / den * 100) + r1(Math.min(10, p.signals.reduce((a, g) => a + g.points, 0))) - Math.min(30, p.flags.length * 15)))));
   ok(s.score === expect, `${p.name}: score ${s.score} is the printed formula (${expect})`);
 }
 
-// The row's printed sum reconciles: base + signals - flags = exact, which rounds to the score.
-for (const { p, s } of scored) {
-  const sum = Math.round(Math.max(0, Math.min(100, s.base + s.signalPoints - s.flagPoints)) * 10) / 10;
-  ok(Math.abs(sum - s.exact) <= 0.11 && Math.round(s.exact) === s.score, `${p.name}: printed ${s.base} + ${s.signalPoints} - ${s.flagPoints} = ${s.exact} rounds to ${s.score}`);
+// The row's printed sum reconciles exactly: base + signals - flags = exact, which rounds to the score,
+// under the default weights, every preset and a spread of custom slider settings.
+{
+  const weightSets = [W.defaultWeights(), ...Object.values(W.PRESETS).map((x) => x.weights),
+    { build: 4, money: 5, land: 3, need: 1, rents: 1, rec: 1, vote: 3, lean: 4 }];
+  let seed = 7;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) % 6;
+  for (let k = 0; k < 25; k++) weightSets.push(Object.fromEntries(W.GROUPS.map((g) => [g.id, rnd()])));
+  for (const w of weightSets) {
+    for (const p of model.places) {
+      const s = W.score(p, w);
+      const sum = Math.round(Math.max(0, Math.min(100, s.base + s.signalPoints - s.flagPoints)) * 10) / 10;
+      ok(sum === s.exact && Math.round(s.exact) === s.score, `${p.name} @ ${JSON.stringify(w)}: printed ${s.base} + ${s.signalPoints} - ${s.flagPoints} = ${s.exact} rounds to ${s.score}`);
+    }
+  }
 }
 
 // ---- 3. Not yet checked is never a zero, and it lowers confidence.
