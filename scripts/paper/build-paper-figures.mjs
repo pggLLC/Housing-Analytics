@@ -669,7 +669,7 @@ function methodsData() {
       && m(r).workforce_gap_pressure_score > m(r).resident_gap_pressure_score).length;
     // Rows whose 20-year figure adds today's in-commuters to resident growth (§06, §09).
     out.future_units_with_incommuters = rows.filter((r) => m(r).future_units_reading === 'resident_growth_plus_incommuters').length;
-    // The jobs reading summed over counties, beside the in-commuter need (§09).
+    // The workforce gap (renters plus in-commuters at <=60% AMI, less units) summed over counties (§09).
     out.workforce_reading_counties_sum = rows.filter((r) => r.type === 'county')
       .reduce((a, r) => a + (Number.isFinite(m(r).workforce_gap_units) && m(r).workforce_gap_units > 0 ? m(r).workforce_gap_units : 0), 0);
   }

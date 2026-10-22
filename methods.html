@@ -614,11 +614,11 @@ future_units   = resident_growth_20yr + incommuters_25</code>
           <div class="mx-where">
             <dl>
               <dt>gap_count, gap_rate</dt><dd><code>housing_gap_units</code>, <code>housing_gap_rate_lte30</code> &mdash; affordable units against renter households who live in the place, at &le;30% AMI</dd>
-              <dt>wf_gap_count, wf_gap_rate</dt><dd><code>workforce_gap_units</code>, <code>workforce_gap_pct</code> &mdash; low-wage jobs located in the place (LODES workplace earnings bands CE01 and CE02, up to about $40,000 a year) less rental units affordable at &le;60% AMI</dd>
+              <dt>wf_gap_count, wf_gap_rate</dt><dd><code>workforce_gap_units</code>, <code>workforce_gap_pct</code> &mdash; renter households in the place and the households of everyone who commutes in, both at &le;60% AMI, less rental units affordable at &le;60% AMI; the in-commuters&rsquo; households come from Census microdata (§09)</dd>
               <dt>cb_all, cb_severe, cb_deep</dt><dd><code>pct_cost_burdened</code>, <code>pct_renter_severe_burdened</code>, <code>pct_deep_tier_burdened</code></dd>
               <dt>value/income, rent/income</dt><dd><code>home_value_to_income</code>, <code>rent_to_income</code></dd>
               <dt>future_units</dt><dd><code>future_units_needed_20yr</code>; its growth-only part is published separately as <code>future_units_growth_20yr</code></dd>
-              <dt>incommuters_25</dt><dd><code>incommuter_need_units</code> &mdash; homes for a quarter of today&rsquo;s lower- and middle-wage in-commuters, if they moved closer (§09); <code>incommuter_need_units_high</code> is the half</dd>
+              <dt>incommuters_25</dt><dd><code>incommuter_need_units</code> &mdash; homes for a quarter of today&rsquo;s in-commuter households at or below 120% AMI, if they moved closer (§09); <code>incommuter_need_units_high</code> is the half</dd>
               <dt>senior_growth</dt><dd><code>senior_share_growth_pp</code></dd>
               <dt>overcrowding_rate</dt><dd><code>overcrowding_rate_pct</code></dd>
               <dt>opportunity</dt><dd>weighted percentiles of <code>opportunity_mobility_score</code>, <code>walkability_score</code>, <code>amenity_access_score</code> and <code>qct_dda_score</code></dd>
@@ -633,18 +633,20 @@ future_units   = resident_growth_20yr + incommuters_25</code>
           <p>
             The resident gap stops at the municipal boundary, so a place that has priced its
             workforce out reads as satisfied: the households it lost are no longer residents. The
-            workforce reading counts the low-wage jobs located in the place instead, which do not
-            leave when the workers do, and sets them against rental units affordable at &le;60% AMI
-            &mdash; the band a wage near $40,000 reaches in most Colorado counties, not the &le;30%
-            band the resident gap uses. One job is benchmarked against one unit; there is no
-            workers-per-household divisor, because it would be the only unsourced number in the chain.
+            workforce reading puts them back. It adds the households of the people who commute in, at
+            or below 60% AMI, to the renter households at or below 60% AMI who live here, and sets both
+            against rental units affordable at &le;60% AMI, not the &le;30% band the resident gap uses.
+            The in-commuters are LODES workplace counts turned into households by Census microdata
+            (§09), so two workers in one household are one home and a job&rsquo;s pay is read as its
+            household&rsquo;s income. Until October 2026 the reading set one low-wage job against one
+            unit, and counted the jobs of residents who were already on the demand side.
           </p>
           <p>
             The two readings meet through <code>max</code>, never a blend, so adding the workforce
             reading can raise a gap score and never lower one. In the current build it is the higher
             of the two for <span data-figure="methods_data.workforce_gap_wins">259</span> of
             <span data-figure="methods_data.ranked_geographies">546</span> geographies. It does not set
-            the 20-year figure, because it counts jobs rather than households (§09). That figure adds
+            the 20-year figure, because it counts every in-commuter and is a shortfall today (§09). That figure adds
             today&rsquo;s in-commuters who would move closer to projected resident growth instead, for
             <span data-figure="methods_data.future_units_with_incommuters">526</span> geographies, and
             <code>future_units_reading</code> says which parts each row carries.
@@ -938,15 +940,25 @@ weighted_avg(F)  =  ───────────────       F* = { f
           </p>
           <p>
             The second part is the in-commuter need, the homes for people who work here and cannot
-            live here. It takes the lower- and middle-wage people who commute in (LEHD LODES
-            origin&ndash;destination, 2023), multiplied by the low- and middle-wage share of jobs located
-            there, counting each worker's primary job only so that a person with two jobs is one person.
-            It divides them by workers per working household (ACS B08202, counting three or more workers
-            as three), and multiplies by the share who would move closer if they could. People who work
-            in Colorado but live in another state are only in the LODES auxiliary file, so they are added
-            from it with their own wage bands; without them the counties on the New Mexico, Utah and
-            Wyoming lines read low. No statewide source measures the share who would move. Local employer
-            surveys do, so the figure counts a quarter and the HNA page also shows a half. Summed over the
+            live here. It takes the people who commute in (LEHD LODES origin&ndash;destination, 2023) in
+            LODES&rsquo;s three pay tiers, counting each worker&rsquo;s primary job only so that a person
+            with two jobs is one person. Census microdata (ACS PUMS 2020&ndash;2024) turns each tier into
+            households. Each worker in the tier, in the county&rsquo;s place-of-work area, counts as one
+            household divided by the wage earners in it, and the household&rsquo;s income is set against
+            CHFA&rsquo;s income limits for the county and the household&rsquo;s size, brought to the
+            limits&rsquo; year by CPI as HUD does. A tier&rsquo;s households per job at or below 120% AMI,
+            times its in-commuters, gives the homes. Households above 120% AMI are left out. That is the
+            top of CHFA&rsquo;s regular income tiers; Prop 123 reaches 160% in twelve rural resort
+            counties, and the figure stays at 120% there too. This is the chain a jobs-housing nexus study
+            uses: jobs, then worker households, then income tiers
+            (<a href="https://www.sdhc.org/uploadedFiles/Real_Estate/Best_Practices_Task_Force/SDHC%20Job%20Housing%20Nexus%20Study%202013(1).pdf">Keyser
+            Marston Associates, 2013</a>). The figure then takes the share who would move closer if they
+            could. People who work in Colorado but live in another state are only in the LODES auxiliary
+            file, so they are added from it; without them the counties on the New Mexico, Utah and Wyoming
+            lines read low. The microdata are a sample, so the HNA page prints a 90% margin from the
+            survey&rsquo;s replicate weights beside the figure; it is under a tenth of the figure wherever
+            the figure is ten homes or more. No statewide source measures the share who would move. Local
+            employer surveys do, so the figure counts a quarter and the HNA page also shows a half. Summed over the
             <span data-figure="methods_data.incommuter_need_counties">64</span> counties it is
             <span data-figure="methods_data.incommuter_need_25_counties" data-figure-format="comma">73,442</span> to
             <span data-figure="methods_data.incommuter_need_50_counties" data-figure-format="comma">146,886</span> homes.
@@ -961,12 +973,14 @@ weighted_avg(F)  =  ───────────────       F* = { f
           <p>
             Until October 2026 the figure was instead the larger of resident growth and a jobs reading:
             the lower-wage jobs located in the place against rental homes affordable at &le;60% AMI,
-            one job to one home. That reading counts jobs, not households. It includes jobs held by
-            residents who already have a home, and it puts a shortfall that exists today in a 20-year
-            slot. Summed over the counties it is
-            <span data-figure="methods_data.workforce_reading_counties_sum" data-figure-format="comma">549,684</span> homes,
-            against the in-commuter need above. It still sets the ranking&rsquo;s workforce gap score
-            (§06), and the HNA page shows it on its own line.
+            one job to one home. That reading counted jobs, not households, included jobs held by
+            residents who already have a home, and put a shortfall that exists today in a 20-year slot.
+            The ranking&rsquo;s workforce gap score (§06) now reads that shortfall in households: renters
+            here and the households of everyone who commutes in, at or below 60% AMI, against rentals
+            affordable at &le;60% AMI. Summed over the counties it is
+            <span data-figure="methods_data.workforce_reading_counties_sum" data-figure-format="comma">549,684</span> homes.
+            It counts every in-commuter, not a share who would move, so it is not added to the figure;
+            the HNA page shows it on its own line.
           </p>
           <p>
             No line converts forecast job growth into homes. The State Demography Office&rsquo;s county

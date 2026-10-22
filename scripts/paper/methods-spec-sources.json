@@ -142,7 +142,7 @@
         {
           "file": "scripts/hna/build_ranking_index.py",
           "region": "need-inputs",
-          "sha": "b003fe6e28191299"
+          "sha": "03a05c36627f78e6"
         },
         {
           "file": "scripts/hna/build_ranking_index.py",
@@ -155,7 +155,7 @@
           "sha": "8e2aa94c65522627"
         }
       ],
-      "reviewed": "2026-10-20"
+      "reviewed": "2026-10-22"
     },
     {
       "section": "m-absence",
@@ -202,25 +202,30 @@
         {
           "file": "js/hna/hna-controller.js",
           "function": "buildNeedReconciliation",
-          "sha": "1a9488c3a10306b9"
+          "sha": "3211c076d49296ec"
         },
         {
           "file": "js/hna/hna-controller.js",
           "function": "_loadIncommuterNeed",
-          "sha": "4e896df5e450435d"
+          "sha": "24d44f69c26a9dd5"
         },
         {
           "file": "scripts/hna/build_workforce_need.py",
-          "function": "need_block",
-          "sha": "71509776b383fb8a"
+          "function": "need_from_tiers",
+          "sha": "536682ca7535346c"
         },
         {
-          "file": "scripts/hna/build_workforce_need.py",
-          "function": "workers_per_household",
-          "sha": "fbac3f3616e061af"
+          "file": "scripts/hna/build_workforce_ami_crosswalk.py",
+          "function": "band_of",
+          "sha": "b246904f7eeeefab"
+        },
+        {
+          "file": "scripts/hna/build_workforce_ami_crosswalk.py",
+          "function": "main",
+          "sha": "49f7101d53c6f9ca"
         }
       ],
-      "reviewed": "2026-10-20"
+      "reviewed": "2026-10-22"
     },
     {
       "section": "m-alternatives",
