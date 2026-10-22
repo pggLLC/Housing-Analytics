@@ -842,7 +842,7 @@
       },
       {
         "name": "Housing Authority of the City of Salida",
-        "contact": "salidaha@bresnan.net",
+        "contact": "office (719) 539-6243",
         "totalUnits": 50
       }
     ],
@@ -2367,7 +2367,8 @@
       },
       {
         "name": "Housing Authority of the City of Sterling",
-        "contact": "brigadon@kci.net",
+        "contact": "office (970) 522-0869",
+        "url": "http://sterlinghousing.org/",
         "totalUnits": 110
       }
     ],
@@ -2792,7 +2793,7 @@
       },
       {
         "name": "Housing Authority of the Town of Holly",
-        "contact": "holly074@centurytel.net",
+        "contact": "office (719) 537-0191",
         "totalUnits": 16
       }
     ],
@@ -3290,7 +3291,8 @@
       },
       {
         "name": "Housing Authority of the City of Sterling",
-        "contact": "brigadon@kci.net",
+        "contact": "office (970) 522-0869",
+        "url": "http://sterlinghousing.org/",
         "totalUnits": 110,
         "phaCode": "CO025"
       }
@@ -3323,7 +3325,7 @@
       },
       {
         "name": "Housing Authority of the Town of Kersey",
-        "contact": "kerseyha@mindspring.com",
+        "contact": "office (970) 351-8229",
         "totalUnits": 20
       },
       {

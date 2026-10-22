@@ -40,7 +40,6 @@ const REPORT_DIR_BASE = process.env.REPORT_DIR
 const PAGES = [
   // Interactive dashboards (highest priority)
   { name: 'index',                      path: '/' },
-  { name: 'dashboard',                  path: '/dashboard.html' },
   { name: 'economic-dashboard',         path: '/economic-dashboard.html' },
   { name: 'housing-needs-assessment',   path: '/housing-needs-assessment.html' },
   // The five views generated from housing-needs-assessment.html by
@@ -64,11 +63,9 @@ const PAGES = [
   { name: 'chfa-portfolio',             path: '/chfa-portfolio.html' },
   { name: 'construction-commodities',   path: '/construction-commodities.html' },
   { name: 'cra-expansion-analysis',     path: '/cra-expansion-analysis.html' },
-  { name: 'regional',                   path: '/regional.html' },
   { name: 'deal-calculator',            path: '/deal-calculator.html' },
   { name: 'hna-comparative-analysis',   path: '/hna-comparative-analysis.html' },
   { name: 'hna-scenario-builder',       path: '/hna-scenario-builder.html' },
-  { name: 'lihtc-allocations',          path: '/lihtc-allocations.html' },
   { name: 'preservation',               path: '/preservation.html' },
   { name: 'select-jurisdiction',        path: '/select-jurisdiction.html' },
   { name: 'data-review-hub',            path: '/data-review-hub.html' },

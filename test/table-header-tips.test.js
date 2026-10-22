@@ -44,7 +44,7 @@ function normalize(text) {
 // definition, but their headers are not required to.
 const CORE_PAGES = [
   'hna-comparative-analysis.html', 'lihtc-opportunity-finder.html', 'compare.html',
-  'lihtc-allocations.html', 'chfa-portfolio.html', 'preservation.html',
+  'chfa-portfolio.html', 'preservation.html',
   'hna-scenario-builder.html', 'market-analysis.html',
   'insights.html', 'developer-pipeline.html', 'developer-brief.html',
   'data-status.html', 'data-review-hub.html', 'dashboard-data-sources-ui.html',

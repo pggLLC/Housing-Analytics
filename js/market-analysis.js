@@ -2662,13 +2662,13 @@
     if (!centroidList || centroidList.length === 0) {
       showEmpty('pmaScoreWrap',
         'ACS data isn\'t available: tract centroid file is missing or empty. ' +
-        'Run the "Generate Market Analysis Data" GitHub Actions workflow.');
+        'Please try again later; the next scheduled data build restores it.');
       return;
     }
     if (!acsMetrics || !(acsMetrics.tracts || []).length) {
       showEmpty('pmaScoreWrap',
         'ACS data isn\'t available: ACS tract metrics file is missing or empty. ' +
-        'Run the "Generate Market Analysis Data" GitHub Actions workflow (requires CENSUS_API_KEY secret).');
+        'Please try again later; the next scheduled data build restores it.');
       return;
     }
 
@@ -2793,7 +2793,7 @@
     if (lihtcLoadError) {
       showEmpty('pmaScoreWrap',
         'LIHTC data is unavailable — PMA score cannot be computed. ' +
-        'Run the "Generate Market Analysis Data" GitHub Actions workflow.');
+        'Please try again later; the next scheduled data build restores it.');
       return;
     }
     // F218 — Add non-LIHTC affordable inventory (HUD MF, USDA RD, PBV-local,
@@ -5650,8 +5650,7 @@
     }).catch(function () { /* optional — ignore errors */ });
 
     // Load each file individually so we can report specific failures
-    var WORKFLOW_HINT = 'Run the "Generate Market Analysis Data" GitHub Actions workflow.';
-    var KEY_HINT = '(requires CENSUS_API_KEY secret)';
+    var WORKFLOW_HINT = 'please try again later; the next scheduled data build restores it.';
 
     function fetchFile(path) {
       return DS.getJSON(DS.baseData(path)).catch(function (e) {
@@ -5685,12 +5684,12 @@
 
       var acsData = results[1];
       if (acsData && acsData._loadError) {
-        statusParts.push('ACS tract metrics missing — ' + WORKFLOW_HINT + ' ' + KEY_HINT);
+        statusParts.push('ACS tract metrics missing — ' + WORKFLOW_HINT);
         acsMetrics = { tracts: [] };
       } else {
         acsMetrics = acsData || { tracts: [] };
         if (!(acsMetrics.tracts || []).length) {
-          statusParts.push('ACS tract metrics empty — ' + WORKFLOW_HINT + ' ' + KEY_HINT);
+          statusParts.push('ACS tract metrics empty — ' + WORKFLOW_HINT);
         } else if (window.PMADataCache) {
           // Persist the successfully loaded ACS data globally so subsequent
           // runAnalysis() calls can recover it if the module variable is stale.

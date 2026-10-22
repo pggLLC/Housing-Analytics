@@ -16,7 +16,7 @@
  *
  * EXPLORE (comparative & context):
  *   Compare Jurisdictions, Colorado Deep Dive, Market Intelligence,
- *   CHFA Portfolio, Prop 123 Land Banking Awards, Economic Dashboard, LIHTC Allocations, Preservation
+ *   CHFA Portfolio, Prop 123 Land Banking Awards, Economic Dashboard, Preservation
  *   Tracking
  *
  * DATA (transparency & quality):
@@ -69,7 +69,6 @@
         { label: "Where Colorado's Housing Money Goes", href: "where-housing-money-goes.html", desc: "Every CHFA, OEDIT and DOLA award by county, town and developer", isNew: true },
         { label: "Prop 123 Land Banking Awards", href: "land-banking-awards.html", desc: "Every Prop 123 land banking award, mapped", isNew: true },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
-        { label: "LIHTC Allocations",     href: "lihtc-allocations.html",         desc: "National per-capita allocation data" },
         { label: "Preservation Tracking", href: "preservation.html",              desc: "NHPD subsidy expiry risk" },
       ]
     },

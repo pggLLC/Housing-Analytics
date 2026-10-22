@@ -846,7 +846,7 @@
         <p class="drh-coverage-note">
           Every dataset runs through five automated checks — shape, row counts, numeric ranges,
           freshness against its own update schedule, and cross-source agreement — before it's
-          considered trustworthy. See <a href="https://github.com/pggLLC/Housing-Analytics/blob/main/docs/CONTRIBUTING.md#qaqc-layers" rel="noopener" target="_blank">CONTRIBUTING.md</a> for the full technical definition of each layer.
+          considered trustworthy. See the "QA/QC layers" section of the <a href="docs/CONTRIBUTING.md">contributor notes</a> for the full technical definition of each layer.
         </p>
         <div class="card" style="padding:1rem;margin-bottom:1.5rem;">
           <div class="drh-qa-layer-grid" id="drhQaLayerGrid" aria-label="Automated QA layer status">
@@ -912,19 +912,16 @@
         </div>
 
         <div class="drh-admin-section">
-          <h3>GitHub Actions Workflow</h3>
+          <h3>Daily data-source check</h3>
           <p style="font-size:.85rem;color:var(--muted);margin:0 0 .5rem;">
-            The <strong>data-source-monitoring</strong> workflow runs daily to:
+            An automated check runs daily to:
           </p>
           <ul style="font-size:.85rem;margin:.25rem 0 0;padding-left:1.2rem;line-height:1.7;">
             <li>Scan for new/unregistered data files</li>
             <li>Check data freshness against expected update windows</li>
             <li>Generate discovery reports (JSON + Markdown)</li>
-            <li>Create GitHub issues for new unprocessed sources</li>
+            <li>Flag new unprocessed sources for review</li>
           </ul>
-          <p style="font-size:.8125rem;color:var(--faint);margin:.5rem 0 0;">
-            Workflow file: <code>.github/workflows/data-source-monitoring.yml</code>
-          </p>
         </div>
 
         <div class="drh-admin-section">
