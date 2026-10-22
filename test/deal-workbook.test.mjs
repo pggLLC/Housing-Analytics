@@ -52,11 +52,14 @@ ok(m.sources.rows.some((x) => /CHFA HTF/.test(x.label)) && !m.sources.rows.some(
 ok(m.rents.rows.length === r.pricedRows.length, 'every priced row is in the rent roll');
 m.rents.rows.forEach((x) => {
   ok(x.limit === snap.amiByBr[x.tier][x.bedrooms.toLowerCase()], x.tier + '% ' + x.bedrooms + ' limit is CHFA\'s for that size');
-  ok(x.headroom === x.limit - x.allowance - x.rent, x.tier + '% ' + x.bedrooms + ' room under the limit is limit less allowance less rent');
+  ok(x.allowance === null && x.headroom === null, x.tier + '% ' + x.bedrooms + ' is left unchecked while the allowance is not set, not checked against $0');
 });
+const ownerPays = mut0((s) => { s.utilityAllowance = { applied: true, method: 'owner_pays_all', perBedroom: { efficiency: 0, '1BR': 0, '2BR': 0, '3BR': 0, '4BR': 0 } }; });
+ok(ownerPays.rents.rows.every((x) => x.allowance === 0 && x.headroom === x.limit - x.rent) && !/did not apply a utility allowance/.test(ownerPays.findings.map((f) => f.text).join('\n')), 'owner pays all checks each rent against the full limit');
 
 // A utility allowance comes off the limit: the calculator keys it 'efficiency', '1BR', '2BR'...
 const withUa = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: { efficiency: 60, '1BR': 80, '2BR': 100, '3BR': 120, '4BR': 140 } }; });
+ok(withUa.rents.rows.every((x) => x.headroom === x.limit - x.allowance - x.rent), 'room under the limit is limit less allowance less rent');
 ok(withUa.rents.rows.every((x) => x.allowance === 100 && x.headroom === x.limit - 100 - x.rent), 'a 2BR utility allowance comes off each 2BR limit');
 const withFees = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: { efficiency: 60, '1BR': 80, '2BR': 100, '3BR': 120, '4BR': 140 }, feesPerBedroom: { '2BR': 25 } }; });
 ok(withFees.rents.rows.every((x) => x.headroom === x.limit - 125 - x.rent), 'tenant-paid fees come off the limit with the allowance');
@@ -74,7 +77,7 @@ const noLoans = mut0((s) => { s.result.obligations = { loans: [], unavailableRea
 ok(/Loan details are not available: Enter the senior loan rate\./.test(WB.render(noLoans)), 'a missing loan schedule says why');
 const sched = mut0((s) => { s.utilityAllowance = { applied: false, reason: 'included_in_schedule_rents' }; });
 ok(sched.rentsFromSchedule && sched.rents.rows.every((x) => x.headroom == null), 'schedule rents are not re-checked against a zero allowance');
-ok(/ok: Rents come from the Market Analysis rent schedule/.test(sched.findings.map((f) => f.level + ': ' + f.text).join('\n')) && !/No utility allowance is applied/.test(sched.findings.map((f) => f.text).join('\n')), 'schedule rents raise no owner-pays-utilities warning');
+ok(/ok: Rents come from the Market Analysis rent schedule/.test(sched.findings.map((f) => f.level + ': ' + f.text).join('\n')) && !/did not apply a utility allowance/.test(sched.findings.map((f) => f.text).join('\n')), 'schedule rents raise no owner-pays-utilities warning');
 const noRent = mut0((s) => { s.result.unavailable = Object.assign({}, s.result.unavailable, { annualRents: 'AMI limits did not load.' }); s.result.pricedRows.forEach((p) => { p.contractRent = null; }); });
 ok(/AMI limits did not load\./.test(WB.render(noRent)) && /<table/.test(WB.render(noRent)), 'the rent reason shows even when row shells exist');
 ok(/bad: 30% AMI 2BR rent of \$774 is \$100 over/.test(withUa.findings.map((f) => f.level + ': ' + f.text).join('\n')), 'a gross-limit rent with tenant-paid utilities is over the limit');
@@ -84,7 +87,9 @@ ok(uaGap.rents.rows.every((x) => x.allowance === null && x.headroom === null), '
 // ── Findings ───────────────────────────────────────────────────────────────
 const texts = (mm) => mm.findings.map((f) => f.level + ': ' + f.text).join('\n');
 ok(/bad: The deal is \$[\d,]+ short/.test(texts(m)), 'a funding gap is a finding');
-ok(/warn: No utility allowance is applied/.test(texts(m)), 'no utility allowance is called out');
+ok(/warn: The Deal Calculator did not apply a utility allowance \(allowance_reference_missing\), so each rent is an upper bound/.test(texts(m)), 'an unset utility allowance is called out with its reason');
+const uaText = mut0((s) => { s.utilityAllowance = { applied: false, reason: 'allowance_bedroom_missing:2BR', reasonText: 'Utility allowance missing for bedroom size (2BR)' }; });
+ok(/\(Utility allowance missing for bedroom size \(2BR\)\)/.test(texts(uaText)), 'the calculator\'s own wording for the reason is shown');
 ok(/warn: CHFA HTF is modeled interest-only to maturity/.test(texts(m)), 'an interest-only loan is called out');
 ok(/ok: Debt coverage on all must-pay debt stays at or above 1\.20x/.test(texts(m)), 'coverage above CHFA\'s minimum is "already right"');
 ok(m.findings.findIndex((f) => f.level === 'ok') > m.findings.findIndex((f) => f.level === 'bad'), 'problems come before what is already right');
@@ -111,7 +116,7 @@ ok(long.exec.weakest.year <= 15 && !/year 35/.test(texts(long)), 'a weak year 35
 ok(/bad: Debt coverage on all must-pay debt falls to 1\.10x in year 3/.test(texts(mut((s) => { s.result.coverage.years[2].allMustPayCoverage = 1.1; }))), 'coverage under 1.15 is flagged with its year');
 ok(/warn: Year-one coverage of 1\.35x/.test(texts(mut((s) => { s.result.projection.rows[0].dscr = 1.35; }))), 'year-one coverage over 1.30 is flagged');
 ok(!/Year-one coverage/.test(texts(m)), 'year-one coverage of 1.20 is not flagged');
-ok(/bad: 60% AMI 2BR rent of \$1,600 is \$51 over/.test(texts(mut((s) => { s.result.pricedRows.find((x) => x.tier === 60).contractRent = 1600; }))), 'a rent over its limit is flagged');
+ok(/bad: 60% AMI 2BR rent of \$1,600 is over its \$1,549 gross limit before any utility allowance, by at least \$51/.test(texts(mut((s) => { s.result.pricedRows.find((x) => x.tier === 60).contractRent = 1600; }))), 'a rent over its gross limit is flagged even with the allowance unset');
 const noPay = mut((s) => { s.result.exit.dfYr = null; s.result.projection.rows.forEach((y) => { y.deferredFeePaid = 10000; }); });
 ok(/bad: The deferred fee is not paid off in 15 years: \$610,000 of \$760,000/.test(texts(noPay)), 'an unpaid deferred fee is flagged with what is still owed');
 ok(/\$610,000 still owed at year 15/.test(WB.render(noPay)) && !/paid off<\/div>/.test(WB.render(noPay)), 'the fee tile calls an unpaid fee owed, not paid off');
@@ -164,5 +169,22 @@ ok(/<meta name="robots" content="noindex, nofollow">/.test(page) && /js\/develop
 ok(Nav.PAGES ? Nav.PAGES.some((p) => p.href === 'developer-deal-workbook.html') : /developer-deal-workbook\.html/.test(read('js/whitepaper/developer-nav.js')), 'the developer menu lists the page');
 ok(read('scripts/build-public-site.mjs').includes("'developer-deal-workbook.html'"), 'the public build leaves the page out');
 ok((read('scripts/audit/public-artifact-guard.mjs').match(/'developer-deal-workbook\.html'/g) || []).length === 2, 'the public artifact guard blocks the page and links to it');
+
+// ── Waiting for the calculator ─────────────────────────────────────────────
+// A fake frame whose output never changes: it may only count as settled once no data request is in flight.
+function fakeFrameDoc(win) {
+  let onload = null;
+  const frame = { style: {}, setAttribute() {}, remove() {}, addEventListener(e, fn) { if (e === 'load') onload = fn; }, contentWindow: win };
+  return { baseURI: 'http://localhost/a/p.html', createElement: () => frame, body: { appendChild: () => setTimeout(() => onload(), 0) } };
+}
+{
+  let pending = 1;
+  const win = { __DealCalc: { getResult: () => ({}), getOutputRecords: () => [1] }, __dealCalcPendingFetches: () => pending };
+  const t0 = Date.now();
+  setTimeout(() => { pending = 0; }, 120);
+  await WB.loadFrame(fakeFrameDoc(win), 'units=1', 5000, 10);
+  ok(Date.now() - t0 >= 120, 'the workbook waits for the calculator\'s data requests before reading it');
+  ok(/__dealCalcPendingFetches/.test(read('deal-calculator.html')) && read('deal-calculator.html').indexOf('__dealCalcPendingFetches') < read('deal-calculator.html').indexOf('js/path-resolver.js'), 'the calculator counts its data requests from its first script');
+}
 
 console.log(`deal-workbook: ${checks} checks passed`);

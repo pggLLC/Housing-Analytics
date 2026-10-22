@@ -18,6 +18,21 @@
   <link rel="stylesheet" href="css/responsive.css">
   <!-- L3 — print stylesheet for IC packet export -->
   <link rel="stylesheet" href="css/print.css" media="print">
+  <!-- Counts data requests still in flight, so the developer Deal workbook waits for the CHFA and policy
+       files before it reads the results. Runs first so every later fetch goes through it. -->
+  <script>
+  (function () {
+    var f = window.fetch, n = 0;
+    if (!f) return;
+    window.fetch = function () {
+      n++;
+      var p = f.apply(this, arguments);
+      p.then(function () { n--; }, function () { n--; });
+      return p;
+    };
+    window.__dealCalcPendingFetches = function () { return n; };
+  })();
+  </script>
   <!-- Sync: required before deferred modules -->
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
