@@ -2,8 +2,8 @@
   "schema": "local-housing-funds/v1",
   "meta": {
     "title": "Colorado local housing funds, dedicated taxes, linkage fees, land and ownership tools",
-    "as_of": "2026-10-14",
-    "last_verified": "2026-10-14",
+    "as_of": "2026-10-22",
+    "last_verified": "2026-10-22",
     "review_by": "2027-01-10",
     "method": "Curated, not a feed. Each record was read from the jurisdiction's own code, ordinance, ballot question or election result, budget or program page, the text saved, and every evidence quote checked by exact substring match against the saved text (whitespace normalised). verification.level \"primary\" means read from that official document; \"reported\" means taken from a named outlet without the primary document, and verification.by names it. Every dollar figure and percentage a record states appears in its own evidence quotes (tests/test_local_incentives.py). A figure the source does not publish is null, never 0. Fee relief and land-use incentives are in data/policy/fee-reductions.json, not here.",
     "review_rule": "review_by is about 90 days out for records that change yearly (fund balances, program pages) and about six months for code- or ballot-backed records. policy-review-reminders.yml opens an issue a week before a record is due; the page shows a warning once it is overdue.",
@@ -2534,6 +2534,71 @@
       ],
       "notes": "Sunset is 'fiscal year 2042' - sunset field left null rather than inventing a date. City forecasts about $1.7 million per year (projection, not stored).",
       "last_verified": "2026-10-10"
+    },
+    {
+      "id": "f-fruita-lodging-tax-econdev-housing",
+      "geoid": "0828745",
+      "jurisdiction": "City of Fruita",
+      "county": "Mesa County",
+      "provider_type": "city",
+      "tool": "lodging_or_str_tax",
+      "status": "adopted",
+      "voter_approved": true,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "6% lodging tax, short-term rentals included (3% to Economic Development and Public Places)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Housing is an allowed use, not a set share: the Economic Development and Public Places half may fund attainable housing. The city drew on it for The Oaks (805 W. Ottley Ave.) in 2025.",
+      "summary": "Fruita's 6% lodging tax applies to hotels and vacation rentals. Half goes to marketing; the other 3% goes to Economic Development and Public Places, whose listed uses include attainable housing. No share is set aside for housing by law, but the city has used this money for housing: $325,000 of the $400,000 it put into The Oaks redevelopment in its 2025 budget came from lodging tax.",
+      "authorizing_code": "Fruita lodging tax (6% effective January 1, 2021; increase from 3% approved by Fruita voters in the April 2020 city election, per The Daily Sentinel)",
+      "source": {
+        "label": "City of Fruita - Short-term rental FAQ (lodging tax)",
+        "url": "https://www.fruita.org/m/faq"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "City of Fruita FAQ and Sales & Use Tax Comparisons page; Fruita City Council minutes May 20, 2025 and August 5, 2025; 2020 vote from The Daily Sentinel",
+        "checked": "2026-10-22"
+      },
+      "review_by": "2027-01-20",
+      "evidence": [
+        {
+          "section": "Short-term rentals: sales and lodging taxes",
+          "quote": "The amount of the lodging tax is 6% (in addition to the 8.27% retail sales tax)."
+        },
+        {
+          "section": "Short-term rentals: sales and lodging taxes",
+          "quote": "All funds received by the City from the lodging tax will be placed in funds for the purposes of marketing and promotion of the City to tourists and others, parks, trails and open space and economic development, including but not limited to, business incentives, matching funds for public-private partnerships and attainable housing."
+        },
+        {
+          "section": "Sales & Use Tax Comparisons",
+          "quote": "Of the 6% lodging tax, 3% is dedicated to marketing and promotion of the City and the remaining 3% is dedicated to Economic Development and Public Places.",
+          "source_url": "https://www.fruita.org/572/Sales-Use-Tax-Comparisons"
+        },
+        {
+          "section": "Sales & Use Tax Comparisons",
+          "quote": "a 6% (effective January 1, 2021) lodging tax",
+          "source_url": "https://www.fruita.org/572/Sales-Use-Tax-Comparisons"
+        },
+        {
+          "section": "Item 9.A, Resolution 2025-17 (The Oaks Project)",
+          "quote": "the $400,000 was included in the 2025 Budget, $325,000 of which is from a portion of the City’s lodging tax collected over the last four years that goes into a fund for economic development and housing purposes.",
+          "source_url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_05202025-62"
+        },
+        {
+          "section": "Item B, Resolution 2025-30 (805 Ottley Avenue subordination)",
+          "quote": "they wanted to use lodging tax funds out of the Economic Development Fund instead.",
+          "source_url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_08052025-918"
+        },
+        {
+          "section": "Fruita passes lodging tax increase (news report)",
+          "quote": "The measure passed with 60% in favor.",
+          "source_url": "https://www.gjsentinel.com/news/western_colorado/fruita-passes-lodging-tax-increase-palisade-elects-mikolai-as-mayor/article_cec59dbe-78e6-11ea-8214-c3970cab6d21.html"
+        }
+      ],
+      "notes": "Not a dedicated housing tax: housing is one listed use of the economic development half, alongside business incentives and public-private partnerships, and council decides each year. The city's 2024 finance reports still label the line 'Lodging Tax (3%)'. The April 2020 ballot text and Mesa County/city result were not read from an official copy; the vote rests on The Daily Sentinel. Annual revenue not read from an official source.",
+      "last_verified": "2026-10-22"
     }
   ]
 }
