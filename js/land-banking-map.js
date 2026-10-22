@@ -13,7 +13,7 @@
  * per town; an award listing several towns has a pin in each. Pins sit at the town's
  * Census centre because CHFA lists towns, not addresses.
  *
- * Each award's status since the award (later state funding, a partner chosen, or
+ * Each award's status (other state funding for the same project, a partner chosen, or
  * nothing found) comes from data/policy/prop123-land-banking-status.json
  * (scripts/funding/build_land_banking_status.py), loaded alongside the awards.
  *
@@ -417,7 +417,7 @@
     return data;
   }
 
-  // Where the site stands since the award: a label, then the dated, sourced detail.
+  // Where the project on the site stands: a label, then the dated, sourced detail.
   function statusHtml(a, cls) {
     var s = a && a.status;
     if (!s || !s.label) return '';

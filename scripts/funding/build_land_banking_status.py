@@ -1,6 +1,6 @@
 """
-scripts/funding/build_land_banking_status.py — where each Prop 123 land banking
-site stands since its award.
+scripts/funding/build_land_banking_status.py — where the project on each Prop 123
+land banking site stands.
 
 Reads only files the repo already has:
 
@@ -13,8 +13,9 @@ Reads only files the repo already has:
 
 Each award gets one status, strongest first:
 
-  financed     the same project has a later state award (tax credits, a DOLA grant,
-               a Prop 123 loan or homeownership award). The ledger never says built.
+  financed     the same project has another state award (tax credits, a DOLA grant,
+               a Prop 123 loan or homeownership award), before or after the land
+               award; an earlier one is marked so. The ledger never says built.
   applied      it has applied for building money and the decision is pending
   partner      a dated public source says a development partner is chosen
   seeking      a dated public source says the grantee is asking developers to apply
@@ -92,6 +93,7 @@ def event_stage(e):
 
 
 def from_ledger(project):
+    land_year = min((e['year'] for e in (project or {}).get('events', []) if e['stage'] == 'land_funded'), default=None)
     later = [(event_stage(e), e) for e in (project or {}).get('events', []) if e['stage'] != 'land_funded']
     later = [(s, e) for s, e in later if s]
     if not later:
@@ -108,7 +110,8 @@ def from_ledger(project):
             continue
         seen.add(key)
         asked = event_stage(e) != LEDGER_STAGE.get(e['stage'])
-        steps.append(f"{e['program']} ({'amount requested, ' if asked else ''}{e['year']})")
+        before = ', before the land award' if land_year and e['year'] < land_year else ''
+        steps.append(f"{e['program']} ({'amount requested, ' if asked else ''}{e['year']}{before})")
         if e.get('source_url') and e['source_url'] not in [s['url'] for s in sources]:
             sources.append({'title': f"{e.get('agency') or 'State'} {e['program']}, {e['year']}", 'url': e['source_url']})
     return {'status': best, 'text': f"{project['name']}: " + '; '.join(steps[:3]) + '.',
@@ -155,7 +158,7 @@ def build():
             'labels': LABELS,
             'counts': counts,
             'note': 'A status reads only public state award records and dated public sources. '
-                    '"Building money awarded" means a later state award to the same project, not that homes are built.',
+                    '"Building money awarded" means another state award to the same project, before or after the land award, not that homes are built.',
         },
         'status': out,
     }
