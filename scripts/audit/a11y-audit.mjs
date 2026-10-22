@@ -65,6 +65,8 @@ const AUDIT_PAGES = [
   // tab that holds a whole former page is audited by opening it by hash.
   // historical-trends.html is a redirect stub to this tab.
   'colorado-deep-dive.html#tab-history',
+  // The retired allocation pages redirect to this inner tab.
+  'colorado-deep-dive.html#tab-state-comparison',
   'lihtc-guide-for-stakeholders.html',
   'market-analysis.html',
   'deal-calculator.html',
@@ -95,6 +97,7 @@ const READY = {
   'economic-dashboard.html':             { selector: '#sec-housing .value', min: 5, notText: 'Loading…' },
   'colorado-deep-dive.html':             { selector: '#coMap path', min: 64 },
   'colorado-deep-dive.html#tab-history': { selector: '#chfaTable td', min: 20 },
+  'colorado-deep-dive.html#tab-state-comparison': { selector: '#cddCoCeiling, [data-equity-price="co"]', min: 2, notText: '—' },
   'market-analysis.html':                { selector: '#pmaMap path', min: 64 },
   'deal-calculator.html':                { selector: '#dc-county-select option', min: 64 },
   'land-value.html':                     { selector: '#landValueMount label', min: 5 },
