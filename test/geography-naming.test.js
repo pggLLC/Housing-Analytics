@@ -62,14 +62,13 @@ function site(w, geoid) {
 function docsLink(doc, host) {
   const links = [...host.querySelectorAll('a')].filter(a => a.getAttribute('href').includes('MARKET_ANALYSIS_METHOD'));
   assert.equal(links.length, 1);
-  // Public deployment copies Markdown verbatim: use the rendered repository
-  // document so its heading anchor works instead of downloading a raw file.
-  const target = new URL(links[0].getAttribute('href'));
-  assert.equal(target.origin, 'https://github.com');
-  const prefix = '/pggLLC/Housing-Analytics/blob/main/';
-  assert(target.pathname.startsWith(prefix));
-  const docPath = target.pathname.slice(prefix.length);
-  assert(fs.existsSync(docPath)); assert(target.hash);
+  // The link points at the copy of the method note the site serves itself,
+  // not at the code host, and its anchor names a real heading.
+  const href = links[0].getAttribute('href');
+  const [docPath, hash] = href.split('#');
+  assert(docPath.startsWith('docs/'));
+  assert(fs.existsSync(docPath)); assert(hash);
+  const target = { hash: '#' + hash };
   const headings = read(docPath).split('\n').filter(line => /^## /.test(line)).map(line => line.slice(3));
   assert(headings.some(heading => heading.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-') === target.hash.slice(1)));
 }

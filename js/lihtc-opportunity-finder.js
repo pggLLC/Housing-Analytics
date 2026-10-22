@@ -4344,7 +4344,7 @@
           { label: 'CHFA Preservation (live ArcGIS)',          url: 'https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/PreservationProperties_Layer_Final_view_new/FeatureServer/0' },
           { label: 'HUD MULTIFAMILY_PROPERTIES_ASSISTED',     url: 'https://hudgis-hud.opendata.arcgis.com/' },
           { label: 'USDA Rural Housing Assets',               url: 'https://www.rd.usda.gov/' },
-          { label: 'Local PHA roster (curated)',              url: 'https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster' }
+          { label: 'Local PHA roster (curated)',              url: 'data/affordable-housing/local-pha-roster/README.md' }
         ],
         vintage:    'live CHFA + HUD; curated PHA roster 2026-06',
         method:     '5 nearest deduped affordable-housing records to jurisdiction centroid by great-circle distance. Categorized + color-coded by program. CHFA standard PMA is 5 mi urban / up to 30 mi rural.',

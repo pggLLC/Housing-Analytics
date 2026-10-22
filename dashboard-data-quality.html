@@ -205,7 +205,7 @@
   <div class="dq-section" id="qa-status-section" aria-label="Data quality layer status">
     <h2>Data Quality Layers
       <span style="font-size:.7em;font-weight:normal;color:var(--muted,#476080);margin-left:.5rem">
-        — see <a href="https://github.com/pggLLC/Housing-Analytics/blob/main/docs/CONTRIBUTING.md#qaqc-layers" rel="noopener" target="_blank">CONTRIBUTING.md</a>
+        — see <a href="docs/CONTRIBUTING.md#qaqc-layers">the contributor notes</a>
       </span>
     </h2>
     <p style="font-size:.85rem;color:var(--muted,#476080);margin-bottom:.75rem">
@@ -260,7 +260,7 @@
     </h2>
     <p style="font-size:.85rem;color:var(--muted,#476080);margin-bottom:.75rem">
       Keys entered here are saved to your browser's localStorage and loaded automatically on each visit.
-      They are <strong>never sent to any server</strong>. For CI/CD, add them as GitHub Secrets.
+      They are <strong>never sent to any server</strong>. The site's scheduled data builds keep their own keys privately.
     </p>
     <div class="dq-key-form" id="apiKeyForm">
       <!-- Rows injected by JS -->
@@ -454,13 +454,13 @@
     if (notice) {
       if (!census.configured && !fred.configured) {
         notice.textContent = 'Neither CENSUS_API_KEY nor FRED_API_KEY is detected in the browser ' +
-          'configuration. This is normal when viewing locally. In CI/CD both keys are supplied via ' +
-          'GitHub Secrets and injected by the deploy workflow.';
+          'configuration. This is normal when viewing locally. The scheduled data builds ' +
+          'supply both keys privately.';
         notice.style.borderLeftColor = '#f57c00';
       } else if (!census.configured) {
         notice.textContent = 'CENSUS_API_KEY is not detected in the browser configuration. ' +
           'Census API calls will use unauthenticated (rate-limited) requests. ' +
-          'Add the key to GitHub Secrets to enable authenticated access.';
+          'Enter the key under API Key Setup to enable authenticated access.';
         notice.style.borderLeftColor = '#f57c00';
       } else {
         notice.textContent = 'All monitored API keys are configured.';

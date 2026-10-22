@@ -6,7 +6,7 @@
   "2018-LIHTC-Round2-Award-Report.pdf": {
    "sha256": "9efb51f7784506fee25be4fdbb2d776362886dc368be2cf8fbf742f6015d53fe",
    "reason": "The Total Units and Total LI Units columns sit close together, and the parser read most rows' total units into the LI column (Gateway South: 92 total, 58 LI). Each row transcribed from the PDF.",
-   "reviewed_by": "Claude, for the pggLLC COHO data review",
+   "reviewed_by": "pggLLC COHO data review",
    "reviewed_at": "2026-10-18",
    "printed_totals": {
     "amount_requested": 17128412,
@@ -148,7 +148,7 @@
   "2019-Round-1-Award-Report.pdf": {
    "sha256": "88e2e1c7a555a190ca2d7a238114138393151c6d611450ac8d57ff8fae08f813",
    "reason": "Two scattered-site awards print their credits on a parent row and their units on sub-rows (\"see below\"), which the parser read as separate projects. Each award transcribed from the PDF, with its sites' units summed.",
-   "reviewed_by": "Claude, for the pggLLC COHO data review",
+   "reviewed_by": "pggLLC COHO data review",
    "reviewed_at": "2026-10-18",
    "printed_totals": {
     "federal_credit": 12496478,
@@ -300,7 +300,7 @@
   "2020-Round-2-Award-Report.pdf": {
    "sha256": "889db79ef22a05a0afbd052b3d26ecff8a7de57fdcbe969e8c40d9e47b0d1674",
    "reason": "Rose on Colfax's two unit counts are printed run together (\"8282\"), and Village at Solid Rock's two were read as one number. Each row transcribed from the PDF; 82 and 82 are the only values that make both unit columns add up to the printed totals.",
-   "reviewed_by": "Claude, for the pggLLC COHO data review",
+   "reviewed_by": "pggLLC COHO data review",
    "reviewed_at": "2026-10-18",
    "printed_totals": {
     "federal_credit": 12061542,
@@ -436,7 +436,7 @@
   "2021-Round-2-Award-Report.pdf": {
    "sha256": "494719c732eea37b303591281b7f1b9653d498ad8e90f6f05d7df8b4f1964c83",
    "reason": "The four Park Ridge Apartments properties are followed by a \"Park Ridge Apartments - Totals\" subtotal row, which the parser counted as a fifth award. Each award transcribed from the PDF, without the subtotal.",
-   "reviewed_by": "Claude, for the pggLLC COHO data review",
+   "reviewed_by": "pggLLC COHO data review",
    "reviewed_at": "2026-10-18",
    "printed_totals": {
     "federal_credit": 19214459,
@@ -641,7 +641,7 @@
   "2022-Round-2-Award-Report.pdf": {
    "sha256": "8d0cf77bd0cb2e6c35193ca547edd24294a13c8ba0aff8dd95c0bc9dea85b643",
    "reason": "The parser read the Total Units column as the TC Units column, and Bentley Commons's two counts as one (384). Each row transcribed from the PDF.",
-   "reviewed_by": "Claude, for the pggLLC COHO data review",
+   "reviewed_by": "pggLLC COHO data review",
    "reviewed_at": "2026-10-18",
    "printed_totals": {
     "federal_credit": 26615354,

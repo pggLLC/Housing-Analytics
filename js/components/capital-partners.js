@@ -218,7 +218,7 @@
       : ' · ' + partners.length + ' total partner(s); pick a deal type above to narrow';
     var mfHtml = window.MethodFooter ? window.MethodFooter.html({
       source:    'data/capital-partners.json (curated)',
-      sourceUrl: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/capital-partners.json',
+      sourceUrl: 'data/capital-partners.json',
       vintage:   data.metadata && data.metadata.generated,
       method:    'Curated from each lender\'s own website. Statewide + national CO coverage unless noted. Filter narrows by partner deal_types (each partner is tagged with the stacks they actively work on).',
       confidence:'med'

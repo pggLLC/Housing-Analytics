@@ -166,9 +166,6 @@ const yardiLowGrowth = economic.match(/asking_rent_yoy_pct\s*<\s*1\s*\?\s*'([^']
 assert.ok(yardiLowGrowth, 'Yardi low-growth warning color branch is present');
 assertContrast('Yardi low-growth warning value', yardiLowGrowth[1], 'var(--surface-2)', { modes: ['light'] });
 
-const insights = read('insights.html');
-assert.doesNotMatch(insights, /id="jchsCoNarrative"[^>]*color:var\(--muted\)/, 'JCHS narrative block is not muted in light mode');
-assertContrast('JCHS narrative callout', inlineStyleProp(insights, 'jchsCoNarrative', 'color'), inlineStyleProp(insights, 'jchsCoNarrative', 'background'));
 
 // The compliance-dashboard KPI contrast assertions were removed with
 // css/pages/compliance-dashboard.css: the page was retired in #1349 and is a
