@@ -12,123 +12,110 @@
 <script src="js/components/pipeline-store.js"></script>
 <script src="js/components/pipeline-add-button.js"></script>
 <style>
-
   .ib-hero {
     background:linear-gradient(135deg,color-mix(in oklab,var(--accent) 10%,var(--card) 90%),var(--card));
     border:1px solid var(--border); border-radius:var(--radius);
     padding:var(--sp4); margin-bottom:var(--sp3);
   }
   .ib-hero h1 { margin:0 0 .3rem; }
-  .ib-hero p { margin:0; max-width:75ch; color:var(--muted); line-height:1.55; }
-
+  .ib-hero p { margin:0 0 .4rem; max-width:75ch; color:var(--muted); line-height:1.55; }
   .ib-filters {
     background:var(--card); border:1px solid var(--border);
     border-radius:var(--radius); padding:var(--sp3); margin-bottom:var(--sp3);
   }
   .ib-filter-grid {
-    display:grid; grid-template-columns:repeat(auto-fit,minmax(min(200px, 100%),1fr));
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));
     gap:var(--sp2);
   }
-  .ib-filter label {
+  .ib-filter label, .ib-weights legend {
     display:block; font-size:.8125rem; color:var(--muted);
     text-transform:uppercase; letter-spacing:.04em;
     font-weight:700; margin-bottom:.3rem;
   }
   .ib-filter select, .ib-filter input {
-    width:100%; padding:.5rem .7rem;
+    width:100%; padding:.5rem .7rem; min-height:44px; box-sizing:border-box;
     border:1px solid var(--border); border-radius:var(--radius-sm);
     background:var(--bg2); color:var(--text); font-size:var(--small);
   }
-
+  .ib-weights { border:0; padding:0; margin:0; }
+  .ib-weights-wrap { margin-top:var(--sp2); }
+  .ib-weights-wrap > summary { cursor:pointer; font-weight:700; min-height:44px; display:flex; align-items:center; color:var(--accent); }
+  .ib-weight-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(260px, 100%),1fr)); gap:.4rem var(--sp3); }
+  .ib-weight { display:grid; grid-template-columns:1fr auto; align-items:center; gap:.2rem .6rem; }
+  .ib-weight label { font-size:var(--small); font-weight:600; color:var(--text); }
+  .ib-weight output { font-variant-numeric:tabular-nums; font-weight:700; color:var(--accent); min-width:1.5em; text-align:right; }
+  .ib-weight input[type=range] { grid-column:1 / -1; width:100%; min-height:44px; accent-color:var(--accent); }
+  .ib-weight .hint { grid-column:1 / -1; font-size:.8125rem; color:var(--muted); margin:-.2rem 0 .3rem; }
+  .ib-summary {
+    background:color-mix(in oklab,var(--accent) 8%,var(--card) 92%);
+    border:1px solid color-mix(in oklab,var(--accent) 30%,var(--border) 70%);
+    border-radius:var(--radius); padding:var(--sp3); margin-bottom:var(--sp3);
+  }
+  .ib-summary p { margin:0 0 .35rem; font-size:var(--small); line-height:1.55; }
+  .ib-summary p:last-child { margin-bottom:0; }
+  .ib-methods { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:var(--sp2) var(--sp3); margin-bottom:var(--sp3); }
+  .ib-methods summary { cursor:pointer; font-weight:700; min-height:44px; display:flex; align-items:center; }
+  .ib-methods p, .ib-methods li { font-size:var(--small); line-height:1.55; max-width:80ch; }
+  .ib-methods table { width:100%; border-collapse:collapse; font-size:.875rem; margin:.5rem 0; }
+  .ib-methods th, .ib-methods td { text-align:left; padding:.4rem .5rem; border-bottom:1px solid var(--border); vertical-align:top; }
   .ib-tier {
     background:var(--card); border:1px solid var(--border);
     border-radius:var(--radius); padding:var(--sp3);
     margin-bottom:var(--sp3);
   }
   .ib-tier-header {
-    display:flex; align-items:center; gap:.6rem;
-    padding-bottom:.5rem; margin-bottom:.8rem;
+    display:flex; align-items:center; flex-wrap:wrap; gap:.6rem;
+    padding-bottom:.5rem; margin-bottom:.6rem;
     border-bottom:1px solid var(--border);
   }
   .ib-tier-header h2 { margin:0; font-size:1.1rem !important; }
-  .ib-tier-header .badge {
-    padding:2px 9px; border-radius:9999px;
-    font-size:.8125rem; font-weight:700; letter-spacing:.03em;
-  }
+  .ib-tier-header .badge { padding:2px 9px; border-radius:9999px; font-size:.8125rem; font-weight:700; letter-spacing:.03em; }
   .ib-tier-header .count { margin-left:auto; color:var(--muted); font-size:var(--small); }
-  .ib-tier-1 .ib-tier-header .badge { background:color-mix(in oklab,var(--good) 28%,var(--card) 72%); color:var(--good); }
-  .ib-tier-2 .ib-tier-header .badge { background:color-mix(in oklab,var(--warn) 22%,var(--card) 78%); color:var(--warn); }
-  .ib-tier-3 .ib-tier-header .badge { background:var(--bg2); color:var(--muted); border:1px solid var(--border); }
-
-  .ib-row {
-    display:grid; grid-template-columns:auto 1fr auto auto;
-    gap:.8rem; align-items:center;
-    padding:.65rem 0; border-bottom:1px solid var(--border);
-  }
-  .ib-row:last-child { border-bottom:none; }
-  .ib-row:hover { background:color-mix(in oklab,var(--accent) 4%,transparent 96%); }
-  /* F162 — per-row mount for the "Add to Developer Pipeline" button.
-     Sits below the main row, full-width, so the existing 4-col grid
-     keeps its tidy alignment and the button has room for its inline
-     form (max-width is enforced inside pipeline-add-button.js). */
-  .ib-region { margin-top:var(--sp4); }
-  .ib-region h2 { font-size:1.15rem; margin:0 0 .35rem; }
-  .ib-region p { color:var(--muted); margin:0 0 .6rem; max-width:75ch; }
-  .ib-region-wrap { overflow-x:auto; }
-  .ib-region table { width:100%; border-collapse:collapse; font-size:.92rem; }
-  .ib-region th, .ib-region td { text-align:left; padding:.45rem .5rem; border-bottom:1px solid var(--border); vertical-align:top; }
-  .ib-region td.num, .ib-region th.num { text-align:right; }
-  .ib-region a { display:inline-block; min-height:44px; line-height:44px; }
-  .ib-row-pipeline { grid-column:1 / -1; padding:0 0 .25rem 2.6rem; }
-  .ib-row-pipeline .pab-wrap { margin:.2rem 0 0; }
-  .ib-row-rank {
-    width:1.8rem; height:1.8rem;
-    display:flex; align-items:center; justify-content:center;
-    border-radius:50%; background:var(--accent); color: var(--on-accent, #fff);
-    font-weight:800; font-size:.82rem;
-  }
-  .ib-tier-2 .ib-row-rank { background:var(--warn); }
-  .ib-tier-3 .ib-row-rank { background:var(--muted); }
-  .ib-row-name { font-weight:700; color:var(--text); font-size:var(--small); }
-  .ib-row-name a { color:inherit; text-decoration:none; }
-  .ib-row-name a:hover { color:var(--accent); }
-  .ib-row-reasons {
-    font-size:.8125rem; color:var(--muted);
-    margin-top:.2rem; line-height:1.4;
-  }
-  .ib-row-reasons .why {
-    display:inline-block; margin-right:.5rem;
-    padding:1px 7px; border-radius:9999px;
-    background:var(--bg2); border:1px solid var(--border);
-    font-size:.8125rem; font-weight:600;
-  }
-  .ib-row-reasons .why-good { background:color-mix(in oklab,var(--good) 18%,var(--card) 82%); color:var(--good); border-color:transparent; }
-  .ib-row-reasons .why-warn { background:color-mix(in oklab,var(--warn) 18%,var(--card) 82%); color:var(--warn); border-color:transparent; }
-  .ib-row-score {
-    font-size:1.2rem; font-weight:800; color:var(--accent);
-    font-variant-numeric:tabular-nums;
-    text-align:right;
-  }
-  .ib-row-conf { font-size:.8125rem; color:var(--muted); text-align:right; }
-  .ib-row-action {
-    padding:.35rem .7rem; border-radius:var(--radius-sm);
-    background:var(--accent); color: var(--on-accent, #fff);
-    font-size:.8125rem; font-weight:700; text-decoration:none;
-    white-space:nowrap;
-  }
-  .ib-row-action:hover { filter:brightness(.9); }
-
-  .ib-empty { padding:1.5rem; text-align:center; color:var(--muted); font-style:italic; font-size:var(--small); }
+  .ib-tier-help { margin:0 0 .6rem; color:var(--muted); font-size:var(--small); }
+  .ib-tier-1 .badge { background:color-mix(in oklab,var(--good) 28%,var(--card) 72%); color:var(--good); }
+  .ib-tier-2 .badge { background:color-mix(in oklab,var(--warn) 22%,var(--card) 78%); color:var(--warn); }
+  .ib-tier-3 .badge { background:var(--bg2); color:var(--muted); border:1px solid var(--border); }
+  .ib-table-wrap { overflow-x:auto; }
+  .ib-table { width:100%; border-collapse:collapse; font-size:.9rem; }
+  .ib-table > thead th, .ib-table > tbody > tr > td { text-align:left; padding:.5rem; border-bottom:1px solid var(--border); vertical-align:top; }
+  .ib-table .num { text-align:right; font-variant-numeric:tabular-nums; }
+  .ib-score { font-size:1.15rem; font-weight:800; color:var(--accent); }
+  .ib-place a:not(.ib-action) { font-weight:700; color:var(--text); }
+  .ib-sub { display:block; color:var(--muted); font-size:.8125rem; }
+  .ib-reason { line-height:1.45; max-width:60ch; }
+  .ib-tag { display:inline-block; padding:1px 7px; border-radius:9999px; font-size:.8125rem; font-weight:600; margin:.2rem .3rem 0 0; }
+  .ib-tag-good { background:color-mix(in oklab,var(--good) 18%,var(--card) 82%); color:var(--good); }
+  .ib-tag-warn { background:color-mix(in oklab,var(--warn) 18%,var(--card) 82%); color:var(--warn); }
+  .ib-why summary { cursor:pointer; color:var(--accent); font-size:.8125rem; font-weight:700; margin-top:.3rem; min-height:44px; display:flex; align-items:center; }
+  .ib-why table { width:100%; border-collapse:collapse; font-size:.8125rem; margin:.3rem 0; }
+  .ib-why th, .ib-why td { text-align:left; padding:.3rem .4rem; border-bottom:1px solid var(--border); vertical-align:top; }
+  .ib-why .unk { color:var(--muted); font-style:italic; }
+  .ib-why ul { margin:.3rem 0; padding-left:1.1rem; font-size:.8125rem; }
+  .ib-place .ib-action { margin-top:.4rem; }
+  .ib-action { display:inline-flex; align-items:center; min-height:44px; padding:0 .7rem; border-radius:var(--radius-sm);
+    background:var(--accent); color:var(--on-accent, #fff); font-size:.8125rem; font-weight:700; text-decoration:none; white-space:nowrap; }
+  .ib-action:hover { filter:brightness(.9); }
+  .ib-empty { padding:1rem; text-align:center; color:var(--muted); font-style:italic; font-size:var(--small); }
   .ib-loading { padding:2rem; text-align:center; color:var(--muted); font-style:italic; }
-
-  .ib-recommended {
-    background:color-mix(in oklab,var(--accent) 8%,var(--card) 92%);
-    border:1px solid color-mix(in oklab,var(--accent) 30%,var(--border) 70%);
-    border-radius:var(--radius); padding:var(--sp3); margin-bottom:var(--sp3);
+  .ib-row-pipeline .pab-wrap { margin:.3rem 0 0; }
+  .ib-row-pipeline .pab-btn, .ib-row-pipeline .pab-form__input, .ib-row-pipeline .pab-form__select,
+  .ib-row-pipeline .pab-form__save, .ib-row-pipeline .pab-form__cancel { min-height:44px; box-sizing:border-box; }
+  .ib-row-pipeline .pab-form__textarea { min-height:88px; }
+  @media (max-width: 700px) {
+    .ib-table > thead { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+    .ib-table, .ib-table > tbody, .ib-table > tbody > tr, .ib-table > tbody > tr > td { display:block; width:100%; box-sizing:border-box; }
+    .ib-table > tbody > tr { border-bottom:1px solid var(--border); padding:.4rem 0; }
+    .ib-table > tbody > tr > td { border:0; padding:.2rem 0; }
+    .ib-table > tbody > tr > td.num { text-align:left; }
+    .ib-table > tbody > tr > td[data-label]::before { content:attr(data-label) ": "; color:var(--muted); font-size:.8125rem; }
+    .ib-table td.ib-rank { display:none; }
+    .ib-why thead { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+    .ib-why table, .ib-why tbody, .ib-why tr, .ib-why td { display:block; width:100%; box-sizing:border-box; }
+    .ib-why tr { border-bottom:1px solid var(--border); padding:.3rem 0; }
+    .ib-why td { border:0; padding:.1rem 0; }
+    .ib-why td.num { text-align:left; display:inline-block; width:auto; margin-right:1rem; }
+    .ib-why td[data-label]::before { content:attr(data-label) ": "; color:var(--muted); }
   }
-  .ib-recommended h3 { margin:0 0 .4rem; font-size:.92rem !important; }
-  .ib-recommended p { margin:0; font-size:var(--small); line-height:1.55; }
-
 </style>
   <link rel="stylesheet" href="js/vendor/leaflet.css">
 <link rel="stylesheet" href="css/land-banking-map.css">
@@ -145,30 +132,24 @@
   <div class="ib-hero">
     <h1>Where Should I Build?</h1>
     <p>
-      Filtered + scored shortlist tuned for liberal-leaning + recreational + small-to-mid CO towns.
-      Sources: <strong>curated policy progress dataset</strong> (33 jurisdictions) + Prop 123 + HUD FMR + ACS + ZORI / Apartment List where available.
-      Each row's score has a one-sentence reason — no naked numbers.
+      Every Colorado town, Census community and county, scored on what you care about: easy to build, incentives, land, need, rents,
+      recreation and how local voters lean. Move a slider to change how much each one counts.
     </p>
     <p>
-      Places sort into <abbr data-glossary="tier">tiers</abbr> by score; the <abbr data-glossary="confidence">confidence</abbr> label says how much the score rests on.
-      A <abbr data-glossary="signal">signal</abbr> is a dated public event, such as an RFP or land offered, that can move a place up.
+      Each row says in one sentence why it scored what it did, and opens to show every factor, its points and its source.
+      Places sort into <abbr data-glossary="tier">tiers</abbr>; <abbr data-glossary="confidence">confidence</abbr> says how much of your weight rests on checked data.
+      A <abbr data-glossary="signal">signal</abbr> (a dated public event, such as land seeking a developer) moves a place up; a red flag moves it down.
     </p>
   </div>
+
+  <!-- Executive line first: how many places land where, and which report to open. -->
+  <div class="ib-summary" id="summary" aria-live="polite"><p>Loading…</p></div>
 
   <div class="ib-filters">
     <div class="ib-filter-grid">
       <div class="ib-filter">
-        <label for="filterProduct">Product type</label>
-        <select id="filterProduct">
-          <option value="any">Any (use base IOI)</option>
-          <option value="9pct">9% LIHTC</option>
-          <option value="4pct">4% LIHTC</option>
-          <option value="workforce" selected>Workforce rental</option>
-          <option value="older">Older adult</option>
-          <option value="mixed">Mixed-income</option>
-          <option value="attainable">Attainable ownership</option>
-          <option value="preservation">Preservation</option>
-        </select>
+        <label for="filterPreset">Starting weights</label>
+        <select id="filterPreset"></select>
       </div>
       <div class="ib-filter">
         <label for="filterRegion">Region</label>
@@ -183,40 +164,64 @@
         </select>
       </div>
       <div class="ib-filter">
-        <label for="filterHours">Hours you have this week</label>
-        <select id="filterHours">
-          <option value="20">&lt; 20 hrs (top 3 only)</option>
-          <option value="60" selected>20–60 hrs (top 8)</option>
-          <option value="200">60–200 hrs (top 15)</option>
-          <option value="999">No constraint (show all)</option>
+        <label for="filterType">Kind of place</label>
+        <select id="filterType">
+          <option value="any">Towns, communities and counties</option>
+          <option value="place" selected>Towns and cities</option>
+          <option value="cdp">Census communities</option>
+          <option value="county">Counties</option>
         </select>
       </div>
       <div class="ib-filter">
-        <label for="filterLensConf">Confidence floor</label>
-        <select id="filterLensConf">
+        <label for="filterPopMin">Population at least</label>
+        <input id="filterPopMin" type="number" inputmode="numeric" min="0" step="500" placeholder="any">
+      </div>
+      <div class="ib-filter">
+        <label for="filterPopMax">Population at most</label>
+        <input id="filterPopMax" type="number" inputmode="numeric" min="0" step="500" placeholder="any">
+      </div>
+      <div class="ib-filter">
+        <label for="filterConf">Confidence floor</label>
+        <select id="filterConf">
           <option value="any">All</option>
-          <option value="medium" selected>Medium+</option>
-          <option value="high">High only</option>
+          <option value="Medium">Medium or High</option>
+          <option value="High">High only</option>
+        </select>
+      </div>
+      <div class="ib-filter">
+        <label for="filterFlags">Red flags</label>
+        <select id="filterFlags">
+          <option value="lower" selected>Lower the score</option>
+          <option value="hide">Hide flagged places</option>
+        </select>
+      </div>
+      <div class="ib-filter">
+        <label for="filterRows">Rows per tier</label>
+        <select id="filterRows">
+          <option value="10">10</option>
+          <option value="25" selected>25</option>
+          <option value="9999">All</option>
         </select>
       </div>
     </div>
+    <details class="ib-weights-wrap" id="weightsWrap">
+      <summary>How much each one counts</summary>
+      <fieldset class="ib-weights">
+        <legend>0 = ignore, 5 = counts most</legend>
+        <div class="ib-weight-grid" id="weights"></div>
+      </fieldset>
+    </details>
   </div>
 
-  <!-- Recommended next action -->
-  <div class="ib-recommended" id="recommended" style="display:none;">
-    <h3>Recommended next action</h3>
-    <p id="recommendedText"></p>
-  </div>
+  <details class="ib-methods" id="methods">
+    <summary>How the score works</summary>
+    <div id="methodsBody"></div>
+  </details>
 
   <!-- Tier sections -->
   <div id="tiers">
     <div class="ib-loading">Loading…</div>
   </div>
-
-  <!-- With a region chosen: every town and county in it, ranked by housing need,
-       since the shortlist above covers only the places with a policy record. -->
-  <p id="regionNeedStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
-  <section id="regionNeed" class="ib-region" hidden></section>
 
   <!-- Prop 123 land banking awards. Kept below the shortlist so the shortlist stays the
        first answer. The public version, without named contacts, is land-banking-awards.html. -->
@@ -235,18 +240,7 @@
     <p class="lbm-foot"><span data-lbm-note></span> Contacts printed on CHFA's award lists are quoted from them; the rest come from grantee websites and are marked <span class="lbm-tag">to confirm</span>. Program: <span data-lbm-program></span>.</p>
   </section>
 
-  <footer style="margin-top:var(--sp4);padding-top:var(--sp3);border-top:1px solid var(--border);font-size:var(--tiny);color:var(--muted);">
-    <strong><abbr data-glossary="IOI">IOI</abbr> methodology:</strong>
-    Need (CHAS-derived placeholder) +
-    Capacity (HNA + Prop 123 + Land + Funding + Tap-fee) +
-    Feasibility (Capture advantage placeholder) +
-    Lane fit (Region + recreational adjacency) +
-    Demand pressure (Rent trend placeholder).
-    Confidence labels: <strong>high</strong> = curated record + Prop 123 + Census ≥ medium MOE;
-    <strong>medium</strong> = curated record only;
-    <strong>low</strong> = sparse data.
-    Methodology will be fully formalized in a methodology doc next.
-  </footer>
+
 </main>
 
 <script src="js/navigation.js"></script>
@@ -254,314 +248,294 @@
 <script src="js/vendor/leaflet.js"></script>
 <script src="js/config/basemaps.js"></script>
 <script src="js/land-banking-map.js"></script>
+<script src="js/local-incentives-data.js"></script>
+<script src="js/local-support-data.js"></script>
+<script src="js/where-to-build.js"></script>
 <script defer src="js/components/table-header-tips.js"></script>
 <script defer src="js/components/table-sort.js"></script>
 <script>
 (function () {
   'use strict';
+  var W = window.WhereToBuild;
+  var TODAY = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Denver' });
 
-  // -------------------------------------------------------------------------
-  // Region taxonomy — based on counties
-  // -------------------------------------------------------------------------
-  // The six regions every COHO page uses (DOLA planning regions folded
-  // together; scripts/hna/build_ranking_index.py REGIONS, pinned by
-  // test/region-membership.test.js).
-  const REGIONS = {
-    'Front Range':    ['08001', '08005', '08013', '08014', '08019', '08031', '08035', '08041', '08059', '08069', '08101', '08123'],
-    'Western Slope':  ['08029', '08045', '08051', '08053', '08077', '08081', '08085', '08091', '08103', '08113'],
-    'Mountains':      ['08015', '08027', '08037', '08043', '08047', '08049', '08057', '08065', '08093', '08097', '08107', '08117', '08119'],
-    'Eastern Plains': ['08009', '08011', '08017', '08025', '08039', '08055', '08061', '08063', '08071', '08073', '08075', '08087',
-                       '08089', '08095', '08099', '08115', '08121', '08125'],
-    'San Luis Valley':['08003', '08021', '08023', '08079', '08105', '08109'],
-    'Southwest':      ['08007', '08033', '08067', '08083', '08111']
-  };
-  const COUNTY_REGION = {};
-  Object.keys(REGIONS).forEach(r => REGIONS[r].forEach(f => { COUNTY_REGION[f] = r; }));
+  function getJSON(url) { return fetch(url).then(function (r) { if (!r.ok) throw new Error(url + ' ' + r.status); return r.json(); }).catch(function () { return null; }); }
 
-
-  function prop123Key(name) {
-    return String(name || '').toLowerCase().trim().replace(/^(city and county|city|town) of /, '');
-  }
-
-  function regionFor(countyFips) {
-    return COUNTY_REGION[countyFips] || 'other';
-  }
-
-  // -------------------------------------------------------------------------
-  // Score each jurisdiction
-  // -------------------------------------------------------------------------
-  function scoreJurisdiction(rec, product, prop123Map) {
-    // Each component scored 0-20, summed to ~100
-    const reasons = [];
-    let score = 0;
-    let confidence = rec.confidence || 'medium';
-
-    // ---- Capacity (40 pts max) — from curated policy progress
-    let cap = 0;
-    if (rec.hna) {
-      if (rec.hna.status === 'current')      { cap += 10; reasons.push({ tag: `HNA current ${rec.hna.year || ''}`.trim(), cls: 'good' }); }
-      else if (rec.hna.status === 'in_progress') { cap += 7;  reasons.push({ tag: 'HNA in progress', cls: 'good' }); }
-      else if (rec.hna.status === 'stale')   { cap += 2;  reasons.push({ tag: 'HNA stale', cls: 'warn' }); }
-      else                                    {              reasons.push({ tag: 'No HNA', cls: 'warn' }); }
-    }
-    if (rec.land_banking) {
-      if (rec.land_banking.status === 'active')   { cap += 10; reasons.push({ tag: 'Active land bank', cls: 'good' }); }
-      else if (rec.land_banking.status === 'planning') cap += 4;
-    }
-    if (rec.dedicated_income) {
-      if (rec.dedicated_income.status === 'active') { cap += 12; reasons.push({ tag: 'Dedicated funding', cls: 'good' }); }
-      else if (rec.dedicated_income.status === 'planning') cap += 5;
-    }
-    if (rec.tap_fee_reduction) {
-      if (rec.tap_fee_reduction.status === 'active') { cap += 8; reasons.push({ tag: 'Tap-fee waiver', cls: 'good' }); }
-      else if (rec.tap_fee_reduction.status === 'planning') cap += 3;
-    }
-    score += cap;
-
-    // ---- Prop 123 / fast-track (15 pts max)
-    // Look up by name match against prop123 list
-    if (prop123Map) {
-      const p123 = prop123Map[prop123Key(rec.name)];
-      if (p123) {
-        if (p123.fast_track) { score += 15; reasons.push({ tag: 'Prop 123 fast-track', cls: 'good' }); }
-        else                  { score += 8;  reasons.push({ tag: 'Prop 123 filed', cls: 'good' }); }
-      }
-    }
-
-    // ---- Product-type alignment (10 pts max) — adjust score by product fit
-    if (product === 'workforce' && (rec.dedicated_income && rec.dedicated_income.status === 'active')) score += 5;
-    if (product === '9pct' && rec.hna && rec.hna.status === 'current') score += 4;
-    if (product === '4pct' && rec.dedicated_income && rec.dedicated_income.status === 'active') score += 4;
-    if (product === 'preservation' && rec.land_banking && rec.land_banking.status === 'active') score += 6;
-    if (product === 'older') {
-      // Add 4 if a recent HNA + active funding (proxy for service-rich locations)
-      if (rec.hna && rec.hna.status === 'current' && rec.dedicated_income && rec.dedicated_income.status === 'active') score += 4;
-    }
-
-    // Cap score at ~100
-    score = Math.min(100, Math.round(score * 1.2));
-    return { score, reasons, confidence };
-  }
-
-  // -------------------------------------------------------------------------
-  // Tier rules
-  // -------------------------------------------------------------------------
-  function tierFor(score, confidence) {
-    if (score >= 70 && confidence !== 'low') return 1;
-    if (score >= 50) return 2;
-    if (score >= 35) return 3;
-    return null; // exclude
-  }
-
-  // -------------------------------------------------------------------------
-  // Load + render
-  // -------------------------------------------------------------------------
   Promise.all([
-    fetch('data/policy/jurisdiction-housing-progress.json').then(r => r.json()).catch(() => null),
-    fetch('data/policy/prop123_jurisdictions.json').then(r => r.json()).catch(() => null),
-    fetch('data/hud-fmr-income-limits.json').then(r => r.json()).catch(() => null),
-    fetch('data/hna/geo-config.json').then(r => r.json()).catch(() => null)
-  ]).then(([progress, prop123, hudIl, geoCfg]) => {
+    getJSON('data/hna/ranking-index.json'),
+    getJSON('data/policy/prop123_jurisdictions.json'),
+    getJSON('data/policy/prop123-land-banking-awards.json'),
+    getJSON('data/policy/prop123-land-banking-status.json'),
+    getJSON('data/hud-fmr-income-limits.json'),
+    getJSON('data/policy/where-to-build-context.json'),
+    getJSON('data/policy/local-support.json'),
+    getJSON('data/policy/fee-reductions.json'),
+    getJSON('data/policy/local-housing-funds.json'),
+    getJSON('data/policy/incentive-coverage.json')
+  ]).then(function (d) {
+    var docs = { ranking: d[0], prop123: d[1], awards: d[2], lbStatus: d[3], hud: d[4], context: d[5],
+      support: d[6], fees: d[7], funds: d[8], coverage: d[9] };
+    if (!docs.ranking) throw new Error('the HNA ranking could not be loaded');
+    var model = W.build(docs, TODAY);
+    var trackerLoad = null; // one Deal Tracker load per page view, shared by every render
+    var weights = readWeights();
 
-    // Places carry their containing county in geo-config.json. Without it no town
-    // ever matched a region, so every region filter but "All" returned nothing.
-    const placeCounty = {};
-    if (geoCfg) (geoCfg.places || []).concat(geoCfg.cdps || []).forEach(p => { if (p.geoid && p.containingCounty) placeCounty[p.geoid] = p.containingCounty; });
-    const progEntries = progress && progress.by_geoid
-      ? Object.entries(progress.by_geoid).map(([geoid, rec]) => ({ geoid, ...rec, _county: countyFor(geoid, placeCounty) }))
-      : [];
+    // Sliders open on a wide screen; on a phone they fold so the ranking comes first.
+    if (window.matchMedia && window.matchMedia('(min-width: 701px)').matches) document.getElementById('weightsWrap').open = true;
+    buildControls();
+    renderMethods(docs);
+    render();
 
-    // Build a normalized prop123 lookup keyed by lowercase name
-    const prop123Map = {};
-    if (prop123 && (prop123.jurisdictions || prop123.list)) {
-      // DOLA names carry the form ("City of Boulder", "City and County of Denver");
-      // the progress file uses the bare name, so key both by the bare name.
-      (prop123.jurisdictions || prop123.list).forEach(p => {
-        const n = prop123Key(p.jurisdiction || p.name);
-        if (n) prop123Map[n] = p;
+    // ---- Weights live in the page link (?w=build.4,money.4,...) so a view can be shared.
+    function readWeights() {
+      var w = W.defaultWeights();
+      var q = new URLSearchParams(location.search).get('w');
+      if (q) q.split(',').forEach(function (kv) {
+        var p = kv.split('.');
+        if (p[0] in w && /^[0-5]$/.test(p[1])) w[p[0]] = Number(p[1]);
       });
+      return w;
+    }
+    function writeWeights() {
+      var q = new URLSearchParams(location.search);
+      q.set('w', W.GROUPS.map(function (g) { return g.id + '.' + weights[g.id]; }).join(','));
+      try { history.replaceState(null, '', location.pathname + '?' + q.toString() + location.hash); } catch (e) { /* file:// */ }
     }
 
-    // Hook filter UI
+    function buildControls() {
+      var preset = document.getElementById('filterPreset');
+      preset.innerHTML = Object.keys(W.PRESETS).map(function (k) {
+        return '<option value="' + k + '">' + esc(W.PRESETS[k].label) + '</option>';
+      }).join('') + '<option value="custom">Your own mix</option>';
+      preset.value = matchPreset() || 'custom';
+      document.getElementById('weights').innerHTML = W.GROUPS.map(function (g) {
+        return '<div class="ib-weight">' +
+          '<label for="w-' + g.id + '">' + esc(g.label) + '</label>' +
+          '<output id="wv-' + g.id + '" for="w-' + g.id + '">' + weights[g.id] + '</output>' +
+          '<input type="range" id="w-' + g.id + '" min="0" max="5" step="1" value="' + weights[g.id] + '" aria-describedby="wh-' + g.id + '">' +
+          '<span class="hint" id="wh-' + g.id + '">' + esc(g.tip) + '</span></div>';
+      }).join('');
+      W.GROUPS.forEach(function (g) {
+        document.getElementById('w-' + g.id).addEventListener('input', function (e) {
+          weights[g.id] = Number(e.target.value);
+          document.getElementById('wv-' + g.id).textContent = weights[g.id];
+          preset.value = matchPreset() || 'custom';
+          writeWeights();
+          render();
+        });
+      });
+      preset.addEventListener('change', function () {
+        var p = W.PRESETS[preset.value];
+        if (!p) return;
+        W.GROUPS.forEach(function (g) {
+          weights[g.id] = p.weights[g.id];
+          document.getElementById('w-' + g.id).value = weights[g.id];
+          document.getElementById('wv-' + g.id).textContent = weights[g.id];
+        });
+        writeWeights();
+        render();
+      });
+      ['filterRegion', 'filterType', 'filterConf', 'filterFlags', 'filterRows'].forEach(function (id) {
+        document.getElementById(id).addEventListener('change', render);
+      });
+      ['filterPopMin', 'filterPopMax'].forEach(function (id) {
+        document.getElementById(id).addEventListener('input', render);
+      });
+    }
+    function matchPreset() {
+      return Object.keys(W.PRESETS).filter(function (k) {
+        return W.GROUPS.every(function (g) { return W.PRESETS[k].weights[g.id] === weights[g.id]; });
+      })[0] || null;
+    }
+
     function render() {
-      const product = document.getElementById('filterProduct').value;
-      const region = document.getElementById('filterRegion').value;
-      const hours = +document.getElementById('filterHours').value;
-      const confFloor = document.getElementById('filterLensConf').value;
+      var region = document.getElementById('filterRegion').value;
+      var type = document.getElementById('filterType').value;
+      var conf = document.getElementById('filterConf').value;
+      var flagMode = document.getElementById('filterFlags').value;
+      var maxRows = Number(document.getElementById('filterRows').value);
+      var popMin = Number(document.getElementById('filterPopMin').value) || 0;
+      var popMaxRaw = document.getElementById('filterPopMax').value;
+      var popMax = popMaxRaw === '' ? Infinity : Number(popMaxRaw);
 
-      // Score everyone
-      let scored = progEntries.map(rec => {
-        const r = scoreJurisdiction(rec, product, prop123Map);
-        const regionFlag = rec._county ? regionFor(rec._county) : 'other';
-        return { ...rec, ...r, region: regionFlag };
-      });
+      var shown = model.places.filter(function (p) {
+        if (region !== 'any' && p.region !== region) return false;
+        if (type !== 'any' && p.type !== type) return false;
+        if (popMin && !(p.population >= popMin)) return false;
+        if (popMax !== Infinity && !(p.population <= popMax)) return false;
+        if (flagMode === 'hide' && p.flags.length) return false;
+        return true;
+      }).map(function (p) { return { p: p, s: W.score(p, weights) }; }).filter(function (x) {
+        if (conf === 'High') return x.s.confidence === 'High';
+        if (conf === 'Medium') return x.s.confidence !== 'Low';
+        return true;
+      }).sort(function (a, b) { return b.s.score - a.s.score || a.p.name.localeCompare(b.p.name); });
 
-      // Apply filters
-      if (region !== 'any') scored = scored.filter(s => s.region === region);
-      if (confFloor === 'high') scored = scored.filter(s => s.confidence === 'high');
-      else if (confFloor === 'medium') scored = scored.filter(s => s.confidence !== 'low');
+      var tiers = { 1: [], 2: [], 3: [] }, below = 0;
+      shown.forEach(function (x) { if (x.s.tier) tiers[x.s.tier].push(x); else below++; });
 
-      // Compute tiers
-      scored.forEach(s => s.tier = tierFor(s.score, s.confidence));
-      const tier1 = scored.filter(s => s.tier === 1).sort((a, b) => b.score - a.score);
-      const tier2 = scored.filter(s => s.tier === 2).sort((a, b) => b.score - a.score);
-      const tier3 = scored.filter(s => s.tier === 3).sort((a, b) => b.score - a.score);
+      var top = tiers[1][0] || tiers[2][0] || tiers[3][0];
+      document.getElementById('summary').innerHTML =
+        (model.missing.length ? '<p><strong>Some data did not load:</strong> ' + esc(model.missing.join(', ')) + '. Those factors show as not checked and confidence is lower. Reload the page to try again.</p>' : '') +
+        '<p><strong>' + tiers[1].length + ' Target, ' + tiers[2].length + ' Promising and ' + tiers[3].length + ' Monitor</strong> places under these settings' +
+        (below ? '; ' + below + ' more score under 35 and are left off' : '') + '.</p>' +
+        (top ? '<p>Start with <a href="developer-brief.html?geoid=' + esc(top.p.geoid) + '"><strong>' + esc(top.p.name) + '</strong></a> (' + top.s.score + ', ' + top.s.confidence.toLowerCase() + ' confidence): ' + esc(top.s.reason) + '</p>'
+          : shown.length ? '<p>Every matching place scores under 35 with these weights. Raise the weights on the groups that matter to you, or pick a preset.</p>'
+          : '<p>No place matches these filters. Widen the region, kind of place or population range.</p>');
 
-      // Apply hours constraint
-      const maxRows = hours === 20 ? 3 : hours === 60 ? 8 : hours === 200 ? 15 : 99;
-      const t1Show = tier1.slice(0, Math.min(maxRows, tier1.length));
-      const t2Show = tier2.slice(0, Math.min(Math.max(0, maxRows - t1Show.length), tier2.length));
-      const t3Show = tier3.slice(0, Math.min(Math.max(0, maxRows - t1Show.length - t2Show.length), tier3.length));
-
-      // Recommended action
-      const rec = (t1Show[0] || t2Show[0] || t3Show[0]);
-      const recBox = document.getElementById('recommended');
-      const recText = document.getElementById('recommendedText');
-      if (rec) {
-        recBox.style.display = 'block';
-        recText.innerHTML = `Open the <a href="developer-brief.html?geoid=${esc(rec.geoid)}"><strong>${esc(rec.name)}</strong> report</a> first (~10 min). ` +
-          `${t1Show.length > 1 ? `Then ${esc(t1Show[1].name)} if you have time. ` : ''}` +
-          `Spend remaining hours updating the Pipeline + Signal Log.`;
-      } else {
-        recBox.style.display = 'none';
-      }
-
-      // Render tiers
       document.getElementById('tiers').innerHTML =
-        tierBlock(1, 'Tier 1 — Target', t1Show, 'Highest opportunity. Open the report, draft outreach this week.') +
-        tierBlock(2, 'Tier 2 — Promising', t2Show, 'Worth a look. Active or developing capacity. Calendar a deeper look.') +
-        tierBlock(3, 'Tier 3 — Monitor', t3Show, 'Long-cycle. Check back quarterly unless a signal upgrades it.');
-
-      // F162 — hydrate the per-row "Add to Developer Pipeline" buttons.
-      // The page sits behind the developer gate so we don't need an
-      // additional auth check here.
+        tierBlock(1, 'Tier 1: Target', tiers[1], maxRows, 'Score 70 or more, not low confidence. Open the report and draft outreach this week.') +
+        tierBlock(2, 'Tier 2: Promising', tiers[2], maxRows, 'Score 50 to 69 (or 70+ with low confidence). Put a deeper look on the calendar.') +
+        tierBlock(3, 'Tier 3: Monitor', tiers[3], maxRows, 'Score 35 to 49. Check back quarterly unless a signal moves it up.');
       wirePipelineButtons();
-      renderRegionNeed(region, t1Show.length + t2Show.length + t3Show.length);
     }
 
-    // The ranking index is large (about 3 MB), so it loads only once a region is picked.
-    let rankingIndex = null;
-    function loadRanking() {
-      if (!rankingIndex) rankingIndex = fetch('data/hna/ranking-index.json').then(r => r.json()).catch(() => null);
-      return rankingIndex;
+    function tierBlock(n, label, rows, maxRows, help) {
+      var badges = { 1: 'TARGET', 2: 'PROMISING', 3: 'MONITOR' };
+      var list = rows.slice(0, maxRows);
+      var more = rows.length - list.length;
+      return '<section class="ib-tier ib-tier-' + n + '" aria-labelledby="tier' + n + '">' +
+        '<div class="ib-tier-header"><span class="badge">' + badges[n] + '</span><h2 id="tier' + n + '">' + esc(label) + '</h2>' +
+        '<span class="count">' + rows.length + ' place' + (rows.length === 1 ? '' : 's') + (more > 0 ? ', top ' + list.length + ' shown' : '') + '</span></div>' +
+        '<p class="ib-tier-help">' + esc(help) + '</p>' +
+        (list.length ? '<div class="ib-table-wrap"><table class="ib-table"><thead><tr>' +
+          '<th class="num" data-tip="Order within this tier under your weights; 1 = highest score">Rank</th>' +
+          '<th data-tip="Town, Census community or county, linked to its report; add it to your Pipeline from here. Population from the ACS 5-year estimates.">Place</th>' +
+          '<th class="num" data-tip="0 to 100: points earned on checked factors over points possible, times 100, plus signals, minus red flags">Score</th>' +
+          '<th data-tip="Share of your total weight that rests on checked factors: High 80%+, Medium 50 to 79%, Low under 50%">Confidence</th>' +
+          '<th data-tip="Why the place scored what it did, in one sentence. Open it to see every factor, its points and its source.">Why</th>' +
+          '<th class="num" data-tip="Dated public events in the last 12 months that add points, up to +10">Signals</th>' +
+          '<th class="num" data-tip="Recorded denials of income-restricted homes in the last 36 months; each subtracts 15, up to 30">Red flags</th>' +
+          '</tr></thead><tbody>' + list.map(function (x, i) { return rowHtml(x, i + 1); }).join('') + '</tbody></table></div>'
+          : '<div class="ib-empty">No places in this tier under these settings.</div>') +
+        '</section>';
     }
 
-    function renderRegionNeed(region, onList) {
-      const box = document.getElementById('regionNeed');
-      // A short status is announced; the table itself stays out of the live region.
-      const status = document.getElementById('regionNeedStatus');
-      if (region === 'any') { box.hidden = true; box.innerHTML = ''; status.textContent = ''; return; }
-      box.hidden = false;
-      box.innerHTML = '<p>Loading every place in ' + esc(region) + '…</p>';
-      loadRanking().then(idx => {
-        if (document.getElementById('filterRegion').value !== region) return;   // the reader moved on
-        const rows = ((idx && idx.rankings) || [])
-          .filter(r => r.region === region && r.type !== 'county' && r.metrics && r.metrics.overall_need_score != null)
-          .sort((a, b) => b.metrics.overall_need_score - a.metrics.overall_need_score);
-        const counties = ((idx && idx.rankings) || []).filter(r => r.region === region && r.type === 'county');
-        const names = {};
-        counties.forEach(c => { names[c.geoid] = c.name; });
-        status.textContent = rows.length ? region + ': ' + rows.length + ' places ranked by housing need, below the shortlist.' : region + ': the housing needs ranking could not be loaded.';
-        box.innerHTML = '<h2>' + esc(region) + ': every town ranked by housing need</h2>' +
-          '<p>' + (onList ? onList + ' place' + (onList === 1 ? ' is' : 's are') + ' on the shortlist above. '
-            : 'No place in ' + esc(region) + ' makes the shortlist above under these settings (it covers only places with a policy record). ') +
-          'This list ranks all ' + rows.length + ' towns and communities in the region' +
-          (counties.length ? ' (' + counties.length + ' counties)' : '') +
-          ' by the need score from the housing needs assessment, highest first. Open a report to check the place before outreach.</p>' +
-          (rows.length ? '<div class="ib-region-wrap"><table><thead><tr>' +
-            '<th class="num" data-tip="Order by need score within the region, 1 = highest need">Rank</th>' +
-            '<th data-tip="Town or Census community, linked to its report">Place</th>' +
-            '<th data-tip="The county the place sits in">County</th>' +
-            '<th class="num" data-tip="Overall housing need score, 0 to 100, from the housing needs assessment ranking">Need score</th>' +
-            '<th class="num" data-tip="Low-wage jobs in the place minus homes affordable at 60% of area income">Workforce gap (homes)</th>' +
-            '<th class="num" data-tip="Year of the most recent tax credit award inside the place">Last tax credit award</th>' +
-            '</tr></thead><tbody>' +
-            rows.map((r, i) => '<tr><td class="num">' + (i + 1) + '</td>' +
-              '<td><a href="developer-brief.html?geoid=' + esc(r.geoid) + '">' + esc(r.name) + '</a></td>' +
-              '<td>' + esc(names[r.containingCounty] || '—') + '</td>' +
-              '<td class="num">' + esc(Math.round(r.metrics.overall_need_score)) + '</td>' +
-              '<td class="num">' + (r.metrics.workforce_gap_units != null ? esc(Math.round(r.metrics.workforce_gap_units).toLocaleString('en-US')) : '—') + '</td>' +
-              '<td class="num">' + esc(r.metrics.latest_lihtc_year || '—') + '</td></tr>').join('') +
-            '</tbody></table></div>'
-            : '<p>The housing needs ranking could not be loaded.</p>');
-      });
+    function rowHtml(x, rank) {
+      var p = x.p, s = x.s;
+      var sub = [p.type === 'county' ? 'County' : p.type === 'cdp' ? 'Census community' : null, p.countyName && p.type !== 'county' ? p.countyName : null,
+        p.population != null ? Number(p.population).toLocaleString('en-US') + ' people' : null, p.region !== 'other' ? p.region : null].filter(Boolean).join(' · ');
+      return '<tr>' +
+        '<td class="num ib-rank">' + rank + '</td>' +
+        '<td class="ib-place"><a href="developer-brief.html?geoid=' + esc(p.geoid) + '">' + esc(p.name) + '</a><span class="ib-sub">' + esc(sub) + '</span>' +
+          '<a class="ib-action" href="developer-brief.html?geoid=' + esc(p.geoid) + '">Open report</a>' +
+          '<div class="ib-row-pipeline" data-pab-mount data-geoid="' + esc(p.geoid) + '" data-name="' + esc(p.name) + '" data-score="' + s.score + '" data-confidence="' + esc(s.confidence.toLowerCase()) + '"></div></td>' +
+        '<td class="num" data-label="Score"><span class="ib-score">' + s.score + '</span></td>' +
+        '<td data-label="Confidence">' + esc(s.confidence) + ' <span class="ib-sub">' + Math.round(s.checkedShare * 100) + '% of weight checked</span></td>' +
+        '<td class="ib-reason">' + esc(s.reason) + breakdownHtml(p, s) + '</td>' +
+        '<td class="num" data-label="Signals">' + (p.signals.length ? '<span class="ib-tag ib-tag-good">+' + s.signalPoints + '</span>' : '0') + '</td>' +
+        '<td class="num" data-label="Red flags">' + (p.flags.length ? '<span class="ib-tag ib-tag-warn">' + p.flags.length + ' (−' + s.flagPoints + ')</span>' : '0') + '</td>' +
+        '</tr>';
+    }
+
+    function breakdownHtml(p, s) {
+      var rows = s.parts.filter(function (x) { return x.weight > 0; }).map(function (x) {
+        var F = W.FACTORS[x.id], f = x.factor;
+        var src = f.url || (F.source && F.source.url);
+        var srcLabel = F.source ? F.source.label : 'Colorado Secretary of State, official results';
+        return '<tr><td>' + (src ? '<a href="' + esc(src) + '" target="_blank" rel="noopener" title="' + esc(srcLabel) + '">' + esc(F.label) + '</a>' : esc(F.label)) + '<span class="ib-sub">' + esc(srcLabel) + '</span></td>' +
+          '<td' + (f.points == null ? ' class="unk"' : '') + '>' + esc(f.value) + (f.quote ? '<span class="ib-sub">Source line: “' + esc(f.quote) + '”</span>' : '') +
+          (f.evidence && f.evidence.length ? '<span class="ib-sub">Status evidence: ' + f.evidence.map(function (e) {
+            return '<a href="' + esc(e.url) + '" target="_blank" rel="noopener">' + esc(e.title || e.url) + '</a>';
+          }).join('; ') + '</span>' : '') + '</td>' +
+          '<td class="num" data-label="Points">' + (f.points == null ? '<span class="unk">not checked</span>' : esc(f.points) + ' / 10') + '</td>' +
+          '<td class="num" data-label="Weight">' + (Math.round(x.weight * 10) / 10) + '</td></tr>';
+      }).join('');
+      var sig = p.signals.length ? '<p><strong>Signals</strong></p><ul>' + p.signals.map(function (g) {
+        return '<li>' + esc(g.date) + ': ' + (g.url ? '<a href="' + esc(g.url) + '" target="_blank" rel="noopener">' + esc(g.text) + '</a>' : esc(g.text)) + ' (+' + g.points + ')</li>';
+      }).join('') + '</ul>' : '';
+      var flg = p.flags.length ? '<p><strong>Red flags</strong></p><ul>' + p.flags.map(function (g) {
+        return '<li>' + esc(g.date) + ': ' + (g.url ? '<a href="' + esc(g.url) + '" target="_blank" rel="noopener">' + esc(g.text) + '</a>' : esc(g.text)) + ' (−15)</li>';
+      }).join('') + '</ul>' : '';
+      return '<details class="ib-why"><summary>Show the ' + s.nFactors + ' factors</summary>' +
+        '<table data-no-sort><thead><tr><th data-tip="What is measured, linked to its source">Factor</th><th data-tip="The figure or record behind the points">What we found</th>' +
+        '<th class="num" data-tip="Points by the rule in How the score works">Points</th><th class="num" data-tip="Your slider for the group, split evenly across its factors">Weight</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+        '<p class="ib-sub">' + s.base + ' from factors' + (s.signalPoints ? ' + ' + s.signalPoints + ' signals' : '') + (s.flagPoints ? ' − ' + s.flagPoints + ' red flags' : '') + ' = ' + s.exact + (s.exact !== s.score ? ', shown as ' + s.score : '') + '.</p>' +
+        sig + flg + '</details>';
+    }
+
+    function renderMethods(docs) {
+      function asOf(v) { return v ? String(v).slice(0, 10) : 'date not stated'; }
+      var dates = {
+        prop123: asOf(docs.prop123 && docs.prop123.updated),
+        approvals: asOf(docs.support && docs.support.meta && docs.support.meta.as_of),
+        incentives: asOf(docs.fees && docs.fees.meta && docs.fees.meta.as_of),
+        localFund: asOf(docs.funds && docs.funds.meta && docs.funds.meta.as_of),
+        basisBoost: asOf(docs.ranking.metadata && docs.ranking.metadata.generatedAt),
+        need: asOf(docs.ranking.metadata && docs.ranking.metadata.generatedAt),
+        amenities: asOf(docs.ranking.metadata && docs.ranking.metadata.generatedAt),
+        landBank: asOf(docs.awards && docs.awards.meta && docs.awards.meta.generated) + (docs.lbStatus ? '; status ' + asOf(docs.lbStatus.meta.generated_from && docs.lbStatus.meta.generated_from.research_checked) : '; status file not loaded, so land is not scored'),
+        rentCushion: asOf(docs.hud && docs.hud.meta && docs.hud.meta.generated) + (docs.hud && docs.hud.meta ? ' (FMR FY' + docs.hud.meta.fiscal_year + ', income limits FY' + docs.hud.meta.income_limits_fiscal_year + ')' : ''),
+        parks: 'OpenStreetMap file ' + asOf(docs.context && docs.context.meta && docs.context.meta.parks_generated),
+        prop123Vote: 'certified 2022 results, read ' + asOf(docs.context && docs.context.meta && docs.context.meta.votes_retrieved),
+        presVote: 'certified 2024 results, read ' + asOf(docs.context && docs.context.meta && docs.context.meta.votes_retrieved)
+      };
+      var votes = (docs.context && docs.context.votes) || {};
+      var voteSrc = { prop123Vote: votes.prop123_2022 && votes.prop123_2022.source_url, presVote: votes.president_2024 && votes.president_2024.source_url };
+      var rows = W.GROUPS.map(function (g) {
+        return g.factors.map(function (id) {
+          var F = W.FACTORS[id];
+          var url = F.source ? F.source.url : voteSrc[id];
+          var label = F.source ? F.source.label : 'Colorado Secretary of State, official results';
+          return '<tr><td>' + esc(g.label) + '</td><td>' + esc(F.label) + '</td><td>' + esc(F.rule) + '</td>' +
+            '<td>' + (url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(label) + '</a>' : esc(label)) + '</td><td>' + esc(dates[id]) + '</td></tr>';
+        }).join('');
+      }).join('');
+      document.getElementById('methodsBody').innerHTML =
+        '<p><strong>The score.</strong> Each factor earns 0 to 10 points by the rule below. Your slider for a group is split evenly across its factors. ' +
+        'Score = (weight × points) ÷ (weight × 10), added over checked factors only, × 100; then signals are added and red flags taken off, held to 0 to 100. No other multiplier.</p>' +
+        '<p><strong>Not yet checked is never a zero.</strong> Fee incentives, local money and council approvals have been read for only some places (' +
+        countRead(docs) + '). Where nobody has read them yet, the factor is left out of the score and lowers confidence instead.</p>' +
+        '<p><strong>Confidence.</strong> ' + esc(W.RULES.confidence) + '</p>' +
+        '<p><strong>Tiers.</strong> ' + esc(W.RULES.tiers) + '</p>' +
+        '<p><strong>Signals.</strong> ' + esc(W.RULES.signal) + '</p>' +
+        '<p><strong>Red flags.</strong> ' + esc(W.RULES.flag) + ' Moratoria, ballot reversals, lawsuits and fair housing findings are not tracked yet.</p>' +
+        '<p><strong>Votes</strong> are county results, so every town in a county shows its county\'s figure. They are the official certified count, shown as a share, with no party labels on rows.</p>' +
+        '<div class="ib-table-wrap"><table><thead><tr><th data-tip="The slider this factor belongs to">Group</th><th data-tip="What is measured">Factor</th>' +
+        '<th data-tip="How the 0 to 10 points are given">Rule</th><th data-tip="Public source">Source</th><th data-tip="Date of the copy this page reads">As of</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+        '<p>Not scored yet: foundations and other funders by area, trails and public lands, town-level vote results, and red flags beyond recorded denials.</p>';
+    }
+    function countRead(docs) {
+      var cov = (docs.coverage && docs.coverage.jurisdictions || []).length;
+      var sup = (docs.support && docs.support.jurisdictions || []).length;
+      return 'incentives ' + cov + ' places, council records ' + sup;
     }
 
     function wirePipelineButtons() {
       if (!window.PipelineAddButton || !window.PipelineStore) return;
-      var mounts = document.querySelectorAll('[data-pab-mount]');
-      Array.prototype.forEach.call(mounts, function (el) {
+      // One tracker load per page view, shared by every render; each button's own load then reads the cache.
+      if (!trackerLoad) trackerLoad = Promise.resolve(window.PipelineStore.loadCanonical()).catch(function () {});
+      trackerLoad.then(mountPipelineButtons);
+    }
+
+    function mountPipelineButtons() {
+      Array.prototype.forEach.call(document.querySelectorAll('[data-pab-mount]'), function (el) {
         var geoid = el.getAttribute('data-geoid');
-        var name  = el.getAttribute('data-name');
+        var name = el.getAttribute('data-name');
         if (!geoid || !name) return;
         var score = parseFloat(el.getAttribute('data-score'));
-        var conf  = el.getAttribute('data-confidence') || 'medium';
+        var conf = el.getAttribute('data-confidence') || '';
+        // The pipeline's IOI and confidence fields have their own meanings (the Opportunity Finder composite
+        // and the pipeline rubric), so this page's slider-weighted score goes in the notes, not in those fields.
         try {
           window.PipelineAddButton.attach(el, {
             jurisdiction: name,
-            geoid:        geoid,
+            geoid: geoid,
+            idPrefix: 'wtb-' + geoid,
             defaults: {
-              stage:      'Signal',
-              ioi_score:  Number.isFinite(score) ? Math.round(score) : '',
-              confidence: conf,
-              notes:      'From Where Should I Build · ' + name
+              stage: 'Signal',
+              notes: 'From Where Should I Build · ' + name +
+                (Number.isFinite(score) ? ' · score ' + Math.round(score) + (conf ? ' (' + conf + ' confidence)' : '') +
+                  ' with the weights set on ' + TODAY : '')
             }
           });
-        } catch (_) { /* never break the lens */ }
+        } catch (_) { /* never break the page */ }
       });
     }
-
-    function tierBlock(n, label, rows, helper) {
-      const badges = { 1: 'TARGET', 2: 'PROMISING', 3: 'MONITOR' };
-      return `
-        <div class="ib-tier ib-tier-${n}">
-          <div class="ib-tier-header">
-            <span class="badge">${badges[n]}</span>
-            <h2>${esc(label)}</h2>
-            <span class="count">${rows.length} jurisdictions</span>
-          </div>
-          ${rows.length ? rows.map((r, i) => `
-            <div class="ib-row">
-              <div class="ib-row-rank">${i + 1}</div>
-              <div>
-                <div class="ib-row-name"><a href="developer-brief.html?geoid=${esc(r.geoid)}">${esc(r.name)}</a></div>
-                <div class="ib-row-reasons">
-                  ${r.reasons.slice(0, 4).map(x => `<span class="why why-${esc(x.cls)}">${esc(x.tag)}</span>`).join('')}
-                  ${r.region !== 'other' ? `<span class="why">${esc(r.region)}</span>` : ''}
-                </div>
-              </div>
-              <div>
-                <div class="ib-row-score">${esc(r.score)}</div>
-                <div class="ib-row-conf">${esc(r.confidence)}</div>
-              </div>
-              <a class="ib-row-action" href="developer-brief.html?geoid=${esc(r.geoid)}">Open report →</a>
-              <!-- F162 — per-row pipeline mount. Hydrated by wirePipelineButtons() below.
-                   Data attributes carry the row state so the hydrator stays stateless. -->
-              <div class="ib-row-pipeline"
-                   data-pab-mount
-                   data-geoid="${esc(r.geoid)}"
-                   data-name="${esc(r.name)}"
-                   data-score="${esc(r.score)}"
-                   data-confidence="${esc(r.confidence)}"></div>
-            </div>
-          `).join('') : `<div class="ib-empty">${esc(helper)}<br><em>No jurisdictions match.</em></div>`}
-        </div>
-      `;
-    }
-
-    ['filterProduct','filterRegion','filterHours','filterLensConf'].forEach(id => {
-      document.getElementById(id).addEventListener('change', render);
-    });
-
-    render();
-  }).catch(err => {
+  }).catch(function (err) {
     document.getElementById('tiers').innerHTML = '<div class="ib-empty">Error loading data: ' + esc(err.message) + '</div>';
+    document.getElementById('summary').innerHTML = '<p>The ranking could not be loaded.</p>';
   });
-
-  function countyFor(geoid, placeCounty) {
-    if (geoid.length === 5) return geoid;
-    return placeCounty[geoid] || null;
-  }
 
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 })();

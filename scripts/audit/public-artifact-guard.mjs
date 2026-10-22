@@ -42,6 +42,7 @@ const FORBIDDEN_PATHS = [
   'developer-submittal-review.html',
   'js/indibuild-gate.js',
   'js/developer-gate.js',
+  'js/where-to-build.js',
   'docs/indibuild-pipeline-prototype',
   'docs/developer-pipeline-prototype',
   'docs/security',
