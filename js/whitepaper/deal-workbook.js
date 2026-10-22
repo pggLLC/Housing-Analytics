@@ -61,7 +61,7 @@
     }
     return {
       vacancy: rule('pro_forma_vacancy', 'rate'), rentGrowth: rule('pro_forma_rent_growth', 'rate'),
-      expGrowth: rule('pro_forma_expense_growth', 'rate'), opex: rule('pupa_minimum', 'per_unit_annual'),
+      expGrowth: rule('pro_forma_expense_growth', 'rate'), opex: rule('pupa_minimum', 'per_unit_annual'), opexSection8: rule('pupa_minimum', 'per_unit_annual_section8'),
       reserve: rule('replacement_reserve_minimum', 'family_per_unit_annual'), reserveSenior: rule('replacement_reserve_minimum', 'senior_per_unit_annual'),
       dscr: rule('min_debt_coverage', 'min_coverage'), high: rule('high_coverage_credit_reduction', 'threshold')
     };
@@ -229,6 +229,8 @@
 
     var o = m.operating;
     if (min.opex && o.opexPerUnit != null && o.opexPerUnit < min.opex.value) out.push({ level: 'bad', text: 'Operating cost of ' + money(o.opexPerUnit) + ' a unit is under CHFA\'s ' + money(min.opex.value) + ' minimum.', source: min.opex });
+    // The calculator does not record project-based Section 8, so a cost between the two minimums is flagged, not passed.
+    else if (min.opex && min.opexSection8 && o.opexPerUnit != null && o.opexPerUnit < min.opexSection8.value) out.push({ level: 'warn', text: 'Operating cost of ' + money(o.opexPerUnit) + ' a unit meets CHFA\'s ' + money(min.opex.value) + ' minimum but not the ' + money(min.opexSection8.value) + ' it requires for project-based Section 8. Confirm the deal has no project-based Section 8.', source: min.opexSection8 });
     var resMin = min.reserve;
     // The calculator does not record whether a deal is senior housing, so the family minimum applies.
     if (resMin && o.reservePerUnit != null && o.reservePerUnit < resMin.value) out.push({ level: 'bad', text: 'Replacement reserve of ' + money(o.reservePerUnit) + ' a unit is under CHFA\'s ' + money(resMin.value) + ' family minimum' +
@@ -359,7 +361,7 @@
     // Operating
     var o = m.operating, mn = o.min;
     var opRows = [
-      ['Operating cost a home a year (before reserves and tax)', money(o.opexPerUnit), mn.opex ? money(mn.opex.value) + ' minimum' : '—'],
+      ['Operating cost a home a year (before reserves and tax)', money(o.opexPerUnit), mn.opex ? money(mn.opex.value) + ' minimum' + (mn.opexSection8 ? ' (' + money(mn.opexSection8.value) + ' with project-based Section 8)' : '') : '—'],
       ['Replacement reserve a home a year', money(o.reservePerUnit), mn.reserve ? money(mn.reserve.value) + ' family, ' + (mn.reserveSenior ? money(mn.reserveSenior.value) + ' senior' : '') : '—'],
       ['Property tax a home a year', money(o.taxPerUnit), ''],
       ['Vacancy', pct(o.vacancy, 1), mn.vacancy ? pct(mn.vacancy.value) + ' minimum' : '—'],
