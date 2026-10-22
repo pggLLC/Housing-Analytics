@@ -379,7 +379,9 @@
         (model.missing.length ? '<p><strong>Some data did not load:</strong> ' + esc(model.missing.join(', ')) + '. Those factors show as not checked and confidence is lower. Reload the page to try again.</p>' : '') +
         '<p><strong>' + tiers[1].length + ' Target, ' + tiers[2].length + ' Promising and ' + tiers[3].length + ' Monitor</strong> places under these settings' +
         (below ? '; ' + below + ' more score under 35 and are left off' : '') + '.</p>' +
-        (top ? '<p>Start with <a href="developer-brief.html?geoid=' + esc(top.p.geoid) + '"><strong>' + esc(top.p.name) + '</strong></a> (' + top.s.score + ', ' + top.s.confidence.toLowerCase() + ' confidence): ' + esc(top.s.reason) + '</p>' : '<p>No place matches these filters. Widen the region, kind of place or population range.</p>');
+        (top ? '<p>Start with <a href="developer-brief.html?geoid=' + esc(top.p.geoid) + '"><strong>' + esc(top.p.name) + '</strong></a> (' + top.s.score + ', ' + top.s.confidence.toLowerCase() + ' confidence): ' + esc(top.s.reason) + '</p>'
+          : shown.length ? '<p>Every matching place scores under 35 with these weights. Raise the weights on the groups that matter to you, or pick a preset.</p>'
+          : '<p>No place matches these filters. Widen the region, kind of place or population range.</p>');
 
       document.getElementById('tiers').innerHTML =
         tierBlock(1, 'Tier 1: Target', tiers[1], maxRows, 'Score 70 or more, not low confidence. Open the report and draft outreach this week.') +
@@ -519,6 +521,7 @@
           window.PipelineAddButton.attach(el, {
             jurisdiction: name,
             geoid: geoid,
+            idPrefix: 'wtb-' + geoid,
             defaults: {
               stage: 'Signal',
               notes: 'From Where Should I Build · ' + name +

@@ -10,6 +10,7 @@
  *   PipelineAddButton.attach(container, {
  *     jurisdiction: 'New Castle',
  *     geoid:        '0853395',
+ *     idPrefix:     'row-0853395',   // optional; keeps form ids unique when one page mounts many
  *     defaults: {
  *       stage:          'Signal',     // optional pre-fill
  *       ioi_score:      71,
@@ -127,8 +128,10 @@
     var conf  = val('confidence', 'medium');
     var clazz = val('classification', 'C');
 
+    // opts.idPrefix keeps ids unique when a page mounts one form per row.
+    var idPrefix = opts.idPrefix ? String(opts.idPrefix).replace(/[^a-z0-9_-]/gi, '-') + '-' : '';
     function fieldId(name) {
-      return 'pab-field-' + String(name).replace(/[^a-z0-9_-]/gi, '-');
+      return 'pab-field-' + idPrefix + String(name).replace(/[^a-z0-9_-]/gi, '-');
     }
 
     function selectHtml(name, options, current, label) {
@@ -144,48 +147,48 @@
       '<div class="pab-form" data-pab-form>' +
         '<div class="pab-form__grid">' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label" for="pab-field-jurisdiction">Jurisdiction</label>' +
-            '<input class="pab-form__input" id="pab-field-jurisdiction" name="jurisdiction" value="' + _esc(val('jurisdiction', opts.jurisdiction || '')) + '" required>' +
+            '<label class="pab-form__label" for="' + fieldId('jurisdiction') + '">Jurisdiction</label>' +
+            '<input class="pab-form__input" id="' + fieldId('jurisdiction') + '" name="jurisdiction" value="' + _esc(val('jurisdiction', opts.jurisdiction || '')) + '" required>' +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label" for="pab-field-geoid">GEOID</label>' +
-            '<input class="pab-form__input" id="pab-field-geoid" name="geoid" value="' + _esc(val('geoid', opts.geoid || '')) + '" required>' +
+            '<label class="pab-form__label" for="' + fieldId('geoid') + '">GEOID</label>' +
+            '<input class="pab-form__input" id="' + fieldId('geoid') + '" name="geoid" value="' + _esc(val('geoid', opts.geoid || '')) + '" required>' +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label" for="pab-field-stage">Stage</label>' +
+            '<label class="pab-form__label" for="' + fieldId('stage') + '">Stage</label>' +
             selectHtml('stage', window.PipelineStore.STAGES, stage, 'Stage') +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label" for="pab-field-ioi_score">IOI score</label>' +
-            '<input class="pab-form__input" id="pab-field-ioi_score" type="number" min="0" max="100" name="ioi_score" value="' + _esc(val('ioi_score', '')) + '">' +
+            '<label class="pab-form__label" for="' + fieldId('ioi_score') + '">IOI score</label>' +
+            '<input class="pab-form__input" id="' + fieldId('ioi_score') + '" type="number" min="0" max="100" name="ioi_score" value="' + _esc(val('ioi_score', '')) + '">' +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label" for="pab-field-confidence">Confidence</label>' +
+            '<label class="pab-form__label" for="' + fieldId('confidence') + '">Confidence</label>' +
             selectHtml('confidence', window.PipelineStore.CONFIDENCES, conf, 'Confidence') +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label" for="pab-field-classification">Classification</label>' +
+            '<label class="pab-form__label" for="' + fieldId('classification') + '">Classification</label>' +
             selectHtml('classification', window.PipelineStore.CLASSIFICATIONS, clazz, 'Classification') +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label" for="pab-field-product_type">Product type</label>' +
-            '<input class="pab-form__input" id="pab-field-product_type" name="product_type" value="' + _esc(val('product_type', '')) + '" placeholder="9% LIHTC / Workforce / ...">' +
+            '<label class="pab-form__label" for="' + fieldId('product_type') + '">Product type</label>' +
+            '<input class="pab-form__input" id="' + fieldId('product_type') + '" name="product_type" value="' + _esc(val('product_type', '')) + '" placeholder="9% LIHTC / Workforce / ...">' +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label" for="pab-field-last_update">Last update</label>' +
-            '<input class="pab-form__input" id="pab-field-last_update" type="date" name="last_update" value="' + _esc(val('last_update', _todayIso())) + '">' +
+            '<label class="pab-form__label" for="' + fieldId('last_update') + '">Last update</label>' +
+            '<input class="pab-form__input" id="' + fieldId('last_update') + '" type="date" name="last_update" value="' + _esc(val('last_update', _todayIso())) + '">' +
           '</div>' +
           '<div class="pab-form__field pab-form__row">' +
-            '<label class="pab-form__label" for="pab-field-next_action">Next action</label>' +
-            '<input class="pab-form__input" id="pab-field-next_action" name="next_action" value="' + _esc(val('next_action', '')) + '">' +
+            '<label class="pab-form__label" for="' + fieldId('next_action') + '">Next action</label>' +
+            '<input class="pab-form__input" id="' + fieldId('next_action') + '" name="next_action" value="' + _esc(val('next_action', '')) + '">' +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label" for="pab-field-next_action_due">Next action due</label>' +
-            '<input class="pab-form__input" id="pab-field-next_action_due" type="date" name="next_action_due" value="' + _esc(val('next_action_due', '')) + '">' +
+            '<label class="pab-form__label" for="' + fieldId('next_action_due') + '">Next action due</label>' +
+            '<input class="pab-form__input" id="' + fieldId('next_action_due') + '" type="date" name="next_action_due" value="' + _esc(val('next_action_due', '')) + '">' +
           '</div>' +
           '<div class="pab-form__field pab-form__row">' +
-            '<label class="pab-form__label" for="pab-field-notes">Notes</label>' +
-            '<textarea class="pab-form__textarea" id="pab-field-notes" name="notes">' + _esc(val('notes', '')) + '</textarea>' +
+            '<label class="pab-form__label" for="' + fieldId('notes') + '">Notes</label>' +
+            '<textarea class="pab-form__textarea" id="' + fieldId('notes') + '" name="notes">' + _esc(val('notes', '')) + '</textarea>' +
           '</div>' +
         '</div>' +
         '<div class="pab-form__actions">' +
