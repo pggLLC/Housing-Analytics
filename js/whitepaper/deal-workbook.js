@@ -558,11 +558,11 @@
     });
   }
 
-  function start(doc) {
+  function start(doc, waitMs) {
     var $ = function (id) { return doc.getElementById(id); };
-    var tok = 0;
+    var tok = 0, wait = waitMs || 20000;
     // Every workbook waits for the rules request to settle, so a fast calculator never builds without them.
-    var rulesReady = settleWithin(fetch(RULES_URL).then(function (r) { return r.ok ? r.json() : null; }), 20000);
+    var rulesReady = settleWithin(fetch(RULES_URL).then(function (r) { return r.ok ? r.json() : null; }), wait);
     function status(t) { $('wbStatus').textContent = t; }
     function api(path) {
       return fetch(API + path, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); });
@@ -609,13 +609,16 @@
       var deal = $('wbDeals').value, v = $('wbVersions').value;
       if (!deal || !v) { status('Choose a deal and a version.'); return; }
       var gen = take(), name = $('wbDeals').selectedOptions[0].textContent;
-      api('?deal=' + encodeURIComponent(deal) + '&v=' + encodeURIComponent(v)).then(function (x) {
+      status('Loading that saved version…');
+      // A stalled or failed request settles as null, so the page says so instead of staying blank.
+      settleWithin(api('?deal=' + encodeURIComponent(deal) + '&v=' + encodeURIComponent(v)), wait).then(function (x) {
         // Another deal was opened, or the choice changed, while this one loaded.
         if (gen !== tok || $('wbDeals').value !== deal || $('wbVersions').value !== v) return;
+        if (x == null) { status('That version did not load. Try again, or use a share link or Export JSON file.'); return; }
         var q = queryFrom(x);
         if (!q) { status('That version was saved without a Deal Calculator export. Open it in Submittal review, load an export, and save again.'); return; }
         open(q, name, gen);
-      }, function () { if (gen === tok) status('That version did not load.'); });
+      });
     });
     $('wbOpenLink').addEventListener('click', function () { open(queryFrom($('wbLink').value), null); });
     $('wbFile').addEventListener('change', function () {

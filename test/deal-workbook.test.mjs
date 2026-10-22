@@ -295,6 +295,14 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   el('wbOpenSaved').handlers.click();
   await new Promise((r) => setTimeout(r, 0));
   ok(el('wbOut').innerHTML === '' && el('wbPrint').hidden && /That version did not load/.test(el('wbStatus').textContent), 'a saved version that fails clears the last deal');
+  // A saved version whose request never answers says it is loading, then that it did not load.
+  globalThis.fetch = () => new Promise(() => {});
+  for (const k of Object.keys(els)) els[k].handlers = {};
+  WB.start(doc, 30);
+  el('wbOpenSaved').handlers.click();
+  ok(/Loading that saved version/.test(el('wbStatus').textContent), 'a saved version says it is loading');
+  await new Promise((r) => setTimeout(r, 60));
+  ok(/That version did not load/.test(el('wbStatus').textContent), 'a saved version that never answers times out and says so');
   globalThis.fetch = saved.fetch; if (saved.window === undefined) delete globalThis.window; else globalThis.window = saved.window;
 }
 const feeOpen = mut0((s) => { s.permanentFinancing.deferredDevFee = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { deferredDevFee: 'Operating inputs are incomplete.' }); });
