@@ -112,6 +112,7 @@ ok(!/Year-one coverage/.test(texts(m)), 'year-one coverage of 1.20 is not flagge
 ok(/bad: 60% AMI 2BR rent of \$1,600 is \$51 over/.test(texts(mut((s) => { s.result.pricedRows.find((x) => x.tier === 60).contractRent = 1600; }))), 'a rent over its limit is flagged');
 const noPay = mut((s) => { s.result.exit.dfYr = null; s.result.projection.rows.forEach((y) => { y.deferredFeePaid = 10000; }); });
 ok(/bad: The deferred fee is not paid off in 15 years: \$610,000 of \$760,000/.test(texts(noPay)), 'an unpaid deferred fee is flagged with what is still owed');
+ok(/\$610,000 still owed at year 15/.test(WB.render(noPay)) && !/paid off<\/div>/.test(WB.render(noPay)), 'the fee tile calls an unpaid fee owed, not paid off');
 const unknownFee = mut((s) => { s.result.exit.dfYr = null; s.result.projection.rows[11].deferredFeePaid = null; s.result.projection.rows[11].unavailableReason = 'loan matured'; });
 ok(/warn: Whether the deferred fee is paid off in 15 years is not known: year 12 is not projected \(loan matured\)/.test(texts(unknownFee)) && !/Not in 15 yrs/.test(WB.render(unknownFee)), 'an incomplete cash flow leaves the fee payoff unknown, not unpaid');
 const balloon = mut((s) => { const l = s.result.obligations.loans.find((x) => x.senior); l.maturity = 10; l.rows[9].maturityDue = 2800000; l.rows.slice(10).forEach((x) => { x.balance = null; }); });

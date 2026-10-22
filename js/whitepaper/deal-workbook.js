@@ -303,7 +303,9 @@
       tile(e.gap == null ? '—' : esc(money(e.gap)), e.gap == null ? 'Funding gap: ' + esc(e.gapReason || 'not available') : 'Funding gap after every modeled source', e.gap > 0.5 ? 'sr-bad' : 'sr-ok') +
       tile(w ? esc(ratio(w.ratio)) : '—', w ? 'Weakest debt coverage, all must-pay debt (year ' + w.year + ')' : 'Debt coverage: ' + esc(e.coverageReason || 'not available'), w && minDscr != null ? (w.ratio < minDscr ? 'sr-bad' : e.coverageFull ? 'sr-ok' : '') : '') +
       tile(e.paybackYear != null ? 'Year ' + e.paybackYear : (e.deferredFee && e.owedAt15 != null ? 'Not in 15 yrs' : '—'),
-        !e.deferredFee ? 'No deferred developer fee' : e.paybackYear == null && e.owedAt15 == null ? 'Deferred fee payoff: not known, ' + esc(e.payoffReason || 'cash flow incomplete') : 'Deferred fee of ' + esc(money(e.deferredFee)) + ' paid off',
+        !e.deferredFee ? 'No deferred developer fee' : e.paybackYear != null ? 'Deferred fee of ' + esc(money(e.deferredFee)) + ' paid off' :
+          e.owedAt15 != null ? 'Deferred fee of ' + esc(money(e.deferredFee)) + ': ' + esc(money(e.owedAt15)) + ' still owed at year 15' :
+          'Deferred fee payoff: not known, ' + esc(e.payoffReason || 'cash flow incomplete'),
         e.deferredFee && e.paybackYear == null && e.owedAt15 != null ? 'sr-bad' : '') +
       '</div>';
     var top = m.findings.filter(function (f) { return f.level !== 'ok'; });
@@ -519,9 +521,10 @@
     });
     $('wbOpenLink').addEventListener('click', function () { open(queryFrom($('wbLink').value), null); });
     $('wbFile').addEventListener('change', function () {
-      var file = $('wbFile').files[0]; if (!file) return;
+      var file = $('wbFile').files[0], gen = tok; if (!file) return;
       file.text().then(function (t) {
-        if ($('wbFile').files[0] !== file) return; // another file was picked while this one was read
+        // Another file was picked, or another deal opened, while this one was read.
+        if ($('wbFile').files[0] !== file || gen !== tok) return;
         var j; try { j = JSON.parse(t); } catch (e) { status('That file is not a Deal Calculator export.'); return; }
         if (j && j.dealMode === 'ownership') { status('That export is a for-sale deal. The workbook covers rental tax credit deals.'); return; }
         open(queryFrom(j), file.name.replace(/\.json$/i, ''));
