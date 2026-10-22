@@ -406,6 +406,8 @@ ok(feeOpen.sources.rows.some((x) => x.amount === null && x.label === 'Deferred d
   const res = await win.fetch('data/big.json');
   await new Promise((r) => setTimeout(r, 0));
   ok(win.__dealCalcPendingFetches() === 1, 'a request whose body is still downloading still counts as pending');
+  { const top = { fetch: () => Promise.resolve(new Response('{}')) }; top.parent = top; const orig = top.fetch; new Function('window', src)(top);
+    ok(top.fetch === orig && top.__dealCalcPendingFetches === undefined, 'a calculator opened on its own does not wrap fetch'); }
   release();
   const parsed = await res.json();
   await new Promise((r) => setTimeout(r, 0));

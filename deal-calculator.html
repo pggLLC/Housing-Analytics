@@ -20,11 +20,12 @@
   <link rel="stylesheet" href="css/print.css" media="print">
   <!-- Counts data requests still in flight, so the developer Deal workbook waits for the CHFA and policy
        files before it reads the results. Runs first so every later fetch goes through it. A request counts
-       until its body has fully arrived (read from a clone), not just its headers. -->
+       until its body has fully arrived (read from a clone), not just its headers. Only a framed calculator
+       (the workbook's hidden one) counts, so a normal visit never reads every body twice. -->
   <script>
   (function () {
     var f = window.fetch, n = 0;
-    if (!f) return;
+    if (!f || window.parent === window) return;
     window.fetch = function () {
       n++;
       var done = function () { n--; };
