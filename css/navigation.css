@@ -627,4 +627,15 @@ footer.site-footer .footer-wrap {
   border-radius: 8px;
   font-weight: 600;
 }
-.footer-member-signin { font-weight: 600; }
+/* Between 769px and 1099px this footer link is the only way in, so it keeps
+   a 44px touch target; the negative margin keeps the footer row its height. */
+.footer-member-signin {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: -12px 0;
+  font-weight: 600;
+}
+@media (max-width: 768px) {
+  .footer-about-links a.footer-member-signin { margin: 0; }
+}
