@@ -42,9 +42,12 @@
       },
       {
         "needs_id": "hnaTransitZonePanel",
-        "why": "The HB26-1065 zone note. Only renderTransitZonePanel() reads window.TransitZone, and it returns first when #hnaTransitZoneContent is absent, so views without the panel never call it.",
+        "why": "The HB26-1065 zone note and its map. Only renderTransitZonePanel() reads window.TransitZone and window.TransitZoneMap, and it returns first when #hnaTransitZoneContent is absent, so views without the panel never call them. The map needs Leaflet, so Leaflet is kept on any view with this panel even when the view has no #hnaMap; a file stays when any rule that lists it is met.",
         "files": [
-          "js/transit-zone.js"
+          "js/transit-zone.js",
+          "js/transit-zone-map.js",
+          "js/vendor/leaflet.js",
+          "js/vendor/leaflet.css"
         ]
       },
       {

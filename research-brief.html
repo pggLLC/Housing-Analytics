@@ -159,6 +159,34 @@
         a.href = url.href;
         return a;
       }
+      // The HB26-1065 screen map (js/transit-zone-map.js, the same map as the
+      // needs assessment's transit zone panel). Leaflet and the map script load
+      // only for a brief that has one, so other briefs stay light.
+      function loadAsset(src) {
+        return new Promise(function (resolve, reject) {
+          var tag = /\.css$/.test(src) ? document.createElement('link') : document.createElement('script');
+          if (tag.tagName === 'LINK') { tag.rel = 'stylesheet'; tag.href = src; } else { tag.src = src; }
+          tag.onload = resolve;
+          tag.onerror = function () { reject(new Error(src + ' did not load')); };
+          document.head.appendChild(tag);
+        });
+      }
+      function transitZoneMap(mount) {
+        mount.textContent = 'Loading the transit zone map…';
+        loadAsset('js/vendor/leaflet.css').catch(function () {});
+        loadAsset('js/vendor/leaflet.js')
+          .then(function () { return Promise.all([loadAsset('js/config/basemaps.js'), loadAsset('js/transit-zone-map.js')]); })
+          .then(function () { return readJson('data/policy/thiz-map-status.json'); })
+          .then(function (mapStatus) {
+            return window.TransitZoneMap.render(mount, { geoid: '08', name: 'Colorado', mapStatus: mapStatus });
+          })
+          .catch(function (error) {
+            mount.textContent = '';
+            var p = el('p', 'Map unavailable. ' + error.message, mount, 'brief-note');
+            p.setAttribute('data-tzm-state', 'unavailable');
+          });
+      }
+
       async function readJson(file) {
         try {
           var response = await (window.fetchWithTimeout || window.fetch)(file, {}, 15000);
@@ -249,6 +277,7 @@
             var ul = el('ul', undefined, node);
             item.items.forEach(function (text) { el('li', text, ul); });
           }
+          if (item.map === 'transit-zone-screen') transitZoneMap(el('div', undefined, node, 'brief-map'));
           var spec = item.table;
           if (spec && Array.isArray(spec.columns) && Array.isArray(spec.rows)) {
             // Wide tables scroll inside their own box on a phone instead of widening the page.

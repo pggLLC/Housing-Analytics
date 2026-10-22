@@ -320,10 +320,16 @@ def prune_assets(pages, canonical_src, rules):
 
     for slug, html in pages.items():
         dropped = []
+        # A file two rules list (Leaflet: the main map and the transit zone
+        # map) stays when either rule's element is on the view.
+        needed = {path for rule in rules if f'id="{rule["needs_id"]}"' in html
+                  for path in rule['files']}
         for rule in rules:
             if f'id="{rule["needs_id"]}"' in html:
                 continue
             for path in rule['files']:
+                if path in needed:
+                    continue
                 before = html
                 html = re.sub(
                     r'[ \t]*<(?:script|link)[^>]*"' + re.escape(path) + r'"[^>]*>(?:</script>)?\n?',
