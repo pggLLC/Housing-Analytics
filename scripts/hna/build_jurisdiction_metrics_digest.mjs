@@ -1085,7 +1085,7 @@ function refreshBriefTenureStrategy(ownershipRecords) {
       heading: 'Tenure strategy screening',
       paragraphs: [
         {
-          text: `The Affordable Ownership Need screening module recommends ${own.recommendation} for ${brief.jurisdiction}. It classifies rental pressure as ${own.rental_pressure_tier}, ownership pressure as ${own.ownership_pressure_tier}, and identifies ${fmtNum(own.moderate_income_renter_households)} moderate-income renter households as the ownership-fit base.`,
+          text: `The Affordable Ownership Need screening module recommends ${own.recommendation} for ${brief.jurisdiction}. It classifies rental pressure as ${own.rental_pressure_tier}, ownership pressure as ${own.ownership_pressure_tier}, and counts ${fmtNum(own.moderate_income_renter_households)} renter households earning 51–100% of area median income who might buy if homes were priced for them.`,
           cites: ['own1', 'own2', 'own3', 'own4'],
         },
         {
