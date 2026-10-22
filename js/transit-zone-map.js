@@ -136,11 +136,33 @@
 
   var seq = 0;
   var current = null;   // the live map, removed before the next one is drawn
+  var stopWatching = null;
+
+  // Redraw when the site theme or the OS setting flips, as the main HNA map
+  // does: basemap, swatches and line colours are all theme-dependent.
+  function watchTheme(onFlip) {
+    var was = isDark();
+    function check() { if (isDark() !== was) { was = isDark(); onFlip(); } }
+    var mo = null, mq = null;
+    if (typeof root.MutationObserver === 'function') {
+      mo = new root.MutationObserver(check);
+      mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    }
+    if (root.matchMedia) {
+      mq = root.matchMedia('(prefers-color-scheme: dark)');
+      if (mq.addEventListener) mq.addEventListener('change', check);
+    }
+    return function () {
+      if (mo) mo.disconnect();
+      if (mq && mq.removeEventListener) mq.removeEventListener('change', check);
+    };
+  }
 
   function render(mount, opts) {
     opts = opts || {};
     var mySeq = ++seq;
     if (current) { try { current.remove(); } catch (e) { /* already gone */ } current = null; }
+    if (stopWatching) { stopWatching(); stopWatching = null; }
     if (!mount) return Promise.resolve('unavailable');
     var mapStatus = opts.mapStatus || null;
 
@@ -252,11 +274,13 @@
       // section opening), or Leaflet keeps its first size and leaves part of
       // the map without tiles.
       if (typeof root.ResizeObserver === 'function') {
-        try { new root.ResizeObserver(function () { map.invalidateSize(); }).observe(el); } catch (e) { /* first size stands */ }
+        // Only while this is the live map: a replaced map has no panes left.
+        try { new root.ResizeObserver(function () { if (current === map) map.invalidateSize(); }).observe(el); } catch (e) { /* first size stands */ }
       }
-      setTimeout(function () { map.invalidateSize(); }, 0);
+      setTimeout(function () { if (current === map) map.invalidateSize(); }, 0);
 
       mount.setAttribute('data-tzm-state', 'ok');
+      stopWatching = watchTheme(function () { render(mount, opts); });
       mount.setAttribute('data-tzm-stops-drawn', String(drawn));
       return 'ok';
     }).catch(function (err) {
