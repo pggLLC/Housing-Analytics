@@ -3,7 +3,7 @@
  * Market Intelligence page controller.
  *
  * Data sources (all public — no proprietary API keys required):
- *  - Census ACS 5-year estimates (api.census.gov, public)
+ *  - Census ACS 2020–2024 5-year estimates (api.census.gov, public)
  *  - FRED economic series via data/fred-data.json (fetched by CI)
  *  - CHFA / HUD LIHTC data via data/chfa-lihtc.json (fetched by CI)
  *  - Prop 123 jurisdictions via data/policy/prop123_jurisdictions.json (local)
@@ -112,7 +112,7 @@
   /* ── Fetch all Colorado county Census ACS data ─────────────────── */
   function fetchAllCountyCensus() {
     if (countyAcsCache !== null) return Promise.resolve(countyAcsCache);
-    var url = 'https://api.census.gov/data/2022/acs/acs5' +
+    var url = 'https://api.census.gov/data/2024/acs/acs5' +
       '?get=NAME,B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E,B25070_011E' +
       ',B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E' +
       ',B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E,B25064_001E,B19013_001E' +
@@ -251,7 +251,7 @@
       // B25070: rent burden, B11001: households, B25014: overcrowding,
       // B25002: occupancy status (for vacancy rate), B25064: median gross rent
       return fetchJSON(
-        'https://api.census.gov/data/2022/acs/acs5?get=B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E,B25070_011E,B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E,B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E,B25064_001E&for=state:08'
+        'https://api.census.gov/data/2024/acs/acs5?get=B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E,B25070_011E,B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E,B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E,B25064_001E&for=state:08'
       ).then(function (rows) {
         if (!Array.isArray(rows) || rows.length < 2) return;
         var headers = rows[0];
@@ -544,7 +544,7 @@
       if (currentData.fred) renderRiskKpis(currentData.fred);
       buildCharts();
       buildLihtcTrendChart();
-      setStatus('Statewide (Colorado) · Census ACS 2022 5-Year Estimates.');
+      setStatus('Statewide (Colorado) · Census ACS 2020–2024 5-year estimates.');
       return;
     }
 
@@ -555,7 +555,7 @@
       if (cData) {
         renderDemandKpis(cData, '');
         if (currentData.fred) renderRiskKpis(currentData.fred);
-        setStatus(selectedCounty + ' County · Census ACS 2022 5-Year Estimates. Supply data shows statewide FRED series.');
+        setStatus(selectedCounty + ' County · Census ACS 2020–2024 5-year estimates. Supply data shows statewide FRED series.');
       } else {
         setText('kpiCostBurden', '--');
         setText('kpiSevereBurden', '--');

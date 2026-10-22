@@ -7,7 +7,8 @@
  *   1. Job growth 5y (BLS QCEW)            — higher = stronger demand
  *   2. Population growth 5y (ACS/DOLA)     — higher = stronger demand
  *   3. Inverse unemployment (BLS LAUS)     — lower unemp = stronger
- *   4. Mortgage origination volume per pop — higher = healthier credit
+ *   4. Mortgage originations per 1,000 households (HMDA ÷ ACS households)
+ *      — higher = healthier credit. A raw count would rank counties by size.
  *   5. Inverse denial rate (HMDA)          — lower denial = healthier
  *
  * Output: 0-100 composite where higher = stronger market.
@@ -25,8 +26,10 @@
 
   var INDICATORS_PATH = 'co-county-economic-indicators.json';
   var HMDA_PATH       = 'hmda/co-county-aggregates.json';
+  var DEMOGRAPHICS_PATH = 'co-county-demographics.json';
   var _indicators = null;
   var _hmda = null;
+  var _demographics = null;
   var _loadPromise = null;
 
   function _resolveDataUrl(rel) {
@@ -45,12 +48,13 @@
   }
 
   function init() {
-    if (_indicators && _hmda) return Promise.resolve();
+    if (_indicators && _hmda && _demographics) return Promise.resolve();
     if (_loadPromise) return _loadPromise;
     _loadPromise = Promise.all([
       _fetchJson(_resolveDataUrl(INDICATORS_PATH)).catch(function () { return null; }),
       _fetchJson(_resolveDataUrl(HMDA_PATH)).catch(function () { return null; }),
-    ]).then(function (r) { _indicators = r[0]; _hmda = r[1]; });
+      _fetchJson(_resolveDataUrl(DEMOGRAPHICS_PATH)).catch(function () { return null; }),
+    ]).then(function (r) { _indicators = r[0]; _hmda = r[1]; _demographics = r[2]; });
     return _loadPromise;
   }
 
@@ -74,6 +78,16 @@
     'San Juan':'08111','San Miguel':'08113','Sedgwick':'08115','Summit':'08117',
     'Teller':'08119','Washington':'08121','Weld':'08123','Yuma':'08125',
   };
+
+  /** HMDA originations per 1,000 ACS households; null when either is missing. */
+  function _origPer1k(hmdaRec, name) {
+    if (!hmdaRec || !_demographics || !_demographics.counties) return null;
+    var d = _demographics.counties[name] || _demographics.counties[name.replace(' County', '')];
+    var hh = d ? Number(d.households) : NaN;
+    var orig = Number(hmdaRec.originations);
+    if (!Number.isFinite(hh) || hh <= 0 || !Number.isFinite(orig)) return null;
+    return orig / hh * 1000;
+  }
 
   function _percentile(value, sortedAsc) {
     if (value == null || !Number.isFinite(value) || !sortedAsc.length) return 50;
@@ -105,6 +119,7 @@
         popGrowth:  Number(m.population_growth_5yr_pct),
         unempRate:  Number(m.unemployment_rate),
         origVolume: hmdaRec ? Number(hmdaRec.originations) : null,
+        origPer1k:  _origPer1k(hmdaRec, name),
         denialRate: hmdaRec ? Number(hmdaRec.denial_rate)  : null,
       };
     });
@@ -112,14 +127,14 @@
     var sortedJob   = counties.map(c => c.jobGrowth).filter(v => Number.isFinite(v)).sort((a,b)=>a-b);
     var sortedPop   = counties.map(c => c.popGrowth).filter(v => Number.isFinite(v)).sort((a,b)=>a-b);
     var sortedUnemp = counties.map(c => c.unempRate).filter(v => Number.isFinite(v)).sort((a,b)=>a-b);
-    var sortedOrig  = counties.map(c => c.origVolume).filter(v => Number.isFinite(v)).sort((a,b)=>a-b);
+    var sortedOrig  = counties.map(c => c.origPer1k).filter(v => Number.isFinite(v)).sort((a,b)=>a-b);
     var sortedDen   = counties.map(c => c.denialRate).filter(v => Number.isFinite(v)).sort((a,b)=>a-b);
 
     counties.forEach(function (c) {
       var pJob   = _percentile(c.jobGrowth,  sortedJob);
       var pPop   = _percentile(c.popGrowth,  sortedPop);
       var pUnemp = 100 - _percentile(c.unempRate, sortedUnemp);  // invert
-      var pOrig  = _percentile(c.origVolume, sortedOrig);
+      var pOrig  = _percentile(c.origPer1k, sortedOrig);
       var pDen   = 100 - _percentile(c.denialRate, sortedDen);   // invert
       // Equal-weight average
       c.composite = Math.round((pJob + pPop + pUnemp + pOrig + pDen) / 5);
@@ -152,14 +167,14 @@
       { key: 'jobGrowth', label: 'Job 5y',    align: 'right', tt: '5-year cumulative job growth from BLS QCEW (Quarterly Census of Employment & Wages). Higher = stronger labor market. Click to sort.' },
       { key: 'popGrowth', label: 'Pop 5y',    align: 'right', tt: '5-year cumulative population growth (ACS 5-year + DOLA projections). Higher = stronger housing demand. Click to sort.' },
       { key: 'unempRate', label: 'Unemp',     align: 'right', tt: 'Latest unemployment rate (BLS LAUS). Lower is better — flipped in the composite (low unemp → high score). Click to sort.' },
-      { key: 'origVolume',label: 'Origs',     align: 'right', tt: 'Annual HMDA mortgage originations (count). Higher = more active mortgage market. Click to sort.' },
+      { key: 'origVolume',label: 'Origs',     align: 'right', tt: 'Annual HMDA mortgage originations (count). The score uses originations per 1,000 households, so large counties do not rank high for size alone. Click to sort.' },
       { key: 'denialRate',label: 'Denial',    align: 'right', tt: 'HMDA denial rate (denials ÷ decisions). Lower is better — flipped in the composite (low denial → high score). Click to sort.' },
     ];
 
     var html = '';
     html += '<p style="font-size:.85rem;color:var(--muted);margin:0 0 .75rem;">' +
       'Composite 0-100 score blending 5 signals: job growth (5y), pop growth (5y), ' +
-      'inverse unemployment, HMDA origination volume, and inverse HMDA denial rate. ' +
+      'inverse unemployment, HMDA originations per 1,000 households, and inverse HMDA denial rate. ' +
       'Equal-weighted percentile blend. Higher = stronger market. ' +
       'Hover any column header for the definition; click to sort.' +
       '</p>';
