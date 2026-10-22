@@ -98,6 +98,9 @@
   .ib-empty { padding:1rem; text-align:center; color:var(--muted); font-style:italic; font-size:var(--small); }
   .ib-loading { padding:2rem; text-align:center; color:var(--muted); font-style:italic; }
   .ib-row-pipeline .pab-wrap { margin:.3rem 0 0; }
+  .ib-row-pipeline .pab-btn, .ib-row-pipeline .pab-form__input, .ib-row-pipeline .pab-form__select,
+  .ib-row-pipeline .pab-form__save, .ib-row-pipeline .pab-form__cancel { min-height:44px; box-sizing:border-box; }
+  .ib-row-pipeline .pab-form__textarea { min-height:88px; }
   @media (max-width: 700px) {
     .ib-table > thead { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
     .ib-table, .ib-table > tbody, .ib-table > tbody > tr, .ib-table > tbody > tr > td { display:block; width:100%; box-sizing:border-box; }
@@ -274,6 +277,7 @@
       support: d[6], fees: d[7], funds: d[8], coverage: d[9] };
     if (!docs.ranking) throw new Error('the HNA ranking could not be loaded');
     var model = W.build(docs, TODAY);
+    var trackerLoad = null; // one Deal Tracker load per page view, shared by every render
     var weights = readWeights();
 
     // Sliders open on a wide screen; on a phone they fold so the ranking comes first.
@@ -497,8 +501,9 @@
 
     function wirePipelineButtons() {
       if (!window.PipelineAddButton || !window.PipelineStore) return;
-      // Load the tracker once; each button's own load then reads the cache instead of fetching again.
-      Promise.resolve(window.PipelineStore.loadCanonical()).catch(function () {}).then(mountPipelineButtons);
+      // One tracker load per page view, shared by every render; each button's own load then reads the cache.
+      if (!trackerLoad) trackerLoad = Promise.resolve(window.PipelineStore.loadCanonical()).catch(function () {});
+      trackerLoad.then(mountPipelineButtons);
     }
 
     function mountPipelineButtons() {
