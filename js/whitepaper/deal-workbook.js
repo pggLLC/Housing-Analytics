@@ -95,7 +95,9 @@
         if (num(tc[k])) sources.push({ label: label, amount: num(tc[k]) });
         else if (k === fedKey && num(tc[k]) == null) sources.push({ label: label + ': not known, ' + (un.annualCredits || 'the credit was not calculated'), amount: null });
       });
+      var sc = (r.costBasis && r.costBasis.stateCredit) || {};
       if (num(tc.state)) sources.push({ label: 'Colorado state credit equity', amount: num(tc.state) });
+      else if (sc.entered && num(tc.state) == null) sources.push({ label: 'Colorado state credit equity: not known, ' + (sc.reason || 'its terms are incomplete'), amount: null });
       if (num(tc.added)) sources.push({ label: tc.addedLabel || 'Other credit equity', amount: num(tc.added) });
       if (num(tc.historic)) sources.push({ label: 'Historic credit equity', amount: num(tc.historic) });
       ['government', 'other', 'owner', 'unclassified'].forEach(function (k) {
@@ -159,7 +161,10 @@
     model.operating = {
       opexPerUnit: num(os.perUnitYear), reservePerUnit: num(r.repReservePerUnit), taxPerUnit: num(r.netPropTax) != null && units ? num(r.netPropTax) / units : num(r.propTaxPerUnit),
       vacancy: num(r.vacancyRate), rentGrowth: r.exit ? num(r.exit.rentGrowth) : null, expGrowth: r.exit ? num(r.exit.expGrowth) : null,
-      groups: os.groups || null, min: min
+      groups: os.groups || null, min: min,
+      // The engine's reason for each figure it could not give, so a skipped CHFA check says why.
+      reasons: { opex: os.reason || un['operatingSummary.perUnitYear'] || null, reserve: un.repReservePerUnit || null, tax: un.netPropTax || un.propTaxPerUnit || null,
+        vacancy: un.vacancyRate || null, rentGrowth: un['exit.rentGrowth'] || null, expGrowth: un['exit.expGrowth'] || null }
     };
 
     // 15-year cash flow, with the deferred fee balance carried down.
@@ -258,6 +263,16 @@
     if (min.vacancy && o.vacancy != null && o.vacancy < min.vacancy.value - 1e-9) out.push({ level: 'warn', text: 'Vacancy of ' + pct(o.vacancy, 1) + ' is under CHFA\'s ' + pct(min.vacancy.value) + ' minimum (5% only with project-based Section 8 on every unit).', source: min.vacancy });
     if (min.rentGrowth && o.rentGrowth != null && o.rentGrowth > min.rentGrowth.value + 1e-9) out.push({ level: 'warn', text: 'Rents grow ' + pct(o.rentGrowth, 1) + ' a year; CHFA underwrites ' + pct(min.rentGrowth.value) + '.', source: min.rentGrowth });
     if (min.expGrowth && o.expGrowth != null && o.expGrowth < min.expGrowth.value - 1e-9) out.push({ level: 'warn', text: 'Costs grow ' + pct(o.expGrowth, 1) + ' a year; CHFA underwrites ' + pct(min.expGrowth.value) + '.', source: min.expGrowth });
+    // A check with no figure did not run: say so, rather than leave a dash that reads as a pass.
+    var rs = o.reasons || {};
+    [['operating cost', min.opex, o.opexPerUnit, rs.opex],
+      // A low cost with no tax is already flagged above; otherwise the missing tax still stops the full check.
+      ['operating cost plus property tax', min.opex, o.opexPerUnit == null || o.opexPerUnit < (min.opex ? min.opex.value : 0) ? 0 : o.taxPerUnit, rs.tax],
+      ['replacement reserve', resMin, o.reservePerUnit, rs.reserve], ['vacancy', min.vacancy, o.vacancy, rs.vacancy],
+      ['rent growth', min.rentGrowth, o.rentGrowth, rs.rentGrowth], ['cost growth', min.expGrowth, o.expGrowth, rs.expGrowth]
+    ].forEach(function (c) {
+      if (c[1] && c[2] == null) out.push({ level: 'warn', text: 'CHFA\'s ' + c[0] + ' check did not run: ' + (c[3] || 'the calculator gave no figure') + '.', source: c[1] });
+    });
 
     var w = m.coverage.weakest;
     if (w && min.dscr && num(w.ratio) != null) {

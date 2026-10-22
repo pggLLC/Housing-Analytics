@@ -229,4 +229,15 @@ const noEquity = mut0((s) => { s.permanentFinancing.taxCredit.nine = null; s.res
 ok(noEquity.sources.rows.some((x) => x.amount === null && /Federal 9% credit equity: not known, Eligible basis is incomplete\./.test(x.label)), 'an unsized federal credit stays in the sources as unknown, with the reason');
 ok(!mut0((s) => { s.permanentFinancing.taxCredit.four = null; }).sources.rows.some((x) => /4% credit/.test(x.label)), 'the other credit type is not listed for a 9% deal');
 
+const stateOpen = mut0((s) => { s.permanentFinancing.taxCredit.state = null; s.result.costBasis.stateCredit = { entered: true, reason: 'Enter the state credit price.' }; });
+ok(stateOpen.sources.rows.some((x) => x.amount === null && /Colorado state credit equity: not known, Enter the state credit price\./.test(x.label)), 'an entered but unsized state credit stays in the sources as unknown');
+ok(!mut0((s) => { s.permanentFinancing.taxCredit.state = null; }).sources.rows.some((x) => /state credit/.test(x.label)), 'no state credit row when none is entered');
+const opsGone = mut0((s) => { s.result.operatingSummary.perUnitYear = null; s.result.operatingSummary.reason = 'Enter the insurance line.'; s.result.repReservePerUnit = null; s.result.vacancyRate = null; s.result.exit.rentGrowth = null;
+  s.result.unavailable = Object.assign({}, s.result.unavailable, { repReservePerUnit: 'Enter the reserve.', vacancyRate: 'Enter vacancy.', 'exit.rentGrowth': 'Enter growth rates.' }); });
+const og = opsGone.findings.map((f) => f.level + ': ' + f.text).join('\n');
+ok(og.includes("warn: CHFA's operating cost check did not run: Enter the insurance line.") && og.includes("warn: CHFA's replacement reserve check did not run: Enter the reserve.") &&
+  og.includes("warn: CHFA's vacancy check did not run: Enter vacancy.") && og.includes("warn: CHFA's rent growth check did not run: Enter growth rates."), 'each CHFA check that could not run says so, with the engine\'s reason');
+ok(texts(mut0((s) => { s.result.operatingSummary.perUnitYear = PUPA8 + 500; s.result.propTaxPerUnit = null; s.result.netPropTax = null; })).includes("CHFA's operating cost plus property tax check did not run"), 'a missing tax on an otherwise high cost still says the full check did not run');
+ok(!/check did not run/.test(texts(m)), 'a complete deal has no skipped checks');
+
 console.log(`deal-workbook: ${checks} checks passed`);
