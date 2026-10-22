@@ -46,19 +46,31 @@ assert.ok(read('hna-what-households-can-afford.html').includes('data-chfa-limits
 // 4. Deal Summaries is in the header menu.
 assert.ok(/label:\s*"Deal Summaries",\s*href:\s*"deal-summary\.html"/.test(read('js/navigation.js')), 'Deal Summaries not in the menu');
 
-// 5. County resolution: a town resolves to its county, a state pick to nothing.
-function countyFor(jurisdiction) {
+// 5. Which geography. Off the HNA: the workflow jurisdiction, a town resolving to its county.
+//    On the HNA: the geography the report shows (a ?geoid= link can differ from the saved
+//    jurisdiction), and nothing for statewide, combined or regional views.
+function ctxFor(jurisdiction, hnaCurrent) {
   const dom = new JSDOM('<main></main>', { runScripts: 'outside-only', url: 'http://127.0.0.1/hna-what-to-do.html' });
   dom.window.WorkflowState = { getJurisdiction: () => jurisdiction };
+  if (hnaCurrent !== undefined) dom.window.HNAState = { state: { current: hnaCurrent } };
   dom.window.eval(source);
-  const c = dom.window.PlaceDealsLimits._currentCounty();
-  return c ? JSON.parse(JSON.stringify(c)) : c;  // plain object across the JSDOM realm
+  return JSON.parse(JSON.stringify(dom.window.PlaceDealsLimits._context()));  // plain object across the JSDOM realm
 }
-assert.deepEqual(countyFor({ geoType: 'place', geoid: '0828745', name: 'Fruita (city)', countyFips: '08077' }), { fips: '08077', place: 'Fruita (city)' });
-assert.deepEqual(countyFor({ geoType: 'county', geoid: '08077', countyFips: '08077' }), { fips: '08077', place: null });
-assert.equal(countyFor({ geoType: 'county', geoid: '077' }).fips, '08077');
-assert.equal(countyFor({ geoType: 'state', geoid: '08' }), null);
-assert.equal(countyFor(null), null);
+assert.deepEqual(ctxFor({ geoType: 'place', geoid: '0828745', name: 'Fruita (city)', countyFips: '08077' }),
+  { kind: 'place', fips: '08077', place: 'Fruita (city)', placeGeoid: '0828745' });
+assert.deepEqual(ctxFor({ geoType: 'county', geoid: '08077', countyFips: '08077' }), { kind: 'county', fips: '08077', place: null, placeGeoid: null });
+assert.equal(ctxFor({ geoType: 'county', geoid: '077' }).fips, '08077');
+assert.equal(ctxFor({ geoType: 'state', geoid: '08' }).kind, 'none');
+assert.equal(ctxFor(null).kind, 'none');
+const savedDenver = { geoType: 'county', geoid: '08031', countyFips: '08031' };
+assert.equal(ctxFor(savedDenver, { geoType: 'county', geoid: '08077' }).fips, '08077', 'HNA geography must win over the saved jurisdiction');
+assert.deepEqual(ctxFor(savedDenver, { geoType: 'place', geoid: '0828745', label: 'Fruita (city)', contextCounty: '08077' }),
+  { kind: 'place', fips: '08077', place: 'Fruita (city)', placeGeoid: '0828745' });
+assert.equal(ctxFor(savedDenver, { geoType: 'place', geoid: '0828745', contextCounty: '077' }).fips, '08077');
+assert.equal(ctxFor(savedDenver, { geoType: 'combined', geoid: 'combined', label: 'Two towns' }).kind, 'area');
+assert.equal(ctxFor(savedDenver, { geoType: 'regional-comparison', geoid: 'region:x' }).kind, 'area');
+assert.equal(ctxFor(savedDenver, { geoType: 'state', geoid: '08' }).kind, 'none');
+assert.equal(ctxFor(savedDenver, null).kind, 'loading');
 
 // 6. AMI range label from a write-up's income mix.
 const dom = new JSDOM('', { runScripts: 'outside-only' });
@@ -103,6 +115,26 @@ assert.equal(range([{ level: 'Manager unit' }]), '');
   const paired = '2025 Federal 9% (Round One) and 4% housing tax credits (paired)';
   assert.ok(hasCredit(paired, '9%') && hasCredit(paired, '4%') && !hasCredit(paired, 'Other'));
   assert.ok(hasCredit('2025 Middle-Income Housing Tax Credit (MIHTC)', 'Other'));
+
+  // 9. A town in two counties shows both: Erie (0824950) spans Weld and Boulder.
+  {
+    const d2 = new JSDOM('<div id="l" data-chfa-limits></div><div id="d" data-place-deals></div>', { runScripts: 'outside-only', url: 'http://127.0.0.1/hna-what-to-do.html' });
+    const w2 = d2.window;
+    w2.HNAState = { state: { current: { geoType: 'place', geoid: '0824950', label: 'Erie (town)', contextCounty: '08123' } } };
+    w2.fetch = (url) => Promise.resolve({ ok: true, json: () => Promise.resolve(JSON.parse(read(url))) });
+    w2.eval(source);
+    await new Promise((r) => setTimeout(r, 50));
+    const lim = w2.document.getElementById('l');
+    const opts = [...lim.querySelectorAll('select option')].map((o) => o.textContent);
+    assert.deepEqual(opts, ['Weld County (most residents)', 'Boulder County'], 'Erie should offer both counties');
+    assert.ok(lim.textContent.includes('Limits for Weld County'));
+    const sel = lim.querySelector('select');
+    sel.value = '1'; sel.dispatchEvent(new w2.Event('change'));
+    assert.ok(lim.textContent.includes('Limits for Boulder County'), 'picking Boulder should show Boulder limits');
+    const dl = w2.document.getElementById('d');
+    assert.ok(dl.textContent.includes('Weld and Boulder counties'), 'deals should cover both counties');
+    assert.ok(dl.textContent.includes('All write-ups for Boulder County'));
+  }
 
   console.log('place-deals-limits: PASS (' + deals.length + ' write-ups, ' + limits.counties.length + ' counties)');
 })().catch((e) => { console.error(e); process.exit(1); });

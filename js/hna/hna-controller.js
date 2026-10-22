@@ -27,6 +27,15 @@
     els: null, // initialized in init() after DOM is ready
   };
 
+  // Tells page components (js/components/place-deals-limits.js) which geography the report
+  // now shows. The URL can open a geography other than the saved workflow jurisdiction, and
+  // combined/regional views never write one, so components read this rather than WorkflowState.
+  function _announceGeography() {
+    try {
+      document.dispatchEvent(new CustomEvent('hna:geography-changed', { detail: window.HNAState.state.current }));
+    } catch (_) {}
+  }
+
   window.HNAState.els = {
     geoType: document.getElementById('geoType'),
     geoSelect: document.getElementById('geoSelect'),
@@ -561,6 +570,7 @@
     window.HNARenderers.renderBoundary({ type: 'FeatureCollection', features: [] }, 'combined');
     window.HNARenderers.renderCombinedAssessment(result);
     window.HNAState.state.current = { geoType: 'combined', geoid: region ? ('region:' + region.id) : 'combined', label: result.label, members: validation.members, combinedResult: result };
+    _announceGeography();
     window.HNAState.state.lastGeoLabel = result.label;
     try {
       const url = new URL(window.location.href);
@@ -611,6 +621,7 @@
       members: digests.map(function (row) { return row.member; }),
       regionalComparison: digests,
     };
+    _announceGeography();
     window.HNAState.state.lastGeoLabel = label || 'Regional comparison';
     try {
       const url = new URL(window.location.href);
@@ -4969,6 +4980,7 @@
 
     // 20-year projections (cached; county context or state '08')
     window.HNAState.state.current = { geoType, geoid, label, contextCounty, profile };
+    _announceGeography();
 
     // Place-vs-county comparison. Runs off the jurisdiction-metrics digests
     // rather than any panel's own pipeline, so both sides of every row come
