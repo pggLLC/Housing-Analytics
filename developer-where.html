@@ -502,15 +502,18 @@
         var name = el.getAttribute('data-name');
         if (!geoid || !name) return;
         var score = parseFloat(el.getAttribute('data-score'));
+        var conf = el.getAttribute('data-confidence') || '';
+        // The pipeline's IOI and confidence fields have their own meanings (the Opportunity Finder composite
+        // and the pipeline rubric), so this page's slider-weighted score goes in the notes, not in those fields.
         try {
           window.PipelineAddButton.attach(el, {
             jurisdiction: name,
             geoid: geoid,
             defaults: {
               stage: 'Signal',
-              ioi_score: Number.isFinite(score) ? Math.round(score) : '',
-              confidence: el.getAttribute('data-confidence') || 'medium',
-              notes: 'From Where Should I Build · ' + name
+              notes: 'From Where Should I Build · ' + name +
+                (Number.isFinite(score) ? ' · score ' + Math.round(score) + (conf ? ' (' + conf + ' confidence)' : '') +
+                  ' with the weights set on ' + TODAY : '')
             }
           });
         } catch (_) { /* never break the page */ }
