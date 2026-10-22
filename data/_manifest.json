@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-22T13:08:07.720Z",
+    "generated_at": "2026-10-22T14:52:32.363Z",
     "root": "data/",
-    "file_count": 1978,
-    "total_size_bytes": 199206225,
+    "file_count": 1979,
+    "total_size_bytes": 199658188,
     "kinds": {
-      "json": 1932,
+      "json": 1933,
       "geojson": 34,
       "csv": 12
     }
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7708,
-      "mtime": "2026-10-21T14:37:39.949Z",
+      "size_bytes": 7710,
+      "mtime": "2026-10-22T14:50:34.085Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -554,7 +554,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-22T13:08:03.502Z",
+      "mtime": "2026-10-22T14:52:28.013Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -8174,8 +8174,8 @@
     {
       "path": "hna/hna-views.json",
       "kind": "json",
-      "size_bytes": 13390,
-      "mtime": "2026-10-18T09:16:43.222Z",
+      "size_bytes": 13689,
+      "mtime": "2026-10-22T14:51:53.453Z",
       "shape": "object",
       "keys": [
         "_comment",
@@ -36385,6 +36385,27 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "hna/transit-zone-map.json",
+      "kind": "json",
+      "size_bytes": 448967,
+      "mtime": "2026-10-22T14:51:53.455Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "agencies",
+        "stops",
+        "zone"
+      ],
+      "key_count": 4,
+      "primary_array_key": "stops",
+      "primary_array_length": 12872,
+      "primary_array_first_keys": [
+        "0",
+        "1",
+        "2"
+      ]
+    },
+    {
       "path": "hna/vacancy-status.json",
       "kind": "json",
       "size_bytes": 469032,
@@ -37767,7 +37788,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 251645,
-      "mtime": "2026-10-22T13:04:20.218Z",
+      "mtime": "2026-10-22T14:51:53.455Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39343,7 +39364,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-22T13:08:05.634Z",
+      "mtime": "2026-10-22T14:52:30.207Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39367,7 +39388,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-22T13:08:05.141Z",
+      "mtime": "2026-10-22T14:52:29.654Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42280,14 +42301,15 @@
     {
       "path": "policy/thiz-map-status.json",
       "kind": "json",
-      "size_bytes": 2165,
-      "mtime": "2026-10-11T03:45:54.242Z",
+      "size_bytes": 3786,
+      "mtime": "2026-10-22T14:51:53.456Z",
       "shape": "object",
       "keys": [
         "schema",
         "program",
         "statute",
         "zone_radius_miles",
+        "statute_text",
         "qap_tod_distance",
         "map_due_date",
         "map_publisher",
@@ -42297,7 +42319,7 @@
         "last_checked",
         "note"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -42405,8 +42427,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 181298,
-      "mtime": "2026-10-18T05:49:37.681Z",
+      "size_bytes": 182372,
+      "mtime": "2026-10-22T14:51:53.457Z",
       "shape": "object",
       "keys": [
         "meta",
