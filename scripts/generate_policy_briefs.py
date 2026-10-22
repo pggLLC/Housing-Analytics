@@ -447,7 +447,7 @@ OFF_TOPIC_RE = re.compile(
     # a healthcare grant all reached Housing News. Snowmass and Winter Park
     # are towns, not weather.
     r'snow(?!mass)\w*|winter(?!\s+park)|weather|storms?|avalanche\w*|border wall|data cent(?:er|re)s?|'
-    r'airports?|school enrollment|healthcare|hospitals?|judge|race to succeed|governor\'?s race|'
+    r'airports?|school enrollment|healthcare|hospitals?|judges?|race to succeed|governor\'?s race|'
     # A road crash is off topic; "Homebuilder Sentiment Crashes" keeps its housing word.
     r'crash\w*)\b', re.I)
 # These words are in HOUSING_TITLE_RE because housing stories use them, but
@@ -466,7 +466,7 @@ INCIDENT_RE = re.compile(
 HOUSING_POLICY_RE = re.compile(
     r'\b(housing|afford\w*|rent(?:s|ers?|al|als)?|tenant\w*|landlord\w*|evict\w*|(?:re)?zon(?:e|es|ed|ing)|'
     r'homeless\w*|lihtc|tax credits?|rebuild\w*|recovery|displace\w*|mortgage\w*|chfa|hud|'
-    r'home (?:prices|sales|values)|housing market)\b', re.I)
+    r'home (?:prices|sales|values)|housing market|homebuild\w*|home-builders?)\b', re.I)
 
 
 # National housing trends, from a short list of outlets and research
@@ -640,6 +640,16 @@ def _phrases(title: str) -> set[tuple[str, str]]:
     return set(zip(words, words[1:])) - NATIONAL_GENERIC_PHRASES
 
 
+def _words(title: str) -> set[str]:
+    return {w for w in re.findall(r"[a-z0-9']+", (title or '').lower().replace('’', "'"))
+            if w not in NATIONAL_STOPWORDS}
+
+
+def _word_overlap(a: str, b: str) -> float:
+    wa, wb = _words(a), _words(b)
+    return len(wa & wb) / min(len(wa), len(wb)) if wa and wb else 0.0
+
+
 def same_national_story(s: dict, kept: list[dict]) -> dict | None:
     mine = _phrases(s['title'])
     try:
@@ -663,9 +673,12 @@ def same_national_story(s: dict, kept: list[dict]) -> dict | None:
         # One phrase is enough on the same day ("housing starts"); across
         # days it takes two, so "build houses" alone does not fold the WSJ
         # immigration story into a Virginia subdivision story.
-        # A federal rewrite shares two phrases ("treasury yields", "weak
-        # housing"); one ("housing voucher") can be two actions.
-        if federal and (gap or shared < 2):
+        # A federal rewrite repeats most of its words: "Treasury Yields Fall
+        # on String of Weak Housing Data" and "Treasury Yields Edge Lower
+        # Amid String of Weak Housing Data" share six of seven. "HUD cuts
+        # housing voucher funding for veterans" and "HUD expands housing
+        # voucher funding for families" share four of six and are two actions.
+        if federal and (gap or _word_overlap(s['title'], k['title']) < 0.75):
             continue
         if (gap == 0 or shared >= 2) and gap <= 3 and shared:
             return k

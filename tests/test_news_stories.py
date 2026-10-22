@@ -262,6 +262,8 @@ def test_crime_weather_and_border_stories_are_left_out(geos):
         alert('Pueblo apartment complex is on fire', 'Pueblo Chieftain'),
         alert('Snowmass Village development breaks ground', 'Aspen Daily News'),
         alert('Winter Park approves workforce neighborhood development', 'Sky-Hi News'),
+        alert('Judges approve courthouse construction', 'The Denver Post'),
+        alert('US homebuilder fires 100 workers as sales slump', 'Reuters', date='2026-08-04'),
     ], geos)
     assert set(by_title(stories)) == {
         'Water bill with funding for Colorado projects passes the House',
@@ -274,6 +276,7 @@ def test_crime_weather_and_border_stories_are_left_out(geos):
         'Home prices are on fire as inventory tightens',
         'Snowmass Village development breaks ground',
         'Winter Park approves workforce neighborhood development',
+        'US homebuilder fires 100 workers as sales slump',
     }
 
 
@@ -286,8 +289,10 @@ def test_a_reworded_headline_from_the_same_outlet_is_one_story(geos):
         alert('HUD expands housing voucher eligibility', 'AP News', date='2026-10-20'),
         # One outlet, two federal actions.
         alert('HUD trims housing voucher budget', 'Reuters', date='2026-10-20'),
+        alert('HUD cuts housing voucher funding for veterans', 'Bloomberg.com', date='2026-10-20'),
+        alert('HUD expands housing voucher funding for families', 'Bloomberg.com', date='2026-10-20'),
     ], geos)
-    assert len(stories) == 4
+    assert len(stories) == 6
 
 
 def test_an_indirect_housing_headline_stays(geos):
