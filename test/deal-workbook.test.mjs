@@ -254,6 +254,9 @@ ok(/set the calculator to project 15 years\./.test(texts(mut((s) => { s.result.c
 const hist = mut0((s) => { s.permanentFinancing.historic = [{ id: 'h1', program: 'historic_tc', amount: 400000 }, { id: 'h2', program: 'historic_tc', amount: null }]; s.permanentFinancing.taxCredit.historic = null; });
 ok(hist.sources.rows.some((x) => x.label === 'Historic credit equity' && x.amount === 400000) && hist.sources.rows.some((x) => x.amount === null && /Historic credit equity: not known/.test(x.label)), 'a historic tranche without an amount stays in the sources as unknown');
 
+const noMort = mut0((s) => { s.permanentFinancing.hardMortgages.forEach((h) => { if (h.source === 'senior') h.principal = null; }); s.result.mortgage = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { mortgage: 'Operating inputs are incomplete.' }); });
+ok(noMort.sources.rows.some((x) => x.amount === null && x.label === 'First mortgage: not known, Operating inputs are incomplete.'), 'an unsized first mortgage keeps the engine reason');
+ok(m.sources.rows.some((x) => x.label === 'First mortgage' && x.amount > 0), 'a sized first mortgage keeps its plain label');
 const ungrouped = mut0((s) => { s.permanentFinancing.unclassified = [{ id: 'u1', program: null, label: 'Foundation loan', amount: 250000, reason: "Choose where this source counts in DOH's layout." }]; });
 ok(ungrouped.sources.rows.some((x) => x.amount === 250000 && x.label === "Foundation loan: not yet grouped, Choose where this source counts in DOH's layout."), 'a source with no DOH group keeps its reason');
 

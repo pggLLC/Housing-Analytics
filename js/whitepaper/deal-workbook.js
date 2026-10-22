@@ -85,7 +85,10 @@
     var sources = [];
     if (pf && pf.totals) {
       (pf.hardMortgages || []).forEach(function (m) {
-        sources.push({ label: m.source === 'senior' ? 'First mortgage' : (m.label || 'Mortgage') + (m.program ? ' (' + (labels[m.program] || m.program) + ')' : ''), amount: num(m.principal) });
+        var name = m.source === 'senior' ? 'First mortgage' : (m.label || 'Mortgage') + (m.program ? ' (' + (labels[m.program] || m.program) + ')' : '');
+        // A loan the engine could not size keeps its reason, so the unknown total says what to fix.
+        var why = num(m.principal) == null ? (m.reason || (m.source === 'senior' ? un.mortgage : null)) : null;
+        sources.push({ label: why ? name + ': not known, ' + why : name, amount: num(m.principal) });
       });
       var tc = pf.taxCredit || {};
       // The deal's own federal credit stays in the list when it could not be sized: unknown is not none.
