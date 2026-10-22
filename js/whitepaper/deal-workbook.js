@@ -112,6 +112,7 @@
           sources.push({ label: s.label && prog ? s.label + ' (' + prog + ')' : (s.label || prog || 'Other source'), amount: num(s.amount != null ? s.amount : s.principal) }); });
       });
       if (num(pf.deferredDevFee)) sources.push({ label: 'Deferred developer fee', amount: num(pf.deferredDevFee) });
+      else if (pf.deferredDevFee == null && un.deferredDevFee) sources.push({ label: 'Deferred developer fee: not known, ' + un.deferredDevFee, amount: null });
       model.sources = { rows: sources, total: num(pf.totals.totalSources), gap: num(pf.totals.gap), tdc: num(pf.totals.tdc) };
     } else model.sources = { rows: [], reason: (pf && pf.reasons && pf.reasons[0]) || un.fundingGap || 'The calculator could not build the sources for this deal.' };
 
@@ -570,9 +571,10 @@
     function open(query, title, reserved) {
       var my = reserved != null ? reserved : ++tok;
       if (my !== tok) return;
+      // A new open clears the last deal first, so a failed one never leaves the old workbook printable.
+      $('wbOut').innerHTML = ''; $('wbPrint').hidden = true; $('wbOpenCalc').hidden = true;
       if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
       status('Running the Deal Calculator for this deal…');
-      $('wbOut').innerHTML = '';
       $('wbOpenCalc').href = calcUrl(query, doc.baseURI); $('wbOpenCalc').hidden = false;
       Promise.all([loadFrame(doc, query), rulesReady]).then(function (got) {
         var f = got[0], rules = got[1];
@@ -634,5 +636,5 @@
     else start(document);
   }
 
-  return { build: build, render: render, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, money: money, RULES_URL: RULES_URL, API: API };
+  return { build: build, render: render, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, money: money, RULES_URL: RULES_URL, API: API };
 });

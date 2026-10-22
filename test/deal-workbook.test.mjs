@@ -277,4 +277,21 @@ const shortLoan = mut0((s) => { s.result.projection.years = 5; const l = s.resul
 const sl = shortLoan.loans.find((l) => l.label === 'First mortgage');
 ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(texts(shortLoan)) && WB.render(shortLoan).includes('Owed after year 5'), 'loan balances and balloons stop at the forecast horizon');
 
+{
+  const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+  const doc = { getElementById: el, baseURI: 'https://example.org/developer-deal-workbook.html', querySelectorAll: () => [] };
+  const saved = { fetch: globalThis.fetch, window: globalThis.window };
+  globalThis.fetch = () => Promise.reject(new Error('offline'));
+  globalThis.window = { addEventListener() {} };
+  WB.start(doc);
+  el('wbOut').innerHTML = '<p>Deal A</p>'; el('wbPrint').hidden = false; el('wbOpenCalc').hidden = false;
+  el('wbLink').value = 'https://example.org/not-a-share-link';
+  el('wbOpenLink').handlers.click();
+  ok(el('wbOut').innerHTML === '' && el('wbPrint').hidden && el('wbOpenCalc').hidden && /no Deal Calculator settings/.test(el('wbStatus').textContent), 'an invalid new input clears the last deal and its print button');
+  await new Promise((r) => setTimeout(r, 0));
+  globalThis.fetch = saved.fetch; if (saved.window === undefined) delete globalThis.window; else globalThis.window = saved.window;
+}
+const feeOpen = mut0((s) => { s.permanentFinancing.deferredDevFee = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { deferredDevFee: 'Operating inputs are incomplete.' }); });
+ok(feeOpen.sources.rows.some((x) => x.amount === null && x.label === 'Deferred developer fee: not known, Operating inputs are incomplete.'), 'an unknown deferred fee stays in the sources with its reason');
+
 console.log(`deal-workbook: ${checks} checks passed`);
