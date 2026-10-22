@@ -53,8 +53,13 @@
     } catch (e) { return fallback; }
   }
 
+  // Same rule as the main HNA map (hna-controller.js autoKey): the site's
+  // dark-mode / light-mode classes, else the OS setting.
   function isDark() {
-    return document.documentElement.getAttribute('data-theme') === 'dark';
+    var cl = document.documentElement.classList;
+    if (cl.contains('dark-mode')) return true;
+    if (cl.contains('light-mode')) return false;
+    return !!(root.matchMedia && root.matchMedia('(prefers-color-scheme: dark)').matches);
   }
 
   function formatDate(iso) {
