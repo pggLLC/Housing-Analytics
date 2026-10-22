@@ -143,6 +143,11 @@ const close = (a, b, msg) => assert(Math.abs(a - b) < 1e-9, `${msg}: ${a} vs ${b
   close(held[0].households, M.project(b)[0].households, 'held: the base year is the same');
   close(held[1].households, 100 * 0.2 + 200 * 0.5, 'held: the base year\'s rates a year on');
   close(M.project(b, { headship: 'other' })[1].households, 100 * 0.1 + 200 * 0.6, 'anything else is SDO\'s');
+  // Each row carries people and households by group, for a town's share by age.
+  const row = M.project(b)[1];
+  assert.deepEqual(row.groupPeople.map(Math.round), [100, 200], 'people in each group');
+  close(row.groupHouseholds[0], 100 * 0.1, 'households in the first group');
+  close(row.groupHouseholds[0] + row.groupHouseholds[1], row.households, 'and they add to the households');
 }
 
 // 7. changeFromSdo
@@ -199,6 +204,8 @@ const close = (a, b, msg) => assert(Math.abs(a - b) < 1e-9, `${msg}: ${a} vs ${b
   assert(/500 people moving in a year/.test(big.migrationNote), 'and the note says what was saved');
   assert.equal(M.paramsFromSaved({ migration_pct: 100, headship: 'held' }).headship, 'held', 'a saved held headship loads held');
   assert.equal(M.paramsFromSaved({ migration_pct: 100, headship: 'x' }).headship, undefined, 'and nothing else does');
+  assert.equal(M.paramsFromSaved({ migration_pct: 100, town_share: 'hamilton_perry' }).town_share, 'hamilton_perry', 'a saved town share by age loads by age');
+  assert.equal(M.paramsFromSaved({ migration_pct: 100, town_share: 'x' }).town_share, undefined, 'and nothing else does');
   assert.deepEqual(M.paramsFromSaved({ births_pct: 400, deaths_pct: 10, migration_pct: -5 }),
     { births_pct: 150, deaths_pct: 80, migration_pct: 0, migrationNote: null }, 'new records are held to the sliders\' ranges');
 }

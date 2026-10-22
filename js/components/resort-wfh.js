@@ -196,7 +196,7 @@
         '</p>';
       var mfHtml = window.MethodFooter ? window.MethodFooter.html({
         source:    'data/resort-workforce-housing-programs.json',
-        sourceUrl: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/resort-workforce-housing-programs.json',
+        sourceUrl: 'data/resort-workforce-housing-programs.json',
         vintage:   data.metadata && data.metadata.generated,
         method:    'Each program quoted from the housing authority, town or county\'s own pages, code or budget. Fees and limits change annually; check the source before underwriting.',
         confidence:'med'

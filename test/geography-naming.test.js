@@ -62,16 +62,14 @@ function site(w, geoid) {
 function docsLink(doc, host) {
   const links = [...host.querySelectorAll('a')].filter(a => a.getAttribute('href').includes('MARKET_ANALYSIS_METHOD'));
   assert.equal(links.length, 1);
-  // Public deployment copies Markdown verbatim: use the rendered repository
-  // document so its heading anchor works instead of downloading a raw file.
-  const target = new URL(links[0].getAttribute('href'));
-  assert.equal(target.origin, 'https://github.com');
-  const prefix = '/pggLLC/Housing-Analytics/blob/main/';
-  assert(target.pathname.startsWith(prefix));
-  const docPath = target.pathname.slice(prefix.length);
-  assert(fs.existsSync(docPath)); assert(target.hash);
-  const headings = read(docPath).split('\n').filter(line => /^## /.test(line)).map(line => line.slice(3));
-  assert(headings.some(heading => heading.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-') === target.hash.slice(1)));
+  // The link points at the copy of the method note the site serves itself.
+  // The site serves Markdown unrendered, so a #fragment cannot land; the
+  // section the link answers must be the note's first heading instead.
+  const href = links[0].getAttribute('href');
+  assert(href.startsWith('docs/') && !href.includes('#'));
+  assert(fs.existsSync(href));
+  const first = read(href).split('\n').find(line => /^## /.test(line));
+  assert.equal(first, '## Jurisdiction, market area and project site');
 }
 let passed = 0, failed = 0;
 async function test(name, fn) {

@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-10-21T08:44:04Z",
-    "as_of": "2026-10-21",
+    "generated": "2026-10-22T08:46:12Z",
+    "as_of": "2026-10-22",
     "stale_days": 30,
-    "events_as_of": "2026-10-21",
+    "events_as_of": "2026-10-22",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,7 +14,7 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [
         {
           "title": "Denver officials celebrate opening of affordable housing community",
@@ -115,7 +115,7 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [
         {
           "title": "Man dragged behind U-Haul after argument, Colorado Springs police say",
@@ -182,7 +182,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [
         {
           "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
@@ -210,13 +210,37 @@
       ]
     },
     {
+      "geoid": "0873825",
+      "jurisdiction": "City of Steamboat Springs",
+      "scope": "place",
+      "county_fips": "08107",
+      "published": false,
+      "last_curated": "2026-10-18",
+      "days_since_review": 4,
+      "stories": [
+        {
+          "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
+          "source": "SteamboatToday.com",
+          "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPbFVpOUYxcndmT0FXVDdSWFVfV3RQekFCSFZiUml1NjdyRFBzNDFyLUdUWXp6Qm9YRzA1T1BLLWpjUWhCYldycmtHbVBZVVhmcVNfb2F3aUN2VVpfVUNDdWNwWC1yQXRDb1FxaWFaVVdGbTBqeFZDcFBWWnBiNXZ6WUlrY0U3bEYya3VrTVZRNlEwdjJpaEE4d1RBQU83LTZlN2plQ0o2d3hjdWl1S2hueVd4b21pZjNHQXVYc1VKQm80Zy1MN2dnUWRSM0tMV3gycDY2VlMwNkxHaF9hRlVXag?oc=5",
+          "date": "2026-10-21",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story naming it",
+        "draft, not shown on the site"
+      ]
+    },
+    {
       "geoid": "0876795",
       "jurisdiction": "Town of Telluride",
       "scope": "place",
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [
         {
           "title": "Telluride School District talks housing developments",
@@ -241,7 +265,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": []
@@ -253,7 +277,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": []
@@ -265,7 +289,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": [
@@ -279,7 +303,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [
         {
@@ -300,7 +324,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": []
@@ -312,7 +336,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": []
@@ -324,7 +348,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": []
@@ -336,24 +360,10 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": []
-    },
-    {
-      "geoid": "0873825",
-      "jurisdiction": "City of Steamboat Springs",
-      "scope": "place",
-      "county_fips": "08107",
-      "published": false,
-      "last_curated": "2026-10-18",
-      "days_since_review": 3,
-      "stories": [],
-      "events": [],
-      "reasons": [
-        "draft, not shown on the site"
-      ]
     },
     {
       "geoid": "08045",
@@ -362,7 +372,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": [
@@ -376,7 +386,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": []
@@ -388,7 +398,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": [
@@ -402,7 +412,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": []
@@ -414,7 +424,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 3,
+      "days_since_review": 4,
       "stories": [],
       "events": [],
       "reasons": []

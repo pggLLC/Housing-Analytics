@@ -52,8 +52,6 @@ const PAGES_TO_AUDIT = [
   { name: 'economic-dashboard',       path: '/economic-dashboard.html' },
   { name: 'colorado-market',          path: '/colorado-market.html' },
   // Informational pages (Low priority)
-  { name: 'dashboard',                path: '/dashboard.html' },
-  { name: 'regional',                 path: '/regional.html' },
   { name: 'compliance-dashboard',     path: '/compliance-dashboard.html' },
   { name: 'census-dashboard',         path: '/census-dashboard.html' },
   { name: 'chfa-portfolio',           path: '/chfa-portfolio.html' },

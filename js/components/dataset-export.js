@@ -36,7 +36,6 @@
     'market-direction': ['counties', 'places'],
     'realtor-inventory': ['counties', 'zips'],
     'development-activity': 'projects',
-    'lihtc-state-allocations': 'states',
     'novogradac-equity-pricing': 'pricing.by_state'
   };
 

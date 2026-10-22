@@ -18,7 +18,6 @@ const ROOT = path.resolve(__dirname, '..', '..');
 
 const PAGES = [
   'economic-dashboard.html',
-  'dashboard.html',
   'about.html',
 ];
 

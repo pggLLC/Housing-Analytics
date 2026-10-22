@@ -34,6 +34,7 @@ on:
       - "Build HNA Data Cache"
       - "Build Market Data"
       - "CHFA QAP Watch"
+      - "Collect Council Agenda Items"
       - "Daily Housing News Update"
       - "Data Refresh Pipeline"
       - "Data Source Monitoring"
@@ -50,7 +51,6 @@ on:
       - "QA Status (upstream + visibility)"
       - "Rebuild BPS Permits"
       - "Refresh Working Paper Figures"
-      - "Scrape Council Agenda Items"
       - "Upstream Vintage Watch"
       - "Weekly Market Data Sync (Bridge + Zillow Research)"
     types: [completed]

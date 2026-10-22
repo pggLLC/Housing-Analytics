@@ -26,6 +26,8 @@
   // Served only by the private site (coho-backend), so there is no file for it here.
   var PRIVATE = [{ href: 'dossiers/', label: 'Dossiers' }];
   var BACK = { href: 'lihtc-opportunity-finder.html', label: '← Opportunity Finder' };
+  // /logout (coho-backend) clears the password cookie and ends the Cloudflare
+  // sign-in, so the next visit asks for a code again.
 
   var STYLE =
     '.ib-section-nav{display:flex;flex-wrap:wrap;gap:.25rem .5rem;align-items:center;padding:.6rem 0;margin-bottom:var(--sp3,1rem);border-bottom:1px solid var(--border);font-size:var(--small,.9rem)}' +
@@ -48,7 +50,7 @@
       return '<a href="' + p.href + '"' + (p.href === here ? ' aria-current="page" class="active"' : '') + '>' + p.label + '</a>';
     }).join('') + PRIVATE.map(function (p) {
       return '<a href="' + p.href + '"' + (/\/dossiers\//.test(String(path || '')) ? ' aria-current="page" class="active"' : '') + '>' + p.label + '</a>';
-    }).join('') + '<a href="' + BACK.href + '">' + BACK.label + '</a><span class="spacer"></span><span class="dev-nav-badge">INTERNAL</span>';
+    }).join('') + '<a href="' + BACK.href + '">' + BACK.label + '</a><span class="spacer"></span><span class="dev-nav-badge">INTERNAL</span><a href="/logout">Sign out</a>';
   }
 
   function mount(doc) {
@@ -63,6 +65,10 @@
     }
     nav.setAttribute('aria-label', 'Developer pages');
     nav.innerHTML = html(doc.location ? doc.location.pathname : '');
+    var out = nav.querySelector('a[href="/logout"]');
+    if (out) out.addEventListener('click', function () {
+      try { root.sessionStorage.removeItem('ib-auth-v1'); } catch (_) { /* storage blocked */ }
+    });
   }
 
   var api = { PAGES: PAGES, PRIVATE: PRIVATE, html: html, mount: mount };
