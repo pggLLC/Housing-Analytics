@@ -113,7 +113,7 @@ ok(texts(mut((s) => { s.result.exit.rentGrowth = RG + 0.01; })).includes(`warn: 
 ok(texts(mut((s) => { s.result.exit.expGrowth = EG - 0.01; })).includes(`warn: Costs grow ${p1(EG - 0.01)}`), 'cost growth under CHFA\'s rate is flagged');
 const FAM = R.replacement_reserve_minimum.family_per_unit_annual, SEN = R.replacement_reserve_minimum.senior_per_unit_annual;
 ok(texts(mut((s) => { s.result.repReservePerUnit = SEN - 50; })).includes(`bad: Replacement reserve of ${$m(SEN - 50)}`), 'a reserve under CHFA\'s minimum is flagged');
-ok(texts(mut((s) => { s.result.repReservePerUnit = (FAM + SEN) / 2; })).includes(`bad: Replacement reserve of ${$m((FAM + SEN) / 2)} a unit is under CHFA's ${$m(FAM)} family minimum (it meets the ${$m(SEN)} senior minimum`), 'a reserve between the two is held to the family minimum');
+ok(texts(mut((s) => { s.result.repReservePerUnit = (FAM + SEN) / 2; })).includes(`warn: Replacement reserve of ${$m((FAM + SEN) / 2)} a unit is under CHFA's ${$m(FAM)} family minimum (it meets the ${$m(SEN)} senior minimum`), 'a reserve between the two minimums is a question about the deal type, not a failure');
 ok(/warn: Debt coverage was measured for 5 of the first 15 years/.test(texts(mut((s) => { s.result.coverage.years = s.result.coverage.years.slice(0, 5); }))) && !/ok: Debt coverage/.test(texts(mut((s) => { s.result.coverage.years = s.result.coverage.years.slice(0, 5); }))), 'a five-year projection never passes coverage');
 ok(/warn: Debt coverage was measured for 14 of/.test(texts(mut((s) => { s.result.coverage.years[9].unavailableReason = 'x'; }))), 'a year with unknown debt service blocks the coverage pass');
 ok(/ok: Debt coverage on all must-pay debt stays at or above/.test(texts(m)), 'fifteen measured years pass coverage');

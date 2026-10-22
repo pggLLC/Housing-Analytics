@@ -257,9 +257,13 @@
     // The calculator does not record project-based Section 8, so a cost between the two minimums is flagged, not passed.
     else if (min.opex && min.opexSection8 && opexAll != null && opexAll < min.opexSection8.value) out.push({ level: 'warn', text: (opexAll === o.opexPerUnit ? 'Operating cost of ' + money(o.opexPerUnit) + ' a unit' : opexLabel) + ' meets CHFA\'s ' + money(min.opex.value) + ' minimum but not the ' + money(min.opexSection8.value) + ' it requires for project-based Section 8. Confirm the deal has no project-based Section 8.', source: min.opexSection8 });
     var resMin = min.reserve;
-    // The calculator does not record whether a deal is senior housing, so the family minimum applies.
-    if (resMin && o.reservePerUnit != null && o.reservePerUnit < resMin.value) out.push({ level: 'bad', text: 'Replacement reserve of ' + money(o.reservePerUnit) + ' a unit is under CHFA\'s ' + money(resMin.value) + ' family minimum' +
-      (min.reserveSenior && o.reservePerUnit >= min.reserveSenior.value ? ' (it meets the ' + money(min.reserveSenior.value) + ' senior minimum, if this is senior housing)' : '') + '.', source: resMin });
+    // The calculator does not record whether a deal is senior housing. Under the senior minimum is a failure either
+    // way; between the two minimums it depends on the deal type, so it is a question, as with Section 8.
+    if (resMin && o.reservePerUnit != null && o.reservePerUnit < resMin.value) {
+      var seniorOk = min.reserveSenior && o.reservePerUnit >= min.reserveSenior.value;
+      out.push({ level: seniorOk ? 'warn' : 'bad', text: 'Replacement reserve of ' + money(o.reservePerUnit) + ' a unit is under CHFA\'s ' + money(resMin.value) + ' family minimum' +
+        (seniorOk ? ' (it meets the ' + money(min.reserveSenior.value) + ' senior minimum, so it holds only if this is senior housing). Confirm the deal type.' : '.'), source: resMin });
+    }
     if (min.vacancy && o.vacancy != null && o.vacancy < min.vacancy.value - 1e-9) out.push({ level: 'warn', text: 'Vacancy of ' + pct(o.vacancy, 1) + ' is under CHFA\'s ' + pct(min.vacancy.value) + ' minimum (5% only with project-based Section 8 on every unit).', source: min.vacancy });
     if (min.rentGrowth && o.rentGrowth != null && o.rentGrowth > min.rentGrowth.value + 1e-9) out.push({ level: 'warn', text: 'Rents grow ' + pct(o.rentGrowth, 1) + ' a year; CHFA underwrites ' + pct(min.rentGrowth.value) + '.', source: min.rentGrowth });
     if (min.expGrowth && o.expGrowth != null && o.expGrowth < min.expGrowth.value - 1e-9) out.push({ level: 'warn', text: 'Costs grow ' + pct(o.expGrowth, 1) + ' a year; CHFA underwrites ' + pct(min.expGrowth.value) + '.', source: min.expGrowth });
