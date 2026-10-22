@@ -290,7 +290,7 @@ ok(/warn: This is a supportive housing deal\. CHFA requires a higher operating c
 ok(/ok: Operating cost was checked against CHFA's .* if this deal does, confirm the budget with CHFA\./.test(supp(undefined)), 'a deal not known to be supportive says what the check measured');
 ok(!/supportive housing deal|provide additional services/.test(supp(false)), 'a deal known not to be supportive gets neither note');
 { const CB = require(path.join(ROOT, 'js/deal-cost-basis.js')); const wbSrc = read('js/whitepaper/deal-workbook.js');
-  ok(wbSrc.includes(JSON.stringify(CB.BOND_TEST_NOTE).slice(1, -1)) && wbSrc.includes(CB.REHAB_MINIMUM_NOTE.replace("'", "\\'")), 'the bond test and rehab minimum notes match the engine'); }
+  ok(wbSrc.includes(JSON.stringify(CB.BOND_TEST_NOTE).slice(1, -1)) && wbSrc.includes(CB.REHAB_MINIMUM_NOTE.replace(/'/g, "\\'")), 'the bond test and rehab minimum notes match the engine'); }
 const four = mut0((s) => { s.result.creditType = '4'; });
 ok(texts(four).includes('warn: Not checked: Assumes the tax-exempt bonds meet the aggregate basis test.') && WB.render(four).includes('aggregate basis test'), 'a 4% deal says the bond test was not checked');
 ok(!/aggregate basis test|rehabilitation hard costs/.test(texts(m)), 'a new 9% deal has neither note');
