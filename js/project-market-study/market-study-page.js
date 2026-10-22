@@ -354,7 +354,7 @@
    */
   function renderGeographyBanner(data) {
     var geography = data.geography;
-    var methodLink = '<a href="https://github.com/pggLLC/Housing-Analytics/blob/main/docs/MARKET_ANALYSIS_METHOD.md#jurisdiction-market-area-and-project-site">What\'s the difference?</a>';
+    var methodLink = '<a href="docs/MARKET_ANALYSIS_METHOD.md">What\'s the difference?</a>';
     if (!geography || geography.mode !== 'jurisdiction') {
       return '<aside class="ms-geography ms-geography--example" role="note" data-study-mode="example">'
         + '<p><strong>Example study.</strong> No jurisdiction is selected, so this page screens an example project '

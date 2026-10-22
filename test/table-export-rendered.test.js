@@ -27,7 +27,6 @@ const registry = sandbox.window.TableExportRegistry.tables;
 
 const PAGES = {
   'colorado-deep-dive.html': Object.keys(registry).filter((id) => id.startsWith('dd-')),
-  'lihtc-allocations.html': Object.keys(registry).filter((id) => id.startsWith('la-')),
   'insights.html': Object.keys(registry).filter((id) => id.startsWith('in-')),
   'chfa-portfolio.html': Object.keys(registry).filter((id) => id.startsWith('cp-'))
 };

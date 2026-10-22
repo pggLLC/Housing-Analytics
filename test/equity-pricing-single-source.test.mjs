@@ -82,7 +82,9 @@ test('Insights prices, QoQ, YoY and as_of come from the data files', async () =>
   const { doc } = render('insights.html');
   await until(() => doc.querySelector('#insightsPricingRows [data-credit]'));
   const rows = [...doc.querySelectorAll('#insightsPricingRows [data-credit]')];
-  assert.equal(rows.length, 2, 'one row per credit type the file prices');
+  assert.equal(rows.length, 3, 'the Colorado median, then one row per national credit type');
+  assert.equal(rows[0].getAttribute('data-credit'), 'co', 'Colorado leads');
+  assert.equal(rows[0].cells[1].textContent.trim(), money(BENCH.pricing.by_state.CO.median_all_credits), 'Colorado median');
   for (const [key, field] of [['nine', 'credit_9pct'], ['four', 'credit_4pct']]) {
     const cells = [...doc.querySelector(`[data-credit="${key}"]`).cells].map((c) => c.textContent.trim());
     const n = Q.length - 1;
@@ -168,14 +170,19 @@ test('legislation does not price equity from unsourced constants', () => {
   assert.doesNotMatch(read('js/cra-expansion-forecast.js'), /getCurrentBills/);
 });
 
-test('the 9% price chips on Dashboard, Regional and the Deep Dive show the file price, not a typed one', async () => {
-  for (const page of ['dashboard.html', 'regional.html', 'colorado-deep-dive.html']) {
-    assert.ok(!/>\$0\.\d\d<\/div>\s*<div[^>]*>[^<]*9% Credit Price|Credit Pricing \(9%\)<\/div>\s*<div[^>]*>\$0\.\d\d</.test(read(page)),
-      `${page} types a 9% credit price instead of reading data/market/novogradac-equity-pricing.json`);
+test('the Deep Dive price chip leads with the Colorado median from the file', async () => {
+  const CO = BENCH.pricing.by_state.CO.median_all_credits;
+  for (const page of ['colorado-deep-dive.html']) {
+    const typed = [...new JSDOM(read(page)).window.document.querySelectorAll('div, span')]
+      .filter((el) => /^\$0\.\d\d$/.test(el.textContent.trim()));
+    assert.equal(typed.length, 0,
+      `${page} types a credit price instead of reading data/market/novogradac-equity-pricing.json`);
     const { doc } = render(page);
-    const chips = () => [...doc.querySelectorAll('[data-equity-price="nine"]')];
-    assert.ok(chips().length >= 1, `${page} has no 9% price chip`);
-    await until(() => chips().every((el) => el.textContent !== '—'));
-    for (const el of chips()) assert.equal(el.textContent, money(NAT.credit_9pct), `${page} chip`);
+    const chips = (k) => [...doc.querySelectorAll(`[data-equity-price="${k}"]`)];
+    assert.ok(chips('co').length >= 1, `${page} has no Colorado price chip`);
+    assert.ok(chips('nine').length >= 1, `${page} has no 9% market reference`);
+    await until(() => [...chips('co'), ...chips('nine')].every((el) => el.textContent !== '—'));
+    for (const el of chips('co')) assert.equal(el.textContent, money(CO), `${page} Colorado chip`);
+    for (const el of chips('nine')) assert.equal(el.textContent, money(NAT.credit_9pct), `${page} 9% reference`);
   }
 });

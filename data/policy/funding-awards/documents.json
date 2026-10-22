@@ -347,7 +347,7 @@
    ],
    "review": {
     "reason": "The Total Units and Total LI Units columns sit close together, and the parser read most rows' total units into the LI column (Gateway South: 92 total, 58 LI). Each row transcribed from the PDF.",
-    "reviewed_by": "Claude, for the pggLLC COHO data review",
+    "reviewed_by": "pggLLC COHO data review",
     "reviewed_at": "2026-10-18",
     "method": "rows transcribed from the PDF and checked against its printed totals"
    }
@@ -490,7 +490,7 @@
    ],
    "review": {
     "reason": "Two scattered-site awards print their credits on a parent row and their units on sub-rows (\"see below\"), which the parser read as separate projects. Each award transcribed from the PDF, with its sites' units summed.",
-    "reviewed_by": "Claude, for the pggLLC COHO data review",
+    "reviewed_by": "pggLLC COHO data review",
     "reviewed_at": "2026-10-18",
     "method": "rows transcribed from the PDF and checked against its printed totals"
    }
@@ -648,7 +648,7 @@
    ],
    "review": {
     "reason": "Rose on Colfax's two unit counts are printed run together (\"8282\"), and Village at Solid Rock's two were read as one number. Each row transcribed from the PDF; 82 and 82 are the only values that make both unit columns add up to the printed totals.",
-    "reviewed_by": "Claude, for the pggLLC COHO data review",
+    "reviewed_by": "pggLLC COHO data review",
     "reviewed_at": "2026-10-18",
     "method": "rows transcribed from the PDF and checked against its printed totals"
    }
@@ -797,7 +797,7 @@
    ],
    "review": {
     "reason": "The four Park Ridge Apartments properties are followed by a \"Park Ridge Apartments - Totals\" subtotal row, which the parser counted as a fifth award. Each award transcribed from the PDF, without the subtotal.",
-    "reviewed_by": "Claude, for the pggLLC COHO data review",
+    "reviewed_by": "pggLLC COHO data review",
     "reviewed_at": "2026-10-18",
     "method": "rows transcribed from the PDF and checked against its printed totals"
    }
@@ -927,7 +927,7 @@
    ],
    "review": {
     "reason": "The parser read the Total Units column as the TC Units column, and Bentley Commons's two counts as one (384). Each row transcribed from the PDF.",
-    "reviewed_by": "Claude, for the pggLLC COHO data review",
+    "reviewed_by": "pggLLC COHO data review",
     "reviewed_at": "2026-10-18",
     "method": "rows transcribed from the PDF and checked against its printed totals"
    }

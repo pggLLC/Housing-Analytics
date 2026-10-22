@@ -139,31 +139,6 @@
       selection: { County: '#mdCounty' }
     },
 
-    /* ── lihtc-allocations.html ──────────────────────────────────────── */
-    'la-regions': {
-      title: 'LIHTC allocation by U.S. region',
-      description: 'One row per U.S. Census region for the year and filters selected on the page.',
-      sources: ['lihtc-state-allocations'],
-      selection: { Year: '#year-select', Region: '#region-select', State: '#state-select', 'Quick search': '#state-search' },
-      sourcesBySelection: {
-        control: '#year-select',
-        values: { '2026': ['lihtc-state-allocations'] },
-        otherwise: ['lihtc-state-allocations-historical']
-      }
-    },
-    'la-states': {
-      title: 'LIHTC allocation by state',
-      description: 'One row per state for the year, region, state and search filters selected on the page.',
-      sources: ['lihtc-state-allocations'],
-      selection: { Year: '#year-select', Region: '#region-select', State: '#state-select', 'Quick search': '#state-search' },
-      sourcesBySelection: {
-        control: '#year-select',
-        values: { '2026': ['lihtc-state-allocations'] },
-        otherwise: ['lihtc-state-allocations-historical']
-      },
-      notes: 'The page lists up to 50 rows, so with no filter one of the 51 jurisdictions (50 states and DC) is not shown and not downloaded.'
-    },
-
     /* ── chfa-portfolio.html ──────────────────────────────────────────── */
     'cp-portfolio': {
       title: 'CHFA multifamily tax-credit portfolio',
@@ -180,7 +155,7 @@
     /* ── insights.html ───────────────────────────────────────────────── */
     'in-equity-pricing': {
       title: 'LIHTC equity pricing',
-      description: 'National average equity price per $1 of federal credit for 9% and 4% credits, with quarter-over-quarter and year-over-year change.',
+      description: 'Equity price per $1 of federal credit: the Colorado median across all credit types (no change figures), then the national 9% and 4% averages as a market reference, with quarter-over-quarter and year-over-year change.',
       sources: ['novogradac-equity-pricing'],
       notes: 'Captured by hand from Novogradac each quarter; see the Sources sheet for the date it last changed.'
     },

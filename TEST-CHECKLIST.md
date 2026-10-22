@@ -29,18 +29,17 @@ A lightweight manual verification guide to run after every deployment. Each chec
 
 ---
 
-### ✓ dashboard.html (LIHTC Dashboard)
+### ✓ dashboard.html (redirect to the Colorado Snapshot)
 
-**Expected:** Page loads; main chart area renders; sidebar data loads within 5 seconds.
+**Expected:** `/dashboard.html`, `/regional.html` and `/lihtc-allocations.html` open the Colorado Deep Dive on its Colorado Snapshot tab.
 
 **Quick check:**
-1. Navigate to `/dashboard.html`
-2. Confirm LIHTC allocation chart renders (not blank)
-3. Confirm sidebar shows state totals
+1. Navigate to `/lihtc-allocations.html`
+2. Confirm the page lands on the Colorado Snapshot tab with its tab bar in view
+3. Confirm the "Colorado 9% Credit Ceiling (2026)" card shows a dollar figure, not "—"
 
 **Common failure modes:**
-- `data/chfa-lihtc.json` missing or malformed → chart shows empty state
-- `js/citations.js` path error → check console for 404
+- `data/allocations.json` missing or malformed → ceiling card stays "—"
 
 ---
 
