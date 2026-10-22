@@ -89,8 +89,8 @@
     return '<p class="tzm__rule" style="margin:.5rem 0 0;">' +
       'HB26-1065 defines a zone as “' + esc(st.zone.quote) + '” (' + esc(st.zone.cite) + '), and a transportation facility as “' +
       esc(st.facility.quote) + '” (' + esc(st.facility.cite) + '). It has no service-frequency test. ' +
-      'This map shades ' + esc(String(mapStatus.zone_radius_miles)) + ' miles around every confirmed bus or rail stop running today. OEDIT will count only stations, ' +
-      'so most zones should be smaller than the shading, but a planned station named in a transit plan could add a zone where no stop runs yet. ' +
+      'This map shades ' + esc(String(mapStatus.zone_radius_miles)) + ' miles around every bus or rail stop that CDOT or a transit agency publishes. OEDIT will count only stations, ' +
+      'so most zones should be smaller than the shading, but a planned station named in a transit plan could add a zone where no stop is published yet. ' +
       'Read the shading as a screen, not the zone.</p>';
   }
 
