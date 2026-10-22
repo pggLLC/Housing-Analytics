@@ -101,12 +101,12 @@ const R = rules.rules, $m = WB.money, p1 = (v) => (v * 100).toFixed(1) + '%', x2
 const PUPA = R.pupa_minimum.per_unit_annual, PUPA8 = R.pupa_minimum.per_unit_annual_section8, TAX = 900;
 const opexCase = (opex, tax) => texts(mut((s) => { s.result.operatingSummary.perUnitYear = opex; s.result.propTaxPerUnit = tax; }));
 ok(opexCase(PUPA - 600 - TAX, TAX).includes(`bad: Operating cost plus property tax of ${$m(PUPA - 600)} a unit is under CHFA's ${$m(PUPA)}`), 'operating cost plus tax under the minimum is flagged');
-ok(!/Operating cost/.test(opexCase(PUPA8 - TAX, TAX)), 'property tax counts toward both minimums');
+ok(!/(bad|warn): Operating cost/.test(opexCase(PUPA8 - TAX, TAX)), 'property tax counts toward both minimums');
 ok(opexCase(PUPA - 500, null).includes(`warn: Operating cost of ${$m(PUPA - 500)} a unit is under CHFA's ${$m(PUPA)} minimum before property tax`), 'without the tax, a low cost is a question, not a failure');
 const exempt = mut((s) => { s.result.operatingSummary.perUnitYear = PUPA - 300; s.result.propTaxPerUnit = TAX; s.result.netPropTax = 0; });
 ok(exempt.operating.taxPerUnit === 0 && texts(exempt).includes(`bad: Operating cost of ${$m(PUPA - 300)} a unit is under`), 'a tax exemption is counted: the net tax, not the gross input');
 ok(opexCase(PUPA + 100 - TAX, TAX).includes(`warn: Operating cost plus property tax of ${$m(PUPA + 100)} a unit meets CHFA's ${$m(PUPA)} minimum but not the ${$m(PUPA8)}`), 'a cost between the two minimums is flagged for Section 8');
-ok(!/Operating cost/.test(opexCase(PUPA8 - TAX, TAX)), 'operating cost plus tax at the Section 8 minimum is not flagged');
+ok(!/(bad|warn): Operating cost/.test(opexCase(PUPA8 - TAX, TAX)), 'operating cost plus tax at the Section 8 minimum is not flagged');
 const VAC = R.pro_forma_vacancy.rate, RG = R.pro_forma_rent_growth.rate, EG = R.pro_forma_expense_growth.rate;
 ok(texts(mut((s) => { s.result.vacancyRate = VAC - 0.02; })).includes(`warn: Vacancy of ${p1(VAC - 0.02)}`), 'vacancy under CHFA\'s rate is flagged');
 ok(texts(mut((s) => { s.result.exit.rentGrowth = RG + 0.01; })).includes(`warn: Rents grow ${p1(RG + 0.01)}`), 'rent growth over CHFA\'s rate is flagged');
@@ -281,6 +281,14 @@ ok(ungroupedBlank.sources.rows.some((x) => x.amount === null && x.label === "Ban
 const noCapacity = mut0((s) => { s.result.costBasis.basis.reasons = { capacity: "Credit capacity needs CHFA's gap calculation, which cannot run yet: Enter the first mortgage." }; });
 ok(texts(noCapacity).includes("warn: The credit capacity CHFA allows was not established: Credit capacity needs CHFA's gap calculation, which cannot run yet: Enter the first mortgage. The yearly credit shown is not tested against it.") && WB.render(noCapacity).includes('Credit capacity'), 'a credit capacity test that could not run is a warning, with the engine\'s reason');
 ok(!/credit capacity CHFA allows/.test(texts(m)), 'a complete deal has no capacity warning');
+const overLoan = mut0((s) => { s.permanentFinancing.hardDebt = 9000000; s.permanentFinancing.overMaxLoan = 1500000; s.permanentFinancing.maxLoan = { byCap: { maxLoan: 7500000 }, byAppraisal: { maxLoan: 8000000 } }; });
+ok(texts(overLoan).includes('bad: Hard debt of $9,000,000 is $1,500,000 above the lower maximum loan ($7,500,000) that the cap rate or appraisal supports.') && WB.render(overLoan).includes('above the lower maximum loan of $7,500,000'), 'hard debt above the loan limits is flagged');
+ok(!/above the lower maximum loan/.test(texts(m)), 'a deal within its loan limits has no overage');
+const snap0 = JSON.parse(read('test/fixtures/deal-workbook/invented-deal.json'));
+const supp = (v) => texts(WB.build(JSON.parse(JSON.stringify(snap0)), rules, { supportive: v }));
+ok(/warn: This is a supportive housing deal\. CHFA requires a higher operating cost minimum/.test(supp(true)), 'a supportive deal says the services minimum was not measured');
+ok(/ok: Operating cost was checked against CHFA's .* if this deal does, confirm the budget with CHFA\./.test(supp(undefined)), 'a deal not known to be supportive says what the check measured');
+ok(!/supportive housing deal|provide additional services/.test(supp(false)), 'a deal known not to be supportive gets neither note');
 { const CB = require(path.join(ROOT, 'js/deal-cost-basis.js')); const wbSrc = read('js/whitepaper/deal-workbook.js');
   ok(wbSrc.includes(JSON.stringify(CB.BOND_TEST_NOTE).slice(1, -1)) && wbSrc.includes(CB.REHAB_MINIMUM_NOTE.replace("'", "\\'")), 'the bond test and rehab minimum notes match the engine'); }
 const four = mut0((s) => { s.result.creditType = '4'; });

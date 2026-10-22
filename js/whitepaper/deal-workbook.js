@@ -73,7 +73,8 @@
   var BOND_TEST_NOTE = 'Assumes the tax-exempt bonds meet the aggregate basis test. Otherwise CHFA allows 4% credit only on the share of eligible basis the bonds finance (CHFA 2025-2026 QAP, PDF page 54). Not checked here.';
   var REHAB_MINIMUM_NOTE = 'CHFA also requires rehabilitation hard costs, not counting acquisition or soft costs, above the greater of 20% of the building\'s adjusted basis or $20,000 per unit (CHFA 2025-2026 QAP, PDF page 35). Not checked here.';
 
-  function build(snap, rules) {
+  // ctx carries what a saved Submittal version knows and the calculator does not: whether the deal is supportive housing.
+  function build(snap, rules, ctx) {
     var r = snap && snap.result;
     if (!r) return { error: 'The Deal Calculator gave no result for this deal.' };
     if (r.chfaRegime === false) return { error: 'This deal uses ' + ((snap.rentLimits && snap.rentLimits.regime) || 'non-tax-credit') + ' rent limits, so it has no tax credits to lay out. The workbook covers rental tax credit deals; switch the Deal Calculator to CHFA tax credit limits.' };
@@ -133,7 +134,10 @@
       });
       if (num(pf.deferredDevFee)) sources.push({ label: 'Deferred developer fee', amount: num(pf.deferredDevFee) });
       else if (pf.deferredDevFee == null && un.deferredDevFee) sources.push({ label: 'Deferred developer fee: not known, ' + un.deferredDevFee, amount: null });
-      model.sources = { rows: sources, total: num(pf.totals.totalSources), gap: num(pf.totals.gap), tdc: num(pf.totals.tdc) };
+      // Hard debt above the lower of the cap-rate and appraisal loan limits, as the calculator shows it.
+      var ml = pf.maxLoan || {}, limits = [ml.byCap && num(ml.byCap.maxLoan), ml.byAppraisal && num(ml.byAppraisal.maxLoan)].filter(function (x) { return x != null; });
+      model.sources = { rows: sources, total: num(pf.totals.totalSources), gap: num(pf.totals.gap), tdc: num(pf.totals.tdc),
+        hardDebt: num(pf.hardDebt), maxLoan: limits.length ? Math.min.apply(null, limits) : null, overMaxLoan: num(pf.overMaxLoan) };
     } else model.sources = { rows: [], reason: (pf && pf.reasons && pf.reasons[0]) || un.fundingGap || 'The calculator could not build the sources for this deal.' };
 
     // Uses: the itemized budget by group.
@@ -280,6 +284,7 @@
       weakest: model.coverage.weakest, coverageFull: model.coverage.full, coverageReason: model.coverage.reason,
       paybackYear: model.deferredFee.paybackYear, deferredFee: dfee, deferredFeeReason: model.deferredFee.reason, owedAt15: model.deferredFee.owedAt15, payoffReason: model.deferredFee.payoffReason
     };
+    model.supportive = ctx && typeof ctx.supportive === 'boolean' ? ctx.supportive : null;
     model.findings = findings(model, r);
     return model;
   }
@@ -307,6 +312,14 @@
     else if (min.opex && opexAll != null && opexAll < min.opex.value) out.push({ level: 'bad', text: opexAll === o.opexPerUnit ? 'Operating cost of ' + money(o.opexPerUnit) + ' a unit is under CHFA\'s ' + money(min.opex.value) + ' minimum.' : opexLabel + ' is under CHFA\'s ' + money(min.opex.value) + ' minimum.', source: min.opex });
     // The calculator does not record project-based Section 8, so a cost between the two minimums is flagged, not passed.
     else if (min.opex && min.opexSection8 && opexAll != null && opexAll < min.opexSection8.value) out.push({ level: 'warn', text: (opexAll === o.opexPerUnit ? 'Operating cost of ' + money(o.opexPerUnit) + ' a unit' : opexLabel) + ' meets CHFA\'s ' + money(min.opex.value) + ' minimum but not the ' + money(min.opexSection8.value) + ' it requires for project-based Section 8. Confirm the deal has no project-based Section 8.', source: min.opexSection8 });
+    var sr = m.sources || {};
+    if (sr.overMaxLoan > 0.5) out.push({ level: 'bad', text: 'Hard debt of ' + money(sr.hardDebt) + ' is ' + money(sr.overMaxLoan) + ' above the lower maximum loan (' + money(sr.maxLoan) + ') that the cap rate or appraisal supports.' });
+    // CHFA's minimum is higher for projects that provide additional services, with no figure published. A supportive
+    // deal that clears the base minimum is not settled by it; a deal not known either way says what was measured.
+    if (min.opex && o.opexPerUnit != null && !out.some(function (f) { return f.source === min.opex && f.level === 'bad'; })) {
+      if (m.supportive === true) out.push({ level: 'warn', text: 'This is a supportive housing deal. CHFA requires a higher operating cost minimum for projects that provide additional services and publishes no figure, so the ' + money(min.opex.value) + ' check does not settle it. Confirm the budget with CHFA.', source: min.opex });
+      else if (m.supportive == null) out.push({ level: 'ok', text: 'Operating cost was checked against CHFA\'s ' + money(min.opex.value) + ' minimum. CHFA requires more, with no figure published, for projects that provide additional services; if this deal does, confirm the budget with CHFA.', source: min.opex });
+    }
     var resMin = min.reserve;
     // The calculator does not record whether a deal is senior housing. Under the senior minimum is a failure either
     // way; between the two minimums it depends on the deal type, so it is a question, as with Section 8.
@@ -433,6 +446,7 @@
     }).concat([{ cls: 'sr-total', cells: ['Total sources', esc(money(s.total)), esc(s.tdc && s.total != null ? pct(s.total / s.tdc) : '—')] }])
       .concat(s.gap != null && Math.abs(s.gap) > 0.5 ? [{ cls: 'sr-total', cells: [s.gap > 0 ? 'Gap' : 'Surplus', esc(money(Math.abs(s.gap))), esc(s.tdc ? pct(Math.abs(s.gap) / s.tdc) : '—')] }] : []), { num: [1, 2], fixed: true })
       : '<p class="sr-muted">' + esc(s.reason) + '</p>';
+    if (s.overMaxLoan > 0.5) h += '<p class="sr-muted">Hard debt is ' + esc(money(s.overMaxLoan)) + ' above the lower maximum loan of ' + esc(money(s.maxLoan)) + '.</p>';
     h += '</div><div><h3>Uses</h3>';
     // A budget with nothing itemized still shows its one "Not itemized" line rather than a bare total.
     h += u.rows.length || u.notItemized > 0.5 ? table(['Use', 'Amount', 'Per home'], u.rows.map(function (x) {
@@ -628,7 +642,7 @@
       $('wbOut').innerHTML = ''; $('wbPrint').hidden = true; $('wbOpenCalc').hidden = true;
       return ++tok;
     }
-    function open(query, title, reserved) {
+    function open(query, title, reserved, ctx) {
       var my = reserved != null ? reserved : take();
       if (my !== tok) return;
       if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
@@ -638,7 +652,7 @@
         var f = got[0], rules = got[1];
         if (my !== tok) { f.remove(); return; }
         var snap = readCalc(f.contentWindow); f.remove();
-        $('wbOut').innerHTML = render(build(snap, rules), title);
+        $('wbOut').innerHTML = render(build(snap, rules, ctx), title);
         status(''); $('wbPrint').hidden = false;
         if ($('wbOut').scrollIntoView) $('wbOut').scrollIntoView({ block: 'start' });
       }, function (err) { if (my === tok) status(err.message); });
@@ -674,7 +688,8 @@
         if (x == null) { status('That version did not load. Try again, or use a share link or Export JSON file.'); return; }
         var q = queryFrom(x);
         if (!q) { status('That version was saved without a Deal Calculator export. Open it in Submittal review, load an export, and save again.'); return; }
-        open(q, name, gen);
+        var dl = (x.data && x.data.deal) || x.deal || {};
+        open(q, name, gen, { supportive: typeof dl.supportive === 'boolean' ? dl.supportive : null });
       });
     });
     $('wbOpenLink').addEventListener('click', function () { open(queryFrom($('wbLink').value), null); });
