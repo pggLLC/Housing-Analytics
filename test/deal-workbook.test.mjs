@@ -274,6 +274,8 @@ const flagged = mut0((s) => { const b = s.result.costBasis.basis; b.requested = 
 ok(/warn: Credit: The request is more than the credit capacity\./.test(texts(flagged)) && /warn: Credit: The award is more than the request\./.test(texts(flagged)) && WB.render(flagged).includes('Credit awarded'), 'the engine\'s credit request and award flags become warnings');
 const noMethod3 = mut0((s) => { s.result.costBasis.basis.costLimitMethod = { checked: false, reason: 'CHFA lists its cost basis limits (Method Three) only in the Excel application, so the calculator does not check them.' }; });
 ok(/warn: CHFA's cost basis limit \(Method Three\) was not checked: CHFA lists/.test(texts(noMethod3)) && WB.render(noMethod3).includes('Not checked: CHFA lists'), 'the unchecked cost basis limit is disclosed');
+const ungroupedBlank = mut0((s) => { s.permanentFinancing.unclassified = [{ id: 'u2', program: null, label: 'Bank loan', amount: null, reason: "Choose where this source counts in DOH's layout." }]; });
+ok(ungroupedBlank.sources.rows.some((x) => x.amount === null && x.label === "Bank loan: not known, enter the amount; not yet grouped, Choose where this source counts in DOH's layout."), 'an ungrouped source with no amount gives both reasons');
 const ungrouped = mut0((s) => { s.permanentFinancing.unclassified = [{ id: 'u1', program: null, label: 'Foundation loan', amount: 250000, reason: "Choose where this source counts in DOH's layout." }]; });
 ok(ungrouped.sources.rows.some((x) => x.amount === 250000 && x.label === "Foundation loan: not yet grouped, Choose where this source counts in DOH's layout."), 'a source with no DOH group keeps its reason');
 

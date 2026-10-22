@@ -118,9 +118,12 @@
           var name = s.label && prog ? s.label + ' (' + prog + ')' : (s.label || prog || 'Other source');
           // A source with no DOH group keeps the engine's reason, so it never reads as classified.
           var amt = num(s.amount != null ? s.amount : s.principal);
-          if (k === 'unclassified' && s.reason) name += ': not yet grouped, ' + s.reason;
-          // A source entered without a usable amount makes the total unknown; say which one.
-          else if (amt == null) name += ': not known, enter the amount';
+          // A source entered without a usable amount makes the total unknown; say which one. A source with no
+          // DOH group says so too, and a row can need both.
+          var notes = [];
+          if (amt == null) notes.push('not known, ' + ((s.source === 'senior' ? un.mortgage : null) || 'enter the amount').replace(/\.$/, ''));
+          if (k === 'unclassified' && s.reason) notes.push('not yet grouped, ' + s.reason);
+          if (notes.length) name += ': ' + notes.join('; ');
           sources.push({ label: name, amount: amt }); });
       });
       if (num(pf.deferredDevFee)) sources.push({ label: 'Deferred developer fee', amount: num(pf.deferredDevFee) });
