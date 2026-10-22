@@ -446,12 +446,14 @@ OFF_TOPIC_RE = re.compile(
     # paul, 2026-10-22: a snowy-winter forecast, the Big Bend border wall and
     # a healthcare grant all reached Housing News.
     r'snow\w*|winter|weather|forecast\w*|storms?|avalanche\w*|border wall|data cent(?:er|re)s?|'
-    r'airports?|school enrollment|healthcare|hospitals?|judge|race to succeed|governor\'?s race)\b', re.I)
+    r'airports?|school enrollment|healthcare|hospitals?|judge|race to succeed|governor\'?s race|'
+    # A road crash is off topic; "Homebuilder Sentiment Crashes" keeps its housing word.
+    r'crash\w*)\b', re.I)
 # These words are in HOUSING_TITLE_RE because housing stories use them, but
 # so does everything else: "border wall construction", "water bill", "fire at
 # abandoned building". On their own they do not outweigh an off-topic word.
 WEAK_HOUSING_RE = re.compile(
-    r'(?:construct\w*|land|lots?|parcels?|permit\w*|buildings?|builders?|shelters?|propert(?:y|ies)|water|'
+    r'(?:construct\w*|develop\w*|land|lots?|parcels?|permit\w*|buildings?|builders?|shelters?|propert(?:y|ies)|water|'
     r'sewer|infrastructure|grants?|growth|bonds?|neighborhoods?|workforce|groundbreaking|annex\w*)', re.I)
 # A crime, fire or police story is not housing news because it happened at an
 # apartment ("Man arrested on suspicion of setting fires near Pueblo
@@ -459,7 +461,7 @@ WEAK_HOUSING_RE = re.compile(
 # "Marshall Fire survivors rebuild homes", "shooting at homeless shelter".
 INCIDENT_RE = re.compile(
     r'\b(arrest\w*|suspect\w*|suspicion|police|shooting|stabbing|homicide|murder\w*|arson\w*|'
-    r'fires?|firefighters?|blaze|crash\w*|vandal\w*|shelter-in-place|standoff)\b', re.I)
+    r'fires?|firefighters?|blaze|vandal\w*|shelter-in-place|standoff)\b', re.I)
 HOUSING_POLICY_RE = re.compile(
     r'\b(housing|afford\w*|rent(?:s|ers?|al|als)?|tenant\w*|landlord\w*|evict\w*|(?:re)?zon(?:e|es|ed|ing)|'
     r'homeless\w*|lihtc|tax credits?|rebuild\w*|recovery|displace\w*|mortgage\w*|chfa|hud)\b', re.I)
@@ -648,7 +650,8 @@ def same_national_story(s: dict, kept: list[dict]) -> dict | None:
         # Federal stories fold only into the same outlet's rewrite: "HUD cuts
         # housing voucher funding" and "HUD expands housing voucher
         # eligibility" are two actions (Codex review of #2459).
-        if 'federal' in (k['scope'], s['scope']) and k['source'] != s['source']:
+        federal = 'federal' in (k['scope'], s['scope'])
+        if federal and k['source'] != s['source']:
             continue
         try:
             gap = abs((date.fromisoformat(k['date']) - day).days)
@@ -658,6 +661,10 @@ def same_national_story(s: dict, kept: list[dict]) -> dict | None:
         # One phrase is enough on the same day ("housing starts"); across
         # days it takes two, so "build houses" alone does not fold the WSJ
         # immigration story into a Virginia subdivision story.
+        # A federal rewrite shares two phrases ("treasury yields", "weak
+        # housing"); one ("housing voucher") can be two actions.
+        if federal and (gap or shared < 2):
+            continue
         if (gap == 0 or shared >= 2) and gap <= 3 and shared:
             return k
     return None

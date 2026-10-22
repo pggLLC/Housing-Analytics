@@ -253,6 +253,9 @@ def test_crime_weather_and_border_stories_are_left_out(geos):
         alert("Colorado's largest data center could rise next to homes", 'Colorado Newsline'),
         alert('Pueblo apartment fire displaces 40 renters', 'Pueblo Chieftain'),
         alert('US Homebuilder Sentiment Drops to 14-Year Low on Weak Sales', 'Bloomberg.com'),
+        alert('US Homebuilder Sentiment Crashes to 14-Year Low', 'Reuters', date='2026-08-01'),
+        alert('Colorado approves new data center development near Aurora', 'The Denver Post'),
+        alert('Crash closes Highway 50 near Salida', 'Ark Valley Voice'),
     ], geos)
     assert set(by_title(stories)) == {
         'Water bill with funding for Colorado projects passes the House',
@@ -260,6 +263,7 @@ def test_crime_weather_and_border_stories_are_left_out(geos):
         "Colorado's largest data center could rise next to homes",
         'Pueblo apartment fire displaces 40 renters',
         'US Homebuilder Sentiment Drops to 14-Year Low on Weak Sales',
+        'US Homebuilder Sentiment Crashes to 14-Year Low',
     }
 
 
@@ -270,8 +274,10 @@ def test_a_reworded_headline_from_the_same_outlet_is_one_story(geos):
         # Two outlets, two federal actions.
         alert('HUD cuts housing voucher funding', 'Reuters', date='2026-10-20'),
         alert('HUD expands housing voucher eligibility', 'AP News', date='2026-10-20'),
+        # One outlet, two federal actions.
+        alert('HUD trims housing voucher budget', 'Reuters', date='2026-10-20'),
     ], geos)
-    assert len(stories) == 3
+    assert len(stories) == 4
 
 
 def test_an_indirect_housing_headline_stays(geos):
