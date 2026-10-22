@@ -128,9 +128,12 @@ assert.equal(range([{ level: 'Manager unit' }]), '');
     const opts = [...lim.querySelectorAll('select option')].map((o) => o.textContent);
     assert.deepEqual(opts, ['Weld County (most residents)', 'Boulder County'], 'Erie should offer both counties');
     assert.ok(lim.textContent.includes('Limits for Weld County'));
+    const said = [];
+    w2.__announceUpdate = (msg) => said.push(msg);
     const sel = lim.querySelector('select');
     sel.value = '1'; sel.dispatchEvent(new w2.Event('change'));
     assert.ok(lim.textContent.includes('Limits for Boulder County'), 'picking Boulder should show Boulder limits');
+    assert.deepEqual(said, ['CHFA limits now show Boulder County'], 'the county change should be announced to screen readers');
     const dl = w2.document.getElementById('d');
     assert.ok(dl.textContent.includes('Weld and Boulder counties'), 'deals should cover both counties');
     assert.ok(dl.textContent.includes('All write-ups for Boulder County'));
@@ -158,6 +161,8 @@ assert.equal(range([{ level: 'Manager unit' }]), '');
     const hrefs = [...bf.querySelectorAll('a')].map((a) => a.getAttribute('href'));
     assert.ok(hrefs.includes('deal-summary.html?county=Jefferson'));
     assert.ok(!hrefs.some((h) => /county=Clear/.test(h)), 'no link to a county without write-ups');
+    assert.ok(!bf.textContent.includes('newest from each county'), 'no "each county" claim when one county has none');
+    assert.ok(bf.textContent.includes('none yet in Clear Creek County'), bf.textContent);
   }
 
   // 11. deal-summary.html?county=<county with no write-up> keeps that county selected (empty

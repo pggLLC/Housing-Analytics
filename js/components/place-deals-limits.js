@@ -171,8 +171,11 @@
       var rows = all.filter(function (d) { return names.indexOf(d.county) !== -1; })
         .sort(function (a, b) { return (b.year || 0) - (a.year || 0) || String(a.name).localeCompare(String(b.name)); });
       var where = joinNames(names) + (multi ? ' counties' : ' County');
-      var spans = multi && ctx.place ? esc(ctx.place) + ' spans ' + esc(where) + ', so write-ups from each are listed. ' : '';
-      var links = names.filter(function (n) { return all.some(function (d) { return d.county === n; }); }).map(function (n) {
+      var withDeals = names.filter(function (n) { return all.some(function (d) { return d.county === n; }); });
+      var missing = names.filter(function (n) { return withDeals.indexOf(n) === -1; });
+      var spans = multi && ctx.place ? esc(ctx.place) + ' spans ' + esc(where) + ', so write-ups from each are listed' +
+        (missing.length && withDeals.length ? ' (none yet in ' + esc(joinNames(missing)) + ' County)' : '') + '. ' : '';
+      var links = withDeals.map(function (n) {
         return '<a href="deal-summary.html?county=' + encodeURIComponent(n) + '">All write-ups for ' + esc(n) + ' County</a>';
       }).join(' · ');
       if (!rows.length) {
@@ -208,7 +211,7 @@
           ' ha' + (rows.length === 1 ? 's' : 've') + ' a sourced write-up' +
           (ctx.place && !multi ? '. The list covers the whole county ' + esc(ctx.place) + ' is in' : '') + '.</p>' +
           '<ul class="pdl-list">' + items + '</ul>' +
-          '<p class="pdl-note">' + (rows.length > SHOW_DEALS ? 'Showing ' + SHOW_DEALS + ' of ' + rows.length + (multi ? ', including the newest from each county. ' : ', newest first. ') : '') + links +
+          '<p class="pdl-note">' + (rows.length > SHOW_DEALS ? 'Showing ' + SHOW_DEALS + ' of ' + rows.length + (withDeals.length > 1 ? ', including the newest from each county with a write-up. ' : ', newest first. ') : '') + links +
           '. Each write-up gives the income and bedroom mix, the public money, who is involved and what is still open, with sources. ' +
           'Total development cost is shown only where a public record prints it.</p>';
       });
@@ -283,7 +286,12 @@
       var body = mount.querySelector('[data-pdl-body]');
       var sel = mount.querySelector('select');
       var draw = function () { body.innerHTML = limitsBody(m, rows[Number(sel.value) || 0], ctx, true); };
-      sel.addEventListener('change', draw);
+      sel.addEventListener('change', function () {
+        draw();
+        if (typeof window.__announceUpdate === 'function') {
+          window.__announceUpdate('CHFA limits now show ' + rows[Number(sel.value) || 0].county_name + ' County');
+        }
+      });
       draw();
     }).catch(function () {
       if (!current(mount, id)) return;
