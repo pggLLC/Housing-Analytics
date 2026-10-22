@@ -102,7 +102,11 @@
       if (num(tc.added)) sources.push({ label: tc.addedLabel || 'Other credit equity', amount: num(tc.added) });
       // An added credit the engine left out keeps its row so the stack does not read as complete.
       else if (cs.reason && !cs.counted) sources.push({ label: (cs.label || 'Added credit') + ': not counted, ' + cs.reason, amount: null });
-      if (num(tc.historic)) sources.push({ label: 'Historic credit equity', amount: num(tc.historic) });
+      // Each historic tranche keeps its row; one entered without a usable amount is shown as unknown.
+      (pf.historic || []).forEach(function (h) {
+        var amt = num(h.amount);
+        sources.push(amt != null ? { label: 'Historic credit equity', amount: amt } : { label: 'Historic credit equity: not known, enter the tranche amount', amount: null });
+      });
       ['government', 'other', 'owner', 'unclassified'].forEach(function (k) {
         (pf[k] || []).forEach(function (s) { var prog = s.program ? (labels[s.program] || s.program) : null;
           sources.push({ label: s.label && prog ? s.label + ' (' + prog + ')' : (s.label || prog || 'Other source'), amount: num(s.amount != null ? s.amount : s.principal) }); });
@@ -196,7 +200,8 @@
       return { year: num(w.year), ratio: num(w[key]) };
     }
     model.coverage = { weakest: cov.years ? weakest15('allMustPayCoverage') : null, weakestSenior: cov.years ? weakest15('seniorCoverage') : null, measured: num(cov.measuredYears),
-      known15: known15, full: known15 === YEARS,
+      known15: known15, full: known15 === YEARS, rows15: first15.length,
+      gapReason: (first15.find(function (y) { return y.unavailableReason; }) || {}).unavailableReason || null,
       // With no measurable year the engine's reason sits on the rows, not on un.coverage.
       reason: un.coverage || (first15.length && !first15.some(function (y) { return num(y.allMustPayCoverage) != null; })
         ? (first15.find(function (y) { return y.unavailableReason; }) || {}).unavailableReason || null : null) };
@@ -287,7 +292,10 @@
     var w = m.coverage.weakest;
     if (w && min.dscr && num(w.ratio) != null) {
       if (w.ratio < min.dscr.value) out.push({ level: 'bad', text: 'Debt coverage on all must-pay debt falls to ' + ratio(w.ratio) + ' in year ' + w.year + ', under CHFA\'s ' + ratio(min.dscr.value) + ' minimum.', source: min.dscr });
-      else if (!m.coverage.full) out.push({ level: 'warn', text: 'Debt coverage was measured for ' + m.coverage.known15 + ' of the first ' + YEARS + ' years (weakest ' + ratio(w.ratio) + ' in year ' + w.year + '). CHFA\'s ' + ratio(min.dscr.value) + ' minimum runs through year ' + YEARS + '; set the calculator to project ' + YEARS + ' years.', source: min.dscr });
+      else if (!m.coverage.full) out.push({ level: 'warn', text: 'Debt coverage was measured for ' + m.coverage.known15 + ' of the first ' + YEARS + ' years (weakest ' + ratio(w.ratio) + ' in year ' + w.year + '). CHFA\'s ' + ratio(min.dscr.value) + ' minimum runs through year ' + YEARS + '; ' +
+        // A row's own reason (an unpaid maturity, say) is the remedy; the horizon only matters when rows are missing.
+        [m.coverage.gapReason ? 'later years are not measured: ' + m.coverage.gapReason.replace(/\.$/, '') : null,
+          m.coverage.rows15 < YEARS ? 'set the calculator to project ' + YEARS + ' years' : null].filter(Boolean).join('; ') + '.', source: min.dscr });
       else out.push({ level: 'ok', text: 'Debt coverage on all must-pay debt stays at or above ' + ratio(w.ratio) + ' (weakest: year ' + w.year + '); CHFA\'s minimum is ' + ratio(min.dscr.value) + '.', source: min.dscr });
     } else if (m.coverage.reason) out.push({ level: 'warn', text: 'Debt coverage is not available: ' + m.coverage.reason });
     var y1 = m.cashFlow.rows[0];

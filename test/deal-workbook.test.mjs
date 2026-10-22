@@ -246,4 +246,10 @@ ok(!m.sources.rows.some((x) => /not counted/.test(x.label)), 'no added-credit ro
 const covGone = mut0((s) => { s.result.coverage.years.forEach((y) => { y.allMustPayCoverage = null; y.seniorCoverage = null; y.unavailableReason = 'NOI is unavailable for loan payments.'; }); s.result.unavailable = Object.assign({}, s.result.unavailable); delete s.result.unavailable.coverage; });
 ok(covGone.coverage.reason === 'NOI is unavailable for loan payments.' && /warn: Debt coverage is not available: NOI is unavailable for loan payments\./.test(texts(covGone)), 'coverage with no measurable year carries the row reason into a finding');
 
+const matured = texts(mut((s) => { s.result.coverage.years.slice(9).forEach((y) => { y.allMustPayCoverage = null; y.seniorCoverage = null; y.unavailableReason = 'Loan maturity requires a repayment or refinancing assumption.'; }); }));
+ok(/warn: Debt coverage was measured for 9 of the first 15 years .*later years are not measured: Loan maturity requires a repayment or refinancing assumption\./.test(matured) && !/project 15 years/.test(matured), 'partial coverage names the row reason, not the horizon, when all 15 rows exist');
+ok(/set the calculator to project 15 years\./.test(texts(mut((s) => { s.result.coverage.years = s.result.coverage.years.slice(0, 5); }))), 'a short projection still asks for 15 years');
+const hist = mut0((s) => { s.permanentFinancing.historic = [{ id: 'h1', program: 'historic_tc', amount: 400000 }, { id: 'h2', program: 'historic_tc', amount: null }]; s.permanentFinancing.taxCredit.historic = null; });
+ok(hist.sources.rows.some((x) => x.label === 'Historic credit equity' && x.amount === 400000) && hist.sources.rows.some((x) => x.amount === null && /Historic credit equity: not known/.test(x.label)), 'a historic tranche without an amount stays in the sources as unknown');
+
 console.log(`deal-workbook: ${checks} checks passed`);
