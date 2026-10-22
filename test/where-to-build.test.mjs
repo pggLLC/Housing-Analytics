@@ -221,5 +221,16 @@ for (const p of model.places) {
   for (const f of p.flags) ok(f.date && f.text, `${p.name} red flag is dated`);
 }
 ok(model.places.some((p) => p.flags.length), 'recorded denials show as red flags');
-
+// A denial stops counting once its research row passes review_by, the same as approvals.
+{
+  const isDenial = (i) => i.type === 'denial' || i.outcome === 'denied' || i.outcome === 'recommended_denial';
+  const rows = docs.support.jurisdictions.filter((j) => j.items.some(isDenial));
+  ok(rows.length, 'a research row with a denial exists');
+  const titles = new Set(rows.flatMap((j) => j.items.filter(isDenial).map((i) => i.title)));
+  const hit = (m) => m.places.filter((p) => p.flags.some((f) => [...titles].some((t) => f.text.startsWith(t))));
+  ok(hit(model).length, 'those denials are red flags while the rows are current');
+  const expired = { ...docs.support, jurisdictions: docs.support.jurisdictions.map((j) => (rows.includes(j) ? { ...j, review_by: '2026-10-21' } : j)) };
+  const stale = hit(W.build({ ...docs, support: expired }, TODAY));
+  ok(!stale.length, `denials stop counting once review_by passes (${stale.map((p) => p.name).join(', ')})`);
+}
 console.log(`where-to-build: ${n} checks passed`);

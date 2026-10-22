@@ -268,7 +268,8 @@
       } else {
         f.approvals = { points: null, value: 'Not yet checked' };
       }
-      if (prof) {
+      // Denials count only while the research row is current, the same as approvals.
+      if (prof && prof.parts.council.state !== 'overdue') {
         prof.denials.forEach(function (i) {
           flags.push({ date: i.date, text: i.title + (i.body ? ' (' + i.body + ')' : ''), url: i.source && i.source.url });
         });
