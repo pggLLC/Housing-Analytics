@@ -60,6 +60,8 @@ const withUa = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: {
 ok(withUa.rents.rows.every((x) => x.allowance === 100 && x.headroom === x.limit - 100 - x.rent), 'a 2BR utility allowance comes off each 2BR limit');
 const withFees = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: { efficiency: 60, '1BR': 80, '2BR': 100, '3BR': 120, '4BR': 140 }, feesPerBedroom: { '2BR': 25 } }; });
 ok(withFees.rents.rows.every((x) => x.headroom === x.limit - 125 - x.rent), 'tenant-paid fees come off the limit with the allowance');
+const feeOver = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: { '2BR': 100 }, feesPerBedroom: { '2BR': 25 } }; s.result.pricedRows.find((x) => x.tier === 60 && x.bedrooms === '2BR').contractRent = 1500; });
+ok(/less \$100 utility allowance less \$25 in resident-paid fees\)/.test(feeOver.findings.map((f) => f.text).join('\n')), 'an over-limit rent names the resident-paid fees taken off the limit');
 ok(/no tax credits to lay out/.test(mut0((s) => { s.result.chfaRegime = false; s.rentLimits = { regime: 'home_high' }; }).error || ''), 'a non-tax-credit rent regime is turned away');
 const oldSched = mut0((s) => { s.utilityAllowance = { applied: false, reason: 'included_in_schedule_rents' }; s.rentSchedule = { mode: 'schedule', sourceMeta: { tableYear: 2024, effectiveDate: '2024-05-01' } }; });
 ok(oldSched.rentLimits.year === 2024 && /Rent limits are the 2024 tables/.test(oldSched.findings.map((f) => f.text).join('\n')), 'schedule rents carry the limit table they were priced from');

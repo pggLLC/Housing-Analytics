@@ -223,7 +223,7 @@
     if (m.rentLimits.year != null && m.rentLimits.year < thisYear) out.push({ level: 'warn', text: 'Rent limits are the ' + m.rentLimits.year + ' tables. Check for newer CHFA tables before relying on these rents.' });
     if (m.rentLimits.year != null) out.push({ level: 'ok', text: 'Rent limits: ' + (m.rentLimits.source || 'CHFA') + (m.rentLimits.effective ? ', effective ' + m.rentLimits.effective : '') + '.' });
     var over = m.rents.rows.filter(function (x) { return x.headroom != null && x.headroom < -0.5; });
-    over.forEach(function (x) { out.push({ level: 'bad', text: x.tier + '% AMI ' + x.bedrooms + ' rent of ' + money(x.rent) + ' is ' + money(-x.headroom) + ' over the most it can charge (' + money(x.limit) + ' gross limit' + (x.allowance ? ' less ' + money(x.allowance) + ' utility allowance' : '') + ').' }); });
+    over.forEach(function (x) { out.push({ level: 'bad', text: x.tier + '% AMI ' + x.bedrooms + ' rent of ' + money(x.rent) + ' is ' + money(-x.headroom) + ' over the most it can charge (' + money(x.limit) + ' gross limit' + (x.allowance ? ' less ' + money(x.allowance) + ' utility allowance' : '') + (x.fees ? ' less ' + money(x.fees) + ' in resident-paid fees' : '') + ').' }); });
     if (m.rentsFromSchedule && m.rents.rows.length) out.push({ level: 'ok', text: 'Rents come from the Market Analysis rent schedule, which takes out each utility allowance and fee and checks the rent against its limit. Check the limits there.' });
     else if (!m.utilityAllowanceApplied && m.rents.rows.length) out.push({ level: 'warn', text: 'No utility allowance is applied, so each rent is the full gross limit. That holds only if the owner pays all utilities. If tenants pay any, the rent must come down by the allowance.' });
 
