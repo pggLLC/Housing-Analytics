@@ -440,7 +440,7 @@
       return '<details class="ib-why"><summary>Show the ' + s.nFactors + ' factors</summary>' +
         '<table data-no-sort><thead><tr><th data-tip="What is measured, linked to its source">Factor</th><th data-tip="The figure or record behind the points">What we found</th>' +
         '<th class="num" data-tip="Points by the rule in How the score works">Points</th><th class="num" data-tip="Your slider for the group, split evenly across its factors">Weight</th></tr></thead><tbody>' + rows + '</tbody></table>' +
-        '<p class="ib-sub">' + s.base + ' from factors' + (s.signalPoints ? ' + ' + s.signalPoints + ' signals' : '') + (s.flagPoints ? ' − ' + s.flagPoints + ' red flags' : '') + ' = ' + s.score + '.</p>' +
+        '<p class="ib-sub">' + s.base + ' from factors' + (s.signalPoints ? ' + ' + s.signalPoints + ' signals' : '') + (s.flagPoints ? ' − ' + s.flagPoints + ' red flags' : '') + ' = ' + s.exact + (s.exact !== s.score ? ', shown as ' + s.score : '') + '.</p>' +
         sig + flg + '</details>';
     }
 

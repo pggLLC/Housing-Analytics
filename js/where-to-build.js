@@ -410,7 +410,9 @@
     var base = den > 0 ? (num / den) * 100 : 0;
     var signalPts = Math.min(10, place.signals.reduce(function (s, x) { return s + x.points; }, 0));
     var flagPts = Math.min(30, place.flags.length * 15);
-    var value = Math.round(clamp(base + signalPts - flagPts, 0, 100));
+    // Rounded once to a tenth for the printed sum, then to a whole number, so the row's arithmetic reconciles.
+    var exact = round1(clamp(base + signalPts - flagPts, 0, 100));
+    var value = Math.round(exact);
     var share = total > 0 ? checkedW / total : 0;
     var confidence = share >= 0.8 ? 'High' : share >= 0.5 ? 'Medium' : 'Low';
     // Each part's pull on the score: points above (or below) the midpoint, times its weight share.
@@ -418,7 +420,7 @@
       p.contribution = p.weight > 0 && p.factor.points != null && den > 0 ? (p.weight * p.factor.points / den) * 100 : 0;
       p.max = p.weight > 0 && den > 0 && p.factor.points != null ? (p.weight * 10 / den) * 100 : 0;
     });
-    var out = { score: value, base: Math.round(base), signalPoints: round1(signalPts), flagPoints: flagPts,
+    var out = { score: value, base: round1(base), exact: exact, signalPoints: round1(signalPts), flagPoints: flagPts,
       confidence: confidence, checkedShare: share, nChecked: nChecked, nFactors: nFactors, parts: parts };
     out.tier = tierFor(value, confidence);
     out.reason = reason(place, out);

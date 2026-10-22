@@ -39,8 +39,14 @@ ok(scored.filter((x) => x.s.tier === 1).length >= 10, 'some places reach Target 
 for (const { p, s } of scored.slice(0, 40)) {
   let num = 0, den = 0;
   for (const part of s.parts) if (part.weight > 0 && part.factor.points != null) { num += part.weight * part.factor.points; den += part.weight * 10; }
-  const expect = Math.round(Math.max(0, Math.min(100, num / den * 100 + Math.min(10, p.signals.reduce((a, g) => a + g.points, 0)) - Math.min(30, p.flags.length * 15))));
+  const expect = Math.round(Math.round(10 * Math.max(0, Math.min(100, num / den * 100 + Math.min(10, p.signals.reduce((a, g) => a + g.points, 0)) - Math.min(30, p.flags.length * 15)))) / 10);
   ok(s.score === expect, `${p.name}: score ${s.score} is the printed formula (${expect})`);
+}
+
+// The row's printed sum reconciles: base + signals - flags = exact, which rounds to the score.
+for (const { p, s } of scored) {
+  const sum = Math.round(Math.max(0, Math.min(100, s.base + s.signalPoints - s.flagPoints)) * 10) / 10;
+  ok(Math.abs(sum - s.exact) <= 0.11 && Math.round(s.exact) === s.score, `${p.name}: printed ${s.base} + ${s.signalPoints} - ${s.flagPoints} = ${s.exact} rounds to ${s.score}`);
 }
 
 // ---- 3. Not yet checked is never a zero, and it lowers confidence.
