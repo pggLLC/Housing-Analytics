@@ -961,7 +961,9 @@
     // Developer fee comes from the itemized developer-fee line (#2160).
     var devFeeTotal = costSummary.reason ? NaN : (costSummary.byId.developer_fee || 0);
     var devfeePct = tdc > 0 ? devFeeTotal / tdc : NaN;
-    var deferredPctSlider = (safeVal('dc-deferred-pct') || 40) / 100;
+    // An entered 0% is a real choice; only a blank slider falls back to its 40% starting value.
+    var deferredPctRaw = safeVal('dc-deferred-pct');
+    var deferredPctSlider = (known(deferredPctRaw) && deferredPctRaw >= 0 ? deferredPctRaw : 40) / 100;
 
     // H — Auto-balance deferred developer fee. When the user toggles
     // "Auto-balance gap with deferred dev fee," any remaining gap after
@@ -995,7 +997,9 @@
       // A budget with a reason has no measured other income: null, never $0.
       otherIncomePerUnitYear = operatingSummary.reason ? null : operatingSummary.otherIncomePerUnitYear;
     }
-    annualOtherIncome = otherIncomePerUnitYear == null ? null : otherIncomePerUnitYear * (units || 60);
+    // No units means no operating budget: unknown, never 60 units' worth.
+    var opUnits = units > 0 ? units : NaN;
+    annualOtherIncome = otherIncomePerUnitYear == null ? null : otherIncomePerUnitYear * opUnits;
     // Arithmetic reads NaN for an unknown, so nothing built on it is a number.
     var otherIncomeForMath = annualOtherIncome == null ? NaN : annualOtherIncome;
     if (autoNoi) {
@@ -1016,10 +1020,10 @@
       }
       // DOH applies vacancy to rent plus other income.
       var effectiveGrossIncome = (annualRents + otherIncomeForMath) * (1 - vacancyPct);
-      annualOpex = opexPerUnitMonth * 12 * (units || 60);
-      annualRepReserve = repReservePerUnit * (units || 60);
+      annualOpex = opexPerUnitMonth * 12 * opUnits;
+      annualRepReserve = repReservePerUnit * opUnits;
       var taxExemptPct = (safeVal('dc-tax-exempt') || 0) / 100;
-      var annualPropTax = propTaxPerUnit * (units || 60);
+      var annualPropTax = propTaxPerUnit * opUnits;
       taxSavings = annualPropTax * taxExemptPct;
       netPropTax = annualPropTax - taxSavings;
       noi = effectiveGrossIncome - annualOpex - annualRepReserve - netPropTax;
@@ -1329,13 +1333,17 @@
     // budget (or the single old figure) directly; an unknown budget has no swing.
     var sensitivityOpex = known(opexPerUnitMonth) ? opexPerUnitMonth
       : operatingSummary ? (operatingSummary.reason ? NaN : operatingSummary.perUnitMonth) : safeVal('dc-opex');
-    var sensitivityKnown = !debtInputsReason && isFinite(noi) && annualRents > 0 && isFinite(annualCredits) && known(sensitivityOpex);
+    var sensitivityRepReserve = safeVal('dc-rep-reserve');
+    // Every input the swings start from must be known; no stand-in values.
+    var sensitivityKnown = !debtInputsReason && isFinite(noi) && annualRents > 0 && isFinite(annualCredits) && known(sensitivityOpex)
+      && known(equityPrice) && equityPrice > 0 && known(interestRate) && interestRate > 0
+      && known(sensitivityRepReserve) && sensitivityRepReserve >= 0 && units > 0;
     var tornado = !sensitivityKnown ? null : (function () {
-        var eqP = equityPrice || 0.90;
-        var ir  = interestRate || 6.5;
+        var eqP = equityPrice;
+        var ir  = interestRate;
         var vu  = vacFrac() * 100;
         var ou  = sensitivityOpex;
-        var u   = units || 60;
+        var u   = units;
         var acr = annualCredits;
 
         // Equity pricing: ±$0.03
@@ -1351,7 +1359,7 @@
 
         // Compute EGI from available scope variables
         var _egi = ((annualRents || 0) + otherIncomeForMath) * (1 - (vu / 100));
-        var _repRes = (safeVal('dc-rep-reserve') || 350) * u;
+        var _repRes = sensitivityRepReserve * u;
 
         // OpEx: ±$50/unit/month
         var noiLo = _egi - ((ou + 50) * 12 * u) - _repRes - (netPropTax || 0);

@@ -36,7 +36,8 @@
     // (Removed: defaultAmiLimits {30:930, 40:1240, 50:1550, 60:1860})
 
     // ── Mortgage & Financing ────────────────────────────────────────
-    // Source: Freddie Mac PMMS, Q1 2026 (~7.0% 30-yr fixed)
+    // Fixed planning value, not a dated PMMS reading. FRED MORTGAGE30US averaged
+    // 6.11% in Q1 2026; pages that need the current rate read data/fred-data.json.
     mortgageRate:     0.07,        // residential (homeownership analysis)
     commercialRate:   0.065,       // offline placeholder; the Deal Calculator replaces it with FRED DGS10 + the spread in data/policy/lihtc-assumptions.json
     mortgageTermYr:   30,          // standard residential term
