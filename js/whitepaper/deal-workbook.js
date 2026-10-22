@@ -1,0 +1,480 @@
+/**
+ * deal-workbook.js — the gated "Deal workbook" page: one deal's pro forma laid out
+ * the way a lender or partner reads it. Executive view first, then sources and
+ * uses, basis and credits, rents by AMI tier against the limits, operating costs
+ * against CHFA's minimums, the 15-year cash flow with debt coverage, deferred fee
+ * payback, and checks written as findings.
+ *
+ * Every figure is the Deal Calculator's own. The page opens deal-calculator.html in
+ * a hidden frame with the deal's settings and reads its result, so there is one
+ * engine (js/deal-engine.js) and no second model to disagree with it.
+ *
+ * Reads:
+ *   /api/deals                                  saved deals and versions (coho-backend,
+ *                                               per login). Deal figures never go to
+ *                                               this repository.
+ *   data/policy/lihtc-underwriting-rules.json   CHFA minimum pro forma assumptions,
+ *                                               each quoted from the QAP
+ *
+ * Lives in js/whitepaper/ because the gated bundle copies that folder and the
+ * public build excludes it. window.DealWorkbook in the browser; module.exports in Node.
+ */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.DealWorkbook = factory();
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  var RULES_URL = 'data/policy/lihtc-underwriting-rules.json';
+  var API = '/api/deals';
+  var YEARS = 15;
+  // js/deal-cost-basis.js GROUPS, in the order a development budget reads.
+  var USE_GROUPS = [['acquisition', 'Acquisition'], ['site', 'Site improvements'], ['construction', 'Construction'],
+    ['professional', 'Professional fees'], ['construction_finance', 'Construction finance'],
+    ['permanent_finance', 'Permanent finance and syndication'], ['soft', 'Soft costs'], ['fees', 'Developer fee'], ['reserves', 'Reserves']];
+  // js/deal-engine.js LOAN_TYPES.
+  var LOAN_TYPES = { amortizing: 'Must-pay, amortizing', io_then_amortizing: 'Interest-only, then amortizing',
+    interest_only: 'Interest-only to maturity', cash_flow: 'Paid from cash flow', accrue_defer: 'Accrues, paid later', forgivable: 'Forgivable' };
+  // getUtilityAllowanceMetadata().perBedroom keys (js/deal-calculator.js RENT_BEDROOMS).
+  var UA_KEY = { studio: 'efficiency', '1br': '1BR', '2br': '2BR', '3br': '3BR', '4br': '4BR' };
+  var BR_KEY = { STUDIO: 'studio', EFFICIENCY: 'studio', '0BR': 'studio', '1BR': '1br', '2BR': '2br', '3BR': '3br', '4BR': '4br' };
+
+  function num(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
+  }
+  function money(v) { return v == null ? '—' : (v < 0 ? '-$' : '$') + Math.round(Math.abs(v)).toLocaleString('en-US'); }
+  function pct(v, d) { return v == null ? '—' : (v * 100).toFixed(d == null ? 0 : d) + '%'; }
+  function ratio(v) { return v == null ? '—' : v.toFixed(2) + 'x'; }
+
+  // The CHFA minimum pro forma assumptions on file, or null for each one missing.
+  function chfaMinimums(rules) {
+    var r = (rules && rules.rules) || {}, src = (rules && rules.sources) || {};
+    function rule(id, field) {
+      var x = r[id];
+      if (!x || x.status !== 'adopted' || num(x[field]) == null) return null;
+      return { value: num(x[field]), quote: x.quote, where: ((src[x.source] || {}).title || x.source) + ', ' + x.location };
+    }
+    return {
+      vacancy: rule('pro_forma_vacancy', 'rate'), rentGrowth: rule('pro_forma_rent_growth', 'rate'),
+      expGrowth: rule('pro_forma_expense_growth', 'rate'), opex: rule('pupa_minimum', 'per_unit_annual'),
+      reserve: rule('replacement_reserve_minimum', 'family_per_unit_annual'), reserveSenior: rule('replacement_reserve_minimum', 'senior_per_unit_annual'),
+      dscr: rule('min_debt_coverage', 'min_coverage'), high: rule('high_coverage_credit_reduction', 'threshold')
+    };
+  }
+
+  // ── The workbook model (pure) ─────────────────────────────────────────────
+  // snap: { result, permanentFinancing, rentLimits, utilityAllowance, amiByBr, labels } read from the calculator.
+  function build(snap, rules) {
+    var r = snap && snap.result;
+    if (!r) return { error: 'The Deal Calculator gave no result for this deal.' };
+    if (r.forSale && r.forSale.status && !r.pricedRows) return { error: 'This is a for-sale deal. The workbook covers rental tax credit deals.' };
+    var un = r.unavailable || {};
+    var units = num(r.units);
+    var min = chfaMinimums(rules);
+    var labels = (snap && snap.labels) || {};
+    var model = { units: units, creditType: r.creditType, findings: [] };
+
+    // Sources: DOH's permanent financing view, which the calculator already classifies.
+    var pf = snap.permanentFinancing;
+    var sources = [];
+    if (pf && pf.totals) {
+      (pf.hardMortgages || []).forEach(function (m) {
+        sources.push({ label: m.source === 'senior' ? 'First mortgage' : (m.label || 'Mortgage') + (m.program ? ' (' + (labels[m.program] || m.program) + ')' : ''), amount: num(m.principal) });
+      });
+      var tc = pf.taxCredit || {};
+      if (num(tc.nine)) sources.push({ label: 'Federal 9% credit equity', amount: num(tc.nine) });
+      if (num(tc.four)) sources.push({ label: 'Federal 4% credit equity', amount: num(tc.four) });
+      if (num(tc.state)) sources.push({ label: 'Colorado state credit equity', amount: num(tc.state) });
+      if (num(tc.added)) sources.push({ label: tc.addedLabel || 'Other credit equity', amount: num(tc.added) });
+      if (num(tc.historic)) sources.push({ label: 'Historic credit equity', amount: num(tc.historic) });
+      ['government', 'other', 'unclassified'].forEach(function (k) {
+        (pf[k] || []).forEach(function (s) { var prog = s.program ? (labels[s.program] || s.program) : null;
+          sources.push({ label: s.label && prog ? s.label + ' (' + prog + ')' : (s.label || prog || 'Other source'), amount: num(s.amount != null ? s.amount : s.principal) }); });
+      });
+      if (num(pf.deferredDevFee)) sources.push({ label: 'Deferred developer fee', amount: num(pf.deferredDevFee) });
+      model.sources = { rows: sources, total: num(pf.totals.totalSources), gap: num(pf.totals.gap), tdc: num(pf.totals.tdc) };
+    } else model.sources = { rows: [], reason: (pf && pf.reasons && pf.reasons[0]) || un.fundingGap || 'The calculator could not build the sources for this deal.' };
+
+    // Uses: the itemized budget by group.
+    var bg = r.budget && r.budget.groups;
+    model.uses = bg ? {
+      rows: USE_GROUPS.map(function (g) { return { label: g[1], amount: num(bg[g[0]]) }; }).filter(function (x) { return x.amount; }),
+      notItemized: num(r.budget.notItemized), tdc: num(r.tdc)
+    } : { rows: [], tdc: num(r.tdc), reason: (r.budget && r.budget.reason) || 'No itemized budget.' };
+
+    // Basis and credits.
+    var b = r.costBasis && r.costBasis.basis;
+    if (b) {
+      var rate = num(b.qualifiedBasis) ? num(b.calculatedCredit) / num(b.qualifiedBasis) : null;
+      model.basis = {
+        eligible: num(b.eligibleBasis), grantReduction: num(b.grantReduction), boost: b.boost || {}, boosted: num(b.boostedBasis),
+        applicableFraction: num(b.applicableFraction), qualified: num(b.qualifiedBasis), rate: rate, calculated: num(b.calculatedCredit),
+        cap: b.cap || {}, gapMethod: b.gapMethod || {}, credit: num(r.annualCredits), creditReason: un.annualCredits || null,
+        price: num(r.equityPrice), equity: num(r.equity)
+      };
+    } else model.basis = { reason: 'The calculator gave no basis figures.' };
+
+    // Rent roll: each priced row against its CHFA gross limit and the utility allowance.
+    var ami = snap.amiByBr || {};
+    var ua = snap.utilityAllowance || {};
+    var rl = snap.rentLimits || {};
+    model.rentLimits = { source: rl.source || null, year: num(rl.tableYear), effective: rl.effectiveDate || null, regime: rl.regime || null };
+    model.utilityAllowanceApplied = !!ua.applied;
+    var rentRows = (r.pricedRows || []).map(function (p) {
+      var brKey = BR_KEY[String(p.bedrooms || '').toUpperCase()] || null;
+      var limit = brKey && ami[p.tier] ? num(ami[p.tier][brKey]) : null;
+      var allowance = ua.applied && ua.perBedroom && brKey ? num(ua.perBedroom[UA_KEY[brKey]]) : (ua.applied ? null : 0);
+      var rent = num(p.contractRent);
+      var maxNet = limit != null && allowance != null ? limit - allowance : null;
+      return { tier: p.tier, bedrooms: p.bedrooms, units: num(p.units), rent: rent, limit: limit, allowance: allowance,
+        headroom: maxNet != null && rent != null ? maxNet - rent : null, annual: rent != null && num(p.units) != null ? rent * num(p.units) * 12 : null };
+    });
+    model.rents = { rows: rentRows, annual: num(r.annualRents), reason: un.annualRents || null };
+
+    // Operating costs per unit, against CHFA's minimums.
+    var os = r.operatingSummary || {};
+    model.operating = {
+      opexPerUnit: num(os.perUnitYear), reservePerUnit: num(r.repReservePerUnit), taxPerUnit: num(r.propTaxPerUnit),
+      vacancy: num(r.vacancyRate), rentGrowth: r.exit ? num(r.exit.rentGrowth) : null, expGrowth: r.exit ? num(r.exit.expGrowth) : null,
+      groups: os.groups || null, min: min
+    };
+
+    // 15-year cash flow, with the deferred fee balance carried down.
+    var rows = (r.projection && r.projection.rows) || [];
+    var dfee = num(r.deferredDevFee);
+    var owed = dfee;
+    model.cashFlow = {
+      reason: rows.length ? null : (un.projection || 'The calculator gave no year-by-year pro forma.'),
+      rows: rows.filter(function (y) { return num(y.year) != null && num(y.year) <= YEARS; }).map(function (y) {
+        var paid = num(y.deferredFeePaid);
+        if (owed != null && paid != null) owed = Math.max(0, owed - paid); else owed = null;
+        return { year: num(y.year), grossRents: num(y.grossRents), otherIncome: num(y.otherIncome), vacancy: num(y.vacancyLoss), egi: num(y.egi),
+          opex: num(y.opex), reserve: num(y.repReserve), tax: num(y.propTax), noi: num(y.noi), debtService: num(y.debtService),
+          cashFlow: num(y.cashFlow), dscr: num(y.dscr), seniorDscr: num(y.seniorDscr), feePaid: paid, feeOwed: owed, reason: y.unavailableReason || null };
+      })
+    };
+    var cov = r.coverage || {};
+    model.coverage = { weakest: cov.weakestAllMustPay || null, weakestSenior: cov.weakestSenior || null, measured: num(cov.measuredYears), reason: un.coverage || null };
+
+    // Loans.
+    var loans = (r.obligations && r.obligations.loans) || [];
+    model.loans = loans.map(function (l) {
+      var at15 = l.rows && l.rows[YEARS - 1] ? num(l.rows[YEARS - 1].balance) : null;
+      return { label: l.senior ? 'First mortgage' : (labels[l.program] || l.program || 'Loan'), amount: num(l.amount), rate: num(l.rate),
+        type: l.type, typeLabel: LOAN_TYPES[l.type] || l.type, ioYears: num(l.ioYears), amortization: num(l.amortization), maturity: num(l.maturity),
+        year1: l.rows && l.rows[0] ? num(l.rows[0].due) : null, balance15: at15 };
+    });
+    model.loansReason = loans.length ? null : ((r.obligations && r.obligations.unavailableReason) || null);
+
+    // Deferred fee.
+    var feePaid15 = model.cashFlow.rows.reduce(function (s, y) { return s == null || y.feePaid == null ? null : s + y.feePaid; }, 0);
+    model.deferredFee = { amount: dfee, reason: un.deferredDevFee || null, developerFee: num(r.devFeeTotal),
+      share: dfee != null && num(r.devFeeTotal) ? dfee / num(r.devFeeTotal) : null,
+      paybackYear: r.exit ? num(r.exit.dfYr) : null, owedAt15: dfee != null && feePaid15 != null ? Math.max(0, dfee - feePaid15) : null };
+
+    model.gap = { amount: num(r.fundingGap), reason: un.fundingGap || null };
+    model.exec = {
+      credit: model.basis.credit, creditReason: model.basis.creditReason, gap: model.gap.amount, gapReason: model.gap.reason,
+      weakest: model.coverage.weakest, coverageReason: model.coverage.reason,
+      paybackYear: model.deferredFee.paybackYear, deferredFee: dfee, owedAt15: model.deferredFee.owedAt15
+    };
+    model.findings = findings(model, r);
+    return model;
+  }
+
+  // ── Checks, written as findings ───────────────────────────────────────────
+  // Each: { level: 'bad' | 'warn' | 'ok', text, source? }. Only what the figures show; nothing guessed.
+  function findings(m, r) {
+    var out = [], min = m.operating.min;
+    var thisYear = new Date().getFullYear();
+    if (m.rentLimits.regime && m.rentLimits.regime !== 'chfa_lihtc') out.push({ level: 'warn', text: 'Rents use ' + m.rentLimits.regime + ' limits, not CHFA tax credit limits.' });
+    if (m.rentLimits.year != null && m.rentLimits.year < thisYear) out.push({ level: 'warn', text: 'Rent limits are the ' + m.rentLimits.year + ' tables. Check for newer CHFA tables before relying on these rents.' });
+    if (m.rentLimits.year != null) out.push({ level: 'ok', text: 'Rent limits: ' + (m.rentLimits.source || 'CHFA') + (m.rentLimits.effective ? ', effective ' + m.rentLimits.effective : '') + '.' });
+    var over = m.rents.rows.filter(function (x) { return x.headroom != null && x.headroom < -0.5; });
+    over.forEach(function (x) { out.push({ level: 'bad', text: x.tier + '% AMI ' + x.bedrooms + ' rent of ' + money(x.rent) + ' is ' + money(-x.headroom) + ' over the most it can charge (' + money(x.limit) + ' gross limit' + (x.allowance ? ' less ' + money(x.allowance) + ' utility allowance' : '') + ').' }); });
+    if (!m.utilityAllowanceApplied && m.rents.rows.length) out.push({ level: 'warn', text: 'No utility allowance is applied, so each rent is the full gross limit. That holds only if the owner pays all utilities. If tenants pay any, the rent must come down by the allowance.' });
+
+    var o = m.operating;
+    if (min.opex && o.opexPerUnit != null && o.opexPerUnit < min.opex.value) out.push({ level: 'bad', text: 'Operating cost of ' + money(o.opexPerUnit) + ' a unit is under CHFA\'s ' + money(min.opex.value) + ' minimum.', source: min.opex });
+    var resMin = min.reserve;
+    if (resMin && o.reservePerUnit != null && o.reservePerUnit < (min.reserveSenior ? min.reserveSenior.value : resMin.value)) out.push({ level: 'bad', text: 'Replacement reserve of ' + money(o.reservePerUnit) + ' a unit is under CHFA\'s minimum.', source: resMin });
+    if (min.vacancy && o.vacancy != null && o.vacancy < min.vacancy.value - 1e-9) out.push({ level: 'warn', text: 'Vacancy of ' + pct(o.vacancy, 1) + ' is under CHFA\'s ' + pct(min.vacancy.value) + ' minimum (5% only with project-based Section 8 on every unit).', source: min.vacancy });
+    if (min.rentGrowth && o.rentGrowth != null && o.rentGrowth > min.rentGrowth.value + 1e-9) out.push({ level: 'warn', text: 'Rents grow ' + pct(o.rentGrowth, 1) + ' a year; CHFA underwrites ' + pct(min.rentGrowth.value) + '.', source: min.rentGrowth });
+    if (min.expGrowth && o.expGrowth != null && o.expGrowth < min.expGrowth.value - 1e-9) out.push({ level: 'warn', text: 'Costs grow ' + pct(o.expGrowth, 1) + ' a year; CHFA underwrites ' + pct(min.expGrowth.value) + '.', source: min.expGrowth });
+
+    var w = m.coverage.weakest;
+    if (w && min.dscr && num(w.ratio) != null) {
+      if (w.ratio < min.dscr.value) out.push({ level: 'bad', text: 'Debt coverage on all must-pay debt falls to ' + ratio(w.ratio) + ' in year ' + w.year + ', under CHFA\'s ' + ratio(min.dscr.value) + ' minimum.', source: min.dscr });
+      else out.push({ level: 'ok', text: 'Debt coverage on all must-pay debt stays at or above ' + ratio(w.ratio) + ' (weakest: year ' + w.year + '); CHFA\'s minimum is ' + ratio(min.dscr.value) + '.', source: min.dscr });
+    } else if (m.coverage.reason) out.push({ level: 'warn', text: 'Debt coverage is not available: ' + m.coverage.reason });
+    var y1 = m.cashFlow.rows[0];
+    if (y1 && y1.dscr != null && min.high && y1.dscr > min.high.value) out.push({ level: 'warn', text: 'Year-one coverage of ' + ratio(y1.dscr) + ' is above ' + ratio(min.high.value) + ', so CHFA may award less credit. A larger loan or lower rents would bring it down.', source: min.high });
+
+    m.loans.forEach(function (l) {
+      if (!l.amount) return;
+      if (l.type === 'interest_only' || l.type === 'io_then_amortizing') out.push({ level: 'warn', text: l.label + ' is modeled ' + (l.type === 'interest_only' ? 'interest-only to maturity' : 'interest-only for ' + l.ioYears + ' years') + '. Get that term in the lender\'s letter; an amortizing loan would cost more each year.' });
+      if (l.balance15 != null && l.maturity != null && l.maturity <= YEARS && l.balance15 > 0.5) out.push({ level: 'warn', text: l.label + ' matures in year ' + l.maturity + ' with ' + money(l.balance15) + ' still owed.' });
+    });
+
+    var cap = m.basis.cap || {};
+    if (cap.binding) out.push({ level: 'warn', text: 'CHFA\'s per-project credit limit (' + money(num(cap.amount)) + ') holds the credit below what the basis supports.', source: cap.citation ? { where: cap.citation } : null });
+    var gm = m.basis.gapMethod || {};
+    if (gm.binding) out.push({ level: 'warn', text: 'CHFA\'s gap method limits the credit: the deal needs only ' + money(num(gm.credit)) + ' a year to fill its gap.', source: gm.citation ? { where: gm.citation } : null });
+    if (m.basis.boost && m.basis.boost.applied === false && m.basis.boost.reason) out.push({ level: 'ok', text: 'No basis boost: ' + m.basis.boost.reason });
+
+    var df = m.deferredFee;
+    if (df.amount) {
+      if (df.paybackYear != null) out.push({ level: 'ok', text: 'The deferred fee of ' + money(df.amount) + ' is paid off from cash flow in year ' + df.paybackYear + '.' });
+      else if (df.owedAt15 != null) out.push({ level: 'bad', text: 'The deferred fee is not paid off in 15 years: ' + money(df.owedAt15) + ' of ' + money(df.amount) + ' is still owed.' });
+    }
+    if (m.gap.amount != null) {
+      if (m.gap.amount > 0.5) out.push({ level: 'bad', text: 'The deal is ' + money(m.gap.amount) + ' short after every source modeled.' });
+      else if (m.gap.amount < -0.5) out.push({ level: 'ok', text: 'Sources exceed costs by ' + money(-m.gap.amount) + '.' });
+      else out.push({ level: 'ok', text: 'Sources cover costs.' });
+    } else if (m.gap.reason) out.push({ level: 'warn', text: 'Funding gap is not available: ' + m.gap.reason });
+    var rank = { bad: 0, warn: 1, ok: 2 };
+    return out.sort(function (a, b) { return rank[a.level] - rank[b.level]; });
+  }
+
+  // ── HTML (pure) ───────────────────────────────────────────────────────────
+  function table(head, rows, opts) {
+    var numCols = (opts && opts.num) || [];
+    return '<div class="sr-scroll"><table class="sr-table"><thead><tr>' + head.map(function (h, i) {
+      return '<th scope="col"' + (numCols.indexOf(i) !== -1 ? ' class="sr-num"' : '') + '>' + esc(h) + '</th>';
+    }).join('') + '</tr></thead><tbody>' + rows.map(function (r) {
+      var cls = r.cls ? ' class="' + r.cls + '"' : '';
+      return '<tr' + cls + '>' + r.cells.map(function (c, i) { return '<td' + (numCols.indexOf(i) !== -1 ? ' class="sr-num"' : '') + '>' + c + '</td>'; }).join('') + '</tr>';
+    }).join('') + '</tbody></table></div>';
+  }
+  function tile(v, label, cls) { return '<div class="rw-stat ' + (cls || '') + '"><div class="rw-stat-v">' + v + '</div>' + label + '</div>'; }
+  function quote(src) { return src && (src.quote || src.where) ? '<div class="rw-quote">' + (src.quote ? '"' + esc(src.quote) + '" ' : '') + (src.where ? esc(src.where) : '') + '</div>' : ''; }
+
+  function render(m, title) {
+    if (!m || m.error) return '<p class="sr-flag">' + esc((m && m.error) || 'Nothing to show.') + '</p>';
+    var e = m.exec, h = '';
+    var w = e.weakest;
+    var minDscr = m.operating.min.dscr ? m.operating.min.dscr.value : null;
+    h += '<section class="dv-card rw-decide" aria-labelledby="wbExec"><h2 id="wbExec">Executive view' + (title ? ': ' + esc(title) : '') + '</h2><div class="rw-stats">' +
+      tile(e.credit == null ? '—' : esc(money(e.credit)), e.credit == null ? 'Yearly credit: ' + esc(e.creditReason || 'not available') : 'Yearly federal credit (' + esc(m.creditType === '4' ? '4%' : '9%') + ')') +
+      tile(e.gap == null ? '—' : esc(money(e.gap)), e.gap == null ? 'Funding gap: ' + esc(e.gapReason || 'not available') : 'Funding gap after every modeled source', e.gap > 0.5 ? 'sr-bad' : 'sr-ok') +
+      tile(w ? esc(ratio(w.ratio)) : '—', w ? 'Weakest debt coverage, all must-pay debt (year ' + w.year + ')' : 'Debt coverage: ' + esc(e.coverageReason || 'not available'), w && minDscr != null ? (w.ratio < minDscr ? 'sr-bad' : 'sr-ok') : '') +
+      tile(e.paybackYear != null ? 'Year ' + e.paybackYear : (e.deferredFee ? 'Not in 15 yrs' : '—'), e.deferredFee ? 'Deferred fee of ' + esc(money(e.deferredFee)) + ' paid off' : 'No deferred developer fee', e.deferredFee && e.paybackYear == null ? 'sr-bad' : '') +
+      '</div>';
+    var top = m.findings.filter(function (f) { return f.level !== 'ok'; });
+    h += top.length ? '<h3>What to check</h3><ul>' + top.map(function (f) { return '<li class="' + (f.level === 'bad' ? 'sr-red' : 'sr-yellow') + '">' + esc(f.text) + quote(f.source) + '</li>'; }).join('') + '</ul>'
+      : '<p>Nothing in the figures needs a second look.</p>';
+    var oks = m.findings.filter(function (f) { return f.level === 'ok'; });
+    if (oks.length) h += '<details><summary>Already right (' + oks.length + ')</summary><ul>' + oks.map(function (f) { return '<li>' + esc(f.text) + quote(f.source) + '</li>'; }).join('') + '</ul></details>';
+    h += '</section>';
+
+    // Sources and uses
+    var s = m.sources, u = m.uses;
+    h += '<section class="dv-card" aria-labelledby="wbSU"><h2 id="wbSU">Sources and uses</h2><div class="wb-two"><div><h3>Sources</h3>';
+    h += s.rows.length ? table(['Source', 'Amount', 'Share'], s.rows.map(function (x) {
+      return { cells: [esc(x.label), esc(money(x.amount)), esc(s.tdc ? pct(x.amount / s.tdc) : '—')] };
+    }).concat([{ cls: 'sr-total', cells: ['Total sources', esc(money(s.total)), esc(s.tdc ? pct(s.total / s.tdc) : '—')] }])
+      .concat(s.gap != null && Math.abs(s.gap) > 0.5 ? [{ cls: 'sr-total', cells: [s.gap > 0 ? 'Gap' : 'Surplus', esc(money(Math.abs(s.gap))), esc(s.tdc ? pct(Math.abs(s.gap) / s.tdc) : '—')] }] : []), { num: [1, 2] })
+      : '<p class="sr-muted">' + esc(s.reason) + '</p>';
+    h += '</div><div><h3>Uses</h3>';
+    h += u.rows.length ? table(['Use', 'Amount', 'Per home'], u.rows.map(function (x) {
+      return { cells: [esc(x.label), esc(money(x.amount)), esc(m.units ? money(x.amount / m.units) : '—')] };
+    }).concat(u.notItemized > 0.5 ? [{ cells: ['Not itemized', esc(money(u.notItemized)), esc(m.units ? money(u.notItemized / m.units) : '—')] }] : [])
+      .concat([{ cls: 'sr-total', cells: ['Total development cost', esc(money(u.tdc)), esc(m.units ? money(u.tdc / m.units) : '—')] }]), { num: [1, 2] })
+      : '<p class="sr-muted">' + esc(u.reason) + ' Total development cost: ' + esc(money(u.tdc)) + '.</p>';
+    h += '</div></div></section>';
+
+    // Basis and credits
+    var b = m.basis;
+    h += '<section class="dv-card" aria-labelledby="wbBasis"><h2 id="wbBasis">Eligible basis and credits</h2>';
+    if (b.reason) h += '<p class="sr-muted">' + esc(b.reason) + '</p>';
+    else {
+      var br = [['Eligible basis', money(b.eligible)]];
+      if (b.grantReduction) br.push(['Less federal grants', money(-b.grantReduction)]);
+      br.push(['Basis boost', b.boost && b.boost.applied ? '×' + num(b.boost.multiplier) : 'None']);
+      br.push(['Applicable fraction', pct(b.applicableFraction, 1)]);
+      br.push(['Qualified basis', money(b.qualified)]);
+      br.push(['Credit rate', b.rate == null ? '—' : pct(b.rate, 2)]);
+      br.push(['Credit the basis supports', money(b.calculated)]);
+      if (b.cap && b.cap.applied) br.push(['CHFA per-project limit', money(num(b.cap.amount))]);
+      if (b.gapMethod && b.gapMethod.applied) br.push(['Credit to fill the gap (CHFA gap method)', money(num(b.gapMethod.credit))]);
+      br.push(['Yearly credit used', b.credit == null ? '— ' + (b.creditReason || '') : money(b.credit)]);
+      br.push(['Equity price', b.price == null ? '—' : '$' + b.price.toFixed(3)]);
+      br.push(['Credit equity (10 years of credit × price)', money(b.equity)]);
+      h += table(['Line', 'Amount'], br.map(function (x) { return { cells: [esc(x[0]), esc(x[1])] }; }), { num: [1] });
+    }
+    h += '</section>';
+
+    // Rents
+    var rr = m.rents;
+    h += '<section class="dv-card" aria-labelledby="wbRents"><h2 id="wbRents">Rents by AMI tier</h2>';
+    h += rr.rows.length ? table(['AMI', 'Size', 'Homes', 'Rent', 'Gross limit', 'Utility allowance', 'Room under limit', 'Rent a year'], rr.rows.map(function (x) {
+      return { cls: x.headroom != null && x.headroom < -0.5 ? 'sr-diff' : '', cells: [esc(x.tier + '%'), esc(x.bedrooms), esc(x.units), esc(money(x.rent)), esc(money(x.limit)),
+        esc(x.allowance == null ? '—' : (m.utilityAllowanceApplied ? money(x.allowance) : 'None')), esc(x.headroom == null ? '—' : money(x.headroom)), esc(money(x.annual))] };
+    }).concat([{ cls: 'sr-total', cells: ['Total', '', esc(rr.rows.reduce(function (a, x) { return a + (x.units || 0); }, 0)), '', '', '', '', esc(money(rr.annual))] }]), { num: [2, 3, 4, 5, 6, 7] })
+      : '<p class="sr-muted">' + esc(rr.reason || 'No rents.') + '</p>';
+    if (m.rentLimits.source) h += '<p class="sr-muted">Limits: ' + esc(m.rentLimits.source) + (m.rentLimits.effective ? ', effective ' + esc(m.rentLimits.effective) : '') + '.' + (m.utilityAllowanceApplied ? '' : ' No utility allowance applied.') + '</p>';
+    h += '</section>';
+
+    // Operating
+    var o = m.operating, mn = o.min;
+    var opRows = [
+      ['Operating cost a home a year (before reserves and tax)', money(o.opexPerUnit), mn.opex ? money(mn.opex.value) + ' minimum' : '—'],
+      ['Replacement reserve a home a year', money(o.reservePerUnit), mn.reserve ? money(mn.reserve.value) + ' family, ' + (mn.reserveSenior ? money(mn.reserveSenior.value) + ' senior' : '') : '—'],
+      ['Property tax a home a year', money(o.taxPerUnit), ''],
+      ['Vacancy', pct(o.vacancy, 1), mn.vacancy ? pct(mn.vacancy.value) + ' minimum' : '—'],
+      ['Rent growth a year', pct(o.rentGrowth, 1), mn.rentGrowth ? pct(mn.rentGrowth.value) : '—'],
+      ['Cost growth a year', pct(o.expGrowth, 1), mn.expGrowth ? pct(mn.expGrowth.value) : '—']
+    ];
+    h += '<section class="dv-card" aria-labelledby="wbOp"><h2 id="wbOp">Operating costs and assumptions</h2>' +
+      table(['Line', 'This deal', 'CHFA underwriting'], opRows.map(function (x) { return { cells: [esc(x[0]), esc(x[1]), esc(x[2])] }; }), { num: [1] }) +
+      '<p class="sr-muted">CHFA figures: ' + esc(mn.opex ? mn.opex.where.replace(/, Section.*$/, '') : 'not on file') + ', Section 4.B and 4.C.</p></section>';
+
+    // Loans
+    if (m.loans.length) {
+      h += '<section class="dv-card" aria-labelledby="wbLoans"><h2 id="wbLoans">Loans</h2>' + table(['Loan', 'Amount', 'Rate', 'Repayment', 'Amortization', 'Maturity', 'Year-1 payment', 'Owed after year 15'], m.loans.map(function (l) {
+        return { cells: [esc(l.label), esc(money(l.amount)), esc(l.rate == null ? '—' : l.rate + '%'), esc(l.typeLabel + (l.type === 'io_then_amortizing' ? ' (' + l.ioYears + ' yrs)' : '')),
+          esc(l.amortization == null ? '—' : l.amortization + ' yrs'), esc(l.maturity == null ? '—' : 'Year ' + l.maturity), esc(money(l.year1)), esc(money(l.balance15))] };
+      }), { num: [1, 2, 6, 7] }) + '</section>';
+    }
+
+    // Cash flow
+    var cf = m.cashFlow;
+    h += '<section class="dv-card" aria-labelledby="wbCF"><h2 id="wbCF">15-year cash flow</h2>';
+    if (cf.rows.length) {
+      var lines = [
+        ['Gross rent', 'grossRents'], ['Other income', 'otherIncome'], ['Less vacancy', 'vacancy', -1], ['Effective gross income', 'egi', 1, true],
+        ['Operating costs', 'opex', -1], ['Replacement reserve', 'reserve', -1], ['Property tax', 'tax', -1], ['Net operating income', 'noi', 1, true],
+        ['Must-pay debt service', 'debtService', -1], ['Cash flow', 'cashFlow', 1, true], ['Coverage, all must-pay debt', 'dscr', 'x'], ['Coverage, first mortgage', 'seniorDscr', 'x'],
+        ['Deferred fee paid', 'feePaid'], ['Deferred fee still owed', 'feeOwed']
+      ];
+      var head = ['Year'].concat(cf.rows.map(function (y) { return String(y.year); }));
+      var body = lines.map(function (ln) {
+        return { cls: ln[3] ? 'sr-total' : '', cells: [esc(ln[0])].concat(cf.rows.map(function (y) {
+          var v = y[ln[1]];
+          if (ln[2] === 'x') return esc(ratio(v));
+          if (v == null) return '—';
+          return esc(money(ln[2] === -1 ? -v : v));
+        })) };
+      });
+      h += '<div class="wb-cf">' + table(head, body, { num: cf.rows.map(function (_, i) { return i + 1; }) }) + '</div>';
+    } else h += '<p class="sr-muted">' + esc(cf.reason) + '</p>';
+    h += '</section>';
+    return h;
+  }
+
+  // ── Browser ───────────────────────────────────────────────────────────────
+  function loadFrame(doc, query, timeoutMs) {
+    return new Promise(function (resolve, reject) {
+      var f = doc.createElement('iframe');
+      f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
+      f.style.cssText = 'position:absolute;width:1200px;height:900px;left:-10000px;top:0;border:0;visibility:hidden';
+      f.src = 'deal-calculator.html' + (query ? '?' + query : '');
+      var t0 = Date.now(), last = '', same = 0;
+      function poll() {
+        try {
+          var w = f.contentWindow, dc = w && w.__DealCalc;
+          if (dc && dc.getResult && dc.getResult()) {
+            var o = JSON.stringify(dc.getOutputRecords());
+            same = o === last ? same + 1 : 0; last = o;
+            if (same >= 4) return resolve(f);
+          }
+        } catch (e) { return reject(e); }
+        if (Date.now() - t0 > (timeoutMs || 45000)) return reject(new Error('The Deal Calculator did not finish loading.'));
+        setTimeout(poll, 400);
+      }
+      f.addEventListener('load', function () { setTimeout(poll, 400); });
+      doc.body.appendChild(f);
+    });
+  }
+  function readCalc(w) {
+    var dc = w.__DealCalc;
+    return { result: dc.getResult(), permanentFinancing: dc.getPermanentFinancing ? dc.getPermanentFinancing() : null,
+      rentLimits: dc.getRentLimitsMetadata ? dc.getRentLimitsMetadata() : null, utilityAllowance: dc.getUtilityAllowanceMetadata ? dc.getUtilityAllowanceMetadata() : null,
+      amiByBr: dc.getAmiLimitsByBr ? dc.getAmiLimitsByBr() : null, labels: (w.DealPermanentFinancing && w.DealPermanentFinancing.PROGRAM_LABELS) || {} };
+  }
+  // The calculator settings carried by a share link, an export file's url, or a saved version.
+  function queryFrom(x) {
+    if (!x) return null;
+    if (typeof x === 'string') {
+      var s = x.trim(), q = s.indexOf('?');
+      if (q !== -1) return s.slice(q + 1).replace(/#.*$/, '') || null;
+      return /=/.test(s) ? s : null;
+    }
+    if (x.url) return queryFrom(String(x.url));
+    if (x.calculator && x.calculator.query) return x.calculator.query;
+    if (x.data && x.data.calculator && x.data.calculator.query) return x.data.calculator.query;
+    return null;
+  }
+
+  function start(doc) {
+    var $ = function (id) { return doc.getElementById(id); };
+    var rules = null, tok = 0;
+    function status(t) { $('wbStatus').textContent = t; }
+    function api(path) {
+      return fetch(API + path, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); });
+    }
+    function open(query, title) {
+      if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
+      var my = ++tok;
+      status('Running the Deal Calculator for this deal…');
+      $('wbOut').innerHTML = '';
+      $('wbOpenCalc').href = 'deal-calculator.html?' + query; $('wbOpenCalc').hidden = false;
+      loadFrame(doc, query).then(function (f) {
+        if (my !== tok) { f.remove(); return; }
+        var snap = readCalc(f.contentWindow); f.remove();
+        $('wbOut').innerHTML = render(build(snap, rules), title);
+        status(''); $('wbPrint').hidden = false;
+        if ($('wbOut').scrollIntoView) $('wbOut').scrollIntoView({ block: 'start' });
+      }, function (err) { if (my === tok) status(err.message); });
+    }
+    fetch(RULES_URL).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }).then(function (j) {
+      rules = j;
+      if (!j) status('CHFA\'s underwriting rules did not load, so the checks against its minimums are left out.');
+    });
+    // Saved deals: the team's, from the private backend. Without it, the picker says so and the other routes still work.
+    api('').then(function (j) {
+      var deals = (j && j.deals) || [];
+      if (!deals.length) { $('wbDeals').innerHTML = '<option value="">No saved deals yet</option>'; return; }
+      $('wbDeals').innerHTML = '<option value="">Choose a deal</option>' + deals.map(function (d) { return '<option value="' + esc(d.id) + '">' + esc(d.name || d.id) + '</option>'; }).join('');
+    }, function () { $('wbDeals').innerHTML = '<option value="">Saved deals are on the team site only</option>'; $('wbDeals').disabled = true; });
+    $('wbDeals').addEventListener('change', function () {
+      var deal = $('wbDeals').value; $('wbVersions').innerHTML = ''; if (!deal) return;
+      api('?deal=' + encodeURIComponent(deal)).then(function (j) {
+        var vs = (j && j.versions) || [], hidden = (j && j.hidden) || [];
+        vs = vs.filter(function (v) { return hidden.indexOf(v.v) === -1; });
+        $('wbVersions').innerHTML = vs.map(function (v) { return '<option value="' + esc(v.v) + '">' + esc((v.label || 'Version') + ' · ' + String(v.at || '').slice(0, 10) + (v.by ? ' · ' + v.by : '')) + '</option>'; }).join('');
+      }, function () { status('That deal\'s versions did not load.'); });
+    });
+    $('wbOpenSaved').addEventListener('click', function () {
+      var deal = $('wbDeals').value, v = $('wbVersions').value;
+      if (!deal || !v) { status('Choose a deal and a version.'); return; }
+      api('?deal=' + encodeURIComponent(deal) + '&v=' + encodeURIComponent(v)).then(function (x) {
+        var q = queryFrom(x);
+        if (!q) { status('That version was saved without a Deal Calculator export. Open it in Submittal review, load an export, and save again.'); return; }
+        open(q, $('wbDeals').selectedOptions[0].textContent);
+      }, function () { status('That version did not load.'); });
+    });
+    $('wbOpenLink').addEventListener('click', function () { open(queryFrom($('wbLink').value), null); });
+    $('wbFile').addEventListener('change', function () {
+      var file = $('wbFile').files[0]; if (!file) return;
+      file.text().then(function (t) {
+        var j; try { j = JSON.parse(t); } catch (e) { status('That file is not a Deal Calculator export.'); return; }
+        if (j && j.dealMode === 'ownership') { status('That export is a for-sale deal. The workbook covers rental tax credit deals.'); return; }
+        open(queryFrom(j), file.name.replace(/\.json$/i, ''));
+      });
+    });
+    $('wbPrint').addEventListener('click', function () { window.print(); });
+  }
+
+  if (typeof document !== 'undefined' && typeof window !== 'undefined' && !(typeof module === 'object' && module.exports)) {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { start(document); });
+    else start(document);
+  }
+
+  return { build: build, render: render, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, money: money, RULES_URL: RULES_URL, API: API };
+});

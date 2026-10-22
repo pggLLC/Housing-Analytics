@@ -25,6 +25,7 @@ const PRIVATE_ROOT_HTML = new Set([
   'developer-about.html',
   'developer-round-watch.html',
   'developer-submittal-review.html',
+  'developer-deal-workbook.html',
   'indibuild.html',
   'indibuild-where.html',
   'indibuild-pipeline.html',
