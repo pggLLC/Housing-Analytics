@@ -150,6 +150,10 @@
         cap: b.cap || {}, gapMethod: b.gapMethod || {}, credit: num(r.annualCredits), creditReason: un.annualCredits || null,
         price: num(r.equityPrice), equity: num(r.equity),
         requested: num(b.requested), awarded: num(b.awarded), flags: (b.flags || []).slice(),
+        requestedReason: (b.reasons || {}).requested || null, awardedReason: (b.reasons || {}).awarded || null,
+        // Credit capacity can fail after the basis is done (no first mortgage, no CHFA rule); an entered award
+        // then carries the credit without that test.
+        capacityReason: (b.reasons || {}).capacity || null,
         // CHFA's third reservation test is published only in its Excel application, so the engine never runs it.
         costLimit: b.costLimitMethod && !b.costLimitMethod.checked ? (b.costLimitMethod.reason || 'CHFA\'s cost basis limits were not checked.') : null,
         // Where the basis calculation stopped; an entered award can still carry the credit past it.
@@ -348,6 +352,7 @@
     var gm = m.basis.gapMethod || {};
     if (gm.binding) out.push({ level: 'warn', text: 'CHFA\'s gap method limits the credit: the deal needs only ' + money(num(gm.credit)) + ' a year to fill its gap.', source: gm.citation ? { where: gm.citation } : null });
     if (m.basis.stopReason) out.push({ level: 'warn', text: 'Eligible and qualified basis were not fully calculated: ' + m.basis.stopReason.replace(/\.$/, '') + '.' + (m.basis.credit != null ? ' The yearly credit shown is the entered award, not one the basis supports.' : '') });
+    if (m.basis.capacityReason) out.push({ level: 'warn', text: 'The credit capacity CHFA allows was not established: ' + m.basis.capacityReason.replace(/\.$/, '') + '.' + (m.basis.credit != null ? ' The yearly credit shown is not tested against it.' : '') });
     (m.basis.flags || []).forEach(function (f) { out.push({ level: 'warn', text: 'Credit: ' + f }); });
     if (m.basis.costLimit && m.basis.calculated != null) out.push({ level: 'warn', text: 'CHFA\'s cost basis limit (Method Three) was not checked: ' + m.basis.costLimit.replace(/\.$/, '') + '. Check the credit against it in CHFA\'s application.' });
     // No designation, or one that does not apply to this credit type, is a settled answer; a designation left
@@ -444,8 +449,9 @@
       br.push(['Credit the basis supports', money(b.calculated)]);
       if (b.cap && b.cap.applied) br.push(['CHFA per-project limit', money(num(b.cap.amount))]);
       if (b.gapMethod && b.gapMethod.applied) br.push(['Credit to fill the gap (CHFA gap method)', money(num(b.gapMethod.credit))]);
-      if (b.requested != null) br.push(['Credit requested', money(b.requested)]);
-      if (b.awarded != null) br.push(['Credit awarded', money(b.awarded)]);
+      br.push(['Credit requested', b.requested == null ? '— ' + (b.requestedReason || '') : money(b.requested)]);
+      br.push(['Credit awarded', b.awarded == null ? '— ' + (b.awardedReason || '') : money(b.awarded)]);
+      if (b.capacityReason) br.push(['Credit capacity', '— ' + b.capacityReason]);
       br.push(['Yearly credit used', b.credit == null ? '— ' + (b.creditReason || '') : money(b.credit)]);
       br.push(['Equity price', b.price == null ? '—' : '$' + b.price.toFixed(3)]);
       br.push(['Credit equity (10 years of credit × price)', money(b.equity)]);
