@@ -63,16 +63,23 @@ const law = JSON.parse(read('data/policy/tax-credit-legislation.json'));
 assert(JSON.stringify(law).includes('119-21') && stat.includes('Public Law 119-21'), 'caveat names the law the watch file records as enacted');
 // CRA: being inside a bank's assessment area is about place, not whether the
 // investment qualifies. Until 2026-10-22 the deal team page said an investment
-// there "counts without argument"; 12 CFR 228.12(t) also requires a primary
-// community development purpose.
+// there "counts without argument". What every claim must agree with is the
+// definition the section's own source line quotes from 12 CFR 228.12(t): a
+// qualified investment has community development as its primary purpose. So
+// each sentence saying an investment counts or qualifies (quoted rule text
+// aside) must carry that purpose and a condition, however it is worded.
 const team = read('affordable-deal-team.html');
 const craSection = team.match(/<section id="dt-cra"[\s\S]*?<\/section>/);
 assert(craSection, 'deal team page has the CRA section');
-const craText = craSection[0].replace(/<[^>]+>/g, ' ');
-assert(!/counts without argument|counts automatically|always counts|investment counts as/i.test(craText), 'no unconditional CRA-credit claim anywhere in the CRA section');
-assert(/can count as a "qualified investment" if its primary purpose is community development/.test(craText), 'the qualified-investment line states its condition');
-const craCard = team.match(/<h3>Conservative: the bank's own assessment areas<\/h3>[\s\S]*?<\/div>/);
-assert(craCard, 'deal team page has the conservative CRA card');
-assert(/whether the investment counts still depends on it qualifying as community development/.test(craCard[0]), 'states the qualifying condition');
-assert(/228\.12\(t\)/.test(craCard[0]), 'cites the qualified-investment definition');
+const craText = craSection[0].replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/g, ' ').replace(/\s+/g, ' ');
+const definition = craText.match(/228\.12\(t\)[^.]*"as its primary purpose (community development)"/);
+assert(definition, 'the CRA section quotes the 228.12(t) qualified-investment definition');
+const claims = craText.split(/(?<=[.;?!]"?)\s+/)
+  .map((sentence) => sentence.replace(/"[^"]*"/g, '""'))
+  .filter((sentence) => /\binvestments?\b[^.;]*\b(counts?|qualif(y|ies|ied|ying))\b/i.test(sentence) || /\binvestment\b[^.;]*\bqualified investment\b/i.test(sentence));
+assert(claims.length >= 2, `scan found ${claims.length} CRA credit claims`);
+claims.forEach((claim) => {
+  assert(claim.includes(definition[1]), `CRA claim names the community development purpose: ${claim}`);
+  assert(/\b(if|only if|whether|depends|unless)\b/i.test(claim), `CRA claim states its condition: ${claim}`);
+});
 console.log(`lihtc-practice-claims: PASS (${rounds.length} rounds checked)`);
