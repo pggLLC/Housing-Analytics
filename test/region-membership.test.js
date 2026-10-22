@@ -74,11 +74,10 @@ for (const row of rows) {
 }
 assert(compared > 500, `compared ${compared} ranking rows with their county's region`);
 
-// Where to build filters its shortlist by the same six regions, from its own copy.
+// Where to build files each place under the same six regions, from its own copy.
+const whereRegions = require('../js/where-to-build.js').REGIONS;
+assert.deepEqual(whereRegions, REGIONS, 'js/where-to-build.js files each county under the same region as the builder');
 const where = fs.readFileSync('developer-where.html', 'utf8');
-const whereRegions = JSON.parse(where.slice(where.indexOf('const REGIONS = {') + 'const REGIONS = '.length, where.indexOf('};', where.indexOf('const REGIONS = {')) + 1)
-  .replace(/'/g, '"').replace(/\s+/g, ' ').replace(/,\s*}/, '}'));
-assert.deepEqual(whereRegions, REGIONS, 'developer-where.html files each county under the same region as the builder');
 for (const r of Object.keys(REGIONS)) assert(where.includes(`<option value="${r}">${r}</option>`), `Where to build offers ${r}`);
 
 console.log(`region-membership: PASS (${checked} counties against DOLA, ${compared} ranking rows)`);
