@@ -96,25 +96,32 @@ ok(m.findings.findIndex((f) => f.level === 'ok') > m.findings.findIndex((f) => f
 
 // Sabotage: each guard fires when its figure is pushed past CHFA's line, and not before.
 const mut = (fn) => { const s = fixture(); fn(s); return WB.build(s, rules); };
-ok(/bad: Operating cost plus property tax of \$3,900 a unit is under CHFA's \$4,500/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 3000; s.result.propTaxPerUnit = 900; }))), 'operating cost plus tax under $4,500 is flagged');
-ok(!/Operating cost/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 4200; s.result.propTaxPerUnit = 900; }))), 'property tax counts toward the $4,500 minimum (and $5,000)');
-ok(/warn: Operating cost of \$4,000 a unit is under CHFA's \$4,500 minimum before property tax/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 4000; s.result.propTaxPerUnit = null; }))), 'without the tax, a low cost is a question, not a failure');
-const exempt = mut((s) => { s.result.operatingSummary.perUnitYear = 4200; s.result.propTaxPerUnit = 900; s.result.netPropTax = 0; });
-ok(exempt.operating.taxPerUnit === 0 && /bad: Operating cost of \$4,200 a unit is under/.test(texts(exempt)), 'a tax exemption is counted: the net tax, not the gross input');
-ok(/warn: Operating cost plus property tax of \$4,600 a unit meets CHFA's \$4,500 minimum but not the \$5,000/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 3700; s.result.propTaxPerUnit = 900; }))), 'a cost between the two minimums is flagged against the Section 8 minimum, not passed');
-ok(!/Operating cost/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 4100; s.result.propTaxPerUnit = 900; }))), 'operating cost plus tax at $5,000 is not flagged');
-ok(/warn: Vacancy of 5\.0%/.test(texts(mut((s) => { s.result.vacancyRate = 0.05; }))), 'vacancy under 7% is flagged');
-ok(/warn: Rents grow 3\.0%/.test(texts(mut((s) => { s.result.exit.rentGrowth = 0.03; }))), 'rent growth over 2% is flagged');
-ok(/warn: Costs grow 2\.0%/.test(texts(mut((s) => { s.result.exit.expGrowth = 0.02; }))), 'cost growth under 3% is flagged');
-ok(/bad: Replacement reserve of \$250/.test(texts(mut((s) => { s.result.repReservePerUnit = 250; }))), 'a reserve under CHFA\'s minimum is flagged');
-ok(/bad: Replacement reserve of \$325 a unit is under CHFA's \$350 family minimum \(it meets the \$300 senior minimum/.test(texts(mut((s) => { s.result.repReservePerUnit = 325; }))), 'a $325 reserve is held to the family minimum');
+// Every line below is read from CHFA's rules file, so a change to an adopted minimum moves the test with it.
+const R = rules.rules, $m = WB.money, p1 = (v) => (v * 100).toFixed(1) + '%', x2 = (v) => v.toFixed(2) + 'x';
+const PUPA = R.pupa_minimum.per_unit_annual, PUPA8 = R.pupa_minimum.per_unit_annual_section8, TAX = 900;
+const opexCase = (opex, tax) => texts(mut((s) => { s.result.operatingSummary.perUnitYear = opex; s.result.propTaxPerUnit = tax; }));
+ok(opexCase(PUPA - 600 - TAX, TAX).includes(`bad: Operating cost plus property tax of ${$m(PUPA - 600)} a unit is under CHFA's ${$m(PUPA)}`), 'operating cost plus tax under the minimum is flagged');
+ok(!/Operating cost/.test(opexCase(PUPA8 - TAX, TAX)), 'property tax counts toward both minimums');
+ok(opexCase(PUPA - 500, null).includes(`warn: Operating cost of ${$m(PUPA - 500)} a unit is under CHFA's ${$m(PUPA)} minimum before property tax`), 'without the tax, a low cost is a question, not a failure');
+const exempt = mut((s) => { s.result.operatingSummary.perUnitYear = PUPA - 300; s.result.propTaxPerUnit = TAX; s.result.netPropTax = 0; });
+ok(exempt.operating.taxPerUnit === 0 && texts(exempt).includes(`bad: Operating cost of ${$m(PUPA - 300)} a unit is under`), 'a tax exemption is counted: the net tax, not the gross input');
+ok(opexCase(PUPA + 100 - TAX, TAX).includes(`warn: Operating cost plus property tax of ${$m(PUPA + 100)} a unit meets CHFA's ${$m(PUPA)} minimum but not the ${$m(PUPA8)}`), 'a cost between the two minimums is flagged for Section 8');
+ok(!/Operating cost/.test(opexCase(PUPA8 - TAX, TAX)), 'operating cost plus tax at the Section 8 minimum is not flagged');
+const VAC = R.pro_forma_vacancy.rate, RG = R.pro_forma_rent_growth.rate, EG = R.pro_forma_expense_growth.rate;
+ok(texts(mut((s) => { s.result.vacancyRate = VAC - 0.02; })).includes(`warn: Vacancy of ${p1(VAC - 0.02)}`), 'vacancy under CHFA\'s rate is flagged');
+ok(texts(mut((s) => { s.result.exit.rentGrowth = RG + 0.01; })).includes(`warn: Rents grow ${p1(RG + 0.01)}`), 'rent growth over CHFA\'s rate is flagged');
+ok(texts(mut((s) => { s.result.exit.expGrowth = EG - 0.01; })).includes(`warn: Costs grow ${p1(EG - 0.01)}`), 'cost growth under CHFA\'s rate is flagged');
+const FAM = R.replacement_reserve_minimum.family_per_unit_annual, SEN = R.replacement_reserve_minimum.senior_per_unit_annual;
+ok(texts(mut((s) => { s.result.repReservePerUnit = SEN - 50; })).includes(`bad: Replacement reserve of ${$m(SEN - 50)}`), 'a reserve under CHFA\'s minimum is flagged');
+ok(texts(mut((s) => { s.result.repReservePerUnit = (FAM + SEN) / 2; })).includes(`bad: Replacement reserve of ${$m((FAM + SEN) / 2)} a unit is under CHFA's ${$m(FAM)} family minimum (it meets the ${$m(SEN)} senior minimum`), 'a reserve between the two is held to the family minimum');
 ok(/warn: Debt coverage was measured for 5 of the first 15 years/.test(texts(mut((s) => { s.result.coverage.years = s.result.coverage.years.slice(0, 5); }))) && !/ok: Debt coverage/.test(texts(mut((s) => { s.result.coverage.years = s.result.coverage.years.slice(0, 5); }))), 'a five-year projection never passes coverage');
 ok(/warn: Debt coverage was measured for 14 of/.test(texts(mut((s) => { s.result.coverage.years[9].unavailableReason = 'x'; }))), 'a year with unknown debt service blocks the coverage pass');
 ok(/ok: Debt coverage on all must-pay debt stays at or above/.test(texts(m)), 'fifteen measured years pass coverage');
 const long = mut((s) => { const y = JSON.parse(JSON.stringify(s.result.coverage.years[14])); y.year = 35; y.allMustPayCoverage = 0.97; s.result.coverage.years.push(y); s.result.coverage.weakestAllMustPay = { year: 35, ratio: 0.97 }; });
 ok(long.exec.weakest.year <= 15 && !/year 35/.test(texts(long)), 'a weak year 35 does not count against the 15-year coverage test');
-ok(/bad: Debt coverage on all must-pay debt falls to 1\.10x in year 3/.test(texts(mut((s) => { s.result.coverage.years[2].allMustPayCoverage = 1.1; }))), 'coverage under 1.15 is flagged with its year');
-ok(/warn: Year-one coverage of 1\.35x/.test(texts(mut((s) => { s.result.projection.rows[0].dscr = 1.35; }))), 'year-one coverage over 1.30 is flagged');
+const DS = R.min_debt_coverage.min_coverage, HI = R.high_coverage_credit_reduction.threshold;
+ok(texts(mut((s) => { s.result.coverage.years[2].allMustPayCoverage = DS - 0.05; })).includes(`bad: Debt coverage on all must-pay debt falls to ${x2(DS - 0.05)} in year 3`), 'coverage under CHFA\'s minimum is flagged with its year');
+ok(texts(mut((s) => { s.result.projection.rows[0].dscr = HI + 0.05; })).includes(`warn: Year-one coverage of ${x2(HI + 0.05)}`), 'year-one coverage over CHFA\'s high-coverage line is flagged');
 ok(!/Year-one coverage/.test(texts(m)), 'year-one coverage of 1.20 is not flagged');
 ok(/bad: 60% AMI 2BR rent of \$1,600 is over its \$1,549 gross limit before any utility allowance, by at least \$51/.test(texts(mut((s) => { s.result.pricedRows.find((x) => x.tier === 60).contractRent = 1600; }))), 'a rent over its gross limit is flagged even with the allowance unset');
 const noPay = mut((s) => { s.result.exit.dfYr = null; s.result.projection.rows.forEach((y) => { y.deferredFeePaid = 10000; }); });
@@ -189,6 +196,12 @@ function fakeFrameDoc(win) {
   const fr = stuck.createElement(); fr.remove = () => { removed = true; };
   await WB.loadFrame(stuck, 'units=1', 60, 10).catch((e) => { failed = e; });
   ok(failed && removed, 'a calculator that never settles is removed when the wait times out');
+  // A frame that never fires load still times out and is removed.
+  let gone = false, hung = null;
+  const neverLoads = { baseURI: 'http://localhost/a/p.html', body: { appendChild() {} },
+    createElement: () => ({ style: {}, setAttribute() {}, addEventListener() {}, remove() { gone = true; } }) };
+  await WB.loadFrame(neverLoads, 'units=1', 50, 10).catch((e) => { hung = e; });
+  ok(hung && gone, 'a calculator page that never loads times out and is removed');
   ok(/__dealCalcPendingFetches/.test(read('deal-calculator.html')) && read('deal-calculator.html').indexOf('__dealCalcPendingFetches') < read('deal-calculator.html').indexOf('js/path-resolver.js'), 'the calculator counts its data requests from its first script');
 }
 

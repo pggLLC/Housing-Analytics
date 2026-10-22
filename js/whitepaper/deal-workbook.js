@@ -445,8 +445,13 @@
       f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
       f.style.cssText = 'position:absolute;width:1200px;height:900px;left:-10000px;top:0;border:0;visibility:hidden';
       f.src = calcUrl(query, doc.baseURI);
-      var t0 = Date.now(), last = '', same = 0;
+      var last = '', same = 0, done = false;
+      // A calculator left running would keep loading in the background, and each retry would add another.
+      function fail(err) { if (done) return; done = true; clearTimeout(timer); f.remove(); reject(err); }
+      // The clock starts when the frame is added, so a page that never fires load still times out.
+      var timer = setTimeout(function () { fail(new Error('The Deal Calculator did not finish loading.')); }, timeoutMs || 45000);
       function poll() {
+        if (done) return;
         try {
           var w = f.contentWindow, dc = w && w.__DealCalc;
           if (dc && dc.getResult && dc.getResult()) {
@@ -454,11 +459,9 @@
             var busy = typeof w.__dealCalcPendingFetches === 'function' && w.__dealCalcPendingFetches() > 0;
             var o = JSON.stringify(dc.getOutputRecords());
             same = o === last && !busy ? same + 1 : 0; last = o;
-            if (same >= 4) return resolve(f);
+            if (same >= 4) { done = true; clearTimeout(timer); return resolve(f); }
           }
-        } catch (e) { f.remove(); return reject(e); }
-        // A calculator left running would keep loading in the background, and each retry would add another.
-        if (Date.now() - t0 > (timeoutMs || 45000)) { f.remove(); return reject(new Error('The Deal Calculator did not finish loading.')); }
+        } catch (e) { return fail(e); }
         setTimeout(poll, pollMs || 400);
       }
       f.addEventListener('load', function () { setTimeout(poll, pollMs || 400); });
