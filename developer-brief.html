@@ -241,6 +241,7 @@
 <script src="js/components/jurisdiction-brief.js"></script>
 <script src="js/funding-fit.js"></script>
 <script src="js/mix-check.js"></script>
+<script src="js/whitepaper/town-questions.js"></script>
 <script src="js/whitepaper/jurisdiction-whitepaper.js"></script>
 <script src="js/whitepaper/place-card.js"></script>
 <script src="js/whitepaper/local-discussion.js"></script>
@@ -375,7 +376,7 @@
     ]).then(([brief, contacts, landscape, summary, relatedContacts, relatedLandscape]) => {
       if (typeof isSensitive !== 'function') throw new Error('the private-text check (scripts/lib/public-sensitive-patterns.mjs) did not load, so nothing was built');
       const model = WP.buildModel(SOURCES, geoid, {
-        FundingFit: window.FundingFit, MixCheck: window.MixCheck, brief, contacts, landscape, summary, relatedContacts, relatedLandscape, localResources: LOCAL_RES, isSensitive
+        FundingFit: window.FundingFit, MixCheck: window.MixCheck, TownQuestions: window.TownQuestions, brief, contacts, landscape, summary, relatedContacts, relatedLandscape, localResources: LOCAL_RES, isSensitive
       });
       html = WP.renderHtml(model);
       if (!model.error && isSensitive(html)) {

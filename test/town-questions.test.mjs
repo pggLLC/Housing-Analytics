@@ -1,0 +1,181 @@
+#!/usr/bin/env node
+/**
+ * Contract for the Jurisdiction Report's "Questions for the town" and the timing and
+ * structure added to "Ideal deal: structure and timing"
+ * (js/whitepaper/town-questions.js, dealTiming and dealStructure in
+ * js/whitepaper/jurisdiction-whitepaper.js).
+ *
+ * What it pins:
+ *   - the real question bank stays out of this public repo; without it the report
+ *     says the questions load on the gated site;
+ *   - every pointed question prints the figure that raised it, and that figure
+ *     equals the file it cites; a signal with missing data does not fire;
+ *   - named people come only from researched contacts, never a state agency's
+ *     staff, and a town's manager is never the county's;
+ *   - timing is back-solved from data/chfa-qap-calendar.json: base case, stretch
+ *     and not-realistic readings move with the date; the Phase I date is 12 months
+ *     before the application; thresholds quote the scoring file;
+ *   - scoring lines show only where the data supports them.
+ * Sabotage cases mutate copies and prove each check fires.
+ */
+import assert from 'node:assert/strict';
+import { readFileSync, existsSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const require = createRequire(import.meta.url);
+const WP = require(join(ROOT, 'js/whitepaper/jurisdiction-whitepaper.js'));
+const TQ = require(join(ROOT, 'js/whitepaper/town-questions.js'));
+const FundingFit = require(join(ROOT, 'js/funding-fit.js'));
+const MixCheck = require(join(ROOT, 'js/mix-check.js'));
+const { loadSources } = await import(join(ROOT, 'scripts/whitepaper/build-whitepaper.mjs'));
+const read = (p) => readFileSync(join(ROOT, p), 'utf8');
+
+const BASE = loadSources();
+const BANK = JSON.parse(read('test/fixtures/town-questions-bank.json'));
+const clone = (o) => JSON.parse(JSON.stringify(o));
+let checks = 0;
+const ok = (cond, msg) => { assert.ok(cond, msg); checks++; };
+
+function model(geoid, { today = '2026-10-22', bank = BANK, src = BASE, contacts = null } = {}) {
+  const s = Object.assign({}, src, { townQuestions: bank });
+  return WP.buildModel(s, geoid, { today, FundingFit, MixCheck, TownQuestions: TQ, contacts });
+}
+const fmt = (n) => Math.round(n).toLocaleString('en-US');
+const rowOf = (g) => BASE.rankingIndex.rankings.find((r) => r.geoid === g);
+
+// ---- 1. The bank is private.
+ok(!existsSync(join(ROOT, 'data/jurisdiction-briefs/_town-questions.json')), 'the private question bank must not be in the public repo');
+ok(WP.SOURCE_FILES.townQuestions && WP.isOptional('townQuestions'), 'the question bank is an optional source');
+{
+  const m = model('0833640', { bank: null });
+  ok(m.questions && m.questions.missing, 'no bank: questions marked missing');
+  const html = WP.renderHtml(m);
+  ok(/question bank loads on the gated developer site only/.test(html), 'no bank: the report says where the questions load');
+  ok(!/Questions for the town:<\/strong>/.test(html), 'no bank: no questions line in the summary');
+}
+
+// ---- 2. Pointed questions carry the figure that raised them, equal to its source.
+const SAMPLE = ['0833640', '0805265', '0820000', '0862000', '08051', '08001', '0822035', '0828745'];
+const fired = {};
+for (const g of SAMPLE) {
+  const m = model(g);
+  const row = rowOf(g);
+  ok(m.questions.pointed.length <= TQ.MAX_POINTED, `${g}: at most ${TQ.MAX_POINTED} pointed questions`);
+  ok(!m.questions.pointed.some((q) => q.signal === 'no_such_signal'), `${g}: an unknown signal never fires`);
+  for (const q of m.questions.pointed) {
+    fired[q.signal] = (fired[q.signal] || 0) + 1;
+    ok(q.evidence && q.source, `${g} ${q.id}: evidence and source printed`);
+    ok(!/\{\w+\}/.test(q.ask), `${g} ${q.id}: every placeholder filled`);
+    if (q.signal === 'deep_gap') ok(q.evidence.includes(fmt(row.metrics.ami_gap_30pct) + ' rental homes short'), `${g}: 30% gap matches the ranking index`);
+    if (q.signal === 'tax_credit_drought' && row.metrics.latest_lihtc_year) ok(q.evidence.includes(String(row.metrics.latest_lihtc_year)), `${g}: drought year matches the ranking index`);
+    if (q.signal === 'qct_partial') ok(q.evidence.startsWith(Math.round(row.metrics.qct_share_pct) + '%'), `${g}: QCT share matches the ranking index`);
+    if (q.signal === 'commuters') ok(q.evidence.startsWith(fmt(row.metrics.in_commuters)), `${g}: in-commuters match the ranking index`);
+  }
+  const html = WP.renderHtml(m);
+  ok(html.includes('id="questions"') && html.indexOf('id="deal"') < html.indexOf('id="questions"'), `${g}: questions follow the deal section`);
+}
+for (const s of ['tax_credit_drought', 'deep_gap', 'rent_above_market', 'qct_partial', 'commuters', 'land_banked']) {
+  ok(fired[s] > 0, `signal ${s} fires somewhere in the sample`);
+}
+
+// A signal whose data is missing does not fire (unknown is not zero).
+{
+  const src = clone(BASE);
+  const row = src.rankingIndex.rankings.find((r) => r.geoid === '0833640');
+  row.metrics.in_commuters = null;
+  row.metrics.qct_share_pct = null;
+  row.metrics.seasonal_share_of_vacant = null;
+  const ids = model('0833640', { src }).questions.pointed.map((q) => q.signal);
+  ok(!ids.includes('commuters') && !ids.includes('qct_partial') && !ids.includes('seasonal_homes'), 'missing data raises no question');
+}
+// Sabotage: a changed figure changes the evidence.
+{
+  const src = clone(BASE);
+  src.rankingIndex.rankings.find((r) => r.geoid === '0833640').metrics.ami_gap_30pct = 9999;
+  const q = model('0833640', { src }).questions.pointed.find((x) => x.signal === 'deep_gap');
+  ok(q && q.evidence.includes('9,999'), 'sabotage: evidence follows the data');
+}
+
+// Denver and Broomfield file Prop 123 as a city and county; the record is found.
+ok(model('0820000').prop123.record, 'Denver: Prop 123 record found under its city-and-county name');
+ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_filed'), 'Denver: no "not filed" question');
+
+// ---- 3. Standard questions quote the QAP line they cite; an unknown line is dropped, not invented.
+{
+  const m = model('0833640');
+  const s1 = m.questions.standard.find((q) => q.id === 'S1');
+  const t16 = BASE.qapScoring.thresholds.find((t) => t.id === 'T16');
+  ok(s1.qap && s1.qap.quote === t16.quote && s1.qap.section === 'Threshold 16', 'S1 quotes Threshold 16');
+  ok(s1.ask === 'Standard question for Gunnison.', 'standard wording filled with the place name');
+  ok(m.questions.standard.find((q) => q.id === 'S3').qap === null, 'an unknown QAP id cites nothing');
+}
+
+// ---- 4. Contacts: matched on role, local roles stay local, state staff never.
+{
+  const contacts = { contacts: [
+    { name: 'County Person', role: 'County Manager', org: 'Gunnison County', source_url: 'https://example.org/a', source_quote: 'q' },
+    { name: 'State Person', role: 'Planner', org: 'CHFA Community Development', source_url: 'https://example.org/b', source_quote: 'q' },
+    { name: 'Town Planner', role: 'Planning Director', org: 'City of Gunnison', source_url: 'https://example.org/c', source_quote: 'q' },
+    { name: 'Authority Person', role: 'Director, Gunnison County Housing Authority', org: 'Gunnison County Housing Authority', source_url: 'https://example.org/d', source_quote: 'q' }
+  ] };
+  const q = model('0833640', { contacts }).questions.standard;
+  const by = (role) => (q.find((x) => x.role === role).contact || {}).name || null;
+  ok(by('manager') === null, 'a town manager question is not put to the county manager');
+  ok(by('planner') === 'Town Planner', 'planner matched at the town, not at CHFA');
+  ok(by('housing_authority') === 'Authority Person', 'housing authority may be county-wide');
+}
+
+// ---- 5. Timing from the CHFA calendar.
+{
+  const t = model('0833640', { today: '2026-10-22' }).deal.timing;
+  const r = (label) => t.rows.find((x) => x.label.startsWith(label));
+  ok(r('2027 R1').reading === 'stretch' && r('2027 R1').daysToLoi === 40, '22 Oct 2026: 2027 R1 is the stretch, 40 days out');
+  ok(r('2028 R1').reading === 'base', '22 Oct 2026: 2028 R1 is the base case');
+  ok(r('2027 R2') && r('2027 R2').reading === 'base', 'the 4% route shows its base round');
+  const ms = r('2028 R1').milestones;
+  ok(ms.find((x) => /Phase I/.test(x.what)).what.includes('2027-02-01'), 'Phase I dated no earlier than 12 months before the 2028 R1 application');
+  const t2 = BASE.qapScoring.thresholds.find((x) => x.id === 'T2');
+  ok(ms.find((x) => x.ref && x.ref.id === 'T2').ref.quote === t2.quote, 'site control quotes Threshold 2');
+  const late = model('0833640', { today: '2026-11-25' }).deal.timing;
+  ok(late.rows.find((x) => x.label.startsWith('2027 R1')).reading === 'late', '25 Nov 2026: 2027 R1 is not realistic');
+  const after = model('0833640', { today: '2027-03-01' }).deal.timing;
+  ok(!after.rows.some((x) => x.label.startsWith('2027 R1')) && after.rows.find((x) => x.label.startsWith('2028 R1')), 'a round whose letter of intent has passed drops out');
+  const html = WP.renderHtml(model('0833640'));
+  ok(/<strong>Base case:<\/strong> 2028 R1/.test(html) && /<strong>Timing:<\/strong> base case 2028 R1/.test(html), 'base case printed in the deal section and the summary');
+  // Sabotage: a moved letter-of-intent date moves the reading.
+  const src = clone(BASE);
+  src.qapCalendar.events.find((e) => e.id === '2027-r1-loi').date = '2027-01-30';
+  ok(model('0833640', { src }).deal.timing.rows.find((x) => x.label.startsWith('2027 R1')).reading === 'base', 'sabotage: a later letter of intent makes 2027 R1 the base case');
+  const noCal = clone(BASE); noCal.qapCalendar = { events: [] };
+  ok(model('0833640', { src: noCal }).deal.timing === null, 'no calendar: no timing, nothing invented');
+}
+
+// ---- 6. Scoring lines only where the data supports them.
+{
+  const lines = (g) => model(g).deal.structure.lines.map((l) => l.id);
+  ok(!lines('0820000').includes('5B3b-nonmetro'), 'Denver: no non-metro line');
+  const gun = model('0833640').deal.structure.lines.find((l) => l.id === '5B3b-nonmetro');
+  ok(gun && gun.reading === 'check', 'Gunnison: non-metro is a line to confirm, never "likely"');
+  for (const g of SAMPLE) {
+    const m = model(g);
+    if (!/9%/.test(m.deal.route)) ok(!m.deal.structure.lines.some((l) => l.id === '5B5-homeless'), `${g}: no 9% set-aside line off the 9% route`);
+    for (const l of m.deal.structure.lines) {
+      const src = BASE.qapScoring.lines.find((x) => x.id === l.id);
+      ok(src && l.points === src.points && l.quote === src.quote, `${g} ${l.id}: points and quote match the scoring file`);
+    }
+  }
+}
+
+// ---- 7. The page loads the module before the report and passes it in.
+{
+  const page = read('developer-brief.html');
+  const a = page.indexOf('js/whitepaper/town-questions.js'), b = page.indexOf('js/whitepaper/jurisdiction-whitepaper.js');
+  ok(a !== -1 && a < b, 'developer-brief.html loads town-questions.js before the report module');
+  ok(/TownQuestions: window\.TownQuestions/.test(page), 'developer-brief.html passes TownQuestions to buildModel');
+  ok(/TownQuestions/.test(read('scripts/whitepaper/build-whitepaper.mjs')), 'the command-line build passes TownQuestions too');
+}
+
+console.log(`town-questions: ${checks} checks passed`);
