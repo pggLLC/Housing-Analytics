@@ -60,6 +60,9 @@ const withUa = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: {
 ok(withUa.rents.rows.every((x) => x.allowance === 100 && x.headroom === x.limit - 100 - x.rent), 'a 2BR utility allowance comes off each 2BR limit');
 const withFees = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: { efficiency: 60, '1BR': 80, '2BR': 100, '3BR': 120, '4BR': 140 }, feesPerBedroom: { '2BR': 25 } }; });
 ok(withFees.rents.rows.every((x) => x.headroom === x.limit - 125 - x.rent), 'tenant-paid fees come off the limit with the allowance');
+ok(/no tax credits to lay out/.test(mut0((s) => { s.result.chfaRegime = false; s.rentLimits = { regime: 'home_high' }; }).error || ''), 'a non-tax-credit rent regime is turned away');
+const oldSched = mut0((s) => { s.utilityAllowance = { applied: false, reason: 'included_in_schedule_rents' }; s.rentSchedule = { mode: 'schedule', sourceMeta: { tableYear: 2024, effectiveDate: '2024-05-01' } }; });
+ok(oldSched.rentLimits.year === 2024 && /Rent limits are the 2024 tables/.test(oldSched.findings.map((f) => f.text).join('\n')), 'schedule rents carry the limit table they were priced from');
 const withMarket = mut0((s) => { s.result.pricedRows.push({ tier: 'market', bedrooms: '2BR', units: 4, rent: 1900 }); });
 const mrow = withMarket.rents.rows.find((x) => x.tier === 'market');
 ok(mrow.rent === 1900 && mrow.annual === 1900 * 4 * 12 && /Market rate/.test(WB.render(withMarket)) && !/market%/.test(WB.render(withMarket)), 'market-rate rows show their rent');

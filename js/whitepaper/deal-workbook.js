@@ -72,6 +72,7 @@
   function build(snap, rules) {
     var r = snap && snap.result;
     if (!r) return { error: 'The Deal Calculator gave no result for this deal.' };
+    if (r.chfaRegime === false) return { error: 'This deal uses ' + ((snap.rentLimits && snap.rentLimits.regime) || 'non-tax-credit') + ' rent limits, so it has no tax credits to lay out. The workbook covers rental tax credit deals; switch the Deal Calculator to CHFA tax credit limits.' };
     if (snap.mode === 'ownership' || (r.forSale && r.forSale.status && !r.pricedRows)) return { error: 'This is a for-sale deal. The workbook covers rental tax credit deals.' };
     var un = r.unavailable || {};
     var units = num(r.units);
@@ -123,14 +124,17 @@
     var ami = snap.amiByBr || {};
     var ua = snap.utilityAllowance || {};
     var rl = snap.rentLimits || {};
-    model.rentLimits = { source: rl.source || null, year: num(rl.tableYear), effective: rl.effectiveDate || null, regime: rl.regime || null };
     model.utilityAllowanceApplied = !!ua.applied;
     // A Market Analysis rent schedule prices each rent net of its allowance and fees and checks it against the
-    // limit there; the calculator keeps only the net rent, so the workbook cannot repeat that check.
+    // limit there; the calculator keeps only the net rent, so the workbook cannot repeat that check. Its rents
+    // carry the limit table they were priced from, which can be older than the one the calculator just loaded.
     model.rentsFromSchedule = ua.reason === 'included_in_schedule_rents';
+    var sm = model.rentsFromSchedule && snap.rentSchedule && snap.rentSchedule.sourceMeta;
+    model.rentLimits = sm ? { source: 'CHFA rent limits used by the Market Analysis rent schedule', year: num(sm.tableYear), effective: sm.effectiveDate || null, regime: rl.regime || null }
+      : { source: rl.source || null, year: num(rl.tableYear), effective: rl.effectiveDate || null, regime: rl.regime || null };
     var rentRows = (r.pricedRows || []).map(function (p) {
       var brKey = BR_KEY[String(p.bedrooms || '').toUpperCase()] || null;
-      var limit = brKey && ami[p.tier] ? num(ami[p.tier][brKey]) : null;
+      var limit = !model.rentsFromSchedule && brKey && ami[p.tier] ? num(ami[p.tier][brKey]) : null;
       var allowance = model.rentsFromSchedule ? null : ua.applied && ua.perBedroom && brKey ? num(ua.perBedroom[UA_KEY[brKey]]) : (ua.applied ? null : 0);
       var fees = ua.applied && ua.feesPerBedroom && brKey ? (num(ua.feesPerBedroom[UA_KEY[brKey]]) || 0) : 0;
       // Market-rate rows carry their price in rent, restricted rows in contractRent.
@@ -344,7 +348,7 @@
     var rr = m.rents;
     h += '<section class="dv-card" aria-labelledby="wbRents"><h2 id="wbRents">Rents by AMI tier</h2>';
     h += rr.rows.length ? table(['AMI', 'Size', 'Homes', 'Rent', 'Gross limit', 'Utility allowance', 'Room under limit', 'Rent a year'], rr.rows.map(function (x) {
-      return { cls: x.headroom != null && x.headroom < -0.5 ? 'sr-diff' : '', cells: [esc(typeof x.tier === 'number' ? x.tier + '%' : 'Market rate'), esc(x.bedrooms), esc(x.units), esc(money(x.rent)), esc(money(x.limit)),
+      return { cls: x.headroom != null && x.headroom < -0.5 ? 'sr-diff' : '', cells: [esc(typeof x.tier === 'number' ? x.tier + '%' : 'Market rate'), esc(x.bedrooms), esc(x.units), esc(money(x.rent)), esc(m.rentsFromSchedule ? 'In schedule' : money(x.limit)),
         esc(m.rentsFromSchedule ? 'In schedule' : x.allowance == null ? '—' : (m.utilityAllowanceApplied ? money(x.allowance + (x.fees || 0)) : 'None')), esc(x.headroom == null ? '—' : money(x.headroom)), esc(money(x.annual))] };
     }).concat([{ cls: 'sr-total', cells: ['Total', '', esc(rr.rows.reduce(function (a, x) { return a + (x.units || 0); }, 0)), '', '', '', '', esc(money(rr.annual))] }]), { num: [2, 3, 4, 5, 6, 7] })
       : '';
@@ -437,7 +441,7 @@
   function readCalc(w) {
     var dc = w.__DealCalc;
     return { result: dc.getResult(), permanentFinancing: dc.getPermanentFinancing ? dc.getPermanentFinancing() : null,
-      rentLimits: dc.getRentLimitsMetadata ? dc.getRentLimitsMetadata() : null, utilityAllowance: dc.getUtilityAllowanceMetadata ? dc.getUtilityAllowanceMetadata() : null,
+      rentLimits: dc.getRentLimitsMetadata ? dc.getRentLimitsMetadata() : null, rentSchedule: dc.getRentScheduleMetadata ? dc.getRentScheduleMetadata() : null, utilityAllowance: dc.getUtilityAllowanceMetadata ? dc.getUtilityAllowanceMetadata() : null,
       amiByBr: dc.getAmiLimitsByBr ? dc.getAmiLimitsByBr() : null,
       mode: (function () { var c = w.document.querySelector('input[name="dc-deal-mode"]:checked'); return c ? c.value : null; })(), labels: (w.DealPermanentFinancing && w.DealPermanentFinancing.PROGRAM_LABELS) || {} };
   }
