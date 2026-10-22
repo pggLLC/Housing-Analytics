@@ -291,6 +291,8 @@ ok(texts(overFee).includes("bad: Developer plus consultant fee of $2,750,000 is 
   texts(overFee).includes("ok: Contractor overhead and profit of $900,000 is within CHFA's 14% limit of $1,000,000."), 'the fee tests become findings, with the share that leaves basis');
 ok(WB.render(overFee).includes('Less fees above CHFA') && WB.render(overFee).includes('Basis after fees and grants'), 'the basis table shows the fee reduction so it reconciles');
 ok(texts(mut0((s) => { s.result.costBasis.developerFee = { passes: null, reason: 'Enter the developer fee.' }; })).includes("warn: CHFA's developer fee limit was not checked: Enter the developer fee."), 'a fee test that could not run says so');
+const boostAcq = WB.render(mut0((s) => { const b = s.result.costBasis.basis; b.boost = { applied: true, multiplier: 1.3 }; b.applicableFraction = 1; b.acquisitionQualified = 2000000; b.boostedBasis = 12400000; }));
+ok(boostAcq.includes('Basis after boost (the boost skips $2,000,000 of acquisition basis)') && boostAcq.includes('$12,400,000'), 'a boosted deal with acquisition basis shows the boosted basis and what the boost skipped');
 const snap0 = JSON.parse(read('test/fixtures/deal-workbook/invented-deal.json'));
 const supp = (v) => texts(WB.build(JSON.parse(JSON.stringify(snap0)), rules, { supportive: v }));
 ok(/warn: This is a supportive housing deal\. CHFA requires a higher operating cost minimum/.test(supp(true)), 'a supportive deal says the services minimum was not measured');

@@ -162,6 +162,7 @@
         // Credit capacity can fail after the basis is done (no first mortgage, no CHFA rule); an entered award
         // then carries the credit without that test.
         capacityReason: (b.reasons || {}).capacity || null,
+        acquisitionQualified: num(b.acquisitionQualified),
         // Fees above CHFA's limits come out of eligible basis before the boost (QAP 3.M.3); the tests say why.
         feeReduction: num(b.feeReduction), afterGrant: num(b.afterGrant),
         feeTests: { developer: r.costBasis.developerFee || null, contractor: r.costBasis.contractorFee || null, excess: r.costBasis.feeExcess || null },
@@ -478,6 +479,11 @@
       if (b.grantReduction) br.push(['Less federal grants', money(-b.grantReduction)]);
       if (b.feeReduction > 0.5 || b.grantReduction) br.push(['Basis after fees and grants', money(b.afterGrant)]);
       br.push(['Basis boost', b.boost && b.boost.applied ? '×' + num(b.boost.multiplier) : 'None']);
+      // The boost skips acquisition basis, so the boosted total is shown rather than left to the multiplier.
+      if (b.boost && b.boost.applied) {
+        var acqBasis = b.acquisitionQualified > 0 && b.applicableFraction > 0 ? b.acquisitionQualified / b.applicableFraction : 0;
+        br.push([acqBasis > 0.5 ? 'Basis after boost (the boost skips ' + money(acqBasis) + ' of acquisition basis)' : 'Basis after boost', money(b.boosted)]);
+      }
       br.push(['Applicable fraction', pct(b.applicableFraction, 1)]);
       br.push(['Qualified basis', money(b.qualified)]);
       br.push(['Credit rate', b.rate == null ? '—' : pct(b.rate, 2)]);
