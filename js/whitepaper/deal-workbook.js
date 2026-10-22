@@ -162,6 +162,9 @@
         // Credit capacity can fail after the basis is done (no first mortgage, no CHFA rule); an entered award
         // then carries the credit without that test.
         capacityReason: (b.reasons || {}).capacity || null,
+        // Fees above CHFA's limits come out of eligible basis before the boost (QAP 3.M.3); the tests say why.
+        feeReduction: num(b.feeReduction), afterGrant: num(b.afterGrant),
+        feeTests: { developer: r.costBasis.developerFee || null, contractor: r.costBasis.contractorFee || null, excess: r.costBasis.feeExcess || null },
         // Two CHFA tests the calculator leaves unchecked: the bond test on every 4% deal, and the rehab minimum
         // whenever acquisition basis earns credit.
         unchecked: [String(r.creditType) === '4' ? BOND_TEST_NOTE : null, num(b.acquisitionQualified) > 0 ? REHAB_MINIMUM_NOTE : null].filter(Boolean),
@@ -373,6 +376,14 @@
     if (gm.binding) out.push({ level: 'warn', text: 'CHFA\'s gap method limits the credit: the deal needs only ' + money(num(gm.credit)) + ' a year to fill its gap.', source: gm.citation ? { where: gm.citation } : null });
     if (m.basis.stopReason) out.push({ level: 'warn', text: 'Eligible and qualified basis were not fully calculated: ' + m.basis.stopReason.replace(/\.$/, '') + '.' + (m.basis.credit != null ? ' The yearly credit shown is the entered award, not one the basis supports.' : '') });
     if (m.basis.capacityReason) out.push({ level: 'warn', text: 'The credit capacity CHFA allows was not established: ' + m.basis.capacityReason.replace(/\.$/, '') + '.' + (m.basis.credit != null ? ' The yearly credit shown is not tested against it.' : '') });
+    var ft = m.basis.feeTests || {}, fx = ft.excess || {};
+    [['Developer plus consultant fee', 'Developer fee', ft.developer, fx.developer], ['Contractor overhead and profit', 'Contractor fee', ft.contractor, fx.contractor]].forEach(function (t) {
+      var f = t[2]; if (!f) return;
+      if (f.passes == null) out.push({ level: 'warn', text: 'CHFA\'s ' + t[1].toLowerCase() + ' limit was not checked: ' + String(f.reason || 'the test could not run').replace(/\.$/, '') + '.' });
+      else if (f.passes) out.push({ level: 'ok', text: t[0] + ' of ' + money(num(f.fee)) + ' is within CHFA\'s ' + Math.round(num(f.limitPct) * 100) + '% limit of ' + money(num(f.limit)) + '.' });
+      else { var inBasis = num(t[3]) != null ? num(t[3]) : num(f.excess);
+        out.push({ level: 'bad', text: t[0] + ' of ' + money(num(f.fee)) + ' is above CHFA\'s ' + Math.round(num(f.limitPct) * 100) + '% limit of ' + money(num(f.limit)) + '. ' + money(inBasis) + ' of the excess comes out of eligible basis (QAP 3.M.3).' }); }
+    });
     (m.basis.unchecked || []).forEach(function (n) { if (m.basis.calculated != null || m.basis.credit != null) out.push({ level: 'warn', text: 'Not checked: ' + n }); });
     (m.basis.flags || []).forEach(function (f) { out.push({ level: 'warn', text: 'Credit: ' + f }); });
     if (m.basis.costLimit && m.basis.calculated != null) out.push({ level: 'warn', text: 'CHFA\'s cost basis limit (Method Three) was not checked: ' + m.basis.costLimit.replace(/\.$/, '') + '. Check the credit against it in CHFA\'s application.' });
@@ -463,7 +474,9 @@
     else {
       if (b.stopReason) h += '<p class="sr-muted">Basis not fully calculated: ' + esc(b.stopReason) + '</p>';
       var br = [['Eligible basis', money(b.eligible)]];
+      if (b.feeReduction > 0.5) br.push(['Less fees above CHFA\'s limits', money(-b.feeReduction)]);
       if (b.grantReduction) br.push(['Less federal grants', money(-b.grantReduction)]);
+      if (b.feeReduction > 0.5 || b.grantReduction) br.push(['Basis after fees and grants', money(b.afterGrant)]);
       br.push(['Basis boost', b.boost && b.boost.applied ? '×' + num(b.boost.multiplier) : 'None']);
       br.push(['Applicable fraction', pct(b.applicableFraction, 1)]);
       br.push(['Qualified basis', money(b.qualified)]);

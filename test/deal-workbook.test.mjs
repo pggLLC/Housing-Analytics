@@ -284,6 +284,13 @@ ok(!/credit capacity CHFA allows/.test(texts(m)), 'a complete deal has no capaci
 const overLoan = mut0((s) => { s.permanentFinancing.hardDebt = 9000000; s.permanentFinancing.overMaxLoan = 1500000; s.permanentFinancing.maxLoan = { byCap: { maxLoan: 7500000 }, byAppraisal: { maxLoan: 8000000 } }; });
 ok(texts(overLoan).includes('bad: Hard debt of $9,000,000 is $1,500,000 above the lower maximum loan ($7,500,000) that the cap rate or appraisal supports.') && WB.render(overLoan).includes('above the lower maximum loan of $7,500,000'), 'hard debt above the loan limits is flagged');
 ok(!/above the lower maximum loan/.test(texts(m)), 'a deal within its loan limits has no overage');
+const overFee = mut0((s) => { const cb = s.result.costBasis; cb.basis.feeReduction = 250000; cb.basis.afterGrant = cb.basis.eligibleBasis - 250000;
+  cb.developerFee = { fee: 2750000, limit: 2400000, limitPct: 0.15, excess: 350000, passes: false }; cb.contractorFee = { fee: 900000, limit: 1000000, limitPct: 0.14, excess: 0, passes: true };
+  cb.feeExcess = { developer: 250000, contractor: 0, total: 250000 }; });
+ok(texts(overFee).includes("bad: Developer plus consultant fee of $2,750,000 is above CHFA's 15% limit of $2,400,000. $250,000 of the excess comes out of eligible basis (QAP 3.M.3).") &&
+  texts(overFee).includes("ok: Contractor overhead and profit of $900,000 is within CHFA's 14% limit of $1,000,000."), 'the fee tests become findings, with the share that leaves basis');
+ok(WB.render(overFee).includes('Less fees above CHFA') && WB.render(overFee).includes('Basis after fees and grants'), 'the basis table shows the fee reduction so it reconciles');
+ok(texts(mut0((s) => { s.result.costBasis.developerFee = { passes: null, reason: 'Enter the developer fee.' }; })).includes("warn: CHFA's developer fee limit was not checked: Enter the developer fee."), 'a fee test that could not run says so');
 const snap0 = JSON.parse(read('test/fixtures/deal-workbook/invented-deal.json'));
 const supp = (v) => texts(WB.build(JSON.parse(JSON.stringify(snap0)), rules, { supportive: v }));
 ok(/warn: This is a supportive housing deal\. CHFA requires a higher operating cost minimum/.test(supp(true)), 'a supportive deal says the services minimum was not measured');
