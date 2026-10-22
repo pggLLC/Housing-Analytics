@@ -248,11 +248,13 @@ jobs:
 
       # The HNA transit zone panel's map: counted stops and the merged
       # screening radius around them. Same stops and radius as the step above;
-      # test/transit-zone-map.test.js fails if the two drift.
+      # test/transit-zone-map.test.js fails if the two drift. Not
+      # continue-on-error: the commit below skips CI, so a failed build must
+      # stop the job rather than commit new stops beside a stale map.
       - name: Build transit-zone map layer
         run: |
+          set -o pipefail
           python scripts/market/build_transit_zone_map.py 2>&1 | tee /tmp/transit_zone_map.log
-        continue-on-error: true
 
       # ── School locations ──────────────────────────────────────────────
       - name: Fetch school locations (CDE ArcGIS)

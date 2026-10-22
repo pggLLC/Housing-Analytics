@@ -126,6 +126,22 @@ test('no Leaflet: "Map unavailable" with the reason', () => {
   });
 });
 
+test('a throw while drawing: "Map unavailable", never an empty map box', () => {
+  const dom = new JSDOM('<div id="m"></div>');
+  global.window = dom.window; global.document = dom.window.document;
+  global.getComputedStyle = dom.window.getComputedStyle;
+  global.fetch = (url) => Promise.resolve({ ok: true, json: () => Promise.resolve(readJson(url)) });
+  dom.window.L = { map: () => { throw new Error('boom'); } };
+  delete require.cache[require.resolve('../js/transit-zone-map.js')];
+  const TZM = require('../js/transit-zone-map.js');
+  const el = dom.window.document.getElementById('m');
+  return TZM.render(el, { geoid: '08031', name: 'Denver', mapStatus: status }).then((r) => {
+    assert.equal(r, 'unavailable');
+    assert.equal(el.querySelector('.tzm__map'), null);
+    assert.match(el.textContent, /Map unavailable\. The map could not be drawn: boom\./);
+  });
+});
+
 Promise.all(pending).then(() => {
   console.log(`\n${passed} passed`);
 }).catch((e) => { console.error('  ✗ ' + e.message); process.exit(1); });

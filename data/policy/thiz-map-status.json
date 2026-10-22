@@ -24,7 +24,7 @@
       "quote": "based on the location of transportation facilities as identified in a published transit plan"
     },
     "frequency_test": null,
-    "note": "The act sets a distance (two miles) and a kind of place (a transit station or passenger rail station that OEDIT identifies from a published transit plan). It sets no service-frequency or ridership test. The site's screen draws the two miles around every confirmed fixed-route stop, a wider set than stations, so the shaded area is the most a zone could cover, not the zone itself. test/transit-zone-map.test.js holds zone_radius_miles to the 'two miles' in the zone quote."
+    "note": "The act sets a distance (two miles) and a kind of place (a transit station or passenger rail station that OEDIT identifies from a published transit plan). It sets no service-frequency or ridership test. The site's screen draws the two miles around every confirmed fixed-route stop, a wider set than stations, so most zones should be smaller than the shaded area; a planned station named in a transit plan could still add a zone where no stop runs yet. The shading is a screen, not the zone. test/transit-zone-map.test.js holds zone_radius_miles to the 'two miles' in the zone quote."
   },
   "qap_tod_distance": {
     "miles": 0.5,
