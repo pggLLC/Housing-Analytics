@@ -94,6 +94,12 @@
     return '<p class="lb-since">Since the award: ' + esc(s.text) + (links ? ' <span class="lb-note">Sources: ' + links + '.</span>' : '') + '</p>';
   }
 
+  // The status line is built by the map module, which the page loads first.
+  function statusCell(a) {
+    var map = global.LandBankingMap || (typeof globalThis !== 'undefined' ? globalThis.LandBankingMap : null);
+    return map && map.statusHtml ? map.statusHtml(a, 'lb-status') : '';
+  }
+
   function roundLabel(data, id) {
     var r = ((data.meta || {}).rounds || []).find(function (x) { return x.id === id; });
     return r ? r.label : id;
@@ -119,6 +125,7 @@
     return '<tr>' +
       '<td class="lb-c-round">' + esc(roundLabel(data, a.round)) + '</td>' +
       '<td class="lb-c-project"><strong>' + esc(projectName(a)) + '</strong>' + sinceHtml(a) + '</td>' +
+      '<td data-label="Status">' + statusCell(a) + '</td>' +
       '<td data-label="Received by">' + esc(sponsorName(a)) + '</td>' +
       '<td data-label="Town">' + esc(towns) + '</td>' +
       '<td data-label="Homes planned">' + esc(purposeText(a.purpose)) + '</td>' +
@@ -177,7 +184,7 @@
     var limit = state.showAll || q.trim() ? ordered.length : FIRST_ROWS;
     doc.querySelector('[data-lb-rows]').innerHTML = ordered.length
       ? ordered.slice(0, limit).map(function (a) { return rowHtml(a, data); }).join('')
-      : '<tr><td colspan="8">No award matches that search. Try a town or county name.</td></tr>';
+      : '<tr><td colspan="9">No award matches that search. Try a town or county name.</td></tr>';
     var more = doc.querySelector('[data-lb-more]');
     if (more) {
       more.hidden = ordered.length <= limit;
@@ -190,9 +197,9 @@
   // The rows the table shows (all of them, not just the first few), as a spreadsheet.
   function csvText(awards, data) {
     var cell = function (v) { var t = String(v == null ? '' : v); return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
-    var head = ['round', 'project', 'grantee', 'towns', 'counties', 'homes_planned', 'amount_awarded', 'estimated_homes', 'source_url'];
+    var head = ['round', 'project', 'status', 'grantee', 'towns', 'counties', 'homes_planned', 'amount_awarded', 'estimated_homes', 'source_url'];
     return [head.join(',')].concat((awards || []).map(function (a) {
-      return [roundLabel(data, a.round), projectName(a), sponsorName(a),
+      return [roundLabel(data, a.round), projectName(a), (a.status && a.status.label) || '', sponsorName(a),
         (a.places || []).map(function (p) { return p.name; }).join('; '),
         (a.places || []).map(function (p) { return p.county; }).filter(Boolean).join('; '),
         purposeText(a.purpose), a.amount_awarded, a.estimated_units, a.source_url].map(cell).join(',');

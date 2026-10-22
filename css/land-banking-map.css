@@ -24,3 +24,4 @@
 .lbm-list button, .lbm-choice button { min-height:44px; padding:.3rem .7rem; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg2); color:var(--text); font:inherit; cursor:pointer; }
 @media (max-width:600px) { #lbmMap { height:320px; } }
 .lbm-since { display:inline-block; margin-top:.2rem; }
+.lbm-status, .lb-status { display:inline-block; margin-top:.2rem; }

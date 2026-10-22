@@ -1,0 +1,674 @@
+{
+  "meta": {
+    "generator": "scripts/funding/build_land_banking_status.py",
+    "generated_from": {
+      "awards": "2026-10-19",
+      "ledger": "2026-10-18T12:19:29Z",
+      "research_checked": "2026-10-22"
+    },
+    "labels": {
+      "financed": "Building money awarded",
+      "applied": "Applied for building money",
+      "partner": "Development partner chosen",
+      "seeking": "Seeking a developer",
+      "not_funded": "Applied for building money, not funded yet",
+      "none_found": "No public next step found",
+      "none": "No later state funding on record"
+    },
+    "counts": {
+      "financed": 10,
+      "applied": 3,
+      "partner": 3,
+      "seeking": 0,
+      "not_funded": 1,
+      "none_found": 9,
+      "none": 37
+    },
+    "unlinked": [],
+    "note": "A status reads only public state award records and dated public sources. \"Building money awarded\" means another state award to the same project, before or after the land award, not that homes are built."
+  },
+  "status": {
+    "fy23-24-101-west-main-street": {
+      "status": "financed",
+      "text": "101 Main: LIHTC 9% + state (2025); Housing Development Grant (2025).",
+      "sources": [
+        {
+          "title": "CHFA LIHTC 9% + state, 2025",
+          "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+        },
+        {
+          "title": "DOLA Housing Development Grant, 2025",
+          "url": "https://drive.google.com/file/d/18I_gJeK34pel4N7AigCGhKACvXxLtych/view"
+        }
+      ],
+      "quote": "Type: N, I/F; Name: 101 Main; Address: 101 W Main Street; City: Frisco; Total Units: 52; Total LI Units: 52; Federal 9% Credit Awarded: $1,600,000; Standard State Credit Awarded: $650,000",
+      "from": "ledger",
+      "ledger_project": "101-main-08117",
+      "label": "Building money awarded"
+    },
+    "fy23-24-affordable-home-ownership-in-evergreen": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy23-24-alpine-west": {
+      "status": "none_found",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "No public next step found"
+    },
+    "fy23-24-aurora-family-apartments": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy23-24-city-of-grand-junction-salt-flats": {
+      "status": "applied",
+      "text": "The city closed on the 21.78-acre site in January 2025 and picked development teams for it later that year. One partner applied for 2026 4% tax credits for 62 senior and veteran rental homes on part of the site (Haven at Salt Flats); CHFA has not announced that round.",
+      "sources": [
+        {
+          "title": "City of Grand Junction, Ordinance 5275 (closing 9 Jan 2025)",
+          "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1159176/File/document",
+          "date": "2025-08-20"
+        },
+        {
+          "title": "KKCO 11 News, 28 Aug 2025",
+          "url": "https://www.kkco11news.com/2025/08/29/grand-junction-holds-community-meeting-about-affordable-housing-project/",
+          "date": "2025-08-28"
+        },
+        {
+          "title": "CHFA 2026 Round Two applicant report",
+          "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf",
+          "date": "2026"
+        }
+      ],
+      "quote": "Name: Haven at Salt Flats; Address: 450 28 Road; City: Grand Junction; Total Units: 62; LI Units: 62",
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "Applied for building money"
+    },
+    "fy23-24-dignified-housing-village-for-at-risk-young-adults": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy23-24-five-points-historic-cultural-distrcit-affordable-homes": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy23-24-gates-family-housing": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy23-24-habitat-morris-project": {
+      "status": "none_found",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "No public next step found"
+    },
+    "fy23-24-northlands-subdivision-of-the-huajatolla-hills": {
+      "status": "none_found",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "No public next step found"
+    },
+    "fy23-24-rural-southern-colorado-homeownership-portfolio-1": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy23-24-safer-colorado": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy23-24-sagewood-west-affordable-housing": {
+      "status": "none_found",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "No public next step found"
+    },
+    "fy23-24-salida-eastside-senior-living-apartments": {
+      "status": "partner",
+      "text": "The city bought the 2.6-acre site at 507 Scott Street in May 2025 and contracted a development partner after a July 2025 request for proposals. Its February 2026 application for 9% tax credits (40 senior homes) was not selected; the city plans to apply again in early 2027.",
+      "sources": [
+        {
+          "title": "City of Salida, Scott Street project page",
+          "url": "https://www.cityofsalida.com/commdev/page/affordable-senior-housing-project-scott-street",
+          "date": "2026"
+        },
+        {
+          "title": "CHFA 2026 Round One applicant report",
+          "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf",
+          "date": "2026"
+        }
+      ],
+      "quote": "was not selected ... resubmit again in the next grant cycle in early 2027",
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "Development partner chosen"
+    },
+    "fy23-24-village-on-eastbrook": {
+      "status": "financed",
+      "text": "Village on Eastbrook: Housing Development Grant (2026); LIHTC 4% + state (2025).",
+      "sources": [
+        {
+          "title": "DOLA Housing Development Grant, 2026",
+          "url": "https://drive.google.com/file/d/14QYAuFUiHGQjfWfS8bxvHmjcFs0xK3Pb/view"
+        },
+        {
+          "title": "CHFA LIHTC 4% + state, 2025",
+          "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+        }
+      ],
+      "quote": "Project: Village on Eastbrook; Town: Fort Collins; Program: Housing Development Grant (HDG); Amount: $995,000; Amount basis: awarded; Homes: 73; Announced: 2026-04-14; Source: State Housing Board vote summary, meeting of 2026-04-14 (printed in the 2026-05-05 board packet)",
+      "from": "ledger",
+      "ledger_project": "village-on-eastbrook-08069",
+      "label": "Building money awarded"
+    },
+    "fy23-24-walden-35-phase-ii": {
+      "status": "none_found",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "No public next step found"
+    },
+    "fy24-25-11795-colmans-way": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-1350-n-logan": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-1886-hover": {
+      "status": "applied",
+      "text": "1886 Hover: Division of Housing award (amount requested, 2025).",
+      "sources": [
+        {
+          "title": "DOLA Division of Housing award, 2025",
+          "url": "https://doh.colorado.gov/application-schedule-and-awards"
+        }
+      ],
+      "quote": "Project: 1886 Hover; Program: Rental; Amount: $1,350,000; Amount basis: requested; Homes: 40; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
+      "from": "ledger",
+      "ledger_project": "1886-hover-08013",
+      "label": "Applied for building money"
+    },
+    "fy24-25-affordable-housing-phase-4-bonita-dr": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-bloom-cottages-habitat": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-bradley-ridge-apartments": {
+      "status": "financed",
+      "text": "Bradley Ridge: LIHTC 4% + state (2025).",
+      "sources": [
+        {
+          "title": "CHFA LIHTC 4% + state, 2025",
+          "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+        }
+      ],
+      "quote": "Cycle Year: 2025; Resident Type: Family; Building Type: New Construction; Property Name: Bradley Ridge; Address: Legacy Hill Drive & Bradley Landing Blvd; City: Colorado Springs; County: El Paso; QCT: No; DDA: No; SADDA: Yes; Federal 4% Credit Amount Issued *: $7,005,107; PAB Issuer **: City of Colorado Springs; PAB Amount ***: $76,832,223; Total Units: 336; LI Units: 336; Sect. 8: No",
+      "from": "ledger",
+      "ledger_project": "bradley-ridge-08041",
+      "label": "Building money awarded"
+    },
+    "fy24-25-brighton-blvd-gesc": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-calvary-flats-affordable-homes": {
+      "status": "financed",
+      "text": "Calvary Flats: Prop 123 homeownership (AHOP) (2025).",
+      "sources": [
+        {
+          "title": "DOLA Prop 123 homeownership (AHOP), 2025",
+          "url": "https://drive.google.com/file/d/1s1Wbu1ukynNutQek3LSbvAFfIyBwxtlC/view"
+        }
+      ],
+      "quote": "Project: Calvary Flats; Town: Golden; Program: Proposition 123 AHOP; Amount: $3,080,000; Amount basis: awarded; Homes: 40; Announced: 2025-05-13; Source: State Housing Board vote summary, meeting of 2025-05-13 (printed in the 2025-06-10 board packet)",
+      "from": "ledger",
+      "ledger_project": "calvary-flats-affordable-08059",
+      "label": "Building money awarded"
+    },
+    "fy24-25-fairways-phase-ii": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-flats-at-harlan": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-flats-at-sand-creek": {
+      "status": "financed",
+      "text": "Flats at Sand Creek: LIHTC 4% + state (2025).",
+      "sources": [
+        {
+          "title": "CHFA LIHTC 4% + state, 2025",
+          "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+        }
+      ],
+      "quote": "Cycle Year: 2025; Resident Type: Family; Building Type: New Construction; Property Name: Flats at Sand Creek; Address: NEC Peterson Rd & N Carefree Cir; City: Colorado Springs; County: El Paso; QCT: No; DDA: No; SADDA: Yes; Federal 4% Credit Amount Issued *: $3,015,572; PAB Issuer **: El Paso County; PAB Amount ***: $31,150,339; Total Units: 144; LI Units: 144; Sect. 8: No",
+      "from": "ledger",
+      "ledger_project": "flats-sand-creek-08041",
+      "label": "Building money awarded"
+    },
+    "fy24-25-habitat-15th-and-terry-street-neighborhood": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-liberty-house": {
+      "status": "not_funded",
+      "text": "Liberty House: Housing tax credit 9% application (2026).",
+      "sources": [
+        {
+          "title": "CHFA Housing tax credit 9% application, 2026",
+          "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+        }
+      ],
+      "quote": "Type: N,I/F,SP; Name: Liberty House Apartments; Address: 1500 Hooker; City: Denver; Total Units: 63; LI Units: 63; Federal 9% Credit Requested: $1,642,352; Standard State Credit Requested: $500,000; TOC Credit Requested: $126,000",
+      "from": "ledger",
+      "ledger_project": "liberty-house-08031",
+      "label": "Applied for building money, not funded yet"
+    },
+    "fy24-25-liora": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-loretto-commons": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-metro-caring-affordable-housing": {
+      "status": "applied",
+      "text": "Metro Caring Housing: Housing tax credit 4% application (2026).",
+      "sources": [
+        {
+          "title": "CHFA Housing tax credit 4% application, 2026",
+          "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+        }
+      ],
+      "quote": "Building Type: N; Resident Type: I/F; Name: Metro Caring Housing; Address: 1100 E 18th Avenue; City: Denver; Total Units: 139; LI Units: 139; Federal 4% Credit Requested: $4,036,080; PAB Issuer: City and County of Denver; PAB Requested: $25,500,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $278,000",
+      "from": "ledger",
+      "ledger_project": "metro-caring-housing-08031",
+      "label": "Applied for building money"
+    },
+    "fy24-25-miners-haus": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-ridge-road": {
+      "status": "financed",
+      "text": "Ridge Road: Prop 123 Concessionary Debt (2024).",
+      "sources": [
+        {
+          "title": "OEDIT / CHFA (Prop 123 AHFF) Prop 123 Concessionary Debt, 2024",
+          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/08/Prop123-AHFF-FY24-25-ConcessionaryDebtSelections.pdf"
+        }
+      ],
+      "quote": "Project Name: Ridge Road; Location: Wheat Ridge; Proposition 123 Funds Awarded: $750,000; Estimated Unit Count: 200; Program: Predevelopment",
+      "from": "ledger",
+      "ledger_project": "ridge-road-08059",
+      "label": "Building money awarded"
+    },
+    "fy24-25-tbd-hilltop-apartments": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy24-25-the-foundry": {
+      "status": "financed",
+      "text": "The Foundry: Prop 123 homeownership (AHOP) (2025).",
+      "sources": [
+        {
+          "title": "DOLA Prop 123 homeownership (AHOP), 2025",
+          "url": "https://drive.google.com/file/d/119Jgkaxxevoo4_OU4UaaNPAgKzxxZ3Xs/view"
+        }
+      ],
+      "quote": "Project: The Foundry Phase I; Town: Commerce City; Program: Prop 123 AHOP; Amount: $2,000,000; Amount basis: awarded; Homes: 36; Announced: 2025-12-09; Source: State Housing Board vote summary, meeting of 2025-12-09 (printed in the 2026-01-20 board packet)",
+      "from": "ledger",
+      "ledger_project": "foundry-08001",
+      "label": "Building money awarded"
+    },
+    "fy24-25-the-fruita-commons": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-rural-fort-morgan-mixed-income-housing-development": {
+      "status": "none_found",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "No public next step found"
+    },
+    "fy25-26-rural-gunnison-workforce-housing-project": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-rural-high-country-haven-phase-ii": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-rural-lakeview-flats": {
+      "status": "financed",
+      "text": "Lakeview Flats: Prop 123 homeownership (AHOP) (2026).",
+      "sources": [
+        {
+          "title": "DOLA Prop 123 homeownership (AHOP), 2026",
+          "url": "https://drive.google.com/file/d/1qgKEPwQZHK47Hxt4-dWMYXeeR0SDAuWy/view"
+        }
+      ],
+      "quote": "Project: Lakeview Flats; Town: Georgetown; Program: Prop 123 AHOP; Amount: $2,590,000; Amount basis: awarded; Homes: 37; Announced: 2026-05-05; Source: State Housing Board vote summary, meeting of 2026-05-05 (printed in the 2026-06-09 board packet)",
+      "from": "ledger",
+      "ledger_project": "lakeview-flats-08019",
+      "label": "Building money awarded"
+    },
+    "fy25-26-rural-leadville-railyards": {
+      "status": "partner",
+      "text": "The grantee and a developer partner plan Alpenglow Commons, 44 apartments at 1201 Poplar Street in the Railyard neighborhood. In June 2026 the next steps were planning and zoning meetings; the design was not final.",
+      "sources": [
+        {
+          "title": "Leadville Herald, 4 Jun 2026",
+          "url": "https://www.leadvilleherald.com/news/new-multi-story-apartment-building-coming-to-leadville/article_bc35680c-f2e2-46aa-8be3-ffd2ec7c23fa.html",
+          "date": "2026-06-04"
+        }
+      ],
+      "quote": "The building is planned to be two to three stories, housing 44 apartments ... The next steps will be planning and zoning meetings, where they will need to request a density easement",
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "Development partner chosen"
+    },
+    "fy25-26-rural-rivergate-lot-5-workforce-housing-development": {
+      "status": "partner",
+      "text": "The city chose a development partner in October 2025, after a search it opened in June 2025, for about 31 workforce homes on the 1.7-acre Rivergate lot. The city plans to give the land to the partner once agreed milestones are met.",
+      "sources": [
+        {
+          "title": "Durango Telegraph, 23 Oct 2025",
+          "url": "https://www.durangotelegraph.com/news/top-stories/rivergate-workforce-housing-moves-ahead/",
+          "date": "2025-10-23"
+        }
+      ],
+      "quote": "In June 2025, the City launched a search to find a development partner. ... In exchange for developing the lot, the City intends to donate the land to the developer, provided agreed-upon milestones are met.",
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "Development partner chosen"
+    },
+    "fy25-26-rural-silt-riverfront-homes": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-rural-the-riverly": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-375-logan": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-830-moraine-development": {
+      "status": "none_found",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "No public next step found"
+    },
+    "fy25-26-statewide-9151-n-pearl-street": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-basecamp-woodland-park": {
+      "status": "none_found",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "No public next step found"
+    },
+    "fy25-26-statewide-bimson": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-brighton-bridge-telluride": {
+      "status": "none_found",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "research",
+      "checked": "2026-10-22",
+      "label": "No public next step found"
+    },
+    "fy25-26-statewide-cherokee-place": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-legacy-terrace-apartments": {
+      "status": "financed",
+      "text": "Legacy Terrace Apartments: Prop 123 Concessionary Debt (2025).",
+      "sources": [
+        {
+          "title": "OEDIT / CHFA (Prop 123 AHFF) Prop 123 Concessionary Debt, 2025",
+          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf"
+        }
+      ],
+      "quote": "Project Name: Legacy Terrace Apartments; Location: Wheat Ridge; Proposition 123 Funds Requested: $750,000; Proposition 123 Funds Awarded: $750,000; Projected Units: 50; Loan Option: LIHTC Predevelopment",
+      "from": "ledger",
+      "ledger_project": "legacy-terrace-08059",
+      "label": "Building money awarded"
+    },
+    "fy25-26-statewide-mada-kinikin-affordable-housing-childcare-community": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-midland-affordable-homes": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-mountain-view-apartments": {
+      "status": "financed",
+      "text": "Mountain View Apartments: Prop 123 Concessionary Debt (2025).",
+      "sources": [
+        {
+          "title": "OEDIT / CHFA (Prop 123 AHFF) Prop 123 Concessionary Debt, 2025",
+          "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf"
+        }
+      ],
+      "quote": "Project Name: Mountain View Apartments; Location: Leadville; Proposition 123 Funds Requested: $700,000; Proposition 123 Funds Awarded: $700,000; Projected Units: 74; Loan Option: LIHTC Predevelopment",
+      "from": "ledger",
+      "ledger_project": "mountain-view-08065",
+      "label": "Building money awarded"
+    },
+    "fy25-26-statewide-mountair-townhomes": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-nazarene-townhomes": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-pumpkin-ridge-apartments": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-rio-grande-community-trust-monte-vista-scattered-site-homeownership-project": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-tailwind-residences": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-york-street-townhomes": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    },
+    "fy25-26-statewide-yosemite-street": {
+      "status": "none",
+      "text": null,
+      "sources": [],
+      "quote": null,
+      "from": "ledger",
+      "label": "No later state funding on record"
+    }
+  }
+}
