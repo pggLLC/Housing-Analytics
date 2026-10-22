@@ -78,8 +78,8 @@ ok(/Loan details are not available: Enter the senior loan rate\./.test(WB.render
 const sched = mut0((s) => { s.utilityAllowance = { applied: false, reason: 'included_in_schedule_rents' }; });
 ok(sched.rentsFromSchedule && sched.rents.rows.every((x) => x.headroom == null), 'schedule rents are not re-checked against a zero allowance');
 ok(/ok: Rents come from the Market Analysis rent schedule/.test(sched.findings.map((f) => f.level + ': ' + f.text).join('\n')) && !/did not apply a utility allowance/.test(sched.findings.map((f) => f.text).join('\n')), 'schedule rents raise no owner-pays-utilities warning');
-const noRent = mut0((s) => { s.result.unavailable = Object.assign({}, s.result.unavailable, { annualRents: 'AMI limits did not load.' }); s.result.pricedRows.forEach((p) => { p.contractRent = null; }); });
-ok(/AMI limits did not load\./.test(WB.render(noRent)) && /<table/.test(WB.render(noRent)), 'the rent reason shows even when row shells exist');
+const noRentRoll = mut0((s) => { s.result.unavailable = Object.assign({}, s.result.unavailable, { annualRents: 'AMI limits did not load.' }); s.result.pricedRows.forEach((p) => { p.contractRent = null; }); });
+ok(/AMI limits did not load\./.test(WB.render(noRentRoll)) && /<table/.test(WB.render(noRentRoll)), 'the rent reason shows even when row shells exist');
 ok(/bad: 30% AMI 2BR rent of \$774 is \$100 over/.test(withUa.findings.map((f) => f.level + ': ' + f.text).join('\n')), 'a gross-limit rent with tenant-paid utilities is over the limit');
 const uaGap = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: { '1BR': 80 } }; });
 ok(uaGap.rents.rows.every((x) => x.allowance === null && x.headroom === null), 'an allowance missing for a size leaves that row unchecked, not checked against $0');
@@ -173,6 +173,76 @@ ok(WB.queryFrom('?units=60') === 'units=60' && WB.queryFrom('units=60') === 'uni
 ok(WB.queryFrom('just some text') === null && WB.queryFrom({}) === null, 'anything else gives nothing');
 ok(WB.queryFrom('q=housing') === null && WB.queryFrom('/deal-calculator.html?q=housing') === null && WB.queryFrom({ data: { calculator: { query: 'q=1' } } }) === null, 'a query with no Deal Calculator setting gives nothing');
 ok(WB.queryFrom('pf-senior-amount=1000000') === 'pf-senior-amount=1000000', 'a financing setting counts as a calculator query');
+
+
+// ── Market (phase 2) ───────────────────────────────────────────────────────
+// Interpolation between published points, and nothing past the last one.
+const le = { 30: 300, 40: 500, 50: 900, 60: 1000, 70: 1100, 80: 1200, 100: 1500 };
+near(WB.rentersAtOrBelow(le, 45), 700, 'renters at or below 45% sit halfway between 40% and 50%');
+near(WB.rentersAtOrBelow(le, 15), 150, 'below 30% reads down to zero at 0% AMI');
+ok(WB.rentersAtOrBelow(le, 110) === null && WB.rentersAtOrBelow({}, 50) === null, 'past the last published point, or with none, it is unknown');
+// Zillow metro history: quoted names with commas, only the named metro.
+const csv = 'RegionID,SizeRank,RegionName,RegionType,StateName,2024-09-30,2025-09-30\n1,1,"Durango, CO",msa,CO,1900,1950\n2,2,"Durango, CO East",msa,CO,1,2\n';
+const ser = WB.zoriMetroSeries(csv, 'Durango, CO');
+ok(ser.length === 2 && ser[1].rent === 1950 && ser[0].month === '2024-09-30', 'a quoted metro name reads its own row');
+ok(WB.zoriMetroSeries(csv, 'Nowhere, CO') === null, 'an unknown metro gives nothing');
+
+// Invented market files for the fixture's county.
+const mdata = () => ({
+  renters: { meta: { acs_year: 2024, hud_income_limits_year: 2026 }, counties: [{ fips: '08067', county_name: 'La Plata County', ami_4person: 100000, renter_households_total: 5000, households_le_ami_pct: le }] },
+  zori: { meta: { source: 'Zillow ZORI' }, counties: { '08067': { name: 'La Plata County', metro: 'Durango, CO', rent: 1950, yoy_change_pct: 1.0, vintage_month: '2025-09-30' } } },
+  zoriMetroCsv: csv,
+  acsRent: { meta: { vintage: '2020-2024' }, counties: { '08067': { name: 'La Plata County', median_gross_rent: 1500 } } },
+  deals: { deals: [
+    { slug: 'invented-recent', name: 'Invented Recent', city: 'Durango', county: 'La Plata', year: new Date().getFullYear() - 1, units: 40 },
+    { slug: 'invented-old', name: 'Invented Old', city: 'Durango', county: 'La Plata', year: new Date().getFullYear() - 9, units: 30 },
+    { slug: 'invented-elsewhere', name: 'Invented Elsewhere', city: 'Cortez', county: 'Montezuma', year: new Date().getFullYear(), units: 50 }] },
+  dealDetail: { 'invented-recent': { status: { label: 'Under construction' }, income_mix: [{ level: '60% AMI', units: 40 }] } }
+});
+const msnap = Object.assign(fixture(), { countyFips: '08067', perBrMarket: { '2br': 1700, _meta: { source: 'invented estimate' } } });
+const mm = WB.build(msnap, rules);
+const mk = WB.market(mm, msnap, mdata());
+ok(!mk.error && mk.county === 'La Plata County', 'the market reads the deal\'s county');
+// Capture: a 60% tier qualifies from 45% to 60% AMI (40% rent-to-income at a 30% rent).
+const c60 = mk.capture.find((c) => c.tier === 60);
+near(c60.low, 45, '60% AMI units qualify from 45% AMI');
+near(c60.qualified, 1000 - 700, 'qualified renters are those between 45% and 60% AMI');
+near(c60.capture, 15 / 300, 'capture is the tier\'s homes over its qualified renters');
+near(mk.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 22.5), 'the whole deal counts each renter once, from the lowest floor to the highest tier');
+// Rents against the market: the calculator's own bedroom estimate.
+const r60 = mk.rents.find((x) => x.tier === 60);
+near(r60.market, 1700, 'market rent is the calculator\'s 2BR estimate');
+ok(Math.abs(r60.discount - (1 - 1549 / 1700)) < 1e-9, 'discount is one less rent over market');
+const mtext = (x) => x.findings.map((f) => f.level + ': ' + f.text).join('\n');
+ok(/warn: 60% AMI 2BR rent is only 9%/.test(mtext(mk)), 'a rent under 10% below market is flagged');
+ok(!/50% AMI 2BR rent is only/.test(mtext(mk)), 'a rent 24% below market is not');
+ok(/bad: 60% AMI 2BR rent of \$1,549 is above the market estimate of \$1,500/.test(mtext(WB.market(mm, Object.assign({}, msnap, { perBrMarket: { '2br': 1500 } }), mdata()))), 'a rent above market is a problem');
+ok(WB.market(mm, Object.assign({}, msnap, { perBrMarket: null }), mdata()).rents.every((x) => x.market === null && x.discount === null), 'no bedroom estimate leaves market and discount unknown, never 0');
+// Capture screen at 25%, both ways.
+const tight = mdata(); tight.renters.counties[0].households_le_ami_pct = { 30: 10, 40: 20, 50: 30, 60: 80, 70: 100, 80: 110, 100: 120 };
+ok(/warn: 60% AMI: 15 homes against about 55/.test(mtext(WB.market(mm, msnap, tight))), 'a tier needing 25% or more of its renters is flagged');
+ok(!/AMI: 15 homes against/.test(mtext(mk)), 'a 5% capture is not');
+// Trend and pipeline.
+ok(mk.trend.length === 2 && Math.abs(mk.trend[1].change - (1950 / 1900 - 1)) < 1e-9, 'the trend reads the same month each year from Zillow\'s metro history');
+ok(mk.pipeline.length === 1 && mk.pipeline[0].slug === 'invented-recent' && mk.pipeline[0].status === 'Under construction' && mk.pipeline[0].mix === '40 at 60% AMI', 'the pipeline lists recent awards in this county only, with status and mix');
+ok(/warn: 1 tax credit award in La Plata County since/.test(mtext(mk)), 'a recent award in the county is flagged');
+const down = mdata(); down.zori.counties['08067'].yoy_change_pct = -0.9;
+ok(/warn: Zillow rents in La Plata County are down 0\.9%/.test(mtext(WB.market(mm, msnap, down))), 'falling Zillow rents are flagged');
+// Missing pieces stay missing.
+ok(!!WB.market(mm, Object.assign({}, msnap, { countyFips: null }), mdata()).error, 'no county, no market');
+const noRent = WB.market(mm, msnap, Object.assign(mdata(), { renters: null }));
+ok(!noRent.capture && /No renter income counts/.test(noRent.captureReason), 'no renter file gives a reason, not a zero capture');
+const mhtml = WB.renderMarket(mk);
+['Rents against the market', 'Who can pay', 'Rent trend', 'Tax credit awards in La Plata County'].forEach((h2) => ok(mhtml.includes(h2), 'the market has "' + h2 + '"'));
+ok(!/NaN|undefined/.test(mhtml) && /our screens, not CHFA rules/.test(mhtml), 'no NaN, and our own screens are labelled as ours');
+ok(/deal-summary\.html\?d=invented-recent/.test(mhtml), 'each award links to its deal summary');
+// Real files the browser loads exist and carry what market() reads.
+Object.values(WB.MARKET_URLS).forEach((u) => ok(fs.existsSync(path.join(ROOT, u)), u + ' exists'));
+const realRenters = JSON.parse(read(WB.MARKET_URLS.renters));
+ok(realRenters.counties.every((c) => /^08\d{3}$/.test(c.fips) && c.households_le_ami_pct && c.households_le_ami_pct['60'] != null), 'every county row has renters at or below 60% AMI');
+ok(Object.values(JSON.parse(read(WB.MARKET_URLS.zori)).counties).every((c) => c.rent > 0), 'every Zillow county has a rent');
+const noMetro = mdata(); delete noMetro.zori.counties['08067'].metro;
+ok(!WB.market(mm, msnap, noMetro).trend && /no metro history/.test(WB.market(mm, msnap, noMetro).trendReason), 'a county with no Zillow metro says so instead of borrowing one');
 
 // ── Gating ─────────────────────────────────────────────────────────────────
 const page = read('developer-deal-workbook.html');

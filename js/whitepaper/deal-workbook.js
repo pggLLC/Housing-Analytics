@@ -611,6 +611,205 @@
     return u.href;
   }
 
+  // ── Market (pure) ─────────────────────────────────────────────────────────
+  // Figures the site already holds, for the deal's county. A screen, not a market study: a study measures a
+  // primary market area drawn around the site; these are county figures.
+  var MARKET_URLS = {
+    renters: 'data/co_ami_gap_by_county.json',        // ACS B25118 renter households by income, against HUD AMI
+    zori: 'data/market/zori_rents_co.json',           // Zillow ZORI by county, latest month and year-over-year
+    zoriMetro: 'data/zillow/zori_metro.csv',          // Zillow ZORI by metro, monthly history
+    acsRent: 'data/market/acs_median_rent_co.json',   // ACS B25064 median gross rent
+    bedroomMix: 'data/market/acs_renter_bedrooms_co.json',
+    deals: 'data/deals/index.json'                    // hand-researched CHFA award summaries, 2022 on
+  };
+  // Rent at the tier's limit is 30% of the tier's income ceiling. A household paying it at no more than 40% of
+  // income earns at least 30/40 = 75% of that ceiling, so it qualifies between 75% and 100% of the tier.
+  var MAX_RENT_SHARE = 0.40;
+  var FLOOR_SHARE = 0.30 / MAX_RENT_SHARE;
+  var TREND_YEARS = 5;
+  var PIPELINE_YEARS = 5;
+
+  // Renter households at or below pct% AMI, read straight between the published points (0, 30, 40 ... 100).
+  function rentersAtOrBelow(le, pct) {
+    var pts = [[0, 0]];
+    Object.keys(le || {}).forEach(function (k) { var x = num(k), y = num(le[k]); if (x != null && y != null) pts.push([x, y]); });
+    pts.sort(function (a, b) { return a[0] - b[0]; });
+    if (pts.length < 2 || pct > pts[pts.length - 1][0]) return null;
+    for (var i = 1; i < pts.length; i++) {
+      if (pct <= pts[i][0]) {
+        var a = pts[i - 1], b = pts[i];
+        return a[1] + (b[1] - a[1]) * (pct - a[0]) / (b[0] - a[0]);
+      }
+    }
+    return null;
+  }
+
+  // One CSV row by its RegionName, without loading every metro into objects.
+  function zoriMetroSeries(csv, metro) {
+    if (!csv || !metro) return null;
+    var lines = String(csv).split(/\r?\n/), head = splitCsv(lines[0]);
+    var nameCol = head.indexOf('RegionName');
+    for (var i = 1; i < lines.length; i++) {
+      if (lines[i].indexOf(metro) === -1) continue;
+      var row = splitCsv(lines[i]);
+      if (row[nameCol] !== metro) continue;
+      var out = [];
+      head.forEach(function (h, j) { if (/^\d{4}-\d{2}-\d{2}$/.test(h) && num(row[j]) != null) out.push({ month: h, rent: num(row[j]) }); });
+      return out;
+    }
+    return null;
+  }
+  function splitCsv(line) {
+    var out = [], cur = '', q = false;
+    for (var i = 0; i < line.length; i++) {
+      var c = line[i];
+      if (c === '"') q = !q;
+      else if (c === ',' && !q) { out.push(cur); cur = ''; }
+      else cur += c;
+    }
+    out.push(cur);
+    return out;
+  }
+
+  // snap.countyFips, snap.perBrMarket (Deal Calculator ZORI-by-bedroom), m = build() result, data = MARKET_URLS loaded.
+  function market(m, snap, data) {
+    var fips = snap && snap.countyFips;
+    if (!m || m.error) return { error: 'No deal to compare.' };
+    if (!/^08\d{3}$/.test(fips || '')) return { error: 'The deal has no Colorado county set, so there is no market to compare. Choose the county in the Deal Calculator.' };
+    data = data || {};
+    var mk = { fips: fips };
+    var zc = data.zori && data.zori.counties && data.zori.counties[fips];
+    var acs = data.acsRent && data.acsRent.counties && data.acsRent.counties[fips];
+    var rc = ((data.renters && data.renters.counties) || []).filter(function (c) { return c.fips === fips; })[0] || null;
+    mk.county = (zc && zc.name) || (acs && acs.name) || (rc && rc.county_name) || fips;
+
+    // Rents against the market.
+    var per = snap.perBrMarket || null;
+    mk.marketSource = per && per._meta ? per._meta.source : null;
+    mk.zori = zc ? { rent: num(zc.rent), yoy: num(zc.yoy_change_pct), month: zc.vintage_month, metro: zc.metro || null,
+      source: (data.zori.meta && data.zori.meta.source) || 'Zillow ZORI' } : null;
+    mk.acs = acs && num(acs.median_gross_rent) != null ? { rent: num(acs.median_gross_rent), vintage: data.acsRent.meta && data.acsRent.meta.vintage, source: data.acsRent.meta && data.acsRent.meta.source } : null;
+    // Restricted rows only: a market-rate row is the market, so there is nothing to compare.
+    mk.rents = m.rents.rows.filter(function (x) { return typeof x.tier === 'number'; }).map(function (x) {
+      var br = BR_KEY[String(x.bedrooms || '').toUpperCase()];
+      var mkt = per && br ? num(per[br]) : null;
+      return { tier: x.tier, bedrooms: x.bedrooms, units: x.units, rent: x.rent, market: mkt, discount: mkt && x.rent != null ? 1 - x.rent / mkt : null };
+    });
+
+    // Who can pay, and the share of them the deal must lease to (capture), tier by tier.
+    if (rc && rc.households_le_ami_pct) {
+      var le = rc.households_le_ami_pct;
+      var unitsBy = {};
+      m.rents.rows.forEach(function (x) { var t = num(x.tier); if (t != null && x.units) unitsBy[t] = (unitsBy[t] || 0) + x.units; });
+      mk.capture = Object.keys(unitsBy).map(Number).sort(function (a, b) { return a - b; }).map(function (t) {
+        var lo = t * FLOOR_SHARE, hi = rentersAtOrBelow(le, t), base = rentersAtOrBelow(le, lo);
+        var q = hi != null && base != null ? hi - base : null;
+        return { tier: t, units: unitsBy[t], low: lo, high: t, qualified: q, capture: q > 0 ? unitsBy[t] / q : null,
+          reason: q == null ? 'No renter count published at ' + t + '% AMI for this county.' : null };
+      });
+      var tiers = mk.capture.map(function (c) { return c.tier; });
+      var allLo = Math.min.apply(null, tiers) * FLOOR_SHARE, allHi = Math.max.apply(null, tiers);
+      var qAll = rentersAtOrBelow(le, allHi) != null ? rentersAtOrBelow(le, allHi) - rentersAtOrBelow(le, allLo) : null;
+      var uAll = mk.capture.reduce(function (s, c) { return s + c.units; }, 0);
+      mk.captureAll = { units: uAll, low: allLo, high: allHi, qualified: qAll, capture: qAll > 0 ? uAll / qAll : null };
+      mk.renters = { total: num(rc.renter_households_total), ami: num(rc.ami_4person), year: data.renters.meta && data.renters.meta.acs_year,
+        amiYear: data.renters.meta && data.renters.meta.hud_income_limits_year };
+    } else mk.captureReason = 'No renter income counts on file for this county.';
+
+    // Rent trend: Zillow by metro, the same month each year.
+    var series = mk.zori && mk.zori.metro ? zoriMetroSeries(data.zoriMetroCsv, mk.zori.metro) : null;
+    if (series && series.length) {
+      var last = series[series.length - 1], mm = last.month.slice(5, 7), yr = Number(last.month.slice(0, 4));
+      mk.trend = [];
+      for (var y = yr - TREND_YEARS; y <= yr; y++) {
+        var hit = series.filter(function (p) { return p.month.slice(0, 4) === String(y) && p.month.slice(5, 7) === mm; })[0];
+        if (hit) mk.trend.push(hit);
+      }
+      mk.trend.forEach(function (p, i) { p.change = i ? p.rent / mk.trend[i - 1].rent - 1 : null; });
+      var peak = series.reduce(function (a, b) { return b.rent > a.rent ? b : a; });
+      mk.trendPeak = peak;
+      mk.trendMetro = mk.zori.metro;
+    } else mk.trendReason = mk.zori ? 'Zillow publishes no metro history for ' + (mk.zori.metro || 'this county') + '.' : 'Zillow publishes no rent index for this county.';
+
+    // Pipeline: CHFA awards in the county from the deal summaries.
+    var deals = (data.deals && data.deals.deals) || [];
+    var countyName = String(mk.county).replace(/ County$/, '');
+    var thisYear = new Date().getFullYear();
+    mk.pipeline = deals.filter(function (d) { return d.county === countyName && num(d.year) != null && d.year >= thisYear - PIPELINE_YEARS; })
+      .sort(function (a, b) { return b.year - a.year; })
+      .map(function (d) { var x = (data.dealDetail && data.dealDetail[d.slug]) || {};
+        return { slug: d.slug, name: d.name, city: d.city, year: d.year, units: num(d.units), award: d.award,
+          status: x.status && x.status.label || null, mix: (x.income_mix || []).map(function (i) { return i.units + ' at ' + i.level; }).join(', ') || null }; });
+
+    mk.findings = marketFindings(mk);
+    return mk;
+  }
+
+  function marketFindings(mk) {
+    var out = [];
+    mk.rents.forEach(function (x) {
+      if (x.discount == null) return;
+      if (x.discount < 0) out.push({ level: 'bad', text: x.tier + '% AMI ' + x.bedrooms + ' rent of ' + money(x.rent) + ' is above the market estimate of ' + money(x.market) + '. Price it below the limit or expect slow leasing.' });
+      else if (x.discount < 0.10) out.push({ level: 'warn', text: x.tier + '% AMI ' + x.bedrooms + ' rent is only ' + pct(x.discount) + ' under the market estimate (' + money(x.market) + '). Renters who qualify have little reason to choose it over market housing.' });
+    });
+    (mk.capture || []).forEach(function (c) {
+      if (c.capture == null) return;
+      if (c.capture >= 0.25) out.push({ level: 'warn', text: c.tier + '% AMI: ' + c.units + ' homes against about ' + Math.round(c.qualified).toLocaleString('en-US') + ' renter households who qualify in the county (' + pct(c.capture, 1) + '). The deal needs a large share of them.' });
+    });
+    if (mk.zori && mk.zori.yoy != null && mk.zori.yoy < 0) out.push({ level: 'warn', text: 'Zillow rents in ' + mk.county + ' are down ' + Math.abs(mk.zori.yoy).toFixed(1) + '% from a year ago. Hold rent growth at CHFA\'s 2% and do not count on market rents rising.' });
+    var recent = (mk.pipeline || []).filter(function (p) { return p.year >= new Date().getFullYear() - 2; });
+    if (recent.length) out.push({ level: 'warn', text: recent.length + ' tax credit award' + (recent.length === 1 ? '' : 's') + ' in ' + mk.county + ' since ' + (new Date().getFullYear() - 2) + ' (' + recent.reduce(function (s, p) { return s + (p.units || 0); }, 0) + ' homes) may lease to the same renters. Check their income mix below.' });
+    var rank = { bad: 0, warn: 1, ok: 2 };
+    return out.sort(function (a, b) { return rank[a.level] - rank[b.level]; });
+  }
+
+  function renderMarket(mk) {
+    if (!mk || mk.error) return '<section class="dv-card"><h2>Market</h2><p class="sr-muted">' + esc((mk && mk.error) || 'No market figures.') + '</p></section>';
+    var h = '<section class="dv-card rw-decide" aria-labelledby="wbMkt"><h2 id="wbMkt">Market: ' + esc(mk.county) + '</h2>';
+    h += '<p class="sr-muted">County figures the site already holds. A market study measures the area drawn around the site; use these to see whether a study is likely to raise questions.</p>';
+    h += mk.findings.length ? '<h3>What to check</h3><ul>' + mk.findings.map(function (f) { return '<li class="' + (f.level === 'bad' ? 'sr-red' : 'sr-yellow') + '">' + esc(f.text) + '</li>'; }).join('') + '</ul><p class="sr-muted">The 10%-under-market and 25%-of-renters lines are our screens, not CHFA rules.</p>' : '<p>Nothing in the county figures needs a second look.</p>';
+    h += '</section>';
+
+    // Rents vs market
+    h += '<section class="dv-card" aria-labelledby="wbMktRent"><h2 id="wbMktRent">Rents against the market</h2>';
+    h += table(['AMI', 'Size', 'Homes', 'Rent', 'Market estimate', 'Under market'], mk.rents.map(function (x) {
+      return { cls: x.discount != null && x.discount < 0.10 ? 'sr-diff' : '', cells: [esc(x.tier + '%'), esc(x.bedrooms), esc(x.units), esc(money(x.rent)), esc(money(x.market)), esc(x.discount == null ? '—' : pct(x.discount))] };
+    }), { num: [2, 3, 4, 5] });
+    var notes = [];
+    if (mk.marketSource) notes.push('Market estimate: ' + mk.marketSource + '.');
+    else notes.push('No market estimate by bedroom size for this county' + (mk.zori ? '; the all-homes figure is below.' : '.'));
+    if (mk.zori) notes.push('Zillow, all homes, ' + mk.county + ': ' + money(mk.zori.rent) + ' (' + mk.zori.month + ', ' + (mk.zori.yoy >= 0 ? '+' : '') + mk.zori.yoy + '% from a year earlier).');
+    if (mk.acs) notes.push('Census median gross rent, ' + mk.county + ': ' + money(mk.acs.rent) + ' (ACS ' + (mk.acs.vintage || '') + '; includes older and subsidized homes).');
+    h += '<p class="sr-muted">' + esc(notes.join(' ')) + '</p></section>';
+
+    // Capture
+    h += '<section class="dv-card" aria-labelledby="wbMktCap"><h2 id="wbMktCap">Who can pay, and how many the deal needs</h2>';
+    if (mk.capture) {
+      h += table(['AMI', 'Homes', 'Renter incomes that fit', 'Renter households in that range', 'Share the deal needs'], mk.capture.map(function (c) {
+        return { cells: [esc(c.tier + '%'), esc(c.units), esc(Math.round(c.low) + '–' + c.high + '% AMI'), esc(c.qualified == null ? '—' : Math.round(c.qualified).toLocaleString('en-US')), esc(c.capture == null ? (c.reason || '—') : pct(c.capture, 1))] };
+      }).concat(mk.captureAll && mk.captureAll.capture != null ? [{ cls: 'sr-total', cells: ['All', esc(mk.captureAll.units), esc(Math.round(mk.captureAll.low) + '–' + mk.captureAll.high + '% AMI'), esc(Math.round(mk.captureAll.qualified).toLocaleString('en-US')), esc(pct(mk.captureAll.capture, 1))] }] : []), { num: [1, 3, 4] });
+      h += '<p class="sr-muted">' + esc('A household fits a tier when its income is under the tier\'s limit and the rent is no more than 40% of its income, so from three-quarters of the limit up to the limit. Renter households by income: Census ACS ' + (mk.renters.year || '') + ' (table B25118), ' +
+        (mk.renters.total != null ? Math.round(mk.renters.total).toLocaleString('en-US') + ' renter households in the county, ' : '') + 'measured against HUD ' + (mk.renters.amiYear || '') + ' area median income for four people (' + money(mk.renters.ami) + '). Household size is not matched to unit size, and existing homes already serving these renters are not subtracted, so this is a first screen.') + '</p>';
+    } else h += '<p class="sr-muted">' + esc(mk.captureReason) + '</p>';
+    h += '</section>';
+
+    // Trend
+    h += '<section class="dv-card" aria-labelledby="wbMktTrend"><h2 id="wbMktTrend">Rent trend</h2>';
+    if (mk.trend && mk.trend.length) {
+      h += table(['Month', 'Typical rent', 'Change from a year earlier'], mk.trend.map(function (p) { return { cells: [esc(p.month.slice(0, 7)), esc(money(p.rent)), esc(p.change == null ? '—' : (p.change >= 0 ? '+' : '') + (p.change * 100).toFixed(1) + '%')] }; }), { num: [0, 1, 2] });
+      h += '<p class="sr-muted">' + esc('Zillow Observed Rent Index, ' + mk.trendMetro + ' metro, all homes. Highest month: ' + money(mk.trendPeak.rent) + ' in ' + mk.trendPeak.month.slice(0, 7) + '.') + '</p>';
+    } else h += '<p class="sr-muted">' + esc(mk.trendReason) + '</p>';
+    h += '</section>';
+
+    // Pipeline
+    h += '<section class="dv-card" aria-labelledby="wbMktPipe"><h2 id="wbMktPipe">Tax credit awards in ' + esc(mk.county) + ' since ' + (new Date().getFullYear() - PIPELINE_YEARS) + '</h2>';
+    h += mk.pipeline.length ? table(['Project', 'Town', 'Award', 'Homes', 'Income mix', 'Status'], mk.pipeline.map(function (p) {
+      return { cells: ['<a href="deal-summary.html?d=' + esc(p.slug) + '">' + esc(p.name) + '</a>', esc(p.city), esc(p.award), esc(p.units == null ? '—' : p.units), esc(p.mix || '—'), esc(p.status || '—')] };
+    }), { num: [3] }) : '<p>No CHFA tax credit awards in this county in that time.</p>';
+    h += '<p class="sr-muted">From the site\'s deal summaries, one researched record per CHFA award with its sources. Other projects without tax credits are not listed.</p></section>';
+    return h;
+  }
+
   // ── Browser ───────────────────────────────────────────────────────────────
   // onStart receives a cancel function, so a newer request can stop this calculator instead of letting it load on.
   function loadFrame(doc, query, timeoutMs, pollMs, onStart) {
@@ -649,13 +848,39 @@
     var parts = String(ua.reason).split(':'), text = ua.reason === 'shared_allowance_invalid' ? 'Shared utility allowance record is invalid' : limits.unavailableMessage(parts[0]);
     return Object.assign({}, ua, { reasonText: text ? text + (parts[1] ? ' (' + parts[1] + ')' : '') : null });
   }
-  function readCalc(w) {
+  function readCalc(w, mkt) {
     var dc = w.__DealCalc;
+    var rs = dc.getRentScheduleMetadata ? dc.getRentScheduleMetadata() : null;
+    var fips = (rs && rs.countyFips) || null;
+    // The calculator's own ZORI-by-bedroom estimate (js/components/zori-rent-utils.js), from the frame's loaded HUD FMRs.
+    var per = null;
+    try {
+      if (fips && mkt && mkt.zori && w.ZoriRentUtils && w.HudFmr) per = w.ZoriRentUtils.getPerBedroomRent(mkt.zori, fips, w.HudFmr, { bedroomMix: mkt.bedroomMix });
+    } catch (e) { per = null; }
     return { result: dc.getResult(), permanentFinancing: dc.getPermanentFinancing ? dc.getPermanentFinancing() : null,
       rentLimits: dc.getRentLimitsMetadata ? dc.getRentLimitsMetadata() : null, rentSchedule: dc.getRentScheduleMetadata ? dc.getRentScheduleMetadata() : null, utilityAllowance: dc.getUtilityAllowanceMetadata ? uaWithText(dc.getUtilityAllowanceMetadata(), w.ChfaRentLimits) : null,
       amiByBr: dc.getAmiLimitsByBr ? dc.getAmiLimitsByBr() : null,
-      mode: (function () { var c = w.document.querySelector('input[name="dc-deal-mode"]:checked'); return c ? c.value : null; })(), labels: (w.DealPermanentFinancing && w.DealPermanentFinancing.PROGRAM_LABELS) || {} };
+      mode: (function () { var c = w.document.querySelector('input[name="dc-deal-mode"]:checked'); return c ? c.value : null; })(), labels: (w.DealPermanentFinancing && w.DealPermanentFinancing.PROGRAM_LABELS) || {},
+      countyFips: fips, perBrMarket: per };
   }
+  // The market files, loaded once. A file that fails stays null and its section says so.
+  var _mkt = null;
+  function loadMarket() {
+    if (_mkt) return _mkt;
+    var get = function (u, text) { return fetch(u).then(function (r) { return r.ok ? (text ? r.text() : r.json()) : null; }).catch(function () { return null; }); };
+    var keys = Object.keys(MARKET_URLS);
+    _mkt = Promise.all(keys.map(function (k) { return get(MARKET_URLS[k], k === 'zoriMetro'); })).then(function (res) {
+      var o = {}; keys.forEach(function (k, i) { o[k === 'zoriMetro' ? 'zoriMetroCsv' : k] = res[i]; }); return o;
+    });
+    return _mkt;
+  }
+  // Each award record in the county, for its status and income mix.
+  function loadDealDetails(mkt, mk) {
+    var get = function (slug) { return fetch('data/deals/' + slug + '.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
+    var slugs = (mk.pipeline || []).map(function (p) { return p.slug; });
+    return Promise.all(slugs.map(get)).then(function (res) { var o = {}; slugs.forEach(function (s, i) { if (res[i]) o[s] = res[i]; }); return o; });
+  }
+
   // The calculator settings carried by a share link, an export file's url, or a saved version.
   // Every Deal Calculator export carries its unit count or county; a query with neither (q=housing) would only
   // open the calculator's default deal under another name.
@@ -716,13 +941,20 @@
       if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
       status('Running the Deal Calculator for this deal…');
       $('wbOpenCalc').href = calcUrl(query, doc.baseURI); $('wbOpenCalc').hidden = false;
-      Promise.all([loadFrame(doc, query, null, null, function (c) { stopFrame = c; }), rulesReady]).then(function (got) {
-        var f = got[0], rules = got[1];
+      Promise.all([loadFrame(doc, query, null, null, function (c) { stopFrame = c; }), loadMarket(), rulesReady]).then(function (got) {
+        var f = got[0], mkt = got[1], rules = got[2];
         if (my !== tok) { f.remove(); return; }
-        var snap = readCalc(f.contentWindow); f.remove();
-        $('wbOut').innerHTML = render(build(snap, rules, ctx), title);
+        var snap = readCalc(f.contentWindow, mkt); f.remove();
+        var model = build(snap, rules, ctx);
+        $('wbOut').innerHTML = render(model, title) + '<div id="wbMarket"><p class="sr-muted">Loading market figures…</p></div>';
         status(''); $('wbPrint').hidden = false;
         if ($('wbOut').scrollIntoView) $('wbOut').scrollIntoView({ block: 'start' });
+        if (model.error) { $('wbMarket').innerHTML = ''; return; }
+        var first = market(model, snap, mkt);
+        (first.error ? Promise.resolve({}) : loadDealDetails(mkt, first)).then(function (detail) {
+          if (my !== tok) return;
+          $('wbMarket').innerHTML = renderMarket(first.error ? first : market(model, snap, Object.assign({}, mkt, { dealDetail: detail })));
+        });
       }, function (err) { if (my === tok) status(err.message); });
     }
     // Saved deals: the team's, from the private backend. Without it, the picker says so and the other routes still work.
@@ -787,5 +1019,5 @@
     else start(document);
   }
 
-  return { build: build, render: render, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, money: money, RULES_URL: RULES_URL, API: API };
+  return { build: build, render: render, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, money: money, RULES_URL: RULES_URL, API: API };
 });
