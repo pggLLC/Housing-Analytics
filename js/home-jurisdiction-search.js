@@ -218,7 +218,7 @@
     } else if (door === 'fund') {
       links = [
         { label: 'Where housing money goes', href: 'where-housing-money-goes.html' },
-        { label: 'Tax credit awards by year', href: 'lihtc-allocations.html' },
+        { label: 'Colorado tax credit awards by year', href: 'colorado-deep-dive.html#tab-history' },
         { label: 'Funded deals, one page each', href: 'deal-summary.html' },
         report
       ];
