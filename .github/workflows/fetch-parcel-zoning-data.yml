@@ -241,10 +241,12 @@ jobs:
 
       # Share of each HNA geography within the HB26-1065 screening radius.
       # Reads the stop file the step above just wrote. #1937 Phase 3
+      # Not continue-on-error: the map step below and the commit pair this
+      # file with the stops, and the bot commit skips CI.
       - name: Build transit-zone share by geography
         run: |
+          set -o pipefail
           python scripts/market/build_transit_zone_by_geography.py 2>&1 | tee /tmp/transit_zone_geo.log
-        continue-on-error: true
 
       # The HNA transit zone panel's map: counted stops and the merged
       # screening radius around them. Same stops and radius as the step above;
