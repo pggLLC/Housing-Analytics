@@ -239,7 +239,8 @@ const opsGone = mut0((s) => { s.result.operatingSummary.perUnitYear = null; s.re
 const og = opsGone.findings.map((f) => f.level + ': ' + f.text).join('\n');
 ok(og.includes("warn: CHFA's operating cost check did not run: Enter the insurance line.") && og.includes("warn: CHFA's replacement reserve check did not run: Enter the reserve.") &&
   og.includes("warn: CHFA's vacancy check did not run: Enter vacancy.") && og.includes("warn: CHFA's rent growth check did not run: Enter growth rates."), 'each CHFA check that could not run says so, with the engine\'s reason');
-ok(texts(mut0((s) => { s.result.operatingSummary.perUnitYear = PUPA8 + 500; s.result.propTaxPerUnit = null; s.result.netPropTax = null; })).includes("CHFA's operating cost plus property tax check did not run"), 'a missing tax on an otherwise high cost still says the full check did not run');
+ok(!texts(mut0((s) => { s.result.operatingSummary.perUnitYear = PUPA8 + 500; s.result.propTaxPerUnit = null; s.result.netPropTax = null; })).includes("CHFA's operating cost plus property tax check did not run"), 'a cost that alone meets the Section 8 minimum passes whatever the tax');
+ok(texts(mut0((s) => { s.result.operatingSummary.perUnitYear = (PUPA + PUPA8) / 2; s.result.propTaxPerUnit = null; s.result.netPropTax = null; })).includes("CHFA's operating cost plus property tax check did not run"), 'a missing tax between the two minimums still says the full check did not run');
 ok(!/check did not run/.test(texts(m)), 'a complete deal has no skipped checks');
 
 const addOut = mut0((s) => { s.permanentFinancing.taxCredit.added = 0; s.result.creditStack = { federal: 1, state: 0, added: 0, label: 'Transformational Housing credit', counted: false, reason: 'Transformational Housing credit is not counted in the sources: Enter the program year.' }; });
@@ -257,6 +258,11 @@ ok(hist.sources.rows.some((x) => x.label === 'Historic credit equity' && x.amoun
 const noMort = mut0((s) => { s.permanentFinancing.hardMortgages.forEach((h) => { if (h.source === 'senior') h.principal = null; }); s.result.mortgage = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { mortgage: 'Operating inputs are incomplete.' }); });
 ok(noMort.sources.rows.some((x) => x.amount === null && x.label === 'First mortgage: not known, Operating inputs are incomplete.'), 'an unsized first mortgage keeps the engine reason');
 ok(m.sources.rows.some((x) => x.label === 'First mortgage' && x.amount > 0), 'a sized first mortgage keeps its plain label');
+const blankGov = mut0((s) => { s.permanentFinancing.government = [{ id: 'g1', program: null, label: 'County loan', amount: null }]; });
+ok(blankGov.sources.rows.some((x) => x.amount === null && x.label === 'County loan: not known, enter the amount'), 'a classified source with no amount says so');
+const stopped = mut0((s) => { s.result.costBasis.basis.reasons = { eligibleBasis: 'Confirm the building purchase meets 26 U.S.C. 42(d)(2).' }; s.result.costBasis.basis.qualifiedBasis = null; });
+ok(stopped.basis.stopReason && /warn: Eligible and qualified basis were not fully calculated: Confirm the building purchase/.test(texts(stopped)) && WB.render(stopped).includes('Basis not fully calculated'), 'a stopped basis calculation says why');
+ok(!m.basis.stopReason && !/not fully calculated/.test(texts(m)), 'a complete basis has no stop reason');
 const ungrouped = mut0((s) => { s.permanentFinancing.unclassified = [{ id: 'u1', program: null, label: 'Foundation loan', amount: 250000, reason: "Choose where this source counts in DOH's layout." }]; });
 ok(ungrouped.sources.rows.some((x) => x.amount === 250000 && x.label === "Foundation loan: not yet grouped, Choose where this source counts in DOH's layout."), 'a source with no DOH group keeps its reason');
 

@@ -87,7 +87,7 @@
       (pf.hardMortgages || []).forEach(function (m) {
         var name = m.source === 'senior' ? 'First mortgage' : (m.label || 'Mortgage') + (m.program ? ' (' + (labels[m.program] || m.program) + ')' : '');
         // A loan the engine could not size keeps its reason, so the unknown total says what to fix.
-        var why = num(m.principal) == null ? (m.reason || (m.source === 'senior' ? un.mortgage : null)) : null;
+        var why = num(m.principal) == null ? (m.reason || (m.source === 'senior' ? un.mortgage : null) || 'enter the loan amount') : null;
         sources.push({ label: why ? name + ': not known, ' + why : name, amount: num(m.principal) });
       });
       var tc = pf.taxCredit || {};
@@ -114,8 +114,11 @@
         (pf[k] || []).forEach(function (s) { var prog = s.program ? (labels[s.program] || s.program) : null;
           var name = s.label && prog ? s.label + ' (' + prog + ')' : (s.label || prog || 'Other source');
           // A source with no DOH group keeps the engine's reason, so it never reads as classified.
+          var amt = num(s.amount != null ? s.amount : s.principal);
           if (k === 'unclassified' && s.reason) name += ': not yet grouped, ' + s.reason;
-          sources.push({ label: name, amount: num(s.amount != null ? s.amount : s.principal) }); });
+          // A source entered without a usable amount makes the total unknown; say which one.
+          else if (amt == null) name += ': not known, enter the amount';
+          sources.push({ label: name, amount: amt }); });
       });
       if (num(pf.deferredDevFee)) sources.push({ label: 'Deferred developer fee', amount: num(pf.deferredDevFee) });
       else if (pf.deferredDevFee == null && un.deferredDevFee) sources.push({ label: 'Deferred developer fee: not known, ' + un.deferredDevFee, amount: null });
@@ -138,7 +141,9 @@
         eligible: num(b.eligibleBasis), grantReduction: num(b.grantReduction), boost: b.boost || {}, boosted: num(b.boostedBasis),
         applicableFraction: num(b.applicableFraction), qualified: num(b.qualifiedBasis), rate: rate, calculated: num(b.calculatedCredit),
         cap: b.cap || {}, gapMethod: b.gapMethod || {}, credit: num(r.annualCredits), creditReason: un.annualCredits || null,
-        price: num(r.equityPrice), equity: num(r.equity)
+        price: num(r.equityPrice), equity: num(r.equity),
+        // Where the basis calculation stopped; an entered award can still carry the credit past it.
+        stopReason: ['eligibleBasis', 'afterGrant', 'applicableFraction', 'acquisitionRate'].map(function (k) { return (b.reasons || {})[k]; }).filter(Boolean)[0] || null
       };
     } else model.basis = { reason: 'The calculator gave no basis figures.' };
 
@@ -301,7 +306,9 @@
     var rs = o.reasons || {};
     [['operating cost', min.opex, o.opexPerUnit, rs.opex],
       // A low cost with no tax is already flagged above; otherwise the missing tax still stops the full check.
-      ['operating cost plus property tax', min.opex, o.opexPerUnit == null || o.opexPerUnit < (min.opex ? min.opex.value : 0) ? 0 : o.taxPerUnit, rs.tax],
+      // Tax is never negative, so a cost that alone meets the highest minimum passes whatever the tax.
+      ['operating cost plus property tax', min.opex, o.opexPerUnit == null || o.opexPerUnit < (min.opex ? min.opex.value : 0) ||
+        o.opexPerUnit >= Math.max(min.opex ? min.opex.value : 0, min.opexSection8 ? min.opexSection8.value : 0) ? 0 : o.taxPerUnit, rs.tax],
       ['replacement reserve', resMin, o.reservePerUnit, rs.reserve], ['vacancy', min.vacancy, o.vacancy, rs.vacancy],
       ['rent growth', min.rentGrowth, o.rentGrowth, rs.rentGrowth], ['cost growth', min.expGrowth, o.expGrowth, rs.expGrowth]
     ].forEach(function (c) {
@@ -330,6 +337,7 @@
     if (cap.binding) out.push({ level: 'warn', text: 'CHFA\'s per-project credit limit (' + money(num(cap.amount)) + ') holds the credit below what the basis supports.', source: cap.citation ? { where: cap.citation } : null });
     var gm = m.basis.gapMethod || {};
     if (gm.binding) out.push({ level: 'warn', text: 'CHFA\'s gap method limits the credit: the deal needs only ' + money(num(gm.credit)) + ' a year to fill its gap.', source: gm.citation ? { where: gm.citation } : null });
+    if (m.basis.stopReason) out.push({ level: 'warn', text: 'Eligible and qualified basis were not fully calculated: ' + m.basis.stopReason.replace(/\.$/, '') + '.' + (m.basis.credit != null ? ' The yearly credit shown is the entered award, not one the basis supports.' : '') });
     if (m.basis.boost && m.basis.boost.applied === false && m.basis.boost.reason) out.push({ level: 'ok', text: 'No basis boost: ' + m.basis.boost.reason });
 
     var df = m.deferredFee;
@@ -408,6 +416,7 @@
     h += '<section class="dv-card" aria-labelledby="wbBasis"><h2 id="wbBasis">Eligible basis and credits</h2>';
     if (b.reason) h += '<p class="sr-muted">' + esc(b.reason) + '</p>';
     else {
+      if (b.stopReason) h += '<p class="sr-muted">Basis not fully calculated: ' + esc(b.stopReason) + '</p>';
       var br = [['Eligible basis', money(b.eligible)]];
       if (b.grantReduction) br.push(['Less federal grants', money(-b.grantReduction)]);
       br.push(['Basis boost', b.boost && b.boost.applied ? '×' + num(b.boost.multiplier) : 'None']);
