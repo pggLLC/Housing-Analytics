@@ -351,7 +351,7 @@
     "test:livability-brief": "node --test test/livability-brief.test.mjs",
     "test:resident-services": "node test/resident-services.test.mjs",
     "test:land-banking-awards": "node test/land-banking-awards.test.mjs",
-    "test:where-to-build": "node test/where-to-build.test.mjs && python3 scripts/policy/build_where_to_build_context.py --check",
+    "test:where-to-build": "node test/where-to-build.test.mjs && python3 scripts/policy/build_where_to_build_context.py --check && python3 scripts/policy/build_local_commitment.py --check",
     "test:repo-private-data": "node test/repo-private-data.test.mjs",
     "test:policy-briefs-curated": "node test/policy-briefs-curated.test.js",
     "test:fee-reductions-surfaces": "node test/fee-reductions-surfaces.test.js",
