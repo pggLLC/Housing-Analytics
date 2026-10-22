@@ -128,6 +128,18 @@ ok(page.indexOf('id="summary"') < page.indexOf('class="ib-filters"'), 'the execu
     ok(f.evidence.length === want, `${p.name}: the status evidence is linked (${f.evidence.length} of ${want})`);
   }
   ok(model.places.some((p) => p.factors.landBank.evidence && p.factors.landBank.evidence.length), 'some land-bank rows link status evidence');
+  // A "seeking" signal takes its date and link from the status evidence, not the refresh date.
+  {
+    const award = docs.awards.awards.find((a) => model.places.some((p) => p.type !== 'county' && (p.factors.landBank.awards || []).some((x) => x.id === a.id)));
+    const fake = (sources) => ({ ...docs.lbStatus, meta: { ...docs.lbStatus.meta, generated_from: { ...docs.lbStatus.meta.generated_from, research_checked: TODAY } },
+      status: { ...st, [award.id]: { ...st[award.id], status: 'seeking', sources } } });
+    const src = { title: 'Town RFP', url: 'https://example.org/rfp', date: '2026-06-01' };
+    const m1 = W.build({ ...docs, lbStatus: fake([src]) }, TODAY);
+    const sig = m1.places.flatMap((p) => p.signals).filter((g) => /seeking a developer/.test(g.text));
+    ok(sig.length && sig.every((g) => g.date === src.date && g.url === src.url), 'a seeking signal is dated and linked from its status evidence');
+    const m2 = W.build({ ...docs, lbStatus: fake([{ title: 'Undated page', url: 'https://example.org/x' }]) }, TODAY);
+    ok(!m2.places.some((p) => p.signals.some((g) => /seeking a developer/.test(g.text))), 'a seeking status with no dated source adds no signal');
+  }
   const noModel = W.build({ ...docs, lbStatus: null }, TODAY);
   ok(noModel.places.some((p) => p.factors.landBank.points === 7), 'without the status file an award scores 7 and says so');
 }

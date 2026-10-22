@@ -115,7 +115,7 @@
   };
 
   var RULES = {
-    signal: 'A signal is a dated public event in the last 12 months: a Prop 123 fast-track adopted, a local housing fund adopted, an approval of income-restricted homes, or land-bank land seeking a developer. Each is worth up to +5, fading to 0 over 12 months; signals add at most +10.',
+    signal: 'A signal is a dated public event in the last 12 months: a Prop 123 fast-track adopted, a local housing fund adopted, an approval of income-restricted homes, or land-bank land seeking a developer (dated by the public notice of the search). Each is worth up to +5, fading to 0 over 12 months; signals add at most +10.',
     flag: 'A red flag is a recorded denial of income-restricted homes by a council or planning commission in the last 36 months. Each subtracts 15, at most 30. Only records already read are counted; most places have not been read yet.',
     confidence: 'Confidence is the share of your total weight that rests on checked factors: High 80% or more, Medium 50 to 79%, Low under 50%.',
     tiers: 'Target: 70 or more and not Low confidence. Promising: 50 to 69, or 70+ with Low confidence. Monitor: 35 to 49.'
@@ -312,7 +312,13 @@
           var pts = s ? (LB_POINTS[s] != null ? LB_POINTS[s] : 7) : 7;
           scoredAwards.push({ id: a.id, status: s, points: pts });
           if (!best || pts > best.pts) best = { a: a, s: s, pts: pts };
-          if (s === 'seeking') addSignal(signals, today, (docs.lbStatus.meta.generated_from || {}).research_checked || today, 'Land-bank land seeking a developer: ' + (a.show_project || a.project), a.source_url);
+          if (s === 'seeking') {
+            // Date the signal from the dated public source that shows the search, never the
+            // refresh date, so a re-check cannot make an old search look new. No dated source, no signal.
+            var dated = (status[a.id].sources || []).filter(function (x) { return x && x.date && x.url; })
+              .sort(function (x, y) { return x.date < y.date ? 1 : -1; })[0];
+            if (dated) addSignal(signals, today, dated.date, 'Land-bank land seeking a developer: ' + (a.show_project || a.project), dated.url);
+          }
         });
         var lbl = best.s ? (status[best.a.id].label || best.s) : 'status not loaded';
         f.landBank = { points: best.pts, value: lbAwards.length + ' award' + (lbAwards.length > 1 ? 's' : '') + '; best: ' + (best.a.show_project || best.a.project) + ' (' + lbl + ')',
