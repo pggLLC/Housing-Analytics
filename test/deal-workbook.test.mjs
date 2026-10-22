@@ -266,4 +266,11 @@ const gapGone = WB.render(mut0((s) => { s.result.gap = null; s.result.fundingGap
 const gapTile = gapGone.split('Funding gap: Operating inputs are incomplete.')[0].split('<div').slice(-2).join('<div');
 ok(gapGone.includes('Funding gap: Operating inputs are incomplete.') && !/sr-ok|sr-bad/.test(gapTile), 'an unknown funding gap gets no pass or fail colour');
 
+const fiveYr = mut0((s) => { s.result.projection.years = 5; });
+ok(fiveYr.cashFlow.rows.length === 5 && fiveYr.cashFlow.rows[4].year === 5, 'the cash flow stops at the calculator\'s forecast horizon');
+const withAm = mut0((s) => { s.result.projection.rows.forEach((y) => { y.assetMgmtFee = 7500; y.cashFlow = y.cashFlow == null ? null : y.cashFlow - 7500; }); });
+const amHtml = WB.render(withAm);
+ok(withAm.cashFlow.rows[0].assetMgmt === 7500 && amHtml.includes('Asset management fee paid') && amHtml.includes('-$7,500'), 'asset management fees paid show between debt service and cash flow');
+ok(!WB.render(m).includes('Bridge loan payments'), 'a deduction the deal does not have is left out');
+
 console.log(`deal-workbook: ${checks} checks passed`);

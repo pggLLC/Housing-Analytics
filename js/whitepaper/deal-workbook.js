@@ -178,13 +178,16 @@
     var rows = (r.projection && r.projection.rows) || [];
     var dfee = num(r.deferredDevFee);
     var owed = dfee;
+    // The engine keeps 50 internal rows; its forecast is the first projection.years of them.
+    var horizon = num(r.projection && r.projection.years), lastYear = horizon != null ? Math.min(YEARS, horizon) : YEARS;
     model.cashFlow = {
       reason: rows.length ? null : (un.projection || 'The calculator gave no year-by-year pro forma.'),
-      rows: rows.filter(function (y) { return num(y.year) != null && num(y.year) <= YEARS; }).map(function (y) {
+      rows: rows.filter(function (y) { return num(y.year) != null && num(y.year) <= lastYear; }).map(function (y) {
         var paid = num(y.deferredFeePaid);
         if (owed != null && paid != null) owed = Math.max(0, owed - paid); else owed = null;
         return { year: num(y.year), grossRents: num(y.grossRents), otherIncome: num(y.otherIncome), vacancy: num(y.vacancyLoss), egi: num(y.egi),
           opex: num(y.opex), reserve: num(y.repReserve), tax: num(y.propTax), noi: num(y.noi), debtService: num(y.debtService),
+          bridge: num(y.bridgeDebtService), assetMgmt: num(y.assetMgmtFee), contingent: num(y.contingentPaid),
           cashFlow: num(y.cashFlow), dscr: num(y.dscr), seniorDscr: num(y.seniorDscr), feePaid: paid, feeOwed: owed, reason: y.unavailableReason || null };
       })
     };
@@ -230,7 +233,7 @@
       // A payoff after year 15 is outside this workbook: it counts as unpaid here, with the year noted.
       // The calculator looks for the payoff only within its exit hold, which can be shorter than 15 years, so
       // the year the carried balance first reaches zero counts too.
-      paybackYear: paidOff ? paidOff.year : r.exit && num(r.exit.dfYr) != null && num(r.exit.dfYr) <= YEARS ? num(r.exit.dfYr) : null,
+      paybackYear: paidOff ? paidOff.year : r.exit && num(r.exit.dfYr) != null && num(r.exit.dfYr) <= lastYear ? num(r.exit.dfYr) : null,
       paidLater: r.exit && num(r.exit.dfYr) > YEARS ? num(r.exit.dfYr) : null,
       payoffReason: gapRow ? 'year ' + gapRow.year + ' is not projected' + (gapRow.reason ? ' (' + gapRow.reason + ')' : '') : feeRows.length < YEARS ? 'the projection runs ' + feeRows.length + ' years, not ' + YEARS : null, owedAt15: dfee != null && feePaid15 != null ? Math.max(0, dfee - feePaid15) : null };
 
@@ -454,9 +457,13 @@
       var lines = [
         ['Gross rent', 'grossRents'], ['Other income', 'otherIncome'], ['Less vacancy', 'vacancy', -1], ['Effective gross income', 'egi', 1, true],
         ['Operating costs', 'opex', -1], ['Replacement reserve', 'reserve', -1], ['Property tax', 'tax', -1], ['Net operating income', 'noi', 1, true],
-        ['Must-pay debt service', 'debtService', -1], ['Cash flow', 'cashFlow', 1, true], ['Coverage, all must-pay debt', 'dscr', 'x'], ['Coverage, first mortgage', 'seniorDscr', 'x'],
+        ['Must-pay debt service', 'debtService', -1], ['Bridge loan payments', 'bridge', -1], ['Asset management fee paid', 'assetMgmt', -1],
+        ['Cash-flow loan payments', 'contingent', -1], ['Cash flow', 'cashFlow', 1, true], ['Coverage, all must-pay debt', 'dscr', 'x'], ['Coverage, first mortgage', 'seniorDscr', 'x'],
         ['Deferred fee paid', 'feePaid'], ['Deferred fee still owed', 'feeOwed']
       ];
+      // Every deduction between NOI and cash flow is shown when the deal has it, so the rows reconcile.
+      var optional = ['bridge', 'assetMgmt', 'contingent'];
+      lines = lines.filter(function (ln) { return optional.indexOf(ln[1]) < 0 || cf.rows.some(function (y) { return y[ln[1]] == null || Math.abs(y[ln[1]]) > 0.5; }); });
       var head = ['Year'].concat(cf.rows.map(function (y) { return String(y.year); }));
       var body = lines.map(function (ln) {
         return { cls: ln[3] ? 'sr-total' : '', cells: [esc(ln[0])].concat(cf.rows.map(function (y) {
