@@ -141,7 +141,7 @@ ok(!/interest-only/.test(texts(io)), 'an amortizing soft loan raises no interest
 
 // Unknowns stay unknown: no rules file means no CHFA comparisons, never a comparison against 0.
 const noRules = WB.build(fixture(), null);
-ok(!noRules.error && !/CHFA's/.test(texts(noRules).replace(/CHFA HTF/g, '').replace(/warn: CHFA's underwriting rules did not load[^\n]*/, '')), 'without the rules file, nothing is compared against a CHFA minimum');
+ok(!noRules.error && !/CHFA's/.test(texts(noRules).replace(/CHFA HTF/g, '').replace(/warn: CHFA's underwriting rules did not load[^\n]*/, '').replace(/warn: CHFA's cost basis limit \(Method Three\) was not checked[^\n]*/, '')), 'without the rules file, nothing is compared against a CHFA minimum');
 ok(/warn: CHFA's underwriting rules did not load/.test(texts(noRules)) && !/Nothing in the figures needs a second look/.test(WB.render(noRules)), 'without the rules file, the workbook says the CHFA checks were not run');
 {
   const html = WB.render(m);
@@ -270,6 +270,10 @@ ok(/warn: The basis boost was left out of the credit: Add the evidence for the Q
 const boostNone = mut0((s) => { s.result.costBasis.basis.boost = { applied: false, multiplier: 1, reason: 'No QCT, DDA, SADDA or CHFA designation selected.' }; });
 ok(/ok: No basis boost: No QCT/.test(texts(boostNone)), 'no designation selected passes');
 { const cb = read('js/deal-cost-basis.js'); ok(cb.includes("'No QCT, DDA, SADDA or CHFA designation selected.'") && cb.includes("' applies only to '"), 'the settled boost reasons the workbook reads still come from the engine'); }
+const flagged = mut0((s) => { const b = s.result.costBasis.basis; b.requested = 900000; b.awarded = 950000; b.flags = ['The request is more than the credit capacity.', 'The award is more than the request.']; });
+ok(/warn: Credit: The request is more than the credit capacity\./.test(texts(flagged)) && /warn: Credit: The award is more than the request\./.test(texts(flagged)) && WB.render(flagged).includes('Credit awarded'), 'the engine\'s credit request and award flags become warnings');
+const noMethod3 = mut0((s) => { s.result.costBasis.basis.costLimitMethod = { checked: false, reason: 'CHFA lists its cost basis limits (Method Three) only in the Excel application, so the calculator does not check them.' }; });
+ok(/warn: CHFA's cost basis limit \(Method Three\) was not checked: CHFA lists/.test(texts(noMethod3)) && WB.render(noMethod3).includes('Not checked: CHFA lists'), 'the unchecked cost basis limit is disclosed');
 const ungrouped = mut0((s) => { s.permanentFinancing.unclassified = [{ id: 'u1', program: null, label: 'Foundation loan', amount: 250000, reason: "Choose where this source counts in DOH's layout." }]; });
 ok(ungrouped.sources.rows.some((x) => x.amount === 250000 && x.label === "Foundation loan: not yet grouped, Choose where this source counts in DOH's layout."), 'a source with no DOH group keeps its reason');
 
