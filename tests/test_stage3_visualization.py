@@ -30,16 +30,13 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 # HTML files in scope
 CRA_HTML          = os.path.join(REPO_ROOT, 'cra-expansion-analysis.html')
-DASHBOARD_HTML    = os.path.join(REPO_ROOT, 'dashboard.html')
 COMMODITIES_HTML  = os.path.join(REPO_ROOT, 'construction-commodities.html')
 COLORADO_HTML     = os.path.join(REPO_ROOT, 'colorado-deep-dive.html')
 CHFA_HTML         = os.path.join(REPO_ROOT, 'chfa-portfolio.html')
 COMPLIANCE_HTML   = os.path.join(REPO_ROOT, 'compliance-dashboard.html')
-REGIONAL_HTML     = os.path.join(REPO_ROOT, 'regional.html')
 MARKET_HTML       = os.path.join(REPO_ROOT, 'market-analysis.html')
 MARKET_INT_HTML   = os.path.join(REPO_ROOT, 'colorado-deep-dive.html')
 CO_MARKET_HTML    = os.path.join(REPO_ROOT, 'colorado-market.html')
-LIHTC_DASH_HTML   = os.path.join(REPO_ROOT, 'LIHTC-dashboard.html')
 
 # CSS
 SITE_THEME_CSS    = os.path.join(REPO_ROOT, 'css', 'site-theme.css')
@@ -52,12 +49,6 @@ SITE_THEME_CSS    = os.path.join(REPO_ROOT, 'css', 'site-theme.css')
 @pytest.fixture(scope='session')
 def cra_html():
     with open(CRA_HTML, encoding='utf-8') as f:
-        return f.read()
-
-
-@pytest.fixture(scope='session')
-def dashboard_html():
-    with open(DASHBOARD_HTML, encoding='utf-8') as f:
         return f.read()
 
 
@@ -82,12 +73,6 @@ def chfa_html():
 @pytest.fixture(scope='session')
 def compliance_html():
     with open(COMPLIANCE_HTML, encoding='utf-8') as f:
-        return f.read()
-
-
-@pytest.fixture(scope='session')
-def lihtc_dash_html():
-    with open(LIHTC_DASH_HTML, encoding='utf-8') as f:
         return f.read()
 
 
@@ -155,25 +140,11 @@ class TestChartColors:
             f'cra-expansion-analysis.html still contains failing colors: {failing}'
         )
 
-    def test_no_failing_colors_in_dashboard(self, dashboard_html):
-        """dashboard.html must contain no WCAG-failing chart colors."""
-        failing = _failing_colors_present(dashboard_html)
-        assert failing == [], (
-            f'dashboard.html still contains failing colors: {failing}'
-        )
-
     def test_no_failing_colors_in_commodities(self, commodities_html):
         """construction-commodities.html must contain no WCAG-failing chart colors."""
         failing = _failing_colors_present(commodities_html)
         assert failing == [], (
             f'construction-commodities.html still contains failing colors: {failing}'
-        )
-
-    def test_no_failing_colors_in_lihtc_dashboard(self, lihtc_dash_html):
-        """LIHTC-dashboard.html must contain no WCAG-failing chart colors."""
-        failing = _failing_colors_present(lihtc_dash_html)
-        assert failing == [], (
-            f'LIHTC-dashboard.html still contains failing colors: {failing}'
         )
 
     def test_cra_uses_wcag_palette(self, cra_html):
@@ -193,12 +164,6 @@ class TestChartColors:
         for i, a in enumerate(colors):
             for b in colors[i + 1:]:
                 assert _delta_e(a, b) >= 20, f'{a} and {b} are too close to tell apart in the legend'
-
-    def test_dashboard_uses_wcag_palette(self, dashboard_html):
-        """dashboard.html chart must use the AA-compliant amber (#7c3d00)."""
-        assert '#7c3d00' in dashboard_html, (
-            'Expected WCAG-AA color #7c3d00 not found in dashboard.html'
-        )
 
     def test_site_theme_has_chart_tokens(self, site_theme):
         """css/site-theme.css must define --chart-1 through --chart-4 tokens."""
@@ -235,10 +200,6 @@ class TestCanvasAria:
         """cra-expansion-analysis.html — all canvas elements are accessible."""
         self._assert_canvas_accessible(cra_html, 'cra-expansion-analysis.html')
 
-    def test_dashboard_canvas_accessible(self, dashboard_html):
-        """dashboard.html — all canvas elements are accessible."""
-        self._assert_canvas_accessible(dashboard_html, 'dashboard.html')
-
     def test_commodities_canvas_accessible(self, commodities_html):
         """construction-commodities.html — all 4 canvas elements are accessible."""
         self._assert_canvas_accessible(commodities_html, 'construction-commodities.html')
@@ -260,12 +221,6 @@ class TestCanvasAria:
         """cra-expansion-analysis.html — visually-hidden summary p follows canvas."""
         assert 'class="sr-only"' in cra_html or "class='sr-only'" in cra_html, (
             'No sr-only summary paragraph found in cra-expansion-analysis.html'
-        )
-
-    def test_canvas_summary_in_dashboard(self, dashboard_html):
-        """dashboard.html — visually-hidden summary p follows the allocations canvas."""
-        assert 'class="sr-only"' in dashboard_html or "class='sr-only'" in dashboard_html, (
-            'No sr-only summary paragraph found in dashboard.html'
         )
 
     def test_canvas_summary_in_commodities(self, commodities_html):
@@ -308,10 +263,6 @@ class TestAriaLive:
         ))
         assert has_live, f'{page}: missing aria-live="polite" attribute'
 
-    def test_dashboard_has_live_region(self, dashboard_html):
-        """dashboard.html must have a role=status aria-live=polite region."""
-        self._assert_live_region(dashboard_html, 'dashboard.html')
-
     def test_chfa_has_live_region(self, chfa_html):
         """chfa-portfolio.html must have a role=status aria-live=polite region."""
         self._assert_live_region(chfa_html, 'chfa-portfolio.html')
@@ -323,37 +274,6 @@ class TestAriaLive:
     def test_commodities_has_live_region(self, commodities_html):
         """construction-commodities.html must have a role=status aria-live=polite region."""
         self._assert_live_region(commodities_html, 'construction-commodities.html')
-
-    def test_dashboard_region_is_atomic(self, dashboard_html):
-        """dashboard.html aria-live region must include aria-atomic=true."""
-        assert re.search(
-            r'aria-atomic\s*=\s*["\']true["\']',
-            dashboard_html, re.IGNORECASE,
-        ), 'dashboard.html: aria-live region missing aria-atomic="true"'
-
-    def test_dashboard_announce_js_wired(self, dashboard_html):
-        """dashboard.html filter change must call the announce helper."""
-        assert '__announceUpdate' in dashboard_html, (
-            'dashboard.html: region-select change handler does not call __announceUpdate'
-        )
-
-    def test_lihtc_dashboard_has_live_region(self, lihtc_dash_html):
-        """LIHTC-dashboard.html must have a role=status aria-live=polite region."""
-        self._assert_live_region(lihtc_dash_html, 'LIHTC-dashboard.html')
-
-    def test_lihtc_dashboard_region_is_atomic(self, lihtc_dash_html):
-        """LIHTC-dashboard.html aria-live region must include aria-atomic=true."""
-        assert re.search(
-            r'aria-atomic\s*=\s*["\']true["\']',
-            lihtc_dash_html, re.IGNORECASE,
-        ), 'LIHTC-dashboard.html: aria-live region missing aria-atomic="true"'
-
-    def test_lihtc_dashboard_announce_js_wired(self, lihtc_dash_html):
-        """LIHTC-dashboard.html filter change handlers must call the announce helper."""
-        assert '__announceUpdate' in lihtc_dash_html, (
-            'LIHTC-dashboard.html: filter change handlers do not call __announceUpdate'
-        )
-
 
 # ---------------------------------------------------------------------------
 # Block 4: Landmark Elements (Fix 4)
@@ -378,12 +298,6 @@ class TestLandmarks:
         """cra-expansion-analysis.html must have a closing </main> tag."""
         assert '</main>' in cra_html, (
             'cra-expansion-analysis.html: missing </main> closing tag'
-        )
-
-    def test_dashboard_has_main(self, dashboard_html):
-        """dashboard.html must have a <main> landmark."""
-        assert re.search(r'<main\b', dashboard_html, re.IGNORECASE), (
-            'dashboard.html: missing <main> landmark element'
         )
 
     def test_commodities_has_main(self, commodities_html):
@@ -415,46 +329,6 @@ class TestLandmarks:
         assert re.search(r'class=["\']skip-link["\']', cra_html, re.IGNORECASE), (
             'cra-expansion-analysis.html: missing skip-link anchor'
         )
-
-    def test_lihtc_dashboard_has_main(self, lihtc_dash_html):
-        """LIHTC-dashboard.html must have a <main id="main-content"> landmark."""
-        assert re.search(r'<main\b', lihtc_dash_html, re.IGNORECASE), (
-            'LIHTC-dashboard.html: missing <main> landmark element'
-        )
-        assert 'id="main-content"' in lihtc_dash_html, (
-            'LIHTC-dashboard.html: <main> must carry id="main-content"'
-        )
-
-    def test_lihtc_dashboard_has_header(self, lihtc_dash_html):
-        """LIHTC-dashboard.html must have a <header> landmark."""
-        assert re.search(r'<header\b', lihtc_dash_html, re.IGNORECASE), (
-            'LIHTC-dashboard.html: missing <header> landmark element'
-        )
-
-    def test_lihtc_dashboard_has_footer(self, lihtc_dash_html):
-        """LIHTC-dashboard.html must have a <footer> landmark."""
-        assert re.search(r'<footer\b', lihtc_dash_html, re.IGNORECASE), (
-            'LIHTC-dashboard.html: missing <footer> landmark element'
-        )
-
-    def test_lihtc_dashboard_has_skip_link(self, lihtc_dash_html):
-        """LIHTC-dashboard.html must have a skip-to-main-content link targeting #main-content."""
-        assert re.search(r'class=["\']skip-link["\']', lihtc_dash_html, re.IGNORECASE), (
-            'LIHTC-dashboard.html: missing skip-link anchor'
-        )
-        assert 'href="#main-content"' in lihtc_dash_html, (
-            'LIHTC-dashboard.html: skip-link must target #main-content'
-        )
-
-    def test_lihtc_dashboard_svg_map_accessible(self, lihtc_dash_html):
-        """LIHTC-dashboard.html SVG map must have role=img and aria-label."""
-        assert re.search(r"\.attr\(['\"]role['\"],\s*['\"]img['\"]", lihtc_dash_html), (
-            'LIHTC-dashboard.html: D3 SVG map missing role="img" attribute'
-        )
-        assert re.search(r"\.attr\(['\"]aria-label['\"]", lihtc_dash_html), (
-            'LIHTC-dashboard.html: D3 SVG map missing aria-label attribute'
-        )
-
 
 # ---------------------------------------------------------------------------
 # Block 5: --accent Token Contrast (Fix 5)

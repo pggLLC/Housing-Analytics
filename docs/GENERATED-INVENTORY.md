@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-21T23:18:31.350Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-22T04:08:52.633Z. Do not edit by hand.
 
 ---
 
@@ -62,7 +62,7 @@
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.9 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 51.5 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 29.4 KB |
-| `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 10.5 KB |
+| `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 10.8 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.4 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 57.4 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | COHO Analytics | 16.4 KB |
@@ -92,11 +92,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1928 JSON files found.
+1930 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 978.1 KB | ✅ | — |
+| `data/_manifest.json` | 978.8 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1827,7 +1827,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 11.0 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 245.0 KB | ✅ | — |
+| `data/manifest.json` | 245.1 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1969,6 +1969,7 @@
 | `data/policy/funding-awards/documents.json` | 47.8 KB | ✅ | — |
 | `data/policy/funding-awards/dola-awards.json` | 323.6 KB | ✅ | — |
 | `data/policy/funding-awards/land-banking-corrections.json` | 9.4 KB | ✅ | — |
+| `data/policy/funding-awards/land-banking-status-research.json` | 5.5 KB | ✅ | — |
 | `data/policy/funding-awards/ledger.json` | 365.6 KB | ✅ | — |
 | `data/policy/funding-awards/reviewed-documents.json` | 23.1 KB | ✅ | — |
 | `data/policy/funding-watch-sources.json` | 11.8 KB | ✅ | — |
@@ -1991,6 +1992,7 @@
 | `data/policy/policy-timeline.json` | 6.7 KB | ✅ | — |
 | `data/policy/policy-watch.json` | 50.5 KB | ✅ | — |
 | `data/policy/prop123-land-banking-awards.json` | 80.8 KB | ✅ | — |
+| `data/policy/prop123-land-banking-status.json` | 25.2 KB | ✅ | — |
 | `data/policy/prop123-rental-rules.json` | 33.2 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 130.0 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 7.6 KB | ✅ | — |
@@ -2259,7 +2261,7 @@
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
 | `test/hna-age-and-growth-labels.test.js` | 9.2 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
-| `test/hna-build-rebase-recovery.test.js` | 7.9 KB |
+| `test/hna-build-rebase-recovery.test.js` | 8.0 KB |
 | `test/hna-car-loader.test.js` | 5.5 KB |
 | `test/hna-cdp-deep-link.test.js` | 4.9 KB |
 | `test/hna-chapter-handoff.test.mjs` | 7.8 KB |
@@ -2356,7 +2358,7 @@
 | `test/jurisdiction-whitepaper.test.mjs` | 37.2 KB |
 | `test/kalshi-signing-and-write.test.js` | 11.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
-| `test/land-banking-awards.test.mjs` | 29.2 KB |
+| `test/land-banking-awards.test.mjs` | 31.9 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-activity-panel.test.mjs` | 4.8 KB |
@@ -2743,7 +2745,7 @@
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
 | `.github/workflows/build-acs-reliability.yml` | 3.5 KB |
-| `.github/workflows/build-hna-data.yml` | 36.8 KB |
+| `.github/workflows/build-hna-data.yml` | 37.1 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 14.5 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
@@ -2783,7 +2785,7 @@
 | `.github/workflows/fetch-hmda-data.yml` | 4.3 KB |
 | `.github/workflows/fetch-kalshi.yml` | 5.5 KB |
 | `.github/workflows/fetch-market-rents.yml` | 8.6 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 20.6 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 20.7 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 9.1 KB |
 | `.github/workflows/funding-awards.yml` | 5.8 KB |
 | `.github/workflows/local-incentives-watch.yml` | 1.8 KB |

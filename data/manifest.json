@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-21T23:19:10.197935Z",
+  "generated": "2026-10-22T10:32:16.918835Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1002306
+      "bytes": 1003098
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -74,12 +74,12 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 502762
+      "bytes": 585031
     },
     "data/alerts/brief-news-queue.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21003
+      "bytes": 21682
     },
     "data/alerts/owner-news.json": {
       "featureCount": 0,
@@ -1134,7 +1134,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1259075
+      "bytes": 1259334
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -9526,6 +9526,11 @@
       "placeholder": false,
       "bytes": 9644
     },
+    "data/policy/funding-awards/land-banking-status-research.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 5606
+    },
     "data/policy/funding-awards/ledger.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -9554,7 +9559,7 @@
     "data/policy/housing-events.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 135841
+      "bytes": 134959
     },
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,
@@ -9636,6 +9641,11 @@
       "placeholder": false,
       "bytes": 82778
     },
+    "data/policy/prop123-land-banking-status.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 25788
+    },
     "data/policy/prop123-rental-rules.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -9694,7 +9704,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 351673
+      "bytes": 377251
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
@@ -9709,12 +9719,12 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20349
+      "bytes": 20367
     },
     "data/polymarket-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 171534
+      "bytes": 173801
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,

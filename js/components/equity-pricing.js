@@ -27,12 +27,18 @@
     return typeof v === 'number' && isFinite(v) && v > 0 ? v : null;
   }
 
-  /** Current national prices, with the date the file says they are as of. */
+  /**
+   * Current prices, with the date the file says they are as of. `co` is
+   * Novogradac's Colorado median across all credit types; it publishes no
+   * 9%/4% split for Colorado, so `nine` and `four` are national averages.
+   */
   function current(benchmark) {
     var meta = benchmark && benchmark.meta;
     var nat = benchmark && benchmark.pricing && benchmark.pricing.national_avg;
     if (!meta || !nat) return null;
+    var co = benchmark.pricing.by_state && benchmark.pricing.by_state.CO;
     return {
+      co: price(co && co.median_all_credits),
       nine: price(nat.credit_9pct),
       four: price(nat.credit_4pct),
       asOf: meta.as_of || null,
@@ -130,8 +136,9 @@
   }
 
   /**
-   * Fill the small price chips other pages show: [data-equity-price="nine"|"four"]
-   * gets the current national price, [data-equity-yoy="nine"|"four"] the change
+   * Fill the small price chips other pages show: [data-equity-price="co"]
+   * gets the Colorado median, [data-equity-price="nine"|"four"] the current
+   * national price, [data-equity-yoy="nine"|"four"] the change
    * on the same quarter a year earlier, [data-equity-vintage] the quarter.
    * Chips stay as typed ("—") when the files cannot be read.
    */

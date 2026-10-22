@@ -78,6 +78,30 @@ homes needed(year) = households added since 2024 ÷ (1 − county target vacancy
 
 A town or CDP takes the share of county growth the HNA page gives it: its blended share in `data/hna/projections/places.json`, from its share of the county's households and of its 2020–2024 building permits, applied across every county it sits in (`data/hna/cross-county-places.json`). Ten places with no ledger row use their share of the county's people, as the HNA page does.
 
+### Towns by age: Hamilton-Perry
+
+Below the households choice, a town or CDP can instead take a share of each age group of its county: Hamilton-Perry, the standard method for places too small for a cohort-component forecast of their own (Hamilton and Perry, 1962; Smith, Tayman and Swanson, 2013). It needs only two censuses by age and sex. `scripts/hna/build_place_hamilton_perry.py` takes table P12 of the 2010 and 2020 Census for every Colorado place and county (cached in `data/hna/source/census_age_2010_2020.json`) and writes `data/hna/place-hamilton-perry.json`:
+
+```
+cohort-change ratio(a)  = people aged a+10 to a+14 in 2020 ÷ people aged a to a+4 in 2010   (85+ ÷ 75+ for the last group)
+people(a+10, t+10)      = people(a, t) × cohort-change ratio(a)
+children 0-4 at t+10    = (children 0-4 ÷ women 15-44, in 2020) × women 15-44 at t+10   (5-9: per woman 20-49)
+```
+
+- Each sex runs separately, a decade at a time, to 2030, 2040 and 2050. A ratio whose 2010 count is zero takes the county's.
+- The same arithmetic runs for every county. A town's share of each age group (under 18, 18-24, 25-44, 45-64, 65 and over) is its projection over its counties'. Between decades the share moves in a straight line.
+- The builder applies those shares to the scenario's people in each group of each county, held to SDO's totals as for a county. Households are the county's households per person in each group times the town's people in it; homes use each county's vacancy.
+- With the HNA page's share, the town grows by one fixed share of the county's growth. By age, its share also changes: a town that gained young families from 2010 to 2020 keeps gaining them, and an aging one keeps aging.
+- Vintage 2024, sliders at 100%, homes by 2044 for resident growth: Fruita 2,435 by age against 1,591 at the HNA page's share, Grand Junction 15,857 against 11,248, Boulder 5,798 against 5,981, Fort Collins 18,030 against 16,482.
+
+It is offered for 431 of the 482 towns and CDPs. The other 51 are left out, and the builder says why:
+
+- 24 were first counted in 2020, so there is no 2010 count to carry forward.
+- 27 grew or shrank so much from 2010 to 2020 that repeating it every ten years runs far past any county forecast. Windsor, for one, would pass 100,000 people by 2044. Shares by age are offered only where the 2020 count was between two-thirds and one and a half times the 2010 count. That leaves out Castle Rock, Erie, Windsor, Johnstown, Monument, Timnath and seven other towns of over 5,000 people.
+- The Census Bureau gave four places new codes in 2020: Castle Pines, Castle Pines Village, Phippsburg and Watkins. Each takes its 2010 counts from the code it replaced.
+
+The HNA page draws a saved scenario that uses shares by age as the builder's people for the town, starting from the page's own first year, and says so (`test/hna-saved-scenario-matches-builder.test.js`).
+
 ### The sliders and presets
 
 Each slider is a percentage of SDO's forecast for the place loaded, so a setting means the same in a small town as in Denver:
@@ -124,7 +148,7 @@ Scenarios saved before 2026-10-20 held multipliers and a number of people moving
 
 - The builder changes SDO's forecast; it does not make a new one. Migration is not tied to jobs, wages or home prices.
 - Household rates by age are SDO's, as forecast or held at 2024's; no setting ties them to home prices or incomes.
-- A town's share of county growth is fixed over the 20 years.
+- With the HNA page's share, a town's share of county growth is fixed over the 20 years. By age, each share moves as it did from 2010 to 2020, including any annexation in that decade. The 2020 Census adds noise to small places' counts to protect privacy, so a town of a few hundred people has uncertain shares by age.
 
 ---
 
@@ -280,4 +304,6 @@ The pipeline scenario files are rebuilt with `python3 scripts/hna/build_scenario
 - NCHS U.S. State Life Tables, 2021 (NVSR vol. 73 no. 7): https://www.cdc.gov/nchs/data/nvsr/nvsr73/nvsr73-07.pdf
 - NCHS Births: Final Data for 2023 (NVSR vol. 74 no. 1): https://www.cdc.gov/nchs/data/nvsr/nvsr74/nvsr74-1.pdf
 - ACS 5-Year Estimates (headship rates): https://data.census.gov/
+- 2010 Census Summary File 1 and 2020 Census Demographic and Housing Characteristics File, table P12 (sex by age): https://data.census.gov/table/DECENNIALDHC2020.P12
+- Hamilton, C. H., and J. Perry, "A Short Method for Projecting Population by Age from One Decennial Census to Another," *Social Forces* 41(2), 1962.
 - FRED Economic Data: https://fred.stlouisfed.org/

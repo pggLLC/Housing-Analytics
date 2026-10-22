@@ -3,8 +3,8 @@
  *
  * Renders a small "⚠ report stale" inline link next to any external URL
  * the user might encounter (housing-lead contact, housing-plan PDF,
- * advocacy org website, etc.). Clicking it opens a pre-filled GitHub
- * issue so users help maintain freshness without leaving the site.
+ * advocacy org website, etc.). Clicking it opens the site's feedback
+ * form with the page and link prefilled, so users help keep links fresh.
  *
  * Companion to scripts/audit/url-health-sweep.mjs (the machine-driven
  * weekly monitor) — together they form the "machines monitor + users
@@ -14,7 +14,6 @@
  *   ReportStaleLink.build({
  *     url: 'https://www.google.com/search?q=%22Boulder%20Valley%20Comprehensive%20Plan%22%20Colorado',
  *     label: 'Boulder Valley Comprehensive Plan',
- *     context: 'place:0807850 housingPlans[0]'   // optional, included in issue body
  *   })
  *   // → returns HTML string for an inline span. Insert via .innerHTML +=.
  *
@@ -28,8 +27,7 @@
 (function (global) {
   'use strict';
 
-  var REPO = 'pggLLC/Housing-Analytics';
-  var ISSUE_BASE = 'https://github.com/' + REPO + '/issues/new';
+  var FEEDBACK_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform';
   var _healthPromise = null;
   var _healthCache = null;
 
@@ -77,45 +75,22 @@
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
-  function _buildIssueUrl(opts) {
-    var url = opts.url;
-    var label = opts.label || '(no label)';
-    var context = opts.context || '';
-    var pageUrl = (typeof window !== 'undefined' && window.location)
-      ? window.location.href.split('#')[0]
-      : '';
-    var title = 'Stale link reported: ' + label;
-    var body = [
-      '**URL:** `' + url + '`',
-      '**Resource label:** ' + label,
-      context ? '**Source context:** `' + context + '`' : '',
-      '**Page reported from:** ' + pageUrl,
-      '',
-      '## What\'s wrong',
-      'Describe what you saw (404, redirect to wrong page, content changed, no longer the right doc, etc.):',
-      '',
-      '<!-- Replace this comment with what happened -->',
-      '',
-      '## Replacement URL (if you have one)',
-      '',
-      '<!-- Paste the new URL here if you found it; we\'ll re-link -->',
-      '',
-      '---',
-      '_Auto-filed via Report Stale Link button (F14)._',
-      '_Sweep history for this URL: see `data/url-health.json`._'
-    ].filter(Boolean).join('\n');
-    return ISSUE_BASE +
-      '?title=' + encodeURIComponent(title) +
-      '&body='  + encodeURIComponent(body) +
-      '&labels=' + encodeURIComponent('url-health,user-report');
+  // Reports go to the site's feedback form. Its "Which page?" field
+  // (entry.440415848) is prefilled with the page path and the link label so
+  // the report arrives with the link it is about.
+  function _buildReportUrl(opts) {
+    var label = opts.label || opts.url;
+    var page = (typeof window !== 'undefined' && window.location) ? (window.location.pathname || '/') : '/';
+    return FEEDBACK_FORM_URL + '?usp=pp_url&entry.440415848=' +
+      encodeURIComponent(page + ' · stale link: ' + label + ' (' + opts.url + ')');
   }
 
   function build(opts) {
     if (!opts || !opts.url) return '';
-    var issueUrl = _buildIssueUrl(opts);
-    return '<a class="rsl-link" href="' + _escHtml(issueUrl) + '" ' +
+    var reportUrl = _buildReportUrl(opts);
+    return '<a class="rsl-link" href="' + _escHtml(reportUrl) + '" ' +
       'target="_blank" rel="noopener" ' +
-      'title="Report this link as stale (opens GitHub issue, pre-filled)" ' +
+      'title="Report this link as stale (opens the feedback form)" ' +
       'aria-label="Report stale link: ' + _escHtml(opts.label || opts.url) + '">' +
       '⚠ report stale</a>';
   }

@@ -2,7 +2,7 @@
   "meta": {
     "generator": "scripts/funding/build_land_banking_status.py",
     "generated_from": {
-      "awards": "2026-10-19",
+      "awards": "2026-10-22",
       "ledger": "2026-10-18T12:19:29Z",
       "research_checked": "2026-10-22"
     },

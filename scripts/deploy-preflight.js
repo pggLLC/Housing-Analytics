@@ -61,8 +61,6 @@ const HTML_PAGES = [
     'LIHTC-dashboard.html',
     'colorado-deep-dive.html',
     'lihtc-guide-for-stakeholders.html',
-    'dashboard.html',
-    'regional.html',
     'state-allocation-map.html',
     'housing-legislation-2026.html',
     'about.html',

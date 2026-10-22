@@ -2734,7 +2734,7 @@
         { label: 'CHFA Preservation (live ArcGIS)',               url: 'https://co.chfainfo.com/' },
         { label: 'HUD MULTIFAMILY_PROPERTIES_ASSISTED',           url: 'https://hudgis-hud.opendata.arcgis.com/datasets/HUD::multifamily-properties-assisted/' },
         { label: 'USDA Rural Housing Assets',                     url: 'https://www.rd.usda.gov/programs-services/multifamily-housing-programs/' },
-        { label: 'Local PHA roster (curated)',                    url: 'https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster' }
+        { label: 'Local PHA roster (curated)',                    url: 'data/affordable-housing/local-pha-roster/README.md' }
       ],
       vintage:    'live CHFA + HUD; curated local-PHA roster vintage 2026-06',
       method:     'Union of 5 feeds, deduped by name + coordinates. Records grouped by color-coded program category. Scope: 30 mi of place/CDP centroid, or current map view for counties. LIHTC + preservation combo rows show "9% LIHTC + preservation" with the LIHTC badge primary.',
@@ -3277,7 +3277,7 @@
     if (window.MethodFooter) {
       html += window.MethodFooter.html({
         sources: [
-          { label: 'data/hna/local-resources.json (curated)', url: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/hna/local-resources.json' },
+          { label: 'data/hna/local-resources.json (curated)', url: 'data/hna/local-resources.json' },
           { label: 'CHFA + DOLA Prop 123 status',             url: 'https://cdola.colorado.gov/prop123' },
           { label: 'Per-jurisdiction durable Google searches', url: '#' }
         ],

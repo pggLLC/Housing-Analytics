@@ -150,7 +150,6 @@ function testSeoCompliance() {
             'colorado-deep-dive.html',
             'housing-needs-assessment.html',
             'economic-dashboard.html',
-            'LIHTC-dashboard.html',
         ];
         for (const page of majorPages) {
             warn(sitemap.includes(page), `Sitemap includes major page: ${page}`, CAT_SITEMAP);
