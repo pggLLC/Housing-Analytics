@@ -12,7 +12,9 @@
  * target vacancy, plus homes for a quarter of today's lower- and middle-wage
  * in-commuters. A town or CDP takes its share of the county's growth, the
  * share the HNA page uses (data/hna/projections/places.json), so with the
- * sliders at 100% the builder and the HNA page give the same number.
+ * sliders at 100% the builder and the HNA page give the same number. It can
+ * instead take a share of each age group from Hamilton-Perry projections of
+ * the town and its county (data/hna/place-hamilton-perry.json).
  *
  * Dependencies (must be loaded before this script):
  *   - js/projections/cohort-component-model.js
@@ -142,14 +144,20 @@
     return (p % 1 === 0 ? p.toFixed(0) : p.toFixed(1)) + '%';
   }
 
+  // "Mesa County", or "Jefferson and Adams counties".
+  function _countiesText(ctx) {
+    const names = ctx.counties.map(c => c.name);
+    return names.length === 1 ? names[0]
+      : names.map(n => n.replace(/ County$/, '')).slice(0, -1).join(', ') + ' and ' +
+        names[names.length - 1].replace(/ County$/, '') + ' counties';
+  }
+
   /** One sentence on where the loaded figures come from, for the status line. */
   function describeContext(ctx) {
     if (!ctx || !ctx.counties || !ctx.counties.length) return (ctx && ctx.unavailableReason) || '';
     const vintage = String(ctx.counties[0].baseline.vintage || '').replace(/\s+Prepared\s+/i, ', prepared ');
     const names = ctx.counties.map(c => c.name);
-    const where = names.length === 1 ? names[0]
-      : names.map(n => n.replace(/ County$/, '')).slice(0, -1).join(', ') + ' and ' +
-        names[names.length - 1].replace(/ County$/, '') + ' counties';
+    const where = _countiesText(ctx);
     const vac = ctx.counties.every(c => c.vacancy == null) ? null
       : (ctx.counties.length === 1
         ? 'Homes use the county\u2019s target vacancy, ' + _pctText(ctx.counties[0].vacancy) + ', as on the HNA page.'
@@ -174,7 +182,8 @@
    * What the builder needs for one geography, from the files the page loads.
    *   geo:  { geoid, name, type, containingCounty, population, inCommuters, inCommutersHigh }
    *   data: { baselines: {fips: scenario-baseline file}, projections: {fips: projections file},
-   *           ledger: places.json `places`, cross: cross-county-places.json `places` }
+   *           ledger: places.json `places`, cross: cross-county-places.json `places`,
+   *           hamiltonPerry: place-hamilton-perry.json, for a town }
    * A town or CDP takes the share of county growth the HNA page uses: its
    * blended share in the place ledger, applied to all the counties it sits in,
    * or, for the few places the ledger lacks, its share of the county's people.
@@ -220,6 +229,14 @@
         basis = 'population_share';
       }
     }
+    // Hamilton-Perry shares by age, when the town has them; otherwise why not.
+    let townShares = null;
+    let townSharesReason = null;
+    if (!isCounty) {
+      const hp = d.hamiltonPerry;
+      townShares = hp ? window.CohortComponentModel.townShares(hp, geo.geoid, fipsList) : null;
+      if (!townShares) townSharesReason = _hamiltonPerryReason(hp, geo.geoid, name);
+    }
     const counties = [];
     for (const fips of fipsList) {
       const baseline = (d.baselines || {})[fips];
@@ -241,9 +258,26 @@
       placePop: isCounty ? null : _num(geo.population),
       counties,
       published,
+      townShares,
+      townSharesReason,
       inCommuters: _num(geo.inCommuters),
       inCommutersHigh: _num(geo.inCommutersHigh),
     };
+  }
+
+  function _hamiltonPerryReason(hp, geoid, name) {
+    if (!hp) return 'The Census counts by age did not load, so shares by age are not available. Try Load Geography Data again.';
+    const out = hp.leftOut && hp.leftOut[geoid];
+    if (out && out.reason === 'new_in_2020') {
+      return name + ' was first counted in the 2020 Census, so there is no 2010 count by age to carry forward.';
+    }
+    if (out && out.reason === 'changed_too_much') {
+      const n = (v) => Number(v).toLocaleString('en-US');
+      return name + (out.population2020 >= out.population2010 ? ' grew' : ' fell') + ' from ' + n(out.population2010) +
+        ' people in 2010 to ' + n(out.population2020) + ' in 2020. Hamilton-Perry would repeat that every ten years, ' +
+        'so shares by age are offered only where the 2020 count was between two-thirds and one and a half times the 2010 count.';
+    }
+    return 'There are no Census counts by age on file for ' + name + ', so shares by age are not available.';
   }
 
   /**
@@ -257,11 +291,15 @@
    *
    * Homes needed are the rise from the base year in households ÷ (1 − the
    * county's target vacancy); no count of today's homes enters, as on the HNA
-   * page. A town takes its share of every county it sits in.
+   * page. A town takes its share of every county it sits in, or, with
+   * town_share 'hamilton_perry', its share of each age group.
    */
   function homesSeries(ctx, params) {
     if (!ctx || !Array.isArray(ctx.counties) || !ctx.counties.length || !window.CohortComponentModel) return [];
     const M = window.CohortComponentModel;
+    if (params && params.town_share === 'hamilton_perry' && !ctx.isCounty && ctx.townShares) {
+      return _hamiltonPerrySeries(ctx, params);
+    }
     const share = Number.isFinite(ctx.share) ? ctx.share : 1;
     const runs = ctx.counties.map(c => ({
       run: M.project(c.baseline, params),
@@ -312,6 +350,26 @@
       });
     }
     return out;
+  }
+
+  // A town by age: its people and households from townProjection(), each
+  // county's households at that county's vacancy. Nothing ties it to the HNA
+  // page's published series, which uses one share for every age.
+  function _hamiltonPerrySeries(ctx, params) {
+    const rows = window.CohortComponentModel.townProjection(ctx.counties.map(c => c.baseline), params, ctx.townShares);
+    if (!rows.length) return [];
+    const noVacancy = ctx.counties.some(c => c.vacancy == null);
+    const basePop = Number.isFinite(ctx.placePop) ? ctx.placePop : null;
+    const first = rows[0];
+    const total = (r) => r.households.reduce((t, v) => t + v, 0);
+    return rows.map(r => ({
+      year: r.year,
+      population: basePop == null ? null : basePop + r.population - first.population,
+      householdsAdded: total(r) - total(first),
+      homesNeeded: noVacancy ? null
+        : r.households.reduce((t, v, c) => t + (v - first.households[c]) / (1 - ctx.counties[c].vacancy), 0),
+      migration: r.migration,
+    }));
   }
 
   /** The 20-year figure: resident growth plus today's in-commuters, as on the HNA page. */
@@ -399,6 +457,7 @@
       _bindSliders();
       _bindMigrationFrom();
       _bindHeadship();
+      _bindTownShare();
       _bindScenarioButtons();
       _bindSaveLoad();
       _listenI18n();
@@ -418,6 +477,7 @@
 
     _updateMigrationHelp();
     _updateHeadshipHelp();
+    _updateTownShareHelp();
     _runAllBuiltIn();
     _dispatchState();
   }
@@ -492,6 +552,7 @@
     });
     if (_migrationFrom() === 'past') out.migration_from = 'past';
     if (_headshipChoice() === 'held') out.headship = 'held';
+    if (_townShareChoice() === 'hamilton_perry') out.town_share = 'hamilton_perry';
     return out;
   }
 
@@ -510,6 +571,8 @@
       (params.headship === 'held' ? 'held' : 'sdo') + '"]');
     if (headship) headship.checked = true;
     _updateHeadshipHelp();
+    _townShareWanted = params.town_share === 'hamilton_perry';
+    _updateTownShareHelp();
   }
 
   // What 100% means for the place loaded, in people a year: SDO's forecast,
@@ -612,6 +675,66 @@
         end.slice(0, -1).map(r).join(', ') + ' and ' + r(end[end.length - 1]) + ' by ' + year + '.'
       : 'SDO\u2019s forecast moves households per person in each age group. ' + where + ', ' + base + ' to ' + year + ': ' +
         ages.map((a, i) => a + ' from ' + r(hh.ratesByYear[0][i]) + ' to ' + r(end[i])).join(', ') + '.';
+  }
+
+  // A town's share of its county: the HNA page's, one share of growth for
+  // every age, or Hamilton-Perry's for each age group. Only for a town that
+  // has Hamilton-Perry shares; the choice is remembered across a load that
+  // cannot use it, as the migration choice is.
+  let _townShareWanted = false;
+
+  function _townShareChoice() {
+    const el = document.querySelector('input[name="sbTownShare"][value="hamilton_perry"]');
+    return el && el.checked && !el.disabled ? 'hamilton_perry' : 'hna';
+  }
+
+  function _bindTownShare() {
+    document.querySelectorAll('input[name="sbTownShare"]').forEach(el => {
+      el.addEventListener('change', () => {
+        if (el.checked) _townShareWanted = el.value === 'hamilton_perry';
+        _clearActiveBtn();
+        _updateTownShareHelp();
+        _runCustom();
+        _announceResult();
+      });
+    });
+  }
+
+  // The town's share of its county's people in each age group, now and
+  // twenty years on, beside the one share the HNA page uses.
+  function _updateTownShareHelp() {
+    const group = document.getElementById('sbTownShareGroup');
+    const el = document.getElementById('sbTownShareHelp');
+    const hpRadio = document.querySelector('input[name="sbTownShare"][value="hamilton_perry"]');
+    const town = _ctx && !_ctx.isCounty;
+    if (group) group.hidden = !town;
+    if (hpRadio) hpRadio.disabled = !(town && _ctx.townShares);
+    const shown = document.querySelector('input[name="sbTownShare"][value="' +
+      (town && _ctx.townShares && _townShareWanted ? 'hamilton_perry' : 'hna') + '"]');
+    if (shown) shown.checked = true;
+    if (!el) return;
+    if (!town) {
+      el.textContent = '';
+      return;
+    }
+    const where = _countiesText(_ctx);
+    const whose = where + (/s$/.test(where) ? '’' : '’s');
+    const hna = 'The HNA page gives ' + _ctx.displayName + ' ' + _pctText(_ctx.share) + ' of ' + whose + ' growth at every age.';
+    if (!_ctx.townShares) {
+      el.textContent = hna + ' ' + _ctx.townSharesReason;
+      return;
+    }
+    const base = _ctx.counties[0].baseline.baseYear;
+    const end = base + HORIZON_YEARS;
+    const now = _ctx.townShares(base);
+    const later = _ctx.townShares(end);
+    const groups = _ctx.counties[0].baseline.households.groups;
+    const ages = ['under 18'].concat(groups.map(g => g.maxAge >= 100 ? g.minAge + ' and over' : g.minAge + '–' + g.maxAge));
+    const byAge = ages.map((a, i) => a + ' ' + _pctText(now[i]) + ' to ' + _pctText(later[i])).join(', ');
+    el.textContent = (_townShareChoice() === 'hamilton_perry'
+      ? 'By age, carrying each age group’s change from the 2010 to the 2020 Census forward (Hamilton-Perry), ' +
+        'the share of ' + whose + ' people in ' + _ctx.displayName + ', ' + base + ' to ' + end + ': ' + byAge + '. ' + hna
+      : hna + ' By age, from the 2010 and 2020 Census (Hamilton-Perry), its share of the people, ' + base + ' to ' + end + ': ' + byAge + '.');
   }
 
   // ---------------------------------------------------------------------------
@@ -1032,7 +1155,8 @@
       // projection does not use (a missing setting loads as SDO's 100%).
       const q = window.CohortComponentModel.paramsFromSaved(p);
       return `Births ${q.births_pct}% | Deaths ${q.deaths_pct}% | Moving in (net) ${q.migration_pct}% of ${q.migration_from === 'past' ? 'the years before SDO\'s forecast' : "SDO's forecast"}` +
-        (q.headship === 'held' ? ' | Households per person held' : '');
+        (q.headship === 'held' ? ' | Households per person held' : '') +
+        (q.town_share === 'hamilton_perry' ? ' | Towns by age (Hamilton-Perry)' : '');
     }
     // A value the record never set is shown as unset, not as 0.
     const given = (v) => (v == null || v === '' ? NaN : Number(v));
@@ -1061,6 +1185,9 @@
         households: params.headship === 'held'
           ? "SDO's base-year households per person by age, held"
           : "SDO's household forecast by age",
+        townShare: params.town_share === 'hamilton_perry'
+          ? "Town's share of the county by age, Hamilton-Perry from the 2010 and 2020 Census"
+          : "The HNA page's share of the county's growth",
       },
       baselineSource: (_ctx && _ctx.counties[0].baseline.vintage) ? 'SDO ' + _ctx.counties[0].baseline.vintage : 'SDO forecast',
       // Parameters are not tied to a place; record the loaded geography (or

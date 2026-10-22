@@ -22,10 +22,16 @@ function assertRedirect(html, target, label) {
 const lihtcDashboard = read('LIHTC-dashboard.html');
 const complianceDashboard = read('compliance-dashboard.html');
 const developerBrief = read('developer-brief.html');
-const allocations = read('lihtc-allocations.html');
 const sitemap = read('sitemap.html');
 
-assertRedirect(lihtcDashboard, 'lihtc-allocations.html', 'LIHTC-dashboard.html');
+// The national allocation pages came off the public site on 10-22; their old
+// URLs open the Deep Dive's Colorado Snapshot, which carries Colorado's ceiling.
+for (const file of ['LIHTC-dashboard.html', 'lihtc-allocations.html', 'state-allocation-map.html', 'dashboard.html', 'regional.html']) {
+  const html = read(file);
+  assert(/<meta[^>]+http-equiv=["']refresh["'][^>]+url=colorado-deep-dive\.html#tab-state-comparison/i.test(html), `${file} redirects to the Colorado Snapshot`);
+  assert(html.includes('<link rel="canonical" href="colorado-deep-dive.html">'), `${file} canonical points to the Deep Dive`);
+  assert(!sitemap.includes(`href="${file}"`), `${file} is off the sitemap page`);
+}
 assertRedirect(complianceDashboard, 'data-review-hub.html', 'compliance-dashboard.html');
 assert(lihtcDashboard.includes('<main id="main-content"'), 'LIHTC redirect stub keeps a main landmark');
 assert(lihtcDashboard.includes('aria-live="polite"'), 'LIHTC redirect stub keeps an aria-live status region');
@@ -60,15 +66,6 @@ const requiredSitemapPages = [
 
 for (const page of requiredSitemapPages) {
   assert(sitemap.includes(`href="${page}"`), `sitemap includes ${page}`);
-}
-
-const yearSelectMatch = allocations.match(/<select id="year-select"[\s\S]*?<\/select>/);
-const stateMapYearSelectMatch = allocations.match(/<select id="sam-year-select"[\s\S]*?<\/select>/);
-assert(yearSelectMatch, 'lihtc-allocations year-select exists');
-assert(stateMapYearSelectMatch, 'lihtc-allocations sam-year-select exists');
-for (const block of [yearSelectMatch[0], stateMapYearSelectMatch[0]]) {
-  assert(!/value="2025"/.test(block), 'allocation year selector does not expose 2025 alias');
-  assert(!/value="2024"/.test(block), 'allocation year selector does not expose 2024 alias');
 }
 
 assert(!exists('js/state-allocations-2024.js'), '2024 allocation alias file is deleted');

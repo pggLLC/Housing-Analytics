@@ -92,95 +92,6 @@
         </noscript>
       </div>
 
-      <!-- F237: National housing context — JCHS State of the Nation's Housing 2026.
-           Headline national benchmarks every CO IC memo measures against.
-           Data: data/policy/jchs-state-of-nations-housing.json — lazy-fetched
-           on page load. -->
-      <section id="jchsContextCard" class="chart-card" style="margin-top:var(--sp4);border-top:3px solid var(--accent);" aria-label="National housing context"
-               data-source="JCHS State of the Nation's Housing 2026" data-source-url="https://www.jchs.harvard.edu/state-nations-housing-2026" data-vintage="2026" data-source-type="federal-research">
-        <span class="tag tag-blue" style="margin-bottom:var(--sp3);display:inline-block;">National Context</span>
-        <h2 style="margin:0 0 var(--sp2);">
-          The state of US housing: Harvard's national figures
-        </h2>
-        <p style="color:var(--muted);line-height:1.6;margin-bottom:var(--sp3);">
-          Harvard's Joint Center for Housing Studies publishes the annual national housing benchmark.
-          Figures marked <strong>confirmed</strong> are quoted from the 2026 report PDF (checked 17 October 2026); the shortfall is a range of other organizations' estimates that JCHS cites, not a JCHS estimate.
-        </p>
-        <div class="stats-strip" style="margin:0 0 var(--sp3);">
-          <div class="stat-card">
-            <div class="stat-value" id="jchsBurdenedPct">—</div>
-            <div class="stat-label">US Renters Cost-Burdened (2024)</div>
-            <div style="font-size:.8125rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">CONFIRMED</span> · JCHS 2026 PDF</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="jchsSevereBurdenedPct">—</div>
-            <div class="stat-label">Severely Burdened (&gt;50% income)</div>
-            <div style="font-size:.8125rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">CONFIRMED</span> · JCHS 2026 PDF</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="jchsSupplyGap">—</div>
-            <div class="stat-label">US Housing Shortfall (estimates JCHS cites)</div>
-            <div style="font-size:.8125rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--warn);font-weight:700;">ESTIMATE RANGE</span> · other organizations, cited by JCHS</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="jchsHomelessCount">—</div>
-            <div class="stat-label">US PIT Homeless Count 2024</div>
-            <div style="font-size:.8125rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">CONFIRMED</span> · HUD count via JCHS 2026 PDF</div>
-          </div>
-        </div>
-        <div id="jchsCoNarrative" style="background:var(--surface-2,#f7f7f9);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);font-size:.85rem;line-height:1.55;color:var(--text);">Loading Colorado context…</div>
-        <a href="https://www.jchs.harvard.edu/sites/default/files/reports/files/Harvard_JCHS_The_State_of_the_Nations_Housing_2026.pdf" target="_blank" rel="noopener" class="btn">Read the JCHS 2026 report (PDF) ↗</a>
-        <a href="data/policy/jchs-state-of-nations-housing.json" target="_blank" rel="noopener" class="btn" style="margin-left:var(--sp2);background:var(--surface-2,#f7f7f9);color:var(--text);">View underlying data</a>
-        <script>
-        /* F237 — wire JCHS national benchmarks card.
-           F249 — surface fetch failures in the UI instead of silently
-           showing dashes. The card body now becomes a "couldn't load
-           JCHS" message with retry + raw-file link when the fetch fails. */
-        (function () {
-          'use strict';
-          function loadJchs() {
-            fetch('data/policy/jchs-state-of-nations-housing.json', { cache: 'no-cache' })
-              .then(function (r) {
-                if (!r.ok) return Promise.reject(new Error('HTTP ' + r.status + ' ' + r.statusText));
-                return r.json();
-              })
-              .then(function (j) {
-                if (!j || !j.national_benchmarks) return Promise.reject(new Error('JCHS data missing national_benchmarks field'));
-                var nb = j.national_benchmarks;
-                var fmtPct = function (v) { return (typeof v === 'number' && isFinite(v)) ? (Number.isInteger(v) ? v : v.toFixed(1)) + '%' : '—'; };
-                var fmtRange = function (r) { return (Array.isArray(r) && r.length === 2) ? r[0].toFixed(1) + '–' + r[1].toFixed(1) + 'M' : '—'; };
-                var setText = function (id, val) { var el = document.getElementById(id); if (el) el.textContent = val; };
-                setText('jchsBurdenedPct', fmtPct(nb.cost_burdened_renters_pct));
-                setText('jchsSevereBurdenedPct', fmtPct(nb.severely_cost_burdened_renters_pct));
-                setText('jchsSupplyGap', fmtRange(nb.supply_gap_range_cited_millions));
-                setText('jchsHomelessCount', nb.homelessness_count_pit_2024 ? Math.round(nb.homelessness_count_pit_2024/1000) + 'K' : '—');
-                if (j.colorado_context && j.colorado_context.narrative) {
-                  var nar = document.getElementById('jchsCoNarrative');
-                  if (nar) {
-                    nar.innerHTML =
-                      '<strong style="color:var(--text-strong);">Colorado context:</strong> ' +
-                      j.colorado_context.narrative;
-                  }
-                }
-              })
-              .catch(function (err) {
-                var nar = document.getElementById('jchsCoNarrative');
-                if (nar && window.FetchErrorSurface) {
-                  window.FetchErrorSurface.render(nar, {
-                    source: "Harvard's State of the Nation's Housing report",
-                    url:    'data/policy/jchs-state-of-nations-housing.json',
-                    error:  err,
-                    lastKnownDate: '2026',
-                    retryFn: loadJchs
-                  });
-                }
-              });
-          }
-          loadJchs();
-        })();
-        </script>
-      </section>
-
       <!-- Market Data Snapshot -->
       <section aria-labelledby="snapshot-heading" style="margin-top:var(--sp4);">
         <div class="section-header">
@@ -195,12 +106,12 @@
           <div class="chart-card">
             <div class="chart-header">
               <h3 class="chart-title">Credit Pricing Analysis</h3>
-              <p class="chart-subtitle" id="insightsPricingAsOf">National average equity price per $1 of credit · <span style="color:var(--good);font-weight:700;">DATA</span> · captured quarterly · <a href="article-pricing.html">Tax Credit Equity Markets</a></p>
+              <p class="chart-subtitle" id="insightsPricingAsOf">Equity price per $1 of credit: Colorado median, with national averages as a market reference · <span style="color:var(--good);font-weight:700;">DATA</span> · captured quarterly · <a href="article-pricing.html">Tax Credit Equity Markets</a></p>
             </div>
             <div class="data-table">
               <table data-export="in-equity-pricing">
                 <thead>
-                  <tr><th>Credit Type</th><th data-tip="National average equity price paid per $1 of federal tax credit in the latest quarter captured (Novogradac letter-of-intent pricing).">Current Price</th><th>QoQ</th><th>YoY</th></tr>
+                  <tr><th>Credit Type</th><th data-tip="Equity price paid per $1 of federal tax credit in the latest quarter captured: Novogradac's Colorado median, and its national letter-of-intent averages as a market reference.">Current Price</th><th>QoQ</th><th>YoY</th></tr>
                 </thead>
                 <tbody id="insightsPricingRows">
                   <tr><td colspan="4">Pricing is read from <a href="data/market/novogradac-equity-pricing.json">the pricing data file</a>.</td></tr>
@@ -230,7 +141,11 @@
                     '<td style="font-weight:700;color:var(--accent);">' + EP.money(c[key]) + '</td>' +
                     '<td>' + EP.pct(qoq) + '</td><td>' + EP.pct(yoy) + '</td></tr>';
                 };
-                rows.innerHTML = row('9% Competitive', 'nine') + row('4% Bond-financed', 'four');
+                // Novogradac publishes Colorado as one median across credit types, with
+                // no history here, so its QoQ and YoY read n/a.
+                rows.innerHTML = row('Colorado median, all credits', 'co') +
+                  row('9% Competitive (national, market reference)', 'nine') +
+                  row('4% Bond-financed (national, market reference)', 'four');
                 var asOf = document.getElementById('insightsPricingAsOf');
                 if (asOf && c.asOf) {
                   asOf.insertAdjacentHTML('afterbegin', '<span data-pricing-as-of="' + c.asOf + '">As of ' + c.asOf +

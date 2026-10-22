@@ -54,11 +54,6 @@ const PAGES = [
     tsId:       'pmaDataTimestamp',
   },
   {
-    html:       'dashboard.html',
-    jsScript:   null,   // no dedicated JS file requirement
-    tsId:       'dashboardDataTimestamp',
-  },
-  {
     html:       'housing-needs-assessment.html',
     jsScript:   null,  // loads modular js/hna/* files; stub js/housing-needs-assessment.js is not used
     tsId:       'hnaDataTimestamp',
@@ -178,7 +173,6 @@ test('housing-needs-assessment.css has new section styles', () => {
 
 test('data-freshness.js is included in all main dashboards', () => {
   const dashboards = [
-    'dashboard.html',
     'economic-dashboard.html',
     'colorado-deep-dive.html',
     'housing-needs-assessment.html',
