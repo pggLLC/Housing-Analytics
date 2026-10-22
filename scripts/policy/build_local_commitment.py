@@ -7,7 +7,9 @@ The page's "Local commitment" group scores three things for each place:
    - DOLA's "SB24-174 Approved Housing Needs Assessments and Housing Action
      Plans" sheet, linked from https://dlg.colorado.gov/housing-plans (saved
      copy: data/policy/local-commitment/dola-approved-hna-2026-10-22.csv).
-     The sheet's own label ("Local HNA" / "Regional HNA") is kept.
+     The sheet's own label ("Local HNA" / "Regional HNA") is kept. A website
+     link that no longer resolves (Gunnison Valley, 2026-10-22) is replaced in
+     the saved copy by DOLA's housing-plans page, which lists the document.
    - Our own reading of town and county websites for the top-ranked places
      (data/policy/local-commitment/research.jsonl, one row per place, each with
      the document's title, date and link).

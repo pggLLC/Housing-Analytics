@@ -270,23 +270,30 @@ ok(model.places.some((p) => p.flags.length), 'recorded denials show as red flags
   // A town or community is covered by its county's assessment at the regional rule (6 at most), never its own 10.
   for (const p of model.places) {
     const h = p.factors.hna;
-    if (/^Covered by /.test(h.value)) ok(h.points <= 6, `${p.name}: an inherited county HNA scores 6 at most (${h.points})`);
+    if (h.inherited) ok(h.points <= 6, `${p.name}: an inherited county HNA scores 6 at most (${h.points})`);
     ok(h.points == null || [10, 6, 3, 2].includes(h.points), `${p.name}: HNA points follow the rule (${h.points})`);
     ok(p.factors.planGoal.points == null || [10, 5, 2, 0].includes(p.factors.planGoal.points), `${p.name}: goal points follow the rule`);
     ok(p.factors.authority.points == null || (p.factors.authority.points >= 2 && p.factors.authority.points <= 10), `${p.name}: authority points follow the rule`);
   }
-  ok(model.places.some((p) => /^Covered by /.test(p.factors.hna.value)), 'some towns inherit a county HNA');
+  ok(model.places.some((p) => p.factors.hna.inherited), 'some towns inherit a county HNA');
   // An assessment older than five years scores 2, however it is labeled.
   const wal = byName('Walsenburg (city)');
   ok(wal.factors.hna.points === 2, `Walsenburg: its 2019 assessment is older than 5 years (${wal.factors.hna.points})`);
   // A town never inherits its county's plan goal; a Census community (unincorporated) does.
   for (const p of model.places) {
-    if (p.type === 'place' && /\(through /.test(p.factors.planGoal.value)) ok(false, `${p.name}: a town does not inherit a county plan goal`);
+    if (p.type === 'place') ok(!p.factors.planGoal.inherited, `${p.name}: a town does not inherit a county plan goal`);
   }
-  ok(model.places.some((p) => p.type === 'cdp' && /\(through /.test(p.factors.planGoal.value)), 'a Census community uses its county plan goal');
+  ok(model.places.some((p) => p.type === 'cdp' && p.factors.planGoal.inherited && p.factors.planGoal.points != null), 'a Census community uses its county plan goal');
   // No authority on record is "not checked", never a zero (some authorities run no HUD programs).
   const none = model.places.filter((p) => p.factors.authority.points == null);
-  ok(none.length && none.every((p) => /Not yet checked/.test(p.factors.authority.value)), 'no authority on record is not checked, not zero');
+  // Agreement: a place is unchecked exactly when no authority in the file serves it, its county or its consolidated twin.
+  const served = new Set(docs.commitment.authorities.flatMap((a) => a.serves));
+  const twin = { '0820000': '08031', '0809280': '08014' };
+  for (const p of model.places) {
+    const has = served.has(p.geoid) || served.has(twin[p.geoid]) || (p.type !== 'county' && served.has(p.countyGeoid));
+    ok((p.factors.authority.points == null) === !has, `${p.name}: authority is unchecked only when none on record serves it`);
+  }
+  ok(none.length, 'some places have no authority on record');
   // Award counts use roles in the deal itself: a voucher contract or management alone does not count.
   for (const a of docs.commitment.authorities) {
     for (const d of a.deals) ok(!/^(voucher provider|property manager|waitlist)/i.test(d.role), `${a.name}: ${d.slug} counts a deal role (${d.role})`);

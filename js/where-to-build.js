@@ -441,7 +441,6 @@
   }
 
   var HNA_FRESH_DAYS = 1826;   // five years
-  var HNA_KIND = { local: 'its own', regional: 'a county or regional', in_progress: 'one under way', old: 'an older' };
 
   function hnaPoints(rec, today) {
     var d = fullDate(rec.date);
@@ -469,7 +468,7 @@
     var label = best.pts === 10 ? 'Own assessment' : best.pts === 6 ? (best.via ? 'Covered by ' + best.via + '\'s' : 'County or regional') + ' assessment'
       : best.pts === 3 ? 'Assessment under way' : 'Latest assessment is older than 5 years';
     return { points: best.pts, value: label + ': ' + (x.title || 'untitled') + (x.dola_approved ? ' (DOLA-approved ' + x.dola_approved + ')' : x.date ? ' (' + x.date + ')' : ''),
-      date: x.dola_approved || fullDate(x.date), url: x.url,
+      date: x.dola_approved || fullDate(x.date), url: x.url, inherited: !!best.via,
       good: best.pts === 10 ? 'a current housing needs assessment of its own' : null,
       weak: best.pts <= 3 ? 'no current housing needs assessment' : null };
   }
@@ -484,7 +483,7 @@
     if (!g || GOAL_POINTS[g.status] == null) return { points: null, value: 'Not yet read' };
     var pts = GOAL_POINTS[g.status];
     var what = { specific: 'Specific goal', general: 'General wording only', need_only: 'Need estimate only, no goal', none: 'Plans read, no housing goal' }[g.status];
-    return { points: pts, value: what + (g.plan ? ' in ' + g.plan : '') + (via ? ' (through ' + via + ')' : ''), quote: g.quote || null, url: g.url, date: g.checked,
+    return { points: pts, value: what + (g.plan ? ' in ' + g.plan : '') + (via ? ' (through ' + via + ')' : ''), quote: g.quote || null, url: g.url, date: g.checked, inherited: !!via,
       good: pts === 10 ? 'a specific affordable-housing goal in an adopted plan' : null,
       weak: pts <= 2 ? 'no written affordable-housing goal' : null };
   }

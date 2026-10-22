@@ -111,7 +111,7 @@
         "kind": "local",
         "date": "2022",
         "title": "Chaffee Housing Authority 2022 Housing Needs Assessment and Strategic Plan",
-        "url": "https://www.chaffeehousingauthority.org/our-plan",
+        "url": "https://www.chaffeehousingauthority.org/",
         "source": "research",
         "checked": "2026-10-22"
       }
@@ -230,7 +230,7 @@
         "date": "2026-05-05",
         "dola_approved": "2026-05-05",
         "title": "Gunnison Valley Housing Needs Assesement September 2024",
-        "url": "https://townofcrestedbutte.colorado.gov/sites/townofcrestedbutte/files/documents/Gunnison%20Valley%20Housing%20Needs%20Assessment%202024_0.pdf",
+        "url": "https://dlg.colorado.gov/housing-plans",
         "source": "dola"
       }
     ],
@@ -297,7 +297,7 @@
         "kind": "local",
         "date": "2025-02-28",
         "title": "La Plata County Housing Needs Assessment",
-        "url": "https://laplatahousing.colorado.gov/sites/laplatahousing/files/documents/La%20Plata%20HNA%20Executive%20Summary.pdf",
+        "url": "https://laplatahousing.colorado.gov/",
         "source": "research",
         "checked": "2026-10-22"
       }
