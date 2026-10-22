@@ -162,7 +162,14 @@
     // CHFA's minimum runs through year 15, so a ratio counts only when all 15 years were measured.
     var first15 = (cov.years || []).slice(0, YEARS);
     var known15 = first15.filter(function (y) { return !y.unavailableReason; }).length;
-    model.coverage = { weakest: cov.weakestAllMustPay || null, weakestSenior: cov.weakestSenior || null, measured: num(cov.measuredYears),
+    // The engine's weakest year spans its whole horizon; the workbook's test is the first 15 years only.
+    function weakest15(key) {
+      var known = first15.filter(function (y) { return num(y[key]) != null; });
+      if (!known.length) return null;
+      var w = known.reduce(function (a, b) { return num(b[key]) < num(a[key]) ? b : a; });
+      return { year: num(w.year), ratio: num(w[key]) };
+    }
+    model.coverage = { weakest: cov.years ? weakest15('allMustPayCoverage') : null, weakestSenior: cov.years ? weakest15('seniorCoverage') : null, measured: num(cov.measuredYears),
       known15: known15, full: known15 === YEARS, reason: un.coverage || null };
 
     // Loans.

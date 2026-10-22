@@ -82,7 +82,9 @@ ok(/bad: Replacement reserve of \$325 a unit is under CHFA's \$350 family minimu
 ok(/warn: Debt coverage was measured for 5 of the first 15 years/.test(texts(mut((s) => { s.result.coverage.years = s.result.coverage.years.slice(0, 5); }))) && !/ok: Debt coverage/.test(texts(mut((s) => { s.result.coverage.years = s.result.coverage.years.slice(0, 5); }))), 'a five-year projection never passes coverage');
 ok(/warn: Debt coverage was measured for 14 of/.test(texts(mut((s) => { s.result.coverage.years[9].unavailableReason = 'x'; }))), 'a year with unknown debt service blocks the coverage pass');
 ok(/ok: Debt coverage on all must-pay debt stays at or above/.test(texts(m)), 'fifteen measured years pass coverage');
-ok(/bad: Debt coverage on all must-pay debt falls to 1\.10x in year 3/.test(texts(mut((s) => { s.result.coverage.weakestAllMustPay = { year: 3, ratio: 1.1 }; }))), 'coverage under 1.15 is flagged with its year');
+const long = mut((s) => { const y = JSON.parse(JSON.stringify(s.result.coverage.years[14])); y.year = 35; y.allMustPayCoverage = 0.97; s.result.coverage.years.push(y); s.result.coverage.weakestAllMustPay = { year: 35, ratio: 0.97 }; });
+ok(long.exec.weakest.year <= 15 && !/year 35/.test(texts(long)), 'a weak year 35 does not count against the 15-year coverage test');
+ok(/bad: Debt coverage on all must-pay debt falls to 1\.10x in year 3/.test(texts(mut((s) => { s.result.coverage.years[2].allMustPayCoverage = 1.1; }))), 'coverage under 1.15 is flagged with its year');
 ok(/warn: Year-one coverage of 1\.35x/.test(texts(mut((s) => { s.result.projection.rows[0].dscr = 1.35; }))), 'year-one coverage over 1.30 is flagged');
 ok(!/Year-one coverage/.test(texts(m)), 'year-one coverage of 1.20 is not flagged');
 ok(/bad: 60% AMI 2BR rent of \$1,600 is \$51 over/.test(texts(mut((s) => { s.result.pricedRows.find((x) => x.tier === 60).contractRent = 1600; }))), 'a rent over its limit is flagged');
