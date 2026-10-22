@@ -115,6 +115,27 @@ def test_crosswalk_covers_every_county_and_adds_up():
         assert min(r['sample_workers']) >= 100, reg
 
 
+def test_margin_carries_the_tiers_covariance():
+    # All three tiers come from one PUMS sample, so the published margin is
+    # the sum over tier pairs of n_i x n_j x cov(i, j), not each tier's error
+    # alone. The covariance's diagonal is each tier's own error, squared.
+    cut = WN['meta']['income_cut']
+    checked = 0
+    for gid, rec in list(WN['counties'].items()) + list(WN['places'].items()):
+        if rec['present_incommuter_need'] is None:
+            continue
+        county = gid if gid in WN['counties'] else rec['containingCounty']
+        x = XW['counties'][county]
+        cv = x[cut + '_cov']
+        for i, t in enumerate(TIERS):
+            assert abs(cv[i][i] ** 0.5 - x['tiers'][t][cut][1]) < 0.0002, (county, t)
+        n = rec['incommuters_by_tier']
+        var = sum(n[i] * n[j] * cv[i][j] for i in range(3) for j in range(3))
+        assert rec['present_incommuter_need_moe90'] == round(0.25 * 1.645 * max(0.0, var) ** 0.5), gid
+        checked += 1
+    assert checked > 400, checked
+
+
 def test_out_of_state_commuters_are_counted():
     """LODES main omits workers who live outside Colorado. The aux file must be
     read, cover all 64 counties, and reach the border counties' figures."""

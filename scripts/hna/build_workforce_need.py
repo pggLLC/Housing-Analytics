@@ -325,15 +325,22 @@ def need_from_tiers(by_tier, crosswalk):
     county's households per job in that tier (data/hna/workforce-ami-crosswalk.json).
 
     Returns the record's need fields, or None when either input is missing.
-    The margin is the crosswalk's sampling error alone (90%, tiers taken as
-    independent samples): LODES is a count, and the move-closer share is a
-    stated scenario, not an estimate.
+    The margin is the crosswalk's sampling error alone (90%, with the tiers'
+    replicate covariances, since all three come from one sample): LODES is a
+    count, and the move-closer share is a stated scenario, not an estimate.
     """
-    if not by_tier or not crosswalk:
+    if not by_tier or not crosswalk or not crosswalk.get('tiers'):
         return None
-    tiers = [crosswalk[t] for t in TIERS]
+    tiers = [crosswalk['tiers'][t] for t in TIERS]
     homes = sum(n * x[INCOME_CUT][0] for n, x in zip(by_tier, tiers))
-    se = math.sqrt(sum((n * x[INCOME_CUT][1]) ** 2 for n, x in zip(by_tier, tiers)))
+    # The tiers' covariances are published for le120 only; another cut falls
+    # back to treating them as independent.
+    cv = crosswalk.get(INCOME_CUT + '_cov')
+    if cv:
+        var = sum(by_tier[i] * by_tier[j] * cv[i][j] for i in range(3) for j in range(3))
+    else:
+        var = sum((n * x[INCOME_CUT][1]) ** 2 for n, x in zip(by_tier, tiers))
+    se = math.sqrt(max(0.0, var))
     low = MOVE_CLOSER_SCENARIOS[0]
     return {
         'present_incommuter_need': {('move_closer_%d' % round(s * 100)): int(round(homes * s)) for s in MOVE_CLOSER_SCENARIOS},
@@ -358,7 +365,7 @@ def build():
     aux = read_json(os.path.join(SRC, 'lodes_primary_jobs.json')) or {}
     tiers = aux.get('incommuters_by_tier') or {}
     xw_doc = read_json(CROSSWALK) or {}
-    xw = {k: v.get('tiers') for k, v in (xw_doc.get('counties') or {}).items()}
+    xw = xw_doc.get('counties') or {}
 
     def with_need(rec, by_tier, county):
         rec['incommuters_by_tier'] = by_tier

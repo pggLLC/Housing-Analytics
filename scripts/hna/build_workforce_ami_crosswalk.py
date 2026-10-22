@@ -168,6 +168,11 @@ def se(values):
     return math.sqrt(4 / N_REP * sum((v - values[0]) ** 2 for v in values[1:]))
 
 
+def cov(a, b):
+    """Replicate covariance of two estimates from the same 80 weights."""
+    return 4 / N_REP * sum((x - a[0]) * (y - b[0]) for x, y in zip(a[1:], b[1:]))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('--pums-dir', help='folder holding csv_pco.zip and csv_hco.zip (or psam_p08.csv, psam_h08.csv)')
@@ -238,15 +243,21 @@ def main():
             for i, w in enumerate(weights):
                 jt[i] += w
                 hb[i] += w * per
-        tiers = {}
+        tiers, le120 = {}, []
         for t, name in enumerate(TIERS):
             shares = [[homes[t][b][i] / jobs[t][i] for i in range(N_REP + 1)] for b in range(len(BAND_KEYS))]
             rec = {k: [round(s[0], 4), round(se(s), 4)] for k, s in zip(BAND_KEYS, shares)}
             for key, n in list(CUMULATIVE.items()) + [('all', len(BAND_KEYS))]:
                 cum = [sum(shares[b][i] for b in range(n)) for i in range(N_REP + 1)]
                 rec[key] = [round(cum[0], 4), round(se(cum), 4)]
+                if key == 'le120':
+                    le120.append(cum)
             tiers[name] = rec
-        counties[fips] = {'region': reg, 'tiers': tiers}
+        # The tiers share one sample and one set of replicate weights (and
+        # households hold workers of more than one tier), so a margin over
+        # several tiers needs their covariances, not just each one's error.
+        counties[fips] = {'region': reg, 'tiers': tiers,
+                          'le120_cov': [[float('%.6g' % cov(a, b)) for b in le120] for a in le120]}
 
     out = {
         'meta': {
@@ -266,6 +277,8 @@ def main():
                       'county\'s CHFA limit for the household size.' % (effective[:7], PUMS_DOLLAR_YEAR, effective[:7],
                                                                         PUMS_DOLLAR_YEAR, income_factor),
             'standard_error': 'From the 80 PUMS replicate weights: sqrt(4/80 x sum of squared differences).',
+            'le120_cov': 'Replicate covariance (4/80 x sum of products of differences) of the le120 share between '
+                         'tiers CE01-CE03, for a margin over several tiers.',
             'bands': list(BAND_KEYS),
             'cumulative': ['le60', 'le80', 'le120', 'all'],
             'limits_effective': effective,

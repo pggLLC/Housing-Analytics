@@ -212,7 +212,7 @@
         {
           "file": "scripts/hna/build_workforce_need.py",
           "function": "need_from_tiers",
-          "sha": "536682ca7535346c"
+          "sha": "ddd424f608a3fa72"
         },
         {
           "file": "scripts/hna/build_workforce_ami_crosswalk.py",
@@ -222,7 +222,7 @@
         {
           "file": "scripts/hna/build_workforce_ami_crosswalk.py",
           "function": "main",
-          "sha": "49f7101d53c6f9ca"
+          "sha": "fdf7ca75bc92909b"
         }
       ],
       "reviewed": "2026-10-22"

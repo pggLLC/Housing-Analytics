@@ -24,7 +24,7 @@
     "80_120": 5963,
     "le30": 1709
    },
-   "present_incommuter_need_moe90": 129,
+   "present_incommuter_need_moe90": 126,
    "workers_per_working_household": 1.705,
    "working_households_cv": 0.011
   },
@@ -52,7 +52,7 @@
     "80_120": 123,
     "le30": 51
    },
-   "present_incommuter_need_moe90": 14,
+   "present_incommuter_need_moe90": 17,
    "workers_per_working_household": 1.523,
    "working_households_cv": 0.063
   },
@@ -80,7 +80,7 @@
     "80_120": 8226,
     "le30": 2191
    },
-   "present_incommuter_need_moe90": 178,
+   "present_incommuter_need_moe90": 174,
    "workers_per_working_household": 1.643,
    "working_households_cv": 0.009
   },
@@ -192,7 +192,7 @@
     "80_120": 4053,
     "le30": 1035
    },
-   "present_incommuter_need_moe90": 89,
+   "present_incommuter_need_moe90": 88,
    "workers_per_working_household": 1.6,
    "working_households_cv": 0.012
   },
@@ -248,7 +248,7 @@
     "80_120": 112,
     "le30": 40
    },
-   "present_incommuter_need_moe90": 9,
+   "present_incommuter_need_moe90": 10,
    "workers_per_working_household": 1.621,
    "working_households_cv": 0.057
   },
@@ -332,7 +332,7 @@
     "80_120": 19,
     "le30": 8
    },
-   "present_incommuter_need_moe90": 2,
+   "present_incommuter_need_moe90": 3,
    "workers_per_working_household": 1.54,
    "working_households_cv": 0.064
   },
@@ -444,7 +444,7 @@
     "80_120": 117,
     "le30": 30
    },
-   "present_incommuter_need_moe90": 11,
+   "present_incommuter_need_moe90": 9,
    "workers_per_working_household": 1.462,
    "working_households_cv": 0.043
   },
@@ -472,7 +472,7 @@
     "80_120": 13623,
     "le30": 3208
    },
-   "present_incommuter_need_moe90": 292,
+   "present_incommuter_need_moe90": 288,
    "workers_per_working_household": 1.535,
    "working_households_cv": 0.008
   },
@@ -528,7 +528,7 @@
     "80_120": 3152,
     "le30": 932
    },
-   "present_incommuter_need_moe90": 69,
+   "present_incommuter_need_moe90": 67,
    "workers_per_working_household": 1.68,
    "working_households_cv": 0.011
   },
@@ -556,7 +556,7 @@
     "80_120": 499,
     "le30": 218
    },
-   "present_incommuter_need_moe90": 88,
+   "present_incommuter_need_moe90": 92,
    "workers_per_working_household": 1.678,
    "working_households_cv": 0.043
   },
@@ -584,7 +584,7 @@
     "80_120": 122,
     "le30": 52
    },
-   "present_incommuter_need_moe90": 13,
+   "present_incommuter_need_moe90": 14,
    "workers_per_working_household": 1.701,
    "working_households_cv": 0.038
   },
@@ -612,7 +612,7 @@
     "80_120": 2517,
     "le30": 660
    },
-   "present_incommuter_need_moe90": 128,
+   "present_incommuter_need_moe90": 135,
    "workers_per_working_household": 1.594,
    "working_households_cv": 0.009
   },
@@ -640,7 +640,7 @@
     "80_120": 141,
     "le30": 36
    },
-   "present_incommuter_need_moe90": 12,
+   "present_incommuter_need_moe90": 13,
    "workers_per_working_household": 1.523,
    "working_households_cv": 0.048
   },
@@ -668,7 +668,7 @@
     "80_120": 270,
     "le30": 55
    },
-   "present_incommuter_need_moe90": 35,
+   "present_incommuter_need_moe90": 32,
    "workers_per_working_household": 1.686,
    "working_households_cv": 0.032
   },
@@ -752,7 +752,7 @@
     "80_120": 98,
     "le30": 57
    },
-   "present_incommuter_need_moe90": 13,
+   "present_incommuter_need_moe90": 14,
    "workers_per_working_household": 1.609,
    "working_households_cv": 0.059
   },
@@ -864,7 +864,7 @@
     "80_120": 5536,
     "le30": 1669
    },
-   "present_incommuter_need_moe90": 121,
+   "present_incommuter_need_moe90": 118,
    "workers_per_working_household": 1.629,
    "working_households_cv": 0.009
   },
@@ -976,7 +976,7 @@
     "80_120": 258,
     "le30": 104
    },
-   "present_incommuter_need_moe90": 30,
+   "present_incommuter_need_moe90": 33,
    "workers_per_working_household": 1.602,
    "working_households_cv": 0.03
   },
@@ -1004,7 +1004,7 @@
     "80_120": 2222,
     "le30": 739
    },
-   "present_incommuter_need_moe90": 141,
+   "present_incommuter_need_moe90": 135,
    "workers_per_working_household": 1.643,
    "working_households_cv": 0.014
   },
@@ -1032,7 +1032,7 @@
     "80_120": 42,
     "le30": 18
    },
-   "present_incommuter_need_moe90": 5,
+   "present_incommuter_need_moe90": 6,
    "workers_per_working_household": 1.504,
    "working_households_cv": 0.044
   },
@@ -1116,7 +1116,7 @@
     "80_120": 510,
     "le30": 140
    },
-   "present_incommuter_need_moe90": 47,
+   "present_incommuter_need_moe90": 41,
    "workers_per_working_household": 1.597,
    "working_households_cv": 0.019
   },
@@ -1228,7 +1228,7 @@
     "80_120": 201,
     "le30": 49
    },
-   "present_incommuter_need_moe90": 18,
+   "present_incommuter_need_moe90": 16,
    "workers_per_working_household": 1.507,
    "working_households_cv": 0.036
   },
@@ -1256,7 +1256,7 @@
     "80_120": 134,
     "le30": 36
    },
-   "present_incommuter_need_moe90": 19,
+   "present_incommuter_need_moe90": 20,
    "workers_per_working_household": 1.544,
    "working_households_cv": 0.041
   },
@@ -1284,7 +1284,7 @@
     "80_120": 61,
     "le30": 31
    },
-   "present_incommuter_need_moe90": 7,
+   "present_incommuter_need_moe90": 9,
    "workers_per_working_household": 1.525,
    "working_households_cv": 0.052
   },
@@ -1312,7 +1312,7 @@
     "80_120": 41,
     "le30": 12
    },
-   "present_incommuter_need_moe90": 4,
+   "present_incommuter_need_moe90": 3,
    "workers_per_working_household": 1.439,
    "working_households_cv": 0.072
   },
@@ -1396,7 +1396,7 @@
     "80_120": 325,
     "le30": 146
    },
-   "present_incommuter_need_moe90": 57,
+   "present_incommuter_need_moe90": 58,
    "workers_per_working_household": 1.487,
    "working_households_cv": 0.061
   },
@@ -1424,7 +1424,7 @@
     "80_120": 51,
     "le30": 22
    },
-   "present_incommuter_need_moe90": 6,
+   "present_incommuter_need_moe90": 7,
    "workers_per_working_household": 1.576,
    "working_households_cv": 0.063
   },
@@ -1452,7 +1452,7 @@
     "80_120": 581,
     "le30": 158
    },
-   "present_incommuter_need_moe90": 50,
+   "present_incommuter_need_moe90": 52,
    "workers_per_working_household": 1.535,
    "working_households_cv": 0.018
   },
@@ -1508,7 +1508,7 @@
     "80_120": 58,
     "le30": 25
    },
-   "present_incommuter_need_moe90": 7,
+   "present_incommuter_need_moe90": 8,
    "workers_per_working_household": 1.499,
    "working_households_cv": 0.073
   },
@@ -1564,7 +1564,7 @@
     "80_120": 27,
     "le30": 9
    },
-   "present_incommuter_need_moe90": 3,
+   "present_incommuter_need_moe90": 4,
    "workers_per_working_household": 1.424,
    "working_households_cv": 0.078
   },
@@ -1620,7 +1620,7 @@
     "80_120": 102,
     "le30": 54
    },
-   "present_incommuter_need_moe90": 9,
+   "present_incommuter_need_moe90": 8,
    "workers_per_working_household": 1.52,
    "working_households_cv": 0.073
   },
@@ -1676,7 +1676,7 @@
     "80_120": 361,
     "le30": 221
    },
-   "present_incommuter_need_moe90": 69,
+   "present_incommuter_need_moe90": 72,
    "workers_per_working_household": 1.619,
    "working_households_cv": 0.05
   },
@@ -1704,7 +1704,7 @@
     "80_120": 116,
     "le30": 36
    },
-   "present_incommuter_need_moe90": 6,
+   "present_incommuter_need_moe90": 7,
    "workers_per_working_household": 1.54,
    "working_households_cv": 0.045
   },
@@ -1760,7 +1760,7 @@
     "80_120": 1628,
     "le30": 422
    },
-   "present_incommuter_need_moe90": 140,
+   "present_incommuter_need_moe90": 151,
    "workers_per_working_household": 1.692,
    "working_households_cv": 0.013
   },
@@ -1795,7 +1795,7 @@
  },
  "meta": {
   "baseYear": 2024,
-  "generated_at": "2026-10-22T11:01:02Z",
+  "generated_at": "2026-10-22T11:49:20Z",
   "generated_by": "scripts/hna/build_workforce_need.py",
   "horizonYear": 2044,
   "income_cut": "le120",
@@ -1987,7 +1987,7 @@
     "80_120": 135,
     "le30": 58
    },
-   "present_incommuter_need_moe90": 16,
+   "present_incommuter_need_moe90": 18,
    "share_of_county_households": 0.6143,
    "share_of_county_jobs": 0.7611,
    "workers_per_working_household": 1.463,
@@ -2351,7 +2351,7 @@
     "80_120": 923,
     "le30": 346
    },
-   "present_incommuter_need_moe90": 21,
+   "present_incommuter_need_moe90": 20,
    "share_of_county_households": 0.2018,
    "share_of_county_jobs": 0.1338,
    "workers_per_working_household": 1.671,
@@ -2379,7 +2379,7 @@
     "80_120": 227,
     "le30": 105
    },
-   "present_incommuter_need_moe90": 41,
+   "present_incommuter_need_moe90": 42,
    "share_of_county_households": 0.4455,
    "share_of_county_jobs": 0.5307,
    "workers_per_working_household": 1.319,
@@ -2491,7 +2491,7 @@
     "80_120": 4310,
     "le30": 1288
    },
-   "present_incommuter_need_moe90": 94,
+   "present_incommuter_need_moe90": 92,
    "share_of_county_households": 0.5812,
    "share_of_county_jobs": 0.4858,
    "workers_per_working_household": 1.667,
@@ -2519,7 +2519,7 @@
     "80_120": 178,
     "le30": 115
    },
-   "present_incommuter_need_moe90": 42,
+   "present_incommuter_need_moe90": 45,
    "share_of_county_households": 0.1164,
    "share_of_county_jobs": 0.1834,
    "workers_per_working_household": 1.723,
@@ -2603,7 +2603,7 @@
     "80_120": 72,
     "le30": 23
    },
-   "present_incommuter_need_moe90": 11,
+   "present_incommuter_need_moe90": 12,
    "share_of_county_households": 0.089,
    "share_of_county_jobs": 0.0728,
    "workers_per_working_household": 1.709,
@@ -3107,7 +3107,7 @@
     "80_120": 2727,
     "le30": 620
    },
-   "present_incommuter_need_moe90": 60,
+   "present_incommuter_need_moe90": 59,
    "share_of_county_households": 0.3273,
    "share_of_county_jobs": 0.4784,
    "workers_per_working_household": 1.551,
@@ -3219,7 +3219,7 @@
     "80_120": 194,
     "le30": 117
    },
-   "present_incommuter_need_moe90": 38,
+   "present_incommuter_need_moe90": 39,
    "share_of_county_households": 0.1791,
    "share_of_county_jobs": 0.3373,
    "workers_per_working_household": 1.506,
@@ -3655,7 +3655,7 @@
     "80_120": 84,
     "le30": 16
    },
-   "present_incommuter_need_moe90": 11,
+   "present_incommuter_need_moe90": 10,
    "share_of_county_households": 0.1203,
    "share_of_county_jobs": 0.1248,
    "workers_per_working_household": 1.627,
@@ -3767,7 +3767,7 @@
     "80_120": 637,
     "le30": 250
    },
-   "present_incommuter_need_moe90": 15,
+   "present_incommuter_need_moe90": 14,
    "share_of_county_households": 0.2031,
    "share_of_county_jobs": 0.183,
    "workers_per_working_household": 1.688,
@@ -3907,7 +3907,7 @@
     "80_120": 2421,
     "le30": 560
    },
-   "present_incommuter_need_moe90": 52,
+   "present_incommuter_need_moe90": 51,
    "share_of_county_households": 0.1565,
    "share_of_county_jobs": 0.2115,
    "workers_per_working_household": 1.664,
@@ -4131,7 +4131,7 @@
     "80_120": 204,
     "le30": 45
    },
-   "present_incommuter_need_moe90": 10,
+   "present_incommuter_need_moe90": 11,
    "share_of_county_households": 0.0246,
    "share_of_county_jobs": 0.0211,
    "workers_per_working_household": 1.642,
@@ -4187,7 +4187,7 @@
     "80_120": 63,
     "le30": 19
    },
-   "present_incommuter_need_moe90": 6,
+   "present_incommuter_need_moe90": 5,
    "share_of_county_households": 0.1133,
    "share_of_county_jobs": 0.0326,
    "workers_per_working_household": 1.516,
@@ -4411,7 +4411,7 @@
     "80_120": 3760,
     "le30": 984
    },
-   "present_incommuter_need_moe90": 192,
+   "present_incommuter_need_moe90": 202,
    "share_of_county_households": 0.6889,
    "share_of_county_jobs": 0.8135,
    "workers_per_working_household": 1.571,
@@ -4691,7 +4691,7 @@
     "80_120": 40,
     "le30": 10
    },
-   "present_incommuter_need_moe90": 7,
+   "present_incommuter_need_moe90": 6,
    "share_of_county_households": 0.7234,
    "share_of_county_jobs": 0.7079,
    "workers_per_working_household": 1.488,
@@ -5055,7 +5055,7 @@
     "80_120": 115,
     "le30": 32
    },
-   "present_incommuter_need_moe90": 11,
+   "present_incommuter_need_moe90": 9,
    "share_of_county_households": 0.2901,
    "share_of_county_jobs": 0.4816,
    "workers_per_working_household": 1.484,
@@ -5083,7 +5083,7 @@
     "80_120": 13623,
     "le30": 3208
    },
-   "present_incommuter_need_moe90": 292,
+   "present_incommuter_need_moe90": 288,
    "share_of_county_households": 1.0,
    "share_of_county_jobs": 0.9841,
    "workers_per_working_household": 1.535,
@@ -5223,7 +5223,7 @@
     "80_120": 12,
     "le30": 3
    },
-   "present_incommuter_need_moe90": 1,
+   "present_incommuter_need_moe90": 2,
    "share_of_county_households": 0.0453,
    "share_of_county_jobs": 0.0389,
    "workers_per_working_household": 1.125,
@@ -5251,7 +5251,7 @@
     "80_120": 6,
     "le30": 4
    },
-   "present_incommuter_need_moe90": 1,
+   "present_incommuter_need_moe90": 2,
    "share_of_county_households": 0.0191,
    "share_of_county_jobs": 0.0076,
    "workers_per_working_household": 1.675,
@@ -5363,7 +5363,7 @@
     "80_120": 398,
     "le30": 166
    },
-   "present_incommuter_need_moe90": 47,
+   "present_incommuter_need_moe90": 50,
    "share_of_county_households": 0.3657,
    "share_of_county_jobs": 0.5973,
    "workers_per_working_household": 1.584,
@@ -5867,7 +5867,7 @@
     "80_120": 129,
     "le30": 36
    },
-   "present_incommuter_need_moe90": 11,
+   "present_incommuter_need_moe90": 12,
    "share_of_county_households": 0.0892,
    "share_of_county_jobs": 0.0433,
    "workers_per_working_household": 1.767,
@@ -5923,7 +5923,7 @@
     "80_120": 107,
     "le30": 25
    },
-   "present_incommuter_need_moe90": 9,
+   "present_incommuter_need_moe90": 10,
    "share_of_county_households": 0.0542,
    "share_of_county_jobs": 0.0313,
    "workers_per_working_household": 1.726,
@@ -6259,7 +6259,7 @@
     "80_120": 1818,
     "le30": 575
    },
-   "present_incommuter_need_moe90": 116,
+   "present_incommuter_need_moe90": 111,
    "share_of_county_households": 0.4633,
    "share_of_county_jobs": 0.5365,
    "workers_per_working_household": 1.658,
@@ -6315,7 +6315,7 @@
     "80_120": 118,
     "le30": 23
    },
-   "present_incommuter_need_moe90": 10,
+   "present_incommuter_need_moe90": 11,
    "share_of_county_households": 0.022,
    "share_of_county_jobs": 0.0336,
    "workers_per_working_household": 1.775,
@@ -6343,7 +6343,7 @@
     "80_120": 154,
     "le30": 41
    },
-   "present_incommuter_need_moe90": 22,
+   "present_incommuter_need_moe90": 23,
    "share_of_county_households": 0.378,
    "share_of_county_jobs": 0.5988,
    "workers_per_working_household": 1.533,
@@ -6399,7 +6399,7 @@
     "80_120": 203,
     "le30": 78
    },
-   "present_incommuter_need_moe90": 5,
+   "present_incommuter_need_moe90": 4,
    "share_of_county_households": 0.0384,
    "share_of_county_jobs": 0.0194,
    "workers_per_working_household": 1.58,
@@ -6539,7 +6539,7 @@
     "80_120": 191,
     "le30": 36
    },
-   "present_incommuter_need_moe90": 17,
+   "present_incommuter_need_moe90": 18,
    "share_of_county_households": 0.0439,
    "share_of_county_jobs": 0.0537,
    "workers_per_working_household": 1.782,
@@ -6595,7 +6595,7 @@
     "80_120": 83,
     "le30": 21
    },
-   "present_incommuter_need_moe90": 8,
+   "present_incommuter_need_moe90": 7,
    "share_of_county_households": 0.0767,
    "share_of_county_jobs": 0.0472,
    "workers_per_working_household": 1.716,
@@ -6975,7 +6975,7 @@
     "80_120": 262,
     "le30": 52
    },
-   "present_incommuter_need_moe90": 34,
+   "present_incommuter_need_moe90": 31,
    "share_of_county_households": 0.1665,
    "share_of_county_jobs": 0.4042,
    "workers_per_working_household": 1.657,
@@ -7143,7 +7143,7 @@
     "80_120": 1262,
     "le30": 314
    },
-   "present_incommuter_need_moe90": 115,
+   "present_incommuter_need_moe90": 102,
    "share_of_county_households": 0.4549,
    "share_of_county_jobs": 0.7797,
    "workers_per_working_household": 1.579,
@@ -7227,7 +7227,7 @@
     "80_120": 908,
     "le30": 266
    },
-   "present_incommuter_need_moe90": 78,
+   "present_incommuter_need_moe90": 84,
    "share_of_county_households": 0.3212,
    "share_of_county_jobs": 0.4048,
    "workers_per_working_household": 1.608,
@@ -7283,7 +7283,7 @@
     "80_120": 2365,
     "le30": 469
    },
-   "present_incommuter_need_moe90": 51,
+   "present_incommuter_need_moe90": 50,
    "share_of_county_households": 0.0251,
    "share_of_county_jobs": 0.1872,
    "workers_per_working_household": 1.519,
@@ -7395,7 +7395,7 @@
     "80_120": 69,
     "le30": 39
    },
-   "present_incommuter_need_moe90": 9,
+   "present_incommuter_need_moe90": 10,
    "share_of_county_households": 0.3586,
    "share_of_county_jobs": 0.4294,
    "workers_per_working_household": 1.654,
@@ -7675,7 +7675,7 @@
     "80_120": 848,
     "le30": 273
    },
-   "present_incommuter_need_moe90": 19,
+   "present_incommuter_need_moe90": 18,
    "share_of_county_households": 0.2627,
    "share_of_county_jobs": 0.2102,
    "workers_per_working_household": 1.667,
@@ -7759,7 +7759,7 @@
     "80_120": 12,
     "le30": 4
    },
-   "present_incommuter_need_moe90": 1,
+   "present_incommuter_need_moe90": 2,
    "share_of_county_households": 0.0587,
    "share_of_county_jobs": 0.0693,
    "workers_per_working_household": 1.674,
@@ -8347,7 +8347,7 @@
     "80_120": 189,
     "le30": 74
    },
-   "present_incommuter_need_moe90": 17,
+   "present_incommuter_need_moe90": 18,
    "share_of_county_households": 0.0533,
    "share_of_county_jobs": 0.0594,
    "workers_per_working_household": 1.773,
@@ -8683,7 +8683,7 @@
     "80_120": 476,
     "le30": 146
    },
-   "present_incommuter_need_moe90": 11,
+   "present_incommuter_need_moe90": 10,
    "share_of_county_households": 0.09,
    "share_of_county_jobs": 0.08,
    "workers_per_working_household": 1.621,
@@ -8767,7 +8767,7 @@
     "80_120": 65,
     "le30": 32
    },
-   "present_incommuter_need_moe90": 8,
+   "present_incommuter_need_moe90": 9,
    "share_of_county_households": 0.3995,
    "share_of_county_jobs": 0.5346,
    "workers_per_working_household": 1.514,
@@ -8879,7 +8879,7 @@
     "80_120": 2733,
     "le30": 843
    },
-   "present_incommuter_need_moe90": 60,
+   "present_incommuter_need_moe90": 58,
    "share_of_county_households": 0.2933,
    "share_of_county_jobs": 0.3673,
    "workers_per_working_household": 1.572,
@@ -8907,7 +8907,7 @@
     "80_120": 49,
     "le30": 22
    },
-   "present_incommuter_need_moe90": 6,
+   "present_incommuter_need_moe90": 7,
    "share_of_county_households": 0.6355,
    "share_of_county_jobs": 0.6635,
    "workers_per_working_household": 1.6,
@@ -9019,7 +9019,7 @@
     "80_120": 12,
     "le30": 4
    },
-   "present_incommuter_need_moe90": 1,
+   "present_incommuter_need_moe90": 2,
    "share_of_county_households": 0.5653,
    "share_of_county_jobs": 0.5199,
    "workers_per_working_household": 1.335,
@@ -9551,7 +9551,7 @@
     "80_120": 1057,
     "le30": 348
    },
-   "present_incommuter_need_moe90": 66,
+   "present_incommuter_need_moe90": 64,
    "share_of_county_households": 0.2146,
    "share_of_county_jobs": 0.2389,
    "workers_per_working_household": 1.596,
@@ -10251,7 +10251,7 @@
     "80_120": 291,
     "le30": 74
    },
-   "present_incommuter_need_moe90": 26,
+   "present_incommuter_need_moe90": 24,
    "share_of_county_households": 0.5009,
    "share_of_county_jobs": 0.7732,
    "workers_per_working_household": 1.46,
@@ -10699,7 +10699,7 @@
     "80_120": 280,
     "le30": 121
    },
-   "present_incommuter_need_moe90": 7,
+   "present_incommuter_need_moe90": 6,
    "share_of_county_households": 0.074,
    "share_of_county_jobs": 0.0382,
    "workers_per_working_household": 1.651,
@@ -11315,7 +11315,7 @@
     "80_120": 17,
     "le30": 5
    },
-   "present_incommuter_need_moe90": 2,
+   "present_incommuter_need_moe90": 1,
    "share_of_county_households": 0.0628,
    "share_of_county_jobs": 0.0612,
    "workers_per_working_household": 1.3,
@@ -11427,7 +11427,7 @@
     "80_120": 681,
     "le30": 254
    },
-   "present_incommuter_need_moe90": 16,
+   "present_incommuter_need_moe90": 15,
    "share_of_county_households": 0.1516,
    "share_of_county_jobs": 0.1634,
    "workers_per_working_household": 1.718,
@@ -11959,7 +11959,7 @@
     "80_120": 731,
     "le30": 198
    },
-   "present_incommuter_need_moe90": 64,
+   "present_incommuter_need_moe90": 66,
    "share_of_county_households": 0.6669,
    "share_of_county_jobs": 0.7375,
    "workers_per_working_household": 1.49,
@@ -12267,7 +12267,7 @@
     "80_120": 30,
     "le30": 10
    },
-   "present_incommuter_need_moe90": 3,
+   "present_incommuter_need_moe90": 2,
    "share_of_county_households": 0.2265,
    "share_of_county_jobs": 0.4444,
    "workers_per_working_household": 1.374,
@@ -12295,7 +12295,7 @@
     "80_120": 70,
     "le30": 17
    },
-   "present_incommuter_need_moe90": 9,
+   "present_incommuter_need_moe90": 8,
    "share_of_county_households": 0.1622,
    "share_of_county_jobs": 0.1196,
    "workers_per_working_household": 1.738,
@@ -12715,7 +12715,7 @@
     "80_120": 4,
     "le30": 2
    },
-   "present_incommuter_need_moe90": 0,
+   "present_incommuter_need_moe90": 1,
    "share_of_county_households": 0.1536,
    "share_of_county_jobs": 0.082,
    "workers_per_working_household": 1.523,
@@ -12799,7 +12799,7 @@
     "80_120": 82,
     "le30": 24
    },
-   "present_incommuter_need_moe90": 4,
+   "present_incommuter_need_moe90": 5,
    "share_of_county_households": 0.044,
    "share_of_county_jobs": 0.0117,
    "workers_per_working_household": 1.642,
@@ -13219,7 +13219,7 @@
     "80_120": 64,
     "le30": 30
    },
-   "present_incommuter_need_moe90": 10,
+   "present_incommuter_need_moe90": 11,
    "share_of_county_households": 0.1644,
    "share_of_county_jobs": 0.1021,
    "workers_per_working_household": 1.555,
@@ -13331,7 +13331,7 @@
     "80_120": 83,
     "le30": 59
    },
-   "present_incommuter_need_moe90": 21,
+   "present_incommuter_need_moe90": 22,
    "share_of_county_households": 0.1908,
    "share_of_county_jobs": 0.1932,
    "workers_per_working_household": 1.653,
@@ -13527,7 +13527,7 @@
     "80_120": 243,
     "le30": 91
    },
-   "present_incommuter_need_moe90": 35,
+   "present_incommuter_need_moe90": 34,
    "share_of_county_households": 0.5695,
    "share_of_county_jobs": 0.7825,
    "workers_per_working_household": 1.594,
@@ -14031,7 +14031,7 @@
     "80_120": 1016,
     "le30": 434
    },
-   "present_incommuter_need_moe90": 24,
+   "present_incommuter_need_moe90": 23,
    "share_of_county_households": 0.2756,
    "share_of_county_jobs": 0.1538,
    "workers_per_working_household": 1.75,
@@ -14199,7 +14199,7 @@
     "80_120": 55,
     "le30": 28
    },
-   "present_incommuter_need_moe90": 7,
+   "present_incommuter_need_moe90": 8,
    "share_of_county_households": 0.5721,
    "share_of_county_jobs": 0.6834,
    "workers_per_working_household": 1.514,
@@ -14367,7 +14367,7 @@
     "80_120": 181,
     "le30": 71
    },
-   "present_incommuter_need_moe90": 30,
+   "present_incommuter_need_moe90": 31,
    "share_of_county_households": 0.1126,
    "share_of_county_jobs": 0.2214,
    "workers_per_working_household": 1.46,
@@ -14871,7 +14871,7 @@
     "80_120": 1531,
     "le30": 560
    },
-   "present_incommuter_need_moe90": 35,
+   "present_incommuter_need_moe90": 34,
    "share_of_county_households": 0.2448,
    "share_of_county_jobs": 0.2074,
    "workers_per_working_household": 1.62,
@@ -14955,7 +14955,7 @@
     "80_120": 672,
     "le30": 201
    },
-   "present_incommuter_need_moe90": 15,
+   "present_incommuter_need_moe90": 14,
    "share_of_county_households": 0.0611,
    "share_of_county_jobs": 0.0806,
    "workers_per_working_household": 1.563,
@@ -15067,7 +15067,7 @@
     "80_120": 278,
     "le30": 81
    },
-   "present_incommuter_need_moe90": 24,
+   "present_incommuter_need_moe90": 26,
    "share_of_county_households": 0.1131,
    "share_of_county_jobs": 0.0914,
    "workers_per_working_household": 1.637,
@@ -15095,7 +15095,7 @@
     "80_120": 58,
     "le30": 43
    },
-   "present_incommuter_need_moe90": 18,
+   "present_incommuter_need_moe90": 19,
    "share_of_county_households": 0.0638,
    "share_of_county_jobs": 0.3063,
    "workers_per_working_household": 1.404,
@@ -15151,7 +15151,7 @@
     "80_120": 91,
     "le30": 35
    },
-   "present_incommuter_need_moe90": 5,
+   "present_incommuter_need_moe90": 6,
    "share_of_county_households": 0.2987,
    "share_of_county_jobs": 0.4834,
    "workers_per_working_household": 1.607,
