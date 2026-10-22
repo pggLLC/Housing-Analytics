@@ -155,7 +155,7 @@
     /* ── insights.html ───────────────────────────────────────────────── */
     'in-equity-pricing': {
       title: 'LIHTC equity pricing',
-      description: 'National average equity price per $1 of federal credit for 9% and 4% credits, with quarter-over-quarter and year-over-year change.',
+      description: 'Equity price per $1 of federal credit: the Colorado median across all credit types (no change figures), then the national 9% and 4% averages as a market reference, with quarter-over-quarter and year-over-year change.',
       sources: ['novogradac-equity-pricing'],
       notes: 'Captured by hand from Novogradac each quarter; see the Sources sheet for the date it last changed.'
     },
