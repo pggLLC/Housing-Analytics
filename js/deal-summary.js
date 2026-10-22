@@ -132,11 +132,11 @@
   // ── the list ──────────────────────────────────────────────────────────────
   // County, year and credit filters; ?county=<name> (as CHFA prints it) opens the list filtered,
   // which is how the Housing Needs Assessment pages link to a county's write-ups.
-  function creditKind(award) {
+  // An award can carry both credits ("Federal 9% and 4% ..."), so a deal matches every credit its award names.
+  function hasCredit(award, kind) {
     var a = String(award || '');
-    if (/9%/.test(a)) return '9%';
-    if (/4%/.test(a)) return '4%';
-    return 'Other';
+    if (kind === 'Other') return !/9%|4%/.test(a);
+    return a.indexOf(kind) !== -1;
   }
 
   function paramFromUrl(name) {
@@ -182,7 +182,7 @@
       var rows = all.filter(function (r) {
         return (!fCounty.value || r.county === fCounty.value) &&
           (!fYear.value || String(r.year) === fYear.value) &&
-          (!fCredit.value || creditKind(r.award) === fCredit.value);
+          (!fCredit.value || hasCredit(r.award, fCredit.value));
       });
       body.innerHTML = rows.map(function (r) {
         return '<tr><td><a href="deal-summary.html?d=' + esc(r.slug) + '">' + esc(r.name) + '</a></td><td>' + esc(r.city) + '</td><td>' + esc(r.county) + '</td><td>' + esc(r.award) +

@@ -90,13 +90,21 @@
   }
 
   // ── Awarded deals in this county ──────────────────────────────────────────
+  // Each render stamps its mount; a slower earlier render (the user changed county while its
+  // files were loading) checks the stamp and drops its result instead of overwriting the newer one.
+  var seq = 0;
+  function stamp(mount) { mount.setAttribute('data-pdl-seq', String(++seq)); return String(seq); }
+  function current(mount, id) { return mount.getAttribute('data-pdl-seq') === id; }
+
   function renderDeals(mount) {
+    var id = stamp(mount);
     var c = currentCounty();
     if (!c) {
       mount.innerHTML = '<p class="pdl-note">Pick a county or town to see the tax credit deals awarded there.</p>';
       return;
     }
     Promise.all([fetchJson(DEALS_INDEX), fetchJson(LIMITS)]).then(function (res) {
+      if (!current(mount, id)) return;
       var name = countyName(res[1], c.fips);
       if (!name) { mount.innerHTML = ''; return; }
       var rows = (res[0].deals || []).filter(function (d) { return d.county === name; })
@@ -113,6 +121,7 @@
       return Promise.all(shown.map(function (d) {
         return fetchJson('data/deals/' + d.slug + '.json').catch(function () { return null; });
       })).then(function (details) {
+        if (!current(mount, id)) return;
         var items = shown.map(function (d, i) {
           var full = details[i] || {};
           var bits = [d.city, d.award, d.units ? Number(d.units).toLocaleString('en-US') + ' homes' : null, amiRange(full.income_mix)].filter(Boolean);
@@ -131,6 +140,7 @@
           'Total development cost is shown only where a public record prints it.</p>';
       });
     }).catch(function () {
+      if (!current(mount, id)) return;
       mount.innerHTML = '<p class="pdl-note">The deal write-ups could not be loaded. Try reloading the page.</p>';
     });
   }
@@ -151,12 +161,14 @@
   }
 
   function renderLimits(mount) {
+    var id = stamp(mount);
     var c = currentCounty();
     if (!c) {
       mount.innerHTML = '<p class="pdl-note">Pick a county or town to see CHFA\'s 2026 rent and income limits for it.</p>';
       return;
     }
     fetchJson(LIMITS).then(function (lim) {
+      if (!current(mount, id)) return;
       var m = lim.meta || {};
       var row = (lim.counties || []).filter(function (x) { return x.fips === c.fips; })[0];
       if (!row || !row.regular_tiers) { mount.innerHTML = ''; return; }
@@ -187,6 +199,7 @@
         '<p class="pdl-note">Source: <a href="' + esc(m.source_url) + '" target="_blank" rel="noopener">' + esc(m.source || 'CHFA rent and income limits') + '</a>. ' +
         'Rents are gross rents, before any utility allowance. CHFA\'s published table is the binding reference for an application.</p>';
     }).catch(function () {
+      if (!current(mount, id)) return;
       mount.innerHTML = '<p class="pdl-note">The CHFA limits could not be loaded. Try reloading the page.</p>';
     });
   }
@@ -213,7 +226,7 @@
     onChange();
   }
 
-  global.PlaceDealsLimits = { render: renderAll, _currentCounty: currentCounty, _amiRange: amiRange };
+  global.PlaceDealsLimits = { render: renderAll, _currentCounty: currentCounty, _amiRange: amiRange, _renderDeals: renderDeals };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();

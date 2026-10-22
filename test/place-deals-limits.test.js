@@ -68,4 +68,41 @@ assert.equal(range([{ level: '30% AMI' }, { level: '70% AMI' }, { level: '50% AM
 assert.equal(range([{ level: '60% AMI' }]), '60% AMI');
 assert.equal(range([{ level: 'Manager unit' }]), '');
 
-console.log('place-deals-limits: PASS (' + deals.length + ' write-ups, ' + limits.counties.length + ' counties)');
+// 7. A slower render for a county the user has left must not overwrite the newer one.
+(async () => {
+  const dom = new JSDOM('<div id="m" data-place-deals></div>', { runScripts: 'outside-only', url: 'http://127.0.0.1/hna-what-to-do.html' });
+  const w = dom.window;
+  let juris = { geoType: 'county', geoid: '08031', countyFips: '08031' };
+  w.WorkflowState = { getJurisdiction: () => juris };
+  const files = {
+    'data/deals/index.json': { deals },
+    'data/chfa-income-rent-limits-2026.json': limits,
+  };
+  const held = [];
+  w.fetch = (url) => {
+    const body = files[url] || JSON.parse(read(url));
+    const res = { ok: true, json: () => Promise.resolve(body) };
+    if (/data\/deals\/.+-denver\.json$/.test(url)) return new Promise((r) => held.push(() => r(res)));
+    return Promise.resolve(res);
+  };
+  w.eval(source);
+  const mount = w.document.getElementById('m');
+  w.PlaceDealsLimits._renderDeals(mount);          // Denver: detail files held
+  await new Promise((r) => setTimeout(r, 20));
+  juris = { geoType: 'county', geoid: '08077', countyFips: '08077' };
+  w.PlaceDealsLimits._renderDeals(mount);          // Mesa: resolves at once
+  await new Promise((r) => setTimeout(r, 20));
+  assert.ok(mount.textContent.includes('Mesa County'), 'Mesa render did not land');
+  held.forEach((f) => f());                        // Denver finally arrives
+  await new Promise((r) => setTimeout(r, 20));
+  assert.ok(mount.textContent.includes('Mesa County') && !mount.textContent.includes('Denver County'), 'stale Denver render overwrote Mesa');
+
+  // 8. Paired 9% + 4% awards match both credit filters (js/deal-summary.js).
+  const ds = read('js/deal-summary.js');
+  const hasCredit = new Function(ds.match(/function hasCredit[\s\S]*?\n  \}\n/)[0] + '; return hasCredit;')();
+  const paired = '2025 Federal 9% (Round One) and 4% housing tax credits (paired)';
+  assert.ok(hasCredit(paired, '9%') && hasCredit(paired, '4%') && !hasCredit(paired, 'Other'));
+  assert.ok(hasCredit('2025 Middle-Income Housing Tax Credit (MIHTC)', 'Other'));
+
+  console.log('place-deals-limits: PASS (' + deals.length + ' write-ups, ' + limits.counties.length + ' counties)');
+})().catch((e) => { console.error(e); process.exit(1); });
