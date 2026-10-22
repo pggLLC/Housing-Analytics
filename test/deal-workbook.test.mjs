@@ -289,6 +289,12 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   el('wbOpenLink').handlers.click();
   ok(el('wbOut').innerHTML === '' && el('wbPrint').hidden && el('wbOpenCalc').hidden && /no Deal Calculator settings/.test(el('wbStatus').textContent), 'an invalid new input clears the last deal and its print button');
   await new Promise((r) => setTimeout(r, 0));
+  // A saved version that fails to load clears the last deal too.
+  el('wbOut').innerHTML = '<p>Deal A</p>'; el('wbPrint').hidden = false;
+  el('wbDeals').value = 'd1'; el('wbDeals').selectedOptions = [{ textContent: 'Deal B' }]; el('wbVersions').value = '3';
+  el('wbOpenSaved').handlers.click();
+  await new Promise((r) => setTimeout(r, 0));
+  ok(el('wbOut').innerHTML === '' && el('wbPrint').hidden && /That version did not load/.test(el('wbStatus').textContent), 'a saved version that fails clears the last deal');
   globalThis.fetch = saved.fetch; if (saved.window === undefined) delete globalThis.window; else globalThis.window = saved.window;
 }
 const feeOpen = mut0((s) => { s.permanentFinancing.deferredDevFee = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { deferredDevFee: 'Operating inputs are incomplete.' }); });

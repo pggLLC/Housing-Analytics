@@ -569,11 +569,15 @@
     }
     // Each user action takes the next generation when it starts, so the latest action wins even if an earlier
     // one finishes loading after it. A slow saved version or file read passes the generation it took.
-    function open(query, title, reserved) {
-      var my = reserved != null ? reserved : ++tok;
-      if (my !== tok) return;
-      // A new open clears the last deal first, so a failed one never leaves the old workbook printable.
+    // Every action clears the last deal when it takes its generation, so a failed one never leaves the old
+    // workbook on screen or printable.
+    function take() {
       $('wbOut').innerHTML = ''; $('wbPrint').hidden = true; $('wbOpenCalc').hidden = true;
+      return ++tok;
+    }
+    function open(query, title, reserved) {
+      var my = reserved != null ? reserved : take();
+      if (my !== tok) return;
       if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
       status('Running the Deal Calculator for this deal…');
       $('wbOpenCalc').href = calcUrl(query, doc.baseURI); $('wbOpenCalc').hidden = false;
@@ -604,7 +608,7 @@
     $('wbOpenSaved').addEventListener('click', function () {
       var deal = $('wbDeals').value, v = $('wbVersions').value;
       if (!deal || !v) { status('Choose a deal and a version.'); return; }
-      var gen = ++tok, name = $('wbDeals').selectedOptions[0].textContent;
+      var gen = take(), name = $('wbDeals').selectedOptions[0].textContent;
       api('?deal=' + encodeURIComponent(deal) + '&v=' + encodeURIComponent(v)).then(function (x) {
         // Another deal was opened, or the choice changed, while this one loaded.
         if (gen !== tok || $('wbDeals').value !== deal || $('wbVersions').value !== v) return;
@@ -616,7 +620,7 @@
     $('wbOpenLink').addEventListener('click', function () { open(queryFrom($('wbLink').value), null); });
     $('wbFile').addEventListener('change', function () {
       var file = $('wbFile').files[0]; if (!file) return;
-      var gen = ++tok;
+      var gen = take();
       file.text().then(function (t) {
         // Another file was picked, or another deal opened, while this one was read.
         if ($('wbFile').files[0] !== file || gen !== tok) return;
