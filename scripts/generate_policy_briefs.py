@@ -447,7 +447,7 @@ OFF_TOPIC_RE = re.compile(
     # a healthcare grant all reached Housing News. Snowmass and Winter Park
     # are towns, not weather.
     r'snow(?!mass)\w*|winter(?!\s+park)|weather|storms?|avalanche\w*|border wall|data cent(?:er|re)s?|'
-    r'airports?|school enrollment|healthcare|hospitals?|judges?|race to succeed|governor\'?s race|'
+    r'police|airports?|school enrollment|healthcare|hospitals?|judges?|race to succeed|governor\'?s race|'
     # A road crash is off topic; "Homebuilder Sentiment Crashes" keeps its housing word.
     r'crash\w*)\b', re.I)
 # These words are in HOUSING_TITLE_RE because housing stories use them, but
@@ -456,12 +456,14 @@ OFF_TOPIC_RE = re.compile(
 WEAK_HOUSING_RE = re.compile(
     r'(?:construct\w*|develop\w*|land|lots?|parcels?|permit\w*|buildings?|shelters?|propert(?:y|ies)|water|'
     r'sewer|infrastructure|grants?|growth|bonds?|neighborhoods?|workforce|groundbreaking|annex\w*)', re.I)
-# A crime, fire or police story is not housing news because it happened at an
+# A crime or fire story is not housing news because it happened at an
 # apartment ("Man arrested on suspicion of setting fires near Pueblo
 # apartments", paul 2026-10-22). Only a housing-policy word keeps one:
 # "Marshall Fire survivors rebuild homes", "shooting at homeless shelter".
+# "Police" is left to OFF_TOPIC_RE: "Former police station converted into
+# 40 apartments" is a housing project (Codex review of #2459).
 INCIDENT_RE = re.compile(
-    r'\b(arrest\w*|suspect\w*|suspicion|police|shooting|stabbing|homicide|murder\w*|arson\w*|'
+    r'\b(arrest\w*|suspect\w*|suspicion|shooting|stabbing|homicide|murder\w*|arson\w*|'
     r'fires?|firefighters?|blaze|vandal\w*|shelter-in-place|standoff)\b', re.I)
 HOUSING_POLICY_RE = re.compile(
     r'\b(housing|afford\w*|rent(?:s|ers?|al|als)?|tenant\w*|landlord\w*|evict\w*|(?:re)?zon(?:e|es|ed|ing)|'
@@ -487,7 +489,9 @@ NATIONAL_SOURCE_RE = re.compile(
 # rate" is advice and "Inflation Accelerated in September" is not housing.
 NATIONAL_TREND_RE = re.compile(
     r'\b(housing|home-?build\w*|homebuild\w*|builders?|build (?:houses|homes)|mortgage\w*|'
-    r'home (?:prices|sales|values)|(?:new|existing)[- ]homes?|building permits|construction|'
+    # Bare "construction" also means a border wall or a data center.
+    r'home (?:prices|sales|values)|(?:new|existing)[- ]homes?|building permits|'
+    r'(?:home|housing|residential|apartment|multifamily)[- ]construction|construction (?:spending|starts|costs|workers)|'
     r'multifamily|rental market|apartment (?:supply|construction|market)|single-family)\b', re.I)
 # Left out even from those outlets: opinion and commentary, first-person or
 # advice pieces, and other countries' housing news. The searches are global,
@@ -528,6 +532,10 @@ def is_national_trend(title: str, source: str) -> bool:
 
 def is_housing_headline(title: str, source: str = '') -> bool:
     title = title or ''
+    # A listed national outlet's story has already passed the stricter
+    # NATIONAL_TREND_RE test ("US building permits crash to 10-year low").
+    if NATIONAL_SOURCE_RE.match((source or '').strip()) and is_national_trend(title, source):
+        return True
     if INCIDENT_RE.search(title) and not HOUSING_POLICY_RE.search(title):
         return False
     strong = any(not WEAK_HOUSING_RE.fullmatch(m.group(0)) for m in HOUSING_TITLE_RE.finditer(title))
@@ -650,6 +658,21 @@ def _word_overlap(a: str, b: str) -> float:
     return len(wa & wb) / min(len(wa), len(wb)) if wa and wb else 0.0
 
 
+# "HUD raises mortgage insurance premiums" and "HUD cuts mortgage insurance
+# premiums" share most words but report opposite actions (Codex review of
+# #2459); "Yields Fall" and "Yields Edge Lower" move the same way.
+UP_RE = re.compile(r'\b(rais\w*|ris(?:e|es|ing)|rose|increas\w*|expand\w*|boost\w*|lift\w*|gain\w*|'
+                   r'higher|jump\w*|climb\w*|approv\w*|allow\w*|add\w*|resum\w*|extend\w*)\b', re.I)
+DOWN_RE = re.compile(r'\b(cut\w*|fall\w*|fell|drop\w*|lower\w*|decreas\w*|trim\w*|slash\w*|reduc\w*|'
+                     r'halt\w*|end(?:s|ed|ing)?|block\w*|reject\w*|remov\w*|slid\w*|declin\w*|pause\w*)\b', re.I)
+
+
+def _opposite_moves(a: str, b: str) -> bool:
+    up_a, up_b = bool(UP_RE.search(a)), bool(UP_RE.search(b))
+    down_a, down_b = bool(DOWN_RE.search(a)), bool(DOWN_RE.search(b))
+    return (up_a and down_b and not up_b) or (down_a and up_b and not down_b)
+
+
 def same_national_story(s: dict, kept: list[dict]) -> dict | None:
     mine = _phrases(s['title'])
     try:
@@ -678,7 +701,8 @@ def same_national_story(s: dict, kept: list[dict]) -> dict | None:
         # Amid String of Weak Housing Data" share six of seven. "HUD cuts
         # housing voucher funding for veterans" and "HUD expands housing
         # voucher funding for families" share four of six and are two actions.
-        if federal and (gap or _word_overlap(s['title'], k['title']) < 0.75):
+        if federal and (gap or _word_overlap(s['title'], k['title']) < 0.75
+                        or _opposite_moves(s['title'], k['title'])):
             continue
         if (gap == 0 or shared >= 2) and gap <= 3 and shared:
             return k
