@@ -66,9 +66,13 @@ assert(JSON.stringify(law).includes('119-21') && stat.includes('Public Law 119-2
 // there "counts without argument"; 12 CFR 228.12(t) also requires a primary
 // community development purpose.
 const team = read('affordable-deal-team.html');
+const craSection = team.match(/<section id="dt-cra"[\s\S]*?<\/section>/);
+assert(craSection, 'deal team page has the CRA section');
+const craText = craSection[0].replace(/<[^>]+>/g, ' ');
+assert(!/counts without argument|counts automatically|always counts|investment counts as/i.test(craText), 'no unconditional CRA-credit claim anywhere in the CRA section');
+assert(/can count as a "qualified investment" if its primary purpose is community development/.test(craText), 'the qualified-investment line states its condition');
 const craCard = team.match(/<h3>Conservative: the bank's own assessment areas<\/h3>[\s\S]*?<\/div>/);
 assert(craCard, 'deal team page has the conservative CRA card');
-assert(!/counts without argument|counts automatically|always counts/i.test(craCard[0]), 'no unconditional CRA-credit claim');
 assert(/whether the investment counts still depends on it qualifying as community development/.test(craCard[0]), 'states the qualifying condition');
 assert(/228\.12\(t\)/.test(craCard[0]), 'cites the qualified-investment definition');
 console.log(`lihtc-practice-claims: PASS (${rounds.length} rounds checked)`);
