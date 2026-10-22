@@ -89,9 +89,11 @@ ok(m.findings.findIndex((f) => f.level === 'ok') > m.findings.findIndex((f) => f
 
 // Sabotage: each guard fires when its figure is pushed past CHFA's line, and not before.
 const mut = (fn) => { const s = fixture(); fn(s); return WB.build(s, rules); };
-ok(/bad: Operating cost of \$4,000/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 4000; }))), 'operating cost under $4,500 is flagged');
-ok(/warn: Operating cost of \$4,500 a unit meets CHFA's \$4,500 minimum but not the \$5,000/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 4500; }))), 'operating cost at $4,500 is flagged against the Section 8 minimum, not passed');
-ok(!/Operating cost of/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 5000; }))), 'operating cost at $5,000 is not flagged');
+ok(/bad: Operating cost plus property tax of \$3,900 a unit is under CHFA's \$4,500/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 3000; s.result.propTaxPerUnit = 900; }))), 'operating cost plus tax under $4,500 is flagged');
+ok(!/Operating cost/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 4200; s.result.propTaxPerUnit = 900; }))), 'property tax counts toward the $4,500 minimum (and $5,000)');
+ok(/warn: Operating cost of \$4,000 a unit is under CHFA's \$4,500 minimum before property tax/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 4000; s.result.propTaxPerUnit = null; }))), 'without the tax, a low cost is a question, not a failure');
+ok(/warn: Operating cost plus property tax of \$4,600 a unit meets CHFA's \$4,500 minimum but not the \$5,000/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 3700; s.result.propTaxPerUnit = 900; }))), 'a cost between the two minimums is flagged against the Section 8 minimum, not passed');
+ok(!/Operating cost/.test(texts(mut((s) => { s.result.operatingSummary.perUnitYear = 4100; s.result.propTaxPerUnit = 900; }))), 'operating cost plus tax at $5,000 is not flagged');
 ok(/warn: Vacancy of 5\.0%/.test(texts(mut((s) => { s.result.vacancyRate = 0.05; }))), 'vacancy under 7% is flagged');
 ok(/warn: Rents grow 3\.0%/.test(texts(mut((s) => { s.result.exit.rentGrowth = 0.03; }))), 'rent growth over 2% is flagged');
 ok(/warn: Costs grow 2\.0%/.test(texts(mut((s) => { s.result.exit.expGrowth = 0.02; }))), 'cost growth under 3% is flagged');

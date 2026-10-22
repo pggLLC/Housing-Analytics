@@ -228,9 +228,13 @@
     else if (!m.utilityAllowanceApplied && m.rents.rows.length) out.push({ level: 'warn', text: 'No utility allowance is applied, so each rent is the full gross limit. That holds only if the owner pays all utilities. If tenants pay any, the rent must come down by the allowance.' });
 
     var o = m.operating;
-    if (min.opex && o.opexPerUnit != null && o.opexPerUnit < min.opex.value) out.push({ level: 'bad', text: 'Operating cost of ' + money(o.opexPerUnit) + ' a unit is under CHFA\'s ' + money(min.opex.value) + ' minimum.', source: min.opex });
+    // CHFA's minimum excludes only the reserve, so property tax counts toward it.
+    var opexAll = o.opexPerUnit != null && o.taxPerUnit != null ? o.opexPerUnit + o.taxPerUnit : null;
+    var opexLabel = 'Operating cost plus property tax of ' + money(opexAll) + ' a unit';
+    if (min.opex && o.opexPerUnit != null && opexAll == null && o.opexPerUnit < min.opex.value) out.push({ level: 'warn', text: 'Operating cost of ' + money(o.opexPerUnit) + ' a unit is under CHFA\'s ' + money(min.opex.value) + ' minimum before property tax, which is not known. Enter the property tax to check it.', source: min.opex });
+    else if (min.opex && opexAll != null && opexAll < min.opex.value) out.push({ level: 'bad', text: opexAll === o.opexPerUnit ? 'Operating cost of ' + money(o.opexPerUnit) + ' a unit is under CHFA\'s ' + money(min.opex.value) + ' minimum.' : opexLabel + ' is under CHFA\'s ' + money(min.opex.value) + ' minimum.', source: min.opex });
     // The calculator does not record project-based Section 8, so a cost between the two minimums is flagged, not passed.
-    else if (min.opex && min.opexSection8 && o.opexPerUnit != null && o.opexPerUnit < min.opexSection8.value) out.push({ level: 'warn', text: 'Operating cost of ' + money(o.opexPerUnit) + ' a unit meets CHFA\'s ' + money(min.opex.value) + ' minimum but not the ' + money(min.opexSection8.value) + ' it requires for project-based Section 8. Confirm the deal has no project-based Section 8.', source: min.opexSection8 });
+    else if (min.opex && min.opexSection8 && opexAll != null && opexAll < min.opexSection8.value) out.push({ level: 'warn', text: (opexAll === o.opexPerUnit ? 'Operating cost of ' + money(o.opexPerUnit) + ' a unit' : opexLabel) + ' meets CHFA\'s ' + money(min.opex.value) + ' minimum but not the ' + money(min.opexSection8.value) + ' it requires for project-based Section 8. Confirm the deal has no project-based Section 8.', source: min.opexSection8 });
     var resMin = min.reserve;
     // The calculator does not record whether a deal is senior housing, so the family minimum applies.
     if (resMin && o.reservePerUnit != null && o.reservePerUnit < resMin.value) out.push({ level: 'bad', text: 'Replacement reserve of ' + money(o.reservePerUnit) + ' a unit is under CHFA\'s ' + money(resMin.value) + ' family minimum' +
@@ -361,7 +365,8 @@
     // Operating
     var o = m.operating, mn = o.min;
     var opRows = [
-      ['Operating cost a home a year (before reserves and tax)', money(o.opexPerUnit), mn.opex ? money(mn.opex.value) + ' minimum' + (mn.opexSection8 ? ' (' + money(mn.opexSection8.value) + ' with project-based Section 8)' : '') : '—'],
+      ['Operating cost a home a year (before reserves and tax)', money(o.opexPerUnit), '—'],
+      ['Operating cost plus property tax (what CHFA\'s minimum counts)', money(o.opexPerUnit != null && o.taxPerUnit != null ? o.opexPerUnit + o.taxPerUnit : null), mn.opex ? money(mn.opex.value) + ' minimum' + (mn.opexSection8 ? ' (' + money(mn.opexSection8.value) + ' with project-based Section 8)' : '') : '—'],
       ['Replacement reserve a home a year', money(o.reservePerUnit), mn.reserve ? money(mn.reserve.value) + ' family, ' + (mn.reserveSenior ? money(mn.reserveSenior.value) + ' senior' : '') : '—'],
       ['Property tax a home a year', money(o.taxPerUnit), ''],
       ['Vacancy', pct(o.vacancy, 1), mn.vacancy ? pct(mn.vacancy.value) + ' minimum' : '—'],
@@ -522,6 +527,10 @@
       });
     });
     $('wbPrint').addEventListener('click', function () { window.print(); });
+    // A closed <details> prints empty, so open every one for printing and put them back after.
+    var shut = [];
+    window.addEventListener('beforeprint', function () { shut = Array.prototype.filter.call(doc.querySelectorAll('details'), function (d) { return !d.open; }); shut.forEach(function (d) { d.open = true; }); });
+    window.addEventListener('afterprint', function () { shut.forEach(function (d) { d.open = false; }); shut = []; });
   }
 
   if (typeof document !== 'undefined' && typeof window !== 'undefined' && !(typeof module === 'object' && module.exports)) {
