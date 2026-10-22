@@ -58,6 +58,21 @@ const UNLINKED_BY_DESIGN = {
   'developer-whitepaper.html':
     'redirect stub to developer-brief.html since the white paper and the brief became '
     + 'one Jurisdiction Report; catches old links and bookmarks',
+  'dashboard.html':
+    'redirect stub to colorado-deep-dive.html#tab-state-comparison since the national '
+    + 'allocation pages came off the public site (10-22); catches old links and bookmarks',
+  'regional.html':
+    'redirect stub to colorado-deep-dive.html#tab-state-comparison since the national '
+    + 'allocation pages came off the public site (10-22); catches old links and bookmarks',
+  'lihtc-allocations.html':
+    'redirect stub to colorado-deep-dive.html#tab-state-comparison since the national '
+    + 'allocation pages came off the public site (10-22); catches old links and bookmarks',
+  'LIHTC-dashboard.html':
+    'redirect stub to colorado-deep-dive.html#tab-state-comparison since the national '
+    + 'allocation pages came off the public site (10-22); catches old links and bookmarks',
+  'state-allocation-map.html':
+    'redirect stub to colorado-deep-dive.html#tab-state-comparison since the national '
+    + 'allocation pages came off the public site (10-22); catches old links and bookmarks',
 };
 
 test('the scan sees the whole site', () => {
