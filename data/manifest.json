@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-22T10:32:16.918835Z",
+  "generated": "2026-10-22T10:35:47.033765Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1003098
+      "bytes": 1004014
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -134,7 +134,7 @@
     "data/audit/funding-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 659543
+      "bytes": 661315
     },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
@@ -4939,7 +4939,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 183369
+      "bytes": 183468
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -4965,6 +4965,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 158407
+    },
+    "data/hna/place-hamilton-perry.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 89528
     },
     "data/hna/place-lehd.json": {
       "featureCount": 0,
@@ -5690,6 +5695,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 433173
+    },
+    "data/hna/source/census_age_2010_2020.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 175026
     },
     "data/hna/source/colorado_vital_rates.json": {
       "featureCount": 0,
@@ -9094,7 +9104,7 @@
     "data/metadata/rent_burden_sources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 8527
+      "bytes": 8518
     },
     "data/multifamily-inventory-co.json": {
       "featureCount": 56,
@@ -9514,7 +9524,7 @@
     "data/policy/funding-awards/documents.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 48971
+      "bytes": 48891
     },
     "data/policy/funding-awards/dola-awards.json": {
       "featureCount": 0,
@@ -9539,12 +9549,12 @@
     "data/policy/funding-awards/reviewed-documents.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 23656
+      "bytes": 23576
     },
     "data/policy/funding-watch-sources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12129
+      "bytes": 12123
     },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
