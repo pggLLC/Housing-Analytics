@@ -110,14 +110,36 @@ ok(page.indexOf('id="summary"') < page.indexOf('class="ib-filters"'), 'the execu
   const st = docs.lbStatus.status;
   const ids = Object.keys(st);
   ok(ids.length === docs.awards.awards.length, 'every award has a status');
+  // The rule as Methods prints it, written out here so a swapped score fails.
+  const EXPECT = { seeking: 10, none_found: 10, none: 8, partner: 5, applied: 4, not_funded: 4, financed: 2 };
+  ok(Object.keys(docs.lbStatus.meta.counts).every((k) => k in EXPECT), 'every status in the file has a written score');
+  const seen = new Set();
   for (const p of model.places) {
     const f = p.factors.landBank;
-    ok(f.points === 0 || [10, 8, 5, 4, 2].includes(f.points), `${p.name}: land-bank points follow the status rule (${f.points})`);
+    if (!f.awards) { ok(f.points === 0, `${p.name}: no award scores 0`); continue; }
+    for (const a of f.awards) {
+      ok(a.status === st[a.id].status && a.points === EXPECT[a.status], `${p.name}: award ${a.id} (${a.status}) scores ${EXPECT[a.status]} (${a.points})`);
+      if (p.type !== 'county') seen.add(a.id);
+    }
+    ok(f.points === Math.max(...f.awards.map((a) => a.points)), `${p.name}: land-bank points are the best award's`);
     ok(!/status not loaded/.test(f.value), `${p.name}: the status file is read`);
+    const top = f.awards.find((a) => a.points === f.points);
+    const want = (st[top.id].sources || []).filter((x) => x && x.url).length;
+    ok(f.evidence.length === want, `${p.name}: the status evidence is linked (${f.evidence.length} of ${want})`);
   }
+  ok(model.places.some((p) => p.factors.landBank.evidence && p.factors.landBank.evidence.length), 'some land-bank rows link status evidence');
   const noModel = W.build({ ...docs, lbStatus: null }, TODAY);
   ok(noModel.places.some((p) => p.factors.landBank.points === 7), 'without the status file an award scores 7 and says so');
 }
+
+// ---- 6c. A Census community inherits its county's money, so it scores as county money (6), not its own (10).
+for (const p of model.places) {
+  if (p.type === 'cdp' && p.factors.localFund.points != null && /\(through /.test(p.factors.localFund.value)) {
+    ok(p.factors.localFund.points === 6, `${p.name}: an inherited county fund scores 6 (${p.factors.localFund.points})`);
+  }
+}
+ok(model.places.some((p) => p.type === 'cdp' && /\(through /.test(p.factors.localFund.value)), 'some communities inherit a county fund');
+ok(page.includes('meta.parks_generated') && docs.context.meta.parks_generated, 'parks show the OpenStreetMap file date, not the vote date');
 
 // ---- 7. Red flags and signals are dated and sourced.
 for (const p of model.places) {

@@ -5,6 +5,7 @@
   "votes_retrieved": "2026-10-22",
   "votes_note": "Official certified results from the Colorado Secretary of State. County level only: every town in a county shows its county's result.",
   "parks_note": "OpenStreetMap park and playground points (data/amenities/parks_co.geojson, generated 2026-04-07T08:18:50Z). Towns and communities: points within 5 miles of the Census Gazetteer centroid. Counties: points inside the county line. City parks only: trails, trailheads and public lands are not in this count.",
+  "parks_generated": "2026-04-07T08:18:50Z",
   "park_radius_miles": 5.0
  },
  "votes": {

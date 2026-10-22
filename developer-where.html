@@ -427,7 +427,10 @@
         var src = f.url || (F.source && F.source.url);
         var srcLabel = F.source ? F.source.label : 'Colorado Secretary of State, official results';
         return '<tr><td>' + (src ? '<a href="' + esc(src) + '" target="_blank" rel="noopener" title="' + esc(srcLabel) + '">' + esc(F.label) + '</a>' : esc(F.label)) + '<span class="ib-sub">' + esc(srcLabel) + '</span></td>' +
-          '<td' + (f.points == null ? ' class="unk"' : '') + '>' + esc(f.value) + (f.quote ? '<span class="ib-sub">Source line: “' + esc(f.quote) + '”</span>' : '') + '</td>' +
+          '<td' + (f.points == null ? ' class="unk"' : '') + '>' + esc(f.value) + (f.quote ? '<span class="ib-sub">Source line: “' + esc(f.quote) + '”</span>' : '') +
+          (f.evidence && f.evidence.length ? '<span class="ib-sub">Status evidence: ' + f.evidence.map(function (e) {
+            return '<a href="' + esc(e.url) + '" target="_blank" rel="noopener">' + esc(e.title || e.url) + '</a>';
+          }).join('; ') + '</span>' : '') + '</td>' +
           '<td class="num" data-label="Points">' + (f.points == null ? '<span class="unk">not checked</span>' : esc(f.points) + ' / 10') + '</td>' +
           '<td class="num" data-label="Weight">' + (Math.round(x.weight * 10) / 10) + '</td></tr>';
       }).join('');
@@ -456,7 +459,7 @@
         amenities: asOf(docs.ranking.metadata && docs.ranking.metadata.generatedAt),
         landBank: asOf(docs.awards && docs.awards.meta && docs.awards.meta.generated) + (docs.lbStatus ? '; status ' + asOf(docs.lbStatus.meta.generated_from && docs.lbStatus.meta.generated_from.research_checked) : '; status file not loaded, so every award scores 7'),
         rentCushion: asOf(docs.hud && docs.hud.meta && docs.hud.meta.generated) + (docs.hud && docs.hud.meta ? ' (FMR FY' + docs.hud.meta.fiscal_year + ', income limits FY' + docs.hud.meta.income_limits_fiscal_year + ')' : ''),
-        parks: asOf(docs.context && docs.context.meta && docs.context.meta.votes_retrieved),
+        parks: 'OpenStreetMap file ' + asOf(docs.context && docs.context.meta && docs.context.meta.parks_generated),
         prop123Vote: 'certified 2022 results, read ' + asOf(docs.context && docs.context.meta && docs.context.meta.votes_retrieved),
         presVote: 'certified 2024 results, read ' + asOf(docs.context && docs.context.meta && docs.context.meta.votes_retrieved)
       };

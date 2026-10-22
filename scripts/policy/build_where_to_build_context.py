@@ -198,6 +198,7 @@ def build(prev, fetch):
             'parks_note': (f'OpenStreetMap park and playground points (data/amenities/parks_co.geojson, generated {parks_meta.get("generated", "unknown")}). '
                            f'Towns and communities: points within {PARK_RADIUS_MILES:g} miles of the Census Gazetteer centroid. Counties: points inside the county line. '
                            'City parks only: trails, trailheads and public lands are not in this count.'),
+            'parks_generated': parks_meta.get('generated'),
             'park_radius_miles': PARK_RADIUS_MILES,
         },
         'votes': {

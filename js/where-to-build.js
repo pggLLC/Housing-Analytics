@@ -273,7 +273,11 @@
         var cp = local.profile(countyGeoid, today, {});
         countyFunds = cp.parts.incentives.counted.filter(function (i) { return i.scope === 'funds'; });
       }
-      if (fundsOwn.length) {
+      if (fundsOwn.length && viaLocal) {
+        // A CDP's profile is its county's, so the fund is the county's: county rule, 6 points.
+        f.localFund = { points: 6, value: LSD.incentiveLabel(fundsOwn[0]) + (fundsOwn[0].record.adopted ? ', adopted ' + fundsOwn[0].record.adopted : '') + viaLocal,
+          date: fundsOwn[0].record.adopted, good: 'county housing money' };
+      } else if (fundsOwn.length) {
         var fr = fundsOwn[0].record;
         f.localFund = { points: 10, value: LSD.incentiveLabel(fundsOwn[0]) + (fr.adopted ? ', adopted ' + fr.adopted : '') + viaLocal, date: fr.adopted,
           good: 'a dedicated local ' + LSD.incentiveLabel(fundsOwn[0]) };
@@ -302,16 +306,20 @@
       // ---- Land banking
       var lbAwards = r.type === 'county' ? (lbByCounty[r.geoid] || []) : (lbByPlace[r.geoid] || []);
       if (lbAwards.length) {
-        var best = null;
+        var best = null, scoredAwards = [];
         lbAwards.forEach(function (a) {
           var s = status && status[a.id] ? status[a.id].status : null;
           var pts = s ? (LB_POINTS[s] != null ? LB_POINTS[s] : 7) : 7;
+          scoredAwards.push({ id: a.id, status: s, points: pts });
           if (!best || pts > best.pts) best = { a: a, s: s, pts: pts };
           if (s === 'seeking') addSignal(signals, today, (docs.lbStatus.meta.generated_from || {}).research_checked || today, 'Land-bank land seeking a developer: ' + (a.show_project || a.project), a.source_url);
         });
         var lbl = best.s ? (status[best.a.id].label || best.s) : 'status not loaded';
         f.landBank = { points: best.pts, value: lbAwards.length + ' award' + (lbAwards.length > 1 ? 's' : '') + '; best: ' + (best.a.show_project || best.a.project) + ' (' + lbl + ')',
-          url: best.a.source_url, good: best.s ? LB_PHRASE[best.s] : 'state land-bank land', weak: best.pts <= 4 ? LB_PHRASE[best.s] : null };
+          url: best.a.source_url, good: best.s ? LB_PHRASE[best.s] : 'state land-bank land', weak: best.pts <= 4 ? LB_PHRASE[best.s] : null,
+          awards: scoredAwards,
+          // The award document shows the land; the status sources show what happened next.
+          evidence: best.s ? (status[best.a.id].sources || []).filter(function (x) { return x && x.url; }) : [] };
       } else {
         f.landBank = { points: 0, value: 'No Prop 123 land-bank award', weak: 'no state land-bank land' };
       }
