@@ -167,6 +167,22 @@
 
   var CO_BOUNDS = [[36.99, -109.06], [41.0, -102.04]];
 
+  var COUNTIES = 'data/co-county-boundaries.json';
+  function addCountyLines(L, map, dark) {
+    if (typeof L.geoJSON !== 'function') return;
+    map.createPane('lbmCounties');
+    map.getPane('lbmCounties').style.zIndex = 350;   // above the tiles, below the pins
+    map.getPane('lbmCounties').style.pointerEvents = 'none';
+    getJSON(COUNTIES, true).then(function (gj) {
+      if (!gj || !gj.features) return;
+      L.geoJSON(gj, {
+        pane: 'lbmCounties', interactive: false,
+        // Lines only: a fill would sit over the tile labels when someone zooms in.
+        style: { color: dark ? '#8b98a8' : '#6b7787', weight: 1, opacity: 0.8, fill: false }
+      }).addTo(map);
+    });
+  }
+
   function initMap(el) {
     var L = global.L;
     if (!L || !el) return null;
@@ -175,6 +191,10 @@
     var dark = global.document.documentElement.getAttribute('data-theme') === 'dark';
     var base = global.COHOBasemaps ? (dark ? global.COHOBasemaps.dark() : global.COHOBasemaps.light()) : null;
     if (base) base.addTo(map);
+    // The grey canvas tiles show almost nothing inside Colorado at state zoom, and a
+    // browser that blocks the tile host shows nothing at all. County lines from our own
+    // copy of the Census boundaries give the pins a recognisable state either way.
+    addCountyLines(L, map, dark);
     // Re-measure when the container changes size (a phone rotating, the page reflowing),
     // or Leaflet keeps the first size and leaves part of the map without tiles.
     if (typeof global.ResizeObserver === 'function') {
