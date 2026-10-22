@@ -372,6 +372,7 @@
 
       var top = tiers[1][0] || tiers[2][0] || tiers[3][0];
       document.getElementById('summary').innerHTML =
+        (model.missing.length ? '<p><strong>Some data did not load:</strong> ' + esc(model.missing.join(', ')) + '. Those factors show as not checked and confidence is lower. Reload the page to try again.</p>' : '') +
         '<p><strong>' + tiers[1].length + ' Target, ' + tiers[2].length + ' Promising and ' + tiers[3].length + ' Monitor</strong> places under these settings' +
         (below ? '; ' + below + ' more score under 35 and are left off' : '') + '.</p>' +
         (top ? '<p>Start with <a href="developer-brief.html?geoid=' + esc(top.p.geoid) + '"><strong>' + esc(top.p.name) + '</strong></a> (' + top.s.score + ', ' + top.s.confidence.toLowerCase() + ' confidence): ' + esc(top.s.reason) + '</p>' : '<p>No place matches these filters. Widen the region, kind of place or population range.</p>');

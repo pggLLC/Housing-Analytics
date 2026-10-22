@@ -140,6 +140,15 @@ ok(page.indexOf('id="summary"') < page.indexOf('class="ib-filters"'), 'the execu
     const m2 = W.build({ ...docs, lbStatus: fake([{ title: 'Undated page', url: 'https://example.org/x' }]) }, TODAY);
     ok(!m2.places.some((p) => p.signals.some((g) => /seeking a developer/.test(g.text))), 'a seeking status with no dated source adds no signal');
   }
+  // Partial dates (YYYY, YYYY-MM), which the status builder accepts, read as the earliest day they allow.
+  ok(W.fullDate('2026') === '2026-01-01' && W.fullDate('2026-06') === '2026-06-01' && W.fullDate('2026-06-15') === '2026-06-15' && W.fullDate('soon') === null, 'partial status dates are read conservatively');
+  {
+    const award = docs.awards.awards.find((a) => model.places.some((p) => p.type !== 'county' && (p.factors.landBank.awards || []).some((x) => x.id === a.id)));
+    const lb = { ...docs.lbStatus, status: { ...st, [award.id]: { ...st[award.id], status: 'seeking',
+      sources: [{ title: 'Exact', url: 'https://example.org/a', date: '2026-05-10' }, { title: 'Month only', url: 'https://example.org/b', date: '2026-07' }] } } };
+    const sig = W.build({ ...docs, lbStatus: lb }, TODAY).places.flatMap((p) => p.signals).filter((g) => /seeking a developer/.test(g.text));
+    ok(sig.length && sig.every((g) => g.date === '2026-07-01' && g.url === 'https://example.org/b'), 'a month-only source still makes a dated signal');
+  }
   const noModel = W.build({ ...docs, lbStatus: null }, TODAY);
   ok(noModel.places.some((p) => p.factors.landBank.points === 7), 'without the status file an award scores 7 and says so');
 }
@@ -152,6 +161,18 @@ for (const p of model.places) {
 }
 ok(model.places.some((p) => p.type === 'cdp' && /\(through /.test(p.factors.localFund.value)), 'some communities inherit a county fund');
 ok(page.includes('meta.parks_generated') && docs.context.meta.parks_generated, 'parks show the OpenStreetMap file date, not the vote date');
+
+// ---- 6d. A file that fails to load leaves its factors unchecked, never a zero for every place.
+for (const [key, ids] of [['prop123', ['prop123']], ['awards', ['landBank']], ['support', ['approvals']], ['context', ['parks', 'prop123Vote', 'presVote']], ['funds', ['localFund']]]) {
+  const m = W.build({ ...docs, [key]: null }, TODAY);
+  ok(m.missing.length === 1, `${key} missing is reported (${m.missing})`);
+  ok(m.places.every((p) => ids.every((id) => p.factors[id].points === null && /did not load/.test(p.factors[id].value))), `${key} missing: ${ids.join(', ')} show as not checked`);
+  const i = model.places.findIndex((p) => ids.some((id) => p.factors[id].points != null && W.defaultWeights()[W.GROUPS.find((g) => g.factors.includes(id)).id] > 0));
+  const before = W.score(model.places[i]), after = W.score(m.places[i]);
+  ok(after.checkedShare < before.checkedShare, `${key} missing lowers confidence instead of scoring zero`);
+}
+ok(model.missing.length === 0, 'every file loads in the test set');
+ok(page.includes('model.missing'), 'the page says which files did not load');
 
 // ---- 7. Red flags and signals are dated and sourced.
 for (const p of model.places) {

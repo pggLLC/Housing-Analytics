@@ -145,6 +145,20 @@
   function pct(v) { return Math.round(v * 100) + '%'; }
   function fmt(n) { return Number(n).toLocaleString('en-US'); }
 
+  // Files each factor rests on (the HNA ranking is required for any score at all).
+  var NEEDS = { prop123: ['prop123'], approvals: ['support'], incentives: ['fees', 'coverage'], localFund: ['funds', 'coverage'],
+    landBank: ['awards'], rentCushion: ['hud'], parks: ['context'], prop123Vote: ['context'], presVote: ['context'] };
+  var DOC_FILES = { prop123: 'prop123_jurisdictions.json', support: 'local-support.json', fees: 'fee-reductions.json', funds: 'local-housing-funds.json',
+    coverage: 'incentive-coverage.json', awards: 'prop123-land-banking-awards.json', hud: 'hud-fmr-income-limits.json', context: 'where-to-build-context.json' };
+  // Status dates may be YYYY or YYYY-MM; read them as the earliest day they allow, so a signal never looks newer than its source.
+  function fullDate(d) {
+    d = String(d || '');
+    if (/^\d{4}-\d{2}-\d{2}/.test(d)) return d.slice(0, 10);
+    if (/^\d{4}-\d{2}$/.test(d)) return d + '-01';
+    if (/^\d{4}$/.test(d)) return d + '-01-01';
+    return null;
+  }
+
   var LB_POINTS = { seeking: 10, none_found: 10, none: 8, partner: 5, applied: 4, not_funded: 4, financed: 2 };
   var LB_PHRASE = {
     seeking: 'land-bank land seeking a developer',
@@ -315,9 +329,9 @@
           if (s === 'seeking') {
             // Date the signal from the dated public source that shows the search, never the
             // refresh date, so a re-check cannot make an old search look new. No dated source, no signal.
-            var dated = (status[a.id].sources || []).filter(function (x) { return x && x.date && x.url; })
-              .sort(function (x, y) { return x.date < y.date ? 1 : -1; })[0];
-            if (dated) addSignal(signals, today, dated.date, 'Land-bank land seeking a developer: ' + (a.show_project || a.project), dated.url);
+            var dated = (status[a.id].sources || []).filter(function (x) { return x && fullDate(x.date) && x.url; })
+              .sort(function (x, y) { return fullDate(x.date) < fullDate(y.date) ? 1 : -1; })[0];
+            if (dated) addSignal(signals, today, fullDate(dated.date), 'Land-bank land seeking a developer: ' + (a.show_project || a.project), dated.url);
           }
         });
         var lbl = best.s ? (status[best.a.id].label || best.s) : 'status not loaded';
@@ -372,7 +386,19 @@
       };
     });
 
-    return { places: places, today: today };
+    // A file that failed to load leaves its factors "not checked", never a zero for every place.
+    var missing = Object.keys(NEEDS).reduce(function (acc, id) {
+      NEEDS[id].forEach(function (k) { if (!docs[k] && acc.indexOf(k) < 0) acc.push(k); });
+      return acc;
+    }, []);
+    if (missing.length) places.forEach(function (pl) {
+      Object.keys(NEEDS).forEach(function (id) {
+        var gone = NEEDS[id].filter(function (k) { return !docs[k]; });
+        if (gone.length) pl.factors[id] = { points: null, value: 'Not scored: ' + gone.map(function (k) { return DOC_FILES[k]; }).join(', ') + ' did not load' };
+      });
+      if (!docs.support) pl.flags = [];
+    });
+    return { places: places, today: today, missing: missing.map(function (k) { return DOC_FILES[k]; }) };
   }
 
   function metricFactor(v, text, good, weak) {
@@ -471,6 +497,7 @@
   }
 
   return {
+    fullDate: fullDate,
     REGIONS: REGIONS,
     GROUPS: GROUPS,
     FACTORS: FACTORS,
