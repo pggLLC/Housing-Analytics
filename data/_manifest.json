@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-21T23:19:06.129Z",
+    "generated_at": "2026-10-22T04:09:26.123Z",
     "root": "data/",
-    "file_count": 1973,
-    "total_size_bytes": 198762763,
+    "file_count": 1975,
+    "total_size_bytes": 198794285,
     "kinds": {
-      "json": 1927,
+      "json": 1929,
       "geojson": 34,
       "csv": 12
     }
@@ -554,7 +554,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-21T23:19:02.205Z",
+      "mtime": "2026-10-22T04:09:22.385Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -37727,8 +37727,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 250843,
-      "mtime": "2026-10-21T23:18:31.302Z",
+      "size_bytes": 250971,
+      "mtime": "2026-10-22T04:08:52.585Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39304,7 +39304,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16096,
-      "mtime": "2026-10-21T23:19:04.129Z",
+      "mtime": "2026-10-22T04:09:24.360Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39328,7 +39328,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-21T23:19:03.668Z",
+      "mtime": "2026-10-22T04:09:23.841Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41482,6 +41482,22 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "policy/funding-awards/land-banking-status-research.json",
+      "kind": "json",
+      "size_bytes": 5606,
+      "mtime": "2026-10-22T04:07:42.428Z",
+      "shape": "object",
+      "keys": [
+        "description",
+        "checked",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "policy/funding-awards/ledger.json",
       "kind": "json",
       "size_bytes": 374424,
@@ -41979,6 +41995,21 @@
         "purpose",
         "rental"
       ]
+    },
+    {
+      "path": "policy/prop123-land-banking-status.json",
+      "kind": "json",
+      "size_bytes": 25788,
+      "mtime": "2026-10-22T04:07:42.432Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "status"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "policy/prop123-rental-rules.json",
