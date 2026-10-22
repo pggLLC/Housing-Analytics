@@ -52,7 +52,7 @@
 
   var GROUPS = [
     { id: 'build', label: 'Easy to build', weight: 4, factors: ['prop123', 'approvals'],
-      tip: 'A Prop 123 fast-track commitment and recent council or planning commission approvals of income-restricted homes.' },
+      tip: 'A Prop 123 fast-track commitment and recent council or planning commission actions on specific income-restricted projects.' },
     { id: 'money', label: 'Incentives and local money', weight: 4, factors: ['incentives', 'localFund', 'basisBoost'],
       tip: 'Fee waivers and land-use incentives, a dedicated local housing fund, and the federal basis boost.' },
     { id: 'land', label: 'Land opportunities', weight: 3, factors: ['landBank'],
@@ -91,7 +91,7 @@
     prop123: { label: 'Prop 123 commitment', source: SRC.dola,
       rule: 'Fast-track adopted: 10. Commitment filed: 6. Not on DOLA\'s list: 0. A Census community uses its county\'s filing.' },
     approvals: { label: 'Recent approvals', source: SRC.support,
-      rule: 'A council or planning commission approval of income-restricted homes in the last 36 months: 10. Records read, none found: 0. Not read yet: not checked.' },
+      rule: 'In the last 36 months, a council or planning commission approved, rezoned, funded, gave land to or waived fees for a specific income-restricted housing project: 10. Records read, none found: 0. Policy and code adoptions do not count here (fast-track and incentives score them). Not read yet: not checked.' },
     incentives: { label: 'Fee and land-use incentives', source: SRC.fees,
       rule: 'A standing fee waiver or reduction, or an adopted land-use incentive: 10. Read, none found: 0. Not read yet: not checked. Inclusionary zoning is a requirement, so it does not count.' },
     localFund: { label: 'Local housing money', source: SRC.funds,
@@ -115,7 +115,7 @@
   };
 
   var RULES = {
-    signal: 'A signal is a dated public event in the last 12 months: a Prop 123 fast-track adopted, a local housing fund adopted, an approval of income-restricted homes, or land-bank land seeking a developer (dated by the public notice of the search). Each is worth up to +5, fading to 0 over 12 months; signals add at most +10.',
+    signal: 'A signal is a dated public event in the last 12 months: a Prop 123 fast-track adopted, a local housing fund adopted, a council action on a specific income-restricted project, or land-bank land seeking a developer (dated by the public notice of the search). Each is worth up to +5, fading to 0 over 12 months; signals add at most +10.',
     flag: 'A red flag is a recorded denial of income-restricted homes by a council or planning commission in the last 36 months. Each subtracts 15, at most 30. Only records already read are counted; most places have not been read yet.',
     confidence: 'Confidence is the share of your total weight that rests on checked factors: High 80% or more, Medium 50 to 79%, Low under 50%.',
     tiers: 'Target: 70 or more and not Low confidence. Promising: 50 to 69, or 70+ with Low confidence. Monitor: 35 to 49.'
@@ -158,6 +158,9 @@
     if (/^\d{4}$/.test(d)) return d + '-01-01';
     return null;
   }
+
+  // local-support.json action types that act on a specific income-restricted project.
+  var PROJECT_ACTIONS = { project_approval: 1, rezoning_approval: 1, funding_award: 1, land_contribution: 1, fee_waiver_approval: 1 };
 
   var LB_POINTS = { seeking: 10, none_found: 10, none: 8, partner: 5, applied: 4, not_funded: 4, financed: 2 };
   var LB_PHRASE = {
@@ -249,16 +252,18 @@
       var subject = prof ? prof.subjectGeoid : r.geoid;
       var cov = coverage[subject] || coverage[CONSOLIDATED[subject]] || null;
       var viaLocal = prof && prof.inheritsFrom && county ? ' (through ' + county.name + ')' : '';
-      if (prof && prof.parts.council.counted.length) {
-        var a0 = prof.parts.council.counted.slice().sort(function (x, y) { return String(y.date).localeCompare(String(x.date)); })[0];
+      // Only actions on a specific income-restricted project count; policy and code adoptions are scored elsewhere.
+      var projectActs = prof ? prof.parts.council.counted.filter(function (i) { return PROJECT_ACTIONS[i.type]; }) : [];
+      if (projectActs.length) {
+        var a0 = projectActs.slice().sort(function (x, y) { return String(y.date).localeCompare(String(x.date)); })[0];
         f.approvals = { points: 10, value: a0.title + ' (' + a0.date + ')' + viaLocal, date: a0.date, url: a0.source && a0.source.url,
-          good: 'recent approvals of income-restricted homes' };
-        prof.parts.council.counted.forEach(function (i) {
+          good: 'recent council action on income-restricted projects' };
+        projectActs.forEach(function (i) {
           var d = LSD.earliestDay(i.date);
           if (d) addSignal(signals, today, d, 'Approved: ' + i.title, i.source && i.source.url);
         });
-      } else if (prof && prof.parts.council.state === 'none_found') {
-        f.approvals = { points: 0, value: 'Records read, no approval in the last 36 months' + viaLocal, date: prof.checked,
+      } else if (prof && (prof.parts.council.state === 'none_found' || prof.parts.council.state === 'records')) {
+        f.approvals = { points: 0, value: 'Records read, no project approval in the last 36 months' + viaLocal, date: prof.checked,
           weak: 'no recent approvals on record' };
       } else {
         f.approvals = { points: null, value: 'Not yet checked' };

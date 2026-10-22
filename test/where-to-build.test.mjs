@@ -194,6 +194,27 @@ for (const [key, ids] of [['prop123', ['prop123']], ['awards', ['landBank']], ['
 ok(model.missing.length === 0, 'every file loads in the test set');
 ok(page.includes('model.missing'), 'the page says which files did not load');
 
+// ---- 6e. Approvals count only actions on a specific project, never a policy or code adoption.
+{
+  const PROJECT = new Set(['project_approval', 'rezoning_approval', 'funding_award', 'land_contribution', 'fee_waiver_approval']);
+  const byGeoid = Object.fromEntries(docs.support.jurisdictions.map((j) => [j.geoid, j]));
+  for (const p of model.places) {
+    const a = p.factors.approvals;
+    if (a.points === 10) {
+      const titles = docs.support.jurisdictions.flatMap((j) => j.items).filter((i) => PROJECT.has(i.type)).map((i) => i.title);
+      ok(titles.some((t) => a.value.startsWith(t)), `${p.name}: the approval shown is a project action (${a.value})`);
+    }
+    for (const g of p.signals.filter((x) => x.text.startsWith('Approved: '))) {
+      const item = docs.support.jurisdictions.flatMap((j) => j.items).find((i) => 'Approved: ' + i.title === g.text);
+      ok(item && PROJECT.has(item.type), `${p.name}: approval signal "${g.text}" is a project action`);
+    }
+  }
+  const bv = model.places.find((x) => x.name === 'Buena Vista (town)');
+  ok(bv && bv.factors.approvals.points === 0 && !bv.signals.some((g) => /expedited review/i.test(g.text)),
+    'Buena Vista: its Prop 123 code adoption and recommendation do not count as project approvals');
+  void byGeoid;
+}
+
 // ---- 7. Red flags and signals are dated and sourced.
 for (const p of model.places) {
   for (const g of p.signals) ok(/^\d{4}-\d{2}-\d{2}$/.test(g.date) && g.points > 0 && g.points <= 5, `${p.name} signal is dated and worth up to 5`);
