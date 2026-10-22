@@ -604,7 +604,7 @@ footer.site-footer .footer-wrap {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
+  min-height: 44px;
   padding: 4px 12px;
   border: 1px solid currentColor;
   border-radius: 999px;
