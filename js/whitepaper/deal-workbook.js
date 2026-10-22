@@ -341,7 +341,13 @@
     var gm = m.basis.gapMethod || {};
     if (gm.binding) out.push({ level: 'warn', text: 'CHFA\'s gap method limits the credit: the deal needs only ' + money(num(gm.credit)) + ' a year to fill its gap.', source: gm.citation ? { where: gm.citation } : null });
     if (m.basis.stopReason) out.push({ level: 'warn', text: 'Eligible and qualified basis were not fully calculated: ' + m.basis.stopReason.replace(/\.$/, '') + '.' + (m.basis.credit != null ? ' The yearly credit shown is the entered award, not one the basis supports.' : '') });
-    if (m.basis.boost && m.basis.boost.applied === false && m.basis.boost.reason) out.push({ level: 'ok', text: 'No basis boost: ' + m.basis.boost.reason });
+    // No designation, or one that does not apply to this credit type, is a settled answer; a designation left
+    // without its evidence, award or rule is an open input that took the boost out of the credit.
+    var bst = m.basis.boost;
+    if (bst && bst.applied === false && bst.reason) {
+      var settled = /^No QCT, DDA, SADDA or CHFA designation selected|applies only to \d/.test(bst.reason);
+      out.push({ level: settled ? 'ok' : 'warn', text: (settled ? 'No basis boost: ' : 'The basis boost was left out of the credit: ') + bst.reason });
+    }
 
     var df = m.deferredFee;
     // Unknown is not the same as none: the engine says why it could not size the fee.

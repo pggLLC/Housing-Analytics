@@ -265,6 +265,11 @@ ok(blankGov.sources.rows.some((x) => x.amount === null && x.label === 'County lo
 const stopped = mut0((s) => { s.result.costBasis.basis.reasons = { eligibleBasis: 'Confirm the building purchase meets 26 U.S.C. 42(d)(2).' }; s.result.costBasis.basis.qualifiedBasis = null; });
 ok(stopped.basis.stopReason && /warn: Eligible and qualified basis were not fully calculated: Confirm the building purchase/.test(texts(stopped)) && WB.render(stopped).includes('Basis not fully calculated'), 'a stopped basis calculation says why');
 ok(!m.basis.stopReason && !/not fully calculated/.test(texts(m)), 'a complete basis has no stop reason');
+const boostOpen = mut0((s) => { s.result.costBasis.basis.boost = { applied: false, multiplier: 1, reason: 'Add the evidence for the QCT designation (HUD map or list, or CHFA letter).' }; });
+ok(/warn: The basis boost was left out of the credit: Add the evidence for the QCT designation/.test(texts(boostOpen)), 'a designation missing its evidence is a warning');
+const boostNone = mut0((s) => { s.result.costBasis.basis.boost = { applied: false, multiplier: 1, reason: 'No QCT, DDA, SADDA or CHFA designation selected.' }; });
+ok(/ok: No basis boost: No QCT/.test(texts(boostNone)), 'no designation selected passes');
+{ const cb = read('js/deal-cost-basis.js'); ok(cb.includes("'No QCT, DDA, SADDA or CHFA designation selected.'") && cb.includes("' applies only to '"), 'the settled boost reasons the workbook reads still come from the engine'); }
 const ungrouped = mut0((s) => { s.permanentFinancing.unclassified = [{ id: 'u1', program: null, label: 'Foundation loan', amount: 250000, reason: "Choose where this source counts in DOH's layout." }]; });
 ok(ungrouped.sources.rows.some((x) => x.amount === 250000 && x.label === "Foundation loan: not yet grouped, Choose where this source counts in DOH's layout."), 'a source with no DOH group keeps its reason');
 
