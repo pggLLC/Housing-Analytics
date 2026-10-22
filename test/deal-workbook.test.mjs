@@ -207,4 +207,9 @@ ok(surplus.exec.gap === -50000 && /ok: Sources exceed costs by \$50,000/.test(su
 const shortHold = mut0((s) => { s.result.exit.dfYr = null; s.result.deferredDevFee = 100000; s.result.projection.rows.forEach((y) => { y.deferredFeePaid = 10000; }); });
 ok(shortHold.exec.paybackYear === 10 && !/Not in 15 yrs/.test(WB.render(shortHold)), 'a payoff after a short exit hold but by year 15 is found from the cash flow');
 
+const residue = mut0((s) => { s.result.exit.dfYr = null; s.result.deferredDevFee = 100000; s.result.projection.rows.forEach((y, i) => { y.deferredFeePaid = i === 9 ? 10000 - 7.45e-9 : 10000; }); });
+ok(residue.exec.paybackYear === 10, 'a floating-point residue on a paid fee still counts as paid');
+const noCalcCredit = mut0((s) => { s.result.costBasis.basis.calculatedCredit = null; });
+ok(noCalcCredit.basis.rate === null, 'an unavailable calculated credit leaves the credit rate unknown, not 0%');
+
 console.log(`deal-workbook: ${checks} checks passed`);

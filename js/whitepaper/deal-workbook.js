@@ -111,7 +111,7 @@
     // Basis and credits.
     var b = r.costBasis && r.costBasis.basis;
     if (b) {
-      var rate = num(b.qualifiedBasis) ? num(b.calculatedCredit) / num(b.qualifiedBasis) : null;
+      var rate = num(b.qualifiedBasis) && num(b.calculatedCredit) != null ? num(b.calculatedCredit) / num(b.qualifiedBasis) : null;
       model.basis = {
         eligible: num(b.eligibleBasis), grantReduction: num(b.grantReduction), boost: b.boost || {}, boosted: num(b.boostedBasis),
         applicableFraction: num(b.applicableFraction), qualified: num(b.qualifiedBasis), rate: rate, calculated: num(b.calculatedCredit),
@@ -199,7 +199,8 @@
 
     // Deferred fee.
     var feeRows = model.cashFlow.rows;
-    var paidOff = dfee > 0 ? feeRows.filter(function (y) { return y.feeOwed === 0; })[0] : null;
+    // Payments are floating-point differences, so a balance under half a dollar is paid.
+    var paidOff = dfee > 0 ? feeRows.filter(function (y) { return y.feeOwed != null && y.feeOwed < 0.5; })[0] : null;
     var gapRow = feeRows.filter(function (y) { return y.feePaid == null; })[0];
     var feePaid15 = feeRows.length < YEARS ? null : feeRows.reduce(function (s, y) { return s == null || y.feePaid == null ? null : s + y.feePaid; }, 0);
     model.deferredFee = { amount: dfee, reason: un.deferredDevFee || null, developerFee: num(r.devFeeTotal),
