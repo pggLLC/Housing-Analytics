@@ -102,7 +102,8 @@
         else if (k === fedKey && num(tc[k]) == null) sources.push({ label: label + ': not known, ' + (un.annualCredits || 'the credit was not calculated'), amount: null });
       });
       var sc = (r.costBasis && r.costBasis.stateCredit) || {};
-      if (num(tc.state)) sources.push({ label: 'Colorado state credit equity', amount: num(tc.state) });
+      // A capped award shows the reduced equity and says why, so it never reads as the amount entered.
+      if (num(tc.state)) sources.push({ label: 'Colorado state credit equity' + (sc.capReason ? ': ' + String(sc.capReason).replace(/\.$/, '') : ''), amount: num(tc.state) });
       else if (sc.entered && num(tc.state) == null) sources.push({ label: 'Colorado state credit equity: not known, ' + (sc.reason || 'its terms are incomplete'), amount: null });
       var cs = r.creditStack || {};
       if (num(tc.added)) sources.push({ label: tc.addedLabel || 'Other credit equity', amount: num(tc.added) });

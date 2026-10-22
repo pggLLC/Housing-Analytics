@@ -234,6 +234,8 @@ ok(!mut0((s) => { s.permanentFinancing.taxCredit.four = null; }).sources.rows.so
 const stateOpen = mut0((s) => { s.permanentFinancing.taxCredit.state = null; s.result.costBasis.stateCredit = { entered: true, reason: 'Enter the state credit price.' }; });
 ok(stateOpen.sources.rows.some((x) => x.amount === null && /Colorado state credit equity: not known, Enter the state credit price\./.test(x.label)), 'an entered but unsized state credit stays in the sources as unknown');
 ok(!mut0((s) => { s.permanentFinancing.taxCredit.state = null; }).sources.rows.some((x) => /state credit/.test(x.label)), 'no state credit row when none is entered');
+const stateCapped = mut0((s) => { s.permanentFinancing.taxCredit.state = 500000; s.result.costBasis.stateCredit = { entered: true, capReason: 'Colorado credit capped at $250,000 a year (C.R.S. 39-22-2102).' }; });
+ok(stateCapped.sources.rows.some((x) => x.amount === 500000 && x.label === 'Colorado state credit equity: Colorado credit capped at $250,000 a year (C.R.S. 39-22-2102)'), 'a capped state credit award says it was capped');
 const opsGone = mut0((s) => { s.result.operatingSummary.perUnitYear = null; s.result.operatingSummary.reason = 'Enter the insurance line.'; s.result.repReservePerUnit = null; s.result.vacancyRate = null; s.result.exit.rentGrowth = null;
   s.result.unavailable = Object.assign({}, s.result.unavailable, { repReservePerUnit: 'Enter the reserve.', vacancyRate: 'Enter vacancy.', 'exit.rentGrowth': 'Enter growth rates.' }); });
 const og = opsGone.findings.map((f) => f.level + ': ' + f.text).join('\n');
