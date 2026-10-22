@@ -24,6 +24,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { spawnSync } from 'node:child_process';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
@@ -310,7 +311,7 @@ ledgerAgreement(DATA);
   // Sabotage: the same panel in gated mode does name people, so the leak scan can see them.
   ok(towns.some((t) => leaks(LBM.popupHtml(t, DATA, C, false, { mode: 'gated', reportBase: 'developer-brief.html?geoid=' })).length > 0), 'sabotage: the gated panel names people and the scan sees it');
 
-  // Booted in a page, the public map requests the awards file and never the contacts file.
+  // Booted in a page, the public map requests the awards and status files and never the contacts file.
   const dom = new JSDOM(PAGE, { runScripts: 'outside-only', url: 'https://cohoanalytics.com/land-banking-awards.html' });
   const requested = [];
   const caches = [];
@@ -318,13 +319,13 @@ ledgerAgreement(DATA);
   dom.window.LandBankingMapNoAutoStart = true;
   dom.window.eval(read('js/land-banking-map.js'));
   await dom.window.LandBankingMap.start();
-  ok(requested.length === 1 && requested[0] === LBM.AWARDS, `the public page requests only the awards file (${requested.join(', ')})`);
+  ok(requested.length === 2 && requested[0] === LBM.AWARDS && requested[1] === LBM.STATUS, `the public page requests only the awards and status files (${requested.join(', ')})`);
   ok(caches[0] === 'no-store', 'the awards file is fetched with no-store, so a data update reaches a returning browser');
   ok(dom.window.document.querySelector('[data-lbm-towns]').querySelectorAll('button').length === towns.length, 'the public town list has every town');
   // The table and the map share one request, so they always show the same snapshot.
   dom.window.eval(read('js/land-banking-awards.js'));
   await new Promise((r) => setTimeout(r, 0));
-  ok(requested.length === 1, `the table reuses the map's request (${requested.length} requests)`);
+  ok(requested.length === 2, `the table reuses the map's request (${requested.length} requests)`);
   ok(dom.window.document.querySelector('[data-lb-rows]').querySelectorAll('tr').length > 1, 'the table rendered from the shared request');
   ok(!PAGE.includes('_land-banking-contacts') && !read('js/land-banking-awards.js').includes('_land-banking-contacts'), 'nothing on the public page names the contacts file');
   // Sabotage: marked gated, the same page asks for the contacts file.
@@ -370,7 +371,7 @@ ledgerAgreement(DATA);
   ok(!pub.includes("'land-banking-awards.html'") && !pub.includes("'js/land-banking-map.js'"), 'the public build keeps the public page and its map');
   // Every column header carries a hover definition (site rule: the tip is on the header itself).
   const ths = (PAGE.match(/<table class="data-table lb-table">[\s\S]*?<\/thead>/) || [''])[0].match(/<th\b[^>]*>/g) || [];
-  ok(ths.length === 8 && ths.every((t) => /data-tip="[^"]{20,}"/.test(t)), `every award table header has a hover definition (${ths.length})`);
+  ok(ths.length === 9 && ths.every((t) => /data-tip="[^"]{20,}"/.test(t)), `every award table header has a hover definition (${ths.length})`);
   ok(/button\[data-lb-more\]\[hidden\]\s*\{\s*display:\s*none/.test(PAGE), 'the "Show all" button really hides (the .btn rule sets display)');
 
   // A corrected name is what readers see; the printed row stays in the quote. A "since" line is dated and sourced.
@@ -387,6 +388,33 @@ ledgerAgreement(DATA);
     ok(LBA.rowHtml(a, DATA).includes('Since the award:') && LBM.popupHtml({ name: 'x', awards: [a] }, DATA, {}, false, { mode: 'public' }).includes('Since the award:'), `${a.id}: table and map both show "since"`);
   }
   ok(!/Mews|Phase II of/i.test(JSON.stringify(since)), 'no "since" line names a developer project');
+
+  // Each award's status: built from the ledger and the research notes, current, shown on both surfaces.
+  const ST = json('data/policy/prop123-land-banking-status.json');
+  ok(DATA.awards.every((a) => ST.status[a.id] && ST.meta.labels[ST.status[a.id].status] === ST.status[a.id].label), 'every award has a status with a known label');
+  ok(Object.keys(ST.status).length === DATA.awards.length, 'the status file has no award the list lacks');
+  ok(Array.isArray(ST.meta.unlinked) && ST.meta.unlinked.length === 0, `every award links to one ledger project (${(ST.meta.unlinked || []).join(', ')})`);
+  const rebuilt = spawnSync('python3', [join(ROOT, 'scripts/funding/build_land_banking_status.py'), '--check'], { encoding: 'utf8' });
+  ok(rebuilt.status === 0, `the status file is current (${(rebuilt.stderr || '').trim()})`);
+  for (const [id, st] of Object.entries(ST.status)) {
+    if (st.status === 'none' || st.status === 'none_found') continue;
+    ok(st.text && st.sources.length && st.sources.every((x) => /^https:\/\//.test(x.url)), `${id}: a "${st.status}" status is sourced`);
+  }
+  const research = json('data/policy/funding-awards/land-banking-status-research.json');
+  for (const [id, n] of Object.entries(research.entries)) {
+    ok(/^\d{4}-\d{2}-\d{2}$/.test(n.checked), `${id}: research note is dated`);
+    ok(!n.text || !isSensitive(n.text), `${id}: research text names no developer or person`);
+  }
+  ok(!/Northpointe|Southwest Community Partners|Volunteers of America|Mews/i.test(JSON.stringify(research.entries, (k, v) => (k === 'url' ? undefined : v))), 'research notes leave developer names to the linked sources');
+  globalThis.LandBankingMap = LBM;
+  const withStatus = LBM.attachStatus({ awards: DATA.awards.map((a) => ({ ...a })) }, ST).awards;
+  const partner = withStatus.find((a) => a.status && a.status.status === 'partner');
+  ok(partner && LBA.rowHtml(partner, DATA).includes('<strong>Development partner chosen</strong>') &&
+    LBM.popupHtml({ name: 'x', awards: [partner] }, DATA, {}, false, { mode: 'public' }).includes('Status: Development partner chosen'), 'table and map both show the status');
+  ok(LBA.csvText([partner], DATA).split('\n')[1].includes('Development partner chosen'), 'the download carries the status');
+  const evil = { ...partner, status: { ...partner.status, text: '<img src=x onerror=alert(1)>', sources: [{ title: 'x', url: 'javascript:alert(1)' }] } };
+  ok(!/<img|javascript:/.test(LBM.statusHtml(evil)), 'the status line escapes its text and drops non-https links');
+  delete globalThis.LandBankingMap;
 
   ok(!/developer-|jurisdiction-briefs/.test(read('js/land-banking-map.js').replace(/\/\*[\s\S]*?\*\//g, '')), 'the shared map code names no gated path');
 }

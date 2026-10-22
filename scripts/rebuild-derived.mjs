@@ -125,6 +125,12 @@ export const CHAIN = [
        + 'the development ledger for the gated Next round watch page; it runs after the ledger it reads',
   },
   {
+    id: 'land-banking-status',
+    argv: ['python3', 'scripts/funding/build_land_banking_status.py'],
+    why: 'data/policy/prop123-land-banking-status.json gives each land banking award its status '
+       + 'from later events on the same project in the development ledger; it runs after the ledger it reads',
+  },
+  {
     id: 'market-direction',
     argv: ['python3', 'scripts/market/build_market_direction.py'],
     why: 'data/market/market-direction.json reads permits, DOLA projections, LEHD jobs, '
