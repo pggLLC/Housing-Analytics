@@ -173,7 +173,9 @@ test('legislation does not price equity from unsourced constants', () => {
 test('the price chips on Dashboard, Regional and the Deep Dive lead with the Colorado median from the file', async () => {
   const CO = BENCH.pricing.by_state.CO.median_all_credits;
   for (const page of ['dashboard.html', 'regional.html', 'colorado-deep-dive.html']) {
-    assert.ok(!/>\$0\.\d\d<\/(div|span)>/.test(read(page).replace(/<script[\s\S]*?<\/script>/g, '')),
+    const typed = [...new JSDOM(read(page)).window.document.querySelectorAll('div, span')]
+      .filter((el) => /^\$0\.\d\d$/.test(el.textContent.trim()));
+    assert.equal(typed.length, 0,
       `${page} types a credit price instead of reading data/market/novogradac-equity-pricing.json`);
     const { doc } = render(page);
     const chips = (k) => [...doc.querySelectorAll(`[data-equity-price="${k}"]`)];
