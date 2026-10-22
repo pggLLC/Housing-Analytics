@@ -170,6 +170,7 @@ ok(WB.calcUrl('"><script>x</script>&units=1', 'http://localhost/a/p.html').index
 ok(new URL(WB.calcUrl('javascript:alert(1)', 'http://localhost/a/p.html')).protocol === 'http:', 'a pasted script link cannot change where the link goes');
 ok(WB.queryFrom('https://example.com/search?q=housing') === null && WB.queryFrom('https://example.com/a=b') === null, 'a link to another page gives nothing');
 ok(WB.queryFrom('?units=60') === 'units=60' && WB.queryFrom('units=60') === 'units=60' && WB.queryFrom('/deal-calculator?units=60') === 'units=60', 'a bare query string or the calculator path still gives its settings');
+ok(WB.webLink('javascript:alert(1)') === '#' && WB.webLink('https://chfainfo.com/x') === 'https://chfainfo.com/x', 'a source link shows only when it is a web link');
 ok(WB.queryFrom('just some text') === null && WB.queryFrom({}) === null, 'anything else gives nothing');
 ok(WB.queryFrom('q=housing') === null && WB.queryFrom('/deal-calculator.html?q=housing') === null && WB.queryFrom({ data: { calculator: { query: 'q=1' } } }) === null, 'a query with no Deal Calculator setting gives nothing');
 ok(WB.queryFrom('pf-senior-amount=1000000') === 'pf-senior-amount=1000000', 'a financing setting counts as a calculator query');
@@ -243,6 +244,40 @@ ok(realRenters.counties.every((c) => /^08\d{3}$/.test(c.fips) && c.households_le
 ok(Object.values(JSON.parse(read(WB.MARKET_URLS.zori)).counties).every((c) => c.rent > 0), 'every Zillow county has a rent');
 const noMetro = mdata(); delete noMetro.zori.counties['08067'].metro;
 ok(!WB.market(mm, msnap, noMetro).trend && /no metro history/.test(WB.market(mm, msnap, noMetro).trendReason), 'a county with no Zillow metro says so instead of borrowing one');
+
+
+// ── The team's research (phase 3) ──────────────────────────────────────────
+near(WB.miles({ lat: 39.7392, lon: -104.9903 }, { lat: 38.8339, lon: -104.8214 }) , 63, 'Denver to Colorado Springs is about 63 miles');
+ok(WB.miles({ lat: 39.7, lon: null }, { lat: 38.8, lon: -104.8 }) === null, 'no coordinates, no distance');
+const lihtc = { features: [
+  { geometry: { coordinates: [-107.88, 37.28] }, properties: { PROJECT: 'Invented Near', PROJ_CTY: 'Durango', N_UNITS: 40, LI_UNITS: 40, AwardYear: 2020, CREDIT: '9% Competitive', AMIUnits: { ami30: 4, ami60: 36, ami80: 0 } } },
+  { geometry: { coordinates: [-105.0, 39.7] }, properties: { PROJECT: 'Invented Far', N_UNITS: 10, LI_UNITS: 10 } }] };
+const rec = { site: { address: 'Invented', lat: 37.2753, lon: -107.8801 },
+  comps: [
+    { name: 'Invented Far Market', kind: 'market', lat: 37.40, lon: -107.88, rents: { '2br': 1700 }, checked: '2026-10-01', source: 'https://example.org/a' },
+    { name: 'Invented Near Market', kind: 'market', lat: 37.28, lon: -107.88, rents: { '2br': 1600 }, checked: '2024-01-01', source: 'https://example.org/b' },
+    { name: 'Invented Credit', kind: 'tax credit', lat: 37.27, lon: -107.87, rents: { '2br': 900 }, checked: '2026-10-01', source: 'https://example.org/c' }],
+  waitlist: { keeper: 'Invented Housing Authority', asOf: '2026-10-01', total: 127, rows: [{ band: '30', size: '2', count: 40 }] },
+  survey: { region: 'Invented metro', period: '2026 Q1', avgRent: 1400, vacancy: 0.025, byType: [{ type: '3BR/2BA', rent: 1946, vacancy: 0.055 }], source: 'https://example.org/s' } };
+const rv = WB.research(m, rec, lihtc, '2026-10-22');
+ok(rv.comps[0].name === 'Invented Near Market' || rv.comps[0].name === 'Invented Credit', 'comparables are listed nearest first');
+ok(rv.comps[rv.comps.length - 1].name === 'Invented Far Market', 'the farthest comparable is last');
+near(rv.compAvg['2br'].rent, 1650, 'the comparable average uses market-rate properties only');
+ok(rv.compAvg['2br'].n === 2 && rv.compAvg['1br'] === null, 'a size no comparable reports is unknown, not 0');
+const rtext = rv.findings.map((f) => f.level + ': ' + f.text).join('\n');
+ok(/warn: 60% AMI 2BR rent is only 6% under the average market comparable \(\$1,650\)/.test(rtext), 'a rent under 10% below the comparables is flagged');
+ok(/warn: Invented Near Market was last checked 2024-01-01/.test(rtext) && !/Invented Far Market was last checked/.test(rtext), 'a comparable checked more than a year ago is flagged; a recent one is not');
+ok(/warn: 3BR\/2BA vacancy is 5\.5%/.test(rtext) && !/shows 2\.5% vacancy/.test(rtext), 'survey vacancy of 5% or more is flagged; 2.5% is not');
+ok(/ok: 127 households on the waitlist kept by Invented Housing Authority \(2026-10-01\) for 60 homes/.test(rtext), 'the waitlist total is set against the deal\'s homes');
+ok(rv.nearby.length === 1 && rv.nearby[0].name === 'Invented Near' && rv.nearby[0].mix === '4 at 30%, 36 at 60%', 'tax credit properties within 10 miles, with their income mix');
+ok(/bad: 60% AMI 2BR rent of \$1,549 is above the average market comparable/.test(WB.research(m, { comps: [{ name: 'X', kind: 'market', rents: { '2br': 1500 }, checked: '2026-10-01', source: 'https://example.org/x' }] }, null, '2026-10-22').findings.map((f) => f.level + ': ' + f.text).join('\n')), 'a rent above the comparables is a problem');
+ok(/No comparables yet/.test(WB.research(m, {}, null, '2026-10-22').findings[0].text), 'no comparables is a finding');
+ok(WB.research(m, { comps: rec.comps }, lihtc, '2026-10-22').nearby.length === 0 && WB.research(m, { comps: rec.comps }, lihtc, '2026-10-22').comps.every((c) => c.miles === null), 'without a site there are no distances and no nearby list');
+const rhtml = WB.renderResearch(rv);
+ok(/Comparables/.test(rhtml) && /Waitlist/.test(rhtml) && /Rent and vacancy survey/.test(rhtml) && /Tax credit properties within 10 miles/.test(rhtml), 'the research tables render');
+ok(/No names or applicant details are kept/.test(rhtml) && /our screens, not CHFA rules/.test(rhtml) && !/NaN|undefined/.test(rhtml), 'the waitlist says counts only; our screens are labelled; no NaN');
+ok(/rel="noopener noreferrer"/.test(rhtml) && !/<script/.test(WB.renderResearch(WB.research(m, { comps: [{ name: '<script>x</script>', kind: 'market', rents: {}, checked: '2026-10-01', source: 'https://example.org/"><script>' }] }, null, '2026-10-22'))), 'names and links are escaped');
+ok(WB.MARKET_API === '/api/deal-market', 'research is saved to the private backend');
 
 // ── Gating ─────────────────────────────────────────────────────────────────
 const page = read('developer-deal-workbook.html');
@@ -411,7 +446,7 @@ const sl = shortLoan.loans.find((l) => l.label === 'First mortgage');
 ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(texts(shortLoan)) && WB.render(shortLoan).includes('Owed after year 5'), 'loan balances and balloons stop at the forecast horizon');
 
 {
-  const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+  const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
   const doc = { getElementById: el, baseURI: 'https://example.org/developer-deal-workbook.html', querySelectorAll: () => [] };
   const saved = { fetch: globalThis.fetch, window: globalThis.window };
   globalThis.fetch = () => Promise.reject(new Error('offline'));
@@ -444,7 +479,7 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   // A saved version whose calculator is still running is dropped when the saved deal or version changes.
   const fx = fixture();
   const run = async (change) => {
-    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
     let frame, removed = 0;
     const doc = { getElementById: el, baseURI: 'https://example.org/developer-deal-workbook.html', querySelectorAll: () => [],
       body: { appendChild(f) { frame = f; } },

@@ -6,6 +6,7 @@
 <title>Deal Workbook — COHO Analytics</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
+<link rel="stylesheet" href="js/vendor/leaflet.css">
 <script src="js/developer-gate.js"></script>
 <style>
   .skip-link { position: absolute; top: -100px; left: var(--sp4); background: var(--accent); color: var(--on-accent, #fff); padding: 8px 16px; z-index: 1000; border-radius: var(--radius-sm, 6px); font-weight: 700; }
@@ -64,12 +65,15 @@
   .wb-routes > div { display: flex; flex-direction: column; gap: .5rem; }
   .wb-actions a.sr-btn { display: inline-flex; align-items: center; text-decoration: none; }
   .wb-actions [hidden] { display: none !important; }
+  .wb-map { height: 340px; border-radius: var(--radius); margin-bottom: var(--sp3); z-index: 0; }
+  .wb-form { margin-top: var(--sp2); }
+  .wb-form > summary, .wb-near > summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
   #wbStatus { min-height: 1.4em; font-weight: 600; color: var(--accent); }
   @media (max-width: 640px) {
     .wb-routes select, .wb-routes input, .wb-routes button { width: 100%; }
   }
   @media print {
-    #siteHeader, #devNav, #site-footer, .wb-load, .skip-link, #wbPrint, #wbOpenCalc { display: none !important; }
+    #siteHeader, #devNav, #site-footer, .wb-load, .skip-link, #wbPrint, #wbOpenCalc, .wb-form, #wbResSave, [data-del-comp] { display: none !important; }
     .dv-card { break-inside: avoid; border: 0; padding: 0; }
     .wb-cf .sr-table { font-size: 7pt; }
     details { display: block; }
@@ -115,6 +119,7 @@
       <li>CHFA minimum underwriting (operating cost, reserves, vacancy, growth, debt coverage): <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf">CHFA 2025-2026 QAP, Second Amendment</a>, Sections 4.B and 4.C. The 2027-28 plan replaces it for 2027 applications once adopted.</li>
       <li>Rent limits: CHFA's income and rent tables for the county the deal is set to.</li>
       <li>Market figures are for the deal's county, from files the site already publishes: renter households by income (Census ACS table B25118, against HUD area median income), Zillow's Observed Rent Index by county and metro, Census median gross rent (ACS B25064), and the site's <a href="deal-summary.html">deal summaries</a> of CHFA awards. They are a screen. A CHFA market study measures the area drawn around the site.</li>
+      <li>Your market research (site, comparables, waitlist counts, rent survey) is kept with the saved deal on the team site, under your sign-in. Waitlists are counts only; no names or applicant details are kept. Nearby tax credit properties: CHFA's housing tax credit property list.</li>
       <li>"What to check" lists what the figures show. It is not a credit decision or an appraisal.</li>
       <li>Something unclear? <a href="developer-about.html#ask">Ask pggLLC</a>.</li>
     </ul>
@@ -123,6 +128,8 @@
 <footer id="site-footer"></footer>
 <script src="js/navigation.js"></script>
 <script src="js/whitepaper/developer-nav.js"></script>
+<script src="js/vendor/leaflet.js"></script>
+<script src="js/config/basemaps.js"></script>
 <script src="js/whitepaper/deal-workbook.js"></script>
 </body>
 </html>

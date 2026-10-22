@@ -810,6 +810,111 @@
     return h;
   }
 
+  // ── The team's own research (pure) ────────────────────────────────────────
+  // Typed on this page and kept per deal by the private backend (/api/deal-market): the site's location,
+  // comparable properties with a source link each, waitlist counts (never names) and the CHFA/DOLA survey.
+  var MARKET_API = '/api/deal-market';
+  var LIHTC_URL = 'data/chfa-lihtc.json';
+  var NEARBY_MILES = 10;
+  var STALE_DAYS = 365;
+  var WAIT_BANDS = [['30', '30% AMI or less'], ['50', '31–50% AMI'], ['60', '51–60% AMI'], ['80', '61–80% AMI'], ['over80', 'Over 80% AMI'], ['unknown', 'Income not recorded']];
+  var WAIT_SIZES = ['1', '2', '3', '4', '5+', 'any'];
+  var COMP_BEDS = [['studio', 'Studio'], ['1br', '1BR'], ['2br', '2BR'], ['3br', '3BR'], ['4br', '4BR']];
+
+  function miles(a, b) {
+    if (!a || !b || num(a.lat) == null || num(a.lon) == null || num(b.lat) == null || num(b.lon) == null) return null;
+    var R = 3958.8, toR = Math.PI / 180;
+    var dLat = (b.lat - a.lat) * toR, dLon = (b.lon - a.lon) * toR;
+    var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a.lat * toR) * Math.cos(b.lat * toR) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+
+  // rec: the saved research { site, comps, waitlist, survey }; lihtc: data/chfa-lihtc.json; today: 'YYYY-MM-DD'.
+  function research(m, rec, lihtc, today) {
+    rec = rec || {};
+    var site = rec.site && num(rec.site.lat) != null && num(rec.site.lon) != null ? rec.site : null;
+    var v = { site: rec.site || null, findings: [] };
+    v.comps = (rec.comps || []).map(function (c) { return Object.assign({}, c, { miles: site ? miles(site, c) : null }); })
+      .sort(function (a, b) { return (a.miles == null ? 1e9 : a.miles) - (b.miles == null ? 1e9 : b.miles); });
+    // Average comparable rent by size, market-rate comparables only.
+    v.compAvg = {};
+    COMP_BEDS.forEach(function (bd) {
+      var xs = v.comps.filter(function (c) { return c.kind === 'market' && c.rents && num(c.rents[bd[0]]) != null; }).map(function (c) { return num(c.rents[bd[0]]); });
+      v.compAvg[bd[0]] = xs.length ? { rent: xs.reduce(function (s, x) { return s + x; }, 0) / xs.length, n: xs.length } : null;
+    });
+    v.rentVsComps = (m && m.rents ? m.rents.rows : []).filter(function (x) { return typeof x.tier === 'number'; }).map(function (x) {
+      var br = BR_KEY[String(x.bedrooms || '').toUpperCase()], avg = br ? v.compAvg[br] : null;
+      return { tier: x.tier, bedrooms: x.bedrooms, rent: x.rent, comp: avg ? avg.rent : null, n: avg ? avg.n : 0, discount: avg && x.rent != null ? 1 - x.rent / avg.rent : null };
+    });
+    // Tax credit properties near the site, from CHFA's property list.
+    var feats = (lihtc && lihtc.features) || [];
+    v.nearby = site ? feats.map(function (f) {
+      var c = f.geometry && f.geometry.coordinates, p = f.properties || {};
+      var d = c ? miles(site, { lat: c[1], lon: c[0] }) : null;
+      var mix = p.AMIUnits ? Object.keys(p.AMIUnits).filter(function (k) { return num(p.AMIUnits[k]) > 0; }).map(function (k) { return p.AMIUnits[k] + ' at ' + k.replace(/^ami/, '').replace(/^lte/, '≤') + '%'; }).join(', ') : '';
+      return { name: p.PROJECT || p.ReportedName, city: p.PROJ_CTY, units: num(p.N_UNITS), li: num(p.LI_UNITS), year: num(p.AwardYear || p.YR_ALLOC), credit: p.CREDIT || p.TypeOfCredits || '', mix: mix, lat: c && c[1], lon: c && c[0], miles: d };
+    }).filter(function (x) { return x.miles != null && x.miles <= NEARBY_MILES; }).sort(function (a, b) { return a.miles - b.miles; }) : [];
+    v.waitlist = rec.waitlist || null;
+    v.survey = rec.survey || null;
+
+    var f = v.findings;
+    if (!v.comps.length) f.push({ level: 'warn', text: 'No comparables yet. Add the market-rate and tax credit properties a renter here would also consider, each with the page or call it came from.' });
+    else if (!v.comps.some(function (c) { return c.kind === 'market'; })) f.push({ level: 'warn', text: 'No market-rate comparables, so the rents cannot be checked against what renters pay now.' });
+    v.rentVsComps.forEach(function (x) {
+      if (x.discount == null) return;
+      if (x.discount < 0) f.push({ level: 'bad', text: x.tier + '% AMI ' + x.bedrooms + ' rent of ' + money(x.rent) + ' is above the average market comparable (' + money(x.comp) + ', ' + x.n + ' propert' + (x.n === 1 ? 'y' : 'ies') + ').' });
+      else if (x.discount < 0.10) f.push({ level: 'warn', text: x.tier + '% AMI ' + x.bedrooms + ' rent is only ' + pct(x.discount) + ' under the average market comparable (' + money(x.comp) + ').' });
+    });
+    var t = today ? Date.parse(today) : null;
+    v.comps.forEach(function (c) {
+      if (t != null && c.checked && (t - Date.parse(c.checked)) / 864e5 > STALE_DAYS) f.push({ level: 'warn', text: c.name + ' was last checked ' + c.checked + '. Check its rents again before relying on them.' });
+    });
+    if (v.survey) {
+      if (num(v.survey.vacancy) != null && v.survey.vacancy >= 0.05) f.push({ level: 'warn', text: 'The rent survey shows ' + pct(v.survey.vacancy, 1) + ' vacancy in ' + (v.survey.region || 'the region') + ' (' + (v.survey.period || 'latest') + '), so renters have choices.' });
+      (v.survey.byType || []).forEach(function (r) { if (num(r.vacancy) != null && r.vacancy >= 0.05) f.push({ level: 'warn', text: r.type + ' vacancy is ' + pct(r.vacancy, 1) + ' in the rent survey' + (num(r.rent) != null ? ', at ' + money(r.rent) + ' average rent' : '') + '. Units of this type may lease slower.' }); });
+    }
+    if (v.waitlist && num(v.waitlist.total) != null && m && m.units) f.push({ level: 'ok', text: v.waitlist.total.toLocaleString('en-US') + ' households on the waitlist' + (v.waitlist.keeper ? ' kept by ' + v.waitlist.keeper : '') + (v.waitlist.asOf ? ' (' + v.waitlist.asOf + ')' : '') + ' for ' + m.units + ' homes.' });
+    if (v.nearby.length) f.push({ level: 'ok', text: v.nearby.length + ' tax credit propert' + (v.nearby.length === 1 ? 'y' : 'ies') + ' within ' + NEARBY_MILES + ' miles of the site (' + v.nearby.reduce(function (s, x) { return s + (x.li || 0); }, 0).toLocaleString('en-US') + ' income-restricted homes).' });
+    var rank = { bad: 0, warn: 1, ok: 2 };
+    f.sort(function (a, b) { return rank[a.level] - rank[b.level]; });
+    return v;
+  }
+
+  // The summary tables (pure). The form and map are drawn by the browser part.
+  // Team-entered source links show only as web links; anything else becomes a dead link.
+  function webLink(u) { return /^https?:\/\//i.test(String(u || '')) ? String(u) : '#'; }
+
+  function renderResearch(v) {
+    var h = '<h3>What the research shows</h3>';
+    h += v.findings.length ? '<ul>' + v.findings.map(function (f) { return '<li class="' + (f.level === 'bad' ? 'sr-red' : f.level === 'warn' ? 'sr-yellow' : '') + '">' + esc(f.text) + '</li>'; }).join('') + '</ul>' : '';
+    h += '<p class="sr-muted">The 10%-under-market and 5%-vacancy lines are our screens, not CHFA rules.</p>';
+    if (v.comps.length) {
+      h += '<h3>Comparables</h3>' + table(['Property', 'Type', 'Miles', 'Built', 'Homes', 'Studio', '1BR', '2BR', '3BR', '4BR', 'Vacancy', 'Checked', 'Source', ''], v.comps.map(function (c, i) {
+        return { cells: [esc(c.name) + (c.concessions ? '<div class="sr-muted">' + esc(c.concessions) + '</div>' : ''), esc(c.kind), esc(c.miles == null ? '—' : c.miles.toFixed(1)), esc(c.yearBuilt || '—'), esc(c.units || '—')]
+          .concat(COMP_BEDS.map(function (bd) { return esc(c.rents && num(c.rents[bd[0]]) != null ? money(c.rents[bd[0]]) : '—'); }))
+          .concat([esc(c.vacancy == null ? '—' : pct(c.vacancy, 1)), esc(c.checked), '<a href="' + esc(webLink(c.source)) + '" rel="noopener noreferrer" target="_blank">Link</a>', '<button type="button" class="sr-btn" data-del-comp="' + i + '" aria-label="Remove ' + esc(c.name) + '">Remove</button>']) };
+      }), { num: [2, 3, 4, 5, 6, 7, 8, 9, 10] });
+      var cmp = v.rentVsComps.filter(function (x) { return x.comp != null; });
+      if (cmp.length) h += table(['AMI', 'Size', 'Rent', 'Average market comparable', 'Under'], cmp.map(function (x) {
+        return { cls: x.discount < 0.10 ? 'sr-diff' : '', cells: [esc(x.tier + '%'), esc(x.bedrooms), esc(money(x.rent)), esc(money(x.comp) + ' (' + x.n + ')'), esc(pct(x.discount))] };
+      }), { num: [2, 3, 4] });
+    }
+    if (v.nearby.length) h += '<details class="wb-near"><summary>Tax credit properties within ' + NEARBY_MILES + ' miles (' + v.nearby.length + ')</summary>' + table(['Property', 'Town', 'Miles', 'Homes', 'Income-restricted', 'Award', 'Income mix'], v.nearby.map(function (x) {
+      return { cells: [esc(x.name), esc(x.city || ''), esc(x.miles.toFixed(1)), esc(x.units == null ? '—' : x.units), esc(x.li == null ? '—' : x.li), esc((x.year || '') + ' ' + x.credit), esc(x.mix || '—')] };
+    }), { num: [2, 3, 4] }) + '<p class="sr-muted">From CHFA\'s housing tax credit property list (data/chfa-lihtc.json).</p></details>';
+    if (v.waitlist && v.waitlist.rows && v.waitlist.rows.length) {
+      h += '<h3>Waitlist</h3>' + table(['Income', 'Household size', 'Households'], v.waitlist.rows.map(function (r) {
+        var b = WAIT_BANDS.filter(function (x) { return x[0] === r.band; })[0];
+        return { cells: [esc(b ? b[1] : r.band), esc(r.size === 'any' ? 'Any' : r.size + (r.size === '1' ? ' person' : ' people')), esc(r.count)] };
+      }), { num: [2] }) + '<p class="sr-muted">Counts only' + esc((v.waitlist.keeper ? ', kept by ' + v.waitlist.keeper : '') + (v.waitlist.asOf ? ', as of ' + v.waitlist.asOf : '')) + '. No names or applicant details are kept.</p>';
+    }
+    if (v.survey) {
+      h += '<h3>Rent and vacancy survey</h3><p>' + esc((v.survey.region || 'Region') + ', ' + (v.survey.period || '') + ': average rent ' + money(num(v.survey.avgRent)) + ', vacancy ' + pct(num(v.survey.vacancy), 1) + '.') + ' <a href="' + esc(webLink(v.survey.source)) + '" rel="noopener noreferrer" target="_blank">Source</a></p>';
+      if ((v.survey.byType || []).length) h += table(['Unit type', 'Average rent', 'Vacancy'], v.survey.byType.map(function (r) { return { cells: [esc(r.type), esc(money(num(r.rent))), esc(pct(num(r.vacancy), 1))] }; }), { num: [1, 2] });
+    }
+    return h;
+  }
+
   // ── Browser ───────────────────────────────────────────────────────────────
   // onStart receives a cancel function, so a newer request can stop this calculator instead of letting it load on.
   function loadFrame(doc, query, timeoutMs, pollMs, onStart) {
@@ -867,7 +972,7 @@
   var _mkt = null;
   function loadMarket() {
     if (_mkt) return _mkt;
-    var get = function (u, text) { return fetch(u).then(function (r) { return r.ok ? (text ? r.text() : r.json()) : null; }).catch(function () { return null; }); };
+    var get = function (u, text) { return settleWithin(fetch(u).then(function (r) { return r.ok ? (text ? r.text() : r.json()) : null; }), 20000); };
     var keys = Object.keys(MARKET_URLS);
     _mkt = Promise.all(keys.map(function (k) { return get(MARKET_URLS[k], k === 'zoriMetro'); })).then(function (res) {
       var o = {}; keys.forEach(function (k, i) { o[k === 'zoriMetro' ? 'zoriMetroCsv' : k] = res[i]; }); return o;
@@ -876,7 +981,7 @@
   }
   // Each award record in the county, for its status and income mix.
   function loadDealDetails(mkt, mk) {
-    var get = function (slug) { return fetch('data/deals/' + slug + '.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
+    var get = function (slug) { return settleWithin(fetch('data/deals/' + slug + '.json').then(function (r) { return r.ok ? r.json() : null; }), 20000); };
     var slugs = (mk.pipeline || []).map(function (p) { return p.slug; });
     return Promise.all(slugs.map(get)).then(function (res) { var o = {}; slugs.forEach(function (s, i) { if (res[i]) o[s] = res[i]; }); return o; });
   }
@@ -910,6 +1015,135 @@
       var t = setTimeout(function () { resolve(null); }, ms);
       p.then(function (v) { clearTimeout(t); resolve(v); }, function () { clearTimeout(t); resolve(null); });
     });
+  }
+
+  // The research editor: forms, map and save, for a deal saved in Submittal review.
+  function researchEditor(doc, deal, model, onError) {
+    var $ = function (id) { return doc.getElementById(id); };
+    var box = $('wbResearch');
+    var rec = { site: null, comps: [], waitlist: null, survey: null };
+    var lihtc = null, map = null, layer = null;
+    var today = new Date().toISOString().slice(0, 10);
+    var field = function (id, label, type, extra) { return '<label class="sr-field" for="' + id + '">' + label + '<input type="' + (type || 'text') + '" id="' + id + '"' + (extra || '') + '></label>'; };
+    var numIn = function (id, label, extra) { return field(id, label, 'number', ' inputmode="decimal"' + (extra || '')); };
+    box.innerHTML = '<section class="dv-card" aria-labelledby="wbResH"><h2 id="wbResH">Your market research</h2>' +
+      '<p class="sr-muted">Typed here and kept with this deal on the team site only, under your sign-in. Every comparable needs the date you checked it and a link to where the figures came from.</p>' +
+      '<div id="wbResMap" class="wb-map" role="img" aria-label="Map of the site, comparables and nearby tax credit properties"></div><div id="wbResView"></div>' +
+      '<details class="wb-form"><summary>Site location</summary><div class="sr-row">' + field('wbSiteAddr', 'Address') + numIn('wbSiteLat', 'Latitude', ' step="any"') + numIn('wbSiteLon', 'Longitude', ' step="any"') + '</div>' +
+      '<p class="sr-muted">Latitude and longitude: right-click the site on most web maps to copy them.</p></details>' +
+      '<details class="wb-form"><summary>Add a comparable</summary><div class="sr-row">' + field('wbCName', 'Property name') +
+      '<label class="sr-field" for="wbCKind">Type<select id="wbCKind"><option value="market">Market rate</option><option value="tax credit">Tax credit</option><option value="other">Other</option></select></label>' +
+      field('wbCAddr', 'Address') + numIn('wbCLat', 'Latitude', ' step="any"') + numIn('wbCLon', 'Longitude', ' step="any"') + numIn('wbCYear', 'Year built', ' step="1"') + numIn('wbCUnits', 'Homes', ' step="1"') + '</div><div class="sr-row">' +
+      COMP_BEDS.map(function (bd) { return numIn('wbCR' + bd[0], bd[1] + ' rent', ' step="1" class="sr-small"'); }).join('') + numIn('wbCVac', 'Vacancy %', ' step="any" class="sr-small"') + '</div><div class="sr-row">' +
+      field('wbCConc', 'Concessions') + field('wbCChecked', 'Date checked', 'date', ' value="' + today + '"') + field('wbCSrc', 'Source link', 'url', ' placeholder="https://"') + '</div>' +
+      '<button type="button" class="sr-btn" id="wbCAdd">Add comparable</button></details>' +
+      '<details class="wb-form"><summary>Waitlist counts</summary><p class="sr-muted">Totals only. Do not type names or any applicant details.</p><div class="sr-row">' +
+      field('wbWKeeper', 'Who keeps the list') + field('wbWAsOf', 'As of', 'date') + numIn('wbWTotal', 'Households on the list', ' step="1"') + '</div>' +
+      '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col">Income</th>' + WAIT_SIZES.map(function (z) { return '<th scope="col" class="sr-num">' + (z === 'any' ? 'Any size' : z + (z === '1' ? ' person' : ' people')) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      WAIT_BANDS.map(function (b) { return '<tr><th scope="row">' + esc(b[1]) + '</th>' + WAIT_SIZES.map(function (z) { return '<td><input type="number" min="0" step="1" class="sr-small" data-wait="' + b[0] + '|' + z + '" aria-label="' + esc(b[1] + ', ' + z) + '"></td>'; }).join('') + '</tr>'; }).join('') +
+      '</tbody></table></div></details>' +
+      '<details class="wb-form"><summary>Rent and vacancy survey</summary><div class="sr-row">' + field('wbSRegion', 'Survey region') + field('wbSPeriod', 'Quarter', 'text', ' placeholder="2026 Q1"') + numIn('wbSRent', 'Average rent', ' step="1"') + numIn('wbSVac', 'Vacancy %', ' step="any"') + '</div>' +
+      [0, 1, 2].map(function (i) { return '<div class="sr-row">' + field('wbST' + i, 'Unit type') + numIn('wbSTR' + i, 'Rent', ' step="1"') + numIn('wbSTV' + i, 'Vacancy %', ' step="any"') + '</div>'; }).join('') +
+      '<div class="sr-row">' + field('wbSSrc', 'Source link', 'url', ' placeholder="https://"') + '</div></details>' +
+      '<p><button type="button" class="sr-primary" id="wbResSave">Save research</button> <span id="wbResStatus" role="status"></span></p></section>';
+
+    var val = function (id) { var el = $(id); return el ? el.value.trim() : ''; };
+    var nOrNull = function (x) { return x === '' ? null : num(x); };
+    var pctIn = function (x) { var n = nOrNull(x); return n == null ? null : n / 100; };
+    function fill() {
+      var s = rec.site || {};
+      $('wbSiteAddr').value = s.address || ''; $('wbSiteLat').value = s.lat == null ? '' : s.lat; $('wbSiteLon').value = s.lon == null ? '' : s.lon;
+      var w = rec.waitlist || {};
+      $('wbWKeeper').value = w.keeper || ''; $('wbWAsOf').value = w.asOf || ''; $('wbWTotal').value = w.total == null ? '' : w.total;
+      Array.prototype.forEach.call(box.querySelectorAll('[data-wait]'), function (el) {
+        var k = el.getAttribute('data-wait').split('|'), hit = (w.rows || []).filter(function (r) { return r.band === k[0] && r.size === k[1]; })[0];
+        el.value = hit ? hit.count : '';
+      });
+      var v = rec.survey || {};
+      $('wbSRegion').value = v.region || ''; $('wbSPeriod').value = v.period || ''; $('wbSRent').value = v.avgRent == null ? '' : v.avgRent;
+      $('wbSVac').value = v.vacancy == null ? '' : +(v.vacancy * 100).toFixed(2); $('wbSSrc').value = v.source || '';
+      [0, 1, 2].forEach(function (i) { var r = (v.byType || [])[i] || {}; $('wbST' + i).value = r.type || ''; $('wbSTR' + i).value = r.rent == null ? '' : r.rent; $('wbSTV' + i).value = r.vacancy == null ? '' : +(r.vacancy * 100).toFixed(2); });
+    }
+    function read() {
+      var lat = nOrNull(val('wbSiteLat')), lon = nOrNull(val('wbSiteLon'));
+      rec.site = val('wbSiteAddr') || lat != null ? { address: val('wbSiteAddr'), lat: lat, lon: lon } : null;
+      var rows = [];
+      Array.prototype.forEach.call(box.querySelectorAll('[data-wait]'), function (el) {
+        var n = nOrNull(el.value); if (n == null) return;
+        var k = el.getAttribute('data-wait').split('|'); rows.push({ band: k[0], size: k[1], count: Math.round(n) });
+      });
+      var total = nOrNull(val('wbWTotal'));
+      rec.waitlist = rows.length || total != null ? { keeper: val('wbWKeeper'), asOf: val('wbWAsOf'), total: total == null ? null : Math.round(total), rows: rows } : null;
+      var byType = [0, 1, 2].map(function (i) { return { type: val('wbST' + i), rent: nOrNull(val('wbSTR' + i)), vacancy: pctIn(val('wbSTV' + i)) }; }).filter(function (r) { return r.type; });
+      var sv = { region: val('wbSRegion'), period: val('wbSPeriod'), avgRent: nOrNull(val('wbSRent')), vacancy: pctIn(val('wbSVac')), byType: byType, source: val('wbSSrc') };
+      rec.survey = sv.avgRent != null || sv.vacancy != null || byType.length ? sv : null;
+    }
+    function draw() {
+      var v = research(model, rec, lihtc, today);
+      $('wbResView').innerHTML = renderResearch(v);
+      drawMap(v);
+    }
+    function drawMap(v) {
+      var L = doc.defaultView && doc.defaultView.L;
+      var el = $('wbResMap');
+      var pts = [];
+      if (v.site && num(v.site.lat) != null && num(v.site.lon) != null) pts.push({ lat: v.site.lat, lon: v.site.lon, kind: 'site', label: 'Site' + (v.site.address ? ': ' + v.site.address : '') });
+      v.comps.forEach(function (c) { if (c.lat != null && c.lon != null) pts.push({ lat: c.lat, lon: c.lon, kind: c.kind === 'market' ? 'market' : 'credit', label: c.name }); });
+      v.nearby.forEach(function (x) { if (x.lat != null) pts.push({ lat: x.lat, lon: x.lon, kind: 'chfa', label: x.name + ' (tax credit, ' + (x.li == null ? '?' : x.li) + ' restricted homes)' }); });
+      if (!L || !pts.length) { el.hidden = true; return; }
+      el.hidden = false;
+      if (!map) {
+        map = L.map(el, { scrollWheelZoom: false });
+        var dv = doc.defaultView;
+        (dv.COHOBasemaps ? dv.COHOBasemaps.light() : L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' })).addTo(map);
+      }
+      if (layer) layer.remove();
+      var COLORS = { site: '#b42318', market: '#1d4ed8', credit: '#0f766e', chfa: '#6b7280' };
+      layer = L.layerGroup(pts.map(function (p) {
+        return L.circleMarker([p.lat, p.lon], { radius: p.kind === 'site' ? 9 : 6, color: COLORS[p.kind], fillColor: COLORS[p.kind], fillOpacity: 0.8, weight: 2 }).bindTooltip(p.label);
+      })).addTo(map);
+      map.fitBounds(L.latLngBounds(pts.map(function (p) { return [p.lat, p.lon]; })).pad(0.2), { maxZoom: 14 });
+      setTimeout(function () { map.invalidateSize(); }, 50);
+    }
+    function say(t) { $('wbResStatus').textContent = t; }
+
+    $('wbCAdd').addEventListener('click', function () {
+      var c = { name: val('wbCName'), kind: val('wbCKind'), address: val('wbCAddr'), lat: nOrNull(val('wbCLat')), lon: nOrNull(val('wbCLon')),
+        yearBuilt: nOrNull(val('wbCYear')), units: nOrNull(val('wbCUnits')), rents: {}, vacancy: pctIn(val('wbCVac')),
+        concessions: val('wbCConc'), checked: val('wbCChecked'), source: val('wbCSrc') };
+      COMP_BEDS.forEach(function (bd) { c.rents[bd[0]] = nOrNull(val('wbCR' + bd[0])); });
+      if (!c.name || !c.checked || !/^https?:\/\//i.test(c.source)) { say('A comparable needs a name, the date you checked it and a source link starting with http.'); return; }
+      rec.comps.push(c);
+      ['wbCName', 'wbCAddr', 'wbCLat', 'wbCLon', 'wbCYear', 'wbCUnits', 'wbCVac', 'wbCConc', 'wbCSrc'].concat(COMP_BEDS.map(function (bd) { return 'wbCR' + bd[0]; })).forEach(function (id) { $(id).value = ''; });
+      say('Added. Save to keep it.'); draw();
+    });
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-del-comp]');
+      if (!b) return;
+      var v = research(model, rec, lihtc, today), gone = v.comps[Number(b.getAttribute('data-del-comp'))];
+      rec.comps = rec.comps.filter(function (c) { return c.name !== gone.name || c.source !== gone.source || c.checked !== gone.checked; });
+      say('Removed. Save to keep the change.'); draw();
+    });
+    box.addEventListener('change', function (e) { if (e.target.closest && e.target.closest('.wb-form') && !/^wbC/.test(e.target.id || '')) { read(); draw(); } });
+    $('wbResSave').addEventListener('click', function () {
+      read();
+      $('wbResSave').disabled = true; say('Saving…');
+      fetch(MARKET_API, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ deal: deal, data: rec }) })
+        .then(function (r) { return r.ok ? r.json() : r.text().then(function (t) { throw new Error(t || String(r.status)); }); })
+        .then(function (j) {
+          rec = j.data; fill(); draw();
+          say('Saved ' + new Date(j.at).toLocaleString() + (j.dropped ? '. ' + j.dropped + ' item' + (j.dropped === 1 ? ' was' : 's were') + ' not kept: each comparable needs a name, a date and a source link, and survey figures need a source link.' : '.'));
+        }, function (err) { say('Not saved: ' + err.message); })
+        .then(function () { $('wbResSave').disabled = false; });
+    });
+
+    var getJson = function (u) { return settleWithin(fetch(u, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }), 20000); };
+    Promise.all([getJson(MARKET_API + '?deal=' + encodeURIComponent(deal)), getJson(LIHTC_URL)]).then(function (res) {
+      if (res[0] && res[0].data) rec = res[0].data;
+      else if (!res[0]) say('Saved research did not load; anything you add here can still be saved.');
+      lihtc = res[1];
+      fill(); draw();
+    }, onError);
   }
 
   function start(doc, waitMs) {
@@ -946,10 +1180,13 @@
         if (my !== tok) { f.remove(); return; }
         var snap = readCalc(f.contentWindow, mkt); f.remove();
         var model = build(snap, rules, ctx);
-        $('wbOut').innerHTML = render(model, title) + '<div id="wbMarket"><p class="sr-muted">Loading market figures…</p></div>';
+        $('wbOut').innerHTML = render(model, title) + '<div id="wbMarket"><p class="sr-muted">Loading market figures…</p></div><div id="wbResearch"></div>';
         status(''); $('wbPrint').hidden = false;
         if ($('wbOut').scrollIntoView) $('wbOut').scrollIntoView({ block: 'start' });
         if (model.error) { $('wbMarket').innerHTML = ''; return; }
+        var deal = ctx && ctx.deal;
+        if (deal) researchEditor(doc, deal, model, function () { status('Your market research did not load.'); });
+        else $('wbResearch').innerHTML = '<p class="sr-muted">To add comparables, waitlist counts and the rent survey, save this deal in <a href="developer-submittal-review.html">Submittal review</a> and open it from the saved deals here.</p>';
         var first = market(model, snap, mkt);
         (first.error ? Promise.resolve({}) : loadDealDetails(mkt, first)).then(function (detail) {
           if (my !== tok) return;
@@ -992,7 +1229,7 @@
         var q = queryFrom(x);
         if (!q) { status('That version was saved without a Deal Calculator export. Open it in Submittal review, load an export, and save again.'); return; }
         var dl = (x.data && x.data.deal) || x.deal || {};
-        open(q, name, gen, { supportive: typeof dl.supportive === 'boolean' ? dl.supportive : null });
+        open(q, name, gen, { supportive: typeof dl.supportive === 'boolean' ? dl.supportive : null, deal: deal });
       });
     });
     $('wbOpenLink').addEventListener('click', function () { open(queryFrom($('wbLink').value), null); });
@@ -1019,5 +1256,5 @@
     else start(document);
   }
 
-  return { build: build, render: render, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, money: money, RULES_URL: RULES_URL, API: API };
+  return { build: build, render: render, research: research, renderResearch: renderResearch, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
 });
