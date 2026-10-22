@@ -140,6 +140,22 @@ ok(page.indexOf('id="summary"') < page.indexOf('class="ib-filters"'), 'the execu
     ok(f.evidence.length === want, `${p.name}: the status evidence is linked (${f.evidence.length} of ${want})`);
   }
   ok(model.places.some((p) => p.factors.landBank.evidence && p.factors.landBank.evidence.length), 'some land-bank rows link status evidence');
+  // An award missing from the status file, or with a status the rule doesn't name, is unscored, not guessed.
+  {
+    const single = model.places.filter((p) => p.type !== 'county' && (p.factors.landBank.awards || []).length === 1);
+    ok(single.length >= 2, 'two places with one land-bank award each');
+    const [gone, odd] = single;
+    const st2 = { ...st };
+    delete st2[gone.factors.landBank.awards[0].id];
+    st2[odd.factors.landBank.awards[0].id] = { ...st[odd.factors.landBank.awards[0].id], status: 'something_new' };
+    const m = W.build({ ...docs, lbStatus: { ...docs.lbStatus, status: st2 } }, TODAY);
+    for (const p0 of [gone, odd]) {
+      const f = m.places.find((p) => p.geoid === p0.geoid && p.type === p0.type).factors.landBank;
+      ok(f.points === null && /not scored/.test(f.value), `${p0.name}: an award with no known status is not scored (${f.points})`);
+    }
+    ok(m.places.every((p) => !p.factors.landBank.awards || p.factors.landBank.awards.every((a) => a.points === null || Object.values(EXPECT).includes(a.points))),
+      'no land-bank award gets a score the rule does not print');
+  }
   // A "seeking" signal takes its date and link from the status evidence, not the refresh date.
   {
     const award = docs.awards.awards.find((a) => model.places.some((p) => p.type !== 'county' && (p.factors.landBank.awards || []).some((x) => x.id === a.id)));

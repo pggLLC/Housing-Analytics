@@ -497,6 +497,11 @@
 
     function wirePipelineButtons() {
       if (!window.PipelineAddButton || !window.PipelineStore) return;
+      // Load the tracker once; each button's own load then reads the cache instead of fetching again.
+      Promise.resolve(window.PipelineStore.loadCanonical()).catch(function () {}).then(mountPipelineButtons);
+    }
+
+    function mountPipelineButtons() {
       Array.prototype.forEach.call(document.querySelectorAll('[data-pab-mount]'), function (el) {
         var geoid = el.getAttribute('data-geoid');
         var name = el.getAttribute('data-name');
