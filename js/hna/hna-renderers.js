@@ -8766,6 +8766,8 @@
             ? 'from the centre to the nearest confirmed stop: ' + escHtml(near.name || 'unnamed stop') + ' (' + escHtml(near.agency || 'agency not listed') + ')'
             : 'no confirmed stop found in Colorado data') + '</div></div>' +
         '</div>';
+      // The map: stops and the merged screening radius (js/transit-zone-map.js).
+      html += '<div class="hna-tz__map" data-tz-map></div>';
       if (tz.edgeOnly) {
         html += '<p>Less than 1% of ' + name + ' — a strip along its edge — is within ' + radius + ' miles of a confirmed stop; ' +
           'the nearest is ' + escHtml(String(tz.nearestToBoundaryMiles)) + ' miles from the boundary. Only sites on that edge could pass the screen.</p>';
@@ -8789,6 +8791,12 @@
       mount.setAttribute('data-tz-state', 'ok');
       mount.setAttribute('data-tz-radius', String(tz.radiusMiles));
       mount.setAttribute('data-tz-stops-generated', String(tz.stopsGenerated));
+      var mapMount = mount.querySelector('[data-tz-map]');
+      if (window.TransitZoneMap && mapMount) {
+        window.TransitZoneMap.render(mapMount, { geoid: geoid, name: tz.name, mapStatus: parts[1] });
+      } else if (mapMount) {
+        mapMount.innerHTML = '<p style="color:var(--muted);"><strong>Map unavailable.</strong> The map script did not load.</p>';
+      }
       return rec;
     });
   }
