@@ -256,6 +256,9 @@ def test_crime_weather_and_border_stories_are_left_out(geos):
         alert('US Homebuilder Sentiment Crashes to 14-Year Low', 'Reuters', date='2026-08-01'),
         alert('Colorado approves new data center development near Aurora', 'The Denver Post'),
         alert('Crash closes Highway 50 near Salida', 'Ark Valley Voice'),
+        # Market language, not weather or a fire (Codex review of #2459).
+        alert('Builders forecast fewer single-family starts next year', 'Reuters', date='2026-08-02'),
+        alert('Home prices are on fire as inventory tightens', 'Reuters', date='2026-08-03'),
     ], geos)
     assert set(by_title(stories)) == {
         'Water bill with funding for Colorado projects passes the House',
@@ -264,6 +267,8 @@ def test_crime_weather_and_border_stories_are_left_out(geos):
         'Pueblo apartment fire displaces 40 renters',
         'US Homebuilder Sentiment Drops to 14-Year Low on Weak Sales',
         'US Homebuilder Sentiment Crashes to 14-Year Low',
+        'Builders forecast fewer single-family starts next year',
+        'Home prices are on fire as inventory tightens',
     }
 
 
