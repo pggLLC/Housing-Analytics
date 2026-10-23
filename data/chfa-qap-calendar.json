@@ -276,6 +276,7 @@
     {
       "name":      "4% LIHTC + PAB (Private Activity Bond)",
       "category":  "4pct-rolling",
+      "closed_months": [2, 8, 12],
       "description":"4% Tax-Exempt Bond financing is reviewed on a rolling basis: preliminary applications are accepted all year except February, August and December (2027-28 QAP Third Draft, section 3.B.2, p. 16). Limited by annual PAB allocation — see data/pab-allocations.json for current year's available cap.",
       "url":       "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },

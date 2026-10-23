@@ -241,7 +241,7 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   const wa = WP.buildModel(src, '0833640', { FundingFit }).dynamics.localMoney;
   ok(wa.some((w) => /Land Banking/.test(w.program)), 'the Gunnison land-banking award reaches the landscape (non-vacuity)');
   const page = read('developer-brief.html');
-  ok(/WP\.landscapePath\(geoid\)/.test(page) && /WP\.relatedGeoids\(SOURCES, geoid\)/.test(page) && /related\.map\(g => softJson\(WP\.landscapePath\(g\)\)\)/.test(page) && /relatedContacts, relatedLandscape/.test(page), 'the page loads the place file and its related files, and passes them on');
+  ok(/WP\.landscapePath\(geoid\)/.test(page) && /WP\.relatedGeoids\(SOURCES, geoid\)/.test(page) && /related\.map\(g => trackedJson\(WP\.landscapePath\(g\), landscapeMisses\)\)/.test(page) && /relatedContacts, relatedLandscape/.test(page), 'the page loads the place file and its related files, and passes them on');
 }
 
 // ---- 8. The merged report: community profile, market rents, all properties, policy
@@ -364,6 +364,16 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   ok(cm.contacts.related.length === 1 && cm.contacts.related[0].contacts.length === cityContacts.contacts.length && !cm.contacts.needsResearch, 'the county report carries every researched City of Gunnison contact');
   ok(ch.includes('Researched for City of Gunnison</h3>') && cityContacts.contacts.every((c) => ch.includes(c.name)) && !ch.includes('No named contacts have been researched'), 'the county report prints them under their own heading, not the not-researched note');
   ok(cm.landscape.research && cm.landscape.research.placeLevel && /Researched for Gunnison \(city\), a town in this county/.test(ch), 'the county report uses the town landscape and says whose it is');
+  // A town's plan standing in for the county does not count toward the county's 5B2a line.
+  const hasSupport = (m) => !!(m.policy.support && m.policy.support.items && m.policy.support.items.length);
+  const pri = (m) => m.deal && m.deal.structure && m.deal.structure.lines.some((x) => x.id === '5B2a-priority');
+  if (!hasSupport(cm)) {
+    ok(cm.landscape.research.groups.some((g) => g.key === 'plans' && g.items.length) && !pri(cm), 'a town plan standing in for the county does not put 5B2a on the county report');
+    const town = WP.buildModel(src, '0833640', { FundingFit, landscape: cityLand });
+    ok(!town.landscape.research.placeLevel && pri(town), 'sabotage: the same plan on the town\'s own report does');
+  }
+  const ct = WP._internal.coloradoToday;
+  ok(ct(new Date('2027-02-01T03:00:00Z')) === '2027-01-31' && ct(new Date('2027-03-01T06:30:00Z')) === '2027-02-28' && ct(new Date('2027-03-01T08:00:00Z')) === '2027-03-01', 'the default date is the Denver date, not the UTC one');
   // A file for a place outside the county never stands in.
   const denver = clone(cityContacts); denver.geoid = '0820000';
   ok(WP.buildModel(src, '08051', { FundingFit, relatedContacts: [denver] }).contacts.related.length === 0, 'sabotage: another county\'s town file is ignored');

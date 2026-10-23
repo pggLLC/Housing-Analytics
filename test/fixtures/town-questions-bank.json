@@ -1,0 +1,33 @@
+{
+  "schema": "town-questions/v1",
+  "checked": "2026-10-22",
+  "note": "Test fixture only. The real question bank is private (coho-backend gated/data/jurisdiction-briefs/_town-questions.json); this file carries placeholder wording so the tests exercise every signal.",
+  "roles": {
+    "manager": { "label": "Manager", "match": ["manager", "administrator"], "local": true },
+    "planner": { "label": "Planner", "match": ["planner", "planning"], "local": true },
+    "housing_authority": { "label": "Housing authority", "match": ["housing authority"] }
+  },
+  "exclude": ["CHFA", "DOLA"],
+  "standard": [
+    { "id": "S1", "role": "manager", "ask": "Standard question for {name}.", "why": "Fixture.", "qap": "T16" },
+    { "id": "S2", "role": "planner", "ask": "Standard planning question.", "qap": "5B2a-priority" },
+    { "id": "S3", "role": "housing_authority", "ask": "Standard authority question.", "qap": "NOT-A-LINE" }
+  ],
+  "pointed": [
+    { "id": "P1", "signal": "tax_credit_drought", "role": "manager", "ask": "Drought since {lastYear}." },
+    { "id": "P2", "signal": "unfunded_application", "role": "planner", "ask": "Application {project} in {round}." },
+    { "id": "P3", "signal": "prop123_not_filed", "role": "manager", "ask": "Prop 123 filing for {name}?" },
+    { "id": "P4", "signal": "rent_above_market", "role": "housing_authority", "ask": "Rent limit {limit60}." },
+    { "id": "P5", "signal": "deep_gap", "role": "housing_authority", "ask": "Gap {gap30} at 30%." },
+    { "id": "P6", "signal": "land_banked", "role": "manager", "ask": "Banked land {project}." },
+    { "id": "P7", "signal": "burden_without_gap", "role": "manager", "ask": "{burdened} at {band}." },
+    { "id": "P8", "signal": "no_local_money", "role": "manager", "ask": "Local money?" },
+    { "id": "P9", "signal": "prop123_no_fast_track", "role": "planner", "ask": "Fast track?" },
+    { "id": "P10", "signal": "no_partner", "role": "manager", "ask": "Partner?" },
+    { "id": "P11", "signal": "qct_partial", "role": "planner", "ask": "QCT {qct}." },
+    { "id": "P12", "signal": "commuters", "role": "manager", "ask": "{inCommuters} commuters." },
+    { "id": "P13", "signal": "senior_growth", "role": "manager", "ask": "Seniors up {points}." },
+    { "id": "P14", "signal": "seasonal_homes", "role": "planner", "ask": "Seasonal {share}." },
+    { "id": "P99", "signal": "no_such_signal", "role": "manager", "ask": "Never shown." }
+  ]
+}
