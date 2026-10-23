@@ -85,7 +85,7 @@ check('≥30 places have curated hospital (F132/F136)',       hospCount >= 30, '
 check('≥30 places have curated majorEmployers (F133/F136)', empCount >= 30, 'Got ' + empCount);
 
 // F130 — Lake/La Plata swap fixed
-check('Lake County (08065) has Lake County HA', /Lake County Housing Authority/i.test(
+check('Lake County (08065) has Lake County HA', /Lake County (Regional )?Housing Authority/i.test(
   lr['county:08065'] && lr['county:08065'].housingAuthority && lr['county:08065'].housingAuthority[0].name || ''));
 check('La Plata County (08067) has Durango/La Plata HA', /Durango|La Plata/i.test(
   lr['county:08067'] && lr['county:08067'].housingAuthority && lr['county:08067'].housingAuthority[0].name || ''));

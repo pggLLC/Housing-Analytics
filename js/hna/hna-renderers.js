@@ -4088,7 +4088,7 @@
         'Read directly from data/hna/projections/places.json for ' + trace.endYear + '.');
       if (hasIncP) {
         rows += row('In-commuters moving closer', num(incP),
-          'A quarter of today\u2019s lower- and middle-wage in-commuters, in households (data/hna/workforce-need.json).');
+          'A quarter of today\u2019s in-commuter households at or below 120% AMI (data/hna/workforce-need.json).');
       }
       rows += row('Result used by the headline', num(trace.incrementalUnits),
         hasIncP ? 'Resident growth + in-commuters moving closer.' : 'Resident growth; no in-commuter figure for this geography.');
@@ -4123,7 +4123,7 @@
         'Total housing units required − homes required in the base year.');
       if (hasIncD) {
         rows += row('In-commuters moving closer', num(incD),
-          'A quarter of today\u2019s lower- and middle-wage in-commuters, in households (data/hna/workforce-need.json).');
+          'A quarter of today\u2019s in-commuter households at or below 120% AMI (data/hna/workforce-need.json).');
       }
       rows += row('Incremental units used by the headline', num(trace.incrementalUnits),
         hasIncD ? 'Resident growth + in-commuters moving closer.' : 'Resident growth; no in-commuter figure for this geography.');

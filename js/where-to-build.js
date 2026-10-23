@@ -22,6 +22,7 @@
  *   lbStatus  data/policy/prop123-land-banking-status.json (optional)
  *   hud       data/hud-fmr-income-limits.json
  *   context   data/policy/where-to-build-context.json (county votes, parks)
+ *   commitment data/policy/local-commitment.json (HNAs, written goals, housing authorities)
  *   support, fees, funds, coverage   read through js/local-support-data.js
  *
  * No DOM, no fetch, no clock: the caller passes `today`, so the page and the
@@ -63,6 +64,8 @@
       tip: 'How far HUD\'s Fair Market Rent sits above the 60% AMI rent cap.' },
     { id: 'rec', label: 'Recreation and services', weight: 2, factors: ['parks', 'amenities'],
       tip: 'Parks nearby, and grocery, health care, schools and transit within reach.' },
+    { id: 'commit', label: 'Local commitment', weight: 3, factors: ['hna', 'planGoal', 'authority'],
+      tip: 'A current housing needs assessment, a written affordable-housing goal in an adopted plan, and a housing authority with a record of partnering on deals.' },
     { id: 'vote', label: 'Voters backed housing money', weight: 2, factors: ['prop123Vote'],
       tip: 'The county\'s yes share on Proposition 123 in 2022.' },
     { id: 'lean', label: '2024 presidential vote', weight: 0, factors: ['presVote'],
@@ -70,9 +73,9 @@
   ];
 
   var PRESETS = {
-    mix: { label: 'Balanced', weights: { build: 4, money: 4, land: 3, need: 3, rents: 2, rec: 2, vote: 2, lean: 0 } },
-    rural9: { label: '9% in a smaller town', weights: { build: 3, money: 3, land: 4, need: 4, rents: 2, rec: 1, vote: 1, lean: 0 } },
-    metro4: { label: '4% bond deal in a metro', weights: { build: 3, money: 5, land: 2, need: 3, rents: 4, rec: 2, vote: 1, lean: 0 } }
+    mix: { label: 'Balanced', weights: { build: 4, money: 4, land: 3, need: 3, rents: 2, rec: 2, commit: 3, vote: 2, lean: 0 } },
+    rural9: { label: '9% in a smaller town', weights: { build: 3, money: 3, land: 4, need: 4, rents: 2, rec: 1, commit: 3, vote: 1, lean: 0 } },
+    metro4: { label: '4% bond deal in a metro', weights: { build: 3, money: 5, land: 2, need: 3, rents: 4, rec: 2, commit: 3, vote: 1, lean: 0 } }
   };
 
   var SRC = {
@@ -83,7 +86,10 @@
     hna: { label: 'HNA ranking index (ACS 5-year, CHAS, LODES, HUD QCT/DDA, amenities)', url: 'data/hna/ranking-index.json' },
     lb: { label: 'Prop 123 Land Banking awards (CHFA for OEDIT)', url: 'https://coloradoaffordablehousingfinancingfund.com/land-banking/' },
     hud: { label: 'HUD Fair Market Rents and Income Limits', url: 'https://www.huduser.gov/portal/datasets/fmr.html' },
-    parks: { label: 'OpenStreetMap parks (parks_co.geojson)', url: 'data/amenities/parks_co.geojson' }
+    parks: { label: 'OpenStreetMap parks (parks_co.geojson)', url: 'data/amenities/parks_co.geojson' },
+    hnaList: { label: 'DOLA approved housing needs assessments (SB24-174), and town and county documents read for top places', url: 'https://dlg.colorado.gov/housing-plans' },
+    plans: { label: 'Adopted comprehensive, housing and strategic plans, read for top places (local-commitment.json)', url: 'data/policy/local-commitment.json' },
+    authorities: { label: 'HUD Picture of Subsidized Households (PHA file, 31 Dec 2025) and CHFA award party lists, 2022–2026', url: 'https://www.huduser.gov/portal/datasets/assthsg.html' }
   };
 
   // The rule behind each factor's points, printed in the page's Methods box.
@@ -108,6 +114,12 @@
       rule: 'Towns: 2 points per park within 5 miles, up to 10. Counties: 1 point per 3 parks inside the county line, up to 10. City parks only: trails and public lands are not counted yet.' },
     amenities: { label: 'Services within reach', source: SRC.hna,
       rule: 'The HNA amenity access score (grocery, health care, schools, transit), 0 to 100, divided by 10.' },
+    hna: { label: 'Housing needs assessment', source: SRC.hnaList,
+      rule: 'Its own assessment, dated within 5 years (DOLA-approved, or found on its website): 10. Covered only by a county or regional one: 6. One under way: 3. Its latest is older than 5 years: 2. A town or Census community inherits its county\'s assessment as a regional one. Not on DOLA\'s list and not read yet: not checked.' },
+    planGoal: { label: 'Written affordable-housing goal', source: SRC.plans,
+      rule: 'An adopted plan, named and linked, with a specific affordable-housing goal (a number of homes, a share of homes, or a dated target), quoted: 10. Only general wording: 5. Goal language seen only in an HNA or a partner\'s report is not scored until the adopting plan is linked. Only a need estimate, no goal: 2. Plans read, no housing goal: 0. Not read yet: not checked.' },
+    authority: { label: 'Housing authority', source: SRC.authorities,
+      rule: 'The strongest authority serving the place (its own, or its county\'s). Tax-credit awards 2022–2026 where it was sponsor, developer, owner, partner or bond issuer: 3 or more: 6; 2: 5; 1: 4. Plus HUD-assisted homes per 1,000 residents of the area it serves: 15 or more: 4; 5 to 15: 3; under 5: 2. Up to 10. No authority on either list: not checked, since some authorities run no HUD programs.' },
     prop123Vote: { label: 'Prop 123 vote (2022)', source: null,
       rule: 'County yes share: 30% or less: 0, 70% or more: 10, in a straight line between. Every town in a county shows its county\'s result.' },
     presVote: { label: '2024 presidential vote', source: null,
@@ -115,7 +127,7 @@
   };
 
   var RULES = {
-    signal: 'A signal is a dated public event in the last 12 months: a Prop 123 fast-track adopted, a local housing fund adopted, a council action on a specific income-restricted project, or land-bank land seeking a developer (dated by the public notice of the search). Each is worth up to +5, fading to 0 over 12 months; signals add at most +10.',
+    signal: 'A signal is a dated public event in the last 12 months: a Prop 123 fast-track adopted, a local housing fund adopted, a council action on a specific income-restricted project, land-bank land seeking a developer (dated by the public notice of the search), or DOLA approving the place\'s own housing needs assessment. Each is worth up to +5, fading to 0 over 12 months; signals add at most +10.',
     flag: 'A red flag is a recorded denial of income-restricted homes by a council or planning commission in the last 36 months. Each subtracts 15, at most 30. Only records already read are counted; most places have not been read yet.',
     confidence: 'Confidence is the share of your total weight that rests on checked factors: High 80% or more, Medium 50 to 79%, Low under 50%.',
     tiers: 'Target: 70 or more and not Low confidence. Promising: 50 to 69, or 70+ with Low confidence. Monitor: 35 to 49.'
@@ -147,9 +159,11 @@
 
   // Files each factor rests on (the HNA ranking is required for any score at all).
   var NEEDS = { prop123: ['prop123'], approvals: ['support'], incentives: ['fees', 'coverage'], localFund: ['funds', 'coverage'],
-    landBank: ['awards', 'lbStatus'], rentCushion: ['hud'], parks: ['context'], prop123Vote: ['context'], presVote: ['context'] };
+    landBank: ['awards', 'lbStatus'], rentCushion: ['hud'], parks: ['context'], prop123Vote: ['context'], presVote: ['context'],
+    hna: ['commitment'], planGoal: ['commitment'], authority: ['commitment'] };
   var DOC_FILES = { prop123: 'prop123_jurisdictions.json', support: 'local-support.json', fees: 'fee-reductions.json', funds: 'local-housing-funds.json',
-    coverage: 'incentive-coverage.json', awards: 'prop123-land-banking-awards.json', lbStatus: 'prop123-land-banking-status.json', hud: 'hud-fmr-income-limits.json', context: 'where-to-build-context.json' };
+    coverage: 'incentive-coverage.json', awards: 'prop123-land-banking-awards.json', lbStatus: 'prop123-land-banking-status.json', hud: 'hud-fmr-income-limits.json', context: 'where-to-build-context.json',
+    commitment: 'local-commitment.json' };
   // Status dates may be YYYY or YYYY-MM; read them as the earliest day they allow, so a signal never looks newer than its source.
   function fullDate(d) {
     d = String(d || '');
@@ -220,6 +234,14 @@
     var p123Votes = (votes.prop123_2022 && votes.prop123_2022.counties) || {};
     var presVotes = (votes.president_2024 && votes.president_2024.counties) || {};
     var parks = ctx.parks || { places: {}, counties: {} };
+
+    // Local commitment: HNAs, written goals, housing authorities (by the geoids each serves).
+    var cm = docs.commitment || {};
+    var hnaRecs = cm.hna || {}, goalRecs = cm.goals || {};
+    var authBy = {};
+    (cm.authorities || []).forEach(function (a) {
+      (a.serves || []).forEach(function (g) { (authBy[g] = authBy[g] || []).push(a); });
+    });
 
     var local = LSD ? LSD.build({ support: docs.support, fees: docs.fees, funds: docs.funds, coverage: docs.coverage }) : null;
     var coverage = {};
@@ -378,6 +400,11 @@
         f.parks = { points: null, value: 'No park count' };
       }
 
+      // ---- Local commitment
+      f.hna = hnaFactor(r, countyGeoid, county, hnaRecs, today, signals);
+      f.planGoal = goalFactor(r, countyGeoid, county, goalRecs);
+      f.authority = authorityFactor(r, countyGeoid, authBy, byGeoid);
+
       // ---- County votes
       var v1 = p123Votes[countyGeoid];
       f.prop123Vote = v1
@@ -411,6 +438,81 @@
       if (!docs.support) pl.flags = [];
     });
     return { places: places, today: today, missing: missing.map(function (k) { return DOC_FILES[k]; }) };
+  }
+
+  var HNA_FRESH_DAYS = 1826;   // five years
+
+  function hnaPoints(rec, today) {
+    var d = fullDate(rec.date);
+    var stale = d && dayDiff(d, today) > HNA_FRESH_DAYS;
+    if (rec.kind === 'in_progress') return 3;
+    if (rec.kind === 'old' || stale) return 2;
+    return rec.kind === 'local' ? 10 : 6;
+  }
+
+  function hnaFactor(r, countyGeoid, county, recs, today, signals) {
+    var own = (recs[r.geoid] || []).concat(CONSOLIDATED[r.geoid] ? recs[CONSOLIDATED[r.geoid]] || [] : []);
+    var cands = own.map(function (x) { return { rec: x, pts: hnaPoints(x, today), via: null }; });
+    if (r.type !== 'county' && !CONSOLIDATED[r.geoid]) {
+      // A town or Census community is covered by its county's assessment, at the regional rule's points at most.
+      (recs[countyGeoid] || []).forEach(function (x) {
+        cands.push({ rec: x, pts: Math.min(6, hnaPoints(x, today)), via: county ? county.name : null });
+      });
+    }
+    own.forEach(function (x) {
+      if (x.kind === 'local' && x.dola_approved) addSignal(signals, today, x.dola_approved, 'Housing needs assessment approved by DOLA', x.url);
+    });
+    if (!cands.length) return { points: null, value: 'Not yet checked (not on DOLA\'s approved list)' };
+    var best = cands.sort(function (a, b) { return b.pts - a.pts; })[0];
+    var x = best.rec;
+    var label = best.pts === 10 ? 'Own assessment' : best.pts === 6 ? (best.via ? 'Covered by ' + best.via + '\'s' : 'County or regional') + ' assessment'
+      : best.pts === 3 ? 'Assessment under way' : 'Latest assessment is older than 5 years';
+    return { points: best.pts, value: label + ': ' + (x.title || 'untitled') + (x.dola_approved ? ' (DOLA-approved ' + x.dola_approved + ')' : x.date ? ' (' + x.date + ')' : ''),
+      date: x.dola_approved || fullDate(x.date), url: x.url, inherited: !!best.via,
+      good: best.pts === 10 ? 'a current housing needs assessment of its own' : null,
+      weak: best.pts <= 3 ? 'no current housing needs assessment' : null };
+  }
+
+  var GOAL_POINTS = { specific: 10, general: 5, need_only: 2, none: 0 };
+
+  function goalFactor(r, countyGeoid, county, recs) {
+    var g = recs[r.geoid] || (CONSOLIDATED[r.geoid] && recs[CONSOLIDATED[r.geoid]]) || null;
+    var via = null;
+    // A Census community is unincorporated, so its county's plan is its plan.
+    if (!g && r.type === 'cdp' && recs[countyGeoid]) { g = recs[countyGeoid]; via = county ? county.name : null; }
+    if (!g || GOAL_POINTS[g.status] == null) return { points: null, value: 'Not yet read' };
+    var pts = GOAL_POINTS[g.status];
+    var what = { specific: 'Specific goal', general: 'General wording only', need_only: 'Need estimate only, no goal', none: 'Plans read, no housing goal' }[g.status];
+    return { points: pts, value: what + (g.plan ? ' in ' + g.plan : '') + (via ? ' (through ' + via + ')' : ''), quote: g.quote || null, url: g.url, date: g.checked, inherited: !!via,
+      good: pts === 10 ? 'a specific affordable-housing goal in an adopted plan' : null,
+      weak: pts <= 2 ? 'no written affordable-housing goal' : null };
+  }
+
+  function authorityStrength(a, byGeoid) {
+    var n = (a.deals || []).length;
+    var dealPts = n >= 3 ? 6 : n === 2 ? 5 : n === 1 ? 4 : 0;
+    var pop = byGeoid[a.serves[0]] && byGeoid[a.serves[0]].metrics ? byGeoid[a.serves[0]].metrics.population : null;
+    var hudTotal = a.hud ? a.hud.total : 0;
+    var per = hudTotal && pop ? hudTotal / pop * 1000 : null;
+    var hudPts = !hudTotal ? 0 : per == null ? 2 : per >= 15 ? 4 : per >= 5 ? 3 : 2;
+    return { a: a, pts: Math.min(10, dealPts + hudPts), deals: n, hud: hudTotal, per: per };
+  }
+
+  function authorityFactor(r, countyGeoid, authBy, byGeoid) {
+    var seen = {}, list = [];
+    [r.geoid, CONSOLIDATED[r.geoid], r.type !== 'county' ? countyGeoid : null].forEach(function (g) {
+      (g && authBy[g] || []).forEach(function (a) { if (!seen[a.id]) { seen[a.id] = 1; list.push(a); } });
+    });
+    if (!list.length) return { points: null, value: 'Not yet checked (no authority on HUD\'s list or in a 2022–2026 award)' };
+    var best = list.map(function (a) { return authorityStrength(a, byGeoid); }).sort(function (x, y) { return y.pts - x.pts; })[0];
+    var bits = [];
+    bits.push(best.deals ? best.deals + ' tax-credit award' + (best.deals > 1 ? 's' : '') + ' 2022–2026 as sponsor, partner or issuer' : 'no 2022–2026 tax-credit award as sponsor, partner or issuer');
+    bits.push(best.hud ? fmt(best.hud) + ' HUD-assisted homes' + (best.per != null ? ' (' + round1(best.per) + ' per 1,000 residents)' : '') : 'no HUD-assisted homes on HUD\'s list');
+    return { points: best.pts, value: best.a.name + ': ' + bits.join('; '),
+      evidenceLabel: 'Awards',
+      evidence: (best.a.deals || []).slice(0, 6).map(function (d) { return { title: d.name + ' (' + d.year + ', ' + d.role + ')', url: 'deal-summary.html?d=' + d.slug }; }),
+      good: best.pts >= 8 ? 'a housing authority that partners on deals' : null,
+      weak: best.pts <= 2 ? 'a housing authority with little capacity on record' : null };
   }
 
   function metricFactor(v, text, good, weak) {

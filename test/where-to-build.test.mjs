@@ -21,7 +21,8 @@ const docs = {
   support: json('data/policy/local-support.json'),
   fees: json('data/policy/fee-reductions.json'),
   funds: json('data/policy/local-housing-funds.json'),
-  coverage: json('data/policy/incentive-coverage.json')
+  coverage: json('data/policy/incentive-coverage.json'),
+  commitment: json('data/policy/local-commitment.json')
 };
 const model = W.build(docs, TODAY);
 
@@ -199,7 +200,7 @@ ok(model.places.some((p) => p.type === 'cdp' && /\(through /.test(p.factors.loca
 ok(page.includes('meta.parks_generated') && docs.context.meta.parks_generated, 'parks show the OpenStreetMap file date, not the vote date');
 
 // ---- 6d. A file that fails to load leaves its factors unchecked, never a zero for every place.
-for (const [key, ids] of [['prop123', ['prop123']], ['awards', ['landBank']], ['lbStatus', ['landBank']], ['support', ['approvals']], ['context', ['parks', 'prop123Vote', 'presVote']], ['funds', ['localFund']]]) {
+for (const [key, ids] of [['prop123', ['prop123']], ['awards', ['landBank']], ['lbStatus', ['landBank']], ['support', ['approvals']], ['context', ['parks', 'prop123Vote', 'presVote']], ['funds', ['localFund']], ['commitment', ['hna', 'planGoal', 'authority']]]) {
   const m = W.build({ ...docs, [key]: null }, TODAY);
   ok(m.missing.length === 1, `${key} missing is reported (${m.missing})`);
   ok(m.places.every((p) => ids.every((id) => p.factors[id].points === null && /did not load/.test(p.factors[id].value))), `${key} missing: ${ids.join(', ')} show as not checked`);
@@ -248,5 +249,69 @@ ok(model.places.some((p) => p.flags.length), 'recorded denials show as red flags
   const expired = { ...docs.support, jurisdictions: docs.support.jurisdictions.map((j) => (rows.includes(j) ? { ...j, review_by: '2026-10-21' } : j)) };
   const stale = hit(W.build({ ...docs, support: expired }, TODAY));
   ok(!stale.length, `denials stop counting once review_by passes (${stale.map((p) => p.name).join(', ')})`);
+}
+// ---- 8. Local commitment (paul 2026-10-22: HNAs, comp plans, housing authorities).
+{
+  const byName = (nm) => model.places.find((p) => p.name === nm);
+  const lm = byName('Longmont (city)');
+  ok(lm.factors.hna.points === 10 && lm.factors.authority.points >= 8,
+    `Longmont: own HNA and an authority with deals (${lm.factors.hna.points}/${lm.factors.authority.points})`);
+  // Longmont's 12% goal is quoted from its HNA, not yet from an adopted plan, so it is not scored.
+  ok(lm.factors.planGoal.points === null, `Longmont: a goal seen only in an HNA is not scored (${lm.factors.planGoal.points})`);
+  const bo = byName('Boulder (city)');
+  ok(bo.factors.planGoal.points === 10 && /Boulder Valley Comprehensive Plan/.test(bo.factors.planGoal.value) && bo.factors.planGoal.quote,
+    'Boulder: the quoted 15% goal in the Boulder Valley Comprehensive Plan scores 10');
+  // Every specific or general goal names the adopted plan it comes from.
+  for (const [g, rec] of Object.entries(docs.commitment.goals)) {
+    if (rec.status === 'specific' || rec.status === 'general') ok(rec.plan, `${g}: a scored goal names its adopted plan`);
+  }
+  ok(byName('Frisco (town)').factors.planGoal.points === 2, 'Frisco: a need estimate in its plan is not a goal (2)');
+  ok(byName('Greeley (city)').factors.planGoal.points === null, 'Greeley: an expired all-housing target is not an affordable goal');
+  // A town or community is covered by its county's assessment at the regional rule (6 at most), never its own 10.
+  for (const p of model.places) {
+    const h = p.factors.hna;
+    if (h.inherited) ok(h.points <= 6, `${p.name}: an inherited county HNA scores 6 at most (${h.points})`);
+    ok(h.points == null || [10, 6, 3, 2].includes(h.points), `${p.name}: HNA points follow the rule (${h.points})`);
+    ok(p.factors.planGoal.points == null || [10, 5, 2, 0].includes(p.factors.planGoal.points), `${p.name}: goal points follow the rule`);
+    ok(p.factors.authority.points == null || (p.factors.authority.points >= 2 && p.factors.authority.points <= 10), `${p.name}: authority points follow the rule`);
+  }
+  ok(model.places.some((p) => p.factors.hna.inherited), 'some towns inherit a county HNA');
+  // An assessment older than five years scores 2, however it is labeled.
+  const wal = byName('Walsenburg (city)');
+  ok(wal.factors.hna.points === 2, `Walsenburg: its 2019 assessment is older than 5 years (${wal.factors.hna.points})`);
+  // A town never inherits its county's plan goal; a Census community (unincorporated) does.
+  for (const p of model.places) {
+    if (p.type === 'place') ok(!p.factors.planGoal.inherited, `${p.name}: a town does not inherit a county plan goal`);
+  }
+  ok(model.places.some((p) => p.type === 'cdp' && p.factors.planGoal.inherited && p.factors.planGoal.points != null), 'a Census community uses its county plan goal');
+  // No authority on record is "not checked", never a zero (some authorities run no HUD programs).
+  const none = model.places.filter((p) => p.factors.authority.points == null);
+  // Agreement: a place is unchecked exactly when no authority in the file serves it, its county or its consolidated twin.
+  const served = new Set(docs.commitment.authorities.flatMap((a) => a.serves));
+  const twin = { '0820000': '08031', '0809280': '08014' };
+  for (const p of model.places) {
+    const has = served.has(p.geoid) || served.has(twin[p.geoid]) || (p.type !== 'county' && served.has(p.countyGeoid));
+    ok((p.factors.authority.points == null) === !has, `${p.name}: authority is unchecked only when none on record serves it`);
+  }
+  ok(none.length, 'some places have no authority on record');
+  // Award counts use roles in the deal itself: a voucher contract or management alone does not count.
+  for (const a of docs.commitment.authorities) {
+    for (const d of a.deals) ok(!/^(voucher provider|property manager|waitlist)/i.test(d.role), `${a.name}: ${d.slug} counts a deal role (${d.role})`);
+  }
+  const dha = docs.commitment.authorities.find((a) => a.id === 'CO001');
+  ok(dha && dha.deals.length > 0 && dha.hud.total > 10000, 'Denver Housing Authority has HUD homes and counted awards');
+  // Sabotage: if the authorities list went missing for one place, it would be unchecked, not zero.
+  const stripped = { ...docs.commitment, authorities: docs.commitment.authorities.filter((a) => a.id !== 'CO070') };
+  const lm2 = W.build({ ...docs, commitment: stripped }, TODAY).places.find((p) => p.geoid === lm.geoid);
+  ok(lm2.factors.authority.points !== 0, 'removing Longmont\'s authority never scores it zero');
+  // Every HNA, goal and award links to its source.
+  for (const p of model.places) {
+    if (p.factors.hna.points != null) ok(/^https?:\/\//.test(p.factors.hna.url || ''), `${p.name}: HNA links to its source`);
+    if (p.factors.planGoal.points != null) ok(/^https?:\/\//.test(p.factors.planGoal.url || ''), `${p.name}: plan goal links to its source`);
+    for (const e of p.factors.authority.evidence || []) ok(/^deal-summary\.html\?d=[a-z0-9-]+$/.test(e.url), `${p.name}: award links to its summary`);
+  }
+  // A DOLA approval of the place's own HNA in the last 12 months is a dated signal.
+  ok(model.places.some((p) => p.signals.some((g) => /approved by DOLA/.test(g.text))), 'a recent DOLA HNA approval is a signal');
+  ok(page.includes('data/policy/local-commitment.json'), 'the page loads the local commitment file');
 }
 console.log(`where-to-build: ${n} checks passed`);

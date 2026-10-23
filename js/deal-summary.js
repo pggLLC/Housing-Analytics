@@ -130,18 +130,77 @@
   }
 
   // ── the list ──────────────────────────────────────────────────────────────
+  // County, year and credit filters; ?county=<name> (as CHFA prints it) opens the list filtered,
+  // which is how the Housing Needs Assessment pages link to a county's write-ups.
+  // An award can carry both credits ("Federal 9% and 4% ..."), so a deal matches every credit its award names.
+  function hasCredit(award, kind) {
+    var a = String(award || '');
+    if (kind === 'Other') return !/9%|4%/.test(a);
+    return a.indexOf(kind) !== -1;
+  }
+
+  function paramFromUrl(name) {
+    var m = new RegExp('[?&]' + name + '=([^&#]*)').exec(global.location.search || '');
+    if (!m) return '';
+    try { return decodeURIComponent(m[1].replace(/\+/g, ' ')); } catch (_) { return ''; }
+  }
+
   function renderIndex(idx) {
-    var rows = (idx.deals || []).slice().sort(function (a, b) { return (b.year || 0) - (a.year || 0) || String(a.name).localeCompare(String(b.name)); });
+    var all = (idx.deals || []).slice().sort(function (a, b) { return (b.year || 0) - (a.year || 0) || String(a.name).localeCompare(String(b.name)); });
+    function uniq(fn) {
+      var seen = {};
+      all.forEach(function (r) { var k = fn(r); if (k !== '' && k !== null && k !== undefined) seen[k] = true; });
+      return Object.keys(seen);
+    }
+    var counties = uniq(function (r) { return r.county; }).sort();
+    var years = uniq(function (r) { return r.year; }).sort().reverse();
+    function select(id, label, values, labelFn) {
+      return '<label class="ds-filter" for="' + id + '">' + esc(label) + ' <select id="' + id + '"><option value="">All</option>' +
+        values.map(function (v) { return '<option value="' + esc(v) + '">' + esc(labelFn ? labelFn(v) : v) + '</option>'; }).join('') + '</select></label>';
+    }
     view.innerHTML = '<h1>Deal summaries</h1>' +
       '<p class="ds-headline">One sourced summary per Colorado housing tax credit award: the homes, who they serve, the public money, the land deal and what is still open. Built from CHFA, state and local public records, newest awards first.</p>' +
+      '<div class="ds-filters" role="group" aria-label="Filter the deal summaries">' +
+      select('dsCounty', 'County', counties, function (c) { return c + ' County'; }) +
+      select('dsYear', 'Award year', years) +
+      select('dsCredit', 'Credit', ['9%', '4%', 'Other'], function (k) { return k === 'Other' ? 'Other credits' : k + ' credits'; }) +
+      '</div>' +
+      '<p class="ds-muted" data-ds-count aria-live="polite"></p>' +
       '<div class="ds-scroll"><table class="ds-table"><caption class="sr-only">Every deal summary. Select a column heading to sort.</caption><thead><tr>' +
       '<th scope="col" data-tip="Project name as CHFA prints it">Deal</th><th scope="col" data-tip="City as CHFA prints it">City</th>' +
-      '<th scope="col" data-tip="The CHFA award the summary covers">Award</th><th scope="col" class="num" data-tip="Total homes as CHFA prints them">Homes</th></tr></thead><tbody>' +
-      rows.map(function (r) {
-        return '<tr><td><a href="deal-summary.html?d=' + esc(r.slug) + '">' + esc(r.name) + '</a></td><td>' + esc(r.city) + '</td><td>' + esc(r.award) +
+      '<th scope="col" data-tip="County the project is in">County</th>' +
+      '<th scope="col" data-tip="The CHFA award the summary covers">Award</th><th scope="col" class="num" data-tip="Total homes as CHFA prints them">Homes</th></tr></thead><tbody data-ds-rows></tbody></table></div>' +
+      '<p class="ds-muted">' + all.length + ' summaries so far. More are added in batches; every CHFA award also appears on <a href="where-housing-money-goes.html">Where Colorado\'s Housing Money Goes</a>.</p>';
+
+    var body = view.querySelector('[data-ds-rows]');
+    var count = view.querySelector('[data-ds-count]');
+    var fCounty = view.querySelector('#dsCounty'), fYear = view.querySelector('#dsYear'), fCredit = view.querySelector('#dsCredit');
+    var want = paramFromUrl('county');
+    if (want) {
+      // A county with no write-up yet stays selected and shows the empty state, not every county.
+      if (counties.indexOf(want) === -1 && /^[A-Za-z .'-]{2,40}$/.test(want)) {
+        var opt = document.createElement('option');
+        opt.value = want; opt.textContent = want + ' County';
+        fCounty.appendChild(opt);
+      }
+      if (fCounty.querySelector('option[value="' + want.replace(/"/g, '') + '"]')) fCounty.value = want;
+    }
+
+    function draw() {
+      var rows = all.filter(function (r) {
+        return (!fCounty.value || r.county === fCounty.value) &&
+          (!fYear.value || String(r.year) === fYear.value) &&
+          (!fCredit.value || hasCredit(r.award, fCredit.value));
+      });
+      body.innerHTML = rows.map(function (r) {
+        return '<tr><td><a href="deal-summary.html?d=' + esc(r.slug) + '">' + esc(r.name) + '</a></td><td>' + esc(r.city) + '</td><td>' + esc(r.county) + '</td><td>' + esc(r.award) +
           '</td><td class="num">' + (r.units ? Number(r.units).toLocaleString('en-US') : '') + '</td></tr>';
-      }).join('') + '</tbody></table></div>' +
-      '<p class="ds-muted">' + rows.length + ' summaries so far. More are added in batches; every CHFA award also appears on <a href="where-housing-money-goes.html">Where Colorado\'s Housing Money Goes</a>.</p>';
+      }).join('') || '<tr><td colspan="5">No write-ups match these filters yet.</td></tr>';
+      var homes = rows.reduce(function (t, r) { return t + (Number(r.units) || 0); }, 0);
+      count.textContent = 'Showing ' + rows.length + ' of ' + all.length + ' write-ups' + (homes ? ', ' + homes.toLocaleString('en-US') + ' homes' : '') + '.';
+    }
+    [fCounty, fYear, fCredit].forEach(function (el) { el.addEventListener('change', draw); });
+    draw();
   }
 
   function start() {

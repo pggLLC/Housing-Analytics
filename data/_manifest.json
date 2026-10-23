@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-10-22T14:54:23.468Z",
+    "generated_at": "2026-10-23T01:46:30.921Z",
     "root": "data/",
-    "file_count": 1979,
-    "total_size_bytes": 199658308,
+    "file_count": 1982,
+    "total_size_bytes": 199734831,
     "kinds": {
-      "json": 1933,
+      "json": 1934,
       "geojson": 34,
-      "csv": 12
+      "csv": 14
     }
   },
   "files": [
@@ -554,7 +554,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-22T14:54:19.282Z",
+      "mtime": "2026-10-23T01:46:26.883Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -8174,8 +8174,8 @@
     {
       "path": "hna/hna-views.json",
       "kind": "json",
-      "size_bytes": 13689,
-      "mtime": "2026-10-22T14:51:53.453Z",
+      "size_bytes": 14139,
+      "mtime": "2026-10-23T01:35:40.895Z",
       "shape": "object",
       "keys": [
         "_comment",
@@ -37787,8 +37787,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 251767,
-      "mtime": "2026-10-22T14:53:25.652Z",
+      "size_bytes": 251891,
+      "mtime": "2026-10-23T01:45:33.573Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39363,8 +39363,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16094,
-      "mtime": "2026-10-22T14:54:21.335Z",
+      "size_bytes": 16096,
+      "mtime": "2026-10-23T01:46:28.847Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39388,7 +39388,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-22T14:54:20.829Z",
+      "mtime": "2026-10-23T01:46:28.361Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41891,6 +41891,76 @@
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
+    },
+    {
+      "path": "policy/local-commitment.json",
+      "kind": "json",
+      "size_bytes": 64941,
+      "mtime": "2026-10-23T01:35:41.242Z",
+      "shape": "object",
+      "keys": [
+        "generated_by",
+        "sources",
+        "hna",
+        "goals",
+        "authorities"
+      ],
+      "key_count": 5,
+      "primary_array_key": "authorities",
+      "primary_array_length": 66,
+      "primary_array_first_keys": [
+        "id",
+        "name",
+        "serves",
+        "hud",
+        "deals"
+      ]
+    },
+    {
+      "path": "policy/local-commitment/dola-approved-hna-2026-10-22.csv",
+      "kind": "csv",
+      "size_bytes": 4647,
+      "mtime": "2026-10-23T01:35:41.243Z",
+      "shape": "csv",
+      "row_count": 28,
+      "columns": [
+        "\"Note: the provided documents are owned by the respective subject jurisdictions and DOLA cannot attest to their accessibility. If you are unable to access any portion of these documents",
+        "please contact us at 719-318-5267",
+        "or email",
+        "or fill out the ADA Accessibility Accommodation Digital Service Request form.\"",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "column_count": 8
+    },
+    {
+      "path": "policy/local-commitment/hud-psh-pha-co-2025.csv",
+      "kind": "csv",
+      "size_bytes": 6359,
+      "mtime": "2026-10-23T01:35:41.243Z",
+      "shape": "csv",
+      "row_count": 57,
+      "columns": [
+        "code",
+        "name",
+        "Housing Choice Vouchers",
+        "Mod Rehab",
+        "Public Housing",
+        "Summary of All HUD Programs",
+        "tminority",
+        "tpct_ownsfd",
+        "fedhse",
+        "cbsa",
+        "place",
+        "latitude",
+        "longitude",
+        "state",
+        "pha_total_units",
+        "ha_size"
+      ],
+      "column_count": 16
     },
     {
       "path": "policy/local-housing-funds.json",

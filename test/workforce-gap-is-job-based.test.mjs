@@ -17,12 +17,18 @@
  *
  * ── What replaced it ──
  *
- * A second reading of the same question, from the jobs side:
+ * A second reading of the same question that keeps the commuters on the
+ * demand side:
  *
- *     workforce_gap_units = local_low_wage_jobs - affordable_units_lte60
+ *     workforce_gap_units = renter households <= 60% AMI
+ *                         + households of today's in-commuters <= 60% AMI
+ *                         - rental units affordable at <= 60% AMI
  *
- * Jobs are workplace-side LODES (CE01 + CE02, up to $3,333/month). A place
- * cannot export the jobs it hosts the way it can export its residents.
+ * In-commuters are workplace-side LODES, so a place cannot export them the
+ * way it can export its residents. Until 2026-10-22 the reading was low-wage
+ * jobs (CE01 + CE02) less units, one job to one home; the ACS PUMS crosswalk
+ * (data/hna/workforce-ami-crosswalk.json) now turns in-commuters into
+ * households by income, and the file keeps its name.
  *
  * `gap_pressure_score` is then the MAX of the resident and workforce
  * readings, which is the property most of this file defends: a maximum can
@@ -31,8 +37,8 @@
  *
  * ── Why this guard recomputes from source ──
  *
- * It reads data/hna/place-lehd.json and data/co_ami_gap_by_place.json
- * directly and rebuilds the arithmetic, rather than checking the index's own
+ * It reads data/co_ami_gap_by_place.json, the LODES in-commuters by tier and
+ * the crosswalk directly and rebuilds the arithmetic, rather than checking the index's own
  * published inputs against its own published output. A guard fed by the thing
  * it is checking agrees with that thing's bugs. The sign convention in the
  * gap file is the specific trap: its key is named
@@ -51,8 +57,9 @@ const read = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 
 const index = read('data/hna/ranking-index.json');
 const rows = index.rankings;
-const lehd = read('data/hna/place-lehd.json').places;
 const gapFile = read('data/co_ami_gap_by_place.json');
+const tierPlaces = read('data/hna/source/lodes_primary_jobs.json').incommuters_by_tier.places;
+const crosswalk = read('data/hna/workforce-ami-crosswalk.json').counties;
 const gapPlaces = gapFile.places || gapFile;
 
 const m = (r) => r.metrics || {};
@@ -91,18 +98,19 @@ test('the arithmetic matches an independent recomputation from source', () => {
   let checked = 0;
   const wrong = [];
   for (const r of rows) {
-    if (m(r).workforce_gap_basis !== 'place_lodes_wac_vs_units_lte60') continue;
+    if (m(r).workforce_gap_basis !== 'place_renters_plus_incommuters_vs_units_lte60') continue;
     const g7 = pad7(r.geoid);
-    const blob = (lehd[g7] || {}).lehd;
     const gapRec = gapPlaces[g7];
-    if (!blob || !gapRec) continue;
-    const { CE01, CE02 } = blob;
+    const tiers = tierPlaces[g7];
+    const xw = (crosswalk[r.containingCounty] || {}).tiers;
+    if (!gapRec || !tiers || !xw) continue;
     const hh = (gapRec.households_le_ami_pct || {})['60'];
     // The key says units-minus-households. It holds households-minus-units.
     const stored = (gapRec.gap_units_minus_households_le_ami_pct || {})['60'];
-    if ([CE01, CE02, hh, stored].some((v) => v === undefined || v === null)) continue;
+    if ([hh, stored].some((v) => v === undefined || v === null)) continue;
     const units = Math.max(0, Number(hh) - Number(stored));
-    const expected = Math.max(0, Math.round(Number(CE01) + Number(CE02) - units));
+    const commuters = Math.round(tiers.reduce((a, n, i) => a + n * xw[['CE01', 'CE02', 'CE03'][i]].le60[0], 0));
+    const expected = Math.max(0, Math.round(Number(hh) + commuters) - Math.round(units));
     const actual = m(r).workforce_gap_units;
     checked += 1;
     if (Math.abs(expected - actual) > 1) wrong.push(`${r.name}: expected ~${expected}, got ${actual}`);
@@ -135,9 +143,9 @@ test('the percentage is a percentage, and is suppressed on thin denominators', (
     const pct = m(r).workforce_gap_pct;
     if (pct === null || pct === undefined) continue;
     assert.ok(pct >= 0 && pct <= 100, `${r.name}: workforce_gap_pct ${pct} is outside 0-100`);
-    const jobs = m(r).local_low_wage_jobs;
-    assert.ok(typeof jobs === 'number' && jobs >= 50,
-      `${r.name}: publishes a percentage on ${jobs} jobs; below 50 it must be suppressed`);
+    const hh = m(r).workforce_households_lte60;
+    assert.ok(typeof hh === 'number' && hh >= 50,
+      `${r.name}: publishes a percentage on ${hh} households; below 50 it must be suppressed`);
   }
 });
 
@@ -163,26 +171,31 @@ test('the metric discriminates — it did not just raise everything', () => {
 
 test('a place cannot read as satisfied while its workforce commutes in', () => {
   // The whole point, stated as a rule. A place with a resident gap of zero
-  // AND substantial low-wage employment it has not housed must not also
-  // report a zero workforce gap.
+  // AND more lower-income in-commuter households than its spare affordable
+  // rentals could house must not also report a zero workforce gap.
   const contradictions = [];
+  let tested = 0;
   for (const r of rows) {
     const resident = m(r).housing_gap_units;
-    const jobs = m(r).local_low_wage_jobs;
+    const renters = m(r).renter_households_lte60;
+    const commuters = m(r).incommuter_households_lte60;
     const units = m(r).affordable_units_lte60;
     const wf = m(r).workforce_gap_units;
-    if (resident !== 0 || typeof jobs !== 'number' || typeof units !== 'number') continue;
-    if (jobs - units > 100 && wf === 0) {
-      contradictions.push(`${r.name}: ${jobs} low-wage jobs, ${units} affordable units, workforce gap 0`);
+    if (resident !== 0 || [renters, commuters, units].some((v) => typeof v !== 'number')) continue;
+    if (renters + commuters - units > 100) {
+      tested += 1;
+      if (wf === 0) contradictions.push(`${r.name}: ${commuters} in-commuter households, ${units - renters} spare affordable rentals, workforce gap 0`);
     }
   }
+  assert.ok(tested >= 10, `only ${tested} places have a resident gap of 0 and unhoused in-commuters; the rule went unchecked`);
   assert.deepEqual(contradictions.slice(0, 5), [],
     `${contradictions.length} places report no need on either reading while employing an unhoused workforce`);
 });
 
 test('the new metrics are documented in the index catalogue', () => {
   const ids = new Set((index.metrics || []).map((d) => d.id));
-  for (const id of ['local_low_wage_jobs', 'affordable_units_lte60',
+  for (const id of ['local_low_wage_jobs', 'affordable_units_lte60', 'renter_households_lte60',
+    'incommuter_households_lte60', 'workforce_households_lte60',
     'workforce_gap_units', 'workforce_gap_pct', 'workforce_gap_basis']) {
     assert.ok(ids.has(id), `${id} is published on every row but absent from the metric catalogue`);
   }

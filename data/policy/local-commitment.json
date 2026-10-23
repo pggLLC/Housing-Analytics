@@ -1,0 +1,2296 @@
+{
+  "generated_by": "scripts/policy/build_local_commitment.py",
+  "sources": {
+    "dola": {
+      "label": "DOLA SB24-174 approved housing needs assessments (copy of 2026-10-22)",
+      "url": "https://dlg.colorado.gov/housing-plans",
+      "sheet": "https://docs.google.com/spreadsheets/d/1ea3SU0IQSw6CYARg-YblGj9Iy2y8LUefT-NCCoWtzR4",
+      "as_of": "2026-10-22"
+    },
+    "research": {
+      "label": "Town and county documents read for the top-ranked places (research.jsonl)",
+      "url": "data/policy/local-commitment/research.jsonl",
+      "as_of": "2026-10-22"
+    },
+    "hud": {
+      "label": "HUD Picture of Subsidized Households, PHA file",
+      "url": "https://www.huduser.gov/portal/datasets/assthsg.html",
+      "as_of": "2025-12-31"
+    },
+    "deals": {
+      "label": "CHFA tax-credit award summaries, 2022–2026 (party lists)",
+      "url": "data/deals/",
+      "count": 150
+    }
+  },
+  "hna": {
+    "08001": [
+      {
+        "kind": "regional",
+        "date": "2025-05-21",
+        "dola_approved": "2025-05-21",
+        "title": "DRCOG HNA",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "dola"
+      },
+      {
+        "kind": "in_progress",
+        "date": null,
+        "title": "Housing Needs Assessment and Balanced Housing Plan (draft, public input stage)",
+        "url": "https://publicinput.com/r11366",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08005": [
+      {
+        "kind": "regional",
+        "date": "2025-05-21",
+        "dola_approved": "2025-05-21",
+        "title": "DRCOG HNA",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "dola"
+      },
+      {
+        "kind": "regional",
+        "date": "2025",
+        "title": "DRCOG Regional Housing Needs Assessment (DOLA-approved 2025-05-21)",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08007": [
+      {
+        "kind": "regional",
+        "date": "2025-05-07",
+        "dola_approved": "2025-05-07",
+        "title": "Archuleta County Regional HNA - Final  04 15 2025",
+        "url": "https://www.archuletacounty.org/886/Archuleta-County-Housing-Needs-Assessmen",
+        "source": "dola"
+      }
+    ],
+    "08013": [
+      {
+        "kind": "regional",
+        "date": "2025-05-21",
+        "dola_approved": "2025-05-21",
+        "title": "DRCOG HNA",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "dola"
+      },
+      {
+        "kind": "regional",
+        "date": "2025",
+        "title": "DRCOG Regional Housing Needs Assessment (DOLA-approved 2025-05-21)",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08014": [
+      {
+        "kind": "regional",
+        "date": "2025-05-21",
+        "dola_approved": "2025-05-21",
+        "title": "DRCOG HNA",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "dola"
+      },
+      {
+        "kind": "regional",
+        "date": "2025",
+        "title": "DRCOG Regional Housing Needs Assessment (DOLA-approved 2025-05-21)",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08015": [
+      {
+        "kind": "local",
+        "date": "2022",
+        "title": "Chaffee Housing Authority 2022 Housing Needs Assessment and Strategic Plan",
+        "url": "https://www.chaffeehousingauthority.org/",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08017": [
+      {
+        "kind": "regional",
+        "date": "2025-12-23",
+        "dola_approved": "2025-12-23",
+        "title": "East Central Council of Local Governments Regional Housing Needs Assessment Study",
+        "url": "https://www.eccog.com/wp-content/uploads/2025/10/ECCOG-RHNA-Phase-I-and-Phase-II-FINAL-10012025-awaiting-DOLA-approval.pdf",
+        "source": "dola"
+      }
+    ],
+    "08019": [
+      {
+        "kind": "regional",
+        "date": "2025-05-21",
+        "dola_approved": "2025-05-21",
+        "title": "DRCOG HNA",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "dola"
+      }
+    ],
+    "08031": [
+      {
+        "kind": "regional",
+        "date": "2025-05-21",
+        "dola_approved": "2025-05-21",
+        "title": "DRCOG HNA",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "dola"
+      }
+    ],
+    "08035": [
+      {
+        "kind": "regional",
+        "date": "2025-05-21",
+        "dola_approved": "2025-05-21",
+        "title": "DRCOG HNA",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "dola"
+      }
+    ],
+    "08037": [
+      {
+        "kind": "regional",
+        "date": "2026-01-14",
+        "dola_approved": "2026-01-14",
+        "title": "Eagle County Regional Housing Needs Analysis",
+        "url": "https://www.avon.org/2382/Housing#docaccess-a177663a8c2d3f397eca9b1979036831907e6ef41ccb4ea5aa15f403cfbd4e4b",
+        "source": "dola"
+      },
+      {
+        "kind": "local",
+        "date": "2026",
+        "title": "Eagle County Regional HNA, DOLA-approved 2026-01-14",
+        "url": "https://dlg.colorado.gov/housing-plans",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08039": [
+      {
+        "kind": "regional",
+        "date": "2025-12-23",
+        "dola_approved": "2025-12-23",
+        "title": "East Central Council of Local Governments Regional Housing Needs Assessment Study",
+        "url": "https://www.eccog.com/wp-content/uploads/2025/10/ECCOG-RHNA-Phase-I-and-Phase-II-FINAL-10012025-awaiting-DOLA-approval.pdf",
+        "source": "dola"
+      }
+    ],
+    "0804000": [
+      {
+        "kind": "regional",
+        "date": "2025",
+        "title": "DRCOG Regional Housing Needs Assessment (DOLA-approved 2025-05-21)",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08041": [
+      {
+        "kind": "local",
+        "date": "2026-04-02",
+        "dola_approved": "2026-04-02",
+        "title": "City of Colorado Springs and El Paso County Regional Housing Needs Assessment",
+        "url": "https://coloradosprings.gov/HousingNeedsAssessment",
+        "source": "dola"
+      }
+    ],
+    "0804110": [
+      {
+        "kind": "regional",
+        "date": "2026",
+        "title": "Eagle County Regional Housing Needs Assessment (EPS; covers Avon, Eagle, Gypsum, Minturn, Red Cliff, Vail, Eagle County; DOLA-approved 2026-01-14)",
+        "url": "https://www.townofeagle.org/1197/2025-Eagle-County-Regional-Housing-Needs",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08047": [
+      {
+        "kind": "regional",
+        "date": "2025-05-21",
+        "dola_approved": "2025-05-21",
+        "title": "DRCOG HNA",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "dola"
+      }
+    ],
+    "08051": [
+      {
+        "kind": "regional",
+        "date": "2026-05-05",
+        "dola_approved": "2026-05-05",
+        "title": "Gunnison Valley Housing Needs Assesement September 2024",
+        "url": "https://dlg.colorado.gov/housing-plans",
+        "source": "dola"
+      }
+    ],
+    "08055": [
+      {
+        "kind": "old",
+        "date": "2019-07",
+        "title": "Huerfano County Housing Needs Assessment",
+        "url": "https://www.walsenburg.org/media/7061",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08059": [
+      {
+        "kind": "regional",
+        "date": "2025-05-21",
+        "dola_approved": "2025-05-21",
+        "title": "DRCOG HNA",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "dola"
+      },
+      {
+        "kind": "local",
+        "date": "2024",
+        "title": "Jeffco Housing Needs Assessment (2024)",
+        "url": "https://www.jeffco.us/DocumentCenter/View/50062/Jeffco-Housing-Needs-Assessment-PDF",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0806090": [
+      {
+        "kind": "local",
+        "date": "2025-05-30",
+        "dola_approved": "2025-05-30",
+        "title": "2024.11.12 Bennett Housing Needs Assessment",
+        "url": "https://www.bennettco.gov/media/6826",
+        "source": "dola"
+      }
+    ],
+    "0806255": [
+      {
+        "kind": "local",
+        "date": "2025-08-05",
+        "dola_approved": "2025-08-05",
+        "title": "Berthoud Housing Diversity Plan 2025",
+        "url": "https://www.ayresassociates.com/wp-content/ayres_images/DS_Housing%20Assessment_8_25/Berthoud%20Housing%20Diversity%20Plan_FINAL.pdf",
+        "source": "dola"
+      }
+    ],
+    "08063": [
+      {
+        "kind": "regional",
+        "date": "2025-12-23",
+        "dola_approved": "2025-12-23",
+        "title": "East Central Council of Local Governments Regional Housing Needs Assessment Study",
+        "url": "https://www.eccog.com/wp-content/uploads/2025/10/ECCOG-RHNA-Phase-I-and-Phase-II-FINAL-10012025-awaiting-DOLA-approval.pdf",
+        "source": "dola"
+      }
+    ],
+    "08067": [
+      {
+        "kind": "local",
+        "date": "2025-02-28",
+        "title": "La Plata County Housing Needs Assessment",
+        "url": "https://laplatahousing.colorado.gov/",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08069": [
+      {
+        "kind": "regional",
+        "date": "2026-06-08",
+        "dola_approved": "2026-06-08",
+        "title": "Larimer County Regional Housing Needs Assessment April 2026",
+        "url": "https://www.larimer.gov/housing/partners/housing-assessment",
+        "source": "dola"
+      },
+      {
+        "kind": "local",
+        "date": "2026-04-17",
+        "title": "Larimer County Regional Housing Needs Assessment (Final Report)",
+        "url": "https://www.larimer.gov/sites/default/files/larimer-rhna-final-4-17-26.pdf",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08073": [
+      {
+        "kind": "regional",
+        "date": "2025-12-23",
+        "dola_approved": "2025-12-23",
+        "title": "East Central Council of Local Governments Regional Housing Needs Assessment Study",
+        "url": "https://www.eccog.com/wp-content/uploads/2025/10/ECCOG-RHNA-Phase-I-and-Phase-II-FINAL-10012025-awaiting-DOLA-approval.pdf",
+        "source": "dola"
+      }
+    ],
+    "08077": [
+      {
+        "kind": "in_progress",
+        "date": "2026",
+        "title": "Joint Grand Junction / Mesa County HNA (survey open through 2026-03-31; feeds two housing action plans)",
+        "url": "https://www.mesacounty.us/news/county-wide/strong-community-turnout-kicks-housing-needs-assessment",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0807850": [
+      {
+        "kind": "regional",
+        "date": "2025",
+        "title": "DRCOG Regional Housing Needs Assessment (DOLA-approved 2025-05-21)",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0808400": [
+      {
+        "kind": "regional",
+        "date": "2023",
+        "title": "2023 Summit County Housing Needs Assessment",
+        "url": "https://cms3.revize.com/revize/summitcoco/Documents/Services/Housing/Housing%20Needs%20Assessment/Housing%20Projects/Lake%20Hill/2023%20Summit%20County%20Housing%20Needs%20Assessment%20Final.pdf",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0808675": [
+      {
+        "kind": "local",
+        "date": "2023",
+        "title": "Brighton Housing Needs and Incentive Strategies Assessment",
+        "url": "https://brightonco.gov/DocumentCenter/View/35499",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08091": [
+      {
+        "kind": "regional",
+        "date": "2026-04-02",
+        "dola_approved": "2026-04-02",
+        "title": "Town of Ridgway & Ouray County Housing Needs Assessment",
+        "url": "https://townofridgway.colorado.gov/sites/g/files/lrnvjt1246/files/documents/Ridgway_Ouray%20County_HNA_Final_120425.pdf",
+        "source": "dola"
+      }
+    ],
+    "0809280": [
+      {
+        "kind": "regional",
+        "date": "2025",
+        "title": "DRCOG Regional Housing Needs Assessment (DOLA-approved 2025-05-21)",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08101": [
+      {
+        "kind": "local",
+        "date": "2024-11",
+        "title": "2024 Pueblo Housing Assessment & Strategy Update (covers Pueblo West and unincorporated county)",
+        "url": "https://www.pueblo.us/DocumentCenter/View/38865/Final-2024-Pueblo-Housing-Assessment-Update",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08113": [
+      {
+        "kind": "regional",
+        "date": "2026-05-07",
+        "dola_approved": "2026-05-07",
+        "title": "San Miguel County Housing Needs Analysis",
+        "url": "https://smrha.org/needs-assessment/",
+        "source": "dola"
+      },
+      {
+        "kind": "local",
+        "date": "2026",
+        "title": "San Miguel County Regional HNA, DOLA-approved 2026-05-07",
+        "url": "https://dlg.colorado.gov/housing-plans",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08117": [
+      {
+        "kind": "local",
+        "date": "2023",
+        "title": "2023 Summit County Housing Needs Assessment",
+        "url": "https://cms3.revize.com/revize/summitcoco/Documents/Services/Housing/Housing%20Needs%20Assessment/Housing%20Projects/Lake%20Hill/2023%20Summit%20County%20Housing%20Needs%20Assessment%20Final.pdf",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "08123": [
+      {
+        "kind": "local",
+        "date": "2026-01-21",
+        "dola_approved": "2026-01-21",
+        "title": "Weld County HNA",
+        "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/planning-and-zoning/documents/long-range/hna-housing-needs-assessment.pdf",
+        "source": "dola"
+      }
+    ],
+    "0812815": [
+      {
+        "kind": "local",
+        "date": "2022",
+        "title": "Community Housing Needs Assessment (Root Policy Research)",
+        "url": "https://www.centennialco.gov/files/sharedassets/public/v/2/documents/housing/centennial-housing-strategy-summary-report.pdf",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0816000": [
+      {
+        "kind": "regional",
+        "date": "2026-04-02",
+        "dola_approved": "2026-04-02",
+        "title": "City of Colorado Springs and El Paso County Regional Housing Needs Assessment",
+        "url": "https://coloradosprings.gov/HousingNeedsAssessment",
+        "source": "dola"
+      }
+    ],
+    "0816495": [
+      {
+        "kind": "local",
+        "date": "2026-02-04",
+        "dola_approved": "2026-02-04",
+        "title": "2025 Commerce City Housing Needs Assessment",
+        "url": "https://www.c3gov.com/Government/City-Charter-Master-Plans/Housing-Needs-Assessment",
+        "source": "dola"
+      },
+      {
+        "kind": "local",
+        "date": "2026",
+        "title": "Commerce City HNA, DOLA-approved 2026-02-04",
+        "url": "https://dlg.colorado.gov/housing-plans",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0822200": [
+      {
+        "kind": "regional",
+        "date": "2026",
+        "title": "Eagle County Regional Housing Needs Assessment (EPS), DOLA-approved 2026-01-14",
+        "url": "https://www.townofeagle.org/1197/2025-Eagle-County-Regional-Housing-Needs",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0822860": [
+      {
+        "kind": "local",
+        "date": "2026-01-14",
+        "dola_approved": "2026-01-14",
+        "title": "Town of Eaton Housing Needs Assessment",
+        "url": "https://www.eatonco.org/home-page/page/housing-needs-assessment-approved-board",
+        "source": "dola"
+      }
+    ],
+    "0824785": [
+      {
+        "kind": "regional",
+        "date": "2025",
+        "title": "DRCOG Regional Housing Needs Assessment (DOLA-approved 2025-05-21)",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0825115": [
+      {
+        "kind": "regional",
+        "date": "2026",
+        "title": "Larimer County Regional HNA (2026-04-17), DOLA-approved 2026-06-08",
+        "url": "https://www.larimer.gov/sites/default/files/larimer-rhna-final-4-17-26.pdf",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0828690": [
+      {
+        "kind": "regional",
+        "date": "2023",
+        "title": "2023 Summit County Housing Needs Assessment",
+        "url": "https://cms3.revize.com/revize/summitcoco/Documents/Services/Housing/Housing%20Needs%20Assessment/Housing%20Projects/Lake%20Hill/2023%20Summit%20County%20Housing%20Needs%20Assessment%20Final.pdf",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0828745": [
+      {
+        "kind": "local",
+        "date": "2026-03-11",
+        "dola_approved": "2026-03-11",
+        "title": "At Home in Fruita Housing Needs Assessment & Housing Action Plan_December 2025",
+        "url": "https://www.fruita.org/DocumentCenter/View/4185/",
+        "source": "dola"
+      }
+    ],
+    "0830835": [
+      {
+        "kind": "local",
+        "date": "2026-04-02",
+        "dola_approved": "2026-04-02",
+        "title": "City of Golden Housing Needs and Strategies Assessment",
+        "url": "https://www.guidinggolden.com/housing-needs-and-strategies-assessment",
+        "source": "dola"
+      },
+      {
+        "kind": "local",
+        "date": "2026",
+        "title": "City of Golden HNA (DOLA-approved 2026-04-02)",
+        "url": "https://dlg.colorado.gov/housing-plans",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0832155": [
+      {
+        "kind": "in_progress",
+        "date": "2026",
+        "title": "Updated housing needs assessment (community input Aug 2026)",
+        "url": "https://greeleyco.gov/news/2026/20260811-city-of-greeley-seeks-community-input-for-updated-housing-needs-assessment",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0833640": [
+      {
+        "kind": "regional",
+        "date": "2026",
+        "title": "Gunnison Valley Regional HNA, DOLA-approved 2026-05-05",
+        "url": "https://dlg.colorado.gov/housing-plans",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0833695": [
+      {
+        "kind": "regional",
+        "date": "2026",
+        "title": "Eagle County Regional Housing Needs Assessment (EPS), DOLA-approved 2026-01-14",
+        "url": "https://www.townofeagle.org/1197/2025-Eagle-County-Regional-Housing-Needs",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0840515": [
+      {
+        "kind": "local",
+        "date": "2026-03-11",
+        "dola_approved": "2026-03-11",
+        "title": "Kersey Housing Assessment",
+        "url": "https://www.kerseygov.com/living_visiting/community_housing_information.php",
+        "source": "dola"
+      }
+    ],
+    "0843000": [
+      {
+        "kind": "local",
+        "date": "2024",
+        "title": "Strategic Housing Plan (adopted 2024; includes needs findings)",
+        "url": "https://compplan.lakewoodco.gov/goal/19",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0845970": [
+      {
+        "kind": "local",
+        "date": "2023-07-11",
+        "title": "Housing Affordability Needs Assessment (Executive Summary)",
+        "url": "https://longmontcolorado.gov/showpublisheddocument-36303",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0849875": [
+      {
+        "kind": "local",
+        "date": "2026-04-02",
+        "dola_approved": "2026-04-02",
+        "title": "Meeker Housing Assessment",
+        "url": "https://dlg.colorado.gov/housing-plans",
+        "source": "dola"
+      }
+    ],
+    "0850480": [
+      {
+        "kind": "local",
+        "date": "2026-04-02",
+        "dola_approved": "2026-04-02",
+        "title": "Milliken Housing Needs Assessment",
+        "url": "https://www.millikenco.gov/297/2025-Milliken-Housing-Needs-Assessment#docaccess-53786341205ecb07e36eb06728fa60cc8eaf4b6e769cc74a720c8489b83c3183",
+        "source": "dola"
+      }
+    ],
+    "0851745": [
+      {
+        "kind": "local",
+        "date": "2025-06-04",
+        "dola_approved": "2025-06-04",
+        "title": "Montrose HNA - 062023",
+        "url": "https://www.cityofmontrose.org/documentcenter/view/50585",
+        "source": "dola"
+      },
+      {
+        "kind": "local",
+        "date": "2023",
+        "title": "Montrose HNA (June 2023) + SB24-174 addendum (2025-05-02), DOLA-approved 2025-06-04",
+        "url": "https://www.cityofmontrose.org/documentcenter/view/50585",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0852550": [
+      {
+        "kind": "regional",
+        "date": "2026",
+        "title": "San Miguel County Regional HNA, DOLA-approved 2026-05-07",
+        "url": "https://dlg.colorado.gov/housing-plans",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0856860": [
+      {
+        "kind": "regional",
+        "date": "2025",
+        "title": "Archuleta County Regional HNA (with Town of Pagosa Springs), DOLA-approved 2025-05-07",
+        "url": "https://www.archuletacounty.org/886/Archuleta-County-Housing-Needs-Assessmen",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0862000": [
+      {
+        "kind": "local",
+        "date": "2024-11",
+        "title": "2024 Pueblo Housing Assessment & Strategy Update",
+        "url": "https://www.pueblo.us/DocumentCenter/View/38865/Final-2024-Pueblo-Housing-Assessment-Update",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0864200": [
+      {
+        "kind": "regional",
+        "date": "2026-04-02",
+        "dola_approved": "2026-04-02",
+        "title": "Town of Ridgway & Ouray County Housing Needs Assessment",
+        "url": "https://townofridgway.colorado.gov/sites/g/files/lrnvjt1246/files/documents/Ridgway_Ouray%20County_HNA_Final_120425.pdf",
+        "source": "dola"
+      }
+    ],
+    "0869150": [
+      {
+        "kind": "local",
+        "date": "2026-03-11",
+        "dola_approved": "2026-03-11",
+        "title": "Town of Severance Housing Assessment",
+        "url": "https://www.ayresassociates.com/wp-content/ayres_images/DS_Housing%20Assessment_8_25/Severance%20Housing%20Assessment.pdf",
+        "source": "dola"
+      }
+    ],
+    "0869645": [
+      {
+        "kind": "regional",
+        "date": "2025",
+        "title": "DRCOG Regional Housing Needs Assessment (DOLA-approved 2025-05-21)",
+        "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0870195": [
+      {
+        "kind": "local",
+        "date": "2026-06-08",
+        "dola_approved": "2026-06-08",
+        "title": "Silt Housing Needs Assessment April 2025",
+        "url": "https://dlg.colorado.gov/housing-plans",
+        "source": "dola"
+      }
+    ],
+    "0870525": [
+      {
+        "kind": "regional",
+        "date": "2023",
+        "title": "2023 Summit County Housing Needs Assessment",
+        "url": "https://cms3.revize.com/revize/summitcoco/Documents/Services/Housing/Housing%20Needs%20Assessment/Housing%20Projects/Lake%20Hill/2023%20Summit%20County%20Housing%20Needs%20Assessment%20Final.pdf",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0877290": [
+      {
+        "kind": "local",
+        "date": "2024-10-16",
+        "title": "2024 City of Thornton Housing Needs Assessment (public comment draft)",
+        "url": "https://www.thorntonco.gov/sites/default/files/2024-10/Thornton.-%20HNA%20FULL%20%28Sections%201-11%29%2010.16.2024.pdf",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0880040": [
+      {
+        "kind": "regional",
+        "date": "2026",
+        "title": "Eagle County Regional Housing Needs Analysis, DOLA-approved 2026-01-14 (posted on avon.org; town list not verified)",
+        "url": "https://www.avon.org/2382/Housing",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0882350": [
+      {
+        "kind": "old",
+        "date": "2019-07",
+        "title": "Huerfano County Housing Needs Assessment (covers Walsenburg)",
+        "url": "https://www.walsenburg.org/media/7061",
+        "source": "research",
+        "checked": "2026-10-22"
+      }
+    ],
+    "0883230": [
+      {
+        "kind": "local",
+        "date": "2026-02-04",
+        "dola_approved": "2026-02-04",
+        "title": "Wellington Housing Needs & Affordability Assessment",
+        "url": "https://www.wellingtoncolorado.gov/633/Housing-Needs-Assessment",
+        "source": "dola"
+      }
+    ]
+  },
+  "goals": {
+    "08013": {
+      "status": "specific",
+      "quote": "the Boulder County Regional Housing Partnership's goal to have 12% regional affordable housing stock by 2035",
+      "plan": "2017 Regional Housing Plan (Boulder County Regional Housing Partnership)",
+      "url": "https://bouldercounty.gov/?p=143049",
+      "note": null,
+      "checked": "2026-10-22"
+    },
+    "08014": {
+      "status": "general",
+      "quote": "Encourage an adequate supply of affordable/attainable housing for lower-income households.",
+      "plan": "Broomfield Comprehensive Plan 2016, Goal HO-B",
+      "url": "https://broomfield.org/DocumentCenter/View/26828",
+      "note": null,
+      "checked": "2026-10-22"
+    },
+    "08059": {
+      "status": "specific",
+      "quote": "Increase the supply of affordable housing by 3% per year",
+      "plan": "Jefferson County 15-Year Housing Strategic Plan",
+      "url": "https://www.jeffco.us/DocumentCenter/View/50060/Jeffco-15-Year-Housing-Strategic-Plan-PDF",
+      "note": null,
+      "checked": "2026-10-22"
+    },
+    "0807850": {
+      "status": "specific",
+      "quote": "The City of Boulder has a goal for 15% of all homes to be affordable for low-, moderate-, and middle-income households by 2035.",
+      "plan": "Boulder Valley Comprehensive Plan",
+      "url": "https://bouldercolorado.gov/guide/affordable-housing-boulder",
+      "note": null,
+      "checked": "2026-10-22"
+    },
+    "0808675": {
+      "status": "need_only",
+      "quote": "1,450 homes affordable to households earning at or below 80% of the area median income",
+      "plan": null,
+      "url": "https://brightonco.gov/3298/Housing-Needs-Assessment-HNA",
+      "note": "stated as need by end of 2033, not an adopted goal",
+      "checked": "2026-10-22"
+    },
+    "0809280": {
+      "status": "general",
+      "quote": "Encourage an adequate supply of affordable/attainable housing for lower-income households.",
+      "plan": "Broomfield Comprehensive Plan 2016, Goal HO-B",
+      "url": "https://broomfield.org/DocumentCenter/View/26828",
+      "note": null,
+      "checked": "2026-10-22"
+    },
+    "0812815": {
+      "status": "none",
+      "quote": null,
+      "plan": null,
+      "url": "https://www.centennialco.gov/files/sharedassets/public/v/2/documents/housing/centennial-housing-strategy-summary-report.pdf",
+      "note": "Community Housing Strategies Summary Report sets no goal; council picked 4 strategies to draft (Jan 2023)",
+      "checked": "2026-10-22"
+    },
+    "0828690": {
+      "status": "need_only",
+      "quote": "The plan identified the need for an additional 329 workforce units (151 ownership and 178 rental) over the next 10 years.",
+      "plan": "Frisco Strategic Housing Plan",
+      "url": "https://www.friscogov.com/your-government/workforce-housing/",
+      "note": "The 329 units are the plan's need estimate; the 50% year-round-occupancy goal is only to be evaluated, so no adopted affordable goal (review 2026-10-22).",
+      "checked": "2026-10-22"
+    },
+    "0843000": {
+      "status": "general",
+      "quote": "Foster a diverse housing market in Lakewood by expanding access to a variety of affordable and accessible housing options",
+      "plan": "Envision Lakewood 2040, Goal 19",
+      "url": "https://compplan.lakewoodco.gov/goal/19",
+      "note": null,
+      "checked": "2026-10-22"
+    },
+    "0862000": {
+      "status": "need_only",
+      "quote": "is estimated to be about 5,000 units within the city of Pueblo",
+      "plan": null,
+      "url": "https://www.pueblo.us/DocumentCenter/View/38865/Final-2024-Pueblo-Housing-Assessment-Update",
+      "note": "shortage estimate, not an adopted goal",
+      "checked": "2026-10-22"
+    },
+    "0870525": {
+      "status": "general",
+      "quote": "Ensuring adequate opportunities for housing is also critically important to maintaining a healthy workforce",
+      "plan": "2022 Comprehensive Plan Update",
+      "url": "https://silverthorne.org/home/showpublisheddocument/520/637902015424630000",
+      "note": null,
+      "checked": "2026-10-22"
+    },
+    "0871755": {
+      "status": "specific",
+      "quote": "incentivize the development of an additional 185 units",
+      "plan": "2021 Town Council Goal Statement / Housing Master Plan",
+      "url": "https://snowmass.gov/546/Housing-Master-Plan",
+      "note": null,
+      "checked": "2026-10-22"
+    },
+    "0880040": {
+      "status": "specific",
+      "quote": "acquiring an additional 1,000 deed restricted units by the year 2027",
+      "plan": "2027 Housing Strategic Plan (2017; Vail Local Housing Authority and Town Council)",
+      "url": "https://www.vail.gov/government/departments/housing/vailindeed/about-us",
+      "note": null,
+      "checked": "2026-10-22"
+    }
+  },
+  "authorities": [
+    {
+      "id": "CO001",
+      "name": "Denver Housing Authority",
+      "serves": [
+        "0820000",
+        "08031"
+      ],
+      "hud": {
+        "total": 10988,
+        "vouchers": 8092,
+        "public_housing": 2896
+      },
+      "deals": [
+        {
+          "slug": "commons-at-mosaic-denver",
+          "name": "Commons at Mosaic",
+          "year": 2026,
+          "role": "Land owner, ground lessor and seller of the buildings"
+        },
+        {
+          "slug": "1139-delaware-street-denver",
+          "name": "1139 Delaware Street (1139 Delaware)",
+          "year": 2025,
+          "role": "Landowner, ground lessor, voucher provider and tax-exemption partner"
+        },
+        {
+          "slug": "4965-washington-street-denver",
+          "name": "4965 Washington Street",
+          "year": 2025,
+          "role": "Bond issuer"
+        },
+        {
+          "slug": "central-park-station-phase-i-denver",
+          "name": "Central Park Station Phase I",
+          "year": 2025,
+          "role": "Special limited partner"
+        },
+        {
+          "slug": "green-valley-vistas-denver",
+          "name": "Green Valley Vistas",
+          "year": 2025,
+          "role": "Development partner; project-based vouchers; delegated bond cap"
+        },
+        {
+          "slug": "4340-south-monaco-denver",
+          "name": "4340 South Monaco (Lofts on Monaco)",
+          "year": 2024,
+          "role": "Special limited partner"
+        },
+        {
+          "slug": "creekside-flats-denver",
+          "name": "Creekside Flats",
+          "year": 2024,
+          "role": "Special limited partner"
+        },
+        {
+          "slug": "vina-senior-residences-denver",
+          "name": "Viña Senior Residences",
+          "year": 2024,
+          "role": "Housing authority partner (property tax exemption)"
+        },
+        {
+          "slug": "10th-and-sheridan-denver",
+          "name": "10th and Sheridan (opened as Sheridan on 10th)",
+          "year": 2023,
+          "role": "Public partners"
+        },
+        {
+          "slug": "901-navajo-street-denver",
+          "name": "901 Navajo Street (Cranes Landing)",
+          "year": 2023,
+          "role": "Land owner and ground lessor; planned special limited partner"
+        },
+        {
+          "slug": "irving-at-mile-high-vista-denver",
+          "name": "Irving at Mile High Vista",
+          "year": 2022,
+          "role": "Tax-exemption partner"
+        },
+        {
+          "slug": "warren-village-iii-denver",
+          "name": "Warren Village III",
+          "year": 2022,
+          "role": "Landowner (99-year ground lease) and voucher provider"
+        }
+      ]
+    },
+    {
+      "id": "CO028",
+      "name": "Colorado Springs Housing Authority",
+      "serves": [
+        "0816000"
+      ],
+      "hud": {
+        "total": 3022,
+        "vouchers": 2313,
+        "public_housing": 705
+      },
+      "deals": [
+        {
+          "slug": "village-at-homewood-point-phase-ii-colorado-springs",
+          "name": "Village at Homewood Point - Phase II",
+          "year": 2023,
+          "role": "Co-developer, land owner and 100% owner"
+        },
+        {
+          "slug": "bentley-commons-colorado-springs",
+          "name": "Bentley Commons",
+          "year": 2022,
+          "role": "Tax-exemption partner"
+        }
+      ]
+    },
+    {
+      "id": "CO002",
+      "name": "Housing Authority of the City of Pueblo",
+      "serves": [
+        "0862000"
+      ],
+      "hud": {
+        "total": 2344,
+        "vouchers": 1645,
+        "public_housing": 687
+      },
+      "deals": [
+        {
+          "slug": "compass-pointe-pueblo",
+          "name": "Compass Pointe",
+          "year": 2024,
+          "role": "Special limited partner"
+        }
+      ]
+    },
+    {
+      "id": "CO072",
+      "name": "Foothills Regional Housing (Jefferson County)",
+      "serves": [
+        "08059"
+      ],
+      "hud": {
+        "total": 1880,
+        "vouchers": 1880,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "blossom-commons-westminster",
+          "name": "Blossom Commons",
+          "year": 2025,
+          "role": "Tax-exemption partner"
+        },
+        {
+          "slug": "ives-ii-wheat-ridge",
+          "name": "Ives II",
+          "year": 2025,
+          "role": "Sponsor (as CHFA prints it)"
+        },
+        {
+          "slug": "ives-wheat-ridge",
+          "name": "Ives (The Ives, phase one)",
+          "year": 2022,
+          "role": "Sponsor/owner (as CHFA prints it) and developer"
+        }
+      ]
+    },
+    {
+      "id": "CO052",
+      "name": "Aurora Housing Authority",
+      "serves": [
+        "0804000"
+      ],
+      "hud": {
+        "total": 1851,
+        "vouchers": 1847,
+        "public_housing": 4
+      },
+      "deals": [
+        {
+          "slug": "grove-at-pinewood-aurora",
+          "name": "The Grove at Pinewood",
+          "year": 2026,
+          "role": "Proposed special limited partner (tax exemption, waitlist)"
+        },
+        {
+          "slug": "crossbar-commons-aurora",
+          "name": "Crossbar Commons",
+          "year": 2025,
+          "role": "Bond issuer"
+        },
+        {
+          "slug": "montview-heights-aurora",
+          "name": "Montview Heights (Montview Heights Apartments)",
+          "year": 2025,
+          "role": "Bond issuer"
+        },
+        {
+          "slug": "sanctuary-on-potomac-aurora",
+          "name": "Sanctuary on Potomac",
+          "year": 2024,
+          "role": "Sponsor and owner (as CHFA prints it)"
+        },
+        {
+          "slug": "stables-aurora",
+          "name": "Stables (The Stables, Phase I)",
+          "year": 2024,
+          "role": "Public partners"
+        },
+        {
+          "slug": "tiara-apartments-aurora",
+          "name": "Tiara Apartments",
+          "year": 2024,
+          "role": "Special limited partner (intended)"
+        },
+        {
+          "slug": "kings-crossing-aurora",
+          "name": "King's Crossing (King's Crossing Village)",
+          "year": 2023,
+          "role": "Tax exemption partner"
+        },
+        {
+          "slug": "residences-at-willow-park-aurora",
+          "name": "Residences at Willow Park",
+          "year": 2023,
+          "role": "Sponsor (as CHFA prints it), owner and manager"
+        },
+        {
+          "slug": "elevate-at-aurora-aurora",
+          "name": "Elevate at Aurora",
+          "year": 2022,
+          "role": "Special limited partner (tax exemption)"
+        },
+        {
+          "slug": "sable-station-aurora",
+          "name": "Sable Station",
+          "year": 2022,
+          "role": "Tax abatement partner"
+        }
+      ]
+    },
+    {
+      "id": "CO041",
+      "name": "Housing Catalyst (Fort Collins)",
+      "serves": [
+        "0827425"
+      ],
+      "hud": {
+        "total": 1627,
+        "vouchers": 1627,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "fairbrooke-heights-fort-collins",
+          "name": "Fairbrooke Heights (scattered site)",
+          "year": 2026,
+          "role": "Bond issuer"
+        },
+        {
+          "slug": "greenbriar-apartments-fort-collins",
+          "name": "Greenbriar Apartments (scattered site)",
+          "year": 2026,
+          "role": "Bond issuer"
+        },
+        {
+          "slug": "switchgrass-crossing-fort-collins",
+          "name": "Switchgrass Crossing",
+          "year": 2025,
+          "role": "Partner"
+        },
+        {
+          "slug": "village-on-eastbrook-fort-collins",
+          "name": "Village on Eastbrook",
+          "year": 2025,
+          "role": "Sponsor (CHFA prints it as \"Housing Catalyst Housing Catalyst\"), developer, owner and bond issuer"
+        },
+        {
+          "slug": "windtrail-park-fort-collins",
+          "name": "Windtrail Park (Windtrail Park Apartments)",
+          "year": 2025,
+          "role": "Bond issuer"
+        },
+        {
+          "slug": "grove-in-bloom-fort-collins",
+          "name": "Grove in Bloom",
+          "year": 2024,
+          "role": "Housing authority partner"
+        }
+      ]
+    },
+    {
+      "id": "CO058",
+      "name": "Maiker Housing Partners (Adams County)",
+      "serves": [
+        "08001"
+      ],
+      "hud": {
+        "total": 1600,
+        "vouchers": 1600,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "dawson-square-denver",
+          "name": "Dawson Square (Dawson Square Apartments)",
+          "year": 2025,
+          "role": "Bond issuer and partner"
+        },
+        {
+          "slug": "elmwood-north-denver",
+          "name": "Elmwood North",
+          "year": 2025,
+          "role": "Special limited partner (tax abatement)"
+        },
+        {
+          "slug": "squire-village-northglenn",
+          "name": "Squire Village (Squire Village Apartments)",
+          "year": 2025,
+          "role": "Bond issuer and special limited partner"
+        },
+        {
+          "slug": "maiker-uplands-westminster",
+          "name": "Maiker Uplands (now Verrbena)",
+          "year": 2024,
+          "role": "Developer and owner (as CHFA prints it)"
+        },
+        {
+          "slug": "overlook-at-thornton-thornton",
+          "name": "Overlook at Thornton",
+          "year": 2022,
+          "role": "Sponsor (as CHFA prints it)"
+        }
+      ]
+    },
+    {
+      "id": "CO049",
+      "name": "Metro West Housing Solutions (Lakewood)",
+      "serves": [
+        "0843000"
+      ],
+      "hud": {
+        "total": 1439,
+        "vouchers": 1439,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "tiffany-square-lakewood",
+          "name": "Tiffany Square (Tiffany Square Apartments)",
+          "year": 2025,
+          "role": "Bond issuer"
+        },
+        {
+          "slug": "belmar-groves-apartments-lakewood",
+          "name": "Belmar Groves Apartments",
+          "year": 2023,
+          "role": "Sponsor (as CHFA prints it), owner and bond issuer"
+        },
+        {
+          "slug": "williams-pointe-lakewood",
+          "name": "Williams Pointe",
+          "year": 2023,
+          "role": "Sponsor/owner (as CHFA prints it)"
+        }
+      ]
+    },
+    {
+      "id": "CO016",
+      "name": "Boulder Housing Partners",
+      "serves": [
+        "0807850"
+      ],
+      "hud": {
+        "total": 1328,
+        "vouchers": 1328,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "34th-street-boulder",
+          "name": "34th Street (Harvest34)",
+          "year": 2025,
+          "role": "Sponsor (not printed in the first table of CHFA's report; the mix table names it) and developer"
+        },
+        {
+          "slug": "diagonal-plaza-boulder",
+          "name": "Diagonal Plaza (opened as Hawthorn Court)",
+          "year": 2023,
+          "role": "Sponsor, developer and property manager (as CHFA prints it)"
+        },
+        {
+          "slug": "rally-apartments-boulder",
+          "name": "Rally Apartments (now Rally Flats)",
+          "year": 2022,
+          "role": "Sponsor/developer/manager (as CHFA prints it)"
+        }
+      ]
+    },
+    {
+      "id": "CO051",
+      "name": "Grand Junction Housing Authority",
+      "serves": [
+        "0831660"
+      ],
+      "hud": {
+        "total": 1214,
+        "vouchers": 1214,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "current-grand-junction",
+          "name": "The Current",
+          "year": 2024,
+          "role": "Sponsor, developer and property manager (as CHFA prints it)"
+        }
+      ]
+    },
+    {
+      "id": "CO061",
+      "name": "Boulder County Housing Authority",
+      "serves": [
+        "08013"
+      ],
+      "hud": {
+        "total": 984,
+        "vouchers": 984,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "willoughby-corner-phase-2-lafayette",
+          "name": "Willoughby Corner Phase 2",
+          "year": 2026,
+          "role": "Sponsor (as CHFA prints it); owner and manager of Willoughby Corner"
+        },
+        {
+          "slug": "kite-route-crossing-superior",
+          "name": "Kite Route Crossing",
+          "year": 2025,
+          "role": "Proposed special limited partner (tax exemption)"
+        },
+        {
+          "slug": "spine-road-apartments-boulder",
+          "name": "Spine Road Apartments",
+          "year": 2022,
+          "role": "Development partner"
+        },
+        {
+          "slug": "willoughby-corner-phase-ia-senior-lafayette",
+          "name": "Willoughby Corner Phase IA Senior",
+          "year": 2022,
+          "role": "Sponsor/owner (as CHFA prints it)"
+        },
+        {
+          "slug": "willoughby-corner-phase-ib-family-lafayette",
+          "name": "Willoughby Corner Phase IB Family Apartments",
+          "year": 2022,
+          "role": "Sponsor (as CHFA prints it), developer, bond issuer, owner and manager"
+        }
+      ]
+    },
+    {
+      "id": "CO035",
+      "name": "Greeley-Weld Housing Authority",
+      "serves": [
+        "0832155"
+      ],
+      "hud": {
+        "total": 816,
+        "vouchers": 730,
+        "public_housing": 86
+      },
+      "deals": [
+        {
+          "slug": "starrise-at-north-weld-village-greeley",
+          "name": "StarRise at North Weld Village",
+          "year": 2023,
+          "role": "Tax exemption partner"
+        }
+      ]
+    },
+    {
+      "id": "CO034",
+      "name": "Loveland Housing Authority",
+      "serves": [
+        "0846465"
+      ],
+      "hud": {
+        "total": 658,
+        "vouchers": 658,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "edge-iii-loveland",
+          "name": "Edge III",
+          "year": 2023,
+          "role": "Developer and owner (as CHFA prints it)"
+        },
+        {
+          "slug": "jacoby-meadows-windsor",
+          "name": "Jacoby Meadows (Phase I)",
+          "year": 2023,
+          "role": "Sponsor (as CHFA prints it)"
+        }
+      ]
+    },
+    {
+      "id": "CO036",
+      "name": "South Metro Housing Options (Littleton)",
+      "serves": [
+        "0845255"
+      ],
+      "hud": {
+        "total": 624,
+        "vouchers": 624,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "montview-flats-littleton",
+          "name": "Montview Flats",
+          "year": 2024,
+          "role": "Sponsor (as CHFA prints it)"
+        }
+      ]
+    },
+    {
+      "id": "CO050",
+      "name": "Arvada Housing Authority",
+      "serves": [
+        "0803455"
+      ],
+      "hud": {
+        "total": 562,
+        "vouchers": 562,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "marshall-pointe-apartments-arvada",
+          "name": "Marshall Pointe Apartments",
+          "year": 2024,
+          "role": "Project-based vouchers and partner"
+        },
+        {
+          "slug": "legacy-senior-residences-arvada",
+          "name": "Legacy Senior Residences",
+          "year": 2022,
+          "role": "Owner"
+        }
+      ]
+    },
+    {
+      "id": "CO048",
+      "name": "Englewood Housing Authority",
+      "serves": [
+        "0824785"
+      ],
+      "hud": {
+        "total": 547,
+        "vouchers": 437,
+        "public_housing": 110
+      },
+      "deals": []
+    },
+    {
+      "id": "CO070",
+      "name": "Longmont Housing Authority",
+      "serves": [
+        "0845970"
+      ],
+      "hud": {
+        "total": 526,
+        "vouchers": 518,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "mountain-view-plaza-longmont",
+          "name": "Mountain View Plaza (scattered site)",
+          "year": 2026,
+          "role": "Bond / note issuer (conduit) and special limited partner"
+        },
+        {
+          "slug": "parkside-apartments-longmont",
+          "name": "Parkside Apartments (scattered site)",
+          "year": 2026,
+          "role": "Bond / note issuer (conduit) and special limited partner"
+        },
+        {
+          "slug": "34th-street-boulder",
+          "name": "34th Street (Harvest34)",
+          "year": 2025,
+          "role": "Bond issuer (as CHFA prints it)"
+        },
+        {
+          "slug": "atwood-commons-longmont",
+          "name": "Atwood Commons",
+          "year": 2025,
+          "role": "Bond issuer and special limited partner (tax exemption)"
+        },
+        {
+          "slug": "ascent-at-hover-crossing-longmont",
+          "name": "Ascent at Hover Crossing",
+          "year": 2023,
+          "role": "Land owner, co-general partner (planned) and property manager"
+        },
+        {
+          "slug": "bluebird-longmont",
+          "name": "Bluebird Longmont (opened as Zinnia)",
+          "year": 2022,
+          "role": "Land partners and property tax exemption"
+        }
+      ]
+    },
+    {
+      "id": "CO095",
+      "name": "Garfield County Housing Authority",
+      "serves": [
+        "08045"
+      ],
+      "hud": {
+        "total": 494,
+        "vouchers": 494,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "aster-place-battlement-mesa",
+          "name": "Aster Place",
+          "year": 2024,
+          "role": "Special limited partner and voucher provider"
+        },
+        {
+          "slug": "glenwood-gardens-glenwood-springs",
+          "name": "Glenwood Gardens (now Canyon Vista Apartments)",
+          "year": 2024,
+          "role": "Housing authority partner"
+        },
+        {
+          "slug": "rifle-apartments-rifle",
+          "name": "Rifle Apartments",
+          "year": 2023,
+          "role": "Housing authority (vouchers, special limited partner)"
+        }
+      ]
+    },
+    {
+      "id": "CO090",
+      "name": "Housing Authority of Weld County",
+      "serves": [
+        "08123"
+      ],
+      "hud": {
+        "total": 433,
+        "vouchers": 433,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "brigits-village-frederick",
+          "name": "Brigit's Village",
+          "year": 2023,
+          "role": "Housing authority partner"
+        }
+      ]
+    },
+    {
+      "id": "CO040",
+      "name": "Delta Housing Authority",
+      "serves": [
+        "0819850"
+      ],
+      "hud": {
+        "total": 311,
+        "vouchers": 236,
+        "public_housing": 75
+      },
+      "deals": [
+        {
+          "slug": "residences-at-delta-ii-delta",
+          "name": "Residences at Delta II",
+          "year": 2024,
+          "role": "Housing authority partner (special limited partner, property manager)"
+        }
+      ]
+    },
+    {
+      "id": "CO079",
+      "name": "Montezuma County Housing Authority",
+      "serves": [
+        "08083"
+      ],
+      "hud": {
+        "total": 293,
+        "vouchers": 262,
+        "public_housing": 31
+      },
+      "deals": [
+        {
+          "slug": "puwagaan-kaan-cortez",
+          "name": "Puwagaan Kaan (Healing Home), opened as Tawi Kaan Apartments",
+          "year": 2022,
+          "role": "Special limited partner (planned)"
+        }
+      ]
+    },
+    {
+      "id": "CO071",
+      "name": "Fountain Housing Authority",
+      "serves": [
+        "0827865"
+      ],
+      "hud": {
+        "total": 284,
+        "vouchers": 244,
+        "public_housing": 40
+      },
+      "deals": []
+    },
+    {
+      "id": "CO005",
+      "name": "Trinidad Housing Authority",
+      "serves": [
+        "0878610"
+      ],
+      "hud": {
+        "total": 283,
+        "vouchers": 87,
+        "public_housing": 196
+      },
+      "deals": [
+        {
+          "slug": "marq-trinidad",
+          "name": "Marq (The Marq)",
+          "year": 2025,
+          "role": "Special limited partner and voucher provider"
+        }
+      ]
+    },
+    {
+      "id": "CO019",
+      "name": "Brighton Housing Authority",
+      "serves": [
+        "0808675"
+      ],
+      "hud": {
+        "total": 255,
+        "vouchers": 255,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "ravenfield-brighton",
+          "name": "Ravenfield",
+          "year": 2025,
+          "role": "Sponsor (as CHFA prints it), developer and owner"
+        },
+        {
+          "slug": "hughes-station-brighton",
+          "name": "Hughes Station",
+          "year": 2023,
+          "role": "Sponsor (as CHFA prints it) and developer"
+        }
+      ]
+    },
+    {
+      "id": "CO087",
+      "name": "Montrose County Housing Authority",
+      "serves": [
+        "08085"
+      ],
+      "hud": {
+        "total": 201,
+        "vouchers": 201,
+        "public_housing": 0
+      },
+      "deals": [
+        {
+          "slug": "cedar-creek-commons-montrose",
+          "name": "Cedar Creek Commons",
+          "year": 2026,
+          "role": "Tax exemption partner"
+        },
+        {
+          "slug": "rendezvous-montrose",
+          "name": "Rendezvous",
+          "year": 2023,
+          "role": "Housing authority (vouchers, special limited partner)"
+        }
+      ]
+    },
+    {
+      "id": "CO004",
+      "name": "Alamosa Housing Authority",
+      "serves": [
+        "0801090"
+      ],
+      "hud": {
+        "total": 199,
+        "vouchers": 0,
+        "public_housing": 199
+      },
+      "deals": []
+    },
+    {
+      "id": "CO031",
+      "name": "La Junta Housing Authority",
+      "serves": [
+        "0842110"
+      ],
+      "hud": {
+        "total": 188,
+        "vouchers": 102,
+        "public_housing": 86
+      },
+      "deals": []
+    },
+    {
+      "id": "CO057",
+      "name": "Sheridan Housing Authority",
+      "serves": [
+        "0869645"
+      ],
+      "hud": {
+        "total": 181,
+        "vouchers": 181,
+        "public_housing": 0
+      },
+      "deals": []
+    },
+    {
+      "id": "CO006",
+      "name": "Lamar Housing Authority",
+      "serves": [
+        "0843110"
+      ],
+      "hud": {
+        "total": 137,
+        "vouchers": 107,
+        "public_housing": 30
+      },
+      "deals": []
+    },
+    {
+      "id": "CO024",
+      "name": "Las Animas Housing Authority",
+      "serves": [
+        "0843660"
+      ],
+      "hud": {
+        "total": 127,
+        "vouchers": 127,
+        "public_housing": 0
+      },
+      "deals": []
+    },
+    {
+      "id": "CO003",
+      "name": "Walsenburg Housing Authority",
+      "serves": [
+        "0882350"
+      ],
+      "hud": {
+        "total": 115,
+        "vouchers": 0,
+        "public_housing": 115
+      },
+      "deals": []
+    },
+    {
+      "id": "CO025",
+      "name": "Sterling Housing Authority",
+      "serves": [
+        "0873935"
+      ],
+      "hud": {
+        "total": 110,
+        "vouchers": 0,
+        "public_housing": 110
+      },
+      "deals": [
+        {
+          "slug": "sugar-commons-sterling",
+          "name": "Sugar Commons",
+          "year": 2025,
+          "role": "Planned tax exemption partner"
+        }
+      ]
+    },
+    {
+      "id": "CO103",
+      "name": "Larimer County Housing Authority",
+      "serves": [
+        "08069"
+      ],
+      "hud": {
+        "total": 104,
+        "vouchers": 104,
+        "public_housing": 0
+      },
+      "deals": []
+    },
+    {
+      "id": "CO011",
+      "name": "Fort Morgan Housing Authority",
+      "serves": [
+        "0827810"
+      ],
+      "hud": {
+        "total": 86,
+        "vouchers": 0,
+        "public_housing": 86
+      },
+      "deals": []
+    },
+    {
+      "id": "CO043",
+      "name": "Center Housing Authority",
+      "serves": [
+        "0812855"
+      ],
+      "hud": {
+        "total": 58,
+        "vouchers": 28,
+        "public_housing": 30
+      },
+      "deals": []
+    },
+    {
+      "id": "CO037",
+      "name": "Costilla County Housing Authority",
+      "serves": [
+        "08023"
+      ],
+      "hud": {
+        "total": 57,
+        "vouchers": 0,
+        "public_housing": 57
+      },
+      "deals": []
+    },
+    {
+      "id": "CO045",
+      "name": "Rocky Ford Housing Authority",
+      "serves": [
+        "0865190"
+      ],
+      "hud": {
+        "total": 53,
+        "vouchers": 53,
+        "public_housing": 0
+      },
+      "deals": []
+    },
+    {
+      "id": "CO021",
+      "name": "Julesburg Housing Authority",
+      "serves": [
+        "0839965"
+      ],
+      "hud": {
+        "total": 52,
+        "vouchers": 0,
+        "public_housing": 52
+      },
+      "deals": []
+    },
+    {
+      "id": "CO009",
+      "name": "Yuma Housing Authority",
+      "serves": [
+        "0886750"
+      ],
+      "hud": {
+        "total": 50,
+        "vouchers": 0,
+        "public_housing": 50
+      },
+      "deals": []
+    },
+    {
+      "id": "CO013",
+      "name": "Salida Housing Authority",
+      "serves": [
+        "0867280"
+      ],
+      "hud": {
+        "total": 50,
+        "vouchers": 0,
+        "public_housing": 50
+      },
+      "deals": []
+    },
+    {
+      "id": "CO029",
+      "name": "Fort Lupton Housing Authority",
+      "serves": [
+        "0827700"
+      ],
+      "hud": {
+        "total": 50,
+        "vouchers": 0,
+        "public_housing": 50
+      },
+      "deals": [
+        {
+          "slug": "wildflower-flats-fort-lupton",
+          "name": "Wildflower Flats",
+          "year": 2026,
+          "role": "Special limited partner (property tax exemption)"
+        }
+      ]
+    },
+    {
+      "id": "CO101",
+      "name": "Otero County Housing Authority",
+      "serves": [
+        "08089"
+      ],
+      "hud": {
+        "total": 46,
+        "vouchers": 46,
+        "public_housing": 0
+      },
+      "deals": []
+    },
+    {
+      "id": "CO022",
+      "name": "Wray Housing Authority",
+      "serves": [
+        "0886310"
+      ],
+      "hud": {
+        "total": 41,
+        "vouchers": 0,
+        "public_housing": 41
+      },
+      "deals": []
+    },
+    {
+      "id": "CO012",
+      "name": "Limon Housing Authority",
+      "serves": [
+        "0844980"
+      ],
+      "hud": {
+        "total": 40,
+        "vouchers": 0,
+        "public_housing": 40
+      },
+      "deals": []
+    },
+    {
+      "id": "CO030",
+      "name": "Burlington Housing Authority",
+      "serves": [
+        "0810600"
+      ],
+      "hud": {
+        "total": 31,
+        "vouchers": 0,
+        "public_housing": 31
+      },
+      "deals": []
+    },
+    {
+      "id": "CO023",
+      "name": "Holyoke Housing Authority",
+      "serves": [
+        "0837270"
+      ],
+      "hud": {
+        "total": 30,
+        "vouchers": 0,
+        "public_housing": 30
+      },
+      "deals": []
+    },
+    {
+      "id": "CO044",
+      "name": "Brush Housing Authority",
+      "serves": [
+        "0809555"
+      ],
+      "hud": {
+        "total": 30,
+        "vouchers": 0,
+        "public_housing": 30
+      },
+      "deals": [
+        {
+          "slug": "brush-village-ii-brush",
+          "name": "Brush Village II (opened as Meadow Vista Apartments)",
+          "year": 2022,
+          "role": "Special limited partner / tax exemption"
+        }
+      ]
+    },
+    {
+      "id": "CO008",
+      "name": "Antonito Housing Authority",
+      "serves": [
+        "0802355"
+      ],
+      "hud": {
+        "total": 29,
+        "vouchers": 0,
+        "public_housing": 29
+      },
+      "deals": []
+    },
+    {
+      "id": "CO026",
+      "name": "Cheyenne Wells Housing Authority",
+      "serves": [
+        "0814175"
+      ],
+      "hud": {
+        "total": 25,
+        "vouchers": 0,
+        "public_housing": 25
+      },
+      "deals": []
+    },
+    {
+      "id": "CO017",
+      "name": "Haxtun Housing Authority",
+      "serves": [
+        "0834960"
+      ],
+      "hud": {
+        "total": 22,
+        "vouchers": 0,
+        "public_housing": 22
+      },
+      "deals": []
+    },
+    {
+      "id": "CO018",
+      "name": "Kersey Housing Authority",
+      "serves": [
+        "0840515"
+      ],
+      "hud": {
+        "total": 20,
+        "vouchers": 0,
+        "public_housing": 20
+      },
+      "deals": []
+    },
+    {
+      "id": "CO020",
+      "name": "Keenesburg Housing Authority",
+      "serves": [
+        "0840185"
+      ],
+      "hud": {
+        "total": 20,
+        "vouchers": 0,
+        "public_housing": 20
+      },
+      "deals": []
+    },
+    {
+      "id": "CO015",
+      "name": "Aguilar Housing Authority",
+      "serves": [
+        "0800760"
+      ],
+      "hud": {
+        "total": 18,
+        "vouchers": 0,
+        "public_housing": 18
+      },
+      "deals": []
+    },
+    {
+      "id": "CO007",
+      "name": "Holly Housing Authority",
+      "serves": [
+        "0837215"
+      ],
+      "hud": {
+        "total": 16,
+        "vouchers": 0,
+        "public_housing": 16
+      },
+      "deals": []
+    },
+    {
+      "id": "douglas-county-housing-partnership",
+      "name": "Douglas County Housing Partnership",
+      "serves": [
+        "08035",
+        "0812415",
+        "0857630",
+        "0845955"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "gregory-highlands-ranch",
+          "name": "The Gregory",
+          "year": 2026,
+          "role": "Bond issuer"
+        },
+        {
+          "slug": "ponderosa-pines-parker",
+          "name": "Ponderosa Pines",
+          "year": 2025,
+          "role": "Bond issuer (conduit) and special limited partner"
+        },
+        {
+          "slug": "sophia-englewood",
+          "name": "Sophia (The Sophia)",
+          "year": 2023,
+          "role": "Bond issuer"
+        },
+        {
+          "slug": "meadowmark-castle-rock",
+          "name": "Meadowmark",
+          "year": 2022,
+          "role": "Bond issuer and partner"
+        },
+        {
+          "slug": "ridgegate-senior-lone-tree",
+          "name": "RidgeGate Senior (now Forte)",
+          "year": 2022,
+          "role": "Special limited partner (as proposed)"
+        }
+      ]
+    },
+    {
+      "id": "aspen-pitkin-county-housing-authority",
+      "name": "Aspen/Pitkin County Housing Authority",
+      "serves": [
+        "08097",
+        "0803620"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "lumberyard-apartments-aspen",
+          "name": "Lumberyard Apartments (Phase B)",
+          "year": 2026,
+          "role": "Special limited partner (property tax exemption)"
+        }
+      ]
+    },
+    {
+      "id": "archuleta-county-housing-authority",
+      "name": "Archuleta County Housing Authority",
+      "serves": [
+        "08007"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "trails-at-pagosa-springs-pagosa-springs",
+          "name": "Trails at Pagosa Springs (now marketed as Timberline at Pagosa Springs)",
+          "year": 2023,
+          "role": "Housing authority partner"
+        }
+      ]
+    },
+    {
+      "id": "broomfield-housing-alliance",
+      "name": "Broomfield Housing Alliance",
+      "serves": [
+        "0809280",
+        "08014"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "grove-at-cottonwood-broomfield",
+          "name": "Grove at Cottonwood",
+          "year": 2024,
+          "role": "Sponsor (as CHFA prints it); co-developer and co-owner"
+        }
+      ]
+    },
+    {
+      "id": "commerce-city-housing-authority",
+      "name": "Commerce City Housing Authority",
+      "serves": [
+        "0816495"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "sp-crossing-commerce-city",
+          "name": "SP Crossing",
+          "year": 2022,
+          "role": "Special limited partner (tax exemption)"
+        }
+      ]
+    },
+    {
+      "id": "fraser-housing-authority",
+      "name": "Fraser Housing Authority",
+      "serves": [
+        "0828305"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "st-louis-landing-building-c-fraser",
+          "name": "St. Louis Landing Building C",
+          "year": 2025,
+          "role": "Sponsor (as CHFA prints it in the award report)"
+        }
+      ]
+    },
+    {
+      "id": "frisco-community-housing-development-authority",
+      "name": "Frisco Community Housing Development Authority",
+      "serves": [
+        "0828690"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "101-main-frisco",
+          "name": "101 Main (The Bella)",
+          "year": 2025,
+          "role": "Housing authority (property tax exemption, partnership role)"
+        }
+      ]
+    },
+    {
+      "id": "summit-combined-housing-authority",
+      "name": "Summit Combined Housing Authority",
+      "serves": [
+        "08117"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "smith-ranch-apartments-silverthorne",
+          "name": "Smith Ranch Apartments",
+          "year": 2022,
+          "role": "Property tax exemption partner"
+        }
+      ]
+    },
+    {
+      "id": "saguache-county-housing-authority",
+      "name": "Saguache County Housing Authority",
+      "serves": [
+        "08109"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "range-view-saguache",
+          "name": "Range View",
+          "year": 2024,
+          "role": "Special limited partner and land lessor"
+        }
+      ]
+    },
+    {
+      "id": "windsor-housing-authority",
+      "name": "Windsor Housing Authority",
+      "serves": [
+        "0885485"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "jacoby-meadows-windsor",
+          "name": "Jacoby Meadows (Phase I)",
+          "year": 2023,
+          "role": "Applicant, landowner and owner-side partner"
+        }
+      ]
+    },
+    {
+      "id": "el-paso-county-housing-authority",
+      "name": "El Paso County Housing Authority",
+      "serves": [
+        "08041"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "123-manitou-manitou-springs",
+          "name": "123 Manitou",
+          "year": 2026,
+          "role": "Planned special limited partner (property, sales and use tax exemption)"
+        }
+      ]
+    },
+    {
+      "id": "arapahoe-county-housing-authority",
+      "name": "Arapahoe County Housing Authority",
+      "serves": [
+        "08005"
+      ],
+      "hud": null,
+      "deals": [
+        {
+          "slug": "reserve-at-south-creek-englewood",
+          "name": "Reserve at South Creek",
+          "year": 2026,
+          "role": "Special limited partner (planned)"
+        }
+      ]
+    }
+  ]
+}

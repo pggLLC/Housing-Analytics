@@ -133,7 +133,7 @@
     <h1>Where Should I Build?</h1>
     <p>
       Every Colorado town, Census community and county, scored on what you care about: easy to build, incentives, land, need, rents,
-      recreation and how local voters lean. Move a slider to change how much each one counts.
+      recreation, local commitment (a housing needs assessment, a written goal, a housing authority) and how local voters lean. Move a slider to change how much each one counts.
     </p>
     <p>
       Each row says in one sentence why it scored what it did, and opens to show every factor, its points and its source.
@@ -271,10 +271,11 @@
     getJSON('data/policy/local-support.json'),
     getJSON('data/policy/fee-reductions.json'),
     getJSON('data/policy/local-housing-funds.json'),
-    getJSON('data/policy/incentive-coverage.json')
+    getJSON('data/policy/incentive-coverage.json'),
+    getJSON('data/policy/local-commitment.json')
   ]).then(function (d) {
     var docs = { ranking: d[0], prop123: d[1], awards: d[2], lbStatus: d[3], hud: d[4], context: d[5],
-      support: d[6], fees: d[7], funds: d[8], coverage: d[9] };
+      support: d[6], fees: d[7], funds: d[8], coverage: d[9], commitment: d[10] };
     if (!docs.ranking) throw new Error('the HNA ranking could not be loaded');
     var model = W.build(docs, TODAY);
     var trackerLoad = null; // one Deal Tracker load per page view, shared by every render
@@ -435,7 +436,7 @@
         var srcLabel = F.source ? F.source.label : 'Colorado Secretary of State, official results';
         return '<tr><td>' + (src ? '<a href="' + esc(src) + '" target="_blank" rel="noopener" title="' + esc(srcLabel) + '">' + esc(F.label) + '</a>' : esc(F.label)) + '<span class="ib-sub">' + esc(srcLabel) + '</span></td>' +
           '<td' + (f.points == null ? ' class="unk"' : '') + '>' + esc(f.value) + (f.quote ? '<span class="ib-sub">Source line: “' + esc(f.quote) + '”</span>' : '') +
-          (f.evidence && f.evidence.length ? '<span class="ib-sub">Status evidence: ' + f.evidence.map(function (e) {
+          (f.evidence && f.evidence.length ? '<span class="ib-sub">' + esc(f.evidenceLabel || 'Status evidence') + ': ' + f.evidence.map(function (e) {
             return '<a href="' + esc(e.url) + '" target="_blank" rel="noopener">' + esc(e.title || e.url) + '</a>';
           }).join('; ') + '</span>' : '') + '</td>' +
           '<td class="num" data-label="Points">' + (f.points == null ? '<span class="unk">not checked</span>' : esc(f.points) + ' / 10') + '</td>' +
@@ -456,6 +457,7 @@
 
     function renderMethods(docs) {
       function asOf(v) { return v ? String(v).slice(0, 10) : 'date not stated'; }
+      var cms = (docs.commitment && docs.commitment.sources) || {};
       var dates = {
         prop123: asOf(docs.prop123 && docs.prop123.updated),
         approvals: asOf(docs.support && docs.support.meta && docs.support.meta.as_of),
@@ -468,8 +470,12 @@
         rentCushion: asOf(docs.hud && docs.hud.meta && docs.hud.meta.generated) + (docs.hud && docs.hud.meta ? ' (FMR FY' + docs.hud.meta.fiscal_year + ', income limits FY' + docs.hud.meta.income_limits_fiscal_year + ')' : ''),
         parks: 'OpenStreetMap file ' + asOf(docs.context && docs.context.meta && docs.context.meta.parks_generated),
         prop123Vote: 'certified 2022 results, read ' + asOf(docs.context && docs.context.meta && docs.context.meta.votes_retrieved),
-        presVote: 'certified 2024 results, read ' + asOf(docs.context && docs.context.meta && docs.context.meta.votes_retrieved)
+        presVote: 'certified 2024 results, read ' + asOf(docs.context && docs.context.meta && docs.context.meta.votes_retrieved),
+        hna: commitSrc('dola') + '; town and county documents read ' + commitSrc('research'),
+        planGoal: 'plans read ' + commitSrc('research'),
+        authority: 'HUD file as of ' + commitSrc('hud') + '; ' + (cms.deals ? cms.deals.count + ' CHFA award summaries' : 'award summaries not loaded')
       };
+      function commitSrc(k) { return cms[k] ? asOf(cms[k].as_of) : 'file not loaded'; }
       var votes = (docs.context && docs.context.votes) || {};
       var voteSrc = { prop123Vote: votes.prop123_2022 && votes.prop123_2022.source_url, presVote: votes.president_2024 && votes.president_2024.source_url };
       var rows = W.GROUPS.map(function (g) {

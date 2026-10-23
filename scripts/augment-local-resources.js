@@ -140,7 +140,7 @@ const PLACE_ENTRIES = {
     prop123: { status: 'Committed', link: 'https://cdola.colorado.gov/commitment-filings' },
     housingLead: { name: 'City of Greeley Community Development', url: 'https://greeleygov.com/government/community-development' },
     housingAuthority: [
-      { name: 'Greeley-Weld Housing Authority', url: 'https://gwhau.org/' }
+      { name: 'Housing Authority of the City of Greeley' }
     ],
     advocacy: [
       { name: 'Catholic Charities of Northern Colorado', url: 'https://ccncolorado.org/' }
@@ -163,8 +163,7 @@ const PLACE_ENTRIES = {
       // P5: lhauthority.org timing out in url-health-monitor — replaced
       // with a durable Google search per F35 pattern (memory:
       // project_local_resources_links).
-      { name: 'Longmont Housing Authority', url: 'https://www.google.com/search?q=%22Longmont+Housing+Authority%22+Colorado' },
-      { name: 'Longmont Housing Authority Foundation', url: 'https://lhaf.org/' }
+      { name: 'Longmont Housing Authority', url: 'https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment/housing-authority' }
     ],
     advocacy: [
       { name: 'OUR Center', url: 'https://www.ourcenter.org/' }
@@ -209,7 +208,10 @@ const PLACE_ENTRIES = {
     prop123: { status: 'Committed', link: 'https://cdola.colorado.gov/commitment-filings' },
     housingLead: { name: 'City of Durango Community Development', url: 'https://www.durangogov.org/333/Community-Development' },
     housingAuthority: [
-      { name: 'Housing Solutions for the Southwest', url: 'https://www.housingsolutionssw.com/' }
+      // Housing Solutions for the Southwest is a nonprofit, not an authority, and
+      // its old domain now serves an unrelated site. The registered authority is
+      // the Regional Housing Alliance (State Auditor local government 7307).
+      { name: 'Regional Housing Alliance of La Plata County' }
     ],
     advocacy: [
       { name: 'Manna Soup Kitchen / Volunteers of America', url: 'https://www.mannasoupkitchen.org/' }
