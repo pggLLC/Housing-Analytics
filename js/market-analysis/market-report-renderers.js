@@ -931,7 +931,8 @@
           j.floodUnavailableReason || 'FEMA NFHL') +
         _infraRow('Climate Resilience', j.climateResilienceScore,
           j.climateUnavailableReason || 'NOAA') +
-        _infraRow('Utility Capacity', j.sewerCapacityAdequate != null ? (j.sewerCapacityAdequate ? 80 : 30) : null, 'est. headroom') +
+        _infraRow('Utility Capacity', j.sewerCapacityAdequate != null ? (j.sewerCapacityAdequate ? 80 : 30) : null,
+          j.utilityUnavailableReason || 'est. headroom') +
         _infraRow('Food Access', j.foodAccessScore, 'USDA Atlas') +
       '</div>';
 
