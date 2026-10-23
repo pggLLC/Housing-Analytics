@@ -78,12 +78,20 @@
     var body = document.getElementById('glossaryBody');
     if (!body) return;
     var q = (filter || '').toLowerCase().trim();
+    // A term named exactly comes first, then terms whose name or expansion
+    // matches, then definitions that only mention it: a search result for
+    // "AMI" opens on AMI, not on QCT, whose definition uses the word.
+    function rankOf(t) {
+      var term = t.term.toLowerCase();
+      if (term === q) return 0;
+      if (term.includes(q) || (t.full || '').toLowerCase().includes(q)) return 1;
+      return (t.definition || '').toLowerCase().includes(q) ? 2 : -1;
+    }
     var visible = q
-      ? terms.filter(function (t) {
-          return t.term.toLowerCase().includes(q) ||
-                 t.full.toLowerCase().includes(q) ||
-                 t.definition.toLowerCase().includes(q);
-        })
+      ? terms.map(function (t, i) { return { t: t, r: rankOf(t), i: i }; })
+          .filter(function (x) { return x.r >= 0; })
+          .sort(function (a, b) { return a.r - b.r || a.i - b.i; })
+          .map(function (x) { return x.t; })
       : terms;
 
     if (visible.length === 0) {
@@ -94,7 +102,7 @@
     body.innerHTML = visible.map(function (t) {
       return '<div class="gl-term" role="article">' +
         '<p class="gl-acronym">' + escHtml(t.term) + '</p>' +
-        '<p class="gl-full">' + escHtml(t.full) + '</p>' +
+        (t.full ? '<p class="gl-full">' + escHtml(t.full) + '</p>' : '') +
         '<p class="gl-def">' + escHtml(t.definition) + '</p>' +
         '</div>';
     }).join('');
