@@ -443,9 +443,18 @@
     // Close the menu the link sat in, so the glossary is not opened behind it.
     var open = a.closest('.nav-group') && a.closest('.nav-group').querySelector('.nav-group-btn[aria-expanded="true"]');
     if (open) open.click();
-    if (a.closest('.mobile-nav-drawer')) {
+    var drawer = a.closest('.mobile-nav-drawer');
+    if (drawer) {
       var closeBtn = document.getElementById('mobileNavClose');
       if (closeBtn) closeBtn.click();
+      // The drawer hands focus back to the menu button once it has slid shut.
+      // Open after that, so focus lands in the glossary and stays there.
+      var tries = 0;
+      (function whenClosed() {
+        if (drawer.hasAttribute('hidden') || ++tries > 20) { openModal(term || null); return; }
+        setTimeout(whenClosed, 50);
+      })();
+      return;
     }
     openModal(term || null);
   }
