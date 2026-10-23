@@ -291,6 +291,21 @@ for (const g of SAMPLE.concat(['0818310', '08051'])) {
   }
 }
 
+// 5B4a and 5B4b are either/or for one sponsor.
+for (const g of SAMPLE.concat(['0880040'])) {
+  const st = model(g).deal.structure;
+  const a = st && st.lines.find((x) => x.id === '5B4a-nonprofit'), b = st && st.lines.find((x) => x.id === '5B4b-pha');
+  if (a && b) ok(a.exclusiveWith === '5B4b-pha' && b.exclusiveWith === '5B4a-nonprofit', `${g}: the two sponsor lines are marked as alternatives`);
+}
+
+// A researched housing contact means a partner is on file.
+{
+  const m = { landscape: { authorities: [], stewards: [], research: null, sources: [] }, contacts: { orgs: [], partners: [], researched: [{ name: 'H', role: 'Housing Director', org: 'Town of X' }], related: [] } };
+  ok(TQ.SIGNALS.no_partner(m) === null, 'a researched housing contact stops the "no partner" question');
+  m.contacts.researched = [];
+  ok(TQ.SIGNALS.no_partner(m) !== null, 'with nothing on file the question fires');
+}
+
 // ---- 7. The page loads the module before the report and passes it in.
 {
   const page = read('developer-brief.html');

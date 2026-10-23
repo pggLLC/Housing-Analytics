@@ -128,7 +128,9 @@
       var L = m.landscape;
       var agencies = L.research ? L.research.groups.filter(function (g) { return g.key === 'agencies' && g.items.length; }).length : 0;
       var C = m.contacts || {};
-      var known = (C.orgs || []).some(function (o) { return o.role === 'Housing authority' || o.role === 'Housing lead'; }) || (C.partners || []).length;
+      var people = (C.researched || []).concat([].concat.apply([], (C.related || []).map(function (f) { return f.contacts || []; })));
+      var known = (C.orgs || []).some(function (o) { return o.role === 'Housing authority' || o.role === 'Housing lead'; }) || (C.partners || []).length ||
+        people.some(function (c) { return /housing/i.test(String(c.role || '') + ' ' + String(c.org || '')); });
       if (L.authorities.length || L.stewards.length || agencies || known) return null;
       return { vars: {}, evidence: 'No housing authority, regional nonprofit or local housing agency is on file for this area.', source: L.sources.filter(Boolean).join(', ') };
     },

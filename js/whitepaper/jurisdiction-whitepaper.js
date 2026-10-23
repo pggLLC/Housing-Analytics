@@ -741,7 +741,10 @@
     // No record here shows a nonprofit's legal status, housing purpose or capacity to
     // be general partner, so no provider is named as a candidate for these points.
     if (pha.length || landscape.stewards.length) {
-      add('5B4a-nonprofit', 'check', 'A qualified nonprofit or housing authority as sole general partner. No partner on file is confirmed to qualify: confirm nonprofit status, a low-income housing purpose and capacity to act as general partner before counting the points.');
+      add('5B4a-nonprofit', 'check', 'A qualified nonprofit or housing authority as sole general partner. No partner on file is confirmed to qualify: confirm nonprofit status, a low-income housing purpose and capacity to act as general partner before counting the points.' +
+        (pha.length ? ' An alternative to the housing authority line: one sponsor earns one of the two, not both.' : ''));
+      // The same sponsor cannot earn both 5.B.4 lines (see submittal-review.js).
+      if (pha.length) out.forEach(function (l) { if (l.id === '5B4a-nonprofit' || l.id === '5B4b-pha') l.exclusiveWith = l.id === '5B4a-nonprofit' ? '5B4b-pha' : '5B4a-nonprofit'; });
     }
     if (/9%/.test(route)) add('5B5-homeless', 'option', 'Needs a services partner. Cannot be combined with the extremely-low-income targeting points.');
     return {
@@ -1338,7 +1341,7 @@
     return '<h3>Scoring points this place supports</h3>' +
       '<table><thead><tr><th>Points</th><th>Scoring line</th><th>Reading</th><th>Why here</th></tr></thead><tbody>' +
       S.lines.map(function (l) {
-        return '<tr><td class="n">' + esc(l.points) + '</td><td>' + esc(l.label) + '<br><span class="wp-meta">' + qapCite(l) + '</span></td><td>' +
+        return '<tr><td class="n">' + esc(l.points) + (l.exclusiveWith ? ' <span class="wp-meta">(either/or)</span>' : '') + '</td><td>' + esc(l.label) + '<br><span class="wp-meta">' + qapCite(l) + '</span></td><td>' +
           (l.reading === 'likely' ? 'Likely' : l.reading === 'check' ? 'To confirm' : 'Option a deal can choose') + '</td><td>' + esc(l.text) + '</td></tr>';
       }).join('') + '</tbody></table>' +
       '<p class="wp-meta">From the ' + link(S.title || 'CHFA QAP', S.url) + (S.draft ? ', a draft that may change before CHFA adopts it' : '') +
