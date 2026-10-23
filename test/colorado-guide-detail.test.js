@@ -89,4 +89,12 @@ for (const [fig, id] of [['77 percent', 'denver-sib-housing'], ['40 percent fewe
 assert.ok(cra.includes('What this means for a Colorado deal') && /data-co-median/.test(cra), 'CRA Colorado box bound to data');
 assert.ok(road.includes('What It Means in Colorado') && road.includes('doh.colorado.gov/home-program'), 'ROAD Colorado section');
 
+// 6. Codex round 4: DOH fallback loan, ELI band wording, CCRD hearing step, CRA broader area.
+assert.ok(/must-pay loan at 2\.5% over 40 years/.test(guide), 'DOH fallback loan for non-Prop 123 projects');
+assert.ok(/insufficient Proposition 123 gap funds/.test(JSON.stringify(sc)), 'scoring record carries the DOH fallback quote');
+assert.ok(/&ldquo;Up to&rdquo;, so a share between bands/.test(guide), 'ELI band ambiguity disclosed');
+assert.ok(/Up to 10% of total units/.test(JSON.stringify(sc)), 'scoring record carries the Up to wording');
+assert.ok(/finds probable\s+cause/.test(fair) && !/set for hearing automatically/.test(fair), 'CCRD hearing follows probable cause');
+assert.ok(cra.includes('broader statewide or regional area') && cra.includes('12 CFR 25.23(a)'), 'CRA broader area credit');
+
 console.log(`colorado-guide-detail: PASS (Colorado 2026 ceiling ${usd(co.allocation)}; CHFA draft status ${sc.status})`);
