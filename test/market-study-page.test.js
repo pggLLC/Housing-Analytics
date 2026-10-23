@@ -72,6 +72,7 @@ const directDerived = ProjectScenario.derive(scenarios[0], OwnershipFinance);
 directDerived.bands.forEach((band) => {
   assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(band.assistanceRangeCheck));
   assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(money(band.maxAffordablePrice)));
+  assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(money(band.gapVsLocalPrice)));
 });
 assert(text(defaultDom.mount.querySelector('#ms-s1')).includes('Owner input required'));
 // Values still needed are named in words, never as the fixture's raw keys:
@@ -287,6 +288,12 @@ const source = fs.readFileSync(path.join(ROOT, 'js/project-market-study/market-s
 const html = fs.readFileSync(path.join(ROOT, 'for-sale-market-study.html'), 'utf8');
 const numericClone = defaultDom.mount.cloneNode(true);
 numericClone.querySelectorAll('.ms-assistance-residual').forEach((node) => node.remove());
+// Section 1's affordable price and gap cells move with the shared weekly
+// mortgage rate; they are checked against ProjectScenario.derive above, so the
+// snapshot leaves them out and a rate refresh needs no edit here.
+numericClone.querySelectorAll('#ms-s1 td.ms-affordability-gap').forEach((gapCell) => {
+  gapCell.previousElementSibling.remove(); gapCell.remove();
+});
 const numericText = text(numericClone);
 const numericTokens = (numericText.match(/\$\d[\d,]*(?:\.\d+)?/g) || []).concat(numericText.match(/-?\d+(?:\.\d+)?%/g) || []);
 // The one token added since #1514 is APCHA's improvement cap. Pin what it
@@ -301,11 +308,13 @@ assert(new RegExp(`up to ${regulationCap}% of the purchase price[^.]*not (?:calc
   'APCHA card states the regulation improvement cap as excluded from the calculated cap');
 // 110 -> 108 on 2026-10-18: the capture caveat stopped quoting figures from a
 // private market study; those two percentage tokens are the only change.
-assert.strictEqual(numericTokens.length, 108, 'only residual shortfalls may add rendered money or percentage tokens');
+// 108 -> 100 on 2026-10-23: the eight section 1 price and gap cells left the
+// snapshot (see above); the remaining 100 tokens hash the same on main.
+assert.strictEqual(numericTokens.length, 100, 'only residual shortfalls may add rendered money or percentage tokens');
 // 2026-10-20: S4 no longer charges a public appreciation share on top of the
 // fixed-appreciation formula, so its share line reads $0, the subsidy split
 // reads $50,000 / $50,000, and owner net reads $179,374, the S3 figure.
-assert.strictEqual(crypto.createHash('sha256').update(JSON.stringify(numericTokens)).digest('hex'), 'd45df192fa21c54f7ce42392ad163f00d810f8a9b1581591c5db1c31f96768bb', 'pre-existing rendered money and percentage tokens must match current main');
+assert.strictEqual(crypto.createHash('sha256').update(JSON.stringify(numericTokens)).digest('hex'), '6ec18a9062c98f62676e3e12df371c8c6a2a3c5963514279369249b6c56e649a', 'pre-existing rendered money and percentage tokens must match current main');
 function productionGuard(moduleSource) {
   const lower = moduleSource.toLowerCase();
   ['recom' + 'mended', 'pref' + 'erred', 'win' + 'ner', 'best option', 'merit score'].forEach((term) => {

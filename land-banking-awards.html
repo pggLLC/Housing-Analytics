@@ -31,6 +31,12 @@
     .lb-since { margin: 4px 0 0; font-size: var(--small); line-height: 1.5; max-width: 420px; }
     .lb-quote blockquote { margin: var(--sp1) 0; padding-left: var(--sp2); border-left: 3px solid var(--border); font-size: var(--small); overflow-wrap: anywhere; }
     .lb-note { font-size: var(--small); color: var(--muted); }
+    .lb-holder { display: block; font-size: var(--small); color: var(--muted); margin-top: 2px; }
+    .lb-holder a { display: inline-flex; align-items: center; min-height: 44px; }
+    .lb-sort { margin-top: var(--sp2); }
+    .lb-sort label { display: block; font-size: .8125rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; font-weight: 700; margin-bottom: .3rem; }
+    .lb-sort select { min-height: 44px; padding: .4rem .6rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg2); color: var(--text); font-size: var(--small); max-width: 100%; }
+    .lb-table th[data-sort-key] { cursor: pointer; }
     .lb-means { max-width: 760px; line-height: 1.6; }
     .lb-about { margin: var(--sp6) 0 var(--sp4); border-top: 1px solid var(--border); padding-top: var(--sp3); }
     .lb-about summary { cursor: pointer; }
@@ -87,7 +93,7 @@
 
         <section class="lbm" data-land-banking-map aria-labelledby="lbm-heading">
           <h2 id="lbm-heading">Where the awards are</h2>
-          <p>Each award buys a site now so homes can be built there later, at rents or prices that households with low or moderate incomes can afford. Tap a town, or search for one, to see who received the money, what they plan, and where the site stands now.</p>
+          <p>Each award buys a site now so homes can be built there later, at rents or prices that households with low or moderate incomes can afford. Tap a town, or search for one, to see who received the money, what they plan, and where the site stands now. Use the menus to narrow the awards by round, rental or for-sale homes, who holds the award, or status, and to choose what the pin colors show.</p>
           <label for="lbmSearch">Find a town, county or grantee</label>
           <input id="lbmSearch" type="search" placeholder="e.g. Leadville" autocomplete="off">
           <p class="lbm-count" data-lbm-count aria-live="polite">Loading awards…</p>
@@ -102,19 +108,34 @@
 
         <section class="lb-section" aria-labelledby="lb-list-heading">
           <h2 id="lb-list-heading">Every award</h2>
-          <p>The same awards as the map, newest round first, following the search above. Questions about an award go to the organization that received it; questions about the program go to the Colorado Housing and Finance Authority (CHFA), which runs it.</p>
+          <p>The same awards as the map, following the search and filters above, newest round first. Sort them with a column heading or the Sort by menu. Questions about an award go to the organization that received it; questions about the program go to the Colorado Housing and Finance Authority (CHFA), which runs it.</p>
           <p><a href="#" data-lb-csv download="prop123-land-banking-awards.csv">Download these awards (CSV)</a></p>
+          <div class="lb-sort">
+            <label for="lbSort">Sort by</label>
+            <select id="lbSort" data-lb-sort>
+              <option value="" hidden>Set by a column heading</option>
+              <option value="round:desc">Newest round first</option>
+              <option value="round:asc">Oldest round first</option>
+              <option value="town:asc">Town, A to Z</option>
+              <option value="grantee:asc">Grantee, A to Z</option>
+              <option value="holder:asc">Towns, counties and housing authorities first</option>
+              <option value="purpose:asc">Rental first, then for-sale</option>
+              <option value="status:asc">Furthest along first</option>
+              <option value="amount:desc">Largest award first</option>
+              <option value="units:desc">Most homes first</option>
+            </select>
+          </div>
           <div class="lb-table-wrap">
             <table class="data-table lb-table">
               <thead><tr>
-                <th data-tip="The yearly award round the list comes from. Colorado's fiscal year runs July to June, so the 2024-25 round was awarded in 2025.">Round</th>
-                <th data-tip="The project name as printed in CHFA's award list. A dated note under a name says what has happened to the site since, with its source.">Project</th>
-                <th data-tip="Where the project on this site stands: other state awards to the same project, before or after the land award (tax credits, Division of Housing, Prop 123), or a dated public source. &quot;Building money awarded&quot; is not the same as built.">Status</th>
-                <th data-tip="The organization CHFA's award list names as receiving the money.">Received by</th>
-                <th data-tip="The town CHFA's list gives for the site. The list names a town, not an address.">Town</th>
-                <th data-tip="Whether the homes planned on the land are to rent, to buy, or both, as the award list says.">Homes planned</th>
-                <th data-tip="The dollars awarded to buy the land, as printed in CHFA's award list.">Awarded</th>
-                <th data-tip="The grantee's estimate of how many homes the land will hold. These are plans, not homes built.">Est. homes</th>
+                <th data-sort-key="round" aria-sort="none" tabindex="0" data-tip="The yearly award round the list comes from. Colorado's fiscal year runs July to June, so the 2024-25 round was awarded in 2025.">Round</th>
+                <th data-sort-key="project" aria-sort="none" tabindex="0" data-tip="The project name as printed in CHFA's award list. A dated note under a name says what has happened to the site since, with its source.">Project</th>
+                <th data-sort-key="status" aria-sort="none" tabindex="0" data-tip="Where the project on this site stands: other state awards to the same project, before or after the land award (tax credits, Division of Housing, Prop 123), or a dated public source. &quot;Building money awarded&quot; is not the same as built. Sorting puts the furthest along first.">Status</th>
+                <th data-sort-key="grantee" aria-sort="none" tabindex="0" data-tip="The organization CHFA's award list names as receiving the money, and what kind it is. CHFA does not print the kind: a town, city, county or housing authority is named as one or shown by a linked source; the program lends only to nonprofits, so every other grantee is a nonprofit or other organization.">Received by</th>
+                <th data-sort-key="town" aria-sort="none" tabindex="0" data-tip="The town CHFA's list gives for the site. The list names a town, not an address.">Town</th>
+                <th data-sort-key="purpose" aria-sort="none" tabindex="0" data-tip="Whether the homes planned on the land are to rent, to buy, or both, as the award list says.">Homes planned</th>
+                <th data-sort-key="amount" aria-sort="none" tabindex="0" data-tip="The dollars awarded to buy the land, as printed in CHFA's award list.">Awarded</th>
+                <th data-sort-key="units" aria-sort="none" tabindex="0" data-tip="The grantee's estimate of how many homes the land will hold. These are plans, not homes built.">Est. homes</th>
                 <th data-tip="CHFA's award list for the round, with the row exactly as printed.">Source</th>
               </tr></thead>
               <tbody data-lb-rows><tr><td colspan="9">Loading…</td></tr></tbody>

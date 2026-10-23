@@ -247,6 +247,16 @@
   var prop123Jurisdictions = null;
   var dolaData            = null;   // DOLA county demographics (more current than ACS)
   var chasData            = null;   // HUD CHAS AMI-tier renter HH (D: capture-rate denominator)
+  var chfaDemand          = null;   // tract CHAS tiers + PUMA size/income mix (CHFA-style qualified renters)
+  var chfaLimitsByFips    = null;   // CHFA 2026 income and rent limits, keyed by county FIPS
+  // CHFA computes demand per AMI tier (QAP Appendix A, section 7). The page
+  // does not know the tiers of the existing stock, so existing affordable
+  // penetration divides by renters who qualify for any tax-credit tier
+  // (CHFA's 2026 tiers up to 80% AMI). A proposed project's capture divides
+  // by renters who qualify for its own tiers: 60% AMI unless the simulator's
+  // mix says otherwise.
+  var CHFA_PENETRATION_TIERS = [20, 30, 40, 45, 50, 55, 60, 70, 80];
+  var CHFA_CAPTURE_TIERS     = [60];
   var referenceProjects   = null;   // benchmark reference set
   var lastQuality         = null;   // last data quality assessment
   var lastBenchmark       = null;   // last benchmark result
@@ -980,9 +990,28 @@
     return PMAScoring.chasLihtcEligibleRenters(chasData && chasData.counties, bufTracts, acsIdx);
   }
 
+  /*
+   * Renter households that qualify for units at the given AMI tiers under
+   * CHFA's Market Study Guide rules (QAP Appendix A, section 7): income at or
+   * under the tier limit for the household's size, income high enough that
+   * the maximum tax-credit rent is no more than 40% of it, and a household
+   * that fits a 1-3 bedroom unit. See scripts/market/build_chfa_renter_demand.py.
+   */
+  function _chfaQualifiedRenters(bufTracts, tiers) {
+    return PMAScoring.chfaQualifiedRenters(chfaDemand, chfaLimitsByFips, bufTracts, tiers);
+  }
+
   function scoreCaptureRisk(acs, existingUnits, proposedUnits, chasEligible) {
     // D — Prefer CHAS LIHTC-eligible renter HH (≤80% AMI) as the denominator;
     // fall back to ACS renter_hh when CHAS unavailable.
+    // A CHFA-rule count of zero is a finding, not a missing input: no renter
+    // here qualifies for a tax-credit unit, so there is no rate to score and
+    // no broader pool stands in for it.
+    if (chasEligible && chasEligible.source === 'chfa_qualified' && chasEligible.value === 0) {
+      return { score: null, capture: null, qualRenters: 0, denominatorSource: 'chfa_qualified',
+        chasBreakdown: chasEligible.tier_breakdown || null, unavailable: true,
+        unavailableReason: 'no renter households in this market area qualify for a tax-credit unit (20-80% AMI) under CHFA rules' };
+    }
     var res = PMAScoring.scoreCaptureRisk(acs, existingUnits, proposedUnits, chasEligible);
     // With neither CHAS eligible renters nor an ACS renter count, the shared
     // helper divides by 1, so any existing unit reads as capture far above
@@ -1261,7 +1290,14 @@
     // D — Pre-compute LIHTC-eligible renter HH from CHAS (≤80% AMI tiers) so
     // capture-rate uses the income-qualified denominator CHFA expects, not
     // raw ACS renter_hh.
-    var chasEligible       = _chasLihtcEligibleRenters(bufTracts, acsIdx);
+    // CHFA-style counts first; the county CHAS share (all renters at or
+    // under 80% AMI) only when their inputs did not load.
+    var chfaPenetration    = _chfaQualifiedRenters(bufTracts, CHFA_PENETRATION_TIERS);
+    var chfaCounted        = chfaPenetration.source === 'chfa_qualified';
+    var chfaCapture        = chfaCounted ? _chfaQualifiedRenters(bufTracts, CHFA_CAPTURE_TIERS) : null;
+    var chasEligible       = chfaCounted
+      ? { value: chfaPenetration.value, tier_breakdown: chfaPenetration.byTier, source: 'chfa_qualified', counties: [] }
+      : _chasLihtcEligibleRenters(bufTracts, acsIdx);
     var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits, chasEligible);
     var rentPressureObj    = scoreRentPressure(acs, countyAmi);
     var lihtcRecency       = _computeLihtcRecency(nearbyLihtcFeatures);
@@ -1330,13 +1366,13 @@
     if ((acs.cost_burden_rate || 0) >= RISK.costBurdenHigh) {
       flags.push({ level: 'bad', text: 'High cost-burden pressure (≥45%)' });
     }
-    if (captureObj.capture >= RISK.captureHigh) {
+    if (captureObj.capture > RISK.captureHigh) {
       // captureObj.capture is (existing + proposed units) ÷ qualified
       // renters. With no proposed units (the headline) it is existing
       // affordable penetration alone, not a capture rate for any project.
       flags.push({ level: 'warn', text: 'High ' + MEASURE_NAMES.penetration.toLowerCase() +
         (proposedUnits > 0 ? ' including the ' + proposedUnits + ' proposed units' : '') +
-        ' (≥' + Math.round(RISK.captureHigh * 100) + '% of qualified renters)' });
+        ' (above ' + Math.round(RISK.captureHigh * 100) + '% of qualified renters)' });
     }
     if (!rentPressureObj.unavailable && rentPressureObj.ratio >= RISK.rentPressureElev) {
       flags.push({ level: 'warn', text: 'Elevated rent pressure (market ÷ affordable ≥ 1.10)' });
@@ -1375,7 +1411,7 @@
     }
 
     var captureRiskCoverage;
-    if (captureObj.denominatorSource === 'chas_lihtc_eligible') {
+    if (captureObj.denominatorSource === 'chfa_qualified' || captureObj.denominatorSource === 'chas_lihtc_eligible') {
       captureRiskCoverage = 'full';
     } else if (!acs || acs.renter_hh == null) {
       captureRiskCoverage = 'fallback';
@@ -1436,7 +1472,12 @@
       },
       // Proxy disclosures — what each metric actually measures
       dimensionNotes: {
-        captureRisk:     captureObj.denominatorSource === 'chas_lihtc_eligible'
+        captureRisk:     captureObj.denominatorSource === 'chfa_qualified'
+          ? 'Existing affordable units divided by renter households that qualify for a tax-credit unit at 20-80% AMI under CHFA market-study rules ' +
+            '(income limit by household size, rent no more than 40% of income, household fits a 1-3 bedroom unit). ' +
+            'Tract counts from HUD CHAS ' + _chfaMeta('chas') + '; size and income mix from ACS ' + _chfaMeta('pums') + ' PUMS. ' +
+            'Scored against 85%, the capture line in CHFA\'s 2027-28 draft QAP (the 2025-26 QAP sets no number).'
+          : captureObj.denominatorSource === 'chas_lihtc_eligible'
           ? 'Ratio of total affordable units to LIHTC-eligible renter HH (≤80% AMI from CHAS ' +
             (chasData && chasData.meta && chasData.meta.vintage ? chasData.meta.vintage : '?') +
             '), scaled to the PMA buffer using county income mix'
@@ -1473,7 +1514,17 @@
         value:  captureObj.qualRenters,
         source: captureObj.denominatorSource,
         chas_tier_breakdown: captureObj.chasBreakdown,
-        chas_counties:       chasEligible.counties || []
+        chas_counties:       chasEligible.counties || [],
+        tiers:               captureObj.denominatorSource === 'chfa_qualified' ? CHFA_PENETRATION_TIERS.slice() : null,
+        // The proposed project's own pool (60% AMI units by default).
+        // A real count of zero is kept: no renter here qualifies for 60% units.
+        project:             captureObj.denominatorSource === 'chfa_qualified' && chfaCapture && chfaCapture.source === 'chfa_qualified'
+          ? { value: chfaCapture.value, source: 'chfa_qualified', tiers: CHFA_CAPTURE_TIERS.slice() }
+          : null,
+        // geoid + buffer share only, so the simulator can recount for its own tiers.
+        tracts:              captureObj.denominatorSource === 'chfa_qualified'
+          ? bufTracts.map(function (t) { return { geoid: t.geoid, _bufferShare: t._bufferShare }; })
+          : null
       },
       rentRatio:       rentPressureObj.ratio,
       amiUsed:         rentPressureObj.amiUsed,
@@ -1488,14 +1539,48 @@
   }
 
   /* ── Capture-rate simulator ─────────────────────────────────────── */
-  function simulateCapture(qualRenters, proposedUnits, amiMix) {
+  function simulateCapture(qualRenters, proposedUnits, amiMix, existingUnits, penetrationPool) {
     // amiMix: { ami30: n, ami40: n, ami50: n, ami60: n, ami80: n }
     var totalProposed = Object.values(amiMix).reduce(function (s, v) { return s + (v || 0); }, 0);
     if (totalProposed > 0) proposedUnits = totalProposed;
     var capture = qualRenters > 0 ? proposedUnits / qualRenters : 0;
     var captureRate = Math.round(capture * 1000) / 10; // pct, 1 decimal
-    var risk = capture >= RISK.captureHigh ? 'High' : (capture >= 0.15 ? 'Moderate' : 'Low');
-    return { proposedUnits: proposedUnits, captureRate: captureRate, risk: risk };
+    // CHFA's check is penetration: existing + planned + proposed tax-credit
+    // units over qualified renters (Appendix A demand table). 85% is the line
+    // in CHFA's 2027-28 draft QAP above which it asks for more demand data;
+    // the 2025-26 QAP sets no number, and neither sets a middle band. The pool is the
+    // penetration pool when the page has one, else the capture pool.
+    // A measured zero penetration pool (no renter qualifies at 20-80% AMI)
+    // has no CHFA check to make: withhold it rather than borrow the project's
+    // pool, which for a 90-120% workforce mix is not CHFA's table at all.
+    if (penetrationPool === 0) {
+      return {
+        proposedUnits: proposedUnits, captureRate: captureRate,
+        penetrationRate: null, risk: null,
+        riskLabel: '85% check not available'
+      };
+    }
+    var penDen = penetrationPool > 0 ? penetrationPool : qualRenters;
+    // Tax-credit tiers only (80% AMI and below): workforce units at 90-120%
+    // AMI are not in CHFA's table or in the 20-80% pool.
+    var taxCreditProposed = totalProposed > 0
+      ? Object.keys(amiMix).reduce(function (sum, k) {
+          return parseInt(k.slice(3), 10) <= 80 ? sum + (amiMix[k] || 0) : sum;
+        }, 0)
+      : proposedUnits;
+    var penetration = penDen > 0 ? ((existingUnits || 0) + taxCreditProposed) / penDen : 0;
+    var over = penetration > RISK.captureHigh;
+    return {
+      proposedUnits: proposedUnits, captureRate: captureRate,
+      penetrationRate: Math.round(penetration * 1000) / 10,
+      risk: over ? 'High' : 'Low',
+      riskLabel: over ? 'Over 85% (CHFA draft)' : 'Under 85% (CHFA draft)'
+    };
+  }
+
+  function _chfaMeta(key) {
+    var src = chfaDemand && chfaDemand.meta && chfaDemand.meta.sources && chfaDemand.meta.sources[key];
+    return (src && src.vintage) || '?';
   }
 
   /*
@@ -1524,15 +1609,66 @@
   function captureDenominator(result) {
     var d = result && result.captureDenominator;
     if (!d || !(Number(d.value) > 0) || d.source === 'fallback_1') return null;
+    var chfa = d.source === 'chfa_qualified';
     var chas = d.source === 'chas_lihtc_eligible';
     return {
       value: Number(d.value),
       source: d.source,
-      label: chas
+      tiers: d.tiers || null,
+      tracts: d.tracts || null,
+      label: chfa
+        ? 'renter households that qualify for a tax-credit unit at 20\u201380% AMI (CHFA market-study rules; HUD CHAS + ACS PUMS)'
+        : chas
         ? 'LIHTC-eligible renter households (\u226480% AMI, HUD CHAS)'
         : 'renter households of all incomes (ACS; CHAS unavailable)',
-      short: chas ? 'LIHTC-eligible renter HH (\u226480% AMI)' : 'Renter HH, all incomes (ACS)',
+      short: chfa ? 'Renter HH qualified for 20\u201380% AMI units (CHFA rules)'
+        : chas ? 'LIHTC-eligible renter HH (\u226480% AMI)' : 'Renter HH, all incomes (ACS)',
     };
+  }
+
+  /**
+   * The pool a PROPOSED project's capture divides by. With the CHFA-rule
+   * counts it is the renters who qualify for the project's own tiers (60% AMI
+   * by default); without them it is the one denominator above, as before.
+   */
+  function projectCaptureDenominator(result) {
+    var pen = captureDenominator(result);
+    var cd = result && result.captureDenominator;
+    if (!pen && cd && cd.source === 'chfa_qualified' && cd.value === 0) {
+      // No renter qualifies at any tier, so none qualifies for the project's.
+      pen = { value: 0, source: 'chfa_qualified', tracts: cd.tracts };
+    }
+    var p = cd && cd.project;
+    if (!pen || pen.source !== 'chfa_qualified' || !p || !(Number(p.value) >= 0)) return pen;
+    return {
+      value: Number(p.value), source: 'chfa_qualified', tiers: p.tiers || [60], tracts: pen.tracts,
+      penetrationValue: pen.value,
+      label: 'renter households that qualify for a ' + (p.tiers || [60]).join('/') + '% AMI unit (CHFA market-study rules; HUD CHAS + ACS PUMS)',
+      short: 'Renter HH qualified for ' + (p.tiers || [60]).join('/') + '% AMI units (CHFA rules)'
+    };
+  }
+
+  // CHFA reports capture for each AMI tier as well as overall (QAP Appendix
+  // A, section 7). The overall rate above divides all units by renters who
+  // qualify for any offered tier, each household once; with more than one
+  // tier, this line shows each tier's own units over its own renters.
+  function _tierCaptureLine(den, amiMix) {
+    var byTier = den && den.byTier;
+    var tiers = (den && den.tiers) || [];
+    if (!byTier || tiers.length < 2) return '';
+    var parts = tiers.map(function (t) {
+      var units = amiMix['ami' + t] || 0;
+      var q = byTier[t] || 0;
+      return t + '% AMI: ' + units + ' units \u00f7 ' + q.toLocaleString() + ' renter HH = ' +
+        (q > 0 ? (Math.round(units / q * 1000) / 10) + '%' : 'no qualified renters');
+    });
+    return '<p class="pma-tier-capture" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">By tier (CHFA reports each): ' +
+      parts.join('; ') + '.</p>';
+  }
+
+  function _noQualifiedLine(tiers) {
+    return 'No renter households in this PMA qualify for units at ' + (tiers || [60]).join('/') +
+      '% AMI under CHFA rules, so there is no capture rate for this mix.';
   }
 
   function _denominatorLine(den) {
@@ -1808,7 +1944,11 @@
         var verifyHint = (hasData && dimVerify[k])
           ? '<span class="kpi-source kpi-verify" style="display:block;margin-top:.25rem;font-size:.8125rem">' + dimVerify[k] + '</span>'
           : '';
-        if (k === 'captureRisk' && result.captureDenominator && result.captureDenominator.source === 'chas_lihtc_eligible') {
+        if (k === 'captureRisk' && result.captureDenominator && result.captureDenominator.source === 'chfa_qualified') {
+          verifyHint += '<span class="kpi-source kpi-scope" style="display:block;margin-top:.2rem;font-size:.8125rem">' +
+            'Qualified renters: tract income-tier counts, with each tier split by household size and income using the ' +
+            'surrounding Census PUMA (a larger area of about 100,000+ people).</span>';
+        } else if (k === 'captureRisk' && result.captureDenominator && result.captureDenominator.source === 'chas_lihtc_eligible') {
           verifyHint += '<span class="kpi-source kpi-scope" style="display:block;margin-top:.2rem;font-size:.8125rem">' +
             'CHAS denominator scope ' + _scopeBadge('county', { inline: true }) +
             ' county income mix scaled to PMA buffer.</span>';
@@ -1953,10 +2093,14 @@
       // report a unit count (LIHTC + other assisted), the same figure
       // computePma scored and #pmaLihtcUnits shows.
       var exUnits = result.affordableUnitsKnown;
+      var noneQualify = !capDen && result.captureDenominator && result.captureDenominator.source === 'chfa_qualified' &&
+        result.captureDenominator.value === 0;
       capDenEl.textContent = capDen
         ? exUnits.toLocaleString() + ' existing affordable units (LIHTC and other subsidized) ' + _denominatorLine(capDen)
+        : noneQualify
+        ? 'No renter households in this PMA qualify for a tax-credit unit (20\u201380% AMI) under CHFA rules, so there is no penetration rate.'
         : _denominatorLine(null);
-      capDenEl.dataset.denominator = capDen ? String(capDen.value) : '';
+      capDenEl.dataset.denominator = capDen ? String(capDen.value) : (noneQualify ? '0' : '');
       capDenEl.dataset.numerator = capDen ? String(exUnits) : '';
     }
     setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
@@ -2394,7 +2538,9 @@
   function explainCapture(result, sim, denominator, reason) {
     var figure = el('pmaProposedCaptureRate');
     if (!figure) return;
-    var source = denominator && denominator.source === 'chas_lihtc_eligible' ? chasData && chasData.meta : null;
+    var source = denominator && denominator.source === 'chfa_qualified'
+      ? { vintage: 'CHAS ' + _chfaMeta('chas') + ', PUMS ' + _chfaMeta('pums') + ', CHFA 2026 limits' }
+      : denominator && denominator.source === 'chas_lihtc_eligible' ? chasData && chasData.meta : null;
     figure.methodologyContext = { proposedUnits: sim && sim.proposedUnits, qualifiedRenters: denominator && denominator.value,
       denominatorLabel: denominator && denominator.label, unavailableReason: reason,
       sources: (denominator ? denominator.label : 'Renter source unavailable') + ' · ' +
@@ -2421,33 +2567,69 @@
       ami30:  parseInt(el('pmaAmi30')  && el('pmaAmi30').value,  10) || 0,
       ami40:  parseInt(el('pmaAmi40')  && el('pmaAmi40').value,  10) || 0,
       ami50:  parseInt(el('pmaAmi50')  && el('pmaAmi50').value,  10) || 0,
-      ami60:  parseInt(el('pmaAmi60')  && el('pmaAmi60').value,  10) || proposed,
+      ami60:  parseInt(el('pmaAmi60')  && el('pmaAmi60').value,  10) || 0,
       ami80:  parseInt(el('pmaAmi80')  && el('pmaAmi80').value,  10) || 0,
       ami90:  parseInt(el('pmaAmi90')  && el('pmaAmi90').value,  10) || 0,
       ami110: parseInt(el('pmaAmi110') && el('pmaAmi110').value, 10) || 0,
       ami120: parseInt(el('pmaAmi120') && el('pmaAmi120').value, 10) || 0
     };
+    // All units at 60% AMI only when no tier has any units; an explicit 0 at
+    // 60% with units elsewhere stays 0, so no phantom tax-credit units.
+    if (!Object.keys(amiMix).some(function (k) { return amiMix[k] > 0; })) amiMix.ami60 = proposed;
 
     // D — Prefer CHAS-derived LIHTC-eligible renter HH from the result; only
     // fall back to ACS total renter_hh when CHAS context is missing.
-    var simDen = captureDenominator(result);
+    var simDen = projectCaptureDenominator(result);
+    var penPool = simDen && simDen.penetrationValue;
     if (!simDen) {
       simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' + _denominatorLine(null) + '</div>';
       explainCapture(result, null, null, 'no renter-household count is available for this PMA');
       simEl.dataset.denominator = '';
       return;
     }
-    var sim = simulateCapture(simDen.value, proposed, amiMix);
+    // The CHFA count depends on the tiers: recount for the tiers in this mix.
+    // With the default all-60% mix this is the headline count, so every card
+    // still divides by one number.
+    if (simDen.source === 'chfa_qualified' && simDen.tracts) {
+      var mixTiers = Object.keys(amiMix).filter(function (k) { return amiMix[k] > 0; })
+        .map(function (k) { return parseInt(k.slice(3), 10); });
+      var sameTiers = mixTiers.length === (simDen.tiers || []).length &&
+        mixTiers.every(function (t) { return simDen.tiers.indexOf(t) !== -1; });
+      if (mixTiers.length && !sameTiers) {
+        var recount = _chfaQualifiedRenters(simDen.tracts, mixTiers);
+        if (recount.source === 'chfa_qualified') {
+          simDen = Object.assign({}, simDen, {
+            value: recount.value, tiers: mixTiers, byTier: recount.byTier,
+            label: 'renter households that qualify for units at ' + mixTiers.join('/') + '% AMI (CHFA market-study rules; HUD CHAS + ACS PUMS)',
+            short: 'Renter HH qualified for ' + mixTiers.join('/') + '% AMI units (CHFA rules)'
+          });
+        }
+      }
+    }
+    if (simDen.source === 'chfa_qualified' && !(simDen.value > 0)) {
+      // A real count of zero: no renter here qualifies for this mix.
+      simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' +
+        _noQualifiedLine(simDen.tiers) + '</div>';
+      explainCapture(result, null, null, 'no renter households qualify for this AMI mix');
+      simEl.dataset.denominator = '0';
+      return;
+    }
+    // CHFA's table counts tax-credit units only, not HUD, USDA or PBV units.
+    var sim = simulateCapture(simDen.value, proposed, amiMix, result && result.lihtcUnits, penPool);
     simEl.dataset.denominator = String(simDen.value);
     simEl.innerHTML =
       '<div class="pma-stat-grid">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
         '<div class="pma-stat"><div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + ' rate</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
-          (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
-          sim.risk + '</div><div class="pma-stat-label">Risk level</div></div>' +
+          (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : sim.risk ? 'var(--good)' : 'var(--text-muted)') + '">' +
+          sim.riskLabel + '</div><div class="pma-stat-label">' +
+          (sim.penetrationRate == null
+            ? 'No renter households here qualify at 20\u201380% AMI, so there is no tax-credit penetration to check'
+            : 'Tax-credit units (existing, incl. funded not yet open) + proposed: ' + sim.penetrationRate + '% of ' +
+              (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' : 'the same renters')) + '</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
-      '</div>';
+      '</div>' + _tierCaptureLine(simDen, amiMix);
     explainCapture(result, sim, simDen, null);
   }
 
@@ -2553,7 +2735,13 @@
     if (!ENH) { el2.innerHTML = '<div class="pma-empty">Enhancement module not loaded.</div>'; return; }
 
     var proposed = parseInt(el('pmaProposedUnits') && el('pmaProposedUnits').value, 10) || 100;
-    var scenDen = captureDenominator(result);
+    var scenDen = projectCaptureDenominator(result);
+    if (scenDen && scenDen.source === 'chfa_qualified' && !(scenDen.value > 0)) {
+      el2.dataset.denominator = '0';
+      lastScenarios = [];
+      el2.innerHTML = '<div class="pma-empty">' + _noQualifiedLine(scenDen.tiers) + '</div>';
+      return;
+    }
     var scenarioList = [{ label: 'No proposed project (the PMA score above)', proposedUnits: 0, amiMix: { ami60: 0 }, noProject: true }]
       .concat(ENH.defaultScenarios(proposed));
     var scenarios = scenDen ? ENH.generateScenarios(
@@ -2561,7 +2749,9 @@
       result.affordableUnitsKnown,
       scenarioList,
       scenDen.value,
-      _scenarioScorer
+      _scenarioScorer,
+      scenDen.penetrationValue,
+      result.lihtcUnits
     ) : [];
     el2.dataset.denominator = scenDen ? String(scenDen.value) : '';
     lastScenarios = scenarios;
@@ -2578,7 +2768,7 @@
         '<td style="padding:0.25rem 0.5rem;text-align:center;font-weight:700;color:' + tier.color + '">' + s.overall + '</td>' +
         (s.proposedUnits > 0
           ? '<td style="padding:0.25rem 0.5rem;text-align:center">' + s.captureRate + '%</td>' +
-            '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' + s.risk + '</td>'
+            '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : s.risk ? 'var(--good)' : 'var(--text-muted)') + '">' + (s.riskLabel || s.risk) + '</td>'
           : '<td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td><td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td>') +
         '</tr>';
     }).join('');
@@ -2589,7 +2779,7 @@
           '<th style="text-align:left;padding:0.2rem 0.5rem;color:var(--faint)">Scenario</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">PMA Score</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">' + MEASURE_NAMES.capture + ' rate</th>' +
-          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Risk</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">85% check (CHFA 2027-28 draft QAP)</th>' +
         '</tr></thead><tbody>' + rows + '</tbody></table>' +
       '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">' + '<span data-methodology-key="project-capture">' + MEASURE_NAMES.capture + ' methodology</span>. Demand pool: ' + (scenDen ? scenDen.label : 'unavailable') + '. Not the ' + MEASURE_NAMES.penetration.toLowerCase() + ' above, which divides existing units.</p>';
   }
@@ -5668,7 +5858,13 @@
       (window.PMABarrierAware && window.PMABarrierAware.isEnabled && window.PMABarrierAware.isEnabled() &&
        typeof window.PMABarrierAware.loadInputs === 'function'
         ? window.PMABarrierAware.loadInputs()
-        : Promise.resolve(null))
+        : Promise.resolve(null)),
+      // CHFA-style qualified renters (tract CHAS tiers + PUMA size/income
+      // mix) and CHFA's 2026 limits for the rent floor. Loaded before the
+      // page is ready, so no analysis runs on the fallback by accident.
+      // Without either file the capture rate uses the county CHAS share.
+      fetchFile('market/chfa_renter_demand_co.json'),
+      fetchFile('chfa-income-rent-limits-2026.json')
     ]).then(function (results) {      var statusParts = [];
 
       var tractData = results[0];
@@ -5720,6 +5916,18 @@
       } else {
         lihtcFeatures = (lihtcData && lihtcData.features) || [];
         lihtcLoadError = false;
+      }
+
+      var demandData = results[5];
+      chfaDemand = demandData && !demandData._loadError && demandData.tracts && demandData.pumas ? demandData : null;
+      var limitsData = results[6];
+      chfaLimitsByFips = null;
+      if (limitsData && !limitsData._loadError && limitsData.counties) {
+        chfaLimitsByFips = {};
+        limitsData.counties.forEach(function (c) { if (c && c.fips) chfaLimitsByFips[c.fips] = c; });
+      }
+      if (!chfaDemand || !chfaLimitsByFips) {
+        console.warn('[market-analysis] CHFA renter counts unavailable — capture rate uses the county CHAS share');
       }
 
       dataLoaded = true;
@@ -6233,6 +6441,7 @@
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     captureDenominator:      captureDenominator,
+    projectCaptureDenominator: projectCaptureDenominator,
     buildPmaLegend:          buildPmaLegend,
     MEASURE_NAMES:           MEASURE_NAMES,
     scoreScaleLegend:        scoreScaleLegend,

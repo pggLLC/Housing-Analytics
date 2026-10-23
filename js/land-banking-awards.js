@@ -6,7 +6,11 @@
  * Every number on the page is computed here from the awards in that file, so the
  * headline, the table and the CSV cannot disagree with each other or with the file.
  * The map is js/land-banking-map.js (shared with the gated Where to build page); its
- * search box (#lbmSearch) also filters this table. This page names no contact person:
+ * search box (#lbmSearch) and filters also filter this table (it listens for the map's
+ * "lbm:change" event). The table sorts the whole filtered list, not only the rows on
+ * screen, from its headers or, on a phone where the headers fold away, the "Sort by"
+ * menu; its headers carry data-sort-key so the shared sorter leaves them to this file.
+ * This page names no contact person:
  * named contacts stay in the gated contacts file, which this page never requests.
  */
 (function (root, factory) {
@@ -35,6 +39,36 @@
   function millions(n) { return '$' + (n / 1e6).toFixed(1) + ' million'; }
   function int(n) { return Math.round(n).toLocaleString('en-US'); }
   function purposeText(p) { return PURPOSE_TEXT[p] || p || ''; }
+  function holderLabel(a) { return a && a.status && a.status.holder ? a.status.holder.label : ''; }
+
+  // Sort keys: the value each award sorts by, and the direction a first click gives.
+  var STATUS_ORDER = ['financed', 'applied', 'partner', 'seeking', 'not_funded', 'none_found', 'none'];
+  var PURPOSE_ORDER = ['Rental', 'Rental and Homeownership', 'Homeownership'];
+  function townText(a) { return (a.places || []).map(function (p) { return p.name; }).join(', '); }
+  var SORTS = {
+    round: { first: 'desc', val: function (a, ctx) { return ctx.roundIndex[a.round] || 0; } },
+    project: { first: 'asc', val: function (a) { return projectName(a).toLowerCase(); } },
+    status: { first: 'asc', val: function (a) { var i = STATUS_ORDER.indexOf(a.status && a.status.status); return i < 0 ? STATUS_ORDER.length : i; } },
+    grantee: { first: 'asc', val: function (a) { return sponsorName(a).toLowerCase(); } },
+    holder: { first: 'asc', val: function (a) { return holderLabel(a) ? (a.status.holder.type === 'government' ? 0 : 1) : 2; } },
+    town: { first: 'asc', val: function (a) { return townText(a).toLowerCase(); } },
+    purpose: { first: 'asc', val: function (a) { var i = PURPOSE_ORDER.indexOf(a.purpose); return i < 0 ? 9 : i; } },
+    amount: { first: 'desc', val: function (a) { return a.amount_awarded; } },
+    units: { first: 'desc', val: function (a) { return a.estimated_units; } }
+  };
+
+  // Sorts a copy; ties keep newest round first, then project name, so the order is stable.
+  function sortAwards(awards, data, key, dir) {
+    var ctx = { roundIndex: {} };
+    ((data.meta || {}).rounds || []).forEach(function (r, i) { ctx.roundIndex[r.id] = i; });
+    var spec = SORTS[key] || SORTS.round;
+    var sign = (dir || spec.first) === 'asc' ? 1 : -1;
+    var cmp = function (x, y) { return x < y ? -1 : x > y ? 1 : 0; };
+    return (awards || []).slice().sort(function (x, y) {
+      return sign * cmp(spec.val(x, ctx), spec.val(y, ctx)) ||
+        cmp(ctx.roundIndex[y.round] || 0, ctx.roundIndex[x.round] || 0) || cmp(projectName(x), projectName(y));
+    });
+  }
 
   // ------------------------------------------------------------ pure helpers
 
@@ -116,6 +150,16 @@
       'The money comes from Proposition 123, the housing fund Colorado voters approved.';
   }
 
+  // The kind of grantee, under its name: from the printed name, a dated source, or the
+  // program rule (CHFA lends only to nonprofits), and the line says which.
+  function holderHtml(a) {
+    var h = a && a.status && a.status.holder;
+    if (!h) return '';
+    var u = h.source && safeUrl(h.source.url);
+    var how = h.how === 'source' && u ? ' <a href="' + esc(u) + '" target="_blank" rel="noopener">(source)</a>' : '';
+    return '<span class="lb-holder">' + esc(h.label) + how + '</span>';
+  }
+
   function rowHtml(a, data) {
     var url = safeUrl(a.source_url);
     var towns = (a.places || []).map(function (p) { return p.name; }).join(', ');
@@ -126,7 +170,7 @@
       '<td class="lb-c-round">' + esc(roundLabel(data, a.round)) + '</td>' +
       '<td class="lb-c-project"><strong>' + esc(projectName(a)) + '</strong>' + sinceHtml(a) + '</td>' +
       '<td data-label="Status">' + statusCell(a) + '</td>' +
-      '<td data-label="Received by">' + esc(sponsorName(a)) + '</td>' +
+      '<td data-label="Received by">' + esc(sponsorName(a)) + holderHtml(a) + '</td>' +
       '<td data-label="Town">' + esc(towns) + '</td>' +
       '<td data-label="Homes planned">' + esc(purposeText(a.purpose)) + '</td>' +
       '<td class="n" data-label="Awarded">' + money(a.amount_awarded) + '</td>' +
@@ -176,15 +220,19 @@
   function render(state) {
     var doc = global.document;
     var data = state.data;
-    var q = doc.getElementById('lbmSearch').value;
-    var shown = filterAwards(data.awards, { q: q });
-    // The full list is long on a phone: show the newest few until the reader asks for all
-    // or searches.
-    var ordered = newestFirst(shown, data);
-    var limit = state.showAll || q.trim() ? ordered.length : FIRST_ROWS;
+    var map = global.LandBankingMap;
+    var view = map && map.current ? map.current() : null;
+    var q = view ? view.q : doc.getElementById('lbmSearch').value;
+    var shown = view ? view.shown : filterAwards(data.awards, { q: q });
+    var filtered = view && Object.keys(view.filters || {}).some(function (k) { return view.filters[k]; });
+    // The full list is long on a phone: show the first few until the reader asks for all,
+    // searches or filters.
+    var ordered = sortAwards(shown, data, state.sort.key, state.sort.dir);
+    var limit = state.showAll || String(q || '').trim() || filtered ? ordered.length : FIRST_ROWS;
     doc.querySelector('[data-lb-rows]').innerHTML = ordered.length
       ? ordered.slice(0, limit).map(function (a) { return rowHtml(a, data); }).join('')
-      : '<tr><td colspan="9">No award matches that search. Try a town or county name.</td></tr>';
+      : '<tr><td colspan="9">No award matches that search and those filters. Try a town or county name, or set a filter back to all.</td></tr>';
+    markSort(doc, state.sort);
     var more = doc.querySelector('[data-lb-more]');
     if (more) {
       more.hidden = ordered.length <= limit;
@@ -197,30 +245,57 @@
   // The rows the table shows (all of them, not just the first few), as a spreadsheet.
   function csvText(awards, data) {
     var cell = function (v) { var t = String(v == null ? '' : v); return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
-    var head = ['round', 'project', 'status', 'grantee', 'towns', 'counties', 'homes_planned', 'amount_awarded', 'estimated_homes', 'source_url'];
+    var head = ['round', 'project', 'status', 'grantee', 'grantee_kind', 'towns', 'counties', 'homes_planned', 'amount_awarded', 'estimated_homes', 'source_url'];
     return [head.join(',')].concat((awards || []).map(function (a) {
-      return [roundLabel(data, a.round), projectName(a), (a.status && a.status.label) || '', sponsorName(a),
+      return [roundLabel(data, a.round), projectName(a), (a.status && a.status.label) || '', sponsorName(a), holderLabel(a),
         (a.places || []).map(function (p) { return p.name; }).join('; '),
         (a.places || []).map(function (p) { return p.county; }).filter(Boolean).join('; '),
         purposeText(a.purpose), a.amount_awarded, a.estimated_units, a.source_url].map(cell).join(',');
     })).join('\n') + '\n';
   }
 
-  // The file lists rounds oldest first; the table reads newest first.
-  function newestFirst(awards, data) {
-    var order = {};
-    ((data.meta || {}).rounds || []).forEach(function (r, i) { order[r.id] = i; });
-    return awards.slice().sort(function (x, y) { return (order[y.round] || 0) - (order[x.round] || 0); });
+  // Headers show the sort with aria-sort; the "Sort by" menu shows it when it has that option.
+  function markSort(doc, sort) {
+    Array.prototype.forEach.call(doc.querySelectorAll('.lb-table th[data-sort-key]'), function (th) {
+      var on = th.getAttribute('data-sort-key') === sort.key;
+      th.setAttribute('aria-sort', on ? (sort.dir === 'asc' ? 'ascending' : 'descending') : 'none');
+    });
+    var sel = doc.querySelector('[data-lb-sort]');
+    if (sel) {
+      var v = sort.key + ':' + sort.dir;
+      sel.value = Array.prototype.some.call(sel.options, function (o) { return o.value === v; }) ? v : '';
+    }
+  }
+
+  function setSort(state, key, dir) {
+    var spec = SORTS[key];
+    if (!spec) return;
+    if (!dir) dir = state.sort.key === key ? (state.sort.dir === 'asc' ? 'desc' : 'asc') : spec.first;
+    state.sort = { key: key, dir: dir };
+    render(state);
   }
 
   function boot(data) {
     var doc = global.document;
-    var state = { data: data };
+    var state = { data: data, sort: { key: 'round', dir: 'desc' } };
     doc.querySelector('[data-lb-lead]').innerHTML = leadHtml(data);
     doc.querySelector('[data-lb-open]').innerHTML = openRoundHtml(data);
     doc.querySelector('[data-lb-program]').innerHTML = programHtml(data);
     doc.querySelector('[data-lb-sources]').innerHTML = sourcesHtml(data);
-    doc.getElementById('lbmSearch').addEventListener('input', function () { render(state); });
+    // The map re-filters first, then tells the table; without the map, the box drives it.
+    if (global.LandBankingMap && global.LandBankingMap.current) doc.addEventListener('lbm:change', function () { render(state); });
+    else doc.getElementById('lbmSearch').addEventListener('input', function () { render(state); });
+    Array.prototype.forEach.call(doc.querySelectorAll('.lb-table th[data-sort-key]'), function (th) {
+      th.addEventListener('click', function () { setSort(state, th.getAttribute('data-sort-key')); });
+      th.addEventListener('keydown', function (e) {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target === th) { e.preventDefault(); setSort(state, th.getAttribute('data-sort-key')); }
+      });
+    });
+    var sortSel = doc.querySelector('[data-lb-sort]');
+    if (sortSel) sortSel.addEventListener('change', function () {
+      var p = sortSel.value.split(':');
+      if (p[0]) setSort(state, p[0], p[1]);
+    });
     var more = doc.querySelector('[data-lb-more]');
     if (more) more.addEventListener('click', function () { state.showAll = true; render(state); });
     render(state);
@@ -245,5 +320,5 @@
   }
 
   return { filterAwards: filterAwards, summarize: summarize, groupByTown: groupByTown, leadHtml: leadHtml,
-    countHtml: countHtml, rowHtml: rowHtml, csvText: csvText, openRoundHtml: openRoundHtml, boot: boot, DATA: DATA };
+    countHtml: countHtml, rowHtml: rowHtml, sortAwards: sortAwards, holderHtml: holderHtml, csvText: csvText, openRoundHtml: openRoundHtml, boot: boot, DATA: DATA };
 }));
