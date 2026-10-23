@@ -6,8 +6,8 @@
  * Each public page is loaded in Chromium. For every visible figure ($ amount,
  * percentage, or number with thousands separators) the check looks for a
  * source link -- an outside URL, or the site's own /data or /docs copy -- in
- * the same card, section or table wrapper, and for a date in that link's
- * text. A figure with no such link counts as "unsourced"; a figure with a link
+ * the same card, section or table wrapper (or the line right after it), and
+ * for a date in that link's text. A figure with no such link counts as "unsourced"; a figure with a link
  * but no date counts as "undated".
  *
  * Today's misses are recorded per page in source-lines-baseline.json. The
@@ -57,12 +57,18 @@ function scanPage() {
     const h = a.getAttribute('href') || '';
     return /^https?:/.test(h) || /(^|\/)(data|docs)\//.test(h);
   };
+  // Links inside the box, or in the source line right after it (where the
+  // table-export and source-badge lines sit under a table wrapper).
+  const linksAt = (b) => {
+    const next = b.nextElementSibling;
+    return [...b.querySelectorAll('a[href]'), ...(next ? next.querySelectorAll('a[href]') : [])].filter(isSrc);
+  };
   const sourceLinks = (el) => {
     let b = el.closest(BOX) || document.body;
-    let links = [...b.querySelectorAll('a[href]')].filter(isSrc);
+    let links = linksAt(b);
     for (let i = 0; i < 2 && !links.length && b.parentElement && !/^(BODY|MAIN)$/.test(b.parentElement.tagName); i++) {
       b = b.parentElement;
-      links = [...b.querySelectorAll('a[href]')].filter(isSrc);
+      links = linksAt(b);
     }
     return { b, links };
   };

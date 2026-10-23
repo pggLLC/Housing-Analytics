@@ -98,6 +98,7 @@
     "    <svg class=\"hm-flow-map\" data-hm-flow-map role=\"img\" aria-labelledby=\"hm-flow-map-h\"></svg>",
     "    <figcaption data-hm-flow-cap></figcaption>",
     "  </figure>",
+    "  <p class=\"hm-muted hm-source\" data-hm-source style=\"font-size:var(--small);\"></p>",
     "  <div id=\"hm-flow-desc\" class=\"sr-only\" data-hm-flow-text></div>",
     "</section>",
     "",
@@ -107,6 +108,7 @@
     "  <p id=\"hm-map-desc\" class=\"sr-only\">Colorado counties shaded by the chosen measure. The table below has the same numbers.</p>",
     "  <div class=\"hm-legend\" data-hm-legend></div>",
     "  <p class=\"hm-muted\" style=\"font-size:var(--small);\">Tap a county to see its awards.</p>",
+    "  <p class=\"hm-muted hm-source\" data-hm-source style=\"font-size:var(--small);\"></p>",
     "</section>",
     "",
     "<section aria-labelledby=\"hm-matrix-h\" style=\"margin:var(--sp5) 0;\">",
@@ -120,6 +122,7 @@
     "  </div>",
     "  <div data-hm-matrix-note style=\"margin-top:var(--sp2);\"></div>",
     "  <div class=\"hm-scroll\" data-hm-matrix></div>",
+    "  <p class=\"hm-muted hm-source\" data-hm-source style=\"font-size:var(--small);\"></p>",
     "</section>",
     "",
     "<section aria-labelledby=\"hm-table-h\" style=\"margin:var(--sp5) 0;\">",
@@ -145,6 +148,7 @@
     "    <button type=\"button\" class=\"btn\" data-hm-csv>Download CSV</button>",
     "  </div>",
     "  <div class=\"hm-scroll\" style=\"margin-top:var(--sp2);\" data-hm-table></div>",
+    "  <p class=\"hm-muted hm-source\" data-hm-source style=\"font-size:var(--small);\"></p>",
     "</section>",
     "",
     "<details class=\"hm-about\" data-hm-about>",
@@ -449,8 +453,7 @@
       'A project paid for by two programs is counted under each, so this adds up homes named in awards, not separate buildings.' +
       (f.estimated ? ' Land banking counts are the estimates the awards print.' : '') +
       (f.withoutHomes ? ' ' + count(f.withoutHomes) + ' award' + (f.withoutHomes === 1 ? ' has' : 's have') + ' no home count recorded in these lists and ' + (f.withoutHomes === 1 ? 'is' : 'are') + ' left out.' : '') +
-      ' Federal grants are HOME, CDBG and the Housing Trust Fund, passed through DOLA.' +
-      ' Sources: CHFA award reports, Prop 123 fund selection lists, DOLA announcements.';
+      ' Federal grants are HOME, CDBG and the Housing Trust Fund, passed through DOLA.';
     $('[data-hm-flow-text]').innerHTML = '<p>Homes named in ' + esc(who) + ' awards' + esc(where) + ', ' + esc(yearsText()) + ', by program and by region.</p><ul>' +
       f.left.map(function (n) {
         var to = f.links.filter(function (l) { return l.from === n.key; }).map(function (l) { return byR[l.to].label + ' ' + count(l.homes); });
@@ -846,6 +849,17 @@
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
   }
 
+  // One dated source line under each view. The agency pages are the ones the
+  // award lists were read from; the dates are when they were last read.
+  function fillSources(ledgerRead, dolaRead) {
+    var day = function (t) { return t ? ' (read ' + esc(String(t).slice(0, 10)) + ')' : ' (date unconfirmed)'; };
+    var link = function (href, text) { return '<a href="' + href + '" target="_blank" rel="noopener">' + text + '</a>'; };
+    var html = 'Sources: ' + link('https://www.chfainfo.com/rental-housing/housing-credit/awards', 'CHFA tax credit award reports') +
+      ' and ' + link('https://coloradoaffordablehousingfinancingfund.com/about/selected-applicants/', 'the Prop 123 fund\'s selected applicants') + day(ledgerRead) +
+      '; DOLA Division of Housing ' + link('https://doh.colorado.gov/application-schedule-and-awards', 'awards') + ' and State Housing Board announcements' + day(dolaRead) + '.';
+    Array.prototype.forEach.call(root.querySelectorAll('[data-hm-source]'), function (el) { el.innerHTML = html; });
+  }
+
   var started = false;
   function start() {
     root = document.querySelector('[data-agency-funding]');
@@ -875,6 +889,7 @@
       });
       data.statePopulation = Object.keys(data.counties).reduce(function (t, k) { return t + (data.counties[k].population || 0); }, 0) || null;
       data.geo = d.boundaries;
+      fillSources(d.ledger && d.ledger.meta && d.ledger.meta.generated_at, d.dola && d.dola.meta && d.dola.meta.captured);
       data.awards = M.normalise({ ledger: d.ledger, documents: d.documents, rows: d.rows, dola: d.dola, aliases: d.aliases, counties: data.counties });
       var years = data.awards.map(function (a) { return a.year; }).filter(function (y) { return y !== null; });
       var min = Math.min.apply(null, years), max = Math.max.apply(null, years);

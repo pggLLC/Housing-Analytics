@@ -251,6 +251,7 @@ async function modelChecks() {
   check(table.parentElement.nextElementSibling === line[0], 'the source line sits right after the table wrapper');
   const lineText = line[0].querySelector('.tx-source__names').textContent;
   check(lineText.includes(fredName) && lineText.includes('not-a-source'), `the source line names every cited source, saw: ${lineText}`);
+  check(/updated \d{4}-\d{2}-\d{2}\)/.test(lineText) && /not-a-source \(date unconfirmed\)/.test(lineText), `each named source carries a date (or says it has none), saw: ${lineText}`);
   const groups = [...line[0].querySelectorAll('[data-download]')].map((g) => g.getAttribute('data-download') + ':' + (g.getAttribute('data-source-id') || ''));
   assert.deepEqual(groups, ['table:', 'dataset:fred-data'], 'the table download, then one full dataset per source with a file here');
   for (const b of line[0].querySelectorAll('button')) check(/^Download .+ as (Excel|CSV)$/.test(b.getAttribute('aria-label') || ''), 'each source-line button names what it downloads');
