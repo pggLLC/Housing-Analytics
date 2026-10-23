@@ -223,6 +223,10 @@ near(mk.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 22.5), 'the whole d
   ok(bc.qualified > c60.qualified, 'pricing under the limit counts more renters who can pay, not fewer');
   const atLimit = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 1500, allowance: 100, limit: 1600 }] }) });
   near(WB.market(atLimit, msnap, mdata()).capture[0].low, 45, 'a home at its gross limit keeps the 75% floor'); }
+{ const deep = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 30, bedrooms: '2BR', units: 5, rent: 600 }, { tier: 60, bedrooms: '2BR', units: 10, rent: 320, allowance: 0, limit: 1600 }] }) });
+  const dm = WB.market(deep, msnap, mdata());
+  near(dm.captureAll.low, 9, 'a discounted higher tier whose floor sits under a lower tier\'s sets the union\'s floor');
+  near(dm.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 9), 'the union counts every renter from the lowest floor to the highest tier once'); }
 { const nm = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700 }] }) });
   near(WB.market(nm, msnap, mdata()).capture[0].low, 45, 'with no limit on file the floor stays at the limit scenario'); }
 ok(/geoid: geoid \}\)/.test(read('js/whitepaper/deal-workbook.js')) && /get\('geoid'\)/.test(read('js/whitepaper/deal-workbook.js')), 'the market estimate uses the same place as the calculator');

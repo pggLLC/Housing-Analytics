@@ -723,7 +723,8 @@
       // All tiers together: the union of the tiers' income ranges, so a gap between tiers (say 30% and 60%)
       // does not count renters who fit neither.
       var segs = [];
-      mk.capture.forEach(function (c) {
+      // Sorted by floor: a discounted higher tier can reach below a lower tier's floor.
+      mk.capture.slice().sort(function (a, b) { return a.low - b.low; }).forEach(function (c) {
         var last = segs[segs.length - 1];
         if (last && c.low <= last[1]) last[1] = Math.max(last[1], c.high); else segs.push([c.low, c.high]);
       });
