@@ -131,10 +131,10 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
 // Consolidated city-county: "City and County of Denver" staff are Denver's own.
 {
   const bank = { roles: { manager: { label: 'Manager', match: 'manager', local: true } } };
-  const c = [{ name: 'A', role: 'City Manager', org: 'City and County of Denver', source_url: 'https://x' }, { name: 'B', role: 'County Manager', org: 'Adams County', source_url: 'https://y' }];
+  const c = [{ name: 'A', role: 'City Manager', org: 'City and County of Denver', source_url: 'https://example.com/x' }, { name: 'B', role: 'County Manager', org: 'Adams County', source_url: 'https://example.com/y' }];
   const hit = TQ.contactFor('manager', bank, c, 'Denver', 'place');
   ok(hit && hit.name === 'A', 'Denver: City and County of Denver staff count as local');
-  ok(!TQ.contactFor('manager', bank, [{ name: 'C', role: 'County Manager', org: 'Denver County Housing Board', source_url: 'https://z' }], 'Denver', 'place'), 'a separate county body is still not the town');
+  ok(!TQ.contactFor('manager', bank, [{ name: 'C', role: 'County Manager', org: 'Denver County Housing Board', source_url: 'https://example.com/z' }], 'Denver', 'place'), 'a separate county body is still not the town');
 }
 
 // A CDP has no government: its county's Prop 123 filing applies, and the ask names the county.
@@ -147,7 +147,7 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   const s2 = TQ.SIGNALS.prop123_not_filed(fake);
   ok(s2 && /Eagle County/.test(s2.evidence) && !/Edwards/.test(s2.evidence), 'CDP without a county filing: evidence names the county');
   const bank = { roles: { manager: { label: 'Manager', match: 'manager', local: true } }, standard: [{ id: 'S', role: 'manager', ask: 'Ask {name}?' }], pointed: [] };
-  const mm = Object.assign({}, m, { contacts: { researched: [{ name: 'E', role: 'County Manager', org: m.countyName + ' Government', source_url: 'https://e' }] } });
+  const mm = Object.assign({}, m, { contacts: { researched: [{ name: 'E', role: 'County Manager', org: m.countyName + ' Government', source_url: 'https://example.com/e' }] } });
   const q = TQ.build(mm, bank, null, '2026-10-22').standard[0];
   ok(q.ask === 'Ask ' + m.countyName + '?' && q.contact && q.contact.name === 'E', 'CDP: questions are addressed to the county and its staff');
 }
@@ -284,7 +284,7 @@ ok(npSeen > 0 && prSeen > 0, 'the nonprofit and community-priority lines appeare
 {
   const m = model('0823300');
   const bank = { roles: { manager: { label: 'Manager', match: 'manager', local: true } }, standard: [{ id: 'S', role: 'manager', ask: 'Ask {name}?' }], pointed: [] };
-  const mm = Object.assign({}, m, { contacts: { researched: [], related: [{ geoid: '08037', name: m.countyName, contacts: [{ name: 'R', role: 'County Manager', org: m.countyName, source_url: 'https://r' }] }] } });
+  const mm = Object.assign({}, m, { contacts: { researched: [], related: [{ geoid: '08037', name: m.countyName, contacts: [{ name: 'R', role: 'County Manager', org: m.countyName, source_url: 'https://example.com/r' }] }] } });
   const q = TQ.build(mm, bank, null, '2026-10-22').standard[0];
   ok(q.contact && q.contact.name === 'R', 'CDP: the county contact from the related file is named');
 }
