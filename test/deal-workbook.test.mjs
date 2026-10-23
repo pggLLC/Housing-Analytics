@@ -300,7 +300,8 @@ ok(!WB.market(mm, msnap, noMetro).trend && /no metro history/.test(WB.market(mm,
   ok(em.pipeline.some((d) => d.slug === 'invented-edge-in') && !em.pipeline.some((d) => d.slug === 'invented-edge-out') && WB.renderMarket(em).includes('since ' + (y - 4) + '</h2>'), 'the awards window is five calendar years counting this one, and the heading says the same'); }
 ok(/\.wb-map \.leaflet-control-zoom a \{ width: 44px; height: 44px;/.test(read('developer-deal-workbook.html')), 'the workbook map zoom buttons are 44px touch targets');
 { const cls = (read('js/whitepaper/deal-workbook.js').match(/<a class="([\w-]+)" href="' \+ esc\(webLink\(c\.source\)\)/) || [])[1];
-  ok(!!cls && new RegExp('a\\.' + cls + ' \\{[^}]*min-width: 44px; min-height: 44px').test(read('developer-deal-workbook.html')), 'the comparable source link carries a class the page sizes to 44px'); }
+  ok(!!cls && new RegExp('^\\s*a\\.' + cls + ' \\{[^}]*min-width: 44px; min-height: 44px', 'm').test(read('developer-deal-workbook.html')), 'the source links carry a class the page sizes to 44px wherever they sit'); 
+  ok((read('js/whitepaper/deal-workbook.js').match(new RegExp('<a class="' + cls + '"', 'g')) || []).length >= 2, 'both the comparable and survey source links use that class'); }
 
 
 // ── The team's research (phase 3) ──────────────────────────────────────────
