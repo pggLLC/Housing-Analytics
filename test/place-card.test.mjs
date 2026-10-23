@@ -6,7 +6,8 @@
 //   3. a logged discussion counts as "last talked" and moves the person up;
 //   4. sites show their developer check, open sites first;
 //   5. the card escapes what it shows, and the page mounts it outside the report;
-//   6. Ask pggLLC, How it works and About on the developer site.
+//   6. Ask pggLLC, How it works and About on the developer site;
+//   7. the place bar names the place in plain words and stays out of print.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -341,6 +342,23 @@ ok(read('developer-about.html').includes('id="ask"') && read('developer-about.ht
   ok(/About this project/.test(card) && /A 40-acre town parcel/.test(card) && /Checked 2026-10-19/.test(card), 'the intro shows with its source and date');
   ok(!/About this project/.test(P.render({ name: 'T', geoid: '0800001', about: { text: 'Unsourced.', sources: [] } })), 'an intro with no public source is left out');
   ok(/contacts && contacts\.about/.test(read('developer-brief.html')), 'the report page passes the place\'s intro to the card');
+}
+
+// The place bar: which place is on screen once the picker scrolls away.
+{
+  const B = require(path.join(ROOT, 'js/whitepaper/place-bar.js'));
+  const counties = { '08037': 'Eagle County', '08013': 'Boulder County' };
+  assert.deepEqual(B.describe({ name: 'Avon (town)', type: 'place', containingCounty: '08037' }, counties), { name: 'Avon', kind: 'Town in Eagle County' }); checks++;
+  assert.deepEqual(B.describe({ name: 'Boulder (city)', type: 'place', containingCounty: '08013' }, counties), { name: 'Boulder', kind: 'City in Boulder County' }); checks++;
+  assert.deepEqual(B.describe({ name: 'Edwards (CDP)', type: 'cdp', containingCounty: '08037' }, counties), { name: 'Edwards', kind: 'Unincorporated community in Eagle County' }); checks++;
+  assert.deepEqual(B.describe({ name: 'Twin Lakes CDP (Lake County)', type: 'cdp', containingCounty: '08065' }, counties), { name: 'Twin Lakes', kind: 'Unincorporated community' }); checks++;
+  assert.deepEqual(B.describe({ name: 'Eagle County', type: 'county' }, counties), { name: 'Eagle County', kind: 'County' }); checks++;
+  const pg = read('developer-brief.html');
+  ok(/id="placeBar"[^>]*hidden/.test(pg) && /data-place-change/.test(pg), 'the page carries the bar, hidden until a place is picked');
+  ok(/\.ib-placebar button \{[^}]*min-height:44px/.test(pg), 'the Change place button is 44px tall');
+  ok(/@media print \{[^}]*\.ib-placebar/.test(pg), 'the bar does not print');
+  ok(/BAR\.set\(window\.PlaceBar\.describe\(row, COUNTY_NAMES\)\)/.test(pg), 'each new report updates the bar');
+  ok(/const seq = \+\+renderSeq;/.test(pg) && /if \(seq !== renderSeq\) return;/.test(pg), 'a slower earlier report cannot replace the one the bar names');
 }
 
 ok(P.needsFromAction('Get planning department approval').indexOf('council') === -1, 'an approval alone is not a council vote');

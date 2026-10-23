@@ -51,6 +51,38 @@ test('counts only households between the 40%-of-income floor and the limit, size
   assert.strictEqual(Math.round(r.byTier[60]), 150);
 });
 
+test('household sizes no offered bedroom size fits are left out (CHFA guide)', () => {
+  // 2BR/3BR only: the 1-person household drops out, 3p@45 stays: 300 * 100/400.
+  assert.strictEqual(Math.round(S.chfaQualifiedRenters(demand, limits, tracts, [60], ['2br', '3br']).value), 75);
+  // 1BR only: the 3-person household drops out, 1p@40 stays.
+  assert.strictEqual(Math.round(S.chfaQualifiedRenters(demand, limits, tracts, [60], ['1br']).value), 75);
+  // Default is 1-3BR, the same as passing them.
+  const d = S.chfaQualifiedRenters(demand, limits, tracts, [60]);
+  assert.deepStrictEqual(d.bedrooms, ['1br', '2br', '3br']);
+  assert.strictEqual(d.value, S.chfaQualifiedRenters(demand, limits, tracts, [60], ['3br', '1br', '2br']).value);
+  // A studio serves one person, priced at the studio rent.
+  const withStudio = JSON.parse(JSON.stringify(limits));
+  withStudio['08001'].regular_tiers['60'].max_rents['0br'] = 800;
+  assert.strictEqual(Math.round(S.chfaQualifiedRenters(demand, withStudio, tracts, [60], ['0br']).value), 75);
+  // Nothing usable offered is unavailable, never zero.
+  const none = S.chfaQualifiedRenters(demand, limits, tracts, [60], ['4br']);
+  assert.strictEqual(none.value, null);
+  assert.strictEqual(none.source, 'unavailable');
+});
+
+test('a larger unit does not stand in for a missing smaller one', () => {
+  // 1p, 2p and 3p households at 45%, all above every floor here.
+  const m = [bins(), bins(), bins(), bins(), bins(), bins()];
+  m[0][45] = 100; m[1][45] = 100; m[2][45] = 100;
+  const d = { pumas: { P1: m }, tracts: { '08001000100': ['P1', 0, 300, 0, 0, 0] } };
+  const lim = JSON.parse(JSON.stringify(limits));
+  lim['08001'].regular_tiers['50'].income_limits = lim50;
+  const at = (br) => Math.round(S.chfaQualifiedRenters(d, lim, tracts, [60], br).value);
+  assert.strictEqual(at(['2br', '3br']), 200, 'no 1BR: one-person households leave, 2p and 3p stay');
+  assert.strictEqual(at(['3br']), 100, '3BR only: 3-5 people');
+  assert.strictEqual(at(['1br', '2br', '3br']), 300);
+});
+
 test('a buffer share scales the tract', () => {
   const r = S.chfaQualifiedRenters(demand, limits, [{ geoid: '08001000100', _bufferShare: 0.5 }], [60]);
   assert.strictEqual(Math.round(r.value), 75);

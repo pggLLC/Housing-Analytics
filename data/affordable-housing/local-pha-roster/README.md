@@ -21,10 +21,13 @@ Authority. The federal databases simply don't carry local PBVs.
 
 ## Scope of this gap (state-wide)
 
-Locally-administered PBVs are common in small + mid-sized Colorado
-markets — every PHA that runs a Section 8 program *may* attach PBVs to
-specific properties. Realistic gap-fill requires per-PHA outreach.
-Current state-wide PHA count: ~110 active.
+HUD's Picture of Subsidized Households counts 6,118 project-based
+voucher homes at 21 Colorado housing authorities (quarter ending 31 Dec
+2025; `data/affordable-housing/pbv-by-pha-co.json`). HUD does not publish
+which buildings hold them, so a full property list is not possible from
+public data. Realistic gap-fill requires per-authority records (annual
+plans, administrative plans, board packets). The map labels this layer
+"partial" and quotes the HUD total.
 
 This file is intentionally small + verified. Expansion is a
 data-collection task (see "How to add records" below). Do not add

@@ -125,8 +125,8 @@
         var pt = p.program_type || [];
         return pt.includes('usda-rural-development');
     }},
-    { key: 'pbv_local',    label: 'PBV (local PHA)',   color: '#0ea5e9',
-      desc: 'Project-Based Voucher contract administered by a local Housing Authority (not a federal HUD contract). Invisible to federal feeds — curated from PHA records.',
+    { key: 'pbv_local',    label: 'Voucher homes (partial)',   color: '#0ea5e9',
+      desc: 'Project-based vouchers run by a local housing authority. Partial list: HUD counts these homes by housing authority (6,118 at 21 Colorado authorities, 31 Dec 2025, HUD Picture of Subsidized Households) but does not publish which buildings, so only buildings checked by hand that are on no other layer are shown.',
       match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('pbv-local');
