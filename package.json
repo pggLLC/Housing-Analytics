@@ -463,7 +463,7 @@
     "test:home-step-cards": "node test/home-step-cards-match-destinations.test.js",
     "test:site-name-agreement": "node test/site-name-agreement.test.js",
     "test:funding-links": "node test/funding-links-land-on-funding.test.js",
-    "test:round-watch": "python3 -m pytest tests/test_round_watch.py -q && node test/round-watch-page.test.mjs",
+    "test:round-watch": "python3 -m pytest tests/test_round_watch.py tests/test_deal_summaries.py -q && node test/round-watch-page.test.mjs",
     "test:lihtc-activity": "python3 -m pytest tests/test_lihtc_applications.py -q && node --test test/lihtc-activity-panel.test.mjs",
     "test:entry-path": "node test/entry-path-starts-at-jurisdiction.test.mjs",
     "test:forsale-jurisdiction": "node test/for-sale-study-follows-jurisdiction.test.mjs",

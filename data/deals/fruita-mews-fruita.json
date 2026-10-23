@@ -1,0 +1,187 @@
+{
+ "slug": "fruita-mews-fruita",
+ "name": "Fruita Mews (The Fruita Mews)",
+ "city": "Fruita",
+ "county": "Mesa",
+ "award": "2022 Federal 9% housing tax credit (Round One)",
+ "units": 50,
+ "researched_on": "2026-10-23",
+ "headline": "The Fruita Mews won $1,330,877 a year in 2022 federal 9% housing tax credits from CHFA for 50 new townhome rentals at 1138 18 1/2 Road in Fruita, 44 of them income-restricted at 30% to 60% AMI.",
+ "why_it_matters": "CHFA describes it as the first housing tax credit development without rental subsidy built in Fruita.",
+ "status": {
+  "label": "Credits awarded May 2022; CHFA's award records do not show construction or opening",
+  "detail": "This summary uses only CHFA's published 2022 Round One award and applicant records: the applicant report, the award report and the award descriptions. Those records end at the award.",
+  "src": [
+   "chfa-2022-r1-award",
+   "chfa-2022-r1-descriptions"
+  ]
+ },
+ "next_step": "CHFA's 2022 award records end at the award; construction start, opening date and final credit are not in them.",
+ "key_numbers": [
+  {
+   "value": "50 homes, 44 income-restricted",
+   "meaning": "4 at 30% AMI, 4 at 40%, 12 at 50%, 24 at 60%, and 6 market-rate homes.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-descriptions"
+   ]
+  },
+  {
+   "value": "$1,330,877 a year in federal 9% credit",
+   "meaning": "About $30,247 per income-restricted home per year (inferred: $1,330,877 divided by 44).",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "value": "10 one-bedroom, 30 two-bedroom, 10 three-bedroom",
+   "meaning": "Townhome design with covered front porches, per CHFA's award description.",
+   "src": [
+    "chfa-2022-r1-descriptions"
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "item": "Address",
+   "value": "1138 18 1/2 Rd., Fruita 81521",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Type (CHFA codes)",
+   "value": "N, F: new construction, family",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "item": "Resident services",
+   "value": "Eureka!, Family Health West and a master gardener, per CHFA's award description",
+   "src": [
+    "chfa-2022-r1-descriptions"
+   ]
+  }
+ ],
+ "income_mix": [
+  {
+   "level": "30% AMI",
+   "units": 4
+  },
+  {
+   "level": "40% AMI",
+   "units": 4
+  },
+  {
+   "level": "50% AMI",
+   "units": 12
+  },
+  {
+   "level": "60% AMI",
+   "units": 24
+  },
+  {
+   "level": "Market rate",
+   "units": 6
+  }
+ ],
+ "bedroom_mix": [
+  {
+   "type": "1BR",
+   "units": 10
+  },
+  {
+   "type": "2BR",
+   "units": 30
+  },
+  {
+   "type": "3BR",
+   "units": 10
+  }
+ ],
+ "mix_src": [
+  "chfa-2022-r1-descriptions"
+ ],
+ "money": [
+  {
+   "source": "Federal 9% housing tax credit",
+   "amount": "$1,330,877 per year",
+   "note": "The applicant report lists $1,330,328 requested. No state credit is shown on the 2022 Round One award report.",
+   "src": [
+    "chfa-2022-r1-award",
+    "chfa-2022-r1-applicants"
+   ]
+  }
+ ],
+ "parties": [
+  {
+   "role": "Owner (as CHFA's award report prints it)",
+   "name": "Indibuild llc",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  },
+  {
+   "role": "Developer (as CHFA's award description prints it)",
+   "name": "Indibuild LLC",
+   "src": [
+    "chfa-2022-r1-descriptions"
+   ]
+  }
+ ],
+ "background": [
+  {
+   "text": "A second Fruita application in the same round, Residences at Fruita (614 Raptor Rd., 50 homes), is on CHFA's applicant report but not on the award report.",
+   "src": [
+    "chfa-2022-r1-applicants",
+    "chfa-2022-r1-award"
+   ]
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2022-02-09",
+   "event": "Listed on CHFA's 2022 Round One applicant report, requesting $1,330,328 a year",
+   "src": [
+    "chfa-2022-r1-applicants"
+   ]
+  },
+  {
+   "date": "2022-05-25",
+   "event": "Awarded $1,330,877 a year in federal 9% credits",
+   "src": [
+    "chfa-2022-r1-award"
+   ]
+  }
+ ],
+ "pictures": [],
+ "discrepancies": [],
+ "open_questions": [
+  "Total development cost, equity price and investor, permanent lender and loan amount are not in CHFA's award records.",
+  "Construction start, opening date and final credit are not in CHFA's 2022 award records."
+ ],
+ "sources": [
+  {
+   "id": "chfa-2022-r1-award",
+   "title": "CHFA, 2022 Round One - 9% Competitive Housing Credit Award Report (public award report dated 2022-05-25)",
+   "publisher": "CHFA",
+   "date": "2022-05-25",
+   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf"
+  },
+  {
+   "id": "chfa-2022-r1-descriptions",
+   "title": "CHFA, 2022 Round One Award Descriptions",
+   "publisher": "CHFA",
+   "date": "2022",
+   "url": "https://www.chfainfo.com/rental-housing/housing-credit/2022-round-one-award-descriptions"
+  },
+  {
+   "id": "chfa-2022-r1-applicants",
+   "title": "CHFA, 2022 Housing Tax Credit Round One Applicant Report",
+   "publisher": "CHFA",
+   "date": "2022-02-09",
+   "url": "https://www.chfainfo.com/getattachment/a5bd1311-e59e-42db-82b1-b5e6d0e9fd26/2022-HTC-Round-1-Applicant-Report.pdf"
+  }
+ ]
+}
