@@ -121,7 +121,7 @@ class CRAExpansionForecaster {
     }
 
     // Calculate NPV impact for developers
-    calculateProjectImpact(creditAllocation, scenario, currentPricing = 0.87) {
+    calculateProjectImpact(creditAllocation, scenario, currentPricing = 0.82) {
         const baseline = currentPricing;
         const forecast = this.generateScenario(currentPricing, 8, scenario);
         const avgFuturePrice = forecast.reduce((sum, q) => sum + q.price, 0) / forecast.length;

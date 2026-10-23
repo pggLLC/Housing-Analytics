@@ -1,0 +1,75 @@
+// Every hard-coded copy of a tracked figure agrees with its data file, a new
+// figure rewrites all of them, and no copy is typed outside a rule
+// (scripts/sync-site-figures.mjs).
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { RULES, plan, readFigures, strays, formatFigure } from '../scripts/sync-site-figures.mjs';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
+
+test('every figure is readable from its data file', () => {
+  const F = readFigures();
+  for (const [k, v] of Object.entries(F)) assert.ok(v != null && v !== '', `${k} readable from data`);
+});
+
+test('every copy shows the figure in its data file', () => {
+  const { matches, mismatches } = plan(readFigures());
+  // Non-vacuous: plan() throws if any rule matches nothing in any of its files.
+  assert.ok(matches >= RULES.reduce((n, r) => n + r.files.length, 0), `${matches} copies scanned`);
+  assert.deepEqual(mismatches, [], 'run node scripts/sync-site-figures.mjs');
+});
+
+test('no tracked figure is typed outside a rule', () => {
+  assert.deepEqual(strays(readFigures()), [], 'add a rule in scripts/sync-site-figures.mjs or read the figure from its data at runtime');
+});
+
+test('a typed copy outside a rule is caught', () => {
+  const F = readFigures();
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'site-figures-'));
+  fs.mkdirSync(path.join(dir, 'js'));
+  fs.mkdirSync(path.join(dir, 'data/core'), { recursive: true });
+  fs.writeFileSync(path.join(dir, 'new-page.html'), `<p>Credits sell for $${formatFigure('eq9', F)} and Prop 123 raises $${F.p123M} million.</p>`);
+  fs.writeFileSync(path.join(dir, 'js/x.js'), `var due = 'Letter of intent ${formatFigure('r1Loi', F)}';`);
+  const found = strays(F, dir, new Map());
+  assert.deepEqual(found.map((x) => x.fig).sort(), ['eq9', 'p123M', 'r1Loi']);
+});
+
+test('new figures rewrite every rule, and the result then agrees', () => {
+  const F = readFigures();
+  const next = {
+    ...F,
+    eq9: F.eq9 + 0.03, eq4: F.eq4 + 0.03, eqCo: F.eqCo + 0.03,
+    quarter: '2099-Q1', quarterWords: 'Q1 2099', year: F.year + 1,
+    perCapita: F.perCapita + 0.1, smallStateMin: F.smallStateMin + 1000,
+    revProc: 'IRS Rev. Proc. 2098-99', revProcUrl: 'https://www.irs.gov/pub/irs-drop/rp-98-99.pdf',
+    coM: F.coM + 1, p123M: F.p123M + 10, p123From: '2099-00',
+    r1Loi: '2099-12-01', r1App: '2100-02-01',
+  };
+  const { mismatches, rewrites } = plan(next);
+  const hit = new Set(mismatches.map((m) => m.rule));
+  RULES.forEach((rule, i) => assert.ok(hit.has(i), `rule ${i} ${rule.pattern} rewritten`));
+  const reread = (rel) => rewrites.get(rel) ?? fs.readFileSync(path.join(ROOT, rel), 'utf8');
+  assert.deepEqual(plan(next, reread).mismatches, [], 'rewritten text agrees with the new figures');
+});
+
+test('a missing figure refuses rather than guessing', () => {
+  const F = { ...readFigures(), eq9: null };
+  assert.throws(() => plan(F), /missing from the data/);
+});
+
+test('the sources that repeat a figure agree with each other', () => {
+  const F = readFigures();
+  const scoring = readJson('data/policy/chfa-2027-r1-scoring.json');
+  const s = JSON.stringify(scoring);
+  assert.match(s, new RegExp(`"loi_due":\\s*"${F.r1Loi}"`), 'scoring file LOI date matches the QAP calendar');
+  assert.match(s, new RegExp(`"application_due":\\s*"${F.r1App}"`), 'scoring file application date matches the QAP calendar');
+  const lihtc = readJson('data/policy/lihtc-assumptions.json');
+  assert.match(JSON.stringify(lihtc), new RegExp(`"default9Pct":${F.eq9}\\b`), 'lihtc-assumptions follows Novogradac');
+  const alloc = readJson('data/allocations.json');
+  assert.equal(alloc.year, F.year, 'allocations.json is for the ceiling year');
+});
