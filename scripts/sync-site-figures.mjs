@@ -286,13 +286,21 @@ export function scannedFiles(root = ROOT) {
   return out;
 }
 
+// Figures too common in other contexts to scan for: a bare year or quarter
+// label, and the 2023 start of Prop 123 revenue, appear all over the site
+// with other meanings.
+export const NOT_SCANNED = ['year', 'quarter', 'quarterWords', 'p123From'];
+
 /** The written forms of each figure that must only appear inside a rule. */
+// Prices skip a trailing "s": "the low $0.80s" names a range, not a median.
 export function strayPatterns(F) {
   const f = (k) => formatFigure(k, F).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const pats = [
-    ['eq9', new RegExp(`\\$${f('eq9')}(?!\\d)`, 'g')],
-    ['eq4', new RegExp(`\\$${f('eq4')}(?!\\d)`, 'g')],
-    ['eqCo', new RegExp(`\\$${f('eqCo')}(?!\\d)`, 'g')],
+    ['eq9', new RegExp(`\\$${f('eq9')}(?![\\ds])`, 'g')],
+    ['eq4', new RegExp(`\\$${f('eq4')}(?![\\ds])`, 'g')],
+    ['eqCo', new RegExp(`\\$${f('eqCo')}(?![\\ds])`, 'g')],
+    ['eqNC', new RegExp(`\\$${f('eqNC')}(?![\\ds])`, 'g')],
+    ['coPop', new RegExp(`(?<![\\d,])${thousands(F.coPop)}(?![\\d,])`, 'g')],
     ['revProc', new RegExp(`${f('revProc').replace(/^IRS /, '')}(?!\\d)`, 'g')],
     ['revProcUrl', new RegExp(f('revProcUrl'), 'g')],
     ['notice', new RegExp(`${f('notice')}(?!\\d)`, 'g')],

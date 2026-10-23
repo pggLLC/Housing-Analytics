@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { RULES, plan, readFigures, strays, formatFigure } from '../scripts/sync-site-figures.mjs';
+import { RULES, plan, readFigures, strays, strayPatterns, formatFigure, NOT_SCANNED } from '../scripts/sync-site-figures.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
@@ -28,15 +28,21 @@ test('no tracked figure is typed outside a rule', () => {
   assert.deepEqual(strays(readFigures()), [], 'add a rule in scripts/sync-site-figures.mjs or read the figure from its data at runtime');
 });
 
+test('every synced figure is in the stray scan or named as too common to scan', () => {
+  const scanned = new Set(strayPatterns(readFigures()).map(([k]) => k));
+  const ruled = [...new Set(RULES.map((r) => r.fig).filter(Boolean))];
+  assert.deepEqual(ruled.filter((k) => !scanned.has(k) && !NOT_SCANNED.includes(k)), []);
+});
+
 test('a typed copy outside a rule is caught', () => {
   const F = readFigures();
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'site-figures-'));
   fs.mkdirSync(path.join(dir, 'js'));
   fs.mkdirSync(path.join(dir, 'data/core'), { recursive: true });
-  fs.writeFileSync(path.join(dir, 'new-page.html'), `<p>Credits sell for $${formatFigure('eq9', F)} and Prop 123 raises $${F.p123M} million.</p>`);
+  fs.writeFileSync(path.join(dir, 'new-page.html'), `<p>Credits sell for $${formatFigure('eq9', F)} and Prop 123 raises $${F.p123M} million. North Central: $${formatFigure('eqNC', F)}.</p>`);
   fs.writeFileSync(path.join(dir, 'js/x.js'), `var due = 'Letter of intent ${formatFigure('r1Loi', F)}';`);
   const found = strays(F, dir, new Map());
-  assert.deepEqual(found.map((x) => x.fig).sort(), ['eq9', 'p123M', 'r1Loi']);
+  assert.deepEqual(found.map((x) => x.fig).sort(), ['eq9', 'eqNC', 'p123M', 'r1Loi']);
 });
 
 test('new figures rewrite every rule, and the result then agrees', () => {
