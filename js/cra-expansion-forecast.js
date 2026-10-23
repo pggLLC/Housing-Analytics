@@ -49,7 +49,7 @@ class CRAExpansionForecaster {
     }
 
     // Forecast pricing under different CRA scenarios
-    forecastPricingScenarios(currentPricing = 0.87, periods = 8) {
+    forecastPricingScenarios(currentPricing = 0.82, periods = 8) {
         const forecasts = {
             baseline: this.generateBaseline(currentPricing, periods),
             moderate: this.generateScenario(currentPricing, periods, this.scenarios.moderate),
@@ -211,7 +211,7 @@ class CRAExpansionForecaster {
     }
 
     // Probability-weighted forecast
-    generateProbabilityWeighted(currentPricing = 0.87, periods = 8) {
+    generateProbabilityWeighted(currentPricing = 0.82, periods = 8) {
         const scenarios = {
             baseline: { weight: 0.40, forecast: this.generateBaseline(currentPricing, periods) },
             moderate: { weight: 0.35, forecast: this.generateScenario(currentPricing, periods, this.scenarios.moderate) },

@@ -79,7 +79,7 @@ export const RULES = [
   { fig: 'eq9', files: [DC], pattern: /id="dc-stress-equity-price-label"[^>]*>\$(\d\.\d\d)</g },
   { fig: 'eq9', files: [DC], pattern: /id="dc-stress-equity-price" [^>]*value="(\d\.\d\d)"/g },
   { fig: 'eq9', files: ['js/deal-engine.js'], pattern: /'dc-stress-equity-price', (\d\.\d\d)\)/g },
-  { fig: 'eq9', files: ['js/cra-expansion-forecast.js'], pattern: /currentPricing = (\d\.\d\d)\)/g },
+  { fig: 'eq9', files: ['js/cra-expansion-forecast.js'], pattern: /currentPricing = (\d\.\d\d)[,)]/g },
 
   // ── Federal 9% ceiling: data/policy/tax-credit-legislation.json, data/allocations.json
   { fig: 'perCapita', files: [CONTENT], pattern: /\(\$(\d\.\d{3}) per resident, IRS Rev\. Proc\./g },
