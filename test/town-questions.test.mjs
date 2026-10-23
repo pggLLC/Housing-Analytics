@@ -348,6 +348,36 @@ ok(npSeen > 0 && prSeen > 0 && stewSeen > 0, 'the nonprofit, community-priority 
   ok(!d.slice(d.indexOf('id="summary"'), d.indexOf('id="deal"')).includes(name), 'no rolling entry in the calendar: the summary names none');
 }
 
+// Late in a cycle the timing headline still shows: a stretch round with no base left,
+// and the rolling 4% path, each from the timing model.
+{
+  const amp = (x) => x.replace(/&/g, '&amp;');
+  const t0 = model('0820000').deal.timing;
+  // The last letter of intent on the whole calendar, not just the rows shown today.
+  const lastLoi = BASE.qapCalendar.events.filter((e) => /-loi$/.test(e.id || '')).map((e) => e.date).sort().pop();
+  const day = new Date(Date.parse(lastLoi + 'T00:00:00Z') - (t0.stretchMinDays + 1) * 864e5).toISOString().slice(0, 10);
+  const late = model('0820000', { today: day });
+  const st = late.deal.timing.rows.find((r) => r.reading === 'stretch');
+  ok(st && !late.deal.timing.rows.some((r) => r.reading === 'base') && late.deal.timing.rolling4, `${day}: no base round left, one stretch, rolling path on the calendar, so the next checks run`);
+  const html = WP.renderHtml(late);
+  const at = (id) => { const a = html.indexOf('id="' + id + '"'); return html.slice(a, html.indexOf('<h', a + 1)); };
+  const summary = at('summary'), deal = at('deal').split('<table')[0];
+  for (const [where, text] of [['summary', summary], ['deal headline', deal]]) {
+    ok(text.includes(amp(st.label)) && text.includes(amp(late.deal.timing.rolling4.name)), `no base round: the ${where} names the stretch round and the rolling 4% path`);
+  }
+  const past = WP.renderHtml(model('0820000', { today: '2031-01-01' }));
+  const pastSummary = past.slice(past.indexOf('id="summary"'), past.indexOf('<h', past.indexOf('id="summary"') + 1));
+  ok(pastSummary.includes(amp(t0.rolling4.name)), 'all rounds passed: the summary still names the rolling 4% path');
+}
+
+// A county's no-money finding claims only the county's own search.
+{
+  const empty = { policy: { funds: [], fees: [], sources: ['s'] } };
+  const county = TQ.SIGNALS.no_local_money(Object.assign({ kind: 'county', name: 'Denver County' }, empty)).evidence;
+  const town = TQ.SIGNALS.no_local_money(Object.assign({ kind: 'place', name: 'Avon' }, empty)).evidence;
+  ok(!/its county/.test(county) && /its county/.test(town), 'no_local_money names a containing county only for a town or CDP');
+}
+
 // Consolidated city-counties: "City and County of Denver" staff are local to both the
 // Denver place report and the Denver County report.
 {

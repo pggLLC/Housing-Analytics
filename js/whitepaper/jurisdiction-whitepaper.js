@@ -1023,9 +1023,8 @@
       (m.lihtc.applications ? '; ' + m.lihtc.applications.length + ' application' + (m.lihtc.applications.length === 1 ? '' : 's') + ' in the CHFA applicant reports' : '') + '.</li>');
     items.push('<li><strong>Prop 123:</strong> ' + (p ? esc(p.status) + ' (filed ' + esc(p.filing_date || 'date not recorded') + ', ' + fmtInt(p.proposed_units) + ' units promised' + (p.fast_track ? ', fast-track adopted' : '') + ')' : 'no commitment on file for this jurisdiction') + '.</li>');
     items.push('<li><strong>Deal shape:</strong> ' + esc(d.route) + (d.rentCheck && d.rentCheck.limit60 !== null && d.rentCheck.fmr !== null && d.rentCheck.limit60 > d.rentCheck.fmr ? '; test achievable rent before using 60% AMI units' : '') + '.</li>');
-    var base = timingPick(d.timing, 'base'), stretch = timingPick(d.timing, 'stretch');
-    if (base) items.push('<li><strong>Timing:</strong> ' + (rollingOpen(d) ? 'for a CHFA round, ' : '') + 'base case ' + esc(base.label) + ', application ' + esc(base.deadline) + (stretch ? '; ' + esc(stretch.label) + ' only as a stretch' : '') + ' (estimate).' +
-      (rollingOpen(d) ? ' A 4% bond deal without state credit need not wait: ' + link(d.timing.rolling4.name, d.timing.rolling4.url) + ' has no round.' : '') + '</li>');
+    var tl = timingLine(d, false);
+    if (tl) items.push('<li><strong>Timing:</strong> ' + tl + '</li>');
     if (m.questions && !m.questions.missing) items.push('<li><strong>Questions for ' + esc(m.questions.gov.name) + ':</strong> ' + m.questions.pointed.length + ' pointed, from this place\'s data, and ' + m.questions.standard.length + ' standard.</li>');
     items.push('<li><strong>Contacts:</strong> ' + (m.contacts.needsResearch ? 'not yet researched for this jurisdiction (organisation links below)'
       : m.contacts.researched.length ? m.contacts.researched.length + ' named, each with its source'
@@ -1306,11 +1305,8 @@
     var d = m.deal;
     var h = '<h2 id="deal">Ideal deal: structure and timing</h2><p><strong>Credit route:</strong> ' + esc(d.route) + '</p>';
     var base = timingPick(d.timing, 'base'), stretch = timingPick(d.timing, 'stretch');
-    if (base) {
-      h += '<p><strong>Base case' + (rollingOpen(d) ? ' for a CHFA round' : '') + ':</strong> ' + esc(base.label) + ', letter of intent ' + esc(base.loi) + ', application ' + esc(base.deadline) + ' (estimate).' +
-        (stretch ? ' <strong>Stretch:</strong> ' + esc(stretch.label) + ', letter of intent ' + esc(stretch.loi) + ', only if the conditions under Timing are met.' : '') +
-        (rollingOpen(d) ? ' <strong>4% bonds without state credit:</strong> ' + link(d.timing.rolling4.name, d.timing.rolling4.url) + ' has no round, so this route need not wait for one.' : '') + '</p>';
-    }
+    var tl = timingLine(d, true);
+    if (tl) h += '<p>' + tl + '</p>';
     if (d.mix) {
       h += '<table><thead><tr><th>Income band</th><th>Rental homes short</th></tr></thead><tbody>' +
         '<tr><td>At or below 30% AMI</td><td class="n">' + fmtInt(d.mix.le30) + '</td></tr>' +
@@ -1346,6 +1342,32 @@
   // so the dated base case is named as the round's, not the deal's only start.
   function rollingOpen(d) {
     return !!(d && d.timing && d.timing.rolling4 && /^9% or 4%/.test(d.route || ''));
+  }
+
+  // The timing headline for the summary and the deal section. A dated base case, a
+  // stretch round when no base is left, and the rolling 4% path each show on their own,
+  // so a report built late in a cycle still says when a deal can start.
+  function timingLine(d, full) {
+    var t = d && d.timing;
+    if (!t) return '';
+    var base = timingPick(t, 'base'), stretch = timingPick(t, 'stretch');
+    var parts = [];
+    if (base) {
+      parts.push(full
+        ? '<strong>Base case' + (rollingOpen(d) ? ' for a CHFA round' : '') + ':</strong> ' + esc(base.label) + ', letter of intent ' + esc(base.loi) + ', application ' + esc(base.deadline) + ' (estimate).' +
+          (stretch ? ' <strong>Stretch:</strong> ' + esc(stretch.label) + ', letter of intent ' + esc(stretch.loi) + ', only if the conditions under Timing are met.' : '')
+        : (rollingOpen(d) ? 'for a CHFA round, ' : '') + 'base case ' + esc(base.label) + ', application ' + esc(base.deadline) + (stretch ? '; ' + esc(stretch.label) + ' only as a stretch' : '') + ' (estimate).');
+    } else if (stretch) {
+      parts.push(full
+        ? '<strong>No CHFA round is far enough out for a base case.</strong> <strong>Stretch:</strong> ' + esc(stretch.label) + ', letter of intent ' + esc(stretch.loi) + ', only if the conditions under Timing are met (estimate).'
+        : 'no CHFA round is far enough out for a base case; ' + esc(stretch.label) + ' only as a stretch (estimate).');
+    }
+    if (t.rolling4 && (rollingOpen(d) || !base)) {
+      parts.push(full
+        ? '<strong>4% bonds without state credit:</strong> ' + link(t.rolling4.name, t.rolling4.url) + ' has no round, so this route need not wait for one.'
+        : (parts.length ? 'A 4% bond deal without state credit need not wait: ' : '4% bonds without state credit: ') + link(t.rolling4.name, t.rolling4.url) + ' has no round.');
+    }
+    return parts.join(' ');
   }
 
   function timingPick(t, reading) {

@@ -107,7 +107,7 @@
     },
     no_local_money: function (m) {
       if (m.policy.funds.length || m.policy.fees.length) return null;
-      return { vars: {}, evidence: 'No local housing fund or fee relief is on file for ' + m.name + ' or its county.', source: m.policy.sources.join(', ') };
+      return { vars: {}, evidence: 'No local housing fund or fee relief is on file for ' + m.name + (m.kind === 'county' ? '' : ' or its county') + '.', source: m.policy.sources.join(', ') };
     },
     land_banked: function (m) {
       var lb = m.prop123.landBanking;
