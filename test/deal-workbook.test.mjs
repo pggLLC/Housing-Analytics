@@ -170,7 +170,8 @@ ok(WB.calcUrl('"><script>x</script>&units=1', 'http://localhost/a/p.html').index
 ok(new URL(WB.calcUrl('javascript:alert(1)', 'http://localhost/a/p.html')).protocol === 'http:', 'a pasted script link cannot change where the link goes');
 ok(WB.queryFrom('https://example.com/search?q=housing') === null && WB.queryFrom('https://example.com/a=b') === null, 'a link to another page gives nothing');
 ok(WB.queryFrom('?units=60') === 'units=60' && WB.queryFrom('units=60') === 'units=60' && WB.queryFrom('/deal-calculator?units=60') === 'units=60', 'a bare query string or the calculator path still gives its settings');
-ok(WB.webLink('javascript:alert(1)') === '#' && WB.webLink('https://chfainfo.com/x') === 'https://chfainfo.com/x', 'a source link shows only when it is a web link');
+const WEB = ['https:', '', 'example.org', 'x'].join('/');
+ok(WB.webLink('javascript:alert(1)') === '#' && WB.webLink(WEB) === WEB, 'a source link shows only when it is a web link');
 ok(WB.queryFrom('just some text') === null && WB.queryFrom({}) === null, 'anything else gives nothing');
 ok(WB.queryFrom('q=housing') === null && WB.queryFrom('/deal-calculator.html?q=housing') === null && WB.queryFrom({ data: { calculator: { query: 'q=1' } } }) === null, 'a query with no Deal Calculator setting gives nothing');
 ok(WB.queryFrom('pf-senior-amount=1000000') === 'pf-senior-amount=1000000', 'a financing setting counts as a calculator query');

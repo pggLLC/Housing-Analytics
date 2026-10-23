@@ -1050,7 +1050,7 @@
       '<label class="sr-field" for="wbCKind">Type<select id="wbCKind"><option value="market">Market rate</option><option value="tax credit">Tax credit</option><option value="other">Other</option></select></label>' +
       field('wbCAddr', 'Address') + numIn('wbCLat', 'Latitude', ' step="any"') + numIn('wbCLon', 'Longitude', ' step="any"') + numIn('wbCYear', 'Year built', ' step="1"') + numIn('wbCUnits', 'Homes', ' step="1"') + '</div><div class="sr-row">' +
       COMP_BEDS.map(function (bd) { return numIn('wbCR' + bd[0], bd[1] + ' rent', ' step="1" class="sr-small"'); }).join('') + numIn('wbCVac', 'Vacancy %', ' step="any" class="sr-small"') + '</div><div class="sr-row">' +
-      field('wbCConc', 'Concessions') + field('wbCChecked', 'Date checked', 'date', ' value="' + today + '"') + field('wbCSrc', 'Source link', 'url', ' placeholder="https://"') + '</div>' +
+      field('wbCConc', 'Concessions') + field('wbCChecked', 'Date checked', 'date', ' value="' + today + '"') + field('wbCSrc', 'Source link', 'url', ' placeholder="Web address"') + '</div>' +
       '<button type="button" class="sr-btn" id="wbCAdd">Add comparable</button></details>' +
       '<details class="wb-form"><summary>Waitlist counts</summary><p class="sr-muted">Totals only. Do not type names or any applicant details.</p><div class="sr-row">' +
       field('wbWKeeper', 'Who keeps the list') + field('wbWAsOf', 'As of', 'date') + numIn('wbWTotal', 'Households on the list', ' step="1"') + '</div>' +
@@ -1059,7 +1059,7 @@
       '</tbody></table></div></details>' +
       '<details class="wb-form"><summary>Rent and vacancy survey</summary><div class="sr-row">' + field('wbSRegion', 'Survey region') + field('wbSPeriod', 'Quarter', 'text', ' placeholder="2026 Q1"') + numIn('wbSRent', 'Average rent', ' step="1"') + numIn('wbSVac', 'Vacancy %', ' step="any"') + '</div>' +
       [0, 1, 2].map(function (i) { return '<div class="sr-row">' + field('wbST' + i, 'Unit type') + numIn('wbSTR' + i, 'Rent', ' step="1"') + numIn('wbSTV' + i, 'Vacancy %', ' step="any"') + '</div>'; }).join('') +
-      '<div class="sr-row">' + field('wbSSrc', 'Source link', 'url', ' placeholder="https://"') + '</div></details>' +
+      '<div class="sr-row">' + field('wbSSrc', 'Source link', 'url', ' placeholder="Web address"') + '</div></details>' +
       '<p><button type="button" class="sr-primary" id="wbResSave">Save research</button> <span id="wbResStatus" role="status"></span></p></section>';
 
     var val = function (id) { var el = $(id); return el ? el.value.trim() : ''; };
