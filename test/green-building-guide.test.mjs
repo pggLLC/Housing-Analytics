@@ -113,6 +113,13 @@ assert(qapChecked >= 10, 'QAP quote scan is vacuous');
   if (/lengthen/.test(ecm.finding)) assert(!qapText.draft.includes(`at least ${lead[1]} days prior to the Housing Tax Credit Application`), 'uap-ecm-timing: the Third Draft keeps the same lead time; drop the "lengthen" sentence');
 }
 assert(!qapText.current.includes('PHIUS/PHI or EGC+'), 'the plan in force now names EGC+; reword qap-higher-programs-draft');
+// The "without EGC+" claim holds only while the plan in force's list leaves it out.
+{
+  const cur = /To achieve a higher level of energy performance, the project must obtain additional certification under programs such as ([^.]*)\./.exec(qapText.current);
+  assert(cur, 'the plan in force no longer lists its higher programs; re-read qap-higher-programs-current');
+  assert(!/EGC\+|Green Communities Plus/.test(cur[1]), 'the plan in force now names EGC+; reword qap-higher-programs-current');
+  for (const p of ['DOE Efficient New Homes', 'PHIUS', 'PHI']) assert(cur[1].includes(p), `the plan in force no longer names ${p}`);
+}
 
 // ── 4. The rendered page ───────────────────────────────────────────────────
 const dom = new JSDOM(read(PAGE), { runScripts: 'outside-only', url: `http://localhost/${PAGE}` });
@@ -284,6 +291,8 @@ const CLAIMS = {
   'hub-resource-finder': [['utility provider', 'utility provider'], ['not exhaustive', 'non-exhaustive']],
   'hub-master-meter': [['billing', 'billing function'], ['upkeep of the submeters', 'maintaining the submetering system']],
   'xcel-mfbe': [['free in-unit products', 'free energy-saving products in each unit']],
+  'hub-retrofit-risk': [['rate class', 'alter utility tariffs'], ['between owner and residents', 'allocated between owners and residents'], ['main limit', 'primary constraint'], ['feeders', 'distribution feeders'], ["apartment's panel", 'dwelling unit panels'], ['utility service', 'main utility service']],
+  'qap-higher-programs-current': [['doe efficient new homes', 'doe efficient new homes'], ['phius', 'phius'], ['phi,', 'phi.'], ['without egc+', 'phius, phi.']],
   'hb22-1362-rural': [['significantly assists', 'grant that significantly assists in energy code adoption and enforcement training'], ['accepting applications', 'is accepting applications'], ['thirty thousand', 'less than thirty thousand']],
   'sfa-court-rulings': [['district of columbia', 'district of columbia on tuesday ruled'], ['arbitrary and capricious', 'arbitrary and capricious'], ['all solar for all grants', 'cancellation of all solar for all grants'], ['rhode island', 'rhode island'], ['procedurally unlawful', 'procedurally unlawful'], ['appeal', 'considering options for appeal'], ['dismissed in january', 'dismissed in january']],
 };
@@ -306,6 +315,12 @@ assert(!/NGBS/.test(rec('hub-energystar-cost').title) || /NGBS/.test(rec('hub-en
 // Every utility the Resource Finder card names is quoted from the finder.
 for (const co of rec('hub-resource-finder').finding.match(/(?:Poudre Valley REA|United Power|Holy Cross Energy|[A-Z][\w-]*(?: [A-Z][\w-]*)* (?:Electric|Power) (?:Association|Cooperative)|San Luis Valley Rural Electric Cooperative)/g) || []) {
   assert(rec('hub-resource-finder').quotes.includes(co), `hub-resource-finder: names ${co}, which no quote shows`);
+}
+// The first time the page names CHFA, it spells it out.
+{
+  const body = norm(w.document.querySelector('main').textContent);
+  const i = body.indexOf('CHFA');
+  assert(i > 0 && /Colorado Housing and Finance Authority \($/.test(body.slice(Math.max(0, i - 40), i)), 'the first CHFA on the page must be spelled out');
 }
 // The header's check date is the data's, not a hand-typed one.
 assert(!/checked (?:January|February|March|April|May|June|July|August|September|October|November|December) \d/.test(w.document.querySelector('.page-meta').textContent.replace(/Oldest source check:.*$/s, '')), 'the page header hand-types a check date; let the data fill it');

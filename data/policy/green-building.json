@@ -186,13 +186,30 @@
       "qap_section": "Section 8.A (Third Draft)",
       "review_by": "2026-12-15",
       "title": "Higher programs CHFA names",
-      "finding": "DOE Efficient New Homes, Phius or PHI Passive House, and, new in the Third Draft, Enterprise Green Communities Plus (EGC+). The plan in force names the first three.",
+      "finding": "DOE Efficient New Homes, Phius or PHI Passive House, and, new in the Third Draft, Enterprise Green Communities Plus (EGC+).",
       "quotes": [
         "To achieve a higher level of energy performance, the project must obtain certification under programs such as DOE Efficient New Homes, PHIUS/PHI or EGC+."
       ],
       "last_verified": "2026-10-23",
       "source_url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
       "source_title": "2027-28 QAP, Third Draft (posted September 11, 2026; not adopted)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "qap-higher-programs-current",
+      "section": "requirements",
+      "kind": "qap",
+      "qap_doc": "current",
+      "qap_section": "Section 8.A",
+      "title": "Higher programs in the plan in force",
+      "finding": "The plan in force names DOE Efficient New Homes, PHIUS and PHI, without EGC+.",
+      "quotes": [
+        "To achieve a higher level of energy performance, the project must obtain additional certification under programs such as DOE Efficient New Homes, PHIUS, PHI."
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
       "publisher": "CHFA"
     },
     {
@@ -483,9 +500,12 @@
       "section": "deal",
       "kind": "rule",
       "title": "Electrifying an existing building can raise bills",
-      "finding": "In a retrofit, new loads can change the rate class and raise monthly costs, and can move costs between owner and residents. Check panel, feeder and transformer capacity first.",
+      "finding": "In a retrofit, new loads can change the rate class and raise monthly costs, and can move costs between owner and residents. Electrical capacity is often the main limit, at the utility service, the distribution feeders and each apartment's panel, so check capacity at each level first.",
       "quotes": [
-        "changes in load profiles can alter utility tariffs and increase monthly expenses. In addition, electrification can shift how energy costs are allocated between owners and residents."
+        "changes in load profiles can alter utility tariffs and increase monthly expenses. In addition, electrification can shift how energy costs are allocated between owners and residents.",
+        "Electrical capacity is often the primary constraint when evaluating electrification in existing multifamily buildings.",
+        "Capacity limitations can occur at multiple levels of the electrical distribution system, from the main utility service to distribution feeders and individual dwelling unit panels.",
+        "At each level, total connected and coincident loads must remain below the rated capacity of the equipment."
       ],
       "source_url": "https://multifamily-ehub.chfainfo.com/utility-metering",
       "source_title": "Utility Metering (Retrofits)",
