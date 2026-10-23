@@ -60,7 +60,8 @@ const B25075_BINS = [
 ];
 
 const OWNERSHIP_AFFORD = {
-  rateAnnual: 0.065,
+  // The builder's rate is the one dated MORTGAGE_RATE; read it, don't copy it.
+  rateAnnual: require('../js/hna/ownership-finance.js').MORTGAGE_RATE.rateAnnual,
   termYears: 30,
   downPaymentPct: 0.10,
   propertyTaxPctAnnual: 0.0065,

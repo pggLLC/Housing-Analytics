@@ -3404,7 +3404,7 @@
 
       <!-- L6 — Year-15 exit analysis. Closes the IC packet: resale value
            at hold-period end, remaining debt balances, net sale proceeds,
-           deferred-fee payback timing, sponsor IRR. -->
+           deferred-fee payback timing, return on the deferred fee. -->
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Year-15 Exit Analysis</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
@@ -3432,11 +3432,11 @@
           <dd id="dc-exit-mortbal" style="margin:0;text-align:right;font-weight:700;">—</dd>
           <dt style="color:var(--muted);">Remaining soft-loan balance</dt>
           <dd id="dc-exit-softbal" style="margin:0;text-align:right;font-weight:700;">—</dd>
-          <dt style="color:var(--muted);font-weight:700;border-top:1px solid var(--border);padding-top:6px;">Net sale proceeds</dt>
+          <dt style="color:var(--muted);font-weight:700;border-top:1px solid var(--border);padding-top:6px;">Net sale proceeds (before selling costs)</dt>
           <dd id="dc-exit-net" style="margin:0;text-align:right;font-weight:700;color:var(--good,#047857);border-top:1px solid var(--border);padding-top:6px;">—</dd>
           <dt style="color:var(--muted);">Deferred fee payback year</dt>
           <dd id="dc-exit-defyr" style="margin:0;text-align:right;font-weight:700;">—</dd>
-          <dt style="color:var(--muted);">Sponsor IRR (incl. exit)</dt>
+          <dt style="color:var(--muted);">Return on the deferred fee, incl. exit (stand-in for sponsor return)</dt>
           <dd id="dc-exit-irr" style="margin:0;text-align:right;font-weight:700;color:var(--accent);">—</dd>
         </dl>
         <p id="dc-exit-notes" style="font-size:var(--tiny);color:var(--muted);margin:var(--sp2) 0 0;line-height:1.5;"></p>
@@ -5439,14 +5439,18 @@
       var notesEl = document.getElementById('dc-exit-notes');
       if (notesEl) {
         var notes = [];
-        notes.push('Year-' + holdYears + ' NOI grown at ' + (rentGrowth * 100).toFixed(1) +
-                   '%/yr rent and ' + (expGrowth * 100).toFixed(1) + '%/yr expense inflation.');
+        notes.push('Year-' + holdYears + ' NOI with rents changing ' + (rentGrowth * 100).toFixed(1) +
+                   '%/yr and ' + (expGrowth * 100).toFixed(1) + '%/yr expense inflation.');
         if (isFinite(resale)) {
           notes.push('Resale capitalizes NOI at ' + (exitCap * 100).toFixed(2) + '% exit cap.');
         }
+        if (isFinite(netProceeds)) {
+          // No public source gives a default selling cost, so none is invented.
+          notes.push('Net sale proceeds are before selling costs (broker, transfer and closing costs are not subtracted).');
+        }
         if (isFinite(irr)) {
-          notes.push('IRR proxies sponsor equity = deferred dev fee (' + fmt(deferredDevFee) +
-                     '). Excludes GP predev/upfront equity not modeled here.');
+          notes.push('The return treats the deferred developer fee (' + fmt(deferredDevFee) +
+                     ') as the sponsor\'s only money in. It is not the sponsor\'s full return: predevelopment spending, GP equity and other distributions are not collected here.');
         }
         notesEl.textContent = notes.join(' ');
       }

@@ -515,6 +515,17 @@ price    = budget / k                              (0 if budget ≤ 0)</code>
           </table>
         </div>
 
+        <div class="col">
+          <p>
+            No model carries its own mortgage rate. All of them, and the HNA headline card and
+            narrative, use one rate: the Freddie Mac Primary Mortgage Market Survey 30-year fixed
+            average for a named week, held once as <code>MORTGAGE_RATE</code> in
+            <code>js/hna/ownership-finance.js</code> and checked against that week's FRED
+            <code>MORTGAGE30US</code> reading. The rate and its week are printed beside the figures
+            that use it. It is a national average, not a quote a Colorado buyer would get.
+          </p>
+        </div>
+
         <div class="mx-warn">
           <span class="tag">A third parameter set exists</span>
           <p>
