@@ -4,7 +4,7 @@
 // Appendix A, section 7): renter households whose income is at or under the
 // unit's AMI limit, high enough that the maximum tax-credit rent is no more
 // than 40% of income, and whose size fits a 1-3 bedroom unit. CHFA's one
-// published line is 85% (QAP section 2.B).
+// line is 85%, from its 2027-28 draft QAP (the 2025-26 QAP sets no number).
 //
 // Usage: node test/pma-chfa-qualified-renters.test.js
 

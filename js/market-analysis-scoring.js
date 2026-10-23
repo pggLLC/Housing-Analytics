@@ -21,9 +21,10 @@
   };
 
   var RISK = {
-    // CHFA QAP 2025-2026 section 2.B: capture rates above 85 percent are not
-    // accepted without additional data to support demand. Same number as
-    // CHFA_CAPTURE_LIMIT below.
+    // 85 percent: CHFA's 2027-28 draft QAP (third draft, criteria for
+    // approval) says capture rates above it "will not be accepted without
+    // additional data to support demand". The 2025-26 QAP, in force through
+    // 2026, sets no number. Same number as CHFA_CAPTURE_LIMIT below.
     captureHigh:       0.85,
     costBurdenHigh:    0.45,
     rentPressureElev:  1.10
@@ -72,7 +73,7 @@
     }
 
     var capture = (existingUnits + proposedUnits) / qualRenters;
-    // 100 with no units; 0 at CHFA's 85 percent line.
+    // 100 with no units; 0 at the 85 percent line (CHFA 2027-28 draft QAP).
     var score = Math.max(0, Math.min(100, (1 - capture / RISK.captureHigh) * 100));
     return {
       score: Math.round(score),
@@ -174,8 +175,9 @@
    * a renter household counts toward a unit when its income is at or below
    * the unit's AMI limit, the maximum Housing Tax Credit gross rent is no
    * more than 40 percent of its income, and it is no larger than the unit
-   * allows. A required capture (penetration) rate above 85 percent "will not
-   * be accepted without additional data to support demand" (QAP 2.B).
+   * allows (all in the 2025-26 QAP's Appendix A). The 85 percent line is
+   * from the 2027-28 draft QAP: capture rates above it "will not be accepted
+   * without additional data to support demand".
    */
   var CHFA_RENT_SHARE_OF_INCOME = 0.40;
   var CHFA_MAX_OCCUPANTS = { '1br': 2, '2br': 3, '3br': 5 };

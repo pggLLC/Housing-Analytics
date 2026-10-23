@@ -92,6 +92,13 @@ test('a mixed-tier project shows each tier\'s own capture beside the overall rat
   assert.strictEqual(line({ tiers: [60], byTier: { 60: 500 } }, { ami60: 100 }), '', 'one tier needs no breakdown');
 });
 
+test('the 85% check counts tax-credit units only and cites the draft QAP, not the 2025-26 QAP', () => {
+  assert(/simulateCapture\(simDen\.value, proposed, amiMix, result && result\.lihtcUnits, penPool\)/.test(src),
+    'the simulator check does not use the tax-credit unit count');
+  assert(/scenDen\.penetrationValue,\s*result\.lihtcUnits/.test(src), 'the scenario check does not use the tax-credit unit count');
+  assert(!/QAP 2\.B|QAP section 2\.B/.test(src), 'the page still cites the 2025-26 QAP for the 85% line');
+});
+
 test('without CHFA-rule counts the project pool is the one denominator', () => {
   const r = { captureDenominator: { value: 598, source: 'chas_lihtc_eligible' } };
   assert.deepStrictEqual(projectCaptureDenominator(r), captureDenominator(r));

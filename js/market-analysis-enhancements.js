@@ -257,11 +257,14 @@
    * @param {Function} [scorer] - units -> computePma result with the
    *   headline's inputs (market-analysis.js _scenarioScorer).
    * @param {number} [penetrationDenominator] - renters qualified for any
-   *   tax-credit tier, for the CHFA 85% check on existing + proposed units;
+   *   tax-credit tier, for the 85% check (CHFA 2027-28 draft QAP) on existing + proposed units;
    *   the capture denominator when absent.
+   * @param {number} [checkExistingUnits] - existing tax-credit units for that
+   *   check (CHFA's table counts tax-credit units only); existingUnits when
+   *   absent.
    * @returns {Array} scenarioResults
    */
-  function generateScenarios(acs, existingUnits, scenarioList, denominator, scorer, penetrationDenominator) {
+  function generateScenarios(acs, existingUnits, scenarioList, denominator, scorer, penetrationDenominator, checkExistingUnits) {
     if (!acs || !acs.renter_hh) return [];
     var den = Number(denominator) > 0 ? Number(denominator) : acs.renter_hh;
 
@@ -275,7 +278,7 @@
       // scorer: computePma bound to the headline's own inputs, so the
       // no-project row equals the PMA score (audit F2).
       var pma     = typeof scorer === 'function' ? scorer(units) : computePma(acs, existingUnits, units);
-      var capture = simulateCapture(den, units, amiMix, existingUnits, penetrationDenominator);
+      var capture = simulateCapture(den, units, amiMix, checkExistingUnits != null ? checkExistingUnits : existingUnits, penetrationDenominator);
 
       return {
         label:        scenario.label || (units + ' units'),

@@ -1372,7 +1372,7 @@
       // affordable penetration alone, not a capture rate for any project.
       flags.push({ level: 'warn', text: 'High ' + MEASURE_NAMES.penetration.toLowerCase() +
         (proposedUnits > 0 ? ' including the ' + proposedUnits + ' proposed units' : '') +
-        ' (above ' + Math.round(RISK.captureHigh * 100) + '% of qualified renters, the line above which CHFA asks for more demand data)' });
+        ' (above ' + Math.round(RISK.captureHigh * 100) + '% of qualified renters)' });
     }
     if (!rentPressureObj.unavailable && rentPressureObj.ratio >= RISK.rentPressureElev) {
       flags.push({ level: 'warn', text: 'Elevated rent pressure (market ÷ affordable ≥ 1.10)' });
@@ -1476,7 +1476,7 @@
           ? 'Existing affordable units divided by renter households that qualify for a tax-credit unit at 20-80% AMI under CHFA market-study rules ' +
             '(income limit by household size, rent no more than 40% of income, household fits a 1-3 bedroom unit). ' +
             'Tract counts from HUD CHAS ' + _chfaMeta('chas') + '; size and income mix from ACS ' + _chfaMeta('pums') + ' PUMS. ' +
-            'Scored against CHFA\'s 85% line.'
+            'Scored against 85%, the capture line in CHFA\'s 2027-28 draft QAP (the 2025-26 QAP sets no number).'
           : captureObj.denominatorSource === 'chas_lihtc_eligible'
           ? 'Ratio of total affordable units to LIHTC-eligible renter HH (≤80% AMI from CHAS ' +
             (chasData && chasData.meta && chasData.meta.vintage ? chasData.meta.vintage : '?') +
@@ -1545,9 +1545,10 @@
     if (totalProposed > 0) proposedUnits = totalProposed;
     var capture = qualRenters > 0 ? proposedUnits / qualRenters : 0;
     var captureRate = Math.round(capture * 1000) / 10; // pct, 1 decimal
-    // CHFA's check is penetration: existing + proposed units over the same
-    // qualified renters, with 85% the line above which CHFA asks for more
-    // demand data (QAP 2.B). CHFA sets no middle band. The pool is the
+    // CHFA's check is penetration: existing + planned + proposed tax-credit
+    // units over qualified renters (Appendix A demand table). 85% is the line
+    // in CHFA's 2027-28 draft QAP above which it asks for more demand data;
+    // the 2025-26 QAP sets no number, and neither sets a middle band. The pool is the
     // penetration pool when the page has one, else the capture pool.
     var penDen = penetrationPool > 0 ? penetrationPool : qualRenters;
     var penetration = penDen > 0 ? ((existingUnits || 0) + proposedUnits) / penDen : 0;
@@ -1556,7 +1557,7 @@
       proposedUnits: proposedUnits, captureRate: captureRate,
       penetrationRate: Math.round(penetration * 1000) / 10,
       risk: over ? 'High' : 'Low',
-      riskLabel: over ? 'Over CHFA 85%' : 'Under CHFA 85%'
+      riskLabel: over ? 'Over 85% (CHFA draft)' : 'Under 85% (CHFA draft)'
     };
   }
 
@@ -2593,7 +2594,8 @@
       simEl.dataset.denominator = '0';
       return;
     }
-    var sim = simulateCapture(simDen.value, proposed, amiMix, result && result.affordableUnitsKnown, penPool);
+    // CHFA's table counts tax-credit units only, not HUD, USDA or PBV units.
+    var sim = simulateCapture(simDen.value, proposed, amiMix, result && result.lihtcUnits, penPool);
     simEl.dataset.denominator = String(simDen.value);
     simEl.innerHTML =
       '<div class="pma-stat-grid">' +
@@ -2601,7 +2603,7 @@
         '<div class="pma-stat"><div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + ' rate</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
-          sim.riskLabel + '</div><div class="pma-stat-label">Existing (incl. funded, not yet open) + proposed units: ' + sim.penetrationRate + '% of ' +
+          sim.riskLabel + '</div><div class="pma-stat-label">Tax-credit units (existing, incl. funded not yet open) + proposed: ' + sim.penetrationRate + '% of ' +
           (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' : 'the same renters') + '</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
       '</div>' + _tierCaptureLine(simDen, amiMix);
@@ -2725,7 +2727,8 @@
       scenarioList,
       scenDen.value,
       _scenarioScorer,
-      scenDen.penetrationValue
+      scenDen.penetrationValue,
+      result.lihtcUnits
     ) : [];
     el2.dataset.denominator = scenDen ? String(scenDen.value) : '';
     lastScenarios = scenarios;
@@ -2753,7 +2756,7 @@
           '<th style="text-align:left;padding:0.2rem 0.5rem;color:var(--faint)">Scenario</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">PMA Score</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">' + MEASURE_NAMES.capture + ' rate</th>' +
-          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">CHFA 85% check</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">85% check (CHFA 2027-28 draft QAP)</th>' +
         '</tr></thead><tbody>' + rows + '</tbody></table>' +
       '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">' + '<span data-methodology-key="project-capture">' + MEASURE_NAMES.capture + ' methodology</span>. Demand pool: ' + (scenDen ? scenDen.label : 'unavailable') + '. Not the ' + MEASURE_NAMES.penetration.toLowerCase() + ' above, which divides existing units.</p>';
   }
