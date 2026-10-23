@@ -238,6 +238,80 @@ def test_headlines_that_are_not_about_housing_are_left_out(geos):
     }
 
 
+def test_crime_weather_and_border_stories_are_left_out(geos):
+    # paul, 2026-10-22: each of these reached Housing News.
+    stories, _ = gpb.build_stories([
+        alert('Trump asks US Supreme Court to allow Big Bend border wall construction', 'Reuters'),
+        alert('Man arrested on suspicion of setting fires near Pueblo apartments', 'Colorado Springs Gazette'),
+        alert('Some of Colorado should see a snowier-than-average winter; find out how Denver will stack up',
+              'CBS News'),
+        alert('Fire at abandoned building on Platte Avenue under investigation', 'Colorado Springs Gazette'),
+        alert('Shooting leads to shelter-in-place in Colorado Springs neighborhood', 'Colorado Springs Gazette'),
+        alert('Water bill with funding for Colorado projects passes the House', 'Colorado Public Radio'),
+        # A housing word still keeps a story with one of those words in it.
+        alert('Colorado denied additional FEMA aid for Aspen Acres Fire recovery', 'Pueblo Chieftain'),
+        alert("Colorado's largest data center could rise next to homes", 'Colorado Newsline'),
+        alert('Pueblo apartment fire displaces 40 renters', 'Pueblo Chieftain'),
+        alert('US Homebuilder Sentiment Drops to 14-Year Low on Weak Sales', 'Bloomberg.com'),
+        alert('US Homebuilder Sentiment Crashes to 14-Year Low', 'Reuters', date='2026-08-01'),
+        alert('Colorado approves new data center development near Aurora', 'The Denver Post'),
+        alert('Crash closes Highway 50 near Salida', 'Ark Valley Voice'),
+        # Market language, not weather or a fire (Codex review of #2459).
+        alert('Builders forecast fewer single-family starts next year', 'Reuters', date='2026-08-02'),
+        alert('Home prices are on fire as inventory tightens', 'Reuters', date='2026-08-03'),
+        alert('Pueblo apartment complex is on fire', 'Pueblo Chieftain'),
+        alert('Snowmass Village development breaks ground', 'Aspen Daily News'),
+        alert('Winter Park approves workforce neighborhood development', 'Sky-Hi News'),
+        alert('Judges approve courthouse construction', 'The Denver Post'),
+        alert('US homebuilder fires 100 workers as sales slump', 'Reuters', date='2026-08-04'),
+        alert('US building permits crash to 10-year low', 'Reuters', date='2026-08-05'),
+        alert('Former police station converted into 40 apartments', 'Pueblo Chieftain'),
+        alert('Most Americans want to halt all data center construction', 'The Washington Post'),
+        alert('Fire destroys apartment construction site', 'Reuters', date='2026-08-06'),
+        alert('US border wall construction costs rise', 'Reuters', date='2026-08-07'),
+        alert('Denver funds winter shelter expansion', 'Denverite'),
+        alert('New fire code requires sprinklers in Denver apartment buildings', 'Denver7'),
+    ], geos)
+    assert set(by_title(stories)) == {
+        'Water bill with funding for Colorado projects passes the House',
+        'Colorado denied additional FEMA aid for Aspen Acres Fire recovery',
+        "Colorado's largest data center could rise next to homes",
+        'Pueblo apartment fire displaces 40 renters',
+        'US Homebuilder Sentiment Drops to 14-Year Low on Weak Sales',
+        'US Homebuilder Sentiment Crashes to 14-Year Low',
+        'Builders forecast fewer single-family starts next year',
+        'Home prices are on fire as inventory tightens',
+        'Snowmass Village development breaks ground',
+        'Winter Park approves workforce neighborhood development',
+        'US homebuilder fires 100 workers as sales slump',
+        'US building permits crash to 10-year low',
+        'Former police station converted into 40 apartments',
+        'Denver funds winter shelter expansion',
+        'New fire code requires sprinklers in Denver apartment buildings',
+    }
+
+
+def test_a_reworded_headline_from_the_same_outlet_is_one_story(geos):
+    stories, _ = gpb.build_stories([
+        alert('Treasury Yields Fall on String of Weak Housing Data', 'WSJ', date='2026-10-20'),
+        alert('Treasury Yields Edge Lower Amid String of Weak Housing Data', 'WSJ', date='2026-10-20'),
+        # Two outlets, two federal actions.
+        alert('HUD cuts housing voucher funding', 'Reuters', date='2026-10-20'),
+        alert('HUD expands housing voucher eligibility', 'AP News', date='2026-10-20'),
+        # One outlet, two federal actions.
+        alert('HUD trims housing voucher budget', 'Reuters', date='2026-10-20'),
+        alert('HUD cuts housing voucher funding for veterans', 'Bloomberg.com', date='2026-10-20'),
+        alert('HUD expands housing voucher funding for families', 'Bloomberg.com', date='2026-10-20'),
+        alert('HUD raises mortgage insurance premiums', 'AP News', date='2026-10-20'),
+        alert('HUD cuts mortgage insurance premiums', 'AP News', date='2026-10-20'),
+        alert('HUD approves affordable housing grants for veterans', 'NPR', date='2026-10-20'),
+        alert('HUD approves affordable housing grants for seniors', 'NPR', date='2026-10-20'),
+        alert('HUD approves housing voucher program', 'The Economist', date='2026-10-20'),
+        alert('HUD extends housing voucher program', 'The Economist', date='2026-10-20'),
+    ], geos)
+    assert len(stories) == 12
+
+
 def test_an_indirect_housing_headline_stays(geos):
     stories, _ = gpb.build_stories([
         alert("Hope is at the core of organization\u2019s purpose | NONPROFIT REGISTER", 'Colorado Politics'),

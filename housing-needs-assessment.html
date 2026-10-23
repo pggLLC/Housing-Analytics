@@ -138,6 +138,7 @@
   <script src="js/components/capital-partners.js"></script>
   <script src="js/components/tax-abatement.js"></script>
   <script src="js/components/chfa-award-history.js"></script>
+  <script defer src="js/components/place-deals-limits.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
   <script src="js/components/second-homes-panel.js"></script>
@@ -821,6 +822,13 @@
         </details>
       </div>
 
+      <!-- CHFA 2026 rent and income limits for the picked county (js/components/place-deals-limits.js). -->
+      <section class="chart-card span-12" id="chfaLimitsSection" aria-labelledby="chfaLimitsH">
+        <h2 id="chfaLimitsH">CHFA 2026 rent and income limits</h2>
+        <p>The maximum rents and incomes a tax credit or CHFA-financed rental can use in this county, by AMI tier, from CHFA's published 2026 tables.</p>
+        <div id="chfaLimitsMount" data-chfa-limits><p style="color:var(--muted)">Loading CHFA limits…</p></div>
+      </section>
+
       <!-- F158 — Rent triangulation: HUD FMR vs ACS median gross rent vs
            Zillow ZORI asking rent. Shows the lease-up premium (gap between
            existing-tenant ACS and new-lease ZORI) which is the single most
@@ -1157,6 +1165,13 @@
           </div>
         </div>
       </div>
+
+      <!-- Awarded deals with a sourced write-up in the picked county (js/components/place-deals-limits.js). -->
+      <section class="chart-card span-12" id="placeDealsSection" aria-labelledby="placeDealsH">
+        <h2 id="placeDealsH">Awarded tax credit deals in this county</h2>
+        <p>Recent CHFA awards here that have a sourced write-up: what was built or planned, for whom, and where each one stands.</p>
+        <div id="placeDealsMount" data-place-deals><p style="color:var(--muted)">Loading awarded deals…</p></div>
+      </section>
 
       <!-- ── Extended HNA Analysis ── -->
       <!-- Income Distribution -->
