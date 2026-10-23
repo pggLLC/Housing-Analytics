@@ -5843,16 +5843,16 @@
         '</table>' +
       '</div>' +
       '</details>' +
-      '<details style="margin-top:1rem;border-top:1px solid var(--border);padding-top:.7rem;">' +
-        '<summary style="cursor:pointer;font-size:1rem;color:var(--muted);font-weight:700;">What to verify next</summary>' +
-        '<p style="font-size:1rem;color:var(--muted);line-height:1.5;margin:.55rem 0;">Before using this for a project decision, verify local sales prices, HOA costs, mortgage assumptions, down-payment assistance, household size, employer demand, household readiness, and local deed-restriction policy. <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md" style="color:var(--accent);">Read the methodology</a>.</p>' +
-        (caveats ? '<ul style="margin:.4rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:1rem;line-height:1.45;">' + caveats + '</ul>' : '') +
-      '</details>' +
       // County and place cost burden both come from the CHAS 2018–2022 release
       // (place figures apportioned from tracts; see data/hna/place-chas.json).
       '<p class="chart-source">Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS 2018–2022</a> (' + escHtml(source) + ')' +
         (home && home.source ? ' · home values: ' + escHtml(home.source) : '') +
-        ' · <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md">method</a></p>';
+        ' · <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md">method</a></p>' +
+      '<details style="margin-top:1rem;border-top:1px solid var(--border);padding-top:.7rem;">' +
+        '<summary style="cursor:pointer;font-size:1rem;color:var(--muted);font-weight:700;">What to verify next</summary>' +
+        '<p style="font-size:1rem;color:var(--muted);line-height:1.5;margin:.55rem 0;">Before using this for a project decision, verify local sales prices, HOA costs, mortgage assumptions, down-payment assistance, household size, employer demand, household readiness, and local deed-restriction policy. <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md" style="color:var(--accent);">Read the methodology</a>.</p>' +
+        (caveats ? '<ul style="margin:.4rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:1rem;line-height:1.45;">' + caveats + '</ul>' : '') +
+      '</details>';
     if (window.OwnershipDecisionChain && typeof window.OwnershipDecisionChain.render === 'function') {
       window.OwnershipDecisionChain.render(document.getElementById('hnaOwnershipDecisionChain'), result, {
         dealCalculator: window.__DealCalc,

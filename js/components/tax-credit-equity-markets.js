@@ -161,10 +161,18 @@
           '<td>' + esc(entry.credit_type || entry.scope) + '</td>' +
           '<td>' + esc(price) + '</td>' +
           '<td><span class="' + statusClass(entry.status) + '" style="font-size:var(--tiny);">' + esc(statusLabel(entry.status)) + '</span></td>' +
-          '<td><a href="' + esc(entry.source_url) + '" target="_blank" rel="noopener">Source</a></td>' +
+          '<td><a href="' + esc(entry.source_url) + '" target="_blank" rel="noopener">Source</a> (' + esc(transferDate(entry, doc)) + ')</td>' +
         '</tr>';
       }).join('') +
       '</tbody></table>';
+  }
+
+  // Each row's own price date, else when it was last checked, else the file's.
+  function transferDate(entry, doc) {
+    var meta = (doc && doc.meta) || {};
+    if (entry.as_of) return 'as of ' + entry.as_of;
+    var checked = entry.last_verified || meta.last_verified;
+    return checked ? 'checked ' + checked : 'date unconfirmed';
   }
 
   function renderNovogradacTable(target, doc) {
