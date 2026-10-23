@@ -227,6 +227,11 @@ near(mk.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 22.5), 'the whole d
   const dm = WB.market(deep, msnap, mdata());
   near(dm.captureAll.low, 9, 'a discounted higher tier whose floor sits under a lower tier\'s sets the union\'s floor');
   near(dm.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 9), 'the union counts every renter from the lowest floor to the highest tier once'); }
+{ const mixed = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 1, rent: 700, allowance: 100, limit: 1600 }, { tier: 60, bedrooms: '1BR', units: 99, rent: 1300, allowance: 100, limit: 1400 }] }) });
+  near(WB.market(mixed, msnap, mdata()).capture[0].low, 45, 'one discounted home does not widen the range for the rest of its tier');
+  const noUa = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700, allowance: null, limit: 1600 }] }) });
+  const nu = WB.market(noUa, msnap, mdata()).capture[0];
+  ok(Math.abs(nu.low - 45) < 1e-9 && nu.atLimit === true, 'with the utility allowance unknown the range is the at-the-limit case, not a lowered floor'); }
 { const sched = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700, limit: null }] }) });
   const sm = WB.market(sched, msnap, mdata());
   ok(sm.capture[0].atLimit === true && /assumes rents at the limit/.test(WB.renderMarket(sm)), 'with no gross limit on file the range is labelled as the at-the-limit case');

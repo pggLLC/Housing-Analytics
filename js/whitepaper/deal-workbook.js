@@ -623,8 +623,8 @@
     deals: 'data/deals/index.json'                    // hand-researched CHFA award summaries, 2022 on
   };
   // Rent at the tier's limit is 30% of the tier's income ceiling. A household paying it at no more than 40% of
-  // income earns at least 30/40 = 75% of that ceiling. A home priced under its limit lowers that floor in step:
-  // gross cost at half the limit lets households from 37.5% of the tier rent it.
+  // income earns at least 30/40 = 75% of that ceiling. A tier whose homes are all priced under the limit lowers
+  // that floor in step: gross cost at half the limit lets households from 37.5% of the tier rent it.
   var MAX_RENT_SHARE = 0.40;
   var FLOOR_SHARE = 0.30 / MAX_RENT_SHARE;
   var TREND_YEARS = 5;
@@ -711,11 +711,13 @@
       m.rents.rows.forEach(function (x) {
         var t = num(x.tier); if (t == null || !x.units) return;
         unitsBy[t] = (unitsBy[t] || 0) + x.units;
-        // The tier's floor follows its lowest-priced home against the gross limit; with no limit known, the limit itself.
-        var gross = x.rent != null ? x.rent + (x.allowance || 0) + (x.fees || 0) : null;
+        // The tier's floor follows its highest-priced home against the gross limit, so no home is credited with
+        // renters who could not pay it. Without the limit or the utility allowance, the gross cost is unknown and
+        // the range is the at-the-limit case.
+        var gross = x.rent != null && x.allowance != null ? x.rent + x.allowance + (x.fees || 0) : null;
         var r = x.limit > 0 && gross != null ? Math.min(1, Math.max(0, gross / x.limit)) : null;
         if (r == null) { assumedBy[t] = true; r = 1; }
-        ratioBy[t] = ratioBy[t] == null ? r : Math.min(ratioBy[t], r);
+        ratioBy[t] = ratioBy[t] == null ? r : Math.max(ratioBy[t], r);
       });
       mk.capture = Object.keys(unitsBy).map(Number).sort(function (a, b) { return a - b; }).map(function (t) {
         var lo = t * FLOOR_SHARE * ratioBy[t], hi = rentersAtOrBelow(le, t), base = rentersAtOrBelow(le, lo);
@@ -831,8 +833,8 @@
         return { cells: [esc(c.tier + '%'), esc(c.units), esc(Math.round(c.low) + '–' + c.high + '% AMI'), esc(c.qualified == null ? '—' : Math.round(c.qualified).toLocaleString('en-US')), esc(c.capture == null ? (c.reason || '—') : pct(c.capture, 1))] };
       }).concat(mk.captureAll && mk.captureAll.capture != null ? [{ cls: 'sr-total', cells: ['All', esc(mk.captureAll.units), esc(mk.captureAll.ranges), esc(Math.round(mk.captureAll.qualified).toLocaleString('en-US')), esc(pct(mk.captureAll.capture, 1))] }] : []), { num: [1, 3, 4] });
       var lim = mk.capture.filter(function (c) { return c.atLimit; }).map(function (c) { return c.tier + '%'; });
-      if (lim.length) h += '<p class="sr-yellow">' + esc('The ' + lim.join(', ') + ' AMI range' + (lim.length === 1 ? ' assumes' : 's assume') + ' rents at the limit, because the gross limit for these rents is not on file here. Homes priced under the limit reach renters below this range, so these counts are the smallest case. Check the rent schedule in Market Analysis.') + '</p>';
-      h += '<p class="sr-muted">' + esc('A household fits a tier when its income is under the tier\'s limit and the rent is no more than 40% of its income, so from three-quarters of the limit up to the limit, or lower where a home is priced under its limit. Renter households by income: Census ACS ' + (mk.renters.year || '') + ' (table B25118), ' +
+      if (lim.length) h += '<p class="sr-yellow">' + esc('The ' + lim.join(', ') + ' AMI range' + (lim.length === 1 ? ' assumes' : 's assume') + ' rents at the limit, because the gross limit or utility allowance for these rents is not on file here. Homes priced under the limit reach renters below this range, so these counts are the smallest case. Check the rent schedule in Market Analysis.') + '</p>';
+      h += '<p class="sr-muted">' + esc('A household fits a tier when its income is under the tier\'s limit and the rent is no more than 40% of its income, so from three-quarters of the limit up to the limit, or lower where every home in the tier is priced under its limit. Renter households by income: Census ACS ' + (mk.renters.year || '') + ' (table B25118), ' +
         (mk.renters.total != null ? Math.round(mk.renters.total).toLocaleString('en-US') + ' renter households in the county, ' : '') + 'measured against HUD ' + (mk.renters.amiYear || '') + ' area median income for four people (' + money(mk.renters.ami) + '). Household size is not matched to unit size, and existing homes already serving these renters are not subtracted, so this is a first screen.') + '</p>';
     } else h += '<p class="sr-muted">' + esc(mk.captureReason) + '</p>';
     h += '</section>';
