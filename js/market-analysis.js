@@ -1004,9 +1004,12 @@
 
   var BEDROOM_INPUTS = ['pmaBr0', 'pmaBr1', 'pmaBr2', 'pmaBr3'];
   // Bedroom sizes ticked on the simulator, e.g. ['2br', '3br'].
+  // Sizes come from the box ids, never the boxes' value text, so nothing
+  // from the page is written back into the result HTML.
+  var BEDROOM_CODES = { pmaBr0: '0br', pmaBr1: '1br', pmaBr2: '2br', pmaBr3: '3br' };
   function _offeredBedrooms() {
-    return BEDROOM_INPUTS.map(el).filter(function (b) { return b && b.checked; })
-      .map(function (b) { return b.value; });
+    return BEDROOM_INPUTS.filter(function (id) { var b = el(id); return b && b.checked; })
+      .map(function (id) { return BEDROOM_CODES[id]; });
   }
   function _bedroomLabel(list) {
     return list.map(function (b) { return b === '0br' ? 'studio' : b.toUpperCase(); }).join('/');

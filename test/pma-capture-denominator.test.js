@@ -180,6 +180,13 @@ test('a tract file with no generated stamp shows no date, never today', () => {
   assert(/Data date unavailable/.test(src), 'the missing-date label is gone');
 });
 
+test('bedroom sizes come from fixed codes, not the checkbox value text', () => {
+  const m = src.match(/function _offeredBedrooms\(\) \{[\s\S]*?\n  \}/);
+  assert(m, '_offeredBedrooms() is gone');
+  assert(!/\.value/.test(m[0]), 'the size list reads page text that ends up in innerHTML');
+  assert(/BEDROOM_CODES\[id\]/.test(m[0]), 'the size list does not use the fixed codes');
+});
+
 test('unticked bedroom sizes also leave the 20-80% penetration pool', () => {
   assert(/_chfaQualifiedRenters\(simDen\.tracts, CHFA_PENETRATION_TIERS, bedrooms\)/.test(src),
     'the 85% check still uses the default 1-3BR penetration pool');
