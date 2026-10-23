@@ -191,6 +191,7 @@
       priceUnavailableReason: priceUnavailableReason,
       ladder: ladder,
       requiredIncome: requiredIncome,
+      mortgageRate: engine.MORTGAGE_RATE || null,
       requiredIncomeAmiRatio: requiredIncome != null && ami > 0 ? requiredIncome / ami : null,
       ownership: input.ownershipNeedResult || {},
       developerPrograms: relevantPrograms(datasets.developerFunding && datasets.developerFunding.programs, geo),
@@ -261,6 +262,10 @@
     var resaleBody = vm.resaleComparison && vm.resaleEngine && typeof vm.resaleEngine.renderComparisonHtml === 'function'
       ? vm.resaleEngine.renderComparisonHtml(vm.resaleComparison)
       : '<p>Resale mechanism comparison: ' + MISSING + '.</p>';
+    // The same dated rate the headline card prints, so both answers can be checked against each other.
+    var rateLine = vm.mortgageRate
+      ? '<p style="color:var(--muted);font-size:1rem;">Mortgage rate in these prices and incomes: ' + (vm.mortgageRate.rateAnnual * 100).toFixed(2) + '%, ' + esc(vm.mortgageRate.source) + '.</p>'
+      : '';
     return '<div class="hna-ownership-strategy" style="overflow-wrap:anywhere;min-width:0;">' +
       '<div style="display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap;align-items:center;"><h3 style="margin:0;font-size:1.05rem;">Ownership Strategy</h3>' + geoPill + '</div>' +
       '<p style="color:var(--muted);line-height:1.45;">Tier-1 jurisdictional screening interface — screening estimate; not a completed project market study.</p>' +
@@ -268,8 +273,8 @@
       '<p data-own-strategy-ami-ceiling-note style="margin:.45rem 0;color:var(--muted);font-size:1rem;line-height:1.45;"><strong>Price-only control.</strong> This changes modeled affordable-price thresholds; it does not create household-demand counts above 100% AMI because CHAS\'s 100plus band is unbounded. The statutory default is 120% AMI under SB26-040 (effective July 1, 2026). Rural resort communities may petition DOLA under HB23-1304 for a different percentage.</p>' +
       (vm.amiCeilingCaveat ? '<details style="margin:.35rem 0 .65rem;"><summary style="cursor:pointer;font-size:1rem;font-weight:700;">Documented AMI-ceiling exception path</summary><p style="color:var(--muted);font-size:1rem;line-height:1.45;">' + esc(vm.amiCeilingCaveat) + '</p></details>' : '') +
       '<p><strong>Model implications:</strong> ' + esc(implications.who_it_fits || MISSING) + ' ' + ProvenanceLabel.html(vm.model || { classification: 'modeled' }, { compact: true }) + '</p>' + risk +
-      section('AMI and affordable-price ladder', '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr><th>Tier</th><th>Income</th><th>Maximum price</th><th>Shortfall state</th><th>Clears local median</th></tr></thead><tbody>' + ladderRows + '</tbody></table></div>') +
-      section('Local price and income required', '<p>Local price: <strong>' + localPrice + '</strong> ' + pricePill + priceUnavailableNote + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + ProvenanceLabel.html({ classification: 'modeled' }, { compact: true }) + '</p>') +
+      section('AMI and affordable-price ladder', '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr><th>Tier</th><th>Income</th><th>Maximum price</th><th>Shortfall state</th><th>Clears local median</th></tr></thead><tbody>' + ladderRows + '</tbody></table></div>' + rateLine) +
+      section('Local price and income required', '<p>Local price: <strong>' + localPrice + '</strong> ' + pricePill + priceUnavailableNote + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + ProvenanceLabel.html({ classification: 'modeled' }, { compact: true }) + '</p>' + rateLine) +
       section('Attainable supply and potential buyer pool', supplyBody) + section('Programs and funding', fundingBody) +
       section('Stewardship and authority capacity', capacityBody) + section('Public land', landBody) +
       section('Resale mechanism comparison', resaleBody) +

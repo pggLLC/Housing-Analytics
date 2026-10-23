@@ -53,8 +53,17 @@ console.log('='.repeat(50));
 
 // ---- golden backward-compat ----
 
-test('golden fixture: maxAffordablePrice(100000, 0.80) === 289983', () => {
-  assert.equal(engine.maxAffordablePrice(100000, 0.80), 289983);
+// The golden math is pinned at an explicit 6.5% so it never moves when the
+// dated MORTGAGE_RATE is refreshed; the default call must equal the same call
+// made at MORTGAGE_RATE.rateAnnual.
+test('golden fixture: maxAffordablePrice(100000, 0.80) at 6.5% === 289983', () => {
+  assert.equal(engine.maxAffordablePrice(100000, 0.80, { rateAnnual: 0.065 }), 289983);
+});
+
+test('the default call uses the one dated MORTGAGE_RATE', () => {
+  assert.equal(engine.DEFAULTS.rateAnnual, engine.MORTGAGE_RATE.rateAnnual);
+  assert.equal(engine.maxAffordablePrice(100000, 0.80),
+    engine.maxAffordablePrice(100000, 0.80, { rateAnnual: engine.MORTGAGE_RATE.rateAnnual }));
 });
 
 test('two-arg default call matches the legacy kernel constants exactly', () => {
@@ -135,7 +144,7 @@ test('every model carries implications (who_it_fits / buyer_risk / when_not_to_u
 
 test('default model params reproduce the golden fixture through the registry path', () => {
   const results = engine.compareModels(100000, 0.80, ['conservative_screening']);
-  assert.equal(results[0].maxPrice, 289983);
+  assert.equal(results[0].maxPrice, engine.maxAffordablePrice(100000, 0.80));
   assert.equal(results[0].isDefault, true);
   assert.equal(results[0].riskDisclosureRequired, false);
 });
@@ -339,14 +348,15 @@ function loadHnaUtils(withEngine) {
 test('C2: HNAUtils.computeIncomeNeeded delegates to the engine with EXACT parity', () => {
   const utilsWith = loadHnaUtils(true);
   const utilsWithout = loadHnaUtils(false);
+  // Without the engine there is no rate, so no income figure: withheld, not guessed.
+  assert.equal(utilsWithout.AFFORD.rateAnnual, null);
   [250000, 486295, 750000].forEach((price) => {
+    assert.equal(utilsWithout.computeIncomeNeeded(price), null, `no engine, no figure at ${price}`);
+    assert.equal(utilsWith.AFFORD.rateAnnual, engine.MORTGAGE_RATE.rateAnnual);
     const a = utilsWith.computeIncomeNeeded(price);
-    const b = utilsWithout.computeIncomeNeeded(price);
-    assert(Math.abs(a.annualIncome - b.annualIncome) < 1e-6, `annualIncome parity at ${price}`);
-    assert(Math.abs(a.payment - b.payment) < 1e-6, `payment parity at ${price}`);
-    assert(Math.abs(a.components.pAndI - b.components.pAndI) < 1e-6, `pAndI parity at ${price}`);
-    assert.equal(a.down, b.down);
-    assert.equal(a.loan, b.loan);
+    const viaEngine = engine.incomeRequiredForPrice(price, { pmiLtvGate: true });
+    assert(Math.abs(a.annualIncome - viaEngine.annualIncome) < 1e-6, `annualIncome parity at ${price}`);
+    assert(Math.abs(a.payment - viaEngine.payment) < 1e-6, `payment parity at ${price}`);
   });
   // and the delegated path really is the engine's closed form
   // HNAUtils uses the current PMMS rate (AFFORD.rateAnnual), not the engine default.
