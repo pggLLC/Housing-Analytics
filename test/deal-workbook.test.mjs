@@ -291,6 +291,9 @@ const overFee = mut0((s) => { const cb = s.result.costBasis; cb.basis.feeReducti
   cb.feeExcess = { developer: 250000, contractor: 0, total: 250000 }; });
 ok(texts(overFee).includes("bad: Developer plus consultant fee of $2,750,000 is above CHFA's 15% limit of $2,400,000. $250,000 of the excess comes out of eligible basis (QAP 3.M.3).") &&
   texts(overFee).includes("ok: Contractor overhead and profit of $900,000 is within CHFA's 14% limit of $1,000,000."), 'the fee tests become findings, with the share that leaves basis');
+{ const split = texts(mut0((s) => { const cb = s.result.costBasis; cb.developerFee = { fee: 2750000, limit: 2400000, limitPct: 0.15, excess: 350000, passes: false };
+  cb.feeExcess = { developer: null, contractor: 0, total: null, reason: 'The developer fee over CHFA\'s limit could come from fees in basis or outside it, so the reduction in basis is somewhere from $0 to $350,000.' }; }));
+  ok(split.includes('so the reduction in basis is somewhere from $0 to $350,000. (QAP 3.M.3)') && !split.includes('$350,000 of the excess comes out'), 'an unresolved in-basis reduction gives the engine range, not the full excess'); }
 ok(WB.render(overFee).includes('Less fees above CHFA') && WB.render(overFee).includes('Basis after fees and grants'), 'the basis table shows the fee reduction so it reconciles');
 ok(texts(mut0((s) => { s.result.costBasis.developerFee = { passes: null, reason: 'Enter the developer fee.' }; })).includes("warn: CHFA's developer fee limit was not checked: Enter the developer fee."), 'a fee test that could not run says so');
 const boostAcq = WB.render(mut0((s) => { const b = s.result.costBasis.basis; b.boost = { applied: true, multiplier: 1.3 }; b.applicableFraction = 1; b.acquisitionQualified = 2000000; b.boostedBasis = 12400000; }));
@@ -405,6 +408,8 @@ ok(/warn: Operating cost of .* before property tax/.test(opexNoTax) && !/ok: Ope
   ok(y2.cashAfterAddback === y2.cashFlow + 12000, 'cash left after the add-back is cash flow plus the unpaid debt service, so the statement reconciles');
   const noRows = mut0((s) => { s.result.projection.rows = []; s.result.obligations.years = [{ year: 1, mustPayDebtService: 100000, paid: 60000, contingentPaid: 0, unavailableReason: null }, { year: 2, unavailableReason: 'Rent growth is not valid.' }]; });
   ok(/bad: Net operating income does not cover must-pay debt service in 1 year \(first in year 1\): \$40,000/.test(texts(noRows)), 'a year-one shortfall is flagged from the loan schedule when there are no projection rows');
+  const noRowsFee = mut0((s) => { s.result.projection.rows = []; s.result.obligations.years = [{ year: 1, mustPayDebtService: 100000, paid: 100000, contingentPaid: 0, assetMgmtUnpaid: 2500, unavailableReason: null }]; });
+  ok(/warn: Asset management fees of \$2,500 are still owed at the end of year 1/.test(texts(noRowsFee)), 'an accrued fee is disclosed from the loan schedule when there are no projection rows');
   ok(html.includes('Asset management fee still owed'), 'an accrued asset management fee gets its own row');
   ok(/bad: Net operating income does not cover must-pay debt service in 1 year \(first in year 2\): \$12,000/.test(texts(under)), 'unpaid must-pay debt is flagged with the amount added to the loan');
   ok(/warn: Asset management fees of \$3,000 are still owed at the end of year 15/.test(texts(under)), 'an asset management fee still owed at the end is disclosed');

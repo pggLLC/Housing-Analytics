@@ -250,6 +250,9 @@
         var due = num(o.mustPayDebtService), paidAll = num(o.paid), cont = num(o.contingentPaid);
         return { year: num(o.year) != null ? num(o.year) : i + 1, amount: o.unavailableReason || due == null || paidAll == null || cont == null ? null : Math.max(0, due - (paidAll - cont)) };
       })).filter(function (y) { return y.amount > 0.5; });
+    // With no projection rows, the last loan-schedule year with known payments still shows an accrued fee.
+    var obKnown = obYears.filter(function (o) { return !o.unavailableReason && num(o.assetMgmtUnpaid) != null; });
+    model.assetMgmtFallback = obKnown.length ? { year: num(obKnown[obKnown.length - 1].year), assetMgmtOwed: num(obKnown[obKnown.length - 1].assetMgmtUnpaid) } : null;
     var cov = r.coverage || {};
     // CHFA's minimum runs through year 15, so a ratio counts only when all 15 years were measured.
     var first15 = (cov.years || []).slice(0, YEARS);
@@ -403,8 +406,10 @@
       var f = t[2]; if (!f) return;
       if (f.passes == null) out.push({ level: 'warn', text: 'CHFA\'s ' + t[1].toLowerCase() + ' limit was not checked: ' + String(f.reason || 'the test could not run').replace(/\.$/, '') + '.' });
       else if (f.passes) out.push({ level: 'ok', text: t[0] + ' of ' + money(num(f.fee)) + ' is within CHFA\'s ' + Math.round(num(f.limitPct) * 100) + '% limit of ' + money(num(f.limit)) + '.' });
-      else { var inBasis = num(t[3]) != null ? num(t[3]) : num(f.excess);
-        out.push({ level: 'bad', text: t[0] + ' of ' + money(num(f.fee)) + ' is above CHFA\'s ' + Math.round(num(f.limitPct) * 100) + '% limit of ' + money(num(f.limit)) + '. ' + money(inBasis) + ' of the excess comes out of eligible basis (QAP 3.M.3).' }); }
+      else { var inBasis = num(t[3]);
+        // A fee split between basis and outside it leaves the reduction unresolved; the engine says why rather than a number.
+        out.push({ level: 'bad', text: t[0] + ' of ' + money(num(f.fee)) + ' is above CHFA\'s ' + Math.round(num(f.limitPct) * 100) + '% limit of ' + money(num(f.limit)) + '. '
+          + (inBasis != null ? money(inBasis) + ' of the excess comes out of eligible basis (QAP 3.M.3).' : String(fx.reason || 'How much of the excess comes out of eligible basis was not established.').replace(/\.?$/, '.') + ' (QAP 3.M.3)') }); }
     });
     (m.basis.unchecked || []).forEach(function (n) { if (m.basis.calculated != null || m.basis.credit != null) out.push({ level: 'warn', text: 'Not checked: ' + n }); });
     (m.basis.flags || []).forEach(function (f) { out.push({ level: 'warn', text: 'Credit: ' + f }); });
@@ -428,7 +433,7 @@
     var cfRows = m.cashFlow.rows || [];
     var shortYears = m.mustPayShort || [];
     if (shortYears.length) out.push({ level: 'bad', text: 'Net operating income does not cover must-pay debt service in ' + shortYears.length + (shortYears.length === 1 ? ' year' : ' years') + ' (first in year ' + shortYears[0].year + '): ' + money(shortYears.reduce(function (a, y) { return a + y.amount; }, 0)) + ' is left unpaid and added to the loan balance.' });
-    var amLast = cfRows.length ? cfRows[cfRows.length - 1] : null;
+    var amLast = cfRows.length ? cfRows[cfRows.length - 1] : (m.assetMgmtFallback || null);
     if (amLast && amLast.assetMgmtOwed > 0.5) out.push({ level: 'warn', text: 'Asset management fees of ' + money(amLast.assetMgmtOwed) + ' are still owed at the end of year ' + amLast.year + '; cash flow did not cover them.' });
     if (m.gap.amount != null) {
       if (m.gap.amount > 0.5) out.push({ level: 'bad', text: 'The deal is ' + money(m.gap.amount) + ' short after every source modeled.' });
