@@ -1362,7 +1362,8 @@
         ? '<strong>No CHFA round is far enough out for a base case.</strong> <strong>Stretch:</strong> ' + esc(stretch.label) + ', letter of intent ' + esc(stretch.loi) + ', only if the conditions under Timing are met (estimate).'
         : 'no CHFA round is far enough out for a base case; ' + esc(stretch.label) + ' only as a stretch (estimate).');
     }
-    if (t.rolling4 && (rollingOpen(d) || !base)) {
+    // A 4% base round is the 4% route, which has the rolling path too.
+    if (t.rolling4 && (rollingOpen(d) || !base || base.credit === '4%')) {
       parts.push(full
         ? '<strong>4% bonds without state credit:</strong> ' + link(t.rolling4.name, t.rolling4.url) + ' has no round, so this route need not wait for one.'
         : (parts.length ? 'A 4% bond deal without state credit need not wait: ' : '4% bonds without state credit: ') + link(t.rolling4.name, t.rolling4.url) + ' has no round.');

@@ -370,6 +370,19 @@ ok(npSeen > 0 && prSeen > 0 && stewSeen > 0, 'the nonprofit, community-priority 
   ok(pastSummary.includes(amp(t0.rolling4.name)), 'all rounds passed: the summary still names the rolling 4% path');
 }
 
+// A 9%-first place whose base round is a 4% one also sees the rolling 4% path.
+{
+  const amp = (x) => x.replace(/&/g, '&amp;');
+  const no9 = clone(BASE); no9.qapCalendar.events = no9.qapCalendar.events.filter((e) => !/-r1-/.test(e.id || ''));
+  const g = SAMPLE.find((x) => /^9% competitive/.test(model(x).deal.route));
+  const m = model(g, { src: no9 });
+  const base = m.deal.timing && m.deal.timing.rows.find((r) => r.reading === 'base');
+  ok(g && base && base.credit === '4%' && m.deal.timing.rolling4, `${g}: 9%-first with only 4% rounds left, so the next check runs`);
+  const html = WP.renderHtml(m);
+  const summary = html.slice(html.indexOf('id="summary"'), html.indexOf('<h', html.indexOf('id="summary"') + 1));
+  ok(summary.includes(amp(base.label)) && summary.includes(amp(m.deal.timing.rolling4.name)), `${g}: a 4% base round is shown with the rolling 4% path`);
+}
+
 // A county's no-money finding claims only the county's own search.
 {
   const empty = { policy: { funds: [], fees: [], sources: ['s'] } };
