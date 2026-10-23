@@ -68,8 +68,6 @@
       '.gl-tooltip-popup{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);min-width:220px;max-width:300px;background:var(--card);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.15);padding:.65rem .85rem;z-index:9500;font-size:.8125rem;line-height:1.55;color:var(--text);pointer-events:none}',
       '.gl-tooltip-popup strong{display:block;font-size:.8125rem;font-weight:700;color:var(--accent);margin-bottom:.2rem}',
       /* Header button */
-      '.glossary-nav-btn{background:none;border:1px solid var(--border);border-radius:999px;padding:6px 12px;font-size:.84rem;font-weight:700;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:.35rem;transition:background .15s,border-color .15s;white-space:nowrap}',
-      '.glossary-nav-btn:hover,.glossary-nav-btn:focus-visible{background:color-mix(in oklab,var(--card) 70%,var(--accent) 30%);border-color:color-mix(in oklab,var(--border) 60%,var(--accent) 40%);outline:none}',
       '@media(max-width:640px){#' + MODAL_ID + '{max-width:100%;border-radius:var(--radius)}.gl-search-wrap{display:none}}'
     ].join('');
     document.head.appendChild(s);
@@ -80,12 +78,20 @@
     var body = document.getElementById('glossaryBody');
     if (!body) return;
     var q = (filter || '').toLowerCase().trim();
+    // A term named exactly comes first, then terms whose name or expansion
+    // matches, then definitions that only mention it: a search result for
+    // "AMI" opens on AMI, not on QCT, whose definition uses the word.
+    function rankOf(t) {
+      var term = t.term.toLowerCase();
+      if (term === q) return 0;
+      if (term.includes(q) || (t.full || '').toLowerCase().includes(q)) return 1;
+      return (t.definition || '').toLowerCase().includes(q) ? 2 : -1;
+    }
     var visible = q
-      ? terms.filter(function (t) {
-          return t.term.toLowerCase().includes(q) ||
-                 t.full.toLowerCase().includes(q) ||
-                 t.definition.toLowerCase().includes(q);
-        })
+      ? terms.map(function (t, i) { return { t: t, r: rankOf(t), i: i }; })
+          .filter(function (x) { return x.r >= 0; })
+          .sort(function (a, b) { return a.r - b.r || a.i - b.i; })
+          .map(function (x) { return x.t; })
       : terms;
 
     if (visible.length === 0) {
@@ -96,7 +102,7 @@
     body.innerHTML = visible.map(function (t) {
       return '<div class="gl-term" role="article">' +
         '<p class="gl-acronym">' + escHtml(t.term) + '</p>' +
-        '<p class="gl-full">' + escHtml(t.full) + '</p>' +
+        (t.full ? '<p class="gl-full">' + escHtml(t.full) + '</p>' : '') +
         '<p class="gl-def">' + escHtml(t.definition) + '</p>' +
         '</div>';
     }).join('');
@@ -426,20 +432,39 @@
     nodes.forEach(callback);
   }
 
-  /* ── Inject glossary button into nav header ──────────────── */
-  function injectNavButton() {
-    var nav = document.querySelector('nav.site-nav');
-    if (!nav) return;
-    if (document.getElementById('glossaryNavBtn')) return;
+  /* ── Open from links: href="#glossary" or "#glossary=TERM" ── */
+  // The menu's Data group, the footer and site search link here instead of a
+  // header button, which wrapped onto a second row of the nav.
+  function hashTerm(hash) {
+    var m = /^#glossary(?:=(.*))?$/.exec(hash || '');
+    if (!m) return null;
+    try { return m[1] ? decodeURIComponent(m[1]) : ''; } catch (e) { return ''; }
+  }
 
-    var btn = document.createElement('button');
-    btn.id = 'glossaryNavBtn';
-    btn.className = 'glossary-nav-btn';
-    btn.type = 'button';
-    btn.setAttribute('aria-label', 'Open housing finance glossary');
-    btn.innerHTML = '📖 <span aria-hidden="true">Glossary</span>';
-    btn.addEventListener('click', function () { openModal(); });
-    nav.appendChild(btn);
+  function onLinkClick(e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest ? e.target.closest('a[href*="#glossary"]') : null;
+    if (!a) return;
+    var term = hashTerm(a.hash);
+    if (term === null) return;
+    e.preventDefault();
+    // Close the menu the link sat in, so the glossary is not opened behind it.
+    var open = a.closest('.nav-group') && a.closest('.nav-group').querySelector('.nav-group-btn[aria-expanded="true"]');
+    if (open) open.click();
+    var drawer = a.closest('.mobile-nav-drawer');
+    if (drawer) {
+      var closeBtn = document.getElementById('mobileNavClose');
+      if (closeBtn) closeBtn.click();
+      // The drawer hands focus back to the menu button once it has slid shut.
+      // Open after that, so focus lands in the glossary and stays there.
+      var tries = 0;
+      (function whenClosed() {
+        if (drawer.hasAttribute('hidden') || ++tries > 20) { openModal(term || null); return; }
+        setTimeout(whenClosed, 50);
+      })();
+      return;
+    }
+    openModal(term || null);
   }
 
   /* ── Expose public API ───────────────────────────────────── */
@@ -467,12 +492,10 @@
   function init() {
     injectStyles();
 
-    // Inject nav button after nav:rendered or immediately if nav is ready
-    if (document.querySelector('nav.site-nav')) {
-      injectNavButton();
-    } else {
-      document.addEventListener('nav:rendered', injectNavButton);
-    }
+    document.addEventListener('click', onLinkClick);
+    // A link from another page (a search result, a shared URL) lands here.
+    var landed = hashTerm(location.hash);
+    if (landed !== null) openModal(landed || null);
 
     // Auto-tooltip after a short delay to let the page render, and again
     // whenever content arrives.
