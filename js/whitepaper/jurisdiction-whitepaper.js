@@ -812,7 +812,8 @@
       plans: dedupe(plans, function (o) { return o.name.toLowerCase(); }),
       partners: dedupe(partners, function (o) { return o.name.toLowerCase(); }),
       offices: dedupe(offices, function (o) { return o.name.toLowerCase(); }),
-      needsResearch: researched.length === 0 && related.length === 0
+      needsResearch: researched.length === 0 && related.length === 0,
+      resourcesLoaded: !!resources
     };
   }
 
@@ -864,6 +865,8 @@
       stewards: stewards,
       research: research,
       missing: missing,
+      // Which inputs actually loaded, so an empty list is never read as "none found".
+      loaded: { resortPrograms: !!src.resortPrograms, stewardship: !!src.stewardship, research: !!research },
       countyName: countyName,
       sources: [sourcePath('resortPrograms'), sourcePath('stewardship'), landscapePath(research ? research.geoid : row.geoid)]
     };

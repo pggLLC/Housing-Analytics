@@ -304,10 +304,17 @@ ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the eit
 
 // A researched housing contact means a partner is on file.
 {
-  const m = { landscape: { authorities: [], stewards: [], research: null, sources: [] }, contacts: { orgs: [], partners: [], researched: [{ name: 'H', role: 'Housing Director', org: 'Town of X' }], related: [] } };
+  const loaded = { resortPrograms: true, stewardship: true, research: true };
+  const m = { landscape: { authorities: [], stewards: [], research: { groups: [] }, loaded, sources: [] }, contacts: { orgs: [], partners: [], researched: [{ name: 'H', role: 'Housing Director', org: 'Town of X' }], related: [], resourcesLoaded: true } };
   ok(TQ.SIGNALS.no_partner(m) === null, 'a researched housing contact stops the "no partner" question');
   m.contacts.researched = [];
   ok(TQ.SIGNALS.no_partner(m) !== null, 'with nothing on file the question fires');
+  for (const k of ['resortPrograms', 'stewardship', 'research']) {
+    const mm = JSON.parse(JSON.stringify(m)); mm.landscape.loaded[k] = false;
+    ok(TQ.SIGNALS.no_partner(mm) === null, `${k} not loaded: no "no partner" question`);
+  }
+  const mr = JSON.parse(JSON.stringify(m)); mr.contacts.resourcesLoaded = false;
+  ok(TQ.SIGNALS.no_partner(mr) === null, 'local resources not loaded: no "no partner" question');
 }
 
 // Both routes viable: the base case is the earliest realistic round, whichever credit.
