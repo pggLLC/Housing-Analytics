@@ -200,10 +200,13 @@
     });
     // At this jurisdiction: the org names the place, and a town's contact is not the county's.
     var place = String(placeName || '').toLowerCase();
+    var bare = place.replace(/ county$/, '');
     function here(c) {
       var org = String(c.org || '').toLowerCase();
-      // Denver and Broomfield are consolidated: "City and County of X" is the place itself.
-      return !!place && org.indexOf(place) !== -1 && (kind === 'county' || !/county/.test(org.replace('city and county of ' + place, '')));
+      // Denver and Broomfield are consolidated: "City and County of X" is the place itself,
+      // whether the report is for the city or for "X County".
+      if (place && org.indexOf('city and county of ' + bare) !== -1) return true;
+      return !!place && org.indexOf(place) !== -1 && (kind === 'county' || !/county/.test(org));
     }
     // A role marked local (manager, planner, board) is asked only of this jurisdiction's own staff.
     if (r.local) hits = hits.filter(here);

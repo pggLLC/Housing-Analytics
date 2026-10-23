@@ -317,6 +317,25 @@ ok(npSeen > 0 && prSeen > 0 && stewSeen > 0, 'the nonprofit, community-priority 
   if (pri && cb.policy.support && cb.policy.support.items && cb.policy.support.items.length) ok(cb.deal.structure.source.includes('data/policy/local-support.json'), 'Crested Butte: the community-priority line cites local-support.json');
 }
 
+// Consolidated city-counties: "City and County of Denver" staff are local to both the
+// Denver place report and the Denver County report.
+{
+  const bank = { roles: { manager: { label: 'Manager', match: ['manager'], local: true } }, standard: [{ id: 'S', role: 'manager', ask: 'Ask {name}?' }], pointed: [] };
+  let seen = 0;
+  for (const g of ['08031', '08014']) {
+    const m = model(g);
+    const bare = m.name.replace(/ County$/, '');
+    ok(m.kind === 'county' && bare !== m.name, `${g} is a county report named "${m.name}", so the check runs`);
+    const mm = Object.assign({}, m, { contacts: { researched: [{ name: 'R', role: 'City Manager', org: 'City and County of ' + bare, source_url: 'https://example.com/r' }], related: [] } });
+    const q = TQ.build(mm, bank, null, '2026-10-22').standard[0];
+    if (q.contact && q.contact.name === 'R') seen++;
+  }
+  ok(seen === 2, 'Denver and Broomfield county reports name the City and County staff contact');
+  const ea = model('08037');
+  const other = Object.assign({}, ea, { contacts: { researched: [{ name: 'X', role: 'Town Manager', org: 'Town of Avon', source_url: 'https://example.com/x' }], related: [] } });
+  ok(!TQ.build(other, bank, null, '2026-10-22').standard[0].contact, 'a town manager is not offered as the county manager');
+}
+
 // CDP: the county's researched contacts (held under related) are used for questions.
 {
   const m = model('0823300');
