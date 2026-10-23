@@ -192,6 +192,15 @@ for (const g of SAMPLE) {
 }
 ok(TQ.SIGNALS.qct_partial({ need: { qctSharePct: 40, ddaSharePct: null, rankingSource: 'x' } }) === null, 'qct_partial does not fire when DDA share is unknown');
 
+// Each figure in the rent evidence names the file it came from.
+for (const g of SAMPLE.concat(['0880040'])) {
+  const m = model(g);
+  const q = m.questions.pointed.find((x) => x.signal === 'rent_above_market');
+  if (!q) continue;
+  if (/median gross rent/.test(q.evidence)) ok(q.source.includes(m.need.rankingSource), `${g}: median rent evidence cites the ranking index`);
+  if (/fair market rent/.test(q.evidence)) ok(q.source.includes(m.rents.fmrSource), `${g}: FMR evidence cites the FMR file`);
+}
+
 // ---- 7. The page loads the module before the report and passes it in.
 {
   const page = read('developer-brief.html');

@@ -57,14 +57,14 @@
     rent_above_market: function (m) {
       var r = m.deal.rentCheck;
       if (!r || r.limit60 === null) return null;
-      var over = [];
-      if (r.fmr !== null && r.limit60 > r.fmr) over.push('HUD fair market rent ' + money(r.fmr));
-      if (r.median !== null && r.limit60 > r.median) over.push('median gross rent ' + money(r.median));
+      var over = [], sources = [m.rents.limitsSource];
+      if (r.fmr !== null && r.limit60 > r.fmr) { over.push('HUD fair market rent ' + money(r.fmr)); sources.push(m.rents.fmrSource); }
+      if (r.median !== null && r.limit60 > r.median) { over.push('median gross rent ' + money(r.median)); sources.push(m.need.rankingSource); }
       if (!over.length) return null;
       return {
         vars: { limit60: money(r.limit60), properties: String((m.lihtc.properties || []).length) },
         evidence: 'CHFA 60% AMI two-bedroom limit ' + money(r.limit60) + ' is above ' + over.join(' and ') + '.',
-        source: m.rents.limitsSource + '; ' + m.rents.fmrSource
+        source: sources.filter(Boolean).join('; ')
       };
     },
     deep_gap: function (m) {
