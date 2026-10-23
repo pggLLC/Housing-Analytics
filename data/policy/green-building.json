@@ -229,8 +229,10 @@
       "section": "benefits",
       "kind": "rule",
       "title": "Solar can lower the electric allowance",
-      "finding": "Where residents are billed by submeter, the expected credit from on-site solar or a community solar garden can be counted in the electric allowance in year one, using the Energy Consumption Model.",
+      "finding": "Where residents are billed for their own electricity through a submeter, the expected credit from on-site solar or a community solar garden can be counted in the electric allowance in year one, using the Energy Consumption Model. Where the owner pays all of the electricity, there is no electric allowance for solar to lower.",
       "quotes": [
+        "Residents billed for electricity consumption via a submeter",
+        "These properties would charge gross rent to residents with no utility allowance deducted for electric utilities.",
         "the projected annual CSG credit or on-site solar credit may be incorporated into the utility allowance for electricity by using the Energy Consumption Model (ECM, Option 4) in the first year of the project."
       ],
       "source_url": "https://www.chfainfo.com/getattachment/e5532e61-c096-4d3d-a186-a60f4fb90f80/CHFA_Utility_Allowance_Policy.pdf",
@@ -407,11 +409,13 @@
       "section": "deal",
       "kind": "rule",
       "title": "Ratio billing is allowed again, with conditions",
-      "finding": "CHFA's Utility Allowance Policy says HB25-1090 banned ratio utility billing (RUBS) from January 2026. HB26-1013, approved March 26, 2026, allows it again if the total billed to tenants does not exceed the utility's bill for the property, there is no markup or fee, common-area costs are left out, and the lease discloses the method. Buildings whose permits are applied for on or after July 1, 2027 must have every unit's gas, electric and water metered by the utility or a submeter.",
+      "finding": "CHFA's Utility Allowance Policy says HB25-1090 banned ratio utility billing (RUBS) from January 2026. HB26-1013, approved March 26, 2026, allows it again if the total billed to tenants does not exceed the utility's bill for the property, there is no markup, surcharge or fee beyond the utility's actual charges unless another law allows one, common-area costs are left out, and the lease discloses the method. Buildings whose permits are applied for on or after July 1, 2027 must have every unit's gas, electric and water metered by the utility or a submeter.",
       "quotes": [
         "THIS SECTION DOES NOT PROHIBIT A LANDLORD OR LANDLORD'S AGENT FROM ALLOCATING UTILITY COSTS AMONG TENANTS OF THE SAME RESIDENTIAL PREMISES USING A RATIO UTILITY BILLING SYSTEM IF:",
         "THE AGGREGATE AMOUNT BILLED TO ALL TENANTS OF THE RESIDENTIAL PREMISES DOES NOT EXCEED THE TOTAL AMOUNT CHARGED BY THE UTILITY PROVIDER FOR SERVICE TO THE ENTIRE RESIDENTIAL PREMISES",
+        "THE LANDLORD OR LANDLORD'S AGENT DOES NOT APPLY ANY MARKUP, SURCHARGE, ADMINISTRATIVE FEE, OR OTHER AMOUNT IN EXCESS OF THE ACTUAL CHARGES FROM THE UTILITY, EXCEPT AS OTHERWISE PERMITTED BY LAW",
         "THE UTILITY COSTS FOR COMMON AREAS OR SHARED FACILITIES AT THE RESIDENTIAL PREMISES ARE EXCLUDED FROM ANY TENANT ALLOCATION",
+        "THE LANDLORD CLEARLY AND CONSPICUOUSLY DISCLOSES THE METHOD OF ALLOCATION FOR THE DWELLING UNIT IN A TENANT'S RENTAL AGREEMENT OR AN ADDENDUM TO THE TENANT'S RENTAL AGREEMENT.",
         "FOR RESIDENTIAL PREMISES CONSTRUCTED WITH PERMITS APPLIED FOR ON OR AFTER JULY 1, 2027, GAS, ELECTRIC, AND WATER UTILITY SERVICE DELIVERED TO A RESIDENTIAL PREMISES MUST BE METERED EITHER DIRECTLY BY THE UTILITY PROVIDER OR BY A SUBMETER.",
         "Approved: March 26, 2026",
         "Colorado House Bill 25-1090: Protections Against Deceptive Pricing Practices, effective 01.01.2026, now prohibits the use of RUBS by landlords."
@@ -675,7 +679,7 @@
       "review_by": "2027-01-20",
       "title": "Home Energy Rebates (federal IRA, run by the Energy Office)",
       "finding": "Colorado's versions of the Inflation Reduction Act HOMES and HEEHRA rebates. The single-family appliance rebate is closed in both regions; the Energy Office says small multifamily rebates come in 2026, with no opening date confirmed.",
-      "fits": "Existing small and large multifamily, once open",
+      "fits": "Existing small multifamily, once open",
       "caveat": "Federally funded; do not count on it until the Energy Office opens the multifamily phase.",
       "quotes": [
         "The HEAR single-family program is now closed for both Region 1 (the Front Range) and Region 2 (All Other Counties). Rebates for small multifamily buildings will be available in 2026."

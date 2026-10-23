@@ -204,12 +204,43 @@ for (const row of pickRows) {
     assert(refs.includes('qap-higher-programs-draft'), `pick row "${label}" recommends ${prog} without citing qap-higher-programs-draft`);
     assert(re.test(higher), `pick row "${label}" recommends ${prog}, which qap-higher-programs-draft no longer names`);
   }
+  // Cell text without the generated "Relies on" links, whose record titles would otherwise count as row text.
+  const cells = [...row.querySelectorAll('td')].map((td) => { const c = td.cloneNode(true); c.querySelectorAll('.gb-refs').forEach((x) => x.remove()); return c.textContent; });
+  // Solar lowers the allowance only where residents pay a submetered electric bill (uap-solar), said in the same clause.
+  if (refs.includes('uap-solar')) {
+    assert(/submeter/.test(rec('uap-solar').quotes.join(' ')), 'uap-solar no longer quotes the submeter condition');
+    for (const t of cells.flatMap((c) => c.split(';'))) {
+      if (/solar/i.test(t) && /allowance/.test(t)) assert(/submetered electric bill/.test(t), `pick row "${label}" counts solar in the allowance without the submeter condition`);
+    }
+  }
+  // A program a record fits only to small buildings may not be recommended without that limit.
+  for (const r of refs) {
+    const fits = rec(r).fits || '';
+    if (!/small/i.test(fits) || /large/i.test(fits)) continue;
+    const name = rec(r).title.split(' (')[0];
+    for (const t of cells) {
+      if (t.includes(name)) assert(/small/i.test(t), `pick row "${label}" recommends ${name} without its small-building limit`);
+    }
+  }
   // The page promises each row links to what it relies on: one link per ref, each to a drawn record.
   const hrefs = [...row.querySelectorAll('.gb-refs a')].map((a) => a.getAttribute('href'));
   assert.deepEqual(hrefs, refs.map((r) => `#${w.GreenBuilding.anchorId(r)}`), `pick row "${label}" does not link each record it relies on`);
   for (const h of hrefs) {
     const target = w.document.getElementById(h.slice(1));
     assert(target && target.dataset.gbEntry, `pick row "${label}" links ${h}, which is not a drawn record`);
+  }
+}
+// A record's fit may not promise a building size its quotes do not.
+for (const e of DOC.entries) {
+  for (const size of ['small', 'large']) {
+    if (new RegExp(`\\b${size}\\b`, 'i').test(e.fits || '')) assert(new RegExp(`\\b${size}\\b`, 'i').test(e.quotes.join(' ') + ' ' + e.finding), `${e.id}: fits names ${size} buildings, which its quotes and finding do not`);
+  }
+}
+// Each ratio-billing condition the finding states has its own quote from the law.
+{
+  const r = rec('uap-rubs'); const q = r.quotes.join(' ');
+  for (const [said, quoted] of [[/does not exceed/, /DOES NOT EXCEED THE TOTAL AMOUNT/], [/markup/, /MARKUP/], [/common-area/, /COMMON AREAS/], [/lease discloses/, /DISCLOSES THE METHOD OF ALLOCATION/], [/July 1, 2027/, /JULY 1, 2027/]]) {
+    if (said.test(r.finding)) assert(quoted.test(q), `uap-rubs states a condition (${said}) its quotes do not carry`);
   }
 }
 assert(!/fruita/i.test(read(PAGE) + read('data/policy/green-building.json')), 'project-specific Fruita material stays out of the public repo');
