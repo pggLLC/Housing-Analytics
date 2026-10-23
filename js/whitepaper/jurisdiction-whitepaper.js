@@ -437,6 +437,8 @@
       latestAwardYear: num((row.metrics || {}).latest_lihtc_year),
       // Projects mapped inside the boundary, which name matching can miss.
       inBoundary: num((row.metrics || {}).lihtc_in_boundary),
+      // How the recency record was measured; 'never_funded' is a finding, a missing basis is not.
+      recencyBasis: (row.metrics || {}).recency_basis || null,
       sources: [sourcePath('chfaLihtc') + ' (CHFA Housing Tax Credit properties layer, fetched ' + ((src.chfaLihtc || {}).fetchedAt || 'date not recorded') + ')',
         sourcePath('awards') + ' (CHFA, DOH and OEDIT award reports)',
         apps === null ? null : sourcePath('applications') + ' (CHFA applicant reports, ' + ((src.applications.meta || {}).first_year || '') + ' on)'].filter(Boolean)

@@ -410,6 +410,22 @@ ok(npSeen > 0 && prSeen > 0 && stewSeen > 0, 'the nonprofit, community-priority 
   ok(!TQ.build(other, bank, null, '2026-10-22').standard[0].contact, 'a town manager is not offered as the county manager');
 }
 
+// A town's county contacts fill county-wide roles; local roles stay with the town's staff.
+{
+  const bank = { roles: { manager: { label: 'Manager', match: ['manager'], local: true }, housing_authority: { label: 'Housing authority', match: ['housing authority'] } },
+    standard: [{ id: 'M', role: 'manager', ask: 'Ask {name}?' }, { id: 'H', role: 'housing_authority', ask: 'Ask {name}?' }], pointed: [] };
+  const m = model('0804110');
+  ok(m.kind === 'place' && m.countyName === 'Eagle County', 'Avon is a town report in Eagle County, so the next checks run');
+  const mm = Object.assign({}, m, { contacts: { researched: [{ name: 'T', role: 'Town Manager', org: 'Town of Avon', source_url: 'https://example.com/t' }],
+    related: [{ geoid: '08037', contacts: [{ name: 'C', role: 'County Manager', org: 'Eagle County', source_url: 'https://example.com/c' }, { name: 'H', role: 'Housing Authority Director', org: 'Eagle County Housing Authority', source_url: 'https://example.com/h' }] }] } });
+  const q = TQ.build(mm, bank, null, '2026-10-22').standard;
+  ok(q[0].contact && q[0].contact.name === 'T', 'the local manager role keeps the town manager, not the county manager');
+  ok(q[1].contact && q[1].contact.name === 'H', 'the county housing authority director is named for the housing authority question');
+  const county = model('08037');
+  const cm = Object.assign({}, county, { contacts: { researched: [], related: [{ geoid: '0803620', contacts: [{ name: 'X', role: 'Housing Authority Director', org: 'Town of Avon', source_url: 'https://example.com/x' }] }] } });
+  ok(!TQ.build(cm, bank, null, '2026-10-22').standard[1].contact, 'a county report does not borrow a town file\'s contacts');
+}
+
 // CDP: the county's researched contacts (held under related) are used for questions.
 {
   const m = model('0823300');
@@ -421,10 +437,13 @@ ok(npSeen > 0 && prSeen > 0 && stewSeen > 0, 'the nonprofit, community-priority 
 
 // The "never" drought question needs the boundary count to agree that nothing is mapped here.
 {
-  const base = { lihtc: { properties: [], latestAwardYear: null, scopeLabel: 'X', sources: ['s'] }, need: { rankingSource: 'r' } };
+  const base = { lihtc: { properties: [], latestAwardYear: null, scopeLabel: 'X', sources: ['s'], recencyBasis: 'never_funded' }, need: { rankingSource: 'r' } };
   ok(TQ.SIGNALS.tax_credit_drought(Object.assign({}, base, { lihtc: Object.assign({}, base.lihtc, { inBoundary: 9 }) }), '2026-10-22') === null, 'mapped projects in the boundary: no "never" question');
   ok(TQ.SIGNALS.tax_credit_drought(Object.assign({}, base, { lihtc: Object.assign({}, base.lihtc, { inBoundary: null }) }), '2026-10-22') === null, 'boundary count unknown: no "never" question');
   ok(TQ.SIGNALS.tax_credit_drought(Object.assign({}, base, { lihtc: Object.assign({}, base.lihtc, { inBoundary: 0 }) }), '2026-10-22') !== null, 'nothing mapped and nothing matched: the question fires');
+  ok(TQ.SIGNALS.tax_credit_drought(Object.assign({}, base, { lihtc: Object.assign({}, base.lihtc, { inBoundary: 0, recencyBasis: null }) }), '2026-10-22') === null, 'no measured recency record: no "never" question');
+  ok(TQ.SIGNALS.tax_credit_drought(Object.assign({}, base, { lihtc: Object.assign({}, base.lihtc, { inBoundary: 0, recencyBasis: 'award_year' }) }), '2026-10-22') === null, 'a recency record that is not "never funded": no "never" question');
+  ok(model('0833640').lihtc.recencyBasis === (rowOf('0833640').metrics || {}).recency_basis, 'the model carries the ranking index recency basis');
   for (const g of SAMPLE) {
     const m = model(g);
     const q = m.questions.pointed.find((x) => x.signal === 'tax_credit_drought' && /No CHFA/.test(x.evidence));

@@ -40,6 +40,8 @@
         // Projects mapped inside the boundary contradict an empty name-matched list:
         // the record is unclear, not empty, so no question is raised.
         if (m.lihtc.inBoundary === null || m.lihtc.inBoundary === undefined || m.lihtc.inBoundary > 0) return null;
+        // Without a measured "never funded" record, the history is unavailable, not empty.
+        if (m.lihtc.recencyBasis !== 'never_funded') return null;
         return { vars: { lastYear: 'never' }, evidence: 'No CHFA tax-credit property is recorded or mapped in ' + m.lihtc.scopeLabel + '.', source: [m.lihtc.sources[0], m.need.rankingSource].filter(Boolean).join('; ') };
       }
       if (last !== null && year - last >= DROUGHT_YEARS) {
@@ -237,8 +239,11 @@
     // A census-designated place has no government of its own: its county is asked.
     var cdp = m.kind === 'cdp';
     var govName = cdp ? m.countyName : m.name, govKind = cdp ? 'county' : m.kind;
-    // A CDP rarely has its own contact file; its county's researched contacts are in related.
-    var contacts = ((m.contacts && m.contacts.researched) || []).concat(cdp ? [].concat.apply([], ((m.contacts && m.contacts.related) || []).map(function (f) { return f.contacts || []; })) : []);
+    // A town's or CDP's county contacts (in related) can hold county-wide roles such as
+    // the housing authority; roles marked local still take only this government's staff.
+    // A county's related files are its towns', so a county uses its own contacts only.
+    var related = govKind === 'county' && !cdp ? [] : [].concat.apply([], ((m.contacts && m.contacts.related) || []).map(function (f) { return f.contacts || []; }));
+    var contacts = ((m.contacts && m.contacts.researched) || []).concat(related);
     var vars = { name: govName, county: m.countyName };
     function who(role) {
       return { role: role, roleLabel: (roles[role] && roles[role].label) || role, contact: contactFor(role, bank, contacts, govName, govKind) };
