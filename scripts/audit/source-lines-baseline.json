@@ -18,8 +18,10 @@
     },
     "article-co-housing-costs.html": {
       "unsourced": 0,
-      "undated": 0,
-      "areas": {}
+      "undated": 12,
+      "areas": {
+        "undated: #main-content>article.article-wrap:1": 12
+      }
     },
     "article-fair-housing-rollback.html": {
       "unsourced": 0,
@@ -30,15 +32,15 @@
       "unsourced": 2,
       "undated": 0,
       "areas": {
-        "unsourced: #main-content>article:1>div:1>section:1>div:1": 2
+        "unsourced: #main-content>p.chart-subtitle:1": 2
       }
     },
     "census-dashboard.html": {
       "unsourced": 3,
       "undated": 0,
       "areas": {
-        "unsourced: #main-content>section:4>div:2>div:2": 2,
-        "unsourced: #main-content>section:9": 1
+        "unsourced: #lihtc-siting>table.mf-table-compact:1": 2,
+        "unsourced: #main-content>section.card:9": 1
       }
     },
     "chfa-portfolio.html": {
@@ -49,21 +51,26 @@
       }
     },
     "colorado-deep-dive.html": {
-      "unsourced": 6,
-      "undated": 11,
+      "unsourced": 10,
+      "undated": 16,
       "areas": {
-        "undated: #tab-deepdive>section:4": 8,
-        "unsourced: #amiGapModule>div:4": 3,
-        "unsourced: #amiGapModule>div:6>div:2": 3,
-        "undated: #carMarketContent>div:1": 1,
-        "undated: #hmdaContent>div:1": 2
+        "undated: #tab-deepdive>div.kpi-grid:1": 5,
+        "undated: #tab-deepdive>section.map-section:1": 8,
+        "unsourced: #amiGapModule>div.kpi-label:2": 1,
+        "unsourced: #amiGapModule>div.kpi-label:3": 1,
+        "unsourced: #amiGapModule>div.kpi-label:4": 1,
+        "unsourced: #amiGapModule>h3.chart-title:3": 1,
+        "unsourced: #amiGapModule>p.chart-subtitle:3": 2,
+        "unsourced: #amiGapModule>div.chart-card:3": 4,
+        "undated: #carMarketContent>div.kpi-grid:1": 1,
+        "undated: #hmdaContent>div.kpi-grid:1": 2
       }
     },
     "colorado-elections.html": {
       "unsourced": 1,
       "undated": 0,
       "areas": {
-        "unsourced: #main-content>div:2>div:6": 1
+        "unsourced: #main-content>div.topic-card:6": 1
       }
     },
     "compare.html": {
@@ -85,10 +92,10 @@
       "unsourced": 4,
       "undated": 0,
       "areas": {
-        "unsourced: #placeChasCoverage>div:1>div:1": 1,
-        "unsourced: #placeChasCoverage>div:1>div:2": 1,
-        "unsourced: #placeChasCoverage>div:1>div:3": 1,
-        "unsourced: #placeChasCoverage>div:1>div:4": 1
+        "unsourced: #placeChasCoverage>div.dq-card.pc-cov-card:1": 1,
+        "unsourced: #placeChasCoverage>div.dq-card.pc-cov-card:2": 1,
+        "unsourced: #placeChasCoverage>div.dq-card.pc-cov-card:3": 1,
+        "unsourced: #placeChasCoverage>div.dq-card.pc-cov-card:4": 1
       }
     },
     "dashboard-data-sources-ui.html": {
@@ -105,14 +112,14 @@
       "unsourced": 0,
       "undated": 1,
       "areas": {
-        "undated: #main-content>div:3>div:1": 1
+        "undated: #main-content>div:15": 1
       }
     },
     "data-review-hub.html": {
       "unsourced": 1,
       "undated": 0,
       "areas": {
-        "unsourced: #main-content>div:3>div:1>section:1>div:1": 1
+        "unsourced: #drhOvFresh": 1
       }
     },
     "data-status.html": {
@@ -121,12 +128,12 @@
       "areas": {}
     },
     "deal-calculator.html": {
-      "unsourced": 9,
-      "undated": 2,
+      "unsourced": 11,
+      "undated": 0,
       "areas": {
-        "unsourced: #dcAboutAndContext": 3,
-        "unsourced: #main-content>div:8": 6,
-        "undated: #main-content>section:4": 2
+        "unsourced: #pageContext>details.pctx-panel:1": 3,
+        "unsourced: #main-content>section.hos-panel:3": 6,
+        "unsourced: #dcCraGrid>div.dc-cra-card__role:2": 2
       }
     },
     "deal-summary.html": {
@@ -153,54 +160,79 @@
       "unsourced": 5,
       "undated": 0,
       "areas": {
-        "unsourced: #pageContext": 5
+        "unsourced: #pageContext>details.pctx-panel:1": 5
       }
     },
     "hna-scenario-builder.html": {
       "unsourced": 1,
       "undated": 0,
       "areas": {
-        "unsourced: #main-content>section:1": 1
+        "unsourced: #main-content>section.card:1": 1
       }
     },
     "hna-what-households-can-afford.html": {
-      "unsourced": 7,
+      "unsourced": 18,
       "undated": 0,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
+        "unsourced: #rentTriangulationCard": 1,
+        "unsourced: #hna-rail-9": 10,
         "unsourced: #hnaChapterHandoff": 5
       }
     },
     "hna-what-housing-exists.html": {
-      "unsourced": 4,
-      "undated": 0,
-      "areas": {
-        "unsourced: #hnaDecisionStrip": 2,
-        "unsourced: #hnaChapterHandoff": 2
-      }
-    },
-    "hna-what-to-do.html": {
       "unsourced": 8,
       "undated": 0,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
-        "unsourced: #main-content>section:4>div:2>div:1>div:2": 4,
+        "unsourced: #main-content>aside.hna-section-takeaway:1": 2,
+        "unsourced: #hnaH2Stock": 2,
+        "unsourced: #hnaChapterHandoff": 2
+      }
+    },
+    "hna-what-to-do.html": {
+      "unsourced": 127,
+      "undated": 0,
+      "areas": {
+        "unsourced: #hnaDecisionStrip": 2,
+        "unsourced: #main-content>div.stat:23": 1,
+        "unsourced: #main-content>div.stat:24": 1,
+        "unsourced: #main-content>div.stat:25": 1,
+        "unsourced: #main-content>div.stat:26": 1,
+        "unsourced: #main-content>div.chart-card:1": 17,
+        "unsourced: #hna-rail-3": 18,
+        "unsourced: #hna-rail-5": 4,
+        "unsourced: #housing-type-need-section": 80,
         "unsourced: #hnaChapterHandoff": 2
       }
     },
     "hna-where-its-heading.html": {
       "unsourced": 2,
-      "undated": 0,
+      "undated": 20,
       "areas": {
-        "unsourced: #hnaDecisionStrip": 2
+        "unsourced: #hnaDecisionStrip": 2,
+        "undated: #labor-market-section": 4,
+        "undated: #main-content>section.hna-grid:1": 8,
+        "undated: #economicIndicatorsContainer": 8
       }
     },
     "hna-who-lives-here.html": {
-      "unsourced": 10,
+      "unsourced": 27,
       "undated": 0,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
-        "unsourced: #main-content>section:4>div:3>div:2>div:3": 4,
+        "unsourced: #main-content>aside.hna-section-takeaway:1": 2,
+        "unsourced: #hnaH2Tenure": 3,
+        "unsourced: #main-content>div.stat:23": 1,
+        "unsourced: #main-content>div.stat:24": 1,
+        "unsourced: #main-content>div.stat:27": 1,
+        "unsourced: #main-content>div.stat:28": 1,
+        "unsourced: #main-content>div.stat:29": 1,
+        "unsourced: #main-content>div.stat:30": 1,
+        "unsourced: #main-content>div.stat:31": 1,
+        "unsourced: #main-content>div.stat:32": 1,
+        "unsourced: #main-content>div.stat:33": 1,
+        "unsourced: #hna-rail-5": 7,
         "unsourced: #hnaChapterHandoff": 4
       }
     },
@@ -208,7 +240,7 @@
       "unsourced": 2,
       "undated": 0,
       "areas": {
-        "unsourced: #ha-routes": 2
+        "unsourced: #ha-routes>table.data-table:1": 2
       }
     },
     "housing-legislation-2026.html": {
@@ -217,12 +249,37 @@
       "areas": {}
     },
     "housing-needs-assessment.html": {
-      "unsourced": 10,
-      "undated": 0,
+      "unsourced": 161,
+      "undated": 20,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
-        "unsourced: #main-content>section:4>div:14>div:2>div:3": 4,
-        "unsourced: #main-content>section:4>div:18>div:1>div:2": 4
+        "unsourced: #rentTriangulationCard": 1,
+        "unsourced: #main-content>aside.hna-section-takeaway:1": 2,
+        "unsourced: #hnaH2Stock": 2,
+        "unsourced: #main-content>aside.hna-section-takeaway:2": 2,
+        "unsourced: #hnaH2Tenure": 3,
+        "unsourced: #main-content>div.stat:27": 1,
+        "unsourced: #main-content>div.stat:28": 1,
+        "unsourced: #main-content>div.stat:31": 1,
+        "unsourced: #main-content>div.stat:32": 1,
+        "unsourced: #main-content>div.stat:33": 1,
+        "unsourced: #main-content>div.stat:34": 1,
+        "unsourced: #main-content>div.stat:35": 1,
+        "unsourced: #main-content>div.stat:36": 1,
+        "unsourced: #main-content>div.stat:37": 1,
+        "unsourced: #hna-rail-18": 7,
+        "unsourced: #main-content>div.stat:49": 1,
+        "unsourced: #main-content>div.stat:50": 1,
+        "unsourced: #main-content>div.stat:51": 1,
+        "unsourced: #main-content>div.stat:52": 1,
+        "unsourced: #main-content>div.chart-card:1": 17,
+        "unsourced: #hna-rail-26": 18,
+        "unsourced: #hna-rail-34": 10,
+        "unsourced: #hna-rail-35": 4,
+        "undated: #labor-market-section": 4,
+        "undated: #main-content>section.hna-grid:1": 8,
+        "undated: #economicIndicatorsContainer": 8,
+        "unsourced: #housing-type-need-section": 80
       }
     },
     "ic-summary.html": {
@@ -234,17 +291,19 @@
       "unsourced": 7,
       "undated": 0,
       "areas": {
-        "unsourced: #main-content>section:2": 4,
-        "unsourced: #main-content>section:3": 1,
-        "unsourced: #main-content>section:4": 2
+        "unsourced: #workflow-heading": 4,
+        "unsourced: #paths-heading": 1,
+        "unsourced: #audience-heading": 2
       }
     },
     "insights.html": {
       "unsourced": 7,
       "undated": 0,
       "areas": {
-        "unsourced: #researchCatalog>section:1": 2,
-        "unsourced: #researchCatalog>section:2": 5
+        "unsourced: #researchCatalog>p.rc-card__summary:2": 2,
+        "unsourced: #researchCatalog>h3.rc-card__title:4": 2,
+        "unsourced: #researchCatalog>h3.rc-card__title:5": 2,
+        "unsourced: #researchCatalog>h3.rc-card__title:14": 1
       }
     },
     "land-banking-awards.html": {
@@ -261,14 +320,17 @@
       "unsourced": 2,
       "undated": 0,
       "areas": {
-        "unsourced: #main-content>section:3": 2
+        "unsourced: #main-content>article.card:3": 2
       }
     },
     "lihtc-guide-for-stakeholders.html": {
-      "unsourced": 1,
-      "undated": 0,
+      "unsourced": 3,
+      "undated": 2,
       "areas": {
-        "unsourced: #main-content>section:1": 1
+        "unsourced: #main-content>div.lihtc-role-card:2": 1,
+        "undated: #developers": 2,
+        "unsourced: #investors>div.chart-card:1": 1,
+        "unsourced: #investors>div.chart-card:2": 1
       }
     },
     "lihtc-opportunity-finder.html": {
@@ -280,15 +342,16 @@
       "unsourced": 2,
       "undated": 0,
       "areas": {
-        "unsourced: #main-content>article:1>div:1>section:3": 2
+        "unsourced: #main-content>table:4": 2
       }
     },
     "market-analysis.html": {
       "unsourced": 5,
-      "undated": 0,
+      "undated": 16,
       "areas": {
-        "unsourced: #pageContext": 3,
-        "unsourced: #pmaDataQualitySummary>details:1": 2
+        "unsourced: #pageContext>details.pctx-panel:1": 3,
+        "unsourced: #pmaDataQualitySummary>table.dqs-table:1": 2,
+        "undated: #maPmaTool": 16
       }
     },
     "methods.html": {
@@ -300,8 +363,9 @@
       "unsourced": 11,
       "undated": 2,
       "areas": {
-        "unsourced: #ippMount>section:1>div:2": 2,
-        "unsourced: #ippMount>section:2": 1,
+        "unsourced: #ippMount>div.ipp-stat__value:1": 1,
+        "unsourced: #ippMount>div.ipp-stat__sub:1": 1,
+        "unsourced: #ippMount>section.ipp-howto.js-glossary-auto:1": 1,
         "unsourced: #step-1": 1,
         "undated: #step-2": 2,
         "unsourced: #step-6": 4,
@@ -310,22 +374,26 @@
       }
     },
     "policy-briefs.html": {
-      "unsourced": 0,
+      "unsourced": 4,
       "undated": 0,
-      "areas": {}
+      "areas": {
+        "unsourced: #researchList>article.research-card:2": 2,
+        "unsourced: #researchList>article.research-card:3": 2
+      }
     },
     "preservation.html": {
       "unsourced": 2,
       "undated": 0,
       "areas": {
-        "unsourced: #main-content>div:2": 2
+        "unsourced: #presKpiTotal": 1,
+        "unsourced: #presKpiUnits": 1
       }
     },
     "recommendation.html": {
       "unsourced": 3,
       "undated": 0,
       "areas": {
-        "unsourced: #recommendationMount>section:2": 3
+        "unsourced: #recommendationMount>section.rec-project:1": 3
       }
     },
     "research-brief.html": {
@@ -344,18 +412,20 @@
       "areas": {}
     },
     "where-housing-money-goes.html": {
-      "unsourced": 0,
+      "unsourced": 12,
       "undated": 0,
-      "areas": {}
+      "areas": {
+        "unsourced: #main-content>section.hm-answer:1": 12
+      }
     },
     "working-paper.html": {
       "unsourced": 25,
       "undated": 0,
       "areas": {
-        "unsourced: #main-content>article:1>section:2": 1,
-        "unsourced: #main-content>article:1>section:4": 10,
-        "unsourced: #main-content>article:1>section:5": 13,
-        "unsourced: #main-content>article:1>section:10": 1
+        "unsourced: #main-content>table:1": 1,
+        "unsourced: #main-content>table:2": 10,
+        "unsourced: #main-content>table:3": 13,
+        "unsourced: #main-content>table:4": 1
       }
     }
   }

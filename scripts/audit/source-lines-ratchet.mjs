@@ -13,7 +13,9 @@
  * Today's misses are recorded per page in source-lines-baseline.json. The
  * check fails only when a page, or any card or section on it, shows MORE
  * unsourced or undated figures than its baseline, so new pages and cards must arrive sourced while the existing
- * backlog is worked down. A page missing from the baseline has a baseline of 0.
+ * backlog is worked down. A page, card or section missing from the baseline has
+ * a baseline of 0 and no slack. Pages are read after network idle so cards
+ * that load late are counted the same way on every run.
  *
  * Exemptions: put data-no-source="definition|input|estimate" on an element
  * (or an ancestor) whose numbers are definitions ("30% of income"), form
@@ -61,9 +63,19 @@ function scanPage() {
   // table-export and source-badge lines sit under a table wrapper).
   // Only a line that reads as a source line counts, not any next sibling.
   const isSourceLine = (n) => !!n && (/source/i.test(n.className || '') || /^\s*Sources?\b/i.test(n.textContent || ''));
-  const linksAt = (b) => {
+  // `from` is the box the figure sits in. Once the climb leaves it, a link
+  // counts only if it is not inside a sibling card: a source line written for
+  // the whole section counts, a neighbouring card's own source does not.
+  const linksAt = (b, from) => {
     const next = b.nextElementSibling;
-    return [...b.querySelectorAll('a[href]'), ...(isSourceLine(next) ? next.querySelectorAll('a[href]') : [])].filter(isSrc);
+    const all = [...b.querySelectorAll('a[href]'), ...(isSourceLine(next) ? next.querySelectorAll('a[href]') : [])].filter(isSrc);
+    if (!from || from === b) return all;
+    return all.filter((a) => {
+      // A source line is not a card of its own (`.chart-source` matches BOX).
+      let c = a.closest(BOX);
+      while (c && isSourceLine(c)) c = c.parentElement && c.parentElement.closest(BOX);
+      return !c || c.contains(from) || !b.contains(c);
+    });
   };
   const isDated = (links) => DATE.test(links.map((a) => (a.closest('p,li,div,small,figcaption,td') || a).textContent).join(' '));
   // The next container up: a plain wrapper around this box alone (a table's
@@ -79,27 +91,38 @@ function scanPage() {
   // Climb at most two containers until a dated source is found, so a table
   // whose rows carry their own links still finds the dated line under it.
   const sourceLinks = (el) => {
-    let b = el.closest(BOX) || document.body;
+    const own = el.closest(BOX) || document.body;
+    // `b` is the box the figure is filed under: its own card, or the
+    // container whose source line it uses.
+    let b = own;
     let links = linksAt(b);
     let dated = links.length > 0 && isDated(links);
+    let cur = own;
     for (let i = 0; i < 2 && !dated; i++) {
-      const up = parentBox(b);
+      const up = parentBox(cur);
       if (!up || /^(BODY|MAIN)$/.test(up.tagName)) break;
-      const upLinks = linksAt(up);
-      if (!links.length) b = up;
+      cur = up;
+      const upLinks = linksAt(up, own);
       if (upLinks.length) { b = up; links = upLinks; dated = isDated(upLinks); }
     }
     return { b, links, dated };
   };
-  // Nearest id, then tag:nth-of-type steps down to the box.
+  // Area key: the box's id, else its heading's id, else the nearest id
+  // above it plus the box's tag and classes, numbered among boxes of the same
+  // kind under that id. Inserting a different kind of box, or renaming a
+  // heading, leaves every key as it was; only a same-kind box inserted ahead
+  // of an id-less one renumbers it (give the area an id to pin it).
+  const kind = (n) => [n.tagName.toLowerCase(), ...[...n.classList].sort()].join('.');
   const areaPath = (el) => {
-    const steps = [];
-    for (let n = el; n && n !== document.body; n = n.parentElement) {
-      if (n.id) { steps.unshift(`#${n.id}`); break; }
-      const same = n.parentElement ? [...n.parentElement.children].filter((c) => c.tagName === n.tagName) : [n];
-      steps.unshift(`${n.tagName.toLowerCase()}:${same.indexOf(n) + 1}`);
-    }
-    return steps.join('>');
+    if (el.id) return `#${el.id}`;
+    const h = el.querySelector('h1,h2,h3,h4,h5,h6,caption');
+    if (h && h.id && h.closest(BOX) === el) return `#${h.id}`;
+    let anchor = el.parentElement;
+    while (anchor && anchor !== document.body && !anchor.id) anchor = anchor.parentElement;
+    const root = anchor || document.body;
+    const k = kind(el);
+    const same = [...root.querySelectorAll(el.tagName)].filter((x) => kind(x) === k);
+    return `${anchor && anchor.id ? `#${anchor.id}` : 'body'}>${k}:${same.indexOf(el) + 1}`;
   };
   let figures = 0; let unsourced = 0; let undated = 0;
   const where = {};
@@ -149,7 +172,7 @@ async function main() {
   for (const p of pages) {
     const page = await ctx.newPage();
     try {
-      await page.goto(`${BASE_URL}/${p}`, { waitUntil: 'load', timeout: 45000 });
+      await page.goto(`${BASE_URL}/${p}`, { waitUntil: 'networkidle', timeout: 60000 });
       await page.waitForTimeout(SETTLE_MS);
       results[p] = await page.evaluate(scanPage);
     } catch (e) {
@@ -165,15 +188,21 @@ async function main() {
     const r = results[p];
     if (r.error) { failures.push(`${p}: could not load (${r.error})`); continue; }
     totalF += r.figures; totalU += r.unsourced; totalD += r.undated;
-    const b = baseline.pages[p] || { unsourced: 0, undated: 0 };
+    // The slack covers late-loading figures in a page or area that already
+    // has misses. A new page, or a card or section not in the baseline, gets
+    // none: new content arrives sourced.
+    const b = baseline.pages[p];
+    const pageSlack = b ? SLACK : 0;
+    const base = b || { unsourced: 0, undated: 0 };
     const grew = [];
-    if (r.unsourced > b.unsourced + SLACK) grew.push(`unsourced ${b.unsourced} -> ${r.unsourced}`);
-    if (r.undated > b.undated + SLACK) grew.push(`undated ${b.undated} -> ${r.undated}`);
+    if (r.unsourced > base.unsourced + pageSlack) grew.push(`unsourced ${base.unsourced} -> ${r.unsourced}`);
+    if (r.undated > base.undated + pageSlack) grew.push(`undated ${base.undated} -> ${r.undated}`);
     // Checked card by card as well, so a fix elsewhere on the page cannot
-    // offset a new unsourced card. The slack covers late-loading figures.
-    const baseAreas = b.areas || {};
+    // offset a new unsourced card.
+    const baseAreas = base.areas || {};
     for (const [area, n] of Object.entries(r.areas)) {
-      if (n > (baseAreas[area] || 0) + SLACK) grew.push(`${area}: ${baseAreas[area] || 0} -> ${n}`);
+      const allowed = area in baseAreas ? baseAreas[area] + SLACK : 0;
+      if (n > allowed) grew.push(`${area}: ${baseAreas[area] || 0} -> ${n}`);
     }
     if (grew.length) failures.push(`${p}: ${grew.join(', ')}\n      ${r.top.map(([k, v]) => `${k} (${v})`).join('\n      ')}`);
   }
@@ -193,7 +222,7 @@ async function main() {
   }
   if (failures.length) {
     console.error(`source-lines: FAIL - ${failures.length} page(s) show more unsourced or undated figures than the baseline:\n  ${failures.join('\n  ')}`);
-    console.error('Add a dated source link next to each new figure, or mark definitions, inputs and labelled estimates with data-no-source.');
+    console.error('Add a dated source link next to each new figure, or mark definitions, inputs and labelled estimates with data-no-source. If an area only moved (same misses, new key), give it an id and run with --update.');
     process.exit(1);
   }
   console.log('source-lines: PASS (no page got worse than its baseline)');
