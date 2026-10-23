@@ -1,6 +1,6 @@
 # Tone & Vocabulary Guide
 
-> Outgoing messaging across this repo should sound like the voice in IndiBuild's actual application materials — humble, partnership-first, community-respecting. Sources of truth: indibuild.com homepage and the Fruita Mews Phase II application narrative, CHFA presentation, and clarification response.
+> Outgoing messaging across this repo should sound humble, partnership-first and community-respecting, the voice of a practitioner who has built housing with communities.
 
 ## Core stance
 
@@ -11,7 +11,7 @@ We are a **collaborative of affordable housing professionals** — not consultan
 - Communities make their own decisions. We support those decisions with information.
 - We are grateful for the chances we've been given. We acknowledge that.
 
-## Preferred vocabulary (drawn from Fruita Mews materials)
+## Preferred vocabulary
 
 | Use this | Not this |
 |---|---|
@@ -96,7 +96,7 @@ Take from that:
 This guide governs:
 1. **Public-facing pages** (anything on pggllc.github.io/Housing-Analytics that doesn't require the developer gate)
 2. **Methodology documents** (`docs/methodology/*`)
-3. **The IndiBuild internal dashboard** (`indibuild.html` and friends) — internal staff still benefit from neutral language because it will leak to partners eventually
+3. **The developer site** (gated pages) — internal staff still benefit from neutral language because it will leak to partners eventually
 4. **Application materials we publish back into the repo** (presentations, briefs, narratives)
 
 Tone audits should run as a pre-commit consideration whenever we add or change user-facing copy.

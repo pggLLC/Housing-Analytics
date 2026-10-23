@@ -1,0 +1,162 @@
+// Colorado detail in the guides: every Colorado figure typed into the LIHTC
+// guide, the fair housing brief, resident services, the CRA page and the ROAD
+// Act page must agree with the repo record it was copied from.
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+
+const ROOT = path.resolve(__dirname, '..');
+const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+const json = (p) => JSON.parse(read(p));
+const usd = (n) => '$' + Number(n).toLocaleString('en-US');
+
+const guide = read('lihtc-guide-for-stakeholders.html');
+const fair = read('article-fair-housing-rollback.html');
+const rs = read('resident-services.html');
+const cra = read('cra-expansion-analysis.html');
+const road = read('housing-legislation-2026.html');
+
+// 1. Colorado's 2026 ceiling = IRS population x per-capita rate, as allocations.json records it.
+const co = json('data/allocations.json').states.CO;
+assert.equal(Math.floor(co.population * 3.416), co.allocation, 'allocations.json CO ceiling is population x $3.416');
+for (const [name, page] of [['guide', guide], ['ROAD page', road]]) {
+  assert.ok(page.includes(usd(co.allocation)), `${name} states Colorado's 2026 ceiling ${usd(co.allocation)}`);
+}
+assert.ok(guide.includes(co.population.toLocaleString('en-US') + ' residents'), 'guide states the IRS population');
+
+// CHFA 2027 draft figures in the guide match the scoring record.
+const sc = json('data/policy/chfa-2027-r1-scoring.json');
+assert.equal(sc.status, 'draft', 'guide labels the 2027 figures draft; update the guide when CHFA adopts');
+assert.ok(guide.includes(`${sc.minimum_score.points} points for any 9% application`), 'minimum score');
+assert.ok(guide.includes(usd(sc.credit_caps.federal_9pct_annual)) && guide.includes(usd(sc.credit_caps.state_standard_with_9pct_annual)), 'per-project caps');
+assert.ok(guide.includes(usd(sc.credit_caps.without_pilot.federal_9pct_annual)) && guide.includes(usd(sc.credit_caps.without_pilot.state_standard_with_9pct_annual)), '3.L.1 caps');
+const g = sc.gap_pilot;
+for (const n of [g.doh.per_unit, g.oedit.per_unit]) assert.ok(guide.includes(usd(n) + ' per unit'), `gap pilot ${usd(n)} per unit`);
+assert.ok(guide.includes(`AMI midpoint of ${g.doh.midpoint_max}% or below`), 'DOH midpoint line');
+const pts = Object.fromEntries(sc.lines.map((l) => [l.id, l.points]));
+for (const [id, label] of [['5A2-extended-use', 'Extended use'], ['5B5-homeless', 'Homelessness or special populations'], ['5B3d-preservation', 'Preservation'], ['5B4b-pha', 'Colorado housing authority as general partner'], ['5B3b-nonmetro', 'Non-metro county'], ['5B2a-priority', 'Community priority']]) {
+  const row = guide.match(new RegExp('<tr><td><strong>' + label + '</strong>[^<]*</td><td>([^<]+)</td>'));
+  assert.ok(row, `points row for ${label}`);
+  assert.ok(row[1].includes(String(pts[id])), `${label} shows ${pts[id]} points`);
+}
+assert.ok(guide.includes(`Up to ${sc.targeting.weights['40']}`), 'targeting maximum');
+const pab = json('data/policy/pab-allocations.json').metadata;
+assert.ok(guide.includes(usd(pab.stateVolumeCap)) && guide.includes(usd(pab.statewide.chfaPool)), 'bond cap figures');
+
+// The Colorado market row is bound to the data file, never left as a stale figure.
+assert.ok(/set\('lihtcGuideMktCo', co\.median_all_credits\)/.test(guide), 'Colorado market row reads the data file');
+
+// 2. Each Colorado deal-killer agrees with data/policy/colorado-deal-rules.json
+// and the records it points to. Checks read the item by its label, so the prose
+// around the facts can be reworded; changing a fact without the record fails.
+const rules = Object.fromEntries(json('data/policy/colorado-deal-rules.json').rules.map((r) => [r.id, r]));
+const legis = json('data/policy/tax-credit-legislation.json');
+const legisRec = (id) => JSON.stringify(legis).includes(`"id": "${id}"`) || JSON.stringify(legis).includes(`"id":"${id}"`);
+const fundingGuide = JSON.stringify(json('data/policy/co-developer-funding-guide.json'));
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const longDate = (iso) => { const [y, m, d] = iso.split('-').map(Number); return `${MONTHS[m - 1]} ${d}, ${y}`; };
+const rofrSunset = (() => {
+  const walk = (o) => (o && typeof o === 'object' ? (o.id === rules['local-rofr'].legislation_record ? o : Object.values(o).map(walk).find(Boolean)) : null);
+  return walk(legis).sunset_date;
+})();
+
+function dealKillerErrors(page) {
+  const errs = [];
+  const item = (label) => {
+    const m = page.match(new RegExp('<li><strong>' + label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '</strong>([\\s\\S]*?)</li>'));
+    if (!m) errs.push(`no deal-killer item labelled "${label}"`);
+    return m ? m[1] : '';
+  };
+  const w = rules['water-adequacy'];
+  const water = item(w.label);
+  if (!water.includes(`more than ${w.threshold_sfe} single-family equivalents`)) errs.push(`water item must state the ${w.threshold_sfe} SFE threshold`);
+  if (w.local_lower_threshold_allowed && !/lower number/.test(water)) errs.push('water item must keep the locally lowered threshold');
+  for (const st of w.statutes) if (!water.includes(st)) errs.push(`water item must cite ${st}`);
+  const v = rules['vcup-cleanup'];
+  const vc = item(v.label);
+  if (!new RegExp(`within ${v.plan_review_days} days \\(C\\.R\\.S\\. ${v.plan_statute}\\)`).test(vc)) errs.push(`contamination item must tie the ${v.plan_review_days}-day plan review to ${v.plan_statute}`);
+  if (!new RegExp(`No Action Determination[^]*\\(${v.nad_statute}\\)`).test(vc)) errs.push(`contamination item must tie the No Action Determination to ${v.nad_statute}`);
+  if (!vc.includes(`$${v.hourly_rate} an hour`)) errs.push(`contamination item must state $${v.hourly_rate} an hour`);
+  const pr = rules['prop123-commitment'];
+  const p = item(pr.label);
+  if (!/^\s*Most /.test(p)) errs.push('Prop 123 item must say most (not all) Prop 123 money needs a commitment');
+  for (const ex of pr.exempt_programs) if (!p.includes(ex)) errs.push(`Prop 123 item must name the ${ex} exemption`);
+  const r = rules['local-rofr'];
+  const rofr = item(r.label);
+  if (!rofr.includes(`${['zero', 'one', 'two', 'three', 'four', 'five'][r.min_units]} or more units`)) errs.push(`ROFR item must state ${r.min_units} or more units`);
+  for (const st of [r.rofr_statute, r.exemption_statute]) if (!rofr.includes(st)) errs.push(`ROFR item must cite ${st}`);
+  if (!rofr.includes(longDate(rofrSunset))) errs.push(`ROFR item must end the rights on ${longDate(rofrSunset)}`);
+  return errs;
+}
+
+// The record itself agrees with the files it cites.
+assert.ok(legisRec(rules['local-rofr'].legislation_record), 'ROFR rule points at a tax-credit-legislation record');
+assert.ok(fundingGuide.includes('Office of Homeless Initiatives programs and modular/factory-built manufacturer loans do not require a local commitment'), 'funding guide record carries the Prop 123 exemptions');
+assert.ok(/29-4-1205 exemptions include \(1\)\(f\)/.test(JSON.stringify(legis)) && rules['local-rofr'].exemption_statute === '29-4-1205(1)(f)', 'legislation record carries the ROFR exemption cite');
+assert.deepEqual(dealKillerErrors(guide), [], 'deal-killers agree with colorado-deal-rules.json');
+
+// Sabotage both ways, proving each mutation changed the page.
+const mutate = (from, to) => { assert.ok(guide.includes(from), `mutation source present: ${from}`); const out = guide.replace(from, to); assert.notEqual(out, guide, 'mutation applied'); return out; };
+assert.deepEqual(dealKillerErrors(mutate("Confirm the provider's will-serve letter", "Get the provider's will-serve letter")), [], 'rewording stays green');
+assert.deepEqual(dealKillerErrors(mutate('Build the notice time into', 'Allow for the notice period in')), [], 'ROFR rewording stays green');
+assert.ok(dealKillerErrors(mutate('more than 50 single-family equivalents', 'more than 100 single-family equivalents')).length > 0, 'changed water threshold fails');
+assert.ok(dealKillerErrors(mutate('within 45 days (C.R.S. 25-16-306)', 'within 30 days (C.R.S. 25-16-306)')).length > 0, 'changed plan review time fails');
+assert.ok(dealKillerErrors(mutate('<strong>Proposition 123 status.</strong> Most state', '<strong>Proposition 123 status.</strong> All state')).length > 0, 'dropping "most" fails');
+assert.ok(dealKillerErrors(mutate('The rights end December 31, 2029', 'The rights end December 31, 2030')).length > 0, 'changed ROFR sunset fails');
+for (const s of ['HB26-1313', 'cdola.colorado.gov/commitment-filings']) assert.ok(guide.includes(s), `guide deal-killers cite ${s}`);
+const p123 = json('data/policy/prop123_jurisdictions.json').next_cycle;
+assert.equal(p123.filing_deadline, '2026-11-01');
+assert.ok(guide.includes('due November 1, 2026') && fair.includes('due 1 November 2026'), 'Prop 123 filing deadline');
+
+// The ROFR warning names the resyndication exemption the record carries, and
+// the preservation row carries both routes the draft prints.
+assert.ok(guide.includes('29-4-1205(1)(f)'), 'ROFR exemption named');
+const pres = sc.lines.find((l) => l.id === '5B3d-preservation').quote;
+assert.ok(/within three years of expiration/.test(pres) && guide.includes('expires within three years'), 'preservation subsidy route');
+
+// Codex round 2: the water rule carries its threshold, the cleanup plan and the
+// No Action Determination are separate steps, and HOME NEPA exemptions are statutory.
+assert.ok(guide.includes('50 single-family equivalents') && guide.includes('29-20-103(1)(b)'), 'water threshold');
+assert.ok(guide.includes('25-16-306') && guide.includes('25-16-307'), 'VCUP plan approval vs NAD');
+assert.ok(!/council that has not done so/.test(guide), 'no council requirement for local priority points');
+assert.ok(road.includes('exempt from NEPA review in the statute itself') && !road.includes('exemptions wait on HUD rules'), 'HOME NEPA exemptions statutory');
+
+assert.ok(guide.includes('if state gap funds are not available'), '3.L.1 tied to unavailable gap funds');
+assert.ok(guide.includes('or the lower number the town has set'), 'due diligence keeps local water threshold');
+assert.ok(road.includes('suitable for occupancy'), 'voucher inspection must have passed');
+
+// 3. Fair housing: Colorado law, and no unqualified 3% claim after HB26-1313.
+for (const s of ['C.R.S. 24-34-502', 'HB20-1332', 'Colorado Civil Rights Division', 'within one year', 'HB26-1313']) {
+  assert.ok(fair.includes(s), `fair housing brief cites ${s}`);
+}
+assert.ok(/no more than five rental units in all/.test(fair), 'voucher exemption states the five-unit total');
+assert.ok(!/conditions state funding on a filed commitment to a 3% annual\s+increase/.test(fair), 'old 3% sentence removed');
+
+// 4. Resident services: every Denver and DOH figure in the summary is in the records.
+const recs = Object.fromEntries(json('data/policy/resident-services.json').entries.map((e) => [e.id, e.finding]));
+for (const [fig, id] of [['77 percent', 'denver-sib-housing'], ['40 percent fewer arrests', 'denver-sib-justice'], ['27 percent fewer jail days', 'denver-sib-justice'], ['65 percent fewer detox visits', 'denver-sib-justice'], ['$6,876', 'denver-sib-offsets'], ['$7,200', 'cost-doh-minimum'], ['July 1, 2025', 'fund-medicaid-hrsn']]) {
+  assert.ok(rs.includes(fig), `resident services states ${fig}`);
+  assert.ok(recs[id].includes(fig), `${id} record contains ${fig}`);
+}
+
+// 5. CRA and ROAD pages carry a Colorado read-through.
+assert.ok(cra.includes('What this means for a Colorado deal') && /data-co-median/.test(cra), 'CRA Colorado box bound to data');
+assert.ok(road.includes('What It Means in Colorado') && road.includes('doh.colorado.gov/home-program'), 'ROAD Colorado section');
+
+// 6. Codex round 4: DOH fallback loan, ELI band wording, CCRD hearing step, CRA broader area.
+assert.ok(/must-pay loan at 2\.5% over 40 years/.test(guide), 'DOH fallback loan for non-Prop 123 projects');
+assert.ok(/insufficient Proposition 123 gap funds/.test(JSON.stringify(sc)), 'scoring record carries the DOH fallback quote');
+assert.ok(/&ldquo;Up to&rdquo;, so a share between bands/.test(guide), 'ELI band ambiguity disclosed');
+assert.ok(/Up to 10% of total units/.test(JSON.stringify(sc)), 'scoring record carries the Up to wording');
+assert.ok(/finds probable\s+cause/.test(fair) && !/set for hearing automatically/.test(fair), 'CCRD hearing follows probable cause');
+assert.ok(cra.includes('broader statewide or regional area') && cra.includes('12 CFR 25.23(a)'), 'CRA broader area credit');
+
+// 7. Codex round 5: lowest-AMI bonus, 5.A.1.d / 5.B.5 exclusion, set-aside exceptions.
+assert.ok(guide.includes(`Up to ${sc.targeting.weights['40']}, plus ${sc.targeting.lowest_ami_bonus.points}`), 'lowest-AMI bonus shown');
+assert.ok(JSON.stringify(sc).includes('"excludes":"5A1d-eli"') && /cannot also claim 5\.B\.5/.test(guide) && /Cannot be combined with the extremely low income line/.test(guide), 'ELI and 5.B.5 marked exclusive');
+assert.ok(/CHFA may accept less, case by case/.test(guide), 'sub-25% set-aside exceptions kept');
+
+// Codex round 6: the 20-at-50 election has no 60% row, as the record's rule says.
+assert.ok(/20-50 table has no 60% row/.test(sc.targeting.rule) && /20-at-50 minimum set-aside election the table has no 60% row/.test(guide), '20-at-50 exception kept');
+
+console.log(`colorado-guide-detail: PASS (Colorado 2026 ceiling ${usd(co.allocation)}; CHFA draft status ${sc.status})`);

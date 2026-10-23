@@ -418,6 +418,7 @@
    * showAllChartsLoading — show loading overlays on all chart canvases in the DOM.
    */
   function showAllChartsLoading() {
+    _ensureBedroomNeedCanvas();
     document.querySelectorAll('canvas[id^="chart"]').forEach(canvas => {
       showChartLoading(canvas.id);
     });
@@ -673,8 +674,9 @@
       const sourceText = U().homeValueSourceText ? U().homeValueSourceText(homeInfo) : homeInfo.sourceText;
       const rateA = U().AFFORD || {};
       incomeNeedSrc.textContent = (sourceText || 'Home-value source unavailable') + ' · ' +
-        (rateA.rateAnnual ? (rateA.rateAnnual * 100).toFixed(2) + '% mortgage rate, ' : '') +
-        (rateA.rateSource || 'Freddie Mac PMMS');
+        (Number.isFinite(rateA.rateAnnual)
+          ? (rateA.rateAnnual * 100).toFixed(2) + '% mortgage rate, ' + rateA.rateSource
+          : 'mortgage rate unavailable, so income needed is not shown');
     }
 
     // Commute (S0801 mean travel time C01_046E)
@@ -1138,7 +1140,9 @@
         breakdownHtml +
         '<p style="margin:8px 0 4px"><strong>Mortgage assumptions:</strong></p>' +
         '<ul style="margin:0;padding-left:20px">' +
-          '<li>Interest rate: <strong>' + (A.rateAnnual*100).toFixed(2) + '%</strong> (30-year fixed; ' + escHtml(A.rateSource || 'Freddie Mac PMMS') + ') · term: <strong>' + A.termYears + ' years</strong></li>' +
+          (Number.isFinite(A.rateAnnual)
+            ? '<li>Interest rate: <strong>' + (A.rateAnnual*100).toFixed(2) + '%</strong> (30-year fixed; ' + escHtml(A.rateSource) + ') · term: <strong>' + A.termYears + ' years</strong></li>'
+            : '<li>Interest rate: unavailable (the rate file did not load), so no income figure is computed · term: <strong>' + A.termYears + ' years</strong></li>') +
           '<li>Down payment: <strong>' + Math.round(A.downPaymentPct*100) + '%</strong> · PMI: <strong>' + (A.pmiPctAnnual*100).toFixed(2) + '%</strong> of loan/yr when down &lt; 20%</li>' +
           '<li>Property tax: <strong>' + (A.propertyTaxPctAnnual*100).toFixed(2) + '%</strong> of home value/yr · insurance: <strong>' + (A.insurancePctAnnual*100).toFixed(2) + '%</strong> of home value/yr</li>' +
           '<li>Underwriting rule: monthly payment (principal, interest, taxes and insurance) of no more than <strong>' + Math.round(A.paymentToIncome*100) + '%</strong> of gross household income (lenders often use 28%; this uses the more generous 30% rule of thumb)</li>' +
@@ -5964,7 +5968,6 @@
         homeValueEntry: homeValueEntry,
         ownerValueSupplyProfile: profile,
         assumptions: afford ? {
-          pmms30YearRate: afford.rateAnnual,
           termYears: afford.termYears,
           downPaymentRate: afford.downPaymentPct,
           propertyTaxRate: afford.propertyTaxPctAnnual,
@@ -6724,7 +6727,9 @@
       '<ul style="margin:8px 0 0;padding-left:20px;font-size:1rem;color:var(--muted);line-height:1.55;">' +
         '<li><strong>30% rule:</strong> standard housing affordability convention — gross income × 30% = max housing payment. Required annual = monthly cost × 12 ÷ 0.30; hourly = annual ÷ 2,080 (40hr × 52wk).</li>' +
         '<li><strong>Buy assumptions:</strong> ' + Math.round(((u.AFFORD && u.AFFORD.downPaymentPct) || 0.10) * 100) + '% down, 30-year mortgage at ' +
-          (((u.AFFORD && u.AFFORD.rateAnnual) || 0.074) * 100).toFixed(2) + '% (' + escHtml((u.AFFORD && u.AFFORD.rateSource) || 'Freddie Mac PMMS') + '), property tax, insurance and mortgage insurance when the down payment is under 20%. The same assumptions as the Income Needed to Buy figure above.</li>' +
+          (u.AFFORD && Number.isFinite(u.AFFORD.rateAnnual)
+            ? (u.AFFORD.rateAnnual * 100).toFixed(2) + '% (' + escHtml(u.AFFORD.rateSource) + ')'
+            : 'a rate that did not load') + ', property tax, insurance and mortgage insurance when the down payment is under 20%. The same assumptions as the Income Needed to Buy figure above.</li>' +
         '<li><strong>AMI-60% LIHTC:</strong> 60% × HUD 4-person Area Median Income for the containing county. Tax-credit units are restricted to tenants at or below 60% AMI — this is the income they need.</li>' +
         '<li><strong>"Workers who qualify":</strong> share of local LEHD WAC jobs earning at least the required income. Computed from the three LEHD earnings tiers (about $15,000 a year or less, $15,000 to $40,000, and over $40,000), with linear interpolation within each tier.</li>' +
         '<li><strong>Sources:</strong> ' +
@@ -9475,12 +9480,26 @@
    *
    * @param {object|null} b25009 - { renterTotal, renterBySize: {1..7+} } or null
    */
+  // _placeholderInBox replaces the canvas for a geography with no data; put it
+  // back so the next geography's loading state and chart have somewhere to go.
+  function _ensureBedroomNeedCanvas() {
+    const existing = document.getElementById('chartBedroomNeed');
+    if (existing) return existing;
+    const box = document.querySelector('#bedroom-need-section .chart-box');
+    if (!box) return null;
+    box.innerHTML = '<canvas id="chartBedroomNeed" role="img" aria-label="Renter households by needed bedroom count"></canvas>';
+    return document.getElementById('chartBedroomNeed');
+  }
+
   function renderBedroomNeed(b25009) {
-    const canvas = document.getElementById('chartBedroomNeed');
+    const canvas = _ensureBedroomNeedCanvas();
     const noteEl = document.getElementById('bedroomNeedNote');
     if (!canvas) return;
     if (!b25009 || !b25009.renterBySize) {
-      _placeholderInBox(canvas, 'ACS B25009 renter household-size data not yet loaded.');
+      const reason = b25009 && b25009.unavailableReason;
+      _placeholderInBox(canvas, reason === 'no_renter_households_reported'
+        ? 'The ACS 2020–2024 estimate reports no renter households for this geography.'
+        : 'Renter household-size figures are not available for this geography.');
       if (noteEl) noteEl.textContent = '';
       return;
     }
@@ -9489,8 +9508,9 @@
     const s = b25009.renterBySize;
     // Translate HH-size buckets → bedroom-need buckets.
     const bins = {
-      studio:  Math.round((s[1] || 0) * 0.5),
-      '1BR':   Math.round((s[1] || 0) * 0.5) + (s[2] || 0),
+      // floor/remainder so the bins add back to the published renter total
+      studio:  Math.floor((s[1] || 0) / 2),
+      '1BR':   (s[1] || 0) - Math.floor((s[1] || 0) / 2) + (s[2] || 0),
       '2BR':   (s[3] || 0) + (s[4] || 0),
       '3BR':   (s[5] || 0) + (s[6] || 0),
       '4BR+':  (s['7+'] || 0)

@@ -32,6 +32,7 @@
   var _data = null;
   var _countyHomeValues = {};
   var _fredRate = 7.0;  // fallback (CO 30-yr fixed)
+  var _rateSource = null;
   var _loadPromise = null;
   var HOME_VALUE_METRIC = {
     key: 'zhvi_typical_home_value',
@@ -67,9 +68,16 @@
       ((r[3] && r[3].counties) || []).forEach(function (geo) {
         _countyHomeValues[geo.label.replace(/ County$/, '')] = r[2] && r[2].counties && r[2].counties[geo.geoid];
       });
-      // Best-effort grab the latest MORTGAGE30US observation as the current rate
+      // The page loads OwnershipFinance, whose dated MORTGAGE_RATE is the one
+      // rate every homeownership figure on the site uses; read that so this
+      // table and the HNA agree. The latest FRED reading is only the
+      // engine-less fallback.
+      var shared = typeof window !== 'undefined' && window.OwnershipFinance && window.OwnershipFinance.MORTGAGE_RATE;
       var fred = r[1] && r[1].series && r[1].series.MORTGAGE30US;
-      if (fred && fred.observations && fred.observations.length) {
+      if (shared) {
+        _fredRate = shared.rateAnnual * 100;
+        _rateSource = shared.source;
+      } else if (fred && fred.observations && fred.observations.length) {
         var last = fred.observations[fred.observations.length - 1];
         var v = Number(last.value);
         if (Number.isFinite(v) && v > 1 && v < 20) _fredRate = v;
@@ -275,7 +283,7 @@
       'Hover any column header for the definition; click any column header to sort. ' +
       'Healthy P/I ≤3; stretched >4.5. P/R ≤15 favors buying; >20 favors renting. ' +
       'Affordability rate: estimate of CO households who can afford the median home at ' +
-      _fredRate.toFixed(2) + '% mortgage rate, 30% PITI rule.' +
+      _fredRate.toFixed(2) + '% mortgage rate' + (_rateSource ? ' (' + _rateSource + ')' : '') + ', 30% PITI rule.' +
       '</p>';
     html += '<div style="overflow-x:auto;">';
     html += '<table class="affordability-table" data-export="dd-county-affordability" style="width:100%;border-collapse:collapse;font-size:.85rem;">';

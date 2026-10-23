@@ -130,10 +130,10 @@
         {
           "file": "js/hna/ownership-finance.js",
           "region": "affordability-defaults",
-          "sha": "4e5068b4df02b27a"
+          "sha": "c62dd9375815af59"
         }
       ],
-      "reviewed": "2026-10-10"
+      "reviewed": "2026-10-23"
     },
     {
       "section": "m-score",

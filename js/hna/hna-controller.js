@@ -1827,6 +1827,20 @@
    * on any fetch failure — the panel will show a placeholder, nothing
    * downstream blocks.
    */
+  // B25009 renter households by size, published from the ACS summary file by
+  // scripts/market/build_acs_renter_household_size.py. The site ships no Census
+  // key, so without this file the bedroom-need chart never drew for visitors.
+  async function loadCachedB25009(geoType, geoid) {
+    let data;
+    try { data = await loadJson('data/market/acs_renter_household_size_co.json'); } catch (_) { return null; }
+    const bucket = geoType === 'state' ? data.state : geoType === 'county' ? data.counties : data.places;
+    const row = bucket && bucket[geoid];
+    if (!row) return null;
+    // A published "unavailable" row is the answer; keep its reason for the panel.
+    if (row.unavailable_reason || !row.by_size) return { unavailableReason: row.unavailable_reason || 'renter_household_size_unavailable' };
+    return { renterTotal: row.renter_households, renterBySize: row.by_size };
+  }
+
   async function fetchAcsB25009(geoType, geoid) {
     if (geoType !== 'place' && geoType !== 'cdp' && geoType !== 'county' && geoType !== 'state') return null;
     const key = window.HNAUtils.censusKey();
@@ -4958,17 +4972,22 @@
     }
 
     // F188 — Renter need by bedroom count (ACS B25009 → bedroom bins).
-    // Fire and forget: the panel updates when the fetch resolves; downstream
-    // chart rendering doesn't wait. Failures are silent — the panel shows
-    // a placeholder without blocking anything else.
+    // Fire and forget: the panel updates when the data resolves; downstream
+    // chart rendering doesn't wait. Cached file first, live API only when a
+    // developer key is set. No data still renders, so the panel says so
+    // instead of leaving an empty box.
     (async () => {
+      let b25009 = null;
       try {
-        const b25009 = await fetchAcsB25009(geoType, geoid);
-        if (b25009 && window.HNARenderers && window.HNARenderers.renderBedroomNeed) {
-          window.HNARenderers.renderBedroomNeed(b25009);
-        }
+        b25009 = await loadCachedB25009(geoType, geoid) || await fetchAcsB25009(geoType, geoid);
       } catch (e) {
-        console.warn('[HNA] fetchAcsB25009 failed for ' + geoType + ':' + geoid, e);
+        console.warn('[HNA] B25009 load failed for ' + geoType + ':' + geoid, e);
+      }
+      // Compare with the selector, not state.current: a queued update leaves
+      // state.current on the old geography until it runs.
+      if (window.HNAState.els.geoSelect.value !== geoid) return;
+      if (window.HNARenderers && window.HNARenderers.renderBedroomNeed) {
+        window.HNARenderers.renderBedroomNeed(b25009);
       }
     })();
 

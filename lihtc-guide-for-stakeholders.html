@@ -112,7 +112,7 @@
 </a>
 <a href="#housing-authorities" style="padding: 1.5rem; background: var(--mcm-slate); text-decoration: none; border-left: 4px solid var(--mcm-teal); border-radius: 4px;">
 <h3 style="margin: 0 0 0.5rem 0;">Housing Agency</h3>
-<p style="margin: 0; color: var(--mcm-beige); font-size: 0.875rem;">QAP Design &amp; Allocation Strategy</p>
+<p style="margin: 0; color: var(--mcm-beige); font-size: 0.875rem;">How CHFA allocates credits</p>
 </a>
 <a href="#investors" style="padding: 1.5rem; background: var(--mcm-slate); text-decoration: none; border-left: 4px solid var(--mcm-mustard); border-radius: 4px;">
 <h3 style="margin: 0 0 0.5rem 0;">Investor</h3>
@@ -193,10 +193,13 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
       set('lihtcGuideRegion', region.median_all_credits);
       set('lihtcGuideMkt9', nat.credit_9pct);
       set('lihtcGuideMkt4', nat.credit_4pct);
+      set('lihtcGuideMktCo', co.median_all_credits);
       var vEl = document.getElementById('lihtcGuideVintage');
       if (vEl && j.meta && j.meta.vintage) vEl.textContent = j.meta.vintage;
       var mvEl = document.getElementById('lihtcGuideMktVintage');
       if (mvEl && j.meta && j.meta.vintage) mvEl.textContent = j.meta.vintage;
+      var mcEl = document.getElementById('lihtcGuideMktCoVintage');
+      if (mcEl && j.meta && j.meta.vintage) mcEl.textContent = j.meta.vintage;
       // The credits-to-cash diagram works its example at the Colorado median
       // and 5 cents below it. With no published median the arithmetic has no
       // price to use, so it says so rather than keeping the static figures.
@@ -489,37 +492,38 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <div class="chart-card" style="margin: 2rem 0;">
 <h3>Deal-Killers: What Actually Stops Projects From Closing</h3>
 <p style="line-height: 1.8; color: var(--mcm-beige); margin-bottom: 1rem;">
-  A funding award does not guarantee closing or completion. Review these risks between award and closing.
+  A funding award does not guarantee closing or completion. These are the risks that stall Colorado deals between award and closing, with the Colorado rule behind each where there is one.
 </p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1rem;">
 <div style="padding: 1rem; background: var(--mcm-graphite); border-left: 3px solid var(--mcm-burnt-orange); border-radius: 4px;">
 <h4 style="margin: 0 0 0.5rem 0;">Site-specific</h4>
 <ul style="line-height: 1.7; color: var(--mcm-beige); font-size: 0.9rem; padding-left: 1.25rem;">
-<li>Title/entitlement surprises discovered post-award</li>
-<li>Wetlands or endangered species on site (NEPA triggers)</li>
-<li>Phase II ESA finds contamination exceeding remediation budget</li>
-<li>Utility capacity not confirmed (sewer moratorium, electrical upgrade needed)</li>
-<li>Steep slope / soil conditions adding $500K+ site work</li>
+<li><strong>Water.</strong> For a project adding new water use of more than 50 single-family equivalents (or a lower number the town sets), a Colorado town or county cannot approve the development permit until it finds the water supply adequate (C.R.S. 29-20-303 and 29-20-103(1)(b)). Confirm the provider's will-serve letter, tap fees and any water rights dedication before applying</li>
+<li><strong>Contamination.</strong> If a Phase II finds it, CDPHE's Voluntary Cleanup Program approves or disapproves a cleanup plan within 45 days (C.R.S. 25-16-306). A separate No Action Determination, also 45 days, is for sites where an assessment shows contamination below state standards or coming from a neighboring property (25-16-307). Review is billed at $140 an hour</li>
+<li>Title or zoning surprises found after award</li>
+<li>Wetlands or endangered species on site (NEPA triggers where federal money is in the deal)</li>
+<li>Sewer or electrical capacity not confirmed in writing</li>
 </ul>
 </div>
 <div style="padding: 1rem; background: var(--mcm-graphite); border-left: 3px solid var(--mcm-teal); border-radius: 4px;">
 <h4 style="margin: 0 0 0.5rem 0;">Political &amp; Community</h4>
 <ul style="line-height: 1.7; color: var(--mcm-beige); font-size: 0.9rem; padding-left: 1.25rem;">
-<li>City council or planning commission rejection</li>
-<li>Neighborhood opposition (NIMBY lawsuits delaying building permits)</li>
-<li>Affordable-housing moratorium or rezoning delay</li>
-<li>Loss of local support letter (staff turnover, council election)</li>
-<li>Community benefits negotiation expanding TDC beyond feasibility</li>
+<li><strong>Proposition 123 status.</strong> Most state Prop 123 money, including OEDIT's 2027 gap pilot, goes only to projects in a jurisdiction with a commitment on file with DOLA. Office of Homeless Initiatives programs and loans to modular or factory-built manufacturers are exempt. Filings for the 2027–2029 cycle are due November 1, 2026, and HB26-1313 replaces the 3% growth test with permit and job growth targets from January 1, 2027</li>
+<li><strong>Local priority.</strong> CHFA's draft gives 3 points for a site in a community with an identified affordable housing priority (5.B.2.a). Confirm early what document shows that priority, such as a housing plan or needs assessment</li>
+<li>Council or planning commission denial, or a rezoning delay</li>
+<li>Loss of a local support letter after staff turnover or an election</li>
+<li>Neighborhood appeals that push building permits past the placed-in-service clock</li>
 </ul>
 </div>
 <div style="padding: 1rem; background: var(--mcm-graphite); border-left: 3px solid var(--mcm-mustard); border-radius: 4px;">
 <h4 style="margin: 0 0 0.5rem 0;">Financial</h4>
 <ul style="line-height: 1.7; color: var(--mcm-beige); font-size: 0.9rem; padding-left: 1.25rem;">
-<li>Construction cost escalation exceeding contingency (10–15% surprise)</li>
+<li><strong>Gap money not requested.</strong> Under CHFA's 2027 draft, DOH and OEDIT gap offers go only to projects that asked for them in the tax credit application (§3.B.9)</li>
+<li><strong>State credit pricing.</strong> No public source prices Colorado's state credit, so an investor quote below the pro forma opens a gap at closing</li>
 <li>Equity pricing drop between application and closing</li>
-<li>Interest rate spike blowing out debt service capacity</li>
-<li>Soft funding commitment letter expires without extension</li>
-<li>General contractor default or bankruptcy mid-construction</li>
+<li>Construction cost escalation beyond contingency</li>
+<li>Interest rate rise that cuts supportable debt</li>
+<li>A soft-funding commitment that expires before closing</li>
 </ul>
 </div>
 <div style="padding: 1rem; background: var(--mcm-graphite); border-left: 3px solid var(--mcm-beige); border-radius: 4px;">
@@ -527,9 +531,9 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <ul style="line-height: 1.7; color: var(--mcm-beige); font-size: 0.9rem; padding-left: 1.25rem;">
 <li>Missing placed-in-service deadline (9%: 24 mo; 4%: varies)</li>
 <li>10% test failure (basis must be more than 10% of reasonably expected basis within 12 months of the carryover allocation, IRC §42(h)(1)(E)(ii))</li>
-<li>Davis-Bacon wage violations on federally funded stack</li>
-<li>Environmental review (NEPA) delays from federal funds</li>
-<li>URA relocation requirements not budgeted correctly</li>
+<li><strong>Local right of first refusal.</strong> When an existing affordable property of five or more units is sold, the Colorado town or county can match the offer (HB24-1175, C.R.S. 29-4-1202). Build the notice time into a Year 15 or preservation sale unless the seller qualifies for the resyndication or recapitalization exemption, which needs notice and evidence to the local government and falls away if that effort fails (C.R.S. 29-4-1205(1)(f)). The rights end December 31, 2029</li>
+<li>Davis-Bacon wages and NEPA review where HOME, CDBG or other federal money is in the deal</li>
+<li>URA relocation costs not budgeted on an occupied rehab</li>
 </ul>
 </div>
 </div>
@@ -542,7 +546,12 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
   <a href="https://www.hud.gov/program_offices/comm_planning/relocation" target="_blank" rel="noopener" style="color: var(--mcm-teal);">URA requirements (HUD)</a> ·
   <a href="https://www.dol.gov/agencies/whd/government-contracts/construction" target="_blank" rel="noopener" style="color: var(--mcm-teal);">Davis-Bacon prevailing wage (DOL)</a> ·
   <a href="https://www.hudexchange.info/programs/environmental-review/" target="_blank" rel="noopener" style="color: var(--mcm-teal);">HUD NEPA environmental review (24 CFR Part 58)</a> ·
-  <a href="https://www.cohnreznick.com/industries/affordable-housing" target="_blank" rel="noopener" style="color: var(--mcm-teal);">CohnReznick Credit Study</a> (placed-in-service statistics)
+  <a href="https://www.cohnreznick.com/industries/affordable-housing" target="_blank" rel="noopener" style="color: var(--mcm-teal);">CohnReznick Credit Study</a> (placed-in-service statistics) ·
+  <a href="https://colorado.public.law/statutes/crs_29-20-303" target="_blank" rel="noopener" style="color: var(--mcm-teal);">C.R.S. 29-20-303 (water adequacy)</a> and <a href="https://colorado.public.law/statutes/crs_29-20-103" target="_blank" rel="noopener" style="color: var(--mcm-teal);">29-20-103 (threshold)</a> ·
+  <a href="https://cdphe.colorado.gov/hm/voluntary-cleanup" target="_blank" rel="noopener" style="color: var(--mcm-teal);">CDPHE Voluntary Cleanup Program</a> ·
+  <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener" style="color: var(--mcm-teal);">DOLA Prop 123 commitment filings</a> ·
+  <a href="https://leg.colorado.gov/bills/hb26-1313" target="_blank" rel="noopener" style="color: var(--mcm-teal);">HB26-1313</a> ·
+  <a href="https://leg.colorado.gov/bills/HB24-1175" target="_blank" rel="noopener" style="color: var(--mcm-teal);">HB24-1175</a>
 </div>
 </div>
 
@@ -681,106 +690,88 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <div class="accent-bar"></div>
 <!-- FOR HOUSING AUTHORITIES -->
 <section id="housing-authorities" style="margin-bottom: 4rem;">
-<h2>Housing Agency: QAP Design &amp; Allocation Strategy</h2>
+<h2>Housing Agency: How CHFA Allocates Credits in Colorado</h2>
 <div class="chart-card" style="margin: 2rem 0;">
-<h3>Role of State Housing Finance Agencies</h3>
+<h3>CHFA's Role and Colorado's Credit Supply</h3>
 <p style="line-height: 1.8; color: var(--mcm-beige);">
-                    State HFAs receive annual LIHTC allocations from the U.S. Treasury based on state population (the greater of a per-capita amount times state population or a small-state minimum, both adjusted for inflation annually and raised 12% from 2026 by Public Law 119-21; for 2026, $3.416 per person or $3,953,600, IRS Rev. Proc. 2025-32). Your role is to maximize the production of high-quality affordable housing by designing effective Qualified Allocation Plans (QAPs) and making strategic award decisions.
-                </p>
-<h4 style="margin: 2rem 0 1rem 0;">QAP Strategic Considerations:</h4>
-<div style="display: grid; gap: 1.5rem;">
-<div style="padding: 1.5rem; background: var(--mcm-graphite); border-radius: 4px;">
-<h5 style="color: var(--mcm-mustard); margin: 0 0 1rem 0;">1. Geographic Distribution</h5>
-<p style="color: var(--mcm-beige); line-height: 1.7; margin-bottom: 1rem;">
-<strong>Challenge:</strong> Balance urban need (high demand, high costs) vs. rural need (low density, limited capacity).
-                        </p>
-<p style="color: var(--mcm-beige); line-height: 1.7; margin: 0;">
-<strong>Strategies:</strong> Set-asides by region (30% metro, 20% rural); per-project caps to avoid concentration; bonus points for underserved counties.
-                        </p>
-</div>
-<div style="padding: 1.5rem; background: var(--mcm-graphite); border-radius: 4px;">
-<h5 style="color: var(--mcm-mustard); margin: 0 0 1rem 0;">2. Income Targeting</h5>
-<p style="color: var(--mcm-beige); line-height: 1.7; margin-bottom: 1rem;">
-<strong>Challenge:</strong> Serve those most in need (30% AMI) while maintaining project financial viability.
-                        </p>
-<p style="color: var(--mcm-beige); line-height: 1.7; margin: 0;">
-<strong>Strategies:</strong> Bonus points for units at 30-50% AMI; require minimum % at 50% AMI or below; allow averaging within projects.
-                        </p>
-</div>
-<div style="padding: 1.5rem; background: var(--mcm-graphite); border-radius: 4px;">
-<h5 style="color: var(--mcm-mustard); margin: 0 0 1rem 0;">3. Cost Efficiency</h5>
-<p style="color: var(--mcm-beige); line-height: 1.7; margin-bottom: 1rem;">
-<strong>Challenge:</strong> Limit per-unit credits to maximize unit production without sacrificing quality.
-                        </p>
-<p style="color: var(--mcm-beige); line-height: 1.7; margin: 0;">
-<strong>Strategies:</strong> Per-unit credit caps (with exceptions for elevators, difficult sites); bonus for green building; penalize cost outliers.
-                        </p>
-</div>
-<div style="padding: 1.5rem; background: var(--mcm-graphite); border-radius: 4px;">
-<h5 style="color: var(--mcm-mustard); margin: 0 0 1rem 0;">4. Developer Capacity</h5>
-<p style="color: var(--mcm-beige); line-height: 1.7; margin-bottom: 1rem;">
-<strong>Challenge:</strong> Encourage experienced developers while creating pathways for newcomers and nonprofits.
-                        </p>
-<p style="color: var(--mcm-beige); line-height: 1.7; margin: 0;">
-<strong>Strategies:</strong> Nonprofit set-aside (10% federally required); cap on % one developer can receive; points for track record.
-                        </p>
-</div>
-</div>
-</div>
-<div class="chart-card" style="margin: 2rem 0;">
-<h3>Illustration: How a QAP Groups Scoring Points</h3>
-<div class="table-wrap" role="region" tabindex="0" aria-label="Illustration of QAP scoring categories table"><table>
+  The Colorado Housing and Finance Authority (CHFA) is the state's housing credit agency. It writes Colorado's Qualified Allocation Plan (QAP), scores applications and awards both the federal credit and Colorado's state affordable housing tax credit. It runs two rounds a year: <strong>Round One</strong> for 9% credits paired with state credit (application due in February) and <strong>Round Two</strong> for 4% credits paired with state credit (due in August). Pure 4% bond deals apply on a rolling basis.
+</p>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Colorado housing credit supply table"><table>
 <thead>
 <tr>
-<th data-tip="A group of criteria a qualified allocation plan scores. Illustrative, not CHFA&#x27;s current point schedule.">Scoring Category</th>
-<th data-tip="The most points the illustration gives the category.">Max Points</th>
-<th data-tip="What the category rewards.">Purpose</th>
+<th data-tip="A source of tax credit authority CHFA can award in Colorado.">Credit</th>
+<th data-tip="How much Colorado has, and for which year.">Colorado amount</th>
+<th data-tip="Where the figure comes from.">Source</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Site &amp; Market Characteristics</strong></td>
-<td>25</td>
-<td>Location near transit, services, jobs</td>
+<td><strong>Federal 9% (per-capita ceiling)</strong></td>
+<td>$20,538,908 for 2026: 6,012,561 residents at $3.416 per person. Each state gets the greater of a per-capita amount or a small-state minimum ($3,953,600 for 2026); Colorado is well above the minimum</td>
+<td>IRS Rev. Proc. 2025-32 §4.08 (rate, including the 12% increase in Public Law 119-21) and Notice 2026-22 (population). Carryforward, returned credits and national pool credits can add to it.</td>
 </tr>
 <tr>
-<td><strong>Project Characteristics</strong></td>
-<td>20</td>
-<td>Unit mix, accessibility, green building</td>
+<td><strong>State credit, standard</strong></td>
+<td>$10 million a year through 2031</td>
+<td>HB 24-1434; CHFA allocates</td>
 </tr>
 <tr>
-<td><strong>Tenant Populations of Special Need</strong></td>
-<td>15</td>
-<td>Homeless, seniors, persons with disabilities</td>
+<td><strong>State credit, accelerated</strong></td>
+<td>$12 million in 2026 and 2027, $16 million in 2028, $20 million a year in 2029–2031</td>
+<td>HB 24-1434</td>
 </tr>
 <tr>
-<td><strong>Public Housing Priority</strong></td>
-<td>10</td>
-<td>Partnerships with housing authorities</td>
-</tr>
-<tr>
-<td><strong>Rent &amp; Income Restrictions</strong></td>
-<td>15</td>
-<td>Deeper affordability (30-50% AMI)</td>
-</tr>
-<tr>
-<td><strong>Development Team Experience</strong></td>
-<td>10</td>
-<td>Track record, capacity</td>
-</tr>
-<tr>
-<td><strong>Financial Feasibility</strong></td>
-<td>5</td>
-<td>Cost efficiency, leverage</td>
-</tr>
-<tr style="border-top: 2px solid var(--mcm-teal);">
-<td><strong>TOTAL POSSIBLE</strong></td>
-<td><strong>100</strong></td>
-<td>Illustrative weights only</td>
+<td><strong>Federal 4%</strong></td>
+<td>Not capped by the ceiling; needs private activity bond cap. Colorado's 2026 cap is $811,695,735, of which CHFA's statewide pool is $400,847,868, the main source for 4% deals</td>
+<td>IRC §42(h)(4); <a href="https://doh.colorado.gov/private-activity-bond-direct-allocations-2026" target="_blank" rel="noopener" style="color: var(--mcm-teal);">DOH 2026 private activity bond allocations</a></td>
 </tr>
 </tbody>
 </table></div>
-<div class="data-source">Illustrative categories and weights, not CHFA's point schedule. CHFA's adopted plan is the 2025–26 QAP; the 2027–28 QAP is still a draft. Read the scoring section of the <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener" style="color: var(--mcm-teal);">current CHFA QAP</a> for real points and thresholds.</div>
+<p style="line-height: 1.8; color: var(--mcm-beige); margin-top: 1rem;">
+  <strong>Who CHFA favors.</strong> The adopted <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener" style="color: var(--mcm-teal);">2025–26 QAP (§2.A)</a> names three priorities: people experiencing homelessness, special populations, and projects in non-metro counties of 180,000 people or fewer.
+</p>
+<p style="line-height: 1.8; color: var(--mcm-beige);">
+  <strong>What the 2027–28 draft changes.</strong> CHFA posted its Third Draft on September 11, 2026. It is not adopted, so treat each figure as provisional:
+</p>
+<ul style="line-height: 1.8; color: var(--mcm-beige);">
+<li><strong>Minimum score:</strong> 130 points for any 9% application (Threshold #1).</li>
+<li><strong>Per-project caps (§3.L):</strong> $1,700,000 of annual federal 9% credit, paired on request with a fixed $650,000 of standard state credit. Section 3.L.1 sets $1,800,000 and $600,000 as the maximum if state gap funds are not available; choosing not to request gap money does not unlock it.</li>
+<li><strong>State gap pilot (§3.B.9):</strong> ask for gap money inside the tax credit application, and an awarded project gets a conditional offer. The Division of Housing (DOH) puts up $12 million for Round One at $45,000 per unit, up to $2.5 million, for deals with an AMI midpoint of 48% or below or supportive housing. OEDIT puts up $25 million at $40,000 per unit, up to $2.25 million, as Proposition 123 concessionary debt for other deals in Prop 123 jurisdictions. A project outside a Prop 123 jurisdiction that misses DOH's criteria, or any project when Prop 123 gap money runs short, can still get a DOH must-pay loan at 2.5% over 40 years; the draft does not say whether DOH's per-unit and project caps apply to that loan.</li>
+<li><strong>2027 Round One dates:</strong> letter of intent December 1, 2026; application February 1, 2027.</li>
+</ul>
+<div class="data-source">
+  <strong>Sources:</strong>
+  <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener" style="color: var(--mcm-teal);">IRS Rev. Proc. 2025-32</a> ·
+  <a href="https://www.irs.gov/irb/2026-15_IRB" target="_blank" rel="noopener" style="color: var(--mcm-teal);">IRS Notice 2026-22 (IRB 2026-15)</a> ·
+  <a href="https://leg.colorado.gov/bills/hb24-1434" target="_blank" rel="noopener" style="color: var(--mcm-teal);">HB 24-1434</a> ·
+  <a href="https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf" target="_blank" rel="noopener" style="color: var(--mcm-teal);">CHFA 2027–28 QAP Third Draft</a> ·
+  <a href="https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192" target="_blank" rel="noopener" style="color: var(--mcm-teal);">CHFA dates and deadlines</a>. Draft figures checked October 21, 2026.
+</div>
+</div>
+<div class="chart-card" style="margin: 2rem 0;">
+<h3>Where the Points Are in CHFA's 2027 Draft</h3>
+<p style="line-height: 1.8; color: var(--mcm-beige);">The largest scoring lines for a 2027 Round One (9%) application, copied from the Third Draft. A project must earn points in both primary lines (targeting and extended use) to be eligible at all.</p>
+<div class="table-wrap" role="region" tabindex="0" aria-label="CHFA 2027 draft scoring lines table"><table>
+<thead>
+<tr>
+<th data-tip="The scoring line in CHFA's 2027-28 QAP Third Draft, with its section number.">Scoring line</th>
+<th data-tip="The most points the line can give. Not adopted until CHFA adopts the plan.">Points (draft)</th>
+<th data-tip="What a project has to do to earn the points.">What earns them</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong>Low-income targeting</strong> (5.A.1)</td><td>Up to 92.5, plus 20</td><td>Weighted by the share of restricted units at 40%, 50% and 60% AMI; an all-40% project scores 92.5, an all-60% project 50. Under the 20-at-50 minimum set-aside election the table has no 60% row, so 60% units earn nothing there. Projects in the counties with the lowest AMI get 20 more points; CHFA names those counties with the application, so claim them only from CHFA's list</td></tr>
+<tr><td><strong>Extended use</strong> (5.A.2)</td><td>40</td><td>15 years of compliance plus 25 years of extended use; required for 9%</td></tr>
+<tr><td><strong>Extremely low income</strong> (5.A.1.d)</td><td>Up to 15</td><td>10%, 20% or 30% of units at or below 30% AMI, with services at no cost to residents. The Third Draft words each band as &ldquo;Up to&rdquo;, so a share between bands (say 15%) could earn the lower or the next band; ask CHFA before counting the higher one. A project that claims these points cannot also claim 5.B.5</td></tr>
+<tr><td><strong>Homelessness or special populations</strong> (5.B.5)</td><td>15</td><td>At least 25% of units set aside, with services. CHFA may accept less, case by case, where federal or state rules cap special-needs units or the applicant documents a track record serving that population; the documentation goes in with the application. Cannot be combined with the extremely low income line (5.A.1.d)</td></tr>
+<tr><td><strong>Preservation</strong> (5.B.3.d)</td><td>15</td><td>Existing tax credit projects in year 25 or later of extended use, or properties whose project-based rental assistance or other guaranteed operating subsidy (such as HUD Section 8 or Rural Development Section 521) expires within three years</td></tr>
+<tr><td><strong>Colorado housing authority as general partner</strong> (5.B.4.b)</td><td>7</td><td>Sole or majority co-general partner; a nonprofit sole general partner earns 5 (5.B.4.a)</td></tr>
+<tr><td><strong>Non-metro county</strong> (5.B.3.b)</td><td>5</td><td>County of 180,000 people or fewer</td></tr>
+<tr><td><strong>Transit, mixed income, modular</strong> (5.B.2.b, 5.B.3.a, 5.B.3.f)</td><td>5 each</td><td>Transit-oriented site; no more than 80% tax credit units; modular or factory-built</td></tr>
+<tr><td><strong>Community priority</strong> (5.B.2.a)</td><td>3</td><td>Located in a community with an identified affordable housing priority</td></tr>
+</tbody>
+</table></div>
+<div class="data-source">Copied from the <a href="https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf" target="_blank" rel="noopener" style="color: var(--mcm-teal);">CHFA 2027–28 QAP Third Draft</a> (Section 5, pp. 41–47), checked October 21, 2026. Not adopted: re-check against the adopted plan before relying on any line. Housing need (5.B.1) scores by county severe-cost-burden tier; CHFA publishes the tier points with the application. CHFA keeps discretion regardless of rank.</div>
 </div>
 </section>
 <div class="accent-bar"></div>
@@ -843,8 +834,8 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <div style="padding: 1.5rem; background: var(--mcm-graphite); border-left: 4px solid var(--mcm-mustard); border-radius: 4px;">
 <h5 style="color: var(--mcm-mustard); margin: 0 0 1rem 0;">1. Development Team Evaluation</h5>
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
-<li>Track record: How many LIHTC projects completed?</li>
-<li>Compliance history: Any recapture events or HFA issues?</li>
+<li>Track record: How many tax credit projects completed, and how many in Colorado? <a href="deal-summary.html" style="color: var(--mcm-teal);">Deal Summaries</a> lists every CHFA award from 2022 on, by sponsor</li>
+<li>Compliance history: Any recapture events or CHFA compliance findings?</li>
 <li>Financial capacity: Developer net worth, liquidity</li>
 <li>Management experience: In-house or third-party property management?</li>
 </ul>
@@ -852,10 +843,12 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <div style="padding: 1.5rem; background: var(--mcm-graphite); border-left: 4px solid var(--mcm-mustard); border-radius: 4px;">
 <h5 style="color: var(--mcm-mustard); margin: 0 0 1rem 0;">2. Market &amp; Site Analysis</h5>
 <ul style="line-height: 1.8; color: var(--mcm-beige);">
-<li>Third-party market study review: Demand, absorption, rents</li>
+<li>Market study: CHFA requires one by a CHFA-approved, unaffiliated analyst, and it must match the application's targeting, unit mix, sizes, parking and rents (draft Threshold #3)</li>
+<li>Rents: check each restricted rent against CHFA's 2026 limits for the county (effective May 1, 2026; projects must use them by June 15, 2026)</li>
 <li>Comparable properties: Occupancy, concessions, rent trends</li>
 <li>Location quality: Transit, schools, employment centers</li>
-<li>Environmental: Phase I, II if needed; flood zone check</li>
+<li>Environmental: Phase I, II if needed; flood zone check; CDPHE cleanup plan approval or No Action Determination where contamination is found</li>
+<li>Water: the local adequacy finding for projects over 50 single-family equivalents, or the lower number the town has set (C.R.S. 29-20-303), and tap fees</li>
 </ul>
 </div>
 <div style="padding: 1.5rem; background: var(--mcm-graphite); border-left: 4px solid var(--mcm-mustard); border-radius: 4px;">
@@ -865,6 +858,7 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <li>Operating pro forma: Rents achievable? Expenses realistic?</li>
 <li>Debt coverage: CHFA's 2025–2026 QAP requires at least 1.15 DSCR on all amortized debt through the 15-year pro forma, and may award less credit above 1.30</li>
 <li>Contingencies: Adequate reserves for cost overruns, lease-up?</li>
+<li>State credit: the price in the investor's letter, since no public benchmark exists for Colorado's state credit</li>
 </ul>
 </div>
 <div style="padding: 1.5rem; background: var(--mcm-graphite); border-left: 4px solid var(--mcm-mustard); border-radius: 4px;">
@@ -874,6 +868,7 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <li>Partnership agreement: Investor protections, recapture guarantee</li>
 <li>Tax opinion: Counsel sign-off on credit delivery</li>
 <li>Compliance plan: Systems for income certification, rent limits</li>
+<li>Exit: the 25-year extended use CHFA requires for 9% deals, and the local right of first refusal on a sale (HB24-1175, through 2029; resyndications can be exempt)</li>
 </ul>
 </div>
 </div>
@@ -900,6 +895,16 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <td>Competitive with 9%; useful for acquisition/rehab, bond deals</td>
 </tr>
 <tr>
+<td><strong>Colorado pricing</strong></td>
+<td><span id="lihtcGuideMktCo">$0.81</span> median, all credit types (Novogradac <span id="lihtcGuideMktCoVintage">2026-Q2</span>); no Denver, rural or resort split and no 9%/4% split is published</td>
+<td>Underwrite to a Colorado investor quote, not the national average</td>
+</tr>
+<tr>
+<td><strong>CHFA's equity assumption</strong></td>
+<td>None fixed: CHFA sets an equity factor in the Preliminary Application or uses the applicant's letter of interest (2025–26 QAP, gap calculation)</td>
+<td>Underwriting follows your own letter, so a stale letter is the investor's risk and yours</td>
+</tr>
+<tr>
 <td><strong>Construction Costs</strong></td>
 <td>See <a href="construction-commodities.html" style="color: var(--mcm-teal);">Construction Commodities</a> for current price series</td>
 <td>Budget risk; stress test pro formas with +10% contingency</td>
@@ -916,7 +921,7 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 </tr>
 </tbody>
 </table></div>
-<div class="data-source">See <a href="cra-expansion-analysis.html" style="color: var(--mcm-teal);">CRA Expansion Impact on LIHTC Pricing</a> for the rulemaking record and scenarios.</div>
+<div class="data-source">Colorado figures: <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends" target="_blank" rel="noopener" style="color: var(--mcm-teal);">Novogradac equity pricing trends</a> (Colorado median) and the <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener" style="color: var(--mcm-teal);">CHFA 2025–26 QAP</a>, both checked October 9, 2026; quarterly detail on <a href="article-pricing.html" style="color: var(--mcm-teal);">Tax Credit Equity Markets</a>. See <a href="cra-expansion-analysis.html" style="color: var(--mcm-teal);">CRA Expansion Impact on LIHTC Pricing</a> for the rulemaking record and scenarios.</div>
 <script>
 /* The 10-year Treasury in the market table reads data/fred-data.json so the
    figure moves with the data. A missing or non-positive value reads as

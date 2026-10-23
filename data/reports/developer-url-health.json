@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated_at_utc": "2026-10-16T11:50:31Z",
+    "generated_at_utc": "2026-10-23T12:30:18Z",
     "total_urls": 433,
     "broken_count": 46,
-    "warning_count": 44,
-    "ok_count": 343,
+    "warning_count": 48,
+    "ok_count": 339,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
@@ -98,7 +98,7 @@
       "status": 0,
       "found_in": [
         "local-resources / county:08001/housingAuthority[1]",
-        "local-resources / county:08005/housingAuthority[1]",
+        "local-resources / county:08005/housingAuthority[0]",
         "local-resources / place:0804000/housingAuthority[0]",
         "local-resources / place:0804000/housingLead"
       ]
@@ -115,6 +115,14 @@
       "status": 404,
       "found_in": [
         "local-resources / place:0883835/hospital"
+      ]
+    },
+    {
+      "url": "https://www.cityofaspen.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0803620/housingLead",
+        "local-resources / place:0803620/majorEmployers[2]"
       ]
     },
     {
@@ -137,7 +145,6 @@
       "url": "https://www.douglas.co.us/departments/community-development/housing-services/",
       "status": 404,
       "found_in": [
-        "local-resources / county:08035/housingAuthority[0]",
         "local-resources / county:08035/housingLead"
       ]
     },
@@ -197,7 +204,6 @@
       "url": "https://www.moffatcounty.net/departments/housing/",
       "status": 0,
       "found_in": [
-        "local-resources / county:08081/housingAuthority[0]",
         "local-resources / county:08081/housingLead"
       ]
     },
@@ -213,7 +219,6 @@
       "url": "https://www.morgancounty.com/housing-authority",
       "status": 0,
       "found_in": [
-        "local-resources / county:08087/housingAuthority[0]",
         "local-resources / county:08087/housingLead"
       ]
     },
@@ -258,13 +263,6 @@
       ]
     },
     {
-      "url": "https://www.pueblocounty.us/departments/pcd/housing",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08101/housingAuthority[1]"
-      ]
-    },
-    {
       "url": "https://www.pueblocounty.us/departments/planning-and-zoning",
       "status": 0,
       "found_in": [
@@ -282,7 +280,6 @@
       "url": "https://www.riograndecounty.org/departments/housing-authority",
       "status": 404,
       "found_in": [
-        "local-resources / county:08105/housingAuthority[0]",
         "local-resources / county:08105/housingLead"
       ]
     },
@@ -337,18 +334,18 @@
       ]
     },
     {
-      "url": "https://www.trinidadco.com/housing",
-      "status": 404,
-      "found_in": [
-        "local-resources / county:08071/housingAuthority[0]"
-      ]
-    },
-    {
       "url": "https://www.vailgov.com/",
       "status": 404,
       "found_in": [
         "local-resources / county:08037/majorEmployers[2]",
         "local-resources / place:0880040/majorEmployers[2]"
+      ]
+    },
+    {
+      "url": "https://www.vailgov.com/government/boards-commissions/vail-local-housing-authority",
+      "status": 404,
+      "found_in": [
+        "local-resources / county:08037/housingAuthority[0]"
       ]
     },
     {
@@ -367,6 +364,13 @@
     }
   ],
   "warnings": [
+    {
+      "url": "https://lovelandhousing.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0846465/housingAuthority[0]"
+      ]
+    },
     {
       "url": "https://www.arvadaco.gov/1155/Affordable-Housing-in-Arvada",
       "status": 403,
@@ -475,6 +479,14 @@
       "status": 429,
       "found_in": [
         "local-resources / place:0845970/majorEmployers[3]"
+      ]
+    },
+    {
+      "url": "https://www.denverhousing.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08031/housingAuthority[0]",
+        "local-resources / place:0820000/housingAuthority[0]"
       ]
     },
     {
@@ -599,15 +611,6 @@
       ]
     },
     {
-      "url": "https://www.molsoncoors.com/",
-      "status": 403,
-      "found_in": [
-        "local-resources / county:08059/majorEmployers[1]",
-        "local-resources / place:0803455/majorEmployers[1]",
-        "local-resources / place:0830835/majorEmployers[0]"
-      ]
-    },
-    {
       "url": "https://www.newcastlecolorado.org/",
       "status": 403,
       "found_in": [
@@ -625,18 +628,14 @@
       "url": "https://www.secha.net/",
       "status": 403,
       "found_in": [
-        "local-resources / county:08009/housingAuthority[0]",
-        "local-resources / county:08011/housingAuthority[0]",
-        "local-resources / county:08017/housingAuthority[0]",
-        "local-resources / county:08025/housingAuthority[0]",
-        "local-resources / county:08027/housingAuthority[0]",
-        "local-resources / county:08055/housingAuthority[0]",
-        "local-resources / county:08061/housingAuthority[0]",
-        "local-resources / county:08063/housingAuthority[0]",
-        "local-resources / county:08071/advocacy[1]",
-        "local-resources / county:08073/housingAuthority[0]",
-        "local-resources / county:08089/housingAuthority[0]",
-        "local-resources / county:08099/housingAuthority[0]"
+        "local-resources / county:08071/advocacy[1]"
+      ]
+    },
+    {
+      "url": "https://www.stvrainhabitat.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0807850/advocacy[1]"
       ]
     },
     {
@@ -653,6 +652,13 @@
       "found_in": [
         "local-resources / county:08117/majorEmployers[5]",
         "local-resources / place:0808400/majorEmployers[1]"
+      ]
+    },
+    {
+      "url": "https://www.upstatecolorado.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08123/_employers_source"
       ]
     },
     {
@@ -719,7 +725,17 @@
       "found_in": [
         "local-resources / place:0885485/housingLead"
       ]
+    },
+    {
+      "url": "https://yvha.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08107/housingAuthority[0]",
+        "local-resources / place:0874090/housingAuthority[0]",
+        "local-resources / place:0874090/housingLead",
+        "policy-progress / Steamboat Springs / land_banking"
+      ]
     }
   ],
-  "ok_count": 343
+  "ok_count": 339
 }

@@ -17,6 +17,11 @@
  * nothing found) comes from data/policy/prop123-land-banking-status.json
  * (scripts/funding/build_land_banking_status.py), loaded alongside the awards.
  *
+ * Above the map, filters (round, homes planned, who holds the award, status) narrow the
+ * pins, and "Colour pins by" picks which of those the pin colours and the key show. The
+ * same filters drive the public page's table (js/land-banking-awards.js listens for the
+ * "lbm:change" event and reads LandBankingMap.current()).
+ *
  * Every count on the section is computed here from the awards file, so the summary
  * line and the pins cannot disagree with it. A contact the award list did not print
  * is labelled "to confirm" until someone confirms it.
@@ -51,14 +56,106 @@
     return by;
   }
 
-  function filterAwards(awards, q) {
+  // The filters and colour groups. Each "of" reads one award's value for that group;
+  // the order of "values" is the order of the dropdown and the key.
+  var PURPOSE_KEYS = ['Rental', 'Homeownership', 'Rental and Homeownership'];
+  var PURPOSE_LABEL = { 'Rental': 'Rental', 'Homeownership': 'For-sale', 'Rental and Homeownership': 'Rental and for-sale' };
+  var HOLDER_KEYS = ['government', 'nonprofit'];
+  var HOLDER_SHORT = { government: 'Town, county or housing authority', nonprofit: 'Nonprofit or other' };
+  var STATUS_KEYS = ['financed', 'applied', 'partner', 'seeking', 'not_funded', 'none_found', 'none'];
+  // Colour-blind-safe set (Okabe-Ito order), readable on the light and dark basemaps.
+  var COLOURS = ['#0072B2', '#E69F00', '#009E73', '#CC79A7', '#D55E00', '#56B4E9', '#8C8C8C'];
+  var MIXED = 'mixed';
+
+  function holderOf(a) { return a && a.status && a.status.holder ? a.status.holder.type : null; }
+  function statusOf(a) { return a && a.status ? a.status.status : null; }
+
+  function groups(data) {
+    var rounds = ((data && data.meta) || {}).rounds || [];
+    var labels = (data && data.statusLabels) || {};
+    return {
+      purpose: { title: 'Homes planned', of: function (a) { return a.purpose; },
+        values: PURPOSE_KEYS.map(function (k) { return { key: k, label: PURPOSE_LABEL[k] }; }) },
+      round: { title: 'Award round', of: function (a) { return a.round; },
+        values: rounds.map(function (r) { return { key: r.id, label: r.label }; }) },
+      holder: { title: 'Held by', of: holderOf,
+        values: HOLDER_KEYS.map(function (k) { return { key: k, label: HOLDER_SHORT[k] }; }) },
+      status: { title: 'Status', of: statusOf,
+        values: STATUS_KEYS.map(function (k) { return { key: k, label: labels[k] || k }; }) }
+    };
+  }
+
+  // f: { round, purpose, holder, status }, each a key or '' for all.
+  function filterAwards(awards, q, f) {
     var s = String(q || '').toLowerCase().trim();
-    if (!s) return (awards || []).slice();
+    f = f || {};
     return (awards || []).filter(function (a) {
+      if (f.round && a.round !== f.round) return false;
+      if (f.purpose && a.purpose !== f.purpose) return false;
+      if (f.holder && holderOf(a) !== f.holder) return false;
+      if (f.status && statusOf(a) !== f.status) return false;
+      if (!s) return true;
       var hay = [a.project, a.sponsor, a.show_project, a.show_sponsor, a.location].concat((a.places || []).map(function (p) { return p.name + ' ' + (p.county || ''); }))
         .join(' ').toLowerCase();
       return hay.indexOf(s) !== -1;
     });
+  }
+
+  // A town's colour key: its awards' shared value, or "mixed" when they differ.
+  function townKey(town, group) {
+    var keys = {};
+    town.awards.forEach(function (a) { keys[group.of(a)] = true; });
+    var k = Object.keys(keys);
+    return k.length === 1 ? k[0] : MIXED;
+  }
+
+  function colourFor(group, key) {
+    if (key === MIXED) return '#ffffff';
+    var i = group.values.map(function (v) { return v.key; }).indexOf(key);
+    return COLOURS[i >= 0 ? i % COLOURS.length : COLOURS.length - 1];
+  }
+
+  // The key under the map: one swatch per value that has an award on the map now, with
+  // its award count, and "several" when a town's awards differ.
+  function legendHtml(group, awards, towns) {
+    var counts = {};
+    (awards || []).forEach(function (a) { var k = group.of(a); counts[k] = (counts[k] || 0) + 1; });
+    var items = group.values.filter(function (v) { return counts[v.key]; }).map(function (v) {
+      return '<li><span class="lbm-swatch" style="background:' + colourFor(group, v.key) + '" aria-hidden="true"></span>' +
+        esc(v.label) + ' <span class="lbm-note">' + int(counts[v.key]) + '</span></li>';
+    });
+    var mixed = (towns || []).filter(function (t) { return townKey(t, group) === MIXED; }).length;
+    if (mixed) items.push('<li><span class="lbm-swatch lbm-swatch-mixed" aria-hidden="true"></span>Town with several kinds <span class="lbm-note">' +
+      int(mixed) + (mixed === 1 ? ' town' : ' towns') + '</span></li>');
+    return '<p class="lbm-legend-title">Pin color shows ' + esc(group.title.toLowerCase()) + ' (number of awards)</p><ul>' + items.join('') + '</ul>';
+  }
+
+  function controlsHtml(data) {
+    var g = groups(data);
+    var present = function (name) {
+      var have = {};
+      (data.awards || []).forEach(function (a) { have[g[name].of(a)] = true; });
+      return g[name].values.filter(function (v) { return have[v.key]; });
+    };
+    var sel = function (name, allText) {
+      return '<div class="lbm-ctl"><label for="lbmF-' + name + '">' + esc(g[name].title) + '</label>' +
+        '<select id="lbmF-' + name + '" data-lbm-filter="' + name + '"><option value="">' + esc(allText) + '</option>' +
+        present(name).map(function (v) { return '<option value="' + esc(v.key) + '">' + esc(v.label) + '</option>'; }).join('') +
+        '</select></div>';
+    };
+    var hasStatus = (data.awards || []).some(statusOf);
+    var hasHolder = (data.awards || []).some(holderOf);
+    var colourBy = ['purpose', 'round'].concat(hasHolder ? ['holder'] : [], hasStatus ? ['status'] : []);
+    return sel('round', 'All rounds') + sel('purpose', 'All kinds') +
+      (hasHolder ? sel('holder', 'All grantees') : '') + (hasStatus ? sel('status', 'Any status') : '') +
+      '<div class="lbm-ctl lbm-ctl-colour"><label for="lbmColour">Color pins by</label><select id="lbmColour" data-lbm-colour>' +
+      colourBy.map(function (k) { return '<option value="' + k + '">' + esc(g[k].title) + '</option>'; }).join('') + '</select></div>';
+  }
+
+  function readFilters(doc) {
+    var f = {};
+    Array.prototype.forEach.call(doc.querySelectorAll('[data-lbm-filter]'), function (el) { f[el.getAttribute('data-lbm-filter')] = el.value; });
+    return f;
   }
 
   function summarize(awards) {
@@ -251,13 +348,17 @@
   function drawPins(state, awards) {
     if (!state.mapState) return 0;
     var L = global.L;
+    var group = state.colourBy ? groups(state.data)[state.colourBy] : null;
     var colour = cssVar('--accent', '#096e65');
     state.mapState.layer.clearLayers();
     var towns = groupByTown(awards);
     towns.forEach(function (t) {
+      var key = group ? townKey(t, group) : null;
+      var mixed = key === MIXED;
       L.circleMarker([t.lat, t.lng], {
         radius: pinRadius(t), interactive: false,
-        color: '#ffffff', weight: 1.5, fillColor: colour, fillOpacity: 0.85
+        color: mixed ? '#333333' : '#ffffff', weight: mixed ? 2.5 : 1.5,
+        fillColor: group ? colourFor(group, key) : colour, fillOpacity: 0.9
       }).addTo(state.mapState.layer);
     });
     state.shownTowns = towns;
@@ -321,15 +422,23 @@
   function render(state) {
     var doc = global.document;
     var q = doc.getElementById('lbmSearch').value;
-    var shown = filterAwards(state.data.awards, q);
+    state.filters = readFilters(doc);
+    var colourSel = doc.querySelector('[data-lbm-colour]');
+    state.colourBy = colourSel ? colourSel.value : null;
+    var shown = filterAwards(state.data.awards, q, state.filters);
     // The public page's headline already gives the totals, so its unfiltered line is short.
     var all = summarize(state.data.awards);
     doc.querySelector('[data-lbm-count]').textContent = shown.length
       ? (state.mode !== 'gated' && shown.length === all.awards ? 'Showing all ' + int(all.awards) + ' awards in ' + int(all.towns) + ' towns.'
         : countText(summarize(shown), all))
-      : 'No award matches that search. Try a town, county or grantee name.';
+      : 'No award matches that search and those filters. Try a town, county or grantee name, or set a filter back to all.';
     drawPins(state, shown);
     state.towns = groupByTown(shown);
+    var legend = doc.querySelector('[data-lbm-legend]');
+    if (legend) {
+      legend.innerHTML = state.colourBy && shown.length ? legendHtml(groups(state.data)[state.colourBy], shown, state.towns) : '';
+      legend.hidden = !legend.innerHTML;
+    }
     var list = doc.querySelector('[data-lbm-towns]');
     if (list) list.innerHTML = townListHtml(state.towns);
     var listCount = doc.querySelector('[data-lbm-towns-count]');
@@ -339,6 +448,34 @@
     fitToSearch(state, q);
     // A search that names a town, or narrows to one, opens it; otherwise the panel waits for a tap.
     showTown(state, townForSearch(state.towns, q));
+    current = { q: q, filters: state.filters, shown: shown };
+    try { doc.dispatchEvent(new global.CustomEvent('lbm:change', { detail: current })); } catch (e) { /* old browser: the table keeps the search box's own listener */ }
+  }
+
+  // What the map shows now, for the page's table: the search, the filters and the awards.
+  var current = null;
+  function currentView() { return current; }
+
+  // The controls go under the search box and the key under the map, on both pages, so
+  // neither page's HTML has to repeat them.
+  function mountControls(doc, data) {
+    var search = doc.getElementById('lbmSearch');
+    var mapEl = doc.getElementById('lbmMap');
+    if (search && !doc.querySelector('[data-lbm-controls]')) {
+      var box = doc.createElement('div');
+      box.className = 'lbm-controls';
+      box.setAttribute('data-lbm-controls', '');
+      search.parentNode.insertBefore(box, search.nextSibling);
+    }
+    var controls = doc.querySelector('[data-lbm-controls]');
+    if (controls) controls.innerHTML = controlsHtml(data);
+    if (mapEl && !doc.querySelector('[data-lbm-legend]')) {
+      var legend = doc.createElement('div');
+      legend.className = 'lbm-legend';
+      legend.setAttribute('data-lbm-legend', '');
+      legend.hidden = true;
+      mapEl.parentNode.insertBefore(legend, mapEl.nextSibling);
+    }
   }
 
   // A section that names a contacts file is the gated version; anything else is public.
@@ -376,7 +513,11 @@
         map.getContainer().title = t ? t.name + ': ' + t.awards.length + (t.awards.length === 1 ? ' award' : ' awards') : '';
       });
     }
+    mountControls(doc, data);
     doc.getElementById('lbmSearch').addEventListener('input', function () { render(state); });
+    Array.prototype.forEach.call(doc.querySelectorAll('[data-lbm-filter], [data-lbm-colour]'), function (el) {
+      el.addEventListener('change', function () { render(state); });
+    });
     // Town buttons live in the list under the map and in the close-pins chooser.
     var section = doc.querySelector('[data-land-banking-map]');
     if (section) section.addEventListener('click', function (e) {
@@ -413,6 +554,8 @@
 
   function attachStatus(data, status) {
     var by = (status && status.status) || {};
+    data.statusLabels = (status && status.meta && status.meta.labels) || {};
+    data.holderNote = (status && status.meta && status.meta.holder_note) || null;
     (data.awards || []).forEach(function (a) { if (by[a.id]) a.status = by[a.id]; });
     return data;
   }
@@ -448,5 +591,5 @@
   }
 
   return { contactIndex: contactIndex, filterAwards: filterAwards, summarize: summarize, groupByTown: groupByTown,
-    popupHtml: popupHtml, sinceHtml: sinceHtml, projectName: projectName, sponsorName: sponsorName, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townsNear: townsNear, onTap: onTap, townListHtml: townListHtml, contactHtml: contactHtml, publicContactHtml: publicContactHtml, pageConfig: pageConfig, loadAwards: loadAwards, attachStatus: attachStatus, statusHtml: statusHtml, start: start, countText: countText, boot: boot, AWARDS: AWARDS, STATUS: STATUS };
+    popupHtml: popupHtml, groups: groups, townKey: townKey, colourFor: colourFor, legendHtml: legendHtml, controlsHtml: controlsHtml, current: currentView, holderOf: holderOf, PURPOSE_LABEL: PURPOSE_LABEL, sinceHtml: sinceHtml, projectName: projectName, sponsorName: sponsorName, showTown: showTown, townForSearch: townForSearch, hitRadius: hitRadius, nearestTown: nearestTown, townsNear: townsNear, onTap: onTap, townListHtml: townListHtml, contactHtml: contactHtml, publicContactHtml: publicContactHtml, pageConfig: pageConfig, loadAwards: loadAwards, attachStatus: attachStatus, statusHtml: statusHtml, start: start, countText: countText, boot: boot, AWARDS: AWARDS, STATUS: STATUS };
 }));

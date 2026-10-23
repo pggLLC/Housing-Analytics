@@ -61,11 +61,16 @@ const EXPECTED = [
   { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartIndustry',         note: 'LEHD top industries' },
   { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartEmploymentTrend',  note: 'LEHD annualEmployment' },
   { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartWageTrend',        note: 'LEHD annualWages' },
+  // Renter need by bedroom count read only the live Census API until
+  // 2026-10-23, so it was left off this list and sat blank for every visitor
+  // (the site ships no key). It now reads data/market/acs_renter_household_size_co.json.
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartBedroomNeed',      note: 'renter need by bedroom (ACS B25009)' },
   // ── Place selection (Paonia 0857300): place-apportioned LEHD ──
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartLehd',         note: 'commute flows (apportioned from Delta)' },
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartWage',         note: 'wage tiers (apportioned)' },
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartIndustry',     note: 'industries (apportioned)' },
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartEmploymentTrend', note: 'employment trend (apportioned)' },
+  { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartBedroomNeed',  note: 'renter need by bedroom (place B25009)' },
 
   // ── Scenario Builder (Step 5): projects only a loaded geography ──
   // Until 2026-10-17 the page drew a 36,000-person placeholder before any
@@ -73,6 +78,10 @@ const EXPECTED = [
   // Mesa County the way a deep link does.
   { fixture: 'scenario-builder', url: '/hna-scenario-builder.html?geoType=county&geoid=08077&auto=1', chart: 'sbProjectionChart',
     note: 'Mesa County projection line' },
+  // Most links open the page bare. Until 2026-10-23 that showed "No
+  // projection yet"; with nothing remembered it now loads Denver County.
+  { fixture: 'scenario-builder-arrival', url: '/hna-scenario-builder.html', chart: 'sbProjectionChart',
+    note: 'bare arrival: remembered place, else Denver County' },
 
   // ── Colorado Deep Dive: charts that paint on initial page load ──
   // (The remaining ~9 canvases on this page only render after the user
@@ -149,7 +158,7 @@ async function _probeFixture(page, fixtureUrl, charts) {
 }
 
 async function main() {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch(process.env.PW_CHROMIUM_PATH ? { headless: true, executablePath: process.env.PW_CHROMIUM_PATH } : { headless: true });
   const ctx = await browser.newContext({
     viewport: { width: 1280, height: 800 },
   });
