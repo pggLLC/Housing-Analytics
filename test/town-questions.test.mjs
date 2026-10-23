@@ -185,6 +185,13 @@ ok(!(model('0818310').deal.structure.lines.find((x) => x.id === '5B4b-pha') || {
   ok(!q || /31–50%/.test(q.evidence), 'burden question never cites the 51–80% band');
 }
 
+// Unknown DDA coverage is never read as "no DDA".
+for (const g of SAMPLE) {
+  const m = model(g);
+  if (m.need.ddaSharePct === null) ok(!m.questions.pointed.some((x) => x.signal === 'qct_partial'), `${g}: qct_partial needs a known DDA share`);
+}
+ok(TQ.SIGNALS.qct_partial({ need: { qctSharePct: 40, ddaSharePct: null, rankingSource: 'x' } }) === null, 'qct_partial does not fire when DDA share is unknown');
+
 // ---- 7. The page loads the module before the report and passes it in.
 {
   const page = read('developer-brief.html');

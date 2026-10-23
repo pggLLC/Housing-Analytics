@@ -116,7 +116,7 @@
     },
     qct_partial: function (m) {
       var q = m.need.qctSharePct, d = m.need.ddaSharePct;
-      if (q === null || !(q > 0 && q < 100) || d !== null && d >= 99) return null;
+      if (q === null || d === null || !(q > 0 && q < 100) || d >= 99) return null;
       return { vars: { qct: pct(q) }, evidence: pct(q) + ' of the area is in a Qualified Census Tract; no area-wide DDA.', source: m.need.rankingSource };
     },
     no_partner: function (m) {
