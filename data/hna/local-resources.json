@@ -669,6 +669,12 @@
         "name": "Walsh Housing Authority",
         "stateAuditorId": "7356",
         "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Southeast Colorado Regional Housing Authority",
+        "url": "https://secrha.net/",
+        "stateAuditorId": "7315",
+        "legalCheck": "2026-10-23"
       }
     ],
     "advocacy": [
@@ -690,6 +696,12 @@
         "hudCode": "CO024",
         "stateAuditorId": "7312",
         "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Southeast Colorado Regional Housing Authority",
+        "url": "https://secrha.net/",
+        "stateAuditorId": "7315",
+        "legalCheck": "2026-10-23"
       }
     ],
     "advocacy": [
@@ -1057,7 +1069,14 @@
       "status": "Not committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [],
+    "housingAuthority": [
+      {
+        "name": "Southeast Colorado Regional Housing Authority",
+        "url": "https://secrha.net/",
+        "stateAuditorId": "7315",
+        "legalCheck": "2026-10-23"
+      }
+    ],
     "advocacy": [
       {
         "name": "Catholic Charities of Southern Colorado",
@@ -1997,6 +2016,12 @@
         "name": "Eads Housing Authority",
         "stateAuditorId": "7252",
         "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Southeast Colorado Regional Housing Authority",
+        "url": "https://secrha.net/",
+        "stateAuditorId": "7315",
+        "legalCheck": "2026-10-23"
       }
     ],
     "advocacy": [
@@ -2624,6 +2649,12 @@
         "hudCode": "CO045",
         "stateAuditorId": "7338",
         "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Southeast Colorado Regional Housing Authority",
+        "url": "https://secrha.net/",
+        "stateAuditorId": "7315",
+        "legalCheck": "2026-10-23"
       }
     ],
     "advocacy": [
@@ -2828,6 +2859,12 @@
         "name": "Granada Housing Authority",
         "stateAuditorId": "7276",
         "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Southeast Colorado Regional Housing Authority",
+        "url": "https://secrha.net/",
+        "stateAuditorId": "7315",
+        "legalCheck": "2026-10-23"
       }
     ],
     "advocacy": [
