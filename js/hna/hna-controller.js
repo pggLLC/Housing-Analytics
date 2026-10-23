@@ -4981,8 +4981,9 @@
       } catch (e) {
         console.warn('[HNA] B25009 load failed for ' + geoType + ':' + geoid, e);
       }
-      const cur = window.HNAState.state.current;
-      if (cur && cur.geoid !== geoid) return;
+      // Compare with the selector, not state.current: a queued update leaves
+      // state.current on the old geography until it runs.
+      if (window.HNAState.els.geoSelect.value !== geoid) return;
       if (window.HNARenderers && window.HNARenderers.renderBedroomNeed) {
         window.HNARenderers.renderBedroomNeed(b25009);
       }
