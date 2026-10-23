@@ -995,10 +995,11 @@ test('Scenario Builder: consumes HNA CTA geography URL params', () => {
         'Scenario Builder reads geoid URL parameter');
     assert(builderHtml.includes('geoIndex[requestedGeoid]'),
         'Scenario Builder resolves place/CDP params through geoIndex');
-    assert(builderHtml.includes('select.value = requestedGeoid'),
-        'Scenario Builder writes URL geoid into sbGeoSelect');
-    assert(builderHtml.includes("urlParams.get('auto') === '1'") && builderHtml.includes('loadBtn.click()'),
-        'Scenario Builder honors auto=1 via the Load Geography Data button path');
+    assert(builderHtml.includes('return selectAndLoad(requestedGeoid)') && builderHtml.includes('select.value = geoid'),
+        'Scenario Builder writes URL geoid into sbGeoSelect and loads it');
+    assert(builderHtml.includes('!applyUrlGeographyParams() && !preselectFromWorkflowState()) loadArrivalExample()') &&
+        builderHtml.includes('loadBtn.click()'),
+        'Scenario Builder loads a linked, remembered or example geography on arrival via the Load Geography Data button path');
 });
 
 test('JS: scenario fallback sensitivity scales growth from the shared observed base year', () => {

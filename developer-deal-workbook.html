@@ -6,6 +6,7 @@
 <title>Deal Workbook — COHO Analytics</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
+<link rel="stylesheet" href="js/vendor/leaflet.css">
 <script src="js/developer-gate.js"></script>
 <style>
   .skip-link { position: absolute; top: -100px; left: var(--sp4); background: var(--accent); color: var(--on-accent, #fff); padding: 8px 16px; z-index: 1000; border-radius: var(--radius-sm, 6px); font-weight: 700; }
@@ -43,7 +44,7 @@
   .sr-row > label, .sr-field { display: flex; flex-direction: column; gap: .25rem; font-weight: 600; font-size: .9rem; min-width: 0; }
   .sr-mix { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: .5rem; }
   .sr-mix label { display: flex; flex-direction: column; gap: .2rem; font-size: .85rem; font-weight: 600; }
-  input[type="text"], input[type="number"], select { min-height: 44px; padding: .35rem .5rem; border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); background: var(--card); color: var(--text); font: inherit; box-sizing: border-box; max-width: 100%; }
+  input[type="text"], input[type="number"], input[type="date"], input[type="url"], select { min-height: 44px; padding: .35rem .5rem; border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); background: var(--card); color: var(--text); font: inherit; box-sizing: border-box; max-width: 100%; }
   .sr-small { width: 6rem; }
   .sr-claim { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 14rem); gap: .25rem .75rem; align-items: center; padding: .35rem 0; border-bottom: 1px solid var(--border); }
   .sr-claim label { display: flex; gap: .5rem; align-items: center; min-height: 44px; line-height: 1.35; }
@@ -64,12 +65,17 @@
   .wb-routes > div { display: flex; flex-direction: column; gap: .5rem; }
   .wb-actions a.sr-btn { display: inline-flex; align-items: center; text-decoration: none; }
   .wb-actions [hidden] { display: none !important; }
+  .wb-map { height: 340px; border-radius: var(--radius); margin-bottom: var(--sp3); z-index: 0; }
+  .wb-map .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; font-size: 22px; }
+  a.wb-src { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
+  .wb-form { margin-top: var(--sp2); }
+  .wb-form > summary, .wb-near > summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
   #wbStatus { min-height: 1.4em; font-weight: 600; color: var(--accent); }
   @media (max-width: 640px) {
     .wb-routes select, .wb-routes input, .wb-routes button { width: 100%; }
   }
   @media print {
-    #siteHeader, #devNav, #site-footer, .wb-load, .skip-link, #wbPrint, #wbOpenCalc { display: none !important; }
+    #siteHeader, #devNav, #site-footer, .wb-load, .skip-link, #wbPrint, #wbOpenCalc, .wb-form, #wbResSave, [data-del-comp] { display: none !important; }
     .dv-card { break-inside: avoid; border: 0; padding: 0; }
     .wb-cf .sr-table { font-size: 7pt; }
     details { display: block; }
@@ -85,7 +91,7 @@
   <nav id="devNav" class="ib-section-nav"></nav>
 
   <h1>Deal workbook</h1>
-  <p class="dv-lede">One deal's pro forma, set out the way a lender or partner reads it: what it needs, sources and uses, credits, rents against the limits, operating costs against CHFA's minimums, the cash flow over the deal's forecast years and when the deferred fee is paid. Every figure comes from the <a href="deal-calculator.html">Deal Calculator</a>; change the deal there.</p>
+  <p class="dv-lede">One deal's pro forma, set out the way a lender or partner reads it: what it needs, sources and uses, credits, rents against the limits, operating costs against CHFA's minimums, the cash flow over the deal's forecast years and when the deferred fee is paid. Then the county market: rents against Zillow, how many renters can pay each tier, the rent trend and other tax credit awards nearby. Every figure comes from the <a href="deal-calculator.html">Deal Calculator</a>; change the deal there.</p>
 
   <section class="dv-card wb-load" aria-labelledby="wbLoadH">
     <h2 id="wbLoadH">Open a deal</h2>
@@ -114,6 +120,8 @@
       <li>All figures: the Deal Calculator's engine, run on this deal's settings. The workbook does not recalculate anything.</li>
       <li>CHFA minimum underwriting (operating cost, reserves, vacancy, growth, debt coverage): <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf">CHFA 2025-2026 QAP, Second Amendment</a>, Sections 4.B and 4.C. The 2027-28 plan replaces it for 2027 applications once adopted.</li>
       <li>Rent limits: CHFA's income and rent tables for the county the deal is set to.</li>
+      <li>Market figures are for the deal's county, from files the site already publishes: renter households by income (Census ACS table B25118, against HUD area median income), Zillow's Observed Rent Index by county and metro, Census median gross rent (ACS B25064), and the site's <a href="deal-summary.html">deal summaries</a> of CHFA awards. They are a screen. A CHFA market study measures the area drawn around the site.</li>
+      <li>Your market research (site, comparables, waitlist counts, rent survey) is kept with the saved deal on the team site, under your sign-in. Waitlists are counts only; no names or applicant details are kept. Nearby tax credit properties: CHFA's housing tax credit property list.</li>
       <li>"What to check" lists what the figures show. It is not a credit decision or an appraisal.</li>
       <li>Something unclear? <a href="developer-about.html#ask">Ask pggLLC</a>.</li>
     </ul>
@@ -122,6 +130,8 @@
 <footer id="site-footer"></footer>
 <script src="js/navigation.js"></script>
 <script src="js/whitepaper/developer-nav.js"></script>
+<script src="js/vendor/leaflet.js"></script>
+<script src="js/config/basemaps.js"></script>
 <script src="js/whitepaper/deal-workbook.js"></script>
 </body>
 </html>

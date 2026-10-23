@@ -78,6 +78,10 @@ const EXPECTED = [
   // Mesa County the way a deep link does.
   { fixture: 'scenario-builder', url: '/hna-scenario-builder.html?geoType=county&geoid=08077&auto=1', chart: 'sbProjectionChart',
     note: 'Mesa County projection line' },
+  // Most links open the page bare. Until 2026-10-23 that showed "No
+  // projection yet"; with nothing remembered it now loads Denver County.
+  { fixture: 'scenario-builder-arrival', url: '/hna-scenario-builder.html', chart: 'sbProjectionChart',
+    note: 'bare arrival: remembered place, else Denver County' },
 
   // ── Colorado Deep Dive: charts that paint on initial page load ──
   // (The remaining ~9 canvases on this page only render after the user

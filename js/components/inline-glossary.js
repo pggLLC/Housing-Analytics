@@ -63,7 +63,7 @@
     'PILOT': 'Payment In Lieu Of Taxes — an agreement where an affordable project pays a reduced, fixed amount instead of normal property taxes. Lowers operating costs.',
     'linkage fee': 'A fee on new commercial or market-rate residential development, paid into an affordable housing fund. Set per square foot.',
     'deed restriction': 'A legal restriction on a property\'s title that locks in affordability — capping rent or sale price for 30-99 years. Survives ownership changes.',
-    'capture rate': 'The share of income-qualified renters in a market area a proposed project needs to lease its units. Under 10% is healthy; over 20% means the pool is too thin.',
+    'capture rate': 'The share of income-qualified renters in a market area a proposed project needs to lease its units. CHFA counts renters whose income fits the unit\'s AMI limit and who would pay no more than 40% of income in rent, and its 2027-28 draft QAP would not accept capture above 85% without more demand data.',
     'NOI': 'Net Operating Income — annual rental income minus operating expenses, before debt payments. The main measure of whether a building covers its mortgage.',
     'DSCR': 'Debt Service Coverage Ratio — annual NOI divided by annual mortgage payments. Lenders typically require 1.15-1.25.',
     'TDC': 'Total Development Cost — every dollar to build the project: land, construction, design, financing, reserves, and developer fee.',

@@ -7,7 +7,7 @@
  "units": 60,
  "researched_on": "2026-10-20",
  "headline": "A 60-home, all income-restricted townhome-style family rental community on county-donated land in unincorporated Clifton, sponsored by Housing Resources of Western Colorado with Evergreen Real Estate Group; it won 2026 Round One federal 9% and state credits.",
- "why_it_matters": "It is Clifton's first 9% award in about 25 years, built on land Mesa County donated, with a capital stack the sponsor calls fully committed: credits, a state grant, Capital Magnet Fund money and CHFA debt.",
+ "why_it_matters": "It is Clifton's first 9% award in about 25 years, built on land Mesa County donated, with a capital stack the sponsor calls fully committed: credits, a $2.4 million Prop 123 gap loan, a state grant, Capital Magnet Fund money and CHFA debt.",
  "status": {
   "label": "Credits awarded; construction expected spring 2027",
   "detail": "CHFA lists the award as of 2026-09-30. September 2026 news reports say construction should start in spring 2027 after final financing approvals and finish in fall 2028; no closing or permit record was found.",
@@ -163,10 +163,19 @@
    ]
   },
   {
+   "source": "Prop 123 Concessionary Debt (Affordable Housing Financing Fund, OEDIT/CHFA)",
+   "amount": "$2,400,000",
+   "note": "LIHTC gap loan for this project, selected 2026-07-21 (Round Two); $2,400,000 requested and awarded. Final terms set in underwriting.",
+   "src": [
+    "oedit-prop123-cd-fy2526-r2"
+   ]
+  },
+  {
    "source": "Colorado Division of Housing, Housing Development Grant",
    "amount": "$2,000,000",
-   "note": "Preliminary award, per the application; no DOLA award record was found online.",
+   "note": "Listed by the Division of Housing among its November 2025 rental awards (amount as requested; these appear to be conditional pre-application awards), and named in the application.",
    "src": [
+    "doh-awards-2025-11",
     "chfa-2026-r1-narratives"
    ]
   },
@@ -327,6 +336,13 @@
    ]
   },
   {
+   "date": "2026-07-21",
+   "event": "OEDIT selects Crawford Commons Apartments for a $2,400,000 Prop 123 Concessionary Debt LIHTC gap loan (FY25-26 Round Two)",
+   "src": [
+    "oedit-prop123-cd-fy2526-r2"
+   ]
+  },
+  {
    "date": "2026-09-03",
    "event": "News reports on the award; construction expected to start spring 2027",
    "src": [
@@ -399,10 +415,10 @@
  ],
  "open_questions": [
   "The CHFA loan amounts, equity price, rents and final total development cost are not public.",
-  "The Division of Housing grant ($2,000,000) and Capital Magnet Fund commitment ($1,500,000) were checked only against the application; no award record was found.",
   "No Mesa County land donation resolution, site plan file or permit was found online.",
   "Who will own and manage the finished property is not stated publicly.",
-  "Affordability period and any vouchers are not stated in public sources found."
+  "Affordability period and any vouchers are not stated in public sources found.",
+  "The Division of Housing grant ($2,000,000) is listed by DOH as a November 2025 rental award at the requested amount; the final grant agreement is not public. The Capital Magnet Fund commitment ($1,500,000) was checked only against the application."
  ],
  "sources": [
   {
@@ -460,6 +476,20 @@
    "publisher": "Kephart",
    "date": "2023-10",
    "url": "https://kephart.com/wp-content/uploads/2023/10/2023-Final-Presentation.pdf"
+  },
+  {
+   "id": "oedit-prop123-cd-fy2526-r2",
+   "title": "FY25-26 Concessionary Debt Program Selections - Round Two (Prop 123 Affordable Housing Financing Fund)",
+   "publisher": "Colorado Office of Economic Development and International Trade (administered by CHFA)",
+   "date": "2026-07-21",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf"
+  },
+  {
+   "id": "doh-awards-2025-11",
+   "title": "Division of Housing, Application Schedule and Awards (November 2025 rental awards)",
+   "publisher": "Colorado Division of Housing",
+   "date": "2025-11",
+   "url": "https://doh.colorado.gov/application-schedule-and-awards"
   }
  ]
 }

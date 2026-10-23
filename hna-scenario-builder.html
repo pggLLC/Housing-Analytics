@@ -501,29 +501,64 @@
             html += '</optgroup>';
           }
           select.innerHTML = html;
-          applyUrlGeographyParams();
+          // Never open on an empty chart: a linked place first, then the
+          // place this visitor last worked on, then a starting example.
+          if (!applyUrlGeographyParams() && !preselectFromWorkflowState()) loadArrivalExample();
         })
         .catch(function (err) {
           select.innerHTML = '<option value="">— Failed to load geographies —</option>';
           statusEl.textContent = 'Could not load geography list: ' + err.message;
         });
 
+      // A linked place loads at once; auto=1, which older links carry, is
+      // no longer needed. Returns whether the link named a listed place.
       function applyUrlGeographyParams() {
         var requestedGeoType = urlParams.get('geoType');
         var requestedGeoid = urlParams.get('geoid');
-        if (!requestedGeoType || !requestedGeoid) return;
+        if (!requestedGeoType || !requestedGeoid) return false;
 
         var entry = geoIndex[requestedGeoid];
-        if (!entry && requestedGeoType !== 'county') return;
-        if (entry && requestedGeoType !== 'county' && entry.type !== requestedGeoType) return;
+        if (!entry && requestedGeoType !== 'county') return false;
+        if (entry && requestedGeoType !== 'county' && entry.type !== requestedGeoType) return false;
 
-        select.value = requestedGeoid;
-        if (select.value !== requestedGeoid) return;
+        return selectAndLoad(requestedGeoid);
+      }
+
+      function selectAndLoad(geoid, note) {
+        select.value = geoid;
+        if (select.value !== geoid) return false;
         select.dispatchEvent(new Event('change', { bubbles: true }));
+        arrivalNote = note || '';
+        loadBtn.click();
+        return true;
+      }
 
-        if (urlParams.get('auto') === '1' && loadBtn) {
-          loadBtn.click();
+      // Fix #9 / GEO-1: the canonical WorkflowState tuple first, including
+      // place/CDP GEOIDs; then legacy county FIPS; then the county last
+      // chosen elsewhere on the site.
+      function preselectFromWorkflowState() {
+        var targetGeoid = null;
+        try {
+          var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+          var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
+          if (_jx && _jx.geoType && _jx.geoid) {
+            targetGeoid = _jx.geoid;
+          } else if (_jx && (_jx.placeGeoid || _jx.fips || _jx.countyFips)) {
+            targetGeoid = _jx.placeGeoid || _jx.fips || _jx.countyFips;
+          }
+        } catch (_) {}
+        if (!targetGeoid) {
+          try {
+            var _sc = window.SiteState && window.SiteState.getCounty();
+            if (_sc && _sc.fips) targetGeoid = _sc.fips;
+          } catch (_) {}
         }
+        return !!targetGeoid && selectAndLoad(String(targetGeoid));
+      }
+
+      // Denver County, first of the HNA page's featured places.
+      function loadArrivalExample() {
+        selectAndLoad('08031', 'Showing Denver County as a starting example. Choose a geography above and select Load Geography Data to project another place.');
       }
 
       // Each load gets a sequence number; changing the selection or starting
@@ -531,6 +566,9 @@
       // cannot replace the projection for what is selected now.
       var loadSeq = 0;
       var loading = false;
+      // Said ahead of the forecast description for a load the visitor did
+      // not choose; a load they start themselves clears it.
+      var arrivalNote = '';
       select.addEventListener('change', function () {
         var loaded = window.ScenarioBuilder && window.ScenarioBuilder.loadedGeography();
         if (!loading && (!loaded || loaded.geoid === select.value)) return;
@@ -552,6 +590,8 @@
         var SB = window.ScenarioBuilder;
         if (!SB) return;
         var entry = geoIndex[geoid] || { geoid: geoid, name: geoid, type: 'county' };
+        var note = arrivalNote;
+        arrivalNote = '';
         statusEl.textContent = 'Loading the State Demography Office forecast for ' + entry.name + '…';
 
         var seq = ++loadSeq;
@@ -587,7 +627,8 @@
           .then(function (ctx) {
             if (seq !== loadSeq) return;
             loading = false;
-            statusEl.textContent = ctx.unavailableReason || SB.describeContext(ctx);
+            statusEl.textContent = (note && !ctx.unavailableReason ? note + ' ' : '') +
+              (ctx.unavailableReason || SB.describeContext(ctx));
             SB.init(ctx);
           })
           .catch(function () {
@@ -665,45 +706,6 @@
     }
   }
 
-  function preselectFromWorkflowState() {
-    var sbSel = document.getElementById('sbGeoSelect');
-    if (!sbSel) return;
-    try {
-      var urlParams = new URLSearchParams(window.location.search || '');
-      if (urlParams.get('geoid')) return;
-    } catch (_) {}
-
-    var targetGeoid = null;
-    try {
-      var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-      var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
-      if (_jx && _jx.geoType && _jx.geoid) {
-        targetGeoid = _jx.geoid;
-      } else if (_jx && (_jx.placeGeoid || _jx.fips || _jx.countyFips)) {
-        targetGeoid = _jx.placeGeoid || _jx.fips || _jx.countyFips;
-      }
-    } catch (_) {}
-    if (!targetGeoid) {
-      try {
-        var _sc = window.SiteState && window.SiteState.getCounty();
-        if (_sc && _sc.fips) targetGeoid = _sc.fips;
-      } catch (_) {}
-    }
-    if (!targetGeoid) return;
-
-    var attempts = 0;
-    (function applySelection() {
-      attempts += 1;
-      var opt = sbSel.querySelector('option[value="' + targetGeoid + '"]');
-      if (opt) {
-        sbSel.value = targetGeoid;
-        sbSel.dispatchEvent(new Event('change', { bubbles: true }));
-        return;
-      }
-      if (attempts < 40) setTimeout(applySelection, 100);
-    }());
-  }
-
   document.addEventListener('DOMContentLoaded', function () {
     updateBanner();
     document.addEventListener('sitestate:county-changed', updateBanner);
@@ -716,10 +718,6 @@
         ['lihtc', 'credit_rate_9pct', 'qct', 'chfa_qap'],
         { heading: 'Scenario & Credit Concepts' });
     }
-
-    // Fix #9 / GEO-1: pre-select the canonical WorkflowState tuple first,
-    // including place/CDP GEOIDs; fall back to legacy county FIPS.
-    preselectFromWorkflowState();
 
     // #10 Export panel
     if (window.ExportPanel) ExportPanel.render('exportPanelMount-sb', 'scenario');

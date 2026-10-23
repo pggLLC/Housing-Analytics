@@ -67,12 +67,16 @@ const band90100 = derived.bands.find((row) => row.band[0] === 0.90 && row.band[1
 // Hand derivation: midpoint = (0.90 + 1.00) / 2 = 0.95; the fixture's
 // representative 3BR uses the named 4-person convention. The engine call is
 // maxAffordablePrice(97,600, 0.95, conservative_screening, householdSize 4)
-// = $336,091. Gap = Fruita place value $486,295 - $336,091 = $150,204.
+// at the shared dated rate (OwnershipFinance.MORTGAGE_RATE; $311,570 at 7.40%,
+// $336,091 at 6.5%). Gap = Fruita place value $486,295 minus that price. Read
+// through the engine so a weekly rate refresh needs no edit here.
+const expectedPrice = Finance.maxAffordablePrice(97600, 0.95, { modelId: 'conservative_screening', householdSize: 4 });
+assert.equal(Finance.maxAffordablePrice(97600, 0.95, { modelId: 'conservative_screening', householdSize: 4, rateAnnual: 0.065 }), 336091);
 assert.equal(band90100.midpoint, 0.95);
 assert.equal(band90100.representativeBedrooms, 3);
 assert.equal(band90100.householdSize, 4);
-assert.equal(band90100.maxAffordablePrice, 336091);
-assert.equal(band90100.gapVsLocalPrice, 150204);
+assert.equal(band90100.maxAffordablePrice, expectedPrice);
+assert.equal(band90100.gapVsLocalPrice, 486295 - expectedPrice);
 assert.equal(band90100.assistanceRangeCheck, 'insufficient');
 assert.equal(derived.tdcDependent.tdcPerUnit, 'not_available');
 assert.equal(derived.tdcDependent.subsidyPerUnit, 'not_available');
