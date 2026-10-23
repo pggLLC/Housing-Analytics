@@ -217,6 +217,14 @@ near(mk.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 22.5), 'the whole d
   const gm = WB.market(gap, msnap, mdata());
   near(gm.captureAll.qualified, (300 - WB.rentersAtOrBelow(le, 22.5)) + (1000 - 700), 'tiers with a gap between them count only renters who fit one of them');
   ok(/^2[23]–30%, 45–60% AMI$/.test(gm.captureAll.ranges) && WB.renderMarket(gm).includes(gm.captureAll.ranges), 'the all-tiers row names each income range'); }
+{ const below = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700, allowance: 100, limit: 1600 }] }) });
+  const bc = WB.market(below, msnap, mdata()).capture[0];
+  near(bc.low, 60 * 0.75 * (800 / 1600), 'a home priced at half its gross limit lowers the tier floor by half (22.5% AMI for a 60% home)');
+  ok(bc.qualified > c60.qualified, 'pricing under the limit counts more renters who can pay, not fewer');
+  const atLimit = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 1500, allowance: 100, limit: 1600 }] }) });
+  near(WB.market(atLimit, msnap, mdata()).capture[0].low, 45, 'a home at its gross limit keeps the 75% floor'); }
+{ const nm = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700 }] }) });
+  near(WB.market(nm, msnap, mdata()).capture[0].low, 45, 'with no limit on file the floor stays at the limit scenario'); }
 ok(/geoid: geoid \}\)/.test(read('js/whitepaper/deal-workbook.js')) && /get\('geoid'\)/.test(read('js/whitepaper/deal-workbook.js')), 'the market estimate uses the same place as the calculator');
 { const allMkt = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 'Market', bedrooms: '2BR', units: 20, rent: 1700 }] }) });
   const am = WB.market(allMkt, msnap, mdata());
@@ -635,6 +643,10 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
     el('wbResSave').handlers.click();
     const loose = { posts, msg: el('wbResStatus').textContent, kept: el('wbSTR0').value };
     globalThis.fetch = saved;
+    el('wbSTR0').value = ''; el('wbWTotal').value = '-5';
+    el('wbResSave').handlers.click();
+    const negW = { posts, msg: el('wbResStatus').textContent };
+    ok(negW.posts === savedOnce && /below zero/.test(negW.msg), 'a negative waitlist count is refused before saving');
     ok(vac.posts === savedOnce && /between 0% and 100%/.test(vac.msg), 'a survey vacancy over 100% is refused before saving');
     ok(loose.posts === savedOnce && /no unit type/.test(loose.msg) && loose.kept === '1500', 'a survey row with figures but no unit type is refused, not dropped');
     ok(zero.posts === 0 && /more than \$0/.test(zero.msg) && zero.kept === '0', 'a $0 survey rent is refused before saving, with the entry left in place');

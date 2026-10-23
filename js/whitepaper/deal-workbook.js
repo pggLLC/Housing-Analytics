@@ -623,7 +623,8 @@
     deals: 'data/deals/index.json'                    // hand-researched CHFA award summaries, 2022 on
   };
   // Rent at the tier's limit is 30% of the tier's income ceiling. A household paying it at no more than 40% of
-  // income earns at least 30/40 = 75% of that ceiling, so it qualifies between 75% and 100% of the tier.
+  // income earns at least 30/40 = 75% of that ceiling. A home priced under its limit lowers that floor in step:
+  // gross cost at half the limit lets households from 37.5% of the tier rent it.
   var MAX_RENT_SHARE = 0.40;
   var FLOOR_SHARE = 0.30 / MAX_RENT_SHARE;
   var TREND_YEARS = 5;
@@ -704,10 +705,17 @@
     // Who can pay, and the share of them the deal must lease to (capture), tier by tier.
     if (rc && rc.households_le_ami_pct) {
       var le = rc.households_le_ami_pct;
-      var unitsBy = {};
-      m.rents.rows.forEach(function (x) { var t = num(x.tier); if (t != null && x.units) unitsBy[t] = (unitsBy[t] || 0) + x.units; });
+      var unitsBy = {}, ratioBy = {};
+      m.rents.rows.forEach(function (x) {
+        var t = num(x.tier); if (t == null || !x.units) return;
+        unitsBy[t] = (unitsBy[t] || 0) + x.units;
+        // The tier's floor follows its lowest-priced home against the gross limit; with no limit known, the limit itself.
+        var gross = x.rent != null ? x.rent + (x.allowance || 0) + (x.fees || 0) : null;
+        var r = x.limit > 0 && gross != null ? Math.min(1, Math.max(0, gross / x.limit)) : 1;
+        ratioBy[t] = ratioBy[t] == null ? r : Math.min(ratioBy[t], r);
+      });
       mk.capture = Object.keys(unitsBy).map(Number).sort(function (a, b) { return a - b; }).map(function (t) {
-        var lo = t * FLOOR_SHARE, hi = rentersAtOrBelow(le, t), base = rentersAtOrBelow(le, lo);
+        var lo = t * FLOOR_SHARE * ratioBy[t], hi = rentersAtOrBelow(le, t), base = rentersAtOrBelow(le, lo);
         var q = hi != null && base != null ? hi - base : null;
         return { tier: t, units: unitsBy[t], low: lo, high: t, qualified: q, capture: q > 0 ? unitsBy[t] / q : null,
           reason: q == null ? 'No renter count published at ' + t + '% AMI for this county.' : q <= 0 ? 'None counted in this range' : null };
@@ -816,7 +824,7 @@
       h += table(['AMI', 'Homes', 'Renter incomes that fit', 'Renter households in that range', 'Share the deal needs'], mk.capture.map(function (c) {
         return { cells: [esc(c.tier + '%'), esc(c.units), esc(Math.round(c.low) + '–' + c.high + '% AMI'), esc(c.qualified == null ? '—' : Math.round(c.qualified).toLocaleString('en-US')), esc(c.capture == null ? (c.reason || '—') : pct(c.capture, 1))] };
       }).concat(mk.captureAll && mk.captureAll.capture != null ? [{ cls: 'sr-total', cells: ['All', esc(mk.captureAll.units), esc(mk.captureAll.ranges), esc(Math.round(mk.captureAll.qualified).toLocaleString('en-US')), esc(pct(mk.captureAll.capture, 1))] }] : []), { num: [1, 3, 4] });
-      h += '<p class="sr-muted">' + esc('A household fits a tier when its income is under the tier\'s limit and the rent is no more than 40% of its income, so from three-quarters of the limit up to the limit. Renter households by income: Census ACS ' + (mk.renters.year || '') + ' (table B25118), ' +
+      h += '<p class="sr-muted">' + esc('A household fits a tier when its income is under the tier\'s limit and the rent is no more than 40% of its income, so from three-quarters of the limit up to the limit, or lower where a home is priced under its limit. Renter households by income: Census ACS ' + (mk.renters.year || '') + ' (table B25118), ' +
         (mk.renters.total != null ? Math.round(mk.renters.total).toLocaleString('en-US') + ' renter households in the county, ' : '') + 'measured against HUD ' + (mk.renters.amiYear || '') + ' area median income for four people (' + money(mk.renters.ami) + '). Household size is not matched to unit size, and existing homes already serving these renters are not subtracted, so this is a first screen.') + '</p>';
     } else h += '<p class="sr-muted">' + esc(mk.captureReason) + '</p>';
     h += '</section>';
@@ -939,7 +947,7 @@
       }), { num: [2] }) + '<p class="sr-muted">Counts only' + esc((v.waitlist.keeper ? ', kept by ' + v.waitlist.keeper : '') + (v.waitlist.asOf ? ', as of ' + v.waitlist.asOf : '')) + '. No names or applicant details are kept.</p>';
     }
     if (v.survey) {
-      h += '<h3>Rent and vacancy survey</h3><p>' + esc((v.survey.region || 'Region') + ', ' + (v.survey.period || '') + ': average rent ' + money(num(v.survey.avgRent)) + ', vacancy ' + pct(num(v.survey.vacancy), 1) + '.') + ' <a href="' + esc(webLink(v.survey.source)) + '" rel="noopener noreferrer" target="_blank">Source</a></p>';
+      h += '<h3>Rent and vacancy survey</h3><p>' + esc((v.survey.region || 'Region') + ', ' + (v.survey.period || '') + ': average rent ' + money(num(v.survey.avgRent)) + ', vacancy ' + pct(num(v.survey.vacancy), 1) + '.') + ' <a class="wb-src" href="' + esc(webLink(v.survey.source)) + '" rel="noopener noreferrer" target="_blank">Source</a></p>';
       if ((v.survey.byType || []).length) h += table(['Unit type', 'Average rent', 'Vacancy'], v.survey.byType.map(function (r) { return { cells: [esc(r.type), esc(money(num(r.rent))), esc(pct(num(r.vacancy), 1))] }; }), { num: [1, 2] });
     }
     return h;
@@ -1091,7 +1099,7 @@
     var nOrNull = function (x) { return x === '' ? null : num(x); };
     var pctIn = function (x) { var n = nOrNull(x); return n == null ? null : n / 100; };
     var badVac = function (v) { return v != null && !(v >= 0 && v <= 1); };
-    var surveyLoose = 0;
+    var surveyLoose = 0, waitNeg = 0;
     function fill() {
       var s = rec.site || {};
       $('wbSiteAddr').value = s.address || ''; $('wbSiteLat').value = s.lat == null ? '' : s.lat; $('wbSiteLon').value = s.lon == null ? '' : s.lon;
@@ -1109,12 +1117,13 @@
     function read() {
       var lat = nOrNull(val('wbSiteLat')), lon = nOrNull(val('wbSiteLon'));
       rec.site = val('wbSiteAddr') || lat != null ? { address: val('wbSiteAddr'), lat: lat, lon: lon } : null;
-      var rows = [];
+      var rows = []; waitNeg = 0;
       Array.prototype.forEach.call(box.querySelectorAll('[data-wait]'), function (el) {
         var n = nOrNull(el.value); if (n == null) return;
+        if (n < 0) { waitNeg++; return; }
         var k = el.getAttribute('data-wait').split('|'); rows.push({ band: k[0], size: k[1], count: Math.round(n) });
       });
-      var total = nOrNull(val('wbWTotal'));
+      var total = nOrNull(val('wbWTotal')); if (total != null && total < 0) { waitNeg++; total = null; }
       rec.waitlist = rows.length || total != null ? { keeper: val('wbWKeeper'), asOf: val('wbWAsOf'), total: total == null ? null : Math.round(total), rows: rows } : null;
       var typed = [0, 1, 2].map(function (i) { return { type: val('wbST' + i), rent: nOrNull(val('wbSTR' + i)), vacancy: pctIn(val('wbSTV' + i)) }; });
       // A row with figures but no unit type is counted, so the save can stop instead of dropping it.
@@ -1125,6 +1134,7 @@
     }
     // Checked before a save, so the user fixes the survey instead of losing it to the backend's filter.
     function surveyProblem() {
+      if (waitNeg) return 'Waitlist counts cannot be below zero.';
       if (surveyLoose) return 'A survey row has figures but no unit type. Add the type or clear the row.';
       var sv = rec.survey;
       if (!sv) return null;
