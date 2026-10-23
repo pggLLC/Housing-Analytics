@@ -12,9 +12,6 @@ This document serves as the editorial queue for the COHO Analytics Insights page
 New topics are added here when data signals warrant a fresh article. Topics progress
 from **Proposed → In Progress → Published → Archived**.
 
-For the framework governing Key Market Trends verification, see
-`docs/MARKET_TRENDS_UPDATE_PROTOCOL.md`.
-
 ---
 
 ## Article Recommendation Queue
@@ -246,7 +243,6 @@ and include:
 
 ## Related Resources
 
-- **Key Market Trends checklist:** `docs/MARKET_TRENDS_UPDATE_PROTOCOL.md`
 - **Alerts pipeline:** `docs/alerts-pipeline.md`
 - **Data freshness dashboard:** `data-status.html`
 - **Policy Briefs:** `policy-briefs.html`
