@@ -228,7 +228,7 @@
 <li><strong>Monitor legislation:</strong> Track the AHCIA bills (H.R. 2725, S. 1515) and CRA rulemaking at the banking agencies</li>
 <li><strong>Watch for a final rule:</strong> Only a final CRA rule, not a proposal, would change which institutions get CRA credit for LIHTC investment; until one is published, price syndication on today's market</li>
 <li><strong>Diversify investors:</strong> Build relationships with credit unions and insurance companies now</li>
-<li><strong>Geographic strategy:</strong> Target CRA-eligible census tracts to maximize appeal to expanded investor base</li>
+<li><strong>Geographic strategy:</strong> Banks earn CRA credit inside their assessment areas, so a Colorado deal in a metro where several large banks lend draws more bidders than a remote one. The basis boost in a qualified census tract or difficult development area is separate from CRA; both show on the <a href="lihtc-opportunity-finder.html">Opportunity Finder</a></li>
 </ul>
 </div>
 <div style="background: rgba(3, 105, 161, 0.05); padding: 2rem; border-radius: 8px; margin: 2rem 0; border: 1px solid rgba(3, 105, 161, 0.2);">
@@ -239,6 +239,16 @@
 <li><strong>New entrant strategy:</strong> Credit unions/insurance cos should prepare infrastructure for LIHTC investment</li>
 <li><strong>Pricing discipline:</strong> Don't pay for a scenario that has not happened; treat the four cases above as stress tests around the current price</li>
 </ul>
+</div>
+<div style="background: var(--color-background-alt); padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+<h3 style="margin-bottom: 1.5rem;">What this means for a Colorado deal</h3>
+<ul style="line-height: 1.8;">
+<li><strong>Price at Colorado's level, not the national one.</strong> Novogradac's Colorado median was <span data-co-median>$0.81</span> for <span data-co-vintage>2026-Q2</span>, all credit types; it publishes no 9%/4% split, and no Denver, rural or resort figures, for Colorado.</li>
+<li><strong>CHFA does not fix an equity price.</strong> Its QAP uses the equity factor in the Preliminary Application, or the factor in your letter of interest if you have one. A CRA-driven price change shows up in your own letter first, not in CHFA's underwriting.</li>
+<li><strong>Which Colorado banks can invest more already changed, without CRA.</strong> The ROAD Act (Public Law 119-101, Section 203) raised the public welfare investment ceiling from 15 to 20 percent for national banks and state member banks. State nonmember banks and credit unions are not covered, so check a lender's charter before counting on it.</li>
+<li><strong>Colorado's state credit is a second market.</strong> No public source prices Colorado's state affordable housing tax credit, so get it quoted separately; a federal CRA change does not tell you its price.</li>
+</ul>
+<p style="margin:0;font-size:var(--small);color:var(--color-text-light);">Sources: <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends" target="_blank" rel="noopener">Novogradac equity pricing trends</a>; <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener">CHFA 2025–26 QAP, gap calculation</a>; <a href="https://www.govinfo.gov/app/details/BILLS-119hr6644enr" target="_blank" rel="noopener">Public Law 119-101</a>; <a href="https://www.chfainfo.com/rental-housing/housing-credit/colorado-state-affordable-housing-tax-credit" target="_blank" rel="noopener">CHFA state credit page</a>. Checked October 2026.</p>
 </div>
 <!-- F133 — hero panel on var(--accent) bg. The global `h3` rule uses
      `color: var(--text-strong) !important`, so inline color WITHOUT !important
@@ -253,6 +263,23 @@
 <div id="cra-weighted-note" data-no-contrast-guard style="color: var(--on-accent,#fff) !important;">9% credit price after six quarters, across all four cases</div>
 </div>
 </main>
+<script>
+    /* The Colorado box reads Novogradac's Colorado median from the same data
+       file as the scenarios; a missing value reads "not published". */
+    (function () {
+      'use strict';
+      function put(sel, text) { var el = document.querySelector(sel); if (el) el.textContent = text; }
+      fetch('data/market/novogradac-equity-pricing.json', { cache: 'no-cache' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          var co = j && j.pricing && j.pricing.by_state && j.pricing.by_state.CO;
+          var v = co && co.median_all_credits;
+          put('[data-co-median]', typeof v === 'number' && isFinite(v) && v > 0 ? '$' + v.toFixed(2) : 'not published');
+          if (j && j.meta && j.meta.vintage) put('[data-co-vintage]', j.meta.vintage);
+        })
+        .catch(function () { put('[data-co-median]', 'not published'); });
+    })();
+</script>
 <script>
     /* #2010 — every price on this page is the latest national 9% price in
        data/market/novogradac-equity-pricing.json, moved by the % range each
