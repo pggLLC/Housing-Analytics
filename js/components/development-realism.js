@@ -48,7 +48,7 @@
     }).join(' · ');
     return '<details class="devr-panel">' +
       '<summary class="devr-summary">' + icon + ' ' + title + '</summary>' +
-      '<div class="devr-body" data-no-source="estimate: practitioner rules of thumb, labelled below">' + content +
+      '<div class="devr-body">' + content +
         '<p class="devr-item-note"><strong>Rules of thumb, unconfirmed:</strong> dollar ranges, unit counts and timelines here come from development practice, not a published source. Check them against bids, lenders and the current QAP.</p>' +
       '</div>' +
       (links ? '<p class="devr-item-note devr-sources">Sources (read 2026-10-23): ' + links + '</p>' : '') +
@@ -69,7 +69,7 @@
             '<span class="devr-item-text">' + esc(item.text) + '</span>' +
           '</label>' +
           flagBadge +
-          (item.note ? '<div class="devr-item-note">' + esc(item.note) + '</div>' : '') +
+          (item.note ? '<div class="devr-item-note" data-no-source="estimate: rule of thumb, labelled below">' + esc(item.note) + '</div>' : '') +
           '</li>';
       }).join('') +
       '</ul>';
@@ -162,32 +162,32 @@
 
       '<h4 class="devr-subhead">Family Housing</h4>' +
       '<div class="devr-type-card">' +
-        '<div class="devr-type-specs">Typical: 60-100 units | 2-3 BR focus | 30-60% AMI | 9% credit preferred</div>' +
-        '<div class="devr-type-notes">Highest demand in most Colorado markets. Requires playground/outdoor space, larger units increase hard costs. School quality is a key site selection factor. Community opposition risk is highest for family projects (perceived traffic, school crowding).</div>' +
+        '<div class="devr-type-specs" data-no-source="estimate: rule of thumb, labelled below">Typical: 60-100 units | 2-3 BR focus | 30-60% AMI | 9% credit preferred</div>' +
+        '<div class="devr-type-notes" data-no-source="estimate: rule of thumb, labelled below">Highest demand in most Colorado markets. Requires playground/outdoor space, larger units increase hard costs. School quality is a key site selection factor. Community opposition risk is highest for family projects (perceived traffic, school crowding).</div>' +
       '</div>' +
 
       '<h4 class="devr-subhead">Senior Housing (55+ or 62+)</h4>' +
       '<div class="devr-type-card">' +
-        '<div class="devr-type-specs">Typical: 50-80 units | Studio-1BR focus | 40-60% AMI | 4% or 9% credit</div>' +
-        '<div class="devr-type-notes">Lower operating costs (less turnover, less wear). Senior projects often face less community opposition. Requires ADA compliance, elevator, common areas. Consider proximity to medical facilities, transit, and grocery. Colorado senior population growing fastest in mountain and resort communities.</div>' +
+        '<div class="devr-type-specs" data-no-source="estimate: rule of thumb, labelled below">Typical: 50-80 units | Studio-1BR focus | 40-60% AMI | 4% or 9% credit</div>' +
+        '<div class="devr-type-notes" data-no-source="estimate: rule of thumb, labelled below">Lower operating costs (less turnover, less wear). Senior projects often face less community opposition. Requires ADA compliance, elevator, common areas. Consider proximity to medical facilities, transit, and grocery. Colorado senior population growing fastest in mountain and resort communities.</div>' +
       '</div>' +
 
       '<h4 class="devr-subhead">Permanent Supportive Housing (PSH)</h4>' +
       '<div class="devr-type-card">' +
-        '<div class="devr-type-specs">Typical: 40-60 units | Studio-1BR | 30% AMI + services | 9% credit | requires operating subsidy</div>' +
-        '<div class="devr-type-notes">Serves people experiencing chronic homelessness, people with disabilities, or people exiting institutions. Requires ongoing service funding (Medicaid, VA, local grants). Higher operating costs ($2,000-$4,000/unit/year for services). Strong QAP preference but complex underwriting. Requires experienced property management with social service expertise.</div>' +
+        '<div class="devr-type-specs" data-no-source="estimate: rule of thumb, labelled below">Typical: 40-60 units | Studio-1BR | 30% AMI + services | 9% credit | requires operating subsidy</div>' +
+        '<div class="devr-type-notes" data-no-source="estimate: rule of thumb, labelled below">Serves people experiencing chronic homelessness, people with disabilities, or people exiting institutions. Requires ongoing service funding (Medicaid, VA, local grants). Higher operating costs ($2,000-$4,000/unit/year for services). Strong QAP preference but complex underwriting. Requires experienced property management with social service expertise.</div>' +
       '</div>' +
 
       '<h4 class="devr-subhead">Veterans Housing</h4>' +
       '<div class="devr-type-card">' +
-        '<div class="devr-type-specs">Typical: 30-60 units | Studio-2BR | 30-50% AMI | VASH vouchers | 9% credit</div>' +
-        '<div class="devr-type-notes">HUD-VASH vouchers provide project-based rental assistance for homeless veterans. VA Supportive Housing provides wraparound services. Strong QAP set-aside in Colorado. Requires partnership with local VA Medical Center and Continuum of Care.</div>' +
+        '<div class="devr-type-specs" data-no-source="estimate: rule of thumb, labelled below">Typical: 30-60 units | Studio-2BR | 30-50% AMI | VASH vouchers | 9% credit</div>' +
+        '<div class="devr-type-notes" data-no-source="estimate: rule of thumb, labelled below">HUD-VASH vouchers provide project-based rental assistance for homeless veterans. VA Supportive Housing provides wraparound services. Strong QAP set-aside in Colorado. Requires partnership with local VA Medical Center and Continuum of Care.</div>' +
       '</div>' +
 
       '<h4 class="devr-subhead">Workforce Housing (60-80% AMI)</h4>' +
       '<div class="devr-type-card">' +
-        '<div class="devr-type-specs">Typical: 80-150 units | 1-3BR | 60-80% AMI | 4% credit (bond-financed) | mixed-income possible</div>' +
-        '<div class="devr-type-notes">Targets essential workers (teachers, nurses, first responders). Often uses 4% credits with tax-exempt bonds for larger scale. May include market-rate units in mixed-income structure. Lower QAP competitiveness for 9% credits but strong community support. Consider inclusionary zoning compliance.</div>' +
+        '<div class="devr-type-specs" data-no-source="estimate: rule of thumb, labelled below">Typical: 80-150 units | 1-3BR | 60-80% AMI | 4% credit (bond-financed) | mixed-income possible</div>' +
+        '<div class="devr-type-notes" data-no-source="estimate: rule of thumb, labelled below">Targets essential workers (teachers, nurses, first responders). Often uses 4% credits with tax-exempt bonds for larger scale. May include market-rate units in mixed-income structure. Lower QAP competitiveness for 9% credits but strong community support. Consider inclusionary zoning compliance.</div>' +
       '</div>';
 
     el.innerHTML = _panel('Project Type Guidance', '🏗', content, ['qap']);
