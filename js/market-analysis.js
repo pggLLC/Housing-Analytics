@@ -1550,6 +1550,16 @@
     // in CHFA's 2027-28 draft QAP above which it asks for more demand data;
     // the 2025-26 QAP sets no number, and neither sets a middle band. The pool is the
     // penetration pool when the page has one, else the capture pool.
+    // A measured zero penetration pool (no renter qualifies at 20-80% AMI)
+    // has no CHFA check to make: withhold it rather than borrow the project's
+    // pool, which for a 90-120% workforce mix is not CHFA's table at all.
+    if (penetrationPool === 0) {
+      return {
+        proposedUnits: proposedUnits, captureRate: captureRate,
+        penetrationRate: null, risk: null,
+        riskLabel: '85% check not available'
+      };
+    }
     var penDen = penetrationPool > 0 ? penetrationPool : qualRenters;
     // Tax-credit tiers only (80% AMI and below): workforce units at 90-120%
     // AMI are not in CHFA's table or in the 20-80% pool.
@@ -2612,9 +2622,12 @@
         '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
         '<div class="pma-stat"><div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + ' rate</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
-          (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
-          sim.riskLabel + '</div><div class="pma-stat-label">Tax-credit units (existing, incl. funded not yet open) + proposed: ' + sim.penetrationRate + '% of ' +
-          (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' : 'the same renters') + '</div></div>' +
+          (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : sim.risk ? 'var(--good)' : 'var(--text-muted)') + '">' +
+          sim.riskLabel + '</div><div class="pma-stat-label">' +
+          (sim.penetrationRate == null
+            ? 'No renter households here qualify at 20\u201380% AMI, so there is no tax-credit penetration to check'
+            : 'Tax-credit units (existing, incl. funded not yet open) + proposed: ' + sim.penetrationRate + '% of ' +
+              (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' : 'the same renters')) + '</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
       '</div>' + _tierCaptureLine(simDen, amiMix);
     explainCapture(result, sim, simDen, null);
@@ -2755,7 +2768,7 @@
         '<td style="padding:0.25rem 0.5rem;text-align:center;font-weight:700;color:' + tier.color + '">' + s.overall + '</td>' +
         (s.proposedUnits > 0
           ? '<td style="padding:0.25rem 0.5rem;text-align:center">' + s.captureRate + '%</td>' +
-            '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' + (s.riskLabel || s.risk) + '</td>'
+            '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : s.risk ? 'var(--good)' : 'var(--text-muted)') + '">' + (s.riskLabel || s.risk) + '</td>'
           : '<td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td><td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td>') +
         '</tr>';
     }).join('');

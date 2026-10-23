@@ -107,6 +107,16 @@ test('a cleared 60% field with units elsewhere stays 0; all-blank defaults to 60
   assert.strictEqual(workforceOnly.penetrationRate, 80, 'a 90%-only project adds no tax-credit units to the check');
 });
 
+test('a zero 20-80% pool withholds the 85% check instead of borrowing a workforce pool', () => {
+  const s = simulateCapture(40, 10, { ami60: 0, ami90: 10 }, 0, 0);
+  assert.strictEqual(s.captureRate, 25, 'the workforce capture rate still shows');
+  assert.strictEqual(s.penetrationRate, null, 'no penetration rate on an empty pool');
+  assert.strictEqual(s.risk, null, 'no Over/Under verdict on an empty pool');
+  assert(/not available/.test(s.riskLabel), s.riskLabel);
+  assert.strictEqual(simulateCapture(40, 10, { ami60: 10 }, 0, undefined).risk, 'Low',
+    'without a penetration pool the legacy single denominator still checks');
+});
+
 test('without CHFA-rule counts the project pool is the one denominator', () => {
   const r = { captureDenominator: { value: 598, source: 'chas_lihtc_eligible' } };
   assert.deepStrictEqual(projectCaptureDenominator(r), captureDenominator(r));
