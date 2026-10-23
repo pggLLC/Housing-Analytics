@@ -47,7 +47,9 @@ def build(stream, config):
         result[bucket][geo['geoid']] = {
             'geoid': geo['geoid'], 'name': geo['label'],
             'renter_households': total, 'by_size': sizes,
-            'unavailable_reason': None if complete and total > 0 else 'renter_household_size_unavailable'}
+            'unavailable_reason': (None if complete and total > 0
+                                   else 'no_renter_households_reported' if complete
+                                   else 'renter_household_size_unavailable')}
     if (len(result['state']) != 1 or len(result['counties']) != 64
             or len(result['places']) != len(config['places']) + len(config['cdps'])):
         raise ValueError('Missing Colorado geographies in official B25009 source')

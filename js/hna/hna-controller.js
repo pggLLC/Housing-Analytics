@@ -1835,7 +1835,9 @@
     try { data = await loadJson('data/market/acs_renter_household_size_co.json'); } catch (_) { return null; }
     const bucket = geoType === 'state' ? data.state : geoType === 'county' ? data.counties : data.places;
     const row = bucket && bucket[geoid];
-    if (!row || row.unavailable_reason || !row.by_size) return null;
+    if (!row) return null;
+    // A published "unavailable" row is the answer; keep its reason for the panel.
+    if (row.unavailable_reason || !row.by_size) return { unavailableReason: row.unavailable_reason || 'renter_household_size_unavailable' };
     return { renterTotal: row.renter_households, renterBySize: row.by_size };
   }
 

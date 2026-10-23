@@ -9476,11 +9476,20 @@
    * @param {object|null} b25009 - { renterTotal, renterBySize: {1..7+} } or null
    */
   function renderBedroomNeed(b25009) {
-    const canvas = document.getElementById('chartBedroomNeed');
+    let canvas = document.getElementById('chartBedroomNeed');
     const noteEl = document.getElementById('bedroomNeedNote');
-    if (!canvas) return;
+    if (!canvas) {
+      // _placeholderInBox replaced the canvas for an earlier geography; put it back.
+      const box = document.querySelector('#bedroom-need-section .chart-box');
+      if (!box) return;
+      box.innerHTML = '<canvas id="chartBedroomNeed" role="img" aria-label="Renter households by needed bedroom count"></canvas>';
+      canvas = document.getElementById('chartBedroomNeed');
+    }
     if (!b25009 || !b25009.renterBySize) {
-      _placeholderInBox(canvas, 'Renter household-size figures are not available for this geography.');
+      const reason = b25009 && b25009.unavailableReason;
+      _placeholderInBox(canvas, reason === 'no_renter_households_reported'
+        ? 'The ACS 2020–2024 estimate reports no renter households for this geography.'
+        : 'Renter household-size figures are not available for this geography.');
       if (noteEl) noteEl.textContent = '';
       return;
     }

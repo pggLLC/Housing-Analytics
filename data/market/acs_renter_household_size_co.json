@@ -1144,7 +1144,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0801740": {
       "geoid": "0801740",
@@ -1219,7 +1219,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0802905": {
       "geoid": "0802905",
@@ -1324,7 +1324,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0803950": {
       "geoid": "0803950",
@@ -1399,7 +1399,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0804935": {
       "geoid": "0804935",
@@ -1609,7 +1609,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0807455": {
       "geoid": "0807455",
@@ -1624,7 +1624,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0807571": {
       "geoid": "0807571",
@@ -1639,7 +1639,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0807580": {
       "geoid": "0807580",
@@ -1654,7 +1654,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0807795": {
       "geoid": "0807795",
@@ -1714,7 +1714,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0808345": {
       "geoid": "0808345",
@@ -1759,7 +1759,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0808620": {
       "geoid": "0808620",
@@ -1954,7 +1954,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0812030": {
       "geoid": "0812030",
@@ -1969,7 +1969,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0812045": {
       "geoid": "0812045",
@@ -2029,7 +2029,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0812415": {
       "geoid": "0812415",
@@ -2059,7 +2059,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0812460": {
       "geoid": "0812460",
@@ -2314,7 +2314,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0815550": {
       "geoid": "0815550",
@@ -2359,7 +2359,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0815935": {
       "geoid": "0815935",
@@ -2434,7 +2434,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0816495": {
       "geoid": "0816495",
@@ -2464,7 +2464,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0817100": {
       "geoid": "0817100",
@@ -2494,7 +2494,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0817375": {
       "geoid": "0817375",
@@ -2809,7 +2809,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0820770": {
       "geoid": "0820770",
@@ -2974,7 +2974,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0823025": {
       "geoid": "0823025",
@@ -3064,7 +3064,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0823740": {
       "geoid": "0823740",
@@ -3499,7 +3499,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0828305": {
       "geoid": "0828305",
@@ -3589,7 +3589,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0829185": {
       "geoid": "0829185",
@@ -3619,7 +3619,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0829295": {
       "geoid": "0829295",
@@ -3634,7 +3634,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0829625": {
       "geoid": "0829625",
@@ -3739,7 +3739,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0830420": {
       "geoid": "0830420",
@@ -3889,7 +3889,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0832155": {
       "geoid": "0832155",
@@ -3964,7 +3964,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0833502": {
       "geoid": "0833502",
@@ -4039,7 +4039,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0834685": {
       "geoid": "0834685",
@@ -4129,7 +4129,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0836410": {
       "geoid": "0836410",
@@ -4459,7 +4459,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0839745": {
       "geoid": "0839745",
@@ -4489,7 +4489,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0839855": {
       "geoid": "0839855",
@@ -4744,7 +4744,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0842330": {
       "geoid": "0842330",
@@ -4909,7 +4909,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0844320": {
       "geoid": "0844320",
@@ -4954,7 +4954,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0844695": {
       "geoid": "0844695",
@@ -4969,7 +4969,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0844980": {
       "geoid": "0844980",
@@ -5044,7 +5044,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0845695": {
       "geoid": "0845695",
@@ -5164,7 +5164,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0847070": {
       "geoid": "0847070",
@@ -5209,7 +5209,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0848060": {
       "geoid": "0848060",
@@ -5314,7 +5314,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0849325": {
       "geoid": "0849325",
@@ -5554,7 +5554,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0852075": {
       "geoid": "0852075",
@@ -5584,7 +5584,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0852350": {
       "geoid": "0852350",
@@ -5659,7 +5659,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0853120": {
       "geoid": "0853120",
@@ -5749,7 +5749,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0854330": {
       "geoid": "0854330",
@@ -6019,7 +6019,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0856860": {
       "geoid": "0856860",
@@ -6124,7 +6124,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0857465": {
       "geoid": "0857465",
@@ -6274,7 +6274,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0859005": {
       "geoid": "0859005",
@@ -6319,7 +6319,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0859830": {
       "geoid": "0859830",
@@ -6409,7 +6409,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0861315": {
       "geoid": "0861315",
@@ -6529,7 +6529,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0863375": {
       "geoid": "0863375",
@@ -6559,7 +6559,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0863705": {
       "geoid": "0863705",
@@ -6634,7 +6634,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0864970": {
       "geoid": "0864970",
@@ -6679,7 +6679,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0865740": {
       "geoid": "0865740",
@@ -6739,7 +6739,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0867005": {
       "geoid": "0867005",
@@ -6829,7 +6829,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0867830": {
       "geoid": "0867830",
@@ -6874,7 +6874,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0868847": {
       "geoid": "0868847",
@@ -6904,7 +6904,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0868930": {
       "geoid": "0868930",
@@ -7189,7 +7189,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0871845": {
       "geoid": "0871845",
@@ -7204,7 +7204,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0872320": {
       "geoid": "0872320",
@@ -7504,7 +7504,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0876795": {
       "geoid": "0876795",
@@ -7624,7 +7624,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0878610": {
       "geoid": "0878610",
@@ -7669,7 +7669,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0879270": {
       "geoid": "0879270",
@@ -7684,7 +7684,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0879785": {
       "geoid": "0879785",
@@ -7714,7 +7714,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0880040": {
       "geoid": "0880040",
@@ -7744,7 +7744,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0880370": {
       "geoid": "0880370",
@@ -7759,7 +7759,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0880755": {
       "geoid": "0880755",
@@ -7774,7 +7774,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0880865": {
       "geoid": "0880865",
@@ -7909,7 +7909,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0883120": {
       "geoid": "0883120",
@@ -8134,7 +8134,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0886090": {
       "geoid": "0886090",
@@ -8179,7 +8179,7 @@
         "6": 0,
         "7+": 0
       },
-      "unavailable_reason": "renter_household_size_unavailable"
+      "unavailable_reason": "no_renter_households_reported"
     },
     "0886310": {
       "geoid": "0886310",
