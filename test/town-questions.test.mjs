@@ -188,6 +188,7 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   const pastHtml = WP.renderHtml(past);
   const pastTiming = pastHtml.slice(pastHtml.indexOf('<h3>Timing</h3>'));
   ok(pastTiming.includes(esc(past.deal.timing.rolling4.description)) && !/<th>Round<\/th>/.test(pastTiming.split('<h2')[0]), 'all rounds passed: the rolling path from the calendar shows, with no round table');
+  if (past.deal.timing.landBanking && past.deal.timing.landBanking.cycle) ok(pastTiming.split('<h2')[0].includes(esc(past.deal.timing.landBanking.cycle)), 'all rounds passed: the open land banking cycle still shows');
   const onlyRoll = clone(BASE); onlyRoll.qapCalendar.events = [];
   ok(model('0833640', { src: onlyRoll }).deal.timing.rolling4, 'calendar with only the rolling program: timing still shows it');
   const noCal = clone(BASE); noCal.qapCalendar = { events: [] };

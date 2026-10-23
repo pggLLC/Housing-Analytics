@@ -1354,8 +1354,12 @@
   function renderTiming(T) {
     if (!T) return '';
     var h = '<h3>Timing</h3>';
+    var land = T.landBanking && T.landBanking.cycle
+      ? '<p><strong>Land:</strong> ' + link('Prop 123 Land Banking', T.landBanking.url) + ' can hold a site until the round. ' + esc(T.landBanking.cycle) +
+        (T.landBanking.applicants ? ' Who can apply: ' + esc(T.landBanking.applicants) : '') + '</p>'
+      : '';
     if (!T.rows.length) {
-      return h + '<p>No fixed CHFA round is open on the calendar. <strong>4% with bonds:</strong> ' + link(T.rolling4.name, T.rolling4.url) + ' has no round: ' + esc(T.rolling4.description) + '</p>';
+      return h + '<p>No fixed CHFA round is open on the calendar. <strong>4% with bonds:</strong> ' + link(T.rolling4.name, T.rolling4.url) + ' has no round: ' + esc(T.rolling4.description) + '</p>' + land;
     }
     h += '<table><thead><tr><th>Round</th><th>Letter of intent</th><th>Application</th><th>Awards</th><th>Reading</th></tr></thead><tbody>' +
       T.rows.map(function (r) {
@@ -1383,11 +1387,7 @@
         }).join('') + '</tbody></table>';
       if (T.scoringStatus) h += '<p class="wp-meta">Thresholds from the ' + link(T.scoringStatus.title || 'CHFA QAP', T.scoringStatus.url) + (T.scoringStatus.draft ? ' (draft, not adopted)' : '') + '.</p>';
     }
-    if (T.landBanking && T.landBanking.cycle) {
-      h += '<p><strong>Land:</strong> ' + link('Prop 123 Land Banking', T.landBanking.url) + ' can hold a site until the round. ' + esc(T.landBanking.cycle) +
-        (T.landBanking.applicants ? ' Who can apply: ' + esc(T.landBanking.applicants) : '') + '</p>';
-    }
-    return h;
+    return h + land;
   }
 
   function renderQuestions(m) {
