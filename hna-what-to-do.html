@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>What to do about it — Housing Needs Assessment | COHO Analytics</title>
   <meta name="description" content="How much of what, for whom, and what is already available? Colorado Housing Needs Assessment, built from public data for a single jurisdiction." />
+<!-- shared:01 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
   <meta property="og:title" content="Housing Needs Assessment | COHO Analytics">
   <meta property="og:description" content="Interactive Housing Needs Assessment tool for Colorado communities.">
   <meta property="og:type" content="website">
@@ -103,7 +104,9 @@
     }
   </style>
   <!-- Leaflet (vendored locally — no CDN required) -->
+<!-- /shared:01 -->
   <link rel="stylesheet" href="js/vendor/leaflet.css" />
+<!-- shared:02 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/workflow-state-core.js"></script>
@@ -124,9 +127,11 @@
   <script src="js/scroll-fix.js"></script>
   <script src="js/api-config-wrapper.js"></script>
   <!-- Vendor scripts -->
+<!-- /shared:02 -->
   <script src="js/vendor/leaflet.js"></script>
   <!-- F100: zoom-aware county + place boundary overlay (decorative). -->
   <script src="js/components/jurisdiction-boundaries.js"></script>
+<!-- shared:03 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
   <!-- F165: targeted Google search-URL builder (housing-context, time-bound, OR-grouped vocab) -->
   <script src="js/components/search-links.js"></script>
   <!-- F124: per-property "look up" link bar + credit-type tooltips -->
@@ -140,6 +145,8 @@
   <script defer src="js/components/place-deals-limits.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
+<!-- /shared:03 -->
+<!-- shared:04 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
   <!-- F162: targeted Google searches for housing topics on planning/council agendas + minutes -->
   <script src="js/components/agenda-search-links.js"></script>
   <script defer src="js/vendor/chart.umd.min.js"></script>
@@ -170,7 +177,9 @@
   <script defer src="js/prop123-historical-tracker.js"></script>
   <!-- Shared Prop 123 jurisdiction loader/lookup; the map-specific initializer
        exits on this page, while HNA reuses its cached policy-data path. -->
+<!-- /shared:04 -->
   <script defer src="js/prop123-map.js"></script>
+<!-- shared:05 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
   <!-- HNA modules — load order: projection presets/storage/model → utils → narratives → renderers → export → controller -->
   <script defer src="js/utils/format-money.js"></script>
   <script defer src="js/utils/data-quality.js"></script>
@@ -223,8 +232,10 @@
   <script defer src="js/hna/county-comparison.js"></script>
   <script defer src="js/hna/county-comparison-view.js"></script>
   <!-- HB26-1065 zone designation note; must load before hna-renderers.js. -->
+<!-- /shared:05 -->
   <script defer src="js/transit-zone.js"></script>
   <script defer src="js/transit-zone-map.js"></script>
+<!-- shared:06 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
   <script defer src="js/acs-reliability.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
@@ -256,6 +267,8 @@
   <script defer src="js/components/data-quality-summary.js"></script>
   <script defer src="js/components/api-health.js"></script>
   <script defer src="js/components/export-panel.js"></script>
+<!-- /shared:06 -->
+<!-- shared:07 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
   <script src="js/config/basemaps.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
   <script defer src="js/hna/hna-chapter-handoff.js"></script>
@@ -268,8 +281,10 @@
   <script defer src="js/hna/hna-workflow-autosave.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
+<!-- /shared:07 -->
 <!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/components/second-homes-panel.js -->
 <script>window.HNA_VIEW={"id": "act", "nav": "What to do about it", "question": "How much of what, for whom, and what is already available?", "slug": "hna-what-to-do.html"};window.HNA_VIEW_ANCHORS={};</script>
+<!-- shared:08 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
 </head>
 <body data-page-update-key="hna"
       data-page-source="Census ACS · HUD · DOLA · LEHD">
@@ -338,6 +353,8 @@
          1.5 phone screens tall, so a reader met a menu and controls before any
          number. It now leads the page; each tile links to its workings. -->
     <section id="hnaDecisionStrip" class="hna-decision-strip" aria-label="Executive decision indicators" hidden>
+<!-- /shared:08 -->
+<!-- shared:09 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
       <a class="hna-decision-tile" href="#hnaScorecardPanel" data-decision-key="need">
         <span class="hna-decision-label">Need severity</span>
         <strong id="decisionNeedValue">—</strong>
@@ -354,6 +371,8 @@
         <span id="decisionProductionRead">Loading</span>
       </a>
       <a class="hna-decision-tile" href="#affordable-ownership-need-section" data-decision-key="ownership">
+<!-- /shared:09 -->
+<!-- shared:10 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
         <span class="hna-decision-label">Ownership feasibility</span>
         <strong id="decisionOwnershipValue">—</strong>
         <span id="decisionOwnershipRead">Loading</span>
@@ -367,10 +386,12 @@
     <section class="hero" style="padding-bottom:0;">
       <div style="padding:0 var(--sp4) var(--sp4);">
         <div class="kicker">Colorado • Public Data</div>
+<!-- /shared:10 -->
 <p class="hna-view-step">Housing Needs Assessment · part 5 of 5</p>
 <h1>What to do about it</h1>
 <nav class="hna-view-switcher" aria-label="Housing needs assessment sections"><a class="hna-view-tab" href="hna-what-housing-exists.html">What housing exists</a><a class="hna-view-tab" href="hna-who-lives-here.html">Who lives here</a><a class="hna-view-tab" href="hna-what-households-can-afford.html">What households can afford</a><a class="hna-view-tab" href="hna-where-its-heading.html">Where it&#x27;s heading</a><span class="hna-view-tab is-current" aria-current="page">What to do about it</span><a class="hna-view-tab hna-view-all" href="housing-needs-assessment.html">Full report →</a></nav>
         <p class="sub" style="margin-bottom:var(--sp3);">How much of what, for whom, and what is already available? Built from cached public datasets (Census, DOLA, HUD) with live Census API fallbacks.</p>
+<!-- shared:11 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
         <p style="font-size:1.133rem;color:var(--muted);margin-top:.25rem;margin-bottom:var(--sp2);" role="note"><strong>Screening tool only.</strong> Data snapshots are for early-stage community planning and site research using public Census, DOLA, and HUD datasets. They are not a certified housing needs study and do not substitute for a CHFA-required market analysis or formal due diligence.</p>
         <div id="hnaBanner" class="banner"></div>
         <div id="hnaLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
@@ -632,6 +653,7 @@
         </div>
       </div>
 
+<!-- /shared:11 -->
       
 <!-- [hna-view:act] not on this view: Map -->
 
@@ -741,6 +763,7 @@
 <!-- [hna-view:act] not on this view: Demographic projections: age pyramid & senior pressure (DOLA -->
 
 
+<!-- shared:18 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
       <div class="chart-card span-12">
         <h2 data-methodology-key="dola-projection">20-year outlook: population, migration, and housing needs (county context)</h2>
         <p>
@@ -840,6 +863,7 @@
 
       <!-- ── Extended HNA Analysis ── -->
       <!-- Income Distribution -->
+<!-- /shared:18 -->
       
 <!-- [hna-view:act] not on this view: Household Income Distribution -->
 
@@ -917,6 +941,7 @@
 
 
       <!-- Prop 123 (C.R.S. 29-32) Compliance -->
+<!-- shared:23 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
       <section id="prop123-section" class="chart-card span-12 prop123-section">
         <h2>Affordable Housing Compliance (Proposition 123)</h2>
         <p style="color:var(--muted)">
@@ -1238,6 +1263,7 @@
         </div>
         </details>
       </section>
+<!-- /shared:23 -->
 
       <!-- ── Neighborhood & Architectural Context ── -->
       
@@ -1245,6 +1271,7 @@
 
 
       <!-- ── Housing Type Feasibility Analysis ── -->
+<!-- shared:25 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
       <section id="housing-type-feasibility" class="chart-card span-12" aria-label="Housing type feasibility analysis">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
           <h2 style="margin:0">Housing Type Feasibility Analysis</h2>
@@ -1312,6 +1339,7 @@
         </div>
         <div id="htfFeasibilityMatrix" style="margin-top:1.5rem"></div>
       </section>
+<!-- /shared:25 -->
 
       <!-- ── Colorado Market Conditions ── -->
       
@@ -1319,6 +1347,7 @@
 
 
       <!-- ── Housing Action Plan ── -->
+<!-- shared:27 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
       <section id="housing-action-plan" class="chart-card span-12">
         <h2>Housing Action Plan Checklist</h2>
         <p style="color:var(--muted)">
@@ -1421,6 +1450,8 @@
           <a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener" style="color:var(--accent)">CDOH</a> publish implementation guidance.
         </p>
       </section>
+<!-- /shared:27 -->
+<!-- shared:28 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
 
       <!-- Data health and the pipeline link sit with the methodology, not above
            the answer: on a phone they pushed the Executive Snapshot to screen 5. -->
@@ -1482,7 +1513,9 @@
     <div id="lihtcTipsMount-hna"></div>
 
     <!-- HNA Save & Continue panel -->
+<!-- /shared:28 -->
     <section class="hna-handoff" aria-labelledby="hnaHandoffH" id="hnaChapterHandoff"><h2 id="hnaHandoffH" class="hna-handoff__title">What you have now</h2><ul class="hna-handoff__list"><li data-stat="statUnitsNeed" hidden><b class="hna-handoff__n"></b> <span>units needed over the planning horizon</span></li><li data-stat="statBaseUnits" hidden><b class="hna-handoff__n"></b> <span>existing units to build from</span></li><li data-stat="statPermitsAvg" hidden><b class="hna-handoff__n"></b> <span>permits a year at the recent pace</span></li></ul><p class="hna-handoff__empty" hidden>The figures for this part did not load, so there is nothing to summarise here yet.</p><p class="hna-handoff__next"><strong>Next &mdash; Market Analysis</strong><br>You now have a needs assessment for this jurisdiction. Market Analysis is where you test whether a specific site and rent level can actually carry it.</p><p class="hna-handoff__actions"><a class="btn btn-primary" href="market-analysis.html">Continue to Market Analysis →</a></p><p class="hna-handoff__jump">Or jump to: <a href="hna-what-housing-exists.html">What housing exists</a><a href="hna-who-lives-here.html">Who lives here</a><a href="hna-what-households-can-afford.html">What households can afford</a><a href="hna-where-its-heading.html">Where it&#x27;s heading</a></p></section><section class="hna-continue-panel" id="hnaContinuePanel">
+<!-- shared:29 · edit in housing-needs-assessment.html, then run node scripts/sync-hna-shared.mjs -->
       <div class="hna-continue-panel__inner">
         <div class="hna-continue-panel__text">
           <!-- Step 3: the rail numbers this page 3 of 6 (F21 moved Opportunity
@@ -2793,3 +2826,5 @@
   </footer>
 </body>
 </html>
+
+<!-- /shared:29 -->
