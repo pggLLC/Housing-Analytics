@@ -60,6 +60,13 @@ assert.ok(guide.includes('29-4-1205(1)(f)'), 'ROFR exemption named');
 const pres = sc.lines.find((l) => l.id === '5B3d-preservation').quote;
 assert.ok(/within three years of expiration/.test(pres) && guide.includes('expires within three years'), 'preservation subsidy route');
 
+// Codex round 2: the water rule carries its threshold, the cleanup plan and the
+// No Action Determination are separate steps, and HOME NEPA exemptions are statutory.
+assert.ok(guide.includes('50 single-family equivalents') && guide.includes('29-20-103(1)(b)'), 'water threshold');
+assert.ok(guide.includes('25-16-306') && guide.includes('25-16-307'), 'VCUP plan approval vs NAD');
+assert.ok(!/council that has not done so/.test(guide), 'no council requirement for local priority points');
+assert.ok(road.includes('exempt from NEPA review in the statute itself') && !road.includes('exemptions wait on HUD rules'), 'HOME NEPA exemptions statutory');
+
 // 3. Fair housing: Colorado law, and no unqualified 3% claim after HB26-1313.
 for (const s of ['C.R.S. 24-34-502', 'HB20-1332', 'Colorado Civil Rights Division', 'within one year', 'HB26-1313']) {
   assert.ok(fair.includes(s), `fair housing brief cites ${s}`);
