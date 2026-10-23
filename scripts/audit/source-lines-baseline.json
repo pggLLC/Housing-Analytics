@@ -427,6 +427,47 @@
         "unsourced: #main-content>table:3": 13,
         "unsourced: #main-content>table:4": 1
       }
+    },
+    "places/0800320.html": {
+      "unsourced": 17,
+      "undated": 1,
+      "areas": {
+        "unsourced: #main-content>div.place-stat:1": 2,
+        "unsourced: #main-content>div.place-stat:2": 2,
+        "unsourced: #main-content>div.place-stat:3": 2,
+        "unsourced: #main-content>div.place-stat:6": 1,
+        "unsourced: #main-content>div.place-stat:7": 1,
+        "unsourced: #main-content>div.place-stat:8": 1,
+        "unsourced: #main-content>div.place-stat:9": 1,
+        "unsourced: #main-content>div.place-stat:10": 1,
+        "unsourced: #main-content>div.place-card:2": 5,
+        "undated: #psOwnershipCard": 1,
+        "unsourced: #main-content>div.place-stat:24": 1
+      }
+    },
+    "places/0820000.html": {
+      "unsourced": 31,
+      "undated": 2,
+      "areas": {
+        "unsourced: #main-content>div.place-stat:1": 2,
+        "unsourced: #main-content>div.place-stat:2": 2,
+        "unsourced: #main-content>div.place-stat:3": 2,
+        "unsourced: #main-content>div.place-stat:4": 1,
+        "unsourced: #main-content>div.place-stat:5": 1,
+        "unsourced: #main-content>div.place-stat:6": 2,
+        "unsourced: #main-content>div.place-stat:7": 2,
+        "unsourced: #main-content>div.place-stat:8": 2,
+        "unsourced: #main-content>div.place-stat:9": 2,
+        "unsourced: #main-content>div.place-stat:10": 2,
+        "unsourced: #main-content>div.place-card:2": 5,
+        "unsourced: #main-content>div.place-stat:11": 1,
+        "unsourced: #main-content>div.place-stat:12": 1,
+        "unsourced: #main-content>div.place-stat:13": 1,
+        "unsourced: #main-content>div.place-stat:14": 1,
+        "unsourced: #main-content>div.place-card:3": 3,
+        "undated: #psOwnershipCard": 2,
+        "unsourced: #main-content>div.place-stat:24": 1
+      }
     }
   }
 }

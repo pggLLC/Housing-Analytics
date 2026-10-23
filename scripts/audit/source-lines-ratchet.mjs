@@ -43,11 +43,17 @@ const SLACK = Number.parseInt(process.env.SOURCE_LINES_SLACK || '2', 10);
 // Pages not served on the public site, or that are not content pages.
 const SKIP = new Set(['404.html', 'og-card.html', 'privacy-policy.html', 'sitemap.html', 'search.html']);
 
+// The 480-odd place profiles come from one generator
+// (scripts/hna/build_place_pages.py), so a large city and a small town stand
+// for all of them: a template change that drops a source shows up on both.
+const PLACE_SAMPLES = ['places/0820000.html', 'places/0800320.html'];
+
 function publicPages() {
-  return fs.readdirSync(ROOT)
+  const top = fs.readdirSync(ROOT)
     .filter((f) => f.endsWith('.html') && !SKIP.has(f) && !f.startsWith('developer'))
     .filter((f) => !/http-equiv=["']refresh["']/i.test(fs.readFileSync(path.join(ROOT, f), 'utf8')))
     .sort();
+  return [...top, ...PLACE_SAMPLES.filter((f) => fs.existsSync(path.join(ROOT, f)))];
 }
 
 function scanPage() {
