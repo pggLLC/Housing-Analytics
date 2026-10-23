@@ -193,6 +193,17 @@ for (const row of pickRows) {
   if (refs.includes('hub-master-meter') && /typically/.test(rec('hub-master-meter').quotes.join(' '))) {
     assert(/master meter (?:usually|typically|can|may)\b/i.test(row.textContent), `pick row "${label}" states the master-meter rate saving without the record's qualifier`);
   }
+  // Advice to go past the required certification rests on CHFA's "more competitive" line and its named programs.
+  if (/competitive/i.test(row.textContent)) {
+    assert(refs.includes('qap-more-competitive'), `pick row "${label}" calls a choice competitive without citing qap-more-competitive`);
+    assert(/more competitive/.test(rec('qap-more-competitive').quotes.join(' ')), 'qap-more-competitive no longer quotes CHFA\'s "more competitive" line');
+  }
+  const higher = rec('qap-higher-programs-draft').quotes.join(' ');
+  for (const [prog, re] of [['DOE Efficient New Homes', /DOE Efficient New Homes/], ['Phius', /Phius/i], ['EGC+', /EGC\+/]]) {
+    if (!re.test(row.querySelector('td[data-label="Certification"]')?.textContent || '')) continue;
+    assert(refs.includes('qap-higher-programs-draft'), `pick row "${label}" recommends ${prog} without citing qap-higher-programs-draft`);
+    assert(re.test(higher), `pick row "${label}" recommends ${prog}, which qap-higher-programs-draft no longer names`);
+  }
   // The page promises each row links to what it relies on: one link per ref, each to a drawn record.
   const hrefs = [...row.querySelectorAll('.gb-refs a')].map((a) => a.getAttribute('href'));
   assert.deepEqual(hrefs, refs.map((r) => `#${w.GreenBuilding.anchorId(r)}`), `pick row "${label}" does not link each record it relies on`);
