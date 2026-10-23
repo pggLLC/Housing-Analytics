@@ -2557,12 +2557,15 @@
       ami30:  parseInt(el('pmaAmi30')  && el('pmaAmi30').value,  10) || 0,
       ami40:  parseInt(el('pmaAmi40')  && el('pmaAmi40').value,  10) || 0,
       ami50:  parseInt(el('pmaAmi50')  && el('pmaAmi50').value,  10) || 0,
-      ami60:  parseInt(el('pmaAmi60')  && el('pmaAmi60').value,  10) || proposed,
+      ami60:  parseInt(el('pmaAmi60')  && el('pmaAmi60').value,  10) || 0,
       ami80:  parseInt(el('pmaAmi80')  && el('pmaAmi80').value,  10) || 0,
       ami90:  parseInt(el('pmaAmi90')  && el('pmaAmi90').value,  10) || 0,
       ami110: parseInt(el('pmaAmi110') && el('pmaAmi110').value, 10) || 0,
       ami120: parseInt(el('pmaAmi120') && el('pmaAmi120').value, 10) || 0
     };
+    // All units at 60% AMI only when no tier has any units; an explicit 0 at
+    // 60% with units elsewhere stays 0, so no phantom tax-credit units.
+    if (!Object.keys(amiMix).some(function (k) { return amiMix[k] > 0; })) amiMix.ami60 = proposed;
 
     // D — Prefer CHAS-derived LIHTC-eligible renter HH from the result; only
     // fall back to ACS total renter_hh when CHAS context is missing.

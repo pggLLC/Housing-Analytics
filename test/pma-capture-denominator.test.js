@@ -99,6 +99,14 @@ test('the 85% check counts tax-credit units only and cites the draft QAP, not th
   assert(!/QAP 2\.B|QAP section 2\.B/.test(src), 'the page still cites the 2025-26 QAP for the 85% line');
 });
 
+test('a cleared 60% field with units elsewhere stays 0; all-blank defaults to 60%', () => {
+  assert(/ami60:\s+parseInt\(el\('pmaAmi60'\)\s+&& el\('pmaAmi60'\)\.value,\s+10\) \|\| 0,/.test(src), 'the 60% field still defaults to the whole project');
+  assert(/if \(!Object\.keys\(amiMix\)\.some\(function \(k\) \{ return amiMix\[k\] > 0; \}\)\) amiMix\.ami60 = proposed;/.test(src),
+    'an empty mix no longer defaults to 60%');
+  const workforceOnly = simulateCapture(1000, 100, { ami60: 0, ami90: 100 }, 4000, 5000);
+  assert.strictEqual(workforceOnly.penetrationRate, 80, 'a 90%-only project adds no tax-credit units to the check');
+});
+
 test('without CHFA-rule counts the project pool is the one denominator', () => {
   const r = { captureDenominator: { value: 598, source: 'chas_lihtc_eligible' } };
   assert.deepStrictEqual(projectCaptureDenominator(r), captureDenominator(r));
