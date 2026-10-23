@@ -1568,6 +1568,9 @@
       if (costReason && /^(gap|deferred|devFeeAtClosing|fundingGap|exit\.(dfYr|irr)|waterfall|tornado|sliderImpacts)/.test(path)) return noiUnknownReason || rentsUnknownReason || costReason;
       if (operatingInputsReason && /^(noi|annualOpex|opexPerUnitMonth|annualRepReserve|repReservePerUnit|netPropTax|propTaxPerUnit|mortgage|annualDebtService|gap|deferred|devFeeAtClosing|fundingGap|capRate|baseDSCR|breakEvenOcc|stress|exit|tornado|projection|waterfall|sliderImpacts)/.test(path)) return operatingInputsReason;
       if (/^(projection|waterfall|exit)/.test(path) && projectionInputsReason) return projectionInputsReason;
+      // Falling rents (or rising costs) can push exit-year NOI to zero or below: no resale value, nothing to divide.
+      if (known(exit.nNoi) && exit.nNoi <= 0 && /^(exit\.(resale|netProceeds|irr)$|waterfall)/.test(path))
+        return 'Exit-year NOI is zero or negative, so the model sets no resale value and there are no sale proceeds to divide.';
       if (/^exit\.(firstMortBal|softBal|assetMgmtOwed|netProceeds|dfYr|irr)$/.test(path) && exit.loanUnavailableReason) return noiUnknownReason || rentsUnknownReason || exit.loanUnavailableReason;
       if (/^projection\.rows\.\d+\.dscr$/.test(path)) return 'DSCR requires positive annual debt service.';
       if (/^waterfall\.(lpCashIrr|lpMultiple)$/.test(path)) return 'LP cash returns require a positive equity contribution.';

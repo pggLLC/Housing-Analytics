@@ -113,23 +113,37 @@ test('the jurisdiction digest builds at the shared rate', () => {
   assert.ok(/window: \{ OwnershipFinance \}/.test(src), 'digest kernel sandbox does not carry the engine');
 });
 
-test('every page that loads hna-utils.js loads ownership-finance.js before it', () => {
+// Every script that reads MORTGAGE_RATE at load, with the fewest pages expected to load it.
+const RATE_READERS = [['js/hna/hna-utils.js', 6], ['js/hna/hna-comparison.js', 1]];
+
+test('every page that loads a rate reader loads ownership-finance.js before it', () => {
   const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
-  const users = pages.filter((p) => read(p).includes('js/hna/hna-utils.js'));
-  assert.ok(users.length >= 6, `only ${users.length} pages load hna-utils.js`);
-  for (const p of users) {
-    const html = read(p);
-    const fin = html.indexOf('src="js/hna/ownership-finance.js"');
-    const utils = html.indexOf('src="js/hna/hna-utils.js"');
-    assert.ok(fin >= 0 && fin < utils, p + ' loads hna-utils.js before ownership-finance.js');
+  for (const [reader, min] of RATE_READERS) {
+    const users = pages.filter((p) => read(p).includes(reader));
+    assert.ok(users.length >= min, `only ${users.length} pages load ${reader}`);
+    for (const p of users) {
+      const html = read(p);
+      const fin = html.indexOf('src="js/hna/ownership-finance.js"');
+      const at = html.indexOf('src="' + reader + '"');
+      assert.ok(fin >= 0 && fin < at, p + ' loads ' + reader + ' before ownership-finance.js');
+    }
   }
+});
+
+test('the place comparison prices purchases at the shared rate, and withholds without it', () => {
+  const src = read('js/hna/hna-comparison.js');
+  assert.match(src, /window\.OwnershipFinance\.MORTGAGE_RATE/);
+  assert.ok(!/Based on 7% rate/.test(src), 'the comparison note still hard-codes 7%');
+  assert.match(src, /if \(!Number\.isFinite\(MORTGAGE_RATE\)\) return null;/);
 });
 
 test('no 6.5% placeholder rate is left on an ownership affordability path', () => {
   for (const rel of ['js/hna/hna-utils.js', 'js/hna/hna-ownership-need.js', 'js/hna/hna-renderers.js',
-    'js/hna/hna-ownership-strategy.js', 'scripts/hna/build_jurisdiction_metrics_digest.mjs']) {
+    'js/hna/hna-ownership-strategy.js', 'js/hna/hna-comparison.js', 'scripts/hna/build_jurisdiction_metrics_digest.mjs']) {
     assert.ok(!/(rateAnnual|pmms30YearRate)\s*:\s*0\.065\b/.test(read(rel)), rel + ' still sets a 6.5% rate');
     assert.ok(!/\|\|\s*0\.07\d\b/.test(read(rel)), rel + ' falls back to a literal rate');
+    assert.ok(!/(MORTGAGE_RATE|rateAnnual)[^\n;]*\|\|\s*0\.\d/.test(read(rel)), rel + ' gives the mortgage rate a literal fallback');
+    assert.ok(!/mortgageRate\s*\|\|/.test(read(rel)), rel + ' falls back to COHO_DEFAULTS.mortgageRate');
   }
 });
 

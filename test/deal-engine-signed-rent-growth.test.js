@@ -46,6 +46,20 @@ assert.equal(withRentGrowth('5').exit.rentGrowth, 0.05);
 assert.equal(withRentGrowth('-3.25').exit.rentGrowth, null, 'below -3% is not clamped to -3%');
 assert.equal(withRentGrowth('5.25').exit.rentGrowth, null, 'above 5% is not clamped to 5%');
 
+// A long hold at -3% can push exit NOI below zero: projection rows stay, and the
+// missing resale says why instead of asking for inputs that are already valid.
+{
+  const input = inputsFor('A');
+  input.fields['pf-rent-growth'] = '-3';
+  input.fields['dc-exit-hold'] = '30';
+  const r = computeDeal(input);
+  assert(r.exit.nNoi < 0, 'year-30 NOI is negative at -3% rents');
+  assert(r.projection && r.projection.rows.length >= 30, 'the projection itself is kept');
+  for (const p of ['exit.resale', 'exit.netProceeds', 'waterfall']) {
+    assert.match(r.unavailable[p], /NOI is zero or negative/, p + ' names the negative exit NOI');
+  }
+}
+
 // Expenses are still not modelled as falling.
 const expInput = inputsFor('A');
 expInput.fields['pf-exp-growth'] = '-1';
