@@ -1004,6 +1004,14 @@
   function scoreCaptureRisk(acs, existingUnits, proposedUnits, chasEligible) {
     // D — Prefer CHAS LIHTC-eligible renter HH (≤80% AMI) as the denominator;
     // fall back to ACS renter_hh when CHAS unavailable.
+    // A CHFA-rule count of zero is a finding, not a missing input: no renter
+    // here qualifies for a tax-credit unit, so there is no rate to score and
+    // no broader pool stands in for it.
+    if (chasEligible && chasEligible.source === 'chfa_qualified' && chasEligible.value === 0) {
+      return { score: null, capture: null, qualRenters: 0, denominatorSource: 'chfa_qualified',
+        chasBreakdown: chasEligible.tier_breakdown || null, unavailable: true,
+        unavailableReason: 'no renter households in this market area qualify for a tax-credit unit (20-80% AMI) under CHFA rules' };
+    }
     var res = PMAScoring.scoreCaptureRisk(acs, existingUnits, proposedUnits, chasEligible);
     // With neither CHAS eligible renters nor an ACS renter count, the shared
     // helper divides by 1, so any existing unit reads as capture far above
@@ -1285,8 +1293,9 @@
     // CHFA-style counts first; the county CHAS share (all renters at or
     // under 80% AMI) only when their inputs did not load.
     var chfaPenetration    = _chfaQualifiedRenters(bufTracts, CHFA_PENETRATION_TIERS);
-    var chfaCapture        = chfaPenetration.value > 0 ? _chfaQualifiedRenters(bufTracts, CHFA_CAPTURE_TIERS) : null;
-    var chasEligible       = chfaPenetration.value > 0
+    var chfaCounted        = chfaPenetration.source === 'chfa_qualified';
+    var chfaCapture        = chfaCounted ? _chfaQualifiedRenters(bufTracts, CHFA_CAPTURE_TIERS) : null;
+    var chasEligible       = chfaCounted
       ? { value: chfaPenetration.value, tier_breakdown: chfaPenetration.byTier, source: 'chfa_qualified', counties: [] }
       : _chasLihtcEligibleRenters(bufTracts, acsIdx);
     var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits, chasEligible);
@@ -1606,7 +1615,12 @@
    */
   function projectCaptureDenominator(result) {
     var pen = captureDenominator(result);
-    var p = result && result.captureDenominator && result.captureDenominator.project;
+    var cd = result && result.captureDenominator;
+    if (!pen && cd && cd.source === 'chfa_qualified' && cd.value === 0) {
+      // No renter qualifies at any tier, so none qualifies for the project's.
+      pen = { value: 0, source: 'chfa_qualified', tracts: cd.tracts };
+    }
+    var p = cd && cd.project;
     if (!pen || pen.source !== 'chfa_qualified' || !p || !(Number(p.value) >= 0)) return pen;
     return {
       value: Number(p.value), source: 'chfa_qualified', tiers: p.tiers || [60], tracts: pen.tracts,
@@ -1614,6 +1628,24 @@
       label: 'renter households that qualify for a ' + (p.tiers || [60]).join('/') + '% AMI unit (CHFA market-study rules; HUD CHAS + ACS PUMS)',
       short: 'Renter HH qualified for ' + (p.tiers || [60]).join('/') + '% AMI units (CHFA rules)'
     };
+  }
+
+  // CHFA reports capture for each AMI tier as well as overall (QAP Appendix
+  // A, section 7). The overall rate above divides all units by renters who
+  // qualify for any offered tier, each household once; with more than one
+  // tier, this line shows each tier's own units over its own renters.
+  function _tierCaptureLine(den, amiMix) {
+    var byTier = den && den.byTier;
+    var tiers = (den && den.tiers) || [];
+    if (!byTier || tiers.length < 2) return '';
+    var parts = tiers.map(function (t) {
+      var units = amiMix['ami' + t] || 0;
+      var q = byTier[t] || 0;
+      return t + '% AMI: ' + units + ' units \u00f7 ' + q.toLocaleString() + ' renter HH = ' +
+        (q > 0 ? (Math.round(units / q * 1000) / 10) + '%' : 'no qualified renters');
+    });
+    return '<p class="pma-tier-capture" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">By tier (CHFA reports each): ' +
+      parts.join('; ') + '.</p>';
   }
 
   function _noQualifiedLine(tiers) {
@@ -2043,10 +2075,14 @@
       // report a unit count (LIHTC + other assisted), the same figure
       // computePma scored and #pmaLihtcUnits shows.
       var exUnits = result.affordableUnitsKnown;
+      var noneQualify = !capDen && result.captureDenominator && result.captureDenominator.source === 'chfa_qualified' &&
+        result.captureDenominator.value === 0;
       capDenEl.textContent = capDen
         ? exUnits.toLocaleString() + ' existing affordable units (LIHTC and other subsidized) ' + _denominatorLine(capDen)
+        : noneQualify
+        ? 'No renter households in this PMA qualify for a tax-credit unit (20\u201380% AMI) under CHFA rules, so there is no penetration rate.'
         : _denominatorLine(null);
-      capDenEl.dataset.denominator = capDen ? String(capDen.value) : '';
+      capDenEl.dataset.denominator = capDen ? String(capDen.value) : (noneQualify ? '0' : '');
       capDenEl.dataset.numerator = capDen ? String(exUnits) : '';
     }
     setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
@@ -2542,7 +2578,7 @@
         var recount = _chfaQualifiedRenters(simDen.tracts, mixTiers);
         if (recount.source === 'chfa_qualified') {
           simDen = Object.assign({}, simDen, {
-            value: recount.value, tiers: mixTiers,
+            value: recount.value, tiers: mixTiers, byTier: recount.byTier,
             label: 'renter households that qualify for units at ' + mixTiers.join('/') + '% AMI (CHFA market-study rules; HUD CHAS + ACS PUMS)',
             short: 'Renter HH qualified for ' + mixTiers.join('/') + '% AMI units (CHFA rules)'
           });
@@ -2568,7 +2604,7 @@
           sim.riskLabel + '</div><div class="pma-stat-label">Existing (incl. funded, not yet open) + proposed units: ' + sim.penetrationRate + '% of ' +
           (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' : 'the same renters') + '</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
-      '</div>';
+      '</div>' + _tierCaptureLine(simDen, amiMix);
     explainCapture(result, sim, simDen, null);
   }
 

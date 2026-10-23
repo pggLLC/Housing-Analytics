@@ -69,6 +69,29 @@ test('a real zero 60% pool stays zero, never the broader penetration pool', () =
     'the scenario table has no no-qualified-renters state');
 });
 
+test('a real zero 20-80% pool withholds the score, never borrows the CHAS or ACS pool', () => {
+  const PMAScoring = require(path.join(ROOT, 'js/market-analysis-scoring.js'));
+  const m = src.match(/function scoreCaptureRisk\([\s\S]*?\n  \}/);
+  const scoreCaptureRisk = new Function('PMAScoring', m[0] + '; return scoreCaptureRisk;')(PMAScoring);
+  const r = scoreCaptureRisk({ renter_hh: 900 }, 40, 0, { value: 0, source: 'chfa_qualified' });
+  assert.strictEqual(r.score, null);
+  assert.strictEqual(r.capture, null);
+  assert.strictEqual(r.denominatorSource, 'chfa_qualified');
+  assert(/qualify/.test(r.unavailableReason));
+  const proj = projectCaptureDenominator({ captureDenominator: { value: 0, source: 'chfa_qualified', project: { value: 0, source: 'chfa_qualified', tiers: [60] } } });
+  assert.strictEqual(proj.value, 0, 'the project pool is zero too');
+});
+
+test('a mixed-tier project shows each tier\'s own capture beside the overall rate', () => {
+  const m = src.match(/function _tierCaptureLine\([\s\S]*?\n  \}/);
+  assert(m, '_tierCaptureLine() is gone');
+  const line = new Function(m[0] + '; return _tierCaptureLine;')();
+  const html = line({ tiers: [30, 80], byTier: { 30: 200, 80: 1000 } }, { ami30: 99, ami80: 1 });
+  assert(/30% AMI: 99 units \u00f7 200 renter HH = 49.5%/.test(html), html);
+  assert(/80% AMI: 1 units \u00f7 1,000 renter HH = 0.1%/.test(html), html);
+  assert.strictEqual(line({ tiers: [60], byTier: { 60: 500 } }, { ami60: 100 }), '', 'one tier needs no breakdown');
+});
+
 test('without CHFA-rule counts the project pool is the one denominator', () => {
   const r = { captureDenominator: { value: 598, source: 'chas_lihtc_eligible' } };
   assert.deepStrictEqual(projectCaptureDenominator(r), captureDenominator(r));
