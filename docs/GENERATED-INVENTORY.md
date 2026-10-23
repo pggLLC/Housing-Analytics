@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-23T16:01:40.749Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-23T16:37:44.980Z. Do not edit by hand.
 
 ---
 
@@ -37,7 +37,7 @@
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 82.8 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
-| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 54.0 KB |
+| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.0 KB |
 | `developer-deal-workbook.html` | Deal Workbook — COHO Analytics | 10.5 KB |
 | `developer-methods.html` | Methodology — COHO Analytics | 7.4 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.8 KB |
@@ -54,12 +54,12 @@
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.8 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.4 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 138.9 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 176.5 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 176.6 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.0 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 137.4 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 44.8 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 253.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 253.8 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.9 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 52.0 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 23.6 KB |
@@ -147,7 +147,7 @@
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
 | `data/co_ami_gap_by_county.json` | 100.6 KB | ✅ | — |
 | `data/co_ami_gap_by_place.json` | 729.4 KB | ✅ | — |
-| `data/core/educational-content.json` | 66.0 KB | ✅ | — |
+| `data/core/educational-content.json` | 67.4 KB | ✅ | — |
 | `data/core/neighborhood-context.json` | 70.1 KB | ✅ | — |
 | `data/coverage-report.json` | 12.8 KB | ✅ | — |
 | `data/cra/co-bank-branches.json` | 223.3 KB | ✅ | — |
@@ -2454,7 +2454,7 @@
 | `test/pipeline-financing-tracks.test.js` | 3.8 KB |
 | `test/pipeline-guards-a1.test.js` | 2.0 KB |
 | `test/pipeline-guards-a2.test.js` | 4.9 KB |
-| `test/place-card.test.mjs` | 28.2 KB |
+| `test/place-card.test.mjs` | 29.9 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 7.1 KB |
 | `test/place-chas-method-honesty.test.js` | 8.3 KB |
