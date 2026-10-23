@@ -100,6 +100,9 @@ export const RULES = [
   { fig: 'coM', files: [DEEP], pattern: /is about \$(\d+\.\d) million a year, and CHFA/g },
   { fig: 'year', files: [GUIDE], pattern: /residents at \$[\d.]+ per person\. [^<]*?minimum \(\$[\d,]+ for (\d{4})\)/g },
   { fig: 'perCapita', files: [GUIDE], pattern: /residents at \$(\d\.\d{3}) per person\./g },
+  { value: (F) => (F.coM == null ? null : thousands(Math.round(F.coM * 1e6))), files: [GUIDE], pattern: /<td>\$([\d,]+) for \d{4}: [\d,]+ residents at/g },
+  { fig: 'year', files: [GUIDE], pattern: /<td>\$[\d,]+ for (\d{4}): [\d,]+ residents at/g },
+  { value: (F) => (F.coPop == null ? null : thousands(F.coPop)), files: [GUIDE], pattern: /<td>\$[\d,]+ for \d{4}: ([\d,]+) residents at/g },
   { fig: 'smallStateMin', files: [GUIDE], pattern: /small-state minimum \(\$([\d,]+) for \d{4}\)/g },
   { fig: 'revProc', files: [GUIDE], pattern: /<td>(IRS Rev\. Proc\. \d{4}-\d+) §4\.08 \(rate/g },
   { fig: 'revProcUrl', files: [DC, DEEP, GUIDE], pattern: /href="(https:\/\/www\.irs\.gov\/pub\/irs-drop\/rp-\d\d-\d+\.pdf)"/g },
@@ -182,6 +185,7 @@ export function readFigures(root = ROOT) {
     noticeUrl: alloc.year === ceiling.year ? (alloc.source?.populationUrl ?? null) : null,
     // The allocation must be for the ceiling's year, or the two disagree.
     coM: Number.isFinite(co) && alloc.year === ceiling.year ? co / 1e6 : null,
+    coPop: alloc.year === ceiling.year ? (alloc.states?.CO?.population ?? null) : null,
     p123M: p123.amount_millions ?? null,
     p123From: p123.from_budget_year ?? null,
     r1Loi: ev('2027-r1-loi'),
