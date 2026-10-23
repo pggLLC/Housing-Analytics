@@ -3330,7 +3330,7 @@
 
       <!-- DOH PR 3 — Permanent financing in the Division of Housing layout.
            Regroups the sources above; it changes no result. -->
-      <fieldset id="dc-pf-doh" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+      <fieldset id="dc-pf-doh" data-no-source="calculator output: regroups the inputs and sources above" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Permanent Financing (Colorado DOH layout)</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);line-height:1.45;">
           The same sources as above, grouped as the Colorado Division of Housing (DOH) application's Permanent Financing Sources tab groups them.
@@ -3365,7 +3365,7 @@
 
       <!-- DOH PR 4: DOH's Permanent Sources & Uses Budget, by activity. Each
            soft source says what it pays for; the rest pay for the whole project. -->
-      <fieldset id="dc-act-doh" style="min-width:0;border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+      <fieldset id="dc-act-doh" data-no-source="calculator output: regroups the inputs and sources above" style="min-width:0;border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Sources and uses by activity (DOH layout)</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Each cost category's cost and the soft sources that pay for it. Choose what a source pays for, its status and whether it is a state request on its row under Soft Funding Stack. Tax credit equity, the first mortgage and the deferred fee pay for the project as a whole.</p>
         <p id="dc-act-reason" role="status" hidden style="margin:0 0 var(--sp2);font-size:var(--small);color:var(--warn,#b45309);"></p>
@@ -3383,7 +3383,7 @@
 
       <!-- DOH PR 4: DOH's 15-Year Operating Proforma rows, from the engine's
            projection and loan schedule. -->
-      <fieldset id="dc-doh15" style="min-width:0;border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+      <fieldset id="dc-doh15" data-no-source="calculator output: regroups the inputs and sources above" style="min-width:0;border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">15-year operating pro forma (DOH layout)</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Cash left after the mortgages and any bridge loan pays the asset management fee first, then cash-flow loans, then the deferred developer fee. Rent and expense growth are the Operating Pro Forma Projection's.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--sp2);margin-bottom:var(--sp2);">
