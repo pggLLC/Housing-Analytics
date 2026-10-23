@@ -760,8 +760,8 @@
     mk.findings = marketFindings(mk);
     // A check whose figures did not load or are not published is listed, so an empty list never reads as a pass.
     mk.unchecked = [];
-    if (!mk.rents.length || mk.rents.every(function (x) { return x.discount == null; })) mk.unchecked.push('rents against the market');
-    if (!mk.capture && !mk.noTiers) mk.unchecked.push('renters who can pay each tier');
+    if (!mk.noTiers && (!mk.rents.length || mk.rents.every(function (x) { return x.discount == null; }))) mk.unchecked.push('rents against the market');
+    if (!mk.capture) { if (!mk.noTiers) mk.unchecked.push('renters who can pay each tier'); }
     else mk.capture.filter(function (c) { return c.qualified == null; }).forEach(function (c) { mk.unchecked.push('renters who can pay ' + c.tier + '% AMI rents (no county count published that high)'); });
     if (!(mk.trend && mk.trend.length)) mk.unchecked.push('the rent trend');
     if (!(data.deals && data.deals.deals)) mk.unchecked.push('other tax credit awards in the county');
