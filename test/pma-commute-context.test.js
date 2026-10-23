@@ -49,13 +49,12 @@ assert(touchingArc, 'fixture found a real OD arc with home/work tract GEOIDs');
 const touchingHome = touchingArc.properties.home_tract;
 const touchingWork = touchingArc.properties.work_tract;
 
-const untouchedTract = lodes.tracts.find((tract) => {
-  return !arcs.features.some((feature) => {
-    const p = feature.properties || {};
-    return p.home_tract === tract.geoid || p.work_tract === tract.geoid;
-  });
-});
-assert(untouchedTract, 'fixture found a real tract outside every OD arc');
+// Synthetic tract with jobs but no OD arc, so the zero-arc path is tested
+// without requiring the committed data to keep a coverage gap.
+const untouchedTract = { geoid: '08999999999', work_workers: 100, vintage: 2023 };
+assert(!arcs.features.some((f) => f.properties.home_tract === untouchedTract.geoid || f.properties.work_tract === untouchedTract.geoid),
+  'synthetic tract touches no OD arc');
+const lodesWithUntouched = Object.assign({}, lodes, { tracts: lodes.tracts.concat([untouchedTract]) });
 
 const oneTouch = CommuteContext.buildOverlayData(
   { _tractIds: [touchingHome] },
@@ -84,7 +83,7 @@ assert(twoTouch.arcs.length >= oneTouch.arcs.length, 'adding the work tract keep
 
 const noTouch = CommuteContext.buildOverlayData(
   { _tractIds: [untouchedTract.geoid] },
-  lodes,
+  lodesWithUntouched,
   arcs
 );
 assert.equal(noTouch.blocked, false, 'overlay still renders tract WAC context when no OD arc touches');
