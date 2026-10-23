@@ -145,7 +145,11 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   if (m.prop123.countyRecord) ok(nf === null, 'Edwards: the county filing counts, so no "not filed" question');
   const fake = { kind: 'cdp', name: 'Edwards', countyName: 'Eagle County', prop123: { record: null, countyRecord: null, source: 's' } };
   const s2 = TQ.SIGNALS.prop123_not_filed(fake);
-  ok(s2 && /Eagle County/.test(s2.evidence) && s2.vars.name === 'Eagle County' && !/Edwards/.test(s2.evidence), 'CDP without a county filing: evidence and ask name the county');
+  ok(s2 && /Eagle County/.test(s2.evidence) && !/Edwards/.test(s2.evidence), 'CDP without a county filing: evidence names the county');
+  const bank = { roles: { manager: { label: 'Manager', match: 'manager', local: true } }, standard: [{ id: 'S', role: 'manager', ask: 'Ask {name}?' }], pointed: [] };
+  const mm = Object.assign({}, m, { contacts: { researched: [{ name: 'E', role: 'County Manager', org: m.countyName + ' Government', source_url: 'https://e' }] } });
+  const q = TQ.build(mm, bank, null, '2026-10-22').standard[0];
+  ok(q.ask === 'Ask ' + m.countyName + '?' && q.contact && q.contact.name === 'E', 'CDP: questions are addressed to the county and its staff');
 }
 
 // ---- 5. Timing from the CHFA calendar.
@@ -174,6 +178,8 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   ok(/4% without state credit:/.test(html) && html.includes(t.rolling4.name), 'the rolling 4% path is printed under the round table');
   const noRoll = clone(BASE); noRoll.qapCalendar.rolling_programs = [];
   ok(model('0833640', { src: noRoll }).deal.timing.rolling4 === null, 'no rolling entry in the calendar: none invented');
+  const r1only = clone(BASE); r1only.qapCalendar.events = r1only.qapCalendar.events.filter((e) => !/-r2-/.test(e.id || ''));
+  ok(model('0833640', { src: r1only }).deal.timing.rolling4, 'only R1 rounds left: the rolling 4% path still shows');
   const past = model('0833640', { today: '2031-01-01' });
   ok(past.deal.timing && past.deal.timing.rows.length === 0 && past.deal.timing.rolling4, 'all rounds passed: the rolling 4% path still shows');
   ok(/No fixed CHFA round is open/.test(WP.renderHtml(past)), 'all rounds passed: the page says so and shows the rolling path');

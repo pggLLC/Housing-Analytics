@@ -667,7 +667,7 @@
     // Every route here keeps 4% at least as a fallback, so the rolling path shows even
     // when no fixed round is open.
     var rollEntry = (((src.qapCalendar || {}).rolling_programs) || []).find(function (p) { return p && p.category === '4pct-rolling'; }) || null;
-    var roll = rollEntry && (!rows.length || rows.some(function (r) { return r.credit === '4%'; })) ? rollEntry : null;
+    var roll = rollEntry;
     if (!rows.length && !roll) return null;
     var scoring = src.qapScoring || null;
     function milestones(r) {
@@ -1342,7 +1342,7 @@
         return '<tr><td>' + link(r.label, r.url) + (r.draft ? ' <span class="wp-tag">draft QAP</span>' : '') + '</td><td>' + esc(r.loi) + '</td><td>' + esc(r.deadline) + '</td><td>' +
           (r.awards ? esc(r.awards) + (r.awardsEstimated ? ' (est.)' : '') : NA) + '</td><td>' + reading + '</td></tr>';
       }).join('') + '</tbody></table>' +
-      (T.rolling4 ? '<p><strong>4% without state credit:</strong> the round dates above apply to a 4% deal that also seeks state credit. ' + link(T.rolling4.name, T.rolling4.url) + ' alone has no round: ' + esc(T.rolling4.description) + '</p>' : '') +
+      (T.rolling4 ? '<p><strong>4% without state credit:</strong> CHFA\'s 4% rounds are for a 4% deal that also seeks state credit. ' + link(T.rolling4.name, T.rolling4.url) + ' alone has no round: ' + esc(T.rolling4.description) + '</p>' : '') +
       '<p class="wp-meta">Estimate: a round is the base case when its letter of intent is at least ' + T.leadDays + ' days away, the time a team usually needs to tie up a site, confirm zoning and line up partners; nearer than ' + T.stretchMinDays + ' days it is not realistic.</p>';
     var stretch = timingPick(T, 'stretch');
     if (stretch) {

@@ -95,12 +95,12 @@
     prop123_not_filed: function (m) {
       var cdp = m.kind === 'cdp';
       if (cdp ? m.prop123.countyRecord : m.prop123.record) return null;
-      return { vars: cdp ? { name: m.countyName } : {}, evidence: 'No Prop 123 commitment for ' + (cdp ? m.countyName : m.name) + ' on DOLA\'s list (updated ' + (m.prop123.updated || 'date not recorded') + ').', source: m.prop123.source };
+      return { vars: {}, evidence: 'No Prop 123 commitment for ' + (cdp ? m.countyName : m.name) + ' on DOLA\'s list (updated ' + (m.prop123.updated || 'date not recorded') + ').', source: m.prop123.source };
     },
     prop123_no_fast_track: function (m) {
       var p = m.kind === 'cdp' ? m.prop123.countyRecord : m.prop123.record;
       if (!p || p.fast_track !== false) return null;
-      return { vars: m.kind === 'cdp' ? { status: String(p.status || ''), name: m.countyName } : { status: String(p.status || '') }, evidence: 'Prop 123 commitment ' + (p.status || 'on file') + ', filed ' + (p.filing_date || 'date not recorded') + '; no fast-track process on DOLA\'s list.', source: m.prop123.source };
+      return { vars: { status: String(p.status || '') }, evidence: 'Prop 123 commitment ' + (p.status || 'on file') + ', filed ' + (p.filing_date || 'date not recorded') + '; no fast-track process on DOLA\'s list.', source: m.prop123.source };
     },
     no_local_money: function (m) {
       if (m.policy.funds.length || m.policy.fees.length) return null;
@@ -200,9 +200,12 @@
     if (!bank || !Array.isArray(bank.standard) || !Array.isArray(bank.pointed)) return { missing: true };
     var roles = bank.roles || {};
     var contacts = (m.contacts && m.contacts.researched) || [];
-    var vars = { name: m.name, county: m.countyName };
+    // A census-designated place has no government of its own: its county is asked.
+    var cdp = m.kind === 'cdp';
+    var govName = cdp ? m.countyName : m.name, govKind = cdp ? 'county' : m.kind;
+    var vars = { name: govName, county: m.countyName };
     function who(role) {
-      return { role: role, roleLabel: (roles[role] && roles[role].label) || role, contact: contactFor(role, bank, contacts, m.name, m.kind) };
+      return { role: role, roleLabel: (roles[role] && roles[role].label) || role, contact: contactFor(role, bank, contacts, govName, govKind) };
     }
     var standard = bank.standard.map(function (q) {
       return Object.assign(who(q.role), { id: q.id, ask: fill(q.ask, vars), why: q.why || null, qap: qapRef(q.qap, scoring) });
