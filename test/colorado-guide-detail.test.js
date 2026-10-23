@@ -97,4 +97,9 @@ assert.ok(/Up to 10% of total units/.test(JSON.stringify(sc)), 'scoring record c
 assert.ok(/finds probable\s+cause/.test(fair) && !/set for hearing automatically/.test(fair), 'CCRD hearing follows probable cause');
 assert.ok(cra.includes('broader statewide or regional area') && cra.includes('12 CFR 25.23(a)'), 'CRA broader area credit');
 
+// 7. Codex round 5: lowest-AMI bonus, 5.A.1.d / 5.B.5 exclusion, set-aside exceptions.
+assert.ok(guide.includes(`Up to ${sc.targeting.weights['40']}, plus ${sc.targeting.lowest_ami_bonus.points}`), 'lowest-AMI bonus shown');
+assert.ok(JSON.stringify(sc).includes('"excludes":"5A1d-eli"') && /cannot also claim 5\.B\.5/.test(guide) && /Cannot be combined with the extremely low income line/.test(guide), 'ELI and 5.B.5 marked exclusive');
+assert.ok(/CHFA may accept less, case by case/.test(guide), 'sub-25% set-aside exceptions kept');
+
 console.log(`colorado-guide-detail: PASS (Colorado 2026 ceiling ${usd(co.allocation)}; CHFA draft status ${sc.status})`);
