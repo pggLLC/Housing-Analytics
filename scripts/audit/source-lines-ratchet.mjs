@@ -104,18 +104,20 @@ function scanPage() {
   let figures = 0; let unsourced = 0; let undated = 0;
   const where = {};
   const labels = {};
-  const seen = new Set();
+  // Every text node counts, so `<p>$1,000<br>$2,000</p>` is two figures; the
+  // source lookup is cached per element because siblings share the answer.
+  const lookup = new Map();
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   while (walker.nextNode()) {
     const el = walker.currentNode.parentElement;
-    if (!el || seen.has(el) || el.closest(SKIP_SEL)) continue;
+    if (!el || el.closest(SKIP_SEL)) continue;
     const m = (walker.currentNode.textContent || '').match(FIG);
     if (!m) continue;
     const cs = getComputedStyle(el);
     if (cs.display === 'none' || cs.visibility === 'hidden' || !el.offsetParent) continue;
-    seen.add(el);
     figures += m.length;
-    const { b, links, dated } = sourceLinks(el);
+    if (!lookup.has(el)) lookup.set(el, sourceLinks(el));
+    const { b, links, dated } = lookup.get(el);
     let miss = null;
     if (!links.length) { unsourced += m.length; miss = 'unsourced'; } else if (!dated) { undated += m.length; miss = 'undated'; }
     if (miss) {
