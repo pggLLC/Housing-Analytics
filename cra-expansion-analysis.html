@@ -55,7 +55,7 @@
 <!-- 2026-10-17: the hero used to show author-assigned odds (40/35/20/5%)
      for rule changes nobody has proposed. The page is sensitivity analysis, so
      it shows each case's stated assumption and assigns no likelihood. -->
-<div class="hero-stats" style="margin: 1.25rem 0;">
+<div class="hero-stats" style="margin: 1.25rem 0;" data-no-source="estimate: each case's assumed price change, labelled on the card">
 <div class="stat-card">
 <div class="stat-value" data-hero-for="Baseline (No Change)">—</div>
 <div class="stat-label">Baseline</div>
@@ -87,7 +87,7 @@
 <canvas id="scenarios-chart" role="img" aria-label="Line chart: LIHTC 9% credit pricing under four CRA scenarios (Baseline, Moderate, Aggressive, Transformative), six quarters from the latest benchmark price"></canvas><p class="sr-only" id="cra-chart-text" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is computed from the latest benchmark price in data/market/novogradac-equity-pricing.json.</p>
 </div>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(450px, 100%), 1fr)); gap: 2rem; margin: 1.25rem 0;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(450px, 100%), 1fr)); gap: 2rem; margin: 1.25rem 0;" data-no-source="estimate: sensitivity cases, each labelled with its assumption">
 <div class="chart-card" data-cra-scenario="Baseline (No Change)" data-low-pct="-3" data-high-pct="-1">
 <div class="chart-header">
 <h3 class="chart-title">Scenario 1: Baseline (No Change)</h3>
@@ -156,7 +156,7 @@
 <h2>Key Predictive Factors</h2>
 <div class="chart-card" style="margin: 2rem 0;">
 <h3 style="margin-bottom: 1.5rem;">Demand Drivers (Positive Impact)</h3>
-<div class="table-wrap" role="region" tabindex="0" aria-label="Demand Drivers (Positive Impact) table"><table style="width: 100%;">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Demand Drivers (Positive Impact) table" data-no-source="estimate: magnitudes are this page's assumptions"><table style="width: 100%;">
 <thead style="background: var(--color-background-alt);">
 <tr>
 <th style="padding: 1rem; text-align: left;">Factor</th>
@@ -189,7 +189,7 @@
 </div>
 <div class="chart-card" style="margin: 2rem 0;">
 <h3 style="margin-bottom: 1.5rem;">Supply Pressures (Negative Impact)</h3>
-<div class="table-wrap" role="region" tabindex="0" aria-label="Supply Pressures (Negative Impact) table"><table style="width: 100%;">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Supply Pressures (Negative Impact) table" data-no-source="estimate: magnitudes are this page's assumptions"><table style="width: 100%;">
 <thead style="background: var(--color-background-alt);">
 <tr>
 <th style="padding: 1rem; text-align: left;">Factor</th>
@@ -200,19 +200,20 @@
 </thead>
 <tbody>
 <tr style="border-top: 1px solid var(--color-border);">
-<td style="padding: 1rem;"><strong>Increased 9% Allocations</strong><br><span style="font-size: 0.875rem; color: var(--color-text-light);">12% credit ceiling bump</span></td>
+<td style="padding: 1rem;"><strong>Increased 9% Allocations</strong><br><span style="font-size: 0.875rem; color: var(--color-text-light);">12% credit ceiling bump from 2026 (<a href="https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm" target="_blank" rel="noopener">Public Law 119-21 §70422(a)</a>, enacted July 4, 2025)</span></td>
 <td style="padding: 1rem; color: var(--warn);">Negative</td>
 <td style="padding: 1rem;">-3% to -5%</td>
 <td style="padding: 1rem;">Ongoing</td>
 </tr>
 <tr style="border-top: 1px solid var(--color-border);">
-<td style="padding: 1rem;"><strong>Lower 4% Threshold</strong><br><span style="font-size: 0.875rem; color: var(--color-text-light);">50% → 25% bond requirement</span></td>
+<td style="padding: 1rem;"><strong>Lower 4% Threshold</strong><br><span style="font-size: 0.875rem; color: var(--color-text-light);">50% → 25% bond requirement (<a href="https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm" target="_blank" rel="noopener">Public Law 119-21 §70422(b)</a>, enacted July 4, 2025)</span></td>
 <td style="padding: 1rem; color: var(--color-text-light);">Neutral-Negative</td>
 <td style="padding: 1rem;">0% to -2%</td>
 <td style="padding: 1rem;">2-4 quarters</td>
 </tr>
 </tbody>
 </table></div>
+<p style="font-size:.8125rem;color:var(--color-text-muted);">Magnitudes and timelines in both tables are this page's assumptions for the scenarios, not published estimates. The two law changes are linked to the enacted text.</p>
 </div>
 <h2>Test the effect on your project</h2>
 <p>Use the <a data-workflow-link="cra-deal" href="deal-calculator.html#dc-equity-price">Deal Calculator</a> to test equity-price sensitivity against your project's credit amount and funding gap.</p>
@@ -225,7 +226,7 @@
 <div style="background: var(--color-background-alt); padding: 2rem; border-radius: 8px; margin: 2rem 0;">
 <h3 style="margin-bottom: 1.5rem;">For Developers:</h3>
 <ul style="line-height: 1.8;">
-<li><strong>Build contingencies:</strong> Stress-test financing below today's national average (Novogradac 2026-Q2: 9% $0.82, 4% $0.83), not only above it</li>
+<li><strong>Build contingencies:</strong> Stress-test financing below today's national average (<a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends" target="_blank" rel="noopener">Novogradac</a> 2026-Q2: 9% $0.82, 4% $0.83), not only above it</li>
 <li><strong>Monitor legislation:</strong> Track the AHCIA bills (H.R. 2725, S. 1515) and CRA rulemaking at the banking agencies</li>
 <li><strong>Watch for a final rule:</strong> Only a final CRA rule, not a proposal, would change which institutions get CRA credit for LIHTC investment; until one is published, price syndication on today's market</li>
 <li><strong>Diversify investors:</strong> Build relationships with credit unions and insurance companies now</li>
@@ -247,7 +248,7 @@
      forces var(--on-accent): white on dark teal (light=5.5:1) and navy on
      bright cyan (dark=11:1). data-no-contrast-guard prevents the heuristic
      from later repainting these elements based on a sampled bg. -->
-<div data-no-contrast-guard style="margin-top: 3rem; padding: 2rem; background: var(--accent); color: var(--on-accent,#fff); border-radius: 8px;">
+<div data-no-contrast-guard data-no-source="estimate: range of the four assumed cases" style="margin-top: 3rem; padding: 2rem; background: var(--accent); color: var(--on-accent,#fff); border-radius: 8px;">
 <h3 class="h-on-accent" data-no-contrast-guard style="margin-bottom: 1rem;">Range Across the Four Cases</h3>
 <p data-no-contrast-guard style="margin-bottom: 1.5rem; color: var(--on-accent,#fff) !important;">From the lowest assumption in any case to the highest. The page assigns no likelihood to any case, so this is a range to stress-test against, not a forecast.</p>
 <div id="cra-weighted" data-no-contrast-guard style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--on-accent,#fff) !important;">Computed from the benchmark price</div>
