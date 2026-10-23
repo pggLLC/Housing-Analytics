@@ -358,6 +358,7 @@ ok(read('developer-about.html').includes('id="ask"') && read('developer-about.ht
   ok(/\.ib-placebar button \{[^}]*min-height:44px/.test(pg), 'the Change place button is 44px tall');
   ok(/@media print \{[^}]*\.ib-placebar/.test(pg), 'the bar does not print');
   ok(/BAR\.set\(window\.PlaceBar\.describe\(row, COUNTY_NAMES\)\)/.test(pg), 'each new report updates the bar');
+  ok(/const seq = \+\+renderSeq;/.test(pg) && /if \(seq !== renderSeq\) return;/.test(pg), 'a slower earlier report cannot replace the one the bar names');
 }
 
 ok(P.needsFromAction('Get planning department approval').indexOf('council') === -1, 'an approval alone is not a council vote');
