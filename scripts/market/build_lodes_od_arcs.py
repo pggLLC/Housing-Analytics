@@ -157,14 +157,15 @@ def build_arcs(rows, centroids, top_n=500, min_jobs=20, per_tract=0, per_tract_m
     if per_tract > 0:
         inbound, outbound = {}, {}
         for (h, w), v in od_pairs.items():
-            if v["jobs"] < per_tract_min_jobs:
-                continue
             inbound.setdefault(w, []).append((v["jobs"], h, w))
             outbound.setdefault(h, []).append((v["jobs"], h, w))
         for side in (inbound, outbound):
             for flows in side.values():
                 flows.sort(reverse=True)
-                keep.update((h, w) for _, h, w in flows[:per_tract])
+                big = [f for f in flows if f[0] >= per_tract_min_jobs][:per_tract]
+                # A rural tract whose flows are all small still keeps its
+                # single largest one, so no tract with commuters draws no arc.
+                keep.update((h, w) for _, h, w in (big or flows[:1]))
         log(f"With each tract's top {per_tract} in/out flows (min {per_tract_min_jobs} jobs): {len(keep)} flows")
 
     top = sorted(((k, od_pairs[k]) for k in keep), key=lambda x: x[1]["jobs"], reverse=True)
@@ -252,7 +253,8 @@ def main():
             "per_tract_min_jobs": args.per_tract_min_jobs,
             "selection": (f"Statewide top {args.top} flows of {args.min_jobs}+ jobs, plus each tract's "
                           f"{args.per_tract} largest inbound and {args.per_tract} largest outbound flows "
-                          f"of {args.per_tract_min_jobs}+ jobs. Not every flow: a display sample."),
+                          f"of {args.per_tract_min_jobs}+ jobs (a tract with none that large keeps its single "
+                          f"largest flow). Not every flow: a display sample."),
             "cross_tract_pairs": stats["cross_tract_pairs"],
             "cross_tract_jobs": stats["cross_tract_jobs"],
             "kept_jobs": stats["kept_jobs"],

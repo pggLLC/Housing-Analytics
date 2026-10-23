@@ -39,7 +39,7 @@ assert(arcs.metadata && arcs.metadata.per_tract >= 1 && /Not every flow/.test(ar
 const touchedTracts = new Set();
 arcs.features.forEach((f) => { touchedTracts.add(f.properties.home_tract); touchedTracts.add(f.properties.work_tract); });
 const lodesTractsTouched = lodes.tracts.filter((t) => touchedTracts.has(String(t.geoid))).length;
-assert(lodesTractsTouched >= 1400, 'arcs reach at least 1,400 of 1,447 tracts (got ' + lodesTractsTouched + ')');
+assert(lodesTractsTouched === lodes.tracts.length, 'arcs reach every LODES tract (got ' + lodesTractsTouched + ' of ' + lodes.tracts.length + ')');
 
 const touchingArc = arcs.features.find((feature) => {
   const p = feature.properties || {};
