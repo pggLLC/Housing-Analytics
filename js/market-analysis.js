@@ -1551,7 +1551,14 @@
     // the 2025-26 QAP sets no number, and neither sets a middle band. The pool is the
     // penetration pool when the page has one, else the capture pool.
     var penDen = penetrationPool > 0 ? penetrationPool : qualRenters;
-    var penetration = penDen > 0 ? ((existingUnits || 0) + proposedUnits) / penDen : 0;
+    // Tax-credit tiers only (80% AMI and below): workforce units at 90-120%
+    // AMI are not in CHFA's table or in the 20-80% pool.
+    var taxCreditProposed = totalProposed > 0
+      ? Object.keys(amiMix).reduce(function (sum, k) {
+          return parseInt(k.slice(3), 10) <= 80 ? sum + (amiMix[k] || 0) : sum;
+        }, 0)
+      : proposedUnits;
+    var penetration = penDen > 0 ? ((existingUnits || 0) + taxCreditProposed) / penDen : 0;
     var over = penetration > RISK.captureHigh;
     return {
       proposedUnits: proposedUnits, captureRate: captureRate,

@@ -110,6 +110,9 @@ test('the CHFA 85% check counts existing + proposed units against the penetratio
   assert.strictEqual(s.penetrationRate, 82);
   assert.strictEqual(s.risk, 'Low');
   assert.strictEqual(simulateCapture(1000, 300, { ami60: 300 }, 4000, 5000).risk, 'High');
+  const mixed = simulateCapture(1000, 300, { ami60: 100, ami110: 200 }, 4000, 5000);
+  assert.strictEqual(mixed.penetrationRate, 82, 'workforce units above 80% AMI stay out of the 85% check');
+  assert.strictEqual(mixed.captureRate, 30, 'the capture rate still counts every proposed unit');
 });
 
 test('the CHAS LIHTC-eligible count is the denominator when it exists, and says so', () => {
