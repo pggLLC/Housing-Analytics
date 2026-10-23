@@ -740,6 +740,7 @@
     var deals = (data.deals && data.deals.deals) || [];
     var countyName = String(mk.county).replace(/ County$/, '');
     var thisYear = new Date().getFullYear();
+    mk.pipelineLoaded = !!(data.deals && data.deals.deals);
     mk.pipeline = deals.filter(function (d) { return d.county === countyName && num(d.year) != null && d.year >= thisYear - PIPELINE_YEARS; })
       .sort(function (a, b) { return b.year - a.year; })
       .map(function (d) { var x = (data.dealDetail && data.dealDetail[d.slug]) || {};
@@ -817,7 +818,7 @@
     h += '<section class="dv-card" aria-labelledby="wbMktPipe"><h2 id="wbMktPipe">Tax credit awards in ' + esc(mk.county) + ' since ' + (new Date().getFullYear() - PIPELINE_YEARS) + '</h2>';
     h += mk.pipeline.length ? table(['Project', 'Town', 'Award', 'Homes', 'Income mix', 'Status'], mk.pipeline.map(function (p) {
       return { cells: ['<a href="deal-summary.html?d=' + esc(p.slug) + '">' + esc(p.name) + '</a>', esc(p.city), esc(p.award), esc(p.units == null ? '—' : p.units), esc(p.mix || '—'), esc(p.status || '—')] };
-    }), { num: [3] }) : '<p>No CHFA tax credit awards in this county in that time.</p>';
+    }), { num: [3] }) : (mk.pipelineLoaded ? '<p>No CHFA tax credit awards in this county in that time.</p>' : '<p class="sr-yellow">The deal summaries did not load, so awards in this county were not checked. Reload the page to try again.</p>');
     h += '<p class="sr-muted">From the site\'s deal summaries, one researched record per CHFA award with its sources. Other projects without tax credits are not listed.</p></section>';
     return h;
   }
@@ -1121,7 +1122,7 @@
       setTimeout(function () { map.invalidateSize(); }, 50);
     }
     function say(t) { $('wbResStatus').textContent = t; }
-    // Nothing can be added or saved until the saved research has loaded, so an edit is never replaced by it
+    // Every field stays shut until the saved research has loaded, so an edit is never replaced by it
     // and an empty form never overwrites it.
     var ready = false;
     function setReady(on) { ready = on; $('wbResSave').disabled = !on; $('wbCAdd').disabled = !on; }
@@ -1130,7 +1131,7 @@
       Array.prototype.forEach.call(box.querySelectorAll('input, select, textarea, button'), function (el) { el.disabled = on; });
       setReady(!on);
     }
-    setReady(false); say('Loading saved research…');
+    lock(true); say('Loading saved research…');
 
     $('wbCAdd').addEventListener('click', function () {
       var c = { name: val('wbCName'), kind: val('wbCKind'), address: val('wbCAddr'), lat: nOrNull(val('wbCLat')), lon: nOrNull(val('wbCLon')),
@@ -1173,7 +1174,7 @@
       if (!res[0]) { draw(); say('Saved research did not load. Reload the page to add or change it.'); return; }
       say('');
       if (res[0].data) rec = res[0].data;
-      fill(); draw(); setReady(true);
+      fill(); draw(); lock(false);
     }, function (err) { if (live()) onError(err); });
   }
 

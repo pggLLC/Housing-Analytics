@@ -236,7 +236,8 @@ const noYoy = mdata(); noYoy.zori.counties['08067'].yoy_change_pct = null;
 { const h = WB.renderMarket(WB.market(mm, msnap, noYoy)); ok(!/null%/.test(h) && /change from a year earlier not published/.test(h), 'an unpublished year-over-year change is said, not shown as null'); }
 { const none = WB.market(mm, Object.assign({}, msnap, { perBrMarket: null }), Object.assign(mdata(), { renters: null, zoriMetroCsv: null, deals: null }));
   const h = WB.renderMarket(none);
-  ok(none.unchecked.length === 4 && !/Nothing in the county figures needs a second look/.test(h) && /Not checked, because the figures did not load/.test(h), 'market checks that could not run are listed, never shown as a pass'); }
+  ok(none.unchecked.length === 4 && !/Nothing in the county figures needs a second look/.test(h) && /Not checked, because the figures did not load/.test(h), 'market checks that could not run are listed, never shown as a pass');
+  ok(!/No CHFA tax credit awards in this county/.test(h) && /deal summaries did not load/.test(h), 'awards that did not load are not shown as no awards'); }
 ok(mk.unchecked.length === 0 && /Nothing in the county figures needs a second look|What to check/.test(WB.renderMarket(mk)), 'with every figure loaded, nothing is listed as unchecked');
 // Missing pieces stay missing.
 ok(!!WB.market(mm, Object.assign({}, msnap, { countyFips: null }), mdata()).error, 'no county, no market');
@@ -531,17 +532,19 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
     const held = new Promise((r) => { release = r; });
     globalThis.fetch = (u, o) => { if (o && o.method === 'POST') { posts++; return Promise.resolve({ ok: true, json: () => Promise.resolve({ data: {}, at: 0 }) }); }
       return /deal-market/.test(String(u)) ? held.then(() => resp) : Promise.resolve({ ok: true, json: () => Promise.resolve({ features: [] }) }); };
+    const field = { disabled: false }; const realQ = el('wbResearch').querySelectorAll;
+    el('wbResearch').querySelectorAll = (q) => (/textarea/.test(q) ? [field] : realQ(q));
     WB.researchEditor({ getElementById: el }, 'deal-a', WB.build(fixture(), rules), () => {}, () => true);
-    const early = el('wbResSave').disabled; el('wbResSave').handlers.click();
+    const early = el('wbResSave').disabled && field.disabled; el('wbResSave').handlers.click();
     release(); await new Promise((r) => setTimeout(r, 30));
     globalThis.fetch = saved;
-    return { early, posts, after: el('wbResSave').disabled, msg: el('wbResStatus').textContent };
+    return { early, posts, after: el('wbResSave').disabled, field: field.disabled, msg: el('wbResStatus').textContent };
   };
   const g1 = await gate({ ok: true, json: () => Promise.resolve({ data: null }) });
-  ok(g1.early === true && g1.posts === 0 && g1.after === false, 'save is shut until the saved research loads, then opens');
+  ok(g1.early === true && g1.posts === 0 && g1.after === false && g1.field === false, 'save and every field are shut until the saved research loads, then open');
   const g2 = await gate({ ok: false, json: () => Promise.resolve(null) });
   ok(/bindTooltip\(esc\(p\.label\)\)/.test(read('js/whitepaper/deal-workbook.js')), 'map tooltips are escaped, since Leaflet sets them as HTML');
-  ok(g2.after === true && /did not load/.test(g2.msg), 'a failed load keeps save shut so an empty form cannot overwrite the research');
+  ok(g2.after === true && g2.field === true && /did not load/.test(g2.msg), 'a failed load keeps save shut so an empty form cannot overwrite the research');
   // While a save is out, the fields are shut, so nothing typed then is replaced by the saved copy.
   {
     const field = { disabled: false };
