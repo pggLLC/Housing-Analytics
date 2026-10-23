@@ -227,6 +227,14 @@ near(mk.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 22.5), 'the whole d
   const dm = WB.market(deep, msnap, mdata());
   near(dm.captureAll.low, 9, 'a discounted higher tier whose floor sits under a lower tier\'s sets the union\'s floor');
   near(dm.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 9), 'the union counts every renter from the lowest floor to the highest tier once'); }
+{ const sched = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700, limit: null }] }) });
+  const sm = WB.market(sched, msnap, mdata());
+  ok(sm.capture[0].atLimit === true && /assumes rents at the limit/.test(WB.renderMarket(sm)), 'with no gross limit on file the range is labelled as the at-the-limit case');
+  const known = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700, allowance: 100, limit: 1600 }] }) });
+  ok(WB.market(known, msnap, mdata()).capture[0].atLimit === false && !/assumes rents at the limit/.test(WB.renderMarket(WB.market(known, msnap, mdata()))), 'with the limit known there is no at-the-limit note'); }
+{ const allMkt2 = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 'Market', bedrooms: '2BR', units: 20, rent: 1700 }] }) });
+  const am2 = WB.market(allMkt2, msnap, Object.assign(mdata(), { renters: null }));
+  ok(am2.noTiers === true && !am2.unchecked.some((u) => /renters who can pay|rents against the market/.test(u)), 'a market-only deal is not listed as unchecked even when the renter file did not load'); }
 { const nm = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700 }] }) });
   near(WB.market(nm, msnap, mdata()).capture[0].low, 45, 'with no limit on file the floor stays at the limit scenario'); }
 ok(/geoid: geoid \}\)/.test(read('js/whitepaper/deal-workbook.js')) && /get\('geoid'\)/.test(read('js/whitepaper/deal-workbook.js')), 'the market estimate uses the same place as the calculator');
@@ -338,6 +346,8 @@ ok(/ok: 127 households on the waitlist kept by Invented Housing Authority \(2026
 ok(rv.nearby.length === 1 && rv.nearby[0].name === 'Invented Near' && rv.nearby[0].mix === '4 at 30%, 36 at 60%', 'tax credit properties within 10 miles, with their income mix');
 ok(/bad: 60% AMI 2BR rent of \$1,549 is above the average market comparable/.test(WB.research(m, { comps: [{ name: 'X', kind: 'market', rents: { '2br': 1500 }, checked: '2026-10-01', source: 'https://example.org/x' }] }, null, '2026-10-22').findings.map((f) => f.level + ': ' + f.text).join('\n')), 'a rent above the comparables is a problem');
 ok(/No comparables yet/.test(WB.research(m, {}, null, '2026-10-22').findings[0].text), 'no comparables is a finding');
+{ const gr = WB.research(m, { comps: [{ name: 'One', kind: 'market', rents: { '1br': 1200 }, checked: '2026-10-01', source: 'https://example.org/o' }] }, null, '2026-10-22');
+  ok(gr.findings.some((x) => x.level === 'warn' && /No market-rate comparable reports a 2BR rent/.test(x.text)), 'a deal size no comparable reports is named as not checked'); }
 { const zr = WB.research(m, { comps: [{ name: 'Z', kind: 'market', rents: { '2br': 0 }, checked: '2026-10-01', source: 'https://example.org/z' }, { name: 'Y', kind: 'market', rents: { '2br': 1600 }, checked: '2026-10-01', source: 'https://example.org/y' }] }, null, '2026-10-22');
   ok(zr.compAvg['2br'].n === 1 && zr.compAvg['2br'].rent === 1600 && zr.rentVsComps.every((x) => x.discount == null || isFinite(x.discount)), 'a zero comparable rent is left out of the average, never divided by'); }
 { const dup = { name: 'Same', kind: 'market', rents: {}, checked: '2026-10-01', source: 'https://example.org/s' };

@@ -703,22 +703,27 @@
     });
 
     // Who can pay, and the share of them the deal must lease to (capture), tier by tier.
-    if (rc && rc.households_le_ami_pct) {
+    var anyTier = m.rents.rows.some(function (x) { return num(x.tier) != null && x.units; });
+    if (!anyTier) { mk.capture = null; mk.noTiers = true; mk.captureReason = 'The deal has no income-restricted homes, so there are no tiers to screen.'; }
+    else if (rc && rc.households_le_ami_pct) {
       var le = rc.households_le_ami_pct;
-      var unitsBy = {}, ratioBy = {};
+      var unitsBy = {}, ratioBy = {}, assumedBy = {};
       m.rents.rows.forEach(function (x) {
         var t = num(x.tier); if (t == null || !x.units) return;
         unitsBy[t] = (unitsBy[t] || 0) + x.units;
         // The tier's floor follows its lowest-priced home against the gross limit; with no limit known, the limit itself.
         var gross = x.rent != null ? x.rent + (x.allowance || 0) + (x.fees || 0) : null;
-        var r = x.limit > 0 && gross != null ? Math.min(1, Math.max(0, gross / x.limit)) : 1;
+        var r = x.limit > 0 && gross != null ? Math.min(1, Math.max(0, gross / x.limit)) : null;
+        if (r == null) { assumedBy[t] = true; r = 1; }
         ratioBy[t] = ratioBy[t] == null ? r : Math.min(ratioBy[t], r);
       });
       mk.capture = Object.keys(unitsBy).map(Number).sort(function (a, b) { return a - b; }).map(function (t) {
         var lo = t * FLOOR_SHARE * ratioBy[t], hi = rentersAtOrBelow(le, t), base = rentersAtOrBelow(le, lo);
         var q = hi != null && base != null ? hi - base : null;
         return { tier: t, units: unitsBy[t], low: lo, high: t, qualified: q, capture: q > 0 ? unitsBy[t] / q : null,
-          reason: q == null ? 'No renter count published at ' + t + '% AMI for this county.' : q <= 0 ? 'None counted in this range' : null };
+          reason: q == null ? 'No renter count published at ' + t + '% AMI for this county.' : q <= 0 ? 'None counted in this range' : null,
+          // Without the gross limit (rents from the Market Analysis schedule), the range is the at-the-limit case.
+          atLimit: !!assumedBy[t] };
       });
       // All tiers together: the union of the tiers' income ranges, so a gap between tiers (say 30% and 60%)
       // does not count renters who fit neither.
@@ -825,6 +830,8 @@
       h += table(['AMI', 'Homes', 'Renter incomes that fit', 'Renter households in that range', 'Share the deal needs'], mk.capture.map(function (c) {
         return { cells: [esc(c.tier + '%'), esc(c.units), esc(Math.round(c.low) + '–' + c.high + '% AMI'), esc(c.qualified == null ? '—' : Math.round(c.qualified).toLocaleString('en-US')), esc(c.capture == null ? (c.reason || '—') : pct(c.capture, 1))] };
       }).concat(mk.captureAll && mk.captureAll.capture != null ? [{ cls: 'sr-total', cells: ['All', esc(mk.captureAll.units), esc(mk.captureAll.ranges), esc(Math.round(mk.captureAll.qualified).toLocaleString('en-US')), esc(pct(mk.captureAll.capture, 1))] }] : []), { num: [1, 3, 4] });
+      var lim = mk.capture.filter(function (c) { return c.atLimit; }).map(function (c) { return c.tier + '%'; });
+      if (lim.length) h += '<p class="sr-yellow">' + esc('The ' + lim.join(', ') + ' AMI range' + (lim.length === 1 ? ' assumes' : 's assume') + ' rents at the limit, because the gross limit for these rents is not on file here. Homes priced under the limit reach renters below this range, so these counts are the smallest case. Check the rent schedule in Market Analysis.') + '</p>';
       h += '<p class="sr-muted">' + esc('A household fits a tier when its income is under the tier\'s limit and the rent is no more than 40% of its income, so from three-quarters of the limit up to the limit, or lower where a home is priced under its limit. Renter households by income: Census ACS ' + (mk.renters.year || '') + ' (table B25118), ' +
         (mk.renters.total != null ? Math.round(mk.renters.total).toLocaleString('en-US') + ' renter households in the county, ' : '') + 'measured against HUD ' + (mk.renters.amiYear || '') + ' area median income for four people (' + money(mk.renters.ami) + '). Household size is not matched to unit size, and existing homes already serving these renters are not subtracted, so this is a first screen.') + '</p>';
     } else h += '<p class="sr-muted">' + esc(mk.captureReason) + '</p>';
@@ -898,6 +905,11 @@
     var f = v.findings;
     if (!v.comps.length) f.push({ level: 'warn', text: 'No comparables yet. Add the market-rate and tax credit properties a renter here would also consider, each with the page or call it came from.' });
     else if (!v.comps.some(function (c) { return c.kind === 'market'; })) f.push({ level: 'warn', text: 'No market-rate comparables, so the rents cannot be checked against what renters pay now.' });
+    if (v.comps.some(function (c) { return c.kind === 'market'; })) {
+      var gaps = [];
+      v.rentVsComps.forEach(function (x) { if (x.comp == null && gaps.indexOf(x.bedrooms) < 0) gaps.push(x.bedrooms); });
+      if (gaps.length) f.push({ level: 'warn', text: 'No market-rate comparable reports a ' + gaps.join(' or ') + ' rent, so ' + (gaps.length === 1 ? 'that size was' : 'those sizes were') + ' not checked against the comparables.' });
+    }
     v.rentVsComps.forEach(function (x) {
       if (x.discount == null) return;
       if (x.discount < 0) f.push({ level: 'bad', text: x.tier + '% AMI ' + x.bedrooms + ' rent of ' + money(x.rent) + ' is above the average market comparable (' + money(x.comp) + ', ' + x.n + ' propert' + (x.n === 1 ? 'y' : 'ies') + ').' });
