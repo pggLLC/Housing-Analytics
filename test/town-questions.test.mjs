@@ -54,7 +54,7 @@ ok(WP.SOURCE_FILES.townQuestions && WP.isOptional('townQuestions'), 'the questio
   ok(m.questions && m.questions.missing, 'no bank: questions marked missing');
   const html = WP.renderHtml(m);
   const qsec = html.slice(html.indexOf('id="questions"')).split('<h2')[0];
-  ok(html.includes('id="questions"') && !/<ol>|<li>/.test(qsec) && qsec.replace(/<[^>]+>/g, '').trim().length > 'Questions for the town'.length, 'no bank: the questions section explains itself and lists nothing');
+  ok(html.includes('id="questions"') && !/<ol>|<li>/.test(qsec) && /<p[^>]*>[^<]*\w/.test(qsec), 'no bank: the questions section explains itself and lists nothing');
 }
 
 // ---- 2. Pointed questions carry the figure that raised them, equal to its source.
