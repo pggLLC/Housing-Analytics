@@ -142,6 +142,7 @@ for (const e of withDeadline) {
 for (const id of ['irc-45l', 'irc-179d']) {
   assert.equal(DOC.entries.find((e) => e.id === id).status, 'ended', `${id} must be marked ended`);
 }
+const rec = (id) => { const e = DOC.entries.find((x) => x.id === id); assert(e, `record ${id} is missing`); return e; };
 const pickRows = [...w.document.querySelectorAll('#gb-pick tbody tr')];
 assert(pickRows.length >= 5, 'the "which program for which deal" table is too thin');
 for (const row of pickRows) {
@@ -149,6 +150,14 @@ for (const row of pickRows) {
   const label = norm(row.querySelector('th').textContent);
   assert(refs.length, `pick row "${label}" points at no records`);
   for (const r of refs) assert(ids.has(r), `pick row "${label}" points at missing record ${r}`);
+  // A row that drops the EV-ready count must be one the exemption names.
+  if (/no EV-ready count/.test(row.textContent)) {
+    assert(refs.includes('qap-ev-exempt'), `pick row "${label}" drops the EV-ready count without citing qap-ev-exempt`);
+    const ex = rec('qap-ev-exempt').finding;
+    const named = (/acquisition\/rehab/.test(ex) && /acquisition/i.test(label))
+      || (/homelessness/.test(ex) && /Special Populations/.test(ex) && /homelessness/.test(label) && /Special Populations/.test(label));
+    assert(named, `pick row "${label}" drops the EV-ready count for projects qap-ev-exempt does not name`);
+  }
   // The page promises each row links to what it relies on: one link per ref, each to a drawn record.
   const hrefs = [...row.querySelectorAll('.gb-refs a')].map((a) => a.getAttribute('href'));
   assert.deepEqual(hrefs, refs.map((r) => `#${w.GreenBuilding.anchorId(r)}`), `pick row "${label}" does not link each record it relies on`);
@@ -173,7 +182,6 @@ const deep = read('colorado-deep-dive.html');
 // The Deep Dive and the Deal Calculator repeat CHFA's rule in their own words.
 // What they must say is read from the records, so a record updated for a new
 // plan fails this check until both copies are updated with it.
-const rec = (id) => { const e = DOC.entries.find((x) => x.id === id); assert(e, `record ${id} is missing`); return e; };
 // "Enterprise Green Communities (EGC), LEED or the National Green Building Standard (NGBS)"
 // -> [{full, abbr}], so a copy may use either name for each program.
 const programsIn = (list) => list.replace(/^the /, '').split(/,\s*|\s+or\s+/).filter(Boolean).map((p) => {
