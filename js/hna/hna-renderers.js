@@ -5847,7 +5847,12 @@
         '<summary style="cursor:pointer;font-size:1rem;color:var(--muted);font-weight:700;">What to verify next</summary>' +
         '<p style="font-size:1rem;color:var(--muted);line-height:1.5;margin:.55rem 0;">Before using this for a project decision, verify local sales prices, HOA costs, mortgage assumptions, down-payment assistance, household size, employer demand, household readiness, and local deed-restriction policy. <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md" style="color:var(--accent);">Read the methodology</a>.</p>' +
         (caveats ? '<ul style="margin:.4rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:1rem;line-height:1.45;">' + caveats + '</ul>' : '') +
-      '</details>';
+      '</details>' +
+      // County and place cost burden both come from the CHAS 2018–2022 release
+      // (place figures apportioned from tracts; see data/hna/place-chas.json).
+      '<p class="chart-source">Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS 2018–2022</a> (' + escHtml(source) + ')' +
+        (home && home.source ? ' · home values: ' + escHtml(home.source) : '') +
+        ' · <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md">method</a></p>';
     if (window.OwnershipDecisionChain && typeof window.OwnershipDecisionChain.render === 'function') {
       window.OwnershipDecisionChain.render(document.getElementById('hnaOwnershipDecisionChain'), result, {
         dealCalculator: window.__DealCalc,
@@ -5893,6 +5898,7 @@
       window.HNAOwnershipStrategy.render(mount, {
         geo: { type: geoType === 'county' ? 'county' : geoType === 'cdp' ? 'cdp' : 'place', geoid: String(geoid), countyGeoid: String(contextCounty || geoid), name: label },
         ami4Person: ami4Person > 0 ? ami4Person : null,
+        amiYear: (window.HudFmr && typeof window.HudFmr.getMeta === 'function' && (window.HudFmr.getMeta() || {}).income_limits_fiscal_year) || null,
         ownershipNeedResult: result,
         engine: window.OwnershipFinance,
         resaleEngine: window.OwnershipResale,
@@ -8376,6 +8382,31 @@
       // Total = cumulative gap at the highest band (≤100% AMI)
       mirror.totalUndersupply = cum(100);
       window.HNAState.state.affordabilityGap = mirror;
+    }
+
+    // Dated source line for whichever source filled the cards.
+    let srcEl = document.getElementById('hnaGapSource');
+    if (!srcEl) {
+      srcEl = document.createElement('p');
+      srcEl.id = 'hnaGapSource';
+      srcEl.className = 'chart-source';
+      panel.appendChild(srcEl);
+    }
+    const link = (href, text) => '<a href="' + href + '" target="_blank" rel="noopener">' + text + '</a>';
+    if (usingAcs) {
+      const meta = ((acsIsPlace ? placeAmiData : acsAmiData) || {}).meta || {};
+      const acsYear = meta.acs_year ? Number(meta.acs_year) : null;
+      const file = acsIsPlace ? 'data/co_ami_gap_by_place.json' : 'data/co_ami_gap_by_county.json';
+      srcEl.innerHTML = 'Source: ' +
+        link('https://data.census.gov/table/ACSDT5Y' + (acsYear || '') + '.B25118', 'Census ACS ' + (acsYear ? (acsYear - 4) + '–' + acsYear + ' ' : '') + '5-year (B25118, B25063)') +
+        ' scored against ' + link('https://www.huduser.gov/portal/datasets/il.html', 'HUD FY' + (meta.hud_income_limits_year || '') + ' income limits') +
+        ' · ' + link(file, 'site file') + (meta.generated_at ? ', built ' + String(meta.generated_at).slice(0, 10) : ', date unconfirmed');
+    } else if (usingChasFallback) {
+      const meta = (chasData && chasData.meta) || {};
+      srcEl.innerHTML = 'Source: ' + link(meta.url || 'https://www.huduser.gov/portal/datasets/cp.html', 'HUD CHAS ' + (meta.vintage || '(vintage unconfirmed)')) +
+        ' · ' + link('data/hna/chas_affordability_gap.json', 'site file') + (meta.generated ? ', built ' + String(meta.generated).slice(0, 10) : '');
+    } else {
+      srcEl.textContent = '';
     }
 
     panel.hidden = false;

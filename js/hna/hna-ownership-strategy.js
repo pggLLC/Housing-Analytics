@@ -190,6 +190,7 @@
       price: price,
       priceUnavailableReason: priceUnavailableReason,
       ladder: ladder,
+      amiYear: input.amiYear || null,
       requiredIncome: requiredIncome,
       requiredIncomeAmiRatio: requiredIncome != null && ami > 0 ? requiredIncome / ami : null,
       ownership: input.ownershipNeedResult || {},
@@ -268,7 +269,8 @@
       '<p data-own-strategy-ami-ceiling-note style="margin:.45rem 0;color:var(--muted);font-size:1rem;line-height:1.45;"><strong>Price-only control.</strong> This changes modeled affordable-price thresholds; it does not create household-demand counts above 100% AMI because CHAS\'s 100plus band is unbounded. The statutory default is 120% AMI under SB26-040 (effective July 1, 2026). Rural resort communities may petition DOLA under HB23-1304 for a different percentage.</p>' +
       (vm.amiCeilingCaveat ? '<details style="margin:.35rem 0 .65rem;"><summary style="cursor:pointer;font-size:1rem;font-weight:700;">Documented AMI-ceiling exception path</summary><p style="color:var(--muted);font-size:1rem;line-height:1.45;">' + esc(vm.amiCeilingCaveat) + '</p></details>' : '') +
       '<p><strong>Model implications:</strong> ' + esc(implications.who_it_fits || MISSING) + ' ' + ProvenanceLabel.html(vm.model || { classification: 'modeled' }, { compact: true }) + '</p>' + risk +
-      section('AMI and affordable-price ladder', '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr><th>Tier</th><th>Income</th><th>Maximum price</th><th>Shortfall state</th><th>Clears local median</th></tr></thead><tbody>' + ladderRows + '</tbody></table></div>') +
+      section('AMI and affordable-price ladder', '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr><th>Tier</th><th>Income</th><th>Maximum price</th><th>Shortfall state</th><th>Clears local median</th></tr></thead><tbody>' + ladderRows + '</tbody></table></div>' +
+        '<p class="chart-source">Incomes: county 4-person AMI from <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD ' + (vm.amiYear ? 'FY' + esc(vm.amiYear) + ' ' : '') + 'income limits</a>' + (vm.amiYear ? '' : ' (year unconfirmed)') + ', adjusted for household size. Maximum prices are the site\'s estimate under the selected model (<a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md">method</a>).</p>') +
       section('Local price and income required', '<p>Local price: <strong>' + localPrice + '</strong> ' + pricePill + priceUnavailableNote + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + ProvenanceLabel.html({ classification: 'modeled' }, { compact: true }) + '</p>') +
       section('Attainable supply and potential buyer pool', supplyBody) + section('Programs and funding', fundingBody) +
       section('Stewardship and authority capacity', capacityBody) + section('Public land', landBody) +
