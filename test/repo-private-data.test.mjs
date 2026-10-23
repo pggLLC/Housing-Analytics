@@ -44,7 +44,7 @@ const PRIVATE_TEXT = [
   { label: 'call sheet heading', re: /^#+\s*Call sheet\b/im },
   // The owner's own project: its market studies, application narrative and pro
   // forma stay private. CHFA's public award and applicant records may name it.
-  { label: 'Fruita Mews private study or application text', re: /Kinetic Valuation|\bMews\b[^\n]{0,200}(clarification response|application narrative|pro ?forma|wait ?list|market stud)|(clarification response|application narrative|pro ?forma|wait ?list|market stud)[^\n]{0,200}\bMews\b/i }
+  { label: 'Fruita Mews private study or application text', re: /Kinetic Valuation|\bMews\b[\s\S]{0,200}?(clarification response|application narrative|pro ?forma|wait ?list|market stud)|(clarification response|application narrative|pro ?forma|wait ?list|market stud)[\s\S]{0,200}?\bMews\b/i }
 ];
 // Files that name these patterns in order to block them.
 const ALLOWED = new Set([
@@ -141,7 +141,8 @@ const mustCatch = [
   ['data/people.json', '[{"name":"Pat","org":"X","phone":"555","email":"p@x.org"}]'], ['data/awards-copy.json', '{"from_award_lists":[]}'],
   ['data/a.csv', 'date,signal_type,place\n'], ['data/b.csv', 'org,date_dropped,revisit_date\n'], ['data/c.csv', 'template_name,body,notes_for_personalization\n'], ['data/big.json', 'x'.repeat(MAX_TEXT + 1)],
   ['docs/benchmarks/pma.md', 'Market Study of The Fruita Mews II, Kinetic Valuation Group'], ['data/brief.json', '"note": "the clarification response to CHFA on the Fruita Mews II application"'],
-  ['docs/x.md', 'Fruita Mews Phase II pro forma: 80% rents held']
+  ['docs/x.md', 'Fruita Mews Phase II pro forma: 80% rents held'], ['docs/y.md', '# Fruita Mews Phase II\n\n## Market Study\n'],
+  ['data/z.txt', 'Fruita Mews Phase II\napplication narrative']
 ];
 for (const [f, t = ''] of mustCatch) if (!scanFile(f, () => t).length) { console.error('guard misses ' + f); process.exit(1); }
 const mustPass = [['js/components/pipeline-store.js', 'relationship_tier'], ['developer-pipeline.html', 'last_talked'], ['data/hna/x.json', '{"a":1}'],

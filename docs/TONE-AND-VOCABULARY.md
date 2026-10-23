@@ -97,6 +97,6 @@ This guide governs:
 1. **Public-facing pages** (anything on pggllc.github.io/Housing-Analytics that doesn't require the developer gate)
 2. **Methodology documents** (`docs/methodology/*`)
 3. **The developer site** (gated pages) — internal staff still benefit from neutral language because it will leak to partners eventually
-4. **Presentations and briefs we write for the public site** (never a project's own application materials, which stay out of this repo)
+4. **Application materials we publish back into the repo** (presentations, briefs, narratives)
 
 Tone audits should run as a pre-commit consideration whenever we add or change user-facing copy.
