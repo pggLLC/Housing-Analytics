@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "title": "Colorado rules behind the LIHTC guide's deal-killers",
+    "purpose": "The facts the LIHTC stakeholder guide states for each Colorado deal-killer. test/colorado-guide-detail.test.js checks the guide against these fields.",
+    "last_checked": "2026-10-23",
+    "review_by": "2027-01-23"
+  },
+  "rules": [
+    {
+      "id": "water-adequacy",
+      "label": "Water.",
+      "statutes": ["29-20-303", "29-20-103(1)(b)"],
+      "threshold_sfe": 50,
+      "local_lower_threshold_allowed": true,
+      "finding": "A local government may not approve a development permit for a project adding more than 50 single-family equivalents of new water use, or a lower number it sets, until it finds the water supply adequate.",
+      "source_urls": ["https://colorado.public.law/statutes/crs_29-20-303", "https://colorado.public.law/statutes/crs_29-20-103"]
+    },
+    {
+      "id": "vcup-cleanup",
+      "label": "Contamination.",
+      "plan_statute": "25-16-306",
+      "plan_review_days": 45,
+      "nad_statute": "25-16-307",
+      "hourly_rate": 140,
+      "finding": "CDPHE approves or disapproves a voluntary cleanup plan within 45 days; a No Action Determination is a separate petition for sites below standards or contaminated from a neighboring property. Review is billed by the hour.",
+      "source_urls": ["https://cdphe.colorado.gov/hm/voluntary-cleanup"]
+    },
+    {
+      "id": "prop123-commitment",
+      "label": "Proposition 123 status.",
+      "funding_guide_record": "prop123-commitment",
+      "exempt_programs": ["Office of Homeless Initiatives", "modular or factory-built manufacturers"],
+      "finding": "Most state Prop 123 money requires a local commitment on file; Office of Homeless Initiatives programs and modular/factory-built manufacturer loans are exempt.",
+      "source_urls": ["https://cdola.colorado.gov/commitment-filings", "https://coloradoaffordablehousingfinancingfund.com/"]
+    },
+    {
+      "id": "local-rofr",
+      "label": "Local right of first refusal.",
+      "legislation_record": "hb24-1175-local-government-rofr-rofo",
+      "rofr_statute": "29-4-1202",
+      "min_units": 5,
+      "exemption_statute": "29-4-1205(1)(f)",
+      "finding": "A local government may match an offer on existing affordable rental property of five or more units; a seller pursuing a public-program resyndication or recapitalization is exempt after notice and evidence. The rights end on the record's sunset date.",
+      "source_urls": ["https://leg.colorado.gov/bills/HB24-1175"]
+    }
+  ]
+}
