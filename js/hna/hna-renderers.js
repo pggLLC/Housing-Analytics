@@ -2734,7 +2734,7 @@
         { label: 'CHFA Preservation (live ArcGIS)',               url: 'https://co.chfainfo.com/' },
         { label: 'HUD MULTIFAMILY_PROPERTIES_ASSISTED',           url: 'https://hudgis-hud.opendata.arcgis.com/datasets/HUD::multifamily-properties-assisted/' },
         { label: 'USDA Rural Housing Assets',                     url: 'https://www.rd.usda.gov/programs-services/multifamily-housing-programs/' },
-        { label: 'Local PHA roster (curated)',                    url: 'https://github.com/pggLLC/Housing-Analytics/tree/main/data/affordable-housing/local-pha-roster' }
+        { label: 'Local PHA roster (curated)',                    url: 'data/affordable-housing/local-pha-roster/README.md' }
       ],
       vintage:    'live CHFA + HUD; curated local-PHA roster vintage 2026-06',
       method:     'Union of 5 feeds, deduped by name + coordinates. Records grouped by color-coded program category. Scope: 30 mi of place/CDP centroid, or current map view for counties. LIHTC + preservation combo rows show "9% LIHTC + preservation" with the LIHTC badge primary.',
@@ -3277,7 +3277,7 @@
     if (window.MethodFooter) {
       html += window.MethodFooter.html({
         sources: [
-          { label: 'data/hna/local-resources.json (curated)', url: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/hna/local-resources.json' },
+          { label: 'data/hna/local-resources.json (curated)', url: 'data/hna/local-resources.json' },
           { label: 'CHFA + DOLA Prop 123 status',             url: 'https://cdola.colorado.gov/prop123' },
           { label: 'Per-jurisdiction durable Google searches', url: '#' }
         ],
@@ -8766,6 +8766,8 @@
             ? 'from the centre to the nearest confirmed stop: ' + escHtml(near.name || 'unnamed stop') + ' (' + escHtml(near.agency || 'agency not listed') + ')'
             : 'no confirmed stop found in Colorado data') + '</div></div>' +
         '</div>';
+      // The map: stops and the merged screening radius (js/transit-zone-map.js).
+      html += '<div class="hna-tz__map" data-tz-map></div>';
       if (tz.edgeOnly) {
         html += '<p>Less than 1% of ' + name + ' — a strip along its edge — is within ' + radius + ' miles of a confirmed stop; ' +
           'the nearest is ' + escHtml(String(tz.nearestToBoundaryMiles)) + ' miles from the boundary. Only sites on that edge could pass the screen.</p>';
@@ -8789,6 +8791,12 @@
       mount.setAttribute('data-tz-state', 'ok');
       mount.setAttribute('data-tz-radius', String(tz.radiusMiles));
       mount.setAttribute('data-tz-stops-generated', String(tz.stopsGenerated));
+      var mapMount = mount.querySelector('[data-tz-map]');
+      if (window.TransitZoneMap && mapMount) {
+        window.TransitZoneMap.render(mapMount, { geoid: geoid, name: tz.name, mapStatus: parts[1] });
+      } else if (mapMount) {
+        mapMount.innerHTML = '<p style="color:var(--muted);"><strong>Map unavailable.</strong> The map script did not load.</p>';
+      }
       return rec;
     });
   }

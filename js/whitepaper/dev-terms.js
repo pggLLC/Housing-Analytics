@@ -26,8 +26,8 @@
     'No site on file': 'No site for this place in public program records yet.',
     'IOI': 'Opportunity Index: a 0 to 100 score for each Colorado place from the Opportunity Finder, blending housing need, funding posture (Prop 123, bonds, dedicated revenue), local capacity, basis boost eligibility and market capture. Places above about 60 enter the pipeline at Screen.',
     'anti-target': 'A place set aside on purpose, with the reason and a date to look again.',
-    'tier': 'Where to build groups places by this page\'s score: Tier 1 Target at 70 or more (not low confidence), Tier 2 Promising at 50 to 69, Tier 3 Monitor at 35 to 49. Below 35 is left off.',
-    'confidence': 'How much the score rests on: high = a curated policy record plus Prop 123 plus solid Census figures; medium = the curated record only; low = sparse data.'
+    'tier': 'Where to build groups places by this page\'s score: Tier 1 Target at 70 or more (not low confidence), Tier 2 Promising at 50 to 69 (or 70+ with low confidence), Tier 3 Monitor at 35 to 49. Below 35 is left off.',
+    'confidence': 'How much of your weight the score rests on: the share of the total weight on factors that have been checked. High = 80% or more, Medium = 50 to 79%, Low = under 50%. Not yet checked is left out of the score, never counted as zero.'
   };
   // The glossary may already have scanned the page (deferred scripts run once the
   // document is parsed), so decorate the explicit marks again now that these terms

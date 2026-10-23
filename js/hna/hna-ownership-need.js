@@ -63,8 +63,10 @@
     },
     affordabilityAssumptions: {
       pmms30YearRate: 0.065,
-      pmmsDate: 'shared HNA affordability assumptions',
-      pmmsSource: 'HNAUtils.AFFORD',
+      // Fixed 6.5% placeholder. It is not the current PMMS rate that
+      // HNAUtils.AFFORD carries, so it must not be labelled as that source.
+      pmmsDate: null,
+      pmmsSource: 'fixed 6.5% placeholder (not current PMMS)',
       termYears: 30,
       frontEndRatio: 0.30,
       downPaymentRate: 0.10,

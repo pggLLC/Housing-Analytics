@@ -251,8 +251,8 @@ class DataAPIIntegrations {
     // Accounts for down payment, interest rate, property taxes, insurance, PMI, and DTI.
     calculateAffordabilityGap(medianIncome, medianHomePrice, options = {}) {
         const {
-            // Default interest rate last validated: Q1 2026 (Freddie Mac PMMS ~6.5%).
-            // Update this default when the FRED MORTGAGE30US series shows a sustained shift.
+            // Fixed 6.5% planning default, not a dated PMMS reading (FRED MORTGAGE30US
+            // averaged 6.11% in Q1 2026). Callers with a current rate pass interestRate.
             interestRate = 0.065,      // 6.5% annual (30-yr fixed)
             downPaymentPct = 0.20,     // 20% standard
             propertyTaxRate = 0.0065,  // 0.65% of value/yr (Colorado average)

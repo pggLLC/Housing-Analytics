@@ -129,12 +129,6 @@ for (const [label, source] of [
   assert(!source.includes('20% in-commuter'), `${label} no longer describes a 20% in-commuter weight`);
 }
 
-const regionalHtml = read('regional.html');
-assert(!regionalHtml.includes('$12.8B'), 'regional first-paint fallback no longer uses stale $12.8B');
-assert(!regionalHtml.includes('$3.75'), 'regional first-paint fallback no longer uses stale $3.75');
-assert(regionalHtml.includes('$1.15B'), 'regional first-paint fallback uses $1.15B');
-assert(regionalHtml.includes('$3.46'), 'regional first-paint fallback uses $3.46');
-
 // Guided step 2: the opportunity finder's intro explains its score in words.
 // Hold each explained fact to the weights the ranking actually runs, so the
 // sentence and the code cannot drift apart. Reword freely; change the model

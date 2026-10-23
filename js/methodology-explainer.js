@@ -114,10 +114,10 @@
     },
     'market-health': {
       title: 'Market Health Composite',
-      what: 'Per-county 0-100 score blending 5 signals: 5-year job growth, 5-year population growth, inverse unemployment, HMDA origination volume, and inverse HMDA denial rate. Higher = stronger market.',
+      what: 'Per-county 0-100 score blending 5 signals: 5-year job growth, 5-year population growth, inverse unemployment, HMDA originations per 1,000 households, and inverse HMDA denial rate. Higher = stronger market.',
       how: 'Each metric is percentile-ranked across the 64 CO counties (inverted for unemployment and denial). The 5 percentile scores are equal-weighted and averaged. No demographic / political adjustments.',
       caveats: 'Equal-weighting is a deliberate simplification. Investor-specific weightings (e.g. emphasize denial rate for LIHTC bond markets) would shift rankings. Single-vintage snapshot; trend not blended in.',
-      source: 'data/co-county-economic-indicators.json + data/hmda/co-county-aggregates.json',
+      source: 'data/co-county-economic-indicators.json + data/hmda/co-county-aggregates.json + data/co-county-demographics.json (households)',
     },
   };
 

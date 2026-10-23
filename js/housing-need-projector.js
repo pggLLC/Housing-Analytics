@@ -595,7 +595,7 @@
       '<strong>' + _escHtml(countyName) + '</strong> over the next 20 years to house projected new households, ' +
       (result.needSource === 'dola'
         ? 'from the Colorado State Demography Office (DOLA) household forecast. The baseline converts DOLA\'s household growth into homes at a healthy vacancy rate (5% to 7%, from local vacancy), so it is this site\'s estimate built on DOLA households, not a figure DOLA publishes. ' +
-          'The headline 20-year figure on this page is modeled separately, net of today\'s housing stock at a target vacancy rate, so it can be higher or lower; read it as the main estimate and this table as the DOLA comparison.'
+          'The headline 20-year figure on this page is modeled separately: it converts the change in households into homes at the vacancy target set on this page and adds homes for people who commute in, so it can be higher or lower; read it as the main estimate and this table as the DOLA comparison.'
         : 'from household growth at the rate shown in the methodology.') +
       (result.geoScope === 'county-for-place'
         ? ' Projections are computed at county granularity — figures below are ' +

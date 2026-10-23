@@ -169,6 +169,38 @@ function builderChange(r) {
   assert(/custom line is/.test(disclosure.textContent) && /holds households per person at 2024’s/.test(disclosure.textContent) &&
     /does not move this line/.test(disclosure.textContent), `and the page says so: "${disclosure.textContent}"`);
 
+  // A scenario saved with a town's share of each age group (Hamilton-Perry)
+  // draws the builder's people for the town on both pages: Fruita, and Arvada
+  // across two counties. A town without shares (Timnath) keeps this page's
+  // share, and the page says why.
+  const byAge = Object.assign({}, params, { town_share: 'hamilton_perry' });
+  window.ScenarioStorage.save({ id: 'custom-by-age', name: 'By age', parameters: byAge });
+  data.hamiltonPerry = readJson('data/hna/place-hamilton-perry.json');
+  for (const geoid of ['0828745', '0803455']) {
+    const r = rows.find((x) => x.geoid === geoid);
+    const ctx = SB.contextFor({ geoid, name: r.name, type: r.type, containingCounty: r.containingCounty, population: r.metrics.population }, data);
+    assert(ctx.townShares, `${r.name}: has shares by age`);
+    const want = SB.homesSeries(ctx, byAge);
+    const countyFips5 = ledger[geoid].containing_county || r.containingCounty;
+    const got = await overlay('builder:custom-by-age', readJson(`data/hna/projections/${countyFips5}.json`), zeroLine, years, 2024, countyFips5,
+      { geoType: r.type, geoid, label: r.name }, ledger[geoid].shares.blended);
+    assert(got && got.series.length === years.length, `${r.name}: the HNA page draws it for all ${years.length} years`);
+    got.series.forEach((row, i) => assert(Math.abs(row.population - (want[i].population - ctx.placePop)) < 0.01,
+      `${r.name} ${row.year}: the HNA page moves the line by ${row.population.toFixed(2)}, the builder by ${(want[i].population - ctx.placePop).toFixed(2)}`));
+    assert(/share of each age group of its county \(Hamilton-Perry/.test(disclosure.textContent) && /differs from this page’s line/.test(disclosure.textContent),
+      `${r.name}: the page says what the line is: "${disclosure.textContent}"`);
+  }
+  {
+    const r = rows.find((x) => x.geoid === '0877510');
+    const want = builderChange(r);
+    const countyFips5 = ledger[r.geoid].containing_county || r.containingCounty;
+    const got = await overlay('builder:custom-by-age', readJson(`data/hna/projections/${countyFips5}.json`), zeroLine, years, 2024, countyFips5,
+      { geoType: r.type, geoid: r.geoid, label: r.name }, ledger[r.geoid].shares.blended);
+    got.series.forEach((row) => assert(Math.abs(row.population - want[row.year].change) < 0.01, `Timnath ${row.year}: this page's share`));
+    assert(/custom line is this page’s population line/.test(disclosure.textContent) && /which this place does not have, so the line uses this page’s share\./.test(disclosure.textContent),
+      `Timnath: the page says why: "${disclosure.textContent}"`);
+  }
+
   // A saved scenario's files still loading when the reader switches back to a
   // built-in scenario: the later render stands, and the earlier one, resuming,
   // draws no saved line, shows no disclosure and exports no saved series.
@@ -236,5 +268,5 @@ function builderChange(r) {
   assert.strictEqual(disclosure.textContent, mesaDisclosure, 'the earlier Colorado render, resuming, replaced Mesa\'s saved-scenario disclosure');
   assert(Object.keys(window.HNAState.state.lastScenarioSeries || {}).includes(key), 'Mesa\'s saved series is still the one exported');
 
-  console.log(`hna-saved-scenario-matches-builder: PASS (${compared} places, ${multiCounty} across more than one county, equal year by year on both pages; a stale saved-scenario load draws nothing)`);
+  console.log(`hna-saved-scenario-matches-builder: PASS (${compared} places, ${multiCounty} across more than one county, equal year by year on both pages, by age too; a stale saved-scenario load draws nothing)`);
 })().catch((e) => { console.error(e); process.exit(1); });

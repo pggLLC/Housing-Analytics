@@ -702,7 +702,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content" class="page-container content-shell js-glossary-auto">
 <div class="platform-disclaimer" role="note">
-  <strong>COHO Analytics</strong> provides data-driven research tools. Analysis represents independent research using public datasets. Not financial or legal advice. <strong>Screening tool only</strong> — map overlays, KPI cards, and market metrics are for early-stage identification. They do not replace a formal CHFA-required PMA or independent due diligence.
+  <strong>COHO Analytics</strong> is independent research using public data. Not financial or legal advice. <strong>Screening tool only</strong> — map overlays, KPI cards, and market metrics are for early-stage identification. They do not replace a formal CHFA-required PMA or independent due diligence.
 </div>
     
 <div class="page-hero">
@@ -710,7 +710,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <span class="kicker">Colorado</span>
 <h1>Colorado Deep Dive</h1>
 <p class="hero-subtitle">
-            Comprehensive analysis of DDAs, QCTs, LIHTC projects, market dynamics, concessions, foreclosures, and comparative performance, plus statewide market signals, monthly construction labor and material costs, Colorado's LIHTC award history, and a guide to developer funding programs
+            Statewide figures in tabs: QCTs and DDAs, tax credit projects and awards by year, rent concessions and foreclosures, monthly construction labor and material costs, and a guide to developer funding programs.
         </p>
 <p style="max-width:90ch;color:var(--muted);font-size:.9rem;margin:.5rem 0 0;">This page focuses exclusively on Colorado. It is organised in tabs:</p>
 <ul class="page-tab-summary">
@@ -718,7 +718,7 @@ h3 { font-size: 1.05rem; font-weight: 700; }
   <li><strong>Market Signals</strong>: statewide and county demand, supply, affordable inventory and risk indicators.</li>
   <li><strong>Construction Labor &amp; Costs</strong>: construction wages, labor availability and material prices, month by month.</li>
   <li><strong>Historical Trends</strong>: CHFA award history by credit type, the growth of Colorado's LIHTC stock, project size by period and county, and a peer-project benchmark.</li>
-  <li><strong>Funding Sources</strong>: every tax credit, loan, grant and rental assistance program that finances Colorado affordable housing, with a finder that narrows them to the ones that fit your project, side-by-side terms, AMI limits and a link to each official source.</li>
+  <li><strong>Funding Sources</strong>: the main tax credit, loan, grant and rental assistance programs that finance Colorado affordable housing, with a finder that narrows them to the ones that fit your project, side-by-side terms, AMI limits and a link to each official source.</li>
   <li><strong>Market Overview</strong>: the 2026 allocation, credit pricing, metro breakdown and CHFA priorities at a glance.</li>
 </ul>
 <span class="freshness-badge data-reliability-badge" data-freshness="now" aria-label="Data freshness indicator" aria-live="polite"><span class="sr-only">Data is current</span></span>
@@ -731,12 +731,11 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   if (window.PageContext) PageContext.render('pageContext', {
-    what: 'Comprehensive Colorado affordable housing dashboard: county-level LIHTC pipeline, AMI affordability gaps, CHFA allocation history, market trends, construction activity, and Prop 123 compliance tracking.',
+    what: 'Colorado affordable housing figures: county-level LIHTC pipeline, AMI affordability gaps, CHFA allocation history, market trends, construction activity, and Prop 123 compliance tracking.',
     why: 'Colorado-specific context is essential for LIHTC development. Statewide trends, CHFA priorities, Prop 123 dynamics, and competitive landscape all influence deal positioning. This page provides the state-level view that complements jurisdiction-level analysis.',
     not: 'This is a data exploration page, not a scored analysis. It does not recommend specific sites or rank jurisdictions. Some data is manually updated (CAR reports) and may lag by 1-2 months. Historical allocation data from HUD has a 12-24 month reporting lag.',
     nextSteps: [
-      { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'Rank geographies by housing need' },
-      { label: 'LIHTC Allocations', href: 'lihtc-allocations.html', desc: 'National allocation context' }
+      { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'Rank geographies by housing need' }
     ]
   });
 });
@@ -837,9 +836,8 @@ document.addEventListener('DOMContentLoaded', function () {
   <!-- Intro card -->
   <section class="intro-card" aria-label="Page introduction">
     <p>
-      This page provides a comprehensive, data-driven look at Colorado's affordable-housing landscape.
-      Use the tabs below to explore AMI gap analysis by county, Colorado-vs-national market comparisons,
-      LIHTC policy scenarios, and market-trend indicators including concessions, foreclosures, and builder confidence.
+      Use the tabs below for the income gap by county, a Colorado market snapshot,
+      tax credit policy scenarios, and market signals such as rent concessions, foreclosures and builder confidence.
     </p>
     <p class="data-sources-small">
       Data sources:
@@ -862,8 +860,8 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="tab-guide-item">
       <span class="tab-guide-icon" aria-hidden="true">🗺️</span>
       <div>
-        <div class="tab-guide-title">Colorado vs National</div>
-        <p class="tab-guide-desc">Compare Colorado's LIHTC allocation, vacancy rates, rent growth, and market performance against other states and national averages.</p>
+        <div class="tab-guide-title">Colorado Snapshot</div>
+        <p class="tab-guide-desc">Colorado's credit per resident, multifamily vacancy, credit pricing, unemployment and foreclosure risk, each with its source.</p>
       </div>
     </div>
     <div class="tab-guide-item">
@@ -981,7 +979,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <!-- Tab Navigation -->
   <div role="tablist" class="tab-nav" aria-label="Analysis sections">
     <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-ami-gap" id="tab-btn-ami-gap">AMI Gap Analysis</button>
-    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-state-comparison" id="tab-btn-state-comparison">Colorado vs National</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-state-comparison" id="tab-btn-state-comparison">Colorado Snapshot</button>
     <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-policy-simulator" id="tab-btn-policy-simulator">Market Conditions</button>
     <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-market-trends" id="tab-btn-market-trends">Market Trends</button>
     <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-affordability-geo" id="tab-btn-affordability-geo">Affordability Geography</button>
@@ -1499,22 +1497,28 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 
   <!-- Tab 2: State Comparison -->
   <div class="tab-panel" id="tab-state-comparison" role="tabpanel" aria-labelledby="tab-btn-state-comparison">
-<h2 style="margin-bottom:.5rem;">Colorado vs National</h2>
+<h2 style="margin-bottom:.5rem;">Colorado Snapshot</h2>
 <p style="color:var(--muted);font-size:.95rem;margin:0 0 1.5rem;max-width:80ch;">
-  How Colorado stacks up on LIHTC allocation, vacancy, rent growth, credit pricing,
-  and employment. Each card links its source.
+  Colorado's credit ceiling, credit per resident, vacancy, credit pricing, employment and
+  foreclosure risk. Each card links its source.
 </p>
 <div class="chart-card" style="margin: 1.5rem 0;">
 <div class="chart-header">
-<h3 class="chart-title">Key Metrics: Colorado vs U.S. Average</h3>
+<h3 class="chart-title">Key Colorado Metrics</h3>
 <p class="chart-subtitle">Statewide point-in-time benchmarks. Source links on each card.</p>
 </div>
 <!-- F115 — Was a vertical block stack of mostly-hardcoded "demo" KPIs.
-     Now: live data wherever a public source exists (CHFA, Apartment List,
+     Now: live data wherever a public source exists (CHFA, AAMD,
      BLS LAUS), with each card explicitly tagged LIVE / STATIC and a source
      link. Static cards stay only when the data isn't publicly available
      (e.g. private 9% credit pricing). User can see what's real. -->
 <div class="comparison-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: .65rem;">
+<!-- Colorado's 2026 federal 9% credit ceiling, from data/allocations.json -->
+<div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
+<div style="font-size: .8125rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Colorado 9% Credit Ceiling (2026)</div>
+<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.15rem;" id="cddCoCeiling">—</div>
+<div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;">Yearly credit, before carryforward and returns · <a href="https://www.irs.gov/irb/2026-15_IRB" target="_blank" rel="noopener">IRS Notice 2026-22</a></div>
+</div>
 <!-- LIHTC Allocation Per Capita — computed live from CHFA + BLS pop -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
 <div style="font-size: .8125rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Federal Credit per Resident (2026)</div>
@@ -1527,17 +1531,11 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <div style="font-size: 1.4rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.15rem;" id="cddAamdVacancyStrip">—</div>
 <div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;"><span style="color:var(--good);font-weight:700;">DATA</span> · <a data-aamd-source href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD <span data-aamd-vintage></span></a> · Metro Denver</div>
 </div>
-<!-- Rent Growth YoY — LIVE from apartment_list_co.json (median across 21 CO cities) -->
+<!-- Credit pricing: Novogradac's Colorado median, with the national 9% average as a market reference -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
-<div style="font-size: .8125rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Rent Growth (YoY)</div>
-<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-error); margin-bottom: 0.15rem;" id="cddRentYoY">—</div>
-<div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.apartmentlist.com/research/category/data-rent-estimates" target="_blank" rel="noopener">Apartment List</a> · median 21 CO cities</div>
-</div>
-<!-- 9% Credit Pricing — no public feed; updated quarterly from Novogradac surveys -->
-<div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
-<div style="font-size: .8125rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Credit Pricing (9%)</div>
-<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.15rem;" data-equity-price="nine">—</div>
-<div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;">National avg · <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends" target="_blank" rel="noopener">Novogradac <span data-equity-vintage></span></a></div>
+<div style="font-size: .8125rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Credit Pricing (Colorado)</div>
+<div style="font-size: 1.4rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.15rem;" data-equity-price="co">—</div>
+<div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;">Median, all credit types · 9% market reference <span data-equity-price="nine">—</span> · <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends" target="_blank" rel="noopener">Novogradac <span data-equity-vintage></span></a></div>
 </div>
 <!-- Unemployment — LIVE via BLS LAUS (existing wiring) -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
@@ -1557,21 +1555,6 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 /* F115 — wire the LIVE KPI cells from data files on this page only. */
 (function() {
   'use strict';
-  // Rent YoY — median across 21 CO cities from apartment_list_co.json
-  fetch('data/market/apartment_list_co.json', { cache: 'no-cache' })
-    .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(d) {
-      if (!d || !d.cities) return;
-      var yoys = Object.values(d.cities)
-        .map(function(c) { return Number(c.yoy_change_pct); })
-        .filter(function(n) { return isFinite(n); })
-        .sort(function(a, b) { return a - b; });
-      if (!yoys.length) return;
-      var median = yoys[Math.floor(yoys.length / 2)];
-      var el = document.getElementById('cddRentYoY');
-      if (el) el.textContent = (median > 0 ? '+' : '') + median.toFixed(1) + '%';
-    }).catch(function(){});
-
   // The yearly federal housing credit amount per resident that sets every
   // state's ceiling (data/policy/tax-credit-legislation.json, Rev. Proc. 2025-32).
   fetch('data/policy/tax-credit-legislation.json', { cache: 'no-cache' })
@@ -1581,6 +1564,14 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       JSON.stringify(d || {}, function (k, v) { if (k === 'ceiling_2026' && v && v.per_capita > 0) pc = v.per_capita; return v; });
       var el = document.getElementById('cddLihtcPerCap');
       if (el && pc) el.textContent = '$' + pc.toFixed(2);
+    }).catch(function(){});
+  // Colorado's ceiling: $3.416 per resident times the 2026 IRS population figure.
+  fetch('data/allocations.json', { cache: 'no-cache' })
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) {
+      var co = d && d.states && d.states.CO;
+      var el = document.getElementById('cddCoCeiling');
+      if (el && co && co.allocation > 0) el.textContent = '$' + (co.allocation / 1e6).toFixed(1) + 'M';
     }).catch(function(){});
 })();
 </script>
@@ -1610,11 +1601,6 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 </div>
 </div>
 
-  <!-- ══════════════════════════════════════════════════════════════
-       Colorado vs Peer States — Trend Analysis
-       Powered by js/trend-analysis.js
-       ══════════════════════════════════════════════════════════════ -->
-  <div id="trend-analysis-section"></div>
 
   <!-- ══════════════════════════════════════════════════════════════
        LIHTC Policy Scenario Simulator
@@ -2181,7 +2167,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
      official page and the date it was checked) and
      data/chfa-income-rent-limits-2026.json (AMI quick reference). -->
 <div role="tabpanel" id="tab-funding" aria-labelledby="btn-funding" hidden>
-  <p class="tab-intro">Every Colorado program that pays for affordable housing. Tell the finder below what you are building and where, and it lists the ones your project can use.</p>
+  <p class="tab-intro">The main state, federal and CHFA programs that pay for affordable housing in Colorado. Tell the finder below what you are building and where, and it lists the ones your project can use.</p>
   <section class="mi-section" aria-labelledby="df-heading" style="margin-top:0;">
     <h2 id="df-heading">Funding sources for Colorado affordable housing</h2>
     <p class="df-lede">How Colorado affordable rental housing is financed, which public and private programs fill each layer of the capital stack, and the terms, AMI restrictions and eligibility rules that come with each one. Every program links to its official page, and every term below quotes that page. Use them alongside the <a href="deal-calculator.html">Deal Calculator</a>. To see who these programs have already funded, and where, open <a href="where-housing-money-goes.html">Where Colorado's Housing Money Goes</a>.</p>
@@ -2285,7 +2271,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
           { name: 'CHFA 2026 Round One award report', status: 'primary', vintage: '2026', coverage: '14 developments, 634 units', note: 'Parsed from CHFA\u2019s published award report; bridges the months before the live feed carries the round' },
           { name: 'CHFA LIHTC (live)', status: 'primary', vintage: 'See feed coverage below', coverage: 'CHFA Colorado projects by award year', note: 'Refreshed weekly from CHFA HousingTaxCreditProperties_view feature service; AwardYear is the credits-reserved year (typically 2–3y before placed-in-service) — most recent allocations may not yet appear' }
         ],
-        limitations: 'Historical view only \u2014 not a forecast. Application scores and applicant counts are not shown: no verified source for them is in this repository yet. CHFA AwardYear is the credits-reserved year (typically 2\u20133y before placed-in-service), so recent rounds are represented but their projects are still in construction or lease-up.'
+        limitations: 'Historical view only \u2014 not a forecast. Application scores and applicant counts are not shown: we have no verified public source for them yet. CHFA AwardYear is the credits-reserved year (typically 2\u20133y before placed-in-service), so recent rounds are represented but their projects are still in construction or lease-up.'
       });
     }
   });
@@ -2318,8 +2304,8 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       Chart and typical-deal figures: <a href="data/chfa-lihtc.json">chfa-lihtc.json</a> (CHFA live feed).
       Latest-round figures: <a href="data/affordable-housing/chfa-awards/2026-round-one.json">2026-round-one.json</a>,
       parsed from <a href="https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions" target="_blank" rel="noopener">CHFA&rsquo;s 2026 Round One award report</a>.
-      Application scores and applicant counts are not shown: no verified source for them is in this
-      repository yet. See the
+      Application scores and applicant counts are not shown: we have no verified public source
+      for them yet. See the
       <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">current QAP</a>
       for how applications are scored.
     </p>
@@ -3068,12 +3054,10 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   <!-- Deep Dive analysis modules -->
   <script src="js/housing-data-integration.js"></script>
   <script src="js/co-ami-gap.js"></script>
-  <script src="js/trend-analysis.js"></script>
   <script src="js/policy-simulator.js"></script>
   <script>
   (function () {
     function initModules() {
-      if (window.TrendAnalysis) TrendAnalysis.init();
       if (window.PolicySimulator) PolicySimulator.init();
       // Load CAR market data
       if (window.HousingDataIntegration) {

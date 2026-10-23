@@ -40,7 +40,7 @@ See also:
 
 ## Repository inventory
 
-Current tracked inventory: **77 top-level / 571 total HTML pages**, **82 workflows**, **345 JavaScript files under `js/`**, and **546 geographies** (**64 counties / 272 places / 210 CDPs**).
+Current tracked inventory: **77 top-level / 571 total HTML pages**, **82 workflows**, **347 JavaScript files under `js/`**, and **546 geographies** (**64 counties / 272 places / 210 CDPs**).
 
 Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs the same check and fails when this line drifts from the tracked files or geography registry.
 
@@ -50,8 +50,6 @@ Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs
 |------|-------------|
 | `index.html` | Home — overview and navigation hub |
 | `economic-dashboard.html` | FRED-powered economic indicators dashboard with housing prediction markets |
-| `lihtc-allocations.html` | LIHTC state allocation maps and data — consolidated from former LIHTC-dashboard + state-allocation-map pages |
-| `regional.html` | Regional housing market analysis |
 | `colorado-deep-dive.html` | Colorado housing market deep dive — county-level maps, regional predictions, and market overview (tab) |
 | `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) — 546 geographies (64 counties, 272 places, 210 CDPs) |
 | `market-analysis.html` | Primary Market Analysis (PMA) tool — site scoring, supply/demand, LIHTC concept recommendation with housing needs alignment |

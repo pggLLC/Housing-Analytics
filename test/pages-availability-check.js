@@ -68,13 +68,13 @@ const HTML_PAGES = [
     'index.html',
     'housing-needs-assessment.html',
     'economic-dashboard.html',
-    'LIHTC-dashboard.html',           // redirect stub → lihtc-allocations.html
-    'lihtc-allocations.html',          // consolidated LIHTC page (PR 2.1)
+    'LIHTC-dashboard.html',           // redirect stub → Deep Dive Colorado Snapshot
+    'lihtc-allocations.html',          // redirect stub → Deep Dive Colorado Snapshot
     'colorado-deep-dive.html',
     'lihtc-guide-for-stakeholders.html',
-    'dashboard.html',
-    'regional.html',
-    'state-allocation-map.html',       // redirect stub → lihtc-allocations.html
+    'dashboard.html',                  // redirect stub → Deep Dive Colorado Snapshot
+    'regional.html',                   // redirect stub → Deep Dive Colorado Snapshot
+    'state-allocation-map.html',       // redirect stub → Deep Dive Colorado Snapshot
     'housing-legislation-2026.html',
     'help-for-homebuyers.html',
     'about.html',
