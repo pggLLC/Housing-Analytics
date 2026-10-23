@@ -399,6 +399,7 @@ jobs:
           python3 scripts/rebuild_manifest.py
           git add data/market/parcel_aggregates_co.json \
                   data/market/zoning_compat_index_co.json \
+                  data/market/landuse_zoning_proxy_co.geojson \
                   data/market/transit_routes_co.geojson \
                   data/amenities/transit_stops_statewide_co.geojson \
                   data/market/transit_stops_coverage_co.json \
