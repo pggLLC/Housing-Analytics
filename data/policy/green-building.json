@@ -873,24 +873,28 @@
       "kind": "program",
       "status": "open",
       "title": "Colorado C-PACE",
-      "finding": "Long-term financing, up to 20 years and up to 100% of improvement costs, for efficiency, renewable, water and resilience work on multifamily buildings of 5 or more units, new or existing. Repaid through a special assessment (a lien) on the property tax bill, so bring your lender and investor in early.",
-      "fits": "New construction or rehab, 5+ units",
-      "caveat": "The statewide C-PACE program guide allows a longer term than the Energy Office page states; confirm the current limit with the program administrator before sizing the payment.",
+      "finding": "Up to 100% of eligible costs for retrofits of existing buildings. New construction gets less: 15% with documented 2018 IECC compliance, 30% if modeling shows at least 5% better than the 2018 IECC, and 35% when the 2021 IECC is met or exceeded. Terms run up to 25 years, set by the useful life of the improvements. Multifamily buildings of five or more units qualify, but only in a county that has opted into the statewide district. Repaid through a special assessment on the property tax bill that is senior to commercial mortgages, so bring your lender and investor in early.",
+      "fits": "Retrofits of 5+ units (up to 100%) or new construction (15 to 35%), in a participating county",
+      "caveat": "The Energy Office's C-PACE page gives a shorter maximum term than this guide; confirm terms with the program administrator, and check the participating-counties list before counting on it.",
       "also_see": {
-        "url": "https://www.larimer.gov/sites/default/files/uploads/2023/co_cpace_program_guide_2.pdf",
-        "title": "Colorado C-PACE Program Guide, Version 5.6 (January 2023), which says terms extend up to 25 years"
+        "url": "https://coloradocpace.com/participating-counties/",
+        "title": "Colorado C-PACE participating counties"
       },
       "quotes": [
-        "Multifamily (5 units or more)",
-        "Property owners can use financing for both existing and newly constructed buildings.",
-        "Owners can select long-term financing (up to 20 years) for as much as 100% of improvement costs.",
-        "Colorado C-PACE provides financing for eligible energy efficiency, water conservation, and renewable energy improvements.",
-        "Resilience measures",
-        "Financing is repaid through a voluntary special assessment (lien) on the owner’s property tax bill."
+        "C-PACE programs enable owners of commercial, industrial, agricultural, nonprofit, and multifamily buildings (with five or more units) to use private-sector money to finance qualifying energy efficiency, renewable energy generation, water conservation, and other improvements",
+        "C-PACE is economically attractive because it offers up to 100 percent financing for existing building retrofit projects and up to 35 percent financing for new construction projects that comply with or exceed the applicable 2021 International Energy Conservation Code (IECC) requirements, with finance terms that extend up to 25 years.",
+        "If seeking 15 percent financing: signed COMCheck reports (mechanical, electrical, envelope) or other documentation that demonstrates compliance with 2018 International Energy Conservation Code (IECC)",
+        "If seeking 30 percent financing: dynamic building simulations representing “As Designed” case and 2018 IECC compliance case. The energy performance delta between the two simulations should demonstrate at least five (5) percent exceedance by the “As Designed” case above 2018 IECC energy performance",
+        "The maximum term is set by the weighted average effective useful life of the improvements (up to 25 years).",
+        "To participate, each county in the State of Colorado must opt into the District by a resolution of their Board of County Commissioners.",
+        "Is located in a county that has joined the statewide C-PACE New Energy Improvement District.",
+        "Repayment is secured by a voluntary special purpose assessment, similar to a sewer district assessment, that is recorded against the property and billed as a separate line item on the property tax bill.",
+        "The special assessment lien is senior to all commercial mortgages and deeds of trust"
       ],
-      "source_url": "https://energyoffice.colorado.gov/clean-energy-programs/clean-energy-financing/commercial-property-clean-energy-finance",
-      "source_title": "Commercial Property Clean Energy Finance (C-PACE)",
-      "publisher": "Colorado Energy Office",
+      "source_url": "https://coloradocpace.com/wp-content/uploads/2025/07/CO_C-PACE_Program_Guide.pdf",
+      "source_title": "Colorado C-PACE Program Guide, Version 5.10 (March 2024)",
+      "publisher": "Colorado New Energy Improvement District (C-PACE)",
+      "published": "2024-03-01",
       "last_verified": "2026-10-23",
       "review_by": "2027-01-23"
     }

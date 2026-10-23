@@ -287,7 +287,7 @@ const CLAIMS = {
   'qap-ua-sources': [['gross rent', 'gross rent'], ['energy consumption model', 'energy consumption model']],
   'cfr-ua-gross-rent': [['part of gross rent', 'gross rent for that unit includes the applicable utility allowance'], ['unit size, building orientation', 'unit size, building orientation'], ['licensed engineer', 'properly licensed engineer']],
   'ccef-loans': [['nonprofit', 'non-profit community lender'], ['developers', 'developers'], ['battery storage', 'battery storage'], ['hvac', 'hvac systems'], ['ev charging', 'ev charging'], ['colorado clean energy fund', 'colorado clean energy fund dba']],
-  'c-pace': [['efficiency, renewable, water', 'energy efficiency, water conservation, and renewable energy'], ['resilience', 'resilience measures'], ['property tax bill', 'property tax bill']],
+  'c-pace': [['retrofits of existing buildings', '100 percent financing for existing building retrofit projects'], ['new construction gets less', 'up to 35 percent financing for new construction'], ['15% with documented 2018', 'if seeking 15 percent financing'], ['30% if modeling', 'if seeking 30 percent financing'], ['35% when the 2021', 'comply with or exceed the applicable 2021'], ['up to 25 years', 'up to 25 years'], ['opted into the statewide district', 'must opt into the district'], ['property tax bill', 'property tax bill'], ['senior to commercial mortgages', 'senior to all commercial mortgages']],
   'hub-resource-finder': [['utility provider', 'utility provider'], ['not exhaustive', 'non-exhaustive']],
   'hub-master-meter': [['billing', 'billing function'], ['upkeep of the submeters', 'maintaining the submetering system']],
   'xcel-mfbe': [['free in-unit products', 'free energy-saving products in each unit']],
@@ -312,6 +312,14 @@ for (const e of DOC.entries) {
   if (/NGBS/.test(e.title) && /cost|cheap|budget/i.test(e.title)) assert(/older code|2018/i.test(e.title), `${e.id}: the title ranks NGBS on cost without the older-code condition`);
 }
 assert(!/NGBS/.test(rec('hub-energystar-cost').title) || /NGBS/.test(rec('hub-energystar-cost').quotes.join(' ')), 'hub-energystar-cost: the title compares with NGBS, which its quote never does');
+// C-PACE's 100% applies to retrofits only; a card that pairs it with new
+// construction must also carry the new-construction cap and the county condition.
+{
+  const r = rec('c-pace'); const text = `${r.finding} ${r.fits}`;
+  if (/100%/.test(text)) assert(/100% of eligible costs for retrofits/.test(r.finding), 'c-pace: 100% financing is for retrofits only; say so where the 100% appears');
+  assert(/new construction/i.test(r.finding) && /35%/.test(r.finding), 'c-pace: state the new-construction cap');
+  assert(/opted into the statewide district/.test(r.finding) && /participating county/.test(r.fits), 'c-pace: eligibility depends on a participating county; say so in the finding and the fit');
+}
 // Every utility the Resource Finder card names is quoted from the finder.
 for (const co of rec('hub-resource-finder').finding.match(/(?:Poudre Valley REA|United Power|Holy Cross Energy|[A-Z][\w-]*(?: [A-Z][\w-]*)* (?:Electric|Power) (?:Association|Cooperative)|San Luis Valley Rural Electric Cooperative)/g) || []) {
   assert(rec('hub-resource-finder').quotes.includes(co), `hub-resource-finder: names ${co}, which no quote shows`);
