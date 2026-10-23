@@ -91,14 +91,16 @@
         source: [n.chasSource, n.rankingSource].filter(Boolean).join('; ')
       };
     },
+    // A census-designated place has no government of its own; its county's filing applies.
     prop123_not_filed: function (m) {
-      if (m.prop123.record) return null;
-      return { vars: {}, evidence: 'No Prop 123 commitment for ' + m.name + ' on DOLA\'s list (updated ' + (m.prop123.updated || 'date not recorded') + ').', source: m.prop123.source };
+      var cdp = m.kind === 'cdp';
+      if (cdp ? m.prop123.countyRecord : m.prop123.record) return null;
+      return { vars: cdp ? { name: m.countyName } : {}, evidence: 'No Prop 123 commitment for ' + (cdp ? m.countyName : m.name) + ' on DOLA\'s list (updated ' + (m.prop123.updated || 'date not recorded') + ').', source: m.prop123.source };
     },
     prop123_no_fast_track: function (m) {
-      var p = m.prop123.record;
+      var p = m.kind === 'cdp' ? m.prop123.countyRecord : m.prop123.record;
       if (!p || p.fast_track !== false) return null;
-      return { vars: { status: String(p.status || '') }, evidence: 'Prop 123 commitment ' + (p.status || 'on file') + ', filed ' + (p.filing_date || 'date not recorded') + '; no fast-track process on DOLA\'s list.', source: m.prop123.source };
+      return { vars: m.kind === 'cdp' ? { status: String(p.status || ''), name: m.countyName } : { status: String(p.status || '') }, evidence: 'Prop 123 commitment ' + (p.status || 'on file') + ', filed ' + (p.filing_date || 'date not recorded') + '; no fast-track process on DOLA\'s list.', source: m.prop123.source };
     },
     no_local_money: function (m) {
       if (m.policy.funds.length || m.policy.fees.length) return null;

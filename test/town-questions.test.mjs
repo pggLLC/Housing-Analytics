@@ -137,6 +137,17 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   ok(!TQ.contactFor('manager', bank, [{ name: 'C', role: 'County Manager', org: 'Denver County Housing Board', source_url: 'https://z' }], 'Denver', 'place'), 'a separate county body is still not the town');
 }
 
+// A CDP has no government: its county's Prop 123 filing applies, and the ask names the county.
+{
+  const m = model('0823300');
+  ok(m.kind === 'cdp', 'Edwards is a CDP');
+  const nf = TQ.SIGNALS.prop123_not_filed(m);
+  if (m.prop123.countyRecord) ok(nf === null, 'Edwards: the county filing counts, so no "not filed" question');
+  const fake = { kind: 'cdp', name: 'Edwards', countyName: 'Eagle County', prop123: { record: null, countyRecord: null, source: 's' } };
+  const s2 = TQ.SIGNALS.prop123_not_filed(fake);
+  ok(s2 && /Eagle County/.test(s2.evidence) && s2.vars.name === 'Eagle County' && !/Edwards/.test(s2.evidence), 'CDP without a county filing: evidence and ask name the county');
+}
+
 // ---- 5. Timing from the CHFA calendar.
 {
   const t = model('0833640', { today: '2026-10-22' }).deal.timing;
