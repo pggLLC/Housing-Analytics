@@ -41,7 +41,10 @@ const PRIVATE_TEXT = [
   { label: 'anti-targets column', re: /\b(date_dropped|revisit_date)\b/, ext: /\.(csv|tsv|json)$/i },
   { label: 'outreach templates column', re: /\b(template_name|notes_for_personalization)\b/, ext: /\.(csv|tsv|json)$/i },
   { label: 'partnership terms heading', re: /^#+\s*Proposed partnership terms\b/im },
-  { label: 'call sheet heading', re: /^#+\s*Call sheet\b/im }
+  { label: 'call sheet heading', re: /^#+\s*Call sheet\b/im },
+  // The owner's own project: its market studies, application narrative and pro
+  // forma stay private. CHFA's public award and applicant records may name it.
+  { label: 'Fruita Mews private study or application text', re: /[private firm]|\bMews\b[\s\S]{0,200}?(clarification response|application narrative|pro ?forma|wait ?list|market stud)|(clarification response|application narrative|pro ?forma|wait ?list|market stud)[\s\S]{0,200}?\bMews\b/i }
 ];
 // Files that name these patterns in order to block them.
 const ALLOWED = new Set([
@@ -136,10 +139,14 @@ const mustCatch = [
   ['data/hna/local-resources.json', '{"geoid":"0805265","contacts":[{"name":"Pat","role":"Mayor"}]}'],
   ['data/land.json', '{"people":[{"name":"Pat","public_role":"Developer","housing_involvement":"x"}]}'],
   ['data/people.json', '[{"name":"Pat","org":"X","phone":"555","email":"p@x.org"}]'], ['data/awards-copy.json', '{"from_award_lists":[]}'],
-  ['data/a.csv', 'date,signal_type,place\n'], ['data/b.csv', 'org,date_dropped,revisit_date\n'], ['data/c.csv', 'template_name,body,notes_for_personalization\n'], ['data/big.json', 'x'.repeat(MAX_TEXT + 1)]
+  ['data/a.csv', 'date,signal_type,place\n'], ['data/b.csv', 'org,date_dropped,revisit_date\n'], ['data/c.csv', 'template_name,body,notes_for_personalization\n'], ['data/big.json', 'x'.repeat(MAX_TEXT + 1)],
+  ['docs/benchmarks/pma.md', 'Market Study of The Fruita Mews II, [private firm]'], ['data/brief.json', '"note": "the clarification response to CHFA on the Fruita Mews II application"'],
+  ['docs/x.md', 'Fruita Mews Phase II pro forma: 80% rents held'], ['docs/y.md', '# Fruita Mews Phase II\n\n## Market Study\n'],
+  ['data/z.txt', 'Fruita Mews Phase II\napplication narrative']
 ];
 for (const [f, t = ''] of mustCatch) if (!scanFile(f, () => t).length) { console.error('guard misses ' + f); process.exit(1); }
 const mustPass = [['js/components/pipeline-store.js', 'relationship_tier'], ['developer-pipeline.html', 'last_talked'], ['data/hna/x.json', '{"a":1}'],
-  ['docs/api/js__components__pipeline-store.md', 'next_action']];
+  ['docs/api/js__components__pipeline-store.md', 'next_action'],
+  ['data/awards.json', '"name": "Fruita Mews", "Total Units: 50", "Credit Amount Awarded: $1,330,877"']];
 for (const [f, t] of mustPass) if (scanFile(f, () => t).length) { console.error('guard wrongly flags ' + f); process.exit(1); }
 console.log(`repo-private-data: ${files.length} tracked files checked, none private.`);
