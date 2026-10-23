@@ -972,7 +972,7 @@
     };
     model.deal.timing = dealTiming(src, today, model.deal.route);
     model.deal.structure = dealStructure(src, row, landscape, policy, model.contacts, model.deal.route);
-    // Questions for the town: wording from the private bank, signals from this model.
+    // Questions for the local government: wording from the private bank, signals from this model.
     model.questions = opts.TownQuestions ? opts.TownQuestions.build(model, src.townQuestions || null, src.qapScoring || null, today) : null;
     return model;
   }
@@ -1018,7 +1018,7 @@
     items.push('<li><strong>Deal shape:</strong> ' + esc(d.route) + (d.rentCheck && d.rentCheck.limit60 !== null && d.rentCheck.fmr !== null && d.rentCheck.limit60 > d.rentCheck.fmr ? '; test achievable rent before using 60% AMI units' : '') + '.</li>');
     var base = timingPick(d.timing, 'base'), stretch = timingPick(d.timing, 'stretch');
     if (base) items.push('<li><strong>Timing:</strong> base case ' + esc(base.label) + ', application ' + esc(base.deadline) + (stretch ? '; ' + esc(stretch.label) + ' only as a stretch' : '') + ' (estimate).</li>');
-    if (m.questions && !m.questions.missing) items.push('<li><strong>Questions for the town:</strong> ' + m.questions.pointed.length + ' pointed, from this place\'s data, and ' + m.questions.standard.length + ' standard.</li>');
+    if (m.questions && !m.questions.missing) items.push('<li><strong>Questions for ' + esc(m.questions.gov.name) + ':</strong> ' + m.questions.pointed.length + ' pointed, from this place\'s data, and ' + m.questions.standard.length + ' standard.</li>');
     items.push('<li><strong>Contacts:</strong> ' + (m.contacts.needsResearch ? 'not yet researched for this jurisdiction (organisation links below)'
       : m.contacts.researched.length ? m.contacts.researched.length + ' named, each with its source'
       : 'none researched here yet; ' + m.contacts.related.reduce(function (n, f) { return n + f.contacts.length; }, 0) + ' from ' + m.contacts.related.map(function (f) { return f.name; }).join(', ') + ' shown instead') + '.</li>');
@@ -1396,13 +1396,15 @@
 
   function renderQuestions(m) {
     var Q = m.questions;
-    var h = '<h2 id="questions">Questions for the town</h2>';
+    // Named for the government actually asked: a CDP's questions go to its county.
+    var gov = (Q && Q.gov && Q.gov.name) || (m.kind === 'cdp' ? m.countyName : m.name);
+    var h = '<h2 id="questions">Questions for ' + esc(gov) + '</h2>';
     if (!Q || Q.missing) return h + '<p>The question bank loads on the gated developer site only.</p>';
     function who(q) {
       var c = q.contact;
       return '<span class="wp-meta">Ask: ' + esc(q.roleLabel) + (c ? ', ' + link(c.name, c.url) + (c.role ? ' (' + esc(c.role) + ')' : '') : '') + '</span>';
     }
-    h += '<p>Standard questions are worth asking any town before an application. Pointed questions come from this place\'s own data; each shows the figure that raised it.</p>';
+    h += '<p>Standard questions are worth asking any local government before an application. Pointed questions come from this place\'s own data; each shows the figure that raised it.</p>';
     if (Q.pointed.length) {
       h += '<h3>Pointed questions for ' + esc(m.name) + '</h3><ol>' + Q.pointed.map(function (q) {
         return '<li><strong>' + esc(q.ask) + '</strong><br>' + who(q) + '<br><span class="wp-meta">Raised by: ' + esc(q.evidence) + (q.why ? ' Why it matters: ' + esc(q.why) : '') + ' Source: ' + esc(q.source) + '.</span></li>';

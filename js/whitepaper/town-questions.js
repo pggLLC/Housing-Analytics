@@ -142,7 +142,13 @@
     senior_growth: function (m) {
       var g = m.need.seniorGrowthPp;
       if (g === null || g < 5) return null;
-      return { vars: { points: g.toFixed(1) }, evidence: 'The senior share of residents is projected to rise ' + g.toFixed(1) + ' percentage points.', source: m.need.rankingSource };
+      // The projection is made for counties only; a town or CDP carries its county's figure.
+      var county = m.kind === 'county';
+      return {
+        vars: { points: g.toFixed(1), area: county ? m.name : m.countyName },
+        evidence: (county ? 'The senior share of residents' : 'Across ' + m.countyName + ' (a county projection; none is made for ' + m.name + '), the senior share of residents') + ' is projected to rise ' + g.toFixed(1) + ' percentage points.',
+        source: m.need.rankingSource
+      };
     },
     seasonal_homes: function (m) {
       var s = m.need.seasonalSharePct;
@@ -245,7 +251,7 @@
       var v = Object.assign({}, vars, s.vars);
       fired.push(Object.assign(who(q.role), { id: q.id, signal: q.signal, ask: fill(q.ask, v), why: q.why || null, evidence: s.evidence, source: s.source }));
     });
-    return { standard: standard, pointed: fired.slice(0, MAX_POINTED), firedNotShown: Math.max(0, fired.length - MAX_POINTED), bankChecked: bank.checked || null };
+    return { gov: { name: govName, kind: govKind }, standard: standard, pointed: fired.slice(0, MAX_POINTED), firedNotShown: Math.max(0, fired.length - MAX_POINTED), bankChecked: bank.checked || null };
   }
 
   return { build: build, SIGNALS: SIGNALS, MAX_POINTED: MAX_POINTED, contactFor: contactFor };

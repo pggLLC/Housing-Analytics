@@ -140,6 +140,25 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   ok(!TQ.contactFor('pw', bank, c('Utilities Director', 'DOLA')), 'an excluded agency is never matched');
 }
 
+// The section is named for the government asked; a CDP's questions go to its county.
+for (const g of ['0833640', '0823300', '08051']) {
+  const m = model(g);
+  const expect = m.kind === 'cdp' ? m.countyName : m.name;
+  ok(m.questions.gov.name === expect, `${g}: questions go to ${expect}`);
+  const html = WP.renderHtml(m);
+  const head = html.slice(html.indexOf('<h2 id="questions">'), html.indexOf('</h2>', html.indexOf('<h2 id="questions">')));
+  ok(head.endsWith('Questions for ' + expect.replace(/&/g, '&amp;')), `${g}: the heading names ${expect}`);
+}
+
+// Senior growth is a county projection; a town's evidence says so.
+{
+  const need = { seniorGrowthPp: 7, rankingSource: 'r' };
+  const town = TQ.SIGNALS.senior_growth({ kind: 'place', name: 'Bayfield', countyName: 'La Plata County', need });
+  const county = TQ.SIGNALS.senior_growth({ kind: 'county', name: 'La Plata County', countyName: 'La Plata County', need });
+  ok(town.evidence.includes('La Plata County') && town.evidence.includes('county projection') && town.vars.area === 'La Plata County', 'town: senior growth is labelled as its county\'s projection');
+  ok(!county.evidence.includes('county projection') && county.vars.area === 'La Plata County', 'county: senior growth is its own');
+}
+
 // Consolidated city-county: "City and County of Denver" staff are Denver's own.
 {
   const bank = { roles: { manager: { label: 'Manager', match: 'manager', local: true } } };
