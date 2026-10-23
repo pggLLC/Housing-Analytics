@@ -79,7 +79,10 @@
         "capacity_source": "https://www.gjha.org/",
         "capacity_last_verified": "2026-08-04",
         "classification": "observed",
-        "verify": true
+        "verify": true,
+        "hudCode": "CO051",
+        "stateAuditorId": "7280",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Fruita Housing Authority",
@@ -287,7 +290,10 @@
     "housingAuthority": [
       {
         "name": "Grand Junction Housing Authority (GJHA)",
-        "url": "https://www.gjha.org/"
+        "url": "https://www.gjha.org/",
+        "hudCode": "CO051",
+        "stateAuditorId": "7280",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -354,16 +360,29 @@
     "housingAuthority": [
       {
         "name": "Adams County Housing Authority",
-        "url": "https://www.adamscounty.us/Dept/CSS/Pages/Housing.aspx"
+        "url": "https://www.adamscounty.us/Dept/CSS/Pages/Housing.aspx",
+        "hudCode": "CO058",
+        "stateAuditorId": "7200",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Aurora Housing Authority",
-        "url": "https://www.aurora-housing.com/"
+        "url": "https://www.aurora-housing.com/",
+        "hudCode": "CO052",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Housing Authority of the City of Brighton",
         "contact": "adall@brightonhousing.org",
-        "totalUnits": 255
+        "totalUnits": 255,
+        "hudCode": "CO019",
+        "stateAuditorId": "7225",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Commerce City Housing Authority",
+        "stateAuditorId": "7237",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -440,13 +459,12 @@
     },
     "housingAuthority": [
       {
-        "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
-      },
-      {
         "name": "Housing Authority of the City of Alamosa",
         "contact": "pha@gojade.org",
-        "totalUnits": 199
+        "totalUnits": 199,
+        "hudCode": "CO004",
+        "stateAuditorId": "7206",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -494,26 +512,36 @@
     },
     "housingAuthority": [
       {
-        "name": "Arapahoe County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Arapahoe%20County%20Housing%20Authority%22%20Colorado"
-      },
-      {
         "name": "Aurora Housing Authority",
-        "url": "https://www.aurora-housing.com/"
+        "url": "https://www.aurora-housing.com/",
+        "hudCode": "CO052",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Englewood Housing Authority",
-        "url": "https://www.google.com/search?q=%22Englewood%20Housing%20Authority%22%20Colorado"
+        "hudCode": "CO048",
+        "stateAuditorId": "7260",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Sheridan Housing Authority",
         "contact": "jlambert@innovativehousingconcepts.org",
-        "totalUnits": 181
+        "totalUnits": 181,
+        "hudCode": "CO057",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Littleton Housing Authority",
         "contact": "creitz@smho.co",
-        "totalUnits": 624
+        "totalUnits": 624,
+        "hudCode": "CO036",
+        "stateAuditorId": "7316",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Deer Trail Housing Authority",
+        "stateAuditorId": "7244",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -588,12 +616,7 @@
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Archuleta County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Archuleta%20County%20Housing%20Authority%22%20Colorado"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "Community Connections (Southwest Colorado)",
@@ -638,8 +661,14 @@
     },
     "housingAuthority": [
       {
-        "name": "Southeast Colorado Housing (SECHA)",
-        "url": "https://www.secha.net/"
+        "name": "Springfield Housing Authority",
+        "stateAuditorId": "7346",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Walsh Housing Authority",
+        "stateAuditorId": "7356",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -656,12 +685,11 @@
     },
     "housingAuthority": [
       {
-        "name": "Southeast Colorado Housing (SECHA)",
-        "url": "https://www.secha.net/"
-      },
-      {
         "name": "Las Animas Housing Authority",
-        "totalUnits": 127
+        "totalUnits": 127,
+        "hudCode": "CO024",
+        "stateAuditorId": "7312",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -679,16 +707,24 @@
     "housingAuthority": [
       {
         "name": "Boulder Housing Partners",
-        "url": "https://boulderhousing.org/"
+        "url": "https://boulderhousing.org/",
+        "hudCode": "CO016",
+        "stateAuditorId": "7224",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Longmont Housing Authority",
-        "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment/housing-authority"
+        "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment/housing-authority",
+        "hudCode": "CO070",
+        "stateAuditorId": "7318",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Boulder County Housing Authority",
         "contact": "hofrontdesk@bouldercounty.org",
-        "totalUnits": 984
+        "totalUnits": 984,
+        "hudCode": "CO061",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -787,12 +823,7 @@
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Broomfield Housing Services",
-        "url": "https://www.google.com/search?q=%22Broomfield%20Housing%20Services%22%20Colorado"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "Mental Health Partners",
@@ -837,13 +868,18 @@
     },
     "housingAuthority": [
       {
-        "name": "Chaffee Housing Trust",
-        "url": "https://www.chaffeehousing.org/"
-      },
-      {
         "name": "Housing Authority of the City of Salida",
         "contact": "office (719) 539-6243",
-        "totalUnits": 50
+        "totalUnits": 50,
+        "hudCode": "CO013",
+        "stateAuditorId": "7342",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Chaffee Housing Authority",
+        "url": "https://www.chaffeehousingauthority.org/",
+        "stateAuditorId": "7229",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -912,12 +948,11 @@
     },
     "housingAuthority": [
       {
-        "name": "Southeast Colorado Housing (SECHA)",
-        "url": "https://www.secha.net/"
-      },
-      {
         "name": "Housing Authority for the Town of Cheyenne Wells",
-        "totalUnits": 25
+        "totalUnits": 25,
+        "hudCode": "CO026",
+        "stateAuditorId": "7234",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -934,8 +969,9 @@
     },
     "housingAuthority": [
       {
-        "name": "Jefferson County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Jefferson%20County%20Housing%20Authority%22%20Colorado"
+        "name": "Clear Creek Regional Housing Authority",
+        "stateAuditorId": "7231",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -972,17 +1008,19 @@
     },
     "housingAuthority": [
       {
-        "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
-      },
-      {
         "name": "Conejos County Housing Authority",
-        "contact": "karen@conejoshousing.org"
+        "contact": "karen@conejoshousing.org",
+        "hudCode": "CO038",
+        "stateAuditorId": "7238",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Housing Authority of Antonito",
         "contact": "pchavez@antonitohousingauthority.com",
-        "totalUnits": 29
+        "totalUnits": 29,
+        "hudCode": "CO008",
+        "stateAuditorId": "7208",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -999,13 +1037,12 @@
     },
     "housingAuthority": [
       {
-        "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
-      },
-      {
         "name": "Costilla County Housing Authority",
         "contact": "costcohousingjg@gojade.org",
-        "totalUnits": 57
+        "totalUnits": 57,
+        "hudCode": "CO037",
+        "stateAuditorId": "7240",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1020,12 +1057,7 @@
       "status": "Not committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Southeast Colorado Housing (SECHA)",
-        "url": "https://www.secha.net/"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "Catholic Charities of Southern Colorado",
@@ -1038,12 +1070,7 @@
       "status": "Not committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Southeast Colorado Housing (SECHA)",
-        "url": "https://www.secha.net/"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "Catholic Charities of Southern Colorado",
@@ -1058,13 +1085,12 @@
     },
     "housingAuthority": [
       {
-        "name": "Delta County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Delta%20County%20Housing%20Authority%22%20Colorado"
-      },
-      {
         "name": "Delta Housing Authority",
         "contact": "director@deltahousingauthority.org",
-        "totalUnits": 75
+        "totalUnits": 75,
+        "hudCode": "CO040",
+        "stateAuditorId": "7246",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1128,12 +1154,12 @@
     "housingAuthority": [
       {
         "name": "Denver Housing Authority",
-        "url": "https://www.denverhousing.org/"
-      },
-      {
-        "name": "Housing Authority of the City and County of Denver",
+        "url": "https://www.denverhousing.org/",
+        "hudCode": "CO001",
+        "stateAuditorId": "7248",
         "contact": "officials@denverhousing.org",
-        "totalUnits": 3700
+        "totalUnits": 3700,
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1235,12 +1261,7 @@
       "status": "Not committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Southwest Colorado Housing (Montezuma/Dolores region)",
-        "url": "https://www.google.com/search?q=%22Southwest%20Colorado%20Housing%20(Montezuma%2FDolores%20region)%22%20Colorado"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "Catholic Charities of Southern Colorado",
@@ -1255,8 +1276,9 @@
     },
     "housingAuthority": [
       {
-        "name": "Douglas County Housing Authority",
-        "url": "https://www.douglas.co.us/departments/community-development/housing-services/"
+        "name": "Douglas County Housing Partnership",
+        "stateAuditorId": "7251",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1338,8 +1360,10 @@
     },
     "housingAuthority": [
       {
-        "name": "Eagle County Housing & Development Authority",
-        "url": "https://www.eaglecounty.us/housing/"
+        "name": "Vail Housing Authority",
+        "url": "https://www.vailgov.com/government/boards-commissions/vail-local-housing-authority",
+        "stateAuditorId": "7363",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1420,12 +1444,7 @@
       "status": "Not committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Elbert County (limited authority)",
-        "url": "https://www.elbertcounty-co.gov/"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "Arapahoe/Douglas Works!",
@@ -1441,21 +1460,20 @@
     "housingAuthority": [
       {
         "name": "Colorado Springs Housing Authority",
-        "url": "https://coloradospringshousing.com/"
-      },
-      {
-        "name": "El Paso County Housing Authority",
-        "url": "https://www.google.com/search?q=%22El%20Paso%20County%20Housing%20Authority%22%20Colorado"
-      },
-      {
-        "name": "Housing Authority of the City of Colorado Springs",
+        "url": "https://coloradospringshousing.com/",
+        "hudCode": "CO028",
+        "stateAuditorId": "7236",
         "contact": "info@csha.us",
-        "totalUnits": 706
+        "totalUnits": 706,
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Housing Authority of the City of Fountain",
         "contact": "areeder@fountaincohousing.org",
-        "totalUnits": 40
+        "totalUnits": 40,
+        "hudCode": "CO071",
+        "stateAuditorId": "7272",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1557,12 +1575,7 @@
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Fremont County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Fremont%20County%20Housing%20Authority%22%20Colorado"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "Arkansas Valley Resource Center",
@@ -1603,7 +1616,14 @@
     "housingAuthority": [
       {
         "name": "Garfield County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Garfield%20County%20Housing%20Authority%22%20Colorado"
+        "hudCode": "CO095",
+        "stateAuditorId": "7274",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Rifle Housing Authority",
+        "stateAuditorId": "7337",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1705,8 +1725,9 @@
     },
     "housingAuthority": [
       {
-        "name": "Jefferson County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Jefferson%20County%20Housing%20Authority%22%20Colorado"
+        "name": "City of Black Hawk Housing Authority",
+        "stateAuditorId": "7227",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1739,20 +1760,9 @@
     },
     "housingAuthority": [
       {
-        "name": "Grand County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Grand%20County%20Housing%20Authority%22%20Colorado"
-      },
-      {
-        "name": "Housing Authority of the City of Brush",
-        "contact": "brushhousing@brushhousing.com",
-        "totalUnits": 30,
-        "phaCode": "CO044"
-      },
-      {
-        "name": "Fort Morgan Housing Authority",
-        "contact": "nancy@fmhousing.net",
-        "totalUnits": 86,
-        "phaCode": "CO011"
+        "name": "Fraser River Valley Housing Partnership",
+        "stateAuditorId": "7261",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1789,8 +1799,10 @@
     },
     "housingAuthority": [
       {
-        "name": "Gunnison County Housing Authority",
-        "url": "https://www.gunnisoncounty.org/housing"
+        "name": "Gunnison Valley Regional Housing Authority",
+        "url": "https://gunnisoncounty.org/1163/Housing-Authority",
+        "stateAuditorId": "7285",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1825,12 +1837,7 @@
       "status": "Not committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Hinsdale County (limited — administered through Gunnison County)",
-        "url": "https://www.google.com/search?q=%22Hinsdale%20County%20(limited%20%E2%80%94%20administered%20through%20Gunnison%20County)%22%20Colorado"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "Manna Inc. (Gunnison Valley region)",
@@ -1845,13 +1852,12 @@
     },
     "housingAuthority": [
       {
-        "name": "Southeast Colorado Housing (SECHA)",
-        "url": "https://www.secha.net/"
-      },
-      {
         "name": "Housing Authority of the City of Walsenburg",
         "contact": "jacque@walsenburghousing.org",
-        "totalUnits": 115
+        "totalUnits": 115,
+        "hudCode": "CO003",
+        "stateAuditorId": "7354",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1866,12 +1872,7 @@
       "status": "Not committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Northwest Colorado Council of Governments (housing programs)",
-        "url": "https://www.nwccog.org/"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": []
   },
   "county:08059": {
@@ -1882,16 +1883,27 @@
     "housingAuthority": [
       {
         "name": "Jefferson County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Jefferson%20County%20Housing%20Authority%22%20Colorado"
+        "hudCode": "CO072",
+        "stateAuditorId": "7296",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Lakewood Housing Authority",
-        "url": "https://www.google.com/search?q=%22Lakewood%20Housing%20Authority%22%20Colorado"
+        "hudCode": "CO049",
+        "stateAuditorId": "7308",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Arvada Housing Authority",
         "contact": "housing@arvada.org",
-        "totalUnits": 562
+        "totalUnits": 562,
+        "hudCode": "CO050",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Wheat Ridge Housing Authority",
+        "stateAuditorId": "7353",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -1982,8 +1994,9 @@
     },
     "housingAuthority": [
       {
-        "name": "Southeast Colorado Housing (SECHA)",
-        "url": "https://www.secha.net/"
+        "name": "Eads Housing Authority",
+        "stateAuditorId": "7252",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2000,13 +2013,17 @@
     },
     "housingAuthority": [
       {
-        "name": "Southeast Colorado Housing (SECHA)",
-        "url": "https://www.secha.net/"
-      },
-      {
         "name": "Burlington Housing Authority",
         "contact": "kstevens@citybha.com",
-        "totalUnits": 31
+        "totalUnits": 31,
+        "hudCode": "CO030",
+        "stateAuditorId": "7228",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Flagler Housing Authority",
+        "stateAuditorId": "7264",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2023,8 +2040,9 @@
     },
     "housingAuthority": [
       {
-        "name": "Lake County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Lake%20County%20Housing%20Authority%22%20Colorado"
+        "name": "Leadville Lake County Regional Housing Authority",
+        "stateAuditorId": "7313",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2075,8 +2093,14 @@
     },
     "housingAuthority": [
       {
-        "name": "Durango / La Plata County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Durango%20%2F%20La%20Plata%20County%20Housing%20Authority%22%20Colorado"
+        "name": "Regional Housing Alliance of La Plata County",
+        "stateAuditorId": "7307",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Ignacio Housing Authority",
+        "stateAuditorId": "7295",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2173,31 +2197,37 @@
     "housingAuthority": [
       {
         "name": "Housing Catalyst (Fort Collins)",
-        "url": "https://housingcatalyst.com/"
+        "url": "https://housingcatalyst.com/",
+        "hudCode": "CO041",
+        "stateAuditorId": "7265",
+        "contact": "jbrewen@housingcatalyst.com",
+        "totalUnits": 1627,
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Loveland Housing Authority",
-        "url": "https://www.google.com/search?q=%22Loveland%20Housing%20Authority%22%20Colorado"
-      },
-      {
-        "name": "Housing Catalyst",
-        "contact": "jbrewen@housingcatalyst.com",
-        "totalUnits": 1627
+        "hudCode": "CO034",
+        "stateAuditorId": "7322",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Larimer County Housing Authority",
         "contact": "jbrewen@housingcatalyst.com",
-        "totalUnits": 104
+        "totalUnits": 104,
+        "hudCode": "CO103",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Wellington Housing Authority",
-        "contact": "jbrewen@housingcatalyst.com"
+        "contact": "jbrewen@housingcatalyst.com",
+        "hudCode": "CO014",
+        "stateAuditorId": "7358",
+        "legalCheck": "2026-10-22"
       },
       {
-        "name": "Fort Collins Housing Authority",
-        "contact": "jbrewen@housingcatalyst.com",
-        "totalUnits": 1177,
-        "phaCode": "CO041"
+        "name": "Estes Park Housing Authority",
+        "stateAuditorId": "7263",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2299,23 +2329,19 @@
     },
     "housingAuthority": [
       {
-        "name": "Las Animas/Trinidad Housing Authority",
-        "url": "https://www.trinidadco.com/housing"
-      },
-      {
         "name": "Trinidad Housing Authority",
         "contact": "kadams@trinidadhousing.gov",
-        "totalUnits": 198
+        "totalUnits": 198,
+        "hudCode": "CO005",
+        "stateAuditorId": "7352",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Housing Authority of the Town of Aguilar",
-        "totalUnits": 18
-      },
-      {
-        "name": "Housing Authority of the City of Lamar",
-        "contact": "executivedirector@lamarhousing.org",
-        "totalUnits": 137,
-        "phaCode": "CO006"
+        "totalUnits": 18,
+        "hudCode": "CO015",
+        "stateAuditorId": "7202",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2340,12 +2366,21 @@
     },
     "housingAuthority": [
       {
-        "name": "Southeast Colorado Housing (SECHA)",
-        "url": "https://www.secha.net/"
+        "name": "Housing Authority of the Town of Limon",
+        "totalUnits": 40,
+        "hudCode": "CO012",
+        "stateAuditorId": "7314",
+        "legalCheck": "2026-10-22"
       },
       {
-        "name": "Housing Authority of the Town of Limon",
-        "totalUnits": 40
+        "name": "Arriba Housing Authority",
+        "stateAuditorId": "7214",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Hugo Housing Authority",
+        "stateAuditorId": "7294",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2362,14 +2397,13 @@
     },
     "housingAuthority": [
       {
-        "name": "Logan County / Sterling Housing Authority",
-        "url": "https://www.google.com/search?q=%22Logan%20County%20%2F%20Sterling%20Housing%20Authority%22%20Colorado"
-      },
-      {
         "name": "Housing Authority of the City of Sterling",
         "contact": "office (970) 522-0869",
         "url": "http://sterlinghousing.org/",
-        "totalUnits": 110
+        "totalUnits": 110,
+        "hudCode": "CO025",
+        "stateAuditorId": "7348",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2388,12 +2422,7 @@
       "status": "Not committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "San Luis Valley Housing Coalition",
@@ -2406,12 +2435,7 @@
       "status": "Not committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Moffat County Housing Authority",
-        "url": "https://www.moffatcounty.net/departments/housing/"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [],
     "housingLead": {
       "name": "Moffat County Housing",
@@ -2425,13 +2449,12 @@
     },
     "housingAuthority": [
       {
-        "name": "Cortez / Montezuma County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Cortez%20%2F%20Montezuma%20County%20Housing%20Authority%22%20Colorado"
-      },
-      {
         "name": "Housing Authority of the County of Montezuma",
         "contact": "accounting@mc-ha.org",
-        "totalUnits": 31
+        "totalUnits": 31,
+        "hudCode": "CO079",
+        "stateAuditorId": "7328",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2483,7 +2506,9 @@
     "housingAuthority": [
       {
         "name": "Montrose County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Montrose%20County%20Housing%20Authority%22%20Colorado"
+        "hudCode": "CO087",
+        "stateAuditorId": "7330",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2546,18 +2571,20 @@
     },
     "housingAuthority": [
       {
-        "name": "Morgan County Housing Authority",
-        "url": "https://www.morgancounty.com/housing-authority"
-      },
-      {
         "name": "Fort Morgan Housing Authority",
         "contact": "nancy@fmhousing.net",
-        "totalUnits": 86
+        "totalUnits": 86,
+        "hudCode": "CO011",
+        "stateAuditorId": "7270",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Housing Authority of the City of Brush",
         "contact": "brushhousing@brushhousing.com",
-        "totalUnits": 30
+        "totalUnits": 30,
+        "hudCode": "CO044",
+        "stateAuditorId": "7226",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2578,20 +2605,25 @@
     },
     "housingAuthority": [
       {
-        "name": "Southeast Colorado Housing (SECHA)",
-        "url": "https://www.secha.net/"
-      },
-      {
         "name": "La Junta Housing Authority",
-        "totalUnits": 86
+        "totalUnits": 86,
+        "hudCode": "CO031",
+        "stateAuditorId": "7306",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Otero County Housing Authority",
-        "totalUnits": 46
+        "totalUnits": 46,
+        "hudCode": "CO101",
+        "stateAuditorId": "7334",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Rocky Ford Housing Authority",
-        "totalUnits": 53
+        "totalUnits": 53,
+        "hudCode": "CO045",
+        "stateAuditorId": "7338",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2610,12 +2642,7 @@
       "status": "Not committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Ouray County Housing (limited)",
-        "url": "https://www.ouraycountyco.gov/"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "Housing Resources of Western Colorado",
@@ -2628,12 +2655,7 @@
       "status": "Not committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Park County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Park%20County%20Housing%20Authority%22%20Colorado"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "Foothills United Way",
@@ -2664,17 +2686,19 @@
     },
     "housingAuthority": [
       {
-        "name": "NE Colorado Housing Authority (Phillips/Sedgwick region)",
-        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Housing%20Authority%20(Phillips%2FSedgwick%20region)%22%20Colorado"
-      },
-      {
         "name": "Housing Authority of the Town of Haxtun",
         "contact": "haxtunha@haxtuntel.net",
-        "totalUnits": 22
+        "totalUnits": 22,
+        "hudCode": "CO017",
+        "stateAuditorId": "7286",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Holyoke Housing Authority",
-        "totalUnits": 30
+        "totalUnits": 30,
+        "hudCode": "CO023",
+        "stateAuditorId": "7290",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2692,7 +2716,9 @@
     "housingAuthority": [
       {
         "name": "Aspen/Pitkin County Housing Authority (APCHA)",
-        "url": "https://www.apcha.org/"
+        "url": "https://www.apcha.org/",
+        "stateAuditorId": "7216",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2783,18 +2809,25 @@
     },
     "housingAuthority": [
       {
-        "name": "Southeast Colorado Housing (SECHA)",
-        "url": "https://www.secha.net/"
-      },
-      {
         "name": "Housing Authority of the City of Lamar",
         "contact": "executivedirector@lamarhousing.org",
-        "totalUnits": 30
+        "totalUnits": 30,
+        "hudCode": "CO006",
+        "stateAuditorId": "7310",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Housing Authority of the Town of Holly",
         "contact": "office (719) 537-0191",
-        "totalUnits": 16
+        "totalUnits": 16,
+        "hudCode": "CO007",
+        "stateAuditorId": "7288",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Granada Housing Authority",
+        "stateAuditorId": "7276",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2812,16 +2845,11 @@
     "housingAuthority": [
       {
         "name": "Pueblo Housing Authority",
-        "url": "https://www.google.com/search?q=%22Pueblo%20Housing%20Authority%22%20Colorado"
-      },
-      {
-        "name": "Pueblo County Housing",
-        "url": "https://www.pueblocounty.us/departments/pcd/housing"
-      },
-      {
-        "name": "Housing Authority of the City of Pueblo",
+        "hudCode": "CO002",
+        "stateAuditorId": "7336",
         "contact": "steven.trujillo@hapueblo.org",
-        "totalUnits": 729
+        "totalUnits": 729,
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2916,8 +2944,9 @@
     },
     "housingAuthority": [
       {
-        "name": "Rio Blanco County Housing (limited)",
-        "url": "https://www.google.com/search?q=%22Rio%20Blanco%20County%20Housing%20(limited)%22%20Colorado"
+        "name": "Meeker Housing Authority",
+        "stateAuditorId": "7326",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": []
@@ -2929,8 +2958,10 @@
     },
     "housingAuthority": [
       {
-        "name": "Rio Grande County Housing Authority",
-        "url": "https://www.riograndecounty.org/departments/housing-authority"
+        "name": "Center Housing Authority",
+        "hudCode": "CO043",
+        "stateAuditorId": "7232",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -2951,12 +2982,20 @@
     },
     "housingAuthority": [
       {
-        "name": "Routt County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Routt%20County%20Housing%20Authority%22%20Colorado"
+        "name": "Yampa Valley Housing Authority",
+        "url": "https://yvha.org/",
+        "stateAuditorId": "7355",
+        "legalCheck": "2026-10-22"
       },
       {
-        "name": "Steamboat Springs Housing Division",
-        "url": "https://www.google.com/search?q=%22Steamboat%20Springs%20Housing%20Division%22%20Colorado"
+        "name": "South Routt Housing Authority",
+        "stateAuditorId": "7351",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Hayden Municipal Housing Authority",
+        "stateAuditorId": "7319",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3032,12 +3071,11 @@
     },
     "housingAuthority": [
       {
-        "name": "San Luis Valley Housing Coalition",
-        "url": "https://www.google.com/search?q=%22San%20Luis%20Valley%20Housing%20Coalition%22%20Colorado"
-      },
-      {
         "name": "Center Housing Authority",
-        "totalUnits": 30
+        "totalUnits": 30,
+        "hudCode": "CO043",
+        "stateAuditorId": "7232",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3054,8 +3092,9 @@
     },
     "housingAuthority": [
       {
-        "name": "San Juan County Housing (Silverton — limited)",
-        "url": "https://www.sanjuancountycolorado.us/"
+        "name": "Silverton Housing Authority",
+        "stateAuditorId": "7329",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3072,8 +3111,10 @@
     },
     "housingAuthority": [
       {
-        "name": "Telluride Housing Authority / San Miguel County",
-        "url": "https://www.google.com/search?q=%22Telluride%20Housing%20Authority%20%2F%20San%20Miguel%20County%22%20Colorado"
+        "name": "San Miguel Regional Housing Authority",
+        "url": "https://smrha.org/",
+        "stateAuditorId": "7349",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3136,13 +3177,12 @@
     },
     "housingAuthority": [
       {
-        "name": "NE Colorado Housing Authority (Phillips/Sedgwick region)",
-        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Housing%20Authority%20(Phillips%2FSedgwick%20region)%22%20Colorado"
-      },
-      {
         "name": "Julesburg Housing Authority",
         "contact": "julehous@julesburgha.com",
-        "totalUnits": 52
+        "totalUnits": 52,
+        "hudCode": "CO021",
+        "stateAuditorId": "7300",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3159,12 +3199,10 @@
     },
     "housingAuthority": [
       {
-        "name": "Summit County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Summit%20County%20Housing%20Authority%22%20Colorado"
-      },
-      {
-        "name": "Breckenridge Housing Authority",
-        "url": "https://www.google.com/search?q=%22Breckenridge%20Housing%20Authority%22%20Colorado"
+        "name": "Summit Combined Housing Authority",
+        "url": "https://www.summithousing.us/",
+        "stateAuditorId": "7350",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3242,12 +3280,7 @@
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Teller County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Teller%20County%20Housing%20Authority%22%20Colorado"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "Pikes Peak United Way",
@@ -3286,15 +3319,14 @@
     },
     "housingAuthority": [
       {
-        "name": "NE Colorado Housing Authority (rural eastern Colorado)",
-        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Housing%20Authority%20(rural%20eastern%20Colorado)%22%20Colorado"
+        "name": "Washington County Housing Authority",
+        "stateAuditorId": "7357",
+        "legalCheck": "2026-10-22"
       },
       {
-        "name": "Housing Authority of the City of Sterling",
-        "contact": "office (970) 522-0869",
-        "url": "http://sterlinghousing.org/",
-        "totalUnits": 110,
-        "phaCode": "CO025"
+        "name": "Akron Housing Authority",
+        "stateAuditorId": "7204",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3311,36 +3343,67 @@
     },
     "housingAuthority": [
       {
-        "name": "Weld County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Weld%20County%20Housing%20Authority%22%20Colorado"
-      },
-      {
         "name": "Greeley Housing Authority",
-        "url": "https://www.google.com/search?q=%22Greeley%20Housing%20Authority%22%20Colorado"
+        "hudCode": "CO035",
+        "stateAuditorId": "7282",
+        "contact": "Vincent@Greeley-WeldHA.org",
+        "totalUnits": 86,
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Housing Authority of Weld County",
         "contact": "Vincent@Greeley-WeldHA.org",
-        "totalUnits": 433
+        "totalUnits": 433,
+        "hudCode": "CO090",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Housing Authority of the Town of Kersey",
         "contact": "office (970) 351-8229",
-        "totalUnits": 20
+        "totalUnits": 20,
+        "hudCode": "CO018",
+        "stateAuditorId": "7304",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Housing Authority of the City of Fort Lupton",
         "contact": "info@FTLhousing.org",
-        "totalUnits": 50
-      },
-      {
-        "name": "Housing Authority of the City of Greeley",
-        "contact": "Vincent@Greeley-WeldHA.org",
-        "totalUnits": 86
+        "totalUnits": 50,
+        "hudCode": "CO029",
+        "stateAuditorId": "7268",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Housing Authority of the Town of Keenesburg",
-        "totalUnits": 20
+        "totalUnits": 20,
+        "hudCode": "CO020",
+        "stateAuditorId": "7302",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Eaton Housing Authority",
+        "stateAuditorId": "7254",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Grover Housing Authority",
+        "stateAuditorId": "7284",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Hudson Housing Authority",
+        "stateAuditorId": "7292",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Johnstown Housing Authority",
+        "stateAuditorId": "7298",
+        "legalCheck": "2026-10-22"
+      },
+      {
+        "name": "Windsor Housing Authority",
+        "stateAuditorId": "7360",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3436,17 +3499,18 @@
     },
     "housingAuthority": [
       {
-        "name": "NE Colorado Housing Authority (rural eastern Colorado)",
-        "url": "https://www.google.com/search?q=%22NE%20Colorado%20Housing%20Authority%20(rural%20eastern%20Colorado)%22%20Colorado"
-      },
-      {
         "name": "Housing Authority of the City of Wray",
         "contact": "wrayven@vistabeam.com",
-        "totalUnits": 41
+        "totalUnits": 41,
+        "hudCode": "CO022",
+        "stateAuditorId": "7362",
+        "legalCheck": "2026-10-22"
       },
       {
         "name": "Housing Authority of the Town of Yuma",
-        "totalUnits": 50
+        "totalUnits": 50,
+        "hudCode": "CO009",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3472,7 +3536,10 @@
       {
         "name": "Denver Housing Authority (DHA)",
         "url": "https://www.denverhousing.org/",
-        "totalUnits": 11000
+        "totalUnits": 11000,
+        "hudCode": "CO001",
+        "stateAuditorId": "7248",
+        "legalCheck": "2026-10-22"
       }
     ],
     "housingPlans": [
@@ -3553,7 +3620,10 @@
       {
         "name": "Boulder Housing Partners (BHP)",
         "url": "https://boulderhousing.org/",
-        "totalUnits": 1300
+        "totalUnits": 1300,
+        "hudCode": "CO016",
+        "stateAuditorId": "7224",
+        "legalCheck": "2026-10-22"
       }
     ],
     "housingPlans": [
@@ -3632,7 +3702,9 @@
     "housingAuthority": [
       {
         "name": "Aurora Housing Authority",
-        "url": "https://www.aurora-housing.com/"
+        "url": "https://www.aurora-housing.com/",
+        "hudCode": "CO052",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3689,7 +3761,10 @@
       {
         "name": "Housing Catalyst (formerly Fort Collins HA)",
         "url": "https://housingcatalyst.com/",
-        "totalUnits": 1500
+        "totalUnits": 1500,
+        "hudCode": "CO041",
+        "stateAuditorId": "7265",
+        "legalCheck": "2026-10-22"
       }
     ],
     "housingPlans": [
@@ -3758,7 +3833,9 @@
     "housingAuthority": [
       {
         "name": "Colorado Springs Housing Authority",
-        "url": "https://www.google.com/search?q=%22Colorado%20Springs%20Housing%20Authority%22%20Colorado"
+        "hudCode": "CO028",
+        "stateAuditorId": "7236",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3830,7 +3907,9 @@
     "housingAuthority": [
       {
         "name": "Pueblo Housing Authority",
-        "url": "https://www.google.com/search?q=%22Pueblo%20Housing%20Authority%22%20Colorado"
+        "hudCode": "CO002",
+        "stateAuditorId": "7336",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3889,8 +3968,10 @@
     },
     "housingAuthority": [
       {
-        "name": "Greeley-Weld Housing Authority",
-        "url": "https://www.google.com/search?q=%22Greeley-Weld%20Housing%20Authority%22%20Colorado"
+        "name": "Housing Authority of the City of Greeley",
+        "hudCode": "CO035",
+        "stateAuditorId": "7282",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -3944,11 +4025,10 @@
     "housingAuthority": [
       {
         "name": "Longmont Housing Authority",
-        "url": "https://www.google.com/search?q=%22Longmont+Housing+Authority%22+Colorado"
-      },
-      {
-        "name": "Longmont Housing Authority Foundation",
-        "url": "https://lhaf.org/"
+        "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment/housing-authority",
+        "hudCode": "CO070",
+        "stateAuditorId": "7318",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -4003,7 +4083,10 @@
     "housingAuthority": [
       {
         "name": "Loveland Housing Authority",
-        "url": "https://lovelandhousing.org/"
+        "url": "https://lovelandhousing.org/",
+        "hudCode": "CO034",
+        "stateAuditorId": "7322",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -4053,7 +4136,10 @@
     "housingAuthority": [
       {
         "name": "Metro West Housing Solutions",
-        "url": "https://mwhsolutions.org/"
+        "url": "https://mwhsolutions.org/",
+        "hudCode": "CO049",
+        "stateAuditorId": "7308",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
@@ -4104,14 +4190,18 @@
     },
     "housingAuthority": [
       {
-        "name": "Housing Solutions for the Southwest",
-        "url": "https://www.housingsolutionssw.com/"
+        "name": "Regional Housing Alliance of La Plata County",
+        "stateAuditorId": "7307",
+        "legalCheck": "2026-10-22"
       }
     ],
     "advocacy": [
       {
         "name": "Manna Soup Kitchen / Volunteers of America",
         "url": "https://www.mannasoupkitchen.org/"
+      },
+      {
+        "name": "Housing Solutions for the Southwest"
       }
     ],
     "schoolDistrict": {
@@ -4160,7 +4250,9 @@
     "housingAuthority": [
       {
         "name": "Yampa Valley Housing Authority (YVHA)",
-        "url": "https://yvha.org/"
+        "url": "https://yvha.org/",
+        "stateAuditorId": "7355",
+        "legalCheck": "2026-10-22"
       }
     ],
     "notes": "Resort/workforce market. YVHA is a multi-jurisdiction authority covering Steamboat + Routt County. Strong commitment to deed-restricted workforce housing."
@@ -4178,7 +4270,9 @@
     "housingAuthority": [
       {
         "name": "Garfield County Housing Authority",
-        "url": "https://www.google.com/search?q=%22Garfield+County+Housing+Authority%22+Colorado"
+        "hudCode": "CO095",
+        "stateAuditorId": "7274",
+        "legalCheck": "2026-10-22"
       }
     ],
     "housingPlans": [
@@ -4304,7 +4398,9 @@
     "housingAuthority": [
       {
         "name": "Aspen-Pitkin County Housing Authority (APCHA)",
-        "url": "https://apcha.org/"
+        "url": "https://apcha.org/",
+        "stateAuditorId": "7216",
+        "legalCheck": "2026-10-22"
       }
     ],
     "housingPlans": [
@@ -4606,7 +4702,8 @@
     "housingAuthority": [
       {
         "name": "Vail Local Housing Authority",
-        "url": "https://www.google.com/search?q=%22Vail%20Local%20Housing%20Authority%22%20Colorado"
+        "stateAuditorId": "7363",
+        "legalCheck": "2026-10-22"
       }
     ],
     "housingPlans": [
@@ -5686,7 +5783,9 @@
     "housingAuthority": [
       {
         "name": "Housing Authority of the City of Lamar",
-        "url": "https://www.google.com/search?q=%22Housing%20Authority%20of%20the%20City%20of%20Lamar%22%20Colorado"
+        "hudCode": "CO006",
+        "stateAuditorId": "7310",
+        "legalCheck": "2026-10-22"
       }
     ],
     "schoolDistrict": {
@@ -5818,7 +5917,10 @@
     "housingAuthority": [
       {
         "name": "Fountain Housing Authority",
-        "url": "https://fountainhousingauthority.colorado.gov/"
+        "url": "https://fountainhousingauthority.colorado.gov/",
+        "hudCode": "CO071",
+        "stateAuditorId": "7272",
+        "legalCheck": "2026-10-22"
       }
     ],
     "notes": "City site is fountain.colorado.gov. Verified 2026-10-11."
@@ -5832,7 +5934,10 @@
     "housingAuthority": [
       {
         "name": "Sterling Housing Authority",
-        "url": "https://www.sterlingcolo.com/government/boards_and_commissions/housing_authority.php"
+        "url": "https://www.sterlingcolo.com/government/boards_and_commissions/housing_authority.php",
+        "hudCode": "CO025",
+        "stateAuditorId": "7348",
+        "legalCheck": "2026-10-22"
       }
     ],
     "notes": "The housing authority is a separate public body under C.R.S. 29-4-209 whose five commissioners are appointed by the Mayor; the page is on the official city site. Verified 2026-10-11."
