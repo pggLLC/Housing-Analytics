@@ -158,6 +158,10 @@ for (const row of pickRows) {
       || (/homelessness/.test(ex) && /Special Populations/.test(ex) && /homelessness/.test(label) && /Special Populations/.test(label));
     assert(named, `pick row "${label}" drops the EV-ready count for projects qap-ev-exempt does not name`);
   }
+  // The master-meter saving is "typical" in its record; a row may not state it flatly.
+  if (refs.includes('hub-master-meter') && /typically/.test(rec('hub-master-meter').quotes.join(' '))) {
+    assert(/master meter (?:usually|typically|can|may)\b/i.test(row.textContent), `pick row "${label}" states the master-meter rate saving without the record's qualifier`);
+  }
   // The page promises each row links to what it relies on: one link per ref, each to a drawn record.
   const hrefs = [...row.querySelectorAll('.gb-refs a')].map((a) => a.getAttribute('href'));
   assert.deepEqual(hrefs, refs.map((r) => `#${w.GreenBuilding.anchorId(r)}`), `pick row "${label}" does not link each record it relies on`);
