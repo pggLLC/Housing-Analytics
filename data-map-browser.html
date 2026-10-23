@@ -692,8 +692,13 @@
         else if (p.latest_year) rows.push({ k: 'Latest year on record', v: p.latest_year });
         return rows;
       } },
-    { key: 'pbv-local', name: 'PBV (local Housing Authority)', group: 'Affordable housing',
+    /* Project-based vouchers: HUD counts them by housing authority
+       (data/affordable-housing/pbv-by-pha-co.json) but publishes no
+       building list, so this layer is a hand-checked partial list.
+       The note under the layer name says how partial. */
+    { key: 'pbv-local', name: 'Project-based voucher homes (hand-checked, partial)', group: 'Affordable housing',
       propertiesJson: true, programType: 'pbv-local',
+      noteId: 'dmb-note-pbv-local',
       color: '#0ea5e9', kind: 'point',
       popupRows: function (p) {
         const rows = [
@@ -1194,7 +1199,7 @@
         '<span style="flex:1;min-width:0;line-height:1.3">' +
           '<span style="font-weight:600">' + l.name.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>' +
           '<span style="color:var(--muted);font-size:.8125rem;display:block">' +
-            geomLabel(l) + ' · ' + countTxt + ' features' +
+            geomLabel(l) + ' · ' + countTxt + (c && c.count === 1 ? ' feature' : ' features') +
           '</span>' +
         '</span>' +
       '</li>';
@@ -1488,7 +1493,7 @@
     if (!el) return;
     if (!cache) { el.textContent = 'click to load'; return; }
     el.textContent = (typeof cache.count === 'number')
-      ? cache.count.toLocaleString() + ' features'
+      ? cache.count.toLocaleString() + (cache.count === 1 ? ' feature' : ' features')
       : String(cache.count);  // 'live (server-side)' for arcgisDynamic
   }
 
@@ -1536,12 +1541,14 @@
               '<code style="font-size:.85em">' + _esc(sourceCode) + '</code>' +
               ' · <span class="dmb-count" id="dmb-count-' + layer.key + '">click to load</span>' +
             '</span>' +
+            (layer.noteId ? '<span class="dmb-layer-meta" id="' + _esc(layer.noteId) + '" style="display:block;margin-top:2px"></span>' : '') +
           '</span>' +
         '</label>';
       });
       html += '</div>';
     });
     list.innerHTML = html;
+    _fillPbvNote();
 
     list.addEventListener('change', function (ev) {
       const cb = ev.target;
@@ -1553,6 +1560,28 @@
       if (li) li.classList.add('loading');
       _toggleLayer(layer, cb.checked);
     });
+  }
+
+  /* HUD's Picture of Subsidized Households counts project-based
+     vouchers per housing authority but names no buildings. Say how many
+     exist statewide so the 1-or-so hand-checked points aren't read as
+     the whole picture. */
+  async function _fillPbvNote() {
+    const el = document.getElementById('dmb-note-pbv-local');
+    if (!el) return;
+    el.textContent = 'Partial list: HUD does not publish which buildings hold project-based vouchers.';
+    try {
+      const r = await fetch('data/affordable-housing/pbv-by-pha-co.json', { cache: 'no-store' });
+      if (!r.ok) return;
+      const j = await r.json();
+      const t = j.totals || {}, m = j.metadata || {};
+      if (typeof t.pbv_units !== 'number') return;
+      const asOf = new Date(m.as_of + 'T00:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+      el.innerHTML = 'Partial list. HUD counts ' + t.pbv_units.toLocaleString() +
+        ' project-based voucher homes at ' + t.authorities_with_pbv + ' Colorado housing authorities (' + _esc(asOf) +
+        ') but does not publish which buildings. Shown here: only buildings checked by hand that are on no other layer. ' +
+        '<a href="' + _esc(m.source_url) + '" target="_blank" rel="noopener">HUD source</a>';
+    } catch (e) { /* keep the plain note */ }
   }
 
   /* F181 — Place search. Loads co-place-centroids.json (one-shot) and
