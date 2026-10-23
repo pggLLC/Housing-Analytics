@@ -95,4 +95,5 @@ test('the deep dive reads the same ceiling year the sync does', () => {
   const src = fs.readFileSync(path.join(ROOT, 'colorado-deep-dive.html'), 'utf8');
   assert.doesNotMatch(src, /'ceiling_\d{4}'/, 'no hard-coded ceiling year in the runtime loader');
   assert.match(src, /\^ceiling_\\d\{4\}\$/, 'the loader picks the latest ceiling_YYYY');
+  assert.match(src, /e\.id === 'obbba-lihtc-ceiling-12pct'/, 'the loader reads the same legislation entry as the sync');
 });
