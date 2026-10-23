@@ -56,7 +56,9 @@
     }
     if (r.also_see) bits.push('see also ' + link(r.also_see.url, r.also_see.title));
     var checked = longDate(r.last_verified);
-    return '<p class="gb-source">' + bits.join(' · ') + (checked ? ' · checked ' + esc(checked) : '') + '</p>';
+    var due = longDate(r.review_by);
+    return '<p class="gb-source">' + bits.join(' · ') + (checked ? ' · checked ' + esc(checked) : '') +
+      (due ? ' · next check due ' + esc(due) : '') + '</p>';
   }
 
   function quotesHtml(r) {

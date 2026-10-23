@@ -265,6 +265,13 @@ for (const e of DOC.entries) {
     if (e.finding.includes(tool)) assert(e.quotes.join(' ').includes(tool), `${e.id}: the finding names ${tool}, but no quote does`);
   }
 }
+// The page promises every card shows when it is due again; hold it to that.
+for (const e of DOC.entries) {
+  const el = w.document.querySelector(`[data-gb-entry="${e.id}"] .gb-source`);
+  assert(el, `${e.id}: no source line is drawn`);
+  const due = new Date(e.review_by + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  assert(norm(el.textContent).includes(`next check due ${due}`), `${e.id}: the card does not show its next check date (${due})`);
+}
 // The header's check date is the data's, not a hand-typed one.
 assert(!/checked (?:January|February|March|April|May|June|July|August|September|October|November|December) \d/.test(w.document.querySelector('.page-meta').textContent.replace(/Oldest source check:.*$/s, '')), 'the page header hand-types a check date; let the data fill it');
 assert.equal(norm(w.document.querySelector('[data-gb-checked]').textContent), `Oldest source check: ${new Date(DOC.meta.last_verified + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`, 'the header check date must come from meta.last_verified');
