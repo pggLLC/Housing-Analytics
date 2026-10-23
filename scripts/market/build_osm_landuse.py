@@ -200,12 +200,20 @@ def main():
     # apartments, mixed-use or vacant features at all because those three
     # queries failed and the file was written anyway.
     previous = {}
+    prev_pulled = {}
     if OUT_PATH.exists():
         try:
-            for f in json.loads(OUT_PATH.read_text()).get("features", []):
+            prev_doc = json.loads(OUT_PATH.read_text())
+            for f in prev_doc.get("features", []):
                 previous.setdefault(f.get("properties", {}).get("zone_proxy"), []).append(f)
-        except (OSError, ValueError):
-            previous = {}
+            prev_meta = prev_doc.get("metadata") or {}
+            prev_date = str(prev_meta.get("generated") or "")[:10]
+            prev_pulled = {c: prev_meta.get("category_pulled", {}).get(c, prev_date)
+                           for c in ZONE_PROXY_MAP.values()}
+        except (OSError, ValueError, AttributeError):
+            previous, prev_pulled = {}, {}
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    pulled = {}
 
     for category, query_body in QUERIES.items():
         log(f"  Fetching {category}…")
@@ -220,19 +228,23 @@ def main():
             elements = result.get("elements", [])
             zone_proxy = ZONE_PROXY_MAP[category]
             feats = [f for f in (element_to_feature(e, zone_proxy) for e in elements) if f]
-            if not feats and previous.get(zone_proxy):
-                raise RuntimeError("Overpass returned no features where the previous file had "
-                                   f"{len(previous[zone_proxy])}")
+            # Every category has thousands of Colorado features, so an empty
+            # answer is a failed query whether or not the last file had any.
+            if not feats:
+                raise RuntimeError("Overpass returned no features")
             all_features.extend(feats)
             count = len(feats)
             log(f"    → {count} features")
             counts[zone_proxy] = count
+            pulled[zone_proxy] = today
         except Exception as e:
             log(f"    ⚠ Failed: {e}")
             zone_proxy = ZONE_PROXY_MAP[category]
             kept = previous.get(zone_proxy, [])
             all_features.extend(kept)
             counts[zone_proxy] = len(kept)
+            if kept:
+                pulled[zone_proxy] = prev_pulled.get(zone_proxy) or "an earlier pull"
             failed.append({"category": zone_proxy, "reason": str(e)[:200], "kept_from_previous": len(kept)})
         time.sleep(THROTTLE_S)
 
@@ -256,19 +268,27 @@ def main():
             "note": "Proxy only — for authoritative zoning use Regrid API",
             "categories": list(ZONE_PROXY_MAP.values()),
             "category_counts": counts,
+            "category_pulled": pulled,
             "categories_failed": failed,
         },
         "features": unique,
     }
 
+    def listed(cats, joiner):
+        names = [PLAIN_NAMES.get(c, c) for c in cats]
+        return names[0] if len(names) == 1 else ", ".join(names[:-1]) + f" {joiner} " + names[-1]
+
+    note = "OpenStreetMap proxy, not zoning"
     missing = [c for c, n in counts.items() if n == 0]
     if missing:
-        names = [PLAIN_NAMES.get(m, m) for m in missing]
-        listed = names[0] if len(names) == 1 else ", ".join(names[:-1]) + " or " + names[-1]
-        output["metadata"]["coverage_note"] = (
-            "OpenStreetMap proxy, not zoning; this pull has no " + listed + " features")
-    else:
-        output["metadata"]["coverage_note"] = "OpenStreetMap proxy, not zoning"
+        note += "; this pull has no " + listed(missing, "or") + " features"
+    # A category kept from an older pull says so, with that pull's date, so it
+    # is not read as current after an Overpass outage.
+    retained = [f["category"] for f in failed if f["kept_from_previous"]]
+    for date in sorted({pulled[c] for c in retained}):
+        cats = [c for c in retained if pulled[c] == date]
+        note += "; " + listed(cats, "and") + " features are from the " + date + " pull"
+    output["metadata"]["coverage_note"] = note
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(OUT_PATH, "w") as f:
