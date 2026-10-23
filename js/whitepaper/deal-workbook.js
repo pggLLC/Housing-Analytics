@@ -753,9 +753,9 @@
     mk.pipelineLoaded = !!(data.deals && data.deals.deals);
     mk.pipeline = deals.filter(function (d) { return d.county === countyName && num(d.year) != null && d.year >= thisYear - PIPELINE_YEARS + 1; })
       .sort(function (a, b) { return b.year - a.year; })
-      .map(function (d) { var x = (data.dealDetail && data.dealDetail[d.slug]) || {};
+      .map(function (d) { var got = data.dealDetail && data.dealDetail[d.slug], x = got || {};
         return { slug: d.slug, name: d.name, city: d.city, year: d.year, units: num(d.units), award: d.award,
-          status: x.status && x.status.label || null, mix: (x.income_mix || []).map(function (i) { return i.units + ' at ' + i.level; }).join(', ') || null }; });
+          status: x.status && x.status.label || null, mix: (x.income_mix || []).map(function (i) { return i.units + ' at ' + i.level; }).join(', ') || null, detailLoaded: !!got }; });
 
     mk.findings = marketFindings(mk);
     // A check whose figures did not load or are not published is listed, so an empty list never reads as a pass.
@@ -766,6 +766,8 @@
     // One same-month reading has no change to show, so it is not a checked trend.
     if (!(mk.trend && mk.trend.length >= 2)) mk.unchecked.push('the rent trend');
     if (!(data.deals && data.deals.deals)) mk.unchecked.push('other tax credit awards in the county');
+    else { var noDetail = mk.pipeline.filter(function (p) { return !p.detailLoaded; }).length;
+      if (noDetail) mk.unchecked.push('the status and income mix of ' + noDetail + ' award' + (noDetail === 1 ? '' : 's') + ' (its summary did not load)'); }
     return mk;
   }
 
@@ -830,7 +832,7 @@
     // Pipeline
     h += '<section class="dv-card" aria-labelledby="wbMktPipe"><h2 id="wbMktPipe">Tax credit awards in ' + esc(mk.county) + ' since ' + (new Date().getFullYear() - PIPELINE_YEARS + 1) + '</h2>';
     h += mk.pipeline.length ? table(['Project', 'Town', 'Award', 'Homes', 'Income mix', 'Status'], mk.pipeline.map(function (p) {
-      return { cells: ['<a href="deal-summary.html?d=' + esc(p.slug) + '">' + esc(p.name) + '</a>', esc(p.city), esc(p.award), esc(p.units == null ? '—' : p.units), esc(p.mix || '—'), esc(p.status || '—')] };
+      return { cells: ['<a href="deal-summary.html?d=' + esc(p.slug) + '">' + esc(p.name) + '</a>', esc(p.city), esc(p.award), esc(p.units == null ? '—' : p.units), esc(p.detailLoaded ? (p.mix || '—') : 'Not loaded'), esc(p.detailLoaded ? (p.status || '—') : 'Not loaded')] };
     }), { num: [3] }) : (mk.pipelineLoaded ? '<p>No CHFA tax credit awards in this county in that time.</p>' : '<p class="sr-yellow">The deal summaries did not load, so awards in this county were not checked. Reload the page to try again.</p>');
     h += '<p class="sr-muted">From the site\'s deal summaries, one researched record per CHFA award with its sources. Other projects without tax credits are not listed.</p></section>';
     return h;
@@ -860,12 +862,12 @@
     rec = rec || {};
     var site = rec.site && num(rec.site.lat) != null && num(rec.site.lon) != null ? rec.site : null;
     var v = { site: rec.site || null, findings: [] };
-    v.comps = (rec.comps || []).map(function (c) { return Object.assign({}, c, { miles: site ? miles(site, c) : null }); })
+    v.comps = (rec.comps || []).map(function (c, at) { return Object.assign({}, c, { miles: site ? miles(site, c) : null, at: at }); })
       .sort(function (a, b) { return (a.miles == null ? 1e9 : a.miles) - (b.miles == null ? 1e9 : b.miles); });
     // Average comparable rent by size, market-rate comparables only.
     v.compAvg = {};
     COMP_BEDS.forEach(function (bd) {
-      var xs = v.comps.filter(function (c) { return c.kind === 'market' && c.rents && num(c.rents[bd[0]]) != null; }).map(function (c) { return num(c.rents[bd[0]]); });
+      var xs = v.comps.filter(function (c) { return c.kind === 'market' && c.rents && num(c.rents[bd[0]]) > 0; }).map(function (c) { return num(c.rents[bd[0]]); });
       v.compAvg[bd[0]] = xs.length ? { rent: xs.reduce(function (s, x) { return s + x; }, 0) / xs.length, n: xs.length } : null;
     });
     v.rentVsComps = (m && m.rents ? m.rents.rows : []).filter(function (x) { return typeof x.tier === 'number'; }).map(function (x) {
@@ -1066,7 +1068,7 @@
     var numIn = function (id, label, extra) { return field(id, label, 'number', ' inputmode="decimal"' + (extra || '')); };
     box.innerHTML = '<section class="dv-card" aria-labelledby="wbResH"><h2 id="wbResH">Your market research</h2>' +
       '<p class="sr-muted">Typed here and kept with this deal on the team site only, under your sign-in. Every comparable needs the date you checked it and a link to where the figures came from.</p>' +
-      '<div id="wbResMap" class="wb-map" role="img" aria-label="Map of the site, comparables and nearby tax credit properties"></div><div id="wbResView"></div>' +
+      '<div id="wbResMap" class="wb-map" role="region" aria-label="Map of the site, comparables and nearby tax credit properties"></div><div id="wbResView"></div>' +
       '<details class="wb-form"><summary>Site location</summary><div class="sr-row">' + field('wbSiteAddr', 'Address') + numIn('wbSiteLat', 'Latitude', ' step="any"') + numIn('wbSiteLon', 'Longitude', ' step="any"') + '</div>' +
       '<p class="sr-muted">Latitude and longitude: right-click the site on most web maps to copy them.</p></details>' +
       '<details class="wb-form"><summary>Add a comparable</summary><div class="sr-row">' + field('wbCName', 'Property name') +
@@ -1170,7 +1172,7 @@
       var b = e.target.closest && e.target.closest('[data-del-comp]');
       if (!b || !ready) return;
       var v = research(model, rec, lihtc, today), gone = v.comps[Number(b.getAttribute('data-del-comp'))];
-      rec.comps = rec.comps.filter(function (c) { return c.name !== gone.name || c.source !== gone.source || c.checked !== gone.checked; });
+      if (gone) rec.comps.splice(gone.at, 1);
       say('Removed. Save to keep the change.'); draw();
     });
     box.addEventListener('change', function (e) { if (ready && e.target.closest && e.target.closest('.wb-form') && !/^wbC/.test(e.target.id || '')) { read(); draw(); } });

@@ -263,6 +263,8 @@ const mhtml = WB.renderMarket(mk);
 ['Rents against the market', 'Who can pay', 'Rent trend', 'Tax credit awards in La Plata County'].forEach((h2) => ok(mhtml.includes(h2), 'the market has "' + h2 + '"'));
 ok(!/NaN|undefined/.test(mhtml) && /our screens, not CHFA rules/.test(mhtml), 'no NaN, and our own screens are labelled as ours');
 ok(/deal-summary\.html\?d=invented-recent/.test(mhtml), 'each award links to its deal summary');
+{ const nd = mdata(); nd.dealDetail = {}; const nm = WB.market(mm, msnap, nd); const nh = WB.renderMarket(nm);
+  ok(nm.unchecked.some((u) => /status and income mix of 1 award/.test(u)) && /Not loaded/.test(nh) && !/Nothing in the county figures needs a second look/.test(nh), 'an award whose summary did not load says so, not a blank income mix'); }
 // Real files the browser loads exist and carry what market() reads.
 Object.values(WB.MARKET_URLS).forEach((u) => ok(fs.existsSync(path.join(ROOT, u)), u + ' exists'));
 const realRenters = JSON.parse(read(WB.MARKET_URLS.renters));
@@ -310,6 +312,13 @@ ok(/ok: 127 households on the waitlist kept by Invented Housing Authority \(2026
 ok(rv.nearby.length === 1 && rv.nearby[0].name === 'Invented Near' && rv.nearby[0].mix === '4 at 30%, 36 at 60%', 'tax credit properties within 10 miles, with their income mix');
 ok(/bad: 60% AMI 2BR rent of \$1,549 is above the average market comparable/.test(WB.research(m, { comps: [{ name: 'X', kind: 'market', rents: { '2br': 1500 }, checked: '2026-10-01', source: 'https://example.org/x' }] }, null, '2026-10-22').findings.map((f) => f.level + ': ' + f.text).join('\n')), 'a rent above the comparables is a problem');
 ok(/No comparables yet/.test(WB.research(m, {}, null, '2026-10-22').findings[0].text), 'no comparables is a finding');
+{ const zr = WB.research(m, { comps: [{ name: 'Z', kind: 'market', rents: { '2br': 0 }, checked: '2026-10-01', source: 'https://example.org/z' }, { name: 'Y', kind: 'market', rents: { '2br': 1600 }, checked: '2026-10-01', source: 'https://example.org/y' }] }, null, '2026-10-22');
+  ok(zr.compAvg['2br'].n === 1 && zr.compAvg['2br'].rent === 1600 && zr.rentVsComps.every((x) => x.discount == null || isFinite(x.discount)), 'a zero comparable rent is left out of the average, never divided by'); }
+{ const dup = { name: 'Same', kind: 'market', rents: {}, checked: '2026-10-01', source: 'https://example.org/s' };
+  const dr = WB.research(m, { comps: [dup, Object.assign({}, dup)] }, null, '2026-10-22');
+  ok(dr.comps.map((c) => c.at).join(',') === '0,1', 'each comparable keeps its saved position');
+  ok(/rec\.comps\.splice\(gone\.at, 1\)/.test(read('js/whitepaper/deal-workbook.js')) && !/rec\.comps = rec\.comps\.filter/.test(read('js/whitepaper/deal-workbook.js')), 'Remove takes out only the row clicked, even when two rows match'); }
+ok(/class="wb-map" role="region"/.test(read('js/whitepaper/deal-workbook.js')) && !/wb-map" role="img"/.test(read('js/whitepaper/deal-workbook.js')), 'the research map is a labelled region, so its zoom buttons stay visible to screen readers');
 ok(WB.research(m, { comps: rec.comps }, lihtc, '2026-10-22').nearby.length === 0 && WB.research(m, { comps: rec.comps }, lihtc, '2026-10-22').comps.every((c) => c.miles === null), 'without a site there are no distances and no nearby list');
 const rhtml = WB.renderResearch(rv);
 ok(/Comparables/.test(rhtml) && /Waitlist/.test(rhtml) && /Rent and vacancy survey/.test(rhtml) && /Tax credit properties within 10 miles/.test(rhtml), 'the research tables render');
