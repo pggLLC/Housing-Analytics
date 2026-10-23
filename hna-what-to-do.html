@@ -103,6 +103,7 @@
     }
   </style>
   <!-- Leaflet (vendored locally — no CDN required) -->
+  <link rel="stylesheet" href="js/vendor/leaflet.css" />
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/workflow-state-core.js"></script>
@@ -123,6 +124,7 @@
   <script src="js/scroll-fix.js"></script>
   <script src="js/api-config-wrapper.js"></script>
   <!-- Vendor scripts -->
+  <script src="js/vendor/leaflet.js"></script>
   <!-- F100: zoom-aware county + place boundary overlay (decorative). -->
   <script src="js/components/jurisdiction-boundaries.js"></script>
   <!-- F165: targeted Google search-URL builder (housing-context, time-bound, OR-grouped vocab) -->
@@ -219,6 +221,7 @@
   <script defer src="js/hna/county-comparison-view.js"></script>
   <!-- HB26-1065 zone designation note; must load before hna-renderers.js. -->
   <script defer src="js/transit-zone.js"></script>
+  <script defer src="js/transit-zone-map.js"></script>
   <script defer src="js/acs-reliability.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
@@ -263,7 +266,7 @@
   <script defer src="js/hna/hna-workflow-autosave.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
-<!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/components/second-homes-panel.js, js/vendor/leaflet.css, js/vendor/leaflet.js -->
+<!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/components/second-homes-panel.js -->
 <script>window.HNA_VIEW={"id": "act", "nav": "What to do about it", "question": "How much of what, for whom, and what is already available?", "slug": "hna-what-to-do.html"};window.HNA_VIEW_ANCHORS={};</script>
 </head>
 <body data-page-update-key="hna"
@@ -438,7 +441,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
         collapsed: true,
-        what: 'A data-driven housing needs snapshot for your selected Colorado geography: housing stock, tenure, affordability gaps by AMI tier, commuting patterns, demographic projections, and workforce analysis. Powered by Census ACS, LEHD LODES, DOLA, and HUD CHAS data.',
+        what: 'Housing stock, owners and renters, the affordability gap by income level, commuting, projections and jobs for the place you pick, from Census, DOLA and HUD data.',
         why: 'Local decision-makers — council members, planners, housing authorities — need a clear, public-data answer to the question: "Is there documented housing need in our community, and at what income levels?" This assessment provides that evidence base. Developers also use the same snapshot to support CHFA QAP scoring, which rewards projects that demonstrate documented community need.',
         not: 'This is not a certified housing needs study or CHFA-required market analysis. Place-level cost burden and AMI gaps are computed at place geography (direct Census ACS for the AMI gap; tract-apportioned HUD CHAS for cost burden) — not scaled from county. The one county input is HUD\'s AMI income limits, which HUD only publishes at county level, so a place uses its containing county\'s limits. CHAS data is 3+ years old. CDPs are not eligible for Prop 123. Professional validation is required before application submission.',
         nextSteps: [
@@ -1181,7 +1184,7 @@
           <h2 style="margin:0">What types of housing does the data support?</h2>
         </div>
         <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
-          A data-driven look at which housing types this jurisdiction shows the strongest need for. Use alongside the Recommended AMI Distribution above and the Affordable Housing Pipeline LIHTC Readiness assessment — three views, same data, different jobs.
+          Which kinds of homes this place is shortest on, ranked from the figures above. The recommended income mix above sets who the homes serve; this ranking suggests what to build.
         </p>
         <div id="hnaHousingTypeNeed">
           <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to compute the housing-type ranking.</p>

@@ -118,7 +118,8 @@
     "      <button type=\"button\" data-hm-mrows=\"developer\" aria-pressed=\"false\">Developers</button>",
     "    </span>",
     "  </div>",
-    "  <div class=\"hm-scroll\" style=\"margin-top:var(--sp2);\" data-hm-matrix></div>",
+    "  <div data-hm-matrix-note style=\"margin-top:var(--sp2);\"></div>",
+    "  <div class=\"hm-scroll\" data-hm-matrix></div>",
     "</section>",
     "",
     "<section aria-labelledby=\"hm-table-h\" style=\"margin:var(--sp5) 0;\">",
@@ -153,6 +154,8 @@
     "      <li><strong>CHFA tax credits</strong> come from CHFA\'s award reports for 2016 to 2026; <strong>OEDIT Prop 123</strong> awards come from the Affordable Housing Financing Fund\'s selection lists for FY23-24 to FY25-26. Both are read from the PDFs by <code>scripts/funding/build_funding_awards.py</code> and checked against the total each PDF prints (<code>data/policy/funding-awards/ledger.json</code>). An award whose PDF does not print a total, or whose rows did not add up, is marked <em>not checked against a total</em>.</li>",
     "      <li><strong>DOLA Division of Housing</strong> awards were read by hand from DOLA\'s State Housing Board and Prop 123 announcements (<code>data/policy/funding-awards/dola-awards.json</code>), each with the sentence it rests on. DOLA does not publish a complete award list, so this part is partial: an announcement that names fewer projects than its total is marked incomplete.</li>",
     "      <li><strong>Tax credits are not dollars.</strong> CHFA prints the credit each project can claim per year (the federal credit runs ten years). Developers sell credits to investors, usually for less than a dollar each. So credits are shown on their own and never added to grants and loans. \"All three\" is measured in homes, the one thing every agency reports.</li>",
+    "      <li><strong>Credits are not CHFA lending.</strong> CHFA\'s 4% award reports also print each project\'s tax-exempt bond amount (from 2018; the 2016 and 2017 reports do not). Bonds are a loan to the project, sold to bond buyers, and the issuer can be CHFA or a city, county or housing authority, so the bonds column is not a total of CHFA\'s own loans. Bonds are added from each award line, not from a report\'s printed total: CHFA\'s 2021 Round 2 report prints a bond total of $155,370,000, but its 17 bond amounts add up to $237,670,000 (the printed total leaves out four awards, $82,300,000 together, without saying why). CHFA\'s own mortgage loans are not in any award list this page reads, so they are not shown.</li>",
+    "      <li><strong>Prop 123 money is split by program</strong> as the fund\'s selection lists name it: Concessionary Debt (loans), Equity, Land Banking and Modular Finance (factories, not housing sites). The four are shown in separate columns in \"Who funded whom\".</li>",
     "      <li><strong>Homes</strong> are the income-restricted homes each award prints, or all homes where it prints only that. Land banking awards print an estimate, marked \"est.\". A project funded by two agencies is counted under each, so \"All three\" counts homes named in awards, not separate buildings.</li>",
     "      <li><strong>Regions</strong> in the flow diagram follow the Department of Local Affairs\' planning and management regions, folded into six (<code>data/derived/funding-vs-need.json</code>). Awards that print no county, or several, sit under \"No single county printed\"; that includes every Prop 123 modular award.</li>",
     "      <li><strong>Prop 123 preliminary selections</strong> print only the amount requested; those rows say \"requested\".</li>",
@@ -467,9 +470,13 @@
     var perOk = by === 'county' && state.norm === 'per';
     var cols = [
       { k: 'CHFA', head: 'CHFA credits a year', tip: 'Housing tax credits a year awarded by the Colorado Housing and Finance Authority (CHFA).', val: function (b) { return b && b.credits; }, fmt: money },
-      { k: 'OEDIT', head: 'OEDIT $', tip: 'Grants and loans, in dollars, awarded by the Colorado Office of Economic Development and International Trade (OEDIT).', val: function (b) { return b && b.dollars; }, fmt: money },
+      { k: 'CHFA', head: 'CHFA 4% bonds $', tip: 'Tax-exempt bond amounts printed on CHFA\'s 4% credit award reports (printed from 2018). Bonds are a loan to the project; the issuer can be CHFA or a city, county or housing authority. Never added to credits or grants.', val: function (b) { return b && b.bonds; }, fmt: money },
+    ].concat(Object.keys(M.OEDIT_KINDS).map(function (kind) {
+      var o = M.OEDIT_KINDS[kind];
+      return { k: 'OEDIT', head: o.head, tip: o.tip + ' Awarded by the Colorado Office of Economic Development and International Trade (OEDIT).', val: function (b) { return b && b.byKind[kind] !== undefined ? b.byKind[kind] : null; }, fmt: money };
+    })).concat([
       { k: 'DOLA', head: 'DOLA $', tip: 'Grants and loans, in dollars, awarded by the Colorado Department of Local Affairs (DOLA).', val: function (b) { return b && b.dollars; }, fmt: money },
-    ];
+    ]);
     groups.forEach(function (g) {
       g.population = by === 'county' ? (data.counties[g.key] || {}).population : null;
       g.sortValue = g.summary.homes || 0;
@@ -498,11 +505,13 @@
     }).join('');
     var note = '<p class="hm-muted" style="font-size:var(--small);margin:0 0 var(--sp2);">' + (perOk
       ? 'Per county resident: dollars, or tax credits a year; homes per 1,000 residents. n/a: no single county, so no population.'
-      : 'Totals: tax credits a year, grants and loans in dollars, and homes.') + ' Sorted by homes. All three agencies are shown whatever "Who paid" is set to.</p>';
+      : 'Totals: tax credits a year, bonds, Prop 123 money by program, DOLA grants and loans, and homes. No column is added to another.') + ' Sorted by homes. All three agencies are shown whatever "Who paid" is set to.</p>';
     var more = groups.length > LIMIT
       ? '<button type="button" class="btn" style="margin-top:var(--sp2);" data-hm-matrix-all>' + (state.matrixAll ? 'Show the top ' + LIMIT : 'Show all ' + groups.length) + '</button>' : '';
+    // The note sits outside the sideways-scrolling box so it never slides off the screen.
+    $('[data-hm-matrix-note]').innerHTML = groups.length ? note : '';
     $('[data-hm-matrix]').innerHTML = groups.length
-      ? note + '<table class="hm-table hm-matrix"><caption class="sr-only">Awards by ' + by + ' and agency, ' + esc(yearsText()) +
+      ? '<table class="hm-table hm-matrix"><caption class="sr-only">Awards by ' + by + ' and agency, ' + esc(yearsText()) +
         '. Every agency is shown here whatever "Who paid" is set to.</caption><thead>' + head + '</thead><tbody>' + body + '</tbody></table>' + more
       : '<p class="hm-muted">No awards for these years.</p>';
   }
@@ -530,7 +539,7 @@
     return parts.join('\n') || '—';
   }
   function awardMoneyText(a) {
-    if (a.agency === 'CHFA') return a.credits === null ? 'Value unavailable' : money(a.credits) + ' credits/yr';
+    if (a.agency === 'CHFA') return (a.credits === null ? 'Value unavailable' : money(a.credits) + ' credits/yr') + (a.bonds ? ' · ' + money(a.bonds) + ' bonds' : '');
     if (a.dollars === null) return 'Value unavailable';
     return money(a.dollars) + (a.dollarsBasis === 'requested' ? ' requested' : '');
   }

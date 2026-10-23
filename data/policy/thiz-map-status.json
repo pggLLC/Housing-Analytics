@@ -3,6 +3,29 @@
   "program": "Transit and Housing Investment Zones (HB26-1065)",
   "statute": "C.R.S. 24-48.5-136",
   "zone_radius_miles": 2,
+  "statute_text": {
+    "source": "Session Laws of Colorado 2026, ch. 157 (HB26-1065), adding C.R.S. 24-48.5-136 (pp. 919-920) and 24-46-402 (p. 896)",
+    "source_url": "https://leg.colorado.gov/laws/session-laws/HB26-1065/157/download",
+    "checked": "2026-10-22",
+    "zone": {
+      "cite": "C.R.S. 24-48.5-136(3)(c)",
+      "quote": "the area within two miles of a transportation facility as identified by the office in the transit and housing investment zones map"
+    },
+    "facility": {
+      "cite": "C.R.S. 24-48.5-136(3)(e)",
+      "quote": "a transit station or passenger rail station"
+    },
+    "transit_station": {
+      "cite": "C.R.S. 24-46-402(23)(a)",
+      "quote": "an in-person location designed to integrate and facilitate the connection between multiple modes of transportation"
+    },
+    "basis": {
+      "cite": "C.R.S. 24-48.5-136(2)",
+      "quote": "based on the location of transportation facilities as identified in a published transit plan"
+    },
+    "frequency_test": null,
+    "note": "The act sets a distance (two miles) and a kind of place (a transit station or passenger rail station that OEDIT identifies from a published transit plan). It sets no service-frequency or ridership test. The site's screen draws the two miles around every confirmed fixed-route stop, a wider set than stations, so most zones should be smaller than the shaded area; a planned station named in a transit plan could still add a zone where no stop is published yet. The shading is a screen, not the zone. test/transit-zone-map.test.js holds zone_radius_miles to the 'two miles' in the zone quote."
+  },
   "qap_tod_distance": {
     "miles": 0.5,
     "method": "straight_line",
@@ -18,6 +41,6 @@
   "map_source_url": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
   "status": "not_published",
   "zones_file": null,
-  "last_checked": "2026-10-11",
+  "last_checked": "2026-10-22",
   "note": "Until OEDIT publishes its Transit and Housing Investment Zone map, every zone result on this site is a screen: within two miles of a transit stop in data/amenities/transit_stops_statewide_co.geojson. The act counts only transportation facilities OEDIT identifies on that map, so a stop-based result can overstate eligibility. When the map is published, set status to \"published\", commit the zones as GeoJSON polygons, and name that file in zones_file; js/transit-zone.js then reports the official designation beside the screen result."
 }

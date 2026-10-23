@@ -35,7 +35,7 @@ product on `select-jurisdiction.html` ("What are you planning?").
 
 Supporting pages: `lihtc-guide-for-stakeholders.html` (including the state AHTC
 and TOC layer), `chfa-portfolio.html`, `article-pricing.html`,
-`developer-where.html` (9% / 4% filters).
+`developer-where.html` ("9% smaller town" and "4% metro" starting weights).
 
 ## 2. Middle-income rental (80–120% AMI)
 
@@ -51,9 +51,10 @@ What the site does today:
   80–120% AMI, next to the 60–80% workforce rental lane. CHAS does not separate
   renters at 100–120% AMI, so the lane reads the 81–100% cohort for the whole
   band and says so in its methodology.
-- **Where.** `chfa-portfolio.html` filters MIHTC projects. (`developer-where.html`
-  has "Workforce rental" and "Mixed-income" filters, but it is behind the
-  developer gate.)
+- **Where.** `chfa-portfolio.html` filters MIHTC projects. `developer-where.html`
+  (behind the developer gate) has no middle-income product filter. Raise the
+  "Housing need" and "Rents that carry the deal" weights to favor places where
+  rents sit above the 60% AMI cap.
 - **Financing.** The Deal Calculator shows 100%, 110% and 120% AMI as planning
   bands and excludes them from basis and credits (`js/deal-calculator.js`,
   `MIDDLE_INCOME_AMI_BANDS`), and says it does not size MIHTC credits. A deal
@@ -76,7 +77,7 @@ program: CHFA targets it at 30–80% AMI, like LIHTC.
 | Subsidy gap per home, and what the public keeps at resale | `deal-calculator.html?mode=ownership` (the nav's "For-Sale Feasibility"), or the "Deal Mode" toggle at the top of the calculator |
 | Land price and residual bid | `land-value.html` (serves both tracks) |
 | Buyer assistance to discuss with buyers | `help-for-homebuyers.html` |
-| Where | `developer-where.html`, "Attainable ownership" filter |
+| Where | `developer-where.html` ranks places for rental tax-credit deals and has no ownership filter; for ownership, start from the HNA ownership section |
 
 When the reader chooses "For-sale ownership" on `select-jurisdiction.html`, the
 guided path swaps its rental-only steps for the ownership tools:

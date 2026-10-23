@@ -1400,7 +1400,7 @@
     var marketTightnessCoverage;
     if (!acs || acs.vacancy_rate == null) {
       marketTightnessCoverage = 'fallback';
-      fallbackReasons.market_tightness = 'ACS vacancy_rate missing or small-N suppressed; defaulted to 0.05 (neutral) — score does not reflect actual market tightness';
+      fallbackReasons.market_tightness = 'ACS vacancy missing or suppressed; a 5% stand-in was used (close to Colorado rental vacancy; total vacancy statewide is about 8%) — score does not reflect actual market tightness';
     } else {
       marketTightnessCoverage = 'full';
     }

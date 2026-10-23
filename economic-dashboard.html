@@ -787,7 +787,7 @@ function getKey(){ return CONFIG_KEY || ""; }
     POLICY_EVENTS.forEach(function (evt) {
       const idx = labels.findIndex(function (l) { return evt.match.test(l); });
       if (idx === -1) return;
-      matched.push({ evt: evt, matchLabel: labels[idx], xIndex: idx });
+      matched.push({ evt: evt, xIndex: idx });
     });
     matched.sort(function (a, b) { return a.xIndex - b.xIndex; });
     /* F219 — Real fix for the unreadable pills:
@@ -803,7 +803,6 @@ function getKey(){ return CONFIG_KEY || ""; }
           can sit closer together when they need to. */
     matched.forEach(function (m, i) {
       const evt = m.evt;
-      const matchLabel = m.matchLabel;
       /* F221 — Drop the on-chart pill labels on the small FRED cards.
          Even with alternation, fitting 9 short labels into the cramped
          Mar 2020–Sep 2024 window on a ~300px-wide card produced
@@ -815,7 +814,10 @@ function getKey(){ return CONFIG_KEY || ""; }
          the chart itself becoming a label graveyard. */
       annotations[evt.label.replace(/\s+/g, '_').toLowerCase()] = {
         type: 'line',
-        xMin: matchLabel, xMax: matchLabel,
+        // The index, not the label: daily series repeat "Jul 26" for every day
+        // of the month, and Chart.js cannot place a repeated label, so the line
+        // ran corner to corner like a trend line.
+        xMin: m.xIndex, xMax: m.xIndex,
         borderColor: evt.lineColor,
         borderWidth: 2.5,
         borderDash: [6, 4],
