@@ -213,6 +213,11 @@ near(c60.low, 45, '60% AMI units qualify from 45% AMI');
 near(c60.qualified, 1000 - 700, 'qualified renters are those between 45% and 60% AMI');
 near(c60.capture, 15 / 300, 'capture is the tier\'s homes over its qualified renters');
 near(mk.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 22.5), 'the whole deal counts each renter once, from the lowest floor to the highest tier');
+{ const gap = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 30, bedrooms: '2BR', units: 5, rent: 600 }, { tier: 60, bedrooms: '2BR', units: 10, rent: 1200 }] }) });
+  const gm = WB.market(gap, msnap, mdata());
+  near(gm.captureAll.qualified, (300 - WB.rentersAtOrBelow(le, 22.5)) + (1000 - 700), 'tiers with a gap between them count only renters who fit one of them');
+  ok(/^2[23]–30%, 45–60% AMI$/.test(gm.captureAll.ranges) && WB.renderMarket(gm).includes(gm.captureAll.ranges), 'the all-tiers row names each income range'); }
+ok(/geoid: geoid \}\)/.test(read('js/whitepaper/deal-workbook.js')) && /get\('geoid'\)/.test(read('js/whitepaper/deal-workbook.js')), 'the market estimate uses the same place as the calculator');
 // Rents against the market: the calculator's own bedroom estimate.
 const r60 = mk.rents.find((x) => x.tier === 60);
 near(r60.market, 1700, 'market rent is the calculator\'s 2BR estimate');

@@ -712,11 +712,20 @@
         return { tier: t, units: unitsBy[t], low: lo, high: t, qualified: q, capture: q > 0 ? unitsBy[t] / q : null,
           reason: q == null ? 'No renter count published at ' + t + '% AMI for this county.' : q <= 0 ? 'None counted in this range' : null };
       });
-      var tiers = mk.capture.map(function (c) { return c.tier; });
-      var allLo = Math.min.apply(null, tiers) * FLOOR_SHARE, allHi = Math.max.apply(null, tiers);
-      var qAll = rentersAtOrBelow(le, allHi) != null ? rentersAtOrBelow(le, allHi) - rentersAtOrBelow(le, allLo) : null;
+      // All tiers together: the union of the tiers' income ranges, so a gap between tiers (say 30% and 60%)
+      // does not count renters who fit neither.
+      var segs = [];
+      mk.capture.forEach(function (c) {
+        var last = segs[segs.length - 1];
+        if (last && c.low <= last[1]) last[1] = Math.max(last[1], c.high); else segs.push([c.low, c.high]);
+      });
+      var qAll = segs.reduce(function (s, g) {
+        var hi = rentersAtOrBelow(le, g[1]), lo = rentersAtOrBelow(le, g[0]);
+        return s == null || hi == null || lo == null ? null : s + hi - lo;
+      }, 0);
       var uAll = mk.capture.reduce(function (s, c) { return s + c.units; }, 0);
-      mk.captureAll = { units: uAll, low: allLo, high: allHi, qualified: qAll, capture: qAll > 0 ? uAll / qAll : null };
+      mk.captureAll = { units: uAll, low: segs[0][0], high: segs[segs.length - 1][1], ranges: segs.map(function (g) { return Math.round(g[0]) + '–' + g[1] + '%'; }).join(', ') + ' AMI',
+        qualified: qAll, capture: qAll > 0 ? uAll / qAll : null };
       mk.renters = { total: num(rc.renter_households_total), ami: num(rc.ami_4person), year: data.renters.meta && data.renters.meta.acs_year,
         amiYear: data.renters.meta && data.renters.meta.hud_income_limits_year };
     } else mk.captureReason = 'No renter income counts on file for this county.';
@@ -802,7 +811,7 @@
     if (mk.capture) {
       h += table(['AMI', 'Homes', 'Renter incomes that fit', 'Renter households in that range', 'Share the deal needs'], mk.capture.map(function (c) {
         return { cells: [esc(c.tier + '%'), esc(c.units), esc(Math.round(c.low) + '–' + c.high + '% AMI'), esc(c.qualified == null ? '—' : Math.round(c.qualified).toLocaleString('en-US')), esc(c.capture == null ? (c.reason || '—') : pct(c.capture, 1))] };
-      }).concat(mk.captureAll && mk.captureAll.capture != null ? [{ cls: 'sr-total', cells: ['All', esc(mk.captureAll.units), esc(Math.round(mk.captureAll.low) + '–' + mk.captureAll.high + '% AMI'), esc(Math.round(mk.captureAll.qualified).toLocaleString('en-US')), esc(pct(mk.captureAll.capture, 1))] }] : []), { num: [1, 3, 4] });
+      }).concat(mk.captureAll && mk.captureAll.capture != null ? [{ cls: 'sr-total', cells: ['All', esc(mk.captureAll.units), esc(mk.captureAll.ranges), esc(Math.round(mk.captureAll.qualified).toLocaleString('en-US')), esc(pct(mk.captureAll.capture, 1))] }] : []), { num: [1, 3, 4] });
       h += '<p class="sr-muted">' + esc('A household fits a tier when its income is under the tier\'s limit and the rent is no more than 40% of its income, so from three-quarters of the limit up to the limit. Renter households by income: Census ACS ' + (mk.renters.year || '') + ' (table B25118), ' +
         (mk.renters.total != null ? Math.round(mk.renters.total).toLocaleString('en-US') + ' renter households in the county, ' : '') + 'measured against HUD ' + (mk.renters.amiYear || '') + ' area median income for four people (' + money(mk.renters.ami) + '). Household size is not matched to unit size, and existing homes already serving these renters are not subtracted, so this is a first screen.') + '</p>';
     } else h += '<p class="sr-muted">' + esc(mk.captureReason) + '</p>';
@@ -977,7 +986,13 @@
     // The calculator's own ZORI-by-bedroom estimate (js/components/zori-rent-utils.js), from the frame's loaded HUD FMRs.
     var per = null;
     try {
-      if (fips && mkt && mkt.zori && w.ZoriRentUtils && w.HudFmr) per = w.ZoriRentUtils.getPerBedroomRent(mkt.zori, fips, w.HudFmr, { bedroomMix: mkt.bedroomMix });
+      // The same place the calculator uses: a linked geoid first, else the saved jurisdiction in this county.
+      var geoid = w.location ? new URLSearchParams(w.location.search).get('geoid') : null;
+      if (!/^08\d{5}$/.test(geoid || '')) {
+        var j = w.WorkflowState && w.WorkflowState.getJurisdiction ? w.WorkflowState.getJurisdiction() : null;
+        geoid = j && String(j.countyFips) === String(fips) ? j.geoid : null;
+      }
+      if (fips && mkt && mkt.zori && w.ZoriRentUtils && w.HudFmr) per = w.ZoriRentUtils.getPerBedroomRent(mkt.zori, fips, w.HudFmr, { bedroomMix: mkt.bedroomMix, geoid: geoid });
     } catch (e) { per = null; }
     return { result: dc.getResult(), permanentFinancing: dc.getPermanentFinancing ? dc.getPermanentFinancing() : null,
       rentLimits: dc.getRentLimitsMetadata ? dc.getRentLimitsMetadata() : null, rentSchedule: dc.getRentScheduleMetadata ? dc.getRentScheduleMetadata() : null, utilityAllowance: dc.getUtilityAllowanceMetadata ? uaWithText(dc.getUtilityAllowanceMetadata(), w.ChfaRentLimits) : null,
