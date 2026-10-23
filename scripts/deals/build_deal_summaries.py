@@ -15,6 +15,7 @@ that equals or starts the ledger's name (the ledger cuts some long names short).
 import json
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -140,7 +141,7 @@ MATCH = {
     'starrise-at-north-weld-village-greeley': {'agency': 'CHFA', 'year': 2023, 'names': ['StarRise at North Weld Village']},
     'trails-at-pagosa-springs-pagosa-springs': {'agency': 'CHFA', 'year': 2023, 'names': ['Trails at Pagosa Springs']},
     'williams-pointe-lakewood': {'agency': 'CHFA', 'year': 2023, 'names': ['Williams Pointe']},
-    # 2022 awards (Round One 9%, Round Two 4% + state, rolling 4%); The Fruita Mews is left out on purpose.
+    # 2022 awards (Round One 9%, Round Two 4% + state, rolling 4%).
     'bluebird-longmont': {'agency': 'CHFA', 'year': 2022, 'names': ['Bluebird Longmont']},
     'brush-village-ii-brush': {'agency': 'CHFA', 'year': 2022, 'names': ['Brush Village II']},
     'ives-wheat-ridge': {'agency': 'CHFA', 'year': 2022, 'names': ['Ives']},
@@ -174,6 +175,18 @@ MATCH = {
     'retreat-at-brighton-ridge-homes-brighton': {'agency': 'CHFA', 'year': 2022, 'names': ['Retreat at Brighton Ridge Homes', 'Retreat at Brighton Ridge']},
     'sable-station-aurora': {'agency': 'CHFA', 'year': 2022, 'names': ['Sable Station']},
     'spine-road-apartments-boulder': {'agency': 'CHFA', 'year': 2022, 'names': ['Spine Road Apartments']},
+    # The owner's own 2022 award, built only from CHFA's published records (paul, 2026-10-23); see CHFA_RECORD_ONLY.
+    'fruita-mews-fruita': {'agency': 'CHFA', 'year': 2022, 'names': ['Fruita Mews']},
+}
+
+# The one record allowed to name Fruita and the developer, and only as CHFA prints the
+# developer's name (2022 Round One award report and award descriptions). Any other mention
+# of the developer, in this record or any other, still fails.
+CHFA_RECORD_ONLY = {
+    'fruita-mews-fruita': {'fruita': True, 'parties': [
+        ("Owner (as CHFA's award report prints it)", 'Indibuild llc'),
+        ("Developer (as CHFA's award description prints it)", 'Indibuild LLC'),
+    ]},
 }
 
 REQUIRED = ['slug', 'name', 'city', 'award', 'researched_on', 'headline', 'status', 'key_numbers', 'sources']
@@ -220,8 +233,40 @@ def problems(rec):
         for sid in rec['mix_src']:
             if sid not in known:
                 out.append('unknown source id %s' % sid)
-    text = json.dumps(rec, ensure_ascii=False)
+    allow = CHFA_RECORD_ONLY.get(rec.get('slug'), {})
+    checked = rec
+    if allow.get('parties'):
+        # each allowed (role, name) row is let through once; a repeat or any other row still fails
+        left, parties = list(allow['parties']), []
+        for p in rec.get('parties') or []:
+            key = (p.get('role'), p.get('name')) if isinstance(p, dict) else None
+            if key in left:
+                left.remove(key)
+                p = dict(p, name='')
+            parties.append(p)
+        checked = dict(rec, parties=parties)
+    text = json.dumps(checked, ensure_ascii=False)
+    if allow:
+        # in this record, also catch a name hidden by spacing, invisible or control characters
+        strings = []
+
+        def walk(v):
+            if isinstance(v, str):
+                strings.append(v)
+            elif isinstance(v, dict):
+                for k, x in v.items():
+                    strings.append(k)
+                    walk(x)
+            elif isinstance(v, list):
+                for x in v:
+                    walk(x)
+        walk(checked)
+        letters = ' '.join(re.sub(r'[\W_]+', '', unicodedata.normalize('NFKC', s)) for s in strings)
+        if re.search(r'indibuild', letters, re.I):
+            text += ' indibuild'
     for rx, label in FORBIDDEN:
+        if allow.get('fruita') and label == 'a Fruita project':
+            continue
         if rx.search(text):
             out.append('contains ' + label)
     return out

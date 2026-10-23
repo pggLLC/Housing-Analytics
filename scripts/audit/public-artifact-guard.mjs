@@ -7,6 +7,44 @@ import { SENSITIVE_PATTERNS } from '../lib/public-sensitive-patterns.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const DIST = path.resolve(ROOT, process.argv[2] || 'dist');
 
+// One public record may print the developer's name, exactly as CHFA's 2022 Round One award
+// report and award descriptions print it (paul, 2026-10-23). In this one file, each listed
+// parties row is let through once, by role and name; a repeat or any other mention still fails.
+const CHFA_RECORD_ONLY = {
+  'data/deals/fruita-mews-fruita.json': [
+    { role: "Owner (as CHFA's award report prints it)", name: 'Indibuild llc' },
+    { role: "Developer (as CHFA's award description prints it)", name: 'Indibuild LLC' }
+  ]
+};
+
+function withoutChfaQuotes(rel, content) {
+  const allowed = CHFA_RECORD_ONLY[rel];
+  if (!allowed) return content;
+  let rec;
+  try { rec = JSON.parse(content); } catch { return content; }
+  // The exception holds only for the file exactly as the deal builder writes it (indent 1,
+  // no escaped letters, no repeated keys), so the parsed record is the whole raw text.
+  if (content !== JSON.stringify(rec, null, 1) + '\n') return content;
+  const left = [...allowed];
+  rec.parties = (rec.parties || []).map((p) => {
+    const i = left.findIndex((a) => a.role === p?.role && a.name === p?.name);
+    if (i < 0) return p;
+    left.splice(i, 1);
+    return { ...p, name: '' };
+  });
+  // Every remaining key and value, reduced to its letters and digits, must not spell the
+  // developer's name, so no invisible, control or spacing character can hide one.
+  const strings = [];
+  (function walk(v) {
+    if (typeof v === 'string') strings.push(v);
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) { strings.push(k); walk(x); }
+  })(rec);
+  const letters = strings.map((s) => s.normalize('NFKC').replace(/[^\p{L}\p{N}]/gu, '')).join(' ');
+  // a hidden mention fails outright: the returned text names the developer plainly
+  if (/indibuild/i.test(letters)) return 'indibuild (obscured mention)';
+  return JSON.stringify(rec, null, 1);
+}
+
 const FORBIDDEN_PATHS = [
   '.git',
   '.github',
@@ -163,7 +201,7 @@ async function main() {
     const ext = path.extname(file.rel).toLowerCase();
     if (!TEXT_EXTENSIONS.has(ext)) continue;
 
-    const content = await readFile(file.abs, 'utf8').catch(() => '');
+    const content = withoutChfaQuotes(file.rel, await readFile(file.abs, 'utf8').catch(() => ''));
     if (REFERENCE_SCAN_EXTENSIONS.has(ext) || ext === '.json' || file.rel === '_headers' || file.rel === 'robots.txt') {
       for (const ref of FORBIDDEN_REFERENCES) {
         if (content.includes(ref)) {
