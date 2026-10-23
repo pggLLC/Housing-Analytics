@@ -219,7 +219,12 @@ for (const g of ['0833640', '0823300', '08051']) {
   const pastHtml = WP.renderHtml(past);
   const pastTiming = pastHtml.slice(pastHtml.indexOf('<h3>Timing</h3>'));
   ok(pastTiming.includes(esc(past.deal.timing.rolling4.description)) && !/<th>Round<\/th>/.test(pastTiming.split('<h2')[0]), 'all rounds passed: the rolling path from the calendar shows, with no round table');
-  if (past.deal.timing.landBanking && past.deal.timing.landBanking.cycle) ok(pastTiming.split('<h2')[0].includes(esc(past.deal.timing.landBanking.cycle)), 'all rounds passed: the open land banking cycle still shows');
+  // Expectation from the funding guide itself, so a dropped land banking line fails here.
+  const lbProg = (BASE.fundingGuide.programs || []).find((p) => p.id === 'prop123-ahff-land-banking');
+  ok(lbProg && lbProg.status === 'open' && lbProg.application_cycle, 'the funding guide has an open land banking cycle, so the next check runs');
+  ok(past.deal.timing.landBanking && pastTiming.split('<h2')[0].includes(esc(lbProg.application_cycle)), 'all rounds passed: the open land banking cycle from the funding guide still shows');
+  const lbClosed = clone(BASE); lbClosed.fundingGuide.programs.find((p) => p.id === 'prop123-ahff-land-banking').status = 'closed';
+  ok(model('0833640', { src: lbClosed, today: '2031-01-01' }).deal.timing.landBanking === null, 'sabotage: a closed land banking program is not shown as open');
   const onlyRoll = clone(BASE); onlyRoll.qapCalendar.events = [];
   ok(model('0833640', { src: onlyRoll }).deal.timing.rolling4, 'calendar with only the rolling program: timing still shows it');
   const noCal = clone(BASE); noCal.qapCalendar = { events: [] };
@@ -402,7 +407,11 @@ ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the eit
   const a = page.indexOf('js/whitepaper/town-questions.js'), b = page.indexOf('js/whitepaper/jurisdiction-whitepaper.js');
   ok(a !== -1 && a < b, 'developer-brief.html loads town-questions.js before the report module');
   ok(/TownQuestions: window\.TownQuestions/.test(page), 'developer-brief.html passes TownQuestions to buildModel');
-  ok(/TownQuestions/.test(read('scripts/whitepaper/build-whitepaper.mjs')), 'the command-line build passes TownQuestions too');
+  // The option must sit inside the WP.buildModel(...) call, not just anywhere in the script.
+  const passes = (text) => { const i = text.indexOf('WP.buildModel('); if (i === -1) return false; const j = text.indexOf('});', i); return /^\s*TownQuestions\s*(,|:)/m.test(text.slice(i, j)); };
+  const cli = read('scripts/whitepaper/build-whitepaper.mjs');
+  ok(passes(cli), 'the command-line build passes TownQuestions to buildModel');
+  ok(!passes(cli.replace(/^\s*TownQuestions,\s*$/m, '')), 'sabotage: removing the option from the build call fails the check');
 }
 
 console.log(`town-questions: ${checks} checks passed`);
