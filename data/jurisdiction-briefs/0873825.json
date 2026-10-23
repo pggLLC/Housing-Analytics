@@ -64,7 +64,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Steamboat Springs. It classifies rental pressure as Very High, ownership pressure as Very High, and identifies 850 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Steamboat Springs. It classifies rental pressure as Very High, ownership pressure as Very High, and counts 850 renter households earning 51–100% of area median income: the income range ownership programs usually serve, not a count of ready buyers.",
           "cites": [
             "own1",
             "own2",
@@ -122,7 +122,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Steamboat Springs at #5 with an overall housing-need score of 87.8. It identifies 372 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 67.5% of <=30% AMI households. 61.4% of renter households are cost burdened, and 0.8% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Steamboat Springs at #5 with an overall housing-need score of 87.4. It identifies 372 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 67.5% of <=30% AMI households. 61.4% of renter households are cost burdened, and 0.8% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -142,7 +142,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 13,433. LEHD-based commuting signals show 6,815 in-commuters and a commute ratio of 58.1%. The digest's 20-year figure is 2,024 homes. Projected resident growth gives 1,519; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 505: homes for a quarter of the lower- and middle-wage workers who commute into City of Steamboat Springs, if they moved closer.",
+          "text": "Demographics and demand: the population metric is 13,433. LEHD-based commuting signals show 6,815 in-commuters and a commute ratio of 58.1%. The digest's 20-year figure is 2,233 homes. Projected resident growth gives 1,519; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 714: homes for a quarter of the households, at or below 120% AMI, of the people who commute into City of Steamboat Springs, if they moved closer.",
           "cites": [
             "d11",
             "d12",
@@ -345,7 +345,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-22T14:04:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -354,7 +354,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-22T14:04:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -462,7 +462,7 @@
     },
     {
       "id": "d14",
-      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2023 and ACS 2020-2024 5-year (B08202))",
+      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2023 and ACS PUMS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -489,7 +489,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-22T14:04:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -498,7 +498,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-22T14:04:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -507,7 +507,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-22T14:04:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -552,7 +552,7 @@
     },
     {
       "id": "d24",
-      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2023 and ACS 2020-2024 5-year (B08202))",
+      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2023 and ACS PUMS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

@@ -10,8 +10,9 @@
 // "growth-driven need only".
 //
 // Since 2026-10-20 the figure used is resident growth plus homes for a quarter
-// of today's lower- and middle-wage in-commuters, so two rows make it up and
-// the jobs reading is shown beside it, never in it.
+// of today's in-commuters (their households at or below 120% AMI since
+// 2026-10-22), so two rows make it up and the workforce reading is shown
+// beside it, never in it.
 //
 // Held as agreement, not wording. Rendered by the real applyAssumptions:
 //   - the block's figure used equals the tile, and its basis the tile's;
@@ -278,14 +279,21 @@ async function render(selection, countyFips, headship) {
     const wn = JSON.parse(read('data/hna/workforce-need.json'));
     const ids = Object.keys(wn.counties).filter((k) => /^08\d{3}$/.test(k));
     assert.strictEqual(ids.length, 64, `${ids.length} county records; the sum needs all 64`);
-    const homes = ids.reduce((s, k) => s + wn.counties[k].out_of_state_low_middle_wage / wn.counties[k].workers_per_working_household, 0);
+    // Recomputed from the source files: each county's out-of-state
+    // in-commuters by pay tier through that county's crosswalk.
+    const aux = JSON.parse(read('data/hna/source/lodes_primary_jobs.json')).incommuters_by_tier.out_of_state_counties;
+    const xw = JSON.parse(read('data/hna/workforce-ami-crosswalk.json')).counties;
+    const cut = wn.meta.income_cut;
+    const per = (k) => (aux[k] || [0, 0, 0]).reduce((s, n, i) => s + n * xw[k].tiers[['CE01', 'CE02', 'CE03'][i]][cut][0], 0);
+    const q = ids.reduce((s, k) => s + Math.round(per(k) * 0.25), 0);
+    const h = ids.reduce((s, k) => s + Math.round(per(k) * 0.5), 0);
     const all = ids.reduce((s, k) => s + wn.counties[k].present_incommuter_need.move_closer_25, 0);
-    assert(homes > 0, 'no out-of-state commuters in the county records; nothing to check');
+    assert(q > 0, 'no out-of-state commuters in the county records; nothing to check');
     const row = co.row('incommuter');
     assert(row, 'Colorado has no in-commuter row');
-    assert.strictEqual(Number(row.dataset.units), Math.round(homes * 0.25), `Colorado row ${row.dataset.units} ≠ out-of-state 25% ${Math.round(homes * 0.25)}`);
+    assert.strictEqual(Number(row.dataset.units), q, `Colorado row ${row.dataset.units} ≠ out-of-state 25% ${q}`);
     assert(Number(row.dataset.units) < all, 'Colorado counts commuters between its own counties as needing extra homes');
-    assert(row.textContent.includes(Math.round(homes * 0.5).toLocaleString('en-US')), 'the 50% scenario is not stated');
+    assert(row.textContent.includes(h.toLocaleString('en-US')), 'the 50% scenario is not stated');
   });
 
   await test('a Colorado load that finishes after a later county selection does not overwrite it', async () => {
@@ -357,9 +365,10 @@ async function render(selection, countyFips, headship) {
     assert.notStrictEqual(r.row('workforce').dataset.inFigure, 'true', 'the jobs reading is marked as part of the figure used');
     assert(r.rec.used.why.includes(Math.round(metric(d, 'future_units_growth_20yr') + rec.present_incommuter_need.move_closer_50).toLocaleString('en-US')),
       'the explanation does not give the figure if half moved closer');
-    // Households, not jobs: the line must be smaller than in-commuters x wage share.
-    const per = rec.incommuters * rec.low_middle_wage_share;
-    assert(rec.present_incommuter_need.move_closer_50 < per, 'the 50% line is not below the in-commuting low/middle-wage workers it divides');
+    // Households, not jobs: the line must be smaller than half the in-commuters it starts from.
+    const per = rec.incommuters_by_tier.reduce((a, n) => a + n, 0) * 0.5;
+    assert(rec.present_incommuter_need.move_closer_50 < per, 'the 50% line is not below half the in-commuting workers it converts');
+    assert(row.textContent.includes('\u00b1' + rec.present_incommuter_need_moe90.toLocaleString('en-US')), 'the margin is not stated');
     const none = window.HNAController.buildNeedReconciliation({ endYear: 2044, usedUnits: 5, basis: 'resident_growth', growthUnits: 5,
       incommuter: { low: null, high: null, reason: 'why' } });
     const nr = none.rows.find((x) => x.key === 'incommuter');
