@@ -292,11 +292,14 @@ for (const g of SAMPLE.concat(['0818310', '08051'])) {
 }
 
 // 5B4a and 5B4b are either/or for one sponsor.
+let bothSeen = 0;
 for (const g of SAMPLE.concat(['0880040'])) {
   const st = model(g).deal.structure;
   const a = st && st.lines.find((x) => x.id === '5B4a-nonprofit'), b = st && st.lines.find((x) => x.id === '5B4b-pha');
+  if (a && b) bothSeen++;
   if (a && b) ok(a.exclusiveWith === '5B4b-pha' && b.exclusiveWith === '5B4a-nonprofit', `${g}: the two sponsor lines are marked as alternatives`);
 }
+ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the either/or check ran');
 
 // A researched housing contact means a partner is on file.
 {
