@@ -309,6 +309,15 @@ ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the eit
   ok(TQ.SIGNALS.no_partner(m) !== null, 'with nothing on file the question fires');
 }
 
+// Both routes viable: the base case is the earliest realistic round, whichever credit.
+{
+  const big = SAMPLE.concat(['0820000']).map((g) => model(g, { today: '2026-10-22' })).find((m) => /^9% or 4%/.test(m.deal.route));
+  ok(big, 'a sample place has both routes viable');
+  const t = big.deal.timing;
+  const bases = t.rows.filter((r) => r.reading === 'base').map((r) => r.loi).sort();
+  ok(t.rows.find((r) => r.reading === 'base').loi === bases[0], `${big.name}: base case is the earliest base round`);
+}
+
 // ---- 7. The page loads the module before the report and passes it in.
 {
   const page = read('developer-brief.html');

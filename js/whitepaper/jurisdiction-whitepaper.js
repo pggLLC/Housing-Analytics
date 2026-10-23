@@ -664,6 +664,9 @@
       var mine = open.filter(function (r) { return r.credit === c; });
       for (var i = 0; i < mine.length; i++) { rows.push(mine[i]); if (mine[i].reading === 'base') break; }
     });
+    // With no preferred credit, the earliest round wins: rows run in date order so the
+    // first base case is the soonest realistic one.
+    if (/^9% or 4%/.test(route)) rows.sort(function (a, b) { return a.loi < b.loi ? -1 : a.loi > b.loi ? 1 : 0; });
     // A 4% bond deal without state credit does not wait for a round: CHFA reviews it
     // on a rolling basis, so the round dates hold only for 4% paired with state credit.
     // Every route here keeps 4% at least as a fallback, so the rolling path shows even

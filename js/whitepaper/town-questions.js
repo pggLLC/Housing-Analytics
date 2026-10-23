@@ -90,7 +90,7 @@
       if (!hit) return null;
       return {
         vars: { band: hit.label, burdened: pct(hit.burdenedPct) },
-        evidence: pct(hit.burdenedPct) + ' of renters at ' + hit.label + ' pay over 30% of income, though no homes are counted short for them.',
+        evidence: pct(hit.burdenedPct) + ' of renters at ' + hit.label + ' pay over 30% of income, yet no rental homes are counted short for renters at or below 50% AMI taken together.',
         source: [n.chasSource, n.rankingSource].filter(Boolean).join('; ')
       };
     },
