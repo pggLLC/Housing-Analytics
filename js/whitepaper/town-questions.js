@@ -168,7 +168,8 @@
     var place = String(placeName || '').toLowerCase();
     function here(c) {
       var org = String(c.org || '').toLowerCase();
-      return !!place && org.indexOf(place) !== -1 && (kind === 'county' || !/county/.test(org));
+      // Denver and Broomfield are consolidated: "City and County of X" is the place itself.
+      return !!place && org.indexOf(place) !== -1 && (kind === 'county' || !/county/.test(org.replace('city and county of ' + place, '')));
     }
     // A role marked local (manager, planner, board) is asked only of this jurisdiction's own staff.
     if (r.local) hits = hits.filter(here);
@@ -216,5 +217,5 @@
     return { standard: standard, pointed: fired.slice(0, MAX_POINTED), firedNotShown: Math.max(0, fired.length - MAX_POINTED), bankChecked: bank.checked || null };
   }
 
-  return { build: build, SIGNALS: SIGNALS, MAX_POINTED: MAX_POINTED };
+  return { build: build, SIGNALS: SIGNALS, MAX_POINTED: MAX_POINTED, contactFor: contactFor };
 }));

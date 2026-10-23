@@ -128,6 +128,15 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   ok(by('housing_authority') === 'Authority Person', 'housing authority may be county-wide');
 }
 
+// Consolidated city-county: "City and County of Denver" staff are Denver's own.
+{
+  const bank = { roles: { manager: { label: 'Manager', match: 'manager', local: true } } };
+  const c = [{ name: 'A', role: 'City Manager', org: 'City and County of Denver', source_url: 'https://x' }, { name: 'B', role: 'County Manager', org: 'Adams County', source_url: 'https://y' }];
+  const hit = TQ.contactFor('manager', bank, c, 'Denver', 'place');
+  ok(hit && hit.name === 'A', 'Denver: City and County of Denver staff count as local');
+  ok(!TQ.contactFor('manager', bank, [{ name: 'C', role: 'County Manager', org: 'Denver County Housing Board', source_url: 'https://z' }], 'Denver', 'place'), 'a separate county body is still not the town');
+}
+
 // ---- 5. Timing from the CHFA calendar.
 {
   const t = model('0833640', { today: '2026-10-22' }).deal.timing;
@@ -149,6 +158,11 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   const src = clone(BASE);
   src.qapCalendar.events.find((e) => e.id === '2027-r1-loi').date = '2027-01-30';
   ok(model('0833640', { src }).deal.timing.rows.find((x) => x.label.startsWith('2027 R1')).reading === 'base', 'sabotage: a later letter of intent makes 2027 R1 the base case');
+  // The rolling 4% bond path is shown beside the R2 rows, from the calendar's own entry.
+  ok(t.rolling4 && /rolling/.test(t.rolling4.description), 'the rolling 4% bond path is in the timing');
+  ok(/4% without state credit:/.test(html) && html.includes(t.rolling4.name), 'the rolling 4% path is printed under the round table');
+  const noRoll = clone(BASE); noRoll.qapCalendar.rolling_programs = [];
+  ok(model('0833640', { src: noRoll }).deal.timing.rolling4 === null, 'no rolling entry in the calendar: none invented');
   const noCal = clone(BASE); noCal.qapCalendar = { events: [] };
   ok(model('0833640', { src: noCal }).deal.timing === null, 'no calendar: no timing, nothing invented');
 }

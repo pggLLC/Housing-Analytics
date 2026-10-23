@@ -680,8 +680,13 @@
     }
     rows.forEach(function (r) { if (r.reading !== 'late') r.milestones = milestones(r); });
     var lb = ((((src.fundingGuide || {}).programs) || []).find(function (p) { return p && p.id === 'prop123-ahff-land-banking'; })) || null;
+    // A 4% bond deal without state credit does not wait for a round: CHFA reviews it
+    // on a rolling basis, so the round dates hold only for 4% paired with state credit.
+    var roll = rows.some(function (r) { return r.credit === '4%'; })
+      ? ((((src.qapCalendar || {}).rolling_programs) || []).find(function (p) { return p && p.category === '4pct-rolling'; }) || null) : null;
     return {
       rows: rows,
+      rolling4: roll ? { name: roll.name, description: roll.description, url: safeHref(roll.url) } : null,
       leadDays: LEAD_DAYS,
       stretchMinDays: STRETCH_MIN_DAYS,
       scoringStatus: scoring ? { draft: scoring.status === 'draft', note: scoring.status_note || null, title: (scoring.source || {}).title || null, url: safeHref((scoring.source || {}).url) } : null,
@@ -1331,6 +1336,7 @@
         return '<tr><td>' + link(r.label, r.url) + (r.draft ? ' <span class="wp-tag">draft QAP</span>' : '') + '</td><td>' + esc(r.loi) + '</td><td>' + esc(r.deadline) + '</td><td>' +
           (r.awards ? esc(r.awards) + (r.awardsEstimated ? ' (est.)' : '') : NA) + '</td><td>' + reading + '</td></tr>';
       }).join('') + '</tbody></table>' +
+      (T.rolling4 ? '<p><strong>4% without state credit:</strong> the round dates above apply to a 4% deal that also seeks state credit. ' + link(T.rolling4.name, T.rolling4.url) + ' alone has no round: ' + esc(T.rolling4.description) + '</p>' : '') +
       '<p class="wp-meta">Estimate: a round is the base case when its letter of intent is at least ' + T.leadDays + ' days away, the time a team usually needs to tie up a site, confirm zoning and line up partners; nearer than ' + T.stretchMinDays + ' days it is not realistic.</p>';
     var stretch = timingPick(T, 'stretch');
     if (stretch) {
