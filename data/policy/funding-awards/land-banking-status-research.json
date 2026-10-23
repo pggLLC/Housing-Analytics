@@ -140,6 +140,28 @@
         "date": "2026-10-23"
       },
       "quote": "Designated as a 501(c)(3)"
+    },
+    "Broomfield Housing Alliance": {
+      "type": "government",
+      "text": "Broomfield's housing authority.",
+      "checked": "2026-10-23",
+      "source": {
+        "title": "City and County of Broomfield, Housing Developments page",
+        "url": "https://www.broomfield.org/4345/Housing-Developments",
+        "date": "2026-10-23"
+      },
+      "quote": "Broomfield Housing Alliance (BHA), Broomfield's housing authority"
+    },
+    "Innovative Housing Concepts": {
+      "type": "government",
+      "text": "Englewood's housing authority under another name.",
+      "checked": "2026-10-23",
+      "source": {
+        "title": "HUD Colorado, Innovative Housing Concepts and vaccine access (18 Aug 2021)",
+        "url": "https://archives.hud.gov/local/co/goodstories/2021-08-18.cfm",
+        "date": "2021-08-18"
+      },
+      "quote": "Innovative Housing Concepts (IHC), also known as Englewood Housing Authority"
     }
   }
 }

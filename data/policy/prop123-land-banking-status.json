@@ -29,8 +29,8 @@
       "nonprofit": "Nonprofit or other organization"
     },
     "holder_counts": {
-      "government": 16,
-      "nonprofit": 47
+      "government": 18,
+      "nonprofit": 45
     },
     "holder_note": "CHFA's award lists print each grantee's name, not what kind of body it is. A town, city, county or housing authority is named as one, or shown so by a dated source; the program lends only to nonprofits, so every other grantee is a nonprofit or other organization.",
     "unlinked": [],
@@ -321,9 +321,16 @@
       "from": "ledger",
       "label": "No later state funding on record",
       "holder": {
-        "type": "nonprofit",
-        "label": "Nonprofit or other organization",
-        "how": "program_rule"
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "source",
+        "text": "Broomfield's housing authority.",
+        "quote": "Broomfield Housing Alliance (BHA), Broomfield's housing authority",
+        "source": {
+          "title": "City and County of Broomfield, Housing Developments page",
+          "url": "https://www.broomfield.org/4345/Housing-Developments",
+          "date": "2026-10-23"
+        }
       }
     },
     "fy24-25-1350-n-logan": {
@@ -855,9 +862,16 @@
       "from": "ledger",
       "label": "No later state funding on record",
       "holder": {
-        "type": "nonprofit",
-        "label": "Nonprofit or other organization",
-        "how": "program_rule"
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "source",
+        "text": "Englewood's housing authority under another name.",
+        "quote": "Innovative Housing Concepts (IHC), also known as Englewood Housing Authority",
+        "source": {
+          "title": "HUD Colorado, Innovative Housing Concepts and vaccine access (18 Aug 2021)",
+          "url": "https://archives.hud.gov/local/co/goodstories/2021-08-18.cfm",
+          "date": "2021-08-18"
+        }
       }
     },
     "fy25-26-statewide-legacy-terrace-apartments": {
