@@ -320,7 +320,8 @@
     if (sr.overMaxLoan > 0.5) out.push({ level: 'bad', text: 'Hard debt of ' + money(sr.hardDebt) + ' is ' + money(sr.overMaxLoan) + ' above the lower maximum loan (' + money(sr.maxLoan) + ') that the cap rate or appraisal supports.' });
     // CHFA's minimum is higher for projects that provide additional services, with no figure published. A supportive
     // deal that clears the base minimum is not settled by it; a deal not known either way says what was measured.
-    if (min.opex && o.opexPerUnit != null && !out.some(function (f) { return f.source === min.opex && f.level === 'bad'; })) {
+    // Only a cost known to meet the base minimum gets these notes; one still waiting on the tax has its own warning.
+    if (min.opex && o.opexPerUnit != null && (opexAll != null ? opexAll : o.opexPerUnit) >= min.opex.value) {
       if (m.supportive === true) out.push({ level: 'warn', text: 'This is a supportive housing deal. CHFA requires a higher operating cost minimum for projects that provide additional services and publishes no figure, so the ' + money(min.opex.value) + ' check does not settle it. Confirm the budget with CHFA.', source: min.opex });
       else if (m.supportive == null) out.push({ level: 'ok', text: 'Operating cost was checked against CHFA\'s ' + money(min.opex.value) + ' minimum. CHFA requires more, with no figure published, for projects that provide additional services; if this deal does, confirm the budget with CHFA.', source: min.opex });
     }
@@ -580,7 +581,8 @@
   }
 
   // ── Browser ───────────────────────────────────────────────────────────────
-  function loadFrame(doc, query, timeoutMs, pollMs) {
+  // onStart receives a cancel function, so a newer request can stop this calculator instead of letting it load on.
+  function loadFrame(doc, query, timeoutMs, pollMs, onStart) {
     return new Promise(function (resolve, reject) {
       var f = doc.createElement('iframe');
       f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
@@ -606,6 +608,7 @@
         setTimeout(poll, pollMs || 400);
       }
       f.addEventListener('load', function () { setTimeout(poll, pollMs || 400); });
+      if (onStart) onStart(fail);
       doc.body.appendChild(f);
     });
   }
@@ -623,18 +626,25 @@
       mode: (function () { var c = w.document.querySelector('input[name="dc-deal-mode"]:checked'); return c ? c.value : null; })(), labels: (w.DealPermanentFinancing && w.DealPermanentFinancing.PROGRAM_LABELS) || {} };
   }
   // The calculator settings carried by a share link, an export file's url, or a saved version.
+  // Every Deal Calculator export carries its unit count or county; a query with neither (q=housing) would only
+  // open the calculator's default deal under another name.
+  function calcQuery(q) {
+    if (!q) return null;
+    var keys = []; new URLSearchParams(q).forEach(function (v, k) { keys.push(k); });
+    return keys.some(function (k) { return k === 'units' || k === 'county-select' || /^pf-/.test(k); }) ? q : null;
+  }
   function queryFrom(x) {
     if (!x) return null;
     if (typeof x === 'string') {
       var s = x.trim(), q = s.indexOf('?');
       // A link counts only when it points at the Deal Calculator; a bare query string from an export still works.
       if (q > 0 && !/(^|\/)deal-calculator(\.html)?$/i.test(s.slice(0, q))) return null;
-      if (q !== -1) return s.slice(q + 1).replace(/#.*$/, '') || null;
-      return /=/.test(s) && !/^[a-z][a-z0-9+.-]*:/i.test(s) ? s : null;
+      if (q !== -1) return calcQuery(s.slice(q + 1).replace(/#.*$/, ''));
+      return /=/.test(s) && !/^[a-z][a-z0-9+.-]*:/i.test(s) ? calcQuery(s) : null;
     }
     if (x.url) return queryFrom(String(x.url));
-    if (x.calculator && x.calculator.query) return x.calculator.query;
-    if (x.data && x.data.calculator && x.data.calculator.query) return x.data.calculator.query;
+    if (x.calculator && x.calculator.query) return calcQuery(x.calculator.query);
+    if (x.data && x.data.calculator && x.data.calculator.query) return calcQuery(x.data.calculator.query);
     return null;
   }
 
@@ -659,9 +669,15 @@
     // one finishes loading after it. A slow saved version or file read passes the generation it took.
     // Every action clears the last deal when it takes its generation, so a failed one never leaves the old
     // workbook on screen or printable.
+    // A newer action stops the calculator an older one is still loading, so retries never run side by side.
+    var stopFrame = null;
+    function supersede() {
+      if (stopFrame) { var c = stopFrame; stopFrame = null; c(new Error('A newer request replaced this one.')); }
+      return ++tok;
+    }
     function take() {
       $('wbOut').innerHTML = ''; $('wbPrint').hidden = true; $('wbOpenCalc').hidden = true;
-      return ++tok;
+      return supersede();
     }
     function open(query, title, reserved, ctx) {
       var my = reserved != null ? reserved : take();
@@ -669,7 +685,7 @@
       if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
       status('Running the Deal Calculator for this deal…');
       $('wbOpenCalc').href = calcUrl(query, doc.baseURI); $('wbOpenCalc').hidden = false;
-      Promise.all([loadFrame(doc, query), rulesReady]).then(function (got) {
+      Promise.all([loadFrame(doc, query, null, null, function (c) { stopFrame = c; }), rulesReady]).then(function (got) {
         var f = got[0], rules = got[1];
         if (my !== tok) { f.remove(); return; }
         var snap = readCalc(f.contentWindow); f.remove();
@@ -688,9 +704,9 @@
       $('wbDeals').innerHTML = '<option value="">Choose a deal</option>' + deals.map(function (d) { return '<option value="' + esc(d.id) + '">' + esc(d.name || d.id) + '</option>'; }).join('');
     });
     // Changing the saved deal or version abandons a saved version still loading, so it never renders under the new choice.
-    $('wbVersions').addEventListener('change', function () { ++tok; });
+    $('wbVersions').addEventListener('change', function () { supersede(); });
     $('wbDeals').addEventListener('change', function () {
-      ++tok;
+      supersede();
       var deal = $('wbDeals').value; $('wbVersions').innerHTML = ''; if (!deal) return;
       settleWithin(api('?deal=' + encodeURIComponent(deal)), wait).then(function (j) {
         if ($('wbDeals').value !== deal) return;

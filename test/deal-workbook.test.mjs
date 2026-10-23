@@ -171,6 +171,8 @@ ok(new URL(WB.calcUrl('javascript:alert(1)', 'http://localhost/a/p.html')).proto
 ok(WB.queryFrom('https://example.com/search?q=housing') === null && WB.queryFrom('https://example.com/a=b') === null, 'a link to another page gives nothing');
 ok(WB.queryFrom('?units=60') === 'units=60' && WB.queryFrom('units=60') === 'units=60' && WB.queryFrom('/deal-calculator?units=60') === 'units=60', 'a bare query string or the calculator path still gives its settings');
 ok(WB.queryFrom('just some text') === null && WB.queryFrom({}) === null, 'anything else gives nothing');
+ok(WB.queryFrom('q=housing') === null && WB.queryFrom('/deal-calculator.html?q=housing') === null && WB.queryFrom({ data: { calculator: { query: 'q=1' } } }) === null, 'a query with no Deal Calculator setting gives nothing');
+ok(WB.queryFrom('pf-senior-amount=1000000') === 'pf-senior-amount=1000000', 'a financing setting counts as a calculator query');
 
 // ── Gating ─────────────────────────────────────────────────────────────────
 const page = read('developer-deal-workbook.html');
@@ -369,19 +371,19 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   const fx = fixture();
   const run = async (change) => {
     const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
-    let frame;
+    let frame, removed = 0;
     const doc = { getElementById: el, baseURI: 'https://example.org/developer-deal-workbook.html', querySelectorAll: () => [],
       body: { appendChild(f) { frame = f; } },
-      createElement: () => ({ style: {}, setAttribute() {}, remove() {}, handlers: {}, addEventListener(t, f) { this.handlers[t] = f; },
+      createElement: () => ({ style: {}, setAttribute() {}, remove() { removed++; }, handlers: {}, addEventListener(t, f) { this.handlers[t] = f; },
         contentWindow: { __DealCalc: { getResult: () => fx.result, getOutputRecords: () => [], getPermanentFinancing: () => fx.permanentFinancing }, document: { querySelector: () => null } } }) };
     const saved = { fetch: globalThis.fetch, window: globalThis.window };
-    globalThis.fetch = (u) => /deal=/.test(String(u)) ? Promise.resolve({ ok: true, json: () => Promise.resolve({ data: { calculator: { query: 'a=1' }, deal: {} } }) }) : Promise.resolve({ ok: false, json: () => null });
+    globalThis.fetch = (u) => /deal=/.test(String(u)) ? Promise.resolve({ ok: true, json: () => Promise.resolve({ data: { calculator: { query: 'units=60' }, deal: {} } }) }) : Promise.resolve({ ok: false, json: () => null });
     globalThis.window = { addEventListener() {} };
     WB.start(doc, 200);
     el('wbDeals').value = 'd1'; el('wbDeals').selectedOptions = [{ textContent: 'Deal B' }]; el('wbVersions').value = '3';
     el('wbOpenSaved').handlers.click();
     for (let i = 0; i < 20 && !frame; i++) await new Promise((r) => setTimeout(r, 5));
-    if (change) { el('wbVersions').value = '4'; el('wbVersions').handlers.change(); }
+    if (change) { el('wbVersions').value = '4'; el('wbVersions').handlers.change(); if (!removed) return 'frame kept'; }
     frame.handlers.load();
     await new Promise((r) => setTimeout(r, 2600));
     globalThis.fetch = saved.fetch; if (saved.window === undefined) delete globalThis.window; else globalThis.window = saved.window;
@@ -392,6 +394,8 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
 }
 const highNoRows = mut0((s) => { s.result.projection.rows = []; s.result.costBasis.underwriting = { high: { firstYear: 1.45, exceeds: true } }; });
 ok(/warn: Year-one coverage of 1\.45x is above/.test(texts(highNoRows)), 'high year-one coverage is flagged from the engine check when there are no projection rows');
+const opexNoTax = texts(mut0((s) => { s.result.operatingSummary.perUnitYear = PUPA - 500; s.result.propTaxPerUnit = null; s.result.netPropTax = null; }));
+ok(/warn: Operating cost of .* before property tax/.test(opexNoTax) && !/ok: Operating cost was checked/.test(opexNoTax), 'a cost still waiting on the tax is not also listed as checked');
 const feeOpen = mut0((s) => { s.permanentFinancing.deferredDevFee = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { deferredDevFee: 'Operating inputs are incomplete.' }); });
 ok(feeOpen.sources.rows.some((x) => x.amount === null && x.label === 'Deferred developer fee: not known, Operating inputs are incomplete.'), 'an unknown deferred fee stays in the sources with its reason');
 
