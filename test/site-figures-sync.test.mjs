@@ -43,7 +43,7 @@ test('new figures rewrite every rule, and the result then agrees', () => {
   const F = readFigures();
   const next = {
     ...F,
-    eq9: F.eq9 + 0.03, eq4: F.eq4 + 0.03, eqCo: F.eqCo + 0.03,
+    eq9: F.eq9 + 0.03, eq4: F.eq4 + 0.03, eqCo: F.eqCo + 0.03, eqNC: F.eqNC + 0.03,
     quarter: '2099-Q1', quarterWords: 'Q1 2099', year: F.year + 1,
     perCapita: F.perCapita + 0.1, smallStateMin: F.smallStateMin + 1000,
     revProc: 'IRS Rev. Proc. 2098-99', revProcUrl: 'https://www.irs.gov/pub/irs-drop/rp-98-99.pdf',
@@ -72,4 +72,21 @@ test('the sources that repeat a figure agree with each other', () => {
   assert.match(JSON.stringify(lihtc), new RegExp(`"default9Pct":${F.eq9}\\b`), 'lihtc-assumptions follows Novogradac');
   const alloc = readJson('data/allocations.json');
   assert.equal(alloc.year, F.year, 'allocations.json is for the ceiling year');
+});
+
+test('every equity fallback the LIHTC guide refills at runtime is covered by a rule', () => {
+  const guide = 'lihtc-guide-for-stakeholders.html';
+  const src = fs.readFileSync(path.join(ROOT, guide), 'utf8');
+  // set('id', …) and getElementById('id') … meta.vintage are the runtime refills.
+  const ids = new Set([
+    ...[...src.matchAll(/\bset\('([A-Za-z0-9]+)',/g)].map((m) => m[1]),
+    ...[...src.matchAll(/getElementById\('([A-Za-z0-9]+Vintage)'\)/g)].map((m) => m[1]),
+  ]);
+  assert.ok(ids.size >= 10, `${ids.size} refilled spans found`);
+  const covered = plan(readFigures()).covered.get(guide) || [];
+  for (const id of ids) {
+    const at = src.indexOf(`id="${id}"`);
+    assert.ok(at >= 0, `${id} has a fallback span`);
+    assert.ok(covered.some(([s, e]) => at >= s && at < e), `${id}'s static fallback is covered by a rule`);
+  }
 });

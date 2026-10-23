@@ -58,8 +58,9 @@ export const RULES = [
   // no-script text equal to it.
   { fig: 'eq9', files: [GUIDE], pattern: /id="lihtcGuide(?:9pct|Nat9|Mkt9)">\$(\d\.\d\d)</g },
   { fig: 'eq4', files: [GUIDE], pattern: /id="lihtcGuide(?:4pct|Nat4|Mkt4)">\$(\d\.\d\d)</g },
-  { fig: 'eqCo', files: [GUIDE], pattern: /id="(?:lihtcGuideCoMedian|dgCoPrice)">\$(\d\.\d\d)</g },
-  { fig: 'quarter', files: [GUIDE], pattern: /id="(?:lihtcGuideVintage|dgVintage|lihtcGuideMktVintage)">(\d{4}-Q\d)</g },
+  { fig: 'eqCo', files: [GUIDE], pattern: /id="(?:lihtcGuideCoMedian|lihtcGuideCo|lihtcGuideMktCo|dgCoPrice)">\$(\d\.\d\d)</g },
+  { fig: 'quarter', files: [GUIDE], pattern: /id="(?:lihtcGuideVintage|dgVintage|lihtcGuideMktVintage|lihtcGuideMktCoVintage)">(\d{4}-Q\d)</g },
+  { fig: 'eqNC', files: [GUIDE], pattern: /id="lihtcGuideRegion">\$(\d\.\d\d)</g },
   { value: (F) => (1.5 * 10 * F.eqCo).toFixed(2), files: [GUIDE], pattern: /id="dgCoEquity">\$(\d+\.\d\d)M</g },
   { value: (F) => money2(F.eqCo - 0.05), files: [GUIDE], pattern: /id="dgLowPrice">\$(\d\.\d\d)</g },
   { value: (F) => (1.5 * 10 * (F.eqCo - 0.05)).toFixed(2), files: [GUIDE], pattern: /id="dgLowEquity">\$(\d+\.\d\d)M</g },
@@ -157,6 +158,7 @@ export function readFigures(root = ROOT) {
     eq9: nov.pricing?.national_avg?.credit_9pct ?? null,
     eq4: nov.pricing?.national_avg?.credit_4pct ?? null,
     eqCo: nov.pricing?.by_state?.CO?.median_all_credits ?? null,
+    eqNC: nov.pricing?.by_region?.north_central?.median_all_credits ?? null,
     quarter,
     quarterWords: quarter ? quarter.replace(/^(\d{4})-(Q\d)$/, '$2 $1') : null,
     year: ceiling.year ?? null,
@@ -178,7 +180,7 @@ export function formatFigure(key, F) {
   const v = F[key];
   if (v == null) return null;
   switch (key) {
-    case 'eq9': case 'eq4': case 'eqCo': return money2(v);
+    case 'eq9': case 'eq4': case 'eqCo': case 'eqNC': return money2(v);
     case 'perCapita': return v.toFixed(3);
     case 'smallStateMin': return thousands(v);
     case 'coM': return v.toFixed(1);
