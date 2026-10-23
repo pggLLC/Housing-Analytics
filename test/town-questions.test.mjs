@@ -273,6 +273,19 @@ for (const g of SAMPLE.concat(['0818310', '08051'])) {
   ok(q.contact && q.contact.name === 'R', 'CDP: the county contact from the related file is named');
 }
 
+// The "never" drought question needs the boundary count to agree that nothing is mapped here.
+{
+  const base = { lihtc: { properties: [], latestAwardYear: null, scopeLabel: 'X', sources: ['s'] }, need: { rankingSource: 'r' } };
+  ok(TQ.SIGNALS.tax_credit_drought(Object.assign({}, base, { lihtc: Object.assign({}, base.lihtc, { inBoundary: 9 }) }), '2026-10-22') === null, 'mapped projects in the boundary: no "never" question');
+  ok(TQ.SIGNALS.tax_credit_drought(Object.assign({}, base, { lihtc: Object.assign({}, base.lihtc, { inBoundary: null }) }), '2026-10-22') === null, 'boundary count unknown: no "never" question');
+  ok(TQ.SIGNALS.tax_credit_drought(Object.assign({}, base, { lihtc: Object.assign({}, base.lihtc, { inBoundary: 0 }) }), '2026-10-22') !== null, 'nothing mapped and nothing matched: the question fires');
+  for (const g of SAMPLE) {
+    const m = model(g);
+    const q = m.questions.pointed.find((x) => x.signal === 'tax_credit_drought' && /No CHFA/.test(x.evidence));
+    if (q) ok(m.lihtc.inBoundary === 0, `${g}: "never" question only when nothing is mapped in the boundary`);
+  }
+}
+
 // ---- 7. The page loads the module before the report and passes it in.
 {
   const page = read('developer-brief.html');

@@ -37,7 +37,10 @@
       var last = m.lihtc.latestAwardYear;
       var year = Number(today.slice(0, 4));
       if (!props.length && last === null) {
-        return { vars: { lastYear: 'never' }, evidence: 'No CHFA tax-credit property is recorded in ' + m.lihtc.scopeLabel + '.', source: m.lihtc.sources[0] };
+        // Projects mapped inside the boundary contradict an empty name-matched list:
+        // the record is unclear, not empty, so no question is raised.
+        if (m.lihtc.inBoundary === null || m.lihtc.inBoundary === undefined || m.lihtc.inBoundary > 0) return null;
+        return { vars: { lastYear: 'never' }, evidence: 'No CHFA tax-credit property is recorded or mapped in ' + m.lihtc.scopeLabel + '.', source: [m.lihtc.sources[0], m.need.rankingSource].filter(Boolean).join('; ') };
       }
       if (last !== null && year - last >= DROUGHT_YEARS) {
         return { vars: { lastYear: String(last), years: String(year - last) }, evidence: 'Latest tax-credit award here: ' + last + ', ' + (year - last) + ' years ago.', source: m.need.rankingSource };
