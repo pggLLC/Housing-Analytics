@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-23T17:01:44.974Z",
+    "generated_at": "2026-10-23T18:17:40.080Z",
     "root": "data/",
-    "file_count": 1986,
-    "total_size_bytes": 201504807,
+    "file_count": 1988,
+    "total_size_bytes": 201514527,
     "kinds": {
-      "json": 1938,
+      "json": 1940,
       "geojson": 34,
       "csv": 14
     }
@@ -136,6 +136,27 @@
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
+    },
+    {
+      "path": "affordable-housing/pbv-by-pha-co.json",
+      "kind": "json",
+      "size_bytes": 4372,
+      "mtime": "2026-10-23T18:16:39.198Z",
+      "shape": "object",
+      "keys": [
+        "metadata",
+        "totals",
+        "authorities"
+      ],
+      "key_count": 3,
+      "primary_array_key": "authorities",
+      "primary_array_length": 21,
+      "primary_array_first_keys": [
+        "code",
+        "name",
+        "pbv_units",
+        "all_voucher_units"
+      ]
     },
     {
       "path": "affordable-housing/preservation/chfa-preservation.json",
@@ -554,7 +575,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-23T17:01:40.454Z",
+      "mtime": "2026-10-23T18:17:35.855Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -3001,6 +3022,36 @@
       ]
     },
     {
+      "path": "deals/fruita-mews-fruita.json",
+      "kind": "json",
+      "size_bytes": 4992,
+      "mtime": "2026-10-23T18:16:39.285Z",
+      "shape": "object",
+      "keys": [
+        "slug",
+        "name",
+        "city",
+        "county",
+        "award",
+        "units",
+        "researched_on",
+        "headline",
+        "why_it_matters",
+        "status",
+        "next_step",
+        "key_numbers",
+        "facts",
+        "income_mix"
+      ],
+      "key_count": 24,
+      "primary_array_key": "income_mix",
+      "primary_array_length": 5,
+      "primary_array_first_keys": [
+        "level",
+        "units"
+      ]
+    },
+    {
       "path": "deals/gardenwalk-of-canon-city.json",
       "kind": "json",
       "size_bytes": 15280,
@@ -3457,8 +3508,8 @@
     {
       "path": "deals/index.json",
       "kind": "json",
-      "size_bytes": 56891,
-      "mtime": "2026-10-21T23:07:23.424Z",
+      "size_bytes": 57247,
+      "mtime": "2026-10-23T18:16:39.286Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -3466,7 +3517,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "deals",
-      "primary_array_length": 149,
+      "primary_array_length": 150,
       "primary_array_first_keys": [
         "slug",
         "name",
@@ -39420,7 +39471,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-23T17:01:42.395Z",
+      "mtime": "2026-10-23T18:17:37.953Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39444,7 +39495,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-23T17:01:41.929Z",
+      "mtime": "2026-10-23T18:17:37.436Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41977,7 +42028,7 @@
       "path": "policy/local-commitment.json",
       "kind": "json",
       "size_bytes": 64941,
-      "mtime": "2026-10-23T01:35:41.242Z",
+      "mtime": "2026-10-23T18:16:39.794Z",
       "shape": "object",
       "keys": [
         "generated_by",
