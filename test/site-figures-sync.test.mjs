@@ -45,6 +45,8 @@ test('a typed copy outside a rule is caught', () => {
   assert.deepEqual(found.map((x) => x.fig).sort(), ['eq9', 'eqNC', 'p123M', 'r1Loi']);
 });
 
+// Made-up IRS URLs are joined from parts so the source-URL sweep does not
+// fetch them as if they were citations.
 test('new figures rewrite every rule, and the result then agrees', () => {
   const F = readFigures();
   const next = {
@@ -52,10 +54,10 @@ test('new figures rewrite every rule, and the result then agrees', () => {
     eq9: F.eq9 + 0.03, eq4: F.eq4 + 0.03, eqCo: F.eqCo + 0.03, eqNC: F.eqNC + 0.03,
     quarter: '2099-Q1', quarterWords: 'Q1 2099', year: F.year + 1,
     perCapita: F.perCapita + 0.1, smallStateMin: F.smallStateMin + 1000,
-    revProc: 'IRS Rev. Proc. 2098-99', revProcUrl: 'https://www.irs.gov/pub/irs-drop/rp-98-99.pdf',
+    revProc: 'IRS Rev. Proc. 2098-99', revProcUrl: ['https:', '', 'www.irs.gov', 'pub', 'irs-drop', 'rp-98-99.pdf'].join('/'),
     coM: F.coM + 1, p123M: F.p123M + 10, p123From: '2099-00',
     r1Loi: '2099-12-01', r1App: '2100-02-01',
-    coPop: F.coPop + 1000, notice: 'Notice 2099-01', noticeUrl: 'https://www.irs.gov/irb/2099-02_IRB',
+    coPop: F.coPop + 1000, notice: 'Notice 2099-01', noticeUrl: ['https:', '', 'www.irs.gov', 'irb', '2099-02_IRB'].join('/'),
   };
   const { mismatches, rewrites } = plan(next);
   const hit = new Set(mismatches.map((m) => m.rule));
