@@ -272,14 +272,32 @@ for (const e of DOC.entries) {
   const due = new Date(e.review_by + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   assert(norm(el.textContent).includes(`next check due ${due}`), `${e.id}: the card does not show its next check date (${due})`);
 }
-// A program's benefits are quoted, not only its eligibility: each benefit the
-// Xcel design-assistance card names has its own excerpt.
-{
-  const r = rec('xcel-eda'); const q = r.quotes.join(' ').toLowerCase();
-  for (const [said, quoted] of [['energy modeling', 'energy modeling'], ['cash rebates', 'cash rebates'], ['gas savings', 'rebates for gas savings'], ['design fees', 'reimbursement of design fees'], ['free', 'free design assistance']]) {
-    if (r.finding.toLowerCase().includes(said)) assert(q.includes(quoted), `xcel-eda: the finding promises ${said}, but no quote shows it`);
+// What a card promises is quoted, not only its eligibility: each claim on the
+// left must appear in the finding only while its evidence on the right is quoted.
+const CLAIMS = {
+  'xcel-eda': [['energy modeling', 'energy modeling'], ['cash rebates', 'cash rebates'], ['gas savings', 'rebates for gas savings'], ['design fees', 'reimbursement of design fees'], ['free', 'free design assistance']],
+  'eoc-multifamily': [['assessment', 'we visit your property'], ['funding help', 'financial incentives'], ['project management', 'supervise'], ['inspection', 'final evaluation']],
+  'qap-ua-sources': [['gross rent', 'gross rent'], ['energy consumption model', 'energy consumption model']],
+  'cfr-ua-gross-rent': [['part of gross rent', 'gross rent for that unit includes the applicable utility allowance'], ['unit size, building orientation', 'unit size, building orientation'], ['licensed engineer', 'properly licensed engineer']],
+  'ccef-loans': [['nonprofit', 'non-profit community lender'], ['developers', 'developers'], ['battery storage', 'battery storage'], ['hvac', 'hvac systems'], ['ev charging', 'ev charging'], ['colorado clean energy fund', 'colorado clean energy fund dba']],
+  'c-pace': [['efficiency, renewable, water', 'energy efficiency, water conservation, and renewable energy'], ['resilience', 'resilience measures'], ['property tax bill', 'property tax bill']],
+  'hub-resource-finder': [['utility provider', 'utility provider'], ['not exhaustive', 'non-exhaustive']],
+  'hub-master-meter': [['billing', 'billing function'], ['upkeep of the submeters', 'maintaining the submetering system']],
+  'xcel-mfbe': [['free in-unit products', 'free energy-saving products in each unit']],
+};
+for (const [id, pairs] of Object.entries(CLAIMS)) {
+  const r = rec(id); const f = r.finding.toLowerCase(); const q = r.quotes.join(' ').toLowerCase();
+  let used = 0;
+  for (const [said, quoted] of pairs) {
+    if (!f.includes(said)) continue;
+    used++;
+    assert(q.includes(quoted), `${id}: the finding promises "${said}", but no quote shows it`);
   }
-  assert(/modeling/.test(r.finding) && /rebates/.test(r.finding), 'xcel-eda: the card should state the program benefits it is listed for');
+  assert(used > 0, `${id}: none of its checked claims is in the finding; update CLAIMS`);
+}
+// Every utility the Resource Finder card names is quoted from the finder.
+for (const co of rec('hub-resource-finder').finding.match(/(?:Poudre Valley REA|United Power|Holy Cross Energy|[A-Z][\w-]*(?: [A-Z][\w-]*)* (?:Electric|Power) (?:Association|Cooperative)|San Luis Valley Rural Electric Cooperative)/g) || []) {
+  assert(rec('hub-resource-finder').quotes.includes(co), `hub-resource-finder: names ${co}, which no quote shows`);
 }
 // The header's check date is the data's, not a hand-typed one.
 assert(!/checked (?:January|February|March|April|May|June|July|August|September|October|November|December) \d/.test(w.document.querySelector('.page-meta').textContent.replace(/Oldest source check:.*$/s, '')), 'the page header hand-types a check date; let the data fill it');

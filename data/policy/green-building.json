@@ -220,8 +220,9 @@
       "also_in_draft": true,
       "qap_section": "Section 11.J",
       "title": "An efficient building can carry a lower utility allowance",
-      "finding": "Tax credit rent caps include a utility allowance for tenant-paid utilities, so a lower allowance leaves more rent for the owner. CHFA lets owners use an engineer's Energy Consumption Model, which reflects the building actually designed, instead of the housing authority's schedule.",
+      "finding": "The tax credit rent cap applies to gross rent. CHFA lets owners set the utility allowance with an Energy Consumption Model instead of the housing authority's schedule.",
       "quotes": [
+        "a low-income unit is “rent-restricted” if the gross rent for such unit does not exceed 30 percent of the imputed income limitation applicable to the unit.",
         "must use one of the following four sources: Applicable Public Housing Authority, Actual Usage and Rate Estimate, HUD Utility Schedule Model, or Energy Consumption Model."
       ],
       "last_verified": "2026-10-23",
@@ -229,6 +230,23 @@
       "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
       "source_title": "2025-26 QAP, Second Amendment (in force)",
       "publisher": "CHFA"
+    },
+    {
+      "id": "cfr-ua-gross-rent",
+      "section": "benefits",
+      "kind": "rule",
+      "title": "Why the allowance moves the rent",
+      "finding": "Where tenants pay a utility directly, the utility allowance counts as part of gross rent, so a lower allowance leaves more of the capped rent for the owner. Federal rules say an energy consumption model must account for unit size, building orientation, design and materials, mechanical systems and appliances, and is prepared by a licensed engineer or other qualified professional.",
+      "quotes": [
+        "If the cost of any utility (other than telephone, cable television, or Internet) for a residential rental unit is paid directly by the tenant(s), and not by or through the owner of the building, the gross rent for that unit includes the applicable utility allowance",
+        "The energy consumption model must, at a minimum, take into account specific factors including, but not limited to, unit size, building orientation, design and materials, mechanical systems, appliances, characteristics of the building location, and available historical data.",
+        "The utility consumption estimates must be calculated by a properly licensed engineer or other qualified professional."
+      ],
+      "source_url": "https://www.ecfr.gov/current/title-26/chapter-I/subchapter-A/part-1/subject-group-ECFR3e1ac0ffd5ad2c3/section-1.42-10",
+      "source_title": "26 CFR 1.42-10, Utility allowances",
+      "publisher": "U.S. Treasury (eCFR)",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
     },
     {
       "id": "uap-solar",
@@ -399,10 +417,12 @@
       "section": "deal",
       "kind": "rule",
       "title": "Metering moves the bills and the allowance",
-      "finding": "A master meter with owner submeters usually lands on a commercial rate at least 20% below one utility meter per apartment, and the metering choice can move utility allowances by 20% or more. Submetering also puts billing and collections on the owner.",
+      "finding": "A master meter with owner submeters usually lands on a commercial rate at least 20% below one utility meter per apartment, and the metering choice can move utility allowances by 20% or more. Submetering also puts billing, and upkeep of the submeters, on the owner.",
       "quotes": [
         "reduced meter fees typically result in an effective building rate that is at least 20% less than projects with residential utility meters for each apartment.",
-        "the metering approach can impact utility allowance values by 20% or more."
+        "the metering approach can impact utility allowance values by 20% or more.",
+        "If the project is using submeter data to bill residents for apartment electricity use, property management either needs to hire a third party or take on the billing function.",
+        "The responsibility for maintaining the submetering system lands on the property owner."
       ],
       "source_url": "https://multifamily-ehub.chfainfo.com/utility-metering",
       "source_title": "Utility Metering",
@@ -486,6 +506,10 @@
       "source_title": "P.L. 119-21, sec. 70508",
       "publisher": "U.S. Congress",
       "published": "2025-07-04",
+      "also_see": {
+        "url": "https://multifamily-ehub.chfainfo.com/green-codes",
+        "title": "CHFA Electrification Hub, Green Codes, which still pairs EGC or LEED with the 45L credit"
+      },
       "last_verified": "2026-10-23",
       "review_by": "2027-01-23"
     },
@@ -643,11 +667,12 @@
       "kind": "program",
       "status": "verify",
       "title": "Xcel Multifamily Building Efficiency",
-      "finding": "A no-cost assessment and free in-unit products for existing buildings of five or more apartments, market rate or income qualified.",
+      "finding": "A no-cost assessment and free in-unit products such as light bulbs, showerheads and aerators, for existing buildings of five or more apartments, market rate or income qualified.",
       "fits": "Existing buildings in Xcel territory",
       "caveat": "CHFA's listing dates from 2023; confirm current terms with Xcel.",
       "quotes": [
         "No-cost services include: Identifying energy-saving opportunities through an onsite assessment",
+        "Installing free energy-saving products in each unit such as light bulbs, showerheads and aerators.",
         "Properties have five or more units per building; Market rate and income qualified buildings are eligible.",
         "Last Updated: 09/18/2023"
       ],
@@ -663,10 +688,20 @@
       "kind": "program",
       "status": "verify",
       "title": "Co-op and municipal utility rebates",
-      "finding": "CHFA's Colorado Resource Finder lists rebates and loans by utility, including rural electric co-ops such as Poudre Valley REA, United Power, Holy Cross Energy, La Plata Electric, San Miguel Power, San Luis Valley REC, White River and Y-W Electric. Amounts change yearly; call the utility.",
+      "finding": "CHFA's Colorado Resource Finder lists funding, financing and incentives for electrifying new construction or rehab, filtered by utility provider, including rural electric co-ops such as Poudre Valley REA, United Power, Holy Cross Energy, La Plata Electric Association, San Miguel Power Association, San Luis Valley Rural Electric Cooperative, White River Electric Association and Y-W Electric Association. CHFA says the list is not exhaustive; ask your utility.",
       "fits": "Any deal outside Xcel territory, or gas service from another utility",
       "quotes": [
-        "Explore funding, financing, and incentive opportunities available to help electrify your new construction or rehabilitation."
+        "Explore funding, financing, and incentive opportunities available to help electrify your new construction or rehabilitation.",
+        "This is a non-exhaustive resource, and we encourage users to reach out to their utility providers and/or municipalities for additional opportunities if they are not represented on this page.",
+        "Utility Provider",
+        "Poudre Valley REA",
+        "United Power",
+        "Holy Cross Energy",
+        "La Plata Electric Association",
+        "San Miguel Power Association",
+        "San Luis Valley Rural Electric Cooperative",
+        "White River Electric Association",
+        "Y-W Electric Association"
       ],
       "source_url": "https://multifamily-ehub.chfainfo.com/funding-index",
       "source_title": "Colorado Resource Finder",
@@ -683,6 +718,11 @@
       "finding": "Assessment, funding help, project management and inspection for efficiency upgrades in existing affordable buildings where at least 66% of units house residents at or below 80% of AMI. New construction is not eligible now. CHFA lists it in the QAP.",
       "fits": "Acquisition/rehab and existing affordable properties",
       "quotes": [
+        "We offer funding support for energy-saving improvements such as lighting upgrades, insulation enhancements, water-efficient fixtures, and HVAC system improvements.",
+        "We visit your property to evaluate specific opportunities for enhancing energy performance to your needs and budget.",
+        "We identify available financial incentives and can guide you through the energy rebate application process.",
+        "We coordinate, supervise, and ensure the successful implementation of the upgrades to your property.",
+        "We conduct a thorough final evaluation to verify proper installation and optimal performance.",
         "Your multifamily property must have at least 66% of units occupied by residents earning at or below 80% of the Area Median Income (AMI). New construction is not currently eligible for funding."
       ],
       "source_url": "https://energyoutreach.org/multifamily/",
@@ -759,10 +799,17 @@
       "kind": "program",
       "status": "open",
       "title": "Collective Clean Energy Fund (CCEF) loans",
-      "finding": "Colorado's nonprofit clean energy lender, formerly the Colorado Clean Energy Fund, lends to property owners and developers for efficiency, heat pumps, solar, storage and EV charging. Its rates have ranged from 2.5% to 7.75%.",
+      "finding": "A nonprofit community lender (legally the Colorado Clean Energy Fund, doing business as Collective Clean Energy Fund) that lends to property owners and developers for solar and battery storage, HVAC systems, EV charging and efficient equipment. Its rates have ranged from 2.5% to 7.75%.",
       "fits": "Gap financing for upgrades, new or existing",
       "caveat": "CHFA's hub still lists a CCEF Clean Affordable Multifamily Housing Fund. CCEF's own page says its commercial products were updated and does not name it; ask CCEF.",
       "quotes": [
+        "supporting companies, property owners, developers, small business owners, and nonprofit community organizations",
+        "DG solar and battery storage",
+        "HVAC systems",
+        "EV charging infrastructure",
+        "Energy efficient equipment",
+        "As a non-profit community lender",
+        "Colorado Clean Energy Fund dba Collective Clean Energy Fund",
         "Our loan offerings are designed to address finance gaps for clean energy and energy efficiency improvements that result in reduced greenhouse gas emissions and increased electrification.",
         "Historically, our interest rates have ranged from 2.5% to 7.75% depending on the project details."
       ],
@@ -778,7 +825,7 @@
       "kind": "program",
       "status": "open",
       "title": "Colorado C-PACE",
-      "finding": "Long-term financing, up to 20 years and up to 100% of improvement costs, for efficiency, renewable, water and resilience work on multifamily buildings of 5 or more units, new or existing. Repaid through a property assessment, so bring your lender and investor in early.",
+      "finding": "Long-term financing, up to 20 years and up to 100% of improvement costs, for efficiency, renewable, water and resilience work on multifamily buildings of 5 or more units, new or existing. Repaid through a special assessment (a lien) on the property tax bill, so bring your lender and investor in early.",
       "fits": "New construction or rehab, 5+ units",
       "caveat": "The statewide C-PACE program guide allows a longer term than the Energy Office page states; confirm the current limit with the program administrator before sizing the payment.",
       "also_see": {
@@ -788,7 +835,10 @@
       "quotes": [
         "Multifamily (5 units or more)",
         "Property owners can use financing for both existing and newly constructed buildings.",
-        "Owners can select long-term financing (up to 20 years) for as much as 100% of improvement costs."
+        "Owners can select long-term financing (up to 20 years) for as much as 100% of improvement costs.",
+        "Colorado C-PACE provides financing for eligible energy efficiency, water conservation, and renewable energy improvements.",
+        "Resilience measures",
+        "Financing is repaid through a voluntary special assessment (lien) on the owner’s property tax bill."
       ],
       "source_url": "https://energyoffice.colorado.gov/clean-energy-programs/clean-energy-financing/commercial-property-clean-energy-finance",
       "source_title": "Commercial Property Clean Energy Finance (C-PACE)",
