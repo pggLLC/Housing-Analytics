@@ -107,6 +107,16 @@ test('real data: Denver 60% AMI qualified renters are fewer than all renters at 
   assert(union.value >= r.value, 'adding a tier never shrinks the pool');
 });
 
+test('real data: a tract CHAS counts as zero renters is a measured zero, not missing', () => {
+  const d = read('data/market/chfa_renter_demand_co.json');
+  const lim = {};
+  read('data/chfa-income-rent-limits-2026.json').counties.forEach((c) => { lim[c.fips] = c; });
+  assert.deepStrictEqual(d.tracts['08005007113'].slice(1), [0, 0, 0, 0, 0], 'all-zero CHAS tract kept in the file');
+  const r = S.chfaQualifiedRenters(d, lim, [{ geoid: '08005007113', _bufferShare: 1 }], [60]);
+  assert.strictEqual(r.source, 'chfa_qualified');
+  assert.strictEqual(r.value, 0);
+});
+
 test('the file names CHFA\'s rules and its sources', () => {
   const m = read('data/market/chfa_renter_demand_co.json').meta;
   assert(/Appendix A/.test(m.rules_source));

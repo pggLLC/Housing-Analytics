@@ -121,7 +121,9 @@ def build(pums: Path, tract_puma_path: Path, limits_path: Path) -> dict:
         puma = tract_puma.get(gid)
         tiers = rec.get('renter_hh_by_ami') or {}
         counts = [int((tiers.get(t) or {}).get('total') or 0) for t in CHAS_TIERS]
-        if puma and sum(counts) > 0:
+        # A tract CHAS reports with zero renters in every tier is a measured
+        # zero, not missing data: keep it so the page can say no one qualifies.
+        if puma and tiers:
             tracts[gid] = [puma] + counts
 
     return {
