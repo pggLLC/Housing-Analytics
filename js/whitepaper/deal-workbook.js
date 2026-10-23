@@ -1118,6 +1118,15 @@
       var sv = { region: val('wbSRegion'), period: val('wbSPeriod'), avgRent: nOrNull(val('wbSRent')), vacancy: pctIn(val('wbSVac')), byType: byType, source: val('wbSSrc') };
       rec.survey = sv.avgRent != null || sv.vacancy != null || byType.length ? sv : null;
     }
+    // Checked before a save, so the user fixes the survey instead of losing it to the backend's filter.
+    function surveyProblem() {
+      var sv = rec.survey;
+      if (!sv) return null;
+      var rents = [sv.avgRent].concat(sv.byType.map(function (r) { return r.rent; })).filter(function (x) { return x != null; });
+      if (rents.some(function (x) { return !(x > 0); })) return 'Survey rents must be more than $0. Leave a rent blank if the survey does not report it.';
+      if (!/^https?:\/\//i.test(sv.source || '')) return 'Survey figures need a source link starting with http.';
+      return null;
+    }
     function draw() {
       var v = research(model, rec, lihtc, today);
       $('wbResView').innerHTML = renderResearch(v);
@@ -1179,6 +1188,8 @@
     $('wbResSave').addEventListener('click', function () {
       if (!ready) return;
       read();
+      var bad = surveyProblem();
+      if (bad) { say(bad + ' Nothing was saved yet.'); return; }
       lock(true); say('Saving…');
       // A save that stalls is cut off, so the form never stays shut until a reload.
       var ac = typeof AbortController === 'function' ? new AbortController() : null;

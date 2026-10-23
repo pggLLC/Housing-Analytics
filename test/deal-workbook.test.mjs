@@ -609,6 +609,27 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
     globalThis.fetch = saved;
     ok(during && field.disabled === false && el('wbResSave').disabled === false, 'fields are shut while a save is out and open again once it settles');
   }
+  // Survey figures are checked before the save, so a missing source or a $0 rent never costs the user their entries.
+  {
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const saved = globalThis.fetch; let posts = 0;
+    globalThis.fetch = (u, o) => { if (o && o.method === 'POST') { posts++; return Promise.resolve({ ok: true, json: () => Promise.resolve({ data: {}, at: 0 }) }); }
+      return Promise.resolve({ ok: true, json: () => Promise.resolve(/deal-market/.test(String(u)) ? { data: null } : { features: [] }) }); };
+    WB.researchEditor({ getElementById: el }, 'deal-a', WB.build(fixture(), rules), () => {}, () => true);
+    await new Promise((r) => setTimeout(r, 30));
+    el('wbSRent').value = '0'; el('wbSSrc').value = ['https:', '', 'example.org', 's'].join('/');
+    el('wbResSave').handlers.click();
+    const zero = { posts, msg: el('wbResStatus').textContent, kept: el('wbSRent').value };
+    el('wbSRent').value = '1400'; el('wbSSrc').value = '';
+    el('wbResSave').handlers.click();
+    const noSrc = { posts, msg: el('wbResStatus').textContent, kept: el('wbSRent').value };
+    el('wbSSrc').value = ['https:', '', 'example.org', 's'].join('/');
+    el('wbResSave').handlers.click(); await new Promise((r) => setTimeout(r, 30));
+    globalThis.fetch = saved;
+    ok(zero.posts === 0 && /more than \$0/.test(zero.msg) && zero.kept === '0', 'a $0 survey rent is refused before saving, with the entry left in place');
+    ok(noSrc.posts === 0 && /source link/.test(noSrc.msg) && noSrc.kept === '1400', 'survey figures without a source link are refused before saving, with the entries left in place');
+    ok(posts === 1, 'a survey with a positive rent and a source link saves');
+  }
 }
 const highNoRows = mut0((s) => { s.result.projection.rows = []; s.result.costBasis.underwriting = { high: { firstYear: 1.45, exceeds: true } }; });
 ok(/warn: Year-one coverage of 1\.45x is above/.test(texts(highNoRows)), 'high year-one coverage is flagged from the engine check when there are no projection rows');
