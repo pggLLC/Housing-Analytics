@@ -175,6 +175,14 @@
    ]
   },
   {
+   "source": "Prop 123 Concessionary Debt (Affordable Housing Financing Fund, OEDIT/CHFA)",
+   "amount": "$6,000,000",
+   "note": "LIHTC gap loan to Archway Investment Corporation for The Commons at Mosaic, selected 2026-07-21 (Round Two); $6,000,000 requested and awarded. Final terms set in underwriting.",
+   "src": [
+    "oedit-prop123-cd-fy2526-r2"
+   ]
+  },
+  {
    "source": "Colorado Division of Housing",
    "amount": "$2,000,000",
    "note": "Conditional on the tax credit award.",
@@ -422,6 +430,13 @@
    ]
   },
   {
+   "date": "2026-07-21",
+   "event": "OEDIT selects The Commons at Mosaic for a $6,000,000 Prop 123 Concessionary Debt LIHTC gap loan (FY25-26 Round Two)",
+   "src": [
+    "oedit-prop123-cd-fy2526-r2"
+   ]
+  },
+  {
    "date": "2026-09-30",
    "event": "Listed on CHFA's 2026 Round One award report",
    "src": [
@@ -557,6 +572,13 @@
    "publisher": "CHFA",
    "date": "2026-05-21",
    "url": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions"
+  },
+  {
+   "id": "oedit-prop123-cd-fy2526-r2",
+   "title": "FY25-26 Concessionary Debt Program Selections - Round Two (Prop 123 Affordable Housing Financing Fund)",
+   "publisher": "Colorado Office of Economic Development and International Trade (administered by CHFA)",
+   "date": "2026-07-21",
+   "url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2026/07/Prop123-AHFF-FY25-26-ConcessionaryDebtProgramSelections-RoundTwo.pdf"
   }
  ]
 }
