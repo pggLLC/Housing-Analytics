@@ -3950,6 +3950,21 @@
     _toastEl._timer = setTimeout(function () { _toastEl.style.opacity = '0'; }, isError ? 6000 : 3000);
   }
 
+  /* Persistent coverage note under a layer's checkbox label. */
+  function _showCoverageNote(cb, note) {
+    var label = cb && cb.closest ? cb.closest('label') : null;
+    if (!label || !label.parentNode) return;
+    var el = label.parentNode.querySelector('.layer-coverage-note[data-for="' + cb.dataset.layer + '"]');
+    if (!el) {
+      el = document.createElement('div');
+      el.className = 'layer-coverage-note';
+      el.dataset.for = cb.dataset.layer;
+      el.style.cssText = 'font-size:.75rem;color:var(--muted, #64748b);margin:.1rem 0 .3rem 1.5rem;line-height:1.3;';
+      label.parentNode.insertBefore(el, label.nextSibling);
+    }
+    el.textContent = note;
+  }
+
   var _mapLayers = {};  // cache: data-layer key -> L.geoJSON layer
   var _rawLayerData = {};  // cache: data-layer key -> unscoped statewide GeoJSON
 
@@ -4125,6 +4140,10 @@
                 console.warn('[market-analysis] Layer "' + key + '": empty or invalid GeoJSON');
                 return;
               }
+              // A file's own coverage note (e.g. categories kept from an older
+              // pull) stays beside the layer label, not only in a toast.
+              var _coverageNote = gj.metadata && gj.metadata.coverage_note;
+              if (_coverageNote) _showCoverageNote(cb, _coverageNote);
               if (cfg.siteRadius) {
                 var _full = gj.features.length;
                 _rawLayerData[key] = gj;          // keep the statewide copy to re-scope on site change
@@ -4323,7 +4342,8 @@
               };
               _mapLayers[key] = L.geoJSON(gj, opts);
               _mapLayers[key].addTo(map);
-              _showLayerToast('✓ ' + key + ' (' + gj.features.length + ' features)', false);
+              _showLayerToast('✓ ' + key + ' (' + gj.features.length + ' features)' +
+                (_coverageNote ? ' · ' + _coverageNote : ''), false);
             }
 
             // Helper to load from local GeoJSON file

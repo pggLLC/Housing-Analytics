@@ -128,4 +128,10 @@ assert(engineSource.includes('computePma(acs, affordableUnitsKnown, 0, lat, lon,
   'computePma call signature remains unchanged');
 assert(!scoringSource.includes('commuteContext'), 'shared PMA scoring helper does not read commute context overlay state');
 
+// Market-analysis overlays show a file's coverage_note (e.g. zoning-proxy
+// categories kept from an older pull) beside the layer, not only on the data map.
+assert(/gj\.metadata && gj\.metadata\.coverage_note/.test(engineSource) &&
+  engineSource.includes('_showCoverageNote(cb, _coverageNote)'),
+  'market-analysis overlays surface metadata.coverage_note');
+
 console.log('pma-commute-context: PASS');
