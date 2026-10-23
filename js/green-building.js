@@ -71,10 +71,15 @@
     return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
   }
 
-  // A record with a deadline is open through that day and closed after it,
-  // so the page does not depend on someone flipping the status in time.
+  // An open record with dates is "no open round" before it opens, open through
+  // its deadline and closed after it, so the page does not depend on someone
+  // flipping the status in time.
+  var ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
   function effectiveStatus(r, today) {
-    if (r.status === 'open' && /^\d{4}-\d{2}-\d{2}$/.test(String(r.deadline || '')) && (today || todayIso()) > r.deadline) return 'closed';
+    if (r.status !== 'open') return r.status;
+    var t = today || todayIso();
+    if (ISO_DAY.test(String(r.opens || '')) && t < r.opens) return 'watch';
+    if (ISO_DAY.test(String(r.deadline || '')) && t > r.deadline) return 'closed';
     return r.status;
   }
 
@@ -83,6 +88,7 @@
     var status = effectiveStatus(r, today);
     var text = (doc.status_text && doc.status_text[status]) || status;
     if (status === 'open' && r.deadline && longDate(r.deadline)) text += ' until ' + longDate(r.deadline);
+    if (status === 'watch' && r.opens && longDate(r.opens)) text += '; next opens ' + longDate(r.opens);
     return '<span class="' + (STATUS_PILL[status] || 'pill') + '" data-gb-status="' + esc(status) + '">' + esc(text) + '</span>';
   }
 

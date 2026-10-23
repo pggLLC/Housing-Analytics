@@ -121,23 +121,42 @@ for (const s of SECTIONS) {
 }
 const statuses = w.document.querySelectorAll('[data-gb-section="credits"] [data-gb-status], [data-gb-section="programs"] [data-gb-status]');
 assert.equal(statuses.length, perSection.credits + perSection.programs, 'every credit and program row must show its status');
-// A program with a deadline is open through that day and closed the day after,
-// and the deadline agrees with the funding tracker's record of the same program.
-const SHARED_FUNDING = json('data/policy/soft-funding-status.json');
-const fundingPrograms = SHARED_FUNDING.programs;
+// A record with dates is "no open round" before it opens, open through its
+// deadline and closed after it; each date is in the record's quotes, and a
+// deadline shared with the funding tracker agrees with it.
+const fundingPrograms = json('data/policy/soft-funding-status.json').programs;
 const DEADLINE_TWIN = { 'ceo-lbd-showcase': 'CEO-LBD-SHOWCASE' };
-const withDeadline = DOC.entries.filter((e) => e.deadline);
-assert(withDeadline.length >= 1, 'no record carries a deadline; the deadline check is vacuous');
-for (const e of withDeadline) {
-  assert(ISO.test(e.deadline), `${e.id}: deadline must be YYYY-MM-DD`);
-  assert.equal(w.GreenBuilding.effectiveStatus(e, e.deadline), e.status, `${e.id}: must keep its status on the deadline day`);
-  const next = new Date(`${e.deadline}T00:00:00Z`); next.setUTCDate(next.getUTCDate() + 1);
-  if (e.status === 'open') assert.equal(w.GreenBuilding.effectiveStatus(e, next.toISOString().slice(0, 10)), 'closed', `${e.id}: must show closed the day after its deadline`);
+const SHORT = ['Jan.', 'Feb.', 'March', 'April', 'May', 'June', 'July', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'];
+const LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const dayAfter = (iso, n) => { const d = new Date(`${iso}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const quoted = (e, iso) => {
+  const [y, m, d] = iso.split('-').map(Number);
+  const q = e.quotes.join(' ');
+  return [LONG, SHORT].some((names) => q.includes(`${names[m - 1]} ${d}, ${y}`));
+};
+const dated = DOC.entries.filter((e) => e.deadline || e.opens);
+assert(dated.length >= 2, 'too few dated records; the date check is vacuous');
+for (const e of dated) {
+  assert.equal(e.status, 'open', `${e.id}: a dated record is stored as open and the page works out the rest`);
+  for (const f of ['opens', 'deadline']) {
+    if (!e[f]) continue;
+    assert(ISO.test(e[f]), `${e.id}: ${f} must be YYYY-MM-DD`);
+    assert(quoted(e, e[f]), `${e.id}: its ${f} ${e[f]} is not in its quotes`);
+  }
+  const at = (t) => w.GreenBuilding.effectiveStatus(e, t);
+  if (e.opens) {
+    assert.equal(at(dayAfter(e.opens, -1)), 'watch', `${e.id}: must show no open round the day before it opens`);
+    assert.equal(at(e.opens), 'open', `${e.id}: must show open on the day it opens`);
+  }
+  if (e.deadline) {
+    assert.equal(at(e.deadline), 'open', `${e.id}: must stay open on its deadline day`);
+    assert.equal(at(dayAfter(e.deadline, 1)), 'closed', `${e.id}: must show closed the day after its deadline`);
+  }
   const twin = DEADLINE_TWIN[e.id];
-  assert(twin, `${e.id}: name its funding-tracker record in DEADLINE_TWIN so the deadlines are kept in step`);
-  const rec2 = fundingPrograms[twin];
-  assert(rec2, `${twin} is not in data/policy/soft-funding-status.json`);
-  assert.equal(e.deadline, rec2.deadline, `${e.id}: deadline differs from the funding tracker's ${twin}`);
+  if (twin) {
+    assert(fundingPrograms[twin], `${twin} is not in data/policy/soft-funding-status.json`);
+    assert.equal(e.deadline, fundingPrograms[twin].deadline, `${e.id}: deadline differs from the funding tracker's ${twin}`);
+  }
 }
 for (const id of ['irc-45l', 'irc-179d']) {
   assert.equal(DOC.entries.find((e) => e.id === id).status, 'ended', `${id} must be marked ended`);

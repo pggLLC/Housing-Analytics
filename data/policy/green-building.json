@@ -514,16 +514,25 @@
       "id": "irc-48e-low-income",
       "section": "credits",
       "kind": "credit",
-      "status": "at-risk",
+      "status": "open",
+      "opens": "2027-02-01",
+      "deadline": "2027-08-06",
       "title": "48E low-income bonus for solar on affordable housing",
-      "finding": "Solar on a qualifying affordable rental building can earn 20 more percentage points, but only with an IRS capacity allocation, and only inside the solar cutoff above. Whether any allocation remains was not confirmed.",
+      "finding": "Solar on a qualifying affordable rental building can earn 20 more percentage points, but only with an IRS capacity allocation, and only inside the solar cutoff above. The 2026 application window closed August 7, 2026. The 2027 window runs from February 1 to August 6, 2027.",
       "quotes": [
         "in the case of a facility described in subclause (II) of paragraph (2)(A)(iii), 20 percentage points",
-        "is part of a qualified low-income residential building project or a qualified low-income economic benefit project."
+        "is part of a qualified low-income residential building project or a qualified low-income economic benefit project.",
+        "For each program year, applicants may apply for an allocation of capacity limitation which is distributed across the following categories:",
+        "Applications for the 2026 program year will open at 9 a.m. ET on Feb. 2, 2026, and close at 11:59 p.m. ET on Aug. 7, 2026.",
+        "2027 | Monday, Feb. 1, 2027 | Tuesday, March 2, 2027 | Friday, Aug. 6, 2027 | Friday, Dec. 31, 2027 (schedule table: program year, applications open, initial window closes, rolling period closes, program year closes)"
       ],
-      "source_url": "https://www.law.cornell.edu/uscode/text/26/48E",
-      "source_title": "26 U.S.C. 48E(h)",
-      "publisher": "Cornell Legal Information Institute",
+      "source_url": "https://www.irs.gov/credits-deductions/clean-electricity-low-income-communities-bonus-credit-amount-program",
+      "source_title": "Clean Electricity Low-Income Communities Bonus Credit Amount Program",
+      "publisher": "IRS",
+      "also_see": {
+        "url": "https://www.law.cornell.edu/uscode/text/26/48E",
+        "title": "26 U.S.C. 48E(h)"
+      },
       "last_verified": "2026-10-23",
       "review_by": "2027-01-23"
     },
