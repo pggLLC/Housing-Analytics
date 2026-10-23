@@ -55,6 +55,24 @@
     return null;
   }
 
+  // The four Prop 123 fund programs, as the selection lists name them.
+  // Concessionary debt is loans; the others are not, so they are never mixed.
+  var OEDIT_KINDS = {
+    loans: { label: 'Loans', head: 'OEDIT loans $', tip: 'Prop 123 Concessionary Debt: below-market loans to affordable rental projects, in dollars.' },
+    equity: { label: 'Equity', head: 'OEDIT equity $', tip: 'Prop 123 Equity: money invested in a project for a share of it, in dollars.' },
+    land: { label: 'Land banking', head: 'OEDIT land $', tip: 'Prop 123 Land Banking: grants and forgivable loans to buy land for affordable homes, in dollars.' },
+    modular: { label: 'Modular factories', head: 'OEDIT modular $', tip: 'Prop 123 Modular Finance: money for factories that build homes, not for a housing site, in dollars.' },
+  };
+
+  function oeditKind(program) {
+    var p = String(program || '');
+    if (/concessionary|debt/i.test(p)) return 'loans';
+    if (/equity/i.test(p)) return 'equity';
+    if (/land/i.test(p)) return 'land';
+    if (/modular/i.test(p)) return 'modular';
+    return null;
+  }
+
   function num(v) {
     // Absence stays null: Number(null) is 0, and 0 is a real amount.
     if (v === null || v === undefined || v === '') return null;
@@ -135,6 +153,9 @@
         dollars: dollars,
         dollarsBasis: agency === 'CHFA' ? null : (awarded !== null ? 'awarded' : (requested !== null ? 'requested' : null)),
         credits: credits,
+        // Bonds are a loan to the project, not credits or grants, so they are kept apart.
+        bonds: agency === 'CHFA' ? num(r.bond_amount) : null,
+        oeditKind: agency === 'OEDIT' ? oeditKind(r.program) : null,
         federalCredit: num(r.federal_credit),
         stateCredit: num(r.state_credit),
         homes: num(r.restricted_units) !== null ? num(r.restricted_units) : num(r.total_units),
@@ -162,6 +183,8 @@
         dollars: num(r.amount),
         dollarsBasis: num(r.amount) !== null ? (r.amount_basis === 'requested' ? 'requested' : 'awarded') : null,
         credits: null,
+        bonds: null,
+        oeditKind: null,
         homes: num(r.homes),
         homesEstimated: false,
         sourceTitle: r.source_title || 'DOLA announcement',
@@ -234,16 +257,19 @@
   }
 
   function summarise(awards) {
-    var s = { awards: awards.length, dollars: null, credits: null, homes: null, homesEstimated: false, byAgency: {} };
+    var s = { awards: awards.length, dollars: null, credits: null, bonds: null, homes: null, homesEstimated: false, byAgency: {} };
     awards.forEach(function (a) {
       if (a.dollars !== null) s.dollars = (s.dollars || 0) + a.dollars;
       if (a.credits !== null) s.credits = (s.credits || 0) + a.credits;
+      if (a.bonds) s.bonds = (s.bonds || 0) + a.bonds;
       if (a.homes !== null) s.homes = (s.homes || 0) + a.homes;
       if (a.homes !== null && a.homesEstimated) s.homesEstimated = true;
-      var b = s.byAgency[a.agency] || (s.byAgency[a.agency] = { awards: 0, dollars: null, credits: null, homes: null });
+      var b = s.byAgency[a.agency] || (s.byAgency[a.agency] = { awards: 0, dollars: null, credits: null, bonds: null, homes: null, byKind: {} });
       b.awards += 1;
       if (a.dollars !== null) b.dollars = (b.dollars || 0) + a.dollars;
       if (a.credits !== null) b.credits = (b.credits || 0) + a.credits;
+      if (a.bonds) b.bonds = (b.bonds || 0) + a.bonds;
+      if (a.oeditKind && a.dollars !== null) b.byKind[a.oeditKind] = (b.byKind[a.oeditKind] || 0) + a.dollars;
       if (a.homes !== null) b.homes = (b.homes || 0) + a.homes;
     });
     return s;
@@ -358,12 +384,12 @@
 
   function csv(awards) {
     var head = ['Agency', 'Program', 'Year', 'Project', 'Developer', 'Town', 'County',
-      'Grant or loan dollars', 'Dollar basis', 'Tax credits per year', 'Homes', 'Homes estimated',
+      'Grant or loan dollars', 'Dollar basis', 'Prop 123 program type', 'Tax credits per year', 'Bond amount (CHFA 4% report)', 'Homes', 'Homes estimated',
       'Checked against the PDF total', 'Source', 'Source link', 'Source quote'];
     var lines = [head];
     awards.forEach(function (a) {
       lines.push([a.agency, a.program, a.yearLabel, a.name, a.developer, a.town, a.county,
-        a.dollars, a.dollarsBasis, a.credits, a.homes, a.homesEstimated ? 'yes' : 'no',
+        a.dollars, a.dollarsBasis, a.oeditKind ? OEDIT_KINDS[a.oeditKind].label : null, a.credits, a.bonds, a.homes, a.homesEstimated ? 'yes' : 'no',
         a.confirmed ? 'yes' : 'no', a.sourceTitle, a.sourceUrl, a.quote]);
     });
     return lines.map(function (row) {
@@ -376,6 +402,8 @@
 
   var api = {
     AGENCIES: AGENCIES,
+    OEDIT_KINDS: OEDIT_KINDS,
+    oeditKind: oeditKind,
     isExcluded: isExcluded,
     agencyOf: agencyOf,
     developerKey: developerKey,
