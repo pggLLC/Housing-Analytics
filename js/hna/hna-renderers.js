@@ -418,6 +418,7 @@
    * showAllChartsLoading — show loading overlays on all chart canvases in the DOM.
    */
   function showAllChartsLoading() {
+    _ensureBedroomNeedCanvas();
     document.querySelectorAll('canvas[id^="chart"]').forEach(canvas => {
       showChartLoading(canvas.id);
     });
@@ -9510,12 +9511,26 @@
    *
    * @param {object|null} b25009 - { renterTotal, renterBySize: {1..7+} } or null
    */
+  // _placeholderInBox replaces the canvas for a geography with no data; put it
+  // back so the next geography's loading state and chart have somewhere to go.
+  function _ensureBedroomNeedCanvas() {
+    const existing = document.getElementById('chartBedroomNeed');
+    if (existing) return existing;
+    const box = document.querySelector('#bedroom-need-section .chart-box');
+    if (!box) return null;
+    box.innerHTML = '<canvas id="chartBedroomNeed" role="img" aria-label="Renter households by needed bedroom count"></canvas>';
+    return document.getElementById('chartBedroomNeed');
+  }
+
   function renderBedroomNeed(b25009) {
-    const canvas = document.getElementById('chartBedroomNeed');
+    const canvas = _ensureBedroomNeedCanvas();
     const noteEl = document.getElementById('bedroomNeedNote');
     if (!canvas) return;
     if (!b25009 || !b25009.renterBySize) {
-      _placeholderInBox(canvas, 'ACS B25009 renter household-size data not yet loaded.');
+      const reason = b25009 && b25009.unavailableReason;
+      _placeholderInBox(canvas, reason === 'no_renter_households_reported'
+        ? 'The ACS 2020–2024 estimate reports no renter households for this geography.'
+        : 'Renter household-size figures are not available for this geography.');
       if (noteEl) noteEl.textContent = '';
       return;
     }
@@ -9524,8 +9539,9 @@
     const s = b25009.renterBySize;
     // Translate HH-size buckets → bedroom-need buckets.
     const bins = {
-      studio:  Math.round((s[1] || 0) * 0.5),
-      '1BR':   Math.round((s[1] || 0) * 0.5) + (s[2] || 0),
+      // floor/remainder so the bins add back to the published renter total
+      studio:  Math.floor((s[1] || 0) / 2),
+      '1BR':   (s[1] || 0) - Math.floor((s[1] || 0) / 2) + (s[2] || 0),
       '2BR':   (s[3] || 0) + (s[4] || 0),
       '3BR':   (s[5] || 0) + (s[6] || 0),
       '4BR+':  (s['7+'] || 0)
