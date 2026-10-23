@@ -71,9 +71,13 @@
       "also_in_draft": true,
       "qap_section": "Section 8.B",
       "title": "EV-ready parking",
-      "finding": "With more than 10 parking spaces, 10 percent of the lesser of total spaces or total units must be EV-ready; with 10 or fewer, one space. A circuit and a junction box or outlet count; chargers are not required.",
+      "finding": "With more than 10 parking spaces, 10 percent of the lesser of total spaces or total units must be EV-ready; with 10 or fewer, one space. Each EV-ready space needs raceway and panel capacity for the load and one dedicated 40-ampere, 208/240-volt branch circuit, ending in a junction box or outlet near the space; one termination point can generally serve two spaces. Chargers are not required.",
       "quotes": [
-        "For projects with 10 or fewer parking spaces, at least one parking space must be EV-ready. • For projects with more than 10 parking spaces, 10 percent of the lesser of total spaces or total units must be EV-ready."
+        "For projects with 10 or fewer parking spaces, at least one parking space must be EV-ready. • For projects with more than 10 parking spaces, 10 percent of the lesser of total spaces or total units must be EV-ready.",
+        "An EV-ready parking space is a parking space accessible to raceway and electrical panel capacity which can support EV electricity load",
+        "Specifically, the space is provided with one 40-ampere, 208/240-volt dedicated branch circuit for servicing electric vehicles",
+        "Generally, one termination point can support 2 EV-ready parking spaces.",
+        "Only a junction box or electrical outlet capable of supporting EV charging is required as the termination point; installation of Level 2 chargers is not required, though is encouraged."
       ],
       "last_verified": "2026-10-23",
       "review_by": "2027-01-23",

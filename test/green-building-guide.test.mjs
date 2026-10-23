@@ -212,6 +212,8 @@ for (const row of pickRows) {
   if (refs.includes('uap-solar')) {
     assert(/submeter/.test(rec('uap-solar').quotes.join(' ')), 'uap-solar no longer quotes the submeter condition');
     for (const t of cells.flatMap((c) => c.split(';'))) {
+      // uap-solar sets no 48E condition, so the allowance is never framed as the fallback when 48E is lost.
+      if (/solar/i.test(t) && /allowance/.test(t)) assert(!/^\s*(?:otherwise|instead|if not)\b/i.test(t), `pick row "${label}" makes the solar allowance a fallback for losing 48E`);
       if (/solar/i.test(t) && /allowance/.test(t)) assert(/submetered electric bill/.test(t), `pick row "${label}" counts solar in the allowance without the submeter condition`);
     }
   }
@@ -251,6 +253,13 @@ for (const e of DOC.entries) {
 // The header's check date is the data's, not a hand-typed one.
 assert(!/checked (?:January|February|March|April|May|June|July|August|September|October|November|December) \d/.test(w.document.querySelector('.page-meta').textContent.replace(/Oldest source check:.*$/s, '')), 'the page header hand-types a check date; let the data fill it');
 assert.equal(norm(w.document.querySelector('[data-gb-checked]').textContent), `Oldest source check: ${new Date(DOC.meta.last_verified + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`, 'the header check date must come from meta.last_verified');
+// The EV-ready count is only half the rule: the finding states CHFA's electrical specification, and each part is quoted.
+{
+  const r = rec('qap-ev-ready'); const q = r.quotes.join(' ');
+  for (const spec of ['raceway', '40-ampere', '208/240-volt', 'not required']) {
+    assert(r.finding.includes(spec) && q.includes(spec), `qap-ev-ready must state and quote "${spec}"`);
+  }
+}
 // A record's fit may not promise a building size its quotes do not.
 for (const e of DOC.entries) {
   for (const size of ['small', 'large']) {
