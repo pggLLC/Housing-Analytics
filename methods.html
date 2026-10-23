@@ -126,7 +126,7 @@
         <p class="mx-byline">
           <span>Paul Glasgow &mdash; <a href="https://pggllc.org">pggLLC</a>, working with AI</span>
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
-          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">2130d396f</code></span>
+          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">e1245452c</code></span>
           <span>Companion to the <a href="working-paper.html">working paper</a></span>
           <span>Every section last read against its code on <time data-spec-reviewed>2026-10-10</time></span>
         </p>
@@ -513,6 +513,17 @@ price    = budget / k                              (0 if budget ≤ 0)</code>
               <tr><th scope="row">custom</th><td class="lbl">front-end</td><td><span class="mx-unknown">n/a</span></td><td>&mdash;</td><td><span class="mx-unknown">n/a</span></td><td><span class="mx-unknown">n/a</span></td><td><span class="mx-unknown">n/a</span></td><td class="lbl"><span class="mx-unknown">n/a</span></td></tr>
           </tbody>
           </table>
+        </div>
+
+        <div class="col">
+          <p>
+            No model carries its own mortgage rate. All of them, and the HNA headline card and
+            narrative, use one rate: the Freddie Mac Primary Mortgage Market Survey 30-year fixed
+            average for a named week, held once as <code>MORTGAGE_RATE</code> in
+            <code>js/hna/ownership-finance.js</code> and checked against that week's FRED
+            <code>MORTGAGE30US</code> reading. The rate and its week are printed beside the figures
+            that use it. It is a national average, not a quote a Colorado buyer would get.
+          </p>
         </div>
 
         <div class="mx-warn">

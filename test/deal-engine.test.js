@@ -84,7 +84,8 @@ assert.equal(unknown.exit.nNoi, null);
 assert(unknown.unavailable['exit.nNoi']);
 assert(!JSON.stringify(unknown).includes('NaN'));
 // Typed growth outside the inputs' advertised ranges is unknown, never used or clamped.
-for (const [id, limit, ok, bad] of [['pf-rent-growth', 5, '5', '100'], ['pf-exp-growth', 6, '6', '-1']]) {
+// Rent growth may be negative (-3% to 5%); expense growth stays 0% to 6%.
+for (const [id, range, ok, bad] of [['pf-rent-growth', '-3% to 5%', '5', '100'], ['pf-exp-growth', '0% to 6%', '6', '-1']]) {
   const edge = inputsFor('A'); edge.fields[id] = ok;
   assert(computeDeal(edge).exit.nNoi > 0, id + ': the range limit itself is accepted');
   const out = inputsFor('A'); out.fields[id] = bad;
@@ -92,7 +93,7 @@ for (const [id, limit, ok, bad] of [['pf-rent-growth', 5, '5', '100'], ['pf-exp-
   assert.equal(r.exit.nNoi, null, id + ': out-of-range growth leaves exit NOI unavailable');
   assert.equal(r.projection, null, id + ': and the projection');
   assert.equal(r.waterfall, null, id + ': and the waterfall');
-  assert(r.unavailable['exit.nNoi'].includes('0% to ' + limit + '%'), id + ': the reason names the range');
+  assert(r.unavailable['exit.nNoi'].includes(range), id + ': the reason names the range');
 }
 // #2160: a deferred fee is a source in CHFA's gap method however its amount is
 // set, so auto-balance and the same manual deferral reserve the same credit.

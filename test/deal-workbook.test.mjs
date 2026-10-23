@@ -78,8 +78,8 @@ ok(/Loan details are not available: Enter the senior loan rate\./.test(WB.render
 const sched = mut0((s) => { s.utilityAllowance = { applied: false, reason: 'included_in_schedule_rents' }; });
 ok(sched.rentsFromSchedule && sched.rents.rows.every((x) => x.headroom == null), 'schedule rents are not re-checked against a zero allowance');
 ok(/ok: Rents come from the Market Analysis rent schedule/.test(sched.findings.map((f) => f.level + ': ' + f.text).join('\n')) && !/did not apply a utility allowance/.test(sched.findings.map((f) => f.text).join('\n')), 'schedule rents raise no owner-pays-utilities warning');
-const noRent = mut0((s) => { s.result.unavailable = Object.assign({}, s.result.unavailable, { annualRents: 'AMI limits did not load.' }); s.result.pricedRows.forEach((p) => { p.contractRent = null; }); });
-ok(/AMI limits did not load\./.test(WB.render(noRent)) && /<table/.test(WB.render(noRent)), 'the rent reason shows even when row shells exist');
+const noRentRoll = mut0((s) => { s.result.unavailable = Object.assign({}, s.result.unavailable, { annualRents: 'AMI limits did not load.' }); s.result.pricedRows.forEach((p) => { p.contractRent = null; }); });
+ok(/AMI limits did not load\./.test(WB.render(noRentRoll)) && /<table/.test(WB.render(noRentRoll)), 'the rent reason shows even when row shells exist');
 ok(/bad: 30% AMI 2BR rent of \$774 is \$100 over/.test(withUa.findings.map((f) => f.level + ': ' + f.text).join('\n')), 'a gross-limit rent with tenant-paid utilities is over the limit');
 const uaGap = mut0((s) => { s.utilityAllowance = { applied: true, perBedroom: { '1BR': 80 } }; });
 ok(uaGap.rents.rows.every((x) => x.allowance === null && x.headroom === null), 'an allowance missing for a size leaves that row unchecked, not checked against $0');
@@ -170,9 +170,220 @@ ok(WB.calcUrl('"><script>x</script>&units=1', 'http://localhost/a/p.html').index
 ok(new URL(WB.calcUrl('javascript:alert(1)', 'http://localhost/a/p.html')).protocol === 'http:', 'a pasted script link cannot change where the link goes');
 ok(WB.queryFrom('https://example.com/search?q=housing') === null && WB.queryFrom('https://example.com/a=b') === null, 'a link to another page gives nothing');
 ok(WB.queryFrom('?units=60') === 'units=60' && WB.queryFrom('units=60') === 'units=60' && WB.queryFrom('/deal-calculator?units=60') === 'units=60', 'a bare query string or the calculator path still gives its settings');
+const WEB = ['https:', '', 'example.org', 'x'].join('/');
+ok(WB.webLink('javascript:alert(1)') === '#' && WB.webLink(WEB) === WEB, 'a source link shows only when it is a web link');
 ok(WB.queryFrom('just some text') === null && WB.queryFrom({}) === null, 'anything else gives nothing');
 ok(WB.queryFrom('q=housing') === null && WB.queryFrom('/deal-calculator.html?q=housing') === null && WB.queryFrom({ data: { calculator: { query: 'q=1' } } }) === null, 'a query with no Deal Calculator setting gives nothing');
 ok(WB.queryFrom('pf-senior-amount=1000000') === 'pf-senior-amount=1000000', 'a financing setting counts as a calculator query');
+
+
+// ── Market (phase 2) ───────────────────────────────────────────────────────
+// Interpolation between published points, and nothing past the last one.
+const le = { 30: 300, 40: 500, 50: 900, 60: 1000, 70: 1100, 80: 1200, 100: 1500 };
+near(WB.rentersAtOrBelow(le, 45), 700, 'renters at or below 45% sit halfway between 40% and 50%');
+near(WB.rentersAtOrBelow(le, 15), 150, 'below 30% reads down to zero at 0% AMI');
+ok(WB.rentersAtOrBelow(le, 110) === null && WB.rentersAtOrBelow({}, 50) === null, 'past the last published point, or with none, it is unknown');
+// Zillow metro history: quoted names with commas, only the named metro.
+const csv = 'RegionID,SizeRank,RegionName,RegionType,StateName,2024-09-30,2025-09-30\n1,1,"Durango, CO",msa,CO,1900,1950\n2,2,"Durango, CO East",msa,CO,1,2\n';
+const ser = WB.zoriMetroSeries(csv, 'Durango, CO');
+ok(ser.length === 2 && ser[1].rent === 1950 && ser[0].month === '2024-09-30', 'a quoted metro name reads its own row');
+ok(WB.zoriMetroSeries(csv, 'Nowhere, CO') === null, 'an unknown metro gives nothing');
+const dcsv = 'RegionID,SizeRank,RegionName,RegionType,StateName,2025-09-30\n1,19,"Denver, CO",msa,CO,2000\n';
+ok(WB.zoriMetroSeries(dcsv, 'Denver-Aurora-Lakewood, CO')[0].rent === 2000, 'a longer metro name finds the metro history under its first city');
+
+// Invented market files for the fixture's county.
+const mdata = () => ({
+  renters: { meta: { acs_year: 2024, hud_income_limits_year: 2026 }, counties: [{ fips: '08067', county_name: 'La Plata County', ami_4person: 100000, renter_households_total: 5000, households_le_ami_pct: le }] },
+  zori: { meta: { source: 'Zillow ZORI' }, counties: { '08067': { name: 'La Plata County', metro: 'Durango, CO', rent: 1950, yoy_change_pct: 1.0, vintage_month: '2025-09-30' } } },
+  zoriMetroCsv: csv,
+  acsRent: { meta: { vintage: '2020-2024' }, counties: { '08067': { name: 'La Plata County', median_gross_rent: 1500 } } },
+  deals: { deals: [
+    { slug: 'invented-recent', name: 'Invented Recent', city: 'Durango', county: 'La Plata', year: new Date().getFullYear() - 1, units: 40 },
+    { slug: 'invented-old', name: 'Invented Old', city: 'Durango', county: 'La Plata', year: new Date().getFullYear() - 9, units: 30 },
+    { slug: 'invented-elsewhere', name: 'Invented Elsewhere', city: 'Cortez', county: 'Montezuma', year: new Date().getFullYear(), units: 50 }] },
+  dealDetail: { 'invented-recent': { status: { label: 'Under construction' }, income_mix: [{ level: '60% AMI', units: 40 }] } }
+});
+const msnap = Object.assign(fixture(), { countyFips: '08067', perBrMarket: { '2br': 1700, _meta: { source: 'invented estimate' } } });
+const mm = WB.build(msnap, rules);
+const mk = WB.market(mm, msnap, mdata());
+ok(!mk.error && mk.county === 'La Plata County', 'the market reads the deal\'s county');
+// Capture: a 60% tier qualifies from 45% to 60% AMI (40% rent-to-income at a 30% rent).
+const c60 = mk.capture.find((c) => c.tier === 60);
+near(c60.low, 45, '60% AMI units qualify from 45% AMI');
+near(c60.qualified, 1000 - 700, 'qualified renters are those between 45% and 60% AMI');
+near(c60.capture, 15 / 300, 'capture is the tier\'s homes over its qualified renters');
+near(mk.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 22.5), 'the whole deal counts each renter once, from the lowest floor to the highest tier');
+{ const gap = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 30, bedrooms: '2BR', units: 5, rent: 600 }, { tier: 60, bedrooms: '2BR', units: 10, rent: 1200 }] }) });
+  const gm = WB.market(gap, msnap, mdata());
+  near(gm.captureAll.qualified, (300 - WB.rentersAtOrBelow(le, 22.5)) + (1000 - 700), 'tiers with a gap between them count only renters who fit one of them');
+  ok(/^2[23]–30%, 45–60% AMI$/.test(gm.captureAll.ranges) && WB.renderMarket(gm).includes(gm.captureAll.ranges), 'the all-tiers row names each income range'); }
+{ const below = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700, allowance: 100, limit: 1600 }] }) });
+  const bc = WB.market(below, msnap, mdata()).capture[0];
+  near(bc.low, 60 * 0.75 * (800 / 1600), 'a home priced at half its gross limit lowers the tier floor by half (22.5% AMI for a 60% home)');
+  ok(bc.qualified > c60.qualified, 'pricing under the limit counts more renters who can pay, not fewer');
+  const atLimit = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 1500, allowance: 100, limit: 1600 }] }) });
+  near(WB.market(atLimit, msnap, mdata()).capture[0].low, 45, 'a home at its gross limit keeps the 75% floor'); }
+{ const deep = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 30, bedrooms: '2BR', units: 5, rent: 600 }, { tier: 60, bedrooms: '2BR', units: 10, rent: 320, allowance: 0, limit: 1600 }] }) });
+  const dm = WB.market(deep, msnap, mdata());
+  near(dm.captureAll.low, 9, 'a discounted higher tier whose floor sits under a lower tier\'s sets the union\'s floor');
+  near(dm.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 9), 'the union counts every renter from the lowest floor to the highest tier once'); }
+{ const mixed = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 1, rent: 700, allowance: 100, limit: 1600 }, { tier: 60, bedrooms: '1BR', units: 99, rent: 1300, allowance: 100, limit: 1400 }] }) });
+  near(WB.market(mixed, msnap, mdata()).capture[0].low, 45, 'one discounted home does not widen the range for the rest of its tier');
+  const noUa = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700, allowance: null, limit: 1600 }] }) });
+  const nu = WB.market(noUa, msnap, mdata()).capture[0];
+  ok(Math.abs(nu.low - 45) < 1e-9 && nu.atLimit === true, 'with the utility allowance unknown the range is the at-the-limit case, not a lowered floor'); }
+{ const ov = mdata(); ov.renters.counties[0].households_le_ami_pct = { 30: 0, 40: 0, 50: 0, 60: 100, 70: 200, 80: 300, 100: 400 };
+  const two = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 24, rent: 700 }, { tier: 80, bedrooms: '2BR', units: 70, rent: 700, allowance: 100, limit: 1600 }] }) });
+  const om = WB.market(two, msnap, ov);
+  ok(om.capture.every((c) => c.capture < 0.25) && om.captureAll.capture >= 0.25 && om.findings.some((f) => f.level === 'warn' && /All tiers together/.test(f.text)), 'overlapping tiers that pass alone but need 25% or more together are flagged'); }
+{ const sched = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700, limit: null }] }) });
+  const sm = WB.market(sched, msnap, mdata());
+  ok(sm.capture[0].atLimit === true && /assumes rents at the limit/.test(WB.renderMarket(sm)), 'with no gross limit on file the range is labelled as the at-the-limit case');
+  const known = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700, allowance: 100, limit: 1600 }] }) });
+  ok(WB.market(known, msnap, mdata()).capture[0].atLimit === false && !/assumes rents at the limit/.test(WB.renderMarket(WB.market(known, msnap, mdata()))), 'with the limit known there is no at-the-limit note'); }
+{ const allMkt2 = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 'Market', bedrooms: '2BR', units: 20, rent: 1700 }] }) });
+  const am2 = WB.market(allMkt2, msnap, Object.assign(mdata(), { renters: null }));
+  ok(am2.noTiers === true && !am2.unchecked.some((u) => /renters who can pay|rents against the market/.test(u)), 'a market-only deal is not listed as unchecked even when the renter file did not load'); }
+{ const nm = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700 }] }) });
+  near(WB.market(nm, msnap, mdata()).capture[0].low, 45, 'with no limit on file the floor stays at the limit scenario'); }
+ok(/geoid: geoid \}\)/.test(read('js/whitepaper/deal-workbook.js')) && /get\('geoid'\)/.test(read('js/whitepaper/deal-workbook.js')), 'the market estimate uses the same place as the calculator');
+{ const allMkt = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 'Market', bedrooms: '2BR', units: 20, rent: 1700 }] }) });
+  const am = WB.market(allMkt, msnap, mdata());
+  ok(!am.error && am.capture === null && !am.unchecked.some((u) => /renters who can pay/.test(u)) && /no income-restricted homes/.test(WB.renderMarket(am)), 'a deal with only market-rate homes renders its market without a renter screen'); }
+ok(/signal: ac \? ac\.signal/.test(read('js/whitepaper/deal-workbook.js')) && /did not answer in time/.test(read('js/whitepaper/deal-workbook.js')), 'a stalled save is cut off and the form reopens');
+// Rents against the market: the calculator's own bedroom estimate.
+const r60 = mk.rents.find((x) => x.tier === 60);
+near(r60.market, 1700, 'market rent is the calculator\'s 2BR estimate');
+ok(Math.abs(r60.discount - (1 - 1549 / 1700)) < 1e-9, 'discount is one less rent over market');
+const mtext = (x) => x.findings.map((f) => f.level + ': ' + f.text).join('\n');
+ok(/warn: 60% AMI 2BR rent is only 9%/.test(mtext(mk)), 'a rent under 10% below market is flagged');
+ok(!/50% AMI 2BR rent is only/.test(mtext(mk)), 'a rent 24% below market is not');
+ok(/bad: 60% AMI 2BR rent of \$1,549 is above the market estimate of \$1,500/.test(mtext(WB.market(mm, Object.assign({}, msnap, { perBrMarket: { '2br': 1500 } }), mdata()))), 'a rent above market is a problem');
+ok(WB.market(mm, Object.assign({}, msnap, { perBrMarket: null }), mdata()).rents.every((x) => x.market === null && x.discount === null), 'no bedroom estimate leaves market and discount unknown, never 0');
+// Capture screen at 25%, both ways.
+const tight = mdata(); tight.renters.counties[0].households_le_ami_pct = { 30: 10, 40: 20, 50: 30, 60: 80, 70: 100, 80: 110, 100: 120 };
+ok(/warn: 60% AMI: 15 homes against about 55/.test(mtext(WB.market(mm, msnap, tight))), 'a tier needing 25% or more of its renters is flagged');
+ok(!/AMI: 15 homes against/.test(mtext(mk)), 'a 5% capture is not');
+{ const hiData = mdata(); hiData.renters.counties[0].households_le_ami_pct = { 30: 10, 40: 20, 50: 30 };
+  const hm = WB.market(mm, msnap, hiData);
+  ok(hm.unchecked.some((u) => /60% AMI rents/.test(u)) && !/Nothing in the county figures needs a second look/.test(WB.renderMarket(hm)), 'a tier with no published renter count is listed as not checked'); }
+{ const flat = mdata(); flat.renters.counties[0].households_le_ami_pct = { 30: 80, 40: 80, 50: 80, 60: 80, 70: 100, 80: 110, 100: 120 };
+  const fm = WB.market(mm, msnap, flat);
+  ok(/bad: 60% AMI: 15 homes, but the county counts show no renter households/.test(mtext(fm)) && /None counted in this range/.test(WB.renderMarket(fm)) && !/Nothing in the county figures needs a second look/.test(WB.renderMarket(fm)), 'a tier with no renters in its range is flagged, not left blank'); }
+ok(/mEl\.innerHTML = renderMarket\(/.test(read('js/whitepaper/deal-workbook.js')) && !/if \(my !== tok\) return;\n\s*\$\('wbMarket'\)/.test(read('js/whitepaper/deal-workbook.js')), 'the market fills in while its own section is on screen, even after a picker changes');
+// Trend and pipeline.
+ok(mk.trend.length === 2 && Math.abs(mk.trend[1].change - (1950 / 1900 - 1)) < 1e-9, 'the trend reads the same month each year from Zillow\'s metro history');
+ok(mk.pipeline.length === 1 && mk.pipeline[0].slug === 'invented-recent' && mk.pipeline[0].status === 'Under construction' && mk.pipeline[0].mix === '40 at 60% AMI', 'the pipeline lists recent awards in this county only, with status and mix');
+ok(/warn: 1 tax credit award in La Plata County since/.test(mtext(mk)), 'a recent award in the county is flagged');
+const down = mdata(); down.zori.counties['08067'].yoy_change_pct = -0.9;
+ok(/warn: Zillow rents in La Plata County are down 0\.9%/.test(mtext(WB.market(mm, msnap, down))), 'falling Zillow rents are flagged');
+const noYoy = mdata(); noYoy.zori.counties['08067'].yoy_change_pct = null;
+{ const h = WB.renderMarket(WB.market(mm, msnap, noYoy)); ok(!/null%/.test(h) && /change from a year earlier not published/.test(h), 'an unpublished year-over-year change is said, not shown as null'); }
+{ const none = WB.market(mm, Object.assign({}, msnap, { perBrMarket: null }), Object.assign(mdata(), { renters: null, zoriMetroCsv: null, deals: null }));
+  const h = WB.renderMarket(none);
+  ok(none.unchecked.length === 4 && !/Nothing in the county figures needs a second look/.test(h) && /Not checked, because the figures did not load/.test(h), 'market checks that could not run are listed, never shown as a pass');
+  ok(!/No CHFA tax credit awards in this county/.test(h) && /deal summaries did not load/.test(h), 'awards that did not load are not shown as no awards'); }
+ok(mk.unchecked.length === 0 && /Nothing in the county figures needs a second look|What to check/.test(WB.renderMarket(mk)), 'with every figure loaded, nothing is listed as unchecked');
+// Missing pieces stay missing.
+ok(!!WB.market(mm, Object.assign({}, msnap, { countyFips: null }), mdata()).error, 'no county, no market');
+const noRent = WB.market(mm, msnap, Object.assign(mdata(), { renters: null }));
+ok(!noRent.capture && /No renter income counts/.test(noRent.captureReason), 'no renter file gives a reason, not a zero capture');
+const mhtml = WB.renderMarket(mk);
+// Each market section is named by its own heading (aria-labelledby must point at an h2 inside it), and the
+// awards heading names the county the market was built for. Wording is free; the wiring and the county are not.
+const sectionsLabelled = (html) => { const secs = [...html.matchAll(/<section[^>]*aria-labelledby="([^"]+)"[^>]*>([\s\S]*?)<\/section>/g)];
+  return { n: secs.length, ok: secs.every((x) => new RegExp('<h2 id="' + x[1] + '">[^<]+</h2>').test(x[2])) }; };
+{ const sl = sectionsLabelled(mhtml);
+  ok(sl.n >= 5 && sl.ok, 'every market section (' + sl.n + ' found) is labelled by its own heading');
+  const reworded = mhtml.replace('>Rent trend<', '>How rents have moved<');
+  ok(reworded !== mhtml && sectionsLabelled(reworded).ok, 'sabotage: rewording a heading keeps the label check green');
+  const broken = mhtml.replace('<h2 id="wbMktTrend">', '<h2 id="wbMktTrendX">');
+  ok(broken !== mhtml && !sectionsLabelled(broken).ok, 'sabotage: a heading that no longer matches its section label fails');
+  const pipeH = (mhtml.match(/<h2 id="wbMktPipe">([^<]+)<\/h2>/) || [])[1] || '';
+  ok(pipeH.includes(mk.county), 'the awards heading names the county the market was built for (' + mk.county + ')'); }
+ok(!/NaN|undefined/.test(mhtml) && /our screens, not CHFA rules/.test(mhtml), 'no NaN, and our own screens are labelled as ours');
+ok(/deal-summary\.html\?d=invented-recent/.test(mhtml), 'each award links to its deal summary');
+{ const nd = mdata(); nd.dealDetail = {}; const nm = WB.market(mm, msnap, nd); const nh = WB.renderMarket(nm);
+  ok(nm.unchecked.some((u) => /status and income mix of 1 award/.test(u)) && /Not loaded/.test(nh) && !/Nothing in the county figures needs a second look/.test(nh), 'an award whose summary did not load says so, not a blank income mix'); }
+// Real files the browser loads exist and carry what market() reads.
+Object.values(WB.MARKET_URLS).forEach((u) => ok(fs.existsSync(path.join(ROOT, u)), u + ' exists'));
+const realRenters = JSON.parse(read(WB.MARKET_URLS.renters));
+ok(realRenters.counties.every((c) => /^08\d{3}$/.test(c.fips) && c.households_le_ami_pct && c.households_le_ami_pct['60'] != null), 'every county row has renters at or below 60% AMI');
+ok(Object.values(JSON.parse(read(WB.MARKET_URLS.zori)).counties).every((c) => c.rent > 0), 'every Zillow county has a rent');
+const noMetro = mdata(); delete noMetro.zori.counties['08067'].metro;
+ok(!WB.market(mm, msnap, noMetro).trend && /no metro history/.test(WB.market(mm, msnap, noMetro).trendReason), 'a county with no Zillow metro says so instead of borrowing one');
+{ const one = mdata(); one.zoriMetroCsv = 'RegionID,SizeRank,RegionName,RegionType,StateName,2025-09-30\n1,1,"Durango, CO",msa,CO,1950\n';
+  const om = WB.market(mm, msnap, one);
+  ok(om.unchecked.includes('the rent trend') && !/Nothing in the county figures needs a second look/.test(WB.renderMarket(om)), 'a single Zillow reading is listed as an unchecked trend, not a pass'); }
+{ const y = new Date().getFullYear(); const edge = mdata();
+  edge.deals.deals.push({ slug: 'invented-edge-in', name: 'Edge In', city: 'Durango', county: 'La Plata', year: y - 4, units: 20 }, { slug: 'invented-edge-out', name: 'Edge Out', city: 'Durango', county: 'La Plata', year: y - 5, units: 20 });
+  const em = WB.market(mm, msnap, edge);
+  ok(em.pipeline.some((d) => d.slug === 'invented-edge-in') && !em.pipeline.some((d) => d.slug === 'invented-edge-out') && WB.renderMarket(em).includes('since ' + (y - 4) + '</h2>'), 'the awards window is five calendar years counting this one, and the heading says the same'); }
+ok(/\.wb-map \.leaflet-control-zoom a \{ width: 44px; height: 44px;/.test(read('developer-deal-workbook.html')), 'the workbook map zoom buttons are 44px touch targets');
+{ const cls = (read('js/whitepaper/deal-workbook.js').match(/<a class="([\w-]+)" href="' \+ esc\(webLink\(c\.source\)\)/) || [])[1];
+  ok(!!cls && new RegExp('^\\s*a\\.' + cls + ' \\{[^}]*min-width: 44px; min-height: 44px', 'm').test(read('developer-deal-workbook.html')), 'the source links carry a class the page sizes to 44px wherever they sit'); 
+  ok((read('js/whitepaper/deal-workbook.js').match(new RegExp('<a class="' + cls + '"', 'g')) || []).length >= 2, 'both the comparable and survey source links use that class'); }
+
+
+// ── The team's research (phase 3) ──────────────────────────────────────────
+near(WB.miles({ lat: 39.7392, lon: -104.9903 }, { lat: 38.8339, lon: -104.8214 }) , 63, 'Denver to Colorado Springs is about 63 miles');
+ok(WB.miles({ lat: 39.7, lon: null }, { lat: 38.8, lon: -104.8 }) === null, 'no coordinates, no distance');
+const lihtc = { features: [
+  { geometry: { coordinates: [-107.88, 37.28] }, properties: { PROJECT: 'Invented Near', PROJ_CTY: 'Durango', N_UNITS: 40, LI_UNITS: 40, AwardYear: 2020, CREDIT: '9% Competitive', AMIUnits: { ami30: 4, ami60: 36, ami80: 0 } } },
+  { geometry: { coordinates: [-105.0, 39.7] }, properties: { PROJECT: 'Invented Far', N_UNITS: 10, LI_UNITS: 10 } }] };
+const rec = { site: { address: 'Invented', lat: 37.2753, lon: -107.8801 },
+  comps: [
+    { name: 'Invented Far Market', kind: 'market', lat: 37.40, lon: -107.88, rents: { '2br': 1700 }, checked: '2026-10-01', source: 'https://example.org/a' },
+    { name: 'Invented Near Market', kind: 'market', lat: 37.28, lon: -107.88, rents: { '2br': 1600 }, checked: '2024-01-01', source: 'https://example.org/b' },
+    { name: 'Invented Credit', kind: 'tax credit', lat: 37.27, lon: -107.87, rents: { '2br': 900 }, checked: '2026-10-01', source: 'https://example.org/c' }],
+  waitlist: { keeper: 'Invented Housing Authority', asOf: '2026-10-01', total: 127, rows: [{ band: '30', size: '2', count: 40 }] },
+  survey: { region: 'Invented metro', period: '2026 Q1', avgRent: 1400, vacancy: 0.025, byType: [{ type: '3BR/2BA', rent: 1946, vacancy: 0.055 }], source: 'https://example.org/s' } };
+const rv = WB.research(m, rec, lihtc, '2026-10-22');
+ok(!rv.nearbyUnchecked && !/property list did not load/.test(WB.renderResearch(rv)), 'with the property list loaded, nearby properties are checked');
+{ const nl = WB.research(m, rec, null, '2026-10-22');
+  ok(nl.nearbyUnchecked && /property list did not load, so tax credit properties near the site were not checked/.test(WB.renderResearch(nl)), 'a property list that did not load is said, not shown as no nearby properties'); }
+ok(/researchEditor\(doc, deal, model, function \(\) \{ status\('Your market research did not load\.'\); \}\);/.test(read('js/whitepaper/deal-workbook.js')), 'the research editor stays live while its form is on screen, even after a picker changes');
+ok(rv.comps[0].name === 'Invented Near Market' || rv.comps[0].name === 'Invented Credit', 'comparables are listed nearest first');
+ok(rv.comps[rv.comps.length - 1].name === 'Invented Far Market', 'the farthest comparable is last');
+near(rv.compAvg['2br'].rent, 1650, 'the comparable average uses market-rate properties only');
+ok(rv.compAvg['2br'].n === 2 && rv.compAvg['1br'] === null, 'a size no comparable reports is unknown, not 0');
+const rtext = rv.findings.map((f) => f.level + ': ' + f.text).join('\n');
+ok(/warn: 60% AMI 2BR rent is only 6% under the average market comparable \(\$1,650\)/.test(rtext), 'a rent under 10% below the comparables is flagged');
+ok(/warn: Invented Near Market was last checked 2024-01-01/.test(rtext) && !/Invented Far Market was last checked/.test(rtext), 'a comparable checked more than a year ago is flagged; a recent one is not');
+ok(/warn: 3BR\/2BA vacancy is 5\.5%/.test(rtext) && !/shows 2\.5% vacancy/.test(rtext), 'survey vacancy of 5% or more is flagged; 2.5% is not');
+ok(/ok: 127 households on the waitlist kept by Invented Housing Authority \(2026-10-01\) for 60 homes/.test(rtext), 'the waitlist total is set against the deal\'s homes');
+ok(rv.nearby.length === 1 && rv.nearby[0].name === 'Invented Near' && rv.nearby[0].mix === '4 at 30%, 36 at 60%', 'tax credit properties within 10 miles, with their income mix');
+ok(/bad: 60% AMI 2BR rent of \$1,549 is above the average market comparable/.test(WB.research(m, { comps: [{ name: 'X', kind: 'market', rents: { '2br': 1500 }, checked: '2026-10-01', source: 'https://example.org/x' }] }, null, '2026-10-22').findings.map((f) => f.level + ': ' + f.text).join('\n')), 'a rent above the comparables is a problem');
+ok(/No comparables yet/.test(WB.research(m, {}, null, '2026-10-22').findings[0].text), 'no comparables is a finding');
+{ const gr = WB.research(m, { comps: [{ name: 'One', kind: 'market', rents: { '1br': 1200 }, checked: '2026-10-01', source: 'https://example.org/o' }] }, null, '2026-10-22');
+  ok(gr.findings.some((x) => x.level === 'warn' && /No market-rate comparable reports a 2BR rent/.test(x.text)), 'a deal size no comparable reports is named as not checked'); }
+{ const zr = WB.research(m, { comps: [{ name: 'Z', kind: 'market', rents: { '2br': 0 }, checked: '2026-10-01', source: 'https://example.org/z' }, { name: 'Y', kind: 'market', rents: { '2br': 1600 }, checked: '2026-10-01', source: 'https://example.org/y' }] }, null, '2026-10-22');
+  ok(zr.compAvg['2br'].n === 1 && zr.compAvg['2br'].rent === 1600 && zr.rentVsComps.every((x) => x.discount == null || isFinite(x.discount)), 'a zero comparable rent is left out of the average, never divided by'); }
+{ const dup = { name: 'Same', kind: 'market', rents: {}, checked: '2026-10-01', source: 'https://example.org/s' };
+  const dr = WB.research(m, { comps: [dup, Object.assign({}, dup)] }, null, '2026-10-22');
+  ok(dr.comps.map((c) => c.at).join(',') === '0,1', 'each comparable keeps its saved position');
+  ok(/rec\.comps\.splice\(gone\.at, 1\)/.test(read('js/whitepaper/deal-workbook.js')) && !/rec\.comps = rec\.comps\.filter/.test(read('js/whitepaper/deal-workbook.js')), 'Remove takes out only the row clicked, even when two rows match'); }
+ok(/class="wb-map" role="region"/.test(read('js/whitepaper/deal-workbook.js')) && !/wb-map" role="img"/.test(read('js/whitepaper/deal-workbook.js')), 'the research map is a labelled region, so its zoom buttons stay visible to screen readers');
+ok(WB.research(m, { comps: rec.comps }, lihtc, '2026-10-22').nearby.length === 0 && WB.research(m, { comps: rec.comps }, lihtc, '2026-10-22').comps.every((c) => c.miles === null), 'without a site there are no distances and no nearby list');
+const rhtml = WB.renderResearch(rv);
+// Each research table sits under its own heading (h3 or a summary), and every body row has one cell per column.
+// Wording is free; the shape and the count (one table per filled part of the research) are not.
+const tablesShaped = (html) => { const ts = [...html.matchAll(/(<\/h3>|<\/summary>)?(?:<p>[\s\S]*?<\/p>)?<div class="sr-scroll"><table[^>]*><thead><tr>([\s\S]*?)<\/tr><\/thead><tbody>([\s\S]*?)<\/tbody>/g)];
+  return { n: ts.length, ok: ts.every((t) => { const cols = (t[2].match(/<th /g) || []).length, rows = t[3].split('</tr>').filter(Boolean);
+    return !!t[1] && cols > 0 && rows.length > 0 && rows.every((r) => (r.match(/<td/g) || []).length === cols); }) }; };
+{ const want = (rv.comps.length ? 1 : 0) + (rv.rentVsComps.some((x) => x.comp != null) ? 1 : 0) + (rv.nearby.length ? 1 : 0) + (rv.waitlist && rv.waitlist.rows.length ? 1 : 0) + (rv.survey && (rv.survey.byType || []).length ? 1 : 0);
+  const ts = tablesShaped(rhtml);
+  ok(want >= 3 && ts.n === want && ts.ok, 'each filled part of the research renders one headed table with whole rows (' + ts.n + ' of ' + want + ')');
+  const reworded = rhtml.replace('<h3>Waitlist</h3>', '<h3>Who is waiting</h3>');
+  ok(reworded !== rhtml && tablesShaped(reworded).ok && tablesShaped(reworded).n === want, 'sabotage: rewording a heading keeps the table check green');
+  const short = rhtml.replace(/<td[^>]*>[^<]*<\/td><\/tr>/, '</tr>');
+  ok(short !== rhtml && !tablesShaped(short).ok, 'sabotage: a row missing a cell fails'); }
+ok(/No names or applicant details are kept/.test(rhtml) && /our screens, not CHFA rules/.test(rhtml) && !/NaN|undefined/.test(rhtml), 'the waitlist says counts only; our screens are labelled; no NaN');
+ok(/rel="noopener noreferrer"/.test(rhtml) && !/<script/.test(WB.renderResearch(WB.research(m, { comps: [{ name: '<script>x</script>', kind: 'market', rents: {}, checked: '2026-10-01', source: 'https://example.org/"><script>' }] }, null, '2026-10-22'))), 'names and links are escaped');
+{ const src = read('js/whitepaper/deal-workbook.js');
+  ok(/lat != null \|\| lon != null \?/.test(src) && /\(rec\.site\.lat == null\) !== \(rec\.site\.lon == null\)/.test(src), 'a longitude entered alone is kept and the save asks for both coordinates');
+  ok(/c\.units != null && !\(c\.units >= 0 && c\.units === Math\.floor\(c\.units\)\)/.test(src), 'a comparable home count must be a whole number, zero or more'); }
+ok(WB.MARKET_API === '/api/deal-market', 'research is saved to the private backend');
 
 // ── Gating ─────────────────────────────────────────────────────────────────
 const page = read('developer-deal-workbook.html');
@@ -341,7 +552,7 @@ const sl = shortLoan.loans.find((l) => l.label === 'First mortgage');
 ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(texts(shortLoan)) && WB.render(shortLoan).includes('Owed after year 5'), 'loan balances and balloons stop at the forecast horizon');
 
 {
-  const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+  const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
   const doc = { getElementById: el, baseURI: 'https://example.org/developer-deal-workbook.html', querySelectorAll: () => [] };
   const saved = { fetch: globalThis.fetch, window: globalThis.window };
   globalThis.fetch = () => Promise.reject(new Error('offline'));
@@ -374,7 +585,7 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   // A saved version whose calculator is still running is dropped when the saved deal or version changes.
   const fx = fixture();
   const run = async (change) => {
-    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
     let frame, removed = 0;
     const doc = { getElementById: el, baseURI: 'https://example.org/developer-deal-workbook.html', querySelectorAll: () => [],
       body: { appendChild(f) { frame = f; } },
@@ -395,6 +606,93 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   };
   ok((await run(false)).includes('Deal B'), 'a saved version renders when the choice stays put');
   ok((await run(true)) === '', 'a saved version still running is dropped when the version changes');
+}
+{
+  // Research for a deal that is no longer on screen is not written into the form.
+  const run = async (alive) => {
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const doc = { getElementById: el };
+    const saved = globalThis.fetch;
+    globalThis.fetch = (u) => Promise.resolve({ ok: true, json: () => Promise.resolve(/deal-market/.test(String(u)) ? { data: { site: { address: '1 Deal A Way', lat: 37.3, lon: -107.9 }, comps: [] } } : { features: [] }) });
+    WB.researchEditor(doc, 'deal-a', WB.build(fixture(), rules), () => {}, () => alive);
+    await new Promise((r) => setTimeout(r, 30));
+    globalThis.fetch = saved;
+    return el('wbSiteAddr').value;
+  };
+  ok((await run(true)) === '1 Deal A Way', 'saved research fills the form for the deal on screen');
+  ok((await run(false)) === '', 'research that loads after another deal opened is not written into its form');
+  // Save stays shut until the saved research has loaded, and stays shut if it fails to load.
+  const gate = async (resp) => {
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const saved = globalThis.fetch; let posts = 0, release;
+    const held = new Promise((r) => { release = r; });
+    globalThis.fetch = (u, o) => { if (o && o.method === 'POST') { posts++; return Promise.resolve({ ok: true, json: () => Promise.resolve({ data: {}, at: 0 }) }); }
+      return /deal-market/.test(String(u)) ? held.then(() => resp) : Promise.resolve({ ok: true, json: () => Promise.resolve({ features: [] }) }); };
+    const field = { disabled: false }; const realQ = el('wbResearch').querySelectorAll;
+    el('wbResearch').querySelectorAll = (q) => (/textarea/.test(q) ? [field] : realQ(q));
+    WB.researchEditor({ getElementById: el }, 'deal-a', WB.build(fixture(), rules), () => {}, () => true);
+    const early = el('wbResSave').disabled && field.disabled; el('wbResSave').handlers.click();
+    release(); await new Promise((r) => setTimeout(r, 30));
+    globalThis.fetch = saved;
+    return { early, posts, after: el('wbResSave').disabled, field: field.disabled, msg: el('wbResStatus').textContent };
+  };
+  const g1 = await gate({ ok: true, json: () => Promise.resolve({ data: null }) });
+  ok(g1.early === true && g1.posts === 0 && g1.after === false && g1.field === false, 'save and every field are shut until the saved research loads, then open');
+  const g2 = await gate({ ok: false, json: () => Promise.resolve(null) });
+  ok(/bindTooltip\(esc\(p\.label\)\)/.test(read('js/whitepaper/deal-workbook.js')), 'map tooltips are escaped, since Leaflet sets them as HTML');
+  ok(g2.after === true && g2.field === true && /did not load/.test(g2.msg), 'a failed load keeps save shut so an empty form cannot overwrite the research');
+  // While a save is out, the fields are shut, so nothing typed then is replaced by the saved copy.
+  {
+    const field = { disabled: false };
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, querySelectorAll: (q) => (/textarea/.test(q) ? [field] : []), handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const saved = globalThis.fetch; let release;
+    const held = new Promise((r) => { release = r; });
+    globalThis.fetch = (u, o) => (o && o.method === 'POST') ? held.then(() => ({ ok: true, json: () => Promise.resolve({ data: { comps: [] }, at: 0 }) }))
+      : Promise.resolve({ ok: true, json: () => Promise.resolve(/deal-market/.test(String(u)) ? { data: null } : { features: [] }) });
+    WB.researchEditor({ getElementById: el }, 'deal-a', WB.build(fixture(), rules), () => {}, () => true);
+    await new Promise((r) => setTimeout(r, 30));
+    el('wbResSave').handlers.click();
+    const during = field.disabled && el('wbCAdd').disabled;
+    release(); await new Promise((r) => setTimeout(r, 30));
+    globalThis.fetch = saved;
+    ok(during && field.disabled === false && el('wbResSave').disabled === false, 'fields are shut while a save is out and open again once it settles');
+  }
+  // Survey figures are checked before the save, so a missing source or a $0 rent never costs the user their entries.
+  {
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const saved = globalThis.fetch; let posts = 0;
+    globalThis.fetch = (u, o) => { if (o && o.method === 'POST') { posts++; return Promise.resolve({ ok: true, json: () => Promise.resolve({ data: {}, at: 0 }) }); }
+      return Promise.resolve({ ok: true, json: () => Promise.resolve(/deal-market/.test(String(u)) ? { data: null } : { features: [] }) }); };
+    WB.researchEditor({ getElementById: el }, 'deal-a', WB.build(fixture(), rules), () => {}, () => true);
+    await new Promise((r) => setTimeout(r, 30));
+    el('wbSRent').value = '0'; el('wbSSrc').value = ['https:', '', 'example.org', 's'].join('/');
+    el('wbResSave').handlers.click();
+    const zero = { posts, msg: el('wbResStatus').textContent, kept: el('wbSRent').value };
+    el('wbSRent').value = '1400'; el('wbSSrc').value = '';
+    el('wbResSave').handlers.click();
+    const noSrc = { posts, msg: el('wbResStatus').textContent, kept: el('wbSRent').value };
+    el('wbSSrc').value = ['https:', '', 'example.org', 's'].join('/');
+    el('wbResSave').handlers.click(); await new Promise((r) => setTimeout(r, 30));
+    const savedOnce = posts;
+    el('wbSRent').value = '1400'; el('wbSSrc').value = ['https:', '', 'example.org', 's'].join('/'); el('wbSVac').value = '150';
+    el('wbResSave').handlers.click();
+    const vac = { posts, msg: el('wbResStatus').textContent };
+    el('wbSVac').value = ''; el('wbST0').value = ''; el('wbSTR0').value = '1500';
+    el('wbResSave').handlers.click();
+    const loose = { posts, msg: el('wbResStatus').textContent, kept: el('wbSTR0').value };
+    globalThis.fetch = saved;
+    el('wbSTR0').value = ''; el('wbWTotal').value = '-5';
+    el('wbResSave').handlers.click();
+    const negW = { posts, msg: el('wbResStatus').textContent };
+    el('wbWTotal').value = '1.5'; el('wbResSave').handlers.click();
+    ok(posts === savedOnce && /whole numbers/.test(el('wbResStatus').textContent) && el('wbWTotal').value === '1.5', 'a fractional waitlist count is refused, not rounded, and stays in the form');
+    ok(negW.posts === savedOnce && /whole numbers of households, zero or more/.test(negW.msg), 'a negative waitlist count is refused before saving');
+    ok(vac.posts === savedOnce && /between 0% and 100%/.test(vac.msg), 'a survey vacancy over 100% is refused before saving');
+    ok(loose.posts === savedOnce && /no unit type/.test(loose.msg) && loose.kept === '1500', 'a survey row with figures but no unit type is refused, not dropped');
+    ok(zero.posts === 0 && /more than \$0/.test(zero.msg) && zero.kept === '0', 'a $0 survey rent is refused before saving, with the entry left in place');
+    ok(noSrc.posts === 0 && /source link/.test(noSrc.msg) && noSrc.kept === '1400', 'survey figures without a source link are refused before saving, with the entries left in place');
+    ok(savedOnce === 1, 'a survey with a positive rent and a source link saves');
+  }
 }
 const highNoRows = mut0((s) => { s.result.projection.rows = []; s.result.costBasis.underwriting = { high: { firstYear: 1.45, exceeds: true } }; });
 ok(/warn: Year-one coverage of 1\.45x is above/.test(texts(highNoRows)), 'high year-one coverage is flagged from the engine check when there are no projection rows');

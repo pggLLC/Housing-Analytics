@@ -14,6 +14,7 @@ import { fileURLToPath } from 'node:url';
 import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import vm from 'node:vm';
+import { createRequire } from 'node:module';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -126,8 +127,10 @@ const LIHTC_RECENCY_METRICS = new Set([
 const R1_FOLDED_METRICS = new Set([
   'latest_lihtc_year', 'regional_latest_lihtc_year', 'drought_years', 'recency_basis',
 ]);
+// The one dated mortgage rate the HNA pages use (js/hna/ownership-finance.js).
+const OwnershipFinance = createRequire(import.meta.url)('../../js/hna/ownership-finance.js');
 const OWNERSHIP_AFFORDABILITY_ASSUMPTIONS = {
-  rateAnnual: 0.065,
+  rateAnnual: OwnershipFinance.MORTGAGE_RATE.rateAnnual,
   termYears: 30,
   downPaymentPct: 0.10,
   propertyTaxPctAnnual: 0.0065,
@@ -305,7 +308,8 @@ function loadOptionalJson(file) {
 }
 
 function loadOwnershipEngine() {
-  const sandbox = { window: {} };
+  // The kernel reads OwnershipFinance.MORTGAGE_RATE as the browser pages do.
+  const sandbox = { window: { OwnershipFinance } };
   vm.createContext(sandbox);
   vm.runInContext(fs.readFileSync(OWNERSHIP_JS, 'utf8'), sandbox, { filename: OWNERSHIP_JS });
   return sandbox.window.HNAOwnershipNeed;

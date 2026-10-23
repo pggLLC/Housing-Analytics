@@ -611,6 +611,367 @@
     return u.href;
   }
 
+  // ── Market (pure) ─────────────────────────────────────────────────────────
+  // Figures the site already holds, for the deal's county. A screen, not a market study: a study measures a
+  // primary market area drawn around the site; these are county figures.
+  var MARKET_URLS = {
+    renters: 'data/co_ami_gap_by_county.json',        // ACS B25118 renter households by income, against HUD AMI
+    zori: 'data/market/zori_rents_co.json',           // Zillow ZORI by county, latest month and year-over-year
+    zoriMetro: 'data/zillow/zori_metro.csv',          // Zillow ZORI by metro, monthly history
+    acsRent: 'data/market/acs_median_rent_co.json',   // ACS B25064 median gross rent
+    bedroomMix: 'data/market/acs_renter_bedrooms_co.json',
+    deals: 'data/deals/index.json'                    // hand-researched CHFA award summaries, 2022 on
+  };
+  // Rent at the tier's limit is 30% of the tier's income ceiling. A household paying it at no more than 40% of
+  // income earns at least 30/40 = 75% of that ceiling. A tier whose homes are all priced under the limit lowers
+  // that floor in step: gross cost at half the limit lets households from 37.5% of the tier rent it.
+  var MAX_RENT_SHARE = 0.40;
+  var FLOOR_SHARE = 0.30 / MAX_RENT_SHARE;
+  var TREND_YEARS = 5;
+  var PIPELINE_YEARS = 5;
+
+  // Renter households at or below pct% AMI, read straight between the published points (0, 30, 40 ... 100).
+  function rentersAtOrBelow(le, pct) {
+    var pts = [[0, 0]];
+    Object.keys(le || {}).forEach(function (k) { var x = num(k), y = num(le[k]); if (x != null && y != null) pts.push([x, y]); });
+    pts.sort(function (a, b) { return a[0] - b[0]; });
+    if (pts.length < 2 || pct > pts[pts.length - 1][0]) return null;
+    for (var i = 1; i < pts.length; i++) {
+      if (pct <= pts[i][0]) {
+        var a = pts[i - 1], b = pts[i];
+        return a[1] + (b[1] - a[1]) * (pct - a[0]) / (b[0] - a[0]);
+      }
+    }
+    return null;
+  }
+
+  // One CSV row by its RegionName, without loading every metro into objects.
+  // The county file can carry a metro's longer name ("Denver-Aurora-Lakewood, CO") where the metro CSV
+  // uses its first city ("Denver, CO"), so the short form is tried when the full name is not there.
+  function zoriMetroSeries(csv, metro) {
+    if (!csv || !metro) return null;
+    var short = String(metro).replace(/^([^,-]+)-[^,]+(, [A-Z]{2})$/, '$1$2');
+    var lines = String(csv).split(/\r?\n/), head = splitCsv(lines[0]);
+    var nameCol = head.indexOf('RegionName');
+    var found = null;
+    for (var i = 1; i < lines.length; i++) {
+      if (lines[i].indexOf(metro) === -1 && lines[i].indexOf(short) === -1) continue;
+      var row = splitCsv(lines[i]);
+      if (row[nameCol] === metro) { found = row; break; }
+      if (row[nameCol] === short && !found) found = row;
+    }
+    if (!found) return null;
+    var out = [];
+    head.forEach(function (h, j) { if (/^\d{4}-\d{2}-\d{2}$/.test(h) && num(found[j]) != null) out.push({ month: h, rent: num(found[j]) }); });
+    return out;
+  }
+  function splitCsv(line) {
+    var out = [], cur = '', q = false;
+    for (var i = 0; i < line.length; i++) {
+      var c = line[i];
+      if (c === '"') q = !q;
+      else if (c === ',' && !q) { out.push(cur); cur = ''; }
+      else cur += c;
+    }
+    out.push(cur);
+    return out;
+  }
+
+  // snap.countyFips, snap.perBrMarket (Deal Calculator ZORI-by-bedroom), m = build() result, data = MARKET_URLS loaded.
+  function market(m, snap, data) {
+    var fips = snap && snap.countyFips;
+    if (!m || m.error) return { error: 'No deal to compare.' };
+    if (!/^08\d{3}$/.test(fips || '')) return { error: 'The deal has no Colorado county set, so there is no market to compare. Choose the county in the Deal Calculator.' };
+    data = data || {};
+    var mk = { fips: fips };
+    var zc = data.zori && data.zori.counties && data.zori.counties[fips];
+    var acs = data.acsRent && data.acsRent.counties && data.acsRent.counties[fips];
+    var rc = ((data.renters && data.renters.counties) || []).filter(function (c) { return c.fips === fips; })[0] || null;
+    mk.county = (zc && zc.name) || (acs && acs.name) || (rc && rc.county_name) || fips;
+
+    // Rents against the market.
+    var per = snap.perBrMarket || null;
+    mk.marketSource = per && per._meta ? per._meta.source : null;
+    mk.zori = zc ? { rent: num(zc.rent), yoy: num(zc.yoy_change_pct), month: zc.vintage_month, metro: zc.metro || null,
+      source: (data.zori.meta && data.zori.meta.source) || 'Zillow ZORI' } : null;
+    mk.acs = acs && num(acs.median_gross_rent) != null ? { rent: num(acs.median_gross_rent), vintage: data.acsRent.meta && data.acsRent.meta.vintage, source: data.acsRent.meta && data.acsRent.meta.source } : null;
+    // Restricted rows only: a market-rate row is the market, so there is nothing to compare.
+    mk.rents = m.rents.rows.filter(function (x) { return typeof x.tier === 'number'; }).map(function (x) {
+      var br = BR_KEY[String(x.bedrooms || '').toUpperCase()];
+      var mkt = per && br ? num(per[br]) : null;
+      return { tier: x.tier, bedrooms: x.bedrooms, units: x.units, rent: x.rent, market: mkt, discount: mkt && x.rent != null ? 1 - x.rent / mkt : null };
+    });
+
+    // Who can pay, and the share of them the deal must lease to (capture), tier by tier.
+    var anyTier = m.rents.rows.some(function (x) { return num(x.tier) != null && x.units; });
+    if (!anyTier) { mk.capture = null; mk.noTiers = true; mk.captureReason = 'The deal has no income-restricted homes, so there are no tiers to screen.'; }
+    else if (rc && rc.households_le_ami_pct) {
+      var le = rc.households_le_ami_pct;
+      var unitsBy = {}, ratioBy = {}, assumedBy = {};
+      m.rents.rows.forEach(function (x) {
+        var t = num(x.tier); if (t == null || !x.units) return;
+        unitsBy[t] = (unitsBy[t] || 0) + x.units;
+        // The tier's floor follows its highest-priced home against the gross limit, so no home is credited with
+        // renters who could not pay it. Without the limit or the utility allowance, the gross cost is unknown and
+        // the range is the at-the-limit case.
+        var gross = x.rent != null && x.allowance != null ? x.rent + x.allowance + (x.fees || 0) : null;
+        var r = x.limit > 0 && gross != null ? Math.min(1, Math.max(0, gross / x.limit)) : null;
+        if (r == null) { assumedBy[t] = true; r = 1; }
+        ratioBy[t] = ratioBy[t] == null ? r : Math.max(ratioBy[t], r);
+      });
+      mk.capture = Object.keys(unitsBy).map(Number).sort(function (a, b) { return a - b; }).map(function (t) {
+        var lo = t * FLOOR_SHARE * ratioBy[t], hi = rentersAtOrBelow(le, t), base = rentersAtOrBelow(le, lo);
+        var q = hi != null && base != null ? hi - base : null;
+        return { tier: t, units: unitsBy[t], low: lo, high: t, qualified: q, capture: q > 0 ? unitsBy[t] / q : null,
+          reason: q == null ? 'No renter count published at ' + t + '% AMI for this county.' : q <= 0 ? 'None counted in this range' : null,
+          // Without the gross limit (rents from the Market Analysis schedule), the range is the at-the-limit case.
+          atLimit: !!assumedBy[t] };
+      });
+      // All tiers together: the union of the tiers' income ranges, so a gap between tiers (say 30% and 60%)
+      // does not count renters who fit neither.
+      var segs = [];
+      // Sorted by floor: a discounted higher tier can reach below a lower tier's floor.
+      mk.capture.slice().sort(function (a, b) { return a.low - b.low; }).forEach(function (c) {
+        var last = segs[segs.length - 1];
+        if (last && c.low <= last[1]) last[1] = Math.max(last[1], c.high); else segs.push([c.low, c.high]);
+      });
+      var qAll = segs.reduce(function (s, g) {
+        var hi = rentersAtOrBelow(le, g[1]), lo = rentersAtOrBelow(le, g[0]);
+        return s == null || hi == null || lo == null ? null : s + hi - lo;
+      }, 0);
+      var uAll = mk.capture.reduce(function (s, c) { return s + c.units; }, 0);
+      if (!segs.length) { mk.capture = null; mk.noTiers = true; mk.captureReason = 'The deal has no income-restricted homes, so there are no tiers to screen.'; }
+      else mk.captureAll = { units: uAll, low: segs[0][0], high: segs[segs.length - 1][1], ranges: segs.map(function (g) { return Math.round(g[0]) + '–' + g[1] + '%'; }).join(', ') + ' AMI',
+        qualified: qAll, capture: qAll > 0 ? uAll / qAll : null };
+      mk.renters = { total: num(rc.renter_households_total), ami: num(rc.ami_4person), year: data.renters.meta && data.renters.meta.acs_year,
+        amiYear: data.renters.meta && data.renters.meta.hud_income_limits_year };
+    } else mk.captureReason = 'No renter income counts on file for this county.';
+
+    // Rent trend: Zillow by metro, the same month each year.
+    var series = mk.zori && mk.zori.metro ? zoriMetroSeries(data.zoriMetroCsv, mk.zori.metro) : null;
+    if (series && series.length) {
+      var last = series[series.length - 1], mm = last.month.slice(5, 7), yr = Number(last.month.slice(0, 4));
+      mk.trend = [];
+      for (var y = yr - TREND_YEARS; y <= yr; y++) {
+        var hit = series.filter(function (p) { return p.month.slice(0, 4) === String(y) && p.month.slice(5, 7) === mm; })[0];
+        if (hit) mk.trend.push(hit);
+      }
+      mk.trend.forEach(function (p, i) { p.change = i ? p.rent / mk.trend[i - 1].rent - 1 : null; });
+      var peak = series.reduce(function (a, b) { return b.rent > a.rent ? b : a; });
+      mk.trendPeak = peak;
+      mk.trendMetro = mk.zori.metro;
+    } else mk.trendReason = mk.zori ? 'Zillow publishes no metro history for ' + (mk.zori.metro || 'this county') + '.' : 'Zillow publishes no rent index for this county.';
+
+    // Pipeline: CHFA awards in the county from the deal summaries.
+    var deals = (data.deals && data.deals.deals) || [];
+    var countyName = String(mk.county).replace(/ County$/, '');
+    var thisYear = new Date().getFullYear();
+    mk.pipelineLoaded = !!(data.deals && data.deals.deals);
+    mk.pipeline = deals.filter(function (d) { return d.county === countyName && num(d.year) != null && d.year >= thisYear - PIPELINE_YEARS + 1; })
+      .sort(function (a, b) { return b.year - a.year; })
+      .map(function (d) { var got = data.dealDetail && data.dealDetail[d.slug], x = got || {};
+        return { slug: d.slug, name: d.name, city: d.city, year: d.year, units: num(d.units), award: d.award,
+          status: x.status && x.status.label || null, mix: (x.income_mix || []).map(function (i) { return i.units + ' at ' + i.level; }).join(', ') || null, detailLoaded: !!got }; });
+
+    mk.findings = marketFindings(mk);
+    // A check whose figures did not load or are not published is listed, so an empty list never reads as a pass.
+    mk.unchecked = [];
+    if (!mk.noTiers && (!mk.rents.length || mk.rents.every(function (x) { return x.discount == null; }))) mk.unchecked.push('rents against the market');
+    if (!mk.capture) { if (!mk.noTiers) mk.unchecked.push('renters who can pay each tier'); }
+    else mk.capture.filter(function (c) { return c.qualified == null; }).forEach(function (c) { mk.unchecked.push('renters who can pay ' + c.tier + '% AMI rents (no county count published that high)'); });
+    // One same-month reading has no change to show, so it is not a checked trend.
+    if (!(mk.trend && mk.trend.length >= 2)) mk.unchecked.push('the rent trend');
+    if (!(data.deals && data.deals.deals)) mk.unchecked.push('other tax credit awards in the county');
+    else { var noDetail = mk.pipeline.filter(function (p) { return !p.detailLoaded; }).length;
+      if (noDetail) mk.unchecked.push('the status and income mix of ' + noDetail + ' award' + (noDetail === 1 ? '' : 's') + ' (its summary did not load)'); }
+    return mk;
+  }
+
+  function marketFindings(mk) {
+    var out = [];
+    mk.rents.forEach(function (x) {
+      if (x.discount == null) return;
+      if (x.discount < 0) out.push({ level: 'bad', text: x.tier + '% AMI ' + x.bedrooms + ' rent of ' + money(x.rent) + ' is above the market estimate of ' + money(x.market) + '. Price it below the limit or expect slow leasing.' });
+      else if (x.discount < 0.10) out.push({ level: 'warn', text: x.tier + '% AMI ' + x.bedrooms + ' rent is only ' + pct(x.discount) + ' under the market estimate (' + money(x.market) + '). Renters who qualify have little reason to choose it over market housing.' });
+    });
+    (mk.capture || []).forEach(function (c) {
+      if (c.qualified != null && c.qualified <= 0) { out.push({ level: 'bad', text: c.tier + '% AMI: ' + c.units + ' homes, but the county counts show no renter households with incomes from ' + Math.round(c.low) + '% to ' + c.high + '% AMI. Check who can rent these homes before relying on them.' }); return; }
+      if (c.capture == null) return;
+      if (c.capture >= 0.25) out.push({ level: 'warn', text: c.tier + '% AMI: ' + c.units + ' homes against about ' + Math.round(c.qualified).toLocaleString('en-US') + ' renter households who qualify in the county (' + pct(c.capture, 1) + '). The deal needs a large share of them.' });
+    });
+    // Tiers whose ranges overlap draw on the same renters, so the whole deal is screened too.
+    var ca = mk.captureAll;
+    if (ca && ca.capture != null && ca.capture >= 0.25 && !(mk.capture || []).some(function (c) { return c.capture != null && c.capture >= 0.25; }))
+      out.push({ level: 'warn', text: 'All tiers together: ' + ca.units + ' homes against about ' + Math.round(ca.qualified).toLocaleString('en-US') + ' renter households who qualify for at least one of them (' + pct(ca.capture, 1) + '). Each tier passes alone, but they draw on the same renters.' });
+    if (mk.zori && mk.zori.yoy != null && mk.zori.yoy < 0) out.push({ level: 'warn', text: 'Zillow rents in ' + mk.county + ' are down ' + Math.abs(mk.zori.yoy).toFixed(1) + '% from a year ago. Hold rent growth at CHFA\'s 2% and do not count on market rents rising.' });
+    var recent = (mk.pipeline || []).filter(function (p) { return p.year >= new Date().getFullYear() - 2; });
+    if (recent.length) out.push({ level: 'warn', text: recent.length + ' tax credit award' + (recent.length === 1 ? '' : 's') + ' in ' + mk.county + ' since ' + (new Date().getFullYear() - 2) + ' (' + recent.reduce(function (s, p) { return s + (p.units || 0); }, 0) + ' homes) may lease to the same renters. Check their income mix below.' });
+    var rank = { bad: 0, warn: 1, ok: 2 };
+    return out.sort(function (a, b) { return rank[a.level] - rank[b.level]; });
+  }
+
+  function renderMarket(mk) {
+    if (!mk || mk.error) return '<section class="dv-card"><h2>Market</h2><p class="sr-muted">' + esc((mk && mk.error) || 'No market figures.') + '</p></section>';
+    var h = '<section class="dv-card rw-decide" aria-labelledby="wbMkt"><h2 id="wbMkt">Market: ' + esc(mk.county) + '</h2>';
+    h += '<p class="sr-muted">County figures the site already holds. A market study measures the area drawn around the site; use these to see whether a study is likely to raise questions.</p>';
+    h += mk.findings.length ? '<h3>What to check</h3><ul>' + mk.findings.map(function (f) { return '<li class="' + (f.level === 'bad' ? 'sr-red' : 'sr-yellow') + '">' + esc(f.text) + '</li>'; }).join('') + '</ul><p class="sr-muted">The 10%-under-market and 25%-of-renters lines are our screens, not CHFA rules.</p>' : (mk.unchecked && mk.unchecked.length ? '' : '<p>Nothing in the county figures needs a second look.</p>');
+    if (mk.unchecked && mk.unchecked.length) h += '<p class="sr-yellow">Not checked, because the figures did not load or are not published for this county: ' + esc(mk.unchecked.join('; ')) + '.</p>';
+    h += '</section>';
+
+    // Rents vs market
+    h += '<section class="dv-card" aria-labelledby="wbMktRent"><h2 id="wbMktRent">Rents against the market</h2>';
+    h += table(['AMI', 'Size', 'Homes', 'Rent', 'Market estimate', 'Under market'], mk.rents.map(function (x) {
+      return { cls: x.discount != null && x.discount < 0.10 ? 'sr-diff' : '', cells: [esc(x.tier + '%'), esc(x.bedrooms), esc(x.units), esc(money(x.rent)), esc(money(x.market)), esc(x.discount == null ? '—' : pct(x.discount))] };
+    }), { num: [2, 3, 4, 5] });
+    var notes = [];
+    if (mk.marketSource) notes.push('Market estimate: ' + mk.marketSource + '.');
+    else notes.push('No market estimate by bedroom size for this county' + (mk.zori ? '; the all-homes figure is below.' : '.'));
+    if (mk.zori) notes.push('Zillow, all homes, ' + mk.county + ': ' + money(mk.zori.rent) + ' (' + mk.zori.month + ', ' + (mk.zori.yoy == null ? 'change from a year earlier not published' : (mk.zori.yoy >= 0 ? '+' : '') + mk.zori.yoy + '% from a year earlier') + ').');
+    if (mk.acs) notes.push('Census median gross rent, ' + mk.county + ': ' + money(mk.acs.rent) + ' (ACS ' + (mk.acs.vintage || '') + '; includes older and subsidized homes).');
+    h += '<p class="sr-muted">' + esc(notes.join(' ')) + '</p></section>';
+
+    // Capture
+    h += '<section class="dv-card" aria-labelledby="wbMktCap"><h2 id="wbMktCap">Who can pay, and how many the deal needs</h2>';
+    if (mk.capture) {
+      h += table(['AMI', 'Homes', 'Renter incomes that fit', 'Renter households in that range', 'Share the deal needs'], mk.capture.map(function (c) {
+        return { cells: [esc(c.tier + '%'), esc(c.units), esc(Math.round(c.low) + '–' + c.high + '% AMI'), esc(c.qualified == null ? '—' : Math.round(c.qualified).toLocaleString('en-US')), esc(c.capture == null ? (c.reason || '—') : pct(c.capture, 1))] };
+      }).concat(mk.captureAll && mk.captureAll.capture != null ? [{ cls: 'sr-total', cells: ['All', esc(mk.captureAll.units), esc(mk.captureAll.ranges), esc(Math.round(mk.captureAll.qualified).toLocaleString('en-US')), esc(pct(mk.captureAll.capture, 1))] }] : []), { num: [1, 3, 4] });
+      var lim = mk.capture.filter(function (c) { return c.atLimit; }).map(function (c) { return c.tier + '%'; });
+      if (lim.length) h += '<p class="sr-yellow">' + esc('The ' + lim.join(', ') + ' AMI range' + (lim.length === 1 ? ' assumes' : 's assume') + ' rents at the limit, because the gross limit or utility allowance for these rents is not on file here. Homes priced under the limit reach renters below this range, so these counts are the smallest case. Check the rent schedule in Market Analysis.') + '</p>';
+      h += '<p class="sr-muted">' + esc('A household fits a tier when its income is under the tier\'s limit and the rent is no more than 40% of its income, so from three-quarters of the limit up to the limit, or lower where every home in the tier is priced under its limit. Renter households by income: Census ACS ' + (mk.renters.year || '') + ' (table B25118), ' +
+        (mk.renters.total != null ? Math.round(mk.renters.total).toLocaleString('en-US') + ' renter households in the county, ' : '') + 'measured against HUD ' + (mk.renters.amiYear || '') + ' area median income for four people (' + money(mk.renters.ami) + '). Household size is not matched to unit size, and existing homes already serving these renters are not subtracted, so this is a first screen.') + '</p>';
+    } else h += '<p class="sr-muted">' + esc(mk.captureReason) + '</p>';
+    h += '</section>';
+
+    // Trend
+    h += '<section class="dv-card" aria-labelledby="wbMktTrend"><h2 id="wbMktTrend">Rent trend</h2>';
+    if (mk.trend && mk.trend.length) {
+      h += table(['Month', 'Typical rent', 'Change from a year earlier'], mk.trend.map(function (p) { return { cells: [esc(p.month.slice(0, 7)), esc(money(p.rent)), esc(p.change == null ? '—' : (p.change >= 0 ? '+' : '') + (p.change * 100).toFixed(1) + '%')] }; }), { num: [0, 1, 2] });
+      h += '<p class="sr-muted">' + esc('Zillow Observed Rent Index, ' + mk.trendMetro + ' metro, all homes. Highest month: ' + money(mk.trendPeak.rent) + ' in ' + mk.trendPeak.month.slice(0, 7) + '.') + '</p>';
+    } else h += '<p class="sr-muted">' + esc(mk.trendReason) + '</p>';
+    h += '</section>';
+
+    // Pipeline
+    h += '<section class="dv-card" aria-labelledby="wbMktPipe"><h2 id="wbMktPipe">Tax credit awards in ' + esc(mk.county) + ' since ' + (new Date().getFullYear() - PIPELINE_YEARS + 1) + '</h2>';
+    h += mk.pipeline.length ? table(['Project', 'Town', 'Award', 'Homes', 'Income mix', 'Status'], mk.pipeline.map(function (p) {
+      return { cells: ['<a class="wb-src" href="deal-summary.html?d=' + esc(p.slug) + '">' + esc(p.name) + '</a>', esc(p.city), esc(p.award), esc(p.units == null ? '—' : p.units), esc(p.detailLoaded ? (p.mix || '—') : 'Not loaded'), esc(p.detailLoaded ? (p.status || '—') : 'Not loaded')] };
+    }), { num: [3] }) : (mk.pipelineLoaded ? '<p>No CHFA tax credit awards in this county in that time.</p>' : '<p class="sr-yellow">The deal summaries did not load, so awards in this county were not checked. Reload the page to try again.</p>');
+    h += '<p class="sr-muted">From the site\'s deal summaries, one researched record per CHFA award with its sources. Other projects without tax credits are not listed.</p></section>';
+    return h;
+  }
+
+  // ── The team's own research (pure) ────────────────────────────────────────
+  // Typed on this page and kept per deal by the private backend (/api/deal-market): the site's location,
+  // comparable properties with a source link each, waitlist counts (never names) and the CHFA/DOLA survey.
+  var MARKET_API = '/api/deal-market';
+  var LIHTC_URL = 'data/chfa-lihtc.json';
+  var NEARBY_MILES = 10;
+  var STALE_DAYS = 365;
+  var WAIT_BANDS = [['30', '30% AMI or less'], ['50', '31–50% AMI'], ['60', '51–60% AMI'], ['80', '61–80% AMI'], ['over80', 'Over 80% AMI'], ['unknown', 'Income not recorded']];
+  var WAIT_SIZES = ['1', '2', '3', '4', '5+', 'any'];
+  var COMP_BEDS = [['studio', 'Studio'], ['1br', '1BR'], ['2br', '2BR'], ['3br', '3BR'], ['4br', '4BR']];
+
+  function miles(a, b) {
+    if (!a || !b || num(a.lat) == null || num(a.lon) == null || num(b.lat) == null || num(b.lon) == null) return null;
+    var R = 3958.8, toR = Math.PI / 180;
+    var dLat = (b.lat - a.lat) * toR, dLon = (b.lon - a.lon) * toR;
+    var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a.lat * toR) * Math.cos(b.lat * toR) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+
+  // rec: the saved research { site, comps, waitlist, survey }; lihtc: data/chfa-lihtc.json; today: 'YYYY-MM-DD'.
+  function research(m, rec, lihtc, today) {
+    rec = rec || {};
+    var site = rec.site && num(rec.site.lat) != null && num(rec.site.lon) != null ? rec.site : null;
+    var v = { site: rec.site || null, findings: [] };
+    v.comps = (rec.comps || []).map(function (c, at) { return Object.assign({}, c, { miles: site ? miles(site, c) : null, at: at }); })
+      .sort(function (a, b) { return (a.miles == null ? 1e9 : a.miles) - (b.miles == null ? 1e9 : b.miles); });
+    // Average comparable rent by size, market-rate comparables only.
+    v.compAvg = {};
+    COMP_BEDS.forEach(function (bd) {
+      var xs = v.comps.filter(function (c) { return c.kind === 'market' && c.rents && num(c.rents[bd[0]]) > 0; }).map(function (c) { return num(c.rents[bd[0]]); });
+      v.compAvg[bd[0]] = xs.length ? { rent: xs.reduce(function (s, x) { return s + x; }, 0) / xs.length, n: xs.length } : null;
+    });
+    v.rentVsComps = (m && m.rents ? m.rents.rows : []).filter(function (x) { return typeof x.tier === 'number'; }).map(function (x) {
+      var br = BR_KEY[String(x.bedrooms || '').toUpperCase()], avg = br ? v.compAvg[br] : null;
+      return { tier: x.tier, bedrooms: x.bedrooms, rent: x.rent, comp: avg ? avg.rent : null, n: avg ? avg.n : 0, discount: avg && x.rent != null ? 1 - x.rent / avg.rent : null };
+    });
+    // Tax credit properties near the site, from CHFA's property list.
+    var feats = (lihtc && lihtc.features) || [];
+    v.nearbyUnchecked = !!site && !(lihtc && lihtc.features);
+    v.nearby = site ? feats.map(function (f) {
+      var c = f.geometry && f.geometry.coordinates, p = f.properties || {};
+      var d = c ? miles(site, { lat: c[1], lon: c[0] }) : null;
+      var mix = p.AMIUnits ? Object.keys(p.AMIUnits).filter(function (k) { return num(p.AMIUnits[k]) > 0; }).map(function (k) { return p.AMIUnits[k] + ' at ' + k.replace(/^ami/, '').replace(/^lte/, '≤') + '%'; }).join(', ') : '';
+      return { name: p.PROJECT || p.ReportedName, city: p.PROJ_CTY, units: num(p.N_UNITS), li: num(p.LI_UNITS), year: num(p.AwardYear || p.YR_ALLOC), credit: p.CREDIT || p.TypeOfCredits || '', mix: mix, lat: c && c[1], lon: c && c[0], miles: d };
+    }).filter(function (x) { return x.miles != null && x.miles <= NEARBY_MILES; }).sort(function (a, b) { return a.miles - b.miles; }) : [];
+    v.waitlist = rec.waitlist || null;
+    v.survey = rec.survey || null;
+
+    var f = v.findings;
+    if (!v.comps.length) f.push({ level: 'warn', text: 'No comparables yet. Add the market-rate and tax credit properties a renter here would also consider, each with the page or call it came from.' });
+    else if (!v.comps.some(function (c) { return c.kind === 'market'; })) f.push({ level: 'warn', text: 'No market-rate comparables, so the rents cannot be checked against what renters pay now.' });
+    if (v.comps.some(function (c) { return c.kind === 'market'; })) {
+      var gaps = [];
+      v.rentVsComps.forEach(function (x) { if (x.comp == null && gaps.indexOf(x.bedrooms) < 0) gaps.push(x.bedrooms); });
+      if (gaps.length) f.push({ level: 'warn', text: 'No market-rate comparable reports a ' + gaps.join(' or ') + ' rent, so ' + (gaps.length === 1 ? 'that size was' : 'those sizes were') + ' not checked against the comparables.' });
+    }
+    v.rentVsComps.forEach(function (x) {
+      if (x.discount == null) return;
+      if (x.discount < 0) f.push({ level: 'bad', text: x.tier + '% AMI ' + x.bedrooms + ' rent of ' + money(x.rent) + ' is above the average market comparable (' + money(x.comp) + ', ' + x.n + ' propert' + (x.n === 1 ? 'y' : 'ies') + ').' });
+      else if (x.discount < 0.10) f.push({ level: 'warn', text: x.tier + '% AMI ' + x.bedrooms + ' rent is only ' + pct(x.discount) + ' under the average market comparable (' + money(x.comp) + ').' });
+    });
+    var t = today ? Date.parse(today) : null;
+    v.comps.forEach(function (c) {
+      if (t != null && c.checked && (t - Date.parse(c.checked)) / 864e5 > STALE_DAYS) f.push({ level: 'warn', text: c.name + ' was last checked ' + c.checked + '. Check its rents again before relying on them.' });
+    });
+    if (v.survey) {
+      if (num(v.survey.vacancy) != null && v.survey.vacancy >= 0.05) f.push({ level: 'warn', text: 'The rent survey shows ' + pct(v.survey.vacancy, 1) + ' vacancy in ' + (v.survey.region || 'the region') + ' (' + (v.survey.period || 'latest') + '), so renters have choices.' });
+      (v.survey.byType || []).forEach(function (r) { if (num(r.vacancy) != null && r.vacancy >= 0.05) f.push({ level: 'warn', text: r.type + ' vacancy is ' + pct(r.vacancy, 1) + ' in the rent survey' + (num(r.rent) != null ? ', at ' + money(r.rent) + ' average rent' : '') + '. Units of this type may lease slower.' }); });
+    }
+    if (v.waitlist && num(v.waitlist.total) != null && m && m.units) f.push({ level: 'ok', text: v.waitlist.total.toLocaleString('en-US') + ' households on the waitlist' + (v.waitlist.keeper ? ' kept by ' + v.waitlist.keeper : '') + (v.waitlist.asOf ? ' (' + v.waitlist.asOf + ')' : '') + ' for ' + m.units + ' homes.' });
+    if (v.nearby.length) f.push({ level: 'ok', text: v.nearby.length + ' tax credit propert' + (v.nearby.length === 1 ? 'y' : 'ies') + ' within ' + NEARBY_MILES + ' miles of the site (' + v.nearby.reduce(function (s, x) { return s + (x.li || 0); }, 0).toLocaleString('en-US') + ' income-restricted homes).' });
+    var rank = { bad: 0, warn: 1, ok: 2 };
+    f.sort(function (a, b) { return rank[a.level] - rank[b.level]; });
+    return v;
+  }
+
+  // The summary tables (pure). The form and map are drawn by the browser part.
+  // Team-entered source links show only as web links; anything else becomes a dead link.
+  function webLink(u) { return /^https?:\/\//i.test(String(u || '')) ? String(u) : '#'; }
+
+  function renderResearch(v) {
+    var h = '<h3>What the research shows</h3>';
+    h += v.findings.length ? '<ul>' + v.findings.map(function (f) { return '<li class="' + (f.level === 'bad' ? 'sr-red' : f.level === 'warn' ? 'sr-yellow' : '') + '">' + esc(f.text) + '</li>'; }).join('') + '</ul>' : '';
+    h += '<p class="sr-muted">The 10%-under-market and 5%-vacancy lines are our screens, not CHFA rules.</p>';
+    if (v.comps.length) {
+      h += '<h3>Comparables</h3>' + table(['Property', 'Type', 'Miles', 'Built', 'Homes', 'Studio', '1BR', '2BR', '3BR', '4BR', 'Vacancy', 'Checked', 'Source', ''], v.comps.map(function (c, i) {
+        return { cells: [esc(c.name) + (c.concessions ? '<div class="sr-muted">' + esc(c.concessions) + '</div>' : ''), esc(c.kind), esc(c.miles == null ? '—' : c.miles.toFixed(1)), esc(c.yearBuilt || '—'), esc(c.units || '—')]
+          .concat(COMP_BEDS.map(function (bd) { return esc(c.rents && num(c.rents[bd[0]]) != null ? money(c.rents[bd[0]]) : '—'); }))
+          .concat([esc(c.vacancy == null ? '—' : pct(c.vacancy, 1)), esc(c.checked), '<a class="wb-src" href="' + esc(webLink(c.source)) + '" rel="noopener noreferrer" target="_blank" aria-label="Source for ' + esc(c.name) + '">Link</a>', '<button type="button" class="sr-btn" data-del-comp="' + i + '" aria-label="Remove ' + esc(c.name) + '">Remove</button>']) };
+      }), { num: [2, 3, 4, 5, 6, 7, 8, 9, 10] });
+      var cmp = v.rentVsComps.filter(function (x) { return x.comp != null; });
+      if (cmp.length) h += '<h3>Deal rents against the comparables</h3>' + table(['AMI', 'Size', 'Rent', 'Average market comparable', 'Under'], cmp.map(function (x) {
+        return { cls: x.discount < 0.10 ? 'sr-diff' : '', cells: [esc(x.tier + '%'), esc(x.bedrooms), esc(money(x.rent)), esc(money(x.comp) + ' (' + x.n + ')'), esc(pct(x.discount))] };
+      }), { num: [2, 3, 4] });
+    }
+    if (v.nearbyUnchecked) h += '<p class="sr-yellow">CHFA\'s property list did not load, so tax credit properties near the site were not checked. Reload the page to try again.</p>';
+    if (v.nearby.length) h += '<details class="wb-near"><summary>Tax credit properties within ' + NEARBY_MILES + ' miles (' + v.nearby.length + ')</summary>' + table(['Property', 'Town', 'Miles', 'Homes', 'Income-restricted', 'Award', 'Income mix'], v.nearby.map(function (x) {
+      return { cells: [esc(x.name), esc(x.city || ''), esc(x.miles.toFixed(1)), esc(x.units == null ? '—' : x.units), esc(x.li == null ? '—' : x.li), esc((x.year || '') + ' ' + x.credit), esc(x.mix || '—')] };
+    }), { num: [2, 3, 4] }) + '<p class="sr-muted">From CHFA\'s housing tax credit property list (data/chfa-lihtc.json).</p></details>';
+    if (v.waitlist && v.waitlist.rows && v.waitlist.rows.length) {
+      h += '<h3>Waitlist</h3>' + table(['Income', 'Household size', 'Households'], v.waitlist.rows.map(function (r) {
+        var b = WAIT_BANDS.filter(function (x) { return x[0] === r.band; })[0];
+        return { cells: [esc(b ? b[1] : r.band), esc(r.size === 'any' ? 'Any' : r.size + (r.size === '1' ? ' person' : ' people')), esc(r.count)] };
+      }), { num: [2] }) + '<p class="sr-muted">Counts only' + esc((v.waitlist.keeper ? ', kept by ' + v.waitlist.keeper : '') + (v.waitlist.asOf ? ', as of ' + v.waitlist.asOf : '')) + '. No names or applicant details are kept.</p>';
+    }
+    if (v.survey) {
+      h += '<h3>Rent and vacancy survey</h3><p>' + esc((v.survey.region || 'Region') + ', ' + (v.survey.period || '') + ': average rent ' + money(num(v.survey.avgRent)) + ', vacancy ' + pct(num(v.survey.vacancy), 1) + '.') + ' <a class="wb-src" href="' + esc(webLink(v.survey.source)) + '" rel="noopener noreferrer" target="_blank">Source</a></p>';
+      if ((v.survey.byType || []).length) h += table(['Unit type', 'Average rent', 'Vacancy'], v.survey.byType.map(function (r) { return { cells: [esc(r.type), esc(money(num(r.rent))), esc(pct(num(r.vacancy), 1))] }; }), { num: [1, 2] });
+    }
+    return h;
+  }
+
   // ── Browser ───────────────────────────────────────────────────────────────
   // onStart receives a cancel function, so a newer request can stop this calculator instead of letting it load on.
   function loadFrame(doc, query, timeoutMs, pollMs, onStart) {
@@ -649,13 +1010,45 @@
     var parts = String(ua.reason).split(':'), text = ua.reason === 'shared_allowance_invalid' ? 'Shared utility allowance record is invalid' : limits.unavailableMessage(parts[0]);
     return Object.assign({}, ua, { reasonText: text ? text + (parts[1] ? ' (' + parts[1] + ')' : '') : null });
   }
-  function readCalc(w) {
+  function readCalc(w, mkt) {
     var dc = w.__DealCalc;
+    var rs = dc.getRentScheduleMetadata ? dc.getRentScheduleMetadata() : null;
+    var fips = (rs && rs.countyFips) || null;
+    // The calculator's own ZORI-by-bedroom estimate (js/components/zori-rent-utils.js), from the frame's loaded HUD FMRs.
+    var per = null;
+    try {
+      // The same place the calculator uses: a linked geoid first, else the saved jurisdiction in this county.
+      var geoid = w.location ? new URLSearchParams(w.location.search).get('geoid') : null;
+      if (!/^08\d{5}$/.test(geoid || '')) {
+        var j = w.WorkflowState && w.WorkflowState.getJurisdiction ? w.WorkflowState.getJurisdiction() : null;
+        geoid = j && String(j.countyFips) === String(fips) ? j.geoid : null;
+      }
+      if (fips && mkt && mkt.zori && w.ZoriRentUtils && w.HudFmr) per = w.ZoriRentUtils.getPerBedroomRent(mkt.zori, fips, w.HudFmr, { bedroomMix: mkt.bedroomMix, geoid: geoid });
+    } catch (e) { per = null; }
     return { result: dc.getResult(), permanentFinancing: dc.getPermanentFinancing ? dc.getPermanentFinancing() : null,
       rentLimits: dc.getRentLimitsMetadata ? dc.getRentLimitsMetadata() : null, rentSchedule: dc.getRentScheduleMetadata ? dc.getRentScheduleMetadata() : null, utilityAllowance: dc.getUtilityAllowanceMetadata ? uaWithText(dc.getUtilityAllowanceMetadata(), w.ChfaRentLimits) : null,
       amiByBr: dc.getAmiLimitsByBr ? dc.getAmiLimitsByBr() : null,
-      mode: (function () { var c = w.document.querySelector('input[name="dc-deal-mode"]:checked'); return c ? c.value : null; })(), labels: (w.DealPermanentFinancing && w.DealPermanentFinancing.PROGRAM_LABELS) || {} };
+      mode: (function () { var c = w.document.querySelector('input[name="dc-deal-mode"]:checked'); return c ? c.value : null; })(), labels: (w.DealPermanentFinancing && w.DealPermanentFinancing.PROGRAM_LABELS) || {},
+      countyFips: fips, perBrMarket: per };
   }
+  // The market files, loaded once. A file that fails stays null and its section says so.
+  var _mkt = null;
+  function loadMarket() {
+    if (_mkt) return _mkt;
+    var get = function (u, text) { return settleWithin(fetch(u).then(function (r) { return r.ok ? (text ? r.text() : r.json()) : null; }), 20000); };
+    var keys = Object.keys(MARKET_URLS);
+    _mkt = Promise.all(keys.map(function (k) { return get(MARKET_URLS[k], k === 'zoriMetro'); })).then(function (res) {
+      var o = {}; keys.forEach(function (k, i) { o[k === 'zoriMetro' ? 'zoriMetroCsv' : k] = res[i]; }); return o;
+    });
+    return _mkt;
+  }
+  // Each award record in the county, for its status and income mix.
+  function loadDealDetails(mkt, mk) {
+    var get = function (slug) { return settleWithin(fetch('data/deals/' + slug + '.json').then(function (r) { return r.ok ? r.json() : null; }), 20000); };
+    var slugs = (mk.pipeline || []).map(function (p) { return p.slug; });
+    return Promise.all(slugs.map(get)).then(function (res) { var o = {}; slugs.forEach(function (s, i) { if (res[i]) o[s] = res[i]; }); return o; });
+  }
+
   // The calculator settings carried by a share link, an export file's url, or a saved version.
   // Every Deal Calculator export carries its unit count or county; a query with neither (q=housing) would only
   // open the calculator's default deal under another name.
@@ -680,11 +1073,189 @@
   }
 
   // A request that stalls settles as null after ms, so the workbook builds without it rather than waiting forever.
+  var SAVE_WAIT_MS = 30000;
   function settleWithin(p, ms) {
     return new Promise(function (resolve) {
       var t = setTimeout(function () { resolve(null); }, ms);
       p.then(function (v) { clearTimeout(t); resolve(v); }, function () { clearTimeout(t); resolve(null); });
     });
+  }
+
+  // The research editor: forms, map and save, for a deal saved in Submittal review.
+  // isLive says whether this deal is still the one on screen. The form is found by id, so a load or save that
+  // finishes after another deal opens must not write this deal's research into that deal's form.
+  function researchEditor(doc, deal, model, onError, isLive) {
+    var $ = function (id) { return doc.getElementById(id); };
+    var box = $('wbResearch');
+    var live = function () { return (!isLive || isLive()) && box.isConnected !== false && $('wbResearch') === box; };
+    var rec = { site: null, comps: [], waitlist: null, survey: null };
+    var lihtc = null, map = null, layer = null;
+    var today = new Date().toISOString().slice(0, 10);
+    var field = function (id, label, type, extra) { return '<label class="sr-field" for="' + id + '">' + label + '<input type="' + (type || 'text') + '" id="' + id + '"' + (extra || '') + '></label>'; };
+    var numIn = function (id, label, extra) { return field(id, label, 'number', ' inputmode="decimal"' + (extra || '')); };
+    box.innerHTML = '<section class="dv-card" aria-labelledby="wbResH"><h2 id="wbResH">Your market research</h2>' +
+      '<p class="sr-muted">Typed here and kept with this deal on the team site only, under your sign-in. Every comparable needs the date you checked it and a link to where the figures came from.</p>' +
+      '<div id="wbResMap" class="wb-map" role="region" aria-label="Map of the site, comparables and nearby tax credit properties"></div><div id="wbResView"></div>' +
+      '<details class="wb-form"><summary>Site location</summary><div class="sr-row">' + field('wbSiteAddr', 'Address') + numIn('wbSiteLat', 'Latitude', ' step="any"') + numIn('wbSiteLon', 'Longitude', ' step="any"') + '</div>' +
+      '<p class="sr-muted">Latitude and longitude: right-click the site on most web maps to copy them.</p></details>' +
+      '<details class="wb-form"><summary>Add a comparable</summary><div class="sr-row">' + field('wbCName', 'Property name') +
+      '<label class="sr-field" for="wbCKind">Type<select id="wbCKind"><option value="market">Market rate</option><option value="tax credit">Tax credit</option><option value="other">Other</option></select></label>' +
+      field('wbCAddr', 'Address') + numIn('wbCLat', 'Latitude', ' step="any"') + numIn('wbCLon', 'Longitude', ' step="any"') + numIn('wbCYear', 'Year built', ' step="1"') + numIn('wbCUnits', 'Homes', ' step="1"') + '</div><div class="sr-row">' +
+      COMP_BEDS.map(function (bd) { return numIn('wbCR' + bd[0], bd[1] + ' rent', ' step="1" class="sr-small"'); }).join('') + numIn('wbCVac', 'Vacancy %', ' step="any" class="sr-small"') + '</div><div class="sr-row">' +
+      field('wbCConc', 'Concessions') + field('wbCChecked', 'Date checked', 'date', ' value="' + today + '"') + field('wbCSrc', 'Source link', 'url', ' placeholder="Web address"') + '</div>' +
+      '<button type="button" class="sr-btn" id="wbCAdd">Add comparable</button></details>' +
+      '<details class="wb-form"><summary>Waitlist counts</summary><p class="sr-muted">Totals only. Do not type names or any applicant details.</p><div class="sr-row">' +
+      field('wbWKeeper', 'Who keeps the list') + field('wbWAsOf', 'As of', 'date') + numIn('wbWTotal', 'Households on the list', ' step="1"') + '</div>' +
+      '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col">Income</th>' + WAIT_SIZES.map(function (z) { return '<th scope="col" class="sr-num">' + (z === 'any' ? 'Any size' : z + (z === '1' ? ' person' : ' people')) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      WAIT_BANDS.map(function (b) { return '<tr><th scope="row">' + esc(b[1]) + '</th>' + WAIT_SIZES.map(function (z) { return '<td><input type="number" min="0" step="1" class="sr-small" data-wait="' + b[0] + '|' + z + '" aria-label="' + esc(b[1] + ', ' + z) + '"></td>'; }).join('') + '</tr>'; }).join('') +
+      '</tbody></table></div></details>' +
+      '<details class="wb-form"><summary>Rent and vacancy survey</summary><div class="sr-row">' + field('wbSRegion', 'Survey region') + field('wbSPeriod', 'Quarter', 'text', ' placeholder="2026 Q1"') + numIn('wbSRent', 'Average rent', ' step="1"') + numIn('wbSVac', 'Vacancy %', ' step="any"') + '</div>' +
+      [0, 1, 2].map(function (i) { return '<div class="sr-row">' + field('wbST' + i, 'Unit type') + numIn('wbSTR' + i, 'Rent', ' step="1"') + numIn('wbSTV' + i, 'Vacancy %', ' step="any"') + '</div>'; }).join('') +
+      '<div class="sr-row">' + field('wbSSrc', 'Source link', 'url', ' placeholder="Web address"') + '</div></details>' +
+      '<p><button type="button" class="sr-primary" id="wbResSave">Save research</button> <span id="wbResStatus" role="status"></span></p></section>';
+
+    var val = function (id) { var el = $(id); return el ? el.value.trim() : ''; };
+    var nOrNull = function (x) { return x === '' ? null : num(x); };
+    var pctIn = function (x) { var n = nOrNull(x); return n == null ? null : n / 100; };
+    var badVac = function (v) { return v != null && !(v >= 0 && v <= 1); };
+    var surveyLoose = 0, waitNeg = 0;
+    function fill() {
+      var s = rec.site || {};
+      $('wbSiteAddr').value = s.address || ''; $('wbSiteLat').value = s.lat == null ? '' : s.lat; $('wbSiteLon').value = s.lon == null ? '' : s.lon;
+      var w = rec.waitlist || {};
+      $('wbWKeeper').value = w.keeper || ''; $('wbWAsOf').value = w.asOf || ''; $('wbWTotal').value = w.total == null ? '' : w.total;
+      Array.prototype.forEach.call(box.querySelectorAll('[data-wait]'), function (el) {
+        var k = el.getAttribute('data-wait').split('|'), hit = (w.rows || []).filter(function (r) { return r.band === k[0] && r.size === k[1]; })[0];
+        el.value = hit ? hit.count : '';
+      });
+      var v = rec.survey || {};
+      $('wbSRegion').value = v.region || ''; $('wbSPeriod').value = v.period || ''; $('wbSRent').value = v.avgRent == null ? '' : v.avgRent;
+      $('wbSVac').value = v.vacancy == null ? '' : +(v.vacancy * 100).toFixed(2); $('wbSSrc').value = v.source || '';
+      [0, 1, 2].forEach(function (i) { var r = (v.byType || [])[i] || {}; $('wbST' + i).value = r.type || ''; $('wbSTR' + i).value = r.rent == null ? '' : r.rent; $('wbSTV' + i).value = r.vacancy == null ? '' : +(r.vacancy * 100).toFixed(2); });
+    }
+    function read() {
+      var lat = nOrNull(val('wbSiteLat')), lon = nOrNull(val('wbSiteLon'));
+      rec.site = val('wbSiteAddr') || lat != null || lon != null ? { address: val('wbSiteAddr'), lat: lat, lon: lon } : null;
+      var rows = []; waitNeg = 0;
+      Array.prototype.forEach.call(box.querySelectorAll('[data-wait]'), function (el) {
+        var n = nOrNull(el.value); if (n == null) return;
+        if (n < 0 || n !== Math.floor(n)) { waitNeg++; return; }
+        var k = el.getAttribute('data-wait').split('|'); rows.push({ band: k[0], size: k[1], count: Math.round(n) });
+      });
+      var total = nOrNull(val('wbWTotal')); if (total != null && (total < 0 || total !== Math.floor(total))) { waitNeg++; total = null; }
+      rec.waitlist = rows.length || total != null ? { keeper: val('wbWKeeper'), asOf: val('wbWAsOf'), total: total == null ? null : Math.round(total), rows: rows } : null;
+      var typed = [0, 1, 2].map(function (i) { return { type: val('wbST' + i), rent: nOrNull(val('wbSTR' + i)), vacancy: pctIn(val('wbSTV' + i)) }; });
+      // A row with figures but no unit type is counted, so the save can stop instead of dropping it.
+      surveyLoose = typed.filter(function (r) { return !r.type && (r.rent != null || r.vacancy != null); }).length;
+      var byType = typed.filter(function (r) { return r.type; });
+      var sv = { region: val('wbSRegion'), period: val('wbSPeriod'), avgRent: nOrNull(val('wbSRent')), vacancy: pctIn(val('wbSVac')), byType: byType, source: val('wbSSrc') };
+      rec.survey = sv.avgRent != null || sv.vacancy != null || byType.length ? sv : null;
+    }
+    // Checked before a save, so the user fixes the survey instead of losing it to the backend's filter.
+    function surveyProblem() {
+      if (waitNeg) return 'Waitlist counts must be whole numbers of households, zero or more.';
+      if (rec.site && (rec.site.lat == null) !== (rec.site.lon == null)) return 'Enter both latitude and longitude for the site, or neither.';
+      if (surveyLoose) return 'A survey row has figures but no unit type. Add the type or clear the row.';
+      var sv = rec.survey;
+      if (!sv) return null;
+      if ([sv.vacancy].concat(sv.byType.map(function (r) { return r.vacancy; })).some(badVac)) return 'Survey vacancy must be between 0% and 100%.';
+      var rents = [sv.avgRent].concat(sv.byType.map(function (r) { return r.rent; })).filter(function (x) { return x != null; });
+      if (rents.some(function (x) { return !(x > 0); })) return 'Survey rents must be more than $0. Leave a rent blank if the survey does not report it.';
+      if (!/^https?:\/\//i.test(sv.source || '')) return 'Survey figures need a source link starting with http.';
+      return null;
+    }
+    function draw() {
+      var v = research(model, rec, lihtc, today);
+      $('wbResView').innerHTML = renderResearch(v);
+      drawMap(v);
+    }
+    function drawMap(v) {
+      var L = doc.defaultView && doc.defaultView.L;
+      var el = $('wbResMap');
+      var pts = [];
+      if (v.site && num(v.site.lat) != null && num(v.site.lon) != null) pts.push({ lat: v.site.lat, lon: v.site.lon, kind: 'site', label: 'Site' + (v.site.address ? ': ' + v.site.address : '') });
+      v.comps.forEach(function (c) { if (c.lat != null && c.lon != null) pts.push({ lat: c.lat, lon: c.lon, kind: c.kind === 'market' ? 'market' : 'credit', label: c.name }); });
+      v.nearby.forEach(function (x) { if (x.lat != null) pts.push({ lat: x.lat, lon: x.lon, kind: 'chfa', label: x.name + ' (tax credit, ' + (x.li == null ? '?' : x.li) + ' restricted homes)' }); });
+      if (!L || !pts.length) { el.hidden = true; return; }
+      el.hidden = false;
+      if (!map) {
+        map = L.map(el, { scrollWheelZoom: false });
+        var dv = doc.defaultView;
+        (dv.COHOBasemaps ? dv.COHOBasemaps.light() : L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' })).addTo(map);
+      }
+      if (layer) layer.remove();
+      var COLORS = { site: '#b42318', market: '#1d4ed8', credit: '#0f766e', chfa: '#6b7280' };
+      layer = L.layerGroup(pts.map(function (p) {
+        return L.circleMarker([p.lat, p.lon], { radius: p.kind === 'site' ? 9 : 6, color: COLORS[p.kind], fillColor: COLORS[p.kind], fillOpacity: 0.8, weight: 2 }).bindTooltip(esc(p.label));
+      })).addTo(map);
+      map.fitBounds(L.latLngBounds(pts.map(function (p) { return [p.lat, p.lon]; })).pad(0.2), { maxZoom: 14 });
+      setTimeout(function () { map.invalidateSize(); }, 50);
+    }
+    function say(t) { $('wbResStatus').textContent = t; }
+    // Every field stays shut until the saved research has loaded, so an edit is never replaced by it
+    // and an empty form never overwrites it.
+    var ready = false;
+    function setReady(on) { ready = on; $('wbResSave').disabled = !on; $('wbCAdd').disabled = !on; }
+    // While a save is out, every field is shut too, so nothing typed then is replaced by the saved copy.
+    function lock(on) {
+      Array.prototype.forEach.call(box.querySelectorAll('input, select, textarea, button'), function (el) { el.disabled = on; });
+      setReady(!on);
+    }
+    lock(true); say('Loading saved research…');
+
+    $('wbCAdd').addEventListener('click', function () {
+      var c = { name: val('wbCName'), kind: val('wbCKind'), address: val('wbCAddr'), lat: nOrNull(val('wbCLat')), lon: nOrNull(val('wbCLon')),
+        yearBuilt: nOrNull(val('wbCYear')), units: nOrNull(val('wbCUnits')), rents: {}, vacancy: pctIn(val('wbCVac')),
+        concessions: val('wbCConc'), checked: val('wbCChecked'), source: val('wbCSrc') };
+      COMP_BEDS.forEach(function (bd) { c.rents[bd[0]] = nOrNull(val('wbCR' + bd[0])); });
+      if (!ready) return;
+      if (!c.name || !c.checked || !/^https?:\/\//i.test(c.source)) { say('A comparable needs a name, the date you checked it and a source link starting with http.'); return; }
+      if (COMP_BEDS.some(function (bd) { return c.rents[bd[0]] != null && !(c.rents[bd[0]] > 0); })) { say('Comparable rents must be more than $0. Leave a size blank if the property does not report it.'); return; }
+      if (badVac(c.vacancy)) { say('Comparable vacancy must be between 0% and 100%.'); return; }
+      if (c.units != null && !(c.units >= 0 && c.units === Math.floor(c.units))) { say('Comparable homes must be a whole number, zero or more.'); return; }
+      rec.comps.push(c);
+      ['wbCName', 'wbCAddr', 'wbCLat', 'wbCLon', 'wbCYear', 'wbCUnits', 'wbCVac', 'wbCConc', 'wbCSrc'].concat(COMP_BEDS.map(function (bd) { return 'wbCR' + bd[0]; })).forEach(function (id) { $(id).value = ''; });
+      say('Added. Save to keep it.'); draw();
+    });
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-del-comp]');
+      if (!b || !ready) return;
+      var v = research(model, rec, lihtc, today), gone = v.comps[Number(b.getAttribute('data-del-comp'))];
+      if (gone) rec.comps.splice(gone.at, 1);
+      say('Removed. Save to keep the change.'); draw();
+    });
+    box.addEventListener('change', function (e) { if (ready && e.target.closest && e.target.closest('.wb-form') && !/^wbC/.test(e.target.id || '')) { read(); draw(); } });
+    $('wbResSave').addEventListener('click', function () {
+      if (!ready) return;
+      read();
+      var bad = surveyProblem();
+      if (bad) { say(bad + ' Nothing was saved yet.'); return; }
+      lock(true); say('Saving…');
+      // A save that stalls is cut off, so the form never stays shut until a reload.
+      var ac = typeof AbortController === 'function' ? new AbortController() : null;
+      var cut = setTimeout(function () { if (ac) ac.abort(); }, SAVE_WAIT_MS);
+      fetch(MARKET_API, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ deal: deal, data: rec }), signal: ac ? ac.signal : undefined })
+        .then(function (r) { return r.ok ? r.json() : r.text().then(function (t) { throw new Error(t || String(r.status)); }); })
+        .then(function (j) {
+          if (!live()) return;
+          rec = j.data; fill(); draw();
+          say('Saved ' + new Date(j.at).toLocaleString() + (j.dropped ? '. ' + j.dropped + ' item' + (j.dropped === 1 ? ' was' : 's were') + ' not kept: each comparable needs a name, a date and a source link, and survey figures need a source link.' : '.'));
+        }, function (err) {
+          if (live()) say(err && err.name === 'AbortError' ? 'The save did not answer in time, so it may not have been kept. Your entries are still here: save again.' : 'Not saved: ' + err.message);
+        })
+        .then(function () { clearTimeout(cut); if (live()) lock(false); });
+    });
+
+    var getJson = function (u) { return settleWithin(fetch(u, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }), 20000); };
+    Promise.all([getJson(MARKET_API + '?deal=' + encodeURIComponent(deal)), getJson(LIHTC_URL)]).then(function (res) {
+      if (!live()) return;
+      lihtc = res[1];
+      // A failed load leaves the editor shut: saving an empty form would overwrite research that is there.
+      if (!res[0]) { draw(); say('Saved research did not load. Reload the page to add or change it.'); return; }
+      say('');
+      if (res[0].data) rec = res[0].data;
+      fill(); draw(); lock(false);
+    }, function (err) { if (live()) onError(err); });
   }
 
   function start(doc, waitMs) {
@@ -716,13 +1287,26 @@
       if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
       status('Running the Deal Calculator for this deal…');
       $('wbOpenCalc').href = calcUrl(query, doc.baseURI); $('wbOpenCalc').hidden = false;
-      Promise.all([loadFrame(doc, query, null, null, function (c) { stopFrame = c; }), rulesReady]).then(function (got) {
-        var f = got[0], rules = got[1];
+      Promise.all([loadFrame(doc, query, null, null, function (c) { stopFrame = c; }), loadMarket(), rulesReady]).then(function (got) {
+        var f = got[0], mkt = got[1], rules = got[2];
         if (my !== tok) { f.remove(); return; }
-        var snap = readCalc(f.contentWindow); f.remove();
-        $('wbOut').innerHTML = render(build(snap, rules, ctx), title);
+        var snap = readCalc(f.contentWindow, mkt); f.remove();
+        var model = build(snap, rules, ctx);
+        $('wbOut').innerHTML = render(model, title) + '<div id="wbMarket"><p class="sr-muted">Loading market figures…</p></div><div id="wbResearch"></div>';
         status(''); $('wbPrint').hidden = false;
         if ($('wbOut').scrollIntoView) $('wbOut').scrollIntoView({ block: 'start' });
+        if (model.error) { $('wbMarket').innerHTML = ''; return; }
+        var deal = ctx && ctx.deal;
+        // The editor stays live while its form is on screen: opening another deal clears the form first, and
+        // changing a picker without opening leaves this deal on screen and editable.
+        if (deal) researchEditor(doc, deal, model, function () { status('Your market research did not load.'); });
+        else $('wbResearch').innerHTML = '<p class="sr-muted">To add comparables, waitlist counts and the rent survey, save this deal in <a href="developer-submittal-review.html">Submittal review</a> and open it from the saved deals here.</p>';
+        var first = market(model, snap, mkt), mEl = $('wbMarket');
+        // The market fills in while its own section is on screen; only opening another deal replaces it.
+        (first.error ? Promise.resolve({}) : loadDealDetails(mkt, first)).then(function (detail) {
+          if (mEl.isConnected === false || $('wbMarket') !== mEl) return;
+          mEl.innerHTML = renderMarket(first.error ? first : market(model, snap, Object.assign({}, mkt, { dealDetail: detail })));
+        });
       }, function (err) { if (my === tok) status(err.message); });
     }
     // Saved deals: the team's, from the private backend. Without it, the picker says so and the other routes still work.
@@ -760,7 +1344,7 @@
         var q = queryFrom(x);
         if (!q) { status('That version was saved without a Deal Calculator export. Open it in Submittal review, load an export, and save again.'); return; }
         var dl = (x.data && x.data.deal) || x.deal || {};
-        open(q, name, gen, { supportive: typeof dl.supportive === 'boolean' ? dl.supportive : null });
+        open(q, name, gen, { supportive: typeof dl.supportive === 'boolean' ? dl.supportive : null, deal: deal });
       });
     });
     $('wbOpenLink').addEventListener('click', function () { open(queryFrom($('wbLink').value), null); });
@@ -787,5 +1371,5 @@
     else start(document);
   }
 
-  return { build: build, render: render, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, money: money, RULES_URL: RULES_URL, API: API };
+  return { build: build, render: render, research: research, renderResearch: renderResearch, researchEditor: researchEditor, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
 });
