@@ -12,7 +12,7 @@
 // homes over 20 years" with nothing to say it was not a household forecast.
 //
 // Since 2026-10-20 the figure is resident growth plus homes for a quarter of
-// today's lower- and middle-wage in-commuters, or resident growth alone where
+// today's in-commuter households at or below 120% AMI, or resident growth alone where
 // there is no in-commuter record; the jobs reading no longer sets it.
 //
 // Held as agreement with the data, not as wording:

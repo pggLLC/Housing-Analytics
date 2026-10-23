@@ -36,12 +36,18 @@
     geoId: '08',
   };
 
+  // The mortgage rate is not set here. It is the one dated Freddie Mac PMMS
+  // weekly rate in js/hna/ownership-finance.js (MORTGAGE_RATE), which the HNA
+  // pages load before this file, so the headline card, the narrative and the
+  // ownership-need screen all quote the same rate and week. Without the
+  // engine the rate is null and income-needed figures are withheld, never
+  // computed at a guessed rate.
+  const MORTGAGE_RATE = (typeof window !== 'undefined' && window.OwnershipFinance && window.OwnershipFinance.MORTGAGE_RATE) || null;
   const AFFORD = {
     // Mortgage assumptions (transparent, not "the truth")
-    // D17 — Freddie Mac Primary Mortgage Market Survey 30-year fixed average,
-    // week of October 15, 2026 (7.40%; FRED MORTGAGE30US in data/fred-data.json).
-    rateAnnual: 0.074,
-    rateSource: 'Freddie Mac PMMS 30-year fixed average, week of October 15, 2026',
+    rateAnnual: MORTGAGE_RATE ? MORTGAGE_RATE.rateAnnual : null,
+    rateWeek: MORTGAGE_RATE ? MORTGAGE_RATE.week : null,
+    rateSource: MORTGAGE_RATE ? MORTGAGE_RATE.source : null,
     termYears: 30,
     downPaymentPct: 0.10,
     propertyTaxPctAnnual: 0.0065,
@@ -1119,11 +1125,13 @@
   function computeIncomeNeeded(homeValue){
     const V = Number(homeValue);
     if (!Number.isFinite(V) || V <= 0) return null;
+    if (!Number.isFinite(AFFORD.rateAnnual)) return null;
 
     // Shared-engine delegation (PR #1388): OwnershipFinance's closed-form
     // incomeRequiredForPrice is the exact algebraic counterpart of this
-    // computation; the legacy math below remains as an identical fallback
-    // for engine-less contexts (parity-tested in test/ownership-finance.test.js).
+    // computation. The rate comes from the engine too, so an engine-less page
+    // stops at the null-rate check above; the legacy math below only runs for
+    // an engine without incomeRequiredForPrice.
     const engine = typeof window !== 'undefined' && window.OwnershipFinance;
     if (engine && typeof engine.incomeRequiredForPrice === 'function') {
       const r = engine.incomeRequiredForPrice(V, {

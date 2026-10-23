@@ -280,7 +280,9 @@ test('affordability test classifies cheap, stretch, expensive, and missing home 
 });
 
 test('max-price math matches hand-computed PITI case', () => {
-  const max80 = Ownership.maxAffordablePrice(100000, 0.80);
+  // Hand-computed at an explicit 6.5% so the case does not move with the
+  // dated mortgage rate the kernel defaults to.
+  const max80 = Ownership.maxAffordablePrice(100000, 0.80, { pmms30YearRate: 0.065 });
   assert.equal(max80, 289983);
 });
 

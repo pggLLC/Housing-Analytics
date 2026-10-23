@@ -14,6 +14,7 @@ import { fileURLToPath } from 'node:url';
 import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import vm from 'node:vm';
+import { createRequire } from 'node:module';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -67,7 +68,7 @@ function readVintages() {
   const amiCounty = read(AMI_GAP_COUNTY_PATH)?.meta || {};
   const wfSources = read(WORKFORCE_NEED_PATH)?.meta?.sources || {};
   const lodesYear = (String(wfSources.lodes_od || '').match(/_(\d{4})\.csv/) || [])[1];
-  const b08202Years = wfSources.acs_release && wfSources.acs_release.years;
+  const pumsYears = (String(wfSources.crosswalk_pums || '').match(/ACS PUMS (\d{4}-\d{4}) 5-year/) || [])[1];
   const vintages = {
     // The fallback for a summary with no stamp of its own. Most geographies
     // are 5-year; the state itself is 1-year, so its series is not the default.
@@ -79,7 +80,7 @@ function readVintages() {
     amiGapPlace: acsVintageLabel(amiPlace.acs_year, 'acs5'),
     amiGapCounty: acsVintageLabel(amiCounty.acs_year, 'acs5'),
     // data/hna/workforce-need.json records both of its sources' vintages.
-    workforceNeed: lodesYear && b08202Years ? `LEHD LODES ${lodesYear} and ACS ${b08202Years} 5-year (B08202)` : null,
+    workforceNeed: lodesYear && pumsYears ? `LEHD LODES ${lodesYear} and ACS PUMS ${pumsYears} 5-year` : null,
   };
   for (const [k, v] of Object.entries(vintages)) {
     if (!v) throw new Error(`[metric-digest] no vintage field for ${k}; refusing to label metrics with a guessed vintage`);
@@ -126,8 +127,10 @@ const LIHTC_RECENCY_METRICS = new Set([
 const R1_FOLDED_METRICS = new Set([
   'latest_lihtc_year', 'regional_latest_lihtc_year', 'drought_years', 'recency_basis',
 ]);
+// The one dated mortgage rate the HNA pages use (js/hna/ownership-finance.js).
+const OwnershipFinance = createRequire(import.meta.url)('../../js/hna/ownership-finance.js');
 const OWNERSHIP_AFFORDABILITY_ASSUMPTIONS = {
-  rateAnnual: 0.065,
+  rateAnnual: OwnershipFinance.MORTGAGE_RATE.rateAnnual,
   termYears: 30,
   downPaymentPct: 0.10,
   propertyTaxPctAnnual: 0.0065,
@@ -305,7 +308,8 @@ function loadOptionalJson(file) {
 }
 
 function loadOwnershipEngine() {
-  const sandbox = { window: {} };
+  // The kernel reads OwnershipFinance.MORTGAGE_RATE as the browser pages do.
+  const sandbox = { window: { OwnershipFinance } };
   vm.createContext(sandbox);
   vm.runInContext(fs.readFileSync(OWNERSHIP_JS, 'utf8'), sandbox, { filename: OWNERSHIP_JS });
   return sandbox.window.HNAOwnershipNeed;
@@ -413,11 +417,14 @@ function sourceForMetric(metric, entry, summary) {
       confidence: home?.confidence || m.home_value_confidence || 'medium',
     };
   }
-  // Today's in-commuters who would move closer: LODES in-commuters over ACS
-  // B08202 workers per working household (data/hna/workforce-need.json).
-  if (metric === 'incommuter_need_units' || metric === 'incommuter_need_units_high') {
+  // Today's in-commuters who would move closer: LODES in-commuters by pay
+  // tier through the ACS PUMS households-per-job crosswalk
+  // (data/hna/workforce-need.json). incommuter_households_lte60 is every
+  // in-commuter household at or below 60% AMI, from the same file.
+  if (metric === 'incommuter_need_units' || metric === 'incommuter_need_units_high'
+      || metric === 'incommuter_households_lte60') {
     return {
-      source_id: 'lodes-incommuters-acs-b08202',
+      source_id: 'lodes-incommuters-acs-pums',
       geography_level: localLevel(entry),
       as_of: VINTAGES.workforceNeed,
     };
@@ -480,7 +487,7 @@ function sourceForMetric(metric, entry, summary) {
       as_of: 'LEHD LODES WAC latest committed vintage',
     };
   }
-  if (metric === 'affordable_units_lte60') {
+  if (metric === 'affordable_units_lte60' || metric === 'renter_households_lte60') {
     // Supply side: the same ACS-derived AMI gap file the resident gap uses.
     const place = (m.workforce_gap_basis || '').startsWith('place');
     return {
@@ -489,12 +496,13 @@ function sourceForMetric(metric, entry, summary) {
       as_of: amiGapAsOf(place ? 'place' : 'county'),
     };
   }
-  if (metric === 'workforce_gap_units' || metric === 'workforce_gap_pct' || metric === 'workforce_gap_basis') {
+  if (metric === 'workforce_gap_units' || metric === 'workforce_gap_pct' || metric === 'workforce_gap_basis'
+      || metric === 'workforce_households_lte60') {
     const place = (m.workforce_gap_basis || '').startsWith('place');
     return {
-      source_id: 'workforce-gap-lodes-wac-vs-ami-gap',
+      source_id: 'workforce-gap-renters-incommuters-vs-ami-gap',
       geography_level: contextLevel(entry, place ? 'place' : 'county_context'),
-      as_of: 'LEHD LODES WAC vs ' + amiGapAsOf(place ? 'place' : 'county'),
+      as_of: amiGapAsOf(place ? 'place' : 'county') + ' and ' + VINTAGES.workforceNeed,
     };
   }
   if (metric === 'overcrowding_rate_pct') {

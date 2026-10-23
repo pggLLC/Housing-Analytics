@@ -10,10 +10,11 @@
  * (`OwnershipFinance.registryReady` resolves when models are available).
  *
  * Backward-compatibility contract (hard):
- *   maxAffordablePrice(100000, 0.80) === 289983
- * i.e. a call with no model/options reproduces the existing
- * HNAOwnershipNeed kernel (rate 6.5%, 30yr, 10% down, 30% front-end,
- * tax 0.65%, ins 0.35%, PMI 0.5% unconditional) bit-for-bit.
+ *   maxAffordablePrice(100000, 0.80, { rateAnnual: 0.065 }) === 289983
+ * i.e. a call with no model/options reproduces the HNAOwnershipNeed kernel
+ * (30yr, 10% down, 30% front-end, tax 0.65%, ins 0.35%, PMI 0.5%)
+ * bit-for-bit. The rate itself is MORTGAGE_RATE below, so the pinned
+ * figure names its rate explicitly and does not move when the week does.
  *
  * Model selection: the third argument of maxAffordablePrice /
  * computeBuyerCapacity accepts (a) a legacy assumptions object, (b) a
@@ -41,10 +42,23 @@
 
   // methods-spec:begin affordability-defaults  (methods.html §05; see
   // test/methods-spec-sources.test.mjs)
+  // The one mortgage rate every homeownership affordability figure uses:
+  // the HNA headline card and narrative (HNAUtils.AFFORD), the ownership-need
+  // kernel (hna-ownership-need.js), every registry model and the jurisdiction
+  // digest all read it from here. It is a dated Freddie Mac PMMS weekly
+  // average, so the week is printed beside each answer.
+  // test/mortgage-rate-one-source.test.js checks it against the FRED
+  // MORTGAGE30US reading for the same week in data/fred-data.json.
+  var MORTGAGE_RATE = {
+    rateAnnual: 0.074,
+    week: '2026-10-15',
+    series: 'MORTGAGE30US',
+    source: 'Freddie Mac PMMS 30-year fixed average, week of October 15, 2026',
+  };
   // Identical to hna-ownership-need.js CONSTANTS.affordabilityAssumptions
   // (drift is guarded by an explicit field-by-field test).
   var DEFAULTS = {
-    rateAnnual: 0.065,
+    rateAnnual: MORTGAGE_RATE.rateAnnual,
     termYears: 30,
     downPaymentRate: 0.10,
     propertyTaxRate: 0.0065,
@@ -438,6 +452,7 @@
   }
 
   var api = {
+    MORTGAGE_RATE: MORTGAGE_RATE,
     DEFAULTS: DEFAULTS,
     HH_SIZE_FACTORS: HH_SIZE_FACTORS,
     REGISTRY_PATH: REGISTRY_PATH,

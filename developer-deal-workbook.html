@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deal Workbook — COHO Analytics</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/site-theme.css">
+<link rel="stylesheet" href="js/vendor/leaflet.css">
+<script src="js/developer-gate.js"></script>
+<style>
+  .skip-link { position: absolute; top: -100px; left: var(--sp4); background: var(--accent); color: var(--on-accent, #fff); padding: 8px 16px; z-index: 1000; border-radius: var(--radius-sm, 6px); font-weight: 700; }
+  .skip-link:focus { top: var(--sp3); }
+  .dv-page { max-width: 1100px; margin: 0 auto; padding: var(--sp3); }
+  .dv-page h1 { margin: 0 0 .4rem; }
+  .dv-lede { color: var(--muted); line-height: 1.55; margin: 0 0 var(--sp3); }
+  .dv-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp3); margin-bottom: var(--sp3); min-width: 0; }
+  .dv-card h2 { margin: 0 0 var(--sp2); font-size: 1.1rem; }
+  .dv-card h3 { margin: var(--sp2) 0 .4rem; font-size: 1rem; }
+  .dv-card p, .dv-card li { line-height: 1.55; }
+  .rw-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp2); margin-bottom: var(--sp3); }
+  .rw-stat { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp2) var(--sp3); line-height: 1.45; }
+  .rw-stat-v { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+  .rw-stat.sr-bad { border-left: 4px solid var(--bad); }
+  .rw-stat.sr-warn { border-left: 4px solid var(--warn); }
+  .rw-stat.sr-ok { border-left: 4px solid var(--good); }
+  .sr-of { font-size: .95rem; color: var(--muted); font-weight: 600; }
+  .rw-decide { border-left: 4px solid var(--accent); }
+  .rw-decide ul, #srAdd, #sr-docs { padding-left: 1.2rem; }
+  .rw-band { display: inline-block; font-weight: 700; font-size: .8rem; padding: 2px 8px; border-radius: 9999px; border: 1px solid var(--accent); color: var(--accent); }
+  .rw-quote { margin: .25rem 0 .25rem .5rem; padding-left: .6rem; border-left: 2px solid var(--border); color: var(--muted); font-size: .8rem; overflow-wrap: anywhere; }
+  .sr-muted { color: var(--muted); font-size: .85rem; }
+  .sr-flag, .sr-red { color: var(--bad); }
+  .sr-yellow { color: var(--text); }
+  .sr-yellow::marker { color: var(--warn); }
+  .sr-red::marker { color: var(--bad); }
+  .sr-scroll { overflow-x: auto; }
+  .sr-table { border-collapse: collapse; width: 100%; font-size: var(--small, .9rem); }
+  .sr-table th, .sr-table td { text-align: left; padding: .45rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .sr-num { text-align: right !important; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .sr-total td { font-weight: 700; }
+  .sr-diff th, .sr-diff td { background: color-mix(in oklab, var(--accent) 9%, transparent 91%); }
+  .sr-row { display: flex; flex-wrap: wrap; gap: var(--sp2); align-items: end; }
+  .sr-row > label, .sr-field { display: flex; flex-direction: column; gap: .25rem; font-weight: 600; font-size: .9rem; min-width: 0; }
+  .sr-mix { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: .5rem; }
+  .sr-mix label { display: flex; flex-direction: column; gap: .2rem; font-size: .85rem; font-weight: 600; }
+  input[type="text"], input[type="number"], input[type="date"], input[type="url"], select { min-height: 44px; padding: .35rem .5rem; border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); background: var(--card); color: var(--text); font: inherit; box-sizing: border-box; max-width: 100%; }
+  .sr-small { width: 6rem; }
+  .sr-claim { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 14rem); gap: .25rem .75rem; align-items: center; padding: .35rem 0; border-bottom: 1px solid var(--border); }
+  .sr-claim label { display: flex; gap: .5rem; align-items: center; min-height: 44px; line-height: 1.35; }
+  .sr-claim input[type="checkbox"] { width: 22px; height: 22px; flex: none; }
+  .sr-pick-wrap { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; cursor: pointer; }
+  .sr-pick { width: 22px; height: 22px; }
+  .sr-check { display: flex; gap: .5rem; align-items: center; min-height: 44px; font-weight: 600; }
+  .sr-check input { width: 22px; height: 22px; }
+  .sr-btn, .sr-primary { min-height: 44px; padding: .4rem .9rem; border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); background: var(--card); color: var(--text); font-weight: 600; cursor: pointer; margin: .15rem 0; }
+  .sr-primary { background: var(--accent); color: var(--on-accent, #fff); border-color: var(--accent); }
+  .sr-primary[disabled], .sr-btn[disabled] { opacity: .55; cursor: not-allowed; }
+  #srFlash { min-height: 1.4em; font-weight: 600; color: var(--accent); }
+  details.dv-card > summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+  .wb-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--sp3); }
+  .wb-cf .sr-table { font-size: .8rem; }
+  .wb-cf .sr-table td:first-child, .wb-cf .sr-table th:first-child { position: sticky; left: 0; background: var(--card); min-width: 11rem; }
+  .wb-routes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--sp3); }
+  .wb-routes > div { display: flex; flex-direction: column; gap: .5rem; }
+  .wb-actions a.sr-btn { display: inline-flex; align-items: center; text-decoration: none; }
+  .wb-actions [hidden] { display: none !important; }
+  .wb-map { height: 340px; border-radius: var(--radius); margin-bottom: var(--sp3); z-index: 0; }
+  .wb-map .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; font-size: 22px; }
+  a.wb-src { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
+  .wb-form { margin-top: var(--sp2); }
+  .wb-form > summary, .wb-near > summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+  #wbStatus { min-height: 1.4em; font-weight: 600; color: var(--accent); }
+  @media (max-width: 640px) {
+    .wb-routes select, .wb-routes input, .wb-routes button { width: 100%; }
+  }
+  @media print {
+    #siteHeader, #devNav, #site-footer, .wb-load, .skip-link, #wbPrint, #wbOpenCalc, .wb-form, #wbResSave, [data-del-comp] { display: none !important; }
+    .dv-card { break-inside: avoid; border: 0; padding: 0; }
+    .wb-cf .sr-table { font-size: 7pt; }
+    details { display: block; }
+  }
+</style>
+  <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/table-sort.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<header id="siteHeader"></header>
+<main class="dv-page" id="main-content">
+  <nav id="devNav" class="ib-section-nav"></nav>
+
+  <h1>Deal workbook</h1>
+  <p class="dv-lede">One deal's pro forma, set out the way a lender or partner reads it: what it needs, sources and uses, credits, rents against the limits, operating costs against CHFA's minimums, the cash flow over the deal's forecast years and when the deferred fee is paid. Then the county market: rents against Zillow, how many renters can pay each tier, the rent trend and other tax credit awards nearby. Every figure comes from the <a href="deal-calculator.html">Deal Calculator</a>; change the deal there.</p>
+
+  <section class="dv-card wb-load" aria-labelledby="wbLoadH">
+    <h2 id="wbLoadH">Open a deal</h2>
+    <div class="wb-routes">
+      <div>
+        <label class="sr-field" for="wbDeals">Saved deal<select id="wbDeals"><option value="">Loading…</option></select></label>
+        <label class="sr-field" for="wbVersions">Version<select id="wbVersions"></select></label>
+        <button type="button" class="sr-primary" id="wbOpenSaved">Open saved deal</button>
+      </div>
+      <div>
+        <label class="sr-field" for="wbLink">Deal Calculator share link<input type="text" id="wbLink" placeholder="Paste the link from Share"></label>
+        <button type="button" class="sr-btn" id="wbOpenLink">Open link</button>
+        <label class="sr-field" for="wbFile">Or a Deal Calculator export (.json)<input type="file" id="wbFile" accept=".json,application/json"></label>
+      </div>
+    </div>
+    <p class="sr-muted">Deals are saved from <a href="developer-submittal-review.html">Submittal review</a>. Nothing you open here is saved.</p>
+  </section>
+  <p id="wbStatus" role="status" aria-live="polite"></p>
+  <div class="sr-row wb-actions"><button type="button" class="sr-btn" id="wbPrint" hidden>Print or save as PDF</button><a id="wbOpenCalc" class="sr-btn" hidden>Change it in the Deal Calculator</a></div>
+
+  <div id="wbOut"></div>
+
+  <details class="dv-card">
+    <summary>Sources and limits</summary>
+    <ul>
+      <li>All figures: the Deal Calculator's engine, run on this deal's settings. The workbook does not recalculate anything.</li>
+      <li>CHFA minimum underwriting (operating cost, reserves, vacancy, growth, debt coverage): <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf">CHFA 2025-2026 QAP, Second Amendment</a>, Sections 4.B and 4.C. The 2027-28 plan replaces it for 2027 applications once adopted.</li>
+      <li>Rent limits: CHFA's income and rent tables for the county the deal is set to.</li>
+      <li>Market figures are for the deal's county, from files the site already publishes: renter households by income (Census ACS table B25118, against HUD area median income), Zillow's Observed Rent Index by county and metro, Census median gross rent (ACS B25064), and the site's <a href="deal-summary.html">deal summaries</a> of CHFA awards. They are a screen. A CHFA market study measures the area drawn around the site.</li>
+      <li>Your market research (site, comparables, waitlist counts, rent survey) is kept with the saved deal on the team site, under your sign-in. Waitlists are counts only; no names or applicant details are kept. Nearby tax credit properties: CHFA's housing tax credit property list.</li>
+      <li>"What to check" lists what the figures show. It is not a credit decision or an appraisal.</li>
+      <li>Something unclear? <a href="developer-about.html#ask">Ask pggLLC</a>.</li>
+    </ul>
+  </details>
+</main>
+<footer id="site-footer"></footer>
+<script src="js/navigation.js"></script>
+<script src="js/whitepaper/developer-nav.js"></script>
+<script src="js/vendor/leaflet.js"></script>
+<script src="js/config/basemaps.js"></script>
+<script src="js/whitepaper/deal-workbook.js"></script>
+</body>
+</html>

@@ -12,11 +12,22 @@ present shortfall in the 20-year slot. This file builds the two quantities a
 practitioner HNA uses instead, from public data, and keeps them separate:
 
 1. Present in-commuter need, a deficit today:
-       in-commuters x low/middle-wage share / workers per working household
+       sum over LODES pay tiers of
+         in-commuters in the tier (primary jobs, LODES OD)
+         x households per job at or below 120% AMI in the tier
+           (data/hna/workforce-ami-crosswalk.json, from ACS PUMS)
        x share who would move closer
+   The crosswalk turns jobs into households (a home is one household, and a
+   household can hold two workers) and pay into household income against the
+   county's limits, so a worker in a two-earner household above 120% AMI
+   counts for no home here and a low-paid one in a large household counts.
    The last factor has no statewide public source (local employer surveys
    measure it), so it is published as two stated scenarios, 25% and 50%,
-   never as a hidden constant.
+   never as a hidden constant. The 25% figure carries its split by income
+   band and a 90% margin from the crosswalk's sampling error.
+
+   The ranking's workforce gap reads incommuter_households_le60: every
+   in-commuter's household at or below 60% AMI, before any move-closer share.
 
 2. County job growth, for context only. The State Demography Office sets
    migration in its county population forecast from its own jobs forecast,
@@ -34,11 +45,13 @@ Inputs (cached under data/hna/source/, refreshed with --fetch):
                         with margins of error, via the Census Reporter API
   lodes_primary_jobs.json  LODES primary jobs (JT01): the aux OD file (Colorado
                         job, home out of state) summed by workplace county and
-                        place (LEHD crosswalk), and WAC primary low/middle-wage
-                        jobs by county
+                        place (LEHD crosswalk), WAC primary low/middle-wage
+                        jobs by county, and in-commuters by pay tier (main and
+                        aux OD, home outside the workplace county or place)
 Already in the repo: data/hna/lehd/<county>.json (LODES OD inflow, WAC wage
 bands), data/hna/place-od-flows.json (block-level place OD),
-data/hna/summary/<geoid>.json (households, DP02_0001E).
+data/hna/summary/<geoid>.json (households, DP02_0001E),
+data/hna/workforce-ami-crosswalk.json (scripts/hna/build_workforce_ami_crosswalk.py).
 
 An unmeasurable quantity is null with a reason, never 0 (AGENTS.md).
 """
@@ -69,10 +82,20 @@ B08202_URLS = {
 # (La Plata, Archuleta, Montezuma, Larimer, Weld, Mesa) read low.
 LODES_YEAR = 2023
 AUX_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_aux_JT01_2023.csv.gz'
+OD_MAIN_PRIMARY_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT01_2023.csv.gz'
 WAC_PRIMARY_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT01_2023.csv.gz'
 WAC_ALL_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT00_2023.csv.gz'
 XWALK_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz'
 MOVE_CLOSER_SCENARIOS = (0.25, 0.50)
+CROSSWALK = os.path.join(ROOT, 'data', 'hna', 'workforce-ami-crosswalk.json')
+TIERS = ('CE01', 'CE02', 'CE03')
+# Which in-commuters' households the 20-year figure counts: up to 120% AMI,
+# the top of CHFA's regular income tiers (Prop 123's 160% in the twelve rural
+# resort counties is not used). Households above it can more often choose
+# where to live; the commute of one at or below it is plausibly about price.
+INCOME_CUT = 'le120'
+CUT_BANDS = ('le30', '30_50', '50_60', '60_80', '80_120')
+Z90 = 1.645
 BASE_YEAR = 2024
 HORIZON = 20
 
@@ -84,6 +107,12 @@ WORKER_CELLS = {
     'B08202004': 2,  # 2 workers
     'B08202005': 3,  # 3 or more workers
 }
+
+
+def _open(url, timeout):
+    # api.censusreporter.org answers Python's default User-Agent with 403.
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (COHO Analytics build)'})
+    return urllib.request.urlopen(req, timeout=timeout)
 
 
 def _write_atomic(name, data):
@@ -99,14 +128,14 @@ def fetch():
     replace the cached copies, all three together. A failed or partial
     download leaves the cache exactly as it was."""
     os.makedirs(SRC, exist_ok=True)
-    with urllib.request.urlopen(JOBS_URL, timeout=120) as r:
+    with _open(JOBS_URL, timeout=120) as r:
         jobs_csv = r.read()
     _vintage, jobs = parse_jobs(jobs_csv.decode('utf-8'))
     if len(jobs) != 64:
         raise ValueError('DOLA jobs file has %d counties, not 64' % len(jobs))
     out = {'sources': list(B08202_URLS.values()), 'table': 'B08202', 'geos': {}}
     for sumlevel in ('050', '160'):
-        with urllib.request.urlopen(B08202_URLS[sumlevel], timeout=120) as r:
+        with _open(B08202_URLS[sumlevel], timeout=120) as r:
             d = json.load(r)
         out['release'] = d.get('release')
         for k, v in d['data'].items():
@@ -122,7 +151,8 @@ def fetch():
     if n_plc < n_plc_cached:
         raise ValueError('ACS B08202 has %d places, fewer than the %d cached' % (n_plc, n_plc_cached))
     aux = fetch_aux()
-    if len(aux['counties']) != 64 or len(aux['wac_primary_counties']) != 64:
+    if (len(aux['counties']) != 64 or len(aux['wac_primary_counties']) != 64
+            or len(aux['incommuters_by_tier']['counties']) != 64):
         raise ValueError('LODES primary-job summary does not cover all 64 counties')
     # The county maps come straight from workplace FIPS, so a partial
     # crosswalk or WAC file still covers 64 counties; check the places too.
@@ -131,6 +161,9 @@ def fetch():
         if len(aux.get(key) or {}) < len(cached_aux.get(key) or {}):
             raise ValueError('LODES %s has %d places, fewer than the %d cached'
                              % (key, len(aux.get(key) or {}), len(cached_aux.get(key) or {})))
+    n_tier, n_tier_cached = (len(((d.get('incommuters_by_tier') or {}).get('places')) or {}) for d in (aux, cached_aux))
+    if n_tier < n_tier_cached:
+        raise ValueError('LODES in-commuters by tier has %d places, fewer than the %d cached' % (n_tier, n_tier_cached))
     _write_atomic('dola_jobs_county.csv', jobs_csv)
     _write_atomic('acs_b08202.json', json.dumps(out, separators=(',', ':'), sort_keys=True).encode('utf-8'))
     _write_atomic('lodes_primary_jobs.json', (json.dumps(aux, indent=1, sort_keys=True) + '\n').encode('utf-8'))
@@ -145,11 +178,21 @@ def fetch_aux():
     the LEHD crosswalk; SE01+SE02 come from the records themselves. Sums the
     JT01 WAC file's C000 and CE01+CE02 by county.
     """
-    with urllib.request.urlopen(XWALK_URL, timeout=300) as r:
+    with _open(XWALK_URL, timeout=300) as r:
         xw = gzip.open(io.BytesIO(r.read()), 'rt', encoding='latin-1', newline='')
         block_place = {row['tabblk2020']: row['stplc'] for row in csv.DictReader(xw)
                        if row.get('stplc') and row['stplc'] != '9999999' and len(row['stplc']) == 7}
-    with urllib.request.urlopen(AUX_URL, timeout=300) as r:
+    # In-commuters by pay tier (SE01-SE03), for the crosswalk: workers whose
+    # home is outside the workplace county (or place), from main, plus every
+    # aux worker, whose home is in another state.
+    tier_cty, tier_plc, tier_out = {}, {}, {}
+
+    def add_tiers(book, key, row):
+        t = book.setdefault(key, [0, 0, 0])
+        for i in range(3):
+            t[i] += int(row['SE0%d' % (i + 1)])
+
+    with _open(AUX_URL, timeout=300) as r:
         rows = csv.DictReader(gzip.open(io.BytesIO(r.read()), 'rt', encoding='utf-8', newline=''))
         counties, places = {}, {}
         for row in rows:
@@ -162,12 +205,24 @@ def fetch_aux():
                     t = book.setdefault(key, [0, 0])
                     t[0] += vals[0]
                     t[1] += vals[1]
+            add_tiers(tier_out, w[:5], row)
+            add_tiers(tier_cty, w[:5], row)
+            if block_place.get(w):
+                add_tiers(tier_plc, block_place[w], row)
+    with _open(OD_MAIN_PRIMARY_URL, timeout=300) as r:
+        for row in csv.DictReader(gzip.open(io.BytesIO(r.read()), 'rt', encoding='utf-8', newline='')):
+            w, h = row['w_geocode'], row['h_geocode']
+            if w[:5] != h[:5]:
+                add_tiers(tier_cty, w[:5], row)
+            wp = block_place.get(w)
+            if wp and block_place.get(h) != wp:
+                add_tiers(tier_plc, wp, row)
     # Primary low/middle-wage jobs and all jobs by workplace, for counties
     # and (through the crosswalk) places, so a place that spans counties
     # gets the wage mix of the jobs inside its own boundary.
     wac_cty, wac_plc = {}, {}
     for idx, url in ((0, WAC_PRIMARY_URL), (1, WAC_ALL_URL)):
-        with urllib.request.urlopen(url, timeout=300) as r:
+        with _open(url, timeout=300) as r:
             for row in csv.DictReader(gzip.open(io.BytesIO(r.read()), 'rt', encoding='utf-8', newline='')):
                 w = row['w_geocode']
                 for key, book in ((w[:5], wac_cty), (block_place.get(w), wac_plc)):
@@ -189,6 +244,13 @@ def fetch_aux():
         'fields': ['S000 primary jobs', 'SE01+SE02 primary jobs earning $3,333 a month or less'],
         'counties': {k: {'jobs': v[0], 'low_middle_wage_jobs': v[1]} for k, v in sorted(counties.items())},
         'places': {k: {'jobs': v[0], 'low_middle_wage_jobs': v[1]} for k, v in sorted(places.items())},
+        'incommuters_by_tier': {
+            'source': [OD_MAIN_PRIMARY_URL, AUX_URL],
+            'fields': ['SE01 primary jobs earning $1,250 a month or less', 'SE02 $1,251 to $3,333', 'SE03 more'],
+            'counties': dict(sorted(tier_cty.items())),
+            'places': dict(sorted(tier_plc.items())),
+            'out_of_state_counties': dict(sorted(tier_out.items())),
+        },
     }
     return out
 
@@ -258,22 +320,34 @@ def workers_per_household(cell):
     return workers / hh, hh, round(cv, 3)
 
 
-def primary_low_middle_per_job(aux, county, c000):
-    """Primary low/middle-wage jobs (JT01 CE01+CE02) per job of any kind
-    (JT00 C000) located in the county: turns a JT00 job count into the people
-    in primary low- and middle-wage jobs it represents."""
-    w = (aux.get('wac_primary_counties') or {}).get(county) or {}
-    lm = num(w.get('primary_low_middle_wage_jobs'))
-    return lm / c000 if (lm is not None and c000) else None
+def need_from_tiers(by_tier, crosswalk):
+    """Homes for in-commuters, from their count in each pay tier and the
+    county's households per job in that tier (data/hna/workforce-ami-crosswalk.json).
 
-
-def need_block(incommuters, wage_share, wph, aux_low_middle=0):
-    """In-state in-commuters at the county wage share, plus out-of-state
-    in-commuters' own low/middle-wage count, over workers per household."""
-    if incommuters is None or wage_share is None or wph is None or wph <= 0:
+    Returns the record's need fields, or None when either input is missing.
+    The margin is the crosswalk's sampling error alone (90%, with the tiers'
+    replicate covariances, since all three come from one sample): LODES is a
+    count, and the move-closer share is a stated scenario, not an estimate.
+    """
+    if not by_tier or not crosswalk or not crosswalk.get('tiers'):
         return None
-    base = (incommuters * wage_share + aux_low_middle) / wph
-    return {('move_closer_%d' % round(s * 100)): int(round(base * s)) for s in MOVE_CLOSER_SCENARIOS}
+    tiers = [crosswalk['tiers'][t] for t in TIERS]
+    homes = sum(n * x[INCOME_CUT][0] for n, x in zip(by_tier, tiers))
+    # The tiers' covariances are published for le120 only; another cut falls
+    # back to treating them as independent.
+    cv = crosswalk.get(INCOME_CUT + '_cov')
+    if cv:
+        var = sum(by_tier[i] * by_tier[j] * cv[i][j] for i in range(3) for j in range(3))
+    else:
+        var = sum((n * x[INCOME_CUT][1]) ** 2 for n, x in zip(by_tier, tiers))
+    se = math.sqrt(max(0.0, var))
+    low = MOVE_CLOSER_SCENARIOS[0]
+    return {
+        'present_incommuter_need': {('move_closer_%d' % round(s * 100)): int(round(homes * s)) for s in MOVE_CLOSER_SCENARIOS},
+        'present_incommuter_need_by_ami': {b: int(round(low * sum(n * x[b][0] for n, x in zip(by_tier, tiers)))) for b in CUT_BANDS},
+        'present_incommuter_need_moe90': int(round(low * Z90 * se)),
+        'incommuter_households_le60': int(round(sum(n * x['le60'][0] for n, x in zip(by_tier, tiers)))),
+    }
 
 
 def build():
@@ -284,11 +358,24 @@ def build():
     od_year = (od_doc.get('meta') or {}).get('year')
     # The aux and WAC inputs are LODES_YEAR; place flows from another year
     # (a dispatch of rebuild-place-od-flows.yml for 2022, say) would mix
-    # vintages, so places are left unavailable rather than computed from both.
+    # vintages, so the place flows' fields are left out rather than mixed.
     od_mismatch = od_year is not None and int(od_year) != LODES_YEAR
     od = {} if od_mismatch else (od_doc.get('places') or {})
     geo = read_json(os.path.join(ROOT, 'data', 'hna', 'geo-config.json')) or {}
     aux = read_json(os.path.join(SRC, 'lodes_primary_jobs.json')) or {}
+    tiers = aux.get('incommuters_by_tier') or {}
+    xw_doc = read_json(CROSSWALK) or {}
+    xw = xw_doc.get('counties') or {}
+
+    def with_need(rec, by_tier, county):
+        rec['incommuters_by_tier'] = by_tier
+        need = need_from_tiers(by_tier, xw.get(county))
+        if need is None:
+            rec.update({'present_incommuter_need': None, 'present_incommuter_need_by_ami': None,
+                        'present_incommuter_need_moe90': None, 'incommuter_households_le60': None})
+        else:
+            rec.update(need)
+        return need
 
     county_lehd = {}
     out_counties = {}
@@ -296,29 +383,37 @@ def build():
         fips = c.get('geoid')
         lehd = read_json(os.path.join(ROOT, 'data', 'hna', 'lehd', '%s.json' % fips)) or {}
         county_lehd[fips] = lehd
-        c000 = num(lehd.get('C000'))
-        wage_share = primary_low_middle_per_job(aux, fips, c000)
-        inflow = num(lehd.get('inflow'))
         ax = (aux.get('counties') or {}).get(fips) or {}
         wph, whh, whh_cv = workers_per_household(acs.get(fips))
         j = jobs.get(fips) or {}
         j0, j1 = j.get(BASE_YEAR), j.get(BASE_YEAR + HORIZON)
         rec = {
             'name': c.get('label') or c.get('name'),
-            'incommuters': inflow,
+            'incommuters': num(lehd.get('inflow')),
             'incommuters_out_of_state': ax.get('jobs', 0),
-            'out_of_state_low_middle_wage': ax.get('low_middle_wage_jobs', 0),
-            'low_middle_wage_share': round(wage_share, 4) if wage_share is not None else None,
             'workers_per_working_household': round(wph, 3) if wph is not None else None,
             'working_households_cv': whh_cv,
-            'present_incommuter_need': need_block(inflow, wage_share, wph, ax.get('low_middle_wage_jobs', 0)),
             'jobs_base': int(j0) if j0 is not None else None,
             'jobs_horizon': int(j1) if j1 is not None else None,
             'job_growth_note': 'Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.',
         }
-        if rec['present_incommuter_need'] is None:
-            rec['unavailableReason'] = 'Missing LODES inflow, wage bands or ACS workers per household for this county.'
+        if with_need(rec, (tiers.get('counties') or {}).get(fips), fips) is None:
+            rec['unavailableReason'] = 'Missing LODES in-commuters by pay tier or the households-per-job crosswalk for this county.'
         out_counties[fips] = rec
+
+    # Colorado as a whole: only the in-commuters who live in another state. A
+    # worker who moves closer across a Colorado county line leaves a Colorado
+    # home behind, so the state needs no extra home for them. Each county's
+    # out-of-state in-commuters through its own crosswalk, summed.
+    state = None
+    parts = [need_from_tiers((tiers.get('out_of_state_counties') or {}).get(f, [0, 0, 0]), xw.get(f)) for f in out_counties]
+    if parts and all(parts):
+        state = {
+            'present_incommuter_need': {k: sum(p['present_incommuter_need'][k] for p in parts) for k in parts[0]['present_incommuter_need']},
+            'present_incommuter_need_by_ami': {k: sum(p['present_incommuter_need_by_ami'][k] for p in parts) for k in CUT_BANDS},
+            'counties': len(parts),
+            'note': 'Out-of-state in-commuters only: a move between Colorado counties needs no extra Colorado home.',
+        }
 
     out_places = {}
     for key in ('places', 'cdps'):
@@ -326,17 +421,9 @@ def build():
             gid = p.get('geoid')
             county = p.get('containingCounty') or p.get('county')
             flows = od.get(gid) or {}
-            inflow = num(flows.get('inflow'))
             ax = (aux.get('places') or {}).get(gid) or {}
             place_jobs = num(flows.get('jobs'))
-            lehd = county_lehd.get(county) or {}
-            c000 = num(lehd.get('C000'))
-            pw = (aux.get('wac_primary_places') or {}).get(gid) or {}
-            p_lm, p_all = num(pw.get('primary_low_middle_wage_jobs')), num(pw.get('all_jobs'))
-            if p_lm is not None and p_all:
-                wage_share, basis = p_lm / p_all, 'place'
-            else:
-                wage_share, basis = primary_low_middle_per_job(aux, county, c000), 'county'
+            c000 = num((county_lehd.get(county) or {}).get('C000'))
             wph, whh, whh_cv = workers_per_household(acs.get(gid))
             summ = (read_json(os.path.join(ROOT, 'data', 'hna', 'summary', '%s.json' % gid)) or {}).get('acsProfile') or {}
             csum = (read_json(os.path.join(ROOT, 'data', 'hna', 'summary', '%s.json' % county)) or {}).get('acsProfile') or {}
@@ -344,23 +431,26 @@ def build():
             rec = {
                 'name': p.get('label') or p.get('name'),
                 'containingCounty': county,
-                'incommuters': inflow,
+                'incommuters': num(flows.get('inflow')),
                 'incommuters_out_of_state': ax.get('jobs', 0),
-                'out_of_state_low_middle_wage': ax.get('low_middle_wage_jobs', 0),
-                'low_middle_wage_share': round(wage_share, 4) if wage_share is not None else None,
-                'wage_share_basis': basis,
                 'workers_per_working_household': round(wph, 3) if wph is not None else None,
                 'working_households_cv': whh_cv,
-                'present_incommuter_need': need_block(inflow, wage_share, wph, ax.get('low_middle_wage_jobs', 0)),
                 'share_of_county_jobs': round(place_jobs / c000, 4) if (place_jobs is not None and c000) else None,
                 'share_of_county_households': round(hh / chh, 4) if (hh is not None and chh) else None,
             }
-            if rec['present_incommuter_need'] is None:
-                rec['unavailableReason'] = (('Place commuting flows are LODES %s; the out-of-state and wage inputs are %s, so the two are not combined.' % (od_year, LODES_YEAR)) if od_mismatch
-                                            else 'No block-level LODES record for this place.' if not flows
-                                            else 'Missing wage bands or ACS workers per household for this place.')
+            # A place in two counties takes its configured county's crosswalk:
+            # the income limits are that county's, and both usually share one
+            # place-of-work region.
+            # A place in the block flows with no in-commuter row has none: a
+            # count of zero, not a missing one.
+            by_tier = (tiers.get('places') or {}).get(gid) or ([0, 0, 0] if flows else None)
+            if with_need(rec, by_tier, county) is None:
+                rec['unavailableReason'] = ('No block-level LODES in-commuter record for this place.'
+                                            if by_tier is None
+                                            else 'No households-per-job crosswalk for this place\'s county.')
             out_places[gid] = rec
 
+    xw_meta = xw_doc.get('meta') or {}
     payload = {
         'meta': {
             'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
@@ -368,18 +458,30 @@ def build():
             'baseYear': BASE_YEAR,
             'horizonYear': BASE_YEAR + HORIZON,
             'move_closer_scenarios': list(MOVE_CLOSER_SCENARIOS),
-            'method': ('present_incommuter_need = (LODES main in-commuters (all jobs, JT00) x county primary CE01+CE02 jobs '
-                       '(JT01) per job located there + LODES aux JT01 out-of-state in-commuters earning SE01+SE02) / ACS B08202 workers per working household (3 or more counted as 3) x share who would move closer '
-                       '(scenarios; no statewide source). A deficit today, not a 20-year projection.'),
+            'income_cut': INCOME_CUT,
+            'income_cut_label': 'households at or below 120% of area median income',
+            'method': ('present_incommuter_need = sum over LODES pay tiers (CE01-CE03) of in-commuters in primary jobs '
+                       '(JT01; LODES main OD with home outside the workplace county or place, plus aux OD, home in '
+                       'another state) x households per job at or below 120% AMI in that tier for the county '
+                       '(data/hna/workforce-ami-crosswalk.json: ACS PUMS 2020-2024, each worker 1 / workers in the '
+                       'household, household income against CHFA limits for its size) x share who would move closer '
+                       '(scenarios; no statewide source). A deficit today, not a 20-year projection. '
+                       'present_incommuter_need_moe90 is the crosswalk\'s sampling error at 90% for the 25% scenario. '
+                       'incommuter_households_le60 counts every in-commuter household at or below 60% AMI, for the '
+                       'ranking\'s workforce gap.'),
             'sources': {
-                'lodes_od': 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_2023.csv.gz',
+                'lodes_od': OD_MAIN_PRIMARY_URL,
                 'lodes_od_aux': aux.get('source'),
+                'crosswalk': 'data/hna/workforce-ami-crosswalk.json',
+                'crosswalk_pums': (xw_meta.get('sources') or {}).get('pums'),
+                'crosswalk_income_limits': (xw_meta.get('sources') or {}).get('income_limits'),
                 'acs_b08202': b08202.get('sources') or b08202.get('source'),
                 'acs_release': b08202.get('release'),
                 'dola_jobs': JOBS_URL,
                 'dola_jobs_vintage': vintage,
             },
         },
+        'state': state,
         'counties': out_counties,
         'places': out_places,
     }

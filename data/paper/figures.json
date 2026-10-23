@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "78f96d6fa",
+  "generated_from_commit": "2130d396f",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-23",
-    "total_commits": 8775,
+    "total_commits": 8783,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,26 +49,26 @@
       },
       {
         "month": "2026-10",
-        "commits": 1178,
-        "pct_of_peak": 82.4
+        "commits": 1186,
+        "pct_of_peak": 83
       }
     ]
   },
   "inventory": {
     "places_with_chas": 482,
-    "html_pages_toplevel": 77,
-    "html_pages_total": 571,
+    "html_pages_toplevel": 78,
+    "html_pages_total": 572,
     "workflows": 82,
-    "scripts": 344,
+    "scripts": 345,
     "docs": 504,
-    "data_files": 2022,
+    "data_files": 2023,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 69,
-    "test_files": 619,
+    "test_files": 620,
     "absence_test_cases": 297,
     "absence_tests": 117,
     "lihtc_features": 926
@@ -246,12 +246,12 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 486384,
+    "hand_written_lines": 488391,
     "generated_place_page_lines": 226830,
-    "top_level_pages": 77,
-    "html_nonblank_lines": 49435,
-    "html_distinct_lines": 20543,
-    "html_distinct_share": 0.416,
+    "top_level_pages": 78,
+    "html_nonblank_lines": 49594,
+    "html_distinct_lines": 20571,
+    "html_distinct_share": 0.415,
     "substantial_tools": 25,
     "declared_data_sources": 86,
     "estimate": {
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "78f96d6fa",
+    "extracted_at_commit": "2130d396f",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -541,9 +541,9 @@
     "anchor_overcount_places": 149,
     "anchor_overcount_share": 0.367,
     "ranked_geographies": 546,
-    "workforce_gap_wins": 259,
-    "future_units_with_incommuters": 526,
-    "workforce_reading_counties_sum": 549684,
+    "workforce_gap_wins": 240,
+    "future_units_with_incommuters": 536,
+    "workforce_reading_counties_sum": 186093,
     "replacement_rate_min_pct": 0.02,
     "replacement_rate_max_pct": 0.6,
     "replacement_counties": 64,
@@ -551,8 +551,8 @@
     "replacement_20yr_statewide": 83970,
     "replacement_share_pct": 12.1,
     "incommuter_need_counties": 64,
-    "incommuter_need_25_counties": 73442,
-    "incommuter_need_50_counties": 146886,
+    "incommuter_need_25_counties": 132511,
+    "incommuter_need_50_counties": 265019,
     "gap30_priced_units_statewide": 85210,
     "gap30_aa_homes_statewide": 45794,
     "gap30_aa_occupied_statewide": 42707,

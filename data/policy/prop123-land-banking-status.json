@@ -24,6 +24,15 @@
       "none_found": 9,
       "none": 37
     },
+    "holder_labels": {
+      "government": "Town, county or housing authority",
+      "nonprofit": "Nonprofit or other organization"
+    },
+    "holder_counts": {
+      "government": 18,
+      "nonprofit": 45
+    },
+    "holder_note": "CHFA's award lists print each grantee's name, not what kind of body it is. A town, city, county or housing authority is named as one, or shown so by a dated source; the program lends only to nonprofits, so every other grantee is a nonprofit or other organization.",
     "unlinked": [],
     "note": "A status reads only public state award records and dated public sources. \"Building money awarded\" means another state award to the same project, before or after the land award, not that homes are built."
   },
@@ -44,7 +53,12 @@
       "quote": "Type: N, I/F; Name: 101 Main; Address: 101 W Main Street; City: Frisco; Total Units: 52; Total LI Units: 52; Federal 9% Credit Awarded: $1,600,000; Standard State Credit Awarded: $650,000",
       "from": "ledger",
       "ledger_project": "101-main-08117",
-      "label": "Building money awarded"
+      "label": "Building money awarded",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy23-24-affordable-home-ownership-in-evergreen": {
       "status": "none",
@@ -52,7 +66,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy23-24-alpine-west": {
       "status": "none_found",
@@ -61,7 +80,12 @@
       "quote": null,
       "from": "research",
       "checked": "2026-10-22",
-      "label": "No public next step found"
+      "label": "No public next step found",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy23-24-aurora-family-apartments": {
       "status": "none",
@@ -69,7 +93,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy23-24-city-of-grand-junction-salt-flats": {
       "status": "applied",
@@ -94,7 +123,12 @@
       "quote": "Name: Haven at Salt Flats; Address: 450 28 Road; City: Grand Junction; Total Units: 62; LI Units: 62",
       "from": "research",
       "checked": "2026-10-22",
-      "label": "Applied for building money"
+      "label": "Applied for building money",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy23-24-dignified-housing-village-for-at-risk-young-adults": {
       "status": "none",
@@ -102,7 +136,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy23-24-five-points-historic-cultural-distrcit-affordable-homes": {
       "status": "none",
@@ -110,7 +149,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy23-24-gates-family-housing": {
       "status": "none",
@@ -118,7 +162,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy23-24-habitat-morris-project": {
       "status": "none_found",
@@ -127,7 +176,12 @@
       "quote": null,
       "from": "research",
       "checked": "2026-10-22",
-      "label": "No public next step found"
+      "label": "No public next step found",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy23-24-northlands-subdivision-of-the-huajatolla-hills": {
       "status": "none_found",
@@ -136,7 +190,19 @@
       "quote": null,
       "from": "research",
       "checked": "2026-10-22",
-      "label": "No public next step found"
+      "label": "No public next step found",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "source",
+        "text": "A nonprofit corporation, not Huerfano County government.",
+        "quote": "Designated as a 501(c)(3)",
+        "source": {
+          "title": "ProPublica Nonprofit Explorer, Huerfano County Economic Development Inc",
+          "url": "https://projects.propublica.org/nonprofits/organizations/841008688",
+          "date": "2026-10-23"
+        }
+      }
     },
     "fy23-24-rural-southern-colorado-homeownership-portfolio-1": {
       "status": "none",
@@ -144,7 +210,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy23-24-safer-colorado": {
       "status": "none",
@@ -152,7 +223,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy23-24-sagewood-west-affordable-housing": {
       "status": "none_found",
@@ -161,7 +237,12 @@
       "quote": null,
       "from": "research",
       "checked": "2026-10-22",
-      "label": "No public next step found"
+      "label": "No public next step found",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy23-24-salida-eastside-senior-living-apartments": {
       "status": "partner",
@@ -181,7 +262,12 @@
       "quote": "was not selected ... resubmit again in the next grant cycle in early 2027",
       "from": "research",
       "checked": "2026-10-22",
-      "label": "Development partner chosen"
+      "label": "Development partner chosen",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy23-24-village-on-eastbrook": {
       "status": "financed",
@@ -199,7 +285,19 @@
       "quote": "Project: Village on Eastbrook; Town: Fort Collins; Program: Housing Development Grant (HDG); Amount: $995,000; Amount basis: awarded; Homes: 73; Announced: 2026-04-14; Source: State Housing Board vote summary, meeting of 2026-04-14 (printed in the 2026-05-05 board packet)",
       "from": "ledger",
       "ledger_project": "village-on-eastbrook-08069",
-      "label": "Building money awarded"
+      "label": "Building money awarded",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "source",
+        "text": "Fort Collins' housing authority, formed by City Council resolution.",
+        "quote": "formerly known as the Fort Collins Housing Authority",
+        "source": {
+          "title": "City of Fort Collins, Housing Catalyst board page",
+          "url": "https://www.fcgov.com/cityclerk/housingcatalyst",
+          "date": "2026-10-23"
+        }
+      }
     },
     "fy23-24-walden-35-phase-ii": {
       "status": "none_found",
@@ -208,7 +306,12 @@
       "quote": null,
       "from": "research",
       "checked": "2026-10-22",
-      "label": "No public next step found"
+      "label": "No public next step found",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy24-25-11795-colmans-way": {
       "status": "none",
@@ -216,7 +319,19 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "source",
+        "text": "Broomfield's housing authority.",
+        "quote": "Broomfield Housing Alliance (BHA), Broomfield's housing authority",
+        "source": {
+          "title": "City and County of Broomfield, Housing Developments page",
+          "url": "https://www.broomfield.org/4345/Housing-Developments",
+          "date": "2026-10-23"
+        }
+      }
     },
     "fy24-25-1350-n-logan": {
       "status": "none",
@@ -224,7 +339,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-1886-hover": {
       "status": "applied",
@@ -238,7 +358,12 @@
       "quote": "Project: 1886 Hover; Program: Rental; Amount: $1,350,000; Amount basis: requested; Homes: 40; Announced: 2025-11; Source: DOH Application Schedule and Awards page: awards announced November 2025",
       "from": "ledger",
       "ledger_project": "1886-hover-08013",
-      "label": "Applied for building money"
+      "label": "Applied for building money",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-affordable-housing-phase-4-bonita-dr": {
       "status": "none",
@@ -246,7 +371,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-bloom-cottages-habitat": {
       "status": "none",
@@ -254,7 +384,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-bradley-ridge-apartments": {
       "status": "financed",
@@ -268,7 +403,12 @@
       "quote": "Cycle Year: 2025; Resident Type: Family; Building Type: New Construction; Property Name: Bradley Ridge; Address: Legacy Hill Drive & Bradley Landing Blvd; City: Colorado Springs; County: El Paso; QCT: No; DDA: No; SADDA: Yes; Federal 4% Credit Amount Issued *: $7,005,107; PAB Issuer **: City of Colorado Springs; PAB Amount ***: $76,832,223; Total Units: 336; LI Units: 336; Sect. 8: No",
       "from": "ledger",
       "ledger_project": "bradley-ridge-08041",
-      "label": "Building money awarded"
+      "label": "Building money awarded",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-brighton-blvd-gesc": {
       "status": "none",
@@ -276,7 +416,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-calvary-flats-affordable-homes": {
       "status": "financed",
@@ -290,7 +435,12 @@
       "quote": "Project: Calvary Flats; Town: Golden; Program: Proposition 123 AHOP; Amount: $3,080,000; Amount basis: awarded; Homes: 40; Announced: 2025-05-13; Source: State Housing Board vote summary, meeting of 2025-05-13 (printed in the 2025-06-10 board packet)",
       "from": "ledger",
       "ledger_project": "calvary-flats-affordable-08059",
-      "label": "Building money awarded"
+      "label": "Building money awarded",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-fairways-phase-ii": {
       "status": "none",
@@ -298,7 +448,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-flats-at-harlan": {
       "status": "none",
@@ -306,7 +461,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-flats-at-sand-creek": {
       "status": "financed",
@@ -320,7 +480,12 @@
       "quote": "Cycle Year: 2025; Resident Type: Family; Building Type: New Construction; Property Name: Flats at Sand Creek; Address: NEC Peterson Rd & N Carefree Cir; City: Colorado Springs; County: El Paso; QCT: No; DDA: No; SADDA: Yes; Federal 4% Credit Amount Issued *: $3,015,572; PAB Issuer **: El Paso County; PAB Amount ***: $31,150,339; Total Units: 144; LI Units: 144; Sect. 8: No",
       "from": "ledger",
       "ledger_project": "flats-sand-creek-08041",
-      "label": "Building money awarded"
+      "label": "Building money awarded",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-habitat-15th-and-terry-street-neighborhood": {
       "status": "none",
@@ -328,7 +493,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-liberty-house": {
       "status": "not_funded",
@@ -342,7 +512,12 @@
       "quote": "Type: N,I/F,SP; Name: Liberty House Apartments; Address: 1500 Hooker; City: Denver; Total Units: 63; LI Units: 63; Federal 9% Credit Requested: $1,642,352; Standard State Credit Requested: $500,000; TOC Credit Requested: $126,000",
       "from": "ledger",
       "ledger_project": "liberty-house-08031",
-      "label": "Applied for building money, not funded yet"
+      "label": "Applied for building money, not funded yet",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-liora": {
       "status": "none",
@@ -350,7 +525,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-loretto-commons": {
       "status": "none",
@@ -358,7 +538,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-metro-caring-affordable-housing": {
       "status": "applied",
@@ -372,7 +557,12 @@
       "quote": "Building Type: N; Resident Type: I/F; Name: Metro Caring Housing; Address: 1100 E 18th Avenue; City: Denver; Total Units: 139; LI Units: 139; Federal 4% Credit Requested: $4,036,080; PAB Issuer: City and County of Denver; PAB Requested: $25,500,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $278,000",
       "from": "ledger",
       "ledger_project": "metro-caring-housing-08031",
-      "label": "Applied for building money"
+      "label": "Applied for building money",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-miners-haus": {
       "status": "none",
@@ -380,7 +570,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-ridge-road": {
       "status": "financed",
@@ -394,7 +589,19 @@
       "quote": "Project Name: Ridge Road; Location: Wheat Ridge; Proposition 123 Funds Awarded: $750,000; Estimated Unit Count: 200; Program: Predevelopment",
       "from": "ledger",
       "ledger_project": "ridge-road-08059",
-      "label": "Building money awarded"
+      "label": "Building money awarded",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "source",
+        "text": "Jefferson County's housing authority under a new name.",
+        "quote": "Foothills Regional Housing (formerly Jefferson County Housing Authority)",
+        "source": {
+          "title": "City of Wheat Ridge, Housing Authority page",
+          "url": "https://www.wheatridge.gov/265",
+          "date": "2026-10-23"
+        }
+      }
     },
     "fy24-25-tbd-hilltop-apartments": {
       "status": "none",
@@ -402,7 +609,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy24-25-the-foundry": {
       "status": "financed",
@@ -416,7 +628,12 @@
       "quote": "Project: The Foundry Phase I; Town: Commerce City; Program: Prop 123 AHOP; Amount: $2,000,000; Amount basis: awarded; Homes: 36; Announced: 2025-12-09; Source: State Housing Board vote summary, meeting of 2025-12-09 (printed in the 2026-01-20 board packet)",
       "from": "ledger",
       "ledger_project": "foundry-08001",
-      "label": "Building money awarded"
+      "label": "Building money awarded",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy24-25-the-fruita-commons": {
       "status": "none",
@@ -424,7 +641,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy25-26-rural-fort-morgan-mixed-income-housing-development": {
       "status": "none_found",
@@ -433,7 +655,12 @@
       "quote": null,
       "from": "research",
       "checked": "2026-10-22",
-      "label": "No public next step found"
+      "label": "No public next step found",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-rural-gunnison-workforce-housing-project": {
       "status": "none",
@@ -441,7 +668,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-rural-high-country-haven-phase-ii": {
       "status": "none",
@@ -449,7 +681,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-rural-lakeview-flats": {
       "status": "financed",
@@ -463,7 +700,12 @@
       "quote": "Project: Lakeview Flats; Town: Georgetown; Program: Prop 123 AHOP; Amount: $2,590,000; Amount basis: awarded; Homes: 37; Announced: 2026-05-05; Source: State Housing Board vote summary, meeting of 2026-05-05 (printed in the 2026-06-09 board packet)",
       "from": "ledger",
       "ledger_project": "lakeview-flats-08019",
-      "label": "Building money awarded"
+      "label": "Building money awarded",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy25-26-rural-leadville-railyards": {
       "status": "partner",
@@ -478,7 +720,12 @@
       "quote": "The building is planned to be two to three stories, housing 44 apartments ... The next steps will be planning and zoning meetings, where they will need to request a density easement",
       "from": "research",
       "checked": "2026-10-22",
-      "label": "Development partner chosen"
+      "label": "Development partner chosen",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-rural-rivergate-lot-5-workforce-housing-development": {
       "status": "partner",
@@ -493,7 +740,12 @@
       "quote": "In June 2025, the City launched a search to find a development partner. ... In exchange for developing the lot, the City intends to donate the land to the developer, provided agreed-upon milestones are met.",
       "from": "research",
       "checked": "2026-10-22",
-      "label": "Development partner chosen"
+      "label": "Development partner chosen",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy25-26-rural-silt-riverfront-homes": {
       "status": "none",
@@ -501,7 +753,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-rural-the-riverly": {
       "status": "none",
@@ -509,7 +766,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-375-logan": {
       "status": "none",
@@ -517,7 +779,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-830-moraine-development": {
       "status": "none_found",
@@ -526,7 +793,12 @@
       "quote": null,
       "from": "research",
       "checked": "2026-10-22",
-      "label": "No public next step found"
+      "label": "No public next step found",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy25-26-statewide-9151-n-pearl-street": {
       "status": "none",
@@ -534,7 +806,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-basecamp-woodland-park": {
       "status": "none_found",
@@ -543,7 +820,12 @@
       "quote": null,
       "from": "research",
       "checked": "2026-10-22",
-      "label": "No public next step found"
+      "label": "No public next step found",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-bimson": {
       "status": "none",
@@ -551,7 +833,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-brighton-bridge-telluride": {
       "status": "none_found",
@@ -560,7 +847,12 @@
       "quote": null,
       "from": "research",
       "checked": "2026-10-22",
-      "label": "No public next step found"
+      "label": "No public next step found",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy25-26-statewide-cherokee-place": {
       "status": "none",
@@ -568,7 +860,19 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "source",
+        "text": "Englewood's housing authority under another name.",
+        "quote": "Innovative Housing Concepts (IHC), also known as Englewood Housing Authority",
+        "source": {
+          "title": "HUD Colorado, Innovative Housing Concepts and vaccine access (18 Aug 2021)",
+          "url": "https://archives.hud.gov/local/co/goodstories/2021-08-18.cfm",
+          "date": "2021-08-18"
+        }
+      }
     },
     "fy25-26-statewide-legacy-terrace-apartments": {
       "status": "financed",
@@ -582,7 +886,12 @@
       "quote": "Project Name: Legacy Terrace Apartments; Location: Wheat Ridge; Proposition 123 Funds Requested: $750,000; Proposition 123 Funds Awarded: $750,000; Projected Units: 50; Loan Option: LIHTC Predevelopment",
       "from": "ledger",
       "ledger_project": "legacy-terrace-08059",
-      "label": "Building money awarded"
+      "label": "Building money awarded",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy25-26-statewide-mada-kinikin-affordable-housing-childcare-community": {
       "status": "none",
@@ -590,7 +899,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-midland-affordable-homes": {
       "status": "none",
@@ -598,7 +912,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-mountain-view-apartments": {
       "status": "financed",
@@ -612,7 +931,12 @@
       "quote": "Project Name: Mountain View Apartments; Location: Leadville; Proposition 123 Funds Requested: $700,000; Proposition 123 Funds Awarded: $700,000; Projected Units: 74; Loan Option: LIHTC Predevelopment",
       "from": "ledger",
       "ledger_project": "mountain-view-08065",
-      "label": "Building money awarded"
+      "label": "Building money awarded",
+      "holder": {
+        "type": "government",
+        "label": "Town, county or housing authority",
+        "how": "name"
+      }
     },
     "fy25-26-statewide-mountair-townhomes": {
       "status": "none",
@@ -620,7 +944,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-nazarene-townhomes": {
       "status": "none",
@@ -628,7 +957,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-pumpkin-ridge-apartments": {
       "status": "none",
@@ -636,7 +970,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-rio-grande-community-trust-monte-vista-scattered-site-homeownership-project": {
       "status": "none",
@@ -644,7 +983,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-tailwind-residences": {
       "status": "none",
@@ -652,7 +996,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-york-street-townhomes": {
       "status": "none",
@@ -660,7 +1009,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     },
     "fy25-26-statewide-yosemite-street": {
       "status": "none",
@@ -668,7 +1022,12 @@
       "sources": [],
       "quote": null,
       "from": "ledger",
-      "label": "No later state funding on record"
+      "label": "No later state funding on record",
+      "holder": {
+        "type": "nonprofit",
+        "label": "Nonprofit or other organization",
+        "how": "program_rule"
+      }
     }
   }
 }

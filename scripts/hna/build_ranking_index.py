@@ -99,7 +99,7 @@ COMMUTER_AUGMENT_ALPHA = 0.20
 GAP_COUNT_WEIGHT = 0.4
 GAP_RATE_WEIGHT = 0.6
 
-# --- Workforce gap (LODES job-based demand) ------------------------------
+# --- Workforce gap (resident renters plus in-commuters) ------------------
 #
 # The resident gap counts affordable units against renter households who
 # LIVE here. Both terms stop at the municipal boundary, so a place that has
@@ -108,30 +108,31 @@ GAP_RATE_WEIGHT = 0.6
 # gap of exactly 0, and the arithmetic producing that 0 is correct.
 #
 # Exporting a workforce is not evidence that housing need was met. The
-# commute is the unmet need. So demand is also measured from the jobs a
-# place hosts, which do not move when the workers are pushed out.
+# commute is the unmet need. So the workforce reading puts the households
+# of the people who commute in back on the demand side:
 #
-# LODES WAC earnings segments, already loaded for commuter pressure:
-#   CE01  jobs paying <= $1,250/month
-#   CE02  jobs paying $1,251-$3,333/month   (~$40k/yr)
-#   CE03  jobs paying > $3,333/month
-# Counties expose the same counts as annualWages[year].low / .medium.
+#   renter households here at or below 60% AMI
+#   + households of today's in-commuters at or below 60% AMI
+#   - rental units here affordable at or below 60% AMI
 #
-# Compared against rental units affordable at <= 60% AMI, because ~$40k/yr
-# lands near 50-60% AMI in most Colorado counties -- NOT against the 30% AMI
-# stock the resident gap uses. Naming this a 30% AMI figure would make it
-# mean something other than it says.
+# The in-commuters' households come from data/hna/workforce-need.json
+# (incommuter_households_le60): LODES in-commuters by pay tier through the
+# ACS PUMS crosswalk (data/hna/workforce-ami-crosswalk.json), which turns
+# jobs into households and a job's pay into household income against the
+# county's limits. Until 2026-10 this reading set one low-wage job (CE01 +
+# CE02) against one affordable unit: it counted jobs, not households, called
+# every job under $40k a 60% AMI household, and counted jobs held by
+# residents who were already on the demand side as renters or owners.
 #
-# One job is benchmarked against one affordable unit. There is deliberately
-# no workers-per-household divisor: any such factor would be the only
-# unsourced number in the chain, and it would silently rescale a published
-# metric. Jobs-to-units is the standard jobs-housing framing and every term
-# here is inspectable in the output.
+# Compared at 60% AMI -- NOT against the 30% AMI stock the resident gap
+# uses. Naming this a 30% AMI figure would make it mean something other than
+# it says.
+# local_low_wage_jobs is still published, as context.
 WORKFORCE_WAGE_BANDS = ("CE01", "CE02")
 WORKFORCE_COUNTY_WAGE_BANDS = ("low", "medium")
 WORKFORCE_SUPPLY_AMI_BAND = "60"
-# Below this many local low-wage jobs the rate is not published: the same
-# floor the other rate metrics use, for the same reason.
+# Below this many households on the demand side the rate is not published:
+# the same floor the other rate metrics use, for the same reason.
 _MIN_WORKFORCE_JOBS = _MIN_RATE_DENOMINATOR
 COST_ALL_RENTER_WEIGHT = 0.40
 COST_SEVERE_WEIGHT = 0.30
@@ -462,6 +463,16 @@ def _affordable_units_at_band(place_gap_rec, county_gap_rec, geo_type, band):
     return None
 
 
+def _renter_households_at_band(place_gap_rec, county_gap_rec, geo_type, band):
+    """Renter households at or below ``band``% AMI, from the same record
+    _affordable_units_at_band reads its units from, or None if unknown."""
+    rec = place_gap_rec or (county_gap_rec if geo_type == "county" else None)
+    hh = (rec or {}).get("households_le_ami_pct", {}).get(band)
+    if hh is None or (place_gap_rec and place_gap_rec.get("gap_units_minus_households_le_ami_pct", {}).get(band) is None):
+        return None
+    return safe_float(hh)
+
+
 def _local_low_wage_jobs(place_lehd_blob, county_lehd_rec, geo_type):
     """Jobs LOCATED here paying <= $3,333/month, or None if unknown.
 
@@ -589,9 +600,9 @@ _WORKFORCE_NEED: dict | None = None
 def load_workforce_need() -> dict:
     """Present in-commuter need by geoid, from data/hna/workforce-need.json.
 
-    scripts/hna/build_workforce_need.py builds it: the lower- and middle-wage
-    people who commute in (LEHD LODES), divided by workers per working
-    household (ACS B08202), at two stated shares who would move closer, 25%
+    scripts/hna/build_workforce_need.py builds it: the people who commute in
+    (LEHD LODES, by pay tier), turned into households at or below 120% AMI by
+    the ACS PUMS crosswalk, at two stated shares who would move closer, 25%
     and 50%. No statewide source measures that share, so both are kept.
     Counties and places share one id space (5- and 7-digit geoids).
     """
@@ -616,6 +627,16 @@ def incommuter_need(geoid: str | None) -> tuple[int | None, int | None]:
     if not isinstance(high, (int, float)) or isinstance(high, bool):
         high = None
     return int(low), (int(high) if high is not None else None)
+
+
+def incommuter_households_le60(geoid: str | None) -> int | None:
+    """Households of today's in-commuters at or below 60% AMI, every one of
+    them (no move-closer share), or None when the geography has no record."""
+    rec = load_workforce_need().get(geoid) if geoid else None
+    v = (rec or {}).get("incommuter_households_le60")
+    if not isinstance(v, (int, float)) or isinstance(v, bool):
+        return None
+    return int(v)
 
 
 def load_sya(county_fips5: str) -> dict | None:
@@ -1495,12 +1516,13 @@ def compute_metrics(
 
     # methods-spec:begin need-inputs  (methods.html §06 describes this block;
     # test/methods-spec-sources.test.mjs fails when it changes unreviewed)
-    # --- Workforce gap: demand measured from jobs, not residents ---------
+    # --- Workforce gap: resident renters plus in-commuters ---------------
     #
-    # See WORKFORCE_WAGE_BANDS. The resident gap asks "do the people living
-    # here have affordable housing"; a place answers yes by having no such
-    # people left. This asks "can the workforce this place employs afford to
-    # live in it", which its boundary cannot flatter.
+    # See the Workforce gap block at the top. The resident gap asks "do the
+    # people living here have affordable housing"; a place answers yes by
+    # having no such people left. This also counts the lower-income
+    # households of the people who commute in, which its boundary cannot
+    # flatter.
     local_low_wage_jobs = _local_low_wage_jobs(
         place_lehd_blob,
         lehd_by_county.get(county_fips5) if county_fips5 else None,
@@ -1513,24 +1535,36 @@ def compute_metrics(
         WORKFORCE_SUPPLY_AMI_BAND,
     )
 
+    renter_households_lte60 = _renter_households_at_band(
+        place_data,
+        ami_gap_by_county.get(county_fips5) if county_fips5 else None,
+        geo_type,
+        WORKFORCE_SUPPLY_AMI_BAND,
+    )
+    incommuter_households_lte60 = incommuter_households_le60(geoid)
+
     workforce_gap_units = None
     workforce_gap_pct = None
     workforce_gap_basis = None
+    workforce_households_lte60 = None
 
-    if local_low_wage_jobs is not None and affordable_units_lte60 is not None:
-        workforce_gap_units = int(max(0.0, local_low_wage_jobs - affordable_units_lte60))
+    if (renter_households_lte60 is not None and incommuter_households_lte60 is not None
+            and affordable_units_lte60 is not None):
+        workforce_households_lte60 = int(round(renter_households_lte60 + incommuter_households_lte60))
+        workforce_gap_units = int(max(0, workforce_households_lte60 - round(affordable_units_lte60)))
         workforce_gap_basis = (
-            "place_lodes_wac_vs_units_lte60"
-            if place_lehd_blob
-            else "county_lodes_wac_vs_units_lte60"
+            "place_renters_plus_incommuters_vs_units_lte60"
+            if place_data
+            else "county_renters_plus_incommuters_vs_units_lte60"
         )
-        # A place with more affordable units than low-wage jobs scores 0 here,
-        # and that 0 is real -- it is the answer to a question that was asked
-        # and came back negative. It is not the absence-shaped 0 this metric
-        # was built to replace, which is why the basis is emitted alongside it.
-        if local_low_wage_jobs >= _MIN_WORKFORCE_JOBS:
+        # A place with more affordable units than lower-income renters and
+        # in-commuters scores 0 here, and that 0 is real -- it is the answer
+        # to a question that was asked and came back negative. It is not the
+        # absence-shaped 0 this metric was built to replace, which is why the
+        # basis is emitted alongside it.
+        if workforce_households_lte60 >= _MIN_WORKFORCE_JOBS:
             workforce_gap_pct = round(
-                workforce_gap_units / local_low_wage_jobs * 100, 1
+                workforce_gap_units / workforce_households_lte60 * 100, 1
             )
 
     # --- 20-year population projection ---
@@ -1614,17 +1648,18 @@ def compute_metrics(
     # County's resident figure was -3 while 9,682 people commuted in.
     #
     # Until 2026-10 the fix was max(resident growth, workforce_gap_units), and
-    # for most places the jobs reading won. That reading counts one low-wage
-    # job as one home, includes jobs held by residents who already have a
-    # home, and is a present shortfall in a 20-year slot: Aspen published
-    # 4,447 homes against 73 of growth. It stays in the community-need score
-    # (gap pressure), where it was built to sit, and leaves this figure.
+    # for most places the jobs reading won. That reading then counted one
+    # low-wage job as one home, included jobs held by residents who already
+    # have a home, and was a present shortfall in a 20-year slot: Aspen
+    # published 4,447 homes against 73 of growth. The workforce reading stays
+    # in the community-need score (gap pressure), where it was built to sit,
+    # and leaves this figure.
     #
     # The figure is now the two parts a practitioner needs assessment adds:
     # homes for household growth, plus homes for the in-commuters who would
     # move closer today (data/hna/workforce-need.json: households, not jobs,
-    # at a quarter of lower- and middle-wage in-commuters; the half scenario is
-    # published beside it as incommuter_need_units_high). A place with no
+    # a quarter of in-commuter households at or below 120% AMI; the half
+    # scenario is published beside it as incommuter_need_units_high). A place with no
     # in-commuter record keeps resident growth alone and says so in
     # future_units_reading; a place with no growth projection gets no figure,
     # because a sum with an unknown part is unknown.
@@ -1849,6 +1884,11 @@ def compute_metrics(
         "affordable_units_lte60": (
             int(affordable_units_lte60) if affordable_units_lte60 is not None else None
         ),
+        "renter_households_lte60": (
+            int(round(renter_households_lte60)) if renter_households_lte60 is not None else None
+        ),
+        "incommuter_households_lte60": incommuter_households_lte60,
+        "workforce_households_lte60": workforce_households_lte60,
         "workforce_gap_units": workforce_gap_units,
         "workforce_gap_pct": workforce_gap_pct,
         "workforce_gap_basis": workforce_gap_basis,
@@ -1876,7 +1916,7 @@ def compute_metrics(
         "future_units_basis": projection_basis,
         # What the figure counts. A number this size is not actionable without
         # it: "resident_growth_plus_incommuters" is household growth plus homes
-        # for a quarter of today's lower- and middle-wage in-commuters;
+        # for a quarter of today's in-commuter households at or below 120% AMI;
         # "resident_growth" is growth alone, where no in-commuter record exists.
         "future_units_reading": future_units_basis_reading,
         # The resident-growth component, before today's in-commuters are added.
@@ -2086,6 +2126,9 @@ def build(out_path: str | None = None) -> None:
                 "housing_gap_units": 0,
                 "local_low_wage_jobs": None,
                 "affordable_units_lte60": None,
+                "renter_households_lte60": None,
+                "incommuter_households_lte60": None,
+                "workforce_households_lte60": None,
                 "workforce_gap_units": None,
                 "workforce_gap_pct": None,
                 "workforce_gap_basis": None,
@@ -2549,7 +2592,8 @@ def build(out_path: str | None = None) -> None:
             "description": (
                 "LODES workplace jobs in LODES earnings bands CE01 + CE02 "
                 "(up to $3,333/month). Counts jobs LOCATED here, whoever fills "
-                "them and wherever they sleep."
+                "them and wherever they sleep. Context only since 2026-10: the "
+                "workforce gap counts households, not jobs."
             ),
             "unit": "jobs",
             "sortOrder": "descending",
@@ -2559,19 +2603,52 @@ def build(out_path: str | None = None) -> None:
             "label": "Rental units affordable at 60% AMI or below",
             "description": (
                 "Supply side of the workforce gap. The 60% band, not the 30% "
-                "band used by housing_gap_units, because a $40k/yr wage lands "
-                "near 50-60% AMI in most Colorado counties."
+                "band used by housing_gap_units: the workforce gap asks about "
+                "lower-income working households, not only the lowest-income."
             ),
             "unit": "units",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "renter_households_lte60",
+            "label": "Renter households at 60% AMI or below",
+            "description": (
+                "Renter households living here with incomes at or below 60% "
+                "AMI, from the same record as affordable_units_lte60."
+            ),
+            "unit": "households",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "incommuter_households_lte60",
+            "label": "In-commuter households at 60% AMI or below",
+            "description": (
+                "Households of everyone who commutes in to work here (LODES "
+                "primary jobs) with incomes at or below 60% AMI, through the "
+                "ACS PUMS crosswalk in data/hna/workforce-need.json. No "
+                "move-closer share is applied."
+            ),
+            "unit": "households",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "workforce_households_lte60",
+            "label": "Renter and in-commuter households at 60% AMI or below",
+            "description": (
+                "renter_households_lte60 plus incommuter_households_lte60: the "
+                "demand side of the workforce gap."
+            ),
+            "unit": "households",
             "sortOrder": "descending",
         },
         {
             "id": "workforce_gap_units",
             "label": "Workforce housing gap",
             "description": (
-                "local_low_wage_jobs minus affordable_units_lte60, floored at "
-                "zero: low-wage jobs here with no affordable unit here to match "
-                "them. Demand is read from jobs rather than residents, so a "
+                "workforce_households_lte60 minus affordable_units_lte60, "
+                "floored at zero: lower-income renters here and households of "
+                "lower-income in-commuters with no affordable rental here to "
+                "match them. In-commuters stay on the demand side, so a "
                 "jurisdiction cannot zero it out by pricing its workforce into "
                 "the next town."
             ),
@@ -2580,11 +2657,11 @@ def build(out_path: str | None = None) -> None:
         },
         {
             "id": "workforce_gap_pct",
-            "label": "% of local low-wage jobs without a matching affordable unit",
+            "label": "% of lower-income renter and in-commuter households without a matching affordable rental",
             "description": (
-                "workforce_gap_units as a share of local_low_wage_jobs. "
-                "Suppressed below 50 local low-wage jobs, the same denominator "
-                "floor the other rate metrics use."
+                "workforce_gap_units as a share of workforce_households_lte60. "
+                "Suppressed below 50 households, the same denominator floor "
+                "the other rate metrics use."
             ),
             "unit": "percent",
             "sortOrder": "descending",
@@ -2594,9 +2671,10 @@ def build(out_path: str | None = None) -> None:
             "label": "Workforce gap basis",
             "description": (
                 "Which sources produced the workforce gap: "
-                "place_lodes_wac_vs_units_lte60 or "
-                "county_lodes_wac_vs_units_lte60. Absent when either side is "
-                "unknown, in which case the gap itself is null rather than 0."
+                "place_renters_plus_incommuters_vs_units_lte60 or "
+                "county_renters_plus_incommuters_vs_units_lte60. Absent when "
+                "any part is unknown, in which case the gap itself is null "
+                "rather than 0."
             ),
             "unit": "category",
             "sortOrder": "ascending",

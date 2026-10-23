@@ -18,6 +18,7 @@
     { href: 'developer-where.html', label: 'Where to build' },
     { href: 'developer-round-watch.html', label: 'Next round' },
     { href: 'developer-submittal-review.html', label: 'Submittal review' },
+    { href: 'developer-deal-workbook.html', label: 'Deal workbook' },
     { href: 'developer-pipeline.html', label: 'Pipeline' },
     { href: 'developer-methods.html', label: 'Methodology' },
     { href: 'developer-about.html', label: 'About' }

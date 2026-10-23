@@ -9,8 +9,8 @@
  * percentage of SDO's births, deaths or migration, so 100% on all three is
  * SDO's forecast. Homes needed take the same form as the HNA page's 20-year
  * figure: the rise in homes the projected households need at the county's
- * target vacancy, plus homes for a quarter of today's lower- and middle-wage
- * in-commuters. A town or CDP takes its share of the county's growth, the
+ * target vacancy, plus homes for a quarter of today's in-commuter households
+ * at or below 120% AMI. A town or CDP takes its share of the county's growth, the
  * share the HNA page uses (data/hna/projections/places.json), so with the
  * sliders at 100% the builder and the HNA page give the same number. It can
  * instead take a share of each age group from Hamilton-Perry projections of
@@ -846,7 +846,7 @@
         ? 'Projected households fall, by ' + Math.abs(Math.round(fig.growth)).toLocaleString('en-US') + ' homes’ worth'
         : Math.round(fig.growth).toLocaleString('en-US') + ' for resident growth') +
         (fig.inCommuters != null
-          ? ', plus ' + Math.round(fig.inCommuters).toLocaleString('en-US') + ' for a quarter of today’s lower- and middle-wage in-commuters.'
+          ? ', plus ' + Math.round(fig.inCommuters).toLocaleString('en-US') + ' for a quarter of today’s in-commuter households at or below 120% AMI.'
           : '. No in-commuter record for this place, so resident growth alone.') +
         (sameAsSdo ? ' The same as the HNA page.' : (sdoFig ? ' SDO’s forecast gives ' + _homesText(sdoFig.total).toLowerCase() + '.' : ''));
     }

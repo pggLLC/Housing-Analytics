@@ -61,4 +61,31 @@ assert(shownNum, 'homes stat shows a number');
 assert.equal(Number(shownNum[1].replace(/,/g, '')), ACTION.homes, `homes figure ${shownNum[1]} is the ACTION fact sheet's total`);
 const law = JSON.parse(read('data/policy/tax-credit-legislation.json'));
 assert(JSON.stringify(law).includes('119-21') && stat.includes('Public Law 119-21'), 'caveat names the law the watch file records as enacted');
+// CRA: being inside a bank's assessment area is about place, not whether the
+// investment qualifies. Until 2026-10-22 the deal team page said an investment
+// there "counts without argument". What every claim must agree with is the
+// definition the section's own source line quotes from 12 CFR 228.12(t): a
+// qualified investment has community development as its primary purpose. So
+// each sentence saying an investment counts or qualifies (quoted rule text
+// aside) must carry that purpose and a condition, however it is worded.
+const team = read('affordable-deal-team.html');
+const craSection = team.match(/<section id="dt-cra"[\s\S]*?<\/section>/);
+assert(craSection, 'deal team page has the CRA section');
+const craText = craSection[0].replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/g, ' ').replace(/\s+/g, ' ');
+const definition = craText.match(/228\.12\(t\)[^.]*"as its primary purpose (community development)"/);
+assert(definition, 'the CRA section quotes the 228.12(t) qualified-investment definition');
+const claims = craText.split(/(?<=[.;?!]"?)\s+/)
+  .map((sentence) => sentence.replace(/"[^"]*"/g, '""'))
+  .filter((sentence) => !sentence.endsWith('?'))
+  .filter((sentence) => /\b(investments?|projects?)\b[^.;]*\b(counts?|qualif(y|ies|ied|ying))\b/i.test(sentence)
+    || /\b(investments?|projects?)\b[^.;]*\b(earns?|gets?|receives?|wins?|is given)\b[^.;]*\bcredit\b/i.test(sentence));
+assert(claims.length >= 3, `scan found ${claims.length} CRA credit claims`);
+// The definition ties community development to the primary purpose, so each
+// claim must state that relationship, not just name the category; the
+// primary-purpose test is the condition, so no list of "if"/"when" words.
+const cd = definition[1];
+const primaryPurpose = new RegExp(`primary purpose\\b[^.;,]{0,20}\\b${cd}|${cd}\\b[^.;,]{0,20}\\bprimary purpose`, 'i');
+claims.forEach((claim) => {
+  assert(primaryPurpose.test(claim), `CRA claim requires community development as the primary purpose: ${claim}`);
+});
 console.log(`lihtc-practice-claims: PASS (${rounds.length} rounds checked)`);

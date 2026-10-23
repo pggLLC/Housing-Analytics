@@ -2573,7 +2573,7 @@
         const scaledNote = (geoType === 'county') ? ''
           : usedPlaceProjection ? ' from this community’s blended place projection'
           : ' scaled from the county DOLA projection';
-        setNote(pace + `the ${endYear} figure: projected growth${scaledNote}, plus homes for a quarter of today’s lower- and middle-wage in-commuters. `
+        setNote(pace + `the ${endYear} figure: projected growth${scaledNote}, plus homes for a quarter of today’s in-commuter households at or below 120% AMI. `
           + `Existing shortfalls are additional.`);
       } else {
         // Label the need source honestly: covered places get their own
@@ -2628,17 +2628,19 @@
    * most places. It counts one job as one home, includes jobs held by people
    * who already live here, and is a present shortfall in a 20-year slot
    * (Aspen 4,447 against 73 of growth). The in-commuter need counts
-   * households instead (data/hna/workforce-need.json): lower- and middle-wage
-   * in-commuters over workers per working household, at a quarter who would
-   * move closer. The half scenario is shown beside it, never hidden.
+   * households instead (data/hna/workforce-need.json): in-commuters by pay
+   * tier through the ACS PUMS crosswalk to households at or below 120% AMI,
+   * at a quarter who would move closer. The half scenario is shown beside
+   * it, never hidden.
    *
    * Returns the figure AND what it counts, because a number this size is not
    * actionable without knowing that.
    */
   /**
    * workforce_gap_units for one jurisdiction, from its metrics digest: the
-   * jobs-against-homes reading the ranking's need score uses. Shown as its
-   * own line in the need reconciliation; not part of the figure used.
+   * renters-and-in-commuters-against-rentals reading the ranking's need score
+   * uses. Shown as its own line in the need reconciliation; not part of the
+   * figure used.
    *
    * The digest is per-jurisdiction and ~38KB, so this costs one small fetch
    * rather than the whole ranking index. Returns null on any failure.
@@ -2673,9 +2675,10 @@
 
   /**
    * Present in-commuter need from data/hna/workforce-need.json: the homes the
-   * lower- and middle-wage people who commute in would take if a stated share
-   * of them moved closer (25% and 50%; no statewide source measures the share).
-   * Null with a reason when the file or the geography has no figure.
+   * households of people who commute in, at or below 120% AMI, would take if
+   * a stated share of them moved closer (25% and 50%; no statewide source
+   * measures the share). Null with a reason when the file or the geography
+   * has no figure.
    */
   let _workforceNeedDoc;
   async function _loadIncommuterNeed(geoid) {
@@ -2686,22 +2689,13 @@
     const doc = await _workforceNeedDoc;
     if (!doc) return { low: null, high: null, reason: 'The in-commuter need file could not be read.' };
     if (geoid === '08') {
-      // Colorado: only the in-commuters who live in another state. A worker
-      // who moves closer across a Colorado county line leaves a Colorado home
-      // behind, so the state needs no extra home for them. Each county's
-      // out-of-state low/middle-wage workers over its own workers per working
-      // household, summed; any county missing → no total.
-      const recs = Object.keys(doc.counties || {}).filter((k) => /^08\d{3}$/.test(k)).map((k) => doc.counties[k]);
-      let homes = 0;
-      let have = 0;
-      for (const c of recs) {
-        const w = c ? window.HNAUtils.safeNum(c.out_of_state_low_middle_wage) : null;
-        const wph = c ? window.HNAUtils.safeNum(c.workers_per_working_household) : null;
-        if (w === null || wph === null || wph <= 0) continue;
-        homes += w / wph; have += 1;
-      }
-      if (have !== 64) return { low: null, high: null, reason: have + ' of 64 counties have an out-of-state in-commuter figure, so no statewide total is shown.' };
-      return { low: Math.round(homes * 0.25), high: Math.round(homes * 0.5), wph: null, countyWage: false, stateSum: true, reason: null };
+      // Colorado: only the in-commuters who live in another state (the
+      // builder's state record). A worker who moves closer across a Colorado
+      // county line leaves a Colorado home behind, so the state needs no extra
+      // home for them.
+      const st = doc.state && doc.state.present_incommuter_need;
+      if (!st) return { low: null, high: null, reason: 'No statewide out-of-state in-commuter figure in this build.' };
+      return { low: window.HNAUtils.safeNum(st.move_closer_25), high: window.HNAUtils.safeNum(st.move_closer_50), moe: null, stateSum: true, reason: null };
     }
     const rec = (doc.counties && doc.counties[geoid]) || (doc.places && doc.places[geoid]) || null;
     const n = rec && rec.present_incommuter_need;
@@ -2709,8 +2703,7 @@
     return {
       low: window.HNAUtils.safeNum(n.move_closer_25),
       high: window.HNAUtils.safeNum(n.move_closer_50),
-      wph: window.HNAUtils.safeNum(rec.workers_per_working_household),
-      countyWage: rec.wage_share_basis === 'county',
+      moe: window.HNAUtils.safeNum(rec.present_incommuter_need_moe90),
       reason: null,
     };
   }
@@ -2923,32 +2916,33 @@
         unavailable: growth === null ? 'No household projection for this geography.' : null,
       },
       {
-        // Households, not jobs: only people who commute in, divided by
-        // workers per working household, at a stated share who would move
-        // closer. The quarter is in the figure; the half is shown here.
+        // Households, not jobs: only people who commute in, as households at
+        // or below 120% AMI (ACS PUMS crosswalk), at a stated share who would
+        // move closer. The quarter is in the figure; the half is shown here.
         key: 'incommuter',
         label: 'In-commuters who would move closer, today',
         units: incLow,
         unitsHigh: incHigh,
-        counts: 'Lower- and middle-wage workers who commute in (LEHD LODES 2023), divided by workers per working household'
-          + (inc.wph !== null && inc.wph !== undefined ? ' (' + Number(inc.wph).toFixed(2) + ', ACS B08202)' : ' (ACS B08202)')
-          + ', if a quarter of them moved closer' + (incHigh !== null ? '; ' + Math.round(incHigh).toLocaleString('en-US') + ' homes if half did' : '')
-          + '. No statewide source measures that share, so both are shown, and the quarter is in the figure used'
-          + (inc.stateSum ? '. For Colorado only people who live in another state are counted, because a move between Colorado counties needs no extra Colorado home.' : inc.countyWage ? '; the wage split is the county\u2019s.' : '.'),
+        counts: 'Households of people who commute in (LEHD LODES 2023, primary jobs) with incomes at or below 120% AMI, if a quarter of them moved closer'
+          + (incHigh !== null ? '; ' + Math.round(incHigh).toLocaleString('en-US') + ' homes if half did' : '')
+          + '. Census microdata (ACS PUMS 2020\u20132024) gives the households per job at each LODES pay level, and each household\u2019s income against CHFA\u2019s limits for its size, so two workers in one household are one home. '
+          + 'No statewide source measures the share who would move, so both are shown, and the quarter is in the figure used'
+          + (inc.moe !== null && inc.moe !== undefined ? '; the quarter is \u00b1' + Math.round(inc.moe).toLocaleString('en-US') + ' homes from the survey\u2019s sampling error (90%)' : '')
+          + (inc.stateSum ? '. For Colorado only people who live in another state are counted, because a move between Colorado counties needs no extra Colorado home.' : '.'),
         inFigure: basis === 'resident_growth_plus_incommuters',
         unavailable: incLow === null ? (inc.reason || 'No in-commuter record for this geography.') : null,
       },
       {
         // Kept so the number still has a home on the page: the ranking's need
-        // score uses it. It counts one job as one home and includes jobs held
-        // by people who already live here, so it is not added to the figure.
+        // score uses it. It counts every in-commuter, not a share who would
+        // move, and is a shortfall today, so it is not added to the figure.
         key: 'workforce',
-        label: 'Lower-wage jobs less affordable homes',
+        label: 'Lower-income renters and in-commuters less affordable rentals',
         units: workforce,
-        counts: 'Lower-wage jobs located here against homes affordable at \u226460% AMI (LEHD LODES workplace counts). '
-          + 'It counts one job as one home, including jobs held by people who already live here, so it is not part of the figure used; the ranking\u2019s need score uses it.',
+        counts: 'Renter households here and the households of everyone who commutes in, at or below 60% AMI, against rentals here affordable at \u226460% AMI. '
+          + 'It counts every in-commuter, not a share who would move, and is a shortfall today, so it is not part of the figure used; the ranking\u2019s need score uses it.',
         inFigure: false,
-        unavailable: workforce === null ? 'No jobs-against-homes reading for this geography.' : null,
+        unavailable: workforce === null ? 'No renters-and-in-commuters reading for this geography.' : null,
       },
       {
         // Homes lost from today's stock over the same years. The figure used
@@ -2969,7 +2963,7 @@
     ];
     let why = 'No need figure could be computed for this geography.';
     if (basis === 'resident_growth_plus_incommuters') {
-      why = growthName + ' plus homes for a quarter of today\u2019s lower- and middle-wage in-commuters, if they moved closer.'
+      why = growthName + ' plus homes for a quarter of today\u2019s in-commuter households at or below 120% AMI, if they moved closer.'
         + (growth !== null && incHigh !== null
           ? ' If half moved closer, the figure would be ' + signedHomes(growth + incHigh) + '.'
           : '');
@@ -3122,7 +3116,7 @@
     const plus = basis === 'resident_growth_plus_incommuters' && known(growthUnits) && known(incommuterUnits);
     const part = plus ? Number(growthUnits) : Number(incUnits);
     const added = plus
-      ? ` Plus ${window.HNAUtils.fmtNum(Math.round(Number(incommuterUnits)))} homes for a quarter of today\u2019s lower- and middle-wage in-commuters, if they moved closer: `
+      ? ` Plus ${window.HNAUtils.fmtNum(Math.round(Number(incommuterUnits)))} homes for a quarter of today\u2019s in-commuter households at or below 120% AMI, if they moved closer: `
         + (Number(incUnits) < 0 ? `a surplus of ${window.HNAUtils.fmtNum(Math.abs(Math.round(Number(incUnits))))}` : window.HNAUtils.fmtNum(Math.round(Number(incUnits)))) + ' in all.'
       : '';
     const display = formatIncrementalUnitsDisplay(part);

@@ -49,7 +49,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for City of Fruita. It classifies rental pressure as Moderate, ownership pressure as High, and identifies 343 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for City of Fruita. It classifies rental pressure as Moderate, ownership pressure as High, and counts 343 renter households earning 51–100% of area median income: the income range ownership programs usually serve, not a count of ready buyers.",
           "cites": [
             "own1",
             "own2",
@@ -77,17 +77,18 @@
           ]
         },
         {
-          "text": "Incentives and local funding on record: parking reduction. The Local Housing Incentives page has the terms and sources of each.",
+          "text": "Incentives and local funding on record: parking reduction and lodging or short-term-rental tax. The Local Housing Incentives page has the terms and sources of each. Civic Readiness already credits its local funding, so the bonus does not count the fund records again.",
           "cites": [
-            "ls3"
+            "ls3",
+            "ls4"
           ]
         },
         {
           "text": "Council and planning commission record. On September 3, 2024, the City Council approved: Direction to apply for CHFA Prop 123 Land Banking grant (The Fruita Commons site) (vote 3-2). Prop 123 land banking requires 70% of rental homes at or below 60% AMI and 70% of homeownership at or below 100% AMI; partnership with Housing Resources of Western Colorado and a developer. On May 20, 2025, the City Council approved: Resolution 2025-17 approving the Redevelopment, Financing and AMI Restriction Agreement for The Oaks (vote 6-0). 62 multi-family rental units at the former Family Health West property restricted to 100% AMI or less, with city/housing authority contributions (initial $400,000). On May 19, 2026, the City Council approved: Resolution 2026-17 approving regional IGA for attribution of affordable housing units for Proposition 123 unit credit. IGA with neighboring Mesa County governments to share counts of affordable housing units toward Proposition 123 commitments.",
           "cites": [
-            "ls4",
             "ls5",
-            "ls6"
+            "ls6",
+            "ls7"
           ]
         },
         {
@@ -103,7 +104,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Fruita at #126 with an overall housing-need score of 62.6. It identifies 103 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 34.9% of <=30% AMI households. 43.6% of renter households are cost burdened, and 3.4% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Fruita at #111 with an overall housing-need score of 65.2. It identifies 103 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 34.9% of <=30% AMI households. 43.6% of renter households are cost burdened, and 3.4% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -123,7 +124,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 13,691. LEHD-based commuting signals show 2,120 in-commuters and a commute ratio of 68.7%. The digest's 20-year figure is 1,726 homes. Projected resident growth gives 1,591; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 135: homes for a quarter of the lower- and middle-wage workers who commute into City of Fruita, if they moved closer.",
+          "text": "Demographics and demand: the population metric is 13,691. LEHD-based commuting signals show 2,120 in-commuters and a commute ratio of 68.7%. The digest's 20-year figure is 1,785 homes. Projected resident growth gives 1,591; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 194: homes for a quarter of the households, at or below 120% AMI, of the people who commute into City of Fruita, if they moved closer.",
           "cites": [
             "d11",
             "d12",
@@ -245,6 +246,15 @@
     },
     {
       "id": "ls4",
+      "label": "City of Fruita - Short-term rental FAQ (lodging tax)",
+      "url": "https://www.fruita.org/m/faq",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-fruita-lodging-tax-econdev-housing",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
       "label": "Direction to apply for CHFA Prop 123 Land Banking grant (The Fruita Commons site) (Fruita City Council minutes, September 3, 2024)",
       "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_09032024-96",
       "kind": "data",
@@ -253,7 +263,7 @@
       "accessed": "2026-10-10"
     },
     {
-      "id": "ls5",
+      "id": "ls6",
       "label": "Resolution 2025-17 approving the Redevelopment, Financing and AMI Restriction Agreement for The Oaks (Fruita City Council minutes, May 20, 2025)",
       "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_05202025-62",
       "kind": "data",
@@ -262,7 +272,7 @@
       "accessed": "2026-10-10"
     },
     {
-      "id": "ls6",
+      "id": "ls7",
       "label": "Resolution 2026-17 approving regional IGA for attribution of affordable housing units for Proposition 123 unit credit (Fruita City Council minutes, May 19, 2026)",
       "url": "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_05192026-1010",
       "kind": "data",
@@ -272,7 +282,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -281,7 +291,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -389,7 +399,7 @@
     },
     {
       "id": "d14",
-      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2023 and ACS 2020-2024 5-year (B08202))",
+      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2023 and ACS PUMS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -416,7 +426,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -425,7 +435,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -434,7 +444,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -479,7 +489,7 @@
     },
     {
       "id": "d24",
-      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2023 and ACS 2020-2024 5-year (B08202))",
+      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2023 and ACS PUMS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

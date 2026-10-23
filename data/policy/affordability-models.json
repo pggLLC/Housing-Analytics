@@ -7,7 +7,7 @@
     "guardrail": "\"Best outcome\" means best-matched to the actual buyer, product, and lender \u2014 NOT the model that shrinks the gap on paper. The engine must never auto-select the most permissive model and must attach the buyer-risk disclosure to any permissive result. A more permissive model shows more buying power by transferring risk to the buyer (higher payment burden, thinner equity, higher default exposure) and may fail a real lender/appraiser.",
     "household_size_note": "Income is AMI adjusted by household size via HUD income limits by size (getIncomeLimits). household_size_default=4 preserves the current kernel output (backward-compat golden fixture maxAffordablePrice(100000,0.80)===289983). Smaller buyer households (typical of 1-2BR townhomes) have lower income limits, which increases the gap \u2014 do not leave this at 4 for a townhome study.",
     "price_measure_note": "Compare against a jurisdiction-scoped, product-appropriate price: value (ZHVI/ACS B25077), closed sale (Redfin median_sale_price / CAR), or list (Redfin sale_to_list). For Fruita these converge ~ $486k-$494k; never substitute county for place, and never use an unsourced figure.",
-    "jurisdiction_variance_note": "propertyTaxRate (0.0065) and rateAnnual (0.065) are statewide approximations requiring local verification; property-tax mill levies vary enormously by county and district. insuranceRate is not uniform across models: conservative_screening and prop123_dpa_eligibility use 0.0035, while first_time_buyer, conventional_dti, fha_insured, and usda_rd use 0.0085. Neither insurance figure reflects wildfire/WUI county pricing; disclose the model-specific figure and verify locally."
+    "jurisdiction_variance_note": "propertyTaxRate (0.0065) is a statewide approximation requiring local verification, and no model carries its own mortgage rate: all read the one dated Freddie Mac PMMS weekly rate in js/hna/ownership-finance.js (MORTGAGE_RATE), which is a national average, not a quote; property-tax mill levies vary enormously by county and district. insuranceRate is not uniform across models: conservative_screening and prop123_dpa_eligibility use 0.0035, while first_time_buyer, conventional_dti, fha_insured, and usda_rd use 0.0085. Neither insurance figure reflects wildfire/WUI county pricing; disclose the model-specific figure and verify locally."
   },
   "models": [
     {
@@ -15,8 +15,7 @@
       "label": "Conservative screening (default)",
       "default": true,
       "params": {
-        "rateAnnual": 0.065,
-        "rate_as_of": "shared HNA AFFORD assumption",
+        "rate_as_of": "shared: OwnershipFinance.MORTGAGE_RATE (dated Freddie Mac PMMS week)",
         "termYears": 30,
         "downPaymentPct": 0.1,
         "housingRatioType": "front",
@@ -46,7 +45,7 @@
       "id": "first_time_buyer",
       "label": "First-time buyer (low down + DPA)",
       "params": {
-        "rateAnnual": 0.065,
+        "rate_as_of": "shared: OwnershipFinance.MORTGAGE_RATE (dated Freddie Mac PMMS week)",
         "termYears": 30,
         "downPaymentPct": 0.05,
         "housingRatioType": "front",
@@ -78,7 +77,7 @@
       "id": "conventional_dti",
       "label": "Conventional lender DTI (20% down / 43% back-end)",
       "params": {
-        "rateAnnual": 0.065,
+        "rate_as_of": "shared: OwnershipFinance.MORTGAGE_RATE (dated Freddie Mac PMMS week)",
         "termYears": 30,
         "downPaymentPct": 0.2,
         "housingRatioType": "back",
@@ -110,7 +109,7 @@
       "id": "fha_insured",
       "label": "Federal FHA-insured (3.5% down)",
       "params": {
-        "rateAnnual": 0.065,
+        "rate_as_of": "shared: OwnershipFinance.MORTGAGE_RATE (dated Freddie Mac PMMS week)",
         "termYears": 30,
         "downPaymentPct": 0.035,
         "housingRatioType": "back",
@@ -145,7 +144,7 @@
       "id": "usda_rd",
       "label": "USDA Rural Development (0% down, income-limited)",
       "params": {
-        "rateAnnual": 0.065,
+        "rate_as_of": "shared: OwnershipFinance.MORTGAGE_RATE (dated Freddie Mac PMMS week)",
         "termYears": 30,
         "downPaymentPct": 0.0,
         "housingRatioType": "back",
@@ -182,8 +181,7 @@
       "label": "Prop 123 DPA eligibility gate (not an affordability finding)",
       "default": false,
       "params": {
-        "rateAnnual": 0.065,
-        "rate_as_of": "shared HNA AFFORD assumption",
+        "rate_as_of": "shared: OwnershipFinance.MORTGAGE_RATE (dated Freddie Mac PMMS week)",
         "termYears": 30,
         "downPaymentPct": 0.1,
         "housingRatioType": "front",

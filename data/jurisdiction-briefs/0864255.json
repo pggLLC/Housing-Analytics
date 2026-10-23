@@ -94,7 +94,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for City of Rifle. It classifies rental pressure as Moderate, ownership pressure as High, and identifies 526 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for City of Rifle. It classifies rental pressure as Moderate, ownership pressure as High, and counts 526 renter households earning 51–100% of area median income: the income range ownership programs usually serve, not a count of ready buyers.",
           "cites": [
             "own1",
             "own2",
@@ -147,7 +147,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Rifle at #326 with an overall housing-need score of 39.0. It identifies 212 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 48.7% of <=30% AMI households. 39.3% of renter households are cost burdened, and 1.9% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Rifle at #314 with an overall housing-need score of 40.0. It identifies 212 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 48.7% of <=30% AMI households. 39.3% of renter households are cost burdened, and 1.9% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -167,7 +167,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 10,570. LEHD-based commuting signals show 1,981 in-commuters and a commute ratio of 70%. The digest's 20-year figure is 1,583 homes. Projected resident growth gives 1,458; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 125: homes for a quarter of the lower- and middle-wage workers who commute into City of Rifle, if they moved closer.",
+          "text": "Demographics and demand: the population metric is 10,570. LEHD-based commuting signals show 1,981 in-commuters and a commute ratio of 70%. The digest's 20-year figure is 1,629 homes. Projected resident growth gives 1,458; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 171: homes for a quarter of the households, at or below 120% AMI, of the people who commute into City of Rifle, if they moved closer.",
           "cites": [
             "d11",
             "d12",
@@ -361,7 +361,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -370,7 +370,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -478,7 +478,7 @@
     },
     {
       "id": "d14",
-      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2023 and ACS 2020-2024 5-year (B08202))",
+      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2023 and ACS PUMS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -505,7 +505,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -514,7 +514,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -523,7 +523,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-22T10:03:19Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -568,7 +568,7 @@
     },
     {
       "id": "d24",
-      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2023 and ACS 2020-2024 5-year (B08202))",
+      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2023 and ACS PUMS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
