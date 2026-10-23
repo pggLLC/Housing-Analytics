@@ -252,14 +252,19 @@ export function plan(F, read = (rel) => fs.readFileSync(path.join(ROOT, rel), 'u
 const SKIP_JS = [/^js\/vendor\//, /^js\/state-allocations-20\d\d(-actual)?\.js$/, /^js\/state-allocations-historical\.js$/];
 export function scannedFiles(root = ROOT) {
   const out = fs.readdirSync(root).filter((f) => f.endsWith('.html'));
-  const walk = (dir) => {
-    for (const d of fs.readdirSync(path.join(root, dir), { withFileTypes: true })) {
+  const walk = (dir, keep) => {
+    let entries;
+    try { entries = fs.readdirSync(path.join(root, dir), { withFileTypes: true }); } catch { return; }
+    for (const d of entries) {
       const rel = `${dir}/${d.name}`;
-      if (d.isDirectory()) walk(rel);
-      else if (d.name.endsWith('.js') && !SKIP_JS.some((re) => re.test(rel))) out.push(rel);
+      if (d.isDirectory()) walk(rel, keep);
+      else if (keep(rel)) out.push(rel);
     }
   };
-  walk('js');
+  walk('js', (rel) => rel.endsWith('.js') && !SKIP_JS.some((re) => re.test(rel)));
+  // The generated place pages are visitor pages too. (assets/ holds generated
+  // map embeds and docs/ internal notes; neither carries these figures.)
+  walk('places', (rel) => rel.endsWith('.html'));
   out.push(CONTENT, 'data/glossary.json', 'data/table-header-tips.json', FUNDING, BRIEFS);
   return out;
 }
