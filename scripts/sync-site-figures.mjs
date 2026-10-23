@@ -264,7 +264,7 @@ export function scannedFiles(root = ROOT) {
 
 /** The written forms of each figure that must only appear inside a rule. */
 export function strayPatterns(F) {
-  const f = (k) => formatFigure(k, F).replace(/[.$]/g, '\\$&');
+  const f = (k) => formatFigure(k, F).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const pats = [
     ['eq9', new RegExp(`\\$${f('eq9')}(?!\\d)`, 'g')],
     ['eq4', new RegExp(`\\$${f('eq4')}(?!\\d)`, 'g')],
