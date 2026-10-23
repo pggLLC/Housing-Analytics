@@ -54,10 +54,17 @@ const p123 = json('data/policy/prop123_jurisdictions.json').next_cycle;
 assert.equal(p123.filing_deadline, '2026-11-01');
 assert.ok(guide.includes('due November 1, 2026') && fair.includes('due 1 November 2026'), 'Prop 123 filing deadline');
 
+// The ROFR warning names the resyndication exemption the record carries, and
+// the preservation row carries both routes the draft prints.
+assert.ok(guide.includes('29-4-1205(1)(f)'), 'ROFR exemption named');
+const pres = sc.lines.find((l) => l.id === '5B3d-preservation').quote;
+assert.ok(/within three years of expiration/.test(pres) && guide.includes('expires within three years'), 'preservation subsidy route');
+
 // 3. Fair housing: Colorado law, and no unqualified 3% claim after HB26-1313.
 for (const s of ['C.R.S. 24-34-502', 'HB20-1332', 'Colorado Civil Rights Division', 'within one year', 'HB26-1313']) {
   assert.ok(fair.includes(s), `fair housing brief cites ${s}`);
 }
+assert.ok(/no more than five rental units in all/.test(fair), 'voucher exemption states the five-unit total');
 assert.ok(!/conditions state funding on a filed commitment to a 3% annual\s+increase/.test(fair), 'old 3% sentence removed');
 
 // 4. Resident services: every Denver and DOH figure in the summary is in the records.
