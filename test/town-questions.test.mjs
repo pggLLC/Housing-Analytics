@@ -174,6 +174,11 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   ok(/4% without state credit:/.test(html) && html.includes(t.rolling4.name), 'the rolling 4% path is printed under the round table');
   const noRoll = clone(BASE); noRoll.qapCalendar.rolling_programs = [];
   ok(model('0833640', { src: noRoll }).deal.timing.rolling4 === null, 'no rolling entry in the calendar: none invented');
+  const past = model('0833640', { today: '2031-01-01' });
+  ok(past.deal.timing && past.deal.timing.rows.length === 0 && past.deal.timing.rolling4, 'all rounds passed: the rolling 4% path still shows');
+  ok(/No fixed CHFA round is open/.test(WP.renderHtml(past)), 'all rounds passed: the page says so and shows the rolling path');
+  const onlyRoll = clone(BASE); onlyRoll.qapCalendar.events = [];
+  ok(model('0833640', { src: onlyRoll }).deal.timing.rolling4, 'calendar with only the rolling program: timing still shows it');
   const noCal = clone(BASE); noCal.qapCalendar = { events: [] };
   ok(model('0833640', { src: noCal }).deal.timing === null, 'no calendar: no timing, nothing invented');
 }

@@ -662,7 +662,13 @@
       var mine = open.filter(function (r) { return r.credit === c; });
       for (var i = 0; i < mine.length; i++) { rows.push(mine[i]); if (mine[i].reading === 'base') break; }
     });
-    if (!rows.length) return null;
+    // A 4% bond deal without state credit does not wait for a round: CHFA reviews it
+    // on a rolling basis, so the round dates hold only for 4% paired with state credit.
+    // Every route here keeps 4% at least as a fallback, so the rolling path shows even
+    // when no fixed round is open.
+    var rollEntry = (((src.qapCalendar || {}).rolling_programs) || []).find(function (p) { return p && p.category === '4pct-rolling'; }) || null;
+    var roll = rollEntry && (!rows.length || rows.some(function (r) { return r.credit === '4%'; })) ? rollEntry : null;
+    if (!rows.length && !roll) return null;
     var scoring = src.qapScoring || null;
     function milestones(r) {
       if (!scoring) return null;
@@ -680,10 +686,6 @@
     }
     rows.forEach(function (r) { if (r.reading !== 'late') r.milestones = milestones(r); });
     var lb = ((((src.fundingGuide || {}).programs) || []).find(function (p) { return p && p.id === 'prop123-ahff-land-banking'; })) || null;
-    // A 4% bond deal without state credit does not wait for a round: CHFA reviews it
-    // on a rolling basis, so the round dates hold only for 4% paired with state credit.
-    var roll = rows.some(function (r) { return r.credit === '4%'; })
-      ? ((((src.qapCalendar || {}).rolling_programs) || []).find(function (p) { return p && p.category === '4pct-rolling'; }) || null) : null;
     return {
       rows: rows,
       rolling4: roll ? { name: roll.name, description: roll.description, url: safeHref(roll.url) } : null,
@@ -1330,7 +1332,11 @@
 
   function renderTiming(T) {
     if (!T) return '';
-    var h = '<h3>Timing</h3><table><thead><tr><th>Round</th><th>Letter of intent</th><th>Application</th><th>Awards</th><th>Reading</th></tr></thead><tbody>' +
+    var h = '<h3>Timing</h3>';
+    if (!T.rows.length) {
+      return h + '<p>No fixed CHFA round is open on the calendar. <strong>4% with bonds:</strong> ' + link(T.rolling4.name, T.rolling4.url) + ' has no round: ' + esc(T.rolling4.description) + '</p>';
+    }
+    h += '<table><thead><tr><th>Round</th><th>Letter of intent</th><th>Application</th><th>Awards</th><th>Reading</th></tr></thead><tbody>' +
       T.rows.map(function (r) {
         var reading = r.reading === 'base' ? '<strong>Base case</strong>' : r.reading === 'stretch' ? 'Stretch: ' + r.daysToLoi + ' days to the letter of intent' : 'Not realistic: letter of intent in ' + r.daysToLoi + ' days';
         return '<tr><td>' + link(r.label, r.url) + (r.draft ? ' <span class="wp-tag">draft QAP</span>' : '') + '</td><td>' + esc(r.loi) + '</td><td>' + esc(r.deadline) + '</td><td>' +
