@@ -59,6 +59,7 @@
 .hm-flow-link:hover { stroke-opacity: .6; }
 .hm-flow-link.is-dim { stroke-opacity: .06; }
 .hm-flow-hit { fill: transparent; cursor: pointer; }
+.hm-flow-hit:focus-visible { outline: none; stroke: var(--accent); stroke-width: 2; }
 .hm-flow-link, [data-hm-map] path { cursor: pointer; }
 .hm-flow-pick { margin: var(--sp2) 0; min-height: 44px; }
 .hm-flow-clear { margin-left: var(--sp1); min-height: 44px; }

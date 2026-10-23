@@ -91,9 +91,9 @@
     "",
     "<section aria-labelledby=\"hm-flow-h\" style=\"margin:var(--sp4) 0;\">",
     "  <h2 id=\"hm-flow-h\" style=\"font-size:1.15rem;\">Which programs paid, and where the homes are</h2>",
-    "  <p class=\"hm-flow-pick\" aria-live=\"polite\" data-hm-flow-pick></p>",
+    "  <p class=\"hm-flow-pick\" aria-live=\"polite\" aria-atomic=\"true\" data-hm-flow-pick></p>",
     "  <figure class=\"diagram hm-flow\">",
-    "    <svg class=\"hm-flow-svg\" data-hm-flow role=\"img\" aria-labelledby=\"hm-flow-h hm-flow-desc\"></svg>",
+    "    <svg class=\"hm-flow-svg\" data-hm-flow role=\"group\" aria-labelledby=\"hm-flow-h hm-flow-desc\"></svg>",
     "    <ul class=\"dg-legend hm-flow-legend\" data-hm-flow-legend></ul>",
     "    <p class=\"hm-flow-maptitle\" id=\"hm-flow-map-h\">Where each region is</p>",
     "    <svg class=\"hm-flow-map\" data-hm-flow-map role=\"img\" aria-labelledby=\"hm-flow-map-h\"></svg>",
@@ -395,7 +395,7 @@
     var cs = global.getComputedStyle ? global.getComputedStyle(fig) : null;
     var pad = cs ? (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0) : 32;
     var W = Math.min(880, Math.max(260, Math.floor((fig.clientWidth || 720) - pad)));
-    var BAR = 10, GAP = 10, SLOT = 34, TOP = 4;
+    var BAR = 10, GAP = 10, SLOT = 44, TOP = 4;
     var rows = Math.max(f.left.length, f.right.length);
     // Pixels per home: the taller column fills about 22px a row on top of its label slots.
     var k = (rows * 22) / f.homes;
@@ -443,12 +443,13 @@
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
     svg.setAttribute('width', String(W));
     svg.setAttribute('height', String(H));
-    // A tap target the height of each row (at least 34px) over the bar and its label.
+    // A tap target the height of each row (at least 44px) over the bar and its label,
+    // focusable so a keyboard can pick it too.
     var HIT = Math.min(220, Math.floor(W * 0.45));
     var hits = f.left.map(function (n) {
-      return '<rect class="hm-flow-hit" data-hm-flow-key="' + esc(n.key) + '" x="' + x0 + '" y="' + n.y.toFixed(1) + '" width="' + HIT + '" height="' + n.slot.toFixed(1) + '"></rect>';
+      return '<rect class="hm-flow-hit" data-hm-flow-key="' + esc(n.key) + '" tabindex="0" role="button" aria-pressed="' + (state.flowPick === n.key) + '" aria-label="' + esc(n.label + ', ' + count(n.homes) + ' homes: show where they went') + '" x="' + x0 + '" y="' + n.y.toFixed(1) + '" width="' + HIT + '" height="' + n.slot.toFixed(1) + '"></rect>';
     }).concat(f.right.map(function (n) {
-      return '<rect class="hm-flow-hit" data-hm-flow-key="' + esc(n.key) + '" x="' + (W - HIT) + '" y="' + n.y.toFixed(1) + '" width="' + HIT + '" height="' + n.slot.toFixed(1) + '"></rect>';
+      return '<rect class="hm-flow-hit" data-hm-flow-key="' + esc(n.key) + '" tabindex="0" role="button" aria-pressed="' + (state.flowPick === n.key) + '" aria-label="' + esc(n.label + ', ' + count(n.homes) + ' homes: show where they came from') + '" x="' + (W - HIT) + '" y="' + n.y.toFixed(1) + '" width="' + HIT + '" height="' + n.slot.toFixed(1) + '"></rect>';
     })).join('');
     svg.innerHTML = '<g>' + ribbons + '</g><g>' + nodes + '</g><g>' + hits + '</g>';
     renderFlowPick(f, byL, byR);
@@ -759,6 +760,9 @@
         var fk = hit.getAttribute('data-hm-flow-key');
         state.flowPick = state.flowPick === fk ? null : fk;
         renderFlow();
+        var back = root.querySelector('.hm-flow-hit[data-hm-flow-key="' + (global.CSS && CSS.escape ? CSS.escape(fk) : fk) + '"]');
+        if (back && e.detail === 0) back.focus();
+        if (typeof global.__announceUpdate === 'function') global.__announceUpdate($('[data-hm-flow-pick]').textContent);
         return;
       }
       var t = e.target.closest('button, a, path');
@@ -767,7 +771,10 @@
       else if (t.hasAttribute('data-hm-norm')) { state.norm = t.getAttribute('data-hm-norm'); render(); }
       else if (t.hasAttribute('data-hm-mrows')) { state.matrixRows = t.getAttribute('data-hm-mrows') === 'developer' ? 'developer' : 'county'; renderControls(); renderMatrix(); }
       else if (t.hasAttribute('data-hm-clear')) { pick(null); }
-      else if (t.hasAttribute('data-hm-flow-clear')) { state.flowPick = null; renderFlow(); }
+      else if (t.hasAttribute('data-hm-flow-clear')) {
+        state.flowPick = null; renderFlow();
+        if (typeof global.__announceUpdate === 'function') global.__announceUpdate('Showing every program.');
+      }
       else if (t.hasAttribute('data-hm-matrix-all')) { state.matrixAll = !state.matrixAll; renderMatrix(); }
       else if (t.hasAttribute('data-hm-sort')) {
         var k = t.getAttribute('data-hm-sort');
@@ -820,7 +827,7 @@
     });
     root.addEventListener('focusout', hideTip);
     root.addEventListener('keydown', function (e) {
-      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('path[data-fips]')) {
+      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('path[data-fips], .hm-flow-hit')) {
         e.preventDefault();
         e.target.dispatchEvent(new MouseEvent('click', { bubbles: true }));
       }
