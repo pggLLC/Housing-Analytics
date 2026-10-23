@@ -105,5 +105,41 @@
       "status": "none_found",
       "checked": "2026-10-22"
     }
+  },
+  "holders_description": "Who holds each award, where CHFA's printed grantee name does not say it is a town, city, county or housing authority on its face. Read by scripts/funding/build_land_banking_status.py. Keyed by the sponsor name exactly as CHFA printed it; each entry needs an https source, a date and a verbatim quote. A grantee not named here and not a government by its printed name is shown as a nonprofit or other organization, because the program lends only to nonprofits; CHFA's lists do not print the kind.",
+  "holders": {
+    "Housing Catalyst": {
+      "type": "government",
+      "text": "Fort Collins' housing authority, formed by City Council resolution.",
+      "checked": "2026-10-23",
+      "source": {
+        "title": "City of Fort Collins, Housing Catalyst board page",
+        "url": "https://www.fcgov.com/cityclerk/housingcatalyst",
+        "date": "2026-10-23"
+      },
+      "quote": "formerly known as the Fort Collins Housing Authority"
+    },
+    "Foothills Regional Housing": {
+      "type": "government",
+      "text": "Jefferson County's housing authority under a new name.",
+      "checked": "2026-10-23",
+      "source": {
+        "title": "City of Wheat Ridge, Housing Authority page",
+        "url": "https://www.wheatridge.gov/265",
+        "date": "2026-10-23"
+      },
+      "quote": "Foothills Regional Housing (formerly Jefferson County Housing Authority)"
+    },
+    "Huerfano County Economic Development": {
+      "type": "nonprofit",
+      "text": "A nonprofit corporation, not Huerfano County government.",
+      "checked": "2026-10-23",
+      "source": {
+        "title": "ProPublica Nonprofit Explorer, Huerfano County Economic Development Inc",
+        "url": "https://projects.propublica.org/nonprofits/organizations/841008688",
+        "date": "2026-10-23"
+      },
+      "quote": "Designated as a 501(c)(3)"
+    }
   }
 }

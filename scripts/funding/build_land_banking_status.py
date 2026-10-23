@@ -25,6 +25,13 @@ Each award gets one status, strongest first:
 
 A research note outranks the ledger except where the ledger shows financing.
 
+Each award also gets who holds it, for the map's filters and colours:
+
+  government   a town, city, county or housing authority: said by the name CHFA
+               printed, or by a sourced entry in the research file's "holders"
+  nonprofit    any other grantee. The program lends only to nonprofits, and CHFA's
+               lists do not print the kind, so this is "nonprofit or other"
+
 Writes data/policy/prop123-land-banking-status.json. No network, no clock.
 
 Usage:
@@ -56,6 +63,12 @@ LABELS = {
     'none': 'No later state funding on record',
 }
 RANK = {k: i for i, k in enumerate(LABELS)}
+HOLDER_LABELS = {
+    'government': 'Town, county or housing authority',
+    'nonprofit': 'Nonprofit or other organization',
+}
+# A printed name that says it is a government or a housing authority.
+GOVERNMENT_NAME = re.compile(r'^(the )?(town|city|county|city and county) of |housing authority', re.I)
 DATE = re.compile(r'^\d{4}(-\d{2}(-\d{2})?)?$')
 LEDGER_STAGE = {'funded': 'financed', 'under_construction': 'financed', 'applied': 'applied',
                 'letter_of_intent': 'applied', 'not_funded': 'not_funded'}
@@ -126,6 +139,19 @@ def from_ledger(project):
             'ledger_project': project['id']}
 
 
+def holder(sponsor, holders):
+    note = holders.get(sponsor)
+    if note:
+        src = note.get('source') or {}
+        if note.get('type') not in HOLDER_LABELS or not (note.get('quote') and is_https(src.get('url')) and DATE.match(str(src.get('date', '')))):
+            raise SystemExit(f'{sponsor}: a holder note needs a known type, a quote and a dated https source')
+        return {'type': note['type'], 'label': HOLDER_LABELS[note['type']], 'how': 'source',
+                'text': note.get('text'), 'quote': note['quote'], 'source': src}
+    if GOVERNMENT_NAME.search(sponsor):
+        return {'type': 'government', 'label': HOLDER_LABELS['government'], 'how': 'name'}
+    return {'type': 'nonprofit', 'label': HOLDER_LABELS['nonprofit'], 'how': 'program_rule'}
+
+
 def build():
     awards = read_json(AWARDS)['awards']
     ledger = read_json(LEDGER)
@@ -135,6 +161,10 @@ def build():
     unknown = sorted(set(entries) - ids)
     if unknown:
         raise SystemExit(f'research notes for awards that are not on the list: {unknown}')
+    holders = research.get('holders', {})
+    stale = sorted(set(holders) - {a['sponsor'] for a in awards})
+    if stale:
+        raise SystemExit(f'holder notes for grantees that are not on the list: {stale}')
     out, unlinked = {}, []
     for a in awards:
         project = ledger_project(a, ledger['projects'])
@@ -157,6 +187,7 @@ def build():
         else:
             row = {'status': 'none', 'text': None, 'sources': [], 'quote': None, 'from': 'ledger'}
         row['label'] = LABELS[row['status']]
+        row['holder'] = holder(a['sponsor'], holders)
         out[a['id']] = row
     counts = {k: sum(1 for r in out.values() if r['status'] == k) for k in LABELS}
     return {
@@ -167,6 +198,11 @@ def build():
                                'research_checked': research.get('checked')},
             'labels': LABELS,
             'counts': counts,
+            'holder_labels': HOLDER_LABELS,
+            'holder_counts': {k: sum(1 for r in out.values() if r['holder']['type'] == k) for k in HOLDER_LABELS},
+            'holder_note': 'CHFA\'s award lists print each grantee\'s name, not what kind of body it is. A town, city, county or '
+                           'housing authority is named as one, or shown so by a dated source; the program lends only to '
+                           'nonprofits, so every other grantee is a nonprofit or other organization.',
             # awards with no single ledger project to read; each shows "none" until fixed
             'unlinked': unlinked,
             'note': 'A status reads only public state award records and dated public sources. '

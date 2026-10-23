@@ -421,4 +421,98 @@ ledgerAgreement(DATA);
   ok(!/developer-|jurisdiction-briefs/.test(read('js/land-banking-map.js').replace(/\/\*[\s\S]*?\*\//g, '')), 'the shared map code names no gated path');
 }
 
+// ---- 9. Filters, pin colours, the key and sorting: what paul asked for on 2026-10-23
+// (filter, sort or colour by place, round, grantee and rental vs for-sale).
+{
+  const PAGE = read('land-banking-awards.html');
+  const ST = json('data/policy/prop123-land-banking-status.json');
+  const research = json('data/policy/funding-awards/land-banking-status-research.json');
+  const LBM = require(join(ROOT, 'js/land-banking-map.js'));
+  const LBA = require(join(ROOT, 'js/land-banking-awards.js'));
+  const data = LBM.attachStatus({ meta: DATA.meta, awards: DATA.awards.map((a) => ({ ...a })) }, ST);
+
+  // Who holds each award: the printed name, a dated source, or the program rule; never a bare guess.
+  ok(data.awards.every((a) => a.status && a.status.holder && ST.meta.holder_labels[a.status.holder.type] === a.status.holder.label), 'every award says who holds it, with a known label');
+  const govName = /^(the )?(town|city|county|city and county) of |housing authority/i;
+  for (const a of data.awards) {
+    const h = a.status.holder;
+    if (h.how === 'name') ok(h.type === 'government' && govName.test(a.sponsor), `${a.id}: "${a.sponsor}" says it is a government or housing authority`);
+    else if (h.how === 'source') ok(h.quote && /^https:\/\//.test(h.source.url) && /^\d{4}-\d{2}-\d{2}$/.test(h.source.date), `${a.id}: holder is sourced and dated`);
+    else ok(h.how === 'program_rule' && h.type === 'nonprofit' && !govName.test(a.sponsor), `${a.id}: falls back to the program rule only when the name says nothing`);
+  }
+  ok(Object.keys(research.holders || {}).length >= 1 && Object.keys(research.holders).every((k) => DATA.awards.some((a) => a.sponsor === k)), 'every holder note names a printed grantee');
+  ok(ST.meta.holder_counts.government + ST.meta.holder_counts.nonprofit === DATA.awards.length, `holder counts add up (${JSON.stringify(ST.meta.holder_counts)})`);
+
+  // Tenure is CHFA's printed "Purpose" column, quoted in every row; nothing is inferred.
+  ok(DATA.awards.every((a) => ['Rental', 'Homeownership', 'Rental and Homeownership'].includes(a.purpose) && a.source_quote.includes(a.purpose)), 'rental vs for-sale is the printed Purpose, in every quoted row');
+
+  // Each filter narrows to exactly its value, and the filters combine.
+  const G = LBM.groups(data);
+  for (const name of ['round', 'purpose', 'holder', 'status']) {
+    let seen = 0;
+    for (const v of G[name].values) {
+      const got = LBM.filterAwards(data.awards, '', { [name]: v.key });
+      seen += got.length;
+      ok(got.every((a) => G[name].of(a) === v.key), `${name}=${v.key}: every award shown has that value`);
+    }
+    ok(seen === data.awards.length, `${name}: the values cover every award once (${seen})`);
+  }
+  const both = LBM.filterAwards(data.awards, 'denver', { purpose: 'Rental', holder: 'nonprofit' });
+  ok(both.length > 0 && both.every((a) => a.purpose === 'Rental' && a.status.holder.type === 'nonprofit' && /denver/i.test(JSON.stringify(a.places))), `search and filters combine (${both.length})`);
+
+  // The key counts the awards on the map, and a town whose awards differ is "mixed", not one colour.
+  for (const name of ['round', 'purpose', 'holder', 'status']) {
+    const towns = LBM.groupByTown(data.awards);
+    const html = LBM.legendHtml(G[name], data.awards, towns);
+    const nums = [...html.matchAll(/<\/span>[^<]+<span class="lbm-note">(\d+)<\/span>/g)].map((m) => Number(m[1]));
+    ok(nums.reduce((x, y) => x + y, 0) === data.awards.length, `${name}: the key's award counts add up to the awards shown`);
+    const mixed = towns.filter((t) => new Set(t.awards.map(G[name].of)).size > 1);
+    ok(mixed.every((t) => LBM.townKey(t, G[name]) === 'mixed') && (mixed.length === 0) === !html.includes('several kinds'), `${name}: towns with several kinds are marked as such (${mixed.length})`);
+    const keys = G[name].values.map((v) => v.key);
+    ok(new Set(keys.map((k) => LBM.colourFor(G[name], k))).size === keys.length, `${name}: each value has its own colour`);
+  }
+
+  // Sorting sorts the whole filtered list.
+  const desc = LBA.sortAwards(data.awards, data, 'amount', 'desc').map((a) => a.amount_awarded);
+  ok(desc.every((v, i) => !i || desc[i - 1] >= v), 'largest award first is in order');
+  const towns = LBA.sortAwards(data.awards, data, 'town', 'asc').map((a) => (a.places || []).map((p) => p.name).join(', ').toLowerCase());
+  ok(towns.every((v, i) => !i || towns[i - 1] <= v), 'town A to Z is in order');
+  const held = LBA.sortAwards(data.awards, data, 'holder', 'asc').map((a) => a.status.holder.type);
+  ok(held.lastIndexOf('government') < held.indexOf('nonprofit'), 'towns, counties and housing authorities first');
+  ok(LBA.rowHtml(data.awards.find((a) => a.status.holder.how === 'source'), data).includes('(source)'), 'a sourced holder links its source in the table');
+  ok(LBA.csvText(data.awards, data).split('\n')[0].includes('grantee_kind'), 'the download carries the grantee kind');
+
+  // Booted: the controls appear, a filter narrows the pins' list and the table together, and headers sort.
+  const dom = new JSDOM(PAGE, { runScripts: 'outside-only', url: 'https://cohoanalytics.com/land-banking-awards.html' });
+  dom.window.fetch = (u) => Promise.resolve({ ok: true, json: () => Promise.resolve(clone(String(u).includes('status') ? ST : DATA)) });
+  dom.window.LandBankingMapNoAutoStart = true;
+  dom.window.eval(read('js/land-banking-map.js'));
+  await dom.window.LandBankingMap.start();
+  dom.window.eval(read('js/land-banking-awards.js'));
+  await new Promise((r) => setTimeout(r, 0));
+  const doc = dom.window.document;
+  const selects = [...doc.querySelectorAll('[data-lbm-controls] select')];
+  ok(selects.length === 5 && selects.every((el) => doc.querySelector(`label[for="${el.id}"]`)), `five labelled menus above the map (${selects.length})`);
+  const purpose = doc.querySelector('[data-lbm-filter="purpose"]');
+  purpose.value = 'Homeownership';
+  purpose.dispatchEvent(new dom.window.Event('change'));
+  const rows = [...doc.querySelectorAll('[data-lb-rows] tr')];
+  const forSale = DATA.awards.filter((a) => a.purpose === 'Homeownership').length;
+  ok(rows.length === forSale && rows.every((r) => r.querySelector('[data-label="Homes planned"]').textContent === 'For-sale'), `the for-sale filter shows all ${forSale} for-sale awards in the table`);
+  ok(doc.querySelector('[data-lbm-count]').textContent.startsWith(`${forSale} of ${DATA.awards.length} awards`), 'the map count follows the filter');
+  const amountTh = doc.querySelector('th[data-sort-key="amount"]');
+  amountTh.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));
+  const amounts = [...doc.querySelectorAll('[data-lb-rows] td[data-label="Awarded"]')].map((td) => Number(td.textContent.replace(/[$,]/g, '')));
+  ok(amountTh.getAttribute('aria-sort') === 'descending' && amounts.every((v, i) => !i || amounts[i - 1] >= v), 'a header click sorts the filtered rows, largest first');
+  ok(doc.querySelector('[data-lb-sort]').value === 'amount:desc', 'the phone "Sort by" menu follows the header');
+  doc.querySelector('[data-lbm-colour]').value = 'holder';
+  doc.querySelector('[data-lbm-colour]').dispatchEvent(new dom.window.Event('change'));
+  ok(/Town, county or housing authority/.test(doc.querySelector('[data-lbm-legend]').textContent), 'colouring by holder changes the key');
+
+  // 44px menus; every sortable header still has its hover definition.
+  const css = read('css/land-banking-map.css');
+  ok(/\.lbm-ctl select \{[^}]*min-height:44px/.test(css) && /\.lb-sort select \{[^}]*min-height: 44px/.test(PAGE), 'the menus are at least 44px tall');
+  ok([...PAGE.matchAll(/<th data-sort-key="[^"]+"[^>]*>/g)].every((m) => /data-tip="[^"]{20,}"/.test(m[0])), 'every sortable header keeps its hover definition');
+}
+
 console.log(`land-banking-awards: ${checks} checks passed`);
