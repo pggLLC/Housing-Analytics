@@ -384,8 +384,9 @@
           <a class="hna-view-tab" href="hna-what-to-do.html">What to do about it</a>
         </nav>
         <p class="sub" style="margin-bottom:var(--sp3);">
-          A report-style, data-driven snapshot for Colorado communities: housing stock, tenure, affordability,
-          commuting, and demographic change. Powered by cached public datasets with live Census API fallbacks.
+          Housing stock, owners and renters, affordability, commuting and population change for any
+          Colorado town or county, from Census, DOLA and HUD data. We keep copies of the figures and
+          refresh them on a schedule. If a copy is missing, the page asks the Census Bureau directly.
         </p>
         <p style="font-size:1.133rem;color:var(--muted);margin-top:.25rem;margin-bottom:var(--sp2);" role="note"><strong>Screening tool only.</strong> Data snapshots are for early-stage community planning and site research using public Census, DOLA, and HUD datasets. They are not a certified housing needs study and do not substitute for a CHFA-required market analysis or formal due diligence.</p>
         <div id="hnaBanner" class="banner"></div>
@@ -459,7 +460,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
         collapsed: true,
-        what: 'A data-driven housing needs snapshot for your selected Colorado geography: housing stock, tenure, affordability gaps by AMI tier, commuting patterns, demographic projections, and workforce analysis. Powered by Census ACS, LEHD LODES, DOLA, and HUD CHAS data.',
+        what: 'Housing stock, owners and renters, the affordability gap by income level, commuting, projections and jobs for the place you pick, from Census, DOLA and HUD data.',
         why: 'Local decision-makers — council members, planners, housing authorities — need a clear, public-data answer to the question: "Is there documented housing need in our community, and at what income levels?" This assessment provides that evidence base. Developers also use the same snapshot to support CHFA QAP scoring, which rewards projects that demonstrate documented community need.',
         not: 'This is not a certified housing needs study or CHFA-required market analysis. Place-level cost burden and AMI gaps are computed at place geography (direct Census ACS for the AMI gap; tract-apportioned HUD CHAS for cost burden) — not scaled from county. The one county input is HUD\'s AMI income limits, which HUD only publishes at county level, so a place uses its containing county\'s limits. CHAS data is 3+ years old. CDPs are not eligible for Prop 123. Professional validation is required before application submission.',
         nextSteps: [
@@ -1743,7 +1744,7 @@
           <h2 style="margin:0">What types of housing does the data support?</h2>
         </div>
         <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
-          A data-driven look at which housing types this jurisdiction shows the strongest need for. Use alongside the Recommended AMI Distribution above and the Affordable Housing Pipeline LIHTC Readiness assessment — three views, same data, different jobs.
+          Which kinds of homes this place is shortest on, ranked from the figures above. The recommended income mix above sets who the homes serve; this ranking suggests what to build.
         </p>
         <div id="hnaHousingTypeNeed">
           <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to compute the housing-type ranking.</p>

@@ -369,3 +369,28 @@ test('event color tokens: one per event, AA on their card, and far enough apart 
   const fallback = /var EVENT_COLORS = \[([^\]]+)\]/.exec(read('js/components/policy-timeline.js'))[1].match(/#[0-9a-f]{6}/gi).map(c => c.toLowerCase());
   assert.deepEqual(fallback, sets[0][1], 'the script fallback is the light token set');
 });
+
+test('economic indicator cards draw each event as a vertical line at its month', async () => {
+  // Daily series repeat "Jul 26" for every day of the month. A repeated label
+  // cannot be placed on a category axis, so a label-valued marker ran corner
+  // to corner and read as a trend line (2026-10-22).
+  const r = render('economic-dashboard.html');
+  try {
+    await wait(() => r.charts.has('ch-BAA10Y'), 'the Baa spread card renders');
+    let checked = 0;
+    for (const [id, chart] of r.charts) {
+      if (!String(id).startsWith('ch-')) continue;
+      const labels = chart.data.labels.map(String);
+      for (const [name, line] of Object.entries(chart.options.plugins.annotation.annotations || {})) {
+        assert(Number.isInteger(line.xMin), id + ' ' + name + ': x position is an index, not a label');
+        assert.equal(line.xMax, line.xMin, id + ' ' + name + ': the line is vertical');
+        assert.equal(line.yMin, undefined, id + ' ' + name + ': the line spans the full height');
+        assert.equal(labels.indexOf(labels[line.xMin]), line.xMin, id + ' ' + name + ': sits at the first point of its month');
+        checked++;
+      }
+    }
+    assert(checked > 0, 'some card shows a policy event');
+    const baa = r.charts.get('ch-BAA10Y').data.labels.map(String);
+    assert(new Set(baa).size < baa.length, 'the daily fixture repeats labels, so the index matters');
+  } finally { r.dom.window.close(); }
+});

@@ -64,7 +64,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Steamboat Springs. It classifies rental pressure as Very High, ownership pressure as Very High, and identifies 850 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Steamboat Springs. It classifies rental pressure as Very High, ownership pressure as Very High, and counts 850 renter households earning 51–100% of area median income: the income range ownership programs usually serve, not a count of ready buyers.",
           "cites": [
             "own1",
             "own2",
@@ -345,7 +345,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-22T11:06:16Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-22T14:04:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -354,7 +354,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-22T11:06:16Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-22T14:04:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -489,7 +489,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-22T11:06:16Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-22T14:04:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -498,7 +498,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-22T11:06:16Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-22T14:04:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -507,7 +507,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-22T11:06:16Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-22T14:04:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

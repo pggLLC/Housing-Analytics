@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-22T11:05:17.023Z",
+    "generated_at": "2026-10-22T13:08:07.720Z",
     "root": "data/",
-    "file_count": 1977,
-    "total_size_bytes": 199171265,
+    "file_count": 1978,
+    "total_size_bytes": 199206225,
     "kinds": {
-      "json": 1931,
+      "json": 1932,
       "geojson": 34,
       "csv": 12
     }
@@ -554,7 +554,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-22T11:05:14.226Z",
+      "mtime": "2026-10-22T13:08:03.502Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -955,7 +955,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-10-21T12:32:00.215Z",
+      "mtime": "2026-10-22T13:04:20.265Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1071,7 +1071,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 40183,
-      "mtime": "2026-10-21T12:32:00.215Z",
+      "mtime": "2026-10-22T13:04:20.265Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -37766,8 +37766,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 251515,
-      "mtime": "2026-10-22T10:38:47.200Z",
+      "size_bytes": 251645,
+      "mtime": "2026-10-22T13:04:20.218Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39307,7 +39307,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-10-21T12:32:00.216Z",
+      "mtime": "2026-10-22T13:04:20.266Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39342,8 +39342,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16094,
-      "mtime": "2026-10-22T11:05:15.581Z",
+      "size_bytes": 16096,
+      "mtime": "2026-10-22T13:08:05.634Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39367,7 +39367,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-10-22T11:05:15.259Z",
+      "mtime": "2026-10-22T13:08:05.141Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42358,6 +42358,22 @@
         "last_verified",
         "review_by"
       ]
+    },
+    {
+      "path": "policy/where-to-build-context.json",
+      "kind": "json",
+      "size_bytes": 34828,
+      "mtime": "2026-10-22T12:26:25.459Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "votes",
+        "parks"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "policy_briefs.json",
