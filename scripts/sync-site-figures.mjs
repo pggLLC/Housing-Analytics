@@ -36,6 +36,8 @@ const CONTENT = 'data/core/educational-content.json';
 const GUIDE = 'lihtc-guide-for-stakeholders.html';
 const DC = 'deal-calculator.html';
 const DEEP = 'colorado-deep-dive.html';
+const FUNDING = 'data/policy/co-developer-funding-guide.json';
+const BRIEFS = 'data/policy_briefs_curated.json';
 
 // Each rule: files, a pattern with one capture group, and the figure (key of
 // readFigures()) or a function of the figures that the group must equal.
@@ -109,7 +111,27 @@ export const RULES = [
   { fig: 'r1Loi', files: ['developer-submittal-review.html'], pattern: /Letter of intent due (\d{1,2} [A-Z][a-z]{2} \d{4});/g },
   { fig: 'r1App', files: ['developer-submittal-review.html'], pattern: /application due (\d{1,2} [A-Z][a-z]{2} \d{4})\./g },
   { value: (F) => longDate(F.r1Loi), files: [GUIDE], pattern: /Round One dates:<\/strong> letter of intent ([A-Z][a-z]+ \d{1,2}, \d{4});/g },
-  { value: (F) => longDate(F.r1App), files: [GUIDE], pattern: /Round One dates:<\/strong> letter of intent [^;]+; application ([A-Z][a-z]+ \d{1,2}, \d{4})\./g },
+  { value: (F) => longDate(F.r1App), files: [GUIDE], pattern: /Round One dates:<\/strong> letter of intent [^;]+; application ([A-Z][a-z]+ \d{1,2}, \d{4})\./g },  { value: (F) => longDate(F.r1Loi), files: [FUNDING], pattern: /2027 Round One letter of intent due ([A-Z][a-z]+ \d{1,2}, \d{4}) and/g },
+  { value: (F) => longDate(F.r1App), files: [FUNDING], pattern: /2027 Round One letter of intent due [^"]+? and application due ([A-Z][a-z]+ \d{1,2}, \d{4}) by/g },
+  { value: (F) => longDate(F.r1Loi), files: [FUNDING], pattern: /The 2027 Round One dates \(LOI ([A-Z][a-z]+ \d{1,2}, \d{4});/g },
+  { value: (F) => longDate(F.r1App), files: [FUNDING], pattern: /The 2027 Round One dates \(LOI [^;]+; application ([A-Z][a-z]+ \d{1,2}, \d{4})\)/g },
+  { value: (F) => longDate(F.r1Loi), files: [FUNDING], pattern: /2027 Round One \(LOI ([A-Z][a-z]+ \d{1,2}, \d{4}), per/g },
+
+  // ── Ceiling sentences in JSON that pages render ───────────────────────────
+  { fig: 'year', files: [FUNDING], pattern: /For (\d{4}) the state housing credit ceiling is the greater of/g },
+  { fig: 'perCapita', files: [FUNDING], pattern: /state housing credit ceiling is the greater of \$(\d\.\d{3}) per resident/g },
+  { fig: 'smallStateMin', files: [FUNDING], pattern: /ceiling is the greater of \$[\d.]+ per resident or \$(\d{1,3}(?:,\d{3})+)/g },
+  { fig: 'year', files: [BRIEFS], pattern: /For (\d{4}), IRS Rev\. Proc\. \d{4}-\d+ sets the amount/g },
+  { fig: 'revProc', files: [BRIEFS], pattern: /For \d{4}, (IRS Rev\. Proc\. \d{4}-\d+) sets the amount/g },
+  { fig: 'perCapita', files: [BRIEFS], pattern: /sets the amount at the greater of \$(\d\.\d{3}) per resident/g },
+  { fig: 'smallStateMin', files: [BRIEFS], pattern: /sets the amount at the greater of \$[\d.]+ per resident or \$(\d{1,3}(?:,\d{3})+)/g },
+];
+
+// Text that looks like a tracked figure but is a different one: DOLA's
+// January 2027 round shares CHFA's December 1, 2026 letter-of-intent date.
+const NOT_A_COPY = [
+  { files: [FUNDING], pattern: /LOI [A-Z][a-z]+ \d{1,2}, \d{4}[,;] application January 15, 2027/g },
+  { files: [FUNDING], pattern: /"quote": "Letter of Intent Deadline: [^"]+",\s*"url": "https:\/\/doh\.colorado\.gov\//g },
 ];
 
 function readJson(root, rel) {
@@ -229,7 +251,7 @@ export function scannedFiles(root = ROOT) {
     }
   };
   walk('js');
-  out.push(CONTENT, 'data/glossary.json', 'data/table-header-tips.json');
+  out.push(CONTENT, 'data/glossary.json', 'data/table-header-tips.json', FUNDING, BRIEFS);
   return out;
 }
 
@@ -267,7 +289,10 @@ export function strays(F, root = ROOT, coveredSpans = plan(F).covered) {
   for (const file of scannedFiles(root)) {
     let text;
     try { text = fs.readFileSync(path.join(root, file), 'utf8'); } catch { continue; }
-    const spans = coveredSpans.get(file) || [];
+    const spans = [...(coveredSpans.get(file) || [])];
+    for (const n of NOT_A_COPY) {
+      if (n.files.includes(file)) for (const m of text.matchAll(n.pattern)) spans.push([m.index, m.index + m[0].length]);
+    }
     for (const [fig, re] of pats) {
       for (const m of text.matchAll(re)) {
         if (spans.some(([s, e]) => m.index >= s && m.index < e)) continue;
