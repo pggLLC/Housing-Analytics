@@ -260,6 +260,22 @@ assert.equal(norm(w.document.querySelector('[data-gb-checked]').textContent), `O
     assert(r.finding.includes(spec) && q.includes(spec), `qap-ev-ready must state and quote "${spec}"`);
   }
 }
+// Federal programs this guide repeats from the funding tracker keep the tracker's reading.
+{
+  const her = rec('ceo-home-energy-rebates'); const twin = fundingPrograms['CEO-IRA-HOME-ENERGY-REBATES'];
+  assert(twin, 'CEO-IRA-HOME-ENERGY-REBATES is not in data/policy/soft-funding-status.json');
+  for (const size of ['small', 'large']) {
+    assert.equal(new RegExp(`${size} multifamily`).test(her.fits || ''), new RegExp(`${size} multifamily`).test(twin.description), `ceo-home-energy-rebates and the funding tracker disagree on ${size} multifamily`);
+  }
+  const sfa = rec('epa-solar-for-all'); const sfaTwin = fundingPrograms['CEO-SOLAR-FOR-ALL'];
+  const watch = json('data/policy/tax-credit-legislation.json').entries.find((x) => x.id === 'ggrf-solar-for-all-colorado-watch');
+  assert(sfaTwin && sfaTwin.available === null, 'the funding tracker no longer holds Solar for All as unavailable; re-read epa-solar-for-all');
+  assert(watch, 'ggrf-solar-for-all-colorado-watch is missing from tax-credit-legislation.json');
+  if (!/repealed|ended/.test(watch.status)) {
+    assert.notEqual(sfa.status, 'ended', `epa-solar-for-all says ended while tax-credit-legislation.json holds it at ${watch.status}`);
+    assert(/on hold/.test(sfa.finding) && /court/.test(sfa.finding), 'epa-solar-for-all must say the program is on hold and name the court rulings');
+  }
+}
 // A record's fit may not promise a building size its quotes do not.
 for (const e of DOC.entries) {
   for (const size of ['small', 'large']) {

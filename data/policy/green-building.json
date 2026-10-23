@@ -14,7 +14,7 @@
         "label": "2027-28 QAP, Third Draft (posted September 11, 2026; not adopted)"
       }
     },
-    "last_verified": "2026-10-20",
+    "last_verified": "2026-10-21",
     "review_by": "2026-11-21"
   },
   "status_text": {
@@ -568,10 +568,14 @@
       "id": "epa-solar-for-all",
       "section": "credits",
       "kind": "credit",
-      "status": "ended",
+      "status": "at-risk",
       "last_verified": "2026-10-23",
       "title": "Solar for All (EPA)",
-      "finding": "EPA stopped the program and the 2025 tax law rescinded its remaining funds. Do not count Colorado's award as available money; check for court rulings before relying on that.",
+      "finding": "EPA stopped the program and the 2025 tax law rescinded its remaining funds. Federal courts have since ruled against the termination (reported in the trade press; whether the rulings cover Colorado's grant is not confirmed), EPA may appeal, and the Colorado Energy Office still lists its program as temporarily on hold. Keep it on watch, but do not count it as available money.",
+      "also_see": {
+        "url": "https://energyoffice.colorado.gov/cos4a",
+        "title": "Colorado Energy Office: Colorado Solar for All, temporarily on hold"
+      },
       "quotes": [
         "On August 7, 2025, Administrator Zeldin announced the agency will no longer be implementing the $7 billion Solar for All program to remain aligned with Congressional intent. The Working Families Tax Cut repealed EPA’s authority to administer the program and rescinded all remaining funds."
       ],
@@ -680,17 +684,21 @@
       "section": "programs",
       "kind": "program",
       "status": "at-risk",
-      "last_verified": "2026-10-20",
-      "review_by": "2027-01-20",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
       "title": "Home Energy Rebates (federal IRA, run by the Energy Office)",
-      "finding": "Colorado's versions of the Inflation Reduction Act HOMES and HEEHRA rebates. The single-family appliance rebate is closed in both regions; the Energy Office says small multifamily rebates come in 2026, with no opening date confirmed.",
-      "fits": "Existing small multifamily, once open",
-      "caveat": "Federally funded; do not count on it until the Energy Office opens the multifamily phase.",
+      "finding": "Colorado's versions of the Inflation Reduction Act HOMES and HEEHRA rebates. The single-family appliance rebate is closed in both regions; the Energy Office says two multifamily phases come in 2026: per-unit appliance rebates (HEAR) for buildings under 50,000 square feet, and whole-building rebates (HER) for buildings of 50,000 square feet or more, capped at up to $400,000 per building. No opening date is confirmed.",
+      "fits": "Existing small multifamily (HEAR) and large multifamily (HER), once open",
+      "caveat": "Federally funded; do not count on it until the Energy Office opens the multifamily phases.",
       "quotes": [
-        "The HEAR single-family program is now closed for both Region 1 (the Front Range) and Region 2 (All Other Counties). Rebates for small multifamily buildings will be available in 2026."
+        "The HEAR single-family program is now closed for both Region 1 (the Front Range) and Region 2 (All Other Counties). Rebates for small multifamily buildings will be available in 2026.",
+        "Owners and operators of multifamily buildings smaller than 50,000 square feet may also qualify for per-unit HEAR rebates.",
+        "These rebates will be available to manufactured/mobile homes and large multifamily buildings in 2026.",
+        "The HER Program will be available to owners and operators of multifamily buildings 50,000 square feet or larger",
+        "$4,000 per unit, up to $400,000 per building"
       ],
       "source_url": "https://energyoffice.colorado.gov/home-energy-rebates",
-      "source_title": "Home Energy Rebates (as read for this site's funding tracker)",
+      "source_title": "Home Energy Rebates",
       "publisher": "Colorado Energy Office",
       "also_see": {
         "url": "https://www.govinfo.gov/content/pkg/PLAW-117publ169/html/PLAW-117publ169.htm",
