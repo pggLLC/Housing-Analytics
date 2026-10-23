@@ -21,7 +21,10 @@
   };
 
   var RISK = {
-    captureHigh:       0.25,
+    // CHFA QAP 2025-2026 section 2.B: capture rates above 85 percent are not
+    // accepted without additional data to support demand. Same number as
+    // CHFA_CAPTURE_LIMIT below.
+    captureHigh:       0.85,
     costBurdenHigh:    0.45,
     rentPressureElev:  1.10
   };
@@ -62,14 +65,15 @@
     var denominatorSource;
     if (chasEligible && chasEligible.value && chasEligible.value > 0) {
       qualRenters = chasEligible.value;
-      denominatorSource = 'chas_lihtc_eligible';
+      denominatorSource = chasEligible.source === 'chfa_qualified' ? 'chfa_qualified' : 'chas_lihtc_eligible';
     } else {
       qualRenters = acs.renter_hh || 1;
       denominatorSource = acs.renter_hh ? 'acs_total_renter_hh' : 'fallback_1';
     }
 
     var capture = (existingUnits + proposedUnits) / qualRenters;
-    var score = Math.max(0, Math.min(100, (1 - capture / 0.50) * 100));
+    // 100 with no units; 0 at CHFA's 85 percent line.
+    var score = Math.max(0, Math.min(100, (1 - capture / RISK.captureHigh) * 100));
     return {
       score: Math.round(score),
       capture: capture,
@@ -165,6 +169,113 @@
     };
   }
 
+  /*
+   * CHFA Market Study Guide (QAP Appendix A, section 7 Demand Analysis):
+   * a renter household counts toward a unit when its income is at or below
+   * the unit's AMI limit, the maximum Housing Tax Credit gross rent is no
+   * more than 40 percent of its income, and it is no larger than the unit
+   * allows. A required capture (penetration) rate above 85 percent "will not
+   * be accepted without additional data to support demand" (QAP 2.B).
+   */
+  var CHFA_RENT_SHARE_OF_INCOME = 0.40;
+  var CHFA_MAX_OCCUPANTS = { '1br': 2, '2br': 3, '3br': 5 };
+  var CHFA_CAPTURE_LIMIT = 0.85;
+  var CHAS_TIER_BINS = [[0, 30], [30, 50], [50, 80], [80, 100], [100, 122]];
+
+  /**
+   * Renter households in a market area who could rent a tax-credit unit at
+   * one or more AMI tiers, by CHFA's rules.
+   *
+   * For each tract, each CHAS income tier count is multiplied by the share
+   * of that tier's renters (ACS PUMS, the tract's PUMA) whose size fits a
+   * 1-3 bedroom unit and whose income falls between the 40%-of-income rent
+   * floor and the tier's limit. A household is matched to the smallest
+   * bedroom size that fits it, since that unit has the lowest rent.
+   *
+   * @param {Object} demand - data/market/chfa_renter_demand_co.json
+   * @param {Object<string,Object>} limitsByFips - CHFA current-year county records (regular_tiers)
+   * @param {Array<Object>} bufTracts - buffer tracts with geoid/_bufferShare
+   * @param {Array<number>} tiers - AMI percents of the proposed units, e.g. [30, 60]
+   * @returns {{value:number|null, byTier:Object<string,number>, source:string,
+   *   tractsUsed:number, tractsMissing:number, reason:string|null}}
+   */
+  function chfaQualifiedRenters(demand, limitsByFips, bufTracts, tiers) {
+    var empty = function (reason) {
+      return { value: null, byTier: {}, source: 'unavailable', tractsUsed: 0, tractsMissing: 0, reason: reason };
+    };
+    if (!demand || !demand.tracts || !demand.pumas) return empty('the qualified-renter file did not load');
+    if (!limitsByFips) return empty('CHFA income and rent limits did not load');
+    if (!bufTracts || !bufTracts.length) return empty('no tracts in the market area');
+    tiers = (tiers || []).filter(function (t) { return t > 0; });
+    if (!tiers.length) return empty('no AMI tier was given');
+
+    // floors[fips][tier][size-1] = lowest qualifying income as a percent of AMI, or null.
+    var floorCache = {};
+    function floorsFor(fips) {
+      if (floorCache[fips] !== undefined) return floorCache[fips];
+      var rec = limitsByFips[fips];
+      var reg = rec && rec.regular_tiers;
+      var lim50 = reg && reg['50'] && reg['50'].income_limits;
+      if (!lim50) return (floorCache[fips] = null);
+      var out = {};
+      tiers.forEach(function (t) {
+        var tierRec = reg[String(t)];
+        out[t] = [1, 2, 3, 4, 5, 6].map(function (n) {
+          var br = n <= 2 ? '1br' : n === 3 ? '2br' : n <= 5 ? '3br' : null;
+          if (!br || !tierRec || !tierRec.max_rents) return null;
+          var rent = tierRec.max_rents[br];
+          var lim = lim50[n + 'p'];
+          if (!(rent > 0) || !(lim > 0)) return null;
+          return (rent * 12 / CHFA_RENT_SHARE_OF_INCOME) / lim * 50;
+        });
+      });
+      return (floorCache[fips] = out);
+    }
+
+    var byTier = {};
+    tiers.forEach(function (t) { byTier[t] = 0; });
+    var total = 0, used = 0, missing = 0;
+
+    bufTracts.forEach(function (tract) {
+      var gid = String(tract && tract.geoid || '');
+      var share = (typeof tract._bufferShare === 'number') ? tract._bufferShare : 1;
+      if (share <= 0) return;
+      var row = demand.tracts[gid];
+      var mix = row && demand.pumas[row[0]];
+      var floors = floorsFor(gid.slice(0, 5));
+      if (!row || !mix || !floors) { missing += 1; return; }
+      used += 1;
+      CHAS_TIER_BINS.forEach(function (range, k) {
+        var count = row[k + 1];
+        if (!(count > 0)) return;
+        var tierTotal = 0, anyTier = 0, perTier = {};
+        tiers.forEach(function (t) { perTier[t] = 0; });
+        for (var s = 0; s < mix.length; s++) {
+          for (var b = range[0]; b < range[1] && b < mix[s].length; b++) {
+            var w = mix[s][b];
+            if (!w) continue;
+            tierTotal += w;
+            var pct = b + 0.5;
+            var fits = false;
+            for (var i = 0; i < tiers.length; i++) {
+              var t = tiers[i], floor = floors[t][s];
+              if (floor != null && pct <= t && pct >= floor) { perTier[t] += w; fits = true; }
+            }
+            if (fits) anyTier += w;
+          }
+        }
+        if (tierTotal <= 0) return;
+        var scale = count * share / tierTotal;
+        total += anyTier * scale;
+        tiers.forEach(function (t) { byTier[t] += perTier[t] * scale; });
+      });
+    });
+
+    if (!used) return empty('no tract in the market area has CHAS and PUMS data');
+    Object.keys(byTier).forEach(function (t) { byTier[t] = Math.round(byTier[t]); });
+    return { value: Math.round(total), byTier: byTier, source: 'chfa_qualified', tractsUsed: used, tractsMissing: missing, reason: null };
+  }
+
   function scoreRentPressure(acs, countyAmi) {
     acs = acs || {};
     if (!countyAmi || countyAmi <= 0) {
@@ -245,6 +356,10 @@
     scoreDemand: scoreDemand,
     scoreCaptureRisk: scoreCaptureRisk,
     chasLihtcEligibleRenters: chasLihtcEligibleRenters,
+    chfaQualifiedRenters: chfaQualifiedRenters,
+    CHFA_CAPTURE_LIMIT: CHFA_CAPTURE_LIMIT,
+    CHFA_RENT_SHARE_OF_INCOME: CHFA_RENT_SHARE_OF_INCOME,
+    CHFA_MAX_OCCUPANTS: CHFA_MAX_OCCUPANTS,
     scoreRentPressure: scoreRentPressure,
     scoreMarketTightness: scoreMarketTightness,
     scoreMarketTightnessDetail: scoreMarketTightnessDetail,

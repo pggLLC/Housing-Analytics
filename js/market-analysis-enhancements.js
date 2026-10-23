@@ -250,14 +250,18 @@
    * @param {number} existingUnits - existing LIHTC units in buffer
    * @param {Array}  scenarioList - array of {label, proposedUnits, amiMix}
    * @param {number} [denominator] - the renter-household count the page's
-   *   other capture rates divide by (market-analysis.js captureDenominator).
+   *   simulator's capture rate divides by (market-analysis.js
+   *   projectCaptureDenominator).
    *   Without it the table used ACS renter_hh while the headline and the
    *   simulator used CHAS LIHTC-eligible renters (audit F3).
    * @param {Function} [scorer] - units -> computePma result with the
    *   headline's inputs (market-analysis.js _scenarioScorer).
+   * @param {number} [penetrationDenominator] - renters qualified for any
+   *   tax-credit tier, for the CHFA 85% check on existing + proposed units;
+   *   the capture denominator when absent.
    * @returns {Array} scenarioResults
    */
-  function generateScenarios(acs, existingUnits, scenarioList, denominator, scorer) {
+  function generateScenarios(acs, existingUnits, scenarioList, denominator, scorer, penetrationDenominator) {
     if (!acs || !acs.renter_hh) return [];
     var den = Number(denominator) > 0 ? Number(denominator) : acs.renter_hh;
 
@@ -271,7 +275,7 @@
       // scorer: computePma bound to the headline's own inputs, so the
       // no-project row equals the PMA score (audit F2).
       var pma     = typeof scorer === 'function' ? scorer(units) : computePma(acs, existingUnits, units);
-      var capture = simulateCapture(den, units, amiMix);
+      var capture = simulateCapture(den, units, amiMix, existingUnits, penetrationDenominator);
 
       return {
         label:        scenario.label || (units + ' units'),
@@ -281,6 +285,7 @@
         captureRisk:  pma.dimensions.captureRisk,
         captureRate:  capture.captureRate,
         risk:         capture.risk,
+        riskLabel:    capture.riskLabel,
         flags:        pma.flags
       };
     });

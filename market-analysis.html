@@ -717,7 +717,7 @@
                 <dt>Buffer radius</dt><dd>3, 5, 10, or 15 miles — selected via the control above the map</dd>
                 <dt>Primary source</dt><dd>CHFA HousingTaxCreditProperties live feed (<code>data/chfa-lihtc.json</code>) — 926 projects through 2025</dd>
                 <dt>Fallback source</dt><dd>HUD LIHTC Database (<code>data/market/hud_lihtc_co.geojson</code>) when CHFA cache is missing — lags by 2–3 years</dd>
-                <dt>Existing affordable penetration</dt><dd>existing affordable units (LIHTC + HUD Multifamily Assisted + USDA RD + local PBV + CHFA preservation, from projects that report a unit count) ÷ LIHTC-eligible renter households (≤80% AMI, HUD CHAS) in the PMA — the same denominator the simulator and scenarios use. It is not the proposed-project capture rate, which divides only the proposed units by that denominator. All renter households (ACS) only when CHAS is unavailable; the count used is shown under the rate.</dd>
+                <dt>Existing affordable penetration</dt><dd>existing affordable units (LIHTC + HUD Multifamily Assisted + USDA RD + local PBV + CHFA preservation, from projects that report a unit count) ÷ renter households in the PMA that qualify for a tax-credit unit at any CHFA tier from 20% to 80% AMI under CHFA's market-study rules (income at or under the limit for the household's size, rent no more than 40% of income, a household that fits a one- to three-bedroom unit). Tract counts by income come from HUD CHAS; the split by household size comes from Census ACS microdata (PUMS) for the surrounding area. It is not the proposed-project capture rate, which divides the proposed units by the renters who qualify for the project's own AMI tiers (60% unless you change the mix). When those files are missing, both fall back to all renters at or under 80% AMI (HUD CHAS), then to all renter households (ACS); the count used is shown under each rate.</dd>
                 <dt>Prop 123 overlay</dt><dd>count of units in DOLA Prop 123 jurisdictions — surfaces local-commitment alignment</dd>
               </dl>
             </div>
@@ -1602,7 +1602,7 @@
     tips: [
       'LIHTC applications to CHFA require a PMA study — this tool helps you prepare the data.',
       'QCT and DDA designations are automatically detected and noted in the report — they affect your eligible basis.',
-      'A proposed-project capture rate of 25% or more is rated high risk — the project would have to lease to that large a share of the qualified renters. A high existing affordable penetration is a different signal: the market may already be saturated with affordable units.',
+      'CHFA does not accept a proposed-project capture rate above 85% without more data to support demand (QAP section 2.B); the simulator checks existing plus proposed units against that line. A high existing affordable penetration is a different signal: the market may already be saturated with affordable units.',
     ]
   });
 </script>

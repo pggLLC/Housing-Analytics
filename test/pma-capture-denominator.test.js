@@ -1,7 +1,12 @@
 'use strict';
 
-// Every capture rate on the Market Analysis page divides by one denominator,
-// and says which (audit F3).
+// Every capture rate on the Market Analysis page says which renters it
+// divides by (audit F3). With the CHFA-rule counts loaded there are two
+// pools, as in a CHFA market study: existing affordable penetration divides
+// by renters who qualify for any tax-credit tier (20-80% AMI); a proposed
+// project's capture divides by renters who qualify for its own tiers. The
+// simulator and the scenario table share the project pool. Without those
+// counts all three share one denominator, as before.
 //
 // Found 2026-09-24: the headline and the simulator divided by CHAS
 // LIHTC-eligible renters while showing the ACS renter total beside them, and
@@ -40,6 +45,33 @@ console.log('\nCapture rates share one denominator and name it');
 
 const captureDenominator = extract('captureDenominator');
 const simulateCapture = extract('simulateCapture');
+const projectCaptureDenominator = new Function('RISK',
+  src.match(/function captureDenominator\([\s\S]*?\n  \}/)[0] + ';' +
+  src.match(/function projectCaptureDenominator\([\s\S]*?\n  \}/)[0] + '; return projectCaptureDenominator;')(RISK);
+
+test('with CHFA-rule counts, penetration and project capture name their own CHFA pools', () => {
+  const r = { captureDenominator: { value: 5000, source: 'chfa_qualified', tiers: [20, 80], project: { value: 1200, source: 'chfa_qualified', tiers: [60] } } };
+  const pen = captureDenominator(r);
+  const proj = projectCaptureDenominator(r);
+  assert.strictEqual(pen.value, 5000);
+  assert(/20\u201380% AMI/.test(pen.label) && /CHFA/.test(pen.label), 'penetration label: ' + pen.label);
+  assert.strictEqual(proj.value, 1200);
+  assert.strictEqual(proj.penetrationValue, 5000);
+  assert(/60% AMI/.test(proj.label) && /CHFA/.test(proj.label), 'project label: ' + proj.label);
+});
+
+test('without CHFA-rule counts the project pool is the one denominator', () => {
+  const r = { captureDenominator: { value: 598, source: 'chas_lihtc_eligible' } };
+  assert.deepStrictEqual(projectCaptureDenominator(r), captureDenominator(r));
+});
+
+test('the CHFA 85% check counts existing + proposed units against the penetration pool', () => {
+  const s = simulateCapture(1000, 100, { ami60: 100 }, 4000, 5000);
+  assert.strictEqual(s.captureRate, 10);
+  assert.strictEqual(s.penetrationRate, 82);
+  assert.strictEqual(s.risk, 'Low');
+  assert.strictEqual(simulateCapture(1000, 300, { ami60: 300 }, 4000, 5000).risk, 'High');
+});
 
 test('the CHAS LIHTC-eligible count is the denominator when it exists, and says so', () => {
   const d = captureDenominator({ captureDenominator: { value: 598, source: 'chas_lihtc_eligible' }, acs: { renter_hh: 991 } });

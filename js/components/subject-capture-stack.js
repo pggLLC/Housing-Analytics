@@ -12,8 +12,9 @@
  * Also computes overall (portfolio) capture rate folding in the
  * in-migration assumption from Subject Project.
  *
- * CHFA convention: capture < 25% per tier is generally fundable;
- * 25–35% is borderline; > 35% is a red flag for the underwriter.
+ * CHFA's one published line (QAP 2025-2026 section 2.B): capture above
+ * 85 percent is not accepted without additional data to support demand.
+ * CHFA publishes no lower bands, so this card shows only that line.
  *
  * This is screening-grade, not study-grade. The card surfaces what
  * it can NOT do (under-construction unit deduction, household-size
@@ -77,10 +78,8 @@
 
   function _captureLabel(rate) {
     if (rate == null) return { color: 'var(--muted)', label: '—' };
-    if (rate < 10) return { color: 'var(--good,#3da670)', label: 'Strong demand depth' };
-    if (rate < 25) return { color: 'var(--good,#3da670)', label: 'Within CHFA range' };
-    if (rate < 35) return { color: 'var(--warn,#d9a93b)', label: 'Borderline — sensitivity test' };
-    return { color: 'var(--bad,#c14545)', label: 'Saturation risk' };
+    if (rate <= 85) return { color: 'var(--good,#3da670)', label: 'Under CHFA 85% line' };
+    return { color: 'var(--bad,#c14545)', label: 'Over CHFA 85% line — CHFA asks for more demand data' };
   }
 
   function _marketRows(container, rows) {
@@ -229,7 +228,7 @@
         $h('div', { style: { marginTop: '.2rem', color: 'var(--muted)', fontSize: '.74rem' } }, [
           'Inputs: ' + grandSubject + ' Subject units against ' + $fmt(grandHh) +
           ' qualifying renter HHs (county-level, in-migration ' + inMig + '%). ' +
-          'Tiers below 25% are within CHFA range; 25–35% is borderline; ≥35% is saturation risk.'
+          'CHFA does not accept capture above 85% without more demand data (QAP section 2.B).'
         ])
       ]));
 
