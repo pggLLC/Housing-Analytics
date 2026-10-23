@@ -439,18 +439,23 @@
     {
       "id": "uap-ecm-timing",
       "section": "deal",
-      "kind": "rule",
+      "kind": "qap",
+      "qap_doc": "current",
+      "qap_section": "Section 11.J",
       "title": "Start the allowance model early",
-      "finding": "An engineer's model or HUD's model needs CHFA's preliminary approval 60 to 90 days before the tax credit application, unless the allocation plan says otherwise. The Third Draft's redline changes the number of days, so check the adopted plan.",
+      "finding": "Under the plan in force, an engineer's Energy Consumption Model or HUD's model needs CHFA's preliminary approval at least 45 days before the tax credit application. The drafts of the next plan lengthen that lead time in their redline, so start the model earlier and check the adopted plan.",
       "quotes": [
-        "Applicants relying on the HUD Utility Schedule Model or the Energy Consumption Model",
-        "to CHFA’s Multifamily Program Compliance department 60 to 90 days prior to the Housing Tax Credit or CHFA Multifamily Loan application submission date, unless otherwise specified in an allocation plan."
+        "Applicants relying on the HUD Utility Schedule Model or the Energy Consumption Model must submit a request for preliminary approval, including all required documents and fees, to CHFA’s Multifamily Program Compliance department at least 45 days prior to the Housing Tax Credit Application submission date."
       ],
-      "source_url": "https://www.chfainfo.com/getattachment/e5532e61-c096-4d3d-a186-a60f4fb90f80/CHFA_Utility_Allowance_Policy.pdf",
-      "source_title": "CHFA Utility Allowance Policy (effective 10.20.2025)",
-      "publisher": "CHFA Asset Management",
+      "also_see": {
+        "url": "https://www.chfainfo.com/getattachment/e5532e61-c096-4d3d-a186-a60f4fb90f80/CHFA_Utility_Allowance_Policy.pdf",
+        "title": "CHFA Utility Allowance Policy (effective 10.20.2025), which defers to the allocation plan"
+      },
       "last_verified": "2026-10-23",
-      "review_by": "2027-01-23"
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
     },
     {
       "id": "hub-retrofit-risk",

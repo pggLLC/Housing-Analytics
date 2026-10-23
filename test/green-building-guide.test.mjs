@@ -103,6 +103,15 @@ for (const e of DOC.entries.filter((x) => x.kind === 'qap')) {
 }
 assert(qapChecked >= 10, 'QAP quote scan is vacuous');
 // The EGC+ difference is the draft's alone; if the plan in force gains it, the card's wording is stale.
+// The allowance-model lead time is read from the plan in force, and the
+// "drafts lengthen it" claim holds only while the draft no longer reads the same.
+{
+  const ecm = DOC.entries.find((x) => x.id === 'uap-ecm-timing');
+  const lead = /Energy Consumption Model must submit a request for preliminary approval.{0,200}?at least (\d+) days prior/.exec(qapText.current);
+  assert(ecm && lead, 'uap-ecm-timing: the plan in force no longer states the allowance-model lead time');
+  assert(ecm.finding.includes(`at least ${lead[1]} days`), `uap-ecm-timing: the plan in force says ${lead[1]} days`);
+  if (/lengthen/.test(ecm.finding)) assert(!qapText.draft.includes(`at least ${lead[1]} days prior to the Housing Tax Credit Application`), 'uap-ecm-timing: the Third Draft keeps the same lead time; drop the "lengthen" sentence');
+}
 assert(!qapText.current.includes('PHIUS/PHI or EGC+'), 'the plan in force now names EGC+; reword qap-higher-programs-draft');
 
 // ── 4. The rendered page ───────────────────────────────────────────────────
