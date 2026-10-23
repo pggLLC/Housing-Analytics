@@ -9,20 +9,41 @@ This directory contains curated rosters for Colorado local Public Housing Author
 | `garfield-county-ha.json` | Garfield County HA | CO095 | Silt Senior Housing (verified) |
 | `denver-housing-authority.json` | Denver Housing Authority | CO001 | Stub — DHA's federally-tagged properties already appear in HUD MF feed; this stub is reserved for any locally-administered PBV that isn't on the federal contract list |
 
-## Top 10 CO PHAs by served population (expansion targets)
+## Where Colorado's project-based vouchers are (expansion targets)
 
-| Rank | PHA | HUD Code | Active stub | Households served (approx) |
-|---|---|---|---|---|
-| 1 | Denver Housing Authority | CO001 | ✓ | ~13,000 |
-| 2 | Aurora Housing Authority | CO002 | — | ~3,500 |
-| 3 | Boulder County Housing Authority | CO003 | — | ~2,800 |
-| 4 | Jefferson County Housing Authority | CO005 | — | ~2,500 |
-| 5 | Adams County Housing Authority | CO006 | — | ~2,400 |
-| 6 | El Paso County Housing Authority | CO007 | — | ~2,300 |
-| 7 | Larimer County Housing Authority | CO008 | — | ~1,800 |
-| 8 | Pueblo Housing Authority | CO009 | — | ~1,700 |
-| 9 | Mesa County Housing Authority | CO010 | — | ~1,500 |
-| 10 | Garfield County Housing Authority | CO095 | ✓ | ~750 |
+HUD's Picture of Subsidized Households counts project-based voucher (PBV)
+homes for each housing authority but does not name the buildings. These
+are the 21 Colorado authorities with PBVs, quarter ending 31 Dec 2025
+(6,118 homes in all), from
+`data/affordable-housing/pbv-by-pha-co.json`
+(source: https://www.huduser.gov/portal/datasets/assthsg.html).
+
+Many of these homes sit inside tax-credit or HUD properties already on the
+map under that program. Only PBV buildings on no other feed belong here.
+
+| HUD code | Authority | PBV homes (HUD, 31 Dec 2025) | Roster file |
+|---|---|---|---|
+| CO001 | Housing Authority of the City and County of Denver | 2,242 | ✓ |
+| CO911 | Colorado Division of Housing | 1,165 | — |
+| CO016 | Boulder Housing Partners | 433 | — |
+| CO041 | Housing Catalyst | 366 | — |
+| CO072 | Jefferson County Housing Authority | 274 | — |
+| CO051 | Grand Junction Housing Authority | 239 | — |
+| CO002 | Housing Authority of the City of Pueblo | 199 | — |
+| CO036 | Littleton Housing Authority | 192 | — |
+| CO035 | Housing Authority of the City of Greeley | 168 | — |
+| CO058 | Adams County Housing Authority | 165 | — |
+| CO052 | Aurora Housing Authority | 134 | — |
+| CO070 | Longmont Housing Authority | 119 | — |
+| CO034 | Loveland Housing Authority | 85 | — |
+| CO061 | Boulder County Housing Authority | 77 | — |
+| CO095 | Garfield County Housing Authority | 73 | ✓ |
+| CO028 | Housing Authority of the City of Colorado Springs | 58 | — |
+| CO090 | Housing Authority of Weld County | 55 | — |
+| CO019 | Housing Authority of the City of Brighton | 36 | — |
+| CO050 | Arvada Housing Authority | 17 | — |
+| CO040 | Delta Housing Authority | 14 | — |
+| CO087 | Montrose County Housing Authority | 7 | — |
 
 ## How to expand
 
