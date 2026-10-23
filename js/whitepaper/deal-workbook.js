@@ -751,7 +751,7 @@
     var countyName = String(mk.county).replace(/ County$/, '');
     var thisYear = new Date().getFullYear();
     mk.pipelineLoaded = !!(data.deals && data.deals.deals);
-    mk.pipeline = deals.filter(function (d) { return d.county === countyName && num(d.year) != null && d.year >= thisYear - PIPELINE_YEARS; })
+    mk.pipeline = deals.filter(function (d) { return d.county === countyName && num(d.year) != null && d.year >= thisYear - PIPELINE_YEARS + 1; })
       .sort(function (a, b) { return b.year - a.year; })
       .map(function (d) { var x = (data.dealDetail && data.dealDetail[d.slug]) || {};
         return { slug: d.slug, name: d.name, city: d.city, year: d.year, units: num(d.units), award: d.award,
@@ -763,7 +763,8 @@
     if (!mk.noTiers && (!mk.rents.length || mk.rents.every(function (x) { return x.discount == null; }))) mk.unchecked.push('rents against the market');
     if (!mk.capture) { if (!mk.noTiers) mk.unchecked.push('renters who can pay each tier'); }
     else mk.capture.filter(function (c) { return c.qualified == null; }).forEach(function (c) { mk.unchecked.push('renters who can pay ' + c.tier + '% AMI rents (no county count published that high)'); });
-    if (!(mk.trend && mk.trend.length)) mk.unchecked.push('the rent trend');
+    // One same-month reading has no change to show, so it is not a checked trend.
+    if (!(mk.trend && mk.trend.length >= 2)) mk.unchecked.push('the rent trend');
     if (!(data.deals && data.deals.deals)) mk.unchecked.push('other tax credit awards in the county');
     return mk;
   }
@@ -827,7 +828,7 @@
     h += '</section>';
 
     // Pipeline
-    h += '<section class="dv-card" aria-labelledby="wbMktPipe"><h2 id="wbMktPipe">Tax credit awards in ' + esc(mk.county) + ' since ' + (new Date().getFullYear() - PIPELINE_YEARS) + '</h2>';
+    h += '<section class="dv-card" aria-labelledby="wbMktPipe"><h2 id="wbMktPipe">Tax credit awards in ' + esc(mk.county) + ' since ' + (new Date().getFullYear() - PIPELINE_YEARS + 1) + '</h2>';
     h += mk.pipeline.length ? table(['Project', 'Town', 'Award', 'Homes', 'Income mix', 'Status'], mk.pipeline.map(function (p) {
       return { cells: ['<a href="deal-summary.html?d=' + esc(p.slug) + '">' + esc(p.name) + '</a>', esc(p.city), esc(p.award), esc(p.units == null ? '—' : p.units), esc(p.mix || '—'), esc(p.status || '—')] };
     }), { num: [3] }) : (mk.pipelineLoaded ? '<p>No CHFA tax credit awards in this county in that time.</p>' : '<p class="sr-yellow">The deal summaries did not load, so awards in this county were not checked. Reload the page to try again.</p>');

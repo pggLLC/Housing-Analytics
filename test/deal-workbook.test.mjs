@@ -270,6 +270,14 @@ ok(realRenters.counties.every((c) => /^08\d{3}$/.test(c.fips) && c.households_le
 ok(Object.values(JSON.parse(read(WB.MARKET_URLS.zori)).counties).every((c) => c.rent > 0), 'every Zillow county has a rent');
 const noMetro = mdata(); delete noMetro.zori.counties['08067'].metro;
 ok(!WB.market(mm, msnap, noMetro).trend && /no metro history/.test(WB.market(mm, msnap, noMetro).trendReason), 'a county with no Zillow metro says so instead of borrowing one');
+{ const one = mdata(); one.zoriMetroCsv = 'RegionID,SizeRank,RegionName,RegionType,StateName,2025-09-30\n1,1,"Durango, CO",msa,CO,1950\n';
+  const om = WB.market(mm, msnap, one);
+  ok(om.unchecked.includes('the rent trend') && !/Nothing in the county figures needs a second look/.test(WB.renderMarket(om)), 'a single Zillow reading is listed as an unchecked trend, not a pass'); }
+{ const y = new Date().getFullYear(); const edge = mdata();
+  edge.deals.deals.push({ slug: 'invented-edge-in', name: 'Edge In', city: 'Durango', county: 'La Plata', year: y - 4, units: 20 }, { slug: 'invented-edge-out', name: 'Edge Out', city: 'Durango', county: 'La Plata', year: y - 5, units: 20 });
+  const em = WB.market(mm, msnap, edge);
+  ok(em.pipeline.some((d) => d.slug === 'invented-edge-in') && !em.pipeline.some((d) => d.slug === 'invented-edge-out') && WB.renderMarket(em).includes('since ' + (y - 4) + '</h2>'), 'the awards window is five calendar years counting this one, and the heading says the same'); }
+ok(/\.wb-map \.leaflet-control-zoom a \{ width: 44px; height: 44px;/.test(read('developer-deal-workbook.html')), 'the workbook map zoom buttons are 44px touch targets');
 
 
 // ── The team's research (phase 3) ──────────────────────────────────────────
