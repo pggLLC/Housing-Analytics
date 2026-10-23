@@ -634,6 +634,16 @@
   // realistic. Both cut-offs are screening estimates, stated in the document.
   var LEAD_DAYS = 90, STRETCH_MIN_DAYS = 15;
   function daysBetween(a, b) { return Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000); }
+  // CHFA's dates are Colorado dates, so "today" is the date in Denver, not in UTC.
+  function coloradoToday(now) {
+    try {
+      var p = {};
+      new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', year: 'numeric', month: '2-digit', day: '2-digit' })
+        .formatToParts(now).forEach(function (x) { p[x.type] = x.value; });
+      if (p.year && p.month && p.day) return p.year + '-' + p.month + '-' + p.day;
+    } catch (e) { /* no time zone data: fall back to UTC */ }
+    return now.toISOString().slice(0, 10);
+  }
   function addMonths(iso, n) { var d = new Date(iso + 'T00:00:00Z'); d.setUTCMonth(d.getUTCMonth() + n); return d.toISOString().slice(0, 10); }
 
   function qapItem(scoring, id) {
@@ -735,7 +745,8 @@
     var used = [sourcePath('qapScoring'), sourcePath('rankingIndex')];
     function cite(list) { list.forEach(function (p) { if (p && used.indexOf(p) === -1) used.push(p); }); }
     var support = policy.support && Array.isArray(policy.support.items) ? policy.support.items.length : 0;
-    var plans = landscape.research ? landscape.research.groups.filter(function (g) { return g.key === 'plans' && g.items.length; }).length : 0;
+    // A town's plan standing in for a county with none of its own is not the county's.
+    var plans = landscape.research && !landscape.research.placeLevel ? landscape.research.groups.filter(function (g) { return g.key === 'plans' && g.items.length; }).length : 0;
     if (support || plans) {
       add('5B2a-priority', 'check', 'A plan or council record on housing is on file (see Local funds and Local landscape). Confirm it names the need this project serves before counting the points.');
       if (support) cite([sourcePath('localSupport')]);
@@ -943,7 +954,7 @@
     var need = needSection(row, src);
     var rents = rentsSection(row, src);
     var lihtc = lihtcSection(row, src, countyName);
-    var today = opts.today || new Date().toISOString().slice(0, 10);
+    var today = opts.today || coloradoToday(new Date());
     var policy = localPolicySection(row, src);
     var landscape = landscapeSection(row, src, opts.landscape || (opts.relatedLandscape || []).filter(Boolean)[0] || null, countyName, !!opts.landscapeFailed);
     var brief = opts.brief && opts.brief.geoid === geoid ? opts.brief : null;
@@ -1641,6 +1652,6 @@
     findByName: findByName,
     buildModel: buildModel,
     renderHtml: renderHtml,
-    _internal: { num: num, fmtMoney: fmtMoney, dealShape: dealShape, isSearchLink: isSearchLink }
+    _internal: { coloradoToday: coloradoToday, num: num, fmtMoney: fmtMoney, dealShape: dealShape, isSearchLink: isSearchLink }
   };
 }));
