@@ -312,7 +312,7 @@
     WS = ws;
     RIPENESS = ripeness;
     CENTROIDS = (centroids && centroids.byGeoid) || {};
-    LOCAL_RES = localRes || {};
+    LOCAL_RES = localRes || null; // null, not {}, so a failed load is never read as "nothing on file"
     NEWS = news;
     PIPE = pipelineRows();
     const rows = s.rankingIndex.rankings;

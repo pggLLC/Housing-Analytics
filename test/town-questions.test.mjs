@@ -334,6 +334,14 @@ ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the eit
   for (const f of ['data/jurisdiction-briefs/_contacts/0899999.json', 'data/jurisdiction-briefs/_contacts/08999.json', 'data/hna/local-resources.json']) ok(src.includes(f), `"no partner" cites ${f}`);
 }
 
+// A failed local-resources load stays unavailable.
+{
+  const s = Object.assign({}, BASE, { townQuestions: BANK });
+  const opts = (o) => Object.assign({ today: '2026-10-22', FundingFit, MixCheck, TownQuestions: TQ }, o);
+  ok(WP.buildModel(s, '0833640', opts({ localResources: null })).contacts.resourcesLoaded === false, 'no local-resources file: not counted as loaded');
+  ok(WP.buildModel(s, '0833640', opts({ localResources: {} })).contacts.resourcesLoaded === true, 'a loaded local-resources file counts as loaded');
+}
+
 // A county read from a town's landscape file is not searched county-wide.
 {
   const rel = WP.relatedGeoids(BASE, '08051').filter((g) => g !== '08051');
