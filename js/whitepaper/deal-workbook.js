@@ -951,7 +951,7 @@
           .concat([esc(c.vacancy == null ? '—' : pct(c.vacancy, 1)), esc(c.checked), '<a class="wb-src" href="' + esc(webLink(c.source)) + '" rel="noopener noreferrer" target="_blank" aria-label="Source for ' + esc(c.name) + '">Link</a>', '<button type="button" class="sr-btn" data-del-comp="' + i + '" aria-label="Remove ' + esc(c.name) + '">Remove</button>']) };
       }), { num: [2, 3, 4, 5, 6, 7, 8, 9, 10] });
       var cmp = v.rentVsComps.filter(function (x) { return x.comp != null; });
-      if (cmp.length) h += table(['AMI', 'Size', 'Rent', 'Average market comparable', 'Under'], cmp.map(function (x) {
+      if (cmp.length) h += '<h3>Deal rents against the comparables</h3>' + table(['AMI', 'Size', 'Rent', 'Average market comparable', 'Under'], cmp.map(function (x) {
         return { cls: x.discount < 0.10 ? 'sr-diff' : '', cells: [esc(x.tier + '%'), esc(x.bedrooms), esc(money(x.rent)), esc(money(x.comp) + ' (' + x.n + ')'), esc(pct(x.discount))] };
       }), { num: [2, 3, 4] });
     }
@@ -1135,7 +1135,7 @@
     }
     function read() {
       var lat = nOrNull(val('wbSiteLat')), lon = nOrNull(val('wbSiteLon'));
-      rec.site = val('wbSiteAddr') || lat != null ? { address: val('wbSiteAddr'), lat: lat, lon: lon } : null;
+      rec.site = val('wbSiteAddr') || lat != null || lon != null ? { address: val('wbSiteAddr'), lat: lat, lon: lon } : null;
       var rows = []; waitNeg = 0;
       Array.prototype.forEach.call(box.querySelectorAll('[data-wait]'), function (el) {
         var n = nOrNull(el.value); if (n == null) return;
@@ -1154,6 +1154,7 @@
     // Checked before a save, so the user fixes the survey instead of losing it to the backend's filter.
     function surveyProblem() {
       if (waitNeg) return 'Waitlist counts must be whole numbers of households, zero or more.';
+      if (rec.site && (rec.site.lat == null) !== (rec.site.lon == null)) return 'Enter both latitude and longitude for the site, or neither.';
       if (surveyLoose) return 'A survey row has figures but no unit type. Add the type or clear the row.';
       var sv = rec.survey;
       if (!sv) return null;
@@ -1211,6 +1212,7 @@
       if (!c.name || !c.checked || !/^https?:\/\//i.test(c.source)) { say('A comparable needs a name, the date you checked it and a source link starting with http.'); return; }
       if (COMP_BEDS.some(function (bd) { return c.rents[bd[0]] != null && !(c.rents[bd[0]] > 0); })) { say('Comparable rents must be more than $0. Leave a size blank if the property does not report it.'); return; }
       if (badVac(c.vacancy)) { say('Comparable vacancy must be between 0% and 100%.'); return; }
+      if (c.units != null && !(c.units >= 0 && c.units === Math.floor(c.units))) { say('Comparable homes must be a whole number, zero or more.'); return; }
       rec.comps.push(c);
       ['wbCName', 'wbCAddr', 'wbCLat', 'wbCLon', 'wbCYear', 'wbCUnits', 'wbCVac', 'wbCConc', 'wbCSrc'].concat(COMP_BEDS.map(function (bd) { return 'wbCR' + bd[0]; })).forEach(function (id) { $(id).value = ''; });
       say('Added. Save to keep it.'); draw();

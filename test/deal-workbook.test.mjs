@@ -366,9 +366,23 @@ ok(/No comparables yet/.test(WB.research(m, {}, null, '2026-10-22').findings[0].
 ok(/class="wb-map" role="region"/.test(read('js/whitepaper/deal-workbook.js')) && !/wb-map" role="img"/.test(read('js/whitepaper/deal-workbook.js')), 'the research map is a labelled region, so its zoom buttons stay visible to screen readers');
 ok(WB.research(m, { comps: rec.comps }, lihtc, '2026-10-22').nearby.length === 0 && WB.research(m, { comps: rec.comps }, lihtc, '2026-10-22').comps.every((c) => c.miles === null), 'without a site there are no distances and no nearby list');
 const rhtml = WB.renderResearch(rv);
-ok(/Comparables/.test(rhtml) && /Waitlist/.test(rhtml) && /Rent and vacancy survey/.test(rhtml) && /Tax credit properties within 10 miles/.test(rhtml), 'the research tables render');
+// Each research table sits under its own heading (h3 or a summary), and every body row has one cell per column.
+// Wording is free; the shape and the count (one table per filled part of the research) are not.
+const tablesShaped = (html) => { const ts = [...html.matchAll(/(<\/h3>|<\/summary>)?(?:<p>[\s\S]*?<\/p>)?<div class="sr-scroll"><table[^>]*><thead><tr>([\s\S]*?)<\/tr><\/thead><tbody>([\s\S]*?)<\/tbody>/g)];
+  return { n: ts.length, ok: ts.every((t) => { const cols = (t[2].match(/<th /g) || []).length, rows = t[3].split('</tr>').filter(Boolean);
+    return !!t[1] && cols > 0 && rows.length > 0 && rows.every((r) => (r.match(/<td/g) || []).length === cols); }) }; };
+{ const want = (rv.comps.length ? 1 : 0) + (rv.rentVsComps.some((x) => x.comp != null) ? 1 : 0) + (rv.nearby.length ? 1 : 0) + (rv.waitlist && rv.waitlist.rows.length ? 1 : 0) + (rv.survey && (rv.survey.byType || []).length ? 1 : 0);
+  const ts = tablesShaped(rhtml);
+  ok(want >= 3 && ts.n === want && ts.ok, 'each filled part of the research renders one headed table with whole rows (' + ts.n + ' of ' + want + ')');
+  const reworded = rhtml.replace('<h3>Waitlist</h3>', '<h3>Who is waiting</h3>');
+  ok(reworded !== rhtml && tablesShaped(reworded).ok && tablesShaped(reworded).n === want, 'sabotage: rewording a heading keeps the table check green');
+  const short = rhtml.replace(/<td[^>]*>[^<]*<\/td><\/tr>/, '</tr>');
+  ok(short !== rhtml && !tablesShaped(short).ok, 'sabotage: a row missing a cell fails'); }
 ok(/No names or applicant details are kept/.test(rhtml) && /our screens, not CHFA rules/.test(rhtml) && !/NaN|undefined/.test(rhtml), 'the waitlist says counts only; our screens are labelled; no NaN');
 ok(/rel="noopener noreferrer"/.test(rhtml) && !/<script/.test(WB.renderResearch(WB.research(m, { comps: [{ name: '<script>x</script>', kind: 'market', rents: {}, checked: '2026-10-01', source: 'https://example.org/"><script>' }] }, null, '2026-10-22'))), 'names and links are escaped');
+{ const src = read('js/whitepaper/deal-workbook.js');
+  ok(/lat != null \|\| lon != null \?/.test(src) && /\(rec\.site\.lat == null\) !== \(rec\.site\.lon == null\)/.test(src), 'a longitude entered alone is kept and the save asks for both coordinates');
+  ok(/c\.units != null && !\(c\.units >= 0 && c\.units === Math\.floor\(c\.units\)\)/.test(src), 'a comparable home count must be a whole number, zero or more'); }
 ok(WB.MARKET_API === '/api/deal-market', 'research is saved to the private backend');
 
 // ── Gating ─────────────────────────────────────────────────────────────────
