@@ -211,16 +211,22 @@ def main():
         log(f"  Fetching {category}…")
         try:
             result = overpass_query(query_body)
+            # Overpass reports a timeout or memory limit as HTTP 200 with a
+            # "remark" and empty or partial elements. That is a failed query,
+            # not an answer, so it goes to the keep-previous branch below.
+            remark = str(result.get("remark") or "")
+            if remark:
+                raise RuntimeError(f"Overpass remark: {remark[:160]}")
             elements = result.get("elements", [])
             zone_proxy = ZONE_PROXY_MAP[category]
-            count = 0
-            for elem in elements:
-                feat = element_to_feature(elem, zone_proxy)
-                if feat:
-                    all_features.append(feat)
-                    count += 1
+            feats = [f for f in (element_to_feature(e, zone_proxy) for e in elements) if f]
+            if not feats and previous.get(zone_proxy):
+                raise RuntimeError("Overpass returned no features where the previous file had "
+                                   f"{len(previous[zone_proxy])}")
+            all_features.extend(feats)
+            count = len(feats)
             log(f"    → {count} features")
-            counts[ZONE_PROXY_MAP[category]] = count
+            counts[zone_proxy] = count
         except Exception as e:
             log(f"    ⚠ Failed: {e}")
             zone_proxy = ZONE_PROXY_MAP[category]
