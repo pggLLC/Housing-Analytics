@@ -128,8 +128,8 @@ function futureNeedText(digest, jurisdiction) {
     ? "; it comes from the county projection, so read it as county context, not a place trend"
     : "";
   return `The digest's 20-year figure is ${totalText}. ${growthText}${growthFrame}. ` +
-    `Today's in-commuters give ${num(inc)}: homes for a quarter of the lower- and middle-wage workers ` +
-    `who commute into ${jurisdiction}, if they moved closer.`;
+    `Today's in-commuters give ${num(inc)}: homes for a quarter of the households, at or below 120% AMI, ` +
+    `of the people who commute into ${jurisdiction}, if they moved closer.`;
 }
 
 function sourceFor(geoid, id, field, label) {

@@ -38,7 +38,7 @@
  * places and put a present shortfall in the 20-year slot (Aspen 4,447 against
  * 73 of growth). The figure is now resident growth PLUS today's in-commuters
  * who would move closer, counted as households (data/hna/workforce-need.json,
- * a quarter of lower- and middle-wage in-commuters). Removing the max exposed
+ * a quarter of in-commuter households at or below 120% AMI). Removing the max exposed
  * the active-stock subtraction: Summit's ACS rental vacancy is 41.9%, short-
  * term rentals included, so its "active stock" exceeded the homes it needs
  * and it read -6,712. Resident growth is now the rise in homes needed from

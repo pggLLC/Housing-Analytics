@@ -279,7 +279,7 @@
       var future = num(items[0].value);
       var gap = num(items[1].value);
       // What the 20-year figure counts: projected resident growth, plus homes
-      // for a quarter of today's lower- and middle-wage in-commuters where the
+      // for a quarter of today's in-commuter households at or below 120% AMI where the
       // in-commuter figure exists. The sentence names both parts rather than
       // inheriting the digest's DOLA source id.
       var reading = metrics.future_units_reading ? metrics.future_units_reading.value : null;
@@ -287,7 +287,7 @@
       var incommuters = metrics.incommuter_need_units ? num(metrics.incommuter_need_units.value) : null;
       var fmt = function (v) { return Math.abs(v).toLocaleString('en-US'); };
       var withInc = reading === 'resident_growth_plus_incommuters' && growth !== null && incommuters !== null;
-      var incText = fmt(incommuters || 0) + ' for a quarter of today\u2019s lower- and middle-wage in-commuters if they moved closer';
+      var incText = fmt(incommuters || 0) + ' for a quarter of today\u2019s in-commuter households at or below 120% AMI if they moved closer';
       // Where projected households fall, growth is negative and so may be the
       // total: a total below zero is a surplus, said in words, never as
       // "-1,030 additional homes".

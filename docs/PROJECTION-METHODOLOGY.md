@@ -67,11 +67,11 @@ The builder uses the HNA page's formula, so with nothing changed it shows the HN
 
 ```
 homes needed(year) = households added since 2024 ÷ (1 − county target vacancy)
-20-year figure     = homes needed(2044) + homes for a quarter of today's lower- and middle-wage in-commuters
+20-year figure     = homes needed(2044) + homes for a quarter of today's in-commuter households at or below 120% AMI
 ```
 
 - The target vacancy is each county's, from `data/hna/projections/<county>.json` (`housing_need.target_vacancy`).
-- The in-commuter part is the ranking index's `incommuter_need_units` (`data/hna/workforce-need.json`).
+- The in-commuter part is the ranking index's `incommuter_need_units` (`data/hna/workforce-need.json`): LODES in-commuters by pay tier, turned into households at or below 120% AMI by the ACS PUMS crosswalk in `data/hna/workforce-ami-crosswalk.json` (`scripts/hna/build_workforce_ami_crosswalk.py`).
 - A scenario's change from SDO's forecast is added to the HNA projection's own series (`incremental_units_needed_dola`, or the place ledger's `incremental_units_needed`), so the two pages agree to the home at 100% for all 536 jurisdictions with a figure (`test/scenario-baseline-reproduces-sdo.test.js`).
 
 ### Towns and CDPs

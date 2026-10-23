@@ -24,7 +24,8 @@
  *
  * Since 2026-10-20 both producers add the same two parts: resident growth
  * (the rise in homes needed, DOLA's incremental form) and homes for a quarter
- * of today's lower- and middle-wage in-commuters (data/hna/workforce-need.json).
+ * of today's in-commuter households at or below 120% AMI
+ * (data/hna/workforce-need.json).
  *
  * ── How this guard works ──
  *
