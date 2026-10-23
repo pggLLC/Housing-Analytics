@@ -226,6 +226,9 @@ ok(WB.market(mm, Object.assign({}, msnap, { perBrMarket: null }), mdata()).rents
 const tight = mdata(); tight.renters.counties[0].households_le_ami_pct = { 30: 10, 40: 20, 50: 30, 60: 80, 70: 100, 80: 110, 100: 120 };
 ok(/warn: 60% AMI: 15 homes against about 55/.test(mtext(WB.market(mm, msnap, tight))), 'a tier needing 25% or more of its renters is flagged');
 ok(!/AMI: 15 homes against/.test(mtext(mk)), 'a 5% capture is not');
+{ const hiData = mdata(); hiData.renters.counties[0].households_le_ami_pct = { 30: 10, 40: 20, 50: 30 };
+  const hm = WB.market(mm, msnap, hiData);
+  ok(hm.unchecked.some((u) => /60% AMI rents/.test(u)) && !/Nothing in the county figures needs a second look/.test(WB.renderMarket(hm)), 'a tier with no published renter count is listed as not checked'); }
 { const flat = mdata(); flat.renters.counties[0].households_le_ami_pct = { 30: 80, 40: 80, 50: 80, 60: 80, 70: 100, 80: 110, 100: 120 };
   const fm = WB.market(mm, msnap, flat);
   ok(/bad: 60% AMI: 15 homes, but the county counts show no renter households/.test(mtext(fm)) && /None counted in this range/.test(WB.renderMarket(fm)) && !/Nothing in the county figures needs a second look/.test(WB.renderMarket(fm)), 'a tier with no renters in its range is flagged, not left blank'); }

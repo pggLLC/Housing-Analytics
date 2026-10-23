@@ -752,6 +752,7 @@
     mk.unchecked = [];
     if (!mk.rents.length || mk.rents.every(function (x) { return x.discount == null; })) mk.unchecked.push('rents against the market');
     if (!mk.capture) mk.unchecked.push('renters who can pay each tier');
+    else mk.capture.filter(function (c) { return c.qualified == null; }).forEach(function (c) { mk.unchecked.push('renters who can pay ' + c.tier + '% AMI rents (no county count published that high)'); });
     if (!(mk.trend && mk.trend.length)) mk.unchecked.push('the rent trend');
     if (!(data.deals && data.deals.deals)) mk.unchecked.push('other tax credit awards in the county');
     return mk;
