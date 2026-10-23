@@ -54,7 +54,7 @@
     'absorption': 'How fast a market leases up newly built units, expressed as units per month. Slow absorption signals weak demand; fast absorption supports building more.',
     'PMA': 'Primary Market Area — the area a proposed project will draw most renters from, usually defined by drive time, school district, or natural boundaries.',
     'market study': 'A third-party report required for LIHTC and most lenders, testing whether a project has enough qualifying renters and reasonable rents. A weak study can kill a deal.',
-    'Prop 123': 'A 2022 Colorado ballot measure setting aside state income tax revenue equal to up to 0.1% of taxable income (estimated at $290M a year from 2023-24) for affordable housing. Jurisdictions must file a commitment with DOLA to access the funds: 3% growth a year for 2024–2026, then a permit-based goal from 2027.',
+    'Prop 123': 'A 2022 Colorado ballot measure setting aside state income tax revenue equal to up to 0.1% of taxable income (estimated at $290M a year from 2023-24) for affordable housing. For most of the money, the local government must file a commitment with DOLA: 3% growth a year for 2024–2026, then a permit-based goal from 2027.',
     'CHFA': 'Colorado Housing and Finance Authority — the state agency that allocates federal LIHTC credits, issues bonds, and funds affordable housing in Colorado.',
     'QAP': 'Qualified Allocation Plan — CHFA\'s annual scoring rules for the LIHTC competition. Defines policy priorities (rural, preservation, opportunity, deeply affordable).',
     'MIHTC': 'Middle Income Housing Tax Credit — a Colorado state program for households between 80% and 120% AMI (workforce: teachers, nurses, first responders).',
