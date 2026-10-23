@@ -675,6 +675,15 @@
     // when no fixed round is open.
     var rollEntry = (((src.qapCalendar || {}).rolling_programs) || []).find(function (p) { return p && p.category === '4pct-rolling'; }) || null;
     var roll = rollEntry;
+    // The calendar lists the months CHFA takes no preliminary applications, so a report
+    // built in one of them says when the window reopens instead of "need not wait".
+    var closedMonths = roll && Array.isArray(roll.closed_months)
+      ? roll.closed_months.filter(function (n) { return n >= 1 && n <= 12 && n === Math.floor(n); }) : [];
+    var closedNow = closedMonths.indexOf(+today.slice(5, 7)) >= 0, reopens = null;
+    if (closedNow && closedMonths.length < 12) {
+      reopens = today.slice(0, 8) + '01';
+      do { reopens = addMonths(reopens, 1); } while (closedMonths.indexOf(+reopens.slice(5, 7)) >= 0);
+    }
     if (!rows.length && !roll) return null;
     var scoring = src.qapScoring || null;
     function milestones(r) {
@@ -695,7 +704,7 @@
     var lb = ((((src.fundingGuide || {}).programs) || []).find(function (p) { return p && p.id === 'prop123-ahff-land-banking'; })) || null;
     return {
       rows: rows,
-      rolling4: roll ? { name: roll.name, description: roll.description, url: safeHref(roll.url) } : null,
+      rolling4: roll ? { name: roll.name, description: roll.description, url: safeHref(roll.url), closedMonths: closedMonths, closedNow: closedNow, reopens: reopens } : null,
       leadDays: LEAD_DAYS,
       stretchMinDays: STRETCH_MIN_DAYS,
       scoringStatus: scoring ? { draft: scoring.status === 'draft', note: scoring.status_note || null, title: (scoring.source || {}).title || null, url: safeHref((scoring.source || {}).url) } : null,
@@ -1365,9 +1374,17 @@
     }
     // A 4% base round is the 4% route, which has the rolling path too.
     if (t.rolling4 && (rollingOpen(d) || !base || base.credit === '4%')) {
-      parts.push(full
-        ? '<strong>4% bonds without state credit:</strong> ' + link(t.rolling4.name, t.rolling4.url) + ' has no round, so this route need not wait for one.'
-        : (parts.length ? 'A 4% bond deal without state credit need not wait: ' : '4% bonds without state credit: ') + link(t.rolling4.name, t.rolling4.url) + ' has no round.');
+      var r4 = t.rolling4, rl = link(r4.name, r4.url);
+      if (r4.closedNow) {
+        var when = r4.reopens ? 'preliminary applications reopen ' + esc(r4.reopens) : 'preliminary applications are closed this month';
+        parts.push(full
+          ? '<strong>4% bonds without state credit:</strong> ' + rl + ' has no round, but CHFA takes no preliminary applications this month; ' + when + '.'
+          : (parts.length ? 'A 4% bond deal without state credit waits only for its window: ' : '4% bonds without state credit: ') + rl + ' has no round; ' + when + '.');
+      } else {
+        parts.push(full
+          ? '<strong>4% bonds without state credit:</strong> ' + rl + ' has no round, so this route need not wait for one.'
+          : (parts.length ? 'A 4% bond deal without state credit need not wait: ' : '4% bonds without state credit: ') + rl + ' has no round.');
+      }
     }
     return parts.join(' ');
   }

@@ -379,6 +379,36 @@ ok(npSeen > 0 && prSeen > 0 && stewSeen > 0, 'the nonprofit, community-priority 
   ok(pastSummary.includes(amp(t0.rolling4.name)), 'all rounds passed: the summary still names the rolling 4% path');
 }
 
+// In a month CHFA takes no preliminary applications, the rolling headline gives the
+// reopening date from the calendar instead of saying the route need not wait.
+{
+  const entry = BASE.qapCalendar.rolling_programs.find((p) => p.category === '4pct-rolling');
+  const closed = entry.closed_months || [];
+  ok(closed.length > 0 && closed.length < 12, 'the calendar lists the rolling path\'s closed months, so the next checks run');
+  const pad = (n) => String(n).padStart(2, '0');
+  const at = (html, id) => { const a = html.indexOf('id="' + id + '"'); return html.slice(a, html.indexOf('<h', a + 1)); };
+  let checked = 0;
+  for (const mo of closed) {
+    const day = '2027-' + pad(mo) + '-10';
+    const r4 = model('0820000', { today: day }).deal.timing.rolling4;
+    let n = mo, y = 2027;
+    do { n = n === 12 ? 1 : n + 1; if (n === 1) y++; } while (closed.includes(n));
+    const want = y + '-' + pad(n) + '-01';
+    ok(r4.closedNow && r4.reopens === want, `${day}: closed month, the window reopens ${want}`);
+    const html = WP.renderHtml(model('0820000', { today: day }));
+    ok(at(html, 'summary').includes(want) && at(html, 'deal').split('<table')[0].includes(want), `${day}: the summary and deal headline give the reopening date`);
+    checked++;
+  }
+  const openMo = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].find((n) => !closed.includes(n) && n > 1);
+  const openDay = '2027-' + pad(openMo) + '-10';
+  const r4o = model('0820000', { today: openDay }).deal.timing.rolling4;
+  ok(!r4o.closedNow && r4o.reopens === null, `${openDay}: open month, no reopening date`);
+  ok(checked === closed.length, 'every closed month was checked');
+  // Sabotage: without the calendar's closed months, a closed month reads as open.
+  const noClosed = clone(BASE); noClosed.qapCalendar.rolling_programs.forEach((p) => { delete p.closed_months; });
+  ok(!model('0820000', { today: '2027-' + pad(closed[0]) + '-10', src: noClosed }).deal.timing.rolling4.closedNow, 'no closed months on the calendar: none invented');
+}
+
 // A 9%-first place whose base round is a 4% one also sees the rolling 4% path.
 {
   const amp = (x) => x.replace(/&/g, '&amp;');
