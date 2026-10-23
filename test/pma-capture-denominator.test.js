@@ -180,6 +180,14 @@ test('a tract file with no generated stamp shows no date, never today', () => {
   assert(/Data date unavailable/.test(src), 'the missing-date label is gone');
 });
 
+test('unticked bedroom sizes also leave the 20-80% penetration pool', () => {
+  assert(/_chfaQualifiedRenters\(simDen\.tracts, CHFA_PENETRATION_TIERS, bedrooms\)/.test(src),
+    'the 85% check still uses the default 1-3BR penetration pool');
+  assert(/penPool = penRecount\.value/.test(src), 'the recounted penetration pool is not used');
+  assert(/qualified at 20\\u201380% AMI' \+ \(penBrText \? ' for' \+ penBrText \+ ' units'/.test(src),
+    'the 85% label does not name the bedroom sizes');
+});
+
 test('no renter count is no denominator, never the scoring placeholder of 1 or 0', () => {
   for (const cd of [{ value: 1, source: 'fallback_1' }, { value: 0, source: 'acs_total_renter_hh' }, { value: null, source: 'chas_lihtc_eligible' }, null]) {
     assert.strictEqual(captureDenominator({ captureDenominator: cd }), null, JSON.stringify(cd) + ' gave a denominator');
