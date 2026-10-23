@@ -25,6 +25,7 @@ on:
       - 'data/hna/**.json'
       - 'data/hna/lehd/**'
       - 'data/hna/dola_sya/**'
+      - 'data/market/acs_renter_household_size_co.json'
       - 'scripts/audit/chart-population-audit.mjs'
       - '.github/workflows/chart-audit.yml'
   pull_request:
@@ -42,6 +43,7 @@ on:
       - 'data/hna/**.json'
       - 'data/hna/lehd/**'
       - 'data/hna/dola_sya/**'
+      - 'data/market/acs_renter_household_size_co.json'
       - 'scripts/audit/chart-population-audit.mjs'
       - '.github/workflows/chart-audit.yml'
   schedule:
