@@ -8,7 +8,7 @@
     "by selecting sections, which is why no figure is ever authored twice.",
     "",
     "Sections are matched on their <h2> text (prefix match, case-insensitive).",
-    "Every one of the 54 sections appears exactly once below, either in a view",
+    "Every section appears exactly once below, either in a view",
     "or in 'shared'. The generator fails if that stops being true.",
     "",
     "'review': true marks a placement I am not confident in -- these are the",
@@ -226,6 +226,11 @@
           "title": "HUD Fair Market Rents & Income Limits"
         },
         {
+          "n": 56,
+          "title": "CHFA 2026 rent and income limits",
+          "note": "Sits under the HUD limits it is derived from; CHFA's table is the binding reference for an application."
+        },
+        {
           "n": 6,
           "title": "Rent triangulation — existing vs. asking"
         },
@@ -369,6 +374,11 @@
           "n": 26,
           "title": "Housing need summary",
           "note": "The headline need number. Child of #24 — moves with it, never alone."
+        },
+        {
+          "n": 57,
+          "title": "Awarded tax credit deals in this county",
+          "note": "Comparable awarded deals right after the headline need number, so the answer to 'what has been built here' is near the top."
         },
         {
           "n": 34,

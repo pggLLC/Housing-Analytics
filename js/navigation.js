@@ -67,6 +67,7 @@
         { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "Market signals, construction costs, LIHTC history, funding sources" },
         { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
         { label: "Where Colorado's Housing Money Goes", href: "where-housing-money-goes.html", desc: "Every CHFA, OEDIT and DOLA award by county, town and developer", isNew: true },
+        { label: "Deal Summaries",        href: "deal-summary.html",              desc: "Sourced write-ups of CHFA tax credit awards: mix, money, status", isNew: true },
         { label: "Prop 123 Land Banking Awards", href: "land-banking-awards.html", desc: "Every Prop 123 land banking award, mapped", isNew: true },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
         { label: "Preservation Tracking", href: "preservation.html",              desc: "NHPD subsidy expiry risk" },
