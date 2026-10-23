@@ -258,7 +258,7 @@
       compositeScore:         lastCompositeScore != null ? clamp(lastCompositeScore, 0, 100) : null,
       flags: {
         highFloodRisk:        lastFloodRiskPct != null ? lastFloodRiskPct > HIGH_FLOOD_PCT : null,
-        utilityAtCapacity:    lastSewerAdequate === false,
+        utilityAtCapacity:    lastSewerAdequate == null ? null : lastSewerAdequate === false,
         foodDesertPresent:    (foodData.foodDeserts || []).length > 0,
         foodDesertCount:      (foodData.foodDeserts || []).length,
         foodAccessTractCount: foodData._tractCount || 0

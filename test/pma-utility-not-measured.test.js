@@ -27,6 +27,7 @@ PI.fetchUtilityCapacity({ minLat: 39, minLon: -105, maxLat: 39.1, maxLon: -104.9
   const sc = PI.buildInfrastructureScorecard({ hazardPercent: 0.1 }, {}, u, {});
   assert.strictEqual(sc.utilityScore, null, 'no utility score');
   assert.strictEqual(sc.sewerCapacityAdequate, null, 'no adequate/at-capacity flag');
+  assert.strictEqual(sc.flags.utilityAtCapacity, null, 'at-capacity flag is unknown, not false');
   assert(/Not measured/.test(sc.utilityUnavailableReason), 'reason carried for display');
   assert(sc._dataAvailability.stubSources.indexOf('utility') !== -1, 'utility counted as absent');
   assert.strictEqual(sc.compositeScore, 90, 'composite uses flood only (90), not a utility guess');
