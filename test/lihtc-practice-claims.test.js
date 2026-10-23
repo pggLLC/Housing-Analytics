@@ -76,11 +76,15 @@ const definition = craText.match(/228\.12\(t\)[^.]*"as its primary purpose (comm
 assert(definition, 'the CRA section quotes the 228.12(t) qualified-investment definition');
 const claims = craText.split(/(?<=[.;?!]"?)\s+/)
   .map((sentence) => sentence.replace(/"[^"]*"/g, '""'))
-  .filter((sentence) => /\binvestments?\b[^.;]*\b(counts?|qualif(y|ies|ied|ying))\b/i.test(sentence)
-    || /\binvestments?\b[^.;]*\b(earns?|gets?|receives?|wins?|is given)\b[^.;]*\bcredit\b/i.test(sentence));
-assert(claims.length >= 2, `scan found ${claims.length} CRA credit claims`);
+  .filter((sentence) => !sentence.endsWith('?'))
+  .filter((sentence) => /\b(investments?|projects?)\b[^.;]*\b(counts?|qualif(y|ies|ied|ying))\b/i.test(sentence)
+    || /\b(investments?|projects?)\b[^.;]*\b(earns?|gets?|receives?|wins?|is given)\b[^.;]*\bcredit\b/i.test(sentence));
+assert(claims.length >= 3, `scan found ${claims.length} CRA credit claims`);
+// The definition ties community development to the primary purpose, so each
+// claim must state that relationship, not just name the category.
+const primaryPurpose = new RegExp(`primary purpose\\b[^.;,]{0,20}\\b${definition[1]}`, 'i');
 claims.forEach((claim) => {
-  assert(claim.includes(definition[1]), `CRA claim names the community development purpose: ${claim}`);
+  assert(primaryPurpose.test(claim), `CRA claim requires community development as the primary purpose: ${claim}`);
   assert(/\b(if|whether|depends|unless|when|provided|as long as|so long as)\b/i.test(claim), `CRA claim states its condition: ${claim}`);
 });
 console.log(`lihtc-practice-claims: PASS (${rounds.length} rounds checked)`);
