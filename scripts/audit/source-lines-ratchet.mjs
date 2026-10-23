@@ -57,7 +57,10 @@ function publicPages() {
 }
 
 function scanPage() {
-  const FIG = /(\$\s?\d[\d,]*(\.\d+)?\s?(K|M|B|million|billion)?|\b\d+(\.\d+)?\s?%|\b\d{1,3}(,\d{3})+\b)/g;
+  // $ amounts, percentages, thousands, and plain counts of housing things
+  // ("60 units", "384 households"). A bare small number is not counted on its
+  // own: step numbers, list markers and ages would swamp the check.
+  const FIG = /(\$\s?\d[\d,]*(\.\d+)?\s?(K|M|B|million|billion)?|\b\d+(\.\d+)?\s?%|\b\d{1,3}(,\d{3})+\b|\b\d+\s+(?:affordable\s+|rental\s+|new\s+)?(?:units?|homes?|households?|projects?|developments?|properties|renters?|owners?|residents?|people|jobs|beds?|bedrooms?|vouchers?|applications?|awards?)\b)/gi;
   const DATE = /(?<!\d)(19|20)\d{2}(?!\d)|\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b|\bQ[1-4]\b/;
   const SKIP_SEL = 'script,style,noscript,nav,header,footer,.site-nav,.site-footer,svg,[aria-hidden="true"],.leaflet-control-attribution,[data-no-source]';
   const BOX = 'section,article,figure,table,aside,[class*="card"],[class*="panel"],[class*="kpi"],[class*="stat"],[class*="chart"],[class*="box"],[class*="callout"]';

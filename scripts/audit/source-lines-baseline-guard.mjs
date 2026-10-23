@@ -9,8 +9,10 @@
  *   - a page's unsourced or undated total went up,
  *   - a page enters the baseline with any misses,
  *   - an area that exists in both went up.
- * An area key that is new while its page's totals did not rise is a renamed
- * area (a same-kind box inserted ahead of it), and is allowed.
+ * A new area key with misses passes only as a rename: it must pair with an
+ * area that left the baseline carrying at least as many misses (a same-kind
+ * box inserted ahead of an id-less one renumbers it). Fixing misses in an
+ * area that stays does not pay for a new unsourced card.
  *
  * Usage: node scripts/audit/source-lines-baseline-guard.mjs <base-baseline.json>
  */
@@ -40,8 +42,18 @@ for (const [page, h] of Object.entries(head)) {
   if (h.unsourced > b.unsourced) raised.push(`${page}: unsourced ${b.unsourced} -> ${h.unsourced}`);
   if (h.undated > b.undated) raised.push(`${page}: undated ${b.undated} -> ${h.undated}`);
   const bAreas = b.areas || {};
-  for (const [area, n] of Object.entries(h.areas || {})) {
+  const hAreas = h.areas || {};
+  for (const [area, n] of Object.entries(hAreas)) {
     if (area in bAreas && n > bAreas[area]) raised.push(`${page}: ${area} ${bAreas[area]} -> ${n}`);
+  }
+  // Pair each new key with a departed one that held at least as many misses,
+  // largest first; whatever is left over is new, unsourced content.
+  const gone = Object.entries(bAreas).filter(([k]) => !(k in hAreas)).map(([, n]) => n).sort((x, y) => y - x);
+  const fresh = Object.entries(hAreas).filter(([k, n]) => !(k in bAreas) && n > 0).sort((x, y) => y[1] - x[1]);
+  for (const [area, n] of fresh) {
+    const i = gone.findIndex((g) => g >= n);
+    if (i === -1) raised.push(`${page}: new area ${area} with ${n}`);
+    else gone.splice(i, 1);
   }
 }
 

@@ -44,18 +44,19 @@
       }
     },
     "chfa-portfolio.html": {
-      "unsourced": 0,
+      "unsourced": 1,
       "undated": 2,
       "areas": {
-        "undated: #kpiGrid": 2
+        "undated: #kpiGrid": 2,
+        "unsourced: #statusBar": 1
       }
     },
     "colorado-deep-dive.html": {
       "unsourced": 10,
-      "undated": 16,
+      "undated": 18,
       "areas": {
         "undated: #tab-deepdive>div.kpi-grid:1": 5,
-        "undated: #tab-deepdive>section.map-section:1": 8,
+        "undated: #tab-deepdive>section.map-section:1": 10,
         "unsourced: #amiGapModule>div.kpi-label:2": 1,
         "unsourced: #amiGapModule>div.kpi-label:3": 1,
         "unsourced: #amiGapModule>div.kpi-label:4": 1,
@@ -128,10 +129,11 @@
       "areas": {}
     },
     "deal-calculator.html": {
-      "unsourced": 11,
+      "unsourced": 12,
       "undated": 0,
       "areas": {
         "unsourced: #pageContext>details.pctx-panel:1": 3,
+        "unsourced: #dealDataQuality>table.dqs-table:1": 1,
         "unsourced: #main-content>section.hos-panel:3": 6,
         "unsourced: #dcCraGrid>div.dc-cra-card__role:2": 2
       }
@@ -181,17 +183,17 @@
       }
     },
     "hna-what-housing-exists.html": {
-      "unsourced": 8,
+      "unsourced": 10,
       "undated": 0,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
+        "unsourced: #hnaH2Stock": 4,
         "unsourced: #main-content>aside.hna-section-takeaway:1": 2,
-        "unsourced: #hnaH2Stock": 2,
         "unsourced: #hnaChapterHandoff": 2
       }
     },
     "hna-what-to-do.html": {
-      "unsourced": 127,
+      "unsourced": 129,
       "undated": 0,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
@@ -202,7 +204,8 @@
         "unsourced: #main-content>div.chart-card:1": 17,
         "unsourced: #hna-rail-3": 18,
         "unsourced: #hna-rail-5": 4,
-        "unsourced: #housing-type-need-section": 80,
+        "unsourced: #housing-need-projection": 1,
+        "unsourced: #housing-type-need-section": 81,
         "unsourced: #hnaChapterHandoff": 2
       }
     },
@@ -217,12 +220,12 @@
       }
     },
     "hna-who-lives-here.html": {
-      "unsourced": 27,
+      "unsourced": 28,
       "undated": 0,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
+        "unsourced: #hnaH2Tenure": 4,
         "unsourced: #main-content>aside.hna-section-takeaway:1": 2,
-        "unsourced: #hnaH2Tenure": 3,
         "unsourced: #main-content>div.stat:23": 1,
         "unsourced: #main-content>div.stat:24": 1,
         "unsourced: #main-content>div.stat:27": 1,
@@ -249,15 +252,15 @@
       "areas": {}
     },
     "housing-needs-assessment.html": {
-      "unsourced": 161,
+      "unsourced": 166,
       "undated": 20,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
         "unsourced: #rentTriangulationCard": 1,
+        "unsourced: #hnaH2Stock": 4,
         "unsourced: #main-content>aside.hna-section-takeaway:1": 2,
-        "unsourced: #hnaH2Stock": 2,
+        "unsourced: #hnaH2Tenure": 4,
         "unsourced: #main-content>aside.hna-section-takeaway:2": 2,
-        "unsourced: #hnaH2Tenure": 3,
         "unsourced: #main-content>div.stat:27": 1,
         "unsourced: #main-content>div.stat:28": 1,
         "unsourced: #main-content>div.stat:31": 1,
@@ -279,7 +282,8 @@
         "undated: #labor-market-section": 4,
         "undated: #main-content>section.hna-grid:1": 8,
         "undated: #economicIndicatorsContainer": 8,
-        "unsourced: #housing-type-need-section": 80
+        "unsourced: #housing-need-projection": 1,
+        "unsourced: #housing-type-need-section": 81
       }
     },
     "ic-summary.html": {
@@ -346,12 +350,12 @@
       }
     },
     "market-analysis.html": {
-      "unsourced": 5,
-      "undated": 16,
+      "unsourced": 6,
+      "undated": 17,
       "areas": {
         "unsourced: #pageContext>details.pctx-panel:1": 3,
-        "unsourced: #pmaDataQualitySummary>table.dqs-table:1": 2,
-        "undated: #maPmaTool": 16
+        "unsourced: #pmaDataQualitySummary>table.dqs-table:1": 3,
+        "undated: #maPmaTool": 17
       }
     },
     "methods.html": {
@@ -371,6 +375,47 @@
         "unsourced: #step-6": 4,
         "unsourced: #step-8": 1,
         "unsourced: #verification": 2
+      }
+    },
+    "places/0800320.html": {
+      "unsourced": 17,
+      "undated": 2,
+      "areas": {
+        "unsourced: #main-content>div.place-stat:1": 2,
+        "unsourced: #main-content>div.place-stat:2": 2,
+        "unsourced: #main-content>div.place-stat:3": 2,
+        "unsourced: #main-content>div.place-stat:6": 1,
+        "unsourced: #main-content>div.place-stat:7": 1,
+        "unsourced: #main-content>div.place-stat:8": 1,
+        "unsourced: #main-content>div.place-stat:9": 1,
+        "unsourced: #main-content>div.place-stat:10": 1,
+        "unsourced: #main-content>div.place-card:2": 5,
+        "undated: #psOwnershipCard": 2,
+        "unsourced: #main-content>div.place-stat:24": 1
+      }
+    },
+    "places/0820000.html": {
+      "unsourced": 34,
+      "undated": 2,
+      "areas": {
+        "unsourced: #main-content>div.place-stat:1": 2,
+        "unsourced: #main-content>div.place-stat:2": 2,
+        "unsourced: #main-content>div.place-stat:3": 2,
+        "unsourced: #main-content>div.place-stat:4": 1,
+        "unsourced: #main-content>div.place-stat:5": 1,
+        "unsourced: #main-content>div.place-stat:6": 2,
+        "unsourced: #main-content>div.place-stat:7": 2,
+        "unsourced: #main-content>div.place-stat:8": 2,
+        "unsourced: #main-content>div.place-stat:9": 2,
+        "unsourced: #main-content>div.place-stat:10": 2,
+        "unsourced: #main-content>div.place-card:2": 5,
+        "unsourced: #main-content>div.place-stat:11": 2,
+        "unsourced: #main-content>div.place-stat:12": 1,
+        "unsourced: #main-content>div.place-stat:13": 1,
+        "unsourced: #main-content>div.place-stat:14": 2,
+        "unsourced: #main-content>div.place-card:3": 4,
+        "undated: #psOwnershipCard": 2,
+        "unsourced: #main-content>div.place-stat:24": 1
       }
     },
     "policy-briefs.html": {
@@ -412,10 +457,10 @@
       "areas": {}
     },
     "where-housing-money-goes.html": {
-      "unsourced": 12,
+      "unsourced": 18,
       "undated": 0,
       "areas": {
-        "unsourced: #main-content>section.hm-answer:1": 12
+        "unsourced: #main-content>section.hm-answer:1": 18
       }
     },
     "working-paper.html": {
@@ -426,47 +471,6 @@
         "unsourced: #main-content>table:2": 10,
         "unsourced: #main-content>table:3": 13,
         "unsourced: #main-content>table:4": 1
-      }
-    },
-    "places/0800320.html": {
-      "unsourced": 17,
-      "undated": 1,
-      "areas": {
-        "unsourced: #main-content>div.place-stat:1": 2,
-        "unsourced: #main-content>div.place-stat:2": 2,
-        "unsourced: #main-content>div.place-stat:3": 2,
-        "unsourced: #main-content>div.place-stat:6": 1,
-        "unsourced: #main-content>div.place-stat:7": 1,
-        "unsourced: #main-content>div.place-stat:8": 1,
-        "unsourced: #main-content>div.place-stat:9": 1,
-        "unsourced: #main-content>div.place-stat:10": 1,
-        "unsourced: #main-content>div.place-card:2": 5,
-        "undated: #psOwnershipCard": 1,
-        "unsourced: #main-content>div.place-stat:24": 1
-      }
-    },
-    "places/0820000.html": {
-      "unsourced": 31,
-      "undated": 2,
-      "areas": {
-        "unsourced: #main-content>div.place-stat:1": 2,
-        "unsourced: #main-content>div.place-stat:2": 2,
-        "unsourced: #main-content>div.place-stat:3": 2,
-        "unsourced: #main-content>div.place-stat:4": 1,
-        "unsourced: #main-content>div.place-stat:5": 1,
-        "unsourced: #main-content>div.place-stat:6": 2,
-        "unsourced: #main-content>div.place-stat:7": 2,
-        "unsourced: #main-content>div.place-stat:8": 2,
-        "unsourced: #main-content>div.place-stat:9": 2,
-        "unsourced: #main-content>div.place-stat:10": 2,
-        "unsourced: #main-content>div.place-card:2": 5,
-        "unsourced: #main-content>div.place-stat:11": 1,
-        "unsourced: #main-content>div.place-stat:12": 1,
-        "unsourced: #main-content>div.place-stat:13": 1,
-        "unsourced: #main-content>div.place-stat:14": 1,
-        "unsourced: #main-content>div.place-card:3": 3,
-        "undated: #psOwnershipCard": 2,
-        "unsourced: #main-content>div.place-stat:24": 1
       }
     }
   }
