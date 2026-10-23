@@ -12,9 +12,10 @@
  * Also computes overall (portfolio) capture rate folding in the
  * in-migration assumption from Subject Project.
  *
- * CHFA's one published line (QAP 2025-2026 section 2.B): capture above
- * 85 percent is not accepted without additional data to support demand.
- * CHFA publishes no lower bands, so this card shows only that line.
+ * The pool here is county renters at or under each tier, without CHFA's
+ * rent floor or household-size fit, so the card shows the share with no
+ * CHFA verdict. CHFA's one published line (QAP 2025-2026 section 2.B, 85%)
+ * is applied in the Market Analysis simulator to the CHFA-rule count.
  *
  * This is screening-grade, not study-grade. The card surfaces what
  * it can NOT do (under-construction unit deduction, household-size
@@ -78,8 +79,10 @@
 
   function _captureLabel(rate) {
     if (rate == null) return { color: 'var(--muted)', label: '—' };
-    if (rate <= 85) return { color: 'var(--good,#3da670)', label: 'Under CHFA 85% line' };
-    return { color: 'var(--bad,#c14545)', label: 'Over CHFA 85% line — CHFA asks for more demand data' };
+    // County renters at or under the tier, with no rent floor or size fit:
+    // not CHFA's qualified pool, so no CHFA verdict here. The simulator
+    // applies CHFA's 85% check to the CHFA-rule count.
+    return { color: 'var(--muted)', label: 'County share, not the CHFA check' };
   }
 
   function _marketRows(container, rows) {
@@ -228,7 +231,7 @@
         $h('div', { style: { marginTop: '.2rem', color: 'var(--muted)', fontSize: '.74rem' } }, [
           'Inputs: ' + grandSubject + ' Subject units against ' + $fmt(grandHh) +
           ' qualifying renter HHs (county-level, in-migration ' + inMig + '%). ' +
-          'CHFA does not accept capture above 85% without more demand data (QAP section 2.B).'
+          'This share uses county renters at or under each tier, not CHFA\'s qualified pool; the capture simulator applies CHFA\'s 85% check (QAP section 2.B).'
         ])
       ]));
 

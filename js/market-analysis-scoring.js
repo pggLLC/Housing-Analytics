@@ -180,7 +180,8 @@
   var CHFA_RENT_SHARE_OF_INCOME = 0.40;
   var CHFA_MAX_OCCUPANTS = { '1br': 2, '2br': 3, '3br': 5 };
   var CHFA_CAPTURE_LIMIT = 0.85;
-  var CHAS_TIER_BINS = [[0, 30], [30, 50], [50, 80], [80, 100], [100, 122]];
+  // CHAS income tiers in percent of the county's AMI; the last is open-ended.
+  var CHAS_TIER_BINS = [[0, 30], [30, 50], [50, 80], [80, 100], [100, Infinity]];
 
   /**
    * Renter households in a market area who could rent a tax-credit unit at
@@ -245,17 +246,27 @@
       var floors = floorsFor(gid.slice(0, 5));
       if (!row || !mix || !floors) { missing += 1; return; }
       used += 1;
+      // PUMS bins are percent of the PUMA's renter-weighted limit. Where the
+      // PUMA spans counties with different limits, move each bin onto this
+      // tract's county scale before comparing it with county cut-offs.
+      var pLim = demand.puma_lim50_2024 && demand.puma_lim50_2024[row[0]];
+      var cLim = demand.county_lim50_2024 && demand.county_lim50_2024[gid.slice(0, 5)];
+      var toCounty = [0, 1, 2, 3, 4, 5].map(function (i) {
+        return (pLim && cLim && pLim[i] > 0 && cLim[i] > 0) ? pLim[i] / cLim[i] : 1;
+      });
       CHAS_TIER_BINS.forEach(function (range, k) {
         var count = row[k + 1];
         if (!(count > 0)) return;
         var tierTotal = 0, anyTier = 0, perTier = {};
         tiers.forEach(function (t) { perTier[t] = 0; });
         for (var s = 0; s < mix.length; s++) {
-          for (var b = range[0]; b < range[1] && b < mix[s].length; b++) {
+          for (var b = 0; b < mix[s].length; b++) {
             var w = mix[s][b];
             if (!w) continue;
+            // the last bin holds everything above 120%
+            var pct = b === mix[s].length - 1 ? Infinity : (b + 0.5) * toCounty[s];
+            if (pct < range[0] || (range[1] !== Infinity && pct >= range[1])) continue;
             tierTotal += w;
-            var pct = b + 0.5;
             var fits = false;
             for (var i = 0; i < tiers.length; i++) {
               var t = tiers[i], floor = floors[t][s];

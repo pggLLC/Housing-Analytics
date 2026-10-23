@@ -56,6 +56,28 @@ test('a buffer share scales the tract', () => {
   assert.strictEqual(Math.round(r.value), 75);
 });
 
+test('a PUMA bin is moved onto the tract county\'s scale before the cut-offs', () => {
+  // The PUMA's limit is 20% above this county's, so each bin is 1.2x higher
+  // on the county's scale. The 51to80 tier then holds 3p@45 (54.6%) and 6+@45
+  // (54.6%); 1p@70 moves to 84.6%, out of the tier. Only the 3p household
+  // qualifies (floor 37.5%, limit 60%). Unscaled, the tier holds only 1p@70: 0.
+  const scaled = Object.assign({}, demand, {
+    tracts: { '08001000100': ['P1', 0, 0, 300, 0, 0] },
+    puma_lim50_2024: { P1: [60000, 66000, 72000, 78000, 84000, 90000, 96000, 102000] },
+    county_lim50_2024: { '08001': [50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000] },
+  });
+  const r = S.chfaQualifiedRenters(scaled, limits, tracts, [60]);
+  assert.strictEqual(Math.round(r.value), 150);   // 300 * 100/200
+});
+
+test('households above 120% stay in the top CHAS tier', () => {
+  const top = bins(); top[121] = 100;
+  const d2 = { pumas: { P1: [top, bins(), bins(), bins(), bins(), bins()] }, tracts: { '08001000100': ['P1', 0, 0, 0, 0, 50] } };
+  const r = S.chfaQualifiedRenters(d2, limits, tracts, [60]);
+  assert.strictEqual(r.value, 0, 'none of them qualify, and the tier is not dropped as empty');
+  assert.strictEqual(r.source, 'chfa_qualified');
+});
+
 test('missing inputs are unavailable, never zero renters', () => {
   assert.strictEqual(S.chfaQualifiedRenters(null, limits, tracts, [60]).value, null);
   assert.strictEqual(S.chfaQualifiedRenters(demand, null, tracts, [60]).value, null);

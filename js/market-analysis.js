@@ -2534,6 +2534,14 @@
         mixTiers.every(function (t) { return simDen.tiers.indexOf(t) !== -1; });
       if (mixTiers.length && !sameTiers) {
         var recount = _chfaQualifiedRenters(simDen.tracts, mixTiers);
+        if (recount.source === 'chfa_qualified' && !(recount.value > 0)) {
+          // A real count of zero: no renter here qualifies for this mix.
+          simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' +
+            'No renter households in this PMA qualify for units at ' + mixTiers.join('/') + '% AMI under CHFA rules, so there is no capture rate for this mix.</div>';
+          explainCapture(result, null, null, 'no renter households qualify for this AMI mix');
+          simEl.dataset.denominator = '0';
+          return;
+        }
         if (recount.value > 0) {
           simDen = Object.assign({}, simDen, {
             value: recount.value, tiers: mixTiers,
@@ -5776,7 +5784,13 @@
       (window.PMABarrierAware && window.PMABarrierAware.isEnabled && window.PMABarrierAware.isEnabled() &&
        typeof window.PMABarrierAware.loadInputs === 'function'
         ? window.PMABarrierAware.loadInputs()
-        : Promise.resolve(null))
+        : Promise.resolve(null)),
+      // CHFA-style qualified renters (tract CHAS tiers + PUMA size/income
+      // mix) and CHFA's 2026 limits for the rent floor. Loaded before the
+      // page is ready, so no analysis runs on the fallback by accident.
+      // Without either file the capture rate uses the county CHAS share.
+      fetchFile('market/chfa_renter_demand_co.json'),
+      fetchFile('chfa-income-rent-limits-2026.json')
     ]).then(function (results) {      var statusParts = [];
 
       var tractData = results[0];
@@ -5830,6 +5844,18 @@
         lihtcLoadError = false;
       }
 
+      var demandData = results[5];
+      chfaDemand = demandData && !demandData._loadError && demandData.tracts && demandData.pumas ? demandData : null;
+      var limitsData = results[6];
+      chfaLimitsByFips = null;
+      if (limitsData && !limitsData._loadError && limitsData.counties) {
+        chfaLimitsByFips = {};
+        limitsData.counties.forEach(function (c) { if (c && c.fips) chfaLimitsByFips[c.fips] = c; });
+      }
+      if (!chfaDemand || !chfaLimitsByFips) {
+        console.warn('[market-analysis] CHFA renter counts unavailable — capture rate uses the county CHAS share');
+      }
+
       dataLoaded = true;
       // Hide the map loading overlay now that data is ready.
       var mapOverlay = document.getElementById('pmaMapLoadingOverlay');
@@ -5881,21 +5907,6 @@
       // LIHTC-eligible-demand denominator for capture-rate calculations
       // (sum of renter HH in tiers ≤30%, 31-50%, 51-80% AMI). Non-fatal:
       // capture-rate falls back to acs.renter_hh if this isn't available.
-      // CHFA-style qualified renters: tract CHAS tiers + PUMA size/income
-      // mix, and CHFA's 2026 limits for the rent floor. Non-fatal: without
-      // either file the capture rate falls back to the county CHAS share.
-      DS.getJSON(DS.baseData('market/chfa_renter_demand_co.json'))
-        .then(function (data) { if (data && data.tracts && data.pumas) chfaDemand = data; })
-        .catch(function () { console.warn('[market-analysis] CHFA renter demand file unavailable — using county CHAS share'); });
-      DS.getJSON(DS.baseData('chfa-income-rent-limits-2026.json'))
-        .then(function (data) {
-          if (!data || !data.counties) return;
-          var byFips = {};
-          data.counties.forEach(function (c) { if (c && c.fips) byFips[c.fips] = c; });
-          chfaLimitsByFips = byFips;
-        })
-        .catch(function () { console.warn('[market-analysis] CHFA limits unavailable — using county CHAS share'); });
-
       DS.getJSON(DS.baseData('hna/chas_affordability_gap.json'))
         .then(function (data) {
           if (data && data.counties) {

@@ -21,7 +21,11 @@ this file carries two published pieces the page combines:
      the renter-weighted limits of its counties.
 
 The page multiplies each tract's CHAS tier count by the share of that tier's
-PUMS renters who meet the rules above for the proposed unit.
+PUMS renters who meet the rules above for the proposed unit. Bins are in
+percent of the PUMA's renter-weighted limit; the file also carries each
+PUMA's and each county's 2024 50% limits, so the page can move a county's
+cut-offs (CHAS tiers, rent floor, AMI limit) onto the PUMA's scale where a
+PUMA spans counties with different limits.
 
 Usage:
     python3 scripts/market/build_chfa_renter_demand.py \
@@ -140,6 +144,7 @@ def build(pums: Path, tract_puma_path: Path, limits_path: Path) -> dict:
             'chas_tiers': list(CHAS_TIERS),
             'pums_layout': 'pumas[puma][size 1..6+][bin]; bin i = income i% to i+1% of the size-adjusted AMI; last bin = above 120%; weights are PUMS household weights',
             'tract_layout': 'tracts[geoid] = [puma, lte30, 31to50, 51to80, 81to100, 100plus]',
+            'limits_layout': 'puma_lim50_2024[puma] and county_lim50_2024[fips] = 50% AMI income limit for 1..8 people, 2024 dollars',
             'limitations': ('PUMS shows the mix of household size and income only at PUMA level (45 areas), so every tract in a PUMA shares '
                             'the within-tier mix; the tier counts themselves are the tract\'s own. CHAS is 2018-2022; PUMS is 2020-2024.'),
             'generated': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
@@ -147,6 +152,8 @@ def build(pums: Path, tract_puma_path: Path, limits_path: Path) -> dict:
         },
         'pumas': {p: [[round(v) for v in row] for row in m] for p, m in sorted(matrix.items())},
         'tracts': dict(sorted(tracts.items())),
+        'puma_lim50_2024': {p: [round(v) for v in puma_lim50[p]] for p in sorted(puma_lim50)},
+        'county_lim50_2024': {f: [round(v) for v in limits[f]] for f in sorted(limits)},
     }
 
 
