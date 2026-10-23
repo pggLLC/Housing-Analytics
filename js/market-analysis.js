@@ -2599,7 +2599,6 @@
     // fall back to ACS total renter_hh when CHAS context is missing.
     var simDen = projectCaptureDenominator(result);
     var penPool = simDen && simDen.penetrationValue;
-    var penBrText = '';
     if (!simDen) {
       simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' + _denominatorLine(null) + '</div>';
       explainCapture(result, null, null, 'no renter-household count is available for this PMA');
@@ -2632,19 +2631,15 @@
             label: 'renter households that qualify for' + brText + ' units at ' + mixTiers.join('/') + '% AMI (CHFA market-study rules; HUD CHAS + ACS PUMS)',
             short: 'Renter HH qualified for ' + mixTiers.join('/') + '% AMI' + brText + ' units (CHFA rules)'
           });
-          // CHFA's penetration uses the same qualifying households, so the
-          // 20-80% pool drops the sizes the project does not offer too. A real
-          // zero stays zero, which withholds the 85% check.
-          if (!defaultBr) {
-            var penRecount = _chfaQualifiedRenters(simDen.tracts, CHFA_PENETRATION_TIERS, bedrooms);
-            if (penRecount.source === 'chfa_qualified') {
-              penPool = penRecount.value;
-              penBrText = brText;
-            }
-          }
         }
       }
     }
+    // Penetration is a whole-market check: existing tax-credit units have no
+    // bedroom split, so its 20-80% pool stays at 1-3BR whatever the project
+    // offers, and the line says so when the sizes were applied to capture.
+    var penScope = (!defaultBr && simDen.bedrooms)
+      ? ' (whole market, 1\u20133BR: existing units are not split by bedroom size)'
+      : '';
     // The CHAS and ACS fallbacks carry no household sizes to filter.
     var brNote = (!defaultBr && !simDen.bedrooms)
       ? '<p class="pma-sim-note" style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0">Bedroom sizes are not applied: this count has no household sizes, so it counts renters of every size.</p>'
@@ -2668,9 +2663,9 @@
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : sim.risk ? 'var(--good)' : 'var(--text-muted)') + '">' +
           sim.riskLabel + '</div><div class="pma-stat-label">' +
           (sim.penetrationRate == null
-            ? 'No renter households here qualify at 20\u201380% AMI' + (penBrText ? ' for' + penBrText + ' units' : '') + ', so there is no tax-credit penetration to check'
+            ? 'No renter households here qualify at 20\u201380% AMI' + penScope + ', so there is no tax-credit penetration to check'
             : 'Tax-credit units (existing, incl. funded not yet open) + proposed: ' + sim.penetrationRate + '% of ' +
-              (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' + (penBrText ? ' for' + penBrText + ' units' : '') : 'the same renters')) + '</div></div>' +
+              (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' + penScope : 'the same renters')) + '</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
       '</div>' + _tierCaptureLine(simDen, amiMix) + brNote;
     explainCapture(result, sim, simDen, null);

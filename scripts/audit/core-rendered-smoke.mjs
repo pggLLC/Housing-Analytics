@@ -283,7 +283,7 @@ async function pmaTractDefaultInteraction(page, viewport) {
       const no1 = await simState();
       if (!(Number(no1.den) < Number(before.den))) failures.push(`unticking 1BR left the simulator pool at ${no1.den} (was ${before.den})`);
       if (!/2BR\/3BR/.test(no1.text)) failures.push('the simulator does not name the bedroom sizes it counted');
-      if (/renter HH qualified at 20\u201380% AMI(?! for 2BR\/3BR units)/.test(no1.text)) failures.push('the 85% check still counts 1BR households in its 20-80% pool');
+      if (/renter HH qualified at 20\u201380% AMI(?! \(whole market)/.test(no1.text)) failures.push('the 85% check does not say it stays whole-market when bedroom sizes change');
       await toggle('pmaBr2', false); await toggle('pmaBr3', false);
       await page.waitForTimeout(300);
       if (!/Tick at least one bedroom size/.test((await simState()).text)) failures.push('no bedroom size ticked does not ask for one');

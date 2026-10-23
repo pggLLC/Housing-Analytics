@@ -187,12 +187,11 @@ test('bedroom sizes come from fixed codes, not the checkbox value text', () => {
   assert(/BEDROOM_CODES\[id\]/.test(m[0]), 'the size list does not use the fixed codes');
 });
 
-test('unticked bedroom sizes also leave the 20-80% penetration pool', () => {
-  assert(/_chfaQualifiedRenters\(simDen\.tracts, CHFA_PENETRATION_TIERS, bedrooms\)/.test(src),
-    'the 85% check still uses the default 1-3BR penetration pool');
-  assert(/penPool = penRecount\.value/.test(src), 'the recounted penetration pool is not used');
-  assert(/qualified at 20\\u201380% AMI' \+ \(penBrText \? ' for' \+ penBrText \+ ' units'/.test(src),
-    'the 85% label does not name the bedroom sizes');
+test('the 85% check stays whole-market when bedroom sizes change, and says so', () => {
+  assert(!/_chfaQualifiedRenters\(simDen\.tracts, CHFA_PENETRATION_TIERS/.test(src),
+    'the 20-80% pool is narrowed to the bedroom sizes while existing units are not');
+  assert(/var penScope = \(!defaultBr && simDen\.bedrooms\)/.test(src), 'the scope note is not tied to applied sizes');
+  assert(/qualified at 20\\u201380% AMI' \+ penScope/.test(src), 'the 85% line does not say it covers the whole market');
 });
 
 test('no renter count is no denominator, never the scoring placeholder of 1 or 0', () => {
