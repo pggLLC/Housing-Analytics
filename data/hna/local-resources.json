@@ -2956,14 +2956,7 @@
       "status": "Committed",
       "link": "https://cdola.colorado.gov/commitment-filings"
     },
-    "housingAuthority": [
-      {
-        "name": "Center Housing Authority",
-        "hudCode": "CO043",
-        "stateAuditorId": "7232",
-        "legalCheck": "2026-10-22"
-      }
-    ],
+    "housingAuthority": [],
     "advocacy": [
       {
         "name": "San Luis Valley Housing Coalition",
