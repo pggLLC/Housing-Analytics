@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-10-22T08:46:12Z",
-    "as_of": "2026-10-22",
+    "generated": "2026-10-23T08:41:46Z",
+    "as_of": "2026-10-23",
     "stale_days": 30,
-    "events_as_of": "2026-10-22",
+    "events_as_of": "2026-10-23",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,21 +14,13 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [
         {
           "title": "Denver officials celebrate opening of affordable housing community",
           "source": "CBS News",
           "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNSnd2ekRXR28ycWZoZnVaa3pCNExyYzVkcGdWenJERURiUTU3azlNTzhIZFBmdi1QX0NSSFU4UFdTdlNSY0s0QlBya0JRYmEwdjgzSWE0bHowNWxqSkZ0ajRlZ1pZc1V3Wjg1ZU5LUkkwMWxTaGctTVZ3aEYtcjR4YzVLQ1dlS0dMS0JRN1NNclB6eEZmZTNYdFpHY1YwRkI3dlZuOE9sZDZQZw?oc=5",
           "date": "2026-10-20",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Some of Colorado should see a snowier-than-average winter; find out how Denver will stack up",
-          "source": "CBS News",
-          "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOTVI3VHlEMTZIaHFXdnZUMmNWWV80Zm9oMlFQVlB2X0NIeDVKLVNuZHFHdVFUSFg1R25YUEdTUXlLN2hOZ2hybDZBT0RPX1lDakQ4TmtONzF0WWpMdHZGVlM2RG5uMEFJNFoxc1FCbVZteGNwSThuSmRWc2hCN0dqRXZPd202YlhROTJDQmQ2V001NHR3WnFOR0h1Q2V4ZFRSbUNFMXZON001RGFsa252dTVuUlgtaEVMeXM2S3NqeS1HamlneGpHZm9ERlV2QQ?oc=5",
-          "date": "2026-10-19",
           "match": "place",
           "also": []
         },
@@ -104,7 +96,7 @@
         }
       ],
       "reasons": [
-        "3 new stories naming it",
+        "2 new stories naming it",
         "4 older stories not read yet"
       ]
     },
@@ -115,29 +107,13 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [
         {
-          "title": "Man dragged behind U-Haul after argument, Colorado Springs police say",
+          "title": "Tenants at two Colorado Springs properties for seniors call for change",
           "source": "Colorado Springs Gazette",
-          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNQ1h0cC1ZSHEwbTFkRnVlNDRvbFk3LTNGQ21KSTFuMk8zbUk2NnVLT0laaXA5MGs2dUhFS3N0N3d2MkhyM1pmZ0tFUk45UTVNZXNabE13d0VNTkJpdk1UWDRpNHQzUHNOUllHMEs4eE1JZUZoMGlqdFJfZUZFWmdMaDBXRWNVMGwtdDlvYkdXZk1tRXJUR0lsdnFjSzNNeUFTcmc?oc=5",
-          "date": "2026-10-19",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Colorado Springs Airport named among best small airports in the U.S.",
-          "source": "Colorado Springs Gazette",
-          "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQTVBEMHlySkNOZVdQdERPdXVRbUNDeWduWURBdEt6UDhwY1d0b0xIaFFMdnBZZVFwLVN1ZnJpWW43TUJaWldEUVhBUHhsOEs1T3JMZi05ZWF5RlFJZ3YxVlBxRElIejlGRHlRcUxiTnFZWk90RVFTZkwySmIyUUwtTzY4amlHZ1pBeDZQaW4yQXQwWHI1UmlvZzc2azB1UU9G?oc=5",
-          "date": "2026-10-19",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Colorado Springs firefighters responded to 2 fires overnight",
-          "source": "CBS News",
-          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPV0pocGZnNk5EOTJKN0h0OUtKbGZ0UmlUZU5ld2tORXNzVFZtX3dyWVFQY2tMb3VQT0M0NlduMmRqZnNZWVZiZDBPbVhfbndaSWJUZm1GN3RTZmk2dDBNdDJ2RlpPVnh0ZWhxZnpQRGJPdl9ZcnZzSDFwM1ppRlVQcnktVHVfZGltWDFoSXI0WHcwTEVIR2QyZmx0dFNxTHJoLWc?oc=5",
-          "date": "2026-10-19",
+          "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQSGp2U1FUcXRzS2tfUGRZRHV3UTNDREg3SWt2RkNhWWhIYWRfdmpBaEgta3ZyQ2FNaG84UHhRRjBHZjV3THVjbEwtOXoxc1dVUEt6YjVlQmprcWdMektFeS16ZmQtMDVwMmtVX2JCNGtlMEtFS1hRc0tNM1RSM2lqMFE1eTVOSlJPSEJFaUdXYzA0c2JWd0Q1WHdnODROc2xRRnNuag?oc=5",
+          "date": "2026-10-23",
           "match": "place",
           "also": []
         },
@@ -171,7 +147,7 @@
       ],
       "events": [],
       "reasons": [
-        "3 new stories naming it",
+        "1 new story naming it",
         "3 older stories not read yet"
       ]
     },
@@ -182,7 +158,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [
         {
           "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
@@ -210,13 +186,59 @@
       ]
     },
     {
+      "geoid": "0803620",
+      "jurisdiction": "City of Aspen",
+      "scope": "place",
+      "county_fips": "08097",
+      "published": true,
+      "last_curated": "2026-10-18",
+      "days_since_review": 5,
+      "stories": [
+        {
+          "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
+          "source": "Chinook Observer",
+          "link": "https://news.google.com/rss/articles/CBMivwJBVV95cUxNNHFibEFhdlBSU3BSUmRVcG5FSGkzZ3J1Y2JpcFlEVWtQM2VjS3FFdlV5MDdzdl8taXljeXd3Y05sZk1zM0N1ejZsaFZ3cS0wVUhkTi1ndVZnUEd1dHhGZkljSVk1ZU9GR1ZiMGtkTkt4NEplYVIyX2k3R25IUVdZd3U3SnZjc1FhSm93TDNnWmtwczZNS2Z1QXpSYlVuVFVDQWlXQUJ0Y1ZPck9kTVlKVXdYRlhFb29rNjBwSmFZUF9OT1VxeG00NlVlekhkU3FkSXRGTlJMLVZ1QU8wZlJZX003RTBsaUpodFd0cXR6eXViUHVtQk1HdTZmTlZkM3RNTFU1bzhaZU5iOXFrd3JLN0h2ckg4ejNHTVlsSlhLU3BiMWFocWttRjNzMjBZYzU2bUNQUzgzak54bVVwWXAw?oc=5",
+          "date": "2026-10-22",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story naming it"
+      ]
+    },
+    {
+      "geoid": "0830780",
+      "jurisdiction": "City of Glenwood Springs",
+      "scope": "place",
+      "county_fips": "08045",
+      "published": true,
+      "last_curated": "2026-10-18",
+      "days_since_review": 5,
+      "stories": [
+        {
+          "title": "Garfield County commissioners approve rezoning for nearly 100 homes west of Glenwood Springs",
+          "source": "PostIndependent.com",
+          "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNOUc5YmdjQS0tRUZJMW9EclJIdk05UUR3RUxhQkw4VkNUSzk0Z080MUg3VXRrWUZ3Sm1Da195bnJkb01VUHZEX1BJMmpBdS1kTlJ2UzlUT2dPcHJMdThZQUx2cUdKY0lEZWthQWR6VWV0S0JYMlI5NUNJM2xPcUtxWnVERHVhelMyTUtaaWRGZHZpZFY4X2g4VWY4ekpDRUc1MmhhSmRrdk9iRXhzRmlPYVJHUzJvVVdZWWNqSm8ycC1SM0t3WnhpbWdR?oc=5",
+          "date": "2026-10-22",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story naming it"
+      ]
+    },
+    {
       "geoid": "0873825",
       "jurisdiction": "City of Steamboat Springs",
       "scope": "place",
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -240,7 +262,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [
         {
           "title": "Telluride School District talks housing developments",
@@ -259,16 +281,51 @@
       ]
     },
     {
-      "geoid": "0803620",
-      "jurisdiction": "City of Aspen",
-      "scope": "place",
+      "geoid": "08045",
+      "jurisdiction": "Garfield County",
+      "scope": "county",
+      "county_fips": "08045",
+      "published": false,
+      "last_curated": "2026-10-18",
+      "days_since_review": 5,
+      "stories": [
+        {
+          "title": "Garfield County commissioners approve rezoning for nearly 100 homes west of Glenwood Springs",
+          "source": "PostIndependent.com",
+          "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNOUc5YmdjQS0tRUZJMW9EclJIdk05UUR3RUxhQkw4VkNUSzk0Z080MUg3VXRrWUZ3Sm1Da195bnJkb01VUHZEX1BJMmpBdS1kTlJ2UzlUT2dPcHJMdThZQUx2cUdKY0lEZWthQWR6VWV0S0JYMlI5NUNJM2xPcUtxWnVERHVhelMyTUtaaWRGZHZpZFY4X2g4VWY4ekpDRUc1MmhhSmRrdk9iRXhzRmlPYVJHUzJvVVdZWWNqSm8ycC1SM0t3WnhpbWdR?oc=5",
+          "date": "2026-10-22",
+          "match": "in_county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story about its towns",
+        "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "08097",
+      "jurisdiction": "Pitkin County",
+      "scope": "county",
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
-      "stories": [],
+      "days_since_review": 5,
+      "stories": [
+        {
+          "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
+          "source": "Chinook Observer",
+          "link": "https://news.google.com/rss/articles/CBMivwJBVV95cUxNNHFibEFhdlBSU3BSUmRVcG5FSGkzZ3J1Y2JpcFlEVWtQM2VjS3FFdlV5MDdzdl8taXljeXd3Y05sZk1zM0N1ejZsaFZ3cS0wVUhkTi1ndVZnUEd1dHhGZkljSVk1ZU9GR1ZiMGtkTkt4NEplYVIyX2k3R25IUVdZd3U3SnZjc1FhSm93TDNnWmtwczZNS2Z1QXpSYlVuVFVDQWlXQUJ0Y1ZPck9kTVlKVXdYRlhFb29rNjBwSmFZUF9OT1VxeG00NlVlekhkU3FkSXRGTlJMLVZ1QU8wZlJZX003RTBsaUpodFd0cXR6eXViUHVtQk1HdTZmTlZkM3RNTFU1bzhaZU5iOXFrd3JLN0h2ckg4ejNHTVlsSlhLU3BiMWFocWttRjNzMjBZYzU2bUNQUzgzak54bVVwWXAw?oc=5",
+          "date": "2026-10-22",
+          "match": "in_county",
+          "also": []
+        }
+      ],
       "events": [],
-      "reasons": []
+      "reasons": [
+        "1 new story about its towns"
+      ]
     },
     {
       "geoid": "0817375",
@@ -277,7 +334,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [],
       "events": [],
       "reasons": []
@@ -289,7 +346,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [],
       "events": [],
       "reasons": [
@@ -303,18 +360,9 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [],
-      "events": [
-        {
-          "title": "chfareach: CHFA NSPIRE Inspections, Fort Collins",
-          "start": "2026-10-22",
-          "end": null,
-          "location": "In-person, Fort Collins",
-          "organizer": "CHFA",
-          "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-chfa-nspire-inspections-fort-collins-10222026"
-        }
-      ],
+      "events": [],
       "reasons": []
     },
     {
@@ -324,19 +372,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
-      "stories": [],
-      "events": [],
-      "reasons": []
-    },
-    {
-      "geoid": "0830780",
-      "jurisdiction": "City of Glenwood Springs",
-      "scope": "place",
-      "county_fips": "08045",
-      "published": true,
-      "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [],
       "events": [],
       "reasons": []
@@ -348,7 +384,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [],
       "events": [],
       "reasons": []
@@ -360,33 +396,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
-      "stories": [],
-      "events": [],
-      "reasons": []
-    },
-    {
-      "geoid": "08045",
-      "jurisdiction": "Garfield County",
-      "scope": "county",
-      "county_fips": "08045",
-      "published": false,
-      "last_curated": "2026-10-18",
-      "days_since_review": 4,
-      "stories": [],
-      "events": [],
-      "reasons": [
-        "draft, not shown on the site"
-      ]
-    },
-    {
-      "geoid": "08097",
-      "jurisdiction": "Pitkin County",
-      "scope": "county",
-      "county_fips": "08097",
-      "published": true,
-      "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [],
       "events": [],
       "reasons": []
@@ -398,7 +408,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [],
       "events": [],
       "reasons": [
@@ -412,7 +422,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [],
       "events": [],
       "reasons": []
@@ -424,7 +434,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 4,
+      "days_since_review": 5,
       "stories": [],
       "events": [],
       "reasons": []
