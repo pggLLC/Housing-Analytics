@@ -1508,7 +1508,8 @@
         chas_counties:       chasEligible.counties || [],
         tiers:               captureObj.denominatorSource === 'chfa_qualified' ? CHFA_PENETRATION_TIERS.slice() : null,
         // The proposed project's own pool (60% AMI units by default).
-        project:             captureObj.denominatorSource === 'chfa_qualified' && chfaCapture && chfaCapture.value > 0
+        // A real count of zero is kept: no renter here qualifies for 60% units.
+        project:             captureObj.denominatorSource === 'chfa_qualified' && chfaCapture && chfaCapture.source === 'chfa_qualified'
           ? { value: chfaCapture.value, source: 'chfa_qualified', tiers: CHFA_CAPTURE_TIERS.slice() }
           : null,
         // geoid + buffer share only, so the simulator can recount for its own tiers.
@@ -1606,13 +1607,18 @@
   function projectCaptureDenominator(result) {
     var pen = captureDenominator(result);
     var p = result && result.captureDenominator && result.captureDenominator.project;
-    if (!pen || pen.source !== 'chfa_qualified' || !p || !(Number(p.value) > 0)) return pen;
+    if (!pen || pen.source !== 'chfa_qualified' || !p || !(Number(p.value) >= 0)) return pen;
     return {
       value: Number(p.value), source: 'chfa_qualified', tiers: p.tiers || [60], tracts: pen.tracts,
       penetrationValue: pen.value,
       label: 'renter households that qualify for a ' + (p.tiers || [60]).join('/') + '% AMI unit (CHFA market-study rules; HUD CHAS + ACS PUMS)',
       short: 'Renter HH qualified for ' + (p.tiers || [60]).join('/') + '% AMI units (CHFA rules)'
     };
+  }
+
+  function _noQualifiedLine(tiers) {
+    return 'No renter households in this PMA qualify for units at ' + (tiers || [60]).join('/') +
+      '% AMI under CHFA rules, so there is no capture rate for this mix.';
   }
 
   function _denominatorLine(den) {
@@ -2534,15 +2540,7 @@
         mixTiers.every(function (t) { return simDen.tiers.indexOf(t) !== -1; });
       if (mixTiers.length && !sameTiers) {
         var recount = _chfaQualifiedRenters(simDen.tracts, mixTiers);
-        if (recount.source === 'chfa_qualified' && !(recount.value > 0)) {
-          // A real count of zero: no renter here qualifies for this mix.
-          simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' +
-            'No renter households in this PMA qualify for units at ' + mixTiers.join('/') + '% AMI under CHFA rules, so there is no capture rate for this mix.</div>';
-          explainCapture(result, null, null, 'no renter households qualify for this AMI mix');
-          simEl.dataset.denominator = '0';
-          return;
-        }
-        if (recount.value > 0) {
+        if (recount.source === 'chfa_qualified') {
           simDen = Object.assign({}, simDen, {
             value: recount.value, tiers: mixTiers,
             label: 'renter households that qualify for units at ' + mixTiers.join('/') + '% AMI (CHFA market-study rules; HUD CHAS + ACS PUMS)',
@@ -2550,6 +2548,14 @@
           });
         }
       }
+    }
+    if (simDen.source === 'chfa_qualified' && !(simDen.value > 0)) {
+      // A real count of zero: no renter here qualifies for this mix.
+      simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' +
+        _noQualifiedLine(simDen.tiers) + '</div>';
+      explainCapture(result, null, null, 'no renter households qualify for this AMI mix');
+      simEl.dataset.denominator = '0';
+      return;
     }
     var sim = simulateCapture(simDen.value, proposed, amiMix, result && result.affordableUnitsKnown, penPool);
     simEl.dataset.denominator = String(simDen.value);
@@ -2559,7 +2565,7 @@
         '<div class="pma-stat"><div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + ' rate</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
-          sim.riskLabel + '</div><div class="pma-stat-label">Existing + proposed units: ' + sim.penetrationRate + '% of ' +
+          sim.riskLabel + '</div><div class="pma-stat-label">Existing (incl. funded, not yet open) + proposed units: ' + sim.penetrationRate + '% of ' +
           (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' : 'the same renters') + '</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
       '</div>';
@@ -2669,6 +2675,12 @@
 
     var proposed = parseInt(el('pmaProposedUnits') && el('pmaProposedUnits').value, 10) || 100;
     var scenDen = projectCaptureDenominator(result);
+    if (scenDen && scenDen.source === 'chfa_qualified' && !(scenDen.value > 0)) {
+      el2.dataset.denominator = '0';
+      lastScenarios = [];
+      el2.innerHTML = '<div class="pma-empty">' + _noQualifiedLine(scenDen.tiers) + '</div>';
+      return;
+    }
     var scenarioList = [{ label: 'No proposed project (the PMA score above)', proposedUnits: 0, amiMix: { ami60: 0 }, noProject: true }]
       .concat(ENH.defaultScenarios(proposed));
     var scenarios = scenDen ? ENH.generateScenarios(

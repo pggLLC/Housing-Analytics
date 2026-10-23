@@ -60,6 +60,15 @@ test('with CHFA-rule counts, penetration and project capture name their own CHFA
   assert(/60% AMI/.test(proj.label) && /CHFA/.test(proj.label), 'project label: ' + proj.label);
 });
 
+test('a real zero 60% pool stays zero, never the broader penetration pool', () => {
+  const r = { captureDenominator: { value: 400, source: 'chfa_qualified', tiers: [20, 80], project: { value: 0, source: 'chfa_qualified', tiers: [60] } } };
+  const proj = projectCaptureDenominator(r);
+  assert.strictEqual(proj.value, 0);
+  assert.strictEqual(proj.source, 'chfa_qualified');
+  assert(/function _noQualifiedLine/.test(src) && /scenDen\.source === 'chfa_qualified' && !\(scenDen\.value > 0\)/.test(src),
+    'the scenario table has no no-qualified-renters state');
+});
+
 test('without CHFA-rule counts the project pool is the one denominator', () => {
   const r = { captureDenominator: { value: 598, source: 'chas_lihtc_eligible' } };
   assert.deepStrictEqual(projectCaptureDenominator(r), captureDenominator(r));
