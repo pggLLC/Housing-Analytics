@@ -90,12 +90,14 @@ for (const [key, ref] of Object.entries(DOC.meta.qap_documents)) {
   assert.equal(norm(doc.title), norm(ref.title), `${key}: title must be the watch title`);
   qapText[key] = norm(doc.text);
 }
+// The PDF text renders ™ as "TM"; quotes keep the symbol.
+const qnorm = (q) => norm(q).replace(/™/g, 'TM');
 let qapChecked = 0;
 for (const e of DOC.entries.filter((x) => x.kind === 'qap')) {
   assert.equal(e.source_url, DOC.meta.qap_documents[e.qap_doc].url, `${e.id}: a QAP record must cite its QAP document`);
   for (const q of e.quotes) {
-    assert(qapText[e.qap_doc].includes(norm(q)), `${e.id}: quote is not in the ${e.qap_doc} QAP: "${q}"`);
-    if (e.also_in_draft) assert(qapText.draft.includes(norm(q)), `${e.id}: says the Third Draft reads the same, but this quote is not in it: "${q}"`);
+    assert(qapText[e.qap_doc].includes(qnorm(q)), `${e.id}: quote is not in the ${e.qap_doc} QAP: "${q}"`);
+    if (e.also_in_draft) assert(qapText.draft.includes(qnorm(q)), `${e.id}: says the Third Draft reads the same, but this quote is not in it: "${q}"`);
     qapChecked++;
   }
 }
@@ -222,6 +224,14 @@ for (const row of pickRows) {
       if (t.includes(name)) assert(/small/i.test(t), `pick row "${label}" recommends ${name} without its small-building limit`);
     }
   }
+  // EGC or LEED alone is the advice only where the town is on the 2021 code; on older codes NGBS can cost less (hub-ngbs-older-code).
+  const cert = cells[0] || '';
+  if (/\b(?:EGC|LEED)\b/.test(cert) && !/\bNGBS\b/.test(cert)) {
+    assert(/2021 IECC/.test(label + ' ' + cert) && refs.includes('hub-2021-iecc-gap'), `pick row "${label}" recommends EGC or LEED without the 2021-code condition and hub-2021-iecc-gap`);
+  }
+  if (/\bNGBS\b/.test(cert) && /2018 IECC|cost/.test(cert)) {
+    assert(refs.includes('hub-ngbs-older-code'), `pick row "${label}" makes the older-code NGBS case without citing hub-ngbs-older-code`);
+  }
   // The page promises each row links to what it relies on: one link per ref, each to a drawn record.
   const hrefs = [...row.querySelectorAll('.gb-refs a')].map((a) => a.getAttribute('href'));
   assert.deepEqual(hrefs, refs.map((r) => `#${w.GreenBuilding.anchorId(r)}`), `pick row "${label}" does not link each record it relies on`);
@@ -230,6 +240,17 @@ for (const row of pickRows) {
     assert(target && target.dataset.gbEntry, `pick row "${label}" links ${h}, which is not a drawn record`);
   }
 }
+// A quote may not stop mid-sentence on a word that needs what follows it.
+for (const e of DOC.entries) {
+  for (const q of e.quotes) assert(!/\b(?:the|a|an|of|to|for|by|with|using|and|or|in|on|at|from|free)$/i.test(q.trim()), `${e.id}: quote stops mid-sentence: "${q.slice(-50)}"`);
+  // A tool the reader must use is named in the quotes, not only in our finding.
+  for (const tool of ['Portfolio Manager', 'Energy Consumption Model']) {
+    if (e.finding.includes(tool)) assert(e.quotes.join(' ').includes(tool), `${e.id}: the finding names ${tool}, but no quote does`);
+  }
+}
+// The header's check date is the data's, not a hand-typed one.
+assert(!/checked (?:January|February|March|April|May|June|July|August|September|October|November|December) \d/.test(w.document.querySelector('.page-meta').textContent.replace(/Oldest source check:.*$/s, '')), 'the page header hand-types a check date; let the data fill it');
+assert.equal(norm(w.document.querySelector('[data-gb-checked]').textContent), `Oldest source check: ${new Date(DOC.meta.last_verified + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`, 'the header check date must come from meta.last_verified');
 // A record's fit may not promise a building size its quotes do not.
 for (const e of DOC.entries) {
   for (const size of ['small', 'large']) {
