@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-23T13:18:03.076Z",
+    "generated_at": "2026-10-23T15:53:39.907Z",
     "root": "data/",
-    "file_count": 1984,
-    "total_size_bytes": 201338043,
+    "file_count": 1986,
+    "total_size_bytes": 201503152,
     "kinds": {
-      "json": 1936,
+      "json": 1938,
       "geojson": 34,
       "csv": 14
     }
@@ -554,7 +554,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-23T13:18:00.136Z",
+      "mtime": "2026-10-23T15:53:37.201Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -37869,6 +37869,23 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "market/acs_renter_household_size_co.json",
+      "kind": "json",
+      "size_bytes": 162569,
+      "mtime": "2026-10-23T15:52:55.974Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "state",
+        "counties",
+        "places"
+      ],
+      "key_count": 4,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/acs_tract_metrics_co.json",
       "kind": "json",
       "size_bytes": 1347506,
@@ -39403,7 +39420,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-23T13:18:01.448Z",
+      "mtime": "2026-10-23T15:53:38.494Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39427,7 +39444,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-23T13:18:01.121Z",
+      "mtime": "2026-10-23T15:53:38.161Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41367,6 +41384,29 @@
         "rate",
         "term",
         "ami_restriction"
+      ]
+    },
+    {
+      "path": "policy/colorado-deal-rules.json",
+      "kind": "json",
+      "size_bytes": 2540,
+      "mtime": "2026-10-23T15:52:56.126Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "rules"
+      ],
+      "key_count": 2,
+      "primary_array_key": "rules",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "id",
+        "label",
+        "statutes",
+        "threshold_sfe",
+        "local_lower_threshold_allowed",
+        "finding",
+        "source_urls"
       ]
     },
     {
