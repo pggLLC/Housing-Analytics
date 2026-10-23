@@ -230,12 +230,16 @@ async function pmaTractDefaultInteraction(page, viewport) {
       const num = (t) => { const m = String(t || '').replace(/,/g, '').match(/-?\d+(\.\d+)?/); return m ? Number(m[0]) : null; };
       const r = window.PMAEngine._state.getLastResult();
       const den = window.PMAEngine.captureDenominator(r);
+      // A proposed project divides by the renters who qualify for its own
+      // tiers; that equals den when the CHFA-rule counts are not loaded.
+      const projDen = window.PMAEngine.projectCaptureDenominator(r);
       const sim = document.getElementById('pmaSimResult');
       const scen = document.getElementById('pmaScenarioResult');
       const simVals = sim ? [...sim.querySelectorAll('.pma-stat-value')].map((e) => e.textContent) : [];
       const baseRow = scen ? [...scen.querySelectorAll('tbody tr')].find((tr) => Number(tr.dataset.units) > 0) : null;
       return {
         expected: den ? den.value : null,
+        expectedProject: projDen ? projDen.value : null,
         headlineDen: document.getElementById('pmaCaptureDenominator').dataset.denominator,
         headlineText: document.getElementById('pmaCaptureDenominator').textContent,
         simDen: sim && sim.dataset.denominator,
@@ -251,14 +255,16 @@ async function pmaTractDefaultInteraction(page, viewport) {
     const near = (a, b) => a != null && b != null && Math.abs(a - b) <= 0.051;
     if (!d) failures.push('the tract analysis produced no capture-rate denominator');
     else {
-      for (const [where, v] of [['headline', cap.headlineDen], ['simulator', cap.simDen], ['scenario table', cap.scenDen]]) {
-        if (Number(v) !== d) failures.push(`the ${where} capture rate declares denominator ${v}; the analysis divides by ${d}`);
+      const pd = cap.expectedProject;
+      if (Number(cap.headlineDen) !== d) failures.push(`the headline penetration declares denominator ${cap.headlineDen}; the analysis divides by ${d}`);
+      for (const [where, v] of [['simulator', cap.simDen], ['scenario table', cap.scenDen]]) {
+        if (Number(v) !== pd) failures.push(`the ${where} capture rate declares denominator ${v}; the project pool is ${pd}`);
       }
       if (!cap.headlineText.includes(d.toLocaleString())) failures.push('the headline capture rate does not show its denominator');
-      if (cap.simShown !== d) failures.push(`the simulator shows ${cap.simShown} beside its rate; it divides by ${d}`);
+      if (cap.simShown !== pd) failures.push(`the simulator shows ${cap.simShown} beside its rate; it divides by ${pd}`);
       if (!near(cap.headlineRate, Math.round(cap.lihtcUnits / d * 1000) / 10)) failures.push(`headline ${cap.headlineRate}% is not ${cap.lihtcUnits} existing units / ${d}`);
-      if (!near(cap.simRate, Math.round(cap.simUnits / d * 1000) / 10)) failures.push(`simulator ${cap.simRate}% is not ${cap.simUnits} units / ${d}`);
-      if (!near(cap.scenRate, Math.round(cap.scenUnits / d * 1000) / 10)) failures.push(`scenario ${cap.scenRate}% is not ${cap.scenUnits} units / ${d}`);
+      if (!near(cap.simRate, Math.round(cap.simUnits / pd * 1000) / 10)) failures.push(`simulator ${cap.simRate}% is not ${cap.simUnits} units / ${pd}`);
+      if (!near(cap.scenRate, Math.round(cap.scenUnits / pd * 1000) / 10)) failures.push(`scenario ${cap.scenRate}% is not ${cap.scenUnits} units / ${pd}`);
     }
   }
 

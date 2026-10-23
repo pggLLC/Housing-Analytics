@@ -57,6 +57,13 @@
 .hm-flow-svg { display: block; max-width: 100%; height: auto; overflow: visible; }
 .hm-flow-link { fill: none; stroke-opacity: .32; }
 .hm-flow-link:hover { stroke-opacity: .6; }
+.hm-flow-link.is-dim { stroke-opacity: .06; }
+.hm-flow-hit { fill: transparent; cursor: pointer; }
+.hm-flow-hit:focus-visible { outline: none; stroke: var(--accent); stroke-width: 2; }
+.hm-flow-link, [data-hm-map] path { cursor: pointer; }
+.hm-flow-pick { margin: var(--sp2) 0; min-height: 44px; }
+.hm-flow-clear { margin-left: var(--sp1); min-height: 44px; }
+.hm-tip { position: fixed; z-index: 50; max-width: 280px; padding: 6px 10px; border-radius: 6px; background: var(--text-strong); color: var(--card); font-size: var(--small); line-height: 1.35; pointer-events: none; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
 .hm-flow-link.is-chfa, .hm-flow-node.is-chfa, .hm-flow-legend i.is-chfa { stroke: var(--chart-3); fill: var(--chart-3); background: var(--chart-3); }
 .hm-flow-link.is-oedit, .hm-flow-node.is-oedit, .hm-flow-legend i.is-oedit { stroke: var(--chart-4); fill: var(--chart-4); background: var(--chart-4); }
 .hm-flow-link.is-dola, .hm-flow-node.is-dola, .hm-flow-legend i.is-dola { stroke: var(--chart-1); fill: var(--chart-1); background: var(--chart-1); }

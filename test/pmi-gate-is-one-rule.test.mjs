@@ -55,7 +55,7 @@ function ownershipNeedKernel() {
 const HNAOwnershipNeed = ownershipNeedKernel();
 
 const SHARED = {
-  rateAnnual: 0.065, termYears: 30, propertyTaxRate: 0.0065,
+  rateAnnual: OwnershipFinance.MORTGAGE_RATE.rateAnnual, termYears: 30, propertyTaxRate: 0.0065,
   insuranceRate: 0.0035, pmiRate: 0.005, frontEndRatio: 0.30
 };
 
@@ -111,7 +111,7 @@ test('nothing published today changes, because everything puts 10% down', () => 
     Object.assign({}, SHARED, { downPaymentRate: 0.10, pmiLtvGate: false }));
   assert.strictEqual(Math.round(gated), Math.round(ungated));
   // The golden fixture the whole engine is pinned to.
-  assert.strictEqual(OwnershipFinance.maxAffordablePrice(100000, 0.80), 289983,
+  assert.strictEqual(OwnershipFinance.maxAffordablePrice(100000, 0.80, { rateAnnual: 0.065 }), 289983,
     'the backward-compatible kernel output moved');
 });
 
