@@ -109,7 +109,9 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   const s1 = m.questions.standard.find((q) => q.id === 'S1');
   const t16 = BASE.qapScoring.thresholds.find((t) => t.id === 'T16');
   ok(s1.qap && s1.qap.quote === t16.quote && s1.qap.section === 'Threshold 16', 'S1 quotes Threshold 16');
-  ok(s1.ask === 'Standard question for Gunnison.', 'standard wording filled with the place name');
+  const tpl = BANK.standard.find((q) => q.id === 'S1').ask;
+  ok(tpl.includes('{name}'), 'the fixture S1 wording carries the {name} placeholder');
+  ok(s1.ask === tpl.split('{name}').join(m.name) && !/\{\w+\}/.test(s1.ask), 'standard wording filled with the place name, no placeholder left');
   ok(m.questions.standard.find((q) => q.id === 'S3').qap === null, 'an unknown QAP id cites nothing');
 }
 
