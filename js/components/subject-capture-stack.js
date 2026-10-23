@@ -12,8 +12,10 @@
  * Also computes overall (portfolio) capture rate folding in the
  * in-migration assumption from Subject Project.
  *
- * CHFA convention: capture < 25% per tier is generally fundable;
- * 25–35% is borderline; > 35% is a red flag for the underwriter.
+ * The pool here is county renters at or under each tier, without CHFA's
+ * rent floor or household-size fit, so the card shows the share with no
+ * CHFA verdict. The 85% line from CHFA's 2027-28 draft QAP is applied in
+ * the Market Analysis simulator to the CHFA-rule count.
  *
  * This is screening-grade, not study-grade. The card surfaces what
  * it can NOT do (under-construction unit deduction, household-size
@@ -77,10 +79,10 @@
 
   function _captureLabel(rate) {
     if (rate == null) return { color: 'var(--muted)', label: '—' };
-    if (rate < 10) return { color: 'var(--good,#3da670)', label: 'Strong demand depth' };
-    if (rate < 25) return { color: 'var(--good,#3da670)', label: 'Within CHFA range' };
-    if (rate < 35) return { color: 'var(--warn,#d9a93b)', label: 'Borderline — sensitivity test' };
-    return { color: 'var(--bad,#c14545)', label: 'Saturation risk' };
+    // County renters at or under the tier, with no rent floor or size fit:
+    // not CHFA's qualified pool, so no CHFA verdict here. The simulator
+    // applies the 85% check (CHFA 2027-28 draft QAP) to the CHFA-rule count.
+    return { color: 'var(--muted)', label: 'County share, not the CHFA check' };
   }
 
   function _marketRows(container, rows) {
@@ -229,7 +231,7 @@
         $h('div', { style: { marginTop: '.2rem', color: 'var(--muted)', fontSize: '.74rem' } }, [
           'Inputs: ' + grandSubject + ' Subject units against ' + $fmt(grandHh) +
           ' qualifying renter HHs (county-level, in-migration ' + inMig + '%). ' +
-          'Tiers below 25% are within CHFA range; 25–35% is borderline; ≥35% is saturation risk.'
+          'This share uses county renters at or under each tier, not CHFA\'s qualified pool; the capture simulator applies the 85% check from CHFA\'s 2027-28 draft QAP.'
         ])
       ]));
 
