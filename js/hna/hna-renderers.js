@@ -9480,7 +9480,7 @@
     const noteEl = document.getElementById('bedroomNeedNote');
     if (!canvas) return;
     if (!b25009 || !b25009.renterBySize) {
-      _placeholderInBox(canvas, 'ACS B25009 renter household-size data not yet loaded.');
+      _placeholderInBox(canvas, 'Renter household-size figures are not available for this geography.');
       if (noteEl) noteEl.textContent = '';
       return;
     }
