@@ -645,19 +645,24 @@
   }
 
   // One CSV row by its RegionName, without loading every metro into objects.
+  // The county file can carry a metro's longer name ("Denver-Aurora-Lakewood, CO") where the metro CSV
+  // uses its first city ("Denver, CO"), so the short form is tried when the full name is not there.
   function zoriMetroSeries(csv, metro) {
     if (!csv || !metro) return null;
+    var short = String(metro).replace(/^([^,-]+)-[^,]+(, [A-Z]{2})$/, '$1$2');
     var lines = String(csv).split(/\r?\n/), head = splitCsv(lines[0]);
     var nameCol = head.indexOf('RegionName');
+    var found = null;
     for (var i = 1; i < lines.length; i++) {
-      if (lines[i].indexOf(metro) === -1) continue;
+      if (lines[i].indexOf(metro) === -1 && lines[i].indexOf(short) === -1) continue;
       var row = splitCsv(lines[i]);
-      if (row[nameCol] !== metro) continue;
-      var out = [];
-      head.forEach(function (h, j) { if (/^\d{4}-\d{2}-\d{2}$/.test(h) && num(row[j]) != null) out.push({ month: h, rent: num(row[j]) }); });
-      return out;
+      if (row[nameCol] === metro) { found = row; break; }
+      if (row[nameCol] === short && !found) found = row;
     }
-    return null;
+    if (!found) return null;
+    var out = [];
+    head.forEach(function (h, j) { if (/^\d{4}-\d{2}-\d{2}$/.test(h) && num(found[j]) != null) out.push({ month: h, rent: num(found[j]) }); });
+    return out;
   }
   function splitCsv(line) {
     var out = [], cur = '', q = false;
@@ -778,7 +783,7 @@
     var notes = [];
     if (mk.marketSource) notes.push('Market estimate: ' + mk.marketSource + '.');
     else notes.push('No market estimate by bedroom size for this county' + (mk.zori ? '; the all-homes figure is below.' : '.'));
-    if (mk.zori) notes.push('Zillow, all homes, ' + mk.county + ': ' + money(mk.zori.rent) + ' (' + mk.zori.month + ', ' + (mk.zori.yoy >= 0 ? '+' : '') + mk.zori.yoy + '% from a year earlier).');
+    if (mk.zori) notes.push('Zillow, all homes, ' + mk.county + ': ' + money(mk.zori.rent) + ' (' + mk.zori.month + ', ' + (mk.zori.yoy == null ? 'change from a year earlier not published' : (mk.zori.yoy >= 0 ? '+' : '') + mk.zori.yoy + '% from a year earlier') + ').');
     if (mk.acs) notes.push('Census median gross rent, ' + mk.county + ': ' + money(mk.acs.rent) + ' (ACS ' + (mk.acs.vintage || '') + '; includes older and subsidized homes).');
     h += '<p class="sr-muted">' + esc(notes.join(' ')) + '</p></section>';
 
@@ -1018,9 +1023,12 @@
   }
 
   // The research editor: forms, map and save, for a deal saved in Submittal review.
-  function researchEditor(doc, deal, model, onError) {
+  // isLive says whether this deal is still the one on screen. The form is found by id, so a load or save that
+  // finishes after another deal opens must not write this deal's research into that deal's form.
+  function researchEditor(doc, deal, model, onError, isLive) {
     var $ = function (id) { return doc.getElementById(id); };
     var box = $('wbResearch');
+    var live = function () { return (!isLive || isLive()) && box.isConnected !== false && $('wbResearch') === box; };
     var rec = { site: null, comps: [], waitlist: null, survey: null };
     var lihtc = null, map = null, layer = null;
     var today = new Date().toISOString().slice(0, 10);
@@ -1131,19 +1139,21 @@
       fetch(MARKET_API, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ deal: deal, data: rec }) })
         .then(function (r) { return r.ok ? r.json() : r.text().then(function (t) { throw new Error(t || String(r.status)); }); })
         .then(function (j) {
+          if (!live()) return;
           rec = j.data; fill(); draw();
           say('Saved ' + new Date(j.at).toLocaleString() + (j.dropped ? '. ' + j.dropped + ' item' + (j.dropped === 1 ? ' was' : 's were') + ' not kept: each comparable needs a name, a date and a source link, and survey figures need a source link.' : '.'));
-        }, function (err) { say('Not saved: ' + err.message); })
-        .then(function () { $('wbResSave').disabled = false; });
+        }, function (err) { if (live()) say('Not saved: ' + err.message); })
+        .then(function () { if (live()) $('wbResSave').disabled = false; });
     });
 
     var getJson = function (u) { return settleWithin(fetch(u, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }), 20000); };
     Promise.all([getJson(MARKET_API + '?deal=' + encodeURIComponent(deal)), getJson(LIHTC_URL)]).then(function (res) {
+      if (!live()) return;
       if (res[0] && res[0].data) rec = res[0].data;
       else if (!res[0]) say('Saved research did not load; anything you add here can still be saved.');
       lihtc = res[1];
       fill(); draw();
-    }, onError);
+    }, function (err) { if (live()) onError(err); });
   }
 
   function start(doc, waitMs) {
@@ -1185,7 +1195,7 @@
         if ($('wbOut').scrollIntoView) $('wbOut').scrollIntoView({ block: 'start' });
         if (model.error) { $('wbMarket').innerHTML = ''; return; }
         var deal = ctx && ctx.deal;
-        if (deal) researchEditor(doc, deal, model, function () { status('Your market research did not load.'); });
+        if (deal) researchEditor(doc, deal, model, function () { status('Your market research did not load.'); }, function () { return my === tok; });
         else $('wbResearch').innerHTML = '<p class="sr-muted">To add comparables, waitlist counts and the rent survey, save this deal in <a href="developer-submittal-review.html">Submittal review</a> and open it from the saved deals here.</p>';
         var first = market(model, snap, mkt);
         (first.error ? Promise.resolve({}) : loadDealDetails(mkt, first)).then(function (detail) {
@@ -1256,5 +1266,5 @@
     else start(document);
   }
 
-  return { build: build, render: render, research: research, renderResearch: renderResearch, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
+  return { build: build, render: render, research: research, renderResearch: renderResearch, researchEditor: researchEditor, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
 });

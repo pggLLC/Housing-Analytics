@@ -187,6 +187,8 @@ const csv = 'RegionID,SizeRank,RegionName,RegionType,StateName,2024-09-30,2025-0
 const ser = WB.zoriMetroSeries(csv, 'Durango, CO');
 ok(ser.length === 2 && ser[1].rent === 1950 && ser[0].month === '2024-09-30', 'a quoted metro name reads its own row');
 ok(WB.zoriMetroSeries(csv, 'Nowhere, CO') === null, 'an unknown metro gives nothing');
+const dcsv = 'RegionID,SizeRank,RegionName,RegionType,StateName,2025-09-30\n1,19,"Denver, CO",msa,CO,2000\n';
+ok(WB.zoriMetroSeries(dcsv, 'Denver-Aurora-Lakewood, CO')[0].rent === 2000, 'a longer metro name finds the metro history under its first city');
 
 // Invented market files for the fixture's county.
 const mdata = () => ({
@@ -229,6 +231,8 @@ ok(mk.pipeline.length === 1 && mk.pipeline[0].slug === 'invented-recent' && mk.p
 ok(/warn: 1 tax credit award in La Plata County since/.test(mtext(mk)), 'a recent award in the county is flagged');
 const down = mdata(); down.zori.counties['08067'].yoy_change_pct = -0.9;
 ok(/warn: Zillow rents in La Plata County are down 0\.9%/.test(mtext(WB.market(mm, msnap, down))), 'falling Zillow rents are flagged');
+const noYoy = mdata(); noYoy.zori.counties['08067'].yoy_change_pct = null;
+{ const h = WB.renderMarket(WB.market(mm, msnap, noYoy)); ok(!/null%/.test(h) && /change from a year earlier not published/.test(h), 'an unpublished year-over-year change is said, not shown as null'); }
 // Missing pieces stay missing.
 ok(!!WB.market(mm, Object.assign({}, msnap, { countyFips: null }), mdata()).error, 'no county, no market');
 const noRent = WB.market(mm, msnap, Object.assign(mdata(), { renters: null }));
@@ -500,6 +504,21 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   };
   ok((await run(false)).includes('Deal B'), 'a saved version renders when the choice stays put');
   ok((await run(true)) === '', 'a saved version still running is dropped when the version changes');
+}
+{
+  // Research for a deal that is no longer on screen is not written into the form.
+  const run = async (alive) => {
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const doc = { getElementById: el };
+    const saved = globalThis.fetch;
+    globalThis.fetch = (u) => Promise.resolve({ ok: true, json: () => Promise.resolve(/deal-market/.test(String(u)) ? { data: { site: { address: '1 Deal A Way', lat: 37.3, lon: -107.9 }, comps: [] } } : { features: [] }) });
+    WB.researchEditor(doc, 'deal-a', WB.build(fixture(), rules), () => {}, () => alive);
+    await new Promise((r) => setTimeout(r, 30));
+    globalThis.fetch = saved;
+    return el('wbSiteAddr').value;
+  };
+  ok((await run(true)) === '1 Deal A Way', 'saved research fills the form for the deal on screen');
+  ok((await run(false)) === '', 'research that loads after another deal opened is not written into its form');
 }
 const highNoRows = mut0((s) => { s.result.projection.rows = []; s.result.costBasis.underwriting = { high: { firstYear: 1.45, exceeds: true } }; });
 ok(/warn: Year-one coverage of 1\.45x is above/.test(texts(highNoRows)), 'high year-one coverage is flagged from the engine check when there are no projection rows');
