@@ -516,15 +516,18 @@
       "kind": "credit",
       "status": "open",
       "opens": "2027-02-01",
+      "opens_at": "2027-02-01T09:00:00-05:00",
       "deadline": "2027-08-06",
+      "deadline_at": "2027-08-06T23:59:00-04:00",
       "title": "48E low-income bonus for solar on affordable housing",
-      "finding": "Solar on a qualifying affordable rental building can earn 20 more percentage points, but only with an IRS capacity allocation, and only inside the solar cutoff above. The 2026 application window closed August 7, 2026. The 2027 window runs from February 1 to August 6, 2027.",
+      "finding": "Solar under 5 megawatts on a qualifying affordable rental building can earn 20 more percentage points, but only with an IRS capacity allocation, and only inside the solar cutoff above. The 2026 application window closed August 7, 2026. The 2027 window runs from February 1 to August 6, 2027.",
       "quotes": [
         "in the case of a facility described in subclause (II) of paragraph (2)(A)(iii), 20 percentage points",
         "is part of a qualified low-income residential building project or a qualified low-income economic benefit project.",
         "For each program year, applicants may apply for an allocation of capacity limitation which is distributed across the following categories:",
+        "The 48E(h) bonus credit increases the 48E Clean Electricity Investment Tax Credit for applicable energy facilities with maximum net output of less than 5 megawatts (MW) by 10% or 20%.",
         "Applications for the 2026 program year will open at 9 a.m. ET on Feb. 2, 2026, and close at 11:59 p.m. ET on Aug. 7, 2026.",
-        "2027 | Monday, Feb. 1, 2027 | Tuesday, March 2, 2027 | Friday, Aug. 6, 2027 | Friday, Dec. 31, 2027 (schedule table: program year, applications open, initial window closes, rolling period closes, program year closes)"
+        "Program year | Application period - Opens at 9 a.m. Eastern time | 30-day initial application window - Closes at 11:59 p.m. Eastern time | Rolling application period - Closes at 11:59 p.m. Eastern time | Program year - Closes by 11:59 p.m. Eastern time; 2027 | Monday, Feb. 1, 2027 | Tuesday, March 2, 2027 | Friday, Aug. 6, 2027 | Friday, Dec. 31, 2027"
       ],
       "source_url": "https://www.irs.gov/credits-deductions/clean-electricity-low-income-communities-bonus-credit-amount-program",
       "source_title": "Clean Electricity Low-Income Communities Bonus Credit Amount Program",

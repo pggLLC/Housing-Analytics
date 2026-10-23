@@ -144,13 +144,25 @@ for (const e of dated) {
     assert(quoted(e, e[f]), `${e.id}: its ${f} ${e[f]} is not in its quotes`);
   }
   const at = (t) => w.GreenBuilding.effectiveStatus(e, t);
-  if (e.opens) {
+  const instant = (iso, ms) => new w.Date(new Date(iso).getTime() + ms);
+  if (e.opens_at) {
+    assert(e.opens_at.startsWith(e.opens), `${e.id}: opens_at must fall on opens`);
+    assert.equal(at(instant(e.opens_at, -60000)), 'watch', `${e.id}: must show no open round a minute before it opens`);
+    assert.equal(at(instant(e.opens_at, 0)), 'open', `${e.id}: must show open when it opens`);
+  } else if (e.opens) {
     assert.equal(at(dayAfter(e.opens, -1)), 'watch', `${e.id}: must show no open round the day before it opens`);
     assert.equal(at(e.opens), 'open', `${e.id}: must show open on the day it opens`);
   }
-  if (e.deadline) {
+  if (e.deadline_at) {
+    assert(e.deadline_at.startsWith(e.deadline), `${e.id}: deadline_at must fall on deadline`);
+    assert.equal(at(instant(e.deadline_at, 0)), 'open', `${e.id}: must stay open up to its closing time`);
+    assert.equal(at(instant(e.deadline_at, 60000)), 'closed', `${e.id}: must show closed a minute after its closing time`);
+  } else if (e.deadline) {
     assert.equal(at(e.deadline), 'open', `${e.id}: must stay open on its deadline day`);
     assert.equal(at(dayAfter(e.deadline, 1)), 'closed', `${e.id}: must show closed the day after its deadline`);
+  }
+  for (const [f, re] of [['opens_at', /Opens at 9 a\.m\. Eastern time/], ['deadline_at', /Rolling application period - Closes at 11:59 p\.m\. Eastern time/]]) {
+    if (e[f]) assert(re.test(e.quotes.join(' ')), `${e.id}: ${f} has a time its quotes do not give`);
   }
   const twin = DEADLINE_TWIN[e.id];
   if (twin) {

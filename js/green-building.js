@@ -66,20 +66,30 @@
       q.map(function (t) { return '<blockquote>' + esc(t) + '</blockquote>'; }).join('') + '</details>';
   }
 
-  function todayIso() {
-    var d = new Date();
+  function isoDay(d) {
     return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+
+  // `now` is a Date or a YYYY-MM-DD string (tests). A date-only string stands
+  // for noon that day in the reader's time zone.
+  function asDate(now) {
+    if (Object.prototype.toString.call(now) === '[object Date]') return now;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(String(now || ''))) return new Date(now + 'T12:00:00');
+    return new Date();
   }
 
   // An open record with dates is "no open round" before it opens, open through
   // its deadline and closed after it, so the page does not depend on someone
-  // flipping the status in time.
+  // flipping the status in time. opens_at / deadline_at carry the source's own
+  // time and zone (the IRS portal opens and closes on Eastern time); without
+  // them a date counts through the end of that day where the reader is.
   var ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
-  function effectiveStatus(r, today) {
+  function effectiveStatus(r, now) {
     if (r.status !== 'open') return r.status;
-    var t = today || todayIso();
-    if (ISO_DAY.test(String(r.opens || '')) && t < r.opens) return 'watch';
-    if (ISO_DAY.test(String(r.deadline || '')) && t > r.deadline) return 'closed';
+    var t = asDate(now);
+    var day = isoDay(t);
+    if (r.opens_at ? t < new Date(r.opens_at) : (ISO_DAY.test(String(r.opens || '')) && day < r.opens)) return 'watch';
+    if (r.deadline_at ? t > new Date(r.deadline_at) : (ISO_DAY.test(String(r.deadline || '')) && day > r.deadline)) return 'closed';
     return r.status;
   }
 
