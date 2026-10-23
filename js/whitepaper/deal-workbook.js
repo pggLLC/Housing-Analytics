@@ -71,6 +71,7 @@
   // snap: { result, permanentFinancing, rentLimits, utilityAllowance, amiByBr, labels } read from the calculator.
   // The engine's notes on two CHFA tests it does not run (js/deal-cost-basis.js); a test keeps these in step.
   var BOND_TEST_NOTE = 'Assumes the tax-exempt bonds meet the aggregate basis test. Otherwise CHFA allows 4% credit only on the share of eligible basis the bonds finance (CHFA 2025-2026 QAP, PDF page 54). Not checked here.';
+  var APPLICANT_LIMIT_NOTE = 'CHFA\'s limits apply per project and per applicant, with its affiliates, so credit requested in their other active CHFA applications leaves less for this one. These figures assume there are none.';
   var REHAB_MINIMUM_NOTE = 'CHFA also requires rehabilitation hard costs, not counting acquisition or soft costs, above the greater of 20% of the building\'s adjusted basis or $20,000 per unit (CHFA 2025-2026 QAP, PDF page 35). Not checked here.';
 
   // ctx carries what a saved Submittal version knows and the calculator does not: whether the deal is supportive housing.
@@ -172,7 +173,9 @@
         feeTests: { developer: r.costBasis.developerFee || null, contractor: r.costBasis.contractorFee || null, excess: r.costBasis.feeExcess || null },
         // Two CHFA tests the calculator leaves unchecked: the bond test on every 4% deal, and the rehab minimum
         // whenever acquisition basis earns credit.
-        unchecked: [String(r.creditType) === '4' ? BOND_TEST_NOTE : null, num(b.acquisitionQualified) > 0 ? REHAB_MINIMUM_NOTE : null].filter(Boolean),
+        unchecked: [String(r.creditType) === '4' ? BOND_TEST_NOTE : null, num(b.acquisitionQualified) > 0 ? REHAB_MINIMUM_NOTE : null,
+          // As in the calculator, the per-applicant caveat rides with an applied CHFA cap.
+          b.cap && b.cap.applied ? APPLICANT_LIMIT_NOTE : null].filter(Boolean),
         // CHFA's third reservation test is published only in its Excel application, so the engine never runs it.
         costLimit: b.costLimitMethod && !b.costLimitMethod.checked ? (b.costLimitMethod.reason || 'CHFA\'s cost basis limits were not checked.') : null,
         // Where the basis calculation stopped; an entered award can still carry the credit past it.

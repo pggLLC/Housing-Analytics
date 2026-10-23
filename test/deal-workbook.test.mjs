@@ -141,7 +141,7 @@ ok(!/interest-only/.test(texts(io)), 'an amortizing soft loan raises no interest
 
 // Unknowns stay unknown: no rules file means no CHFA comparisons, never a comparison against 0.
 const noRules = WB.build(fixture(), null);
-ok(!noRules.error && !/CHFA's/.test(texts(noRules).replace(/CHFA HTF/g, '').replace(/warn: CHFA's underwriting rules did not load[^\n]*/, '').replace(/warn: CHFA's cost basis limit \(Method Three\) was not checked[^\n]*/, '')), 'without the rules file, nothing is compared against a CHFA minimum');
+ok(!noRules.error && !/CHFA's/.test(texts(noRules).replace(/CHFA HTF/g, '').replace(/warn: CHFA's underwriting rules did not load[^\n]*/, '').replace(/warn: CHFA's cost basis limit \(Method Three\) was not checked[^\n]*/, '').replace(/[a-z]+: Not checked: CHFA's limits apply per project[^\n]*/, '')), 'without the rules file, nothing is compared against a CHFA minimum');
 ok(/warn: CHFA's underwriting rules did not load/.test(texts(noRules)) && !/Nothing in the figures needs a second look/.test(WB.render(noRules)), 'without the rules file, the workbook says the CHFA checks were not run');
 {
   const html = WB.render(m);
@@ -301,7 +301,8 @@ ok(/warn: This is a supportive housing deal\. CHFA requires a higher operating c
 ok(/ok: Operating cost was checked against CHFA's .* if this deal does, confirm the budget with CHFA\./.test(supp(undefined)), 'a deal not known to be supportive says what the check measured');
 ok(!/supportive housing deal|provide additional services/.test(supp(false)), 'a deal known not to be supportive gets neither note');
 { const CB = require(path.join(ROOT, 'js/deal-cost-basis.js')); const wbSrc = read('js/whitepaper/deal-workbook.js');
-  ok(wbSrc.includes(JSON.stringify(CB.BOND_TEST_NOTE).slice(1, -1)) && wbSrc.split("\\'").join("'").includes(CB.REHAB_MINIMUM_NOTE), 'the bond test and rehab minimum notes match the engine'); }
+  ok(wbSrc.includes(JSON.stringify(CB.BOND_TEST_NOTE).slice(1, -1)) && wbSrc.split("\\'").join("'").includes(CB.REHAB_MINIMUM_NOTE), 'the bond test and rehab minimum notes match the engine');
+  ok(wbSrc.split("\\'").join("'").includes(CB.APPLICANT_LIMIT_NOTE), 'the per-applicant note matches the engine'); }
 const four = mut0((s) => { s.result.creditType = '4'; });
 ok(texts(four).includes('warn: Not checked: Assumes the tax-exempt bonds meet the aggregate basis test.') && WB.render(four).includes('aggregate basis test'), 'a 4% deal says the bond test was not checked');
 ok(!/aggregate basis test|rehabilitation hard costs/.test(texts(m)), 'a new 9% deal has neither note');
@@ -413,6 +414,8 @@ ok(/warn: Operating cost of .* before property tax/.test(opexNoTax) && !/ok: Ope
 const msaFail = texts(mut0((s) => { s.result.minimumSetAsideResult = { election: '40-60', qualifies: false, reason: 'the designated set-aside is below 40% of residential units' }; }));
 ok(/bad: The deal does not meet its federal minimum set-aside \(40-60 election\): the designated set-aside is below 40%/.test(msaFail), 'a failed minimum set-aside is flagged with the engine reason');
 ok(!/minimum set-aside/.test(texts(mut0((s) => { s.result.minimumSetAsideResult = { election: '40-60', qualifies: true, reason: '' }; }))), 'a met set-aside adds no warning');
+ok(texts(mut0((s) => { s.result.costBasis.basis.cap = Object.assign({}, s.result.costBasis.basis.cap, { applied: true, amount: 1800000 }); })).includes('Not checked: ' + require(path.join(ROOT, 'js/deal-cost-basis.js')).APPLICANT_LIMIT_NOTE), 'an applied CHFA cap carries the per-applicant caveat');
+ok(!texts(mut0((s) => { s.result.costBasis.basis.cap = { applied: false }; })).includes(require(path.join(ROOT, 'js/deal-cost-basis.js')).APPLICANT_LIMIT_NOTE), 'no cap, no per-applicant caveat');
 const feeOpen = mut0((s) => { s.permanentFinancing.deferredDevFee = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { deferredDevFee: 'Operating inputs are incomplete.' }); });
 ok(feeOpen.sources.rows.some((x) => x.amount === null && x.label === 'Deferred developer fee: not known, Operating inputs are incomplete.'), 'an unknown deferred fee stays in the sources with its reason');
 
