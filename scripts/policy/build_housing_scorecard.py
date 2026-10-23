@@ -10,6 +10,7 @@ Output: data/policy/housing-policy-scorecard.json
 import json
 import os
 import re
+import sys
 import unicodedata
 from datetime import datetime, timezone
 
@@ -316,6 +317,12 @@ def main():
     for d in DIMENSIONS:
         s = stats[d['id']]
         print(f"  {d['label']}: {s['true']} yes, {s['false']} no, {s['null']} unknown")
+
+    # The policy map layer carries a copy of these scores; keep it current.
+    sys.path.insert(0, os.path.dirname(__file__))
+    import build_policy_jurisdictions_geojson
+    if build_policy_jurisdictions_geojson.main() != 0:
+        sys.exit(1)
 
 
 if __name__ == '__main__':
