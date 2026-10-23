@@ -26,6 +26,9 @@
 .ds-sources { padding-left: 1.6em; line-height: 1.5; font-size: var(--small); overflow-wrap: anywhere; }
 .ds-cite { font-size: var(--tiny); margin-left: 2px; text-decoration: none; white-space: nowrap; }
 .ds-muted { font-size: var(--small); color: var(--muted); }
+.ds-filters { display: flex; flex-wrap: wrap; gap: var(--sp2) var(--sp3); margin: 0 0 var(--sp2); }
+.ds-filter { display: flex; flex-direction: column; gap: 4px; font-size: var(--small); font-weight: 600; }
+.ds-filter select { min-height: 44px; min-width: 9rem; font: inherit; font-weight: 400; padding: 6px 8px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--card); color: var(--text); }
 @media print {
   #site-header, #site-footer, .breadcrumb, .ds-actions, .skip-link { display: none !important; }
   .ds-fold > summary { list-style: none; }
