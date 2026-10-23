@@ -710,7 +710,7 @@
         var lo = t * FLOOR_SHARE, hi = rentersAtOrBelow(le, t), base = rentersAtOrBelow(le, lo);
         var q = hi != null && base != null ? hi - base : null;
         return { tier: t, units: unitsBy[t], low: lo, high: t, qualified: q, capture: q > 0 ? unitsBy[t] / q : null,
-          reason: q == null ? 'No renter count published at ' + t + '% AMI for this county.' : null };
+          reason: q == null ? 'No renter count published at ' + t + '% AMI for this county.' : q <= 0 ? 'None counted in this range' : null };
       });
       var tiers = mk.capture.map(function (c) { return c.tier; });
       var allLo = Math.min.apply(null, tiers) * FLOOR_SHARE, allHi = Math.max.apply(null, tiers);
@@ -765,6 +765,7 @@
       else if (x.discount < 0.10) out.push({ level: 'warn', text: x.tier + '% AMI ' + x.bedrooms + ' rent is only ' + pct(x.discount) + ' under the market estimate (' + money(x.market) + '). Renters who qualify have little reason to choose it over market housing.' });
     });
     (mk.capture || []).forEach(function (c) {
+      if (c.qualified != null && c.qualified <= 0) { out.push({ level: 'bad', text: c.tier + '% AMI: ' + c.units + ' homes, but the county counts show no renter households with incomes from ' + Math.round(c.low) + '% to ' + c.high + '% AMI. Check who can rent these homes before relying on them.' }); return; }
       if (c.capture == null) return;
       if (c.capture >= 0.25) out.push({ level: 'warn', text: c.tier + '% AMI: ' + c.units + ' homes against about ' + Math.round(c.qualified).toLocaleString('en-US') + ' renter households who qualify in the county (' + pct(c.capture, 1) + '). The deal needs a large share of them.' });
     });
@@ -1223,10 +1224,11 @@
         // changing a picker without opening leaves this deal on screen and editable.
         if (deal) researchEditor(doc, deal, model, function () { status('Your market research did not load.'); });
         else $('wbResearch').innerHTML = '<p class="sr-muted">To add comparables, waitlist counts and the rent survey, save this deal in <a href="developer-submittal-review.html">Submittal review</a> and open it from the saved deals here.</p>';
-        var first = market(model, snap, mkt);
+        var first = market(model, snap, mkt), mEl = $('wbMarket');
+        // The market fills in while its own section is on screen; only opening another deal replaces it.
         (first.error ? Promise.resolve({}) : loadDealDetails(mkt, first)).then(function (detail) {
-          if (my !== tok) return;
-          $('wbMarket').innerHTML = renderMarket(first.error ? first : market(model, snap, Object.assign({}, mkt, { dealDetail: detail })));
+          if (mEl.isConnected === false || $('wbMarket') !== mEl) return;
+          mEl.innerHTML = renderMarket(first.error ? first : market(model, snap, Object.assign({}, mkt, { dealDetail: detail })));
         });
       }, function (err) { if (my === tok) status(err.message); });
     }
