@@ -284,6 +284,8 @@ const CLAIMS = {
   'hub-resource-finder': [['utility provider', 'utility provider'], ['not exhaustive', 'non-exhaustive']],
   'hub-master-meter': [['billing', 'billing function'], ['upkeep of the submeters', 'maintaining the submetering system']],
   'xcel-mfbe': [['free in-unit products', 'free energy-saving products in each unit']],
+  'hb22-1362-rural': [['significantly assists', 'grant that significantly assists in energy code adoption and enforcement training'], ['accepting applications', 'is accepting applications'], ['thirty thousand', 'less than thirty thousand']],
+  'sfa-court-rulings': [['district of columbia', 'district of columbia on tuesday ruled'], ['arbitrary and capricious', 'arbitrary and capricious'], ['all solar for all grants', 'cancellation of all solar for all grants'], ['rhode island', 'rhode island'], ['procedurally unlawful', 'procedurally unlawful'], ['appeal', 'considering options for appeal'], ['dismissed in january', 'dismissed in january']],
 };
 for (const [id, pairs] of Object.entries(CLAIMS)) {
   const r = rec(id); const f = r.finding.toLowerCase(); const q = r.quotes.join(' ').toLowerCase();
@@ -323,6 +325,10 @@ assert.equal(norm(w.document.querySelector('[data-gb-checked]').textContent), `O
   if (!/repealed|ended/.test(watch.status)) {
     assert.notEqual(sfa.status, 'ended', `epa-solar-for-all says ended while tax-credit-legislation.json holds it at ${watch.status}`);
     assert(/on hold/.test(sfa.finding) && /court/.test(sfa.finding), 'epa-solar-for-all must say the program is on hold and name the court rulings');
+    // The court claim stands on a cited report, flagged as trade press, not on our word.
+    const rulings = rec('sfa-court-rulings');
+    assert(/trade press/.test(sfa.finding) && /trade press/.test(rulings.title) && /trade press/.test(rulings.source_title), 'the Solar for All court claim must be flagged as trade press and cite the report');
+    assert(rulings.status !== 'ended' && /do not count/.test(rulings.finding), 'sfa-court-rulings must not present the money as available');
   }
 }
 // A record's fit may not promise a building size its quotes do not.

@@ -382,10 +382,11 @@
       "section": "deal",
       "kind": "rule",
       "title": "Small rural counties can lag",
-      "finding": "A county of fewer than thirty thousand people may stay on one of the last three IECC editions if it applied for, and did not get, a state code-adoption grant.",
+      "finding": "A county of fewer than thirty thousand people may stay on one of the last three IECC editions if, while the state grant program was accepting applications, it applied for and was not awarded a grant that significantly assists in energy code adoption and enforcement training.",
       "quotes": [
         "A RURAL COUNTY MEANS A COUNTY WITH A POPULATION OF LESS THAN THIRTY THOUSAND PEOPLE",
-        "IS REQUIRED TO ADOPT AND ENFORCE AN ENERGY CODE THAT ACHIEVES EQUIVALENT OR BETTER ENERGY PERFORMANCE THAN ONE OF THE LAST THREE MOST RECENT EDITIONS OF THE INTERNATIONAL ENERGY CONSERVATION CODE"
+        "IS REQUIRED TO ADOPT AND ENFORCE AN ENERGY CODE THAT ACHIEVES EQUIVALENT OR BETTER ENERGY PERFORMANCE THAN ONE OF THE LAST THREE MOST RECENT EDITIONS OF THE INTERNATIONAL ENERGY CONSERVATION CODE",
+        "IF, WHILE THE GRANT PROGRAM ESTABLISHED PURSUANT TO SECTION 24-38.5-403 IS ACCEPTING APPLICATIONS, THE BOARD OF COUNTY COMMISSIONERS APPLIES FOR AND IS NOT AWARDED A GRANT THAT SIGNIFICANTLY ASSISTS IN ENERGY CODE ADOPTION AND ENFORCEMENT TRAINING."
       ],
       "source_url": "https://content.leg.colorado.gov/sites/default/files/documents/2022A/bills/2022a_1362_enr.pdf",
       "source_title": "HB22-1362 as enacted (county code section)",
@@ -601,7 +602,7 @@
       "status": "at-risk",
       "last_verified": "2026-10-23",
       "title": "Solar for All (EPA)",
-      "finding": "EPA stopped the program and the 2025 tax law rescinded its remaining funds. Federal courts have since ruled against the termination (reported in the trade press; whether the rulings cover Colorado's grant is not confirmed), EPA may appeal, and the Colorado Energy Office still lists its program as temporarily on hold. Keep it on watch, but do not count it as available money.",
+      "finding": "EPA stopped the program and the 2025 tax law rescinded its remaining funds. Federal courts have since set the termination aside, as reported in the trade press (see the court rulings card), EPA may appeal, and the Colorado Energy Office still lists its program as temporarily on hold. Keep it on watch, but do not count it as available money.",
       "also_see": {
         "url": "https://energyoffice.colorado.gov/cos4a",
         "title": "Colorado Energy Office: Colorado Solar for All, temporarily on hold"
@@ -612,6 +613,33 @@
       "source_url": "https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund",
       "source_title": "Greenhouse Gas Reduction Fund",
       "publisher": "U.S. EPA",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "sfa-court-rulings",
+      "section": "credits",
+      "kind": "credit",
+      "status": "at-risk",
+      "last_verified": "2026-10-23",
+      "title": "Solar for All court rulings (trade press)",
+      "finding": "A trade publication reports that a federal judge in the District of Columbia ruled on September 22, 2026 that EPA's termination was arbitrary and capricious, and that the ruling covers all Solar for All grants, not only the plaintiff's. Days earlier, the federal court in Rhode Island ruled the termination procedurally unlawful. EPA is reviewing both and considering an appeal. A separate suit by 22 states was dismissed in January. We have not read the rulings themselves, so do not count the money until the Colorado Energy Office reopens its program.",
+      "quotes": [
+        "A federal judge ruled on Sept. 22, 2026, that the U.S. Environmental Protection Agency illegally terminated the $7 billion Solar for All program",
+        "A U.S. District Court judge for the District of Columbia on Tuesday ruled",
+        "arbitrary and capricious, contrary to law, and in excess of statutory authority.",
+        "That decision applies to the EPA’s cancellation of all Solar for All grants, not just Harris County’s, Chutkan ruled.",
+        "the U.S. District Court of Rhode Island on Friday ruled the EPA’s termination of the Solar for All program was procedurally unlawful",
+        "The EPA is reviewing both decisions and considering options for appeal",
+        "filed by 22 states and the District of Columbia in U.S. District Court in the Western District of Washington last October, was dismissed in January."
+      ],
+      "source_url": "https://www.smartcitiesdive.com/news/second-federal-judge-overturns-7b-solar-for-all-cancellation/831364/",
+      "source_title": "Second federal judge overturns $7B Solar for All cancellation (trade press)",
+      "publisher": "Smart Cities Dive",
+      "published": "2026-09-25",
+      "also_see": {
+        "url": "https://energyoffice.colorado.gov/cos4a",
+        "title": "Colorado Energy Office: Colorado Solar for All, temporarily on hold"
+      },
       "review_by": "2027-01-23"
     },
     {
