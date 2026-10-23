@@ -1,7 +1,7 @@
 {
   "schema": "incentive-coverage/v1",
   "meta": {
-    "as_of": "2026-10-10",
+    "as_of": "2026-10-22",
     "method": "One row per jurisdiction whose official sources were read for a scope (fees, land_use, funds). \"none_found\" means the named sources were read and hold no such measure; \"unreadable\" means the official source could not be read (blocked, a scan with no text, or a dead link). A scope with a verified record is shown as having records whatever this file says; tests/test_local_incentives.py fails if a row says none_found for a scope that has a record. Jurisdictions not listed here and with no record are \"not yet checked\"."
   },
   "jurisdictions": [
@@ -705,6 +705,24 @@
         "https://www.cogs.us/757/Workforce-Housing-Fund"
       ],
       "note": "2C accommodations tax recorded."
+    },
+    {
+      "geoid": "0828745",
+      "jurisdiction": "City of Fruita",
+      "checked": "2026-10-22",
+      "result_by_scope": {
+        "fees": "records",
+        "land_use": "records",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://www.fruita.org/m/faq",
+        "https://www.fruita.org/572/Sales-Use-Tax-Comparisons",
+        "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_05202025-62",
+        "https://www.fruita.org/AgendaCenter/ViewFile/Minutes/_08052025-918",
+        "https://www.fruita.org/Archive/ViewFile/Item/64"
+      ],
+      "note": "Funds: the 6% lodging tax (short-term rentals included) sends 3% to Economic Development and Public Places, whose listed uses include attainable housing; the city used $325,000 of it for The Oaks in 2025. Housing is an allowed use, not a set share. Fee and land-use records were added 2026-09-26 (senior sewer rate, parking)."
     }
   ]
 }
