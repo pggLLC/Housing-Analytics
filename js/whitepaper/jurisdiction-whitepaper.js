@@ -760,7 +760,7 @@
     };
   }
 
-  function contactsSection(row, src, contactsFile, resources, relatedFiles) {
+  function contactsSection(row, src, contactsFile, resources, relatedFiles, contactsFailed) {
     function usable(f) {
       return f && Array.isArray(f.contacts) ? f.contacts.filter(function (c) { return c && c.name && safeHref(c.source_url) && c.source_quote; }) : [];
     }
@@ -814,7 +814,9 @@
       partners: dedupe(partners, function (o) { return o.name.toLowerCase(); }),
       offices: dedupe(offices, function (o) { return o.name.toLowerCase(); }),
       needsResearch: researched.length === 0 && related.length === 0,
-      resourcesLoaded: !!resources
+      resourcesLoaded: !!resources,
+      // A contact file that failed to load (not merely absent) leaves the search unfinished.
+      contactsLoaded: !contactsFailed
     };
   }
 
@@ -955,7 +957,7 @@
       deal: dealShape(need, rents, lihtc, src.fundingGuide, marketRents(row, src), opts.MixCheck || null, src.underwritingRules || null),
       landscape: landscape,
       dynamics: dealDynamics(row, src, need, lihtc, policy),
-      contacts: contactsSection(row, src, opts.contacts || null, opts.localResources || null, opts.relatedContacts || []),
+      contacts: contactsSection(row, src, opts.contacts || null, opts.localResources || null, opts.relatedContacts || [], !!opts.contactsFailed),
       dates: nextDates(src, today),
       brief: brief ? {
         lastCurated: brief.last_curated || null,

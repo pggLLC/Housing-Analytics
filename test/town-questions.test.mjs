@@ -352,7 +352,7 @@ ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the eit
 // A researched housing contact means a partner is on file.
 {
   const loaded = { resortPrograms: true, stewardship: true, research: true };
-  const m = { landscape: { authorities: [], stewards: [], research: { groups: [] }, loaded, sources: [] }, contacts: { orgs: [], partners: [], researched: [{ name: 'H', role: 'Housing Director', org: 'Town of X' }], related: [], resourcesLoaded: true } };
+  const m = { landscape: { authorities: [], stewards: [], research: { groups: [] }, loaded, sources: [] }, contacts: { orgs: [], partners: [], researched: [{ name: 'H', role: 'Housing Director', org: 'Town of X' }], related: [], resourcesLoaded: true, contactsLoaded: true } };
   ok(TQ.SIGNALS.no_partner(m) === null, 'a researched housing contact stops the "no partner" question');
   m.contacts.researched = [];
   ok(TQ.SIGNALS.no_partner(m) !== null, 'with nothing on file the question fires');
@@ -362,6 +362,8 @@ ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the eit
   }
   const mr = JSON.parse(JSON.stringify(m)); mr.contacts.resourcesLoaded = false;
   ok(TQ.SIGNALS.no_partner(mr) === null, 'local resources not loaded: no "no partner" question');
+  const mc = JSON.parse(JSON.stringify(m)); mc.contacts.contactsLoaded = false;
+  ok(TQ.SIGNALS.no_partner(mc) === null, 'a contact file failed to load: no "no partner" question');
   // The finding cites every file it searched, contacts and resources included.
   const ms = Object.assign(clone(m), { geoid: '0899999' });
   ms.contacts.related = [{ geoid: '08999', contacts: [] }];
@@ -375,6 +377,10 @@ ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the eit
   const opts = (o) => Object.assign({ today: '2026-10-22', FundingFit, MixCheck, TownQuestions: TQ }, o);
   ok(WP.buildModel(s, '0833640', opts({ localResources: null })).contacts.resourcesLoaded === false, 'no local-resources file: not counted as loaded');
   ok(WP.buildModel(s, '0833640', opts({ localResources: {} })).contacts.resourcesLoaded === true, 'a loaded local-resources file counts as loaded');
+  ok(WP.buildModel(s, '0833640', opts({ contactsFailed: true })).contacts.contactsLoaded === false, 'a failed contact load is not counted as loaded');
+  ok(WP.buildModel(s, '0833640', opts({ contacts: null })).contacts.contactsLoaded === true, 'an absent contact file is a finished search');
+  const page = read('developer-brief.html');
+  ok(/contactsFailed: contactMisses\.length > 0/.test(page) && (page.match(/contactJson\(WP\.contactsPath\(/g) || []).length === 2, 'developer-brief.html records failed contact loads for this place and related places');
 }
 
 // A county read from a town's landscape file is not searched county-wide.

@@ -127,9 +127,9 @@
     no_partner: function (m) {
       var L = m.landscape;
       // A negative finding needs every search to have run: the authority and steward
-      // lists, this area's landscape research, and the local resources file.
+      // lists, this area's landscape research, the contact files and the local resources file.
       var ld = L.loaded || {};
-      if (!ld.resortPrograms || !ld.stewardship || !ld.research || !(m.contacts && m.contacts.resourcesLoaded)) return null;
+      if (!ld.resortPrograms || !ld.stewardship || !ld.research || !(m.contacts && m.contacts.resourcesLoaded && m.contacts.contactsLoaded)) return null;
       var agencies = L.research ? L.research.groups.filter(function (g) { return g.key === 'agencies' && g.items.length; }).length : 0;
       var C = m.contacts || {};
       var people = (C.researched || []).concat([].concat.apply([], (C.related || []).map(function (f) { return f.contacts || []; })));

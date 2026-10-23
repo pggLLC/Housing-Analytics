@@ -253,6 +253,11 @@
 
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function softJson(url) { return fetch(url, {cache:'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null); }
+  // A contact file that is not there (404) is a finished search; any other failure is
+  // recorded so the report never reads an unloaded file as "no contacts on file".
+  function contactJson(url, misses) {
+    return fetch(url, {cache:'no-cache'}).then(r => r.ok ? r.json() : (r.status === 404 ? null : Promise.reject(new Error(String(r.status))))).catch(() => { misses.push(url); return null; });
+  }
 
   // One document per jurisdiction. The report is built by
   // js/whitepaper/jurisdiction-whitepaper.js, the same module the command line
@@ -366,17 +371,18 @@
     history.replaceState({}, '', '?geoid=' + geoid);
     // A town without its own research borrows its county's; a county borrows its towns'.
     const related = WP.relatedGeoids(SOURCES, geoid);
+    const contactMisses = [];
     Promise.all([
       softJson(WP.briefPath(geoid)),
-      softJson(WP.contactsPath(geoid)),
+      contactJson(WP.contactsPath(geoid), contactMisses),
       softJson(WP.landscapePath(geoid)),
       softJson(WP.summaryPath(geoid)),
-      Promise.all(related.map(g => softJson(WP.contactsPath(g)))),
+      Promise.all(related.map(g => contactJson(WP.contactsPath(g), contactMisses))),
       Promise.all(related.map(g => softJson(WP.landscapePath(g))))
     ]).then(([brief, contacts, landscape, summary, relatedContacts, relatedLandscape]) => {
       if (typeof isSensitive !== 'function') throw new Error('the private-text check (scripts/lib/public-sensitive-patterns.mjs) did not load, so nothing was built');
       const model = WP.buildModel(SOURCES, geoid, {
-        FundingFit: window.FundingFit, MixCheck: window.MixCheck, TownQuestions: window.TownQuestions, brief, contacts, landscape, summary, relatedContacts, relatedLandscape, localResources: LOCAL_RES, isSensitive
+        FundingFit: window.FundingFit, MixCheck: window.MixCheck, TownQuestions: window.TownQuestions, brief, contacts, landscape, summary, relatedContacts, relatedLandscape, contactsFailed: contactMisses.length > 0, localResources: LOCAL_RES, isSensitive
       });
       html = WP.renderHtml(model);
       if (!model.error && isSensitive(html)) {
