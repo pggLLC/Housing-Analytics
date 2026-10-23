@@ -291,6 +291,8 @@ ok(!WB.market(mm, msnap, noMetro).trend && /no metro history/.test(WB.market(mm,
   const em = WB.market(mm, msnap, edge);
   ok(em.pipeline.some((d) => d.slug === 'invented-edge-in') && !em.pipeline.some((d) => d.slug === 'invented-edge-out') && WB.renderMarket(em).includes('since ' + (y - 4) + '</h2>'), 'the awards window is five calendar years counting this one, and the heading says the same'); }
 ok(/\.wb-map \.leaflet-control-zoom a \{ width: 44px; height: 44px;/.test(read('developer-deal-workbook.html')), 'the workbook map zoom buttons are 44px touch targets');
+{ const cls = (read('js/whitepaper/deal-workbook.js').match(/<a class="([\w-]+)" href="' \+ esc\(webLink\(c\.source\)\)/) || [])[1];
+  ok(!!cls && new RegExp('a\\.' + cls + ' \\{[^}]*min-width: 44px; min-height: 44px').test(read('developer-deal-workbook.html')), 'the comparable source link carries a class the page sizes to 44px'); }
 
 
 // ── The team's research (phase 3) ──────────────────────────────────────────
@@ -625,10 +627,19 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
     const noSrc = { posts, msg: el('wbResStatus').textContent, kept: el('wbSRent').value };
     el('wbSSrc').value = ['https:', '', 'example.org', 's'].join('/');
     el('wbResSave').handlers.click(); await new Promise((r) => setTimeout(r, 30));
+    const savedOnce = posts;
+    el('wbSRent').value = '1400'; el('wbSSrc').value = ['https:', '', 'example.org', 's'].join('/'); el('wbSVac').value = '150';
+    el('wbResSave').handlers.click();
+    const vac = { posts, msg: el('wbResStatus').textContent };
+    el('wbSVac').value = ''; el('wbST0').value = ''; el('wbSTR0').value = '1500';
+    el('wbResSave').handlers.click();
+    const loose = { posts, msg: el('wbResStatus').textContent, kept: el('wbSTR0').value };
     globalThis.fetch = saved;
+    ok(vac.posts === savedOnce && /between 0% and 100%/.test(vac.msg), 'a survey vacancy over 100% is refused before saving');
+    ok(loose.posts === savedOnce && /no unit type/.test(loose.msg) && loose.kept === '1500', 'a survey row with figures but no unit type is refused, not dropped');
     ok(zero.posts === 0 && /more than \$0/.test(zero.msg) && zero.kept === '0', 'a $0 survey rent is refused before saving, with the entry left in place');
     ok(noSrc.posts === 0 && /source link/.test(noSrc.msg) && noSrc.kept === '1400', 'survey figures without a source link are refused before saving, with the entries left in place');
-    ok(posts === 1, 'a survey with a positive rent and a source link saves');
+    ok(savedOnce === 1, 'a survey with a positive rent and a source link saves');
   }
 }
 const highNoRows = mut0((s) => { s.result.projection.rows = []; s.result.costBasis.underwriting = { high: { firstYear: 1.45, exceeds: true } }; });

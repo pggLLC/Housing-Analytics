@@ -921,7 +921,7 @@
       h += '<h3>Comparables</h3>' + table(['Property', 'Type', 'Miles', 'Built', 'Homes', 'Studio', '1BR', '2BR', '3BR', '4BR', 'Vacancy', 'Checked', 'Source', ''], v.comps.map(function (c, i) {
         return { cells: [esc(c.name) + (c.concessions ? '<div class="sr-muted">' + esc(c.concessions) + '</div>' : ''), esc(c.kind), esc(c.miles == null ? '—' : c.miles.toFixed(1)), esc(c.yearBuilt || '—'), esc(c.units || '—')]
           .concat(COMP_BEDS.map(function (bd) { return esc(c.rents && num(c.rents[bd[0]]) != null ? money(c.rents[bd[0]]) : '—'); }))
-          .concat([esc(c.vacancy == null ? '—' : pct(c.vacancy, 1)), esc(c.checked), '<a href="' + esc(webLink(c.source)) + '" rel="noopener noreferrer" target="_blank">Link</a>', '<button type="button" class="sr-btn" data-del-comp="' + i + '" aria-label="Remove ' + esc(c.name) + '">Remove</button>']) };
+          .concat([esc(c.vacancy == null ? '—' : pct(c.vacancy, 1)), esc(c.checked), '<a class="wb-src" href="' + esc(webLink(c.source)) + '" rel="noopener noreferrer" target="_blank" aria-label="Source for ' + esc(c.name) + '">Link</a>', '<button type="button" class="sr-btn" data-del-comp="' + i + '" aria-label="Remove ' + esc(c.name) + '">Remove</button>']) };
       }), { num: [2, 3, 4, 5, 6, 7, 8, 9, 10] });
       var cmp = v.rentVsComps.filter(function (x) { return x.comp != null; });
       if (cmp.length) h += table(['AMI', 'Size', 'Rent', 'Average market comparable', 'Under'], cmp.map(function (x) {
@@ -1090,6 +1090,8 @@
     var val = function (id) { var el = $(id); return el ? el.value.trim() : ''; };
     var nOrNull = function (x) { return x === '' ? null : num(x); };
     var pctIn = function (x) { var n = nOrNull(x); return n == null ? null : n / 100; };
+    var badVac = function (v) { return v != null && !(v >= 0 && v <= 1); };
+    var surveyLoose = 0;
     function fill() {
       var s = rec.site || {};
       $('wbSiteAddr').value = s.address || ''; $('wbSiteLat').value = s.lat == null ? '' : s.lat; $('wbSiteLon').value = s.lon == null ? '' : s.lon;
@@ -1114,14 +1116,19 @@
       });
       var total = nOrNull(val('wbWTotal'));
       rec.waitlist = rows.length || total != null ? { keeper: val('wbWKeeper'), asOf: val('wbWAsOf'), total: total == null ? null : Math.round(total), rows: rows } : null;
-      var byType = [0, 1, 2].map(function (i) { return { type: val('wbST' + i), rent: nOrNull(val('wbSTR' + i)), vacancy: pctIn(val('wbSTV' + i)) }; }).filter(function (r) { return r.type; });
+      var typed = [0, 1, 2].map(function (i) { return { type: val('wbST' + i), rent: nOrNull(val('wbSTR' + i)), vacancy: pctIn(val('wbSTV' + i)) }; });
+      // A row with figures but no unit type is counted, so the save can stop instead of dropping it.
+      surveyLoose = typed.filter(function (r) { return !r.type && (r.rent != null || r.vacancy != null); }).length;
+      var byType = typed.filter(function (r) { return r.type; });
       var sv = { region: val('wbSRegion'), period: val('wbSPeriod'), avgRent: nOrNull(val('wbSRent')), vacancy: pctIn(val('wbSVac')), byType: byType, source: val('wbSSrc') };
       rec.survey = sv.avgRent != null || sv.vacancy != null || byType.length ? sv : null;
     }
     // Checked before a save, so the user fixes the survey instead of losing it to the backend's filter.
     function surveyProblem() {
+      if (surveyLoose) return 'A survey row has figures but no unit type. Add the type or clear the row.';
       var sv = rec.survey;
       if (!sv) return null;
+      if ([sv.vacancy].concat(sv.byType.map(function (r) { return r.vacancy; })).some(badVac)) return 'Survey vacancy must be between 0% and 100%.';
       var rents = [sv.avgRent].concat(sv.byType.map(function (r) { return r.rent; })).filter(function (x) { return x != null; });
       if (rents.some(function (x) { return !(x > 0); })) return 'Survey rents must be more than $0. Leave a rent blank if the survey does not report it.';
       if (!/^https?:\/\//i.test(sv.source || '')) return 'Survey figures need a source link starting with http.';
@@ -1173,6 +1180,8 @@
       COMP_BEDS.forEach(function (bd) { c.rents[bd[0]] = nOrNull(val('wbCR' + bd[0])); });
       if (!ready) return;
       if (!c.name || !c.checked || !/^https?:\/\//i.test(c.source)) { say('A comparable needs a name, the date you checked it and a source link starting with http.'); return; }
+      if (COMP_BEDS.some(function (bd) { return c.rents[bd[0]] != null && !(c.rents[bd[0]] > 0); })) { say('Comparable rents must be more than $0. Leave a size blank if the property does not report it.'); return; }
+      if (badVac(c.vacancy)) { say('Comparable vacancy must be between 0% and 100%.'); return; }
       rec.comps.push(c);
       ['wbCName', 'wbCAddr', 'wbCLat', 'wbCLon', 'wbCYear', 'wbCUnits', 'wbCVac', 'wbCConc', 'wbCSrc'].concat(COMP_BEDS.map(function (bd) { return 'wbCR' + bd[0]; })).forEach(function (id) { $(id).value = ''; });
       say('Added. Save to keep it.'); draw();
