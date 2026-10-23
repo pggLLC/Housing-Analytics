@@ -117,6 +117,18 @@ test('a zero 20-80% pool withholds the 85% check instead of borrowing a workforc
     'without a penetration pool the legacy single denominator still checks');
 });
 
+test('the simulator recounts for the bedroom sizes ticked', () => {
+  const html = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
+  ['pmaBr0', 'pmaBr1', 'pmaBr2', 'pmaBr3'].forEach((id) => assert(html.includes('id="' + id + '"'), id + ' missing'));
+  assert(/id="pmaBr1" value="1br" checked/.test(html) && /id="pmaBr3" value="3br" checked/.test(html) && !/id="pmaBr0" value="0br" checked/.test(html),
+    'default should be 1-3BR ticked, studio not');
+  assert(/_chfaQualifiedRenters\(simDen\.tracts, mixTiers, bedrooms\)/.test(src), 'the recount does not pass the bedroom sizes');
+  assert(/!sameTiers \|\| !defaultBr/.test(src), 'a non-default bedroom mix does not trigger a recount');
+  assert(/Tick at least one bedroom size/.test(src), 'no message when every size is unticked');
+  assert(/BEDROOM_INPUTS\.forEach\(function \(id\) \{\s*var box = el\(id\);\s*if \(box\) box\.addEventListener\('change'/.test(src),
+    'the bedroom boxes do not rerun the simulator');
+});
+
 test('without CHFA-rule counts the project pool is the one denominator', () => {
   const r = { captureDenominator: { value: 598, source: 'chas_lihtc_eligible' } };
   assert.deepStrictEqual(projectCaptureDenominator(r), captureDenominator(r));

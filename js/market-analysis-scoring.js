@@ -181,6 +181,10 @@
    */
   var CHFA_RENT_SHARE_OF_INCOME = 0.40;
   var CHFA_MAX_OCCUPANTS = { '1br': 2, '2br': 3, '3br': 5 };
+  // CHFA sets no studio size; one person is the occupancy tax-credit rents
+  // impute to a studio (IRC 42(g)(2)(C)), so a studio serves one person.
+  var STUDIO_MAX_OCCUPANTS = 1;
+  var CHFA_DEFAULT_BEDROOMS = ['1br', '2br', '3br'];
   var CHFA_CAPTURE_LIMIT = 0.85;
   // CHAS income tiers in percent of the county's AMI; the last is open-ended.
   var CHAS_TIER_BINS = [[0, 30], [30, 50], [50, 80], [80, 100], [100, Infinity]];
@@ -190,19 +194,22 @@
    * one or more AMI tiers, by CHFA's rules.
    *
    * For each tract, each CHAS income tier count is multiplied by the share
-   * of that tier's renters (ACS PUMS, the tract's PUMA) whose size fits a
-   * 1-3 bedroom unit and whose income falls between the 40%-of-income rent
-   * floor and the tier's limit. A household is matched to the smallest
+   * of that tier's renters (ACS PUMS, the tract's PUMA) whose size fits an
+   * offered unit (1-3 bedroom by default) and whose income falls between the
+   * 40%-of-income rent floor and the tier's limit. A household is matched to the smallest
    * bedroom size that fits it, since that unit has the lowest rent.
    *
    * @param {Object} demand - data/market/chfa_renter_demand_co.json
    * @param {Object<string,Object>} limitsByFips - CHFA current-year county records (regular_tiers)
    * @param {Array<Object>} bufTracts - buffer tracts with geoid/_bufferShare
    * @param {Array<number>} tiers - AMI percents of the proposed units, e.g. [30, 60]
+   * @param {Array<string>} [bedrooms] - unit sizes offered ('0br'..'3br');
+   *   default 1-3BR. Household sizes no offered unit fits are left out, as
+   *   CHFA's guide says (no one-bedroom units: no one-person households).
    * @returns {{value:number|null, byTier:Object<string,number>, source:string,
    *   tractsUsed:number, tractsMissing:number, reason:string|null}}
    */
-  function chfaQualifiedRenters(demand, limitsByFips, bufTracts, tiers) {
+  function chfaQualifiedRenters(demand, limitsByFips, bufTracts, tiers, bedrooms) {
     var empty = function (reason) {
       return { value: null, byTier: {}, source: 'unavailable', tractsUsed: 0, tractsMissing: 0, reason: reason };
     };
@@ -211,6 +218,16 @@
     if (!bufTracts || !bufTracts.length) return empty('no tracts in the market area');
     tiers = (tiers || []).filter(function (t) { return t > 0; });
     if (!tiers.length) return empty('no AMI tier was given');
+    var caps = { '0br': STUDIO_MAX_OCCUPANTS, '1br': 2, '2br': 3, '3br': 5 };
+    var offered = (bedrooms && bedrooms.length ? bedrooms : CHFA_DEFAULT_BEDROOMS)
+      .filter(function (b) { return caps[b] != null; })
+      .sort();
+    if (!offered.length) return empty('no bedroom size was given');
+    // The smallest offered unit a household of n fits: it has the lowest rent.
+    function unitFor(n) {
+      for (var i = 0; i < offered.length; i++) if (n <= caps[offered[i]]) return offered[i];
+      return null;
+    }
 
     // floors[fips][tier][size-1] = lowest qualifying income as a percent of AMI, or null.
     var floorCache = {};
@@ -224,7 +241,7 @@
       tiers.forEach(function (t) {
         var tierRec = reg[String(t)];
         out[t] = [1, 2, 3, 4, 5, 6].map(function (n) {
-          var br = n <= 2 ? '1br' : n === 3 ? '2br' : n <= 5 ? '3br' : null;
+          var br = unitFor(n);
           if (!br || !tierRec || !tierRec.max_rents) return null;
           var rent = tierRec.max_rents[br];
           var lim = lim50[n + 'p'];
@@ -286,7 +303,8 @@
 
     if (!used) return empty('no tract in the market area has CHAS and PUMS data');
     Object.keys(byTier).forEach(function (t) { byTier[t] = Math.round(byTier[t]); });
-    return { value: Math.round(total), byTier: byTier, source: 'chfa_qualified', tractsUsed: used, tractsMissing: missing, reason: null };
+    return { value: Math.round(total), byTier: byTier, source: 'chfa_qualified', tractsUsed: used, tractsMissing: missing,
+      bedrooms: offered, reason: null };
   }
 
   function scoreRentPressure(acs, countyAmi) {
@@ -373,6 +391,7 @@
     CHFA_CAPTURE_LIMIT: CHFA_CAPTURE_LIMIT,
     CHFA_RENT_SHARE_OF_INCOME: CHFA_RENT_SHARE_OF_INCOME,
     CHFA_MAX_OCCUPANTS: CHFA_MAX_OCCUPANTS,
+    CHFA_DEFAULT_BEDROOMS: CHFA_DEFAULT_BEDROOMS,
     scoreRentPressure: scoreRentPressure,
     scoreMarketTightness: scoreMarketTightness,
     scoreMarketTightnessDetail: scoreMarketTightnessDetail,

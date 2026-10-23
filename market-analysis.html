@@ -876,6 +876,17 @@
               <span id="pmaAmi120-error" class="field-error" role="alert" hidden></span>
             </div>
           </div>
+          <!-- Bedroom sizes offered: CHFA's guide drops household sizes the project will not serve -->
+          <fieldset id="pmaBedrooms" style="border:1px solid var(--border);border-radius:4px;margin:0.5rem 0;padding:0.4rem 0.75rem">
+            <legend style="font-size:var(--tiny);font-weight:600;padding:0 0.25rem">Bedroom sizes offered</legend>
+            <div style="display:flex;flex-wrap:wrap;gap:0.25rem 1rem;font-size:var(--tiny)">
+              <label><input type="checkbox" id="pmaBr0" value="0br"> Studio</label>
+              <label><input type="checkbox" id="pmaBr1" value="1br" checked> 1BR</label>
+              <label><input type="checkbox" id="pmaBr2" value="2br" checked> 2BR</label>
+              <label><input type="checkbox" id="pmaBr3" value="3br" checked> 3BR</label>
+            </div>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:0.25rem 0 0">Only households that fit an offered size are counted (studio 1 person, 1BR up to 2, 2BR up to 3, 3BR up to 5).</p>
+          </fieldset>
           <!-- Unit-mix sync indicator: three-state (hard error / informational / hidden) -->
           <div id="pma-units-sync-warn" hidden
             style="margin:0.5rem 0;padding:0.5rem 0.75rem;border-radius:4px;

@@ -995,10 +995,25 @@
    * CHFA's Market Study Guide rules (QAP Appendix A, section 7): income at or
    * under the tier limit for the household's size, income high enough that
    * the maximum tax-credit rent is no more than 40% of it, and a household
-   * that fits a 1-3 bedroom unit. See scripts/market/build_chfa_renter_demand.py.
+   * that fits an offered unit (1-3 bedroom unless the simulator says
+   * otherwise). See scripts/market/build_chfa_renter_demand.py.
    */
-  function _chfaQualifiedRenters(bufTracts, tiers) {
-    return PMAScoring.chfaQualifiedRenters(chfaDemand, chfaLimitsByFips, bufTracts, tiers);
+  function _chfaQualifiedRenters(bufTracts, tiers, bedrooms) {
+    return PMAScoring.chfaQualifiedRenters(chfaDemand, chfaLimitsByFips, bufTracts, tiers, bedrooms);
+  }
+
+  var BEDROOM_INPUTS = ['pmaBr0', 'pmaBr1', 'pmaBr2', 'pmaBr3'];
+  // Bedroom sizes ticked on the simulator, e.g. ['2br', '3br'].
+  function _offeredBedrooms() {
+    return BEDROOM_INPUTS.map(el).filter(function (b) { return b && b.checked; })
+      .map(function (b) { return b.value; });
+  }
+  function _bedroomLabel(list) {
+    return list.map(function (b) { return b === '0br' ? 'studio' : b.toUpperCase(); }).join('/');
+  }
+  function _isDefaultBedrooms(list) {
+    var d = PMAScoring.CHFA_DEFAULT_BEDROOMS || ['1br', '2br', '3br'];
+    return list.length === d.length && d.every(function (b) { return list.indexOf(b) !== -1; });
   }
 
   function scoreCaptureRisk(acs, existingUnits, proposedUnits, chasEligible) {
@@ -2587,21 +2602,31 @@
       simEl.dataset.denominator = '';
       return;
     }
-    // The CHFA count depends on the tiers: recount for the tiers in this mix.
-    // With the default all-60% mix this is the headline count, so every card
-    // still divides by one number.
+    // The CHFA count depends on the tiers and the bedroom sizes: recount for
+    // this mix. With the default all-60%, 1-3BR mix this is the headline
+    // count, so every card still divides by one number.
+    var bedrooms = _offeredBedrooms();
+    if (simDen.source === 'chfa_qualified' && simDen.tracts && !bedrooms.length) {
+      simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' +
+        'Tick at least one bedroom size to count the renters this project would serve.</div>';
+      explainCapture(result, null, null, 'no bedroom size is ticked');
+      simEl.dataset.denominator = '';
+      return;
+    }
     if (simDen.source === 'chfa_qualified' && simDen.tracts) {
       var mixTiers = Object.keys(amiMix).filter(function (k) { return amiMix[k] > 0; })
         .map(function (k) { return parseInt(k.slice(3), 10); });
       var sameTiers = mixTiers.length === (simDen.tiers || []).length &&
         mixTiers.every(function (t) { return simDen.tiers.indexOf(t) !== -1; });
-      if (mixTiers.length && !sameTiers) {
-        var recount = _chfaQualifiedRenters(simDen.tracts, mixTiers);
+      var defaultBr = _isDefaultBedrooms(bedrooms);
+      if (mixTiers.length && (!sameTiers || !defaultBr)) {
+        var recount = _chfaQualifiedRenters(simDen.tracts, mixTiers, bedrooms);
         if (recount.source === 'chfa_qualified') {
+          var brText = defaultBr ? '' : ' ' + _bedroomLabel(bedrooms);
           simDen = Object.assign({}, simDen, {
-            value: recount.value, tiers: mixTiers, byTier: recount.byTier,
-            label: 'renter households that qualify for units at ' + mixTiers.join('/') + '% AMI (CHFA market-study rules; HUD CHAS + ACS PUMS)',
-            short: 'Renter HH qualified for ' + mixTiers.join('/') + '% AMI units (CHFA rules)'
+            value: recount.value, tiers: mixTiers, byTier: recount.byTier, bedrooms: bedrooms,
+            label: 'renter households that qualify for' + brText + ' units at ' + mixTiers.join('/') + '% AMI (CHFA market-study rules; HUD CHAS + ACS PUMS)',
+            short: 'Renter HH qualified for ' + mixTiers.join('/') + '% AMI' + brText + ' units (CHFA rules)'
           });
         }
       }
@@ -5685,6 +5710,10 @@
         validateUnitMix();
         if (lastResult) updateSimulator(lastResult);
       });
+    });
+    BEDROOM_INPUTS.forEach(function (id) {
+      var box = el(id);
+      if (box) box.addEventListener('change', function () { if (lastResult) updateSimulator(lastResult); });
     });
     // Run once on load so any default values are validated.
     validateUnitMix();

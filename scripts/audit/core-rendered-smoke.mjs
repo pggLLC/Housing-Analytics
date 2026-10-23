@@ -268,6 +268,30 @@ async function pmaTractDefaultInteraction(page, viewport) {
     }
   }
 
+  // CHFA's guide drops household sizes the project will not serve: with no
+  // one-bedroom units, the simulator's qualified pool must shrink (one-person
+  // households leave), name the sizes, and come back when 1BR is ticked again.
+  if (ran) {
+    const toggle = (id, on) => page.evaluate(([i, v]) => { const b = document.getElementById(i);
+      b.checked = v; b.dispatchEvent(new Event('change', { bubbles: true })); }, [id, on]);
+    const simState = () => page.evaluate(() => { const s = document.getElementById('pmaSimResult');
+      return { den: s.dataset.denominator, text: s.textContent.replace(/\s+/g, ' ') }; });
+    const before = await simState();
+    if (before.den && Number(before.den) > 0) {
+      await toggle('pmaBr1', false);
+      await page.waitForTimeout(300);
+      const no1 = await simState();
+      if (!(Number(no1.den) < Number(before.den))) failures.push(`unticking 1BR left the simulator pool at ${no1.den} (was ${before.den})`);
+      if (!/2BR\/3BR/.test(no1.text)) failures.push('the simulator does not name the bedroom sizes it counted');
+      await toggle('pmaBr2', false); await toggle('pmaBr3', false);
+      await page.waitForTimeout(300);
+      if (!/Tick at least one bedroom size/.test((await simState()).text)) failures.push('no bedroom size ticked does not ask for one');
+      await toggle('pmaBr1', true); await toggle('pmaBr2', true); await toggle('pmaBr3', true);
+      await page.waitForTimeout(300);
+      if ((await simState()).den !== before.den) failures.push('re-ticking 1-3BR did not restore the simulator pool');
+    }
+  }
+
   // Audit F2: one primary score. The scenario table's no-project row is
   // scored with the headline's inputs and must equal it; the site-selection
   // index is marked secondary; each scale carries its own legend.
