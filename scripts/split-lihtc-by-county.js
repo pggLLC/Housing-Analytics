@@ -97,9 +97,12 @@ const ALL_CO_FIPS = [
   let nonEmpty = 0;
   for (const [fips, countyFeatures] of byFips) {
     const outFile = path.join(OUT_DIR, `${fips}.json`);
+    // Name the upstream service and the statewide file each county file is cut from.
     const geojson = {
       type: 'FeatureCollection',
       fetchedAt,
+      source: source.source || null,
+      derivedFrom: 'data/chfa-lihtc.json',
       features: countyFeatures,
     };
     fs.writeFileSync(outFile, JSON.stringify(geojson), 'utf8');
