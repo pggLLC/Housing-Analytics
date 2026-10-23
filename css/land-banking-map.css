@@ -25,3 +25,14 @@
 @media (max-width:600px) { #lbmMap { height:320px; } }
 .lbm-since { display:inline-block; margin-top:.2rem; }
 .lbm-status, .lb-status { display:inline-block; margin-top:.2rem; }
+/* Filters and "Colour pins by", added under the search box by the map module. */
+.lbm-controls { display:grid; grid-template-columns:repeat(auto-fit, minmax(11rem, 1fr)); gap:.6rem .8rem; margin:.7rem 0 .2rem; max-width:60rem; }
+.lbm-ctl label { margin-bottom:.2rem; }
+.lbm-ctl select { width:100%; min-height:44px; padding:.4rem .6rem; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg2); color:var(--text); font-size:var(--small); }
+.lbm-legend { margin-top:.5rem; font-size:var(--small); }
+.lbm-legend-title { margin:0 0 .25rem; font-weight:700; }
+.lbm-legend ul { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.3rem 1rem; }
+.lbm-legend li { display:inline-flex; align-items:center; gap:.4rem; }
+.lbm-swatch { display:inline-block; width:14px; height:14px; border-radius:50%; border:1.5px solid #ffffff; box-shadow:0 0 0 1px var(--border); }
+.lbm-swatch-mixed { background:#ffffff; border:2.5px solid #333333; box-shadow:none; }
+@media (max-width:600px) { .lbm-controls { grid-template-columns:1fr 1fr; } .lbm-ctl-colour { grid-column:1 / -1; } }
