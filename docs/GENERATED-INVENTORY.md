@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-23T13:17:37.335Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-23T15:53:14.441Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.7 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 43.9 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.1 KB |
-| `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 19.2 KB |
+| `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 23.0 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.4 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 40.4 KB |
@@ -26,7 +26,7 @@
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.5 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.4 KB |
-| `cra-expansion-analysis.html` | CRA Expansion Impact on LIHTC Pricing | COHO Analytics | 23.8 KB |
+| `cra-expansion-analysis.html` | CRA Expansion Impact on LIHTC Pricing | COHO Analytics | 27.2 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.7 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.1 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
@@ -58,7 +58,7 @@
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.0 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 137.4 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 44.8 KB |
-| `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 22.8 KB |
+| `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 253.7 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.9 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 52.0 KB |
@@ -67,7 +67,7 @@
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.4 KB |
 | `lihtc-allocations.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | COHO Analytics | 16.4 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 65.0 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 73.9 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 136.0 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 152.0 KB |
@@ -81,7 +81,7 @@
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
 | `regional.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `research-brief.html` | Research Brief | COHO Analytics | 24.7 KB |
-| `resident-services.html` | Services in Affordable Housing | COHO Analytics | 25.8 KB |
+| `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.6 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 12.6 KB |
@@ -93,7 +93,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1937 JSON files found.
+1939 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1836,6 +1836,7 @@
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
+| `data/market/acs_renter_household_size_co.json` | 158.8 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.29 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
 | `data/market/bps_monthly_ytd.json` | 93.4 KB | ✅ | — |
@@ -1966,6 +1967,7 @@
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
 | `data/policy/co-developer-funding-guide.json` | 424.6 KB | ✅ | — |
+| `data/policy/colorado-deal-rules.json` | 2.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 21.3 KB | ✅ | — |
@@ -2039,7 +2041,7 @@
 
 ## Test Files
 
-702 test files found.
+704 test files found.
 
 | File | Size |
 |------|------|
@@ -2106,6 +2108,7 @@
 | `test/coho-reminders.test.mjs` | 15.7 KB |
 | `test/colorado-elections.test.mjs` | 38.1 KB |
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
+| `test/colorado-guide-detail.test.js` | 13.2 KB |
 | `test/combined-geo.test.js` | 48.4 KB |
 | `test/compliance-checklist.test.js` | 24.4 KB |
 | `test/console-audit-exercises-controls.test.js` | 10.1 KB |
@@ -2540,6 +2543,7 @@
 | `test/rent-limit-programs.test.js` | 11.1 KB |
 | `test/rent-schedule.test.js` | 25.5 KB |
 | `test/rent-vs-buy-breakeven.test.js` | 4.1 KB |
+| `test/renter-household-size.test.js` | 2.1 KB |
 | `test/repo-private-data.test.mjs` | 10.9 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
@@ -2768,7 +2772,7 @@
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 14.5 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
-| `.github/workflows/chart-audit.yml` | 2.7 KB |
+| `.github/workflows/chart-audit.yml` | 2.9 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 25.0 KB |
 | `.github/workflows/ci-checks.yml` | 20.0 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
