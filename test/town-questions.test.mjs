@@ -325,6 +325,23 @@ ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the eit
   }
   const mr = JSON.parse(JSON.stringify(m)); mr.contacts.resourcesLoaded = false;
   ok(TQ.SIGNALS.no_partner(mr) === null, 'local resources not loaded: no "no partner" question');
+  // The finding cites every file it searched, contacts and resources included.
+  const ms = Object.assign(clone(m), { geoid: '0899999' });
+  ms.contacts.related = [{ geoid: '08999', contacts: [] }];
+  const src = TQ.SIGNALS.no_partner(ms).source;
+  for (const f of ['data/jurisdiction-briefs/_contacts/0899999.json', 'data/jurisdiction-briefs/_contacts/08999.json', 'data/hna/local-resources.json']) ok(src.includes(f), `"no partner" cites ${f}`);
+}
+
+// A county read from one of several town landscape files is not searched in full.
+{
+  const rel = WP.relatedGeoids(BASE, '08051').filter((g) => g !== '08051');
+  ok(rel.length >= 2, 'Gunnison County has at least two related places for the partial-research check');
+  const s = Object.assign({}, BASE, { townQuestions: BANK });
+  const one = WP.buildModel(s, '08051', { today: '2026-10-22', FundingFit, MixCheck, TownQuestions: TQ, relatedLandscape: [{ geoid: rel[0] }] });
+  const two = WP.buildModel(s, '08051', { today: '2026-10-22', FundingFit, MixCheck, TownQuestions: TQ, relatedLandscape: [{ geoid: rel[0] }, { geoid: rel[1] }] });
+  ok(one.landscape.loaded.research === true, 'one related town file: the county research counts as searched');
+  ok(two.landscape.loaded.research === false, 'several related town files, one read: the county research is not counted as searched');
+  ok(!two.questions.pointed.some((q) => q.signal === 'no_partner'), 'partial county research never asks the "no partner" question');
 }
 
 // Both routes viable: the base case is the earliest realistic round, whichever credit.

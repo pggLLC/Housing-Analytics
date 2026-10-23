@@ -136,7 +136,8 @@
       var known = (C.orgs || []).some(function (o) { return o.role === 'Housing authority' || o.role === 'Housing lead'; }) || (C.partners || []).length ||
         people.some(function (c) { return /housing/i.test(String(c.role || '') + ' ' + String(c.org || '')); });
       if (L.authorities.length || L.stewards.length || agencies || known) return null;
-      return { vars: {}, evidence: 'No housing authority, regional nonprofit or local housing agency is on file for this area.', source: L.sources.filter(Boolean).join(', ') };
+      var contactFiles = ['data/jurisdiction-briefs/_contacts/' + m.geoid + '.json'].concat((C.related || []).map(function (f) { return 'data/jurisdiction-briefs/_contacts/' + f.geoid + '.json'; }));
+      return { vars: {}, evidence: 'No housing authority, regional nonprofit or local housing agency is on file for this area.', source: L.sources.filter(Boolean).concat(contactFiles, ['data/hna/local-resources.json']).join(', ') };
     },
     senior_growth: function (m) {
       var g = m.need.seniorGrowthPp;

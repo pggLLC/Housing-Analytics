@@ -831,7 +831,7 @@
 
   function sourced(e) { return e && safeHref(e.source_url) && !isSearchLink(e.source_url) && e.source_quote; }
 
-  function landscapeSection(row, src, file, countyName) {
+  function landscapeSection(row, src, file, countyName, partial) {
     var county = row.type === 'county' ? row.geoid : row.containingCounty;
     // From the site's own data, for every jurisdiction.
     var authorities = (((src.resortPrograms || {}).authorities) || []).filter(function (a) {
@@ -866,7 +866,8 @@
       research: research,
       missing: missing,
       // Which inputs actually loaded, so an empty list is never read as "none found".
-      loaded: { resortPrograms: !!src.resortPrograms, stewardship: !!src.stewardship, research: !!research },
+      // A county read from one of several town files has not been searched in full.
+      loaded: { resortPrograms: !!src.resortPrograms, stewardship: !!src.stewardship, research: !!research && !partial },
       countyName: countyName,
       sources: [sourcePath('resortPrograms'), sourcePath('stewardship'), landscapePath(research ? research.geoid : row.geoid)]
     };
@@ -926,7 +927,8 @@
     var lihtc = lihtcSection(row, src, countyName);
     var today = opts.today || new Date().toISOString().slice(0, 10);
     var policy = localPolicySection(row, src);
-    var landscape = landscapeSection(row, src, opts.landscape || (opts.relatedLandscape || []).filter(Boolean)[0] || null, countyName);
+    var relatedLand = (opts.relatedLandscape || []).filter(Boolean);
+    var landscape = landscapeSection(row, src, opts.landscape || relatedLand[0] || null, countyName, !opts.landscape && relatedLand.length > 1);
     var brief = opts.brief && opts.brief.geoid === geoid ? opts.brief : null;
     // Text the public-artifact guard blocks is dropped paragraph by paragraph, so one
     // sentence does not cost the whole paper. The caller still checks the finished HTML.
