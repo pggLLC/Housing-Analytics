@@ -270,6 +270,10 @@ const rec = { site: { address: 'Invented', lat: 37.2753, lon: -107.8801 },
   waitlist: { keeper: 'Invented Housing Authority', asOf: '2026-10-01', total: 127, rows: [{ band: '30', size: '2', count: 40 }] },
   survey: { region: 'Invented metro', period: '2026 Q1', avgRent: 1400, vacancy: 0.025, byType: [{ type: '3BR/2BA', rent: 1946, vacancy: 0.055 }], source: 'https://example.org/s' } };
 const rv = WB.research(m, rec, lihtc, '2026-10-22');
+ok(!rv.nearbyUnchecked && !/property list did not load/.test(WB.renderResearch(rv)), 'with the property list loaded, nearby properties are checked');
+{ const nl = WB.research(m, rec, null, '2026-10-22');
+  ok(nl.nearbyUnchecked && /property list did not load, so tax credit properties near the site were not checked/.test(WB.renderResearch(nl)), 'a property list that did not load is said, not shown as no nearby properties'); }
+ok(/researchEditor\(doc, deal, model, function \(\) \{ status\('Your market research did not load\.'\); \}\);/.test(read('js/whitepaper/deal-workbook.js')), 'the research editor stays live while its form is on screen, even after a picker changes');
 ok(rv.comps[0].name === 'Invented Near Market' || rv.comps[0].name === 'Invented Credit', 'comparables are listed nearest first');
 ok(rv.comps[rv.comps.length - 1].name === 'Invented Far Market', 'the farthest comparable is last');
 near(rv.compAvg['2br'].rent, 1650, 'the comparable average uses market-rate properties only');

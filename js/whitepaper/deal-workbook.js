@@ -861,6 +861,7 @@
     });
     // Tax credit properties near the site, from CHFA's property list.
     var feats = (lihtc && lihtc.features) || [];
+    v.nearbyUnchecked = !!site && !(lihtc && lihtc.features);
     v.nearby = site ? feats.map(function (f) {
       var c = f.geometry && f.geometry.coordinates, p = f.properties || {};
       var d = c ? miles(site, { lat: c[1], lon: c[0] }) : null;
@@ -912,6 +913,7 @@
         return { cls: x.discount < 0.10 ? 'sr-diff' : '', cells: [esc(x.tier + '%'), esc(x.bedrooms), esc(money(x.rent)), esc(money(x.comp) + ' (' + x.n + ')'), esc(pct(x.discount))] };
       }), { num: [2, 3, 4] });
     }
+    if (v.nearbyUnchecked) h += '<p class="sr-yellow">CHFA\'s property list did not load, so tax credit properties near the site were not checked. Reload the page to try again.</p>';
     if (v.nearby.length) h += '<details class="wb-near"><summary>Tax credit properties within ' + NEARBY_MILES + ' miles (' + v.nearby.length + ')</summary>' + table(['Property', 'Town', 'Miles', 'Homes', 'Income-restricted', 'Award', 'Income mix'], v.nearby.map(function (x) {
       return { cells: [esc(x.name), esc(x.city || ''), esc(x.miles.toFixed(1)), esc(x.units == null ? '—' : x.units), esc(x.li == null ? '—' : x.li), esc((x.year || '') + ' ' + x.credit), esc(x.mix || '—')] };
     }), { num: [2, 3, 4] }) + '<p class="sr-muted">From CHFA\'s housing tax credit property list (data/chfa-lihtc.json).</p></details>';
@@ -1217,7 +1219,9 @@
         if ($('wbOut').scrollIntoView) $('wbOut').scrollIntoView({ block: 'start' });
         if (model.error) { $('wbMarket').innerHTML = ''; return; }
         var deal = ctx && ctx.deal;
-        if (deal) researchEditor(doc, deal, model, function () { status('Your market research did not load.'); }, function () { return my === tok; });
+        // The editor stays live while its form is on screen: opening another deal clears the form first, and
+        // changing a picker without opening leaves this deal on screen and editable.
+        if (deal) researchEditor(doc, deal, model, function () { status('Your market research did not load.'); });
         else $('wbResearch').innerHTML = '<p class="sr-muted">To add comparables, waitlist counts and the rent survey, save this deal in <a href="developer-submittal-review.html">Submittal review</a> and open it from the saved deals here.</p>';
         var first = market(model, snap, mkt);
         (first.error ? Promise.resolve({}) : loadDealDetails(mkt, first)).then(function (detail) {
