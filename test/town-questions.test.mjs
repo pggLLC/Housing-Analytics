@@ -130,6 +130,16 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   ok(by('housing_authority') === 'Authority Person', 'housing authority may be county-wide');
 }
 
+// Role terms are plain phrases matched at a word start, never compiled as patterns.
+{
+  const c = (role, org = 'Town of X') => [{ name: 'P', role, org, source_url: 'https://example.com/p' }];
+  const bank = { roles: { pw: { label: 'PW', match: ['utilit'] }, odd: { label: 'Odd', match: ['a.b(c'] }, pl: { label: 'PL', match: ['planner'] } }, exclude: ['DOLA'] };
+  ok(TQ.contactFor('pw', bank, c('Utilities Director')), 'a phrase matches at the start of a word');
+  ok(!TQ.contactFor('pl', bank, c('Transplanner')), 'a phrase inside another word does not match');
+  ok(TQ.contactFor('odd', bank, c('Lead a.b(c')) && !TQ.contactFor('odd', bank, c('Lead aXb(c')), 'pattern characters are matched literally');
+  ok(!TQ.contactFor('pw', bank, c('Utilities Director', 'DOLA')), 'an excluded agency is never matched');
+}
+
 // Consolidated city-county: "City and County of Denver" staff are Denver's own.
 {
   const bank = { roles: { manager: { label: 'Manager', match: 'manager', local: true } } };

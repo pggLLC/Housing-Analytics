@@ -3,11 +3,11 @@
   "checked": "2026-10-22",
   "note": "Test fixture only. The real question bank is private (coho-backend gated/data/jurisdiction-briefs/_town-questions.json); this file carries placeholder wording so the tests exercise every signal.",
   "roles": {
-    "manager": { "label": "Manager", "match": "manager|administrator", "local": true },
-    "planner": { "label": "Planner", "match": "\\bplann(er|ing)\\b", "local": true },
-    "housing_authority": { "label": "Housing authority", "match": "housing authority" }
+    "manager": { "label": "Manager", "match": ["manager", "administrator"], "local": true },
+    "planner": { "label": "Planner", "match": ["planner", "planning"], "local": true },
+    "housing_authority": { "label": "Housing authority", "match": ["housing authority"] }
   },
-  "exclude": "CHFA|DOLA",
+  "exclude": ["CHFA", "DOLA"],
   "standard": [
     { "id": "S1", "role": "manager", "ask": "Standard question for {name}.", "why": "Fixture.", "qap": "T16" },
     { "id": "S2", "role": "planner", "ask": "Standard planning question.", "qap": "5B2a-priority" },

@@ -164,17 +164,32 @@
     return String(text || '').replace(/\{(\w+)\}/g, function (all, k) { return vars[k] !== undefined ? vars[k] : all; });
   }
 
+  // Plain phrases, never patterns: the bank is data, so it is not compiled as a regex.
+  // A phrase matches where a word starts ("utilit" finds "Utilities Director").
+  function phrases(v) {
+    return (Array.isArray(v) ? v : (v ? [v] : [])).map(function (t) { return String(t).toLowerCase(); }).filter(Boolean);
+  }
+  function hasPhrase(text, list) {
+    var t = String(text || '').toLowerCase();
+    return list.some(function (p) {
+      for (var i = t.indexOf(p); i !== -1; i = t.indexOf(p, i + 1)) {
+        var before = i ? t.charAt(i - 1) : ' ';
+        if (!/[a-z0-9]/.test(before)) return true;
+      }
+      return false;
+    });
+  }
+
   // The named person for a role, from the researched contacts: matched on the
   // contact's role, never a state agency's staff (bank.exclude), and someone at this
   // town or county before anyone else.
   function contactFor(role, bank, contacts, placeName, kind) {
     var r = bank.roles && bank.roles[role];
-    if (!r || !r.match) return null;
-    var re, ex = null;
-    try { re = new RegExp(r.match, 'i'); if (bank.exclude) ex = new RegExp(bank.exclude, 'i'); } catch (e) { return null; }
+    var want = phrases(r && r.match), ex = phrases(bank.exclude);
+    if (!want.length) return null;
     var hits = (contacts || []).filter(function (c) {
       var text = String(c.role || '') + ' ' + String(c.org || '');
-      return re.test(String(c.role || '')) && !(ex && ex.test(text));
+      return hasPhrase(c.role, want) && !hasPhrase(text, ex);
     });
     // At this jurisdiction: the org names the place, and a town's contact is not the county's.
     var place = String(placeName || '').toLowerCase();
