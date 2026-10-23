@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-23T15:53:42.745365Z",
+  "generated": "2026-10-23T18:17:44.468394Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1008606
+      "bytes": 1009744
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -35,6 +35,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 28642
+    },
+    "data/affordable-housing/pbv-by-pha-co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 4372
     },
     "data/affordable-housing/preservation/chfa-preservation.json": {
       "featureCount": 1688,
@@ -299,7 +304,7 @@
     "data/core/educational-content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 67629
+      "bytes": 69020
     },
     "data/core/neighborhood-context.json": {
       "featureCount": 64,
@@ -571,6 +576,11 @@
       "placeholder": false,
       "bytes": 14090
     },
+    "data/deals/fruita-mews-fruita.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 4992
+    },
     "data/deals/gardenwalk-of-canon-city.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -644,7 +654,7 @@
     "data/deals/index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 56891
+      "bytes": 57247
     },
     "data/deals/irving-at-mile-high-vista-denver.json": {
       "featureCount": 0,

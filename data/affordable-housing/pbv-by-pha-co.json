@@ -1,0 +1,150 @@
+{
+  "metadata": {
+    "title": "Project-based voucher homes by Colorado housing authority",
+    "source": "HUD Picture of Subsidized Households, PHA file (2020 census geography)",
+    "source_url": "https://www.huduser.gov/portal/datasets/assthsg.html",
+    "file_url": "https://www.huduser.gov/portal/datasets/pictures/files/PHA_2025_2020census.xlsx",
+    "dictionary_url": "https://www.huduser.gov/portal/datasets/pictures/dictionary_2025.pdf",
+    "as_of": "2025-12-31",
+    "retrieved": "2026-10-23",
+    "source_quote": "total_units: \"Number of units under contract for federal subsidy and available for occupancy\" (PSH 2025 data dictionary); PBV rows are sub_program \"PBV, All - Housing Choice Project-Based Vouchers, no breakdown\".",
+    "notes": [
+      "HUD publishes project-based voucher counts by housing authority only. It does not publish which buildings hold them, so a full property map of Colorado PBVs is not possible from public data.",
+      "all_voucher_units is the authority's Housing Choice Voucher total (tenant-based plus project-based) from the same file.",
+      "Many PBV homes sit inside tax-credit or other properties already on the map under that program; the map does not mark them as PBV.",
+      "Regenerate: python3 scripts/build-pbv-by-pha.py PHA_2025_2020census.xlsx"
+    ]
+  },
+  "totals": {
+    "authorities_with_pbv": 21,
+    "pbv_units": 6118
+  },
+  "authorities": [
+    {
+      "code": "CO001",
+      "name": "Housing Authority of the City and County of Denver",
+      "pbv_units": 2242,
+      "all_voucher_units": 8092
+    },
+    {
+      "code": "CO911",
+      "name": "Colorado Division of Housing",
+      "pbv_units": 1165,
+      "all_voucher_units": 7961
+    },
+    {
+      "code": "CO016",
+      "name": "Boulder Housing Partners",
+      "pbv_units": 433,
+      "all_voucher_units": 1328
+    },
+    {
+      "code": "CO041",
+      "name": "Housing Catalyst",
+      "pbv_units": 366,
+      "all_voucher_units": 1627
+    },
+    {
+      "code": "CO072",
+      "name": "Jefferson County Housing Authority",
+      "pbv_units": 274,
+      "all_voucher_units": 1880
+    },
+    {
+      "code": "CO051",
+      "name": "Grand Junction Housing Authority",
+      "pbv_units": 239,
+      "all_voucher_units": 1214
+    },
+    {
+      "code": "CO002",
+      "name": "Housing Authority of the City of Pueblo",
+      "pbv_units": 199,
+      "all_voucher_units": 1645
+    },
+    {
+      "code": "CO036",
+      "name": "Littleton Housing Authority",
+      "pbv_units": 192,
+      "all_voucher_units": 624
+    },
+    {
+      "code": "CO035",
+      "name": "Housing Authority of the City of Greeley",
+      "pbv_units": 168,
+      "all_voucher_units": 730
+    },
+    {
+      "code": "CO058",
+      "name": "Adams County Housing Authority",
+      "pbv_units": 165,
+      "all_voucher_units": 1600
+    },
+    {
+      "code": "CO052",
+      "name": "Aurora Housing Authority",
+      "pbv_units": 134,
+      "all_voucher_units": 1847
+    },
+    {
+      "code": "CO070",
+      "name": "Longmont Housing Authority",
+      "pbv_units": 119,
+      "all_voucher_units": 518
+    },
+    {
+      "code": "CO034",
+      "name": "Loveland Housing Authority",
+      "pbv_units": 85,
+      "all_voucher_units": 658
+    },
+    {
+      "code": "CO061",
+      "name": "Boulder County Housing Authority",
+      "pbv_units": 77,
+      "all_voucher_units": 984
+    },
+    {
+      "code": "CO095",
+      "name": "Garfield County Housing Authority",
+      "pbv_units": 73,
+      "all_voucher_units": 494
+    },
+    {
+      "code": "CO028",
+      "name": "Housing Authority of the City of Colorado Springs",
+      "pbv_units": 58,
+      "all_voucher_units": 2313
+    },
+    {
+      "code": "CO090",
+      "name": "Housing Authority of Weld County",
+      "pbv_units": 55,
+      "all_voucher_units": 433
+    },
+    {
+      "code": "CO019",
+      "name": "Housing Authority of the City of Brighton",
+      "pbv_units": 36,
+      "all_voucher_units": 255
+    },
+    {
+      "code": "CO050",
+      "name": "Arvada Housing Authority",
+      "pbv_units": 17,
+      "all_voucher_units": 562
+    },
+    {
+      "code": "CO040",
+      "name": "Delta Housing Authority",
+      "pbv_units": 14,
+      "all_voucher_units": 236
+    },
+    {
+      "code": "CO087",
+      "name": "Montrose County Housing Authority",
+      "pbv_units": 7,
+      "all_voucher_units": 201
+    }
+  ]
+}

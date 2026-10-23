@@ -180,6 +180,30 @@ export function fundingProgramRecords(guide) {
     });
 }
 
+// Each glossary term opens the glossary pop-up filtered to it (js/glossary.js reads
+// "#glossary=TERM"). The terms live in JSON, so no page's static HTML carries them.
+export function glossaryRecords(glossary) {
+  const terms = ((glossary && glossary.terms) || [])
+    .filter((g) => g && g.term && g.definition)
+    .map((g) => {
+      const term = clean(g.term);
+      const full = clean(g.full || '');
+      const rec = {
+        t: `${full && full !== term ? `${term} (${full})` : term} | COHO Glossary`,
+        u: `index.html#glossary=${encodeURIComponent(term)}`,
+        d: clean(g.definition).slice(0, 300),
+        k: 'Glossary'
+      };
+      // The description is cut for display; the whole definition stays searchable.
+      const b = wordBag(clean(g.definition), `${rec.t} ${rec.d} ${rec.k}`);
+      if (b) rec.b = b;
+      return rec;
+    });
+  if (!terms.length) return [];
+  return [{ t: 'Glossary | COHO Analytics', u: 'index.html#glossary',
+    d: 'Plain definitions of tax credit and housing terms used on this site.', k: 'Glossary' }, ...terms];
+}
+
 // A public methodology doc: its first heading is the title, its first paragraph the description.
 export function markdownRecord(rel, md) {
   const text = String(md);
