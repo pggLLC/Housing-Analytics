@@ -194,6 +194,13 @@ test('the 85% check stays whole-market when bedroom sizes change, and says so', 
   assert(/qualified at 20\\u201380% AMI' \+ penScope/.test(src), 'the 85% line does not say it covers the whole market');
 });
 
+test('changing a bedroom box announces the new result to screen readers', () => {
+  assert(/updateSimulator\(lastResult\);\s*_announceSimulator\(\);/.test(src), 'the bedroom boxes recalculate silently');
+  assert(/function _announceSimulator\(\) \{\s*var live = el\('maLiveRegion'\)/.test(src), 'the announcement does not use the page live region');
+  const html = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
+  assert(/id="maLiveRegion" aria-live="polite"/.test(html), 'market-analysis.html has no polite live region');
+});
+
 test('no renter count is no denominator, never the scoring placeholder of 1 or 0', () => {
   for (const cd of [{ value: 1, source: 'fallback_1' }, { value: 0, source: 'acs_total_renter_hh' }, { value: null, source: 'chas_lihtc_eligible' }, null]) {
     assert.strictEqual(captureDenominator({ captureDenominator: cd }), null, JSON.stringify(cd) + ' gave a denominator');

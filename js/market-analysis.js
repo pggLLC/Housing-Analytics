@@ -1014,6 +1014,17 @@
   function _bedroomLabel(list) {
     return list.map(function (b) { return b === '0br' ? 'studio' : b.toUpperCase(); }).join('/');
   }
+  // Focus stays on the bedroom box, so tell screen readers what changed.
+  function _announceSimulator() {
+    var live = el('maLiveRegion'), sim = el('pmaSimResult');
+    if (!live || !sim) return;
+    var rate = sim.querySelector('.pma-stat-value#pmaProposedCaptureRate');
+    var msg = rate && sim.dataset.denominator
+      ? 'Capture rate ' + rate.textContent + ' of ' + Number(sim.dataset.denominator).toLocaleString() + ' qualified renter households.'
+      : (sim.firstElementChild ? sim.firstElementChild.textContent : '').replace(/\s+/g, ' ').trim().slice(0, 200);
+    live.textContent = '';
+    setTimeout(function () { live.textContent = msg; }, 50);
+  }
   function _isDefaultBedrooms(list) {
     var d = PMAScoring.CHFA_DEFAULT_BEDROOMS || ['1br', '2br', '3br'];
     return list.length === d.length && d.every(function (b) { return list.indexOf(b) !== -1; });
@@ -5726,7 +5737,11 @@
     });
     BEDROOM_INPUTS.forEach(function (id) {
       var box = el(id);
-      if (box) box.addEventListener('change', function () { if (lastResult) updateSimulator(lastResult); });
+      if (box) box.addEventListener('change', function () {
+        if (!lastResult) return;
+        updateSimulator(lastResult);
+        _announceSimulator();
+      });
     });
     // Run once on load so any default values are validated.
     validateUnitMix();

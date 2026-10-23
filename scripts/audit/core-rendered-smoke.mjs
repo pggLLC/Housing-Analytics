@@ -283,6 +283,8 @@ async function pmaTractDefaultInteraction(page, viewport) {
       const no1 = await simState();
       if (!(Number(no1.den) < Number(before.den))) failures.push(`unticking 1BR left the simulator pool at ${no1.den} (was ${before.den})`);
       if (!/2BR\/3BR/.test(no1.text)) failures.push('the simulator does not name the bedroom sizes it counted');
+      const spoken = await page.evaluate(() => (document.getElementById('maLiveRegion') || {}).textContent || '');
+      if (!spoken.includes(Number(no1.den).toLocaleString('en-US'))) failures.push(`the bedroom change was not announced with the new pool (live region: "${spoken}")`);
       if (/renter HH qualified at 20\u201380% AMI(?! \(whole market)/.test(no1.text)) failures.push('the 85% check does not say it stays whole-market when bedroom sizes change');
       await toggle('pmaBr2', false); await toggle('pmaBr3', false);
       await page.waitForTimeout(300);
