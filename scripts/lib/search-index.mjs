@@ -188,12 +188,16 @@ export function glossaryRecords(glossary) {
     .map((g) => {
       const term = clean(g.term);
       const full = clean(g.full || '');
-      return {
+      const rec = {
         t: `${full && full !== term ? `${term} (${full})` : term} | COHO Glossary`,
         u: `index.html#glossary=${encodeURIComponent(term)}`,
         d: clean(g.definition).slice(0, 300),
         k: 'Glossary'
       };
+      // The description is cut for display; the whole definition stays searchable.
+      const b = wordBag(clean(g.definition), `${rec.t} ${rec.d} ${rec.k}`);
+      if (b) rec.b = b;
+      return rec;
     });
   if (!terms.length) return [];
   return [{ t: 'Glossary | COHO Analytics', u: 'index.html#glossary',
