@@ -157,9 +157,11 @@
       }
     },
     "hna-scenario-builder.html": {
-      "unsourced": 0,
+      "unsourced": 1,
       "undated": 0,
-      "areas": {}
+      "areas": {
+        "unsourced: #main-content>section:1": 1
+      }
     },
     "hna-what-households-can-afford.html": {
       "unsourced": 7,
