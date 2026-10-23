@@ -362,11 +362,14 @@
     return fields[id] === undefined ? initial : parseFloat(fields[id]);
   }
   // Projection growth inputs advertise these ranges; a typed value outside
-  // them is unknown, not clamped, so no projection is built from it.
-  var GROWTH_LIMITS = { 'pf-rent-growth': 5, 'pf-exp-growth': 6 };
+  // them is unknown, not clamped, so no projection is built from it. Rent may
+  // fall (down to -3% a year) so a flat-or-falling market can be tested;
+  // expenses are not modelled as falling.
+  var GROWTH_LIMITS = { 'pf-rent-growth': { min: -3, max: 5 }, 'pf-exp-growth': { min: 0, max: 6 } };
   function growthRate(fields, id, initial) {
     var pct = fieldNumber(fields, id, initial);
-    return known(pct) && pct >= 0 && pct <= GROWTH_LIMITS[id] ? pct / 100 : NaN;
+    var limit = GROWTH_LIMITS[id];
+    return known(pct) && pct >= limit.min && pct <= limit.max ? pct / 100 : NaN;
   }
   var LOAN_TYPES = Object.freeze({
     amortizing: 'Must-pay amortizing', io_then_amortizing: 'Interest-only then amortizing',
@@ -1288,7 +1291,7 @@
         }
       }
 
-      // Sponsor IRR — Newton's method on the NPV polynomial.
+      // Return on the deferred fee (a stand-in for sponsor IRR) — Newton's method on the NPV polynomial.
       // Flows: yr 0 = −sponsorEquity; yrs 1..N = cashFlow; yr N also = +netProceeds.
       function computeIRR(flows) {
         var r = 0.10;
@@ -1482,8 +1485,8 @@
       sensitivityKnown: sensitivityKnown,
       vacancyRate: vacFrac(), scheduleMode: scheduleMode
     };
-    var projectionInputsReason = !known(exit.rentGrowth) ? 'Enter annual rent growth from 0% to ' + GROWTH_LIMITS['pf-rent-growth'] + '%.'
-      : !known(exit.expGrowth) ? 'Enter annual expense growth from 0% to ' + GROWTH_LIMITS['pf-exp-growth'] + '%.'
+    var projectionInputsReason = !known(exit.rentGrowth) ? 'Enter annual rent growth from ' + GROWTH_LIMITS['pf-rent-growth'].min + '% to ' + GROWTH_LIMITS['pf-rent-growth'].max + '%.'
+      : !known(exit.expGrowth) ? 'Enter annual expense growth from ' + GROWTH_LIMITS['pf-exp-growth'].min + '% to ' + GROWTH_LIMITS['pf-exp-growth'].max + '%.'
       : !known(fieldNumber(fields, 'pf-years', 15)) ? 'Enter the projection horizon.' : null;
     result.projection = operatingProjection(result, fields);
     result.stressBase = known(noi) && known(allMustPayDSCR) ? { noi: noi, dscr: allMustPayDSCR, margin: allMustPayDSCR - dcr } : null;
@@ -1573,7 +1576,7 @@
       if (/^(stressBase|sliderImpacts)/.test(path)) return noiUnknownReason || rentsUnknownReason || 'Enter the stress assumptions.';
       if (path === 'exit.dfYr' && !rentsUnknownReason) return deferredDevFee > 0
         ? 'Deferred fee is not recovered within the hold period.' : 'No deferred developer fee to recover.';
-      if (path === 'exit.irr' && !rentsUnknownReason) return 'Sponsor IRR requires a positive deferred fee and known positive net sale proceeds.';
+      if (path === 'exit.irr' && !rentsUnknownReason) return 'The return on the deferred fee requires a positive deferred fee and known positive net sale proceeds.';
       if (path === 'capRate') return noiUnknownReason || 'Cap rate requires positive NOI and total development cost.';
       if (path === 'baseDSCR') return noiUnknownReason || 'DSCR requires positive senior debt service.';
       if (path === 'breakEvenOcc' && !autoNoi) return 'Break-even occupancy requires auto-computed operating lines.';
