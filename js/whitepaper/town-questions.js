@@ -88,7 +88,7 @@
       return {
         vars: { band: hit.label, burdened: pct(hit.burdenedPct) },
         evidence: pct(hit.burdenedPct) + ' of renters at ' + hit.label + ' pay over 30% of income, though no homes are counted short for them.',
-        source: n.chasSource
+        source: [n.chasSource, n.rankingSource].filter(Boolean).join('; ')
       };
     },
     prop123_not_filed: function (m) {

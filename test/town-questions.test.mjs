@@ -201,6 +201,17 @@ for (const g of SAMPLE.concat(['0880040'])) {
   if (/fair market rent/.test(q.evidence)) ok(q.source.includes(m.rents.fmrSource), `${g}: FMR evidence cites the FMR file`);
 }
 
+// The burden question cites both files: CHAS for the burden, the ranking index for the shortage.
+for (const g of SAMPLE) {
+  const m = model(g);
+  const q = m.questions.pointed.find((x) => x.signal === 'burden_without_gap');
+  if (q) ok(q.source.includes(m.need.chasSource) && q.source.includes(m.need.rankingSource), `${g}: burden evidence cites CHAS and the ranking index`);
+}
+{
+  const s = TQ.SIGNALS.burden_without_gap({ need: { gap50: 0, gap60: 3, chasSource: 'chas.json', rankingSource: 'ranking.json', bands: [{ key: '31to50', label: '31–50% AMI', burdenedPct: 70 }] } });
+  ok(s && s.source === 'chas.json; ranking.json', 'burden_without_gap names both sources');
+}
+
 // ---- 7. The page loads the module before the report and passes it in.
 {
   const page = read('developer-brief.html');
