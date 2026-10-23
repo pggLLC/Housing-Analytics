@@ -297,6 +297,12 @@ for (const [id, pairs] of Object.entries(CLAIMS)) {
   }
   assert(used > 0, `${id}: none of its checked claims is in the finding; update CLAIMS`);
 }
+// A title is the most-read line: one that ranks NGBS on cost must carry the
+// code-edition condition the hub puts on it.
+for (const e of DOC.entries) {
+  if (/NGBS/.test(e.title) && /cost|cheap|budget/i.test(e.title)) assert(/older code|2018/i.test(e.title), `${e.id}: the title ranks NGBS on cost without the older-code condition`);
+}
+assert(!/NGBS/.test(rec('hub-energystar-cost').title) || /NGBS/.test(rec('hub-energystar-cost').quotes.join(' ')), 'hub-energystar-cost: the title compares with NGBS, which its quote never does');
 // Every utility the Resource Finder card names is quoted from the finder.
 for (const co of rec('hub-resource-finder').finding.match(/(?:Poudre Valley REA|United Power|Holy Cross Energy|[A-Z][\w-]*(?: [A-Z][\w-]*)* (?:Electric|Power) (?:Association|Cooperative)|San Luis Valley Rural Electric Cooperative)/g) || []) {
   assert(rec('hub-resource-finder').quotes.includes(co), `hub-resource-finder: names ${co}, which no quote shows`);
