@@ -307,6 +307,16 @@ def main():
         'scores': scores,
     }
 
+    # Build the policy map layer first: if it cannot match this scorecard,
+    # stop before overwriting either file so they never disagree.
+    sys.path.insert(0, os.path.dirname(__file__))
+    import build_policy_jurisdictions_geojson as policy_layer
+    try:
+        layer = policy_layer.build(payload)
+    except ValueError as e:
+        print(f'build_housing_scorecard: policy map layer: {e}; nothing written', file=sys.stderr)
+        sys.exit(1)
+
     os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
     with open(OUTPUT, 'w', encoding='utf-8') as f:
         json.dump(payload, f)
@@ -318,11 +328,9 @@ def main():
         s = stats[d['id']]
         print(f"  {d['label']}: {s['true']} yes, {s['false']} no, {s['null']} unknown")
 
-    # The policy map layer carries a copy of these scores; keep it current.
-    sys.path.insert(0, os.path.dirname(__file__))
-    import build_policy_jurisdictions_geojson
-    if build_policy_jurisdictions_geojson.main() != 0:
-        sys.exit(1)
+    # The policy map layer carries a copy of these scores; it was checked
+    # before the scorecard was written, so write it now.
+    policy_layer.write(layer)
 
 
 if __name__ == '__main__':
