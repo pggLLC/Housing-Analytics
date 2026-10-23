@@ -711,10 +711,13 @@
     var support = policy.support && Array.isArray(policy.support.items) ? policy.support.items.length : 0;
     var plans = landscape.research ? landscape.research.groups.filter(function (g) { return g.key === 'plans' && g.items.length; }).length : 0;
     if (support || plans) add('5B2a-priority', 'likely', 'An adopted plan or council record on housing is on file (see Local funds and Local landscape); cite it as the community priority.');
+    // No source here records whether an agency is a Colorado public housing authority
+    // in law, so only agencies named as housing authorities are offered, and as a
+    // line to confirm, never as supported points.
     var pha = landscape.authorities.map(function (a) { return a.name; })
       .concat(contacts.orgs.filter(function (o) { return o.role === 'Housing authority'; }).map(function (o) { return o.name; }))
-      .filter(function (n, i, all) { return all.indexOf(n) === i; });
-    if (pha.length) add('5B4b-pha', 'option', pha.slice(0, 2).join(' or ') + ' as sole or majority co-general partner.');
+      .filter(function (n, i, all) { return /housing authority/i.test(n) && all.indexOf(n) === i; });
+    if (pha.length) add('5B4b-pha', 'check', pha.slice(0, 2).join(' or ') + ' as sole or majority co-general partner. Confirm it is a Colorado public housing authority before counting the points.');
     if (pha.length || landscape.stewards.length) {
       add('5B4a-nonprofit', 'option', 'A qualified nonprofit or housing authority as sole general partner' + (landscape.stewards.length ? ' (regional nonprofits on file: ' + landscape.stewards.map(function (p) { return p.name; }).slice(0, 2).join(', ') + ')' : '') + '.');
     }

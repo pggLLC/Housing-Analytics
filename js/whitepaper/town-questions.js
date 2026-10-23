@@ -80,7 +80,9 @@
       var n = m.need;
       if (n.gap50 === null || n.gap60 === null) return null;
       var hit = (n.bands || []).filter(function (b) {
-        return (b.key === '31to50' && n.gap50 === 0 || b.key === '51to80' && n.gap60 === 0) && num(b.burdenedPct) !== null && b.burdenedPct >= 50;
+        // Only the 31-50% band has a matching shortage measure (gap50); nothing here
+        // measures supply at 80% AMI, so the 51-80% band is never compared.
+        return b.key === '31to50' && n.gap50 === 0 && num(b.burdenedPct) !== null && b.burdenedPct >= 50;
       })[0];
       if (!hit) return null;
       return {

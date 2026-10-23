@@ -169,6 +169,22 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   }
 }
 
+// Housing authority points: only agencies named as housing authorities, and only "to confirm".
+for (const g of SAMPLE.concat(['0818310'])) {
+  const l = model(g).deal.structure.lines.find((x) => x.id === '5B4b-pha');
+  if (l) ok(l.reading === 'check' && /housing authority/i.test(l.text) && !/Community Housing\b(?! Authority)/.test(l.text.split(' as ')[0]), `${g}: 5B4b only for a named housing authority, to confirm`);
+}
+ok(!(model('0818310').deal.structure.lines.find((x) => x.id === '5B4b-pha') || { text: '' }).text.includes('Town of Crested Butte Community Housing'), 'Crested Butte: a town housing office is not offered as a PHA');
+
+// The 51-80% band has no 80% shortage measure, so it never raises the burden question.
+{
+  const src = clone(BASE);
+  const m0 = src.rankingIndex.rankings.find((r) => r.geoid === '0820000').metrics;
+  m0.ami_gap_60pct = 0; m0.ami_gap_50pct = 5;
+  const q = model('0820000', { src }).questions.pointed.find((x) => x.signal === 'burden_without_gap');
+  ok(!q || /31–50%/.test(q.evidence), 'burden question never cites the 51–80% band');
+}
+
 // ---- 7. The page loads the module before the report and passes it in.
 {
   const page = read('developer-brief.html');
