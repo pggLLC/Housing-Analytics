@@ -130,6 +130,13 @@ for (const row of pickRows) {
   const label = norm(row.querySelector('th').textContent);
   assert(refs.length, `pick row "${label}" points at no records`);
   for (const r of refs) assert(ids.has(r), `pick row "${label}" points at missing record ${r}`);
+  // The page promises each row links to what it relies on: one link per ref, each to a drawn record.
+  const hrefs = [...row.querySelectorAll('.gb-refs a')].map((a) => a.getAttribute('href'));
+  assert.deepEqual(hrefs, refs.map((r) => `#${w.GreenBuilding.anchorId(r)}`), `pick row "${label}" does not link each record it relies on`);
+  for (const h of hrefs) {
+    const target = w.document.getElementById(h.slice(1));
+    assert(target && target.dataset.gbEntry, `pick row "${label}" links ${h}, which is not a drawn record`);
+  }
 }
 assert(!/fruita/i.test(read(PAGE) + read('data/policy/green-building.json')), 'project-specific Fruita material stays out of the public repo');
 

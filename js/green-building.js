@@ -6,7 +6,8 @@
  * figure on those cards comes from the file, each record shows its source and
  * the words it is quoted from, and a record past its re-check date says so.
  * The short answer and the "which program for which deal" table are static
- * HTML in the page.
+ * HTML in the page; each table row names the records it relies on in
+ * data-gb-ref, and render() turns those into links to the records' cards.
  */
 (function (root, factory) {
   var api = factory(root);
@@ -71,6 +72,10 @@
     return '<span class="' + (STATUS_PILL[r.status] || 'pill') + '" data-gb-status="' + esc(r.status) + '">' + esc(text) + '</span>';
   }
 
+  function anchorId(id) {
+    return 'gb-r-' + String(id);
+  }
+
   function entries(doc, section) {
     return (doc && Array.isArray(doc.entries) ? doc.entries : []).filter(function (e) { return e.section === section; });
   }
@@ -79,7 +84,7 @@
     var list = entries(doc, section);
     if (!list.length) return '<p class="gb-muted">No records are loaded for this section.</p>';
     return '<div class="gb-cards">' + list.map(function (r) {
-      return '<article class="gb-card" data-gb-entry="' + esc(r.id) + '">' +
+      return '<article class="gb-card" id="' + esc(anchorId(r.id)) + '" data-gb-entry="' + esc(r.id) + '">' +
         '<h3>' + esc(r.title) + (r.status ? ' ' + statusPill(r, doc) : '') + '</h3>' +
         '<p>' + esc(r.finding) + '</p>' +
         (r.caveat ? '<p class="gb-muted"><strong>Keep in mind:</strong> ' + esc(r.caveat) + '</p>' : '') +
@@ -96,13 +101,29 @@
       '<th scope="col">' + esc(firstHead) + '</th><th scope="col">Status</th><th scope="col">What it does</th>' +
       (hasFits ? '<th scope="col">Fits</th>' : '') + '<th scope="col">Source</th>' +
       '</tr></thead><tbody>' + list.map(function (r) {
-        return '<tr data-gb-entry="' + esc(r.id) + '"><th scope="row">' + esc(r.title) + '</th>' +
+        return '<tr id="' + esc(anchorId(r.id)) + '" data-gb-entry="' + esc(r.id) + '"><th scope="row">' + esc(r.title) + '</th>' +
           '<td data-label="Status">' + statusPill(r, doc) + '</td>' +
           '<td data-label="What it does">' + esc(r.finding) +
             (r.caveat ? '<br><span class="gb-muted">' + esc(r.caveat) + '</span>' : '') + quotesHtml(r) + '</td>' +
           (hasFits ? '<td data-label="Fits">' + esc(r.fits || '') + '</td>' : '') +
           '<td data-label="Source">' + sourceLine(r, doc) + reviewHtml(r) + '</td></tr>';
       }).join('') + '</tbody></table></div>';
+  }
+
+  // "Relies on" links under each row of the which-program table.
+  function linkPickRows(rootEl, doc) {
+    var byId = {};
+    (doc && Array.isArray(doc.entries) ? doc.entries : []).forEach(function (e) { byId[e.id] = e; });
+    Array.prototype.forEach.call(rootEl.querySelectorAll('#gb-pick tbody tr[data-gb-ref]'), function (row) {
+      var cell = row.querySelector('td:last-child');
+      if (!cell) return;
+      var old = cell.querySelector('.gb-refs');
+      if (old) old.parentNode.removeChild(old);
+      var links = row.getAttribute('data-gb-ref').split(/\s+/).filter(function (id) { return byId[id]; })
+        .map(function (id) { return '<a href="#' + esc(anchorId(id)) + '">' + esc(byId[id].title) + '</a>'; });
+      if (!links.length) return;
+      cell.insertAdjacentHTML('beforeend', '<p class="gb-muted gb-refs">Relies on: ' + links.join('; ') + '</p>');
+    });
   }
 
   function fill(rootEl, selector, html) {
@@ -116,6 +137,7 @@
     fill(rootEl, '[data-gb-section="deal"]', cardsHtml(doc, 'deal'));
     fill(rootEl, '[data-gb-section="credits"]', tableHtml(doc, 'credits', 'Credit'));
     fill(rootEl, '[data-gb-section="programs"]', tableHtml(doc, 'programs', 'Program'));
+    linkPickRows(rootEl, doc);
     var checked = longDate(doc.meta && doc.meta.last_verified);
     fill(rootEl, '[data-gb-checked]', checked ? 'Oldest source check: ' + esc(checked) : '');
   }
@@ -143,5 +165,5 @@
     else init();
   }
 
-  return { render: render, cardsHtml: cardsHtml, tableHtml: tableHtml, SECTIONS: SECTIONS };
+  return { render: render, cardsHtml: cardsHtml, tableHtml: tableHtml, anchorId: anchorId, SECTIONS: SECTIONS };
 }));
