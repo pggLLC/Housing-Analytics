@@ -837,7 +837,7 @@
 
   function sourced(e) { return e && safeHref(e.source_url) && !isSearchLink(e.source_url) && e.source_quote; }
 
-  function landscapeSection(row, src, file, countyName) {
+  function landscapeSection(row, src, file, countyName, landscapeFailed) {
     var county = row.type === 'county' ? row.geoid : row.containingCounty;
     // From the site's own data, for every jurisdiction.
     var authorities = (((src.resortPrograms || {}).authorities) || []).filter(function (a) {
@@ -873,7 +873,8 @@
       missing: missing,
       // Which inputs actually loaded, so an empty list is never read as "none found".
       // A county read from a town's file has not been searched county-wide.
-      loaded: { resortPrograms: !!src.resortPrograms, stewardship: !!src.stewardship, research: !!research && !research.placeLevel },
+      // A landscape file that failed to load (not merely absent) leaves the search unfinished.
+      loaded: { resortPrograms: !!src.resortPrograms, stewardship: !!src.stewardship, research: !!research && !research.placeLevel && !landscapeFailed },
       countyName: countyName,
       sources: [sourcePath('resortPrograms'), sourcePath('stewardship'), landscapePath(research ? research.geoid : row.geoid)]
     };
@@ -933,7 +934,7 @@
     var lihtc = lihtcSection(row, src, countyName);
     var today = opts.today || new Date().toISOString().slice(0, 10);
     var policy = localPolicySection(row, src);
-    var landscape = landscapeSection(row, src, opts.landscape || (opts.relatedLandscape || []).filter(Boolean)[0] || null, countyName);
+    var landscape = landscapeSection(row, src, opts.landscape || (opts.relatedLandscape || []).filter(Boolean)[0] || null, countyName, !!opts.landscapeFailed);
     var brief = opts.brief && opts.brief.geoid === geoid ? opts.brief : null;
     // Text the public-artifact guard blocks is dropped paragraph by paragraph, so one
     // sentence does not cost the whole paper. The caller still checks the finished HTML.
@@ -1023,7 +1024,8 @@
     items.push('<li><strong>Prop 123:</strong> ' + (p ? esc(p.status) + ' (filed ' + esc(p.filing_date || 'date not recorded') + ', ' + fmtInt(p.proposed_units) + ' units promised' + (p.fast_track ? ', fast-track adopted' : '') + ')' : 'no commitment on file for this jurisdiction') + '.</li>');
     items.push('<li><strong>Deal shape:</strong> ' + esc(d.route) + (d.rentCheck && d.rentCheck.limit60 !== null && d.rentCheck.fmr !== null && d.rentCheck.limit60 > d.rentCheck.fmr ? '; test achievable rent before using 60% AMI units' : '') + '.</li>');
     var base = timingPick(d.timing, 'base'), stretch = timingPick(d.timing, 'stretch');
-    if (base) items.push('<li><strong>Timing:</strong> base case ' + esc(base.label) + ', application ' + esc(base.deadline) + (stretch ? '; ' + esc(stretch.label) + ' only as a stretch' : '') + ' (estimate).</li>');
+    if (base) items.push('<li><strong>Timing:</strong> ' + (rollingOpen(d) ? 'for a CHFA round, ' : '') + 'base case ' + esc(base.label) + ', application ' + esc(base.deadline) + (stretch ? '; ' + esc(stretch.label) + ' only as a stretch' : '') + ' (estimate).' +
+      (rollingOpen(d) ? ' A 4% bond deal without state credit need not wait: ' + link(d.timing.rolling4.name, d.timing.rolling4.url) + ' has no round.' : '') + '</li>');
     if (m.questions && !m.questions.missing) items.push('<li><strong>Questions for ' + esc(m.questions.gov.name) + ':</strong> ' + m.questions.pointed.length + ' pointed, from this place\'s data, and ' + m.questions.standard.length + ' standard.</li>');
     items.push('<li><strong>Contacts:</strong> ' + (m.contacts.needsResearch ? 'not yet researched for this jurisdiction (organisation links below)'
       : m.contacts.researched.length ? m.contacts.researched.length + ' named, each with its source'
@@ -1305,8 +1307,9 @@
     var h = '<h2 id="deal">Ideal deal: structure and timing</h2><p><strong>Credit route:</strong> ' + esc(d.route) + '</p>';
     var base = timingPick(d.timing, 'base'), stretch = timingPick(d.timing, 'stretch');
     if (base) {
-      h += '<p><strong>Base case:</strong> ' + esc(base.label) + ', letter of intent ' + esc(base.loi) + ', application ' + esc(base.deadline) + ' (estimate).' +
-        (stretch ? ' <strong>Stretch:</strong> ' + esc(stretch.label) + ', letter of intent ' + esc(stretch.loi) + ', only if the conditions under Timing are met.' : '') + '</p>';
+      h += '<p><strong>Base case' + (rollingOpen(d) ? ' for a CHFA round' : '') + ':</strong> ' + esc(base.label) + ', letter of intent ' + esc(base.loi) + ', application ' + esc(base.deadline) + ' (estimate).' +
+        (stretch ? ' <strong>Stretch:</strong> ' + esc(stretch.label) + ', letter of intent ' + esc(stretch.loi) + ', only if the conditions under Timing are met.' : '') +
+        (rollingOpen(d) ? ' <strong>4% bonds without state credit:</strong> ' + link(d.timing.rolling4.name, d.timing.rolling4.url) + ' has no round, so this route need not wait for one.' : '') + '</p>';
     }
     if (d.mix) {
       h += '<table><thead><tr><th>Income band</th><th>Rental homes short</th></tr></thead><tbody>' +
@@ -1337,6 +1340,12 @@
       ' and confirm achievable rents with a CHFA market study.</p>';
     return h + srcLine(['Rules in js/whitepaper/jurisdiction-whitepaper.js (dealShape, dealStructure, dealTiming), applied to the need, rent, tax-credit and funding sections']
       .concat(d.structure ? [d.structure.source] : []).concat(d.timing ? d.timing.sources : []));
+  }
+
+  // Where both credits are viable, the rolling 4% bond path is as early as any round,
+  // so the dated base case is named as the round's, not the deal's only start.
+  function rollingOpen(d) {
+    return !!(d && d.timing && d.timing.rolling4 && /^9% or 4%/.test(d.route || ''));
   }
 
   function timingPick(t, reading) {

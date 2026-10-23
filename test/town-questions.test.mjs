@@ -317,6 +317,29 @@ ok(npSeen > 0 && prSeen > 0 && stewSeen > 0, 'the nonprofit, community-priority 
   if (pri && cb.policy.support && cb.policy.support.items && cb.policy.support.items.length) ok(cb.deal.structure.source.includes('data/policy/local-support.json'), 'Crested Butte: the community-priority line cites local-support.json');
 }
 
+// Where 9% and 4% are both viable, the dated base case is the round's: the rolling 4%
+// bond path is named beside it in the summary and the deal headline.
+{
+  let both = 0, nine = 0;
+  for (const g of SAMPLE.concat(['0820000', '08031'])) {
+    const m = model(g);
+    const t = m.deal.timing;
+    if (!t || !t.rows.some((r) => r.reading === 'base')) continue;
+    const html = WP.renderHtml(m);
+    const summary = html.slice(html.indexOf('id="summary"'), html.indexOf('</ul>', html.indexOf('id="summary"')));
+    const deal = html.slice(html.indexOf('id="deal"'), html.indexOf('</p>', html.indexOf('id="deal"') + 200));
+    if (/^9% or 4%/.test(m.deal.route) && t.rolling4) {
+      both++;
+      ok(summary.includes('for a CHFA round') && summary.includes(t.rolling4.name.replace(/&/g, '&amp;')), `${g}: the summary names the rolling 4% path beside the round's base case`);
+      ok(/Base case for a CHFA round/.test(deal), `${g}: the deal headline says the base case is the round's`);
+    } else if (/^9% competitive/.test(m.deal.route)) {
+      nine++;
+      ok(!summary.includes('for a CHFA round'), `${g}: a 9%-first place keeps the plain base case`);
+    }
+  }
+  ok(both > 0 && nine > 0, 'both route kinds appeared, so the rolling headline checks ran');
+}
+
 // Consolidated city-counties: "City and County of Denver" staff are local to both the
 // Denver place report and the Denver County report.
 {
@@ -407,8 +430,11 @@ ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the eit
   ok(WP.buildModel(s, '0833640', opts({ localResources: {} })).contacts.resourcesLoaded === true, 'a loaded local-resources file counts as loaded');
   ok(WP.buildModel(s, '0833640', opts({ contactsFailed: true })).contacts.contactsLoaded === false, 'a failed contact load is not counted as loaded');
   ok(WP.buildModel(s, '0833640', opts({ contacts: null })).contacts.contactsLoaded === true, 'an absent contact file is a finished search');
+  const lsOk = WP.buildModel(s, '0833640', opts({ landscape: { geoid: '0833640' } })).landscape.loaded.research;
+  ok(lsOk === true && WP.buildModel(s, '0833640', opts({ landscape: { geoid: '0833640' }, landscapeFailed: true })).landscape.loaded.research === false, 'a failed landscape load is not counted as searched, even with a county fallback');
   const page = read('developer-brief.html');
-  ok(/contactsFailed: contactMisses\.length > 0/.test(page) && (page.match(/contactJson\(WP\.contactsPath\(/g) || []).length === 2, 'developer-brief.html records failed contact loads for this place and related places');
+  ok((page.match(/trackedJson\(WP\.landscapePath\(/g) || []).length === 2 && /landscapeFailed: landscapeMisses\.length > 0/.test(page), 'developer-brief.html records failed landscape loads');
+  ok(/contactsFailed: contactMisses\.length > 0/.test(page) && (page.match(/trackedJson\(WP\.contactsPath\(/g) || []).length === 2, 'developer-brief.html records failed contact loads for this place and related places');
 }
 
 // A county read from a town's landscape file is not searched county-wide.

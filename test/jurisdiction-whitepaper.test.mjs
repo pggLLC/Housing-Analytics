@@ -241,7 +241,7 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   const wa = WP.buildModel(src, '0833640', { FundingFit }).dynamics.localMoney;
   ok(wa.some((w) => /Land Banking/.test(w.program)), 'the Gunnison land-banking award reaches the landscape (non-vacuity)');
   const page = read('developer-brief.html');
-  ok(/WP\.landscapePath\(geoid\)/.test(page) && /WP\.relatedGeoids\(SOURCES, geoid\)/.test(page) && /related\.map\(g => softJson\(WP\.landscapePath\(g\)\)\)/.test(page) && /relatedContacts, relatedLandscape/.test(page), 'the page loads the place file and its related files, and passes them on');
+  ok(/WP\.landscapePath\(geoid\)/.test(page) && /WP\.relatedGeoids\(SOURCES, geoid\)/.test(page) && /related\.map\(g => trackedJson\(WP\.landscapePath\(g\), landscapeMisses\)\)/.test(page) && /relatedContacts, relatedLandscape/.test(page), 'the page loads the place file and its related files, and passes them on');
 }
 
 // ---- 8. The merged report: community profile, market rents, all properties, policy
