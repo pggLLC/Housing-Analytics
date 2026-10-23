@@ -746,6 +746,7 @@
     if (pha.length || landscape.stewards.length) {
       add('5B4a-nonprofit', 'check', 'A qualified nonprofit or housing authority as sole general partner. No partner on file is confirmed to qualify: confirm nonprofit status, a low-income housing purpose and capacity to act as general partner before counting the points.' +
         (pha.length ? ' An alternative to the housing authority line: one sponsor earns one of the two, not both.' : ''));
+      if (landscape.stewards.length) cite([sourcePath('stewardship')]);
       // The same sponsor cannot earn both 5.B.4 lines (see submittal-review.js).
       if (pha.length) out.forEach(function (l) { if (l.id === '5B4a-nonprofit' || l.id === '5B4b-pha') l.exclusiveWith = l.id === '5B4a-nonprofit' ? '5B4b-pha' : '5B4a-nonprofit'; });
     }

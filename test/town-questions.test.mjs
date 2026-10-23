@@ -292,19 +292,20 @@ for (const g of SAMPLE) {
 }
 
 // 5B4a never names an unverified steward; every structure line cites the files it used.
-let npSeen = 0, prSeen = 0;
-for (const g of SAMPLE.concat(['0818310', '08051'])) {
+let npSeen = 0, prSeen = 0, stewSeen = 0;
+for (const g of SAMPLE.concat(['0818310', '08051', '0803620'])) {
   const st = model(g).deal.structure;
   if (!st) continue;
   if (st.lines.some((x) => x.id === '5B4a-nonprofit')) npSeen++;
   if (st.lines.some((x) => x.id === '5B2a-priority')) prSeen++;
   const np = st.lines.find((x) => x.id === '5B4a-nonprofit');
   if (np) ok(np.reading === 'check' && !/on file:/.test(np.text) && !/Housing Resources/.test(np.text), `${g}: 5B4a names no unverified partner and is only "to confirm"`);
+  if (np && model(g).landscape.stewards.length) { stewSeen++; ok(st.source.includes('data/policy/stewardship-providers.json'), `${g}: 5B4a cites the stewardship file its stewards came from`); }
   const pr = st.lines.find((x) => x.id === '5B2a-priority');
   if (pr) ok(pr.reading === 'check', `${g}: 5B2a is only "to confirm" until a project is matched`);
   if (pr) ok(/local-support\.json|landscape/.test(st.source), `${g}: 5B2a cites the support or landscape file`);
 }
-ok(npSeen > 0 && prSeen > 0, 'the nonprofit and community-priority lines appeared, so their checks ran');
+ok(npSeen > 0 && prSeen > 0 && stewSeen > 0, 'the nonprofit, community-priority and steward-cited lines appeared, so their checks ran');
 {
   const cb = model('0818310');
   const pri = cb.deal.structure.lines.find((x) => x.id === '5B2a-priority');
