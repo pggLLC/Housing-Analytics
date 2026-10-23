@@ -188,7 +188,20 @@
         return '<tr><td><strong>' + esc(row[0]) + '</strong></td><td>' + cell(row[1].credit_9pct) + '</td><td>' + cell(row[1].credit_4pct) +
           '</td><td>' + cell(row[1].median_all_credits) + '</td><td>' + esc(row[1].notes || '') + '</td></tr>';
       }).join('') +
-      '</tbody></table>';
+      '</tbody></table>' + novogradacSourceLine(doc);
+  }
+
+  // The national and the regional/state figures come from two Novogradac pages.
+  function novogradacSourceLine(doc) {
+    var meta = (doc && doc.meta) || {};
+    var pricing = (doc && doc.pricing) || {};
+    var links = [];
+    if (pricing.national_avg && pricing.national_avg.source_url) links.push('<a href="' + esc(pricing.national_avg.source_url) + '" target="_blank" rel="noopener">national 9% and 4% averages</a>');
+    if (pricing.regional_source_url) links.push('<a href="' + esc(pricing.regional_source_url) + '" target="_blank" rel="noopener">regional and state medians</a>');
+    if (!links.length && meta.source_url) links.push('<a href="' + esc(meta.source_url) + '" target="_blank" rel="noopener">equity pricing</a>');
+    if (!links.length) return '';
+    var when = meta.vintage ? esc(meta.vintage) + (meta.captured ? ', captured ' + esc(meta.captured) : '') : 'date unconfirmed';
+    return '<p class="chart-source">Source: Novogradac ' + links.join(' and ') + ' (' + when + ').</p>';
   }
 
   // State allocation plans: a quoted figure where one is published, the
@@ -355,7 +368,13 @@
           '<td>' + esc(row.direction) + '</td>' +
         '</tr>';
       }).join('') +
-      '</tbody></table>';
+      '</tbody></table>' +
+      // Terms and tax treatment are the statutes' own; pricing direction is
+      // this page's reading of them, not a published figure.
+      '<p class="chart-source">Source: the Internal Revenue Code, ' +
+      ['42', '45D', '47', '48', '48E', '50', '6418'].map(function (sec) {
+        return '<a href="https://www.law.cornell.edu/uscode/text/26/' + sec + '" target="_blank" rel="noopener">§' + sec + '</a>';
+      }).join(', ') + ' (read 2026-10-23). The pricing-direction column is this page\'s reading, not a published estimate.</p>';
   }
 
   function init() {

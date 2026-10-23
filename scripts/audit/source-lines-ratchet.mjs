@@ -50,7 +50,7 @@ function publicPages() {
 
 function scanPage() {
   const FIG = /(\$\s?\d[\d,]*(\.\d+)?\s?(K|M|B|million|billion)?|\b\d+(\.\d+)?\s?%|\b\d{1,3}(,\d{3})+\b)/g;
-  const DATE = /\b(19|20)\d{2}\b|\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b|\bQ[1-4]\b/;
+  const DATE = /(?<!\d)(19|20)\d{2}(?!\d)|\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b|\bQ[1-4]\b/;
   const SKIP_SEL = 'script,style,noscript,nav,header,footer,.site-nav,.site-footer,svg,[aria-hidden="true"],.leaflet-control-attribution,[data-no-source]';
   const BOX = 'section,article,figure,table,aside,[class*="card"],[class*="panel"],[class*="kpi"],[class*="stat"],[class*="chart"],[class*="box"],[class*="callout"]';
   const isSrc = (a) => {
