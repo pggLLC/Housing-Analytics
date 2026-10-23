@@ -300,6 +300,14 @@ const certList = (certRec.finding.match(/certify under (.+?)\. /) || [])[1];
 assert(certList, 'qap-certification no longer says "certify under ..."; update this check with the record');
 const required = programsIn(certList);
 assert(required.length >= 2, 'qap-certification names too few programs; the scan would be vacuous');
+// The record's list is CHFA's list: read the accepted programs from the QAP text itself, and quote that passage.
+for (const key of ['current', 'draft']) {
+  const m = qapText[key].match(/The accepted green building certification programs are: (.+?) In addition to green building certification/);
+  assert(m, `the ${key} QAP no longer lists its accepted certification programs where this check reads them`);
+  const qapAbbrs = [...m[1].matchAll(/\(([A-Z+]+)\)/g)].map((x) => x[1]).sort();
+  assert.deepEqual(required.map((r) => r.abbr || r.full).sort(), qapAbbrs, `qap-certification's list differs from the ${key} QAP's (${qapAbbrs.join(', ')})`);
+}
+assert(certRec.quotes.some((q) => /The accepted green building certification programs are:/.test(q)), 'qap-certification must quote CHFA\'s list of accepted programs');
 const sameProgram = (a, b) => [a.full, a.abbr].filter(Boolean).some((n) => n === b.full || n === b.abbr);
 const noPoints = /no scoring points/.test(rec('qap-more-competitive').finding);
 const exempt = rec('qap-ev-exempt').finding;
