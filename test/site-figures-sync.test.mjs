@@ -90,3 +90,9 @@ test('every equity fallback the LIHTC guide refills at runtime is covered by a r
     assert.ok(covered.some(([s, e]) => at >= s && at < e), `${id}'s static fallback is covered by a rule`);
   }
 });
+
+test('the deep dive reads the same ceiling year the sync does', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'colorado-deep-dive.html'), 'utf8');
+  assert.doesNotMatch(src, /'ceiling_\d{4}'/, 'no hard-coded ceiling year in the runtime loader');
+  assert.match(src, /\^ceiling_\\d\{4\}\$/, 'the loader picks the latest ceiling_YYYY');
+});

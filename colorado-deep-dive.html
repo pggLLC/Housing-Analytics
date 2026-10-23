@@ -1560,8 +1560,9 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   fetch('data/policy/tax-credit-legislation.json', { cache: 'no-cache' })
     .then(function(r) { return r.ok ? r.json() : null; })
     .then(function(d) {
-      var pc = null;
-      JSON.stringify(d || {}, function (k, v) { if (k === 'ceiling_2026' && v && v.per_capita > 0) pc = v.per_capita; return v; });
+      // The latest ceiling_YYYY, the same entry scripts/sync-site-figures.mjs reads.
+      var pc = null, latest = '';
+      JSON.stringify(d || {}, function (k, v) { if (/^ceiling_\d{4}$/.test(k) && k > latest && v && v.per_capita > 0) { latest = k; pc = v.per_capita; } return v; });
       var el = document.getElementById('cddLihtcPerCap');
       if (el && pc) el.textContent = '$' + pc.toFixed(2);
     }).catch(function(){});

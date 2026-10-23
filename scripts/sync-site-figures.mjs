@@ -101,6 +101,11 @@ export const RULES = [
   { fig: 'smallStateMin', files: [GUIDE], pattern: /small-state minimum \(\$([\d,]+) for \d{4}\)/g },
   { fig: 'revProc', files: [GUIDE], pattern: /<td>(IRS Rev\. Proc\. \d{4}-\d+) §4\.08 \(rate/g },
   { fig: 'revProcUrl', files: [DC, DEEP], pattern: /href="(https:\/\/www\.irs\.gov\/pub\/irs-drop\/rp-\d\d-\d+\.pdf)"/g },
+  { fig: 'revProc', files: [DC, DEEP], pattern: /irs-drop\/rp-\d\d-\d+\.pdf" target="_blank" rel="noopener">(IRS Rev\. Proc\. \d{4}-\d+)</g },
+  { fig: 'year', files: [DEEP], pattern: /class="kpi-label">(\d{4}) Federal Housing Credit Ceiling</g },
+  { fig: 'year', files: [DEEP], pattern: />Colorado 9% Credit Ceiling \((\d{4})\)</g },
+  { fig: 'year', files: [DEEP], pattern: />Federal Credit per Resident \((\d{4})\)</g },
+  { fig: 'year', files: [DEEP], pattern: /class="stat-label">(\d{4}) Federal Ceiling</g },
 
   // ── Prop 123 fund estimate: data/policy/policy-timeline.json id prop123 ───
   { fig: 'p123M', files: [CONTENT, 'colorado-elections.html'], pattern: /estimated at \$(\d+) million a year from/g },
