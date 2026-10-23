@@ -689,11 +689,12 @@
       "id": "ceo-lbd-showcase",
       "section": "programs",
       "kind": "program",
-      "status": "closed",
+      "status": "open",
+      "deadline": "2026-10-23",
       "last_verified": "2026-10-21",
       "review_by": "2026-11-21",
       "title": "Large Building Decarbonization Showcase",
-      "finding": "Grants of $500,000 to $2 million, covering 50 to 65% of implementation costs, for existing buildings covered by Building Performance Colorado. The Round 2 deadline was October 23, 2026; no later round is announced.",
+      "finding": "Grants of $500,000 to $2 million, covering 50 to 65% of implementation costs, for existing buildings covered by Building Performance Colorado. Round 2 applications are due by October 23, 2026; no later round is announced.",
       "fits": "Existing buildings covered by Building Performance Colorado",
       "quotes": [
         "Amount: $500,000 - $2 million per award; 50 - 65% of the implementation costs up to $2 million with $8.5m in total funding available. Application Rounds: The deadline for Round 2 has been extended to October 23, 2026. Round 2 covers implementation only projects."

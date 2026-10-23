@@ -66,10 +66,24 @@
       q.map(function (t) { return '<blockquote>' + esc(t) + '</blockquote>'; }).join('') + '</details>';
   }
 
-  function statusPill(r, doc) {
+  function todayIso() {
+    var d = new Date();
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+
+  // A record with a deadline is open through that day and closed after it,
+  // so the page does not depend on someone flipping the status in time.
+  function effectiveStatus(r, today) {
+    if (r.status === 'open' && /^\d{4}-\d{2}-\d{2}$/.test(String(r.deadline || '')) && (today || todayIso()) > r.deadline) return 'closed';
+    return r.status;
+  }
+
+  function statusPill(r, doc, today) {
     if (!r.status) return '';
-    var text = (doc.status_text && doc.status_text[r.status]) || r.status;
-    return '<span class="' + (STATUS_PILL[r.status] || 'pill') + '" data-gb-status="' + esc(r.status) + '">' + esc(text) + '</span>';
+    var status = effectiveStatus(r, today);
+    var text = (doc.status_text && doc.status_text[status]) || status;
+    if (status === 'open' && r.deadline && longDate(r.deadline)) text += ' until ' + longDate(r.deadline);
+    return '<span class="' + (STATUS_PILL[status] || 'pill') + '" data-gb-status="' + esc(status) + '">' + esc(text) + '</span>';
   }
 
   function anchorId(id) {
@@ -80,12 +94,12 @@
     return (doc && Array.isArray(doc.entries) ? doc.entries : []).filter(function (e) { return e.section === section; });
   }
 
-  function cardsHtml(doc, section) {
+  function cardsHtml(doc, section, today) {
     var list = entries(doc, section);
     if (!list.length) return '<p class="gb-muted">No records are loaded for this section.</p>';
     return '<div class="gb-cards">' + list.map(function (r) {
       return '<article class="gb-card" id="' + esc(anchorId(r.id)) + '" data-gb-entry="' + esc(r.id) + '">' +
-        '<h3>' + esc(r.title) + (r.status ? ' ' + statusPill(r, doc) : '') + '</h3>' +
+        '<h3>' + esc(r.title) + (r.status ? ' ' + statusPill(r, doc, today) : '') + '</h3>' +
         '<p>' + esc(r.finding) + '</p>' +
         (r.caveat ? '<p class="gb-muted"><strong>Keep in mind:</strong> ' + esc(r.caveat) + '</p>' : '') +
         quotesHtml(r) + sourceLine(r, doc) + reviewHtml(r) +
@@ -93,7 +107,7 @@
     }).join('') + '</div>';
   }
 
-  function tableHtml(doc, section, firstHead) {
+  function tableHtml(doc, section, firstHead, today) {
     var list = entries(doc, section);
     if (!list.length) return '<p class="gb-muted">No records are loaded for this section.</p>';
     var hasFits = list.some(function (r) { return r.fits; });
@@ -102,7 +116,7 @@
       (hasFits ? '<th scope="col">Fits</th>' : '') + '<th scope="col">Source</th>' +
       '</tr></thead><tbody>' + list.map(function (r) {
         return '<tr id="' + esc(anchorId(r.id)) + '" data-gb-entry="' + esc(r.id) + '"><th scope="row">' + esc(r.title) + '</th>' +
-          '<td data-label="Status">' + statusPill(r, doc) + '</td>' +
+          '<td data-label="Status">' + statusPill(r, doc, today) + '</td>' +
           '<td data-label="What it does">' + esc(r.finding) +
             (r.caveat ? '<br><span class="gb-muted">' + esc(r.caveat) + '</span>' : '') + quotesHtml(r) + '</td>' +
           (hasFits ? '<td data-label="Fits">' + esc(r.fits || '') + '</td>' : '') +
@@ -131,12 +145,13 @@
     if (el) el.innerHTML = html;
   }
 
-  function render(rootEl, doc) {
-    fill(rootEl, '[data-gb-section="requirements"]', cardsHtml(doc, 'requirements'));
-    fill(rootEl, '[data-gb-section="benefits"]', cardsHtml(doc, 'benefits'));
-    fill(rootEl, '[data-gb-section="deal"]', cardsHtml(doc, 'deal'));
-    fill(rootEl, '[data-gb-section="credits"]', tableHtml(doc, 'credits', 'Credit'));
-    fill(rootEl, '[data-gb-section="programs"]', tableHtml(doc, 'programs', 'Program'));
+  // `today` (YYYY-MM-DD) is for tests; the page uses the reader's date.
+  function render(rootEl, doc, today) {
+    fill(rootEl, '[data-gb-section="requirements"]', cardsHtml(doc, 'requirements', today));
+    fill(rootEl, '[data-gb-section="benefits"]', cardsHtml(doc, 'benefits', today));
+    fill(rootEl, '[data-gb-section="deal"]', cardsHtml(doc, 'deal', today));
+    fill(rootEl, '[data-gb-section="credits"]', tableHtml(doc, 'credits', 'Credit', today));
+    fill(rootEl, '[data-gb-section="programs"]', tableHtml(doc, 'programs', 'Program', today));
     linkPickRows(rootEl, doc);
     var checked = longDate(doc.meta && doc.meta.last_verified);
     fill(rootEl, '[data-gb-checked]', checked ? 'Oldest source check: ' + esc(checked) : '');
@@ -165,5 +180,5 @@
     else init();
   }
 
-  return { render: render, cardsHtml: cardsHtml, tableHtml: tableHtml, anchorId: anchorId, SECTIONS: SECTIONS };
+  return { render: render, cardsHtml: cardsHtml, tableHtml: tableHtml, anchorId: anchorId, effectiveStatus: effectiveStatus, SECTIONS: SECTIONS };
 }));
