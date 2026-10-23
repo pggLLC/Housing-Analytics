@@ -331,6 +331,17 @@ for (const key of ['current', 'draft']) {
 }
 assert(certRec.quotes.some((q) => /The accepted green building certification programs are:/.test(q)), 'qap-certification must quote CHFA\'s list of accepted programs');
 const sameProgram = (a, b) => [a.full, a.abbr].filter(Boolean).some((n) => n === b.full || n === b.abbr);
+// "No points" is read from the QAP, not from our record: green building is a threshold item, and no scoring
+// criterion near the green, energy or electrification text awards points ("termination point" is EV wiring).
+const scoringNearGreen = (text) => [...text.matchAll(/green|sustainab|energy|electrif/gi)]
+  .map((m) => text.slice(Math.max(0, m.index - 150), m.index + 150))
+  .filter((win) => /\bpoints?\b/i.test(win.replace(/termination points?/gi, '')));
+for (const key of ['current', 'draft']) {
+  assert(qapText[key].includes('Threshold #12 Energy Efficiency and Sustainability Requirements'), `the ${key} QAP no longer lists green building as Threshold #12; re-read qap-more-competitive`);
+  const hits = scoringNearGreen(qapText[key]);
+  assert.equal(hits.length, 0, `the ${key} QAP now mentions points near green-building text; re-read the "no points" claim: "${(hits[0] || '').slice(0, 200)}"`);
+}
+assert(rec('qap-more-competitive').quotes.some((q) => q.startsWith('Threshold #12')), 'qap-more-competitive must quote the threshold line that makes green building a requirement, not a score');
 const noPoints = /no scoring points/.test(rec('qap-more-competitive').finding);
 const exempt = rec('qap-ev-exempt').finding;
 const copies = [
