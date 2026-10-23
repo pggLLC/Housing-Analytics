@@ -233,6 +233,10 @@ const down = mdata(); down.zori.counties['08067'].yoy_change_pct = -0.9;
 ok(/warn: Zillow rents in La Plata County are down 0\.9%/.test(mtext(WB.market(mm, msnap, down))), 'falling Zillow rents are flagged');
 const noYoy = mdata(); noYoy.zori.counties['08067'].yoy_change_pct = null;
 { const h = WB.renderMarket(WB.market(mm, msnap, noYoy)); ok(!/null%/.test(h) && /change from a year earlier not published/.test(h), 'an unpublished year-over-year change is said, not shown as null'); }
+{ const none = WB.market(mm, Object.assign({}, msnap, { perBrMarket: null }), Object.assign(mdata(), { renters: null, zoriMetroCsv: null, deals: null }));
+  const h = WB.renderMarket(none);
+  ok(none.unchecked.length === 4 && !/Nothing in the county figures needs a second look/.test(h) && /Not checked, because the figures did not load/.test(h), 'market checks that could not run are listed, never shown as a pass'); }
+ok(mk.unchecked.length === 0 && /Nothing in the county figures needs a second look|What to check/.test(WB.renderMarket(mk)), 'with every figure loaded, nothing is listed as unchecked');
 // Missing pieces stay missing.
 ok(!!WB.market(mm, Object.assign({}, msnap, { countyFips: null }), mdata()).error, 'no county, no market');
 const noRent = WB.market(mm, msnap, Object.assign(mdata(), { renters: null }));
@@ -519,6 +523,24 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   };
   ok((await run(true)) === '1 Deal A Way', 'saved research fills the form for the deal on screen');
   ok((await run(false)) === '', 'research that loads after another deal opened is not written into its form');
+  // Save stays shut until the saved research has loaded, and stays shut if it fails to load.
+  const gate = async (resp) => {
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const saved = globalThis.fetch; let posts = 0, release;
+    const held = new Promise((r) => { release = r; });
+    globalThis.fetch = (u, o) => { if (o && o.method === 'POST') { posts++; return Promise.resolve({ ok: true, json: () => Promise.resolve({ data: {}, at: 0 }) }); }
+      return /deal-market/.test(String(u)) ? held.then(() => resp) : Promise.resolve({ ok: true, json: () => Promise.resolve({ features: [] }) }); };
+    WB.researchEditor({ getElementById: el }, 'deal-a', WB.build(fixture(), rules), () => {}, () => true);
+    const early = el('wbResSave').disabled; el('wbResSave').handlers.click();
+    release(); await new Promise((r) => setTimeout(r, 30));
+    globalThis.fetch = saved;
+    return { early, posts, after: el('wbResSave').disabled, msg: el('wbResStatus').textContent };
+  };
+  const g1 = await gate({ ok: true, json: () => Promise.resolve({ data: null }) });
+  ok(g1.early === true && g1.posts === 0 && g1.after === false, 'save is shut until the saved research loads, then opens');
+  const g2 = await gate({ ok: false, json: () => Promise.resolve(null) });
+  ok(/bindTooltip\(esc\(p\.label\)\)/.test(read('js/whitepaper/deal-workbook.js')), 'map tooltips are escaped, since Leaflet sets them as HTML');
+  ok(g2.after === true && /did not load/.test(g2.msg), 'a failed load keeps save shut so an empty form cannot overwrite the research');
 }
 const highNoRows = mut0((s) => { s.result.projection.rows = []; s.result.costBasis.underwriting = { high: { firstYear: 1.45, exceeds: true } }; });
 ok(/warn: Year-one coverage of 1\.45x is above/.test(texts(highNoRows)), 'high year-one coverage is flagged from the engine check when there are no projection rows');

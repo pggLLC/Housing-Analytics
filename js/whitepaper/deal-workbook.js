@@ -747,6 +747,12 @@
           status: x.status && x.status.label || null, mix: (x.income_mix || []).map(function (i) { return i.units + ' at ' + i.level; }).join(', ') || null }; });
 
     mk.findings = marketFindings(mk);
+    // A check whose figures did not load or are not published is listed, so an empty list never reads as a pass.
+    mk.unchecked = [];
+    if (!mk.rents.length || mk.rents.every(function (x) { return x.discount == null; })) mk.unchecked.push('rents against the market');
+    if (!mk.capture) mk.unchecked.push('renters who can pay each tier');
+    if (!(mk.trend && mk.trend.length)) mk.unchecked.push('the rent trend');
+    if (!(data.deals && data.deals.deals)) mk.unchecked.push('other tax credit awards in the county');
     return mk;
   }
 
@@ -772,7 +778,8 @@
     if (!mk || mk.error) return '<section class="dv-card"><h2>Market</h2><p class="sr-muted">' + esc((mk && mk.error) || 'No market figures.') + '</p></section>';
     var h = '<section class="dv-card rw-decide" aria-labelledby="wbMkt"><h2 id="wbMkt">Market: ' + esc(mk.county) + '</h2>';
     h += '<p class="sr-muted">County figures the site already holds. A market study measures the area drawn around the site; use these to see whether a study is likely to raise questions.</p>';
-    h += mk.findings.length ? '<h3>What to check</h3><ul>' + mk.findings.map(function (f) { return '<li class="' + (f.level === 'bad' ? 'sr-red' : 'sr-yellow') + '">' + esc(f.text) + '</li>'; }).join('') + '</ul><p class="sr-muted">The 10%-under-market and 25%-of-renters lines are our screens, not CHFA rules.</p>' : '<p>Nothing in the county figures needs a second look.</p>';
+    h += mk.findings.length ? '<h3>What to check</h3><ul>' + mk.findings.map(function (f) { return '<li class="' + (f.level === 'bad' ? 'sr-red' : 'sr-yellow') + '">' + esc(f.text) + '</li>'; }).join('') + '</ul><p class="sr-muted">The 10%-under-market and 25%-of-renters lines are our screens, not CHFA rules.</p>' : (mk.unchecked && mk.unchecked.length ? '' : '<p>Nothing in the county figures needs a second look.</p>');
+    if (mk.unchecked && mk.unchecked.length) h += '<p class="sr-yellow">Not checked, because the figures did not load or are not published for this county: ' + esc(mk.unchecked.join('; ')) + '.</p>';
     h += '</section>';
 
     // Rents vs market
@@ -1108,18 +1115,24 @@
       if (layer) layer.remove();
       var COLORS = { site: '#b42318', market: '#1d4ed8', credit: '#0f766e', chfa: '#6b7280' };
       layer = L.layerGroup(pts.map(function (p) {
-        return L.circleMarker([p.lat, p.lon], { radius: p.kind === 'site' ? 9 : 6, color: COLORS[p.kind], fillColor: COLORS[p.kind], fillOpacity: 0.8, weight: 2 }).bindTooltip(p.label);
+        return L.circleMarker([p.lat, p.lon], { radius: p.kind === 'site' ? 9 : 6, color: COLORS[p.kind], fillColor: COLORS[p.kind], fillOpacity: 0.8, weight: 2 }).bindTooltip(esc(p.label));
       })).addTo(map);
       map.fitBounds(L.latLngBounds(pts.map(function (p) { return [p.lat, p.lon]; })).pad(0.2), { maxZoom: 14 });
       setTimeout(function () { map.invalidateSize(); }, 50);
     }
     function say(t) { $('wbResStatus').textContent = t; }
+    // Nothing can be added or saved until the saved research has loaded, so an edit is never replaced by it
+    // and an empty form never overwrites it.
+    var ready = false;
+    function setReady(on) { ready = on; $('wbResSave').disabled = !on; $('wbCAdd').disabled = !on; }
+    setReady(false); say('Loading saved research…');
 
     $('wbCAdd').addEventListener('click', function () {
       var c = { name: val('wbCName'), kind: val('wbCKind'), address: val('wbCAddr'), lat: nOrNull(val('wbCLat')), lon: nOrNull(val('wbCLon')),
         yearBuilt: nOrNull(val('wbCYear')), units: nOrNull(val('wbCUnits')), rents: {}, vacancy: pctIn(val('wbCVac')),
         concessions: val('wbCConc'), checked: val('wbCChecked'), source: val('wbCSrc') };
       COMP_BEDS.forEach(function (bd) { c.rents[bd[0]] = nOrNull(val('wbCR' + bd[0])); });
+      if (!ready) return;
       if (!c.name || !c.checked || !/^https?:\/\//i.test(c.source)) { say('A comparable needs a name, the date you checked it and a source link starting with http.'); return; }
       rec.comps.push(c);
       ['wbCName', 'wbCAddr', 'wbCLat', 'wbCLon', 'wbCYear', 'wbCUnits', 'wbCVac', 'wbCConc', 'wbCSrc'].concat(COMP_BEDS.map(function (bd) { return 'wbCR' + bd[0]; })).forEach(function (id) { $(id).value = ''; });
@@ -1127,13 +1140,14 @@
     });
     box.addEventListener('click', function (e) {
       var b = e.target.closest && e.target.closest('[data-del-comp]');
-      if (!b) return;
+      if (!b || !ready) return;
       var v = research(model, rec, lihtc, today), gone = v.comps[Number(b.getAttribute('data-del-comp'))];
       rec.comps = rec.comps.filter(function (c) { return c.name !== gone.name || c.source !== gone.source || c.checked !== gone.checked; });
       say('Removed. Save to keep the change.'); draw();
     });
-    box.addEventListener('change', function (e) { if (e.target.closest && e.target.closest('.wb-form') && !/^wbC/.test(e.target.id || '')) { read(); draw(); } });
+    box.addEventListener('change', function (e) { if (ready && e.target.closest && e.target.closest('.wb-form') && !/^wbC/.test(e.target.id || '')) { read(); draw(); } });
     $('wbResSave').addEventListener('click', function () {
+      if (!ready) return;
       read();
       $('wbResSave').disabled = true; say('Saving…');
       fetch(MARKET_API, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ deal: deal, data: rec }) })
@@ -1149,10 +1163,12 @@
     var getJson = function (u) { return settleWithin(fetch(u, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }), 20000); };
     Promise.all([getJson(MARKET_API + '?deal=' + encodeURIComponent(deal)), getJson(LIHTC_URL)]).then(function (res) {
       if (!live()) return;
-      if (res[0] && res[0].data) rec = res[0].data;
-      else if (!res[0]) say('Saved research did not load; anything you add here can still be saved.');
       lihtc = res[1];
-      fill(); draw();
+      // A failed load leaves the editor shut: saving an empty form would overwrite research that is there.
+      if (!res[0]) { draw(); say('Saved research did not load. Reload the page to add or change it.'); return; }
+      say('');
+      if (res[0].data) rec = res[0].data;
+      fill(); draw(); setReady(true);
     }, function (err) { if (live()) onError(err); });
   }
 
