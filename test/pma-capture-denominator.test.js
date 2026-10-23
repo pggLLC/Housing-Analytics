@@ -117,6 +117,23 @@ test('a zero 20-80% pool withholds the 85% check instead of borrowing a workforc
     'without a penetration pool the legacy single denominator still checks');
 });
 
+test('the simulator recounts for the bedroom sizes ticked', () => {
+  const html = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
+  ['pmaBr0', 'pmaBr1', 'pmaBr2', 'pmaBr3'].forEach((id) => assert(html.includes('id="' + id + '"'), id + ' missing'));
+  assert(/id="pmaBr1" value="1br" checked/.test(html) && /id="pmaBr3" value="3br" checked/.test(html) && !/id="pmaBr0" value="0br" checked/.test(html),
+    'default should be 1-3BR ticked, studio not');
+  assert(/_chfaQualifiedRenters\(simDen\.tracts, mixTiers, bedrooms\)/.test(src), 'the recount does not pass the bedroom sizes');
+  assert(/!sameTiers \|\| !defaultBr/.test(src), 'a non-default bedroom mix does not trigger a recount');
+  assert(/Tick at least one bedroom size/.test(src), 'no message when every size is unticked');
+  assert(/var bedrooms = _offeredBedrooms\(\);\s*if \(!bedrooms\.length\) \{/.test(src), 'the empty-size check depends on the data source');
+  assert(/Bedroom sizes are not applied/.test(src) && /_tierCaptureLine\(simDen, amiMix\) \+ brNote/.test(src),
+    'a count without household sizes does not say the boxes were not applied');
+  (html.match(/<label [^>]*><input type="checkbox" id="pmaBr\d"/g) || []).forEach((l) => assert(/min-height:44px/.test(l), 'touch target under 44px: ' + l));
+  assert.strictEqual((html.match(/<label [^>]*><input type="checkbox" id="pmaBr\d"/g) || []).length, 4);
+  assert(/BEDROOM_INPUTS\.forEach\(function \(id\) \{\s*var box = el\(id\);\s*if \(box\) box\.addEventListener\('change'/.test(src),
+    'the bedroom boxes do not rerun the simulator');
+});
+
 test('without CHFA-rule counts the project pool is the one denominator', () => {
   const r = { captureDenominator: { value: 598, source: 'chas_lihtc_eligible' } };
   assert.deepStrictEqual(projectCaptureDenominator(r), captureDenominator(r));
@@ -161,6 +178,27 @@ test('no renter count withholds the capture score instead of scoring capture aga
 test('a tract file with no generated stamp shows no date, never today', () => {
   assert(!/'Data as of ' \+ new Date\(\)/.test(src), 'the timestamp falls back to today');
   assert(/Data date unavailable/.test(src), 'the missing-date label is gone');
+});
+
+test('bedroom sizes come from fixed codes, not the checkbox value text', () => {
+  const m = src.match(/function _offeredBedrooms\(\) \{[\s\S]*?\n  \}/);
+  assert(m, '_offeredBedrooms() is gone');
+  assert(!/\.value/.test(m[0]), 'the size list reads page text that ends up in innerHTML');
+  assert(/BEDROOM_CODES\[id\]/.test(m[0]), 'the size list does not use the fixed codes');
+});
+
+test('the 85% check stays whole-market when bedroom sizes change, and says so', () => {
+  assert(!/_chfaQualifiedRenters\(simDen\.tracts, CHFA_PENETRATION_TIERS/.test(src),
+    'the 20-80% pool is narrowed to the bedroom sizes while existing units are not');
+  assert(/var penScope = \(!defaultBr && simDen\.bedrooms\)/.test(src), 'the scope note is not tied to applied sizes');
+  assert(/qualified at 20\\u201380% AMI' \+ penScope/.test(src), 'the 85% line does not say it covers the whole market');
+});
+
+test('changing a bedroom box announces the new result to screen readers', () => {
+  assert(/updateSimulator\(lastResult\);\s*_announceSimulator\(\);/.test(src), 'the bedroom boxes recalculate silently');
+  assert(/function _announceSimulator\(\) \{\s*var live = el\('maLiveRegion'\)/.test(src), 'the announcement does not use the page live region');
+  const html = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
+  assert(/id="maLiveRegion" aria-live="polite"/.test(html), 'market-analysis.html has no polite live region');
 });
 
 test('no renter count is no denominator, never the scoring placeholder of 1 or 0', () => {
