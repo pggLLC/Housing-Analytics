@@ -388,6 +388,8 @@
       if ($('[data-hm-flow-map]')) $('[data-hm-flow-map]').style.display = 'none';
       $('[data-hm-flow-cap]').textContent = 'No award' + where + ' ' + yearsText() + ' has a home count recorded in these lists, so there is nothing to draw.';
       $('[data-hm-flow-text]').textContent = '';
+      state.flowPick = null;
+      $('[data-hm-flow-pick]').textContent = '';
       return;
     }
     svg.style.display = '';
@@ -772,7 +774,11 @@
       else if (t.hasAttribute('data-hm-mrows')) { state.matrixRows = t.getAttribute('data-hm-mrows') === 'developer' ? 'developer' : 'county'; renderControls(); renderMatrix(); }
       else if (t.hasAttribute('data-hm-clear')) { pick(null); }
       else if (t.hasAttribute('data-hm-flow-clear')) {
+        var was = state.flowPick;
         state.flowPick = null; renderFlow();
+        // The button is redrawn away, so focus returns to the program or region it cleared.
+        var again2 = was && root.querySelector('.hm-flow-hit[data-hm-flow-key="' + (global.CSS && CSS.escape ? CSS.escape(was) : was) + '"]');
+        if (again2) again2.focus();
         if (typeof global.__announceUpdate === 'function') global.__announceUpdate('Showing every program.');
       }
       else if (t.hasAttribute('data-hm-matrix-all')) { state.matrixAll = !state.matrixAll; renderMatrix(); }
