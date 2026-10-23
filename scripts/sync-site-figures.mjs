@@ -145,7 +145,13 @@ export const RULES = [
 
 // Text that looks like a tracked figure but is a different one: DOLA's
 // January 2027 round shares CHFA's December 1, 2026 letter-of-intent date.
+// Dated citations (a source list for a 2026 Act, a brief's reference list,
+// code comments) keep naming the document they were read from.
 const NOT_A_COPY = [
+  { files: [DEEP], pattern: /^[ \t]*\/\/[^\n]*$/gm },
+  { files: ['housing-legislation-2026.html'], pattern: /<p[^>]*>Sources: [^\n]*/g },
+  { files: [FUNDING], pattern: /"label": "irs\.gov: rp-\d\d-\d+\.pdf \(PDF\)",\s*"url": "[^"]+"/g },
+  { files: [BRIEFS], pattern: /"title": "Rev\. Proc\. \d{4}-\d+, \d{4} inflation-adjusted items[^"]*",[^{}]*?"link": "[^"]+"/g },
   { files: [FUNDING], pattern: /LOI [A-Z][a-z]+ \d{1,2}, \d{4}[,;] application January 15, 2027/g },
   { files: [FUNDING], pattern: /"quote": "Letter of Intent Deadline: [^"]+",\s*"url": "https:\/\/doh\.colorado\.gov\//g },
 ];
@@ -287,6 +293,10 @@ export function strayPatterns(F) {
     ['eq9', new RegExp(`\\$${f('eq9')}(?!\\d)`, 'g')],
     ['eq4', new RegExp(`\\$${f('eq4')}(?!\\d)`, 'g')],
     ['eqCo', new RegExp(`\\$${f('eqCo')}(?!\\d)`, 'g')],
+    ['revProc', new RegExp(`${f('revProc').replace(/^IRS /, '')}(?!\\d)`, 'g')],
+    ['revProcUrl', new RegExp(f('revProcUrl'), 'g')],
+    ['notice', new RegExp(`${f('notice')}(?!\\d)`, 'g')],
+    ['noticeUrl', new RegExp(f('noticeUrl'), 'g')],
     ['perCapita', new RegExp(`\\$${f('perCapita')}(?!\\d)`, 'g')],
     ['smallStateMin', new RegExp(`\\$${f('smallStateMin')}(?!\\d)`, 'g')],
     ['coM', new RegExp(`\\$${f('coM')} ?(?:million|M)\\b`, 'g')],
