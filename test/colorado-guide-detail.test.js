@@ -67,6 +67,10 @@ assert.ok(guide.includes('25-16-306') && guide.includes('25-16-307'), 'VCUP plan
 assert.ok(!/council that has not done so/.test(guide), 'no council requirement for local priority points');
 assert.ok(road.includes('exempt from NEPA review in the statute itself') && !road.includes('exemptions wait on HUD rules'), 'HOME NEPA exemptions statutory');
 
+assert.ok(guide.includes('if state gap funds are not available'), '3.L.1 tied to unavailable gap funds');
+assert.ok(guide.includes('or the lower number the town has set'), 'due diligence keeps local water threshold');
+assert.ok(road.includes('suitable for occupancy'), 'voucher inspection must have passed');
+
 // 3. Fair housing: Colorado law, and no unqualified 3% claim after HB26-1313.
 for (const s of ['C.R.S. 24-34-502', 'HB20-1332', 'Colorado Civil Rights Division', 'within one year', 'HB26-1313']) {
   assert.ok(fair.includes(s), `fair housing brief cites ${s}`);
