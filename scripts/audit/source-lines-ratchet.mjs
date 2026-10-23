@@ -91,8 +91,19 @@ function scanPage() {
     }
     return { b, links, dated };
   };
+  // Nearest id, then tag:nth-of-type steps down to the box.
+  const areaPath = (el) => {
+    const steps = [];
+    for (let n = el; n && n !== document.body; n = n.parentElement) {
+      if (n.id) { steps.unshift(`#${n.id}`); break; }
+      const same = n.parentElement ? [...n.parentElement.children].filter((c) => c.tagName === n.tagName) : [n];
+      steps.unshift(`${n.tagName.toLowerCase()}:${same.indexOf(n) + 1}`);
+    }
+    return steps.join('>');
+  };
   let figures = 0; let unsourced = 0; let undated = 0;
   const where = {};
+  const labels = {};
   const seen = new Set();
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   while (walker.nextNode()) {
@@ -108,12 +119,18 @@ function scanPage() {
     let miss = null;
     if (!links.length) { unsourced += m.length; miss = 'unsourced'; } else if (!dated) { undated += m.length; miss = 'undated'; }
     if (miss) {
-      const h = b.querySelector('h1,h2,h3,h4,caption,.card-title');
-      const key = `${miss}: ${((h && h.textContent) || b.id || b.className || b.tagName).trim().replace(/\s+/g, ' ').slice(0, 70)}`;
+      // Areas are keyed by element id or structural path, so a copy edit to a
+      // heading does not look like a new card; the heading is kept for the
+      // failure message only.
+      const key = `${miss}: ${areaPath(b)}`;
       where[key] = (where[key] || 0) + m.length;
+      if (!labels[key]) {
+        const h = b.querySelector('h1,h2,h3,h4,caption,.card-title');
+        labels[key] = ((h && h.textContent) || b.className || b.tagName).trim().replace(/\s+/g, ' ').slice(0, 70);
+      }
     }
   }
-  const top = Object.entries(where).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const top = Object.entries(where).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, v]) => [`${k} "${labels[k]}"`, v]);
   return { figures, unsourced, undated, top, areas: where };
 }
 

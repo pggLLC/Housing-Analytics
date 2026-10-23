@@ -30,39 +30,40 @@
       "unsourced": 2,
       "undated": 0,
       "areas": {
-        "unsourced: LIHTC Equity Pricing History": 2
+        "unsourced: #main-content>article:1>div:1>section:1>div:1": 2
       }
     },
     "census-dashboard.html": {
       "unsourced": 3,
       "undated": 0,
       "areas": {
-        "unsourced: LIHTC siting characteristics": 2,
-        "unsourced: Data sources & variables": 1
+        "unsourced: #main-content>section:4>div:2>div:2": 2,
+        "unsourced: #main-content>section:9": 1
       }
     },
     "chfa-portfolio.html": {
       "unsourced": 0,
       "undated": 2,
       "areas": {
-        "undated: kpiGrid": 2
+        "undated: #kpiGrid": 2
       }
     },
     "colorado-deep-dive.html": {
       "unsourced": 6,
       "undated": 11,
       "areas": {
-        "undated: Interactive Map: DDAs, QCTs & LIHTC Projects": 8,
-        "unsourced: kpi-grid": 3,
-        "unsourced: Coverage Ratio at 100% AMI": 3,
-        "undated: kpi-grid": 3
+        "undated: #tab-deepdive>section:4": 8,
+        "unsourced: #amiGapModule>div:4": 3,
+        "unsourced: #amiGapModule>div:6>div:2": 3,
+        "undated: #carMarketContent>div:1": 1,
+        "undated: #hmdaContent>div:1": 2
       }
     },
     "colorado-elections.html": {
       "unsourced": 1,
       "undated": 0,
       "areas": {
-        "unsourced: Federal Delegation & Congressional Action": 1
+        "unsourced: #main-content>div:2>div:6": 1
       }
     },
     "compare.html": {
@@ -84,7 +85,10 @@
       "unsourced": 4,
       "undated": 0,
       "areas": {
-        "unsourced: dq-card pc-cov-card": 4
+        "unsourced: #placeChasCoverage>div:1>div:1": 1,
+        "unsourced: #placeChasCoverage>div:1>div:2": 1,
+        "unsourced: #placeChasCoverage>div:1>div:3": 1,
+        "unsourced: #placeChasCoverage>div:1>div:4": 1
       }
     },
     "dashboard-data-sources-ui.html": {
@@ -101,14 +105,14 @@
       "unsourced": 0,
       "undated": 1,
       "areas": {
-        "undated: DIV": 1
+        "undated: #main-content>div:3>div:1": 1
       }
     },
     "data-review-hub.html": {
       "unsourced": 1,
       "undated": 0,
       "areas": {
-        "unsourced: drh-kpi-grid": 1
+        "unsourced: #main-content>div:3>div:1>section:1>div:1": 1
       }
     },
     "data-status.html": {
@@ -120,9 +124,9 @@
       "unsourced": 9,
       "undated": 2,
       "areas": {
-        "unsourced: Rent context — voucher vs. existing vs. asking": 3,
-        "unsourced: DIV": 6,
-        "undated: Finding CRA lenders for your project": 2
+        "unsourced: #dcAboutAndContext": 3,
+        "unsourced: #main-content>div:8": 6,
+        "undated: #main-content>section:4": 2
       }
     },
     "deal-summary.html": {
@@ -149,7 +153,7 @@
       "unsourced": 5,
       "undated": 0,
       "areas": {
-        "unsourced: pageContext": 5
+        "unsourced: #pageContext": 5
       }
     },
     "hna-scenario-builder.html": {
@@ -161,48 +165,48 @@
       "unsourced": 7,
       "undated": 0,
       "areas": {
-        "unsourced: hnaDecisionStrip": 2,
-        "unsourced: What you have now": 5
+        "unsourced: #hnaDecisionStrip": 2,
+        "unsourced: #hnaChapterHandoff": 5
       }
     },
     "hna-what-housing-exists.html": {
       "unsourced": 4,
       "undated": 0,
       "areas": {
-        "unsourced: hnaDecisionStrip": 2,
-        "unsourced: What you have now": 2
+        "unsourced: #hnaDecisionStrip": 2,
+        "unsourced: #hnaChapterHandoff": 2
       }
     },
     "hna-what-to-do.html": {
       "unsourced": 8,
       "undated": 0,
       "areas": {
-        "unsourced: hnaDecisionStrip": 2,
-        "unsourced: Housing need summary": 4,
-        "unsourced: What you have now": 2
+        "unsourced: #hnaDecisionStrip": 2,
+        "unsourced: #main-content>section:4>div:2>div:1>div:2": 4,
+        "unsourced: #hnaChapterHandoff": 2
       }
     },
     "hna-where-its-heading.html": {
       "unsourced": 2,
       "undated": 0,
       "areas": {
-        "unsourced: hnaDecisionStrip": 2
+        "unsourced: #hnaDecisionStrip": 2
       }
     },
     "hna-who-lives-here.html": {
       "unsourced": 10,
       "undated": 0,
       "areas": {
-        "unsourced: hnaDecisionStrip": 2,
-        "unsourced: Labor force status & retiree share": 4,
-        "unsourced: What you have now": 4
+        "unsourced: #hnaDecisionStrip": 2,
+        "unsourced: #main-content>section:4>div:3>div:2>div:3": 4,
+        "unsourced: #hnaChapterHandoff": 4
       }
     },
     "housing-authority-guide.html": {
       "unsourced": 2,
       "undated": 0,
       "areas": {
-        "unsourced: Three ways to form one": 2
+        "unsourced: #ha-routes": 2
       }
     },
     "housing-legislation-2026.html": {
@@ -214,9 +218,9 @@
       "unsourced": 10,
       "undated": 0,
       "areas": {
-        "unsourced: hnaDecisionStrip": 2,
-        "unsourced: Labor force status & retiree share": 4,
-        "unsourced: Housing need summary": 4
+        "unsourced: #hnaDecisionStrip": 2,
+        "unsourced: #main-content>section:4>div:14>div:2>div:3": 4,
+        "unsourced: #main-content>section:4>div:18>div:1>div:2": 4
       }
     },
     "ic-summary.html": {
@@ -228,17 +232,17 @@
       "unsourced": 7,
       "undated": 0,
       "areas": {
-        "unsourced: From public data to a housing decision": 4,
-        "unsourced: Paths to affordable housing — and how they differ": 1,
-        "unsourced: Built for the people doing the work.": 2
+        "unsourced: #main-content>section:2": 4,
+        "unsourced: #main-content>section:3": 1,
+        "unsourced: #main-content>section:4": 2
       }
     },
     "insights.html": {
       "unsourced": 7,
       "undated": 0,
       "areas": {
-        "unsourced: Current policy status": 2,
-        "unsourced: Analysis and research briefs": 5
+        "unsourced: #researchCatalog>section:1": 2,
+        "unsourced: #researchCatalog>section:2": 5
       }
     },
     "land-banking-awards.html": {
@@ -255,14 +259,14 @@
       "unsourced": 2,
       "undated": 0,
       "areas": {
-        "unsourced: Bill Name & Sponsors — pending AHCIA 2025": 2
+        "unsourced: #main-content>section:3": 2
       }
     },
     "lihtc-guide-for-stakeholders.html": {
       "unsourced": 1,
       "undated": 0,
       "areas": {
-        "unsourced: The developer": 1
+        "unsourced: #main-content>section:1": 1
       }
     },
     "lihtc-opportunity-finder.html": {
@@ -274,15 +278,15 @@
       "unsourced": 2,
       "undated": 0,
       "areas": {
-        "unsourced: Statewide toolkit": 2
+        "unsourced: #main-content>article:1>div:1>section:3": 2
       }
     },
     "market-analysis.html": {
       "unsourced": 5,
       "undated": 0,
       "areas": {
-        "unsourced: pageContext": 3,
-        "unsourced: dqs-panel": 2
+        "unsourced: #pageContext": 3,
+        "unsourced: #pmaDataQualitySummary>details:1": 2
       }
     },
     "methods.html": {
@@ -294,13 +298,13 @@
       "unsourced": 11,
       "undated": 2,
       "areas": {
-        "unsourced: ipp-stat-strip": 2,
-        "unsourced: How to read this page": 1,
-        "unsourced: Stage 1 — Jurisdiction Screen": 1,
-        "undated: Stage 2 — QA/QC Check": 2,
-        "unsourced: Stage 6 — Financing Readiness — LIHTC rental and affordable ownership": 4,
-        "unsourced: Stage 8 — Next Action": 1,
-        "unsourced: Ten questions to verify a jurisdiction locally": 2
+        "unsourced: #ippMount>section:1>div:2": 2,
+        "unsourced: #ippMount>section:2": 1,
+        "unsourced: #step-1": 1,
+        "undated: #step-2": 2,
+        "unsourced: #step-6": 4,
+        "unsourced: #step-8": 1,
+        "unsourced: #verification": 2
       }
     },
     "policy-briefs.html": {
@@ -312,14 +316,14 @@
       "unsourced": 2,
       "undated": 0,
       "areas": {
-        "unsourced: pres-kpi-strip": 2
+        "unsourced: #main-content>div:2": 2
       }
     },
     "recommendation.html": {
       "unsourced": 3,
       "undated": 0,
       "areas": {
-        "unsourced: What you have recorded": 3
+        "unsourced: #recommendationMount>section:2": 3
       }
     },
     "research-brief.html": {
@@ -346,10 +350,10 @@
       "unsourced": 25,
       "undated": 0,
       "areas": {
-        "unsourced: 01 Emergence": 1,
-        "unsourced: 03 The method in use: Palisade": 10,
-        "unsourced: 04 Generalizing: which jurisdictions are tractable": 13,
-        "unsourced: 09 What this cost to build": 1
+        "unsourced: #main-content>article:1>section:2": 1,
+        "unsourced: #main-content>article:1>section:4": 10,
+        "unsourced: #main-content>article:1>section:5": 13,
+        "unsourced: #main-content>article:1>section:10": 1
       }
     }
   }
