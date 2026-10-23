@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "2130d396f",
+  "generated_from_commit": "7772ccafd",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-23",
-    "total_commits": 8783,
+    "total_commits": 8805,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,8 +49,8 @@
       },
       {
         "month": "2026-10",
-        "commits": 1186,
-        "pct_of_peak": 83
+        "commits": 1208,
+        "pct_of_peak": 84.5
       }
     ]
   },
@@ -59,18 +59,18 @@
     "html_pages_toplevel": 78,
     "html_pages_total": 572,
     "workflows": 82,
-    "scripts": 345,
+    "scripts": 346,
     "docs": 504,
-    "data_files": 2023,
+    "data_files": 2024,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 69,
-    "test_files": 620,
-    "absence_test_cases": 297,
-    "absence_tests": 117,
+    "test_files": 624,
+    "absence_test_cases": 299,
+    "absence_tests": 118,
     "lihtc_features": 926
   },
   "case": {
@@ -246,11 +246,11 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 488391,
+    "hand_written_lines": 492051,
     "generated_place_page_lines": 226830,
     "top_level_pages": 78,
-    "html_nonblank_lines": 49594,
-    "html_distinct_lines": 20571,
+    "html_nonblank_lines": 49650,
+    "html_distinct_lines": 20619,
     "html_distinct_share": 0.415,
     "substantial_tools": 25,
     "declared_data_sources": 86,
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "2130d396f",
+    "extracted_at_commit": "7772ccafd",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -394,7 +394,7 @@
           "housing_ratio": 0.3,
           "front_end_ratio_cap": null,
           "down_payment_rate": null,
-          "interest_rate": 0.065,
+          "interest_rate": null,
           "term_years": 30,
           "property_tax_rate": 0.0065,
           "insurance_rate": 0.0035,
@@ -409,7 +409,7 @@
           "housing_ratio": 0.3,
           "front_end_ratio_cap": null,
           "down_payment_rate": null,
-          "interest_rate": 0.065,
+          "interest_rate": null,
           "term_years": 30,
           "property_tax_rate": 0.0065,
           "insurance_rate": 0.0085,
@@ -424,7 +424,7 @@
           "housing_ratio": 0.43,
           "front_end_ratio_cap": null,
           "down_payment_rate": null,
-          "interest_rate": 0.065,
+          "interest_rate": null,
           "term_years": 30,
           "property_tax_rate": 0.0065,
           "insurance_rate": 0.0085,
@@ -439,7 +439,7 @@
           "housing_ratio": 0.45,
           "front_end_ratio_cap": null,
           "down_payment_rate": null,
-          "interest_rate": 0.065,
+          "interest_rate": null,
           "term_years": 30,
           "property_tax_rate": 0.0065,
           "insurance_rate": 0.0085,
@@ -454,7 +454,7 @@
           "housing_ratio": 0.41,
           "front_end_ratio_cap": 0.29,
           "down_payment_rate": null,
-          "interest_rate": 0.065,
+          "interest_rate": null,
           "term_years": 30,
           "property_tax_rate": 0.0065,
           "insurance_rate": 0.0085,
@@ -469,7 +469,7 @@
           "housing_ratio": 0.38,
           "front_end_ratio_cap": null,
           "down_payment_rate": null,
-          "interest_rate": 0.065,
+          "interest_rate": null,
           "term_years": 30,
           "property_tax_rate": 0.0065,
           "insurance_rate": 0.0035,
