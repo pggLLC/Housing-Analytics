@@ -229,7 +229,9 @@
         if (owed != null && paid != null) owed = Math.max(0, owed - paid); else owed = null;
         return { year: num(y.year), grossRents: num(y.grossRents), otherIncome: num(y.otherIncome), vacancy: num(y.vacancyLoss), egi: num(y.egi),
           opex: num(y.opex), reserve: num(y.repReserve), tax: num(y.propTax), noi: num(y.noi), debtService: num(y.debtService),
-          bridge: num(y.bridgeDebtService), assetMgmt: num(y.assetMgmtFee), contingent: num(y.contingentPaid),
+          bridge: num(y.bridgeDebtService), assetMgmt: num(y.assetMgmtFee), assetMgmtOwed: num(y.assetMgmtUnpaid), contingent: num(y.contingentPaid),
+          // Must-pay debt NOI could not cover stays in the loan balance, so it comes back before cash flow.
+          mustPayUnpaid: num(y.mustPayUnpaid),
           cashFlow: num(y.cashFlow), dscr: num(y.dscr), seniorDscr: num(y.seniorDscr), feePaid: paid, feeOwed: owed, reason: y.unavailableReason || null };
       })
     };
@@ -407,6 +409,11 @@
       else if (df.owedAt15 == null) out.push({ level: 'warn', text: 'Whether the deferred fee is paid off in 15 years is not known: ' + (df.payoffReason || 'the cash flow is incomplete') + '.' });
       else out.push({ level: 'bad', text: 'The deferred fee is not paid off in 15 years: ' + money(df.owedAt15) + ' of ' + money(df.amount) + ' is still owed' + (df.paidLater ? ' (paid off in year ' + df.paidLater + ')' : '') + '.' });
     }
+    var cfRows = m.cashFlow.rows || [];
+    var shortYears = cfRows.filter(function (y) { return y.mustPayUnpaid > 0.5; });
+    if (shortYears.length) out.push({ level: 'bad', text: 'Net operating income does not cover must-pay debt service in ' + shortYears.length + (shortYears.length === 1 ? ' year' : ' years') + ' (first in year ' + shortYears[0].year + '): ' + money(shortYears.reduce(function (a, y) { return a + y.mustPayUnpaid; }, 0)) + ' is left unpaid and added to the loan balance.' });
+    var amLast = cfRows.length ? cfRows[cfRows.length - 1] : null;
+    if (amLast && amLast.assetMgmtOwed > 0.5) out.push({ level: 'warn', text: 'Asset management fees of ' + money(amLast.assetMgmtOwed) + ' are still owed at the end of year ' + amLast.year + '; cash flow did not cover them.' });
     if (m.gap.amount != null) {
       if (m.gap.amount > 0.5) out.push({ level: 'bad', text: 'The deal is ' + money(m.gap.amount) + ' short after every source modeled.' });
       else if (m.gap.amount < -0.5) out.push({ level: 'ok', text: 'Sources exceed costs by ' + money(-m.gap.amount) + '.' });
@@ -549,11 +556,11 @@
         ['Gross rent', 'grossRents'], ['Other income', 'otherIncome'], ['Less vacancy', 'vacancy', -1], ['Effective gross income', 'egi', 1, true],
         ['Operating costs', 'opex', -1], ['Replacement reserve', 'reserve', -1], ['Property tax', 'tax', -1], ['Net operating income', 'noi', 1, true],
         ['Must-pay debt service', 'debtService', -1], ['Bridge loan payments', 'bridge', -1], ['Asset management fee paid', 'assetMgmt', -1],
-        ['Cash-flow loan payments', 'contingent', -1], ['Cash flow', 'cashFlow', 1, true], ['Coverage, all must-pay debt', 'dscr', 'x'], ['Coverage, first mortgage', 'seniorDscr', 'x'],
-        ['Deferred fee paid', 'feePaid'], ['Deferred fee still owed', 'feeOwed']
+        ['Cash-flow loan payments', 'contingent', -1], ['Debt service left unpaid (added to the loan balance)', 'mustPayUnpaid'], ['Cash flow', 'cashFlow', 1, true], ['Coverage, all must-pay debt', 'dscr', 'x'], ['Coverage, first mortgage', 'seniorDscr', 'x'],
+        ['Deferred fee paid', 'feePaid'], ['Deferred fee still owed', 'feeOwed'], ['Asset management fee still owed', 'assetMgmtOwed']
       ];
       // Every deduction between NOI and cash flow is shown when the deal has it, so the rows reconcile.
-      var optional = ['bridge', 'assetMgmt', 'contingent'];
+      var optional = ['bridge', 'assetMgmt', 'contingent', 'mustPayUnpaid', 'assetMgmtOwed'];
       lines = lines.filter(function (ln) { return optional.indexOf(ln[1]) < 0 || cf.rows.some(function (y) { return y[ln[1]] == null || Math.abs(y[ln[1]]) > 0.5; }); });
       var head = ['Year'].concat(cf.rows.map(function (y) { return String(y.year); }));
       var body = lines.map(function (ln) {

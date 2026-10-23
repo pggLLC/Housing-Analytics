@@ -396,6 +396,16 @@ const highNoRows = mut0((s) => { s.result.projection.rows = []; s.result.costBas
 ok(/warn: Year-one coverage of 1\.45x is above/.test(texts(highNoRows)), 'high year-one coverage is flagged from the engine check when there are no projection rows');
 const opexNoTax = texts(mut0((s) => { s.result.operatingSummary.perUnitYear = PUPA - 500; s.result.propTaxPerUnit = null; s.result.netPropTax = null; }));
 ok(/warn: Operating cost of .* before property tax/.test(opexNoTax) && !/ok: Operating cost was checked/.test(opexNoTax), 'a cost still waiting on the tax is not also listed as checked');
+{
+  const under = mut0((s) => { const y = s.result.projection.rows[1]; y.mustPayUnpaid = 12000; y.cashFlow = -500; s.result.projection.rows.forEach((r, i) => { r.assetMgmtUnpaid = i >= 1 ? 3000 : 0; }); });
+  const html = WB.render(under);
+  ok(html.includes('Debt service left unpaid (added to the loan balance)'), 'must-pay debt left unpaid gets its own cash-flow row so the statement reconciles');
+  ok(html.includes('Asset management fee still owed'), 'an accrued asset management fee gets its own row');
+  ok(/bad: Net operating income does not cover must-pay debt service in 1 year \(first in year 2\): \$12,000/.test(texts(under)), 'unpaid must-pay debt is flagged with the amount added to the loan');
+  ok(/warn: Asset management fees of \$3,000 are still owed at the end of year 15/.test(texts(under)), 'an asset management fee still owed at the end is disclosed');
+  const clean = WB.render(mut0(() => {}));
+  ok(!clean.includes('Debt service left unpaid') && !clean.includes('Asset management fee still owed'), 'the rows stay hidden when nothing is unpaid');
+}
 const feeOpen = mut0((s) => { s.permanentFinancing.deferredDevFee = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { deferredDevFee: 'Operating inputs are incomplete.' }); });
 ok(feeOpen.sources.rows.some((x) => x.amount === null && x.label === 'Deferred developer fee: not known, Operating inputs are incomplete.'), 'an unknown deferred fee stays in the sources with its reason');
 
