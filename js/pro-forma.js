@@ -60,7 +60,7 @@
           '<div style="display:flex;flex-wrap:wrap;gap:var(--sp3);align-items:flex-end;">' +
             '<label style="display:block;min-width:160px;">' +
               '<span style="font-size:var(--small);color:var(--muted);">Annual Rent Growth (%)</span>' +
-              '<input id="pf-rent-growth" type="number" min="0" max="5" step="0.25" value="2"' +
+              '<input id="pf-rent-growth" type="number" min="-3" max="5" step="0.25" value="2"' +
                 ' style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);' +
                 'border-radius:var(--radius);background:var(--bg2);color:var(--text);">' +
             '</label>' +
@@ -190,7 +190,7 @@
       var cumColor = r.cumCF >= 0 ? '' : 'color:var(--chart-7);';
 
       html += '<tr style="' + bgStyle + '">';
-      html += '<td style="text-align:center;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">' + r.year + '</td>';
+      html += '<td style="text-align:center;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">' + escapeLabel(r.year) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.grossRents) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.otherIncome || 0) + '</td>';
       html += '<td style="text-align:right;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border);">' + fmt(r.vacancyLoss) + '</td>';

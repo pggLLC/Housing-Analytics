@@ -8,6 +8,7 @@
 (function () {
   'use strict';
 
+  var MORTGAGE_RATE = (typeof window !== 'undefined' && window.OwnershipFinance && window.OwnershipFinance.MORTGAGE_RATE) || null;
   var BANDS = ['lte30', '31to50', '51to80', '81to100', '100plus'];
   var MODERATE_BANDS = ['51to80', '81to100'];
   var PRICE_BAND_SCREEN_LABEL = 'potential buyer pool (moderate-income renter households) - not committed demand';
@@ -62,11 +63,13 @@
       lte30RenterCb50TotalHouseholdShareMin: 0.03,
     },
     affordabilityAssumptions: {
-      pmms30YearRate: 0.065,
-      // Fixed 6.5% placeholder. It is not the current PMMS rate that
-      // HNAUtils.AFFORD carries, so it must not be labelled as that source.
-      pmmsDate: null,
-      pmmsSource: 'fixed 6.5% placeholder (not current PMMS)',
+      // The one dated PMMS rate, read from OwnershipFinance.MORTGAGE_RATE,
+      // which every page loads before this file. The literal is only for
+      // engine-less vm contexts; test/mortgage-rate-one-source.test.js pins it
+      // to MORTGAGE_RATE so the two cannot drift.
+      pmms30YearRate: MORTGAGE_RATE ? MORTGAGE_RATE.rateAnnual : 0.074,
+      pmmsDate: MORTGAGE_RATE ? MORTGAGE_RATE.week : '2026-10-15',
+      pmmsSource: MORTGAGE_RATE ? MORTGAGE_RATE.source : 'Freddie Mac PMMS 30-year fixed average, week of October 15, 2026',
       termYears: 30,
       frontEndRatio: 0.30,
       downPaymentRate: 0.10,

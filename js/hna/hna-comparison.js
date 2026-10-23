@@ -420,7 +420,10 @@
   // ── Homeownership affordability calculations ──────────────────────
   // Reads from centralized config (js/config/financial-constants.js)
   var _cfg = window.COHO_DEFAULTS || {};
-  var MORTGAGE_RATE    = _cfg.mortgageRate    || 0.07;
+  // The one dated rate every homeownership figure uses (OwnershipFinance.MORTGAGE_RATE).
+  // Without it the purchase rows are withheld rather than priced at a literal.
+  var SHARED_RATE = (window.OwnershipFinance && window.OwnershipFinance.MORTGAGE_RATE) || null;
+  var MORTGAGE_RATE    = SHARED_RATE ? SHARED_RATE.rateAnnual : null;
   var MORTGAGE_TERM_YR = _cfg.mortgageTermYr  || 30;
   var DOWN_PAYMENT_PCT = _cfg.downPaymentPct  || 0.05;
   var HOUSING_COST_PCT = _cfg.housingCostPct  || 0.30;
@@ -442,6 +445,7 @@
    */
   function _calcPurchaseAmi(homeValue, ami, isOwner) {
     if (!homeValue || !ami || homeValue <= 0 || ami <= 0) return null;
+    if (!Number.isFinite(MORTGAGE_RATE)) return null;
 
     // Current homeowners: assume 40% median equity offsets purchase price
     var effectivePrice = isOwner ? homeValue * 0.60 : homeValue;
@@ -941,7 +945,9 @@
     // AMI-to-Purchase comparison table
     html += '<div class="hca-cp-subsection hca-cp-purchase">';
     html += '<div class="hca-cp-subsection__title">AMI Required to Purchase a Home</div>';
-    html += '<div class="hca-cp-purchase__note">Based on 7% rate, 30-yr term, 5% down, 30% debt-to-income</div>';
+    html += '<div class="hca-cp-purchase__note">' + (SHARED_RATE
+      ? 'Based on a ' + (SHARED_RATE.rateAnnual * 100).toFixed(2) + '% rate (' + _esc(SHARED_RATE.source) + '), 30-yr term, 5% down, 30% debt-to-income'
+      : 'Mortgage rate unavailable, so no purchase income is shown') + '</div>';
 
     html += '<div class="hca-cp-purchase__grid">';
 

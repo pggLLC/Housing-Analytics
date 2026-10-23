@@ -1,7 +1,7 @@
 {
   "schema": "hna-ownership-need/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-10-22T14:04:53Z",
+    "ranking_index_generated_at": "2026-10-23T04:28:32Z",
     "engine": "js/hna/hna-ownership-need.js",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs"
   },
@@ -528,10 +528,10 @@
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "Very High",
-      "affordability_classification": "stretch",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -1114,8 +1114,8 @@
       "geoid": "0884042",
       "name": "West Pleasant View (CDP)",
       "type": "cdp",
-      "recommendation": "Rental priority",
-      "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
       "data_quality": "High",
       "renter_cost_burdened": 293.8,
       "owner_cost_burdened": 191.2,
@@ -1125,11 +1125,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -1172,10 +1172,10 @@
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "High",
       "ownership_fit_tier": "Very High",
-      "affordability_classification": "stretch",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -1356,10 +1356,10 @@
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Very High",
-      "affordability_classification": "stretch",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -2116,10 +2116,10 @@
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Very High",
       "ownership_fit_tier": "Very High",
-      "affordability_classification": "stretch",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -2473,8 +2473,8 @@
       "geoid": "0883230",
       "name": "Wellington (town)",
       "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
       "data_quality": "High",
       "renter_cost_burdened": 219.6,
       "owner_cost_burdened": 897.2,
@@ -2484,11 +2484,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Very High",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -3313,11 +3313,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -3336,11 +3336,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "High",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Very High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -3659,10 +3659,10 @@
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Moderate",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -3750,11 +3750,11 @@
       "existing_rental_gap_lte80": 5,
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "market-attainable",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -4119,11 +4119,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -4292,8 +4292,8 @@
       "geoid": "0809555",
       "name": "Brush (city)",
       "type": "place",
-      "recommendation": "Rental priority",
-      "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
+      "recommendation": "Deep affordability priority",
+      "recommendation_detail": "Severe burden among the lowest-income renter households points first to deep rental affordability and supportive subsidy tools.",
       "data_quality": "High",
       "renter_cost_burdened": 461.9,
       "owner_cost_burdened": 258.8,
@@ -4303,11 +4303,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -4453,8 +4453,8 @@
       "geoid": "0807025",
       "name": "Black Hawk (city)",
       "type": "place",
-      "recommendation": "Rental priority",
-      "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
       "data_quality": "High",
       "renter_cost_burdened": 10.5,
       "owner_cost_burdened": 9.2,
@@ -4464,11 +4464,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -4741,11 +4741,11 @@
       "existing_rental_gap_lte80": 13,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -5272,11 +5272,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -5296,10 +5296,10 @@
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -5525,11 +5525,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -5549,10 +5549,10 @@
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -5745,8 +5745,8 @@
       "geoid": "0882735",
       "name": "Ward (town)",
       "type": "place",
-      "recommendation": "Rental priority",
-      "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
       "data_quality": "High",
       "renter_cost_burdened": 3.3,
       "owner_cost_burdened": 9.5,
@@ -5756,11 +5756,11 @@
       "existing_rental_gap_lte80": 1,
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -5825,11 +5825,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -6032,11 +6032,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Very High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -6079,10 +6079,10 @@
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Very High",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -6262,11 +6262,11 @@
       "existing_rental_gap_lte80": 178,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -6308,11 +6308,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -6378,11 +6378,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -6632,10 +6632,10 @@
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -7232,10 +7232,10 @@
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "High",
       "ownership_fit_tier": "Very High",
-      "affordability_classification": "stretch",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -7301,10 +7301,10 @@
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "High",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -7439,10 +7439,10 @@
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Very High",
       "ownership_fit_tier": "Moderate",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -7530,11 +7530,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -7645,11 +7645,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8072,8 +8072,8 @@
       "geoid": "0832650",
       "name": "Green Mountain Falls (town)",
       "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
       "data_quality": "High",
       "renter_cost_burdened": 26.7,
       "owner_cost_burdened": 47.7,
@@ -8083,11 +8083,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Very High",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8153,10 +8153,10 @@
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8291,10 +8291,10 @@
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Moderate",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8360,10 +8360,10 @@
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8429,11 +8429,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
         "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
       ]
@@ -8546,11 +8546,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8661,11 +8661,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "market-attainable",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8799,11 +8799,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8926,8 +8926,8 @@
       "geoid": "0839195",
       "name": "Jamestown (town)",
       "type": "place",
-      "recommendation": "Rental priority",
-      "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
       "data_quality": "High",
       "renter_cost_burdened": 15.1,
       "owner_cost_burdened": 20.2,
@@ -8937,11 +8937,11 @@
       "existing_rental_gap_lte80": 2,
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8960,11 +8960,11 @@
       "existing_rental_gap_lte80": 74,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8984,10 +8984,10 @@
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -9167,11 +9167,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -9513,11 +9513,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -9594,8 +9594,8 @@
       "geoid": "0802905",
       "name": "Arboles (CDP)",
       "type": "cdp",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
       "data_quality": "High",
       "renter_cost_burdened": 6.8,
       "owner_cost_burdened": 29.6,
@@ -9605,11 +9605,11 @@
       "existing_rental_gap_lte80": 9,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -9974,10 +9974,10 @@
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Moderate",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -10206,10 +10206,10 @@
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "High",
       "ownership_fit_tier": "Moderate",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -10299,10 +10299,10 @@
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -10484,10 +10484,10 @@
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Moderate",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -10542,8 +10542,8 @@
       "geoid": "08055",
       "name": "Huerfano County",
       "type": "county",
-      "recommendation": "Rental priority",
-      "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
       "data_quality": "High",
       "renter_cost_burdened": 315,
       "owner_cost_burdened": 477,
@@ -10553,11 +10553,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -10646,10 +10646,10 @@
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Moderate",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -10806,11 +10806,11 @@
       "existing_rental_gap_lte80": 4,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -11013,11 +11013,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "market-attainable",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -11152,10 +11152,10 @@
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -11220,11 +11220,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -11381,11 +11381,11 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -12005,10 +12005,10 @@
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
