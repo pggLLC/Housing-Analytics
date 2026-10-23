@@ -248,6 +248,29 @@ for (const g of SAMPLE) {
   ok(s && s.source === 'chas.json; ranking.json', 'burden_without_gap names both sources');
 }
 
+// 5B4a never names an unverified steward; every structure line cites the files it used.
+for (const g of SAMPLE.concat(['0818310', '08051'])) {
+  const st = model(g).deal.structure;
+  if (!st) continue;
+  const np = st.lines.find((x) => x.id === '5B4a-nonprofit');
+  if (np) ok(np.reading === 'check' && !/on file:/.test(np.text) && !/Housing Resources/.test(np.text), `${g}: 5B4a names no unverified partner and is only "to confirm"`);
+  if (st.lines.find((x) => x.id === '5B2a-priority')) ok(/local-support\.json|landscape/.test(st.source), `${g}: 5B2a cites the support or landscape file`);
+}
+{
+  const cb = model('0818310');
+  const pri = cb.deal.structure.lines.find((x) => x.id === '5B2a-priority');
+  if (pri && cb.policy.support && cb.policy.support.items && cb.policy.support.items.length) ok(cb.deal.structure.source.includes('data/policy/local-support.json'), 'Crested Butte: the community-priority line cites local-support.json');
+}
+
+// CDP: the county's researched contacts (held under related) are used for questions.
+{
+  const m = model('0823300');
+  const bank = { roles: { manager: { label: 'Manager', match: 'manager', local: true } }, standard: [{ id: 'S', role: 'manager', ask: 'Ask {name}?' }], pointed: [] };
+  const mm = Object.assign({}, m, { contacts: { researched: [], related: [{ geoid: '08037', name: m.countyName, contacts: [{ name: 'R', role: 'County Manager', org: m.countyName, source_url: 'https://r' }] }] } });
+  const q = TQ.build(mm, bank, null, '2026-10-22').standard[0];
+  ok(q.contact && q.contact.name === 'R', 'CDP: the county contact from the related file is named');
+}
+
 // ---- 7. The page loads the module before the report and passes it in.
 {
   const page = read('developer-brief.html');

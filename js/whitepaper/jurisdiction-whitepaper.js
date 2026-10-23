@@ -715,18 +715,31 @@
     if (countyPop !== null && countyPop <= 180000) {
       add('5B3b-nonmetro', 'check', (countyRow.name || 'The county') + ' has ' + fmtInt(countyPop) + ' people, under the cap. Confirm with CHFA that it counts as non-metro: counties in a metro area do not.');
     }
+    // Each line adds the files its evidence came from, so the table can be traced.
+    var used = [sourcePath('qapScoring'), sourcePath('rankingIndex')];
+    function cite(list) { list.forEach(function (p) { if (p && used.indexOf(p) === -1) used.push(p); }); }
     var support = policy.support && Array.isArray(policy.support.items) ? policy.support.items.length : 0;
     var plans = landscape.research ? landscape.research.groups.filter(function (g) { return g.key === 'plans' && g.items.length; }).length : 0;
-    if (support || plans) add('5B2a-priority', 'likely', 'An adopted plan or council record on housing is on file (see Local funds and Local landscape); cite it as the community priority.');
+    if (support || plans) {
+      add('5B2a-priority', 'likely', 'An adopted plan or council record on housing is on file (see Local funds and Local landscape); cite it as the community priority.');
+      if (support) cite([sourcePath('localSupport')]);
+      if (plans) cite(landscape.sources);
+    }
     // No source here records whether an agency is a Colorado public housing authority
     // in law, so only agencies named as housing authorities are offered, and as a
     // line to confirm, never as supported points.
-    var pha = landscape.authorities.map(function (a) { return a.name; })
-      .concat(contacts.orgs.filter(function (o) { return o.role === 'Housing authority'; }).map(function (o) { return o.name; }))
-      .filter(function (n, i, all) { return /housing authority/i.test(n) && all.indexOf(n) === i; });
-    if (pha.length) add('5B4b-pha', 'check', pha.slice(0, 2).join(' or ') + ' as sole or majority co-general partner. Confirm it is a Colorado public housing authority before counting the points.');
+    var fromLandscape = landscape.authorities.map(function (a) { return a.name; }).filter(function (n) { return /housing authority/i.test(n); });
+    var fromOrgs = contacts.orgs.filter(function (o) { return o.role === 'Housing authority' && /housing authority/i.test(o.name); }).map(function (o) { return o.name; });
+    var pha = fromLandscape.concat(fromOrgs).filter(function (n, i, all) { return all.indexOf(n) === i; });
+    if (pha.length) {
+      add('5B4b-pha', 'check', pha.slice(0, 2).join(' or ') + ' as sole or majority co-general partner. Confirm it is a Colorado public housing authority before counting the points.');
+      if (fromLandscape.length) cite(landscape.sources);
+      if (fromOrgs.length) cite(['data/hna/local-resources.json']);
+    }
+    // No record here shows a nonprofit's legal status, housing purpose or capacity to
+    // be general partner, so no provider is named as a candidate for these points.
     if (pha.length || landscape.stewards.length) {
-      add('5B4a-nonprofit', 'option', 'A qualified nonprofit or housing authority as sole general partner' + (landscape.stewards.length ? ' (regional nonprofits on file: ' + landscape.stewards.map(function (p) { return p.name; }).slice(0, 2).join(', ') + ')' : '') + '.');
+      add('5B4a-nonprofit', 'check', 'A qualified nonprofit or housing authority as sole general partner. No partner on file is confirmed to qualify: confirm nonprofit status, a low-income housing purpose and capacity to act as general partner before counting the points.');
     }
     if (/9%/.test(route)) add('5B5-homeless', 'option', 'Needs a services partner. Cannot be combined with the extremely-low-income targeting points.');
     return {
@@ -734,7 +747,7 @@
       draft: scoring.status === 'draft',
       title: (scoring.source || {}).title || null,
       url: safeHref((scoring.source || {}).url),
-      source: sourcePath('qapScoring') + ', ' + sourcePath('rankingIndex')
+      source: used.join(', ')
     };
   }
 

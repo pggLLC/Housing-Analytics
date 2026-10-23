@@ -199,10 +199,11 @@
   function build(m, bank, scoring, today) {
     if (!bank || !Array.isArray(bank.standard) || !Array.isArray(bank.pointed)) return { missing: true };
     var roles = bank.roles || {};
-    var contacts = (m.contacts && m.contacts.researched) || [];
     // A census-designated place has no government of its own: its county is asked.
     var cdp = m.kind === 'cdp';
     var govName = cdp ? m.countyName : m.name, govKind = cdp ? 'county' : m.kind;
+    // A CDP rarely has its own contact file; its county's researched contacts are in related.
+    var contacts = ((m.contacts && m.contacts.researched) || []).concat(cdp ? [].concat.apply([], ((m.contacts && m.contacts.related) || []).map(function (f) { return f.contacts || []; })) : []);
     var vars = { name: govName, county: m.countyName };
     function who(role) {
       return { role: role, roleLabel: (roles[role] && roles[role].label) || role, contact: contactFor(role, bank, contacts, govName, govKind) };
