@@ -1,0 +1,151 @@
+#!/usr/bin/env node
+/**
+ * Green Building in a Colorado Deal (green-building-guide.html).
+ *
+ * The page's promise: every rule, figure and program status it states is
+ * quoted from a named, dated source. These checks recompute that from the
+ * committed files:
+ *   1. data/policy/green-building.json is well formed: every record has a
+ *      section, quotes, an https source, a check date and a later re-check
+ *      date, and the file's own dates are its records' earliest;
+ *   2. every number a record states (title, finding, caveat, fits) is in its
+ *      quotes;
+ *   3. every CHFA QAP quote is in the QAP text the weekly watch fetched, and
+ *      a record that says the Third Draft reads the same is in that text too;
+ *   4. the rendered page draws every record once, with a status on every
+ *      credit and program, and each row of the "which program" table points
+ *      at records that exist;
+ *   5. the menu, catalog, sitemaps and the Deal Calculator link to the page,
+ *      and the Deep Dive and Deal Calculator lines that repeat the CHFA rule
+ *      agree with it.
+ * Non-vacuity is asserted on each scan.
+ */
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { JSDOM } from 'jsdom';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+const json = (p) => JSON.parse(read(p));
+const norm = (s) => String(s || '').replace(/\s+/g, ' ').trim();
+const ISO = /^\d{4}-\d{2}-\d{2}$/;
+
+const PAGE = 'green-building-guide.html';
+const DOC = json('data/policy/green-building.json');
+const WATCH = json('data/audit/chfa-qap-watch.json');
+const SECTIONS = ['requirements', 'benefits', 'deal', 'credits', 'programs'];
+const NEEDS_STATUS = new Set(['credits', 'programs']);
+
+// ── 1. Well formed ─────────────────────────────────────────────────────────
+const ids = new Set();
+const perSection = Object.fromEntries(SECTIONS.map((s) => [s, 0]));
+for (const e of DOC.entries) {
+  assert(!ids.has(e.id), `duplicate id ${e.id}`); ids.add(e.id);
+  assert(SECTIONS.includes(e.section), `${e.id}: unknown section ${e.section}`);
+  perSection[e.section]++;
+  assert(e.title && e.finding, `${e.id}: needs a title and a finding`);
+  assert(Array.isArray(e.quotes) && e.quotes.length && e.quotes.every((q) => norm(q).length > 10), `${e.id}: needs at least one quote`);
+  assert(/^https:\/\//.test(e.source_url || ''), `${e.id}: source_url must be https`);
+  assert(e.source_title, `${e.id}: source_title missing`);
+  assert(ISO.test(e.last_verified || ''), `${e.id}: last_verified missing`);
+  assert(ISO.test(e.review_by || ''), `${e.id}: review_by missing`);
+  assert(e.review_by > e.last_verified, `${e.id}: review_by must come after last_verified`);
+  if (NEEDS_STATUS.has(e.section)) assert(DOC.status_text[e.status], `${e.id}: a credit or program needs a known status`);
+  if (e.kind === 'qap') assert(DOC.meta.qap_documents[e.qap_doc], `${e.id}: unknown qap_doc ${e.qap_doc}`);
+}
+for (const [s, min] of Object.entries({ requirements: 6, benefits: 4, deal: 6, credits: 4, programs: 8 })) {
+  assert(perSection[s] >= min, `only ${perSection[s]} ${s} records; the section would be thin and this scan vacuous`);
+}
+const earliest = (field) => DOC.entries.map((e) => e[field]).sort()[0];
+assert.equal(DOC.meta.last_verified, earliest('last_verified'), 'meta.last_verified must be the earliest record check');
+assert.equal(DOC.meta.review_by, earliest('review_by'), 'meta.review_by must be the earliest record re-check');
+
+// ── 2. Every number a record states is in its quotes ───────────────────────
+// Names that carry digits (45L, 48E, 179D, HB22-1362, P.L. 119-21, Form 8609)
+// are labels, not figures, and are taken out before comparing.
+const LABELS = /\b(?:[Ss]ection \d+|HB\d{2}-\d{4}|P\.L\. \d{3}-\d+|Form \d{4}|\d+[A-Za-z]+\b(?:\([a-z0-9]+\))*)/g;
+const numbers = (s) => (String(s || '').replace(LABELS, ' ').match(/\d[\d,]*(?:\.\d+)?/g) || [])
+  .map((n) => n.replace(/,/g, ''));
+let figuresChecked = 0;
+for (const e of DOC.entries) {
+  const inQuote = new Set(numbers(e.quotes.join(' ')));
+  for (const field of ['title', 'finding', 'caveat', 'fits']) {
+    for (const n of numbers(e[field])) {
+      figuresChecked++;
+      assert(inQuote.has(n), `${e.id}: ${field} states ${n}, which its quotes do not`);
+    }
+  }
+}
+assert(figuresChecked >= 40, `only ${figuresChecked} figures checked; the scan is vacuous`);
+
+// ── 3. QAP quotes are in the QAP text CHFA published ───────────────────────
+const qapText = {};
+for (const [key, ref] of Object.entries(DOC.meta.qap_documents)) {
+  const doc = WATCH.documents.find((d) => d.url === ref.url);
+  assert(doc, `${key}: ${ref.url} is not a document in data/audit/chfa-qap-watch.json`);
+  assert(doc.fetch_ok && doc.text && doc.text.length > 100000, `${key}: the QAP watch holds no usable text`);
+  assert.equal(norm(doc.title), norm(ref.title), `${key}: title must be the watch title`);
+  qapText[key] = norm(doc.text);
+}
+let qapChecked = 0;
+for (const e of DOC.entries.filter((x) => x.kind === 'qap')) {
+  assert.equal(e.source_url, DOC.meta.qap_documents[e.qap_doc].url, `${e.id}: a QAP record must cite its QAP document`);
+  for (const q of e.quotes) {
+    assert(qapText[e.qap_doc].includes(norm(q)), `${e.id}: quote is not in the ${e.qap_doc} QAP: "${q}"`);
+    if (e.also_in_draft) assert(qapText.draft.includes(norm(q)), `${e.id}: says the Third Draft reads the same, but this quote is not in it: "${q}"`);
+    qapChecked++;
+  }
+}
+assert(qapChecked >= 10, 'QAP quote scan is vacuous');
+// The EGC+ difference is the draft's alone; if the plan in force gains it, the card's wording is stale.
+assert(!qapText.current.includes('PHIUS/PHI or EGC+'), 'the plan in force now names EGC+; reword qap-higher-programs-draft');
+
+// ── 4. The rendered page ───────────────────────────────────────────────────
+const dom = new JSDOM(read(PAGE), { runScripts: 'outside-only', url: `http://localhost/${PAGE}` });
+const w = dom.window;
+w.fetch = () => new Promise(() => {}); // render() is called directly below
+w.eval(read('js/components/review-status.js'));
+w.eval(read('js/green-building.js'));
+const rootEl = w.document.querySelector('[data-green-building]');
+assert(rootEl, 'the page has no [data-green-building] root');
+w.GreenBuilding.render(rootEl, DOC);
+const drawn = [...w.document.querySelectorAll('[data-gb-entry]')].map((el) => el.dataset.gbEntry).sort();
+assert.deepEqual(drawn, DOC.entries.map((e) => e.id).sort(), 'the page does not draw exactly the records in the file');
+for (const s of SECTIONS) {
+  const host = w.document.querySelector(`[data-gb-section="${s}"]`);
+  assert(host, `no [data-gb-section="${s}"] on the page`);
+  assert.equal(host.querySelectorAll('[data-gb-entry]').length, perSection[s], `${s}: drawn count differs from the file`);
+}
+const statuses = w.document.querySelectorAll('[data-gb-section="credits"] [data-gb-status], [data-gb-section="programs"] [data-gb-status]');
+assert.equal(statuses.length, perSection.credits + perSection.programs, 'every credit and program row must show its status');
+for (const id of ['irc-45l', 'irc-179d']) {
+  assert.equal(DOC.entries.find((e) => e.id === id).status, 'ended', `${id} must be marked ended`);
+}
+const pickRows = [...w.document.querySelectorAll('#gb-pick tbody tr')];
+assert(pickRows.length >= 5, 'the "which program for which deal" table is too thin');
+for (const row of pickRows) {
+  const refs = (row.dataset.gbRef || '').split(/\s+/).filter(Boolean);
+  const label = norm(row.querySelector('th').textContent);
+  assert(refs.length, `pick row "${label}" points at no records`);
+  for (const r of refs) assert(ids.has(r), `pick row "${label}" points at missing record ${r}`);
+}
+assert(!/fruita/i.test(read(PAGE) + read('data/policy/green-building.json')), 'project-specific Fruita material stays out of the public repo');
+
+// ── 5. Links, and copy elsewhere that repeats the rule ─────────────────────
+assert(read('js/navigation.js').includes(`href: "${PAGE}"`), 'the menu does not link the page');
+assert(read('insights.html').includes(`href="${PAGE}"`), 'insights.html does not list the page');
+assert(read('sitemap.html').includes(`href="${PAGE}"`), 'sitemap.html does not list the page');
+assert(read('sitemap.xml').includes(`/${PAGE}</loc>`), 'sitemap.xml does not list the page');
+const cat = json('data/insights/catalog.json').entries.find((x) => x.url === PAGE);
+assert(cat && cat.review_from && cat.review_from.file === 'data/policy/green-building.json', 'the research catalog entry must review from the data file');
+const calc = read('js/deal-calculator.js');
+assert(calc.includes(`href="${PAGE}"`), 'the Deal Calculator does not link the page');
+assert(!/largest non-need amenity-point/.test(calc), 'the Deal Calculator calls green building an amenity-point category again');
+assert(/is a requirement, not points: every project must certify under Enterprise Green Communities, LEED or NGBS/.test(calc), 'the Deal Calculator line no longer states the CHFA rule');
+const deep = read('colorado-deep-dive.html');
+assert(!/Enterprise Green Communities certification required for all 9% deals/.test(deep), 'the Deep Dive says EGC is required on 9% deals again');
+assert(/every project must earn a green building certification, and the applicant picks Enterprise Green Communities, LEED or NGBS/.test(deep), 'the Deep Dive line no longer states the CHFA rule');
+
+console.log(`green-building-guide: PASS (${DOC.entries.length} records, ${figuresChecked} figures, ${qapChecked} QAP quotes, ${pickRows.length} deal rows)`);

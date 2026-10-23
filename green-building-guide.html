@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Green Building in a Colorado Deal | COHO Analytics</title>
+  <meta name="description" content="What CHFA requires for green building and electrification, how it changes utility allowances, costs and competitiveness, which federal energy credits have ended, and which Colorado program fits which kind of deal.">
+  <meta property="og:title" content="Green Building in a Colorado Deal | COHO Analytics">
+  <meta property="og:description" content="CHFA's green building rules, utility allowances, the federal credits that ended in 2026, and the Colorado programs that are left, each quoted from its source.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <style>
+    .gb-muted { color: var(--muted); }
+    .gb-lead { font-size: 1.05rem; line-height: 1.65; max-width: 760px; }
+    .gb-section { margin: var(--sp6) 0 var(--sp5); }
+    .gb-section > h2 { margin-bottom: var(--sp2); }
+    .gb-section > p, .gb-section > ul { max-width: 820px; line-height: 1.65; }
+    .gb-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: var(--sp3); margin-top: var(--sp3); }
+    .gb-card { border: 1px solid var(--border); border-radius: var(--radius, 8px); padding: var(--sp3); background: var(--card, var(--bg2)); }
+    .gb-card h3 { margin: 0 0 var(--sp2); font-size: 1rem; }
+    .gb-card p { margin: var(--sp1) 0; line-height: 1.55; }
+    .gb-source { color: var(--muted); font-size: var(--small); overflow-wrap: anywhere; }
+    .gb-quote summary { cursor: pointer; font-size: var(--small); min-height: 44px; display: flex; align-items: center; }
+    .gb-quote blockquote { margin: var(--sp2) 0; padding-left: var(--sp3); border-left: 3px solid var(--border); font-size: var(--small); color: var(--text); }
+    .gb-table-wrap { overflow-x: auto; margin-top: var(--sp3); }
+    .data-table td, .data-table th[scope="row"] { vertical-align: top; }
+    @media (max-width: 640px) {
+      .gb-stack table, .gb-stack tbody, .gb-stack tr, .gb-stack th, .gb-stack td { display: block; width: auto; }
+      .gb-stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      .gb-stack tr { border-bottom: 1px solid var(--border); padding: var(--sp2) 0; }
+      .gb-stack th[scope="row"], .gb-stack td { border: 0; white-space: normal; overflow-wrap: anywhere; }
+      .gb-stack td[data-label]::before { content: attr(data-label) ": "; font-weight: 600; }
+    }
+  </style>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/table-sort.js"></script>
+  <script defer src="js/components/review-status.js"></script>
+  <script defer src="js/green-building.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content" class="js-glossary-auto">
+    <div class="platform-disclaimer" role="note">
+      This site is a public-data reference. This page summarizes CHFA, state and federal rules and program terms; it is not engineering, tax or legal advice. Confirm current terms with CHFA, your utility and each program before relying on them.
+    </div>
+
+    <article class="article-wrap" data-green-building>
+      <header>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <a href="insights.html">Insights</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Green Building in a Colorado Deal</span>
+        </nav>
+        <span class="tag tag-teal" style="margin:var(--sp3) 0 var(--sp2);display:inline-block;">Guide</span>
+        <h1 style="margin-bottom:var(--sp3);">Green Building in a Colorado Deal</h1>
+        <div class="page-meta">
+          <span>Certifications, electrification, utility allowances and programs · Rules checked October 23, 2026</span>
+          <span data-gb-checked style="display:block;"></span>
+        </div>
+      </header>
+
+      <div class="article-body" style="margin-top:var(--sp4);">
+        <div class="callout callout-info" style="margin:0 0 var(--sp4);">
+          <h2 style="margin-top:0;font-size:1.15rem;">The short answer</h2>
+          <ul style="margin:0;padding-left:1.2rem;line-height:1.6;">
+            <li><strong>Every CHFA tax credit deal needs a green certification.</strong> You pick Enterprise Green Communities (EGC), LEED or the National Green Building Standard (NGBS). EV-ready parking and yearly energy reporting come with it. It is a threshold, not points.</li>
+            <li><strong>All-electric is not required and earns no points,</strong> but CHFA calls it, and higher certifications, &ldquo;more competitive.&rdquo;</li>
+            <li><strong>The federal energy credits are mostly gone.</strong> 45L and 179D end for work after June 30, 2026, and 48E solar ends for systems in service after 2027 unless construction started early.</li>
+            <li><strong>What pays now is local:</strong> a lower utility allowance, the state heat pump credit, Xcel and co-op programs, Energy Outreach Colorado for existing buildings, and CCEF or C-PACE loans.</li>
+          </ul>
+        </div>
+
+        <nav aria-label="On this page" class="chart-card" style="padding:var(--sp3);margin:var(--sp4) 0;">
+          <strong>On this page</strong>
+          <ol style="margin:var(--sp2) 0 0;padding-left:1.3rem;line-height:1.7;columns:2 260px;">
+            <li><a href="#gb-pick">Which program for which deal</a></li>
+            <li><a href="#gb-requirements">What CHFA requires</a></li>
+            <li><a href="#gb-benefits">Why it pays</a></li>
+            <li><a href="#gb-deal">How it moves a deal</a></li>
+            <li><a href="#gb-credits">Federal credits: what ended</a></li>
+            <li><a href="#gb-programs">Colorado programs</a></li>
+          </ol>
+        </nav>
+
+        <section id="gb-pick" class="gb-section" aria-labelledby="gb-pick-h">
+          <h2 id="gb-pick-h">Which program for which deal</h2>
+          <p>Start with two facts about the site: which edition of the International Energy Conservation Code (IECC) the town enforces, and which utility serves it. Most of the choice follows from those. Each row links to the rule or program it relies on, further down.</p>
+          <div class="gb-table-wrap gb-stack">
+            <table class="data-table">
+              <thead>
+                <tr><th scope="col">Deal</th><th scope="col">Certification</th><th scope="col">Money and help</th><th scope="col">Why</th></tr>
+              </thead>
+              <tbody>
+                <tr data-gb-ref="hub-2021-iecc-gap hub-energystar-cost xcel-eda co-heat-pump-credit uap-ecm-timing">
+                  <th scope="row">New construction, Xcel territory, town on the 2021 IECC or newer</th>
+                  <td data-label="Certification">EGC or LEED; consider DOE Efficient New Homes or Phius if you want the competitive edge</td>
+                  <td data-label="Money and help">Xcel Energy Design Assistance at schematic design (over 20,000 square feet); state heat pump credit; an Energy Consumption Model for the utility allowance</td>
+                  <td data-label="Why">The 2021 code already asks for most of what ENERGY STAR does, so the step up to EGC or LEED costs less, and the modeled allowance captures the savings in rent.</td>
+                </tr>
+                <tr data-gb-ref="hub-ngbs-older-code hb22-1362-rural hub-resource-finder co-heat-pump-credit">
+                  <th scope="row">New construction, rural co-op territory or a town on the 2018 IECC or older</th>
+                  <td data-label="Certification">NGBS, unless a funder or the town asks for more</td>
+                  <td data-label="Money and help">Co-op rebates from CHFA's Resource Finder; state heat pump credit</td>
+                  <td data-label="Why">NGBS is set against the 2018 code, so a code-compliant design meets it and the budget goes elsewhere. Check the co-op's rates before going all-electric.</td>
+                </tr>
+                <tr data-gb-ref="bpc-coverage bpc-targets hub-master-meter uap-solar c-pace ccef-loans">
+                  <th scope="row">Large bond-financed building (50,000 square feet or more)</th>
+                  <td data-label="Certification">EGC or LEED</td>
+                  <td data-label="Money and help">C-PACE or CCEF for upgrades; master meter with submeters; solar counted in the allowance</td>
+                  <td data-label="Why">Building Performance Colorado will hold the building to targets once it is built, so efficiency is cheaper to buy now than later. The master meter puts the building on a lower rate.</td>
+                </tr>
+                <tr data-gb-ref="qap-ev-exempt eoc-multifamily xcel-mfbe hub-retrofit-risk ceo-home-energy-rebates ceo-lbd-showcase">
+                  <th scope="row">Acquisition and rehab of an existing affordable property</th>
+                  <td data-label="Certification">Whichever of EGC, LEED or NGBS the scope can reach; no EV-ready count</td>
+                  <td data-label="Money and help">Energy Outreach Colorado (at least 66% of units at 80% AMI or below); Xcel Multifamily Building Efficiency; Home Energy Rebates once open; the Large Building Showcase for big buildings when a new round opens</td>
+                  <td data-label="Why">These programs are built for existing buildings. Check electrical capacity and rate class first, because electrifying can raise bills.</td>
+                </tr>
+                <tr data-gb-ref="qap-ev-exempt qap-more-competitive co-heat-pump-credit">
+                  <th scope="row">Supportive housing or Special Populations (100% of units)</th>
+                  <td data-label="Certification">EGC, LEED or NGBS; no EV-ready count</td>
+                  <td data-label="Money and help">State heat pump credit; utility programs as above</td>
+                  <td data-label="Why">If the owner pays the utilities there is no allowance to lower, and every dollar saved stays in the operating budget, which matters more where rents are lowest.</td>
+                </tr>
+                <tr data-gb-ref="irc-48e-solar irc-48e-low-income uap-solar uap-csg-cost">
+                  <th scope="row">Any deal adding solar</th>
+                  <td data-label="Certification">Any</td>
+                  <td data-label="Money and help">48E only if construction began early enough; otherwise value it through the utility allowance or a community solar garden</td>
+                  <td data-label="Why">For most new starts the federal solar credit is gone. The savings can still reach the rent through the Energy Consumption Model, but a garden subscription cannot be charged to tenants.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="gb-requirements" class="gb-section" aria-labelledby="gb-requirements-h">
+          <h2 id="gb-requirements-h">What CHFA requires</h2>
+          <p>Quoted from the 2025&ndash;26 plan in force. Applications in February 2027 will follow the 2027&ndash;28 plan, which is still a draft; each card says where the Third Draft reads the same.</p>
+          <div data-gb-section="requirements"><p class="gb-muted">Loading CHFA's requirements…</p></div>
+        </section>
+
+        <section id="gb-benefits" class="gb-section" aria-labelledby="gb-benefits-h">
+          <h2 id="gb-benefits-h">Why it pays, for residents and owners</h2>
+          <p>Residents get lower bills and a more comfortable home. Owners get rent: a tax credit rent cap covers rent plus a utility allowance, so when the allowance goes down, the rent the owner can charge goes up.</p>
+          <div data-gb-section="benefits"><p class="gb-muted">Loading…</p></div>
+        </section>
+
+        <section id="gb-deal" class="gb-section" aria-labelledby="gb-deal-h">
+          <h2 id="gb-deal-h">How it moves a deal</h2>
+          <p>The certification choice sets hard cost, the town's code sets the baseline, and metering sets who pays which bill. No Colorado source publishes a reliable cost premium for each certification, so this page gives none; get numbers from your contractor and green rater at schematic design.</p>
+          <div data-gb-section="deal"><p class="gb-muted">Loading…</p></div>
+        </section>
+
+        <section id="gb-credits" class="gb-section" aria-labelledby="gb-credits-h">
+          <h2 id="gb-credits-h">Federal credits: what ended or is at risk</h2>
+          <p>The 2025 federal tax law (P.L. 119-21, signed July 4, 2025) ended or narrowed most of the energy credits a pro forma used to count. Don't carry them in a new deal unless your tax counsel confirms the project qualifies.</p>
+          <div data-gb-section="credits"><p class="gb-muted">Loading the federal credits…</p></div>
+        </section>
+
+        <section id="gb-programs" class="gb-section" aria-labelledby="gb-programs-h">
+          <h2 id="gb-programs-h">Colorado programs</h2>
+          <p>Status as of each record's check date. &ldquo;Confirm before use&rdquo; means the source is undated or old; &ldquo;At risk&rdquo; means federal money the state has not confirmed.</p>
+          <div data-gb-section="programs"><p class="gb-muted">Loading the programs…</p></div>
+        </section>
+
+        <div class="sources-box">
+          <h3>Sources &amp; review</h3>
+          <ul>
+            <li>Every card names its source, quotes it, and carries the date it was checked and when it is due again; a card past its date shows a warning. CHFA quotes are checked against the text of the <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener">2025&ndash;26 QAP, Second Amendment</a> and the <a href="https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf" target="_blank" rel="noopener">2027&ndash;28 QAP Third Draft</a>.</li>
+            <li>Technical background: CHFA's <a href="https://multifamily-ehub.chfainfo.com/" target="_blank" rel="noopener">Colorado Multifamily Affordable Housing Electrification Hub</a>, which also covers hail, wildfire and flood design.</li>
+            <li>When CHFA adopts the 2027&ndash;28 plan, or a program opens or closes, this page is re-read against it.</li>
+            <li>Related pages: <a href="deal-calculator.html">Deal Calculator</a> (utility allowance), <a href="colorado-deep-dive.html">Colorado Deep Dive</a> (funding guide), <a href="lihtc-guide-for-stakeholders.html">LIHTC Basics</a>.</li>
+          </ul>
+          <p class="no-glossary" style="color:var(--muted);font-size:var(--small);line-height:1.6;margin:0;" role="note">
+            <strong>Disclaimer:</strong> Informational only. CHFA's adopted plan, the statutes and each program's current terms control.
+          </p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>
