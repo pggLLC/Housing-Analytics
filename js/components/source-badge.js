@@ -86,6 +86,13 @@
         var cardA = el.closest('.chart-card, section.chart-card, [class*="chart-card"]');
         if (cardA) target = cardA;
       }
+      // A canvas never renders child elements, so a badge appended to it is
+      // invisible (construction-commodities' four FRED charts). Fall back to
+      // the canvas's parent, or past a fixed-height .chart-container so the
+      // badge sits below the chart instead of spilling over the next card.
+      if (target === el && parent) {
+        target = (parent.classList.contains('chart-container') && parent.parentElement) || parent;
+      }
     }
 
     // Double-attach guard: check the *target* rather than the caller's

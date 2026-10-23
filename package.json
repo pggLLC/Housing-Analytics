@@ -189,6 +189,7 @@
     "audit:console": "node scripts/audit/console-error-reporter.mjs",
     "audit:wrap": "node scripts/audit/text-wrap-audit.mjs",
     "audit:core-rendered-smoke": "node scripts/audit/core-rendered-smoke.mjs",
+    "audit:source-lines": "node scripts/audit/source-lines-ratchet.mjs",
     "audit:charts": "node scripts/audit/chart-population-audit.mjs",
     "audit:chart-axes": "node scripts/audit/chart-axes-audit.mjs",
     "audit:public-artifact": "node scripts/audit/public-artifact-guard.mjs dist",

@@ -87,6 +87,15 @@ jobs:
         env:
           AUDIT_BASE_URL: http://127.0.0.1:8080
 
+      - name: Run source-lines ratchet
+        # Standing rule: every figure carries a linked, dated public source.
+        # Fails only when a page shows more unsourced or undated figures than
+        # scripts/audit/source-lines-baseline.json records, so new figures
+        # must arrive sourced while the existing backlog is worked down.
+        run: node scripts/audit/source-lines-ratchet.mjs
+        env:
+          AUDIT_BASE_URL: http://127.0.0.1:8080
+
       - name: Run site audit
         run: npm run audit:site
         env:

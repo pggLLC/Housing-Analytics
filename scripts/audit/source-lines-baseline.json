@@ -1,0 +1,221 @@
+{
+  "note": "Per-page counts of figures with no nearby source link (unsourced) or a source link without a date (undated). Lower these as pages are fixed; never raise them to pass a PR.",
+  "pages": {
+    "about.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "affordable-deal-team.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "apa-white-paper.html": {
+      "unsourced": 21,
+      "undated": 0
+    },
+    "article-co-housing-costs.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "article-fair-housing-rollback.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "article-pricing.html": {
+      "unsourced": 44,
+      "undated": 17
+    },
+    "census-dashboard.html": {
+      "unsourced": 49,
+      "undated": 0
+    },
+    "chfa-portfolio.html": {
+      "unsourced": 0,
+      "undated": 49
+    },
+    "colorado-deep-dive.html": {
+      "unsourced": 11,
+      "undated": 37
+    },
+    "colorado-elections.html": {
+      "unsourced": 1,
+      "undated": 0
+    },
+    "compare.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "construction-commodities.html": {
+      "unsourced": 5,
+      "undated": 0
+    },
+    "cra-expansion-analysis.html": {
+      "unsourced": 43,
+      "undated": 8
+    },
+    "dashboard-data-quality.html": {
+      "unsourced": 4,
+      "undated": 0
+    },
+    "dashboard-data-sources-ui.html": {
+      "unsourced": 20,
+      "undated": 0
+    },
+    "data-explorer.html": {
+      "unsourced": 43,
+      "undated": 0
+    },
+    "data-map-browser.html": {
+      "unsourced": 0,
+      "undated": 6
+    },
+    "data-review-hub.html": {
+      "unsourced": 1,
+      "undated": 0
+    },
+    "data-status.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "deal-calculator.html": {
+      "unsourced": 106,
+      "undated": 8
+    },
+    "deal-summary.html": {
+      "unsourced": 148,
+      "undated": 0
+    },
+    "economic-dashboard.html": {
+      "unsourced": 17,
+      "undated": 30
+    },
+    "for-sale-market-study.html": {
+      "unsourced": 55,
+      "undated": 0
+    },
+    "help-for-homebuyers.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "hna-comparative-analysis.html": {
+      "unsourced": 522,
+      "undated": 0
+    },
+    "hna-scenario-builder.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "hna-what-households-can-afford.html": {
+      "unsourced": 34,
+      "undated": 0
+    },
+    "hna-what-housing-exists.html": {
+      "unsourced": 36,
+      "undated": 0
+    },
+    "hna-what-to-do.html": {
+      "unsourced": 53,
+      "undated": 0
+    },
+    "hna-where-its-heading.html": {
+      "unsourced": 29,
+      "undated": 35
+    },
+    "hna-who-lives-here.html": {
+      "unsourced": 37,
+      "undated": 0
+    },
+    "housing-authority-guide.html": {
+      "unsourced": 2,
+      "undated": 0
+    },
+    "housing-legislation-2026.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "housing-needs-assessment.html": {
+      "unsourced": 60,
+      "undated": 35
+    },
+    "ic-summary.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "index.html": {
+      "unsourced": 7,
+      "undated": 0
+    },
+    "insights.html": {
+      "unsourced": 7,
+      "undated": 0
+    },
+    "land-banking-awards.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "land-value.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "lihtc-enhancement-ahcia.html": {
+      "unsourced": 22,
+      "undated": 0
+    },
+    "lihtc-guide-for-stakeholders.html": {
+      "unsourced": 21,
+      "undated": 40
+    },
+    "lihtc-opportunity-finder.html": {
+      "unsourced": 0,
+      "undated": 312
+    },
+    "local-incentives.html": {
+      "unsourced": 2,
+      "undated": 0
+    },
+    "market-analysis.html": {
+      "unsourced": 67,
+      "undated": 6
+    },
+    "methods.html": {
+      "unsourced": 23,
+      "undated": 0
+    },
+    "pipeline.html": {
+      "unsourced": 22,
+      "undated": 13
+    },
+    "policy-briefs.html": {
+      "unsourced": 4,
+      "undated": 0
+    },
+    "preservation.html": {
+      "unsourced": 2,
+      "undated": 0
+    },
+    "recommendation.html": {
+      "unsourced": 3,
+      "undated": 0
+    },
+    "research-brief.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "resident-services.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "select-jurisdiction.html": {
+      "unsourced": 0,
+      "undated": 0
+    },
+    "where-housing-money-goes.html": {
+      "unsourced": 186,
+      "undated": 0
+    },
+    "working-paper.html": {
+      "unsourced": 28,
+      "undated": 9
+    }
+  }
+}
