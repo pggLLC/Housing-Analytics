@@ -235,6 +235,14 @@
           cashFlow: num(y.cashFlow), dscr: num(y.dscr), seniorDscr: num(y.seniorDscr), feePaid: paid, feeOwed: owed, reason: y.unavailableReason || null };
       })
     };
+    model.cashFlow.rows.forEach(function (y) { y.cashAfterAddback = y.mustPayUnpaid > 0.5 && y.cashFlow != null ? y.cashFlow + y.mustPayUnpaid : y.cashFlow; });
+    // Must-pay debt left unpaid, by year. With no projection rows the engine still pays year one from current NOI.
+    var obYears = ((r.obligations && r.obligations.years) || []).slice(0, lastYear);
+    model.mustPayShort = (model.cashFlow.rows.length ? model.cashFlow.rows.map(function (y) { return { year: y.year, amount: y.mustPayUnpaid }; })
+      : obYears.map(function (o, i) {
+        var due = num(o.mustPayDebtService), paidAll = num(o.paid), cont = num(o.contingentPaid);
+        return { year: num(o.year) != null ? num(o.year) : i + 1, amount: o.unavailableReason || due == null || paidAll == null || cont == null ? null : Math.max(0, due - (paidAll - cont)) };
+      })).filter(function (y) { return y.amount > 0.5; });
     var cov = r.coverage || {};
     // CHFA's minimum runs through year 15, so a ratio counts only when all 15 years were measured.
     var first15 = (cov.years || []).slice(0, YEARS);
@@ -410,8 +418,8 @@
       else out.push({ level: 'bad', text: 'The deferred fee is not paid off in 15 years: ' + money(df.owedAt15) + ' of ' + money(df.amount) + ' is still owed' + (df.paidLater ? ' (paid off in year ' + df.paidLater + ')' : '') + '.' });
     }
     var cfRows = m.cashFlow.rows || [];
-    var shortYears = cfRows.filter(function (y) { return y.mustPayUnpaid > 0.5; });
-    if (shortYears.length) out.push({ level: 'bad', text: 'Net operating income does not cover must-pay debt service in ' + shortYears.length + (shortYears.length === 1 ? ' year' : ' years') + ' (first in year ' + shortYears[0].year + '): ' + money(shortYears.reduce(function (a, y) { return a + y.mustPayUnpaid; }, 0)) + ' is left unpaid and added to the loan balance.' });
+    var shortYears = m.mustPayShort || [];
+    if (shortYears.length) out.push({ level: 'bad', text: 'Net operating income does not cover must-pay debt service in ' + shortYears.length + (shortYears.length === 1 ? ' year' : ' years') + ' (first in year ' + shortYears[0].year + '): ' + money(shortYears.reduce(function (a, y) { return a + y.amount; }, 0)) + ' is left unpaid and added to the loan balance.' });
     var amLast = cfRows.length ? cfRows[cfRows.length - 1] : null;
     if (amLast && amLast.assetMgmtOwed > 0.5) out.push({ level: 'warn', text: 'Asset management fees of ' + money(amLast.assetMgmtOwed) + ' are still owed at the end of year ' + amLast.year + '; cash flow did not cover them.' });
     if (m.gap.amount != null) {
@@ -556,12 +564,15 @@
         ['Gross rent', 'grossRents'], ['Other income', 'otherIncome'], ['Less vacancy', 'vacancy', -1], ['Effective gross income', 'egi', 1, true],
         ['Operating costs', 'opex', -1], ['Replacement reserve', 'reserve', -1], ['Property tax', 'tax', -1], ['Net operating income', 'noi', 1, true],
         ['Must-pay debt service', 'debtService', -1], ['Bridge loan payments', 'bridge', -1], ['Asset management fee paid', 'assetMgmt', -1],
-        ['Cash-flow loan payments', 'contingent', -1], ['Debt service left unpaid (added to the loan balance)', 'mustPayUnpaid'], ['Cash flow', 'cashFlow', 1, true], ['Coverage, all must-pay debt', 'dscr', 'x'], ['Coverage, first mortgage', 'seniorDscr', 'x'],
+        ['Cash-flow loan payments', 'contingent', -1], ['Cash flow', 'cashFlow', 1, true],
+        // Unpaid must-pay debt was subtracted above in full; it stays in the loan balance, so it comes back as cash.
+        ['Add back debt service left unpaid (added to the loan balance)', 'mustPayUnpaid'], ['Cash left after the add-back', 'cashAfterAddback', 1, true], ['Coverage, all must-pay debt', 'dscr', 'x'], ['Coverage, first mortgage', 'seniorDscr', 'x'],
         ['Deferred fee paid', 'feePaid'], ['Deferred fee still owed', 'feeOwed'], ['Asset management fee still owed', 'assetMgmtOwed']
       ];
       // Every deduction between NOI and cash flow is shown when the deal has it, so the rows reconcile.
       var optional = ['bridge', 'assetMgmt', 'contingent', 'mustPayUnpaid', 'assetMgmtOwed'];
-      lines = lines.filter(function (ln) { return optional.indexOf(ln[1]) < 0 || cf.rows.some(function (y) { return y[ln[1]] == null || Math.abs(y[ln[1]]) > 0.5; }); });
+      var addback = cf.rows.some(function (y) { return y.mustPayUnpaid > 0.5; });
+      lines = lines.filter(function (ln) { return ln[1] === 'cashAfterAddback' ? addback : optional.indexOf(ln[1]) < 0 || cf.rows.some(function (y) { return y[ln[1]] == null || Math.abs(y[ln[1]]) > 0.5; }); });
       var head = ['Year'].concat(cf.rows.map(function (y) { return String(y.year); }));
       var body = lines.map(function (ln) {
         return { cls: ln[3] ? 'sr-total' : '', cells: [esc(ln[0])].concat(cf.rows.map(function (y) {

@@ -399,7 +399,11 @@ ok(/warn: Operating cost of .* before property tax/.test(opexNoTax) && !/ok: Ope
 {
   const under = mut0((s) => { const y = s.result.projection.rows[1]; y.mustPayUnpaid = 12000; y.cashFlow = -500; s.result.projection.rows.forEach((r, i) => { r.assetMgmtUnpaid = i >= 1 ? 3000 : 0; }); });
   const html = WB.render(under);
-  ok(html.includes('Debt service left unpaid (added to the loan balance)'), 'must-pay debt left unpaid gets its own cash-flow row so the statement reconciles');
+  ok(html.includes('Add back debt service left unpaid') && html.includes('Cash left after the add-back'), 'must-pay debt left unpaid is added back after cash flow');
+  const y2 = under.cashFlow.rows[1];
+  ok(y2.cashAfterAddback === y2.cashFlow + 12000, 'cash left after the add-back is cash flow plus the unpaid debt service, so the statement reconciles');
+  const noRows = mut0((s) => { s.result.projection.rows = []; s.result.obligations.years = [{ year: 1, mustPayDebtService: 100000, paid: 60000, contingentPaid: 0, unavailableReason: null }, { year: 2, unavailableReason: 'Rent growth is not valid.' }]; });
+  ok(/bad: Net operating income does not cover must-pay debt service in 1 year \(first in year 1\): \$40,000/.test(texts(noRows)), 'a year-one shortfall is flagged from the loan schedule when there are no projection rows');
   ok(html.includes('Asset management fee still owed'), 'an accrued asset management fee gets its own row');
   ok(/bad: Net operating income does not cover must-pay debt service in 1 year \(first in year 2\): \$12,000/.test(texts(under)), 'unpaid must-pay debt is flagged with the amount added to the loan');
   ok(/warn: Asset management fees of \$3,000 are still owed at the end of year 15/.test(texts(under)), 'an asset management fee still owed at the end is disclosed');
