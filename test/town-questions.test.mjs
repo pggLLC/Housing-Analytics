@@ -369,6 +369,15 @@ ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the eit
   ms.contacts.related = [{ geoid: '08999', contacts: [] }];
   const src = TQ.SIGNALS.no_partner(ms).source;
   for (const f of ['data/jurisdiction-briefs/_contacts/0899999.json', 'data/jurisdiction-briefs/_contacts/08999.json', 'data/hna/local-resources.json']) ok(src.includes(f), `"no partner" cites ${f}`);
+  // Through buildModel: a related file that loaded with no usable contact is dropped
+  // from related but is still cited as searched.
+  const g = '0823300', rel = WP.relatedGeoids(BASE, g);
+  ok(rel.length > 0, 'the CDP has related places, so the next check runs');
+  const built = WP.buildModel(Object.assign({}, BASE, { townQuestions: BANK }), g, { today: '2026-10-22', FundingFit, MixCheck, TownQuestions: TQ, localResources: {}, relatedContacts: rel.map((r) => ({ geoid: r, contacts: [] })) });
+  ok(built.contacts.related.length === 0 && built.contacts.searchedGeoids.join() === [g].concat(rel).join(), 'empty related files are kept as searched');
+  const mb = Object.assign({}, built, { landscape: m.landscape, contacts: Object.assign({}, built.contacts, { orgs: [], partners: [], researched: [] }) });
+  const srcB = TQ.SIGNALS.no_partner(mb).source;
+  for (const r of rel) ok(srcB.includes(`data/jurisdiction-briefs/_contacts/${r}.json`), `"no partner" cites the searched but empty related file ${r}`);
 }
 
 // A failed local-resources load stays unavailable.

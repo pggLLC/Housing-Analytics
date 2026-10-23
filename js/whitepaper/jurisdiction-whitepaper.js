@@ -816,7 +816,10 @@
       needsResearch: researched.length === 0 && related.length === 0,
       resourcesLoaded: !!resources,
       // A contact file that failed to load (not merely absent) leaves the search unfinished.
-      contactsLoaded: !contactsFailed
+      contactsLoaded: !contactsFailed,
+      // Every contact file searched, kept even when it held no usable contact, so a
+      // negative finding can cite each one.
+      searchedGeoids: [row.geoid].concat(allowed)
     };
   }
 

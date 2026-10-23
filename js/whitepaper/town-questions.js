@@ -136,7 +136,8 @@
       var known = (C.orgs || []).some(function (o) { return o.role === 'Housing authority' || o.role === 'Housing lead'; }) || (C.partners || []).length ||
         people.some(function (c) { return /housing/i.test(String(c.role || '') + ' ' + String(c.org || '')); });
       if (L.authorities.length || L.stewards.length || agencies || known) return null;
-      var contactFiles = ['data/jurisdiction-briefs/_contacts/' + m.geoid + '.json'].concat((C.related || []).map(function (f) { return 'data/jurisdiction-briefs/_contacts/' + f.geoid + '.json'; }));
+      var searched = C.searchedGeoids || [m.geoid].concat((C.related || []).map(function (f) { return f.geoid; }));
+      var contactFiles = searched.map(function (g) { return 'data/jurisdiction-briefs/_contacts/' + g + '.json'; });
       return { vars: {}, evidence: 'No housing authority, regional nonprofit or local housing agency is on file for this area.', source: L.sources.filter(Boolean).concat(contactFiles, ['data/hna/local-resources.json']).join(', ') };
     },
     senior_growth: function (m) {
