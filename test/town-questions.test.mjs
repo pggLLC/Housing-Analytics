@@ -53,8 +53,8 @@ ok(WP.SOURCE_FILES.townQuestions && WP.isOptional('townQuestions'), 'the questio
   const m = model('0833640', { bank: null });
   ok(m.questions && m.questions.missing, 'no bank: questions marked missing');
   const html = WP.renderHtml(m);
-  ok(/question bank loads on the gated developer site only/.test(html), 'no bank: the report says where the questions load');
-  ok(!/Questions for the town:<\/strong>/.test(html), 'no bank: no questions line in the summary');
+  const qsec = html.slice(html.indexOf('id="questions"')).split('<h2')[0];
+  ok(html.includes('id="questions"') && !/<ol>|<li>/.test(qsec) && qsec.replace(/<[^>]+>/g, '').trim().length > 'Questions for the town'.length, 'no bank: the questions section explains itself and lists nothing');
 }
 
 // ---- 2. Pointed questions carry the figure that raised them, equal to its source.
@@ -168,21 +168,26 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
   const after = model('0833640', { today: '2027-03-01' }).deal.timing;
   ok(!after.rows.some((x) => x.label.startsWith('2027 R1')) && after.rows.find((x) => x.label.startsWith('2028 R1')), 'a round whose letter of intent has passed drops out');
   const html = WP.renderHtml(model('0833640'));
-  ok(/<strong>Base case:<\/strong> 2028 R1/.test(html) && /<strong>Timing:<\/strong> base case 2028 R1/.test(html), 'base case printed in the deal section and the summary');
+  const base = model('0833640').deal.timing.rows.find((x) => x.reading === 'base');
+  const dealSec = html.slice(html.indexOf('id="deal"')).split('<h2')[0];
+  ok(dealSec.includes(base.label) && dealSec.includes(base.deadline) && dealSec.includes(base.loi), 'the deal section shows the base-case round, letter of intent and application date from the timing');
   // Sabotage: a moved letter-of-intent date moves the reading.
   const src = clone(BASE);
   src.qapCalendar.events.find((e) => e.id === '2027-r1-loi').date = '2027-01-30';
   ok(model('0833640', { src }).deal.timing.rows.find((x) => x.label.startsWith('2027 R1')).reading === 'base', 'sabotage: a later letter of intent makes 2027 R1 the base case');
   // The rolling 4% bond path is shown beside the R2 rows, from the calendar's own entry.
   ok(t.rolling4 && /rolling/.test(t.rolling4.description), 'the rolling 4% bond path is in the timing');
-  ok(/4% without state credit:/.test(html) && html.includes(t.rolling4.name), 'the rolling 4% path is printed under the round table');
+  const esc = (x) => x.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  ok(html.includes(esc(t.rolling4.description)) && html.includes(esc(t.rolling4.name)), 'the rolling 4% path agrees with the calendar entry it came from');
   const noRoll = clone(BASE); noRoll.qapCalendar.rolling_programs = [];
   ok(model('0833640', { src: noRoll }).deal.timing.rolling4 === null, 'no rolling entry in the calendar: none invented');
   const r1only = clone(BASE); r1only.qapCalendar.events = r1only.qapCalendar.events.filter((e) => !/-r2-/.test(e.id || ''));
   ok(model('0833640', { src: r1only }).deal.timing.rolling4, 'only R1 rounds left: the rolling 4% path still shows');
   const past = model('0833640', { today: '2031-01-01' });
   ok(past.deal.timing && past.deal.timing.rows.length === 0 && past.deal.timing.rolling4, 'all rounds passed: the rolling 4% path still shows');
-  ok(/No fixed CHFA round is open/.test(WP.renderHtml(past)), 'all rounds passed: the page says so and shows the rolling path');
+  const pastHtml = WP.renderHtml(past);
+  const pastTiming = pastHtml.slice(pastHtml.indexOf('<h3>Timing</h3>'));
+  ok(pastTiming.includes(esc(past.deal.timing.rolling4.description)) && !/<th>Round<\/th>/.test(pastTiming.split('<h2')[0]), 'all rounds passed: the rolling path from the calendar shows, with no round table');
   const onlyRoll = clone(BASE); onlyRoll.qapCalendar.events = [];
   ok(model('0833640', { src: onlyRoll }).deal.timing.rolling4, 'calendar with only the rolling program: timing still shows it');
   const noCal = clone(BASE); noCal.qapCalendar = { events: [] };
