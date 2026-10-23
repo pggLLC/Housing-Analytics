@@ -8,7 +8,8 @@ Location Database file the PMA analysis already reads:
     data/market/epa_sld_co.json                (3,532 Colorado block groups)
     data/market/epa_sld_bg_geometry_co.geojson (their 2010 boundaries)
 
-One point per block group, placed at the block group's area centroid, so the
+One point per block group, placed inside the block group (its area centroid
+when that falls inside, otherwise a point on a line through it), so the
 map layer covers the same 3,532 block groups the analysis scores. The layer it
 replaces had 1,070 tract points (179 of 1,249 2010 tracts missing, 29 of them
 in Denver) and carried transit and bike scores that are not EPA fields; no
@@ -51,14 +52,54 @@ def ring_centroid(ring):
     return (cx / (3 * a), cy / (3 * a)), abs(a) / 2
 
 
-def feature_centroid(geom):
+def in_ring(x, y, ring):
+    inside = False
+    for (x0, y0), (x1, y1) in zip(ring, ring[1:] + ring[:1]):
+        if (y0 > y) != (y1 > y) and x < (x1 - x0) * (y - y0) / (y1 - y0) + x0:
+            inside = not inside
+    return inside
+
+
+def in_polygon(x, y, poly):
+    """Inside the outer ring and outside every hole."""
+    return in_ring(x, y, poly[0]) and not any(in_ring(x, y, h) for h in poly[1:])
+
+
+def scanline_point(poly, y):
+    """Midpoint of the widest stretch of a horizontal line at y that lies
+    inside the polygon (holes included), or None."""
+    xs = []
+    for ring in poly:
+        for (x0, y0), (x1, y1) in zip(ring, ring[1:] + ring[:1]):
+            if (y0 > y) != (y1 > y):
+                xs.append((x1 - x0) * (y - y0) / (y1 - y0) + x0)
+    xs.sort()
+    spans = [(xs[i], xs[i + 1]) for i in range(0, len(xs) - 1, 2)]
+    if not spans:
+        return None
+    a, b = max(spans, key=lambda s: s[1] - s[0])
+    return ((a + b) / 2, y)
+
+
+def feature_point(geom):
+    """A point inside the block group, after 5-decimal rounding: the area
+    centroid of its largest part when that falls inside, otherwise a point on
+    a horizontal line through the part. A concave or holed block group's
+    centroid can sit in a neighbouring one."""
     polys = geom["coordinates"] if geom["type"] == "MultiPolygon" else [geom["coordinates"]]
-    best = None
-    for poly in polys:
-        c, area = ring_centroid(poly[0])
-        if best is None or area > best[1]:
-            best = (c, area)
-    return best[0]
+    poly = max(polys, key=lambda p: ring_centroid(p[0])[1])
+    (cx, cy), _ = ring_centroid(poly[0])
+    ys = [p[1] for p in poly[0]]
+    lo, hi = min(ys), max(ys)
+    candidates = [(cx, cy)] + [scanline_point(poly, y) for y in
+                               [cy] + [lo + (hi - lo) * k / 20 for k in range(1, 20)]]
+    for c in candidates:
+        if c is None:
+            continue
+        x, y = round(c[0], 5), round(c[1], 5)
+        if in_polygon(x, y, poly):
+            return x, y
+    raise SystemExit("no interior point found")
 
 
 def main():
@@ -73,10 +114,10 @@ def main():
         if not row or row.get("walkIndex") is None:
             continue
         idx = float(row["walkIndex"])
-        lon, lat = feature_centroid(f["geometry"])
+        lon, lat = feature_point(f["geometry"])
         features.append({
             "type": "Feature",
-            "geometry": {"type": "Point", "coordinates": [round(lon, 5), round(lat, 5)]},
+            "geometry": {"type": "Point", "coordinates": [lon, lat]},
             "properties": {
                 "geoid": geoid,
                 "walkability_index": round(idx, 2),
@@ -91,7 +132,7 @@ def main():
         "type": "FeatureCollection",
         "metadata": {
             "source": "EPA Smart Location Database v3.0 (NatWalkInd), via data/market/epa_sld_co.json",
-            "geometry": "Block-group area centroids from data/market/epa_sld_bg_geometry_co.geojson (2010 block groups)",
+            "geometry": "A point inside each block group (area centroid when inside) from data/market/epa_sld_bg_geometry_co.geojson (2010 block groups)",
             "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "feature_count": len(features),
             "note": ("One display point per block group. The PMA analysis matches sites to "
