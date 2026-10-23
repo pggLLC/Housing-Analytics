@@ -60,6 +60,8 @@ export const RULES = [
   { fig: 'eq4', files: [GUIDE], pattern: /id="lihtcGuide(?:4pct|Nat4|Mkt4)">\$(\d\.\d\d)</g },
   { fig: 'eqCo', files: [GUIDE], pattern: /id="(?:lihtcGuideCoMedian|lihtcGuideCo|lihtcGuideMktCo|dgCoPrice)">\$(\d\.\d\d)</g },
   { fig: 'quarter', files: [GUIDE], pattern: /id="(?:lihtcGuideVintage|dgVintage|lihtcGuideMktVintage|lihtcGuideMktCoVintage)">(\d{4}-Q\d)</g },
+  { fig: 'eqCo', files: ['cra-expansion-analysis.html'], pattern: /<span data-co-median>\$(\d\.\d\d)<\/span>/g },
+  { fig: 'quarter', files: ['cra-expansion-analysis.html'], pattern: /<span data-co-vintage>(\d{4}-Q\d)<\/span>/g },
   { fig: 'eqNC', files: [GUIDE], pattern: /id="lihtcGuideRegion">\$(\d\.\d\d)</g },
   { value: (F) => (1.5 * 10 * F.eqCo).toFixed(2), files: [GUIDE], pattern: /id="dgCoEquity">\$(\d+\.\d\d)M</g },
   { value: (F) => money2(F.eqCo - 0.05), files: [GUIDE], pattern: /id="dgLowPrice">\$(\d\.\d\d)</g },
@@ -268,6 +270,7 @@ export function strayPatterns(F) {
   const pats = [
     ['eq9', new RegExp(`\\$${f('eq9')}(?!\\d)`, 'g')],
     ['eq4', new RegExp(`\\$${f('eq4')}(?!\\d)`, 'g')],
+    ['eqCo', new RegExp(`\\$${f('eqCo')}(?!\\d)`, 'g')],
     ['perCapita', new RegExp(`\\$${f('perCapita')}(?!\\d)`, 'g')],
     ['smallStateMin', new RegExp(`\\$${f('smallStateMin')}(?!\\d)`, 'g')],
     ['coM', new RegExp(`\\$${f('coM')} ?(?:million|M)\\b`, 'g')],
