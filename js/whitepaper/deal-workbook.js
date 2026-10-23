@@ -724,7 +724,8 @@
         return s == null || hi == null || lo == null ? null : s + hi - lo;
       }, 0);
       var uAll = mk.capture.reduce(function (s, c) { return s + c.units; }, 0);
-      mk.captureAll = { units: uAll, low: segs[0][0], high: segs[segs.length - 1][1], ranges: segs.map(function (g) { return Math.round(g[0]) + '–' + g[1] + '%'; }).join(', ') + ' AMI',
+      if (!segs.length) { mk.capture = null; mk.noTiers = true; mk.captureReason = 'The deal has no income-restricted homes, so there are no tiers to screen.'; }
+      else mk.captureAll = { units: uAll, low: segs[0][0], high: segs[segs.length - 1][1], ranges: segs.map(function (g) { return Math.round(g[0]) + '–' + g[1] + '%'; }).join(', ') + ' AMI',
         qualified: qAll, capture: qAll > 0 ? uAll / qAll : null };
       mk.renters = { total: num(rc.renter_households_total), ami: num(rc.ami_4person), year: data.renters.meta && data.renters.meta.acs_year,
         amiYear: data.renters.meta && data.renters.meta.hud_income_limits_year };
@@ -760,7 +761,7 @@
     // A check whose figures did not load or are not published is listed, so an empty list never reads as a pass.
     mk.unchecked = [];
     if (!mk.rents.length || mk.rents.every(function (x) { return x.discount == null; })) mk.unchecked.push('rents against the market');
-    if (!mk.capture) mk.unchecked.push('renters who can pay each tier');
+    if (!mk.capture && !mk.noTiers) mk.unchecked.push('renters who can pay each tier');
     else mk.capture.filter(function (c) { return c.qualified == null; }).forEach(function (c) { mk.unchecked.push('renters who can pay ' + c.tier + '% AMI rents (no county count published that high)'); });
     if (!(mk.trend && mk.trend.length)) mk.unchecked.push('the rent trend');
     if (!(data.deals && data.deals.deals)) mk.unchecked.push('other tax credit awards in the county');
@@ -1042,6 +1043,7 @@
   }
 
   // A request that stalls settles as null after ms, so the workbook builds without it rather than waiting forever.
+  var SAVE_WAIT_MS = 30000;
   function settleWithin(p, ms) {
     return new Promise(function (resolve) {
       var t = setTimeout(function () { resolve(null); }, ms);
@@ -1175,14 +1177,19 @@
       if (!ready) return;
       read();
       lock(true); say('Saving…');
-      fetch(MARKET_API, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ deal: deal, data: rec }) })
+      // A save that stalls is cut off, so the form never stays shut until a reload.
+      var ac = typeof AbortController === 'function' ? new AbortController() : null;
+      var cut = setTimeout(function () { if (ac) ac.abort(); }, SAVE_WAIT_MS);
+      fetch(MARKET_API, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ deal: deal, data: rec }), signal: ac ? ac.signal : undefined })
         .then(function (r) { return r.ok ? r.json() : r.text().then(function (t) { throw new Error(t || String(r.status)); }); })
         .then(function (j) {
           if (!live()) return;
           rec = j.data; fill(); draw();
           say('Saved ' + new Date(j.at).toLocaleString() + (j.dropped ? '. ' + j.dropped + ' item' + (j.dropped === 1 ? ' was' : 's were') + ' not kept: each comparable needs a name, a date and a source link, and survey figures need a source link.' : '.'));
-        }, function (err) { if (live()) say('Not saved: ' + err.message); })
-        .then(function () { if (live()) lock(false); });
+        }, function (err) {
+          if (live()) say(err && err.name === 'AbortError' ? 'The save did not answer in time, so it may not have been kept. Your entries are still here: save again.' : 'Not saved: ' + err.message);
+        })
+        .then(function () { clearTimeout(cut); if (live()) lock(false); });
     });
 
     var getJson = function (u) { return settleWithin(fetch(u, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }), 20000); };

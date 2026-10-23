@@ -218,6 +218,10 @@ near(mk.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 22.5), 'the whole d
   near(gm.captureAll.qualified, (300 - WB.rentersAtOrBelow(le, 22.5)) + (1000 - 700), 'tiers with a gap between them count only renters who fit one of them');
   ok(/^2[23]–30%, 45–60% AMI$/.test(gm.captureAll.ranges) && WB.renderMarket(gm).includes(gm.captureAll.ranges), 'the all-tiers row names each income range'); }
 ok(/geoid: geoid \}\)/.test(read('js/whitepaper/deal-workbook.js')) && /get\('geoid'\)/.test(read('js/whitepaper/deal-workbook.js')), 'the market estimate uses the same place as the calculator');
+{ const allMkt = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 'Market', bedrooms: '2BR', units: 20, rent: 1700 }] }) });
+  const am = WB.market(allMkt, msnap, mdata());
+  ok(!am.error && am.capture === null && !am.unchecked.some((u) => /renters who can pay/.test(u)) && /no income-restricted homes/.test(WB.renderMarket(am)), 'a deal with only market-rate homes renders its market without a renter screen'); }
+ok(/signal: ac \? ac\.signal/.test(read('js/whitepaper/deal-workbook.js')) && /did not answer in time/.test(read('js/whitepaper/deal-workbook.js')), 'a stalled save is cut off and the form reopens');
 // Rents against the market: the calculator's own bedroom estimate.
 const r60 = mk.rents.find((x) => x.tier === 60);
 near(r60.market, 1700, 'market rent is the calculator\'s 2BR estimate');
