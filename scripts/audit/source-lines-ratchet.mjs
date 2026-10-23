@@ -11,8 +11,8 @@
  * but no date counts as "undated".
  *
  * Today's misses are recorded per page in source-lines-baseline.json. The
- * check fails only when a page shows MORE unsourced or undated figures than
- * its baseline, so new pages and cards must arrive sourced while the existing
+ * check fails only when a page, or any card or section on it, shows MORE
+ * unsourced or undated figures than its baseline, so new pages and cards must arrive sourced while the existing
  * backlog is worked down. A page missing from the baseline has a baseline of 0.
  *
  * Exemptions: put data-no-source="definition|input|estimate" on an element
@@ -59,22 +59,35 @@ function scanPage() {
   };
   // Links inside the box, or in the source line right after it (where the
   // table-export and source-badge lines sit under a table wrapper).
+  // Only a line that reads as a source line counts, not any next sibling.
+  const isSourceLine = (n) => !!n && (/source/i.test(n.className || '') || /^\s*Sources?\b/i.test(n.textContent || ''));
   const linksAt = (b) => {
     const next = b.nextElementSibling;
-    return [...b.querySelectorAll('a[href]'), ...(next ? next.querySelectorAll('a[href]') : [])].filter(isSrc);
+    return [...b.querySelectorAll('a[href]'), ...(isSourceLine(next) ? next.querySelectorAll('a[href]') : [])].filter(isSrc);
   };
   const isDated = (links) => DATE.test(links.map((a) => (a.closest('p,li,div,small,figcaption,td') || a).textContent).join(' '));
-  // Climb up to two levels past the box until a dated source is found, so a
-  // table whose rows carry their own links still finds the dated source line
-  // under its wrapper.
+  // The next container up: a plain wrapper around this box alone (a table's
+  // scroll wrapper), else the enclosing card or section. A layout grid that
+  // also holds sibling cards is skipped, so an unsourced card cannot borrow a
+  // sibling card's source through the grid they share.
+  const parentBox = (b) => {
+    const p = b.parentElement;
+    if (!p) return null;
+    const onlyThis = [...p.querySelectorAll(BOX)].every((x) => x === b || b.contains(x));
+    return onlyThis ? p : p.closest(BOX);
+  };
+  // Climb at most two containers until a dated source is found, so a table
+  // whose rows carry their own links still finds the dated line under it.
   const sourceLinks = (el) => {
     let b = el.closest(BOX) || document.body;
     let links = linksAt(b);
     let dated = links.length > 0 && isDated(links);
-    for (let i = 0; i < 2 && !dated && b.parentElement && !/^(BODY|MAIN)$/.test(b.parentElement.tagName); i++) {
-      const up = linksAt(b.parentElement);
-      if (!links.length) b = b.parentElement;
-      if (up.length) { b = b.parentElement; links = up; dated = isDated(up); }
+    for (let i = 0; i < 2 && !dated; i++) {
+      const up = parentBox(b);
+      if (!up || /^(BODY|MAIN)$/.test(up.tagName)) break;
+      const upLinks = linksAt(up);
+      if (!links.length) b = up;
+      if (upLinks.length) { b = up; links = upLinks; dated = isDated(upLinks); }
     }
     return { b, links, dated };
   };
@@ -101,7 +114,7 @@ function scanPage() {
     }
   }
   const top = Object.entries(where).sort((a, b) => b[1] - a[1]).slice(0, 5);
-  return { figures, unsourced, undated, top };
+  return { figures, unsourced, undated, top, areas: where };
 }
 
 async function main() {
@@ -137,6 +150,12 @@ async function main() {
     const grew = [];
     if (r.unsourced > b.unsourced + SLACK) grew.push(`unsourced ${b.unsourced} -> ${r.unsourced}`);
     if (r.undated > b.undated + SLACK) grew.push(`undated ${b.undated} -> ${r.undated}`);
+    // Checked card by card as well, so a fix elsewhere on the page cannot
+    // offset a new unsourced card. The slack covers late-loading figures.
+    const baseAreas = b.areas || {};
+    for (const [area, n] of Object.entries(r.areas)) {
+      if (n > (baseAreas[area] || 0) + SLACK) grew.push(`${area}: ${baseAreas[area] || 0} -> ${n}`);
+    }
     if (grew.length) failures.push(`${p}: ${grew.join(', ')}\n      ${r.top.map(([k, v]) => `${k} (${v})`).join('\n      ')}`);
   }
   const pct = (n) => (totalF ? Math.round((100 * n) / totalF) : 0);
@@ -146,7 +165,7 @@ async function main() {
     const next = { note: 'Per-page counts of figures with no nearby source link (unsourced) or a source link without a date (undated). Lower these as pages are fixed; never raise them to pass a PR.', pages: {} };
     for (const p of Object.keys(results).sort()) {
       const r = results[p];
-      if (!r.error) next.pages[p] = { unsourced: r.unsourced, undated: r.undated };
+      if (!r.error) next.pages[p] = { unsourced: r.unsourced, undated: r.undated, areas: r.areas };
     }
     if (only.length) next.pages = { ...baseline.pages, ...next.pages };
     fs.writeFileSync(BASELINE, `${JSON.stringify(next, null, 2)}\n`);
