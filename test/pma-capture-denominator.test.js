@@ -125,6 +125,11 @@ test('the simulator recounts for the bedroom sizes ticked', () => {
   assert(/_chfaQualifiedRenters\(simDen\.tracts, mixTiers, bedrooms\)/.test(src), 'the recount does not pass the bedroom sizes');
   assert(/!sameTiers \|\| !defaultBr/.test(src), 'a non-default bedroom mix does not trigger a recount');
   assert(/Tick at least one bedroom size/.test(src), 'no message when every size is unticked');
+  assert(/var bedrooms = _offeredBedrooms\(\);\s*if \(!bedrooms\.length\) \{/.test(src), 'the empty-size check depends on the data source');
+  assert(/Bedroom sizes are not applied/.test(src) && /_tierCaptureLine\(simDen, amiMix\) \+ brNote/.test(src),
+    'a count without household sizes does not say the boxes were not applied');
+  (html.match(/<label [^>]*><input type="checkbox" id="pmaBr\d"/g) || []).forEach((l) => assert(/min-height:44px/.test(l), 'touch target under 44px: ' + l));
+  assert.strictEqual((html.match(/<label [^>]*><input type="checkbox" id="pmaBr\d"/g) || []).length, 4);
   assert(/BEDROOM_INPUTS\.forEach\(function \(id\) \{\s*var box = el\(id\);\s*if \(box\) box\.addEventListener\('change'/.test(src),
     'the bedroom boxes do not rerun the simulator');
 });

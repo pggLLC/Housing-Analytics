@@ -2606,19 +2606,19 @@
     // this mix. With the default all-60%, 1-3BR mix this is the headline
     // count, so every card still divides by one number.
     var bedrooms = _offeredBedrooms();
-    if (simDen.source === 'chfa_qualified' && simDen.tracts && !bedrooms.length) {
+    if (!bedrooms.length) {
       simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' +
         'Tick at least one bedroom size to count the renters this project would serve.</div>';
       explainCapture(result, null, null, 'no bedroom size is ticked');
       simEl.dataset.denominator = '';
       return;
     }
+    var defaultBr = _isDefaultBedrooms(bedrooms);
     if (simDen.source === 'chfa_qualified' && simDen.tracts) {
       var mixTiers = Object.keys(amiMix).filter(function (k) { return amiMix[k] > 0; })
         .map(function (k) { return parseInt(k.slice(3), 10); });
       var sameTiers = mixTiers.length === (simDen.tiers || []).length &&
         mixTiers.every(function (t) { return simDen.tiers.indexOf(t) !== -1; });
-      var defaultBr = _isDefaultBedrooms(bedrooms);
       if (mixTiers.length && (!sameTiers || !defaultBr)) {
         var recount = _chfaQualifiedRenters(simDen.tracts, mixTiers, bedrooms);
         if (recount.source === 'chfa_qualified') {
@@ -2631,6 +2631,10 @@
         }
       }
     }
+    // The CHAS and ACS fallbacks carry no household sizes to filter.
+    var brNote = (!defaultBr && !simDen.bedrooms)
+      ? '<p class="pma-sim-note" style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0">Bedroom sizes are not applied: this count has no household sizes, so it counts renters of every size.</p>'
+      : '';
     if (simDen.source === 'chfa_qualified' && !(simDen.value > 0)) {
       // A real count of zero: no renter here qualifies for this mix.
       simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' +
@@ -2654,7 +2658,7 @@
             : 'Tax-credit units (existing, incl. funded not yet open) + proposed: ' + sim.penetrationRate + '% of ' +
               (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' : 'the same renters')) + '</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
-      '</div>' + _tierCaptureLine(simDen, amiMix);
+      '</div>' + _tierCaptureLine(simDen, amiMix) + brNote;
     explainCapture(result, sim, simDen, null);
   }
 

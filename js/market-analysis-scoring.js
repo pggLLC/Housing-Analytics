@@ -219,13 +219,19 @@
     tiers = (tiers || []).filter(function (t) { return t > 0; });
     if (!tiers.length) return empty('no AMI tier was given');
     var caps = { '0br': STUDIO_MAX_OCCUPANTS, '1br': 2, '2br': 3, '3br': 5 };
+    // At least one person per bedroom: CHFA's example drops one-person
+    // households when no one-bedroom units are offered, so a larger unit
+    // does not stand in for a smaller one that is missing.
+    var mins = { '0br': 1, '1br': 1, '2br': 2, '3br': 3 };
     var offered = (bedrooms && bedrooms.length ? bedrooms : CHFA_DEFAULT_BEDROOMS)
       .filter(function (b) { return caps[b] != null; })
       .sort();
     if (!offered.length) return empty('no bedroom size was given');
     // The smallest offered unit a household of n fits: it has the lowest rent.
     function unitFor(n) {
-      for (var i = 0; i < offered.length; i++) if (n <= caps[offered[i]]) return offered[i];
+      for (var i = 0; i < offered.length; i++) {
+        if (n >= mins[offered[i]] && n <= caps[offered[i]]) return offered[i];
+      }
       return null;
     }
 

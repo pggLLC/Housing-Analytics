@@ -70,6 +70,19 @@ test('household sizes no offered bedroom size fits are left out (CHFA guide)', (
   assert.strictEqual(none.source, 'unavailable');
 });
 
+test('a larger unit does not stand in for a missing smaller one', () => {
+  // 1p, 2p and 3p households at 45%, all above every floor here.
+  const m = [bins(), bins(), bins(), bins(), bins(), bins()];
+  m[0][45] = 100; m[1][45] = 100; m[2][45] = 100;
+  const d = { pumas: { P1: m }, tracts: { '08001000100': ['P1', 0, 300, 0, 0, 0] } };
+  const lim = JSON.parse(JSON.stringify(limits));
+  lim['08001'].regular_tiers['50'].income_limits = lim50;
+  const at = (br) => Math.round(S.chfaQualifiedRenters(d, lim, tracts, [60], br).value);
+  assert.strictEqual(at(['2br', '3br']), 200, 'no 1BR: one-person households leave, 2p and 3p stay');
+  assert.strictEqual(at(['3br']), 100, '3BR only: 3-5 people');
+  assert.strictEqual(at(['1br', '2br', '3br']), 300);
+});
+
 test('a buffer share scales the tract', () => {
   const r = S.chfaQualifiedRenters(demand, limits, [{ geoid: '08001000100', _bufferShare: 0.5 }], [60]);
   assert.strictEqual(Math.round(r.value), 75);
