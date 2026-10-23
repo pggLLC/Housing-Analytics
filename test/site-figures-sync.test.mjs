@@ -49,6 +49,7 @@ test('new figures rewrite every rule, and the result then agrees', () => {
     revProc: 'IRS Rev. Proc. 2098-99', revProcUrl: 'https://www.irs.gov/pub/irs-drop/rp-98-99.pdf',
     coM: F.coM + 1, p123M: F.p123M + 10, p123From: '2099-00',
     r1Loi: '2099-12-01', r1App: '2100-02-01',
+    notice: 'Notice 2099-01', noticeUrl: 'https://www.irs.gov/irb/2099-02_IRB',
   };
   const { mismatches, rewrites } = plan(next);
   const hit = new Set(mismatches.map((m) => m.rule));
