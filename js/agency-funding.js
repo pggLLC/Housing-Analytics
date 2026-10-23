@@ -91,8 +91,9 @@
     "",
     "<section aria-labelledby=\"hm-flow-h\" style=\"margin:var(--sp4) 0;\">",
     "  <h2 id=\"hm-flow-h\" style=\"font-size:1.15rem;\">Which programs paid, and where the homes are</h2>",
+    "  <p class=\"hm-flow-pick\" aria-live=\"polite\" aria-atomic=\"true\" data-hm-flow-pick></p>",
     "  <figure class=\"diagram hm-flow\">",
-    "    <svg class=\"hm-flow-svg\" data-hm-flow role=\"img\" aria-labelledby=\"hm-flow-h hm-flow-desc\"></svg>",
+    "    <svg class=\"hm-flow-svg\" data-hm-flow role=\"group\" aria-labelledby=\"hm-flow-h hm-flow-desc\"></svg>",
     "    <ul class=\"dg-legend hm-flow-legend\" data-hm-flow-legend></ul>",
     "    <p class=\"hm-flow-maptitle\" id=\"hm-flow-map-h\">Where each region is</p>",
     "    <svg class=\"hm-flow-map\" data-hm-flow-map role=\"img\" aria-labelledby=\"hm-flow-map-h\"></svg>",
@@ -101,12 +102,14 @@
     "  <div id=\"hm-flow-desc\" class=\"sr-only\" data-hm-flow-text></div>",
     "</section>",
     "",
+    "<div class=\"hm-tip\" data-hm-tip hidden></div>",
+    "",
     "<section aria-labelledby=\"hm-map-h\" style=\"margin:var(--sp4) 0;\">",
     "  <h2 id=\"hm-map-h\" style=\"font-size:1.15rem;\" data-hm-map-title>By county</h2>",
     "  <svg class=\"hm-map\" data-hm-map role=\"img\" aria-labelledby=\"hm-map-h hm-map-desc\"></svg>",
     "  <p id=\"hm-map-desc\" class=\"sr-only\">Colorado counties shaded by the chosen measure. The table below has the same numbers.</p>",
     "  <div class=\"hm-legend\" data-hm-legend></div>",
-    "  <p class=\"hm-muted\" style=\"font-size:var(--small);\">Tap a county to see its awards.</p>",
+    "  <p class=\"hm-muted\" style=\"font-size:var(--small);\">Point at a county for its number; tap it to see its awards.</p>",
     "</section>",
     "",
     "<section aria-labelledby=\"hm-matrix-h\" style=\"margin:var(--sp5) 0;\">",
@@ -173,6 +176,7 @@
     agency: 'ALL', from: null, to: null, norm: 'per',
     place: null,      // { type: 'county'|'town'|'developer', key, label }
     groupBy: 'county', sort: { key: 'measure', dir: -1 }, open: {}, matrixRows: 'county',
+    flowPick: null,   // a program or region key picked on the flow
   };
   var data = { awards: [], counties: {}, geo: null, years: [] };
   var root;
@@ -355,9 +359,11 @@
     svg.innerHTML = data.geo.features.map(function (f) {
       var fips = f.properties.GEOID;
       var r = byKey[fips];
-      var label = r ? r.label + ': ' + fmtMeasure(r.value) + ' ' + measureName() + ', ' + r.summary.awards + ' awards' : f.properties.NAMELSAD;
+      var name = r ? r.label : f.properties.NAMELSAD;
+      var label = !r || !r.summary.awards ? name + ': no awards ' + yearsText()
+        : name + ': ' + fmtMeasure(r.value) + ' ' + measureName() + ', ' + count(r.summary.awards) + ' award' + (r.summary.awards === 1 ? '' : 's');
       return '<path d="' + path(f) + '" fill="' + colour(r ? r.value : null) + '" data-fips="' + fips + '" tabindex="0" role="button" aria-label="' +
-        esc(label) + '"' + (picked === fips ? ' class="is-picked"' : '') + '><title>' + esc(label) + '</title></path>';
+        esc(label) + '" data-hm-tiptext="' + esc(label) + '"' + (picked === fips ? ' class="is-picked"' : '') + '></path>';
     }).join('');
     $('[data-hm-map-title]').textContent = 'By county: ' + measureName();
     $('[data-hm-legend]').innerHTML = '<span>None</span><i style="background:' + NONE + '"></i><span style="margin-left:6px;">Less</span>' +
@@ -382,6 +388,8 @@
       if ($('[data-hm-flow-map]')) $('[data-hm-flow-map]').style.display = 'none';
       $('[data-hm-flow-cap]').textContent = 'No award' + where + ' ' + yearsText() + ' has a home count recorded in these lists, so there is nothing to draw.';
       $('[data-hm-flow-text]').textContent = '';
+      state.flowPick = null;
+      $('[data-hm-flow-pick]').textContent = '';
       return;
     }
     svg.style.display = '';
@@ -389,7 +397,7 @@
     var cs = global.getComputedStyle ? global.getComputedStyle(fig) : null;
     var pad = cs ? (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0) : 32;
     var W = Math.min(880, Math.max(260, Math.floor((fig.clientWidth || 720) - pad)));
-    var BAR = 10, GAP = 10, SLOT = 34, TOP = 4;
+    var BAR = 10, GAP = 10, SLOT = 44, TOP = 4;
     var rows = Math.max(f.left.length, f.right.length);
     // Pixels per home: the taller column fills about 22px a row on top of its label slots.
     var k = (rows * 22) / f.homes;
@@ -420,8 +428,9 @@
       b.next += l.homes * k;
       var mx = (x0 + BAR + x1) / 2;
       var label = byL[l.from].label + ' (' + M.AGENCIES[l.agency].label + ') to ' + byR[l.to].label + ': ' + count(l.homes) + ' homes';
-      return '<path class="hm-flow-link ' + FLOW_CLASS[l.agency] + '" d="M' + (x0 + BAR) + ',' + ya.toFixed(1) + ' C' + mx + ',' + ya.toFixed(1) + ' ' + mx + ',' + yb.toFixed(1) + ' ' + x1 + ',' + yb.toFixed(1) +
-        '" stroke-width="' + h.toFixed(1) + '"><title>' + esc(label) + '</title></path>';
+      var dim = state.flowPick && l.from !== state.flowPick && l.to !== state.flowPick;
+      return '<path class="hm-flow-link ' + FLOW_CLASS[l.agency] + (dim ? ' is-dim' : '') + '" data-hm-flow-key="' + esc(l.from) + '" data-hm-tiptext="' + esc(label) + '" d="M' + (x0 + BAR) + ',' + ya.toFixed(1) + ' C' + mx + ',' + ya.toFixed(1) + ' ' + mx + ',' + yb.toFixed(1) + ' ' + x1 + ',' + yb.toFixed(1) +
+        '" stroke-width="' + h.toFixed(1) + '"></path>';
     }).join('');
     function label(n, x, anchor) {
       var mid = n.y + n.slot / 2;
@@ -436,7 +445,16 @@
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
     svg.setAttribute('width', String(W));
     svg.setAttribute('height', String(H));
-    svg.innerHTML = '<g>' + ribbons + '</g><g>' + nodes + '</g>';
+    // A tap target the height of each row (at least 44px) over the bar and its label,
+    // focusable so a keyboard can pick it too.
+    var HIT = Math.min(220, Math.floor(W * 0.45));
+    var hits = f.left.map(function (n) {
+      return '<rect class="hm-flow-hit" data-hm-flow-key="' + esc(n.key) + '" tabindex="0" role="button" aria-pressed="' + (state.flowPick === n.key) + '" aria-label="' + esc(n.label + ', ' + count(n.homes) + ' homes: show where they went') + '" x="' + x0 + '" y="' + n.y.toFixed(1) + '" width="' + HIT + '" height="' + n.slot.toFixed(1) + '"></rect>';
+    }).concat(f.right.map(function (n) {
+      return '<rect class="hm-flow-hit" data-hm-flow-key="' + esc(n.key) + '" tabindex="0" role="button" aria-pressed="' + (state.flowPick === n.key) + '" aria-label="' + esc(n.label + ', ' + count(n.homes) + ' homes: show where they came from') + '" x="' + (W - HIT) + '" y="' + n.y.toFixed(1) + '" width="' + HIT + '" height="' + n.slot.toFixed(1) + '"></rect>';
+    })).join('');
+    svg.innerHTML = '<g>' + ribbons + '</g><g>' + nodes + '</g><g>' + hits + '</g>';
+    renderFlowPick(f, byL, byR);
 
     var agencies = ['CHFA', 'OEDIT', 'DOLA'].filter(function (a) { return f.left.some(function (n) { return n.agency === a; }); });
     var legendText = { CHFA: 'CHFA tax credits', OEDIT: 'OEDIT Prop 123 fund', DOLA: 'DOLA Division of Housing' };
@@ -457,6 +475,44 @@
         return '<li>' + esc(n.label + ' (' + M.AGENCIES[n.agency].label + '): ' + count(n.homes) + ' homes. ' + to.join(', ') + '.') + '</li>';
       }).join('') + '</ul>';
   }
+
+  // The line above the flow: where one program's homes went (or where one
+  // region's came from), so a thin band a reader cannot trace is still read.
+  function renderFlowPick(f, byL, byR) {
+    var out = $('[data-hm-flow-pick]');
+    var key = state.flowPick;
+    var n = key && (byL[key] || byR[key]);
+    if (!n) {
+      state.flowPick = null;
+      out.innerHTML = 'Tap a program or a region to see where its homes are.';
+      return;
+    }
+    var isLeft = !!byL[key];
+    var parts = f.links.filter(function (l) { return isLeft ? l.from === key : l.to === key; })
+      .sort(function (a, b) { return b.homes - a.homes; })
+      .map(function (l) {
+        var other = isLeft ? byR[l.to].label : byL[l.from].label + ' (' + M.AGENCIES[l.agency].label + ')';
+        return esc(other) + ' ' + esc(count(l.homes)) + ' (' + Math.round(l.homes / n.homes * 100) + '%)';
+      });
+    var head = isLeft ? n.label + ' (' + M.AGENCIES[n.agency].label + ')' : n.label;
+    out.innerHTML = '<strong>' + esc(head) + ', ' + esc(count(n.homes)) + ' homes' + (isLeft ? ' went to' : ' came from') + ':</strong> ' +
+      parts.join(', ') + '. <button type="button" class="btn hm-flow-clear" data-hm-flow-clear>Show all</button>';
+  }
+
+  // One tooltip for the county map, the flow and the region map: it follows a
+  // mouse and appears where a finger taps, since phones never show a title.
+  function showTip(el, x, y) {
+    var tip = $('[data-hm-tip]');
+    tip.textContent = typeof el === 'string' ? el : el.getAttribute('data-hm-tiptext');
+    tip.hidden = false;
+    var w = tip.offsetWidth, h = tip.offsetHeight;
+    var vw = document.documentElement.clientWidth;
+    var left = Math.max(8, Math.min(vw - w - 8, x - w / 2));
+    var top = y - h - 14 < 8 ? y + 18 : y - h - 14;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  function hideTip() { var tip = $('[data-hm-tip]'); if (tip) tip.hidden = true; }
 
   // ── matrix ────────────────────────────────────────────────────────────────
   function renderMatrix() {
@@ -701,12 +757,30 @@
 
   function wire() {
     root.addEventListener('click', function (e) {
+      var hit = e.target.closest('[data-hm-flow-key]');
+      if (hit && root.contains(hit)) {
+        var fk = hit.getAttribute('data-hm-flow-key');
+        state.flowPick = state.flowPick === fk ? null : fk;
+        renderFlow();
+        var back = root.querySelector('.hm-flow-hit[data-hm-flow-key="' + (global.CSS && CSS.escape ? CSS.escape(fk) : fk) + '"]');
+        if (back && e.detail === 0) back.focus();
+        if (typeof global.__announceUpdate === 'function') global.__announceUpdate($('[data-hm-flow-pick]').textContent);
+        return;
+      }
       var t = e.target.closest('button, a, path');
       if (!t || !root.contains(t)) return;
       if (t.hasAttribute('data-hm-agency')) { state.agency = t.getAttribute('data-hm-agency'); writeHash(); render(); }
       else if (t.hasAttribute('data-hm-norm')) { state.norm = t.getAttribute('data-hm-norm'); render(); }
       else if (t.hasAttribute('data-hm-mrows')) { state.matrixRows = t.getAttribute('data-hm-mrows') === 'developer' ? 'developer' : 'county'; renderControls(); renderMatrix(); }
       else if (t.hasAttribute('data-hm-clear')) { pick(null); }
+      else if (t.hasAttribute('data-hm-flow-clear')) {
+        var was = state.flowPick;
+        state.flowPick = null; renderFlow();
+        // The button is redrawn away, so focus returns to the program or region it cleared.
+        var again2 = was && root.querySelector('.hm-flow-hit[data-hm-flow-key="' + (global.CSS && CSS.escape ? CSS.escape(was) : was) + '"]');
+        if (again2) again2.focus();
+        if (typeof global.__announceUpdate === 'function') global.__announceUpdate('Showing every program.');
+      }
       else if (t.hasAttribute('data-hm-matrix-all')) { state.matrixAll = !state.matrixAll; renderMatrix(); }
       else if (t.hasAttribute('data-hm-sort')) {
         var k = t.getAttribute('data-hm-sort');
@@ -738,8 +812,28 @@
         if (o) pick(o);
       }
     });
+    root.addEventListener('pointermove', function (e) {
+      var el = e.target.closest && e.target.closest('[data-hm-tiptext]');
+      if (el && e.pointerType === 'mouse') showTip(el, e.clientX, e.clientY);
+      else if (e.pointerType === 'mouse') hideTip();
+    });
+    root.addEventListener('pointerleave', hideTip);
+    // A tap shows the tip where the finger lifted; a tap anywhere else, or a scroll, hides it.
+    root.addEventListener('pointerup', function (e) {
+      if (e.pointerType === 'mouse') return;
+      var el = e.target.closest && e.target.closest('[data-hm-tiptext]');
+      // The tap may redraw the map, so the text is read now and shown after the click.
+      if (el) { var text = el.getAttribute('data-hm-tiptext'); setTimeout(function () { showTip(text, e.clientX, e.clientY); }, 0); }
+      else hideTip();
+    });
+    global.addEventListener('scroll', hideTip, { passive: true });
+    root.addEventListener('focusin', function (e) {
+      var el = e.target.closest && e.target.closest('[data-hm-tiptext]');
+      if (el) { var b = el.getBoundingClientRect(); showTip(el, b.left + b.width / 2, b.top); }
+    });
+    root.addEventListener('focusout', hideTip);
     root.addEventListener('keydown', function (e) {
-      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('path[data-fips]')) {
+      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('path[data-fips], .hm-flow-hit')) {
         e.preventDefault();
         e.target.dispatchEvent(new MouseEvent('click', { bubbles: true }));
       }
@@ -803,8 +897,8 @@
         var c = path.centroid(feat);
         centre[region] = { x: c[0], y: c[1] };
       }
-      return '<path d="' + path(feat) + '" class="hm-region ' + (REGION_CLASS[region] || '') + '"><title>' +
-        esc(feat.properties.NAMELSAD + (region ? ': ' + region : '')) + '</title></path>';
+      var tip = feat.properties.NAMELSAD + (region ? ': ' + region + ' region, ' + (homes[region] ? count(homes[region]) + ' homes' : 'no homes') + ' in the flow' : '');
+      return '<path d="' + path(feat) + '" class="hm-region ' + (REGION_CLASS[region] || '') + '" data-hm-tiptext="' + esc(tip) + '"></path>';
     }).join('');
     var labels = Object.keys(centre).map(function (r) {
       var t = centre[r];

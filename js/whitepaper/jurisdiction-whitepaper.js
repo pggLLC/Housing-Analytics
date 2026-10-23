@@ -56,7 +56,10 @@
     properties: { path: 'data/affordable-housing/properties.json', optional: true },
     scorecard: { path: 'data/policy/housing-policy-scorecard.json', optional: true },
     progress: { path: 'data/policy/jurisdiction-housing-progress.json', optional: true },
-    underwritingRules: { path: 'data/policy/lihtc-underwriting-rules.json', optional: true }
+    underwritingRules: { path: 'data/policy/lihtc-underwriting-rules.json', optional: true },
+    qapScoring: { path: 'data/policy/chfa-2027-r1-scoring.json', optional: true },
+    // The private question bank: served by the gated site only (coho-backend gated/).
+    townQuestions: { path: 'data/jurisdiction-briefs/_town-questions.json', optional: true }
   };
 
   function sourcePath(key) {
@@ -201,6 +204,8 @@
       lowWageJobs: num(m.local_low_wage_jobs),
       inCommuters: num(m.in_commuters),
       need20yr: num(m.future_units_needed_20yr),
+      seniorGrowthPp: num(m.senior_share_growth_pp),
+      seasonalSharePct: num(m.seasonal_share_of_vacant),
       overallNeedScore: num(m.overall_need_score),
       percentileRank: num(row.percentileRank),
       rank: num(row.rank),
@@ -430,6 +435,10 @@
       applications: apps,
       applicationsMissing: apps === null,
       latestAwardYear: num((row.metrics || {}).latest_lihtc_year),
+      // Projects mapped inside the boundary, which name matching can miss.
+      inBoundary: num((row.metrics || {}).lihtc_in_boundary),
+      // How the recency record was measured; 'never_funded' is a finding, a missing basis is not.
+      recencyBasis: (row.metrics || {}).recency_basis || null,
       sources: [sourcePath('chfaLihtc') + ' (CHFA Housing Tax Credit properties layer, fetched ' + ((src.chfaLihtc || {}).fetchedAt || 'date not recorded') + ')',
         sourcePath('awards') + ' (CHFA, DOH and OEDIT award reports)',
         apps === null ? null : sourcePath('applications') + ' (CHFA applicant reports, ' + ((src.applications.meta || {}).first_year || '') + ' on)'].filter(Boolean)
@@ -440,7 +449,9 @@
     var list = (src.prop123 && src.prop123.jurisdictions) || [];
     var want = norm(plainName(row.name));
     var kind = row.type === 'county' ? 'county' : 'municipality';
-    var rec = list.find(function (j) { return j.kind === kind && norm(j.name) === want; }) || null;
+    var rec = list.find(function (j) { return j.kind === kind && norm(j.name) === want; }) ||
+      // Denver and Broomfield file as consolidated city and county governments.
+      list.find(function (j) { return norm(j.name) === norm('City and County of ' + plainName(row.name)); }) || null;
     var countyRec = row.type === 'county' ? null
       : list.find(function (j) { return j.kind === 'county' && norm(j.name) === norm(countyName); }) || null;
     return {
@@ -617,7 +628,161 @@
     return { route: route, mix: mix, burden: burden, workforce: workforce, pencil: pencil, rentCheck: rentCheck, boost: boost, medianSize: medianSize, notes: notes };
   }
 
-  function contactsSection(row, src, contactsFile, resources, relatedFiles) {
+  // When an application can realistically go in, back-solved from CHFA's calendar.
+  // A round whose letter of intent is at least LEAD_DAYS away is the base case; a nearer
+  // one is a stretch that needs the conditions below; under STRETCH_MIN_DAYS it is not
+  // realistic. Both cut-offs are screening estimates, stated in the document.
+  var LEAD_DAYS = 90, STRETCH_MIN_DAYS = 15;
+  function daysBetween(a, b) { return Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000); }
+  // CHFA's dates are Colorado dates, so "today" is the date in Denver, not in UTC.
+  function coloradoToday(now) {
+    try {
+      var p = {};
+      new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', year: 'numeric', month: '2-digit', day: '2-digit' })
+        .formatToParts(now).forEach(function (x) { p[x.type] = x.value; });
+      if (p.year && p.month && p.day) return p.year + '-' + p.month + '-' + p.day;
+    } catch (e) { /* no time zone data: fall back to UTC */ }
+    return now.toISOString().slice(0, 10);
+  }
+  function addMonths(iso, n) { var d = new Date(iso + 'T00:00:00Z'); d.setUTCMonth(d.getUTCMonth() + n); return d.toISOString().slice(0, 10); }
+
+  function qapItem(scoring, id) {
+    var hit = (((scoring || {}).thresholds) || []).concat(((scoring || {}).lines) || []).find(function (x) { return x.id === id; });
+    return hit ? { id: id, page: hit.page || null, section: hit.section || null, quote: hit.quote } : null;
+  }
+
+  function dealTiming(src, today, route) {
+    var rounds = {};
+    (((src.qapCalendar || {}).events) || []).forEach(function (e) {
+      var k = /^(\d{4})-r([12])-(loi|deadline|awards)$/.exec(e.id || '');
+      if (!k || !e.date) return;
+      var key = k[1] + ' R' + k[2];
+      var r = rounds[key] || (rounds[key] = { label: key + (k[2] === '1' ? ' (9% + state credit)' : ' (4% + state credit)'), credit: k[2] === '1' ? '9%' : '4%', draft: false, url: null });
+      r[k[3]] = e.date;
+      if (k[3] === 'awards') r.awardsEstimated = e.date_precision === 'estimated';
+      if (e.qap_status === 'draft') r.draft = true;
+      if (!r.url) r.url = safeHref(e.url);
+    });
+    var open = Object.keys(rounds).map(function (k) { return rounds[k]; })
+      .filter(function (r) { return r.loi && r.deadline && r.loi >= today; })
+      .sort(function (a, b) { return a.loi < b.loi ? -1 : 1; });
+    open.forEach(function (r) {
+      r.daysToLoi = daysBetween(today, r.loi);
+      r.reading = r.daysToLoi >= LEAD_DAYS ? 'base' : r.daysToLoi >= STRETCH_MIN_DAYS ? 'stretch' : 'late';
+    });
+    var credits = /^9%/.test(route) ? ['9%', '4%'] : /^4%/.test(route) ? ['4%', '9%'] : ['9%', '4%'];
+    var rows = [];
+    credits.forEach(function (c) {
+      var mine = open.filter(function (r) { return r.credit === c; });
+      for (var i = 0; i < mine.length; i++) { rows.push(mine[i]); if (mine[i].reading === 'base') break; }
+    });
+    // With no preferred credit, the earliest round wins: rows run in date order so the
+    // first base case is the soonest realistic one.
+    if (/^9% or 4%/.test(route)) rows.sort(function (a, b) { return a.loi < b.loi ? -1 : a.loi > b.loi ? 1 : 0; });
+    // A 4% bond deal without state credit does not wait for a round: CHFA reviews it
+    // on a rolling basis, so the round dates hold only for 4% paired with state credit.
+    // Every route here keeps 4% at least as a fallback, so the rolling path shows even
+    // when no fixed round is open.
+    var rollEntry = (((src.qapCalendar || {}).rolling_programs) || []).find(function (p) { return p && p.category === '4pct-rolling'; }) || null;
+    var roll = rollEntry;
+    // The calendar lists the months CHFA takes no preliminary applications, so a report
+    // built in one of them says when the window reopens instead of "need not wait".
+    var closedMonths = roll && Array.isArray(roll.closed_months)
+      ? roll.closed_months.filter(function (n) { return n >= 1 && n <= 12 && n === Math.floor(n); }) : [];
+    var closedNow = closedMonths.indexOf(+today.slice(5, 7)) >= 0, reopens = null;
+    if (closedNow && closedMonths.length < 12) {
+      reopens = today.slice(0, 8) + '01';
+      do { reopens = addMonths(reopens, 1); } while (closedMonths.indexOf(+reopens.slice(5, 7)) >= 0);
+    }
+    if (!rows.length && !roll) return null;
+    var scoring = src.qapScoring || null;
+    function milestones(r) {
+      if (!scoring) return null;
+      var out = [{ by: r.loi, what: 'Letter of intent to CHFA', ref: null }];
+      [['T2', r.deadline, 'Site control: deed, title commitment or executed purchase agreement'],
+        ['T7', r.deadline, 'Zoning status letter from the planning department, with parking'],
+        ['T8', r.deadline, 'Phase I environmental, dated no earlier than ' + addMonths(r.deadline, -12) + ' (no older than 12 months at application)'],
+        ['T3', r.deadline, 'Market study by a CHFA-approved, unaffiliated analyst, matching the application\'s mix and rents'],
+        ['T16', r.deadline, 'Local government contribution in writing (state credit)'],
+        ['T15', r.deadline, 'Public hearing in the community (state credit)']].forEach(function (x) {
+        var q = qapItem(scoring, x[0]);
+        if (q) out.push({ by: x[1], what: x[2], ref: q });
+      });
+      return out;
+    }
+    rows.forEach(function (r) { if (r.reading !== 'late') r.milestones = milestones(r); });
+    var lb = ((((src.fundingGuide || {}).programs) || []).find(function (p) { return p && p.id === 'prop123-ahff-land-banking'; })) || null;
+    return {
+      rows: rows,
+      rolling4: roll ? { name: roll.name, description: roll.description, url: safeHref(roll.url), closedMonths: closedMonths, closedNow: closedNow, reopens: reopens } : null,
+      leadDays: LEAD_DAYS,
+      stretchMinDays: STRETCH_MIN_DAYS,
+      scoringStatus: scoring ? { draft: scoring.status === 'draft', note: scoring.status_note || null, title: (scoring.source || {}).title || null, url: safeHref((scoring.source || {}).url) } : null,
+      landBanking: lb && lb.status === 'open' ? { cycle: lb.application_cycle || null, applicants: lb.eligible_applicants || null, url: safeHref(lb.official_url) } : null,
+      sources: [sourcePath('qapCalendar'), sourcePath('qapScoring'), sourcePath('fundingGuide')]
+    };
+  }
+
+  // Scoring lines a deal here can likely claim, or choose to earn, from the CHFA QAP
+  // scoring file. A line shows only when the data supports it.
+  function dealStructure(src, row, landscape, policy, contacts, route) {
+    var scoring = src.qapScoring;
+    if (!scoring) return null;
+    var county = row.type === 'county' ? row.geoid : row.containingCounty;
+    var out = [];
+    function add(id, reading, text) {
+      var line = (scoring.lines || []).find(function (l) { return l.id === id; });
+      if (line) out.push({ id: id, points: line.points, label: line.label, section: line.section, page: line.page, quote: line.quote, reading: reading, text: text });
+    }
+    // The report holds no metro delineation it can trust for this line, so a county
+    // under the population cap is a line to confirm, not a likely one.
+    var countyRow = findRanking(src.rankingIndex, county);
+    var countyPop = countyRow ? num((countyRow.metrics || {}).population) : null;
+    if (countyPop !== null && countyPop <= 180000) {
+      add('5B3b-nonmetro', 'check', (countyRow.name || 'The county') + ' has ' + fmtInt(countyPop) + ' people, under the cap. Confirm with CHFA that it counts as non-metro: counties in a metro area do not.');
+    }
+    // Each line adds the files its evidence came from, so the table can be traced.
+    var used = [sourcePath('qapScoring'), sourcePath('rankingIndex')];
+    function cite(list) { list.forEach(function (p) { if (p && used.indexOf(p) === -1) used.push(p); }); }
+    var support = policy.support && Array.isArray(policy.support.items) ? policy.support.items.length : 0;
+    // A town's plan standing in for a county with none of its own is not the county's.
+    var plans = landscape.research && !landscape.research.placeLevel ? landscape.research.groups.filter(function (g) { return g.key === 'plans' && g.items.length; }).length : 0;
+    if (support || plans) {
+      add('5B2a-priority', 'check', 'A plan or council record on housing is on file (see Local funds and Local landscape). Confirm it names the need this project serves before counting the points.');
+      if (support) cite([sourcePath('localSupport')]);
+      if (plans) cite(landscape.sources);
+    }
+    // No source here records whether an agency is a Colorado public housing authority
+    // in law, so only agencies named as housing authorities are offered, and as a
+    // line to confirm, never as supported points.
+    var fromLandscape = landscape.authorities.map(function (a) { return a.name; }).filter(function (n) { return /housing authority/i.test(n); });
+    var fromOrgs = contacts.orgs.filter(function (o) { return o.role === 'Housing authority' && /housing authority/i.test(o.name); }).map(function (o) { return o.name; });
+    var pha = fromLandscape.concat(fromOrgs).filter(function (n, i, all) { return all.indexOf(n) === i; });
+    if (pha.length) {
+      add('5B4b-pha', 'check', pha.slice(0, 2).join(' or ') + ' as sole or majority co-general partner. Confirm it is a Colorado public housing authority before counting the points.');
+      if (fromLandscape.length) cite(landscape.sources);
+      if (fromOrgs.length) cite(['data/hna/local-resources.json']);
+    }
+    // No record here shows a nonprofit's legal status, housing purpose or capacity to
+    // be general partner, so no provider is named as a candidate for these points.
+    if (pha.length || landscape.stewards.length) {
+      add('5B4a-nonprofit', 'check', 'A qualified nonprofit or housing authority as sole general partner. No partner on file is confirmed to qualify: confirm nonprofit status, a low-income housing purpose and capacity to act as general partner before counting the points.' +
+        (pha.length ? ' An alternative to the housing authority line: one sponsor earns one of the two, not both.' : ''));
+      if (landscape.stewards.length) cite([sourcePath('stewardship')]);
+      // The same sponsor cannot earn both 5.B.4 lines (see submittal-review.js).
+      if (pha.length) out.forEach(function (l) { if (l.id === '5B4a-nonprofit' || l.id === '5B4b-pha') l.exclusiveWith = l.id === '5B4a-nonprofit' ? '5B4b-pha' : '5B4a-nonprofit'; });
+    }
+    if (/9%/.test(route)) add('5B5-homeless', 'option', 'Needs a services partner. Cannot be combined with the extremely-low-income targeting points.');
+    return {
+      lines: out,
+      draft: scoring.status === 'draft',
+      title: (scoring.source || {}).title || null,
+      url: safeHref((scoring.source || {}).url),
+      source: used.join(', ')
+    };
+  }
+
+  function contactsSection(row, src, contactsFile, resources, relatedFiles, contactsFailed) {
     function usable(f) {
       return f && Array.isArray(f.contacts) ? f.contacts.filter(function (c) { return c && c.name && safeHref(c.source_url) && c.source_quote; }) : [];
     }
@@ -670,7 +835,13 @@
       plans: dedupe(plans, function (o) { return o.name.toLowerCase(); }),
       partners: dedupe(partners, function (o) { return o.name.toLowerCase(); }),
       offices: dedupe(offices, function (o) { return o.name.toLowerCase(); }),
-      needsResearch: researched.length === 0 && related.length === 0
+      needsResearch: researched.length === 0 && related.length === 0,
+      resourcesLoaded: !!resources,
+      // A contact file that failed to load (not merely absent) leaves the search unfinished.
+      contactsLoaded: !contactsFailed,
+      // Every contact file searched, kept even when it held no usable contact, so a
+      // negative finding can cite each one.
+      searchedGeoids: [row.geoid].concat(allowed)
     };
   }
 
@@ -688,7 +859,7 @@
 
   function sourced(e) { return e && safeHref(e.source_url) && !isSearchLink(e.source_url) && e.source_quote; }
 
-  function landscapeSection(row, src, file, countyName) {
+  function landscapeSection(row, src, file, countyName, landscapeFailed) {
     var county = row.type === 'county' ? row.geoid : row.containingCounty;
     // From the site's own data, for every jurisdiction.
     var authorities = (((src.resortPrograms || {}).authorities) || []).filter(function (a) {
@@ -722,6 +893,10 @@
       stewards: stewards,
       research: research,
       missing: missing,
+      // Which inputs actually loaded, so an empty list is never read as "none found".
+      // A county read from a town's file has not been searched county-wide.
+      // A landscape file that failed to load (not merely absent) leaves the search unfinished.
+      loaded: { resortPrograms: !!src.resortPrograms, stewardship: !!src.stewardship, research: !!research && !research.placeLevel && !landscapeFailed },
       countyName: countyName,
       sources: [sourcePath('resortPrograms'), sourcePath('stewardship'), landscapePath(research ? research.geoid : row.geoid)]
     };
@@ -779,15 +954,16 @@
     var need = needSection(row, src);
     var rents = rentsSection(row, src);
     var lihtc = lihtcSection(row, src, countyName);
-    var today = opts.today || new Date().toISOString().slice(0, 10);
+    var today = opts.today || coloradoToday(new Date());
     var policy = localPolicySection(row, src);
+    var landscape = landscapeSection(row, src, opts.landscape || (opts.relatedLandscape || []).filter(Boolean)[0] || null, countyName, !!opts.landscapeFailed);
     var brief = opts.brief && opts.brief.geoid === geoid ? opts.brief : null;
     // Text the public-artifact guard blocks is dropped paragraph by paragraph, so one
     // sentence does not cost the whole paper. The caller still checks the finished HTML.
     var blocked = typeof opts.isSensitive === 'function' ? opts.isSensitive : function () { return false; };
     var dropped = 0;
     function keep(text) { if (blocked(text)) { dropped++; return false; } return true; }
-    return {
+    var model = {
       geoid: geoid,
       name: row.type === 'county' ? row.name : plainName(row.name),
       kind: row.type,
@@ -805,9 +981,9 @@
       policy: policy,
       funding: fundingSection(row, src, opts.FundingFit),
       deal: dealShape(need, rents, lihtc, src.fundingGuide, marketRents(row, src), opts.MixCheck || null, src.underwritingRules || null),
-      landscape: landscapeSection(row, src, opts.landscape || (opts.relatedLandscape || []).filter(Boolean)[0] || null, countyName),
+      landscape: landscape,
       dynamics: dealDynamics(row, src, need, lihtc, policy),
-      contacts: contactsSection(row, src, opts.contacts || null, opts.localResources || null, opts.relatedContacts || []),
+      contacts: contactsSection(row, src, opts.contacts || null, opts.localResources || null, opts.relatedContacts || [], !!opts.contactsFailed),
       dates: nextDates(src, today),
       brief: brief ? {
         lastCurated: brief.last_curated || null,
@@ -823,6 +999,11 @@
         dropped: dropped
       } : null
     };
+    model.deal.timing = dealTiming(src, today, model.deal.route);
+    model.deal.structure = dealStructure(src, row, landscape, policy, model.contacts, model.deal.route);
+    // Questions for the local government: wording from the private bank, signals from this model.
+    model.questions = opts.TownQuestions ? opts.TownQuestions.build(model, src.townQuestions || null, src.qapScoring || null, today) : null;
+    return model;
   }
 
   // ---------------------------------------------------------------- render
@@ -864,6 +1045,9 @@
       (m.lihtc.applications ? '; ' + m.lihtc.applications.length + ' application' + (m.lihtc.applications.length === 1 ? '' : 's') + ' in the CHFA applicant reports' : '') + '.</li>');
     items.push('<li><strong>Prop 123:</strong> ' + (p ? esc(p.status) + ' (filed ' + esc(p.filing_date || 'date not recorded') + ', ' + fmtInt(p.proposed_units) + ' units promised' + (p.fast_track ? ', fast-track adopted' : '') + ')' : 'no commitment on file for this jurisdiction') + '.</li>');
     items.push('<li><strong>Deal shape:</strong> ' + esc(d.route) + (d.rentCheck && d.rentCheck.limit60 !== null && d.rentCheck.fmr !== null && d.rentCheck.limit60 > d.rentCheck.fmr ? '; test achievable rent before using 60% AMI units' : '') + '.</li>');
+    var tl = timingLine(d, false);
+    if (tl) items.push('<li><strong>Timing:</strong> ' + tl + '</li>');
+    if (m.questions && !m.questions.missing) items.push('<li><strong>Questions for ' + esc(m.questions.gov.name) + ':</strong> ' + m.questions.pointed.length + ' pointed, from this place\'s data, and ' + m.questions.standard.length + ' standard.</li>');
     items.push('<li><strong>Contacts:</strong> ' + (m.contacts.needsResearch ? 'not yet researched for this jurisdiction (organisation links below)'
       : m.contacts.researched.length ? m.contacts.researched.length + ' named, each with its source'
       : 'none researched here yet; ' + m.contacts.related.reduce(function (n, f) { return n + f.contacts.length; }, 0) + ' from ' + m.contacts.related.map(function (f) { return f.name; }).join(', ') + ' shown instead') + '.</li>');
@@ -1141,7 +1325,9 @@
 
   function renderDeal(m) {
     var d = m.deal;
-    var h = '<h2 id="deal">Ideal deal shape</h2><p><strong>Credit route:</strong> ' + esc(d.route) + '</p>';
+    var h = '<h2 id="deal">Ideal deal: structure and timing</h2><p><strong>Credit route:</strong> ' + esc(d.route) + '</p>';
+    var tl = timingLine(d, true);
+    if (tl) h += '<p>' + tl + '</p>';
     if (d.mix) {
       h += '<table><thead><tr><th>Income band</th><th>Rental homes short</th></tr></thead><tbody>' +
         '<tr><td>At or below 30% AMI</td><td class="n">' + fmtInt(d.mix.le30) + '</td></tr>' +
@@ -1165,10 +1351,143 @@
     } else if (d.pencil && d.pencil.reason) {
       h += '<p class="wp-note">Whether each rent level pays its way is not shown: ' + esc(d.pencil.reason) + '</p>';
     }
+    h += renderStructure(d.structure) + renderTiming(d.timing);
     h += '<p class="wp-note">This is the deal\'s shape from the data, not a pro forma. Size the dollars in the ' +
       link('Deal Calculator for ' + m.name, 'https://cohoanalytics.com/deal-calculator.html?geoid=' + encodeURIComponent(m.geoid)) +
       ' and confirm achievable rents with a CHFA market study.</p>';
-    return h + srcLine('Rules in js/whitepaper/jurisdiction-whitepaper.js (dealShape), applied to the need, rent, tax-credit and funding sections');
+    return h + srcLine(['Rules in js/whitepaper/jurisdiction-whitepaper.js (dealShape, dealStructure, dealTiming), applied to the need, rent, tax-credit and funding sections']
+      .concat(d.structure ? [d.structure.source] : []).concat(d.timing ? d.timing.sources : []));
+  }
+
+  // Where both credits are viable, the rolling 4% bond path is as early as any round,
+  // so the dated base case is named as the round's, not the deal's only start.
+  function rollingOpen(d) {
+    return !!(d && d.timing && d.timing.rolling4 && /^9% or 4%/.test(d.route || ''));
+  }
+
+  // The timing headline for the summary and the deal section. A dated base case, a
+  // stretch round when no base is left, and the rolling 4% path each show on their own,
+  // so a report built late in a cycle still says when a deal can start.
+  function timingLine(d, full) {
+    var t = d && d.timing;
+    if (!t) return '';
+    var base = timingPick(t, 'base'), stretch = timingPick(t, 'stretch');
+    var parts = [];
+    if (base) {
+      parts.push(full
+        ? '<strong>Base case' + (rollingOpen(d) ? ' for a CHFA round' : '') + ':</strong> ' + esc(base.label) + ', letter of intent ' + esc(base.loi) + ', application ' + esc(base.deadline) + ' (estimate).' +
+          (stretch ? ' <strong>Stretch:</strong> ' + esc(stretch.label) + ', letter of intent ' + esc(stretch.loi) + ', only if the conditions under Timing are met.' : '')
+        : (rollingOpen(d) ? 'for a CHFA round, ' : '') + 'base case ' + esc(base.label) + ', application ' + esc(base.deadline) + (stretch ? '; ' + esc(stretch.label) + ' only as a stretch' : '') + ' (estimate).');
+    } else if (stretch) {
+      parts.push(full
+        ? '<strong>No CHFA round is far enough out for a base case.</strong> <strong>Stretch:</strong> ' + esc(stretch.label) + ', letter of intent ' + esc(stretch.loi) + ', only if the conditions under Timing are met (estimate).'
+        : 'no CHFA round is far enough out for a base case; ' + esc(stretch.label) + ' only as a stretch (estimate).');
+    }
+    // A 4% base round is the 4% route, which has the rolling path too.
+    if (t.rolling4 && (rollingOpen(d) || !base || base.credit === '4%')) {
+      var r4 = t.rolling4, rl = link(r4.name, r4.url);
+      if (r4.closedNow) {
+        var when = r4.reopens ? 'preliminary applications reopen ' + esc(r4.reopens) : 'preliminary applications are closed this month';
+        parts.push(full
+          ? '<strong>4% bonds without state credit:</strong> ' + rl + ' has no round, but CHFA takes no preliminary applications this month; ' + when + '.'
+          : (parts.length ? 'A 4% bond deal without state credit waits only for its window: ' : '4% bonds without state credit: ') + rl + ' has no round; ' + when + '.');
+      } else {
+        parts.push(full
+          ? '<strong>4% bonds without state credit:</strong> ' + rl + ' has no round, so this route need not wait for one.'
+          : (parts.length ? 'A 4% bond deal without state credit need not wait: ' : '4% bonds without state credit: ') + rl + ' has no round.');
+      }
+    }
+    return parts.join(' ');
+  }
+
+  function timingPick(t, reading) {
+    if (!t) return null;
+    return t.rows.filter(function (r) { return r.reading === reading; })[0] || null;
+  }
+
+  function qapCite(ref) {
+    if (!ref) return '';
+    return 'QAP ' + (ref.section ? esc(ref.section) + ', ' : '') + (ref.page ? 'p. ' + esc(ref.page) : '') + ': “' + esc(ref.quote) + '”';
+  }
+
+  function renderStructure(S) {
+    if (!S || !S.lines.length) return '';
+    return '<h3>Scoring points this place supports</h3>' +
+      '<table><thead><tr><th>Points</th><th>Scoring line</th><th>Reading</th><th>Why here</th></tr></thead><tbody>' +
+      S.lines.map(function (l) {
+        return '<tr><td class="n">' + esc(l.points) + (l.exclusiveWith ? ' <span class="wp-meta">(either/or)</span>' : '') + '</td><td>' + esc(l.label) + '<br><span class="wp-meta">' + qapCite(l) + '</span></td><td>' +
+          (l.reading === 'likely' ? 'Likely' : l.reading === 'check' ? 'To confirm' : 'Option a deal can choose') + '</td><td>' + esc(l.text) + '</td></tr>';
+      }).join('') + '</tbody></table>' +
+      '<p class="wp-meta">From the ' + link(S.title || 'CHFA QAP', S.url) + (S.draft ? ', a draft that may change before CHFA adopts it' : '') +
+      '. "Likely" means the data here meets the line; "to confirm" means it may, pending a fact the data does not hold; "option" means a deal team can earn it by how it structures the deal. Points not listed may still be earned; they depend on the site.</p>';
+  }
+
+  function renderTiming(T) {
+    if (!T) return '';
+    var h = '<h3>Timing</h3>';
+    var land = T.landBanking && T.landBanking.cycle
+      ? '<p><strong>Land:</strong> ' + link('Prop 123 Land Banking', T.landBanking.url) + ' can hold a site until the round. ' + esc(T.landBanking.cycle) +
+        (T.landBanking.applicants ? ' Who can apply: ' + esc(T.landBanking.applicants) : '') + '</p>'
+      : '';
+    if (!T.rows.length) {
+      return h + '<p>No fixed CHFA round is open on the calendar. <strong>4% with bonds:</strong> ' + link(T.rolling4.name, T.rolling4.url) + ' has no round: ' + esc(T.rolling4.description) + '</p>' + land;
+    }
+    h += '<table><thead><tr><th>Round</th><th>Letter of intent</th><th>Application</th><th>Awards</th><th>Reading</th></tr></thead><tbody>' +
+      T.rows.map(function (r) {
+        var reading = r.reading === 'base' ? '<strong>Base case</strong>' : r.reading === 'stretch' ? 'Stretch: ' + r.daysToLoi + ' days to the letter of intent' : 'Not realistic: letter of intent in ' + r.daysToLoi + ' days';
+        return '<tr><td>' + link(r.label, r.url) + (r.draft ? ' <span class="wp-tag">draft QAP</span>' : '') + '</td><td>' + esc(r.loi) + '</td><td>' + esc(r.deadline) + '</td><td>' +
+          (r.awards ? esc(r.awards) + (r.awardsEstimated ? ' (est.)' : '') : NA) + '</td><td>' + reading + '</td></tr>';
+      }).join('') + '</tbody></table>' +
+      (T.rolling4 ? '<p><strong>4% without state credit:</strong> CHFA\'s 4% rounds are for a 4% deal that also seeks state credit. ' + link(T.rolling4.name, T.rolling4.url) + ' alone has no round: ' + esc(T.rolling4.description) + '</p>' : '') +
+      '<p class="wp-meta">Estimate: a round is the base case when its letter of intent is at least ' + T.leadDays + ' days away, the time a team usually needs to tie up a site, confirm zoning and line up partners; nearer than ' + T.stretchMinDays + ' days it is not realistic.</p>';
+    var stretch = timingPick(T, 'stretch');
+    if (stretch) {
+      h += '<p><strong>The stretch round needs, before its letter of intent on ' + esc(stretch.loi) + ':</strong></p><ul>' +
+        '<li>A site under an executed purchase agreement or option. A letter of intent to buy is not site control for CHFA.</li>' +
+        '<li>Zoning confirmed, so the planning department can issue its status letter before ' + esc(stretch.deadline) + '.</li>' +
+        '<li>The general partner or co-sponsor committed, if the deal counts on nonprofit or housing authority points.</li>' +
+        '<li>The local contribution and public hearing scheduled on a Board agenda before ' + esc(stretch.deadline) + '.</li>' +
+        '<li>Phase I environmental and market study ordered now.</li></ul><p class="wp-meta">If any of these is not in hand, ' +
+        // With no base round left, the fallback is the rolling 4% path or a round not yet published.
+        (timingPick(T, 'base') ? 'plan on the base case.'
+          : T.rolling4 ? 'plan on ' + link(T.rolling4.name, T.rolling4.url) + ' (4% bonds without state credit) or the next CHFA round once it is published.'
+          : 'plan on the next CHFA round once it is published.') + '</p>';
+    }
+    var base = timingPick(T, 'base');
+    var target = base || stretch;
+    if (target && target.milestones) {
+      h += '<h3>What has to be ready for ' + esc(target.label) + '</h3><table><thead><tr><th>By</th><th>What</th><th>Where the QAP says so</th></tr></thead><tbody>' +
+        target.milestones.map(function (x) {
+          return '<tr><td>' + esc(x.by) + '</td><td>' + esc(x.what) + '</td><td class="wp-meta">' + (x.ref ? 'Threshold ' + esc(x.ref.id.replace(/^T/, '')) + ', p. ' + esc(x.ref.page) + ': “' + esc(x.ref.quote) + '”' : 'CHFA calendar') + '</td></tr>';
+        }).join('') + '</tbody></table>';
+      if (T.scoringStatus) h += '<p class="wp-meta">Thresholds from the ' + link(T.scoringStatus.title || 'CHFA QAP', T.scoringStatus.url) + (T.scoringStatus.draft ? ' (draft, not adopted)' : '') + '.</p>';
+    }
+    return h + land;
+  }
+
+  function renderQuestions(m) {
+    var Q = m.questions;
+    // Named for the government actually asked: a CDP's questions go to its county.
+    var gov = (Q && Q.gov && Q.gov.name) || (m.kind === 'cdp' ? m.countyName : m.name);
+    var h = '<h2 id="questions">Questions for ' + esc(gov) + '</h2>';
+    if (!Q || Q.missing) return h + '<p>The question bank loads on the gated developer site only.</p>';
+    function who(q) {
+      var c = q.contact;
+      return '<span class="wp-meta">Ask: ' + esc(q.roleLabel) + (c ? ', ' + link(c.name, c.url) + (c.role ? ' (' + esc(c.role) + ')' : '') : '') + '</span>';
+    }
+    h += '<p>Standard questions are worth asking any local government before an application. Pointed questions come from this place\'s own data; each shows the figure that raised it.</p>';
+    if (Q.pointed.length) {
+      h += '<h3>Pointed questions for ' + esc(m.name) + '</h3><ol>' + Q.pointed.map(function (q) {
+        return '<li><strong>' + esc(q.ask) + '</strong><br>' + who(q) + '<br><span class="wp-meta">Raised by: ' + esc(q.evidence) + (q.why ? ' Why it matters: ' + esc(q.why) : '') + ' Source: ' + esc(q.source) + '.</span></li>';
+      }).join('') + '</ol>';
+      if (Q.firedNotShown) h += '<p class="wp-meta">' + Q.firedNotShown + ' more pointed question' + (Q.firedNotShown === 1 ? '' : 's') + ' left out to keep the list short.</p>';
+    } else {
+      h += '<p>No pointed questions: none of the data signals is raised here.</p>';
+    }
+    h += '<h3>Standard questions</h3><ol>' + Q.standard.map(function (q) {
+      return '<li><strong>' + esc(q.ask) + '</strong><br>' + who(q) + (q.why || q.qap ? '<br><span class="wp-meta">' + (q.why ? 'Why: ' + esc(q.why) + (q.qap ? ' ' : '') : '') + (q.qap ? qapCite(q.qap) + (q.qap.draft ? ' (draft QAP)' : '') : '') + '</span>' : '') + '</li>';
+    }).join('') + '</ol>';
+    return h + srcLine(['Question bank checked ' + (Q.bankChecked || NA) + '; signals in js/whitepaper/town-questions.js, applied to the sections above']);
   }
 
   function renderLandscape(m) {
@@ -1226,7 +1545,7 @@
     var h = '<h2 id="dynamics">How a tax-credit deal comes together here</h2>';
     h += '<h3>The capital stack</h3><ul>' +
       '<li><strong>Tax-credit equity</strong> is the largest source. Investors paid about ' + (D.equity9 !== null ? '$' + D.equity9.toFixed(2) : NA) + ' per dollar of 9% credit and ' + (D.equity4 !== null ? '$' + D.equity4.toFixed(2) : NA) + ' for 4% (national average)' + (D.equityRegion !== null ? '; Novogradac\'s median for its North Central region, which includes Colorado, was $' + D.equityRegion.toFixed(2) : '') + '.</li>' +
-      '<li><strong>Eligible basis</strong> sets the credit. A site in a QCT or DDA gets a ' + (D.basisBoostPct !== null ? fmtPct(D.basisBoostPct, 0) : NA) + ' boost' + (D.boostHere ? ', and part of this area qualifies (see Ideal deal shape)' : '; none of this area is designated, so plan without it') + '.</li>' +
+      '<li><strong>Eligible basis</strong> sets the credit. A site in a QCT or DDA gets a ' + (D.basisBoostPct !== null ? fmtPct(D.basisBoostPct, 0) : NA) + ' boost' + (D.boostHere ? ', and part of this area qualifies (see Ideal deal: structure and timing)' : '; none of this area is designated, so plan without it') + '.</li>' +
       '<li><strong>Permanent debt</strong> is sized to the rents under Rents and income limits; deep 30% units carry little debt, which is why they need rental subsidy or more soft money.</li>' +
       '<li><strong>Soft money</strong> closes the gap: state programs (Funding that fits), local funds and fee relief, and land at low or no cost.' + (D.localMoney.length ? ' This area already has recent state awards, listed in the landscape section.' : '') + '</li>' +
       '<li><strong>Screening costs:</strong> ' + fmtMoney(D.hardCost) + ' hard cost per family unit' + (D.hardCostSource ? ' (' + esc(D.hardCostSource) + ')' : '') + ', soft costs ' + fmtPct(D.softCostPct, 0) + ' of hard, developer fee ' + fmtPct(D.devFeePct, 0) + '. Replace them with your own bids.</li></ul>';
@@ -1313,7 +1632,7 @@
       '<p class="wp-meta">GEOID ' + esc(m.geoid) + (m.region ? ' · ' + esc(m.region) : '') + ' · built ' + esc(m.generated) +
       ' from public data in the COHO Analytics repository. Screening analysis: not a CHFA market study, underwriting, or legal advice.</p>' +
       renderGlance(m) + renderSummary(m) + renderCommunity(m) + renderNeed(m) + renderRents(m) + renderLihtc(m) + renderProp123(m) + renderPolicy(m) +
-      renderLandscape(m) + renderBrief(m) + renderFunding(m) + renderDeal(m) + renderDynamics(m) + renderContacts(m) + renderDates(m);
+      renderLandscape(m) + renderBrief(m) + renderFunding(m) + renderDeal(m) + renderQuestions(m) + renderDynamics(m) + renderContacts(m) + renderDates(m);
     // Number the sections in the order they print.
     var n = 0;
     body = body.replace(/<h2 id="(\w+)">/g, function (all, id) { return id === 'summary' ? all : '<h2 id="' + id + '">' + (++n) + '. '; });
@@ -1333,6 +1652,6 @@
     findByName: findByName,
     buildModel: buildModel,
     renderHtml: renderHtml,
-    _internal: { num: num, fmtMoney: fmtMoney, dealShape: dealShape, isSearchLink: isSearchLink }
+    _internal: { coloradoToday: coloradoToday, num: num, fmtMoney: fmtMoney, dealShape: dealShape, isSearchLink: isSearchLink }
   };
 }));
