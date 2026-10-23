@@ -768,6 +768,11 @@
       "title": "Colorado C-PACE",
       "finding": "Long-term financing, up to 20 years and up to 100% of improvement costs, for efficiency, renewable, water and resilience work on multifamily buildings of 5 or more units, new or existing. Repaid through a property assessment, so bring your lender and investor in early.",
       "fits": "New construction or rehab, 5+ units",
+      "caveat": "The statewide C-PACE program guide allows a longer term than the Energy Office page states; confirm the current limit with the program administrator before sizing the payment.",
+      "also_see": {
+        "url": "https://www.larimer.gov/sites/default/files/uploads/2023/co_cpace_program_guide_2.pdf",
+        "title": "Colorado C-PACE Program Guide, Version 5.6 (January 2023), which says terms extend up to 25 years"
+      },
       "quotes": [
         "Multifamily (5 units or more)",
         "Property owners can use financing for both existing and newly constructed buildings.",

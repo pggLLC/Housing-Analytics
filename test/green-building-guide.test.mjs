@@ -162,6 +162,12 @@ for (const e of dated) {
   } else if (e.deadline) {
     assert.equal(at(e.deadline), 'open', `${e.id}: must stay open on its deadline day`);
     assert.equal(at(dayAfter(e.deadline, 1)), 'closed', `${e.id}: must show closed the day after its deadline`);
+    // A date-only deadline ends at midnight in Colorado, whatever the reader's zone.
+    const next = dayAfter(e.deadline, 1);
+    const hourAt6Z = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', hour: '2-digit', hourCycle: 'h23' }).format(new Date(`${next}T06:00:00Z`));
+    const end = Date.parse(`${next}T00:00:00${hourAt6Z === '00' ? '-06:00' : '-07:00'}`);
+    assert.equal(at(new w.Date(end - 60000)), 'open', `${e.id}: must stay open until midnight in Colorado on its deadline`);
+    assert.equal(at(new w.Date(end + 60000)), 'closed', `${e.id}: must close at midnight in Colorado, not the reader's midnight`);
   }
   for (const [f, re] of [['opens_at', /Opens at 9 a\.m\. Eastern time/], ['deadline_at', /Rolling application period - Closes at 11:59 p\.m\. Eastern time/]]) {
     if (e[f]) assert(re.test(e.quotes.join(' ')), `${e.id}: ${f} has a time its quotes do not give`);

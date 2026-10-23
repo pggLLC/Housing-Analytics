@@ -66,15 +66,18 @@
       q.map(function (t) { return '<blockquote>' + esc(t) + '</blockquote>'; }).join('') + '</details>';
   }
 
+  // Colorado programs set date-only deadlines on Colorado's calendar, so the
+  // day is read in Mountain Time wherever the reader is.
+  var DENVER_DAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Denver', year: 'numeric', month: '2-digit', day: '2-digit' });
   function isoDay(d) {
-    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    return DENVER_DAY.format(d);
   }
 
   // `now` is a Date or a YYYY-MM-DD string (tests). A date-only string stands
-  // for noon that day in the reader's time zone.
+  // for noon that day in Colorado.
   function asDate(now) {
     if (Object.prototype.toString.call(now) === '[object Date]') return now;
-    if (/^\d{4}-\d{2}-\d{2}$/.test(String(now || ''))) return new Date(now + 'T12:00:00');
+    if (/^\d{4}-\d{2}-\d{2}$/.test(String(now || ''))) return new Date(now + 'T12:00:00-07:00');
     return new Date();
   }
 
@@ -82,7 +85,7 @@
   // its deadline and closed after it, so the page does not depend on someone
   // flipping the status in time. opens_at / deadline_at carry the source's own
   // time and zone (the IRS portal opens and closes on Eastern time); without
-  // them a date counts through the end of that day where the reader is.
+  // them a date counts through the end of that day in Colorado.
   var ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
   function effectiveStatus(r, now) {
     if (r.status !== 'open') return r.status;
