@@ -4208,8 +4208,10 @@
               if (key === 'housingPolicy') {
                 opts.style = function (feature) {
                   var p = feature.properties || {};
+                  // Rate against the dimensions actually assessed: an unknown
+                  // dimension is not a missing policy.
                   var score = p.totalScore || 0;
-                  var max = p.maxPossible || 7;
+                  var max = p.knownDimensions != null ? p.knownDimensions : (p.maxPossible || 7);
                   var ratio = max > 0 ? score / max : 0;
                   var fillColor = p.has_iz_ordinance ? '#10b981'
                     : ratio >= 0.7 ? '#3b82f6'
@@ -4295,14 +4297,17 @@
                   if (p.has_housing_nonprofits) pills.push('Nonprofits');
                   var pillsHtml = pills.length > 0
                     ? pills.map(function (l) { return '<span style="display:inline-block;padding:1px 5px;border-radius:3px;background:#e0f2fe;color:#0369a1;font-size:.8125rem;margin:1px">' + l + '</span>'; }).join(' ')
-                    : '<span style="color:#94a3b8;font-size:.8em">No policy data</span>';
+                    : '<span style="color:#94a3b8;font-size:.8em">None confirmed</span>';
                   var izDetail = '';
                   if (p.iz_type) {
                     izDetail = '<br><span style="font-size:.8em">IZ: ' + p.iz_type.replace(/_/g, ' ') +
                       (p.iz_set_aside_pct ? ' (' + p.iz_set_aside_pct + '% set-aside)' : '') +
                       (p.iz_ami_target ? ' @ ' + p.iz_ami_target : '') + '</span>';
                   }
-                  tip = '<b>' + (p.name || '') + '</b> — ' + (p.totalScore || 0) + '/' + (p.maxPossible || 7) +
+                  var known = p.knownDimensions != null ? p.knownDimensions : (p.maxPossible || 7);
+                  var unknown = (p.maxPossible || 7) - known;
+                  tip = '<b>' + (p.name || '') + '</b> — ' + (p.totalScore || 0) + ' of ' + known + ' assessed' +
+                        (unknown > 0 ? ' (' + unknown + ' not yet known)' : '') +
                         '<br>' + pillsHtml + izDetail;
                   layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
                   return;

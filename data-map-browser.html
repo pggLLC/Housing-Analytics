@@ -644,8 +644,8 @@
           { k: 'Jurisdiction', v: p.name },
           { k: 'GEOID', v: p.geoid },
           { k: 'Type', v: p.geo_type },
-          { k: 'Score', v: p.totalScore != null && p.maxPossible != null ? p.totalScore + ' / ' + p.maxPossible : p.totalScore },
-          { k: 'Prop 123', v: p.prop123_committed ? 'Committed' : 'Not flagged' },
+          { k: 'Score', v: p.totalScore != null && p.knownDimensions != null ? p.totalScore + ' of ' + p.knownDimensions + ' assessed (' + p.maxPossible + ' total)' : p.totalScore },
+          { k: 'Prop 123', v: p.prop123_committed ? 'Committed' : p.prop123_committed === false ? 'Not committed' : 'Not known' },
         ];
       } },
 
