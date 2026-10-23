@@ -260,7 +260,18 @@ ok(!!WB.market(mm, Object.assign({}, msnap, { countyFips: null }), mdata()).erro
 const noRent = WB.market(mm, msnap, Object.assign(mdata(), { renters: null }));
 ok(!noRent.capture && /No renter income counts/.test(noRent.captureReason), 'no renter file gives a reason, not a zero capture');
 const mhtml = WB.renderMarket(mk);
-['Rents against the market', 'Who can pay', 'Rent trend', 'Tax credit awards in La Plata County'].forEach((h2) => ok(mhtml.includes(h2), 'the market has "' + h2 + '"'));
+// Each market section is named by its own heading (aria-labelledby must point at an h2 inside it), and the
+// awards heading names the county the market was built for. Wording is free; the wiring and the county are not.
+const sectionsLabelled = (html) => { const secs = [...html.matchAll(/<section[^>]*aria-labelledby="([^"]+)"[^>]*>([\s\S]*?)<\/section>/g)];
+  return { n: secs.length, ok: secs.every((x) => new RegExp('<h2 id="' + x[1] + '">[^<]+</h2>').test(x[2])) }; };
+{ const sl = sectionsLabelled(mhtml);
+  ok(sl.n >= 5 && sl.ok, 'every market section (' + sl.n + ' found) is labelled by its own heading');
+  const reworded = mhtml.replace('>Rent trend<', '>How rents have moved<');
+  ok(reworded !== mhtml && sectionsLabelled(reworded).ok, 'sabotage: rewording a heading keeps the label check green');
+  const broken = mhtml.replace('<h2 id="wbMktTrend">', '<h2 id="wbMktTrendX">');
+  ok(broken !== mhtml && !sectionsLabelled(broken).ok, 'sabotage: a heading that no longer matches its section label fails');
+  const pipeH = (mhtml.match(/<h2 id="wbMktPipe">([^<]+)<\/h2>/) || [])[1] || '';
+  ok(pipeH.includes(mk.county), 'the awards heading names the county the market was built for (' + mk.county + ')'); }
 ok(!/NaN|undefined/.test(mhtml) && /our screens, not CHFA rules/.test(mhtml), 'no NaN, and our own screens are labelled as ours');
 ok(/deal-summary\.html\?d=invented-recent/.test(mhtml), 'each award links to its deal summary');
 { const nd = mdata(); nd.dealDetail = {}; const nm = WB.market(mm, msnap, nd); const nh = WB.renderMarket(nm);
