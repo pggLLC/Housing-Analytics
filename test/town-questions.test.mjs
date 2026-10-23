@@ -212,10 +212,13 @@ ok(!model('0820000').questions.pointed.some((q) => q.signal === 'prop123_not_fil
 }
 
 // Housing authority points: only agencies named as housing authorities, and only "to confirm".
-for (const g of SAMPLE.concat(['0818310'])) {
+let phaSeen = 0;
+for (const g of SAMPLE.concat(['0818310', '0880040'])) {
   const l = model(g).deal.structure.lines.find((x) => x.id === '5B4b-pha');
+  if (l) phaSeen++;
   if (l) ok(l.reading === 'check' && /housing authority/i.test(l.text) && !/Community Housing\b(?! Authority)/.test(l.text.split(' as ')[0]), `${g}: 5B4b only for a named housing authority, to confirm`);
 }
+ok(phaSeen > 0, 'the housing authority line still appears where a named housing authority is on file');
 ok(!(model('0818310').deal.structure.lines.find((x) => x.id === '5B4b-pha') || { text: '' }).text.includes('Town of Crested Butte Community Housing'), 'Crested Butte: a town housing office is not offered as a PHA');
 
 // The 51-80% band has no 80% shortage measure, so it never raises the burden question.
@@ -235,13 +238,16 @@ for (const g of SAMPLE) {
 ok(TQ.SIGNALS.qct_partial({ need: { qctSharePct: 40, ddaSharePct: null, rankingSource: 'x' } }) === null, 'qct_partial does not fire when DDA share is unknown');
 
 // Each figure in the rent evidence names the file it came from.
+let rentSeen = 0;
 for (const g of SAMPLE.concat(['0880040'])) {
   const m = model(g);
   const q = m.questions.pointed.find((x) => x.signal === 'rent_above_market');
   if (!q) continue;
+  rentSeen++;
   if (/median gross rent/.test(q.evidence)) ok(q.source.includes(m.need.rankingSource), `${g}: median rent evidence cites the ranking index`);
   if (/fair market rent/.test(q.evidence)) ok(q.source.includes(m.rents.fmrSource), `${g}: FMR evidence cites the FMR file`);
 }
+ok(rentSeen > 0, 'the rent question fired somewhere, so its source check ran');
 
 // The burden question cites both files: CHAS for the burden, the ranking index for the shortage.
 for (const g of SAMPLE) {
@@ -255,15 +261,19 @@ for (const g of SAMPLE) {
 }
 
 // 5B4a never names an unverified steward; every structure line cites the files it used.
+let npSeen = 0, prSeen = 0;
 for (const g of SAMPLE.concat(['0818310', '08051'])) {
   const st = model(g).deal.structure;
   if (!st) continue;
+  if (st.lines.some((x) => x.id === '5B4a-nonprofit')) npSeen++;
+  if (st.lines.some((x) => x.id === '5B2a-priority')) prSeen++;
   const np = st.lines.find((x) => x.id === '5B4a-nonprofit');
   if (np) ok(np.reading === 'check' && !/on file:/.test(np.text) && !/Housing Resources/.test(np.text), `${g}: 5B4a names no unverified partner and is only "to confirm"`);
   const pr = st.lines.find((x) => x.id === '5B2a-priority');
   if (pr) ok(pr.reading === 'check', `${g}: 5B2a is only "to confirm" until a project is matched`);
   if (pr) ok(/local-support\.json|landscape/.test(st.source), `${g}: 5B2a cites the support or landscape file`);
 }
+ok(npSeen > 0 && prSeen > 0, 'the nonprofit and community-priority lines appeared, so their checks ran');
 {
   const cb = model('0818310');
   const pri = cb.deal.structure.lines.find((x) => x.id === '5B2a-priority');
