@@ -1306,7 +1306,6 @@
   function renderDeal(m) {
     var d = m.deal;
     var h = '<h2 id="deal">Ideal deal: structure and timing</h2><p><strong>Credit route:</strong> ' + esc(d.route) + '</p>';
-    var base = timingPick(d.timing, 'base'), stretch = timingPick(d.timing, 'stretch');
     var tl = timingLine(d, true);
     if (tl) h += '<p>' + tl + '</p>';
     if (d.mix) {
