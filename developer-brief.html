@@ -9,7 +9,15 @@
 <script src="js/developer-gate.js"></script>
 <style>
 
-  .ib-picker { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); position:sticky;top:0;z-index:5;backdrop-filter:blur(6px); }
+  .ib-picker { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); }
+  /* Which place is on screen, once the picker has scrolled away (js/whitepaper/place-bar.js). */
+  .ib-placebar { position:fixed;left:0;right:0;top:var(--site-header-h,58px);z-index:8500;background:color-mix(in oklab,var(--card) 92%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.08); }
+  .ib-placebar[hidden] { display:none; }
+  .ib-placebar-in { max-width:1100px;margin:0 auto;padding:.25rem var(--sp3);display:flex;align-items:center;gap:.75rem; }
+  .ib-placebar-text { flex:1 1 auto;min-width:0;line-height:1.25; }
+  .ib-placebar-name { display:block;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .ib-placebar-kind { display:block;font-size:.8125rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .ib-placebar button { flex:0 0 auto;min-height:44px;padding:0 .9rem;border-radius:var(--radius-sm);border:1px solid var(--accent);background:transparent;color:var(--accent);font:inherit;font-weight:700;font-size:var(--small);cursor:pointer; }
   .ib-picker label { display:block;font-size:var(--tiny);color:var(--muted);margin-bottom:.3rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em; }
   .ib-picker-row { display:flex;gap:var(--sp2);align-items:flex-end;flex-wrap:wrap; }
   .ib-picker input { flex:1 1 320px;min-width:240px;padding:.55rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2);color:var(--text);font-size:var(--small); }
@@ -185,12 +193,11 @@
   @media (max-width: 600px) {
     .ib-card { min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch; }
     .ib-rent-table { min-width:520px; }
-    .ib-picker { position:static; }
   }
 
   /* Print from the page: only the report frame's own Print prints the report. */
   @media print {
-    #devNav, .ib-picker, .ib-action-row, .ib-tools { display:none !important; }
+    #devNav, .ib-picker, .ib-placebar, .ib-action-row, .ib-tools { display:none !important; }
     .ib-private { display:none !important; }
     .ib-card { break-inside:avoid; }
   }
@@ -219,6 +226,16 @@
     <div id="pickerStatus" role="status" style="font-size:.8125rem;color:var(--muted);margin-top:.4rem;">Loading the jurisdiction list…</div>
   </div>
 
+  <div id="placeBar" class="ib-placebar" hidden>
+    <div class="ib-placebar-in">
+      <div class="ib-placebar-text" aria-live="polite">
+        <span class="ib-placebar-name" data-place-name></span>
+        <span class="ib-placebar-kind" data-place-kind></span>
+      </div>
+      <button type="button" data-place-change>Change place</button>
+    </div>
+  </div>
+
   <div id="briefContent">
     <div class="ib-prompt">
       Pick a town or county above. The report covers who lives there, the housing that exists, need, rents, tax-credit history,
@@ -243,6 +260,7 @@
 <script src="js/mix-check.js"></script>
 <script src="js/whitepaper/jurisdiction-whitepaper.js"></script>
 <script src="js/whitepaper/place-card.js"></script>
+<script src="js/whitepaper/place-bar.js"></script>
 <script src="js/whitepaper/local-discussion.js"></script>
 <script src="js/components/inline-glossary.js"></script>
 <script src="js/whitepaper/dev-terms.js"></script>
@@ -263,7 +281,8 @@
   const $ = (id) => document.getElementById(id);
   const PW = window.PrivateWorkspace;
   let SOURCES = null, CENTROIDS = {}, LOCAL_RES = null, NEWS = null, PIPE = {}, WS = null, PIPE_ROWS = [], RIPENESS = null;
-  let html = null, current = null, isSensitive = null;
+  let html = null, current = null, isSensitive = null, COUNTY_NAMES = {};
+  const BAR = window.PlaceBar ? window.PlaceBar.mount($('placeBar'), document.querySelector('.ib-picker'), $('briefPicker')) : null;
 
   // The same guard the CLI and the public build use. Without it the page builds
   // nothing, rather than risk printing text that must stay private.
@@ -317,6 +336,7 @@
     const rows = s.rankingIndex.rankings;
     const countyNames = {};
     rows.forEach(r => { if (r.type === 'county') countyNames[r.geoid] = r.name; });
+    COUNTY_NAMES = countyNames;
     const items = rows.map(r => ({ geoid: r.geoid, name: label(r, countyNames), row: r }))
       .sort((a, b) => a.name.localeCompare(b.name));
     $('briefPickerList').innerHTML = items.map(it => `<option value="${esc(it.name)}"></option>`).join('');
@@ -360,6 +380,7 @@
   function render(row, name) {
     const geoid = row.geoid;
     const isCounty = row.type === 'county';
+    if (BAR) BAR.set(window.PlaceBar.describe(row, COUNTY_NAMES));
     $('briefContent').innerHTML = '<div class="ib-loading">Building the report for ' + esc(name) + '…</div>';
     $('reportPdf').disabled = $('reportDownload').disabled = true;
     history.replaceState({}, '', '?geoid=' + geoid);
