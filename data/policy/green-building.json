@@ -617,13 +617,19 @@
       "kind": "program",
       "status": "verify",
       "title": "Xcel Energy Design Assistance",
-      "finding": "Free energy modeling and rebates for new buildings or major renovations over 20,000 square feet, for Xcel business customers still in schematic or early design. CHFA lists it in the QAP.",
+      "finding": "Free energy modeling, cash rebates for electric and gas savings, and reimbursed design fees, for new buildings or major renovations over 20,000 square feet. The basic track is for Xcel business customers still in schematic or early design who commit to at least 15% electric and gas savings. CHFA lists it in the QAP.",
       "fits": "New construction or major rehab in Xcel territory",
       "caveat": "Xcel's information sheet carries no date and sets incentives against an older baseline; confirm current terms with Xcel.",
       "quotes": [
+        "Get free design assistance and cash incentives, save on energy bills",
         "Xcel Energy business customer (excluding natural gas transport customers)",
         "Project size is more than 20,000 square feet",
-        "Project status is in Schematic or Early Design phase"
+        "Project status is in Schematic or Early Design phase",
+        "Commitment to achieve 15% minimum electric and gas savings",
+        "Receive comprehensive energy modeling to help inform your design",
+        "Earn cash rebates for electricity demand reductions",
+        "Earn rebates for gas savings",
+        "Receive reimbursement of design fees"
       ],
       "source_url": "https://www.xcelenergy.com/staticfiles/xe/Marketing/Files/CO-Bus-EDA-Info-Sheet.pdf",
       "source_title": "Energy Design Assistance information sheet",

@@ -272,6 +272,15 @@ for (const e of DOC.entries) {
   const due = new Date(e.review_by + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   assert(norm(el.textContent).includes(`next check due ${due}`), `${e.id}: the card does not show its next check date (${due})`);
 }
+// A program's benefits are quoted, not only its eligibility: each benefit the
+// Xcel design-assistance card names has its own excerpt.
+{
+  const r = rec('xcel-eda'); const q = r.quotes.join(' ').toLowerCase();
+  for (const [said, quoted] of [['energy modeling', 'energy modeling'], ['cash rebates', 'cash rebates'], ['gas savings', 'rebates for gas savings'], ['design fees', 'reimbursement of design fees'], ['free', 'free design assistance']]) {
+    if (r.finding.toLowerCase().includes(said)) assert(q.includes(quoted), `xcel-eda: the finding promises ${said}, but no quote shows it`);
+  }
+  assert(/modeling/.test(r.finding) && /rebates/.test(r.finding), 'xcel-eda: the card should state the program benefits it is listed for');
+}
 // The header's check date is the data's, not a hand-typed one.
 assert(!/checked (?:January|February|March|April|May|June|July|August|September|October|November|December) \d/.test(w.document.querySelector('.page-meta').textContent.replace(/Oldest source check:.*$/s, '')), 'the page header hand-types a check date; let the data fill it');
 assert.equal(norm(w.document.querySelector('[data-gb-checked]').textContent), `Oldest source check: ${new Date(DOC.meta.last_verified + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`, 'the header check date must come from meta.last_verified');
