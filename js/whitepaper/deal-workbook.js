@@ -1125,6 +1125,11 @@
     // and an empty form never overwrites it.
     var ready = false;
     function setReady(on) { ready = on; $('wbResSave').disabled = !on; $('wbCAdd').disabled = !on; }
+    // While a save is out, every field is shut too, so nothing typed then is replaced by the saved copy.
+    function lock(on) {
+      Array.prototype.forEach.call(box.querySelectorAll('input, select, textarea, button'), function (el) { el.disabled = on; });
+      setReady(!on);
+    }
     setReady(false); say('Loading saved research…');
 
     $('wbCAdd').addEventListener('click', function () {
@@ -1149,7 +1154,7 @@
     $('wbResSave').addEventListener('click', function () {
       if (!ready) return;
       read();
-      $('wbResSave').disabled = true; say('Saving…');
+      lock(true); say('Saving…');
       fetch(MARKET_API, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ deal: deal, data: rec }) })
         .then(function (r) { return r.ok ? r.json() : r.text().then(function (t) { throw new Error(t || String(r.status)); }); })
         .then(function (j) {
@@ -1157,7 +1162,7 @@
           rec = j.data; fill(); draw();
           say('Saved ' + new Date(j.at).toLocaleString() + (j.dropped ? '. ' + j.dropped + ' item' + (j.dropped === 1 ? ' was' : 's were') + ' not kept: each comparable needs a name, a date and a source link, and survey figures need a source link.' : '.'));
         }, function (err) { if (live()) say('Not saved: ' + err.message); })
-        .then(function () { if (live()) $('wbResSave').disabled = false; });
+        .then(function () { if (live()) lock(false); });
     });
 
     var getJson = function (u) { return settleWithin(fetch(u, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }), 20000); };

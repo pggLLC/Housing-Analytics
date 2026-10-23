@@ -542,6 +542,22 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   const g2 = await gate({ ok: false, json: () => Promise.resolve(null) });
   ok(/bindTooltip\(esc\(p\.label\)\)/.test(read('js/whitepaper/deal-workbook.js')), 'map tooltips are escaped, since Leaflet sets them as HTML');
   ok(g2.after === true && /did not load/.test(g2.msg), 'a failed load keeps save shut so an empty form cannot overwrite the research');
+  // While a save is out, the fields are shut, so nothing typed then is replaced by the saved copy.
+  {
+    const field = { disabled: false };
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, querySelectorAll: (q) => (/textarea/.test(q) ? [field] : []), handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const saved = globalThis.fetch; let release;
+    const held = new Promise((r) => { release = r; });
+    globalThis.fetch = (u, o) => (o && o.method === 'POST') ? held.then(() => ({ ok: true, json: () => Promise.resolve({ data: { comps: [] }, at: 0 }) }))
+      : Promise.resolve({ ok: true, json: () => Promise.resolve(/deal-market/.test(String(u)) ? { data: null } : { features: [] }) });
+    WB.researchEditor({ getElementById: el }, 'deal-a', WB.build(fixture(), rules), () => {}, () => true);
+    await new Promise((r) => setTimeout(r, 30));
+    el('wbResSave').handlers.click();
+    const during = field.disabled && el('wbCAdd').disabled;
+    release(); await new Promise((r) => setTimeout(r, 30));
+    globalThis.fetch = saved;
+    ok(during && field.disabled === false && el('wbResSave').disabled === false, 'fields are shut while a save is out and open again once it settles');
+  }
 }
 const highNoRows = mut0((s) => { s.result.projection.rows = []; s.result.costBasis.underwriting = { high: { firstYear: 1.45, exceeds: true } }; });
 ok(/warn: Year-one coverage of 1\.45x is above/.test(texts(highNoRows)), 'high year-one coverage is flagged from the engine check when there are no projection rows');
