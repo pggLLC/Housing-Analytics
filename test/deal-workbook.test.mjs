@@ -232,6 +232,10 @@ near(mk.captureAll.qualified, 1000 - WB.rentersAtOrBelow(le, 22.5), 'the whole d
   const noUa = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700, allowance: null, limit: 1600 }] }) });
   const nu = WB.market(noUa, msnap, mdata()).capture[0];
   ok(Math.abs(nu.low - 45) < 1e-9 && nu.atLimit === true, 'with the utility allowance unknown the range is the at-the-limit case, not a lowered floor'); }
+{ const ov = mdata(); ov.renters.counties[0].households_le_ami_pct = { 30: 0, 40: 0, 50: 0, 60: 100, 70: 200, 80: 300, 100: 400 };
+  const two = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 24, rent: 700 }, { tier: 80, bedrooms: '2BR', units: 70, rent: 700, allowance: 100, limit: 1600 }] }) });
+  const om = WB.market(two, msnap, ov);
+  ok(om.capture.every((c) => c.capture < 0.25) && om.captureAll.capture >= 0.25 && om.findings.some((f) => f.level === 'warn' && /All tiers together/.test(f.text)), 'overlapping tiers that pass alone but need 25% or more together are flagged'); }
 { const sched = Object.assign({}, mm, { rents: Object.assign({}, mm.rents, { rows: [{ tier: 60, bedrooms: '2BR', units: 10, rent: 700, limit: null }] }) });
   const sm = WB.market(sched, msnap, mdata());
   ok(sm.capture[0].atLimit === true && /assumes rents at the limit/.test(WB.renderMarket(sm)), 'with no gross limit on file the range is labelled as the at-the-limit case');
@@ -666,7 +670,9 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
     el('wbSTR0').value = ''; el('wbWTotal').value = '-5';
     el('wbResSave').handlers.click();
     const negW = { posts, msg: el('wbResStatus').textContent };
-    ok(negW.posts === savedOnce && /below zero/.test(negW.msg), 'a negative waitlist count is refused before saving');
+    el('wbWTotal').value = '1.5'; el('wbResSave').handlers.click();
+    ok(posts === savedOnce && /whole numbers/.test(el('wbResStatus').textContent) && el('wbWTotal').value === '1.5', 'a fractional waitlist count is refused, not rounded, and stays in the form');
+    ok(negW.posts === savedOnce && /whole numbers of households, zero or more/.test(negW.msg), 'a negative waitlist count is refused before saving');
     ok(vac.posts === savedOnce && /between 0% and 100%/.test(vac.msg), 'a survey vacancy over 100% is refused before saving');
     ok(loose.posts === savedOnce && /no unit type/.test(loose.msg) && loose.kept === '1500', 'a survey row with figures but no unit type is refused, not dropped');
     ok(zero.posts === 0 && /more than \$0/.test(zero.msg) && zero.kept === '0', 'a $0 survey rent is refused before saving, with the entry left in place');

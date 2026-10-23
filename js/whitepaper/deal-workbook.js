@@ -799,6 +799,10 @@
       if (c.capture == null) return;
       if (c.capture >= 0.25) out.push({ level: 'warn', text: c.tier + '% AMI: ' + c.units + ' homes against about ' + Math.round(c.qualified).toLocaleString('en-US') + ' renter households who qualify in the county (' + pct(c.capture, 1) + '). The deal needs a large share of them.' });
     });
+    // Tiers whose ranges overlap draw on the same renters, so the whole deal is screened too.
+    var ca = mk.captureAll;
+    if (ca && ca.capture != null && ca.capture >= 0.25 && !(mk.capture || []).some(function (c) { return c.capture != null && c.capture >= 0.25; }))
+      out.push({ level: 'warn', text: 'All tiers together: ' + ca.units + ' homes against about ' + Math.round(ca.qualified).toLocaleString('en-US') + ' renter households who qualify for at least one of them (' + pct(ca.capture, 1) + '). Each tier passes alone, but they draw on the same renters.' });
     if (mk.zori && mk.zori.yoy != null && mk.zori.yoy < 0) out.push({ level: 'warn', text: 'Zillow rents in ' + mk.county + ' are down ' + Math.abs(mk.zori.yoy).toFixed(1) + '% from a year ago. Hold rent growth at CHFA\'s 2% and do not count on market rents rising.' });
     var recent = (mk.pipeline || []).filter(function (p) { return p.year >= new Date().getFullYear() - 2; });
     if (recent.length) out.push({ level: 'warn', text: recent.length + ' tax credit award' + (recent.length === 1 ? '' : 's') + ' in ' + mk.county + ' since ' + (new Date().getFullYear() - 2) + ' (' + recent.reduce(function (s, p) { return s + (p.units || 0); }, 0) + ' homes) may lease to the same renters. Check their income mix below.' });
@@ -850,7 +854,7 @@
     // Pipeline
     h += '<section class="dv-card" aria-labelledby="wbMktPipe"><h2 id="wbMktPipe">Tax credit awards in ' + esc(mk.county) + ' since ' + (new Date().getFullYear() - PIPELINE_YEARS + 1) + '</h2>';
     h += mk.pipeline.length ? table(['Project', 'Town', 'Award', 'Homes', 'Income mix', 'Status'], mk.pipeline.map(function (p) {
-      return { cells: ['<a href="deal-summary.html?d=' + esc(p.slug) + '">' + esc(p.name) + '</a>', esc(p.city), esc(p.award), esc(p.units == null ? '—' : p.units), esc(p.detailLoaded ? (p.mix || '—') : 'Not loaded'), esc(p.detailLoaded ? (p.status || '—') : 'Not loaded')] };
+      return { cells: ['<a class="wb-src" href="deal-summary.html?d=' + esc(p.slug) + '">' + esc(p.name) + '</a>', esc(p.city), esc(p.award), esc(p.units == null ? '—' : p.units), esc(p.detailLoaded ? (p.mix || '—') : 'Not loaded'), esc(p.detailLoaded ? (p.status || '—') : 'Not loaded')] };
     }), { num: [3] }) : (mk.pipelineLoaded ? '<p>No CHFA tax credit awards in this county in that time.</p>' : '<p class="sr-yellow">The deal summaries did not load, so awards in this county were not checked. Reload the page to try again.</p>');
     h += '<p class="sr-muted">From the site\'s deal summaries, one researched record per CHFA award with its sources. Other projects without tax credits are not listed.</p></section>';
     return h;
@@ -1135,10 +1139,10 @@
       var rows = []; waitNeg = 0;
       Array.prototype.forEach.call(box.querySelectorAll('[data-wait]'), function (el) {
         var n = nOrNull(el.value); if (n == null) return;
-        if (n < 0) { waitNeg++; return; }
+        if (n < 0 || n !== Math.floor(n)) { waitNeg++; return; }
         var k = el.getAttribute('data-wait').split('|'); rows.push({ band: k[0], size: k[1], count: Math.round(n) });
       });
-      var total = nOrNull(val('wbWTotal')); if (total != null && total < 0) { waitNeg++; total = null; }
+      var total = nOrNull(val('wbWTotal')); if (total != null && (total < 0 || total !== Math.floor(total))) { waitNeg++; total = null; }
       rec.waitlist = rows.length || total != null ? { keeper: val('wbWKeeper'), asOf: val('wbWAsOf'), total: total == null ? null : Math.round(total), rows: rows } : null;
       var typed = [0, 1, 2].map(function (i) { return { type: val('wbST' + i), rent: nOrNull(val('wbSTR' + i)), vacancy: pctIn(val('wbSTV' + i)) }; });
       // A row with figures but no unit type is counted, so the save can stop instead of dropping it.
@@ -1149,7 +1153,7 @@
     }
     // Checked before a save, so the user fixes the survey instead of losing it to the backend's filter.
     function surveyProblem() {
-      if (waitNeg) return 'Waitlist counts cannot be below zero.';
+      if (waitNeg) return 'Waitlist counts must be whole numbers of households, zero or more.';
       if (surveyLoose) return 'A survey row has figures but no unit type. Add the type or clear the row.';
       var sv = rec.survey;
       if (!sv) return null;
