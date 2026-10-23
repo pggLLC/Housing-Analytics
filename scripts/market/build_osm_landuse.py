@@ -128,6 +128,15 @@ out center;
 """,
 }
 
+PLAIN_NAMES = {
+    "multifamily_residential": "apartment",
+    "townhome_residential": "townhome",
+    "mixed_use": "mixed-use",
+    "vacant_developable": "vacant-land",
+    "commercial": "commercial",
+    "industrial": "industrial",
+}
+
 ZONE_PROXY_MAP = {
     "multifamily": "multifamily_residential",
     "townhome":    "townhome_residential",
@@ -183,6 +192,20 @@ def element_to_feature(elem, zone_proxy):
 def main():
     log("Building OSM land-use zoning proxy for Colorado…")
     all_features = []
+    counts = {}
+    failed = []
+
+    # A category whose query fails keeps the features it had in the previous
+    # file instead of silently dropping out. The April 2026 file had no
+    # apartments, mixed-use or vacant features at all because those three
+    # queries failed and the file was written anyway.
+    previous = {}
+    if OUT_PATH.exists():
+        try:
+            for f in json.loads(OUT_PATH.read_text()).get("features", []):
+                previous.setdefault(f.get("properties", {}).get("zone_proxy"), []).append(f)
+        except (OSError, ValueError):
+            previous = {}
 
     for category, query_body in QUERIES.items():
         log(f"  Fetching {category}…")
@@ -197,8 +220,14 @@ def main():
                     all_features.append(feat)
                     count += 1
             log(f"    → {count} features")
+            counts[ZONE_PROXY_MAP[category]] = count
         except Exception as e:
             log(f"    ⚠ Failed: {e}")
+            zone_proxy = ZONE_PROXY_MAP[category]
+            kept = previous.get(zone_proxy, [])
+            all_features.extend(kept)
+            counts[zone_proxy] = len(kept)
+            failed.append({"category": zone_proxy, "reason": str(e)[:200], "kept_from_previous": len(kept)})
         time.sleep(THROTTLE_S)
 
     # Deduplicate by osm_id
@@ -220,9 +249,20 @@ def main():
             "feature_count": len(unique),
             "note": "Proxy only — for authoritative zoning use Regrid API",
             "categories": list(ZONE_PROXY_MAP.values()),
+            "category_counts": counts,
+            "categories_failed": failed,
         },
         "features": unique,
     }
+
+    missing = [c for c, n in counts.items() if n == 0]
+    if missing:
+        names = [PLAIN_NAMES.get(m, m) for m in missing]
+        listed = names[0] if len(names) == 1 else ", ".join(names[:-1]) + " or " + names[-1]
+        output["metadata"]["coverage_note"] = (
+            "OpenStreetMap proxy, not zoning; this pull has no " + listed + " features")
+    else:
+        output["metadata"]["coverage_note"] = "OpenStreetMap proxy, not zoning"
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(OUT_PATH, "w") as f:

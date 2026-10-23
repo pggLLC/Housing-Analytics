@@ -32,7 +32,14 @@ assert(!source.includes('generateCommutingBoundary'), 'D-lite overlay does not r
 assert(engineSource.includes('commuteContextOverlay'), 'PMA result/export records commute-context overlay state');
 
 assert(lodes && Array.isArray(lodes.tracts) && lodes.tracts.length === 1447, 'real lodes_co.json is loaded and non-vacuous');
-assert(arcs && Array.isArray(arcs.features) && arcs.features.length === 500, 'real lodes_od_arcs_co.geojson top-500 sample is loaded');
+assert(arcs && Array.isArray(arcs.features) && arcs.features.length > 500, 'real lodes_od_arcs_co.geojson is loaded and goes past the old statewide top 500');
+assert(arcs.metadata && arcs.metadata.per_tract >= 1 && /Not every flow/.test(arcs.metadata.selection || ''), 'arc metadata states the per-tract selection and that it is a sample');
+// The old statewide top 500 touched 363 tracts in 39 counties, so most PMAs drew
+// no arcs. Each tract's largest flows must now reach nearly every tract.
+const touchedTracts = new Set();
+arcs.features.forEach((f) => { touchedTracts.add(f.properties.home_tract); touchedTracts.add(f.properties.work_tract); });
+const lodesTractsTouched = lodes.tracts.filter((t) => touchedTracts.has(String(t.geoid))).length;
+assert(lodesTractsTouched >= 1400, 'arcs reach at least 1,400 of 1,447 tracts (got ' + lodesTractsTouched + ')');
 
 const touchingArc = arcs.features.find((feature) => {
   const p = feature.properties || {};
@@ -48,7 +55,7 @@ const untouchedTract = lodes.tracts.find((tract) => {
     return p.home_tract === tract.geoid || p.work_tract === tract.geoid;
   });
 });
-assert(untouchedTract, 'fixture found a real tract outside every top-500 OD arc');
+assert(untouchedTract, 'fixture found a real tract outside every OD arc');
 
 const oneTouch = CommuteContext.buildOverlayData(
   { _tractIds: [touchingHome] },
@@ -80,7 +87,7 @@ const noTouch = CommuteContext.buildOverlayData(
   lodes,
   arcs
 );
-assert.equal(noTouch.blocked, false, 'overlay still renders tract WAC context when no top-500 arc touches');
+assert.equal(noTouch.blocked, false, 'overlay still renders tract WAC context when no OD arc touches');
 assert.equal(noTouch.arcs.length, 0, 'arc touching no PMA tract never renders');
 
 const emptyLodes = CommuteContext.buildOverlayData(

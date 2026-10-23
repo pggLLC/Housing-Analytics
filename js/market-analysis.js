@@ -3826,7 +3826,7 @@
         // Listings — skip, handled by external Bridge API integration
         if (key === 'listings') return;
 
-        // D-lite commute context — committed LODES WAC + top-500 OD arcs only.
+        // D-lite commute context — committed LODES WAC + each tract's largest OD arcs only.
         // This overlay is disclosure/context only and never feeds PMA scoring,
         // tract selection, or buffer logic.
         if (key === 'commuteContext') {
@@ -4040,9 +4040,9 @@
 
                 // Custom tooltips for enriched layers
                 if (key === 'walkability' && p.walk_score != null) {
-                  tip = '<b>Walk: ' + p.walk_score + '</b> · Transit: ' + (p.transit_score || '—') +
-                        ' · Bike: ' + (p.bike_score || '—') +
-                        '<br><span style="font-size:0.8em;opacity:0.8;">Tract ' + (p.geoid || '') + '</span>';
+                  tip = '<b>EPA walkability: ' + (p.walkability_index != null ? p.walkability_index : '—') + ' of 20</b>' +
+                        ' (' + p.walk_score + ' on a 0-100 scale)' +
+                        '<br><span style="font-size:0.8em;opacity:0.8;">Block group ' + (p.geoid || '') + ' · EPA Smart Location Database</span>';
                   layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
                   return;
                 }
@@ -4076,7 +4076,8 @@
                   tip = '<b>' + (p.jobs || 0).toLocaleString() + ' commuters</b>' +
                     '<br>Home: ' + p.home_tract + ' → Work: ' + p.work_tract +
                     '<br>Distance: ' + (p.distance_miles || 0) + ' mi' +
-                    wageBreak;
+                    wageBreak +
+                    '<br><span style="font-size:0.8em;opacity:0.8;">One of this tract\'s largest flows, not all commuting</span>';
                   layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
                   return;
                 }
@@ -6054,7 +6055,8 @@
         }
         var tip = '<b>' + (p.jobs || 0).toLocaleString() + ' commuters</b>' +
           '<br>Home: ' + p.home_tract + ' → Work: ' + p.work_tract +
-          '<br>Distance: ' + (p.distance_miles || 0) + ' mi' + wageBreak;
+          '<br>Distance: ' + (p.distance_miles || 0) + ' mi' + wageBreak +
+          '<br><span style="font-size:0.8em;opacity:0.8;">One of this tract\'s largest flows, not all commuting</span>';
         layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
       };
 

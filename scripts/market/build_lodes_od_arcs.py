@@ -11,10 +11,15 @@ Each feature is a LineString connecting a home tract centroid to a
 work tract centroid, with properties: home_tract, work_tract, jobs,
 distance_miles, wage_breakdown.
 
-Only the top N flows (by job count) are kept to keep file size manageable.
+Not every flow is kept: Colorado has ~600,000 tract-to-tract pairs. The file
+keeps the statewide top N flows plus, for every tract, its K largest inbound
+and K largest outbound flows of at least M jobs. The statewide top 500 alone
+were all Front Range flows of 164+ jobs, so a PMA anywhere else drew no arcs.
+The metadata records how many cross-tract jobs the kept arcs cover, and the
+pages say the arcs are each tract's largest flows, not all commuting.
 
 Usage:
-    python3 scripts/market/build_lodes_od_arcs.py [--top N] [--min-jobs M]
+    python3 scripts/market/build_lodes_od_arcs.py [--top N] [--per-tract K] [--min-jobs M]
 
 Data source:
     LEHD LODES8 Origin-Destination (OD Main, All Jobs)
@@ -115,8 +120,9 @@ def download_lodes():
     return [], "unknown"
 
 
-def build_arcs(rows, centroids, top_n=500, min_jobs=20):
-    """Build GeoJSON LineString arcs from top OD flows."""
+def build_arcs(rows, centroids, top_n=500, min_jobs=20, per_tract=0, per_tract_min_jobs=10):
+    """Build GeoJSON LineString arcs from the statewide top OD flows plus each
+    tract's largest inbound and outbound flows. Returns (features, stats)."""
     # Aggregate OD pairs (LODES has block-level, we need tract-level)
     od_pairs = {}
     for row in rows:
@@ -145,8 +151,27 @@ def build_arcs(rows, centroids, top_n=500, min_jobs=20):
     # Filter to minimum job threshold and sort by jobs descending
     filtered = [(k, v) for k, v in od_pairs.items() if v["jobs"] >= min_jobs]
     filtered.sort(key=lambda x: x[1]["jobs"], reverse=True)
-    top = filtered[:top_n]
-    log(f"Top {len(top)} flows (min {min_jobs} jobs, max requested {top_n})")
+    keep = {k for k, _ in filtered[:top_n]}
+    log(f"Statewide top {len(keep)} flows (min {min_jobs} jobs, max requested {top_n})")
+
+    if per_tract > 0:
+        inbound, outbound = {}, {}
+        for (h, w), v in od_pairs.items():
+            if v["jobs"] < per_tract_min_jobs:
+                continue
+            inbound.setdefault(w, []).append((v["jobs"], h, w))
+            outbound.setdefault(h, []).append((v["jobs"], h, w))
+        for side in (inbound, outbound):
+            for flows in side.values():
+                flows.sort(reverse=True)
+                keep.update((h, w) for _, h, w in flows[:per_tract])
+        log(f"With each tract's top {per_tract} in/out flows (min {per_tract_min_jobs} jobs): {len(keep)} flows")
+
+    top = sorted(((k, od_pairs[k]) for k in keep), key=lambda x: x[1]["jobs"], reverse=True)
+    stats = {
+        "cross_tract_pairs": len(od_pairs),
+        "cross_tract_jobs": sum(v["jobs"] for v in od_pairs.values()),
+    }
 
     # Build GeoJSON features
     features = []
@@ -183,13 +208,19 @@ def build_arcs(rows, centroids, top_n=500, min_jobs=20):
     if skipped:
         log(f"  Skipped {skipped} arcs (missing centroids)")
 
-    return features
+    stats["kept_jobs"] = sum(f["properties"]["jobs"] for f in features)
+    stats["kept_share"] = round(stats["kept_jobs"] / stats["cross_tract_jobs"], 4) if stats["cross_tract_jobs"] else 0
+    return features, stats
 
 
 def main():
     parser = argparse.ArgumentParser(description="Build LODES OD flow arcs")
-    parser.add_argument("--top", type=int, default=500, help="Top N flows to keep")
-    parser.add_argument("--min-jobs", type=int, default=20, help="Minimum jobs per flow")
+    parser.add_argument("--top", type=int, default=500, help="Statewide top N flows to keep")
+    parser.add_argument("--min-jobs", type=int, default=20, help="Minimum jobs per statewide flow")
+    parser.add_argument("--per-tract", type=int, default=3,
+                        help="Also keep each tract's K largest inbound and K largest outbound flows")
+    parser.add_argument("--per-tract-min-jobs", type=int, default=10,
+                        help="Minimum jobs for a per-tract flow")
     args = parser.parse_args()
 
     log("Building LODES OD flow arcs for Colorado…")
@@ -204,7 +235,8 @@ def main():
         log("No LODES data available. Exiting.")
         sys.exit(1)
 
-    features = build_arcs(rows, centroids, top_n=args.top, min_jobs=args.min_jobs)
+    features, stats = build_arcs(rows, centroids, top_n=args.top, min_jobs=args.min_jobs,
+                                 per_tract=args.per_tract, per_tract_min_jobs=args.per_tract_min_jobs)
 
     output = {
         "type": "FeatureCollection",
@@ -216,7 +248,20 @@ def main():
             "flow_count": len(features),
             "top_n": args.top,
             "min_jobs": args.min_jobs,
-            "note": "Tract-to-tract commuting flows. LineString from home to work centroid.",
+            "per_tract": args.per_tract,
+            "per_tract_min_jobs": args.per_tract_min_jobs,
+            "selection": (f"Statewide top {args.top} flows of {args.min_jobs}+ jobs, plus each tract's "
+                          f"{args.per_tract} largest inbound and {args.per_tract} largest outbound flows "
+                          f"of {args.per_tract_min_jobs}+ jobs. Not every flow: a display sample."),
+            "cross_tract_pairs": stats["cross_tract_pairs"],
+            "cross_tract_jobs": stats["cross_tract_jobs"],
+            "kept_jobs": stats["kept_jobs"],
+            "kept_share": stats["kept_share"],
+            "coverage_note": (f"Each tract's largest flows, {round(stats['kept_share'] * 100)}% of "
+                              f"people who commute between tracts; not all commuting"),
+            "note": ("Tract-to-tract commuting flows. LineString from home to work centroid. "
+                     "Excludes people who live and work in the same tract. Do not sum arcs "
+                     "for commuter totals; use lodes_co.json or lodes_tract_od_co.json."),
         },
         "features": features,
     }
