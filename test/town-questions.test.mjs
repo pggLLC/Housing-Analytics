@@ -318,26 +318,34 @@ ok(npSeen > 0 && prSeen > 0 && stewSeen > 0, 'the nonprofit, community-priority 
 }
 
 // Where 9% and 4% are both viable, the dated base case is the round's: the rolling 4%
-// bond path is named beside it in the summary and the deal headline.
+// bond path from the calendar is named beside it in the summary and the deal headline.
 {
   let both = 0, nine = 0;
+  const amp = (x) => x.replace(/&/g, '&amp;');
   for (const g of SAMPLE.concat(['0820000', '08031'])) {
     const m = model(g);
     const t = m.deal.timing;
-    if (!t || !t.rows.some((r) => r.reading === 'base')) continue;
+    const base = t && t.rows.find((r) => r.reading === 'base');
+    if (!base || !t.rolling4) continue;
     const html = WP.renderHtml(m);
-    const summary = html.slice(html.indexOf('id="summary"'), html.indexOf('</ul>', html.indexOf('id="summary"')));
-    const deal = html.slice(html.indexOf('id="deal"'), html.indexOf('</p>', html.indexOf('id="deal"') + 200));
-    if (/^9% or 4%/.test(m.deal.route) && t.rolling4) {
+    const at = (id) => { const a = html.indexOf('id="' + id + '"'); return html.slice(a, html.indexOf('<h', a + 1)); };
+    const summary = at('summary'), deal = at('deal').split('<table')[0];
+    const roll = amp(t.rolling4.name);
+    ok(summary.includes(amp(base.label)) && deal.includes(amp(base.label)), `${g}: the summary and deal headline give the dated base case`);
+    if (/^9% or 4%/.test(m.deal.route)) {
       both++;
-      ok(summary.includes('for a CHFA round') && summary.includes(t.rolling4.name.replace(/&/g, '&amp;')), `${g}: the summary names the rolling 4% path beside the round's base case`);
-      ok(/Base case for a CHFA round/.test(deal), `${g}: the deal headline says the base case is the round's`);
+      ok(summary.includes(roll) && deal.includes(roll), `${g}: both 9% and 4% viable, so the rolling 4% path from the calendar is named beside the round`);
     } else if (/^9% competitive/.test(m.deal.route)) {
       nine++;
-      ok(!summary.includes('for a CHFA round'), `${g}: a 9%-first place keeps the plain base case`);
+      ok(!summary.includes(roll) && !deal.includes(roll), `${g}: a 9%-first place keeps the round's base case alone`);
     }
   }
   ok(both > 0 && nine > 0, 'both route kinds appeared, so the rolling headline checks ran');
+  // Sabotage: without the calendar's rolling entry, the headline names no rolling path.
+  const noRoll = clone(BASE); noRoll.qapCalendar.rolling_programs = [];
+  const name = amp(model('0820000').deal.timing.rolling4.name);
+  const d = WP.renderHtml(model('0820000', { src: noRoll }));
+  ok(!d.slice(d.indexOf('id="summary"'), d.indexOf('id="deal"')).includes(name), 'no rolling entry in the calendar: the summary names none');
 }
 
 // Consolidated city-counties: "City and County of Denver" staff are local to both the
