@@ -721,7 +721,7 @@
     var support = policy.support && Array.isArray(policy.support.items) ? policy.support.items.length : 0;
     var plans = landscape.research ? landscape.research.groups.filter(function (g) { return g.key === 'plans' && g.items.length; }).length : 0;
     if (support || plans) {
-      add('5B2a-priority', 'likely', 'An adopted plan or council record on housing is on file (see Local funds and Local landscape); cite it as the community priority.');
+      add('5B2a-priority', 'check', 'A plan or council record on housing is on file (see Local funds and Local landscape). Confirm it names the need this project serves before counting the points.');
       if (support) cite([sourcePath('localSupport')]);
       if (plans) cite(landscape.sources);
     }

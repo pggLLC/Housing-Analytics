@@ -254,7 +254,9 @@ for (const g of SAMPLE.concat(['0818310', '08051'])) {
   if (!st) continue;
   const np = st.lines.find((x) => x.id === '5B4a-nonprofit');
   if (np) ok(np.reading === 'check' && !/on file:/.test(np.text) && !/Housing Resources/.test(np.text), `${g}: 5B4a names no unverified partner and is only "to confirm"`);
-  if (st.lines.find((x) => x.id === '5B2a-priority')) ok(/local-support\.json|landscape/.test(st.source), `${g}: 5B2a cites the support or landscape file`);
+  const pr = st.lines.find((x) => x.id === '5B2a-priority');
+  if (pr) ok(pr.reading === 'check', `${g}: 5B2a is only "to confirm" until a project is matched`);
+  if (pr) ok(/local-support\.json|landscape/.test(st.source), `${g}: 5B2a cites the support or landscape file`);
 }
 {
   const cb = model('0818310');
