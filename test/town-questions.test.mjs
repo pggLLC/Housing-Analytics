@@ -334,16 +334,19 @@ ok(bothSeen > 0, 'at least one sample place shows both sponsor lines, so the eit
   for (const f of ['data/jurisdiction-briefs/_contacts/0899999.json', 'data/jurisdiction-briefs/_contacts/08999.json', 'data/hna/local-resources.json']) ok(src.includes(f), `"no partner" cites ${f}`);
 }
 
-// A county read from one of several town landscape files is not searched in full.
+// A county read from a town's landscape file is not searched county-wide.
 {
   const rel = WP.relatedGeoids(BASE, '08051').filter((g) => g !== '08051');
-  ok(rel.length >= 2, 'Gunnison County has at least two related places for the partial-research check');
+  ok(rel.length >= 1, 'Gunnison County has a related place for the partial-research check');
   const s = Object.assign({}, BASE, { townQuestions: BANK });
-  const one = WP.buildModel(s, '08051', { today: '2026-10-22', FundingFit, MixCheck, TownQuestions: TQ, relatedLandscape: [{ geoid: rel[0] }] });
-  const two = WP.buildModel(s, '08051', { today: '2026-10-22', FundingFit, MixCheck, TownQuestions: TQ, relatedLandscape: [{ geoid: rel[0] }, { geoid: rel[1] }] });
-  ok(one.landscape.loaded.research === true, 'one related town file: the county research counts as searched');
-  ok(two.landscape.loaded.research === false, 'several related town files, one read: the county research is not counted as searched');
-  ok(!two.questions.pointed.some((q) => q.signal === 'no_partner'), 'partial county research never asks the "no partner" question');
+  const opts = (o) => Object.assign({ today: '2026-10-22', FundingFit, MixCheck, TownQuestions: TQ }, o);
+  const own = WP.buildModel(s, '08051', opts({ landscape: { geoid: '08051' } }));
+  const one = WP.buildModel(s, '08051', opts({ relatedLandscape: [{ geoid: rel[0] }] }));
+  ok(own.landscape.loaded.research === true, "the county's own landscape file counts as searched");
+  ok(one.landscape.loaded.research === false, "a single town's file does not count as a county-wide search");
+  ok(!one.questions.pointed.some((q) => q.signal === 'no_partner'), 'a town-file county fallback never asks the "no partner" question');
+  const town = WP.buildModel(s, rel[0], opts({ landscape: { geoid: '08051' } }));
+  ok(town.landscape.loaded.research === true, "a place read from its county's file counts as searched");
 }
 
 // Both routes viable: the base case is the earliest realistic round, whichever credit.
