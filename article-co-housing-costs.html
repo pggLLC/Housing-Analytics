@@ -256,7 +256,7 @@
 
         <!-- ── Construction & Development Cost Pressure ── -->
         <h2 style="margin-top:var(--sp5);">Construction &amp; Development Cost Pressure</h2>
-        <p>Demand is not the only cause of rising housing costs. Construction material prices, construction wages and the pace of permits also push costs up.</p>
+        <p>Demand is not the only cause of rising housing costs. Rising construction material prices and wages, and slow permitting, also push costs up.</p>
 
         <h3>BLS Producer Price Index: Construction Inputs</h3>
         <p>The chart below tracks key BLS PPI series for construction-related inputs (lumber, concrete, steel, labor) from 2010 to the most recent available month. Rapid PPI increases translate directly into higher per-unit development costs.</p>
@@ -360,7 +360,7 @@
           </summary>
           <div style="margin-top:.75rem;font-size:.92rem;line-height:1.55;">
             <p style="margin:.25rem 0;"><strong>The question we're asking:</strong> <em>across Colorado's 64 counties, which housing inputs best predict how much home prices have grown over the past decade?</em></p>
-            <p style="margin:.5rem 0;">We feed the model five candidate drivers per county — income growth, permit issuance, construction wages, vacancy rate, and rent burden — and the model estimates how much each one explains the 10-year FHFA House Price Index change. The model produces a ranked list of <strong>standardized coefficients</strong>: a number for each driver where bigger means stronger predictive weight, and the sign tells you direction (positive = HPI grew faster when that driver was higher).</p>
+            <p style="margin:.5rem 0;">We feed the model five candidate drivers per county — income growth, permit issuance, construction wages, vacancy rate, and rent burden — and the model estimates each one's relative weight in predicting the 10-year FHFA House Price Index change. The model produces a ranked list of <strong>standardized coefficients</strong>: a number for each driver where bigger means stronger predictive weight, and the sign tells you direction (positive = HPI grew faster when that driver was higher).</p>
             <ul style="margin:.5rem 0 .5rem;padding-left:1.4rem;">
               <li><strong>"ElasticNet" =</strong> a penalty rule that <em>shrinks weak predictors toward zero</em>. So if vacancy rate doesn't really help explain HPI growth, the model will set its weight to nearly zero rather than pretending it matters. This is how it avoids overfitting and handles correlated inputs (income growth and construction wages tend to move together — the elastic-net penalty splits the credit cleanly).</li>
               <li><strong>"CV" = cross-validation.</strong> Instead of fitting once and trusting the answer, the model re-fits itself on rotating subsets of counties (5-fold here) and keeps the version that generalizes best. This guards against the model just memorizing patterns specific to the 52–58 counties with complete data.</li>
