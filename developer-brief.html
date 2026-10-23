@@ -11,7 +11,7 @@
 
   .ib-picker { background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3); }
   /* Which place is on screen, once the picker has scrolled away (js/whitepaper/place-bar.js). */
-  .ib-placebar { position:fixed;left:0;right:0;top:var(--site-header-h,58px);z-index:8500;background:color-mix(in oklab,var(--card) 92%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.08); }
+  .ib-placebar { position:fixed;left:0;right:0;top:var(--site-header-h,58px);z-index:8500;background:var(--card);background:color-mix(in oklab,var(--card) 92%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.08); }
   .ib-placebar[hidden] { display:none; }
   .ib-placebar-in { max-width:1100px;margin:0 auto;padding:.25rem var(--sp3);display:flex;align-items:center;gap:.75rem; }
   .ib-placebar-text { flex:1 1 auto;min-width:0;line-height:1.25; }
