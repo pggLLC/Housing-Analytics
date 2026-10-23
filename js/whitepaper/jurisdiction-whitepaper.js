@@ -1420,7 +1420,11 @@
         '<li>Zoning confirmed, so the planning department can issue its status letter before ' + esc(stretch.deadline) + '.</li>' +
         '<li>The general partner or co-sponsor committed, if the deal counts on nonprofit or housing authority points.</li>' +
         '<li>The local contribution and public hearing scheduled on a Board agenda before ' + esc(stretch.deadline) + '.</li>' +
-        '<li>Phase I environmental and market study ordered now.</li></ul><p class="wp-meta">If any of these is not in hand, plan on the base case.</p>';
+        '<li>Phase I environmental and market study ordered now.</li></ul><p class="wp-meta">If any of these is not in hand, ' +
+        // With no base round left, the fallback is the rolling 4% path or a round not yet published.
+        (timingPick(T, 'base') ? 'plan on the base case.'
+          : T.rolling4 ? 'plan on ' + link(T.rolling4.name, T.rolling4.url) + ' (4% bonds without state credit) or the next CHFA round once it is published.'
+          : 'plan on the next CHFA round once it is published.') + '</p>';
     }
     var base = timingPick(T, 'base');
     var target = base || stretch;

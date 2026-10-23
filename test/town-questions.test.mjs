@@ -365,6 +365,15 @@ ok(npSeen > 0 && prSeen > 0 && stewSeen > 0, 'the nonprofit, community-priority 
   for (const [where, text] of [['summary', summary], ['deal headline', deal]]) {
     ok(text.includes(amp(st.label)) && text.includes(amp(late.deal.timing.rolling4.name)), `no base round: the ${where} names the stretch round and the rolling 4% path`);
   }
+  // The stretch fallback points at the rolling path, since no base round is left.
+  const timing = html.slice(html.indexOf('<h3>Timing</h3>'));
+  const fallback = timing.slice(timing.indexOf('</ul>'), timing.indexOf('</p>', timing.indexOf('</ul>')));
+  ok(fallback.includes(amp(late.deal.timing.rolling4.name)), 'no base round: the stretch fallback names the rolling 4% path');
+  const early = WP.renderHtml(model('0820000'));
+  const eTiming = early.slice(early.indexOf('<h3>Timing</h3>'));
+  if (model('0820000').deal.timing.rows.some((r) => r.reading === 'stretch')) {
+    ok(!eTiming.slice(eTiming.indexOf('</ul>'), eTiming.indexOf('</p>', eTiming.indexOf('</ul>'))).includes(amp(t0.rolling4.name)), 'with a base round, the stretch fallback is the base case');
+  }
   const past = WP.renderHtml(model('0820000', { today: '2031-01-01' }));
   const pastSummary = past.slice(past.indexOf('id="summary"'), past.indexOf('<h', past.indexOf('id="summary"') + 1));
   ok(pastSummary.includes(amp(t0.rolling4.name)), 'all rounds passed: the summary still names the rolling 4% path');
