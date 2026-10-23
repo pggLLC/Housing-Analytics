@@ -63,14 +63,20 @@ function scanPage() {
     const next = b.nextElementSibling;
     return [...b.querySelectorAll('a[href]'), ...(next ? next.querySelectorAll('a[href]') : [])].filter(isSrc);
   };
+  const isDated = (links) => DATE.test(links.map((a) => (a.closest('p,li,div,small,figcaption,td') || a).textContent).join(' '));
+  // Climb up to two levels past the box until a dated source is found, so a
+  // table whose rows carry their own links still finds the dated source line
+  // under its wrapper.
   const sourceLinks = (el) => {
     let b = el.closest(BOX) || document.body;
     let links = linksAt(b);
-    for (let i = 0; i < 2 && !links.length && b.parentElement && !/^(BODY|MAIN)$/.test(b.parentElement.tagName); i++) {
-      b = b.parentElement;
-      links = linksAt(b);
+    let dated = links.length > 0 && isDated(links);
+    for (let i = 0; i < 2 && !dated && b.parentElement && !/^(BODY|MAIN)$/.test(b.parentElement.tagName); i++) {
+      const up = linksAt(b.parentElement);
+      if (!links.length) b = b.parentElement;
+      if (up.length) { b = b.parentElement; links = up; dated = isDated(up); }
     }
-    return { b, links };
+    return { b, links, dated };
   };
   let figures = 0; let unsourced = 0; let undated = 0;
   const where = {};
@@ -85,12 +91,9 @@ function scanPage() {
     if (cs.display === 'none' || cs.visibility === 'hidden' || !el.offsetParent) continue;
     seen.add(el);
     figures += m.length;
-    const { b, links } = sourceLinks(el);
+    const { b, links, dated } = sourceLinks(el);
     let miss = null;
-    if (!links.length) { unsourced += m.length; miss = 'unsourced'; } else {
-      const near = links.map((a) => (a.closest('p,li,div,small,figcaption,td') || a).textContent).join(' ');
-      if (!DATE.test(near)) { undated += m.length; miss = 'undated'; }
-    }
+    if (!links.length) { unsourced += m.length; miss = 'unsourced'; } else if (!dated) { undated += m.length; miss = 'undated'; }
     if (miss) {
       const h = b.querySelector('h1,h2,h3,h4,caption,.card-title');
       const key = `${miss}: ${((h && h.textContent) || b.id || b.className || b.tagName).trim().replace(/\s+/g, ' ').slice(0, 70)}`;
