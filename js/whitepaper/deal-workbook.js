@@ -148,6 +148,10 @@
       notItemized: num(r.budget.notItemized), tdc: num(r.tdc)
     } : { rows: [], tdc: num(r.tdc), reason: (r.budget && r.budget.reason) || 'No itemized budget.' };
 
+    // The federal minimum set-aside: an entered award still shows in the credits when the deal fails it.
+    var msa = r.minimumSetAsideResult;
+    model.setAside = msa ? { election: msa.election || null, qualifies: msa.qualifies === true, known: typeof msa.qualifies === 'boolean', reason: msa.reason || null } : null;
+
     // Basis and credits.
     var b = r.costBasis && r.costBasis.basis;
     if (b) {
@@ -309,6 +313,7 @@
     var out = [], min = m.operating.min;
     if (m.rulesMissing) out.push({ level: 'warn', text: 'CHFA\'s underwriting rules did not load, so operating cost, reserve, vacancy, growth and debt coverage were not checked against its minimums. Reload the page to check them.' });
     var thisYear = new Date().getFullYear();
+    if (m.setAside && m.setAside.known && !m.setAside.qualifies) out.push({ level: 'bad', text: 'The deal does not meet its federal minimum set-aside' + (m.setAside.election ? ' (' + m.setAside.election + ' election)' : '') + ': ' + (m.setAside.reason || 'the calculator found it short') + '. No unit counts toward the credit, so the credit and equity shown are not supported.' });
     if (m.rentLimits.regime && m.rentLimits.regime !== 'chfa_lihtc') out.push({ level: 'warn', text: 'Rents use ' + m.rentLimits.regime + ' limits, not CHFA tax credit limits.' });
     if (m.rentLimits.year != null && m.rentLimits.year < thisYear) out.push({ level: 'warn', text: 'Rent limits are the ' + m.rentLimits.year + ' tables. Check for newer CHFA tables before relying on these rents.' });
     if (m.rentLimits.year != null) out.push({ level: 'ok', text: 'Rent limits: ' + (m.rentLimits.source || 'CHFA') + (m.rentLimits.effective ? ', effective ' + m.rentLimits.effective : '') + '.' });

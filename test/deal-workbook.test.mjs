@@ -410,6 +410,9 @@ ok(/warn: Operating cost of .* before property tax/.test(opexNoTax) && !/ok: Ope
   const clean = WB.render(mut0(() => {}));
   ok(!clean.includes('Debt service left unpaid') && !clean.includes('Asset management fee still owed'), 'the rows stay hidden when nothing is unpaid');
 }
+const msaFail = texts(mut0((s) => { s.result.minimumSetAsideResult = { election: '40-60', qualifies: false, reason: 'the designated set-aside is below 40% of residential units' }; }));
+ok(/bad: The deal does not meet its federal minimum set-aside \(40-60 election\): the designated set-aside is below 40%/.test(msaFail), 'a failed minimum set-aside is flagged with the engine reason');
+ok(!/minimum set-aside/.test(texts(mut0((s) => { s.result.minimumSetAsideResult = { election: '40-60', qualifies: true, reason: '' }; }))), 'a met set-aside adds no warning');
 const feeOpen = mut0((s) => { s.permanentFinancing.deferredDevFee = null; s.result.unavailable = Object.assign({}, s.result.unavailable, { deferredDevFee: 'Operating inputs are incomplete.' }); });
 ok(feeOpen.sources.rows.some((x) => x.amount === null && x.label === 'Deferred developer fee: not known, Operating inputs are incomplete.'), 'an unknown deferred fee stays in the sources with its reason');
 
