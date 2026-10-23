@@ -1124,6 +1124,16 @@ function getKey(){ return CONFIG_KEY || ""; }
       }).catch(e => { console.warn("Headline COMPUTSA failed:", e); if (els.statCompletions) els.statCompletions.textContent = "—"; }),
     ]);
 
+    // Each tile reads the site's daily FRED copy, so it names the date of its
+    // latest observation rather than calling itself live.
+    document.querySelectorAll('.kpi-strip-item .kpi-source a[href*="fred.stlouisfed.org/series/"]').forEach(a => {
+      const id = a.getAttribute('href').split('/series/')[1];
+      fetchFRED(id, apiKey, 1).then(obs => {
+        const tag = a.parentNode.querySelector('span');
+        if (tag && obs[0] && obs[0].date) { tag.textContent = 'Latest ' + obs[0].date; tag.style.color = ''; tag.style.fontWeight = ''; }
+      }).catch(() => {});
+    });
+
     // Show when the cached FRED data was last fetched by the GitHub Action
     try {
       const meta = await _loadFredData();
@@ -1648,7 +1658,8 @@ function getKey(){ return CONFIG_KEY || ""; }
           '<div class="kpi-strip-value" id="pm-' + e.key + '">Unavailable</div>' +
           '<div class="kpi-strip-label" id="pm-' + e.key + '-label">' + esc(e.kpi) + '</div>' +
           '<div class="kpi-delta" id="pm-' + e.key + '-delta">Market data unavailable</div>' +
-          '<div class="kpi-source">Polymarket</div>' +
+          '<div class="kpi-source"><a href="' + esc(EVENT_URL + encodeURIComponent(e.slug)) + '" target="_blank" rel="noopener">Polymarket</a>' +
+            (_pmCache && _pmCache.updated ? ' · saved ' + esc(String(_pmCache.updated).slice(0, 10)) : ' · date unconfirmed') + '</div>' +
           '</div>';
       }).join('');
       strip.hidden = !strip.children.length;
