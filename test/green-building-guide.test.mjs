@@ -17,7 +17,8 @@
  *      at records that exist;
  *   5. the menu, catalog, sitemaps and the Deal Calculator link to the page,
  *      and the Deep Dive and Deal Calculator lines that repeat the CHFA rule
- *      agree with it.
+ *      agree with the records: the same certification programs, "not points",
+ *      and the EV-ready exemptions.
  * Non-vacuity is asserted on each scan.
  */
 import assert from 'node:assert/strict';
@@ -149,10 +150,46 @@ const cat = json('data/insights/catalog.json').entries.find((x) => x.url === PAG
 assert(cat && cat.review_from && cat.review_from.file === 'data/policy/green-building.json', 'the research catalog entry must review from the data file');
 const calc = read('js/deal-calculator.js');
 assert(calc.includes(`href="${PAGE}"`), 'the Deal Calculator does not link the page');
-assert(!/largest non-need amenity-point/.test(calc), 'the Deal Calculator calls green building an amenity-point category again');
-assert(/is a requirement, not points: every project must certify under Enterprise Green Communities, LEED or NGBS/.test(calc), 'the Deal Calculator line no longer states the CHFA rule');
 const deep = read('colorado-deep-dive.html');
+
+// The Deep Dive and the Deal Calculator repeat CHFA's rule in their own words.
+// What they must say is read from the records, so a record updated for a new
+// plan fails this check until both copies are updated with it.
+const rec = (id) => { const e = DOC.entries.find((x) => x.id === id); assert(e, `record ${id} is missing`); return e; };
+// "Enterprise Green Communities (EGC), LEED or the National Green Building Standard (NGBS)"
+// -> [{full, abbr}], so a copy may use either name for each program.
+const programsIn = (list) => list.replace(/^the /, '').split(/,\s*|\s+or\s+/).filter(Boolean).map((p) => {
+  const m = p.trim().replace(/^the /, '').match(/^(.*?)\s*(?:\(([^)]+)\))?$/);
+  return { full: m[1].trim(), abbr: m[2] || null };
+});
+const certRec = rec('qap-certification');
+const certList = (certRec.finding.match(/certify under (.+?)\. /) || [])[1];
+assert(certList, 'qap-certification no longer says "certify under ..."; update this check with the record');
+const required = programsIn(certList);
+assert(required.length >= 2, 'qap-certification names too few programs; the scan would be vacuous');
+const sameProgram = (a, b) => [a.full, a.abbr].filter(Boolean).some((n) => n === b.full || n === b.abbr);
+const noPoints = /no scoring points/.test(rec('qap-more-competitive').finding);
+const exempt = rec('qap-ev-exempt').finding;
+const copies = [
+  { name: 'Deep Dive', text: deep, clause: /every project must earn a green building certification, and the applicant picks (.+?)\. / },
+  { name: 'Deal Calculator', text: calc, clause: /every project must certify under (.+?) \(QAP Section 8/ },
+];
+for (const c of copies) {
+  const m = c.text.match(c.clause);
+  assert(m, `the ${c.name} line no longer states which certifications CHFA accepts`);
+  const named = programsIn(m[1]);
+  assert.equal(named.length, required.length, `the ${c.name} names ${named.length} certification programs; qap-certification names ${required.length}`);
+  for (const r of required) assert(named.some((n) => sameProgram(r, n)), `the ${c.name} line leaves out ${r.full}, which qap-certification requires`);
+  // The source line that holds the rule (both copies keep it on one line).
+  const line = c.text.slice(c.text.lastIndexOf('\n', m.index) + 1, (c.text.indexOf('\n', m.index) + 1 || c.text.length + 1) - 1);
+  if (noPoints) assert(/not points/.test(line), `the ${c.name} line no longer says this is a requirement, not points, as qap-more-competitive does`);
+  if (c.name === 'Deep Dive' && /EV-ready/.test(line)) {
+    for (const [phrase, re] of [['acquisition/rehab', /acquisition\/rehab/], ['homelessness', /homelessness/], ['Special Populations', /Special Populations/]]) {
+      if (re.test(exempt)) assert(re.test(line), `the Deep Dive states the EV-ready rule without the ${phrase} exemption in qap-ev-exempt`);
+    }
+  }
+}
+assert(!/largest non-need amenity-point/.test(calc), 'the Deal Calculator calls green building an amenity-point category again');
 assert(!/Enterprise Green Communities certification required for all 9% deals/.test(deep), 'the Deep Dive says EGC is required on 9% deals again');
-assert(/every project must earn a green building certification, and the applicant picks Enterprise Green Communities, LEED or NGBS/.test(deep), 'the Deep Dive line no longer states the CHFA rule');
 
 console.log(`green-building-guide: PASS (${DOC.entries.length} records, ${figuresChecked} figures, ${qapChecked} QAP quotes, ${pickRows.length} deal rows)`);

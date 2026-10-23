@@ -43,6 +43,10 @@ export const FILES = [
   // sources and cost figures, each with last_verified and review_by.
   { file: 'data/policy/resident-services.json', key: 'entries', title: 'Services in affordable housing', page: 'resident-services.html', name: (r) => r.title,
     source: (r) => r.source_url },
+  // Green building: CHFA QAP rules, federal energy credits and Colorado
+  // programs, each with last_verified and review_by.
+  { file: 'data/policy/green-building.json', key: 'entries', title: 'Green building and electrification', page: 'green-building-guide.html', name: (r) => r.title,
+    source: (r) => r.source_url },
   // Local support: one row per jurisdiction (adopted plans, council and
   // planning-commission votes). A row past review_by stops earning the
   // Opportunity Finder bonus, so it needs a re-check before then.

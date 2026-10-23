@@ -308,7 +308,7 @@
       "section": "deal",
       "kind": "rule",
       "title": "NGBS fits a tight budget under an older code",
-      "finding": "NGBS's energy chapter is set against the 2018 IECC, so in a town on the 2018 code or older a code-compliant design can satisfy it, and the money can go elsewhere.",
+      "finding": "NGBS's energy chapter uses the 2018 IECC as its baseline, so in a town on the 2018 code or older it is often the lower-cost certification to reach. It is still a full certification with its own required practices and points, not code compliance, so budget for it.",
       "quotes": [
         "The current version of the NGBS (2020) Energy Chapter references the 2018 IECC as a baseline.",
         "Projects that have tight construction budgets and are located in a jurisdiction that has adopted the 2018 IECC or older may want to consider NGBS certification."
