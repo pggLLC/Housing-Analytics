@@ -201,6 +201,7 @@
     .place-stat .value.warn { color: var(--warn, #d97706); }
     .place-stat .value.good { color: var(--good, #16a34a); }
     .place-explain { margin-top: .75rem; font-size: .82rem; color: var(--muted); }
+    .place-src { margin: .6rem 0 0; font-size: .78rem; color: var(--muted); line-height: 1.4; }
     .place-explain summary { cursor: pointer; color: var(--accent, #096e65); font-weight: 600; font-size: .85rem; }
     .place-explain p { margin: .5rem 0; line-height: 1.5; }
     .place-explain ul { margin: .4rem 0; padding-left: 1.1rem; }
@@ -237,6 +238,7 @@
         <div class="place-stat"><span class="label">Owner cost-burden (>=30%, HUD CHAS 2018-22)</span><span class="value" id="psOwnerCb30">—</span></div>
         <div class="place-stat"><span class="label">Renter households</span><span class="value" id="psRenterTotal">—</span></div>
         <div class="place-stat"><span class="label">Owner households</span><span class="value" id="psOwnerTotal">—</span></div>
+        <p class="place-src">Source: <a href="https://www.huduser.gov/portal/datasets/cp.html">HUD CHAS 2018-2022</a>, tract data apportioned to this place with <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html">Census TIGER/Line 2024</a> (<a href="../data/hna/place-chas.json">site copy</a>).</p>
       </div>
       <div class="place-card">
         <h2>AMI tier breakdown (renters)</h2>
@@ -245,6 +247,7 @@
         <div class="place-stat"><span class="label">51-80% AMI</span><span class="value" id="psTier5180">—</span></div>
         <div class="place-stat"><span class="label">81-100% AMI</span><span class="value" id="psTier81100">—</span></div>
         <div class="place-stat"><span class="label">&gt;100% AMI</span><span class="value" id="psTier100p">—</span></div>
+        <p class="place-src">Source: <a href="https://www.huduser.gov/portal/datasets/cp.html">HUD CHAS 2018-2022</a>, renter households by income tier (<a href="../data/hna/place-chas.json">site copy</a>).</p>
         <details class="place-explain">
           <summary>What do these AMI tiers mean?</summary>
           <p><strong>AMI = Area Median Income</strong> — HUD program AMI is based on area median family income and HUD's income-limit methodology; it is not the municipality's ACS median household income. Affordable-housing programs set eligibility as a share of AMI, so renter households are grouped into income bands:</p>
@@ -266,6 +269,7 @@
         <div class="place-stat"><span class="label">Projected annual need (10-yr DOLA)</span><span class="value" id="psNeedAnnual">—</span></div>
         <div class="place-stat"><span class="label">Production ÷ need</span><span class="value" id="psNeedRatio">—</span></div>
         <p id="psPermitsNote" style="display:none;margin:.6rem 0 0;font-size:.8rem;color:var(--muted);line-height:1.45"></p>
+        <p class="place-src">Sources: <a href="https://www.census.gov/construction/bps/">Census Building Permits Survey, 2016-2025</a> (place files, <a href="../data/hna/permits.json">site copy</a>); need from <a href="https://demography.dola.colorado.gov/">Colorado State Demography Office (DOLA) household forecasts</a>, base year 2024.</p>
       </div>
       <div class="place-card" id="psOwnershipCard" hidden>
         <h2>Affordable Ownership Need</h2>
@@ -274,6 +278,7 @@
         <div class="place-stat"><span class="label">Ownership pressure</span><span class="value" id="psOwnOwnershipPressure">—</span></div>
         <div class="place-stat"><span class="label">Renters who might buy</span><span class="value" id="psOwnFitBase">—</span></div>
         <p class="place-explain">Screening estimate only. <a href="../housing-needs-assessment.html?type=place&geoid=0816110#hnaAffordableOwnershipNeed">Full HNA section</a> · <a href="../docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md">Methodology</a></p>
+        <p class="place-src">Source: screening built from <a href="https://www.huduser.gov/portal/datasets/cp.html">HUD CHAS 2018-2022</a> renter and owner cost burden (<a href="../data/hna/ownership-need.json">site copy</a>).</p>
       </div>
       <div class="place-card">
         <h2>Methodology</h2>
@@ -283,6 +288,7 @@
         <div class="place-stat"><span class="label">Underlying tracts</span><span class="value" id="psTracts">—</span></div>
         <div class="place-stat"><span class="label">Coverage</span><span class="value" id="psCoverage">—</span></div>
         <p id="psChasWarning" class="place-explain" role="note" hidden></p>
+        <p class="place-src">Source: <a href="https://www.huduser.gov/portal/datasets/cp.html">HUD CHAS 2018-2022</a> tracts joined to place boundaries from <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html">Census TIGER/Line 2024</a> (<a href="../data/hna/place-chas.json">site copy</a>).</p>
       </div>
     </div>
 
