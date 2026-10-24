@@ -176,6 +176,18 @@ test('a CARTO key, if ever set, is the only way back to CARTO', () => {
   assert.ok(/api_key=/.test(cfgSrc), 'the key is never appended to the tile URL');
 });
 
+test('the developer site\'s CSP lets the basemap tiles load', () => {
+  // _headers is inert on GitHub Pages but goes into the coho-backend bundle,
+  // and Cloudflare serves it there. When tiles moved from CARTO to Esri the
+  // img-src list kept only CARTO and OSM, so every gated map (Next round,
+  // Where to build, the deal workbook) drew its dots on a blank pane.
+  const headers = fs.readFileSync(path.join(ROOT, '_headers'), 'utf8');
+  const img = (headers.match(/Content-Security-Policy:[^\n]*?img-src([^;]*)/) || [])[1] || '';
+  const esri = (cfgSrc.match(/var ESRI = '(https:\/\/[^/']+)/) || [])[1];
+  assert.ok(esri, 'the Esri tile host is not found in ' + CONFIG);
+  assert.ok(img.includes(esri), `img-src in _headers does not allow ${esri}`);
+});
+
 console.log(failures === 0
   ? '  basemap-provider-single-source: PASS'
   : `  basemap-provider-single-source: FAIL (${failures})`);
