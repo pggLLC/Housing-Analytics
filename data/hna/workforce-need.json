@@ -1795,7 +1795,7 @@
  },
  "meta": {
   "baseYear": 2024,
-  "generated_at": "2026-10-22T11:49:20Z",
+  "generated_at": "2026-10-24T12:16:29Z",
   "generated_by": "scripts/hna/build_workforce_need.py",
   "horizonYear": 2044,
   "income_cut": "le120",
@@ -8516,7 +8516,7 @@
     "le30": 0
    },
    "present_incommuter_need_moe90": 0,
-   "share_of_county_households": 0.0051,
+   "share_of_county_households": 0.0077,
    "share_of_county_jobs": 0.0051,
    "workers_per_working_household": 1.103,
    "working_households_cv": 0.467
@@ -8600,7 +8600,7 @@
     "le30": 1
    },
    "present_incommuter_need_moe90": 0,
-   "share_of_county_households": 0.1274,
+   "share_of_county_households": 0.1465,
    "share_of_county_jobs": 0.1076,
    "workers_per_working_household": 1.907,
    "working_households_cv": 0.264
@@ -8740,7 +8740,7 @@
     "le30": 5
    },
    "present_incommuter_need_moe90": 1,
-   "share_of_county_households": 0.079,
+   "share_of_county_households": 0.0736,
    "share_of_county_jobs": 0.2167,
    "workers_per_working_household": 1.376,
    "working_households_cv": 0.229
@@ -10784,7 +10784,7 @@
     "le30": 3
    },
    "present_incommuter_need_moe90": 1,
-   "share_of_county_households": 0.0463,
+   "share_of_county_households": 0.053,
    "share_of_county_jobs": 0.0383,
    "workers_per_working_household": 1.773,
    "working_households_cv": 0.247
@@ -10812,7 +10812,7 @@
     "le30": 2
    },
    "present_incommuter_need_moe90": 0,
-   "share_of_county_households": 0.0156,
+   "share_of_county_households": 0.0158,
    "share_of_county_jobs": 0.0087,
    "workers_per_working_household": 1.176,
    "working_households_cv": 0.184
@@ -10868,7 +10868,7 @@
     "le30": 2
    },
    "present_incommuter_need_moe90": 1,
-   "share_of_county_households": 0.0305,
+   "share_of_county_households": 0.0276,
    "share_of_county_jobs": 0.0125,
    "workers_per_working_household": 1.565,
    "working_households_cv": 0.189
@@ -10896,7 +10896,7 @@
     "le30": 3
    },
    "present_incommuter_need_moe90": 1,
-   "share_of_county_households": 0.0281,
+   "share_of_county_households": 0.0282,
    "share_of_county_jobs": 0.029,
    "workers_per_working_household": 1.526,
    "working_households_cv": 0.182
@@ -12184,7 +12184,7 @@
     "le30": 0
    },
    "present_incommuter_need_moe90": 0,
-   "share_of_county_households": 0.0047,
+   "share_of_county_households": 0.0054,
    "share_of_county_jobs": 0.001,
    "workers_per_working_household": 2.0,
    "working_households_cv": 0.499
@@ -12464,7 +12464,7 @@
     "le30": 8
    },
    "present_incommuter_need_moe90": 1,
-   "share_of_county_households": 0.0222,
+   "share_of_county_households": 0.0238,
    "share_of_county_jobs": 0.0068,
    "workers_per_working_household": 1.695,
    "working_households_cv": 0.08

@@ -218,7 +218,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Colorado Springs at #56 with an overall housing-need score of 74.4. It identifies 14,701 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 72.5% of <=30% AMI households. 54.6% of renter households are cost burdened, and 2.1% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Colorado Springs at #55 with an overall housing-need score of 74.6. It identifies 14,701 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 72.5% of <=30% AMI households. 54.6% of renter households are cost burdened, and 2.1% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -524,7 +524,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-24T12:38:27Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -533,7 +533,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-24T12:38:27Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -560,7 +560,7 @@
     },
     {
       "id": "d5",
-      "label": "Renter cost-burden rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "label": "Renter cost-burden rate - jurisdiction metrics digest (ACS 2024 1-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -587,7 +587,7 @@
     },
     {
       "id": "d8",
-      "label": "Median gross rent - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "label": "Median gross rent - jurisdiction metrics digest (ACS 2024 1-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -596,7 +596,7 @@
     },
     {
       "id": "d9",
-      "label": "Renter household share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "label": "Renter household share - jurisdiction metrics digest (ACS 2024 1-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -605,7 +605,7 @@
     },
     {
       "id": "d10",
-      "label": "Multifamily housing-stock share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "label": "Multifamily housing-stock share - jurisdiction metrics digest (ACS 2024 1-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -614,7 +614,7 @@
     },
     {
       "id": "d11",
-      "label": "Population - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "label": "Population - jurisdiction metrics digest (ACS 2024 1-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -668,7 +668,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-24T12:38:27Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -677,7 +677,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-24T12:38:27Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -686,7 +686,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-23T04:28:32Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-24T12:38:27Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
