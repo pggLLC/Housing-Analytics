@@ -10,13 +10,13 @@
     "acs_year": 2024,
     "notes": "Each row is the published median for that geography. Suppressed or missing estimates stay null with a reason; no county or tract value is substituted.",
     "scope": "Colorado: 64 counties, 482 places and CDPs (including unavailable rows)",
-    "generated_at_utc": "2026-10-17T12:28:47Z"
+    "generated_at_utc": "2026-10-24T12:43:22Z"
   },
   "counties": {
     "08001": {
       "name": "Adams County",
-      "median_gross_rent": 1940,
-      "total_renter_hh": 61601.0,
+      "median_gross_rent": 1781,
+      "total_renter_hh": 59315.0,
       "county_fips": "08001",
       "source_file": "data/hna/summary/08001.json",
       "unavailable_reason": null
@@ -31,8 +31,8 @@
     },
     "08005": {
       "name": "Arapahoe County",
-      "median_gross_rent": 1977,
-      "total_renter_hh": 92604.0,
+      "median_gross_rent": 1891,
+      "total_renter_hh": 90698.0,
       "county_fips": "08005",
       "source_file": "data/hna/summary/08005.json",
       "unavailable_reason": null
@@ -64,15 +64,15 @@
     "08013": {
       "name": "Boulder County",
       "median_gross_rent": 1966,
-      "total_renter_hh": 55386.0,
+      "total_renter_hh": 52108.0,
       "county_fips": "08013",
       "source_file": "data/hna/summary/08013.json",
       "unavailable_reason": null
     },
     "08014": {
       "name": "Broomfield County",
-      "median_gross_rent": 2141,
-      "total_renter_hh": 13518.0,
+      "median_gross_rent": 2126,
+      "total_renter_hh": 11835.0,
       "county_fips": "08014",
       "source_file": "data/hna/summary/08014.json",
       "unavailable_reason": null
@@ -143,8 +143,8 @@
     },
     "08031": {
       "name": "Denver County",
-      "median_gross_rent": 1870,
-      "total_renter_hh": 181698.0,
+      "median_gross_rent": 1831,
+      "total_renter_hh": 171873.0,
       "county_fips": "08031",
       "source_file": "data/hna/summary/08031.json",
       "unavailable_reason": null
@@ -159,8 +159,8 @@
     },
     "08035": {
       "name": "Douglas County",
-      "median_gross_rent": 2309,
-      "total_renter_hh": 32000.0,
+      "median_gross_rent": 2193,
+      "total_renter_hh": 31651.0,
       "county_fips": "08035",
       "source_file": "data/hna/summary/08035.json",
       "unavailable_reason": null
@@ -175,8 +175,8 @@
     },
     "08041": {
       "name": "El Paso County",
-      "median_gross_rent": 1755,
-      "total_renter_hh": 110594.0,
+      "median_gross_rent": 1696,
+      "total_renter_hh": 97958.0,
       "county_fips": "08041",
       "source_file": "data/hna/summary/08041.json",
       "unavailable_reason": null
@@ -255,8 +255,8 @@
     },
     "08059": {
       "name": "Jefferson County",
-      "median_gross_rent": 1899,
-      "total_renter_hh": 73518.0,
+      "median_gross_rent": 1861,
+      "total_renter_hh": 70766.0,
       "county_fips": "08059",
       "source_file": "data/hna/summary/08059.json",
       "unavailable_reason": null
@@ -295,8 +295,8 @@
     },
     "08069": {
       "name": "Larimer County",
-      "median_gross_rent": 1751,
-      "total_renter_hh": 59053.0,
+      "median_gross_rent": 1716,
+      "total_renter_hh": 55495.0,
       "county_fips": "08069",
       "source_file": "data/hna/summary/08069.json",
       "unavailable_reason": null
@@ -327,8 +327,8 @@
     },
     "08077": {
       "name": "Mesa County",
-      "median_gross_rent": 1259,
-      "total_renter_hh": 17320.0,
+      "median_gross_rent": 1182,
+      "total_renter_hh": 18123.0,
       "county_fips": "08077",
       "source_file": "data/hna/summary/08077.json",
       "unavailable_reason": null
@@ -423,8 +423,8 @@
     },
     "08101": {
       "name": "Pueblo County",
-      "median_gross_rent": 1128,
-      "total_renter_hh": 20475.0,
+      "median_gross_rent": 1111,
+      "total_renter_hh": 21324.0,
       "county_fips": "08101",
       "source_file": "data/hna/summary/08101.json",
       "unavailable_reason": null
@@ -511,8 +511,8 @@
     },
     "08123": {
       "name": "Weld County",
-      "median_gross_rent": 1579,
-      "total_renter_hh": 31178.0,
+      "median_gross_rent": 1539,
+      "total_renter_hh": 29797.0,
       "county_fips": "08123",
       "source_file": "data/hna/summary/08123.json",
       "unavailable_reason": null
@@ -577,8 +577,8 @@
     },
     "0803455": {
       "name": "Arvada (city)",
-      "median_gross_rent": 1901,
-      "total_renter_hh": 12677.0,
+      "median_gross_rent": 1888,
+      "total_renter_hh": 12308.0,
       "county_fips": "08059",
       "source_file": "data/hna/summary/0803455.json",
       "unavailable_reason": null
@@ -601,8 +601,8 @@
     },
     "0804000": {
       "name": "Aurora (city)",
-      "median_gross_rent": 1932,
-      "total_renter_hh": 59143.0,
+      "median_gross_rent": 1835,
+      "total_renter_hh": 54627.0,
       "county_fips": "08005",
       "source_file": "data/hna/summary/0804000.json",
       "unavailable_reason": null
@@ -697,8 +697,8 @@
     },
     "0807850": {
       "name": "Boulder (city)",
-      "median_gross_rent": 2068,
-      "total_renter_hh": 26589.0,
+      "median_gross_rent": 2018,
+      "total_renter_hh": 23455.0,
       "county_fips": "08013",
       "source_file": "data/hna/summary/0807850.json",
       "unavailable_reason": null
@@ -745,8 +745,8 @@
     },
     "0809280": {
       "name": "Broomfield (city)",
-      "median_gross_rent": 2141,
-      "total_renter_hh": 13518.0,
+      "median_gross_rent": 2126,
+      "total_renter_hh": 11835.0,
       "county_fips": "08014",
       "source_file": "data/hna/summary/0809280.json",
       "unavailable_reason": null
@@ -817,8 +817,8 @@
     },
     "0812415": {
       "name": "Castle Rock (town)",
-      "median_gross_rent": 2010,
-      "total_renter_hh": 5405.0,
+      "median_gross_rent": 2000,
+      "total_renter_hh": 5992.0,
       "county_fips": "08035",
       "source_file": "data/hna/summary/0812415.json",
       "unavailable_reason": null
@@ -841,8 +841,8 @@
     },
     "0812815": {
       "name": "Centennial (city)",
-      "median_gross_rent": 2213,
-      "total_renter_hh": 8302.0,
+      "median_gross_rent": 2148,
+      "total_renter_hh": 8203.0,
       "county_fips": "08005",
       "source_file": "data/hna/summary/0812815.json",
       "unavailable_reason": null
@@ -921,8 +921,8 @@
     },
     "0816000": {
       "name": "Colorado Springs (city)",
-      "median_gross_rent": 1699,
-      "total_renter_hh": 89885.0,
+      "median_gross_rent": 1648,
+      "total_renter_hh": 79251.0,
       "county_fips": "08041",
       "source_file": "data/hna/summary/0816000.json",
       "unavailable_reason": null
@@ -937,8 +937,8 @@
     },
     "0816495": {
       "name": "Commerce City (city)",
-      "median_gross_rent": 2294,
-      "total_renter_hh": 6116.0,
+      "median_gross_rent": 1880,
+      "total_renter_hh": 5115.0,
       "county_fips": "08001",
       "source_file": "data/hna/summary/0816495.json",
       "unavailable_reason": null
@@ -1049,8 +1049,8 @@
     },
     "0820000": {
       "name": "Denver (city)",
-      "median_gross_rent": 1870,
-      "total_renter_hh": 181698.0,
+      "median_gross_rent": 1831,
+      "total_renter_hh": 171873.0,
       "county_fips": "08031",
       "source_file": "data/hna/summary/0820000.json",
       "unavailable_reason": null
@@ -1233,8 +1233,8 @@
     },
     "0827425": {
       "name": "Fort Collins (city)",
-      "median_gross_rent": 1720,
-      "total_renter_hh": 36654.0,
+      "median_gross_rent": 1690,
+      "total_renter_hh": 34727.0,
       "county_fips": "08069",
       "source_file": "data/hna/summary/0827425.json",
       "unavailable_reason": null
@@ -1385,8 +1385,8 @@
     },
     "0831660": {
       "name": "Grand Junction (city)",
-      "median_gross_rent": 1208,
-      "total_renter_hh": 10733.0,
+      "median_gross_rent": 1142,
+      "total_renter_hh": 10912.0,
       "county_fips": "08077",
       "source_file": "data/hna/summary/0831660.json",
       "unavailable_reason": null
@@ -1401,8 +1401,8 @@
     },
     "0832155": {
       "name": "Greeley (city)",
-      "median_gross_rent": 1441,
-      "total_renter_hh": 16592.0,
+      "median_gross_rent": 1388,
+      "total_renter_hh": 15459.0,
       "county_fips": "08123",
       "source_file": "data/hna/summary/0832155.json",
       "unavailable_reason": null
@@ -1633,8 +1633,8 @@
     },
     "0841560": {
       "name": "Kremmling (town)",
-      "median_gross_rent": 1631,
-      "total_renter_hh": 120.0,
+      "median_gross_rent": 1570,
+      "total_renter_hh": 105.0,
       "county_fips": "08049",
       "source_file": "data/hna/summary/0841560.json",
       "unavailable_reason": null
@@ -1697,8 +1697,8 @@
     },
     "0843000": {
       "name": "Lakewood (city)",
-      "median_gross_rent": 1853,
-      "total_renter_hh": 30794.0,
+      "median_gross_rent": 1806,
+      "total_renter_hh": 29247.0,
       "county_fips": "08059",
       "source_file": "data/hna/summary/0843000.json",
       "unavailable_reason": null
@@ -1777,8 +1777,8 @@
     },
     "0845970": {
       "name": "Longmont (city)",
-      "median_gross_rent": 1834,
-      "total_renter_hh": 17822.0,
+      "median_gross_rent": 1816,
+      "total_renter_hh": 15823.0,
       "county_fips": "08013",
       "source_file": "data/hna/summary/0845970.json",
       "unavailable_reason": null
@@ -1793,8 +1793,8 @@
     },
     "0846465": {
       "name": "Loveland (city)",
-      "median_gross_rent": 1755,
-      "total_renter_hh": 12342.0,
+      "median_gross_rent": 1730,
+      "total_renter_hh": 13007.0,
       "county_fips": "08069",
       "source_file": "data/hna/summary/0846465.json",
       "unavailable_reason": null
@@ -2001,11 +2001,11 @@
     },
     "0854935": {
       "name": "Nucla (town)",
-      "median_gross_rent": 929,
-      "total_renter_hh": 98.0,
+      "median_gross_rent": null,
+      "total_renter_hh": null,
       "county_fips": "08085",
       "source_file": "data/hna/summary/0854935.json",
-      "unavailable_reason": null
+      "unavailable_reason": "acs5_2024_not_in_summary"
     },
     "0855045": {
       "name": "Nunn (town)",
@@ -2017,19 +2017,19 @@
     },
     "0855155": {
       "name": "Oak Creek (town)",
-      "median_gross_rent": 1455,
-      "total_renter_hh": 88.0,
+      "median_gross_rent": null,
+      "total_renter_hh": null,
       "county_fips": "08107",
       "source_file": "data/hna/summary/0855155.json",
-      "unavailable_reason": null
+      "unavailable_reason": "acs5_2024_not_in_summary"
     },
     "0855540": {
       "name": "Olathe (town)",
-      "median_gross_rent": 967,
-      "total_renter_hh": 184.0,
+      "median_gross_rent": null,
+      "total_renter_hh": null,
       "county_fips": "08085",
       "source_file": "data/hna/summary/0855540.json",
-      "unavailable_reason": null
+      "unavailable_reason": "acs5_2024_not_in_summary"
     },
     "0855705": {
       "name": "Olney Springs (town)",
@@ -2137,8 +2137,8 @@
     },
     "0857630": {
       "name": "Parker (town)",
-      "median_gross_rent": 2235,
-      "total_renter_hh": 5816.0,
+      "median_gross_rent": 2096,
+      "total_renter_hh": 6147.0,
       "county_fips": "08035",
       "source_file": "data/hna/summary/0857630.json",
       "unavailable_reason": null
@@ -2193,8 +2193,8 @@
     },
     "0862000": {
       "name": "Pueblo (city)",
-      "median_gross_rent": 1117,
-      "total_renter_hh": 17013.0,
+      "median_gross_rent": 1082,
+      "total_renter_hh": 17896.0,
       "county_fips": "08101",
       "source_file": "data/hna/summary/0862000.json",
       "unavailable_reason": null
@@ -2505,8 +2505,8 @@
     },
     "0877290": {
       "name": "Thornton (city)",
-      "median_gross_rent": 2075,
-      "total_renter_hh": 17217.0,
+      "median_gross_rent": 1895,
+      "total_renter_hh": 14457.0,
       "county_fips": "08001",
       "source_file": "data/hna/summary/0877290.json",
       "unavailable_reason": null
@@ -2617,8 +2617,8 @@
     },
     "0883835": {
       "name": "Westminster (city)",
-      "median_gross_rent": 2044,
-      "total_renter_hh": 19173.0,
+      "median_gross_rent": 1882,
+      "total_renter_hh": 18320.0,
       "county_fips": "08001",
       "source_file": "data/hna/summary/0883835.json",
       "unavailable_reason": null
@@ -3049,8 +3049,8 @@
     },
     "0816110": {
       "name": "Columbine (CDP)",
-      "median_gross_rent": 2391,
-      "total_renter_hh": 950.0,
+      "median_gross_rent": 2448,
+      "total_renter_hh": 1018.0,
       "county_fips": "08059",
       "source_file": "data/hna/summary/0816110.json",
       "unavailable_reason": null
@@ -3082,7 +3082,7 @@
     "0817150": {
       "name": "Copper Mountain (CDP)",
       "median_gross_rent": null,
-      "total_renter_hh": 46.0,
+      "total_renter_hh": 0.0,
       "county_fips": "08117",
       "source_file": "data/hna/summary/0817150.json",
       "unavailable_reason": "acs_median_gross_rent_unavailable"
@@ -3425,8 +3425,8 @@
     },
     "0836410": {
       "name": "Highlands Ranch (CDP)",
-      "median_gross_rent": 2833,
-      "total_renter_hh": 9170.0,
+      "median_gross_rent": 2531,
+      "total_renter_hh": 8444.0,
       "county_fips": "08035",
       "source_file": "data/hna/summary/0836410.json",
       "unavailable_reason": null
@@ -3962,10 +3962,10 @@
     "0863650": {
       "name": "Redstone (CDP)",
       "median_gross_rent": null,
-      "total_renter_hh": 0.0,
+      "total_renter_hh": null,
       "county_fips": "08097",
       "source_file": "data/hna/summary/0863650.json",
-      "unavailable_reason": "acs_median_gross_rent_unavailable"
+      "unavailable_reason": "acs5_2024_not_in_summary"
     },
     "0863705": {
       "name": "Redvale (CDP)",
@@ -3993,11 +3993,11 @@
     },
     "0866197": {
       "name": "Roxborough Park (CDP)",
-      "median_gross_rent": 3244,
-      "total_renter_hh": 76.0,
+      "median_gross_rent": null,
+      "total_renter_hh": null,
       "county_fips": "08035",
       "source_file": "data/hna/summary/0866197.json",
-      "unavailable_reason": null
+      "unavailable_reason": "acs5_2024_not_in_summary"
     },
     "0866995": {
       "name": "Saddle Ridge (CDP)",

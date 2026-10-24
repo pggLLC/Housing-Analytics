@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "f48ffcac2",
+  "generated_from_commit": "60b6b0b9a",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-24",
-    "total_commits": 8843,
+    "total_commits": 8855,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,8 +49,8 @@
       },
       {
         "month": "2026-10",
-        "commits": 1246,
-        "pct_of_peak": 87.2
+        "commits": 1258,
+        "pct_of_peak": 88
       }
     ]
   },
@@ -247,7 +247,7 @@
   },
   "scope": {
     "hand_written_lines": 495724,
-    "generated_place_page_lines": 229728,
+    "generated_place_page_lines": 229724,
     "top_level_pages": 79,
     "html_nonblank_lines": 49969,
     "html_distinct_lines": 20868,
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "f48ffcac2",
+    "extracted_at_commit": "60b6b0b9a",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -536,10 +536,10 @@
   },
   "methods_data": {
     "anchor_places_total": 482,
-    "anchor_places_applied": 406,
-    "anchor_places_unmeasured": 76,
-    "anchor_overcount_places": 149,
-    "anchor_overcount_share": 0.367,
+    "anchor_places_applied": 405,
+    "anchor_places_unmeasured": 77,
+    "anchor_overcount_places": 147,
+    "anchor_overcount_share": 0.363,
     "ranked_geographies": 546,
     "workforce_gap_wins": 240,
     "future_units_with_incommuters": 536,
