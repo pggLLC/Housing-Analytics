@@ -206,6 +206,19 @@ jobs:
             print('::warning::zoning_compat_index_co.json has 0 jurisdictions — data may be a stub')
           PYEOF
 
+      # ── OSM land-use proxy (map layer) ────────────────────────────────
+      # Had no scheduled rebuild: the committed file dated from 2026-04-10 and
+      # three of its six categories (apartments, mixed use, vacant) were empty
+      # because their Overpass queries failed. A failed category now keeps
+      # the previous file's features and is listed in categories_failed.
+      - name: Build OSM land-use zoning proxy
+        run: |
+          python scripts/market/build_osm_landuse.py 2>&1 | tee /tmp/osm_landuse.log
+        # Six Overpass queries at up to 300 s each; cap the step so a slow
+        # Overpass day cannot use up the job's 40 minutes.
+        timeout-minutes: 15
+        continue-on-error: true
+
       # ── Transit routes (GTFS) ─────────────────────────────────────────
       - name: Fetch transit routes (RTD GTFS + CO agencies)
         run: |
@@ -367,7 +380,7 @@ jobs:
           # silently left out of the commit.
           chain_paths="data/hna/ranking-index.json data/hna/ranking-scenarios data/hna/jurisdiction-metrics-digest data/hna/ownership-need.json data/jurisdiction-briefs data/home-snapshot.json data/market/acs_median_rent_co.json data/derived/funding-vs-need.json data/market/development-activity.json data/policy/prop123-land-banking-status.json data/market/market-direction.json places/ data/paper working-paper.html methods.html AGENTS.md README.md"
           if [ "${{ steps.derived-chain.outputs.rebuilt }}" = "true" ]; then
-            own_paths="data/market/parcel_aggregates_co.json data/market/zoning_compat_index_co.json data/market/transit_routes_co.geojson data/amenities/transit_stops_statewide_co.geojson data/market/transit_stops_coverage_co.json data/hna/transit-zone-by-geography.json data/hna/transit-zone-map.json data/derived/market-analysis/neighborhood_access.json data/market/schools_co.geojson data/market/opportunity_zones_co.geojson data/affordable-housing/regrid-parcels-by-place.json data/_manifest.json data/manifest.json"
+            own_paths="data/market/parcel_aggregates_co.json data/market/zoning_compat_index_co.json data/market/landuse_zoning_proxy_co.geojson data/market/transit_routes_co.geojson data/amenities/transit_stops_statewide_co.geojson data/market/transit_stops_coverage_co.json data/hna/transit-zone-by-geography.json data/hna/transit-zone-map.json data/derived/market-analysis/neighborhood_access.json data/market/schools_co.geojson data/market/opportunity_zones_co.geojson data/affordable-housing/regrid-parcels-by-place.json data/_manifest.json data/manifest.json"
             excludes=""
             for p in $chain_paths $own_paths; do excludes="$excludes :!$p"; done
             outside="$(git status --porcelain -- . $excludes | head -20)"
@@ -386,6 +399,7 @@ jobs:
           python3 scripts/rebuild_manifest.py
           git add data/market/parcel_aggregates_co.json \
                   data/market/zoning_compat_index_co.json \
+                  data/market/landuse_zoning_proxy_co.geojson \
                   data/market/transit_routes_co.geojson \
                   data/amenities/transit_stops_statewide_co.geojson \
                   data/market/transit_stops_coverage_co.json \

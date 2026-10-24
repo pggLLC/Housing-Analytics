@@ -1073,6 +1073,8 @@
   // ── Utility capacity data cache ────────────────────────────────────
   var _utilityCache = null;
   var _utilityLoading = null;
+  var UTILITY_NOT_MEASURED_REASON = 'Not measured: no public source gives water or sewer capacity for a site. ' +
+    'Ask the local utility for a will-serve letter.';
 
   /**
    * Load utility service area data from local GeoJSON
@@ -1117,7 +1119,8 @@
           waterCapacity: null,
           serviceAreas: [],
           _stub: true,
-          _dataSource: 'utility-no-data'
+          _dataSource: 'utility-no-data',
+          unavailableReason: UTILITY_NOT_MEASURED_REASON
         };
       }
 
@@ -1171,28 +1174,22 @@
           sewerHeadroom: null,
           waterCapacity: null,
           serviceAreas: [],
-          _stub: false,
+          _stub: true,
           _dataSource: 'utility-local-no-overlap',
+          unavailableReason: UTILITY_NOT_MEASURED_REASON,
           _note: 'Site outside known service areas — verify with local utility provider'
         };
       }
 
-      // Coverage-based estimate: sites inside service areas have moderate capacity
-      var waterDistricts = 0;
-      var municipalAreas = 0;
-      for (var k = 0; k < matched.length; k++) {
-        var props = matched[k].properties || {};
-        if (props.utility_type === 'water_district') waterDistricts++;
-        else municipalAreas++;
-      }
-
-      // Heuristic: inside water district + municipal boundary = good capacity
-      var waterCap = waterDistricts > 0 ? 0.7 : (municipalAreas > 0 ? 0.5 : null);
-      var sewerCap = municipalAreas > 0 ? 0.6 : null;
-
+      // Not measured. The file holds town boundaries (as circles sized from
+      // their area) and DWR water-rights districts with no geometry; neither
+      // says how much water or sewer capacity a site has. The old heuristic
+      // gave every in-town site the same 0.5 water / 0.6 sewer (a 55/100
+      // utility score) and a fixed "adequate" flag, which read as a finding.
+      // The town names are kept as context only.
       return {
-        sewerHeadroom: sewerCap,
-        waterCapacity: waterCap,
+        sewerHeadroom: null,
+        waterCapacity: null,
         serviceAreas: matched.map(function (f) {
           var p = f.properties || {};
           return {
@@ -1201,8 +1198,9 @@
             constraintLevel: p.constraint_level || 'variable'
           };
         }),
-        _stub: false,
-        _dataSource: 'utility-local-co',
+        _stub: true,
+        _dataSource: 'utility-not-measured',
+        unavailableReason: UTILITY_NOT_MEASURED_REASON,
         _matchedFeatures: matched.length,
         _source: (meta.source || 'Colorado CDSS/DWR/DOLA')
       };

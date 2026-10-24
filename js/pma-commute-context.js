@@ -284,7 +284,7 @@
         line.bindTooltip(
           '<strong>' + jobs.toLocaleString() + ' LODES OD jobs</strong><br>' +
           'Home: ' + (p.home_tract || '') + ' \u2192 Work: ' + (p.work_tract || '') + '<br>' +
-          'Top-500 statewide OD arc sample; no capture percentage implied.',
+          'One of the largest flows for this tract, not all commuting; no capture percentage implied.',
           { sticky: true, className: 'pma-tooltip' }
         );
         layers.push(line);
