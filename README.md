@@ -454,6 +454,7 @@ This tool is provided for educational and research purposes. All economic data i
 
 ## Actionable Recommendations
 
+- Quarantine candidate: `scripts/policy/build_policy_jurisdictions_geojson.py` — no file references its name. Delete it deliberately, or reference it (workflow/doc/npm script) if it is used.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## 

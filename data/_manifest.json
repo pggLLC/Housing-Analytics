@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-24T04:06:08.623Z",
+    "generated_at": "2026-10-24T06:19:56.247Z",
     "root": "data/",
     "file_count": 1989,
-    "total_size_bytes": 203477099,
+    "total_size_bytes": 203519971,
     "kinds": {
       "json": 1941,
       "geojson": 34,
@@ -574,8 +574,8 @@
     {
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
-      "size_bytes": 483,
-      "mtime": "2026-10-24T04:06:04.580Z",
+      "size_bytes": 545,
+      "mtime": "2026-10-24T06:19:52.170Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -586,8 +586,8 @@
         "candidates"
       ],
       "key_count": 6,
-      "primary_array_key": null,
-      "primary_array_length": null,
+      "primary_array_key": "candidates",
+      "primary_array_length": 1,
       "primary_array_first_keys": null
     },
     {
@@ -1319,8 +1319,8 @@
     {
       "path": "core/educational-content.json",
       "kind": "json",
-      "size_bytes": 69020,
-      "mtime": "2026-10-23T16:37:22.494Z",
+      "size_bytes": 70580,
+      "mtime": "2026-10-24T06:19:18.622Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -6590,8 +6590,8 @@
     {
       "path": "glossary.json",
       "kind": "json",
-      "size_bytes": 36860,
-      "mtime": "2026-09-28T04:39:28.461Z",
+      "size_bytes": 72347,
+      "mtime": "2026-10-24T06:19:18.622Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -6599,11 +6599,12 @@
       ],
       "key_count": 2,
       "primary_array_key": "terms",
-      "primary_array_length": 131,
+      "primary_array_length": 184,
       "primary_array_first_keys": [
         "term",
         "full",
-        "definition"
+        "definition",
+        "short"
       ]
     },
     {
@@ -38745,8 +38746,8 @@
     {
       "path": "market/housing_policy_jurisdictions_co.geojson",
       "kind": "geojson",
-      "size_bytes": 1224212,
-      "mtime": "2026-10-24T00:14:49.152Z",
+      "size_bytes": 1229975,
+      "mtime": "2026-10-24T06:18:04.519Z",
       "shape": "geojson",
       "feature_count": 336,
       "property_keys": [
@@ -38754,14 +38755,15 @@
         "name",
         "geo_type",
         "totalScore",
+        "knownDimensions",
         "maxPossible",
-        "has_iz_ordinance",
-        "has_local_funding",
-        "has_housing_authority",
-        "has_comp_plan",
-        "prop123_committed",
         "has_hna",
-        "has_housing_nonprofits"
+        "prop123_committed",
+        "has_housing_authority",
+        "has_housing_nonprofits",
+        "has_comp_plan",
+        "has_iz_ordinance",
+        "has_local_funding"
       ],
       "geometry_type": "Polygon"
     },
@@ -39597,7 +39599,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-24T04:06:06.552Z",
+      "mtime": "2026-10-24T06:19:54.137Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39621,7 +39623,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-24T04:06:06.075Z",
+      "mtime": "2026-10-24T06:19:53.646Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

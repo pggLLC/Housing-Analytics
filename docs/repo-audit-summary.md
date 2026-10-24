@@ -152,6 +152,7 @@ the email address. See: https://docs.github.com/en/authentication/keeping-your-a
 
 ## Actionable Recommendations
 
+- Quarantine candidate: `scripts/policy/build_policy_jurisdictions_geojson.py` — no file references its name. Delete it deliberately, or reference it (workflow/doc/npm script) if it is used.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## PR: Implementation Script Review (March 2026)
