@@ -66,6 +66,30 @@ narrative text, ownership module, and combined-area views cannot drift apart.
 If a future metric needs multiple presentations, create the equivalent shared
 helper/source first, then make each UI surface consume that object.
 
+### Source and link on every figure
+
+Every figure a reader sees needs a public source with a link and a date
+(publisher, vintage or as-of date, link to the agency page, plus our `data/`
+copy when we derived the number). Pick the form by layout:
+
+1. **Card or table:** one source line at the bottom (`<p class="...-source">`
+   or a `Source:` line), even on small cards. `js/source-badge.js` builds one
+   from `data-source-ids`.
+2. **Row of small tiles from one source:** one shared line under the row.
+   A neighbouring card's link never counts for another card.
+3. **One card that mixes sources:** footnote markers on the figures (¹ ²) with
+   the sources listed at the card foot.
+4. **Prose:** link the source's name in the sentence ("HUD's FY2026 income
+   limits").
+
+Definitions, user inputs and our own labelled estimates take
+`data-no-source="definition|input|estimate|catalog: why"` with a visible label.
+Do not use a single sources section at the page foot instead of card lines.
+
+`scripts/audit/source-lines-ratchet.mjs` (Site Audit) enforces this against
+`scripts/audit/source-lines-baseline.json`; the baseline may only go down.
+After fixing a page, run it with `--update page.html`.
+
 ### Layer 1 — Schema (`scripts/validate-schemas.js`)
 
 Asserts file existence + JSON parseability + presence of expected keys
