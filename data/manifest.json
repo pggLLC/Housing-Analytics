@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-24T00:20:38.817834Z",
+  "generated": "2026-10-24T04:01:39.203499Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1013024
+      "bytes": 1012979
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8964,7 +8964,7 @@
     "data/market/landuse_zoning_proxy_co.geojson": {
       "featureCount": 28715,
       "placeholder": false,
-      "bytes": 4902125
+      "bytes": 4902811
     },
     "data/market/lihtc-equity-pricing-history.json": {
       "featureCount": 0,
@@ -8977,9 +8977,9 @@
       "bytes": 679804
     },
     "data/market/lodes_od_arcs_co.geojson": {
-      "featureCount": 500,
+      "featureCount": 7158,
       "placeholder": false,
-      "bytes": 127193
+      "bytes": 1816590
     },
     "data/market/lodes_tract_od_co.json": {
       "featureCount": 0,
@@ -9102,9 +9102,9 @@
       "bytes": 182611
     },
     "data/market/walkability_co.geojson": {
-      "featureCount": 1070,
+      "featureCount": 3532,
       "placeholder": false,
-      "bytes": 368283
+      "bytes": 572646
     },
     "data/market/walkability_scores_co.json": {
       "featureCount": 0,

@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-24T00:19:56.288Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-24T04:00:57.225Z. Do not edit by hand.
 
 ---
 
@@ -31,7 +31,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.2 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 83.8 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.2 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 83.0 KB |
@@ -2045,7 +2045,7 @@
 
 ## Test Files
 
-708 test files found.
+710 test files found.
 
 | File | Size |
 |------|------|
@@ -2478,7 +2478,7 @@
 | `test/pma-capture-denominator.test.js` | 14.0 KB |
 | `test/pma-capture-naming.test.js` | 12.1 KB |
 | `test/pma-chfa-qualified-renters.test.js` | 8.7 KB |
-| `test/pma-commute-context.test.js` | 5.7 KB |
+| `test/pma-commute-context.test.js` | 7.0 KB |
 | `test/pma-commute-shaped.test.js` | 8.0 KB |
 | `test/pma-competitive-set.test.js` | 13.0 KB |
 | `test/pma-confidence.test.js` | 9.1 KB |
@@ -2497,6 +2497,7 @@
 | `test/pma-tract-display.test.js` | 8.4 KB |
 | `test/pma-transit-stops.test.js` | 30.4 KB |
 | `test/pma-transit.test.js` | 15.9 KB |
+| `test/pma-utility-not-measured.test.js` | 2.3 KB |
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
 | `test/policy-briefs-curated.test.js` | 70.7 KB |
 | `test/policy-data-currency.test.js` | 3.2 KB |
@@ -2657,6 +2658,7 @@
 | `test/validate-site.js` | 9.6 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/vintage-badge-fresh-on-return.test.js` | 3.1 KB |
+| `test/walkability-layer.test.js` | 2.7 KB |
 | `test/walkthrough-record.test.mjs` | 12.1 KB |
 | `test/wcag-pill-contrast.test.js` | 12.4 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
@@ -2816,7 +2818,7 @@
 | `.github/workflows/fetch-hmda-data.yml` | 4.3 KB |
 | `.github/workflows/fetch-kalshi.yml` | 5.5 KB |
 | `.github/workflows/fetch-market-rents.yml` | 8.6 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 21.4 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 22.3 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 9.1 KB |
 | `.github/workflows/funding-awards.yml` | 5.8 KB |
 | `.github/workflows/local-incentives-watch.yml` | 1.8 KB |
