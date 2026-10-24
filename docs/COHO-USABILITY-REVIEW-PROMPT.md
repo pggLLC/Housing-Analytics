@@ -42,6 +42,12 @@ Use the seven-step guided journey, including its optional Opportunity Finder ste
 6. Deal Calculator.
 7. Recommendation.
 
+The route follows the product chosen at step 1, so walk each one:
+
+- **LIHTC rental** and **Middle-income rental:** the seven steps above.
+- **For-sale ownership:** steps 2, 4, 5 and 6 open the ownership tools instead: Ownership Need, For-Sale Market Study, Land Value and For-Sale Feasibility (the Deal Calculator in ownership mode).
+- **Rental and for-sale:** the rental steps, with each ownership tool offered alongside steps 2, 4, 5 and 6.
+
 Check desktop and mobile, with both a well-covered jurisdiction and a small or data-sparse one. Use invented project inputs.
 
 Evaluate whether a user can:
