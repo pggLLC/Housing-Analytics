@@ -40,6 +40,7 @@
     "title": "What AMI actually means in dollars",
     "preface": "Affordable housing programs use percentages of AMI to set who qualifies and what rents are allowed. Here is what those percentages translate to in dollars for a household of four in three representative Colorado counties — to make the bands concrete.",
     "vintage": "HUD FY2026 income limits",
+    "source_url": "https://www.huduser.gov/portal/datasets/il.html",
     "rows": [
       {
         "county": "Denver County",

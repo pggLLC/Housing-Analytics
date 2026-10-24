@@ -11,6 +11,13 @@
  *     <canvas id="myChart"></canvas>
  *   </div>
  *
+ * Every line carries a date. Without data-vintage, data-source-id="<inventory
+ * id>" takes the date js/data-source-inventory.js records; with neither, the
+ * line says "date unconfirmed".
+ *
+ * Or name inventory sources only, and the line is built from the inventory:
+ *   <div data-source-ids="hna-ranking-index,hud-chas-co"></div>
+ *
  * data-source-type values: raw | transformed | modeled | live
  *   raw         – data used exactly as published by the source
  *   transformed – aggregated, filtered, or joined from the source
@@ -28,7 +35,11 @@
 (function () {
   'use strict';
 
-  var SELECTOR = '[data-source]';
+  var SELECTOR = '[data-source], [data-source-ids]';
+  // Base path for loading js/data-source-inventory.js on demand.
+  var _script = document.currentScript && document.currentScript.src;
+  var _base = _script ? _script.replace(/js\/components\/source-badge\.js.*$/, '') : '';
+  var _inventory = null;
   var _observer = null;
   var _pendingScan = false;
 
@@ -86,6 +97,13 @@
         var cardA = el.closest('.chart-card, section.chart-card, [class*="chart-card"]');
         if (cardA) target = cardA;
       }
+      // A canvas never renders child elements, so a badge appended to it is
+      // invisible (construction-commodities' four FRED charts). Fall back to
+      // the canvas's parent, or past a fixed-height .chart-container so the
+      // badge sits below the chart instead of spilling over the next card.
+      if (target === el && parent) {
+        target = (parent.classList.contains('chart-container') && parent.parentElement) || parent;
+      }
     }
 
     // Double-attach guard: check the *target* rather than the caller's
@@ -115,9 +133,9 @@
     }
     parts.push(sourcePart);
 
-    if (opts.vintage) {
-      parts.push('<span class="chart-source__vintage">' + opts.vintage + '</span>');
-    }
+    // Every source line carries a date: the source's own vintage, else the
+    // date the inventory records for the site's copy, else says it has none.
+    parts.push('<span class="chart-source__vintage">' + (opts.vintage || 'date unconfirmed') + '</span>');
 
     if (opts.sourceType && SOURCE_TYPE_LABELS[opts.sourceType]) {
       var typeLabel = SOURCE_TYPE_LABELS[opts.sourceType];
@@ -135,16 +153,79 @@
    * Scan DOM for [data-source] elements and auto-attach badges.
    * Safe to call multiple times (attach() skips already-badged elements).
    */
+  /** Load js/data-source-inventory.js once; resolves to its source list. */
+  function inventory() {
+    if (_inventory) return _inventory;
+    _inventory = new Promise(function (resolve) {
+      var have = function () { return window.DataSourceInventory && typeof window.DataSourceInventory.getSources === 'function'; };
+      if (have()) return resolve(window.DataSourceInventory.getSources());
+      var tag = document.createElement('script');
+      tag.src = _base + 'js/data-source-inventory.js';
+      tag.onload = function () { resolve(have() ? window.DataSourceInventory.getSources() : []); };
+      tag.onerror = function () { resolve([]); };
+      document.head.appendChild(tag);
+    });
+    return _inventory;
+  }
+
+  function findSource(list, id) {
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  }
+
+  function esc(t) {
+    return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+  }
+
+  // data-source-ids="a,b": a line naming each inventory source, linked to the
+  // publisher (or the site's own /data copy when the source is derived here),
+  // with the date the inventory records.
+  function attachIds(el) {
+    if (el.__sbIds) return;
+    el.__sbIds = true;
+    var ids = el.getAttribute('data-source-ids').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+    inventory().then(function (list) {
+      if (el.querySelector(':scope > .chart-source')) return;
+      var items = ids.map(function (id) {
+        var s = findSource(list, id);
+        if (!s) return esc(id) + ' (date unconfirmed)';
+        var href = s.url || (s.localFile ? _base + s.localFile : '');
+        var name = href ? '<a href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(s.name) + '</a>' : esc(s.name);
+        return name + ' (' + (s.lastUpdated ? 'updated ' + esc(s.lastUpdated) : 'date unconfirmed') + ')';
+      });
+      var badge = document.createElement('div');
+      badge.className = 'chart-source';
+      badge.innerHTML = (items.length > 1 ? 'Sources: ' : 'Source: ') + items.join('; ');
+      el.appendChild(badge);
+    });
+  }
+
   function scan() {
     var els = document.querySelectorAll(SELECTOR);
     for (var i = 0; i < els.length; i++) {
       var el = els[i];
-      attach(el, {
+      if (!el.hasAttribute('data-source')) { attachIds(el); continue; }
+      var opts = {
         source:     el.getAttribute('data-source'),
         url:        el.getAttribute('data-source-url')  || null,
         vintage:    el.getAttribute('data-vintage')     || null,
         sourceType: el.getAttribute('data-source-type') || null,
-      });
+      };
+      var id = el.getAttribute('data-source-id');
+      if (!opts.vintage && id && !el.__sbWait) {
+        // Wait for the inventory's date rather than print "date unconfirmed".
+        el.__sbWait = true;
+        (function (node, o, sid) {
+          inventory().then(function (list) {
+            var s = findSource(list, sid);
+            if (s && s.lastUpdated) o.vintage = 'updated ' + s.lastUpdated;
+            attach(node, o);
+          });
+        })(el, opts, id);
+        continue;
+      }
+      if (el.__sbWait) continue;
+      attach(el, opts);
     }
   }
 

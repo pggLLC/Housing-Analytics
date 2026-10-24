@@ -196,7 +196,7 @@
       </section>
 
       <!-- Summary stat strip -->
-      <section class="card" style="margin-top: 16px; padding: 16px">
+      <section class="card" style="margin-top: 16px; padding: 16px" data-source="ACS 5-year DP04 — Selected Housing Characteristics" data-source-url="https://data.census.gov/table/ACSDP5Y.DP04" data-vintage="ACS 2024 (5-year, or 1-year for areas of 65,000 or more)" data-source-type="raw">
         <h2 style="margin-top: 0">Snapshot</h2>
         <div id="summary-grid" class="mf-summary-grid"></div>
       </section>
@@ -223,7 +223,7 @@
       </section>
 
       <!-- LIHTC + Affordable inventory -->
-      <section class="card" style="margin-top: 16px; padding: 16px">
+      <section class="card" style="margin-top: 16px; padding: 16px" data-source="CHFA, HUD multifamily and USDA Rural Development property records, combined on this site" data-source-url="data/affordable-housing/properties.json" data-source-id="affordable-housing-properties" data-source-type="transformed">
         <h2 style="margin-top: 0">LIHTC &amp; affordable inventory</h2>
         <p style="opacity: 0.85; margin-bottom: 8px">
           From CHFA tax-credit (LIHTC) and preservation records, HUD
@@ -327,13 +327,13 @@
       >
         <h2 style="margin-top: 0">Statewide leaderboards</h2>
         <div class="mf-two-col">
-          <div>
+          <div data-source="ACS 5-year DP04 — Units in Structure" data-source-url="https://data.census.gov/table/ACSDP5Y.DP04" data-vintage="ACS 2019–2023 5-year" data-source-type="raw">
             <h3 style="margin-top: 0;">
               Top counties by multifamily share
             </h3>
             <div id="top-mf-counties"></div>
           </div>
-          <div>
+          <div data-source="CHFA, HUD multifamily and USDA Rural Development property records, combined on this site" data-source-url="data/affordable-housing/properties.json" data-source-id="affordable-housing-properties" data-source-type="transformed">
             <h3 style="margin-top: 0;">
               Top counties by LIHTC units
             </h3>
@@ -417,6 +417,7 @@
     <script src="js/census-multifamily.js"></script>
   <!-- Sortable headers and header definitions on every table (paul, 2026-10-18). -->
 <script defer src="js/components/table-header-tips.js"></script>
+<script defer src="js/components/source-badge.js"></script>
 <script defer src="js/components/table-sort.js"></script>
 </body>
 </html>
