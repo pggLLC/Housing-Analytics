@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-24T12:43:30.186Z",
+    "generated_at": "2026-10-24T13:19:35.130Z",
     "root": "data/",
     "file_count": 1989,
-    "total_size_bytes": 203637095,
+    "total_size_bytes": 203636883,
     "kinds": {
       "json": 1941,
       "geojson": 34,
@@ -575,7 +575,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-24T06:22:49.458Z",
+      "mtime": "2026-10-24T13:19:31.832Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -947,8 +947,8 @@
     {
       "path": "census-acs-state.json",
       "kind": "json",
-      "size_bytes": 26982,
-      "mtime": "2026-10-20T14:15:42.005Z",
+      "size_bytes": 26768,
+      "mtime": "2026-10-24T13:17:57.105Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -969,7 +969,7 @@
         "owner_occupied",
         "renter_occupied",
         "housing_units_year_built_total",
-        "renter_share"
+        "built_2020_or_later"
       ]
     },
     {
@@ -38021,7 +38021,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 252821,
-      "mtime": "2026-10-24T12:43:20.867Z",
+      "mtime": "2026-10-24T13:19:03.248Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39630,8 +39630,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16089,
-      "mtime": "2026-10-24T12:43:27.941Z",
+      "size_bytes": 16091,
+      "mtime": "2026-10-24T13:19:33.479Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39655,7 +39655,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-24T12:43:27.440Z",
+      "mtime": "2026-10-24T13:19:33.055Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
