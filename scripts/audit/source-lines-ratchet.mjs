@@ -181,7 +181,13 @@ async function main() {
   for (const p of pages) {
     const page = await ctx.newPage();
     try {
-      await page.goto(`${BASE_URL}/${p}`, { waitUntil: 'networkidle', timeout: 60000 });
+      // A page that keeps a request open (map tiles, a slow outside feed) may
+      // never go network-idle; scan it once it has loaded rather than failing.
+      // A page that never loads still fails.
+      await page.goto(`${BASE_URL}/${p}`, { waitUntil: 'load', timeout: 60000 });
+      await page.waitForLoadState('networkidle', { timeout: 60000 }).catch((e) => {
+        if (e.name !== 'TimeoutError') throw e;
+      });
       await page.waitForTimeout(SETTLE_MS);
       results[p] = await page.evaluate(scanPage);
     } catch (e) {
