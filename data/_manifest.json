@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-24T00:20:34.583Z",
+    "generated_at": "2026-10-24T04:01:35.023Z",
     "root": "data/",
     "file_count": 1989,
-    "total_size_bytes": 201582651,
+    "total_size_bytes": 203477097,
     "kinds": {
       "json": 1941,
       "geojson": 34,
@@ -575,7 +575,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-10-24T00:20:29.863Z",
+      "mtime": "2026-10-24T04:01:30.882Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38869,8 +38869,8 @@
     {
       "path": "market/landuse_zoning_proxy_co.geojson",
       "kind": "geojson",
-      "size_bytes": 4902125,
-      "mtime": "2026-09-25T12:55:18.885Z",
+      "size_bytes": 4902811,
+      "mtime": "2026-10-24T04:00:57.164Z",
       "shape": "geojson",
       "feature_count": 28715,
       "property_keys": [
@@ -38932,10 +38932,10 @@
     {
       "path": "market/lodes_od_arcs_co.geojson",
       "kind": "geojson",
-      "size_bytes": 127193,
-      "mtime": "2026-09-25T12:55:18.888Z",
+      "size_bytes": 1816590,
+      "mtime": "2026-10-24T04:00:57.171Z",
       "shape": "geojson",
-      "feature_count": 500,
+      "feature_count": 7158,
       "property_keys": [
         "home_tract",
         "work_tract",
@@ -39402,16 +39402,14 @@
     {
       "path": "market/walkability_co.geojson",
       "kind": "geojson",
-      "size_bytes": 368283,
-      "mtime": "2026-09-25T12:55:19.117Z",
+      "size_bytes": 572646,
+      "mtime": "2026-10-24T04:00:57.172Z",
       "shape": "geojson",
-      "feature_count": 1070,
+      "feature_count": 3532,
       "property_keys": [
         "geoid",
-        "walk_score",
-        "transit_score",
-        "bike_score",
-        "walkability_index"
+        "walkability_index",
+        "walk_score"
       ],
       "geometry_type": "Point"
     },
@@ -39599,7 +39597,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-24T00:20:31.899Z",
+      "mtime": "2026-10-24T04:01:32.907Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39623,7 +39621,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-24T00:20:31.399Z",
+      "mtime": "2026-10-24T04:01:32.376Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
