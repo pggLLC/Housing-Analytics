@@ -350,7 +350,7 @@
     {
       "id": "energy-credits",
       "title": "Energy credits are ending",
-      "body": "45L ends for homes acquired after June 30, 2026. 48E excludes wind and solar placed in service after December 31, 2027 unless construction began before July 5, 2026. Pro formas should no longer assume 45L for new units, and new solar on housing that has not begun construction must be in service by end of 2027 to get 48E.",
+      "body": "45L ends for homes acquired after June 30, 2026, and 179D for property whose construction begins after June 30, 2026. 48E excludes wind and solar placed in service after December 31, 2027 unless construction began before July 5, 2026. Pro formas should no longer assume 45L for new units, and new solar on housing that has not begun construction must be in service by end of 2027 to get 48E.",
       "sources": [
         {
           "label": "govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",

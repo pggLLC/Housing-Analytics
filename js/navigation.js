@@ -119,6 +119,7 @@
         { label: "— Guides —", isHeader: true },
         { label: "Help for Homebuyers",     href: "help-for-homebuyers.html",       desc: "Down-payment help, credits" },
         { label: "Who Does What in a Colorado Affordable Deal", href: "affordable-deal-team.html", desc: "Bankers, syndicators, lawyers, community work, CRA" },
+        { label: "Green Building in a Colorado Deal", href: "green-building-guide.html", desc: "CHFA rules, utility allowances, programs" },
       ]
     }
   ];

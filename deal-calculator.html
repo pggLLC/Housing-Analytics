@@ -402,7 +402,7 @@
          = LIHTC competes with rental market).
          ──────────────────────────────────────────────────────────────── -->
     <div data-dc-mode="rental" style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
-      <section id="rvbCalculator" class="hos-panel" aria-labelledby="rvbHeading"
+      <section id="rvbCalculator" class="hos-panel" aria-labelledby="rvbHeading" data-no-source="input: editable assumptions and their result"
         style="border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;">
         <h2 id="rvbHeading" data-methodology-key="rent-vs-buy" style="margin:0 0 4px;">Rent vs Buy Breakeven (Market Context)</h2>
         <p style="font-size:.82rem;color:var(--muted);margin:0 0 .75rem;">
@@ -471,7 +471,7 @@
 
     <!-- ── F193 — Stress Test Panel (Tier 1: 5 stress sliders) ────────────────────────── -->
     <div data-dc-mode="rental" style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
-      <section class="hos-panel" aria-labelledby="dcStressHeading">
+      <section class="hos-panel" aria-labelledby="dcStressHeading" data-no-source="input: stress controls and the calculator's results">
         <h2 id="dcStressHeading" style="margin:0 0 4px;">Stress Test Scenarios</h2>
         <p style="font-size:.82rem;color:var(--muted);margin:0 0 .75rem;">
           Adjust the five stress variables below to see how the deal performs under deteriorating conditions. Mirrors the input layer of a typical professional LIHTC pro forma: LIHTC pricing decline, construction cost overrun, per-AMI-tier rent stress, slow lease-up, and stricter lender DSCR. Each control is independent; combine them to model worst-case.
@@ -485,9 +485,9 @@
             <div>
               <label for="dc-stress-equity-price" style="display:block;font-weight:600;margin-bottom:2px;">
                 LIHTC equity price stress:
-                <strong id="dc-stress-equity-price-label" style="color:var(--accent);">$0.90</strong>/credit
+                <strong id="dc-stress-equity-price-label" style="color:var(--accent);">$0.82</strong>/credit
               </label>
-              <input id="dc-stress-equity-price" type="range" min="0.70" max="1.10" step="0.01" value="0.90" style="width:100%;">
+              <input id="dc-stress-equity-price" type="range" min="0.70" max="1.10" step="0.01" value="0.82" style="width:100%;">
               <div id="dc-stress-equity-impact" style="font-size:.8125rem;color:var(--muted);margin-top:2px;">—</div>
             </div>
             <!-- 2. TDC construction cost overrun -->
@@ -608,7 +608,7 @@
     <!-- Rental-only (PC-2): a LIHTC score — QCT/DDA, deal confidence, capital-stack
          gap. Hidden by the Deal Mode toggle (updateDealModeUi) in ownership mode. -->
     <div data-dc-mode="rental" style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
-      <section class="hos-panel" id="hosPanel" aria-labelledby="hosHeading">
+      <section class="hos-panel" id="hosPanel" aria-labelledby="hosHeading" data-no-source="estimate: the site's own composite score">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
           <h2 id="hosHeading" style="margin:0;">Housing Outcome Score</h2>
           <span id="hosConfidenceBadge" class="data-reliability-badge">—</span>

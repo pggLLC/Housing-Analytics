@@ -572,7 +572,7 @@
     return { years: Math.min(50, Math.max(5, Math.round(years))), rows: rows };
   }
   function sliderImpacts(result, fields) {
-    var price = fieldNumber(fields, 'dc-stress-equity-price', 0.90);
+    var price = fieldNumber(fields, 'dc-stress-equity-price', 0.82);
     var overrun = fieldNumber(fields, 'dc-stress-tdc-overrun', 0) / 100;
     var leaseup = fieldNumber(fields, 'dc-stress-leaseup', 0);
     var equity = known(price) && known(result.annualCredits) ? result.annualCredits * CREDIT_YEARS * price : null;

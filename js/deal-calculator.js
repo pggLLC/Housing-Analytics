@@ -3005,7 +3005,7 @@
             <div style="font-weight:700;color:var(--accent);margin:.55rem 0 .25rem;">Amenities under CHFA QAP Section 5</div>
             <p style="margin:.1rem 0 .35rem;">CHFA's QAP awards amenity points in several categories — confirm current values in the latest QAP before relying on these for scoring:</p>
             <ul style="margin:.15rem 0 .35rem;padding-left:1.2rem;">
-              <li><strong>Energy efficiency / green building</strong> (LEED, Enterprise Green Communities, NGBS Gold/Silver, net-zero, or solar) — typically the largest non-need amenity-point category.</li>
+              <li><strong>Energy efficiency / green building</strong> is a requirement, not points: every project must certify under Enterprise Green Communities, LEED or NGBS (QAP Section 8: &ldquo;CHFA requires all projects to obtain green building certification&rdquo;). All-electric or a higher-level certification (DOE Efficient New Homes, PHIUS or PHI; the 2027-28 draft adds EGC+) is &ldquo;considered more competitive&rdquo; under a Guiding Principle. Budget the certification and consultant in hard and soft costs. See <a href="green-building-guide.html">Green Building in a Colorado Deal</a> for which program fits which deal and how efficiency lowers the utility allowance.</li>
               <li><strong>Universal design / accessibility</strong> beyond Code (Type A and Type B units, full visitability, sensory units) — usually scored.</li>
               <li><strong>Resident services</strong> aligned with the population served (financial literacy, after-school, supportive-services partnerships).</li>
               <li><strong>Community amenities</strong> (community room, on-site computer lab, gardens, playground, transit access).</li>
@@ -3330,7 +3330,7 @@
 
       <!-- DOH PR 3 — Permanent financing in the Division of Housing layout.
            Regroups the sources above; it changes no result. -->
-      <fieldset id="dc-pf-doh" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+      <fieldset id="dc-pf-doh" data-no-source="calculator output: regroups the inputs and sources above" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Permanent Financing (Colorado DOH layout)</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);line-height:1.45;">
           The same sources as above, grouped as the Colorado Division of Housing (DOH) application's Permanent Financing Sources tab groups them.
@@ -3365,7 +3365,7 @@
 
       <!-- DOH PR 4: DOH's Permanent Sources & Uses Budget, by activity. Each
            soft source says what it pays for; the rest pay for the whole project. -->
-      <fieldset id="dc-act-doh" style="min-width:0;border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+      <fieldset id="dc-act-doh" data-no-source="calculator output: regroups the inputs and sources above" style="min-width:0;border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Sources and uses by activity (DOH layout)</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Each cost category's cost and the soft sources that pay for it. Choose what a source pays for, its status and whether it is a state request on its row under Soft Funding Stack. Tax credit equity, the first mortgage and the deferred fee pay for the project as a whole.</p>
         <p id="dc-act-reason" role="status" hidden style="margin:0 0 var(--sp2);font-size:var(--small);color:var(--warn,#b45309);"></p>
@@ -3383,7 +3383,7 @@
 
       <!-- DOH PR 4: DOH's 15-Year Operating Proforma rows, from the engine's
            projection and loan schedule. -->
-      <fieldset id="dc-doh15" style="min-width:0;border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+      <fieldset id="dc-doh15" data-no-source="calculator output: regroups the inputs and sources above" style="min-width:0;border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">15-year operating pro forma (DOH layout)</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Cash left after the mortgages and any bridge loan pays the asset management fee first, then cash-flow loans, then the deferred developer fee. Rent and expense growth are the Operating Pro Forma Projection's.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--sp2);margin-bottom:var(--sp2);">

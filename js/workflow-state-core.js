@@ -99,7 +99,7 @@
       },
       deal: {
         completedAt: null, tdc: null, devFee: null,
-        constructionCostPsf: null, equityPrice: 0.91,
+        constructionCostPsf: null, equityPrice: null,
         leasingMonths: 18, results: null,
         recommendedPartners: [], exportReady: false
       }
