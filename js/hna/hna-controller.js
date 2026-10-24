@@ -3519,6 +3519,11 @@
           projectionMethodNote = ` Place-level projection uses ACS household share only (${((sh.household || 0) * 100).toFixed(1)}%); Census BPS permit data unavailable for this place.`;
         } else {
           projectionMethodNote = ` Place-level projection uses a 50/50 blend of ACS household share (${((sh.household || 0) * 100).toFixed(1)}%) and permit share ${(sh.permit * 100).toFixed(1)}% from Census BPS ${sh.permit_window || '2020-2024'}.`;
+          // Show what each share alone would give, so the reader sees the range the blend sits in.
+          const range = window.HNAUtils.placeShareRange ? window.HNAUtils.placeShareRange(growthUnits, sh) : null;
+          if (range && range.householdOnly != null && range.permitOnly != null) {
+            projectionMethodNote += ` Resident growth: about ${window.HNAUtils.fmtNum(Math.round(range.blended))} homes with the blend, ${window.HNAUtils.fmtNum(Math.round(range.householdOnly))} on household share alone, ${window.HNAUtils.fmtNum(Math.round(range.permitOnly))} on permit share alone.`;
+          }
         }
       }
     } else if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && !_isMultiJurisdictionSelection(selection)) {

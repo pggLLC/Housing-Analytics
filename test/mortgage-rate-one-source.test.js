@@ -147,4 +147,80 @@ test('no 6.5% placeholder rate is left on an ownership affordability path', () =
   }
 });
 
-console.log(`mortgage-rate-one-source: ${passed} passed`);
+const DAY = 24 * 60 * 60 * 1000;
+
+test('the shared week is no more than 21 days behind the latest FRED reading', () => {
+  // The Saturday HNA build syncs the rate (scripts/hna/sync-mortgage-rate.mjs);
+  // 21 days covers a midweek FRED update plus one missed Saturday run.
+  const obs = JSON.parse(read('data/fred-data.json')).series.MORTGAGE30US.observations
+    .filter((o) => /^\d{4}-\d{2}-\d{2}$/.test(o.date) && Number.isFinite(Number(o.value)));
+  const latest = obs[obs.length - 1].date;
+  const lag = (Date.parse(latest) - Date.parse(RATE.week)) / DAY;
+  assert.ok(lag <= 21, `MORTGAGE_RATE week ${RATE.week} is ${lag} days behind FRED ${latest}; run node scripts/hna/sync-mortgage-rate.mjs`);
+});
+
+test('the sensitivity line prices the same home one point lower with the same math', () => {
+  const utils = loadUtils(true);
+  engine.setRegistry(JSON.parse(read('data/policy/affordability-models.json')));
+  const lower = RATE.rateAnnual - 0.01;
+  for (const price of [396000, 486295]) {
+    const atLower = utils.computeIncomeNeeded(price, { rateAnnual: lower }).annualIncome;
+    const atRate = utils.computeIncomeNeeded(price).annualIncome;
+    assert.ok(atLower < atRate, 'a lower rate needs less income');
+    const viaEngine = engine.incomeNeededForHomeValue(price, { modelId: 'conservative_screening', householdSize: 4, rateAnnual: lower });
+    assert.ok(Math.abs(atLower - viaEngine) <= 1, `$${price}: card ${Math.round(atLower)} vs strategy ${Math.round(viaEngine)}`);
+  }
+  assert.equal(utils.computeIncomeNeeded(400000, { rateAnnual: 0 }), null);
+  const renderers = read('js/hna/hna-renderers.js');
+  assert.match(renderers, /computeIncomeNeeded\(homeVal, \{ rateAnnual: lowerRate \}\)/);
+  assert.match(read('js/hna/hna-ownership-strategy.js'), /requiredIncomeLower/);
+});
+
+test('a town\'s growth is shown on the blend, household share alone and permit share alone', () => {
+  const utils = loadUtils(true);
+  const fruita = JSON.parse(read('data/hna/projections/places.json')).places['0828745'];
+  const growth = fruita.incremental_units_needed[fruita.incremental_units_needed.length - 1];
+  const r = utils.placeShareRange(growth, fruita.shares);
+  const county = growth / fruita.shares.blended;
+  assert.equal(r.blended, growth);
+  assert.ok(Math.abs(r.householdOnly - county * fruita.shares.household) < 1e-6);
+  assert.ok(Math.abs(r.permitOnly - county * fruita.shares.permit) < 1e-6);
+  // Fruita leans on its households, not its recent permits.
+  assert.ok(r.permitOnly < r.blended && r.blended < r.householdOnly, JSON.stringify(r));
+  assert.equal(utils.placeShareRange(null, fruita.shares), null);
+  assert.equal(utils.placeShareRange(growth, { blended: 0 }), null);
+  assert.equal(utils.placeShareRange(growth, { blended: 0.1, household: 0.2, permit: null }).permitOnly, null);
+});
+
+(async () => {
+  const sync = await import('../scripts/hna/sync-mortgage-rate.mjs');
+  const fixture = { series: { MORTGAGE30US: { observations: [
+    { date: '2026-10-15', value: '7.40' }, { date: '2026-10-22', value: '6.88' }, { date: '2026-10-29', value: '.' },
+  ] } } };
+  test('the sync reads the last real FRED week and skips missing ones', () => {
+    assert.deepEqual(sync.latestReading(fixture), { week: '2026-10-22', rateAnnual: 0.0688 });
+    assert.equal(sync.latestReading({ series: { MORTGAGE30US: { observations: [{ date: '2026-10-22', value: '45' }] } } }), null);
+    assert.equal(sync.latestReading({}), null);
+  });
+  test('the sync rewrites the engine block and the kernel fallback together', () => {
+    const reading = { week: '2026-10-22', rateAnnual: 0.0688 };
+    const out = sync.rewrite(read('js/hna/ownership-finance.js'), read('js/hna/hna-ownership-need.js'), reading);
+    const sandbox = { module: { exports: {} }, window: {} };
+    vm.runInNewContext(out.engine, sandbox);
+    const moved = sandbox.module.exports.MORTGAGE_RATE || sandbox.window.OwnershipFinance.MORTGAGE_RATE;
+    assert.equal(moved.rateAnnual, 0.0688);
+    assert.equal(moved.week, '2026-10-22');
+    assert.equal(moved.source, 'Freddie Mac PMMS 30-year fixed average, week of October 22, 2026');
+    const k = { window: {} };
+    vm.runInNewContext(out.kernel, k);
+    const a = k.window.HNAOwnershipNeed.CONSTANTS.affordabilityAssumptions;
+    assert.deepEqual([a.pmms30YearRate, a.pmmsDate, a.pmmsSource], [moved.rateAnnual, moved.week, moved.source]);
+    // Running it again on its own output changes nothing.
+    const again = sync.rewrite(out.engine, out.kernel, reading);
+    assert.equal(again.engine, out.engine);
+    assert.equal(again.kernel, out.kernel);
+    // A file whose block no longer matches fails loudly instead of writing half a change.
+    assert.throws(() => sync.rewrite('var x = 1;', read('js/hna/hna-ownership-need.js'), reading), /expected one match/);
+  });
+  console.log(`mortgage-rate-one-source: ${passed} passed`);
+})().catch((err) => { console.error(err); process.exit(1); });
