@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-24T04:05:31.405Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-24T06:19:18.751Z. Do not edit by hand.
 
 ---
 
@@ -31,7 +31,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.2 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.2 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.3 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 83.0 KB |
@@ -58,7 +58,7 @@
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 176.6 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.0 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 137.4 KB |
-| `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 44.8 KB |
+| `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 253.9 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.9 KB |
@@ -119,7 +119,7 @@
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
 | `data/audit/funding-watch.json` | 642.2 KB | ✅ | — |
-| `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
+| `data/audit/quarantine-candidates.json` | 545 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
 | `data/capital-partners.json` | 13.2 KB | ✅ | — |
@@ -149,7 +149,7 @@
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
 | `data/co_ami_gap_by_county.json` | 100.6 KB | ✅ | — |
 | `data/co_ami_gap_by_place.json` | 729.4 KB | ✅ | — |
-| `data/core/educational-content.json` | 67.4 KB | ✅ | — |
+| `data/core/educational-content.json` | 68.9 KB | ✅ | — |
 | `data/core/neighborhood-context.json` | 70.1 KB | ✅ | — |
 | `data/coverage-report.json` | 12.8 KB | ✅ | — |
 | `data/cra/co-bank-branches.json` | 223.3 KB | ✅ | — |
@@ -317,7 +317,7 @@
 | `data/fixtures/fruita-commons-family.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.8 KB | ✅ | — |
 | `data/fred-data.json` | 1.20 MB | ✅ | — |
-| `data/glossary.json` | 36.0 KB | ✅ | — |
+| `data/glossary.json` | 70.7 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 274.3 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 4.1 KB | ✅ | — |
 | `data/hna/acs-reliability.json` | 681.9 KB | ✅ | — |
@@ -2045,7 +2045,7 @@
 
 ## Test Files
 
-710 test files found.
+711 test files found.
 
 | File | Size |
 |------|------|
@@ -2261,6 +2261,7 @@
 | `test/glossary-rerender.test.js` | 4.9 KB |
 | `test/glossary-skips-hidden-text.test.js` | 7.8 KB |
 | `test/glossary-skips-svg-text.test.js` | 4.2 KB |
+| `test/glossary-sync.test.mjs` | 2.9 KB |
 | `test/green-building-guide.test.mjs` | 34.3 KB |
 | `test/growth-figure-agrees.test.js` | 15.7 KB |
 | `test/guided-path-a11y.test.js` | 3.4 KB |
@@ -2778,7 +2779,7 @@
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
 | `.github/workflows/build-acs-reliability.yml` | 3.5 KB |
-| `.github/workflows/build-hna-data.yml` | 37.1 KB |
+| `.github/workflows/build-hna-data.yml` | 37.2 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 14.5 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |

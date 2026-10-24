@@ -388,6 +388,7 @@ The site uses Python-based demographic / economic models (run offline by CI) and
 
 ## Actionable Recommendations
 
+- Quarantine candidate: `scripts/policy/build_policy_jurisdictions_geojson.py` — no file references its name. Delete it deliberately, or reference it (workflow/doc/npm script) if it is used.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## 
