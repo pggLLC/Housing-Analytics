@@ -32,7 +32,14 @@ assert(!source.includes('generateCommutingBoundary'), 'D-lite overlay does not r
 assert(engineSource.includes('commuteContextOverlay'), 'PMA result/export records commute-context overlay state');
 
 assert(lodes && Array.isArray(lodes.tracts) && lodes.tracts.length === 1447, 'real lodes_co.json is loaded and non-vacuous');
-assert(arcs && Array.isArray(arcs.features) && arcs.features.length === 500, 'real lodes_od_arcs_co.geojson top-500 sample is loaded');
+assert(arcs && Array.isArray(arcs.features) && arcs.features.length > 500, 'real lodes_od_arcs_co.geojson is loaded and goes past the old statewide top 500');
+assert(arcs.metadata && arcs.metadata.per_tract >= 1 && /Not every flow/.test(arcs.metadata.selection || ''), 'arc metadata states the per-tract selection and that it is a sample');
+// The old statewide top 500 touched 363 tracts in 39 counties, so most PMAs drew
+// no arcs. Each tract's largest flows must now reach nearly every tract.
+const touchedTracts = new Set();
+arcs.features.forEach((f) => { touchedTracts.add(f.properties.home_tract); touchedTracts.add(f.properties.work_tract); });
+const lodesTractsTouched = lodes.tracts.filter((t) => touchedTracts.has(String(t.geoid))).length;
+assert(lodesTractsTouched === lodes.tracts.length, 'arcs reach every LODES tract (got ' + lodesTractsTouched + ' of ' + lodes.tracts.length + ')');
 
 const touchingArc = arcs.features.find((feature) => {
   const p = feature.properties || {};
@@ -42,13 +49,12 @@ assert(touchingArc, 'fixture found a real OD arc with home/work tract GEOIDs');
 const touchingHome = touchingArc.properties.home_tract;
 const touchingWork = touchingArc.properties.work_tract;
 
-const untouchedTract = lodes.tracts.find((tract) => {
-  return !arcs.features.some((feature) => {
-    const p = feature.properties || {};
-    return p.home_tract === tract.geoid || p.work_tract === tract.geoid;
-  });
-});
-assert(untouchedTract, 'fixture found a real tract outside every top-500 OD arc');
+// Synthetic tract with jobs but no OD arc, so the zero-arc path is tested
+// without requiring the committed data to keep a coverage gap.
+const untouchedTract = { geoid: '08999999999', work_workers: 100, vintage: 2023 };
+assert(!arcs.features.some((f) => f.properties.home_tract === untouchedTract.geoid || f.properties.work_tract === untouchedTract.geoid),
+  'synthetic tract touches no OD arc');
+const lodesWithUntouched = Object.assign({}, lodes, { tracts: lodes.tracts.concat([untouchedTract]) });
 
 const oneTouch = CommuteContext.buildOverlayData(
   { _tractIds: [touchingHome] },
@@ -77,10 +83,10 @@ assert(twoTouch.arcs.length >= oneTouch.arcs.length, 'adding the work tract keep
 
 const noTouch = CommuteContext.buildOverlayData(
   { _tractIds: [untouchedTract.geoid] },
-  lodes,
+  lodesWithUntouched,
   arcs
 );
-assert.equal(noTouch.blocked, false, 'overlay still renders tract WAC context when no top-500 arc touches');
+assert.equal(noTouch.blocked, false, 'overlay still renders tract WAC context when no OD arc touches');
 assert.equal(noTouch.arcs.length, 0, 'arc touching no PMA tract never renders');
 
 const emptyLodes = CommuteContext.buildOverlayData(
@@ -121,5 +127,11 @@ assert(engineSource.includes("ctx.render(map, lastResult)"), 'market-analysis re
 assert(engineSource.includes('computePma(acs, affordableUnitsKnown, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx)'),
   'computePma call signature remains unchanged');
 assert(!scoringSource.includes('commuteContext'), 'shared PMA scoring helper does not read commute context overlay state');
+
+// Market-analysis overlays show a file's coverage_note (e.g. zoning-proxy
+// categories kept from an older pull) beside the layer, not only on the data map.
+assert(/gj\.metadata && gj\.metadata\.coverage_note/.test(engineSource) &&
+  engineSource.includes('_showCoverageNote(cb, _coverageNote)'),
+  'market-analysis overlays surface metadata.coverage_note');
 
 console.log('pma-commute-context: PASS');

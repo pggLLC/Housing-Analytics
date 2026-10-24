@@ -518,7 +518,7 @@
           { k: 'Name',           v: p.name },
         ];
       } },
-    { key: 'lodes_arcs', name: 'LODES commute arcs (top 500)', group: 'Employment',
+    { key: 'lodes_arcs', name: 'LODES commute arcs (largest flows per tract)', group: 'Employment',
       url: 'data/market/lodes_od_arcs_co.geojson', color: '#9333ea', kind: 'line',
       popupRows: function (p) {
         return [
@@ -609,10 +609,8 @@
       popupRows: function (p) {
         return [
           { k: 'Block group',  v: p.geoid },
-          { k: 'Walk score',   v: p.walk_score },
-          { k: 'Transit',      v: p.transit_score },
-          { k: 'Bike',         v: p.bike_score },
-          { k: 'Index',        v: p.walkability_index },
+          { k: 'EPA walkability (1-20)', v: p.walkability_index },
+          { k: 'On a 0-100 scale',       v: p.walk_score },
         ];
       } },
     { key: 'utility-capacity', name: 'Utility capacity constraints', group: 'Infrastructure',
@@ -626,7 +624,7 @@
           { k: 'Source', v: p.data_source },
         ];
       } },
-    { key: 'landuse-zoning', name: 'Land-use / zoning proxy parcels', group: 'Infrastructure',
+    { key: 'landuse-zoning', name: 'Land-use / zoning proxy (OpenStreetMap buildings and land use)', group: 'Infrastructure',
       url: 'data/market/landuse_zoning_proxy_co.geojson', color: '#a16207', kind: 'point',
       popupRows: function (p) {
         return [
@@ -1200,6 +1198,7 @@
           '<span style="font-weight:600">' + l.name.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>' +
           '<span style="color:var(--muted);font-size:.8125rem;display:block">' +
             geomLabel(l) + ' · ' + countTxt + (c && c.count === 1 ? ' feature' : ' features') +
+            (l.coverageNote ? ' · ' + l.coverageNote.replace(/&/g, '&amp;').replace(/</g, '&lt;') : '') +
           '</span>' +
         '</span>' +
       '</li>';
@@ -1449,6 +1448,10 @@
       if (!r.ok) throw new Error('HTTP ' + r.status);
       const j = await r.json();
       feats = Array.isArray(j) ? j : (j.features || []);
+      // A file that is a sample or has known gaps says so in coverage_note;
+      // it is shown beside the feature count so the count is not read as complete.
+      const meta = (!Array.isArray(j) && (j.metadata || j.meta)) || {};
+      if (meta.coverage_note) layer.coverageNote = String(meta.coverage_note);
     }
     if (layer.filter) feats = feats.filter(layer.filter);
     // F208 — compute quantile bins BEFORE building the L.geoJSON so the
@@ -1492,9 +1495,10 @@
     const cache = _layerCache[layer.key];
     if (!el) return;
     if (!cache) { el.textContent = 'click to load'; return; }
-    el.textContent = (typeof cache.count === 'number')
+    el.textContent = ((typeof cache.count === 'number')
       ? cache.count.toLocaleString() + (cache.count === 1 ? ' feature' : ' features')
-      : String(cache.count);  // 'live (server-side)' for arcgisDynamic
+      : String(cache.count)) +  // 'live (server-side)' for arcgisDynamic
+      (layer.coverageNote ? ' · ' + layer.coverageNote : '');
   }
 
   async function _toggleLayer(layer, on) {

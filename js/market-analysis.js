@@ -3999,6 +3999,21 @@
     _toastEl._timer = setTimeout(function () { _toastEl.style.opacity = '0'; }, isError ? 6000 : 3000);
   }
 
+  /* Persistent coverage note under a layer's checkbox label. */
+  function _showCoverageNote(cb, note) {
+    var label = cb && cb.closest ? cb.closest('label') : null;
+    if (!label || !label.parentNode) return;
+    var el = label.parentNode.querySelector('.layer-coverage-note[data-for="' + cb.dataset.layer + '"]');
+    if (!el) {
+      el = document.createElement('div');
+      el.className = 'layer-coverage-note';
+      el.dataset.for = cb.dataset.layer;
+      el.style.cssText = 'font-size:.75rem;color:var(--muted, #64748b);margin:.1rem 0 .3rem 1.5rem;line-height:1.3;';
+      label.parentNode.insertBefore(el, label.nextSibling);
+    }
+    el.textContent = note;
+  }
+
   var _mapLayers = {};  // cache: data-layer key -> L.geoJSON layer
   var _rawLayerData = {};  // cache: data-layer key -> unscoped statewide GeoJSON
 
@@ -4065,7 +4080,7 @@
         // Listings — skip, handled by external Bridge API integration
         if (key === 'listings') return;
 
-        // D-lite commute context — committed LODES WAC + top-500 OD arcs only.
+        // D-lite commute context — committed LODES WAC + each tract's largest OD arcs only.
         // This overlay is disclosure/context only and never feeds PMA scoring,
         // tract selection, or buffer logic.
         if (key === 'commuteContext') {
@@ -4174,6 +4189,10 @@
                 console.warn('[market-analysis] Layer "' + key + '": empty or invalid GeoJSON');
                 return;
               }
+              // A file's own coverage note (e.g. categories kept from an older
+              // pull) stays beside the layer label, not only in a toast.
+              var _coverageNote = gj.metadata && gj.metadata.coverage_note;
+              if (_coverageNote) _showCoverageNote(cb, _coverageNote);
               if (cfg.siteRadius) {
                 var _full = gj.features.length;
                 _rawLayerData[key] = gj;          // keep the statewide copy to re-scope on site change
@@ -4281,9 +4300,9 @@
 
                 // Custom tooltips for enriched layers
                 if (key === 'walkability' && p.walk_score != null) {
-                  tip = '<b>Walk: ' + p.walk_score + '</b> · Transit: ' + (p.transit_score || '—') +
-                        ' · Bike: ' + (p.bike_score || '—') +
-                        '<br><span style="font-size:0.8em;opacity:0.8;">Tract ' + (p.geoid || '') + '</span>';
+                  tip = '<b>EPA walkability: ' + (p.walkability_index != null ? p.walkability_index : '—') + ' of 20</b>' +
+                        ' (' + p.walk_score + ' on a 0-100 scale)' +
+                        '<br><span style="font-size:0.8em;opacity:0.8;">Block group ' + (p.geoid || '') + ' · EPA Smart Location Database</span>';
                   layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
                   return;
                 }
@@ -4317,7 +4336,8 @@
                   tip = '<b>' + (p.jobs || 0).toLocaleString() + ' commuters</b>' +
                     '<br>Home: ' + p.home_tract + ' → Work: ' + p.work_tract +
                     '<br>Distance: ' + (p.distance_miles || 0) + ' mi' +
-                    wageBreak;
+                    wageBreak +
+                    '<br><span style="font-size:0.8em;opacity:0.8;">One of this tract\'s largest flows, not all commuting</span>';
                   layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
                   return;
                 }
@@ -4376,7 +4396,8 @@
               };
               _mapLayers[key] = L.geoJSON(gj, opts);
               _mapLayers[key].addTo(map);
-              _showLayerToast('✓ ' + key + ' (' + gj.features.length + ' features)', false);
+              _showLayerToast('✓ ' + key + ' (' + gj.features.length + ' features)' +
+                (_coverageNote ? ' · ' + _coverageNote : ''), false);
             }
 
             // Helper to load from local GeoJSON file
@@ -6324,7 +6345,8 @@
         }
         var tip = '<b>' + (p.jobs || 0).toLocaleString() + ' commuters</b>' +
           '<br>Home: ' + p.home_tract + ' → Work: ' + p.work_tract +
-          '<br>Distance: ' + (p.distance_miles || 0) + ' mi' + wageBreak;
+          '<br>Distance: ' + (p.distance_miles || 0) + ' mi' + wageBreak +
+          '<br><span style="font-size:0.8em;opacity:0.8;">One of this tract\'s largest flows, not all commuting</span>';
         layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
       };
 
