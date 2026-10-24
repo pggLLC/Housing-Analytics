@@ -183,9 +183,10 @@ async function main() {
     try {
       // A page that keeps a request open (map tiles, a slow outside feed) may
       // never go network-idle; scan it once it has loaded rather than failing.
-      await page.goto(`${BASE_URL}/${p}`, { waitUntil: 'networkidle', timeout: 60000 }).catch(async (e) => {
+      // A page that never loads still fails.
+      await page.goto(`${BASE_URL}/${p}`, { waitUntil: 'load', timeout: 60000 });
+      await page.waitForLoadState('networkidle', { timeout: 60000 }).catch((e) => {
         if (e.name !== 'TimeoutError') throw e;
-        await page.waitForLoadState('load', { timeout: 30000 });
       });
       await page.waitForTimeout(SETTLE_MS);
       results[p] = await page.evaluate(scanPage);
