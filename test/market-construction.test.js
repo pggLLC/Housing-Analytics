@@ -46,7 +46,12 @@ assert.equal(utils.getPerBedroomRent(zori,'08077',api),null,'missing mix stays u
 assert.equal(utils.getPerBedroomRent(zori,'08077',{getFmrByFips:()=>({two_br:1})},{bedroomMix:mix}),null,'no invented FMR ratios');
 assert.equal(utils.getMarketRent(zori,'08031',{bedroomMix:mix,geoid:'0828745'}).geoid,'08031','wrong-county place cannot bind');
 for(const [kind,records] of Object.entries({counties:acs.counties,places:acs.places})) for(const [geoid,row] of Object.entries(records)) {
-  const source=require('../data/hna/summary/'+geoid+'.json').acsProfile.DP04_0134E;
+  // Same rule as scripts/build_acs_rent_co.py: the 2020–2024 5-year profile
+  // (a 1-year geography's acs5Profile twin); any other vintage stays null.
+  const summary=require('../data/hna/summary/'+geoid+'.json');
+  const profile=summary.acsProfile&&summary.acsProfile._acsSeries==='acs1'?summary.acs5Profile:summary.acsProfile;
+  const onVintage=profile&&String(profile._acsYear)==='2024'&&profile._acsSeries==='acs5';
+  const source=onVintage?Number(profile.DP04_0134E):null;
   assert.equal(row.median_gross_rent,source>0?source:null,kind+'/'+geoid);
 }
 (async()=>{
