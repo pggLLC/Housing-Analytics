@@ -2037,15 +2037,6 @@
               title="Allocate the LIHTC-eligible tiers proportional to the documented gap at 30/50/60% AMI for the selected jurisdiction"
             >Pre-fill from local need</button>
           </div>
-          <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:.4rem;line-height:1.45;">
-            Credit-eligible tiers depend on the elected minimum set-aside; 100%, 110%, and 120%
-            AMI never generate federal LIHTC equity in this screening model.
-            110% and 120% AMI are middle-income planning bands for Colorado's
-            Middle Income Housing Tax Credit (MIHTC) and Prop 123 context only;
-            this calculator does not size MIHTC credits. Mixed-income deals use IRC §42(c)(1)(B)
-            applicable fraction — eligible basis is prorated by LIHTC unit share.
-            See live calculation below.
-          </div>
           <div id="dc-ami-prefill-meta" hidden
             style="font-size:.8125rem;color:var(--muted);margin-bottom:.4rem;padding:.4rem .55rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);line-height:1.45;"></div>
           <!-- P7: per-tier BR-type selector. Each AMI tier now has a BR
@@ -2092,6 +2083,15 @@
                 }).join('')}
               </div>
             `;}).join('')}
+          </div>
+          <div style="font-size:var(--tiny);color:var(--muted);margin:.4rem 0;line-height:1.45;">
+            Credit-eligible tiers depend on the elected minimum set-aside; 100%, 110%, and 120%
+            AMI never generate federal LIHTC equity in this screening model.
+            110% and 120% AMI are middle-income planning bands for Colorado's
+            Middle Income Housing Tax Credit (MIHTC) and Prop 123 context only;
+            this calculator does not size MIHTC credits. Mixed-income deals use IRC §42(c)(1)(B)
+            applicable fraction — eligible basis is prorated by LIHTC unit share.
+            See live calculation below.
           </div>
 
           <fieldset id="dc-manual-market-rents" hidden style="margin-top:.75rem;border:1px solid var(--border);padding:.65rem;min-width:0;">
@@ -5798,6 +5798,12 @@
     var u30 = Math.round(totalUnits * (gaps['30'] / total));
     var u50 = Math.round(totalUnits * (gaps['50'] / total));
     var u60 = Math.max(0, totalUnits - u30 - u50);
+    var before = {};
+    [30, 40, 50, 60].forEach(function (pct) {
+      var inp = document.getElementById('dc-units-' + pct);
+      var chk = document.getElementById('dc-chk-' + pct);
+      before[pct] = (inp ? String(inp.value) : '') + '|' + (chk ? chk.checked : '');
+    });
     function _setRow(pct, units) {
       var chk = document.getElementById('dc-chk-' + pct);
       var inp = document.getElementById('dc-units-' + pct);
@@ -5828,11 +5834,27 @@
       var pct30 = total > 0 ? Math.round(100 * gaps['30'] / total) : 0;
       var pct50 = total > 0 ? Math.round(100 * gaps['50'] / total) : 0;
       var pct60 = Math.max(0, 100 - pct30 - pct50);
+      // On a phone the tier rows sit below the fold, so the note itself must
+      // say what changed — or that nothing did because the tiers already match.
+      var changed = [30, 40, 50, 60].filter(function (pct) {
+        var inp = document.getElementById('dc-units-' + pct);
+        var chk = document.getElementById('dc-chk-' + pct);
+        return before[pct] !== (inp ? String(inp.value) : '') + '|' + (chk ? chk.checked : '');
+      });
+      var setLine = 'Units set below: 30% AMI ' + u30 + ' · 40% AMI 0 · 50% AMI ' + u50 + ' · 60% AMI ' + u60 + '.';
       metaEl.innerHTML =
-        '<strong>Allocated ' + totalUnits + ' units</strong> proportional to the documented gap in ' + label +
+        (changed.length ? '<strong>Allocated ' + totalUnits + ' units</strong>'
+          : '<strong>No change:</strong> your tiers already match the allocation of ' + totalUnits + ' units') +
+        ' proportional to the documented gap in ' + label +
         ' (' + (kind === 'place' ? 'place-level' : 'county-level') + '): ' +
-        pct30 + '% at 30% AMI · ' + pct50 + '% at 50% AMI · ' + pct60 + '% at 60% AMI. ' +
+        pct30 + '% at 30% AMI · ' + pct50 + '% at 50% AMI · ' + pct60 + '% at 60% AMI. ' + setLine + ' ' +
         'Workforce/middle-income tiers (70%-120%) left unchanged — adjust manually for mixed-income deals.';
+      changed.forEach(function (pct) {
+        var inp = document.getElementById('dc-units-' + pct);
+        if (!inp) return;
+        inp.style.outline = '2px solid var(--accent)';
+        setTimeout(function () { inp.style.outline = ''; }, 2500);
+      });
     }
   }
 
