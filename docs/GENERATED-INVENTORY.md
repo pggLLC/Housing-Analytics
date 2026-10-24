@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-24T13:20:41.823Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-24T15:57:56.136Z. Do not edit by hand.
 
 ---
 
@@ -2403,7 +2403,7 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.4 KB |
-| `test/market-construction.test.js` | 6.0 KB |
+| `test/market-construction.test.js` | 6.4 KB |
 | `test/market-direction-tab.test.mjs` | 25.6 KB |
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
 | `test/market-jurisdiction-clears.test.js` | 22.2 KB |
