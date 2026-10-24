@@ -51,6 +51,14 @@
       "status": "historical",
       "source_url": "https://historicalelectiondata.coloradosos.gov/contest/25864",
       "note": "Agency administration confirmed at https://coloradoaffordablehousingfinancingfund.com/about/",
+      "fund_estimate": {
+        "amount_millions": 290,
+        "from_budget_year": "2023-24",
+        "source": "Colorado Legislative Council, Proposition 123 ballot analysis (2022)",
+        "source_url": "https://content.leg.colorado.gov/sites/default/files/initiative%2520referendum_proposition%20123%20final%20lc%20packet.pdf",
+        "quote": "is estimated to be $145 million in state budget year 2022-23 and $290 million in state budget year 2023-24 and beyond",
+        "verified": "2026-10-23"
+      },
       "verified": "2026-10-03"
     },
     {
