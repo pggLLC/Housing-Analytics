@@ -1,14 +1,14 @@
 {
   "metadata": {
-    "generated":   "2026-09-24",
-    "vintage":     "Confirmed from CHFA's official Dates and Deadlines page (chfainfo.com/rental-housing/housing-credit/dates-and-deadlines) on 2026-06-03; 2027 dates, QAP hearings and comment deadline re-verified 2026-09-24 against CHFA's QAP page (chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan), its hearing notice (chfainfo.com/rental-housing/housing-credit/qap-hearing), the 2027-28 QAP Third Draft (section 3.B.2) and Third Draft Summary of Changes dated 2026-09-11, and the August 26, 2026 hearing presentation. CHFA's published cycle: R1 = 9% + State Credit (Feb deadline); R2 = 4% + State Credit (Aug deadline). Pure 4% deals are rolling; R2 specifically targets 4%-with-State-Credit projects. MIHTC has its own annual deadline.",
+    "generated":   "2026-10-24",
+    "vintage":     "Confirmed from CHFA's official Dates and Deadlines page (chfainfo.com/rental-housing/housing-credit/dates-and-deadlines) on 2026-06-03; 2027 dates, QAP hearings and comment deadline re-verified 2026-09-24 against CHFA's QAP page (chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan), its hearing notice (chfainfo.com/rental-housing/housing-credit/qap-hearing), the 2027-28 QAP Third Draft (section 3.B.2) and Third Draft Summary of Changes dated 2026-09-11, and the August 26, 2026 hearing presentation. On 2026-10-24 CHFA's QAP page still listed the Third Draft as the latest 2027-28 document (no adopted plan posted), and its hearing page (chfainfo.com/rental-housing/housing-credit/qap-hearing) announced the October 29 MIHTC and November 2 TOC and TZ Credit allocation plan hearings; that page no longer shows the July-August QAP hearings, which are kept here from the 2026-09-24 check. CHFA's published cycle: R1 = 9% + State Credit (Feb deadline); R2 = 4% + State Credit (Aug deadline). Pure 4% deals are rolling; R2 specifically targets 4%-with-State-Credit projects. MIHTC has its own annual deadline.",
     "source_url":  "https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192",
     "qap_sources": {
       "2027-28-qap-third-draft": {
         "status":   "draft",
         "title":    "CHFA 2027-28 QAP Third Draft, section 3.B.2 (posted September 11, 2026; not yet adopted)",
         "url":      "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
-        "verified": "2026-09-24"
+        "verified": "2026-10-24"
       },
       "chfa-dates-and-deadlines-2026": {
         "status":   "adopted",
@@ -162,8 +162,38 @@
       "date_end":   "2026-10-31",
       "category":   "qap-adoption",
       "status":     "upcoming",
-      "details":    "CHFA's timeline (August 26, 2026 hearing presentation) puts the final draft before the CHFA Board, then the Board-approved plan before the Governor, in September-October 2026. CHFA has not published a specific date. For comparison, the 2025-26 QAP Second Amendment was adopted by the Board on September 26, 2025 and approved by the Governor on November 13, 2025.",
+      "details":    "CHFA's timeline (August 26, 2026 hearing presentation) puts the final draft before the CHFA Board, then the Board-approved plan before the Governor, in September-October 2026. CHFA has not published a specific date. As of 2026-10-24 CHFA's QAP page still lists the Third Draft (September 11, 2026) as the latest 2027-28 document, so the plan is not yet final. For comparison, the 2025-26 QAP Second Amendment was adopted by the Board on September 26, 2025 and approved by the Governor on November 13, 2025.",
       "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+    },
+    {
+      "id":         "2027-mihtc-plan-hearing",
+      "name":       "2027 MIHTC Allocation Plan draft — public hearing (Zoom)",
+      "date":       "2026-10-29",
+      "date_precision": "exact",
+      "category":   "plan-hearing",
+      "status":     "upcoming",
+      "details":    "CHFA public hearing on the draft 2027 Middle-income Housing Tax Credit (MIHTC) Allocation Plan, Thursday October 29, 2026, 10:00-11:00am via Zoom (registration link on CHFA's hearing page). CHFA accepts written comments up to the hearing date. The draft plan and its summary of changes are on CHFA's MIHTC page (chfainfo.com/rental-housing/housing-credit/middle-income-housing-tax-credit-mihtc). Checked 2026-10-24.",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing"
+    },
+    {
+      "id":         "2027-toc-plan-hearing",
+      "name":       "2027 TOC Credit Allocation Plan draft — public hearing (Zoom)",
+      "date":       "2026-11-02",
+      "date_precision": "exact",
+      "category":   "plan-hearing",
+      "status":     "upcoming",
+      "details":    "CHFA public hearing on the draft 2027 Transit-oriented Communities (TOC) Credit Allocation Plan, Monday November 2, 2026, 2:00-3:00pm via Zoom (registration link on CHFA's hearing page). CHFA accepts written comments up to the hearing date. The draft plan and its summary of changes are on CHFA's state credit page (chfainfo.com/state-credit). Checked 2026-10-24.",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing"
+    },
+    {
+      "id":         "2027-tz-plan-hearing",
+      "name":       "2027 TZ Credit Allocation Plan draft — public hearing (Zoom)",
+      "date":       "2026-11-02",
+      "date_precision": "exact",
+      "category":   "plan-hearing",
+      "status":     "upcoming",
+      "details":    "CHFA public hearing on the draft 2027 Transit Zone (TZ) Credit Allocation Plan, the first plan for the new TZ credit, Monday November 2, 2026, 3:00-4:00pm via Zoom (registration link on CHFA's hearing page). CHFA accepts written comments up to the hearing date. The draft plan is on CHFA's state credit page (chfainfo.com/state-credit). Checked 2026-10-24.",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing"
     },
     {
       "id":          "2027-r1-loi",

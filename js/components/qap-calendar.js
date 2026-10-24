@@ -93,11 +93,11 @@
       '.qc-item__cat--9pct-r1-deadline,.qc-item__cat--9pct-r2-deadline,.qc-item__cat--4pct-r2-deadline,.qc-item__cat--mihtc-deadline { background:rgba(220,38,38,.12); color:#8a1414; border:1px solid rgba(220,38,38,.4); }',
       '.qc-item__cat--9pct-r1-awards,.qc-item__cat--9pct-r2-awards,.qc-item__cat--4pct-r2-awards { background:rgba(16,185,129,.12); color:#02563b; border:1px solid rgba(16,185,129,.4); }',
       '.qc-item__cat--9pct-r1-loi,.qc-item__cat--4pct-r2-loi,.qc-item__cat--mihtc-loi { background:rgba(245,158,11,.08); color:#7c3d00; border:1px solid rgba(245,158,11,.3); }',
-      '.qc-item__cat--qap-comment,.qc-item__cat--qap-hearing { background:rgba(245,158,11,.12); color:#7c3d00; border:1px solid rgba(245,158,11,.4); }',
+      '.qc-item__cat--qap-comment,.qc-item__cat--qap-hearing,.qc-item__cat--plan-hearing { background:rgba(245,158,11,.12); color:#7c3d00; border:1px solid rgba(245,158,11,.4); }',
       '.qc-item__cat--qap-adoption { background:rgba(99,102,241,.12); color:#312e81; border:1px solid rgba(99,102,241,.4); }',
       'html.dark-mode .qc-item__cat--9pct-r1-deadline,html.dark-mode .qc-item__cat--9pct-r2-deadline,html.dark-mode .qc-item__cat--4pct-r2-deadline,html.dark-mode .qc-item__cat--mihtc-deadline { color:#fca5a5; }',
       'html.dark-mode .qc-item__cat--9pct-r1-awards,html.dark-mode .qc-item__cat--9pct-r2-awards,html.dark-mode .qc-item__cat--4pct-r2-awards { color:#6ee7b7; }',
-      'html.dark-mode .qc-item__cat--9pct-r1-loi,html.dark-mode .qc-item__cat--4pct-r2-loi,html.dark-mode .qc-item__cat--mihtc-loi,html.dark-mode .qc-item__cat--qap-comment,html.dark-mode .qc-item__cat--qap-hearing { color:#fcd34d; }',
+      'html.dark-mode .qc-item__cat--9pct-r1-loi,html.dark-mode .qc-item__cat--4pct-r2-loi,html.dark-mode .qc-item__cat--mihtc-loi,html.dark-mode .qc-item__cat--qap-comment,html.dark-mode .qc-item__cat--qap-hearing,html.dark-mode .qc-item__cat--plan-hearing { color:#fcd34d; }',
       'html.dark-mode .qc-item__cat--qap-adoption { color:#a5b4fc; }',
       '.qc-item__est { font-size:.8125rem; font-style:italic; color:var(--muted); }',
       // Draft-QAP badge: a date taken from a QAP CHFA has not adopted yet.
