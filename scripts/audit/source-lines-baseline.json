@@ -183,17 +183,15 @@
       }
     },
     "hna-what-housing-exists.html": {
-      "unsourced": 10,
+      "unsourced": 4,
       "undated": 0,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
-        "unsourced: #hnaH2Stock": 4,
-        "unsourced: #main-content>aside.hna-section-takeaway:1": 2,
         "unsourced: #hnaChapterHandoff": 2
       }
     },
     "hna-what-to-do.html": {
-      "unsourced": 129,
+      "unsourced": 44,
       "undated": 0,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
@@ -203,9 +201,7 @@
         "unsourced: #main-content>div.stat:26": 1,
         "unsourced: #main-content>div.chart-card:1": 17,
         "unsourced: #hna-rail-3": 18,
-        "unsourced: #hna-rail-5": 4,
         "unsourced: #housing-need-projection": 1,
-        "unsourced: #housing-type-need-section": 81,
         "unsourced: #hnaChapterHandoff": 2
       }
     },
@@ -220,22 +216,10 @@
       }
     },
     "hna-who-lives-here.html": {
-      "unsourced": 28,
+      "unsourced": 6,
       "undated": 0,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
-        "unsourced: #hnaH2Tenure": 4,
-        "unsourced: #main-content>aside.hna-section-takeaway:1": 2,
-        "unsourced: #main-content>div.stat:23": 1,
-        "unsourced: #main-content>div.stat:24": 1,
-        "unsourced: #main-content>div.stat:27": 1,
-        "unsourced: #main-content>div.stat:28": 1,
-        "unsourced: #main-content>div.stat:29": 1,
-        "unsourced: #main-content>div.stat:30": 1,
-        "unsourced: #main-content>div.stat:31": 1,
-        "unsourced: #main-content>div.stat:32": 1,
-        "unsourced: #main-content>div.stat:33": 1,
-        "unsourced: #hna-rail-5": 7,
         "unsourced: #hnaChapterHandoff": 4
       }
     },
@@ -252,25 +236,11 @@
       "areas": {}
     },
     "housing-needs-assessment.html": {
-      "unsourced": 166,
+      "unsourced": 53,
       "undated": 20,
       "areas": {
         "unsourced: #hnaDecisionStrip": 2,
         "unsourced: #rentTriangulationCard": 1,
-        "unsourced: #hnaH2Stock": 4,
-        "unsourced: #main-content>aside.hna-section-takeaway:1": 2,
-        "unsourced: #hnaH2Tenure": 4,
-        "unsourced: #main-content>aside.hna-section-takeaway:2": 2,
-        "unsourced: #main-content>div.stat:27": 1,
-        "unsourced: #main-content>div.stat:28": 1,
-        "unsourced: #main-content>div.stat:31": 1,
-        "unsourced: #main-content>div.stat:32": 1,
-        "unsourced: #main-content>div.stat:33": 1,
-        "unsourced: #main-content>div.stat:34": 1,
-        "unsourced: #main-content>div.stat:35": 1,
-        "unsourced: #main-content>div.stat:36": 1,
-        "unsourced: #main-content>div.stat:37": 1,
-        "unsourced: #hna-rail-18": 7,
         "unsourced: #main-content>div.stat:49": 1,
         "unsourced: #main-content>div.stat:50": 1,
         "unsourced: #main-content>div.stat:51": 1,
@@ -278,12 +248,10 @@
         "unsourced: #main-content>div.chart-card:1": 17,
         "unsourced: #hna-rail-26": 18,
         "unsourced: #hna-rail-34": 10,
-        "unsourced: #hna-rail-35": 4,
         "undated: #labor-market-section": 4,
         "undated: #main-content>section.hna-grid:1": 8,
         "undated: #economicIndicatorsContainer": 8,
-        "unsourced: #housing-need-projection": 1,
-        "unsourced: #housing-type-need-section": 81
+        "unsourced: #housing-need-projection": 1
       }
     },
     "ic-summary.html": {
