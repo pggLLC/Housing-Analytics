@@ -1304,7 +1304,7 @@
     "dataset": "2024/acs/acs5",
     "geography": "county",
     "state": "Colorado (FIPS 08)",
-    "refreshed_utc": "2026-10-23T11:51:15.997Z",
+    "refreshed_utc": "2026-10-24T11:09:42.140Z",
     "census_api_key_used": true
   }
 }
