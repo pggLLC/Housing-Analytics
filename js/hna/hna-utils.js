@@ -1122,10 +1122,13 @@
    * Wires up form controls inside the #fastTrackCalculator container.
    */
 
-  function computeIncomeNeeded(homeValue){
+  // opts.rateAnnual prices the same home at another rate (the sensitivity line);
+  // every other assumption stays AFFORD's.
+  function computeIncomeNeeded(homeValue, opts){
     const V = Number(homeValue);
     if (!Number.isFinite(V) || V <= 0) return null;
-    if (!Number.isFinite(AFFORD.rateAnnual)) return null;
+    const rateAnnual = opts && opts.rateAnnual != null ? Number(opts.rateAnnual) : AFFORD.rateAnnual;
+    if (!Number.isFinite(rateAnnual) || rateAnnual <= 0) return null;
 
     // Shared-engine delegation (PR #1388): OwnershipFinance's closed-form
     // incomeRequiredForPrice is the exact algebraic counterpart of this
@@ -1135,7 +1138,7 @@
     const engine = typeof window !== 'undefined' && window.OwnershipFinance;
     if (engine && typeof engine.incomeRequiredForPrice === 'function') {
       const r = engine.incomeRequiredForPrice(V, {
-        rateAnnual: AFFORD.rateAnnual,
+        rateAnnual: rateAnnual,
         termYears: AFFORD.termYears,
         downPaymentRate: AFFORD.downPaymentPct,
         propertyTaxRate: AFFORD.propertyTaxPctAnnual,
@@ -1159,7 +1162,7 @@
     const down = V * AFFORD.downPaymentPct;
     const loan = V - down;
 
-    const r = AFFORD.rateAnnual / 12;
+    const r = rateAnnual / 12;
     const n = AFFORD.termYears * 12;
     const pAndI = loan * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
 
@@ -1178,6 +1181,19 @@
       annualIncome,
       components: { pAndI, tax, ins, pmi }
     };
+  }
+
+  // The same county growth split three ways (decision 5): the 50/50 blend the
+  // headline uses, and what household share alone or permit share alone would
+  // give. Growth scales linearly with the share, so county growth is the place
+  // result divided by its blended share. Missing inputs give null, never 0.
+  function placeShareRange(growthUnits, shares){
+    const g = Number(growthUnits);
+    const blended = shares ? Number(shares.blended) : NaN;
+    if (growthUnits == null || !Number.isFinite(g) || !Number.isFinite(blended) || blended <= 0) return null;
+    const county = g / blended;
+    const at = (share) => (share == null || !Number.isFinite(Number(share)) ? null : county * Number(share));
+    return { blended: g, householdOnly: at(shares.household), permitOnly: at(shares.permit) };
   }
 
   function rentBurden30Plus(pcts){
@@ -1370,6 +1386,7 @@
     acsEntryFor,
     acsSeriesText,
     computeIncomeNeeded,
+    placeShareRange,
     computeActiveMarketTargetVacancy,
     rentBurden30Plus,
     acsBurdenRejected,

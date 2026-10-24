@@ -154,6 +154,10 @@
       };
     });
     var requiredIncome = target != null ? engine.incomeNeededForHomeValue(target, { modelId: modelId, householdSize: householdSize }) : null;
+    // Sensitivity: the same price one point below the shared rate.
+    var lowerRate = engine.MORTGAGE_RATE ? engine.MORTGAGE_RATE.rateAnnual - 0.01 : null;
+    var requiredIncomeLower = requiredIncome != null && lowerRate > 0
+      ? engine.incomeNeededForHomeValue(target, { modelId: modelId, householdSize: householdSize, rateAnnual: lowerRate }) : null;
     var datasets = input.datasets || {};
     var local = datasets.localResources && datasets.localResources[keyForGeo(geo)] || null;
     var providers = resolveProviders(local, datasets.stewardshipProviders);
@@ -192,6 +196,8 @@
       ladder: ladder,
       amiYear: input.amiYear || null,
       requiredIncome: requiredIncome,
+      requiredIncomeLower: requiredIncomeLower,
+      lowerRate: lowerRate,
       mortgageRate: engine.MORTGAGE_RATE || null,
       requiredIncomeAmiRatio: requiredIncome != null && ami > 0 ? requiredIncome / ami : null,
       ownership: input.ownershipNeedResult || {},
@@ -276,7 +282,8 @@
       '<p><strong>Model implications:</strong> ' + esc(implications.who_it_fits || MISSING) + ' ' + ProvenanceLabel.html(vm.model || { classification: 'modeled' }, { compact: true }) + '</p>' + risk +
       section('AMI and affordable-price ladder', '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr><th>Tier</th><th>Income</th><th>Maximum price</th><th>Shortfall state</th><th>Clears local median</th></tr></thead><tbody>' + ladderRows + '</tbody></table></div>' +
         '<p class="chart-source">Incomes: county 4-person AMI from <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD ' + (vm.amiYear ? 'FY' + esc(vm.amiYear) + ' ' : '') + 'income limits</a>' + (vm.amiYear ? '' : ' (year unconfirmed)') + ', adjusted for household size. Maximum prices are the site\'s estimate under the selected model (<a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md">method</a>).</p>' + rateLine) +
-      section('Local price and income required', '<p>Local price: <strong>' + localPrice + '</strong> ' + pricePill + priceUnavailableNote + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + ProvenanceLabel.html({ classification: 'modeled' }, { compact: true }) + '</p>' + rateLine) +
+      section('Local price and income required', '<p>Local price: <strong>' + localPrice + '</strong> ' + pricePill + priceUnavailableNote + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + ProvenanceLabel.html({ classification: 'modeled' }, { compact: true }) + '</p>' +
+        (vm.requiredIncomeLower != null ? '<p style="color:var(--muted);font-size:1rem;">At ' + (vm.lowerRate * 100).toFixed(2) + '%, one point lower, it would be ' + money(vm.requiredIncomeLower) + '.</p>' : '') + rateLine) +
       section('Attainable supply and potential buyer pool', supplyBody) + section('Programs and funding', fundingBody) +
       section('Stewardship and authority capacity', capacityBody) + section('Public land', landBody) +
       section('Resale mechanism comparison', resaleBody) +

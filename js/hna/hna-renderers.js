@@ -681,9 +681,16 @@
     if (incomeNeedSrc) {
       const sourceText = U().homeValueSourceText ? U().homeValueSourceText(homeInfo) : homeInfo.sourceText;
       const rateA = U().AFFORD || {};
+      // Sensitivity: the same home one point lower, so a reader sees how much
+      // the dated rate moves the answer without a second rate in the headline.
+      const lowerRate = Number.isFinite(rateA.rateAnnual) ? rateA.rateAnnual - 0.01 : null;
+      const lowerRes = incNeeded !== null && lowerRate > 0 ? U().computeIncomeNeeded(homeVal, { rateAnnual: lowerRate }) : null;
+      const lowerText = lowerRes && Number.isFinite(lowerRes.annualIncome)
+        ? ' · at ' + (lowerRate * 100).toFixed(2) + '% it would be ' + fmtMoney(lowerRes.annualIncome)
+        : '';
       incomeNeedSrc.textContent = (sourceText || 'Home-value source unavailable') + ' · ' +
         (Number.isFinite(rateA.rateAnnual)
-          ? (rateA.rateAnnual * 100).toFixed(2) + '% mortgage rate, ' + rateA.rateSource
+          ? (rateA.rateAnnual * 100).toFixed(2) + '% mortgage rate, ' + rateA.rateSource + lowerText
           : 'mortgage rate unavailable, so income needed is not shown');
     }
 
@@ -4112,6 +4119,12 @@
         rows += row('Census BPS permit share', pct(trace.permitShare, 3), trace.permitWindow + ' permit series.');
         rows += row('Allocation blend', '50% ACS household share + 50% BPS permit share',
           'Stored blended share used: ' + pct(trace.blendedShare, 3) + '.');
+        const range = U().placeShareRange ? U().placeShareRange(trace.growthUnits != null ? trace.growthUnits : trace.incrementalUnits,
+          { household: trace.householdShare, permit: trace.permitShare, blended: trace.blendedShare }) : null;
+        if (range) {
+          rows += row('Resident growth on household share alone', num(range.householdOnly), 'Same county growth × ACS household share.');
+          rows += row('Resident growth on permit share alone', num(range.permitOnly), 'Same county growth × BPS permit share.');
+        }
       }
       rows += row('County projection provenance', trace.crossCounty
         ? 'Combined-county denominators before the place share was applied'
