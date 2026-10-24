@@ -1,5 +1,5 @@
 {
-  "extracted_at_commit": "f1ff198e1",
+  "extracted_at_commit": "f48ffcac2",
   "ranking": {
     "source_file": "scripts/hna/build_ranking_index.py",
     "axis_weights": {
