@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-10-23T08:41:46Z",
-    "as_of": "2026-10-23",
+    "generated": "2026-10-24T08:16:42Z",
+    "as_of": "2026-10-24",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -22,7 +22,7 @@
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
       "listed": 1346,
-      "upcoming": 36
+      "upcoming": 35
     },
     {
       "id": "housing_colorado",
@@ -42,18 +42,6 @@
     }
   ],
   "events": [
-    {
-      "title": "chfareach: HOTMA for Tax Credit Properties, Online Workshop, October 22-23, 2026",
-      "start": "2026-10-22",
-      "end": "2026-10-23",
-      "time": "08:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-hotma-for-tax-credit-properties-online-workshop-10-22-2026-to-10-23-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
     {
       "title": "chfareach: New to chfareach? New Participant Orientation, Online Meeting",
       "start": "2026-10-26",
@@ -151,7 +139,7 @@
       "category": "other"
     },
     {
-      "title": "Training Webinar: CHFA Lender Basic Training",
+      "title": "Training Webinar: CHFA Lender Essentials Training",
       "start": "2026-11-10",
       "end": null,
       "time": "10:00",
@@ -271,7 +259,7 @@
       "category": "compliance"
     },
     {
-      "title": "Training Webinar: CHFA Lender Basic Training",
+      "title": "Training Webinar: CHFA Lender Essentials Training",
       "start": "2026-11-19",
       "end": null,
       "time": "13:00",
@@ -331,7 +319,7 @@
       "category": "other"
     },
     {
-      "title": "Training Webinar: CHFA Lender Basic Training",
+      "title": "Training Webinar: CHFA Lender Essentials Training",
       "start": "2026-12-08",
       "end": null,
       "time": "10:00",
@@ -488,6 +476,18 @@
     }
   ],
   "past": [
+    {
+      "title": "chfareach: HOTMA for Tax Credit Properties, Online Workshop, October 22-23, 2026",
+      "start": "2026-10-22",
+      "end": "2026-10-23",
+      "time": "08:55",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-hotma-for-tax-credit-properties-online-workshop-10-22-2026-to-10-23-2026",
+      "source": "chfa",
+      "category": "compliance"
+    },
     {
       "title": "chfareach: CHFA NSPIRE Inspections, Fort Collins",
       "start": "2026-10-22",
@@ -3753,54 +3753,6 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-deep-work-and-hyperfocus-next-level-thought-for-next-level-leaders-online-workshop-10-28-2",
       "source": "chfa",
       "category": "compliance"
-    },
-    {
-      "title": "Training Webinar: Final Documents",
-      "start": "2025-10-23",
-      "end": null,
-      "time": "13:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://attendee.gotowebinar.com/register/2300518522428779616",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "Training Webinar: CHFA Lender Basic Training",
-      "start": "2025-10-23",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/f10e2eda-c48d-4284-8ee1-669af7d0f01e@de029520-7a0e-4208-bc91-86b9369ad432",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "chfareach: Advanced HUD Compliance Training: HOTMA, Tenant Selection Plan Options, and HUD-required Documentation, Webinar",
-      "start": "2025-10-23",
-      "end": null,
-      "time": "09:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-advanced-hud-compliance-training-hotma-tenant-selection-plan-options-and-hud-required-docu",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "October 2025 CHFA Board of Directors Meeting",
-      "start": "2025-10-23",
-      "end": null,
-      "time": null,
-      "location": "CHFA Board Room and Virtual",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/about-chfa/leadership/board/october-2025-chfa-board-of-directors-meeting",
-      "source": "chfa",
-      "category": "board"
     }
   ]
 }

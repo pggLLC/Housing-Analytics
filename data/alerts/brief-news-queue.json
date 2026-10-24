@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-10-23T08:41:46Z",
-    "as_of": "2026-10-23",
+    "generated": "2026-10-24T08:16:42Z",
+    "as_of": "2026-10-24",
     "stale_days": 30,
-    "events_as_of": "2026-10-23",
+    "events_as_of": "2026-10-24",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,8 +14,16 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [
+        {
+          "title": "MGL Partners Opens Affordable Senior Housing Community in Denver",
+          "source": "Senior Living News",
+          "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPaDZuMXlubVQycXE1eVVwMkpZNGQ4bktuUHFEN290Y0xwTUpvaW5jcDJXVU1oYVJITnNPdkc3WVZKV0Q0OXRDMVA3YXZLZHhUNFRGQTRMNE1oeWtLME1pVTdQc1dTelZVeWFBOWRmR0tpYkhiQ3QwbnJwV3V4QUNuXzZyTUQ0WEdvNmN5b0pON3pobktyczh6TVBZc2Zoa0E?oc=5",
+          "date": "2026-10-22",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Denver officials celebrate opening of affordable housing community",
           "source": "CBS News",
@@ -96,7 +104,7 @@
         }
       ],
       "reasons": [
-        "2 new stories naming it",
+        "3 new stories naming it",
         "4 older stories not read yet"
       ]
     },
@@ -107,8 +115,16 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [
+        {
+          "title": "UCCS Economic Forum to examine Colorado Springs’ economic future",
+          "source": "KOAA News 5",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPU3VhYXdJTGxQMm5RWXNlWXBZVlZyVnhvdDVIeFlzcnZwWlN5NUxzNEhWWjFMMGx6RmVlY1ZqSmFlYzlLSFJYSHBJNG1uelQwa0REd3VlcDlJRS12UV9LRFA4QjJGU3NhcDJuaTFRcEFkdENDcDBZdGpuY2p4WWtKZW02blNSV1lvZ3ZLbmRyRTVfRnhXR3RubG9GY0FVZmZ3cGc?oc=5",
+          "date": "2026-10-23",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Tenants at two Colorado Springs properties for seniors call for change",
           "source": "Colorado Springs Gazette",
@@ -147,7 +163,7 @@
       ],
       "events": [],
       "reasons": [
-        "1 new story naming it",
+        "2 new stories naming it",
         "3 older stories not read yet"
       ]
     },
@@ -158,7 +174,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [
         {
           "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
@@ -192,15 +208,17 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
-          "source": "Chinook Observer",
-          "link": "https://news.google.com/rss/articles/CBMivwJBVV95cUxNNHFibEFhdlBSU3BSUmRVcG5FSGkzZ3J1Y2JpcFlEVWtQM2VjS3FFdlV5MDdzdl8taXljeXd3Y05sZk1zM0N1ejZsaFZ3cS0wVUhkTi1ndVZnUEd1dHhGZkljSVk1ZU9GR1ZiMGtkTkt4NEplYVIyX2k3R25IUVdZd3U3SnZjc1FhSm93TDNnWmtwczZNS2Z1QXpSYlVuVFVDQWlXQUJ0Y1ZPck9kTVlKVXdYRlhFb29rNjBwSmFZUF9OT1VxeG00NlVlekhkU3FkSXRGTlJMLVZ1QU8wZlJZX003RTBsaUpodFd0cXR6eXViUHVtQk1HdTZmTlZkM3RNTFU1bzhaZU5iOXFrd3JLN0h2ckg4ejNHTVlsSlhLU3BiMWFocWttRjNzMjBZYzU2bUNQUzgzak54bVVwWXAw?oc=5",
-          "date": "2026-10-22",
+          "source": "StreetInsider",
+          "link": "https://news.google.com/rss/articles/CBMivAJBVV95cUxORHpSWEozWTBKeUpmSU01ME5WSThOMnZmNEdYbVpReHFWUDB5YmtBUGVlWGg3VEhEOFB2WVhVWmo0Zk5HQzMwRUJqTVVGX29CS01WNXV2M3dDT1hEQzJhR29rNllOMEp5Y2JMWVpzcDNHZXN5TDJZc19hMlM1SUp1VzNCSGR0SUJSUExlMndhRHliY1dERk1ZcDhrT0UzT3NZM0V2b1NQWGl0ZzJtU090dWVjb1FRb015SkJsRXMxaFRHRU1lcHhST1piNHNtdWZ1dzFVeFQwRUIwV21NcFpWT2RBbktyekJmclE4dGMxdS1YcFVpUm1rcWFkTjYxcEQ1U19WVlZ3SGdTZHFBU0sxY2JTTHhsQUpZUHdicHZibHRmOUlXdTdtSk43cjdwcEZBd2JyVVV4UmRQQkd4?oc=5",
+          "date": "2026-10-23",
           "match": "place",
-          "also": []
+          "also": [
+            "Chinook Observer"
+          ]
         }
       ],
       "events": [],
@@ -215,7 +233,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [
         {
           "title": "Garfield County commissioners approve rezoning for nearly 100 homes west of Glenwood Springs",
@@ -238,7 +256,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -262,7 +280,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [
         {
           "title": "Telluride School District talks housing developments",
@@ -287,7 +305,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [
         {
           "title": "Garfield County commissioners approve rezoning for nearly 100 homes west of Glenwood Springs",
@@ -311,15 +329,17 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
-          "source": "Chinook Observer",
-          "link": "https://news.google.com/rss/articles/CBMivwJBVV95cUxNNHFibEFhdlBSU3BSUmRVcG5FSGkzZ3J1Y2JpcFlEVWtQM2VjS3FFdlV5MDdzdl8taXljeXd3Y05sZk1zM0N1ejZsaFZ3cS0wVUhkTi1ndVZnUEd1dHhGZkljSVk1ZU9GR1ZiMGtkTkt4NEplYVIyX2k3R25IUVdZd3U3SnZjc1FhSm93TDNnWmtwczZNS2Z1QXpSYlVuVFVDQWlXQUJ0Y1ZPck9kTVlKVXdYRlhFb29rNjBwSmFZUF9OT1VxeG00NlVlekhkU3FkSXRGTlJMLVZ1QU8wZlJZX003RTBsaUpodFd0cXR6eXViUHVtQk1HdTZmTlZkM3RNTFU1bzhaZU5iOXFrd3JLN0h2ckg4ejNHTVlsSlhLU3BiMWFocWttRjNzMjBZYzU2bUNQUzgzak54bVVwWXAw?oc=5",
-          "date": "2026-10-22",
+          "source": "StreetInsider",
+          "link": "https://news.google.com/rss/articles/CBMivAJBVV95cUxORHpSWEozWTBKeUpmSU01ME5WSThOMnZmNEdYbVpReHFWUDB5YmtBUGVlWGg3VEhEOFB2WVhVWmo0Zk5HQzMwRUJqTVVGX29CS01WNXV2M3dDT1hEQzJhR29rNllOMEp5Y2JMWVpzcDNHZXN5TDJZc19hMlM1SUp1VzNCSGR0SUJSUExlMndhRHliY1dERk1ZcDhrT0UzT3NZM0V2b1NQWGl0ZzJtU090dWVjb1FRb015SkJsRXMxaFRHRU1lcHhST1piNHNtdWZ1dzFVeFQwRUIwV21NcFpWT2RBbktyekJmclE4dGMxdS1YcFVpUm1rcWFkTjYxcEQ1U19WVlZ3SGdTZHFBU0sxY2JTTHhsQUpZUHdicHZibHRmOUlXdTdtSk43cjdwcEZBd2JyVVV4UmRQQkd4?oc=5",
+          "date": "2026-10-23",
           "match": "in_county",
-          "also": []
+          "also": [
+            "Chinook Observer"
+          ]
         }
       ],
       "events": [],
@@ -334,7 +354,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [],
       "events": [],
       "reasons": []
@@ -346,7 +366,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [],
       "events": [],
       "reasons": [
@@ -360,7 +380,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [],
       "events": [],
       "reasons": []
@@ -372,7 +392,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [],
       "events": [],
       "reasons": []
@@ -384,7 +404,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [],
       "events": [],
       "reasons": []
@@ -396,7 +416,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [],
       "events": [],
       "reasons": []
@@ -408,7 +428,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [],
       "events": [],
       "reasons": [
@@ -422,7 +442,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [],
       "events": [],
       "reasons": []
@@ -434,7 +454,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 5,
+      "days_since_review": 6,
       "stories": [],
       "events": [],
       "reasons": []
