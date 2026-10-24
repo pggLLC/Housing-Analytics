@@ -51,7 +51,7 @@ export const RULES = [
   { value: (F) => (3.24 * F.eq9).toFixed(2), files: [CONTENT], pattern: /that's about \$(\d+\.\d\d)M in additional equity/g },
   { fig: 'quarter', files: [DC], pattern: /For (\d{4}-Q\d), Novogradac's national averages/g },
   { fig: 'eqCo', files: [DC], pattern: /Colorado median \(all credit types\) was \$(\d\.\d\d)/g },
-  { fig: 'quarter', files: ['cra-expansion-analysis.html'], pattern: /\(Novogradac (\d{4}-Q\d): 9% \$/g },
+  { fig: 'quarter', files: ['cra-expansion-analysis.html'], pattern: /Novogradac(?:<\/a>)? (\d{4}-Q\d): 9% \$/g },
   { fig: 'eq9', files: ['cra-expansion-analysis.html'], pattern: /: 9% \$(\d\.\d\d), 4% \$/g },
   { fig: 'eq4', files: ['cra-expansion-analysis.html'], pattern: /, 4% \$(\d\.\d\d)\), not only/g },
   // lihtc-guide spans are refilled from the data at runtime; these keep the
