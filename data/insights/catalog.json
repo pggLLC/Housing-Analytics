@@ -169,6 +169,17 @@
       "published": "2026-10-18"
     },
     {
+      "id": "green-building-guide",
+      "section": "reference",
+      "type": "Guide",
+      "title": "Green Building in a Colorado Deal",
+      "url": "green-building-guide.html",
+      "summary": "What CHFA requires for green building and electrification, how efficiency changes the utility allowance and the rent, which federal energy credits ended in 2026, and which Colorado program fits which kind of deal, with each rule and program quoted and dated.",
+      "sources": ["CHFA QAP", "CHFA Utility Allowance Policy", "P.L. 119-21", "Colorado Energy Office", "Xcel Energy", "Energy Outreach Colorado"],
+      "maintenance": "reviewed",
+      "review_from": { "file": "data/policy/green-building.json" }
+    },
+    {
       "id": "help-for-homebuyers",
       "section": "reference",
       "type": "Consumer guide",
