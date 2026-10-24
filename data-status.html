@@ -331,12 +331,6 @@
           Content Freshness
         </h2>
         <div class="status-grid" id="contentStatusGrid">
-          <div class="status-card status-card--loading" id="trendsStatusCard">
-            <div class="status-card__icon">⏳</div>
-            <div class="status-card__label">Key Market Trends</div>
-            <div class="status-card__detail">Checking verification date…</div>
-            <div class="status-card__age"></div>
-          </div>
           <div class="status-card status-card--loading" id="alertPipelineCard">
             <div class="status-card__icon">⏳</div>
             <div class="status-card__label">Alert Pipeline</div>
@@ -600,7 +594,6 @@
 
         // ── Content freshness checks ─────────────────────────────────────────────────
 
-        var STALE_TRENDS_DAYS = 30; // warn if Key Market Trends not verified in 30d
         var STALE_PIPELINE_DAYS = 7; // warn if alert pipeline hasn't run in 7d
 
         function resolvePath(p) {
@@ -610,18 +603,6 @@
         }
 
         function loadContentStatus() {
-          // Key Market Trends verification status
-          fetch(resolvePath("data/insights-meta.json"))
-            .then(function (r) {
-              return r.ok ? r.json() : Promise.reject(r.status);
-            })
-            .then(function (meta) {
-              renderTrendsCard(meta);
-            })
-            .catch(function () {
-              renderTrendsCard(null);
-            });
-
           // Alert pipeline status
           fetch(resolvePath("data/policy_briefs.json"))
             .then(function (r) {
@@ -633,46 +614,6 @@
             .catch(function () {
               renderPipelineCard(null);
             });
-        }
-
-        function renderTrendsCard(meta) {
-          var card = document.getElementById("trendsStatusCard");
-          if (!card) return;
-          if (!meta || !meta.lastVerified) {
-            card.className = "status-card status-card--warn";
-            card.innerHTML =
-              '<div class="status-card__icon">⚠️</div>' +
-              '<div class="status-card__label">Key Market Trends</div>' +
-              '<div class="status-card__detail">Verification date unavailable</div>' +
-              '<div class="status-card__age"><a href="docs/MARKET_TRENDS_UPDATE_PROTOCOL.md">View protocol →</a></div>';
-            return;
-          }
-          var verified = new Date(meta.lastVerified);
-          var ageDays = daysSince(verified);
-          var dateStr = verified.toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          });
-          var isStale = ageDays > STALE_TRENDS_DAYS;
-          card.className =
-            "status-card status-card--" + (isStale ? "warn" : "ok");
-          card.innerHTML =
-            '<div class="status-card__icon">' +
-            (isStale ? "⚠️" : "✅") +
-            "</div>" +
-            '<div class="status-card__label">Key Market Trends</div>' +
-            '<div class="status-card__detail">Last verified: ' +
-            _esc(dateStr) +
-            (meta.verifiedBy ? " by " + _esc(meta.verifiedBy) : "") +
-            "</div>" +
-            '<div class="status-card__age">' +
-            ageDays +
-            "d ago" +
-            (isStale
-              ? ' — <strong style="color:var(--warn);">review recommended</strong>'
-              : "") +
-            "</div>";
         }
 
         function renderPipelineCard(meta) {

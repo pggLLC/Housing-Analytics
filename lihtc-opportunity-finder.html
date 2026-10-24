@@ -1639,7 +1639,7 @@
                       <summary class="lof-sb-explainer-summary">What this does (plain English) ▸</summary>
                       <div class="lof-sb-explainer-body">
                         <p class="lof-sb-help">
-                          Each preset (9% / 4% / Preservation / etc.) ranks the 482 Colorado places using a weighted blend of <strong>5 dimensions</strong>. The preset bakes in CHFA's framework for that deal type — e.g., 4% Bond emphasizes <em>population</em> (capital absorption) and de-emphasizes <em>recency</em>, while 9% Competitive does the opposite. The defaults reflect the rural-CO-correct interpretation; the sliders below let you re-encode that for your own thesis.
+                          Each preset (9% / 4% / Preservation / etc.) ranks the 482 Colorado places using a weighted blend of <strong>5 dimensions</strong>. The preset bakes in CHFA's framework for that deal type — e.g., 4% Bond emphasizes <em>population</em> (capital absorption) and de-emphasizes <em>recency</em>, while 9% Competitive does the opposite. The defaults are set for rural Colorado; use the sliders below to set your own weights.
                         </p>
                         <p class="lof-sb-help" style="margin-top:.4rem;"><strong>What each dimension measures:</strong></p>
                         <ul class="lof-sb-dim-list">
@@ -2091,11 +2091,11 @@
               </li>
 
               <li>
-                <strong>Basis Boost — does the IRS give this place a bigger budget?</strong>
+                <strong>Basis Boost — is the place in a QCT or DDA?</strong>
                 <br>The federal LIHTC statute (IRC §42) gives a 30% bigger eligible-basis cap to
                 deals in federally-designated low-income areas. That translates to roughly $3–5M
-                of extra equity on a typical 60-unit project — a hard math line, not a soft
-                preference. Score: 100 if the place is in <em>both</em> a Qualified Census Tract
+                of extra equity on a typical 60-unit project.
+                Score: 100 if the place is in <em>both</em> a Qualified Census Tract
                 (QCT) and a Difficult Development Area (DDA); 60 if just one; 0 if neither.
                 <br><em>Data:</em> HUD's 2026 QCT designation list (224 Colorado tracts) + HUD's
                 2026 DDA list (10 nonmetro Colorado counties and 31 metro ZIP areas; a place counts
@@ -2192,9 +2192,8 @@
           <div class="lof-meth-block">
             <h3>Per-deal-type weighting (re-tuned live by your target selection)</h3>
             <p>
-              Different deal types succeed on different signals. The locator doesn't use one fixed
-              weighting — it re-tunes the formula based on which round you're trying to compete in.
-              Here's what each deal type is actually optimizing for, in plain English:
+              The locator changes its weights with the deal type you pick, because 9%, 4% and
+              preservation deals are won or lost on different factors:
             </p>
 
             <h4 style="margin:14px 0 4px;">9% Competitive — geographic-gap is the differentiator</h4>
@@ -2215,8 +2214,8 @@
             <h4 style="margin:14px 0 4px;">4% Bond — population scale is the differentiator</h4>
             <p>
               4% bond deals are non-competitive (you "buy your way in" via private-activity bonds),
-              so saturation matters less. What kills 4% deals is <strong>not enough scale to absorb
-              the transaction.</strong> Bonds carry fixed costs (issuance fees, trustees, legal,
+              so saturation matters less. The usual problem for a 4% deal is <strong>too few units to carry
+              the bond costs.</strong> Bonds carry fixed costs (issuance fees, trustees, legal,
               ongoing compliance) that only pencil at 100+ units; smaller deals can't carry that
               overhead. A 60-unit 4% bond deal in a 1,500-person town typically doesn't work; the
               same project on 9% credits often does. Population is therefore the dominant factor.
