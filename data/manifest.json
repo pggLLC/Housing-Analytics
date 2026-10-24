@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-24T09:26:58.797468Z",
+  "generated": "2026-10-24T09:39:01.028902Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8824,7 +8824,7 @@
     "data/market/co-construction-labor-cost.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 130798
+      "bytes": 131373
     },
     "data/market/co-urban-renewal-authorities.json": {
       "featureCount": 0,

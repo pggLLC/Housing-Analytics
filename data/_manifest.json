@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-24T08:16:45.815Z",
+    "generated_at": "2026-10-24T09:38:57.172Z",
     "root": "data/",
     "file_count": 1989,
-    "total_size_bytes": 203590988,
+    "total_size_bytes": 203591821,
     "kinds": {
       "json": 1941,
       "geojson": 34,
@@ -6575,8 +6575,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1259706,
-      "mtime": "2026-10-23T10:26:13.909Z",
+      "size_bytes": 1259964,
+      "mtime": "2026-10-24T09:38:40.907Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -37989,7 +37989,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 252821,
-      "mtime": "2026-10-24T04:05:08.531Z",
+      "mtime": "2026-10-24T09:38:41.099Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -38320,8 +38320,8 @@
     {
       "path": "market/co-construction-labor-cost.json",
       "kind": "json",
-      "size_bytes": 130798,
-      "mtime": "2026-10-10T11:49:50.351Z",
+      "size_bytes": 131373,
+      "mtime": "2026-10-24T09:38:50.150Z",
       "shape": "object",
       "keys": [
         "generatedAt",
@@ -38334,7 +38334,7 @@
       ],
       "key_count": 7,
       "primary_array_key": "history",
-      "primary_array_length": 116,
+      "primary_array_length": 117,
       "primary_array_first_keys": [
         "period",
         "laborWageYoyPct",
