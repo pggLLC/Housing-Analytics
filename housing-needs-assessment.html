@@ -847,12 +847,14 @@
         <h2 id="hnaH2Stock">Housing stock by structure type</h2>
         <p>Existing housing stock by structure type (ACS).</p>
         <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2020–2024" data-source-type="transformed"><canvas id="chartStock" role="img" aria-label="Housing stock by structure type chart"></canvas></div>
+        <p class="chart-source" data-acs-src="DP04" style="margin:.5rem 0 0;font-size:1rem;color:var(--muted)"></p>
       </div>
 
       <div class="chart-card span-6">
         <h2 id="hnaH2Tenure">Owner/renter shares</h2>
         <p>Owner and renter occupied housing shares (ACS).</p>
         <div class="chart-box" data-source="ACS 5-Year DP04" data-vintage="ACS 2020–2024" data-source-type="transformed"><canvas id="chartTenure" role="img" aria-label="Owner and renter tenure share chart"></canvas></div>
+        <p class="chart-source" data-acs-src="DP04" style="margin:.5rem 0 0;font-size:1rem;color:var(--muted)"></p>
       </div>
 
       <section class="chart-card span-12" id="hnaSecondHomesSection" aria-labelledby="hnaH2SecondHomes">
@@ -959,13 +961,13 @@
 
         <!-- Headline stats grid -->
         <div class="stats" aria-label="Household composition headline metrics" style="margin-top:6px">
-          <div class="stat"><div class="k">Total households</div><div class="v" id="statTotalHh">—</div><div class="s">ACS DP02_0001E</div></div>
-          <div class="stat"><div class="k">Family households</div><div class="v" id="statFamilyHh">—</div><div class="s">married + related-non-spouse HHs</div></div>
-          <div class="stat"><div class="k">Average household size</div><div class="v" id="statAvgHhSize">—</div><div class="s">people per HH (DP02_0016E)</div></div>
-          <div class="stat"><div class="k">Average family size</div><div class="v" id="statAvgFamSize">—</div><div class="s">people per family HH (DP02_0017E)</div></div>
-          <div class="stat"><div class="k">Households with kids (under 18)</div><div class="v" id="statHhWithKids">—</div><div class="s">DP02_0014E</div></div>
-          <div class="stat"><div class="k">Households with seniors (65+)</div><div class="v" id="statHhWithSeniors">—</div><div class="s">DP02_0015E</div></div>
-          <div class="stat"><div class="k">Residents with a disability</div><div class="v" id="statDisability">—</div><div class="s">DP02_0072E</div></div>
+          <div class="stat"><div class="k">Total households</div><div class="v" id="statTotalHh">—</div><div class="s" data-acs-src="DP02">ACS DP02_0001E</div></div>
+          <div class="stat"><div class="k">Family households</div><div class="v" id="statFamilyHh">—</div><div class="s" data-acs-src="DP02">married + related-non-spouse HHs</div></div>
+          <div class="stat"><div class="k">Average household size</div><div class="v" id="statAvgHhSize">—</div><div class="s" data-acs-src="DP02">people per HH (DP02_0016E)</div></div>
+          <div class="stat"><div class="k">Average family size</div><div class="v" id="statAvgFamSize">—</div><div class="s" data-acs-src="DP02">people per family HH (DP02_0017E)</div></div>
+          <div class="stat"><div class="k">Households with kids (under 18)</div><div class="v" id="statHhWithKids">—</div><div class="s" data-acs-src="DP02">DP02_0014E</div></div>
+          <div class="stat"><div class="k">Households with seniors (65+)</div><div class="v" id="statHhWithSeniors">—</div><div class="s" data-acs-src="DP02">DP02_0015E</div></div>
+          <div class="stat"><div class="k">Residents with a disability</div><div class="v" id="statDisability">—</div><div class="s" data-acs-src="DP02">DP02_0072E</div></div>
         </div>
 
         <div class="hna-grid" style="margin-top:var(--sp3)">
@@ -989,10 +991,10 @@
             <h2>Labor force status &amp; retiree share</h2>
             <p style="font-size:1.133rem;color:var(--muted);margin:.2rem 0 .4rem;">Employed, unemployed, and not-in-labor-force counts for residents 16+. The retiree breakout splits "Not in labor force" by age — residents 65+ who aren't in the workforce are very likely retired, while working-age (16–64) residents not in the workforce are a different planning problem (students, caregivers, discouraged workers, disability).</p>
             <div class="stats" aria-label="Labor force status metrics" style="margin-top:6px">
-              <div class="stat"><div class="k">Employed (civilian)</div><div class="v" id="statLfEmployed">—</div><div class="s">DP03_0002E − DP03_0005E</div></div>
-              <div class="stat"><div class="k">Unemployed (civilian)</div><div class="v" id="statLfUnemployed">—</div><div class="s">DP03_0005E</div></div>
-              <div class="stat"><div class="k">Not in labor force — 65+ (retiree proxy)</div><div class="v" id="statRetireeProxy">—</div><div class="s">DP05_0024E × not-LF share</div></div>
-              <div class="stat"><div class="k">Not in labor force — under 65</div><div class="v" id="statNotInLfUnder65">—</div><div class="s">DP03_0007E − retiree proxy</div></div>
+              <div class="stat"><div class="k">Employed (civilian)</div><div class="v" id="statLfEmployed">—</div><div class="s" data-acs-src="DP03">DP03_0002E − DP03_0005E</div></div>
+              <div class="stat"><div class="k">Unemployed (civilian)</div><div class="v" id="statLfUnemployed">—</div><div class="s" data-acs-src="DP03">DP03_0005E</div></div>
+              <div class="stat"><div class="k">Not in labor force — 65+ (retiree proxy)</div><div class="v" id="statRetireeProxy">—</div><div class="s" data-acs-src="DP05">DP05_0024E × not-LF share</div></div>
+              <div class="stat"><div class="k">Not in labor force — under 65</div><div class="v" id="statNotInLfUnder65">—</div><div class="s" data-acs-src="DP03">DP03_0007E − retiree proxy</div></div>
             </div>
             <div id="laborForceRetireeNote" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text);">—</div>
           </div>
@@ -1255,6 +1257,7 @@
         <h2>Special Needs Housing Analysis</h2>
         <p>Population segments with specific housing needs: seniors, persons with disabilities, families with children, and single-parent households. These groups are disproportionately represented among cost-burdened households. Source: ACS DP02/DP05.</p>
         <div id="specialNeedsPanel"><p style="color:var(--muted)">Select a geography to view special needs analysis.</p></div>
+        <p class="chart-source" data-acs-src="DP02" style="margin:.5rem 0 0;font-size:1rem;color:var(--muted)"></p>
       </div>
 
       <!-- Scenario-based demographic projections -->

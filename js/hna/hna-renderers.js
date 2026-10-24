@@ -588,6 +588,14 @@
     if (els.statPop) els.statPop.textContent = pop !== null ? fmtNum(pop) : '—';
     if (els.statPopSrc) els.statPopSrc.innerHTML = U().srcLink('DP05', yr, sr, 'DP05', geoType, geoid);
 
+    // Static stat notes that name an ACS profile table get the same dated
+    // link, from the profile actually loaded (year and series vary by place).
+    document.querySelectorAll('[data-acs-src]').forEach(function (el) {
+      if (el.dataset.acsLabel == null) el.dataset.acsLabel = el.textContent.replace(/^ACS\s+/, '');
+      var table = el.getAttribute('data-acs-src');
+      el.innerHTML = (el.dataset.acsLabel ? escHtml(el.dataset.acsLabel) + ' · ' : 'Source: ') + U().srcLink(table, yr, sr, table, geoType, geoid);
+    });
+
     // Median Household Income (DP03_0062E)
     const mhi = safeNum(profile.DP03_0062E);
     if (els.statMhi) els.statMhi.textContent = mhi !== null ? fmtMoney(mhi) : '—';
@@ -5238,6 +5246,26 @@
     return h;
   }
 
+  // One dated source line under the ranking: the ACS profile it read (year and
+  // series from the loaded profile, never assumed) and the CHAS vintage.
+  function _htnSourceLine(data) {
+    var p = (data && data.acsProfile) || {};
+    var acsUrl = U() && U().censusSourceUrl
+      ? U().censusSourceUrl(p._acsYear, p._acsSeries, 'DP04', p._geoType, p._geoid) : null;
+    var acsText = 'Census ACS ' + (p._acsSeries === 'acs1' ? '1-year' : '5-year') +
+      (p._acsYear ? ' ' + p._acsYear : '') + ' profiles DP02-DP05';
+    var chasText = 'HUD CHAS' + (data && data.chasVintage ? ' ' + data.chasVintage : '') +
+      (data && data.chasCountyFallback ? ' (county)' : '');
+    var parts = [
+      acsUrl ? '<a href="' + escHtml(acsUrl) + '" target="_blank" rel="noopener">' + escHtml(acsText) + '</a>' : escHtml(acsText),
+      '<a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">' + escHtml(chasText) + '</a>',
+      '<a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD income limits</a>',
+      '<a href="https://co.chfainfo.com/find-a-tax-credit-property" target="_blank" rel="noopener">CHFA tax credit properties</a>'
+    ];
+    return '<p class="hna-source-line" style="margin:.75rem 0 0;font-size:1rem;color:var(--muted);">Sources: ' +
+      parts.join('; ') + '.</p>';
+  }
+
   function renderHousingTypeNeed(data) {
     var container = document.getElementById('hnaHousingTypeNeed');
     if (!container) return;
@@ -5342,6 +5370,7 @@
         ? '<div style="font-size:1rem;color:var(--muted);margin-bottom:.5rem;">' + contextLine + '</div>'
         : '') +
       '<div role="list" aria-label="Housing type need ranking">' + rowsHtml + '</div>' +
+      _htnSourceLine(data) +
       '<details style="margin-top:1rem;border-top:1px solid var(--border,#e5e7eb);padding-top:.6rem;">' +
         '<summary style="cursor:pointer;font-size:1rem;color:var(--muted);">' +
           'Methodology &middot; how each category is scored' +
@@ -5416,7 +5445,8 @@
         hudIncomeLimits: hud,
         lihtcInventory: lihtcFeatures,
         jurisdictionName: jurisdictionName,
-        chasCountyFallback: chasCountyFallback
+        chasCountyFallback: chasCountyFallback,
+        chasVintage: (chasData && chasData.meta && chasData.meta.vintage) || null
       };
       renderHousingTypeNeed(htnData);
 

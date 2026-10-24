@@ -142,6 +142,19 @@ function visibleOutputs(page) {
   return out;
 }
 const isValue = (t) => t && t !== '—' && t !== '-';
+// The outputs once the page has stopped re-rendering: two reads 400 ms apart
+// that agree. A fixed sleep compared whichever render had landed by then, so a
+// slower runner caught the pro forma mid-update on one side of the trip.
+async function settledOutputs(page, ms) {
+  const end = Date.now() + (ms || 15000);
+  let prev = JSON.stringify(visibleOutputs(page));
+  for (;;) {
+    await sleep(400);
+    const next = JSON.stringify(visibleOutputs(page));
+    if (next === prev || Date.now() > end) return JSON.parse(next);
+    prev = next;
+  }
+}
 
 function shareSearch(page) {
   // The URL the page builds for Copy share link / Export JSON. Read from the
@@ -151,13 +164,21 @@ function shareSearch(page) {
 }
 
 async function roundTrip(sender, label, savedSubject) {
-  const sent = visibleOutputs(sender);
+  const sent = await settledOutputs(sender);
   const search = shareSearch(sender);
   const recipient = await openPage(search, savedSubject);
   assert.deepStrictEqual(recipient.errors, [], label + ' recipient page raised errors while hydrating');
-  const got = visibleOutputs(recipient);
+  const got = await settledOutputs(recipient);
   const diffs = Object.keys(sent).filter((id) => sent[id] !== got[id])
-    .map((id) => id + ': sender "' + sent[id].slice(0, 70) + '" / recipient "' + String(got[id]).slice(0, 70) + '"');
+    .map((id) => {
+      // Show where the two first differ: a long panel (the pro forma) differs
+      // far past any fixed-length prefix.
+      const a = sent[id]; const b = String(got[id]);
+      let i = 0;
+      while (i < a.length && a[i] === b[i]) i++;
+      const at = Math.max(0, i - 60);
+      return id + ' (from char ' + i + '): sender "' + a.slice(at, i + 120) + '" / recipient "' + b.slice(at, i + 120) + '"';
+    });
   assert.deepStrictEqual(diffs, [], label + ' outputs differ after the round trip (' + diffs.length + '):\n      ' +
     diffs.slice(0, 12).join('\n      ') + '\n      URL: ' + search.slice(0, 300));
   return { sent, recipient, search };
