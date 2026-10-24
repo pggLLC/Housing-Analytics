@@ -505,7 +505,7 @@
       ? 'The site\u2019s daily record of these odds starts ' + esc(rows[0].date) + ' (' + rows.length + ' daily snapshots so far), which is too short to test against pricing. It is kept so that test can be run later.'
       : 'The site does not yet hold a history of these odds, so they cannot be tested against pricing.';
     target.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--sp3);">' + cards.join('') + '</div>' +
-      '<p data-market-history style="font-size:var(--tiny);color:var(--muted);margin:var(--sp2) 0 0;">Polymarket odds as of ' + esc(String(poly.updated || '').slice(0, 10)) +
+      '<p data-market-history style="font-size:var(--tiny);color:var(--muted);margin:var(--sp2) 0 0;"><a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a> odds as of ' + esc(String(poly.updated || '').slice(0, 10)) +
       '. These are context, not drivers. ' + kept + '</p>';
   }
 

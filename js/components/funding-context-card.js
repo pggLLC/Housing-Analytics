@@ -135,8 +135,9 @@
 
   function renderProgram(program) {
     var url = program.contactUrl || program.source_url || '';
+    var checked = program.last_verified ? 'checked ' + program.last_verified : 'date unconfirmed';
     var link = url
-      ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">Source</a>'
+      ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">Source</a> (' + esc(checked) + ')'
       : '<span>No public source link</span>';
     return '<article data-funding-context-program="' + esc(program.id) + '" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--card);">' +
       '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp2);">' +
@@ -176,7 +177,7 @@
         ctx.programs.slice(0, 8).map(renderProgram).join('') +
       '</div>' +
       '<p style="margin:var(--sp2) 0 0;color:var(--muted);font-size:var(--tiny);line-height:1.45;">' +
-        'Source: <code>data/policy/soft-funding-status.json</code>' +
+        'Source: <a href="data/policy/soft-funding-status.json" target="_blank" rel="noopener"><code>data/policy/soft-funding-status.json</code></a>' +
         (ctx.meta.lastUpdated ? ' · verified ' + esc(ctx.meta.lastUpdated) : '') +
         '. Entries without verified dollars render as name/status/link only.' +
       '</p>';

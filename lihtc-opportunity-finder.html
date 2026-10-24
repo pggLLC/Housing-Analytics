@@ -1596,7 +1596,7 @@
       <!-- ── Filter bar (top) — F8 (2026-05-26): users filter before reading
            the table. Was a sticky left sidebar; visible above the fold helps
            the user understand the 482-jurisdiction universe is filterable. ── -->
-      <aside class="lof-sidebar" aria-labelledby="lofFilterHeading">
+      <aside class="lof-sidebar" aria-labelledby="lofFilterHeading" data-no-source="input: filter controls">
         <h3 id="lofFilterHeading">
           Filters
           <span class="lof-filter-tagline">Refine the 482-jurisdiction universe</span>
@@ -1959,6 +1959,7 @@
             </tbody>
           </table>
         </div>
+        <div class="lof-source" data-source-ids="chfa-lihtc,qct-colorado,dda-colorado,hna-ranking-index,hud-fair-market-rents,chfa-income-rent-limits,prop123-jurisdictions"></div>
 
         <!-- F21: summary cards + map moved BELOW the ranked table. They're
              useful context (active weights + geographic orientation) but they
@@ -1967,6 +1968,7 @@
         <div class="lof-summary-cards" id="lofSummaryCards">
           <!-- populated by JS -->
         </div>
+        <div class="lof-source" data-source-ids="chfa-lihtc,qct-colorado,dda-colorado,hna-ranking-index,hud-fair-market-rents,chfa-income-rent-limits,prop123-jurisdictions"></div>
 
         <div id="lofMap" role="region" aria-label="Map of QCT and DDA jurisdictions"></div>
 
@@ -2522,5 +2524,6 @@
   <script src="js/mix-check.js" defer></script>
   <script src="js/mix-check-inputs.js" defer></script>
   <script src="js/lihtc-opportunity-finder.js" defer></script>
+  <script src="js/components/source-badge.js" defer></script>
 </body>
 </html>

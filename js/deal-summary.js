@@ -158,6 +158,7 @@
       return '<label class="ds-filter" for="' + id + '">' + esc(label) + ' <select id="' + id + '"><option value="">All</option>' +
         values.map(function (v) { return '<option value="' + esc(v) + '">' + esc(labelFn ? labelFn(v) : v) + '</option>'; }).join('') + '</select></label>';
     }
+    var latest = all.reduce(function (m, r) { return r.researched_on && r.researched_on > m ? r.researched_on : m; }, '');
     view.innerHTML = '<h1>Deal summaries</h1>' +
       '<p class="ds-headline">One sourced summary per Colorado housing tax credit award: the homes, who they serve, the public money, the land deal and what is still open. Built from CHFA, state and local public records, newest awards first.</p>' +
       '<div class="ds-filters" role="group" aria-label="Filter the deal summaries">' +
@@ -170,6 +171,8 @@
       '<th scope="col" data-tip="Project name as CHFA prints it">Deal</th><th scope="col" data-tip="City as CHFA prints it">City</th>' +
       '<th scope="col" data-tip="County the project is in">County</th>' +
       '<th scope="col" data-tip="The CHFA award the summary covers">Award</th><th scope="col" class="num" data-tip="Total homes as CHFA prints them">Homes</th></tr></thead><tbody data-ds-rows></tbody></table></div>' +
+      '<p class="ds-muted">Source: homes and awards as printed in <a href="https://www.chfainfo.com/rental-housing/housing-credit/awards" target="_blank" rel="noopener">CHFA\'s housing tax credit award reports</a>' +
+      (latest ? ' (researched through ' + esc(latest) + ')' : ' (date unconfirmed)') + '. Each summary lists its own dated sources.</p>' +
       '<p class="ds-muted">' + all.length + ' summaries so far. More are added in batches; every CHFA award also appears on <a href="where-housing-money-goes.html">Where Colorado\'s Housing Money Goes</a>.</p>';
 
     var body = view.querySelector('[data-ds-rows]');

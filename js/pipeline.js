@@ -75,7 +75,14 @@
     var sec = el('section', { class: 'ipp-section js-glossary-auto', id: 'ami-anchor' });
     sec.appendChild(el('h2', { text: c.title }));
     sec.appendChild(el('p', { text: c.preface, style: 'margin: 0 0 0.65rem; color: var(--muted); line-height: 1.55;' }));
-    sec.appendChild(el('div', { class: 'ipp-ami-vintage', text: c.vintage }));
+    var vintage = el('div', { class: 'ipp-ami-vintage' });
+    if (c.source_url) {
+      vintage.appendChild(document.createTextNode('Source: '));
+      vintage.appendChild(el('a', { href: c.source_url, target: '_blank', rel: 'noopener', text: c.vintage }));
+    } else {
+      vintage.textContent = c.vintage;
+    }
+    sec.appendChild(vintage);
     var wrap = el('div', { class: 'ipp-ami-table-wrap' });
     var t = el('table', { class: 'ipp-ami-table' });
     t.appendChild(el('thead', null, el('tr', null, [
