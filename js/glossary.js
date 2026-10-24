@@ -230,6 +230,8 @@
     if (!terms || !terms.length) return;
 
     // Build a map of acronym → term object
+    // autolink: false terms stay in the pop-up but are not wrapped on pages.
+    terms = terms.filter(function (t) { return t.autolink !== false; });
     var termMap = {};
     terms.forEach(function (t) { termMap[t.term] = t; });
 

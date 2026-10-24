@@ -3,7 +3,8 @@
   "entries": {
     "lihtc": {
       "term": "Low-Income Housing Tax Credit (LIHTC)",
-      "short": "Federal program that funds ~90% of all affordable housing built in the US. States allocate credits annually through a competitive process.",
+      "glossary": "LIHTC",
+      "short": "Low-Income Housing Tax Credit — the main federal program funding affordable rental housing. States award the credits each year; investors buy them, and that equity lets the project keep rents affordable for 30+ years.",
       "elected": "LIHTC is the primary federal tool for building affordable rental housing. When a developer receives credits, they sell them to investors (usually banks) in exchange for equity capital. This is why you'll hear about 'investors' in deals that serve low-income residents — it's not market-rate investment. As an elected official, supporting LIHTC projects is one of the most direct levers you have to increase affordable housing supply in your jurisdiction.",
       "developer": "9% credits are allocated by CHFA through the QAP annual cycle. 4% credits come with tax-exempt bond financing — less competitive, lower credit amount, but available year-round. Your eligible basis (the costs that count) is multiplied by the applicable credit rate and paid out over 10 years. Track the QAP scoring categories carefully: location efficiency, serves lowest incomes, and readiness all drive your competitiveness.",
       "financier": "Annual credit = Qualified Basis × Applicable Credit Rate. Qualified Basis = Eligible Basis × Applicable Fraction. The 9% and 4% rates are statutory minimums (26 U.S.C. §42(b)(2) and (b)(3)), so deals use 9% and 4%. Equity pricing reflects investor demand for CRA credit and passive loss shelter: Novogradac's 2026-Q2 national averages were $0.82 per credit dollar for 9% credits and $0.83 for 4%. IRR on equity investor positions typically targets 5–7% after-tax.",
@@ -12,7 +13,8 @@
     },
     "qct": {
       "term": "Qualified Census Tract (QCT)",
-      "short": "HUD-designated census tracts where ≥50% of households earn below 60% AMI, or poverty rate ≥25%. Projects in QCTs get a 30% boost to eligible basis.",
+      "glossary": "QCT",
+      "short": "Qualified Census Tract — a HUD-designated tract where at least 50% of households earn under 60% of AMI, or the poverty rate is at least 25%. LIHTC projects here qualify for a 30% basis boost.",
       "elected": "A QCT designation from HUD means your community's census tract qualifies for additional affordable housing subsidy. Projects built here can access 30% more tax credit equity, which can make the difference between a deal penciling or not. QCT maps reset annually — it's worth knowing which tracts in your district carry this designation.",
       "developer": "Building in a QCT increases your eligible basis by 30% (the 130% basis boost). This directly increases total credit allocation and equity proceeds. QCT status is determined by HUD annually, published in the Federal Register each fall for the following year. Always verify QCT status at time of application, not at the time you sign a site control agreement.",
       "financier": "QCT basis boost increases Eligible Basis by the factor 1.30 before multiplying by the Applicable Fraction to derive Qualified Basis. For a $10M eligible basis project, a QCT designation yields $3M additional basis, potentially adding ~$270K in annual credits at the 9% rate. Stacking QCT with historic tax credits or opportunity zone equity requires careful basis allocation to avoid double-counting.",
@@ -21,7 +23,8 @@
     },
     "dda": {
       "term": "Difficult Development Area (DDA)",
-      "short": "HUD-designated high-cost metropolitan areas where construction costs exceed typical thresholds. Like QCTs, DDAs provide a 30% boost to eligible basis.",
+      "glossary": "DDA",
+      "short": "Difficult Development Area — a HUD-designated place where construction, land and utility costs are high relative to local incomes. LIHTC projects here qualify for a 30% basis boost.",
       "elected": "DDAs are HUD's way of recognizing that some housing markets are simply more expensive to build in. The Denver metro was a DDA for several years. The designation allows more federal subsidy to flow to projects in these markets, making affordable units feasible where they otherwise wouldn't be.",
       "developer": "DDAs are designated by HUD for entire metropolitan statistical areas (MSAs) or non-metropolitan counties where construction costs are high relative to incomes. Unlike QCTs (which are tract-level), a DDA covers the entire metro. If your site is in a DDA, you get the same 130% basis multiplier as a QCT. Check whether your county/MSA qualifies — you cannot claim both QCT and DDA on the same project, so apply the more favorable one.",
       "financier": "DDA designation is determined by HUD using FMR data and construction cost indices. The 30% basis boost functions identically to the QCT mechanism. Because DDAs cover entire MSAs, there is less geographic targeting advantage — but for projects in high-cost metros without QCT-eligible tracts, DDA is often the only route to the basis boost. Monitor HUD's annual November publication for DDA list changes.",
@@ -30,7 +33,8 @@
     },
     "eligible_basis": {
       "term": "Eligible Basis",
-      "short": "The portion of total development cost that qualifies for the LIHTC calculation. Excludes land, commercial space, and certain other costs.",
+      "glossary": "Eligible Basis",
+      "short": "The portion of project cost that may be used to calculate federal housing tax credits. Land, commercial space and certain other costs are excluded.",
       "elected": "Not every dollar spent on an affordable housing project counts toward the tax credit. Eligible basis is the subset of costs that the IRS allows in the credit formula — primarily construction and building costs, not land. The higher the eligible basis, the more credits a project can receive.",
       "developer": "Eligible basis includes hard construction costs, architect/engineering fees, developer fee (up to limits), and certain soft costs. Excluded: land, permanent financing costs, syndication fees, commercial space (unless de minimis). In QCT/DDA projects, multiply eligible basis by 1.30 before calculating qualified basis. Track basis carefully — IRS adjustments at placed-in-service can reduce credits.",
       "financier": "Eligible Basis is the foundation of the LIHTC credit calculation: Credit = Eligible Basis × Applicable Fraction × Applicable Credit Rate. Maximizing eligible basis requires careful cost certification and basis allocation between residential and commercial uses. The IRS Form 8609 certifies basis at placed-in-service. Basis adjustments post-certification require amended 8609s and can trigger investor clawback provisions.",
@@ -39,7 +43,8 @@
     },
     "applicable_fraction": {
       "term": "Applicable Fraction",
-      "short": "The percentage of units (or floor area) set aside for income-restricted residents. Determines what share of eligible basis qualifies for credits.",
+      "glossary": "applicable fraction",
+      "short": "Under IRC §42(c)(1)(B), the smaller of the low-income unit fraction or low-income floor-space fraction. It sets how much Eligible Basis qualifies for credits in a mixed-income project.",
       "elected": "When a developer sets aside, say, 100% of units for low-income residents, the applicable fraction is 100% and the full eligible basis counts toward credits. If a mixed-income project reserves only 50% of units, only half the eligible basis generates credits. This is why most LIHTC projects go 100% affordable.",
       "developer": "Applicable fraction is the lesser of the unit fraction (income-restricted units ÷ total units) or the floor area fraction (sq ft of income-restricted units ÷ total sq ft). Typically, developers go 100% affordable to maximize credits. Mixed-income deals require precise tracking of which units are restricted and ongoing compliance monitoring.",
       "financier": "Qualified Basis = Eligible Basis × Applicable Fraction. For a 100% affordable project these are equal. In mixed-income deals, the applicable fraction introduces a haircut. Lenders and syndicators scrutinize the applicable fraction closely because reductions during the compliance period — e.g., units lost to market-rate conversion — can trigger recapture. LURA covenants lock the fraction for the extended use period.",
@@ -75,7 +80,8 @@
     },
     "compliance_period": {
       "term": "Compliance Period & Extended Use",
-      "short": "LIHTC projects must remain affordable for at least 30 years: a 15-year initial compliance period plus a 15-year extended use period required by the LURA.",
+      "glossary": "compliance period",
+      "short": "The first 15 taxable years of federal LIHTC affordability requirements under IRC §42(i)(1); noncompliance can trigger credit recapture. An extended use period in the recorded LURA keeps rents affordable at least 15 more years.",
       "elected": "When your community approves an affordable housing project using tax credits, those affordability restrictions last at least 30 years by law. The developer signs a Land Use Restriction Agreement (LURA) recorded on the deed. This is a meaningful policy outcome — it's not just affordable for a few years.",
       "developer": "The initial 15-year compliance period is where IRS recapture risk lives. After year 15, the LURA's extended use period continues through year 30 (sometimes longer per CHFA requirements). CHFA monitors compliance annually through tenant file audits and physical inspections. Violations can trigger IRS recapture for investors and CHFA sanctions. Maintain meticulous tenant income certification records from day one.",
       "financier": "Recapture risk under IRC §42(j) applies during the initial 15-year compliance period. If units fall out of compliance or are disposed of, a fraction of all credits claimed become subject to recapture plus interest. Post-year-15, the extended use period is enforced through the LURA, not IRS recapture. After year 15, a nonprofit sponsor, government agency, or the tenants may hold a right of first refusal to buy the property at the minimum price set by 26 U.S.C. §42(i)(7). Investors exit via a sale or dissolution of the partnership at or after year 15.",
@@ -84,7 +90,8 @@
     },
     "chfa_qap": {
       "term": "CHFA Qualified Allocation Plan (QAP)",
-      "short": "Colorado's annual rulebook for awarding 9% LIHTC. Sets threshold requirements, scoring criteria, and preferences that determine which projects receive credits.",
+      "glossary": "QAP",
+      "short": "Qualified Allocation Plan — CHFA's annual rulebook for awarding 9% LIHTC: threshold requirements, scoring criteria and priorities (rural, preservation, opportunity, deeply affordable).",
       "elected": "The QAP is CHFA's annual policy document governing which affordable housing projects get funded with federal tax credits. It reflects state priorities: serving the lowest incomes, building in locations with jobs and transit access, prioritizing preservation of existing affordable housing, and ensuring geographic distribution. Elected officials can provide letters of support and community engagement documentation that strengthen applications.",
       "developer": "Read the QAP before selecting a site. Threshold requirements (site control, zoning, market study, environmental review) must be met before scoring. Competitive scoring categories include: serving lowest incomes (≤30% AMI units), location efficiency (walkability, transit), community need (housing gap data), developer capacity, and readiness. CHFA typically scores and ranks in April–May for June awards. Submit a pre-application to get early CHFA feedback.",
       "financier": "The QAP establishes set-asides (nonprofit, rural, preservation) that carve portions of the state allocation before open competition. Understanding which set-asides your project qualifies for is critical to competitive strategy. CHFA publishes a scoring matrix with the QAP. Track point changes year-over-year — small adjustments can significantly affect deal viability. The QAP also establishes developer fee limits and operating expense floors used in underwriting.",
@@ -93,7 +100,8 @@
     },
     "developer_fee": {
       "term": "Developer Fee",
-      "short": "Compensation paid to the developer for creating the project. A portion is typically deferred and repaid from operations, acting as a secondary equity source.",
+      "glossary": "Developer Fee",
+      "short": "Payment to the sponsor for assembling, financing, and delivering the project. Its size and any deferred portion (repaid from operations) affect both project cost and the closing gap.",
       "elected": "Developer fees compensate the development team for years of work assembling a complex affordable housing deal. They are set by CHFA QAP limits and are part of the approved budget. A portion is often 'deferred' — meaning the developer won't get paid until the project generates sufficient cash flow — which helps fill financing gaps.",
       "developer": "CHFA caps developer fee as a percentage of eligible basis (typically ~15% for new construction, with a hard dollar cap). The fee has two components: (1) paid at construction completion from equity/loan proceeds, and (2) deferred — repaid from operating cash flow over time. The deferred portion shows up in your sources as equity. Structure the deferred fee carefully: it must be repaid before distributions and typically has a 15-year repayment horizon. Excessive deferred fees raise red flags with investors.",
       "financier": "Developer fee is an eligible basis item (typically 100% includable). It functions as a soft equity source when deferred — recorded as a liability on the partnership balance sheet, repaid from available cash flow after debt service. Investors scrutinize the ratio of deferred fee to total development cost; high deferrals signal thin equity cushions. The developer fee also represents profit margin — benchmark against CHFA's published caps and comparable deals in the market.",
@@ -102,7 +110,8 @@
     },
     "basis_boost": {
       "term": "130% Basis Boost (QCT/DDA)",
-      "short": "Projects in Qualified Census Tracts or Difficult Development Areas may increase their eligible basis by 30%, generating more credits and more equity.",
+      "glossary": "basis boost",
+      "short": "A 30% increase in eligible basis (to 130%), which raises the tax credits a project can claim. Automatic in QCTs and DDAs, or by state designation. Often decides whether a deal pencils.",
       "elected": "The basis boost is a federal incentive that directs more affordable housing subsidy to communities that need it most (high-poverty tracts) or where building costs are highest (expensive metros). It can be the deciding factor in whether a project in a difficult location can generate enough equity to be financially viable.",
       "developer": "Multiply your eligible basis by 1.30 if your site is in a QCT or DDA. You can only use one boost — choose the one that applies (most sites are either in a QCT or DDA, not both, though an area can technically be both). Verify QCT/DDA status in the current year's HUD designation — it changes annually. The boost is applied before multiplying by the applicable fraction to get qualified basis.",
       "financier": "Basis Boost formula: Adjusted Eligible Basis = Eligible Basis × 1.30. The additional 30% flows through the qualified basis calculation and into annual credits. On a $12M eligible basis project, the boost adds $3.6M in basis, generating ~$324K in additional annual credits at 9%, or ~$3.24M in total 10-year credits. At $0.82 per credit dollar (Novogradac's 2026-Q2 national average for 9% credits), that's about $2.66M in additional equity. This is a material financing tool that can close otherwise unfundable deals.",
@@ -111,7 +120,8 @@
     },
     "cost_burden": {
       "term": "Cost Burden",
-      "short": "A household spending 30% or more of gross income on housing costs (rent or mortgage + utilities). The standard threshold for measuring housing affordability stress.",
+      "glossary": "cost burden",
+      "short": "Renters or owners spending more than 30% of income on housing (rent or mortgage plus utilities). Over 50% is \"severely cost-burdened.\" HUD's standard affordability measure for both tenure types.",
       "elected": "When residents spend a third or more of their income on housing, they have less left for food, health care, transportation, and savings. Cost burden is the most commonly cited metric in housing policy. In Colorado, nearly 40% of renters are cost burdened — a major driver of community instability and economic hardship.",
       "developer": "Cost burden data from the Census ACS (table B25070 for renters) drives housing needs assessments. Counties and municipalities use cost burden rates to justify affordable housing funding and NIMBY opposition. In your project narrative, cite local cost burden rates to demonstrate community need — CHFA's QAP scoring rewards projects in high-need geographies.",
       "financier": "Cost burden is a leading indicator of rental market stress and demand for affordable housing. High cost burden rates in your PMA suggest strong demand for restricted-rent units but may also signal income compression that limits rent potential. Track cost burden trends over time — rising rates predict increasing demand for LIHTC units even as market rents climb.",
@@ -129,7 +139,8 @@
     },
     "ami": {
       "term": "Area Median Income (AMI)",
-      "short": "HUD's annual calculation of median household income for each metropolitan area and county. LIHTC income limits and rents are set as percentages of AMI.",
+      "glossary": "AMI",
+      "short": "Area Median Income — the middle household income for a county or metro, published yearly by HUD. Programs use percentages of AMI (like 60% AMI) to set who qualifies and the maximum rents.",
       "elected": "AMI is the benchmark for everything in affordable housing. When a project serves households at '60% AMI,' it means renters earning no more than 60% of the area's median income. In Denver, the 2026 income limit at 60% AMI for a 4-person household is $86,400 (CHFA 2026 income and rent limits, effective May 1, 2026). Deeper affordability means lower AMI percentages and lower rents.",
       "developer": "HUD publishes AMI limits annually, typically in April. LIHTC income limits are based on HUD's 'MTSP' (Multifamily Tax Subsidy Project) income limits, which differ slightly from the Section 8 limits used for vouchers. Key AMI tiers: 30%, 40%, 50%, 60%, 80%, 120%. Rents are set at 30% of gross income at the applicable AMI — a 60% AMI unit for a 2-bedroom has a max rent of approximately (60% AMI for 3-person household × 30%) ÷ 12.",
       "financier": "AMI sets the binding constraint on maximum rents under §42. Changes in HUD's AMI calculation can materially affect project cash flows. The 'hold harmless' provision prevents AMI from declining year-over-year for existing LIHTC projects — important for underwriting long-term cash flow projections. Model AMI growth at 1–3% annually in your 30-year pro forma, consistent with historical HUD adjustments.",
@@ -183,7 +194,8 @@
     },
     "pma": {
       "term": "Primary Market Area (PMA)",
-      "short": "The geographic boundary within which a proposed housing project will draw most of its residents. Defined in the market study and used to assess supply and demand.",
+      "glossary": "PMA",
+      "short": "Primary Market Area — the area a proposed project will draw most renters from, usually defined by drive time, school district, or natural boundaries. The market study measures supply and demand inside it.",
       "elected": "The PMA defines the competitive landscape for a housing project. A well-drawn PMA reflects real commute patterns, neighborhood boundaries, and transit corridors — not just a radius around the site. The market study analyzes housing supply and demand within this boundary to determine whether the project is feasible.",
       "developer": "PMA delineation is one of the most important decisions in your market study. CHFA requires the market study analyst to justify the PMA boundary based on geography, employment centers, transit, and comparable project locations. A PMA that is too large makes your project look less needed; too small and you may overstate demand. Work with your analyst before the study begins to discuss PMA rationale.",
       "financier": "The PMA boundary directly affects the demand analysis: total eligible households, income-qualified population, and comparable supply are all measured within the PMA. A tight PMA increases capture rate; a loose one reduces it. CHFA underwriters review PMA rationale closely. In your pro forma, the PMA's vacancy rate and absorption velocity drive your lease-up assumptions and operating risk profile.",
@@ -192,7 +204,8 @@
     },
     "capture_rate": {
       "term": "Capture Rate",
-      "short": "The percentage of income-eligible households within the PMA that a proposed project needs to attract to achieve stabilized occupancy. Under 10% is generally considered feasible.",
+      "glossary": "capture rate",
+      "short": "The share of income-qualified renters in a market area a proposed project needs to lease its units. CHFA counts renters whose income fits the unit's AMI limit and who would pay no more than 40% of income in rent, and its 2027-28 draft QAP would not accept capture above 85% without more demand data.",
       "elected": "Capture rate answers the question: does this community actually need this housing project? If a 100-unit project needs to attract only 3% of all eligible households in the area, it's likely to fill up. If it needs 25%, there may not be enough demand. A low capture rate signals strong need; a high rate signals oversaturation.",
       "developer": "Capture Rate = Project's Income-Restricted Units ÷ Total Income-Eligible Households in PMA. Capture rates above 25% typically raise CHFA and lender concerns. To lower your capture rate: expand the PMA (if justifiable), reduce unit count, or document that your project targets an underserved AMI tier. Market study analysts calculate capture rate by bedroom size and income tier.",
       "financier": "Capture rate is a key risk metric in market feasibility analysis. CHFA's approved market study analysts are required to calculate and opine on capture rates. Industry thresholds: under 10% = strong feasibility, 10–25% = acceptable with supporting rationale, over 25% = potential oversaturation. In sensitivity analysis, model the impact of capture rate compression on stabilized occupancy and debt service coverage.",
@@ -201,7 +214,8 @@
     },
     "absorption": {
       "term": "Absorption Rate",
-      "short": "The rate at which a new housing development leases up — typically expressed as units per month. Used to project lease-up timelines and construction loan sizing.",
+      "glossary": "absorption",
+      "short": "How fast a market leases up newly built units, expressed as units per month. Used to project lease-up time and size the construction loan; slow absorption signals weak demand.",
       "elected": "When a new affordable housing project opens, it doesn't fill up overnight. Absorption is the pace at which units rent. In tight markets, affordable projects often reach 90%+ occupancy within 60–90 days. Understanding local absorption helps set realistic expectations for when residents will benefit from the housing.",
       "developer": "Absorption is typically measured in units per month from initial occupancy to stabilization (93%+ occupied). CHFA and lenders typically expect 12–18 months to stabilization for new LIHTC projects, though some markets see faster lease-up. Your construction loan's interest reserve must cover the full lease-up period. Market study analysts assess absorption based on comparable project lease-up data.",
       "financier": "Absorption velocity determines the interest reserve requirement in your construction loan facility. Underwrite lease-up conservatively: model 15–20 units/month for a 100-unit project unless market data strongly supports faster absorption. A longer-than-expected lease-up period can burn through the interest reserve and require additional capital contributions. Investors and lenders stress-test absorption at 50% of the projected pace in downside scenarios.",
@@ -228,7 +242,8 @@
     },
     "market_study": {
       "term": "Market Study",
-      "short": "An independent analysis by a CHFA-approved analyst assessing the feasibility of a proposed LIHTC project. Required for all CHFA LIHTC applications.",
+      "glossary": "market study",
+      "short": "A third-party report, by a CHFA-approved analyst for CHFA applications, testing whether a project has enough qualifying renters and reasonable rents. Required for LIHTC and by most lenders; a weak study can kill a deal.",
       "elected": "A market study is the independent evidence that an affordable housing project is actually needed in a given community. It's conducted by an outside analyst — not the developer — and reviewed by CHFA. The study confirms there are enough income-eligible households, that rents are achievable, and that existing projects can't absorb the demand.",
       "developer": "CHFA maintains a list of approved market study analysts. The study must be completed within 180 days of application submission. It must include: PMA delineation, demographic analysis, comparable project analysis, capture rate calculation, and a feasibility conclusion. Commission the study early — good analysts are often booked months in advance. Provide the analyst with your unit mix, income restrictions, and rent schedule upfront.",
       "financier": "The market study is the primary document lenders and investors use to assess demand risk. Review the capture rate conclusion, absorption estimate, and comparable project occupancy data carefully. A qualified analyst's negative or lukewarm feasibility conclusion is a material deal risk. CHFA will reject or condition applications based on market study findings. In due diligence, read the full report, not just the executive summary.",
@@ -246,7 +261,8 @@
     },
     "dscr": {
       "term": "Debt Service Coverage Ratio (DSCR)",
-      "short": "Net Operating Income divided by annual debt service. Lenders typically require ≥1.15x DSCR, meaning the project generates at least 15% more income than needed to cover mortgage payments.",
+      "glossary": "DSCR",
+      "short": "Debt Service Coverage Ratio — annual NOI divided by annual mortgage payments. Lenders typically require 1.15 to 1.25, meaning income 15% to 25% above the payments.",
       "elected": "DSCR is a lender's safety metric: it measures whether a building's rental income comfortably covers its mortgage payment. A DSCR of 1.15 means for every $1.00 in mortgage payments, the project earns $1.15. It's the reason that low-income rents — which are lower than market — sometimes require soft loans or grants to make the math work.",
       "developer": "DSCR = Net Operating Income ÷ Annual Debt Service. NOI = Effective Gross Income − Operating Expenses. CHFA's first mortgage program typically requires a minimum 1.15x DSCR, though they may underwrite to 1.20x for stress purposes. Your pro forma must demonstrate DSCR compliance at stabilization. Use CHFA's published operating expense benchmarks — understating expenses is a common underwriting error that leads to problems at lease-up.",
       "financier": "DSCR is the primary sizing constraint for the first mortgage. Higher NOI → larger first mortgage → less equity/soft debt needed. Key levers: rent level, operating expense efficiency, vacancy assumption. CHFA underwrites at conservative assumptions: 7% vacancy, operating expense inflation at 3% annually. Debt yield (NOI ÷ Loan Amount) is a secondary sizing metric increasingly used by agency lenders — typically minimum 7–8% for LIHTC first mortgages.",
@@ -264,7 +280,8 @@
     },
     "cdbg": {
       "term": "Community Development Block Grant (CDBG)",
-      "short": "Flexible federal block grant to states and local governments for community development activities, including affordable housing, infrastructure, and economic development.",
+      "glossary": "CDBG",
+      "short": "Community Development Block Grant — a flexible annual HUD formula grant to states and large cities for affordable-housing rehab, homebuyer assistance, infrastructure and other community development.",
       "elected": "CDBG is one of the most flexible federal grants available to local governments. It can fund housing rehabilitation, land acquisition for affordable housing, infrastructure improvements serving low-income neighborhoods, and more. Local elected officials have significant influence over CDBG priorities through the Consolidated Plan process. CDBG dollars are powerful gap financing tools for affordable housing deals.",
       "developer": "CDBG can fund land acquisition, predevelopment costs, or serve as soft debt in a LIHTC capital stack. It is administered locally (by cities/counties with CDBG entitlement status) or through CHFA (state CDBG for smaller communities). CDBG has fewer unit-specific restrictions than HOME but still requires a national objective — typically benefiting low/moderate-income persons. Timeliness requirements mean CDBG funds must be spent quickly, so have a ready project when applying.",
       "financier": "CDBG functions similarly to HOME in a capital stack — subordinate, often deferred, does not affect DSCR. Key difference: CDBG is allocated through local governments' consolidated planning process, not CHFA. Build relationships with county and municipal CDBG administrators early in predevelopment. CDBG dollar limits vary by jurisdiction and annual allocation. Track the Consolidated Plan application cycle — typically tied to HUD's July 1 program year.",
@@ -282,7 +299,8 @@
     },
     "gap_financing": {
       "term": "Gap Financing",
-      "short": "Soft debt or grants used to fill the difference between total development cost and available permanent financing (equity + first mortgage). Often the hardest dollars to secure.",
+      "glossary": "gap financing",
+      "short": "The dollars needed to close the difference between project cost and what private debt + tax credit equity will fund. Filled with soft debt, grants, or fee waivers; often the hardest dollars to secure.",
       "elected": "Affordable housing deals almost always have a financing gap — the difference between what the project costs and what LIHTC equity plus a first mortgage can cover. Gap financing is the 'last dollar in' — often from state, local, or federal soft programs. It's frequently the most competitive, most time-consuming funding to secure and often the last piece to fall into place.",
       "developer": "Identify your gap financing sources early in predevelopment. Colorado gap sources include: CHFA's State Affordable Housing Program (SAHP), DOLA's CDBG and CHDO programs, Prop 123's Affordable Housing Financing Fund (overseen by OEDIT, managed by CHFA), local housing authorities, FHLB Affordable Housing Program (AHP), and philanthropic capital. Each source has distinct eligibility, timing, and use requirements. Build a gap financing strategy with at least two backup sources.",
       "financier": "Gap financing is subordinate debt or grants filling the residual between TDC and available senior sources. The gap equation: TDC − LIHTC Equity − First Mortgage − Developer Fee = Gap. Gap size is a critical deal health metric — a gap exceeding 25% of TDC signals potential financial fragility. Minimize the gap by maximizing eligible basis (basis boost, inclusion of all allowable costs), optimizing the first mortgage (drive NOI), and maximizing equity pricing.",
@@ -327,7 +345,8 @@
     },
     "prop_123": {
       "term": "Colorado Proposition 123 (2022)",
-      "short": "Voter-approved 2022 Colorado measure that sets aside state income tax revenue equal to up to 0.1% of taxable income each year for affordable housing: 60% to OEDIT's Affordable Housing Financing Fund (administered by CHFA) and 40% to DOLA.",
+      "glossary": "Prop 123",
+      "short": "A 2022 Colorado ballot measure setting aside state income tax revenue equal to up to 0.1% of taxable income (estimated at $290M a year from 2023-24) for affordable housing: 60% to OEDIT's Affordable Housing Financing Fund (run by CHFA), 40% to DOLA. For most of the money (homelessness programs and modular-manufacturer loans are exempt), the local government must file a commitment with DOLA: 3% growth a year for 2024–2026, then a permit-based goal from 2027.",
       "elected": "Proposition 123 was approved by Colorado voters in November 2022. It sets aside state income tax revenue equal to up to 0.1% of taxable income — estimated at $290 million a year from 2023-24 (Colorado Legislative Council, 2022 ballot analysis) — for affordable housing programs. As an elected official, you can help your jurisdiction access Prop 123 funds by filing a commitment with DOLA to increase affordable housing: 3% a year for 2024–2026, and from 2027 a goal set from recent building permits (HB26-1313).",
       "developer": "Prop 123 money flows through two funds: OEDIT's Affordable Housing Financing Fund (60%, administered by CHFA: land banking, concessionary debt, and equity for rental housing) and DOLA's Affordable Housing Support Fund (40%: homeownership, homelessness, and local planning capacity). Colorado's state housing tax credit is a separate program, not Prop 123. Most Prop 123 money needs the project's city, town, county or tribal area to have filed a commitment; homelessness programs and loans to modular or factory-built housing manufacturers are exempt. Track OEDIT and CHFA program announcements closely.",
       "financier": "Prop 123 concessionary debt from the Affordable Housing Financing Fund works as subordinate debt, improving DSCR by reducing the gap, and its equity program invests in rental projects for a share of returns. Colorado's state housing tax credit is a separate program that can also layer with federal LIHTC. Model Prop 123 as an identified soft source contingent on CHFA application outcomes. The program is still maturing; expect eligibility rules and allocation mechanisms to evolve.",
@@ -336,7 +355,8 @@
     },
     "chfa": {
       "term": "Colorado Housing and Finance Authority (CHFA)",
-      "short": "Colorado's state housing finance agency. Allocates federal LIHTC, issues tax-exempt bonds, provides first mortgage lending, and administers multiple affordable housing programs.",
+      "glossary": "CHFA",
+      "short": "Colorado Housing and Finance Authority — the state agency that allocates federal LIHTC credits, issues bonds, makes first-mortgage loans, and funds affordable housing in Colorado.",
       "elected": "CHFA is Colorado's primary state-level affordable housing agency. It doesn't use state tax revenue — it's self-funded through bond issuance and program fees. CHFA administers the federal LIHTC program for Colorado, issues tax-exempt bonds for affordable housing, provides mortgage financing, and manages homeownership programs. Developers working on affordable housing in Colorado almost always work with CHFA.",
       "developer": "Understanding CHFA is foundational to affordable housing development in Colorado. Key programs: 9% LIHTC (competitive, annual QAP cycle), 4% LIHTC + bonds (ongoing), first mortgage lending (below market for affordable projects), State Affordable Housing Program (SAHP) soft debt, and the state Affordable Housing Tax Credit. It also administers Prop 123's Affordable Housing Financing Fund for OEDIT. CHFA hosts training sessions and publishes detailed program guidelines. Build a relationship with your CHFA housing credit officer early.",
       "financier": "CHFA is a conduit issuer of tax-exempt bonds, a direct lender for first mortgages, the state LIHTC allocating agency, and and the administrator of Prop 123's Affordable Housing Financing Fund. Its underwriting standards set the de facto floor for affordable housing finance in Colorado. CHFA's published income and rent limits (based on HUD MTSP), operating expense benchmarks, and debt service requirements are the baseline for all capital stack modeling in Colorado deals.",
