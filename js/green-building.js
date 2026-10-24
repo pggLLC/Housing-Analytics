@@ -154,10 +154,25 @@
       if (!cell) return;
       var old = cell.querySelector('.gb-refs');
       if (old) old.parentNode.removeChild(old);
-      var links = row.getAttribute('data-gb-ref').split(/\s+/).filter(function (id) { return byId[id]; })
-        .map(function (id) { return '<a href="#' + esc(anchorId(id)) + '">' + esc(byId[id].title) + '</a>'; });
-      if (!links.length) return;
-      cell.insertAdjacentHTML('beforeend', '<p class="gb-muted gb-refs">Relies on: ' + links.join('; ') + '</p>');
+      var oldSrc = cell.querySelector('.gb-pick-source');
+      if (oldSrc) oldSrc.parentNode.removeChild(oldSrc);
+      var ids = row.getAttribute('data-gb-ref').split(/\s+/).filter(function (id) { return byId[id]; });
+      if (!ids.length) return;
+      var links = ids.map(function (id) { return '<a href="#' + esc(anchorId(id)) + '">' + esc(byId[id].title) + '</a>'; });
+      // The row's figures carry the records' own sources and the latest check date.
+      var seen = {};
+      var sources = [];
+      var checked = '';
+      ids.forEach(function (id) {
+        var r = byId[id];
+        if (r.last_verified > checked) checked = r.last_verified;
+        if (!safeUrl(r.source_url) || seen[r.source_url]) return;
+        seen[r.source_url] = true;
+        sources.push(link(r.source_url, r.source_title || r.title));
+      });
+      cell.insertAdjacentHTML('beforeend', '<p class="gb-muted gb-refs">Relies on: ' + links.join('; ') + '</p>' +
+        (sources.length ? '<p class="gb-muted gb-source gb-pick-source">Sources: ' + sources.join('; ') +
+          (longDate(checked) ? ' · checked ' + esc(longDate(checked)) : '') + '</p>' : ''));
     });
   }
 
