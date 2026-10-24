@@ -114,8 +114,9 @@
     if (ds && typeof ds.fetchUtilityCapacity === 'function') {
       return ds.fetchUtilityCapacity(boundingBox, jurisdiction || '');
     }
-    // FALLBACK: DataService.fetchUtilityCapacity unavailable. Using neutral fractions 0.5 (50% headroom) until a utility-capacity data source is wired.
-    return Promise.resolve({ sewerHeadroom: 0.5, waterCapacity: 0.5 });
+    // No source: report absence, never a neutral 0.5 that reads as a measurement.
+    return Promise.resolve({ sewerHeadroom: null, waterCapacity: null, _stub: true,
+      unavailableReason: 'Not measured: no public source gives water or sewer capacity for a site. Ask the local utility for a will-serve letter.' });
   }
 
   /**
@@ -250,11 +251,14 @@
         : null,
       sewerCapacityAdequate:  lastSewerAdequate,
       utilityScore:           lastUtilityScore,
+      utilityUnavailableReason: utilityIsStub
+        ? (utilityData.unavailableReason || 'Not measured: no public source gives water or sewer capacity for a site. Ask the local utility for a will-serve letter.')
+        : null,
       foodAccessScore:        lastFoodAccessScore,
       compositeScore:         lastCompositeScore != null ? clamp(lastCompositeScore, 0, 100) : null,
       flags: {
         highFloodRisk:        lastFloodRiskPct != null ? lastFloodRiskPct > HIGH_FLOOD_PCT : null,
-        utilityAtCapacity:    lastSewerAdequate === false,
+        utilityAtCapacity:    lastSewerAdequate == null ? null : lastSewerAdequate === false,
         foodDesertPresent:    (foodData.foodDeserts || []).length > 0,
         foodDesertCount:      (foodData.foodDeserts || []).length,
         foodAccessTractCount: foodData._tractCount || 0
@@ -325,7 +329,7 @@
     base._disclosure = 'Infrastructure scores are directional indicators from public datasets (FEMA, NOAA, EPA, USDA). ' +
       'They do not replace Phase I ESA, geotechnical surveys, utility will-serve letters, or professional site due diligence. ' +
       'Flood risk is based on FEMA NFHL zone boundaries, not parcel-level flood determination (LOMA/LOMR). ' +
-      'Utility capacity uses estimated headroom from municipal data, not capacity commitment letters.';
+      'Utility capacity is not measured: no public source gives water or sewer capacity for a site, so it is left out of the composite; ask the local utility for a will-serve letter.';
     return base;
   }
 
