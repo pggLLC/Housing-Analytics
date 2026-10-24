@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-24T12:43:34.333800Z",
+  "generated": "2026-10-24T12:44:05.149301Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -224,7 +224,7 @@
     "data/census-acs-state.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 26982
+      "bytes": 26768
     },
     "data/census-multifamily-co.json": {
       "featureCount": 64,
