@@ -148,7 +148,7 @@
     var copy = entry[audience] || entry.developer || entry.short || '';
     var id   = 'lt-card-' + idx;
     return (
-      '<div class="lt-card" id="' + id + '">' +
+      '<div class="lt-card" id="' + id + '" data-no-source="definition: glossary entry">' +
         '<button class="lt-card__trigger" type="button" ' +
             'aria-expanded="false" aria-controls="' + id + '-body">' +
           '<span class="lt-card__term">' + _esc(entry.term) + '</span>' +
