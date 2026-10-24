@@ -77,7 +77,13 @@
         return r.json();
       })
       .then(function (data) {
-        _cache = Array.isArray(data) ? data : [];
+        // The file is { entries: { key: entry } }; keep each key so a tag
+        // list can name an entry by its key ('equity_price').
+        if (Array.isArray(data)) _cache = data;
+        else if (data && data.entries) _cache = Object.keys(data.entries).map(function (k) {
+          return Object.assign({ key: k }, data.entries[k]);
+        });
+        else _cache = [];
         return _cache;
       })
       ['catch'](function (err) {
@@ -114,7 +120,7 @@
     tags.forEach(function (t) { tagSet[t] = true; });
 
     _cache.forEach(function (entry) {
-      var matchesTerm = tagSet[entry.term];
+      var matchesTerm = tagSet[entry.term] || tagSet[entry.key];
       var matchesTag  = Array.isArray(entry.tags) && entry.tags.some(function (t) { return tagSet[t]; });
       if (matchesTerm || matchesTag) {
         results.push(entry);
@@ -126,7 +132,7 @@
     var usedTerms = {};
     tags.forEach(function (tag) {
       var match = results.filter(function (e) {
-        return e.term === tag || (Array.isArray(e.tags) && e.tags.indexOf(tag) !== -1);
+        return e.key === tag || e.term === tag || (Array.isArray(e.tags) && e.tags.indexOf(tag) !== -1);
       })[0];
       if (match && !usedTerms[match.term]) {
         usedTerms[match.term] = true;

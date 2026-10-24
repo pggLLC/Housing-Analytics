@@ -120,8 +120,8 @@ export const RULES = [
   // ── Prop 123 fund estimate: data/policy/policy-timeline.json id prop123 ───
   { fig: 'p123M', files: [CONTENT, 'colorado-elections.html'], pattern: /estimated at \$(\d+) million a year from/g },
   { fig: 'p123From', files: [CONTENT, 'colorado-elections.html'], pattern: /estimated at \$\d+ million a year from (\d{4}-\d\d)/g },
-  { fig: 'p123M', files: ['js/components/inline-glossary.js'], pattern: /estimated at \$(\d+)M a year from/g },
-  { fig: 'p123From', files: ['js/components/inline-glossary.js'], pattern: /estimated at \$\d+M a year from (\d{4}-\d\d)/g },
+  { fig: 'p123M', files: ['data/glossary.json', 'js/components/inline-glossary.js', CONTENT], pattern: /estimated at \$(\d+)M a year from/g },
+  { fig: 'p123From', files: ['data/glossary.json', 'js/components/inline-glossary.js', CONTENT], pattern: /estimated at \$\d+M a year from (\d{4}-\d\d)/g },
 
   // ── 2027 Round One dates: data/chfa-qap-calendar.json ─────────────────────
   { fig: 'r1Loi', files: ['developer-submittal-review.html'], pattern: /Letter of intent due (\d{1,2} [A-Z][a-z]{2} \d{4});/g },
