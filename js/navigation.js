@@ -97,6 +97,7 @@
         { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Sources, freshness and how we check the data" },
         { label: "File Browser",          href: "data-explorer.html",             desc: "Browse every dataset with previews" },
         { label: "Data Map",              href: "data-map-browser.html",          desc: "LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
+        { label: "Glossary",              href: "#glossary",                      desc: "Plain definitions of tax credit and housing terms" },
       ]
     },
     {
@@ -118,6 +119,7 @@
         { label: "— Guides —", isHeader: true },
         { label: "Help for Homebuyers",     href: "help-for-homebuyers.html",       desc: "Down-payment help, credits" },
         { label: "Who Does What in a Colorado Affordable Deal", href: "affordable-deal-team.html", desc: "Bankers, syndicators, lawyers, community work, CRA" },
+        { label: "Green Building in a Colorado Deal", href: "green-building-guide.html", desc: "CHFA rules, utility allowances, programs" },
       ]
     }
   ];
@@ -179,6 +181,8 @@
   function normalizeHref(href) {
     // Keep absolute URLs unchanged.
     if (/^https?:\/\//i.test(href)) return href;
+    // An in-page link (the glossary) stays on the current page.
+    if (href.charAt(0) === '#') return href;
     return relToRoot() + href;
   }
 
@@ -509,6 +513,7 @@
           <a href="${normalizeHref('data-review-hub.html')}">Data Trust Center</a>
           <a href="${normalizeHref('data-explorer.html')}">File Browser</a>
           <a href="${normalizeHref('data-map-browser.html')}">Data Map</a>
+          <a href="#glossary">Glossary</a>
         </div>
         <div class="footer-col">
           <strong>Insights</strong>

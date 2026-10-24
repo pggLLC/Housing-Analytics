@@ -85,6 +85,7 @@
             <li><a href="local-incentives.html">Local Housing Incentives</a></li>
             <li><a href="resident-services.html">Services in Affordable Housing</a></li>
             <li><a href="affordable-deal-team.html">Who Does What in a Colorado Affordable Deal</a></li>
+            <li><a href="green-building-guide.html">Green Building in a Colorado Deal</a></li>
             <li><a href="help-for-homebuyers.html">Help for Homebuyers</a></li>
             <li><a href="housing-authority-guide.html">Starting a Housing Authority</a></li>
             <li><a href="colorado-deep-dive.html">Colorado Deep Dive</a></li>
@@ -237,49 +238,6 @@
         </div>
       </section>
 
-      <!-- Archived, not maintained: the Q1 2026 trends read, dated by
-           data/insights-meta.json. Kept as a record of what was said and when;
-           the live evidence is on the pages the catalog links. -->
-      <details class="chart-card rc-archive" style="margin-top:var(--sp4);">
-        <summary>Archived: LIHTC market trends as read in Q1 2026</summary>
-        <div class="chart-header">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:var(--sp2);">
-            <div>
-              <h3 class="chart-title" id="trends-heading">Key Market Trends, Q1 2026</h3>
-              <p class="chart-subtitle">Not updated since it was checked. Use the linked sources for current conditions.</p>
-            </div>
-            <div id="trendsVerifiedBadge" style="font-size:var(--tiny);color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.25rem .6rem;max-width:100%;align-self:flex-start;" aria-live="polite" aria-atomic="true">
-              Checking…
-            </div>
-          </div>
-        </div>
-        <div class="trend-list" style="padding-top:var(--sp2);">
-          <div class="trend-item">
-            <div class="trend-icon warning">⚠</div>
-            <div class="trend-body">
-              <h4>Construction Cost Pressures</h4>
-              <p>While material costs have stabilized, labor shortages continue to impact timelines. Developers are adjusting underwriting assumptions and seeking additional gap financing.</p>
-              <div class="trend-source">Source: AGC Construction Cost Reports, BLS Producer Price Index</div>
-            </div>
-          </div>
-          <div class="trend-item">
-            <div class="trend-icon info">✦</div>
-            <div class="trend-body">
-              <h4>QAP Evolution</h4>
-              <p>State housing agencies are refining scoring criteria to prioritize climate resilience, transit access, and extremely low-income targeting.</p>
-              <div class="trend-source">Source: NCSHA QAP analysis, State HFA policy announcements</div>
-            </div>
-          </div>
-          <div class="trend-item">
-            <div class="trend-icon accent">◆</div>
-            <div class="trend-body">
-              <h4>Mixed-Income Models Gain Traction</h4>
-              <p>Developers are increasingly combining 4% and 9% credits with market-rate units to create financially stable, economically integrated communities.</p>
-              <div class="trend-source">Source: HUD LIHTC Database project analysis</div>
-            </div>
-          </div>
-        </div>
-      </details>
 
       <!-- Sources -->
       <div class="sources-box" style="margin-top:var(--sp4);">
@@ -334,28 +292,6 @@
         host.innerHTML = RC.hubHtml(catalog, RC.items(catalog, payloads[0], docs), window.ReviewStatus);
       });
     });
-  }());
-  </script>
-  <script>
-  (function () {
-    'use strict';
-    // The trends block is archived: say when it was checked and that it is
-    // not maintained, rather than asking for a review nobody will do.
-    var META_URL = (typeof window.resolveAssetUrl === 'function')
-      ? window.resolveAssetUrl('data/insights-meta.json')
-      : 'data/insights-meta.json';
-    var badge = document.getElementById('trendsVerifiedBadge');
-    if (!badge) return;
-
-    fetch(META_URL)
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (meta) {
-        var d = meta.lastVerified;
-        if (!d) { badge.textContent = 'Check date unavailable. Archived: not maintained.'; return; }
-        var fmt = new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
-        badge.textContent = 'Checked ' + fmt + '. Archived: not updated since.';
-      })
-      .catch(function () { badge.textContent = 'Check date unavailable. Archived: not maintained.'; });
   }());
   </script>
 </body>

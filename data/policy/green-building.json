@@ -1,0 +1,902 @@
+{
+  "meta": {
+    "title": "Green Building in a Colorado Deal",
+    "note": "Every figure on this page is quoted from the source named with it. QAP quotes are checked against the QAP text in data/audit/chfa-qap-watch.json.",
+    "qap_documents": {
+      "current": {
+        "url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+        "title": "2025-26 QAP Second Amendment (PDF)",
+        "label": "2025-26 QAP, Second Amendment (in force)"
+      },
+      "draft": {
+        "url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
+        "title": "2027-28 QAP - Third Draft (PDF)",
+        "label": "2027-28 QAP, Third Draft (posted September 11, 2026; not adopted)"
+      }
+    },
+    "last_verified": "2026-10-21",
+    "review_by": "2026-11-21"
+  },
+  "status_text": {
+    "open": "Open",
+    "verify": "Confirm before use",
+    "closed": "Closed",
+    "ended": "Ended",
+    "at-risk": "At risk",
+    "watch": "No open round"
+  },
+  "entries": [
+    {
+      "id": "qap-certification",
+      "section": "requirements",
+      "kind": "qap",
+      "qap_doc": "current",
+      "also_in_draft": true,
+      "qap_section": "Section 8",
+      "title": "A green certification on every project",
+      "finding": "Every federal and state tax credit project must certify under Enterprise Green Communities (EGC), LEED or the National Green Building Standard (NGBS). The applicant picks the program.",
+      "quotes": [
+        "CHFA requires all projects to obtain green building certification and accepts several certification programs.",
+        "The accepted green building certification programs are: • Enterprise Green Communities (EGC) • Leadership in Energy and Environmental Design LEED (LEED) • National Green Building Standards (NGBS)"
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "qap-certification-steps",
+      "section": "requirements",
+      "kind": "qap",
+      "qap_doc": "current",
+      "qap_section": "Section 8.A",
+      "title": "When each step is due",
+      "finding": "Name the program on CHFA's election form at Preliminary Application, show registration at Carryover (or the state credit milestone), and prove certification at Final Application, before the federal credit forms are issued.",
+      "quotes": [
+        "indicating which certification program the project will pursue (EGC, LEED, or NGBS) at Preliminary Application.",
+        "Submit evidence of project registration under EGC, LEED, or NGBS at Carryover Application or state credit Milestone documentation.",
+        "Provide proof of EGC, LEED, or NGBS certification at Final Application and before issuance of 8609(s)."
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "qap-ev-ready",
+      "section": "requirements",
+      "kind": "qap",
+      "qap_doc": "current",
+      "also_in_draft": true,
+      "qap_section": "Section 8.B",
+      "title": "EV-ready parking",
+      "finding": "With more than 10 parking spaces, 10 percent of the lesser of total spaces or total units must be EV-ready; with 10 or fewer, one space. Each EV-ready space needs raceway and panel capacity for the load and one dedicated 40-ampere, 208/240-volt branch circuit, ending in a junction box or outlet near the space; one termination point can generally serve two spaces. Chargers are not required.",
+      "quotes": [
+        "For projects with 10 or fewer parking spaces, at least one parking space must be EV-ready. • For projects with more than 10 parking spaces, 10 percent of the lesser of total spaces or total units must be EV-ready.",
+        "An EV-ready parking space is a parking space accessible to raceway and electrical panel capacity which can support EV electricity load",
+        "Specifically, the space is provided with one 40-ampere, 208/240-volt dedicated branch circuit for servicing electric vehicles",
+        "Generally, one termination point can support 2 EV-ready parking spaces.",
+        "Only a junction box or electrical outlet capable of supporting EV charging is required as the termination point; installation of Level 2 chargers is not required, though is encouraged."
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "qap-ev-exempt",
+      "section": "requirements",
+      "kind": "qap",
+      "qap_doc": "current",
+      "also_in_draft": true,
+      "qap_section": "Section 8.B",
+      "title": "Who skips the EV rule",
+      "finding": "Projects that are 100 percent for people experiencing homelessness or Special Populations, and acquisition/rehab projects, are exempt from the EV-ready count.",
+      "quotes": [
+        "All projects (excepting 100-percent for Persons experiencing Homelessness or Special Populations and acquisition/rehab projects) must have a minimum number of EV-ready parking spaces."
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "qap-energy-reporting",
+      "section": "requirements",
+      "kind": "qap",
+      "qap_doc": "current",
+      "also_in_draft": true,
+      "qap_section": "Section 8.C",
+      "title": "Report energy use every year",
+      "finding": "Once built, every building reports its energy use each year in ENERGY STAR Portfolio Manager, a free tool.",
+      "quotes": [
+        "Once constructed, all buildings are required to annually assess and report energy performance using the free ENERGY STAR™ Portfolio Manager tool."
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "qap-water-wise",
+      "section": "requirements",
+      "kind": "qap",
+      "qap_doc": "current",
+      "also_in_draft": true,
+      "qap_section": "Section 8 (water-wise landscaping)",
+      "title": "Water-wise landscaping",
+      "finding": "New construction uses water-wise landscaping and limits irrigated turf.",
+      "quotes": [
+        "While meeting design codes, new construction projects shall apply “Water-Wise” landscaping and limit irrigated turf to promote quality of life and climate resilience."
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "qap-electrification-narrative",
+      "section": "requirements",
+      "kind": "qap",
+      "qap_doc": "current",
+      "also_in_draft": true,
+      "qap_section": "Threshold #12",
+      "title": "All-electric claims need a third party",
+      "finding": "If the application says the project is all-electric or Electrification-Ready, a third-party energy consultant, architect or electrical designer must describe how.",
+      "quotes": [
+        "If applicable, the Applicant must provide a narrative to describe construction and/or renovation measures demonstrating an Electrification-Ready or All-Electric project from a third-party energy consultant, architect, or electrical design team."
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "qap-more-competitive",
+      "section": "requirements",
+      "kind": "qap",
+      "qap_doc": "current",
+      "also_in_draft": true,
+      "qap_section": "Section 8",
+      "title": "No points, but more competitive",
+      "finding": "Green building earns no scoring points. Going beyond the required certification, or building Electrification-Ready, is “considered more competitive” under a Guiding Principle. CHFA names an efficient, all-electric, net-zero-carbon project as the strongest answer.",
+      "quotes": [
+        "Threshold #12 Energy Efficiency and Sustainability Requirements The Applicant must provide evidence that the proposed project will receive a green building certification as described under Section 8 of the QAP.",
+        "While not required, a project achieving a higher level of energy efficiency certification in addition to the required green building certification or constructing to be Electrification-Ready is considered more competitive as the project would meet a Guiding Principle",
+        "The most competitive response to achieving a higher level of energy efficiency is a highly efficient, all electric project certifying to a program requiring net zero carbon emission or net zero carbon emissions ready."
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "qap-higher-programs-draft",
+      "section": "requirements",
+      "kind": "qap",
+      "qap_doc": "draft",
+      "qap_section": "Section 8.A (Third Draft)",
+      "review_by": "2026-12-15",
+      "title": "Higher programs CHFA names",
+      "finding": "DOE Efficient New Homes, Phius or PHI Passive House, and, new in the Third Draft, Enterprise Green Communities Plus (EGC+).",
+      "quotes": [
+        "To achieve a higher level of energy performance, the project must obtain certification under programs such as DOE Efficient New Homes, PHIUS/PHI or EGC+."
+      ],
+      "last_verified": "2026-10-23",
+      "source_url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
+      "source_title": "2027-28 QAP, Third Draft (posted September 11, 2026; not adopted)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "qap-higher-programs-current",
+      "section": "requirements",
+      "kind": "qap",
+      "qap_doc": "current",
+      "qap_section": "Section 8.A",
+      "title": "Higher programs in the plan in force",
+      "finding": "The plan in force names DOE Efficient New Homes, PHIUS and PHI, without EGC+.",
+      "quotes": [
+        "To achieve a higher level of energy performance, the project must obtain additional certification under programs such as DOE Efficient New Homes, PHIUS, PHI."
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "ceo-lecc-air-resilience",
+      "section": "benefits",
+      "kind": "rule",
+      "title": "Comfort, air and extreme weather",
+      "finding": "The Energy Office says Colorado's model low energy and carbon code improves indoor air through better ventilation and keeps efficient buildings more resistant to extreme temperatures.",
+      "quotes": [
+        "will also improve indoor air quality by improving ventilation",
+        "the code will enhance climate resilience as more energy efficient buildings are more resistant to extreme temperatures"
+      ],
+      "source_url": "https://energyoffice.colorado.gov/press-releases/colorados-new-model-low-energy-and-carbon-code-will-cut-energy-costs-improve-indoor",
+      "source_title": "Colorado's New Model Low Energy and Carbon Code (press release)",
+      "publisher": "Colorado Energy Office",
+      "published": "2025-09-02",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "qap-ua-sources",
+      "section": "benefits",
+      "kind": "qap",
+      "qap_doc": "current",
+      "also_in_draft": true,
+      "qap_section": "Section 11.J",
+      "title": "An efficient building can carry a lower utility allowance",
+      "finding": "The tax credit rent cap applies to gross rent. CHFA lets owners set the utility allowance with an Energy Consumption Model instead of the housing authority's schedule.",
+      "quotes": [
+        "a low-income unit is “rent-restricted” if the gross rent for such unit does not exceed 30 percent of the imputed income limitation applicable to the unit.",
+        "must use one of the following four sources: Applicable Public Housing Authority, Actual Usage and Rate Estimate, HUD Utility Schedule Model, or Energy Consumption Model."
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "cfr-ua-gross-rent",
+      "section": "benefits",
+      "kind": "rule",
+      "title": "Why the allowance moves the rent",
+      "finding": "Where tenants pay a utility directly, the utility allowance counts as part of gross rent, so a lower allowance leaves more of the capped rent for the owner. Federal rules say an energy consumption model must account for unit size, building orientation, design and materials, mechanical systems and appliances, and is prepared by a licensed engineer or other qualified professional.",
+      "quotes": [
+        "If the cost of any utility (other than telephone, cable television, or Internet) for a residential rental unit is paid directly by the tenant(s), and not by or through the owner of the building, the gross rent for that unit includes the applicable utility allowance",
+        "The energy consumption model must, at a minimum, take into account specific factors including, but not limited to, unit size, building orientation, design and materials, mechanical systems, appliances, characteristics of the building location, and available historical data.",
+        "The utility consumption estimates must be calculated by a properly licensed engineer or other qualified professional."
+      ],
+      "source_url": "https://www.ecfr.gov/current/title-26/chapter-I/subchapter-A/part-1/subject-group-ECFR3e1ac0ffd5ad2c3/section-1.42-10",
+      "source_title": "26 CFR 1.42-10, Utility allowances",
+      "publisher": "U.S. Treasury (eCFR)",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "uap-solar",
+      "section": "benefits",
+      "kind": "rule",
+      "title": "Solar can lower the electric allowance",
+      "finding": "Where residents are billed for their own electricity through a submeter, the expected credit from on-site solar or a community solar garden can be counted in the electric allowance in year one, using the Energy Consumption Model. Where the owner pays all of the electricity, there is no electric allowance for solar to lower.",
+      "quotes": [
+        "Residents billed for electricity consumption via a submeter",
+        "These properties would charge gross rent to residents with no utility allowance deducted for electric utilities.",
+        "the projected annual CSG credit or on-site solar credit may be incorporated into the utility allowance for electricity by using the Energy Consumption Model (ECM, Option 4) in the first year of the project."
+      ],
+      "source_url": "https://www.chfainfo.com/getattachment/e5532e61-c096-4d3d-a186-a60f4fb90f80/CHFA_Utility_Allowance_Policy.pdf",
+      "source_title": "CHFA Utility Allowance Policy (effective 10.20.2025)",
+      "publisher": "CHFA Asset Management",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "uap-csg-cost",
+      "section": "benefits",
+      "kind": "rule",
+      "title": "Garden subscriptions stay with the owner",
+      "finding": "The cost of a community solar garden subscription cannot be passed to tenants.",
+      "quotes": [
+        "It is important to note that the cost of the CSG subscription cannot be passed onto the tenant."
+      ],
+      "source_url": "https://www.chfainfo.com/getattachment/e5532e61-c096-4d3d-a186-a60f4fb90f80/CHFA_Utility_Allowance_Policy.pdf",
+      "source_title": "CHFA Utility Allowance Policy (effective 10.20.2025)",
+      "publisher": "CHFA Asset Management",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "bpc-coverage",
+      "section": "benefits",
+      "kind": "qap",
+      "qap_doc": "current",
+      "also_in_draft": true,
+      "qap_section": "Section 8 resources",
+      "title": "Large buildings must benchmark and improve",
+      "finding": "Building Performance Colorado (HB21-1286) covers commercial, multifamily and public buildings of 50,000 square feet or more: annual energy benchmarking and performance targets.",
+      "quotes": [
+        "statute (HB21-1286) was adopted and put into effect in 2023 and requires owners of commercial, multifamily, and public buildings 50,000 square feet or larger to annually benchmark their whole-building energy use and meet set building performance targets."
+      ],
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "bpc-targets",
+      "section": "benefits",
+      "kind": "rule",
+      "title": "The targets and the date",
+      "finding": "The goal is 7% lower emissions from these buildings by 2026 and 20% by 2030, against 2021. Benchmarking reports and fees are due each November 1.",
+      "quotes": [
+        "reduce emissions from the commercial buildings sector by 7% by 2026 and 20% by 2030, compared to 2021 levels.",
+        "November 1, annually: Benchmarking report and fee payment due. Late reports and fees are subject to penalties."
+      ],
+      "source_url": "https://energyoffice.colorado.gov/bpc",
+      "source_title": "Building Performance Colorado",
+      "publisher": "Colorado Energy Office",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "hub-energystar-cost",
+      "section": "deal",
+      "kind": "rule",
+      "title": "EGC and LEED carry ENERGY STAR's added cost",
+      "finding": "EGC and LEED require ENERGY STAR Multifamily New Construction, whose above-code systems and construction testing often raise cost. CHFA's hub gives no Colorado cost premium; price it with your contractor and rater.",
+      "quotes": [
+        "LEED and EGC both require ENERGY STAR building certification for new construction. The ENERGY STAR Multifamily New Construction (MFNC) certification is a rigorous energy standard that results in better energy performance. The standard imposes above code minimum system requirements and construction phase testing that often increases project cost."
+      ],
+      "source_url": "https://multifamily-ehub.chfainfo.com/green-codes",
+      "source_title": "Green Codes and Certifications",
+      "publisher": "CHFA Colorado Multifamily Affordable Housing Electrification Hub",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "hub-ngbs-older-code",
+      "section": "deal",
+      "kind": "rule",
+      "title": "NGBS fits a tight budget under an older code",
+      "finding": "NGBS's energy chapter uses the 2018 IECC as its baseline, so in a town on the 2018 code or older it is often the lower-cost certification to reach. It is still a full certification with its own required practices and points, not code compliance, so budget for it.",
+      "quotes": [
+        "The current version of the NGBS (2020) Energy Chapter references the 2018 IECC as a baseline.",
+        "Projects that have tight construction budgets and are located in a jurisdiction that has adopted the 2018 IECC or older may want to consider NGBS certification."
+      ],
+      "source_url": "https://multifamily-ehub.chfainfo.com/green-codes",
+      "source_title": "Green Codes and Certifications",
+      "publisher": "CHFA Colorado Multifamily Affordable Housing Electrification Hub",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "hub-2021-iecc-gap",
+      "section": "deal",
+      "kind": "rule",
+      "title": "Under the 2021 code, the gap narrows",
+      "finding": "The 2021 IECC asks more of every building, so the extra cost of ENERGY STAR (and so EGC or LEED) is smaller there.",
+      "quotes": [
+        "The 2021 IECC increased energy requirements compared to previous versions. As a result, there is less of a cost difference between systems required by the energy code and those required by ENERGY STAR MFNC."
+      ],
+      "source_url": "https://multifamily-ehub.chfainfo.com/green-codes",
+      "source_title": "Green Codes and Certifications",
+      "publisher": "CHFA Colorado Multifamily Affordable Housing Electrification Hub",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "hb22-1362-codes",
+      "section": "deal",
+      "kind": "rule",
+      "title": "Your town's code sets the baseline",
+      "finding": "Under HB22-1362, a town or county that updated its building codes between July 1, 2023 and July 1, 2026 had to adopt an energy code at least as strong as the 2021 IECC plus the state's electric-ready and solar-ready language. One that updates after July 1, 2026 must match the model low energy and carbon code or better.",
+      "quotes": [
+        "THE GOVERNING BODY OF A MUNICIPALITY THAT HAS ADOPTED AND ENFORCED ONE OR MORE BUILDING CODES, AND THAT UPDATES ONE OR MORE BUILDING CODES ON OR AFTER JULY 1, 2023, AND BEFORE JULY 1, 2026, SHALL ADOPT AND ENFORCE AN ENERGY CODE THAT ACHIEVES EQUIVALENT OR BETTER ENERGY PERFORMANCE THAN THE 2021 INTERNATIONAL ENERGY CONSERVATION CODE AND THE MODEL ELECTRIC READY AND SOLAR READY CODE LANGUAGE",
+        "UPDATES ONE OR MORE BUILDING CODES ON OR AFTER JULY 1, 2026, SHALL ADOPT AND BEGIN ENFORCING AN ENERGY CODE THAT ACHIEVES EQUIVALENT OR BETTER ENERGY AND CARBON EMISSIONS PERFORMANCE THAN THE MODEL LOW ENERGY AND CARBON CODE"
+      ],
+      "source_url": "https://content.leg.colorado.gov/sites/default/files/documents/2022A/bills/2022a_1362_enr.pdf",
+      "source_title": "HB22-1362 as enacted (municipal and county code sections)",
+      "publisher": "Colorado General Assembly",
+      "published": "2022-06-02",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "hb22-1362-rural",
+      "section": "deal",
+      "kind": "rule",
+      "title": "Small rural counties can lag",
+      "finding": "A county of fewer than thirty thousand people may stay on one of the last three IECC editions if, while the state grant program was accepting applications, it applied for and was not awarded a grant that significantly assists in energy code adoption and enforcement training.",
+      "quotes": [
+        "A RURAL COUNTY MEANS A COUNTY WITH A POPULATION OF LESS THAN THIRTY THOUSAND PEOPLE",
+        "IS REQUIRED TO ADOPT AND ENFORCE AN ENERGY CODE THAT ACHIEVES EQUIVALENT OR BETTER ENERGY PERFORMANCE THAN ONE OF THE LAST THREE MOST RECENT EDITIONS OF THE INTERNATIONAL ENERGY CONSERVATION CODE",
+        "IF, WHILE THE GRANT PROGRAM ESTABLISHED PURSUANT TO SECTION 24-38.5-403 IS ACCEPTING APPLICATIONS, THE BOARD OF COUNTY COMMISSIONERS APPLIES FOR AND IS NOT AWARDED A GRANT THAT SIGNIFICANTLY ASSISTS IN ENERGY CODE ADOPTION AND ENFORCEMENT TRAINING."
+      ],
+      "source_url": "https://content.leg.colorado.gov/sites/default/files/documents/2022A/bills/2022a_1362_enr.pdf",
+      "source_title": "HB22-1362 as enacted (county code section)",
+      "publisher": "Colorado General Assembly",
+      "published": "2022-06-02",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "ceo-lecc-no-mandate",
+      "section": "deal",
+      "kind": "rule",
+      "title": "The new code does not require all-electric",
+      "finding": "The model low energy and carbon code became the state minimum on July 1, 2026. It does not mandate electrification; all-electric and mixed-fuel buildings both have a path, and solar-ready, electric-ready and EV-ready rules stay.",
+      "quotes": [
+        "becomes Colorado's new minimum energy code on July 1, 2026",
+        "While the code does not mandate electrification",
+        "The code maintains existing requirements for new construction to be solar-ready, electric-ready and EV-ready."
+      ],
+      "source_url": "https://energyoffice.colorado.gov/press-releases/colorados-new-model-low-energy-and-carbon-code-will-cut-energy-costs-improve-indoor",
+      "source_title": "Colorado's New Model Low Energy and Carbon Code (press release)",
+      "publisher": "Colorado Energy Office",
+      "published": "2025-09-02",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "hub-master-meter",
+      "section": "deal",
+      "kind": "rule",
+      "title": "Metering moves the bills and the allowance",
+      "finding": "A master meter with owner submeters usually lands on a commercial rate at least 20% below one utility meter per apartment, and the metering choice can move utility allowances by 20% or more. Submetering also puts billing, and upkeep of the submeters, on the owner.",
+      "quotes": [
+        "reduced meter fees typically result in an effective building rate that is at least 20% less than projects with residential utility meters for each apartment.",
+        "the metering approach can impact utility allowance values by 20% or more.",
+        "If the project is using submeter data to bill residents for apartment electricity use, property management either needs to hire a third party or take on the billing function.",
+        "The responsibility for maintaining the submetering system lands on the property owner."
+      ],
+      "source_url": "https://multifamily-ehub.chfainfo.com/utility-metering",
+      "source_title": "Utility Metering",
+      "publisher": "CHFA Colorado Multifamily Affordable Housing Electrification Hub",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "uap-rubs",
+      "section": "deal",
+      "kind": "rule",
+      "title": "Ratio billing is allowed again, with conditions",
+      "finding": "CHFA's Utility Allowance Policy says HB25-1090 banned ratio utility billing (RUBS) from January 2026. HB26-1013, approved March 26, 2026, allows it again if the total billed to tenants does not exceed the utility's bill for the property, there is no markup, surcharge or fee beyond the utility's actual charges unless another law allows one, common-area costs are left out, and the lease discloses the method. Buildings whose permits are applied for on or after July 1, 2027 must have every unit's gas, electric and water metered by the utility or a submeter.",
+      "quotes": [
+        "THIS SECTION DOES NOT PROHIBIT A LANDLORD OR LANDLORD'S AGENT FROM ALLOCATING UTILITY COSTS AMONG TENANTS OF THE SAME RESIDENTIAL PREMISES USING A RATIO UTILITY BILLING SYSTEM IF:",
+        "THE AGGREGATE AMOUNT BILLED TO ALL TENANTS OF THE RESIDENTIAL PREMISES DOES NOT EXCEED THE TOTAL AMOUNT CHARGED BY THE UTILITY PROVIDER FOR SERVICE TO THE ENTIRE RESIDENTIAL PREMISES",
+        "THE LANDLORD OR LANDLORD'S AGENT DOES NOT APPLY ANY MARKUP, SURCHARGE, ADMINISTRATIVE FEE, OR OTHER AMOUNT IN EXCESS OF THE ACTUAL CHARGES FROM THE UTILITY, EXCEPT AS OTHERWISE PERMITTED BY LAW",
+        "THE UTILITY COSTS FOR COMMON AREAS OR SHARED FACILITIES AT THE RESIDENTIAL PREMISES ARE EXCLUDED FROM ANY TENANT ALLOCATION",
+        "THE LANDLORD CLEARLY AND CONSPICUOUSLY DISCLOSES THE METHOD OF ALLOCATION FOR THE DWELLING UNIT IN A TENANT'S RENTAL AGREEMENT OR AN ADDENDUM TO THE TENANT'S RENTAL AGREEMENT.",
+        "FOR RESIDENTIAL PREMISES CONSTRUCTED WITH PERMITS APPLIED FOR ON OR AFTER JULY 1, 2027, GAS, ELECTRIC, AND WATER UTILITY SERVICE DELIVERED TO A RESIDENTIAL PREMISES MUST BE METERED EITHER DIRECTLY BY THE UTILITY PROVIDER OR BY A SUBMETER.",
+        "Approved: March 26, 2026",
+        "Colorado House Bill 25-1090: Protections Against Deceptive Pricing Practices, effective 01.01.2026, now prohibits the use of RUBS by landlords."
+      ],
+      "source_url": "https://leg.colorado.gov/laws/session-laws/4745/download",
+      "source_title": "HB26-1013, Session Laws 2026, Chapter 11",
+      "publisher": "Colorado General Assembly",
+      "also_see": {
+        "url": "https://www.chfainfo.com/getattachment/e5532e61-c096-4d3d-a186-a60f4fb90f80/CHFA_Utility_Allowance_Policy.pdf",
+        "title": "CHFA Utility Allowance Policy (effective 10.20.2025), which predates HB26-1013"
+      },
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "uap-ecm-timing",
+      "section": "deal",
+      "kind": "qap",
+      "qap_doc": "current",
+      "qap_section": "Section 11.J",
+      "title": "Start the allowance model early",
+      "finding": "Under the plan in force, an engineer's Energy Consumption Model or HUD's model needs CHFA's preliminary approval at least 45 days before the tax credit application. The drafts of the next plan lengthen that lead time in their redline, so start the model earlier and check the adopted plan.",
+      "quotes": [
+        "Applicants relying on the HUD Utility Schedule Model or the Energy Consumption Model must submit a request for preliminary approval, including all required documents and fees, to CHFA’s Multifamily Program Compliance department at least 45 days prior to the Housing Tax Credit Application submission date."
+      ],
+      "also_see": {
+        "url": "https://www.chfainfo.com/getattachment/e5532e61-c096-4d3d-a186-a60f4fb90f80/CHFA_Utility_Allowance_Policy.pdf",
+        "title": "CHFA Utility Allowance Policy (effective 10.20.2025), which defers to the allocation plan"
+      },
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "source_url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
+      "source_title": "2025-26 QAP, Second Amendment (in force)",
+      "publisher": "CHFA"
+    },
+    {
+      "id": "hub-retrofit-risk",
+      "section": "deal",
+      "kind": "rule",
+      "title": "Electrifying an existing building can raise bills",
+      "finding": "In a retrofit, new loads can change the rate class and raise monthly costs, and can move costs between owner and residents. Electrical capacity is often the main limit, at the utility service, the distribution feeders and each apartment's panel, so check capacity at each level first.",
+      "quotes": [
+        "changes in load profiles can alter utility tariffs and increase monthly expenses. In addition, electrification can shift how energy costs are allocated between owners and residents.",
+        "Electrical capacity is often the primary constraint when evaluating electrification in existing multifamily buildings.",
+        "Capacity limitations can occur at multiple levels of the electrical distribution system, from the main utility service to distribution feeders and individual dwelling unit panels.",
+        "At each level, total connected and coincident loads must remain below the rated capacity of the equipment."
+      ],
+      "source_url": "https://multifamily-ehub.chfainfo.com/utility-metering",
+      "source_title": "Utility Metering (Retrofits)",
+      "publisher": "CHFA Colorado Multifamily Affordable Housing Electrification Hub",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "irc-45l",
+      "section": "credits",
+      "kind": "credit",
+      "status": "ended",
+      "title": "45L new energy efficient home credit",
+      "finding": "Ends for homes acquired after June 30, 2026. CHFA's hub still suggests pairing EGC or LEED with 45L; that no longer applies to new projects.",
+      "quotes": [
+        "Section 45L(h) is amended by striking ``December 31, 2032'' and inserting ``June 30, 2026''."
+      ],
+      "source_url": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+      "source_title": "P.L. 119-21, sec. 70508",
+      "publisher": "U.S. Congress",
+      "published": "2025-07-04",
+      "also_see": {
+        "url": "https://multifamily-ehub.chfainfo.com/green-codes",
+        "title": "CHFA Electrification Hub, Green Codes, which still pairs EGC or LEED with the 45L credit"
+      },
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "irc-179d",
+      "section": "credits",
+      "kind": "credit",
+      "status": "ended",
+      "title": "179D efficient commercial building deduction",
+      "finding": "Does not apply to property whose construction begins after June 30, 2026.",
+      "quotes": [
+        "Section 179D is amended by adding at the end the following new subsection: ``(i) Termination.--This section shall not apply with respect to property the construction of which begins after June 30, 2026.''."
+      ],
+      "source_url": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+      "source_title": "P.L. 119-21, sec. 70507",
+      "publisher": "U.S. Congress",
+      "published": "2025-07-04",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "irc-48e-solar",
+      "section": "credits",
+      "kind": "credit",
+      "status": "at-risk",
+      "title": "48E clean electricity credit: solar and wind",
+      "finding": "Solar or wind placed in service after December 31, 2027 gets no 48E credit. The cutoff reaches only projects that began construction more than 12 months after the law was enacted; earlier starts keep the old rules. Battery storage is excepted.",
+      "quotes": [
+        "This section shall not apply to any qualified property placed in service by the taxpayer after December 31, 2027, which is part of an applicable facility.",
+        "This paragraph shall not apply with respect to any energy storage technology which is placed in service at any applicable facility.",
+        "The amendments made by subsection (a) shall apply to facilities the construction of which begins after the date which is 12 months after the date of enactment of this Act."
+      ],
+      "source_url": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+      "source_title": "P.L. 119-21, sec. 70513",
+      "publisher": "U.S. Congress",
+      "published": "2025-07-04",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "irc-48e-low-income",
+      "section": "credits",
+      "kind": "credit",
+      "status": "open",
+      "opens": "2027-02-01",
+      "opens_at": "2027-02-01T09:00:00-05:00",
+      "deadline": "2027-08-06",
+      "deadline_at": "2027-08-06T23:59:00-04:00",
+      "title": "48E low-income bonus for solar on affordable housing",
+      "finding": "Solar under 5 megawatts on a qualifying affordable rental building can earn 20 more percentage points, but only with an IRS capacity allocation, and only inside the solar cutoff above. The 2026 application window closed August 7, 2026. The 2027 window runs from February 1 to August 6, 2027.",
+      "quotes": [
+        "in the case of a facility described in subclause (II) of paragraph (2)(A)(iii), 20 percentage points",
+        "is part of a qualified low-income residential building project or a qualified low-income economic benefit project.",
+        "For each program year, applicants may apply for an allocation of capacity limitation which is distributed across the following categories:",
+        "The 48E(h) bonus credit increases the 48E Clean Electricity Investment Tax Credit for applicable energy facilities with maximum net output of less than 5 megawatts (MW) by 10% or 20%.",
+        "Applications for the 2026 program year will open at 9 a.m. ET on Feb. 2, 2026, and close at 11:59 p.m. ET on Aug. 7, 2026.",
+        "Program year | Application period - Opens at 9 a.m. Eastern time | 30-day initial application window - Closes at 11:59 p.m. Eastern time | Rolling application period - Closes at 11:59 p.m. Eastern time | Program year - Closes by 11:59 p.m. Eastern time; 2027 | Monday, Feb. 1, 2027 | Tuesday, March 2, 2027 | Friday, Aug. 6, 2027 | Friday, Dec. 31, 2027"
+      ],
+      "source_url": "https://www.irs.gov/credits-deductions/clean-electricity-low-income-communities-bonus-credit-amount-program",
+      "source_title": "Clean Electricity Low-Income Communities Bonus Credit Amount Program",
+      "publisher": "IRS",
+      "also_see": {
+        "url": "https://www.law.cornell.edu/uscode/text/26/48E",
+        "title": "26 U.S.C. 48E(h)"
+      },
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "irc-48",
+      "section": "credits",
+      "kind": "credit",
+      "status": "ended",
+      "title": "Section 48 energy credit (the old ITC)",
+      "finding": "Closed to solar and most other energy property whose construction began on or after January 1, 2025; 48E replaced it.",
+      "quotes": [
+        "but only with respect to property the construction of which begins before January 1, 2025"
+      ],
+      "source_url": "https://www.law.cornell.edu/uscode/text/26/48",
+      "source_title": "26 U.S.C. 48(a)",
+      "publisher": "Cornell Legal Information Institute",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "epa-solar-for-all",
+      "section": "credits",
+      "kind": "credit",
+      "status": "at-risk",
+      "last_verified": "2026-10-23",
+      "title": "Solar for All (EPA)",
+      "finding": "EPA stopped the program and the 2025 tax law rescinded its remaining funds. Federal courts have since set the termination aside, as reported in the trade press (see the court rulings card), EPA may appeal, and the Colorado Energy Office still lists its program as temporarily on hold. Keep it on watch, but do not count it as available money.",
+      "also_see": {
+        "url": "https://energyoffice.colorado.gov/cos4a",
+        "title": "Colorado Energy Office: Colorado Solar for All, temporarily on hold"
+      },
+      "quotes": [
+        "On August 7, 2025, Administrator Zeldin announced the agency will no longer be implementing the $7 billion Solar for All program to remain aligned with Congressional intent. The Working Families Tax Cut repealed EPA’s authority to administer the program and rescinded all remaining funds."
+      ],
+      "source_url": "https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund",
+      "source_title": "Greenhouse Gas Reduction Fund",
+      "publisher": "U.S. EPA",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "sfa-court-rulings",
+      "section": "credits",
+      "kind": "credit",
+      "status": "at-risk",
+      "last_verified": "2026-10-23",
+      "title": "Solar for All court rulings (trade press)",
+      "finding": "A trade publication reports that a federal judge in the District of Columbia ruled on September 22, 2026 that EPA's termination was arbitrary and capricious, and that the ruling covers all Solar for All grants, not only the plaintiff's. Days earlier, the federal court in Rhode Island ruled the termination procedurally unlawful. EPA is reviewing both and considering an appeal. A separate suit by 22 states was dismissed in January. We have not read the rulings themselves, so do not count the money until the Colorado Energy Office reopens its program.",
+      "quotes": [
+        "A federal judge ruled on Sept. 22, 2026, that the U.S. Environmental Protection Agency illegally terminated the $7 billion Solar for All program",
+        "A U.S. District Court judge for the District of Columbia on Tuesday ruled",
+        "arbitrary and capricious, contrary to law, and in excess of statutory authority.",
+        "That decision applies to the EPA’s cancellation of all Solar for All grants, not just Harris County’s, Chutkan ruled.",
+        "the U.S. District Court of Rhode Island on Friday ruled the EPA’s termination of the Solar for All program was procedurally unlawful",
+        "The EPA is reviewing both decisions and considering options for appeal",
+        "filed by 22 states and the District of Columbia in U.S. District Court in the Western District of Washington last October, was dismissed in January."
+      ],
+      "source_url": "https://www.smartcitiesdive.com/news/second-federal-judge-overturns-7b-solar-for-all-cancellation/831364/",
+      "source_title": "Second federal judge overturns $7B Solar for All cancellation (trade press)",
+      "publisher": "Smart Cities Dive",
+      "published": "2026-09-25",
+      "also_see": {
+        "url": "https://energyoffice.colorado.gov/cos4a",
+        "title": "Colorado Energy Office: Colorado Solar for All, temporarily on hold"
+      },
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "co-heat-pump-credit",
+      "section": "programs",
+      "kind": "program",
+      "status": "open",
+      "title": "Colorado heat pump tax credit",
+      "finding": "Claimed by a registered contractor, who passes part of it to you as a discount on the invoice. For 2026 installations: $1,000 per air-source heat pump, $2,000 ground- or water-source, $250 per heat pump water heater. A heat pump serving several apartments earns one credit per unit served.",
+      "fits": "New construction and rehab, any utility territory",
+      "caveat": "Amounts drop again in tax year 2029.",
+      "quotes": [
+        "2026 Tax Credit and Discount Amounts (installed on or after January 1, 2026)",
+        "Air-Source: $1,000 (minimum customer discount $333). Ground-source, water-source, or combined-source: $2,000 ($667). Water Heater: $250 ($83).",
+        "a registered contractor may claim one tax credit for each unit served by that heat pump.",
+        "The total tax credit amounts will decrease again in tax year 2029, which will impact customer discount amounts."
+      ],
+      "source_url": "https://energyoffice.colorado.gov/hptc",
+      "source_title": "Colorado Heat Pump Tax Credits (2026 table)",
+      "publisher": "Colorado Energy Office",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "xcel-eda",
+      "section": "programs",
+      "kind": "program",
+      "status": "verify",
+      "title": "Xcel Energy Design Assistance",
+      "finding": "Free energy modeling, cash rebates for electric and gas savings, and reimbursed design fees, for new buildings or major renovations over 20,000 square feet. The basic track is for Xcel business customers still in schematic or early design who commit to at least 15% electric and gas savings. CHFA lists it in the QAP.",
+      "fits": "New construction or major rehab in Xcel territory",
+      "caveat": "Xcel's information sheet carries no date and sets incentives against an older baseline; confirm current terms with Xcel.",
+      "quotes": [
+        "Get free design assistance and cash incentives, save on energy bills",
+        "Xcel Energy business customer (excluding natural gas transport customers)",
+        "Project size is more than 20,000 square feet",
+        "Project status is in Schematic or Early Design phase",
+        "Commitment to achieve 15% minimum electric and gas savings",
+        "Receive comprehensive energy modeling to help inform your design",
+        "Earn cash rebates for electricity demand reductions",
+        "Earn rebates for gas savings",
+        "Receive reimbursement of design fees"
+      ],
+      "source_url": "https://www.xcelenergy.com/staticfiles/xe/Marketing/Files/CO-Bus-EDA-Info-Sheet.pdf",
+      "source_title": "Energy Design Assistance information sheet",
+      "publisher": "Xcel Energy",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "xcel-mfbe",
+      "section": "programs",
+      "kind": "program",
+      "status": "verify",
+      "title": "Xcel Multifamily Building Efficiency",
+      "finding": "A no-cost assessment and free in-unit products such as light bulbs, showerheads and aerators, for existing buildings of five or more apartments, market rate or income qualified.",
+      "fits": "Existing buildings in Xcel territory",
+      "caveat": "CHFA's listing dates from 2023; confirm current terms with Xcel.",
+      "quotes": [
+        "No-cost services include: Identifying energy-saving opportunities through an onsite assessment",
+        "Installing free energy-saving products in each unit such as light bulbs, showerheads and aerators.",
+        "Properties have five or more units per building; Market rate and income qualified buildings are eligible.",
+        "Last Updated: 09/18/2023"
+      ],
+      "source_url": "https://multifamily-ehub.chfainfo.com/resources/multifamily-building-efficiency-program",
+      "source_title": "Multifamily Building Efficiency Program (CHFA Resource Finder listing)",
+      "publisher": "CHFA Colorado Multifamily Affordable Housing Electrification Hub",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "hub-resource-finder",
+      "section": "programs",
+      "kind": "program",
+      "status": "verify",
+      "title": "Co-op and municipal utility rebates",
+      "finding": "CHFA's Colorado Resource Finder lists funding, financing and incentives for electrifying new construction or rehab, filtered by utility provider, including rural electric co-ops such as Poudre Valley REA, United Power, Holy Cross Energy, La Plata Electric Association, San Miguel Power Association, San Luis Valley Rural Electric Cooperative, White River Electric Association and Y-W Electric Association. CHFA says the list is not exhaustive; ask your utility.",
+      "fits": "Any deal outside Xcel territory, or gas service from another utility",
+      "quotes": [
+        "Explore funding, financing, and incentive opportunities available to help electrify your new construction or rehabilitation.",
+        "This is a non-exhaustive resource, and we encourage users to reach out to their utility providers and/or municipalities for additional opportunities if they are not represented on this page.",
+        "Utility Provider",
+        "Poudre Valley REA",
+        "United Power",
+        "Holy Cross Energy",
+        "La Plata Electric Association",
+        "San Miguel Power Association",
+        "San Luis Valley Rural Electric Cooperative",
+        "White River Electric Association",
+        "Y-W Electric Association"
+      ],
+      "source_url": "https://multifamily-ehub.chfainfo.com/funding-index",
+      "source_title": "Colorado Resource Finder",
+      "publisher": "CHFA Colorado Multifamily Affordable Housing Electrification Hub",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "eoc-multifamily",
+      "section": "programs",
+      "kind": "program",
+      "status": "open",
+      "title": "Energy Outreach Colorado multifamily program",
+      "finding": "Assessment, funding help, project management and inspection for efficiency upgrades in existing affordable buildings where at least 66% of units house residents at or below 80% of AMI. New construction is not eligible now. CHFA lists it in the QAP.",
+      "fits": "Acquisition/rehab and existing affordable properties",
+      "quotes": [
+        "We offer funding support for energy-saving improvements such as lighting upgrades, insulation enhancements, water-efficient fixtures, and HVAC system improvements.",
+        "We visit your property to evaluate specific opportunities for enhancing energy performance to your needs and budget.",
+        "We identify available financial incentives and can guide you through the energy rebate application process.",
+        "We coordinate, supervise, and ensure the successful implementation of the upgrades to your property.",
+        "We conduct a thorough final evaluation to verify proper installation and optimal performance.",
+        "Your multifamily property must have at least 66% of units occupied by residents earning at or below 80% of the Area Median Income (AMI). New construction is not currently eligible for funding."
+      ],
+      "source_url": "https://energyoutreach.org/multifamily/",
+      "source_title": "Multifamily Program",
+      "publisher": "Energy Outreach Colorado",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "ceo-home-energy-rebates",
+      "section": "programs",
+      "kind": "program",
+      "status": "at-risk",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23",
+      "title": "Home Energy Rebates (federal IRA, run by the Energy Office)",
+      "finding": "Colorado's versions of the Inflation Reduction Act HOMES and HEEHRA rebates. The single-family appliance rebate is closed in both regions; the Energy Office says two multifamily phases come in 2026: per-unit appliance rebates (HEAR) for buildings under 50,000 square feet, and whole-building rebates (HER) for buildings of 50,000 square feet or more, capped at up to $400,000 per building. No opening date is confirmed.",
+      "fits": "Existing small multifamily (HEAR) and large multifamily (HER), once open",
+      "caveat": "Federally funded; do not count on it until the Energy Office opens the multifamily phases.",
+      "quotes": [
+        "The HEAR single-family program is now closed for both Region 1 (the Front Range) and Region 2 (All Other Counties). Rebates for small multifamily buildings will be available in 2026.",
+        "Owners and operators of multifamily buildings smaller than 50,000 square feet may also qualify for per-unit HEAR rebates.",
+        "These rebates will be available to manufactured/mobile homes and large multifamily buildings in 2026.",
+        "The HER Program will be available to owners and operators of multifamily buildings 50,000 square feet or larger",
+        "$4,000 per unit, up to $400,000 per building"
+      ],
+      "source_url": "https://energyoffice.colorado.gov/home-energy-rebates",
+      "source_title": "Home Energy Rebates",
+      "publisher": "Colorado Energy Office",
+      "also_see": {
+        "url": "https://www.govinfo.gov/content/pkg/PLAW-117publ169/html/PLAW-117publ169.htm",
+        "title": "P.L. 117-169, secs. 50121 (HOMES) and 50122 (HEEHRA)"
+      }
+    },
+    {
+      "id": "ceo-electric-heating-grants",
+      "section": "programs",
+      "kind": "program",
+      "status": "watch",
+      "title": "High-efficiency electric heating and appliances grants",
+      "finding": "HB22-1362 lets the Energy Office grant money to housing developers, among others, for electric heating in several buildings within a neighborhood. No open round was confirmed.",
+      "fits": "Multi-building or neighborhood-scale projects",
+      "quotes": [
+        "HIGH-EFFICIENCY ELECTRIC HEATING AND APPLIANCES GRANT PROGRAM TO PROVIDE GRANTS TO INSTITUTIONS OF HIGHER EDUCATION, LOCAL GOVERNMENTS, UTILITIES, NONPROFIT ORGANIZATIONS, BUSINESSES AND OTHER ENTITIES AS DETERMINED BY THE COLORADO ENERGY OFFICE, AND HOUSING DEVELOPERS FOR THE INSTALLATION OF HIGH-EFFICIENCY ELECTRIC HEATING EQUIPMENT IN MULTIPLE STRUCTURES WITHIN A NEIGHBORHOOD."
+      ],
+      "source_url": "https://content.leg.colorado.gov/sites/default/files/documents/2022A/bills/2022a_1362_enr.pdf",
+      "source_title": "HB22-1362 as enacted",
+      "publisher": "Colorado General Assembly",
+      "published": "2022-06-02",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "ceo-lbd-showcase",
+      "section": "programs",
+      "kind": "program",
+      "status": "open",
+      "deadline": "2026-10-23",
+      "last_verified": "2026-10-21",
+      "review_by": "2026-11-21",
+      "title": "Large Building Decarbonization Showcase",
+      "finding": "Grants of $500,000 to $2 million, covering 50 to 65% of implementation costs, for existing buildings covered by Building Performance Colorado. Round 2 applications are due by October 23, 2026; no later round is announced.",
+      "fits": "Existing buildings covered by Building Performance Colorado",
+      "quotes": [
+        "Amount: $500,000 - $2 million per award; 50 - 65% of the implementation costs up to $2 million with $8.5m in total funding available. Application Rounds: The deadline for Round 2 has been extended to October 23, 2026. Round 2 covers implementation only projects."
+      ],
+      "source_url": "https://energyoffice.colorado.gov/large-building-decarbonization-showcase-grant-program",
+      "source_title": "Large Building Decarbonization Showcase Grant Program (as read for this site's funding tracker)",
+      "publisher": "Colorado Energy Office"
+    },
+    {
+      "id": "ccef-loans",
+      "section": "programs",
+      "kind": "program",
+      "status": "open",
+      "title": "Collective Clean Energy Fund (CCEF) loans",
+      "finding": "A nonprofit community lender (legally the Colorado Clean Energy Fund, doing business as Collective Clean Energy Fund) that lends to property owners and developers for solar and battery storage, HVAC systems, EV charging and efficient equipment. Its rates have ranged from 2.5% to 7.75%.",
+      "fits": "Gap financing for upgrades, new or existing",
+      "caveat": "CHFA's hub still lists a CCEF Clean Affordable Multifamily Housing Fund. CCEF's own page says its commercial products were updated and does not name it; ask CCEF.",
+      "quotes": [
+        "supporting companies, property owners, developers, small business owners, and nonprofit community organizations",
+        "DG solar and battery storage",
+        "HVAC systems",
+        "EV charging infrastructure",
+        "Energy efficient equipment",
+        "As a non-profit community lender",
+        "Colorado Clean Energy Fund dba Collective Clean Energy Fund",
+        "Our loan offerings are designed to address finance gaps for clean energy and energy efficiency improvements that result in reduced greenhouse gas emissions and increased electrification.",
+        "Historically, our interest rates have ranged from 2.5% to 7.75% depending on the project details."
+      ],
+      "source_url": "https://cocleanenergyfund.com/products/commercial-products/",
+      "source_title": "Commercial Loan Products (updated 2026-09-21)",
+      "publisher": "Collective Clean Energy Fund",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    },
+    {
+      "id": "c-pace",
+      "section": "programs",
+      "kind": "program",
+      "status": "open",
+      "title": "Colorado C-PACE",
+      "finding": "Up to 100% of eligible costs for retrofits of existing buildings. New construction gets less: 15% with documented 2018 IECC compliance, 30% if modeling shows at least 5% better than the 2018 IECC, and 35% when the 2021 IECC is met or exceeded. Terms run up to 25 years, set by the useful life of the improvements. Multifamily buildings of five or more units qualify, but only in a county that has opted into the statewide district. Repaid through a special assessment on the property tax bill that is senior to commercial mortgages, so bring your lender and investor in early.",
+      "fits": "Retrofits of 5+ units (up to 100%) or new construction (15 to 35%), in a participating county",
+      "caveat": "The Energy Office's C-PACE page gives a shorter maximum term than this guide; confirm terms with the program administrator, and check the participating-counties list before counting on it.",
+      "also_see": {
+        "url": "https://coloradocpace.com/participating-counties/",
+        "title": "Colorado C-PACE participating counties"
+      },
+      "quotes": [
+        "C-PACE programs enable owners of commercial, industrial, agricultural, nonprofit, and multifamily buildings (with five or more units) to use private-sector money to finance qualifying energy efficiency, renewable energy generation, water conservation, and other improvements",
+        "C-PACE is economically attractive because it offers up to 100 percent financing for existing building retrofit projects and up to 35 percent financing for new construction projects that comply with or exceed the applicable 2021 International Energy Conservation Code (IECC) requirements, with finance terms that extend up to 25 years.",
+        "If seeking 15 percent financing: signed COMCheck reports (mechanical, electrical, envelope) or other documentation that demonstrates compliance with 2018 International Energy Conservation Code (IECC)",
+        "If seeking 30 percent financing: dynamic building simulations representing “As Designed” case and 2018 IECC compliance case. The energy performance delta between the two simulations should demonstrate at least five (5) percent exceedance by the “As Designed” case above 2018 IECC energy performance",
+        "The maximum term is set by the weighted average effective useful life of the improvements (up to 25 years).",
+        "To participate, each county in the State of Colorado must opt into the District by a resolution of their Board of County Commissioners.",
+        "Is located in a county that has joined the statewide C-PACE New Energy Improvement District.",
+        "Repayment is secured by a voluntary special purpose assessment, similar to a sewer district assessment, that is recorded against the property and billed as a separate line item on the property tax bill.",
+        "The special assessment lien is senior to all commercial mortgages and deeds of trust"
+      ],
+      "source_url": "https://coloradocpace.com/wp-content/uploads/2025/07/CO_C-PACE_Program_Guide.pdf",
+      "source_title": "Colorado C-PACE Program Guide, Version 5.10 (March 2024)",
+      "publisher": "Colorado New Energy Improvement District (C-PACE)",
+      "published": "2024-03-01",
+      "last_verified": "2026-10-23",
+      "review_by": "2027-01-23"
+    }
+  ]
+}

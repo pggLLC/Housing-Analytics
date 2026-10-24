@@ -706,9 +706,11 @@
     p.appendChild(document.createTextNode(sources.length > 1 ? 'Sources: ' : 'Source: '));
     sources.forEach(function (s, i) {
       if (i) p.appendChild(document.createTextNode('; '));
-      if (s.url) {
+      // A source derived on this site links its served /data copy.
+      var href = s.url || (s.localFile ? BASE + s.localFile : '');
+      if (href) {
         var a = document.createElement('a');
-        a.href = s.url;
+        a.href = href;
         a.target = '_blank';
         a.rel = 'noopener';
         a.textContent = s.name;
@@ -716,7 +718,9 @@
       } else {
         p.appendChild(document.createTextNode(s.name));
       }
-      if (s.provider && s.provider !== s.name) p.appendChild(document.createTextNode(' (' + s.provider + ')'));
+      // Every source carries a date: the day the inventory records for it.
+      var when = s.lastUpdated ? 'updated ' + s.lastUpdated : 'date unconfirmed';
+      p.appendChild(document.createTextNode(' (' + (s.provider && s.provider !== s.name ? s.provider + ', ' : '') + when + ')'));
     });
     p.appendChild(document.createTextNode('.'));
     box.appendChild(p);

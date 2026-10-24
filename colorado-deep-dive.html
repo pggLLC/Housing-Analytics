@@ -1456,7 +1456,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
            `Source: HUD LIHTC …` line below was redundant with the auto-badge
            (which already covers HUD + LI_UNITS + vintage) so it's removed. -->
       <div style="height:280px;position:relative;">
-        <canvas id="chartLihtcTimeline" role="img" aria-label="Bar chart: LIHTC units in Colorado by CHFA award year" data-source="CHFA LIHTC feed (LI_UNITS by AwardYear)" data-source-url="data/chfa-lihtc.json" data-source-type="raw"></canvas>
+        <canvas id="chartLihtcTimeline" role="img" aria-label="Bar chart: LIHTC units in Colorado by CHFA award year" data-source="CHFA LIHTC feed (LI_UNITS by AwardYear)" data-source-url="data/chfa-lihtc.json" data-source-id="chfa-lihtc" data-source-type="raw"></canvas>
         <p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Annual LIHTC allocation counts are shown in the bar chart above.</p>
       </div>
       <p id="lihtcTimelineSourceNote" style="display:none;font-size:.8125rem;color:var(--muted);margin-top:.25rem;font-style:italic;"></p>
@@ -2293,7 +2293,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         <button type="button" data-award-metric="units" aria-pressed="false">Units</button>
       </div>
     </div>
-    <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-source-type="raw">
+    <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-source-id="chfa-lihtc" data-source-type="raw">
       <canvas id="chfaTimelineChart" role="img" aria-label="Stacked bar chart: Colorado LIHTC awards per year, 9% competitive vs 4% bond-financed" aria-describedby="chfaChartDesc"></canvas>
     </div>
     <p id="chfaChartDesc" class="sr-only">Stacked bar chart of Colorado LIHTC awards per year, split into 9% competitive and 4% bond-financed credits. The data table below lists every value.</p>
@@ -2321,7 +2321,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       Hover a year for that year&rsquo;s additions.
     </p>
     <p class="ht-chart-title" id="stockChartTitle">Cumulative units in Colorado LIHTC projects, by award year</p>
-    <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-source-type="raw">
+    <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-source-id="chfa-lihtc" data-source-type="raw">
       <canvas id="stockTimelineChart" role="img" aria-label="Line chart: cumulative units in Colorado LIHTC projects by award year"></canvas>
     </div>
     <div id="stockTable"></div>
@@ -2346,7 +2346,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <p id="htSizeStatus" class="data-note" role="status" hidden></p>
     <div id="sizeStats"></div>
     <p class="ht-chart-title" id="sizeChartTitle">Median units per project, by award period and credit type</p>
-    <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-source-type="raw">
+    <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-source-id="chfa-lihtc" data-source-type="raw">
       <canvas id="sizeByPeriodChart" role="img" aria-label="Bar chart: median units per Colorado LIHTC project by five-year award period, 9% competitive vs 4% bond-financed" aria-describedby="sizeChartDesc"></canvas>
     </div>
     <p id="sizeChartDesc" class="sr-only">Grouped bar chart of the median number of units per Colorado LIHTC project in each five-year award period, for 9% competitive and 4% bond-financed credits. The data table below lists every value.</p>
@@ -2452,7 +2452,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         <p class="chart-subtitle" id="mo-pricing-asof">Recorded quarterly equity price per $1 of credit, 9% and 4% · <span style="color:var(--warn);font-weight:700;">STATIC</span> · same series as <a href="article-pricing.html">Tax Credit Equity Markets</a></p>
       </div>
       <div style="height:280px;position:relative;">
-        <canvas id="mo-pricing-history" role="img" aria-label="Line chart: LIHTC 9% and 4% equity pricing by quarter, recorded values" data-source="COHO pricing history (data/market/lihtc-equity-pricing-history.json)" data-source-url="data/market/lihtc-equity-pricing-history.json" data-source-type="curated"></canvas>
+        <canvas id="mo-pricing-history" role="img" aria-label="Line chart: LIHTC 9% and 4% equity pricing by quarter, recorded values" data-source="COHO pricing history (data/market/lihtc-equity-pricing-history.json)" data-source-url="data/market/lihtc-equity-pricing-history.json" data-source-id="novogradac-equity-pricing" data-source-type="curated"></canvas>
         <p class="sr-only" id="mo-pricing-history-text">Chart data is read from data/market/lihtc-equity-pricing-history.json.</p>
       </div>
     </div>
@@ -2488,7 +2488,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       <li><strong>Rural Housing:</strong> Dedicated rural set-aside with priority for towns under 20,000 population</li>
       <li><strong>Extremely Low Income Targeting:</strong> Bonus for projects serving 30% AMI households</li>
       <li><strong>Preservation:</strong> Set-aside reserved for acquisition/rehab of at-risk properties</li>
-      <li><strong>Green Building:</strong> Enterprise Green Communities certification required for all 9% deals</li>
+      <li><strong>Green Building:</strong> every project must earn a green building certification, and the applicant picks Enterprise Green Communities, LEED or NGBS. Annual energy reporting is also required, and so is EV-ready parking, except on acquisition/rehab projects and projects that are 100% for people experiencing homelessness or Special Populations. This is a threshold, not points. All-electric or higher-level certification makes an application &ldquo;more competitive&rdquo; under a Guiding Principle (<a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener">2025-26 QAP</a>, Section 8: &ldquo;CHFA requires all projects to obtain green building certification and accepts several certification programs&rdquo;)</li>
     </ol>
 
     <div class="sources-box">

@@ -995,10 +995,39 @@
    * CHFA's Market Study Guide rules (QAP Appendix A, section 7): income at or
    * under the tier limit for the household's size, income high enough that
    * the maximum tax-credit rent is no more than 40% of it, and a household
-   * that fits a 1-3 bedroom unit. See scripts/market/build_chfa_renter_demand.py.
+   * that fits an offered unit (1-3 bedroom unless the simulator says
+   * otherwise). See scripts/market/build_chfa_renter_demand.py.
    */
-  function _chfaQualifiedRenters(bufTracts, tiers) {
-    return PMAScoring.chfaQualifiedRenters(chfaDemand, chfaLimitsByFips, bufTracts, tiers);
+  function _chfaQualifiedRenters(bufTracts, tiers, bedrooms) {
+    return PMAScoring.chfaQualifiedRenters(chfaDemand, chfaLimitsByFips, bufTracts, tiers, bedrooms);
+  }
+
+  var BEDROOM_INPUTS = ['pmaBr0', 'pmaBr1', 'pmaBr2', 'pmaBr3'];
+  // Bedroom sizes ticked on the simulator, e.g. ['2br', '3br'].
+  // Sizes come from the box ids, never the boxes' value text, so nothing
+  // from the page is written back into the result HTML.
+  var BEDROOM_CODES = { pmaBr0: '0br', pmaBr1: '1br', pmaBr2: '2br', pmaBr3: '3br' };
+  function _offeredBedrooms() {
+    return BEDROOM_INPUTS.filter(function (id) { var b = el(id); return b && b.checked; })
+      .map(function (id) { return BEDROOM_CODES[id]; });
+  }
+  function _bedroomLabel(list) {
+    return list.map(function (b) { return b === '0br' ? 'studio' : b.toUpperCase(); }).join('/');
+  }
+  // Focus stays on the bedroom box, so tell screen readers what changed.
+  function _announceSimulator() {
+    var live = el('maLiveRegion'), sim = el('pmaSimResult');
+    if (!live || !sim) return;
+    var rate = sim.querySelector('.pma-stat-value#pmaProposedCaptureRate');
+    var msg = rate && sim.dataset.denominator
+      ? 'Capture rate ' + rate.textContent + ' of ' + Number(sim.dataset.denominator).toLocaleString() + ' qualified renter households.'
+      : (sim.firstElementChild ? sim.firstElementChild.textContent : '').replace(/\s+/g, ' ').trim().slice(0, 200);
+    live.textContent = '';
+    setTimeout(function () { live.textContent = msg; }, 50);
+  }
+  function _isDefaultBedrooms(list) {
+    var d = PMAScoring.CHFA_DEFAULT_BEDROOMS || ['1br', '2br', '3br'];
+    return list.length === d.length && d.every(function (b) { return list.indexOf(b) !== -1; });
   }
 
   function scoreCaptureRisk(acs, existingUnits, proposedUnits, chasEligible) {
@@ -2587,25 +2616,45 @@
       simEl.dataset.denominator = '';
       return;
     }
-    // The CHFA count depends on the tiers: recount for the tiers in this mix.
-    // With the default all-60% mix this is the headline count, so every card
-    // still divides by one number.
+    // The CHFA count depends on the tiers and the bedroom sizes: recount for
+    // this mix. With the default all-60%, 1-3BR mix this is the headline
+    // count, so every card still divides by one number.
+    var bedrooms = _offeredBedrooms();
+    if (!bedrooms.length) {
+      simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' +
+        'Tick at least one bedroom size to count the renters this project would serve.</div>';
+      explainCapture(result, null, null, 'no bedroom size is ticked');
+      simEl.dataset.denominator = '';
+      return;
+    }
+    var defaultBr = _isDefaultBedrooms(bedrooms);
     if (simDen.source === 'chfa_qualified' && simDen.tracts) {
       var mixTiers = Object.keys(amiMix).filter(function (k) { return amiMix[k] > 0; })
         .map(function (k) { return parseInt(k.slice(3), 10); });
       var sameTiers = mixTiers.length === (simDen.tiers || []).length &&
         mixTiers.every(function (t) { return simDen.tiers.indexOf(t) !== -1; });
-      if (mixTiers.length && !sameTiers) {
-        var recount = _chfaQualifiedRenters(simDen.tracts, mixTiers);
+      if (mixTiers.length && (!sameTiers || !defaultBr)) {
+        var recount = _chfaQualifiedRenters(simDen.tracts, mixTiers, bedrooms);
         if (recount.source === 'chfa_qualified') {
+          var brText = defaultBr ? '' : ' ' + _bedroomLabel(bedrooms);
           simDen = Object.assign({}, simDen, {
-            value: recount.value, tiers: mixTiers, byTier: recount.byTier,
-            label: 'renter households that qualify for units at ' + mixTiers.join('/') + '% AMI (CHFA market-study rules; HUD CHAS + ACS PUMS)',
-            short: 'Renter HH qualified for ' + mixTiers.join('/') + '% AMI units (CHFA rules)'
+            value: recount.value, tiers: mixTiers, byTier: recount.byTier, bedrooms: bedrooms,
+            label: 'renter households that qualify for' + brText + ' units at ' + mixTiers.join('/') + '% AMI (CHFA market-study rules; HUD CHAS + ACS PUMS)',
+            short: 'Renter HH qualified for ' + mixTiers.join('/') + '% AMI' + brText + ' units (CHFA rules)'
           });
         }
       }
     }
+    // Penetration is a whole-market check: existing tax-credit units have no
+    // bedroom split, so its 20-80% pool stays at 1-3BR whatever the project
+    // offers, and the line says so when the sizes were applied to capture.
+    var penScope = (!defaultBr && simDen.bedrooms)
+      ? ' (whole market, 1\u20133BR: existing units are not split by bedroom size)'
+      : '';
+    // The CHAS and ACS fallbacks carry no household sizes to filter.
+    var brNote = (!defaultBr && !simDen.bedrooms)
+      ? '<p class="pma-sim-note" style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0">Bedroom sizes are not applied: this count has no household sizes, so it counts renters of every size.</p>'
+      : '';
     if (simDen.source === 'chfa_qualified' && !(simDen.value > 0)) {
       // A real count of zero: no renter here qualifies for this mix.
       simEl.innerHTML = '<div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-empty">' +
@@ -2625,11 +2674,11 @@
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : sim.risk ? 'var(--good)' : 'var(--text-muted)') + '">' +
           sim.riskLabel + '</div><div class="pma-stat-label">' +
           (sim.penetrationRate == null
-            ? 'No renter households here qualify at 20\u201380% AMI, so there is no tax-credit penetration to check'
+            ? 'No renter households here qualify at 20\u201380% AMI' + penScope + ', so there is no tax-credit penetration to check'
             : 'Tax-credit units (existing, incl. funded not yet open) + proposed: ' + sim.penetrationRate + '% of ' +
-              (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' : 'the same renters')) + '</div></div>' +
+              (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' + penScope : 'the same renters')) + '</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
-      '</div>' + _tierCaptureLine(simDen, amiMix);
+      '</div>' + _tierCaptureLine(simDen, amiMix) + brNote;
     explainCapture(result, sim, simDen, null);
   }
 
@@ -5689,6 +5738,14 @@
       inp.addEventListener('input', function () {
         validateUnitMix();
         if (lastResult) updateSimulator(lastResult);
+      });
+    });
+    BEDROOM_INPUTS.forEach(function (id) {
+      var box = el(id);
+      if (box) box.addEventListener('change', function () {
+        if (!lastResult) return;
+        updateSimulator(lastResult);
+        _announceSimulator();
       });
     });
     // Run once on load so any default values are validated.
