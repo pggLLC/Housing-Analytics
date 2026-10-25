@@ -562,7 +562,9 @@ async function readUrlsPresentAt(ref) {
   const child = spawn(
     "git",
     ["grep", "-h", "-o", "-E", "https?://[^[:space:]\"'`<>)]+", ref, "--",
-     "*.html", "*.md", "*.mjs", "*.js", "*.json", "*.py", "*.css", "*.yml", "*.csv"],
+     "*.html", "*.md", "*.mjs", "*.js", "*.json", "*.py", "*.css", "*.yml", "*.csv",
+     // No extension, and its CSP is one long line: one new host re-adds every other.
+     "_headers"],
     { cwd: ROOT, stdio: ["ignore", "pipe", "pipe"] },
   );
   const rl = readline.createInterface({ input: child.stdout, crlfDelay: Infinity });
