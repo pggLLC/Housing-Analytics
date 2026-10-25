@@ -1,10 +1,10 @@
 {
  "meta": {
   "boundary_search_miles": 10.0,
-  "generated": "2026-10-18T10:01:55Z",
+  "generated": "2026-10-25T10:10:55Z",
   "source": "scripts/market/build_transit_zone_by_geography.py (#1937)",
   "stops_file": "data/amenities/transit_stops_statewide_co.geojson",
-  "stops_generated": "2026-10-18T09:55:50Z",
+  "stops_generated": "2026-10-25T10:05:19Z",
   "radius_miles": 2,
   "radius_source": "data/policy/thiz-map-status.json",
   "qap_tod_miles": 0.5,
@@ -181,7 +181,7 @@
    "share_within_radius_confirmed": 0.5195,
    "share_within_radius_any": 0.5223,
    "share_within_half_mile_confirmed": 0.1563,
-   "confirmed_stops_inside": 1359,
+   "confirmed_stops_inside": 1360,
    "nearest_confirmed_stop": {
     "name": "Salina School House",
     "agency": "Via Mobility Services",
@@ -935,7 +935,7 @@
    "share_within_radius_confirmed": 0.1082,
    "share_within_radius_any": 0.1089,
    "share_within_half_mile_confirmed": 0.0341,
-   "confirmed_stops_inside": 775,
+   "confirmed_stops_inside": 789,
    "nearest_confirmed_stop": {
     "name": "CSU - ENGINEERING RESEARCH CENTER",
     "agency": "Transfort",
@@ -3977,7 +3977,7 @@
    "share_within_radius_confirmed": 0.9667,
    "share_within_radius_any": 0.9667,
    "share_within_half_mile_confirmed": 0.6039,
-   "confirmed_stops_inside": 427,
+   "confirmed_stops_inside": 441,
    "nearest_confirmed_stop": {
     "name": "SWALLOW & STOVER",
     "agency": "Transfort",
@@ -5745,7 +5745,7 @@
    "share_within_radius_confirmed": 0.8882,
    "share_within_radius_any": 0.8882,
    "share_within_half_mile_confirmed": 0.5685,
-   "confirmed_stops_inside": 289,
+   "confirmed_stops_inside": 290,
    "nearest_confirmed_stop": {
     "name": "Kimbark St & 6th Ave  {1103}",
     "agency": "RTD",

@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated": "2026-10-18T12:12:54.061250+00:00",
+    "generated": "2026-10-25T10:11:01.568063+00:00",
     "source": "OpenStreetMap Overpass API + seed fallback; statewide transit stops (CDOT + agency GTFS; OpenStreetMap-only as a flagged fallback); HIFLD/CDPHE hospitals; CDHS licensed child care facilities; HRSA community health center sites",
     "sources_detail": [
       "grocery_co.geojson: 717 features",
       "healthcare_co.geojson: 1058 features",
       "schools_co.geojson: 2552 features",
       "parks_co.geojson: 3267 features",
-      "transit_stops_statewide_co.geojson: 14077 features",
+      "transit_stops_statewide_co.geojson: 14091 features",
       "hospitals_co.geojson: 121 features",
       "childcare_co.geojson: 2860 features",
       "health_centers_co.geojson: 181 features",
@@ -15,7 +15,7 @@
       "healthcare_co.geojson (pharmacy): 327 features"
     ],
     "note": "Includes grocery, healthcare, school, park, transit_stop, convenience, pharmacy, hospital, childcare, health_center. Refresh sources with scripts/amenities/build_osm_amenities.py, scripts/market/build_transit_stops_co.py, scripts/market/fetch_hospitals.py, scripts/market/fetch_childcare.py and scripts/market/fetch_health_centers.py, then rerun this script.",
-    "record_count": 26377,
+    "record_count": 26391,
     "amenity_types": [
       "grocery",
       "healthcare",
@@ -32,11 +32,11 @@
       "source": "data/amenities/transit_stops_statewide_co.geojson",
       "selection": "scripts/lib/transit_stops.py",
       "rule": "Records: confirmed public scheduled stops (reliability confirmed; not private_shuttle; not demand_response) with transit_stop_basis 'confirmed', and OpenStreetMap-only public stops (not private_shuttle; not demand_response) with transit_stop_basis 'openstreetmap_unconfirmed'. Scoring (js/data-connectors/osm-amenities.js), per analyzed site: the nearest confirmed stop when one is within fallback_radius_miles; otherwise the nearest OpenStreetMap-only stop when one is, flagged as unconfirmed; otherwise the nearest confirmed stop, out of range. School-bus names and school-service tags are excluded from both classes by the shared selection rule.",
-      "stops_content_sha256": "d9151b23cef720578ffc0b777c179358edff2a67841f481c50c226f70b4c3c4d",
+      "stops_content_sha256": "3fb457ac871a779d2a5bf5d59a230dd89daf1874bc020fb5059ad87ac6a36d74",
       "fallback_radius_miles": 2.0,
       "records_by_basis": {
-        "confirmed": 12949,
-        "openstreetmap_unconfirmed": 1128
+        "confirmed": 12964,
+        "openstreetmap_unconfirmed": 1127
       },
       "places_by_basis": {
         "confirmed": 252,
@@ -134906,6 +134906,111 @@
     },
     {
       "type": "transit_stop",
+      "name": "ZIEGLER & ROCK CREEK",
+      "lat": 40.516681,
+      "lon": -105.01999,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "LAKE STREET GARAGE",
+      "lat": 40.5687,
+      "lon": -105.08328,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "PLUM & LAUREL VILLAGE",
+      "lat": 40.576495,
+      "lon": -105.092651,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "COFFMAN & 8TH (ROOSEVELT PARK)",
+      "lat": 40.172593,
+      "lon": -105.103717,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "WILLOX & COLLEGE",
+      "lat": 40.61049,
+      "lon": -105.07566,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "LAKE & STADIUM APARTMENTS",
+      "lat": 40.56874,
+      "lon": -105.09339,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "LAKE & WHITCOMB",
+      "lat": 40.56873,
+      "lon": -105.08987,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "LAKE & AGGIE VILLAGE",
+      "lat": 40.5687,
+      "lon": -105.08456,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "PROSPECT & BAY",
+      "lat": 40.56707,
+      "lon": -105.0833,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "PROSPECT & REMINGTON",
+      "lat": 40.56714,
+      "lon": -105.075,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "PROSPECT & MAX GUIDEWAY",
+      "lat": 40.56722,
+      "lon": -105.07837,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "PROSPECT & CENTRE",
+      "lat": 40.56721,
+      "lon": -105.08296,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "LAKE & CANVAS STADIUM",
+      "lat": 40.56885,
+      "lon": -105.08981,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "LADY MOON & TIMBERWOOD",
+      "lat": 40.52239,
+      "lon": -105.01096,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
+      "name": "ROCK CREEK & LADY MOON",
+      "lat": 40.51613,
+      "lon": -105.01105,
+      "transit_stop_basis": "confirmed"
+    },
+    {
+      "type": "transit_stop",
       "name": "Glenwood Springs",
       "lat": 39.548029,
       "lon": -107.323127,
@@ -138535,13 +138640,6 @@
       "name": "Horsetooth & Ashmount",
       "lat": 40.537941,
       "lon": -105.022082,
-      "transit_stop_basis": "openstreetmap_unconfirmed"
-    },
-    {
-      "type": "transit_stop",
-      "name": "Lady Moon & Harmony",
-      "lat": 40.522731,
-      "lon": -105.010628,
       "transit_stop_basis": "openstreetmap_unconfirmed"
     },
     {
