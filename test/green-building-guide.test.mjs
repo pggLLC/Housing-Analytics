@@ -199,6 +199,7 @@ for (const id of ['irc-45l', 'irc-179d']) {
 }
 const rec = (id) => { const e = DOC.entries.find((x) => x.id === id); assert(e, `record ${id} is missing`); return e; };
 const pickRows = [...w.document.querySelectorAll('#gb-pick tbody tr')];
+let rentRows = 0;
 assert(pickRows.length >= 5, 'the "which program for which deal" table is too thin');
 for (const row of pickRows) {
   const refs = (row.dataset.gbRef || '').split(/\s+/).filter(Boolean);
@@ -222,14 +223,28 @@ for (const row of pickRows) {
     assert(refs.includes('qap-more-competitive'), `pick row "${label}" calls a choice competitive without citing qap-more-competitive`);
     assert(/more competitive/.test(rec('qap-more-competitive').quotes.join(' ')), 'qap-more-competitive no longer quotes CHFA\'s "more competitive" line');
   }
-  const higher = rec('qap-higher-programs-draft').quotes.join(' ');
+  // A higher program is advice for whichever plan governs the application: the plan in force for a round
+  // under it, the Third Draft for the next plan's rounds. Each plan that names the program must be cited,
+  // and a program only the draft names must say it belongs to the next plan.
+  const higherCur = rec('qap-higher-programs-current').quotes.join(' ');
+  const higherDraft = rec('qap-higher-programs-draft').quotes.join(' ');
   for (const [prog, re] of [['DOE Efficient New Homes', /DOE Efficient New Homes/], ['Phius', /Phius/i], ['EGC+', /EGC\+/]]) {
     if (!re.test(row.querySelector('td[data-label="Certification"]')?.textContent || '')) continue;
-    assert(refs.includes('qap-higher-programs-draft'), `pick row "${label}" recommends ${prog} without citing qap-higher-programs-draft`);
-    assert(re.test(higher), `pick row "${label}" recommends ${prog}, which qap-higher-programs-draft no longer names`);
+    const inCur = re.test(higherCur), inDraft = re.test(higherDraft);
+    assert(inCur || inDraft, `pick row "${label}" recommends ${prog}, which neither QAP record names`);
+    if (inCur) assert(refs.includes('qap-higher-programs-current'), `pick row "${label}" recommends ${prog} without citing the plan in force (qap-higher-programs-current)`);
+    if (inDraft) assert(refs.includes('qap-higher-programs-draft'), `pick row "${label}" recommends ${prog} without citing the Third Draft (qap-higher-programs-draft)`);
+    if (!inCur) assert(/draft|2027/i.test(row.textContent), `pick row "${label}" recommends ${prog}, which only the Third Draft names, without saying so`);
   }
   // Cell text without the generated "Relies on" links, whose record titles would otherwise count as row text.
   const cells = [...row.querySelectorAll('td')].map((td) => { const c = td.cloneNode(true); c.querySelectorAll('.gb-refs').forEach((x) => x.remove()); return c.textContent; });
+  // A row that says the allowance carries into rent rests on the gross-rent rule and CHFA's allowance sources.
+  if (cells.some((c) => c.split(/[.;]/).some((t) => /allowance/i.test(t) && /\brent\b/i.test(t)))) {
+    for (const r of ['qap-ua-sources', 'cfr-ua-gross-rent']) assert(refs.includes(r), `pick row "${label}" says the allowance moves rent without citing ${r}`);
+    assert(/gross rent for that unit includes the applicable utility allowance/.test(rec('cfr-ua-gross-rent').quotes.join(' ')), 'cfr-ua-gross-rent no longer quotes that the allowance is part of gross rent');
+    assert(/Energy Consumption Model/.test(rec('qap-ua-sources').quotes.join(' ')), 'qap-ua-sources no longer quotes the Energy Consumption Model as an allowance source');
+    rentRows++;
+  }
   // Solar lowers the allowance only where residents pay a submetered electric bill (uap-solar), said in the same clause.
   if (refs.includes('uap-solar')) {
     assert(/submeter/.test(rec('uap-solar').quotes.join(' ')), 'uap-solar no longer quotes the submeter condition');
@@ -264,6 +279,7 @@ for (const row of pickRows) {
     assert(target && target.dataset.gbEntry, `pick row "${label}" links ${h}, which is not a drawn record`);
   }
 }
+assert(rentRows >= 1, 'no pick row says the allowance moves rent; the gross-rent check is vacuous');
 // A quote may not stop mid-sentence on a word that needs what follows it.
 for (const e of DOC.entries) {
   for (const q of e.quotes) assert(!/\b(?:the|a|an|of|to|for|by|with|using|and|or|in|on|at|from|free)$/i.test(q.trim()), `${e.id}: quote stops mid-sentence: "${q.slice(-50)}"`);
