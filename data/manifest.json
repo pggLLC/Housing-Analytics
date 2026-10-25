@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-25T17:01:27.369758Z",
+  "generated": "2026-10-25T17:47:46.216264Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8614,7 +8614,7 @@
     "data/jurisdiction-briefs/_liveness.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 350092
+      "bytes": 362816
     },
     "data/jurisdiction-briefs/_news-used.json": {
       "featureCount": 0,
@@ -9829,7 +9829,7 @@
     "data/reports/data-source-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7833
+      "bytes": 7820
     },
     "data/reports/developer-url-health.json": {
       "featureCount": 0,
