@@ -1291,11 +1291,14 @@
     // workbook on screen or printable.
     // A newer action stops the calculator an older one is still loading, so retries never run side by side.
     var stopFrame = null;
+    // The frame behind the workbook on screen, kept for its market section until the market files settle.
+    var shownFrame = null;
     function supersede() {
       if (stopFrame) { var c = stopFrame; stopFrame = null; c(new Error('A newer request replaced this one.')); }
       return ++tok;
     }
     function take() {
+      if (shownFrame) { shownFrame.remove(); shownFrame = null; }
       $('wbOut').innerHTML = ''; $('wbPrint').hidden = true; $('wbOpenCalc').hidden = true;
       return supersede();
     }
@@ -1323,13 +1326,14 @@
         if (deal) researchEditor(doc, deal, model, function () { status('Your market research did not load.'); });
         else $('wbResearch').innerHTML = '<p class="sr-muted">To add comparables, waitlist counts and the rent survey, save this deal in <a href="developer-submittal-review.html">Submittal review</a> and open it from the saved deals here.</p>';
         var mEl = $('wbMarket');
-        // A newer request removes the waiting frame at once instead of leaving it until the market settles.
-        stopFrame = function () { f.remove(); };
+        // Clearing this workbook removes the frame at once; changing a picker leaves both on screen.
+        shownFrame = f;
         // The market fills in while its own section is on screen; only opening another deal replaces it.
         mktReady.then(function (mkt) {
-          var live = my === tok && mEl.isConnected !== false && $('wbMarket') === mEl;
+          // Tied to this market section, not the generation: a picker change keeps this workbook on screen.
+          var live = mEl.isConnected !== false && $('wbMarket') === mEl;
           if (live) { try { snap.perBrMarket = perBedroom(f.contentWindow, snap.countyFips, mkt); } catch (e) { snap.perBrMarket = null; } }
-          f.remove();
+          f.remove(); if (shownFrame === f) shownFrame = null;
           if (!live) return;
           var first = market(model, snap, mkt);
           (first.error ? Promise.resolve({}) : loadDealDetails(mkt, first)).then(function (detail) {

@@ -615,6 +615,9 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   await new Promise((r) => setTimeout(r, 2600));
   ok(el('wbOut').innerHTML.includes('Deal C') && /Loading market figures/.test(el('wbOut').innerHTML) && !el('wbPrint').hidden, 'the pro forma is on screen while the market files are still loading');
   ok(removed === 0, 'the calculator frame is kept until the market files settle, for the per-bedroom rent estimate');
+  // Changing a picker without opening leaves this workbook on screen, so its market section must still fill in.
+  el('wbVersions').value = '4'; el('wbVersions').handlers.change();
+  ok(removed === 0 && el('wbOut').innerHTML.includes('Deal C'), 'a picker change keeps the workbook and its frame');
   release();
   for (let i = 0; i < 20 && !removed; i++) await new Promise((r) => setTimeout(r, 5));
   await new Promise((r) => setTimeout(r, 10));
