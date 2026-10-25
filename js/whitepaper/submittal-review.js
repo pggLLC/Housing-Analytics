@@ -1220,6 +1220,7 @@
   }
 
   function start(doc) {
+    if (!doc.getElementById('srMain')) return; // loaded on another page for fromCalculatorExport (member-calculator.js)
     var get = function (u) { return fetch(u).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
     Promise.all([get(RULES_URL), get(PROP123_URL), get(PLACES_URL)]).then(function (res) {
       if (res[1] && res[2] && res[2].byGeoid) res[1].places = Object.keys(res[2].byGeoid).map(function (k) { return res[2].byGeoid[k].name; });

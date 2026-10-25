@@ -1087,6 +1087,8 @@
     if (x.url) return queryFrom(String(x.url));
     if (x.calculator && x.calculator.query) return calcQuery(x.calculator.query);
     if (x.data && x.data.calculator && x.data.calculator.query) return calcQuery(x.data.calculator.query);
+    // Saved from the Deal Calculator's member bar (member-calculator.js): a 4% or non-CHFA deal keeps only its link.
+    if (x.data && x.data.url) return queryFrom(String(x.data.url));
     return null;
   }
 
