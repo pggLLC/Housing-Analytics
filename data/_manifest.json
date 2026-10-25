@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-25T10:16:14.742Z",
+    "generated_at": "2026-10-25T10:16:47.093Z",
     "root": "data/",
     "file_count": 1989,
-    "total_size_bytes": 211404054,
+    "total_size_bytes": 211404392,
     "kinds": {
       "json": 1941,
       "geojson": 34,
@@ -42875,8 +42875,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 20937,
-      "mtime": "2026-10-24T09:49:30.043Z",
+      "size_bytes": 20925,
+      "mtime": "2026-10-25T10:16:44.496Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -42895,8 +42895,8 @@
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 178411,
-      "mtime": "2026-10-24T09:49:30.043Z",
+      "size_bytes": 180714,
+      "mtime": "2026-10-25T10:16:44.496Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42904,7 +42904,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 191,
+      "primary_array_length": 192,
       "primary_array_first_keys": [
         "date",
         "events"
