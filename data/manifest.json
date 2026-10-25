@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-25T12:45:46.290666Z",
+  "generated": "2026-10-25T17:01:27.369758Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1013848
+      "bytes": 1013789
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8962,9 +8962,9 @@
       "bytes": 6912
     },
     "data/market/landuse_zoning_proxy_co.geojson": {
-      "featureCount": 49421,
+      "featureCount": 27166,
       "placeholder": false,
-      "bytes": 12598874
+      "bytes": 4989760
     },
     "data/market/lihtc-equity-pricing-history.json": {
       "featureCount": 0,

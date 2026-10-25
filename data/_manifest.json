@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-25T11:39:32.804Z",
+    "generated_at": "2026-10-25T17:01:23.191Z",
     "root": "data/",
     "file_count": 1989,
-    "total_size_bytes": 211936310,
+    "total_size_bytes": 204327197,
     "kinds": {
       "json": 1941,
       "geojson": 34,
@@ -15,7 +15,7 @@
       "path": "_qa-status.json",
       "kind": "json",
       "size_bytes": 7710,
-      "mtime": "2026-10-24T12:43:21.484Z",
+      "mtime": "2026-10-25T16:59:29.944Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -575,7 +575,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-25T02:57:46.299Z",
+      "mtime": "2026-10-25T17:01:19.126Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6382,8 +6382,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 304642,
-      "mtime": "2026-10-24T12:05:38.092Z",
+      "size_bytes": 304643,
+      "mtime": "2026-10-25T16:59:30.046Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -38021,7 +38021,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 252823,
-      "mtime": "2026-10-25T10:47:48.985Z",
+      "mtime": "2026-10-25T17:00:45.572Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -38903,19 +38903,16 @@
     {
       "path": "market/landuse_zoning_proxy_co.geojson",
       "kind": "geojson",
-      "size_bytes": 12598874,
-      "mtime": "2026-10-25T10:02:50.260Z",
+      "size_bytes": 4989760,
+      "mtime": "2026-10-25T16:59:30.391Z",
       "shape": "geojson",
-      "feature_count": 49421,
+      "feature_count": 27166,
       "property_keys": [
-        "name",
         "zone_proxy",
+        "name",
         "building",
-        "landuse",
-        "levels",
-        "osm_id",
-        "osm_type",
-        "mf_suitability"
+        "mf_suitability",
+        "count"
       ],
       "geometry_type": "Point"
     },
@@ -39635,7 +39632,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-25T10:47:43.389Z",
+      "mtime": "2026-10-25T17:01:21.092Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39659,7 +39656,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-25T10:47:42.969Z",
+      "mtime": "2026-10-25T17:01:20.604Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
