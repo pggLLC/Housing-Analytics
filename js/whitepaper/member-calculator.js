@@ -58,7 +58,7 @@
     '.mc-who{color:var(--muted);flex:1 1 12rem}' +
     '.mc-save{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;flex:1 1 100%}' +
     '.mc-save input{min-height:44px;flex:1 1 12rem;max-width:24rem;padding:0 .6rem;border:1px solid var(--border);border-radius:6px;font:inherit;background:var(--bg);color:var(--text)}' +
-    '.mc-save button{padding:0 1rem;border:0;border-radius:6px;background:var(--accent);color:#fff;cursor:pointer}' +
+    '.mc-save button{padding:0 1rem;border:0;border-radius:6px;background:var(--accent);color:var(--on-accent, #fff);cursor:pointer}' +
     '.mc-save button[disabled]{opacity:.6;cursor:wait}' +
     '.mc-status{flex:1 1 100%;margin:0}';
 
