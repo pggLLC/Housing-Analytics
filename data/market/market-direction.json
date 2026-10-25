@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-24T12:15:31Z",
+  "generated_at": "2026-10-25T09:20:19Z",
   "generated_at_note": "the newest of the input files' own stamps, not the time this ran",
   "generator": "scripts/market/build_market_direction.py",
   "title": "Colorado county housing market direction and tax-credit rent edge",

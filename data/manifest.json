@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-25T08:34:32.758656Z",
+  "generated": "2026-10-25T09:29:28.532610Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -3689,7 +3689,7 @@
     "data/hna/jurisdiction-metrics-digest/0861315.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42472
+      "bytes": 42474
     },
     "data/hna/jurisdiction-metrics-digest/0862000.json": {
       "featureCount": 0,
@@ -3784,7 +3784,7 @@
     "data/hna/jurisdiction-metrics-digest/0866197.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41746
+      "bytes": 41749
     },
     "data/hna/jurisdiction-metrics-digest/0866895.json": {
       "featureCount": 0,
@@ -3994,7 +3994,7 @@
     "data/hna/jurisdiction-metrics-digest/0874080.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41807
+      "bytes": 41809
     },
     "data/hna/jurisdiction-metrics-digest/0874275.json": {
       "featureCount": 0,
@@ -4019,7 +4019,7 @@
     "data/hna/jurisdiction-metrics-digest/0874815.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 42868
+      "bytes": 42870
     },
     "data/hna/jurisdiction-metrics-digest/0874980.json": {
       "featureCount": 0,
@@ -4959,7 +4959,7 @@
     "data/hna/permits.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 276757
+      "bytes": 276756
     },
     "data/hna/place-chas-coverage-stats.json": {
       "featureCount": 0,
@@ -5329,12 +5329,12 @@
     "data/hna/projections/places.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 848601
+      "bytes": 848599
     },
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3418192
+      "bytes": 3418201
     },
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
