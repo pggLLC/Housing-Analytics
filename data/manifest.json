@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-25T17:01:27.369758Z",
+  "generated": "2026-10-25T19:41:13.268489Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9689,7 +9689,7 @@
     "data/policy/policy-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 51662
+      "bytes": 54186
     },
     "data/policy/prop123-land-banking-awards.json": {
       "featureCount": 0,

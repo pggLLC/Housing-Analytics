@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-25T17:00:45.623Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-25T19:40:32.446Z. Do not edit by hand.
 
 ---
 
@@ -31,7 +31,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.2 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.4 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 83.7 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 83.0 KB |
@@ -98,7 +98,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 990.1 KB | ✅ | — |
+| `data/_manifest.json` | 990.0 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -2003,7 +2003,7 @@
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 17.4 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 7.2 KB | ✅ | — |
-| `data/policy/policy-watch.json` | 50.5 KB | ✅ | — |
+| `data/policy/policy-watch.json` | 52.9 KB | ✅ | — |
 | `data/policy/prop123-land-banking-awards.json` | 80.8 KB | ✅ | — |
 | `data/policy/prop123-land-banking-status.json` | 35.9 KB | ✅ | — |
 | `data/policy/prop123-rental-rules.json` | 33.2 KB | ✅ | — |
@@ -2185,7 +2185,7 @@
 | `test/deal-recommenders-mix-check.test.mjs` | 14.1 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
-| `test/deal-workbook.test.mjs` | 88.3 KB |
+| `test/deal-workbook.test.mjs` | 93.1 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
 | `test/deep-dive-aamd-vacancy.test.mjs` | 4.4 KB |
 | `test/deep-dive-hmda-loads-on-page-load.test.js` | 3.3 KB |
@@ -2262,7 +2262,7 @@
 | `test/glossary-skips-hidden-text.test.js` | 7.8 KB |
 | `test/glossary-skips-svg-text.test.js` | 4.2 KB |
 | `test/glossary-sync.test.mjs` | 2.9 KB |
-| `test/green-building-guide.test.mjs` | 34.3 KB |
+| `test/green-building-guide.test.mjs` | 36.1 KB |
 | `test/growth-figure-agrees.test.js` | 15.7 KB |
 | `test/guided-path-a11y.test.js` | 3.4 KB |
 | `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
@@ -2426,7 +2426,7 @@
 | `test/navigation-reaches-every-page.test.mjs` | 5.9 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
 | `test/next-step-link.test.js` | 8.7 KB |
-| `test/nhpd-coverage.test.js` | 14.2 KB |
+| `test/nhpd-coverage.test.js` | 13.4 KB |
 | `test/nlihc-out-of-reach.test.mjs` | 4.7 KB |
 | `test/no-synthesized-chfa-awards.test.js` | 3.9 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
