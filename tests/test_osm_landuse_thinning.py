@@ -7,6 +7,7 @@ no OSM feature is lost from the totals and every category stays on the map.
 import importlib.util
 import json
 import os
+import re
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 OUT = os.path.join(ROOT, 'data', 'market', 'landuse_zoning_proxy_co.geojson')
@@ -16,6 +17,17 @@ builder = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(builder)
 
 KEPT_PROPS = {'name', 'zone_proxy', 'building', 'landuse', 'mf_suitability', 'count'}
+
+
+def _assert_note_discloses_merge(doc):
+    # The wording is a choice; the totals it shows are a claim. Whatever the
+    # sentence says, it must name both the OSM feature total and the point
+    # total of the file it sits in.
+    meta, feats = doc['metadata'], doc['features']
+    osm, points = meta['osm_feature_count'], len(feats)
+    assert points and osm > points, 'nothing was merged, so there is nothing to disclose'
+    shown = {int(n.replace(',', '')) for n in re.findall(r'\d[\d,]*', meta['coverage_note'])}
+    assert {osm, points} <= shown, (osm, points, meta['coverage_note'])
 
 
 def _pt(lon, lat, zone, **props):
@@ -79,10 +91,9 @@ def test_failed_queries_keep_thinned_file_unchanged(tmp_path, monkeypatch):
     key = lambda f: (f['properties']['zone_proxy'], f['geometry']['coordinates'])
     assert sorted(after['features'], key=key) == sorted(before['features'], key=key)
     assert after['metadata']['osm_feature_count'] == before['metadata']['osm_feature_count']
-    assert 'merged into one point' in after['metadata']['coverage_note']
+    _assert_note_discloses_merge(after)
 
 
 def test_committed_coverage_note_discloses_merging():
     with open(OUT) as fh:
-        meta = json.load(fh)['metadata']
-    assert 'merged into one point' in meta['coverage_note']
+        _assert_note_discloses_merge(json.load(fh))
