@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-25T10:36:15.490986Z",
+  "generated": "2026-10-25T10:50:42.622601Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1013847
+      "bytes": 1013848
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -64,7 +64,7 @@
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1522382
+      "bytes": 1522540
     },
     "data/affordable-housing/property-aliases.json": {
       "featureCount": 0,
@@ -8859,7 +8859,7 @@
     "data/market/development-activity.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1173858
+      "bytes": 1173862
     },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
@@ -8949,7 +8949,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 996787
+      "bytes": 1529920
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -8989,7 +8989,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 774479
+      "bytes": 774483
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -9699,7 +9699,7 @@
     "data/policy/prop123-land-banking-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36726
+      "bytes": 36730
     },
     "data/policy/prop123-rental-rules.json": {
       "featureCount": 0,
