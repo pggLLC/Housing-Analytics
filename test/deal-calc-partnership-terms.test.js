@@ -118,6 +118,14 @@ const result = (p) => p.w.__DealCalc.getResult();
     assert.equal(result(p).waterfall, null, 'an explicitly blank exit choice is not read as a sale');
     assert.equal(result(p).unavailable.waterfall, 'Choose how the investor exits.');
     assert.match(text(p, 'dc-exit-sponsor-irr'), /^Unavailable/);
+    const termValue = (label) => [...p.d.querySelectorAll('#dcDealTerms tbody tr')].find((tr) => tr.querySelector('th').textContent === label).children[1].textContent;
+    assert.equal(termValue('How the investor exits'), 'Unavailable', 'a blank exit is not shown as a sale');
+    assert.equal(termValue('Buyout price'), 'Unavailable');
+    assert.match(text(p, 'dcPartnershipStructure'), /At the exit: unavailable/);
+    setField(p, 'dc-wf-exit', 'sale');
+    setField(p, 'dc-wf-catchup', '');
+    assert.equal(result(p).waterfall, null);
+    assert.equal(termValue('Sponsor catch-up'), 'Unavailable', 'a blank catch-up is not shown as none');
     assert.deepEqual(p.errors, []);
   });
 

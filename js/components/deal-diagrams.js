@@ -202,7 +202,7 @@
         buyout ? 'Investor sells its interest for <strong>' + money(wf.lpTotal) + '</strong>' : 'Investor: <strong>' + money(wf.lpTotal) + '</strong> (its capital back first, then its preferred return and ' + pctTerm(1 - wf.gpResidualPct, 0) + ' of what is left)',
         buyout ? (pick(/buyout shortfall/i) < 0 ? 'Sponsor pays <strong>' + money(-pick(/buyout shortfall/i)) + '</strong> of its own, because the price is more than the value left' : 'Sponsor keeps the property, worth <strong>' + money(pick(/Value the sponsor keeps/i)) + '</strong> after the above') : 'Sponsor: <strong>' + money(pick(/catch-up|Residual split — GP/i)) + '</strong> more (' + pctTerm(wf.gpResidualPct, 0) + ' of what is left)'];
     }
-    var exitBox = box('dg-ps__box--exit', buyout ? 'At the exit: sponsor buys the investor out' : 'At the exit: sale, split by the waterfall', exitLines);
+    var exitBox = box('dg-ps__box--exit', buyout ? 'At the exit: sponsor buys the investor out' : t.exit === 'sale' ? 'At the exit: sale, split by the waterfall' : 'At the exit: unavailable', exitLines);
     var res = !wf ? null : box('dg-ps__box--result', 'What each side gets back', [
       'Sponsor: <strong>' + money(wf.sponsorCash) + '</strong> on its <strong>' + money(wf.sponsorIn) + '</strong> deferred fee = <strong>' + (known(wf.sponsorIrr) ? pctTerm(wf.sponsorIrr) : 'unavailable') + '</strong> a year',
       'Investor: <strong>' + money(wf.lpTotal) + '</strong> of cash at the exit, plus the credits and tax losses, which are its main return']);
@@ -213,17 +213,18 @@
     return '<tr' + (unused ? ' data-unused="true"' : '') + '><th scope="row">' + esc(term) + '</th><td>' + value + '</td><td>' + esc(unused ? 'Not used: ' + unused : note) + '</td></tr>';
   }
   function renderTerms(m) {
-    var t = m.terms, buyout = t.exit === 'buyout', saleOnly = buyout ? 'the investor is bought out, so this sale term does not apply.' : null;
+    // A choice the engine rejected (null) reads unavailable, never as a default.
+    var t = m.terms, buyout = t.exit === 'buyout', sale = t.exit === 'sale', saleOnly = buyout ? 'the investor is bought out, so this sale term does not apply.' : null;
     var rows = [
       termRow('Investor equity', money(m.lpEquity), m.autoLp ? 'Automatic: what the investor pays for the credits. Enter an amount below to change it.' : 'Entered below.'),
       termRow('Ownership and yearly cash split', pctTerm(t.lpOpsShare, 2) + ' investor / ' + pctTerm(known(t.lpOpsShare) ? 1 - t.lpOpsShare : NaN, 2) + ' sponsor', 'Applies to cash left after loan payments and the deferred fee. Set below.'),
       termRow('Deferred developer fee', money(m.fee), 'Repaid from yearly cash before any split; the sale pays what is left. Set by the fee and gap in the sources above.'),
       termRow('Hold period', known(m.hold) ? m.hold + ' years' : 'Unavailable', 'Set in the exit panel.'),
       termRow('Exit cap rate', known(m.cap) ? pctTerm(m.cap, 2) : 'Unavailable', 'Set in the exit panel. Price = sale-year NOI ÷ cap.'),
-      termRow('How the investor exits', buyout ? 'Sponsor buys the investor out' : 'Sale, split by the waterfall', 'Set below.'),
-      termRow('Buyout price', buyout ? money(t.buyoutPrice) : '—', 'Paid to the investor for its interest. Set below.', buyout ? null : 'the property is sold, not bought out.'),
+      termRow('How the investor exits', buyout ? 'Sponsor buys the investor out' : sale ? 'Sale, split by the waterfall' : 'Unavailable', 'Set below.'),
+      termRow('Buyout price', buyout ? money(t.buyoutPrice) : sale ? '—' : 'Unavailable', 'Paid to the investor for its interest. Set below.', sale ? 'the property is sold, not bought out.' : null),
       termRow('Investor preferred return', pctTerm(t.prefRate), 'Accrues each year on the investor’s equity and is paid from the sale. Set below.', saleOnly),
-      termRow('Sponsor catch-up', t.catchup === 'full' ? 'Full catch-up' : 'None', 'Set below.', saleOnly),
+      termRow('Sponsor catch-up', t.catchup === 'full' ? 'Full catch-up' : t.catchup === 'none' ? 'None' : 'Unavailable', 'Set below.', saleOnly),
       termRow('Residual split', pctTerm(t.gpResidualPct, 0) + ' sponsor / ' + pctTerm(known(t.gpResidualPct) ? 1 - t.gpResidualPct : NaN, 0) + ' investor', 'What is left of the sale after the steps above. Set below.', saleOnly)
     ].join('');
     return '<p class="diagram__title">Deal terms used</p>' +
