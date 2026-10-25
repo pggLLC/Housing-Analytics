@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-24T16:03:45.102236Z",
+  "generated": "2026-10-25T02:56:22.049076Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -244,7 +244,7 @@
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 18649
+      "bytes": 21488
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,

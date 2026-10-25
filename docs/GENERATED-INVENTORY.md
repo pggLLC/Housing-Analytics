@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-24T16:02:59.638Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-25T02:55:39.467Z. Do not edit by hand.
 
 ---
 
@@ -138,7 +138,7 @@
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
 | `data/chfa-income-rent-limits-2026.json` | 499.7 KB | ✅ | — |
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
-| `data/chfa-qap-calendar.json` | 18.2 KB | ✅ | — |
+| `data/chfa-qap-calendar.json` | 21.0 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 40.7 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
@@ -2080,7 +2080,7 @@
 | `test/audit-modules/ui-validation.js` | 14.8 KB |
 | `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
 | `test/basemap-honours-tilelayer-contract.test.js` | 6.6 KB |
-| `test/basemap-provider-single-source.test.js` | 8.1 KB |
+| `test/basemap-provider-single-source.test.js` | 8.9 KB |
 | `test/boards-advocates-search-links.test.js` | 3.1 KB |
 | `test/bot-pr-dispatches-ci-checks.test.js` | 18.9 KB |
 | `test/both-surfaces-answer-the-same-question.test.mjs` | 6.9 KB |
