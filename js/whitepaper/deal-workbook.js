@@ -250,9 +250,14 @@
         var due = num(o.mustPayDebtService), paidAll = num(o.paid), cont = num(o.contingentPaid);
         return { year: num(o.year) != null ? num(o.year) : i + 1, amount: o.unavailableReason || due == null || paidAll == null || cont == null ? null : Math.max(0, due - (paidAll - cont)) };
       })).filter(function (y) { return y.amount > 0.5; });
-    // With no projection rows, the last loan-schedule year with known payments still shows an accrued fee.
-    var obKnown = obYears.filter(function (o) { return !o.unavailableReason && num(o.assetMgmtUnpaid) != null; });
-    model.assetMgmtFallback = obKnown.length ? { year: num(obKnown[obKnown.length - 1].year), assetMgmtOwed: num(obKnown[obKnown.length - 1].assetMgmtUnpaid) } : null;
+    // The accrued fee is read from the last year with a known balance; after an unpaid maturity later years can be blank.
+    var amSource = model.cashFlow.rows.length ? model.cashFlow.rows : obYears.map(function (o, i) {
+      return { year: num(o.year) != null ? num(o.year) : i + 1, assetMgmtOwed: o.unavailableReason ? null : num(o.assetMgmtUnpaid) };
+    });
+    var amKnown = amSource.filter(function (y) { return y.assetMgmtOwed != null; });
+    var amLast = amKnown.length ? amKnown[amKnown.length - 1] : null;
+    model.assetMgmtOwed = amLast ? { year: amLast.year, amount: amLast.assetMgmtOwed,
+      unknownAfter: amSource.some(function (y) { return y.year > amLast.year && y.assetMgmtOwed == null; }) } : null;
     var cov = r.coverage || {};
     // CHFA's minimum runs through year 15, so a ratio counts only when all 15 years were measured.
     var first15 = (cov.years || []).slice(0, YEARS);
@@ -298,7 +303,8 @@
       // The calculator looks for the payoff only within its exit hold, which can be shorter than 15 years, so
       // the year the carried balance first reaches zero counts too.
       paybackYear: paidOff ? paidOff.year : r.exit && num(r.exit.dfYr) != null && num(r.exit.dfYr) <= lastYear ? num(r.exit.dfYr) : null,
-      paidLater: r.exit && num(r.exit.dfYr) > YEARS ? num(r.exit.dfYr) : null,
+      // A payoff after the forecast shown here is kept, so a short forecast does not hide it as unknown.
+      paidLater: r.exit && num(r.exit.dfYr) > lastYear ? num(r.exit.dfYr) : null, horizon: lastYear,
       payoffReason: gapRow ? 'year ' + gapRow.year + ' is not projected' + (gapRow.reason ? ' (' + gapRow.reason + ')' : '') : feeRows.length < YEARS ? 'the projection runs ' + feeRows.length + ' years, not ' + YEARS : null, owedAt15: dfee != null && feePaid15 != null ? Math.max(0, dfee - feePaid15) : null };
 
     // fundingGap is floored at zero; the signed gap shows a surplus when sources exceed costs.
@@ -306,7 +312,7 @@
     model.exec = {
       credit: model.basis.credit, creditReason: model.basis.creditReason, gap: model.gap.amount, gapReason: model.gap.reason,
       weakest: model.coverage.weakest, coverageFull: model.coverage.full, coverageReason: model.coverage.reason,
-      paybackYear: model.deferredFee.paybackYear, deferredFee: dfee, deferredFeeReason: model.deferredFee.reason, owedAt15: model.deferredFee.owedAt15, payoffReason: model.deferredFee.payoffReason
+      paybackYear: model.deferredFee.paybackYear, paidLater: model.deferredFee.paidLater, horizon: lastYear, deferredFee: dfee, deferredFeeReason: model.deferredFee.reason, owedAt15: model.deferredFee.owedAt15, payoffReason: model.deferredFee.payoffReason
     };
     model.supportive = ctx && typeof ctx.supportive === 'boolean' ? ctx.supportive : null;
     model.findings = findings(model, r);
@@ -427,14 +433,19 @@
     if (df.amount == null) out.push({ level: 'warn', text: 'The deferred developer fee is not known: ' + (df.reason || 'the calculator did not size it') + '.' });
     else if (df.amount) {
       if (df.paybackYear != null) out.push({ level: 'ok', text: 'The deferred fee of ' + money(df.amount) + ' is paid off from cash flow in year ' + df.paybackYear + '.' });
+      // The forecast set in the calculator is shorter than 15 years and the payoff falls after it.
+      else if (df.owedAt15 == null && df.paidLater != null && df.horizon < YEARS) out.push(df.paidLater <= YEARS
+        ? { level: 'ok', text: 'The deferred fee of ' + money(df.amount) + ' is paid off from cash flow in year ' + df.paidLater + ', after the ' + df.horizon + '-year forecast shown here. Set the calculator to project ' + YEARS + ' years to see the payoff year.' }
+        : { level: 'bad', text: 'The deferred fee is not paid off in 15 years: the calculator pays off ' + money(df.amount) + ' in year ' + df.paidLater + '. The forecast shown here runs ' + df.horizon + ' years, so the balance at year 15 is not shown.' });
       else if (df.owedAt15 == null) out.push({ level: 'warn', text: 'Whether the deferred fee is paid off in 15 years is not known: ' + (df.payoffReason || 'the cash flow is incomplete') + '.' });
       else out.push({ level: 'bad', text: 'The deferred fee is not paid off in 15 years: ' + money(df.owedAt15) + ' of ' + money(df.amount) + ' is still owed' + (df.paidLater ? ' (paid off in year ' + df.paidLater + ')' : '') + '.' });
     }
     var cfRows = m.cashFlow.rows || [];
     var shortYears = m.mustPayShort || [];
     if (shortYears.length) out.push({ level: 'bad', text: 'Net operating income does not cover must-pay debt service in ' + shortYears.length + (shortYears.length === 1 ? ' year' : ' years') + ' (first in year ' + shortYears[0].year + '): ' + money(shortYears.reduce(function (a, y) { return a + y.amount; }, 0)) + ' is left unpaid and added to the loan balance.' });
-    var amLast = cfRows.length ? cfRows[cfRows.length - 1] : (m.assetMgmtFallback || null);
-    if (amLast && amLast.assetMgmtOwed > 0.5) out.push({ level: 'warn', text: 'Asset management fees of ' + money(amLast.assetMgmtOwed) + ' are still owed at the end of year ' + amLast.year + '; cash flow did not cover them.' });
+    var am = m.assetMgmtOwed;
+    if (am && am.amount > 0.5) out.push({ level: 'warn', text: 'Asset management fees of ' + money(am.amount) + ' are still owed at the end of year ' + am.year + '; cash flow did not cover them.' +
+      (am.unknownAfter ? ' Later years are not projected, so whether they are paid after year ' + am.year + ' is not known.' : '') });
     if (m.gap.amount != null) {
       if (m.gap.amount > 0.5) out.push({ level: 'bad', text: 'The deal is ' + money(m.gap.amount) + ' short after every source modeled.' });
       else if (m.gap.amount < -0.5) out.push({ level: 'ok', text: 'Sources exceed costs by ' + money(-m.gap.amount) + '.' });
@@ -463,16 +474,18 @@
     var e = m.exec, h = '';
     var w = e.weakest;
     var minDscr = m.operating.min.dscr ? m.operating.min.dscr.value : null;
+    var laterPay = e.deferredFee && e.owedAt15 == null && e.paidLater != null && e.horizon < YEARS;
     h += '<section class="dv-card rw-decide" aria-labelledby="wbExec"><h2 id="wbExec">Executive view' + (title ? ': ' + esc(title) : '') + '</h2><div class="rw-stats">' +
       tile(e.credit == null ? '—' : esc(money(e.credit)), e.credit == null ? 'Yearly credit: ' + esc(e.creditReason || 'not available') : 'Yearly federal credit (' + esc(m.creditType === '4' ? '4%' : '9%') + ')') +
       tile(e.gap == null ? '—' : esc(money(e.gap < -0.5 ? -e.gap : e.gap)), e.gap == null ? 'Funding gap: ' + esc(e.gapReason || 'not available') : e.gap < -0.5 ? 'Surplus: sources exceed costs' : 'Funding gap after every modeled source', e.gap == null ? '' : e.gap > 0.5 ? 'sr-bad' : 'sr-ok') +
       tile(w ? esc(ratio(w.ratio)) : '—', w ? 'Weakest debt coverage, all must-pay debt (year ' + w.year + ')' : 'Debt coverage: ' + esc(e.coverageReason || 'not available'), w && minDscr != null ? (w.ratio < minDscr ? 'sr-bad' : e.coverageFull ? 'sr-ok' : '') : '') +
-      tile(e.paybackYear != null ? 'Year ' + e.paybackYear : (e.deferredFee && e.owedAt15 != null ? 'Not in 15 yrs' : '—'),
+      tile(e.paybackYear != null ? 'Year ' + e.paybackYear : (e.deferredFee && e.owedAt15 != null ? 'Not in 15 yrs' : laterPay ? (e.paidLater <= YEARS ? 'Year ' + e.paidLater : 'Not in 15 yrs') : '—'),
         e.deferredFee == null ? 'Deferred fee: not known, ' + esc(e.deferredFeeReason || 'not available') :
           !e.deferredFee ? 'No deferred developer fee' : e.paybackYear != null ? 'Deferred fee of ' + esc(money(e.deferredFee)) + ' paid off' :
           e.owedAt15 != null ? 'Deferred fee of ' + esc(money(e.deferredFee)) + ': ' + esc(money(e.owedAt15)) + ' still owed at year 15' :
+          laterPay ? 'Deferred fee of ' + esc(money(e.deferredFee)) + ' paid off in year ' + e.paidLater + ', after the ' + e.horizon + '-year forecast shown' :
           'Deferred fee payoff: not known, ' + esc(e.payoffReason || 'cash flow incomplete'),
-        e.deferredFee && e.paybackYear == null && e.owedAt15 != null ? 'sr-bad' : '') +
+        e.deferredFee && e.paybackYear == null && (e.owedAt15 != null || (laterPay && e.paidLater > YEARS)) ? 'sr-bad' : '') +
       '</div>';
     var top = m.findings.filter(function (f) { return f.level !== 'ok'; });
     h += top.length ? '<h3>What to check</h3><ul>' + top.map(function (f) { return '<li class="' + (f.level === 'bad' ? 'sr-red' : 'sr-yellow') + '">' + esc(f.text) + quote(f.source) + '</li>'; }).join('') + '</ul>'
@@ -1010,11 +1023,9 @@
     var parts = String(ua.reason).split(':'), text = ua.reason === 'shared_allowance_invalid' ? 'Shared utility allowance record is invalid' : limits.unavailableMessage(parts[0]);
     return Object.assign({}, ua, { reasonText: text ? text + (parts[1] ? ' (' + parts[1] + ')' : '') : null });
   }
-  function readCalc(w, mkt) {
-    var dc = w.__DealCalc;
-    var rs = dc.getRentScheduleMetadata ? dc.getRentScheduleMetadata() : null;
-    var fips = (rs && rs.countyFips) || null;
-    // The calculator's own ZORI-by-bedroom estimate (js/components/zori-rent-utils.js), from the frame's loaded HUD FMRs.
+  // The calculator's own ZORI-by-bedroom estimate (js/components/zori-rent-utils.js), from the frame's loaded HUD FMRs.
+  // It needs the market files, so the workbook reads it after the pro forma is on screen.
+  function perBedroom(w, fips, mkt) {
     var per = null;
     try {
       // The same place the calculator uses: a linked geoid first, else the saved jurisdiction in this county.
@@ -1025,6 +1036,13 @@
       }
       if (fips && mkt && mkt.zori && w.ZoriRentUtils && w.HudFmr) per = w.ZoriRentUtils.getPerBedroomRent(mkt.zori, fips, w.HudFmr, { bedroomMix: mkt.bedroomMix, geoid: geoid });
     } catch (e) { per = null; }
+    return per;
+  }
+  function readCalc(w, mkt) {
+    var dc = w.__DealCalc;
+    var rs = dc.getRentScheduleMetadata ? dc.getRentScheduleMetadata() : null;
+    var fips = (rs && rs.countyFips) || null;
+    var per = mkt ? perBedroom(w, fips, mkt) : null;
     return { result: dc.getResult(), permanentFinancing: dc.getPermanentFinancing ? dc.getPermanentFinancing() : null,
       rentLimits: dc.getRentLimitsMetadata ? dc.getRentLimitsMetadata() : null, rentSchedule: dc.getRentScheduleMetadata ? dc.getRentScheduleMetadata() : null, utilityAllowance: dc.getUtilityAllowanceMetadata ? uaWithText(dc.getUtilityAllowanceMetadata(), w.ChfaRentLimits) : null,
       amiByBr: dc.getAmiLimitsByBr ? dc.getAmiLimitsByBr() : null,
@@ -1287,25 +1305,37 @@
       if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
       status('Running the Deal Calculator for this deal…');
       $('wbOpenCalc').href = calcUrl(query, doc.baseURI); $('wbOpenCalc').hidden = false;
-      Promise.all([loadFrame(doc, query, null, null, function (c) { stopFrame = c; }), loadMarket(), rulesReady]).then(function (got) {
-        var f = got[0], mkt = got[1], rules = got[2];
+      // The pro forma does not need the market files, so it renders as soon as the calculator settles. The frame
+      // stays (hidden) until the market files settle, for the per-bedroom rent estimate in the market section.
+      var mktReady = loadMarket();
+      Promise.all([loadFrame(doc, query, null, null, function (c) { stopFrame = c; }), rulesReady]).then(function (got) {
+        var f = got[0], rules = got[1];
         if (my !== tok) { f.remove(); return; }
-        var snap = readCalc(f.contentWindow, mkt); f.remove();
+        var snap = readCalc(f.contentWindow, null);
         var model = build(snap, rules, ctx);
         $('wbOut').innerHTML = render(model, title) + '<div id="wbMarket"><p class="sr-muted">Loading market figures…</p></div><div id="wbResearch"></div>';
         status(''); $('wbPrint').hidden = false;
         if ($('wbOut').scrollIntoView) $('wbOut').scrollIntoView({ block: 'start' });
-        if (model.error) { $('wbMarket').innerHTML = ''; return; }
+        if (model.error) { f.remove(); $('wbMarket').innerHTML = ''; return; }
         var deal = ctx && ctx.deal;
         // The editor stays live while its form is on screen: opening another deal clears the form first, and
         // changing a picker without opening leaves this deal on screen and editable.
         if (deal) researchEditor(doc, deal, model, function () { status('Your market research did not load.'); });
         else $('wbResearch').innerHTML = '<p class="sr-muted">To add comparables, waitlist counts and the rent survey, save this deal in <a href="developer-submittal-review.html">Submittal review</a> and open it from the saved deals here.</p>';
-        var first = market(model, snap, mkt), mEl = $('wbMarket');
+        var mEl = $('wbMarket');
+        // A newer request removes the waiting frame at once instead of leaving it until the market settles.
+        stopFrame = function () { f.remove(); };
         // The market fills in while its own section is on screen; only opening another deal replaces it.
-        (first.error ? Promise.resolve({}) : loadDealDetails(mkt, first)).then(function (detail) {
-          if (mEl.isConnected === false || $('wbMarket') !== mEl) return;
-          mEl.innerHTML = renderMarket(first.error ? first : market(model, snap, Object.assign({}, mkt, { dealDetail: detail })));
+        mktReady.then(function (mkt) {
+          var live = my === tok && mEl.isConnected !== false && $('wbMarket') === mEl;
+          if (live) { try { snap.perBrMarket = perBedroom(f.contentWindow, snap.countyFips, mkt); } catch (e) { snap.perBrMarket = null; } }
+          f.remove();
+          if (!live) return;
+          var first = market(model, snap, mkt);
+          (first.error ? Promise.resolve({}) : loadDealDetails(mkt, first)).then(function (detail) {
+            if (mEl.isConnected === false || $('wbMarket') !== mEl) return;
+            mEl.innerHTML = renderMarket(first.error ? first : market(model, snap, Object.assign({}, mkt, { dealDetail: detail })));
+          });
         });
       }, function (err) { if (my === tok) status(err.message); });
     }

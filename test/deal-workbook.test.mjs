@@ -133,6 +133,16 @@ const balloon = mut((s) => { const l = s.result.obligations.loans.find((x) => x.
 ok(/warn: First mortgage matures in year 10 with \$2,800,000 due/.test(texts(balloon)), 'a balloon inside 15 years is read from the maturity-year row');
 const late = mut((s) => { s.result.exit.dfYr = 20; s.result.projection.rows.forEach((y) => { y.deferredFeePaid = 10000; }); });
 ok(late.exec.paybackYear == null && /bad: The deferred fee is not paid off in 15 years: .*\(paid off in year 20\)/.test(texts(late)), 'a payoff in year 20 counts as unpaid in the 15-year workbook');
+// #2474: a forecast shorter than 15 years keeps the engine's later payoff year instead of calling it unknown.
+const shortFc = mut((s) => { s.result.projection.years = 8; });
+ok(shortFc.exec.paybackYear == null && shortFc.deferredFee.paidLater === 10 && /ok: The deferred fee of \$760,000 is paid off from cash flow in year 10, after the 8-year forecast shown here/.test(texts(shortFc)) && !/not known/.test(texts(shortFc).split('\n').filter((t) => /deferred fee/i.test(t)).join('\n')), 'a payoff after a short forecast is kept and described against that forecast');
+ok(/Year 10<\/div>Deferred fee of \$760,000 paid off in year 10, after the 8-year forecast shown/.test(WB.render(shortFc)), 'the fee tile shows the later payoff year with the forecast length');
+const shortFcLate = mut((s) => { s.result.projection.years = 8; s.result.exit.dfYr = 20; });
+ok(/bad: The deferred fee is not paid off in 15 years: the calculator pays off \$760,000 in year 20\. The forecast shown here runs 8 years/.test(texts(shortFcLate)) && /Not in 15 yrs/.test(WB.render(shortFcLate)), 'a payoff after year 15 with a short forecast is still unpaid at 15');
+// #2474: after an unpaid maturity the projection tail can be blank; the accrued fee comes from the last known year.
+const amTail = mut((s) => { s.result.projection.rows.forEach((y, i) => { if (i >= 10) { y.assetMgmtUnpaid = null; y.unavailableReason = 'The first mortgage matured unpaid.'; } else y.assetMgmtUnpaid = i >= 4 ? 4000 : 0; }); });
+ok(/warn: Asset management fees of \$4,000 are still owed at the end of year 10; cash flow did not cover them\. Later years are not projected, so whether they are paid after year 10 is not known\./.test(texts(amTail)), 'an accrued fee before a blank tail is read from the last known year and says later status is unknown');
+ok(!/Later years are not projected/.test(texts(mut((s) => { s.result.projection.rows.forEach((y) => { y.assetMgmtUnpaid = 4000; }); }))), 'a full projection adds no unknown-status note');
 ok(/does not cover|for-sale|rental tax credit/.test(mut((s) => { s.mode = 'ownership'; }).error || ''), 'an ownership-mode deal is turned away');
 const withOwner = mut0((s) => { s.permanentFinancing.owner = [{ id: 'sponsor_loan', program: 'sponsor_loan', amount: 250000 }]; s.permanentFinancing.totals.totalSources += 250000; });
 near(withOwner.sources.rows.reduce((t, x) => t + x.amount, 0), withOwner.sources.total, 'owner equity is listed, so sources still add to the total');
@@ -579,6 +589,36 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
   await new Promise((r) => setTimeout(r, 60));
   ok(/That version did not load/.test(el('wbStatus').textContent), 'a saved version that never answers times out and says so');
   ok(/Saved deals did not load/.test(el('wbDeals').innerHTML), 'a saved-deal list that never answers times out and says so');
+  globalThis.fetch = saved.fetch; if (saved.window === undefined) delete globalThis.window; else globalThis.window = saved.window;
+}
+{
+  // #2480: the pro forma renders once the calculator settles, without waiting on slow market files.
+  // This runs before any other test opens a deal, because the market files are loaded once per page.
+  const fx = fixture();
+  const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, files: [], isConnected: true, querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+  let frame, removed = 0, release;
+  const held = new Promise((r) => { release = r; });
+  const doc = { getElementById: el, baseURI: 'https://example.org/developer-deal-workbook.html', querySelectorAll: () => [],
+    body: { appendChild(f) { frame = f; } },
+    createElement: () => ({ style: {}, setAttribute() {}, remove() { removed++; }, handlers: {}, addEventListener(t, f) { this.handlers[t] = f; },
+      contentWindow: { __DealCalc: { getResult: () => fx.result, getOutputRecords: () => [], getPermanentFinancing: () => fx.permanentFinancing }, document: { querySelector: () => null } } }) };
+  const saved = { fetch: globalThis.fetch, window: globalThis.window };
+  const marketUrls = Object.values(WB.MARKET_URLS);
+  globalThis.fetch = (u) => /deal=/.test(String(u)) ? Promise.resolve({ ok: true, json: () => Promise.resolve({ data: { calculator: { query: 'units=60' }, deal: {} } }) })
+    : marketUrls.includes(String(u)) ? held.then(() => ({ ok: false, json: () => null })) : Promise.resolve({ ok: false, json: () => null });
+  globalThis.window = { addEventListener() {} };
+  WB.start(doc, 200);
+  el('wbDeals').value = 'd1'; el('wbDeals').selectedOptions = [{ textContent: 'Deal C' }]; el('wbVersions').value = '3';
+  el('wbOpenSaved').handlers.click();
+  for (let i = 0; i < 20 && !frame; i++) await new Promise((r) => setTimeout(r, 5));
+  frame.handlers.load();
+  await new Promise((r) => setTimeout(r, 2600));
+  ok(el('wbOut').innerHTML.includes('Deal C') && /Loading market figures/.test(el('wbOut').innerHTML) && !el('wbPrint').hidden, 'the pro forma is on screen while the market files are still loading');
+  ok(removed === 0, 'the calculator frame is kept until the market files settle, for the per-bedroom rent estimate');
+  release();
+  for (let i = 0; i < 20 && !removed; i++) await new Promise((r) => setTimeout(r, 5));
+  await new Promise((r) => setTimeout(r, 10));
+  ok(removed === 1 && !/Loading market figures/.test(el('wbMarket').innerHTML), 'the market section fills in and the frame is removed once the market files settle');
   globalThis.fetch = saved.fetch; if (saved.window === undefined) delete globalThis.window; else globalThis.window = saved.window;
 }
 {
