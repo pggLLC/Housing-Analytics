@@ -803,6 +803,8 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   ok(!b4.error && b4.data.calculator === null && b4.data.deal.calc4 === true, 'a 4% save keeps no 9% model results, as an import would');
   ok(WB.queryFrom({ data: b4.data }) === 'units=40&units-60=40&rate-9=0.04', 'the workbook still opens a 4% save from its link');
   ok(MC.saveBody(null, null, 'x').error, 'nothing to save gives a reason');
+  ok(!('deal' in b9), 'a save with no deal picked makes a new deal');
+  ok(MC.saveBody(nine, SR.fromCalculatorExport(nine), 'Invented 9% deal', 'invented-9-deal-abc123').deal === 'invented-9-deal-abc123', 'a revised run saves as the next version of the picked deal, so Submittal review can compare them');
   const nav = read('js/navigation.js');
   ok(/onMemberHost\(\)\) return;[\s\S]*?window\.top !== window[\s\S]*?member-calculator\.js/.test(nav), 'the member bar loads only on the member site, never in the workbook\'s hidden frame');
 }
