@@ -791,7 +791,7 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   const MC = require(path.join(ROOT, 'js/whitepaper/member-calculator.js'));
   const SR = require(path.join(ROOT, 'js/whitepaper/submittal-review.js'));
   ok(MC.API === WB.API && MC.API === SR.API, 'the member bar saves where the workbook and Submittal review read');
-  const exp = (q, inputs) => ({ exportedAt: '2026-10-25T00:00:00Z', dealMode: 'rental', url: 'https://x.workers.dev/deal-calculator?' + q,
+  const exp = (q, inputs) => ({ exportedAt: '2026-10-25T00:00:00Z', dealMode: 'rental', url: 'https://example.com/deal-calculator?' + q,
     inputs: Object.assign({ units: '40', 'units-60': '40' }, inputs), outputs: { fundingGap: { value: 125000 } } });
   const nine = exp('units=40&units-60=40&rate-9=0.09', { 'rate-9': '0.09' });
   const b9 = MC.saveBody(nine, SR.fromCalculatorExport(nine), 'Invented 9% deal');
