@@ -1137,6 +1137,38 @@ mark {
   .dg-ladder__step { grid-template-columns: minmax(0, 1fr) auto; }
   .dg-ladder__track { grid-column: 1 / -1; grid-row: 2; }
 }
+/* Partnership structure and deal terms (js/components/deal-diagrams.js). */
+.dg-ps { display: grid; gap: .5rem; }
+.dg-ps__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
+.dg-ps__box { min-width: 0; padding: .6rem .75rem; border: 1px solid var(--border); border-top: 4px solid var(--chart-7); border-radius: 6px; background: var(--card); }
+.dg-ps__box--lp { border-top-color: var(--chart-3); }
+.dg-ps__box--gp { border-top-color: var(--chart-6); }
+.dg-ps__box--lender { border-top-color: var(--chart-1); }
+.dg-ps__box--result { border-top-color: var(--accent); background: var(--bg2); }
+.diagram .dg-ps__who { margin: 0 0 .3rem; font-weight: 700; font-size: .9rem; }
+.dg-ps__box ul { margin: 0; padding-left: 1rem; display: grid; gap: .2rem; font-size: .82rem; line-height: 1.4; }
+.dg-ps__box li { margin: 0; }
+.dg-ps__core { padding: .55rem .75rem; border: 2px solid var(--text-strong, var(--text)); border-radius: 6px; text-align: center; font-size: .88rem; }
+.dg-ps__arrow { text-align: center; font-size: 1.1rem; line-height: 1; color: var(--muted); }
+.dg-terms { margin: .9rem 0 .4rem; }
+.dg-terms .diagram__title { margin: 0 0 .4rem; font-weight: 700; }
+.dg-terms__scroll { overflow-x: auto; }
+.dg-terms__table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.dg-terms__table th, .dg-terms__table td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+.dg-terms__table thead th { color: var(--muted); font-weight: 600; }
+.dg-terms__table tbody th { font-weight: 600; white-space: nowrap; }
+.dg-terms__table td:nth-child(2) { font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.dg-terms__table td:nth-child(3) { color: var(--muted); }
+.dg-terms__table tr[data-unused="true"] th, .dg-terms__table tr[data-unused="true"] td { color: var(--muted); font-weight: 400; }
+@media (max-width: 720px) {
+  .dg-ps__row { grid-template-columns: minmax(0, 1fr); }
+  /* Each term becomes a card: name and value on one line, the note below. */
+  .dg-terms__table thead { display: none; }
+  .dg-terms__table tr { display: grid; grid-template-columns: minmax(0, 1fr); gap: .15rem; padding: .45rem 0; border-bottom: 1px solid var(--border); }
+  .dg-terms__table th, .dg-terms__table td { border-bottom: 0; padding: 0; }
+  .dg-terms__table tbody th, .dg-terms__table td:nth-child(2) { white-space: normal; }
+
+}
 @media print { .diagram { break-inside: avoid; } }
 
 /* "Which document do you need?" — the same guide on the white paper, the
