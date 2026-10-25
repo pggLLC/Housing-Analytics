@@ -6028,20 +6028,17 @@
         workforceDataLoaded = true;
       });
 
-      // Load NHPD preservation data (for competitive set subsidy expiry analysis)
-      if (window.Nhpd && typeof window.Nhpd.loadFromGeoJSON === 'function') {
-        window.__nhpdLoadPromise = DS.getJSON(DS.baseData('market/nhpd_co.geojson'))
-          .then(function (gj) {
-            window.Nhpd.loadFromGeoJSON(gj);
-            if (gj && gj.features) {
-              console.log('[market-analysis] NHPD loaded: ' + gj.features.length + ' properties');
-            }
-          })
-          .catch(function () {
-            window.Nhpd.loadInventory(null);
-            console.warn('[market-analysis] NHPD data unavailable (non-critical)');
-          });
+      // Load NHPD preservation data: not loaded. data/market/nhpd_co.geojson
+      // is a 20-record stub (its own meta says so) whose property names
+      // mostly match no CHFA, HUD or USDA record, and fetch_nhpd.py has no
+      // working endpoint. Showing those names as nearby subsidized
+      // properties with expiry dates would put unverified records in the
+      // competitive set, so the connector stays unloaded and coverage
+      // reads "unavailable" until a verified NHPD export exists.
+      if (window.Nhpd && typeof window.Nhpd.loadInventory === 'function') {
+        window.Nhpd.loadInventory(null);
       }
+      window.__nhpdLoadPromise = Promise.resolve();
 
       // Load DOLA county demographics (non-fatal — supplements ACS with more
       // current population/housing estimates from the CO State Demography Office).
