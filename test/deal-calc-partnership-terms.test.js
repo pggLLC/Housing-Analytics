@@ -156,6 +156,11 @@ const result = (p) => p.w.__DealCalc.getResult();
     setField(p, 'dc-wf-buyout', String(Math.round(left + 2000000)));
     assert.equal(result(p).waterfall.lpTotal, Math.round(left + 2000000), 'two different prices give two different payments');
     assert.match(text(p, 'dcPartnershipStructure'), /Sponsor pays .* of its own/);
+    // The sale-money ladder shows the shortfall as the sponsor's money, and no bar runs past the proceeds.
+    const ladder = p.w.DealDiagrams.ladderModel(result(p).waterfall);
+    const fundedStep = ladder.steps.find((st) => /buyout shortfall/.test(st.name));
+    assert(fundedStep.funded && fundedStep.width === 0 && fundedStep.empty === null, 'the shortfall is not "Nothing left"');
+    assert(ladder.steps.every((st) => st.left + st.width <= 1 + 1e-9), 'every bar stays on the proceeds track');
     setField(p, 'dc-wf-buyout', '50000');
     const terms = p.d.getElementById('dcDealTerms');
     const unused = [...terms.querySelectorAll('tr[data-unused="true"] th')].map((th) => th.textContent);
