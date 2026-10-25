@@ -1252,7 +1252,7 @@
       provider: 'Internal (Generated)',
       url: null,
       localFile: 'data/manifest.json',
-      lastUpdated: '2026-10-24',
+      lastUpdated: '2026-10-25',
       updateFrequency: 'On deploy',
       maxAgeDays: 30,
       geoUnit: 'N/A',

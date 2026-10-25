@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-24T16:03:40.759Z",
+    "generated_at": "2026-10-25T02:56:17.829Z",
     "root": "data/",
     "file_count": 1989,
-    "total_size_bytes": 203636883,
+    "total_size_bytes": 203639722,
     "kinds": {
       "json": 1941,
       "geojson": 34,
@@ -575,7 +575,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-24T16:03:35.558Z",
+      "mtime": "2026-10-25T02:56:13.746Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1045,8 +1045,8 @@
     {
       "path": "chfa-qap-calendar.json",
       "kind": "json",
-      "size_bytes": 18649,
-      "mtime": "2026-10-23T13:12:07.810Z",
+      "size_bytes": 21488,
+      "mtime": "2026-10-25T02:54:19.067Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -1055,7 +1055,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "events",
-      "primary_array_length": 22,
+      "primary_array_length": 25,
       "primary_array_first_keys": [
         "id",
         "qap_status",
@@ -39631,7 +39631,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-24T16:03:37.945Z",
+      "mtime": "2026-10-25T02:56:15.771Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39655,7 +39655,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-24T16:03:37.369Z",
+      "mtime": "2026-10-25T02:56:15.265Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
