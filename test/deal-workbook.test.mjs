@@ -786,4 +786,27 @@ ok(feeOpen.sources.rows.some((x) => x.amount === null && x.label === 'Deferred d
 const badBudget = mut0((s) => { s.result.budget.reason = 'Line 4 has no amount.'; });
 ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no amount.', 'a budget the engine could not read shows its reason, not partial groups');
 
+// ── Save to workbook from the Deal Calculator's member bar (js/whitepaper/member-calculator.js) ──
+{
+  const MC = require(path.join(ROOT, 'js/whitepaper/member-calculator.js'));
+  const SR = require(path.join(ROOT, 'js/whitepaper/submittal-review.js'));
+  ok(MC.API === WB.API && MC.API === SR.API, 'the member bar saves where the workbook and Submittal review read');
+  const exp = (q, inputs) => ({ exportedAt: '2026-10-25T00:00:00Z', dealMode: 'rental', url: 'https://example.com/deal-calculator?' + q,
+    inputs: Object.assign({ units: '40', 'units-60': '40' }, inputs), outputs: { fundingGap: { value: 125000 } } });
+  const nine = exp('units=40&units-60=40&rate-9=0.09', { 'rate-9': '0.09' });
+  const b9 = MC.saveBody(nine, SR.fromCalculatorExport(nine), 'Invented 9% deal');
+  ok(!b9.error && b9.name === 'Invented 9% deal' && b9.summary.gap === 125000, 'a 9% save carries its name and funding gap');
+  ok(b9.data.calculator && b9.data.calculator.nine && b9.data.deal.mix[60] === 40, 'a 9% CHFA save is the version a Submittal review import makes');
+  ok(WB.queryFrom({ data: b9.data }) === 'units=40&units-60=40&rate-9=0.09', 'the workbook opens a 9% save');
+  const four = exp('units=40&units-60=40&rate-9=0.04', { 'rate-9': '0.04' });
+  const b4 = MC.saveBody(four, SR.fromCalculatorExport(four), 'Invented 4% deal');
+  ok(!b4.error && b4.data.calculator === null && b4.data.deal.calc4 === true, 'a 4% save keeps no 9% model results, as an import would');
+  ok(WB.queryFrom({ data: b4.data }) === 'units=40&units-60=40&rate-9=0.04', 'the workbook still opens a 4% save from its link');
+  ok(MC.saveBody(null, null, 'x').error, 'nothing to save gives a reason');
+  ok(!('deal' in b9), 'a save with no deal picked makes a new deal');
+  ok(MC.saveBody(nine, SR.fromCalculatorExport(nine), 'Invented 9% deal', 'invented-9-deal-abc123').deal === 'invented-9-deal-abc123', 'a revised run saves as the next version of the picked deal, so Submittal review can compare them');
+  const nav = read('js/navigation.js');
+  ok(/onMemberHost\(\)\) return;[\s\S]*?window\.top !== window[\s\S]*?member-calculator\.js/.test(nav), 'the member bar loads only on the member site, never in the workbook\'s hidden frame');
+}
+
 console.log(`deal-workbook: ${checks} checks passed`);

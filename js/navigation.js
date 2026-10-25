@@ -160,14 +160,16 @@
   }
 
   // Member sign in: the paid developer site, behind Cloudflare Access. Not shown
-  // on the developer pages themselves (they carry their own Sign out).
+  // on the developer pages themselves (they carry their own Sign out). A public
+  // page opened on the member site (the Deal Calculator from the member home)
+  // links back there instead.
   const MEMBER_SITE_URL = 'https://coho-backend.communityplanner.workers.dev/';
-  function onMemberSite() {
-    const page = (location.pathname.split('/').pop() || '');
-    return /^developer/.test(page) || /\.workers\.dev$/.test(location.hostname);
-  }
+  function onMemberHost() { return /\.workers\.dev$/.test(location.hostname); }
   function memberLink(cls) {
-    return onMemberSite() ? '' : `<a class="${cls}" href="${MEMBER_SITE_URL}">Member sign in</a>`;
+    const page = (location.pathname.split('/').pop() || '');
+    if (/^developer/.test(page)) return '';
+    if (onMemberHost()) return `<a class="${cls}" href="/">\u2190 Member site</a>`; // the member site's / opens its home
+    return `<a class="${cls}" href="${MEMBER_SITE_URL}">Member sign in</a>`;
   }
 
   function relToRoot() {
@@ -837,7 +839,22 @@
     document.head.appendChild(s);
   }
 
-  function boot() { ensureFavicon(); inject(); addOwnershipProgramLink(); loadPlaceProfileHelp(); loadAnalytics(); }
+  // On the member site, the Deal Calculator gets the member bar: who is signed
+  // in, back to the member home, Save to workbook, Sign out. Its scripts are in
+  // js/whitepaper/, which only the member site serves.
+  function loadMemberCalculator() {
+    if (!onMemberHost()) return;
+    if (!/^deal-calculator(\.html)?$/.test(location.pathname.split('/').pop() || '')) return;
+    try { if (window.top !== window) return; } catch (_) { return; } // the workbook's hidden calculator frame
+    ['js/whitepaper/submittal-review.js', 'js/whitepaper/member-calculator.js'].forEach(function (src) {
+      var s = document.createElement('script');
+      s.async = false; // in order: the bar reads the review's export reader
+      s.src = relToRoot() + src;
+      document.head.appendChild(s);
+    });
+  }
+
+  function boot() { ensureFavicon(); inject(); addOwnershipProgramLink(); loadPlaceProfileHelp(); loadAnalytics(); loadMemberCalculator(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
