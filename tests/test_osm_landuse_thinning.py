@@ -50,7 +50,8 @@ def test_rethinning_keeps_osm_totals():
 
 def test_committed_file_is_thinned_under_guard_and_keeps_totals():
     assert os.path.getsize(OUT) <= 5 * 1024 * 1024
-    doc = json.load(open(OUT))
+    with open(OUT) as fh:
+        doc = json.load(fh)
     meta = doc['metadata']
     feats = doc['features']
     assert meta['feature_count'] == len(feats)
