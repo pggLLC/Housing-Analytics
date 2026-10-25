@@ -1,21 +1,12 @@
 {
   "meta": {
-    "generated": "2026-10-18T09:55:50Z",
+    "generated": "2026-10-25T10:05:19Z",
     "source": "scripts/market/build_transit_stops_co.py",
     "note": "Counts of stops found per source. A county with no stop in any source is listed under counties_without_fixed_stops: that means no fixed-route stop was found, not that the county has no transit (several run demand-response service, which has no stops).",
     "feed_match_m": 30.0,
     "osm_match_m": 60.0,
     "agency_feeds_used": 68,
-    "agency_feeds_failed": [
-      {
-        "agency": "Rocky Mountain National Park",
-        "reason": "Failed after 2 attempts: HTTP Error 404: Not Found"
-      },
-      {
-        "agency": "Transfort – City of Fort Collins (Transfort)",
-        "reason": "Failed after 2 attempts: HTTP Error 404: Not Found"
-      }
-    ],
+    "agency_feeds_failed": [],
     "dropped_osm_school_transport": {
       "count": 0,
       "by_reason": {},
@@ -23,10 +14,10 @@
     }
   },
   "totals": {
-    "stops": 14243,
+    "stops": 14257,
     "cdot": 12280,
-    "agency_feed_only": 835,
-    "unconfirmed": 1128
+    "agency_feed_only": 850,
+    "unconfirmed": 1127
   },
   "counties": [
     {
@@ -87,9 +78,9 @@
       "county_fips": "08013",
       "county": "Boulder",
       "cdot": 1277,
-      "agency_feed_only": 82,
+      "agency_feed_only": 83,
       "unconfirmed": 128,
-      "total": 1487,
+      "total": 1488,
       "fixed_route_stops_found": true
     },
     {
@@ -348,9 +339,9 @@
       "county_fips": "08069",
       "county": "Larimer",
       "cdot": 769,
-      "agency_feed_only": 11,
-      "unconfirmed": 81,
-      "total": 861,
+      "agency_feed_only": 25,
+      "unconfirmed": 80,
+      "total": 874,
       "fixed_route_stops_found": true
     },
     {
@@ -707,7 +698,8 @@
       "agency_feed_only": 0,
       "unconfirmed": 0,
       "service": {
-        "unknown": 142
+        "unknown": 139,
+        "fixed_route": 3
       }
     },
     {
@@ -1061,9 +1053,9 @@
       "operator": "public",
       "cdot": 0,
       "agency_feed_only": 0,
-      "unconfirmed": 1128,
+      "unconfirmed": 1127,
       "service": {
-        "unknown": 1128
+        "unknown": 1127
       }
     },
     {
@@ -1301,11 +1293,11 @@
       "agency": "Transfort",
       "operator": "public",
       "cdot": 489,
-      "agency_feed_only": 1,
+      "agency_feed_only": 16,
       "unconfirmed": 0,
       "service": {
-        "unknown": 479,
-        "fixed_route": 10,
+        "fixed_route": 440,
+        "unknown": 64,
         "demand_response": 1
       }
     },
@@ -12019,7 +12011,7 @@
       "Summit Stage": 8,
       "The Lift": 3,
       "Town of Mountain Village": 4,
-      "Transfort": 1,
+      "Transfort": 16,
       "University of Colorado Boulder": 21,
       "Via Mobility Services": 20
     }

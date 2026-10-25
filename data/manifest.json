@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-25T10:07:30.705043Z",
+  "generated": "2026-10-25T10:16:24.357897Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1013771
+      "bytes": 1013847
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -127,9 +127,9 @@
       "bytes": 2398663
     },
     "data/amenities/transit_stops_statewide_co.geojson": {
-      "featureCount": 14243,
+      "featureCount": 14257,
       "placeholder": false,
-      "bytes": 3952528
+      "bytes": 3963794
     },
     "data/audit/chfa-qap-watch.json": {
       "featureCount": 0,
@@ -1094,7 +1094,7 @@
     "data/derived/market-analysis/neighborhood_access.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4049418
+      "bytes": 4051771
     },
     "data/derived/market-analysis/site_opportunities.json": {
       "featureCount": 0,
@@ -8464,7 +8464,7 @@
     "data/hna/transit-zone-map.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 448967
+      "bytes": 449250
     },
     "data/hna/vacancy-status.json": {
       "featureCount": 0,
@@ -8962,9 +8962,9 @@
       "bytes": 6912
     },
     "data/market/landuse_zoning_proxy_co.geojson": {
-      "featureCount": 28715,
+      "featureCount": 49421,
       "placeholder": false,
-      "bytes": 4902811
+      "bytes": 12598874
     },
     "data/market/lihtc-equity-pricing-history.json": {
       "featureCount": 0,
@@ -9082,14 +9082,14 @@
       "bytes": 353190
     },
     "data/market/transit_routes_co.geojson": {
-      "featureCount": 1675,
+      "featureCount": 1658,
       "placeholder": false,
-      "bytes": 4701821
+      "bytes": 4708061
     },
     "data/market/transit_stops_coverage_co.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 236479
+      "bytes": 236209
     },
     "data/market/travel_time_matrix_co.json": {
       "featureCount": 0,
