@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-18",
+  "generated_at": "2026-10-25",
   "generator": "scripts/funding/build_round_watch.py",
   "title": "Next round watch",
   "method": "Each CHFA round is scored on its own credit type (Round One 9%, Round Two 4% plus state, as every round from 2023 to 2026 was). Points for public evidence a project still needs credits: not funded a year earlier in the same round type 50, in an older round of that type 10, recent DOLA or Prop 123 rental money with a size that suits the round 25 (10 if it suits the other round or its size is not printed yet), not funded in the other round type 10, a sponsor that applied in 2 of the last 4 rounds 5, a Prop 123 land banking award 5. High 50+, Medium 25-49, Watch 10-24. A project leaves the list once CHFA awards it credit or while its application is undecided, in a round or on CHFA's rolling 4% list. Homeownership (AHOP) awards, projects under 15 homes and mobile home parks do not count as state-money signals: none has applied for credits.",
