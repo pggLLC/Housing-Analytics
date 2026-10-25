@@ -223,6 +223,9 @@ for (const row of pickRows) {
     assert(refs.includes('qap-more-competitive'), `pick row "${label}" calls a choice competitive without citing qap-more-competitive`);
     assert(/more competitive/.test(rec('qap-more-competitive').quotes.join(' ')), 'qap-more-competitive no longer quotes CHFA\'s "more competitive" line');
   }
+  // Cell text without the generated "Relies on" links and source lines, whose record and source titles would
+  // otherwise count as row text (a Third Draft source title names 2027 and "Draft").
+  const cells = [...row.querySelectorAll('td')].map((td) => { const c = td.cloneNode(true); c.querySelectorAll('.gb-refs, .gb-pick-source').forEach((x) => x.remove()); return c.textContent; });
   // A higher program is advice for whichever plan governs the application: the plan in force for a round
   // under it, the Third Draft for the next plan's rounds. Each plan that names the program must be cited,
   // and a program only the draft names must say it belongs to the next plan.
@@ -234,10 +237,8 @@ for (const row of pickRows) {
     assert(inCur || inDraft, `pick row "${label}" recommends ${prog}, which neither QAP record names`);
     if (inCur) assert(refs.includes('qap-higher-programs-current'), `pick row "${label}" recommends ${prog} without citing the plan in force (qap-higher-programs-current)`);
     if (inDraft) assert(refs.includes('qap-higher-programs-draft'), `pick row "${label}" recommends ${prog} without citing the Third Draft (qap-higher-programs-draft)`);
-    if (!inCur) assert(/draft|2027/i.test(row.textContent), `pick row "${label}" recommends ${prog}, which only the Third Draft names, without saying so`);
+    if (!inCur) assert(/draft|2027/i.test(label + ' ' + cells.join(' ')), `pick row "${label}" recommends ${prog}, which only the Third Draft names, without saying so`);
   }
-  // Cell text without the generated "Relies on" links, whose record titles would otherwise count as row text.
-  const cells = [...row.querySelectorAll('td')].map((td) => { const c = td.cloneNode(true); c.querySelectorAll('.gb-refs').forEach((x) => x.remove()); return c.textContent; });
   // A row that says the allowance carries into rent rests on the gross-rent rule and CHFA's allowance sources.
   if (cells.some((c) => c.split(/[.;]/).some((t) => /allowance/i.test(t) && /\brent\b/i.test(t)))) {
     for (const r of ['qap-ua-sources', 'cfr-ua-gross-rent']) assert(refs.includes(r), `pick row "${label}" says the allowance moves rent without citing ${r}`);
