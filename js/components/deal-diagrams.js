@@ -114,17 +114,22 @@
     if (!wf || !known(wf.grossProceeds)) return null;
     var gross = wf.grossProceeds, start = 0, reached = null, splitStart = null;
     var steps = wf.tiers.map(function (t, i) {
-      var amt = known(t.amount) ? Math.max(0, t.amount) : 0;
+      // A negative step is money the sponsor puts in (a buyout price above the
+      // value left), not a payout: it is shown as an amount, with no bar.
+      var funded = known(t.amount) && t.amount < 0;
+      var amt = known(t.amount) ? Math.abs(t.amount) : 0;
+      // A bar never runs past the sale proceeds; any part paid beyond them is the sponsor's money.
+      var drawn = funded ? 0 : Math.max(0, Math.min(amt, gross - start));
       // A tier paid nothing either had nothing owed or came after the money ran out.
       // The residual split steps (6a GP, 6b LP) are shares of one balance paid at the
       // same time, not one after the other, so they sit side by side in one band.
       var split = /Residual split/i.test(t.name);
       if (split && splitStart === null) splitStart = start;
-      var s = { name: t.name, recipient: t.recipient, amount: amt, cls: PARTY_CLASS[t.recipient] || 'dg-seg--cs7', split: split,
+      var s = { name: t.name, recipient: t.recipient, amount: amt, funded: funded, cls: PARTY_CLASS[t.recipient] || 'dg-seg--cs7', split: split,
         empty: amt > 0 ? null : gross - (split && splitStart !== null ? splitStart : start) > 0.5 ? 'None owed' : 'Nothing left',
-        left: gross > 0 ? start / gross : 0, width: gross > 0 ? amt / gross : 0 };
-      start += amt;
-      if (amt > 0) reached = i;
+        left: gross > 0 ? start / gross : 0, width: gross > 0 ? drawn / gross : 0 };
+      start += drawn;
+      if (amt > 0 && !funded) reached = i;
       return s;
     });
     var last = reached === null ? null : steps[reached].name;
@@ -137,7 +142,7 @@
       return '<li class="dg-ladder__step"' + (paid ? '' : ' data-empty="true"') + '>' +
         '<span class="dg-ladder__name">' + esc(s.name) + '<span class="dg-ladder__who">' + esc(s.recipient) + (s.split ? ', a share of the residual paid at the same time as the other share' : '') + '</span></span>' +
         '<span class="dg-ladder__track" aria-hidden="true"><span class="dg-ladder__bar ' + s.cls + '" style="left:' + (s.left * 100).toFixed(2) + '%;width:' + (s.width * 100).toFixed(2) + '%"></span></span>' +
-        '<span class="dg-ladder__amt">' + (paid ? money(s.amount) : s.empty) + '</span>' +
+        '<span class="dg-ladder__amt">' + (s.funded ? 'Sponsor pays ' + money(s.amount) + ' of its own' : paid ? money(s.amount) : s.empty) + '</span>' +
       '</li>';
     }).join('');
     return '<p class="diagram__title">Where the sale money goes, step by step</p>' +
