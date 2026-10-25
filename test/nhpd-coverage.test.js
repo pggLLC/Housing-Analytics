@@ -139,42 +139,30 @@ test('DataService snapshot responses retain coverage even when there are no matc
   assert.equal(result.coverage.complete, false);
 });
 
-test('page loader and runner wait for loading; keep coordinates, expirations and coverage in JSON', async () => {
+test('page does not load the unverified NHPD stub; runner reports unavailable coverage, no stub names', async () => {
   const w = context(marketModules);
   w.PMAEngine = { _lihtcFeatures: [] };
-  let release;
-  const load = new Promise(resolve => { release = () => resolve(snapshot); });
-  w.DS = { baseData: p => p, getJSON: () => load };
-  // Execute the actual page's narrow source-loading block, not a duplicate
-  // loader in the fixture. This catches losing the promise or source metadata.
+  let fetched = 0;
+  w.DS = { baseData: p => p, getJSON: () => { fetched++; return Promise.resolve(snapshot); } };
+  // Execute the actual page's NHPD block. The stub's records (names that
+  // match no CHFA, HUD or USDA record) must never reach the competitive set.
   const page = read('js/market-analysis.js');
   const start = page.indexOf('// Load NHPD preservation data');
   const end = page.indexOf('// Load DOLA county demographics', start);
   assert.ok(start >= 0 && end > start);
+  assert.doesNotMatch(page.slice(start, end), /getJSON/);
   vm.runInContext(page.slice(start, end), w);
   assert.ok(w.__nhpdLoadPromise);
-  let completed = false;
-  const pending = run(w).then(r => { completed = true; return r; });
-  await tick();
-  assert.equal(completed, false, 'competitive analysis must wait for its in-flight source load');
-  release();
-  const result = await pending;
-  const nearby = w.Nhpd.getPropertiesNear(39.7392, -104.9903, 5);
-  assert.ok(nearby.length > 0);
-  assert.equal(result.competitiveSet.nhpdAssisted, nearby.length, 'flattening must not drop geometry');
-  assert.ok(result.competitiveSet.subsidyExpiryRisk.length > 0, 'known expirations must survive');
-  assert.equal(result.absorptionRisk.risk, null, 'stub cannot establish absorption risk');
-  const observedUnits = nearby.reduce((sum, p) => sum + p.total_units, 0);
-  assert.equal(result.absorptionRisk.totalCompetitiveUnits, observedUnits);
-  assert.equal(result.absorptionRisk.captureRate, Math.round(100 / (observedUnits + 100) * 100) / 100);
-  assert.equal(result.competitiveSet.preservationRiskTotal, null);
-  assert.equal(result.pma_data_coverage.capture_risk, 'partial');
-  assert.equal(result.pmaSupportSummary.sources.nhpd, 'stub');
-  assert.equal(result.competitiveSet.nhpdCoverage.generated, snapshot.meta.generated);
-  const exported = JSON.parse(w.PMAJustification.exportToJSON(result));
-  assert.equal(exported.competitiveSet.nhpdCoverage.recordCount, snapshot.features.length);
-  assert.match(exported.auditTrail.narrative, /preservation totals are unknown/);
-  assert.equal(exported.absorptionRisk.risk, null);
+  assert.equal(fetched, 0, 'the stub file is not fetched');
+  const result = await run(w);
+  assert.equal(w.Nhpd.getPropertiesNear(39.7392, -104.9903, 5).length, 0);
+  assert.equal(result.competitiveSet.nhpdAssisted, null);
+  assert.equal(result.competitiveSet.nhpdCoverage.status, 'unavailable');
+  assert.equal(result.absorptionRisk.risk, null);
+  assert.equal(result.pmaSupportSummary.sources.nhpd, 'unavailable');
+  const names = snapshot.features.map(f => f.properties.property_name);
+  const exported = w.PMAJustification.exportToJSON(result);
+  for (const n of names) assert.ok(!exported.includes(n), 'stub name not exported: ' + n);
 });
 
 test('page load failure clears coverage and runner completes with unknown risk', async () => {

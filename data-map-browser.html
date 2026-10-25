@@ -274,6 +274,7 @@
     'data/amenities/schools_co.geojson': 'Duplicate school point layer; Data Map uses data/market/schools_co.geojson because it carries richer NCES and enrollment fields.',
     'data/amenities/transit_stops_co.geojson': 'OpenStreetMap stop input to data/amenities/transit_stops_statewide_co.geojson, which the Transit stops layer shows; its stops that CDOT and agency feeds lack appear there marked unconfirmed.',
     'data/environmental/fema-flood-co.geojson': 'Legacy 4-record stub, not shown: local flood coverage uses data/market/flood_zones_co.geojson and live NFHL remains available.',
+    'data/market/nhpd_co.geojson': '20-record NHPD stub, not shown: most of its property names match no CHFA, HUD or USDA record, so it cannot be verified. Subsidized properties come from the CHFA, HUD multifamily and USDA layers.',
     'data/market/cdphe_county_boundaries_co.geojson': 'Duplicate county geometry from CDPHE; county boundaries already covered by the canonical Counties layer.',
     'data/market/pma_tract_display_geometry.geojson': 'Internal PMA display derivative of tract_boundaries_co.geojson; not a standalone user-facing Data Map layer.',
     'data/market/epa_sld_bg_geometry_co.geojson': 'Internal lookup geometry: 2010 block-group boundaries the EPA walkability connector uses to find the block group a site is in; it carries no metrics of its own to map.',
@@ -486,24 +487,6 @@
           { k: 'County',      v: p.COUNTY },
           { k: 'Tract',       v: p.TRACT },
         ];
-      } },
-
-    /* Affordable housing — NHPD subsidy-expiry preservation pipeline */
-    { key: 'nhpd', name: 'NHPD subsidized properties', group: 'Affordable housing',
-      url: 'data/market/nhpd_co.geojson', color: '#16a34a', kind: 'point',
-      popupRows: function (p) {
-        const rows = [
-          { k: 'Property',  v: p.property_name },
-          { k: 'Address',   v: [p.address, p.city].filter(Boolean).join(', ') },
-          { k: 'County',    v: p.county },
-          { k: 'NHPD ID',   v: p.nhpd_id },
-        ];
-        // F192 — NHPD records often carry year-of-construction +
-        // contract-expiration. Surface whichever are present.
-        if (p.year_construction)  rows.push({ k: 'Year constructed', v: p.year_construction });
-        if (p.year_placed_in_service) rows.push({ k: 'Placed in service', v: p.year_placed_in_service });
-        if (p.earliest_endsubsidy) rows.push({ k: 'Earliest subsidy end', v: p.earliest_endsubsidy });
-        return rows;
       } },
 
     /* Employment + jobs */
