@@ -258,6 +258,7 @@ def thin_features(features, grid=GRID_DEG):
 def main():
     log("Building OSM land-use zoning proxy for Colorado…")
     all_features = []
+    kept_thinned = []
     counts = {}
     failed = []
 
@@ -267,17 +268,19 @@ def main():
     # queries failed and the file was written anyway.
     previous = {}
     prev_pulled = {}
+    prev_thinned = False
     if OUT_PATH.exists():
         try:
             prev_doc = json.loads(OUT_PATH.read_text())
             for f in prev_doc.get("features", []):
                 previous.setdefault(f.get("properties", {}).get("zone_proxy"), []).append(f)
             prev_meta = prev_doc.get("metadata") or {}
+            prev_thinned = bool(prev_meta.get("thinning"))
             prev_date = str(prev_meta.get("generated") or "")[:10]
             prev_pulled = {c: prev_meta.get("category_pulled", {}).get(c, prev_date)
                            for c in ZONE_PROXY_MAP.values()}
         except (OSError, ValueError, AttributeError):
-            previous, prev_pulled = {}, {}
+            previous, prev_pulled, prev_thinned = {}, {}, False
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     pulled = {}
 
@@ -307,7 +310,9 @@ def main():
             log(f"    ⚠ Failed: {e}")
             zone_proxy = ZONE_PROXY_MAP[category]
             kept = previous.get(zone_proxy, [])
-            all_features.extend(kept)
+            # An already thinned category is kept exactly as it was: thinning
+            # it again would move and re-merge points with no new data.
+            (kept_thinned if prev_thinned else all_features).extend(kept)
             counts[zone_proxy] = sum(int(f["properties"].get("count") or 1) for f in kept)
             if kept:
                 pulled[zone_proxy] = prev_pulled.get(zone_proxy) or "an earlier pull"
@@ -324,8 +329,8 @@ def main():
         seen.add(oid)
         unique.append(f)
 
-    osm_feature_count = sum(int(f["properties"].get("count") or 1) for f in unique)
-    thinned = thin_features(unique)
+    osm_feature_count = sum(int(f["properties"].get("count") or 1) for f in unique + kept_thinned)
+    thinned = thin_features(unique) + kept_thinned
 
     output = {
         "type": "FeatureCollection",
@@ -349,7 +354,8 @@ def main():
         names = [PLAIN_NAMES.get(c, c) for c in cats]
         return names[0] if len(names) == 1 else ", ".join(names[:-1]) + f" {joiner} " + names[-1]
 
-    note = "OpenStreetMap proxy, not zoning"
+    note = ("OpenStreetMap proxy, not zoning; nearby features of one type are merged into one point "
+            f"({osm_feature_count:,} features shown as {len(thinned):,} points)")
     missing = [c for c, n in counts.items() if n == 0]
     if missing:
         note += "; this pull has no " + listed(missing, "or") + " features"

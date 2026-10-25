@@ -60,3 +60,29 @@ def test_committed_file_is_thinned_under_guard_and_keeps_totals():
     assert pulled <= {f['properties']['zone_proxy'] for f in feats}
     for f in feats:
         assert set(f['properties']) <= KEPT_PROPS
+
+
+def test_failed_queries_keep_thinned_file_unchanged(tmp_path, monkeypatch):
+    with open(OUT) as fh:
+        before = json.load(fh)
+    out = tmp_path / 'landuse.geojson'
+    out.write_text(json.dumps(before))
+
+    def fail(_query):
+        raise RuntimeError('HTTP Error 502: Bad Gateway')
+
+    monkeypatch.setattr(builder, 'OUT_PATH', out)
+    monkeypatch.setattr(builder, 'overpass_query', fail)
+    monkeypatch.setattr(builder.time, 'sleep', lambda _s: None)
+    builder.main()
+    after = json.loads(out.read_text())
+    key = lambda f: (f['properties']['zone_proxy'], f['geometry']['coordinates'])
+    assert sorted(after['features'], key=key) == sorted(before['features'], key=key)
+    assert after['metadata']['osm_feature_count'] == before['metadata']['osm_feature_count']
+    assert 'merged into one point' in after['metadata']['coverage_note']
+
+
+def test_committed_coverage_note_discloses_merging():
+    with open(OUT) as fh:
+        meta = json.load(fh)['metadata']
+    assert 'merged into one point' in meta['coverage_note']
