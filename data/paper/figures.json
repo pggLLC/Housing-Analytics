@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "54881a530",
+  "generated_from_commit": "69b8e6603",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-25",
-    "total_commits": 8878,
+    "total_commits": 8881,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
@@ -49,8 +49,8 @@
       },
       {
         "month": "2026-10",
-        "commits": 1281,
-        "pct_of_peak": 89.6
+        "commits": 1284,
+        "pct_of_peak": 89.9
       }
     ]
   },
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "54881a530",
+    "extracted_at_commit": "69b8e6603",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -561,9 +561,9 @@
     "gap30_aa_vintage": "2018–2022",
     "chas_place_table_places": 482,
     "renter_burden_moe_vintage": "2020–2024",
-    "renter_burden_moe_places": 378,
-    "renter_burden_moe_median_pp": 34.1,
-    "renter_burden_moe_over_20pp": 280,
+    "renter_burden_moe_places": 376,
+    "renter_burden_moe_median_pp": 33.3,
+    "renter_burden_moe_over_20pp": 277,
     "restricted_properties": 1854,
     "restricted_with_end_date": 110,
     "restricted_already_expired": 77,
