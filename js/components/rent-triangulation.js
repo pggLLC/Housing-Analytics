@@ -9,9 +9,10 @@
  *   • ACS B25064 median gross rent — all occupied renter units, 5-yr smoothed
  *   • Zillow ZORI — asking rents on new leases (35-65th pct)
  *
- * Headline delta surfaces the gap between ACS (existing tenants) and
- * ZORI (new-lease asking) — the gap is the "lease-up premium," the
- * single most-misunderstood number in resort-adjacent CO markets.
+ * The rents are shown side by side and never subtracted or averaged:
+ * ACS gross rent includes tenant-paid utilities and comes from surveys
+ * two or more years older than ZORI's asking rents, which exclude them,
+ * so their difference is not a lease-up premium.
  *
  * Usage:
  *   RentTriangulation.attach(container, {
@@ -211,38 +212,28 @@
         return;
       }
 
-      // Compute headline delta: ZORI vs ACS gap = lease-up premium
-      // Only valid when both sources are at the same geographic scope —
-      // mixing place ACS with county ZORI (or vice versa) yields a
-      // misleading "premium" that conflates scope drift with lease-up gap.
+      // No difference or midpoint is computed: ACS gross rent includes
+      // tenant-paid utilities and is two or more years older than ZORI's
+      // asking rent, which excludes them, so a difference would mix
+      // utilities and rent growth with any new-lease premium.
       var acsVal  = acsRow  && (Number.isFinite(acsRow.median_gross_rent) && acsRow.median_gross_rent > 0 ? acsRow.median_gross_rent : null);
       var zoriVal = zoriRow && (zoriRow.rent || null);
       var fmrVal  = fmr     && fmr.fmr     ? fmr.fmr.two_br : null;
       var scopesMatch = acsScope && zoriScope && acsScope === zoriScope;
-      var gap = null, gapPct = null;
-      if (acsVal && zoriVal && scopesMatch) {
-        gap = zoriVal - acsVal;
-        gapPct = Math.round((gap / acsVal) * 100);
-      }
 
       var headlineHtml = '';
-      if (gap != null && gap > 0) {
-        headlineHtml = '<div class="rt-headline">Asking rents run ' +
-          '<strong>' + _fmtMoney(gap) + '/mo (' + gapPct + '%)</strong> above the median lease — ' +
-          '<span class="rt-headline__lede">a typical lease-up premium in ' + _esc(jurisLabel) + '</span></div>';
-      } else if (acsVal || zoriVal) {
+      if (acsVal || zoriVal) {
         headlineHtml = '<div class="rt-headline">Rent triangulation for <span class="rt-headline__lede">' +
           _esc(jurisLabel) + '</span></div>';
       }
 
-      // Note when ACS and ZORI scopes differ — readers shouldn't subtract
-      // them to infer a lease-up premium across mismatched geographies.
+      // Say why the rows are not subtracted, and name a geography mismatch too.
       var scopeMismatchNote = '';
-      if (acsVal && zoriVal && !scopesMatch) {
+      if (acsVal && zoriVal) {
         scopeMismatchNote =
-          '<div class="rt-scope-note"><em>ACS at ' + _esc(acsScope) +
-          ' level; ZORI at ' + _esc(zoriScope) +
-          ' level; not directly comparable as a lease-up premium.</em></div>';
+          '<div class="rt-scope-note"><em>' + (scopesMatch ? '' : 'ACS at ' + _esc(acsScope) + ' level; ZORI at ' + _esc(zoriScope) + ' level. ') +
+          'These rents are measured differently, so their difference is not a lease-up premium: ' +
+          'ACS gross rent includes tenant-paid utilities and comes from older surveys; ZORI is current asking rent without utilities.</em></div>';
       }
 
       var rows = [];
@@ -285,21 +276,6 @@
           value:   _fmtMoney(zoriVal)
         });
       }
-      // F174 — Average of "existing" (ACS) and "asking" (ZORI) rents.
-      // Sits between the two underwriting anchors as the typical
-      // tenant's blended cost-of-housing baseline. Only meaningful when
-      // both anchors are present AND at matching scope (otherwise it
-      // would just be ½ of a scope-mismatch artifact).
-      if (acsVal && zoriVal && scopesMatch) {
-        var avgVal = (acsVal + zoriVal) / 2;
-        rows.push({
-          source:  'Average (existing + asking)',
-          vintage: 'Computed',
-          measure: 'Midpoint of ACS legacy-tenant rents and ZORI new-lease rents — a blended view of what current and incoming renters actually pay.',
-          value:   _fmtMoney(avgVal),
-          highlight: true
-        });
-      }
 
       var tableHtml =
         '<div class="rt-table-wrap">' +
@@ -311,16 +287,11 @@
           '</tr></thead>' +
           '<tbody>' +
           rows.map(function (r) {
-            // The computed average is a result row: class="total" keeps it
-            // last when the table is sorted.
-            var rowStyle = r.highlight
-              ? ' class="total" style="background:var(--bg2);border-top:2px solid var(--accent)"'
-              : '';
-            return '<tr' + rowStyle + '>' +
-              '<td><span class="rt-source"' + (r.highlight ? ' style="font-weight:700"' : '') + '>' + _esc(r.source) + '</span>' +
+            return '<tr>' +
+              '<td><span class="rt-source">' + _esc(r.source) + '</span>' +
               '<span class="rt-vintage">' + _esc(r.vintage) + '</span></td>' +
               '<td><span class="rt-measures">' + _esc(r.measure) + '</span></td>' +
-              '<td><span class="rt-value"' + (r.highlight ? ' style="font-weight:700;color:var(--accent)"' : '') + '>' + r.value + '</span></td>' +
+              '<td><span class="rt-value">' + r.value + '</span></td>' +
               '</tr>';
           }).join('') +
           '</tbody>' +
@@ -332,9 +303,8 @@
           '<strong>How to choose:</strong> use <em>CHFA’s published income-based limits</em> for LIHTC gross rent ceilings, ' +
           '<em>HUD FMR</em> as a voucher reference, ' +
           '<em>ACS gross rent</em> for cost-burden math (the historical baseline a council member ' +
-          'is comparing wages against), and <em>ZORI</em> for what a new tenant will actually pay. ' +
-          'The gap between ACS and ZORI is the lease-up premium — high in resort-adjacent markets ' +
-          'where long-tenured renters pay legacy rents while new leases reprice.' +
+          'is comparing wages against), and <em>ZORI</em> for what a new tenant is asked to pay before utilities. ' +
+          'Do not subtract ACS from ZORI: the difference mixes utilities and two-plus years of rent growth with any new-lease premium.' +
         '</div>';
 
       container.innerHTML = '<div class="rt-wrap">' + headlineHtml + tableHtml + scopeMismatchNote + explainer + '</div>';
