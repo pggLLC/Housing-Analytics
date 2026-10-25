@@ -2,7 +2,7 @@
   "schema": "policy-watch/v1",
   "meta": {
     "title": "Policy watch",
-    "as_of": "2026-10-10",
+    "as_of": "2026-10-25",
     "method": "Curated, not a feed. An entry is listed only after someone has read its source. verification.level \"primary\" means checked against the primary document itself; \"reported\" means taken from a named outlet whose page was read, without checking the primary document. Each primary entry carries the exact source wording it rests on in `evidence`. A topic nobody has checked yet is listed in known_gaps rather than filled from search results. `derived` records a figure computed from the evidence (a sum), and `redline` records a struck and inserted amount that the PDF text runs together.",
     "known_gaps": [
       "Local county and city housing questions on the November 3, 2026 ballot, where the official notice was not yet published or could not be read when last checked. The local questions found so far, and which counties and towns were checked, are on Colorado Elections.",
@@ -18,7 +18,7 @@
       "status": "law",
       "date": "2026-05-26",
       "title": "HB26-1313: Proposition 123 commitments for 2027–2029 move to a permit-based target; good-faith waivers for 2024–2026 are due by November 1, 2026",
-      "detail": "Signed May 26, 2026 and effective the same day under its safety clause. From the cycle beginning January 1, 2027, a local government no longer has to raise affordable units 3% a year over its baseline. Its target is its average annual new-housing permits over the past three years, times the years it commits to, times 0.10, 0.15 or 0.20 depending on how its county's job growth compares with the statewide median. A government that reached at least 65% of its 2024–2026 target may file a good-faith waiver between June 15 and November 1, 2026.",
+      "detail": "Signed May 26, 2026 and effective the same day under its safety clause. From the cycle beginning January 1, 2027, a local government no longer has to raise affordable units 3% a year over its baseline. Its target is its average annual new-housing permits over the past three years, times the years it commits to, times 0.10, 0.15 or 0.20 depending on how its county's job growth compares with the statewide median. A government that missed its 2024–2026 target may file a good-faith waiver between June 15 and November 1, 2026 if it reached at least 65% of that target, would have met it under the new permit-based target, or helped fund units another government counted and would have reached 65% with its share; it must also meet the law's other conditions, and the Division of Housing decides each waiver.",
       "programs": [
         "Prop 123",
         "Division of Housing"
@@ -30,9 +30,9 @@
       "verification": {
         "level": "primary",
         "against": "the HB26-1313 bill page (history, session-law table and enacted summary) and the session law, chapter 154",
-        "checked": "2026-10-10"
+        "checked": "2026-10-25"
       },
-      "review_by": "2026-11-01",
+      "review_by": "2026-11-09",
       "evidence": [
         {
           "section": "Bill history",
@@ -58,6 +58,16 @@
         {
           "section": "Bill summary",
           "quote": "To be eligible, the local government must have achieved at least 65% of the targeted annual increase. The division may, in its discretion, grant a good faith effort waiver to a local government that filed for a waiver on or after June 15, 2026, but before November 1, 2026"
+        },
+        {
+          "section": "Session law, Section 3, C.R.S. 29-32-105 (1)(d)",
+          "quote": "THE TARGET INCREASE NUMBER EQUALS THE AVERAGE ANNUAL NUMBER OF PERMITS FOR NEW HOUSING UNITS OR FUNCTIONAL EQUIVALENTS OF PERMITS FOR NEW HOUSING UNITS THAT HAVE BEEN ISSUED OVER THE PAST THREE YEARS WITHIN THE JURISDICTION OF THE LOCAL GOVERNMENT, MULTIPLIED BY THE NUMBER OF YEARS OF THE UPCOMING THREE-YEAR CYCLE TO WHICH A LOCAL GOVERNMENT IS COMMITTING, MULTIPLIED BY: (I) TEN ONE-HUNDREDTHS ... (II) FIFTEEN ONE-HUNDREDTHS ... (III) TWENTY ONE-HUNDREDTHS",
+          "note": "Inserted text, in capitals in the session law. Each multiplier depends on the county's average annual job growth over the past three years against the statewide median. https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download"
+        },
+        {
+          "section": "Session law, Section 3, C.R.S. 29-32-105 (4)(c)",
+          "quote": "(I) HAS ACHIEVED AT LEAST SIXTY-FIVE PERCENT OF THE ANNUAL INCREASES IN THE NUMBER OF AFFORDABLE HOUSING UNITS WITHIN ITS TERRITORIAL BOUNDARIES AS REQUIRED BY SUBSECTION (1) OF THIS SECTION FOR THE THREE-YEAR CYCLE BEGINNING ON JANUARY 1, 2024; (II) IS ABLE TO SATISFY THE REQUIREMENT OF SUBSECTION (1) OF THIS SECTION TO ACHIEVE ANNUAL INCREASES IN THE NUMBER OF AFFORDABLE HOUSING UNITS WITHIN ITS TERRITORIAL BOUNDARIES FOR THE THREE-YEAR CYCLE BEGINNING ON JANUARY 1, 2024 IF THE REQUIREMENT HAD BEEN BASED ON THE TARGET INCREASE NUMBER SPECIFIED IN SUBSECTION (1)(d) OF THIS SECTION; OR (III) HAS, WITHIN THE THREE-YEAR CYCLE BEGINNING ON JANUARY 1, 2024, PROVIDED MONEY TO FUND THE DEVELOPMENT OF AFFORDABLE HOUSING UNITS THAT COUNTED TOWARD ANOTHER LOCAL GOVERNMENT'S ANNUAL INCREASE",
+          "note": "Inserted text, in capitals in the session law. The bill summary names only the 65% test; the law gives three alternatives, and (4)(a), (4)(b) and subsection (5) add further conditions. https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download"
         }
       ]
     },
