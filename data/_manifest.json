@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-25T02:57:49.874Z",
+    "generated_at": "2026-10-25T08:34:28.786Z",
     "root": "data/",
     "file_count": 1989,
-    "total_size_bytes": 203639722,
+    "total_size_bytes": 203688103,
     "kinds": {
       "json": 1941,
       "geojson": 34,
@@ -296,8 +296,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 725078,
-      "mtime": "2026-10-24T08:16:12.222Z",
+      "size_bytes": 773120,
+      "mtime": "2026-10-25T08:33:58.249Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -305,7 +305,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 1108,
+      "primary_array_length": 1185,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -320,7 +320,7 @@
       "path": "alerts/brief-news-queue.json",
       "kind": "json",
       "size_bytes": 23809,
-      "mtime": "2026-10-24T08:16:42.444Z",
+      "mtime": "2026-10-25T08:34:25.114Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -343,7 +343,7 @@
       "path": "alerts/owner-news.json",
       "kind": "json",
       "size_bytes": 324,
-      "mtime": "2026-10-24T08:16:13.066Z",
+      "mtime": "2026-10-25T08:33:58.895Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -37977,8 +37977,8 @@
     {
       "path": "kalshi/prediction-market.json",
       "kind": "json",
-      "size_bytes": 11222,
-      "mtime": "2026-10-18T23:47:08.009Z",
+      "size_bytes": 11233,
+      "mtime": "2026-10-25T08:33:39.516Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -42002,7 +42002,7 @@
       "path": "policy/housing-events.json",
       "kind": "json",
       "size_bytes": 139276,
-      "mtime": "2026-10-24T08:16:42.374Z",
+      "mtime": "2026-10-25T08:34:25.006Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42791,8 +42791,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 388124,
-      "mtime": "2026-10-24T08:16:34.209Z",
+      "size_bytes": 388452,
+      "mtime": "2026-10-25T08:34:18.853Z",
       "shape": "object",
       "keys": [
         "meta",
