@@ -618,8 +618,9 @@
     var pref = fieldNumber(fields, 'dc-wf-pref', 8);
     var gpResidual = fieldNumber(fields, 'dc-wf-gp-residual', 30);
     var lpOpsShare = fieldNumber(fields, 'dc-wf-lp-ops-share', 99.99);
-    var catchup = fields['dc-wf-catchup'] || 'none';
-    var exit = fields['dc-wf-exit'] || 'sale';
+    // An omitted choice takes its default; an explicitly blank one is unknown.
+    var catchup = fields['dc-wf-catchup'] === undefined ? 'none' : fields['dc-wf-catchup'];
+    var exit = fields['dc-wf-exit'] === undefined ? 'sale' : fields['dc-wf-exit'];
     var buyoutRaw = fields['dc-wf-buyout'];
     var buyoutPrice = buyoutRaw === undefined || buyoutRaw === null || String(buyoutRaw).trim() === '' ? NaN : parseFloat(buyoutRaw);
     var within = function (v, l) { return known(v) && v >= l.min && v <= l.max; };
@@ -631,8 +632,15 @@
       : exit !== 'sale' && exit !== 'buyout' ? 'Choose how the investor exits.'
       : exit === 'buyout' && (!known(buyoutPrice) || buyoutPrice < 0) ? 'Enter the price the sponsor pays for the investor\'s interest.'
       : null;
-    return { lpEquityOverride: lpEquityOverride, prefRate: pref / 100, gpResidualPct: gpResidual / 100, lpOpsShare: lpOpsShare / 100,
-      catchup: catchup, exit: exit, buyoutPrice: exit === 'buyout' ? buyoutPrice : null, reason: reason };
+    // A rejected term is published as unknown, never as the number typed.
+    var okEquity = known(lpEquityOverride) && lpEquityOverride >= 0;
+    var okExit = exit === 'sale' || exit === 'buyout';
+    return { lpEquityOverride: okEquity ? lpEquityOverride : null,
+      prefRate: within(pref, PARTNERSHIP_LIMITS.pref) ? pref / 100 : null,
+      gpResidualPct: within(gpResidual, PARTNERSHIP_LIMITS.gpResidual) ? gpResidual / 100 : null,
+      lpOpsShare: within(lpOpsShare, PARTNERSHIP_LIMITS.lpOpsShare) ? lpOpsShare / 100 : null,
+      catchup: catchup === 'none' || catchup === 'full' ? catchup : null, exit: okExit ? exit : null,
+      buyoutPrice: exit === 'buyout' && known(buyoutPrice) && buyoutPrice >= 0 ? buyoutPrice : null, reason: reason };
   }
   // Internal rate of return by Newton's method on the NPV polynomial; NaN when
   // the flows never change sign or the search does not settle.
@@ -720,11 +728,14 @@
     // a section 42(i)(7) right of first refusal) and keeps the rest of the value.
     // The preferred return, catch-up and residual split do not apply.
     if (terms.exit === 'buyout') {
-      var buyoutPaid = Math.min(remaining, terms.buyoutPrice);
+      // The investor gets the full agreed price; when the value left is less,
+      // the sponsor pays the difference from its own funds.
+      var buyoutPaid = terms.buyoutPrice;
       tiers.push({ name: '4. Investor buyout price', amount: buyoutPaid, recipient: 'LP investor' });
-      remaining -= buyoutPaid;
-      var kept = remaining;
-      tiers.push({ name: '5. Value the sponsor keeps after the buyout', amount: kept, recipient: 'GP sponsor' });
+      var kept = remaining - buyoutPaid;
+      tiers.push(kept >= 0
+        ? { name: '5. Value the sponsor keeps after the buyout', amount: kept, recipient: 'GP sponsor' }
+        : { name: '5. Sponsor pays the buyout shortfall from its own funds', amount: kept, recipient: 'GP sponsor' });
       remaining = 0;
       return {
         tiers: tiers, grossProceeds: grossProceeds, remaining: remaining,

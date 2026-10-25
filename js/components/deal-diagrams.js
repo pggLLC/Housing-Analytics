@@ -200,7 +200,7 @@
         'Loans repaid: <strong>' + money(pick(/debt payoff/i)) + '</strong>',
         'Rest of the deferred fee: <strong>' + money(pick(/Deferred developer fee/i)) + '</strong>',
         buyout ? 'Investor sells its interest for <strong>' + money(wf.lpTotal) + '</strong>' : 'Investor: <strong>' + money(wf.lpTotal) + '</strong> (its capital back first, then its preferred return and ' + pctTerm(1 - wf.gpResidualPct, 0) + ' of what is left)',
-        buyout ? 'Sponsor keeps the property, worth <strong>' + money(pick(/Value the sponsor keeps/i)) + '</strong> after the above' : 'Sponsor: <strong>' + money(pick(/catch-up|Residual split — GP/i)) + '</strong> more (' + pctTerm(wf.gpResidualPct, 0) + ' of what is left)'];
+        buyout ? (pick(/buyout shortfall/i) < 0 ? 'Sponsor pays <strong>' + money(-pick(/buyout shortfall/i)) + '</strong> of its own, because the price is more than the value left' : 'Sponsor keeps the property, worth <strong>' + money(pick(/Value the sponsor keeps/i)) + '</strong> after the above') : 'Sponsor: <strong>' + money(pick(/catch-up|Residual split — GP/i)) + '</strong> more (' + pctTerm(wf.gpResidualPct, 0) + ' of what is left)'];
     }
     var exitBox = box('dg-ps__box--exit', buyout ? 'At the exit: sponsor buys the investor out' : 'At the exit: sale, split by the waterfall', exitLines);
     var res = !wf ? null : box('dg-ps__box--result', 'What each side gets back', [
