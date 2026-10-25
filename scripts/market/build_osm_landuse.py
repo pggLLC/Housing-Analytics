@@ -45,6 +45,13 @@ CO_BBOX = "36.9,-109.1,41.1,-102.0"
 TIMEOUT_S = 300
 THROTTLE_S = 5.0
 
+# Points of one category that fall in the same grid cell (about 85 m by
+# 110 m in Colorado) are written as one point carrying a count. The full
+# 49,421-point pull was 12 MiB, over the 5 MiB data-file guard and slow on a
+# phone. Nothing scores from this layer; it is a map display only, and at
+# map scale one point per block per category reads the same.
+GRID_DEG = 0.001
+
 
 def log(msg):
     print(f"[osm-landuse] {msg}", file=sys.stderr)
@@ -189,6 +196,65 @@ def element_to_feature(elem, zone_proxy):
     }
 
 
+def _most_common(values):
+    counts = {}
+    for v in values:
+        if v:
+            counts[v] = counts.get(v, 0) + 1
+    return max(counts, key=lambda k: (counts[k], k)) if counts else ""
+
+
+def thin_features(features, grid=GRID_DEG):
+    """Merge same-category points that share a grid cell into one point.
+
+    The merged point sits at the members' mean position and carries
+    `count` (OSM features merged). Re-thinning an already thinned file keeps
+    the counts, so a category kept from the previous file is not undercounted.
+    Only the properties a page reads are written: name, zone_proxy,
+    building, landuse, mf_suitability.
+    """
+    cells = {}
+    order = []
+    for f in features:
+        lon, lat = f["geometry"]["coordinates"][:2]
+        p = f.get("properties", {})
+        key = (round(lon / grid), round(lat / grid), p.get("zone_proxy"))
+        if key not in cells:
+            cells[key] = []
+            order.append(key)
+        cells[key].append(f)
+
+    out = []
+    for key in order:
+        members = cells[key]
+        weights = [int(m["properties"].get("count") or 1) for m in members]
+        total = sum(weights)
+        lon = sum(m["geometry"]["coordinates"][0] * w for m, w in zip(members, weights)) / total
+        lat = sum(m["geometry"]["coordinates"][1] * w for m, w in zip(members, weights)) / total
+        first = members[0]["properties"]
+        props = {"zone_proxy": first.get("zone_proxy")}
+        name = _most_common(m["properties"].get("name") for m in members)
+        building = _most_common(m["properties"].get("building") for m in members)
+        landuse = _most_common(m["properties"].get("landuse") for m in members)
+        if name:
+            props["name"] = name
+        if building:
+            props["building"] = building
+        if landuse:
+            props["landuse"] = landuse
+        if first.get("mf_suitability") is not None:
+            props["mf_suitability"] = first["mf_suitability"]
+        if total > 1:
+            props["count"] = total
+        out.append({
+            "type": "Feature",
+            # 4 decimals is about 10 m, finer than the grid cell.
+            "geometry": {"type": "Point", "coordinates": [round(lon, 4), round(lat, 4)]},
+            "properties": props,
+        })
+    return out
+
+
 def main():
     log("Building OSM land-use zoning proxy for Colorado…")
     all_features = []
@@ -242,7 +308,7 @@ def main():
             zone_proxy = ZONE_PROXY_MAP[category]
             kept = previous.get(zone_proxy, [])
             all_features.extend(kept)
-            counts[zone_proxy] = len(kept)
+            counts[zone_proxy] = sum(int(f["properties"].get("count") or 1) for f in kept)
             if kept:
                 pulled[zone_proxy] = prev_pulled.get(zone_proxy) or "an earlier pull"
             failed.append({"category": zone_proxy, "reason": str(e)[:200], "kept_from_previous": len(kept)})
@@ -258,20 +324,25 @@ def main():
         seen.add(oid)
         unique.append(f)
 
+    osm_feature_count = sum(int(f["properties"].get("count") or 1) for f in unique)
+    thinned = thin_features(unique)
+
     output = {
         "type": "FeatureCollection",
         "metadata": {
             "source": "OpenStreetMap Overpass API",
             "description": "Land-use zoning proxy for multifamily/townhome suitability",
             "generated": datetime.now(timezone.utc).isoformat(),
-            "feature_count": len(unique),
+            "feature_count": len(thinned),
+            "osm_feature_count": osm_feature_count,
+            "thinning": f"Same-category points within one {GRID_DEG} degree grid cell are merged into one point; 'count' is the number of OSM features merged.",
             "note": "Proxy only — for authoritative zoning use Regrid API",
             "categories": list(ZONE_PROXY_MAP.values()),
             "category_counts": counts,
             "category_pulled": pulled,
             "categories_failed": failed,
         },
-        "features": unique,
+        "features": thinned,
     }
 
     def listed(cats, joiner):
@@ -295,7 +366,7 @@ def main():
         json.dump(output, f, separators=(",", ":"))
 
     size_kb = OUT_PATH.stat().st_size / 1024
-    log(f"✅ Wrote {len(unique)} features → {OUT_PATH.name} ({size_kb:.0f} KB)")
+    log(f"✅ Wrote {len(thinned)} points ({osm_feature_count} OSM features) → {OUT_PATH.name} ({size_kb:.0f} KB)")
 
 
 if __name__ == "__main__":
