@@ -4350,7 +4350,7 @@
                     (p.name ? '<br>' + p.name : '') +
                     '<br>MF Suitability: <span style="color:' + suitColor + ';font-weight:600">' + suit + '/100</span>' +
                     (p.building ? '<br>Building: ' + p.building : '') +
-                    (p.levels ? ' · Levels: ' + p.levels : '') +
+                    (p.count > 1 ? '<br>' + p.count + ' OSM features merged into this point' : '') +
                     '<br><span style="font-size:0.75em;color:var(--muted)">Source: ' + (p.data_source || 'OSM') + '</span>';
                   layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
                   return;

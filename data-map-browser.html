@@ -633,6 +633,7 @@
           { k: 'Building', v: p.building },
           { k: 'Land use', v: p.landuse },
           { k: 'MF suitability', v: p.mf_suitability },
+          { k: 'OSM features here', v: p.count > 1 ? p.count + ' merged into this point' : null },
         ];
       } },
     { key: 'housing-policy', name: 'Housing policy jurisdictions', group: 'Infrastructure',
