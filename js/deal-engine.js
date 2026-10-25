@@ -366,6 +366,22 @@
   // fall (down to -3% a year) so a flat-or-falling market can be tested;
   // expenses are not modelled as falling.
   var GROWTH_LIMITS = { 'pf-rent-growth': { min: -3, max: 5 }, 'pf-exp-growth': { min: 0, max: 6 } };
+  // The exit panel's own boxes: whole years from 5 to 30 and a cap rate from
+  // 3% to 12%. A caller that sends neither field keeps the 15-year, 6.5% sale.
+  var EXIT_LIMITS = { hold: { min: 5, max: 30, initial: 15 }, cap: { min: 3, max: 12, initial: 6.5 } };
+  function exitHoldYears(fields) {
+    var h = fieldNumber(fields, 'dc-exit-hold', EXIT_LIMITS.hold.initial);
+    return known(h) && h === Math.round(h) && h >= EXIT_LIMITS.hold.min && h <= EXIT_LIMITS.hold.max ? h : NaN;
+  }
+  function exitCapRate(fields) {
+    var c = fieldNumber(fields, 'dc-exit-cap', EXIT_LIMITS.cap.initial);
+    return known(c) && c >= EXIT_LIMITS.cap.min && c <= EXIT_LIMITS.cap.max ? c / 100 : NaN;
+  }
+  function exitInputsReasonFor(fields) {
+    if (!known(exitHoldYears(fields))) return 'Enter a hold period of ' + EXIT_LIMITS.hold.min + ' to ' + EXIT_LIMITS.hold.max + ' whole years.';
+    if (!known(exitCapRate(fields))) return 'Enter an exit cap rate from ' + EXIT_LIMITS.cap.min + '% to ' + EXIT_LIMITS.cap.max + '%.';
+    return null;
+  }
   function growthRate(fields, id, initial) {
     var pct = fieldNumber(fields, id, initial);
     var limit = GROWTH_LIMITS[id];
@@ -592,6 +608,53 @@
     var total = creditStackTotal(result), fees = result.creditStack ? result.creditStack.investorFees : 0;
     return known(total) && known(fees) ? total + fees : null;
   }
+  // The partnership's deal terms, as the waterfall panel enters them. A blank
+  // investor equity box means the automatic amount; any other blank or
+  // out-of-range term is unknown, so no split is built from it.
+  var PARTNERSHIP_LIMITS = { pref: { min: 0, max: 15 }, gpResidual: { min: 0, max: 100 }, lpOpsShare: { min: 0, max: 100 } };
+  function partnershipTerms(fields) {
+    var raw = fields['dc-wf-lp-equity'];
+    var lpEquityOverride = raw === undefined || raw === null || String(raw).trim() === '' ? 0 : parseFloat(raw);
+    var pref = fieldNumber(fields, 'dc-wf-pref', 8);
+    var gpResidual = fieldNumber(fields, 'dc-wf-gp-residual', 30);
+    var lpOpsShare = fieldNumber(fields, 'dc-wf-lp-ops-share', 99.99);
+    var catchup = fields['dc-wf-catchup'] || 'none';
+    var exit = fields['dc-wf-exit'] || 'sale';
+    var buyoutRaw = fields['dc-wf-buyout'];
+    var buyoutPrice = buyoutRaw === undefined || buyoutRaw === null || String(buyoutRaw).trim() === '' ? NaN : parseFloat(buyoutRaw);
+    var within = function (v, l) { return known(v) && v >= l.min && v <= l.max; };
+    var reason = !known(lpEquityOverride) || lpEquityOverride < 0 ? 'Enter the investor equity as a positive amount, or leave it blank for the automatic amount.'
+      : !within(pref, PARTNERSHIP_LIMITS.pref) ? 'Enter an investor preferred return from 0% to 15%.'
+      : !within(gpResidual, PARTNERSHIP_LIMITS.gpResidual) ? 'Enter a sponsor residual share from 0% to 100%.'
+      : !within(lpOpsShare, PARTNERSHIP_LIMITS.lpOpsShare) ? 'Enter the investor\'s share of operating cash from 0% to 100%.'
+      : catchup !== 'none' && catchup !== 'full' ? 'Choose whether the sponsor gets a catch-up.'
+      : exit !== 'sale' && exit !== 'buyout' ? 'Choose how the investor exits.'
+      : exit === 'buyout' && (!known(buyoutPrice) || buyoutPrice < 0) ? 'Enter the price the sponsor pays for the investor\'s interest.'
+      : null;
+    return { lpEquityOverride: lpEquityOverride, prefRate: pref / 100, gpResidualPct: gpResidual / 100, lpOpsShare: lpOpsShare / 100,
+      catchup: catchup, exit: exit, buyoutPrice: exit === 'buyout' ? buyoutPrice : null, reason: reason };
+  }
+  // Internal rate of return by Newton's method on the NPV polynomial; NaN when
+  // the flows never change sign or the search does not settle.
+  function irrOf(flows) {
+    if (!flows.every(known) || !flows.some(function (f) { return f > 0; }) || !flows.some(function (f) { return f < 0; })) return NaN;
+    var r = 0.10;
+    for (var iter = 0; iter < 100; iter++) {
+      var npv = 0, dnpv = 0;
+      for (var t = 0; t < flows.length; t++) {
+        npv += flows[t] / Math.pow(1 + r, t);
+        if (t > 0) dnpv -= t * flows[t] / Math.pow(1 + r, t + 1);
+      }
+      if (Math.abs(dnpv) < 1e-10) break;
+      var step = npv / dnpv;
+      r -= step;
+      if (r < -0.99) r = -0.99;
+      if (r > 5) r = 5;
+      if (Math.abs(step) < 1e-9) break;
+    }
+    var check = flows.reduce(function (a, f, t) { return a + f / Math.pow(1 + r, t); }, 0);
+    return Math.abs(check) < 1 ? r : NaN;
+  }
   function capitalWaterfall(result, fields) {
     // The investor buys the credits, so the automatic LP amount is what it pays in for them.
     var autoLpEquity = investorCapital(result);
@@ -604,13 +667,14 @@
       return known(a) && known(row.deferredFeePaid) ? a + row.deferredFeePaid : null; }, 0);
     if (!known(feePaidInHold)) return null;
     exit.defFeeRemaining = Math.max(0, result.deferredDevFee - feePaidInHold);
-    var lpEquityOverride = fieldNumber(fields, 'dc-wf-lp-equity', 0);
+    var terms = partnershipTerms(fields);
+    if (terms.reason) return null;
+    var lpEquityOverride = terms.lpEquityOverride;
     var lpEquity = lpEquityOverride > 0 ? lpEquityOverride : autoLpEquity;
-    var prefRate = fieldNumber(fields, 'dc-wf-pref', 8) / 100;
-    var gpResidualPct = fieldNumber(fields, 'dc-wf-gp-residual', 30) / 100;
-    if (![lpEquityOverride, prefRate, gpResidualPct].every(known)) return null;
+    var prefRate = terms.prefRate;
+    var gpResidualPct = terms.gpResidualPct;
     var lpResidualPct = 1 - gpResidualPct;
-    var catchupMode = fields['dc-wf-catchup'] || 'none';
+    var catchupMode = terms.catchup;
     var hold = exit.hold;
 
     var tiers = [];
@@ -650,6 +714,29 @@
     var tier3 = Math.min(remaining, exit.defFeeRemaining);
     tiers.push({ name: '3. Deferred developer fee', amount: tier3, recipient: 'Developer (GP)' });
     remaining -= tier3;
+
+    // Investor buyout: the sponsor buys the investor's interest for the price
+    // the partnership agreement sets (often near the investor's exit taxes under
+    // a section 42(i)(7) right of first refusal) and keeps the rest of the value.
+    // The preferred return, catch-up and residual split do not apply.
+    if (terms.exit === 'buyout') {
+      var buyoutPaid = Math.min(remaining, terms.buyoutPrice);
+      tiers.push({ name: '4. Investor buyout price', amount: buyoutPaid, recipient: 'LP investor' });
+      remaining -= buyoutPaid;
+      var kept = remaining;
+      tiers.push({ name: '5. Value the sponsor keeps after the buyout', amount: kept, recipient: 'GP sponsor' });
+      remaining = 0;
+      return {
+        tiers: tiers, grossProceeds: grossProceeds, remaining: remaining,
+        lpEquity: lpEquity, lpTotal: buyoutPaid, gpTotal: tierDeficit + tier3 + kept,
+        lpCashIrr: lpEquity > 0 ? Math.pow(buyoutPaid / lpEquity, 1 / hold) - 1 : NaN,
+        lpMultiple: lpEquity > 0 ? buyoutPaid / lpEquity : NaN,
+        gpMultiple: exit.defFeeRemaining > 0 ? (tier3 + kept) / exit.defFeeRemaining : NaN,
+        prefRate: prefRate, hold: hold, gpResidualPct: gpResidualPct,
+        autoLpEquity: autoLpEquity, annualCredits: result.annualCredits,
+        terms: terms, inputs: exit
+      };
+    }
 
     // Tier 4: LP return of capital + cumulative preferred return
     // Pref accrues compound annually on outstanding LP capital. If
@@ -703,7 +790,7 @@
       lpCashIrr: lpCashIrr, lpMultiple: lpMultiple, gpMultiple: gpMultiple,
       prefRate: prefRate, hold: hold, gpResidualPct: gpResidualPct,
       autoLpEquity: autoLpEquity, annualCredits: result.annualCredits,
-      inputs: exit
+      terms: terms, inputs: exit
     };
   }
 
@@ -1251,28 +1338,30 @@
     var gap = gapBeforeDeferred - deferredDevFee;
 
     var exit = (function () {
-      var holdYears = Math.max(5, Math.min(30, parseInt(fields['dc-exit-hold'], 10) || 15));
-      var exitCap   = (parseFloat(fields['dc-exit-cap']) || 6.5) / 100;
+      // A blank or out-of-range hold or cap is unknown, not a default: no sale
+      // figures are built from it (exitInputsReason says what to enter).
+      var holdYears = exitHoldYears(fields);
+      var exitCap   = exitCapRate(fields);
 
       // Read growth rates from the pro forma inputs if present (defaults: 2% / 3%).
       var rentGrowth = growthRate(fields, 'pf-rent-growth', 2);
       var expGrowth  = growthRate(fields, 'pf-exp-growth', 3);
 
       // Same projected NOI used to allocate annual loan payments.
-      var nNoi = annualRents > 0 && tdc > 0 && known(noi) && autoNoi ? loanNoi[holdYears - 1] : NaN;
+      var nNoi = annualRents > 0 && tdc > 0 && known(noi) && autoNoi && known(holdYears) ? loanNoi[holdYears - 1] : NaN;
       var resale = (isFinite(nNoi) && nNoi > 0 && exitCap > 0) ? nNoi / exitCap : NaN;
 
       // Exit uses these same annual loan records, including accrued interest.
       // Maturity balloons remain outstanding here; no refinance is presumed.
-      var firstMortBal = obligations.loans ? obligations.loans[0].rows[holdYears - 1].balance : NaN;
-      var softBal = obligations.loans ? 0 : NaN;
-      if (obligations.loans) obligations.loans.slice(1).forEach(function (loan) {
+      var firstMortBal = obligations.loans && known(holdYears) ? obligations.loans[0].rows[holdYears - 1].balance : NaN;
+      var softBal = obligations.loans && known(holdYears) ? 0 : NaN;
+      if (obligations.loans && known(holdYears)) obligations.loans.slice(1).forEach(function (loan) {
         var balance = loan.rows[holdYears - 1].balance;
         softBal = known(balance) ? softBal + balance : NaN;
       });
       if (!known(firstMortBal)) firstMortBal = NaN;
       // DOH PR 4: an asset management fee still owed at the sale is paid from it.
-      var exitYear = obligations.years ? obligations.years[holdYears - 1] : null;
+      var exitYear = obligations.years && known(holdYears) ? obligations.years[holdYears - 1] : null;
       var assetMgmtOwed = exitYear && known(exitYear.assetMgmtUnpaid) ? exitYear.assetMgmtUnpaid : NaN;
       var netProceeds = (known(resale) && known(firstMortBal) && known(softBal) && known(assetMgmtOwed)) ? resale - firstMortBal - softBal - assetMgmtOwed : NaN;
 
@@ -1485,6 +1574,8 @@
       sensitivityKnown: sensitivityKnown,
       vacancyRate: vacFrac(), scheduleMode: scheduleMode
     };
+    var exitInputsReason = exitInputsReasonFor(fields), exitHoldKnown = known(exit.holdYears);
+    var partnershipReason = partnershipTerms(fields).reason;
     var projectionInputsReason = !known(exit.rentGrowth) ? 'Enter annual rent growth from ' + GROWTH_LIMITS['pf-rent-growth'].min + '% to ' + GROWTH_LIMITS['pf-rent-growth'].max + '%.'
       : !known(exit.expGrowth) ? 'Enter annual expense growth from ' + GROWTH_LIMITS['pf-exp-growth'].min + '% to ' + GROWTH_LIMITS['pf-exp-growth'].max + '%.'
       : !known(fieldNumber(fields, 'pf-years', 15)) ? 'Enter the projection horizon.' : null;
@@ -1524,6 +1615,7 @@
       rulesVersion: costRules ? costRules.version : null
     };
     result.sliderImpacts = sliderImpacts(result, fields);
+    result.partnershipTerms = partnershipTerms(fields);
     result.waterfall = capitalWaterfall(result, fields);
     if (result.waterfall) {
       var cumLp = -result.waterfall.lpEquity, cumGp = 0;
@@ -1534,11 +1626,18 @@
         // The developer receives the deferred fee paid from this year's cash and
         // any earlier operating deficit it funded that this year's cash repays;
         // a deficit it funds this year is cash it puts in.
-        var lp = surplus * 0.9999, gp = surplus * 0.0001 + row.deferredFeePaid + row.deficitRecovered - row.deficitFunded;
+        var share = result.waterfall.terms.lpOpsShare;
+        var lp = surplus * share, gp = surplus * (1 - share) + row.deferredFeePaid + row.deficitRecovered - row.deficitFunded;
         if (row.year === exit.holdYears) { lp += result.waterfall.lpTotal; gp += result.waterfall.gpTotal; }
         cumLp += lp; cumGp += gp;
         return { year: row.year, noi: row.noi, debtService: row.debtService, lp: lp, gp: gp, cumLp: cumLp, cumGp: cumGp };
       });
+      // The sponsor's own return on the deferred fee: the fee it left in at
+      // closing against what the split above pays it each year and at the exit.
+      var sponsorFlows = [-result.deferredDevFee].concat(result.waterfall.annual.map(function (a) { return a.gp; }));
+      result.waterfall.sponsorIn = result.deferredDevFee;
+      result.waterfall.sponsorCash = cumGp;
+      result.waterfall.sponsorIrr = result.deferredDevFee > 0 ? irrOf(sponsorFlows) : NaN;
     }
     // A reason accompanies every absent numeric result; metadata nulls remain
     // absence too. Copy while normalizing, so neither input records nor their
@@ -1556,6 +1655,14 @@
     }
     function reasonFor(path) {
       if (/^costBasis/.test(path)) return 'Not available; each cost and basis figure carries its own reason.';
+      // A hold the exit cannot use stops every sale figure; a cap it cannot use stops the price and what follows from it.
+      if (path === 'partnershipTerms.buyoutPrice') return 'Only a buyout has a price.';
+      if (path === 'partnershipTerms.reason') return 'Every deal term is entered.';
+      if (/^partnershipTerms\./.test(path)) return partnershipReason || 'Not entered.';
+      if (partnershipReason && /^waterfall/.test(path) && !exitInputsReason) return partnershipReason;
+      if (path === 'waterfall.sponsorIrr') return deferredDevFee > 0
+        ? 'The sponsor\'s return needs a known split in every year of the hold, with cash coming back.' : 'No developer fee is deferred, so there is no sponsor return on it to measure.';
+      if (exitInputsReason && (exitHoldKnown ? /^(exit\.(exitCap|resale|netProceeds|irr)$|waterfall)/ : /^(exit|waterfall)/).test(path)) return exitInputsReason;
       if (debtInputsReason && /^(dcr|interestRate|term|mc|mortgage|annualDebtService|allMustPay|baseDSCR|stress|gap|deferred|devFeeAtClosing|fundingGap|breakEvenOcc|exit|tornado|projection|waterfall|coverage|obligations|totalSoftDebtService)/.test(path)) return debtInputsReason;
       if (cashPayments.reason && /^(coverage|obligations|allMustPay|annualDebtService|baseDSCR|stress|breakEvenOcc|projection|waterfall|exit\.(firstMortBal|softBal|assetMgmtOwed|netProceeds|dfYr|irr)$)/.test(path)) return cashPayments.reason;
       if (/^(coverage|obligations)/.test(path)) return noiUnknownReason || 'Coverage needs positive scheduled payments and known NOI; years after an unpaid maturity require refinancing assumptions.';
