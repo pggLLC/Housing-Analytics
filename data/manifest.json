@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-26T13:58:34.557320Z",
+  "generated": "2026-10-26T14:03:33.293063Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1014669
+      "bytes": 1015097
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -330,6 +330,11 @@
       "featureCount": 44,
       "placeholder": false,
       "bytes": 709323
+    },
+    "data/deadlines.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 4522
     },
     "data/deals/1001-lincoln-street-denver.json": {
       "featureCount": 0,
