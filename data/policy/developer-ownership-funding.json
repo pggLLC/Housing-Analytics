@@ -75,8 +75,8 @@
       "application_cycle": "competitive", "commitment_status": "available", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["eligible_local_commitment_required", "project_award_required"],
       "source_url": "https://cdola.colorado.gov/new-construction-acquisition-rehabilitation",
-      "source_note": "Official DOLA page fetched 2026-08-04; verifies eligible ownership uses, 100% AMI, 30 years, and $70,000 per unit. Fruita's jurisdiction filing does not constitute a project award.",
-      "last_verified": "2026-08-04", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
+      "source_note": "Official DOLA page fetched 2026-08-04 and rechecked 2026-10-26: \"Urban & Rural/Resort $70,000/unit\", \"Up to 100% AMI\", \"Minimum of 30 years\"; pre-applications are due 15 days before the first of each month. Fruita's jurisdiction filing does not constitute a project award.",
+      "last_verified": "2026-10-26", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
       "id": "fhlb-topeka-ahp", "name": "FHLBank Topeka Affordable Housing Program",
@@ -88,8 +88,8 @@
       "application_cycle": "competitive", "commitment_status": "available", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["fhlbank_member_sponsor_required", "competitive_award_required"],
       "source_url": "https://www.fhlbtopeka.com/ahp",
-      "source_note": "Official 2026 AHP page fetched 2026-08-04; verifies $75,000 per unit and $1.5 million per project caps and July competitive round.",
-      "last_verified": "2026-08-04", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
+      "source_note": "Official 2026 AHP page fetched 2026-08-04 and rechecked 2026-10-26; verifies $75,000 per unit and $1.5 million per project caps. The 2026 round is closed: \"Round closing - July 31, 2026\"; \"Announcements - No later than Dec. 31, 2026\".",
+      "last_verified": "2026-10-26", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
       "id": "fhlb-topeka-hsp", "name": "FHLBank Topeka Homeownership Set-Aside Program",
@@ -101,8 +101,8 @@
       "application_cycle": "annual", "commitment_status": "available", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["participating_member_required", "reservation_required"],
       "source_url": "https://www.fhlbtopeka.com/services-and-programs/community/turnkey/hsp",
-      "source_note": "Official 2026 HSP page fetched 2026-08-04; verifies 80% AMI, $15,000 maximum, $2,500 minimum, five-year retention, and member reservation workflow.",
-      "last_verified": "2026-08-04", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
+      "source_note": "Official 2026 HSP page fetched 2026-08-04 and rechecked 2026-10-26; verifies 80% AMI, $15,000 maximum, $2,500 minimum, five-year retention, and member reservation workflow. Closed for 2026: reservations were accepted \"through Sept. 30, 2026\".",
+      "last_verified": "2026-10-26", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
       "id": "chfa-construction-financing", "name": "CHFA construction financing for ownership development",

@@ -1,15 +1,15 @@
 {
-  "generated": "2026-10-26T13:16:54.958279Z",
+  "generated": "2026-10-26T14:33:24.344739Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1014693
+      "bytes": 1015464
     },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7710
+      "bytes": 7712
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -330,6 +330,11 @@
       "featureCount": 44,
       "placeholder": false,
       "bytes": 709323
+    },
+    "data/deadlines.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 4522
     },
     "data/deals/1001-lincoln-street-denver.json": {
       "featureCount": 0,
@@ -1114,7 +1119,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 304643
+      "bytes": 305109
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -8911,6 +8916,11 @@
       "placeholder": false,
       "bytes": 579148
     },
+    "data/market/finder-place-demand.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 21726
+    },
     "data/market/flood_zones_co.geojson": {
       "featureCount": 12537,
       "placeholder": false,
@@ -9159,7 +9169,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16091
+      "bytes": 16089
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -9529,7 +9539,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 434900
+      "bytes": 436001
     },
     "data/policy/colorado-deal-rules.json": {
       "featureCount": 0,
@@ -9549,7 +9559,7 @@
     "data/policy/developer-ownership-funding.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21833
+      "bytes": 22136
     },
     "data/policy/fee-reductions.json": {
       "featureCount": 0,
@@ -9739,7 +9749,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 46545
+      "bytes": 46589
     },
     "data/policy/stewardship-providers.json": {
       "featureCount": 0,

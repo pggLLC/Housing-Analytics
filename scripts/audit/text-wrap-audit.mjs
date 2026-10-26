@@ -38,6 +38,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { arriveUrl } from './lib/arrive-with.mjs';
 import playwright from 'playwright';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -214,7 +215,7 @@ for (const width of WIDTHS) {
     page.on('pageerror', () => {});
     page.on('console', () => {});
     try {
-      await page.goto(BASE + p, { waitUntil: 'networkidle', timeout: 30000 });
+      await page.goto(BASE + arriveUrl(p), { waitUntil: 'networkidle', timeout: 30000 });
       await page.waitForTimeout(4000);
       const r = await page.evaluate(PROBE);
       findings.push({ page: p.split('?')[0], width, ...r });

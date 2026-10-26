@@ -10,6 +10,7 @@
 const nodemailer = require('nodemailer');
 const fetch = require('node-fetch');
 const { overallStatus } = require('./audit-status');
+const { overdueTotal } = require('./operations-status');
 
 // Severity display config
 const SEVERITY_CONFIG = {
@@ -22,6 +23,8 @@ const SEVERITY_CONFIG = {
 const CHECK_STATUS_CONFIG = {
     passed: { emoji: '✅', label: 'Passed', bg: '#d4edda', color: '#155724', border: '#c3e6cb' },
     failed: { emoji: '❌', label: 'Failed', bg: '#f8d7da', color: '#721c24', border: '#f5c6cb' },
+    // Low or medium findings only (audit-status.js statusFromFindings).
+    warning: { emoji: '🟡', label: 'Warning', bg: '#fff8e1', color: '#7b5e00', border: '#ffe082' },
     skipped: { emoji: '⏭️', label: 'Skipped', bg: '#eef2f7', color: '#495057', border: '#ced4da' },
     unavailable: { emoji: '⚠️', label: 'Unavailable', bg: '#fff3cd', color: '#856404', border: '#ffeeba' },
 };
@@ -124,6 +127,12 @@ function statusBadge(status) {
 // All Clear email. Severity lives on the findings, not on this tag.
 function buildChecksTable(checks) {
     if (!checks || checks.length === 0) return '<p>No audit checks were recorded.</p>';
+    // Only what matters: failures and checks that did not run. A long list of
+    // passing checks buried the one that failed.
+    const shown = checks.filter(check => check.status !== 'passed');
+    const passed = checks.length - shown.length;
+    const passedNote = `<p style="margin:12px 0 0;color:#155724;">${shown.length === 0 ? `All ${passed} checks passed.` : `${passed} other check(s) passed.`}</p>`;
+    if (shown.length === 0) return passedNote;
     return `
     <table style="border-collapse:collapse;width:100%;margin-top:12px;font-size:13px;">
         <tr style="background:#f8f9fa;">
@@ -131,13 +140,13 @@ function buildChecksTable(checks) {
             <th style="padding:10px 14px;text-align:left;border:1px solid #dee2e6;">Status</th>
             <th style="padding:10px 14px;text-align:left;border:1px solid #dee2e6;">Notes</th>
         </tr>
-        ${checks.map(check => `
+        ${shown.map(check => `
         <tr>
             <td style="padding:10px 14px;border:1px solid #dee2e6;">${escHtml(check.name || '')}${check.critical ? ' <span style="color:#555;font-size:12px;">(core check)</span>' : ''}</td>
             <td style="padding:10px 14px;border:1px solid #dee2e6;">${statusBadge(check.status)}</td>
             <td style="padding:10px 14px;border:1px solid #dee2e6;color:#555;">${escHtml(check.summary || check.details || '')}</td>
         </tr>`).join('')}
-    </table>`;
+    </table>${passedNote}`;
 }
 
 function buildLinkedList(items, renderer, emptyText, limit = 6) {
@@ -166,6 +175,11 @@ function buildAuditHealthSection(auditHealth) {
                 <td style="padding:10px 16px;border:1px solid #dee2e6;font-weight:bold;color:#721c24;">${auditHealth.failed || 0}</td>
                 <td style="padding:10px 16px;border:1px solid #dee2e6;">⏭️ Skipped / ⚠️ Unavailable</td>
                 <td style="padding:10px 16px;border:1px solid #dee2e6;font-weight:bold;color:#856404;">${(auditHealth.skipped || 0) + (auditHealth.unavailable || 0)}</td>
+            </tr>
+            <tr style="background:#fff;">
+                <td style="padding:10px 16px;border:1px solid #dee2e6;">🟡 Warning (low/medium findings only)</td>
+                <td style="padding:10px 16px;border:1px solid #dee2e6;font-weight:bold;color:#7b5e00;">${auditHealth.warnings || 0}</td>
+                <td style="padding:10px 16px;border:1px solid #dee2e6;" colspan="2"></td>
             </tr>
         </table>
         ${warnings.length > 0 ? `<p style="margin:0 0 8px;color:#856404;"><strong>Warnings:</strong> ${escHtml(warnings.join(' | '))}</p>` : ''}
@@ -248,6 +262,126 @@ function buildIssuesCard(issues) {
             </div>`;
 }
 
+const CELL = 'padding:6px 10px;border:1px solid #dee2e6;text-align:left;vertical-align:top;';
+const PR_TABLE_LIMIT = 25;
+
+const CI_STYLE = { passing: '#155724', failing: '#721c24', running: '#856404', cancelled: '#856404', 'no ci-checks run': '#666', unknown: '#666' };
+const CODEX_STYLE = { 'clean on head': '#155724', 'findings open': '#721c24', reviewing: '#856404', 'not reviewed on head': '#666' };
+
+function prLink(pr) {
+    const bot = pr.bot ? ` <span style="color:#666;font-size:12px;">(bot: ${escHtml(pr.bot)})</span>` : '';
+    const draft = pr.draft ? ' <span style="color:#666;font-size:12px;">(draft)</span>' : '';
+    return `<a href="${escHtml(pr.url)}">#${escHtml(pr.number)}</a> ${escHtml(pr.title)}${bot}${draft}`;
+}
+
+function moreRows(total, shown, cols) {
+    return total > shown ? `<tr><td colspan="${cols}" style="${CELL}color:#666;">…and ${total - shown} more.</td></tr>` : '';
+}
+
+/**
+ * Merged-in-24h and open-PR tables. PRs merge on their own once CI and the
+ * Codex review are clean, so this is where the owner sees them go by.
+ */
+function buildPrProgressCard(progress) {
+    if (!progress) return unavailableCard('Pull Request Progress');
+    const merged = progress.merged || [];
+    const open = progress.open || [];
+    const mergedRows = merged.slice(0, PR_TABLE_LIMIT).map(pr => `
+                <tr><td style="${CELL}">${prLink(pr)}</td><td style="${CELL}">${escHtml(pr.mergedAt)}</td><td style="${CELL}">${escHtml(pr.mergedBy || 'unknown')}</td></tr>`).join('');
+    const openRows = open.slice(0, PR_TABLE_LIMIT).map(pr => `
+                <tr><td style="${CELL}">${prLink(pr)}</td><td style="${CELL}">${escHtml(pr.age)}</td><td style="${CELL}color:${CI_STYLE[pr.ci] || '#666'};">${escHtml(pr.ci)}</td><td style="${CELL}color:${CODEX_STYLE[pr.codex] || '#666'};">${escHtml(pr.codex)}</td></tr>`).join('');
+    return `
+        <div style="background:#fff;border:1px solid #dee2e6;border-radius:8px;padding:16px;margin-top:16px;">
+            <h3 style="margin-top:0;">Pull Request Progress</h3>
+            <p style="margin:0 0 6px;"><strong>Merged in the last 24h:</strong> ${merged.length}${progress.mergedComplete === false ? '+ (list cut off)' : ''}</p>
+            ${merged.length === 0 ? '<p style="margin:0 0 12px;color:#555;">No PRs merged in the last 24h.</p>' : `
+            <table style="border-collapse:collapse;width:100%;font-size:13px;margin-bottom:12px;">
+                <tr style="background:#f8f9fa;"><th style="${CELL}">PR</th><th style="${CELL}">Merged (UTC)</th><th style="${CELL}">Merged by</th></tr>${mergedRows}${moreRows(merged.length, PR_TABLE_LIMIT, 3)}
+            </table>`}
+            <p style="margin:0 0 6px;"><strong>Open:</strong> ${countOrUnavailable(progress.openCount)}${progress.openComplete === false ? ' (list cut off)' : ''}</p>
+            ${open.length === 0 ? '<p style="margin:0;color:#555;">No open PRs.</p>' : `
+            <table style="border-collapse:collapse;width:100%;font-size:13px;">
+                <tr style="background:#f8f9fa;"><th style="${CELL}">PR</th><th style="${CELL}">Age</th><th style="${CELL}">CI on head</th><th style="${CELL}">Codex review</th></tr>${openRows}${moreRows(open.length, PR_TABLE_LIMIT, 4)}
+            </table>`}
+        </div>`;
+}
+
+const CARD_OPEN = '<div style="background:#fff;border:1px solid #dee2e6;border-radius:8px;padding:16px;">';
+const MUTED = 'margin:8px 0 0;color:#555;';
+
+function issueItem(issue) {
+    return `<li style="margin-bottom:6px;"><a href="${escHtml(issue.url)}">#${escHtml(issue.number)}</a> ${escHtml(issue.title)}</li>`;
+}
+
+/** Member Site Deploy: a distance only when a public build stamp gave one. */
+function buildMemberSiteCard(site) {
+    if (!site) return unavailableCard('Member Site Deploy');
+    const line = site.known
+        ? `<strong>main is ${escHtml(site.aheadBy)} commit(s) ahead</strong> of the member site (built from <code>${escHtml(site.revision.slice(0, 7))}</code>${site.builtAt ? ` at ${escHtml(site.builtAt)}` : ''}).`
+        : '<strong>Unknown.</strong>';
+    return `
+            ${CARD_OPEN}
+                <h3 style="margin-top:0;">Member Site Deploy</h3>
+                <p style="margin:0;">${line}</p>
+                ${site.reason ? `<p style="${MUTED}">${escHtml(site.reason)}</p>` : ''}
+            </div>`;
+}
+
+function buildDataWorkflowsCard(data) {
+    if (!data) return unavailableCard('Scheduled Data Workflows');
+    return `
+            ${CARD_OPEN}
+                <h3 style="margin-top:0;">Scheduled Data Workflows</h3>
+                <p style="margin:0;"><strong>Last scheduled run (24h) failed or never started:</strong> ${countOrUnavailable(data.problems)}${data.complete === false ? ' (run list cut off)' : ''}</p>
+                ${buildLinkedList(data.problems, run => `<li style="margin-bottom:6px;"><a href="${escHtml(run.url || '')}">${escHtml(run.name)}</a> — ${escHtml(run.outcome)}</li>`, 'Every data workflow that ran on schedule in the last 24h finished.', 8)}
+            </div>`;
+}
+
+function buildReviewFollowupsCard(followups) {
+    if (!followups) return unavailableCard('Review Follow-ups');
+    return `
+            ${CARD_OPEN}
+                <h3 style="margin-top:0;">Review Follow-ups</h3>
+                <p style="margin:0;"><strong>Open from Codex reviews:</strong> ${countOrUnavailable(followups.codex)}</p>
+                ${buildLinkedList(followups.codex, issueItem, 'None open.', 5)}
+                <p style="margin:12px 0 0;"><strong>Bot watch issues with no assignee:</strong> ${countOrUnavailable(followups.unassignedWatch)}</p>
+                ${buildLinkedList(followups.unassignedWatch, issueItem, 'None unassigned.', 5)}
+            </div>`;
+}
+
+function buildDeadlinesCard(deadlines) {
+    if (!deadlines) return unavailableCard('Upcoming Deadlines');
+    return `
+            ${CARD_OPEN}
+                <h3 style="margin-top:0;">Upcoming Deadlines (${escHtml(deadlines.windowDays)} days)</h3>
+                ${buildLinkedList(deadlines.upcoming, item => `<li style="margin-bottom:6px;"><strong>${escHtml(item.date)}</strong> (${item.daysAway === 0 ? 'today' : `in ${escHtml(item.daysAway)}d`}) — <a href="${escHtml(item.source)}">${escHtml(item.title)}</a>${item.status ? ` <span style="color:#666;font-size:12px;">(${escHtml(item.status)})</span>` : ''}</li>`, 'Nothing due in the next 14 days.', 8)}
+                <p style="${MUTED}font-size:12px;">From data/deadlines.json.</p>
+            </div>`;
+}
+
+/** "3", or "3+ (some sources unreadable)" when a file could not be read. */
+function formatOverdue(total) {
+    return total.partial ? `${total.count}+ (some sources unreadable)` : String(total.count);
+}
+
+function buildAccuracyCard(accuracy) {
+    if (!accuracy) return unavailableCard('Source & Figure Accuracy');
+    const url = accuracy.urlHealth;
+    const sweep = accuracy.sweep;
+    const overdue = accuracy.overdue;
+    const total = overdueTotal(overdue);
+    return `
+            ${CARD_OPEN}
+                <h3 style="margin-top:0;">Source &amp; Figure Accuracy</h3>
+                <p style="margin:0 0 6px;"><strong>Broken source links:</strong> ${url ? `${escHtml(url.broken)} confirmed (${escHtml(url.newlyBroken.length)} newly broken, ${escHtml(url.unconfirmed)} awaiting confirmation) as of the ${escHtml(String(url.lastSweepAt || 'unknown').slice(0, 10))} URL sweep` : UNAVAILABLE}</p>
+                <p style="margin:0 0 6px;"><strong>Source URL Sweep (last run):</strong> ${sweep ? `${sweep.url ? `<a href="${escHtml(sweep.url)}">${escHtml(sweep.conclusion)}</a>` : escHtml(sweep.conclusion)}${sweep.at ? ` ${escHtml(String(sweep.at).slice(0, 10))}` : ''}` : UNAVAILABLE}</p>
+                <p style="margin:0 0 6px;"><strong>Figures past review date:</strong> ${total === null ? UNAVAILABLE : escHtml(formatOverdue(total))}</p>
+                ${Array.isArray(overdue) && overdue.length > 0 ? `<ul style="margin:0 0 6px 18px;padding:0;">${overdue.map(row => `<li>${escHtml(row.title)}: ${row.overdue === null ? 'unreadable' : escHtml(row.overdue)}</li>`).join('')}</ul>` : ''}
+                <p style="margin:6px 0 0;"><strong>Open accuracy issues:</strong> ${countOrUnavailable(accuracy.issues)}</p>
+                ${Array.isArray(accuracy.issues) ? buildLinkedList(accuracy.issues, issueItem, 'None open.', 5) : ''}
+            </div>`;
+}
+
 function buildRepositoryHealthSection(repoHealth) {
     if (!repoHealth) return '';
     return `
@@ -259,6 +393,67 @@ function buildRepositoryHealthSection(repoHealth) {
             ${buildIssuesCard(repoHealth.issueInventory)}
         </div>
     </div>`;
+}
+
+function workGroup(title, cards) {
+    return `
+    <h2 style="margin:24px 0 12px;">${title}</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:8px;">${cards}
+    </div>`;
+}
+
+/**
+ * The work the owner acts on, in his order: what needs him, PRs, deploy,
+ * deadlines. Check results follow at the end of the email.
+ */
+function buildWorkSections(repoHealth) {
+    if (!repoHealth) return '';
+    return [
+        workGroup('🙋 Needs You', buildReviewFollowupsCard(repoHealth.reviewFollowups) +
+            buildDataWorkflowsCard(repoHealth.dataWorkflows) +
+            buildAccuracyCard(repoHealth.accuracy)),
+        `<h2 style="margin:24px 0 0;">🔀 Pull Requests</h2>${buildPrProgressCard(repoHealth.prProgress)}`,
+        workGroup('🚀 Deploy', buildMemberSiteCard(repoHealth.memberSite)),
+        workGroup('📅 Deadlines', buildDeadlinesCard(repoHealth.deadlines)),
+    ].join('');
+}
+
+const count = list => (Array.isArray(list) ? list.length : null);
+const orUnknown = value => (value === null || value === undefined ? 'unavailable' : String(value));
+
+/**
+ * The 3–5 line summary the email opens with: one line per work group, then
+ * one for findings and checks. Each count that could not be read says so.
+ */
+function buildSummaryLines({ summary, auditHealth, repoHealth }) {
+    const rh = repoHealth || {};
+    const lines = [];
+    if (repoHealth) {
+        const f = rh.reviewFollowups;
+        const total = rh.accuracy ? overdueTotal(rh.accuracy.overdue) : null;
+        const overdue = total === null ? null : formatOverdue(total);
+        lines.push(`<strong>Needs you:</strong> ${orUnknown(f && count(f.codex))} Codex follow-up(s), ${orUnknown(f && count(f.unassignedWatch))} unassigned watch issue(s), ${orUnknown(rh.dataWorkflows && count(rh.dataWorkflows.problems))} data workflow(s) failed, ${orUnknown(overdue)} figure(s) past review.`);
+        const pr = rh.prProgress;
+        if (pr) {
+            const failing = (pr.open || []).filter(row => row.ci === 'failing').length;
+            const findings = (pr.open || []).filter(row => row.codex === 'findings open').length;
+            lines.push(`<strong>PRs:</strong> ${pr.merged.length} merged in 24h, ${orUnknown(pr.openCount)} open (${failing} failing CI, ${findings} with Codex findings).`);
+        } else {
+            lines.push('<strong>PRs:</strong> unavailable.');
+        }
+        const site = rh.memberSite;
+        const deploy = rh.actions && rh.actions.lastSuccessfulDeploy;
+        const memberText = !site ? 'unavailable' : site.known ? `main is ${site.aheadBy} commit(s) ahead` : 'unknown';
+        lines.push(`<strong>Deploy:</strong> member site ${escHtml(memberText)}; public site last deployed ${deploy ? escHtml(String(deploy.run_started_at || deploy.created_at || 'unknown').slice(0, 16).replace('T', ' ')) : rh.actions ? 'never (no success found)' : 'unavailable'}.`);
+        const d = rh.deadlines;
+        const next = d && d.upcoming && d.upcoming[0];
+        lines.push(`<strong>Deadlines:</strong> ${!d ? 'unavailable' : next ? `${escHtml(next.date)} ${escHtml(next.title)}${d.upcoming.length > 1 ? ` (+${d.upcoming.length - 1} more in ${d.windowDays} days)` : ''}` : `none in the next ${d.windowDays} days`}.`);
+    }
+    const h = auditHealth || {};
+    const notRun = (h.unavailable || 0) + (h.skipped || 0);
+    lines.push(`<strong>Findings:</strong> ${summary.critical} critical, ${summary.high} high, ${summary.medium} medium, ${summary.low} low${auditHealth ? `; checks ${h.failed || 0} failed, ${h.warnings || 0} warning, ${notRun} did not run, ${h.passed || 0} passed` : ''}.`);
+    return `
+    <ul style="margin:0 0 24px 18px;padding:0;line-height:1.6;">${lines.map(line => `<li>${line}</li>`).join('')}</ul>`;
 }
 
 const BANNER_STYLE = {
@@ -326,7 +521,7 @@ function buildHtmlReport({ summary, allIssues, comparison, priorDate, trend, run
     const overallStatus = buildOverallStatus(summary, auditHealth, repoHealth);
 
     const summaryTable = `
-    <h2>Executive Summary</h2>
+    <h2>Findings by Severity</h2>
     <table style="border-collapse:collapse;width:100%;margin-bottom:24px;">
         <tr style="background:#f8f9fa;">
             <th style="padding:10px 16px;text-align:left;border:1px solid #dee2e6;">Category</th>
@@ -376,9 +571,13 @@ function buildHtmlReport({ summary, allIssues, comparison, priorDate, trend, run
     </h1>
     <p><strong>Date:</strong> ${new Date().toUTCString()}</p>
     ${overallStatus}
-    ${summaryTable}
+    ${buildSummaryLines({ summary, auditHealth, repoHealth })}
+    ${buildWorkSections(repoHealth)}
+    <!-- Check results: summarized at the end, failures and changes first. -->
+    <h2 style="margin-top:36px;border-top:2px solid #dee2e6;padding-top:20px;">Check Results</h2>
     ${buildAuditHealthSection(auditHealth)}
     ${buildComparisonSection(comparison, priorDate)}
+    ${summaryTable}
     ${trendSection}
     ${buildRepositoryHealthSection(repoHealth)}
     <h2>📋 Detailed Findings</h2>

@@ -36,6 +36,7 @@ import path from 'node:path';
 import process from 'node:process';
 import playwright from 'playwright';
 import { fileURLToPath } from 'node:url';
+import { arriveUrl } from './lib/arrive-with.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const BASE = process.env.AUDIT_BASE_URL || 'http://127.0.0.1:8080';
@@ -123,7 +124,7 @@ for (const p of PAGES) {
   page.on('pageerror', () => {});
   page.on('console', () => {});
   try {
-    await page.goto(BASE + p, { waitUntil: 'networkidle', timeout: 45000 });
+    await page.goto(BASE + arriveUrl(p), { waitUntil: 'networkidle', timeout: 45000 });
     await page.waitForTimeout(3500);
     const r = await page.evaluate(PROBE);
     results.push({ page: p, ...r });
