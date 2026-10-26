@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-26T14:40:00.737Z",
+    "generated_at": "2026-10-26T15:08:45.928Z",
     "root": "data/",
     "file_count": 1993,
-    "total_size_bytes": 205805443,
+    "total_size_bytes": 205806699,
     "kinds": {
       "json": 1945,
       "geojson": 34,
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-26T14:39:55.996Z",
+      "mtime": "2026-10-26T15:08:41.693Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39705,7 +39705,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-26T14:39:58.114Z",
+      "mtime": "2026-10-26T15:08:43.781Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39729,7 +39729,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-26T14:39:57.564Z",
+      "mtime": "2026-10-26T15:08:43.253Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42051,8 +42051,8 @@
     {
       "path": "policy/housing-events-curated.json",
       "kind": "json",
-      "size_bytes": 1726,
-      "mtime": "2026-10-14T09:05:42.008Z",
+      "size_bytes": 2982,
+      "mtime": "2026-10-26T15:06:44.209Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42060,7 +42060,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "events",
-      "primary_array_length": 2,
+      "primary_array_length": 4,
       "primary_array_first_keys": [
         "title",
         "start",

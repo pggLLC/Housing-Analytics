@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T14:39:19.582Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T15:08:05.193Z. Do not edit by hand.
 
 ---
 
@@ -1990,7 +1990,7 @@
 | `data/policy/funding-watch-sources.json` | 11.8 KB | ✅ | — |
 | `data/policy/green-building.json` | 58.0 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 17.2 KB | ✅ | — |
-| `data/policy/housing-events-curated.json` | 1.7 KB | ✅ | — |
+| `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
 | `data/policy/housing-events.json` | 136.0 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
@@ -2741,7 +2741,7 @@
 | `tests/test_hmda_data.py` | 6.6 KB |
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
-| `tests/test_housing_events.py` | 8.3 KB |
+| `tests/test_housing_events.py` | 18.9 KB |
 | `tests/test_hud_lihtc_match.py` | 2.2 KB |
 | `tests/test_lihtc_applications.py` | 27.7 KB |
 | `tests/test_local_incentives.py` | 12.9 KB |
@@ -2863,7 +2863,7 @@
 | `.github/workflows/upstream-vintage-watch.yml` | 8.8 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.3 KB |
 | `.github/workflows/ux-pass.yml` | 2.2 KB |
-| `.github/workflows/weekly_housing_brief.yml` | 15.0 KB |
+| `.github/workflows/weekly_housing_brief.yml` | 15.1 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.4 KB |
 | `.github/workflows/workflow-outcome-monitor.yml` | 7.2 KB |
 | `.github/workflows/zillow-data-sync.yml` | 20.8 KB |
