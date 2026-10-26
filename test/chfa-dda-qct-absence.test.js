@@ -74,24 +74,42 @@ function withBoost(name, fn) {
   });
 }
 
-withBoost('every real CHFA record renders "Not published", never a blank cell', () => {
+withBoost('every real CHFA record renders a stated value or "Not published", never a blank cell', () => {
   const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'chfa-lihtc.json'), 'utf8'));
   const features = data.features || [];
   assert.ok(features.length > 0, 'precondition: the portfolio file has records');
 
   let blank = 0;
   let unpublished = 0;
+  let unreported = 0;
   for (const f of features) {
-    const out = boostFor(f.properties || {});
+    const p = f.properties || {};
+    const out = boostFor(p);
     if (out === '' || out === null || out === undefined) blank += 1;
     if (/Not published/.test(out)) unpublished += 1;
+    // Only HUD's reported BASIS may turn a row into a Yes/No while CHFA's
+    // QCT/DDA stay null; anything else must still say "Not published".
+    const basis = p.HUD ? p.HUD.basis : null;
+    if (basis !== 0 && basis !== 1) unreported += 1;
+    if (basis === 1) assert.match(out, />Yes</, p.PROJECT + ': HUD reports the boost taken');
+    if (basis === 0) assert.match(out, />No</, p.PROJECT + ': HUD reports no boost');
   }
   assert.equal(blank, 0,
     blank + ' of ' + features.length + ' rows would render an empty DDA/QCT cell, ' +
     'which a reader takes as "no"');
-  assert.equal(unpublished, features.length,
-    'all ' + features.length + ' records are null on DDA and QCT, so all of them ' +
-    'must say so explicitly (got ' + unpublished + ')');
+  assert.equal(unpublished, unreported,
+    'every record with no HUD-reported boost status must say "Not published" ' +
+    '(expected ' + unreported + ', got ' + unpublished + ')');
+});
+
+withBoost('HUD-reported boost status renders Yes/No and names its source', () => {
+  const yes = boostFor({ HUD: { basis: 1, year_placed_in_service: 2012 } });
+  assert.match(yes, />Yes</);
+  assert.match(yes, /HUD/);
+  assert.match(yes, /placed in service 2012/);
+  assert.match(boostFor({ HUD: { basis: 0, year_placed_in_service: 2012 } }), />No</);
+  assert.match(boostFor({ HUD: { basis: null } }), /Not published/,
+    'a matched record HUD left blank is still unknown');
 });
 
 withBoost('a real designation still renders its badge', () => {
