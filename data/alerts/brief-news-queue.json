@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-26T09:08:55Z",
+    "generated": "2026-10-26T18:57:11Z",
     "as_of": "2026-10-26",
     "stale_days": 30,
     "events_as_of": "2026-10-26",
@@ -210,6 +210,40 @@
       ]
     },
     {
+      "geoid": "0876795",
+      "jurisdiction": "Town of Telluride",
+      "scope": "place",
+      "county_fips": "08113",
+      "published": false,
+      "last_curated": "2026-10-18",
+      "days_since_review": 8,
+      "stories": [
+        {
+          "title": "Judge rules Ridgway hotel can’t house workers building Telluride’s Four Seasons resort",
+          "source": "The Colorado Sun",
+          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNYW01YnVhSlU0bWV6WWl1bWg1OHJDX3RYSE9FRVNEUHdlVjM3Nk15aXd5cHAxUXFINHZDeFhUT1BlTURvSVpwZFp0SWVrbFo5WFp4NXdUd3IwUG1NaFFXZVpIc1E0dm1UMl85NW8xT1pkMUhHdVBVV3NvWjdvRjAyVkZnc3c5cURUeXdr?oc=5",
+          "date": "2026-10-26",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Telluride School District talks housing developments",
+          "source": "The Telluride Times",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOX1V2M2REZ2JhQVFiRldUb3I0TTVKeHRNVXhyb0VpZXUtYnVxTFppYTZQcHhkYUwwOUpvRWx5X0ozbS1HNFpmak5RZHVONnVncEdhOW50SGEtV0hXT29fSjZnX3FxNjA0aVRsOVh6ZWU2Zk5SWnMzT2Z4d2dXR1lhXy1xTGVoTUVaMFplWg?oc=5",
+          "date": "2026-10-17",
+          "match": "place",
+          "also": [],
+          "unread": "The original report is paywalled past its first paragraph. The Daily Telluridian reports the school district is exploring building workforce housing itself or with a partner; read the original by hand before using or dismissing it."
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story naming it",
+        "1 older story not read yet",
+        "draft, not shown on the site"
+      ]
+    },
+    {
       "geoid": "0803620",
       "jurisdiction": "City of Aspen",
       "scope": "place",
@@ -245,11 +279,13 @@
       "stories": [
         {
           "title": "Garfield County commissioners approve rezoning for nearly 100 homes west of Glenwood Springs",
-          "source": "PostIndependent.com",
-          "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNOUc5YmdjQS0tRUZJMW9EclJIdk05UUR3RUxhQkw4VkNUSzk0Z080MUg3VXRrWUZ3Sm1Da195bnJkb01VUHZEX1BJMmpBdS1kTlJ2UzlUT2dPcHJMdThZQUx2cUdKY0lEZWthQWR6VWV0S0JYMlI5NUNJM2xPcUtxWnVERHVhelMyTUtaaWRGZHZpZFY4X2g4VWY4ekpDRUc1MmhhSmRrdk9iRXhzRmlPYVJHUzJvVVdZWWNqSm8ycC1SM0t3WnhpbWdR?oc=5",
-          "date": "2026-10-22",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNQldMM3BWOF9DOC1rWHV3S1FRWFFNcThJUzNEUG1aN2ExUkNmMlJLUEtYMlBkMEpUOS1oSGFiUjE3aFVQaExBWm4tR1hnV1A3UGgtbzUzZUdPQlY3eExOUDc1Z3N6U1dGbHdNZGNtTHFVUy1CSVhuOFF6b0hDcGpKR3V2RkhwUlhXVUhtczJiMjdoVEp2eVgtVTRYbmlaY0ZidTBVZHhvV001bkVkMWRHeTlPeWpGUnNUa3VMcUhDaFFYbVk?oc=5",
+          "date": "2026-10-23",
           "match": "place",
-          "also": []
+          "also": [
+            "PostIndependent.com"
+          ]
         }
       ],
       "events": [],
@@ -282,31 +318,6 @@
       ]
     },
     {
-      "geoid": "0876795",
-      "jurisdiction": "Town of Telluride",
-      "scope": "place",
-      "county_fips": "08113",
-      "published": false,
-      "last_curated": "2026-10-18",
-      "days_since_review": 8,
-      "stories": [
-        {
-          "title": "Telluride School District talks housing developments",
-          "source": "The Telluride Times",
-          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOX1V2M2REZ2JhQVFiRldUb3I0TTVKeHRNVXhyb0VpZXUtYnVxTFppYTZQcHhkYUwwOUpvRWx5X0ozbS1HNFpmak5RZHVONnVncEdhOW50SGEtV0hXT29fSjZnX3FxNjA0aVRsOVh6ZWU2Zk5SWnMzT2Z4d2dXR1lhXy1xTGVoTUVaMFplWg?oc=5",
-          "date": "2026-10-17",
-          "match": "place",
-          "also": [],
-          "unread": "The original report is paywalled past its first paragraph. The Daily Telluridian reports the school district is exploring building workforce housing itself or with a partner; read the original by hand before using or dismissing it."
-        }
-      ],
-      "events": [],
-      "reasons": [
-        "1 older story not read yet",
-        "draft, not shown on the site"
-      ]
-    },
-    {
       "geoid": "08045",
       "jurisdiction": "Garfield County",
       "scope": "county",
@@ -317,11 +328,13 @@
       "stories": [
         {
           "title": "Garfield County commissioners approve rezoning for nearly 100 homes west of Glenwood Springs",
-          "source": "PostIndependent.com",
-          "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNOUc5YmdjQS0tRUZJMW9EclJIdk05UUR3RUxhQkw4VkNUSzk0Z080MUg3VXRrWUZ3Sm1Da195bnJkb01VUHZEX1BJMmpBdS1kTlJ2UzlUT2dPcHJMdThZQUx2cUdKY0lEZWthQWR6VWV0S0JYMlI5NUNJM2xPcUtxWnVERHVhelMyTUtaaWRGZHZpZFY4X2g4VWY4ekpDRUc1MmhhSmRrdk9iRXhzRmlPYVJHUzJvVVdZWWNqSm8ycC1SM0t3WnhpbWdR?oc=5",
-          "date": "2026-10-22",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNQldMM3BWOF9DOC1rWHV3S1FRWFFNcThJUzNEUG1aN2ExUkNmMlJLUEtYMlBkMEpUOS1oSGFiUjE3aFVQaExBWm4tR1hnV1A3UGgtbzUzZUdPQlY3eExOUDc1Z3N6U1dGbHdNZGNtTHFVUy1CSVhuOFF6b0hDcGpKR3V2RkhwUlhXVUhtczJiMjdoVEp2eVgtVTRYbmlaY0ZidTBVZHhvV001bkVkMWRHeTlPeWpGUnNUa3VMcUhDaFFYbVk?oc=5",
+          "date": "2026-10-23",
           "match": "in_county",
-          "also": []
+          "also": [
+            "PostIndependent.com"
+          ]
         }
       ],
       "events": [],
