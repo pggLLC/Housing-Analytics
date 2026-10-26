@@ -990,7 +990,7 @@
 
   function mount(doc, rules, prop123, store) {
     var $ = function (id) { return doc.getElementById(id); };
-    var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '' };
+    var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '', gone: {} };
 
     function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', applicant: '', gpRole: '', supportive: false, rehab: false, existingCredit: false, subsidyExpiring: false, otherActiveCredits: null, stateCredits: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
 
@@ -1243,6 +1243,7 @@
       if (state.cache[key]) return Promise.resolve(state.cache[key]);
       return store.get(deal, v).then(function (rec) {
         if (!rec || state.deal !== deal) return null; // dropped if another deal was picked meanwhile
+        if (state.gone[key]) return null; // deleted while this read was out: never opened or cached
         var data = rec.data || {};
         var out = Object.assign({}, data, { v: rec.v, label: rec.label, name: rec.name, at: rec.at, by: rec.by });
         state.cache[key] = out; return out;
@@ -1273,7 +1274,7 @@
         if (!deal || state.deal !== deal) return;
         var first = state.versions.filter(function (v) { return state.hidden.indexOf(v.v) === -1; })[0];
         var pick = state.baseline && state.versions.some(function (v) { return v.v === state.baseline; }) ? state.baseline : first && first.v;
-        if (pick) return openLatest(pick).then(function (ok) { if (!ok && state.deal === deal) { clearForm(); flash('That deal\'s latest version could not be read, so the form was cleared.'); } });
+        if (pick) return openLatest(pick).then(function (ok) { if (!ok && state.deal === deal) { clearForm(); if (!state.gone[deal + '/' + pick]) flash('That deal\'s latest version could not be read, so the form was cleared.'); } });
         clearForm(); // no version to open: never leave the previous deal's figures under this one
       }).catch(function (e) {
         if (state.deal !== deal) return;
@@ -1298,7 +1299,7 @@
       var act = t.getAttribute && t.getAttribute('data-act'); if (!act) return;
       var v = t.getAttribute('data-v');
       if (act === 'open') {
-        openLatest(v).then(function (ok) { if (!ok) flash('That version did not open; the page still shows the one before it. Try Open again.'); },
+        openLatest(v).then(function (ok) { if (!ok && !state.gone[state.deal + '/' + v]) flash('That version did not open; the page still shows the one before it. Try Open again.'); },
           function () { flash('That version did not open; the page still shows the one before it. Try Open again.'); });
       }
       else if (act === 'purge') {
@@ -1306,7 +1307,7 @@
         var what = 'v' + state.num[v] + ' · ' + (row.label || 'Untitled');
         if (!ask('Delete ' + what + ' for good? It cannot be brought back. Hide takes a version off the list and keeps it.')) return;
         store.meta(deal, 'purge', v).then(function () {
-          delete state.cache[deal + '/' + v];
+          state.gone[deal + '/' + v] = true; delete state.cache[deal + '/' + v];
           flash('Deleted ' + what + '. The versions left are numbered again.');
           // Another deal picked while this ran stays picked; only its count in the picker changes.
           if (state.deal !== deal) return refreshDeals(state.deal || '');

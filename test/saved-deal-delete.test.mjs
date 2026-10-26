@@ -44,6 +44,14 @@ async function page(answer) {
   return { w, d, $, store, pick, btn, asked, ids: { a1, a2, a3, b1 } };
 }
 
+// The number a row shows, and the number its Delete button's accessible name gives. They must agree;
+// the wording around them is a choice, so only "delete" and the number are checked.
+function names(b) {
+  const row = (b.closest('tr').querySelector('strong').textContent.match(/^v(\d+)\b/) || [])[1];
+  const label = b.getAttribute('aria-label') || '';
+  return { row, said: (label.match(/\bv(\d+)\b/) || [])[1], deletes: /delete/i.test(label) };
+}
+
 // ── One version ──────────────────────────────────────────────────────────
 {
   let yes = false;
@@ -53,7 +61,8 @@ async function page(answer) {
   await pick(ids.a1.deal);
   ok(!$('sr-delete-deal').hidden, 'a picked deal shows Delete this deal');
   ok(btn('purge', ids.a2.v) && btn('purge', ids.a2.v).textContent === 'Delete', 'every version row has Delete');
-  ok(btn('purge', ids.a2.v).getAttribute('aria-label') === 'Delete v2 for good', 'the button names the version for a screen reader');
+  const rows = [ids.a1, ids.a2, ids.a3].map((x) => names(btn('purge', x.v)));
+  ok(rows.length === 3 && rows.every((n) => n.row && n.deletes && n.said === n.row), 'each Delete names, for a screen reader, the version its row shows: ' + JSON.stringify(rows));
 
   btn('purge', ids.a2.v).click(); await tick();
   ok(asked.length === 1 && /v2 · second/.test(asked[0]) && /cannot be brought back/.test(asked[0]) && /Hide/.test(asked[0]), 'it asks first, naming the version and offering Hide: ' + asked[0]);
@@ -120,8 +129,33 @@ async function page(answer) {
   const heads = () => [...q.$('srCompare').querySelectorAll('th')].map((th) => th.textContent).join(' | ');
   ok(/\bv3\b/.test(heads()), 'non-vacuous: the comparison names v3 before the delete: ' + heads());
   q.btn('purge', q.ids.a2.v).click(); await tick(); await tick(); await tick(); await tick();
-  ok(q.btn('purge', q.ids.a3.v).getAttribute('aria-label') === 'Delete v2 for good', 'non-vacuous: the list renumbers the third version to v2');
+  const n3 = names(q.btn('purge', q.ids.a3.v));
+  ok(n3.row === '2' && n3.said === '2', 'non-vacuous: the list renumbers the third version to v2, and its Delete says so: ' + JSON.stringify(n3));
   ok(/\bv2\b/.test(heads()) && !/\bv3\b/.test(heads()), 'the comparison renumbers it too: ' + heads());
+}
+
+// Codex review on 2dc1084: an Open still being read when its version is deleted must not open it,
+// so the next save is not a child of a version that is gone.
+{
+  const p = await page(() => true);
+  const { $, store, pick, btn, ids } = p;
+  // v2's answers are held back from the start, so the page has no copy of it when Open is clicked.
+  const real = store.get.bind(store), held = [];
+  // The read itself is done at once; only its answer arrives late, as from a slow server.
+  store.get = (deal, v) => (v === ids.a2.v ? real(deal, v).then((rec) => new Promise((r) => { held.push(() => r(rec)); })) : real(deal, v));
+  await pick(ids.a1.deal);
+  const before = held.length;
+  btn('open', ids.a2.v).click(); await tick();
+  ok(held.length === before + 1, 'non-vacuous: the Open of v2 is waiting on its own read');
+  btn('purge', ids.a2.v).click(); await tick(); await tick(); await tick();
+  held.forEach((go) => go()); await tick(); await tick(); await tick();
+  ok(/Deleted v2/.test($('srFlash').textContent), 'the deleted version did not open over the delete message: ' + $('srFlash').textContent);
+  let sent;
+  const save = store.save.bind(store); store.save = (rec) => { sent = rec; return save(rec); };
+  $('sr-save').click(); await tick(); await tick();
+  ok(sent && sent.parent !== ids.a2.v, 'the next save does not name the deleted version as its parent: ' + (sent && sent.parent));
+  store.get = real;
+  ok(!(await store.versions(ids.a1.deal)).versions.some((x) => x.v === ids.a2.v), 'and it stays deleted');
 }
 
 // A browser that blocks dialogs deletes nothing.
