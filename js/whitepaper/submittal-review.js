@@ -1306,10 +1306,14 @@
         var what = 'v' + state.num[v] + ' · ' + (row.label || 'Untitled');
         if (!ask('Delete ' + what + ' for good? It cannot be brought back. Hide takes a version off the list and keeps it.')) return;
         store.meta(deal, 'purge', v).then(function () {
-          delete state.picked[v]; delete state.cache[deal + '/' + v];
-          if (state.parent === v) state.parent = ''; // the next save is not a child of a version that is gone
+          delete state.cache[deal + '/' + v];
           flash('Deleted ' + what + '. The versions left are numbered again.');
-          drawCompare(); return refreshDeals(deal).then(refreshVersions);
+          // Another deal picked while this ran stays picked; only its count in the picker changes.
+          if (state.deal !== deal) return refreshDeals(state.deal || '');
+          delete state.picked[v];
+          if (state.parent === v) state.parent = ''; // the next save is not a child of a version that is gone
+          // Renumber first, so the comparison names its versions the way the list does.
+          return refreshDeals(deal).then(refreshVersions).then(drawCompare);
         }, function (e) { flash(what + ' was not deleted: ' + e.message + '.'); });
       }
       else store.meta(state.deal, act, v).then(refreshVersions);

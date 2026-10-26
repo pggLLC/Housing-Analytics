@@ -93,7 +93,35 @@ async function page(answer) {
   ok($('sr-deal').value === '' && ![...$('sr-deal').options].some((o) => o.value === ids.a1.deal), 'the picker is back on New deal, without it');
   ok($('sr-name').value === '' && $('sr-delete-deal').hidden, 'the form is cleared and the button hides');
   ok(/Deleted "Invented Site A"/.test($('srFlash').textContent), 'the page says what it deleted');
-  ok(/Save this deal/.test($('srVersions').textContent), 'no versions of it are left on screen');
+  ok(!$('srVersions').querySelector('tr, [data-act]'), 'no version rows or buttons of it are left on screen');
+}
+
+// Codex review on 050a5f5: a delete that finishes after another deal was picked leaves that deal picked,
+// and a comparison drawn across the deleted version is renumbered with the list.
+{
+  const p = await page(() => true);
+  const { $, store, pick, btn, ids } = p;
+  await pick(ids.a1.deal);
+  const real = store.meta.bind(store); let release;
+  store.meta = (deal, action, v) => (action === 'purge' ? new Promise((r) => { release = () => r(real(deal, action, v)); }) : real(deal, action, v));
+  btn('purge', ids.a2.v).click(); await tick();
+  await pick(ids.b1.deal);
+  ok($('sr-name').value === 'Invented Site B', 'non-vacuous: deal B is open while the delete is pending');
+  release(); await tick(); await tick(); await tick();
+  ok($('sr-deal').value === ids.b1.deal && $('sr-name').value === 'Invented Site B', 'the picker still shows the deal on screen, not the one the delete came from');
+  ok(btn('purge', ids.b1.v) && !btn('purge', ids.a3.v), 'and the version list is still deal B\'s');
+  ok((await store.versions(ids.a1.deal)).versions.length === 2, 'the delete itself went through');
+  store.meta = real;
+
+  const q = await page(() => true);
+  await q.pick(q.ids.a1.deal);
+  [q.ids.a1.v, q.ids.a3.v].forEach((v) => { const box = q.$('srVersions').querySelector('.sr-pick[data-v="' + v + '"]'); box.checked = true; box.dispatchEvent(new q.w.Event('click', { bubbles: true })); });
+  await tick(); await tick();
+  const heads = () => [...q.$('srCompare').querySelectorAll('th')].map((th) => th.textContent).join(' | ');
+  ok(/\bv3\b/.test(heads()), 'non-vacuous: the comparison names v3 before the delete: ' + heads());
+  q.btn('purge', q.ids.a2.v).click(); await tick(); await tick(); await tick(); await tick();
+  ok(q.btn('purge', q.ids.a3.v).getAttribute('aria-label') === 'Delete v2 for good', 'non-vacuous: the list renumbers the third version to v2');
+  ok(/\bv2\b/.test(heads()) && !/\bv3\b/.test(heads()), 'the comparison renumbers it too: ' + heads());
 }
 
 // A browser that blocks dialogs deletes nothing.
