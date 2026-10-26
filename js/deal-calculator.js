@@ -3414,7 +3414,7 @@
         <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:var(--sp2);margin-bottom:var(--sp2);">
           <label style="font-size:var(--small);color:var(--muted);">
             Hold period (years)
-            <input id="dc-exit-hold" type="number" min="10" max="30" step="1" value="15"
+            <input id="dc-exit-hold" type="number" min="5" max="30" step="1" value="15"
               style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
           </label>
           <label style="font-size:var(--small);color:var(--muted);">
@@ -3424,9 +3424,9 @@
           </label>
         </div>
         <dl id="dc-exit-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.3rem 0.75rem;font-size:var(--small);margin:0;">
-          <dt style="color:var(--muted);">Year-N stabilized NOI</dt>
+          <dt id="dc-exit-noi-label" style="color:var(--muted);">Year-N stabilized NOI</dt>
           <dd id="dc-exit-noi" style="margin:0;text-align:right;font-weight:700;">—</dd>
-          <dt style="color:var(--muted);">Resale value (NOI ÷ exit cap)</dt>
+          <dt id="dc-exit-resale-label" style="color:var(--muted);">Resale value (NOI ÷ exit cap)</dt>
           <dd id="dc-exit-resale" style="margin:0;text-align:right;font-weight:700;color:var(--accent);">—</dd>
           <dt style="color:var(--muted);">Remaining 1st mortgage balance</dt>
           <dd id="dc-exit-mortbal" style="margin:0;text-align:right;font-weight:700;">—</dd>
@@ -3436,8 +3436,10 @@
           <dd id="dc-exit-net" style="margin:0;text-align:right;font-weight:700;color:var(--good,#047857);border-top:1px solid var(--border);padding-top:6px;">—</dd>
           <dt style="color:var(--muted);">Deferred fee payback year</dt>
           <dd id="dc-exit-defyr" style="margin:0;text-align:right;font-weight:700;">—</dd>
-          <dt style="color:var(--muted);">Return on the deferred fee, incl. exit (stand-in for sponsor return)</dt>
-          <dd id="dc-exit-irr" style="margin:0;text-align:right;font-weight:700;color:var(--accent);">—</dd>
+          <dt style="color:var(--text);font-weight:700;">Sponsor's return on the deferred fee <a href="#dcWaterfallHeading" style="font-weight:400;">(from the partnership split)</a></dt>
+          <dd id="dc-exit-sponsor-irr" style="margin:0;text-align:right;font-weight:700;color:var(--accent);">—</dd>
+          <dt style="color:var(--muted);">Same fee, counting all partnership cash and sale proceeds (includes the investor's share)</dt>
+          <dd id="dc-exit-irr" style="margin:0;text-align:right;font-weight:600;color:var(--muted);">—</dd>
         </dl>
         <p id="dc-exit-notes" style="font-size:var(--tiny);color:var(--muted);margin:var(--sp2) 0 0;line-height:1.5;"></p>
       </fieldset>
@@ -4214,7 +4216,8 @@
 
   function readDealInputs() {
     var fields = {};
-    document.querySelectorAll('#dealCalcMount input[id], #dealCalcMount select[id], [id^="pf-"]').forEach(function (el) {
+    // The partnership terms sit in their own panel below the mount; the split reads them too.
+    document.querySelectorAll('#dealCalcMount input[id], #dealCalcMount select[id], [id^="pf-"], input[id^="dc-wf-"], select[id^="dc-wf-"]').forEach(function (el) {
       fields[el.id] = el.type === 'checkbox' || el.type === 'radio' ? el.checked : el.value;
     });
     // Whether Market Analysis placed the site in a Transit Zone. Read from the last
@@ -5422,35 +5425,40 @@
         if (oldDt) oldDt.remove();
         assetDd.remove();
       }
-      _setText('dc-exit-defyr',  dfYr ? 'Year ' + dfYr : (deferredDevFee > 0 ? '> ' + holdYears + 'y' : 'n/a'));
-      var irrEl = document.getElementById('dc-exit-irr');
-      if (irrEl) {
-        if (isFinite(irr)) {
-          irrEl.textContent = (irr * 100).toFixed(1) + '%';
-          irrEl.style.color = irr >= 0.15 ? 'var(--good, #047857)'
-                            : irr >= 0.08 ? 'var(--accent)'
-                            : irr >= 0     ? 'var(--warn, #d97706)'
-                            : 'var(--bad, #dc2626)';
-        } else {
-          irrEl.textContent = '—';
-          irrEl.style.color = '';
-        }
-      }
+      _setText('dc-exit-defyr',  dfYr ? 'Year ' + dfYr : !isFinite(holdYears) ? '—' : (deferredDevFee > 0 ? '> ' + holdYears + 'y' : 'n/a'));
+      // The row labels name the year and the cap actually used.
+      _setText('dc-exit-noi-label', isFinite(holdYears) ? 'Year-' + holdYears + ' stabilized NOI' : 'Sale-year stabilized NOI');
+      _setText('dc-exit-resale-label', isFinite(holdYears) && isFinite(exitCap)
+        ? 'Resale value (year-' + holdYears + ' NOI ÷ ' + (exitCap * 100).toFixed(2) + '% cap)' : 'Resale value (NOI ÷ exit cap)');
+      var wfx = result.waterfall, sponsorIrr = wfx ? numeric(wfx.sponsorIrr) : NaN;
+      [['dc-exit-sponsor-irr', sponsorIrr, true], ['dc-exit-irr', irr, false]].forEach(function (p) {
+        var el = document.getElementById(p[0]);
+        if (!el) return;
+        el.textContent = Number.isFinite(p[1]) ? (p[1] * 100).toFixed(1) + '%' : '—';
+        el.style.color = !Number.isFinite(p[1]) || !p[2] ? '' : p[1] >= 0.08 ? 'var(--good, #047857)' : p[1] > 0 ? 'var(--accent)' : 'var(--warn, #d97706)';
+      });
       var notesEl = document.getElementById('dc-exit-notes');
       if (notesEl) {
         var notes = [];
-        notes.push('Year-' + holdYears + ' NOI with rents changing ' + (rentGrowth * 100).toFixed(1) +
+        var exitReason = result.unavailable['exit.holdYears'] || result.unavailable['exit.exitCap'];
+        if (exitReason) notes.push(exitReason);
+        if (isFinite(holdYears)) notes.push('Year-' + holdYears + ' NOI with rents changing ' + (rentGrowth * 100).toFixed(1) +
                    '%/yr and ' + (expGrowth * 100).toFixed(1) + '%/yr expense inflation.');
         if (isFinite(resale)) {
-          notes.push('Resale capitalizes NOI at ' + (exitCap * 100).toFixed(2) + '% exit cap.');
+          notes.push('Resale capitalizes year-' + holdYears + ' NOI at ' + (exitCap * 100).toFixed(2) + '% exit cap.');
         }
         if (isFinite(netProceeds)) {
           // No public source gives a default selling cost, so none is invented.
           notes.push('Net sale proceeds are before selling costs (broker, transfer and closing costs are not subtracted).');
         }
+        if (isFinite(sponsorIrr)) {
+          notes.push('The sponsor\'s return counts the deferred fee (' + fmt(deferredDevFee) + ') as its money in and only the cash the partnership split pays the sponsor: ' +
+                     fmt(numeric(wfx.sponsorCash)) + ' over the hold, under the deal terms in the partnership panel.');
+        } else if (deferredDevFee > 0 && !exitReason) {
+          notes.push('Sponsor\'s return unavailable: ' + (result.unavailable['waterfall.sponsorIrr'] || result.unavailable.waterfall || 'the partnership split is unavailable.'));
+        }
         if (isFinite(irr)) {
-          notes.push('The return treats the deferred developer fee (' + fmt(deferredDevFee) +
-                     ') as the sponsor\'s only money in. It is not the sponsor\'s full return: predevelopment spending, GP equity and other distributions are not collected here.');
+          notes.push('The second return counts every dollar of yearly cash and sale proceeds as coming back on the fee, including the investor\'s share, so it overstates what the sponsor keeps. Neither counts predevelopment spending, other GP equity or tax benefits.');
         }
         notesEl.textContent = notes.join(' ');
       }
@@ -5531,7 +5539,7 @@
     var noiOutputs = ['dc-noi-computed', 'dc-r-noi-stab', 'dc-r-mortgage', 'dc-su-mortgage', 'dc-su-gap',
       'dc-r-cap-rate', 'dc-r-ads', 'dc-r-dscr-base', 'dc-dscr-target-note', 'dc-dscr-manual-note'];
     var exitOutputs = ['dc-exit-noi', 'dc-exit-resale', 'dc-exit-mortbal', 'dc-exit-softbal',
-      'dc-exit-net', 'dc-exit-defyr', 'dc-exit-irr', 'dc-exit-notes'];
+      'dc-exit-net', 'dc-exit-defyr', 'dc-exit-irr', 'dc-exit-sponsor-irr', 'dc-exit-notes'];
     var missingMarketOutputs = rentOutputs.concat(autoNoi && autoNoi.checked ? noiOutputs : []);
     rentOutputs.concat(noiOutputs, exitOutputs).forEach(function (id) {
       var el = document.getElementById(id);
@@ -5570,6 +5578,18 @@
       var el = document.getElementById(id);
       if (el) { el.dataset.unavailableReason = manualMarket.unavailableReason || exitReason; el.textContent = 'Unavailable — ' + exitReason; }
     });
+    // A cap rate the exit cannot use leaves the NOI known but no price, so the
+    // price and everything paid from it say why.
+    var capReason = !exitReason && result.exit.exitCap == null ? result.unavailable['exit.exitCap'] : null;
+    if (capReason) ['dc-exit-resale', 'dc-exit-net', 'dc-exit-irr', 'dc-exit-sponsor-irr'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) { el.dataset.unavailableReason = capReason; el.textContent = 'Unavailable — ' + capReason; }
+    });
+    var sponsorEl = document.getElementById('dc-exit-sponsor-irr');
+    if (sponsorEl && !exitReason && !capReason && !(result.waterfall && result.waterfall.sponsorIrr != null)) {
+      var spReason = result.waterfall ? result.unavailable['waterfall.sponsorIrr'] : result.unavailable.waterfall;
+      if (spReason) { sponsorEl.dataset.unavailableReason = spReason; sponsorEl.textContent = 'Unavailable — ' + spReason; }
+    }
     if (result.noi == null && reason) {
       ['dc-dscr-manual-note', 'dc-adjust-guidance-list'].forEach(function (id) {
         var el = document.getElementById(id);
@@ -7051,7 +7071,8 @@
         '</tr></thead>' +
         '<tbody>' + rows + '</tbody></table>' +
         '<p style="margin:.5rem .5rem 0;font-size:.8125rem;color:var(--faint);line-height:1.4;">' +
-        'Annual cash: surplus (NOI − DS) split 99.99% LP / 0.01% GP per standard LIHTC ops convention. ' +
+        'Annual cash: surplus after loan payments and the deferred fee, split ' + (wf.terms ? +(wf.terms.lpOpsShare * 100).toFixed(2) : 99.99) + '% LP / ' +
+        (wf.terms ? +((1 - wf.terms.lpOpsShare) * 100).toFixed(2) : 0.01) + '% GP, the investor share entered above. ' +
         'Exit-year row adds the waterfall lump-sum from above. Excludes tax credit deliveries (which are LP\'s primary return).' +
         '</p>';
     }
@@ -7091,7 +7112,7 @@
       }
     }
     document.addEventListener('deal-calc:updated', _refresh);
-    ['dc-wf-lp-equity', 'dc-wf-pref', 'dc-wf-gp-residual', 'dc-wf-catchup'].forEach(function (id) {
+    ['dc-wf-lp-equity', 'dc-wf-pref', 'dc-wf-gp-residual', 'dc-wf-catchup', 'dc-wf-lp-ops-share', 'dc-wf-exit', 'dc-wf-buyout'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) {
         el.addEventListener('input', recalculate);

@@ -76,13 +76,14 @@ for(const [kind,records] of Object.entries({counties:acs.counties,places:acs.pla
     p.w.WorkflowState.setJurisdiction({geoType:'place',geoid:'0807850',name:'Boulder',countyFips:'08013',countyName:'Boulder County'});
     setField(p,'dc-county-select','08013');
     assert.equal(p.w.__DealCalc.getZoriPerBrRent('08013')._meta.geoid,'0807850');
-    // Real triangulation renders the published place rent and premium, not a tract average.
+    // Real triangulation renders the published place rent, not a tract average, and no premium.
     const host=p.d.createElement('div');p.d.body.append(host);
     p.w.eval(fs.readFileSync(path.join(__dirname,'../js/components/rent-triangulation.js'),'utf8'));
     p.w.RentTriangulation.attach(host,{placeGeoid:jurisdiction.geoid,placeName:'Fruita',countyFips:'08077',countyName:'Mesa County'});
     await new Promise(r=>setTimeout(r,50));
     assert(host.textContent.includes(dollars(acs.places[jurisdiction.geoid].median_gross_rent)));
-    assert(host.textContent.includes(dollars(zori.cities.fruita.rent-acs.places[jurisdiction.geoid].median_gross_rent)), 'rendered premium uses the published B25064');
+    assert(!/lease-up premium in|above the median lease/.test(host.textContent), 'no difference of rents on different bases is called a premium');
+    assert(/not a lease-up premium/.test(host.textContent), 'the card says why the rents are not subtracted');
     assert(!/NaN/.test(host.textContent));
     console.log(`market-construction: PASS (${checked} rent distributions; ${cityChecked} city selections; ${reviewed} review flags; all ACS rows; real page)`);
   } finally {close();}
