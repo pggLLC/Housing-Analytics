@@ -336,7 +336,11 @@
 
     // Header
     const header = document.createElement('header');
-    header.className = 'site-header';
+    // Member pages (developer*.html) have their own menu under the header and no
+    // use for the public site's jurisdiction chip; on a phone the chip only
+    // pushes that menu down (10-26 rehearsal on paul's iPhone).
+    const memberPage = /^developer/.test(location.pathname.split('/').pop() || '');
+    header.className = 'site-header' + (memberPage ? ' site-header--member' : '');
     header.setAttribute('role', 'banner');
     header.innerHTML = `
       <div class="nav-wrap">
