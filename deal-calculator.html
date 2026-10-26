@@ -1250,7 +1250,26 @@
           mortgageConst:   (document.getElementById('dc-r-mc')       || {}).textContent || null,
           firstMortgage:   (document.getElementById('dc-r-mortgage') || {}).textContent || null,
           gap:             (document.getElementById('dc-su-gap')     || {}).textContent || null
-        }
+        },
+        results: dealResults()
+      };
+    }
+
+    // The numbers a later step scores from (js/housing-outcome-score.js reads results.gapPct). `outputs` above
+    // is the displayed text; these come from the engine's own records. A gap the engine cannot work out stays
+    // null with its reason, never 0.
+    function dealResults() {
+      var dc = window.__DealCalc;
+      if (!dc || !dc.getOutputRecords || !dc.getResult) return null;
+      var r = dc.getResult(), o = dc.getOutputRecords(r, 'rental');
+      var num = function (rec) { return rec && typeof rec.value === 'number' && isFinite(rec.value) ? rec.value : null; };
+      var gap = num(o.fundingGap), tdc = num(o.totalDevelopmentCost);
+      return {
+        fundingGap: gap,
+        fundingGapReason: gap == null ? (o.fundingGap && o.fundingGap.unavailableReason) || 'The Deal Calculator did not work out a funding gap.' : null,
+        totalDevelopmentCost: tdc,
+        // The engine's gap share of total cost (js/deal-engine.js gapPct, a fraction), in percent: the scorer's unit.
+        gapPct: gap != null && tdc > 0 && r && typeof r.gapPct === 'number' && isFinite(r.gapPct) ? r.gapPct * 100 : null
       };
     }
 
@@ -1263,6 +1282,8 @@
       try {
         var snapshot = readDealState();
         WorkflowState.setStep('deal', snapshot);
+        // The Housing Outcome Score reads the saved deal step, so it is drawn again with this save's gap.
+        if (window.HOSRenderer && typeof window.HOSRenderer.render === 'function') window.HOSRenderer.render();
         return true;
       } catch (e) {
         console.warn('[DealCalc] Failed to save to WorkflowState:', e);
