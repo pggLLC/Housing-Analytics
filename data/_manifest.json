@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-26T11:28:25.840Z",
+    "generated_at": "2026-10-26T11:30:25.974Z",
     "root": "data/",
     "file_count": 1990,
-    "total_size_bytes": 204797781,
+    "total_size_bytes": 204800637,
     "kinds": {
       "json": 1942,
       "geojson": 34,
@@ -556,8 +556,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 651019,
-      "mtime": "2026-10-25T10:07:20.396Z",
+      "size_bytes": 653875,
+      "mtime": "2026-10-26T11:30:24.153Z",
       "shape": "object",
       "keys": [
         "schema",
