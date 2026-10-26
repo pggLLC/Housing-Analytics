@@ -50,6 +50,34 @@ if (roots.size < 2) {
      + `workflow scanning has probably broken`);
 }
 
+/* ── ci-checks runs every test:ci group, no more and no fewer ─────────── */
+
+// ci-checks.yml runs test:ci as a matrix, one leg per ci:part-N group. The
+// matrix is a hand-written list, so a group added to test:ci but not to the
+// matrix would never run in CI while `npm run test:ci` still ran it locally.
+// (test:ci is named in other workflows' prose too, so the root check above
+// cannot catch that on its own.)
+{
+  const yaml = require('js-yaml');
+  const ci = yaml.load(fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'ci-checks.yml'), 'utf8'));
+  const legs = (((ci.jobs || {})['test-ci'] || {}).strategy || {}).matrix;
+  const suites = ((legs && legs.suite) || []).map(String);
+  const groups = [...String(scripts['test:ci'] || '').matchAll(/npm run ([a-zA-Z0-9:_-]+)/g)]
+    .map((m) => `npm run ${m[1]}`);
+  const missing = groups.filter((g) => !suites.includes(g));
+  const extra = suites.filter((s) => !groups.includes(s));
+  if (groups.length < 2) {
+    fail(`test:ci chains only ${groups.length} group(s); expected its ci:part-N groups`);
+  } else if (missing.length || extra.length || suites.length !== groups.length) {
+    fail(`ci-checks.yml's test-ci matrix does not match test:ci's groups`
+       + (missing.length ? `; not in the matrix: ${missing.join(', ')}` : '')
+       + (extra.length ? `; not in test:ci: ${extra.join(', ')}` : '')
+       + (suites.length !== groups.length ? `; ${suites.length} legs for ${groups.length} groups` : ''));
+  } else {
+    console.log(`  ✓ ci-checks runs all ${groups.length} test:ci groups as matrix legs`);
+  }
+}
+
 /* ── the runner itself must be wired, or routes 2 and 3 mean nothing ───── */
 
 const reachable = suite.reachableScripts(scripts);
