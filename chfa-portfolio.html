@@ -363,7 +363,7 @@
           <th data-col="CREDIT">Credit Type</th>
           <th data-col="_devType" title="Whether CHFA recorded the project as new construction, rehab of an existing building, or both. This is the kind of deal, not the building form: CHFA publishes no building type (walk-up, townhome, single-family).">Development</th>
           <th title="Opens Google Maps at the location CHFA publishes for the property. CHFA publishes no property website.">Location <a href="#locationNote" class="portfolio-note-ref" aria-label="About the Location column">&dagger;</a></th>
-          <th>DDA/QCT <a href="#ddaQctNote" class="portfolio-note-ref" aria-label="About the DDA and QCT column">*</a></th>
+          <th title="Whether the deal took the 30% basis boost, as the state reported to HUD.">Basis boost <a href="#ddaQctNote" class="portfolio-note-ref" aria-label="About the basis boost column">*</a></th>
         </tr>
       </thead>
       <tbody id="portfolioBody">
@@ -396,19 +396,19 @@
   </p>
 
   <p class="data-note" id="ddaQctNote">
-    <strong>* About the DDA/QCT column.</strong>
-    CHFA's portfolio feed carries DDA and QCT columns but publishes no values in them, so this site
-    cannot state a property's basis-boost status from that source. The column says
-    <em>Not published</em> rather than leaving the cell blank, because a blank cell in a badge column
-    reads as &ldquo;no&rdquo;.
-    This site does hold HUD's current
-    <a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">QCT</a>
-    and
-    <a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">DDA</a>
-    boundaries, but they are the <strong>2026</strong> designations, while these properties were
-    allocated between 1987 and 2025. Designations are redrawn annually, and the boost a deal received
-    turned on the designation in force at <em>its</em> allocation &mdash; so placing a 2026 badge on a
-    1990s property would be a new error wearing the clothes of precision.
+    <strong>* About the basis boost column.</strong>
+    It shows whether the deal took the 30% increase in eligible basis, as reported to
+    <a href="https://www.huduser.gov/portal/datasets/lihtc/property.html" target="_blank" rel="noopener">HUD's LIHTC database</a>
+    (HUD's records run through properties that opened in 2024, updated April 2026). A boost can come from a
+    <a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">QCT or DDA</a>
+    or from a state designation under
+    <a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener">IRC 42(d)(5)(B)(v)</a>,
+    so &ldquo;Yes&rdquo; does not by itself mean the site is in a QCT or DDA.
+    CHFA's portfolio feed carries DDA and QCT columns but publishes no values in them. Each deal's status turns on
+    the designation in force at <em>its</em> allocation or bond issue, and the lists are redrawn every year.
+    This site holds only the 2026 boundaries, while these properties were allocated between 1987 and 2025, so it
+    does not draw a QCT or DDA badge from them. Deals HUD has not yet recorded, mostly those awarded since 2021,
+    show <em>Not published</em> rather than a blank, because a blank cell reads as &ldquo;no&rdquo;.
   </p>
 
   <p class="data-note">
@@ -663,10 +663,20 @@
       const qctKnown = r.QCT !== null && r.QCT !== undefined && r.QCT !== '';
       const dda = ddaKnown && (r.DDA === '1' || r.DDA === 1) ? '<span class="badge">DDA</span> ' : '';
       const qct = qctKnown && (r.QCT === '1' || r.QCT === 1) ? '<span class="badge badge-green">QCT</span>' : '';
+      // HUD's LIHTC database reports whether each deal took the boost (BASIS),
+      // for every property HUD has recorded so far. It answers
+      // the question this column is opened for without a designation list.
+      const hud = r.HUD || null;
+      const hudNote = hud ? 'Reported to HUD&#39;s LIHTC database' +
+        (hud.year_placed_in_service && hud.year_placed_in_service !== 8888 ? ' (placed in service ' + hud.year_placed_in_service + ')' : '') : '';
       const boost = (dda || qct) ? dda + qct
         : (ddaKnown || qctKnown)
           ? '<span title="Neither a Difficult Development Area nor a Qualified Census Tract">No</span>'
-          : '<span class="portfolio-unpublished" title="CHFA does not publish DDA or QCT status in this dataset. An empty cell here would read as &quot;no&quot;, which is not what the source says.">Not published</span>';
+          : (hud && hud.basis === 1)
+            ? '<span title="' + hudNote + '. The boost can come from a QCT, a DDA, or a state designation.">Yes</span>'
+            : (hud && hud.basis === 0)
+              ? '<span title="' + hudNote + '.">No</span>'
+              : '<span class="portfolio-unpublished" title="Neither CHFA nor HUD&#39;s LIHTC database reports this for this property. An empty cell here would read as &quot;no&quot;, which is not what the sources say.">Not published</span>';
       return `<tr>
         <td style="font-weight:600;min-width:10rem;" title="${r.PROJECT || ''}">${r.PROJECT || '—'}</td>
         <td>${r.PROJ_CTY || '—'}</td>

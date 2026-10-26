@@ -37,7 +37,7 @@ run('an unknown ID clears the select, explains itself in the waiting state, and 
   const block = src.slice(src.indexOf('let unknownGeoid = null;'), src.indexOf('_syncCombinedPanel();', src.indexOf('let unknownGeoid = null;')));
   assert.match(block, /geoSelect\.value = '';/, 'select cleared');
   assert.match(block, /No Colorado geography has the ID ' \+ unknownGeoid \+ '\. Choose a county, city, town or CDP above to load housing data\./, 'the message names the ID and what to do');
-  assert.match(src, /ensureMap\(\);\s*\/\/[^\n]*\n\s*if \(!unknownGeoid\) update\(\);/, 'initial load skipped for an unknown ID');
+  assert.match(src, /ensureMap\(\);\s*(?:\/\/[^\n]*\n\s*)+if \(!unknownGeoid(?: && !nothingChosen)?\) update\(\);/, 'initial load skipped for an unknown ID');
 });
 
 run('regional, combined and state addresses are not treated as unknown', () => {
