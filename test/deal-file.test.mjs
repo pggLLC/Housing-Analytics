@@ -169,11 +169,17 @@ try {
     const f = path.join(tmp, label.replace(/\W+/g, '-') + '.json');
     fs.writeFileSync(f, body);
     const url = fresh.tab.url();
-    await fresh.tab.evaluate(() => { window.__toasts = []; });
+    const held = await inputs(fresh.tab);
+    // A marker on this page: it survives only if the page does not reload.
+    await fresh.tab.evaluate(() => { window.__toasts = []; window.__samePage = true; });
     await pick(fresh.tab, f);
-    await fresh.tab.waitForFunction(() => window.__toasts.some((t) => /not a Deal Calculator deal file/.test(t)), null, { timeout: 5000 });
-    await fresh.tab.waitForTimeout(500);
-    ok(fresh.tab.url() === url, label + ': refused, and the page stays on the same deal');
+    // The page answers (whatever the wording), then nothing reloads.
+    await fresh.tab.waitForFunction(() => !window.__samePage || window.__toasts.length > 0, null, { timeout: 5000 });
+    await fresh.tab.waitForTimeout(1000);
+    const still = await fresh.tab.evaluate(() => window.__samePage === true).catch(() => false);
+    ok(still && fresh.tab.url() === url, label + ': refused, and the page does not reload');
+    const after = await inputs(fresh.tab);
+    ok(Object.keys(held).every((id) => held[id] === after[id]), label + ': every input stays as it was');
   }
   await sender.ctx.close();
   await fresh.ctx.close();
