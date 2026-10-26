@@ -331,3 +331,16 @@ def test_an_explicit_tzid_is_converted_to_mountain_time():
     assert rows[('Arizona housing series', '2026-10-13')] == '11:00'
     assert rows[('Arizona housing series', '2026-11-10')] == '10:00'
     assert rows[('Housing meeting', '2026-11-20')] == '09:00', 'an unknown zone name is read as Mountain'
+
+
+def test_acs_reads_the_prior_vintage_so_a_january_release_is_kept():
+    older = ACS_PAGE.replace('2025 Data', '2024 Data').replace('October 29, 2026', 'January 29, 2026') \
+                    .replace('1-Year', '5-Year')
+    def fetch(url):
+        if '/2024/' in url:
+            return older.encode()
+        raise OSError('HTTP 404')  # the newer schedule is not posted yet
+    rows = fhe.read_acs(fetch, date(2026, 1, 1))
+    assert [(r['start'], r['title']) for r in rows] == [('2026-01-29', 'Census ACS 2024 5-Year estimates released')]
+    with pytest.raises(ValueError):
+        fhe.read_acs(lambda url: (_ for _ in ()).throw(OSError('down')), date(2026, 1, 1))

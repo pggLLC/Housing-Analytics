@@ -519,6 +519,22 @@ def parse_acs_schedule(page: str, data_year: int, url: str) -> list[dict]:
     return out
 
 
+def read_acs(fetch, today: date) -> list[dict]:
+    """The last two data years' schedules: a five-year release can slip into the
+    second January after its data year (2024 five-year estimates: January 29, 2026).
+    The source counts as read when either page parses."""
+    out, errors = [], []
+    for year in (today.year - 2, today.year - 1):
+        url = ACS_SCHEDULE_PAGE.format(year=year)
+        try:
+            out.extend(parse_acs_schedule(fetch(url).decode('utf-8', 'replace'), year, url))
+        except Exception as exc:  # noqa: BLE001 — one missing page leaves the other
+            errors.append(f'{year}: {exc}')
+    if len(errors) == 2:
+        raise ValueError('; '.join(errors))
+    return out
+
+
 # ── FRED release calendar (CPI, jobs, housing starts) ──────────────────────
 
 def read_fred(fetch, today: date, api_key: str) -> list[dict]:
@@ -633,8 +649,7 @@ def build(today: date, offline: bool = False, fetch=http_get, previous: dict | N
     events: list[dict] = []
     sources = []
     text = lambda raw: raw.decode('utf-8', 'replace')
-    acs_year = today.year - 1
-    acs_url = ACS_SCHEDULE_PAGE.format(year=acs_year)
+    acs_url = ACS_SCHEDULE_PAGE.format(year=today.year - 1)
     readers = [
         ('chfa', 'CHFA events and chfareach calendar', CHFA_PAGE,
          lambda: parse_chfa(json.loads(fetch(CHFA_FEED)))),
@@ -651,8 +666,8 @@ def build(today: date, offline: bool = False, fetch=http_get, previous: dict | N
                            'apa_colorado', APA_CO_PAGE, today, keep=apa_colorado_keep)),
         ('fomc', 'Federal Reserve FOMC meeting calendar', FOMC_PAGE,
          lambda: parse_fomc(text(fetch(FOMC_PAGE)))),
-        ('acs', f'Census Bureau ACS {acs_year} release schedule', acs_url,
-         lambda: parse_acs_schedule(text(fetch(acs_url)), acs_year, acs_url)),
+        ('acs', 'Census Bureau ACS release schedules', acs_url,
+         lambda: read_acs(fetch, today)),
         ('fred', 'FRED release calendar: CPI, jobs report, housing starts', FRED_CALENDAR_PAGE,
          (lambda: read_fred(fetch, today, fred_key)) if fred_key else None),
     ]
