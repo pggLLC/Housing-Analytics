@@ -98,6 +98,19 @@ console.log('='.repeat(38));
     }
   });
 
+  // Local help: every organization names its area, what it offers, and a dated source.
+  const regions = new Set(['statewide', 'western', 'southwest', 'south', 'mountains', 'front-range']);
+  assert(Array.isArray(data.local_help) && data.local_help.length >= 15, 'local help list is non-vacuous');
+  ['housing-resources-western-colorado', 'housing-solutions-southwest', 'homesfund', 'habitat-colorado']
+    .forEach((id) => assert(data.local_help.some((org) => org.id === id), `local help present: ${id}`));
+  data.local_help.forEach((org) => {
+    assert(org.id && org.name && org.area && org.offers, `${org.id} has name, area and offers`);
+    assert(regions.has(org.region), `${org.id} region is allowed`);
+    assert(/^https?:\/\//.test(org.url) && /^https:\/\//.test(org.source_url), `${org.id} links its site and source`);
+    assert(org.source_note && /^\d{4}-\d{2}-\d{2}$/.test(org.last_verified) && /^\d{4}-\d{2}-\d{2}$/.test(org.review_by), `${org.id} is dated`);
+    assert(wordCount(org.offers) <= 40, `${org.id} offers line stays short`);
+  });
+
   const freshnessSrc = fs.readFileSync(path.join(root, 'scripts', 'audit', 'benchmark-freshness-check.mjs'), 'utf8');
   assert(freshnessSrc.includes('data/policy/homeownership-programs.json'), 'freshness audit includes homeownership programs');
   assert(freshnessSrc.includes('programs[].review_by'), 'freshness audit checks program review_by dates');
@@ -114,6 +127,9 @@ console.log('='.repeat(38));
   required.forEach((id) => {
     assert(doc.querySelector(`[data-homeownership-program-id="${id}"]`), `rendered card present: ${id}`);
   });
+  assert(doc.querySelector('#homebuyer-local-heading'), 'local help section renders');
+  assert(doc.querySelector('[data-local-help-id="housing-resources-western-colorado"]'), 'Western Slope organization renders');
+  assert(text.includes('Western Slope') && text.includes('Southwest'), 'local help is grouped by region');
   assert(text.includes('Up to the lesser of $25,000 or 3%'), 'CHFA grant amount renders from data');
   assert(text.includes('CHFA says it has not issued new Mortgage Credit Certificates since 2018'), 'MCC expired-new-issuance copy renders');
   assert(text.includes('Expired'), 'expired status pill renders');

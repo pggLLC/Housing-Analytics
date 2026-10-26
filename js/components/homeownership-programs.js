@@ -92,6 +92,43 @@
     '</article>';
   }
 
+  // Local nonprofits and agencies: homebuyer classes, counseling, down payment help and Habitat.
+  var REGION_LABELS = {
+    statewide: 'Statewide',
+    western: 'Western Slope',
+    southwest: 'Southwest',
+    south: 'Southern Colorado and the San Luis Valley',
+    mountains: 'Mountains and Upper Arkansas',
+    'front-range': 'Front Range'
+  };
+
+  function renderLocalHelp(doc) {
+    var list = doc && Array.isArray(doc.local_help) ? doc.local_help : [];
+    if (!list.length) return '';
+    var meta = doc.local_help_meta || {};
+    return '<section aria-labelledby="homebuyer-local-heading" style="margin:var(--sp4) 0;">' +
+      '<h2 id="homebuyer-local-heading">Local help</h2>' +
+      '<p style="margin-top:0;">Nonprofits and local agencies that teach homebuyer classes, counsel buyers, and in some places lend down payment help or build Habitat homes. ' +
+        esc(meta.note || '') +
+        (meta.source_page ? ' <a href="' + esc(meta.source_page) + '" target="_blank" rel="noopener">Find a class by county (CHFA)</a>' : '') + '</p>' +
+      Object.keys(REGION_LABELS).map(function (region) {
+        var group = list.filter(function (org) { return org.region === region; });
+        if (!group.length) return '';
+        return '<h3 style="margin:var(--sp3) 0 var(--sp2);">' + esc(REGION_LABELS[region]) + '</h3>' +
+          '<ul style="list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px, 100%),1fr));gap:var(--sp2);">' +
+          group.map(function (org) {
+            return '<li class="chart-card" data-local-help-id="' + esc(org.id) + '" style="padding:var(--sp2) var(--sp3);margin:0;">' +
+              '<p style="margin:0;"><a href="' + esc(org.url) + '" target="_blank" rel="noopener"><strong>' + esc(org.name) + '</strong></a></p>' +
+              '<p style="margin:.2rem 0;color:var(--muted);font-size:var(--small);">' + esc(org.area) + (org.phone ? ' · ' + esc(org.phone) : '') + '</p>' +
+              '<p style="margin:.2rem 0 .4rem;">' + esc(org.offers) + '</p>' +
+              '<p style="margin:0;font-size:var(--tiny);color:var(--muted);"><a href="' + esc(org.source_url) + '" target="_blank" rel="noopener" title="' + esc(org.source_note) + '">Source</a>, checked ' + esc(org.last_verified) + '</p>' +
+            '</li>';
+          }).join('') +
+          '</ul>';
+      }).join('') +
+    '</section>';
+  }
+
   function renderPrograms(target, doc) {
     if (!target) return;
     var programs = doc && Array.isArray(doc.programs) ? doc.programs : [];
@@ -110,7 +147,7 @@
           group.map(renderProgramCard).join('') +
         '</div>' +
       '</section>';
-    }).join('');
+    }).join('') + renderLocalHelp(doc);
   }
 
   function init() {
@@ -132,6 +169,7 @@
   global.HomeownershipPrograms = {
     DATA_URL: DATA_URL,
     renderPrograms: renderPrograms,
+    renderLocalHelp: renderLocalHelp,
     renderProgramCard: renderProgramCard
   };
 })(typeof window !== 'undefined' ? window : this);
