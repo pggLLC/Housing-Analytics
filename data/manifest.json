@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-26T05:01:10.677058Z",
+  "generated": "2026-10-26T09:09:04.064511Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -84,12 +84,12 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 773120
+      "bytes": 814057
     },
     "data/alerts/brief-news-queue.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 23809
+      "bytes": 24341
     },
     "data/alerts/owner-news.json": {
       "featureCount": 0,
@@ -9769,7 +9769,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 388452
+      "bytes": 393991
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
