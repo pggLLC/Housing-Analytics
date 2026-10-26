@@ -709,7 +709,9 @@
   var CHFA_CAPTURE_LIMIT = 0.85;
   function placeDemandFor(placeGeoid) {
     var d = state.placeDemand && state.placeDemand.places && state.placeDemand.places[placeGeoid];
-    if (!d) return null;
+    // A row without a qualified count means the figure is unavailable;
+    // such places stay in, like places with no row.
+    if (!d || d.qualified == null) return null;
     var capture = d.qualified > 0 ? TYPICAL_9PCT_HOMES / d.qualified : Infinity;
     return { qualified: d.qualified, existing: d.existing, capture: capture, thin: capture > CHFA_CAPTURE_LIMIT };
   }

@@ -72,6 +72,12 @@ assert.equal(lof.passesDemandRequirement({ demand: { thin: 24 / 29 > 0.85 } }), 
 const denver = lof.placeDemandFor('0820000');
 assert(denver && !denver.thin, 'Denver passes');
 assert.equal(lof.passesDemandRequirement({ demand: null }), true, 'a place with no demand row stays in');
+// A row the engine could not fill (qualified: null) means unavailable, not zero renters: it stays in.
+lof.setThinDataForTest(reliability, { meta: demand.meta, places: { '0899999': { qualified: null, existing: 3 }, '0899998': { qualified: 0, existing: 0 } } });
+assert.equal(lof.placeDemandFor('0899999'), null, 'unavailable demand is not turned into zero renters');
+assert.equal(lof.placeDemandFor('0899998').thin, true, 'a measured zero is still flagged');
+lof.setThinDataForTest(reliability, demand);
+assert(Object.values(demand.places).every((r) => r.qualified === null || r.qualified >= 0), 'qualified is a count or null');
 
 // The other thin-market towns from the 2026-10-26 review are flagged too.
 for (const g of ['0853120', '0837215', '0886475']) assert.equal(lof.placeDemandFor(g).thin, true, g + ' flagged');

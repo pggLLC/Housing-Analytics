@@ -50,7 +50,9 @@ for (const [geoid, p] of Object.entries(places)) {
     const r = E._state.getLastResult();
     if (!r || r === before || r.lat !== lat || r.lon !== lon) return null;
     const den = E.projectCaptureDenominator(r);
-    return { qualified: den && den.value > 0 ? Math.round(den.value) : 0, existing: r.lihtcUnits == null ? null : r.lihtcUnits };
+    // No denominator means the demand data is unavailable, not zero renters.
+    const qualified = den && Number.isFinite(Number(den.value)) ? Math.round(Number(den.value)) : null;
+    return { qualified, existing: r.lihtcUnits == null ? null : r.lihtcUnits };
   }, { lat: p.lat, lon: p.lng, miles: MILES });
   if (!got) { missing++; continue; }
   out[geoid] = got;
