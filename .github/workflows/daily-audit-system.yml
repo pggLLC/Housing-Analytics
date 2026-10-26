@@ -115,6 +115,10 @@ jobs:
             core.setOutput('restored', 'yes');
 
       # ── Full Daily Audit ─────────────────────────────────────────────────────
+      # MEMBER_SITE_BUILD_URL is an optional repository variable: a member-site
+      # build stamp readable without Cloudflare Access (JSON with
+      # source_revision). Unset, the Member Site Deploy section says "unknown"
+      # rather than guess.
       - name: Run Daily Audit System
         env:
           WEBSITE_URL:       ${{ secrets.WEBSITE_URL }}
@@ -123,6 +127,7 @@ jobs:
           EMAIL_PASSWORD:    ${{ secrets.EMAIL_PASSWORD }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           GITHUB_TOKEN:      ${{ github.token }}
+          MEMBER_SITE_BUILD_URL: ${{ vars.MEMBER_SITE_BUILD_URL }}
         run: node test/daily-audit-system.js
 
       # Saved immediately after the audit, and with if: always(), so a failure

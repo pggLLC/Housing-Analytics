@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-26T13:16:52.478Z",
+    "generated_at": "2026-10-26T13:58:30.170Z",
     "root": "data/",
     "file_count": 1991,
-    "total_size_bytes": 205777043,
+    "total_size_bytes": 205778491,
     "kinds": {
       "json": 1943,
       "geojson": 34,
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-26T13:16:49.252Z",
+      "mtime": "2026-10-26T13:58:25.166Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39670,7 +39670,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-26T13:16:50.928Z",
+      "mtime": "2026-10-26T13:58:27.365Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39694,7 +39694,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-26T13:16:50.474Z",
+      "mtime": "2026-10-26T13:58:26.814Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41608,8 +41608,8 @@
     {
       "path": "policy/co-developer-funding-guide.json",
       "kind": "json",
-      "size_bytes": 434900,
-      "mtime": "2026-10-24T00:16:04.598Z",
+      "size_bytes": 436001,
+      "mtime": "2026-10-26T13:53:54.698Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -41703,8 +41703,8 @@
     {
       "path": "policy/developer-ownership-funding.json",
       "kind": "json",
-      "size_bytes": 21833,
-      "mtime": "2026-10-21T11:12:41.455Z",
+      "size_bytes": 22136,
+      "mtime": "2026-10-26T13:53:54.699Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42655,17 +42655,16 @@
     {
       "path": "policy/soft-funding-status.json",
       "kind": "json",
-      "size_bytes": 46545,
-      "mtime": "2026-10-21T11:12:41.460Z",
+      "size_bytes": 46589,
+      "mtime": "2026-10-26T13:53:54.699Z",
       "shape": "object",
       "keys": [
         "lastUpdated",
         "vintage",
         "note",
-        "programs",
-        "pabVolumeCap"
+        "programs"
       ],
-      "key_count": 5,
+      "key_count": 4,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null

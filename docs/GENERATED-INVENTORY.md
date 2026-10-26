@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T13:16:22.145Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T13:57:48.440Z. Do not edit by hand.
 
 ---
 
@@ -34,7 +34,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 83.7 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 85.3 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 86.8 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.0 KB |
@@ -1971,11 +1971,11 @@
 | `data/policy/chfa-2027-r1-scoring.json` | 19.2 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
-| `data/policy/co-developer-funding-guide.json` | 424.7 KB | ✅ | — |
+| `data/policy/co-developer-funding-guide.json` | 425.8 KB | ✅ | — |
 | `data/policy/colorado-deal-rules.json` | 2.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
-| `data/policy/developer-ownership-funding.json` | 21.3 KB | ✅ | — |
+| `data/policy/developer-ownership-funding.json` | 21.6 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 567.3 KB | ✅ | — |
 | `data/policy/funding-awards/award-rows.json` | 254.7 KB | ✅ | — |
 | `data/policy/funding-awards/developer-aliases.json` | 7.4 KB | ✅ | — |
@@ -2047,7 +2047,7 @@
 
 ## Test Files
 
-717 test files found.
+718 test files found.
 
 | File | Size |
 |------|------|
@@ -2179,16 +2179,17 @@
 | `test/deal-cost-basis.test.js` | 54.5 KB |
 | `test/deal-credit-stack.test.js` | 8.5 KB |
 | `test/deal-doh-schedules.test.js` | 27.4 KB |
-| `test/deal-engine-golden.test.js` | 8.1 KB |
+| `test/deal-engine-golden.test.js` | 8.3 KB |
 | `test/deal-engine-signed-rent-growth.test.js` | 3.5 KB |
 | `test/deal-engine-surfaces.test.js` | 14.0 KB |
 | `test/deal-engine.test.js` | 8.0 KB |
+| `test/deal-gap-handoff.test.js` | 6.0 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-permanent-financing.test.js` | 14.0 KB |
 | `test/deal-recommenders-mix-check.test.mjs` | 14.1 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
-| `test/deal-workbook.test.mjs` | 97.3 KB |
+| `test/deal-workbook.test.mjs` | 100.2 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
 | `test/deep-dive-aamd-vacancy.test.mjs` | 4.4 KB |
 | `test/deep-dive-hmda-loads-on-page-load.test.js` | 3.3 KB |
@@ -2205,7 +2206,7 @@
 | `test/econ-dash-series-labels.test.js` | 975 B |
 | `test/econ-dash-yoy-change.test.js` | 4.3 KB |
 | `test/effective-demand.test.js` | 6.8 KB |
-| `test/energy-retrofit-funding.test.js` | 5.4 KB |
+| `test/energy-retrofit-funding.test.js` | 5.6 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 16.6 KB |
 | `test/epa-sld-local-lookup.test.js` | 13.2 KB |
 | `test/epa-walkability-d4a-distance.test.js` | 14.4 KB |
@@ -2252,7 +2253,7 @@
 | `test/fred-commodities-config.test.js` | 4.8 KB |
 | `test/freshness-gates-run-first.test.mjs` | 7.3 KB |
 | `test/freshness-guard-dirty-tree.test.js` | 12.5 KB |
-| `test/funding-context-card.test.js` | 7.7 KB |
+| `test/funding-context-card.test.js` | 9.1 KB |
 | `test/funding-eligibility-claims.test.js` | 12.1 KB |
 | `test/funding-fit.test.js` | 12.5 KB |
 | `test/funding-links-land-on-funding.test.js` | 2.0 KB |
@@ -2594,7 +2595,7 @@
 | `test/smoke-market-analysis.test.js` | 40.1 KB |
 | `test/smoke.test.js` | 10.1 KB |
 | `test/soft-funding-availability.test.js` | 5.1 KB |
-| `test/soft-funding-terms.test.js` | 7.7 KB |
+| `test/soft-funding-terms.test.js` | 7.8 KB |
 | `test/soft-funding-tracker.test.js` | 16.8 KB |
 | `test/source-badge-dated.test.js` | 3.0 KB |
 | `test/source-liveness-local-path.test.py` | 1.5 KB |

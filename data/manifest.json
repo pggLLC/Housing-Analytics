@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-26T13:16:54.958279Z",
+  "generated": "2026-10-26T13:58:34.557320Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1014693
+      "bytes": 1014669
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9529,7 +9529,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 434900
+      "bytes": 436001
     },
     "data/policy/colorado-deal-rules.json": {
       "featureCount": 0,
@@ -9549,7 +9549,7 @@
     "data/policy/developer-ownership-funding.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21833
+      "bytes": 22136
     },
     "data/policy/fee-reductions.json": {
       "featureCount": 0,
@@ -9739,7 +9739,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 46545
+      "bytes": 46589
     },
     "data/policy/stewardship-providers.json": {
       "featureCount": 0,

@@ -36,7 +36,7 @@ const {
     sendSlackAlert,
 } = require('./audit-modules/report-generator');
 const { collectRepoHealth } = require('./audit-modules/repo-health');
-const { auditExitCode, summarizeChecks } = require('./audit-modules/audit-status');
+const { auditExitCode, statusFromFindings, summarizeChecks } = require('./audit-modules/audit-status');
 const { probeLink, classifyLinkResults, isDeclined } = require('./audit-modules/link-check');
 
 // Browser-shaped request headers, shared with the weekly sweeps. Loaded in
@@ -99,7 +99,7 @@ async function runAuditCheck({ name, critical = false, run }) {
         return {
             name,
             critical,
-            status: issues.length > 0 ? 'failed' : 'passed',
+            status: statusFromFindings(issues),
             durationMs: Date.now() - startedAt,
             issueCount: issues.length,
             issues,
@@ -411,6 +411,7 @@ async function main() {
     console.log(`  🔗 Links:    ${summary.linkChecks}`);
     console.log(`  ✅ Passed:   ${auditHealth.passed}`);
     console.log(`  ❌ Failed:   ${auditHealth.failed}`);
+    console.log(`  🟡 Warning:  ${auditHealth.warnings}`);
     console.log(`  ⚠️  Unavail:  ${auditHealth.unavailable}`);
     console.log('──────────────────────────────────────────────────────────');
 
