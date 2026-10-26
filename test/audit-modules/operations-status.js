@@ -72,6 +72,18 @@ function memberSiteState({ buildUrl, build, compare }) {
     };
 }
 
+/**
+ * The check row for an informational section: none while everything was
+ * read, `unavailable` as soon as any part was not. The parts that were read
+ * stay in the summary; this row is what makes Audit Health, the banner and
+ * the subject say the section is incomplete (overallStatus 'checks-not-run')
+ * instead of reading healthy beside an "unavailable" card.
+ */
+function partialCheck(name, errors) {
+    if (!errors || errors.length === 0) return null;
+    return { name, critical: false, status: 'unavailable', summary: 'Partly unavailable', details: errors.join('; ') };
+}
+
 async function collectMemberSite(owner, repo, client, nowMs, ctx = {}) {
     const env = ctx.env || process.env;
     const buildUrl = (env.MEMBER_SITE_BUILD_URL || '').trim();
@@ -83,7 +95,10 @@ async function collectMemberSite(owner, repo, client, nowMs, ctx = {}) {
     const compare = revision
         ? await client.json(`/repos/${owner}/${repo}/compare/${revision}...main`)
         : null;
-    return { issues: [], summary: memberSiteState({ buildUrl, build, compare }), check: null };
+    const summary = memberSiteState({ buildUrl, build, compare });
+    // No URL configured is the expected "Unknown" (above). A configured stamp
+    // that gives no comparable revision is a failed read, not a normal state.
+    return { issues: [], summary, check: partialCheck('Member Site Deploy', summary.known ? [] : [summary.reason]) };
 }
 
 // ── Scheduled Data Workflows ─────────────────────────────────────────────────
@@ -355,7 +370,7 @@ async function collectAccuracy(owner, repo, client, nowMs, ctx = {}) {
         const docs = {};
         for (const spec of specs) {
             if (docs[spec.file]) continue;
-            try { docs[spec.file] = JSON.parse(fs.readFileSync(path.join(root, spec.file), 'utf8')); } catch (_) { docs[spec.file] = null; }
+            try { docs[spec.file] = JSON.parse(fs.readFileSync(path.join(root, spec.file), 'utf8')); } catch (err) { docs[spec.file] = null; note(spec.file, err); }
         }
         summary.overdue = overdueReviews(specs, docs, today);
     } catch (err) { note('review dates', err); }
@@ -370,7 +385,7 @@ async function collectAccuracy(owner, repo, client, nowMs, ctx = {}) {
         summary.issues = accuracyIssues(open.items);
     } catch (err) { note('accuracy issues', err); }
 
-    return { issues: [], summary, check: null };
+    return { issues: [], summary, check: partialCheck('Source & Figure Accuracy', summary.errors) };
 }
 
 module.exports = {
@@ -387,6 +402,7 @@ module.exports = {
     latestDataRunsToReview,
     memberSiteState,
     loadUrlHealthPolicy,
+    partialCheck,
     overdueReviews,
     overdueTotal,
     reviewFollowups,

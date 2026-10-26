@@ -52,6 +52,19 @@ run('with no public build stamp the distance is unknown, and no request is made'
     assert.match(render({ memberSite: out.summary }), /Member Site Deploy[\s\S]*Unknown\./);
 });
 
+run('an unconfigured member site is Unknown with no check row; a configured but unusable stamp is unavailable', async () => {
+    const none = await ops.collectMemberSite('o', 'r', {}, NOW, { env: {} });
+    assert.equal(none.check, null, 'no URL configured is expected, not a failed check');
+    const client = { external: async () => ({ note: 'no revision here' }), json: async () => { throw new Error('must not call'); } };
+    const bad = await ops.collectMemberSite('o', 'r', client, NOW, { env: { MEMBER_SITE_BUILD_URL: 'https://example.com/version' } });
+    assert.equal(bad.summary.known, false);
+    assert.equal(bad.check.status, 'unavailable');
+    assert.match(bad.check.details, /names no source revision/);
+    const uncompared = await ops.collectMemberSite('o', 'r', { external: async () => ({ source_revision: 'abcdef1' }), json: async () => ({}) }, NOW,
+        { env: { MEMBER_SITE_BUILD_URL: 'https://example.com/version' } });
+    assert.equal(uncompared.check.status, 'unavailable', 'a revision that could not be compared is not a known distance');
+});
+
 run('a readable stamp is compared with main and the distance shown', async () => {
     const calls = [];
     const client = {
@@ -268,6 +281,29 @@ run('an unreadable review file makes the overdue total a lower bound, never a pl
     assert.match(render({ accuracy: { ...base, overdue: [{ title: 'A', file: 'a.json', overdue: 2 }] } }), /Figures past review date:<\/strong> 2</);
 });
 
+run('an accuracy section read in full adds no check row; one unreadable file makes it unavailable', async () => {
+    const client = { json: async () => ({ workflow_runs: [] }), paginate: async () => ({ items: [], complete: true }) };
+    const full = await ops.collectAccuracy('o', 'r', client, NOW);
+    assert.deepEqual(full.summary.errors, []);
+    assert.equal(full.check, null, 'informational when complete');
+
+    const fsRoot = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'acc-'));
+    fs.mkdirSync(path.join(fsRoot, 'data'));
+    fs.copyFileSync(ops.URL_HEALTH_FILE, path.join(fsRoot, 'data', 'url-health.json'));
+    try {
+        const partial = await ops.collectAccuracy('o', 'r', client, NOW, { root: fsRoot });
+        assert.ok(partial.summary.urlHealth, 'what was read is kept');
+        assert.ok(partial.summary.overdue.some(row => row.overdue === null), 'review files missing from this root are unknown');
+        assert.equal(partial.check.status, 'unavailable', 'an unreadable review file is a failed read, and says so in Audit Health');
+        const { summarizeChecks, overallStatus } = require('./audit-modules/audit-status.js');
+        const auditHealth = summarizeChecks([partial.check]);
+        assert.equal(overallStatus({ summary: { critical: 0, high: 0, total: 0 }, auditHealth, repoHealth: { accuracy: partial.summary } }).key, 'checks-not-run',
+            'the subject and banner cannot read healthy beside an unavailable card');
+    } finally {
+        fs.rmSync(fsRoot, { recursive: true, force: true });
+    }
+});
+
 run('accuracy issues are the url-health, policy-review and benchmark trackers', () => {
     const rows = ops.accuracyIssues([
         { number: 1, title: '[url-health-weekly] 1 newly-broken URL(s)', labels: [{ name: 'url-health' }] },
@@ -286,6 +322,9 @@ run('a GitHub outage leaves the local half of the accuracy card in place', async
     assert.equal(out.summary.sweep, null);
     assert.equal(out.summary.issues, null);
     assert.equal(out.summary.errors.length, 2);
+    assert.equal(out.check.status, 'unavailable', 'a part that was not read must reach Audit Health, not only the card');
+    assert.equal(out.check.critical, false);
+    assert.match(out.check.details, /source URL sweep: ECONNRESET; accuracy issues: ECONNRESET/);
     const html = render({ accuracy: out.summary });
     assert.match(html, /Broken source links:<\/strong> \d+/);
     assert.match(html, /Source URL Sweep \(last run\):<\/strong> <span style="color:#856404;">unavailable/);

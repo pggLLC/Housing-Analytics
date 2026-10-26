@@ -80,6 +80,7 @@ function healthyRoutes({ runs = [], openIssues = [], closedIssues = [], prPages 
         [url => url.includes('/actions/runs?branch=main&created='), url => response(200, { workflow_runs: runsPage(url) })],
         [url => url.includes('/actions/workflows?'), () => response(200, { workflows: [] })],
         [url => url.includes('/actions/runs?branch=main&event=schedule'), () => response(200, { workflow_runs: [] })],
+        [url => url.includes('/actions/workflows/source-url-sweep.yml/runs'), () => response(200, { workflow_runs: [] })],
         [url => url.includes('/actions/workflows/deploy.yml/runs'), () => response(200, {
             workflow_runs: deployRuns || [{ status: 'completed', conclusion: 'success', created_at: iso(NOW - HOUR), html_url: 'd' }],
         })],
@@ -103,9 +104,10 @@ function healthyRoutes({ runs = [], openIssues = [], closedIssues = [], prPages 
 run('a network outage makes every repo-health section unavailable and null, and the job still passes', async () => {
     const { fetchImpl } = fakeGithub([[() => true, () => { throw new Error('ECONNRESET'); }]]);
     const health = await collectRepoHealth({ env: ENV, fetchImpl, now: NOW });
-    // Six GitHub-backed sections. Member Site Deploy reads nothing without
-    // MEMBER_SITE_BUILD_URL, and Source & Figure Accuracy keeps its local half.
-    assert.equal(health.checks.length, 6, 'one check per section, so the report shows which part is missing');
+    // Seven: six GitHub-backed sections, plus Source & Figure Accuracy, which
+    // keeps its local half but still reports itself partly unavailable.
+    // Member Site Deploy reads nothing without MEMBER_SITE_BUILD_URL.
+    assert.equal(health.checks.length, 7, 'one check per section, so the report shows which part is missing');
     for (const check of health.checks) {
         assert.equal(check.status, 'unavailable', check.name);
         assert.equal(check.critical, false, check.name + ' must not be critical: an API outage is not a site defect');
