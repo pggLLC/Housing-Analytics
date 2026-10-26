@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T01:31:44.813Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T03:13:45.300Z. Do not edit by hand.
 
 ---
 
@@ -34,7 +34,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 83.7 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 83.0 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 85.3 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.0 KB |
@@ -2045,7 +2045,7 @@
 
 ## Test Files
 
-712 test files found.
+714 test files found.
 
 | File | Size |
 |------|------|
@@ -2158,6 +2158,7 @@
 | `test/deal-calc-net-rent.test.js` | 25.2 KB |
 | `test/deal-calc-operating-page.test.js` | 7.6 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
+| `test/deal-calc-partnership-terms.test.js` | 12.2 KB |
 | `test/deal-calc-perm-rate-hint.test.js` | 6.1 KB |
 | `test/deal-calc-permanent-financing-page.test.js` | 8.6 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
@@ -2176,7 +2177,7 @@
 | `test/deal-cost-basis.test.js` | 54.5 KB |
 | `test/deal-credit-stack.test.js` | 8.5 KB |
 | `test/deal-doh-schedules.test.js` | 27.4 KB |
-| `test/deal-engine-golden.test.js` | 8.0 KB |
+| `test/deal-engine-golden.test.js` | 8.1 KB |
 | `test/deal-engine-signed-rent-growth.test.js` | 3.5 KB |
 | `test/deal-engine-surfaces.test.js` | 14.0 KB |
 | `test/deal-engine.test.js` | 8.0 KB |
@@ -2276,6 +2277,7 @@
 | `test/helpers/deal-engine-g-expected.cjs` | 1.7 KB |
 | `test/helpers/deal-engine-inputs.cjs` | 1.4 KB |
 | `test/helpers/deal-engine-l1-expected.cjs` | 1.2 KB |
+| `test/helpers/deal-engine-p-expected.cjs` | 2.6 KB |
 | `test/helpers/deal-engine-page.cjs` | 1.6 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
 | `test/historical-trends-real-data.test.js` | 15.8 KB |
@@ -2403,7 +2405,7 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.4 KB |
-| `test/market-construction.test.js` | 6.4 KB |
+| `test/market-construction.test.js` | 6.5 KB |
 | `test/market-direction-tab.test.mjs` | 25.6 KB |
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
 | `test/market-jurisdiction-clears.test.js` | 22.2 KB |
