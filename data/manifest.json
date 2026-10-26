@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-26T03:14:21.586046Z",
+  "generated": "2026-10-26T03:43:36.784257Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1013789
+      "bytes": 1014269
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -45,6 +45,11 @@
       "featureCount": 1688,
       "placeholder": false,
       "bytes": 648912
+    },
+    "data/affordable-housing/preservation/doh-mobile-home-parks.json": {
+      "featureCount": 767,
+      "placeholder": false,
+      "bytes": 418597
     },
     "data/affordable-housing/preservation/hud-multifamily-assisted.json": {
       "featureCount": 343,

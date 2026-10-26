@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-26T03:14:18.048Z",
+    "generated_at": "2026-10-26T03:43:33.951Z",
     "root": "data/",
-    "file_count": 1989,
-    "total_size_bytes": 204329720,
+    "file_count": 1990,
+    "total_size_bytes": 204748317,
     "kinds": {
-      "json": 1941,
+      "json": 1942,
       "geojson": 34,
       "csv": 14
     }
@@ -171,6 +171,26 @@
       "key_count": 2,
       "primary_array_key": "features",
       "primary_array_length": 1688,
+      "primary_array_first_keys": [
+        "type",
+        "geometry",
+        "properties"
+      ]
+    },
+    {
+      "path": "affordable-housing/preservation/doh-mobile-home-parks.json",
+      "kind": "json",
+      "size_bytes": 418597,
+      "mtime": "2026-10-26T03:42:13.211Z",
+      "shape": "object",
+      "keys": [
+        "type",
+        "meta",
+        "features"
+      ],
+      "key_count": 3,
+      "primary_array_key": "features",
+      "primary_array_length": 767,
       "primary_array_first_keys": [
         "type",
         "geometry",
@@ -575,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-26T03:14:14.429Z",
+      "mtime": "2026-10-26T03:43:31.416Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39632,7 +39652,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-26T03:14:16.342Z",
+      "mtime": "2026-10-26T03:43:32.722Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39656,7 +39676,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-26T03:14:15.896Z",
+      "mtime": "2026-10-26T03:43:32.386Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
