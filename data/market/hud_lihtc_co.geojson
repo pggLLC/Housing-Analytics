@@ -1,13 +1,13 @@
 {
   "type": "FeatureCollection",
-  "fetchedAt": "2026-10-26T12:00:14.066Z",
+  "fetchedAt": "2026-10-25T10:36:46.193Z",
   "_metadata": {
     "source": "CHFA LIHTC FeatureServer via chfa-lihtc.json",
     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
     "state": "Colorado",
     "state_fips": "08",
     "generated": "2026-10-26",
-    "fetchedAt": "2026-10-26T12:00:14.066Z",
+    "fetchedAt": "2026-10-25T10:36:46.193Z",
     "coverage_note": "926 Colorado LIHTC projects normalized from data/chfa-lihtc.json. Rebuilt automatically by scripts/normalize-lihtc-to-hud-schema.js after each CHFA fetch.",
     "fallback": "Dashboards fall back to data/chfa-lihtc.json (CHFA schema) when this file is unavailable."
   },
