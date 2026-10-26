@@ -85,4 +85,32 @@ assert(compareSrc.includes('true near-term at-risk subset'), 'compare copy shoul
 assert(!compareSrc.includes('CHFA-tracked at-risk subsidized rental properties'), 'old compare at-risk copy should not remain');
 assert(marketSrc.includes('preservation-source inventory'), 'market report copy should describe non-LIHTC preservation records as source inventory');
 
+// DOH mobile home parks (scripts/fetch-doh-mobile-home-parks.js): public counts only.
+const mhp = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/affordable-housing/preservation/doh-mobile-home-parks.json'), 'utf8'));
+const parks = mhp.features;
+assert(parks.length >= 500, 'DOH park file should hold the registered parks');
+assert.equal(mhp.meta.parks, parks.length, 'meta.parks should count the features');
+assert.equal(mhp.meta.lots, parks.reduce((t, f) => t + (f.properties.N_UNITS || 0), 0), 'meta.lots should sum the lots');
+assert.equal(mhp.meta.geocoded, parks.filter((f) => f.geometry).length, 'meta.geocoded should count placed parks');
+assert.equal(mhp.meta.community_owned, parks.filter((f) => f.properties.community_owned).length, 'meta.community_owned should count flagged parks');
+parks.filter((f) => f.geometry).forEach((f) => {
+  const [lon, lat] = f.geometry.coordinates;
+  assert(lon > -109.1 && lon < -102 && lat > 36.9 && lat < 41.1, `${f.properties.PROJECT} should be placed inside Colorado`);
+});
+// Only these fields are public. Owner and manager names, and the sale-notice list, stay on the member site.
+const PARK_FIELDS = ['REGISTRATION', 'PROJECT', 'PROJ_ADD', 'PROJ_CTY', 'PROJ_ST', 'Zip', 'CNTY_NAME', 'N_UNITS',
+  'lots_owner_home', 'lots_park_owned_rented', 'lots_other_mobile', 'lots_other_use',
+  'community_owned', 'community_purchase_year', 'geocode_match', '_source', 'program_type'];
+parks.forEach((f) => Object.keys(f.properties).forEach((k) => {
+  assert(PARK_FIELDS.includes(k), `DOH park file carries an unlisted field ${k}; names and sale notices must not be published`);
+}));
+parks.forEach(f => {
+  const y = f.properties.community_purchase_year;
+  assert(y === null || (y >= 1900 && y <= new Date().getFullYear()), `${f.properties.REGISTRATION} purchase year ${y}; unknown years must stay null`);
+});
+const { count } = require(path.join(ROOT, 'scripts/fetch-doh-mobile-home-parks.js'));
+['N/A', 'Unknown', '', undefined].forEach(v => assert(count(v) === null, `count(${JSON.stringify(v)}) should be null, not ${count(v)}`));
+assert(count('1,234') === 1234 && count('0') === 0, 'published counts, including zero, should parse');
+assert(/does not guarantee/.test(mhp.meta.caveat), 'DOH park file should carry DOH\u2019s accuracy caveat');
+
 console.log('affordable-housing-preservation-risk: ok');
