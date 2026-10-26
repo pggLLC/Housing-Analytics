@@ -176,6 +176,9 @@ async function twentyYear(page, selection, projFips) {
     const src = read('js/hna/hna-controller.js');
     assert.match(src, /const nothingChosen = !restoredGeoType && !_combined && !unknownGeoid;/);
     assert.match(src, /if \(!unknownGeoid && !nothingChosen\) update\(\);/);
+    // The blank option is removed after the first real pick, so the page
+    // cannot return to "no place" with the last place's figures on screen.
+    assert.match(src, /addEventListener\('change', function dropPick\(\) \{[\s\S]{0,200}removeChild\(pick\)/);
   });
 
   if (failures) { console.log(`\nhna-assumption-defaults: ${failures} failing`); process.exit(1); }

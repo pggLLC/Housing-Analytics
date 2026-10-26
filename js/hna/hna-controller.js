@@ -5300,6 +5300,14 @@
       pick.textContent = 'Pick a place';
       window.HNAState.els.geoSelect.insertBefore(pick, window.HNAState.els.geoSelect.firstChild);
       window.HNAState.els.geoSelect.value = '';
+      // Once a place is picked the blank option goes, so the page cannot go
+      // back to "no place" while still showing the last place's figures.
+      // Registered before the select's update listener, so it runs first.
+      window.HNAState.els.geoSelect.addEventListener('change', function dropPick() {
+        if (!window.HNAState.els.geoSelect.value) return;
+        if (pick.parentNode) pick.parentNode.removeChild(pick);
+        window.HNAState.els.geoSelect.removeEventListener('change', dropPick);
+      });
       const wsText = document.querySelector('#hnaWaitingState .hna-waiting-text');
       if (wsText) wsText.textContent = 'Pick a county, city, town or CDP above to see its housing needs. State of Colorado is in the list too.';
       if (window.HNAState.els.geoContextPill) window.HNAState.els.geoContextPill.textContent = 'No place picked';
