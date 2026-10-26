@@ -1214,7 +1214,10 @@
             maxAffordablePrice: outText('dc-own-max-price'),
             subsidyGapPerUnit:  outText('dc-own-gap-per-unit'),
             totalOwnershipGap:  outText('dc-own-total-gap')
-          }
+          },
+          // setStep merges into the saved step, so an earlier rental save's results are cleared, not left
+          // for the Housing Outcome Score to read as this for-sale deal's gap.
+          results: null
         };
       }
       return {

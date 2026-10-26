@@ -83,6 +83,24 @@ function reopen(from) {
     assert((fin.inputs.missing || []).includes('capital stack gap'), 'the score still says the gap is missing');
   });
 
+  await test('switching a saved rental deal to for-sale clears its rental gap', async () => {
+    const p = await openPage('');
+    p.w.WorkflowState.newProject('Invented gap handoff test, mode switch');
+    setField(p, 'dc-county-select', '08045');
+    await sleep(600);
+    p.w.__DealCalc.recalculate();
+    p.d.getElementById('dcSaveBtn').click();
+    assert.equal(typeof p.w.WorkflowState.getStep('deal').results.gapPct, 'number', 'non-vacuous: the rental save stored a gap');
+    const own = p.d.getElementById('dc-mode-ownership');
+    own.checked = true; own.dispatchEvent(new p.w.Event('change', { bubbles: true }));
+    p.d.getElementById('dcSaveBtn').click();
+    const step = p.w.WorkflowState.getStep('deal');
+    assert.equal(step.dealMode, 'ownership', 'non-vacuous: the second save is the for-sale deal');
+    assert.equal(step.results, null, 'the rental results are cleared');
+    const fin = reopen(p.w).HousingOutcomeScore.compute().dimensions.financialFeasibility;
+    assert.equal(fin.inputs.gapPct, undefined, 'the score does not use the rental gap');
+  });
+
   close();
   console.log(passed + ' passed, ' + failed + ' failed');
   process.exit(failed ? 1 : 0);
