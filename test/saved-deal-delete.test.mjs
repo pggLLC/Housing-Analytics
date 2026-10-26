@@ -60,7 +60,9 @@ function names(b) {
   ok($('sr-delete-deal').hidden, 'no deal picked: no Delete this deal button');
   await pick(ids.a1.deal);
   ok(!$('sr-delete-deal').hidden, 'a picked deal shows Delete this deal');
-  ok(btn('purge', ids.a2.v) && btn('purge', ids.a2.v).textContent === 'Delete', 'every version row has Delete');
+  const trs = [...$('srVersions').querySelectorAll('tbody tr')];
+  const own = trs.map((tr) => { const pickV = tr.querySelector('.sr-pick').getAttribute('data-v'), del = tr.querySelector('[data-act="purge"]'); return !!del && del.getAttribute('data-v') === pickV && del.textContent.trim() !== ''; });
+  ok(trs.length === 3 && own.every(Boolean), 'every version row has its own visible delete control: ' + JSON.stringify(own));
   const rows = [ids.a1, ids.a2, ids.a3].map((x) => names(btn('purge', x.v)));
   ok(rows.length === 3 && rows.every((n) => n.row && n.deletes && n.said === n.row), 'each Delete names, for a screen reader, the version its row shows: ' + JSON.stringify(rows));
 
