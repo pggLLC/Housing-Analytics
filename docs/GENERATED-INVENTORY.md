@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T03:13:45.300Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T03:43:07.637Z. Do not edit by hand.
 
 ---
 
@@ -94,7 +94,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1942 JSON files found.
+1943 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -107,6 +107,7 @@
 | `data/affordable-housing/nlihc-out-of-reach-co.json` | 28.0 KB | ✅ | — |
 | `data/affordable-housing/pbv-by-pha-co.json` | 4.3 KB | ✅ | — |
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
+| `data/affordable-housing/preservation/doh-mobile-home-parks.json` | 408.8 KB | ✅ | 767 features |
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
 | `data/affordable-housing/properties-manifest.json` | 118 B | ✅ | — |
@@ -2058,7 +2059,7 @@
 | `test/acs-sentinel-absence.test.js` | 4.1 KB |
 | `test/acs-vintage-label-integrity.test.js` | 3.9 KB |
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
-| `test/affordable-housing-preservation-risk.test.js` | 6.0 KB |
+| `test/affordable-housing-preservation-risk.test.js` | 8.2 KB |
 | `test/agency-funding.test.mjs` | 16.8 KB |
 | `test/ahcia-status.test.mjs` | 7.0 KB |
 | `test/ami-gap-contract.test.js` | 13.5 KB |
