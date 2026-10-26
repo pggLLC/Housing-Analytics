@@ -583,6 +583,64 @@
       '<div class="sr-scroll"><table class="sr-table" data-no-sort><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>';
   }
 
+  // ── Scenario history ──────────────────────────────────────────────────────
+  // Every saved version of a deal, oldest first, with what moved the funding gap from the version before it.
+  // versions: full saved records, oldest first, each with n (its number in the deal) and baseline/hidden flags.
+  function historyModel(rules, prop123, versions) {
+    var rows = versions.map(function (v, i) {
+      var r = review(rules, prop123, v), e = r.engine || {};
+      return { n: v.n, label: v.label || v.name || 'Untitled', at: v.at || '', by: v.by || '', baseline: !!v.baseline, hidden: !!v.hidden,
+        stale: !!(v.calculator && v.calculator.stale), totalCost: num(e.totalDevelopmentCost), credit: v.calculator ? num(e.annualCredits) : null,
+        creditEquity: num(e.creditEquity), gap: num(e.fundingGap), score: r.score.total, lane: r.lane.lane || '',
+        change: i ? changeLines([versions[i - 1], v])[0] : '' };
+    });
+    var overall = versions.length > 1 ? changeLines([versions[0], versions[versions.length - 1]])[0] : '';
+    return { rows: rows, overall: overall };
+  }
+
+  function historyHtml(m) {
+    if (!m.rows.length) return '<p class="sr-muted">No versions yet.</p>';
+    var fig = function (k, v) { return '<div><dt>' + esc(k) + '</dt><dd>' + esc(v) + '</dd></div>'; };
+    return (m.overall ? '<p class="sr-hist-overall"><strong>Overall:</strong> ' + esc(m.overall) + '</p>' : '') +
+      '<ol class="sr-hist">' + m.rows.map(function (r) {
+        return '<li><div class="sr-hist-head"><strong>' + esc('v' + r.n + ' · ' + r.label) + '</strong>' +
+          (r.baseline ? ' <span class="rw-band">Baseline</span>' : '') + (r.hidden ? ' <span class="sr-muted">(hidden)</span>' : '') +
+          '<div class="sr-muted">' + esc(r.at.slice(0, 16).replace('T', ' ')) + (r.by ? ' · ' + esc(r.by) : '') + '</div></div>' +
+          '<dl class="sr-hist-figs">' + fig('Total cost', money(r.totalCost)) + fig('Modeled credit', money(r.credit)) + fig('Credit equity', money(r.creditEquity)) +
+          fig('Funding gap', money(r.gap)) + fig('CHFA score', pts(r.score)) + fig('Gap-fund lane', r.lane || '—') + '</dl>' +
+          (r.change ? '<p class="sr-hist-change">' + esc(r.change) + '</p>' : '<p class="sr-muted">First version.</p>') +
+          (r.stale ? '<p class="sr-flag">The unit mix or election changed after the Deal Calculator export, so its model results are not shown.</p>' : '') + '</li>';
+      }).join('') + '</ol>';
+  }
+
+  // A spreadsheet cell that starts with = + - @ could run as a formula, so text cells get a leading apostrophe.
+  function csvCell(v) {
+    if (v == null) return '';
+    if (typeof v === 'number') return String(Math.round(v * 100) / 100);
+    var t = String(v); if (/^[=+\-@\t\r]/.test(t)) t = "'" + t;
+    return /[",\n\r]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+  }
+  function historyCsv(m) {
+    var head = ['Version', 'Label', 'Saved', 'Saved by', 'Total cost', 'Modeled annual credit', 'Credit equity', 'Funding gap', 'CHFA score', 'Gap-fund lane', 'What changed from the version before'];
+    return [head].concat(m.rows.map(function (r) {
+      return ['v' + r.n, r.label, r.at, r.by, r.totalCost, r.credit, r.creditEquity, r.gap, r.score, r.lane, r.change];
+    })).map(function (row) { return row.map(csvCell).join(','); }).join('\r\n') + '\r\n';
+  }
+
+  // A page of its own to print or save as PDF: the deal name, when it was built, the history.
+  function historyPage(dealName, m, builtAt) {
+    return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+      '<title>' + esc('Scenario history: ' + dealName) + '</title><style>' +
+      'body{font:15px/1.5 system-ui,sans-serif;color:#111;background:#fff;max-width:820px;margin:24px auto;padding:0 16px}' +
+      'h1{font-size:1.3rem;margin:0 0 .25rem}.sr-muted{color:#555;font-size:.85rem}.sr-flag{color:#a11}' +
+      '.sr-hist{list-style:none;padding:0}.sr-hist li{border:1px solid #ccc;border-radius:8px;padding:.6rem .8rem;margin:0 0 .6rem;break-inside:avoid}' +
+      '.sr-hist-figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.2rem .8rem;margin:.4rem 0}.sr-hist-figs dt{font-size:.8rem;color:#555}.sr-hist-figs dd{margin:0;font-variant-numeric:tabular-nums}' +
+      '.sr-hist-overall{border-left:3px solid #0a6b5c;padding-left:.6rem}.rw-band{font-size:.75rem;border:1px solid #0a6b5c;border-radius:9999px;padding:0 6px}' +
+      '</style></head><body><h1>' + esc('Scenario history: ' + dealName) + '</h1>' +
+      '<p class="sr-muted">Built ' + esc(builtAt) + ' from the versions saved on the member site. Figures are the Deal Calculator\'s at the time each version was saved; a screening estimate, not underwriting.</p>' +
+      historyHtml(m) + '</body></html>';
+  }
+
   // ── Calculator export ─────────────────────────────────────────────────────
   // Reads a Deal Calculator "Export JSON" file: inputs carry units-<tier> without the dc- prefix.
   function fromCalculatorExport(snap) {
@@ -1113,8 +1171,47 @@
               (base ? '' : '<button type="button" class="sr-btn" data-act="baseline" data-v="' + esc(v.v) + '">Make baseline</button> ') +
               '<button type="button" class="sr-btn" data-act="' + (hid ? 'unhide' : 'hide') + '" data-v="' + esc(v.v) + '">' + (hid ? 'Unhide' : 'Hide') + '</button></td></tr>';
           }).join('') + '</tbody></table></div>' : '<p class="sr-muted">No versions yet.</p>';
+        drawHistory();
       });
     }
+    // The latest HISTORY_MAX versions, read in full (cached), oldest first; hidden ones only when shown above.
+    var HISTORY_MAX = 40, historyTok = 0, lastHistory = null;
+    function drawHistory() {
+      var tok = ++historyTok, deal = state.deal;
+      lastHistory = null; $('sr-hist-print').disabled = $('sr-hist-csv').disabled = true;
+      if (!deal) { $('srHistory').innerHTML = '<p class="sr-muted">Pick a saved deal to see how its scenarios developed.</p>'; return; }
+      var show = $('sr-show-hidden').checked;
+      var list = state.versions.filter(function (v) { return show || state.hidden.indexOf(v.v) === -1; }).slice(0, HISTORY_MAX).reverse();
+      if (!list.length) { $('srHistory').innerHTML = '<p class="sr-muted">No versions yet.</p>'; return; }
+      $('srHistory').innerHTML = '<p class="sr-muted">Reading ' + list.length + ' version' + (list.length === 1 ? '' : 's') + '…</p>';
+      Promise.all(list.map(function (x) { return getVersion(x.v); })).then(function (vs) {
+        if (tok !== historyTok || state.deal !== deal) return;
+        if (vs.some(function (x) { return !x; })) { $('srHistory').innerHTML = '<p class="sr-flag">A version could not be read, so there is no history. Reload and try again.</p>'; return; }
+        var m = historyModel(rules, prop123, vs.map(function (x) {
+          return Object.assign({}, x, { n: state.num[x.v], baseline: state.baseline === x.v, hidden: state.hidden.indexOf(x.v) !== -1 });
+        }));
+        m.name = vs[vs.length - 1].name || 'Saved deal'; // the latest save names the deal
+        lastHistory = m;
+        $('srHistory').innerHTML = (state.versions.length > HISTORY_MAX ? '<p class="sr-muted">Showing the latest ' + HISTORY_MAX + ' of ' + state.versions.length + ' versions.</p>' : '') + historyHtml(m);
+        $('sr-hist-print').disabled = $('sr-hist-csv').disabled = false;
+      }, function () { if (tok === historyTok) $('srHistory').innerHTML = '<p class="sr-flag">A version could not be read, so there is no history. Reload and try again.</p>'; });
+    }
+    function historyFile() { return (lastHistory.name || 'deal').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'deal'; }
+    function download(name, type, text) {
+      var url = URL.createObjectURL(new Blob([text], { type: type }));
+      var a = doc.createElement('a'); a.href = url; a.download = name; doc.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    }
+    $('sr-hist-csv').addEventListener('click', function () {
+      if (lastHistory) download('scenario-history-' + historyFile() + '.csv', 'text/csv;charset=utf-8', historyCsv(lastHistory));
+    });
+    $('sr-hist-print').addEventListener('click', function () {
+      if (!lastHistory) return;
+      // Its own page, so the browser's Print or Save as PDF takes the history alone.
+      var html = historyPage(lastHistory.name, lastHistory, new Date().toLocaleString());
+      var w = window.open(URL.createObjectURL(new Blob([html], { type: 'text/html' })), '_blank');
+      if (!w) download('scenario-history-' + historyFile() + '.html', 'text/html', html);
+    });
     function getVersion(v) {
       var deal = state.deal, key = deal + '/' + v;
       if (state.cache[key]) return Promise.resolve(state.cache[key]);
@@ -1281,6 +1378,6 @@
 
   return { esc: esc, mixTotals: mixTotals, amiMidpoint: amiMidpoint, targetingPoints: targetingPoints, eliPoints: eliPoints, score: score,
     findJurisdiction: findJurisdiction, prop123Status: prop123Status, gapLane: gapLane, bumpOneUnit: bumpOneUnit, thresholdStatus: thresholdStatus,
-    mustPayCoverage: mustPayCoverage, creditCheck: creditCheck, stateCreditCheck: stateCreditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, changeLines: changeLines, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, taxCreditNote: taxCreditNote, SET_ASIDE: SET_ASIDE, HARD_COST_IDS: HARD_COST_IDS,
+    mustPayCoverage: mustPayCoverage, creditCheck: creditCheck, stateCreditCheck: stateCreditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, changeLines: changeLines, historyModel: historyModel, historyHtml: historyHtml, historyCsv: historyCsv, historyPage: historyPage, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, taxCreditNote: taxCreditNote, SET_ASIDE: SET_ASIDE, HARD_COST_IDS: HARD_COST_IDS,
     stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, STRESS: STRESS, RULES_URL: RULES_URL, API: API };
 });
