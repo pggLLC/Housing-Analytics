@@ -181,7 +181,7 @@ ok(!/<script/i.test(SR.compareTable(rules, prop123, [{ label: '<script>x</script
   ok(csv[3].includes(`"'=HYPERLINK(""x"")"`), 'a label that looks like a formula is defused in the CSV');
   ok(/<title>Scenario history: Invented Silt<\/title>/.test(SR.historyPage('Invented Silt', hm, 'today')) && SR.historyPage('<b>x</b>', hm, 'today').includes('&lt;b&gt;'), 'the printable page is titled with the escaped deal name');
   const he = SR.historyHtml({ rows: [], overall: '' });
-  ok(!/<li|<dl|sr-hist-overall/.test(he) && he.replace(/<[^>]*>/g, '').trim().length > 0, 'an empty deal shows a note and no version cards');
+  ok(!/<li|<dl|sr-hist-overall/.test(he) && /<p\b[^>]*>[^<]*\S[^<]*<\/p>/.test(he), 'an empty deal shows a note and no version cards');
   const S = Object.assign({}, B, { calculator: { stale: true } });
   ok(/no funding gap to compare, because v2 has none \(its unit mix or election changed/.test(SR.changeLines([A, S])[0]), 'a stale calculator result is not reported as a change');
   const Z0 = Object.assign({}, A, { engine: { totalDevelopmentCost: 20000000, fundingGap: 0 } }), Z1 = Object.assign({}, B, { engine: { totalDevelopmentCost: 21000000, fundingGap: 0 } });
