@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "description": "Public, generic deadlines the daily audit email lists when they fall in the next 14 days. Each entry is copied from a file already in this repo and links its official source. This repo is public: never add a private deal, an RFQ or a client name here.",
+    "updated": "2026-10-26",
+    "fields": {
+      "date": "YYYY-MM-DD",
+      "title": "what is due",
+      "source": "official https page",
+      "from": "repo file it was copied from",
+      "status": "optional, e.g. draft QAP date"
+    },
+    "maintenance": "When data/chfa-qap-calendar.json changes, update the matching entries here (test/daily-audit-operations.test.js checks they agree)."
+  },
+  "deadlines": [
+    {
+      "date": "2026-10-29",
+      "title": "CHFA: 2027 MIHTC Allocation Plan draft — public hearing (Zoom)",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing",
+      "from": "data/chfa-qap-calendar.json#2027-mihtc-plan-hearing"
+    },
+    {
+      "date": "2026-11-02",
+      "title": "CHFA: 2027 TOC Credit Allocation Plan draft — public hearing (Zoom)",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing",
+      "from": "data/chfa-qap-calendar.json#2027-toc-plan-hearing"
+    },
+    {
+      "date": "2026-11-02",
+      "title": "CHFA: 2027 TZ Credit Allocation Plan draft — public hearing (Zoom)",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing",
+      "from": "data/chfa-qap-calendar.json#2027-tz-plan-hearing"
+    },
+    {
+      "date": "2026-12-01",
+      "title": "CHFA: 2027 R1 (9% + State) — Letter of Intent due",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
+      "from": "data/chfa-qap-calendar.json#2027-r1-loi",
+      "status": "draft QAP date"
+    },
+    {
+      "date": "2026-12-15",
+      "title": "CHFA: 2026 R2 4% LIHTC + State Credit — awards announced",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
+      "from": "data/chfa-qap-calendar.json#2026-r2-awards"
+    },
+    {
+      "date": "2027-02-01",
+      "title": "CHFA: 2027 R1 9% LIHTC + State Credit — application deadline",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
+      "from": "data/chfa-qap-calendar.json#2027-r1-deadline",
+      "status": "draft QAP date"
+    },
+    {
+      "date": "2027-05-20",
+      "title": "CHFA: 2027 R1 9% LIHTC — awards announced",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
+      "from": "data/chfa-qap-calendar.json#2027-r1-awards"
+    },
+    {
+      "date": "2027-06-01",
+      "title": "CHFA: 2027 R2 (4% + State) — Letter of Intent due",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
+      "from": "data/chfa-qap-calendar.json#2027-r2-loi",
+      "status": "draft QAP date"
+    },
+    {
+      "date": "2027-08-02",
+      "title": "CHFA: 2027 R2 4% LIHTC + State Credit — application deadline",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
+      "from": "data/chfa-qap-calendar.json#2027-r2-deadline",
+      "status": "draft QAP date"
+    },
+    {
+      "date": "2027-12-01",
+      "title": "CHFA: 2028 R1 (9% + State) — Letter of Intent due",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
+      "from": "data/chfa-qap-calendar.json#2028-r1-loi",
+      "status": "draft QAP date"
+    },
+    {
+      "date": "2028-02-01",
+      "title": "CHFA: 2028 R1 9% LIHTC + State Credit — application deadline",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
+      "from": "data/chfa-qap-calendar.json#2028-r1-deadline",
+      "status": "draft QAP date"
+    },
+    {
+      "date": "2028-06-01",
+      "title": "CHFA: 2028 R2 (4% + State) — Letter of Intent due",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
+      "from": "data/chfa-qap-calendar.json#2028-r2-loi",
+      "status": "draft QAP date"
+    },
+    {
+      "date": "2028-08-01",
+      "title": "CHFA: 2028 R2 4% LIHTC + State Credit — application deadline",
+      "source": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
+      "from": "data/chfa-qap-calendar.json#2028-r2-deadline",
+      "status": "draft QAP date"
+    }
+  ]
+}
