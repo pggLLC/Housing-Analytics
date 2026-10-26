@@ -454,7 +454,7 @@ def parse_fomc(page: str) -> list[dict]:
     if 'FOMC Meetings' not in (page or '') or 'fomc-meeting__date' not in page:
         raise ValueError('FOMC calendar not found on the page')
     out = []
-    for year, panel in re.findall(r'(\d{4}) FOMC Meetings</a>(.*?)(?=\d{4} FOMC Meetings</a>|$)', page, re.S):
+    for year, panel in re.findall(r'(\d{4}) FOMC Meetings</a>(.*?)(?=\d{4} FOMC Meetings</a>|\Z)', page, re.S):
         for mon, days in re.findall(r'fomc-meeting__month[^>]*>\s*<strong>([^<]+)</strong>.*?'
                                     r'fomc-meeting__date[^>]*>([^<]+)<', panel, re.S):
             months = [m.strip().lower()[:3] for m in mon.split('/')]
