@@ -534,18 +534,19 @@
 
     <!-- ── F195 — Capital Event Waterfall (GP/LP split at exit) ─────────── -->
     <div data-dc-mode="rental" style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
-      <section class="hos-panel" aria-labelledby="dcWaterfallHeading">
-        <details id="dcWaterfallDetails">
+      <section class="hos-panel" aria-labelledby="dcWaterfallHeading" data-no-source="input: the partnership terms and the calculator's split">
+        <details id="dcWaterfallDetails" open>
           <summary style="cursor:pointer;font-weight:700;font-size:1.1rem;list-style:none;display:flex;align-items:center;gap:.5rem;">
-            <span id="dcWaterfallCaret" style="display:inline-block;font-size:.85rem;width:1rem;">▸</span>
-            <span id="dcWaterfallHeading">Capital Event Waterfall — GP/LP split at exit</span>
+            <span id="dcWaterfallCaret" style="display:inline-block;font-size:.85rem;width:1rem;">▾</span>
+            <span id="dcWaterfallHeading">Partnership structure, deal terms and exit split</span>
           </summary>
           <p style="font-size:.82rem;color:var(--muted);margin:.5rem 0 .75rem;">
-            How sale or refi proceeds at the end of the hold period flow through the partnership. Standard 6-tier waterfall:
-            (1) hard debt payoff → (2) soft debt by priority → (3) deferred dev fee → (4) LP return of capital + preferred return shortfall →
-            (5) GP catch-up → (6) residual split. Defaults match typical LIHTC closing conventions
-            (0.01%/99.99% during operations; 30/70 residual split with 8% pref).
+            Who puts money into the partnership, who owns it, and who gets paid each year and at the end of the hold.
+            Every term below is an input: change it and the split, the sponsor's return and the exit panel follow.
+            The defaults are a starting point, not your partnership agreement.
           </p>
+          <figure id="dcPartnershipStructure" class="diagram dg-partnership" aria-describedby="dcPartnershipStructureCaption"></figure>
+          <div id="dcDealTerms" class="dg-terms"></div>
           <div id="dcWaterfallControls" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px, 100%),1fr));gap:12px 18px;margin-top:.6rem;padding:.6rem .8rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.84rem;">
             <div>
               <label for="dc-wf-lp-equity" style="display:block;font-weight:600;margin-bottom:2px;">
@@ -582,6 +583,26 @@
                 <option value="full">Full GP catch-up (100% until balanced)</option>
               </select>
               <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">Most LIHTC deals skip catch-up because the LP's return is the tax credits, not cash.</div>
+            </div>
+            <div>
+              <label for="dc-wf-lp-ops-share" style="display:block;font-weight:600;margin-bottom:2px;">Investor share of yearly cash (%)</label>
+              <input id="dc-wf-lp-ops-share" type="number" min="0" max="100" step="0.01" value="99.99"
+                     style="width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);">
+              <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">Cash left after loan payments and the deferred fee, split by ownership. Typical LIHTC: investor 99.99%, sponsor 0.01%.</div>
+            </div>
+            <div>
+              <label for="dc-wf-exit" style="display:block;font-weight:600;margin-bottom:2px;">How the investor exits</label>
+              <select id="dc-wf-exit" style="width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);">
+                <option value="sale" selected>Sale, split by the waterfall</option>
+                <option value="buyout">Sponsor buys the investor out</option>
+              </select>
+              <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">Many agreements let the sponsor or a nonprofit buy the investor's interest after year 15 instead of selling.</div>
+            </div>
+            <div>
+              <label for="dc-wf-buyout" style="display:block;font-weight:600;margin-bottom:2px;">Buyout price paid to the investor ($)</label>
+              <input id="dc-wf-buyout" type="number" min="0" step="1000" placeholder="needed for a buyout"
+                     style="width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);">
+              <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">For the investor's interest, after the loans and the deferred fee. Under a <a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener">§42(i)(7)</a> right of first refusal the property price can be as low as the debt plus the investor's exit taxes. Use the price your agreement sets.</div>
             </div>
           </div>
           <div id="dcWaterfallTable" style="margin-top:.8rem;padding:.65rem .8rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.84rem;color:var(--text);"></div>

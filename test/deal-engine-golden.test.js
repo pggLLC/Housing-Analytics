@@ -58,7 +58,7 @@ async function run() {
       if (scenario === 'B') assert(captured.figures['dc-su-impact-note'].includes('$0/yr'), 'L1 accrued loan has no regular payment');
       if (!record) {
         const expected = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
-        if (scenario !== 'C') assert.deepEqual(captured.figures, require('./helpers/deal-engine-g-expected.cjs')(scenario, require('./helpers/deal-engine-b1-expected.cjs')(scenario, require('./helpers/deal-engine-l1-expected.cjs')(scenario, expected.scenarios[scenario].figures))), `scenario ${scenario}: every displayed figure is unchanged`);
+        if (scenario !== 'C') assert.deepEqual(captured.figures, require('./helpers/deal-engine-p-expected.cjs')(scenario, require('./helpers/deal-engine-g-expected.cjs')(scenario, require('./helpers/deal-engine-b1-expected.cjs')(scenario, require('./helpers/deal-engine-l1-expected.cjs')(scenario, expected.scenarios[scenario].figures)))), `scenario ${scenario}: every displayed figure is unchanged`);
         else for (const id of ['dc-r-noi-stab', 'dc-r-mortgage', 'dc-su-gap', 'dc-exit-noi', 'dc-exit-resale']) assert(captured.figures[id].includes('Enter the operating budget'), id + ': C has the missing-cost reason');
         const contract = await page.evaluate(() => {
           const expected = window.__DealCalc.getResult();
@@ -105,7 +105,7 @@ async function run() {
   if (record) fs.writeFileSync(fixturePath, JSON.stringify(result, null, 2) + '\n');
   else {
     const expected = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
-    for (const scenario of ['A', 'B']) assert.deepEqual(result.scenarios[scenario].figures, require('./helpers/deal-engine-g-expected.cjs')(scenario, require('./helpers/deal-engine-b1-expected.cjs')(scenario, require('./helpers/deal-engine-l1-expected.cjs')(scenario, expected.scenarios[scenario].figures))), `scenario ${scenario}: every displayed figure is unchanged`);
+    for (const scenario of ['A', 'B']) assert.deepEqual(result.scenarios[scenario].figures, require('./helpers/deal-engine-p-expected.cjs')(scenario, require('./helpers/deal-engine-g-expected.cjs')(scenario, require('./helpers/deal-engine-b1-expected.cjs')(scenario, require('./helpers/deal-engine-l1-expected.cjs')(scenario, expected.scenarios[scenario].figures)))), `scenario ${scenario}: every displayed figure is unchanged`);
     console.log('deal-engine golden: PASS (invented A/B pinned with explicit L1 accrue-loan corrections; C blocks missing operating cost)');
   }
 }

@@ -1,5 +1,5 @@
 /**
- * deal-diagrams.js — two drawn diagrams on the Deal Calculator's Deal step.
+ * deal-diagrams.js — drawn diagrams on the Deal Calculator's Deal step.
  *
  * Capital stack bar: total development cost as one bar, split into the
  * sources the Sources & Uses table counts (first mortgage, federal, state and
@@ -11,7 +11,11 @@
  * starts where the one above it ended, so the bar shows how far down the
  * ladder the sale proceeds reach.
  *
- * Both read the deal-engine result that js/deal-calculator.js publishes on
+ * Partnership structure: who puts money into the partnership (investor,
+ * sponsor, lenders), who owns it, what is paid each year and at the exit, and
+ * what each side gets back, with the deal terms that drive it listed beside.
+ *
+ * All read the deal-engine result that js/deal-calculator.js publishes on
  * every recalculation ('deal-calc:updated'); neither changes a figure.
  */
 (function (root, factory) {
@@ -110,17 +114,22 @@
     if (!wf || !known(wf.grossProceeds)) return null;
     var gross = wf.grossProceeds, start = 0, reached = null, splitStart = null;
     var steps = wf.tiers.map(function (t, i) {
-      var amt = known(t.amount) ? Math.max(0, t.amount) : 0;
+      // A negative step is money the sponsor puts in (a buyout price above the
+      // value left), not a payout: it is shown as an amount, with no bar.
+      var funded = known(t.amount) && t.amount < 0;
+      var amt = known(t.amount) ? Math.abs(t.amount) : 0;
+      // A bar never runs past the sale proceeds; any part paid beyond them is the sponsor's money.
+      var drawn = funded ? 0 : Math.max(0, Math.min(amt, gross - start));
       // A tier paid nothing either had nothing owed or came after the money ran out.
       // The residual split steps (6a GP, 6b LP) are shares of one balance paid at the
       // same time, not one after the other, so they sit side by side in one band.
       var split = /Residual split/i.test(t.name);
       if (split && splitStart === null) splitStart = start;
-      var s = { name: t.name, recipient: t.recipient, amount: amt, cls: PARTY_CLASS[t.recipient] || 'dg-seg--cs7', split: split,
+      var s = { name: t.name, recipient: t.recipient, amount: amt, funded: funded, cls: PARTY_CLASS[t.recipient] || 'dg-seg--cs7', split: split,
         empty: amt > 0 ? null : gross - (split && splitStart !== null ? splitStart : start) > 0.5 ? 'None owed' : 'Nothing left',
-        left: gross > 0 ? start / gross : 0, width: gross > 0 ? amt / gross : 0 };
-      start += amt;
-      if (amt > 0) reached = i;
+        left: gross > 0 ? start / gross : 0, width: gross > 0 ? drawn / gross : 0 };
+      start += drawn;
+      if (amt > 0 && !funded) reached = i;
       return s;
     });
     var last = reached === null ? null : steps[reached].name;
@@ -133,12 +142,99 @@
       return '<li class="dg-ladder__step"' + (paid ? '' : ' data-empty="true"') + '>' +
         '<span class="dg-ladder__name">' + esc(s.name) + '<span class="dg-ladder__who">' + esc(s.recipient) + (s.split ? ', a share of the residual paid at the same time as the other share' : '') + '</span></span>' +
         '<span class="dg-ladder__track" aria-hidden="true"><span class="dg-ladder__bar ' + s.cls + '" style="left:' + (s.left * 100).toFixed(2) + '%;width:' + (s.width * 100).toFixed(2) + '%"></span></span>' +
-        '<span class="dg-ladder__amt">' + (paid ? money(s.amount) : s.empty) + '</span>' +
+        '<span class="dg-ladder__amt">' + (s.funded ? 'Sponsor pays ' + money(s.amount) + ' of its own' : paid ? money(s.amount) : s.empty) + '</span>' +
       '</li>';
     }).join('');
     return '<p class="diagram__title">Where the sale money goes, step by step</p>' +
       '<p class="dg-ladder__gross">Sale proceeds: <strong>' + money(m.gross) + '</strong></p>' +
       '<ol class="dg-ladder">' + rows + '</ol>';
+  }
+
+  // ── Partnership structure and deal terms ─────────────────────────────
+  // Who puts money in, who owns the partnership, and who is paid each year
+  // and at the exit, from the same result the split below uses.
+  function pctTerm(v, digits) { return known(v) ? +(v * 100).toFixed(digits == null ? 1 : digits) + '%' : 'Unavailable'; }
+  function structureModel(result) {
+    if (!result) return null;
+    var wf = result.waterfall, t = result.partnershipTerms || {}, un = result.unavailable || {};
+    var exit = result.exit || {};
+    var lpEquity = wf ? wf.lpEquity : (known(t.lpEquityOverride) && t.lpEquityOverride > 0 ? t.lpEquityOverride : NaN);
+    return {
+      units: result.units, tdc: result.tdc, lpEquity: lpEquity, autoLp: !(t.lpEquityOverride > 0),
+      annualCredits: result.annualCredits, fee: result.deferredDevFee, mortgage: result.mortgage,
+      softLoans: result.totalLoanPrincipal, grants: result.totalGrant,
+      lpShare: t.lpOpsShare, terms: t, wf: wf, hold: exit.holdYears, cap: exit.exitCap,
+      reason: wf ? null : (un.waterfall || 'The partnership split is unavailable for these inputs.')
+    };
+  }
+  function box(cls, who, lines) {
+    return '<div class="dg-ps__box ' + cls + '"><p class="dg-ps__who">' + esc(who) + '</p><ul>' +
+      lines.filter(Boolean).map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ul></div>';
+  }
+  function renderStructure(m) {
+    var t = m.terms, wf = m.wf, buyout = t.exit === 'buyout';
+    var lenders = ['First mortgage <strong>' + money(m.mortgage) + '</strong>'];
+    if (known(m.softLoans) && m.softLoans > 0) lenders.push('Soft loans <strong>' + money(m.softLoans) + '</strong>');
+    if (known(m.grants) && m.grants > 0) lenders.push('Grants <strong>' + money(m.grants) + '</strong>');
+    lenders.push('Paid first, every year and at the exit');
+    var top = '<div class="dg-ps__row">' +
+      box('dg-ps__box--lp', 'Tax credit investor (limited partner)', [
+        'Pays <strong>' + money(m.lpEquity) + '</strong> for the credits' + (m.autoLp ? '' : ' (entered)'),
+        known(m.annualCredits) ? 'Receives the federal credits: <strong>' + money(m.annualCredits) + '</strong> a year for 10 years' : null,
+        'Owns <strong>' + pctTerm(m.lpShare, 2) + '</strong>']) +
+      box('dg-ps__box--gp', 'Sponsor (general partner)', [
+        'Leaves <strong>' + money(m.fee) + '</strong> of its fee in the deal',
+        'Owns <strong>' + pctTerm(known(m.lpShare) ? 1 - m.lpShare : NaN, 2) + '</strong>, builds and manages',
+        'Guarantees completion and operations (not modeled)']) +
+      box('dg-ps__box--lender', 'Lenders', lenders) +
+      '</div>';
+    var core = '<div class="dg-ps__arrow" aria-hidden="true">&#8595;</div>' +
+      '<div class="dg-ps__core"><strong>The partnership owns the property</strong>' +
+      (known(m.units) ? ' · ' + m.units + ' homes' : '') + (known(m.tdc) ? ' · total cost ' + money(m.tdc) : '') + '</div>' +
+      '<div class="dg-ps__arrow" aria-hidden="true">&#8595;</div>';
+    var yearly = box('dg-ps__box--year', 'Every year', [
+      '1. Loan payments',
+      '2. Cash left repays the sponsor’s deferred fee',
+      '3. Anything after that: <strong>' + pctTerm(m.lpShare, 2) + '</strong> investor, <strong>' + pctTerm(known(m.lpShare) ? 1 - m.lpShare : NaN, 2) + '</strong> sponsor']);
+    var exitLines;
+    if (!wf) exitLines = ['Unavailable: ' + esc(m.reason)];
+    else {
+      var pick = function (re) { var x = wf.tiers.filter(function (tr) { return re.test(tr.name); }); return x.reduce(function (a, tr) { return a + (known(tr.amount) ? tr.amount : 0); }, 0); };
+      exitLines = [
+        (buyout ? 'Property value ' : 'Sale price ') + '<strong>' + money(wf.grossProceeds) + '</strong>' + (known(m.hold) ? ' in year ' + m.hold : ''),
+        'Loans repaid: <strong>' + money(pick(/debt payoff/i)) + '</strong>',
+        'Rest of the deferred fee: <strong>' + money(pick(/Deferred developer fee/i)) + '</strong>',
+        buyout ? 'Investor sells its interest for <strong>' + money(wf.lpTotal) + '</strong>' : 'Investor: <strong>' + money(wf.lpTotal) + '</strong> (its capital back first, then its preferred return and ' + pctTerm(1 - wf.gpResidualPct, 0) + ' of what is left)',
+        buyout ? (pick(/buyout shortfall/i) < 0 ? 'Sponsor pays <strong>' + money(-pick(/buyout shortfall/i)) + '</strong> of its own, because the price is more than the value left' : 'Sponsor keeps the property, worth <strong>' + money(pick(/Value the sponsor keeps/i)) + '</strong> after the above') : 'Sponsor: <strong>' + money(pick(/catch-up|Residual split — GP/i)) + '</strong> more (' + pctTerm(wf.gpResidualPct, 0) + ' of what is left)'];
+    }
+    var exitBox = box('dg-ps__box--exit', buyout ? 'At the exit: sponsor buys the investor out' : t.exit === 'sale' ? 'At the exit: sale, split by the waterfall' : 'At the exit: unavailable', exitLines);
+    var res = !wf ? null : box('dg-ps__box--result', 'What each side gets back', [
+      'Sponsor: <strong>' + money(wf.sponsorCash) + '</strong> on its <strong>' + money(wf.sponsorIn) + '</strong> deferred fee = <strong>' + (known(wf.sponsorIrr) ? pctTerm(wf.sponsorIrr) : 'unavailable') + '</strong> a year',
+      'Investor: <strong>' + money(wf.lpTotal) + '</strong> of cash at the exit, plus the credits and tax losses, which are its main return']);
+    return '<p class="diagram__title">Partnership structure</p><div class="dg-ps">' + top + core +
+      '<div class="dg-ps__row">' + yearly + exitBox + (res || '') + '</div></div>';
+  }
+  function termRow(term, value, note, unused) {
+    return '<tr' + (unused ? ' data-unused="true"' : '') + '><th scope="row">' + esc(term) + '</th><td>' + value + '</td><td>' + esc(unused ? 'Not used: ' + unused : note) + '</td></tr>';
+  }
+  function renderTerms(m) {
+    // A choice the engine rejected (null) reads unavailable, never as a default.
+    var t = m.terms, buyout = t.exit === 'buyout', sale = t.exit === 'sale', saleOnly = buyout ? 'the investor is bought out, so this sale term does not apply.' : null;
+    var rows = [
+      termRow('Investor equity', money(m.lpEquity), m.autoLp ? 'Automatic: what the investor pays for the credits. Enter an amount below to change it.' : 'Entered below.'),
+      termRow('Ownership and yearly cash split', pctTerm(t.lpOpsShare, 2) + ' investor / ' + pctTerm(known(t.lpOpsShare) ? 1 - t.lpOpsShare : NaN, 2) + ' sponsor', 'Applies to cash left after loan payments and the deferred fee. Set below.'),
+      termRow('Deferred developer fee', money(m.fee), 'Repaid from yearly cash before any split; the sale pays what is left. Set by the fee and gap in the sources above.'),
+      termRow('Hold period', known(m.hold) ? m.hold + ' years' : 'Unavailable', 'Set in the exit panel.'),
+      termRow('Exit cap rate', known(m.cap) ? pctTerm(m.cap, 2) : 'Unavailable', 'Set in the exit panel. Price = sale-year NOI ÷ cap.'),
+      termRow('How the investor exits', buyout ? 'Sponsor buys the investor out' : sale ? 'Sale, split by the waterfall' : 'Unavailable', 'Set below.'),
+      termRow('Buyout price', buyout ? money(t.buyoutPrice) : sale ? '—' : 'Unavailable', 'Paid to the investor for its interest. Set below.', sale ? 'the property is sold, not bought out.' : null),
+      termRow('Investor preferred return', pctTerm(t.prefRate), 'Accrues each year on the investor’s equity and is paid from the sale. Set below.', saleOnly),
+      termRow('Sponsor catch-up', t.catchup === 'full' ? 'Full catch-up' : t.catchup === 'none' ? 'None' : 'Unavailable', 'Set below.', saleOnly),
+      termRow('Residual split', pctTerm(t.gpResidualPct, 0) + ' sponsor / ' + pctTerm(known(t.gpResidualPct) ? 1 - t.gpResidualPct : NaN, 0) + ' investor', 'What is left of the sale after the steps above. Set below.', saleOnly)
+    ].join('');
+    return '<p class="diagram__title">Deal terms used</p>' +
+      '<div class="dg-terms__scroll"><table data-no-sort class="dg-terms__table"><thead><tr><th scope="col">Term</th><th scope="col">Value</th><th scope="col">Where it comes from</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      (m.reason ? '<p data-dg="unavailable">Split unavailable: ' + esc(m.reason) + '</p>' : '');
   }
 
   // One spoken line for both diagrams, read out politely when it changes.
@@ -178,6 +274,11 @@
           '<figcaption>Each piece is a figure from the Sources &amp; Uses table below, drawn to scale against the total development cost. ' +
           'A hatched piece is the gap the listed sources do not cover.</figcaption>';
       }
+      var ps = doc.getElementById('dcPartnershipStructure'), terms = doc.getElementById('dcDealTerms');
+      var pm = structureModel(result);
+      if (ps) ps.innerHTML = pm ? renderStructure(pm) + '<figcaption id="dcPartnershipStructureCaption">Every figure is from this deal\'s calculation and the deal terms listed below. ' +
+        'It shows cash only: the investor\'s main return, the tax credits and losses, is listed but not priced.</figcaption>' : '<p data-dg="unavailable">Unavailable: the deal calculation is unavailable.</p>';
+      if (terms) terms.innerHTML = pm ? renderTerms(pm) : '';
       var table = doc.getElementById('dcWaterfallTable');
       if (table) {
         var lad = doc.getElementById('dcWaterfallLadder');
@@ -199,5 +300,6 @@
 
   if (typeof document !== 'undefined') mount(document);
 
-  return { stackModel: stackModel, renderStack: renderStack, summary: summary, ladderModel: ladderModel, renderLadder: renderLadder, money: money };
+  return { stackModel: stackModel, renderStack: renderStack, summary: summary, ladderModel: ladderModel, renderLadder: renderLadder,
+    structureModel: structureModel, renderStructure: renderStructure, renderTerms: renderTerms, money: money };
 }));
