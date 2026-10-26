@@ -346,6 +346,11 @@ html.dark-mode .footer-col a:hover { color: #e4f0fc; }
     max-width: 8rem;
   }
 
+  /* Member pages: no jurisdiction chip on a phone (navigation.js sets the class). */
+  .site-header--member .jurisdiction-pill-wrap {
+    display: none;
+  }
+
   .nav-search {
     flex: 0 0 44px;
     width: 44px;
