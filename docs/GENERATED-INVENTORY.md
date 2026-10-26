@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T11:27:28.823Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T11:32:10.171Z. Do not edit by hand.
 
 ---
 
@@ -12,7 +12,7 @@
 |------|-------|------|
 | `404.html` | Page not found | COHO Analytics | 3.4 KB |
 | `LIHTC-dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
-| `about.html` | About | COHO Analytics | 19.4 KB |
+| `about.html` | About | COHO Analytics | 19.3 KB |
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.7 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 47.5 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.0 KB |
@@ -119,7 +119,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 635.8 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 638.5 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 545 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -2023,7 +2023,7 @@
 | `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.4 KB | ✅ | — |
-| `data/polymarket-history.json` | 176.5 KB | ✅ | — |
+| `data/polymarket-history.json` | 178.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
