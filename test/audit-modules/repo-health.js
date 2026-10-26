@@ -3,6 +3,14 @@
 const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
+const { collectPrProgress } = require('./pr-progress');
+const {
+    collectAccuracy,
+    collectDataWorkflows,
+    collectDeadlines,
+    collectMemberSite,
+    collectReviewFollowups,
+} = require('./operations-status');
 
 const ROOT = path.join(__dirname, '..', '..');
 const WORKFLOWS_DIR = path.join(ROOT, '.github', 'workflows');
@@ -140,7 +148,15 @@ function createGithubClient({ token, fetchImpl = fetch, env = process.env, timeo
         return data.data;
     }
 
-    return { json, paginate, graphql };
+    /**
+     * A JSON document outside the GitHub API, read without the token (it must
+     * never leave GitHub). Same timeout and retry policy as every other call.
+     */
+    async function external(url) {
+        return requestWithRetry(fetchImpl, url, { headers: { 'Accept': 'application/json', 'User-Agent': 'housing-analytics-daily-audit' } }, url, timeoutMs);
+    }
+
+    return { json, paginate, graphql, external };
 }
 
 function parseScheduledWorkflows() {
@@ -620,7 +636,26 @@ function unavailableCheck(name, summary, details) {
 async function collectRepoHealth({ env = process.env, fetchImpl = fetch, now = Date.now(), timeoutMs = REQUEST_TIMEOUT_MS } = {}) {
     const repoSlug = parseRepositorySlug(env);
     const token = env.GITHUB_TOKEN || '';
-    const empty = { issues: [], actions: null, pullRequests: null, issueInventory: null };
+    const empty = {
+        issues: [],
+        actions: null,
+        pullRequests: null,
+        prProgress: null,
+        dataWorkflows: null,
+        memberSite: null,
+        reviewFollowups: null,
+        accuracy: null,
+        issueInventory: null,
+        deadlines: null,
+    };
+    // Deadlines are a file in the checkout, so they are read with or without
+    // a token; a malformed file is unavailable like any other section.
+    const localChecks = [];
+    try {
+        empty.deadlines = collectDeadlines(now);
+    } catch (err) {
+        localChecks.push(unavailableCheck('Upcoming Deadlines', 'data/deadlines.json unreadable', err && err.message ? err.message : String(err)));
+    }
 
     if (!repoSlug) {
         return {
@@ -631,30 +666,38 @@ async function collectRepoHealth({ env = process.env, fetchImpl = fetch, now = D
                 status: 'skipped',
                 summary: 'GITHUB_REPOSITORY not set',
                 details: 'Repository context was unavailable outside GitHub Actions.',
-            }],
+            }, ...localChecks],
         };
     }
 
     if (!token) {
         return {
             ...empty,
-            checks: [unavailableCheck('Repository Health Summary', 'GitHub API token missing', 'GITHUB_TOKEN was not set.')],
+            checks: [unavailableCheck('Repository Health Summary', 'GitHub API token missing', 'GITHUB_TOKEN was not set.'), ...localChecks],
         };
     }
 
     const { owner, repo } = repoSlug;
     const client = createGithubClient({ token, fetchImpl, env, timeoutMs });
-    const result = { ...empty, checks: [] };
+    const result = { ...empty, checks: [...localChecks] };
+    const ctx = { env };
+    // A section whose check is null is informational: it shows in the email
+    // but adds no row to Audit Health unless it could not be read.
     const sections = [
         { key: 'actions', name: 'GitHub Actions Health', collect: collectActionsHealth },
         { key: 'pullRequests', name: 'Pull Request Triage', collect: collectPullRequestHealth },
+        { key: 'prProgress', name: 'Pull Request Progress', collect: collectPrProgress },
+        { key: 'dataWorkflows', name: 'Scheduled Data Workflows', collect: collectDataWorkflows },
+        { key: 'memberSite', name: 'Member Site Deploy', collect: collectMemberSite },
+        { key: 'reviewFollowups', name: 'Review Follow-ups', collect: collectReviewFollowups },
+        { key: 'accuracy', name: 'Source & Figure Accuracy', collect: collectAccuracy },
         { key: 'issueInventory', name: 'Issues Inventory', collect: collectIssueHealth },
     ];
     for (const section of sections) {
         try {
-            const out = await section.collect(owner, repo, client, now);
+            const out = await section.collect(owner, repo, client, now, ctx);
             result.issues = result.issues.concat(out.issues);
-            result.checks.push(out.check);
+            if (out.check) result.checks.push(out.check);
             result[section.key] = out.summary;
         } catch (err) {
             const message = err && err.message ? err.message : String(err);

@@ -103,7 +103,9 @@ function healthyRoutes({ runs = [], openIssues = [], closedIssues = [], prPages 
 run('a network outage makes every repo-health section unavailable and null, and the job still passes', async () => {
     const { fetchImpl } = fakeGithub([[() => true, () => { throw new Error('ECONNRESET'); }]]);
     const health = await collectRepoHealth({ env: ENV, fetchImpl, now: NOW });
-    assert.equal(health.checks.length, 3, 'one check per section, so the report shows which part is missing');
+    // Six GitHub-backed sections. Member Site Deploy reads nothing without
+    // MEMBER_SITE_BUILD_URL, and Source & Figure Accuracy keeps its local half.
+    assert.equal(health.checks.length, 6, 'one check per section, so the report shows which part is missing');
     for (const check of health.checks) {
         assert.equal(check.status, 'unavailable', check.name);
         assert.equal(check.critical, false, check.name + ' must not be critical: an API outage is not a site defect');
@@ -112,6 +114,12 @@ run('a network outage makes every repo-health section unavailable and null, and 
     assert.equal(health.actions, null);
     assert.equal(health.pullRequests, null);
     assert.equal(health.issueInventory, null);
+    assert.equal(health.prProgress, null);
+    assert.equal(health.dataWorkflows, null);
+    assert.equal(health.reviewFollowups, null);
+    assert.ok(health.accuracy && health.accuracy.urlHealth, 'the committed URL sweep state still shows when GitHub is down');
+    assert.equal(health.accuracy.sweep, null, 'and the unread half is null, not "never run"');
+    assert.ok(health.deadlines, 'deadlines are a file in the checkout, read whatever the API does');
     assert.deepEqual(health.issues, [], 'an outage is not a finding');
     const auditHealth = summarizeChecks(health.checks);
     assert.equal(auditExitCode({ critical: 0 }, auditHealth), 0,
@@ -137,7 +145,8 @@ run('a rate limit is named as one and is not retried; a 5XX is retried once', as
     const limited = fakeGithub([[() => true, () => response(403, {}, { 'x-ratelimit-remaining': '0' })]]);
     const health = await collectRepoHealth({ env: ENV, fetchImpl: limited.fetchImpl, now: NOW });
     assert.match(health.checks[0].details, /rate limit/i, 'the reader must be told why the section is missing');
-    assert.equal(limited.calls.length, 3, 'one call per section: a 403 will not clear in a second');
+    // One per section, two for Source & Figure Accuracy (sweep run + issues).
+    assert.equal(limited.calls.length, 8, 'one call per request: a 403 will not clear in a second');
 
     let first = true;
     const routes = healthyRoutes();
@@ -164,7 +173,7 @@ run('a GitHub API call that never answers times out, is retried once, then goes 
         assert.equal(check.status, 'unavailable', check.name);
         assert.match(check.details, /timed out/, 'the reason travels with the status');
     }
-    assert.equal(hung.calls.length, 6, 'each section: one attempt plus one retry');
+    assert.equal(hung.calls.length, 16, 'each request: one attempt plus one retry');
 
     // A stall on the first attempt only is recovered by the retry.
     const routes = healthyRoutes();
