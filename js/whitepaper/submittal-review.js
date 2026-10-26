@@ -1170,13 +1170,17 @@
         $('srStore').textContent = store.mode() === 'server' ? 'Saved to your own login on the developer site; teammates do not see your deals. A save never overwrites an earlier version.' : 'The save service is not reachable, so versions are kept on this device only.';
       });
     }
+    // Only the latest list read draws; an older one (from before a delete, say) hands over to it.
+    var listTok = 0, listLatest = null;
     function refreshVersions() {
       clearHistory(); // the last deal's history must not stay on screen or export while another loads
       $('sr-delete-deal').hidden = !state.deal;
+      var tok = ++listTok;
       if (!state.deal) { $('srVersions').innerHTML = '<p class="sr-muted">Save this deal to start its version list.</p>'; drawHistory(); return Promise.resolve(); }
       var deal = state.deal;
-      return store.versions(deal).then(function (res) {
+      return (listLatest = store.versions(deal).then(function (res) {
         if (state.deal !== deal) return; // another deal was picked while this loaded
+        if (tok !== listTok) return listLatest;
         state.versions = res.versions; state.hidden = res.hidden || []; state.baseline = res.baseline || '';
         // Newest first from the server; number them oldest first, hidden ones included, so a number never shifts.
         state.num = {}; res.versions.forEach(function (v, i) { state.num[v.v] = res.versions.length - i; });
@@ -1195,7 +1199,7 @@
               '<button type="button" class="sr-btn" data-act="purge" data-v="' + esc(v.v) + '" aria-label="Delete v' + state.num[v.v] + ' for good">Delete</button></td></tr>';
           }).join('') + '</tbody></table></div>' : '<p class="sr-muted">No versions yet.</p>';
         drawHistory();
-      });
+      }));
     }
     // The latest HISTORY_MAX versions, read in full (cached), oldest first; hidden ones only when shown above.
     var HISTORY_MAX = 40, historyTok = 0, lastHistory = null;

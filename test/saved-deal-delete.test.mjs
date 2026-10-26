@@ -201,6 +201,23 @@ function names(b) {
   store.versions = real;
 }
 
+// Codex review on 343dc44: a version-list read from before a delete, answered after it, does not bring the deleted version back.
+{
+  const p = await page(() => true);
+  const { $, store, pick, btn, ids } = p;
+  await pick(ids.a1.deal);
+  const real = store.versions.bind(store); let release;
+  store.versions = (deal) => (!release ? real(deal).then((res) => new Promise((r) => { release = () => r(res); })) : real(deal));
+  $('sr-show-hidden').checked = true; $('sr-show-hidden').dispatchEvent(new p.w.Event('change')); await tick();
+  ok(typeof release === 'function', 'non-vacuous: a list read is out when the delete starts');
+  btn('purge', ids.a2.v).click(); await tick(); await tick(); await tick();
+  release(); await tick(); await tick(); await tick();
+  store.versions = real;
+  ok(!btn('purge', ids.a2.v) && btn('purge', ids.a3.v), 'the deleted version stays off the list');
+  ok(!(await store.versions(ids.a1.deal)).versions.some((x) => x.v === ids.a2.v), 'and out of the store');
+  ok(!$('sr-hist-csv').disabled, 'the scenario history still builds, so it can be exported: ' + $('srHistory').textContent.slice(0, 80));
+}
+
 // A browser that blocks dialogs deletes nothing.
 {
   const p = await page(() => { throw new Error('blocked'); });
