@@ -50,6 +50,7 @@
 import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
+import { arriveUrl } from './lib/arrive-with.mjs';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -62,7 +63,9 @@ const COVERAGE_PATH = path.join(__dirname, 'chart-axes-coverage.json');
 const WRITE_COVERAGE = process.argv.includes('--write-coverage');
 const REPORT_DIR = path.join(ROOT, 'audit-report', 'chart-axes');
 
-// Pages whose charts only render for a chosen geography get one here.
+// Pages whose charts only render for a chosen geography get one here. The
+// other HNA chapters open on Colorado statewide (lib/arrive-with.mjs), as they
+// loaded before the HNA started on "pick a place" (2026-10-26).
 const PAGE_URLS = {
   'housing-needs-assessment.html': 'housing-needs-assessment.html?geoType=county&geoid=08001&auto=1',
   // No projection before a place loads (#2288); audit Mesa County, as
@@ -308,7 +311,7 @@ async function main() {
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const tab = await ctx.newPage();
     try {
-      await tab.goto(BASE_URL + '/' + (PAGE_URLS[page] || page), { waitUntil: 'load', timeout: TIMEOUT });
+      await tab.goto(BASE_URL + '/' + (PAGE_URLS[page] || arriveUrl(page)), { waitUntil: 'load', timeout: TIMEOUT });
       await tab.waitForTimeout(SETTLE_MS);
       // Scroll through once so lazy (IntersectionObserver) charts paint.
       await tab.evaluate(async () => {
