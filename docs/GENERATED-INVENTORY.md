@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T15:44:08.827Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T15:59:26.637Z. Do not edit by hand.
 
 ---
 
@@ -42,7 +42,7 @@
 | `developer-methods.html` | Methodology — COHO Analytics | 7.4 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.8 KB |
 | `developer-round-watch.html` | Next Round Watch — COHO Analytics | 10.5 KB |
-| `developer-submittal-review.html` | Submittal Review — COHO Analytics | 15.7 KB |
+| `developer-submittal-review.html` | Submittal Review — COHO Analytics | 15.8 KB |
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 34.8 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 19.7 KB |
@@ -2049,7 +2049,7 @@
 
 ## Test Files
 
-723 test files found.
+724 test files found.
 
 | File | Size |
 |------|------|
@@ -2578,6 +2578,7 @@
 | `test/runtime-contrast-scanner-errors.test.mjs` | 7.7 KB |
 | `test/runtime-contrast-scanner-fixtures.test.mjs` | 8.1 KB |
 | `test/sale-price-evidence-is-named.test.mjs` | 16.3 KB |
+| `test/saved-deal-delete.test.mjs` | 15.7 KB |
 | `test/scenario-baseline-reproduces-sdo.test.js` | 12.4 KB |
 | `test/scenario-builder-loaded-geography.test.js` | 11.1 KB |
 | `test/scenario-presets-shared.test.js` | 5.7 KB |
@@ -2614,7 +2615,7 @@
 | `test/step-count-agreement.test.mjs` | 7.5 KB |
 | `test/step-labels-agree.test.mjs` | 5.5 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
-| `test/submittal-review.test.mjs` | 52.6 KB |
+| `test/submittal-review.test.mjs` | 52.7 KB |
 | `test/table-export-rendered.test.js` | 16.1 KB |
 | `test/table-export.test.js` | 25.3 KB |
 | `test/table-header-tips.test.js` | 9.2 KB |
