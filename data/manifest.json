@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-26T15:08:50.446246Z",
+  "generated": "2026-10-26T15:44:47.122595Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1015464
+      "bytes": 1015469
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9619,7 +9619,7 @@
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 17614
+      "bytes": 31502
     },
     "data/policy/housing-events-curated.json": {
       "featureCount": 0,

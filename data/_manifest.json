@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-26T15:08:45.928Z",
+    "generated_at": "2026-10-26T15:44:43.389Z",
     "root": "data/",
     "file_count": 1993,
-    "total_size_bytes": 205806699,
+    "total_size_bytes": 205820587,
     "kinds": {
       "json": 1945,
       "geojson": 34,
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-26T15:08:41.693Z",
+      "mtime": "2026-10-26T15:44:39.252Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39705,7 +39705,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-26T15:08:43.781Z",
+      "mtime": "2026-10-26T15:44:41.009Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39729,7 +39729,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-26T15:08:43.253Z",
+      "mtime": "2026-10-26T15:44:40.527Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42022,30 +42022,31 @@
     {
       "path": "policy/homeownership-programs.json",
       "kind": "json",
-      "size_bytes": 17614,
-      "mtime": "2026-10-20T11:11:41.603Z",
+      "size_bytes": 31502,
+      "mtime": "2026-10-26T15:43:50.409Z",
       "shape": "object",
       "keys": [
         "schema",
         "meta",
-        "programs"
+        "programs",
+        "local_help",
+        "local_help_meta"
       ],
-      "key_count": 3,
-      "primary_array_key": "programs",
-      "primary_array_length": 14,
+      "key_count": 5,
+      "primary_array_key": "local_help",
+      "primary_array_length": 20,
       "primary_array_first_keys": [
         "id",
         "name",
-        "level",
-        "kind",
-        "status",
-        "plain_summary",
-        "who_its_for",
-        "what_its_worth",
-        "benefit_amount",
-        "benefit_unit",
-        "how_to_start",
-        "source_url"
+        "area",
+        "region",
+        "offers",
+        "phone",
+        "url",
+        "source_url",
+        "source_note",
+        "last_verified",
+        "review_by"
       ]
     },
     {
