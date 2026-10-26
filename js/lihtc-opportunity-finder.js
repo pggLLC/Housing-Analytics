@@ -820,7 +820,18 @@
       }
       return next();
     }
-    return Promise.all([
+    // Loaded beside the main list so its indices stay put. ACS margins of error by place: a place whose
+    // renter-household count is "use with caution" (CV over 0.30) scores need from its county.
+    // Qualifying renters and tax-credit homes within 15 miles of each place, from the Market
+    // analysis engine (scripts/market/build_finder_demand.mjs).
+    var thinData = Promise.all([
+      loadSoft('data/hna/acs-reliability.json'),
+      loadSoft('data/market/finder-place-demand.json')
+    ]).then(function (got) {
+      state.acsReliability = (got[0] && got[0].geos) || {};
+      state.placeDemand = got[1] || null;
+    });
+    return Promise.all([thinData, Promise.all([
       loadJson('data/qct-colorado.json'),
       loadJson('data/dda-colorado.json'),
       loadFirstJson(['data/chfa-lihtc.json', 'data/market/hud_lihtc_co.geojson']),
@@ -909,13 +920,7 @@
       loadSoft('data/policy/incentive-coverage.json'),
       // parts[31]: CHFA's minimum pro forma assumptions for the detail panel's
       // 15-year rent check (js/mix-check.js). Soft load: missing hides the check.
-      loadSoft('data/policy/lihtc-underwriting-rules.json'),
-      // parts[32]: ACS margins of error by place (data/hna/acs-reliability.json). A place whose
-      // renter-household count is "use with caution" (CV over 0.30) scores need from its county.
-      loadSoft('data/hna/acs-reliability.json'),
-      // parts[33]: qualifying renters and existing tax-credit homes within 15 miles of each
-      // place, from the Market analysis engine (scripts/market/build_finder_demand.mjs).
-      loadSoft('data/market/finder-place-demand.json')
+      loadSoft('data/policy/lihtc-underwriting-rules.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -1184,8 +1189,6 @@
       // The 15-year rent check reads the CHFA limits, the underwriting rules and
       // the funding guide already loaded above. Display only; no score uses it.
       state.mixFiles = { limits: parts[26] || null, rules: parts[31] || null };
-      state.acsReliability = (parts[32] && parts[32].geos) || {};
-      state.placeDemand = parts[33] || null;
 
       // F121 — CHFA watchlist (parts[24]). Index by place_geoid so the table
       // renderer can append a W badge when the row matches. We zero-pad the
@@ -1295,7 +1298,7 @@
         Object.keys(state.ddaZipFeatures.reduce(function (m, f) { m[_ddaZip(f)] = 1; return m; }, {})).length +
         ' DDA ZIPs · ' + state.projects.length + ' LIHTC projects · ' +
         Object.keys(state.policyScores).length + ' policy-score records…');
-    });
+    })]);
   }
 
   /* ── Civic-capacity helpers ───────────────────────────────────────── */
