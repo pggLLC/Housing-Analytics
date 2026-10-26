@@ -57,15 +57,61 @@ on:
 
   workflow_dispatch:
 
+# A newer push to a pull request makes the run on its previous head worthless,
+# and with the suite split across ten jobs an abandoned run holds all of them.
+# Only pull_request runs share a group, keyed by PR number, so only they cancel.
+# Every other event gets a group of its own (its run_id) and is never
+# cancelled: a push to main, the two-hourly sweep and a workflow_run each verify
+# a specific commit on main, and a branch dispatch is a bot PR's only check --
+# cancelling any of those would leave that commit unverified.
+concurrency:
+  group: ci-checks-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 permissions:
   contents: read
 
 jobs:
-  ci-checks:
+  # `npm run test:ci` was 35 of this workflow's 40 minutes: eight ci:part-N
+  # groups run one after another on one runner. Each group now gets its own
+  # runner; test:ci in package.json is unchanged and is still the full local
+  # run. Everything else runs once, in other-checks, and the job named
+  # `ci-checks` at the bottom is the single result to look at.
+  #
+  # Each leg repeats the setup the suite depends on: the regenerated inventory
+  # line, paper figures and manifests (the suite's freshness and drift gates
+  # check them), node_modules, and Python with pandas/pytest (part of the suite
+  # is Python). Those steps are YAML anchors, defined once here and reused by
+  # other-checks, so the two jobs cannot drift apart. Each leg starts from a
+  # clean checkout instead of the tree the previous group left behind. That is
+  # the same input: the freshness gates (test/freshness-gates-run-first.test.mjs)
+  # hold the committed digests and briefs the suite regenerates in place to
+  # what regenerating them produces, so a later group sees the same bytes from
+  # a fresh checkout as it did after an earlier group's rewrite.
+  test-ci:
+    name: test:ci (${{ matrix.suite }})
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
+    strategy:
+      # Every group reports, instead of the first failure hiding the rest.
+      fail-fast: false
+      matrix:
+        # Written as commands, not part numbers: the wiring guards find CI
+        # entry points by reading `npm run X` out of workflow files, and
+        # test/test-reachability.test.js asserts this list is exactly the
+        # groups test:ci chains, so a new ci:part-9 cannot be silently skipped.
+        suite:
+          - npm run ci:part-1
+          - npm run ci:part-2
+          - npm run ci:part-3
+          - npm run ci:part-4
+          - npm run ci:part-5
+          - npm run ci:part-6
+          - npm run ci:part-7
+          - npm run ci:part-8
     steps:
-      - name: Checkout repository
+      - &checkout
+        name: Checkout repository
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
@@ -79,7 +125,8 @@ jobs:
       # regenerated here from the PR's own tree before anything checks them,
       # so a PR never needs to commit them. On main they are still verified
       # exactly as committed.
-      - name: Verify README + AGENTS.md inventory
+      - &inventory
+        name: Verify README + AGENTS.md inventory
         run: |
           # PRs and merges to main: the inventory line is generated, not carried
           # (see the regeneration step below for why main is included). A
@@ -91,6 +138,69 @@ jobs:
             node scripts/compute-inventory.mjs --write
           fi
           node scripts/compute-inventory.mjs
+
+      - &npm-ci
+        name: Install Node.js dependencies
+        run: npm ci
+
+      - &setup-python
+        name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+
+      - &python-deps
+        name: Install Python test dependencies
+        # pandas: test:qcew-annual-slice parses QCEW fixtures through the
+        # real pipeline code, so it needs the pipeline's own dependency.
+        # pypdf: tests/test_chfa_qap_watch.py extracts text from a real PDF,
+        # the same way chfa-qap-watch.yml does.
+        run: pip install pytest python-dateutil jsonschema requests pandas pypdf==5.1.0 cryptography==50.0.1
+
+      - &regenerate
+        name: Regenerate paper figures and manifests (PRs and merges to main)
+        # See "Verify README + AGENTS.md inventory" above. Order matters:
+        # the paper quotes the inventory line, and rebuild_manifest.py
+        # records the byte count of data/_manifest.json, so it follows that
+        # rebuild. Then re-sync the Data Trust Center's manifest file count,
+        # just as the post-merge workflow does, before the drift gate runs.
+        #
+        # `push` is a merge to main. PRs never carry these generated files;
+        # archive-audit-post-merge.yml commits them minutes after the merge.
+        # Without this step every merge that changed a data file failed here
+        # on "manifest byte counts are stale" until that commit landed, so a
+        # red main stopped meaning anything (#1976, #1978 and #1981 on
+        # 2026-09-27). The schedule and workflow_run triggers deliberately do
+        # NOT regenerate: they check what bots committed, and a stale manifest
+        # there is a real failure that should stay visible.
+        #
+        # A workflow_dispatch on a branch other than main stands in for the
+        # pull_request run: GITHUB_TOKEN-opened PRs (docs-sync,
+        # source-liveness-weekly, market_data_build, ...) get their ci-checks
+        # only by dispatching it on the PR branch, because their pull_request
+        # run waits for approval. Checked like a PR, so a bot PR is held to
+        # exactly the rules a person's PR is -- no more, no fewer. A dispatch
+        # on main is still verified as committed.
+        if: >-
+          github.event_name == 'pull_request' || github.event_name == 'push'
+          || (github.event_name == 'workflow_dispatch'
+              && github.ref_name != github.event.repository.default_branch)
+        run: |
+          npm run -s paper:build
+          npm run -s audit:file-manifest
+          python3 scripts/rebuild_manifest.py
+          node scripts/audit/refresh-inventory-mtimes.mjs
+
+      - name: Run test:ci group
+        run: ${{ matrix.suite }}
+
+  other-checks:
+    name: artifacts, schemas, smoke & pytest
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - *checkout
+      - *inventory
 
       - name: Enforce tracked data-file size ceilings
         run: node scripts/check-data-file-sizes.mjs
@@ -314,56 +424,10 @@ jobs:
           fi
 
       # ── JavaScript smoke tests ──
-      - name: Install Node.js dependencies
-        run: npm ci
-
-      - name: Set up Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: "3.11"
-
-      - name: Install Python test dependencies
-        # pandas: test:qcew-annual-slice parses QCEW fixtures through the
-        # real pipeline code, so it needs the pipeline's own dependency.
-        # pypdf: tests/test_chfa_qap_watch.py extracts text from a real PDF,
-        # the same way chfa-qap-watch.yml does.
-        run: pip install pytest python-dateutil jsonschema requests pandas pypdf==5.1.0 cryptography==50.0.1
-
-      - name: Regenerate paper figures and manifests (PRs and merges to main)
-        # See "Verify README + AGENTS.md inventory" above. Order matters:
-        # the paper quotes the inventory line, and rebuild_manifest.py
-        # records the byte count of data/_manifest.json, so it follows that
-        # rebuild. Then re-sync the Data Trust Center's manifest file count,
-        # just as the post-merge workflow does, before the drift gate runs.
-        #
-        # `push` is a merge to main. PRs never carry these generated files;
-        # archive-audit-post-merge.yml commits them minutes after the merge.
-        # Without this step every merge that changed a data file failed here
-        # on "manifest byte counts are stale" until that commit landed, so a
-        # red main stopped meaning anything (#1976, #1978 and #1981 on
-        # 2026-09-27). The schedule and workflow_run triggers deliberately do
-        # NOT regenerate: they check what bots committed, and a stale manifest
-        # there is a real failure that should stay visible.
-        #
-        # A workflow_dispatch on a branch other than main stands in for the
-        # pull_request run: GITHUB_TOKEN-opened PRs (docs-sync,
-        # source-liveness-weekly, market_data_build, ...) get their ci-checks
-        # only by dispatching it on the PR branch, because their pull_request
-        # run waits for approval. Checked like a PR, so a bot PR is held to
-        # exactly the rules a person's PR is -- no more, no fewer. A dispatch
-        # on main is still verified as committed.
-        if: >-
-          github.event_name == 'pull_request' || github.event_name == 'push'
-          || (github.event_name == 'workflow_dispatch'
-              && github.ref_name != github.event.repository.default_branch)
-        run: |
-          npm run -s paper:build
-          npm run -s audit:file-manifest
-          python3 scripts/rebuild_manifest.py
-          node scripts/audit/refresh-inventory-mtimes.mjs
-
-      - name: Run unified CI test suite
-        run: npm run test:ci
+      - *npm-ci
+      - *setup-python
+      - *python-deps
+      - *regenerate
 
       - name: Run JS smoke tests
         run: |
@@ -442,11 +506,40 @@ jobs:
         # has also been moved and is now exercised — it was orphaned before
         # (existed in test/ but never invoked by any workflow).
 
+  # The check named `ci-checks`. People, scripts and branch protection look for
+  # that name, so it stays one job that passes only when every test:ci group
+  # and other-checks passed. `always()` makes it run -- and fail -- when a
+  # dependency failed or was cancelled; without it this job would be skipped,
+  # and a skipped required check counts as passing.
+  ci-checks:
+    needs: [test-ci, other-checks]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require every test:ci group and other-checks to succeed
+        env:
+          TEST_CI: ${{ needs.test-ci.result }}
+          OTHER_CHECKS: ${{ needs.other-checks.result }}
+        run: |
+          echo "test-ci: $TEST_CI"
+          echo "other-checks: $OTHER_CHECKS"
+          if [ "$TEST_CI" != "success" ] || [ "$OTHER_CHECKS" != "success" ]; then
+            echo "::error::ci-checks failed: test-ci=$TEST_CI, other-checks=$OTHER_CHECKS"
+            exit 1
+          fi
+
   # Reports the scheduled result and nothing else. Deliberately a separate job
-  # rather than a step inside ci-checks: the notifier needs `issues: write`,
-  # and ci-checks runs repository code (`npm run test:ci`) on every pull
-  # request, including from forks. Granting issue-write to that job would hand
-  # the privilege to anything a PR can execute. This job runs no repo code.
+  # rather than a step inside the test jobs: the notifier needs `issues: write`,
+  # and test-ci and other-checks run repository code (the test:ci groups) on
+  # every pull request, including from forks. Granting issue-write to them
+  # would hand the privilege to anything a PR can execute. This job runs no
+  # repo code.
+  #
+  # It reads the `ci-checks` aggregator, which is `success` only when every
+  # test:ci group and other-checks succeeded, and `failure` when any of them
+  # failed, timed out or was cancelled. The notifier already counted
+  # 'cancelled' as failure, so a scheduled run is reported as before.
   #
   # Scheduled runs only. On push/pull_request it is skipped, so the PR gate is
   # completely unchanged by this file's other edit.
