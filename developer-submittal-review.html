@@ -37,6 +37,13 @@
   .sr-changes { margin: 0 0 var(--sp2); padding: .6rem .8rem; border-left: 3px solid var(--accent); background: var(--card); }
   .sr-changes h4 { margin: 0 0 .25rem; font-size: .95rem; }
   .sr-changes p { margin: .2rem 0; overflow-wrap: anywhere; }
+  .sr-hist { list-style: none; padding: 0; margin: var(--sp2) 0 0; }
+  .sr-hist li { border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); padding: .6rem .8rem; margin: 0 0 .6rem; background: var(--card); }
+  .sr-hist-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .25rem .8rem; margin: .4rem 0; }
+  .sr-hist-figs dt { font-size: .8rem; color: var(--muted); }
+  .sr-hist-figs dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .sr-hist-change, .sr-hist-overall { margin: .3rem 0 0; overflow-wrap: anywhere; }
+  .sr-hist-overall { padding-left: .6rem; border-left: 3px solid var(--accent); }
   .sr-table { border-collapse: collapse; width: 100%; font-size: var(--small, .9rem); }
   .sr-table th, .sr-table td { text-align: left; padding: .45rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
   .sr-num { text-align: right !important; font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -185,6 +192,10 @@
       <div id="srVersions"></div>
       <h3>Comparison</h3>
       <div id="srCompare"></div>
+      <h3>Scenario history</h3>
+      <p class="sr-muted">Every saved version of this deal, oldest first, with what moved the funding gap from the version before.</p>
+      <div class="sr-row"><button type="button" class="sr-btn" id="sr-hist-print" disabled>Print or save as PDF</button><button type="button" class="sr-btn" id="sr-hist-csv" disabled>Download CSV</button></div>
+      <div id="srHistory"></div>
     </section>
 
     <details class="dv-card">
