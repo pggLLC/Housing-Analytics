@@ -315,6 +315,8 @@ def _expand(start: date, rrule: str, until_day: date) -> list[date] | None:
     freq = rule.get('FREQ')
     if freq not in ('MONTHLY', 'YEARLY'):
         return None
+    if set(rule) - {'FREQ', 'INTERVAL', 'COUNT', 'UNTIL', 'BYDAY', 'WKST'}:
+        return None  # BYMONTH, BYMONTHDAY, BYSETPOS and the rest constrain dates this reader does not compute
     interval = int(rule.get('INTERVAL', '1'))
     count = int(rule['COUNT']) if 'COUNT' in rule else None
     if 'UNTIL' in rule:
@@ -368,8 +370,16 @@ def parse_ics(text: str, organizer: str, source: str, page: str, today: date,
     repeat monthly or yearly.
     """
     horizon = today + timedelta(days=HORIZON_DAYS)
+    blocks = _ics_events(text)
+    # A cancelled or moved occurrence is its own VEVENT with the series' UID and a RECURRENCE-ID
+    # naming the original date (RFC 5545 §3.8.4.4). Those dates come off the series; the exception,
+    # unless cancelled, is listed on its own.
+    replaced: dict = {}
+    for p in blocks:
+        if 'RECURRENCE-ID' in p:
+            replaced.setdefault((p.get('UID') or ('', ''))[1], set()).add(p['RECURRENCE-ID'][1][:8])
     out = []
-    for p in _ics_events(text):
+    for p in blocks:
         if (p.get('STATUS') or ('', ''))[1].upper() == 'CANCELLED':
             continue
         title = _ics_unescape((p.get('SUMMARY') or ('', ''))[1])
@@ -385,7 +395,7 @@ def parse_ics(text: str, organizer: str, source: str, page: str, today: date,
         length = (date.fromisoformat(end) - date.fromisoformat(start)).days if end else 0
         starts = [date.fromisoformat(start)]
         if 'RRULE' in p:
-            exdates = {x[:8] for x in p.get('EXDATE', [])}
+            exdates = {x[:8] for x in p.get('EXDATE', [])} | replaced.get((p.get('UID') or ('', ''))[1], set())
             starts = _expand(starts[0], p['RRULE'][1], horizon)
             if starts is None:
                 continue

@@ -285,3 +285,24 @@ def test_every_new_source_is_named_on_the_file():
     ids = {s['id'] for s in doc['sources']}
     assert {'doh', 'prop123', 'apa_colorado', 'fomc', 'acs', 'fred', 'curated'} <= ids
     assert {'deadline', 'release'} <= set(fhe.CATEGORIES)
+
+
+def test_a_cancelled_or_moved_occurrence_replaces_the_series_date():
+    cal = '\r\n'.join([
+        'BEGIN:VCALENDAR',
+        'BEGIN:VEVENT', 'UID:shb-1', 'DTSTART;TZID=America/Denver:20261013T130000',
+        'RRULE:FREQ=MONTHLY;COUNT=4;BYDAY=2TU', 'SUMMARY:State Housing Board Meeting', 'END:VEVENT',
+        'BEGIN:VEVENT', 'UID:shb-1', 'RECURRENCE-ID;TZID=America/Denver:20261110T130000', 'STATUS:CANCELLED',
+        'DTSTART;TZID=America/Denver:20261110T130000', 'SUMMARY:State Housing Board Meeting', 'END:VEVENT',
+        'BEGIN:VEVENT', 'UID:shb-1', 'RECURRENCE-ID;TZID=America/Denver:20261208T130000',
+        'DTSTART;TZID=America/Denver:20261215T130000', 'SUMMARY:State Housing Board Meeting', 'END:VEVENT',
+        'END:VCALENDAR'])
+    rows = fhe.parse_ics(cal, 'Colorado Division of Housing', 'doh', fhe.DOLA_CALENDAR_PAGE, date(2026, 10, 1))
+    assert sorted(r['start'] for r in rows) == ['2026-10-13', '2026-12-15', '2027-01-12']
+
+
+def test_rules_with_selectors_the_reader_does_not_compute_are_skipped():
+    assert fhe._expand(date(2026, 10, 13), 'FREQ=MONTHLY;BYMONTH=1,4,7,10;BYDAY=2TU', date(2027, 2, 23)) is None
+    assert fhe._expand(date(2026, 10, 13), 'FREQ=MONTHLY;BYMONTHDAY=13', date(2027, 2, 23)) is None
+    assert fhe._expand(date(2026, 10, 13), 'FREQ=MONTHLY;BYDAY=2TU', date(2026, 12, 31)) == [
+        date(2026, 10, 13), date(2026, 11, 10), date(2026, 12, 8)]
