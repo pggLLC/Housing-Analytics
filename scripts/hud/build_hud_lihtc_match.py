@@ -52,25 +52,25 @@ SOURCE = {
     'dictionary': 'LIHTC Data Dictionary 2024 (inside lihtcpub.zip)',
 }
 
-NS = {'m': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
-
-
 def read_xlsx(path):
     """Rows of the first sheet as dicts. Stdlib only: HUD's file trips openpyxl."""
     with zipfile.ZipFile(path) as z:
+        sheet = ET.fromstring(z.read('xl/worksheets/sheet1.xml'))
+        # SpreadsheetML namespace, taken from the file rather than spelled out.
+        ns = sheet.tag[1:sheet.tag.index('}')]
+        q = lambda name: '{%s}%s' % (ns, name)
         shared = []
         if 'xl/sharedStrings.xml' in z.namelist():
-            for si in ET.fromstring(z.read('xl/sharedStrings.xml')).findall('m:si', NS):
-                shared.append(''.join(t.text or '' for t in si.iter('{%s}t' % NS['m'])))
-        sheet = ET.fromstring(z.read('xl/worksheets/sheet1.xml'))
+            for si in ET.fromstring(z.read('xl/sharedStrings.xml')).findall(q('si')):
+                shared.append(''.join(t.text or '' for t in si.iter(q('t'))))
     rows = []
-    for row in sheet.iter('{%s}row' % NS['m']):
+    for row in sheet.iter(q('row')):
         vals = {}
-        for c in row.findall('m:c', NS):
+        for c in row.findall(q('c')):
             col = re.match(r'[A-Z]+', c.get('r')).group(0)
-            v = c.find('m:v', NS)
+            v = c.find(q('v'))
             if c.get('t') == 'inlineStr':
-                text = ''.join(t.text or '' for t in c.iter('{%s}t' % NS['m']))
+                text = ''.join(t.text or '' for t in c.iter(q('t')))
             elif v is None:
                 text = None
             elif c.get('t') == 's':
