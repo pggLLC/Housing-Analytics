@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T05:00:27.681Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T11:32:10.171Z. Do not edit by hand.
 
 ---
 
@@ -12,7 +12,7 @@
 |------|-------|------|
 | `404.html` | Page not found | COHO Analytics | 3.4 KB |
 | `LIHTC-dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
-| `about.html` | About | COHO Analytics | 19.4 KB |
+| `about.html` | About | COHO Analytics | 19.3 KB |
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.7 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 47.5 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.0 KB |
@@ -42,7 +42,7 @@
 | `developer-methods.html` | Methodology — COHO Analytics | 7.4 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.8 KB |
 | `developer-round-watch.html` | Next Round Watch — COHO Analytics | 10.5 KB |
-| `developer-submittal-review.html` | Submittal Review — COHO Analytics | 14.7 KB |
+| `developer-submittal-review.html` | Submittal Review — COHO Analytics | 15.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 34.8 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 19.7 KB |
@@ -114,12 +114,12 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 755.0 KB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 23.3 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 795.0 KB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 23.8 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 635.8 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 638.5 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 545 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -2019,11 +2019,11 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 379.3 KB | ✅ | — |
+| `data/policy_briefs.json` | 384.8 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.4 KB | ✅ | — |
-| `data/polymarket-history.json` | 176.5 KB | ✅ | — |
+| `data/polymarket-history.json` | 178.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2136,7 +2136,7 @@
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
 | `test/data-scope.test.js` | 6.4 KB |
-| `test/data-source-inventory-drift.test.js` | 7.7 KB |
+| `test/data-source-inventory-drift.test.js` | 7.9 KB |
 | `test/data-source-inventory-paths.test.js` | 1.5 KB |
 | `test/data-status-footer-live-date.test.js` | 5.1 KB |
 | `test/data-trust-center-badges.test.js` | 4.3 KB |
@@ -2603,7 +2603,7 @@
 | `test/step-count-agreement.test.mjs` | 7.5 KB |
 | `test/step-labels-agree.test.mjs` | 5.5 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
-| `test/submittal-review.test.mjs` | 50.5 KB |
+| `test/submittal-review.test.mjs` | 52.6 KB |
 | `test/table-export-rendered.test.js` | 16.1 KB |
 | `test/table-export.test.js` | 25.3 KB |
 | `test/table-header-tips.test.js` | 9.2 KB |
@@ -2611,7 +2611,7 @@
 | `test/tax-credit-equity-markets.test.js` | 12.8 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
-| `test/test-reachability.test.js` | 6.8 KB |
+| `test/test-reachability.test.js` | 8.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
 | `test/test_bps_and_status_freshness.py` | 10.8 KB |
@@ -2654,7 +2654,7 @@
 | `test/unit/pma-transit.test.js` | 5.0 KB |
 | `test/unit/scenario-storage.test.js` | 13.7 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
-| `test/unwired-suite.test.js` | 10.3 KB |
+| `test/unwired-suite.test.js` | 10.6 KB |
 | `test/upstream-vintage-watch.test.mjs` | 14.2 KB |
 | `test/url-health-policy.test.mjs` | 13.9 KB |
 | `test/utility-allowance-absence.test.mjs` | 10.9 KB |
@@ -2789,7 +2789,7 @@
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
 | `.github/workflows/chart-audit.yml` | 2.9 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 25.0 KB |
-| `.github/workflows/ci-checks.yml` | 20.0 KB |
+| `.github/workflows/ci-checks.yml` | 24.1 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/coho-election-reminders.yml` | 1.6 KB |

@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-26T09:09:00.119Z",
+    "generated_at": "2026-10-26T11:32:49.822Z",
     "root": "data/",
     "file_count": 1990,
-    "total_size_bytes": 204795482,
+    "total_size_bytes": 204800637,
     "kinds": {
       "json": 1942,
       "geojson": 34,
@@ -556,8 +556,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 651019,
-      "mtime": "2026-10-25T10:07:20.396Z",
+      "size_bytes": 653875,
+      "mtime": "2026-10-26T11:30:24.153Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-26T05:01:02.086Z",
+      "mtime": "2026-10-26T11:32:45.000Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6596,7 +6596,7 @@
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1259964,
-      "mtime": "2026-10-25T09:51:49.767Z",
+      "mtime": "2026-10-26T11:27:08.151Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -38041,7 +38041,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 252979,
-      "mtime": "2026-10-26T05:00:05.868Z",
+      "mtime": "2026-10-26T11:27:08.382Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39652,7 +39652,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-26T05:01:04.147Z",
+      "mtime": "2026-10-26T11:32:47.071Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39676,7 +39676,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-26T05:01:03.591Z",
+      "mtime": "2026-10-26T11:32:46.540Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42892,8 +42892,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 20925,
-      "mtime": "2026-10-25T10:16:44.496Z",
+      "size_bytes": 20919,
+      "mtime": "2026-10-26T11:28:23.936Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -42912,8 +42912,8 @@
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 180714,
-      "mtime": "2026-10-25T10:16:44.496Z",
+      "size_bytes": 183019,
+      "mtime": "2026-10-26T11:28:23.936Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42921,7 +42921,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 192,
+      "primary_array_length": 193,
       "primary_array_first_keys": [
         "date",
         "events"

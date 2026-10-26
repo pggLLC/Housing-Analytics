@@ -139,6 +139,10 @@ function ciRoots(scripts) {
       }
     }
   }
+  // ci-checks.yml runs test:ci as a matrix, one leg per ci:part-N group, so
+  // test:ci is a root exactly when every group it chains is one.
+  const groups = [...String(scripts['test:ci'] || '').matchAll(/npm run ([a-zA-Z0-9:_-]+)/g)].map((m) => m[1]);
+  if (groups.length && groups.every((g) => roots.has(g))) roots.add('test:ci');
   return roots;
 }
 
