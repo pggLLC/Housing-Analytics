@@ -21,6 +21,8 @@ let checks = 0;
 const ok = (c, m) => { assert.ok(c, m); checks++; };
 const tick = () => new Promise((r) => setTimeout(r, 20));
 
+const FOR_GOOD = /for good|cannot be|can't be|permanent|undone|restored|brought back/i;
+
 async function page(answer) {
   const dom = new JSDOM(read('developer-submittal-review.html'), { url: 'http://127.0.0.1/developer-submittal-review.html' });
   const w = dom.window, d = w.document;
@@ -67,7 +69,9 @@ function names(b) {
   ok(rows.length === 3 && rows.every((n) => n.row && n.deletes && n.said === n.row), 'each Delete names, for a screen reader, the version its row shows: ' + JSON.stringify(rows));
 
   btn('purge', ids.a2.v).click(); await tick();
-  ok(asked.length === 1 && /v2 · second/.test(asked[0]) && /cannot be brought back/.test(asked[0]) && /Hide/.test(asked[0]), 'it asks first, naming the version and offering Hide: ' + asked[0]);
+  // The question must name the version as its row does and say the delete is for good; the words are free.
+  const rowName = btn('purge', ids.a2.v).closest('tr').querySelector('strong').textContent;
+  ok(asked.length === 1 && asked[0].includes(rowName) && FOR_GOOD.test(asked[0]), 'it asks first, naming the version as its row does (' + rowName + ') and saying it is for good: ' + asked[0]);
   ok((await store.versions(ids.a1.deal)).versions.length === 3, 'a no keeps the version');
 
   yes = true;
@@ -94,7 +98,9 @@ function names(b) {
   const { $, store, pick, asked, ids } = p;
   await pick(ids.a1.deal);
   $('sr-delete-deal').click(); await tick();
-  ok(asked.length === 1 && /"Invented Site A"/.test(asked[0]) && /all 3 versions/.test(asked[0]) && /market research/.test(asked[0]), 'it asks first, naming the deal, its version count and its research: ' + asked[0]);
+  const count = (await store.versions(ids.a1.deal)).versions.length;
+  ok(asked.length === 1 && asked[0].includes($('sr-name').value) && new RegExp('\\b' + count + ' versions?\\b').test(asked[0]) && /research/i.test(asked[0]) && FOR_GOOD.test(asked[0]),
+    'it asks first, naming the deal, its ' + count + ' versions, its research, and that it is for good: ' + asked[0]);
   ok((await store.deals()).length === 2, 'a no keeps the deal');
 
   yes = true;
@@ -158,6 +164,23 @@ function names(b) {
   ok(sent && sent.parent !== ids.a2.v, 'the next save does not name the deleted version as its parent: ' + (sent && sent.parent));
   store.get = real;
   ok(!(await store.versions(ids.a1.deal)).versions.some((x) => x.v === ids.a2.v), 'and it stays deleted');
+}
+
+// Codex review on fd37bf5: deleting a deal while its first version is still opening leaves the New deal form able to save.
+{
+  const p = await page(() => true);
+  const { $, store, ids } = p;
+  const real = store.get.bind(store), held = [];
+  store.get = (deal, v) => (deal === ids.a1.deal ? real(deal, v).then((rec) => new Promise((r) => { held.push(() => r(rec)); })) : real(deal, v));
+  $('sr-deal').value = ids.a1.deal; $('sr-deal').dispatchEvent(new p.w.Event('change')); await tick(); await tick();
+  ok(held.length > 0, 'non-vacuous: deal A is still opening');
+  $('sr-delete-deal').click(); await tick(); await tick(); await tick();
+  held.forEach((go) => go()); await tick(); await tick(); await tick();
+  store.get = real;
+  $('sr-name').value = 'Invented Site C';
+  $('sr-save').click(); await tick(); await tick(); await tick();
+  const names = (await store.deals()).map((x) => x.name);
+  ok(names.includes('Invented Site C') && !names.includes('Invented Site A'), 'a new deal saves after the delete: ' + JSON.stringify(names) + ' / ' + $('srFlash').textContent);
 }
 
 // A browser that blocks dialogs deletes nothing.

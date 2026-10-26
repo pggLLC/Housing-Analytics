@@ -1327,7 +1327,7 @@
       if (!ask('Delete "' + name + '" for good: all ' + n + ' version' + (n === 1 ? '' : 's') + ', and its market research in Deal workbook? It cannot be brought back.')) return;
       var btn = $('sr-delete-deal'); btn.disabled = true;
       store.removeDeal(deal).then(function () {
-        if (state.deal === deal) { state.nav++; state.deal = null; state.picked = {}; state.cache = {}; state.versions = []; $('sr-name').value = ''; clearForm(); drawCompare(); }
+        if (state.deal === deal) { state.nav++; state.deal = null; state.loading = false; state.picked = {}; state.cache = {}; state.versions = []; $('sr-name').value = ''; clearForm(); drawCompare(); }
         flash('Deleted "' + name + '" and all its versions.');
         return refreshDeals('').then(refreshVersions);
       }, function (e) { flash('"' + name + '" was not deleted: ' + e.message + '. Try again to finish.'); })
