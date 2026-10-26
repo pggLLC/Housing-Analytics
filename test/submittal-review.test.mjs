@@ -167,6 +167,21 @@ ok(!/<script/i.test(SR.compareTable(rules, prop123, [{ label: '<script>x</script
   const D = Object.assign({}, A, { v: 'd', n: 4 });
   ok(/total cost unchanged, sources unchanged, so the funding gap did not change\./.test(SR.changeLines([A, D])[0]), 'an unchanged run says so');
   ok(SR.changeLines([A]).length === 0, 'one version has nothing to compare');
+  // Scenario history: each version against the one before, an overall line, a CSV and a printable page.
+  const hm = SR.historyModel(rules, prop123, [A, B, Object.assign({}, D, { n: 3, label: '=HYPERLINK("x")', baseline: true })]);
+  ok(hm.rows.length === 3 && hm.rows[0].change === '' && /^v2 against v1: total cost \+\$2,000,000/.test(hm.rows[1].change) && /^v3 against v2: total cost -\$2,000,000/.test(hm.rows[2].change), 'each version is set against the one before it');
+  ok(/^v3 against v1: total cost unchanged/.test(hm.overall), 'the overall line runs from the first version to the last');
+  const hh = SR.historyHtml(hm);
+  // Pin the agreement with the model, not the wording: one card per row, each change line shown, and none on the first card.
+  const cards = hh.split('<li>').slice(1);
+  ok(cards.length === hm.rows.length && cards.every((c, i) => c.includes('v' + hm.rows[i].n + ' · ')) && cards[1].includes('construction +$2M') && cards[2].includes('Baseline') && !cards[0].includes('Baseline') && !hh.includes('<script'), 'the history lists numbered versions and marks the baseline');
+  ok(!cards[0].includes('sr-hist-change') && cards.slice(1).every((c, i) => c.includes('<p class="sr-hist-change">' + hm.rows[i + 1].change.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'))), 'each later card shows its change line from the model, and the first card has none');
+  const csv = SR.historyCsv(hm).split('\r\n');
+  ok(csv[0].startsWith('Version,Label,Saved') && csv[2].startsWith('v2,construction +$2M,') && csv[2].includes(',2229877,'), 'the CSV has one row per version with plain numbers');
+  ok(csv[3].includes(`"'=HYPERLINK(""x"")"`), 'a label that looks like a formula is defused in the CSV');
+  ok(/<title>Scenario history: Invented Silt<\/title>/.test(SR.historyPage('Invented Silt', hm, 'today')) && SR.historyPage('<b>x</b>', hm, 'today').includes('&lt;b&gt;'), 'the printable page is titled with the escaped deal name');
+  const he = SR.historyHtml({ rows: [], overall: '' });
+  ok(!/<li|<dl|sr-hist-overall/.test(he) && /<p\b[^>]*>[^<]*\S[^<]*<\/p>/.test(he), 'an empty deal shows a note and no version cards');
   const S = Object.assign({}, B, { calculator: { stale: true } });
   ok(/no funding gap to compare, because v2 has none \(its unit mix or election changed/.test(SR.changeLines([A, S])[0]), 'a stale calculator result is not reported as a change');
   const Z0 = Object.assign({}, A, { engine: { totalDevelopmentCost: 20000000, fundingGap: 0 } }), Z1 = Object.assign({}, B, { engine: { totalDevelopmentCost: 21000000, fundingGap: 0 } });
