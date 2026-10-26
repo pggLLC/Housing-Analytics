@@ -1323,14 +1323,18 @@
     function ask(q) { var w = doc.defaultView; try { return !!(w && w.confirm && w.confirm(q)); } catch (e) { return false; } }
     $('sr-delete-deal').addEventListener('click', function () {
       var deal = state.deal; if (!deal) return;
-      var name = $('sr-name').value.trim() || 'this deal', n = state.versions.length;
-      if (!ask('Delete "' + name + '" for good: all ' + n + ' version' + (n === 1 ? '' : 's') + ', and its market research in Deal workbook? It cannot be brought back.')) return;
+      var name = $('sr-name').value.trim() || 'this deal';
       var btn = $('sr-delete-deal'); btn.disabled = true;
-      store.removeDeal(deal).then(function () {
-        if (state.deal === deal) { state.nav++; state.deal = null; state.loading = false; state.picked = {}; state.cache = {}; state.versions = []; $('sr-name').value = ''; clearForm(); drawCompare(); }
-        flash('Deleted "' + name + '" and all its versions.');
-        return refreshDeals('').then(refreshVersions);
-      }, function (e) { flash('"' + name + '" was not deleted: ' + e.message + '. Try again to finish.'); })
+      // Count from the store, not the list on screen, which can still be the last deal's while this one loads.
+      store.versions(deal).then(function (res) {
+        var n = (res.versions || []).length;
+        if (state.deal !== deal || !ask('Delete "' + name + '" for good: all ' + n + ' version' + (n === 1 ? '' : 's') + ', and its market research in Deal workbook? It cannot be brought back.')) return;
+        return store.removeDeal(deal).then(function () {
+          if (state.deal === deal) { state.nav++; state.deal = null; state.loading = false; state.picked = {}; state.cache = {}; state.versions = []; $('sr-name').value = ''; clearForm(); drawCompare(); }
+          flash('Deleted "' + name + '" and all its versions.');
+          return refreshDeals('').then(refreshVersions);
+        });
+      }).then(null, function (e) { flash('"' + name + '" was not deleted: ' + e.message + '. Try again to finish.'); })
         .then(function () { btn.disabled = false; });
     });
 

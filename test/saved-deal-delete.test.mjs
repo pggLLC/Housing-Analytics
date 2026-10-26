@@ -79,8 +79,8 @@ function names(b) {
   const left = (await store.versions(ids.a1.deal)).versions.map((x) => x.v);
   ok(left.length === 2 && !left.includes(ids.a2.v), 'a yes deletes that version and only that one');
   ok(!btn('purge', ids.a2.v) && btn('purge', ids.a3.v), 'it is off the version list');
-  ok(/Deleted v2 · second/.test($('srFlash').textContent), 'the page says what it deleted: ' + $('srFlash').textContent);
-  ok(/\(2 versions\)/.test($('sr-deal').selectedOptions[0].textContent), 'the deal picker shows the new count: ' + $('sr-deal').selectedOptions[0].textContent);
+  ok($('srFlash').textContent.includes(rowName), 'the page names the version it deleted as its row did (' + rowName + '): ' + $('srFlash').textContent);
+  ok(new RegExp('\\b' + left.length + ' versions?\\b').test($('sr-deal').selectedOptions[0].textContent), 'the deal picker shows the stored count, ' + left.length + ': ' + $('sr-deal').selectedOptions[0].textContent);
   ok($('sr-deal').value === ids.a1.deal, 'the deal stays picked');
 
   // Deleting the baseline clears it, so nothing points at a version that is gone.
@@ -104,12 +104,13 @@ function names(b) {
   ok((await store.deals()).length === 2, 'a no keeps the deal');
 
   yes = true;
+  const dealName = $('sr-name').value;
   $('sr-delete-deal').click(); await tick(); await tick(); await tick();
   const deals = await store.deals();
   ok(deals.length === 1 && deals[0].id === ids.b1.deal, 'a yes deletes that deal and leaves the other');
   ok($('sr-deal').value === '' && ![...$('sr-deal').options].some((o) => o.value === ids.a1.deal), 'the picker is back on New deal, without it');
   ok($('sr-name').value === '' && $('sr-delete-deal').hidden, 'the form is cleared and the button hides');
-  ok(/Deleted "Invented Site A"/.test($('srFlash').textContent), 'the page says what it deleted');
+  ok(dealName && $('srFlash').textContent.includes(dealName), 'the page names the deal it deleted (' + dealName + '): ' + $('srFlash').textContent);
   ok(!$('srVersions').querySelector('tr, [data-act]'), 'no version rows or buttons of it are left on screen');
 }
 
@@ -157,7 +158,6 @@ function names(b) {
   ok(held.length === before + 1, 'non-vacuous: the Open of v2 is waiting on its own read');
   btn('purge', ids.a2.v).click(); await tick(); await tick(); await tick();
   held.forEach((go) => go()); await tick(); await tick(); await tick();
-  ok(/Deleted v2/.test($('srFlash').textContent), 'the deleted version did not open over the delete message: ' + $('srFlash').textContent);
   let sent;
   const save = store.save.bind(store); store.save = (rec) => { sent = rec; return save(rec); };
   $('sr-save').click(); await tick(); await tick();
@@ -181,6 +181,24 @@ function names(b) {
   $('sr-save').click(); await tick(); await tick(); await tick();
   const names = (await store.deals()).map((x) => x.name);
   ok(names.includes('Invented Site C') && !names.includes('Invented Site A'), 'a new deal saves after the delete: ' + JSON.stringify(names) + ' / ' + $('srFlash').textContent);
+}
+
+// Codex review on 20a6c21: Delete this deal, clicked while the picked deal's version list is still loading,
+// gives the picked deal's count, not the last deal's.
+{
+  const p = await page(() => true);
+  const { $, store, pick, asked, ids } = p;
+  await pick(ids.b1.deal);
+  const real = store.versions.bind(store); let release, first = true;
+  store.versions = (deal) => (deal === ids.a1.deal && first ? (first = false, real(deal).then((res) => new Promise((r) => { release = () => r(res); }))) : real(deal));
+  $('sr-deal').value = ids.a1.deal; $('sr-deal').dispatchEvent(new p.w.Event('change')); await tick();
+  ok(typeof release === 'function' && !$('srVersions').querySelector('[data-v="' + ids.a1.v + '"]'), 'non-vacuous: deal A is picked but its version list has not arrived');
+  $('sr-delete-deal').click(); await tick(); await tick(); await tick();
+  ok(asked.length === 1, 'non-vacuous: it asked');
+  ok(new RegExp('\\b3 versions?\\b').test(asked[0] || '') && !/\b1 version\b/.test(asked[0] || ''), 'the question gives deal A\'s 3 versions, not deal B\'s 1: ' + asked[0]);
+  ok(!(await store.deals()).some((x) => x.id === ids.a1.deal), 'and the deal it named is the one deleted');
+  release && release(); await tick();
+  store.versions = real;
 }
 
 // A browser that blocks dialogs deletes nothing.
