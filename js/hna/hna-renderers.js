@@ -4047,28 +4047,41 @@
   // Projection assumptions controls
   // ---------------------------------------------------------------------------
 
+  // The page's defaults, in one place. housing-needs-assessment.html and
+  // hna-what-to-do.html ship the assumptions panel with these values checked;
+  // the other four chapter pages ship no panel at all and read these instead.
+  // Until 2026-10-26 the no-panel fallback was the held headship rate while
+  // the panel's default was Forecast, so the same county showed two different
+  // 20-yr production needs on different chapters (Colorado 615,026 vs 444,604;
+  // Mesa County 25,951 vs 13,953). test/hna-assumption-defaults.test.js holds
+  // the panel's checked values to this object and every chapter to one figure.
+  const ASSUMPTION_DEFAULTS = Object.freeze({ horizon: 20, vacancyPct: 5, headshipMode: 'forecast' });
+
   /**
    * getAssumptions — read the current values of the projection assumption controls.
+   * Where a control is absent, the value is ASSUMPTION_DEFAULTS, the same value
+   * the panel ships checked.
    * @returns {{ horizon: number, targetVac: number, headshipMode: 'forecast'|'current'|'trend' }}
    */
   function getAssumptions() {
     const els = S().els;
-    const horizon  = els && els.assumpHorizon  ? parseInt(els.assumpHorizon.value, 10) || 20 : 20;
+    const D = ASSUMPTION_DEFAULTS;
+    const horizon  = els && els.assumpHorizon  ? parseInt(els.assumpHorizon.value, 10) || D.horizon : D.horizon;
     const vacRaw   = els && els.assumpVacancy  ? parseFloat(els.assumpVacancy.value)        : NaN;
-    const targetVac = Number.isFinite(vacRaw) ? vacRaw / 100 : 0.05;
+    const targetVac = Number.isFinite(vacRaw) ? vacRaw / 100 : D.vacancyPct / 100;
     const headshipMode = (() => {
-      // The shipped HNA pages name the group assumpHeadship (values hold |
-      // trend); the controller's change listener and the fixtures in older
-      // tests use that name or the earlier headship (current | trend). Read
-      // whichever radio is checked, and normalise: anything but trend is the
-      // constant base-year rate. Querying only the old name returned
-      // 'current' whatever the user picked, so Trend never took effect.
+      // The shipped HNA pages name the group assumpHeadship (values forecast |
+      // hold | trend); the fixtures in older tests use the earlier name
+      // headship (current | trend). Read whichever radio is checked.
       const checked = document.querySelector('input[name="assumpHeadship"]:checked, input[name="headship"]:checked');
       const v = checked ? String(checked.value) : '';
       // forecast: the stored county household series (SDO household forecast
       // where published); current (the page's "Hold"): the base-year rate
-      // held; trend: the base-year rate moved by the ACS trend.
-      return v === 'trend' ? 'trend' : v === 'forecast' ? 'forecast' : 'current';
+      // held; trend: the base-year rate moved by the ACS trend. No choice on
+      // the page (no panel, or nothing checked) is the panel's default.
+      if (v === 'trend') return 'trend';
+      if (v === 'hold' || v === 'current') return 'current';
+      return D.headshipMode;
     })();
     return { horizon, targetVac, headshipMode };
   }
@@ -10083,6 +10096,7 @@
     renderLocalResources,
     // Assumptions
     getAssumptions,
+    ASSUMPTION_DEFAULTS,
     // Projections
     renderProjectionCalculationTrace,
     renderScenarioDataQuality,

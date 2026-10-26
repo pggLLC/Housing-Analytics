@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T11:32:10.171Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T12:47:18.119Z. Do not edit by hand.
 
 ---
 
@@ -19,7 +19,7 @@
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 23.1 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 17.3 KB |
-| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 40.4 KB |
+| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 41.5 KB |
 | `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 216.4 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
@@ -94,14 +94,14 @@
 
 ## Data Files (`data/**/*.json`)
 
-1943 JSON files found.
+1944 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_manifest.json` | 990.5 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
-| `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
+| `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
 | `data/affordable-housing/local-pha-roster/garfield-county-ha.json` | 2.1 KB | ✅ | — |
 | `data/affordable-housing/nlihc-out-of-reach-co.json` | 28.0 KB | ✅ | — |
@@ -138,7 +138,7 @@
 | `data/census-acs-state.json` | 26.1 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
 | `data/chfa-income-rent-limits-2026.json` | 499.7 KB | ✅ | — |
-| `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
+| `data/chfa-lihtc.json` | 966.9 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 21.0 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 39.2 KB | ✅ | — |
@@ -1012,70 +1012,70 @@
 | `data/hna/lehd/08121.json` | 2.4 KB | ✅ | — |
 | `data/hna/lehd/08123.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08125.json` | 2.5 KB | ✅ | — |
-| `data/hna/lihtc/08001.json` | 63.8 KB | ✅ | 72 features |
-| `data/hna/lihtc/08003.json` | 6.3 KB | ✅ | 7 features |
-| `data/hna/lihtc/08005.json` | 61.5 KB | ✅ | 69 features |
-| `data/hna/lihtc/08007.json` | 2.9 KB | ✅ | 3 features |
+| `data/hna/lihtc/08001.json` | 74.5 KB | ✅ | 72 features |
+| `data/hna/lihtc/08003.json` | 7.4 KB | ✅ | 7 features |
+| `data/hna/lihtc/08005.json` | 72.6 KB | ✅ | 69 features |
+| `data/hna/lihtc/08007.json` | 3.3 KB | ✅ | 3 features |
 | `data/hna/lihtc/08009.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08011.json` | 1.1 KB | ✅ | 1 features |
-| `data/hna/lihtc/08013.json` | 78.6 KB | ✅ | 89 features |
-| `data/hna/lihtc/08014.json` | 8.2 KB | ✅ | 9 features |
-| `data/hna/lihtc/08015.json` | 5.6 KB | ✅ | 6 features |
+| `data/hna/lihtc/08011.json` | 1.3 KB | ✅ | 1 features |
+| `data/hna/lihtc/08013.json` | 92.0 KB | ✅ | 89 features |
+| `data/hna/lihtc/08014.json` | 9.7 KB | ✅ | 9 features |
+| `data/hna/lihtc/08015.json` | 6.8 KB | ✅ | 6 features |
 | `data/hna/lihtc/08017.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08019.json` | 1.1 KB | ✅ | 1 features |
-| `data/hna/lihtc/08021.json` | 2.0 KB | ✅ | 2 features |
+| `data/hna/lihtc/08019.json` | 1.3 KB | ✅ | 1 features |
+| `data/hna/lihtc/08021.json` | 2.4 KB | ✅ | 2 features |
 | `data/hna/lihtc/08023.json` | 249 B | ✅ | 0 features |
 | `data/hna/lihtc/08025.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08027.json` | 2.0 KB | ✅ | 2 features |
-| `data/hna/lihtc/08029.json` | 5.5 KB | ✅ | 6 features |
-| `data/hna/lihtc/08031.json` | 211.5 KB | ✅ | 240 features |
+| `data/hna/lihtc/08027.json` | 2.2 KB | ✅ | 2 features |
+| `data/hna/lihtc/08029.json` | 6.5 KB | ✅ | 6 features |
+| `data/hna/lihtc/08031.json` | 251.0 KB | ✅ | 240 features |
 | `data/hna/lihtc/08033.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08035.json` | 18.8 KB | ✅ | 21 features |
-| `data/hna/lihtc/08037.json` | 8.2 KB | ✅ | 9 features |
+| `data/hna/lihtc/08035.json` | 22.1 KB | ✅ | 21 features |
+| `data/hna/lihtc/08037.json` | 9.7 KB | ✅ | 9 features |
 | `data/hna/lihtc/08039.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08041.json` | 49.5 KB | ✅ | 55 features |
-| `data/hna/lihtc/08043.json` | 11.8 KB | ✅ | 13 features |
-| `data/hna/lihtc/08045.json` | 10.8 KB | ✅ | 12 features |
-| `data/hna/lihtc/08047.json` | 1.1 KB | ✅ | 1 features |
-| `data/hna/lihtc/08049.json` | 3.8 KB | ✅ | 4 features |
-| `data/hna/lihtc/08051.json` | 2.9 KB | ✅ | 3 features |
+| `data/hna/lihtc/08041.json` | 58.2 KB | ✅ | 55 features |
+| `data/hna/lihtc/08043.json` | 14.1 KB | ✅ | 13 features |
+| `data/hna/lihtc/08045.json` | 12.5 KB | ✅ | 12 features |
+| `data/hna/lihtc/08047.json` | 1.3 KB | ✅ | 1 features |
+| `data/hna/lihtc/08049.json` | 4.2 KB | ✅ | 4 features |
+| `data/hna/lihtc/08051.json` | 3.3 KB | ✅ | 3 features |
 | `data/hna/lihtc/08053.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08055.json` | 1.1 KB | ✅ | 1 features |
+| `data/hna/lihtc/08055.json` | 1.3 KB | ✅ | 1 features |
 | `data/hna/lihtc/08057.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08059.json` | 59.7 KB | ✅ | 67 features |
+| `data/hna/lihtc/08059.json` | 70.7 KB | ✅ | 67 features |
 | `data/hna/lihtc/08061.json` | 249 B | ✅ | 0 features |
 | `data/hna/lihtc/08063.json` | 1.1 KB | ✅ | 1 features |
-| `data/hna/lihtc/08065.json` | 1.1 KB | ✅ | 1 features |
-| `data/hna/lihtc/08067.json` | 13.5 KB | ✅ | 15 features |
-| `data/hna/lihtc/08069.json` | 56.7 KB | ✅ | 64 features |
-| `data/hna/lihtc/08071.json` | 3.8 KB | ✅ | 4 features |
+| `data/hna/lihtc/08065.json` | 1.3 KB | ✅ | 1 features |
+| `data/hna/lihtc/08067.json` | 16.0 KB | ✅ | 15 features |
+| `data/hna/lihtc/08069.json` | 66.8 KB | ✅ | 64 features |
+| `data/hna/lihtc/08071.json` | 4.0 KB | ✅ | 4 features |
 | `data/hna/lihtc/08073.json` | 1.2 KB | ✅ | 1 features |
-| `data/hna/lihtc/08075.json` | 3.7 KB | ✅ | 4 features |
-| `data/hna/lihtc/08077.json` | 15.1 KB | ✅ | 17 features |
+| `data/hna/lihtc/08075.json` | 4.2 KB | ✅ | 4 features |
+| `data/hna/lihtc/08077.json` | 18.1 KB | ✅ | 17 features |
 | `data/hna/lihtc/08079.json` | 249 B | ✅ | 0 features |
 | `data/hna/lihtc/08081.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08083.json` | 8.1 KB | ✅ | 9 features |
-| `data/hna/lihtc/08085.json` | 9.1 KB | ✅ | 10 features |
-| `data/hna/lihtc/08087.json` | 4.6 KB | ✅ | 5 features |
-| `data/hna/lihtc/08089.json` | 2.9 KB | ✅ | 3 features |
-| `data/hna/lihtc/08091.json` | 1.1 KB | ✅ | 1 features |
+| `data/hna/lihtc/08083.json` | 10.0 KB | ✅ | 9 features |
+| `data/hna/lihtc/08085.json` | 11.0 KB | ✅ | 10 features |
+| `data/hna/lihtc/08087.json` | 5.5 KB | ✅ | 5 features |
+| `data/hna/lihtc/08089.json` | 3.3 KB | ✅ | 3 features |
+| `data/hna/lihtc/08091.json` | 1.3 KB | ✅ | 1 features |
 | `data/hna/lihtc/08093.json` | 1.1 KB | ✅ | 1 features |
 | `data/hna/lihtc/08095.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08097.json` | 5.6 KB | ✅ | 6 features |
-| `data/hna/lihtc/08099.json` | 1.1 KB | ✅ | 1 features |
-| `data/hna/lihtc/08101.json` | 28.9 KB | ✅ | 33 features |
+| `data/hna/lihtc/08097.json` | 6.6 KB | ✅ | 6 features |
+| `data/hna/lihtc/08099.json` | 1.3 KB | ✅ | 1 features |
+| `data/hna/lihtc/08101.json` | 35.2 KB | ✅ | 33 features |
 | `data/hna/lihtc/08103.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08105.json` | 3.8 KB | ✅ | 4 features |
-| `data/hna/lihtc/08107.json` | 4.8 KB | ✅ | 5 features |
-| `data/hna/lihtc/08109.json` | 4.6 KB | ✅ | 5 features |
+| `data/hna/lihtc/08105.json` | 4.5 KB | ✅ | 4 features |
+| `data/hna/lihtc/08107.json` | 5.6 KB | ✅ | 5 features |
+| `data/hna/lihtc/08109.json` | 5.5 KB | ✅ | 5 features |
 | `data/hna/lihtc/08111.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08113.json` | 2.0 KB | ✅ | 2 features |
+| `data/hna/lihtc/08113.json` | 2.2 KB | ✅ | 2 features |
 | `data/hna/lihtc/08115.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08117.json` | 7.3 KB | ✅ | 8 features |
-| `data/hna/lihtc/08119.json` | 2.9 KB | ✅ | 3 features |
+| `data/hna/lihtc/08117.json` | 8.6 KB | ✅ | 8 features |
+| `data/hna/lihtc/08119.json` | 3.3 KB | ✅ | 3 features |
 | `data/hna/lihtc/08121.json` | 249 B | ✅ | 0 features |
-| `data/hna/lihtc/08123.json` | 25.7 KB | ✅ | 29 features |
-| `data/hna/lihtc/08125.json` | 1.1 KB | ✅ | 1 features |
+| `data/hna/lihtc/08123.json` | 30.6 KB | ✅ | 29 features |
+| `data/hna/lihtc/08125.json` | 1.3 KB | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 6.5 KB | ✅ | — |
 | `data/hna/local-resources.json` | 180.6 KB | ✅ | — |
@@ -1789,6 +1789,7 @@
 | `data/home-snapshot.json` | 2.1 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
 | `data/hud-home-rent-limits-co-2026.json` | 60.4 KB | ✅ | — |
+| `data/hud-lihtc-co-match.json` | 225.7 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/insights/catalog.json` | 12.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 37.1 KB | ✅ | — |
@@ -2046,7 +2047,7 @@
 
 ## Test Files
 
-714 test files found.
+716 test files found.
 
 | File | Size |
 |------|------|
@@ -2098,7 +2099,7 @@
 | `test/chas-affordable-available.test.js` | 6.0 KB |
 | `test/chas-tier-shares.test.js` | 4.9 KB |
 | `test/chfa-award-coverage.test.mjs` | 5.0 KB |
-| `test/chfa-dda-qct-absence.test.js` | 12.5 KB |
+| `test/chfa-dda-qct-absence.test.js` | 13.4 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/chfa-portfolio-filters.test.js` | 6.3 KB |
 | `test/chfa-portfolio-location-link.test.js` | 6.1 KB |
@@ -2359,6 +2360,7 @@
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 2.8 KB |
 | `test/hud-home-rent-limits.test.js` | 3.2 KB |
+| `test/hud-lihtc-match.test.js` | 3.9 KB |
 | `test/hud-vintage-labels-sync.test.mjs` | 5.1 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
 | `test/input-provenance.test.js` | 6.4 KB |
@@ -2731,6 +2733,7 @@
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
 | `tests/test_housing_events.py` | 8.3 KB |
+| `tests/test_hud_lihtc_match.py` | 2.2 KB |
 | `tests/test_lihtc_applications.py` | 27.7 KB |
 | `tests/test_local_incentives.py` | 12.9 KB |
 | `tests/test_local_support.py` | 5.1 KB |

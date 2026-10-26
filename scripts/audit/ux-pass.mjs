@@ -39,6 +39,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { serveRoot } from './lib/serve-root.mjs';
 import { checkUxBudget, fleschKincaidGrade } from './lib/audit-budget.mjs';
+import { arriveUrl } from './lib/arrive-with.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -120,7 +121,7 @@ async function measure(browser, origin, page, pageBudget = {}) {
   const tab = await context.newPage();
   await tab.addInitScript(installLongTaskObserver);
   try {
-    const response = await tab.goto(`${origin}/${page}`, { waitUntil: 'load', timeout: 45_000 });
+    const response = await tab.goto(`${origin}/${arriveUrl(page)}`, { waitUntil: 'load', timeout: 45_000 });
     if (!response || !response.ok()) throw new Error(`HTTP ${response ? response.status() : 'no response'}`);
     await tab.waitForLoadState('networkidle', { timeout: 30_000 }).catch(() => {});
     await tab.waitForTimeout(2_000);
