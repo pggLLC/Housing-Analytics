@@ -59,7 +59,11 @@ async function getText(url) {
   return res.text();
 }
 
-const count = v => { const n = Number(String(v).replace(/[^0-9.-]/g, '')); return Number.isFinite(n) && String(v).trim() !== '' ? n : null; };
+// A count or year as published; blanks, missing columns and markers such as "N/A" stay null, never 0.
+const count = v => {
+  const t = String(v == null ? '' : v).replace(/[,\s]/g, '');
+  return /^-?\d+(\.\d+)?$/.test(t) ? Number(t) : null;
+};
 
 async function geocode(parks) {
   const csv = parks.map(p => [p.id, p.street, p.city, 'CO', p.zip].map(v => '"' + String(v || '').replace(/"/g, '') + '"').join(',')).join('\n');
@@ -135,4 +139,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch(err => { console.error(err.message); process.exit(1); });
-module.exports = { parseCsv };
+module.exports = { parseCsv, count };

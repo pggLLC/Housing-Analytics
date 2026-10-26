@@ -104,6 +104,13 @@ const PARK_FIELDS = ['REGISTRATION', 'PROJECT', 'PROJ_ADD', 'PROJ_CTY', 'PROJ_ST
 parks.forEach((f) => Object.keys(f.properties).forEach((k) => {
   assert(PARK_FIELDS.includes(k), `DOH park file carries an unlisted field ${k}; names and sale notices must not be published`);
 }));
+parks.forEach(f => {
+  const y = f.properties.community_purchase_year;
+  assert(y === null || (y >= 1900 && y <= new Date().getFullYear()), `${f.properties.REGISTRATION} purchase year ${y}; unknown years must stay null`);
+});
+const { count } = require(path.join(ROOT, 'scripts/fetch-doh-mobile-home-parks.js'));
+['N/A', 'Unknown', '', undefined].forEach(v => assert(count(v) === null, `count(${JSON.stringify(v)}) should be null, not ${count(v)}`));
+assert(count('1,234') === 1234 && count('0') === 0, 'published counts, including zero, should parse');
 assert(/does not guarantee/.test(mhp.meta.caveat), 'DOH park file should carry DOH\u2019s accuracy caveat');
 
 console.log('affordable-housing-preservation-risk: ok');
