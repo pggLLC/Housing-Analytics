@@ -130,6 +130,9 @@
       // chasing unviable markets. ON by default now; users who want to
       // see those edge cases can toggle the checkbox off.
       requireCapture: true,
+      // On for the 9% target: leave out places where a 24-home building would be over CHFA's
+      // 85% capture line (_passesDemandRequirement). The checkbox shows them again.
+      requireDemand: true,
       // F240 — Downtown redevelopment filter. ON narrows to jurisdictions
       // with an active URA match OR an Opportunity Zone tract in the county.
       // OFF by default — surfaces the URA + OZ context as opt-in.
@@ -636,9 +639,21 @@
    *
    * Returns { composite, source } where source ∈ 'place' | 'county' | null.
    */
+  // Renter households the ACS counts in a place, and whether the survey margin makes the count
+  // "use with caution" (CV over 0.30, the rule the HNA pages use; data/hna/acs-reliability.json).
+  var RENTER_HH_FIELD = 'DP04_0047E';
+  function renterCountThin(placeGeoid) {
+    var g = placeGeoid && state.acsReliability && state.acsReliability[placeGeoid];
+    var r = g && g[RENTER_HH_FIELD];
+    return !!(r && r.t === 'use_with_caution');
+  }
+
   function needCompositeFor(countyFips, placeGeoid) {
-    // Prefer place-level CHAS when available + not low_confidence
-    if (placeGeoid) {
+    // Prefer place-level CHAS when available, not low_confidence, and the place's ACS renter count
+    // is reliable enough to rank. A thin count (about 78 renter households, ± 46, in Nucla) moves a
+    // small town across the whole percentile range, so need comes from the county instead.
+    var thin = renterCountThin(placeGeoid);
+    if (placeGeoid && !thin) {
       var placeRec = state.placeChas && state.placeChas[placeGeoid];
       if (placeRec && placeRec.summary && !placeRec.low_confidence) {
         var ps = placeRec.summary;
@@ -671,7 +686,7 @@
     }
     var blended = (s.pct_renter_cb30 * 100 * renterHH + s.pct_owner_cb30 * 100 * ownerHH) / total;
     var severe = s.pct_renter_cb50 * 100;
-    return { composite: blended * 0.7 + severe * 0.3, source: 'county' };
+    return { composite: blended * 0.7 + severe * 0.3, source: thin ? 'county-thin' : 'county' };
   }
   function needScoreFor(countyFips, needDist, placeGeoid) {
     var res = needCompositeFor(countyFips, placeGeoid);
@@ -685,6 +700,20 @@
       else if (needDist[i] === composite) below += 0.5;
     }
     return { score: Math.round((below / needDist.length) * 100), source: res.source };
+  }
+
+  // A typical 9% building and CHFA's capture line: "A project with capture rates that exceed 85
+  // percent will not be accepted without additional data to support demand" (2027-28 QAP Third
+  // Draft, 2.B). Capture = proposed homes / qualifying renter households in the market area.
+  var TYPICAL_9PCT_HOMES = 24;
+  var CHFA_CAPTURE_LIMIT = 0.85;
+  function placeDemandFor(placeGeoid) {
+    var d = state.placeDemand && state.placeDemand.places && state.placeDemand.places[placeGeoid];
+    // A row without a qualified count means the figure is unavailable;
+    // such places stay in, like places with no row.
+    if (!d || d.qualified == null) return null;
+    var capture = d.qualified > 0 ? TYPICAL_9PCT_HOMES / d.qualified : Infinity;
+    return { qualified: d.qualified, existing: d.existing, capture: capture, thin: capture > CHFA_CAPTURE_LIMIT };
   }
 
   // isBoth: a QCT and a DDA cover the same ground. Defaults to isQct && isDda,
@@ -793,7 +822,18 @@
       }
       return next();
     }
-    return Promise.all([
+    // Loaded beside the main list so its indices stay put. ACS margins of error by place: a place whose
+    // renter-household count is "use with caution" (CV over 0.30) scores need from its county.
+    // Qualifying renters and tax-credit homes within 15 miles of each place, from the Market
+    // analysis engine (scripts/market/build_finder_demand.mjs).
+    var thinData = Promise.all([
+      loadSoft('data/hna/acs-reliability.json'),
+      loadSoft('data/market/finder-place-demand.json')
+    ]).then(function (got) {
+      state.acsReliability = (got[0] && got[0].geos) || {};
+      state.placeDemand = got[1] || null;
+    });
+    return Promise.all([thinData, Promise.all([
       loadJson('data/qct-colorado.json'),
       loadJson('data/dda-colorado.json'),
       loadFirstJson(['data/chfa-lihtc.json', 'data/market/hud_lihtc_co.geojson']),
@@ -1260,7 +1300,7 @@
         Object.keys(state.ddaZipFeatures.reduce(function (m, f) { m[_ddaZip(f)] = 1; return m; }, {})).length +
         ' DDA ZIPs · ' + state.projects.length + ' LIHTC projects · ' +
         Object.keys(state.policyScores).length + ' policy-score records…');
-    });
+    })]);
   }
 
   /* ── Civic-capacity helpers ───────────────────────────────────────── */
@@ -1735,6 +1775,9 @@
         // F223 — provenance for the need component: 'place' = place-level CHAS;
         // 'county' = containing-county CHAS fallback; null = unavailable.
         needSource:   needSource,
+        // Qualifying renters within 15 miles and a 24-home building's capture rate; thin = over
+        // CHFA's 85% line, so the 9% ranking leaves the place out unless the reader shows it.
+        demand:       placeDemandFor(placeGeoid),
         basisBoostScore: bbScore,
         populationScore: popScore,
         // Target-specific composites (5-dim, methodology §4)
@@ -2035,6 +2078,18 @@
     };
   }
 
+  function _demandTitle(d) {
+    var pct = Number.isFinite(d.capture) ? Math.round(d.capture * 100) + '%' : 'no qualifying renters';
+    return 'A ' + TYPICAL_9PCT_HOMES + '-home building would need a capture rate of ' + pct + ' of the ' + fmtInt(d.qualified) +
+      ' qualifying renter households within 15 miles. CHFA does not accept capture rates over 85% without more data to support demand (2027-28 QAP, 2.B).';
+  }
+
+  // The 9% ranking leaves out places where a typical building would be over CHFA's capture line,
+  // unless the reader shows them. Places with no demand figure stay in.
+  function _passesDemandRequirement(op) {
+    return !(op && op.demand && op.demand.thin);
+  }
+
   function _passesCaptureRequirement(op) {
     // Missing FMR or CHFA limits do not establish an unviable market. Keep the
     // jurisdiction visible with its unavailable label instead of screening it out.
@@ -2071,6 +2126,7 @@
       // Missing FMR or CHFA coverage remains visible; only measured capture
       // can screen a jurisdiction out (see _passesCaptureRequirement).
       if (f.requireCapture && !_passesCaptureRequirement(op)) return false;
+      if (f.requireDemand && f.target === '9pct' && !_passesDemandRequirement(op)) return false;
       // F240 — downtown redev: must have URA match or OZ overlap.
       // op.hasUra + op.ozCount are stamped at compute-time when the redev
       // reference data is loaded; if not yet loaded, this filter is a no-op
@@ -2171,6 +2227,7 @@
     if (f.county) labels.push('1 county');
     if (f.basis) labels.push(BASIS_LABELS[f.basis] || f.basis);
     if (f.requireCapture) labels.push('rent-advantage required');
+    if (f.requireDemand && f.target === '9pct') labels.push('enough qualifying renters for 24 homes');
     if (!f.includeCdps) labels.push('incorporated only');
     if (f.minScore > 0) labels.push('score ≥ ' + f.minScore);
     if (f.minYearsSince > 0) labels.push('≥ ' + f.minYearsSince + ' yrs since LIHTC');
@@ -2560,6 +2617,14 @@
         loose: Object.assign({}, f, { requireCapture: false })
       });
     }
+    if (f.requireDemand && f.target === '9pct') {
+      candidates.push({
+        label: 'Show places with too few qualifying renters for 24 homes',
+        action: 'requireDemand',
+        target: false,
+        loose: Object.assign({}, f, { requireDemand: false })
+      });
+    }
     if (f.basis === 'both') {
       candidates.push({
         label: 'Accept QCT or DDA (not strict QCT+DDA)',
@@ -2669,6 +2734,7 @@
         if (loose.minPreservation > 0 && (op.preservationCount || 0) < loose.minPreservation) return false;
         if (loose.onlyUrgentPres && (op.preservationUrgent5y || 0) === 0) return false;
         if (loose.requireCapture && !_passesCaptureRequirement(op)) return false;
+        if (loose.requireDemand && loose.target === '9pct' && !_passesDemandRequirement(op)) return false;
         return true;
       }).length;
     }
@@ -2687,6 +2753,8 @@
     // Sync the corresponding UI control so the user sees the change.
     if (action === 'requireCapture') {
       var chk = $('lofRequireCapture'); if (chk) chk.checked = !!targetValue;
+    } else if (action === 'requireDemand') {
+      var dchk = $('lofRequireDemand'); if (dchk) dchk.checked = !!targetValue;
     } else if (action === 'basis') {
       var radios = document.querySelectorAll('input[name="lofBasis"]');
       radios.forEach(function (r) { r.checked = (r.value === targetValue); });
@@ -2870,6 +2938,11 @@
           // The original `op.type === 'place'` guard made this pill dead code.
           (op.needSource === 'county'
             ? ' <span style="display:inline-block;font-size:.8125rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);margin-left:3px;" title="No place-level CHAS available — this jurisdiction\'s need score is the containing county\'s CHAS composite, applied to every place in the county.">scaled</span>'
+            : op.needSource === 'county-thin'
+            ? ' <span style="display:inline-block;font-size:.8125rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);margin-left:3px;" title="The Census ACS count of renter households here has a margin of error over 30% of the estimate (use with caution), so need is scored from the county.">thin data: county need</span>'
+            : '') +
+          (op.demand && op.demand.thin
+            ? ' <span style="display:inline-block;font-size:.8125rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);margin-left:3px;" title="' + escHtml(_demandTitle(op.demand)) + '">few qualifying renters</span>'
             : '') +
         '</td>' +
         '<td data-priority="tertiary">' + (op.population != null ? fmtInt(op.population) : '—') + '</td>' +
@@ -3923,6 +3996,12 @@
               op.preservationUsdaRd + ' here)</span>'
           : '<span style="color:var(--muted)">None on file</span>') +
       '</dd>' +
+      (op.demand
+        ? '<dt>Qualifying renters within 15 miles</dt><dd>' + fmtInt(op.demand.qualified) +
+          (op.demand.existing != null ? ' <span style="color:var(--muted);font-size:.8125rem">(' + fmtInt(op.demand.existing) + ' tax-credit homes already there)</span>' : '') +
+          (op.demand.thin ? ' <span style="display:inline-block;font-size:.8125rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);">Too few qualifying renters for a typical 9% building</span>' : '') +
+          '<br><span style="color:var(--muted);font-size:.8125rem">' + escHtml(_demandTitle(op.demand)) + '</span></dd>'
+        : '') +
       '<dt>HNA need composite</dt><dd>' + (op.needCompositePct != null ? op.needCompositePct + '% ' : '') +
         '<span style="color:var(--muted);font-size:.8125rem">(CO percentile rank: ' + (op.needScore != null ? 'p' + op.needScore : 'unavailable') + ')</span>' +
         // F223 follow-up — the list row discloses county-sourced need with a
@@ -3931,6 +4010,8 @@
         // place-CHAS record is missing or low_confidence (needCompositeFor).
         (op.needSource === 'county'
           ? ' <span style="display:inline-block;font-size:.8125rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);" title="No reliable place-level CHAS available — this jurisdiction\'s need composite is the containing county\'s CHAS composite, applied to every place in the county.">county CHAS (place data unavailable)</span>'
+          : op.needSource === 'county-thin'
+          ? ' <span style="display:inline-block;font-size:.8125rem;padding:1px 4px;border-radius:3px;background:var(--warn-dim);color:var(--warn);">Thin data: county need used</span> <span style="color:var(--muted);font-size:.8125rem">The Census ACS renter-household count here has a margin of error over 30% of the estimate.</span>'
           : '') +
         ' &nbsp;<a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" target="_blank" rel="noopener" ' +
           'style="font-size:.8125rem;font-weight:600">View full HNA →</a>' +
@@ -4467,6 +4548,7 @@
       if (f.minPreservation > 0 && (op.preservationCount || 0) < f.minPreservation) return;
       if (f.onlyUrgentPres && (op.preservationUrgent5y || 0) === 0) return;
       if (f.requireCapture && !_passesCaptureRequirement(op)) return;
+      if (f.requireDemand && f.target === '9pct' && !_passesDemandRequirement(op)) return;
       var r = op.region || '(none)';
       byRegion[r] = (byRegion[r] || 0) + 1;
     });
@@ -4557,6 +4639,8 @@
       if (el) el.checked = !!f.chfaRural;
       el = document.getElementById('lofRequireCapture');
       if (el) el.checked = !!f.requireCapture;
+      el = document.getElementById('lofRequireDemand');
+      if (el) el.checked = f.requireDemand !== false;
       el = document.getElementById('lofRequireRedev');
       if (el) el.checked = !!f.requireRedev;
       el = document.getElementById('lofSearch');
@@ -4641,6 +4725,14 @@
     if (requireCapture) {
       requireCapture.addEventListener('change', function () {
         state.filters.requireCapture = requireCapture.checked;
+        _refresh();
+      });
+    }
+
+    var requireDemand = $('lofRequireDemand');
+    if (requireDemand) {
+      requireDemand.addEventListener('change', function () {
+        state.filters.requireDemand = requireDemand.checked;
         _refresh();
       });
     }
@@ -4782,6 +4874,7 @@
         minPreservation: 0, onlyUrgentPres: false,
         includeCdps: false,
         requireCapture: true,   // F13: ON by default (was false)
+        requireDemand: true,    // 9% target: enough qualifying renters for 24 homes
         requireRedev: false,    // F240: OFF by default
         searchText: ''          // F251: clear search input
       };
@@ -4808,6 +4901,7 @@
       if (eitherRadio) eitherRadio.checked = true;
       if (includeCdps) includeCdps.checked = false;
       if (requireCapture) requireCapture.checked = true;
+      if (requireDemand) requireDemand.checked = true;
       var countyFilter = $('lofCounty');
       if (countyFilter) {
         countyFilter.value = '';
@@ -5290,6 +5384,14 @@
       setChasForTest: function (counties, places) {
         state.chasByFips = counties || {};
         state.placeChas = places || {};
+      },
+      needCompositeFor: needCompositeFor,
+      placeDemandFor: placeDemandFor,
+      passesDemandRequirement: _passesDemandRequirement,
+      demandTitle: _demandTitle,
+      setThinDataForTest: function (reliability, demand) {
+        state.acsReliability = reliability || {};
+        state.placeDemand = demand || null;
       },
       setZoriForTest: function (byCounty, meta, byCity) {
         state.zoriByCounty = byCounty || {};
