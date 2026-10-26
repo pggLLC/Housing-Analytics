@@ -314,3 +314,20 @@ def test_a_utc_series_keeps_its_utc_time_across_daylight_time():
     rows = fhe.parse_ics(cal, 'APA Colorado', 'apa_colorado', fhe.APA_CO_PAGE, date(2026, 10, 1))
     assert [(r['start'], r['time']) for r in rows] == [
         ('2026-10-13', '10:00'), ('2026-11-10', '09:00'), ('2026-12-08', '09:00')]
+
+
+def test_an_explicit_tzid_is_converted_to_mountain_time():
+    cal = '\r\n'.join(['BEGIN:VCALENDAR',
+                       'BEGIN:VEVENT', 'UID:ny', 'DTSTART;TZID=America/New_York:20261119T140000',
+                       'SUMMARY:Housing webinar from New York', 'END:VEVENT',
+                       'BEGIN:VEVENT', 'UID:az', 'DTSTART;TZID=America/Phoenix:20261013T100000',
+                       'RRULE:FREQ=MONTHLY;COUNT=2;BYDAY=2TU', 'SUMMARY:Arizona housing series', 'END:VEVENT',
+                       'BEGIN:VEVENT', 'UID:win', 'DTSTART;TZID="Mountain Standard Time":20261120T090000',
+                       'SUMMARY:Housing meeting', 'END:VEVENT', 'END:VCALENDAR'])
+    rows = {(r['title'], r['start']): r['time']
+            for r in fhe.parse_ics(cal, 'APA Colorado', 'apa_colorado', fhe.APA_CO_PAGE, date(2026, 10, 1))}
+    assert rows[('Housing webinar from New York', '2026-11-19')] == '12:00'
+    # Arizona keeps standard time, so its 10:00 is 11:00 in Colorado until November, then 10:00.
+    assert rows[('Arizona housing series', '2026-10-13')] == '11:00'
+    assert rows[('Arizona housing series', '2026-11-10')] == '10:00'
+    assert rows[('Housing meeting', '2026-11-20')] == '09:00', 'an unknown zone name is read as Mountain'

@@ -67,6 +67,7 @@ import sys
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT_FILE = ROOT / 'data' / 'policy' / 'housing-events.json'
@@ -244,7 +245,7 @@ def parse_housing_colorado(page: str) -> list[dict]:
 # ── iCalendar (DOLA's and APA Colorado's public Google calendars) ──────────
 
 WEEKDAYS = {'MO': 0, 'TU': 1, 'WE': 2, 'TH': 3, 'FR': 4, 'SA': 5, 'SU': 6}
-DENVER_UTC_OFFSET = {False: 7, True: 6}  # hours behind UTC: standard, daylight
+DENVER = ZoneInfo('America/Denver')
 
 
 def _ics_unescape(v: str) -> str:
@@ -270,27 +271,30 @@ def _ics_events(text: str) -> list[dict]:
     return out
 
 
-def _is_dst(d: date) -> bool:
-    """US daylight time: second Sunday of March to first Sunday of November."""
-    def nth_sunday(month, n):
-        first = date(d.year, month, 1)
-        return first + timedelta(days=(6 - first.weekday()) % 7 + 7 * (n - 1))
-    return nth_sunday(3, 2) <= d < nth_sunday(11, 1)
+def _ics_zone(params: str, value: str):
+    """The zone a DTSTART/DTEND clock time is in: UTC for a trailing Z, its TZID, else Mountain."""
+    if (value or '').endswith('Z'):
+        return timezone.utc
+    m = re.search(r'(?:^|;)TZID="?([^";:]+)"?', params or '')
+    if m:
+        try:
+            return ZoneInfo(m.group(1).strip())
+        except (ZoneInfoNotFoundError, ValueError):
+            pass  # an unknown name (such as a Windows zone label) is read as Mountain
+    return DENVER
 
 
 def _ics_when(params: str, value: str) -> tuple[str | None, str | None]:
     """DTSTART/DTEND → (Mountain-time ISO day, HH:MM or None for all-day)."""
-    m = re.match(r'^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})\d{2}(Z?))?$', value or '')
+    m = re.match(r'^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})\d{2}Z?)?$', value or '')
     if not m:
         return None, None
     d = date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
     if m.group(4) is None:
         return d.isoformat(), None
-    hh, mm = int(m.group(4)), int(m.group(5))
-    if m.group(6) == 'Z':  # UTC → Mountain
-        dt = datetime(d.year, d.month, d.day, hh, mm) - timedelta(hours=DENVER_UTC_OFFSET[_is_dst(d)])
-        d, hh, mm = dt.date(), dt.hour, dt.minute
-    return d.isoformat(), f'{hh:02d}:{mm:02d}'
+    dt = datetime(d.year, d.month, d.day, int(m.group(4)), int(m.group(5)),
+                  tzinfo=_ics_zone(params, value)).astimezone(DENVER)
+    return dt.date().isoformat(), f'{dt.hour:02d}:{dt.minute:02d}'
 
 
 def _nth_weekday(year: int, month: int, n: int, weekday: int) -> date | None:
@@ -397,18 +401,18 @@ def parse_ics(text: str, organizer: str, source: str, page: str, today: date,
         occurrences = [(date.fromisoformat(start), time_)]
         if 'RRULE' in p:
             exdates = {x[:8] for x in p.get('EXDATE', [])} | replaced.get((p.get('UID') or ('', ''))[1], set())
-            raw = (p.get('DTSTART') or ('', ''))[1]
-            utc = re.match(r'^(\d{8})T(\d{6})Z$', raw)
-            # A UTC start repeats at the same UTC time, so its Mountain clock time moves with daylight
-            # time: expand on the UTC date and convert each occurrence. Local starts keep their time.
-            first = date(int(raw[:4]), int(raw[4:6]), int(raw[6:8])) if utc else occurrences[0][0]
+            params, raw = p.get('DTSTART') or ('', '')
+            clock = re.match(r'^(\d{8})(T\d{6}Z?)$', raw)
+            # A series repeats at the same clock time in its own zone (UTC or its TZID), so its Mountain
+            # time can move with daylight time: expand on the source date and convert each occurrence.
+            first = date(int(raw[:4]), int(raw[4:6]), int(raw[6:8])) if clock else occurrences[0][0]
             days = _expand(first, p['RRULE'][1], horizon + timedelta(days=1))
             if days is None:
                 continue
             days = [d for d in days if d.strftime('%Y%m%d') not in exdates]
-            occurrences = ([_ics_when('', d.strftime('%Y%m%d') + 'T' + utc.group(2) + 'Z') for d in days] if utc
-                           else [(d, time_) for d in days])
-            occurrences = [(date.fromisoformat(d) if isinstance(d, str) else d, t) for d, t in occurrences]
+            occurrences = ([_ics_when(params, d.strftime('%Y%m%d') + clock.group(2)) for d in days] if clock
+                           else [(d.isoformat(), time_) for d in days])
+            occurrences = [(date.fromisoformat(d), t) for d, t in occurrences]
         location = _ics_unescape((p.get('LOCATION') or ('', ''))[1])
         link = next((u for u in re.findall(r'https?://[^\s<>"]+', f"{(p.get('URL') or ('', ''))[1]} {desc}")
                      if not PRIVATE_MEETING_LINK.search(u)), None)
