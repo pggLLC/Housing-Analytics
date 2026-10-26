@@ -23,6 +23,7 @@ import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { arriveUrl } from './lib/arrive-with.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BASE_URL = process.env.AUDIT_BASE_URL || 'http://127.0.0.1:8080';
@@ -205,7 +206,7 @@ function mockChfaLihtcResponse(url) {
 }
 
 async function auditPage(browser, pageConfig) {
-  const url = BASE_URL + pageConfig.path;
+  const url = BASE_URL + arriveUrl(pageConfig.path);
   const result = {
     name: pageConfig.name,
     url,
@@ -480,7 +481,7 @@ async function main() {
       console.error(`    ERROR auditing ${pageConfig.name}:`, err.message);
       results.push({
         name: pageConfig.name,
-        url: BASE_URL + pageConfig.path,
+        url: BASE_URL + arriveUrl(pageConfig.path),
         consoleErrors: [],
         failedRequests: [],
         firedRequests: [],

@@ -192,7 +192,8 @@ test('pages are audited as served pages, with their data, not as file:// shells'
   const at = SRC.indexOf('async function auditPage');
   const fn = SRC.slice(at, SRC.indexOf('\nfunction summarize', at));
   assert.ok(!/pathToFileURL\(|['"`]file:\/\//.test(fn), 'auditPage opens pages as file:// again; their data never loads');
-  assert.ok(/origin \+ '\/' \+ pagePath/.test(fn), 'auditPage no longer opens the page from the local server');
+  // arriveUrl adds the address a page needs to show content (lib/arrive-with.mjs).
+  assert.ok(/origin \+ '\/' \+ (?:arriveUrl\(pagePath\)|pagePath)/.test(fn), 'auditPage no longer opens the page from the local server');
   assert.ok(/waitForLoadState\('networkidle'/.test(fn), 'auditPage no longer waits for the page data to load');
   assert.ok(/serveRoot\(ROOT\)/.test(SRC), 'the audit no longer starts its own static server');
 });
