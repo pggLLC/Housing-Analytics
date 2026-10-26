@@ -56,6 +56,50 @@ async function look(browser, file, width) {
   return v;
 }
 
+// Submittal review on a phone, with two invented versions saved on this device: every
+// version's buttons, Delete included, are on screen without sliding the table, and
+// "Delete this deal" sits with the deal picker. paul, 10-26 signed-in pass: "cannot
+// find delete" (the Delete column was off the right edge, and the deal button far below).
+async function versions(browser, width) {
+  const ctx = await browser.newContext({ viewport: { width, height: 844 } });
+  await ctx.addInitScript(() => { try { sessionStorage.setItem('ib-auth-v1', JSON.stringify({ ts: Date.now() })); } catch (e) { /* blocked */ } });
+  const tab = await ctx.newPage();
+  await tab.route('**/*', (route) => {
+    const u = new URL(route.request().url());
+    // No save service here: the page keeps versions on this device.
+    if (u.origin !== ORIGIN || u.pathname.startsWith('/api/')) return route.abort();
+    const f = path.resolve(ROOT, decodeURIComponent(u.pathname.slice(1)));
+    if (!f.startsWith(ROOT + path.sep) || !fs.existsSync(f) || !fs.statSync(f).isFile()) return route.fulfill({ status: 404, body: '' });
+    return route.fulfill({ body: fs.readFileSync(f), contentType: mime[path.extname(f)] || 'application/octet-stream' });
+  });
+  const ready = () => tab.waitForFunction(() => window.SubmittalReview && document.querySelectorAll('#sr-deal option').length >= 1 && document.getElementById('srClaims').children.length > 0, null, { timeout: 30000 });
+  await tab.goto(`${ORIGIN}/developer-submittal-review.html`, { waitUntil: 'load', timeout: 90000 });
+  await ready();
+  const deal = await tab.evaluate(async () => {
+    const s = window.SubmittalReview.makeStore(() => Promise.reject(new Error('offline')), localStorage);
+    const a = await s.save({ name: 'Invented Site', label: 'first', data: { deal: { mix: { 60: 10 } } } });
+    await s.save({ deal: a.deal, name: 'Invented Site', label: 'second', data: { deal: { mix: { 60: 20 } } } });
+    return a.deal;
+  });
+  await tab.reload({ waitUntil: 'load' });
+  await ready();
+  await tab.waitForFunction((id) => [...document.querySelectorAll('#sr-deal option')].some((o) => o.value === id), deal, { timeout: 30000 });
+  await tab.selectOption('#sr-deal', deal);
+  await tab.waitForFunction(() => document.querySelectorAll('#srVersions [data-act="purge"]').length === 2, null, { timeout: 30000 });
+  const v = await tab.evaluate(() => {
+    const box = (el) => { const r = el.getBoundingClientRect(); return { left: r.left, right: r.right, w: r.width }; };
+    const del = document.getElementById('sr-delete-deal');
+    return {
+      purge: [...document.querySelectorAll('#srVersions [data-act]')].map(box),
+      dealBtn: !del.hidden && box(del).w > 0,
+      withPicker: del.closest('section') === document.getElementById('sr-deal').closest('section'),
+      page: document.documentElement.scrollWidth
+    };
+  });
+  await ctx.close();
+  return v;
+}
+
 const bundled = chromium.executablePath();
 const fromPuppeteer = fs.existsSync(bundled) ? null : await (await import('puppeteer')).default.executablePath();
 const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (fs.existsSync(bundled) ? bundled
@@ -76,6 +120,13 @@ try {
   for (const f of PUBLIC) {
     ok((await look(browser, f, 390)).chip, f + ' at 390px keeps the jurisdiction chip');
     ok((await look(browser, f, 1280)).chip, f + ' at 1280px keeps the jurisdiction chip');
+  }
+  for (const width of [390, 1280]) {
+    const v = await versions(browser, width);
+    ok(v.purge.length >= 8, 'non-vacuous: two saved versions show their buttons (' + v.purge.length + ')');
+    ok(v.purge.every((b) => b.w > 0 && b.left >= 0 && b.right <= width), width + 'px: every version button, Delete included, is on screen');
+    ok(v.dealBtn && v.withPicker, width + 'px: Delete this deal shows with the deal picker');
+    ok(v.page <= width, width + 'px: Submittal review does not scroll sideways (' + v.page + 'px)');
   }
   // On a desktop the member pages keep the chip too: only the phone header changes.
   ok((await look(browser, MEMBER[0], 1280)).chip, MEMBER[0] + ' at 1280px keeps the jurisdiction chip');
