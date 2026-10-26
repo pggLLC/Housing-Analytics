@@ -28,7 +28,6 @@ const { buildHtmlReport } = require('./audit-modules/report-generator.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const HOUR = 60 * 60 * 1000;
-const DAY = 24 * HOUR;
 const NOW = Date.parse('2026-10-26T15:00:00Z');
 const iso = ms => new Date(ms).toISOString();
 
