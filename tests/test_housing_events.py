@@ -306,3 +306,11 @@ def test_rules_with_selectors_the_reader_does_not_compute_are_skipped():
     assert fhe._expand(date(2026, 10, 13), 'FREQ=MONTHLY;BYMONTHDAY=13', date(2027, 2, 23)) is None
     assert fhe._expand(date(2026, 10, 13), 'FREQ=MONTHLY;BYDAY=2TU', date(2026, 12, 31)) == [
         date(2026, 10, 13), date(2026, 11, 10), date(2026, 12, 8)]
+
+
+def test_a_utc_series_keeps_its_utc_time_across_daylight_time():
+    cal = '\r\n'.join(['BEGIN:VCALENDAR', 'BEGIN:VEVENT', 'UID:x', 'DTSTART:20261013T160000Z',
+                         'RRULE:FREQ=MONTHLY;COUNT=3;BYDAY=2TU', 'SUMMARY:Housing webinar', 'END:VEVENT', 'END:VCALENDAR'])
+    rows = fhe.parse_ics(cal, 'APA Colorado', 'apa_colorado', fhe.APA_CO_PAGE, date(2026, 10, 1))
+    assert [(r['start'], r['time']) for r in rows] == [
+        ('2026-10-13', '10:00'), ('2026-11-10', '09:00'), ('2026-12-08', '09:00')]

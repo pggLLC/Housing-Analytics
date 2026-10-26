@@ -393,23 +393,32 @@ def parse_ics(text: str, organizer: str, source: str, page: str, today: date,
         if end and time_ is None:  # an all-day DTEND is exclusive
             end = (date.fromisoformat(end) - timedelta(days=1)).isoformat()
         length = (date.fromisoformat(end) - date.fromisoformat(start)).days if end else 0
-        starts = [date.fromisoformat(start)]
+        # (day, time) per occurrence, in Mountain time.
+        occurrences = [(date.fromisoformat(start), time_)]
         if 'RRULE' in p:
             exdates = {x[:8] for x in p.get('EXDATE', [])} | replaced.get((p.get('UID') or ('', ''))[1], set())
-            starts = _expand(starts[0], p['RRULE'][1], horizon)
-            if starts is None:
+            raw = (p.get('DTSTART') or ('', ''))[1]
+            utc = re.match(r'^(\d{8})T(\d{6})Z$', raw)
+            # A UTC start repeats at the same UTC time, so its Mountain clock time moves with daylight
+            # time: expand on the UTC date and convert each occurrence. Local starts keep their time.
+            first = date(int(raw[:4]), int(raw[4:6]), int(raw[6:8])) if utc else occurrences[0][0]
+            days = _expand(first, p['RRULE'][1], horizon + timedelta(days=1))
+            if days is None:
                 continue
-            starts = [d for d in starts if d.strftime('%Y%m%d') not in exdates]
+            days = [d for d in days if d.strftime('%Y%m%d') not in exdates]
+            occurrences = ([_ics_when('', d.strftime('%Y%m%d') + 'T' + utc.group(2) + 'Z') for d in days] if utc
+                           else [(d, time_) for d in days])
+            occurrences = [(date.fromisoformat(d) if isinstance(d, str) else d, t) for d, t in occurrences]
         location = _ics_unescape((p.get('LOCATION') or ('', ''))[1])
         link = next((u for u in re.findall(r'https?://[^\s<>"]+', f"{(p.get('URL') or ('', ''))[1]} {desc}")
                      if not PRIVATE_MEETING_LINK.search(u)), None)
-        for d in starts:
+        for d, t in occurrences:
             e_end = (d + timedelta(days=length)).isoformat() if length > 0 else None
             out.append({
                 'title': title,
                 'start': d.isoformat(),
                 'end': e_end,
-                'time': time_,
+                'time': t,
                 'location': None if not location or location.startswith('http') else location,
                 'online': bool(re.search(r'\bonline\b|\bvirtual\b|webinar|zoom|teams', f'{title} {location}', re.I)),
                 'organizer': organizer,
