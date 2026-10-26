@@ -21,6 +21,10 @@
 // Only these statuses mean the program's current terms were confirmed on its own page.
 // Mirrors CONFIRMED_STATUSES in js/soft-funding-tracker.js (the test holds them equal).
 const CONFIRMED_SOFT_STATUSES = ['active'];
+// Statuses that say plainly the label is not a source today: no finding for these.
+// 'retired' marks a legacy label no official page establishes (kept so older saved
+// deals still resolve); 'ended' a program whose own page says it is over.
+const SETTLED_SOFT_STATUSES = ['closed', 'retired', 'ended'];
 // Guide statuses that promise a next round. (Open and rolling programs often name only
 // the date they opened, "since December 2022", so a past date there is not staleness.)
 const GUIDE_LIVE_STATUSES = ['rounds', 'annual'];
@@ -63,7 +67,7 @@ function fundingProgramFindings({ guide, soft, today }) {
 
   if (soft && soft.programs) {
     const entries = Object.entries(soft.programs);
-    const unconfirmed = entries.filter(([, p]) => p && p.status !== 'closed' && !CONFIRMED_SOFT_STATUSES.includes(p.status));
+    const unconfirmed = entries.filter(([, p]) => p && !SETTLED_SOFT_STATUSES.includes(p.status) && !CONFIRMED_SOFT_STATUSES.includes(p.status));
     if (unconfirmed.length) {
       findings.push({
         severity: 'medium',
@@ -187,4 +191,4 @@ function fundingWatchFindings({ watch }) {
   return findings;
 }
 
-module.exports = { fundingProgramFindings, fundingWatchFindings, datesIn, CONFIRMED_SOFT_STATUSES, GUIDE_LIVE_STATUSES };
+module.exports = { fundingProgramFindings, fundingWatchFindings, datesIn, CONFIRMED_SOFT_STATUSES, SETTLED_SOFT_STATUSES, GUIDE_LIVE_STATUSES };

@@ -2,7 +2,7 @@
   "meta": {
     "title": "Colorado developer funding resources",
     "as_of": "2026-10-10",
-    "last_checked": "2026-10-20",
+    "last_checked": "2026-10-26",
     "review_by": "2027-01-15",
     "scope": "Programs that finance affordable rental and for-sale housing development in Colorado: federal and state tax credits, CHFA loans, Proposition 123 funds, Division of Housing funds, federal and agency debt and grants, rental assistance, the largest city funds, and the state and federal programs that pay for public infrastructure serving housing sites.",
     "method": "Every term was read from the administrator's own page, the statute, eCFR, IRS, Federal Register (govinfo) or the CHFA QAP on the date in last_checked, and each one carries a verbatim quote and its URL in evidence. A term the official source does not publish is null and listed in unverified with the reason. Nothing is filled from memory or from third-party summaries.",
@@ -921,7 +921,7 @@
           "reason": "The state credit follows the AMI election of the federal credit it is paired with; see AMI elections under Major considerations."
         }
       ],
-      "last_checked": "2026-10-10",
+      "last_checked": "2026-10-26",
       "fit": {
         "role": "capital",
         "execution": [
@@ -1103,7 +1103,7 @@
           "reason": "The $10 million per year 2027 to 2029 authorization comes from CHFA's August 2024 flyer; later statute changes were not checked."
         }
       ],
-      "last_checked": "2026-10-10",
+      "last_checked": "2026-10-26",
       "fit": {
         "role": "capital",
         "execution": [
@@ -1517,7 +1517,8 @@
         "P.L. 119-21 (signed July 4, 2025) made zone designation recurring every ten years instead of a one-time program.",
         "Colorado's 2027 zone map depends on the Governor's nominations under Rev. Proc. 2026-14; existing zones remain until the end of 2028.",
         "Rural funds get a larger basis step-up (30%) under the amended law.",
-        "OZ equity can combine with LIHTC, but neither program restricts rents by itself."
+        "OZ equity can combine with LIHTC, but neither program restricts rents by itself.",
+        "IRS has issued 2026 transitional guidance (Notice 2026-40), proposed reporting and fund-certification regulations (REG-116506-25), and a request for more comments (Notice 2026-55); check them before structuring an OZ investment."
       ],
       "sources": [
         {
@@ -1581,6 +1582,16 @@
           "field": "key_considerations",
           "quote": "effective on January 1, 2027, for purposes of §§ 1400Z-1 and 1400Z-2 of the Internal Revenue Code (Code) , as amended by § 70421 of Public Law 119-21",
           "url": "https://www.irs.gov/irb/2026-20_IRB"
+        },
+        {
+          "field": "key_considerations",
+          "quote": "Notice 2026-40 - Transitional Guidance on Qualified Opportunity Zones",
+          "url": "https://www.irs.gov/credits-deductions/businesses/opportunity-zones"
+        },
+        {
+          "field": "key_considerations",
+          "quote": "Notice 2026-55 - Request for Additional Comments on Issues under section 1400Z-2 Regarding Investments in Qualified Opportunity Funds and Qualified Opportunity Zone Businesses",
+          "url": "https://www.irs.gov/credits-deductions/businesses/opportunity-zones"
         }
       ],
       "unverified": [
@@ -1597,7 +1608,7 @@
           "reason": "Not applicable."
         }
       ],
-      "last_checked": "2026-10-10",
+      "last_checked": "2026-10-26",
       "fit": {
         "role": "capital",
         "execution": [
@@ -3104,7 +3115,7 @@
         }
       ],
       "unverified": [],
-      "last_checked": "2026-10-20",
+      "last_checked": "2026-10-26",
       "fit": {
         "role": "capital",
         "execution": [
@@ -3231,7 +3242,7 @@
           "reason": "Program page and FY2027 plan do not publish a loan term; only that amortizing and non-amortizing structures are available based on underwriting."
         }
       ],
-      "last_checked": "2026-10-20",
+      "last_checked": "2026-10-26",
       "fit": {
         "role": "capital",
         "execution": [
@@ -3354,7 +3365,7 @@
         }
       ],
       "unverified": [],
-      "last_checked": "2026-10-20",
+      "last_checked": "2026-10-26",
       "fit": {
         "role": "capital",
         "execution": [
@@ -5038,7 +5049,7 @@
           "reason": "The 2026-27 RFA (rounds after Round D) had not been published as of 2026-10-10."
         }
       ],
-      "last_checked": "2026-10-10",
+      "last_checked": "2026-10-26",
       "fit": {
         "role": "capital",
         "execution": [
@@ -7097,7 +7108,7 @@
           "reason": "The administrator's pages state no affordability period; they ask for local government or housing authority ownership and/or \"an appropriate deed restriction\" with no term."
         }
       ],
-      "last_checked": "2026-10-15"
+      "last_checked": "2026-10-26"
     },
     {
       "id": "dola-strong-communities-infrastructure",
@@ -7249,7 +7260,7 @@
       "funding_type": [
         "grant"
       ],
-      "status": "rounds",
+      "status": "watch",
       "what_it_funds": "Infrastructure upgrades and support for regulated affordable housing in the Transit Centers and Neighborhood Centers of certified Transit-Oriented Communities.",
       "award_size": "No suggested minimum or maximum. The pilot round awarded $13,327,830 in February 2026.",
       "rate": null,
@@ -7258,7 +7269,7 @@
       "affordability_period": "The period stated in the project's recorded covenant or similar agreement; the statute sets no minimum.",
       "eligible_applicants": "Municipalities, counties, cities and city-counties certified by DOLA as Transit Oriented Communities. A pre-application meeting with DOLA is required before the portal opens to the applicant.",
       "eligible_projects": "On-site infrastructure for affordable housing in a Transit or Neighborhood Center, and public infrastructure in or primarily benefiting one. A housing component needs at least 15 dwelling units per acre. A 25% local match is required; administrative costs are not eligible.",
-      "application_cycle": "The pilot round ran October 27 to December 12, 2025. DOLA says a second round will be held in 2027, with an information session tentatively in fall 2026, and that more funding is not guaranteed.",
+      "application_cycle": "The pilot round ran October 27 to December 12, 2025. DOLA says a second round will be held in 2027 (no dates yet), with an information session tentatively in fall 2026, and that more funding is not guaranteed.",
       "key_considerations": [
         "Only a jurisdiction DOLA has certified as a Transit Oriented Community can apply.",
         "The town or county applies; the grant pays for infrastructure, not the housing itself."
@@ -7396,7 +7407,7 @@
           "reason": "The TOCI page and guidelines state no grant performance period."
         }
       ],
-      "last_checked": "2026-10-15"
+      "last_checked": "2026-10-26"
     },
     {
       "id": "dola-cdbg-public-facilities",
@@ -7407,7 +7418,7 @@
       "funding_type": [
         "grant"
       ],
-      "status": "annual",
+      "status": "watch",
       "what_it_funds": "Public facilities and infrastructure in smaller communities, such as sewer and water systems, streetscapes, community centers, shelters and health clinics. Each project must meet one of three national objectives: mainly benefiting low- and moderate-income people, preventing or eliminating slums or blight, or meeting an urgent need. A separate design, engineering and environmental clearance (DEEC) grant prepares projects.",
       "award_size": "Construction grants up to $600,000; DEEC grants up to $50,000.",
       "rate": null,
@@ -7416,7 +7427,7 @@
       "affordability_period": null,
       "eligible_applicants": "Cities, counties and other units of general local government in non-entitlement areas: cities under 50,000 people (except principal cities of metro areas) and counties under 200,000. They may apply on behalf of nonprofits.",
       "eligible_projects": "Acquisition, construction, reconstruction, rehabilitation or installation of public improvements or facilities. Construction applications need a completed environmental review and construction-ready plans.",
-      "application_cycle": "Two windows a year. The 2026 DEEC round ran August 10 to September 15, 2026 and has closed; the next construction round is in late spring or early summer 2027.",
+      "application_cycle": "Two windows a year. The 2026 DEEC cycle has closed (it ran August 10 to September 15, 2026). DLG says the next construction application is in late spring or early summer 2027, with no dates yet.",
       "key_considerations": [
         "Housing itself is funded through the Division of Housing CDBG program, listed under DOLA Division of Housing; this program pays for the public facilities around it.",
         "Construction applications score highest when the project can finish within one year with funding and match secured."
@@ -7532,6 +7543,11 @@
           "field": "application_cycle",
           "quote": "High Score - The project will be completed within one year; funding is secured; local match present; all planning documents are fully completed; applicant can fund the operating expense once construction is completed.",
           "url": "https://dlg.colorado.gov/cdbgpf-construction-grant-application-scoring-criteria"
+        },
+        {
+          "field": "status",
+          "quote": "The CDBGPF-DEEC grant application cycle is currently closed for 2026.",
+          "url": "https://dlg.colorado.gov/community-development-block-grant-cdbg"
         }
       ],
       "unverified": [
@@ -7548,7 +7564,7 @@
           "reason": "The administrator's pages state no affordability period. Housing CDBG is handled by the Division of Housing."
         }
       ],
-      "last_checked": "2026-10-15"
+      "last_checked": "2026-10-26"
     },
     {
       "id": "co-dwrf",

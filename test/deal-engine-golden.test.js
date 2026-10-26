@@ -28,6 +28,9 @@ async function run() {
       await page.waitForFunction(() => [...document.querySelectorAll('#dc-county-select option')].some(o => o.value === '08001'));
       await page.selectOption('#dc-county-select', '08001');
       if (scenario === 'B') {
+        // Recorded when chfa_htf was the seeded tranche; new deals now seed 'other'
+        // (CHFA HTF is a retired label), so choose it explicitly. Figures are unchanged.
+        await page.locator('.dc-tr-prog').selectOption('chfa_htf');
         await page.locator('.dc-tr-amount').fill('1000000');
         await page.locator('.dc-tr-rate').fill('3');
         await page.locator('.dc-tr-term').fill('30');
