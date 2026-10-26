@@ -139,7 +139,7 @@
       ]
     },
     "CDBG-DR": {
-      "name": "CDBG Disaster Recovery (DOLA) (retired label: no open development round)",
+      "name": "CDBG Disaster Recovery (DOLA)",
       "county": "Selected",
       "available": null,
       "awarded": null,
@@ -153,7 +153,7 @@
       "maxPerProject": null,
       "description": "Disaster recovery money tied to the Marshall Fire allocation. No open rental development round.",
       "contactUrl": "https://cdola.colorado.gov/",
-      "status": "retired",
+      "status": "watch",
       "restrictions": [],
       "funding_type": null,
       "rate_pct": null,
@@ -161,7 +161,7 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://dlg.colorado.gov/community-development-block-grants-for-disaster",
-      "source_note": "DLG CDBG-DR page read 2026-10-26: \"Following the Marshall Fire on December 30, 2021,\" the state \"received an initial $7.415 million allocation\". It is tied to that disaster and names no open rental development round.",
+      "source_note": "DLG CDBG-DR page read 2026-10-26: \"Following the Marshall Fire on December 30, 2021,\" the state \"received an initial $7.415 million allocation\". The program is real but tied to that disaster, and the page names no open rental development round, so it is a watch item, not available funding.",
       "last_verified": "2026-10-26",
       "review_by": "2027-01-26"
     },

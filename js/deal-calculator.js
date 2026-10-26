@@ -2652,7 +2652,7 @@
              on each tranche row. Now they're discoverable + documented. -->
         <details id="dc-soft-funding-ref" style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--bg2);">
           <summary style="cursor:pointer;font-weight:700;font-size:var(--small);color:var(--accent);">
-            ▸ Soft-funding program reference (14 sources, with descriptions + links)
+            ▸ Soft-funding program reference (descriptions + links)
           </summary>
           <div id="dc-soft-funding-ref-list" style="margin-top:var(--sp2);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(360px, 100%),1fr));gap:var(--sp2) var(--sp3);font-size:var(--small);"></div>
         </details>
@@ -3633,11 +3633,13 @@
     // We persist to an array and re-render on add/remove; per-row inputs fire
     // recalculate() on change so the pro forma + sources/uses stay live.
     var SOFT_PROGRAMS = [
-      { v: 'chfa_htf',         l: 'CHFA HTF' },
+      // Retired labels (2026-10-26 source check): no official page names these
+      // programs. Kept so saved deals still load, listed apart, never the default.
+      { v: 'chfa_htf',         l: 'CHFA HTF (retired label; use CHFA HOF or CMF)', retired: true },
       { v: 'prop123',          l: 'Prop 123' },
       { v: 'local_pha',        l: 'Local PHA / Housing Trust' },
       { v: 'chfa_cmf',         l: 'CHFA Capital Magnet Fund' },
-      { v: 'dola_htf',         l: 'DOLA HTF' },
+      { v: 'dola_htf',         l: 'DOLA HTF (retired label; use DOH HDG or HDLF)', retired: true },
       { v: 'home',             l: 'HOME' },
       { v: 'cdbg',             l: 'CDBG' },
       { v: 'nhtf',             l: 'NHTF' },
@@ -3677,9 +3679,12 @@
 
     function _trancheRowHtml(t) {
       var idSuffix = t.id;
-      var opts = SOFT_PROGRAMS.map(function (p) {
+      function opt(p) {
         return '<option value="' + p.v + '"' + (p.v === t.program ? ' selected' : '') + '>' + p.l + '</option>';
-      }).join('');
+      }
+      var opts = SOFT_PROGRAMS.filter(function (p) { return !p.retired; }).map(opt).join('') +
+        '<optgroup label="Retired labels (no current program)">' +
+        SOFT_PROGRAMS.filter(function (p) { return p.retired; }).map(opt).join('') + '</optgroup>';
       var inputCss = 'padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);width:100%;min-height:44px;';
       var labelCss = 'font-size:var(--tiny);color:var(--muted);display:block;margin-bottom:0.15rem;';
       return ''
@@ -3747,7 +3752,7 @@
       if (_softTranches.length === 0) {
         // Seed with a default empty tranche so the UI isn't empty on first load.
         // F194: also seed cashflowPayPct, accrueMode, priority defaults
-        _softTranches.push({ id: ++_trancheCounter, program: 'chfa_htf', amount: 0, mode: 'loan', rate: 3.0, term: 30, maturity: 30, ioYears: 2, loanType: 'amortizing', cashflowPayPct: 100, priority: 5 });
+        _softTranches.push({ id: ++_trancheCounter, program: 'other', amount: 0, mode: 'loan', rate: 3.0, term: 30, maturity: 30, ioYears: 2, loanType: 'amortizing', cashflowPayPct: 100, priority: 5 });
       }
       var provenance = window.InputProvenance;
       var previousOrigins = {};
@@ -7168,7 +7173,11 @@
     if (!listEl) return;
     var esc = _referenceEscape;
     var programs = _softFundingStatus && _softFundingStatus.programs || {};
-    listEl.innerHTML = SOFT_REFERENCE.map(function (ref) {
+    // A retired label names no current program, so it is not offered as a reference.
+    listEl.innerHTML = SOFT_REFERENCE.filter(function (ref) {
+      var rp = ref.id && programs[ref.id];
+      return !(rp && rp.status === 'retired');
+    }).map(function (ref) {
       var p = programs[ref.id];
       var timeline = ref.k === 'prop123' && _softFundingTimelineEvent;
       var description = timeline ? timeline.detail : p && p.description;
