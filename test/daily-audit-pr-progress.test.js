@@ -9,7 +9,8 @@
  *
  *  - Codex review state is read only from Codex's own comment, with the
  *    marker's braces escaped or not, and only counts for the head commit;
- *  - CI on the head maps to passing / failing / running / no checks;
+ *  - CI on the head is the `ci-checks` check run itself, never just a green
+ *    rollup: passing / failing / running / cancelled / no ci-checks run;
  *  - bot PRs are labelled, merged rows are only the last 24h;
  *  - an API failure leaves this section unavailable and the rest intact.
  */
@@ -46,6 +47,19 @@ function codexComment(state, { escaped = false, login = 'chatgpt-codex-connector
     return { author: { login }, body: `### Codex Review\nSummary text.\n<!-- codex-review-state:v1 ${json} -->` };
 }
 
+/** A head rollup whose contexts hold one `ci-checks` run in the given state. */
+function ciRun(status, conclusion = null, startedAt = iso(NOW - HOUR), name = 'ci-checks') {
+    return { __typename: 'CheckRun', name, status, conclusion, startedAt };
+}
+function rollupWith(nodes, { state = 'SUCCESS', hasNextPage = false } = {}) {
+    return { state, contexts: { pageInfo: { hasNextPage }, nodes } };
+}
+const ROLLUPS = {
+    SUCCESS: rollupWith([ciRun('COMPLETED', 'SUCCESS'), ciRun('COMPLETED', 'SUCCESS', iso(NOW - HOUR), 'axe')]),
+    FAILURE: rollupWith([ciRun('COMPLETED', 'FAILURE')], { state: 'FAILURE' }),
+    PENDING: rollupWith([ciRun('IN_PROGRESS')], { state: 'PENDING' }),
+};
+
 function openNode({ number = 1, createdAt = NOW - 3 * DAY, rollup = 'SUCCESS', comments = [], author = { login: 'paulglasow', __typename: 'User' }, draft = false } = {}) {
     return {
         number,
@@ -55,7 +69,7 @@ function openNode({ number = 1, createdAt = NOW - 3 * DAY, rollup = 'SUCCESS', c
         isDraft: draft,
         headRefOid: HEAD,
         author,
-        commits: { nodes: [{ commit: { oid: HEAD, statusCheckRollup: rollup ? { state: rollup } : null } }] },
+        commits: { nodes: [{ commit: { oid: HEAD, statusCheckRollup: rollup ? ROLLUPS[rollup] : null } }] },
         comments: { nodes: comments },
     };
 }
@@ -92,13 +106,27 @@ run('only Codex\'s own comment counts, and the newest one wins', () => {
 
 // ── 2. CI, bots, ages ───────────────────────────────────────────────────────
 
-run('the head rollup maps to passing, failing, running or no checks', () => {
-    assert.equal(ciState('SUCCESS'), 'passing');
-    assert.equal(ciState('FAILURE'), 'failing');
-    assert.equal(ciState('ERROR'), 'failing');
-    assert.equal(ciState('PENDING'), 'running');
-    assert.equal(ciState('EXPECTED'), 'running');
-    assert.equal(ciState(null), 'no checks', 'nothing reported is not "passing"');
+run('CI on head is the ci-checks run itself, not the rollup', () => {
+    assert.equal(ciState(rollupWith([ciRun('COMPLETED', 'SUCCESS')])), 'passing');
+    assert.equal(ciState(rollupWith([ciRun('COMPLETED', 'SUCCESS', iso(NOW - HOUR), 'axe')])), 'no ci-checks run',
+        'a SUCCESS rollup without ci-checks is not passing: ci-checks may not have been queued yet');
+    assert.equal(ciState(rollupWith([ciRun('QUEUED', null, null)], { state: 'SUCCESS' })), 'running', 'pending ci-checks is running, whatever the rollup says');
+    assert.equal(ciState(rollupWith([ciRun('IN_PROGRESS')])), 'running');
+    assert.equal(ciState(rollupWith([ciRun('COMPLETED', 'FAILURE')])), 'failing');
+    assert.equal(ciState(rollupWith([ciRun('COMPLETED', 'TIMED_OUT')])), 'failing');
+    assert.equal(ciState(rollupWith([ciRun('COMPLETED', 'CANCELLED')])), 'cancelled');
+    assert.equal(ciState(rollupWith([ciRun('COMPLETED', 'SKIPPED')])), 'not passed (skipped)', 'a skipped ci-checks is not passing');
+    assert.equal(ciState(rollupWith([{ __typename: 'StatusContext', context: 'ci-checks', state: 'SUCCESS' }])), 'no ci-checks run',
+        'only the check run counts');
+    assert.equal(ciState(null), 'no ci-checks run', 'nothing reported is not "passing"');
+    assert.equal(ciState(rollupWith([], { hasNextPage: true })), 'unknown', 'a cut-off context list is unknown, not missing');
+});
+
+run('the newest ci-checks attempt decides', () => {
+    const older = ciRun('COMPLETED', 'FAILURE', iso(NOW - 3 * HOUR));
+    const newer = ciRun('COMPLETED', 'SUCCESS', iso(NOW - HOUR));
+    assert.equal(ciState(rollupWith([newer, older])), 'passing');
+    assert.equal(ciState(rollupWith([older, ciRun('IN_PROGRESS', null, iso(NOW - 10 * 60 * 1000))])), 'running');
 });
 
 run('dependabot and github-actions PRs are labelled as bots; people are not', () => {

@@ -97,20 +97,34 @@ function codexReviewState(codeReview, headSha) {
     return 'not reviewed on head';
 }
 
+// The one result to look at (ci-checks.yml): its `ci-checks` job gathers
+// every test:ci leg and other-checks. A SUCCESS rollup is not enough: it can
+// be green before ci-checks has even been queued, or with ci-checks skipped.
+const CI_CHECK_NAME = 'ci-checks';
+const CI_FAILED = new Set(['FAILURE', 'TIMED_OUT', 'STARTUP_FAILURE', 'ACTION_REQUIRED', 'STALE']);
+
 /**
- * The head commit's combined check state (check runs and commit statuses, as
- * GraphQL's statusCheckRollup rolls them up): passing, failing, running, or
- * 'no checks' when nothing has reported on the head yet.
+ * CI on the head: the state of the `ci-checks` check run itself, from the
+ * head commit's statusCheckRollup contexts. passing / failing / running /
+ * cancelled / 'no ci-checks run', or 'unknown' when the context list was cut
+ * off before ci-checks appeared. A re-run or a second event's run is a newer
+ * attempt, so the newest one decides.
  */
-function ciState(rollupState) {
-    switch (String(rollupState || '').toUpperCase()) {
-        case 'SUCCESS': return 'passing';
-        case 'FAILURE':
-        case 'ERROR': return 'failing';
-        case 'PENDING':
-        case 'EXPECTED': return 'running';
-        default: return 'no checks';
+function ciState(rollup) {
+    const contexts = (rollup && rollup.contexts) || {};
+    const runs = (contexts.nodes || []).filter(node => node && node.name === CI_CHECK_NAME && (!node.__typename || node.__typename === 'CheckRun'));
+    if (runs.length === 0) {
+        return contexts.pageInfo && contexts.pageInfo.hasNextPage ? 'unknown' : 'no ci-checks run';
     }
+    // Not started yet (queued) sorts as newest.
+    const started = run => (run.startedAt ? Date.parse(run.startedAt) : Infinity);
+    const latest = runs.reduce((a, b) => (started(b) > started(a) ? b : a));
+    if (String(latest.status || '').toUpperCase() !== 'COMPLETED') return 'running';
+    const conclusion = String(latest.conclusion || '').toUpperCase();
+    if (conclusion === 'SUCCESS') return 'passing';
+    if (conclusion === 'CANCELLED') return 'cancelled';
+    if (CI_FAILED.has(conclusion)) return 'failing';
+    return `not passed (${conclusion.toLowerCase() || 'no conclusion'})`;
 }
 
 /** 'dependabot', 'github-actions', another bot's login, or null for a person. */
@@ -161,7 +175,7 @@ function summarizeOpen(nodes, nowMs) {
                 age: formatAge(nowMs - Date.parse(pr.createdAt)),
                 draft: Boolean(pr.isDraft),
                 bot: botLabel(pr.author),
-                ci: ciState(head.statusCheckRollup && head.statusCheckRollup.state),
+                ci: ciState(head.statusCheckRollup),
                 codex: codexReviewState(codexStateFromComments((pr.comments || {}).nodes), headSha),
             };
         })
@@ -201,7 +215,10 @@ const OPEN_QUERY = `
             isDraft
             headRefOid
             author { login __typename }
-            commits(last: 1) { nodes { commit { oid statusCheckRollup { state } } } }
+            commits(last: 1) { nodes { commit { oid statusCheckRollup { state contexts(first: 100) {
+              pageInfo { hasNextPage }
+              nodes { __typename ... on CheckRun { name status conclusion startedAt } }
+            } } } } }
             comments(last: 100) { nodes { author { login } body } }
           }
         }

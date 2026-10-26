@@ -261,20 +261,52 @@ function collectDeadlines(nowMs, file = DEADLINES_FILE) {
 
 const URL_HEALTH_FILE = path.join(ROOT, 'data', 'url-health.json');
 const POLICY_REVIEW_MODULE = path.join(ROOT, 'scripts', 'audit', 'policy-review-reminders.mjs');
+const URL_HEALTH_POLICY_MODULE = path.join(ROOT, 'scripts', 'audit', 'url-health-policy.mjs');
 // Open issues that say a source or a figure needs re-checking.
 const ACCURACY_LABELS = new Set(['url-health', 'policy-review', 'brief-review']);
 const ACCURACY_TITLE = /^Benchmark snapshots past their/i;
 
-/** Broken source links from the weekly URL sweep's committed state. */
-function urlHealthSummary(doc) {
+/** The weekly sweep's own classifier (url-health-policy.mjs), loaded once. */
+async function loadUrlHealthPolicy() {
+    const mod = await import(pathToFileURL(URL_HEALTH_POLICY_MODULE).href);
+    return { diffConfirmedSweeps: mod.diffConfirmedSweeps, CONFIRMED_FAILURE_SWEEPS: mod.CONFIRMED_FAILURE_SWEEPS };
+}
+
+/**
+ * Broken source links from the weekly URL sweep's committed state, classified
+ * by the sweep's own confirmation rule rather than a copy of it: a URL is
+ * newly broken on its CONFIRMED_FAILURE_SWEEPS-th consecutive failure, a
+ * first failure is unconfirmed, and later ones are still broken. Diffing the
+ * state against itself applies that rule to the current sweep alone.
+ */
+function urlHealthSummary(doc, policy) {
     if (!doc || typeof doc.byUrl !== 'object' || !doc.byUrl) throw new Error('data/url-health.json has no byUrl map');
-    const broken = Object.entries(doc.byUrl).filter(([, entry]) => entry && entry.status === 'broken');
+    if (!policy || typeof policy.diffConfirmedSweeps !== 'function') throw new Error('url-health policy not loaded');
+    const { newlyBroken, stillBroken, unconfirmed } = policy.diffConfirmedSweeps(doc, doc);
+    const row = failure => ({ url: failure.url, httpStatus: failure.httpStatus ?? null, status: failure.status });
     return {
         lastSweepAt: doc.lastSweepAt || null,
-        broken: broken.length,
-        // A first failure is new since the previous weekly sweep.
-        newlyBroken: broken.filter(([, entry]) => entry.consecutiveFailures === 1).map(([url, entry]) => ({ url, httpStatus: entry.httpStatus ?? null })),
+        confirmedAfter: policy.CONFIRMED_FAILURE_SWEEPS,
+        broken: newlyBroken.length + stillBroken.length,
+        newlyBroken: newlyBroken.map(row),
+        unconfirmed: unconfirmed.length,
     };
+}
+
+/**
+ * Sum of overdue counts. Unknown stays separate from zero (AGENTS.md): a file
+ * that could not be read makes the total a lower bound, never a plain number.
+ * Returns { count, partial } or null when nothing was read at all.
+ */
+function overdueTotal(rows) {
+    if (!Array.isArray(rows)) return null;
+    let count = 0;
+    let partial = false;
+    for (const row of rows) {
+        if (typeof row.overdue === 'number') count += row.overdue;
+        else partial = true;
+    }
+    return { count, partial };
 }
 
 /**
@@ -316,7 +348,7 @@ async function collectAccuracy(owner, repo, client, nowMs, ctx = {}) {
 
     // Local reads first: a GitHub outage must not hide what the checkout knows.
     try {
-        summary.urlHealth = urlHealthSummary(JSON.parse(fs.readFileSync(path.join(root, 'data', 'url-health.json'), 'utf8')));
+        summary.urlHealth = urlHealthSummary(JSON.parse(fs.readFileSync(path.join(root, 'data', 'url-health.json'), 'utf8')), await loadUrlHealthPolicy());
     } catch (err) { note('url-health.json', err); }
     try {
         const specs = await loadReviewSpecs();
@@ -354,7 +386,9 @@ module.exports = {
     isDataWorkflow,
     latestDataRunsToReview,
     memberSiteState,
+    loadUrlHealthPolicy,
     overdueReviews,
+    overdueTotal,
     reviewFollowups,
     upcomingDeadlines,
     urlHealthSummary,

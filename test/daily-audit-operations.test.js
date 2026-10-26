@@ -206,17 +206,25 @@ run('the deadlines card lists what is due and says so when nothing is', () => {
 
 // ── 5. Source & Figure Accuracy ─────────────────────────────────────────────
 
-run('broken links come from the sweep state; a first failure is new', () => {
+run('broken links use the sweep\'s own confirmation rule: a first failure is unconfirmed, the second is newly broken', async () => {
+    const policy = await ops.loadUrlHealthPolicy();
+    const { CONFIRMED_FAILURE_SWEEPS } = await import(require('node:url').pathToFileURL(path.join(ROOT, 'scripts', 'audit', 'url-health-policy.mjs')).href);
+    assert.equal(policy.CONFIRMED_FAILURE_SWEEPS, CONFIRMED_FAILURE_SWEEPS, 'the sweep\'s constant, not a copy');
     const summary = ops.urlHealthSummary({ lastSweepAt: '2026-10-23T11:27:03Z', byUrl: {
-        'https://example.com/a': { status: 'broken', httpStatus: 404, consecutiveFailures: 1 },
-        'https://example.com/b': { status: 'broken', httpStatus: 500, consecutiveFailures: 9 },
-        'https://example.com/c': { status: 'timeout', consecutiveFailures: 1 },
-        'https://example.com/d': { status: 'ok', consecutiveFailures: 0 },
-    } });
-    assert.equal(summary.broken, 2, 'timeouts are not counted as broken');
-    assert.deepEqual(summary.newlyBroken, [{ url: 'https://example.com/a', httpStatus: 404 }]);
-    assert.throws(() => ops.urlHealthSummary({}));
-    const real = ops.urlHealthSummary(JSON.parse(fs.readFileSync(ops.URL_HEALTH_FILE, 'utf8')));
+        'https://example.com/first': { status: 'broken', httpStatus: 404, consecutiveFailures: 1 },
+        'https://example.com/second': { status: 'broken', httpStatus: 404, consecutiveFailures: 2 },
+        'https://example.com/old': { status: 'broken', httpStatus: 500, consecutiveFailures: 9 },
+        'https://example.com/slow': { status: 'timeout', httpStatus: null, consecutiveFailures: 2 },
+        'https://example.com/auth': { status: 'auth', httpStatus: 403, consecutiveFailures: 5 },
+        'https://example.com/ok': { status: 'ok', consecutiveFailures: 0 },
+    } }, policy);
+    assert.deepEqual(summary.newlyBroken.map(r => r.url), ['https://example.com/second', 'https://example.com/slow'],
+        'the second consecutive failure is newly broken, timeouts included, as the sweep files them');
+    assert.equal(summary.unconfirmed, 1, 'a first failure is held for confirmation');
+    assert.equal(summary.broken, 3, 'confirmed: newly broken + still broken; auth is the server answering, not rot');
+    assert.throws(() => ops.urlHealthSummary({}, policy));
+    assert.throws(() => ops.urlHealthSummary({ byUrl: {} }), 'never a re-derived rule');
+    const real = ops.urlHealthSummary(JSON.parse(fs.readFileSync(ops.URL_HEALTH_FILE, 'utf8')), policy);
     assert.ok(Number.isInteger(real.broken), 'the committed sweep state parses');
 });
 
@@ -242,6 +250,22 @@ run('the policy-review file list is reused, and every file it names parses', asy
     const docs = Object.fromEntries(FILES.map(spec => [spec.file, JSON.parse(fs.readFileSync(path.join(ROOT, spec.file), 'utf8'))]));
     const rows = ops.overdueReviews(FILES, docs, '2026-10-26');
     assert.ok(rows.every(row => row.overdue !== null), 'every watched file has its records array');
+});
+
+run('an unreadable review file makes the overdue total a lower bound, never a plain number', () => {
+    assert.deepEqual(ops.overdueTotal([{ overdue: 2 }, { overdue: null }]), { count: 2, partial: true });
+    assert.deepEqual(ops.overdueTotal([{ overdue: 2 }, { overdue: 1 }]), { count: 3, partial: false });
+    assert.deepEqual(ops.overdueTotal([]), { count: 0, partial: false });
+    assert.equal(ops.overdueTotal(null), null);
+    const base = { urlHealth: null, sweep: null, issues: null, errors: [] };
+    const unreadableOnly = render({ accuracy: { ...base, overdue: [{ title: 'C', file: 'c.json', overdue: null }] } });
+    assert.match(unreadableOnly, /Figures past review date:<\/strong> 0\+ \(some sources unreadable\)/);
+    assert.doesNotMatch(unreadableOnly, /Figures past review date:<\/strong> 0</, 'unknown is never shown as zero');
+    const mixed = render({ accuracy: { ...base, overdue: [{ title: 'A', file: 'a.json', overdue: 2 }, { title: 'C', file: 'c.json', overdue: null }] },
+        reviewFollowups: { codex: [], unassignedWatch: [] } });
+    assert.match(mixed, /Figures past review date:<\/strong> 2\+ \(some sources unreadable\)/);
+    assert.match(mixed, /2\+ \(some sources unreadable\) figure\(s\) past review/, 'the summary line carries the same lower bound');
+    assert.match(render({ accuracy: { ...base, overdue: [{ title: 'A', file: 'a.json', overdue: 2 }] } }), /Figures past review date:<\/strong> 2</);
 });
 
 run('accuracy issues are the url-health, policy-review and benchmark trackers', () => {

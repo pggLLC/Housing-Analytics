@@ -10,6 +10,7 @@
 const nodemailer = require('nodemailer');
 const fetch = require('node-fetch');
 const { overallStatus } = require('./audit-status');
+const { overdueTotal } = require('./operations-status');
 
 // Severity display config
 const SEVERITY_CONFIG = {
@@ -264,7 +265,7 @@ function buildIssuesCard(issues) {
 const CELL = 'padding:6px 10px;border:1px solid #dee2e6;text-align:left;vertical-align:top;';
 const PR_TABLE_LIMIT = 25;
 
-const CI_STYLE = { passing: '#155724', failing: '#721c24', running: '#856404', 'no checks': '#666' };
+const CI_STYLE = { passing: '#155724', failing: '#721c24', running: '#856404', cancelled: '#856404', 'no ci-checks run': '#666', unknown: '#666' };
 const CODEX_STYLE = { 'clean on head': '#155724', 'findings open': '#721c24', reviewing: '#856404', 'not reviewed on head': '#666' };
 
 function prLink(pr) {
@@ -358,18 +359,23 @@ function buildDeadlinesCard(deadlines) {
             </div>`;
 }
 
+/** "3", or "3+ (some sources unreadable)" when a file could not be read. */
+function formatOverdue(total) {
+    return total.partial ? `${total.count}+ (some sources unreadable)` : String(total.count);
+}
+
 function buildAccuracyCard(accuracy) {
     if (!accuracy) return unavailableCard('Source & Figure Accuracy');
     const url = accuracy.urlHealth;
     const sweep = accuracy.sweep;
     const overdue = accuracy.overdue;
-    const overdueTotal = Array.isArray(overdue) ? overdue.reduce((n, row) => n + (row.overdue || 0), 0) : null;
+    const total = overdueTotal(overdue);
     return `
             ${CARD_OPEN}
                 <h3 style="margin-top:0;">Source &amp; Figure Accuracy</h3>
-                <p style="margin:0 0 6px;"><strong>Broken source links:</strong> ${url ? `${escHtml(url.broken)} (${escHtml(url.newlyBroken.length)} new) as of the ${escHtml(String(url.lastSweepAt || 'unknown').slice(0, 10))} URL sweep` : UNAVAILABLE}</p>
+                <p style="margin:0 0 6px;"><strong>Broken source links:</strong> ${url ? `${escHtml(url.broken)} confirmed (${escHtml(url.newlyBroken.length)} newly broken, ${escHtml(url.unconfirmed)} awaiting confirmation) as of the ${escHtml(String(url.lastSweepAt || 'unknown').slice(0, 10))} URL sweep` : UNAVAILABLE}</p>
                 <p style="margin:0 0 6px;"><strong>Source URL Sweep (last run):</strong> ${sweep ? `${sweep.url ? `<a href="${escHtml(sweep.url)}">${escHtml(sweep.conclusion)}</a>` : escHtml(sweep.conclusion)}${sweep.at ? ` ${escHtml(String(sweep.at).slice(0, 10))}` : ''}` : UNAVAILABLE}</p>
-                <p style="margin:0 0 6px;"><strong>Figures past review date:</strong> ${overdueTotal === null ? UNAVAILABLE : escHtml(overdueTotal)}</p>
+                <p style="margin:0 0 6px;"><strong>Figures past review date:</strong> ${total === null ? UNAVAILABLE : escHtml(formatOverdue(total))}</p>
                 ${Array.isArray(overdue) && overdue.length > 0 ? `<ul style="margin:0 0 6px 18px;padding:0;">${overdue.map(row => `<li>${escHtml(row.title)}: ${row.overdue === null ? 'unreadable' : escHtml(row.overdue)}</li>`).join('')}</ul>` : ''}
                 <p style="margin:6px 0 0;"><strong>Open accuracy issues:</strong> ${countOrUnavailable(accuracy.issues)}</p>
                 ${Array.isArray(accuracy.issues) ? buildLinkedList(accuracy.issues, issueItem, 'None open.', 5) : ''}
@@ -424,8 +430,8 @@ function buildSummaryLines({ summary, auditHealth, repoHealth }) {
     const lines = [];
     if (repoHealth) {
         const f = rh.reviewFollowups;
-        const overdue = rh.accuracy && Array.isArray(rh.accuracy.overdue)
-            ? rh.accuracy.overdue.reduce((n, row) => n + (row.overdue || 0), 0) : null;
+        const total = rh.accuracy ? overdueTotal(rh.accuracy.overdue) : null;
+        const overdue = total === null ? null : formatOverdue(total);
         lines.push(`<strong>Needs you:</strong> ${orUnknown(f && count(f.codex))} Codex follow-up(s), ${orUnknown(f && count(f.unassignedWatch))} unassigned watch issue(s), ${orUnknown(rh.dataWorkflows && count(rh.dataWorkflows.problems))} data workflow(s) failed, ${orUnknown(overdue)} figure(s) past review.`);
         const pr = rh.prProgress;
         if (pr) {
