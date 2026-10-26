@@ -917,7 +917,27 @@
           if (action === 'baseline') d.baseline = v;
           if (action === 'hide' && d.hidden.indexOf(v) === -1) d.hidden.push(v);
           if (action === 'unhide') d.hidden = d.hidden.filter(function (x) { return x !== v; });
+          if (action === 'purge') {
+            d.versions = d.versions.filter(function (x) { return x.v !== v; });
+            d.hidden = d.hidden.filter(function (x) { return x !== v; });
+            if (d.baseline === v) d.baseline = '';
+          }
           local.write(o); return d;
+        });
+      },
+      // The whole deal for good. The server deletes a very large deal in rounds and says {more}.
+      removeDeal: function (deal) {
+        return detect().then(function (m) {
+          if (m === 'server') {
+            var round = function (n) {
+              return api('', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ deleteDeal: deal }) }).then(function (j) {
+                if (j && j.more) { if (n >= 100) throw new Error('the deal is only partly deleted; try again to finish'); return round(n + 1); }
+                return j;
+              });
+            };
+            return round(1);
+          }
+          var o = local.read(); delete o[deal]; local.write(o); return { ok: true };
         });
       }
     };
@@ -1152,6 +1172,7 @@
     }
     function refreshVersions() {
       clearHistory(); // the last deal's history must not stay on screen or export while another loads
+      $('sr-delete-deal').hidden = !state.deal;
       if (!state.deal) { $('srVersions').innerHTML = '<p class="sr-muted">Save this deal to start its version list.</p>'; drawHistory(); return Promise.resolve(); }
       var deal = state.deal;
       return store.versions(deal).then(function (res) {
@@ -1161,7 +1182,7 @@
         state.num = {}; res.versions.forEach(function (v, i) { state.num[v.v] = res.versions.length - i; });
         var show = $('sr-show-hidden').checked;
         var rows = res.versions.filter(function (v) { return show || state.hidden.indexOf(v.v) === -1; });
-        $('srVersions').innerHTML = rows.length ? '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="Tick two to four versions to compare">Compare</th><th scope="col" data-tip="Label, when it was saved and who saved it">Version</th><th scope="col" class="sr-num" data-tip="CHFA points when saved">Score</th><th scope="col" data-tip="DOH or OEDIT gap-fund lane when saved">Lane</th><th scope="col" class="sr-num" data-tip="Funding gap when saved">Gap</th><th scope="col" data-tip="Open, star as baseline, or hide">Actions</th></tr></thead><tbody>' +
+        $('srVersions').innerHTML = rows.length ? '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="Tick two to four versions to compare">Compare</th><th scope="col" data-tip="Label, when it was saved and who saved it">Version</th><th scope="col" class="sr-num" data-tip="CHFA points when saved">Score</th><th scope="col" data-tip="DOH or OEDIT gap-fund lane when saved">Lane</th><th scope="col" class="sr-num" data-tip="Funding gap when saved">Gap</th><th scope="col" data-tip="Open, star as baseline, hide (kept, off the list) or delete for good">Actions</th></tr></thead><tbody>' +
           rows.map(function (v) {
             var hid = state.hidden.indexOf(v.v) !== -1, base = state.baseline === v.v;
             return '<tr><td><label class="sr-pick-wrap"><input type="checkbox" class="sr-pick" data-v="' + esc(v.v) + '" aria-label="Compare ' + esc(v.label || v.v) + '"' + (state.picked[v.v] ? ' checked' : '') + '></label></td>' +
@@ -1170,7 +1191,8 @@
               '<td class="sr-num">' + esc(pts(v.score)) + '</td><td>' + esc(v.lane || '—') + '</td><td class="sr-num">' + esc(money(v.gap)) + '</td>' +
               '<td><button type="button" class="sr-btn" data-act="open" data-v="' + esc(v.v) + '">Open</button> ' +
               (base ? '' : '<button type="button" class="sr-btn" data-act="baseline" data-v="' + esc(v.v) + '">Make baseline</button> ') +
-              '<button type="button" class="sr-btn" data-act="' + (hid ? 'unhide' : 'hide') + '" data-v="' + esc(v.v) + '">' + (hid ? 'Unhide' : 'Hide') + '</button></td></tr>';
+              '<button type="button" class="sr-btn" data-act="' + (hid ? 'unhide' : 'hide') + '" data-v="' + esc(v.v) + '">' + (hid ? 'Unhide' : 'Hide') + '</button> ' +
+              '<button type="button" class="sr-btn" data-act="purge" data-v="' + esc(v.v) + '" aria-label="Delete v' + state.num[v.v] + ' for good">Delete</button></td></tr>';
           }).join('') + '</tbody></table></div>' : '<p class="sr-muted">No versions yet.</p>';
         drawHistory();
       });
@@ -1279,7 +1301,32 @@
         openLatest(v).then(function (ok) { if (!ok) flash('That version did not open; the page still shows the one before it. Try Open again.'); },
           function () { flash('That version did not open; the page still shows the one before it. Try Open again.'); });
       }
+      else if (act === 'purge') {
+        var deal = state.deal, row = state.versions.filter(function (x) { return x.v === v; })[0] || {};
+        var what = 'v' + state.num[v] + ' · ' + (row.label || 'Untitled');
+        if (!ask('Delete ' + what + ' for good? It cannot be brought back. Hide takes a version off the list and keeps it.')) return;
+        store.meta(deal, 'purge', v).then(function () {
+          delete state.picked[v]; delete state.cache[deal + '/' + v];
+          if (state.parent === v) state.parent = ''; // the next save is not a child of a version that is gone
+          flash('Deleted ' + what + '. The versions left are numbered again.');
+          drawCompare(); return refreshDeals(deal).then(refreshVersions);
+        }, function (e) { flash(what + ' was not deleted: ' + e.message + '.'); });
+      }
       else store.meta(state.deal, act, v).then(refreshVersions);
+    });
+    // A browser that blocks dialogs answers no, so nothing is deleted without a yes.
+    function ask(q) { var w = doc.defaultView; try { return !!(w && w.confirm && w.confirm(q)); } catch (e) { return false; } }
+    $('sr-delete-deal').addEventListener('click', function () {
+      var deal = state.deal; if (!deal) return;
+      var name = $('sr-name').value.trim() || 'this deal', n = state.versions.length;
+      if (!ask('Delete "' + name + '" for good: all ' + n + ' version' + (n === 1 ? '' : 's') + ', and its market research in Deal workbook? It cannot be brought back.')) return;
+      var btn = $('sr-delete-deal'); btn.disabled = true;
+      store.removeDeal(deal).then(function () {
+        if (state.deal === deal) { state.nav++; state.deal = null; state.picked = {}; state.cache = {}; state.versions = []; $('sr-name').value = ''; clearForm(); drawCompare(); }
+        flash('Deleted "' + name + '" and all its versions.');
+        return refreshDeals('').then(refreshVersions);
+      }, function (e) { flash('"' + name + '" was not deleted: ' + e.message + '. Try again to finish.'); })
+        .then(function () { btn.disabled = false; });
     });
 
     var compareTok = 0;
@@ -1383,5 +1430,5 @@
   return { esc: esc, mixTotals: mixTotals, amiMidpoint: amiMidpoint, targetingPoints: targetingPoints, eliPoints: eliPoints, score: score,
     findJurisdiction: findJurisdiction, prop123Status: prop123Status, gapLane: gapLane, bumpOneUnit: bumpOneUnit, thresholdStatus: thresholdStatus,
     mustPayCoverage: mustPayCoverage, creditCheck: creditCheck, stateCreditCheck: stateCreditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, changeLines: changeLines, historyModel: historyModel, historyHtml: historyHtml, historyCsv: historyCsv, historyPage: historyPage, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, taxCreditNote: taxCreditNote, SET_ASIDE: SET_ASIDE, HARD_COST_IDS: HARD_COST_IDS,
-    stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, STRESS: STRESS, RULES_URL: RULES_URL, API: API };
+    stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, mount: mount, STRESS: STRESS, RULES_URL: RULES_URL, API: API };
 });
