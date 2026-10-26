@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-26T17:05:57.966628Z",
+  "generated": "2026-10-26T18:57:17.440639Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -84,12 +84,12 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 814057
+      "bytes": 848040
     },
     "data/alerts/brief-news-queue.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 24341
+      "bytes": 24947
     },
     "data/alerts/owner-news.json": {
       "featureCount": 0,
@@ -9629,7 +9629,7 @@
     "data/policy/housing-events.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 139276
+      "bytes": 179064
     },
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,
@@ -9784,7 +9784,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 393991
+      "bytes": 398060
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
