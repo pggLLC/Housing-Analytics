@@ -97,9 +97,16 @@
       var sel = $('mcDeal'), o = doc.createElement('option');
       o.value = id; o.textContent = 'New version of ' + name; sel.appendChild(o);
     }
+    // Opened from Deal workbook's "Change it in the Deal Calculator": that deal is picked, so a save adds its next version.
+    var back = /(?:^#|&)save-to=([a-z0-9-]+)/.exec((win.location && win.location.hash) || '');
     win.fetch(API, { credentials: 'same-origin', cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (j) { ((j && j.deals) || []).forEach(function (x) { addDeal(x.id, x.name); }); })
+      .then(function (j) {
+        ((j && j.deals) || []).forEach(function (x) { addDeal(x.id, x.name); });
+        // Only when nothing was picked or typed while the list loaded.
+        var sel = $('mcDeal'), o = back && !sel.value && !$('mcName').value ? sel.querySelector('option[value="' + back[1] + '"]') : null;
+        if (o) { sel.value = back[1]; $('mcName').value = o.textContent.replace(/^New version of /, ''); say('Saving adds a new version of "' + esc($('mcName').value) + '".'); }
+      })
       .catch(function () { /* New deal still works */ });
     $('mcDeal').addEventListener('change', function () {
       var o = $('mcDeal').selectedOptions[0];

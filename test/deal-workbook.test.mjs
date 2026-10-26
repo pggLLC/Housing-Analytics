@@ -805,6 +805,22 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   ok(MC.saveBody(null, null, 'x').error, 'nothing to save gives a reason');
   ok(!('deal' in b9), 'a save with no deal picked makes a new deal');
   ok(MC.saveBody(nine, SR.fromCalculatorExport(nine), 'Invented 9% deal', 'invented-9-deal-abc123').deal === 'invented-9-deal-abc123', 'a revised run saves as the next version of the picked deal, so Submittal review can compare them');
+  // Back from Deal workbook's "Change it in the Deal Calculator": the bar picks that saved deal.
+  const { JSDOM } = require('jsdom');
+  const memberBar = async (hash, deals) => {
+    const dom = new JSDOM('<!doctype html><main id="main-content"></main>', { url: 'https://example.com/deal-calculator.html?units=40' + hash });
+    const w = dom.window;
+    w.fetch = (u) => Promise.resolve({ ok: true, json: () => Promise.resolve(u === MC.API ? { deals } : {}) });
+    MC.mount(w.document, w);
+    await new Promise((r) => setTimeout(r, 0));
+    return w.document;
+  };
+  const listed = [{ id: 'invented-silt-a1b2c3', name: 'Invented Silt' }, { id: 'invented-other-d4e5f6', name: 'Invented other' }];
+  const back = await memberBar('#save-to=invented-silt-a1b2c3', listed);
+  ok(back.getElementById('mcDeal').value === 'invented-silt-a1b2c3' && back.getElementById('mcName').value === 'Invented Silt', 'opened from the workbook, the bar saves the change as that deal\'s next version');
+  ok((await memberBar('', listed)).getElementById('mcDeal').value === '', 'opened on its own, the bar starts a new deal');
+  ok((await memberBar('#save-to=not-mine-123456', listed)).getElementById('mcDeal').value === '', 'a deal that is not on this sign-in is ignored');
+  ok(/calcUrl\(query, doc\.baseURI\) \+ \(ctx && ctx\.deal \? '#save-to=' \+ encodeURIComponent\(ctx\.deal\)/.test(read('js/whitepaper/deal-workbook.js')), 'the workbook sends a saved deal back to the calculator with its id');
   const nav = read('js/navigation.js');
   ok(/onMemberHost\(\)\) return;[\s\S]*?window\.top !== window[\s\S]*?member-calculator\.js/.test(nav), 'the member bar loads only on the member site, never in the workbook\'s hidden frame');
 }
