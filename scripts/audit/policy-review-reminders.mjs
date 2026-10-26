@@ -24,6 +24,7 @@ export const LEAD_DAYS = 7;
 export const LABEL = 'policy-review';
 export const FILES = [
   { file: 'data/policy/homeownership-programs.json', key: 'programs', title: 'Homebuyer programs', page: 'help-for-homebuyers.html', name: (r) => r.name },
+  { file: 'data/policy/homeownership-programs.json', key: 'local_help', title: 'Homebuyer local help', page: 'help-for-homebuyers.html', name: (r) => r.name },
   { file: 'data/policy/tax-credit-legislation.json', key: 'entries', title: 'Tax-credit policy watchlist', page: 'housing-legislation-2026.html', name: (r) => r.title },
   { file: 'data/policy/tool-watch.json', key: 'entries', title: 'Affordable-housing tool watchlist', page: 'about.html', name: (r) => r.title },
   { file: 'data/market/tax-credit-transfer-pricing.json', key: 'markets', title: 'Tax-credit transfer pricing', page: 'article-pricing.html', name: (r) => r.label },

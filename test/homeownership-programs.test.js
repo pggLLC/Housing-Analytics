@@ -42,6 +42,7 @@ async function renderPage(overrides = {}) {
     return Promise.resolve({ ok: true, status: 200, json: async () => clone(payload) });
   };
   dom.window.eval(provenanceSrc);
+  if (overrides.withReviewStatus) dom.window.eval(fs.readFileSync(path.join(root, 'js', 'components', 'review-status.js'), 'utf8'));
   dom.window.eval(componentSrc);
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
   await waitForRender();
@@ -129,7 +130,16 @@ console.log('='.repeat(38));
   });
   assert(doc.querySelector('#homebuyer-local-heading'), 'local help section renders');
   assert(doc.querySelector('[data-local-help-id="housing-resources-western-colorado"]'), 'Western Slope organization renders');
-  assert(text.includes('Western Slope') && text.includes('Southwest'), 'local help is grouped by region');
+  data.local_help.forEach((org) => {
+    const cards = doc.querySelectorAll(`[data-local-help-id="${org.id}"]`);
+    assert.strictEqual(cards.length, 1, `${org.id} renders once`);
+    assert.strictEqual(cards[0].closest('[data-local-region]').getAttribute('data-local-region'), org.region, `${org.id} renders under its own region`);
+  });
+  const overdue = clone(data);
+  overdue.local_help[0].review_by = '2000-01-01';
+  const overdueDom = await renderPage({ programsDoc: overdue, withReviewStatus: true });
+  assert(overdueDom.window.document.querySelector(`[data-local-help-id="${overdue.local_help[0].id}"] [data-review-status="overdue"]`),
+    'an organization past its review date is marked on the page');
   assert(text.includes('Up to the lesser of $25,000 or 3%'), 'CHFA grant amount renders from data');
   assert(text.includes('CHFA says it has not issued new Mortgage Credit Certificates since 2018'), 'MCC expired-new-issuance copy renders');
   assert(text.includes('Expired'), 'expired status pill renders');
