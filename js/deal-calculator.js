@@ -7174,9 +7174,11 @@
     var esc = _referenceEscape;
     var programs = _softFundingStatus && _softFundingStatus.programs || {};
     // A retired label names no current program, so it is not offered as a reference.
+    // Prop 123 stays: its umbrella record is retired as a source, but the card shows
+    // the shared policy-timeline description of the real program.
     listEl.innerHTML = SOFT_REFERENCE.filter(function (ref) {
       var rp = ref.id && programs[ref.id];
-      return !(rp && rp.status === 'retired');
+      return ref.k === 'prop123' || !(rp && rp.status === 'retired');
     }).map(function (ref) {
       var p = programs[ref.id];
       var timeline = ref.k === 'prop123' && _softFundingTimelineEvent;
