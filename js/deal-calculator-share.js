@@ -8,8 +8,9 @@
  *                        who opens the page and sees the same scenario.
  *   2. Download PDF    — screenshot pages plus searchable report disclosures via jsPDF
  *                        (falls back to window.print() if libs unavailable).
- *   3. Export JSON     — structured snapshot of all inputs, plus the computed
- *                        outputs as displayed (null where unavailable).
+ *   3. Deal file       — "Download deal file": structured snapshot of all inputs,
+ *                        plus the computed outputs as displayed (null where
+ *                        unavailable). "Open deal file" reloads one.
  *
  * Hydration: on DOMContentLoaded the script reads URL params and populates
  * matching <input>/<select> elements, then dispatches an `input` event so the
@@ -28,7 +29,7 @@
  *   : loanType : maturity : ioYears : fundSource (federal | nonfederal | blank, #2160)
  *   : doh (DOH PR 3) : activity : status : state request (yes | no) (DOH PR 4)
  *
- * Exposes window.__DealCalcShare with { copyLink, exportPdf, exportJson }.
+ * Exposes window.__DealCalcShare with { copyLink, exportPdf, exportJson, openDealFile }.
  */
 (function () {
   'use strict';
@@ -440,8 +441,10 @@
     });
     // Surface that the scenario came from a URL so the user knows it's not
     // their saved defaults.
+    var opened = null;
+    try { opened = sessionStorage.getItem(OPENED_KEY); sessionStorage.removeItem(OPENED_KEY); } catch (_) { opened = null; }
     setTimeout(function () {
-      _showShareToast('Scenario hydrated from URL ✓', 'info');
+      _showShareToast(opened ? 'Opened ' + opened + ' ✓' : 'Scenario hydrated from URL ✓', 'info');
     }, 200);
   }
 
@@ -514,7 +517,7 @@
   // empty, hides, or does not render is null — never 0, which would read as
   // a computed zero (AGENTS.md: an unmeasurable quantity is null).
   // Ownership exports carry no rental output (PC-2).
-  // ── Public — Export JSON ──────────────────────────────────────────────
+  // ── Public — Download deal file (the Export JSON snapshot) ──────────────────────────────────────────────
   function buildReportMeta(result) {
     return window.DealCalculatorReportMeta ? window.DealCalculatorReportMeta.buildReportMeta(result)
       : { unavailableReason: 'The report metadata module is unavailable.' };
@@ -570,21 +573,55 @@
     return snapshot;
   }
 
+  // The deal file is this snapshot. Its `url` query is the deal: Open deal
+  // file, Deal workbook and Submittal review all reload from it, and the
+  // results are recomputed on opening, never read back from the file.
   function exportJson() {
     try {
       var snapshot = buildSnapshot();
       var blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'deal-calculator-scenario.json';
+      a.download = 'deal-' + snapshot.exportedAt.slice(0, 10) + '.coho.json';
       document.body.appendChild(a);
       a.click();
       setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
-      _showShareToast('JSON downloaded ✓');
+      _showShareToast('Deal file downloaded ✓');
     } catch (e) {
       console.warn('[DealCalc] JSON export failed', e);
-      _showShareToast('JSON export failed — see console', 'warn');
+      _showShareToast('Deal file download failed — see console', 'warn');
     }
+  }
+
+  // ── Public — Open deal file ───────────────────────────────────────────
+  // The calculator settings a deal file carries, or null when it is not one.
+  function dealFileQuery(snap) {
+    if (!snap || typeof snap !== 'object' || !snap.inputs || typeof snap.inputs !== 'object' || typeof snap.url !== 'string') return null;
+    var u;
+    try { u = new URL(snap.url, window.location.href); } catch (_) { return null; }
+    if (!/(^|\/)deal-calculator(\.html)?$/.test(u.pathname)) return null;
+    var query = u.search.replace(/^\?/, '');
+    return query ? query : null;
+  }
+  var OPENED_KEY = 'dc-opened-deal-file';
+  var MAX_FILE_BYTES = 5 * 1024 * 1024;
+  // Reloads this page with the file's settings, so the deal opens exactly as a
+  // share link does, on this address (the public site or the member site).
+  function openDealFile(file) {
+    if (!file) return Promise.resolve(false);
+    if (file.size > MAX_FILE_BYTES) { _showShareToast('That file is too large to be a deal file.', 'warn'); return Promise.resolve(false); }
+    return file.text().then(function (text) {
+      var snap = null;
+      try { snap = JSON.parse(text); } catch (_) { snap = null; }
+      var query = dealFileQuery(snap);
+      if (!query) { _showShareToast('That file is not a Deal Calculator deal file.', 'warn'); return false; }
+      try { sessionStorage.setItem(OPENED_KEY, file.name); } catch (_) { /* toast falls back to the share-link wording */ }
+      window.location.assign(window.location.pathname + '?' + query);
+      return true;
+    }, function () {
+      _showShareToast('That file could not be read.', 'warn');
+      return false;
+    });
   }
 
   function buildCsv(snapshot) {
@@ -738,6 +775,11 @@
     if (btnCopy) btnCopy.addEventListener('click', copyLink);
     if (btnPdf)  btnPdf.addEventListener('click', function () { exportPdf(); });
     if (btnJson) btnJson.addEventListener('click', exportJson);
+    var btnOpen = document.getElementById('dc-share-open'), fileIn = document.getElementById('dc-open-file');
+    if (btnOpen && fileIn) {
+      btnOpen.addEventListener('click', function () { fileIn.value = ''; fileIn.click(); });
+      fileIn.addEventListener('change', function () { openDealFile(fileIn.files && fileIn.files[0]); });
+    }
     var btnCsv = document.getElementById('dc-share-csv');
     if (btnCsv) btnCsv.addEventListener('click', exportCsv);
     if (btnIc)   btnIc.addEventListener('click', openIcSummary);
@@ -755,7 +797,7 @@
   }
 
   // Public API
-  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson, exportCsv: exportCsv, buildCsv: buildCsv, openIcSummary: openIcSummary, buildSnapshot: buildSnapshot, buildReportMeta: buildReportMeta,
+  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson, openDealFile: openDealFile, dealFileQuery: dealFileQuery, exportCsv: exportCsv, buildCsv: buildCsv, openIcSummary: openIcSummary, buildSnapshot: buildSnapshot, buildReportMeta: buildReportMeta,
     shareKeys: shareKeys, auditInputs: auditInputs, serialize: function () { return _serialize().toString(); },
     hydrate: _hydrate };
 })();

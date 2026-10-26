@@ -1307,7 +1307,7 @@
     function open(query, title, reserved, ctx) {
       var my = reserved != null ? reserved : take();
       if (my !== tok) return;
-      if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
+      if (!query) { status('That has no Deal Calculator settings in it. Use a share link or a deal file from the Deal Calculator.'); return; }
       status('Running the Deal Calculator for this deal…');
       // A saved deal goes back with its id, so the member bar saves the change as that deal's next version.
       $('wbOpenCalc').href = calcUrl(query, doc.baseURI) + (ctx && ctx.deal ? '#save-to=' + encodeURIComponent(ctx.deal) : '');
@@ -1378,7 +1378,7 @@
       settleWithin(api('?deal=' + encodeURIComponent(deal) + '&v=' + encodeURIComponent(v)), wait).then(function (x) {
         // Another deal was opened, or the choice changed, while this one loaded.
         if (gen !== tok || $('wbDeals').value !== deal || $('wbVersions').value !== v) return;
-        if (x == null) { status('That version did not load. Try again, or use a share link or Export JSON file.'); return; }
+        if (x == null) { status('That version did not load. Try again, or use a share link or a deal file.'); return; }
         var q = queryFrom(x);
         if (!q) { status('That version was saved without a Deal Calculator export. Open it in Submittal review, load an export, and save again.'); return; }
         var dl = (x.data && x.data.deal) || x.deal || {};
@@ -1394,7 +1394,7 @@
         if ($('wbFile').files[0] !== file || gen !== tok) return;
         var j; try { j = JSON.parse(t); } catch (e) { status('That file is not a Deal Calculator export.'); return; }
         if (j && j.dealMode === 'ownership') { status('That export is a for-sale deal. The workbook covers rental tax credit deals.'); return; }
-        open(queryFrom(j), file.name.replace(/\.json$/i, ''), gen);
+        open(queryFrom(j), file.name.replace(/(\.coho)?\.json$/i, ''), gen);
       });
     });
     $('wbPrint').addEventListener('click', function () { window.print(); });
