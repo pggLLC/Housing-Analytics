@@ -532,17 +532,47 @@
     }]
   ];
 
+  // v.n is the version's number in its deal, oldest first (v1, v2, ...), when the caller knows it.
+  function versionName(v) { return (v.n ? 'v' + v.n + ' · ' : '') + (v.label || v.name || 'Version'); }
+  function signed(d) { return (d < 0 ? '-' : '+') + money(Math.abs(d)); }
+
+  // One plain line per later version: what moved the funding gap against the first one ticked.
+  // Gap = total cost - sources, so the change in sources is the change in cost less the change in gap.
+  function changeLines(versions) {
+    var eng = function (v) { return v.engine || {}; };
+    var first = versions[0], g0 = num(eng(first).fundingGap), t0 = num(eng(first).totalDevelopmentCost);
+    return versions.slice(1).map(function (v) {
+      // The headers carry the labels, so the line names versions by number alone when it can.
+      var tag = function (x) { return x.n ? 'v' + x.n : (x.label || x.name || 'Version'); };
+      var e = eng(v), g = num(e.fundingGap), t = num(e.totalDevelopmentCost), who = tag(v) + ' against ' + tag(first) + ': ';
+      if (g == null || g0 == null) {
+        var why = g == null ? e.fundingGapReason : eng(first).fundingGapReason;
+        return who + 'no funding gap to compare, because ' + (g == null ? tag(v) : tag(first)) + ' has none' + (why ? ' (' + why + ')' : '') + '.';
+      }
+      var parts = [];
+      if (t != null && t0 != null) {
+        var dt = t - t0, ds = dt - (g - g0), ce = num(e.creditEquity), ce0 = num(eng(first).creditEquity);
+        parts.push(dt ? 'total cost ' + signed(dt) : 'total cost unchanged');
+        parts.push(ds ? 'sources ' + signed(ds) + (ce != null && ce0 != null && ce !== ce0 ? ' (credit equity ' + signed(ce - ce0) + ')' : '') : 'sources unchanged');
+      }
+      var dg = g - g0;
+      return who + (parts.length ? parts.join(', ') + ', so ' : '') + (dg ? 'the funding gap ' + (dg > 0 ? 'rose ' : 'fell ') + money(Math.abs(dg)) + '.' : 'the funding gap did not change.');
+    });
+  }
+
   function compareTable(rules, prop123, versions) {
     var reviews = versions.map(function (v) { return review(rules, prop123, v); });
     var head = '<tr><th scope="col" data-tip="Changed rows are highlighted">Figure</th>' + versions.map(function (v) {
-      return '<th scope="col">' + esc(v.label || v.name || 'Version') + '<br><span class="sr-muted">' + esc((v.at || '').slice(0, 16).replace('T', ' ')) + '</span></th>';
+      return '<th scope="col">' + esc(versionName(v)) + '<br><span class="sr-muted">' + esc((v.at || '').slice(0, 16).replace('T', ' ')) + '</span></th>';
     }).join('') + '</tr>';
     var body = COMPARE_ROWS.map(function (row) {
       var cells = versions.map(function (v, i) { return row[1](v, reviews[i]); });
       var differs = cells.some(function (c) { return c !== cells[0]; });
       return '<tr' + (differs ? ' class="sr-diff"' : '') + '><th scope="row">' + esc(row[0]) + '</th>' + cells.map(function (c) { return '<td class="sr-num">' + esc(c) + '</td>'; }).join('') + '</tr>';
     }).join('');
-    return '<div class="sr-scroll"><table class="sr-table" data-no-sort><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>';
+    var lines = changeLines(versions);
+    return (lines.length ? '<div class="sr-changes"><h4>What changed</h4>' + lines.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</div>' : '') +
+      '<div class="sr-scroll"><table class="sr-table" data-no-sort><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>';
   }
 
   // ── Calculator export ─────────────────────────────────────────────────────
@@ -1060,13 +1090,15 @@
       return store.versions(deal).then(function (res) {
         if (state.deal !== deal) return; // another deal was picked while this loaded
         state.versions = res.versions; state.hidden = res.hidden || []; state.baseline = res.baseline || '';
+        // Newest first from the server; number them oldest first, hidden ones included, so a number never shifts.
+        state.num = {}; res.versions.forEach(function (v, i) { state.num[v.v] = res.versions.length - i; });
         var show = $('sr-show-hidden').checked;
         var rows = res.versions.filter(function (v) { return show || state.hidden.indexOf(v.v) === -1; });
         $('srVersions').innerHTML = rows.length ? '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="Tick two to four versions to compare">Compare</th><th scope="col" data-tip="Label, when it was saved and who saved it">Version</th><th scope="col" class="sr-num" data-tip="CHFA points when saved">Score</th><th scope="col" data-tip="DOH or OEDIT gap-fund lane when saved">Lane</th><th scope="col" class="sr-num" data-tip="Funding gap when saved">Gap</th><th scope="col" data-tip="Open, star as baseline, or hide">Actions</th></tr></thead><tbody>' +
           rows.map(function (v) {
             var hid = state.hidden.indexOf(v.v) !== -1, base = state.baseline === v.v;
             return '<tr><td><label class="sr-pick-wrap"><input type="checkbox" class="sr-pick" data-v="' + esc(v.v) + '" aria-label="Compare ' + esc(v.label || v.v) + '"' + (state.picked[v.v] ? ' checked' : '') + '></label></td>' +
-              '<td><strong>' + esc(v.label || 'Untitled') + '</strong>' + (base ? ' <span class="rw-band">Baseline</span>' : '') + (hid ? ' <span class="sr-muted">(hidden)</span>' : '') +
+              '<td><strong>' + esc('v' + state.num[v.v] + ' · ' + (v.label || 'Untitled')) + '</strong>' + (base ? ' <span class="rw-band">Baseline</span>' : '') + (hid ? ' <span class="sr-muted">(hidden)</span>' : '') +
               '<div class="sr-muted">' + esc((v.at || '').slice(0, 16).replace('T', ' ')) + ' · ' + esc(v.by || '') + '</div></td>' +
               '<td class="sr-num">' + esc(pts(v.score)) + '</td><td>' + esc(v.lane || '—') + '</td><td class="sr-num">' + esc(money(v.gap)) + '</td>' +
               '<td><button type="button" class="sr-btn" data-act="open" data-v="' + esc(v.v) + '">Open</button> ' +
@@ -1151,7 +1183,7 @@
       Promise.all(ids.map(getVersion)).then(function (vs) {
         if (tok !== compareTok) return;
         if (vs.some(function (x) { return !x; })) { $('srCompare').innerHTML = failed; return; }
-        vs = vs.sort(function (a, b) { return a.v < b.v ? -1 : 1; });
+        vs = vs.sort(function (a, b) { return a.v < b.v ? -1 : 1; }).map(function (x) { return Object.assign({}, x, { n: (state.num || {})[x.v] }); });
         $('srCompare').innerHTML = compareTable(rules, prop123, vs);
       }, function () { if (tok === compareTok) $('srCompare').innerHTML = failed; });
     }
@@ -1241,6 +1273,6 @@
 
   return { esc: esc, mixTotals: mixTotals, amiMidpoint: amiMidpoint, targetingPoints: targetingPoints, eliPoints: eliPoints, score: score,
     findJurisdiction: findJurisdiction, prop123Status: prop123Status, gapLane: gapLane, bumpOneUnit: bumpOneUnit, thresholdStatus: thresholdStatus,
-    mustPayCoverage: mustPayCoverage, creditCheck: creditCheck, stateCreditCheck: stateCreditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, taxCreditNote: taxCreditNote, SET_ASIDE: SET_ASIDE, HARD_COST_IDS: HARD_COST_IDS,
+    mustPayCoverage: mustPayCoverage, creditCheck: creditCheck, stateCreditCheck: stateCreditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, changeLines: changeLines, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, taxCreditNote: taxCreditNote, SET_ASIDE: SET_ASIDE, HARD_COST_IDS: HARD_COST_IDS,
     stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, STRESS: STRESS, RULES_URL: RULES_URL, API: API };
 });

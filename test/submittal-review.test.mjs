@@ -155,6 +155,19 @@ ok(SR.summaryLines(r).length === 5, 'each version has a five-line summary');
 const cmp = SR.compareTable(rules, prop123, [{ label: 'A', deal: { mix }, claims: {} }, { label: 'B', deal: { mix: b.mix }, claims: {} }]);
 ok(/sr-diff/.test(cmp) && /AMI midpoint/.test(cmp), 'the comparison highlights changed rows');
 ok(!/<script/i.test(SR.compareTable(rules, prop123, [{ label: '<script>x</script>', deal: { mix }, claims: {} }, { label: 'B', deal: { mix }, claims: {} }])), 'labels are escaped');
+// Version numbers and the plain "what changed" line (invented figures).
+{
+  const A = { v: 'a', n: 1, label: 'Calculator: $20.0M cost, 60 homes', deal: { mix: { 60: 60 } }, claims: {}, engine: { totalDevelopmentCost: 20000000, fundingGap: 1558277, creditEquity: 13431600 } };
+  const B = { v: 'b', n: 2, label: 'construction +$2M', deal: { mix: { 60: 60 } }, claims: {}, engine: { totalDevelopmentCost: 22000000, fundingGap: 2229877, creditEquity: 14760000 } };
+  ok(SR.changeLines([A, B])[0] === 'v2 against v1: total cost +$2,000,000, sources +$1,328,400 (credit equity +$1,328,400), so the funding gap rose $671,600.', 'the change line explains why the gap moved');
+  const html = SR.compareTable(rules, prop123, [A, B]);
+  ok(html.includes('What changed') && html.includes('v1 · Calculator') && html.includes('v2 · construction'), 'the comparison shows version numbers and the change line');
+  const C = { v: 'c', n: 3, label: 'TDC only', deal: { mix: { 60: 60 } }, claims: {}, engine: { totalDevelopmentCost: 20200000, fundingGap: null, fundingGapReason: 'the developer fee could not be tested' } };
+  ok(/v3 has none \(the developer fee could not be tested\)/.test(SR.changeLines([A, C])[0]), 'a version with no gap says why instead of a number');
+  const D = Object.assign({}, A, { v: 'd', n: 4 });
+  ok(/total cost unchanged, sources unchanged, so the funding gap did not change\./.test(SR.changeLines([A, D])[0]), 'an unchanged run says so');
+  ok(SR.changeLines([A]).length === 0, 'one version has nothing to compare');
+}
 
 // Calculator export: the unit mix and results come across; the query is kept, the origin is not.
 const exp = SR.fromCalculatorExport({ exportedAt: '2026-10-21T00:00:00Z', url: 'https://cohoanalytics.com/deal-calculator.html?rate-9=0.09&units=60&units-30=6&units-60=24',
