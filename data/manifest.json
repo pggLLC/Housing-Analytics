@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-26T14:14:28.917371Z",
+  "generated": "2026-10-26T14:29:19.453607Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1015097
+      "bytes": 1015464
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8916,6 +8916,11 @@
       "placeholder": false,
       "bytes": 579148
     },
+    "data/market/finder-place-demand.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 21726
+    },
     "data/market/flood_zones_co.geojson": {
       "featureCount": 12537,
       "placeholder": false,
@@ -9164,7 +9169,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16091
+      "bytes": 16089
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
