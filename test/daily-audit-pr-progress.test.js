@@ -50,7 +50,7 @@ function openNode({ number = 1, createdAt = NOW - 3 * DAY, rollup = 'SUCCESS', c
     return {
         number,
         title: `PR ${number}`,
-        url: `https://github.com/o/r/pull/${number}`,
+        url: `https://example.com/o/r/pull/${number}`,
         createdAt: iso(createdAt),
         isDraft: draft,
         headRefOid: HEAD,
@@ -202,7 +202,7 @@ run('a failed PR query makes only this section unavailable, and the email still 
 
 run('the rendered tables show every column and escape titles', () => {
     const progress = {
-        merged: summarizeMerged([{ number: 7, title: 'Fix <script>', url: 'https://github.com/o/r/pull/7', mergedAt: iso(NOW - HOUR), mergedBy: { login: 'github-actions' }, author: { login: 'github-actions', __typename: 'Bot' } }], NOW),
+        merged: summarizeMerged([{ number: 7, title: 'Fix <script>', url: 'https://example.com/o/r/pull/7', mergedAt: iso(NOW - HOUR), mergedBy: { login: 'github-actions' }, author: { login: 'github-actions', __typename: 'Bot' } }], NOW),
         mergedComplete: true,
         open: summarizeOpen([openNode({ number: 8, comments: [codexComment({ commit_sha: HEAD, status: 'completed', has_unresolved_findings: false })] })], NOW),
         openCount: 1,
@@ -214,7 +214,7 @@ run('the rendered tables show every column and escape titles', () => {
     assert.ok(!html.includes('Fix <script>'), 'a PR title is data, never markup');
     assert.match(html, /Fix &lt;script&gt;/);
     assert.match(html, /\(bot: github-actions\)/);
-    for (const text of ['Merged by', 'CI on head', 'Codex review', 'clean on head', 'passing', '3d', 'https://github.com/o/r/pull/8']) {
+    for (const text of ['Merged by', 'CI on head', 'Codex review', 'clean on head', 'passing', '3d', 'https://example.com/o/r/pull/8']) {
         assert.ok(html.includes(text), `missing ${text}`);
     }
 });

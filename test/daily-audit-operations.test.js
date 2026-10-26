@@ -168,8 +168,8 @@ run('only the next 14 days are shown, soonest first, and a bad entry is an error
     ] };
     const rows = ops.upcomingDeadlines(doc, '2026-10-26');
     assert.deepEqual(rows.map(r => [r.title, r.daysAway]), [['Today', 0], ['Hearing', 3]]);
-    assert.throws(() => ops.upcomingDeadlines({ deadlines: [{ date: '10/29/2026', title: 'x', source: 'https://e' }] }, '2026-10-26'));
-    assert.throws(() => ops.upcomingDeadlines({ deadlines: [{ date: '2026-10-29', title: 'x', source: 'http://e' }] }, '2026-10-26'));
+    assert.throws(() => ops.upcomingDeadlines({ deadlines: [{ date: '10/29/2026', title: 'x', source: 'https://example.com' }] }, '2026-10-26'));
+    assert.throws(() => ops.upcomingDeadlines({ deadlines: [{ date: '2026-10-29', title: 'x', source: 'http://example.com' }] }, '2026-10-26'));
     assert.throws(() => ops.upcomingDeadlines({}, '2026-10-26'), 'a malformed file reads as unavailable, not as "nothing due"');
     assert.equal(ops.denverDay(Date.parse('2026-10-27T03:00:00Z')), '2026-10-26', 'the day is Denver\'s, not UTC\'s');
 });
@@ -208,13 +208,13 @@ run('the deadlines card lists what is due and says so when nothing is', () => {
 
 run('broken links come from the sweep state; a first failure is new', () => {
     const summary = ops.urlHealthSummary({ lastSweepAt: '2026-10-23T11:27:03Z', byUrl: {
-        'https://a': { status: 'broken', httpStatus: 404, consecutiveFailures: 1 },
-        'https://b': { status: 'broken', httpStatus: 500, consecutiveFailures: 9 },
-        'https://c': { status: 'timeout', consecutiveFailures: 1 },
-        'https://d': { status: 'ok', consecutiveFailures: 0 },
+        'https://example.com/a': { status: 'broken', httpStatus: 404, consecutiveFailures: 1 },
+        'https://example.com/b': { status: 'broken', httpStatus: 500, consecutiveFailures: 9 },
+        'https://example.com/c': { status: 'timeout', consecutiveFailures: 1 },
+        'https://example.com/d': { status: 'ok', consecutiveFailures: 0 },
     } });
     assert.equal(summary.broken, 2, 'timeouts are not counted as broken');
-    assert.deepEqual(summary.newlyBroken, [{ url: 'https://a', httpStatus: 404 }]);
+    assert.deepEqual(summary.newlyBroken, [{ url: 'https://example.com/a', httpStatus: 404 }]);
     assert.throws(() => ops.urlHealthSummary({}));
     const real = ops.urlHealthSummary(JSON.parse(fs.readFileSync(ops.URL_HEALTH_FILE, 'utf8')));
     assert.ok(Number.isInteger(real.broken), 'the committed sweep state parses');
