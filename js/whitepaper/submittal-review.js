@@ -537,26 +537,34 @@
   function signed(d) { return (d < 0 ? '-' : '+') + money(Math.abs(d)); }
 
   // One plain line per later version: what moved the funding gap against the first one ticked.
-  // Gap = total cost - sources, so the change in sources is the change in cost less the change in gap.
+  // Gap = total cost - sources, so the change in sources is the change in cost less the change in gap. The engine
+  // reports a surplus as a $0 gap, so when either gap is $0 the sources change can't be worked out and is left out.
+  // A stale calculator result (unit mix or election changed since the export) counts as no result, as in review().
   function changeLines(versions) {
-    var eng = function (v) { return v.engine || {}; };
+    var stale = function (v) { return !!(v.calculator && v.calculator.stale); };
+    var eng = function (v) { return stale(v) ? {} : (v.engine || {}); };
+    // The headers carry the labels, so the line names versions by number alone when it can.
+    var tag = function (x) { return x.n ? 'v' + x.n : (x.label || x.name || 'Version'); };
     var first = versions[0], g0 = num(eng(first).fundingGap), t0 = num(eng(first).totalDevelopmentCost);
     return versions.slice(1).map(function (v) {
-      // The headers carry the labels, so the line names versions by number alone when it can.
-      var tag = function (x) { return x.n ? 'v' + x.n : (x.label || x.name || 'Version'); };
       var e = eng(v), g = num(e.fundingGap), t = num(e.totalDevelopmentCost), who = tag(v) + ' against ' + tag(first) + ': ';
       if (g == null || g0 == null) {
-        var why = g == null ? e.fundingGapReason : eng(first).fundingGapReason;
-        return who + 'no funding gap to compare, because ' + (g == null ? tag(v) : tag(first)) + ' has none' + (why ? ' (' + why + ')' : '') + '.';
+        var gone = g == null ? v : first;
+        var why = stale(gone) ? 'its unit mix or election changed after the Deal Calculator export; export it again' : eng(gone).fundingGapReason;
+        return who + 'no funding gap to compare, because ' + tag(gone) + ' has none' + (why ? ' (' + why + ')' : '') + '.';
       }
       var parts = [];
       if (t != null && t0 != null) {
-        var dt = t - t0, ds = dt - (g - g0), ce = num(e.creditEquity), ce0 = num(eng(first).creditEquity);
+        var dt = t - t0;
         parts.push(dt ? 'total cost ' + signed(dt) : 'total cost unchanged');
-        parts.push(ds ? 'sources ' + signed(ds) + (ce != null && ce0 != null && ce !== ce0 ? ' (credit equity ' + signed(ce - ce0) + ')' : '') : 'sources unchanged');
+        if (g > 0 && g0 > 0) {
+          var ds = dt - (g - g0), ce = num(e.creditEquity), ce0 = num(eng(first).creditEquity);
+          parts.push(ds ? 'sources ' + signed(ds) + (ce != null && ce0 != null && ce !== ce0 ? ' (credit equity ' + signed(ce - ce0) + ')' : '') : 'sources unchanged');
+        }
       }
       var dg = g - g0;
-      return who + (parts.length ? parts.join(', ') + ', so ' : '') + (dg ? 'the funding gap ' + (dg > 0 ? 'rose ' : 'fell ') + money(Math.abs(dg)) + '.' : 'the funding gap did not change.');
+      var line = who + (parts.length ? parts.join(', ') + ', so ' : '') + (dg ? 'the funding gap ' + (dg > 0 ? 'rose ' : 'fell ') + money(Math.abs(dg)) + '.' : 'the funding gap did not change.');
+      return line + (g > 0 && g0 > 0 ? '' : ' A $0 gap means sources cover the cost, so the change in sources is not shown.');
     });
   }
 

@@ -167,6 +167,11 @@ ok(!/<script/i.test(SR.compareTable(rules, prop123, [{ label: '<script>x</script
   const D = Object.assign({}, A, { v: 'd', n: 4 });
   ok(/total cost unchanged, sources unchanged, so the funding gap did not change\./.test(SR.changeLines([A, D])[0]), 'an unchanged run says so');
   ok(SR.changeLines([A]).length === 0, 'one version has nothing to compare');
+  const S = Object.assign({}, B, { calculator: { stale: true } });
+  ok(/no funding gap to compare, because v2 has none \(its unit mix or election changed/.test(SR.changeLines([A, S])[0]), 'a stale calculator result is not reported as a change');
+  const Z0 = Object.assign({}, A, { engine: { totalDevelopmentCost: 20000000, fundingGap: 0 } }), Z1 = Object.assign({}, B, { engine: { totalDevelopmentCost: 21000000, fundingGap: 0 } });
+  const z = SR.changeLines([Z0, Z1])[0];
+  ok(/total cost \+\$1,000,000, so the funding gap did not change\. A \$0 gap means sources cover the cost/.test(z) && !/sources \+/.test(z), 'a $0 (surplus) gap does not invent a sources change');
 }
 
 // Calculator export: the unit mix and results come across; the query is kept, the origin is not.
