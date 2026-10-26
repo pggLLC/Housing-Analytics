@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T15:08:05.193Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T15:44:08.827Z. Do not edit by hand.
 
 ---
 
@@ -1989,7 +1989,7 @@
 | `data/policy/funding-awards/reviewed-documents.json` | 23.0 KB | ✅ | — |
 | `data/policy/funding-watch-sources.json` | 11.8 KB | ✅ | — |
 | `data/policy/green-building.json` | 58.0 KB | ✅ | — |
-| `data/policy/homeownership-programs.json` | 17.2 KB | ✅ | — |
+| `data/policy/homeownership-programs.json` | 30.8 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
 | `data/policy/housing-events.json` | 136.0 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
@@ -2355,7 +2355,7 @@
 | `test/home-need-map-legend-colors.test.js` | 3.3 KB |
 | `test/home-step-cards-match-destinations.test.js` | 3.3 KB |
 | `test/home-value-integrity.test.mjs` | 19.1 KB |
-| `test/homeownership-programs.test.js` | 6.6 KB |
+| `test/homeownership-programs.test.js` | 8.7 KB |
 | `test/homepage-claims.test.js` | 15.9 KB |
 | `test/homepage-job-routing.test.js` | 10.5 KB |
 | `test/homepage-snapshot.test.js` | 16.0 KB |
