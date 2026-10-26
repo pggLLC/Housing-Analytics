@@ -1,0 +1,245 @@
+// Submittal review: delete a saved version, or a whole saved deal, for good.
+//
+// paul 2026-10-25 asked whether saved deals could be deleted; until now a version
+// could only be hidden. Runs the real page markup and script in jsdom with the
+// device store (the save service is not reachable in a test), and the server store
+// against a stand-in fetch for the deleteDeal rounds. Invented deals only.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+import { JSDOM } from 'jsdom';
+
+const require = createRequire(import.meta.url);
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+const SR = require(path.join(ROOT, 'js/whitepaper/submittal-review.js'));
+const rules = JSON.parse(read('data/policy/chfa-2027-r1-scoring.json'));
+const prop123 = JSON.parse(read('data/policy/prop123_jurisdictions.json'));
+let checks = 0;
+const ok = (c, m) => { assert.ok(c, m); checks++; };
+const tick = () => new Promise((r) => setTimeout(r, 20));
+
+const FOR_GOOD = /for good|cannot be|can't be|permanent|undone|restored|brought back/i;
+
+async function page(answer) {
+  const dom = new JSDOM(read('developer-submittal-review.html'), { url: 'http://127.0.0.1/developer-submittal-review.html' });
+  const w = dom.window, d = w.document;
+  const asked = [];
+  w.confirm = (q) => { asked.push(q); return answer(q); };
+  const f = SR.formHtml(rules);
+  d.getElementById('srClaims').innerHTML = f.claims;
+  d.getElementById('srThresholds').innerHTML = f.thresholds;
+  const mem = {};
+  const store = SR.makeStore(() => Promise.reject(new Error('offline')), { getItem: (k) => mem[k] || null, setItem: (k, v) => { mem[k] = v; } });
+  // Two invented deals, saved before the page opens.
+  const a1 = await store.save({ name: 'Invented Site A', label: 'first', data: { deal: { mix: { 60: 10 } } } });
+  const a2 = await store.save({ deal: a1.deal, name: 'Invented Site A', label: 'second', data: { deal: { mix: { 60: 20 } } } });
+  const a3 = await store.save({ deal: a1.deal, name: 'Invented Site A', label: 'third', data: { deal: { mix: { 60: 30 } } } });
+  const b1 = await store.save({ name: 'Invented Site B', label: 'only', data: { deal: { mix: { 50: 5 } } } });
+  SR.mount(d, rules, prop123, store);
+  await tick();
+  const $ = (id) => d.getElementById(id);
+  const pick = async (id) => { $('sr-deal').value = id; $('sr-deal').dispatchEvent(new w.Event('change')); await tick(); await tick(); };
+  const btn = (act, v) => $('srVersions').querySelector('[data-act="' + act + '"][data-v="' + v + '"]');
+  return { w, d, $, store, pick, btn, asked, ids: { a1, a2, a3, b1 } };
+}
+
+// The number a row shows, and the number its Delete button's accessible name gives. They must agree;
+// the wording around them is a choice, so only "delete" and the number are checked.
+function names(b) {
+  const row = (b.closest('tr').querySelector('strong').textContent.match(/^v(\d+)\b/) || [])[1];
+  const label = b.getAttribute('aria-label') || '';
+  return { row, said: (label.match(/\bv(\d+)\b/) || [])[1], deletes: /delete/i.test(label) };
+}
+
+// ── One version ──────────────────────────────────────────────────────────
+{
+  let yes = false;
+  const p = await page(() => yes);
+  const { $, store, pick, btn, asked, ids } = p;
+  ok($('sr-delete-deal').hidden, 'no deal picked: no Delete this deal button');
+  await pick(ids.a1.deal);
+  ok(!$('sr-delete-deal').hidden, 'a picked deal shows Delete this deal');
+  const trs = [...$('srVersions').querySelectorAll('tbody tr')];
+  const own = trs.map((tr) => { const pickV = tr.querySelector('.sr-pick').getAttribute('data-v'), del = tr.querySelector('[data-act="purge"]'); return !!del && del.getAttribute('data-v') === pickV && del.textContent.trim() !== ''; });
+  ok(trs.length === 3 && own.every(Boolean), 'every version row has its own visible delete control: ' + JSON.stringify(own));
+  const rows = [ids.a1, ids.a2, ids.a3].map((x) => names(btn('purge', x.v)));
+  ok(rows.length === 3 && rows.every((n) => n.row && n.deletes && n.said === n.row), 'each Delete names, for a screen reader, the version its row shows: ' + JSON.stringify(rows));
+
+  btn('purge', ids.a2.v).click(); await tick();
+  // The question must name the version as its row does and say the delete is for good; the words are free.
+  const rowName = btn('purge', ids.a2.v).closest('tr').querySelector('strong').textContent;
+  ok(asked.length === 1 && asked[0].includes(rowName) && FOR_GOOD.test(asked[0]), 'it asks first, naming the version as its row does (' + rowName + ') and saying it is for good: ' + asked[0]);
+  ok((await store.versions(ids.a1.deal)).versions.length === 3, 'a no keeps the version');
+
+  yes = true;
+  btn('purge', ids.a2.v).click(); await tick(); await tick();
+  const left = (await store.versions(ids.a1.deal)).versions.map((x) => x.v);
+  ok(left.length === 2 && !left.includes(ids.a2.v), 'a yes deletes that version and only that one');
+  ok(!btn('purge', ids.a2.v) && btn('purge', ids.a3.v), 'it is off the version list');
+  ok($('srFlash').textContent.includes(rowName), 'the page names the version it deleted as its row did (' + rowName + '): ' + $('srFlash').textContent);
+  ok(new RegExp('\\b' + left.length + ' versions?\\b').test($('sr-deal').selectedOptions[0].textContent), 'the deal picker shows the stored count, ' + left.length + ': ' + $('sr-deal').selectedOptions[0].textContent);
+  ok($('sr-deal').value === ids.a1.deal, 'the deal stays picked');
+
+  // Deleting the baseline clears it, so nothing points at a version that is gone.
+  await store.meta(ids.a1.deal, 'baseline', ids.a3.v);
+  await store.meta(ids.a1.deal, 'hide', ids.a3.v);
+  await store.meta(ids.a1.deal, 'purge', ids.a3.v);
+  const after = await store.versions(ids.a1.deal);
+  ok(after.baseline === '' && !after.hidden.includes(ids.a3.v), 'a deleted version is no longer the baseline or hidden');
+}
+
+// ── A whole deal ─────────────────────────────────────────────────────────
+{
+  let yes = false;
+  const p = await page(() => yes);
+  const { $, store, pick, asked, ids } = p;
+  await pick(ids.a1.deal);
+  $('sr-delete-deal').click(); await tick();
+  const count = (await store.versions(ids.a1.deal)).versions.length;
+  ok(asked.length === 1 && asked[0].includes($('sr-name').value) && new RegExp('\\b' + count + ' versions?\\b').test(asked[0]) && /research/i.test(asked[0]) && FOR_GOOD.test(asked[0]),
+    'it asks first, naming the deal, its ' + count + ' versions, its research, and that it is for good: ' + asked[0]);
+  ok((await store.deals()).length === 2, 'a no keeps the deal');
+
+  yes = true;
+  const dealName = $('sr-name').value;
+  $('sr-delete-deal').click(); await tick(); await tick(); await tick();
+  const deals = await store.deals();
+  ok(deals.length === 1 && deals[0].id === ids.b1.deal, 'a yes deletes that deal and leaves the other');
+  ok($('sr-deal').value === '' && ![...$('sr-deal').options].some((o) => o.value === ids.a1.deal), 'the picker is back on New deal, without it');
+  ok($('sr-name').value === '' && $('sr-delete-deal').hidden, 'the form is cleared and the button hides');
+  ok(dealName && $('srFlash').textContent.includes(dealName), 'the page names the deal it deleted (' + dealName + '): ' + $('srFlash').textContent);
+  ok(!$('srVersions').querySelector('tr, [data-act]'), 'no version rows or buttons of it are left on screen');
+}
+
+// Codex review on 050a5f5: a delete that finishes after another deal was picked leaves that deal picked,
+// and a comparison drawn across the deleted version is renumbered with the list.
+{
+  const p = await page(() => true);
+  const { $, store, pick, btn, ids } = p;
+  await pick(ids.a1.deal);
+  const real = store.meta.bind(store); let release;
+  store.meta = (deal, action, v) => (action === 'purge' ? new Promise((r) => { release = () => r(real(deal, action, v)); }) : real(deal, action, v));
+  btn('purge', ids.a2.v).click(); await tick();
+  await pick(ids.b1.deal);
+  ok($('sr-name').value === 'Invented Site B', 'non-vacuous: deal B is open while the delete is pending');
+  release(); await tick(); await tick(); await tick();
+  ok($('sr-deal').value === ids.b1.deal && $('sr-name').value === 'Invented Site B', 'the picker still shows the deal on screen, not the one the delete came from');
+  ok(btn('purge', ids.b1.v) && !btn('purge', ids.a3.v), 'and the version list is still deal B\'s');
+  ok((await store.versions(ids.a1.deal)).versions.length === 2, 'the delete itself went through');
+  store.meta = real;
+
+  const q = await page(() => true);
+  await q.pick(q.ids.a1.deal);
+  [q.ids.a1.v, q.ids.a3.v].forEach((v) => { const box = q.$('srVersions').querySelector('.sr-pick[data-v="' + v + '"]'); box.checked = true; box.dispatchEvent(new q.w.Event('click', { bubbles: true })); });
+  await tick(); await tick();
+  const heads = () => [...q.$('srCompare').querySelectorAll('th')].map((th) => th.textContent).join(' | ');
+  ok(/\bv3\b/.test(heads()), 'non-vacuous: the comparison names v3 before the delete: ' + heads());
+  q.btn('purge', q.ids.a2.v).click(); await tick(); await tick(); await tick(); await tick();
+  const n3 = names(q.btn('purge', q.ids.a3.v));
+  ok(n3.row === '2' && n3.said === '2', 'non-vacuous: the list renumbers the third version to v2, and its Delete says so: ' + JSON.stringify(n3));
+  ok(/\bv2\b/.test(heads()) && !/\bv3\b/.test(heads()), 'the comparison renumbers it too: ' + heads());
+}
+
+// Codex review on 2dc1084: an Open still being read when its version is deleted must not open it,
+// so the next save is not a child of a version that is gone.
+{
+  const p = await page(() => true);
+  const { $, store, pick, btn, ids } = p;
+  // v2's answers are held back from the start, so the page has no copy of it when Open is clicked.
+  const real = store.get.bind(store), held = [];
+  // The read itself is done at once; only its answer arrives late, as from a slow server.
+  store.get = (deal, v) => (v === ids.a2.v ? real(deal, v).then((rec) => new Promise((r) => { held.push(() => r(rec)); })) : real(deal, v));
+  await pick(ids.a1.deal);
+  const before = held.length;
+  btn('open', ids.a2.v).click(); await tick();
+  ok(held.length === before + 1, 'non-vacuous: the Open of v2 is waiting on its own read');
+  btn('purge', ids.a2.v).click(); await tick(); await tick(); await tick();
+  held.forEach((go) => go()); await tick(); await tick(); await tick();
+  let sent;
+  const save = store.save.bind(store); store.save = (rec) => { sent = rec; return save(rec); };
+  $('sr-save').click(); await tick(); await tick();
+  ok(sent && sent.parent !== ids.a2.v, 'the next save does not name the deleted version as its parent: ' + (sent && sent.parent));
+  store.get = real;
+  ok(!(await store.versions(ids.a1.deal)).versions.some((x) => x.v === ids.a2.v), 'and it stays deleted');
+}
+
+// Codex review on fd37bf5: deleting a deal while its first version is still opening leaves the New deal form able to save.
+{
+  const p = await page(() => true);
+  const { $, store, ids } = p;
+  const real = store.get.bind(store), held = [];
+  store.get = (deal, v) => (deal === ids.a1.deal ? real(deal, v).then((rec) => new Promise((r) => { held.push(() => r(rec)); })) : real(deal, v));
+  $('sr-deal').value = ids.a1.deal; $('sr-deal').dispatchEvent(new p.w.Event('change')); await tick(); await tick();
+  ok(held.length > 0, 'non-vacuous: deal A is still opening');
+  $('sr-delete-deal').click(); await tick(); await tick(); await tick();
+  held.forEach((go) => go()); await tick(); await tick(); await tick();
+  store.get = real;
+  $('sr-name').value = 'Invented Site C';
+  $('sr-save').click(); await tick(); await tick(); await tick();
+  const names = (await store.deals()).map((x) => x.name);
+  ok(names.includes('Invented Site C') && !names.includes('Invented Site A'), 'a new deal saves after the delete: ' + JSON.stringify(names) + ' / ' + $('srFlash').textContent);
+}
+
+// Codex review on 20a6c21: Delete this deal, clicked while the picked deal's version list is still loading,
+// gives the picked deal's count, not the last deal's.
+{
+  const p = await page(() => true);
+  const { $, store, pick, asked, ids } = p;
+  await pick(ids.b1.deal);
+  const real = store.versions.bind(store); let release, first = true;
+  store.versions = (deal) => (deal === ids.a1.deal && first ? (first = false, real(deal).then((res) => new Promise((r) => { release = () => r(res); }))) : real(deal));
+  $('sr-deal').value = ids.a1.deal; $('sr-deal').dispatchEvent(new p.w.Event('change')); await tick();
+  ok(typeof release === 'function' && !$('srVersions').querySelector('[data-v="' + ids.a1.v + '"]'), 'non-vacuous: deal A is picked but its version list has not arrived');
+  $('sr-delete-deal').click(); await tick(); await tick(); await tick();
+  ok(asked.length === 1, 'non-vacuous: it asked');
+  ok(new RegExp('\\b3 versions?\\b').test(asked[0] || '') && !/\b1 version\b/.test(asked[0] || ''), 'the question gives deal A\'s 3 versions, not deal B\'s 1: ' + asked[0]);
+  ok(!(await store.deals()).some((x) => x.id === ids.a1.deal), 'and the deal it named is the one deleted');
+  release && release(); await tick();
+  store.versions = real;
+}
+
+// Codex review on 343dc44: a version-list read from before a delete, answered after it, does not bring the deleted version back.
+{
+  const p = await page(() => true);
+  const { $, store, pick, btn, ids } = p;
+  await pick(ids.a1.deal);
+  const real = store.versions.bind(store); let release;
+  store.versions = (deal) => (!release ? real(deal).then((res) => new Promise((r) => { release = () => r(res); })) : real(deal));
+  $('sr-show-hidden').checked = true; $('sr-show-hidden').dispatchEvent(new p.w.Event('change')); await tick();
+  ok(typeof release === 'function', 'non-vacuous: a list read is out when the delete starts');
+  btn('purge', ids.a2.v).click(); await tick(); await tick(); await tick();
+  release(); await tick(); await tick(); await tick();
+  store.versions = real;
+  ok(!btn('purge', ids.a2.v) && btn('purge', ids.a3.v), 'the deleted version stays off the list');
+  ok(!(await store.versions(ids.a1.deal)).versions.some((x) => x.v === ids.a2.v), 'and out of the store');
+  ok(!$('sr-hist-csv').disabled, 'the scenario history still builds, so it can be exported: ' + $('srHistory').textContent.slice(0, 80));
+}
+
+// A browser that blocks dialogs deletes nothing.
+{
+  const p = await page(() => { throw new Error('blocked'); });
+  await p.pick(p.ids.b1.deal);
+  p.$('sr-delete-deal').click(); await tick();
+  ok((await p.store.deals()).length === 2, 'a blocked dialog is a no');
+}
+
+// ── Server store: a large deal is deleted in rounds ──────────────────────
+{
+  const bodies = []; let rounds = 2;
+  const fetchFn = (url, opts) => {
+    if (!opts || opts.method !== 'POST') return Promise.resolve({ ok: true, json: () => Promise.resolve({ deals: [] }) });
+    bodies.push(JSON.parse(opts.body));
+    const more = --rounds > 0;
+    return Promise.resolve({ ok: true, json: () => Promise.resolve({ ok: true, deleted: 400, more }) });
+  };
+  const st = SR.makeStore(fetchFn, { getItem: () => null, setItem: () => {} });
+  await st.removeDeal('invented-deal-abcdef');
+  ok(st.mode() === 'server' && bodies.length === 2 && bodies.every((b) => b.deleteDeal === 'invented-deal-abcdef'), 'it repeats deleteDeal while the server says more');
+  const failing = SR.makeStore((u, o) => Promise.resolve(o && o.method === 'POST' ? { ok: false, status: 500 } : { ok: true, json: () => Promise.resolve({ deals: [] }) }), { getItem: () => null, setItem: () => {} });
+  await assert.rejects(failing.removeDeal('invented-deal-abcdef'), /500/); checks++;
+}
+
+console.log(`saved-deal-delete: ${checks} checks passed`);

@@ -917,7 +917,27 @@
           if (action === 'baseline') d.baseline = v;
           if (action === 'hide' && d.hidden.indexOf(v) === -1) d.hidden.push(v);
           if (action === 'unhide') d.hidden = d.hidden.filter(function (x) { return x !== v; });
+          if (action === 'purge') {
+            d.versions = d.versions.filter(function (x) { return x.v !== v; });
+            d.hidden = d.hidden.filter(function (x) { return x !== v; });
+            if (d.baseline === v) d.baseline = '';
+          }
           local.write(o); return d;
+        });
+      },
+      // The whole deal for good. The server deletes a very large deal in rounds and says {more}.
+      removeDeal: function (deal) {
+        return detect().then(function (m) {
+          if (m === 'server') {
+            var round = function (n) {
+              return api('', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ deleteDeal: deal }) }).then(function (j) {
+                if (j && j.more) { if (n >= 100) throw new Error('the deal is only partly deleted; try again to finish'); return round(n + 1); }
+                return j;
+              });
+            };
+            return round(1);
+          }
+          var o = local.read(); delete o[deal]; local.write(o); return { ok: true };
         });
       }
     };
@@ -970,7 +990,7 @@
 
   function mount(doc, rules, prop123, store) {
     var $ = function (id) { return doc.getElementById(id); };
-    var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '' };
+    var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '', gone: {} };
 
     function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', applicant: '', gpRole: '', supportive: false, rehab: false, existingCredit: false, subsidyExpiring: false, otherActiveCredits: null, stateCredits: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
 
@@ -1150,18 +1170,23 @@
         $('srStore').textContent = store.mode() === 'server' ? 'Saved to your own login on the developer site; teammates do not see your deals. A save never overwrites an earlier version.' : 'The save service is not reachable, so versions are kept on this device only.';
       });
     }
+    // Only the latest list read draws; an older one (from before a delete, say) hands over to it.
+    var listTok = 0, listLatest = null;
     function refreshVersions() {
       clearHistory(); // the last deal's history must not stay on screen or export while another loads
+      $('sr-delete-deal').hidden = !state.deal;
+      var tok = ++listTok;
       if (!state.deal) { $('srVersions').innerHTML = '<p class="sr-muted">Save this deal to start its version list.</p>'; drawHistory(); return Promise.resolve(); }
       var deal = state.deal;
-      return store.versions(deal).then(function (res) {
+      return (listLatest = store.versions(deal).then(function (res) {
         if (state.deal !== deal) return; // another deal was picked while this loaded
+        if (tok !== listTok) return listLatest;
         state.versions = res.versions; state.hidden = res.hidden || []; state.baseline = res.baseline || '';
         // Newest first from the server; number them oldest first, hidden ones included, so a number never shifts.
         state.num = {}; res.versions.forEach(function (v, i) { state.num[v.v] = res.versions.length - i; });
         var show = $('sr-show-hidden').checked;
         var rows = res.versions.filter(function (v) { return show || state.hidden.indexOf(v.v) === -1; });
-        $('srVersions').innerHTML = rows.length ? '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="Tick two to four versions to compare">Compare</th><th scope="col" data-tip="Label, when it was saved and who saved it">Version</th><th scope="col" class="sr-num" data-tip="CHFA points when saved">Score</th><th scope="col" data-tip="DOH or OEDIT gap-fund lane when saved">Lane</th><th scope="col" class="sr-num" data-tip="Funding gap when saved">Gap</th><th scope="col" data-tip="Open, star as baseline, or hide">Actions</th></tr></thead><tbody>' +
+        $('srVersions').innerHTML = rows.length ? '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="Tick two to four versions to compare">Compare</th><th scope="col" data-tip="Label, when it was saved and who saved it">Version</th><th scope="col" class="sr-num" data-tip="CHFA points when saved">Score</th><th scope="col" data-tip="DOH or OEDIT gap-fund lane when saved">Lane</th><th scope="col" class="sr-num" data-tip="Funding gap when saved">Gap</th><th scope="col" data-tip="Open, star as baseline, hide (kept, off the list) or delete for good">Actions</th></tr></thead><tbody>' +
           rows.map(function (v) {
             var hid = state.hidden.indexOf(v.v) !== -1, base = state.baseline === v.v;
             return '<tr><td><label class="sr-pick-wrap"><input type="checkbox" class="sr-pick" data-v="' + esc(v.v) + '" aria-label="Compare ' + esc(v.label || v.v) + '"' + (state.picked[v.v] ? ' checked' : '') + '></label></td>' +
@@ -1170,10 +1195,11 @@
               '<td class="sr-num">' + esc(pts(v.score)) + '</td><td>' + esc(v.lane || '—') + '</td><td class="sr-num">' + esc(money(v.gap)) + '</td>' +
               '<td><button type="button" class="sr-btn" data-act="open" data-v="' + esc(v.v) + '">Open</button> ' +
               (base ? '' : '<button type="button" class="sr-btn" data-act="baseline" data-v="' + esc(v.v) + '">Make baseline</button> ') +
-              '<button type="button" class="sr-btn" data-act="' + (hid ? 'unhide' : 'hide') + '" data-v="' + esc(v.v) + '">' + (hid ? 'Unhide' : 'Hide') + '</button></td></tr>';
+              '<button type="button" class="sr-btn" data-act="' + (hid ? 'unhide' : 'hide') + '" data-v="' + esc(v.v) + '">' + (hid ? 'Unhide' : 'Hide') + '</button> ' +
+              '<button type="button" class="sr-btn" data-act="purge" data-v="' + esc(v.v) + '" aria-label="Delete v' + state.num[v.v] + ' for good">Delete</button></td></tr>';
           }).join('') + '</tbody></table></div>' : '<p class="sr-muted">No versions yet.</p>';
         drawHistory();
-      });
+      }));
     }
     // The latest HISTORY_MAX versions, read in full (cached), oldest first; hidden ones only when shown above.
     var HISTORY_MAX = 40, historyTok = 0, lastHistory = null;
@@ -1221,6 +1247,7 @@
       if (state.cache[key]) return Promise.resolve(state.cache[key]);
       return store.get(deal, v).then(function (rec) {
         if (!rec || state.deal !== deal) return null; // dropped if another deal was picked meanwhile
+        if (state.gone[key]) return null; // deleted while this read was out: never opened or cached
         var data = rec.data || {};
         var out = Object.assign({}, data, { v: rec.v, label: rec.label, name: rec.name, at: rec.at, by: rec.by });
         state.cache[key] = out; return out;
@@ -1251,7 +1278,7 @@
         if (!deal || state.deal !== deal) return;
         var first = state.versions.filter(function (v) { return state.hidden.indexOf(v.v) === -1; })[0];
         var pick = state.baseline && state.versions.some(function (v) { return v.v === state.baseline; }) ? state.baseline : first && first.v;
-        if (pick) return openLatest(pick).then(function (ok) { if (!ok && state.deal === deal) { clearForm(); flash('That deal\'s latest version could not be read, so the form was cleared.'); } });
+        if (pick) return openLatest(pick).then(function (ok) { if (!ok && state.deal === deal) { clearForm(); if (!state.gone[deal + '/' + pick]) flash('That deal\'s latest version could not be read, so the form was cleared.'); } });
         clearForm(); // no version to open: never leave the previous deal's figures under this one
       }).catch(function (e) {
         if (state.deal !== deal) return;
@@ -1276,10 +1303,43 @@
       var act = t.getAttribute && t.getAttribute('data-act'); if (!act) return;
       var v = t.getAttribute('data-v');
       if (act === 'open') {
-        openLatest(v).then(function (ok) { if (!ok) flash('That version did not open; the page still shows the one before it. Try Open again.'); },
+        openLatest(v).then(function (ok) { if (!ok && !state.gone[state.deal + '/' + v]) flash('That version did not open; the page still shows the one before it. Try Open again.'); },
           function () { flash('That version did not open; the page still shows the one before it. Try Open again.'); });
       }
+      else if (act === 'purge') {
+        var deal = state.deal, row = state.versions.filter(function (x) { return x.v === v; })[0] || {};
+        var what = 'v' + state.num[v] + ' · ' + (row.label || 'Untitled');
+        if (!ask('Delete ' + what + ' for good? It cannot be brought back. Hide takes a version off the list and keeps it.')) return;
+        store.meta(deal, 'purge', v).then(function () {
+          state.gone[deal + '/' + v] = true; delete state.cache[deal + '/' + v];
+          flash('Deleted ' + what + '. The versions left are numbered again.');
+          // Another deal picked while this ran stays picked; only its count in the picker changes.
+          if (state.deal !== deal) return refreshDeals(state.deal || '');
+          delete state.picked[v];
+          if (state.parent === v) state.parent = ''; // the next save is not a child of a version that is gone
+          // Renumber first, so the comparison names its versions the way the list does.
+          return refreshDeals(deal).then(refreshVersions).then(drawCompare);
+        }, function (e) { flash(what + ' was not deleted: ' + e.message + '.'); });
+      }
       else store.meta(state.deal, act, v).then(refreshVersions);
+    });
+    // A browser that blocks dialogs answers no, so nothing is deleted without a yes.
+    function ask(q) { var w = doc.defaultView; try { return !!(w && w.confirm && w.confirm(q)); } catch (e) { return false; } }
+    $('sr-delete-deal').addEventListener('click', function () {
+      var deal = state.deal; if (!deal) return;
+      var name = $('sr-name').value.trim() || 'this deal';
+      var btn = $('sr-delete-deal'); btn.disabled = true;
+      // Count from the store, not the list on screen, which can still be the last deal's while this one loads.
+      store.versions(deal).then(function (res) {
+        var n = (res.versions || []).length;
+        if (state.deal !== deal || !ask('Delete "' + name + '" for good: all ' + n + ' version' + (n === 1 ? '' : 's') + ', and its market research in Deal workbook? It cannot be brought back.')) return;
+        return store.removeDeal(deal).then(function () {
+          if (state.deal === deal) { state.nav++; state.deal = null; state.loading = false; state.picked = {}; state.cache = {}; state.versions = []; $('sr-name').value = ''; clearForm(); drawCompare(); }
+          flash('Deleted "' + name + '" and all its versions.');
+          return refreshDeals('').then(refreshVersions);
+        });
+      }).then(null, function (e) { flash('"' + name + '" was not deleted: ' + e.message + '. Try again to finish.'); })
+        .then(function () { btn.disabled = false; });
     });
 
     var compareTok = 0;
@@ -1383,5 +1443,5 @@
   return { esc: esc, mixTotals: mixTotals, amiMidpoint: amiMidpoint, targetingPoints: targetingPoints, eliPoints: eliPoints, score: score,
     findJurisdiction: findJurisdiction, prop123Status: prop123Status, gapLane: gapLane, bumpOneUnit: bumpOneUnit, thresholdStatus: thresholdStatus,
     mustPayCoverage: mustPayCoverage, creditCheck: creditCheck, stateCreditCheck: stateCreditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, changeLines: changeLines, historyModel: historyModel, historyHtml: historyHtml, historyCsv: historyCsv, historyPage: historyPage, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, taxCreditNote: taxCreditNote, SET_ASIDE: SET_ASIDE, HARD_COST_IDS: HARD_COST_IDS,
-    stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, STRESS: STRESS, RULES_URL: RULES_URL, API: API };
+    stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, mount: mount, STRESS: STRESS, RULES_URL: RULES_URL, API: API };
 });
