@@ -1,7 +1,7 @@
 {
   "meta": {
     "description": "Colorado housing events that no feed lists, checked by hand. scripts/news/fetch_housing_events.py merges them with CHFA's calendar feed and Housing Colorado's upcoming-events list into data/policy/housing-events.json. Each entry names the page it was checked against, the date, and the words on that page it rests on.",
-    "last_checked": "2026-10-14",
+    "last_checked": "2026-10-26",
     "review": "Quarterly: re-check each organizer's events page and add the next conference dates as soon as they are announced. Past events drop off by themselves."
   },
   "events": [
@@ -31,6 +31,36 @@
         "date": "2026-10-14",
         "source_url": "https://www.nahro.org/national-conference/",
         "quote": "2026 National Conference & Exhibition October 15-17, 2026"
+      }
+    },
+    {
+      "title": "OEDIT publishes the Transit and Housing Investment Zones map (HB26-1065)",
+      "start": "2026-10-30",
+      "end": null,
+      "location": null,
+      "online": true,
+      "organizer": "OEDIT",
+      "url": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
+      "category": "release",
+      "checked": {
+        "date": "2026-10-26",
+        "source_url": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
+        "quote": "A link to the map will be posted to this website on or before October 30, 2026."
+      }
+    },
+    {
+      "title": "Transit and Housing Investment Zones: pre-applications close (OEDIT)",
+      "start": "2027-02-26",
+      "end": null,
+      "location": null,
+      "online": true,
+      "organizer": "OEDIT",
+      "url": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
+      "category": "deadline",
+      "checked": {
+        "date": "2026-10-26",
+        "source_url": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
+        "quote": "Pre-applications accepted late December 2026 – February 26, 2027"
       }
     }
   ]
