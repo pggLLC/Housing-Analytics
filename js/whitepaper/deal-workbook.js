@@ -1309,7 +1309,9 @@
       if (my !== tok) return;
       if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
       status('Running the Deal Calculator for this deal…');
-      $('wbOpenCalc').href = calcUrl(query, doc.baseURI); $('wbOpenCalc').hidden = false;
+      // A saved deal goes back with its id, so the member bar saves the change as that deal's next version.
+      $('wbOpenCalc').href = calcUrl(query, doc.baseURI) + (ctx && ctx.deal ? '#save-to=' + encodeURIComponent(ctx.deal) : '');
+      $('wbOpenCalc').hidden = false;
       // The pro forma does not need the market files, so it renders as soon as the calculator settles. The frame
       // stays (hidden) until the market files settle, for the per-bedroom rent estimate in the market section.
       var mktReady = loadMarket();
