@@ -123,7 +123,7 @@ ok(SR.creditCheck(rules, 1000000).applicantKnown === false && /other active appl
 // Codex review on 93a02299b: the paired state credit is a fixed amount; failed Versions-table opens are reported.
 ok(SR.stateCreditCheck(rules, 650000).status === 'depends' && SR.stateCreditCheck(rules, 650000).basis === 'pilot' && SR.stateCreditCheck(rules, 600000).status === 'depends' && SR.stateCreditCheck(rules, 700000).status === 'off' && SR.stateCreditCheck(rules, null).status === 'none', 'the paired state credit is checked against the fixed amounts');
 ok(/Standard state credit \$700,000 is not the fixed amount/.test(SR.review(rules, prop123, { deal: { mix: { 60: 50 }, place: '', stateCredits: 700000 }, claims: {}, thresholds: {}, engine: {} }).risks.map((x) => x.text).join(' ')), 'an off-amount state credit request is flagged');
-ok(/openLatest\(v\)\.then\(function \(ok\) \{ if \(!ok\) flash/.test(read('js/whitepaper/submittal-review.js')), 'a Versions-table open that fails says so');
+ok(/openLatest\(v\)\.then\(function \(ok\) \{ if \(!ok(?: && !state\.gone\[[^\]]+\])?\) flash/.test(read('js/whitepaper/submittal-review.js')), 'a Versions-table open that fails says so');
 // Codex review on 758e670d4: the cap uses the request, not modeled capacity; state-credit thresholds are conditional.
 {
   const reqBase = { url: 'http://127.0.0.1:8799/d?rate-9=0.09', outputs: { annualCredits: { value: 1900000 } }, inputs: { units: '10', 'units-60': '10' } };
