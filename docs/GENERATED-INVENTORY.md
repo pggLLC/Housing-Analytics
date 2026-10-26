@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T16:27:24.547Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T17:05:11.000Z. Do not edit by hand.
 
 ---
 
@@ -34,7 +34,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 83.7 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 86.8 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 87.3 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.0 KB |
@@ -2049,7 +2049,7 @@
 
 ## Test Files
 
-725 test files found.
+726 test files found.
 
 | File | Size |
 |------|------|
@@ -2189,6 +2189,7 @@
 | `test/deal-engine-signed-rent-growth.test.js` | 3.5 KB |
 | `test/deal-engine-surfaces.test.js` | 14.0 KB |
 | `test/deal-engine.test.js` | 8.0 KB |
+| `test/deal-file.test.mjs` | 10.6 KB |
 | `test/deal-gap-handoff.test.js` | 6.0 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-permanent-financing.test.js` | 14.0 KB |
