@@ -47,7 +47,7 @@
   function statusClass(program) {
     var status = statusLabel(program).toLowerCase();
     if (status === 'verify' || status.indexOf('watch') >= 0) return 'pill warn';
-    if (status === 'closed') return 'pill bad';
+    if (status === 'closed' || status === 'ended' || status === 'paused') return 'pill bad';
     return 'pill accent';
   }
 
@@ -104,6 +104,9 @@
       return normalizeProgram(id, doc.programs[id]);
     }).filter(function (program) {
       if (program.isMarketSource) return false;
+      // A retired label names no current program (2026-10-26 source check);
+      // its record stays only so older saved deals still resolve.
+      if (program.status === 'retired') return false;
       if (!matchesCounty(program, countyFips)) return false;
       if (!matchesExecution(program, executionType)) return false;
       if (!matchesUseCase(program, useCase)) return false;

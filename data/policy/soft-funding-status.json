@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-10-21",
+  "lastUpdated": "2026-10-26",
   "vintage": "2026-Q4",
-  "note": "Program terms checked against the cited official pages on 2026-10-09 (Colorado Home Energy Rebates rechecked 2026-10-20) unless an earlier last_verified is explicitly retained after a blocked recheck. Null means unpublished, ambiguous or unverified, as explained by source_note. review_by is an internal quarterly review reminder, not a program deadline. Published caps and historical allocations are not available balances. Legacy identifiers are retained for consumers but are not additional awards.",
+  "note": "Program terms checked against the cited official pages on 2026-10-09; 18 records rechecked 2026-10-26 (see each last_verified). Status 'retired' marks a legacy label no official page establishes, kept so older saved deals still resolve; 'see' names the real program. Null means unpublished, ambiguous or unverified, as explained by source_note. review_by is an internal quarterly review reminder, not a program deadline. Published caps and historical allocations are not available balances.",
   "programs": {
     "CHFA-HTF": {
-      "name": "CHFA Housing Trust Fund",
+      "name": "CHFA Housing Trust Fund (retired label: no current CHFA program)",
       "county": "All",
       "available": null,
       "awarded": null,
@@ -16,22 +16,26 @@
         "4%"
       ],
       "maxPerProject": null,
-      "description": "Legacy listing requiring CHFA confirmation; the current lending directory does not establish this named product or its terms.",
+      "description": "Not a current CHFA program. CHFA's gap loans are the Housing Opportunity Fund (HOF) and the Capital Magnet Fund (CMF).",
       "contactUrl": "https://www.chfainfo.com/",
       "restrictions": [],
-      "status": "VERIFY",
+      "status": "retired",
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
-      "source_url": "https://www.chfainfo.com/rental-housing/multifamily-lending",
-      "source_note": "CHFA multifamily lending directory opened 2026-10-09. This legacy program name was not identified as a current CHFA product; funding type and maximum award are not confirmed and are not inferred from its name. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_url": "https://www.chfainfo.com/rental-housing/multifamily-lending/programs-by-use/flexible-gap-financing",
+      "source_note": "CHFA Flexible Gap Financing page read 2026-10-26: \"CHFA's flexible gap programs (CMF and HOF) help with ever-growing project costs\". CHFA lists no Housing Trust Fund product; use CHFA HOF (up to $1M, 30 years) or CHFA CMF ($750,000, 17 years).",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26",
+      "see": [
+        "CHFA-HOF",
+        "CHFA-CMF"
+      ]
     },
     "CHFA-CCLA": {
-      "name": "CHFA Construction/Permanent Loan Advantage",
+      "name": "CHFA Construction/Permanent Loan Advantage (retired label: no current CHFA program)",
       "county": "All",
       "available": null,
       "awarded": null,
@@ -43,19 +47,19 @@
         "4%"
       ],
       "maxPerProject": null,
-      "description": "Legacy listing requiring CHFA confirmation; the current lending directory does not establish this named product or its terms.",
+      "description": "Not a current CHFA program. CHFA's construction-to-permanent bond loans are CAPABLE and PAIRABLE.",
       "contactUrl": "https://www.chfainfo.com/",
       "restrictions": [],
-      "status": "VERIFY",
+      "status": "retired",
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
-      "source_url": "https://www.chfainfo.com/rental-housing/multifamily-lending",
-      "source_note": "CHFA multifamily lending directory opened 2026-10-09. This legacy program name was not identified as a current CHFA product; funding type and maximum award are not confirmed and are not inferred from its name. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_url": "https://www.chfainfo.com/rental-housing/multifamily-lending/programs-by-use/construction-to-permanent",
+      "source_note": "CHFA Construction-to-Permanent page read 2026-10-26: \"CHFA's construction-to-permanent loans finance larger 4 percent Housing Credit properties using Private Activity Bonds (PAB), structured with CHFA as the senior lender (CAPABLE) or with a construction lender bank partner (PAIRABLE).\" No product carries this legacy name.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26"
     },
     "CHFA-CMF": {
       "name": "CHFA Capital Magnet Fund",
@@ -104,7 +108,7 @@
       }
     },
     "DOLA-HTF": {
-      "name": "Colorado DOLA Housing Trust Fund",
+      "name": "Colorado DOLA Housing Trust Fund (retired label: no current DOH program)",
       "county": "All",
       "available": null,
       "awarded": null,
@@ -117,22 +121,25 @@
         "non-LIHTC"
       ],
       "maxPerProject": null,
-      "description": "Legacy funding label requiring DOH confirmation. Consult the official grant and loan programs; this listing is not an additional funding commitment.",
+      "description": "Not a current DOH program. The Division of Housing's own development money is the Housing Development Grant (HDG) and Housing Development Loan Fund (HDLF).",
       "contactUrl": "https://cdola.colorado.gov/",
       "restrictions": [],
-      "status": "VERIFY",
+      "status": "retired",
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
       "source_url": "https://doh.colorado.gov/colorado-division-housing-resources",
-      "source_note": "DOH resources page opened 2026-10-09 through the web reader (direct HTTP requests return 403). It describes grants and loans but does not establish a distinct current program under this legacy name; funding type and maximum award are left blank. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_note": "DOH resources page read 2026-10-26 lists HOME, CDBG, CDBG-DR, Housing Development Grant Funds (HDG), Housing Development Loan Funds (HDLF), PAB, CHIF and Section 811 PRA, and no Housing Trust Fund. The state's own development funds are HDG and HDLF; use the Housing Development Grant.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26",
+      "see": [
+        "DOH-HDG"
+      ]
     },
     "CDBG-DR": {
-      "name": "CDBG Disaster Recovery (DOLA)",
+      "name": "CDBG Disaster Recovery (DOLA) (retired label: no open development round)",
       "county": "Selected",
       "available": null,
       "awarded": null,
@@ -144,22 +151,22 @@
         "4%"
       ],
       "maxPerProject": null,
-      "description": "Disaster-specific recovery funding administered through partnerships. Verify the applicable disaster allocation and rental award terms with DOH.",
+      "description": "Disaster recovery money tied to the Marshall Fire allocation. No open rental development round.",
       "contactUrl": "https://cdola.colorado.gov/",
-      "status": "VERIFY",
+      "status": "retired",
       "restrictions": [],
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
-      "source_url": "https://doh.colorado.gov/colorado-division-housing-resources",
-      "source_note": "DOH describes disaster-specific programs through local partners. No current rental award structure, interest rate, loan term, repayment, cap or remaining balance is stated here. All are left blank; the previous zero balance was not a measured amount.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_url": "https://dlg.colorado.gov/community-development-block-grants-for-disaster",
+      "source_note": "DLG CDBG-DR page read 2026-10-26: \"Following the Marshall Fire on December 30, 2021,\" the state \"received an initial $7.415 million allocation\". It is tied to that disaster and names no open rental development round.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26"
     },
     "Denver-AHTF": {
-      "name": "Denver Affordable Housing Trust Fund",
+      "name": "Denver Affordable Housing Trust Fund (retired label: see Denver HOST gap financing)",
       "county": "08031",
       "available": null,
       "awarded": null,
@@ -171,22 +178,22 @@
         "4%"
       ],
       "maxPerProject": null,
-      "description": "Local affordable-housing funding context. Obtain a current solicitation and award terms from Denver HOST; no available balance or universal cap is verified.",
+      "description": "Denver's Dedicated Affordable Housing Fund is paid out through HOST gap financing solicitations. HOST canceled its Fall 2026 round; the next opens in Q1 2027.",
       "contactUrl": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability",
-      "status": "VERIFY",
+      "status": "retired",
       "restrictions": [],
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
-      "source_url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability",
-      "source_note": "Denver HOST housing page opened 2026-10-09. It does not establish this legacy listing as a distinct current award with a single funding type or maximum award. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability/Partner-Resources/Housing-Development-Resources",
+      "source_note": "Denver HOST Housing Development Resources page read 2026-10-26: Denver's fund is the Dedicated Affordable Housing Fund, paid out through HOST gap solicitations. \"Due to reduced available funding, the 2026 Fall Solicitation Round will be canceled and combined with the 2027 Winter Solicitation Round, which we expect to open in Q1 2027.\"",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26"
     },
     "Boulder-HTF": {
-      "name": "Boulder County Housing Trust Fund",
+      "name": "Boulder County Housing Trust Fund (retired label: no current county program)",
       "county": "08013",
       "available": null,
       "awarded": null,
@@ -198,9 +205,9 @@
         "4%"
       ],
       "maxPerProject": null,
-      "description": "Local affordable-housing funding context. Obtain a current solicitation and award terms from Boulder County; no available balance or universal cap is verified.",
+      "description": "Not a current Boulder County program. The City of Boulder's Affordable Housing Fund is the local development source.",
       "contactUrl": "https://bouldercounty.gov/departments/housing/",
-      "status": "VERIFY",
+      "status": "retired",
       "restrictions": [],
       "funding_type": null,
       "rate_pct": null,
@@ -208,9 +215,9 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://bouldercounty.gov/departments/housing/",
-      "source_note": "Boulder County housing page opened 2026-10-09. It does not establish this legacy listing as a distinct current award with a single funding type or maximum award. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_note": "Boulder County housing page read 2026-10-26 names no housing trust fund. The City of Boulder Affordable Housing Fund (AHF) is a real local source; it is listed on the Funding Sources tab.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26"
     },
     "HOME-CO": {
       "name": "HOME Investment Partnerships (State)",
@@ -226,21 +233,21 @@
       ],
       "maxPerProject": null,
       "description": "Federal HOME assistance through DOH for eligible rental acquisition, rehabilitation and construction. Award-specific terms must be obtained from DOH.",
-      "contactUrl": "https://cdola.colorado.gov/",
+      "contactUrl": "https://doh.colorado.gov/home-program",
       "restrictions": [],
-      "status": "VERIFY",
+      "status": "watch",
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
-      "source_url": "https://doh.colorado.gov/colorado-division-housing-resources",
-      "source_note": "The DOH resources page describes project-by-project rental acquisition, rehabilitation and construction assistance, but does not state one funding type, interest rate, loan term, repayment schedule, maximum or available balance. Nulls require the specific HOME award terms.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_url": "https://doh.colorado.gov/home-program",
+      "source_note": "DOH HOME page read 2026-10-26: \"Funds are awarded as a grant or loan for housing development and CHDO set-asides.\" The page lists no round dates; the last development round offering HOME closed July 30, 2026 and no later HOME development round is posted. Funding type, rate, term, repayment and award are award-specific and left blank.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26"
     },
     "DOH-AHTF": {
-      "name": "DOH Affordable Housing Trust Fund",
+      "name": "DOH Affordable Housing Trust Fund (retired label: no current DOH program)",
       "county": "All",
       "available": null,
       "awarded": null,
@@ -254,10 +261,10 @@
         "non-LIHTC"
       ],
       "maxPerProject": null,
-      "description": "Legacy funding label requiring DOH confirmation. Consult the official grant and loan programs; this listing is not an additional funding commitment.",
+      "description": "Not a current DOH program. Use the Housing Development Grant (HDG) or Housing Development Loan Fund (HDLF).",
       "contactUrl": "https://doh.colorado.gov/",
       "adminEntity": "DOH",
-      "status": "VERIFY",
+      "status": "retired",
       "restrictions": [],
       "funding_type": null,
       "rate_pct": null,
@@ -265,9 +272,12 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://doh.colorado.gov/colorado-division-housing-resources",
-      "source_note": "DOH resources page opened 2026-10-09 through the web reader (direct HTTP requests return 403). It describes grants and loans but does not establish a distinct current program under this legacy name; funding type and maximum award are left blank. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_note": "DOH resources page read 2026-10-26 names no Affordable Housing Trust Fund; it duplicates the DOLA-HTF legacy label. Use the Housing Development Grant.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26",
+      "see": [
+        "DOH-HDG"
+      ]
     },
     "DOH-HDG": {
       "name": "DOH Housing Development Grant",
@@ -275,8 +285,8 @@
       "available": null,
       "awarded": null,
       "capacity": null,
-      "loiDeadline": null,
-      "deadline": null,
+      "loiDeadline": "2026-12-01",
+      "deadline": "2027-01-15",
       "competitiveness": "moderate",
       "eligibleExecution": [
         "9%",
@@ -287,7 +297,7 @@
       "description": "DOH Housing Development Grant Funds can be awarded as grants or loans for acquisition, rehabilitation and construction. Use the award-specific terms.",
       "contactUrl": "https://doh.colorado.gov/",
       "adminEntity": "DOH",
-      "status": "VERIFY",
+      "status": "active",
       "restrictions": [],
       "funding_type": null,
       "rate_pct": null,
@@ -295,12 +305,15 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://doh.colorado.gov/housing-development-grant-funds-hdg",
-      "source_note": "The official page offers grants or loans; funding type and repayment are not one universal structure. Loan rates are generally 2% for for-profits and 1% for nonprofits, with terms tied to senior debt and repayment from cash flow or up to 40-year amortization. A single interest rate or loan term would be misleading, so each is left blank. No program-wide project cap, round deadline or available balance is stated.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_note": "DOH HDG page read 2026-10-26: \"Funds are awarded as a grant or a loan.\" Loan rates \"generally 2% for for-profits and 1% for non-profits\", term \"typically commensurate with senior debt\", repayment \"typically a percentage of cash flow or up to a 40 year amortization\". A single rate or term would mislead, so each is left blank. DOH application schedule read 2026-10-26: January 2027 round, Letter of Intent Deadline: December 1, 2026, Application Deadline: January 15, 2027; April 2027 round, LOI March 16, 2027, application April 30, 2027. No program-wide cap or balance is stated.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26",
+      "relatedSourceUrls": [
+        "https://doh.colorado.gov/application-schedule-and-awards"
+      ]
     },
     "DOH-HHPG": {
-      "name": "DOH Homeless Housing Program Grant",
+      "name": "DOH Homeless Housing Program Grant (retired label: no current DOH program)",
       "county": "All",
       "available": null,
       "awarded": null,
@@ -314,21 +327,21 @@
         "non-LIHTC"
       ],
       "maxPerProject": null,
-      "description": "Legacy funding label requiring DOH confirmation. Consult the official grant and loan programs; this listing is not an additional funding commitment.",
+      "description": "Not a current DOH program. Supportive housing capital goes through DOH's Creation of Supportive Housing RFA and Prop 123's homelessness program.",
       "contactUrl": "https://doh.colorado.gov/",
       "adminEntity": "DOH",
       "amiTargeting": "30% AMI",
       "restrictions": [],
-      "status": "VERIFY",
+      "status": "retired",
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
-      "source_url": "https://doh.colorado.gov/colorado-division-housing-resources",
-      "source_note": "DOH resources page opened 2026-10-09 through the web reader (direct HTTP requests return 403). It describes grants and loans but does not establish a distinct current program under this legacy name; funding type and maximum award are left blank. The page does not publish a program-wide interest rate, loan term, repayment schedule, project cap or current uncommitted balance for this entry; those figures are left blank. Confirm the specific award before relying on it.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_url": "https://doh.colorado.gov/funding",
+      "source_note": "DOH funding page read 2026-10-26 lists \"Creation of Supportive Housing\" and the \"Homelessness Resolution Program (HRP)\" (services), and no Homeless Housing Program Grant. Capital for supportive housing goes through the Creation of Supportive Housing RFA (Round D applications due November 2, 2026) and Prop 123 PEH.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26"
     },
     "NHTF-CO": {
       "name": "National Housing Trust Fund (Colorado)",
@@ -348,19 +361,19 @@
       "adminEntity": "Colorado Division of Housing (DOH)",
       "amiTargeting": "30% AMI",
       "restrictions": [],
-      "status": "VERIFY",
+      "status": "watch",
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
       "source_url": "https://doh.colorado.gov/national-housing-trust-fund-htf",
-      "source_note": "The DOH page identifies rental housing with all DOH-assisted units at 30% AMI or less, and awards as grants or loans. A single funding type, interest rate, loan term, repayment, project cap and available balance are not stated and are left blank.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_note": "DOH HTF page read 2026-10-26: \"Housing development with all DOH-assisted units restricted to 30% AMI or lower\"; \"Funds are awarded as a grant or a loan.\" No round dates are listed; the last round offering HTF closed July 30, 2026. Funding type, rate, term, repayment and award are left blank.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26"
     },
     "PROP123-AHTF": {
-      "name": "Proposition 123 Affordable Housing Fund",
+      "name": "Proposition 123 State Affordable Housing Fund (umbrella; pick a program)",
       "county": "All",
       "available": null,
       "awarded": null,
@@ -378,16 +391,16 @@
       "adminEntity": "OEDIT / CHFA (60%) · DOLA (40%)",
       "note": "See PROP123-LIHTC-GAP, PROP123-EQUITY and PROP123-LBTF for the distinct instruments.",
       "restrictions": [],
-      "status": "VERIFY",
+      "status": "retired",
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/",
-      "source_note": "Umbrella record, not an additional financing source. It contains multiple instruments, so funding type, interest rate, loan term, repayment and maximum award are left blank. See the separate LIHTC gap, equity and land-banking records. No remaining balance is published on the program pages.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_note": "Umbrella record, not a financing source. DOLA Prop 123 page read 2026-10-26 describes one State Affordable Housing Fund: 40% to DOLA (homeownership, homelessness, local planning capacity) and 60% overseen by OEDIT with CHFA (land banking, equity, concessionary debt). Use the specific program: LIHTC Gap Finance, Equity or Land Banking.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26"
     },
     "PROP123-LBTF": {
       "name": "Prop 123 Land Banking Trust Fund",
@@ -433,27 +446,31 @@
       "available": null,
       "awarded": null,
       "capacity": null,
-      "deadline": null,
+      "deadline": "2026-11-01",
       "competitiveness": "moderate",
       "eligibleExecution": [
         "4%"
       ],
       "maxPerProject": null,
       "description": "Private Activity Bond volume-cap context. Allocation authority is separate from the actual project bond loan; confirm current availability and qualification with the allocating authority.",
-      "contactUrl": "https://www.chfainfo.com/",
-      "adminEntity": "CHFA",
+      "contactUrl": "https://doh.colorado.gov/private-activity-bonds",
+      "adminEntity": "DOLA Division of Housing (Statewide Balance); CHFA and local issuers",
       "isVolumeCap": true,
       "restrictions": [],
-      "status": "VERIFY",
+      "status": "active",
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
-      "source_url": "https://www.chfainfo.com/rental-housing/private-activity-bonds",
-      "source_note": "Volume-cap allocation is borrowing authority, not itself a loan or cash grant. Funding type, interest rate, loan term, repayment and maximum award are therefore left blank; bond terms come from a separate financing. The page does not give this listing a verified remaining allocation balance.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_url": "https://doh.colorado.gov/private-activity-bonds",
+      "source_note": "DOLA PAB page read 2026-10-26: \"Round 3, open to any issuing authority and to pipeline requests: Application due date: November 1, 2026\", committee decisions December 2026. DOLA 2026 Direct Allocations page: \"Private Activity Bond Cap available in 2026: $811,695,735\" and \"Total cap available to the Statewide Balance: $13,327,048\". Volume cap is borrowing authority, not a loan or grant, so funding type, rate, term, repayment and award are blank; balances are not a project award.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26",
+      "relatedSourceUrls": [
+        "https://doh.colorado.gov/private-activity-bond-direct-allocations-2026",
+        "https://www.chfainfo.com/rental-housing/private-activity-bonds"
+      ]
     },
     "OZ-EQUITY": {
       "name": "Opportunity Zone Equity Investment",
@@ -492,7 +509,7 @@
       "available": null,
       "awarded": null,
       "capacity": null,
-      "deadline": null,
+      "deadline": "2026-11-10",
       "competitiveness": "high",
       "eligibleExecution": [
         "non-LIHTC"
@@ -503,7 +520,7 @@
       "adminEntity": "CDFI Fund",
       "note": "NMTC + LIHTC dual structures are rare but possible for mixed-use developments with commercial components.",
       "isMarketSource": true,
-      "status": "VERIFY",
+      "status": "active",
       "restrictions": [],
       "funding_type": null,
       "rate_pct": null,
@@ -511,9 +528,9 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit",
-      "source_note": "CDFI describes tax credits for investments into CDEs, not one standardized rental-project financing instrument. Funding type, interest rate, loan term, repayment and maximum award are left blank for the downstream project. The seven-year tax-credit period is not a loan term. No universal project maximum or available balance is published.",
-      "last_verified": "2026-10-20",
-      "review_by": "2027-01-20"
+      "source_note": "CDFI Fund NMTC page read 2026-10-26: \"Opening Date September 17, 2026 Deadline November 10, 2026 Announcement Date Fall 2027\". That round is for Community Development Entities; a project seeks NMTC financing from a CDE with allocation. Funding type, rate, term, repayment and award are set by the CDE and left blank. The seven-year credit period is not a loan term.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26"
     },
     "TIF-LOCAL": {
       "name": "Tax Increment Financing (Local)",
@@ -529,10 +546,10 @@
         "non-LIHTC"
       ],
       "maxPerProject": null,
-      "description": "Municipal TIF districts can provide gap financing for affordable housing through property tax increment capture. Availability varies by municipality — Denver, Aurora, Colorado Springs, Lakewood, and Fort Collins have active URA/TIF programs. Requires municipal approval and urban renewal authority designation.",
-      "contactUrl": "https://www.leg.colorado.gov/bills/hb24-1172",
+      "description": "Tax increment financing is local authority, not a state award. Municipal urban renewal authorities use the Urban Renewal Law (C.R.S. 31-25-101 et seq.); HB24-1172 added county revitalization authorities. Whether a district exists, and what it pays for, depends on a local plan and agreement.",
+      "contactUrl": "https://leg.colorado.gov/bills/hb24-1172",
       "adminEntity": "Municipal URA",
-      "note": "Check with local urban renewal authority for active TIF districts. Not all municipalities have enabling legislation.",
+      "note": "Ask the local urban renewal authority or county whether a district covers the site.",
       "isMarketSource": true,
       "status": "VERIFY",
       "restrictions": [],
@@ -541,10 +558,10 @@
       "term_years": null,
       "repayment": null,
       "max_rule": null,
-      "source_url": "https://www.leg.colorado.gov/bills/hb24-1172",
-      "source_note": "The official act describes tax-increment financing authority, not an award to this project. Local agreements determine funding type, interest rate, loan term, repayment and maximum award; all are left blank without an adopted agreement. No statewide project cap or available balance is stated.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09"
+      "source_url": "https://leg.colorado.gov/bills/hb24-1172",
+      "source_note": "Colorado General Assembly HB24-1172 page read 2026-10-26: title \"County Revitalization Authorities\"; \"The act creates a process for the establishment of a county revitalization authority\" and a plan \"may provide for\" tax increment financing. It is county authority, not municipal urban renewal, and not proof that any district funds housing. The former list of cities with active programs had no source and was removed. Funding type, rate, term, repayment and award are left blank.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26"
     },
     "CEO-WAP": {
       "name": "Weatherization Assistance Program (Colorado / DOE WAP)",
@@ -569,8 +586,8 @@
         "https://www.energy.gov/cmei/scep/wap/weatherization-program-notices-and-memorandums"
       ],
       "adminEntity": "DOE / Colorado Energy Office / local WAP providers",
-      "source_note": "Primary source reopened 2026-10-20: the DOE how-to-apply page still routes applicants through state administrators and local providers, with eligibility at 200% of the poverty guidelines or the LIHEAP 60% of state median income. DOE WAP pages previously checked 2026-07-18; Program Year 2026 guidance is published, but household/project awards vary by local provider. DOE describes delivered weatherization services, not one project-financing instrument. Funding type, interest rate, loan term, repayment and maximum award are left blank: no universal rental-project terms or cap are stated.",
-      "last_verified": "2026-10-20",
+      "source_note": "Primary source reopened 2026-10-20: the DOE how-to-apply page still routes applicants through state administrators and local providers, with eligibility at 200% of the poverty guidelines or the LIHEAP 60% of state median income. DOE WAP pages previously checked 2026-07-18; Program Year 2026 guidance is published, but household/project awards vary by local provider. DOE describes delivered weatherization services, not one project-financing instrument. Funding type, interest rate, loan term, repayment and maximum award are left blank: no universal rental-project terms or cap are stated. Rechecked 2026-10-26: no material change on the program page.",
+      "last_verified": "2026-10-26",
       "review_by": "2027-01-20",
       "warning": "Screening context only. Verify local provider eligibility, landlord permission for renters, and current provider capacity before advising a household or underwriting a rehab scope.",
       "funding_type": null,
@@ -618,7 +635,7 @@
     "CEO-SOLAR-FOR-ALL": {
       "name": "Colorado Solar for All / GGRF watch",
       "county": "All",
-      "status": "VERIFY",
+      "status": "paused",
       "available": null,
       "awarded": null,
       "capacity": null,
@@ -635,12 +652,13 @@
       "description": "Colorado official federal-funds page records the original Solar for All award and planning intent, but EPA now states the Greenhouse Gas Reduction Fund authority and Solar for All implementation have been terminated/rescinded. Treat as a watch item, not available funding.",
       "contactUrl": "https://federalfunds.colorado.gov/solar-for-all",
       "relatedSourceUrls": [
-        "https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund"
+        "https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund",
+        "https://energyoffice.colorado.gov/cos4a"
       ],
       "adminEntity": "EPA / Colorado Energy Office",
-      "source_note": "Primary source reopened 2026-10-09. Colorado award page and EPA GGRF status page previously checked 2026-07-18; EPA states Solar for All is no longer being implemented. The state page describes a federal award to Colorado, not current project-level financing terms. Funding type, interest rate, loan term, repayment and maximum award are left blank; the historical state award is not an available balance.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09",
+      "source_note": "Colorado Energy Office Solar for All page read 2026-10-26: the program \"is temporarily on hold due to recent developments at the federal level\"; EPA terminated the national program in August 2025 and Colorado joined a multistate lawsuit on October 16, 2025. Not available funding. Funding type, rate, term, repayment and award are left blank; the historical award is not a balance.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26",
       "warning": "Do not count as available funding without fresh official confirmation; GGRF/Solar for All is rescission/litigation exposed.",
       "funding_type": null,
       "rate_pct": null,
@@ -652,7 +670,7 @@
     "CEO-BUILDING-ELECTRIFICATION-GRANTS": {
       "name": "CEO building electrification / high-efficiency heating grants",
       "county": "All",
-      "status": "VERIFY",
+      "status": "ended",
       "available": null,
       "awarded": null,
       "capacity": null,
@@ -671,21 +689,24 @@
       "description": "Colorado HB22-1362 created CEO-administered building electrification and high-efficiency electric heating/appliance grant authority for eligible entities including housing developers. Current open-round dollars were not fetch-verified on an accessible official CEO page this session.",
       "contactUrl": "https://leg.colorado.gov/bills/HB22-1362",
       "adminEntity": "Colorado Energy Office",
-      "source_note": "Primary source reopened 2026-10-09. Colorado General Assembly enacted-bill page previously checked 2026-07-18; current CEO grant-round availability remains VERIFY because the program page was not fetch-accessible. HB22-1362 establishes grant authority. No project-specific interest rate, loan term, repayment or universal per-project maximum is stated, so these are left blank. The legislation is not proof of an open funding round.",
-      "last_verified": "2026-10-09",
-      "review_by": "2027-01-09",
+      "source_note": "CEO High-Efficiency Electric Heating and Appliances grant page read 2026-10-26: \"The Request for Applications is closed.\" \"CEO is not currently accepting applications for this program.\" Program dates \"July 1, 2022 - June 30, 2026\" ($10.85 million total fund). HB22-1362 established the authority. Ended: not available funding.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26",
       "warning": "Statutory program authority only. Verify any current NOFA, eligible uses, deadlines, and stacking rules before underwriting.",
       "funding_type": "grant",
       "rate_pct": null,
       "term_years": null,
       "repayment": null,
       "max_rule": null,
-      "source_url": "https://leg.colorado.gov/bills/HB22-1362"
+      "source_url": "https://leg.colorado.gov/bills/HB22-1362",
+      "relatedSourceUrls": [
+        "https://energyoffice.colorado.gov/buildings/funding-and-financing/high-efficiency-electric-heating-and-appliances-grant-program"
+      ]
     },
     "CEO-LBD-SHOWCASE": {
       "name": "Large Building Decarbonization Showcase Grant Program",
       "county": "All",
-      "status": "active-watch",
+      "status": "closed",
       "available": null,
       "awarded": null,
       "capacity": null,
@@ -707,9 +728,9 @@
         "https://cdphe.colorado.gov/air-pollution/building-performance-standard-rule"
       ],
       "adminEntity": "Colorado Energy Office",
-      "source_note": "CEO program page read 2026-10-21: \"Amount: $500,000 - $2 million per award; 50 - 65% of the implementation costs up to $2 million with $8.5m in total funding available. Application Rounds: The deadline for Round 2 has been extended to October 23, 2026. Round 2 covers implementation only projects.\" The page also says CEO \"will distribute $35 million across two funding rounds\". Round 1: Governor's release of February 25, 2026 (\"$7.2 million in grants\", 15 awards), re-opened 2026-10-21. No later round is announced.",
-      "last_verified": "2026-10-21",
-      "review_by": "2026-10-24",
+      "source_note": "CEO program page read 2026-10-21: \"Amount: $500,000 - $2 million per award; 50 - 65% of the implementation costs up to $2 million with $8.5m in total funding available. Application Rounds: The deadline for Round 2 has been extended to October 23, 2026. Round 2 covers implementation only projects.\" The page also says CEO \"will distribute $35 million across two funding rounds\". Round 1: Governor's release of February 25, 2026 (\"$7.2 million in grants\", 15 awards), re-opened 2026-10-21. No later round is announced. Rechecked 2026-10-26: the Round 2 deadline of October 23, 2026 has passed and the page announces no later round.",
+      "last_verified": "2026-10-26",
+      "review_by": "2027-01-26",
       "warning": "Retrofits of existing buildings covered by Building Performance Colorado only; not new construction. Round 2 closes October 23, 2026.",
       "funding_type": "grant",
       "rate_pct": null,
@@ -754,8 +775,8 @@
         "must_pay_dscr": 1.05
       },
       "source_url": "https://coloradoaffordablehousingfinancingfund.com/concessionary-debt/lihtc-gap-finance/",
-      "source_note": "Fixed rate is 2.5%. The page offers amortizing and non-amortizing structures without selecting one funding type or repayment schedule; these are left blank until underwriting. Loan term is not published; the greater-of-loan-term-or-30-years affordability covenant is not a stated loan term. The May 27–June 10, 2026 window closed; CHFA's October 19, 2026 notice says the next round takes applications October 21 to November 10, 2026 (5:00pm MT), with selections in December 2026. Most FY2027 gap money goes through the competitive tax credit rounds instead. Available, awarded and capacity balances for this instrument are not stated.",
-      "last_verified": "2026-10-09",
+      "source_note": "Fixed rate is 2.5%. The page offers amortizing and non-amortizing structures without selecting one funding type or repayment schedule; these are left blank until underwriting. Loan term is not published; the greater-of-loan-term-or-30-years affordability covenant is not a stated loan term. The May 27–June 10, 2026 window closed; CHFA's October 19, 2026 notice says the next round takes applications October 21 to November 10, 2026 (5:00pm MT), with selections in December 2026. Most FY2027 gap money goes through the competitive tax credit rounds instead. Available, awarded and capacity balances for this instrument are not stated. Rechecked 2026-10-26: no material change on the program page.",
+      "last_verified": "2026-10-26",
       "review_by": "2027-01-09",
       "adminEntity": "OEDIT / CHFA",
       "restrictions": [
@@ -884,28 +905,5 @@
         "announcements_by": "2026-12-31"
       }
     }
-  },
-  "pabVolumeCap": {
-    "state": "Colorado",
-    "year": 2026,
-    "totalCap": 450000000,
-    "committed": 165000000,
-    "remaining": 280000000,
-    "pctCommitted": 37,
-    "lastUpdated": "2026-04-07",
-    "note": "Colorado 2026 PAB volume cap. Updated quarterly from CHFA bond allocation reports. Projects must apply for PAB allocation before requesting 4% LIHTC determination.",
-    "quarters": [
-      {
-        "q": "Q1",
-        "committed": 95000000,
-        "projects": 4
-      },
-      {
-        "q": "Q2",
-        "committed": 70000000,
-        "projects": 3,
-        "note": "Partial — through April 7"
-      }
-    ]
   }
 }
