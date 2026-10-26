@@ -179,7 +179,9 @@ assert.throws(
   const ci = fs.readFileSync(path.join(ROOT, '.github/workflows/ci-checks.yml'), 'utf8');
   const ciRebuild = ci.indexOf('python3 scripts/rebuild_manifest.py');
   const ciResync = ci.indexOf('node scripts/audit/refresh-inventory-mtimes.mjs');
-  const ciGate = ci.indexOf('run: npm run test:ci');
+  // test:ci runs as a matrix of its ci:part-N groups; the anchored rebuild and
+  // re-sync steps above it are reused verbatim by the other job.
+  const ciGate = ci.indexOf('run: ${{ matrix.suite }}');
   assert(ciRebuild > 0 && ciResync > ciRebuild && ciGate > ciResync,
     'PR CI must re-sync generated inventory counts after rebuilding manifests and before the drift gate');
 }
