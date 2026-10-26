@@ -1151,7 +1151,8 @@
       });
     }
     function refreshVersions() {
-      if (!state.deal) { $('srVersions').innerHTML = '<p class="sr-muted">Save this deal to start its version list.</p>'; return Promise.resolve(); }
+      clearHistory(); // the last deal's history must not stay on screen or export while another loads
+      if (!state.deal) { $('srVersions').innerHTML = '<p class="sr-muted">Save this deal to start its version list.</p>'; drawHistory(); return Promise.resolve(); }
       var deal = state.deal;
       return store.versions(deal).then(function (res) {
         if (state.deal !== deal) return; // another deal was picked while this loaded
@@ -1176,9 +1177,12 @@
     }
     // The latest HISTORY_MAX versions, read in full (cached), oldest first; hidden ones only when shown above.
     var HISTORY_MAX = 40, historyTok = 0, lastHistory = null;
+    function clearHistory() {
+      historyTok++; lastHistory = null; $('sr-hist-print').disabled = $('sr-hist-csv').disabled = true;
+    }
     function drawHistory() {
-      var tok = ++historyTok, deal = state.deal;
-      lastHistory = null; $('sr-hist-print').disabled = $('sr-hist-csv').disabled = true;
+      clearHistory();
+      var tok = historyTok, deal = state.deal;
       if (!deal) { $('srHistory').innerHTML = '<p class="sr-muted">Pick a saved deal to see how its scenarios developed.</p>'; return; }
       var show = $('sr-show-hidden').checked;
       var list = state.versions.filter(function (v) { return show || state.hidden.indexOf(v.v) === -1; }).slice(0, HISTORY_MAX).reverse();
