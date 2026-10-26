@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T13:57:48.440Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T14:02:49.111Z. Do not edit by hand.
 
 ---
 
@@ -94,7 +94,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1944 JSON files found.
+1945 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -155,6 +155,7 @@
 | `data/coverage-report.json` | 12.8 KB | ✅ | — |
 | `data/cra/co-bank-branches.json` | 223.3 KB | ✅ | — |
 | `data/dda-colorado.json` | 692.7 KB | ✅ | 44 features |
+| `data/deadlines.json` | 4.4 KB | ✅ | — |
 | `data/deals/1001-lincoln-street-denver.json` | 20.2 KB | ✅ | — |
 | `data/deals/101-main-frisco.json` | 20.9 KB | ✅ | — |
 | `data/deals/10th-and-sheridan-denver.json` | 17.4 KB | ✅ | — |
@@ -2047,7 +2048,7 @@
 
 ## Test Files
 
-718 test files found.
+722 test files found.
 
 | File | Size |
 |------|------|
@@ -2073,12 +2074,14 @@
 | `test/attribute-escaping.test.js` | 4.9 KB |
 | `test/audit-budgets.test.mjs` | 9.1 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
-| `test/audit-modules/audit-status.js` | 3.5 KB |
+| `test/audit-modules/audit-status.js` | 4.1 KB |
 | `test/audit-modules/data-integrity.js` | 20.4 KB |
 | `test/audit-modules/link-check.js` | 3.4 KB |
 | `test/audit-modules/logic-validation.js` | 14.2 KB |
-| `test/audit-modules/repo-health.js` | 28.5 KB |
-| `test/audit-modules/report-generator.js` | 25.7 KB |
+| `test/audit-modules/operations-status.js` | 19.1 KB |
+| `test/audit-modules/pr-progress.js` | 11.2 KB |
+| `test/audit-modules/repo-health.js` | 30.7 KB |
+| `test/audit-modules/report-generator.js` | 38.9 KB |
 | `test/audit-modules/ui-validation.js` | 14.8 KB |
 | `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
 | `test/basemap-honours-tilelayer-contract.test.js` | 6.6 KB |
@@ -2129,7 +2132,9 @@
 | `test/cross-surface-vintage-labels.test.js` | 10.7 KB |
 | `test/custom-pma-conclusions-blocked.test.js` | 28.1 KB |
 | `test/daily-audit-check-noise.test.js` | 10.9 KB |
-| `test/daily-audit-repo-health.test.js` | 34.4 KB |
+| `test/daily-audit-operations.test.js` | 23.4 KB |
+| `test/daily-audit-pr-progress.test.js` | 15.0 KB |
+| `test/daily-audit-repo-health.test.js` | 37.7 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
 | `test/daily-audit-system.js` | 20.7 KB |
 | `test/data-commits-queue.test.js` | 12.9 KB |
@@ -2802,7 +2807,7 @@
 | `.github/workflows/contrast-audit.yml` | 13.6 KB |
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.8 KB |
-| `.github/workflows/daily-audit-system.yml` | 9.7 KB |
+| `.github/workflows/daily-audit-system.yml` | 10.0 KB |
 | `.github/workflows/data-freshness-check.yml` | 8.1 KB |
 | `.github/workflows/data-quality-check.yml` | 6.5 KB |
 | `.github/workflows/data-refresh.yml` | 5.8 KB |
