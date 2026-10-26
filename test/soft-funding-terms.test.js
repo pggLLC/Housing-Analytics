@@ -101,7 +101,8 @@ for (const [id, cap, url] of caps) {
   const p = committed.programs[id];
   assert(p, `missing ${id}`);
   assert.deepEqual([p.max_rule.max_amount, p.maxPerProject, p.source_url], [cap, cap, url], `${id}: published cap + official citation`);
-  assert.equal(p.last_verified, '2026-10-09', `${id}: actual source-open date`);
+  // Opened on 2026-10-09; a later recheck of the same page (e.g. 2026-10-26) also counts.
+  assert(/^\d{4}-\d{2}-\d{2}$/.test(p.last_verified) && p.last_verified >= '2026-10-09', `${id}: actual source-open date`);
   checked++;
 }
 assert.equal(checked, caps.length);

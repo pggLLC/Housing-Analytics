@@ -81,6 +81,24 @@ const iraCard = rendered.mount.querySelector('[data-funding-context-program="CEO
 assert(iraCard, 'IRA rebate watch card renders');
 assert(!/\$[0-9]/.test(iraCard.textContent), 'IRA rebate watch card contains no fabricated dollar amount');
 
+// Statuses read from the program's own page reach the card (2026-10-26 source check).
+{
+  const pma = render(softFunding, { surface: 'pma', countyFips: '08031', executionType: '9%', useCase: 'multifamily-new-construction' });
+  const ended = pma.mount.querySelector('[data-funding-context-program="CEO-BUILDING-ELECTRIFICATION-GRANTS"]');
+  assert(ended, 'the ended electrification grant still renders as context');
+  assert(/Ended: not available funding\./.test(ended.textContent), 'an ended program says it is not available');
+  const pill = ended.querySelector('[data-funding-context-status]');
+  assert(pill && /ended/.test(pill.textContent) && /pill bad/.test(pill.className), 'an ended program carries a visible ended status');
+  for (const [id, p] of Object.entries(softFunding.programs)) {
+    if (p.status === 'retired') assert(!pma.mount.querySelector(`[data-funding-context-program="${id}"]`), `${id} is retired and must not render`);
+  }
+  // Sabotage: a retired copy of a rendered row disappears; an un-retired one comes back.
+  const doc = JSON.parse(JSON.stringify(softFunding));
+  doc.programs['CEO-BUILDING-ELECTRIFICATION-GRANTS'].status = 'retired';
+  const gone = render(doc, { surface: 'pma', countyFips: '08031', executionType: '9%', useCase: 'multifamily-new-construction' });
+  assert(!gone.mount.querySelector('[data-funding-context-program="CEO-BUILDING-ELECTRIFICATION-GRANTS"]'), 'sabotage: a retired row is hidden');
+}
+
 const marketHtml = fs.readFileSync(path.join(root, 'market-analysis.html'), 'utf8');
 const dealHtml = fs.readFileSync(path.join(root, 'deal-calculator.html'), 'utf8');
 const marketJs = fs.readFileSync(path.join(root, 'js', 'market-analysis.js'), 'utf8');

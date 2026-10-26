@@ -33,7 +33,7 @@ const GUIDE = JSON.parse(read('data/policy/co-developer-funding-guide.json'));
 const GEO = JSON.parse(read('data/hna/geo-config.json'));
 const TRACKER_SRC = read('js/soft-funding-tracker.js');
 const F = require('../js/funding-fit.js');
-const { fundingProgramFindings, fundingWatchFindings, CONFIRMED_SOFT_STATUSES } = require('../scripts/lib/funding-program-audit.js');
+const { fundingProgramFindings, fundingWatchFindings, CONFIRMED_SOFT_STATUSES, SETTLED_SOFT_STATUSES } = require('../scripts/lib/funding-program-audit.js');
 
 const COUNTIES = GEO.counties.map((c) => c.geoid);
 const EXECUTIONS = [undefined, '9%', '4%', 'non-LIHTC'];
@@ -114,7 +114,7 @@ ok('the Opportunity Finder and Compare read the verified guide, open rounds only
 
 ok('the daily audit reports unconfirmed labels and passed rounds', () => {
   const findings = fundingProgramFindings({ guide: GUIDE, soft: SOFT, today: '2026-10-14' });
-  const unconfirmed = Object.values(SOFT.programs).filter((p) => p.status !== 'closed' && !CONFIRMED_SOFT_STATUSES.includes(p.status));
+  const unconfirmed = Object.values(SOFT.programs).filter((p) => !SETTLED_SOFT_STATUSES.includes(p.status) && !CONFIRMED_SOFT_STATUSES.includes(p.status));
   if (unconfirmed.length) {
     const f = findings.find((x) => /not confirmed on any official page/.test(x.description));
     assert.ok(f, 'unconfirmed labels are reported');
