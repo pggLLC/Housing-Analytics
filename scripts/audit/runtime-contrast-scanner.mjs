@@ -28,6 +28,7 @@
 import { readdirSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { arriveUrl } from './lib/arrive-with.mjs';
 import { spawn } from 'node:child_process';
 import { SCANNER_FN, scanAllStates } from './runtime-contrast-scan-fn.mjs';
 
@@ -207,7 +208,7 @@ async function main() {
 
   scanLoop:
   for (const p of pages) {
-    const url = 'http://localhost:' + PORT + '/' + p;
+    const url = 'http://localhost:' + PORT + '/' + arriveUrl(p);
     report[p] = {};
     totals.pages++;
     for (const mode of modes) {
