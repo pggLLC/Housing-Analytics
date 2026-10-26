@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-26T14:40:05.199833Z",
+  "generated": "2026-10-26T15:08:50.446246Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9624,7 +9624,7 @@
     "data/policy/housing-events-curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1726
+      "bytes": 2982
     },
     "data/policy/housing-events.json": {
       "featureCount": 0,
