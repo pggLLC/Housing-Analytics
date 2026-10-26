@@ -110,14 +110,19 @@ function isDataWorkflow(run) {
 function latestDataRunsToReview(runs, nowMs) {
     const sinceMs = nowMs - ONE_DAY_MS;
     const latest = new Map();
+    const newest = new Map();
     const ordered = [...(runs || [])].sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)));
     for (const run of ordered) {
         if (!run || run.event !== 'schedule' || !isDataWorkflow(run)) continue;
-        if (run.status && run.status !== 'completed') continue;
         if (Date.parse(run.created_at) < sinceMs) continue;
+        if (!newest.has(run.workflow_id)) newest.set(run.workflow_id, run);
+        if (run.status && run.status !== 'completed') continue;
         if (!latest.has(run.workflow_id)) latest.set(run.workflow_id, run);
     }
-    return [...latest.values()].filter(run => FAILED.has(run.conclusion) || run.conclusion === 'cancelled');
+    // A cancel with a newer run of the same workflow (even one still going)
+    // was superseded, as in repo-health's failingLatestRuns.
+    return [...latest.values()].filter(run => FAILED.has(run.conclusion) ||
+        (run.conclusion === 'cancelled' && newest.get(run.workflow_id) === run));
 }
 
 /**
@@ -159,7 +164,9 @@ async function collectDataWorkflows(owner, repo, client, nowMs) {
         check: {
             name: 'Scheduled Data Workflows',
             critical: false,
-            status: problems.length > 0 ? 'failed' : 'passed',
+            // A warning, not failed: this section files no findings (Actions
+            // Health files the high finding for a failing run).
+            status: problems.length > 0 ? 'warning' : 'passed',
             summary: `${problems.length} data workflow(s) failed or never started in 24h`,
         },
     };

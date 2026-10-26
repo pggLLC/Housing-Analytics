@@ -30,7 +30,7 @@ const {
     workflowIntervalMs,
     SCHEDULE_LATENESS_MS,
 } = require('./audit-modules/repo-health.js');
-const { auditExitCode, overallStatus, summarizeChecks } = require('./audit-modules/audit-status.js');
+const { auditExitCode, overallStatus, statusFromFindings, summarizeChecks } = require('./audit-modules/audit-status.js');
 const { buildEmailSubject, buildHtmlReport } = require('./audit-modules/report-generator.js');
 
 const HOUR = 60 * 60 * 1000;
@@ -197,7 +197,8 @@ run('an active scheduled workflow that has never run is a finding once it has ha
 
     const old = await collectRepoHealth({ env: ENV, fetchImpl: fakeGithub(routesFor(workflow(iso(NOW - 30 * DAY)))).fetchImpl, now: NOW });
     const check = old.checks.find(c => c.name === 'GitHub Actions Health');
-    assert.equal(check.status, 'failed', 'a workflow that never fires must not leave the check green');
+    // The never-run finding is medium, so the check is a warning: not green, not failed.
+    assert.equal(check.status, 'warning', 'a workflow that never fires must not leave the check green');
     const finding = old.issues.find(i => i.file === scheduled.path);
     assert.ok(finding, 'it must become a finding, not only an entry nobody reads');
     assert.ok(['medium', 'high'].includes(finding.severity), 'worth a look, never critical: ' + finding.severity);
@@ -316,6 +317,38 @@ run('a failure followed by a success of the same workflow is resolved', () => {
         { workflow_id: 3, status: 'completed', conclusion: 'success', created_at: iso(NOW - HOUR) },
     ];
     assert.deepEqual(failingLatestRuns(runs).map(r => r.workflow_id), [2]);
+});
+
+run('a run cancelled by concurrency while a newer run is still going is not a failure', () => {
+    const runs = [
+        // Superseded: a newer run of workflow 4 is in progress.
+        { workflow_id: 4, status: 'completed', conclusion: 'cancelled', created_at: iso(NOW - 2 * HOUR) },
+        { workflow_id: 4, status: 'in_progress', conclusion: null, created_at: iso(NOW - HOUR) },
+        // Superseded by a newer finished run that succeeded.
+        { workflow_id: 5, status: 'completed', conclusion: 'cancelled', created_at: iso(NOW - 2 * HOUR) },
+        { workflow_id: 5, status: 'completed', conclusion: 'success', created_at: iso(NOW - HOUR) },
+        // Nothing newer: cancelled by hand or by timeout-minutes, still reported.
+        { workflow_id: 6, status: 'completed', conclusion: 'success', created_at: iso(NOW - 5 * HOUR) },
+        { workflow_id: 6, status: 'completed', conclusion: 'cancelled', created_at: iso(NOW - HOUR) },
+        // A real failure is still a failure while a newer run is going.
+        { workflow_id: 7, status: 'completed', conclusion: 'failure', created_at: iso(NOW - 2 * HOUR) },
+        { workflow_id: 7, status: 'queued', conclusion: null, created_at: iso(NOW - HOUR) },
+    ];
+    assert.deepEqual(failingLatestRuns(runs).map(r => r.workflow_id).sort(), [6, 7]);
+});
+
+run('a check is failed only for a high or critical finding; low or medium is a warning', () => {
+    assert.equal(statusFromFindings([]), 'passed');
+    assert.equal(statusFromFindings([{ severity: 'low' }, { severity: 'medium' }]), 'warning');
+    assert.equal(statusFromFindings([{ severity: 'low' }, { severity: 'high' }]), 'failed');
+    assert.equal(statusFromFindings([{ severity: 'critical' }]), 'failed');
+    const health = summarizeChecks([{ name: 'a', status: 'warning' }, { name: 'b', status: 'failed' }, { name: 'c', status: 'passed' }]);
+    assert.equal(health.warnings, 1);
+    assert.equal(health.failed, 1);
+    const html = buildHtmlReport({ summary: quiet, allIssues: [], comparison: { newIssues: [], resolvedIssues: [], persistentIssues: [] },
+        priorDate: null, trend: [], runDurationMs: 1, auditHealth: health });
+    assert.match(html, /🟡 Warning<\/span>/, 'the warning badge renders, not the unavailable fallback');
+    assert.equal(auditExitCode({ critical: 0 }, health), 0, 'a warning never fails the job');
 });
 
 run('a deploy cancelled by cancel-in-progress does not block; a failure since the last success does', () => {

@@ -22,6 +22,8 @@ const SEVERITY_CONFIG = {
 const CHECK_STATUS_CONFIG = {
     passed: { emoji: '✅', label: 'Passed', bg: '#d4edda', color: '#155724', border: '#c3e6cb' },
     failed: { emoji: '❌', label: 'Failed', bg: '#f8d7da', color: '#721c24', border: '#f5c6cb' },
+    // Low or medium findings only (audit-status.js statusFromFindings).
+    warning: { emoji: '🟡', label: 'Warning', bg: '#fff8e1', color: '#7b5e00', border: '#ffe082' },
     skipped: { emoji: '⏭️', label: 'Skipped', bg: '#eef2f7', color: '#495057', border: '#ced4da' },
     unavailable: { emoji: '⚠️', label: 'Unavailable', bg: '#fff3cd', color: '#856404', border: '#ffeeba' },
 };
@@ -172,6 +174,11 @@ function buildAuditHealthSection(auditHealth) {
                 <td style="padding:10px 16px;border:1px solid #dee2e6;font-weight:bold;color:#721c24;">${auditHealth.failed || 0}</td>
                 <td style="padding:10px 16px;border:1px solid #dee2e6;">⏭️ Skipped / ⚠️ Unavailable</td>
                 <td style="padding:10px 16px;border:1px solid #dee2e6;font-weight:bold;color:#856404;">${(auditHealth.skipped || 0) + (auditHealth.unavailable || 0)}</td>
+            </tr>
+            <tr style="background:#fff;">
+                <td style="padding:10px 16px;border:1px solid #dee2e6;">🟡 Warning (low/medium findings only)</td>
+                <td style="padding:10px 16px;border:1px solid #dee2e6;font-weight:bold;color:#7b5e00;">${auditHealth.warnings || 0}</td>
+                <td style="padding:10px 16px;border:1px solid #dee2e6;" colspan="2"></td>
             </tr>
         </table>
         ${warnings.length > 0 ? `<p style="margin:0 0 8px;color:#856404;"><strong>Warnings:</strong> ${escHtml(warnings.join(' | '))}</p>` : ''}
@@ -438,7 +445,7 @@ function buildSummaryLines({ summary, auditHealth, repoHealth }) {
     }
     const h = auditHealth || {};
     const notRun = (h.unavailable || 0) + (h.skipped || 0);
-    lines.push(`<strong>Findings:</strong> ${summary.critical} critical, ${summary.high} high, ${summary.medium} medium, ${summary.low} low${auditHealth ? `; checks ${h.failed || 0} failed, ${notRun} did not run, ${h.passed || 0} passed` : ''}.`);
+    lines.push(`<strong>Findings:</strong> ${summary.critical} critical, ${summary.high} high, ${summary.medium} medium, ${summary.low} low${auditHealth ? `; checks ${h.failed || 0} failed, ${h.warnings || 0} warning, ${notRun} did not run, ${h.passed || 0} passed` : ''}.`);
     return `
     <ul style="margin:0 0 24px 18px;padding:0;line-height:1.6;">${lines.map(line => `<li>${line}</li>`).join('')}</ul>`;
 }

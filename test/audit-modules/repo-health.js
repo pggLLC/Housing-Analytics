@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
 const { collectPrProgress } = require('./pr-progress');
+const { statusFromFindings } = require('./audit-status');
 const {
     collectAccuracy,
     collectDataWorkflows,
@@ -274,9 +275,6 @@ function isScheduleOverdue(lastRunAt, intervalMs, nowMs) {
     return nowMs > new Date(lastRunAt).getTime() + intervalMs + overdueGraceMs(intervalMs);
 }
 
-function checkStatus(hasFindings) {
-    return hasFindings ? 'failed' : 'passed';
-}
 
 function repoIssue(severity, type, file, description, actual, recommendation, extra = {}) {
     return {
@@ -301,14 +299,25 @@ function newestFirst(runs) {
  * Main-branch workflows whose LATEST completed run in the window failed.
  * A failure already followed by a success of the same workflow is resolved;
  * reporting it would turn every flaky-then-green cron into a daily alarm.
+ *
+ * A cancelled latest run counts only when no newer run of that workflow
+ * exists, in progress or finished — the same rule as deployState below. A
+ * run that `concurrency` cancelled while its successor is still going is
+ * superseded, not failed.
  */
 function failingLatestRuns(runs) {
     const latest = new Map();
+    const newest = new Map();
     for (const run of newestFirst(runs)) {
+        if (!newest.has(run.workflow_id)) newest.set(run.workflow_id, run);
         if (run.status && run.status !== 'completed') continue;
         if (!latest.has(run.workflow_id)) latest.set(run.workflow_id, run);
     }
-    return [...latest.values()].filter(run => FAILED_CONCLUSIONS.has(run.conclusion));
+    return [...latest.values()].filter(run => {
+        if (!FAILED_CONCLUSIONS.has(run.conclusion)) return false;
+        if (run.conclusion === 'cancelled') return newest.get(run.workflow_id) === run;
+        return true;
+    });
 }
 
 /**
@@ -473,7 +482,9 @@ async function collectActionsHealth(owner, repo, client, nowMs) {
         check: {
             name: 'GitHub Actions Health',
             critical: false,
-            status: checkStatus(failingRuns.length > 0 || overdue.length > 0 || neverRun.length > 0 || deploy.deployBlocked),
+            // Every condition below files at least one finding, so the
+            // findings' severities decide failed versus warning.
+            status: statusFromFindings(issues),
             summary: `${recent.complete ? failingRuns.length : 'unknown number of'} failing main workflows, ${overdue.length} overdue schedules, ${neverRun.length} never run`,
         },
     };
@@ -560,7 +571,7 @@ async function collectPullRequestHealth(owner, repo, client, nowMs) {
         check: {
             name: 'Pull Request Triage',
             critical: false,
-            status: checkStatus(failingChecks.length > 0 || staleReviews.length > 0 || conflicts.length > 0 || inactive.length > 0),
+            status: statusFromFindings(issues),
             summary: `${totalCount === null ? 'unknown number of' : totalCount} open PRs`,
         },
     };
@@ -616,7 +627,7 @@ async function collectIssueHealth(owner, repo, client, nowMs) {
         check: {
             name: 'Issues Inventory',
             critical: false,
-            status: checkStatus(highPriority.length > 0 || blockers.length > 0 || longstanding.length > 0),
+            status: statusFromFindings(issues),
             summary: `${open.complete ? openIssues.length : 'unknown number of'} open issues`,
         },
     };

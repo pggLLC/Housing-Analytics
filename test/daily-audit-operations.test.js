@@ -116,6 +116,14 @@ run('a failure is listed, a recovered failure is not, and a cancel only with 0 j
         'an unread job count is not evidence that a cancel never started');
 });
 
+run('a 0-job cancel superseded by a newer run of the same workflow is not listed', () => {
+    const runs = [
+        runOf(4, 'fetch-census-acs.yml', 'cancelled', 3 * HOUR),
+        runOf(9, 'fetch-census-acs.yml', null, HOUR, { status: 'in_progress' }),
+    ];
+    assert.deepEqual(ops.latestDataRunsToReview(runs, NOW), []);
+});
+
 run('the collector asks for jobs only on cancelled runs', async () => {
     const calls = [];
     const client = {
@@ -124,7 +132,7 @@ run('the collector asks for jobs only on cancelled runs', async () => {
     };
     const out = await ops.collectDataWorkflows('o', 'r', client, NOW);
     assert.equal(calls.filter(c => c.includes('/jobs')).length, 1);
-    assert.equal(out.check.status, 'failed');
+    assert.equal(out.check.status, 'warning', 'no finding of its own, so a warning');
     assert.deepEqual(out.issues, [], 'Actions Health already files failing runs as findings');
     assert.match(render({ dataWorkflows: out.summary }), /cancelled with 0 jobs/);
 });
