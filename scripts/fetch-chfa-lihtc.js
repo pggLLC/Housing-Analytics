@@ -691,6 +691,8 @@ function toGeoJsonFeature(esriFeature) {
   // consumers can use them. Existing consumers ignore these.
   if (isChfaView) {
     properties._source = 'CHFA HousingTaxCreditProperties_view';
+    // CHFA's own record id. data/hud-lihtc-co-match.json is keyed on it.
+    properties.CHFA_RecordID = attrs.RecordID ?? null;
     properties.ReportedName = attrs.ReportedName ?? null;
     properties.ComplianceStatus = attrs.ComplianceStatus ?? null;  // "Active Compliance", "Year 15", etc.
     properties.ProjectType = attrs.ProjectType ?? null;            // "New Construction", "Acquisition/Rehabilitation"
@@ -737,6 +739,57 @@ function toGeoJsonFeature(esriFeature) {
 }
 
 // ---------------------------------------------------------------------------
+// HUD LIHTC database fields
+// ---------------------------------------------------------------------------
+//
+// CHFA's view carries no nonprofit-sponsor or basis-boost values. HUD's LIHTC
+// database does, for projects placed in service through its latest update.
+// huduser.gov refuses automated downloads, so the match is built offline by
+// scripts/hud/build_hud_lihtc_match.py from a browser download and committed
+// as data/hud-lihtc-co-match.json. This step only copies it onto the features.
+//
+// QCT and DDA are left as CHFA published them (null). HUD's own QCT/DDA flags
+// use the placed-in-service year's list, while the boost turns on the list in
+// force at allocation, so they are kept under HUD.qct_pis / HUD.dda_pis and
+// never written into QCT/DDA.
+
+const HUD_MATCH_FILE = path.join(DATA_DIR, 'hud-lihtc-co-match.json');
+
+function hudYesNo(code) {
+  if (code === 1 || code === '1') return 1;
+  if (code === 2 || code === '2') return 0;
+  return null;
+}
+
+function applyHudMatch(features) {
+  if (!fs.existsSync(HUD_MATCH_FILE)) return null;
+  const match = JSON.parse(fs.readFileSync(HUD_MATCH_FILE, 'utf8'));
+  const byId = match.records || {};
+  let applied = 0;
+  for (const f of features) {
+    const p = f.properties;
+    const m = p.CHFA_RecordID != null ? byId[String(p.CHFA_RecordID)] : null;
+    // A reused or renumbered CHFA id must not carry another project's values.
+    if (!m || m.chfa_project !== p.PROJECT) continue;
+    p.NON_PROF = hudYesNo(m.non_prof);
+    p.HUD = {
+      hud_id:    m.hud_id,
+      // HUD's own placed-in-service year, unlike the feed's YR_PIS proxy.
+      year_placed_in_service: m.yr_pis,
+      yr_alloc:  m.yr_alloc,
+      basis:     hudYesNo(m.basis),
+      non_prof:  hudYesNo(m.non_prof),
+      qct_pis:   m.qct_pis,
+      dda_pis:   m.dda_pis,
+      match:     m.evidence,
+      source:    match.source && match.source.label,
+    };
+    applied += 1;
+  }
+  return applied;
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -767,6 +820,11 @@ function toGeoJsonFeature(esriFeature) {
     } catch (diagErr) {
       console.warn(`  [DIAGNOSTIC] Probe failed: ${diagErr.message}`);
     }
+  }
+
+  const hudMatched = applyHudMatch(allFeatures);
+  if (hudMatched !== null) {
+    console.log(`  HUD LIHTC database fields applied to ${hudMatched} feature(s) (data/hud-lihtc-co-match.json).`);
   }
 
   const geojson = {
