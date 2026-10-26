@@ -1186,14 +1186,14 @@
         state.num = {}; res.versions.forEach(function (v, i) { state.num[v.v] = res.versions.length - i; });
         var show = $('sr-show-hidden').checked;
         var rows = res.versions.filter(function (v) { return show || state.hidden.indexOf(v.v) === -1; });
-        $('srVersions').innerHTML = rows.length ? '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="Tick two to four versions to compare">Compare</th><th scope="col" data-tip="Label, when it was saved and who saved it">Version</th><th scope="col" class="sr-num" data-tip="CHFA points when saved">Score</th><th scope="col" data-tip="DOH or OEDIT gap-fund lane when saved">Lane</th><th scope="col" class="sr-num" data-tip="Funding gap when saved">Gap</th><th scope="col" data-tip="Open, star as baseline, hide (kept, off the list) or delete for good">Actions</th></tr></thead><tbody>' +
+        $('srVersions').innerHTML = rows.length ? '<div class="sr-scroll"><table class="sr-table sr-versions"><thead><tr><th scope="col" data-tip="Tick two to four versions to compare">Compare</th><th scope="col" data-tip="Label, when it was saved and who saved it">Version</th><th scope="col" class="sr-num" data-tip="CHFA points when saved">Score</th><th scope="col" data-tip="DOH or OEDIT gap-fund lane when saved">Lane</th><th scope="col" class="sr-num" data-tip="Funding gap when saved">Gap</th><th scope="col" data-tip="Open, star as baseline, hide (kept, off the list) or delete for good">Actions</th></tr></thead><tbody>' +
           rows.map(function (v) {
             var hid = state.hidden.indexOf(v.v) !== -1, base = state.baseline === v.v;
             return '<tr><td><label class="sr-pick-wrap"><input type="checkbox" class="sr-pick" data-v="' + esc(v.v) + '" aria-label="Compare ' + esc(v.label || v.v) + '"' + (state.picked[v.v] ? ' checked' : '') + '></label></td>' +
               '<td><strong>' + esc('v' + state.num[v.v] + ' · ' + (v.label || 'Untitled')) + '</strong>' + (base ? ' <span class="rw-band">Baseline</span>' : '') + (hid ? ' <span class="sr-muted">(hidden)</span>' : '') +
               '<div class="sr-muted">' + esc((v.at || '').slice(0, 16).replace('T', ' ')) + ' · ' + esc(v.by || '') + '</div></td>' +
-              '<td class="sr-num">' + esc(pts(v.score)) + '</td><td>' + esc(v.lane || '—') + '</td><td class="sr-num">' + esc(money(v.gap)) + '</td>' +
-              '<td><button type="button" class="sr-btn" data-act="open" data-v="' + esc(v.v) + '">Open</button> ' +
+              '<td class="sr-num" data-label="Score">' + esc(pts(v.score)) + '</td><td data-label="Lane">' + esc(v.lane || '—') + '</td><td class="sr-num" data-label="Gap">' + esc(money(v.gap)) + '</td>' +
+              '<td class="sr-acts"><button type="button" class="sr-btn" data-act="open" data-v="' + esc(v.v) + '">Open</button> ' +
               (base ? '' : '<button type="button" class="sr-btn" data-act="baseline" data-v="' + esc(v.v) + '">Make baseline</button> ') +
               '<button type="button" class="sr-btn" data-act="' + (hid ? 'unhide' : 'hide') + '" data-v="' + esc(v.v) + '">' + (hid ? 'Unhide' : 'Hide') + '</button> ' +
               '<button type="button" class="sr-btn" data-act="purge" data-v="' + esc(v.v) + '" aria-label="Delete v' + state.num[v.v] + ' for good">Delete</button></td></tr>';
