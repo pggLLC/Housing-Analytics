@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T10:07:31.593Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T11:27:28.823Z. Do not edit by hand.
 
 ---
 
@@ -2136,7 +2136,7 @@
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
 | `test/data-scope.test.js` | 6.4 KB |
-| `test/data-source-inventory-drift.test.js` | 7.7 KB |
+| `test/data-source-inventory-drift.test.js` | 7.9 KB |
 | `test/data-source-inventory-paths.test.js` | 1.5 KB |
 | `test/data-status-footer-live-date.test.js` | 5.1 KB |
 | `test/data-trust-center-badges.test.js` | 4.3 KB |
@@ -2611,7 +2611,7 @@
 | `test/tax-credit-equity-markets.test.js` | 12.8 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
-| `test/test-reachability.test.js` | 6.8 KB |
+| `test/test-reachability.test.js` | 8.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
 | `test/test_bps_and_status_freshness.py` | 10.8 KB |
@@ -2654,7 +2654,7 @@
 | `test/unit/pma-transit.test.js` | 5.0 KB |
 | `test/unit/scenario-storage.test.js` | 13.7 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
-| `test/unwired-suite.test.js` | 10.3 KB |
+| `test/unwired-suite.test.js` | 10.6 KB |
 | `test/upstream-vintage-watch.test.mjs` | 14.2 KB |
 | `test/url-health-policy.test.mjs` | 13.9 KB |
 | `test/utility-allowance-absence.test.mjs` | 10.9 KB |
@@ -2789,7 +2789,7 @@
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
 | `.github/workflows/chart-audit.yml` | 2.9 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 25.0 KB |
-| `.github/workflows/ci-checks.yml` | 20.0 KB |
+| `.github/workflows/ci-checks.yml` | 24.1 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/coho-election-reminders.yml` | 1.6 KB |
