@@ -164,3 +164,124 @@ def test_build_writes_past_events_and_keeps_upcoming_current():
     assert [e['title'] for e in doc['past']] == ['Ended last week']
     assert all((e.get('end') or e['start']) >= TODAY.isoformat() for e in doc['events'])
     assert all((e.get('end') or e['start']) < TODAY.isoformat() for e in doc['past'])
+
+
+# ── Sources added 2026-10-26: DOLA and APA Colorado calendars, FOMC, ACS, FRED ──
+
+ICS = '\r\n'.join([
+    'BEGIN:VCALENDAR', 'X-WR-CALNAME:Division of Housing Public Calendar',
+    'BEGIN:VEVENT', 'DTSTART;TZID=America/Denver:20250708T130000', 'DTEND;TZID=America/Denver:20250708T150000',
+    'RRULE:FREQ=MONTHLY;UNTIL=20270609T055959Z;BYDAY=2TU', 'EXDATE;TZID=America/Denver:20261110T130000',
+    'SUMMARY:State Housing Board Meeting', 'LOCATION:', 'DESCRIPTION:Join: https://meet.localhost/abc-defg-hij',
+    'END:VEVENT',
+    'BEGIN:VEVENT', 'DTSTART;VALUE=DATE:20261104', 'DTEND;VALUE=DATE:20261107',
+    'SUMMARY:Colorado Emergency Rental Assistance Pre-Application Period (November)',
+    'DESCRIPTION:Details at https://doh.localhost/emergency-rental-assistance.', 'END:VEVENT',
+    'BEGIN:VEVENT', 'DTSTART:20261026T150000Z', 'DTEND:20261026T160000Z',
+    'RRULE:FREQ=DAILY;UNTIL=20261031T055959Z', 'SUMMARY:Proposition 123 Office Hours', 'END:VEVENT',
+    'BEGIN:VEVENT', 'DTSTART;VALUE=DATE:20261101', 'DTEND;VALUE=DATE:20261102',
+    'SUMMARY:Proposition 123 Commitment Filing Deadline', 'END:VEVENT',
+    'BEGIN:VEVENT', 'DTSTART:20261120T170000Z', 'DTEND:20261120T180000Z', 'STATUS:CANCELLED',
+    'SUMMARY:Cancelled housing webinar', 'END:VEVENT',
+    'BEGIN:VEVENT', 'DTSTART:20261028T150000Z', 'SUMMARY:Saving Historic and Vintage Signs', 'END:VEVENT',
+    'END:VCALENDAR', ''])
+
+
+def test_ics_rows_expand_monthly_repeats_and_skip_office_hours():
+    rows = fhe.parse_ics(ICS, 'Colorado Division of Housing', 'doh', fhe.DOLA_CALENDAR_PAGE, date(2026, 10, 26))
+    board = [r['start'] for r in rows if r['title'] == 'State Housing Board Meeting' and r['start'] >= '2026-10-26']
+    # Second Tuesdays, without the excluded 10 Nov, within the 120-day horizon.
+    assert board == ['2026-12-08', '2027-01-12', '2027-02-09']
+    assert all(r['time'] == '13:00' for r in rows if r['title'] == 'State Housing Board Meeting')
+    assert not any('Office Hours' in r['title'] for r in rows), 'daily office hours are left out'
+    assert not any('Cancelled' in r['title'] for r in rows)
+    era = next(r for r in rows if r['title'].startswith('Colorado Emergency Rental'))
+    assert (era['start'], era['end']) == ('2026-11-04', '2026-11-06'), 'an all-day end date is exclusive'
+    assert era['url'] == 'https://doh.localhost/emergency-rental-assistance' and era['category'] == 'deadline'
+    sb = next(r for r in rows if r['title'] == 'State Housing Board Meeting')
+    assert sb['url'] == fhe.DOLA_CALENDAR_PAGE, 'a call-in link is not a page about the meeting'
+    assert sb['category'] == 'board'
+    dl = next(r for r in rows if 'Filing Deadline' in r['title'])
+    assert dl['category'] == 'deadline' and dl['end'] is None
+
+
+def test_utc_times_are_shown_in_mountain_time():
+    one = '\r\n'.join(['BEGIN:VCALENDAR', 'BEGIN:VEVENT', 'DTSTART:20261119T160000Z', 'SUMMARY:Housing Strategies Peer Exchange',
+                       'END:VEVENT', 'BEGIN:VEVENT', 'DTSTART:20261015T160000Z', 'SUMMARY:Housing Strategies Peer Exchange',
+                       'END:VEVENT', 'END:VCALENDAR'])
+    rows = fhe.parse_ics(one, 'APA Colorado', 'apa_colorado', fhe.APA_CO_PAGE, date(2026, 10, 1))
+    assert {r['start']: r['time'] for r in rows} == {'2026-11-19': '09:00', '2026-10-15': '10:00'}
+
+
+def test_apa_colorado_keeps_housing_items_and_the_conference_only():
+    rows = fhe.parse_ics(ICS, 'APA Colorado', 'apa_colorado', fhe.APA_CO_PAGE, date(2026, 10, 26),
+                         keep=fhe.apa_colorado_keep)
+    titles = {r['title'] for r in rows}
+    assert 'Saving Historic and Vintage Signs' not in titles
+    assert 'State Housing Board Meeting' in titles
+    assert fhe.apa_colorado_keep('2026 Colorado Planning Conference: Keystone', '')
+
+
+def test_a_page_that_is_not_a_calendar_is_an_error():
+    with pytest.raises(ValueError):
+        fhe.parse_ics('<html>blocked</html>', 'X', 'doh', 'https://e.localhost', TODAY)
+
+
+FOMC_PAGE = '''<h4><a id="1">2026 FOMC Meetings</a></h4>
+<div class="row fomc-meeting"><div class="fomc-meeting__month col-xs-5"><strong>October</strong></div>
+<div class="fomc-meeting__date col-xs-4">27-28</div></div>
+<div class="row fomc-meeting"><div class="fomc-meeting__month col-xs-5"><strong>December</strong></div>
+<div class="fomc-meeting__date col-xs-4">8-9*</div></div>
+<h4><a id="2">2027 FOMC Meetings</a></h4>
+<div class="row fomc-meeting"><div class="fomc-meeting__month col-xs-5"><strong>Apr/May</strong></div>
+<div class="fomc-meeting__date col-xs-4">30-1</div></div>'''
+
+
+def test_fomc_meetings_are_read_with_the_decision_day_as_the_end():
+    rows = fhe.parse_fomc(FOMC_PAGE)
+    assert [(r['start'], r['end']) for r in rows] == [
+        ('2026-10-27', '2026-10-28'), ('2026-12-08', '2026-12-09'), ('2027-04-30', '2027-05-01')]
+    assert 'economic projections' in rows[1]['title'] and 'projections' not in rows[0]['title']
+    assert all(r['category'] == 'release' and r['organizer'] == 'Federal Reserve' for r in rows)
+    with pytest.raises(ValueError):
+        fhe.parse_fomc('<html>Access denied</html>')
+
+
+ACS_PAGE = '''<h1>2025 Data Release Schedule</h1><table><tr><td>October 29, 2026</td>
+<td><sup>3</sup>1-Year Data Release:</td></tr><tr><td>TBD</td><td>5-Year Data Release:</td></tr></table>'''
+
+
+def test_acs_schedule_keeps_dated_releases_and_skips_tbd():
+    rows = fhe.parse_acs_schedule(ACS_PAGE, 2025, 'https://census.localhost/x')
+    assert [(r['start'], r['title']) for r in rows] == [('2026-10-29', 'Census ACS 2025 1-Year estimates released')]
+
+
+def test_fred_release_dates_and_the_key_never_leaks():
+    calls = []
+
+    def fetch(url):
+        calls.append(url)
+        if '/series/release' in url:
+            return json.dumps({'releases': [{'id': 10, 'name': 'Consumer Price Index',
+                                             'link': 'https://bls.localhost/cpi/'}]}).encode()
+        return json.dumps({'release_dates': [{'release_id': 10, 'date': '2026-10-01'},
+                                             {'release_id': 10, 'date': '2026-11-12'}]}).encode()
+    rows = fhe.read_fred(fetch, TODAY, 'k123')
+    cpi = [r for r in rows if r['title'].startswith('Consumer Price Index')]
+    assert [r['start'] for r in cpi] == ['2026-11-12'], 'a release date already past is dropped'
+    assert cpi[0]['organizer'] == 'U.S. Bureau of Labor Statistics' and cpi[0]['url'] == 'https://bls.localhost/cpi/'
+
+    def failing(url):
+        raise OSError(f'refused {url}')
+    doc = fhe.build(TODAY, fetch=failing, fred_key='k123')
+    fred = next(s for s in doc['sources'] if s['id'] == 'fred')
+    assert fred['status'] == 'unreachable' and 'k123' not in fred['note']
+    doc = fhe.build(TODAY, fetch=failing)
+    assert next(s for s in doc['sources'] if s['id'] == 'fred')['status'] == 'not_fetched'
+
+
+def test_every_new_source_is_named_on_the_file():
+    doc = fhe.build(TODAY, offline=True)
+    ids = {s['id'] for s in doc['sources']}
+    assert {'doh', 'prop123', 'apa_colorado', 'fomc', 'acs', 'fred', 'curated'} <= ids
+    assert {'deadline', 'release'} <= set(fhe.CATEGORIES)
