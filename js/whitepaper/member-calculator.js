@@ -34,7 +34,8 @@
   // snap: the calculator's Export JSON snapshot. c: SubmittalReview.fromCalculatorExport(snap).
   // Returns { error } or the POST body for /api/deals.
   // deal: a saved deal's id to add this as its next version (compared side by side in Submittal review), or empty for a new deal.
-  function saveBody(snap, c, name, deal) {
+  // note: what changed in this run, in the member's words; without one the label names the cost and homes.
+  function saveBody(snap, c, name, deal, note) {
     if (!snap || !c) return { error: 'The Deal Calculator has no result to save yet.' };
     if (c.error) return { error: c.error };
     var d = JSON.parse(JSON.stringify(BLANK_DEAL));
@@ -48,7 +49,14 @@
       d.creditRequested = c.requested; d.stateCredits = c.stateAnnual;
     }
     var gap = c.engine && typeof c.engine.fundingGap === 'number' ? c.engine.fundingGap : null;
-    var body = { name: name, label: 'From the Deal Calculator', data: data, summary: { score: null, gap: gap, lane: '' } };
+    var tdc = c.engine && typeof c.engine.totalDevelopmentCost === 'number' ? c.engine.totalDevelopmentCost : null;
+    var homes = Object.keys(c.mix || {}).reduce(function (s, k) { return s + (c.mix[k] || 0); }, 0);
+    var bits = [];
+    if (tdc != null) bits.push('$' + (tdc / 1e6).toFixed(1) + 'M cost');
+    if (homes) bits.push(homes + ' homes');
+    var auto = bits.length ? 'Calculator: ' + bits.join(', ') : 'From the Deal Calculator';
+    var label = String(note || '').trim().slice(0, 120) || auto;
+    var body = { name: name, label: label, data: data, summary: { score: null, gap: gap, lane: '' } };
     if (deal) body.deal = deal;
     return body;
   }
@@ -82,6 +90,8 @@
       '<select id="mcDeal"><option value="">New deal</option></select>' +
       '<label for="mcName" style="position:absolute;left:-9999px">Deal name</label>' +
       '<input type="text" id="mcName" maxlength="120" placeholder="Deal name, e.g. site and town">' +
+      '<label for="mcNote" style="position:absolute;left:-9999px">What changed (optional)</label>' +
+      '<input type="text" id="mcNote" maxlength="120" placeholder="What changed (optional), e.g. construction +$2M">' +
       '<button type="button" id="mcSave">Save to workbook</button></div>' +
       '<p class="mc-status" id="mcStatus" role="status" aria-live="polite"></p>';
     main.insertBefore(bar, main.firstChild);
@@ -124,7 +134,7 @@
       var snap;
       try { snap = share.buildSnapshot(); } catch (e) { snap = null; }
       if (snap && snap.dealMode === 'ownership') { say('This is a for-sale deal. The workbook covers rental tax credit deals.'); return; }
-      var body = saveBody(snap, snap ? review.fromCalculatorExport(snap) : null, name, $('mcDeal').value);
+      var body = saveBody(snap, snap ? review.fromCalculatorExport(snap) : null, name, $('mcDeal').value, $('mcNote').value);
       if (body.error) { say(esc(body.error)); return; }
       var btn = $('mcSave'); btn.disabled = true; say('Saving…');
       win.fetch(API, { method: 'POST', credentials: 'same-origin', cache: 'no-store', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
@@ -132,6 +142,7 @@
         .then(function (j) {
           // The next save of this run becomes its next version.
           if (!$('mcDeal').value && j.deal) { addDeal(j.deal, name); $('mcDeal').value = j.deal; }
+          $('mcNote').value = ''; // a note describes one version
           say('Saved "' + esc(name) + '" ' + new Date(j.meta && j.meta.at || Date.now()).toLocaleString() +
             '. Open it in <a href="developer-deal-workbook.html">Deal workbook</a>, or compare versions in <a href="developer-submittal-review.html">Submittal review</a>. Saving again adds a new version.');
         }, function (e) { say('Not saved: the member site answered ' + esc(e.message) + '. Nothing was lost on this page; try again.'); })
