@@ -10,7 +10,10 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 import { chromium } from 'playwright';
+
+const require = createRequire(import.meta.url);
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ORIGIN = 'http://example.org';
@@ -19,8 +22,10 @@ const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html
 let checks = 0;
 const ok = (c, m) => { assert.ok(c, m); checks++; };
 
-async function open(browser, search, width) {
+async function open(browser, search, width, saved) {
   const ctx = await browser.newContext({ viewport: { width: width || 1280, height: 900 } });
+  // A Market Analysis rent schedule saved on this browser, as Market Analysis saves it.
+  if (saved) await ctx.addInitScript((s) => localStorage.setItem('coho.subjectProject.v1', s), JSON.stringify(saved));
   const tab = await ctx.newPage();
   await tab.route('**/*', (route) => {
     const u = new URL(route.request().url());
@@ -99,10 +104,26 @@ try {
   await tab.check('#dq-rate-9');
   ok(await tab.$eval('#dc-rate-9', (r) => r.checked), '9% in the panel is 9% in the full calculator');
 
-  // Homes by income limit, both ways.
+  // Homes by income limit, both ways. Total Units moves with the tier, so the deal stays whole.
+  const val = (id) => tab.$eval('#' + id, (u) => u.value);
+  const total0 = Number(await val('dc-units')), tier0 = Number(await val('dq-units-60'));
   await tab.fill('#dq-units-60', '40');
-  ok(await tab.$eval('#dc-units-60', (u) => u.value) === '40', 'homes typed in the panel are the full calculator\'s homes');
-  agree(await settle(tab), '40 homes at 60%');
+  ok(await val('dc-units-60') === '40', 'homes typed in the panel are the full calculator\'s homes');
+  ok(Number(await val('dc-units')) === total0 + 40 - tier0 && await val('dq-units') === await val('dc-units'),
+    'total homes move with the tier (' + total0 + ' to ' + await val('dc-units') + ')');
+  const forty = await settle(tab);
+  agree(forty, '40 homes at 60%');
+  ok(measured(forty).includes('dc-r-credits') && measured(forty).includes('dc-r-equity'), 'with more homes at 60% the credit and equity are still measured (' + JSON.stringify(forty) + ')');
+  // Homes outside these limits stay as they were: 10 market-rate homes, then a tier change.
+  await tab.fill('#dq-units', String(Number(await val('dc-units')) + 10));
+  ok(Number(await val('dc-units')) === total0 + 40 - tier0 + 10, 'total homes typed in the panel are the full calculator\'s Total Units');
+  await settle(tab);
+  ok(/10 unrestricted market-rate units/.test(await tab.$eval('#dq-mix', (m) => m.hidden ? '' : m.textContent)), 'the panel shows the full calculator\'s market-rate count');
+  await tab.fill('#dq-units-60', '35');
+  ok(Number(await val('dc-units')) === total0 + 35 - tier0 + 10, 'a smaller tier lowers total homes and keeps the 10 market-rate homes');
+  await tab.fill('#dq-units-60', '40');
+  await tab.fill('#dq-units', String(total0 + 40 - tier0));
+  agree(await settle(tab), 'back to all homes at income limits');
   await tab.evaluate(() => { const u = document.getElementById('dc-units-30'); u.value = '7'; u.dispatchEvent(new Event('input', { bubbles: true })); });
   await settle(tab);
   ok(await tab.$eval('#dq-units-30', (u) => u.value) === '7', 'homes typed in the full calculator show in the panel');
@@ -138,6 +159,32 @@ try {
   await tab.waitForTimeout(500);
   ok(await tab.$eval('#dcQuick', (s) => !!s.closest('[hidden]') || s.hidden || getComputedStyle(s).display === 'none'), 'in for-sale mode the panel is hidden');
   await ctx.close();
+
+  // A Market Analysis rent schedule sets the homes: the panel shows the schedule's counts, read only.
+  const limits = require('../js/chfa-rent-limits.js');
+  const chfa = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/chfa-income-rent-limits-2026.json'), 'utf8'));
+  const gross = (tier, br) => limits.maxGrossRent(chfa, MESA, tier, br).grossRent;
+  const row = (tier, br, count) => ({ ami_tier: tier, bedrooms: br, count, proposed_gross_rent: gross(tier, br) - 37, utility_allowance: 150, fees: 10 });
+  const saved = { county_fips: MESA, total_units: 21, vacancy_rate: 0.05,
+    utility_allowance_basis: { method: 'pha', reference: 'County PHA schedule', effective_date: '2026-01-01', resident_paid: ['heat'], bound_county_fips: MESA },
+    unit_mix: [row(30, '1BR', 4), row(60, '2BR', 12), row(60, '1BR', 3), row(50, '3BR', 2)] };
+  const sch = await open(browser, '', 1280, saved);
+  await sch.tab.selectOption('#dq-county', MESA);
+  await sch.tab.waitForFunction(() => document.getElementById('dc-unit-mix-status') && document.getElementById('dc-unit-mix-status').dataset.mode === 'schedule', null, { timeout: 30000 });
+  await settle(sch.tab);
+  const shown = await sch.tab.evaluate(() => {
+    const v = (id) => { const el = document.getElementById(id); return { value: el.value, disabled: el.disabled }; };
+    return { t30: v('dq-units-30'), t60: v('dq-units-60'), t80: v('dq-units-80'), t50: v('dq-units-50'), total: v('dq-units'), note: document.getElementById('dq-homes').textContent };
+  });
+  ok(shown.t30.value === '4' && shown.t60.value === '15' && shown.t50.value === '2' && shown.t80.value === '0',
+    'the panel shows the rent schedule\'s homes at each income limit: ' + JSON.stringify(shown));
+  ok(shown.total.value === '21' && /^21 homes.*rent schedule/.test(shown.note), 'the panel shows the schedule\'s 21 homes: ' + JSON.stringify(shown));
+  ok([shown.t30, shown.t60, shown.t80, shown.t50, shown.total].every((f) => f.disabled), 'with a rent schedule the panel\'s homes are read only');
+  const schOut = await settle(sch.tab);
+  agree(schOut, 'With a rent schedule');
+  ok(measured(schOut).length >= 3, 'non-vacuous: the schedule deal is measured (' + JSON.stringify(schOut) + ')');
+  ok(sch.errors.length === 0, 'no page errors with a rent schedule: ' + sch.errors.slice(0, 3).join(' | '));
+  await sch.ctx.close();
 
   // At 390px the panel fits.
   const phone = await open(browser, '', 390);

@@ -16,6 +16,11 @@
  * the total. A total typed here scales every cost line by the same share, so the
  * split the lines had stays the same (the example budget's split until a user
  * itemizes their own).
+ *
+ * Homes: a tier changed here moves Total Units by the same number, so homes
+ * outside these limits (market rate, 100% AMI and up) stay as they were. When a
+ * Market Analysis rent schedule is active the counts come from its rows (the
+ * full calculator's #dc-schedule-table), read only.
  */
 (function () {
   'use strict';
@@ -68,6 +73,12 @@
   }
 
   // ── Mirrors ─────────────────────────────────────────────────────────────
+  // The active Market Analysis rent schedule's rows, or null when the page's own unit mix is in use.
+  function scheduleRows() {
+    var host = $('dc-schedule-table');
+    if (!host || host.hidden) return null;
+    return host.querySelectorAll('tbody tr[data-tier]');
+  }
   function tierFixed(pct) {
     // A bedroom split replaces the tier total, and a Market Analysis rent schedule replaces the grid.
     var rows = $('dc-ami-rows');
@@ -76,6 +87,10 @@
     return split ? 'Set by the bedroom split in Unit mix below.' : '';
   }
   function tierUnits(pct) {
+    var rows = scheduleRows();
+    if (rows) return Array.prototype.reduce.call(rows, function (s, tr) {
+      return s + (tr.dataset.tier === String(pct) && num(tr.dataset.units) > 0 ? num(tr.dataset.units) : 0);
+    }, 0);
     var chk = $('dc-chk-' + pct), total = $('dc-units-' + pct);
     if (!total || (chk && !chk.checked)) return 0;
     var split = Array.prototype.reduce.call(document.querySelectorAll('[id^="dc-units-' + pct + '-"]'), function (s, el) { var n = num(el.value); return s + (n > 0 ? n : 0); }, 0);
@@ -108,9 +123,23 @@
       box.title = fixed;
       if (active !== box) box.value = String(tierUnits(pct));
     });
+    var all = $('dc-units'), qAll = $('dq-units');
+    if (all && qAll) {
+      qAll.disabled = !!all.readOnly;
+      qAll.title = all.readOnly ? 'Set by your rent schedule.' : '';
+      if (active !== qAll) qAll.value = all.value;
+    }
     var homes = TIERS.reduce(function (s, pct) { return s + tierUnits(pct); }, 0);
     var note = $('dq-homes');
-    if (note) note.textContent = homes + ' homes at these income limits';
+    if (note) note.textContent = homes + ' homes at these income limits' + (scheduleRows() ? ', from your Market Analysis rent schedule.' : '.');
+    // The full calculator's own check of tier homes against Total Units, shown here when it speaks.
+    var warn = $('dc-units-sync-warn'), mix = $('dq-mix');
+    if (mix) {
+      var said = warn && !warn.hidden && !scheduleRows() ? warn.textContent.replace(/^[^A-Za-z0-9]+/, '').replace(/\s+/g, ' ').trim() : '';
+      mix.textContent = said;
+      mix.hidden = !said;
+      mix.classList.toggle('dq-unavailable', /exceed/i.test(said));
+    }
     OUTPUTS.forEach(function (o) {
       var src = $(o.id), dst = $('dq-out-' + o.id);
       if (!dst) return;
@@ -136,11 +165,19 @@
     } else if (t.id === 'dq-rate-9' || t.id === 'dq-rate-4') {
       var r = $(t.id === 'dq-rate-4' ? 'dc-rate-4' : 'dc-rate-9');
       if (r) { r.checked = true; fire(r, ['change']); }
+    } else if (t.id === 'dq-units') {
+      var homes = num(t.value), total = $('dc-units');
+      if (!total || total.readOnly || !(homes >= 1)) return;
+      total.value = String(Math.round(homes));
+      fire(total, ['input', 'change']);
     } else if (/^dq-units-\d+$/.test(t.id)) {
       var pct = t.id.slice('dq-units-'.length), units = $('dc-units-' + pct), chk = $('dc-chk-' + pct);
       var n = num(t.value);
       if (!units || !(n >= 0) || tierFixed(pct)) return;
+      // Total Units moves with the tier, so the homes outside these limits stay the same.
+      var all = $('dc-units'), was = tierUnits(pct), next = num(all && all.value) + Math.round(n) - was;
       units.value = String(Math.round(n));
+      if (all && !all.readOnly && next >= 1) { all.value = String(next); fire(all, ['input', 'change']); }
       if (chk && n > 0 && !chk.checked) { chk.checked = true; fire(chk, ['change']); }
       fire(units, ['input', 'change']);
     }
@@ -157,16 +194,18 @@
         '<fieldset class="dq-f" style="border:0;margin:0;padding:0;min-width:0;"><legend style="padding:0;font-weight:600;font-size:.9rem;">Credit</legend>' +
           '<div class="dq-rates"><label class="dq-radio"><input type="radio" name="dq-rate" id="dq-rate-9"> 9% competitive</label>' +
           '<label class="dq-radio"><input type="radio" name="dq-rate" id="dq-rate-4"> 4% with bonds</label></div></fieldset>' +
+        '<label class="dq-f">Total homes<input id="dq-units" type="number" min="1" step="1" inputmode="numeric" style="' + field + '"></label>' +
       '</div>' +
       '<fieldset style="border:0;margin:.75rem 0 0;padding:0;min-width:0;"><legend style="padding:0;font-weight:600;font-size:.9rem;">Homes by income limit (% of area median income)</legend>' +
         '<div class="dq-tiers">' + TIERS.map(function (pct) {
           return '<label class="dq-tier">' + pct + '%<input id="dq-units-' + pct + '" type="number" min="0" step="1" inputmode="numeric" aria-label="Homes at ' + pct + '% AMI" style="' + field + 'text-align:right;"></label>';
         }).join('') + '</div>' +
-        '<p id="dq-homes" style="margin:.3rem 0 0;font-size:.82rem;color:var(--muted);"></p></fieldset>' +
+        '<p id="dq-homes" style="margin:.3rem 0 0;font-size:.82rem;color:var(--muted);"></p>' +
+        '<p id="dq-mix" hidden style="margin:.3rem 0 0;font-size:.82rem;color:var(--muted);"></p></fieldset>' +
       '<dl class="dq-out no-glossary" aria-live="polite">' + OUTPUTS.map(function (o) {
         return '<div><dt>' + o.label + '</dt><dd id="dq-out-' + o.id + '">—</dd></div>';
       }).join('') + '</dl>' +
-      '<p style="margin:.5rem 0 0;font-size:.82rem;color:var(--muted);">A new total scales every cost line by the same share. Screening estimate, not underwriting.</p>';
+      '<p style="margin:.5rem 0 0;font-size:.82rem;color:var(--muted);">A new cost total scales every cost line by the same share. Homes added at an income limit add to total homes. Screening estimate, not underwriting.</p>';
     var style = document.createElement('style');
     style.textContent =
       '#dcQuick{max-width:1400px;margin:0 auto 12px;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);box-sizing:border-box;text-align:left}' +
@@ -182,6 +221,7 @@
       '#dcQuick .dq-out div{padding:.55rem .7rem;background:var(--bg2);border-radius:var(--radius-sm,6px);min-width:0}' +
       '#dcQuick .dq-out dt{font-size:.8rem;color:var(--muted)}' +
       '#dcQuick .dq-out dd{margin:.15rem 0 0;font-size:1.15rem;font-weight:700;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}' +
+      '#dcQuick p.dq-unavailable{color:var(--warn,#a84608);font-weight:600}' +
       '#dcQuick .dq-out dd.dq-unavailable{font-size:.82rem;font-weight:600;color:var(--warn,#a84608)}';
     document.head.appendChild(style);
   }
@@ -193,7 +233,7 @@
     host.addEventListener('change', push);
     // Homes update as they are typed. The total waits for the reader to finish (change), since scaling
     // the cost lines to each partial number ("2", "25", ...) would round them away.
-    host.addEventListener('input', function (e) { if (e.target && /^dq-units-/.test(e.target.id)) push(e); });
+    host.addEventListener('input', function (e) { if (e.target && /^dq-units(-|$)/.test(e.target.id)) push(e); });
     document.addEventListener('deal-calc:updated', pull);
     // The county list loads after the calculator first draws.
     var county = $('dc-county-select');
@@ -203,5 +243,5 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 
-  window.__DealCalcQuick = { scaleCosts: scaleCosts, itemized: itemized, pull: pull, TIERS: TIERS, OUTPUTS: OUTPUTS };
+  window.__DealCalcQuick = { scaleCosts: scaleCosts, itemized: itemized, tierUnits: tierUnits, pull: pull, TIERS: TIERS, OUTPUTS: OUTPUTS };
 })();
