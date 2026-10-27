@@ -40,7 +40,7 @@ See also:
 
 ## Repository inventory
 
-Current tracked inventory: **79 top-level / 573 total HTML pages**, **82 workflows**, **353 JavaScript files under `js/`**, and **546 geographies** (**64 counties / 272 places / 210 CDPs**).
+Current tracked inventory: **79 top-level / 573 total HTML pages**, **82 workflows**, **354 JavaScript files under `js/`**, and **546 geographies** (**64 counties / 272 places / 210 CDPs**).
 
 Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs the same check and fails when this line drifts from the tracked files or geography registry.
 

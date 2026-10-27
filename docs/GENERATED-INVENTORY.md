@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-27T11:59:38.175Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-27T14:36:13.640Z. Do not edit by hand.
 
 ---
 
@@ -34,7 +34,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 83.7 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 87.3 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 87.7 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.0 KB |
@@ -312,7 +312,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 298.0 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 298.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -2049,7 +2049,7 @@
 
 ## Test Files
 
-727 test files found.
+728 test files found.
 
 | File | Size |
 |------|------|
@@ -2193,6 +2193,7 @@
 | `test/deal-gap-handoff.test.js` | 6.0 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-permanent-financing.test.js` | 14.0 KB |
+| `test/deal-quick-estimate.test.mjs` | 12.8 KB |
 | `test/deal-recommenders-mix-check.test.mjs` | 14.1 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
