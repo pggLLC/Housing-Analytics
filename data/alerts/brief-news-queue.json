@@ -1,12 +1,128 @@
 {
   "meta": {
-    "generated": "2026-10-26T18:57:11Z",
-    "as_of": "2026-10-26",
+    "generated": "2026-10-27T09:11:48Z",
+    "as_of": "2026-10-27",
     "stale_days": 30,
-    "events_as_of": "2026-10-26",
+    "events_as_of": "2026-10-27",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
+    {
+      "geoid": "0816000",
+      "jurisdiction": "City of Colorado Springs",
+      "scope": "place",
+      "county_fips": "08041",
+      "published": true,
+      "last_curated": "2026-10-18",
+      "days_since_review": 9,
+      "stories": [
+        {
+          "title": "New documentary aims to unmask Colorado Springs’ serial ‘poop bandit’",
+          "source": "The Denver Post",
+          "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOd1BYWi0xZXNjU1A0TWstMWZvdlBZSmtFRk1OT2ZUeVVSenMtTjFZeWJ0YUFEM2JRcEJRXzVhTDE0SkY1NEhVVHJjd0dETk52NTNueTlNWVNYWFNRUk9OM2dPR0tadGpxczFaWkZXRk12T3cxSklSUVJoODRoQVRERFY3bw?oc=5",
+          "date": "2026-10-26",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs' 'missing middle' still priced out of homeownership",
+          "source": "KOAA News 5",
+          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOcmZDR0ZuZlRMUjBNMDdVNDRqVjN2Wlk4RW94ZFdhQ29yOFFkZkhqU2V3YUlDc3lhbjRwUGlMRFRvOXozZUVwS1FwRDJNSWdWQ1RJdEdNaS1MRG9HWkdJMTkyLWJ0MG1FU0RNTzlSdERra3Y0NTNkYWxMeFNOXzR5STRkTzYxRTMwSklfcFBqUS1SNzh1T1R2RW1NcUFSSHJvcmdSRG1JblZrNkwxeWtB?oc=5",
+          "date": "2026-10-26",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "“A safe city is the foundation for everything else”: Colorado Springs mayor talks public safety in one-on-one interview with KKTV",
+          "source": "KKTV",
+          "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPekc0eDBqMlR4TGN2bmhKSHJIMFRISmlTMGp4Y2owd1pWZm5wVndtMHRVYkhOZWpTUGZ0T0R4c014S1FlN1pQckZuazd2Ty1BWTJmYXB3NXVudHA0UENBNFBSUFJnQ0tCeVd6aTJEZldyZEtLaklaQmR2STVNZFZCclJFdmU5em9UYXc5R09sMWdkSDZkZmNfd1VIcThhUFZkYnQ4Q1IwblJiSWEtQjQ5cGk0d284ajVJRkNIcWF2RjAxY2FRcm52TVJsR1FkcktoaXNTWHRMTDZwb1BTSXVN0gHzAUFVX3lxTE5OazRkQkZRblBIaGhUTWFpOHFKSFF3RkJmVkt4cTZhVi01akU5RWtHMWd4MVhNaUhDWTdCWXd4VkpuN3lfZUdrZHZlSjd3YXZSVk02V3dDcW1IYlpJM1dGT2FTcVFoU2pwTkdzS1J3bF8xOUNkV0tqX21vVXdJTzZQSXJHd0wta0RpSzRoQ1NkSmo5a1ExdFBtdEFKZkRKRUplM0RTZWVVcVhHMHFSTzFUaEpxM1NMQ3dwOTFiazRRYUxsQTFlZXpzYVcyb3p5Njc0OXFwbE9rWHNUaFhQcEFabkVEeHROTXpSeU1UZ25mZGxsZw?oc=5",
+          "date": "2026-10-25",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "UCCS Economic Forum to examine Colorado Springs’ economic future",
+          "source": "KOAA News 5",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPU3VhYXdJTGxQMm5RWXNlWXBZVlZyVnhvdDVIeFlzcnZwWlN5NUxzNEhWWjFMMGx6RmVlY1ZqSmFlYzlLSFJYSHBJNG1uelQwa0REd3VlcDlJRS12UV9LRFA4QjJGU3NhcDJuaTFRcEFkdENDcDBZdGpuY2p4WWtKZW02blNSV1lvZ3ZLbmRyRTVfRnhXR3RubG9GY0FVZmZ3cGc?oc=5",
+          "date": "2026-10-23",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Tenants at two Colorado Springs properties for seniors call for change",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQSGp2U1FUcXRzS2tfUGRZRHV3UTNDREg3SWt2RkNhWWhIYWRfdmpBaEgta3ZyQ2FNaG84UHhRRjBHZjV3THVjbEwtOXoxc1dVUEt6YjVlQmprcWdMektFeS16ZmQtMDVwMmtVX2JCNGtlMEtFS1hRc0tNM1RSM2lqMFE1eTVOSlJPSEJFaUdXYzA0c2JWd0Q1WHdnODROc2xRRnNuag?oc=5",
+          "date": "2026-10-23",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Foreclosure sale postponed for Colorado Springs’ tallest buildings",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPRDVuMGxlZGxBOHZBVG83SW1iTUg4M1k4WXVvLUdTaF9NZjl3VFY1dEpSZWJUVWc4a29MMlpqVmpVSkNNM1ZTQXlfRDNhdTlMWF9nZUZhbW5CRks1XzVsQzRMUGNfaEU0UXpKZ1o1LUxLTlFPREl1QnNrbVdQMnMyZXVraGZxa3BrSWVodHI0WV9kRVFjUndTb2JOUnFCQQ?oc=5",
+          "date": "2026-10-21",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "LIST: Free trunk-or-treat events around Colorado Springs",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOZDVvZDVVbFpPWFVHZ0g2R2JGTXAwa2hZYWFIQUpwenVWMm45YXRuckMzZGJrRnF0TUhHdV9BUVptNnJJNndSeVctZDJXTHZlMkZnRGhnR1JOc3FNVVp4cjRyQVZDWVY0d01aT3gxdjZqLWtoNmE1Y2FKTFNSeWYzOENCMDdKSGtpcVRkQXcydmV3WEk?oc=5",
+          "date": "2026-10-21",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Mayor Yemi Mobolade touts Colorado Springs' gains — and tests ahead",
+          "source": "Axios",
+          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQU1pMNkRkVjgyaHhqYnlSamNOOGlTM3M0YTlBbEpxTUJoSHJmaWYxMnNYRXRMYkhHaXZWNUN0UnFDWHlBZ2VDLVlZZTRleUFlMlExb29Dekh3aGtWa3I1WmJoT1NCWUZYajNpR0ZHSUw4STJINDg0SV9TVUl3ck5kZ0RsN0ZROFU5TUxETXQzNHhkVmVZYXcyZjJab3hRZUxVQTJwS2tIZGpKQ20yb281dUEzbEc?oc=5",
+          "date": "2026-10-19",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs mayor addresses affordability, public safety and economic development in State of the City",
+          "source": "Colorado Public Radio",
+          "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOZkZwMFMzcGU0eHpfZ3R2VnRGZmEzTnZwcUxnbXZNajQ3c0dBa1IyT0FCZFQ3QkRXbU5ZQzAzTnM0TjlwMUltZFdwaHpfX0NZMWJVNHh2QzFkeGphTk1XSXBhNGJjVW5xMEpnSHl4VjJ0VnZ5Mlp4ZVNRSENESXJYdFFubWNVMDQ?oc=5",
+          "date": "2026-10-17",
+          "match": "place",
+          "also": [],
+          "unread": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed."
+        },
+        {
+          "title": "New affordable housing coming to southeast Colorado Springs",
+          "source": "Yahoo",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTmxocEhyeUtOVkdQeGFOckFSM2xCQnNkWTlucjJCelFDQ3lPb2o3MGo2aXk3WkxTMklnd2FzRVFxZDN4WHdSc3RiQ2FRSzVjSGZ3MHVNUWI5WVdxRS10dnpzM2UxNGNBRjVYUS1ETExxN2FJaXl5dlhqZkQxd0ctb3QzNXNKZlBWNkxHQmY3WnVkMnZTeUVIZw?oc=5",
+          "date": "2026-09-22",
+          "match": "place",
+          "also": [],
+          "unread": "Video only, with no article text to quote. Watch it by hand, then use or dismiss it."
+        },
+        {
+          "title": "Colorado Springs mayor marks progress on homelessness plan, adds new team",
+          "source": "Axios",
+          "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOWGlTQllSUXNsTGg5Y2xRbnc2NzdxaXdQVEdBMl9nYVljdTAzS1YzbFdCeWdydEU2NlNnSXVSWTdLdG1zTE5ScFVTb2JWdENNWXVVRWE2eXc5QjYwRW9hRDR2aGtiS0FXVkZmQVRubUVkQkp5QkVsMFlCa3RpWmZ3cXBtQmJ0WElGbDMwcmltQkthUElkaEVIQUg0Y0x1TmlqTy1oSVJWNWhNR1otWjJpN21OaTkzMVZ3SnNWMHF6UQ?oc=5",
+          "date": "2026-08-12",
+          "match": "place",
+          "also": [],
+          "unread": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed."
+        },
+        {
+          "title": "Avila’s campaign tops spending in El Paso County commission races",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQbE53elhXUHFlVlRlclF0UDRRSXdTNHZKQnR4ekdKWlFsb25uaW1mZVJPTEkxNktqQUdYb29iTTg5Tk01R21hcnZnSldkQTU1N3BKNkxfdVcyVEF5ZmlXclJHZl9rUWpQclNIeE5jV000VXcxQ0dVSFEwT2dxMDJrV1JDVlZMb3lCNmxnT1p5Y2N5MDZHYWdfXzNqbGY?oc=5",
+          "date": "2026-10-25",
+          "match": "county",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "8 new stories naming it",
+        "1 new story about its county",
+        "3 older stories not read yet"
+      ]
+    },
     {
       "geoid": "0820000",
       "jurisdiction": "City of Denver",
@@ -14,7 +130,7 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [
         {
           "title": "MGL Partners Opens Affordable Senior Housing Community in Denver",
@@ -109,80 +225,13 @@
       ]
     },
     {
-      "geoid": "0816000",
-      "jurisdiction": "City of Colorado Springs",
-      "scope": "place",
-      "county_fips": "08041",
-      "published": true,
-      "last_curated": "2026-10-18",
-      "days_since_review": 8,
-      "stories": [
-        {
-          "title": "Colorado Springs' 'missing middle' still priced out of homeownership",
-          "source": "KOAA News 5",
-          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOcmZDR0ZuZlRMUjBNMDdVNDRqVjN2Wlk4RW94ZFdhQ29yOFFkZkhqU2V3YUlDc3lhbjRwUGlMRFRvOXozZUVwS1FwRDJNSWdWQ1RJdEdNaS1MRG9HWkdJMTkyLWJ0MG1FU0RNTzlSdERra3Y0NTNkYWxMeFNOXzR5STRkTzYxRTMwSklfcFBqUS1SNzh1T1R2RW1NcUFSSHJvcmdSRG1JblZrNkwxeWtB?oc=5",
-          "date": "2026-10-26",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "UCCS Economic Forum to examine Colorado Springs’ economic future",
-          "source": "KOAA News 5",
-          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPU3VhYXdJTGxQMm5RWXNlWXBZVlZyVnhvdDVIeFlzcnZwWlN5NUxzNEhWWjFMMGx6RmVlY1ZqSmFlYzlLSFJYSHBJNG1uelQwa0REd3VlcDlJRS12UV9LRFA4QjJGU3NhcDJuaTFRcEFkdENDcDBZdGpuY2p4WWtKZW02blNSV1lvZ3ZLbmRyRTVfRnhXR3RubG9GY0FVZmZ3cGc?oc=5",
-          "date": "2026-10-23",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Tenants at two Colorado Springs properties for seniors call for change",
-          "source": "Colorado Springs Gazette",
-          "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQSGp2U1FUcXRzS2tfUGRZRHV3UTNDREg3SWt2RkNhWWhIYWRfdmpBaEgta3ZyQ2FNaG84UHhRRjBHZjV3THVjbEwtOXoxc1dVUEt6YjVlQmprcWdMektFeS16ZmQtMDVwMmtVX2JCNGtlMEtFS1hRc0tNM1RSM2lqMFE1eTVOSlJPSEJFaUdXYzA0c2JWd0Q1WHdnODROc2xRRnNuag?oc=5",
-          "date": "2026-10-23",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Colorado Springs mayor addresses affordability, public safety and economic development in State of the City",
-          "source": "Colorado Public Radio",
-          "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOZkZwMFMzcGU0eHpfZ3R2VnRGZmEzTnZwcUxnbXZNajQ3c0dBa1IyT0FCZFQ3QkRXbU5ZQzAzTnM0TjlwMUltZFdwaHpfX0NZMWJVNHh2QzFkeGphTk1XSXBhNGJjVW5xMEpnSHl4VjJ0VnZ5Mlp4ZVNRSENESXJYdFFubWNVMDQ?oc=5",
-          "date": "2026-10-17",
-          "match": "place",
-          "also": [],
-          "unread": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed."
-        },
-        {
-          "title": "New affordable housing coming to southeast Colorado Springs",
-          "source": "Yahoo",
-          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTmxocEhyeUtOVkdQeGFOckFSM2xCQnNkWTlucjJCelFDQ3lPb2o3MGo2aXk3WkxTMklnd2FzRVFxZDN4WHdSc3RiQ2FRSzVjSGZ3MHVNUWI5WVdxRS10dnpzM2UxNGNBRjVYUS1ETExxN2FJaXl5dlhqZkQxd0ctb3QzNXNKZlBWNkxHQmY3WnVkMnZTeUVIZw?oc=5",
-          "date": "2026-09-22",
-          "match": "place",
-          "also": [],
-          "unread": "Video only, with no article text to quote. Watch it by hand, then use or dismiss it."
-        },
-        {
-          "title": "Colorado Springs mayor marks progress on homelessness plan, adds new team",
-          "source": "Axios",
-          "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOWGlTQllSUXNsTGg5Y2xRbnc2NzdxaXdQVEdBMl9nYVljdTAzS1YzbFdCeWdydEU2NlNnSXVSWTdLdG1zTE5ScFVTb2JWdENNWXVVRWE2eXc5QjYwRW9hRDR2aGtiS0FXVkZmQVRubUVkQkp5QkVsMFlCa3RpWmZ3cXBtQmJ0WElGbDMwcmltQkthUElkaEVIQUg0Y0x1TmlqTy1oSVJWNWhNR1otWjJpN21OaTkzMVZ3SnNWMHF6UQ?oc=5",
-          "date": "2026-08-12",
-          "match": "place",
-          "also": [],
-          "unread": "The publisher blocks automated reading, so nothing from it can be quoted yet. It stays in the review queue until someone reads it by hand and marks it used or dismissed."
-        }
-      ],
-      "events": [],
-      "reasons": [
-        "3 new stories naming it",
-        "3 older stories not read yet"
-      ]
-    },
-    {
       "geoid": "0818310",
       "jurisdiction": "Town of Crested Butte",
       "scope": "place",
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [
         {
           "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
@@ -216,7 +265,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [
         {
           "title": "Judge rules Ridgway hotel can’t house workers building Telluride’s Four Seasons resort",
@@ -250,7 +299,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -275,7 +324,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [
         {
           "title": "Garfield County commissioners approve rezoning for nearly 100 homes west of Glenwood Springs",
@@ -294,13 +343,36 @@
       ]
     },
     {
+      "geoid": "0864255",
+      "jurisdiction": "City of Rifle",
+      "scope": "place",
+      "county_fips": "08045",
+      "published": true,
+      "last_curated": "2026-10-18",
+      "days_since_review": 9,
+      "stories": [
+        {
+          "title": "Rifle City Council approves ADU code changes, water system improvements",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOWmxJUnBIVS13aEFpci12RmtXaFZ0c1hCQjZfbWF4bHhwTmFzdkdSdnRFb2h5VXpnX2RveDIwc0FRMWdUbEQ5dG5wbURsSUs5dDkyTi1jRkFPXzhZbENvM0hsSG11VHdfdW5Wc0FHV2U1RDNTRDUwaFhiZEkxRjMyLUVaUGtGY3d4WS1UdC1SOG4yQzFndWpOZlh6LVJpaHkyZW1ZMVAzbS1qRnJG?oc=5",
+          "date": "2026-10-26",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "1 new story naming it"
+      ]
+    },
+    {
       "geoid": "0873825",
       "jurisdiction": "City of Steamboat Springs",
       "scope": "place",
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -324,8 +396,16 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [
+        {
+          "title": "Rifle City Council approves ADU code changes, water system improvements",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOWmxJUnBIVS13aEFpci12RmtXaFZ0c1hCQjZfbWF4bHhwTmFzdkdSdnRFb2h5VXpnX2RveDIwc0FRMWdUbEQ5dG5wbURsSUs5dDkyTi1jRkFPXzhZbENvM0hsSG11VHdfdW5Wc0FHV2U1RDNTRDUwaFhiZEkxRjMyLUVaUGtGY3d4WS1UdC1SOG4yQzFndWpOZlh6LVJpaHkyZW1ZMVAzbS1qRnJG?oc=5",
+          "date": "2026-10-26",
+          "match": "in_county",
+          "also": []
+        },
         {
           "title": "Garfield County commissioners approve rezoning for nearly 100 homes west of Glenwood Springs",
           "source": "AspenTimes.com",
@@ -339,7 +419,7 @@
       ],
       "events": [],
       "reasons": [
-        "1 new story about its towns",
+        "2 new stories about its towns",
         "draft, not shown on the site"
       ]
     },
@@ -350,7 +430,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -375,7 +455,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [],
       "events": [],
       "reasons": []
@@ -387,7 +467,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [],
       "events": [],
       "reasons": [
@@ -401,7 +481,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [],
       "events": [],
       "reasons": []
@@ -413,19 +493,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
-      "stories": [],
-      "events": [],
-      "reasons": []
-    },
-    {
-      "geoid": "0864255",
-      "jurisdiction": "City of Rifle",
-      "scope": "place",
-      "county_fips": "08045",
-      "published": true,
-      "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [],
       "events": [],
       "reasons": []
@@ -437,7 +505,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [],
       "events": [],
       "reasons": []
@@ -449,7 +517,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [],
       "events": [],
       "reasons": [
@@ -463,7 +531,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [],
       "events": [],
       "reasons": []
@@ -475,7 +543,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 8,
+      "days_since_review": 9,
       "stories": [],
       "events": [],
       "reasons": []
