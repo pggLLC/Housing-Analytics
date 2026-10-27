@@ -148,9 +148,50 @@
     return ws && typeof ws.getJurisdiction === 'function' ? ws.getJurisdiction() : null;
   }
 
+  // A link that names a place (?geoid= / ?fips=) sets the subject's county
+  // when nothing else has (no project jurisdiction, no site-wide county), or
+  // when it carries auto=1, which the site's own "open this place" links use
+  // to outrank a stale saved place, as the HNA does. Without this, a link
+  // headed "Fruita (city)" priced nothing in a fresh browser (the county
+  // stayed blank, so every rent-limit row read unavailable), and after an
+  // earlier Denver visit it priced Denver under a Fruita banner.
+  // The link is applied once per page load. After that it holds the subject
+  // until the visitor picks another county or jurisdiction, so their edit sticks.
+  var _linkDecided = false;
+  var _linkHeld = false;
+  function _linkedJurisdiction() {
+    var u = global.JurisdictionUrlContext;
+    if (!u || typeof u.isUrlContextPresent !== 'function' || !u.isUrlContextPresent()) return null;
+    var ctx = u.resolveSync();
+    return ctx && ctx.countyFips ? ctx : null;
+  }
+
+  function _hasOwnLocation(jurisdiction, s) {
+    var u = global.JurisdictionUrlContext;
+    var ctx = u && typeof u.resolveSync === 'function' && u.isUrlContextPresent && u.isUrlContextPresent() ? u.resolveSync() : null;
+    if (ctx && ctx.auto) return false;
+    if (jurisdiction && jurisdiction.geoid) return true;
+    if (s && s.county_fips) return true;
+    var county = global.SiteState && global.SiteState.getCounty ? global.SiteState.getCounty() : null;
+    return !!(county && county.fips);
+  }
+
   function getSubject() {
     var s = _readSubject();
     var jurisdiction = _activeJurisdiction();
+    if (!_linkDecided) {
+      var own = _hasOwnLocation(jurisdiction, s);
+      var linked = own ? null : _linkedJurisdiction();
+      if (own) _linkDecided = true;
+      if (linked) {
+        _linkDecided = true;
+        _linkHeld = true;
+        if (s.jurisdiction_geoid === linked.geoid && s.county_fips === linked.countyFips) return s;
+        return setSubject(Object.assign({}, s, { jurisdiction_geoid: linked.geoid, county_fips: linked.countyFips,
+          county_name: linked.countyName || '' }));
+      }
+    }
+    if (_linkHeld) return s;
     // Covers a change on another page while this component was not loaded.
     return jurisdiction && jurisdiction.geoid && s.jurisdiction_geoid !== jurisdiction.geoid
       ? _syncFromSiteState(s) : s;
@@ -234,6 +275,7 @@
   function _syncFromSiteState(s) {
     var jurisdiction = _activeJurisdiction();
     var county = global.SiteState && global.SiteState.getCounty ? global.SiteState.getCounty() : null;
+    if (_linkHeld) return s;
     var next = Object.assign({}, s);
     if (jurisdiction && jurisdiction.geoid) {
       next.jurisdiction_geoid = jurisdiction.geoid;
@@ -248,7 +290,11 @@
   }
 
   if (typeof document !== 'undefined') document.addEventListener('workflow:step-updated', function (event) {
-    if (event.detail && event.detail.stepKey === 'jurisdiction') _syncFromSiteState(_readSubject());
+    if (!event.detail || event.detail.stepKey !== 'jurisdiction') return;
+    // Picking a jurisdiction on the page replaces the linked place.
+    _linkDecided = true;
+    _linkHeld = false;
+    _syncFromSiteState(_readSubject());
   });
 
   // ── DOM helpers ─────────────────────────────────────────────────────
@@ -414,7 +460,12 @@
     _renderUnsubs.forEach(function (u) { try { u(); } catch (e) {} });
     _renderUnsubs = [];
 
-    loadChfa().then(function (chfa) {
+    // A linked place needs geo-config to find its county; wait for it too.
+    var urlContext = global.JurisdictionUrlContext;
+    var linkReady = urlContext && typeof urlContext.isUrlContextPresent === 'function' && urlContext.isUrlContextPresent()
+      ? urlContext.resolve().catch(function () { return null; }) : Promise.resolve(null);
+    Promise.all([loadChfa(), linkReady]).then(function (loaded) {
+      var chfa = loaded[0];
       // The jurisdiction may have changed while the table was loading.
       subject = getSubject();
       container.innerHTML = '';
