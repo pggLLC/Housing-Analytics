@@ -37,6 +37,8 @@
 
   function $(id) { return document.getElementById(id); }
   function fire(el, types) { types.forEach(function (t) { el.dispatchEvent(new Event(t, { bubbles: true })); }); }
+  // Writes only what changed: each DOM change wakes the page's observers (glossary, contrast guard).
+  function put(el, prop, v) { if (el && el[prop] !== v) el[prop] = v; }
   function num(v) { var n = Number(String(v == null ? '' : v).replace(/[$,\s]/g, '')); return isFinite(n) ? n : NaN; }
 
   // ── Total development cost: scale the cost lines to it ──────────────────
@@ -79,11 +81,16 @@
     if (!host || host.hidden) return null;
     return host.querySelectorAll('tbody tr[data-tier]');
   }
+  // A tier's bedroom split inputs, looked up inside the unit grid (a whole-page id scan is slow).
+  function splitInputs(pct) {
+    var rows = $('dc-ami-rows');
+    return rows ? rows.querySelectorAll('input[id^="dc-units-' + pct + '-"]') : [];
+  }
   function tierFixed(pct) {
     // A bedroom split replaces the tier total, and a Market Analysis rent schedule replaces the grid.
     var rows = $('dc-ami-rows');
     if (!rows || rows.closest('[hidden]')) return 'The unit mix comes from your rent schedule. Change it in Unit mix below.';
-    var split = Array.prototype.some.call(document.querySelectorAll('[id^="dc-units-' + pct + '-"]'), function (el) { return num(el.value) > 0; });
+    var split = Array.prototype.some.call(splitInputs(pct), function (el) { return num(el.value) > 0; });
     return split ? 'Set by the bedroom split in Unit mix below.' : '';
   }
   function tierUnits(pct) {
@@ -93,7 +100,7 @@
     }, 0);
     var chk = $('dc-chk-' + pct), total = $('dc-units-' + pct);
     if (!total || (chk && !chk.checked)) return 0;
-    var split = Array.prototype.reduce.call(document.querySelectorAll('[id^="dc-units-' + pct + '-"]'), function (s, el) { var n = num(el.value); return s + (n > 0 ? n : 0); }, 0);
+    var split = Array.prototype.reduce.call(splitInputs(pct), function (s, el) { var n = num(el.value); return s + (n > 0 ? n : 0); }, 0);
     return split > 0 ? split : (num(total.value) > 0 ? num(total.value) : 0);
   }
 
@@ -101,10 +108,11 @@
     var from = $('dc-county-select'), to = $('dq-county');
     if (!from || !to) return;
     if (to.options.length !== from.options.length) {
-      to.innerHTML = '';
-      Array.prototype.forEach.call(from.options, function (o) { to.appendChild(new Option(o.textContent, o.value)); });
+      var list = document.createDocumentFragment();
+      Array.prototype.forEach.call(from.options, function (o) { list.appendChild(new Option(o.textContent, o.value)); });
+      to.replaceChildren(list);
     }
-    to.value = from.value;
+    put(to, 'value', from.value);
   }
 
   // Calculator → panel. A field the reader is typing in is left alone.
@@ -112,39 +120,39 @@
     var active = document.activeElement;
     syncCounties();
     var tdc = $('dc-tdc'), q = $('dq-tdc');
-    if (tdc && q && active !== q) q.value = tdc.value;
+    if (tdc && q && active !== q) put(q, 'value', tdc.value);
     var r4 = $('dc-rate-4');
-    if (r4) { $('dq-rate-4').checked = r4.checked; $('dq-rate-9').checked = !r4.checked; }
+    if (r4) { put($('dq-rate-4'), 'checked', r4.checked); put($('dq-rate-9'), 'checked', !r4.checked); }
     TIERS.forEach(function (pct) {
       var box = $('dq-units-' + pct);
       if (!box) return;
       var fixed = tierFixed(pct);
-      box.disabled = !!fixed;
-      box.title = fixed;
-      if (active !== box) box.value = String(tierUnits(pct));
+      put(box, 'disabled', !!fixed);
+      put(box, 'title', fixed);
+      if (active !== box) put(box, 'value', String(tierUnits(pct)));
     });
     var all = $('dc-units'), qAll = $('dq-units');
     if (all && qAll) {
-      qAll.disabled = !!all.readOnly;
-      qAll.title = all.readOnly ? 'Set by your rent schedule.' : '';
-      if (active !== qAll) qAll.value = all.value;
+      put(qAll, 'disabled', !!all.readOnly);
+      put(qAll, 'title', all.readOnly ? 'Set by your rent schedule.' : '');
+      if (active !== qAll) put(qAll, 'value', all.value);
     }
     var homes = TIERS.reduce(function (s, pct) { return s + tierUnits(pct); }, 0);
     var note = $('dq-homes');
-    if (note) note.textContent = homes + ' homes at these income limits' + (scheduleRows() ? ', from your Market Analysis rent schedule.' : '.');
+    put(note, 'textContent', homes + ' homes at these income limits' + (scheduleRows() ? ', from your Market Analysis rent schedule.' : '.'));
     // The full calculator's own check of tier homes against Total Units, shown here when it speaks.
     var warn = $('dc-units-sync-warn'), mix = $('dq-mix');
     if (mix) {
       var said = warn && !warn.hidden && !scheduleRows() ? warn.textContent.replace(/^[^A-Za-z0-9]+/, '').replace(/\s+/g, ' ').trim() : '';
-      mix.textContent = said;
-      mix.hidden = !said;
+      put(mix, 'textContent', said);
+      put(mix, 'hidden', !said);
       mix.classList.toggle('dq-unavailable', /exceed/i.test(said));
     }
     OUTPUTS.forEach(function (o) {
       var src = $(o.id), dst = $('dq-out-' + o.id);
       if (!dst) return;
       var text = src ? src.textContent.replace(/\s+/g, ' ').trim() : '';
-      dst.textContent = text || '—';
+      put(dst, 'textContent', text || '—');
       dst.classList.toggle('dq-unavailable', /^Unavailable\b/.test(text));
     });
   }
