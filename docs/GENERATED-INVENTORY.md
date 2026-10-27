@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-26T17:05:11.000Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-27T11:59:38.175Z. Do not edit by hand.
 
 ---
 
@@ -42,7 +42,7 @@
 | `developer-methods.html` | Methodology — COHO Analytics | 7.4 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.8 KB |
 | `developer-round-watch.html` | Next Round Watch — COHO Analytics | 10.5 KB |
-| `developer-submittal-review.html` | Submittal Review — COHO Analytics | 15.8 KB |
+| `developer-submittal-review.html` | Submittal Review — COHO Analytics | 16.4 KB |
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 34.8 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 19.7 KB |
@@ -114,12 +114,12 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 795.0 KB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 23.8 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 882.0 KB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 29.0 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 638.5 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 640.5 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 545 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -1991,7 +1991,7 @@
 | `data/policy/green-building.json` | 58.0 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 30.8 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 136.0 KB | ✅ | — |
+| `data/policy/housing-events.json` | 174.9 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
 | `data/policy/incentive-alternatives.json` | 56.7 KB | ✅ | — |
@@ -2022,11 +2022,11 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 384.8 KB | ✅ | — |
+| `data/policy_briefs.json` | 414.8 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.4 KB | ✅ | — |
-| `data/polymarket-history.json` | 178.7 KB | ✅ | — |
+| `data/polymarket-history.json` | 181.0 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2049,7 +2049,7 @@
 
 ## Test Files
 
-726 test files found.
+727 test files found.
 
 | File | Size |
 |------|------|
@@ -2351,7 +2351,7 @@
 | `test/hna-unknown-geoid.test.js` | 2.8 KB |
 | `test/hna-view-content-parity.test.js` | 6.9 KB |
 | `test/hna-workflow-autosave.test.js` | 4.2 KB |
-| `test/home-answer-card.test.js` | 8.0 KB |
+| `test/home-answer-card.test.js` | 8.5 KB |
 | `test/home-jurisdiction-search.test.js` | 4.4 KB |
 | `test/home-need-map-legend-colors.test.js` | 3.3 KB |
 | `test/home-step-cards-match-destinations.test.js` | 3.3 KB |
@@ -2426,7 +2426,7 @@
 | `test/market-study-page.test.js` | 22.9 KB |
 | `test/market-study-report.test.js` | 30.0 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
-| `test/member-phone-header.test.mjs` | 5.1 KB |
+| `test/member-phone-header.test.mjs` | 8.5 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 5.1 KB |
 | `test/metric-semantics-wording.test.js` | 5.4 KB |
@@ -2617,6 +2617,7 @@
 | `test/step-count-agreement.test.mjs` | 7.5 KB |
 | `test/step-labels-agree.test.mjs` | 5.5 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
+| `test/subject-project-linked-place.test.js` | 4.0 KB |
 | `test/submittal-review.test.mjs` | 52.7 KB |
 | `test/table-export-rendered.test.js` | 16.1 KB |
 | `test/table-export.test.js` | 25.3 KB |
