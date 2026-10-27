@@ -65,7 +65,11 @@
     // Residual land value tool (js/components/land-value-tool.js): its own
     // inputs and comps, reads nothing from and writes nothing to the calculator.
     { selector: '#landValueTool', reason: 'standalone land-value tool; feeds no Deal Calculator output' },
+    // Quick estimate panel (js/deal-calculator-quick.js): each control mirrors a
+    // dc- input that is shared, so the panel itself carries nothing.
+    { selector: '#dcQuick', reason: 'quick estimate controls mirror shared dc- inputs' },
     // Development realism checklists: reading aids a user ticks, not modeled.
+
     { selector: '.devr-checkbox', reason: 'realism checklist ticks; not modeled by the calculator' }
   ];
 
