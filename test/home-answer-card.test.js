@@ -125,14 +125,19 @@ for (const entry of [place, county]) {
   }
 }
 assert(checked > 20, 'link scan checked almost nothing');
-// The Deal Calculator only reads a 7-digit place GEOID from the URL
-// (js/deal-calculator.js linkedGeoid); a county must not be sent there.
+// The Deal Calculator takes the place or county from ?geoid= through the
+// shared resolver (js/components/jurisdiction-url-context.js), which maps a
+// 7-digit place to its county and takes a 5-digit county as is. Found
+// 2026-10-26: a county's link dropped the geoid, so Saguache County opened
+// the calculator on "+ Choose jurisdiction" with every rent row unavailable.
 const dealFor = (e) => doorLinks('build', e).find((l) => l.href.startsWith('deal-calculator.html')).href;
-const dealSrc = fs.readFileSync(path.join(ROOT, 'js/deal-calculator.js'), 'utf8');
-assert(/get\('geoid'\)/.test(dealSrc) && /\^08\\d\{5\}\$/.test(dealSrc),
-  'deal-calculator.js no longer reads a 7-digit ?geoid; update doorLinks to match');
+const ctxSrc = fs.readFileSync(path.join(ROOT, 'js/components/jurisdiction-url-context.js'), 'utf8');
+assert(/sp\.get\('fips'\) \|\| sp\.get\('geoid'\)/.test(ctxSrc) && /\^\\d\{5,7\}\$/.test(ctxSrc),
+  'jurisdiction-url-context.js no longer reads a 5- or 7-digit ?geoid; update doorLinks to match');
+assert(/jurisdiction-url-context\.js/.test(fs.readFileSync(path.join(ROOT, 'deal-calculator.html'), 'utf8')),
+  'deal-calculator.html no longer loads the URL resolver; update doorLinks to match');
 assert.equal(dealFor(place), 'deal-calculator.html?geoid=0832155');
-assert.equal(dealFor(county), 'deal-calculator.html');
+assert.equal(dealFor(county), 'deal-calculator.html?geoid=' + county.geoid);
 
 // ── 4. The page carries the doors the code knows, search first ─────────────
 const index = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');

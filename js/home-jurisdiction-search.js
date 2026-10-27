@@ -204,7 +204,7 @@
     } else if (door === 'build') {
       links = [
         { label: 'Where tax-credit housing scores well: Opportunity Finder', href: 'lihtc-opportunity-finder.html' },
-        { label: 'Test a project: Deal Calculator', href: 'deal-calculator.html' + (isPlace ? '?geoid=' + entry.geoid : '') },
+        { label: 'Test a project: Deal Calculator', href: 'deal-calculator.html' + (entry && /^08\d{3}(\d{2})?$/.test(entry.geoid || '') ? '?geoid=' + entry.geoid : '') },
         { label: 'Funding programs that fit', href: 'colorado-deep-dive.html#tab-funding' },
         report
       ];
