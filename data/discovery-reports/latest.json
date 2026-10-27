@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-10-26T14:14:23.806Z",
-  "totalScanned": 1997,
-  "newSourceCount": 1966,
+  "scanTimestamp": "2026-10-27T13:09:19.753Z",
+  "totalScanned": 1998,
+  "newSourceCount": 1967,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1015097,
+      "sizeBytes": 1015469,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7710,
+      "sizeBytes": 7712,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -104,13 +104,13 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 814057,
+      "sizeBytes": 903128,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 24341,
+      "sizeBytes": 29652,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -146,7 +146,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 653875,
+      "sizeBytes": 655836,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1244,7 +1244,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 304643,
+      "sizeBytes": 305109,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10639,6 +10639,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/finder-place-demand.json",
+      "sizeBytes": 21726,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/flood_zones_co.geojson",
       "sizeBytes": 6136866,
       "inDataManifest": false,
@@ -11450,19 +11456,19 @@
     },
     {
       "path": "data/policy/homeownership-programs.json",
-      "sizeBytes": 17614,
+      "sizeBytes": 31502,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/housing-events-curated.json",
-      "sizeBytes": 1726,
+      "sizeBytes": 2982,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 139276,
+      "sizeBytes": 179090,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11654,7 +11660,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 393991,
+      "sizeBytes": 424802,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11672,13 +11678,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20919,
+      "sizeBytes": 20897,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 183019,
+      "sizeBytes": 185325,
       "inDataManifest": false,
       "inFilesManifest": true
     },
