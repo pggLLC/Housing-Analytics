@@ -155,6 +155,10 @@
   // headed "Fruita (city)" priced nothing in a fresh browser (the county
   // stayed blank, so every rent-limit row read unavailable), and after an
   // earlier Denver visit it priced Denver under a Fruita banner.
+  // The link is applied once per page load. After that it holds the subject
+  // until the visitor picks another county or jurisdiction, so their edit sticks.
+  var _linkDecided = false;
+  var _linkHeld = false;
   function _linkedJurisdiction() {
     var u = global.JurisdictionUrlContext;
     if (!u || typeof u.isUrlContextPresent !== 'function' || !u.isUrlContextPresent()) return null;
@@ -162,11 +166,12 @@
     return ctx && ctx.countyFips ? ctx : null;
   }
 
-  function _hasOwnLocation(jurisdiction) {
+  function _hasOwnLocation(jurisdiction, s) {
     var u = global.JurisdictionUrlContext;
     var ctx = u && typeof u.resolveSync === 'function' && u.isUrlContextPresent && u.isUrlContextPresent() ? u.resolveSync() : null;
     if (ctx && ctx.auto) return false;
     if (jurisdiction && jurisdiction.geoid) return true;
+    if (s && s.county_fips) return true;
     var county = global.SiteState && global.SiteState.getCounty ? global.SiteState.getCounty() : null;
     return !!(county && county.fips);
   }
@@ -174,8 +179,19 @@
   function getSubject() {
     var s = _readSubject();
     var jurisdiction = _activeJurisdiction();
-    var linked = _hasOwnLocation(jurisdiction) ? null : _linkedJurisdiction();
-    if (linked) return s.jurisdiction_geoid !== linked.geoid || s.county_fips !== linked.countyFips ? _syncFromSiteState(s) : s;
+    if (!_linkDecided) {
+      var own = _hasOwnLocation(jurisdiction, s);
+      var linked = own ? null : _linkedJurisdiction();
+      if (own) _linkDecided = true;
+      if (linked) {
+        _linkDecided = true;
+        _linkHeld = true;
+        if (s.jurisdiction_geoid === linked.geoid && s.county_fips === linked.countyFips) return s;
+        return setSubject(Object.assign({}, s, { jurisdiction_geoid: linked.geoid, county_fips: linked.countyFips,
+          county_name: linked.countyName || '' }));
+      }
+    }
+    if (_linkHeld) return s;
     // Covers a change on another page while this component was not loaded.
     return jurisdiction && jurisdiction.geoid && s.jurisdiction_geoid !== jurisdiction.geoid
       ? _syncFromSiteState(s) : s;
@@ -259,13 +275,9 @@
   function _syncFromSiteState(s) {
     var jurisdiction = _activeJurisdiction();
     var county = global.SiteState && global.SiteState.getCounty ? global.SiteState.getCounty() : null;
+    if (_linkHeld) return s;
     var next = Object.assign({}, s);
-    var linked = _hasOwnLocation(jurisdiction) ? null : _linkedJurisdiction();
-    if (linked) {
-      next.jurisdiction_geoid = linked.geoid;
-      next.county_fips = linked.countyFips;
-      next.county_name = linked.countyName || '';
-    } else if (jurisdiction && jurisdiction.geoid) {
+    if (jurisdiction && jurisdiction.geoid) {
       next.jurisdiction_geoid = jurisdiction.geoid;
       next.county_fips = jurisdiction.countyFips || '';
       next.county_name = jurisdiction.countyName || '';
@@ -278,7 +290,11 @@
   }
 
   if (typeof document !== 'undefined') document.addEventListener('workflow:step-updated', function (event) {
-    if (event.detail && event.detail.stepKey === 'jurisdiction') _syncFromSiteState(_readSubject());
+    if (!event.detail || event.detail.stepKey !== 'jurisdiction') return;
+    // Picking a jurisdiction on the page replaces the linked place.
+    _linkDecided = true;
+    _linkHeld = false;
+    _syncFromSiteState(_readSubject());
   });
 
   // ── DOM helpers ─────────────────────────────────────────────────────

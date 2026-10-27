@@ -25,8 +25,16 @@ async function page(query, setup) {
     const exists = fs.existsSync(p);
     return Promise.resolve({ ok: exists, status: exists ? 200 : 404, json: () => Promise.resolve(exists ? json(p) : null) });
   };
+  // Saved state is written in an earlier page load, as a returning visitor's would be.
+  if (setup) {
+    const prior = await page('');
+    setup(prior);
+    for (let i = 0; i < prior.localStorage.length; i++) {
+      const k = prior.localStorage.key(i);
+      w.localStorage.setItem(k, prior.localStorage.getItem(k));
+    }
+  }
   files.forEach(p => w.eval(read(p)));
-  if (setup) setup(w);
   await w.JurisdictionUrlContext.resolve();
   return w;
 }
@@ -49,6 +57,19 @@ async function page(query, setup) {
 
   w = await page('?fips=0828745&geoType=place&auto=1', saved);
   assert.equal(w.SubjectProject.get().county_fips, '08077', 'an auto=1 link must outrank a stale saved place');
+
+  const savedSubjectOnly = w2 => w2.localStorage.setItem(KEY, JSON.stringify({ county_fips: '08013',
+    address: 'My Boulder site', unit_mix: [] }));
+  w = await page('?geoid=0828745', savedSubjectOnly);
+  assert.equal(w.SubjectProject.get().county_fips, '08013', 'a plain link must not override a saved subject county');
+  assert.equal(w.SubjectProject.get().address, 'My Boulder site', 'a plain link must keep the saved address');
+
+  for (const q of ['?fips=0828745&geoType=place&auto=1', '?geoid=0828745']) {
+    w = await page(q);
+    assert.equal(w.SubjectProject.get().county_fips, '08077', 'the link sets the county first');
+    w.SubjectProject.set(Object.assign({}, w.SubjectProject.get(), { county_fips: '08013' }));
+    assert.equal(w.SubjectProject.get().county_fips, '08013', 'a county the visitor picks after a link must stick (' + q + ')');
+  }
 
   w = await page('');
   assert.equal(w.SubjectProject.get().county_fips, '', 'no link and no project leaves the county unpicked');
