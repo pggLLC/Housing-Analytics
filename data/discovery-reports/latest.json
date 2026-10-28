@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-10-27T13:09:19.753Z",
+  "scanTimestamp": "2026-10-28T13:58:48.773Z",
   "totalScanned": 1998,
   "newSourceCount": 1967,
   "existingCount": 30,
@@ -8,13 +8,13 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1015469,
+      "sizeBytes": 1015470,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7712,
+      "sizeBytes": 7710,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -104,13 +104,13 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 903128,
+      "sizeBytes": 1006433,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 29652,
+      "sizeBytes": 31203,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -140,13 +140,13 @@
     },
     {
       "path": "data/audit/chfa-qap-watch.json",
-      "sizeBytes": 2971688,
+      "sizeBytes": 2973693,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 655836,
+      "sizeBytes": 661850,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1244,7 +1244,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 305109,
+      "sizeBytes": 305263,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11468,7 +11468,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 179090,
+      "sizeBytes": 179385,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11660,7 +11660,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 424802,
+      "sizeBytes": 438093,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11678,13 +11678,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20897,
+      "sizeBytes": 21639,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 185325,
+      "sizeBytes": 187711,
       "inDataManifest": false,
       "inFilesManifest": true
     },
