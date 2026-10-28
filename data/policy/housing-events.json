@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-10-27T09:11:48Z",
-    "as_of": "2026-10-27",
+    "generated": "2026-10-28T09:51:26Z",
+    "as_of": "2026-10-28",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -24,7 +24,7 @@
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
       "listed": 1346,
-      "upcoming": 34
+      "upcoming": 32
     },
     {
       "id": "housing_colorado",
@@ -70,17 +70,17 @@
       "id": "acs",
       "name": "Census Bureau ACS release schedules",
       "url": "https://www.census.gov/programs-surveys/acs/news/data-releases/2025/release-schedule.html",
-      "status": "unreachable",
-      "note": "ValueError: 2024: The read operation timed out; 2025: The read operation timed out",
-      "upcoming": 0
+      "status": "ok",
+      "listed": 3,
+      "upcoming": 1
     },
     {
       "id": "fred",
       "name": "FRED release calendar: CPI, jobs report, housing starts",
       "url": "https://fred.stlouisfed.org/",
       "status": "ok",
-      "listed": 9,
-      "upcoming": 9
+      "listed": 8,
+      "upcoming": 8
     },
     {
       "id": "curated",
@@ -117,42 +117,6 @@
       "category": "release"
     },
     {
-      "title": "Housing starts and permits (New Residential Construction) released",
-      "start": "2026-10-27",
-      "end": null,
-      "time": null,
-      "location": null,
-      "online": true,
-      "organizer": "U.S. Census Bureau",
-      "url": "http://www.census.gov/construction/nrc/",
-      "source": "fred",
-      "category": "release"
-    },
-    {
-      "title": "Training Webinar: Final Documents",
-      "start": "2026-10-27",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/2e3133c2-3a41-42b5-9d1d-05d44f46097a@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "chfareach: Building a Successful Community and Productively Engaging Seniors, Webinar",
-      "start": "2026-10-27",
-      "end": null,
-      "time": "12:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-building-a-successful-community-and-productively-engaging-seniors-webinar-10-27-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
       "title": "2026 Colorado Planning Conference: Keystone",
       "start": "2026-10-28",
       "end": "2026-10-30",
@@ -163,6 +127,18 @@
       "url": "https://colorado.planning.org/conferences-and-meetings/event-calendar",
       "source": "apa_colorado",
       "category": "conference"
+    },
+    {
+      "title": "Census ACS 2025 1-Year estimates released",
+      "start": "2026-10-29",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "https://www.census.gov/programs-surveys/acs/news/data-releases/2025/release-schedule.html",
+      "source": "acs",
+      "category": "release"
     },
     {
       "title": "Spooky Bingo",
@@ -851,6 +827,42 @@
     }
   ],
   "past": [
+    {
+      "title": "chfareach: Building a Successful Community and Productively Engaging Seniors, Webinar",
+      "start": "2026-10-27",
+      "end": null,
+      "time": "12:55",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-building-a-successful-community-and-productively-engaging-seniors-webinar-10-27-2026",
+      "source": "chfa",
+      "category": "compliance"
+    },
+    {
+      "title": "Training Webinar: Final Documents",
+      "start": "2026-10-27",
+      "end": null,
+      "time": "10:00",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://events.teams.microsoft.com/event/2e3133c2-3a41-42b5-9d1d-05d44f46097a@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
+      "source": "chfa",
+      "category": "homebuyer"
+    },
+    {
+      "title": "Housing starts and permits (New Residential Construction) released",
+      "start": "2026-10-27",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "http://www.census.gov/construction/nrc/",
+      "source": "fred",
+      "category": "release"
+    },
     {
       "title": "chfareach: New to chfareach? New Participant Orientation, Online Meeting",
       "start": "2026-10-26",
