@@ -19,7 +19,6 @@
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
   <script src="js/components/data-vintage-badge.js" defer></script>
-  <script src="js/components/export-panel.js" defer></script>
   <script src="js/components/analytics.js" data-step="4" data-step-label="market_analysis"></script>
   <script defer src="js/components/page-context.js"></script>
   <script src="js/path-resolver.js"></script>
@@ -71,7 +70,7 @@
   <script defer src="js/chart-fix.js"></script>
   <script defer src="js/market-data-quality.js"></script>
   <script defer src="js/market-analysis-enhancements.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script defer src="js/vendor/html2canvas-pro.min.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
   <script defer src="js/components/development-realism.js"></script>
   <!-- F162 — gated CRM CRUD. Only hydrated for visitors with a live
@@ -1404,8 +1403,6 @@
 
     <!-- LIHTC contextual tips (Market Analysis step) -->
     <div id="lihtcTipsMount-ma"></div>
-    <!-- Export panel (Market Analysis step) -->
-    <div id="exportPanelMount-ma"></div>
 
     <!-- ── Site Comparison ─────────────────────────────────────────────── -->
     <section class="ma-report-section" id="maSiteComparison" aria-labelledby="maSiteCompHeading">
@@ -2073,9 +2070,6 @@
         ['pma', 'capture_rate', 'comparable_units', 'vacancy_rate'],
         { heading: 'Market Analysis Concepts' });
     }
-
-    // #10 Export panel
-    if (window.ExportPanel) ExportPanel.render('exportPanelMount-ma', 'market');
 
     // #13 Fly map to jurisdiction county centroid when jurisdiction is known
     var _CO_CENTROIDS = {

@@ -94,8 +94,16 @@
      garbage. Plain equivalents for the reconciliation section. */
   function _pdfPlain(text) {
     return String(text == null ? '' : text)
-      .replace(/\u2264/g, '<=').replace(/\u00d7/g, 'x')
+      .replace(/\u2264/g, '<=').replace(/\u2265/g, '>=').replace(/\u00d7/g, 'x')
       .replace(/[\u2018\u2019]/g, "'").replace(/[\u2014\u2013]/g, '-').replace(/\u2212/g, '-');
+  }
+
+  /* The narrower fix applied to every string the structured PDF draws:
+     only the characters outside the font's character set. Dashes and
+     curly quotes are in it and stay as they are. */
+  function _pdfGlyphs(text) {
+    return String(text).replace(/\u2264/g, '<=').replace(/\u2265/g, '>=')
+      .replace(/\u00d7/g, 'x').replace(/\u2212/g, '-');
   }
 
   function _reconHomes(units) {
@@ -108,7 +116,12 @@
   /** Safely read visible text from a DOM element, returning '' on miss. */
   function _elText(id) {
     var el = document.getElementById(id);
-    return el ? el.textContent.trim() : '';
+    if (!el) return '';
+    // Glossary terms carry their definition in a hidden pop-up inside the
+    // element (js/glossary.js). textContent would paste it into the sentence.
+    var clone = el.cloneNode(true);
+    Array.prototype.forEach.call(clone.querySelectorAll('.gl-tooltip-popup'), function (n) { n.remove(); });
+    return clone.textContent.replace(/\s+/g, ' ').trim();
   }
 
   function _slugifyFilenamePart(value) {
@@ -1109,6 +1122,21 @@
       const data  = buildReportData();
       const outFile = filename || _defaultStructuredPdfFilename(data);
       const pdf   = new jsPDF({ orientation: 'p', unit: 'pt', format: 'letter' });
+      // Every string passes through _pdfGlyphs on its way onto the page:
+      // the built-in font has no glyph for ≤ or ≥ and printed them as "d"
+      // and "e" wherever a section forgot to convert them.
+      const _rawText = pdf.text.bind(pdf);
+      const _rawSplit = pdf.splitTextToSize.bind(pdf);
+      pdf.text = function (txt) {
+        const args = Array.prototype.slice.call(arguments);
+        args[0] = Array.isArray(txt) ? txt.map(_pdfGlyphs) : (typeof txt === 'string' ? _pdfGlyphs(txt) : txt);
+        return _rawText.apply(null, args);
+      };
+      pdf.splitTextToSize = function (txt) {
+        const args = Array.prototype.slice.call(arguments);
+        if (typeof txt === 'string') args[0] = _pdfGlyphs(txt);
+        return _rawSplit.apply(null, args);
+      };
 
       // Page geometry in points (1in = 72pt). 0.6" margins → 532pt content width.
       const PAGE_W  = pdf.internal.pageSize.getWidth();   // 612
@@ -1552,9 +1580,13 @@
         var card = canvas.closest('.chart-card');
         // The heading carries a methodology popover and an info glyph;
         // strip them or the sheet is named "Owner renter sharesℹ️ Methodolo".
-        var title = (card && card.querySelector('h2'))
-          ? (_cleanHeadingText(card.querySelector('h2')) || canvas.id)
-          : canvas.id;
+        // Charts outside a .chart-card fall back to the canvas's own
+        // aria-label ("Household projection chart" → "Household projection"),
+        // never the internal id, which named sheets "chartProjectedHH".
+        var aria = String(canvas.getAttribute('aria-label') || '')
+          .replace(/\s+chart\b.*$/i, '').replace(/^Radar chart:\s*/i, '').trim();
+        var title = (card && card.querySelector('h2') && _cleanHeadingText(card.querySelector('h2')))
+          || aria || canvas.id;
         return {
           id: canvas.id, title: title,
           labels: labels.map(function (l) { return String(l); }),
@@ -1566,7 +1598,19 @@
   }
 
   function _safeSheetName(s) {
-    return _stripInfoGlyphs(String(s || 'Sheet').replace(/[\/\\?*\[\]:]/g, ' ')).slice(0, 31).trim() || 'Sheet';
+    var name = _stripInfoGlyphs(String(s || 'Sheet').replace(/[\/\\?*\[\]:]/g, ' '));
+    // Excel allows 31 characters. Cut at a word, not mid-word
+    // ("Pace & Scale of New Housing Per").
+    if (name.length > 31) {
+      var cut = name.slice(0, 31);
+      var sp = cut.lastIndexOf(' ');
+      name = sp > 12 ? cut.slice(0, sp) : cut;
+    }
+    // A cut that leaves "(" open drops the bracketed part: "Cost burden by
+    // AMI tier (HUD" becomes "Cost burden by AMI tier".
+    if (name.lastIndexOf('(') > name.lastIndexOf(')')) name = name.slice(0, name.lastIndexOf('('));
+    name = name.replace(/[\s&,(\-–]+$/, '').trim();
+    return name.charAt(0).toUpperCase() + name.slice(1) || 'Sheet';
   }
 
   async function exportExcel(reportData, filename) {

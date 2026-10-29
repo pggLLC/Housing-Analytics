@@ -196,6 +196,17 @@
         '#coho-watchlist-panel > details:not([open]) > summary {' +
           ' padding: 6px 10px; font-size: .8125rem;' +
         '}' +
+        // Collapsed, it is a small round star with the count at every width,
+        // not only on phones: the wide "★ Watchlist (0) ›" chip sat over chart
+        // corners, legends and table values on most desktop pages. The word
+        // stays in the accessible name.
+        '#coho-watchlist-panel > details:not([open]) { border-radius: 999px !important; padding: 0 !important; margin: 0 !important; min-width: 0 !important; }' +
+        '#coho-watchlist-panel > details:not([open]) > summary { min-width: 44px; min-height: 44px; padding: 0 10px; justify-content: center; border-radius: 999px; gap: .2rem; }' +
+        '#coho-watchlist-panel > details:not([open]) .coho-wl-label, #coho-watchlist-panel > details:not([open]) .coho-wl-caret {' +
+          ' position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;' +
+        '}' +
+        // Never in a printout or a saved PDF.
+        '@media print { #coho-watchlist-panel { display: none !important; } }' +
         '@media (max-width: 700px) {' +
           // Clear the wrapped mobile footer CTA; auto-shrink the
           // collapsed chip so it doesn't visually compete with content.

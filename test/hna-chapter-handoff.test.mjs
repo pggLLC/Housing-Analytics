@@ -155,6 +155,28 @@ test('the step label matches the rail', () => {
   assert.ok(!/Step 2 complete\?/.test(canonical), 'the old step number is back');
 });
 
+// "Where it's heading" summarised three year-over-year cells that no script
+// ever filled, so it said "The figures for this part did not load" for every
+// place. A figure the summary names must have a writer: a mention other than
+// the controller's bare getElementById lookup.
+test('every figure a handoff names is filled by some script', () => {
+  const dir = path.join(ROOT, 'js', 'hna');
+  const src = fs.readdirSync(dir).filter((f) => f.endsWith('.js') && f !== 'hna-chapter-handoff.js')
+    .map((f) => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n');
+  const unwritten = [];
+  for (const v of views) {
+    for (const k of ((v.handoff || {}).know || [])) {
+      const id = k.id;
+      const lookups = (src.match(new RegExp(id + "\\s*:\\s*document\\.getElementById\\('" + id + "'\\)", 'g')) || []).length;
+      const mentions = (src.match(new RegExp("\\b" + id + "\\b", 'g')) || []).length;
+      const prefix = /^statGap\d+$/.test(id) && /'statGap' \+/.test(src);
+      // Each bare lookup line mentions the id twice.
+      if (!prefix && mentions - 2 * lookups <= 0) unwritten.push(v.id + ':' + id);
+    }
+  }
+  assert.deepStrictEqual(unwritten, [], 'no script writes these, so the summary can never show them: ' + unwritten.join(', '));
+});
+
 console.log(failures === 0
   ? '  hna-chapter-handoff: PASS'
   : `  hna-chapter-handoff: FAIL (${failures})`);

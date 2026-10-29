@@ -86,7 +86,7 @@ assert(!/\$[0-9]/.test(iraCard.textContent), 'IRA rebate watch card contains no 
   const pma = render(softFunding, { surface: 'pma', countyFips: '08031', executionType: '9%', useCase: 'multifamily-new-construction' });
   const ended = pma.mount.querySelector('[data-funding-context-program="CEO-BUILDING-ELECTRIFICATION-GRANTS"]');
   assert(ended, 'the ended electrification grant still renders as context');
-  assert(/Ended: not available funding\./.test(ended.textContent), 'an ended program says it is not available');
+  assert(/Ended\. No funding is available from it\./.test(ended.textContent), 'an ended program says it is not available');
   const pill = ended.querySelector('[data-funding-context-status]');
   assert(pill && /ended/.test(pill.textContent) && /pill bad/.test(pill.className), 'an ended program carries a visible ended status');
   for (const [id, p] of Object.entries(softFunding.programs)) {

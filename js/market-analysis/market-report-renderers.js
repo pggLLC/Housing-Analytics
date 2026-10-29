@@ -960,6 +960,13 @@
     // Gather site info
     var siteInfo = '';
     var st = window.MAState;
+    var stNow = st && typeof st.getState === 'function' ? st.getState() : null;
+    // Nothing has been run yet: say so, as the CSV and JSON buttons do,
+    // instead of doing nothing.
+    if (!stNow || !stNow.site || typeof stNow.site.lat !== 'number' || typeof stNow.site.lon !== 'number') {
+      alert('Run an analysis first, then export the report.');
+      return;
+    }
     if (st) {
       var s = (typeof st.getState === 'function') ? st.getState() : null;
       if (s && s.site) {
@@ -1022,6 +1029,16 @@
         '<title>PMA Site Analysis Report</title>' +
         '<style>' +
           '* { box-sizing: border-box; margin: 0; padding: 0; }' +
+          // The sections are copied from the page, which colors its score
+          // badges and pills with the site theme. Without these the badges
+          // printed white text on nothing. Light-theme values from
+          // css/site-theme.css.
+          ':root { --good: #036549; --warn: #a84608; --bad: #991b1b; --muted: #374151; --text: #0d1f35; ' +
+          '  --faint: #4b5563; --border: rgba(13,31,53,.11); --bg2: #e4ecf4; --card2: #f7fafd; --accent: #096e65; ' +
+          '  --small: 0.875rem; --tiny: 0.8125rem; --radius-sm: 6px; }' +
+          // Glossary pop-ups are hidden on the page until hovered; in a
+          // printed report they would read as text pasted into the sentence.
+          '.gl-tooltip-popup { display: none !important; }' +
           'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; ' +
           '  color: #1a1a2e; background: #fff; padding: 2rem; max-width: 900px; margin: 0 auto; line-height: 1.5; }' +
           'h1 { font-size: 1.75rem; border-bottom: 3px solid #1e3a5f; padding-bottom: 0.5rem; margin-bottom: 0.5rem; }' +
@@ -1044,7 +1061,7 @@
           '<div><h1>PMA Site Analysis Report</h1>' + siteInfo + '</div>' +
           '<div style="text-align:right;">' +
             '<div class="report-score">' + _esc(scoreVal) + '</div>' +
-            '<div style="font-size:0.85rem;color:#666;">' + _esc(tierVal) + '</div>' +
+            '<div style="font-size:0.85rem;color:#666;">PMA score' + (tierVal ? ' \u00b7 ' + _esc(tierVal) : '') + '</div>' +
           '</div>' +
         '</div>' +
         mapSection +

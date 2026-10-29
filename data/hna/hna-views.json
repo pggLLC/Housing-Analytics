@@ -338,16 +338,16 @@
       "handoff": {
         "know": [
           {
-            "id": "statPopYoy",
-            "text": "population change year over year"
+            "id": "statJobsTotal",
+            "text": "jobs located here"
           },
           {
-            "id": "statRentYoy",
-            "text": "change in median rent"
+            "id": "statJobsGrowth",
+            "text": "change in jobs over the years on record"
           },
           {
-            "id": "statHomeValueYoy",
-            "text": "change in median home value"
+            "id": "statJobsOutflow",
+            "text": "residents who work somewhere else"
           }
         ],
         "next": "act",
