@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-29T07:36:31.516Z",
+    "generated_at": "2026-10-29T07:42:21.902Z",
     "root": "data/",
     "file_count": 1994,
-    "total_size_bytes": 206123699,
+    "total_size_bytes": 206134317,
     "kinds": {
       "json": 1946,
       "geojson": 34,
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-29T07:36:26.818Z",
+      "mtime": "2026-10-29T07:42:17.718Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -8292,8 +8292,8 @@
     {
       "path": "hna/hna-views.json",
       "kind": "json",
-      "size_bytes": 14139,
-      "mtime": "2026-10-23T01:35:40.895Z",
+      "size_bytes": 14153,
+      "mtime": "2026-10-29T07:40:26.123Z",
       "shape": "object",
       "keys": [
         "_comment",
@@ -22303,8 +22303,8 @@
     {
       "path": "hna/place-lehd.json",
       "kind": "json",
-      "size_bytes": 1875787,
-      "mtime": "2026-10-24T12:43:21.892Z",
+      "size_bytes": 1886391,
+      "mtime": "2026-10-29T07:40:26.225Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39728,7 +39728,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-29T07:36:28.925Z",
+      "mtime": "2026-10-29T07:42:19.796Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39752,7 +39752,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-29T07:36:28.412Z",
+      "mtime": "2026-10-29T07:42:19.286Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
