@@ -1656,7 +1656,7 @@
         row2('Held by people who live elsewhere', fmtInt(c.inCommuters) + ' (' + pct(c.inCommuters, c.jobs) + ')') +
         row2('Driving in from 20 to 60 miles', fmtInt(c.far) + ', of whom ' + fmtInt(c.farLow) + ' earn $3,333 a month or less' + (c.medianFar ? '; typical ' + c.medianFar + ' straight-line miles' : '')) +
         row2('Recorded 60+ miles away (many not daily)', fmtInt(c.long)) +
-        row2('Working residents who work in another town', fmtInt(c.outCommuters) + ' of ' + fmtInt(c.residents)) +
+        row2(c.county ? 'Working residents who work in another Colorado county' : 'Working residents who work in another town', fmtInt(c.outCommuters) + ' of ' + fmtInt(c.residents)) +
         row2('Where in-commuters live', c.from.map(function (f) { return esc(f[0]) + ' ' + fmtInt(f[1]); }).join('; ') || NA) +
         '</tbody></table>' +
         '<p class="wp-meta">In-commuters are the pool a new workforce property can draw from if some move closer. Count them as demand only with comparable-property evidence of tenants moving in (CHFA QAP).</p>' +

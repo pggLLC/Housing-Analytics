@@ -492,6 +492,9 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   h = WP.renderHtml(bc);
   ok(h.includes('Employer housing: Durango School District 9R') && h.includes('A Person') && h.includes('Housing partner: Regional Housing Alliance'), 'researched employer and partner contacts print');
   ok(!h.includes('No Source'), 'sabotage: a contact without a source never prints');
+  const mesa = WP.renderHtml(WP.buildModel(src, '08077', { FundingFit, today: '2026-10-29' }));
+  ok(/work in another Colorado county/.test(mesa) && !/work in another town/.test(mesa), 'a county record says county, not town');
+  ok(/work in another town/.test(WP.renderHtml(bay)), 'a town record says town');
   const den = WP.buildModel(src, '08031', { FundingFit, today: '2026-10-29' });
   ok(den.workforce && den.workforce.commute && den.workforce.areas.length === 0 && !/Largest employers:/.test(WP.renderHtml(den)), 'an area without an employer table shows the commute reading only');
 }
