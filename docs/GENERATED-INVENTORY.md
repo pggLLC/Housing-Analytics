@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T06:49:57.483Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T07:35:51.464Z. Do not edit by hand.
 
 ---
 
@@ -20,7 +20,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 17.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 41.5 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 216.4 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 216.6 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.5 KB |
@@ -34,7 +34,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 83.7 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 87.7 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 88.1 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.0 KB |
@@ -68,7 +68,7 @@
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.3 KB |
 | `lihtc-allocations.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | COHO Analytics | 17.3 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 74.4 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 75.0 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.1 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 153.4 KB |
@@ -2050,7 +2050,7 @@
 
 ## Test Files
 
-729 test files found.
+730 test files found.
 
 | File | Size |
 |------|------|
@@ -2370,6 +2370,7 @@
 | `test/housing-news-leads-with-the-newest.test.mjs` | 24.0 KB |
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
 | `test/housing-type-need-middle-income.test.js` | 6.0 KB |
+| `test/hud-designation-year.test.js` | 5.5 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 2.8 KB |
 | `test/hud-home-rent-limits.test.js` | 3.2 KB |
@@ -2729,7 +2730,7 @@
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
 | `tests/test_chfa_qap_trust_label.py` | 7.1 KB |
-| `tests/test_chfa_qap_watch.py` | 23.0 KB |
+| `tests/test_chfa_qap_watch.py` | 24.7 KB |
 | `tests/test_co_construction_labor_cost.py` | 10.0 KB |
 | `tests/test_data_plausibility.py` | 23.4 KB |
 | `tests/test_deal_summaries.py` | 4.7 KB |
@@ -2804,7 +2805,7 @@
 | `.github/workflows/build-acs-reliability.yml` | 3.5 KB |
 | `.github/workflows/build-hna-data.yml` | 37.9 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
-| `.github/workflows/cache-hud-gis-data.yml` | 14.5 KB |
+| `.github/workflows/cache-hud-gis-data.yml` | 16.5 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
 | `.github/workflows/chart-audit.yml` | 2.9 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 25.0 KB |
