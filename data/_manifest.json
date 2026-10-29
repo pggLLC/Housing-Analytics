@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-29T06:04:33.820Z",
+    "generated_at": "2026-10-29T06:45:46.577Z",
     "root": "data/",
-    "file_count": 1993,
-    "total_size_bytes": 206121397,
+    "file_count": 1994,
+    "total_size_bytes": 206123577,
     "kinds": {
-      "json": 1945,
+      "json": 1946,
       "geojson": 34,
       "csv": 14
     }
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-29T04:58:13.308Z",
+      "mtime": "2026-10-29T06:45:42.375Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6444,6 +6444,29 @@
         "sizeBytes",
         "inDataManifest",
         "inFilesManifest"
+      ]
+    },
+    {
+      "path": "entitled-land/findings.json",
+      "kind": "json",
+      "size_bytes": 2178,
+      "mtime": "2026-10-29T06:44:55.216Z",
+      "shape": "object",
+      "keys": [
+        "about",
+        "checked",
+        "member_page",
+        "regions",
+        "findings"
+      ],
+      "key_count": 5,
+      "primary_array_key": "regions",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "region",
+        "tier1",
+        "tier2",
+        "tier3"
       ]
     },
     {
@@ -39704,8 +39727,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16089,
-      "mtime": "2026-10-29T04:58:15.768Z",
+      "size_bytes": 16091,
+      "mtime": "2026-10-29T06:45:44.313Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39729,7 +39752,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-29T04:58:15.270Z",
+      "mtime": "2026-10-29T06:45:43.892Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

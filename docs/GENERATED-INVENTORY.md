@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T04:57:39.266Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T06:45:13.390Z. Do not edit by hand.
 
 ---
 
@@ -94,7 +94,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1946 JSON files found.
+1947 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -313,6 +313,7 @@
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 298.1 KB | ✅ | — |
+| `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -2025,8 +2026,8 @@
 | `data/policy_briefs.json` | 427.8 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
-| `data/polymarket-data.json` | 21.1 KB | ✅ | — |
-| `data/polymarket-history.json` | 183.3 KB | ✅ | — |
+| `data/polymarket-data.json` | 20.0 KB | ✅ | — |
+| `data/polymarket-history.json` | 185.5 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2049,7 +2050,7 @@
 
 ## Test Files
 
-728 test files found.
+729 test files found.
 
 | File | Size |
 |------|------|
@@ -2079,10 +2080,10 @@
 | `test/audit-modules/data-integrity.js` | 20.4 KB |
 | `test/audit-modules/link-check.js` | 3.4 KB |
 | `test/audit-modules/logic-validation.js` | 14.2 KB |
-| `test/audit-modules/operations-status.js` | 19.1 KB |
+| `test/audit-modules/operations-status.js` | 21.3 KB |
 | `test/audit-modules/pr-progress.js` | 11.2 KB |
-| `test/audit-modules/repo-health.js` | 30.7 KB |
-| `test/audit-modules/report-generator.js` | 38.9 KB |
+| `test/audit-modules/repo-health.js` | 31.0 KB |
+| `test/audit-modules/report-generator.js` | 40.3 KB |
 | `test/audit-modules/ui-validation.js` | 14.8 KB |
 | `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
 | `test/basemap-honours-tilelayer-contract.test.js` | 6.6 KB |
@@ -2133,7 +2134,7 @@
 | `test/cross-surface-vintage-labels.test.js` | 10.7 KB |
 | `test/custom-pma-conclusions-blocked.test.js` | 28.1 KB |
 | `test/daily-audit-check-noise.test.js` | 10.9 KB |
-| `test/daily-audit-operations.test.js` | 23.4 KB |
+| `test/daily-audit-operations.test.js` | 26.1 KB |
 | `test/daily-audit-pr-progress.test.js` | 15.0 KB |
 | `test/daily-audit-repo-health.test.js` | 37.7 KB |
 | `test/daily-audit-signal.test.js` | 17.4 KB |
@@ -2215,6 +2216,7 @@
 | `test/econ-dash-yoy-change.test.js` | 4.3 KB |
 | `test/effective-demand.test.js` | 6.8 KB |
 | `test/energy-retrofit-funding.test.js` | 5.6 KB |
+| `test/entitled-land-findings.test.mjs` | 1.9 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 16.6 KB |
 | `test/epa-sld-local-lookup.test.js` | 13.2 KB |
 | `test/epa-walkability-d4a-distance.test.js` | 14.4 KB |
@@ -2393,7 +2395,7 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
-| `test/jurisdiction-whitepaper.test.mjs` | 38.2 KB |
+| `test/jurisdiction-whitepaper.test.mjs` | 38.5 KB |
 | `test/kalshi-signing-and-write.test.js` | 11.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 39.6 KB |
