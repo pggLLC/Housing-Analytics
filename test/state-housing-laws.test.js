@@ -29,10 +29,10 @@ for (const [g, r] of rows) {
 assert.equal(doc.jurisdictions['08031'].name, 'Denver', 'Denver is both city and county');
 assert.equal(doc.jurisdictions['0820000'].name, 'Denver');
 
-async function page(current) {
-  const dom = new JSDOM('<!doctype html><div id="m" data-state-laws></div>', { url: 'https://cohoanalytics.com/hna-who-lives-here.html', runScripts: 'outside-only' });
+async function page(current, selectHtml) {
+  const dom = new JSDOM('<!doctype html><div id="m" data-state-laws></div>' + (selectHtml || ''), { url: 'https://cohoanalytics.com/hna-who-lives-here.html', runScripts: 'outside-only' });
   const w = dom.window;
-  w.HNAState = { state: { current } };
+  w.HNAState = { state: { current }, els: { geoSelect: w.document.getElementById('geoSelect') } };
   w.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve(doc) });
   w.eval(read('js/components/state-housing-laws.js'));
   for (let i = 0; i < 5; i++) await tick();
@@ -59,6 +59,21 @@ async function page(current) {
   w = await page({ geoType: 'cdp', geoid: '0800320', label: 'Acres Green CDP', contextCounty: '08035' });
   t = w.document.getElementById('m').textContent;
   assert.match(t, /Acres Green CDP is unincorporated, so Douglas County's obligations apply/);
+
+  // The place selector hands a CDP over as geoType 'place' (#2564 review):
+  // its option's data-subtype, or its "(CDP)" label, still sends it to the county.
+  w = await page({ geoType: 'place', geoid: '0800320', label: 'Acres Green', contextCounty: '08035' },
+    '<select id="geoSelect"><option value="0800320" data-subtype="cdp" selected>Acres Green (CDP)</option></select>');
+  t = w.document.getElementById('m').textContent;
+  assert.match(t, /Acres Green is unincorporated, so Douglas County's obligations apply/);
+  w = await page({ geoType: 'place', geoid: '0800320', label: 'Acres Green (CDP)', contextCounty: '08035' });
+  t = w.document.getElementById('m').textContent;
+  assert.match(t, /State housing laws for Douglas County/);
+  assert.doesNotMatch(t, /doesn't include/);
+  // An incorporated town picked the same way keeps its own row.
+  w = await page({ geoType: 'place', geoid: '0828745', label: 'Fruita', contextCounty: '08077' },
+    '<select id="geoSelect"><option value="0828745" data-subtype="place" selected>Fruita</option></select>');
+  assert.match(w.document.getElementById('m').textContent, /State housing laws for Fruita/);
 
   // A town DOLA lists by name keeps its own row even when the census still
   // calls it a CDP (Keystone, #2564 review): no county fallback line.

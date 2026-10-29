@@ -53,6 +53,13 @@
     return /^08\d{3}$/.test(f) ? f : null;
   }
 
+  function isCdp(hna, cur) {
+    if (/\(CDP\)\s*$/i.test(cur.label || '')) return true;
+    var sel = hna.els && hna.els.geoSelect;
+    var opt = sel && sel.selectedOptions && sel.selectedOptions[0];
+    return !!(opt && opt.value === String(cur.geoid) && opt.getAttribute('data-subtype') === 'cdp');
+  }
+
   // { kind: 'loading' | 'none' | 'area' } or { kind: 'geo', geoid, label, viaCounty }
   function context() {
     var hna = global.HNAState;
@@ -64,8 +71,11 @@
       var cf = fips5(cur.geoid);
       return cf ? { kind: 'geo', geoid: cf, label: cur.label || '' } : { kind: 'none' };
     }
-    if (cur.geoType === 'place') return { kind: 'geo', geoid: String(cur.geoid), label: cur.label || '', county: fips5(cur.contextCounty) };
-    if (cur.geoType === 'cdp') {
+    // The place selector lists CDPs too and stores them as geoType 'place';
+    // the option's data-subtype (or the "(CDP)" label) says which they are,
+    // as hna-controller.js reads it.
+    if (cur.geoType === 'place' && !isCdp(hna, cur)) return { kind: 'geo', geoid: String(cur.geoid), label: cur.label || '', county: fips5(cur.contextCounty) };
+    if (cur.geoType === 'cdp' || cur.geoType === 'place') {
       var c = fips5(cur.contextCounty);
       return c ? { kind: 'geo', geoid: String(cur.geoid), label: cur.label || '', county: c, cdp: true } : { kind: 'none' };
     }

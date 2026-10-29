@@ -15,7 +15,6 @@ const en = page.getElementById('en');
 const es = page.getElementById('es');
 assert.equal(en.getAttribute('lang'), 'en');
 assert.equal(es.getAttribute('lang'), 'es');
-assert.match(page.querySelector('h1').textContent, /If You Need Housing Now/);
 // Both languages carry the same help lines and the same official links.
 for (const s of ['2-1-1', '(866) 760-6489', '898-211', '1-844-926-6632', '(303) 838-1200', '303-864-7810']) {
   assert.ok(en.textContent.includes(s), 'English has ' + s);
@@ -67,6 +66,9 @@ for (const a of d.querySelectorAll('a[data-lang-link]')) {
 // The member site is never sent to Google.
 d = nav('https://coho-backend.communityplanner.workers.dev/deal-calculator.html');
 assert.equal(d.querySelectorAll('a[data-lang-link]').length, 0);
-// The menu lists the page under its h1.
-assert.match(read('js/navigation.js'), /label: "If You Need Housing Now",\s*href: "housing-help\.html"/);
+// The menu names the page by its own h1: pin the agreement, not the wording
+// (AGENTS.md), so rewording both together stays green.
+const navEntry = read('js/navigation.js').match(/label: "([^"]+)",\s*href: "housing-help\.html"/);
+assert.ok(navEntry, 'the menu links housing-help.html');
+assert.equal(navEntry[1], page.querySelector('h1').textContent.trim(), 'menu label matches the page h1');
 console.log('housing-help: all checks passed');
