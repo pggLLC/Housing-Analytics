@@ -133,7 +133,7 @@
     <h1>Where Should I Build?</h1>
     <p>
       Every Colorado town, Census community and county, scored on what you care about: easy to build, incentives, land, need, rents,
-      recreation, local commitment (a housing needs assessment, a written goal, a housing authority) and how local voters lean. Move a slider to change how much each one counts.
+      recreation, jobs within reach, local commitment (a housing needs assessment, a written goal, a housing authority) and how local voters lean. Move a slider to change how much each one counts.
     </p>
     <p>
       Each row says in one sentence why it scored what it did, and opens to show every factor, its points and its source.
@@ -272,10 +272,11 @@
     getJSON('data/policy/fee-reductions.json'),
     getJSON('data/policy/local-housing-funds.json'),
     getJSON('data/policy/incentive-coverage.json'),
-    getJSON('data/policy/local-commitment.json')
+    getJSON('data/policy/local-commitment.json'),
+    getJSON('data/policy/job-access.json')
   ]).then(function (d) {
     var docs = { ranking: d[0], prop123: d[1], awards: d[2], lbStatus: d[3], hud: d[4], context: d[5],
-      support: d[6], fees: d[7], funds: d[8], coverage: d[9], commitment: d[10] };
+      support: d[6], fees: d[7], funds: d[8], coverage: d[9], commitment: d[10], jobs: d[11] };
     if (!docs.ranking) throw new Error('the HNA ranking could not be loaded');
     var model = W.build(docs, TODAY);
     var trackerLoad = null; // one Deal Tracker load per page view, shared by every render
@@ -289,13 +290,7 @@
 
     // ---- Weights live in the page link (?w=build.4,money.4,...) so a view can be shared.
     function readWeights() {
-      var w = W.defaultWeights();
-      var q = new URLSearchParams(location.search).get('w');
-      if (q) q.split(',').forEach(function (kv) {
-        var p = kv.split('.');
-        if (p[0] in w && /^[0-5]$/.test(p[1])) w[p[0]] = Number(p[1]);
-      });
-      return w;
+      return W.weightsFromQuery(new URLSearchParams(location.search).get('w'));
     }
     function writeWeights() {
       var q = new URLSearchParams(location.search);
@@ -473,6 +468,7 @@
         presVote: 'certified 2024 results, read ' + asOf(docs.context && docs.context.meta && docs.context.meta.votes_retrieved),
         hna: commitSrc('dola') + '; town and county documents read ' + commitSrc('research'),
         planGoal: 'plans read ' + commitSrc('research'),
+        jobAccess: 'LODES ' + (docs.jobs && docs.jobs.meta ? docs.jobs.meta.lodes_year + ', drive times ' + asOf(docs.jobs.meta.generated) : 'file not loaded'),
         authority: 'HUD file as of ' + commitSrc('hud') + '; ' + (cms.deals ? cms.deals.count + ' CHFA award summaries' : 'award summaries not loaded')
       };
       function commitSrc(k) { return cms[k] ? asOf(cms[k].as_of) : 'file not loaded'; }
