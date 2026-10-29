@@ -38,9 +38,10 @@ dashboard can fall back gracefully to its built-in mock data.
 @property {string}      metric        — stable camelCase key used in JSON output
 @property {string}      label         — human-readable label for the UI
 @property {string}      horizon       — description of the time horizon
-@property {string|null} seriesTicker  — Kalshi series ticker (e.g. "KXMORTGAGE30")
+@property {string|null} seriesTicker  — Kalshi series ticker (e.g. "KXMORTGAGERATE")
 @property {string|null} eventTicker   — Kalshi event ticker (overrides seriesTicker search)
 @property {string[]}    keywords      — fallback keyword search terms
+@property {string}      [note]        — one line under the label saying how to read the line
 
 ### `normalizePem(raw)`
 
@@ -80,6 +81,42 @@ Perform a GET request and return parsed JSON.
 Fetch markets matching a series ticker or event ticker.
 @param {MetricConfig} cfg
 @returns {Promise<Object[]>} array of Kalshi market objects
+
+### `MAX_SPREAD`
+
+Widest bid–ask gap (in dollars, i.e. probability points) at which the
+midpoint is still a fair read of the market. Wider than this, a line has
+too few traders to quote a figure.
+
+### `contractPrice(m)`
+
+Price of a contract's "yes" side, as a probability (0–1, two decimals).
+
+The midpoint of the best bid and best ask, when the two are within
+MAX_SPREAD of each other. A wider gap (or an empty side) is a thin line:
+prob is null and thin is true. This used to take the best bid alone, which
+on a thin September 2026 housing-starts ladder printed "above 1.15M: 71%"
+next to "above 1.10M: 32%" — impossible, since the lower line must be at
+least as likely. The last trade is no fallback: on that ladder it was just
+as contradictory (54% above 1.30M, 36% above 1.25M).
+@param {Object} m
+@returns {{prob: number|null, bid: number|null, ask: number|null, thin: boolean}}
+
+### `strikeOf(m)`
+
+Threshold of an "above X" ladder line, from Kalshi's floor_strike or the
+title. null when the contract is not a threshold line.
+@param {Object} m
+@returns {number|null}
+
+### `enforceLadder(markets, outcomes)`
+
+A ladder must get no less likely as its threshold falls ("above 1.10M" is
+at least as likely as "above 1.15M"). When the priced lines break that,
+none of them is a reliable read: every line is marked thin, unpriced.
+@param {Object[]} markets
+@param {Object[]} outcomes — same order as markets
+@returns {Object[]}
 
 ### `normalizeMarket(cfg, markets)`
 

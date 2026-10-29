@@ -21,6 +21,28 @@ distinction is the entire subject of this codebase.
 
 ## Symbols
 
+### `DEAL_PACKAGES`
+
+The Deal Calculator packages Phase 2 has to finish (docs/FINISH-LINE.md,
+agreed by the owner 2026-10-14), in the order they must merge.
+
+A package is done when its PR names the guard that holds its acceptance
+cases and that guard is reachable from test:ci — the standard O2 applies to
+the market-study artifacts. A closed issue is not evidence: issues close by
+hand, and this audit runs offline.
+
+Each package's PR sets its own `guard` here. Every guard must be distinct;
+two packages pointing at one script means one of them is not held.
+
+### `evaluateDealPackages(packages, reachable)`
+
+Decide O3 from the package list and the set of scripts reachable from
+test:ci. Separated out, like evaluateGuidedPath, so the failing cases can be
+tested with lists the repo does not contain.
+
+An empty list is OPEN, never PASS: a list that names nothing has nothing to
+say about whether the work is done.
+
 ### `evaluateGuidedPath(route, existsFn)`
 
 Decide G1 from a route and a file-existence oracle.

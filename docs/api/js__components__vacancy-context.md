@@ -7,7 +7,7 @@ Renders a vacancy-rate context card on the PMA page.
 Data landscape for Colorado vacancy:
   • Census ACS B25004 (5-year estimates) — best FREE machine-readable
     source. Tract-level, annual, ~18 mo lag. Already cached in
-    data/market/acs_tract_metrics_co.json (1,447 CO tracts, 2023 vintage).
+    data/market/acs_tract_metrics_co.json (1,447 CO tracts, ACS 2020-2024 vintage).
     We use this as the primary value below.
   • Colorado Division of Housing (DOH) + CHFA quarterly Multi-Family
     Vacancy & Rent Survey — historically the gold standard. DOH sponsorship

@@ -29,8 +29,12 @@ Exposed as window.LIHTCDealPredictor (browser) and module.exports (Node/test).
 @property {string}   [pmaConfidence]        — 'high'|'medium'|'low'
 @property {number}   [proposedUnits]        — total proposed units
 @property {number}   [ami30UnitsNeeded]     — units needed at 30% AMI (HNA gap)
-@property {number}   [ami50UnitsNeeded]     — units needed at 50% AMI
-@property {number}   [ami60UnitsNeeded]     — units needed at 60% AMI
+@property {string}   [ami30Scope]           — 'area' (a county or HNA shortfall) | 'project' (the building's own 30% AMI units)
+@property {number}   [ami50UnitsNeeded]     — units needed at 31–50% AMI (a band, not "at or below 50%")
+@property {number}   [ami60UnitsNeeded]     — units needed at 51–60% AMI (a band; see amiShortfallFromCounty)
+@property {Object}   [amiGapCumulative]     — { '30','50','60' } shortfall at or below each threshold, for the need notes
+@property {number}   [need20yr]             — 20-year housing need, one unsplit total (need notes only)
+@property {Object}   [mixContext]           — buildMixContext() result; defaults to the files this module loads
 @property {number}   [totalUndersupply]     — total affordable unit gap
 @property {number}   [competitiveSetSize]   — LIHTC projects within 1 mile
 @property {boolean}  [isQct]                — Qualified Census Tract flag
@@ -69,6 +73,26 @@ Load non-pricing assumptions from data/policy/lihtc-assumptions.json and
 current equity pricing from data/market/novogradac-equity-pricing.json.
 The assumptions file may document synced fallback pricing, but it must not
 override the centralized constants or the Novogradac benchmark.
+
+### `whenMixDataReady()`
+
+Resolves once the mix-check files have loaded (or failed); browser only.
+
+### `amiShortfallFromCounty(county)`
+
+The county AMI gap file (data/co_ami_gap_by_county.json) gives each threshold
+as units minus households AT OR BELOW it, so the ≤30, ≤50 and ≤60 figures
+overlap: summing them counts the ≤30% households three times. This returns
+the shortfalls as they are (amiGapCumulative) and as non-overlapping bands
+(ami30/50/60UnitsNeeded) whose sum is the largest of the three shortfalls.
+A band whose cumulative shortfall falls (cheaper homes missing, not the
+band's own) adds nothing. Unknown thresholds stay null.
+
+### `buildMixContext(files, countyFips)`
+
+Everything the mix check needs for one county, read from the files in
+MIX_FILES (plus the underwriting rules). Pure: tests pass the files in.
+A file or record that is missing leaves its part null, never 0.
 
 ### `_HARD_COST_MULTIPLIERS_BY_FIPS`
 
@@ -122,6 +146,14 @@ Returns a matrix object the renderer can drop into a single table.
 @param {{studio,oneBR,twoBR,threeBR,fourBRPlus}} unitMix - bedroom marginals
 @param {string} conceptType                - family|seniors|mixed-use|supportive
 @returns {{tiers:Array, totals:Object, methodology:string}}
+
+### `_computeMixCheck(inputs, amiMix, conceptType, matrix)`
+
+The need notes and the 15-year pencil test (js/mix-check.js) for the
+recommended AMI mix. The typical mix itself is unchanged; this says what
+the homes-short counts miss and whether the mix pays its own way.
+Returns { notes, workforce, burden, pencil, sentence, tierLines,
+assumptionsText, sources } or { unavailableReason, pending }.
 
 ### `predictConcept(inputs)`
 

@@ -47,6 +47,11 @@ Derive a household growth rate from DOLA projection data.
 Uses incremental_units_needed_dola or households_dola arrays.
 Returns annual rate as a decimal, or null if data unavailable.
 
+### `_dolaIncrementalNeed(dolaProj)`
+
+DOLA cumulative homes-needed series (housing_need.incremental_units_needed_dola)
+at 5, 10 and 20 years past the 2024 base year, or null when absent.
+
 ### `project(fips, countyData, options)`
 
 @param {string}  fips        5-digit FIPS (e.g. "08001")
@@ -89,7 +94,23 @@ Fetches DOLA projection if available, runs project(), injects HTML.
                 demographics rows keyed by name don't carry a .name
                 field, so without this the intro shows the raw FIPS.
 
-### `renderAmiRecommendation(containerId, countyData)`
+### `mixCheckFor(rec, inputs, MixCheck, MixCheckInputs)`
+
+The need notes and 15-year pencil check (js/mix-check.js) for the preset
+recommendAmiMix picked. Percent shares stand in for units, so the mix is
+tested as a nominal 100-unit building; the 100% AMI slice has no CHFA
+tax-credit rent, so it is left out and named. Pure.
+@param {AmiRecommendation} rec
+@param {Object} inputs  MixCheckInputs.build() result
+@param {Object} MixCheck
+@param {Object} MixCheckInputs
+@returns {{ units: Object, leftOut: number|null, result: Object, lead: string }}
+
+### `renderAmiRecommendation(containerId, countyData, options)`
 
 @param {string} containerId
 @param {Object} countyData
+@param {Object} [options]
+@param {string} [options.countyFips]  enables the need notes and 15-year check
+@param {string} [options.placeGeoid]  place CHAS is used when the place has it
+@param {string} [options.placeName]

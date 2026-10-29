@@ -56,18 +56,25 @@ Uses year_alloc to classify projects into recency stages.
 @param {number} miles - buffer radius
 @returns {object} pipelineResult
 
-### `generateScenarios(acs, existingUnits, scenarioList, denominator, scorer)`
+### `generateScenarios(acs, existingUnits, scenarioList, denominator, scorer, penetrationDenominator, checkExistingUnits)`
 
 Run multiple what-if scenarios for different proposed unit counts.
 @param {object} acs - aggregated ACS metrics
 @param {number} existingUnits - existing LIHTC units in buffer
 @param {Array}  scenarioList - array of {label, proposedUnits, amiMix}
 @param {number} [denominator] - the renter-household count the page's
-  other capture rates divide by (market-analysis.js captureDenominator).
+  simulator's capture rate divides by (market-analysis.js
+  projectCaptureDenominator).
   Without it the table used ACS renter_hh while the headline and the
   simulator used CHAS LIHTC-eligible renters (audit F3).
 @param {Function} [scorer] - units -> computePma result with the
   headline's inputs (market-analysis.js _scenarioScorer).
+@param {number} [penetrationDenominator] - renters qualified for any
+  tax-credit tier, for the 85% check (CHFA 2027-28 draft QAP) on existing + proposed units;
+  the capture denominator when absent.
+@param {number} [checkExistingUnits] - existing tax-credit units for that
+  check (CHFA's table counts tax-credit units only); existingUnits when
+  absent.
 @returns {Array} scenarioResults
 
 ### `exportWithMetadata(result, quality, scenarios, benchmark, pipeline)`

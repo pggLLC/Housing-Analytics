@@ -5,9 +5,16 @@ rent-vs-buy-breakeven.js
 Renders the "Rent vs Buy Breakeven" mini-calculator on the Deal
 Calculator page. Given a home price, monthly rent, mortgage rate,
 property tax rate, maintenance %, and rent escalation rate, it
-computes the year at which cumulative ownership costs (mortgage
-payments + tax + maintenance - principal paydown - equity
-appreciation) drop below cumulative rent paid.
+computes the first year in which the net cost of buying drops below
+cumulative rent paid. Net cost of buying through year t is
+
+  cumulative owning payments (P&I + property tax + maintenance)
+  + down payment + buyer closing costs
+  + forgone return on the down payment
+  - net sale proceeds (home value - loan balance - selling costs)
+
+The down payment is counted as an outflow and comes back only through
+the sale proceeds, so it is never counted as a gain.
 
 Why this matters for LIHTC analysts (per Phase 3 / C2)
 ------------------------------------------------------

@@ -70,3 +70,7 @@ Return a county-vs-state comparison for the latest year:
 
 Build ready-to-render HTML for a county HMDA context callout.
  Returns '' when data is unavailable.
+
+### `vintageRange(state)`
+
+"2018–2025" from the state file's own year list, or null.

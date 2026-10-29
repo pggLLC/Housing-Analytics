@@ -35,8 +35,11 @@ COMPUTE + RECONCILE
   4. Match each issuer name to the site's geoid (county FIPS or place GEOID)
      via data/hna/ranking-index.json.
 
-SOURCE: https://doh.colorado.gov/PAB-Allocations-2025
-Re-run: `node scripts/fetch-pab-allocations.mjs`  (or `--html <file>` to
-parse a saved copy when DOLA blocks automated fetches with a 403).
+SOURCE: doh.colorado.gov, page private-activity-bond-direct-allocations-<YEAR>
+  (2024 and 2025 used the page PAB-Allocations-<YEAR>)
+Re-run: `node scripts/fetch-pab-allocations.mjs [--year 2026]`  (or
+`--html <file>` to parse a saved copy when DOLA blocks automated fetches
+with a 403). The year defaults to the current calendar year; it was typed
+as 2025 until 2026-10, so the annual run kept re-reading the 2025 page.
 
 _No documented symbols — module has a file-header comment only._
