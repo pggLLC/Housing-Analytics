@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-10-28T09:51:26Z",
-    "as_of": "2026-10-28",
+    "generated": "2026-10-29T10:12:11Z",
+    "as_of": "2026-10-29",
     "stale_days": 30,
-    "events_as_of": "2026-10-28",
+    "events_as_of": "2026-10-29",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,7 +14,7 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [
         {
           "title": "New documentary aims to unmask Colorado Springs’ serial ‘poop bandit’",
@@ -138,7 +138,7 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [
         {
           "title": "Denver Development Brings Housing Opportunities to Older Adults",
@@ -255,7 +255,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [
         {
           "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
@@ -289,7 +289,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [
         {
           "title": "Judge rules Ridgway hotel can’t house workers building Telluride’s Four Seasons resort",
@@ -323,7 +323,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -348,7 +348,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [
         {
           "title": "Garfield County commissioners approve rezoning for nearly 100 homes west of Glenwood Springs",
@@ -373,7 +373,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [
         {
           "title": "Rifle City Council approves ADU code changes, water system improvements",
@@ -396,7 +396,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -420,7 +420,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [
         {
           "title": "Rifle City Council approves ADU code changes, water system improvements",
@@ -454,7 +454,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -479,7 +479,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [],
       "events": [],
       "reasons": []
@@ -491,7 +491,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [],
       "events": [],
       "reasons": [
@@ -505,7 +505,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [],
       "events": [],
       "reasons": []
@@ -517,7 +517,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [],
       "events": [],
       "reasons": []
@@ -529,7 +529,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [],
       "events": [],
       "reasons": []
@@ -541,7 +541,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [],
       "events": [],
       "reasons": [
@@ -555,7 +555,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [],
       "events": [],
       "reasons": []
@@ -567,7 +567,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 10,
+      "days_since_review": 11,
       "stories": [],
       "events": [],
       "reasons": []
