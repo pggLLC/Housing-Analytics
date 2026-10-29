@@ -9,6 +9,7 @@ const {
     collectAccuracy,
     collectDataWorkflows,
     collectDeadlines,
+    collectEntitledLand,
     collectMemberSite,
     collectReviewFollowups,
 } = require('./operations-status');
@@ -658,6 +659,7 @@ async function collectRepoHealth({ env = process.env, fetchImpl = fetch, now = D
         accuracy: null,
         issueInventory: null,
         deadlines: null,
+        entitledLand: null,
     };
     // Deadlines are a file in the checkout, so they are read with or without
     // a token; a malformed file is unavailable like any other section.
@@ -666,6 +668,11 @@ async function collectRepoHealth({ env = process.env, fetchImpl = fetch, now = D
         empty.deadlines = collectDeadlines(now);
     } catch (err) {
         localChecks.push(unavailableCheck('Upcoming Deadlines', 'data/deadlines.json unreadable', err && err.message ? err.message : String(err)));
+    }
+    try {
+        empty.entitledLand = collectEntitledLand(now);
+    } catch (err) {
+        localChecks.push(unavailableCheck('Entitled Land', 'data/entitled-land/findings.json unreadable', err && err.message ? err.message : String(err)));
     }
 
     if (!repoSlug) {

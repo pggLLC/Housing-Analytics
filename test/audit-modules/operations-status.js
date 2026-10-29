@@ -10,6 +10,9 @@
  *  - Review Follow-ups: open issues from Codex reviews, and bot watch issues
  *    nobody is assigned to.
  *  - Upcoming Deadlines: the next 14 days of data/deadlines.json.
+ *  - Entitled Land: significant findings from the last 7 days of
+ *    data/entitled-land/findings.json, the public summary of the members-only
+ *    list. The file names no site, so nothing gated reaches this public job.
  *  - Source & Figure Accuracy: broken source links and hand-verified figures
  *    past their review date. Accuracy, not freshness: data-freshness-check
  *    and benchmark-freshness already cover cadence.
@@ -272,6 +275,39 @@ function collectDeadlines(nowMs, file = DEADLINES_FILE) {
     return { today, windowDays: DEADLINE_WINDOW_DAYS, upcoming: upcomingDeadlines(doc, today) };
 }
 
+// ── Entitled Land ────────────────────────────────────────────────────────────
+
+const ENTITLED_LAND_FILE = path.join(ROOT, 'data', 'entitled-land', 'findings.json');
+const ENTITLED_LAND_WINDOW_DAYS = 7;
+
+/** Throws on a malformed file, so a typo reads as unavailable, not as "nothing new". */
+function entitledLandSummary(doc, today, days = ENTITLED_LAND_WINDOW_DAYS) {
+    if (!doc || !Array.isArray(doc.findings)) throw new Error('data/entitled-land/findings.json has no findings array');
+    if (!/^https:\/\//.test(String(doc.member_page || ''))) throw new Error('data/entitled-land/findings.json: member_page must be an https URL');
+    for (const entry of doc.findings) {
+        if (!entry || !/^\d{4}-\d{2}-\d{2}$/.test(String(entry.first_seen)) || !entry.finding || typeof entry.significant !== 'boolean') {
+            throw new Error(`data/entitled-land/findings.json: entry needs first_seen (YYYY-MM-DD), finding and a boolean significant: ${JSON.stringify(entry)}`);
+        }
+    }
+    const since = addDays(today, -days);
+    return {
+        checked: doc.checked || null,
+        memberPage: doc.member_page,
+        windowDays: days,
+        recent: doc.findings
+            .filter(entry => entry.significant && entry.first_seen > since && entry.first_seen <= today)
+            .sort((a, b) => b.first_seen.localeCompare(a.first_seen))
+            .map(entry => ({ firstSeen: entry.first_seen, region: entry.region || null, finding: entry.finding })),
+    };
+}
+
+/** A file not yet published is "not published", not an error. */
+function collectEntitledLand(nowMs, file = ENTITLED_LAND_FILE) {
+    if (!fs.existsSync(file)) return { published: false };
+    const doc = JSON.parse(fs.readFileSync(file, 'utf8'));
+    return { published: true, ...entitledLandSummary(doc, denverDay(nowMs)) };
+}
+
 // ── Source & Figure Accuracy ─────────────────────────────────────────────────
 
 const URL_HEALTH_FILE = path.join(ROOT, 'data', 'url-health.json');
@@ -394,9 +430,11 @@ module.exports = {
     collectAccuracy,
     collectDataWorkflows,
     collectDeadlines,
+    collectEntitledLand,
     collectMemberSite,
     collectReviewFollowups,
     dataWorkflowProblems,
+    entitledLandSummary,
     denverDay,
     isDataWorkflow,
     latestDataRunsToReview,
@@ -409,5 +447,6 @@ module.exports = {
     upcomingDeadlines,
     urlHealthSummary,
     DEADLINES_FILE,
+    ENTITLED_LAND_FILE,
     URL_HEALTH_FILE,
 };
