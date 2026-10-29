@@ -1,0 +1,73 @@
+{
+  "about": "Public summary of the members-only entitled land list (land for sale approved, or zoned, for a 30 to 50 home townhome-style tax credit deal). Sites, sources and contacts are on the members page; this file carries only counts by region and one-line findings with no site named.",
+  "checked": "2026-10-29",
+  "member_page": "https://coho-backend.communityplanner.workers.dev/developer-entitled-land.html",
+  "regions": [
+    {
+      "region": "Front Range",
+      "tier1": 3,
+      "tier2": 0,
+      "tier3": 0
+    },
+    {
+      "region": "Western Slope",
+      "tier1": 1,
+      "tier2": 2,
+      "tier3": 7
+    },
+    {
+      "region": "Mountains",
+      "tier1": 2,
+      "tier2": 1,
+      "tier3": 1
+    },
+    {
+      "region": "Southwest",
+      "tier1": 0,
+      "tier2": 0,
+      "tier3": 1
+    },
+    {
+      "region": "San Luis Valley",
+      "tier1": 0,
+      "tier2": 0,
+      "tier3": 0
+    },
+    {
+      "region": "Eastern Plains",
+      "tier1": 0,
+      "tier2": 0,
+      "tier3": 0
+    }
+  ],
+  "findings": [
+    {
+      "id": "2026-10-29-statewide",
+      "first_seen": "2026-10-29",
+      "region": "All",
+      "finding": "The entitled land list now covers every Colorado region: 18 sites, 6 approved for 30 or more homes.",
+      "significant": true
+    },
+    {
+      "id": "2026-10-29-mountains-49",
+      "first_seen": "2026-10-29",
+      "region": "Mountains",
+      "finding": "A Mountains site is listed with an approved plan for 49 townhomes, the best new fit for a 30 to 50 home deal.",
+      "significant": true
+    },
+    {
+      "id": "2026-10-29-ws-town-checks",
+      "first_seen": "2026-10-29",
+      "region": "Western Slope",
+      "finding": "Town records show two Western Slope sites listed as entitled are not: one plat has been under city review since 2023, and one approval likely lapsed in April 2026.",
+      "significant": true
+    },
+    {
+      "id": "2026-10-29-none-slv-plains",
+      "first_seen": "2026-10-29",
+      "region": "San Luis Valley, Eastern Plains",
+      "finding": "No entitled or zoned site was found for sale in the San Luis Valley or the Eastern Plains.",
+      "significant": false
+    }
+  ]
+}
