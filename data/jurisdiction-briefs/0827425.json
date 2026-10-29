@@ -222,7 +222,7 @@
           ]
         },
         {
-          "text": "In the Opportunity Finder this record adds a local support bonus of +2 of a possible +6 points as of October 10, 2026: plans +0, incentives and funding +2, council and planning commission +0. A part with nothing counted adds nothing; it never lowers the score.",
+          "text": "In the Opportunity Finder this record adds a local support bonus of +2 of a possible +6 points as of October 29, 2026: plans +0, incentives and funding +2, council and planning commission +0. A part with nothing counted adds nothing; it never lowers the score.",
           "cites": [
             "ls1"
           ]
@@ -530,33 +530,6 @@
       "accessed": "2026-07-07"
     },
     {
-      "id": "ls1",
-      "label": "Local support record for City of Fort Collins, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0827425",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "Fort Collins Municipal Code ch. 7.5 art. VIII (Municode API)",
-      "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH7.5FE_ARTVIIIFECRAFHO",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "d-fortcollins-fee-credit",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "Fort Collins Municipal Code ch. 23, art. XIII Land Banking (Municode API)",
-      "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH23PUPR_ARTXIIILABA",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-fortcollins-affordable-housing-land-bank",
-      "accessed": "2026-10-10"
-    },
-    {
       "id": "s-howes-2026",
       "label": "City Council regular meeting agenda, April 21, 2026, item 22 (Resolution 2026-060) — City of Fort Collins",
       "url": "https://meetings.municode.com/adaHtmlDocument/index?cc=FORTCOLLCO&ip=True&me=0507f97438d4498aacff5dc939081b29",
@@ -778,6 +751,33 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for City of Fort Collins, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0827425",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Fort Collins Municipal Code ch. 7.5 art. VIII (Municode API)",
+      "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH7.5FE_ARTVIIIFECRAFHO",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "d-fortcollins-fee-credit",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Fort Collins Municipal Code ch. 23, art. XIII Land Banking (Municode API)",
+      "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH23PUPR_ARTXIIILABA",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-fortcollins-affordable-housing-land-bank",
+      "accessed": "2026-10-10"
     }
   ]
 }
