@@ -187,7 +187,7 @@
     LANG_CONTEXT_PARAMS.forEach(function (k) { if (u.searchParams.has(k)) keep.set(k, u.searchParams.get(k)); });
     u.search = keep.toString() ? '?' + keep.toString() : '';
     u.hash = '';
-    return 'https://translate.google.com/translate?sl=en&tl=es&hl=es&u=' + encodeURIComponent(u.toString());
+    return 'https://translate.google.com/translate?sl=en&tl=es&hl=es&u={page}'.replace('{page}', function () { return encodeURIComponent(u.toString()); });
   }
   // The header shows "ES" (named "Español" for screen readers): the full word
   // wrapped the menu to two rows at 1366px. The drawer and footer spell it out.

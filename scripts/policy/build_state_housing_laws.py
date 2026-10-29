@@ -31,8 +31,8 @@ from datetime import date
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 OUTPUT = os.path.join(ROOT, 'data', 'policy', 'state-housing-laws.json')
 SHEET_ID = '1dGcQTZ9X_3CUipeQ1q15xZLFMtGvzFgwfWrGDSkYo04'
-SHEET_URL = 'https://docs.google.com/spreadsheets/d/%s/edit' % SHEET_ID
-CSV_URL = 'https://docs.google.com/spreadsheets/d/%s/export?format=csv' % SHEET_ID
+SHEET_URL = f'https://docs.google.com/spreadsheets/d/{SHEET_ID}/edit'
+CSV_URL = f'https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv'
 MIN_ROWS = 330
 
 # DOLA's column heading (first line) -> our entry. "plain" restates the law in
