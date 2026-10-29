@@ -23,6 +23,7 @@
   var _homeRentTable = null;    // data/hud-home-rent-limits-co-2026.json
   var _prop123Rules = null;     // data/policy/prop123-rental-rules.json
   var _costRules = null;        // data/policy/lihtc-underwriting-rules.json (#2160)
+  var _chfaTables = null;       // data/policy/chfa-common-app-tables.json (CHFA's 2027 workbook limits)
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var _equityPricingDefaults = {
@@ -2191,6 +2192,15 @@
           <p id="dc-qct-dda-note" role="status" style="display:none;font-size:var(--tiny);color:var(--accent);margin:0.3rem 0 0;font-weight:600;"></p>
         </div>
         <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Building type, for CHFA's cost basis limits</span>
+          <select id="dc-building-type"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+            <option value="" selected>Not chosen</option>
+            <option value="elevator">Elevator</option>
+            <option value="walk_up">Walk-up</option>
+          </select>
+        </label>
+        <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Floor area of the units counted as LIHTC units (SF)
             <span style="color:var(--muted)">&mdash; needed only when some units are unrestricted</span></span>
           <input id="dc-restricted-sf" type="number" min="0" step="100" placeholder="not entered"
@@ -3515,7 +3525,7 @@
 
     // Attach event listeners
     document.getElementById('dc-edit-unit-mix').addEventListener('click', editMixHere);
-    const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-boost-pct', 'dc-units', 'dc-sale-target-ami',
+    const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-boost-pct', 'dc-building-type', 'dc-units', 'dc-sale-target-ami',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-pf-cap-rate', 'dc-pf-cap-lvr', 'dc-pf-appraised', 'dc-pf-appraised-lvr',
       'dc-asset-mgmt-fee', 'dc-asset-mgmt-growth', 'dc-bridge-ds', 'dc-bridge-years',
@@ -4255,7 +4265,7 @@
       manualMarket: _resolvedDealMix.available ? null : readManualMarketInputs(),
       hasUnitMixWarning: !!document.getElementById('dc-units-sync-warn'),
       tranches: typeof window.DealCalcSoftTranches === 'function' ? (window.DealCalcSoftTranches() || []) : [],
-      costLines: readCostLines(), costRules: _costRules,
+      costLines: readCostLines(), costRules: _costRules, chfaCommonAppTables: _chfaTables,
       operatingLines: operating ? operating.lines : null, otherIncomeLines: operating ? operating.income : null,
       fmrData: window.HudFmr && _countyFips ? window.HudFmr.getFmrByFips(_countyFips) : null };
   }
@@ -4624,8 +4634,11 @@
       row('CHFA per-project limit', basis.cap.applied ? fmt(basis.cap.amount) : 'Not applied', (basis.cap.reason || basis.cap.citation || '') + (basis.cap.applied ? ' ' + costBasisModule().APPLICANT_LIMIT_NOTE : ''));
       row('Method Two: gap calculation', basis.gapMethod.applied ? fmt(basis.gapMethod.credit) : 'Not calculated',
         basis.gapMethod.applied ? (basis.gapMethod.binding ? basis.gapMethod.reason : 'Uses not covered by sources other than federal and state credit equity: ' + fmt(Math.max(0, basis.gapMethod.gap)) + ', divided by the credit price and 10 years (' + basis.gapMethod.citation + ').') : basis.gapMethod.reason);
-      row('Method Three: cost basis limits', 'Not checked', basis.costLimitMethod.reason);
-      row('Credit capacity', money(basis.capacity, 'Not available'), basis.capacity == null && basis.reasons.capacity ? basis.reasons.capacity : 'The smaller of Method One and Method Two. Method Three is not checked.');
+      var m3 = basis.costLimitMethod || {};
+      row('Method Three: cost basis limits (draft)', m3.checked ? fmt(m3.credit) : 'Not checked',
+        m3.checked ? (m3.lower ? 'Lower than the capacity below: CHFA would reserve no more than ' + fmt(m3.credit) + ' if these limits are adopted. ' : '') + m3.reason : m3.reason);
+      row('Credit capacity', money(basis.capacity, 'Not available'), basis.capacity == null && basis.reasons.capacity ? basis.reasons.capacity
+        : 'The smaller of Method One and Method Two. Method Three uses limits from CHFA\'s 2027 workbook under a draft QAP, so it is shown above but not applied.');
     }
 
     heading('Cost per unit and per square foot');
@@ -6157,6 +6170,7 @@
     loadJson('data/hud-home-rent-limits-co-2026.json').then(function (t) { setProgramRentTables(t, undefined); });
     loadJson('data/policy/prop123-rental-rules.json').then(function (t) { setProgramRentTables(undefined, t); });
     loadJson('data/policy/lihtc-underwriting-rules.json').then(function (t) { _costRules = t; recalculate(); });
+    loadJson('data/policy/chfa-common-app-tables.json').then(function (t) { _chfaTables = t; recalculate(); });
 
     // Phase-4 follow-up — re-scan for <abbr data-glossary> tags now that the
     // output panel HTML has been injected. The inline-glossary boot fires on

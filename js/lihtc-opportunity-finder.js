@@ -94,6 +94,7 @@
     // line can drop them when the live feed catches up.
     chfa2026R1ByCity: {},           // _cityKey(city) → [award records]
     chfa2026R1Meta: null,           // bridge-file metadata (round, announcement date, totals)
+    chfaLocation: null,             // draft 2027 Common Application location points (counties, cities by _cityKey)
     opportunities: [],
     map: null,
     layers: { jurisdiction: null, dda: null, qct: null, oz: null, highlight: null },
@@ -922,7 +923,11 @@
       loadSoft('data/policy/incentive-coverage.json'),
       // parts[31]: CHFA's minimum pro forma assumptions for the detail panel's
       // 15-year rent check (js/mix-check.js). Soft load: missing hides the check.
-      loadSoft('data/policy/lihtc-underwriting-rules.json')
+      loadSoft('data/policy/lihtc-underwriting-rules.json'),
+      // parts[32]: location points from CHFA's draft 2027 Common Application
+      // (county lowest-AMI points, city renter cost-burden tiers). Detail panel
+      // only; no score uses it. Soft load: missing hides the row.
+      loadSoft('data/policy/chfa-common-app-tables.json')
     ]).then(function (parts) {
       // Build QCT tract-ID set
       (parts[0].features || []).forEach(function (f) {
@@ -1191,6 +1196,7 @@
       // The 15-year rent check reads the CHFA limits, the underwriting rules and
       // the funding guide already loaded above. Display only; no score uses it.
       state.mixFiles = { limits: parts[26] || null, rules: parts[31] || null };
+      state.chfaLocation = _chfaLocationIndex(parts[32]);
 
       // F121 — CHFA watchlist (parts[24]). Index by place_geoid so the table
       // renderer can append a W badge when the row matches. We zero-pad the
@@ -2049,6 +2055,36 @@
     }
     if (market.fmrAreaName) html += '<br>FMR area: ' + escHtml(market.fmrAreaName) + ' · source: ' + escHtml(_fmrVintageLabel(market));
     return html;
+  }
+
+  // Location points a place would claim on CHFA's draft 2027 Common
+  // Application. The workbook looks the city up by its exact name and gives 0
+  // when the name is not listed; _cityKey only absorbs accents and spelling
+  // ("Canon City" / "Cañon City"), so a listed place still matches.
+  function _chfaLocationIndex(doc) {
+    if (!doc || !doc.counties || !doc.city_cost_burden_points) return null;
+    var cities = {};
+    Object.keys(doc.city_cost_burden_points).forEach(function (name) {
+      cities[_cityKey(name)] = { name: name, points: doc.city_cost_burden_points[name] };
+    });
+    return { counties: doc.counties, cities: cities, source: doc.source || {} };
+  }
+
+  function _chfaLocationFacts(op, idx) {
+    if (!idx || !op) return null;
+    var county = idx.counties[op.containingCounty];
+    var city = idx.cities[_cityKey(op.name)];
+    var parts = [];
+    parts.push(county
+      ? 'Lowest-AMI county: <strong>' + county.lowest_ami_points + '</strong> (' + escHtml(county.name) + ' County)'
+      : 'Lowest-AMI county: not available');
+    parts.push(city
+      ? 'Renter cost burden: <strong>' + city.points + '</strong> (' + escHtml(city.name) + ')'
+      : 'Renter cost burden: <strong>0</strong> (' + escHtml(op.name) + ' is not on CHFA\'s city list, so the workbook gives 0)');
+    return parts.join(' · ') +
+      '<br><span style="color:var(--muted);font-size:.8125rem">Draft, October 2026: from CHFA\'s <a href="' +
+      escHtml(idx.source.page_url || 'https://www.chfainfo.com/rental-housing/housing-credit/application') +
+      '" target="_blank" rel="noopener">2027 Common Application V9 ↗</a>. It follows the 2027-28 QAP Third Draft (posted 2026-09-11, not adopted). Each table tops out at 20 points. Not part of any score here.</span>';
   }
 
   // 15-year rent check for the selected place's county: what one unit at each
@@ -3971,6 +4007,10 @@
         var mp = _mixPencilFacts(op.containingCounty, state.mixFiles);
         return mp ? '<dt>15-year rent check (2BR)</dt><dd>' + mp + '</dd>' : '';
       })() +
+      (function () {
+        var lp = _chfaLocationFacts(op, state.chfaLocation);
+        return lp ? '<dt>CHFA location points (draft 2027)</dt><dd>' + lp + '</dd>' : '';
+      })() +
       '<dt>3 nearest LIHTC properties (for PMA scoping)</dt><dd>' +
         (op.nearestLihtc.length === 0
           ? '<span style="color:var(--muted)">No LIHTC properties anywhere in CO have lat/lng data — cannot compute nearest.</span>'
@@ -5374,6 +5414,8 @@
       actionReasons: _opActionReasons,
       passesCaptureRequirement: _passesCaptureRequirement,
       zoriCaptureForMarket: _zoriCaptureForMarket,
+      chfaLocationIndex: _chfaLocationIndex,
+      chfaLocationFacts: _chfaLocationFacts,
       projectMetaTail: _projectMetaTail,
       qctMapStatus: _qctMapStatus,
       populationFromRanking: _populationFromRanking,
