@@ -64,7 +64,7 @@
 
   /* ── SVG sparkline with CI band ─────────────────────────────────── */
 
-  function _buildChart(history, forecast, creditType) {
+  function _buildChart(history, forecast, creditType, width) {
     var key = creditType === '4%' ? 'four' : 'nine';
     var label = creditType === '4%' ? '4%' : '9%';
 
@@ -84,12 +84,16 @@
     var range = maxVal - minVal || 0.10;
 
     var totalPts = hist.length + forecast.length;
-    var W = 520;
-    var H = 140;
-    var padL = 40;
-    var padR = 10;
-    var padT = 10;
-    var padB = 28;
+    // Drawn at the width it is shown at, so one drawing unit is one pixel
+    // and the 11-12 px labels stay readable. A fixed 520-wide drawing
+    // shrank its labels to under 3 px in the phone column.
+    var W = Math.max(180, Math.min(520, Math.round(width || 520)));
+    var narrow = W < 420;
+    var H = narrow ? 170 : 150;
+    var padL = 46;
+    var padR = 12;
+    var padT = 14;
+    var padB = 30;
     var chartW = W - padL - padR;
     var chartH = H - padT - padB;
 
@@ -121,11 +125,11 @@
 
     // Y-axis labels
     var yLabels = '';
-    var steps = 5;
+    var steps = narrow ? 4 : 5;
     for (var s = 0; s <= steps; s++) {
       var val = minVal + (range * s / steps);
       yLabels += '<text x="' + (padL - 4) + '" y="' + (y(val) + 3) + '" ' +
-        'font-size="9" fill="var(--muted)" text-anchor="end">$' + val.toFixed(2) + '</text>';
+        'font-size="11" fill="var(--muted)" text-anchor="end">$' + val.toFixed(2) + '</text>';
       yLabels += '<line x1="' + padL + '" y1="' + y(val) + '" x2="' + (W - padR) + '" y2="' + y(val) + '" ' +
         'stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,3"/>';
     }
@@ -142,10 +146,10 @@
       while (qn > 4) { qn -= 4; yr++; }
       allQuarters.push(yr + '-Q' + qn);
     }
-    for (var xi = 0; xi < allQuarters.length; xi += 3) {
+    for (var xi = 0; xi < allQuarters.length; xi += (narrow ? 6 : 3)) {
       var qLabel = allQuarters[xi].replace(/^\d{2}/, '');
       xLabels += '<text x="' + x(xi) + '" y="' + (H - 4) + '" ' +
-        'font-size="8" fill="var(--muted)" text-anchor="middle">' + qLabel + '</text>';
+        'font-size="11" fill="var(--muted)" text-anchor="middle">' + qLabel + '</text>';
     }
 
     // Final forecast value annotation
@@ -153,7 +157,7 @@
     var annotX = x(totalPts - 1);
     var annotY = y(lastFcast.point);
 
-    return '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;height:auto;max-height:180px;" aria-label="LIHTC ' + label + ' equity pricing forecast chart">' +
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;height:auto;max-height:200px;" aria-label="LIHTC ' + label + ' equity pricing forecast chart">' +
       // Grid
       yLabels + xLabels +
       // CI band
@@ -161,7 +165,7 @@
       // Divider
       '<line x1="' + divX + '" y1="' + padT + '" x2="' + divX + '" y2="' + (H - padB) + '" ' +
         'stroke="var(--muted)" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>' +
-      '<text x="' + (divX - 3) + '" y="' + (padT + 10) + '" font-size="8" fill="var(--muted)" text-anchor="end">Now</text>' +
+      '<text x="' + (divX - 3) + '" y="' + (padT + 10) + '" font-size="11" fill="var(--muted)" text-anchor="end">Now</text>' +
       // Historical line
       '<path d="' + histLine + '" fill="none" stroke="var(--text)" stroke-width="1.5" stroke-linejoin="round"/>' +
       // Forecast line
@@ -170,10 +174,10 @@
       '<circle cx="' + divX + '" cy="' + y(hist[hist.length - 1][key]) + '" r="3" fill="var(--text)"/>' +
       // Forecast end dot + label
       '<circle cx="' + annotX + '" cy="' + annotY + '" r="3" fill="var(--accent)"/>' +
-      '<text x="' + (annotX - 4) + '" y="' + (annotY - 6) + '" font-size="9" fill="var(--accent)" text-anchor="end" font-weight="700">' +
+      '<text x="' + (annotX - 4) + '" y="' + (annotY - 6) + '" font-size="12" fill="var(--accent)" text-anchor="end" font-weight="700">' +
         '$' + lastFcast.point.toFixed(2) +
       '</text>' +
-      '<text x="' + (annotX - 4) + '" y="' + (annotY + 12) + '" font-size="7" fill="var(--muted)" text-anchor="end">' +
+      '<text x="' + (annotX - 4) + '" y="' + (annotY + 12) + '" font-size="11" fill="var(--muted)" text-anchor="end">' +
         '[$' + lastFcast.lower.toFixed(2) + '–$' + lastFcast.upper.toFixed(2) + ']' +
       '</text>' +
     '</svg>';
@@ -259,7 +263,8 @@
     var dirText = direction === 'up' ? 'Upward' : direction === 'down' ? 'Downward' : 'Stable';
 
     // Build chart
-    var chartSvg = _buildChart(history, forecast, creditType);
+    var chartMount = document.getElementById(_mountId);
+    var chartSvg = _buildChart(history, forecast, creditType, chartMount ? chartMount.clientWidth - 38 : 520);
 
     // Market context
     var marketCtx = _getMarketContext();

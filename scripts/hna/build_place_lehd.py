@@ -481,6 +481,10 @@ def build():
             lehd_out["jobs"]            = int(round(f_jobs))
             lehd_out["flows_source"]    = "tract-lodes"
             used_tract_flows += 1
+            # The year the flows are from, as the county files carry it: the
+            # page states it on the commute figures' source line.
+            if wac_year is not None:
+                lehd_out["year"] = int(wac_year)
             # WAC totals (Total Jobs + Wage Distribution) from tract LODES too,
             # so the Labor Market cards reflect the place, not its county. The
             # 20-NAICS sector MIX isn't published below county, so rescale the
@@ -530,6 +534,10 @@ def build():
             lehd_out["jobs"]            = int(block.get("jobs")            or 0)
             lehd_out["flows_source"]    = "block-od"
             used_block_flows += 1
+            if od_year is not None:
+                lehd_out["year"] = int(od_year)
+            else:
+                lehd_out.pop("year", None)
             # Use the place's WAC all-jobs count as C000 (block OD main leaves
             # out out-of-state workers), and rescale CNS sectors to match.
             # A count of 0 is the exact count too: small places such as

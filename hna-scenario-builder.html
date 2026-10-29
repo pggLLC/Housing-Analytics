@@ -24,7 +24,6 @@
   <script src="js/workflow-state-api.js"></script>
   <script src="js/components/workflow-progress.js" defer></script>
   <script src="js/components/lihtc-tips.js" defer></script>
-  <script src="js/components/export-panel.js" defer></script>
   <script src="js/components/analytics.js" data-step="5" data-step-label="scenario_builder"></script>
   <script defer src="js/components/page-context.js"></script>
   <script src="js/fetch-helper.js"></script>
@@ -396,8 +395,6 @@
       <a href="docs/PROJECTION-METHODOLOGY.md">Methodology Documentation</a>
     </div>
 
-    <!-- Export panel (Scenario Builder step) -->
-    <div id="exportPanelMount-sb"></div>
 
     <!-- Scenario Save & Continue panel -->
     <section class="hna-continue-panel" id="sbContinuePanel">
@@ -722,8 +719,6 @@
         { heading: 'Scenario & Credit Concepts' });
     }
 
-    // #10 Export panel
-    if (window.ExportPanel) ExportPanel.render('exportPanelMount-sb', 'scenario');
 
     // #14 Enable save only while a geography's own data is loaded. Until
     // 2026-10-17 a timer enabled it 1.2 s after any click, loaded or not.

@@ -887,7 +887,12 @@
     if (!svg) return;
     if (!data.geo || !global.d3) { svg.style.display = 'none'; return; }
     var d3 = global.d3;
-    var W = Math.min(560, parseFloat(svg.parentNode.clientWidth) || 560);
+    // The parent's own padding comes off, as in the flow above: drawn at the
+    // full clientWidth, the map was scaled down to fit and its 13px region
+    // labels shrank to about 11.6px on a phone.
+    var pcs = global.getComputedStyle ? global.getComputedStyle(svg.parentNode) : null;
+    var ppad = pcs ? (parseFloat(pcs.paddingLeft) || 0) + (parseFloat(pcs.paddingRight) || 0) : 0;
+    var W = Math.min(560, Math.floor((parseFloat(svg.parentNode.clientWidth) || 560) - ppad));
     var H = Math.round(W * 0.74);
     var projection = d3.geoMercator().fitExtent([[4, 4], [W - 4, H - 4]], data.geo);
     var path = d3.geoPath(projection);

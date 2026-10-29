@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-24T12:16:29.553865+00:00",
+    "generated_at": "2026-10-29T06:21:34.613375+00:00",
     "source_tract_metrics": "data/market/acs_tract_metrics_co.json",
     "source_membership": "data/hna/place-tract-membership.json",
     "source_place_summary": "data/hna/summary/{place_geoid}.json",
@@ -213,6 +213,7 @@
         "residentWorkers": 3743,
         "jobs": 3814,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -409,6 +410,7 @@
         "residentWorkers": 75,
         "jobs": 82,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -611,6 +613,7 @@
         "residentWorkers": 370,
         "jobs": 721,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -789,6 +792,7 @@
         "residentWorkers": 173,
         "jobs": 70,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -979,6 +983,7 @@
         "residentWorkers": 224,
         "jobs": 315,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -1181,6 +1186,7 @@
         "residentWorkers": 3404,
         "jobs": 3017,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -1365,6 +1371,7 @@
         "residentWorkers": 212,
         "jobs": 238,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -1563,6 +1570,7 @@
         "residentWorkers": 723,
         "jobs": 549,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -1765,6 +1773,7 @@
         "residentWorkers": 5892,
         "jobs": 2192,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -1931,6 +1940,7 @@
         "residentWorkers": 69,
         "jobs": 26,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -2043,6 +2053,7 @@
         "residentWorkers": 67,
         "jobs": 5,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -2233,6 +2244,7 @@
         "residentWorkers": 331,
         "jobs": 413,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -2439,6 +2451,7 @@
         "residentWorkers": 187193,
         "jobs": 171200,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -2641,6 +2654,7 @@
         "residentWorkers": 34357,
         "jobs": 36721,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -2843,6 +2857,7 @@
         "residentWorkers": 5891,
         "jobs": 2762,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -3047,6 +3062,7 @@
         "residentWorkers": 59986,
         "jobs": 52861,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -3237,6 +3253,7 @@
         "residentWorkers": 792,
         "jobs": 1051,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -3403,6 +3420,7 @@
         "residentWorkers": 151,
         "jobs": 217,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -3593,6 +3611,7 @@
         "residentWorkers": 259,
         "jobs": 213,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -3795,6 +3814,7 @@
         "residentWorkers": 359049,
         "jobs": 548969,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -3979,6 +3999,7 @@
         "residentWorkers": 204,
         "jobs": 171,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -4163,6 +4184,7 @@
         "residentWorkers": 186,
         "jobs": 445,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -4359,6 +4381,7 @@
         "residentWorkers": 714,
         "jobs": 555,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -4555,6 +4578,7 @@
         "residentWorkers": 1813,
         "jobs": 1312,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -4757,6 +4781,7 @@
         "residentWorkers": 11418,
         "jobs": 3438,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -4959,6 +4984,7 @@
         "residentWorkers": 5234,
         "jobs": 1238,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -5161,6 +5187,7 @@
         "residentWorkers": 1499,
         "jobs": 491,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -5363,6 +5390,7 @@
         "residentWorkers": 5840,
         "jobs": 8048,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -5565,6 +5593,7 @@
         "residentWorkers": 9826,
         "jobs": 3804,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -5767,6 +5796,7 @@
         "residentWorkers": 10271,
         "jobs": 5901,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -5969,6 +5999,7 @@
         "residentWorkers": 41564,
         "jobs": 41369,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -6135,6 +6166,7 @@
         "residentWorkers": 91,
         "jobs": 62,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -6247,6 +6279,7 @@
         "residentWorkers": 86,
         "jobs": 11,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -6377,6 +6410,7 @@
         "residentWorkers": 43,
         "jobs": 15,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -6537,6 +6571,7 @@
         "residentWorkers": 98,
         "jobs": 75,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -6739,6 +6774,7 @@
         "residentWorkers": 18342,
         "jobs": 26283,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -6941,6 +6977,7 @@
         "residentWorkers": 7744,
         "jobs": 65964,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -7125,6 +7162,7 @@
         "residentWorkers": 533,
         "jobs": 115,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -7327,6 +7365,7 @@
         "residentWorkers": 79647,
         "jobs": 95481,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -7529,6 +7568,7 @@
         "residentWorkers": 9456,
         "jobs": 20598,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -7731,6 +7771,7 @@
         "residentWorkers": 16106,
         "jobs": 20941,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -7937,6 +7978,7 @@
         "residentWorkers": 23642,
         "jobs": 32991,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -8018,6 +8060,7 @@
         "residentWorkers": 13,
         "jobs": 1060,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -8222,6 +8265,7 @@
         "residentWorkers": 6751,
         "jobs": 2995,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -8424,6 +8468,7 @@
         "residentWorkers": 3693,
         "jobs": 5340,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -8626,6 +8671,7 @@
         "residentWorkers": 13906,
         "jobs": 15254,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -8744,6 +8790,7 @@
         "residentWorkers": 57,
         "jobs": 14,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -8946,6 +8993,7 @@
         "residentWorkers": 8356,
         "jobs": 15431,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -9118,6 +9166,7 @@
         "residentWorkers": 89,
         "jobs": 55,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -9290,6 +9339,7 @@
         "residentWorkers": 291,
         "jobs": 306,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -9402,6 +9452,7 @@
         "residentWorkers": 24,
         "jobs": 10,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -9538,6 +9589,7 @@
         "residentWorkers": 66,
         "jobs": 3184,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -9728,6 +9780,7 @@
         "residentWorkers": 271,
         "jobs": 115,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -9930,6 +9983,7 @@
         "residentWorkers": 3278,
         "jobs": 3988,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -10132,6 +10186,7 @@
         "residentWorkers": 3210,
         "jobs": 2276,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -10304,6 +10359,7 @@
         "residentWorkers": 50,
         "jobs": 26,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -10488,6 +10544,7 @@
         "residentWorkers": 210,
         "jobs": 128,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -10690,6 +10747,7 @@
         "residentWorkers": 2660,
         "jobs": 1538,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -10886,6 +10944,7 @@
         "residentWorkers": 165,
         "jobs": 166,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -11070,6 +11129,7 @@
         "residentWorkers": 591,
         "jobs": 77,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -11272,6 +11332,7 @@
         "residentWorkers": 866,
         "jobs": 428,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -11462,6 +11523,7 @@
         "residentWorkers": 69,
         "jobs": 43,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -11628,6 +11690,7 @@
         "residentWorkers": 109,
         "jobs": 50,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -11776,6 +11839,7 @@
         "residentWorkers": 160,
         "jobs": 39,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -11912,6 +11976,7 @@
         "residentWorkers": 15,
         "jobs": 63,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -12114,6 +12179,7 @@
         "residentWorkers": 3421,
         "jobs": 3085,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -12256,6 +12322,7 @@
         "residentWorkers": 21,
         "jobs": 23,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -12458,6 +12525,7 @@
         "residentWorkers": 79,
         "jobs": 90,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -12654,6 +12722,7 @@
         "residentWorkers": 104,
         "jobs": 62,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -12832,6 +12901,7 @@
         "residentWorkers": 648,
         "jobs": 445,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -13034,6 +13104,7 @@
         "residentWorkers": 1575,
         "jobs": 2336,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -13224,6 +13295,7 @@
         "residentWorkers": 165,
         "jobs": 172,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -13414,6 +13486,7 @@
         "residentWorkers": 205,
         "jobs": 137,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -13604,6 +13677,7 @@
         "residentWorkers": 586,
         "jobs": 456,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -13806,6 +13880,7 @@
         "residentWorkers": 3824,
         "jobs": 5020,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -13978,6 +14053,7 @@
         "residentWorkers": 56,
         "jobs": 40,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -14174,6 +14250,7 @@
         "residentWorkers": 767,
         "jobs": 815,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -14358,6 +14435,7 @@
         "residentWorkers": 184,
         "jobs": 287,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -14542,6 +14620,7 @@
         "residentWorkers": 242,
         "jobs": 105,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -14744,6 +14823,7 @@
         "residentWorkers": 685,
         "jobs": 680,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -14940,6 +15020,7 @@
         "residentWorkers": 556,
         "jobs": 2214,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -15142,6 +15223,7 @@
         "residentWorkers": 721,
         "jobs": 1795,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -15338,6 +15420,7 @@
         "residentWorkers": 1236,
         "jobs": 1248,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -15522,6 +15605,7 @@
         "residentWorkers": 415,
         "jobs": 430,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -15724,6 +15808,7 @@
         "residentWorkers": 73523,
         "jobs": 86673,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -15914,6 +15999,7 @@
         "residentWorkers": 787,
         "jobs": 1070,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -16110,6 +16196,7 @@
         "residentWorkers": 1008,
         "jobs": 1143,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -16300,6 +16387,7 @@
         "residentWorkers": 864,
         "jobs": 658,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -16496,6 +16584,7 @@
         "residentWorkers": 1028,
         "jobs": 733,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -16698,6 +16787,7 @@
         "residentWorkers": 4922,
         "jobs": 3085,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -16888,6 +16978,7 @@
         "residentWorkers": 76,
         "jobs": 50,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -16982,6 +17073,7 @@
         "residentWorkers": 19,
         "jobs": 16,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -17184,6 +17276,7 @@
         "residentWorkers": 3791,
         "jobs": 1000,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -17388,6 +17481,7 @@
         "residentWorkers": 19162,
         "jobs": 10042,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -17592,6 +17686,7 @@
         "residentWorkers": 9871,
         "jobs": 6524,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -17796,6 +17891,7 @@
         "residentWorkers": 4176,
         "jobs": 226,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -17877,6 +17973,7 @@
         "residentWorkers": 48,
         "jobs": 2,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -18079,6 +18176,7 @@
         "residentWorkers": 956,
         "jobs": 655,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -18283,6 +18381,7 @@
         "residentWorkers": 46752,
         "jobs": 40019,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -18485,6 +18584,7 @@
         "residentWorkers": 2803,
         "jobs": 1544,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -18687,6 +18787,7 @@
         "residentWorkers": 744,
         "jobs": 604,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -18877,6 +18978,7 @@
         "residentWorkers": 1075,
         "jobs": 629,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -19079,6 +19181,7 @@
         "residentWorkers": 173,
         "jobs": 194,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -19209,6 +19312,7 @@
         "residentWorkers": 16,
         "jobs": 53,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -19411,6 +19515,7 @@
         "residentWorkers": 7752,
         "jobs": 11738,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -19523,6 +19628,7 @@
         "residentWorkers": 91,
         "jobs": 6,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -19725,6 +19831,7 @@
         "residentWorkers": 7148,
         "jobs": 7246,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -19927,6 +20034,7 @@
         "residentWorkers": 3163,
         "jobs": 8218,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -20027,6 +20135,7 @@
         "residentWorkers": 51,
         "jobs": 6,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -20199,6 +20308,7 @@
         "residentWorkers": 326,
         "jobs": 287,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -20341,6 +20451,7 @@
         "residentWorkers": 30,
         "jobs": 25,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -20501,6 +20612,7 @@
         "residentWorkers": 78,
         "jobs": 33,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -20697,6 +20809,7 @@
         "residentWorkers": 1360,
         "jobs": 1478,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -20899,6 +21012,7 @@
         "residentWorkers": 32872,
         "jobs": 23606,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -21101,6 +21215,7 @@
         "residentWorkers": 382,
         "jobs": 644,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -21303,6 +21418,7 @@
         "residentWorkers": 4905,
         "jobs": 9970,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -21505,6 +21621,7 @@
         "residentWorkers": 1550,
         "jobs": 3629,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -21701,6 +21818,7 @@
         "residentWorkers": 237,
         "jobs": 225,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -21885,6 +22003,7 @@
         "residentWorkers": 316,
         "jobs": 232,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -22087,6 +22206,7 @@
         "residentWorkers": 197851,
         "jobs": 231643,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -22277,6 +22397,7 @@
         "residentWorkers": 496,
         "jobs": 176,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -22467,6 +22588,7 @@
         "residentWorkers": 245,
         "jobs": 240,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -22657,6 +22779,7 @@
         "residentWorkers": 254,
         "jobs": 173,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -22859,6 +22982,7 @@
         "residentWorkers": 6205,
         "jobs": 7584,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -23061,6 +23185,7 @@
         "residentWorkers": 3393,
         "jobs": 4020,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -23251,6 +23376,7 @@
         "residentWorkers": 1465,
         "jobs": 743,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -23441,6 +23567,7 @@
         "residentWorkers": 223,
         "jobs": 128,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -23583,6 +23710,7 @@
         "residentWorkers": 121,
         "jobs": 24,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -23785,6 +23913,7 @@
         "residentWorkers": 5409,
         "jobs": 4876,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -23987,6 +24116,7 @@
         "residentWorkers": 11672,
         "jobs": 6937,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -24189,6 +24319,7 @@
         "residentWorkers": 4058,
         "jobs": 4197,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -24391,6 +24522,7 @@
         "residentWorkers": 3681,
         "jobs": 3615,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -24472,6 +24604,7 @@
         "residentWorkers": 37,
         "jobs": 2,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -24521,6 +24654,7 @@
         "residentWorkers": 40,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -24639,6 +24773,7 @@
         "residentWorkers": 50,
         "jobs": 10,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -24757,6 +24892,7 @@
         "residentWorkers": 43,
         "jobs": 12,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -24917,6 +25053,7 @@
         "residentWorkers": 304,
         "jobs": 310,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -25119,6 +25256,7 @@
         "residentWorkers": 8821,
         "jobs": 12149,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -25303,6 +25441,7 @@
         "residentWorkers": 289,
         "jobs": 193,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -25433,6 +25572,7 @@
         "residentWorkers": 84,
         "jobs": 11,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -25629,6 +25769,7 @@
         "residentWorkers": 2055,
         "jobs": 1633,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -25825,6 +25966,7 @@
         "residentWorkers": 984,
         "jobs": 720,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -25913,6 +26055,7 @@
         "residentWorkers": 45,
         "jobs": 4,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -26103,6 +26246,7 @@
         "residentWorkers": 175,
         "jobs": 150,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -26281,6 +26425,7 @@
         "residentWorkers": 153,
         "jobs": 46,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -26483,6 +26628,7 @@
         "residentWorkers": 3114,
         "jobs": 4005,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -26681,6 +26827,7 @@
         "residentWorkers": 278,
         "jobs": 67,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -26877,6 +27024,7 @@
         "residentWorkers": 493,
         "jobs": 1389,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -27073,6 +27221,7 @@
         "residentWorkers": 147,
         "jobs": 660,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -27257,6 +27406,7 @@
         "residentWorkers": 561,
         "jobs": 684,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -27306,6 +27456,7 @@
         "residentWorkers": 14,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -27355,6 +27506,7 @@
         "residentWorkers": 43,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -27551,6 +27703,7 @@
         "residentWorkers": 1587,
         "jobs": 932,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -27657,6 +27810,7 @@
         "residentWorkers": 196,
         "jobs": 5,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -27817,6 +27971,7 @@
         "residentWorkers": 285,
         "jobs": 28,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -28019,6 +28174,7 @@
         "residentWorkers": 1839,
         "jobs": 1261,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -28221,6 +28377,7 @@
         "residentWorkers": 673,
         "jobs": 675,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -28405,6 +28562,7 @@
         "residentWorkers": 208,
         "jobs": 208,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -28607,6 +28765,7 @@
         "residentWorkers": 1229,
         "jobs": 1901,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -28809,6 +28968,7 @@
         "residentWorkers": 477,
         "jobs": 290,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -28999,6 +29159,7 @@
         "residentWorkers": 2768,
         "jobs": 2936,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -29201,6 +29362,7 @@
         "residentWorkers": 2819,
         "jobs": 3914,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -29403,6 +29565,7 @@
         "residentWorkers": 5472,
         "jobs": 1381,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -29605,6 +29768,7 @@
         "residentWorkers": 431,
         "jobs": 550,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -29807,6 +29971,7 @@
         "residentWorkers": 7597,
         "jobs": 23699,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -30009,6 +30174,7 @@
         "residentWorkers": 41189,
         "jobs": 26438,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -30151,6 +30317,7 @@
         "residentWorkers": 70,
         "jobs": 15,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -30353,6 +30520,7 @@
         "residentWorkers": 989,
         "jobs": 443,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -30549,6 +30717,7 @@
         "residentWorkers": 134,
         "jobs": 71,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -30598,6 +30767,7 @@
         "residentWorkers": 7,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -30746,6 +30916,7 @@
         "residentWorkers": 29,
         "jobs": 77,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -30870,6 +31041,7 @@
         "residentWorkers": 25,
         "jobs": 119,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -31060,6 +31232,7 @@
         "residentWorkers": 162,
         "jobs": 231,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -31232,6 +31405,7 @@
         "residentWorkers": 152,
         "jobs": 42,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -31434,6 +31608,7 @@
         "residentWorkers": 517,
         "jobs": 1180,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -31564,6 +31739,7 @@
         "residentWorkers": 82,
         "jobs": 17,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -31760,6 +31936,7 @@
         "residentWorkers": 804,
         "jobs": 311,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -31902,6 +32079,7 @@
         "residentWorkers": 114,
         "jobs": 16,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -32104,6 +32282,7 @@
         "residentWorkers": 418,
         "jobs": 511,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -32306,6 +32485,7 @@
         "residentWorkers": 104,
         "jobs": 90,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -32508,6 +32688,7 @@
         "residentWorkers": 6084,
         "jobs": 3087,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -32710,6 +32891,7 @@
         "residentWorkers": 512,
         "jobs": 908,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -32798,6 +32980,7 @@
         "residentWorkers": 35,
         "jobs": 1,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -32982,6 +33165,7 @@
         "residentWorkers": 170,
         "jobs": 162,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -33184,6 +33368,7 @@
         "residentWorkers": 958,
         "jobs": 898,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -33374,6 +33559,7 @@
         "residentWorkers": 158,
         "jobs": 606,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -33576,6 +33762,7 @@
         "residentWorkers": 1307,
         "jobs": 1150,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -33778,6 +33965,7 @@
         "residentWorkers": 249,
         "jobs": 319,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -33956,6 +34144,7 @@
         "residentWorkers": 278,
         "jobs": 261,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -34158,6 +34347,7 @@
         "residentWorkers": 10327,
         "jobs": 19586,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -34360,6 +34550,7 @@
         "residentWorkers": 817,
         "jobs": 942,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -34532,6 +34723,7 @@
         "residentWorkers": 202,
         "jobs": 226,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -34716,6 +34908,7 @@
         "residentWorkers": 463,
         "jobs": 306,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -34900,6 +35093,7 @@
         "residentWorkers": 75,
         "jobs": 82,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -35078,6 +35272,7 @@
         "residentWorkers": 37,
         "jobs": 55,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -35280,6 +35475,7 @@
         "residentWorkers": 2475,
         "jobs": 1771,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -35482,6 +35678,7 @@
         "residentWorkers": 271,
         "jobs": 239,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -35684,6 +35881,7 @@
         "residentWorkers": 704,
         "jobs": 621,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -35886,6 +36084,7 @@
         "residentWorkers": 268,
         "jobs": 262,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -36088,6 +36287,7 @@
         "residentWorkers": 535,
         "jobs": 3177,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -36290,6 +36490,7 @@
         "residentWorkers": 36934,
         "jobs": 91170,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -36414,6 +36615,7 @@
         "residentWorkers": 113,
         "jobs": 10,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -36616,6 +36818,7 @@
         "residentWorkers": 847,
         "jobs": 586,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -36818,6 +37021,7 @@
         "residentWorkers": 669,
         "jobs": 752,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -37004,6 +37208,7 @@
         "residentWorkers": 350,
         "jobs": 525,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -37206,6 +37411,7 @@
         "residentWorkers": 856,
         "jobs": 908,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -37390,6 +37596,7 @@
         "residentWorkers": 85,
         "jobs": 132,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -37562,6 +37769,7 @@
         "residentWorkers": 118,
         "jobs": 102,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -37758,6 +37966,7 @@
         "residentWorkers": 286,
         "jobs": 678,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -37962,6 +38171,7 @@
         "residentWorkers": 5308,
         "jobs": 2842,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -38164,6 +38374,7 @@
         "residentWorkers": 972,
         "jobs": 749,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -38368,6 +38579,7 @@
         "residentWorkers": 21155,
         "jobs": 18138,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -38572,6 +38784,7 @@
         "residentWorkers": 16484,
         "jobs": 4753,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -38774,6 +38987,7 @@
         "residentWorkers": 5100,
         "jobs": 3688,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -38976,6 +39190,7 @@
         "residentWorkers": 113,
         "jobs": 434,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -39178,6 +39393,7 @@
         "residentWorkers": 495,
         "jobs": 221,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -39380,6 +39596,7 @@
         "residentWorkers": 53783,
         "jobs": 44471,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -39582,6 +39799,7 @@
         "residentWorkers": 39201,
         "jobs": 40383,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -39784,6 +40002,7 @@
         "residentWorkers": 5945,
         "jobs": 9559,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -39986,6 +40205,7 @@
         "residentWorkers": 1617,
         "jobs": 604,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -40188,6 +40408,7 @@
         "residentWorkers": 1216,
         "jobs": 457,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -40390,6 +40611,7 @@
         "residentWorkers": 3530,
         "jobs": 2402,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -40594,6 +40816,7 @@
         "residentWorkers": 19117,
         "jobs": 9746,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -40760,6 +40983,7 @@
         "residentWorkers": 445,
         "jobs": 74,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -40956,6 +41180,7 @@
         "residentWorkers": 648,
         "jobs": 1286,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -41158,6 +41383,7 @@
         "residentWorkers": 2346,
         "jobs": 2488,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -41360,6 +41586,7 @@
         "residentWorkers": 276,
         "jobs": 363,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -41562,6 +41789,7 @@
         "residentWorkers": 557,
         "jobs": 221,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -41764,6 +41992,7 @@
         "residentWorkers": 5471,
         "jobs": 564,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -41968,6 +42197,7 @@
         "residentWorkers": 71819,
         "jobs": 39217,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -42017,6 +42247,7 @@
         "residentWorkers": 28,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -42221,6 +42452,7 @@
         "residentWorkers": 1714,
         "jobs": 906,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -42425,6 +42657,7 @@
         "residentWorkers": 63437,
         "jobs": 34769,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -42597,6 +42830,7 @@
         "residentWorkers": 202,
         "jobs": 338,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -42751,6 +42985,7 @@
         "residentWorkers": 126,
         "jobs": 19,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -42953,6 +43188,7 @@
         "residentWorkers": 289,
         "jobs": 430,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -43155,6 +43391,7 @@
         "residentWorkers": 3532,
         "jobs": 2951,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -43357,6 +43594,7 @@
         "residentWorkers": 2351,
         "jobs": 648,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -43559,6 +43797,7 @@
         "residentWorkers": 4890,
         "jobs": 2829,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -43761,6 +44000,7 @@
         "residentWorkers": 1314,
         "jobs": 1246,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -43963,6 +44203,7 @@
         "residentWorkers": 28526,
         "jobs": 50989,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -44165,6 +44406,7 @@
         "residentWorkers": 921,
         "jobs": 553,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -44367,6 +44609,7 @@
         "residentWorkers": 387,
         "jobs": 188,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -44569,6 +44812,7 @@
         "residentWorkers": 960,
         "jobs": 2603,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -44735,6 +44979,7 @@
         "residentWorkers": 216,
         "jobs": 22,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -44937,6 +45182,7 @@
         "residentWorkers": 969,
         "jobs": 1961,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -45139,6 +45385,7 @@
         "residentWorkers": 2407,
         "jobs": 6666,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -45311,6 +45558,7 @@
         "residentWorkers": 251,
         "jobs": 243,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -45507,6 +45755,7 @@
         "residentWorkers": 718,
         "jobs": 491,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -45685,6 +45934,7 @@
         "residentWorkers": 142,
         "jobs": 41,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -45889,6 +46139,7 @@
         "residentWorkers": 2555,
         "jobs": 2647,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -46055,6 +46306,7 @@
         "residentWorkers": 175,
         "jobs": 77,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -46179,6 +46431,7 @@
         "residentWorkers": 25,
         "jobs": 11,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -46333,6 +46586,7 @@
         "residentWorkers": 109,
         "jobs": 163,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -46519,6 +46773,7 @@
         "residentWorkers": 432,
         "jobs": 74,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -46715,6 +46970,7 @@
         "residentWorkers": 2321,
         "jobs": 1589,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -46905,6 +47161,7 @@
         "residentWorkers": 472,
         "jobs": 406,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -47035,6 +47292,7 @@
         "residentWorkers": 40,
         "jobs": 15,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -47225,6 +47483,7 @@
         "residentWorkers": 735,
         "jobs": 384,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -47409,6 +47668,7 @@
         "residentWorkers": 429,
         "jobs": 311,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -47611,6 +47871,7 @@
         "residentWorkers": 2645,
         "jobs": 10566,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -47813,6 +48074,7 @@
         "residentWorkers": 2918,
         "jobs": 8264,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -48015,6 +48277,7 @@
         "residentWorkers": 55120,
         "jobs": 74548,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -48211,6 +48474,7 @@
         "residentWorkers": 969,
         "jobs": 704,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -48401,6 +48665,7 @@
         "residentWorkers": 41,
         "jobs": 79,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -48573,6 +48838,7 @@
         "residentWorkers": 241,
         "jobs": 304,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -48739,6 +49005,7 @@
         "residentWorkers": 65,
         "jobs": 35,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -48911,6 +49178,7 @@
         "residentWorkers": 176,
         "jobs": 304,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -49077,6 +49345,7 @@
         "residentWorkers": 241,
         "jobs": 42,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -49279,6 +49548,7 @@
         "residentWorkers": 35883,
         "jobs": 38588,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -49483,6 +49753,7 @@
         "residentWorkers": 3277,
         "jobs": 1363,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -49564,6 +49835,7 @@
         "residentWorkers": 4,
         "jobs": 4,
         "flows_source": "tract-lodes",
+        "year": 2023,
         "wac_source": "tract-scaled"
       }
     },
@@ -49748,6 +50020,7 @@
         "residentWorkers": 1803,
         "jobs": 114,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -49878,6 +50151,7 @@
         "residentWorkers": 1575,
         "jobs": 8,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -50074,6 +50348,7 @@
         "residentWorkers": 1095,
         "jobs": 1015,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -50270,6 +50545,7 @@
         "residentWorkers": 590,
         "jobs": 234,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -50454,6 +50730,7 @@
         "residentWorkers": 306,
         "jobs": 77,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -50554,6 +50831,7 @@
         "residentWorkers": 63,
         "jobs": 5,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -50738,6 +51016,7 @@
         "residentWorkers": 194,
         "jobs": 165,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -50819,6 +51098,7 @@
         "residentWorkers": 20,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -51021,6 +51301,7 @@
         "residentWorkers": 3787,
         "jobs": 3984,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -51070,6 +51351,7 @@
         "residentWorkers": 42,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -51212,6 +51494,7 @@
         "residentWorkers": 99,
         "jobs": 8,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -51402,6 +51685,7 @@
         "residentWorkers": 920,
         "jobs": 54,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -51604,6 +51888,7 @@
         "residentWorkers": 438,
         "jobs": 804,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -51752,6 +52037,7 @@
         "residentWorkers": 67,
         "jobs": 11,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -51906,6 +52192,7 @@
         "residentWorkers": 219,
         "jobs": 24,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -52042,6 +52329,7 @@
         "residentWorkers": 94,
         "jobs": 11,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -52244,6 +52532,7 @@
         "residentWorkers": 2278,
         "jobs": 326,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -52446,6 +52735,7 @@
         "residentWorkers": 5683,
         "jobs": 3394,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -52618,6 +52908,7 @@
         "residentWorkers": 191,
         "jobs": 58,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -52814,6 +53105,7 @@
         "residentWorkers": 6512,
         "jobs": 1965,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -53010,6 +53302,7 @@
         "residentWorkers": 342,
         "jobs": 818,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -53091,6 +53384,7 @@
         "residentWorkers": 26,
         "jobs": 2,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -53203,6 +53497,7 @@
         "residentWorkers": 91,
         "jobs": 12,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -53321,6 +53616,7 @@
         "residentWorkers": 60,
         "jobs": 16,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -53370,6 +53666,7 @@
         "residentWorkers": 9,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -53506,6 +53803,7 @@
         "residentWorkers": 55,
         "jobs": 11,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -53678,6 +53976,7 @@
         "residentWorkers": 38,
         "jobs": 89,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -53864,6 +54163,7 @@
         "residentWorkers": 367,
         "jobs": 33,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -54048,6 +54348,7 @@
         "residentWorkers": 592,
         "jobs": 303,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -54097,6 +54398,7 @@
         "residentWorkers": 33,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -54287,6 +54589,7 @@
         "residentWorkers": 599,
         "jobs": 122,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -54489,6 +54792,7 @@
         "residentWorkers": 2065,
         "jobs": 1750,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -54538,6 +54842,7 @@
         "residentWorkers": 3,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -54740,6 +55045,7 @@
         "residentWorkers": 131,
         "jobs": 142,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -54942,6 +55248,7 @@
         "residentWorkers": 294,
         "jobs": 522,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -55114,6 +55421,7 @@
         "residentWorkers": 205,
         "jobs": 36,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -55310,6 +55618,7 @@
         "residentWorkers": 5780,
         "jobs": 873,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -55512,6 +55821,7 @@
         "residentWorkers": 8243,
         "jobs": 6013,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -55714,6 +56024,7 @@
         "residentWorkers": 8604,
         "jobs": 2134,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -55920,6 +56231,7 @@
         "residentWorkers": 1241,
         "jobs": 625,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -56056,6 +56368,7 @@
         "residentWorkers": 148,
         "jobs": 12,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -56144,6 +56457,7 @@
         "residentWorkers": 21,
         "jobs": 4,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -56340,6 +56654,7 @@
         "residentWorkers": 591,
         "jobs": 376,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -56544,6 +56859,7 @@
         "residentWorkers": 13041,
         "jobs": 4502,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -56728,6 +57044,7 @@
         "residentWorkers": 203,
         "jobs": 37,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -56777,6 +57094,7 @@
         "residentWorkers": 10,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -56919,6 +57237,7 @@
         "residentWorkers": 19,
         "jobs": 7,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -57109,6 +57428,7 @@
         "residentWorkers": 438,
         "jobs": 1681,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -57190,6 +57510,7 @@
         "residentWorkers": 21,
         "jobs": 3,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -57296,6 +57617,7 @@
         "residentWorkers": 80,
         "jobs": 5,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -57498,6 +57820,7 @@
         "residentWorkers": 18062,
         "jobs": 4399,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -57700,6 +58023,7 @@
         "residentWorkers": 3578,
         "jobs": 1487,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -57830,6 +58154,7 @@
         "residentWorkers": 51,
         "jobs": 104,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -58020,6 +58345,7 @@
         "residentWorkers": 816,
         "jobs": 276,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -58222,6 +58548,7 @@
         "residentWorkers": 2844,
         "jobs": 4604,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -58424,6 +58751,7 @@
         "residentWorkers": 229,
         "jobs": 131,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -58608,6 +58936,7 @@
         "residentWorkers": 153,
         "jobs": 58,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -58738,6 +59067,7 @@
         "residentWorkers": 168,
         "jobs": 39,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -58940,6 +59270,7 @@
         "residentWorkers": 5299,
         "jobs": 3542,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -59100,6 +59431,7 @@
         "residentWorkers": 115,
         "jobs": 92,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -59230,6 +59562,7 @@
         "residentWorkers": 43,
         "jobs": 15,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -59408,6 +59741,7 @@
         "residentWorkers": 197,
         "jobs": 109,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -59610,6 +59944,7 @@
         "residentWorkers": 2407,
         "jobs": 682,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -59800,6 +60135,7 @@
         "residentWorkers": 473,
         "jobs": 365,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -59924,6 +60260,7 @@
         "residentWorkers": 50,
         "jobs": 6,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -60126,6 +60463,7 @@
         "residentWorkers": 4536,
         "jobs": 3006,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -60328,6 +60666,7 @@
         "residentWorkers": 4842,
         "jobs": 2579,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -60482,6 +60821,7 @@
         "residentWorkers": 52,
         "jobs": 52,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -60684,6 +61024,7 @@
         "residentWorkers": 585,
         "jobs": 185,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -60880,6 +61221,7 @@
         "residentWorkers": 2882,
         "jobs": 2286,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -61046,6 +61388,7 @@
         "residentWorkers": 136,
         "jobs": 73,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -61248,6 +61591,7 @@
         "residentWorkers": 10851,
         "jobs": 6852,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -61432,6 +61776,7 @@
         "residentWorkers": 233,
         "jobs": 709,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -61634,6 +61979,7 @@
         "residentWorkers": 3595,
         "jobs": 878,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -61722,6 +62068,7 @@
         "residentWorkers": 2,
         "jobs": 4,
         "flows_source": "tract-lodes",
+        "year": 2023,
         "wac_source": "tract-scaled"
       }
     },
@@ -61822,6 +62169,7 @@
         "residentWorkers": 45,
         "jobs": 3,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -61916,6 +62264,7 @@
         "residentWorkers": 12,
         "jobs": 4,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -62118,6 +62467,7 @@
         "residentWorkers": 1585,
         "jobs": 939,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -62248,6 +62598,7 @@
         "residentWorkers": 62,
         "jobs": 17,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -62336,6 +62687,7 @@
         "residentWorkers": 33,
         "jobs": 3,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -62532,6 +62884,7 @@
         "residentWorkers": 2503,
         "jobs": 910,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -62581,6 +62934,7 @@
         "residentWorkers": 25,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -62729,6 +63083,7 @@
         "residentWorkers": 86,
         "jobs": 57,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -62913,6 +63268,7 @@
         "residentWorkers": 401,
         "jobs": 94,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -63013,6 +63369,7 @@
         "residentWorkers": 36,
         "jobs": 36,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -63215,6 +63572,7 @@
         "residentWorkers": 4180,
         "jobs": 1127,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -63270,6 +63628,7 @@
         "residentWorkers": 14,
         "jobs": 93,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -63376,6 +63735,7 @@
         "residentWorkers": 59,
         "jobs": 7,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -63518,6 +63878,7 @@
         "residentWorkers": 46,
         "jobs": 22,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -63606,6 +63967,7 @@
         "residentWorkers": 8,
         "jobs": 13,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -63808,6 +64170,7 @@
         "residentWorkers": 55126,
         "jobs": 30366,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -63889,6 +64252,7 @@
         "residentWorkers": 32,
         "jobs": 1,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -64079,6 +64443,7 @@
         "residentWorkers": 1306,
         "jobs": 367,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -64239,6 +64604,7 @@
         "residentWorkers": 350,
         "jobs": 35,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -64417,6 +64783,7 @@
         "residentWorkers": 37,
         "jobs": 62,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -64571,6 +64938,7 @@
         "residentWorkers": 117,
         "jobs": 21,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -64755,6 +65123,7 @@
         "residentWorkers": 603,
         "jobs": 126,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -64957,6 +65326,7 @@
         "residentWorkers": 1125,
         "jobs": 13263,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -65006,6 +65376,7 @@
         "residentWorkers": 54,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -65124,6 +65495,7 @@
         "residentWorkers": 42,
         "jobs": 7,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -65260,6 +65632,7 @@
         "residentWorkers": 34,
         "jobs": 15,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -65426,6 +65799,7 @@
         "residentWorkers": 126,
         "jobs": 41,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -65628,6 +66002,7 @@
         "residentWorkers": 18721,
         "jobs": 11061,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -65824,6 +66199,7 @@
         "residentWorkers": 1037,
         "jobs": 2399,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -65942,6 +66318,7 @@
         "residentWorkers": 17,
         "jobs": 10,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -66144,6 +66521,7 @@
         "residentWorkers": 643,
         "jobs": 180,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -66193,6 +66571,7 @@
         "residentWorkers": 16,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -66287,6 +66666,7 @@
         "residentWorkers": 49,
         "jobs": 3,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -66489,6 +66869,7 @@
         "residentWorkers": 1042,
         "jobs": 433,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -66637,6 +67018,7 @@
         "residentWorkers": 63,
         "jobs": 29,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -66809,6 +67191,7 @@
         "residentWorkers": 397,
         "jobs": 66,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -66993,6 +67376,7 @@
         "residentWorkers": 1575,
         "jobs": 128,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -67159,6 +67543,7 @@
         "residentWorkers": 96,
         "jobs": 19,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -67240,6 +67625,7 @@
         "residentWorkers": 21,
         "jobs": 1,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -67436,6 +67822,7 @@
         "residentWorkers": 1585,
         "jobs": 358,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -67626,6 +68013,7 @@
         "residentWorkers": 350,
         "jobs": 58,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -67816,6 +68204,7 @@
         "residentWorkers": 515,
         "jobs": 137,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -68000,6 +68389,7 @@
         "residentWorkers": 276,
         "jobs": 290,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -68049,6 +68439,7 @@
         "residentWorkers": 2,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -68179,6 +68570,7 @@
         "residentWorkers": 41,
         "jobs": 86,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -68260,6 +68652,7 @@
         "residentWorkers": 26,
         "jobs": 1,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -68309,6 +68702,7 @@
         "residentWorkers": 35,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -68358,6 +68752,7 @@
         "residentWorkers": 34,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -68439,6 +68834,7 @@
         "residentWorkers": 17,
         "jobs": 2,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -68605,6 +69001,7 @@
         "residentWorkers": 81,
         "jobs": 27,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -68807,6 +69204,7 @@
         "residentWorkers": 2613,
         "jobs": 13520,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -69003,6 +69401,7 @@
         "residentWorkers": 1655,
         "jobs": 279,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -69091,6 +69490,7 @@
         "residentWorkers": 85,
         "jobs": 3,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -69215,6 +69615,7 @@
         "residentWorkers": 155,
         "jobs": 9,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -69363,6 +69764,7 @@
         "residentWorkers": 103,
         "jobs": 29,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -69493,6 +69895,7 @@
         "residentWorkers": 138,
         "jobs": 13,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -69629,6 +70032,7 @@
         "residentWorkers": 120,
         "jobs": 17,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -69831,6 +70235,7 @@
         "residentWorkers": 1848,
         "jobs": 2064,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -69912,6 +70317,7 @@
         "residentWorkers": 79,
         "jobs": 2,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -69961,6 +70367,7 @@
         "residentWorkers": 7,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -70127,6 +70534,7 @@
         "residentWorkers": 188,
         "jobs": 48,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -70329,6 +70737,7 @@
         "residentWorkers": 496,
         "jobs": 17878,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -70378,6 +70787,7 @@
         "residentWorkers": 28,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -70580,6 +70990,7 @@
         "residentWorkers": 2730,
         "jobs": 487,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -70629,6 +71040,7 @@
         "residentWorkers": 36,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -70813,6 +71225,7 @@
         "residentWorkers": 387,
         "jobs": 144,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -71009,6 +71422,7 @@
         "residentWorkers": 1139,
         "jobs": 198,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -71127,6 +71541,7 @@
         "residentWorkers": 19,
         "jobs": 12,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -71323,6 +71738,7 @@
         "residentWorkers": 1640,
         "jobs": 433,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -71453,6 +71869,7 @@
         "residentWorkers": 79,
         "jobs": 10,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -71643,6 +72060,7 @@
         "residentWorkers": 895,
         "jobs": 141,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -71797,6 +72215,7 @@
         "residentWorkers": 73,
         "jobs": 164,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -71927,6 +72346,7 @@
         "residentWorkers": 98,
         "jobs": 9,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -72069,6 +72489,7 @@
         "residentWorkers": 17,
         "jobs": 13,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -72253,6 +72674,7 @@
         "residentWorkers": 375,
         "jobs": 178,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -72365,6 +72787,7 @@
         "residentWorkers": 160,
         "jobs": 10,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -72531,6 +72954,7 @@
         "residentWorkers": 173,
         "jobs": 60,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -72727,6 +73151,7 @@
         "residentWorkers": 2295,
         "jobs": 347,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -72875,6 +73300,7 @@
         "residentWorkers": 54,
         "jobs": 17,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -73077,6 +73503,7 @@
         "residentWorkers": 12990,
         "jobs": 4794,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -73255,6 +73682,7 @@
         "residentWorkers": 136,
         "jobs": 71,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -73457,6 +73885,7 @@
         "residentWorkers": 3686,
         "jobs": 678,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -73605,6 +74034,7 @@
         "residentWorkers": 85,
         "jobs": 18,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -73711,6 +74141,7 @@
         "residentWorkers": 61,
         "jobs": 6,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -73853,6 +74284,7 @@
         "residentWorkers": 20,
         "jobs": 8,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -73977,6 +74409,7 @@
         "residentWorkers": 114,
         "jobs": 27,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -74179,6 +74612,7 @@
         "residentWorkers": 5764,
         "jobs": 980,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -74228,6 +74662,7 @@
         "residentWorkers": 26,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -74400,6 +74835,7 @@
         "residentWorkers": 155,
         "jobs": 65,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -74548,6 +74984,7 @@
         "residentWorkers": 217,
         "jobs": 72,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -74702,6 +75139,7 @@
         "residentWorkers": 198,
         "jobs": 28,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -74751,6 +75189,7 @@
         "residentWorkers": 17,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -74953,6 +75392,7 @@
         "residentWorkers": 15962,
         "jobs": 3341,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -75101,6 +75541,7 @@
         "residentWorkers": 87,
         "jobs": 522,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -75273,6 +75714,7 @@
         "residentWorkers": 36,
         "jobs": 27,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -75439,6 +75881,7 @@
         "residentWorkers": 54,
         "jobs": 30,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -75641,6 +76084,7 @@
         "residentWorkers": 2474,
         "jobs": 1626,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -75843,6 +76287,7 @@
         "residentWorkers": 9208,
         "jobs": 1867,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -76033,6 +76478,7 @@
         "residentWorkers": 1818,
         "jobs": 195,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -76169,6 +76615,7 @@
         "residentWorkers": 50,
         "jobs": 16,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -76257,6 +76704,7 @@
         "residentWorkers": 65,
         "jobs": 2,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -76363,6 +76811,7 @@
         "residentWorkers": 34,
         "jobs": 6,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -76463,6 +76912,7 @@
         "residentWorkers": 43,
         "jobs": 4,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -76653,6 +77103,7 @@
         "residentWorkers": 1531,
         "jobs": 164,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -76843,6 +77294,7 @@
         "residentWorkers": 1736,
         "jobs": 174,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -77045,6 +77497,7 @@
         "residentWorkers": 4934,
         "jobs": 1267,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -77175,6 +77628,7 @@
         "residentWorkers": 27,
         "jobs": 18,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -77367,6 +77821,7 @@
         "residentWorkers": 1645,
         "jobs": 661,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -77563,6 +78018,7 @@
         "residentWorkers": 2273,
         "jobs": 701,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -77741,6 +78197,7 @@
         "residentWorkers": 137,
         "jobs": 32,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -77925,6 +78382,7 @@
         "residentWorkers": 73,
         "jobs": 33,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -78115,6 +78573,7 @@
         "residentWorkers": 155,
         "jobs": 166,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -78196,6 +78655,7 @@
         "residentWorkers": 87,
         "jobs": 1,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -78398,6 +78858,7 @@
         "residentWorkers": 6104,
         "jobs": 1102,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -78600,6 +79061,7 @@
         "residentWorkers": 2984,
         "jobs": 480,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -78802,6 +79264,7 @@
         "residentWorkers": 283,
         "jobs": 357,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -78851,6 +79314,7 @@
         "residentWorkers": 6,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -78939,6 +79403,7 @@
         "residentWorkers": 71,
         "jobs": 4,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -79141,6 +79606,7 @@
         "residentWorkers": 4455,
         "jobs": 3415,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -79301,6 +79767,7 @@
         "residentWorkers": 166,
         "jobs": 40,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -79491,6 +79958,7 @@
         "residentWorkers": 530,
         "jobs": 109,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -79627,6 +80095,7 @@
         "residentWorkers": 172,
         "jobs": 20,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -79745,6 +80214,7 @@
         "residentWorkers": 17,
         "jobs": 186,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -79875,6 +80345,7 @@
         "residentWorkers": 24,
         "jobs": 123,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -79924,6 +80395,7 @@
         "residentWorkers": 12,
         "jobs": 0,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -80078,6 +80550,7 @@
         "residentWorkers": 93,
         "jobs": 24,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -80270,6 +80743,7 @@
         "residentWorkers": 430,
         "jobs": 378,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -80472,6 +80946,7 @@
         "residentWorkers": 7993,
         "jobs": 3830,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -80608,6 +81083,7 @@
         "residentWorkers": 71,
         "jobs": 12,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -80708,6 +81184,7 @@
         "residentWorkers": 81,
         "jobs": 5,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -80789,6 +81266,7 @@
         "residentWorkers": 17,
         "jobs": 3,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -80991,6 +81469,7 @@
         "residentWorkers": 2250,
         "jobs": 1325,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -81121,6 +81600,7 @@
         "residentWorkers": 5,
         "jobs": 87,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -81323,6 +81803,7 @@
         "residentWorkers": 3497,
         "jobs": 3169,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     },
@@ -81507,6 +81988,7 @@
         "residentWorkers": 193,
         "jobs": 77,
         "flows_source": "block-od",
+        "year": 2023,
         "wac_source": "block-scaled"
       }
     }

@@ -34,8 +34,12 @@
     font-size: .8125rem; letter-spacing: .08em; text-transform: uppercase;
     color: var(--muted); margin: 0 0 6px; font-weight: 700;
     border-bottom: 1px solid var(--border); padding-bottom: 3px;
+    /* The source note sits at the right and drops to its own line when it
+       doesn't fit. A float let a long note slide under the heading rule and
+       over the content below it in the printout. */
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 12px;
   }
-  .ic-section h2 .ic-sub { float: right; font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .ic-section h2 .ic-sub { font-weight: 400; text-transform: none; letter-spacing: 0; }
   .ic-section p { margin: 4px 0; }
   .ic-section strong { color: var(--text); }
   .ic-muted { color: var(--muted); }

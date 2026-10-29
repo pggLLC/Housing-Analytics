@@ -2518,8 +2518,10 @@
     });
 
     // Labels: append "(est.)" for estimated dimensions
-    var labels = ['Demand', 'Competitive Density', 'Rent Pressure', 'Market Tightness', 'Workforce'].map(function (lbl, i) {
-      return dimAvail[dimKeys[i]] !== false ? lbl : lbl + ' (est.)';
+    // Two-word labels go on two lines, and the chart keeps a margin, so the
+    // side labels fit inside the 300 px chart instead of being cut off.
+    var labels = [['Demand'], ['Competitive', 'Density'], ['Rent', 'Pressure'], ['Market', 'Tightness'], ['Workforce']].map(function (lbl, i) {
+      return dimAvail[dimKeys[i]] !== false ? lbl : lbl.concat('(est.)');
     });
 
     if (radarChart) {
@@ -2548,6 +2550,7 @@
       },
       options: {
         responsive: true,
+        layout: { padding: 6 },
         scales: {
           r: {
             min: 0, max: 100,
@@ -3299,6 +3302,10 @@
       var dealInputs = {
         pmaScore:           pma.pma_score || null,
         proposedUnits:      proposedUnits,
+        // The county the market area mostly sits in, so the concept's mix
+        // check can read local need and rent limits. Without it the card
+        // said "No county is selected" on every run.
+        countyFips:         _dominantCountyFromResult(lastResult),
         competitiveSetSize: supply.affordableCount,
         marketVacancy:      acs.vacancy_rate || null,
         // LIHTC recency — allows predictor to flag saturation (many recent
@@ -5947,7 +5954,12 @@
       // page is ready, so no analysis runs on the fallback by accident.
       // Without either file the capture rate uses the county CHAS share.
       fetchFile('market/chfa_renter_demand_co.json'),
-      fetchFile('chfa-income-rent-limits-2026.json')
+      fetchFile('chfa-income-rent-limits-2026.json'),
+      // LODES job counts for the workforce dimension, for the same reason.
+      // Loaded after the page was ready, a deep-linked analysis often ran
+      // first and scored workforce without them, so one link read 63 on one
+      // load and 65 on the next.
+      window.LodesCommute ? window.LodesCommute.loadMetrics().catch(function () { return null; }) : Promise.resolve(null)
     ]).then(function (results) {      var statusParts = [];
 
       var tractData = results[0];
@@ -6019,7 +6031,7 @@
       if (mapOverlay) mapOverlay.style.display = 'none';
       // Load workforce data connectors in parallel (non-fatal if any fail)
       var workforcePromises = [
-        window.LodesCommute  ? window.LodesCommute.loadMetrics().catch(function () {}) : Promise.resolve(),
+        Promise.resolve(), // LODES: loaded with the main data above
         window.CdleJobs      ? window.CdleJobs.loadMetrics().catch(function () {})     : Promise.resolve(),
         window.CdeSchools    ? window.CdeSchools.loadMetrics().catch(function () {})   : Promise.resolve(),
         window.CdotTraffic   ? window.CdotTraffic.loadMetrics().catch(function () {})  : Promise.resolve()
