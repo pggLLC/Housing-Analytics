@@ -188,6 +188,7 @@ export const NOT_DERIVED = {
   // Network. A rebuild must work offline and be reproducible; these are not.
   'scripts/build_rent_burden_crosscheck.mjs': 'fetches ACS B25070 from the Census API',
   'scripts/fetch-pab-allocations.mjs': 'fetches PAB allocations from the network',
+  'scripts/market/build_commute_strength.py': 'downloads the LEHD LODES 2023 origin-destination file and crosswalk over the network',
   'scripts/policy/build_job_access.py': 'routes drive times through OSRM over the network; reads the index only for the geography list and populations',
 
   // Deploy artifact rather than a data derivation.

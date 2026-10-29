@@ -182,6 +182,11 @@ const ALLOW_LIST = new Set([
   // client (403, cf-mitigated: challenge), from CI and from a home Mac alike.
   // Its documents are cited to the Town site; verified in a browser 2026-10-29.
   "https://www.bayfieldgov.org/",
+  // SAGE (AERA Open) and the LODES 2023 primary-jobs file answer 403 to non-browser clients;
+  // both verified in a browser 2026-10-29 (cited on commuting.html and in commute-strength.json).
+  "https://doi.org/10.1177/23328584241287792",
+  "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT01_2023.csv.gz",
+  "https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz",
   // Novoco LIHTC mapping tool subpath — same 403 bot-protection as
   // other novoco.com pages already in the list above.
   "https://www.novoco.com/resource-centers/low-income-housing-tax-credits/lihtc-mapping-tool",
