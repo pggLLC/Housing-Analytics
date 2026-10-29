@@ -23,6 +23,7 @@
  *   hud       data/hud-fmr-income-limits.json
  *   context   data/policy/where-to-build-context.json (county votes, parks)
  *   commitment data/policy/local-commitment.json (HNAs, written goals, housing authorities)
+ *   jobs      data/policy/job-access.json (jobs within a 30-minute drive, where residents work)
  *   support, fees, funds, coverage   read through js/local-support-data.js
  *
  * No DOM, no fetch, no clock: the caller passes `today`, so the page and the
@@ -64,6 +65,9 @@
       tip: 'How far HUD\'s Fair Market Rent sits above the 60% AMI rent cap.' },
     { id: 'rec', label: 'Recreation and services', weight: 2, factors: ['parks', 'amenities'],
       tip: 'Parks nearby, and grocery, health care, schools and transit within reach.' },
+    // Job access is a fact about the place itself. Commuters stay in the need score of the town where they work.
+    { id: 'jobs', label: 'Jobs within reach', weight: 1, factors: ['jobAccess'],
+      tip: 'Jobs within a 30-minute drive, the town\'s own included. Off in the smaller-town preset, so remote towns are not marked down.' },
     { id: 'commit', label: 'Local commitment', weight: 3, factors: ['hna', 'planGoal', 'authority'],
       tip: 'A current housing needs assessment, a written affordable-housing goal in an adopted plan, and a housing authority with a record of partnering on deals.' },
     { id: 'vote', label: 'Voters backed housing money', weight: 2, factors: ['prop123Vote'],
@@ -73,9 +77,9 @@
   ];
 
   var PRESETS = {
-    mix: { label: 'Balanced', weights: { build: 4, money: 4, land: 3, need: 3, rents: 2, rec: 2, commit: 3, vote: 2, lean: 0 } },
-    rural9: { label: '9% in a smaller town', weights: { build: 3, money: 3, land: 4, need: 4, rents: 2, rec: 1, commit: 3, vote: 1, lean: 0 } },
-    metro4: { label: '4% bond deal in a metro', weights: { build: 3, money: 5, land: 2, need: 3, rents: 4, rec: 2, commit: 3, vote: 1, lean: 0 } }
+    mix: { label: 'Balanced', weights: { build: 4, money: 4, land: 3, need: 3, rents: 2, rec: 2, jobs: 1, commit: 3, vote: 2, lean: 0 } },
+    rural9: { label: '9% in a smaller town', weights: { build: 3, money: 3, land: 4, need: 4, rents: 2, rec: 1, jobs: 0, commit: 3, vote: 1, lean: 0 } },
+    metro4: { label: '4% bond deal in a metro', weights: { build: 3, money: 5, land: 2, need: 3, rents: 4, rec: 2, jobs: 1, commit: 3, vote: 1, lean: 0 } }
   };
 
   var SRC = {
@@ -89,6 +93,7 @@
     parks: { label: 'OpenStreetMap parks (parks_co.geojson)', url: 'data/amenities/parks_co.geojson' },
     hnaList: { label: 'DOLA approved housing needs assessments (SB24-174), and town and county documents read for top places', url: 'https://dlg.colorado.gov/housing-plans' },
     plans: { label: 'Adopted comprehensive, housing and strategic plans, read for top places (local-commitment.json)', url: 'data/policy/local-commitment.json' },
+    jobs: { label: 'LEHD LODES 2023 jobs and commutes, with OSRM drive times on OpenStreetMap roads (job-access.json)', url: 'data/policy/job-access.json' },
     authorities: { label: 'HUD Picture of Subsidized Households (PHA file, 31 Dec 2025) and CHFA award party lists, 2022–2026', url: 'https://www.huduser.gov/portal/datasets/assthsg.html' }
   };
 
@@ -114,6 +119,8 @@
       rule: 'Towns: 2 points per park within 5 miles, up to 10. Counties: 1 point per 3 parks inside the county line, up to 10. City parks only: trails and public lands are not counted yet.' },
     amenities: { label: 'Services within reach', source: SRC.hna,
       rule: 'The HNA amenity access score (grocery, health care, schools, transit), 0 to 100, divided by 10.' },
+    jobAccess: { label: 'Jobs within a 30-minute drive', source: SRC.jobs,
+      rule: 'All jobs in Colorado (primary and secondary) within a 30-minute free-flow drive of where the town\'s working residents live, its own jobs included. 1,000 or fewer: 0; 100,000 or more: 10; each tenfold step adds 5 points (log scale). Counties: the population-weighted average of their towns. Where one other town employs 20% or more of its working residents (primary jobs, counting those who work in another state), the row says so, for context only (no points).' },
     hna: { label: 'Housing needs assessment', source: SRC.hnaList,
       rule: 'Its own assessment, dated within 5 years (DOLA-approved, or found on its website): 10. Covered only by a county or regional one: 6. One under way: 3. Its latest is older than 5 years: 2. A town or Census community inherits its county\'s assessment as a regional one. Not on DOLA\'s list and not read yet: not checked.' },
     planGoal: { label: 'Written affordable-housing goal', source: SRC.plans,
@@ -160,10 +167,10 @@
   // Files each factor rests on (the HNA ranking is required for any score at all).
   var NEEDS = { prop123: ['prop123'], approvals: ['support'], incentives: ['fees', 'coverage'], localFund: ['funds', 'coverage'],
     landBank: ['awards', 'lbStatus'], rentCushion: ['hud'], parks: ['context'], prop123Vote: ['context'], presVote: ['context'],
-    hna: ['commitment'], planGoal: ['commitment'], authority: ['commitment'] };
+    hna: ['commitment'], planGoal: ['commitment'], authority: ['commitment'], jobAccess: ['jobs'] };
   var DOC_FILES = { prop123: 'prop123_jurisdictions.json', support: 'local-support.json', fees: 'fee-reductions.json', funds: 'local-housing-funds.json',
     coverage: 'incentive-coverage.json', awards: 'prop123-land-banking-awards.json', lbStatus: 'prop123-land-banking-status.json', hud: 'hud-fmr-income-limits.json', context: 'where-to-build-context.json',
-    commitment: 'local-commitment.json' };
+    commitment: 'local-commitment.json', jobs: 'job-access.json' };
   // Status dates may be YYYY or YYYY-MM; read them as the earliest day they allow, so a signal never looks newer than its source.
   function fullDate(d) {
     d = String(d || '');
@@ -242,6 +249,8 @@
     (cm.authorities || []).forEach(function (a) {
       (a.serves || []).forEach(function (g) { (authBy[g] = authBy[g] || []).push(a); });
     });
+
+    var jobs = docs.jobs || { places: {}, counties: {} };
 
     var local = LSD ? LSD.build({ support: docs.support, fees: docs.fees, funds: docs.funds, coverage: docs.coverage }) : null;
     var coverage = {};
@@ -405,6 +414,9 @@
       f.planGoal = goalFactor(r, countyGeoid, county, goalRecs);
       f.authority = authorityFactor(r, countyGeoid, authBy, byGeoid);
 
+      // ---- Jobs within reach
+      f.jobAccess = jobAccessFactor(r.type === 'county' ? (jobs.counties || {})[r.geoid] : (jobs.places || {})[r.geoid]);
+
       // ---- County votes
       var v1 = p123Votes[countyGeoid];
       f.prop123Vote = v1
@@ -515,6 +527,19 @@
       weak: best.pts <= 2 ? 'a housing authority with little capacity on record' : null };
   }
 
+  // Where working residents work is shown once one other town employs at least this share of them.
+  var COMMUTE_SHOWN = 0.2;
+
+  function jobAccessFactor(j) {
+    if (!j || j.jobs_30min == null) return { points: null, value: 'No figure' };
+    var n = j.jobs_30min;
+    var pts = round1(clamp((Math.log10(Math.max(n, 1)) - 3) * 5, 0, 10));
+    var top = j.top_workplace;
+    var commute = top && top.share >= COMMUTE_SHOWN ? '; ' + pct(top.share) + ' of working residents work in ' + top.name : '';
+    return { points: pts, value: fmt(n) + ' jobs within a 30-minute drive' + commute,
+      good: 'many jobs within a 30-minute drive', weak: 'few jobs within a 30-minute drive' };
+  }
+
   function metricFactor(v, text, good, weak) {
     if (v == null || !Number.isFinite(Number(v))) return { points: null, value: 'No figure' };
     return { points: round1(clamp(Number(v) / 10, 0, 10)), value: text(Number(v)), good: good, weak: weak };
@@ -538,6 +563,23 @@
   function defaultWeights() {
     var w = {};
     GROUPS.forEach(function (g) { w[g.id] = g.weight; });
+    return w;
+  }
+
+  // Groups added after shared links were already in circulation. A ?w= link that predates one
+  // keeps that group at 0, so an old view scores as it did when it was shared.
+  var ADDED_LATER = ['jobs'];
+
+  /** Weights from a page link's ?w=build.4,money.4,... value (null or empty: the defaults). */
+  function weightsFromQuery(q) {
+    var w = defaultWeights();
+    if (!q) return w;
+    var seen = {};
+    String(q).split(',').forEach(function (kv) {
+      var p = kv.split('.');
+      if (p[0] in w && /^[0-5]$/.test(p[1])) { w[p[0]] = Number(p[1]); seen[p[0]] = 1; }
+    });
+    ADDED_LATER.forEach(function (id) { if (!seen[id]) w[id] = 0; });
     return w;
   }
 
@@ -626,6 +668,7 @@
     score: score,
     tierFor: tierFor,
     defaultWeights: defaultWeights,
+    weightsFromQuery: weightsFromQuery,
     regionFor: regionFor
   };
 }));
