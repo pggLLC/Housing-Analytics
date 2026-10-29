@@ -235,6 +235,21 @@ test('restored legacy UI exposes unknown coverage instead of hiding risk or clai
   dom.window.close();
 });
 
+test('loadInventory(null) marks NHPD unavailable without a console warning (#2554)', () => {
+  const warns = [];
+  const win = { console: { ...console, warn: (...a) => warns.push(a.join(' ')) }, Date };
+  win.window = win;
+  vm.createContext(win);
+  vm.runInContext(read('js/data-connectors/nhpd.js'), win, { filename: 'nhpd.js' });
+  win.Nhpd.loadInventory(null);
+  assert.deepEqual(warns, []);
+  assert.equal(win.Nhpd.getCoverage().status, 'unavailable');
+  assert.match(win.Nhpd.getCoverage().unavailableReason, /has not loaded/);
+  win.Nhpd.loadInventory({ not: 'an array' });
+  assert.equal(warns.length, 1, 'a malformed payload still warns');
+  assert.equal(win.Nhpd.getCoverage().status, 'unavailable');
+});
+
 (async () => {
   let failed = 0;
   for (const [name, fn] of queue) {
