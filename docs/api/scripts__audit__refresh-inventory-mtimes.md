@@ -5,7 +5,8 @@ cross-reference each source's `localFile:` against the committed data
 file, and rewrite two fields that otherwise rot:
 
   - `lastUpdated:` → the source extraction date for cache-filterable OSM
-    files; otherwise the date of the file's last content change in git.
+    files; else the file's own fetch/build stamp when it carries one;
+    otherwise the date of the file's last content change in git.
   - `features:`    → the actual record count in the file, for every
     source listed in JSON_COUNT_PATHS.
 

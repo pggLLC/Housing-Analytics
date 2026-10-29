@@ -12,6 +12,13 @@ Usage (declarative):
     <canvas id="myChart"></canvas>
   </div>
 
+Every line carries a date. Without data-vintage, data-source-id="<inventory
+id>" takes the date js/data-source-inventory.js records; with neither, the
+line says "date unconfirmed".
+
+Or name inventory sources only, and the line is built from the inventory:
+  <div data-source-ids="hna-ranking-index,hud-chas-co"></div>
+
 data-source-type values: raw | transformed | modeled | live
   raw         – data used exactly as published by the source
   transformed – aggregated, filtered, or joined from the source
@@ -39,10 +46,9 @@ Attach a source badge to a container element.
 @param {{ source: string, url?: string, vintage?: string, sourceType?: string }} opts
 @returns {HTMLElement|null} the badge element, or null if nothing was attached.
 
-### `scan()`
+### `inventory()`
 
-Scan DOM for [data-source] elements and auto-attach badges.
-Safe to call multiple times (attach() skips already-badged elements).
+Load js/data-source-inventory.js once; resolves to its source list.
 
 ### `_scheduleScan()`
 

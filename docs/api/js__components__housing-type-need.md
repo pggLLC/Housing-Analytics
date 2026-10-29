@@ -7,7 +7,8 @@ Responsibility: data-driven 7-category ranking of which housing types the
 
 Exposes: window.HousingTypeNeed.compute({
            acsProfile, chasRows, hudIncomeLimits, lihtcInventory,
-           jurisdictionName
+           jurisdictionName, mixCheck?  ({ inputs, result } from
+           js/mix-check-inputs.js; adds pencilLines / laneNotes, never scores)
          })
          -> Array<{
               type, label, score, level, signals, confidence,

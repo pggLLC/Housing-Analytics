@@ -17,19 +17,20 @@ Exposed as window.PMAJustification.
 
 ## Symbols
 
-### `_summarizeGeoidList(geoids)`
+### `resolveDataVintage(overrides)`
 
-Render a tract-GEOID list compactly for the narrative. Up to 12 GEOIDs
-inline; longer lists collapse to "first … last (N total)" so the
-narrative stays under ~500 words.
+ACS vintage label from the tract metrics metadata, e.g. 'ACS_2024_5YR'.
+Source: overrides.acsMeta, else the page's cached tract metrics
+(PMADataCache 'acsMetrics'). null when neither carries a vintage.
 
-### `synthesizePMA(overrides)`
+### `runVintage(scoreRun)`
 
-Synthesize all PMA component outputs into a single ScoreRun object.
-Calls each module's justification accessor when available.
-
-@param {object} [overrides] - manually supplied component data (optional)
-@returns {object} ScoreRun
+The vintage to report for a run, which may be a saved one restored from
+localStorage. Runs saved before 2026-10-17 carry a hard-coded label that
+did not come from the data, so only a label marked as read from the tract
+metadata is trusted. When the tract data loaded now is a different
+vintage, the label stays the run's own and a note says to re-run.
+@returns {{ label: (string|null), note: (string|null) }}
 
 ### `generateNarrative(scoreRun)`
 

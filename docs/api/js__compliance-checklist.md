@@ -6,9 +6,19 @@
 
 LocalStorage namespace prefix — avoids collisions with other tools.
 
+### `STATE_VERSION`
+
+Saved-state version. v2 (2026-10): every item was redefined by the
+ legal corrections (baseline now includes ownership homes; the goal is
+ cycle-specific; fast-track means the 90-day decision; 'dola' is the
+ November 1 cycle commitment, not an annual January 31 notice; 'report'
+ is end-of-cycle). A box ticked for an old task must not show the new
+ one as done, so v1 state is not carried over.
+
 ### `DOLA_DEADLINE_MONTH`
 
-DOLA annual filing deadline (month is 0-indexed: 0 = January).
+Prop 123 commitment deadline, November 1 before the cycle it covers
+ (C.R.S. § 29-32-105(1)(d)). Month is 0-indexed: 10 = November.
 
 ### `DEADLINE_WARN_DAYS`
 
@@ -55,7 +65,7 @@ Create a fresh (all-unchecked) checklist state record.
 
 ### `nextDolaDeadline(now)`
 
-Calculate the next DOLA deadline (January 31) from today.
+Calculate the next commitment deadline (November 1) from today.
 @param {Date} [now] - Override for testing; defaults to today.
 @returns {Date}
 
@@ -72,6 +82,10 @@ Validate a checklist item's value before saving.
 @param {string} itemId  - One of ITEM_IDS
 @param {*}      value   - The value to validate
 @returns {{ valid: boolean, error: string|null }}
+
+### `loadState(geoType, geoid)`
+
+Read saved state for a geography (v2 key only). @returns {object|null}
 
 ### `initComplianceChecklist(geoType, geoid)`
 
@@ -111,7 +125,7 @@ Returns true if all 5 items in the checklist are checked.
 @param {string} geoid
 @returns {boolean}
 
-### `getNextAction(geoType, geoid)`
+### `getNextAction(geoType, geoid, now)`
 
 Returns a human-readable description of the next required compliance action.
 

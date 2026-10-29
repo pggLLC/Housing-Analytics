@@ -2,8 +2,7 @@
 
 pro-forma.js — 15-Year Operating Pro Forma Module for LIHTC Deal Calculator
 
-ES5 IIFE pattern.  Reads year-1 values from the deal-calculator DOM,
-projects rent/expense growth over a configurable horizon, and renders
+ES5 IIFE pattern.  Renders the engine result's operating projection over a configurable horizon as
 an interactive table + Chart.js line chart.
 
 Mount:  ProForma.render('containerId')

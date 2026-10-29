@@ -13,8 +13,13 @@ DDA_CODE           →  GEOID       (5-digit state+county FIPS, e.g. "08067")
 DDA_CODE (derived) →  COUNTYFP    (3-digit county FIPS, e.g. "067")
 (computed)         →  STATEFP     ("08" for Colorado)
 
-Only county-based DDA features (DDA_CODE starts with "NCNTY") whose embedded
-state FIPS equals "08" (Colorado) are kept.  All other features are removed.
+Two kinds of Colorado DDA are kept; all other features are removed:
+  - nonmetro county DDAs (DDA_CODE starts with "NCNTY", embedded state FIPS
+    "08"): GEOID/COUNTYFP are the county FIPS, DDA_KIND = "county";
+  - metro Small Area DDAs (DDA_TYPE "SA"), which HUD designates by ZIP
+    (ZCTA5) — Colorado ZIPs are 80xxx/81xxx: GEOID/COUNTYFP are null (a ZIP
+    is not a county and does not cover one), ZCTA5 is kept, DDA_KIND = "zip".
+County rows are written first, then ZIP rows in ZIP order.
 
 DDA_CODE format for county-based DDAs:
   NCNTY<5-digit-FIPS>N<5-digit-FIPS>
