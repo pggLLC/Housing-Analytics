@@ -46,8 +46,7 @@ import openpyxl
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'data' / 'policy' / 'chfa-common-app-tables.json'
-SOURCE_URL = ('https://www.chfainfo.com/getattachment/aaa81775-083b-401b-8fba-7474f13624d9/'
-              '2027-Common-Application-for-Housing-Tax-Credit-Development-V9.xlsx')
+SOURCE_URL = 'https://www.chfainfo.com/getattachment/aaa81775-083b-401b-8fba-7474f13624d9/2027-Common-Application-for-Housing-Tax-Credit-Development-V9.xlsx'  # noqa: E501 (one line so the URL sweep reads it whole)
 PAGE_URL = 'https://www.chfainfo.com/rental-housing/housing-credit/application'
 BEDROOMS = ['0 bedroom', '1 bedroom', '2 bedroom', '3 bedroom', '4 bedroom', '5 bedroom']
 
