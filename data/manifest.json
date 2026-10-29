@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-29T13:10:53.285999Z",
+  "generated": "2026-10-29T14:09:29.082277Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9574,7 +9574,7 @@
     "data/policy/fee-reductions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 580886
+      "bytes": 583576
     },
     "data/policy/funding-awards/award-rows.json": {
       "featureCount": 0,
@@ -9689,7 +9689,7 @@
     "data/policy/local-commitment.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 64941
+      "bytes": 65588
     },
     "data/policy/local-housing-funds.json": {
       "featureCount": 0,
@@ -9699,7 +9699,7 @@
     "data/policy/local-support.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 150073
+      "bytes": 158569
     },
     "data/policy/methodology-version.json": {
       "featureCount": 0,

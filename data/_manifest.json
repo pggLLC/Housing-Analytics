@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-29T13:10:48.849Z",
+    "generated_at": "2026-10-29T14:09:25.822Z",
     "root": "data/",
     "file_count": 1996,
-    "total_size_bytes": 206437196,
+    "total_size_bytes": 206449029,
     "kinds": {
       "json": 1948,
       "geojson": 34,
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-29T10:00:53.629Z",
+      "mtime": "2026-10-29T14:09:23.060Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -36868,7 +36868,7 @@
       "path": "jurisdiction-briefs/0803620.json",
       "kind": "json",
       "size_bytes": 37972,
-      "mtime": "2026-10-25T10:47:37.860Z",
+      "mtime": "2026-10-29T14:08:00.929Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -36897,7 +36897,7 @@
       "path": "jurisdiction-briefs/08045.json",
       "kind": "json",
       "size_bytes": 36684,
-      "mtime": "2026-10-25T10:47:37.864Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -36927,7 +36927,7 @@
       "path": "jurisdiction-briefs/08097.json",
       "kind": "json",
       "size_bytes": 37748,
-      "mtime": "2026-10-25T10:47:37.869Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -36956,7 +36956,7 @@
       "path": "jurisdiction-briefs/0810105.json",
       "kind": "json",
       "size_bytes": 22833,
-      "mtime": "2026-10-25T10:47:37.874Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -36985,7 +36985,7 @@
       "path": "jurisdiction-briefs/0812045.json",
       "kind": "json",
       "size_bytes": 34323,
-      "mtime": "2026-10-25T10:47:37.879Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37014,7 +37014,7 @@
       "path": "jurisdiction-briefs/0816000.json",
       "kind": "json",
       "size_bytes": 32545,
-      "mtime": "2026-10-25T10:47:37.884Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37043,7 +37043,7 @@
       "path": "jurisdiction-briefs/0817375.json",
       "kind": "json",
       "size_bytes": 28017,
-      "mtime": "2026-10-25T10:47:37.889Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37072,7 +37072,7 @@
       "path": "jurisdiction-briefs/0818310.json",
       "kind": "json",
       "size_bytes": 22697,
-      "mtime": "2026-10-25T10:47:37.893Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37101,7 +37101,7 @@
       "path": "jurisdiction-briefs/0820000.json",
       "kind": "json",
       "size_bytes": 45399,
-      "mtime": "2026-10-25T10:47:37.898Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37130,7 +37130,7 @@
       "path": "jurisdiction-briefs/0822035.json",
       "kind": "json",
       "size_bytes": 28718,
-      "mtime": "2026-10-25T10:47:37.903Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37160,7 +37160,7 @@
       "path": "jurisdiction-briefs/0827425.json",
       "kind": "json",
       "size_bytes": 34397,
-      "mtime": "2026-10-25T10:47:37.907Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37189,7 +37189,7 @@
       "path": "jurisdiction-briefs/0828745.json",
       "kind": "json",
       "size_bytes": 22013,
-      "mtime": "2026-10-25T10:47:37.912Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37218,7 +37218,7 @@
       "path": "jurisdiction-briefs/0830780.json",
       "kind": "json",
       "size_bytes": 39565,
-      "mtime": "2026-10-25T10:47:37.916Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37247,7 +37247,7 @@
       "path": "jurisdiction-briefs/0864255.json",
       "kind": "json",
       "size_bytes": 24304,
-      "mtime": "2026-10-25T10:47:37.921Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37275,7 +37275,7 @@
       "path": "jurisdiction-briefs/0867280.json",
       "kind": "json",
       "size_bytes": 32667,
-      "mtime": "2026-10-25T10:47:37.925Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37304,7 +37304,7 @@
       "path": "jurisdiction-briefs/0870195.json",
       "kind": "json",
       "size_bytes": 34678,
-      "mtime": "2026-10-25T10:47:37.930Z",
+      "mtime": "2026-10-29T14:08:00.931Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37333,7 +37333,7 @@
       "path": "jurisdiction-briefs/0873825.json",
       "kind": "json",
       "size_bytes": 25342,
-      "mtime": "2026-10-25T10:47:37.934Z",
+      "mtime": "2026-10-29T14:08:00.931Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37362,7 +37362,7 @@
       "path": "jurisdiction-briefs/0876795.json",
       "kind": "json",
       "size_bytes": 21341,
-      "mtime": "2026-10-25T10:47:37.939Z",
+      "mtime": "2026-10-29T14:08:00.931Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -39728,7 +39728,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-29T10:00:55.642Z",
+      "mtime": "2026-10-29T14:09:24.494Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39752,7 +39752,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-29T10:00:55.096Z",
+      "mtime": "2026-10-29T14:09:24.130Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41816,8 +41816,8 @@
     {
       "path": "policy/fee-reductions.json",
       "kind": "json",
-      "size_bytes": 580886,
-      "mtime": "2026-10-10T20:58:58.854Z",
+      "size_bytes": 583576,
+      "mtime": "2026-10-29T14:08:01.107Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41827,7 +41827,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "entries",
-      "primary_array_length": 117,
+      "primary_array_length": 118,
       "primary_array_first_keys": [
         "id",
         "state",
@@ -42340,8 +42340,8 @@
     {
       "path": "policy/local-commitment.json",
       "kind": "json",
-      "size_bytes": 64941,
-      "mtime": "2026-10-23T18:16:39.794Z",
+      "size_bytes": 65588,
+      "mtime": "2026-10-29T14:08:01.111Z",
       "shape": "object",
       "keys": [
         "generated_by",
@@ -42439,8 +42439,8 @@
     {
       "path": "policy/local-support.json",
       "kind": "json",
-      "size_bytes": 150073,
-      "mtime": "2026-10-11T03:45:54.242Z",
+      "size_bytes": 158569,
+      "mtime": "2026-10-29T14:08:01.112Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42449,7 +42449,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "jurisdictions",
-      "primary_array_length": 18,
+      "primary_array_length": 19,
       "primary_array_first_keys": [
         "geoid",
         "jurisdiction",
@@ -42964,7 +42964,7 @@
       "path": "policy_briefs_curated.json",
       "kind": "json",
       "size_bytes": 181243,
-      "mtime": "2026-10-24T00:16:04.600Z",
+      "mtime": "2026-10-29T14:08:01.115Z",
       "shape": "object",
       "keys": [
         "meta",
