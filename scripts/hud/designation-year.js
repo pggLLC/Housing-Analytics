@@ -12,7 +12,8 @@
  *   - the same as the cached file  -> the cached year, whatever the layer says;
  *   - different, from a layer named later than the cache -> the layer's year;
  *   - different, from a layer named the same year as the cache (or earlier)
- *     -> the year after the cached one: HUD has loaded next year's list early.
+ *     -> the year after the cached one: HUD has loaded next year's list early;
+ *   - no readable cached file or year -> nothing is written.
  *
  * Next year's list applies only to allocations, bond issuance and placement in
  * service after December 31 (91 FR 63573, 2026-10-06, section VII.A), so it is
@@ -32,7 +33,13 @@ function sameSet(a, b) {
 
 function resolveDesignationYear({ layerYear, thisYear, cachedYear, cachedKeys, fetchedKeys }) {
   if (!Number.isInteger(cachedYear) || !cachedKeys || !cachedKeys.length) {
-    return { year: layerYear, write: true, reason: 'no cached year to compare; using the layer name' };
+    // Without a baseline the layer name is the only evidence, and it is the
+    // evidence that failed in October 2026. Refuse rather than guess; restore
+    // the cached file from git history to resume.
+    return {
+      year: layerYear, write: false,
+      reason: 'no readable cached file with a designation year to compare against; the layer name alone is not evidence of the year, so nothing is written',
+    };
   }
   if (sameSet(cachedKeys, fetchedKeys)) {
     return { year: cachedYear, write: true, reason: `content unchanged; still the ${cachedYear} designations` };

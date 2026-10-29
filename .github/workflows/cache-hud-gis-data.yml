@@ -173,6 +173,7 @@ jobs:
           EOF
 
       - name: Fetch HUD DDA data (Colorado only — pre-filtered to FIPS 08)
+        id: fetch_dda
         run: |
           node - <<'EOF'
           const fs    = require('fs');
@@ -251,6 +252,8 @@ jobs:
                   if (!r.write) return;
                   const out = { ...gj, features: coFeats, fetchedAt: new Date().toISOString(), designationYear: r.year, source: `HUD ArcGIS Difficult_Development_Areas_${year} FeatureServer — services.arcgis.com` };
                   fs.writeFileSync('data/dda-colorado.json', JSON.stringify(out));
+                  // Only a real write is normalized; a refused or failed fetch keeps the cached file byte for byte.
+                  fs.appendFileSync(process.env.GITHUB_OUTPUT || '/dev/null', 'written=true\n');
                   const nCounty = coFeats.filter((f) => String((f.properties || {}).DDA_CODE || '').startsWith('NCNTY08')).length;
                   console.log(`Wrote ${coFeats.length} Colorado DDA features (${nCounty} nonmetro counties, ${coFeats.length - nCounty} Small Area ZIP rows) to data/dda-colorado.json (where: ${where}, total fetched: ${gj.features.length})`);
                   return;
@@ -282,6 +285,7 @@ jobs:
           EOF
 
       - name: Normalize DDA data (map HUD field names to front-end schema)
+        if: steps.fetch_dda.outputs.written == 'true'
         run: node scripts/normalize-dda.js
 
       - name: Build Colorado county boundaries

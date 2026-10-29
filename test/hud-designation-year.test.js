@@ -32,9 +32,11 @@ test('a correctly named new layer gives its own year', () => {
   assert.deepEqual([r.write, r.year], [true, 2028]);
 });
 
-test('with no cached year the layer name is used', () => {
-  const r = resolveDesignationYear({ layerYear: 2026, thisYear: 2026, cachedYear: null, cachedKeys: null, fetchedKeys: DDA_2027 });
-  assert.deepEqual([r.write, r.year], [true, 2026]);
+test('with no cached baseline nothing is written', () => {
+  for (const cached of [{ cachedYear: null, cachedKeys: null }, { cachedYear: 2026, cachedKeys: [] }, { cachedYear: null, cachedKeys: DDA_2026 }]) {
+    const r = resolveDesignationYear({ layerYear: 2026, thisYear: 2026, fetchedKeys: DDA_2027, ...cached });
+    assert.equal(r.write, false);
+  }
 });
 
 test('keys and cached years read the repo\'s own files', () => {
@@ -52,6 +54,11 @@ test('both fetch steps in the workflow use the guard', () => {
   assert.equal((wf.match(/resolveDesignationYear\(\{/g) || []).length, 2);
   assert.equal((wf.match(/designationYear: r\.year/g) || []).length, 2);
   assert.ok(!/designationYear: year,/.test(wf), 'no step labels by layer name');
+  // A refused or failed DDA fetch must leave data/dda-colorado.json alone:
+  // normalize-dda.js rewrites it (fresh normalizedAt) whenever it runs.
+  assert.match(wf, /- name: Fetch HUD DDA data[^\n]*\n\s+id: fetch_dda\n/);
+  assert.equal((wf.match(/written=true/g) || []).length, 1, 'only a real DDA write sets the output');
+  assert.match(wf, /- name: Normalize DDA data[^\n]*\n\s+if: steps\.fetch_dda\.outputs\.written == 'true'\n\s+run: node scripts\/normalize-dda\.js/);
 });
 
 test('the Deal Calculator notes the 2027 DDA changes until the site carries the 2027 list', () => {
