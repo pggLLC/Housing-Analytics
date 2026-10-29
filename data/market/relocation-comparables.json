@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "updated": "2026-10-29",
+    "purpose": "Documented shares of tenants or applicants who came from outside the county or market area at comparable Colorado affordable rentals. The market study's second capture line uses only rows measured at the county line.",
+    "rule": "CHFA's QAP allows in-migration in the capture rate only when it is demonstrated from other comparable projects. A county with no row here gets no relocation number.",
+    "measures": {
+      "outside_county": "Share of tenants or applicants whose prior address was outside the county. Comparable to the county renter pool used in the capture stack.",
+      "outside_pma": "Share from outside the project's primary market area. A PMA is smaller than a county, so this share is shown as evidence only and never applied to the county pool."
+    }
+  },
+  "comparables": [
+    {
+      "id": "smith-ranch-summit",
+      "county_fips": "08117",
+      "county": "Summit County",
+      "property": "Smith Ranch (Silverthorne)",
+      "round": "CHFA 2022 Round Two LIHTC application",
+      "measure": "outside_county",
+      "share_low": 10,
+      "share_high": 50,
+      "basis": "Six LIHTC and mixed-income property managers interviewed for the market study",
+      "quote": "In-migration is understated as six LIHTC and mixed-income property managers mentioned 10% to 50% of tenants are from outside Summit County, while three market-rate developments also had 30% to 80% of their tenants relocating from outside the county.",
+      "source_title": "CHFA 2022 Round Two Housing Tax Credit application narratives",
+      "source_url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf",
+      "pdf_page": 78,
+      "kind": "Applicant narrative citing its market study"
+    },
+    {
+      "id": "willoughby-boulder",
+      "county_fips": "08013",
+      "county": "Boulder County",
+      "property": "Willoughby Corner (Lafayette)",
+      "round": "Market study for Boulder County Housing Authority",
+      "measure": "outside_county",
+      "share_low": 19,
+      "share_high": 24,
+      "basis": "Boulder County Housing Authority application lists for new affordable properties in Lyons, Louisville and Longmont",
+      "quote": "Of the application submission lists that were available to analyze for locational data, the percentage of potential applicants from outside of Boulder County ranged from 19% to 24%.",
+      "source_title": "Willoughby Corner senior housing market study",
+      "source_url": "https://assets.bouldercounty.gov/wp-content/uploads/2023/08/willoughby-corner-senior-housing-market-study.pdf",
+      "pdf_page": 78,
+      "kind": "Market study"
+    },
+    {
+      "id": "elevate-aurora",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "property": "Elevate at Aurora",
+      "round": "CHFA 2022 Round Two LIHTC application",
+      "measure": "outside_pma",
+      "share_low": 50,
+      "share_high": 65,
+      "basis": "Market analyst's read of other affordable properties in the area",
+      "quote": "the market analyst anticipates the Project to attract 50-65% of its tenants from outside of the PMA based on the experience of other affordable housing properties in the area",
+      "source_title": "CHFA 2022 Round Two Housing Tax Credit application narratives",
+      "source_url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf",
+      "pdf_page": 12,
+      "kind": "Applicant narrative citing its market study"
+    },
+    {
+      "id": "a-line-flats-denver",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "property": "A Line Flats",
+      "round": "CHFA 2025 Round Two LIHTC application",
+      "measure": "outside_pma",
+      "share_low": 25,
+      "share_high": 25,
+      "basis": "Market study in-migration adjustment for a transit-oriented site",
+      "quote": "The market study forecasts a base capture rate of 26.3% for A Line Flats, which improves to 21.0% when adjusted for 25% in-migration, reflecting the project’s TOD location and its ability to attract tenants from outside the PMA.",
+      "source_title": "CHFA 2025 Round Two Housing Tax Credit application narratives",
+      "source_url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf",
+      "pdf_page": 12,
+      "kind": "Applicant narrative citing its market study"
+    }
+  ]
+}
