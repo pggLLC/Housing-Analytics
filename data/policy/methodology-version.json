@@ -5,16 +5,6 @@
     "as_of": "2026-10-29"
   },
   "modules": {
-    "where_to_build": {
-      "current_version": "v1.1-2026-10-29",
-      "label": "Where Should I Build? score (0-100, reader-weighted, developer site)",
-      "what_it_covers": "Every town, Census community and county in the HNA ranking, scored on factors in weighted groups with three presets. A factor not yet checked lowers confidence instead of scoring zero.",
-      "key_methodology_doc": "developer-methods.html#where (each factor's rule is printed from js/where-to-build.js FACTORS)",
-      "change_log": [
-        { "version": "v1.1-2026-10-29", "what_changed": "HA #2569 added the Jobs within reach group: LEHD LODES 2023 jobs within a 30-minute drive (OSRM), log scale 1,000 = 0 to 100,000 = 10; weight 1 in Balanced and 4% metro, 0 in the smaller-town 9% preset." },
-        { "version": "v1.0", "what_changed": "Factor score with printed rules, sources, confidence and tiers (transparency rule set 2026-10-22)." }
-      ]
-    },
     "opportunity_finder": {
       "current_version": "v2.4-2026-04-22",
       "label": "Opportunity Finder score (0-100, by deal type)",
