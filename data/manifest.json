@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-29T16:20:32.878440Z",
+  "generated": "2026-10-29T17:11:54.609624Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9709,7 +9709,7 @@
     "data/policy/methodology-version.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6455
+      "bytes": 6534
     },
     "data/policy/pab-allocations.json": {
       "featureCount": 0,
