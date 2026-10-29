@@ -101,6 +101,15 @@ async function main() {
     assert.equal(r.status, 'Not committed', `${f.name}: its 2024–2026 status stays Not committed`);
   });
   assert((DATA.fast_track_without_cycle1_commitment || []).length > 0, 'the fast-track-only list is non-empty, so the check above ran');
+  // A fast-track-only entry must not be a misspelt cycle-1 jurisdiction: DOLA's
+  // sheet wrote "Parker Town of" and "Town of Plateville", which left Parker
+  // and Platteville showing "Not adopted" (#2564 review).
+  const bare = (n) => n.toLowerCase().replace(/,/g, ' ').replace(/\b(city and county|town|city|county) of\b|\bof (town|city)\b|\b(town|city|county)\b/g, ' ')
+    .replace(/[^a-z]/g, '').replace(/(.)\1/g, '$1');
+  const cycle1 = new Set(DATA.jurisdictions.map((r) => bare(r.name)));
+  (DATA.fast_track_without_cycle1_commitment || []).forEach((f) => {
+    assert(!cycle1.has(bare(f.name)), `${f.name}: matches a cycle-1 jurisdiction, so its adoption belongs on that record`);
+  });
 
   // Every DOLA filing by a Colorado county or municipality matches a geography.
   const geo = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/geo-config.json'), 'utf8'));
