@@ -178,6 +178,10 @@ const ALLOW_LIST = new Set([
   // user-agents (Akamai bot protection). Real browsers reach the home
   // page fine — verified manually 2026-05-15.
   "https://www.jchs.harvard.edu/",
+  // Town of Bayfield serves a Cloudflare challenge to every non-browser
+  // client (403, cf-mitigated: challenge), from CI and from a home Mac alike.
+  // Its documents are cited to the Town site; verified in a browser 2026-10-29.
+  "https://www.bayfieldgov.org/",
   // Novoco LIHTC mapping tool subpath — same 403 bot-protection as
   // other novoco.com pages already in the list above.
   "https://www.novoco.com/resource-centers/low-income-housing-tax-credits/lihtc-mapping-tool",
