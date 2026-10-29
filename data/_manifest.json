@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-29T07:42:21.902Z",
+    "generated_at": "2026-10-29T08:38:08.902Z",
     "root": "data/",
-    "file_count": 1994,
-    "total_size_bytes": 206134317,
+    "file_count": 1995,
+    "total_size_bytes": 206345094,
     "kinds": {
-      "json": 1946,
+      "json": 1947,
       "geojson": 34,
       "csv": 14
     }
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-29T07:42:17.718Z",
+      "mtime": "2026-10-29T08:38:04.551Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38875,7 +38875,7 @@
       "path": "market/housing_policy_jurisdictions_co.geojson",
       "kind": "geojson",
       "size_bytes": 1230019,
-      "mtime": "2026-10-24T12:43:21.982Z",
+      "mtime": "2026-10-29T08:36:09.476Z",
       "shape": "geojson",
       "feature_count": 336,
       "property_keys": [
@@ -39191,8 +39191,8 @@
     {
       "path": "market/opportunity_zones_co.geojson",
       "kind": "geojson",
-      "size_bytes": 851407,
-      "mtime": "2026-09-25T12:55:18.973Z",
+      "size_bytes": 851949,
+      "mtime": "2026-10-29T08:36:09.594Z",
       "shape": "geojson",
       "feature_count": 126,
       "property_keys": [
@@ -39727,8 +39727,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16091,
-      "mtime": "2026-10-29T07:42:19.796Z",
+      "size_bytes": 16089,
+      "mtime": "2026-10-29T08:38:06.746Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39752,7 +39752,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-29T07:42:19.286Z",
+      "mtime": "2026-10-29T08:38:06.181Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42128,7 +42128,7 @@
       "path": "policy/housing-policy-scorecard.json",
       "kind": "json",
       "size_bytes": 183105,
-      "mtime": "2026-10-24T12:43:21.982Z",
+      "mtime": "2026-10-29T08:36:09.655Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -42595,8 +42595,8 @@
     {
       "path": "policy/prop123_jurisdictions.json",
       "kind": "json",
-      "size_bytes": 133084,
-      "mtime": "2026-10-11T10:13:22.916Z",
+      "size_bytes": 143647,
+      "mtime": "2026-10-29T08:36:09.658Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -42727,6 +42727,28 @@
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
+    },
+    {
+      "path": "policy/state-housing-laws.json",
+      "kind": "json",
+      "size_bytes": 199674,
+      "mtime": "2026-10-29T08:36:09.659Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "laws",
+        "jurisdictions"
+      ],
+      "key_count": 3,
+      "primary_array_key": "laws",
+      "primary_array_length": 11,
+      "primary_array_first_keys": [
+        "id",
+        "bill",
+        "name",
+        "plain",
+        "url"
+      ]
     },
     {
       "path": "policy/stewardship-providers.json",

@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T07:41:42.784Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T08:37:27.410Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-79 pages found.
+80 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -31,7 +31,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.2 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 83.7 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.1 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 88.1 KB |
@@ -53,14 +53,15 @@
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 37.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 42.2 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.4 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 139.1 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 176.6 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.0 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 137.7 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.6 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 139.4 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 176.9 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.2 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 137.9 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
+| `housing-help.html` | If You Need Housing Now | COHO Analytics | 17.2 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 254.4 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 254.7 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 51.9 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.1 KB |
@@ -85,7 +86,7 @@
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.5 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 12.9 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 13.1 KB |
 | `state-allocation-map.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 3.0 KB |
 | `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.1 KB |
@@ -94,7 +95,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1947 JSON files found.
+1948 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -2012,11 +2013,12 @@
 | `data/policy/prop123-land-banking-awards.json` | 80.8 KB | ✅ | — |
 | `data/policy/prop123-land-banking-status.json` | 35.9 KB | ✅ | — |
 | `data/policy/prop123-rental-rules.json` | 33.2 KB | ✅ | — |
-| `data/policy/prop123_jurisdictions.json` | 130.0 KB | ✅ | — |
+| `data/policy/prop123_jurisdictions.json` | 140.3 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 7.6 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
 | `data/policy/resident-services.json` | 34.4 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 45.5 KB | ✅ | — |
+| `data/policy/state-housing-laws.json` | 195.0 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 39.8 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 3.7 KB | ✅ | — |
@@ -2050,7 +2052,7 @@
 
 ## Test Files
 
-731 test files found.
+733 test files found.
 
 | File | Size |
 |------|------|
@@ -2332,7 +2334,7 @@
 | `test/hna-phase2-stubs-wired.test.js` | 6.9 KB |
 | `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
 | `test/hna-projection-integrity.test.js` | 58.0 KB |
-| `test/hna-prop123-relationship.test.js` | 13.6 KB |
+| `test/hna-prop123-relationship.test.js` | 14.3 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
 | `test/hna-qct-dda-unavailable.test.js` | 9.7 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 4.4 KB |
@@ -2366,6 +2368,7 @@
 | `test/homes-short-agreement.test.js` | 4.2 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
 | `test/housing-events-and-brief-news.test.mjs` | 15.1 KB |
+| `test/housing-help.test.js` | 4.2 KB |
 | `test/housing-need-face-validity.test.mjs` | 25.3 KB |
 | `test/housing-news-leads-with-the-newest.test.mjs` | 24.0 KB |
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
@@ -2446,7 +2449,7 @@
 | `test/navigation-reaches-every-page.test.mjs` | 5.9 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
 | `test/next-step-link.test.js` | 8.7 KB |
-| `test/nhpd-coverage.test.js` | 13.4 KB |
+| `test/nhpd-coverage.test.js` | 14.1 KB |
 | `test/nlihc-out-of-reach.test.mjs` | 4.7 KB |
 | `test/no-synthesized-chfa-awards.test.js` | 3.9 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
@@ -2619,6 +2622,7 @@
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/state-allocations-abbr.test.js` | 3.2 KB |
+| `test/state-housing-laws.test.js` | 6.0 KB |
 | `test/step-count-agreement.test.mjs` | 7.5 KB |
 | `test/step-labels-agree.test.mjs` | 5.5 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
