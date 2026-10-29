@@ -12,6 +12,12 @@
  * Also computes overall (portfolio) capture rate folding in the
  * in-migration assumption from Subject Project.
  *
+ * A second line, "capture with relocation", grows the county pool only by a
+ * share documented at comparable Colorado projects measured at the county
+ * line (data/market/relocation-comparables.json, low end of the range),
+ * capped at the county's lower-paid workers who commute in 20-60 miles
+ * (data/market/commute-strength.json). No comparable on file, no number.
+ *
  * The pool here is county renters at or under each tier, without CHFA's
  * rent floor or household-size fit, so the card shows the share with no
  * CHFA verdict. The 85% line from CHFA's 2027-28 draft QAP is applied in
@@ -29,6 +35,8 @@
   if (global.SubjectCaptureStack) return;
 
   var AMI_GAP_URL = 'data/co_ami_gap_by_county.json';
+  var COMPS_URL = 'data/market/relocation-comparables.json';
+  var COMMUTE_URL = 'data/market/commute-strength.json';
 
   function $h(tag, attrs, children) {
     var el = document.createElement(tag);
@@ -62,6 +70,66 @@
     _gapCache = fetch(AMI_GAP_URL).then(function (r) { return r.json(); })
       .catch(function () { return null; });
     return _gapCache;
+  }
+
+  var _compsCache = null, _commuteCache = null;
+  function _loadJson(url) {
+    return fetch(url).then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
+  }
+  function loadRelocation() {
+    if (!_compsCache) _compsCache = _loadJson(COMPS_URL);
+    if (!_commuteCache) _commuteCache = _loadJson(COMMUTE_URL);
+    return Promise.all([_compsCache, _commuteCache]);
+  }
+
+  // Pure: the relocation line for one county. baseHh is the portfolio pool
+  // before the manual in-migration input, so the two never stack.
+  function relocationLine(fips, units, baseHh, comps, commute) {
+    fips = String(fips).padStart(5, '0');
+    var rows = ((comps && comps.comparables) || []).filter(function (c) { return c.county_fips === fips; });
+    var county = rows.filter(function (c) { return c.measure === 'outside_county'; });
+    var cc = commute && commute.counties ? commute.counties[fips] : null;
+    var pool = cc && cc.far_low != null ? +cc.far_low : null;
+    var out = { evidence: rows, used: null, share: null, added: null, cap: pool,
+      capped: false, rate: null, baseRate: (baseHh > 0) ? units / baseHh * 100 : null };
+    if (!county.length || !(baseHh > 0)) return out;
+    // Lowest documented share across county-line comparables.
+    var used = county.reduce(function (a, b) { return (+b.share_low < +a.share_low) ? b : a; });
+    var s = +used.share_low / 100;
+    if (!(s > 0 && s < 1)) return out;
+    var added = baseHh * s / (1 - s);
+    if (pool != null && added > pool) { added = pool; out.capped = true; }
+    out.used = used; out.share = +used.share_low; out.added = Math.round(added);
+    out.rate = units / (baseHh + out.added) * 100;
+    return out;
+  }
+
+  function _relocationBox(box, fips, units, baseHh, comps, commute) {
+    var r = relocationLine(fips, units, baseHh, comps, commute);
+    box.innerHTML = '';
+    box.appendChild($h('div', {}, [
+      $h('strong', {}, ['Capture with relocation: ']),
+      r.rate == null ? $h('span', { 'data-relocation-rate': 'none' }, ['no number'])
+        : $h('span', { 'data-relocation-rate': r.rate.toFixed(1), style: { fontWeight: '600' } }, [$pct(r.rate)]),
+      ' · without relocation ' + $pct(r.baseRate)
+    ]));
+    var note;
+    if (r.used) {
+      note = 'Adds ' + $fmt(r.added) + ' households, using the low end (' + r.share + '%) of tenants from outside the county at ' +
+        r.used.property + '. ' + (r.capped ? 'Capped at ' : 'The cap is ') + $fmt(r.cap) +
+        ' lower-paid workers who commute 20 to 60 miles into the county (LODES 2023). Use this line as a range check, not the base case.';
+    } else {
+      note = 'No comparable evidence of tenants relocating from outside this county is on file, so no relocation number is shown. CHFA allows in-migration only when comparable projects demonstrate it.' +
+        (r.cap != null ? ' For context, ' + $fmt(r.cap) + ' lower-paid workers commute 20 to 60 miles into the county (LODES 2023).' : '');
+    }
+    box.appendChild($h('div', { style: { marginTop: '.2rem', color: 'var(--muted)', fontSize: '.74rem' } }, [note]));
+    r.evidence.forEach(function (c) {
+      box.appendChild($h('div', { 'data-relocation-comp': c.id, style: { marginTop: '.3rem', fontSize: '.74rem', color: 'var(--muted)' } }, [
+        c.property + ' (' + c.round + ', ' + (c.measure === 'outside_county' ? 'from outside the county' : 'from outside its market area, shown for context only') + '): “' + c.quote + '” ',
+        $h('a', { href: c.source_url + '#page=' + c.pdf_page, target: '_blank', rel: 'noopener' }, [c.source_title + ', p. ' + c.pdf_page])
+      ]));
+    });
   }
 
   function _findCounty(gap, fips) {
@@ -177,7 +245,7 @@
       var tbody = $h('tbody', {});
 
       var allTiers = [30, 40, 50, 60, 70, 80];
-      var grandSubject = 0, grandHh = 0;
+      var grandSubject = 0, grandHh = 0, grandHhBase = 0;
       var rowsRendered = 0;
       allTiers.forEach(function (tier) {
         var nUnits = subjectByTier[tier] || 0;
@@ -196,6 +264,7 @@
         // tier (e.g. ≤30% AMI) also qualifies for any higher-AMI Subject
         // unit; only HHs above the highest Subject AMI are ineligible.
         if (hhAdj) grandHh = Math.max(grandHh, hhAdj);
+        if (hh) grandHhBase = Math.max(grandHhBase, hh);
 
         tbody.appendChild($h('tr', {}, [
           $h('td', { style: { padding: '5px 6px' } }, [tier + '% AMI']),
@@ -235,6 +304,17 @@
         ])
       ]));
 
+      var relocBox = $h('div', { 'data-relocation-line': 'true', style: {
+        marginTop: '.45rem', padding: '.55rem .7rem',
+        background: 'var(--card2,#1a1a1a)', border: '1px solid var(--border)',
+        borderRadius: '4px', fontSize: '.82rem', lineHeight: '1.55'
+      } }, ['Loading relocation evidence…']);
+      container.appendChild(relocBox);
+      loadRelocation().then(function (res) {
+        if (container._subjectRenderGeneration !== generation) return;
+        _relocationBox(relocBox, subject.county_fips, grandSubject, grandHhBase, res[0], res[1]);
+      });
+
       // Limitations
       container.appendChild($h('div', { style: { marginTop: '.5rem',
         padding: '.55rem .7rem', borderLeft: '3px solid var(--border)',
@@ -266,5 +346,5 @@
     }
   }
 
-  global.SubjectCaptureStack = { attach: attach, render: render };
+  global.SubjectCaptureStack = { attach: attach, render: render, relocationLine: relocationLine };
 })(window);
