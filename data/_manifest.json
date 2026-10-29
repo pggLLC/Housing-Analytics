@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-29T14:09:25.822Z",
+    "generated_at": "2026-10-29T16:20:29.301Z",
     "root": "data/",
-    "file_count": 1996,
-    "total_size_bytes": 206449029,
+    "file_count": 1997,
+    "total_size_bytes": 206556245,
     "kinds": {
-      "json": 1948,
+      "json": 1949,
       "geojson": 34,
       "csv": 14
     }
@@ -15,7 +15,7 @@
       "path": "_qa-status.json",
       "kind": "json",
       "size_bytes": 7713,
-      "mtime": "2026-10-29T04:55:07.177Z",
+      "mtime": "2026-10-29T16:18:48.752Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-29T14:09:23.060Z",
+      "mtime": "2026-10-29T16:20:25.979Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6422,8 +6422,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 305264,
-      "mtime": "2026-10-29T04:55:07.280Z",
+      "size_bytes": 305724,
+      "mtime": "2026-10-29T16:18:48.837Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -6438,7 +6438,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1967,
+      "primary_array_length": 1970,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -38102,7 +38102,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 253718,
-      "mtime": "2026-10-29T10:11:13.545Z",
+      "mtime": "2026-10-29T16:19:55.775Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39728,7 +39728,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-29T14:09:24.494Z",
+      "mtime": "2026-10-29T16:20:27.673Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39752,7 +39752,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-29T14:09:24.130Z",
+      "mtime": "2026-10-29T16:20:27.249Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42251,6 +42251,22 @@
       "key_count": 4,
       "primary_array_key": "key_quotes_for_ic_memos",
       "primary_array_length": 3,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "policy/job-access.json",
+      "kind": "json",
+      "size_bytes": 106756,
+      "mtime": "2026-10-29T16:18:49.282Z",
+      "shape": "object",
+      "keys": [
+        "counties",
+        "meta",
+        "places"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
       "primary_array_first_keys": null
     },
     {

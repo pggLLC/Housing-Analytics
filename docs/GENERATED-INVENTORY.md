@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T14:08:56.622Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T16:19:55.820Z. Do not edit by hand.
 
 ---
 
@@ -95,7 +95,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1949 JSON files found.
+1950 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -313,7 +313,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 298.1 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 298.6 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -2000,6 +2000,7 @@
 | `data/policy/incentive-alternatives.json` | 56.7 KB | ✅ | — |
 | `data/policy/incentive-coverage.json` | 37.5 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 4.3 KB | ✅ | — |
+| `data/policy/job-access.json` | 104.3 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.9 KB | ✅ | — |
@@ -2698,7 +2699,7 @@
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
 | `test/whats-near.test.js` | 5.9 KB |
-| `test/where-to-build.test.mjs` | 22.8 KB |
+| `test/where-to-build.test.mjs` | 25.8 KB |
 | `test/workflow-next-action-prerequisites.test.js` | 8.3 KB |
 | `test/workflow-outcome-monitor.test.js` | 57.9 KB |
 | `test/workflow-push-dispatches-deploy.test.js` | 6.8 KB |
