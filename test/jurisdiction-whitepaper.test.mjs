@@ -471,4 +471,32 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   ok(!nr.deal.pencil.ok && /not on file/.test(WP.renderHtml(nr)), 'without the CHFA underwriting rules the pencil table must say why it is missing, not print zeros');
 }
 
+// ---- Workers and employers: commute reading, the county's largest employers, and researched
+// employer and housing partnership contacts (private file, from coho-backend, so a fixture here).
+{
+  ok(!existsSync(join(ROOT, 'data/jurisdiction-briefs/_employer-contacts.json')), 'employer contacts stay out of the public repo (they live in coho-backend)');
+  const bay = WP.buildModel(src, '0805265', { FundingFit, today: '2026-10-29' });
+  const W = bay.workforce;
+  const rec = src.commute.places['0805265'];
+  ok(W && W.commute && W.commute.jobs === rec.jobs && W.commute.far === rec.far, 'Bayfield shows its own commute record');
+  ok(W.areas.length === 1 && /La Plata/.test(W.areas[0].area), 'a town gets its county\'s employer table');
+  let h = WP.renderHtml(bay);
+  ok(/Workers and employers/.test(h) && h.includes('Southern Ute Tribe') && /not in this copy of the data/.test(h), 'employers print; missing contacts file is said, not hidden');
+  ok(/comparable-property evidence/.test(h), 'the paper says in-commuters count as demand only with comparable evidence');
+  const withC = clone(src);
+  withC.employerContacts = { checked: '2026-10-29', areas: { 'la-plata': {
+    employers: [{ employer: 'Durango School District 9R', housing_action: 'Bought 35 units for staff.', source_url: 'https://example.org/a', source_quote: 'a quote long enough to pass',
+      contacts: [{ name: 'A Person', role: 'COO', source_url: 'https://example.org/a', source_quote: 'a quote long enough to pass' }, { name: 'No Source', role: 'x' }] }],
+    partnerships: [{ org: 'Regional Housing Alliance', what: 'County housing partnership.', contacts: [] }] } } };
+  const bc = WP.buildModel(withC, '0805265', { FundingFit, today: '2026-10-29' });
+  h = WP.renderHtml(bc);
+  ok(h.includes('Employer housing: Durango School District 9R') && h.includes('A Person') && h.includes('Housing partner: Regional Housing Alliance'), 'researched employer and partner contacts print');
+  ok(!h.includes('No Source'), 'sabotage: a contact without a source never prints');
+  const mesa = WP.renderHtml(WP.buildModel(src, '08077', { FundingFit, today: '2026-10-29' }));
+  ok(/work in another Colorado county/.test(mesa) && !/work in another town/.test(mesa), 'a county record says county, not town');
+  ok(/work in another town/.test(WP.renderHtml(bay)), 'a town record says town');
+  const den = WP.buildModel(src, '08031', { FundingFit, today: '2026-10-29' });
+  ok(den.workforce && den.workforce.commute && den.workforce.areas.length === 0 && !/Largest employers:/.test(WP.renderHtml(den)), 'an area without an employer table shows the commute reading only');
+}
+
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);

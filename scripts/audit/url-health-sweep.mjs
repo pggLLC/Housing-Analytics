@@ -155,6 +155,11 @@ const ALLOW_LIST = new Set([
   // Town of Bayfield: Cloudflare challenge to every non-browser client
   // (403, cf-mitigated: challenge); verified in a browser 2026-10-29.
   'https://www.bayfieldgov.org/',
+  // SAGE (AERA Open) and the LODES 2023 primary-jobs file answer 403 to non-browser clients;
+  // both verified in a browser 2026-10-29 (cited on commuting.html and in commute-strength.json).
+  'https://doi.org/10.1177/23328584241287792',
+  'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT01_2023.csv.gz',
+  'https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz',
   'https://www.fema.gov/flood-maps',
   'https://www.rd.usda.gov/data-sets/multi-family-housing-rentals',
   // Public data/news/program sources that are live in browsers but regularly

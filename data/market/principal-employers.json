@@ -1,0 +1,1003 @@
+{
+ "meta": {
+  "title": "Principal employers by area, from Colorado local government audit filings",
+  "as_of": "2026-10-29",
+  "review_by": "2027-08-31",
+  "method": "Curated, not a feed. Each table is the \"Principal Employers\" schedule printed in the statistical section of an annual comprehensive financial report filed with the Office of the State Auditor (local government audit library). Employer names and counts are copied as printed, current-year column only; ranges stay ranges. Where the filer reprints another government's table, stated_source names it. Every row was checked line by line against the text of the filed PDF on 2026-10-29.",
+  "library": "https://apps.leg.co.gov/osa/lg/local_govs",
+  "coverage": "15 areas. Most of the 138 county and city filings checked do not print the schedule (basic audits, or financial statements filed without the statistical section); 20 counties and cities and 21 school districts do."
+ },
+ "areas": [
+  {
+   "id": "mesa",
+   "area": "Mesa County",
+   "county_fips": [
+    "08077"
+   ],
+   "as_of": "2024",
+   "share_of": "total county employment",
+   "stated_source": "Mesa County ACFR Schedule 16",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "School District #51",
+     "employees": "3,465"
+    },
+    {
+     "rank": 2,
+     "employer": "St. Mary's Hospital",
+     "employees": "2,846"
+    },
+    {
+     "rank": 3,
+     "employer": "Community Hospital",
+     "employees": "1,400"
+    },
+    {
+     "rank": 4,
+     "employer": "Mesa County",
+     "employees": "1,271"
+    },
+    {
+     "rank": 5,
+     "employer": "Colorado Mesa University",
+     "employees": "1,173"
+    },
+    {
+     "rank": 6,
+     "employer": "VA Medical Center",
+     "employees": "1,022"
+    },
+    {
+     "rank": 7,
+     "employer": "City of Grand Junction",
+     "employees": "860"
+    },
+    {
+     "rank": 8,
+     "employer": "Family Health West",
+     "employees": "616"
+    },
+    {
+     "rank": 9,
+     "employer": "West Star Aviation",
+     "employees": "559"
+    },
+    {
+     "rank": 10,
+     "employer": "Hope West",
+     "employees": "350"
+    }
+   ],
+   "source": {
+    "filer": "County of Mesa",
+    "filing_folder": "2024",
+    "pdf_page": 156,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2024/548.00%20County%20of%20Mesa.pdf"
+   }
+  },
+  {
+   "id": "pueblo",
+   "area": "Pueblo County",
+   "county_fips": [
+    "08101"
+   ],
+   "as_of": "2024",
+   "stated_source": "Pueblo County Economic Development Department",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "UCHealth Parkview Medical Center",
+     "employees": "3,000"
+    },
+    {
+     "rank": 2,
+     "employer": "Pueblo City Schools (D60)",
+     "employees": "2,400"
+    },
+    {
+     "rank": 3,
+     "employer": "Colorado Dept of Corrections",
+     "employees": "1,300"
+    },
+    {
+     "rank": 4,
+     "employer": "EVRAZ North America",
+     "employees": "1,300"
+    },
+    {
+     "rank": 5,
+     "employer": "Pueblo County Government",
+     "employees": "1,253"
+    },
+    {
+     "rank": 6,
+     "employer": "Pueblo County School Dist 70",
+     "employees": "1,200"
+    },
+    {
+     "rank": 7,
+     "employer": "Walmart",
+     "employees": "1,000"
+    },
+    {
+     "rank": 8,
+     "employer": "CS Winds",
+     "employees": "850"
+    },
+    {
+     "rank": 9,
+     "employer": "Colorado State University Pueblo",
+     "employees": "801"
+    },
+    {
+     "rank": 10,
+     "employer": "City of Pueblo",
+     "employees": "776"
+    }
+   ],
+   "source": {
+    "filer": "County of Pueblo",
+    "filing_folder": "2024",
+    "pdf_page": 216,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2024/563.00%20County%20of%20Pueblo.pdf"
+   }
+  },
+  {
+   "id": "weld",
+   "area": "Weld County",
+   "county_fips": [
+    "08123"
+   ],
+   "as_of": "2025",
+   "stated_source": "Upstate Colorado",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "JBS USA & Affiliates",
+     "employees": "4,992"
+    },
+    {
+     "rank": 2,
+     "employer": "Banner Health (NCMC)",
+     "employees": "3,710"
+    },
+    {
+     "rank": 3,
+     "employer": "Vestas",
+     "employees": "2,631"
+    },
+    {
+     "rank": 4,
+     "employer": "Greeley/Evans School District 6",
+     "employees": "2,258"
+    },
+    {
+     "rank": 5,
+     "employer": "Weld County Government",
+     "employees": "1,823"
+    },
+    {
+     "rank": 6,
+     "employer": "University of Northern Colorado",
+     "employees": "1,221"
+    },
+    {
+     "rank": 7,
+     "employer": "Haliburton Energy Services Inc",
+     "employees": "1,200"
+    },
+    {
+     "rank": 8,
+     "employer": "City of Greeley",
+     "employees": "1,145"
+    },
+    {
+     "rank": 9,
+     "employer": "AIMS",
+     "employees": "817"
+    },
+    {
+     "rank": 10,
+     "employer": "Occidental Petroleum Corp",
+     "employees": "580"
+    }
+   ],
+   "source": {
+    "filer": "County of Weld",
+    "filing_folder": "2025",
+    "pdf_page": 191,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/579.00%20County%20of%20Weld.pdf"
+   }
+  },
+  {
+   "id": "gunnison",
+   "area": "Gunnison County",
+   "county_fips": [
+    "08051"
+   ],
+   "as_of": "2025",
+   "stated_source": "Colorado Department of Labor and Employment, LMI Gateway (printed as ranges)",
+   "rows": [
+    {
+     "rank": null,
+     "employer": "Arch Coal Inc (West Elk Mine)",
+     "employees": "250 - 499"
+    },
+    {
+     "rank": null,
+     "employer": "Crested Butte Mountain Resort",
+     "employees": "250 - 499"
+    },
+    {
+     "rank": null,
+     "employer": "Gunnison County",
+     "employees": "100 - 249"
+    },
+    {
+     "rank": null,
+     "employer": "Gunnison Middle School",
+     "employees": "100 - 249"
+    },
+    {
+     "rank": null,
+     "employer": "Gunnison National Forest",
+     "employees": "100 - 249"
+    },
+    {
+     "rank": null,
+     "employer": "Gunnison Valley Health",
+     "employees": "100 - 249"
+    },
+    {
+     "rank": null,
+     "employer": "Three Rivers Resort/Outfitting",
+     "employees": "100 - 249"
+    },
+    {
+     "rank": null,
+     "employer": "Western Colorado University",
+     "employees": "100 - 249"
+    }
+   ],
+   "source": {
+    "filer": "County of Gunnison",
+    "filing_folder": "2025",
+    "pdf_page": 149,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/530.00%20County%20of%20Gunnison.pdf"
+   }
+  },
+  {
+   "id": "la-plata",
+   "area": "La Plata County (Durango)",
+   "county_fips": [
+    "08067"
+   ],
+   "as_of": "2025",
+   "stated_source": "City of Durango ACFR",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Southern Ute Tribe",
+     "employees": "1,228"
+    },
+    {
+     "rank": 2,
+     "employer": "City of Durango",
+     "employees": "1,097"
+    },
+    {
+     "rank": 3,
+     "employer": "CommonSpirit - Mercy Medical Center",
+     "employees": "901"
+    },
+    {
+     "rank": 4,
+     "employer": "Durango School District 9R",
+     "employees": "650"
+    },
+    {
+     "rank": 5,
+     "employer": "Fort Lewis College",
+     "employees": "675"
+    },
+    {
+     "rank": 6,
+     "employer": "La Plata County",
+     "employees": "450"
+    },
+    {
+     "rank": 7,
+     "employer": "Wal-Mart",
+     "employees": "437"
+    },
+    {
+     "rank": 8,
+     "employer": "Purgatory Recreational Management",
+     "employees": "394"
+    },
+    {
+     "rank": 9,
+     "employer": "Southwest Conservation Corps",
+     "employees": "300"
+    },
+    {
+     "rank": 10,
+     "employer": "Durango&Silverton Narrow Gauge RR",
+     "employees": "250"
+    }
+   ],
+   "source": {
+    "filer": "City of Durango",
+    "filing_folder": "2025",
+    "pdf_page": 203,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/844.00%20City%20of%20Durango.pdf"
+   }
+  },
+  {
+   "id": "glenwood",
+   "area": "Glenwood Springs",
+   "county_fips": [
+    "08045"
+   ],
+   "as_of": "2025",
+   "stated_source": "City of Glenwood Springs ACFR (ranges)",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Valley View Hospital",
+     "employees": "1000-1250"
+    },
+    {
+     "rank": 2,
+     "employer": "Walmart",
+     "employees": "250-499"
+    },
+    {
+     "rank": 3,
+     "employer": "Lowe's Home Improvement",
+     "employees": "250-499"
+    },
+    {
+     "rank": 4,
+     "employer": "Target",
+     "employees": "250-499"
+    },
+    {
+     "rank": 5,
+     "employer": "Garfield County",
+     "employees": "100-249"
+    },
+    {
+     "rank": 6,
+     "employer": "Colorado Mountain College",
+     "employees": "100-249"
+    },
+    {
+     "rank": 7,
+     "employer": "Roaring Fork School District RE-1",
+     "employees": "100-249"
+    },
+    {
+     "rank": 8,
+     "employer": "Glenwood Hot Springs Resort",
+     "employees": "100-249"
+    },
+    {
+     "rank": 9,
+     "employer": "City of Glenwood Springs",
+     "employees": "100-249"
+    },
+    {
+     "rank": 10,
+     "employer": "Alpine Bank",
+     "employees": "100-249"
+    }
+   ],
+   "source": {
+    "filer": "City of Glenwood Springs",
+    "filing_folder": "2025",
+    "pdf_page": 164,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/859.00%20City%20of%20Glenwood%20Springs.pdf"
+   }
+  },
+  {
+   "id": "steamboat",
+   "area": "Steamboat Springs",
+   "county_fips": [
+    "08107"
+   ],
+   "as_of": "2025",
+   "stated_source": "City of Steamboat Springs ACFR Schedule 13",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Steamboat Ski & Resort Corp.",
+     "employees": "2,152"
+    },
+    {
+     "rank": 2,
+     "employer": "UCHealth Yampa Valley Medical Center",
+     "employees": "655"
+    },
+    {
+     "rank": 3,
+     "employer": "Steamboat Springs School District RE-2",
+     "employees": "395"
+    },
+    {
+     "rank": 4,
+     "employer": "City of Steamboat Springs",
+     "employees": "385"
+    },
+    {
+     "rank": 5,
+     "employer": "Routt County",
+     "employees": "328"
+    },
+    {
+     "rank": 6,
+     "employer": "Resort Group",
+     "employees": "300"
+    },
+    {
+     "rank": 7,
+     "employer": "Rex's Family of Restaurants",
+     "employees": "250"
+    },
+    {
+     "rank": 8,
+     "employer": "Colorado Mountain College",
+     "employees": "226"
+    },
+    {
+     "rank": 9,
+     "employer": "Vacasa",
+     "employees": "208"
+    },
+    {
+     "rank": 10,
+     "employer": "City Market",
+     "employees": "170"
+    }
+   ],
+   "source": {
+    "filer": "City of Steamboat Springs",
+    "filing_folder": "2025",
+    "pdf_page": 124,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/896.00%20City%20of%20Steamboat%20Springs.pdf"
+   }
+  },
+  {
+   "id": "fremont",
+   "area": "Fremont County (Cañon City)",
+   "county_fips": [
+    "08043"
+   ],
+   "as_of": "2025",
+   "stated_source": "City of Canon City ACFR",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Fremont School District (RE-1)",
+     "employees": "543"
+    },
+    {
+     "rank": 2,
+     "employer": "Centura Health",
+     "employees": "351"
+    },
+    {
+     "rank": 3,
+     "employer": "Fremont County",
+     "employees": "350"
+    },
+    {
+     "rank": 4,
+     "employer": "Colorado Dept. of Corrections",
+     "employees": "326"
+    },
+    {
+     "rank": 5,
+     "employer": "Walmart",
+     "employees": "298"
+    },
+    {
+     "rank": 6,
+     "employer": "City of Canon City",
+     "employees": "187"
+    },
+    {
+     "rank": 7,
+     "employer": "Starpoint",
+     "employees": "178"
+    },
+    {
+     "rank": 8,
+     "employer": "Cornell Corrections",
+     "employees": "145"
+    },
+    {
+     "rank": 9,
+     "employer": "Independent Order of Odd Fellows Complexes",
+     "employees": "145"
+    },
+    {
+     "rank": 10,
+     "employer": "City Market",
+     "employees": "130"
+    }
+   ],
+   "source": {
+    "filer": "City of Canon City",
+    "filing_folder": "2025",
+    "pdf_page": 113,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/832.00%20City%20of%20Canon%20City.pdf"
+   }
+  },
+  {
+   "id": "commerce-city",
+   "area": "Commerce City",
+   "county_fips": [
+    "08001"
+   ],
+   "as_of": "2025",
+   "stated_source": "City of Commerce City ACFR",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "United Parcel Service",
+     "employees": "2,700"
+    },
+    {
+     "rank": 2,
+     "employer": "Shamrock Foods",
+     "employees": "860"
+    },
+    {
+     "rank": 3,
+     "employer": "FedEx Freight Inc.",
+     "employees": "630"
+    },
+    {
+     "rank": 4,
+     "employer": "FedEx Ground Package System Inc.",
+     "employees": "600"
+    },
+    {
+     "rank": 5,
+     "employer": "Suncor Energy USA Inc.",
+     "employees": "420"
+    },
+    {
+     "rank": 6,
+     "employer": "Douglass Colony Group",
+     "employees": "400"
+    },
+    {
+     "rank": 7,
+     "employer": "Old Dominion Freight Line Inc.",
+     "employees": "370"
+    },
+    {
+     "rank": 8,
+     "employer": "Waste Management Colorado Inc.",
+     "employees": "390"
+    },
+    {
+     "rank": 9,
+     "employer": "Republic Services",
+     "employees": "270"
+    }
+   ],
+   "source": {
+    "filer": "City of Commerce City",
+    "filing_folder": "2025",
+    "pdf_page": 210,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/836.00%20City%20of%20Commerce%20City.pdf"
+   }
+  },
+  {
+   "id": "douglas",
+   "area": "Douglas County",
+   "county_fips": [
+    "08035"
+   ],
+   "as_of": "2024",
+   "stated_source": "2024 Douglas County ACFR, as reprinted by Douglas County School District",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Douglas County School District",
+     "employees": "8,500"
+    },
+    {
+     "rank": 2,
+     "employer": "Charles Schwab",
+     "employees": "3,800"
+    },
+    {
+     "rank": 3,
+     "employer": "DISH Network",
+     "employees": "1,900"
+    },
+    {
+     "rank": 4,
+     "employer": "Douglas County Government",
+     "employees": "1,491"
+    },
+    {
+     "rank": 5,
+     "employer": "Sky Ridge Medical",
+     "employees": "1,300"
+    },
+    {
+     "rank": 6,
+     "employer": "Lockheed",
+     "employees": "1,300"
+    },
+    {
+     "rank": 7,
+     "employer": "Kiewit Companies",
+     "employees": "1,300"
+    },
+    {
+     "rank": 8,
+     "employer": "Sequoia One",
+     "employees": "1,000"
+    },
+    {
+     "rank": 9,
+     "employer": "Western Union",
+     "employees": "900"
+    },
+    {
+     "rank": 10,
+     "employer": "Wind Crest",
+     "employees": "900"
+    }
+   ],
+   "source": {
+    "filer": "Douglas County School District RE-1",
+    "filing_folder": "2025",
+    "pdf_page": 178,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/4045.00%20Douglas%20County%20School%20District%20RE-1.pdf"
+   }
+  },
+  {
+   "id": "el-paso",
+   "area": "El Paso County (Pikes Peak region)",
+   "county_fips": [
+    "08041"
+   ],
+   "as_of": "2024",
+   "stated_source": "as reprinted by Academy School District 20",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Fort Carson Army Post",
+     "employees": "29,500"
+    },
+    {
+     "rank": 2,
+     "employer": "Peterson, Schriever & Cheyenne",
+     "employees": "16,400"
+    },
+    {
+     "rank": 3,
+     "employer": "United States Air Force Academy",
+     "employees": "9,200"
+    },
+    {
+     "rank": 4,
+     "employer": "UCHealth Memorial Health Services",
+     "employees": "7,050"
+    },
+    {
+     "rank": 5,
+     "employer": "School District #11 - Colorado Srings",
+     "employees": "3,600"
+    },
+    {
+     "rank": 6,
+     "employer": "University of Colorado, Colorado Springs",
+     "employees": "3,300"
+    },
+    {
+     "rank": 7,
+     "employer": "School District #20 - Air Academy",
+     "employees": "3,050"
+    },
+    {
+     "rank": 8,
+     "employer": "El Paso County",
+     "employees": "3,050"
+    },
+    {
+     "rank": 9,
+     "employer": "City of Colorado Springs",
+     "employees": "2,950"
+    },
+    {
+     "rank": 10,
+     "employer": "Colorado Springs Utilities",
+     "employees": "2,050"
+    }
+   ],
+   "source": {
+    "filer": "Academy School District 20",
+    "filing_folder": "2025",
+    "pdf_page": 142,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/4055.00%20Academy%20School%20District%2020.pdf"
+   }
+  },
+  {
+   "id": "eagle",
+   "area": "Eagle County",
+   "county_fips": [
+    "08037"
+   ],
+   "as_of": "2025",
+   "stated_source": "Eagle County, as reprinted by Eagle County School District (ranges)",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Vail Resorts Inc.",
+     "employees": ">1500"
+    },
+    {
+     "rank": 2,
+     "employer": "Eagle County School District",
+     "employees": "500 - 1000"
+    },
+    {
+     "rank": 3,
+     "employer": "Vail Health",
+     "employees": "500 - 1000"
+    },
+    {
+     "rank": 4,
+     "employer": "Eagle County Government",
+     "employees": "400 - 500"
+    },
+    {
+     "rank": 5,
+     "employer": "Vail Cascade",
+     "employees": "400 - 500"
+    },
+    {
+     "rank": 6,
+     "employer": "Sonnenalp Resort",
+     "employees": "400 - 500"
+    },
+    {
+     "rank": 7,
+     "employer": "Ritz Carlton",
+     "employees": "300 - 400"
+    },
+    {
+     "rank": 8,
+     "employer": "Walmart",
+     "employees": "300 - 400"
+    },
+    {
+     "rank": 9,
+     "employer": "Town of Vail",
+     "employees": "200 - 300"
+    },
+    {
+     "rank": 10,
+     "employer": "Vail Marriott",
+     "employees": "200 - 300"
+    }
+   ],
+   "source": {
+    "filer": "Eagle County School District RE-50",
+    "filing_folder": "2025",
+    "pdf_page": 162,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/4047.00%20Eagle%20County%20School%20District%20RE-50.pdf"
+   }
+  },
+  {
+   "id": "jefferson",
+   "area": "Jefferson County",
+   "county_fips": [
+    "08059"
+   ],
+   "as_of": "2024",
+   "stated_source": "Jefferson County Economic Development Corporation, as reprinted by Jefferson County School District",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Lockheed Martin Space Systems",
+     "employees": "7,000"
+    },
+    {
+     "rank": 2,
+     "employer": "BAE Systems - Ball Corporation",
+     "employees": "3,330"
+    },
+    {
+     "rank": 3,
+     "employer": "National Renewable Energy Laboratory",
+     "employees": "3,289"
+    },
+    {
+     "rank": 4,
+     "employer": "Molson Coors Beverage Company",
+     "employees": "2,160"
+    },
+    {
+     "rank": 5,
+     "employer": "Commonspirit - St. Anthony Hospital",
+     "employees": "2,050"
+    },
+    {
+     "rank": 6,
+     "employer": "Terumo BCT",
+     "employees": "1,955"
+    },
+    {
+     "rank": 7,
+     "employer": "Intermountain Health - Lutheran Medical Center",
+     "employees": "1,700"
+    },
+    {
+     "rank": 8,
+     "employer": "First Bank Holding Co. of Colorado",
+     "employees": "1,516"
+    },
+    {
+     "rank": 9,
+     "employer": "CoorsTek",
+     "employees": "1,200"
+    },
+    {
+     "rank": 10,
+     "employer": "Trimble, Inc.",
+     "employees": "1,000"
+    }
+   ],
+   "source": {
+    "filer": "Jefferson County School District R-1",
+    "filing_folder": "2025",
+    "pdf_page": 133,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/4085.00%20Jefferson%20County%20School%20District%20R-1.pdf"
+   }
+  },
+  {
+   "id": "boulder",
+   "area": "Boulder County",
+   "county_fips": [
+    "08013"
+   ],
+   "as_of": "2025",
+   "stated_source": "BizWest 2025 Book of Lists, as reprinted by Boulder Valley School District",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "University of Colorado",
+     "employees": "6,135"
+    },
+    {
+     "rank": 2,
+     "employer": "St. Vrain Valley School District",
+     "employees": "4,500"
+    },
+    {
+     "rank": 3,
+     "employer": "Boulder Valley School District",
+     "employees": "3,750"
+    },
+    {
+     "rank": 4,
+     "employer": "Boulder Community Health",
+     "employees": "2,360"
+    },
+    {
+     "rank": 5,
+     "employer": "City of Boulder",
+     "employees": "2,359"
+    },
+    {
+     "rank": 6,
+     "employer": "Medtronic Surgical Technologies",
+     "employees": "2,300"
+    },
+    {
+     "rank": 7,
+     "employer": "Boulder County",
+     "employees": "2,200"
+    },
+    {
+     "rank": 8,
+     "employer": "Crocs Inc.",
+     "employees": "2,040"
+    },
+    {
+     "rank": 9,
+     "employer": "Google",
+     "employees": "1,500"
+    },
+    {
+     "rank": 10,
+     "employer": "Noodles & Co.",
+     "employees": "1,459"
+    }
+   ],
+   "source": {
+    "filer": "Boulder Valley School District RE-2",
+    "filing_folder": "2025",
+    "pdf_page": 167,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/4020.00%20Boulder%20Valley%20School%20District%20RE-2.pdf"
+   }
+  },
+  {
+   "id": "littleton",
+   "area": "Littleton",
+   "county_fips": [
+    "08005"
+   ],
+   "as_of": "2025",
+   "stated_source": "City of Littleton Economic Development, as reprinted by Littleton Public Schools",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Arapahoe County",
+     "employees": "2,486"
+    },
+    {
+     "rank": 2,
+     "employer": "Littleton Public Schools",
+     "employees": "1,929"
+    },
+    {
+     "rank": 3,
+     "employer": "AdventHealth Littleton",
+     "employees": "1,248"
+    },
+    {
+     "rank": 4,
+     "employer": "Dish Network (EchoStar)",
+     "employees": "800"
+    },
+    {
+     "rank": 5,
+     "employer": "Arapahoe Community College",
+     "employees": "896"
+    },
+    {
+     "rank": 6,
+     "employer": "McDonald Automotive Group",
+     "employees": "794"
+    },
+    {
+     "rank": 7,
+     "employer": "All Health Network - Center Point",
+     "employees": "593"
+    },
+    {
+     "rank": 8,
+     "employer": "Republic National Distributing",
+     "employees": "536"
+    },
+    {
+     "rank": 9,
+     "employer": "City of Littleton",
+     "employees": "437"
+    },
+    {
+     "rank": 10,
+     "employer": "Life Care Center of Littleton",
+     "employees": "160"
+    }
+   ],
+   "source": {
+    "filer": "Arapahoe County School District No. 6",
+    "filing_folder": "2025",
+    "pdf_page": 119,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/4007.00%20Arapahoe%20County%20School%20District%20No.%206.pdf"
+   }
+  }
+ ]
+}
