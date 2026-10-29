@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-10-28T13:58:48.773Z",
-  "totalScanned": 1998,
-  "newSourceCount": 1967,
+  "scanTimestamp": "2026-10-29T14:13:21.751Z",
+  "totalScanned": 2001,
+  "newSourceCount": 1970,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1015470,
+      "sizeBytes": 1017133,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7710,
+      "sizeBytes": 7713,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -104,7 +104,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 1006433,
+      "sizeBytes": 1079998,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -146,7 +146,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 661850,
+      "sizeBytes": 661447,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1244,7 +1244,13 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 305263,
+      "sizeBytes": 305264,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/entitled-land/findings.json",
+      "sizeBytes": 2178,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1760,7 +1766,7 @@
     },
     {
       "path": "data/hna/hna-views.json",
-      "sizeBytes": 14139,
+      "sizeBytes": 14153,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5882,7 +5888,7 @@
     },
     {
       "path": "data/hna/place-lehd.json",
-      "sizeBytes": 1875787,
+      "sizeBytes": 1886391,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10766,7 +10772,7 @@
     },
     {
       "path": "data/market/opportunity_zones_co.geojson",
-      "sizeBytes": 851407,
+      "sizeBytes": 851949,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11353,6 +11359,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/chfa-common-app-tables.json",
+      "sizeBytes": 14284,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/policy/chfa-watchlist.json",
       "sizeBytes": 9777,
       "inDataManifest": false,
@@ -11390,7 +11402,7 @@
     },
     {
       "path": "data/policy/fee-reductions.json",
-      "sizeBytes": 580886,
+      "sizeBytes": 583576,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11468,7 +11480,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 179385,
+      "sizeBytes": 178935,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11540,7 +11552,7 @@
     },
     {
       "path": "data/policy/local-commitment.json",
-      "sizeBytes": 64941,
+      "sizeBytes": 65588,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11552,7 +11564,7 @@
     },
     {
       "path": "data/policy/local-support.json",
-      "sizeBytes": 150073,
+      "sizeBytes": 158569,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11623,6 +11635,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/state-housing-laws.json",
+      "sizeBytes": 199674,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/policy/stewardship-providers.json",
       "sizeBytes": 1878,
       "inDataManifest": false,
@@ -11660,7 +11678,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 438093,
+      "sizeBytes": 442612,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11678,13 +11696,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 21639,
+      "sizeBytes": 20487,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 187711,
+      "sizeBytes": 189931,
       "inDataManifest": false,
       "inFilesManifest": true
     },

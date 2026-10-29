@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-10-28T13:58:48.773Z
+**Scan timestamp:** 2026-10-29T14:13:21.751Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1998 |
-| New (unregistered) | 1967 |
+| Files scanned | 2001 |
+| New (unregistered) | 1970 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (992 KB)
+- `data/_manifest.json` (993 KB)
 - `data/_qa-status.json` (8 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (16 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (967 KB)
@@ -30,7 +30,7 @@
 - `data/affordable-housing/properties.json` (1487 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (4 KB)
-- `data/alerts/alerts_archive.json` (983 KB)
+- `data/alerts/alerts_archive.json` (1055 KB)
 - `data/alerts/brief-news-queue.json` (30 KB)
 - `data/alerts/owner-news.json` (0 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
@@ -221,6 +221,7 @@
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
 - `data/discovery-reports/latest.json` (298 KB)
+- `data/entitled-land/findings.json` (2 KB)
 - `data/environmental/epa-superfund-co.json` (324 KB)
 - `data/environmental/fema-flood-co.geojson` (2 KB)
 - `data/fixtures/fruita-commons-broad-income.scenario.json` (5 KB)
@@ -993,7 +994,7 @@
 - `data/hna/place-chas.json` (1592 KB)
 - `data/hna/place-decade-trends.json` (155 KB)
 - `data/hna/place-hamilton-perry.json` (87 KB)
-- `data/hna/place-lehd.json` (1832 KB)
+- `data/hna/place-lehd.json` (1842 KB)
 - `data/hna/place-od-flows.json` (81 KB)
 - `data/hna/place-phantom-aliases.json` (2 KB)
 - `data/hna/place-tract-membership.json` (416 KB)
@@ -1807,7 +1808,7 @@
 - `data/market/natural_barriers_co.geojson` (10546 KB)
 - `data/market/novogradac-equity-pricing.json` (17 KB)
 - `data/market/opportunity_insights_co.json` (163 KB)
-- `data/market/opportunity_zones_co.geojson` (831 KB)
+- `data/market/opportunity_zones_co.geojson` (832 KB)
 - `data/market/parcel_aggregates_co.json` (3 KB)
 - `data/market/pma_tract_display_geometry.geojson` (1030 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
@@ -1905,13 +1906,14 @@
 - `data/policy/candidate-platforms-2026.json` (37 KB)
 - `data/policy/chfa-2027-r1-scoring.json` (19 KB)
 - `data/policy/chfa-awards-historical.json` (11 KB)
+- `data/policy/chfa-common-app-tables.json` (14 KB)
 - `data/policy/chfa-watchlist.json` (10 KB)
 - `data/policy/co-developer-funding-guide.json` (426 KB)
 - `data/policy/colorado-deal-rules.json` (2 KB)
 - `data/policy/county-ownership.json` (8 KB)
 - `data/policy/county-parcel-sources.json` (22 KB)
 - `data/policy/developer-ownership-funding.json` (22 KB)
-- `data/policy/fee-reductions.json` (567 KB)
+- `data/policy/fee-reductions.json` (570 KB)
 - `data/policy/funding-awards/award-rows.json` (255 KB)
 - `data/policy/funding-awards/developer-aliases.json` (7 KB)
 - `data/policy/funding-awards/documents.json` (48 KB)
@@ -1936,9 +1938,9 @@
 - `data/policy/lihtc-underwriting-rules.json` (14 KB)
 - `data/policy/local-commitment/dola-approved-hna-2026-10-22.csv` (5 KB)
 - `data/policy/local-commitment/hud-psh-pha-co-2025.csv` (6 KB)
-- `data/policy/local-commitment.json` (63 KB)
+- `data/policy/local-commitment.json` (64 KB)
 - `data/policy/local-housing-funds.json` (141 KB)
-- `data/policy/local-support.json` (147 KB)
+- `data/policy/local-support.json` (155 KB)
 - `data/policy/methodology-version.json` (6 KB)
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/policy-timeline.json` (7 KB)
@@ -1950,17 +1952,18 @@
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/resident-services.json` (34 KB)
 - `data/policy/soft-funding-status.json` (45 KB)
+- `data/policy/state-housing-laws.json` (195 KB)
 - `data/policy/stewardship-providers.json` (2 KB)
 - `data/policy/tax-credit-legislation.json` (40 KB)
 - `data/policy/thiz-map-status.json` (4 KB)
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy/where-to-build-context.json` (34 KB)
-- `data/policy_briefs.json` (428 KB)
+- `data/policy_briefs.json` (432 KB)
 - `data/policy_briefs_curated.json` (177 KB)
 - `data/polymarket-curated.json` (6 KB)
-- `data/polymarket-data.json` (21 KB)
-- `data/polymarket-history.json` (183 KB)
+- `data/polymarket-data.json` (20 KB)
+- `data/polymarket-history.json` (185 KB)
 - `data/processed/co_county_housing_indicators.geojson` (445 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
