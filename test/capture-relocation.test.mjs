@@ -79,6 +79,15 @@ check('market-area shares are shown as evidence but never applied to the county 
   }
 });
 
+check('a comparable without the commuter cap gives no number', () => {
+  for (const c of [null, { counties: {} }, { counties: { '08013': { far_low: null } } }]) {
+    const r = line('08013', 40, 10000, comps, c);
+    assert.equal(r.rate, null);
+    assert.equal(r.added, null);
+    assert.equal(r.noCap, true);
+  }
+});
+
 check('missing files degrade to no number', () => {
   const r = line('08117', 40, 2000, null, null);
   assert.equal(r.rate, null);
@@ -112,6 +121,17 @@ check('Mesa card says no comparable evidence and prints no relocation rate', () 
   assert.equal(box.querySelector('[data-relocation-rate]').getAttribute('data-relocation-rate'), 'none');
   assert.match(box.textContent, /No comparable evidence of tenants relocating/);
   assert.equal(box.querySelectorAll('[data-relocation-comp]').length, 0);
+});
+
+const w4 = boot({ county_fips: '08117', unit_mix: [unit(40)] });
+w4.fetch = ((f) => (url) => String(url).includes('commute-strength') ? Promise.resolve({ ok: false, json: () => Promise.resolve(null) }) : f(url))(w4.fetch);
+w4.SubjectCaptureStack.render(w4.document.getElementById('capture'));
+await settle();
+check('commuter file failure withholds the Summit relocation rate', () => {
+  const box = w4.document.querySelector('[data-relocation-line]');
+  assert.equal(box.querySelector('[data-relocation-rate]').getAttribute('data-relocation-rate'), 'none');
+  assert.match(box.textContent, /could not be loaded/);
+  assert.doesNotMatch(box.textContent, /The cap is/);
 });
 
 const w3 = boot({ county_fips: '08031', unit_mix: [unit(40)] });

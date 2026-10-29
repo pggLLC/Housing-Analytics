@@ -94,12 +94,14 @@
     var out = { evidence: rows, used: null, share: null, added: null, cap: pool,
       capped: false, rate: null, baseRate: (baseHh > 0) ? units / baseHh * 100 : null };
     if (!county.length || !(baseHh > 0)) return out;
+    // The commuter cap is required: without it there is nothing to bound the added pool.
+    if (pool == null) { out.noCap = true; return out; }
     // Lowest documented share across county-line comparables.
     var used = county.reduce(function (a, b) { return (+b.share_low < +a.share_low) ? b : a; });
     var s = +used.share_low / 100;
     if (!(s > 0 && s < 1)) return out;
     var added = baseHh * s / (1 - s);
-    if (pool != null && added > pool) { added = pool; out.capped = true; }
+    if (added > pool) { added = pool; out.capped = true; }
     out.used = used; out.share = +used.share_low; out.added = Math.round(added);
     out.rate = units / (baseHh + out.added) * 100;
     return out;
@@ -119,6 +121,8 @@
       note = 'Adds ' + $fmt(r.added) + ' households, using the low end (' + r.share + '%) of tenants from outside the county at ' +
         r.used.property + '. ' + (r.capped ? 'Capped at ' : 'The cap is ') + $fmt(r.cap) +
         ' lower-paid workers who commute 20 to 60 miles into the county (LODES 2023). Use this line as a range check, not the base case.';
+    } else if (r.noCap) {
+      note = 'A comparable is on file, but the commuter counts that cap the added households could not be loaded, so no relocation number is shown.';
     } else {
       note = 'No comparable evidence of tenants relocating from outside this county is on file, so no relocation number is shown. CHFA allows in-migration only when comparable projects demonstrate it.' +
         (r.cap != null ? ' For context, ' + $fmt(r.cap) + ' lower-paid workers commute 20 to 60 miles into the county (LODES 2023).' : '');
