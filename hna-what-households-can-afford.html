@@ -136,6 +136,7 @@
   <script src="js/components/tax-abatement.js"></script>
   <script src="js/components/chfa-award-history.js"></script>
   <script defer src="js/components/place-deals-limits.js"></script>
+  <script defer src="js/components/state-housing-laws.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
   <!-- F162: targeted Google searches for housing topics on planning/council agendas + minutes -->
@@ -573,6 +574,9 @@
              prevents the "the chat answer said $95K but the HNA shows $80K"
              confusion. Hydrated alongside the snapshot. -->
         <div id="hnaMhiAmiMount" style="margin:.4rem 0 .65rem"></div>
+
+        <!-- State housing laws for the picked place, led by the SB24-174 HNA deadline (js/components/state-housing-laws.js). -->
+        <div id="stateLawsMount" data-state-laws></div>
 
         <div class="stats" aria-label="Headline indicators">
           <div class="stat"><div class="k">Population</div><div class="v" id="statPop">—</div><div id="statPopYoy" class="yoy"></div><div class="s" id="statPopSrc">—</div></div>
