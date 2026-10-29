@@ -1145,7 +1145,7 @@
       maxAgeDays: 14,
       geoUnit: 'National',
       coverage: 'National',
-      features: 669,
+      features: 670,
       description: '30-year fixed mortgage rate from Freddie Mac Primary Mortgage Market Survey via FRED.',
       tags: ['fred', 'mortgage', 'interest-rate'],
       apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=MORTGAGE30US'
