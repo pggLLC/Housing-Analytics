@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-27T14:36:13.640Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T04:55:28.585Z. Do not edit by hand.
 
 ---
 
@@ -114,12 +114,12 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 882.0 KB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 29.0 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 982.8 KB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 30.5 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
-| `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 640.5 KB | ✅ | — |
+| `data/audit/chfa-qap-watch.json` | 2.84 MB | ✅ | — |
+| `data/audit/funding-watch.json` | 646.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 545 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -1991,7 +1991,7 @@
 | `data/policy/green-building.json` | 58.0 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 30.8 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 174.9 KB | ✅ | — |
+| `data/policy/housing-events.json` | 175.2 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
 | `data/policy/incentive-alternatives.json` | 56.7 KB | ✅ | — |
@@ -2022,11 +2022,11 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 414.8 KB | ✅ | — |
+| `data/policy_briefs.json` | 427.8 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
-| `data/polymarket-data.json` | 20.4 KB | ✅ | — |
-| `data/polymarket-history.json` | 181.0 KB | ✅ | — |
+| `data/polymarket-data.json` | 21.1 KB | ✅ | — |
+| `data/polymarket-history.json` | 183.3 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
