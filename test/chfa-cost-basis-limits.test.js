@@ -49,12 +49,13 @@ test('a QCT or DDA multiplies the limit basis by 1.3; elevator uses the elevator
   assert.ok(Math.abs(boosted.credit - plain.credit * 1.3) < 1e-6);
 });
 
-test('missing inputs say what is missing instead of guessing', () => {
-  assert.match(cbm.costBasisLimitCheck(Object.assign({}, mesa, { buildingType: '' })).reason, /elevator or walk-up/);
-  assert.match(cbm.costBasisLimitCheck(Object.assign({}, mesa, { countyFips: null })).reason, /Select a county/);
-  assert.match(cbm.costBasisLimitCheck(Object.assign({}, mesa, { units: 31 })).reason, /30 of 31 units have a bedroom count/);
-  assert.match(cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: null })).reason, /did not load/);
-  for (const r of [cbm.costBasisLimitCheck(Object.assign({}, mesa, { buildingType: '' }))]) assert.equal(r.checked, false);
+test('a missing input leaves Method Three unchecked with no credit, never a guess', () => {
+  for (const missing of [{ buildingType: '' }, { countyFips: null }, { countyFips: '08999' }, { units: 31 }, { tables: null }, { rows: [] }]) {
+    const r = cbm.costBasisLimitCheck(Object.assign({}, mesa, missing));
+    assert.equal(r.checked, false, JSON.stringify(missing));
+    assert.equal(r.credit, null, JSON.stringify(missing));
+    assert.ok(typeof r.reason === 'string' && r.reason.length > 0, 'it gives a reason');
+  }
 });
 
 test('the engine shows Method Three beside the capacity and never changes the credit', () => {
