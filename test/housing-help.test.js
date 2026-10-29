@@ -17,7 +17,7 @@ assert.equal(en.getAttribute('lang'), 'en');
 assert.equal(es.getAttribute('lang'), 'es');
 assert.match(page.querySelector('h1').textContent, /If You Need Housing Now/);
 // Both languages carry the same help lines and the same official links.
-for (const s of ['2-1-1', '1-844-926-6632', '(303) 838-1200', '303-864-7810']) {
+for (const s of ['2-1-1', '(866) 760-6489', '898-211', '1-844-926-6632', '(303) 838-1200', '303-864-7810']) {
   assert.ok(en.textContent.includes(s), 'English has ' + s);
   assert.ok(es.textContent.includes(s), 'Spanish has ' + s);
 }

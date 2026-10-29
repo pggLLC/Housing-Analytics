@@ -60,6 +60,13 @@ async function page(current) {
   t = w.document.getElementById('m').textContent;
   assert.match(t, /Acres Green CDP is unincorporated, so Douglas County's obligations apply/);
 
+  // A town DOLA lists by name keeps its own row even when the census still
+  // calls it a CDP (Keystone, #2564 review): no county fallback line.
+  w = await page({ geoType: 'cdp', geoid: '0840550', label: 'Keystone CDP', contextCounty: '08117' });
+  t = w.document.getElementById('m').textContent;
+  assert.match(t, /State housing laws for Keystone/);
+  assert.doesNotMatch(t, /unincorporated/);
+
   // An exempt town shows DOLA's exemption and no deadline.
   const exempt = Object.entries(doc.jurisdictions).find(([, r]) => /^Exempt: Under/.test(r.laws['sb24-174-hna']));
   w = await page({ geoType: 'place', geoid: exempt[0], label: exempt[1].name, contextCounty: '08001' });

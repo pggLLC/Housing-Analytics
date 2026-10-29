@@ -122,14 +122,17 @@
       mount.innerHTML = '<div class="shl-card"><h3>State housing laws</h3><p>Pick a county or town to see which state housing laws apply there, including whether it must send DOLA a housing needs assessment by December 31, 2026.</p>' + source + '</div>';
       return;
     }
-    var key = ctx.cdp ? ctx.county : ctx.geoid;
-    var row = doc.jurisdictions && doc.jurisdictions[key];
+    // A place DOLA lists by name keeps its own row even when the census files
+    // still call it a CDP (Keystone); other CDPs use the county's.
+    var all = doc.jurisdictions || {};
+    var viaCounty = ctx.cdp && !all[ctx.geoid];
+    var row = all[viaCounty ? ctx.county : ctx.geoid];
     if (!row && ctx.county && !ctx.cdp) {
       mount.innerHTML = '<div class="shl-card"><h3>State housing laws</h3><p>DOLA\'s list doesn\'t include ' + esc(ctx.label) + '. <a href="' + esc(src.source_url) + '" target="_blank" rel="noopener">Check DOLA\'s list</a>.</p>' + source + '</div>';
       return;
     }
     if (!row) { mount.innerHTML = ''; return; }
-    var who = ctx.cdp
+    var who = viaCounty
       ? '<p>' + esc(ctx.label) + ' is unincorporated, so ' + esc(row.name) + '\'s obligations apply.</p>'
       : '';
     var laws = doc.laws || [];
