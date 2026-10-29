@@ -34,14 +34,41 @@
   <h1>Methodology</h1>
   <p class="dv-lede">What each reading on these pages means, where it comes from, and what it can't tell you. The public numbers behind every report are explained on the open site's <a href="methods.html">Methods</a> page; this page covers only what the developer pages add.</p>
 
+  <section class="dv-card" id="where">
+    <h2>1. The Where Should I Build? score</h2>
+    <p><a href="developer-where.html">Where Should I Build?</a> scores every town, Census community and county in the needs ranking from 0 to 100. Each factor earns 0 to 10 points by a written rule, and you set how much each group counts. The rule and source for every factor are printed on that page under "How the score works".</p>
+    <ul>
+      <li><strong>Score</strong> = the weighted points of the checked factors as a share of their maximum, times 100. Dated public events from the last 12 months add up to +10. Red flags take off up to 30.</li>
+      <li><strong>Not yet checked</strong> is never a zero. The factor is left out and confidence drops instead.</li>
+      <li><strong>Confidence</strong> is the share of your weight that rests on checked factors: High 80% or more, Medium 50 to 79%, Low under 50%.</li>
+      <li><strong>Tier:</strong> Target at 70 or more (not with Low confidence), Promising at 50, Monitor at 35.</li>
+    </ul>
+    <div style="overflow-x:auto"><table id="whereWeights">
+      <thead><tr><th title="Each group holds one or more factors; its weight is shared by the checked ones.">Group</th><th title="The default preset.">Balanced</th><th title="Preset for a 9% deal in a smaller town.">9% town</th><th title="Preset for a 4% bond deal in a metro.">4% metro</th></tr></thead>
+      <tbody>
+        <tr data-group="build"><td>Easy to build</td><td>4</td><td>3</td><td>3</td></tr>
+        <tr data-group="money"><td>Incentives and local money</td><td>4</td><td>3</td><td>5</td></tr>
+        <tr data-group="land"><td>Land opportunities</td><td>3</td><td>4</td><td>2</td></tr>
+        <tr data-group="need"><td>Housing need</td><td>3</td><td>4</td><td>3</td></tr>
+        <tr data-group="rents"><td>Rents that carry the deal</td><td>2</td><td>2</td><td>4</td></tr>
+        <tr data-group="rec"><td>Recreation and services</td><td>2</td><td>1</td><td>2</td></tr>
+        <tr data-group="jobs"><td>Jobs within reach</td><td>1</td><td>0</td><td>1</td></tr>
+        <tr data-group="commit"><td>Local commitment</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr data-group="vote"><td>Voters backed housing money</td><td>2</td><td>1</td><td>1</td></tr>
+        <tr data-group="lean"><td>2024 presidential vote</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Jobs within reach</strong> (added 29 October 2026) counts every Colorado job within a 30-minute drive of where the town's working residents live, its own jobs included (LEHD LODES 2023; drive times on OpenStreetMap roads). 1,000 jobs or fewer is 0 points and 100,000 or more is 10, on a log scale. It is off in the smaller-town preset so remote towns are not marked down. Commuters still count toward need only in the town where they work, so a bedroom town is not credited with its neighbor's need.</p>
+  </section>
+
   <section class="dv-card" id="places">
-    <h2>1. Which places are in the pipeline</h2>
-    <p>A place enters the pipeline when its Opportunity Index from the <a href="lihtc-opportunity-finder.html">Opportunity Finder</a> is above about 60 out of 100. The index blends need, local funding, civic capacity, basis boost and market room; its parts are set out on <a href="methods.html#m-score">Methods: the score</a>. A higher score means the public record points to a place that can support a tax-credit deal. It doesn't mean anyone there has asked for one.</p>
+    <h2>2. Which places are in the pipeline</h2>
+    <p>A place enters the pipeline when its Opportunity Index from the <a href="lihtc-opportunity-finder.html">Opportunity Finder</a> is above about 60 out of 100. The index blends five parts: housing need, how recently the place won tax credits, the basis boost, population and civic readiness. Their weights change with the deal type you pick, and the Finder prints them under <a href="lihtc-opportunity-finder.html#lof-methodology">its methodology</a>. A higher score means the public record points to a place that can support a tax-credit deal. It doesn't mean anyone there has asked for one.</p>
     <p>The pipeline stages (Screen, Signal, Outreach and on) and the A to D classes are defined on the <a href="developer-pipeline.html">Pipeline</a> page.</p>
   </section>
 
   <section class="dv-card" id="ready">
-    <h2>2. The readiness reading: ripe, ripening, not yet</h2>
+    <h2>3. The readiness reading: ripe, ripening, not yet</h2>
     <p>A reading comes only from a site dossier. Each dossier answers seven questions with a source for each answer:</p>
     <ol>
       <li>Is there need?</li>
@@ -56,7 +83,7 @@
   </section>
 
   <section class="dv-card" id="developer-check">
-    <h2>3. The developer check on each site</h2>
+    <h2>4. The developer check on each site</h2>
     <p>Before a site is suggested, public records are checked for who is already on it:</p>
     <table>
       <thead><tr><th title="The words shown beside each site on the place card and in Ready to build.">Label on the site</th><th title="What the public record shows about who, if anyone, is developing the site.">What it means</th></tr></thead>
@@ -73,7 +100,7 @@
   </section>
 
   <section class="dv-card" id="call-first">
-    <h2>4. "Call first" on the place card</h2>
+    <h2>5. "Call first" on the place card</h2>
     <p>The three people shown are ranked against the place's next step, in this order:</p>
     <ol>
       <li><strong>Fit to the next step.</strong> A zoning question goes to planning, a land or request-for-proposals question to the housing authority or landholder, a funding vote to the manager or council.</li>
@@ -85,12 +112,12 @@
   </section>
 
   <section class="dv-card" id="dossiers">
-    <h2>5. Dossiers</h2>
+    <h2>6. Dossiers</h2>
     <p>A dossier is written only where the place scores above 60 and has a parcel that suits a tax-credit deal. Land held for housing and large entitled lots come first. Every dossier's comparable sales or projects carry a map, an address and a link to the public record for each one.</p>
   </section>
 
   <section class="dv-card" id="sources">
-    <h2>6. Sources and limits</h2>
+    <h2>7. Sources and limits</h2>
     <p>Everything shown comes from public records: Census and HUD data, state award lists, county parcel layers and assessor records, and town and county minutes. The open site's <a href="about.html">About</a> page lists the core sources. Your own notes, contacts and the Discussions log are saved only on this developer site.</p>
     <p>Public records lag. A council can act between agendas, and a developer can drop a site without saying so. Treat every reading as the starting point for a call, not a decision.</p>
     <p>Something unclear? <a href="developer-about.html#ask">Ask pggLLC</a>.</p>

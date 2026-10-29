@@ -2,14 +2,24 @@
   "meta": {
     "purpose": "Single source of truth for COHO methodology versions. Every score the site publishes carries one of these version stamps so a user who saved a ranking last month can see whether (and how) the formula has changed since.",
     "schema_version": "1.0",
-    "as_of": "2026-06-05"
+    "as_of": "2026-10-29"
   },
   "modules": {
+    "where_to_build": {
+      "current_version": "v1.1-2026-10-29",
+      "label": "Where Should I Build? score (0-100, reader-weighted, developer site)",
+      "what_it_covers": "Every town, Census community and county in the HNA ranking, scored on factors in weighted groups with three presets. A factor not yet checked lowers confidence instead of scoring zero.",
+      "key_methodology_doc": "developer-methods.html#where (each factor's rule is printed from js/where-to-build.js FACTORS)",
+      "change_log": [
+        { "version": "v1.1-2026-10-29", "what_changed": "HA #2569 added the Jobs within reach group: LEHD LODES 2023 jobs within a 30-minute drive (OSRM), log scale 1,000 = 0 to 100,000 = 10; weight 1 in Balanced and 4% metro, 0 in the smaller-town 9% preset." },
+        { "version": "v1.0", "what_changed": "Factor score with printed rules, sources, confidence and tiers (transparency rule set 2026-10-22)." }
+      ]
+    },
     "opportunity_finder": {
       "current_version": "v2.4-2026-04-22",
       "label": "Opportunity Finder score (0-100, by deal type)",
       "what_it_covers": "5-dimension blended score for 482 Colorado places + counties. Re-tunes by deal type (9% competitive, 4% bond, preservation, workforce-resort, prop123-local, any).",
-      "key_methodology_doc": "docs/LIHTC-LOCATOR-METHODOLOGY.md",
+      "key_methodology_doc": "docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md",
       "change_log": [
         { "version": "v2.4-2026-04-22", "what_changed": "F236 added URA + Opportunity Zone overlap as civic-readiness signals. F241 added +10pt civic boost for housing-in-mission URA match." },
         { "version": "v2.3-2026-03-18", "what_changed": "F9 weight re-tune: civic 0.10 → 0.18 to better reward Prop 123 / housing-lead / comp-plan completeness. Recency 0.30 → 0.22 to balance." },
@@ -23,7 +33,7 @@
       "current_version": "v2.0-2026-01-22",
       "label": "Housing Needs Scorecard (0-100)",
       "what_it_covers": "4-component percentile-normalized scorecard for Colorado counties. Place-level inherits containing county.",
-      "key_methodology_doc": "docs/SCORECARD-V2.md",
+      "key_methodology_doc": "js/hna/hna-renderers.js (renderHnaScorecardPanel); docs/SCORECARD-V2.md was never added",
       "change_log": [
         { "version": "v2.0-2026-01-22", "what_changed": "Switched from absolute thresholds to percentile-normalized ranking against all 64 CO counties. 4 components: blended cost burden, deep-need share, affordability pressure, worst-case need." },
         { "version": "v1.0-2025-11-10", "what_changed": "Initial absolute-threshold scorecard." }
