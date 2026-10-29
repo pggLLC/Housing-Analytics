@@ -113,6 +113,17 @@ function lodesCountyYear(root) {
   return files.length && years.size === 1 ? [...years][0] : null;
 }
 
+// Notes that describe next year's designations before the site carries them.
+// Each is one <p id="..."> block, removed once its vintage reaches `until`;
+// it must live in a file some RULE names, so the workflow commits it.
+export const EXPIRING_NOTES = [
+  { vintage: 'dda', until: 2027, file: 'js/deal-calculator.js', id: 'dc-dda-2027' },
+];
+
+function noteBlock(id) {
+  return new RegExp(`\\n[ \\t]*<p id="${id}"[^>]*>[\\s\\S]*?<\\/p>`);
+}
+
 /** The vintage each label must name, read from the data it describes. */
 export function readVintages(root = ROOT) {
   const hud = readJson(root, 'data/hud-fmr-income-limits.json').meta || {};
@@ -173,6 +184,17 @@ export function plan(vintages, read = (rel) => fs.readFileSync(path.join(ROOT, r
       texts.set(file, after);
     }
   });
+  for (const note of EXPIRING_NOTES) {
+    const want = vintages[note.vintage];
+    if (!Number.isInteger(want) || want < note.until) continue;
+    if (!RULES.some((r) => r.files.includes(note.file))) throw new Error(`${note.file} is in no RULE; the workflow would not commit it`);
+    if (!texts.has(note.file)) texts.set(note.file, read(note.file));
+    const before = texts.get(note.file);
+    const after = before.replace(noteBlock(note.id), '');
+    if (after === before) continue;
+    mismatches.push({ file: note.file, rule: `note ${note.id}`, found: 'present', want: `removed at ${note.vintage} ${note.until}` });
+    texts.set(note.file, after);
+  }
   const rewrites = new Map();
   for (const m of mismatches) rewrites.set(m.file, texts.get(m.file));
   return { matches, mismatches, rewrites };
