@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T07:35:51.464Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T07:41:42.784Z. Do not edit by hand.
 
 ---
 
@@ -52,16 +52,16 @@
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 37.9 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 42.4 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 42.2 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.4 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 139.1 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 176.7 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 176.6 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.0 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 137.7 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 254.5 KB |
-| `ic-summary.html` | IC Summary — COHO Analytics | 17.9 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 254.4 KB |
+| `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 51.9 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.1 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 13.2 KB |
@@ -71,9 +71,9 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 75.0 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.1 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 153.4 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 153.2 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `methods.html` | Computational Methods | COHO Analytics | 80.3 KB |
+| `methods.html` | Computational Methods | COHO Analytics | 80.6 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 48.7 KB |
@@ -1087,7 +1087,7 @@
 | `data/hna/place-chas.json` | 1.55 MB | ✅ | — |
 | `data/hna/place-decade-trends.json` | 154.7 KB | ✅ | — |
 | `data/hna/place-hamilton-perry.json` | 87.4 KB | ✅ | — |
-| `data/hna/place-lehd.json` | 1.79 MB | ✅ | — |
+| `data/hna/place-lehd.json` | 1.80 MB | ✅ | — |
 | `data/hna/place-od-flows.json` | 80.8 KB | ✅ | — |
 | `data/hna/place-phantom-aliases.json` | 1.7 KB | ✅ | — |
 | `data/hna/place-tract-membership.json` | 416.1 KB | ✅ | — |
@@ -2050,7 +2050,7 @@
 
 ## Test Files
 
-730 test files found.
+731 test files found.
 
 | File | Size |
 |------|------|
@@ -2264,7 +2264,7 @@
 | `test/fred-commodities-config.test.js` | 4.8 KB |
 | `test/freshness-gates-run-first.test.mjs` | 7.3 KB |
 | `test/freshness-guard-dirty-tree.test.js` | 12.5 KB |
-| `test/funding-context-card.test.js` | 9.1 KB |
+| `test/funding-context-card.test.js` | 10.9 KB |
 | `test/funding-eligibility-claims.test.js` | 12.1 KB |
 | `test/funding-fit.test.js` | 12.5 KB |
 | `test/funding-links-land-on-funding.test.js` | 2.0 KB |
@@ -2304,7 +2304,7 @@
 | `test/hna-build-rebase-recovery.test.js` | 8.0 KB |
 | `test/hna-car-loader.test.js` | 5.5 KB |
 | `test/hna-cdp-deep-link.test.js` | 4.9 KB |
-| `test/hna-chapter-handoff.test.mjs` | 7.8 KB |
+| `test/hna-chapter-handoff.test.mjs` | 9.0 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
 | `test/hna-county-comparison.test.js` | 9.4 KB |
@@ -2573,6 +2573,7 @@
 | `test/rent-vs-buy-breakeven.test.js` | 4.1 KB |
 | `test/renter-household-size.test.js` | 2.1 KB |
 | `test/repo-private-data.test.mjs` | 10.9 KB |
+| `test/report-text-cleanup.test.js` | 3.1 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
 | `test/research-brief.test.mjs` | 16.0 KB |
