@@ -272,7 +272,7 @@
           ]
         },
         {
-          "text": "In the Opportunity Finder this record adds a local support bonus of +4 of a possible +6 points as of October 10, 2026: plans +0, incentives and funding +2, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
+          "text": "In the Opportunity Finder this record adds a local support bonus of +4 of a possible +6 points as of October 29, 2026: plans +0, incentives and funding +2, council and planning commission +2. A part with nothing counted adds nothing; it never lowers the score.",
           "cites": [
             "ls1"
           ]
@@ -559,150 +559,6 @@
       "accessed": "2026-07-07"
     },
     {
-      "id": "ls1",
-      "label": "Local support record for City of Denver, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0820000",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "Department of Housing Stability Five-Year Strategic Plan (Council Resolution 21-1233) (Denver Legistar file 21-1233 and attached plan PDF)",
-      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=19751",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-denver-host-strategic-plan-2022",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "Denver CPD: Expanding Housing Affordability Ordinance and Affordable Housing Fee",
-      "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "denver-eha-building-permit-fee-reduction",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls4",
-      "label": "Denver CPD: Expanding Housing Affordability Ordinance and Affordable Housing Fee",
-      "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "denver-eha-enhanced-height-incentive",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls5",
-      "label": "Denver CPD news: Denver rolls out 90-day review for affordable housing",
-      "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/CPD-News-and-Events/CPD-News/2026/Denver-rolls-out-90-day-review-for-affordable-housing",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "denver-prop123-90-day-fast-track",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls6",
-      "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
-      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-denver-affordable-housing-permanent-funds",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls7",
-      "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
-      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-denver-affordable-housing-mill-levy",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls8",
-      "label": "Denver Revised Municipal Code ch. 53, art. II (Municode API)",
-      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH53TAMIRE_ARTIISATA",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-denver-marijuana-sales-tax-housing",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls9",
-      "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
-      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-denver-linkage-fee",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls10",
-      "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
-      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-denver-eha-fee-in-lieu",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls11",
-      "label": "Denver Revised Municipal Code ch. 53, art. II (Municode API)",
-      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH53TAMIRE_ARTIISATA",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-denver-homelessness-resolution-sales-tax",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls12",
-      "label": "Council Bill 24-0972 referring an affordable-housing sales tax to the ballot (Denver Legistar file 24-0972)",
-      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=25748",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-denver-affordable-denver-ballot-referral",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls13",
-      "label": "Resolution 24-1480 approving $8,550,000 loan to Mercy Housing Mountain Plains (Denver Legistar file 24-1480)",
-      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=26256",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-denver-mercy-navajo-loan",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls14",
-      "label": "Resolution 25-0811 approving a $5,270,000.00 loan for 49th & Vine (4% phase) (Denver Legistar file 25-0811)",
-      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=27437",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-denver-49th-vine-loan",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls15",
-      "label": "Council Bill 26-0561 amending the Preservation of Affordable Housing Ordinance (Denver Legistar file 26-0561)",
-      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=56740",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-denver-preservation-ordinance-2026",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls16",
-      "label": "Resolution 25-1425 to buy 1460 and 1480 Tremont Place for affordable housing failed (Denver Legistar file 25-1425)",
-      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=28013",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-denver-tremont-purchase-failed",
-      "accessed": "2026-10-10"
-    },
-    {
       "id": "s39",
       "label": "Denver reports mixed results on five-year housing goals — Denver Gazette",
       "url": "https://www.denvergazette.com/2026/09/25/denver-reports-mixed-results-on-five-year-housing-goals/",
@@ -952,6 +808,150 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for City of Denver, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0820000",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Department of Housing Stability Five-Year Strategic Plan (Council Resolution 21-1233) (Denver Legistar file 21-1233 and attached plan PDF)",
+      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=19751",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-denver-host-strategic-plan-2022",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Denver CPD: Expanding Housing Affordability Ordinance and Affordable Housing Fee",
+      "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "denver-eha-building-permit-fee-reduction",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Denver CPD: Expanding Housing Affordability Ordinance and Affordable Housing Fee",
+      "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "denver-eha-enhanced-height-incentive",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "Denver CPD news: Denver rolls out 90-day review for affordable housing",
+      "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/CPD-News-and-Events/CPD-News/2026/Denver-rolls-out-90-day-review-for-affordable-housing",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "denver-prop123-90-day-fast-track",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
+      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-denver-affordable-housing-permanent-funds",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
+      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-denver-affordable-housing-mill-levy",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls8",
+      "label": "Denver Revised Municipal Code ch. 53, art. II (Municode API)",
+      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH53TAMIRE_ARTIISATA",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-denver-marijuana-sales-tax-housing",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls9",
+      "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
+      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-denver-linkage-fee",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls10",
+      "label": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
+      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-denver-eha-fee-in-lieu",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls11",
+      "label": "Denver Revised Municipal Code ch. 53, art. II (Municode API)",
+      "url": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH53TAMIRE_ARTIISATA",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-denver-homelessness-resolution-sales-tax",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls12",
+      "label": "Council Bill 24-0972 referring an affordable-housing sales tax to the ballot (Denver Legistar file 24-0972)",
+      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=25748",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-denver-affordable-denver-ballot-referral",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls13",
+      "label": "Resolution 24-1480 approving $8,550,000 loan to Mercy Housing Mountain Plains (Denver Legistar file 24-1480)",
+      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=26256",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-denver-mercy-navajo-loan",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls14",
+      "label": "Resolution 25-0811 approving a $5,270,000.00 loan for 49th & Vine (4% phase) (Denver Legistar file 25-0811)",
+      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=27437",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-denver-49th-vine-loan",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls15",
+      "label": "Council Bill 26-0561 amending the Preservation of Affordable Housing Ordinance (Denver Legistar file 26-0561)",
+      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=56740",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-denver-preservation-ordinance-2026",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls16",
+      "label": "Resolution 25-1425 to buy 1460 and 1480 Tremont Place for affordable housing failed (Denver Legistar file 25-1425)",
+      "url": "https://denver.legistar.com/gateway.aspx?M=L&ID=28013",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-denver-tremont-purchase-failed",
+      "accessed": "2026-10-10"
     }
   ]
 }

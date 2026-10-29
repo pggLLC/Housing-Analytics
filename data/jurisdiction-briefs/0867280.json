@@ -223,7 +223,7 @@
           ]
         },
         {
-          "text": "In the Opportunity Finder this record adds a local support bonus of +2 of a possible +6 points as of October 10, 2026: plans +0, incentives and funding +2, council and planning commission +0. A part with nothing counted adds nothing; it never lowers the score.",
+          "text": "In the Opportunity Finder this record adds a local support bonus of +2 of a possible +6 points as of October 29, 2026: plans +0, incentives and funding +2, council and planning commission +0. A part with nothing counted adds nothing; it never lowers the score.",
           "cites": [
             "ls1"
           ]
@@ -466,33 +466,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "ownership_need_owner_cost_burdened",
       "accessed": "2026-07-07"
-    },
-    {
-      "id": "ls1",
-      "label": "Local support record for City of Salida, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0867280",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "Salida Land Use Code §16-9-90 (Municode)",
-      "url": "https://library.municode.com/co/salida/codes/code_of_ordinances?nodeId=CH16LAUSCOLU_ARTIXINHO_S16-9-20GEINHORE",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "salida-exemplary-affordable-expedited-review",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "Salida Land Use Code §16-9-50 (Municode)",
-      "url": "https://library.municode.com/co/salida/codes/code_of_ordinances?nodeId=CH16LAUSCOLU_ARTIXINHO_S16-9-20GEINHORE",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "salida-inclusionary-density-parking-incentives",
-      "accessed": "2026-10-10"
     },
     {
       "id": "s31",
@@ -744,6 +717,33 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
+    },
+    {
+      "id": "ls1",
+      "label": "Local support record for City of Salida, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0867280",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Salida Land Use Code §16-9-90 (Municode)",
+      "url": "https://library.municode.com/co/salida/codes/code_of_ordinances?nodeId=CH16LAUSCOLU_ARTIXINHO_S16-9-20GEINHORE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "salida-exemplary-affordable-expedited-review",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Salida Land Use Code §16-9-50 (Municode)",
+      "url": "https://library.municode.com/co/salida/codes/code_of_ordinances?nodeId=CH16LAUSCOLU_ARTIXINHO_S16-9-20GEINHORE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "salida-inclusionary-density-parking-incentives",
+      "accessed": "2026-10-10"
     }
   ]
 }
