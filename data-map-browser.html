@@ -325,7 +325,10 @@
           { k: 'Basis boost', v: '30% (IRC §42(d)(5)(B)(iii))' },
         ];
       } },
-    { key: 'oz', name: 'Opportunity Zones (designated)', group: 'Tax credit designations',
+    // The 2018 zones are the ones in force. Under P.L. 119-21 the first new
+    // round takes effect 2027-01-01 (IRS IR-2026-45, 2026-04-06); Colorado's
+    // nominations are pending with Treasury, so they are not drawn here.
+    { key: 'oz', name: 'Opportunity Zones (2018 zones; new zones start Jan 1, 2027)', group: 'Tax credit designations',
       url: 'data/market/opportunity_zones_co.geojson', color: '#9333ea', kind: 'polygon',
       filter: function (f) { return f.properties && f.properties.designated; },
       popupRows: function (p) {
@@ -333,6 +336,7 @@
           { k: 'Tract GEOID', v: p.geoid },
           { k: 'County FIPS', v: p.county_fips },
           { k: 'OZ type',     v: p.oz_type || 'designated' },
+          { k: 'Status',      v: 'A 2018 zone. New zones take effect Jan 1, 2027; Colorado\'s nominations are pending with the U.S. Treasury.' },
         ];
       } },
 

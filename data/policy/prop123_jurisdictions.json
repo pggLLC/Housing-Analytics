@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-11",
+  "updated": "2026-10-29",
   "source_url": "https://cdola.colorado.gov/commitment-filings",
   "sources": {
     "cycle1_filings": {
@@ -9,7 +9,7 @@
     "fast_track": {
       "page": "https://cdola.colorado.gov/prop123fasttrack",
       "sheet": "https://docs.google.com/spreadsheets/d/1MNi6SG8rNaXxVojOAYOMhcz2SmrUCjrjdEhJqgYCSG8",
-      "sheet_last_updated": "2026-10-08"
+      "sheet_last_updated": "2026-10-28"
     },
     "fully_compliant": {
       "page": "https://cdola.colorado.gov/fully-compliant-jurisdictions-under-proposition-123"
@@ -20,20 +20,31 @@
   },
   "note": "Local government Proposition 123 affordable housing commitments, joined from DOLA's own lists: first-cycle (2024-2026) commitment filings, verified expedited review (\"fast track\") policies, jurisdictions verified as meeting every statutory requirement, and second-cycle (2027-2029) commitments filed so far in 2026. Built by scripts/policy/build_prop123_jurisdictions.py. HB26-1313 (signed and effective 2026-05-26 under its safety clause) replaces the 3% annual-growth eligibility requirement with permit-and-job-growth targets beginning the 3-year cycle on 2027-01-01; the required_commitment values below describe the current cycle.",
   "total_projected_units": 22988,
-  "fast_track_count": 145,
+  "fast_track_count": 152,
   "fast_track_without_cycle1_commitment": [
     {
       "name": "Town of Moffat",
       "fast_track_adopted": "2026-09-15"
+    },
+    {
+      "name": "Town of Stratton",
+      "fast_track_adopted": "2026-08-12"
     }
   ],
-  "commitment_met_count": 41,
+  "commitment_met_count": 54,
   "next_cycle": {
     "cycle": "2027-2029",
     "filing_deadline": "2026-11-01",
-    "filed_count": 19,
-    "unit_goal_total": 3151,
+    "filed_count": 48,
+    "unit_goal_total": 4319,
     "filings": [
+      {
+        "name": "Chaffee County",
+        "submitted": "2026-10-26",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 43
+      },
       {
         "name": "City and County of Denver",
         "submitted": "2026-09-30",
@@ -56,11 +67,39 @@
         "unit_goal": 3
       },
       {
+        "name": "City of Cortez",
+        "submitted": "2026-10-27",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 9
+      },
+      {
+        "name": "City of Cripple Creek",
+        "submitted": "2026-10-02",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 6
+      },
+      {
+        "name": "City of Delta",
+        "submitted": "2026-10-21",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 27
+      },
+      {
         "name": "City of Durango",
         "submitted": "2026-08-26",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 99
+      },
+      {
+        "name": "City of Florence",
+        "submitted": "2026-10-13",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 7
       },
       {
         "name": "City of Golden",
@@ -70,6 +109,13 @@
         "unit_goal": 53
       },
       {
+        "name": "City of Grand Junction",
+        "submitted": "2026-08-25",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 347
+      },
+      {
         "name": "City of Idaho Springs",
         "submitted": "2026-09-29",
         "begins": "2027-01-01",
@@ -77,11 +123,46 @@
         "unit_goal": 13
       },
       {
+        "name": "City of Ignacio",
+        "submitted": "2026-10-08",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 4
+      },
+      {
+        "name": "City of Lafayette",
+        "submitted": "2026-10-23",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 8
+      },
+      {
+        "name": "City of Lakewood",
+        "submitted": "2026-10-27",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 61
+      },
+      {
         "name": "City of Longmont",
         "submitted": "2026-09-29",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 284
+      },
+      {
+        "name": "City of Loveland",
+        "submitted": "2026-10-20",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 167
+      },
+      {
+        "name": "City of Montrose",
+        "submitted": "2026-10-21",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 126
       },
       {
         "name": "City of Ouray",
@@ -98,6 +179,20 @@
         "unit_goal": 65
       },
       {
+        "name": "City of Sheridan",
+        "submitted": "2026-10-21",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 27
+      },
+      {
+        "name": "La Plata County",
+        "submitted": "2026-09-23",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 84
+      },
+      {
         "name": "Larimer County",
         "submitted": "2026-08-28",
         "begins": "2027-01-01",
@@ -105,11 +200,32 @@
         "unit_goal": 30
       },
       {
+        "name": "Mesa County",
+        "submitted": "2026-10-26",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 79
+      },
+      {
+        "name": "Ouray County",
+        "submitted": "2026-10-13",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 17
+      },
+      {
         "name": "Town of Bayfield",
         "submitted": "2026-08-31",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 9
+      },
+      {
+        "name": "Town of Bennett",
+        "submitted": "2026-10-15",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 61
       },
       {
         "name": "Town of Berthoud",
@@ -124,6 +240,27 @@
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 27
+      },
+      {
+        "name": "Town of Buena Vista",
+        "submitted": "2026-09-24",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 42
+      },
+      {
+        "name": "Town of Crested Butte",
+        "submitted": "2026-10-23",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Estes Park",
+        "submitted": "2026-08-21",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
       },
       {
         "name": "Town of Frisco",
@@ -154,8 +291,71 @@
         "unit_goal": 3
       },
       {
+        "name": "Town of Mount Crested Butte",
+        "submitted": "2026-10-27",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Naturita",
+        "submitted": "2026-10-14",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Poncha Springs",
+        "submitted": "2026-10-23",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 8
+      },
+      {
+        "name": "Town of Ridgway",
+        "submitted": "2026-10-15",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 13
+      },
+      {
+        "name": "Town of Silver Cliff",
+        "submitted": "2026-10-16",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 4
+      },
+      {
+        "name": "Town of Silver Plume",
+        "submitted": "2026-09-28",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Silverton",
+        "submitted": "2026-10-22",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 4
+      },
+      {
+        "name": "Town of Snowmass Village",
+        "submitted": "2026-10-13",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      },
+      {
         "name": "Town of Stratton",
         "submitted": "2026-09-22",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Telluride",
+        "submitted": "2026-10-22",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -166,6 +366,13 @@
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 14
+      },
+      {
+        "name": "Town of Westcliffe",
+        "submitted": "2026-10-23",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
       }
     ]
   },
@@ -284,7 +491,12 @@
         "unit_commitment": "2026-09-24",
         "required_units_met": 36
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-26",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 43
+      }
     },
     {
       "name": "City and County of Broomfield",
@@ -593,7 +805,12 @@
         "unit_commitment": "2026-05-21",
         "required_units_met": 108
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-09-23",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 84
+      }
     },
     {
       "name": "Lake County",
@@ -659,14 +876,23 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 253,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-08-31",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-06-10",
       "fast_track_instrument": "Resolution 2025-20",
-      "compliance_verified": null,
-      "next_cycle": null
+      "compliance_verified": {
+        "expedited_review": "2025-06-13",
+        "unit_commitment": "2026-10-20",
+        "required_units_met": 253
+      },
+      "next_cycle": {
+        "submitted": "2026-10-26",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 79
+      }
     },
     {
       "name": "Mineral County",
@@ -750,7 +976,12 @@
         "unit_commitment": "2026-01-30",
         "required_units_met": 6
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-13",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 17
+      }
     },
     {
       "name": "Phillips County",
@@ -1177,14 +1408,23 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 89,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-16",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-11-25",
       "fast_track_instrument": "Ordinance No. 1352, Series 2025",
-      "compliance_verified": null,
-      "next_cycle": null
+      "compliance_verified": {
+        "expedited_review": "2025-12-12",
+        "unit_commitment": "2026-10-26",
+        "required_units_met": 31
+      },
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 9
+      }
     },
     {
       "name": "City of Craig",
@@ -1225,14 +1465,23 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 14,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-08-28",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-09-30",
       "fast_track_instrument": "Ordinance 2026-09",
-      "compliance_verified": null,
-      "next_cycle": null
+      "compliance_verified": {
+        "expedited_review": "2026-10-09",
+        "unit_commitment": "2026-10-23",
+        "required_units_met": 14
+      },
+      "next_cycle": {
+        "submitted": "2026-10-02",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 6
+      }
     },
     {
       "name": "City of Delta",
@@ -1252,7 +1501,12 @@
         "unit_commitment": "2026-09-29",
         "required_units_met": 83
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-21",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 27
+      }
     },
     {
       "name": "City of Durango",
@@ -1334,14 +1588,23 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 56,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-09-06",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-10-05",
       "fast_track_instrument": "Resolution No. 9-2026",
-      "compliance_verified": null,
-      "next_cycle": null
+      "compliance_verified": {
+        "expedited_review": "2026-10-09",
+        "unit_commitment": "2026-10-12",
+        "required_units_met": 26
+      },
+      "next_cycle": {
+        "submitted": "2026-10-13",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 7
+      }
     },
     {
       "name": "City of Fort Collins",
@@ -1466,7 +1729,12 @@
         "unit_commitment": "2026-04-30",
         "required_units_met": 374
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-08-25",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 347
+      }
     },
     {
       "name": "City of Greeley",
@@ -1543,7 +1811,12 @@
         "unit_commitment": "2026-07-29",
         "required_units_met": 13
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-08",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 4
+      }
     },
     {
       "name": "City of La Junta",
@@ -1571,11 +1844,16 @@
       "status": "Committed",
       "filing_date": "2023-07-27",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-10-20",
+      "fast_track_instrument": "Resolution No. 2026-26",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-23",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 8
+      }
     },
     {
       "name": "City of Lakewood",
@@ -1595,7 +1873,12 @@
         "unit_commitment": "2026-09-17",
         "required_units_met": 475
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 61
+      }
     },
     {
       "name": "City of Lamar",
@@ -1693,14 +1976,23 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 246,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-24",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-06-16",
       "fast_track_instrument": "Ordinance No. 6836",
-      "compliance_verified": null,
-      "next_cycle": null
+      "compliance_verified": {
+        "expedited_review": "2026-06-25",
+        "unit_commitment": "2026-10-09",
+        "required_units_met": 246
+      },
+      "next_cycle": {
+        "submitted": "2026-10-20",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 167
+      }
     },
     {
       "name": "City of Manitou Springs",
@@ -1752,7 +2044,12 @@
         "unit_commitment": "2026-10-01",
         "required_units_met": 162
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-21",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 126
+      }
     },
     {
       "name": "City of Ouray",
@@ -1886,7 +2183,12 @@
         "unit_commitment": "2026-07-09",
         "required_units_met": 66
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-21",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 27
+      }
     },
     {
       "name": "City of Steamboat Springs",
@@ -2110,9 +2412,9 @@
       "status": "Committed",
       "filing_date": "2023-11-01",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-10-27",
+      "fast_track_instrument": "Resolution 26-18",
       "compliance_verified": null,
       "next_cycle": null
     },
@@ -2123,13 +2425,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 5,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-09-29",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-06-09",
       "fast_track_instrument": "Ordinance No. 10, Series of 2026",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-07-02",
+        "unit_commitment": "2026-10-12",
+        "required_units_met": 4
+      },
       "next_cycle": null
     },
     {
@@ -2175,7 +2481,12 @@
         "unit_commitment": "2026-09-15",
         "required_units_met": 19
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-15",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 61
+      }
     },
     {
       "name": "Town of Berthoud",
@@ -2245,7 +2556,12 @@
         "unit_commitment": "2026-09-24",
         "required_units_met": 26
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-09-24",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 42
+      }
     },
     {
       "name": "Town of Carbondale",
@@ -2334,14 +2650,23 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 5,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-31",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-05-19",
       "fast_track_instrument": "Resolution No. 2025-12",
-      "compliance_verified": null,
-      "next_cycle": null
+      "compliance_verified": {
+        "expedited_review": "2025-05-29",
+        "unit_commitment": "2026-10-16",
+        "required_units_met": 5
+      },
+      "next_cycle": {
+        "submitted": "2026-10-23",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Crestone",
@@ -2502,13 +2827,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 15,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-06-27",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-09-30",
       "fast_track_instrument": "Resolution No. 2026-203",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-10-09",
+        "unit_commitment": "2026-06-17",
+        "required_units_met": 17
+      },
       "next_cycle": null
     },
     {
@@ -2529,7 +2858,12 @@
         "unit_commitment": "2026-07-01",
         "required_units_met": 46
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-08-21",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Fairplay",
@@ -2999,9 +3333,9 @@
       "status": "Committed",
       "filing_date": "2023-10-24",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-10-20",
+      "fast_track_instrument": "Resolution No. 99, Series 2026",
       "compliance_verified": null,
       "next_cycle": null
     },
@@ -3108,7 +3442,12 @@
       "fast_track_adopted": "2025-10-07",
       "fast_track_instrument": "Resolution No. 15, Series 2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Mountain View",
@@ -3149,14 +3488,23 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 6,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-08-25",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-05-18",
       "fast_track_instrument": "Resolution No. 2026-5",
-      "compliance_verified": null,
-      "next_cycle": null
+      "compliance_verified": {
+        "expedited_review": "2026-07-24",
+        "unit_commitment": "2026-10-19",
+        "required_units_met": 4
+      },
+      "next_cycle": {
+        "submitted": "2026-10-14",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Nederland",
@@ -3213,13 +3561,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 9,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-18",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-05-27",
       "fast_track_instrument": "Resolution No. 2026-007",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-07-31",
+        "unit_commitment": "2026-10-19",
+        "required_units_met": 7
+      },
       "next_cycle": null
     },
     {
@@ -3312,9 +3664,9 @@
       "status": "Committed",
       "filing_date": "2025-10-29",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
+      "fast_track": true,
+      "fast_track_adopted": "2025-12-09",
+      "fast_track_instrument": "Resolution No. 2025-33",
       "compliance_verified": null,
       "next_cycle": null
     },
@@ -3344,9 +3696,9 @@
       "status": "Committed",
       "filing_date": "2023-07-20",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-10-15",
+      "fast_track_instrument": "Ordinance No. 837-2026",
       "compliance_verified": null,
       "next_cycle": null
     },
@@ -3360,9 +3712,9 @@
       "status": "Committed",
       "filing_date": "2023-10-25",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-10-19",
+      "fast_track_instrument": "Resolution 26-066",
       "compliance_verified": null,
       "next_cycle": null
     },
@@ -3373,13 +3725,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 27,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-25",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
-      "compliance_verified": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-10-20",
+      "fast_track_instrument": "Resolution No. 2026-21",
+      "compliance_verified": {
+        "expedited_review": "2026-10-23",
+        "unit_commitment": "2026-10-26",
+        "required_units_met": 13
+      },
       "next_cycle": null
     },
     {
@@ -3400,7 +3756,12 @@
         "unit_commitment": "2026-09-24",
         "required_units_met": 10
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-23",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 8
+      }
     },
     {
       "name": "Town of Pritchett",
@@ -3484,7 +3845,12 @@
         "unit_commitment": "2026-01-30",
         "required_units_met": 10
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-15",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 13
+      }
     },
     {
       "name": "Town of Saguache",
@@ -3568,7 +3934,12 @@
         "unit_commitment": "2026-08-18",
         "required_units_met": 7
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-16",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 4
+      }
     },
     {
       "name": "Town of Silver Plume",
@@ -3588,7 +3959,12 @@
         "unit_commitment": "2026-09-14",
         "required_units_met": 2
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-09-28",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Silverthorne",
@@ -3624,7 +4000,12 @@
         "unit_commitment": "2026-01-05",
         "required_units_met": 10
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-22",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 4
+      }
     },
     {
       "name": "Town of Snowmass Village",
@@ -3633,14 +4014,23 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 28,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-08-23",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-11-03",
       "fast_track_instrument": "Ordinance No. 11 - Series 2025",
-      "compliance_verified": null,
-      "next_cycle": null
+      "compliance_verified": {
+        "expedited_review": "2025-11-20",
+        "unit_commitment": "2026-10-12",
+        "required_units_met": 8
+      },
+      "next_cycle": {
+        "submitted": "2026-10-13",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of South Fork",
@@ -3720,7 +4110,12 @@
       "fast_track_adopted": "2025-12-16",
       "fast_track_instrument": "Resolution No. 36 Series of 2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-22",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Vail",
@@ -3786,14 +4181,23 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 6,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-10",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-06-16",
       "fast_track_instrument": "Resolution 2-2026",
-      "compliance_verified": null,
-      "next_cycle": null
+      "compliance_verified": {
+        "expedited_review": "2026-06-25",
+        "unit_commitment": "2026-10-23",
+        "required_units_met": 6
+      },
+      "next_cycle": {
+        "submitted": "2026-10-23",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Wiggins",

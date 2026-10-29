@@ -600,6 +600,33 @@ footer.site-footer .footer-wrap {
   .footer-about-links { gap: 0 16px; }
 }
 
+/* ── Español (navigation.js spanishLink) ──────────────────────────────
+   Wide screens: "ES" before Member sign in, hidden below 1100px for
+   the same reason. On phones it is the first line of the menu drawer, and it
+   is always in the footer. */
+.nav-lang-link {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 4px;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+@media (max-width: 1099px) {
+  .nav-lang-link { display: none; }
+}
+.mobile-nav-links a.mobile-nav-lang-link {
+  display: block;
+  margin: 14px 14px 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-weight: 600;
+}
+
 /* ── Member sign in (navigation.js memberLink) ────────────────────────
    Wide screens: a small outlined link after Search. Below 1100px the menu
    already wraps to two rows and the link would push "Scoping a Project" out

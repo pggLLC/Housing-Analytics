@@ -62,6 +62,7 @@ UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like 
 # Misspellings in DOLA's lists, mapped to the cycle-1 spelling.
 ALIASES = {
     'ridgeway': 'ridgway',
+    'plateville': 'platteville',
 }
 
 TRIBES = {
@@ -151,6 +152,9 @@ def parse_name(raw):
     """
     n = re.sub(r'\s+', ' ', raw).strip()
     m = re.fullmatch(r'(.+?),\s*(Town|City|County|City and County|Tribe)(?: of)?', n, flags=re.I)
+    # The fast-track sheet also drops the comma ("Parker Town of"); only the
+    # trailing "of" marks that form, so a bare "Lake City" stays a name.
+    m = m or re.fullmatch(r'(.+?)\s+(Town|City|City and County) of', n, flags=re.I)
     if m:
         base, form = m.group(1).strip(), m.group(2).title().replace('And', 'and')
     elif re.search(r'\sCounty$', n, flags=re.I):
