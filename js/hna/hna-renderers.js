@@ -6234,7 +6234,7 @@
           // Place blobs carry no year; their job trend is rescaled so its latest
           // year equals the job count (data/hna/place-lehd.json meta.method).
           var empYears = Object.keys(lehd.annualEmployment || {}).filter(function (y) { return /^\d{4}$/.test(y); }).sort();
-          var wacYr = lehd.wacYear || lehd.year || empYears[empYears.length - 1];
+          var wacYr = lehd.wacYear || empYears[empYears.length - 1] || lehd.year;
           var WAC_SRC = srcLink(SRC_LODES, 'LEHD LODES8 WAC' + (wacYr ? ', ' + wacYr : ''));
           var OD_SRC  = srcLink(SRC_LODES_TECH, 'LEHD LODES8 OD' + (lehd.year ? ', ' + lehd.year : ''));
           var JW_SRC  = srcLink(SRC_LODES, 'LEHD') + ' + ' + srcLink(SRC_ACS_DP05, 'ACS DP05') + ' (derived)';
