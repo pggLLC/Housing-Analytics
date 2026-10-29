@@ -6229,23 +6229,31 @@
           var srcLink = function (url, text) {
             return '<a href="' + url + '" target="_blank" rel="noopener" class="hna-source-link">' + escHtml(text) + '</a>';
           };
-          var WAC_SRC = srcLink(SRC_LODES, 'LEHD LODES8 WAC');
-          var OD_SRC  = srcLink(SRC_LODES_TECH, 'LEHD LODES8 OD');
+          // The vintage goes on the label so a figure quoted elsewhere (the chapter
+          // summary copies these source lines) still says which year it is.
+          // Place blobs carry no year; their job trend is rescaled so its latest
+          // year equals the job count (data/hna/place-lehd.json meta.method).
+          var empYears = Object.keys(lehd.annualEmployment || {}).filter(function (y) { return /^\d{4}$/.test(y); }).sort();
+          var wacYr = lehd.wacYear || empYears[empYears.length - 1] || lehd.year;
+          var WAC_SRC = srcLink(SRC_LODES, 'LEHD LODES8 WAC' + (wacYr ? ', ' + wacYr : ''));
+          var OD_SRC  = srcLink(SRC_LODES_TECH, 'LEHD LODES8 OD' + (lehd.year ? ', ' + lehd.year : ''));
           var JW_SRC  = srcLink(SRC_LODES, 'LEHD') + ' + ' + srcLink(SRC_ACS_DP05, 'ACS DP05') + ' (derived)';
           var cards = [];
-          if (metrics.jobs)    cards.push({ label: 'Total Jobs',       value: fmtNum(metrics.jobs),    src: WAC_SRC });
+          if (metrics.jobs)    cards.push({ id: 'statJobsTotal', label: 'Total Jobs', value: fmtNum(metrics.jobs), src: WAC_SRC });
           if (metrics.within)  cards.push({ label: 'Live & Work Here', value: fmtNum(metrics.within),  src: OD_SRC });
           if (metrics.inflow)  cards.push({ label: 'Inflow Workers',   value: fmtNum(metrics.inflow),  src: OD_SRC });
-          if (metrics.outflow) cards.push({ label: 'Outflow Workers',  value: fmtNum(metrics.outflow), src: OD_SRC });
+          if (metrics.outflow) cards.push({ id: 'statJobsOutflow', label: 'Outflow Workers', value: fmtNum(metrics.outflow), src: OD_SRC });
           if (metrics.jwRatio) cards.push({
             label: 'Jobs : Workers',
             value: (Math.round(metrics.jwRatio * 100) / 100).toFixed(2),
             src:   JW_SRC,
           });
+          // The value ids feed the chapter's "What you have now" summary
+          // (data/hna/hna-views.json, outlook handoff).
           metricsEl.innerHTML = cards.map(function (c) {
             return '<div class="metric-card">' +
               '<div class="mc-label">' + escHtml(c.label) + '</div>' +
-              '<div class="mc-value">' + escHtml(c.value) + '</div>' +
+              '<div class="mc-value"' + (c.id ? ' id="' + c.id + '"' : '') + '>' + escHtml(c.value) + '</div>' +
               '<div class="mc-sub">'   + c.src              + '</div>' +
             '</div>';
           }).join('');
@@ -7417,9 +7425,10 @@
     }
     if (cumulative !== null) {
       cards.push({
+        id:    'statJobsGrowth',
         label: years[0] + '–' + latestYear + ' Cumulative',
         value: (cumulative > 0 ? '+' : '') + cumulative.toFixed(1) + '%',
-        src:   DERIVED_SRC,
+        src:   srcLink(SRC_WAC, 'LEHD WAC (derived), ' + years[0] + '–' + latestYear),
       });
     }
     if (lehd.industries && lehd.industries.length) {
@@ -7438,7 +7447,7 @@
     container.innerHTML = cards.map(function (c) {
       return '<div class="metric-card">' +
         '<div class="mc-label">' + escHtml(c.label) + '</div>' +
-        '<div class="mc-value">' + escHtml(c.value) + '</div>' +
+        '<div class="mc-value"' + (c.id ? ' id="' + c.id + '"' : '') + '>' + escHtml(c.value) + '</div>' +
         '<div class="mc-sub">'   + c.src              + '</div>' +
       '</div>';
     }).join('');

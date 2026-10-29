@@ -711,24 +711,35 @@
       var node = document.querySelector('main') || document.body;
       var bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#ffffff';
       var rentLimits = snapshot.rentLimits;
-      var canvas = await window.html2canvas(node, { scale: 2, useCORS: true, backgroundColor: bg });
-      var imgData = canvas.toDataURL('image/png');
+      var canvas = await window.html2canvas(node, { scale: 1.5, useCORS: true, backgroundColor: bg });
       var pdf = new jsPDF({ orientation: 'p', unit: 'pt', format: 'letter' });
       if (rentLimits && typeof pdf.setProperties === 'function') {
         pdf.setProperties({ subject: JSON.stringify({ rentLimits: rentLimits, utilityAllowance: snapshot.utilityAllowance, rentSchedule: snapshot.rentSchedule }) });
       }
       var pageW = pdf.internal.pageSize.getWidth();
       var pageH = pdf.internal.pageSize.getHeight();
-      var imgW = pageW;
-      var imgH = canvas.height * (pageW / canvas.width);
-      pdf.addImage(imgData, 'PNG', 0, 0, imgW, imgH);
-      var remaining = imgH - pageH;
-      var offset = 0;
-      while (remaining > 0) {
-        pdf.addPage();
-        offset += pageH;
-        pdf.addImage(imgData, 'PNG', 0, -offset, imgW, imgH);
-        remaining -= pageH;
+      // One page-sized JPEG slice per page. The calculator is about 28,000
+      // px tall; one PNG of all of it, placed again on every page, was
+      // larger than the PDF writer can hold, so the download always fell
+      // back to the print dialog.
+      var sliceH = Math.floor(canvas.width * (pageH / pageW));
+      for (var top = 0, pageNo = 0; top < canvas.height; top += sliceH, pageNo++) {
+        var h = Math.min(sliceH, canvas.height - top);
+        var slice = document.createElement('canvas');
+        slice.width = canvas.width;
+        slice.height = h;
+        var sctx = slice.getContext && slice.getContext('2d');
+        if (!sctx) {
+          // No 2D canvas (a test DOM): place the whole capture, offset per page.
+          if (pageNo > 0) pdf.addPage();
+          pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, -top * (pageW / canvas.width), pageW, canvas.height * (pageW / canvas.width));
+          continue;
+        }
+        sctx.fillStyle = bg || '#ffffff';
+        sctx.fillRect(0, 0, slice.width, h);
+        sctx.drawImage(canvas, 0, top, canvas.width, h, 0, 0, canvas.width, h);
+        if (pageNo > 0) pdf.addPage();
+        pdf.addImage(slice.toDataURL('image/jpeg', 0.85), 'JPEG', 0, 0, pageW, h * (pageW / canvas.width));
       }
       appendReportPages(pdf, snapshot.reportMeta);
       pdf.save(outFile);

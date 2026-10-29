@@ -61,6 +61,12 @@
       color: var(--text-muted); font-weight: 700; margin-bottom: .6rem; display: block;
       font-family: inherit; white-space: normal;
     }
+    /* On a phone a long formula wraps onto a second line instead of
+       needing a sideways swipe. */
+    @media (max-width: 600px) {
+      .mx-eq { padding: .85rem .9rem; }
+      .mx-eq code, .mx-eq pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8rem; }
+    }
     .mx-where { font-size: .86rem; color: var(--text-secondary); margin: .6rem 0 0; }
     .mx-where dl { margin: .4rem 0 0; display: grid; grid-template-columns: auto 1fr; gap: .25rem .9rem; }
     .mx-where dt { font-family: ui-monospace, Menlo, monospace; font-size: .82rem; color: var(--accent); font-weight: 600; }
