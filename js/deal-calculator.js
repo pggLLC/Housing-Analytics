@@ -2182,6 +2182,12 @@
           <p id="dc-boost-help" style="font-size:var(--tiny);color:var(--muted);margin:0.35rem 0 0;line-height:1.45;">
             A QCT, DDA or SADDA boost raises eligible basis by 30% once; a CHFA boost raises it once by the percentage in CHFA's letter, up to 30%. It needs a designation and the evidence for it, never applies to buying an existing building, and the CHFA boost cannot be combined with a QCT, DDA or SADDA.
           </p>
+          <p id="dc-dda-2027" style="font-size:var(--tiny);color:var(--muted);margin:0.35rem 0 0;line-height:1.45;">
+            HUD's 2027 lists apply to credits awarded after December 31, 2026, which is every 2027 round. They add Archuleta and Chaffee counties and ZIP 80433 as DDAs, and drop San Miguel County and ZIPs 80129, 80249, 80465 and 80913. This site's maps show the 2026 lists until January.
+            <a href="https://www.huduser.gov/portal/Datasets/qct/DDA2027NM.PDF" target="_blank" rel="noopener">HUD 2027 county list</a> ·
+            <a href="https://www.huduser.gov/portal/Datasets/qct/DDA2027M.PDF" target="_blank" rel="noopener">HUD 2027 ZIP list</a> ·
+            <a href="https://www.federalregister.gov/documents/2026/10/06/2026-20390/statutorily-mandated-designation-of-difficult-development-areas-and-qualified-census-tracts-for-2027" target="_blank" rel="noopener">Federal Register, October 6, 2026</a>
+          </p>
           <p id="dc-qct-dda-note" role="status" style="display:none;font-size:var(--tiny);color:var(--accent);margin:0.3rem 0 0;font-weight:600;"></p>
         </div>
         <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
