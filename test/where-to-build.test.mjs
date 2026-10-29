@@ -22,7 +22,8 @@ const docs = {
   fees: json('data/policy/fee-reductions.json'),
   funds: json('data/policy/local-housing-funds.json'),
   coverage: json('data/policy/incentive-coverage.json'),
-  commitment: json('data/policy/local-commitment.json')
+  commitment: json('data/policy/local-commitment.json'),
+  jobs: json('data/policy/job-access.json')
 };
 const model = W.build(docs, TODAY);
 
@@ -200,7 +201,7 @@ ok(model.places.some((p) => p.type === 'cdp' && /\(through /.test(p.factors.loca
 ok(page.includes('meta.parks_generated') && docs.context.meta.parks_generated, 'parks show the OpenStreetMap file date, not the vote date');
 
 // ---- 6d. A file that fails to load leaves its factors unchecked, never a zero for every place.
-for (const [key, ids] of [['prop123', ['prop123']], ['awards', ['landBank']], ['lbStatus', ['landBank']], ['support', ['approvals']], ['context', ['parks', 'prop123Vote', 'presVote']], ['funds', ['localFund']], ['commitment', ['hna', 'planGoal', 'authority']]]) {
+for (const [key, ids] of [['prop123', ['prop123']], ['awards', ['landBank']], ['lbStatus', ['landBank']], ['support', ['approvals']], ['context', ['parks', 'prop123Vote', 'presVote']], ['funds', ['localFund']], ['commitment', ['hna', 'planGoal', 'authority']], ['jobs', ['jobAccess']]]) {
   const m = W.build({ ...docs, [key]: null }, TODAY);
   ok(m.missing.length === 1, `${key} missing is reported (${m.missing})`);
   ok(m.places.every((p) => ids.every((id) => p.factors[id].points === null && /did not load/.test(p.factors[id].value))), `${key} missing: ${ids.join(', ')} show as not checked`);
@@ -313,5 +314,30 @@ ok(model.places.some((p) => p.flags.length), 'recorded denials show as red flags
   // A DOLA approval of the place's own HNA in the last 12 months is a dated signal.
   ok(model.places.some((p) => p.signals.some((g) => /approved by DOLA/.test(g.text))), 'a recent DOLA HNA approval is a signal');
   ok(page.includes('data/policy/local-commitment.json'), 'the page loads the local commitment file');
+}
+
+// ---- Job access (paul 2026-10-29): a fact about the place, on a log scale, off in the smaller-town preset.
+{
+  const byName = (nm) => model.places.find((p) => p.name === nm);
+  const bay = byName('Bayfield (town)'), dur = byName('Durango (city)'), nuc = byName('Nucla (town)');
+  ok(bay && bay.factors.jobAccess.points >= 6 && bay.factors.jobAccess.points <= 7.5, `Bayfield reaches a job centre (${bay.factors.jobAccess.points})`);
+  ok(/work in Durango \(city\)/.test(bay.factors.jobAccess.value), `Bayfield's row says where its residents work: ${bay.factors.jobAccess.value}`);
+  ok(!/working residents work in/.test(dur.factors.jobAccess.value), 'Durango shows no commute line: no other town employs 20% of its residents');
+  ok(nuc && nuc.factors.jobAccess.points <= 1, `Nucla has few jobs within reach (${nuc.factors.jobAccess.points})`);
+  // Points follow the printed rule exactly.
+  for (const p of model.places) {
+    const j = p.type === 'county' ? docs.jobs.counties[p.geoid] : docs.jobs.places[p.geoid];
+    const f = p.factors.jobAccess;
+    if (!j) { ok(f.points === null, `${p.name}: no job figure is not checked`); continue; }
+    const want = Math.round(Math.max(0, Math.min(10, (Math.log10(Math.max(j.jobs_30min, 1)) - 3) * 5)) * 10) / 10;
+    ok(f.points === want, `${p.name}: job access ${f.points} follows the rule (${want})`);
+  }
+  ok(model.places.filter((p) => p.factors.jobAccess.points != null).length === model.places.length, 'every ranked place has a job figure');
+  ok(W.PRESETS.rural9.weights.jobs === 0, 'job access is off in the smaller-town 9% preset');
+  ok(!W.score(nuc, W.PRESETS.rural9.weights).parts.some((x) => x.id === 'jobAccess' && x.weight > 0), '... so it leaves a remote town\'s score alone');
+  // No double count: the need factor still reads the HNA need score, which puts commuters where they work.
+  const bayNeed = docs.ranking.rankings.find((r) => r.geoid === bay.geoid).metrics.overall_need_score;
+  ok(Math.abs(bay.factors.need.points - bayNeed / 10) < 0.06, 'Bayfield\'s need is its own, with no borrowed Durango need');
+  ok(page.includes('data/policy/job-access.json'), 'the page loads the job-access file');
 }
 console.log(`where-to-build: ${n} checks passed`);
