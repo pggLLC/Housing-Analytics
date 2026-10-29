@@ -108,14 +108,13 @@ last_award_year = max(AwardYear for all LIHTC projects with PROJ_CTY matching ju
 years_since = current_year - last_award_year
             = ∞ if never funded
 
-recency_score = min(100, round(years_since / 25 × 100))
-              = 100 if never funded
-              =  60 if 15 years ago
-              =  20 if 5 years ago
-              =   0 if last year
+recency_score = min(100, round(years_since / 4 × 100))
+              = 100 if never funded, or funded 4 or more years ago
+              =  50 if 2 years ago
+              =   0 if this year
 ```
 
-**Why this shape**: CHFA's 9% Qualified Allocation Plan rewards geographic distribution; jurisdictions with no recent activity are explicitly preferred. The 25-year cap matches the LIHTC compliance period — beyond that, a deal can no longer be considered "saturated."
+**Why this shape**: CHFA's 9% Qualified Allocation Plan rewards geographic distribution; jurisdictions with no recent activity are preferred. The cap is 4 years (F146): anything older than one four-year cycle counts as "not recent". An earlier 25-year scale, matched to the compliance period, gave a place funded in 2010 and one funded in 2018 nearly the same reading.
 
 **Data sources**:
 - **CHFA's live Housing Tax Credit Properties feature service** — `data/chfa-lihtc.json` (refreshed from <https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/0>; 926 CO projects through 2025).
