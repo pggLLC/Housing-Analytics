@@ -625,8 +625,18 @@
       tile('is-chfa', 'CHFA tax credits', b.CHFA.credits === null ? 'Value unavailable' : money(b.CHFA.credits) + ' a year', n(b.CHFA) + ', ' + count(b.CHFA.homes) + ' homes');
       if (b.CHFA.bonds) tile('is-chfa', 'CHFA 4% bonds', money(b.CHFA.bonds), 'A loan to the project, not a grant');
     }
-    if (b.OEDIT) tile('is-oedit', 'OEDIT Prop 123', money(b.OEDIT.dollars), n(b.OEDIT) + ', ' + count(b.OEDIT.homes) + ' homes');
-    if (b.DOLA) tile('is-dola', 'DOLA Division of Housing', money(b.DOLA.dollars), n(b.DOLA) + ', ' + count(b.DOLA.homes) + ' homes');
+    // Preliminary selections print only the amount asked for; the tile says how much of its total that is.
+    function dollarTile(agency, cls, k) {
+      var x = b[agency];
+      if (!x) return;
+      var req = null;
+      awards.forEach(function (a) { if (a.agency === agency && a.dollarsBasis === 'requested' && a.dollars) req = (req || 0) + a.dollars; });
+      var all = req !== null && req === x.dollars;
+      tile(cls, k, money(x.dollars) + (all ? ' requested' : ''), n(x) + ', ' + count(x.homes) + ' homes' +
+        (req === null ? '' : all ? '. Requested, not yet awarded' : '. Includes ' + money(req) + ' requested, not yet awarded'));
+    }
+    dollarTile('OEDIT', 'is-oedit', 'OEDIT Prop 123');
+    dollarTile('DOLA', 'is-dola', 'DOLA Division of Housing');
     tile('is-homes', 'Homes in these awards', count(s.homes), 'A project funded twice is counted twice');
     $('[data-hm-proj-tiles]').innerHTML = tiles.join('');
   }
