@@ -85,6 +85,11 @@ ALIASES = {
 CDP_FALLBACK = {'keystone': '0840550'}
 
 
+def read_json(path):
+    with open(path, encoding='utf-8') as f:
+        return json.load(f)
+
+
 def norm(s):
     s = s.lower().replace('’', "'").strip()
     s = re.sub(r'\s+', ' ', s)
@@ -98,11 +103,11 @@ def place_key(census_name):
 
 def load_geoids():
     counties, places = {}, {}
-    b = json.load(open(os.path.join(ROOT, 'data', 'co-county-boundaries.json')))
+    b = read_json(os.path.join(ROOT, 'data', 'co-county-boundaries.json'))
     for f in b['features']:
         p = f['properties']
         counties[norm(p['NAMELSAD'])] = p.get('GEOID') or ('08' + p['COUNTY'])
-    c = json.load(open(os.path.join(ROOT, 'data', 'co-place-centroids.json')))
+    c = read_json(os.path.join(ROOT, 'data', 'co-place-centroids.json'))
     for geoid, p in c['byGeoid'].items():
         if p['name'].endswith(' CDP'):
             continue
@@ -115,10 +120,12 @@ def load_geoids():
 
 def read_sheet(path):
     if path:
-        text = open(path, encoding='utf-8').read()
+        with open(path, encoding='utf-8') as f:
+            text = f.read()
     else:
         req = urllib.request.Request(CSV_URL, headers={'User-Agent': 'Mozilla/5.0'})
-        text = urllib.request.urlopen(req, timeout=60).read().decode('utf-8')
+        with urllib.request.urlopen(req, timeout=60) as r:
+            text = r.read().decode('utf-8')
     return list(csv.reader(io.StringIO(text)))
 
 
@@ -138,7 +145,7 @@ def main():
             sys.exit('column %r not found exactly once in %r' % (law['col'], head))
         cols[law['id']] = hits[0]
     counties, places = load_geoids()
-    hna = json.load(open(os.path.join(ROOT, 'data', 'policy', 'local-commitment.json')))
+    hna = read_json(os.path.join(ROOT, 'data', 'policy', 'local-commitment.json'))
     dola_src = dict(hna['sources']['dola'], rechecked='2026-10-29')
 
     out, missing = {}, []
