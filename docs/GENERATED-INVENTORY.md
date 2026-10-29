@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T17:11:09.056Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T17:38:35.129Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-80 pages found.
+81 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -23,6 +23,7 @@
 | `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 216.6 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
+| `commuting.html` | Commuting and Jobs | COHO Analytics | 8.7 KB |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.5 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.5 KB |
@@ -86,7 +87,7 @@
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.5 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 13.1 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 13.3 KB |
 | `state-allocation-map.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 3.0 KB |
 | `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.1 KB |
@@ -95,7 +96,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1950 JSON files found.
+1952 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1860,6 +1861,7 @@
 | `data/market/co-urban-renewal-authorities.json` | 11.8 KB | ✅ | — |
 | `data/market/colorado-equity-pricing-factors.json` | 5.3 KB | ✅ | — |
 | `data/market/colorado-foreclosure-performance.json` | 48.4 KB | ✅ | — |
+| `data/market/commute-strength.json` | 141.1 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
 | `data/market/developable_land_context_co.json` | 1.37 MB | ✅ | — |
 | `data/market/development-activity.json` | 1.12 MB | ✅ | — |
@@ -1882,6 +1884,7 @@
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
+| `data/market/principal-employers.json` | 21.6 KB | ✅ | — |
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
 | `data/market/qct_dda_designations_co_normalized.json` | 698 B | ✅ | — |
 | `data/market/realtor_inventory_co.json` | 225.7 KB | ✅ | — |
@@ -2054,7 +2057,7 @@
 
 ## Test Files
 
-735 test files found.
+736 test files found.
 
 | File | Size |
 |------|------|
@@ -2126,6 +2129,7 @@
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/colorado-guide-detail.test.js` | 13.2 KB |
 | `test/combined-geo.test.js` | 48.4 KB |
+| `test/commuting.test.mjs` | 5.1 KB |
 | `test/compliance-checklist.test.js` | 24.4 KB |
 | `test/console-audit-exercises-controls.test.js` | 10.1 KB |
 | `test/content-date-freshness.test.mjs` | 7.9 KB |
@@ -2403,7 +2407,7 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
-| `test/jurisdiction-whitepaper.test.mjs` | 38.5 KB |
+| `test/jurisdiction-whitepaper.test.mjs` | 41.0 KB |
 | `test/kalshi-signing-and-write.test.js` | 11.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 39.6 KB |

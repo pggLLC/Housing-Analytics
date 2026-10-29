@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-29T17:11:54.609624Z",
+  "generated": "2026-10-29T17:39:05.448426Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1017512
+      "bytes": 1018417
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8861,6 +8861,11 @@
       "placeholder": false,
       "bytes": 49548
     },
+    "data/market/commute-strength.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 144494
+    },
     "data/market/commuting_co.geojson": {
       "featureCount": 1447,
       "placeholder": false,
@@ -9050,6 +9055,11 @@
       "featureCount": 1447,
       "placeholder": false,
       "bytes": 1054446
+    },
+    "data/market/principal-employers.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 22141
     },
     "data/market/qct_dda_designations_co.json": {
       "featureCount": 0,
