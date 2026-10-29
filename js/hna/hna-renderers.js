@@ -6229,8 +6229,14 @@
           var srcLink = function (url, text) {
             return '<a href="' + url + '" target="_blank" rel="noopener" class="hna-source-link">' + escHtml(text) + '</a>';
           };
-          var WAC_SRC = srcLink(SRC_LODES, 'LEHD LODES8 WAC');
-          var OD_SRC  = srcLink(SRC_LODES_TECH, 'LEHD LODES8 OD');
+          // The vintage goes on the label so a figure quoted elsewhere (the chapter
+          // summary copies these source lines) still says which year it is.
+          // Place blobs carry no year; their job trend is rescaled so its latest
+          // year equals the job count (data/hna/place-lehd.json meta.method).
+          var empYears = Object.keys(lehd.annualEmployment || {}).filter(function (y) { return /^\d{4}$/.test(y); }).sort();
+          var wacYr = lehd.wacYear || lehd.year || empYears[empYears.length - 1];
+          var WAC_SRC = srcLink(SRC_LODES, 'LEHD LODES8 WAC' + (wacYr ? ', ' + wacYr : ''));
+          var OD_SRC  = srcLink(SRC_LODES_TECH, 'LEHD LODES8 OD' + (lehd.year ? ', ' + lehd.year : ''));
           var JW_SRC  = srcLink(SRC_LODES, 'LEHD') + ' + ' + srcLink(SRC_ACS_DP05, 'ACS DP05') + ' (derived)';
           var cards = [];
           if (metrics.jobs)    cards.push({ id: 'statJobsTotal', label: 'Total Jobs', value: fmtNum(metrics.jobs), src: WAC_SRC });
@@ -7422,7 +7428,7 @@
         id:    'statJobsGrowth',
         label: years[0] + '–' + latestYear + ' Cumulative',
         value: (cumulative > 0 ? '+' : '') + cumulative.toFixed(1) + '%',
-        src:   DERIVED_SRC,
+        src:   srcLink(SRC_WAC, 'LEHD WAC (derived), ' + years[0] + '–' + latestYear),
       });
     }
     if (lehd.industries && lehd.industries.length) {
