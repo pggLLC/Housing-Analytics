@@ -61,6 +61,19 @@ test('both fetch steps in the workflow use the guard', () => {
   assert.match(wf, /- name: Normalize DDA data[^\n]*\n\s+if: steps\.fetch_dda\.outputs\.written == 'true'\n\s+run: node scripts\/normalize-dda\.js/);
 });
 
+test('the January rollover removes the 2027 note through the label sync', async () => {
+  const { plan, readVintages } = await import('../scripts/sync-hud-vintage-labels.mjs');
+  const read = (rel) => fs.readFileSync(path.join(__dirname, '..', rel), 'utf8');
+  const now = readVintages(path.join(__dirname, '..'));
+  if (now.dda >= 2027) return; // already rolled over; the test below checks the note is gone
+  const { rewrites } = plan({ ...now, qct: 2027, dda: 2027 }, read);
+  const js = rewrites.get('js/deal-calculator.js');
+  assert.ok(js, 'the rollover rewrites js/deal-calculator.js');
+  assert.ok(!js.includes('dc-dda-2027'), 'the note is removed');
+  assert.ok(js.includes('id="dc-qct-dda-note"'), 'the block after it stays');
+  assert.equal(read('js/deal-calculator.js').length - js.length > 300, true, 'only the note paragraph goes');
+});
+
 test('the Deal Calculator notes the 2027 DDA changes until the site carries the 2027 list', () => {
   const js = fs.readFileSync(path.join(__dirname, '..', 'js', 'deal-calculator.js'), 'utf8');
   const dda = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dda-colorado.json'), 'utf8'));
