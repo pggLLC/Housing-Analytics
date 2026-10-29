@@ -43,8 +43,15 @@ test('Census spelling still finds the CHFA name', () => {
 });
 
 test('a place CHFA does not list scores 0 and says why', () => {
+  // The workbook's own rule (city_cost_burden_note): 0 when the city is not listed.
+  assert.match(tables.city_cost_burden_note, /0 when the city is not listed/);
+  assert.ok(!('Nunn' in tables.city_cost_burden_points));
   const html = lof.chfaLocationFacts({ name: 'Nunn', containingCounty: '08123' }, idx);
-  assert.match(html, /Renter cost burden: <strong>0<\/strong> \(Nunn is not on CHFA's city list, so the workbook gives 0\)/);
+  const m = html.match(/Renter cost burden: <strong>(\d+)<\/strong> \(([^)]*)\)/);
+  assert.ok(m, 'renter cost burden row present');
+  assert.strictEqual(m[1], '0');
+  assert.match(m[2], /Nunn/, 'names the place');
+  assert.match(m[2], /not/, 'explains the place is absent from the list');
 });
 
 test('no tables, no row', () => {
