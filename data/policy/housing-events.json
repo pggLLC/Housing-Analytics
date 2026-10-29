@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-10-28T09:51:26Z",
-    "as_of": "2026-10-28",
+    "generated": "2026-10-29T10:12:10Z",
+    "as_of": "2026-10-29",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -31,8 +31,8 @@
       "name": "Housing Colorado upcoming events",
       "url": "https://housingcolorado.org/events/",
       "status": "ok",
-      "listed": 1,
-      "upcoming": 1
+      "listed": 0,
+      "upcoming": 0
     },
     {
       "id": "doh",
@@ -64,7 +64,7 @@
       "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
       "status": "ok",
       "listed": 57,
-      "upcoming": 3
+      "upcoming": 2
     },
     {
       "id": "acs",
@@ -88,7 +88,7 @@
       "url": null,
       "status": "ok",
       "listed": 4,
-      "upcoming": 1
+      "upcoming": 2
     }
   ],
   "events": [
@@ -103,18 +103,6 @@
       "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
       "source": "doh",
       "category": "deadline"
-    },
-    {
-      "title": "Federal Reserve rate decision (FOMC meeting)",
-      "start": "2026-10-27",
-      "end": "2026-10-28",
-      "time": null,
-      "location": null,
-      "online": false,
-      "organizer": "Federal Reserve",
-      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
-      "source": "fomc",
-      "category": "release"
     },
     {
       "title": "2026 Colorado Planning Conference: Keystone",
@@ -139,18 +127,6 @@
       "url": "https://www.census.gov/programs-surveys/acs/news/data-releases/2025/release-schedule.html",
       "source": "acs",
       "category": "release"
-    },
-    {
-      "title": "Spooky Bingo",
-      "start": "2026-10-29",
-      "end": null,
-      "time": null,
-      "location": null,
-      "online": false,
-      "organizer": "Housing Colorado",
-      "url": "https://members.housingcolorado.org/event-details?id=210bb7eb-60b0-f111-aad2-7c1e52a4cdac",
-      "source": "housing_colorado",
-      "category": "networking"
     },
     {
       "title": "OEDIT publishes the Transit and Housing Investment Zones map (HB26-1065)",
@@ -824,9 +800,34 @@
       "url": "https://cdola.colorado.gov/calendar",
       "source": "doh",
       "category": "board"
+    },
+    {
+      "title": "Transit and Housing Investment Zones: pre-applications close (OEDIT)",
+      "start": "2027-02-26",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "OEDIT",
+      "url": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
+      "source": "curated",
+      "category": "deadline",
+      "checked": "2026-10-26"
     }
   ],
   "past": [
+    {
+      "title": "Federal Reserve rate decision (FOMC meeting)",
+      "start": "2026-10-27",
+      "end": "2026-10-28",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
+    },
     {
       "title": "chfareach: Building a Successful Community and Productively Engaging Seniors, Webinar",
       "start": "2026-10-27",
@@ -5028,18 +5029,6 @@
       "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
       "source": "fomc",
       "category": "release"
-    },
-    {
-      "title": "chfareach: Deep Work and Hyperfocus: Next-level Thought for Next-level Leaders, Online Workshop",
-      "start": "2025-10-28",
-      "end": null,
-      "time": "09:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-deep-work-and-hyperfocus-next-level-thought-for-next-level-leaders-online-workshop-10-28-2",
-      "source": "chfa",
-      "category": "compliance"
     }
   ]
 }
