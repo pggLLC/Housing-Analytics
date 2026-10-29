@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-29T17:39:02.610Z",
+    "generated_at": "2026-10-29T19:48:19.838Z",
     "root": "data/",
-    "file_count": 1999,
-    "total_size_bytes": 206723079,
+    "file_count": 2000,
+    "total_size_bytes": 206727827,
     "kinds": {
-      "json": 1951,
+      "json": 1952,
       "geojson": 34,
       "csv": 14
     }
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-29T17:39:00.032Z",
+      "mtime": "2026-10-29T19:48:15.638Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38101,8 +38101,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 253838,
-      "mtime": "2026-10-29T17:11:09.004Z",
+      "size_bytes": 254091,
+      "mtime": "2026-10-29T19:47:38.930Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39388,6 +39388,34 @@
       ]
     },
     {
+      "path": "market/relocation-comparables.json",
+      "kind": "json",
+      "size_bytes": 4495,
+      "mtime": "2026-10-29T19:46:20.358Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "comparables"
+      ],
+      "key_count": 2,
+      "primary_array_key": "comparables",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "id",
+        "county_fips",
+        "county",
+        "property",
+        "round",
+        "measure",
+        "share_low",
+        "share_high",
+        "basis",
+        "quote",
+        "source_title",
+        "source_url"
+      ]
+    },
+    {
       "path": "market/schools_co.geojson",
       "kind": "geojson",
       "size_bytes": 1243277,
@@ -39768,7 +39796,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-29T17:39:01.370Z",
+      "mtime": "2026-10-29T19:48:17.732Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39792,7 +39820,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-29T17:39:01.036Z",
+      "mtime": "2026-10-29T19:48:17.216Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

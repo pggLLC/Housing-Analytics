@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T17:38:35.129Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T19:47:38.979Z. Do not edit by hand.
 
 ---
 
@@ -23,7 +23,7 @@
 | `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 216.6 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
-| `commuting.html` | Commuting and Jobs | COHO Analytics | 8.7 KB |
+| `commuting.html` | Commuting and Jobs | COHO Analytics | 9.4 KB |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.5 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.5 KB |
@@ -96,11 +96,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1952 JSON files found.
+1953 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 993.7 KB | ✅ | — |
+| `data/_manifest.json` | 994.5 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -1841,7 +1841,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 11.0 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 247.9 KB | ✅ | — |
+| `data/manifest.json` | 248.1 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.1 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1891,6 +1891,7 @@
 | `data/market/redfin-city-observations-co.json` | 1.3 KB | ✅ | — |
 | `data/market/redfin_place_market_tracker_co.json` | 2.22 MB | ✅ | — |
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
+| `data/market/relocation-comparables.json` | 4.4 KB | ✅ | — |
 | `data/market/state-trend-analysis.json` | 6.8 KB | ✅ | — |
 | `data/market/tax-credit-transfer-pricing.json` | 5.4 KB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
@@ -2057,7 +2058,7 @@
 
 ## Test Files
 
-736 test files found.
+737 test files found.
 
 | File | Size |
 |------|------|
@@ -2103,6 +2104,7 @@
 | `test/buyer-assistance-programs.test.js` | 2.6 KB |
 | `test/caching.test.js` | 7.3 KB |
 | `test/canonical-geography-contract.test.js` | 6.9 KB |
+| `test/capture-relocation.test.mjs` | 7.1 KB |
 | `test/car-estimate-disclosure.test.js` | 5.3 KB |
 | `test/car-report-index.test.js` | 5.2 KB |
 | `test/car-showingtime-fetcher.test.mjs` | 8.4 KB |
