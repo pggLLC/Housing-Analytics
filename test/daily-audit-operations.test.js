@@ -216,6 +216,45 @@ run('the deadlines card lists what is due and says so when nothing is', () => {
     assert.match(render({}), /Upcoming Deadlines[\s\S]*Unavailable/);
 });
 
+// ── 4b. Entitled Land ───────────────────────────────────────────────────────
+
+const LAND = {
+    checked: '2026-10-29',
+    member_page: 'https://example.com/members/land',
+    findings: [
+        { id: 'a', first_seen: '2026-10-29', region: 'Mountains', finding: 'New today', significant: true },
+        { id: 'b', first_seen: '2026-10-22', region: 'All', finding: 'Eight days old', significant: true },
+        { id: 'c', first_seen: '2026-10-25', region: 'Plains', finding: 'Not significant', significant: false },
+        { id: 'd', first_seen: '2026-10-24', region: 'Western Slope', finding: 'Five days old', significant: true },
+    ],
+};
+
+run('entitled land shows significant findings from the last 7 days, newest first, and a bad file is an error', () => {
+    const land = ops.entitledLandSummary(LAND, '2026-10-29');
+    assert.deepEqual(land.recent.map(r => r.finding), ['New today', 'Five days old']);
+    assert.equal(land.memberPage, LAND.member_page);
+    assert.throws(() => ops.entitledLandSummary({ member_page: LAND.member_page }, '2026-10-29'), 'no findings array is unavailable, not "nothing new"');
+    assert.throws(() => ops.entitledLandSummary({ ...LAND, member_page: 'http://example.com' }, '2026-10-29'));
+    assert.throws(() => ops.entitledLandSummary({ ...LAND, findings: [{ first_seen: '10/29/2026', finding: 'x', significant: true }] }, '2026-10-29'));
+    assert.deepEqual(ops.collectEntitledLand(Date.now(), path.join(ROOT, 'no-such-file.json')), { published: false });
+});
+
+run('the entitled land card lists findings with the members link, and never a contact', () => {
+    const html = render({ entitledLand: { published: true, ...ops.entitledLandSummary(LAND, '2026-10-29') } });
+    assert.match(html, /Entitled Land \(last 7 days\)[\s\S]*New today[\s\S]*members page/);
+    assert.ok(!html.includes('Eight days old') && !html.includes('Not significant'));
+    assert.match(html, /2 new significant finding\(s\) in 7 days/);
+    assert.match(render({ entitledLand: { published: false } }), /Not published yet/);
+    assert.match(render({}), /Entitled Land[\s\S]*Unavailable/);
+    if (fs.existsSync(ops.ENTITLED_LAND_FILE)) {
+        const doc = JSON.parse(fs.readFileSync(ops.ENTITLED_LAND_FILE, 'utf8'));
+        ops.entitledLandSummary(doc, '2026-10-29');
+        const body = JSON.stringify(doc);
+        assert.ok(!/@|\(\d{3}\)\s?\d{3}-\d{4}|\b\d{3}-\d{3}-\d{4}\b/.test(body), 'this repo is public: no emails or phone numbers');
+        assert.ok(!/indibuild|\brfq\b/i.test(body), 'this repo is public: no private deal or RFQ');
+    }
+});
+
 // ── 5. Source & Figure Accuracy ─────────────────────────────────────────────
 
 run('broken links use the sweep\'s own confirmation rule: a first failure is unconfirmed, the second is newly broken', async () => {
@@ -331,7 +370,7 @@ run('a GitHub outage leaves the local half of the accuracy card in place', async
 
 // ── 6. Email layout ─────────────────────────────────────────────────────────
 
-run('the email opens with 3-5 summary lines, then needs-you, PRs, deploy, deadlines, then check results', () => {
+run('the email opens with 3-6 summary lines, then needs-you, PRs, deploy, deadlines, entitled land, then check results', () => {
     const html = render({
         reviewFollowups: { codex: [], unassignedWatch: [] },
         prProgress: { merged: [], mergedComplete: true, open: [], openCount: 0, openComplete: true },
@@ -341,8 +380,8 @@ run('the email opens with 3-5 summary lines, then needs-you, PRs, deploy, deadli
     });
     const summary = html.slice(html.indexOf('<ul'), html.indexOf('</ul>'));
     const lines = (summary.match(/<li>/g) || []).length;
-    assert.ok(lines >= 3 && lines <= 5, `summary has ${lines} lines`);
-    const order = ['<ul', '🙋 Needs You', '🔀 Pull Requests', '🚀 Deploy', '📅 Deadlines', 'Check Results', '🔍 Repository Health Summary', '📋 Detailed Findings']
+    assert.ok(lines >= 3 && lines <= 6, `summary has ${lines} lines`);
+    const order = ['<ul', '🙋 Needs You', '🔀 Pull Requests', '🚀 Deploy', '📅 Deadlines', '🏗️ Entitled Land', 'Check Results', '🔍 Repository Health Summary', '📋 Detailed Findings']
         .map(marker => [marker, html.indexOf(marker)]);
     for (const [marker, index] of order) assert.ok(index >= 0, `missing ${marker}`);
     for (let i = 1; i < order.length; i += 1) assert.ok(order[i - 1][1] < order[i][1], `${order[i - 1][0]} must come before ${order[i][0]}`);
