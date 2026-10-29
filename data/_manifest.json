@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-29T08:38:08.902Z",
+    "generated_at": "2026-10-29T10:00:57.464Z",
     "root": "data/",
-    "file_count": 1995,
-    "total_size_bytes": 206345094,
+    "file_count": 1996,
+    "total_size_bytes": 206359507,
     "kinds": {
-      "json": 1947,
+      "json": 1948,
       "geojson": 34,
       "csv": 14
     }
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-29T08:38:04.551Z",
+      "mtime": "2026-10-29T10:00:53.629Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38101,8 +38101,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 253460,
-      "mtime": "2026-10-29T06:49:36.081Z",
+      "size_bytes": 253587,
+      "mtime": "2026-10-29T10:00:20.474Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39727,8 +39727,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16089,
-      "mtime": "2026-10-29T08:38:06.746Z",
+      "size_bytes": 16091,
+      "mtime": "2026-10-29T10:00:55.642Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39752,7 +39752,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-29T08:38:06.181Z",
+      "mtime": "2026-10-29T10:00:55.096Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41634,6 +41634,32 @@
         "execution",
         "_note"
       ]
+    },
+    {
+      "path": "policy/chfa-common-app-tables.json",
+      "kind": "json",
+      "size_bytes": 14284,
+      "mtime": "2026-10-29T09:59:11.286Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "status",
+        "status_note",
+        "source",
+        "basis_limit_note",
+        "basis_limit_per_unit_base",
+        "zone_factor",
+        "building_type_column",
+        "method_three",
+        "counties",
+        "lowest_ami_points_line",
+        "city_cost_burden_points",
+        "city_cost_burden_note"
+      ],
+      "key_count": 13,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "policy/chfa-watchlist.json",

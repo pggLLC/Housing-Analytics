@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T08:37:27.410Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-29T10:00:20.520Z. Do not edit by hand.
 
 ---
 
@@ -95,11 +95,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1948 JSON files found.
+1949 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 992.2 KB | ✅ | — |
+| `data/_manifest.json` | 992.6 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -1840,7 +1840,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 11.0 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 247.5 KB | ✅ | — |
+| `data/manifest.json` | 247.6 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.1 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1974,6 +1974,7 @@
 | `data/policy/candidate-platforms-2026.json` | 36.7 KB | ✅ | — |
 | `data/policy/chfa-2027-r1-scoring.json` | 19.2 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
+| `data/policy/chfa-common-app-tables.json` | 13.9 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
 | `data/policy/co-developer-funding-guide.json` | 425.8 KB | ✅ | — |
 | `data/policy/colorado-deal-rules.json` | 2.5 KB | ✅ | — |
@@ -2052,7 +2053,7 @@
 
 ## Test Files
 
-733 test files found.
+735 test files found.
 
 | File | Size |
 |------|------|
@@ -2106,6 +2107,7 @@
 | `test/chas-affordable-available.test.js` | 6.0 KB |
 | `test/chas-tier-shares.test.js` | 4.9 KB |
 | `test/chfa-award-coverage.test.mjs` | 5.0 KB |
+| `test/chfa-cost-basis-limits.test.js` | 4.1 KB |
 | `test/chfa-dda-qct-absence.test.js` | 13.4 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/chfa-portfolio-filters.test.js` | 6.3 KB |
@@ -2200,7 +2202,7 @@
 | `test/deal-recommenders-mix-check.test.mjs` | 14.1 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
-| `test/deal-workbook.test.mjs` | 100.2 KB |
+| `test/deal-workbook.test.mjs` | 100.7 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
 | `test/deep-dive-aamd-vacancy.test.mjs` | 4.4 KB |
 | `test/deep-dive-hmda-loads-on-page-load.test.js` | 3.3 KB |
@@ -2241,6 +2243,7 @@
 | `test/file-manifest.test.js` | 10.0 KB |
 | `test/financial-copy-agreement.test.js` | 10.9 KB |
 | `test/finder-and-narrative-agree.test.js` | 9.8 KB |
+| `test/finder-chfa-location-points.test.js` | 2.8 KB |
 | `test/finder-thin-data-and-demand.test.js` | 5.1 KB |
 | `test/finish-line-holds.test.mjs` | 15.7 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
@@ -2440,7 +2443,7 @@
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
 | `test/mi-supply-co-vs-national.test.js` | 3.9 KB |
-| `test/mix-check-recommenders.test.mjs` | 15.8 KB |
+| `test/mix-check-recommenders.test.mjs` | 16.0 KB |
 | `test/mix-check.test.mjs` | 7.0 KB |
 | `test/mobile-overflow-css-rules-present.test.js` | 5.6 KB |
 | `test/mortgage-rate-one-source.test.js` | 12.7 KB |
