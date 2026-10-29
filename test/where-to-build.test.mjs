@@ -346,4 +346,16 @@ ok(model.places.some((p) => p.flags.length), 'recorded denials show as red flags
   ok(W.weightsFromQuery('jobs.3').jobs === 3 && W.weightsFromQuery(null).jobs === 1 && W.weightsFromQuery('').jobs === 1, 'a new link or no link uses the slider or the default');
   ok(page.includes('W.weightsFromQuery('), 'the page reads its link through weightsFromQuery');
 }
+// ---- The developer Methodology page's weight table matches the code, group by group.
+{
+  const html = readFileSync('developer-methods.html', 'utf8');
+  const rows = [...html.matchAll(/<tr data-group="(\w+)"><td>([^<]+)<\/td><td>(\d+)<\/td><td>(\d+)<\/td><td>(\d+)<\/td><\/tr>/g)];
+  ok(rows.length === W.GROUPS.length, 'developer-methods.html lists every group (' + rows.length + ' of ' + W.GROUPS.length + ')');
+  rows.forEach(([, id, label, mix, rural9, metro4]) => {
+    const g = W.GROUPS.find((x) => x.id === id);
+    ok(g && g.label === label, 'developer-methods.html group ' + id + ' is labelled as in the code');
+    ok(W.PRESETS.mix.weights[id] === +mix && W.PRESETS.rural9.weights[id] === +rural9 && W.PRESETS.metro4.weights[id] === +metro4,
+      'developer-methods.html weights for ' + id + ' match the presets');
+  });
+}
 console.log(`where-to-build: ${n} checks passed`);
