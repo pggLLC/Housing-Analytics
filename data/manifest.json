@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-29T14:38:46.567340Z",
+  "generated": "2026-10-29T16:20:32.878440Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1017133
+      "bytes": 1017512
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9665,6 +9665,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 4353
+    },
+    "data/policy/job-access.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 106756
     },
     "data/policy/jurisdiction-housing-progress.json": {
       "featureCount": 0,
