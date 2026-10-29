@@ -34,7 +34,6 @@ import gzip
 import json
 import math
 import os
-import sys
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -101,7 +100,8 @@ def build(cache):
             for row in json.load(f).get('rankings', []):
                 ranking_names[str(row.get('geoid'))] = row.get('name')
     except FileNotFoundError:
-        pass
+        # Without the ranking index, places keep their LEHD crosswalk names.
+        ranking_names = {}
 
     geo = collections.defaultdict(collections.Counter)
     far_d = collections.defaultdict(list)
@@ -195,4 +195,4 @@ if __name__ == '__main__':
     ap.add_argument('--cache', required=True, help='folder for the downloaded LODES files')
     args = ap.parse_args()
     os.makedirs(args.cache, exist_ok=True)
-    sys.exit(build(args.cache))
+    build(args.cache)
