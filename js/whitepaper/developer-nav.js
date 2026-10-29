@@ -23,8 +23,8 @@
     { href: 'developer-methods.html', label: 'Methodology' },
     { href: 'developer-about.html', label: 'About' }
   ];
-  // Served only by the private site (coho-backend), so there is no file for it here.
-  var PRIVATE = [{ href: 'dossiers/', label: 'Dossiers' }];
+  // Served only by the private site (coho-backend gated/), so there are no files for them here.
+  var PRIVATE = [{ href: 'developer-entitled-land.html', label: 'Entitled land' }, { href: 'dossiers/', label: 'Dossiers' }];
   var BACK = { href: 'lihtc-opportunity-finder.html', label: '← Opportunity Finder' };
   // /logout (coho-backend) clears the password cookie and ends the Cloudflare
   // sign-in, so the next visit asks for a code again.
@@ -55,7 +55,8 @@
     return PAGES.map(function (p) {
       return '<a href="' + p.href + '"' + (p.href === here ? ' aria-current="page" class="active"' : '') + '>' + p.label + '</a>';
     }).join('') + PRIVATE.map(function (p) {
-      return '<a href="' + p.href + '"' + (/\/dossiers\//.test(String(path || '')) ? ' aria-current="page" class="active"' : '') + '>' + p.label + '</a>';
+      var on = p.href === 'dossiers/' ? /\/dossiers\//.test(String(path || '')) : String(path || '').split('/').pop() === p.href;
+      return '<a href="' + p.href + '"' + (on ? ' aria-current="page" class="active"' : '') + '>' + p.label + '</a>';
     }).join('') + '<a href="' + BACK.href + '">' + BACK.label + '</a><span class="spacer"></span><span class="dev-nav-badge">INTERNAL</span><a href="/logout">Sign out</a>';
   }
 

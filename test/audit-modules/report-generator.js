@@ -359,6 +359,24 @@ function buildDeadlinesCard(deadlines) {
             </div>`;
 }
 
+function buildEntitledLandCard(land) {
+    if (!land) return unavailableCard('Entitled Land');
+    if (!land.published) {
+        return `
+            ${CARD_OPEN}
+                <h3 style="margin-top:0;">Entitled Land</h3>
+                <p style="margin:0;">Not published yet (data/entitled-land/findings.json).</p>
+            </div>`;
+    }
+    return `
+            ${CARD_OPEN}
+                <h3 style="margin-top:0;">Entitled Land (last ${escHtml(land.windowDays)} days)</h3>
+                ${buildLinkedList(land.recent, item => `<li style="margin-bottom:6px;"><strong>${escHtml(item.firstSeen)}</strong>${item.region ? ` (${escHtml(item.region)})` : ''}: ${escHtml(item.finding)}</li>`, 'No new significant findings.', 8)}
+                <p style="margin:8px 0 0;"><a href="${escHtml(land.memberPage)}">Sites and contacts on the members page</a> (members only).</p>
+                <p style="${MUTED}font-size:12px;">From data/entitled-land/findings.json${land.checked ? `, checked ${escHtml(land.checked)}` : ''}.</p>
+            </div>`;
+}
+
 /** "3", or "3+ (some sources unreadable)" when a file could not be read. */
 function formatOverdue(total) {
     return total.partial ? `${total.count}+ (some sources unreadable)` : String(total.count);
@@ -404,7 +422,7 @@ function workGroup(title, cards) {
 
 /**
  * The work the owner acts on, in his order: what needs him, PRs, deploy,
- * deadlines. Check results follow at the end of the email.
+ * deadlines, entitled land. Check results follow at the end of the email.
  */
 function buildWorkSections(repoHealth) {
     if (!repoHealth) return '';
@@ -415,6 +433,7 @@ function buildWorkSections(repoHealth) {
         `<h2 style="margin:24px 0 0;">🔀 Pull Requests</h2>${buildPrProgressCard(repoHealth.prProgress)}`,
         workGroup('🚀 Deploy', buildMemberSiteCard(repoHealth.memberSite)),
         workGroup('📅 Deadlines', buildDeadlinesCard(repoHealth.deadlines)),
+        workGroup('🏗️ Entitled Land', buildEntitledLandCard(repoHealth.entitledLand)),
     ].join('');
 }
 
@@ -422,7 +441,7 @@ const count = list => (Array.isArray(list) ? list.length : null);
 const orUnknown = value => (value === null || value === undefined ? 'unavailable' : String(value));
 
 /**
- * The 3–5 line summary the email opens with: one line per work group, then
+ * The short summary the email opens with: one line per work group, then
  * one for findings and checks. Each count that could not be read says so.
  */
 function buildSummaryLines({ summary, auditHealth, repoHealth }) {
@@ -448,6 +467,8 @@ function buildSummaryLines({ summary, auditHealth, repoHealth }) {
         const d = rh.deadlines;
         const next = d && d.upcoming && d.upcoming[0];
         lines.push(`<strong>Deadlines:</strong> ${!d ? 'unavailable' : next ? `${escHtml(next.date)} ${escHtml(next.title)}${d.upcoming.length > 1 ? ` (+${d.upcoming.length - 1} more in ${d.windowDays} days)` : ''}` : `none in the next ${d.windowDays} days`}.`);
+        const land = rh.entitledLand;
+        lines.push(`<strong>Entitled land:</strong> ${!land ? 'unavailable' : !land.published ? 'not published yet' : land.recent.length ? `${land.recent.length} new significant finding(s) in ${land.windowDays} days` : `nothing new in ${land.windowDays} days`}.`);
     }
     const h = auditHealth || {};
     const notRun = (h.unavailable || 0) + (h.skipped || 0);
