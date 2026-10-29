@@ -20,19 +20,11 @@
   },
   "note": "Local government Proposition 123 affordable housing commitments, joined from DOLA's own lists: first-cycle (2024-2026) commitment filings, verified expedited review (\"fast track\") policies, jurisdictions verified as meeting every statutory requirement, and second-cycle (2027-2029) commitments filed so far in 2026. Built by scripts/policy/build_prop123_jurisdictions.py. HB26-1313 (signed and effective 2026-05-26 under its safety clause) replaces the 3% annual-growth eligibility requirement with permit-and-job-growth targets beginning the 3-year cycle on 2027-01-01; the required_commitment values below describe the current cycle.",
   "total_projected_units": 22988,
-  "fast_track_count": 150,
+  "fast_track_count": 152,
   "fast_track_without_cycle1_commitment": [
     {
       "name": "Town of Moffat",
       "fast_track_adopted": "2026-09-15"
-    },
-    {
-      "name": "Parker Town of",
-      "fast_track_adopted": "2026-10-19"
-    },
-    {
-      "name": "Town of Plateville",
-      "fast_track_adopted": "2026-10-20"
     },
     {
       "name": "Town of Stratton",
@@ -3720,9 +3712,9 @@
       "status": "Committed",
       "filing_date": "2023-10-25",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-10-19",
+      "fast_track_instrument": "Resolution 26-066",
       "compliance_verified": null,
       "next_cycle": null
     },
@@ -3736,9 +3728,9 @@
       "status": "Commitment Met",
       "filing_date": "2023-10-25",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-10-20",
+      "fast_track_instrument": "Resolution No. 2026-21",
       "compliance_verified": {
         "expedited_review": "2026-10-23",
         "unit_commitment": "2026-10-26",
