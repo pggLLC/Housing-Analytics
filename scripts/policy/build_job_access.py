@@ -35,6 +35,7 @@ import os
 import sys
 import tempfile
 import time
+import urllib.error
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -84,10 +85,18 @@ def fetch_lodes(cache):
         path = os.path.join(cache, os.path.basename(url))
         if not os.path.exists(path):
             try:
-                urllib.request.urlretrieve(url, path)
-            except Exception as e:
-                print('no aux file for', st, e, flush=True)
+                # Download to a temp name, so a cut-off transfer never looks like a cached file.
+                urllib.request.urlretrieve(url, path + '.part')
+                os.replace(path + '.part', path)
+            except urllib.error.HTTPError as e:
+                # Only a file LEHD has not published (404) is skipped, and meta lists the states read.
+                # Any other failure stops the build rather than publish shares with workers missing.
+                if e.code != 404:
+                    sys.exit(f'{url}: HTTP {e.code}; rerun, the cache keeps what was downloaded')
+                print('no aux file for', st, flush=True)
                 continue
+            except OSError as e:
+                sys.exit(f'{url}: {e}; rerun, the cache keeps what was downloaded')
         paths['aux'][st] = path
     return paths
 
