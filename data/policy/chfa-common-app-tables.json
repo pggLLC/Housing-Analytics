@@ -1,0 +1,750 @@
+{
+ "schema": "chfa-common-app-tables/1",
+ "status": "draft",
+ "status_note": "Copied from CHFA's 2027 Common Application workbook, which follows the 2027-28 QAP Third Draft (posted 2026-09-11). Not adopted: label every figure draft.",
+ "source": {
+  "title": "2027 Common Application - Housing Tax Credit Development - V9 Instructions",
+  "url": "https://www.chfainfo.com/getattachment/aaa81775-083b-401b-8fba-7474f13624d9/2027-Common-Application-for-Housing-Tax-Credit-Development-V9.xlsx",
+  "page_url": "https://www.chfainfo.com/rental-housing/housing-credit/application",
+  "sha256": "ff0d99a99d8a3da346b1898f82bdaa6251622eca057a8e77b757804415efe315",
+  "tab": "Admin (hidden)"
+ },
+ "basis_limit_note": "Updated 10/6/25 (+3.8%) Updated 3/12/26 (+1%); Updated 9/22/26 (+1.2%)",
+ "basis_limit_per_unit_base": {
+  "0 bedroom": {
+   "elevator": 94496.512,
+   "walk_up": 87816.3
+  },
+  "1 bedroom": {
+   "elevator": 108332.576,
+   "walk_up": 99710.336
+  },
+  "2 bedroom": {
+   "elevator": 131722.932,
+   "walk_up": 120485.684
+  },
+  "3 bedroom": {
+   "elevator": 170404.608,
+   "walk_up": 151233.28
+  },
+  "4 bedroom": {
+   "elevator": 187056.056,
+   "walk_up": 171368.032
+  },
+  "5 bedroom": {
+   "elevator": 203764.176,
+   "walk_up": 188137.884
+  }
+ },
+ "zone_factor": {
+  "1": 3.6,
+  "2": 4,
+  "3": 3.6
+ },
+ "building_type_column": {
+  "Elevator": "elevator",
+  "Walk-up": "walk_up"
+ },
+ "method_three": "limit per unit = TRUNC(zone_factor[county zone] x base[bedrooms][building type]); adjusted eligible basis = sum(units x limit per unit); x 1.3 if QCT or DDA; x applicable fraction; x applicable percentage (Calculations rows 497-516)",
+ "counties": {
+  "08001": {
+   "name": "Adams",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08003": {
+   "name": "Alamosa",
+   "zone": 2,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08005": {
+   "name": "Arapahoe",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08007": {
+   "name": "Archuleta",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": true
+  },
+  "08009": {
+   "name": "Baca",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08011": {
+   "name": "Bent",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08013": {
+   "name": "Boulder",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08014": {
+   "name": "Broomfield",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08015": {
+   "name": "Chaffee",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": true
+  },
+  "08017": {
+   "name": "Cheyenne",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08019": {
+   "name": "Clear Creek",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08021": {
+   "name": "Conejos",
+   "zone": 2,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08023": {
+   "name": "Costilla",
+   "zone": 2,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08025": {
+   "name": "Crowley",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": true
+  },
+  "08027": {
+   "name": "Custer",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08029": {
+   "name": "Delta",
+   "zone": 3,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08031": {
+   "name": "Denver",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08033": {
+   "name": "Dolores",
+   "zone": 3,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08035": {
+   "name": "Douglas",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08037": {
+   "name": "Eagle",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": true
+  },
+  "08039": {
+   "name": "Elbert",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08041": {
+   "name": "El Paso",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08043": {
+   "name": "Fremont",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08045": {
+   "name": "Garfield",
+   "zone": 3,
+   "lowest_ami_points": 0,
+   "chfa_dda": true
+  },
+  "08047": {
+   "name": "Gilpin",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08049": {
+   "name": "Grand",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08051": {
+   "name": "Gunnison",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08053": {
+   "name": "Hinsdale",
+   "zone": 2,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08055": {
+   "name": "Huerfano",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08057": {
+   "name": "Jackson",
+   "zone": 2,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08059": {
+   "name": "Jefferson",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08061": {
+   "name": "Kiowa",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08063": {
+   "name": "Kit Carson",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08065": {
+   "name": "Lake",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08067": {
+   "name": "La Plata",
+   "zone": 3,
+   "lowest_ami_points": 0,
+   "chfa_dda": true
+  },
+  "08069": {
+   "name": "Larimer",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08071": {
+   "name": "Las Animas",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08073": {
+   "name": "Lincoln",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08075": {
+   "name": "Logan",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08077": {
+   "name": "Mesa",
+   "zone": 3,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08079": {
+   "name": "Mineral",
+   "zone": 2,
+   "lowest_ami_points": 20,
+   "chfa_dda": true
+  },
+  "08081": {
+   "name": "Moffat",
+   "zone": 3,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08083": {
+   "name": "Montezuma",
+   "zone": 3,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08085": {
+   "name": "Montrose",
+   "zone": 3,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08087": {
+   "name": "Morgan",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08089": {
+   "name": "Otero",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08091": {
+   "name": "Ouray",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": true
+  },
+  "08093": {
+   "name": "Park",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08095": {
+   "name": "Phillips",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08097": {
+   "name": "Pitkin",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": true
+  },
+  "08099": {
+   "name": "Prowers",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08101": {
+   "name": "Pueblo",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08103": {
+   "name": "Rio Blanco",
+   "zone": 3,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08105": {
+   "name": "Rio Grande",
+   "zone": 2,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08107": {
+   "name": "Routt",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": true
+  },
+  "08109": {
+   "name": "Saguache",
+   "zone": 2,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08111": {
+   "name": "San Juan",
+   "zone": 3,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08113": {
+   "name": "San Miguel",
+   "zone": 3,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08115": {
+   "name": "Sedgwick",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08117": {
+   "name": "Summit",
+   "zone": 2,
+   "lowest_ami_points": 0,
+   "chfa_dda": true
+  },
+  "08119": {
+   "name": "Teller",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08121": {
+   "name": "Washington",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  },
+  "08123": {
+   "name": "Weld",
+   "zone": 1,
+   "lowest_ami_points": 0,
+   "chfa_dda": false
+  },
+  "08125": {
+   "name": "Yuma",
+   "zone": 1,
+   "lowest_ami_points": 20,
+   "chfa_dda": false
+  }
+ },
+ "lowest_ami_points_line": "Counties with lowest Area Median Income (AMI) (Calculations row 312)",
+ "city_cost_burden_points": {
+  "Acres Green": 8,
+  "Air Force Academy": 16,
+  "Akron": 12,
+  "Alamosa": 8,
+  "Alamosa East": 20,
+  "Allenspark": 4,
+  "Alma": 20,
+  "Altona": 20,
+  "Antonito": 4,
+  "Applewood": 8,
+  "Arboles": 20,
+  "Aristocrat Ranchettes": 20,
+  "Arriba": 8,
+  "Arvada": 12,
+  "Aspen": 16,
+  "Aurora": 16,
+  "Avon": 12,
+  "Basalt": 4,
+  "Battlement Mesa": 16,
+  "Bayfield": 8,
+  "Berkley": 16,
+  "Berthoud": 8,
+  "Bethune": 20,
+  "Beulah Valley": 4,
+  "Black Forest": 8,
+  "Blende": 20,
+  "Blue River": 4,
+  "Boone": 16,
+  "Boulder": 20,
+  "Breckenridge": 16,
+  "Brighton": 12,
+  "Brookside": 20,
+  "Broomfield": 12,
+  "Brush": 20,
+  "Buena Vista": 20,
+  "Burlington": 8,
+  "Byers": 4,
+  "Calhan": 20,
+  "Canon City": 8,
+  "Carbondale": 8,
+  "Cascade-Chipita Park": 20,
+  "Castle Pines": 20,
+  "Castle Rock": 16,
+  "Cattle Creek": 20,
+  "Cedaredge": 20,
+  "Centennial": 12,
+  "Center": 4,
+  "Central": 16,
+  "Cheraw": 20,
+  "Cherry Creek": 12,
+  "Cherry Hills Village": 8,
+  "Cheyenne Wells": 20,
+  "Cimarron Hills": 16,
+  "City of Creede": 16,
+  "Clifton": 16,
+  "Coal Creek": 20,
+  "Cokedale": 4,
+  "Colorado City": 20,
+  "Colorado Springs": 12,
+  "Columbine": 20,
+  "Commerce City": 16,
+  "Cortez": 12,
+  "Craig": 8,
+  "Crawford": 8,
+  "Crested Butte": 20,
+  "Cripple Creek": 4,
+  "Crook": 4,
+  "Crowley": 20,
+  "Dacono": 16,
+  "Dakota Ridge": 8,
+  "De Beque": 4,
+  "Deer Trail": 4,
+  "Del Norte": 16,
+  "Delta": 12,
+  "Denver": 12,
+  "Derby": 4,
+  "Dillon": 16,
+  "Dolores": 4,
+  "Dove Valley": 8,
+  "Durango": 12,
+  "Eads": 4,
+  "Eagle": 20,
+  "East Pleasant View": 20,
+  "Eckley": 4,
+  "Edgewater": 12,
+  "Edwards": 20,
+  "El Jebel": 20,
+  "Elbert": 4,
+  "Eldora": 20,
+  "Elizabeth": 4,
+  "Ellicott": 20,
+  "Empire": 8,
+  "Englewood": 12,
+  "Erie": 12,
+  "Estes Park": 8,
+  "Evans": 8,
+  "Evergreen": 4,
+  "Fairmount": 8,
+  "Fairplay": 4,
+  "Federal Heights": 20,
+  "Firestone": 12,
+  "Flagler": 4,
+  "Florence": 4,
+  "Fort Carson": 16,
+  "Fort Collins": 16,
+  "Fort Garland": 20,
+  "Fort Lupton": 8,
+  "Fort Morgan": 12,
+  "Fountain": 16,
+  "Four Square Mile": 12,
+  "Fowler": 16,
+  "Fraser": 8,
+  "Frederick": 12,
+  "Frisco": 8,
+  "Fruita": 8,
+  "Fruitvale": 4,
+  "Garden City": 20,
+  "Genesee": 20,
+  "Genoa": 4,
+  "Georgetown": 20,
+  "Gilcrest": 20,
+  "Glendale": 12,
+  "Gleneagle": 20,
+  "Glenwood Springs": 8,
+  "Gold Hill": 20,
+  "Golden": 16,
+  "Granada": 8,
+  "Granby": 8,
+  "Grand Junction": 12,
+  "Greeley": 16,
+  "Greenwood Village": 8,
+  "Grover": 20,
+  "Gunbarrel": 12,
+  "Gunnison": 16,
+  "Gypsum": 4,
+  "Hasty": 20,
+  "Haswell": 8,
+  "Haxtun": 8,
+  "Hayden": 8,
+  "Highlands Ranch": 12,
+  "Hillrose": 20,
+  "Holly": 4,
+  "Holly Hills": 4,
+  "Holyoke": 8,
+  "Hotchkiss": 8,
+  "Howard": 4,
+  "Hudson": 20,
+  "Hugo": 4,
+  "Idaho Springs": 4,
+  "Ignacio": 16,
+  "Iliff": 4,
+  "Inverness": 16,
+  "Jackson Lake": 20,
+  "Jamestown": 20,
+  "Johnstown": 8,
+  "Julesburg": 12,
+  "Keenesburg": 20,
+  "Ken Caryl": 8,
+  "Kersey": 4,
+  "Keystone": 16,
+  "Kiowa": 16,
+  "Kit Carson": 4,
+  "Kremmling": 20,
+  "La Jara": 20,
+  "La Junta": 12,
+  "La Salle": 16,
+  "La Veta": 8,
+  "Lafayette": 12,
+  "Lakewood": 12,
+  "Lamar": 12,
+  "Laporte": 4,
+  "Las Animas": 16,
+  "Leadville": 20,
+  "Leadville North": 4,
+  "Limon": 16,
+  "Lincoln Park": 20,
+  "Littleton": 16,
+  "Log Lane Village": 16,
+  "Lone Tree": 8,
+  "Longmont": 12,
+  "Louisville": 12,
+  "Louviers": 20,
+  "Loveland": 12,
+  "Lyons": 8,
+  "Manassa": 4,
+  "Mancos": 16,
+  "Manitou Springs": 20,
+  "Manzanola": 16,
+  "Mead": 4,
+  "Meeker": 4,
+  "Meridian": 12,
+  "Merino": 16,
+  "Milliken": 4,
+  "Minturn": 20,
+  "Moffat": 20,
+  "Monte Vista": 16,
+  "Montezuma": 4,
+  "Montrose": 12,
+  "Monument": 16,
+  "Morrison": 4,
+  "Mount Crested Butte": 20,
+  "Mountain View": 4,
+  "Mountain Village": 20,
+  "Naturita": 20,
+  "Nederland": 8,
+  "New Castle": 8,
+  "Niwot": 20,
+  "North Washington": 20,
+  "Northglenn": 12,
+  "Norwood": 16,
+  "Nucla": 20,
+  "Oak Creek": 20,
+  "Olathe": 16,
+  "Olney Springs": 20,
+  "Ophir": 20,
+  "Orchard": 20,
+  "Orchard City": 20,
+  "Orchard Mesa": 8,
+  "Ordway": 8,
+  "Otis": 20,
+  "Ouray": 4,
+  "Ovid": 20,
+  "Pagosa Springs": 8,
+  "Palisade": 16,
+  "Palmer Lake": 4,
+  "Paonia": 16,
+  "Parachute": 16,
+  "Park Center": 20,
+  "Parker": 12,
+  "Parshall": 20,
+  "Peetz": 20,
+  "Penrose": 20,
+  "Peoria": 20,
+  "Pierce": 20,
+  "Placerville": 20,
+  "Platteville": 8,
+  "Pueblo": 16,
+  "Pueblo West": 12,
+  "Rangely": 4,
+  "Redlands": 16,
+  "Rico": 16,
+  "Ridgway": 4,
+  "Rifle": 8,
+  "Rockvale": 20,
+  "Rocky Ford": 16,
+  "Romeo": 4,
+  "Roxborough Park": 4,
+  "Rye": 20,
+  "Saguache": 4,
+  "Salida": 8,
+  "Salt Creek": 4,
+  "San Luis": 4,
+  "Sanford": 20,
+  "Security-Widefield": 12,
+  "Seven Hills": 20,
+  "Severance": 4,
+  "Shaw Heights": 8,
+  "Sheridan": 16,
+  "Sherrelwood": 16,
+  "Sierra Ridge": 20,
+  "Silt": 4,
+  "Silver Cliff": 20,
+  "Silverthorne": 20,
+  "Silverton": 16,
+  "Simla": 4,
+  "Smeltertown": 20,
+  "Snowmass Village": 8,
+  "South Fork": 4,
+  "Springfield": 4,
+  "Starkville": 20,
+  "Steamboat Springs": 16,
+  "Sterling": 8,
+  "Sterling Ranch": 4,
+  "Stonegate": 16,
+  "Strasburg": 20,
+  "Stratmoor": 16,
+  "Stratton": 4,
+  "Sugar City": 20,
+  "Sunshine": 20,
+  "Superior": 8,
+  "Swink": 20,
+  "Telluride": 8,
+  "The Pinery": 4,
+  "Thornton": 16,
+  "Timnath": 16,
+  "Towaoc": 16,
+  "Trinidad": 12,
+  "Twin Lakes": 16,
+  "Vail": 16,
+  "Victor": 4,
+  "Vilas": 20,
+  "Vona": 16,
+  "Walden": 20,
+  "Walsenburg": 8,
+  "Walsh": 16,
+  "Welby": 20,
+  "Wellington": 20,
+  "West Pleasant View": 20,
+  "Westcliffe": 4,
+  "Westminster": 12,
+  "Wheat Ridge": 12,
+  "Wiggins": 4,
+  "Wiley": 4,
+  "Williamsburg": 16,
+  "Windsor": 12,
+  "Winter Park": 4,
+  "Woodland Park": 16,
+  "Woodmoor": 4,
+  "Wray": 16,
+  "Yampa": 20,
+  "Yuma": 20
+ },
+ "city_cost_burden_note": "Score related to the percentage of renters severely housing cost burdened in city; looked up by exact city name, 0 when the city is not listed (Calculations row 316). Updated per new methodology 8/12/26"
+}

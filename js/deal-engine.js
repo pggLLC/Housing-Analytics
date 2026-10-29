@@ -1282,6 +1282,15 @@
     // An invalid unit mix leaves no basis figure to show, only its reason.
     basis = cbm.basisAndCredit(Object.assign({}, basisArgs, { gapCredit: gapMethodCredit,
       invalidReason: unitMixError ? 'Fix the unit mix: the AMI-tier units do not add up to Total Units.' : null }));
+    // CHFA Method Three from the 2027 workbook's limits: a draft-QAP check beside
+    // the capacity, never a change to it (deal-cost-basis.js costBasisLimitCheck).
+    if (cbm.costBasisLimitCheck && inputs.chfaCommonAppTables !== undefined) {
+      basis.costLimitMethod = Object.assign({}, basis.costLimitMethod, cbm.costBasisLimitCheck({
+        tables: inputs.chfaCommonAppTables, countyFips: _countyFips, buildingType: fields['dc-building-type'],
+        rows: pricedRows, units: units, applicableFraction: basis.applicableFraction, creditRate: _creditRate,
+        hudBoost: !!(basis.boost && basis.boost.applied && ['qct', 'dda', 'sadda'].indexOf(fields['dc-boost-designation']) !== -1),
+        capacity: basis.capacity }));
+    }
     // An entered award is known even while the unit mix is invalid.
     if (chfaRegime && (!unitMixError || basis.creditForEquityBasis === 'awarded')) {
       annualCredits = basis.creditForEquity === null ? NaN : basis.creditForEquity;
