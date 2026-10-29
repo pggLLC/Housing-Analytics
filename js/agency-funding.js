@@ -649,16 +649,19 @@
     var d3 = global.d3;
     var W = 360, H = 260;
     var path = d3.geoPath(d3.geoMercator().fitSize([W, H], data.geo));
-    var homes = {}, n = {};
+    // Homes stay null for a county whose awards print no home count, so it never reads as zero.
+    var homes = {}, n = {}, noCount = {};
     awards.forEach(function (a) {
       if (!a.countyFips) return;
       n[a.countyFips] = (n[a.countyFips] || 0) + 1;
-      homes[a.countyFips] = (homes[a.countyFips] || 0) + (a.homes || 0);
+      if (!(a.countyFips in homes)) homes[a.countyFips] = null;
+      if (a.homes === null || a.homes === undefined) noCount[a.countyFips] = (noCount[a.countyFips] || 0) + 1;
+      else homes[a.countyFips] = (homes[a.countyFips] || 0) + a.homes;
     });
-    var max = d3.max(Object.keys(homes).map(function (k) { return homes[k]; })) || 0;
+    var max = d3.max(Object.keys(homes).map(function (k) { return homes[k] || 0; })) || 0;
     function colour(fips) {
       if (!n[fips]) return NONE;
-      if (!max) return RAMP[1];
+      if (!max || homes[fips] === null) return RAMP[1];
       return RAMP[Math.max(1, Math.min(RAMP.length - 1, Math.floor(Math.sqrt(homes[fips] / max) * RAMP.length)))];
     }
     var ring = state.projCounty || (state.place.type === 'county' ? state.place.key : null);
@@ -667,14 +670,16 @@
       var fips = f.properties.GEOID;
       var name = (data.counties[fips] || {}).name ? data.counties[fips].name + ' County' : f.properties.NAMELSAD;
       if (!n[fips]) return '<path d="' + path(f) + '" fill="' + NONE + '" aria-hidden="true"></path>';
-      var label = name + ': ' + n[fips] + ' award' + (n[fips] === 1 ? '' : 's') + ', ' + count(homes[fips]) + ' homes';
+      var nc = noCount[fips] || 0;
+      var label = name + ': ' + n[fips] + ' award' + (n[fips] === 1 ? '' : 's') + ', ' +
+        (homes[fips] === null ? 'home count not printed' : count(homes[fips]) + ' homes' + (nc ? ' (' + nc + ' award' + (nc === 1 ? ' prints' : 's print') + ' no home count)' : ''));
       return '<path d="' + path(f) + '" fill="' + colour(fips) + '" data-hm-pcounty="' + fips + '" tabindex="0" role="button" aria-pressed="' + (state.projCounty === fips) +
         '" aria-label="' + esc(label + '. Select to list only these.') + '" data-hm-tiptext="' + esc(label) + '"' + (ring === fips ? ' class="is-picked"' : '') + '></path>';
     }).join('');
     var counties = Object.keys(n).length;
     var unmapped = awards.filter(function (a) { return !a.countyFips; }).length;
     $('[data-hm-proj-maphint]').textContent = counties
-      ? (counties === 1 ? 'All mapped awards are in one county.' : 'Darker counties hold more of these homes. Select a county to list only its projects.') +
+      ? (counties === 1 ? 'All mapped awards are in one county.' : 'Darker counties hold more of these homes; the lightest shade also marks awards that print no home count. Select a county to list only its projects.') +
         (unmapped ? ' ' + unmapped + ' award' + (unmapped === 1 ? ' prints' : 's print') + ' no single county and ' + (unmapped === 1 ? 'is' : 'are') + ' listed, not mapped.' : '')
       : 'No award here prints a single county, so nothing is mapped.';
   }
