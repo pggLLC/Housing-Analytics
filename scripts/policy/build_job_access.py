@@ -3,8 +3,8 @@
 
 For every town and Census community in the HNA ranking:
 
-1. Jobs within a 30-minute drive. LEHD LODES workplace counts (all primary
-   jobs) are grouped by town, and jobs outside any town by census tract; each
+1. Jobs within a 30-minute drive. LEHD LODES workplace counts (all jobs,
+   JT00: a second job is a job a resident could take) are grouped by town, and jobs outside any town by census tract; each
    group sits at its job-weighted centre. A town's trip starts at the centre of
    its working residents (LODES residence file), not the geographic centre,
    which puts some mountain communities on ski-area roads. Drive times are
@@ -14,7 +14,9 @@ For every town and Census community in the HNA ranking:
 
 2. Where working residents work (context, no points): the share of the town's
    working residents whose job is in the one other named town that employs the
-   most of them (LODES origin-destination file).
+   most of them. Primary jobs only (JT01), so each worker counts once. The
+   denominator also counts residents whose primary job is in another state,
+   read from every other state's LODES "aux" file.
 
 Drive times are slow to fetch, so they are cached (--cache) and only missing
 origins are routed. The LODES files are downloaded into the cache folder.
@@ -45,10 +47,14 @@ LODES = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/'
 FILES = {
     'wac': f'wac/co_wac_S000_JT00_{YEAR}.csv.gz',
     'rac': f'rac/co_rac_S000_JT00_{YEAR}.csv.gz',
-    'od': f'od/co_od_main_JT00_{YEAR}.csv.gz',
+    'od': f'od/co_od_main_JT01_{YEAR}.csv.gz',
     'xwalk': 'co_xwalk.csv.gz',
 }
-OSRM = 'https://router.project-osrm.org/table/v1/driving/'
+# Every other state's residents-elsewhere file: Colorado residents whose primary job is there.
+STATES = ['ak', 'al', 'ar', 'az', 'ca', 'ct', 'dc', 'de', 'fl', 'ga', 'hi', 'ia', 'id', 'il', 'in', 'ks', 'ky', 'la', 'ma',
+          'md', 'me', 'mi', 'mn', 'mo', 'ms', 'mt', 'nc', 'nd', 'ne', 'nh', 'nj', 'nm', 'nv', 'ny', 'oh', 'ok', 'or', 'pa',
+          'ri', 'sc', 'sd', 'tn', 'tx', 'ut', 'va', 'vt', 'wa', 'wi', 'wv', 'wy']
+OSRM = 'https://router.project-osrm.org/table/v1/driving'
 NO_PLACE = ('', '9999999', '99999')
 
 
@@ -72,6 +78,17 @@ def fetch_lodes(cache):
             print('downloading', LODES + rel, flush=True)
             urllib.request.urlretrieve(LODES + rel, path)
         paths[k] = path
+    paths['aux'] = {}
+    for st in STATES:
+        url = f'https://lehd.ces.census.gov/data/lodes/LODES8/{st}/od/{st}_od_aux_JT01_{YEAR}.csv.gz'
+        path = os.path.join(cache, os.path.basename(url))
+        if not os.path.exists(path):
+            try:
+                urllib.request.urlretrieve(url, path)
+            except Exception as e:
+                print('no aux file for', st, e, flush=True)
+                continue
+        paths['aux'][st] = path
     return paths
 
 
@@ -112,14 +129,20 @@ def read_lodes(paths):
             a[2] += lo * n
     homes = {p: (a[1] / a[0], a[2] / a[0]) for p, a in acc.items() if a[0] > 0}
 
-    # Where each town's working residents work.
+    # Where each town's working residents work (primary jobs; '' = outside any town, '*' = another state).
     flows = collections.defaultdict(collections.Counter)
     for r in rows(paths['od']):
         h = blk[r['h_geocode']][0]
         if h:
             w = blk[r['w_geocode']][0]
             flows[h][w or ''] += int(r['S000'])
-    return groups, homes, flows, names
+    for path in paths['aux'].values():
+        for r in rows(path):
+            if r['h_geocode'].startswith('08'):
+                h = blk[r['h_geocode']][0]
+                if h:
+                    flows[h]['*'] += int(r['S000'])
+    return groups, homes, flows, names, sorted(paths['aux'])
 
 
 def route(origins, groups, cache_file):
@@ -142,7 +165,7 @@ def route(origins, groups, cache_file):
             ok = True
             for j in range(0, len(near), 80):
                 dd = near[j:j + 80]
-                coords = ';'.join(f'{s[2]:.5f},{s[1]:.5f}' for s in srcs) + ';' + ';'.join(f'{d[2]:.5f},{d[1]:.5f}' for d in dd)
+                coords = '/' + ';'.join(f'{s[2]:.5f},{s[1]:.5f}' for s in srcs) + ';' + ';'.join(f'{d[2]:.5f},{d[1]:.5f}' for d in dd)
                 url = (OSRM + coords + '?sources=' + ';'.join(str(n) for n in range(len(srcs))) +
                        '&destinations=' + ';'.join(str(n) for n in range(len(srcs), len(srcs) + len(dd))) +
                        '&annotations=duration')
@@ -174,7 +197,7 @@ def route(origins, groups, cache_file):
 
 def build(cache):
     os.makedirs(cache, exist_ok=True)
-    groups, homes, flows, names = read_lodes(fetch_lodes(cache))
+    groups, homes, flows, names, aux_states = read_lodes(fetch_lodes(cache))
     ranking = _load('data/hna/ranking-index.json')['rankings']
     cent = _load('data/co-place-centroids.json')['byGeoid']
     # Name workplaces as the rest of the site does ("Durango (city)"), falling back to the crosswalk's name.
@@ -200,8 +223,9 @@ def build(cache):
         fl = flows.get(g)
         if fl:
             workers = sum(fl.values())
-            top = [(w, n) for w, n in fl.most_common() if w and w != g][:1]
+            top = [(w, n) for w, n in fl.most_common() if w and w not in (g, '*')][:1]
             row['workers'] = workers
+            row['workers_other_states'] = fl.get('*', 0)
             if top:
                 w, n = top[0]
                 row['top_workplace'] = {'geoid': w, 'name': names.get(w, w), 'workers': n, 'share': round(n / workers, 3)}
@@ -230,11 +254,13 @@ def build(cache):
                 'jobs': LODES + FILES['wac'],
                 'residents': LODES + FILES['rac'],
                 'flows': LODES + FILES['od'],
+                'flows_other_states': f'LODES8 <state>/od/<state>_od_aux_JT01_{YEAR}.csv.gz for: ' + ', '.join(aux_states),
                 'crosswalk': LODES + FILES['xwalk'],
                 'routing': 'OSRM on OpenStreetMap roads (router.project-osrm.org), free-flow drive times',
             },
-            'note': ('All primary jobs in Colorado (LEHD LODES). Jobs across the state line are not counted. '
-                     'Drive times assume no traffic. A town\'s own jobs always count. Counties: population-weighted '
+            'note': ('Jobs within reach: all jobs in Colorado (LEHD LODES JT00, primary and secondary). Jobs across the '
+                     'state line are not counted. Where residents work: primary jobs only (JT01, one per worker), '
+                     'with residents who work in another state in the total. Drive times assume no traffic. A town\'s own jobs always count. Counties: population-weighted '
                      'average of their towns and Census communities.'),
         },
         'places': places,

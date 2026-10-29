@@ -198,10 +198,11 @@
   "generator": "scripts/policy/build_job_access.py",
   "lodes_year": 2023,
   "minutes": 30,
-  "note": "All primary jobs in Colorado (LEHD LODES). Jobs across the state line are not counted. Drive times assume no traffic. A town's own jobs always count. Counties: population-weighted average of their towns and Census communities.",
+  "note": "Jobs within reach: all jobs in Colorado (LEHD LODES JT00, primary and secondary). Jobs across the state line are not counted. Where residents work: primary jobs only (JT01, one per worker), with residents who work in another state in the total. Drive times assume no traffic. A town's own jobs always count. Counties: population-weighted average of their towns and Census communities.",
   "sources": {
    "crosswalk": "https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz",
-   "flows": "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_2023.csv.gz",
+   "flows": "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT01_2023.csv.gz",
+   "flows_other_states": "LODES8 <state>/od/<state>_od_aux_JT01_2023.csv.gz for: al, ar, az, ca, ct, dc, de, fl, ga, hi, ia, id, il, in, ks, ky, la, ma, md, me, mn, mo, ms, mt, nc, nd, ne, nh, nj, nm, nv, ny, oh, ok, or, pa, ri, sc, sd, tn, tx, ut, va, vt, wa, wi, wv, wy",
    "jobs": "https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT00_2023.csv.gz",
    "residents": "https://lehd.ces.census.gov/data/lodes/LODES8/co/rac/co_rac_S000_JT00_2023.csv.gz",
    "routing": "OSRM on OpenStreetMap roads (router.project-osrm.org), free-flow drive times"
@@ -214,40 +215,44 @@
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.214,
-    "workers": 385
+    "share": 0.209,
+    "workers": 363
    },
-   "workers": 1803
+   "workers": 1733,
+   "workers_other_states": 18
   },
   "0800620": {
    "jobs_30min": 877624,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.331,
-    "workers": 522
+    "share": 0.326,
+    "workers": 485
    },
-   "workers": 1575
+   "workers": 1486,
+   "workers_other_states": 12
   },
   "0800760": {
    "jobs_30min": 4187,
    "top_workplace": {
     "geoid": "0878610",
     "name": "Trinidad (city)",
-    "share": 0.486,
-    "workers": 85
+    "share": 0.459,
+    "workers": 78
    },
-   "workers": 175
+   "workers": 170,
+   "workers_other_states": 6
   },
   "0800870": {
    "jobs_30min": 247466,
    "top_workplace": {
-    "geoid": "0816000",
-    "name": "Colorado Springs (city)",
-    "share": 0.182,
-    "workers": 199
+    "geoid": "0820000",
+    "name": "Denver (city)",
+    "share": 0.177,
+    "workers": 188
    },
-   "workers": 1095
+   "workers": 1062,
+   "workers_other_states": 40
   },
   "0800925": {
    "jobs_30min": 892,
@@ -255,69 +260,76 @@
     "geoid": "0820000",
     "name": "Denver (city)",
     "share": 0.068,
-    "workers": 59
+    "workers": 56
    },
-   "workers": 864
+   "workers": 823,
+   "workers_other_states": 35
   },
   "0801090": {
    "jobs_30min": 9138,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.043,
-    "workers": 160
+    "share": 0.042,
+    "workers": 150
    },
-   "workers": 3693
+   "workers": 3579,
+   "workers_other_states": 154
   },
   "0801145": {
    "jobs_30min": 9304,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.459,
-    "workers": 271
+    "share": 0.442,
+    "workers": 254
    },
-   "workers": 590
+   "workers": 575,
+   "workers_other_states": 33
   },
   "0801420": {
    "jobs_30min": 4934,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.134,
-    "workers": 41
+    "share": 0.137,
+    "workers": 40
    },
-   "workers": 306
+   "workers": 291,
+   "workers_other_states": 4
   },
   "0801530": {
    "jobs_30min": 10247,
    "top_workplace": {
     "geoid": "0808400",
     "name": "Breckenridge (town)",
-    "share": 0.28,
-    "workers": 33
+    "share": 0.22,
+    "workers": 22
    },
-   "workers": 118
+   "workers": 100,
+   "workers_other_states": 1
   },
   "0801640": {
    "jobs_30min": 1227,
    "top_workplace": {
     "geoid": "0819795",
     "name": "Del Norte (town)",
-    "share": 0.127,
+    "share": 0.123,
     "workers": 8
    },
-   "workers": 63
+   "workers": 65,
+   "workers_other_states": 7
   },
   "0801740": {
    "jobs_30min": 174050,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.381,
-    "workers": 74
+    "share": 0.379,
+    "workers": 72
    },
-   "workers": 194
+   "workers": 190,
+   "workers_other_states": 3
   },
   "0801915": {
    "jobs_30min": 1267,
@@ -327,167 +339,184 @@
     "share": 0.3,
     "workers": 6
    },
-   "workers": 20
+   "workers": 20,
+   "workers_other_states": 1
   },
   "0802355": {
    "jobs_30min": 1403,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.188,
-    "workers": 33
+    "share": 0.172,
+    "workers": 32
    },
-   "workers": 176
+   "workers": 186,
+   "workers_other_states": 22
   },
   "0802575": {
    "jobs_30min": 1011508,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.277,
-    "workers": 1049
+    "share": 0.273,
+    "workers": 986
    },
-   "workers": 3787
+   "workers": 3613,
+   "workers_other_states": 51
   },
   "0802850": {
    "jobs_30min": 246,
    "top_workplace": {
     "geoid": "0814175",
     "name": "Cheyenne Wells (town)",
-    "share": 0.214,
-    "workers": 9
+    "share": 0.195,
+    "workers": 8
    },
-   "workers": 42
+   "workers": 41,
+   "workers_other_states": 3
   },
   "0802905": {
    "jobs_30min": 10,
    "top_workplace": {
     "geoid": "0856860",
     "name": "Pagosa Springs (town)",
-    "share": 0.354,
-    "workers": 35
+    "share": 0.32,
+    "workers": 32
    },
-   "workers": 99
+   "workers": 100,
+   "workers_other_states": 8
   },
   "0803015": {
    "jobs_30min": 39687,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.125,
-    "workers": 115
+    "share": 0.123,
+    "workers": 108
    },
-   "workers": 920
+   "workers": 879,
+   "workers_other_states": 17
   },
   "0803235": {
    "jobs_30min": 1810,
    "top_workplace": {
     "geoid": "0837875",
     "name": "Hugo (town)",
-    "share": 0.314,
-    "workers": 27
+    "share": 0.325,
+    "workers": 26
    },
-   "workers": 86
+   "workers": 80,
+   "workers_other_states": 1
   },
   "0803455": {
    "jobs_30min": 1017589,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.251,
-    "workers": 15891
+    "share": 0.248,
+    "workers": 15046
    },
-   "workers": 63437
+   "workers": 60617,
+   "workers_other_states": 716
   },
   "0803620": {
    "jobs_30min": 13513,
    "top_workplace": {
     "geoid": "0871755",
     "name": "Snowmass Village (town)",
-    "share": 0.093,
-    "workers": 456
+    "share": 0.087,
+    "workers": 372
    },
-   "workers": 4905
+   "workers": 4292,
+   "workers_other_states": 56
   },
   "0803730": {
    "jobs_30min": 32726,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.205,
-    "workers": 90
+    "share": 0.207,
+    "workers": 86
    },
-   "workers": 438
+   "workers": 416,
+   "workers_other_states": 4
   },
   "0803840": {
    "jobs_30min": 6077,
    "top_workplace": {
     "geoid": "0873935",
     "name": "Sterling (city)",
-    "share": 0.284,
-    "workers": 19
+    "share": 0.266,
+    "workers": 17
    },
-   "workers": 67
+   "workers": 64,
+   "workers_other_states": 1
   },
   "0803950": {
    "jobs_30min": 160320,
    "top_workplace": {
     "geoid": "0827425",
     "name": "Fort Collins (city)",
-    "share": 0.156,
-    "workers": 152
+    "share": 0.155,
+    "workers": 144
    },
-   "workers": 972
+   "workers": 928,
+   "workers_other_states": 25
   },
   "0804000": {
    "jobs_30min": 1125745,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.309,
-    "workers": 57765
+    "share": 0.305,
+    "workers": 53639
    },
-   "workers": 187193
+   "workers": 176065,
+   "workers_other_states": 2290
   },
   "0804110": {
    "jobs_30min": 29789,
    "top_workplace": {
     "geoid": "0880040",
     "name": "Vail (town)",
-    "share": 0.148,
-    "workers": 356
+    "share": 0.142,
+    "workers": 300
    },
-   "workers": 2407
+   "workers": 2113,
+   "workers_other_states": 33
   },
   "0804165": {
    "jobs_30min": 45187,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.397,
-    "workers": 87
+    "share": 0.372,
+    "workers": 81
    },
-   "workers": 219
+   "workers": 218,
+   "workers_other_states": 16
   },
   "0804620": {
    "jobs_30min": 434,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.149,
-    "workers": 14
+    "share": 0.155,
+    "workers": 13
    },
-   "workers": 94
+   "workers": 84,
+   "workers_other_states": 2
   },
   "0804935": {
    "jobs_30min": 9229,
    "top_workplace": {
     "geoid": "0803620",
     "name": "Aspen (city)",
-    "share": 0.266,
-    "workers": 679
+    "share": 0.26,
+    "workers": 593
    },
-   "workers": 2555
+   "workers": 2285,
+   "workers_other_states": 21
   },
   "0805120": {
    "jobs_30min": 5195,
@@ -495,19 +524,21 @@
     "geoid": "0830780",
     "name": "Glenwood Springs (city)",
     "share": 0.122,
-    "workers": 278
+    "workers": 264
    },
-   "workers": 2278
+   "workers": 2161,
+   "workers_other_states": 54
   },
   "0805265": {
    "jobs_30min": 22568,
    "top_workplace": {
     "geoid": "0822035",
     "name": "Durango (city)",
-    "share": 0.393,
-    "workers": 514
+    "share": 0.37,
+    "workers": 484
    },
-   "workers": 1307
+   "workers": 1307,
+   "workers_other_states": 78
   },
   "0806090": {
    "jobs_30min": 176451,
@@ -515,219 +546,241 @@
     "geoid": "0820000",
     "name": "Denver (city)",
     "share": 0.222,
-    "workers": 380
+    "workers": 358
    },
-   "workers": 1714
+   "workers": 1609,
+   "workers_other_states": 13
   },
   "0806172": {
    "jobs_30min": 1370275,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.321,
-    "workers": 1826
+    "share": 0.315,
+    "workers": 1693
    },
-   "workers": 5683
+   "workers": 5370,
+   "workers_other_states": 53
   },
   "0806255": {
    "jobs_30min": 119902,
    "top_workplace": {
     "geoid": "0845970",
     "name": "Longmont (city)",
-    "share": 0.138,
-    "workers": 732
+    "share": 0.137,
+    "workers": 701
    },
-   "workers": 5308
+   "workers": 5135,
+   "workers_other_states": 94
   },
   "0806530": {
    "jobs_30min": 2496,
    "top_workplace": {
     "geoid": "0810600",
     "name": "Burlington (city)",
-    "share": 0.385,
-    "workers": 30
+    "share": 0.377,
+    "workers": 26
    },
-   "workers": 78
+   "workers": 69,
+   "workers_other_states": 3
   },
   "0806602": {
    "jobs_30min": 60,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.539,
-    "workers": 103
+    "share": 0.532,
+    "workers": 99
    },
-   "workers": 191
+   "workers": 186,
+   "workers_other_states": 3
   },
   "0806970": {
    "jobs_30min": 20771,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.522,
-    "workers": 3402
+    "share": 0.514,
+    "workers": 3207
    },
-   "workers": 6512
+   "workers": 6245,
+   "workers_other_states": 98
   },
   "0807025": {
    "jobs_30min": 4844,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.121,
+    "share": 0.125,
     "workers": 8
    },
-   "workers": 66
+   "workers": 64,
+   "workers_other_states": 1
   },
   "0807190": {
    "jobs_30min": 6244,
    "top_workplace": {
     "geoid": "0827535",
     "name": "Fort Garland (CDP)",
-    "share": 0.102,
+    "share": 0.098,
     "workers": 10
    },
-   "workers": 98
+   "workers": 102,
+   "workers_other_states": 11
   },
   "0807245": {
    "jobs_30min": 54857,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.538,
-    "workers": 184
+    "share": 0.526,
+    "workers": 172
    },
-   "workers": 342
+   "workers": 327,
+   "workers_other_states": 8
   },
   "0807410": {
    "jobs_30min": 14770,
    "top_workplace": {
     "geoid": "0808400",
     "name": "Breckenridge (town)",
-    "share": 0.483,
-    "workers": 215
+    "share": 0.455,
+    "workers": 184
    },
-   "workers": 445
+   "workers": 404,
+   "workers_other_states": 8
   },
   "0807420": {
    "jobs_30min": 11551,
    "top_workplace": {
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
-    "share": 0.154,
+    "share": 0.167,
     "workers": 4
    },
-   "workers": 26
+   "workers": 24,
+   "workers_other_states": 0
   },
   "0807455": {
    "jobs_30min": 2388,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.143,
-    "workers": 13
+    "share": 0.129,
+    "workers": 11
    },
-   "workers": 91
+   "workers": 85,
+   "workers_other_states": 3
   },
   "0807571": {
    "jobs_30min": 0,
    "top_workplace": {
-    "geoid": "0820000",
-    "name": "Denver (city)",
-    "share": 0.286,
-    "workers": 2
+    "geoid": "0860600",
+    "name": "Poncha Springs (town)",
+    "share": 0.167,
+    "workers": 1
    },
-   "workers": 7
+   "workers": 6,
+   "workers_other_states": 1
   },
   "0807580": {
    "jobs_30min": 897,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.2,
-    "workers": 12
+    "share": 0.179,
+    "workers": 10
    },
-   "workers": 60
+   "workers": 56,
+   "workers_other_states": 1
   },
   "0807795": {
    "jobs_30min": 2378,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.329,
-    "workers": 28
+    "share": 0.298,
+    "workers": 25
    },
-   "workers": 85
+   "workers": 84,
+   "workers_other_states": 4
   },
   "0807850": {
    "jobs_30min": 364073,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.121,
-    "workers": 4481
+    "share": 0.119,
+    "workers": 4205
    },
-   "workers": 36934
+   "workers": 35355,
+   "workers_other_states": 810
   },
   "0808070": {
    "jobs_30min": 1077907,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.287,
-    "workers": 124
+    "share": 0.281,
+    "workers": 117
    },
-   "workers": 432
+   "workers": 416,
+   "workers_other_states": 6
   },
   "0808290": {
    "jobs_30min": 98,
    "top_workplace": {
     "geoid": "0822145",
     "name": "Eads (town)",
-    "share": 0.444,
+    "share": 0.5,
     "workers": 4
    },
-   "workers": 9
+   "workers": 8,
+   "workers_other_states": 0
   },
   "0808345": {
    "jobs_30min": 70,
    "top_workplace": {
     "geoid": "0878610",
     "name": "Trinidad (city)",
-    "share": 0.333,
+    "share": 0.263,
     "workers": 5
    },
-   "workers": 15
+   "workers": 19,
+   "workers_other_states": 4
   },
   "0808400": {
    "jobs_30min": 21499,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.06,
-    "workers": 189
+    "share": 0.063,
+    "workers": 172
    },
-   "workers": 3163
+   "workers": 2722,
+   "workers_other_states": 43
   },
   "0808530": {
    "jobs_30min": 1831,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.255,
+    "share": 0.264,
     "workers": 14
    },
-   "workers": 55
+   "workers": 53,
+   "workers_other_states": 0
   },
   "0808620": {
    "jobs_30min": 90,
    "top_workplace": {
     "geoid": "0804000",
     "name": "Aurora (city)",
-    "share": 0.105,
+    "share": 0.108,
     "workers": 4
    },
-   "workers": 38
+   "workers": 37,
+   "workers_other_states": 1
   },
   "0808675": {
    "jobs_30min": 222476,
@@ -735,119 +788,131 @@
     "geoid": "0820000",
     "name": "Denver (city)",
     "share": 0.203,
-    "workers": 4296
+    "workers": 4074
    },
-   "workers": 21155
+   "workers": 20098,
+   "workers_other_states": 218
   },
   "0808950": {
    "jobs_30min": 5511,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.251,
-    "workers": 92
+    "share": 0.254,
+    "workers": 88
    },
-   "workers": 367
+   "workers": 347,
+   "workers_other_states": 2
   },
   "0809115": {
    "jobs_30min": 10927,
    "top_workplace": {
     "geoid": "0811810",
     "name": "Cañon City (city)",
-    "share": 0.33,
-    "workers": 30
+    "share": 0.333,
+    "workers": 29
    },
-   "workers": 91
+   "workers": 87,
+   "workers_other_states": 2
   },
   "0809280": {
    "jobs_30min": 509483,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.193,
-    "workers": 7582
+    "share": 0.191,
+    "workers": 7199
    },
-   "workers": 39201
+   "workers": 37600,
+   "workers_other_states": 486
   },
   "0809555": {
    "jobs_30min": 11723,
    "top_workplace": {
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
-    "share": 0.281,
-    "workers": 747
+    "share": 0.278,
+    "workers": 706
    },
-   "workers": 2660
+   "workers": 2544,
+   "workers_other_states": 53
   },
   "0810105": {
    "jobs_30min": 2580,
    "top_workplace": {
     "geoid": "0867280",
     "name": "Salida (city)",
-    "share": 0.09,
-    "workers": 111
+    "share": 0.093,
+    "workers": 105
    },
-   "workers": 1229
+   "workers": 1125,
+   "workers_other_states": 13
   },
   "0810600": {
    "jobs_30min": 2185,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.032,
-    "workers": 43
+    "share": 0.03,
+    "workers": 40
    },
-   "workers": 1360
+   "workers": 1321,
+   "workers_other_states": 67
   },
   "0810985": {
    "jobs_30min": 2744,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.193,
-    "workers": 114
+    "share": 0.195,
+    "workers": 111
    },
-   "workers": 592
+   "workers": 570,
+   "workers_other_states": 5
   },
   "0811260": {
    "jobs_30min": 5333,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.386,
-    "workers": 122
+    "share": 0.385,
+    "workers": 116
    },
-   "workers": 316
+   "workers": 301,
+   "workers_other_states": 6
   },
   "0811645": {
    "jobs_30min": 854,
    "top_workplace": {
     "geoid": "0882460",
     "name": "Walsh (town)",
-    "share": 0.233,
-    "workers": 7
+    "share": 0.185,
+    "workers": 5
    },
-   "workers": 30
+   "workers": 27,
+   "workers_other_states": 1
   },
   "0811810": {
    "jobs_30min": 10622,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.113,
-    "workers": 810
+    "share": 0.112,
+    "workers": 759
    },
-   "workers": 7148
+   "workers": 6806,
+   "workers_other_states": 93
   },
   "0811975": {
    "jobs_30min": 873,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.182,
+    "share": 0.188,
     "workers": 6
    },
-   "workers": 33
+   "workers": 32,
+   "workers_other_states": 3
   },
   "0812030": {
    "jobs_30min": 0
@@ -857,50 +922,55 @@
    "top_workplace": {
     "geoid": "0803620",
     "name": "Aspen (city)",
-    "share": 0.161,
-    "workers": 570
+    "share": 0.151,
+    "workers": 492
    },
-   "workers": 3532
+   "workers": 3265,
+   "workers_other_states": 75
   },
   "0812325": {
    "jobs_30min": 243712,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.491,
-    "workers": 294
+    "share": 0.482,
+    "workers": 276
    },
-   "workers": 599
+   "workers": 573,
+   "workers_other_states": 12
   },
   "0812387": {
    "jobs_30min": 562932,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.244,
-    "workers": 1435
+    "share": 0.242,
+    "workers": 1369
    },
-   "workers": 5892
+   "workers": 5649,
+   "workers_other_states": 80
   },
   "0812393": {
    "jobs_30min": 352167,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.229,
-    "workers": 472
+    "share": 0.227,
+    "workers": 451
    },
-   "workers": 2065
+   "workers": 1985,
+   "workers_other_states": 28
   },
   "0812415": {
    "jobs_30min": 306852,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.192,
-    "workers": 7920
+    "share": 0.191,
+    "workers": 7543
    },
-   "workers": 41189
+   "workers": 39530,
+   "workers_other_states": 548
   },
   "0812450": {
    "jobs_30min": 0,
@@ -910,77 +980,85 @@
     "share": 0.333,
     "workers": 1
    },
-   "workers": 3
+   "workers": 3,
+   "workers_other_states": 0
   },
   "0812460": {
    "jobs_30min": 20119,
    "top_workplace": {
     "geoid": "0803620",
     "name": "Aspen (city)",
-    "share": 0.244,
-    "workers": 32
+    "share": 0.261,
+    "workers": 31
    },
-   "workers": 131
+   "workers": 119,
+   "workers_other_states": 0
   },
   "0812470": {
    "jobs_30min": 20173,
    "top_workplace": {
     "geoid": "0830780",
     "name": "Glenwood Springs (city)",
-    "share": 0.306,
-    "workers": 90
+    "share": 0.314,
+    "workers": 87
    },
-   "workers": 294
+   "workers": 277,
+   "workers_other_states": 9
   },
   "0812635": {
    "jobs_30min": 6328,
    "top_workplace": {
     "geoid": "0819850",
     "name": "Delta (city)",
-    "share": 0.201,
-    "workers": 162
+    "share": 0.196,
+    "workers": 157
    },
-   "workers": 804
+   "workers": 799,
+   "workers_other_states": 34
   },
   "0812815": {
    "jobs_30min": 1283555,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.27,
-    "workers": 14896
+    "share": 0.269,
+    "workers": 14089
    },
-   "workers": 55120
+   "workers": 52426,
+   "workers_other_states": 633
   },
   "0812855": {
    "jobs_30min": 4308,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.09,
-    "workers": 65
+    "share": 0.089,
+    "workers": 61
    },
-   "workers": 723
+   "workers": 687,
+   "workers_other_states": 22
   },
   "0812900": {
    "jobs_30min": 6775,
    "top_workplace": {
     "geoid": "0807025",
     "name": "Black Hawk (city)",
-    "share": 0.191,
-    "workers": 67
+    "share": 0.19,
+    "workers": 64
    },
-   "workers": 350
+   "workers": 336,
+   "workers_other_states": 4
   },
   "0812945": {
    "jobs_30min": 17830,
    "top_workplace": {
     "geoid": "0830780",
     "name": "Glenwood Springs (city)",
-    "share": 0.317,
-    "workers": 65
+    "share": 0.288,
+    "workers": 55
    },
-   "workers": 205
+   "workers": 191,
+   "workers_other_states": 4
   },
   "0813460": {
    "jobs_30min": 5095,
@@ -988,29 +1066,32 @@
     "geoid": "0842110",
     "name": "La Junta (city)",
     "share": 0.229,
-    "workers": 25
+    "workers": 24
    },
-   "workers": 109
+   "workers": 105,
+   "workers_other_states": 5
   },
   "0813590": {
    "jobs_30min": 1259639,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.296,
-    "workers": 1711
+    "share": 0.291,
+    "workers": 1614
    },
-   "workers": 5780
+   "workers": 5541,
+   "workers_other_states": 84
   },
   "0813845": {
    "jobs_30min": 1291688,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.407,
-    "workers": 945
+    "share": 0.411,
+    "workers": 908
    },
-   "workers": 2321
+   "workers": 2210,
+   "workers_other_states": 33
   },
   "0814175": {
    "jobs_30min": 246,
@@ -1020,197 +1101,217 @@
     "share": 0.072,
     "workers": 17
    },
-   "workers": 237
+   "workers": 235,
+   "workers_other_states": 14
   },
   "0814587": {
    "jobs_30min": 272947,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.61,
-    "workers": 5030
+    "share": 0.602,
+    "workers": 4735
    },
-   "workers": 8243
+   "workers": 7867,
+   "workers_other_states": 120
   },
   "0814765": {
    "jobs_30min": 329,
    "top_workplace": {
-    "geoid": "0856860",
-    "name": "Pagosa Springs (town)",
-    "share": 0.053,
-    "workers": 8
+    "geoid": "0820000",
+    "name": "Denver (city)",
+    "share": 0.04,
+    "workers": 5
    },
-   "workers": 151
+   "workers": 126,
+   "workers_other_states": 0
   },
   "0815165": {
    "jobs_30min": 64030,
    "top_workplace": {
     "geoid": "0831660",
     "name": "Grand Junction (city)",
-    "share": 0.636,
-    "workers": 5476
+    "share": 0.626,
+    "workers": 5144
    },
-   "workers": 8604
+   "workers": 8214,
+   "workers_other_states": 176
   },
   "0815302": {
    "jobs_30min": 1471,
    "top_workplace": {
-    "geoid": "0820000",
-    "name": "Denver (city)",
-    "share": 0.154,
-    "workers": 191
+    "geoid": "0807850",
+    "name": "Boulder (city)",
+    "share": 0.15,
+    "workers": 177
    },
-   "workers": 1241
+   "workers": 1181,
+   "workers_other_states": 18
   },
   "0815330": {
    "jobs_30min": 10083,
    "top_workplace": {
     "geoid": "0811810",
     "name": "Cañon City (city)",
-    "share": 0.196,
-    "workers": 30
+    "share": 0.181,
+    "workers": 27
    },
-   "workers": 153
+   "workers": 149,
+   "workers_other_states": 6
   },
   "0815440": {
    "jobs_30min": 50,
    "top_workplace": {
     "geoid": "0867280",
     "name": "Salida (city)",
-    "share": 0.203,
+    "share": 0.214,
     "workers": 30
    },
-   "workers": 148
+   "workers": 140,
+   "workers_other_states": 2
   },
   "0815550": {
    "jobs_30min": 4034,
    "top_workplace": {
     "geoid": "0878610",
     "name": "Trinidad (city)",
-    "share": 0.256,
-    "workers": 11
+    "share": 0.195,
+    "workers": 8
    },
-   "workers": 43
+   "workers": 41,
+   "workers_other_states": 1
   },
   "0815605": {
    "jobs_30min": 604,
    "top_workplace": {
     "geoid": "0831660",
     "name": "Grand Junction (city)",
-    "share": 0.231,
-    "workers": 24
+    "share": 0.211,
+    "workers": 20
    },
-   "workers": 104
+   "workers": 95,
+   "workers_other_states": 1
   },
   "0815825": {
    "jobs_30min": 14545,
    "top_workplace": {
     "geoid": "0864200",
     "name": "Ridgway (town)",
-    "share": 0.143,
+    "share": 0.158,
     "workers": 3
    },
-   "workers": 21
+   "workers": 19,
+   "workers_other_states": 0
   },
   "0815935": {
    "jobs_30min": 706,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.225,
-    "workers": 133
+    "share": 0.21,
+    "workers": 125
    },
-   "workers": 591
+   "workers": 594,
+   "workers_other_states": 32
   },
   "0816000": {
    "jobs_30min": 249798,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.06,
-    "workers": 11949
+    "share": 0.059,
+    "workers": 11110
    },
-   "workers": 197851
+   "workers": 188998,
+   "workers_other_states": 3166
   },
   "0816110": {
    "jobs_30min": 1085301,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.248,
-    "workers": 3235
+    "share": 0.244,
+    "workers": 3055
    },
-   "workers": 13041
+   "workers": 12500,
+   "workers_other_states": 195
   },
   "0816385": {
    "jobs_30min": 1263273,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.286,
-    "workers": 210
+    "share": 0.281,
+    "workers": 197
    },
-   "workers": 735
+   "workers": 700,
+   "workers_other_states": 12
   },
   "0816465": {
    "jobs_30min": 2031,
    "top_workplace": {
     "geoid": "0804000",
     "name": "Aurora (city)",
-    "share": 0.202,
-    "workers": 41
+    "share": 0.201,
+    "workers": 37
    },
-   "workers": 203
+   "workers": 184,
+   "workers_other_states": 2
   },
   "0816495": {
    "jobs_30min": 1059323,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.277,
-    "workers": 9533
+    "share": 0.276,
+    "workers": 8998
    },
-   "workers": 34357
+   "workers": 32618,
+   "workers_other_states": 355
   },
   "0816715": {
    "jobs_30min": 1403,
    "top_workplace": {
     "geoid": "0802355",
     "name": "Antonito (town)",
-    "share": 0.3,
+    "share": 0.231,
     "workers": 3
    },
-   "workers": 10
+   "workers": 13,
+   "workers_other_states": 3
   },
   "0817100": {
    "jobs_30min": 34,
    "top_workplace": {
-    "geoid": "0820000",
-    "name": "Denver (city)",
-    "share": 0.105,
+    "geoid": "0856365",
+    "name": "Otis (town)",
+    "share": 0.111,
     "workers": 2
    },
-   "workers": 19
+   "workers": 18,
+   "workers_other_states": 0
   },
   "0817150": {
    "jobs_30min": 9795,
    "top_workplace": {
     "geoid": "0828690",
     "name": "Frisco (town)",
-    "share": 0.11,
-    "workers": 48
+    "share": 0.09,
+    "workers": 35
    },
-   "workers": 438
+   "workers": 388,
+   "workers_other_states": 1
   },
   "0817375": {
    "jobs_30min": 7885,
    "top_workplace": {
     "geoid": "0822035",
     "name": "Durango (city)",
-    "share": 0.062,
-    "workers": 238
+    "share": 0.058,
+    "workers": 223
    },
-   "workers": 3824
+   "workers": 3817,
+   "workers_other_states": 264
   },
   "0817485": {
    "jobs_30min": 50,
@@ -1220,107 +1321,118 @@
     "share": 0.19,
     "workers": 4
    },
-   "workers": 21
+   "workers": 21,
+   "workers_other_states": 0
   },
   "0817760": {
    "jobs_30min": 4399,
    "top_workplace": {
     "geoid": "0873825",
     "name": "Steamboat Springs (city)",
-    "share": 0.166,
-    "workers": 815
+    "share": 0.158,
+    "workers": 733
    },
-   "workers": 4922
+   "workers": 4625,
+   "workers_other_states": 109
   },
   "0817925": {
    "jobs_30min": 1229,
    "top_workplace": {
     "geoid": "0837545",
     "name": "Hotchkiss (town)",
-    "share": 0.211,
-    "workers": 24
+    "share": 0.193,
+    "workers": 22
    },
-   "workers": 114
+   "workers": 114,
+   "workers_other_states": 5
   },
   "0818310": {
    "jobs_30min": 3581,
    "top_workplace": {
     "geoid": "0852570",
     "name": "Mount Crested Butte (town)",
-    "share": 0.128,
-    "workers": 92
+    "share": 0.124,
+    "workers": 78
    },
-   "workers": 721
+   "workers": 627,
+   "workers_other_states": 15
   },
   "0818420": {
    "jobs_30min": 519,
    "top_workplace": {
     "geoid": "0851250",
     "name": "Moffat (town)",
-    "share": 0.138,
+    "share": 0.129,
     "workers": 4
    },
-   "workers": 29
+   "workers": 31,
+   "workers_other_states": 3
   },
   "0818530": {
    "jobs_30min": 2692,
    "top_workplace": {
-    "geoid": "0880865",
-    "name": "Victor (city)",
+    "geoid": "0816000",
+    "name": "Colorado Springs (city)",
     "share": 0.083,
-    "workers": 41
+    "workers": 39
    },
-   "workers": 493
+   "workers": 469,
+   "workers_other_states": 9
   },
   "0818585": {
    "jobs_30min": 98808,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.275,
+    "share": 0.278,
     "workers": 22
    },
-   "workers": 80
+   "workers": 79,
+   "workers_other_states": 4
   },
   "0818640": {
    "jobs_30min": 107,
    "top_workplace": {
     "geoid": "0873935",
     "name": "Sterling (city)",
-    "share": 0.186,
-    "workers": 13
+    "share": 0.179,
+    "workers": 12
    },
-   "workers": 70
+   "workers": 67,
+   "workers_other_states": 3
   },
   "0818750": {
    "jobs_30min": 2326,
    "top_workplace": {
     "geoid": "0856145",
     "name": "Ordway (town)",
-    "share": 0.28,
+    "share": 0.304,
     "workers": 14
    },
-   "workers": 50
+   "workers": 46,
+   "workers_other_states": 0
   },
   "0819080": {
    "jobs_30min": 315751,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.14,
-    "workers": 529
+    "share": 0.139,
+    "workers": 507
    },
-   "workers": 3791
+   "workers": 3649,
+   "workers_other_states": 62
   },
   "0819150": {
    "jobs_30min": 435326,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.25,
-    "workers": 4507
+    "share": 0.245,
+    "workers": 4222
    },
-   "workers": 18062
+   "workers": 17222,
+   "workers_other_states": 222
   },
   "0819355": {
    "jobs_30min": 3211,
@@ -1330,327 +1442,360 @@
     "share": 0.191,
     "workers": 33
    },
-   "workers": 173
+   "workers": 173,
+   "workers_other_states": 8
   },
   "0819630": {
    "jobs_30min": 2118,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.199,
-    "workers": 106
+    "share": 0.193,
+    "workers": 100
    },
-   "workers": 533
+   "workers": 519,
+   "workers_other_states": 8
   },
   "0819795": {
    "jobs_30min": 4663,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.095,
-    "workers": 68
+    "share": 0.091,
+    "workers": 65
    },
-   "workers": 714
+   "workers": 714,
+   "workers_other_states": 42
   },
   "0819850": {
    "jobs_30min": 8073,
    "top_workplace": {
     "geoid": "0851745",
     "name": "Montrose (city)",
-    "share": 0.15,
-    "workers": 508
+    "share": 0.146,
+    "workers": 474
    },
-   "workers": 3393
+   "workers": 3245,
+   "workers_other_states": 86
   },
   "0820000": {
    "jobs_30min": 1438236,
    "top_workplace": {
     "geoid": "0804000",
     "name": "Aurora (city)",
-    "share": 0.095,
-    "workers": 34155
+    "share": 0.093,
+    "workers": 31814
    },
-   "workers": 359049
+   "workers": 342003,
+   "workers_other_states": 5405
   },
   "0820275": {
    "jobs_30min": 1260649,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.253,
-    "workers": 905
+    "share": 0.254,
+    "workers": 854
    },
-   "workers": 3578
+   "workers": 3367,
+   "workers_other_states": 40
   },
   "0820440": {
    "jobs_30min": 24202,
    "top_workplace": {
     "geoid": "0808400",
     "name": "Breckenridge (town)",
-    "share": 0.128,
-    "workers": 83
+    "share": 0.124,
+    "workers": 72
    },
-   "workers": 648
+   "workers": 579,
+   "workers_other_states": 4
   },
   "0820495": {
    "jobs_30min": 58,
    "top_workplace": {
     "geoid": "0817760",
     "name": "Craig (city)",
-    "share": 0.145,
-    "workers": 11
+    "share": 0.139,
+    "workers": 10
    },
-   "workers": 76
+   "workers": 72,
+   "workers_other_states": 3
   },
   "0820605": {
    "jobs_30min": 5194,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.275,
-    "workers": 14
+    "share": 0.265,
+    "workers": 13
    },
-   "workers": 51
+   "workers": 49,
+   "workers_other_states": 0
   },
   "0820770": {
    "jobs_30min": 747,
    "top_workplace": {
     "geoid": "0817375",
     "name": "Cortez (city)",
-    "share": 0.279,
-    "workers": 77
+    "share": 0.256,
+    "workers": 72
    },
-   "workers": 276
+   "workers": 281,
+   "workers_other_states": 26
   },
   "0821155": {
    "jobs_30min": 17328,
    "top_workplace": {
     "geoid": "0822200",
     "name": "Eagle (town)",
-    "share": 0.164,
-    "workers": 134
+    "share": 0.168,
+    "workers": 126
    },
-   "workers": 816
+   "workers": 750,
+   "workers_other_states": 5
   },
   "0821265": {
    "jobs_30min": 355,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.064,
+    "share": 0.059,
     "workers": 13
    },
-   "workers": 202
+   "workers": 221,
+   "workers_other_states": 35
   },
   "0821330": {
    "jobs_30min": 1141494,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.251,
-    "workers": 715
+    "share": 0.25,
+    "workers": 664
    },
-   "workers": 2844
+   "workers": 2651,
+   "workers_other_states": 27
   },
   "0821390": {
    "jobs_30min": 3352,
    "top_workplace": {
     "geoid": "0829735",
     "name": "Georgetown (town)",
-    "share": 0.24,
-    "workers": 55
+    "share": 0.224,
+    "workers": 47
    },
-   "workers": 229
+   "workers": 210,
+   "workers_other_states": 5
   },
   "0822035": {
    "jobs_30min": 21769,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.025,
-    "workers": 205
+    "share": 0.024,
+    "workers": 198
    },
-   "workers": 8356
+   "workers": 8166,
+   "workers_other_states": 482
   },
   "0822145": {
    "jobs_30min": 388,
    "top_workplace": {
     "geoid": "0843110",
     "name": "Lamar (city)",
-    "share": 0.055,
-    "workers": 16
+    "share": 0.051,
+    "workers": 15
    },
-   "workers": 291
+   "workers": 296,
+   "workers_other_states": 24
   },
   "0822200": {
    "jobs_30min": 20363,
    "top_workplace": {
     "geoid": "0804110",
     "name": "Avon (town)",
-    "share": 0.122,
-    "workers": 399
+    "share": 0.11,
+    "workers": 319
    },
-   "workers": 3278
+   "workers": 2912,
+   "workers_other_states": 43
   },
   "0822575": {
    "jobs_30min": 1117891,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.268,
-    "workers": 41
+    "share": 0.248,
+    "workers": 37
    },
-   "workers": 153
+   "workers": 149,
+   "workers_other_states": 3
   },
   "0822860": {
    "jobs_30min": 73821,
    "top_workplace": {
     "geoid": "0832155",
     "name": "Greeley (city)",
-    "share": 0.221,
-    "workers": 620
+    "share": 0.216,
+    "workers": 588
    },
-   "workers": 2803
+   "workers": 2720,
+   "workers_other_states": 78
   },
   "0822882": {
    "jobs_30min": 5270,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.208,
-    "workers": 35
+    "share": 0.205,
+    "workers": 34
    },
-   "workers": 168
+   "workers": 166,
+   "workers_other_states": 4
   },
   "0823025": {
    "jobs_30min": 2489,
    "top_workplace": {
     "geoid": "0886750",
     "name": "Yuma (city)",
-    "share": 0.31,
-    "workers": 26
+    "share": 0.3,
+    "workers": 24
    },
-   "workers": 84
+   "workers": 80,
+   "workers_other_states": 1
   },
   "0823135": {
    "jobs_30min": 1221859,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.423,
-    "workers": 1047
+    "share": 0.417,
+    "workers": 978
    },
-   "workers": 2475
+   "workers": 2344,
+   "workers_other_states": 30
   },
   "0823300": {
    "jobs_30min": 29745,
    "top_workplace": {
-    "geoid": "0804110",
-    "name": "Avon (town)",
-    "share": 0.153,
-    "workers": 811
+    "geoid": "0880040",
+    "name": "Vail (town)",
+    "share": 0.147,
+    "workers": 685
    },
-   "workers": 5299
+   "workers": 4658,
+   "workers_other_states": 62
   },
   "0823520": {
    "jobs_30min": 3195,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.148,
+    "share": 0.152,
     "workers": 17
    },
-   "workers": 115
+   "workers": 112,
+   "workers_other_states": 4
   },
   "0823575": {
    "jobs_30min": 15,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.186,
+    "share": 0.195,
     "workers": 8
    },
-   "workers": 43
+   "workers": 41,
+   "workers_other_states": 0
   },
   "0823630": {
    "jobs_30min": 293781,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.467,
-    "workers": 92
+    "share": 0.466,
+    "workers": 88
    },
-   "workers": 197
+   "workers": 189,
+   "workers_other_states": 5
   },
   "0823740": {
    "jobs_30min": 59181,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.139,
-    "workers": 172
+    "share": 0.137,
+    "workers": 163
    },
-   "workers": 1236
+   "workers": 1187,
+   "workers_other_states": 29
   },
   "0823795": {
    "jobs_30min": 22633,
    "top_workplace": {
     "geoid": "0803620",
     "name": "Aspen (city)",
-    "share": 0.287,
-    "workers": 692
+    "share": 0.278,
+    "workers": 602
    },
-   "workers": 2407
+   "workers": 2165,
+   "workers_other_states": 22
   },
   "0824235": {
    "jobs_30min": 11483,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.436,
-    "workers": 206
+    "share": 0.438,
+    "workers": 200
    },
-   "workers": 473
+   "workers": 457,
+   "workers_other_states": 6
   },
   "0824290": {
    "jobs_30min": 3789,
    "top_workplace": {
     "geoid": "0878610",
     "name": "Trinidad (city)",
-    "share": 0.42,
-    "workers": 21
+    "share": 0.38,
+    "workers": 19
    },
-   "workers": 50
+   "workers": 50,
+   "workers_other_states": 5
   },
   "0824620": {
    "jobs_30min": 3352,
    "top_workplace": {
     "geoid": "0829735",
     "name": "Georgetown (town)",
-    "share": 0.23,
-    "workers": 35
+    "share": 0.223,
+    "workers": 31
    },
-   "workers": 152
+   "workers": 139,
+   "workers_other_states": 2
   },
   "0824785": {
    "jobs_30min": 1355620,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.346,
-    "workers": 6347
+    "share": 0.339,
+    "workers": 5919
    },
-   "workers": 18342
+   "workers": 17437,
+   "workers_other_states": 273
   },
   "0824950": {
    "jobs_30min": 384797,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.168,
-    "workers": 2768
+    "share": 0.169,
+    "workers": 2667
    },
-   "workers": 16484
+   "workers": 15799,
+   "workers_other_states": 221
   },
   "0825115": {
    "jobs_30min": 5785,
@@ -1658,69 +1803,76 @@
     "geoid": "0820000",
     "name": "Denver (city)",
     "share": 0.058,
-    "workers": 164
+    "workers": 151
    },
-   "workers": 2819
+   "workers": 2605,
+   "workers_other_states": 52
   },
   "0825280": {
    "jobs_30min": 68691,
    "top_workplace": {
     "geoid": "0832155",
     "name": "Greeley (city)",
-    "share": 0.292,
-    "workers": 3338
+    "share": 0.285,
+    "workers": 3120
    },
-   "workers": 11418
+   "workers": 10934,
+   "workers_other_states": 257
   },
   "0825390": {
    "jobs_30min": 39151,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.22,
-    "workers": 999
+    "share": 0.221,
+    "workers": 957
    },
-   "workers": 4536
+   "workers": 4321,
+   "workers_other_states": 58
   },
   "0825550": {
    "jobs_30min": 951328,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.242,
-    "workers": 1170
+    "share": 0.241,
+    "workers": 1123
    },
-   "workers": 4842
+   "workers": 4664,
+   "workers_other_states": 62
   },
   "0825610": {
    "jobs_30min": 1132,
    "top_workplace": {
     "geoid": "0808400",
     "name": "Breckenridge (town)",
-    "share": 0.241,
-    "workers": 69
+    "share": 0.227,
+    "workers": 62
    },
-   "workers": 286
+   "workers": 273,
+   "workers_other_states": 10
   },
   "0826270": {
    "jobs_30min": 1361502,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.217,
-    "workers": 1281
+    "share": 0.213,
+    "workers": 1183
    },
-   "workers": 5891
+   "workers": 5557,
+   "workers_other_states": 76
   },
   "0826600": {
    "jobs_30min": 135590,
    "top_workplace": {
     "geoid": "0845970",
     "name": "Longmont (city)",
-    "share": 0.13,
-    "workers": 1282
+    "share": 0.126,
+    "workers": 1195
    },
-   "workers": 9826
+   "workers": 9448,
+   "workers_other_states": 169
   },
   "0826765": {
    "jobs_30min": 769,
@@ -1728,29 +1880,32 @@
     "geoid": "0810600",
     "name": "Burlington (city)",
     "share": 0.114,
-    "workers": 28
+    "workers": 26
    },
-   "workers": 245
+   "workers": 229,
+   "workers_other_states": 6
   },
   "0826875": {
    "jobs_30min": 825,
    "top_workplace": {
     "geoid": "0873935",
     "name": "Sterling (city)",
-    "share": 0.291,
-    "workers": 23
+    "share": 0.275,
+    "workers": 22
    },
-   "workers": 79
+   "workers": 80,
+   "workers_other_states": 5
   },
   "0827040": {
    "jobs_30min": 10758,
    "top_workplace": {
     "geoid": "0811810",
     "name": "Cañon City (city)",
-    "share": 0.205,
-    "workers": 325
+    "share": 0.203,
+    "workers": 306
    },
-   "workers": 1587
+   "workers": 1505,
+   "workers_other_states": 20
   },
   "0827095": {
    "jobs_30min": 5242,
@@ -1760,7 +1915,8 @@
     "share": 0.173,
     "workers": 9
    },
-   "workers": 52
+   "workers": 52,
+   "workers_other_states": 1
   },
   "0827175": {
    "jobs_30min": 15282,
@@ -1768,159 +1924,175 @@
     "geoid": "0820000",
     "name": "Denver (city)",
     "share": 0.188,
-    "workers": 110
+    "workers": 104
    },
-   "workers": 585
+   "workers": 552,
+   "workers_other_states": 10
   },
   "0827370": {
    "jobs_30min": 259399,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.193,
-    "workers": 555
+    "share": 0.179,
+    "workers": 502
    },
-   "workers": 2882
+   "workers": 2798,
+   "workers_other_states": 100
   },
   "0827425": {
    "jobs_30min": 164370,
    "top_workplace": {
     "geoid": "0846465",
     "name": "Loveland (city)",
-    "share": 0.083,
-    "workers": 6100
+    "share": 0.082,
+    "workers": 5744
    },
-   "workers": 73523
+   "workers": 70464,
+   "workers_other_states": 1568
   },
   "0827535": {
    "jobs_30min": 571,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.125,
-    "workers": 17
+    "share": 0.098,
+    "workers": 13
    },
-   "workers": 136
+   "workers": 132,
+   "workers_other_states": 7
   },
   "0827700": {
    "jobs_30min": 90014,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.136,
-    "workers": 692
+    "share": 0.133,
+    "workers": 653
    },
-   "workers": 5100
+   "workers": 4895,
+   "workers_other_states": 77
   },
   "0827810": {
    "jobs_30min": 12166,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.06,
-    "workers": 370
+    "share": 0.057,
+    "workers": 339
    },
-   "workers": 6205
+   "workers": 5969,
+   "workers_other_states": 146
   },
   "0827865": {
    "jobs_30min": 261655,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.482,
-    "workers": 5631
+    "share": 0.477,
+    "workers": 5325
    },
-   "workers": 11672
+   "workers": 11156,
+   "workers_other_states": 159
   },
   "0827950": {
    "jobs_30min": 1263436,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.4,
-    "workers": 4344
+    "share": 0.39,
+    "workers": 3969
    },
-   "workers": 10851
+   "workers": 10173,
+   "workers_other_states": 172
   },
   "0827975": {
    "jobs_30min": 2216,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.145,
-    "workers": 72
+    "share": 0.13,
+    "workers": 64
    },
-   "workers": 496
+   "workers": 492,
+   "workers_other_states": 34
   },
   "0828105": {
    "jobs_30min": 1127706,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.256,
-    "workers": 110
+    "share": 0.254,
+    "workers": 105
    },
-   "workers": 429
+   "workers": 413,
+   "workers_other_states": 5
   },
   "0828250": {
    "jobs_30min": 117935,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.227,
-    "workers": 53
+    "share": 0.233,
+    "workers": 52
    },
-   "workers": 233
+   "workers": 223,
+   "workers_other_states": 1
   },
   "0828305": {
    "jobs_30min": 3750,
    "top_workplace": {
     "geoid": "0885705",
     "name": "Winter Park (town)",
-    "share": 0.301,
-    "workers": 231
+    "share": 0.298,
+    "workers": 202
    },
-   "workers": 767
+   "workers": 678,
+   "workers_other_states": 7
   },
   "0828360": {
    "jobs_30min": 279569,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.141,
-    "workers": 1450
+    "share": 0.139,
+    "workers": 1379
    },
-   "workers": 10271
+   "workers": 9933,
+   "workers_other_states": 205
   },
   "0828690": {
    "jobs_30min": 23924,
    "top_workplace": {
-    "geoid": "0808400",
-    "name": "Breckenridge (town)",
-    "share": 0.118,
-    "workers": 186
+    "geoid": "0817150",
+    "name": "Copper Mountain (CDP)",
+    "share": 0.108,
+    "workers": 151
    },
-   "workers": 1575
+   "workers": 1394,
+   "workers_other_states": 17
   },
   "0828745": {
    "jobs_30min": 63589,
    "top_workplace": {
     "geoid": "0831660",
     "name": "Grand Junction (city)",
-    "share": 0.577,
-    "workers": 3508
+    "share": 0.569,
+    "workers": 3328
    },
-   "workers": 6084
+   "workers": 5847,
+   "workers_other_states": 118
   },
   "0828800": {
    "jobs_30min": 64030,
    "top_workplace": {
     "geoid": "0831660",
     "name": "Grand Junction (city)",
-    "share": 0.657,
-    "workers": 2361
+    "share": 0.65,
+    "workers": 2220
    },
-   "workers": 3595
+   "workers": 3418,
+   "workers_other_states": 65
   },
   "0828830": {
    "jobs_30min": 21
@@ -1930,130 +2102,143 @@
    "top_workplace": {
     "geoid": "0832155",
     "name": "Greeley (city)",
-    "share": 0.389,
-    "workers": 44
+    "share": 0.379,
+    "workers": 39
    },
-   "workers": 113
+   "workers": 103,
+   "workers_other_states": 0
   },
   "0829240": {
    "jobs_30min": 134,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.178,
+    "share": 0.17,
     "workers": 8
    },
-   "workers": 45
+   "workers": 47,
+   "workers_other_states": 3
   },
   "0829295": {
    "jobs_30min": 5251,
    "top_workplace": {
     "geoid": "0867280",
     "name": "Salida (city)",
-    "share": 0.333,
-    "workers": 4
+    "share": 0.273,
+    "workers": 3
    },
-   "workers": 12
+   "workers": 11,
+   "workers_other_states": 0
   },
   "0829625": {
    "jobs_30min": 223108,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.266,
-    "workers": 422
+    "share": 0.261,
+    "workers": 396
    },
-   "workers": 1585
+   "workers": 1518,
+   "workers_other_states": 26
   },
   "0829680": {
    "jobs_30min": 2201,
    "top_workplace": {
     "geoid": "0844980",
     "name": "Limon (town)",
-    "share": 0.313,
-    "workers": 21
+    "share": 0.262,
+    "workers": 17
    },
-   "workers": 67
+   "workers": 65,
+   "workers_other_states": 3
   },
   "0829735": {
    "jobs_30min": 3352,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.108,
-    "workers": 56
+    "share": 0.106,
+    "workers": 51
    },
-   "workers": 517
+   "workers": 482,
+   "workers_other_states": 12
   },
   "0829845": {
    "jobs_30min": 1227,
    "top_workplace": {
     "geoid": "0872395",
     "name": "South Fork (town)",
-    "share": 0.113,
+    "share": 0.108,
     "workers": 7
    },
-   "workers": 62
+   "workers": 65,
+   "workers_other_states": 5
   },
   "0829955": {
    "jobs_30min": 14226,
    "top_workplace": {
     "geoid": "0832155",
     "name": "Greeley (city)",
-    "share": 0.147,
-    "workers": 73
+    "share": 0.145,
+    "workers": 69
    },
-   "workers": 495
+   "workers": 476,
+   "workers_other_states": 11
   },
   "0830340": {
    "jobs_30min": 1384284,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.478,
-    "workers": 1263
+    "share": 0.473,
+    "workers": 1184
    },
-   "workers": 2645
+   "workers": 2503,
+   "workers_other_states": 40
   },
   "0830350": {
    "jobs_30min": 107876,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.273,
-    "workers": 9
+    "share": 0.276,
+    "workers": 8
    },
-   "workers": 33
+   "workers": 29,
+   "workers_other_states": 0
   },
   "0830420": {
    "jobs_30min": 254468,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.513,
-    "workers": 1285
+    "share": 0.507,
+    "workers": 1205
    },
-   "workers": 2503
+   "workers": 2375,
+   "workers_other_states": 36
   },
   "0830780": {
    "jobs_30min": 18674,
    "top_workplace": {
     "geoid": "0803620",
     "name": "Aspen (city)",
-    "share": 0.084,
-    "workers": 497
+    "share": 0.08,
+    "workers": 442
    },
-   "workers": 5945
+   "workers": 5504,
+   "workers_other_states": 96
   },
   "0830835": {
    "jobs_30min": 958518,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.245,
-    "workers": 2312
+    "share": 0.242,
+    "workers": 2181
    },
-   "workers": 9456
+   "workers": 9004,
+   "workers_other_states": 150
   },
   "0830890": {
    "jobs_30min": 2496,
@@ -2063,217 +2248,239 @@
     "share": 0.44,
     "workers": 11
    },
-   "workers": 25
+   "workers": 25,
+   "workers_other_states": 1
   },
   "0830945": {
    "jobs_30min": 694,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.244,
-    "workers": 21
+    "share": 0.241,
+    "workers": 20
    },
-   "workers": 86
+   "workers": 83,
+   "workers_other_states": 2
   },
   "0831550": {
    "jobs_30min": 3693,
    "top_workplace": {
     "geoid": "0843110",
     "name": "Lamar (city)",
-    "share": 0.393,
-    "workers": 68
+    "share": 0.382,
+    "workers": 65
    },
-   "workers": 173
+   "workers": 170,
+   "workers_other_states": 8
   },
   "0831605": {
    "jobs_30min": 2710,
    "top_workplace": {
     "geoid": "0885705",
     "name": "Winter Park (town)",
-    "share": 0.129,
-    "workers": 105
+    "share": 0.118,
+    "workers": 91
    },
-   "workers": 817
+   "workers": 774,
+   "workers_other_states": 21
   },
   "0831660": {
    "jobs_30min": 64176,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.033,
-    "workers": 937
+    "share": 0.032,
+    "workers": 880
    },
-   "workers": 28526
+   "workers": 27217,
+   "workers_other_states": 626
   },
   "0831715": {
    "jobs_30min": 1011,
    "top_workplace": {
     "geoid": "0831605",
     "name": "Granby (town)",
-    "share": 0.092,
-    "workers": 17
+    "share": 0.082,
+    "workers": 14
    },
-   "workers": 184
+   "workers": 171,
+   "workers_other_states": 4
   },
   "0831935": {
    "jobs_30min": 570979,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.242,
-    "workers": 97
+    "share": 0.24,
+    "workers": 92
    },
-   "workers": 401
+   "workers": 384,
+   "workers_other_states": 6
   },
   "0832155": {
    "jobs_30min": 81716,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.083,
-    "workers": 4479
+    "share": 0.081,
+    "workers": 4158
    },
-   "workers": 53783
+   "workers": 51645,
+   "workers_other_states": 1273
   },
   "0832650": {
    "jobs_30min": 6586,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.442,
-    "workers": 123
+    "share": 0.438,
+    "workers": 117
    },
-   "workers": 278
+   "workers": 267,
+   "workers_other_states": 1
   },
   "0833035": {
    "jobs_30min": 1275125,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.328,
-    "workers": 2537
+    "share": 0.325,
+    "workers": 2394
    },
-   "workers": 7744
+   "workers": 7367,
+   "workers_other_states": 89
   },
   "0833310": {
    "jobs_30min": 46,
    "top_workplace": {
     "geoid": "0827425",
     "name": "Fort Collins (city)",
-    "share": 0.159,
+    "share": 0.167,
     "workers": 11
    },
-   "workers": 69
+   "workers": 66,
+   "workers_other_states": 2
   },
   "0833420": {
    "jobs_30min": 36,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.139,
-    "workers": 5
+    "share": 0.118,
+    "workers": 4
    },
-   "workers": 36
+   "workers": 34,
+   "workers_other_states": 3
   },
   "0833502": {
    "jobs_30min": 305213,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.406,
-    "workers": 1696
+    "share": 0.402,
+    "workers": 1610
    },
-   "workers": 4180
+   "workers": 4008,
+   "workers_other_states": 56
   },
   "0833640": {
    "jobs_30min": 4399,
    "top_workplace": {
     "geoid": "0818310",
     "name": "Crested Butte (town)",
-    "share": 0.087,
-    "workers": 324
+    "share": 0.082,
+    "workers": 277
    },
-   "workers": 3743
+   "workers": 3375,
+   "workers_other_states": 37
   },
   "0833695": {
    "jobs_30min": 7379,
    "top_workplace": {
     "geoid": "0822200",
     "name": "Eagle (town)",
-    "share": 0.187,
-    "workers": 599
+    "share": 0.181,
+    "workers": 529
    },
-   "workers": 3210
+   "workers": 2923,
+   "workers_other_states": 48
   },
   "0834520": {
    "jobs_30min": 511,
    "top_workplace": {
     "geoid": "0843110",
     "name": "Lamar (city)",
-    "share": 0.25,
+    "share": 0.286,
     "workers": 4
    },
-   "workers": 16
+   "workers": 14,
+   "workers_other_states": 1
   },
   "0834630": {
    "jobs_30min": 778,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.143,
+    "share": 0.154,
     "workers": 2
    },
-   "workers": 14
+   "workers": 13,
+   "workers_other_states": 0
   },
   "0834685": {
    "jobs_30min": 4089,
    "top_workplace": {
     "geoid": "0843660",
     "name": "Las Animas (city)",
-    "share": 0.136,
+    "share": 0.148,
     "workers": 8
    },
-   "workers": 59
+   "workers": 54,
+   "workers_other_states": 2
   },
   "0834740": {
    "jobs_30min": 322,
    "top_workplace": {
     "geoid": "0822145",
     "name": "Eads (town)",
-    "share": 0.357,
-    "workers": 10
+    "share": 0.281,
+    "workers": 9
    },
-   "workers": 28
+   "workers": 32,
+   "workers_other_states": 5
   },
   "0834960": {
    "jobs_30min": 1363,
    "top_workplace": {
     "geoid": "0873935",
     "name": "Sterling (city)",
-    "share": 0.097,
-    "workers": 46
+    "share": 0.086,
+    "workers": 38
    },
-   "workers": 472
+   "workers": 444,
+   "workers_other_states": 24
   },
   "0835070": {
    "jobs_30min": 3995,
    "top_workplace": {
     "geoid": "0873825",
     "name": "Steamboat Springs (city)",
-    "share": 0.392,
-    "workers": 361
+    "share": 0.377,
+    "workers": 323
    },
-   "workers": 921
+   "workers": 856,
+   "workers_other_states": 29
   },
   "0835400": {
    "jobs_30min": 733,
    "top_workplace": {
     "geoid": "0808400",
     "name": "Breckenridge (town)",
-    "share": 0.109,
-    "workers": 5
+    "share": 0.081,
+    "workers": 3
    },
-   "workers": 46
+   "workers": 37,
+   "workers_other_states": 0
   },
   "0835860": {
    "jobs_30min": 1015,
@@ -2283,97 +2490,107 @@
     "share": 0.375,
     "workers": 3
    },
-   "workers": 8
+   "workers": 8,
+   "workers_other_states": 0
   },
   "0836410": {
    "jobs_30min": 425583,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.236,
-    "workers": 12989
+    "share": 0.233,
+    "workers": 12308
    },
-   "workers": 55126
+   "workers": 52846,
+   "workers_other_states": 801
   },
   "0836610": {
    "jobs_30min": 11338,
    "top_workplace": {
     "geoid": "0809555",
     "name": "Brush (city)",
-    "share": 0.176,
-    "workers": 29
+    "share": 0.173,
+    "workers": 27
    },
-   "workers": 165
+   "workers": 156,
+   "workers_other_states": 5
   },
   "0836940": {
    "jobs_30min": 3377,
    "top_workplace": {
     "geoid": "0878610",
     "name": "Trinidad (city)",
-    "share": 0.344,
-    "workers": 11
+    "share": 0.312,
+    "workers": 10
    },
-   "workers": 32
+   "workers": 32,
+   "workers_other_states": 1
   },
   "0837215": {
    "jobs_30min": 564,
    "top_workplace": {
     "geoid": "0843110",
     "name": "Lamar (city)",
-    "share": 0.116,
-    "workers": 26
+    "share": 0.106,
+    "workers": 25
    },
-   "workers": 224
+   "workers": 235,
+   "workers_other_states": 33
   },
   "0837220": {
    "jobs_30min": 1468697,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.397,
-    "workers": 518
+    "share": 0.389,
+    "workers": 481
    },
-   "workers": 1306
+   "workers": 1238,
+   "workers_other_states": 22
   },
   "0837270": {
    "jobs_30min": 1701,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.042,
-    "workers": 41
+    "share": 0.04,
+    "workers": 39
    },
-   "workers": 969
+   "workers": 974,
+   "workers_other_states": 65
   },
   "0837380": {
    "jobs_30min": 8257,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.146,
+    "share": 0.167,
     "workers": 6
    },
-   "workers": 41
+   "workers": 36,
+   "workers_other_states": 1
   },
   "0837545": {
    "jobs_30min": 6870,
    "top_workplace": {
     "geoid": "0819850",
     "name": "Delta (city)",
-    "share": 0.093,
-    "workers": 27
+    "share": 0.091,
+    "workers": 25
    },
-   "workers": 289
+   "workers": 275,
+   "workers_other_states": 13
   },
   "0837600": {
    "jobs_30min": 2402,
    "top_workplace": {
     "geoid": "0885705",
     "name": "Winter Park (town)",
-    "share": 0.174,
-    "workers": 42
+    "share": 0.156,
+    "workers": 36
    },
-   "workers": 242
+   "workers": 231,
+   "workers_other_states": 11
   },
   "0837655": {
    "jobs_30min": 4980,
@@ -2381,9 +2598,10 @@
     "geoid": "0867280",
     "name": "Salida (city)",
     "share": 0.183,
-    "workers": 64
+    "workers": 60
    },
-   "workers": 350
+   "workers": 327,
+   "workers_other_states": 4
   },
   "0837820": {
    "jobs_30min": 71662,
@@ -2391,159 +2609,175 @@
     "geoid": "0820000",
     "name": "Denver (city)",
     "share": 0.163,
-    "workers": 156
+    "workers": 151
    },
-   "workers": 956
+   "workers": 925,
+   "workers_other_states": 20
   },
   "0837875": {
    "jobs_30min": 1930,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.082,
-    "workers": 27
+    "share": 0.074,
+    "workers": 23
    },
-   "workers": 331
+   "workers": 309,
+   "workers_other_states": 12
   },
   "0838370": {
    "jobs_30min": 13826,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.147,
-    "workers": 126
+    "share": 0.153,
+    "workers": 120
    },
-   "workers": 856
+   "workers": 784,
+   "workers_other_states": 10
   },
   "0838425": {
    "jobs_30min": 93,
    "top_workplace": {
     "geoid": "0886310",
     "name": "Wray (city)",
-    "share": 0.514,
+    "share": 0.528,
     "workers": 19
    },
-   "workers": 37
+   "workers": 36,
+   "workers_other_states": 0
   },
   "0838480": {
    "jobs_30min": 220777,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.256,
-    "workers": 30
+    "share": 0.241,
+    "workers": 26
    },
-   "workers": 117
+   "workers": 108,
+   "workers_other_states": 1
   },
   "0838535": {
    "jobs_30min": 3180,
    "top_workplace": {
     "geoid": "0822035",
     "name": "Durango (city)",
-    "share": 0.265,
-    "workers": 66
+    "share": 0.247,
+    "workers": 64
    },
-   "workers": 249
+   "workers": 259,
+   "workers_other_states": 23
   },
   "0838590": {
    "jobs_30min": 5302,
    "top_workplace": {
     "geoid": "0873935",
     "name": "Sterling (city)",
-    "share": 0.24,
-    "workers": 29
+    "share": 0.239,
+    "workers": 26
    },
-   "workers": 121
+   "workers": 109,
+   "workers_other_states": 1
   },
   "0838810": {
    "jobs_30min": 292305,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.226,
-    "workers": 136
+    "share": 0.215,
+    "workers": 123
    },
-   "workers": 603
+   "workers": 572,
+   "workers_other_states": 5
   },
   "0838910": {
    "jobs_30min": 1276606,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.265,
-    "workers": 298
+    "share": 0.261,
+    "workers": 279
    },
-   "workers": 1125
+   "workers": 1069,
+   "workers_other_states": 13
   },
   "0839160": {
    "jobs_30min": 0,
    "top_workplace": {
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
-    "share": 0.222,
-    "workers": 12
+    "share": 0.22,
+    "workers": 11
    },
-   "workers": 54
+   "workers": 50,
+   "workers_other_states": 1
   },
   "0839195": {
    "jobs_30min": 97386,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.239,
-    "workers": 27
+    "share": 0.225,
+    "workers": 23
    },
-   "workers": 113
+   "workers": 102,
+   "workers_other_states": 1
   },
   "0839250": {
    "jobs_30min": 3818,
    "top_workplace": {
     "geoid": "0878610",
     "name": "Trinidad (city)",
-    "share": 0.405,
-    "workers": 17
+    "share": 0.378,
+    "workers": 14
    },
-   "workers": 42
+   "workers": 37,
+   "workers_other_states": 1
   },
   "0839745": {
    "jobs_30min": 100,
    "top_workplace": {
     "geoid": "0886750",
     "name": "Yuma (city)",
-    "share": 0.529,
-    "workers": 18
+    "share": 0.531,
+    "workers": 17
    },
-   "workers": 34
+   "workers": 32,
+   "workers_other_states": 1
   },
   "0839800": {
    "jobs_30min": 3111,
    "top_workplace": {
     "geoid": "0810105",
     "name": "Buena Vista (town)",
-    "share": 0.278,
-    "workers": 35
+    "share": 0.283,
+    "workers": 32
    },
-   "workers": 126
+   "workers": 113,
+   "workers_other_states": 0
   },
   "0839855": {
    "jobs_30min": 272055,
    "top_workplace": {
     "geoid": "0846465",
     "name": "Loveland (city)",
-    "share": 0.119,
-    "workers": 1173
+    "share": 0.116,
+    "workers": 1101
    },
-   "workers": 9871
+   "workers": 9478,
+   "workers_other_states": 163
   },
   "0839965": {
    "jobs_30min": 453,
    "top_workplace": {
     "geoid": "0856475",
     "name": "Ovid (town)",
-    "share": 0.071,
+    "share": 0.069,
     "workers": 33
    },
-   "workers": 463
+   "workers": 478,
+   "workers_other_states": 57
   },
   "0840185": {
    "jobs_30min": 27175,
@@ -2551,19 +2785,21 @@
     "geoid": "0820000",
     "name": "Denver (city)",
     "share": 0.132,
-    "workers": 93
+    "workers": 91
    },
-   "workers": 704
+   "workers": 687,
+   "workers_other_states": 16
   },
   "0840377": {
    "jobs_30min": 482974,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.235,
-    "workers": 4400
+    "share": 0.233,
+    "workers": 4161
    },
-   "workers": 18721
+   "workers": 17840,
+   "workers_other_states": 232
   },
   "0840515": {
    "jobs_30min": 59227,
@@ -2571,139 +2807,153 @@
     "geoid": "0832155",
     "name": "Greeley (city)",
     "share": 0.19,
-    "workers": 141
+    "workers": 134
    },
-   "workers": 744
+   "workers": 705,
+   "workers_other_states": 19
   },
   "0840550": {
    "jobs_30min": 23705,
    "top_workplace": {
     "geoid": "0808400",
     "name": "Breckenridge (town)",
-    "share": 0.119,
-    "workers": 123
+    "share": 0.104,
+    "workers": 95
    },
-   "workers": 1037
+   "workers": 911,
+   "workers_other_states": 9
   },
   "0840570": {
    "jobs_30min": 27,
    "top_workplace": {
     "geoid": "0878610",
     "name": "Trinidad (city)",
-    "share": 0.286,
+    "share": 0.3,
     "workers": 6
    },
-   "workers": 21
+   "workers": 20,
+   "workers_other_states": 1
   },
   "0840790": {
    "jobs_30min": 5705,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.125,
-    "workers": 52
+    "share": 0.127,
+    "workers": 50
    },
-   "workers": 415
+   "workers": 395,
+   "workers_other_states": 6
   },
   "0840900": {
    "jobs_30min": 100,
    "top_workplace": {
     "geoid": "0886750",
     "name": "Yuma (city)",
-    "share": 0.353,
+    "share": 0.316,
     "workers": 6
    },
-   "workers": 17
+   "workers": 19,
+   "workers_other_states": 2
   },
   "0841010": {
    "jobs_30min": 388,
    "top_workplace": {
     "geoid": "0814175",
     "name": "Cheyenne Wells (town)",
-    "share": 0.253,
-    "workers": 23
+    "share": 0.244,
+    "workers": 22
    },
-   "workers": 91
+   "workers": 90,
+   "workers_other_states": 7
   },
   "0841065": {
    "jobs_30min": 34073,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.229,
-    "workers": 147
+    "share": 0.227,
+    "workers": 140
    },
-   "workers": 643
+   "workers": 617,
+   "workers_other_states": 10
   },
   "0841560": {
    "jobs_30min": 1092,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.055,
-    "workers": 38
+    "share": 0.054,
+    "workers": 34
    },
-   "workers": 685
+   "workers": 629,
+   "workers_other_states": 11
   },
   "0841835": {
    "jobs_30min": 452132,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.235,
-    "workers": 3263
+    "share": 0.232,
+    "workers": 3086
    },
-   "workers": 13906
+   "workers": 13318,
+   "workers_other_states": 246
   },
   "0842000": {
    "jobs_30min": 1681,
    "top_workplace": {
     "geoid": "0886310",
     "name": "Wray (city)",
-    "share": 0.5,
+    "share": 0.471,
     "workers": 8
    },
-   "workers": 16
+   "workers": 17,
+   "workers_other_states": 2
   },
   "0842055": {
    "jobs_30min": 7751,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.257,
-    "workers": 62
+    "share": 0.252,
+    "workers": 60
    },
-   "workers": 241
+   "workers": 238,
+   "workers_other_states": 15
   },
   "0842110": {
    "jobs_30min": 5553,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.066,
-    "workers": 183
+    "share": 0.061,
+    "workers": 163
    },
-   "workers": 2768
+   "workers": 2690,
+   "workers_other_states": 108
   },
   "0842165": {
    "jobs_30min": 5071,
    "top_workplace": {
     "geoid": "0842110",
     "name": "La Junta (city)",
-    "share": 0.224,
-    "workers": 11
+    "share": 0.208,
+    "workers": 10
    },
-   "workers": 49
+   "workers": 48,
+   "workers_other_states": 4
   },
   "0842330": {
    "jobs_30min": 249,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.053,
-    "workers": 11
+    "share": 0.052,
+    "workers": 10
    },
-   "workers": 208
+   "workers": 193,
+   "workers_other_states": 4
   },
   "0842495": {
    "jobs_30min": 1436114,
@@ -2713,17 +2963,19 @@
     "share": 0.077,
     "workers": 1
    },
-   "workers": 13
+   "workers": 13,
+   "workers_other_states": 0
   },
   "0843000": {
    "jobs_30min": 1139772,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.304,
-    "workers": 24225
+    "share": 0.299,
+    "workers": 22727
    },
-   "workers": 79647
+   "workers": 75905,
+   "workers_other_states": 1180
   },
   "0843110": {
    "jobs_30min": 4153,
@@ -2731,209 +2983,230 @@
     "geoid": "0820000",
     "name": "Denver (city)",
     "share": 0.042,
-    "workers": 144
+    "workers": 135
    },
-   "workers": 3404
+   "workers": 3222,
+   "workers_other_states": 99
   },
   "0843220": {
    "jobs_30min": 102353,
    "top_workplace": {
     "geoid": "0827425",
     "name": "Fort Collins (city)",
-    "share": 0.34,
-    "workers": 354
+    "share": 0.335,
+    "workers": 338
    },
-   "workers": 1042
+   "workers": 1010,
+   "workers_other_states": 23
   },
   "0843550": {
    "jobs_30min": 84390,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.22,
-    "workers": 24
+    "share": 0.217,
+    "workers": 23
    },
-   "workers": 109
+   "workers": 106,
+   "workers_other_states": 1
   },
   "0843605": {
    "jobs_30min": 59535,
    "top_workplace": {
     "geoid": "0832155",
     "name": "Greeley (city)",
-    "share": 0.192,
-    "workers": 233
+    "share": 0.186,
+    "workers": 216
    },
-   "workers": 1216
+   "workers": 1160,
+   "workers_other_states": 21
   },
   "0843660": {
    "jobs_30min": 4111,
    "top_workplace": {
     "geoid": "0842110",
     "name": "La Junta (city)",
-    "share": 0.083,
-    "workers": 54
+    "share": 0.078,
+    "workers": 49
    },
-   "workers": 648
+   "workers": 632,
+   "workers_other_states": 31
   },
   "0844100": {
    "jobs_30min": 216,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.139,
-    "workers": 36
+    "share": 0.132,
+    "workers": 33
    },
-   "workers": 259
+   "workers": 250,
+   "workers_other_states": 14
   },
   "0844265": {
    "jobs_30min": 6464,
    "top_workplace": {
     "geoid": "0837545",
     "name": "Hotchkiss (town)",
-    "share": 0.127,
+    "share": 0.125,
     "workers": 8
    },
-   "workers": 63
+   "workers": 64,
+   "workers_other_states": 4
   },
   "0844270": {
    "jobs_30min": 111281,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.36,
-    "workers": 143
+    "share": 0.354,
+    "workers": 135
    },
-   "workers": 397
+   "workers": 381,
+   "workers_other_states": 6
   },
   "0844320": {
    "jobs_30min": 2064,
    "top_workplace": {
     "geoid": "0817150",
     "name": "Copper Mountain (CDP)",
-    "share": 0.066,
-    "workers": 121
+    "share": 0.068,
+    "workers": 112
    },
-   "workers": 1839
+   "workers": 1659,
+   "workers_other_states": 16
   },
   "0844375": {
    "jobs_30min": 2064,
    "top_workplace": {
     "geoid": "0844320",
     "name": "Leadville (city)",
-    "share": 0.127,
-    "workers": 200
+    "share": 0.124,
+    "workers": 181
    },
-   "workers": 1575
+   "workers": 1460,
+   "workers_other_states": 18
   },
   "0844595": {
    "jobs_30min": 7181,
    "top_workplace": {
     "geoid": "0817375",
     "name": "Cortez (city)",
-    "share": 0.375,
-    "workers": 36
+    "share": 0.323,
+    "workers": 31
    },
-   "workers": 96
+   "workers": 96,
+   "workers_other_states": 9
   },
   "0844695": {
    "jobs_30min": 369374,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.238,
-    "workers": 5
+    "share": 0.211,
+    "workers": 4
    },
-   "workers": 21
+   "workers": 19,
+   "workers_other_states": 0
   },
   "0844980": {
    "jobs_30min": 2060,
    "top_workplace": {
     "geoid": "0837875",
     "name": "Hugo (town)",
-    "share": 0.095,
-    "workers": 75
+    "share": 0.094,
+    "workers": 70
    },
-   "workers": 792
+   "workers": 743,
+   "workers_other_states": 19
   },
   "0845145": {
    "jobs_30min": 10622,
    "top_workplace": {
     "geoid": "0811810",
     "name": "Cañon City (city)",
-    "share": 0.346,
-    "workers": 549
+    "share": 0.344,
+    "workers": 522
    },
-   "workers": 1585
+   "workers": 1519,
+   "workers_other_states": 26
   },
   "0845255": {
    "jobs_30min": 1286248,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.268,
-    "workers": 6339
+    "share": 0.265,
+    "workers": 5969
    },
-   "workers": 23642
+   "workers": 22552,
+   "workers_other_states": 334
   },
   "0845530": {
    "jobs_30min": 70970,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.182,
-    "workers": 758
+    "share": 0.178,
+    "workers": 717
    },
-   "workers": 4176
+   "workers": 4035,
+   "workers_other_states": 76
   },
   "0845680": {
    "jobs_30min": 1353,
    "top_workplace": {
     "geoid": "0851745",
     "name": "Montrose (city)",
-    "share": 0.169,
-    "workers": 59
+    "share": 0.176,
+    "workers": 57
    },
-   "workers": 350
+   "workers": 323,
+   "workers_other_states": 3
   },
   "0845695": {
    "jobs_30min": 12653,
    "top_workplace": {
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
-    "share": 0.316,
-    "workers": 187
+    "share": 0.319,
+    "workers": 180
    },
-   "workers": 591
+   "workers": 564,
+   "workers_other_states": 10
   },
   "0845750": {
    "jobs_30min": 58437,
    "top_workplace": {
     "geoid": "0831660",
     "name": "Grand Junction (city)",
-    "share": 0.522,
-    "workers": 269
+    "share": 0.527,
+    "workers": 260
    },
-   "workers": 515
+   "workers": 493,
+   "workers_other_states": 8
   },
   "0845955": {
    "jobs_30min": 1158918,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.236,
-    "workers": 1796
+    "share": 0.233,
+    "workers": 1695
    },
-   "workers": 7597
+   "workers": 7277,
+   "workers_other_states": 106
   },
   "0845970": {
    "jobs_30min": 253609,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.18,
-    "workers": 8430
+    "share": 0.181,
+    "workers": 8060
    },
-   "workers": 46752
+   "workers": 44630,
+   "workers_other_states": 673
   },
   "0846355": {
    "jobs_30min": 414939,
@@ -2941,29 +3214,32 @@
     "geoid": "0807850",
     "name": "Boulder (city)",
     "share": 0.218,
-    "workers": 2256
+    "workers": 2157
    },
-   "workers": 10327
+   "workers": 9880,
+   "workers_other_states": 140
   },
   "0846410": {
    "jobs_30min": 287003,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.25,
-    "workers": 69
+    "share": 0.245,
+    "workers": 66
    },
-   "workers": 276
+   "workers": 269,
+   "workers_other_states": 5
   },
   "0846465": {
    "jobs_30min": 212397,
    "top_workplace": {
     "geoid": "0827425",
     "name": "Fort Collins (city)",
-    "share": 0.193,
-    "workers": 6923
+    "share": 0.189,
+    "workers": 6536
    },
-   "workers": 35883
+   "workers": 34558,
+   "workers_other_states": 782
   },
   "0847015": {
    "jobs_30min": 4187,
@@ -2973,207 +3249,228 @@
     "share": 0.5,
     "workers": 1
    },
-   "workers": 2
+   "workers": 2,
+   "workers_other_states": 0
   },
   "0847070": {
    "jobs_30min": 147022,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.235,
-    "workers": 199
+    "share": 0.237,
+    "workers": 193
    },
-   "workers": 847
+   "workers": 816,
+   "workers_other_states": 17
   },
   "0847235": {
    "jobs_30min": 4346,
    "top_workplace": {
     "geoid": "0843660",
     "name": "Las Animas (city)",
-    "share": 0.22,
+    "share": 0.209,
     "workers": 9
    },
-   "workers": 41
+   "workers": 43,
+   "workers_other_states": 2
   },
   "0847345": {
    "jobs_30min": 1,
    "top_workplace": {
     "geoid": "0822200",
     "name": "Eagle (town)",
-    "share": 0.231,
+    "share": 0.222,
     "workers": 6
    },
-   "workers": 26
+   "workers": 27,
+   "workers_other_states": 1
   },
   "0848060": {
    "jobs_30min": 1403,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.174,
-    "workers": 42
+    "share": 0.155,
+    "workers": 37
    },
-   "workers": 241
+   "workers": 239,
+   "workers_other_states": 19
   },
   "0848115": {
    "jobs_30min": 7857,
    "top_workplace": {
     "geoid": "0817375",
     "name": "Cortez (city)",
-    "share": 0.158,
-    "workers": 68
+    "share": 0.146,
+    "workers": 62
    },
-   "workers": 431
+   "workers": 426,
+   "workers_other_states": 33
   },
   "0848445": {
    "jobs_30min": 265041,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.513,
-    "workers": 1054
+    "share": 0.509,
+    "workers": 1002
    },
-   "workers": 2055
+   "workers": 1967,
+   "workers_other_states": 30
   },
   "0848500": {
    "jobs_30min": 5569,
    "top_workplace": {
     "geoid": "0842110",
     "name": "La Junta (city)",
-    "share": 0.169,
-    "workers": 27
+    "share": 0.158,
+    "workers": 25
    },
-   "workers": 160
+   "workers": 158,
+   "workers_other_states": 11
   },
   "0848555": {
    "jobs_30min": 103,
    "top_workplace": {
     "geoid": "0804935",
     "name": "Basalt (town)",
-    "share": 0.08,
-    "workers": 6
+    "share": 0.074,
+    "workers": 5
    },
-   "workers": 75
+   "workers": 68,
+   "workers_other_states": 0
   },
   "0848940": {
    "jobs_30min": 0,
    "top_workplace": {
     "geoid": "0822035",
     "name": "Durango (city)",
-    "share": 0.543,
-    "workers": 19
+    "share": 0.5,
+    "workers": 17
    },
-   "workers": 35
+   "workers": 34,
+   "workers_other_states": 3
   },
   "0849215": {
    "jobs_30min": 2057,
    "top_workplace": {
     "geoid": "0804000",
     "name": "Aurora (city)",
-    "share": 0.118,
+    "share": 0.114,
     "workers": 4
    },
-   "workers": 34
+   "workers": 35,
+   "workers_other_states": 2
   },
   "0849325": {
    "jobs_30min": 2,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.118,
+    "share": 0.111,
     "workers": 2
    },
-   "workers": 17
+   "workers": 18,
+   "workers_other_states": 2
   },
   "0849490": {
    "jobs_30min": 5251,
    "top_workplace": {
     "geoid": "0867280",
     "name": "Salida (city)",
-    "share": 0.383,
-    "workers": 31
+    "share": 0.364,
+    "workers": 28
    },
-   "workers": 81
+   "workers": 77,
+   "workers_other_states": 3
   },
   "0849600": {
    "jobs_30min": 203507,
    "top_workplace": {
     "geoid": "0845970",
     "name": "Longmont (city)",
-    "share": 0.19,
-    "workers": 672
+    "share": 0.189,
+    "workers": 642
    },
-   "workers": 3530
+   "workers": 3396,
+   "workers_other_states": 47
   },
   "0849875": {
    "jobs_30min": 1638,
    "top_workplace": {
-    "geoid": "0830780",
-    "name": "Glenwood Springs (city)",
-    "share": 0.02,
-    "workers": 20
+    "geoid": "0831660",
+    "name": "Grand Junction (city)",
+    "share": 0.019,
+    "workers": 18
    },
-   "workers": 1008
+   "workers": 941,
+   "workers_other_states": 26
   },
   "0850012": {
    "jobs_30min": 1159965,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.225,
-    "workers": 588
+    "share": 0.223,
+    "workers": 558
    },
-   "workers": 2613
+   "workers": 2497,
+   "workers_other_states": 45
   },
   "0850026": {
    "jobs_30min": 1143249,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.247,
-    "workers": 409
+    "share": 0.244,
+    "workers": 392
    },
-   "workers": 1655
+   "workers": 1608,
+   "workers_other_states": 23
   },
   "0850040": {
    "jobs_30min": 6123,
    "top_workplace": {
     "geoid": "0873935",
     "name": "Sterling (city)",
-    "share": 0.276,
-    "workers": 37
+    "share": 0.25,
+    "workers": 33
    },
-   "workers": 134
+   "workers": 132,
+   "workers_other_states": 8
   },
   "0850380": {
    "jobs_30min": 7152,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.294,
-    "workers": 25
+    "share": 0.28,
+    "workers": 23
    },
-   "workers": 85
+   "workers": 82,
+   "workers_other_states": 1
   },
   "0850480": {
    "jobs_30min": 125749,
    "top_workplace": {
     "geoid": "0832155",
     "name": "Greeley (city)",
-    "share": 0.163,
-    "workers": 855
+    "share": 0.159,
+    "workers": 803
    },
-   "workers": 5234
+   "workers": 5053,
+   "workers_other_states": 97
   },
   "0850920": {
    "jobs_30min": 25572,
    "top_workplace": {
     "geoid": "0880040",
     "name": "Vail (town)",
-    "share": 0.164,
-    "workers": 118
+    "share": 0.16,
+    "workers": 103
    },
-   "workers": 718
+   "workers": 643,
+   "workers_other_states": 7
   },
   "0851250": {
    "jobs_30min": 844,
@@ -3183,227 +3480,250 @@
     "share": 0.16,
     "workers": 4
    },
-   "workers": 25
+   "workers": 25,
+   "workers_other_states": 2
   },
   "0851635": {
    "jobs_30min": 10728,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.185,
-    "workers": 335
+    "share": 0.182,
+    "workers": 316
    },
-   "workers": 1813
+   "workers": 1739,
+   "workers_other_states": 56
   },
   "0851690": {
    "jobs_30min": 8121,
    "top_workplace": {
     "geoid": "0840550",
     "name": "Keystone (CDP)",
-    "share": 0.157,
-    "workers": 8
+    "share": 0.163,
+    "workers": 7
    },
-   "workers": 51
+   "workers": 43,
+   "workers_other_states": 1
   },
   "0851745": {
    "jobs_30min": 14897,
    "top_workplace": {
     "geoid": "0831660",
     "name": "Grand Junction (city)",
-    "share": 0.062,
-    "workers": 545
+    "share": 0.059,
+    "workers": 501
    },
-   "workers": 8821
+   "workers": 8482,
+   "workers_other_states": 283
   },
   "0851800": {
    "jobs_30min": 275957,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.467,
-    "workers": 1897
+    "share": 0.464,
+    "workers": 1803
    },
-   "workers": 4058
+   "workers": 3886,
+   "workers_other_states": 52
   },
   "0851975": {
    "jobs_30min": 11549,
    "top_workplace": {
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
-    "share": 0.206,
-    "workers": 32
+    "share": 0.2,
+    "workers": 31
    },
-   "workers": 155
+   "workers": 155,
+   "workers_other_states": 8
   },
   "0852075": {
    "jobs_30min": 362049,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.184,
-    "workers": 29
+    "share": 0.18,
+    "workers": 27
    },
-   "workers": 158
+   "workers": 150,
+   "workers_other_states": 3
   },
   "0852210": {
    "jobs_30min": 92789,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.33,
-    "workers": 34
+    "share": 0.337,
+    "workers": 31
    },
-   "workers": 103
+   "workers": 92,
+   "workers_other_states": 1
   },
   "0852350": {
    "jobs_30min": 1444477,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.384,
-    "workers": 104
+    "share": 0.381,
+    "workers": 98
    },
-   "workers": 271
+   "workers": 257,
+   "workers_other_states": 1
   },
   "0852550": {
    "jobs_30min": 5833,
    "top_workplace": {
     "geoid": "0876795",
     "name": "Telluride (town)",
-    "share": 0.281,
-    "workers": 272
+    "share": 0.261,
+    "workers": 229
    },
-   "workers": 969
+   "workers": 878,
+   "workers_other_states": 34
   },
   "0852570": {
    "jobs_30min": 3581,
    "top_workplace": {
     "geoid": "0818310",
     "name": "Crested Butte (town)",
-    "share": 0.338,
-    "workers": 125
+    "share": 0.321,
+    "workers": 100
    },
-   "workers": 370
+   "workers": 312,
+   "workers_other_states": 2
   },
   "0852820": {
    "jobs_30min": 19464,
    "top_workplace": {
     "geoid": "0812045",
     "name": "Carbondale (town)",
-    "share": 0.196,
-    "workers": 27
+    "share": 0.191,
+    "workers": 25
    },
-   "workers": 138
+   "workers": 131,
+   "workers_other_states": 2
   },
   "0853010": {
    "jobs_30min": 7800,
    "top_workplace": {
     "geoid": "0810105",
     "name": "Buena Vista (town)",
-    "share": 0.292,
-    "workers": 35
+    "share": 0.288,
+    "workers": 32
    },
-   "workers": 120
+   "workers": 111,
+   "workers_other_states": 1
   },
   "0853120": {
    "jobs_30min": 321,
    "top_workplace": {
     "geoid": "0854935",
     "name": "Nucla (town)",
-    "share": 0.127,
-    "workers": 21
+    "share": 0.11,
+    "workers": 18
    },
-   "workers": 165
+   "workers": 163,
+   "workers_other_states": 8
   },
   "0853175": {
    "jobs_30min": 1709,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.185,
-    "workers": 124
+    "share": 0.193,
+    "workers": 119
    },
-   "workers": 669
+   "workers": 617,
+   "workers_other_states": 4
   },
   "0853395": {
    "jobs_30min": 17830,
    "top_workplace": {
     "geoid": "0830780",
     "name": "Glenwood Springs (city)",
-    "share": 0.276,
-    "workers": 649
+    "share": 0.274,
+    "workers": 604
    },
-   "workers": 2351
+   "workers": 2203,
+   "workers_other_states": 43
   },
   "0853780": {
    "jobs_30min": 255042,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.266,
-    "workers": 491
+    "share": 0.262,
+    "workers": 468
    },
-   "workers": 1848
+   "workers": 1783,
+   "workers_other_states": 30
   },
   "0853875": {
    "jobs_30min": 17185,
    "top_workplace": {
     "geoid": "0830780",
     "name": "Glenwood Springs (city)",
-    "share": 0.418,
-    "workers": 33
+    "share": 0.387,
+    "workers": 29
    },
-   "workers": 79
+   "workers": 75,
+   "workers_other_states": 1
   },
   "0853945": {
    "jobs_30min": 0,
    "top_workplace": {
-    "geoid": "0803620",
-    "name": "Aspen (city)",
-    "share": 0.286,
-    "workers": 2
+    "geoid": "0871755",
+    "name": "Snowmass Village (town)",
+    "share": 0.167,
+    "workers": 1
    },
-   "workers": 7
+   "workers": 6,
+   "workers_other_states": 0
   },
   "0854330": {
    "jobs_30min": 1144187,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.228,
-    "workers": 4361
+    "share": 0.227,
+    "workers": 4123
    },
-   "workers": 19117
+   "workers": 18130,
+   "workers_other_states": 206
   },
   "0854495": {
    "jobs_30min": 5553,
    "top_workplace": {
     "geoid": "0842110",
     "name": "La Junta (city)",
-    "share": 0.33,
-    "workers": 62
+    "share": 0.297,
+    "workers": 55
    },
-   "workers": 188
+   "workers": 185,
+   "workers_other_states": 11
   },
   "0854750": {
    "jobs_30min": 1436576,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.246,
-    "workers": 122
+    "share": 0.241,
+    "workers": 113
    },
-   "workers": 496
+   "workers": 468,
+   "workers_other_states": 5
   },
   "0854880": {
    "jobs_30min": 402,
    "top_workplace": {
     "geoid": "0876795",
     "name": "Telluride (town)",
-    "share": 0.231,
-    "workers": 58
+    "share": 0.213,
+    "workers": 50
    },
-   "workers": 251
+   "workers": 235,
+   "workers_other_states": 16
   },
   "0854935": {
    "jobs_30min": 321,
@@ -3411,259 +3731,285 @@
     "geoid": "0854880",
     "name": "Norwood (town)",
     "share": 0.112,
-    "workers": 23
+    "workers": 22
    },
-   "workers": 205
+   "workers": 197,
+   "workers_other_states": 7
   },
   "0855045": {
    "jobs_30min": 6318,
    "top_workplace": {
     "geoid": "0832155",
     "name": "Greeley (city)",
-    "share": 0.127,
-    "workers": 34
+    "share": 0.116,
+    "workers": 29
    },
-   "workers": 268
+   "workers": 249,
+   "workers_other_states": 8
   },
   "0855155": {
    "jobs_30min": 849,
    "top_workplace": {
     "geoid": "0873825",
     "name": "Steamboat Springs (city)",
-    "share": 0.475,
-    "workers": 184
+    "share": 0.445,
+    "workers": 161
    },
-   "workers": 387
+   "workers": 362,
+   "workers_other_states": 17
   },
   "0855540": {
    "jobs_30min": 19883,
    "top_workplace": {
     "geoid": "0851745",
     "name": "Montrose (city)",
-    "share": 0.341,
-    "workers": 200
+    "share": 0.324,
+    "workers": 191
    },
-   "workers": 586
+   "workers": 589,
+   "workers_other_states": 34
   },
   "0855705": {
    "jobs_30min": 2192,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.186,
-    "workers": 8
+    "share": 0.171,
+    "workers": 7
    },
-   "workers": 43
+   "workers": 41,
+   "workers_other_states": 2
   },
   "0855870": {
    "jobs_30min": 21,
    "top_workplace": {
     "geoid": "0876795",
     "name": "Telluride (town)",
-    "share": 0.452,
-    "workers": 57
+    "share": 0.422,
+    "workers": 46
    },
-   "workers": 126
+   "workers": 109,
+   "workers_other_states": 3
   },
   "0855925": {
    "jobs_30min": 0,
    "top_workplace": {
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
-    "share": 0.25,
+    "share": 0.259,
     "workers": 7
    },
-   "workers": 28
+   "workers": 27,
+   "workers_other_states": 0
   },
   "0855980": {
    "jobs_30min": 6586,
    "top_workplace": {
     "geoid": "0819850",
     "name": "Delta (city)",
-    "share": 0.209,
-    "workers": 207
+    "share": 0.196,
+    "workers": 187
    },
-   "workers": 989
+   "workers": 954,
+   "workers_other_states": 35
   },
   "0856035": {
    "jobs_30min": 64030,
    "top_workplace": {
     "geoid": "0831660",
     "name": "Grand Junction (city)",
-    "share": 0.644,
-    "workers": 1759
+    "share": 0.635,
+    "workers": 1662
    },
-   "workers": 2730
+   "workers": 2618,
+   "workers_other_states": 54
   },
   "0856145": {
    "jobs_30min": 1874,
    "top_workplace": {
-    "geoid": "0816000",
-    "name": "Colorado Springs (city)",
-    "share": 0.109,
-    "workers": 33
+    "geoid": "0842110",
+    "name": "La Junta (city)",
+    "share": 0.098,
+    "workers": 28
    },
-   "workers": 304
+   "workers": 285,
+   "workers_other_states": 11
   },
   "0856365": {
    "jobs_30min": 2200,
    "top_workplace": {
     "geoid": "0873935",
     "name": "Sterling (city)",
-    "share": 0.081,
-    "workers": 17
+    "share": 0.077,
+    "workers": 16
    },
-   "workers": 210
+   "workers": 207,
+   "workers_other_states": 9
   },
   "0856420": {
    "jobs_30min": 1918,
    "top_workplace": {
     "geoid": "0864200",
     "name": "Ridgway (town)",
-    "share": 0.243,
-    "workers": 93
+    "share": 0.24,
+    "workers": 85
    },
-   "workers": 382
+   "workers": 354,
+   "workers_other_states": 5
   },
   "0856475": {
    "jobs_30min": 576,
    "top_workplace": {
     "geoid": "0839965",
     "name": "Julesburg (town)",
-    "share": 0.267,
-    "workers": 20
+    "share": 0.205,
+    "workers": 16
    },
-   "workers": 75
+   "workers": 78,
+   "workers_other_states": 9
   },
   "0856695": {
    "jobs_30min": 121,
    "top_workplace": {
     "geoid": "0873935",
     "name": "Sterling (city)",
-    "share": 0.25,
-    "workers": 9
+    "share": 0.216,
+    "workers": 8
    },
-   "workers": 36
+   "workers": 37,
+   "workers_other_states": 4
   },
   "0856860": {
    "jobs_30min": 4670,
    "top_workplace": {
     "geoid": "0822035",
     "name": "Durango (city)",
-    "share": 0.036,
+    "share": 0.037,
     "workers": 19
    },
-   "workers": 535
+   "workers": 516,
+   "workers_other_states": 34
   },
   "0856970": {
    "jobs_30min": 64733,
    "top_workplace": {
     "geoid": "0831660",
     "name": "Grand Junction (city)",
-    "share": 0.504,
-    "workers": 483
+    "share": 0.508,
+    "workers": 464
    },
-   "workers": 958
+   "workers": 914,
+   "workers_other_states": 17
   },
   "0857025": {
    "jobs_30min": 13686,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.424,
-    "workers": 417
+    "share": 0.422,
+    "workers": 402
    },
-   "workers": 984
+   "workers": 952,
+   "workers_other_states": 19
   },
   "0857245": {
    "jobs_30min": 1364,
    "top_workplace": {
     "geoid": "0834960",
     "name": "Haxtun (town)",
-    "share": 0.4,
-    "workers": 16
+    "share": 0.405,
+    "workers": 15
    },
-   "workers": 40
+   "workers": 37,
+   "workers_other_states": 0
   },
   "0857300": {
    "jobs_30min": 1618,
    "top_workplace": {
     "geoid": "0819850",
     "name": "Delta (city)",
-    "share": 0.089,
-    "workers": 37
+    "share": 0.085,
+    "workers": 35
    },
-   "workers": 418
+   "workers": 410,
+   "workers_other_states": 15
   },
   "0857400": {
    "jobs_30min": 6518,
    "top_workplace": {
     "geoid": "0830780",
     "name": "Glenwood Springs (city)",
-    "share": 0.131,
-    "workers": 88
+    "share": 0.125,
+    "workers": 79
    },
-   "workers": 673
+   "workers": 632,
+   "workers_other_states": 17
   },
   "0857445": {
    "jobs_30min": 411621,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.269,
-    "workers": 104
+    "share": 0.255,
+    "workers": 94
    },
-   "workers": 387
+   "workers": 368,
+   "workers_other_states": 6
   },
   "0857465": {
    "jobs_30min": 10102,
    "top_workplace": {
     "geoid": "0811810",
     "name": "Cañon City (city)",
-    "share": 0.358,
-    "workers": 408
+    "share": 0.356,
+    "workers": 389
    },
-   "workers": 1139
+   "workers": 1092,
+   "workers_other_states": 19
   },
   "0857630": {
    "jobs_30min": 537086,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.214,
-    "workers": 7028
+    "share": 0.212,
+    "workers": 6660
    },
-   "workers": 32872
+   "workers": 31431,
+   "workers_other_states": 395
   },
   "0857850": {
    "jobs_30min": 1659,
    "top_workplace": {
     "geoid": "0841560",
     "name": "Kremmling (town)",
-    "share": 0.158,
+    "share": 0.167,
     "workers": 3
    },
-   "workers": 19
+   "workers": 18,
+   "workers_other_states": 0
   },
   "0858235": {
    "jobs_30min": 343,
    "top_workplace": {
     "geoid": "0873935",
     "name": "Sterling (city)",
-    "share": 0.25,
-    "workers": 26
+    "share": 0.219,
+    "workers": 23
    },
-   "workers": 104
+   "workers": 105,
+   "workers_other_states": 10
   },
   "0858400": {
    "jobs_30min": 15598,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.204,
-    "workers": 335
+    "share": 0.2,
+    "workers": 314
    },
-   "workers": 1640
+   "workers": 1570,
+   "workers_other_states": 22
   },
   "0858510": {
    "jobs_30min": 2118,
@@ -3673,7 +4019,8 @@
     "share": 0.253,
     "workers": 20
    },
-   "workers": 79
+   "workers": 79,
+   "workers_other_states": 3
   },
   "0858592": {
    "jobs_30min": 28448,
@@ -3681,99 +4028,109 @@
     "geoid": "0820000",
     "name": "Denver (city)",
     "share": 0.202,
-    "workers": 181
+    "workers": 175
    },
-   "workers": 895
+   "workers": 865,
+   "workers_other_states": 15
   },
   "0858675": {
    "jobs_30min": 19481,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.411,
-    "workers": 30
+    "share": 0.408,
+    "workers": 29
    },
-   "workers": 73
+   "workers": 71,
+   "workers_other_states": 1
   },
   "0858785": {
    "jobs_30min": 849,
    "top_workplace": {
     "geoid": "0873825",
     "name": "Steamboat Springs (city)",
-    "share": 0.469,
-    "workers": 46
+    "share": 0.425,
+    "workers": 37
    },
-   "workers": 98
+   "workers": 87,
+   "workers_other_states": 1
   },
   "0858960": {
    "jobs_30min": 14,
    "top_workplace": {
     "geoid": "0842330",
     "name": "Lake City (town)",
-    "share": 0.412,
+    "share": 0.389,
     "workers": 7
    },
-   "workers": 17
+   "workers": 18,
+   "workers_other_states": 1
   },
   "0859005": {
    "jobs_30min": 12462,
    "top_workplace": {
     "geoid": "0827425",
     "name": "Fort Collins (city)",
-    "share": 0.185,
-    "workers": 103
+    "share": 0.18,
+    "workers": 96
    },
-   "workers": 557
+   "workers": 534,
+   "workers_other_states": 18
   },
   "0859240": {
    "jobs_30min": 106532,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.381,
-    "workers": 143
+    "share": 0.379,
+    "workers": 136
    },
-   "workers": 375
+   "workers": 359,
+   "workers_other_states": 6
   },
   "0859520": {
    "jobs_30min": 10413,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.212,
-    "workers": 34
+    "share": 0.203,
+    "workers": 31
    },
-   "workers": 160
+   "workers": 153,
+   "workers_other_states": 2
   },
   "0859830": {
    "jobs_30min": 26,
    "top_workplace": {
     "geoid": "0833640",
     "name": "Gunnison (city)",
-    "share": 0.26,
-    "workers": 13
+    "share": 0.273,
+    "workers": 12
    },
-   "workers": 50
+   "workers": 44,
+   "workers_other_states": 0
   },
   "0859885": {
    "jobs_30min": 3651,
    "top_workplace": {
     "geoid": "0876795",
     "name": "Telluride (town)",
-    "share": 0.486,
-    "workers": 84
+    "share": 0.435,
+    "workers": 67
    },
-   "workers": 173
+   "workers": 154,
+   "workers_other_states": 6
   },
   "0860160": {
    "jobs_30min": 44063,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.11,
-    "workers": 165
+    "share": 0.106,
+    "workers": 152
    },
-   "workers": 1499
+   "workers": 1433,
+   "workers_other_states": 38
   },
   "0860600": {
    "jobs_30min": 5349,
@@ -3781,29 +4138,32 @@
     "geoid": "0867280",
     "name": "Salida (city)",
     "share": 0.34,
-    "workers": 162
+    "workers": 151
    },
-   "workers": 477
+   "workers": 444,
+   "workers_other_states": 3
   },
   "0860655": {
    "jobs_30min": 31581,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.176,
-    "workers": 403
+    "share": 0.175,
+    "workers": 389
    },
-   "workers": 2295
+   "workers": 2220,
+   "workers_other_states": 41
   },
   "0860765": {
    "jobs_30min": 1981,
    "top_workplace": {
     "geoid": "0864200",
     "name": "Ridgway (town)",
-    "share": 0.278,
-    "workers": 15
+    "share": 0.28,
+    "workers": 14
    },
-   "workers": 54
+   "workers": 50,
+   "workers_other_states": 2
   },
   "0861315": {
    "jobs_30min": 829,
@@ -3813,47 +4173,52 @@
     "share": 0.229,
     "workers": 8
    },
-   "workers": 35
+   "workers": 35,
+   "workers_other_states": 2
   },
   "0862000": {
    "jobs_30min": 55250,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.111,
-    "workers": 4620
+    "share": 0.109,
+    "workers": 4305
    },
-   "workers": 41564
+   "workers": 39519,
+   "workers_other_states": 621
   },
   "0862220": {
    "jobs_30min": 49974,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.414,
-    "workers": 5379
+    "share": 0.407,
+    "workers": 5062
    },
-   "workers": 12990
+   "workers": 12429,
+   "workers_other_states": 195
   },
   "0862660": {
    "jobs_30min": 751,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.511,
+    "share": 0.5,
     "workers": 23
    },
-   "workers": 45
+   "workers": 46,
+   "workers_other_states": 2
   },
   "0862880": {
    "jobs_30min": 804,
    "top_workplace": {
     "geoid": "0849875",
     "name": "Meeker (town)",
-    "share": 0.067,
-    "workers": 69
+    "share": 0.066,
+    "workers": 66
    },
-   "workers": 1028
+   "workers": 1004,
+   "workers_other_states": 47
   },
   "0863045": {
    "jobs_30min": 2,
@@ -3863,77 +4228,85 @@
     "share": 0.208,
     "workers": 10
    },
-   "workers": 48
+   "workers": 48,
+   "workers_other_states": 1
   },
   "0863265": {
    "jobs_30min": 20087,
    "top_workplace": {
     "geoid": "0880040",
     "name": "Vail (town)",
-    "share": 0.169,
-    "workers": 24
+    "share": 0.133,
+    "workers": 16
    },
-   "workers": 142
+   "workers": 120,
+   "workers_other_states": 1
   },
   "0863320": {
    "jobs_30min": 328,
    "top_workplace": {
     "geoid": "0827425",
     "name": "Fort Collins (city)",
-    "share": 0.125,
+    "share": 0.127,
     "workers": 17
    },
-   "workers": 136
+   "workers": 134,
+   "workers_other_states": 9
   },
   "0863375": {
    "jobs_30min": 63864,
    "top_workplace": {
     "geoid": "0831660",
     "name": "Grand Junction (city)",
-    "share": 0.663,
-    "workers": 2444
+    "share": 0.648,
+    "workers": 2292
    },
-   "workers": 3686
+   "workers": 3537,
+   "workers_other_states": 89
   },
   "0863650": {
    "jobs_30min": 3609,
    "top_workplace": {
     "geoid": "0803620",
     "name": "Aspen (city)",
-    "share": 0.259,
-    "workers": 22
+    "share": 0.257,
+    "workers": 19
    },
-   "workers": 85
+   "workers": 74,
+   "workers_other_states": 1
   },
   "0863705": {
    "jobs_30min": 6,
    "top_workplace": {
     "geoid": "0853120",
     "name": "Naturita (town)",
-    "share": 0.18,
+    "share": 0.193,
     "workers": 11
    },
-   "workers": 61
+   "workers": 57,
+   "workers_other_states": 2
   },
   "0864090": {
    "jobs_30min": 55,
    "top_workplace": {
     "geoid": "0821265",
     "name": "Dove Creek (town)",
-    "share": 0.36,
-    "workers": 32
+    "share": 0.302,
+    "workers": 29
    },
-   "workers": 89
+   "workers": 96,
+   "workers_other_states": 15
   },
   "0864200": {
    "jobs_30min": 1981,
    "top_workplace": {
     "geoid": "0856420",
     "name": "Ouray (city)",
-    "share": 0.156,
-    "workers": 80
+    "share": 0.154,
+    "workers": 74
    },
-   "workers": 512
+   "workers": 482,
+   "workers_other_states": 9
   },
   "0864255": {
    "jobs_30min": 7703,
@@ -3941,89 +4314,98 @@
     "geoid": "0830780",
     "name": "Glenwood Springs (city)",
     "share": 0.18,
-    "workers": 882
+    "workers": 825
    },
-   "workers": 4890
+   "workers": 4594,
+   "workers_other_states": 93
   },
   "0864870": {
    "jobs_30min": 258590,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.7,
+    "share": 0.737,
     "workers": 14
    },
-   "workers": 20
+   "workers": 19,
+   "workers_other_states": 0
   },
   "0864970": {
    "jobs_30min": 10451,
    "top_workplace": {
     "geoid": "0811810",
     "name": "Cañon City (city)",
-    "share": 0.199,
+    "share": 0.206,
     "workers": 39
    },
-   "workers": 196
+   "workers": 189,
+   "workers_other_states": 2
   },
   "0865190": {
    "jobs_30min": 5805,
    "top_workplace": {
     "geoid": "0842110",
     "name": "La Junta (city)",
-    "share": 0.167,
-    "workers": 245
+    "share": 0.164,
+    "workers": 235
    },
-   "workers": 1465
+   "workers": 1436,
+   "workers_other_states": 69
   },
   "0865685": {
    "jobs_30min": 5384,
    "top_workplace": {
     "geoid": "0807025",
     "name": "Black Hawk (city)",
-    "share": 0.175,
-    "workers": 20
+    "share": 0.17,
+    "workers": 19
    },
-   "workers": 114
+   "workers": 112,
+   "workers_other_states": 1
   },
   "0865740": {
    "jobs_30min": 1403,
    "top_workplace": {
     "geoid": "0802355",
     "name": "Antonito (town)",
-    "share": 0.308,
-    "workers": 20
+    "share": 0.264,
+    "workers": 19
    },
-   "workers": 65
+   "workers": 72,
+   "workers_other_states": 8
   },
   "0866197": {
    "jobs_30min": 104306,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.227,
-    "workers": 1309
+    "share": 0.222,
+    "workers": 1218
    },
-   "workers": 5764
+   "workers": 5476,
+   "workers_other_states": 52
   },
   "0866895": {
    "jobs_30min": 706,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.268,
-    "workers": 15
+    "share": 0.246,
+    "workers": 14
    },
-   "workers": 56
+   "workers": 57,
+   "workers_other_states": 4
   },
   "0866995": {
    "jobs_30min": 11551,
    "top_workplace": {
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
-    "share": 0.269,
-    "workers": 7
+    "share": 0.273,
+    "workers": 6
    },
-   "workers": 26
+   "workers": 22,
+   "workers_other_states": 0
   },
   "0867005": {
    "jobs_30min": 645,
@@ -4033,117 +4415,129 @@
     "share": 0.074,
     "workers": 12
    },
-   "workers": 162
+   "workers": 162,
+   "workers_other_states": 12
   },
   "0867040": {
    "jobs_30min": 879,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.265,
-    "workers": 41
+    "share": 0.28,
+    "workers": 40
    },
-   "workers": 155
+   "workers": 143,
+   "workers_other_states": 1
   },
   "0867142": {
    "jobs_30min": 1130,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.18,
-    "workers": 39
+    "share": 0.178,
+    "workers": 37
    },
-   "workers": 217
+   "workers": 208,
+   "workers_other_states": 2
   },
   "0867280": {
    "jobs_30min": 5303,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.062,
-    "workers": 194
+    "share": 0.064,
+    "workers": 184
    },
-   "workers": 3114
+   "workers": 2858,
+   "workers_other_states": 18
   },
   "0867445": {
    "jobs_30min": 49866,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.48,
-    "workers": 95
+    "share": 0.474,
+    "workers": 92
    },
-   "workers": 198
+   "workers": 194,
+   "workers_other_states": 2
   },
   "0867500": {
    "jobs_30min": 402,
    "top_workplace": {
     "geoid": "0868105",
     "name": "San Luis (town)",
-    "share": 0.294,
+    "share": 0.263,
     "workers": 5
    },
-   "workers": 17
+   "workers": 19,
+   "workers_other_states": 2
   },
   "0867830": {
    "jobs_30min": 1403,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.303,
-    "workers": 82
+    "share": 0.283,
+    "workers": 76
    },
-   "workers": 271
+   "workers": 269,
+   "workers_other_states": 17
   },
   "0868105": {
    "jobs_30min": 728,
    "top_workplace": {
     "geoid": "0801090",
     "name": "Alamosa (city)",
-    "share": 0.129,
-    "workers": 26
+    "share": 0.108,
+    "workers": 22
    },
-   "workers": 202
+   "workers": 204,
+   "workers_other_states": 24
   },
   "0868655": {
    "jobs_30min": 3651,
    "top_workplace": {
     "geoid": "0852550",
     "name": "Mountain Village (town)",
-    "share": 0.368,
+    "share": 0.389,
     "workers": 7
    },
-   "workers": 19
+   "workers": 18,
+   "workers_other_states": 0
   },
   "0868847": {
    "jobs_30min": 268018,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.538,
-    "workers": 8588
+    "share": 0.531,
+    "workers": 8112
    },
-   "workers": 15962
+   "workers": 15276,
+   "workers_other_states": 256
   },
   "0868875": {
    "jobs_30min": 389625,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.253,
-    "workers": 22
+    "share": 0.241,
+    "workers": 20
    },
-   "workers": 87
+   "workers": 83,
+   "workers_other_states": 4
   },
   "0868930": {
    "jobs_30min": 157,
    "top_workplace": {
     "geoid": "0839965",
     "name": "Julesburg (town)",
-    "share": 0.459,
-    "workers": 17
+    "share": 0.348,
+    "workers": 16
    },
-   "workers": 37
+   "workers": 46,
+   "workers_other_states": 11
   },
   "0868985": {
    "jobs_30min": 3949,
@@ -4153,127 +4547,140 @@
     "share": 0.222,
     "workers": 8
    },
-   "workers": 36
+   "workers": 36,
+   "workers_other_states": 2
   },
   "0869040": {
    "jobs_30min": 799,
    "top_workplace": {
     "geoid": "0810600",
     "name": "Burlington (city)",
-    "share": 0.217,
-    "workers": 15
+    "share": 0.215,
+    "workers": 14
    },
-   "workers": 69
+   "workers": 65,
+   "workers_other_states": 2
   },
   "0869110": {
    "jobs_30min": 129974,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.426,
-    "workers": 23
+    "share": 0.415,
+    "workers": 22
    },
-   "workers": 54
+   "workers": 53,
+   "workers_other_states": 1
   },
   "0869150": {
    "jobs_30min": 169714,
    "top_workplace": {
     "geoid": "0827425",
     "name": "Fort Collins (city)",
-    "share": 0.233,
-    "workers": 1274
+    "share": 0.229,
+    "workers": 1216
    },
-   "workers": 5471
+   "workers": 5306,
+   "workers_other_states": 122
   },
   "0869480": {
    "jobs_30min": 1352340,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.247,
-    "workers": 612
+    "share": 0.244,
+    "workers": 563
    },
-   "workers": 2474
+   "workers": 2309,
+   "workers_other_states": 22
   },
   "0869645": {
    "jobs_30min": 1345565,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.306,
-    "workers": 893
+    "share": 0.301,
+    "workers": 821
    },
-   "workers": 2918
+   "workers": 2728,
+   "workers_other_states": 39
   },
   "0869700": {
    "jobs_30min": 13,
    "top_workplace": {
     "geoid": "0822145",
     "name": "Eads (town)",
-    "share": 0.458,
+    "share": 0.478,
     "workers": 11
    },
-   "workers": 24
+   "workers": 23,
+   "workers_other_states": 0
   },
   "0869810": {
    "jobs_30min": 1363241,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.265,
-    "workers": 2437
+    "share": 0.261,
+    "workers": 2276
    },
-   "workers": 9208
+   "workers": 8707,
+   "workers_other_states": 111
   },
   "0870112": {
    "jobs_30min": 584118,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.23,
-    "workers": 418
+    "share": 0.232,
+    "workers": 408
    },
-   "workers": 1818
+   "workers": 1756,
+   "workers_other_states": 19
   },
   "0870195": {
    "jobs_30min": 16674,
    "top_workplace": {
     "geoid": "0830780",
     "name": "Glenwood Springs (city)",
-    "share": 0.233,
-    "workers": 376
+    "share": 0.232,
+    "workers": 356
    },
-   "workers": 1617
+   "workers": 1537,
+   "workers_other_states": 30
   },
   "0870250": {
    "jobs_30min": 1060,
    "top_workplace": {
     "geoid": "0883450",
     "name": "Westcliffe (town)",
-    "share": 0.167,
-    "workers": 34
+    "share": 0.158,
+    "workers": 31
    },
-   "workers": 204
+   "workers": 196,
+   "workers_other_states": 3
   },
   "0870360": {
    "jobs_30min": 7157,
    "top_workplace": {
     "geoid": "0829735",
     "name": "Georgetown (town)",
-    "share": 0.183,
+    "share": 0.195,
     "workers": 15
    },
-   "workers": 82
+   "workers": 77,
+   "workers_other_states": 0
   },
   "0870525": {
    "jobs_30min": 23790,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.084,
-    "workers": 197
+    "share": 0.089,
+    "workers": 187
    },
-   "workers": 2346
+   "workers": 2097,
+   "workers_other_states": 29
   },
   "0870580": {
    "jobs_30min": 336,
@@ -4281,19 +4688,21 @@
     "geoid": "0822035",
     "name": "Durango (city)",
     "share": 0.094,
-    "workers": 26
+    "workers": 25
    },
-   "workers": 278
+   "workers": 267,
+   "workers_other_states": 30
   },
   "0870635": {
    "jobs_30min": 702,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.125,
-    "workers": 36
+    "share": 0.121,
+    "workers": 35
    },
-   "workers": 289
+   "workers": 290,
+   "workers_other_states": 17
   },
   "0871625": {
    "jobs_30min": 5349,
@@ -4301,199 +4710,219 @@
     "geoid": "0867280",
     "name": "Salida (city)",
     "share": 0.5,
-    "workers": 25
+    "workers": 22
    },
-   "workers": 50
+   "workers": 44,
+   "workers_other_states": 0
   },
   "0871755": {
    "jobs_30min": 17620,
    "top_workplace": {
     "geoid": "0803620",
     "name": "Aspen (city)",
-    "share": 0.305,
-    "workers": 473
+    "share": 0.295,
+    "workers": 399
    },
-   "workers": 1550
+   "workers": 1353,
+   "workers_other_states": 21
   },
   "0871790": {
    "jobs_30min": 11274,
    "top_workplace": {
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
-    "share": 0.185,
-    "workers": 12
+    "share": 0.169,
+    "workers": 11
    },
-   "workers": 65
+   "workers": 65,
+   "workers_other_states": 3
   },
   "0871845": {
    "jobs_30min": 1360,
    "top_workplace": {
     "geoid": "0833640",
     "name": "Gunnison (city)",
-    "share": 0.147,
+    "share": 0.152,
     "workers": 5
    },
-   "workers": 34
+   "workers": 33,
+   "workers_other_states": 1
   },
   "0872320": {
    "jobs_30min": 3180,
    "top_workplace": {
     "geoid": "0822035",
     "name": "Durango (city)",
-    "share": 0.256,
-    "workers": 11
+    "share": 0.227,
+    "workers": 10
    },
-   "workers": 43
+   "workers": 44,
+   "workers_other_states": 5
   },
   "0872395": {
    "jobs_30min": 959,
    "top_workplace": {
     "geoid": "0819795",
     "name": "Del Norte (town)",
-    "share": 0.109,
-    "workers": 19
+    "share": 0.103,
+    "workers": 18
    },
-   "workers": 175
+   "workers": 175,
+   "workers_other_states": 12
   },
   "0873330": {
    "jobs_30min": 1256,
    "top_workplace": {
     "geoid": "0843110",
     "name": "Lamar (city)",
-    "share": 0.036,
-    "workers": 20
+    "share": 0.035,
+    "workers": 19
    },
-   "workers": 561
+   "workers": 545,
+   "workers_other_states": 20
   },
   "0873715": {
    "jobs_30min": 3741,
    "top_workplace": {
     "geoid": "0878610",
     "name": "Trinidad (city)",
-    "share": 0.36,
-    "workers": 9
+    "share": 0.333,
+    "workers": 8
    },
-   "workers": 25
+   "workers": 24,
+   "workers_other_states": 1
   },
   "0873825": {
    "jobs_30min": 13212,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.052,
-    "workers": 400
+    "share": 0.053,
+    "workers": 368
    },
-   "workers": 7752
+   "workers": 6935,
+   "workers_other_states": 176
   },
   "0873925": {
    "jobs_30min": 572332,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.256,
-    "workers": 392
+    "share": 0.257,
+    "workers": 378
    },
-   "workers": 1531
+   "workers": 1468,
+   "workers_other_states": 15
   },
   "0873935": {
    "jobs_30min": 6041,
    "top_workplace": {
     "geoid": "0832155",
     "name": "Greeley (city)",
-    "share": 0.055,
-    "workers": 295
+    "share": 0.053,
+    "workers": 275
    },
-   "workers": 5409
+   "workers": 5236,
+   "workers_other_states": 206
   },
   "0873943": {
    "jobs_30min": 367319,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.268,
-    "workers": 466
+    "share": 0.266,
+    "workers": 446
    },
-   "workers": 1736
+   "workers": 1678,
+   "workers_other_states": 17
   },
   "0874080": {
    "jobs_30min": 1143249,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.222,
-    "workers": 1093
+    "share": 0.22,
+    "workers": 1044
    },
-   "workers": 4934
+   "workers": 4748,
+   "workers_other_states": 66
   },
   "0874275": {
    "jobs_30min": 311,
    "top_workplace": {
     "geoid": "0878610",
     "name": "Trinidad (city)",
-    "share": 0.37,
+    "share": 0.357,
     "workers": 10
    },
-   "workers": 27
+   "workers": 28,
+   "workers_other_states": 1
   },
   "0874375": {
    "jobs_30min": 3502,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.197,
-    "workers": 324
+    "share": 0.198,
+    "workers": 309
    },
-   "workers": 1645
+   "workers": 1558,
+   "workers_other_states": 20
   },
   "0874430": {
    "jobs_30min": 262545,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.599,
-    "workers": 1362
+    "share": 0.581,
+    "workers": 1265
    },
-   "workers": 2273
+   "workers": 2178,
+   "workers_other_states": 50
   },
   "0874485": {
    "jobs_30min": 2756,
    "top_workplace": {
-    "geoid": "0826765",
-    "name": "Flagler (town)",
-    "share": 0.122,
-    "workers": 31
+    "geoid": "0810600",
+    "name": "Burlington (city)",
+    "share": 0.112,
+    "workers": 28
    },
-   "workers": 254
+   "workers": 250,
+   "workers_other_states": 18
   },
   "0874815": {
    "jobs_30min": 1037,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.2,
+    "share": 0.205,
     "workers": 8
    },
-   "workers": 40
+   "workers": 39,
+   "workers_other_states": 3
   },
   "0874980": {
    "jobs_30min": 92698,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.226,
-    "workers": 31
+    "share": 0.229,
+    "workers": 30
    },
-   "workers": 137
+   "workers": 131,
+   "workers_other_states": 3
   },
   "0875585": {
    "jobs_30min": 98666,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.329,
-    "workers": 24
+    "share": 0.31,
+    "workers": 22
    },
-   "workers": 73
+   "workers": 71,
+   "workers_other_states": 1
   },
   "0875640": {
    "jobs_30min": 439154,
@@ -4501,49 +4930,54 @@
     "geoid": "0807850",
     "name": "Boulder (city)",
     "share": 0.202,
-    "workers": 1366
+    "workers": 1306
    },
-   "workers": 6751
+   "workers": 6469,
+   "workers_other_states": 105
   },
   "0875970": {
    "jobs_30min": 5205,
    "top_workplace": {
     "geoid": "0842110",
     "name": "La Junta (city)",
-    "share": 0.399,
-    "workers": 89
+    "share": 0.388,
+    "workers": 83
    },
-   "workers": 223
+   "workers": 214,
+   "workers_other_states": 5
   },
   "0876190": {
    "jobs_30min": 5668,
    "top_workplace": {
     "geoid": "0885705",
     "name": "Winter Park (town)",
-    "share": 0.142,
-    "workers": 22
+    "share": 0.141,
+    "workers": 20
    },
-   "workers": 155
+   "workers": 142,
+   "workers_other_states": 2
   },
   "0876325": {
    "jobs_30min": 109354,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.276,
-    "workers": 24
+    "share": 0.268,
+    "workers": 22
    },
-   "workers": 87
+   "workers": 82,
+   "workers_other_states": 2
   },
   "0876795": {
    "jobs_30min": 5914,
    "top_workplace": {
     "geoid": "0852550",
     "name": "Mountain Village (town)",
-    "share": 0.171,
-    "workers": 164
+    "share": 0.149,
+    "workers": 128
    },
-   "workers": 960
+   "workers": 857,
+   "workers_other_states": 45
   },
   "0877235": {
    "jobs_30min": 262762,
@@ -4551,159 +4985,175 @@
     "geoid": "0820000",
     "name": "Denver (city)",
     "share": 0.222,
-    "workers": 1358
+    "workers": 1299
    },
-   "workers": 6104
+   "workers": 5846,
+   "workers_other_states": 81
   },
   "0877290": {
    "jobs_30min": 929140,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.238,
-    "workers": 17095
+    "share": 0.237,
+    "workers": 16120
    },
-   "workers": 71819
+   "workers": 68128,
+   "workers_other_states": 764
   },
   "0877510": {
    "jobs_30min": 172980,
    "top_workplace": {
     "geoid": "0827425",
     "name": "Fort Collins (city)",
-    "share": 0.37,
-    "workers": 1211
+    "share": 0.363,
+    "workers": 1147
    },
-   "workers": 3277
+   "workers": 3158,
+   "workers_other_states": 70
   },
   "0877757": {
    "jobs_30min": 310640,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.191,
-    "workers": 570
+    "share": 0.189,
+    "workers": 540
    },
-   "workers": 2984
+   "workers": 2851,
+   "workers_other_states": 26
   },
   "0878280": {
    "jobs_30min": 6885,
    "top_workplace": {
     "geoid": "0817375",
     "name": "Cortez (city)",
-    "share": 0.078,
-    "workers": 22
+    "share": 0.066,
+    "workers": 21
    },
-   "workers": 283
+   "workers": 318,
+   "workers_other_states": 44
   },
   "0878335": {
    "jobs_30min": 0,
    "top_workplace": {
-    "geoid": "0822145",
-    "name": "Eads (town)",
-    "share": 0.333,
-    "workers": 2
+    "geoid": "0843660",
+    "name": "Las Animas (city)",
+    "share": 0.167,
+    "workers": 1
    },
-   "workers": 6
+   "workers": 6,
+   "workers_other_states": 1
   },
   "0878345": {
    "jobs_30min": 12653,
    "top_workplace": {
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
-    "share": 0.549,
+    "share": 0.557,
     "workers": 39
    },
-   "workers": 71
+   "workers": 70,
+   "workers_other_states": 1
   },
   "0878610": {
    "jobs_30min": 3818,
    "top_workplace": {
-    "geoid": "0816000",
-    "name": "Colorado Springs (city)",
-    "share": 0.056,
-    "workers": 191
+    "geoid": "0862000",
+    "name": "Pueblo (city)",
+    "share": 0.052,
+    "workers": 178
    },
-   "workers": 3421
+   "workers": 3398,
+   "workers_other_states": 235
   },
   "0879100": {
    "jobs_30min": 1460859,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.297,
-    "workers": 1322
+    "share": 0.299,
+    "workers": 1262
    },
-   "workers": 4455
+   "workers": 4221,
+   "workers_other_states": 46
   },
   "0879105": {
    "jobs_30min": 1707,
    "top_workplace": {
     "geoid": "0844320",
     "name": "Leadville (city)",
-    "share": 0.139,
-    "workers": 23
+    "share": 0.146,
+    "workers": 22
    },
-   "workers": 166
+   "workers": 151,
+   "workers_other_states": 1
   },
   "0879270": {
    "jobs_30min": 0,
    "top_workplace": {
     "geoid": "0873330",
     "name": "Springfield (town)",
-    "share": 0.286,
+    "share": 0.267,
     "workers": 4
    },
-   "workers": 14
+   "workers": 15,
+   "workers_other_states": 1
   },
   "0879785": {
    "jobs_30min": 5637,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.209,
-    "workers": 111
+    "share": 0.207,
+    "workers": 103
    },
-   "workers": 530
+   "workers": 498,
+   "workers_other_states": 3
   },
   "0879800": {
    "jobs_30min": 5941,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.238,
-    "workers": 41
+    "share": 0.245,
+    "workers": 40
    },
-   "workers": 172
+   "workers": 163,
+   "workers_other_states": 1
   },
   "0880040": {
    "jobs_30min": 20062,
    "top_workplace": {
     "geoid": "0804110",
     "name": "Avon (town)",
-    "share": 0.116,
-    "workers": 676
+    "share": 0.11,
+    "workers": 551
    },
-   "workers": 5840
+   "workers": 5015,
+   "workers_other_states": 33
   },
   "0880095": {
    "jobs_30min": 4034,
    "top_workplace": {
     "geoid": "0878610",
     "name": "Trinidad (city)",
-    "share": 0.412,
+    "share": 0.389,
     "workers": 7
    },
-   "workers": 17
+   "workers": 18,
+   "workers_other_states": 1
   },
   "0880370": {
    "jobs_30min": 305191,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.458,
+    "share": 0.524,
     "workers": 11
    },
-   "workers": 24
+   "workers": 21,
+   "workers_other_states": 0
   },
   "0880755": {
    "jobs_30min": 0,
@@ -4713,187 +5163,206 @@
     "share": 0.167,
     "workers": 2
    },
-   "workers": 12
+   "workers": 12,
+   "workers_other_states": 1
   },
   "0880865": {
    "jobs_30min": 2496,
    "top_workplace": {
     "geoid": "0818530",
     "name": "Cripple Creek (city)",
-    "share": 0.388,
-    "workers": 57
+    "share": 0.387,
+    "workers": 55
    },
-   "workers": 147
+   "workers": 142,
+   "workers_other_states": 2
   },
   "0881030": {
    "jobs_30min": 1011,
    "top_workplace": {
     "geoid": "0873330",
     "name": "Springfield (town)",
-    "share": 0.605,
-    "workers": 26
+    "share": 0.543,
+    "workers": 25
    },
-   "workers": 43
+   "workers": 46,
+   "workers_other_states": 4
   },
   "0881305": {
    "jobs_30min": 55015,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.355,
-    "workers": 33
+    "share": 0.344,
+    "workers": 32
    },
-   "workers": 93
+   "workers": 93,
+   "workers_other_states": 4
   },
   "0881690": {
    "jobs_30min": 788,
    "top_workplace": {
     "geoid": "0874485",
     "name": "Stratton (town)",
-    "share": 0.162,
-    "workers": 6
+    "share": 0.135,
+    "workers": 5
    },
-   "workers": 37
+   "workers": 37,
+   "workers_other_states": 2
   },
   "0882130": {
    "jobs_30min": 464,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.061,
-    "workers": 20
+    "share": 0.06,
+    "workers": 18
    },
-   "workers": 326
+   "workers": 299,
+   "workers_other_states": 8
   },
   "0882350": {
    "jobs_30min": 1266,
    "top_workplace": {
     "geoid": "0862000",
     "name": "Pueblo (city)",
-    "share": 0.101,
-    "workers": 109
+    "share": 0.096,
+    "workers": 102
    },
-   "workers": 1075
+   "workers": 1060,
+   "workers_other_states": 58
   },
   "0882460": {
    "jobs_30min": 1008,
    "top_workplace": {
     "geoid": "0873330",
     "name": "Springfield (town)",
-    "share": 0.2,
-    "workers": 34
+    "share": 0.196,
+    "workers": 33
    },
-   "workers": 170
+   "workers": 168,
+   "workers_other_states": 9
   },
   "0882735": {
    "jobs_30min": 1106,
    "top_workplace": {
     "geoid": "0807850",
     "name": "Boulder (city)",
-    "share": 0.281,
+    "share": 0.296,
     "workers": 16
    },
-   "workers": 57
+   "workers": 54,
+   "workers_other_states": 1
   },
   "0882900": {
    "jobs_30min": 177898,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.244,
-    "workers": 105
+    "share": 0.245,
+    "workers": 100
    },
-   "workers": 430
+   "workers": 408,
+   "workers_other_states": 6
   },
   "0883120": {
    "jobs_30min": 1255103,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.268,
-    "workers": 2142
+    "share": 0.267,
+    "workers": 2023
    },
-   "workers": 7993
+   "workers": 7578,
+   "workers_other_states": 76
   },
   "0883175": {
    "jobs_30min": 12,
    "top_workplace": {
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
-    "share": 0.268,
-    "workers": 19
+    "share": 0.258,
+    "workers": 17
    },
-   "workers": 71
+   "workers": 66,
+   "workers_other_states": 2
   },
   "0883230": {
    "jobs_30min": 117384,
    "top_workplace": {
     "geoid": "0827425",
     "name": "Fort Collins (city)",
-    "share": 0.36,
-    "workers": 1969
+    "share": 0.352,
+    "workers": 1868
    },
-   "workers": 5472
+   "workers": 5301,
+   "workers_other_states": 132
   },
   "0883450": {
    "jobs_30min": 1060,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.07,
+    "share": 0.073,
     "workers": 13
    },
-   "workers": 186
+   "workers": 177,
+   "workers_other_states": 3
   },
   "0883500": {
    "jobs_30min": 3857,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.21,
-    "workers": 17
+    "share": 0.213,
+    "workers": 16
    },
-   "workers": 81
+   "workers": 75,
+   "workers_other_states": 1
   },
   "0883835": {
    "jobs_30min": 1319375,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.238,
-    "workers": 14255
+    "share": 0.234,
+    "workers": 13370
    },
-   "workers": 59986
+   "workers": 57131,
+   "workers_other_states": 693
   },
   "0884000": {
    "jobs_30min": 582,
    "top_workplace": {
     "geoid": "0878610",
     "name": "Trinidad (city)",
-    "share": 0.412,
+    "share": 0.368,
     "workers": 7
    },
-   "workers": 17
+   "workers": 19,
+   "workers_other_states": 2
   },
   "0884042": {
    "jobs_30min": 960096,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.22,
-    "workers": 496
+    "share": 0.216,
+    "workers": 458
    },
-   "workers": 2250
+   "workers": 2124,
+   "workers_other_states": 35
   },
   "0884440": {
    "jobs_30min": 1355560,
    "top_workplace": {
     "geoid": "0820000",
     "name": "Denver (city)",
-    "share": 0.321,
-    "workers": 5170
+    "share": 0.317,
+    "workers": 4857
    },
-   "workers": 16106
+   "workers": 15341,
+   "workers_other_states": 223
   },
   "0884770": {
    "jobs_30min": 1447,
@@ -4901,9 +5370,10 @@
     "geoid": "0827810",
     "name": "Fort Morgan (city)",
     "share": 0.143,
-    "workers": 124
+    "workers": 118
    },
-   "workers": 866
+   "workers": 824,
+   "workers_other_states": 18
   },
   "0885045": {
    "jobs_30min": 3782,
@@ -4913,37 +5383,41 @@
     "share": 0.377,
     "workers": 80
    },
-   "workers": 212
+   "workers": 212,
+   "workers_other_states": 13
   },
   "0885155": {
    "jobs_30min": 10451,
    "top_workplace": {
     "geoid": "0811810",
     "name": "Cañon City (city)",
-    "share": 0.193,
-    "workers": 55
+    "share": 0.195,
+    "workers": 52
    },
-   "workers": 285
+   "workers": 266,
+   "workers_other_states": 4
   },
   "0885485": {
    "jobs_30min": 213409,
    "top_workplace": {
     "geoid": "0827425",
     "name": "Fort Collins (city)",
-    "share": 0.198,
-    "workers": 3787
+    "share": 0.194,
+    "workers": 3582
    },
-   "workers": 19162
+   "workers": 18479,
+   "workers_other_states": 413
   },
   "0885705": {
    "jobs_30min": 3673,
    "top_workplace": {
     "geoid": "0828305",
     "name": "Fraser (town)",
-    "share": 0.121,
-    "workers": 67
+    "share": 0.125,
+    "workers": 63
    },
-   "workers": 556
+   "workers": 505,
+   "workers_other_states": 10
   },
   "0885760": {
    "jobs_30min": 32610,
@@ -4953,67 +5427,74 @@
     "share": 0.6,
     "workers": 3
    },
-   "workers": 5
+   "workers": 5,
+   "workers_other_states": 0
   },
   "0886090": {
    "jobs_30min": 7253,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.264,
-    "workers": 970
+    "share": 0.265,
+    "workers": 929
    },
-   "workers": 3681
+   "workers": 3511,
+   "workers_other_states": 40
   },
   "0886117": {
    "jobs_30min": 13851,
    "top_workplace": {
     "geoid": "0816000",
     "name": "Colorado Springs (city)",
-    "share": 0.409,
-    "workers": 1431
+    "share": 0.403,
+    "workers": 1350
    },
-   "workers": 3497
+   "workers": 3352,
+   "workers_other_states": 51
   },
   "0886200": {
    "jobs_30min": 21207,
    "top_workplace": {
     "geoid": "0803620",
     "name": "Aspen (city)",
-    "share": 0.394,
-    "workers": 76
+    "share": 0.393,
+    "workers": 70
    },
-   "workers": 193
+   "workers": 178,
+   "workers_other_states": 3
   },
   "0886310": {
    "jobs_30min": 1681,
    "top_workplace": {
-    "geoid": "0820000",
-    "name": "Denver (city)",
-    "share": 0.029,
+    "geoid": "0886750",
+    "name": "Yuma (city)",
+    "share": 0.03,
     "workers": 23
    },
-   "workers": 787
+   "workers": 775,
+   "workers_other_states": 37
   },
   "0886475": {
    "jobs_30min": 849,
    "top_workplace": {
     "geoid": "0873825",
     "name": "Steamboat Springs (city)",
-    "share": 0.431,
-    "workers": 93
+    "share": 0.407,
+    "workers": 81
    },
-   "workers": 216
+   "workers": 199,
+   "workers_other_states": 2
   },
   "0886750": {
    "jobs_30min": 1945,
    "top_workplace": {
     "geoid": "0886310",
     "name": "Wray (city)",
-    "share": 0.078,
-    "workers": 102
+    "share": 0.076,
+    "workers": 96
    },
-   "workers": 1314
+   "workers": 1261,
+   "workers_other_states": 47
   }
  }
 }

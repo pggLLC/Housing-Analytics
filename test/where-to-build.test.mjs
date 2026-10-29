@@ -339,5 +339,11 @@ ok(model.places.some((p) => p.flags.length), 'recorded denials show as red flags
   const bayNeed = docs.ranking.rankings.find((r) => r.geoid === bay.geoid).metrics.overall_need_score;
   ok(Math.abs(bay.factors.need.points - bayNeed / 10) < 0.06, 'Bayfield\'s need is its own, with no borrowed Durango need');
   ok(page.includes('data/policy/job-access.json'), 'the page loads the job-access file');
+  // A link shared before job access existed keeps it off, so the old view scores as it did and still matches its preset.
+  const old = W.weightsFromQuery('build.3,money.3,land.4,need.4,rents.2,rec.1,commit.3,vote.1,lean.0');
+  ok(old.jobs === 0 && Object.keys(W.PRESETS.rural9.weights).every((k) => old[k] === W.PRESETS.rural9.weights[k]), 'an old smaller-town link still opens the smaller-town preset');
+  ok(W.weightsFromQuery('build.4,money.4,land.3,need.3,rents.2,rec.2,commit.3,vote.2,lean.0').jobs === 0, 'an old Balanced link keeps job access off');
+  ok(W.weightsFromQuery('jobs.3').jobs === 3 && W.weightsFromQuery(null).jobs === 1 && W.weightsFromQuery('').jobs === 1, 'a new link or no link uses the slider or the default');
+  ok(page.includes('W.weightsFromQuery('), 'the page reads its link through weightsFromQuery');
 }
 console.log(`where-to-build: ${n} checks passed`);

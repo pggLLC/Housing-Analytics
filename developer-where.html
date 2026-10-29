@@ -290,13 +290,7 @@
 
     // ---- Weights live in the page link (?w=build.4,money.4,...) so a view can be shared.
     function readWeights() {
-      var w = W.defaultWeights();
-      var q = new URLSearchParams(location.search).get('w');
-      if (q) q.split(',').forEach(function (kv) {
-        var p = kv.split('.');
-        if (p[0] in w && /^[0-5]$/.test(p[1])) w[p[0]] = Number(p[1]);
-      });
-      return w;
+      return W.weightsFromQuery(new URLSearchParams(location.search).get('w'));
     }
     function writeWeights() {
       var q = new URLSearchParams(location.search);

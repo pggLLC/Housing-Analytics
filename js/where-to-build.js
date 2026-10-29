@@ -120,7 +120,7 @@
     amenities: { label: 'Services within reach', source: SRC.hna,
       rule: 'The HNA amenity access score (grocery, health care, schools, transit), 0 to 100, divided by 10.' },
     jobAccess: { label: 'Jobs within a 30-minute drive', source: SRC.jobs,
-      rule: 'All primary jobs within a 30-minute free-flow drive of where the town\'s working residents live, its own jobs included. 1,000 or fewer: 0; 100,000 or more: 10; each tenfold step adds 5 points (log scale). Counties: the population-weighted average of their towns. Where one other town employs 20% or more of its working residents, the row says so, for context only (no points).' },
+      rule: 'All jobs in Colorado (primary and secondary) within a 30-minute free-flow drive of where the town\'s working residents live, its own jobs included. 1,000 or fewer: 0; 100,000 or more: 10; each tenfold step adds 5 points (log scale). Counties: the population-weighted average of their towns. Where one other town employs 20% or more of its working residents (primary jobs, counting those who work in another state), the row says so, for context only (no points).' },
     hna: { label: 'Housing needs assessment', source: SRC.hnaList,
       rule: 'Its own assessment, dated within 5 years (DOLA-approved, or found on its website): 10. Covered only by a county or regional one: 6. One under way: 3. Its latest is older than 5 years: 2. A town or Census community inherits its county\'s assessment as a regional one. Not on DOLA\'s list and not read yet: not checked.' },
     planGoal: { label: 'Written affordable-housing goal', source: SRC.plans,
@@ -566,6 +566,23 @@
     return w;
   }
 
+  // Groups added after shared links were already in circulation. A ?w= link that predates one
+  // keeps that group at 0, so an old view scores as it did when it was shared.
+  var ADDED_LATER = ['jobs'];
+
+  /** Weights from a page link's ?w=build.4,money.4,... value (null or empty: the defaults). */
+  function weightsFromQuery(q) {
+    var w = defaultWeights();
+    if (!q) return w;
+    var seen = {};
+    String(q).split(',').forEach(function (kv) {
+      var p = kv.split('.');
+      if (p[0] in w && /^[0-5]$/.test(p[1])) { w[p[0]] = Number(p[1]); seen[p[0]] = 1; }
+    });
+    ADDED_LATER.forEach(function (id) { if (!seen[id]) w[id] = 0; });
+    return w;
+  }
+
   /** Score one place under the reader's group weights (0–5 each). */
   function score(place, weights) {
     weights = weights || defaultWeights();
@@ -651,6 +668,7 @@
     score: score,
     tierFor: tierFor,
     defaultWeights: defaultWeights,
+    weightsFromQuery: weightsFromQuery,
     regionFor: regionFor
   };
 }));
