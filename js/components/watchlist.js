@@ -185,6 +185,7 @@
       'top-left':     'top:80px;left:18px;'
     }[pos] || 'bottom:18px;right:18px;';
     root.style.cssText = 'position:fixed;' + corner + 'z-index:8000;font-family:inherit;';
+    root.setAttribute('data-corner', pos);
     // F257 — Watchlist collapsed by default is a single star+count chip
     // so it doesn't visually cover the footer on mobile. The full panel
     // expands on click. Also added mobile-specific styles (smaller chip,
@@ -205,6 +206,9 @@
         '#coho-watchlist-panel > details:not([open]) .coho-wl-label, #coho-watchlist-panel > details:not([open]) .coho-wl-caret {' +
           ' position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;' +
         '}' +
+        // On wide screens the dark-mode toggle (css/site-theme.css) is a 44px circle fixed in the
+        // same bottom-right corner, above this panel; sit just left of it so neither covers the other.
+        '@media (min-width: 701px) { #coho-watchlist-panel[data-corner="bottom-right"] { right: calc(1.25rem + 44px + 12px) !important; } }' +
         // Never in a printout or a saved PDF.
         '@media print { #coho-watchlist-panel { display: none !important; } }' +
         '@media (max-width: 700px) {' +
