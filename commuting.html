@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Commuting and Jobs | COHO Analytics</title>
+  <meta name="description" content="Where Colorado's workers live and where they work: how many of a town's jobs are held by people who drive in, what the drive costs them, the largest employers, and why it matters for housing.">
+  <meta property="og:title" content="Commuting and Jobs | COHO Analytics">
+  <meta property="og:description" content="How many of a Colorado town's jobs are held by people who drive in, what it costs them, and who the largest employers are.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+  <link rel="stylesheet" href="css/commuting.css">
+  <script src="js/vendor/leaflet.js"></script>
+  <script src="js/config/basemaps.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/table-sort.js"></script>
+  <script defer src="js/commuting.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content">
+    <article class="article-wrap" data-commuting>
+      <header>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Commuting and Jobs</span>
+        </nav>
+        <h1 style="margin:var(--sp3) 0;">Commuting and Jobs</h1>
+      </header>
+
+      <div class="article-body">
+        <p class="cj-lead">Where a town's workers live tells you whether its housing fits its jobs. Pick a town to see how many of its jobs are held by people who drive in, how far, and what the drive costs them.</p>
+
+        <section class="cj-card" aria-labelledby="cj-map-heading">
+          <h2 id="cj-map-heading">Who drives in to work</h2>
+          <label for="cjSearch">Find a town</label>
+          <input id="cjSearch" type="search" list="cjTowns" placeholder="e.g. Silverthorne" autocomplete="off">
+          <datalist id="cjTowns"></datalist>
+          <p class="cj-answer" data-cj-answer aria-live="polite">Loading commute data…</p>
+          <div id="cjMap" role="region" aria-label="Map of Colorado towns shaded by the share of jobs held by people who drive 20 to 60 miles in"></div>
+          <div class="cj-legend" data-cj-legend></div>
+          <div class="cj-detail" data-cj-detail aria-live="polite" tabindex="-1" hidden></div>
+          <p class="cj-foot" data-cj-source></p>
+        </section>
+
+        <section class="cj-section" aria-labelledby="cj-emp-heading">
+          <h2 id="cj-emp-heading">Largest employers</h2>
+          <p>As each county or city printed them in its audited annual financial report. A filer that reprints another government's table says so in its source line.</p>
+          <label for="cjArea">Area</label>
+          <select id="cjArea" data-cj-area></select>
+          <div class="cj-table-wrap">
+            <table class="data-table cj-table">
+              <thead><tr>
+                <th data-tip="The rank the report prints. Tables printed as ranges have no rank.">Rank</th>
+                <th data-tip="The employer's name exactly as the report prints it.">Employer</th>
+                <th data-tip="Employees in the report's current year. Some reports print a range instead of a count.">Employees</th>
+              </tr></thead>
+              <tbody data-cj-emp><tr><td colspan="3">Loading…</td></tr></tbody>
+            </table>
+          </div>
+          <p class="cj-note" data-cj-emp-source></p>
+        </section>
+
+        <section class="cj-section" aria-labelledby="cj-why-heading">
+          <h2 id="cj-why-heading">Why it matters for housing</h2>
+          <ul class="cj-why">
+            <li><strong>The drive costs real money.</strong> At the IRS rate of 76 cents a mile (from 1 July 2026, IRS Announcement 2026-11, <a href="https://www.journalofaccountancy.com/news/2026/jul/irs-raises-standard-mileage-rates-for-remainder-of-2026/">reported by the Journal of Accountancy</a>), a 25-mile commute driven 240 days a year is $9,120. That rate covers the full cost of a car, so it is the high end.</li>
+            <li><strong>Long drives push workers to other jobs.</strong> In one urban school district, each 5 more minutes of commute raised a teacher's chance of moving schools by about 1 point, and 40-minute commuters were more likely to leave (<a href="https://doi.org/10.1177/23328584241287792">Santelli and Grissom, AERA Open, October 2024</a>).</li>
+            <li><strong>Many would move closer.</strong> 61% of Summit County in-commuters would make a trade-off to live in the county (<a href="https://www.friscogov.com/wp-content/uploads/2026/04/Attachment-1_2023-Summit-County-Housing-Needs-Assessment.pdf">Summit County Housing Needs Assessment, September 2023</a>, p. 59), and 70% of Eagle County in-commuters said they would prefer to live there (<a href="https://files.vailvalleypartnership.com/sites/2/2016/07/2016-Housing-Needs-Assessment-upated_FINAL.pdf">Eagle County update, June 2016</a>, citing the 2007 survey).</li>
+            <li><strong>New homes do fill with them.</strong> For Smith Ranch Apartments in Silverthorne, managers at six tax-credit and mixed-income properties reported 10% to 50% of tenants from outside Summit County (<a href="https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf">CHFA 2022 Round Two application narratives</a>). CHFA counts that kind of move as demand only when comparable properties document it.</li>
+          </ul>
+        </section>
+
+        <section class="cj-section" aria-labelledby="cj-tools-heading">
+          <h2 id="cj-tools-heading">Run it yourself with Census tools</h2>
+          <ul class="cj-tools">
+            <li><a href="https://onthemap.ces.census.gov/">OnTheMap</a>: draw any area and see where its workers live and where its residents work.</li>
+            <li><a href="https://ledextract.ces.census.gov/">LED Extraction Tool</a>: download the same commute and job counts for counties and towns.</li>
+            <li><a href="https://qwiexplorer.ces.census.gov/">QWI Explorer</a>: hiring, turnover and earnings by county and industry, every quarter.</li>
+            <li><a href="https://j2jexplorer.ces.census.gov/">Job-to-Job Explorer</a>: how many workers change jobs, and between which states and metros.</li>
+          </ul>
+        </section>
+
+        <details class="cj-about">
+          <summary><h2>About this data</h2></summary>
+          <p>Commute counts are from the Census Bureau's LEHD LODES 2023 origin-destination file (primary jobs, so each worker counts once), home block to work block, matched to towns with the LEHD crosswalk. LODES covers jobs in Colorado held by people who live in Colorado and lags two to three years.</p>
+          <p>Distances are straight lines between blocks. Roads are longer, so every cost on this page is a floor. LODES places some workers at an employer's main office, so trips recorded at 60 miles or more include people who do not drive that far every day. The page counts them apart and never costs them.</p>
+          <p>Lower-paid means $3,333 a month or less, LODES's lower two pay bands. Towns with fewer than 200 primary jobs are left out.</p>
+          <p>Employer tables are copied from the "Principal Employers" schedules that counties, cities and school districts print in their annual comprehensive financial reports, filed with the <a href="https://apps.leg.co.gov/osa/lg/local_govs">Office of the State Auditor</a>. Most filings do not include the schedule, so 15 areas are covered so far.</p>
+          <p class="cj-note">This site is a public-data reference. Check a figure against its source before relying on it.</p>
+        </details>
+      </div>
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>

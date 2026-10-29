@@ -1,0 +1,35 @@
+/* Commuting and Jobs page (commuting.html, js/commuting.js). */
+.cj-lead { font-size:1.05rem; line-height:1.65; max-width:760px; }
+.cj-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:var(--sp3); margin-bottom:var(--sp3); }
+.cj-card h2, .cj-section h2 { margin:0 0 .4rem; font-size:1.15rem !important; }
+.cj-card label, .cj-section label { display:block; font-size:.8125rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; font-weight:700; margin-bottom:.3rem; }
+.cj-card input[type=search], .cj-section select { width:100%; max-width:22rem; min-height:44px; padding:.5rem .7rem; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg2); color:var(--text); font-size:var(--small); box-sizing:border-box; }
+.cj-answer { font-size:1rem; font-weight:700; line-height:1.5; margin:.7rem 0; max-width:62ch; }
+#cjMap { height:460px; border:1px solid var(--border); border-radius:var(--radius-sm); }
+#cjMap .leaflet-control-zoom a { width:44px; height:44px; line-height:44px; font-size:22px; }
+.cj-legend { display:flex; flex-wrap:wrap; gap:.3rem .9rem; margin:.5rem 0; font-size:var(--small); }
+.cj-legend span { display:inline-flex; align-items:center; gap:.35rem; }
+.cj-legend i { display:inline-block; width:14px; height:14px; border-radius:50%; border:1px solid var(--border); }
+.cj-detail { margin-top:.6rem; padding:var(--sp2) var(--sp3); border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg2); }
+.cj-detail h3 { margin:0 0 .4rem; font-size:1.05rem; }
+.cj-stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(11rem, 100%), 1fr)); gap:.5rem .9rem; margin:0 0 .6rem; padding:0; list-style:none; }
+.cj-stats li { font-size:var(--small); line-height:1.45; }
+.cj-stats b { display:block; font-size:1.25rem; font-variant-numeric:tabular-nums; }
+.cj-flows { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(14rem, 100%), 1fr)); gap:.6rem 1.2rem; font-size:var(--small); }
+.cj-flows h4 { margin:.2rem 0; font-size:.9rem; }
+.cj-flows ol { margin:0; padding-left:1.2rem; line-height:1.5; }
+.cj-foot, .cj-note { font-size:var(--small); color:var(--muted); line-height:1.5; max-width:820px; }
+.cj-section { margin:var(--sp6) 0 var(--sp5); }
+.cj-section > p, .cj-why, .cj-tools { max-width:820px; line-height:1.65; }
+.cj-why li, .cj-tools li { margin-bottom:.5rem; }
+.cj-table-wrap { overflow-x:auto; margin-top:var(--sp2); max-width:640px; }
+.cj-table td.n { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.cj-about { margin:var(--sp6) 0 var(--sp4); border-top:1px solid var(--border); padding-top:var(--sp3); }
+.cj-about summary { cursor:pointer; min-height:44px; }
+.cj-about summary h2 { display:inline; font-size:1.15rem; }
+.cj-about p { max-width:820px; line-height:1.6; }
+@media (max-width:600px) {
+  #cjMap { height:62vh; max-height:360px; }
+  .cj-table th, .cj-table td { padding-left:.4rem; padding-right:.4rem; font-size:var(--small); }
+  .cj-table th { letter-spacing:0; }
+}

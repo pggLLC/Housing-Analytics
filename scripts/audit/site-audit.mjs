@@ -57,6 +57,7 @@ const PAGES_TO_AUDIT = [
   { name: 'census-dashboard',         path: '/census-dashboard.html' },
   { name: 'chfa-portfolio',           path: '/chfa-portfolio.html' },
   { name: 'land-banking-awards',      path: '/land-banking-awards.html' },
+  { name: 'commuting',                path: '/commuting.html' },
   { name: 'construction-commodities', path: '/construction-commodities.html' },
   { name: 'cra-expansion-analysis',   path: '/cra-expansion-analysis.html' },
   { name: 'insights',                 path: '/insights.html' },
