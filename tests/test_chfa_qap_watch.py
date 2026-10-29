@@ -416,3 +416,33 @@ def test_workflow_reports_a_refused_write_and_guards_its_own_commit():
 def test_note_warns_that_redline_text_runs_together():
     r = watch.run(fetch=fetcher(site("$1,700,000")), previous={}, now="2026-09-30T05:21:00Z", pages=PAGES)
     assert "redline" in r["note"] and "from the PDF" in r["note"]
+
+
+def test_newly_watched_page_is_its_own_baseline():
+    # Adding a page to PAGES (the application page, 2026-10-29) must not report every
+    # file already on it as new; a file added there later is reported.
+    app_url = "https://chfa.localhost/rental-housing/housing-credit/application"
+    workbook = "https://chfa.localhost/getattachment/aaa/2027-Common-Application-V9.xlsx"
+    workbook10 = "https://chfa.localhost/getattachment/bbb/2027-Common-Application-V10.xlsx"
+    first = watch.run(fetch=fetcher(site("$1,700,000")), previous={}, now="2026-09-30T05:21:00Z", pages=PAGES)
+
+    def with_app(links):
+        pages = site("$1,700,000")
+        pages[app_url] = (200, {"content-type": "text/html"}, qap_page(links))
+        for u, _ in links:
+            pages[u] = (200, {"content-type": "application/vnd.ms-excel"}, u.encode())
+        return pages
+
+    pages2 = PAGES + [("application", app_url)]
+    second = watch.run(fetch=fetcher(with_app([(workbook, "Common Application V9")])),
+                       previous=first, now="2026-10-07T05:21:00Z", pages=pages2)
+    assert second["changes"]["new_documents"] == []
+    assert workbook in [d["url"] for d in second["documents"]]  # recorded, not reported
+    third = watch.run(fetch=fetcher(with_app([(workbook, "Common Application V9"), (workbook10, "Common Application V10")])),
+                      previous=second, now="2026-10-14T05:21:00Z", pages=pages2)
+    assert [d["url"] for d in third["changes"]["new_documents"]] == [workbook10]
+    assert third["has_changes"]
+
+
+def test_application_page_is_watched():
+    assert ("application", "https://www.chfainfo.com/rental-housing/housing-credit/application") in watch.PAGES
