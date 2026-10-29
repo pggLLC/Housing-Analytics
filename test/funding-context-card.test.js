@@ -86,7 +86,34 @@ assert(!/\$[0-9]/.test(iraCard.textContent), 'IRA rebate watch card contains no 
   const pma = render(softFunding, { surface: 'pma', countyFips: '08031', executionType: '9%', useCase: 'multifamily-new-construction' });
   const ended = pma.mount.querySelector('[data-funding-context-program="CEO-BUILDING-ELECTRIFICATION-GRANTS"]');
   assert(ended, 'the ended electrification grant still renders as context');
-  assert(/Ended\. No funding is available from it\./.test(ended.textContent), 'an ended program says it is not available');
+  // Agreement, not copy (AGENTS.md "Guards"): every program the data marks ended or paused
+  // must say on its card that no money is available, and must not claim any.
+  const disclosesNone = (t) => /\b(no funding|not available|unavailable)\b/i.test(t);
+  const claimsMoney = (t) => /currently tracked|verify current availability|\$[0-9]/.test(t);
+  const checkUnavailable = (doc, label) => {
+    const out = render(doc, { surface: 'pma', countyFips: '08031', executionType: '9%', useCase: 'multifamily-new-construction' });
+    let checked = 0;
+    for (const [id, p] of Object.entries(doc.programs)) {
+      if (p.status !== 'ended' && p.status !== 'paused') continue;
+      const card = out.mount.querySelector(`[data-funding-context-program="${id}"]`);
+      if (!card) continue;
+      checked++;
+      assert(disclosesNone(card.textContent), `${label}: ${id} is ${p.status} and its card must say no funding is available`);
+      assert(!claimsMoney(card.textContent), `${label}: ${id} is ${p.status} and its card must not claim available money`);
+    }
+    return checked;
+  };
+  assert(checkUnavailable(softFunding, 'published data') > 0, 'the scan found at least one ended or paused program to check');
+  // Rewording stays green; a contradictory claim fails.
+  assert(disclosesNone('Ended: not available to new applicants.') && !claimsMoney('Ended: not available to new applicants.'), 'a reworded disclosure still passes');
+  assert(claimsMoney('Ended. $250,000 currently tracked'), 'an availability claim on an ended program is caught');
+  // Sabotage: a dollar figure left on an ended record must not turn into an availability claim.
+  {
+    const doc = JSON.parse(JSON.stringify(softFunding));
+    doc.programs['CEO-BUILDING-ELECTRIFICATION-GRANTS'].available = 250000;
+    assert.strictEqual(doc.programs['CEO-BUILDING-ELECTRIFICATION-GRANTS'].available, 250000, 'sabotage applied');
+    assert(checkUnavailable(doc, 'ended record with a leftover amount') > 0, 'sabotaged record was checked');
+  }
   const pill = ended.querySelector('[data-funding-context-status]');
   assert(pill && /ended/.test(pill.textContent) && /pill bad/.test(pill.className), 'an ended program carries a visible ended status');
   for (const [id, p] of Object.entries(softFunding.programs)) {
