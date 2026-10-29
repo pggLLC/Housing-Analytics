@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-29T07:42:26.185243Z",
+  "generated": "2026-10-29T08:38:13.354945Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1015981
+      "bytes": 1016453
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9039,7 +9039,7 @@
     "data/market/opportunity_zones_co.geojson": {
       "featureCount": 126,
       "placeholder": false,
-      "bytes": 851407
+      "bytes": 851949
     },
     "data/market/parcel_aggregates_co.json": {
       "featureCount": 8,
@@ -9174,7 +9174,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16091
+      "bytes": 16089
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -9734,7 +9734,7 @@
     "data/policy/prop123_jurisdictions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 133084
+      "bytes": 143647
     },
     "data/policy/resale-conventions.json": {
       "featureCount": 0,
@@ -9755,6 +9755,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 46589
+    },
+    "data/policy/state-housing-laws.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 199674
     },
     "data/policy/stewardship-providers.json": {
       "featureCount": 0,
