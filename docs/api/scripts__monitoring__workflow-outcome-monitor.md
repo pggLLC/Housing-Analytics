@@ -82,9 +82,23 @@ GITHUB_TOKEN is absent. Fifteen workflows call it, none supplies a token, and
 it has never opened an issue in this repository's history -- a notifier that
 reports success while doing nothing. This exits nonzero instead.
 
+### `cronValues(field, lo, hi)`
+
+The values a cron field selects within [lo, hi], or null for `*`. Handles
+lists, ranges and steps (`1,16`, `1-5`, every-6 steps, `0-12/3`); null on anything
+else, so an unparsed field is never guessed at.
+
+### `longestGap(values, period)`
+
+Longest wait between selected values on a cycle of `period` units.
+
 ### `cronIntervalHours(expr)`
 
 Expected interval between scheduled runs, in hours, from a 5-field cron.
+
+The LONGEST gap between runs, so a list such as `1,16` (fetch-bps-monthly,
+twice a month) is judged as ~15 days rather than as monthly, and the
+two-missed-runs rule keeps its meaning without alerting inside a normal gap.
 
 ### `STALENESS_TOLERANCE`
 
@@ -114,7 +128,13 @@ jitter, not an outage. Without a floor, 2.5x on an hourly cadence means a
 Six hours still catches the case this package exists for: #1556 was fifteen
 DAYS of silence on a weekly job.
 
-### `assessStaleness({ cron, hoursSinceLastCompletedRun })`
+### `STALENESS_GRACE_HOURS`
+
+Added to every limit: a scheduled run starts hours late, so "two intervals
+have passed" is not yet "two runs were missed". Without it a monthly job that
+last succeeded on the 24th is flagged on the morning the second run is due.
+
+### `assessStaleness({ cron, hoursSinceLastCompletedRun, expectedHours })`
 
 `null` when the workflow is within its expected cadence, otherwise a
 description of how far past due it is.
@@ -176,6 +196,10 @@ same one `.github/actions/notify-workflow-outcome` has written since 2026-05,
 so this finds and closes the eight trackers that already exist instead of
 starting a parallel history.
 
+### `findMarkedIssue(issues, marker)`
+
+The open, Actions-authored issue whose title carries `marker`, or null.
+
 ### `listOpenIssues(repo, { token, fetchImpl, maxPages = 20 } = {})`
 
 Every open issue, following pagination.
@@ -196,3 +220,46 @@ keeps this monitor matched to those issues.
 ### `latestRelevantRun(repo, workflowFile, branch, { token, fetchImpl } = {})`
 
 Latest completed scheduled or manually dispatched run on the default branch.
+
+### `STALE_MARKER`
+
+ONE tracker for every silent schedule, not one per workflow. On first run a
+repo with 68 scheduled workflows could have several overdue at once, and a
+burst of issues is how a monitor gets muted. The issue body is the current
+list; a comment is added only when that list changes, so a long outage is one
+notification, not one a day.
+
+### `scheduledCrons(yamlText)`
+
+The cron expressions a workflow file declares (comments stripped).
+
+### `workflowCadenceHours(crons)`
+
+Shortest declared interval, in hours, or null when no cron parses.
+
+### `listWorkflows(repo, { token, fetchImpl, maxPages = 10 } = {})`
+
+Every workflow in the repo, with its enabled state, following pagination.
+
+### `lastSuccessfulRun(repo, workflowFile, branch, { token, fetchImpl } = {})`
+
+Latest SUCCESSFUL scheduled or dispatched run on the default branch.
+
+Success, not merely completed: #1556 was a weekly job whose runs kept
+completing as `cancelled` at the timeout, so "it ran" was true for fifteen
+days while no data landed. A manual dispatch that succeeds counts, because the
+data it produced is just as fresh.
+
+### `staleIdsFromBody(body)`
+
+The ids listed in a stale tracker's body, so a changed list can be told apart.
+
+### `decideStaleAction({ staleIds, tracker })`
+
+open / update / close / none, given the stale set now and the open tracker.
+
+### `runStaleness({ repo, token, branch, workflowsDir, fetchImpl, now = Date.now()`
+
+Judge every scheduled, enabled workflow against its own cadence. `mutate`
+false prints the report and touches no issue: a dispatch from a feature
+branch must never open or close a production tracker.

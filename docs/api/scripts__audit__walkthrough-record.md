@@ -32,6 +32,11 @@ a human made one, and reports what they said.
    UNMEASURED naming the difference. A walkthrough of a different route is
    not evidence about this one.
 
+4. It does not let one walkthrough stand for every kind of place. Phase 2
+   (docs/FINISH-LINE.md) needs a city, a rural county and a small town,
+   walked by three different people. Until 2026-10-14 this read only the
+   newest record, so one city walk would have passed G3 outright.
+
 None of this makes the record unforgeable — someone determined to write a
 fictional walkthrough can. It makes an ACCIDENTAL pass impossible: you
 cannot satisfy this by leaving a template in place, by walking it yourself,
@@ -57,7 +62,33 @@ fails closed still fails.
 
 Every record file, newest first by filename (they are date-prefixed).
 
+### `JURISDICTION_TYPES`
+
+The three kinds of place Phase 2 needs walked (docs/FINISH-LINE.md, agreed
+by the owner 2026-10-14). One walkthrough is one reader in one place; it
+says nothing about whether a rural county's reader gets through. So G3
+needs one complete record of each, by three different people.
+
+The type is written on the record, not derived: "city" against "small town"
+is a judgement about the place, and the person who arranged the walk is the
+one placed to make it.
+
+### `judgeRecord(file, guidedPath)`
+
+Judge one record against the path as it stands today.
+Returns { state, detail, record, type, walker, jurisdiction } — state is
+PASS (would act), OPEN (would not act) or UNMEASURED (does not count).
+
 ### `readWalkthrough(dir, guidedPath)`
 
-Judge the newest record against the path as it stands today.
-Returns { state, detail, record } — state is PASS, OPEN or UNMEASURED.
+Judge every record and decide G3 across them.
+
+Per jurisdiction type, the NEWEST record that counts decides: a later walk
+after fixes supersedes an earlier would-not-act. Records that do not count
+(incomplete, familiar walker, old path) are named, never silently skipped.
+
+  OPEN        a type's newest counting record says would-not-act
+  PASS        every type has a would-act record, by three different people
+  UNMEASURED  anything short of that — say which types are still needed
+
+Returns { state, detail, record }.

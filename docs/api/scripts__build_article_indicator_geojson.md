@@ -7,15 +7,17 @@ choropleth layers.
 
 Inputs:
   data/co-county-boundaries.json
-  assets/co-housing-costs/snapshots/acs_county_latest.csv
+  assets/co-housing-costs/snapshots/co_county_indicators_full.csv
+    (falls back to acs_county_latest.csv, the 4-indicator ACS snapshot)
 
 Output:
   data/processed/co_county_housing_indicators.geojson
 
 Each feature carries the standard TIGER properties (NAME, GEOID, ...)
-PLUS the indicator columns from the CSV (median_gross_rent,
-median_hh_income, vacancy_rate, rent_burden_30_plus). The map browser
-renders one layer per indicator using a choropleth tint.
+PLUS the indicator columns from the CSV (the four ACS fields, FHFA HPI
+10-year change, QCEW construction wage, BPS permits per 1,000) and the
+years each covers. The map browser renders one layer per indicator using
+a choropleth tint and reads the years from these properties.
 
 Idempotent: run as often as the article CSV is regenerated.
 

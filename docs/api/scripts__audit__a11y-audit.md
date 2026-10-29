@@ -1,16 +1,21 @@
 # `scripts/audit/a11y-audit.mjs`
 
-scripts/audit/a11y-audit.mjs — WCAG 2.1 AA accessibility audit via axe-core.
+scripts/audit/a11y-audit.mjs — WCAG 2.2 AA accessibility audit via axe-core.
 
 Partial closeout of #658 (WCAG audit + axe-core configured and runnable
 as `npm run audit:a11y`).
 
 Design:
-  - Uses Playwright to open each configured HTML page via file:// URLs.
-    file:// is fine for this first pass — axe inspects the rendered DOM,
-    and dynamic-data issues show up on pages whose static markup is
-    already WCAG-clean (so file:// is a strict subset of what a live
-    audit would surface).
+  - Serves the repository over a local HTTP server and opens each page
+    the way a visitor's browser does, then waits for its data to load.
+
+    It used to open pages as file:// URLs, on the theory that this was a
+    strict subset of a live audit. It was not a subset, it was a different
+    page: every fetch() of a data file fails under file://, so maps, tables
+    and charts never rendered. hna-what-housing-exists.html came out as
+    ~1,200 DOM nodes and zero map markers, while the live page drew 926
+    markers with no accessible name (axe aria-command-name, serious). The
+    report said 0 violations from April to October 2026 for that reason.
   - Loads axe-core via page.addScriptTag from node_modules. axe-core is
     already a transitive devDep via lighthouse — no new package needed.
   - Emits:
@@ -29,7 +34,7 @@ Usage:
 
 ## Symbols
 
-### `auditPage(browser, pagePath, axeScript)`
+### `auditPage(browser, origin, pagePath, axeScript)`
 
 Audit one page. Never throws: a page that cannot be audited comes back as
 `{ error }` so the run continues and the failure is reported per page.
