@@ -13,7 +13,7 @@ far more use than nobody having checked. Do not smooth it over.
 - **Jurisdiction:** <the place they chose>
 - **Jurisdiction type:** <city, rural county or small town — G3 needs one walkthrough of each>
 - **Date:** <YYYY-MM-DD>
-- **Site version:** <the "short" value at https://cohoanalytics.com/version.json when the walk started; hold merges until it ends>
+- **Site version:** <the "short" value in the live site's `/version.json` file when the walk started; hold merges until it ends>
 - **Verdict:** <would-act or would-not-act — would you take this to your board?>
 
 ## Steps
