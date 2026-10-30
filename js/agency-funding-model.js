@@ -35,7 +35,7 @@
     DOLA: {
       label: 'DOLA',
       name: 'Department of Local Affairs, Division of Housing',
-      plain: 'DOLA\'s Division of Housing makes grants and loans to build and keep affordable homes, approved by the State Housing Board, and runs the local part of Prop 123.',
+      plain: 'DOLA\'s Division of Housing makes grants and loans to build and keep affordable homes, approved by the State Housing Board, and runs the local part of Prop 123. Its Division of Local Government also gives towns and counties grants for housing projects (marked DLG).',
       measure: 'dollars',
     },
   };
@@ -323,6 +323,7 @@
     { key: 'dola-state', agency: 'DOLA', label: 'State grants and loans', test: null },
     { key: 'dola-123', agency: 'DOLA', label: 'Prop 123 support fund', test: /prop\s*123|AHOP/i },
     { key: 'dola-federal', agency: 'DOLA', label: 'Federal grants', long: 'Federal HOME, CDBG and Housing Trust Fund grants', test: /\((federal)\)|^HOME\b|CDBG|Housing Trust Fund/ },
+    { key: 'dola-local', agency: 'DOLA', label: 'Local government grants', long: 'Division of Local Government grants to towns and counties for housing projects', test: /^DLG\b/ },
   ];
   var NO_REGION = { key: '_none', label: 'No single county printed' };
 
@@ -333,6 +334,8 @@
       // Federal first: "HOME (federal)" is not a homeownership program.
       var fed = own.filter(function (g) { return g.key === 'dola-federal'; })[0];
       if (fed.test.test(p)) return fed;
+      var local = own.filter(function (g) { return g.key === 'dola-local'; })[0];
+      if (local.test.test(p)) return local;
       var p123 = own.filter(function (g) { return g.key === 'dola-123'; })[0];
       return p123.test.test(p) ? p123 : own.filter(function (g) { return g.key === 'dola-state'; })[0];
     }
