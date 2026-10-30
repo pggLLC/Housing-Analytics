@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-30T11:36:07.530Z",
+    "generated_at": "2026-10-30T12:52:57.796Z",
     "root": "data/",
-    "file_count": 2003,
-    "total_size_bytes": 209010821,
+    "file_count": 2004,
+    "total_size_bytes": 209042755,
     "kinds": {
-      "json": 1955,
+      "json": 1956,
       "geojson": 34,
       "csv": 14
     }
@@ -294,6 +294,21 @@
         "do_not_merge"
       ],
       "key_count": 5,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "affordable-housing/property-websites.json",
+      "kind": "json",
+      "size_bytes": 31932,
+      "mtime": "2026-10-30T12:51:35.016Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "entries"
+      ],
+      "key_count": 2,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -595,7 +610,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-30T11:15:09.716Z",
+      "mtime": "2026-10-30T12:52:55.091Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39839,8 +39854,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16088,
-      "mtime": "2026-10-30T11:15:11.783Z",
+      "size_bytes": 16090,
+      "mtime": "2026-10-30T12:52:56.529Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39864,7 +39879,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-30T11:15:11.242Z",
+      "mtime": "2026-10-30T12:52:56.162Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
