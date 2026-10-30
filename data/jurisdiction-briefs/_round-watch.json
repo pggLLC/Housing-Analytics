@@ -59,7 +59,7 @@
       "awarded": 0
      },
      "Watch": {
-      "listed": 46,
+      "listed": 47,
       "applied": 2,
       "awarded": 2
      }
@@ -161,7 +161,7 @@
       "awarded": 0
      },
      "Watch": {
-      "listed": 40,
+      "listed": 41,
       "applied": 1,
       "awarded": 0
      }
@@ -564,7 +564,7 @@
     "awarded": 5
    },
    "Watch": {
-    "listed": 187,
+    "listed": 189,
     "applied": 8,
     "awarded": 3
    }
@@ -603,7 +603,7 @@
     "applied": 5
    },
    "soft_size_unknown": {
-    "with_signal": 2,
+    "with_signal": 4,
     "applied": 0
    },
    "sponsor": {

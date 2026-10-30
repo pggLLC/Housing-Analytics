@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-30T02:00:02.759Z",
+    "generated_at": "2026-10-30T02:47:14.254Z",
     "root": "data/",
-    "file_count": 2000,
-    "total_size_bytes": 206728203,
+    "file_count": 2001,
+    "total_size_bytes": 206941364,
     "kinds": {
-      "json": 1952,
+      "json": 1953,
       "geojson": 34,
       "csv": 14
     }
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-30T01:59:57.847Z",
+      "mtime": "2026-10-30T02:47:11.610Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -37484,7 +37484,7 @@
       "path": "jurisdiction-briefs/_round-watch.json",
       "kind": "json",
       "size_bytes": 304383,
-      "mtime": "2026-10-25T10:47:42.455Z",
+      "mtime": "2026-10-30T02:46:32.652Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38101,8 +38101,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 254220,
-      "mtime": "2026-10-30T01:46:29.853Z",
+      "size_bytes": 254348,
+      "mtime": "2026-10-30T02:46:32.655Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -38595,8 +38595,8 @@
     {
       "path": "market/development-activity.json",
       "kind": "json",
-      "size_bytes": 1173862,
-      "mtime": "2026-10-25T10:47:42.067Z",
+      "size_bytes": 1185097,
+      "mtime": "2026-10-30T02:46:32.676Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38605,7 +38605,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "projects",
-      "primary_array_length": 719,
+      "primary_array_length": 725,
       "primary_array_first_keys": [
         "id",
         "name",
@@ -38962,6 +38962,34 @@
       "geometry_type": "Point"
     },
     {
+      "path": "market/hud_s8_contracts_co.json",
+      "kind": "json",
+      "size_bytes": 192632,
+      "mtime": "2026-10-30T02:28:40.742Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "contracts"
+      ],
+      "key_count": 2,
+      "primary_array_key": "contracts",
+      "primary_array_length": 348,
+      "primary_array_first_keys": [
+        "property_id",
+        "property_name",
+        "address",
+        "city",
+        "zip",
+        "county_fips",
+        "county_name",
+        "property_units",
+        "category",
+        "contract_number",
+        "status",
+        "program_group"
+      ]
+    },
+    {
       "path": "market/hud_zip_tract_crosswalk_co.json",
       "kind": "json",
       "size_bytes": 794427,
@@ -39116,8 +39144,8 @@
     {
       "path": "market/market-direction.json",
       "kind": "json",
-      "size_bytes": 774483,
-      "mtime": "2026-10-25T10:47:42.775Z",
+      "size_bytes": 774573,
+      "mtime": "2026-10-30T02:46:32.756Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39796,7 +39824,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-30T01:59:59.962Z",
+      "mtime": "2026-10-30T02:47:12.969Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39820,7 +39848,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-30T01:59:59.436Z",
+      "mtime": "2026-10-30T02:47:12.631Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41981,8 +42009,8 @@
     {
       "path": "policy/funding-awards/dola-awards.json",
       "kind": "json",
-      "size_bytes": 331326,
-      "mtime": "2026-10-16T15:30:49.105Z",
+      "size_bytes": 340402,
+      "mtime": "2026-10-30T02:46:32.831Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -41990,7 +42018,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "awards",
-      "primary_array_length": 283,
+      "primary_array_length": 291,
       "primary_array_first_keys": [
         "name",
         "grantee",

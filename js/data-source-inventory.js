@@ -1257,7 +1257,7 @@
       maxAgeDays: 30,
       geoUnit: 'N/A',
       coverage: 'All data files',
-      features: 1986,
+      features: 1987,
       description: 'Auto-generated manifest listing all data files with feature counts and timestamps.',
       tags: ['manifest', 'system', 'metadata'],
       apiEndpoint: null
@@ -1694,7 +1694,7 @@
       maxAgeDays: 45,
       geoUnit: 'Project',
       coverage: 'Affordable projects a state agency recorded from 2016 on',
-      features: 719,
+      features: 725,
       description: 'One record per affordable-housing project: its furthest stage (letter of intent, applied, funded, land funded, under construction or not funded), homes, and every agency record behind it with a link to the published report. Sponsor and contact fields are not copied.',
       tags: ['lihtc', 'prop123', 'pipeline', 'development', 'derived'],
       apiEndpoint: null

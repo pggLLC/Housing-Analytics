@@ -130,6 +130,10 @@ const ALLOW_LIST = new Set([
   'https://cdola.colorado.gov/commitment-filings',
   'https://cdola.colorado.gov/housing',
   'https://cdola.colorado.gov/prop123',
+  // DOLA releases cited by southwest awards in dola-awards.json. cdola.colorado.gov
+  // answers CI with 404; both read live through a web reader 2026-10-30.
+  'https://cdola.colorado.gov/press-release/more-than-17-million-has-been-granted-by-the-department-of-local-affairs-to-support',
+  'https://cdola.colorado.gov/press-release/the-department-of-local-affairs-awards-over-31m-in-second-round-of-the',
   // HNA renderer source links that are public agency/program landing pages
   // but block or reset CI fetches. Keep in sync with source-url-sweep.mjs.
   'https://co.chfainfo.com/',

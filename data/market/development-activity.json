@@ -28,17 +28,17 @@
    "chfa_applications": 156,
    "award_ledger": 458,
    "chfa_2026_round_one": 14,
-   "dola_awards": 225,
+   "dola_awards": 233,
    "chfa_property_list": 404
   },
   "excluded_events": 0,
   "program_awards_left_out": 93,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 719,
+  "project_count": 725,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 392
+  "statewide_recent_projects": 397
  },
  "county_summary": {
   "08001": {
@@ -160,9 +160,9 @@
   },
   "08007": {
    "name": "Archuleta County",
-   "projects": 4,
+   "projects": 5,
    "homes": 121,
-   "projects_without_homes": 0,
+   "projects_without_homes": 1,
    "multi_county_projects": 0,
    "by_stage": {
     "under_construction": {
@@ -171,9 +171,9 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 3,
+     "projects": 4,
      "homes": 110,
-     "projects_without_homes": 0
+     "projects_without_homes": 1
     },
     "land_funded": {
      "projects": 1,
@@ -1369,9 +1369,9 @@
   },
   "08067": {
    "name": "La Plata County",
-   "projects": 5,
-   "homes": 143,
-   "projects_without_homes": 0,
+   "projects": 8,
+   "homes": 263,
+   "projects_without_homes": 2,
    "multi_county_projects": 0,
    "by_stage": {
     "under_construction": {
@@ -1380,9 +1380,9 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 4,
-     "homes": 116,
-     "projects_without_homes": 0
+     "projects": 7,
+     "homes": 236,
+     "projects_without_homes": 2
     },
     "land_funded": {
      "projects": 1,
@@ -1681,8 +1681,8 @@
   },
   "08083": {
    "name": "Montezuma County",
-   "projects": 4,
-   "homes": 97,
+   "projects": 5,
+   "homes": 100,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -1692,8 +1692,8 @@
      "projects_without_homes": 0
     },
     "funded": {
-     "projects": 3,
-     "homes": 27,
+     "projects": 4,
+     "homes": 30,
      "projects_without_homes": 0
     },
     "land_funded": {
@@ -7455,7 +7455,7 @@
      "amount": 550000,
      "amount_label": "awarded",
      "source_url": "https://content.leg.colorado.gov/sites/default/files/images/annual_public_report_on_funding_of_affordable_housing_preservation_and_production_fy2023-24_1.pdf",
-     "quote": "Project: Chris Mountain II; Town: Trails Blvd Pagosa Springs; Program: Prop 123 AHOP; Amount: $550,000; Amount basis: awarded; Homes: 10; Announced: 2023-07-01/2024-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)",
+     "quote": "Project: Chris Mountain II; Town: Pagosa Springs; Program: Prop 123 AHOP; Amount: $550,000; Amount basis: awarded; Homes: 10; Announced: 2023-07-01/2024-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)",
      "announced": "2023-07-01/2024-06-30",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": false,
@@ -12122,6 +12122,39 @@
    ]
   },
   {
+   "id": "chris-mountain-2-trails-subdivisions-infrastructure-08007",
+   "name": "Chris Mountain II and Trails subdivisions infrastructure",
+   "city": null,
+   "county_fips": "08007",
+   "county_fips_all": null,
+   "county": "Archuleta County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2024,
+   "latest_year": 2024,
+   "total_units": null,
+   "total_units_unavailable_reason": "no source prints a home count for this project",
+   "restricted_units": null,
+   "restricted_units_unavailable_reason": "no source prints a home count for this project",
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2024,
+     "agency": "DOLA",
+     "program": "DLG More Housing Now (EIAF)",
+     "amount": 1919200,
+     "amount_label": "awarded",
+     "source_url": "https://www.pagosasun.com/stories/housing-infrastructure-project-awarded-19-million,34038",
+     "quote": "Project: Chris Mountain II and Trails subdivisions infrastructure; Program: More Housing Now grant (Energy and Mineral Impact Assistance Fund); Amount: $1,919,200; Amount basis: awarded; Announced: 2024-03-19; Source: The Pagosa Springs Sun, \"Housing, infrastructure project awarded $1.9 million\" (posted 2024-03-29)",
+     "announced": "2024-03-19",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "The Pagosa Springs Sun, \"Housing, infrastructure project awarded $1.9 million\" (posted 2024-03-29)",
+     "homes_unavailable_reason": "the award does not print a home count"
+    }
+   ]
+  },
+  {
    "id": "grace-commons-annex-08013",
    "name": "Annex",
    "city": "Boulder",
@@ -14605,7 +14638,7 @@
      "amount": 4750000,
      "amount_label": "awarded",
      "source_url": "https://content.leg.colorado.gov/sites/default/files/images/annual_public_report_on_funding_of_affordable_housing_preservation_and_production_fy2023-24_1.pdf",
-     "quote": "Project: Trails at Pagosa Springs THLF; Town: and Alpha Drive Pagosa Springs; Program: SB22-159; Amount: $4,750,000; Amount basis: awarded; Homes: 50; Announced: 2023-07-01/2024-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)",
+     "quote": "Project: Trails at Pagosa Springs THLF; Town: Pagosa Springs; Program: SB22-159; Amount: $4,750,000; Amount basis: awarded; Homes: 50; Announced: 2023-07-01/2024-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)",
      "announced": "2023-07-01/2024-06-30",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": false,
@@ -17130,6 +17163,108 @@
    ]
   },
   {
+   "id": "durango-08067",
+   "name": "Residences at Durango",
+   "city": "Durango",
+   "county_fips": "08067",
+   "county_fips_all": null,
+   "county": "La Plata County",
+   "place_geoid": "0822035",
+   "stage": "funded",
+   "first_year": 2022,
+   "latest_year": 2023,
+   "total_units": 120,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 120,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2022,
+     "agency": "CHFA",
+     "program": "LIHTC 4% + state",
+     "amount": 1322959,
+     "amount_label": "annual federal credit",
+     "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
+     "quote": "Cycle Year: 2022; Resident Type: Family; Building Type: New Construction & Acquisition/ Rehabilitation; Property Name: Residences at Durango; Address: 21382 US-160 W; City: Durango; County: La Plata; QCT: No; DDA: Yes; SADDA: No; Federal 4% Credit Amount Issued *: $1,322,959; PAB Issuer **: CHFA; PAB Amount ***: $16,000,000; Total Units: 120; LI Units: 120; Sect. 8: No",
+     "bond_amount": 16000000
+    },
+    {
+     "stage": "funded",
+     "year": 2022,
+     "agency": "CHFA",
+     "program": "Housing tax credit property list (4% Tax Exempt)",
+     "amount": null,
+     "amount_label": null,
+     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
+     "quote": "PROJECT: Residences at Durango; PROJ_ADD: 21382 US-160; PROJ_CTY: Durango; N_UNITS: 120; LI_UNITS: 120; YR_ALLOC: 2022; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
+     "compliance_status": "Active Compliance"
+    },
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "DOLA",
+     "program": "DLG incentive grant (HB21-1271)",
+     "amount": 1000000,
+     "amount_label": "awarded",
+     "source_url": "https://dlg.colorado.gov/incentive-grant-program-awards",
+     "quote": "Project: Residences at Durango; Town: Durango; Program: Innovative Affordable Housing Strategies incentive grant, Final Funding Round; Amount: $1,000,000; Amount basis: awarded; Announced: 2023-03-13; Source: DOLA Division of Local Government, incentive grant program awards: Final Funding Round (awarded 2023-03-13)",
+     "announced": "2023-03-13",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "DOLA Division of Local Government, incentive grant program awards: Final Funding Round (awarded 2023-03-13)",
+     "homes_unavailable_reason": "the award does not print a home count"
+    },
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "DOLA",
+     "program": "Division of Housing award",
+     "amount": 5500000,
+     "amount_label": "awarded",
+     "source_url": "https://cdola.colorado.gov/press-release/more-than-17-million-has-been-granted-by-the-department-of-local-affairs-to-support",
+     "quote": "Project: Residences at Durango; Town: Durango; Program: State Housing Board gap funding; Amount: $5,500,000; Amount basis: awarded; Homes: 120; Announced: 2023-04; Source: DOLA release, \"More Than $17 Million Has Been Granted By The Department of Local Affairs To Support the Development of Affordable Housing Statewide\"",
+     "announced": "2023-04",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": false,
+     "source_title": "DOLA release, \"More Than $17 Million Has Been Granted By The Department of Local Affairs To Support the Development of Affordable Housing Statewide\""
+    }
+   ]
+  },
+  {
+   "id": "rock-creek-housing-project-08067",
+   "name": "Rock Creek Housing Project",
+   "city": "Ignacio",
+   "county_fips": "08067",
+   "county_fips_all": null,
+   "county": "La Plata County",
+   "place_geoid": "0838535",
+   "stage": "funded",
+   "first_year": 2023,
+   "latest_year": 2023,
+   "total_units": null,
+   "total_units_unavailable_reason": "no source prints a home count for this project",
+   "restricted_units": null,
+   "restricted_units_unavailable_reason": "no source prints a home count for this project",
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "DOLA",
+     "program": "DLG incentive grant (HB21-1271)",
+     "amount": 2000000,
+     "amount_label": "awarded",
+     "source_url": "https://dlg.colorado.gov/incentive-grant-program-awards",
+     "quote": "Project: Rock Creek Housing Project; Town: Ignacio; Program: Innovative Affordable Housing Strategies incentive grant, Final Funding Round; Amount: $2,000,000; Amount basis: awarded; Announced: 2023-03-13; Source: DOLA Division of Local Government, incentive grant program awards: Final Funding Round (awarded 2023-03-13)",
+     "announced": "2023-03-13",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "DOLA Division of Local Government, incentive grant program awards: Final Funding Round (awarded 2023-03-13)",
+     "homes_unavailable_reason": "the award does not print a home count"
+    }
+   ]
+  },
+  {
    "id": "westside-mhp-ahic-1329-loan-08067",
    "name": "Westside MHP- AHIC 1329 Loan",
    "city": "Durango",
@@ -17158,6 +17293,39 @@
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": false,
      "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2023-24 (Appendix 2a-2f)"
+    }
+   ]
+  },
+  {
+   "id": "westside-triangle-mobile-home-parks-08067",
+   "name": "Westside and Triangle Mobile Home Parks",
+   "city": "Durango",
+   "county_fips": "08067",
+   "county_fips_all": null,
+   "county": "La Plata County",
+   "place_geoid": "0822035",
+   "stage": "funded",
+   "first_year": 2023,
+   "latest_year": 2023,
+   "total_units": null,
+   "total_units_unavailable_reason": "no source prints a home count for this project",
+   "restricted_units": null,
+   "restricted_units_unavailable_reason": "no source prints a home count for this project",
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "DOLA",
+     "program": "DLG incentive grant (HB21-1271)",
+     "amount": 800000,
+     "amount_label": "awarded",
+     "source_url": "https://dlg.colorado.gov/incentive-grant-program-awards",
+     "quote": "Project: Westside and Triangle Mobile Home Parks; Town: Durango; Program: Innovative Affordable Housing Strategies incentive grant, Final Funding Round; Amount: $800,000; Amount basis: awarded; Announced: 2023-03-13; Source: DOLA Division of Local Government, incentive grant program awards: Final Funding Round (awarded 2023-03-13)",
+     "announced": "2023-03-13",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "DOLA Division of Local Government, incentive grant program awards: Final Funding Round (awarded 2023-03-13)",
+     "homes_unavailable_reason": "the award does not print a home count"
     }
    ]
   },
@@ -17454,6 +17622,38 @@
      "amount_label": "requested (award amount not printed)",
      "source_url": "https://coloradoaffordablehousingfinancingfund.com/wp-content/uploads/2024/08/Prop123-AHFF-FY23-24-EquityPreliminarySelections.pdf",
      "quote": "Project Name | Location | Proposition 123 Funds Requested | Units | Equity Option Election — Woodbury Park Apartments Craig $2,771,932 96 Mixed-Income Investment"
+    }
+   ]
+  },
+  {
+   "id": "mancos-commons-08083",
+   "name": "Mancos Commons",
+   "city": "Mancos",
+   "county_fips": "08083",
+   "county_fips_all": null,
+   "county": "Montezuma County",
+   "place_geoid": "0848115",
+   "stage": "funded",
+   "first_year": 2023,
+   "latest_year": 2023,
+   "total_units": 3,
+   "total_units_unavailable_reason": null,
+   "restricted_units": null,
+   "restricted_units_unavailable_reason": "no source prints an income-restricted count; DOLA prints total homes only",
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2023,
+     "agency": "DOLA",
+     "program": "Transformational Affordable Housing Grant",
+     "amount": 815000,
+     "amount_label": "awarded",
+     "source_url": "https://cdola.colorado.gov/press-release/the-department-of-local-affairs-awards-over-31m-in-second-round-of-the",
+     "quote": "Project: Mancos Commons; Town: Mancos; Program: Transformational Affordable Housing Grant, second round; Amount: $815,000; Amount basis: awarded; Homes: 3; Announced: 2023; Source: DOLA release, \"The Department of Local Affairs Awards Over $31M In Second Round of the Transformational Affordable Housing Grant Program\"",
+     "announced": "2023",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": false,
+     "source_title": "DOLA release, \"The Department of Local Affairs Awards Over $31M In Second Round of the Transformational Affordable Housing Grant Program\""
     }
    ]
   },
@@ -19123,46 +19323,6 @@
    ]
   },
   {
-   "id": "durango-08067",
-   "name": "Residences at Durango",
-   "city": "Durango",
-   "county_fips": "08067",
-   "county_fips_all": null,
-   "county": "La Plata County",
-   "place_geoid": "0822035",
-   "stage": "funded",
-   "first_year": 2022,
-   "latest_year": 2022,
-   "total_units": 120,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 120,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2022,
-     "agency": "CHFA",
-     "program": "LIHTC 4% + state",
-     "amount": 1322959,
-     "amount_label": "annual federal credit",
-     "source_url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
-     "quote": "Cycle Year: 2022; Resident Type: Family; Building Type: New Construction & Acquisition/ Rehabilitation; Property Name: Residences at Durango; Address: 21382 US-160 W; City: Durango; County: La Plata; QCT: No; DDA: Yes; SADDA: No; Federal 4% Credit Amount Issued *: $1,322,959; PAB Issuer **: CHFA; PAB Amount ***: $16,000,000; Total Units: 120; LI Units: 120; Sect. 8: No",
-     "bond_amount": 16000000
-    },
-    {
-     "stage": "funded",
-     "year": 2022,
-     "agency": "CHFA",
-     "program": "Housing tax credit property list (4% Tax Exempt)",
-     "amount": null,
-     "amount_label": null,
-     "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
-     "quote": "PROJECT: Residences at Durango; PROJ_ADD: 21382 US-160; PROJ_CTY: Durango; N_UNITS: 120; LI_UNITS: 120; YR_ALLOC: 2022; CREDIT: 4% Tax Exempt; ComplianceStatus: Active Compliance",
-     "compliance_status": "Active Compliance"
-    }
-   ]
-  },
-  {
    "id": "heartside-hill-08069",
    "name": "Heartside Hill",
    "city": "Fort Collins",
@@ -19330,6 +19490,39 @@
    ]
   },
   {
+   "id": "mcd-multifamily-housing-08083",
+   "name": "MCD Multifamily Housing",
+   "city": "Mancos",
+   "county_fips": "08083",
+   "county_fips_all": null,
+   "county": "Montezuma County",
+   "place_geoid": "0848115",
+   "stage": "funded",
+   "first_year": 2022,
+   "latest_year": 2022,
+   "total_units": null,
+   "total_units_unavailable_reason": "no source prints a home count for this project",
+   "restricted_units": null,
+   "restricted_units_unavailable_reason": "no source prints a home count for this project",
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2022,
+     "agency": "DOLA",
+     "program": "DLG incentive grant (HB21-1271)",
+     "amount": 531700,
+     "amount_label": "awarded",
+     "source_url": "https://dlg.colorado.gov/incentive-grant-program-awards",
+     "quote": "Project: MCD Multifamily Housing; Town: Mancos; Program: Innovative Affordable Housing Strategies incentive grant, Catalytic Funding Round; Amount: $531,700; Amount basis: awarded; Announced: 2022-04-28; Source: DOLA Division of Local Government, incentive grant program awards: Catalytic Funding Round (awarded 2022-04-28)",
+     "announced": "2022-04-28",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "DOLA Division of Local Government, incentive grant program awards: Catalytic Funding Round (awarded 2022-04-28)",
+     "homes_unavailable_reason": "the award does not print a home count"
+    }
+   ]
+  },
+  {
    "id": "puwagaan-kaan-08083",
    "name": "Puwagaan Kaan (Healing Home)",
    "city": "Cortez",
@@ -19479,6 +19672,39 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Meadow Vista Apartments; PROJ_ADD: 2 Boxer Street; PROJ_CTY: Brush; N_UNITS: 45; LI_UNITS: 45; YR_ALLOC: 2022; CREDIT: 9% Competitive; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
+   "id": "zanoni-property-acquisition-08111",
+   "name": "Zanoni Property Acquisition",
+   "city": "Silverton",
+   "county_fips": "08111",
+   "county_fips_all": null,
+   "county": "San Juan County",
+   "place_geoid": "0870580",
+   "stage": "funded",
+   "first_year": 2022,
+   "latest_year": 2022,
+   "total_units": null,
+   "total_units_unavailable_reason": "no source prints a home count for this project",
+   "restricted_units": null,
+   "restricted_units_unavailable_reason": "no source prints a home count for this project",
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2022,
+     "agency": "DOLA",
+     "program": "DLG incentive grant (HB21-1271)",
+     "amount": 395020,
+     "amount_label": "awarded",
+     "source_url": "https://dlg.colorado.gov/incentive-grant-program-awards",
+     "quote": "Project: Zanoni Property Acquisition; Town: Silverton; Program: Innovative Affordable Housing Strategies incentive grant, Catalytic Funding Round; Amount: $395,020; Amount basis: awarded; Announced: 2022-04-28; Source: DOLA Division of Local Government, incentive grant program awards: Catalytic Funding Round (awarded 2022-04-28)",
+     "announced": "2022-04-28",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": true,
+     "source_title": "DOLA Division of Local Government, incentive grant program awards: Catalytic Funding Round (awarded 2022-04-28)",
+     "homes_unavailable_reason": "the award does not print a home count"
     }
    ]
   },

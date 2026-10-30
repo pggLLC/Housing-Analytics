@@ -142,7 +142,7 @@ ok(/openLatest\(v\)\.then\(function \(ok\) \{ if \(!ok(?: && !state\.gone\[[^\]]
 // Codex review on 0d0ddd308: a replacing 4% or non-CHFA export drops the earlier model's credits; failed comparison reads say so.
 {
   const src = read('js/whitepaper/submittal-review.js');
-  ok(/if \(hadCalc\) \{ v\.deal\.creditRequested = null; v\.deal\.stateCredits = null; \}/.test(src), 'credits from a replaced 9% export are cleared');
+  ok(/if \(hadCalc\) \{ v\.deal\.creditRequested = null; v\.deal\.stateCredits = null;(?: v\.deal\.stateStandard = null;)? \}/.test(src), 'credits from a replaced 9% export are cleared');
   ok(/if \(vs\.some\(function \(x\) \{ return !x; \}\)\) \{ \$\('srCompare'\)\.innerHTML = failed/.test(src) && /function \(\) \{ if \(tok === compareTok\) \$\('srCompare'\)\.innerHTML = failed; \}/.test(src), 'a comparison with an unreadable version shows that instead of a partial table');
 }
 // The Third Draft strikes the 60% cap on the 40% row (red strikethrough, printed pp. 41-42), so it is not applied.
@@ -446,7 +446,7 @@ ok(/if \(state\.loading \|\| state\.opening\) \{ flash\('Wait for the deal to fi
   ok(!frac.mix.market, 'a fractional total-home count does not invent a market-rate home');
 }
 const srcJs6 = read('js/whitepaper/submittal-review.js');
-ok(/v\.deal\.calcRegime = c\.nine && !c\.chfa/.test(srcJs6) && /if \(c\.nine && c\.chfa\)/.test(srcJs6), 'only a 9% CHFA-rent export brings engine results and stress tests');
+ok(/var rateFits = four \? !c\.nine : c\.nine;/.test(srcJs6) && /v\.deal\.calcRegime = rateFits && !c\.chfa/.test(srcJs6) && /if \(rateFits && c\.chfa\)/.test(srcJs6), 'only a CHFA-rent export at the round\'s credit rate (9% Round One, 4% Round Two) brings engine results and stress tests');
 ok(/\.catch\(function \(e\) \{\s*if \(state\.deal !== deal\) return;\s*clearForm\(\)/.test(srcJs6), 'a failed deal open clears the form before saving is allowed again');
 ok(/if \(tok !== compareTok\) return;/.test(srcJs6), 'a superseded comparison read is dropped');
 ok(/d\.creditRequested = ac != null && ac >= 0 \? ac : null/.test(srcJs6), 'a negative annual credit entry is not stored');

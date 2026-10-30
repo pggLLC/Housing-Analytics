@@ -173,7 +173,7 @@
     "  <div data-hm-about-body>",
     "    <ul>",
     "      <li><strong>CHFA tax credits</strong> come from CHFA\'s award reports for 2016 to 2026; <strong>OEDIT Prop 123</strong> awards come from the Affordable Housing Financing Fund\'s selection lists for FY23-24 to FY25-26. Both are read from the PDFs by <code>scripts/funding/build_funding_awards.py</code> and checked against the total each PDF prints (<code>data/policy/funding-awards/ledger.json</code>). An award whose PDF does not print a total, or whose rows did not add up, is marked <em>not checked against a total</em>.</li>",
-    "      <li><strong>DOLA Division of Housing</strong> awards were read by hand from DOLA\'s State Housing Board and Prop 123 announcements (<code>data/policy/funding-awards/dola-awards.json</code>), each with the sentence it rests on. DOLA does not publish a complete award list, so this part is partial: an announcement that names fewer projects than its total is marked incomplete.</li>",
+    "      <li><strong>DOLA Division of Housing</strong> awards were read by hand from DOLA\'s State Housing Board and Prop 123 announcements (<code>data/policy/funding-awards/dola-awards.json</code>), each with the sentence it rests on. DOLA does not publish a complete award list, so this part is partial: an announcement that names fewer projects than its total is marked incomplete. DOLA\'s Division of Local Government grants to towns and counties for a named housing project (incentive grants under HB21-1271, More Housing Now) are listed under DOLA as \"DLG\"; its planning and staffing grants are not projects and are left out.</li>",
     "      <li><strong>Tax credits are not dollars.</strong> CHFA prints the credit each project can claim per year (the federal credit runs ten years). Developers sell credits to investors, usually for less than a dollar each. So credits are shown on their own and never added to grants and loans. \"All three\" is measured in homes, the one thing every agency reports.</li>",
     "      <li><strong>Credits are not CHFA lending.</strong> CHFA\'s 4% award reports also print each project\'s tax-exempt bond amount (from 2018; the 2016 and 2017 reports do not). Bonds are a loan to the project, sold to bond buyers, and the issuer can be CHFA or a city, county or housing authority, so the bonds column is not a total of CHFA\'s own loans. Bonds are added from each award line, not from a report\'s printed total: CHFA\'s 2021 Round 2 report prints a bond total of $155,370,000, but its 17 bond amounts add up to $237,670,000 (the printed total leaves out four awards, $82,300,000 together, without saying why). CHFA\'s own mortgage loans are not in any award list this page reads, so they are not shown.</li>",
     "      <li><strong>Prop 123 money is split by program</strong> as the fund\'s selection lists name it: Concessionary Debt (loans), Equity, Land Banking and Modular Finance (factories, not housing sites). The four are shown in separate columns in \"Who funded whom\".</li>",
@@ -476,7 +476,7 @@
     renderFlowPick(f, byL, byR);
 
     var agencies = ['CHFA', 'OEDIT', 'DOLA'].filter(function (a) { return f.left.some(function (n) { return n.agency === a; }); });
-    var legendText = { CHFA: 'CHFA tax credits', OEDIT: 'OEDIT Prop 123 fund', DOLA: 'DOLA Division of Housing' };
+    var legendText = { CHFA: 'CHFA tax credits', OEDIT: 'OEDIT Prop 123 fund', DOLA: 'DOLA grants and loans' };
     $('[data-hm-flow-legend]').innerHTML = agencies.map(function (a) {
       return '<li><i class="' + FLOW_CLASS[a] + '"></i>' + esc(legendText[a]) + '</li>';
     }).join('');
@@ -549,7 +549,7 @@
       var o = M.OEDIT_KINDS[kind];
       return { k: 'OEDIT', head: o.head, tip: o.tip + ' Awarded by the Colorado Office of Economic Development and International Trade (OEDIT).', val: function (b) { return b && b.byKind[kind] !== undefined ? b.byKind[kind] : null; }, fmt: money };
     })).concat([
-      { k: 'DOLA', head: 'DOLA $', tip: 'Grants and loans, in dollars, awarded by the Colorado Department of Local Affairs (DOLA).', val: function (b) { return b && b.dollars; }, fmt: money },
+      { k: 'DOLA', head: 'DOLA $', tip: 'Grants and loans, in dollars, awarded by the Colorado Department of Local Affairs (DOLA): its Division of Housing, plus Division of Local Government grants for housing projects.', val: function (b) { return b && b.dollars; }, fmt: money },
     ]);
     groups.forEach(function (g) {
       g.population = by === 'county' ? (data.counties[g.key] || {}).population : null;
@@ -636,7 +636,7 @@
         (req === null ? '' : all ? '. Requested, not yet awarded' : '. Includes ' + money(req) + ' requested, not yet awarded'));
     }
     dollarTile('OEDIT', 'is-oedit', 'OEDIT Prop 123');
-    dollarTile('DOLA', 'is-dola', 'DOLA Division of Housing');
+    dollarTile('DOLA', 'is-dola', 'DOLA grants and loans');
     tile('is-homes', 'Homes in these awards', count(s.homes), 'A project funded twice is counted twice');
     $('[data-hm-proj-tiles]').innerHTML = tiles.join('');
   }
@@ -846,7 +846,7 @@
     $all('[data-hm-norm]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-hm-norm') === state.norm)); });
     $all('[data-hm-mrows]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-hm-mrows') === state.matrixRows)); });
     $('[data-hm-def]').innerHTML = state.agency === 'ALL'
-      ? 'Colorado\'s three state housing funders: <strong>CHFA</strong> (LIHTC, the federal and state Low-Income Housing Tax Credits), <strong>OEDIT</strong> (the Prop 123 fund) and <strong>DOLA</strong> (Division of Housing grants and loans). Credits and dollars are different things, so together they are counted in homes.'
+      ? 'Colorado\'s three state housing funders: <strong>CHFA</strong> (LIHTC, the federal and state Low-Income Housing Tax Credits), <strong>OEDIT</strong> (the Prop 123 fund) and <strong>DOLA</strong> (Division of Housing grants and loans, plus local government housing grants). Credits and dollars are different things, so together they are counted in homes.'
       : '<strong>' + esc(M.AGENCIES[state.agency].label) + '</strong> (' + esc(M.AGENCIES[state.agency].name) + '). ' + esc(M.AGENCIES[state.agency].plain.replace(/^\S+ is /, 'It is '));
     $('[data-hm-clear]').hidden = !state.place;
     $('[data-hm-q]').value = state.place ? state.place.label : '';
@@ -1150,7 +1150,7 @@
     var link = function (href, text) { return '<a href="' + href + '" target="_blank" rel="noopener">' + text + '</a>'; };
     var html = 'Sources: ' + link('https://www.chfainfo.com/rental-housing/housing-credit/awards', 'CHFA tax credit award reports') +
       ' and ' + link('https://coloradoaffordablehousingfinancingfund.com/about/selected-applicants/', 'the Prop 123 fund\'s selected applicants') + day(ledgerRead) +
-      '; DOLA Division of Housing ' + link('https://doh.colorado.gov/application-schedule-and-awards', 'awards') + ' and State Housing Board announcements' + day(dolaRead) + '.';
+      '; DOLA Division of Housing ' + link('https://doh.colorado.gov/application-schedule-and-awards', 'awards') + ' and State Housing Board announcements' + day(dolaRead) + '; DOLA Division of Local Government ' + link('https://dlg.colorado.gov/incentive-grant-program-awards', 'incentive grants') + '.';
     Array.prototype.forEach.call(root.querySelectorAll('[data-hm-source]'), function (el) { el.innerHTML = html; });
   }
 
