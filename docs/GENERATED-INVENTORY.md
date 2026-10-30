@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T01:46:54.785Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T01:59:21.235Z. Do not edit by hand.
 
 ---
 
@@ -2838,7 +2838,7 @@
 | `.github/workflows/data-refresh.yml` | 5.8 KB |
 | `.github/workflows/data-sentinels-check.yml` | 6.1 KB |
 | `.github/workflows/data-source-monitoring.yml` | 13.7 KB |
-| `.github/workflows/deploy.yml` | 5.3 KB |
+| `.github/workflows/deploy.yml` | 5.8 KB |
 | `.github/workflows/developer-url-health.yml` | 3.3 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 3.5 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.6 KB |
