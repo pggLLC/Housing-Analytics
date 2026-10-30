@@ -136,6 +136,7 @@
   <script src="js/components/tax-abatement.js"></script>
   <script src="js/components/chfa-award-history.js"></script>
   <script defer src="js/components/place-deals-limits.js"></script>
+  <script defer src="js/hna/hna-market-call.js"></script>
   <script defer src="js/components/state-housing-laws.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
@@ -1060,6 +1061,8 @@
       <!-- ── Colorado Market Conditions ── -->
       <section id="co-market-conditions" class="chart-card span-12">
         <h2>Colorado Market Conditions</h2>
+        <!-- The market call for the geography on screen (js/hna/hna-market-call.js). -->
+        <p id="hnaMarketCall" class="hna-market-call" data-market-call role="note" style="margin:0 0 .75rem;padding:.6rem .8rem;border-left:4px solid var(--accent);background:var(--card2, var(--bg2));border-radius:4px" hidden></p>
         <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
           Market conditions by region — from Bridge MLS data or Colorado Association of REALTORS (CAR) reports. Supports early-stage LIHTC site feasibility screening.
         </p>
