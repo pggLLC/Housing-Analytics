@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-10-29T10:12:10Z",
-    "as_of": "2026-10-29",
+    "generated": "2026-10-30T10:14:12Z",
+    "as_of": "2026-10-30",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -72,7 +72,7 @@
       "url": "https://www.census.gov/programs-surveys/acs/news/data-releases/2025/release-schedule.html",
       "status": "ok",
       "listed": 3,
-      "upcoming": 1
+      "upcoming": 0
     },
     {
       "id": "fred",
@@ -115,18 +115,6 @@
       "url": "https://colorado.planning.org/conferences-and-meetings/event-calendar",
       "source": "apa_colorado",
       "category": "conference"
-    },
-    {
-      "title": "Census ACS 2025 1-Year estimates released",
-      "start": "2026-10-29",
-      "end": null,
-      "time": null,
-      "location": null,
-      "online": true,
-      "organizer": "U.S. Census Bureau",
-      "url": "https://www.census.gov/programs-surveys/acs/news/data-releases/2025/release-schedule.html",
-      "source": "acs",
-      "category": "release"
     },
     {
       "title": "OEDIT publishes the Transit and Housing Investment Zones map (HB26-1065)",
@@ -816,6 +804,18 @@
     }
   ],
   "past": [
+    {
+      "title": "Census ACS 2025 1-Year estimates released",
+      "start": "2026-10-29",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "https://www.census.gov/programs-surveys/acs/news/data-releases/2025/release-schedule.html",
+      "source": "acs",
+      "category": "release"
+    },
     {
       "title": "Federal Reserve rate decision (FOMC meeting)",
       "start": "2026-10-27",
@@ -5005,30 +5005,6 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-advanced-fair-housing-fair-housing-and-mental-health-online-workshop-10-30-2025",
       "source": "chfa",
       "category": "compliance"
-    },
-    {
-      "title": "chfareach: Transitioning into Affordable Housing from Market Rate Housing, Webinar",
-      "start": "2025-10-29",
-      "end": null,
-      "time": "08:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-transitioning-into-affordable-housing-from-market-rate-housing-webinar-10-29-2025",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "Federal Reserve rate decision (FOMC meeting)",
-      "start": "2025-10-28",
-      "end": "2025-10-29",
-      "time": null,
-      "location": null,
-      "online": false,
-      "organizer": "Federal Reserve",
-      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
-      "source": "fomc",
-      "category": "release"
     }
   ]
 }
