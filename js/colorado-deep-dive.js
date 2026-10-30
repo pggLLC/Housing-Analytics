@@ -838,23 +838,32 @@ function initPolicyPanel(panelId) {
     if (!body) return;
     DataService.getJSON('data/fred-data.json').then(function (data) {
       var series = (data && data.series) || {};
-      var lastH = null, lastD = null;
+      /* One period for every row: the latest one all four metros have
+         published, so a metro whose update failed never sits under a newer
+         heading than its own value. */
+      function commonLast(key) {
+        var c = null;
+        METROS.forEach(function (m) {
+          var o = seriesObs(series, m[key]);
+          var last = o.length ? o[o.length - 1].date : null;
+          if (last && (!c || last < c)) c = last;
+        });
+        return c;
+      }
+      var lastH = commonLast('hpi'), lastD = commonLast('dom');
       var rows = METROS.map(function (m) {
         var hpi = seriesObs(series, m.hpi);
         var dom = seriesObs(series, m.dom);
         var dated = pct(valueAt(hpi, '2024-10-01'), valueAt(hpi, '2023-10-01'));
-        var h = hpi[hpi.length - 1];
-        var latest = h ? pct(+h.value, valueAt(hpi, yearBefore(h.date))) : null;
+        var latest = lastH ? pct(valueAt(hpi, lastH), valueAt(hpi, yearBefore(lastH))) : null;
         var dec24 = valueAt(dom, '2024-12-01');
-        var d = dom[dom.length - 1];
-        var prevD = d ? valueAt(dom, yearBefore(d.date)) : null;
-        if (h && (!lastH || h.date > lastH)) lastH = h.date;
-        if (d && (!lastD || d.date > lastD)) lastD = d.date;
+        var dNow = lastD ? valueAt(dom, lastD) : null;
+        var prevD = lastD ? valueAt(dom, yearBefore(lastD)) : null;
         return '<tr><td>' + escapeHtml(m.name) + '</td>' +
           '<td>' + (dated || '\u2014') + '</td>' +
           '<td>' + (latest || '\u2014') + '</td>' +
           '<td>' + (dec24 != null ? dec24 : '\u2014') + '</td>' +
-          '<td>' + (d ? (+d.value) + (prevD != null ? ' (' + prevD + ' a year earlier)' : '') : '\u2014') + '</td></tr>';
+          '<td>' + (dNow != null ? dNow + (prevD != null ? ' (' + prevD + ' a year earlier)' : '') : '\u2014') + '</td></tr>';
       });
       var hHead = document.getElementById('cddHpiLatestHead');
       if (hHead && lastH) hHead.textContent = 'Prices, ' + quarterLabel(yearBefore(lastH)) + ' to ' + quarterLabel(lastH);
