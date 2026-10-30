@@ -17,6 +17,8 @@
   if (global.HudContractExpiry) return;
 
   var DATA = 'data/market/hud_s8_contracts_co.json';
+  // Confirmed property pages, keyed 'hud-mf:<property_id>' (same file the HNA lookup bar reads).
+  var SITES = 'data/affordable-housing/property-websites.json';
   var YEARS_AHEAD = 5;
 
   function esc(s) {
@@ -63,13 +65,27 @@
       '</strong>, covering <strong>' + num(homes) + ' homes</strong>' + where + ',' + when + '.';
   }
 
+  // A property page shows only when the entry still names the same property.
+  function siteFor(sites, c) {
+    var e = sites && sites['hud-mf:' + c.property_id];
+    if (!e || e.kind !== 'property' || !/^https:\/\//.test(e.url)) return null;
+    return String(e.name).trim().toUpperCase() === String(c.property_name || '').trim().toUpperCase() ? e : null;
+  }
+
+  function nameCell(c, sites) {
+    var e = siteFor(sites, c);
+    if (!e) return esc(niceName(c.property_name));
+    return '<a href="' + esc(e.url) + '" target="_blank" rel="noopener" title="The property\'s own page, listed there as ' +
+      esc(e.listed_there_as) + '">' + esc(niceName(c.property_name)) + '</a>';
+  }
+
   // Property, date and homes come first so a phone shows them without scrolling sideways.
-  function tableRows(rows) {
+  function tableRows(rows, sites) {
     if (!rows.length) return '<tr><td colspan="6">No contracts match these filters.</td></tr>';
     return rows.map(function (c) {
       var ended = /expired/i.test(c.status || '');
       return '<tr class="pres-row">' +
-        '<td>' + esc(niceName(c.property_name)) + '</td>' +
+        '<td>' + nameCell(c, sites) + '</td>' +
         '<td>' + esc(fmtDate(c.term_ends)) + (ended ? ' <span class="hce-ended">(HUD lists it as expired)</span>' : '') + '</td>' +
         '<td class="num">' + esc(c.assisted_units === null ? '—' : num(c.assisted_units)) + '</td>' +
         '<td>' + esc(c.city) + '</td>' +
@@ -95,7 +111,7 @@
     document.head.appendChild(st);
   }
 
-  function render(mount, doc) {
+  function render(mount, doc, sites) {
     var m = doc.meta || {};
     var defaultUntil = windowEnd(m.as_of, YEARS_AHEAD);
     var counties = {};
@@ -128,20 +144,21 @@
             '<th scope="col" class="pres-th" title="County in HUD\'s property record.">County</th>' +
             '<th scope="col" class="pres-th" title="HUD program that pays the rent subsidy.">Program</th>' +
           '</tr></thead>' +
-          '<tbody id="hudContractsBody">' + tableRows(pick(doc, '', defaultUntil)) + '</tbody>' +
+          '<tbody id="hudContractsBody">' + tableRows(pick(doc, '', defaultUntil), sites) + '</tbody>' +
         '</table>' +
       '</div>' +
       '<p class="pres-footnote">Source: <a href="' + esc(m.source_url) + '" target="_blank" rel="noopener">HUD Multifamily Assistance &amp; Section 8 Contracts database</a>, ' +
       'current as of ' + esc(fmtDate(m.as_of)) + ', read ' + esc(fmtDate(m.fetched)) + '. ' +
       'It covers HUD project-based contracts only, not Housing Tax Credit, USDA or local restrictions. ' +
-      'Owner and manager contacts are not copied here; HUD\'s file has them.</p>';
+      'Owner and manager contacts are not copied here; HUD\'s file has them. ' +
+      'A linked name opens the property\'s own page, where we found and checked one.</p>';
 
     var county = mount.querySelector('#hudContractsCounty');
     var until = mount.querySelector('#hudContractsUntil');
     function update() {
       var rows = pick(doc, county.value, until.value);
       mount.querySelector('#hudContractsSummary').innerHTML = summary(rows, until.value, county.value ? counties[county.value] : '');
-      mount.querySelector('#hudContractsBody').innerHTML = tableRows(rows);
+      mount.querySelector('#hudContractsBody').innerHTML = tableRows(rows, sites);
     }
     county.addEventListener('change', update);
     until.addEventListener('change', update);
@@ -150,17 +167,21 @@
   function start() {
     var mount = document.getElementById('hudContracts');
     if (!mount) return;
-    var url = global.resolveAssetUrl ? global.resolveAssetUrl(DATA) : DATA;
-    fetch(url).then(function (r) {
-      if (!r.ok) throw new Error(DATA + ' returned ' + r.status);
-      return r.json();
-    }).then(function (doc) { render(mount, doc); }).catch(function () {
+    function get(path) {
+      return fetch(global.resolveAssetUrl ? global.resolveAssetUrl(path) : path).then(function (r) {
+        if (!r.ok) throw new Error(path + ' returned ' + r.status);
+        return r.json();
+      });
+    }
+    // The links file is optional: without it the table shows plain names.
+    var sites = get(SITES).then(function (d) { return (d && d.entries) || {}; }, function () { return {}; });
+    Promise.all([get(DATA), sites]).then(function (res) { render(mount, res[0], res[1]); }).catch(function () {
       mount.innerHTML = '<h2 id="hudContractsHeading">Federal rent subsidy contracts ending soon</h2>' +
         '<p>HUD\'s contract list didn\'t load. See <a href="https://www.hud.gov/hud-partners/multifamily-assist-section8-database" target="_blank" rel="noopener">HUD\'s Section 8 contracts database</a>.</p>';
     });
   }
 
-  global.HudContractExpiry = { _pick: pick, _windowEnd: windowEnd, _niceName: niceName };
+  global.HudContractExpiry = { _pick: pick, _windowEnd: windowEnd, _niceName: niceName, _tableRows: tableRows };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
 }(typeof window !== 'undefined' ? window : this));
