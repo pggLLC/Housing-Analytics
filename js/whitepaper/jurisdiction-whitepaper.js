@@ -61,6 +61,8 @@
     // Who works here and who drives in (public), the largest employers (public), and who to
     // call at them and at local housing partners (private: served by the gated site only).
     commute: { path: 'data/market/commute-strength.json', optional: true },
+    // Where a town's working residents work, with residents who work in another state in the total.
+    jobAccess: { path: 'data/policy/job-access.json', optional: true },
     employers: { path: 'data/market/principal-employers.json', optional: true },
     employerContacts: { path: 'data/jurisdiction-briefs/_employer-contacts.json', optional: true },
     // The private question bank: served by the gated site only (coho-backend gated/).
@@ -962,7 +964,12 @@
       });
     });
     if (!rec && !areas.length) return null;
+    // The one other town that employs the most of the place's working residents (towns only).
+    var ja = src.jobAccess && row.type !== 'county' ? (src.jobAccess.places || {})[row.geoid] : null;
+    var top = ja && ja.top_workplace && ja.workers ? { name: ja.top_workplace.name, workers: ja.top_workplace.workers, of: ja.workers,
+      otherStates: ja.workers_other_states || 0, year: (src.jobAccess.meta || {}).lodes_year || null } : null;
     return {
+      topWorkplace: top,
       commute: rec ? { name: rec.name, jobs: rec.jobs, inCommuters: rec.in_commuters, far: rec.far, farLow: rec.far_low, long: rec.long,
         medianFar: rec.median_far_miles, residents: rec.residents, outCommuters: rec.out_commuters, from: rec.from || [], to: rec.to || [],
         county: !!(C.counties || {})[row.geoid] || !(C.places || {})[row.geoid], year: (C.meta || {}).lodes_year || null } : null,
@@ -1658,9 +1665,18 @@
         row2('Recorded 60+ miles away (many not daily)', fmtInt(c.long)) +
         row2(c.county ? 'Working residents who work in another Colorado county' : 'Working residents who work in another town', fmtInt(c.outCommuters) + ' of ' + fmtInt(c.residents)) +
         row2('Where in-commuters live', c.from.map(function (f) { return esc(f[0]) + ' ' + fmtInt(f[1]); }).join('; ') || NA) +
+        (c.county ? '' : row2('Where working residents work', c.to.map(function (f) { return esc(f[0]) + ' ' + fmtInt(f[1]); }).join('; ') || NA)) +
         '</tbody></table>' +
         '<p class="wp-meta">In-commuters are the pool a new workforce property can draw from if some move closer. Count them as demand only with comparable-property evidence of tenants moving in (CHFA QAP).</p>' +
         srcLine('data/market/commute-strength.json (LEHD LODES ' + (c.year || NA) + ' primary jobs, home block to work block, straight-line miles)');
+    }
+    var t = W.topWorkplace;
+    // Printed once one other town employs a fifth or more, the same line Where Should I Build shows.
+    if (t && t.of && t.workers / t.of >= 0.2) {
+      // The commuting line a market study documents (NCHMA v3.1, III.F.8). Context only: no demand is added.
+      h += '<p data-commute-line>' + Math.round(100 * t.workers / t.of) + '% of ' + esc(m.name) + '\'s ' + fmtInt(t.of) + ' working residents (' + fmtInt(t.workers) + ') work in ' + esc(t.name) + '.' +
+        (t.otherStates ? ' The total includes ' + fmtInt(t.otherStates) + ' who work in another state.' : '') + '</p>' +
+        srcLine('data/policy/job-access.json (LEHD LODES ' + (t.year || NA) + ' primary jobs, including jobs in other states)');
     }
     W.areas.forEach(function (a) {
       h += '<h3>Largest employers: ' + esc(a.area) + ' (' + esc(a.asOf) + ')</h3><div class="wp-scroll"><table><thead><tr><th>Rank</th><th>Employer</th><th>Employees</th></tr></thead><tbody>' +

@@ -497,6 +497,15 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   ok(/work in another town/.test(WP.renderHtml(bay)), 'a town record says town');
   const den = WP.buildModel(src, '08031', { FundingFit, today: '2026-10-29' });
   ok(den.workforce && den.workforce.commute && den.workforce.areas.length === 0 && !/Largest employers:/.test(WP.renderHtml(den)), 'an area without an employer table shows the commute reading only');
+  // The commuting line a market study documents (paul 2026-10-29, "add the commute line"): context only, never demand.
+  const ja = src.jobAccess.places['0805265'];
+  const line = (h.match(/<p data-commute-line>[^<]*<\/p>/) || [''])[0];
+  ok(line.includes(Math.round(100 * ja.top_workplace.workers / ja.workers) + '% of Bayfield') && line.includes('work in Durango (city)'), `Bayfield's report says where its residents work: ${line}`);
+  ok(line.includes(ja.workers.toLocaleString('en-US')) && /another state/.test(line), 'the total counts residents who work in another state');
+  ok(/Where working residents work/.test(h) && !/Where working residents work/.test(mesa), 'a town lists where its residents work; a county does not');
+  ok(!/data-commute-line/.test(WP.renderHtml(WP.buildModel(src, '0822035', { FundingFit, today: '2026-10-29' }))), 'Durango has no line: no other town employs a fifth of its residents');
+  const noJa = clone(src); delete noJa.jobAccess;
+  ok(!/data-commute-line/.test(WP.renderHtml(WP.buildModel(noJa, '0805265', { FundingFit, today: '2026-10-29' }))), 'without the file the line is left out, not guessed');
 }
 
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);
