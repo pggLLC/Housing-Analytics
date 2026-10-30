@@ -284,6 +284,8 @@ test('a project step save records the jurisdiction it was saved under', () => {
   WS.setJurisdiction({ geoid: '0820000', name: 'Denver', geoType: 'place', countyFips: '08031' });
   assert.strictEqual(WS.getStep('deal').savedForGeoid, '0828745', 'the deal save did not record its place');
   assert.strictEqual(WS.getStep('deal').completedAt, '2026-10-30T01:00:00Z', 'a place change erased the saved deal');
+  assert.ok(!WS.isStepComplete('deal'), 'a deal saved for Fruita still counts as done for Denver');
+  assert.ok(!WS.getProgress().completedSteps.includes('deal'), 'project progress still lists the other place\'s deal');
   // A step written without a result (the market clear on a place change) is not stamped.
   assert.ok(!WS.getStep('market').savedForGeoid);
   // A caller that names the geography its result is for keeps it: the Scenario

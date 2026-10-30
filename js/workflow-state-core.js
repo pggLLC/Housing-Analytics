@@ -277,6 +277,12 @@
   function _isStepCompleteForProject(key, project) {
     var step = project[key];
     if (!step) { return false; }
+    // A project step saved for another place (savedForGeoid, stamped by
+    // setStep) is not done for this one, so the banner, project progress and
+    // rail agree with the Recommendation that the new place still needs it.
+    var here = project.jurisdiction && project.jurisdiction.geoid;
+    if ((key === 'market' || key === 'scenario' || key === 'deal') && step.savedForGeoid && here
+        && String(step.savedForGeoid) !== String(here)) { return false; }
     switch (key) {
       case 'jurisdiction':
         return !!(step.fips && step.completedAt);
