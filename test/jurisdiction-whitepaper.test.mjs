@@ -321,6 +321,7 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   ok(Nav.html('/developer.html').includes('<a href="dossiers/">Dossiers</a>'), 'the menu links the private dossier list');
   ok(Nav.html('/developer.html').includes('<a href="developer-entitled-land.html">Entitled land</a>'), 'the menu links the private entitled land page');
   ok(/aria-current="page"[^>]*>Entitled land/.test(Nav.html('/developer-entitled-land.html')), 'the entitled land page marks its own entry');
+  ok(Nav.html('/developer.html').includes('<a href="developer-parcel-sales.html">Parcel sales</a>'), 'the menu links the private parcel sales page');
 }
 
 // ---- 10. Codex review of #2232: multi-county cities, income universes, blank cells.
