@@ -292,6 +292,22 @@ test('a project step save records the jurisdiction it was saved under', () => {
   assert.strictEqual(WS.getStep('scenario').savedForGeoid, '08077');
 });
 
+test('a save on a page opened for another place is stamped with that place', () => {
+  // Market Analysis opened at ?geoid=08077 shows Mesa County while Denver is
+  // the workflow's place; its save must not be recorded as Denver's.
+  const load = (url) => {
+    const w = new JSDOM('<body></body>', { url, runScripts: 'outside-only' }).window;
+    ['js/workflow-state-core.js', 'js/workflow-state-api.js'].forEach((p) => w.eval(read(p)));
+    w.WorkflowState.setJurisdiction({ geoid: '08031', name: 'Denver County', geoType: 'county' });
+    w.WorkflowState.setStep('market', { completedAt: '2026-10-30T03:00:00Z', pmaScore: 61 });
+    return w.WorkflowState.getStep('market');
+  };
+  assert.strictEqual(load('https://example.org/market-analysis.html?geoid=08077').savedForGeoid, '08077',
+    'a Mesa County market save was stamped as the Denver project');
+  assert.strictEqual(load('https://example.org/market-analysis.html?geoid=08031').savedForGeoid, '08031');
+  assert.strictEqual(load('https://example.org/market-analysis.html').savedForGeoid, '08031');
+});
+
 /* ── What the reader sees ───────────────────────────────────────────────── */
 
 function renderFor(geoid, project) {
