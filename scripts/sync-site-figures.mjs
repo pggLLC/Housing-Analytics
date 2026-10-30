@@ -67,6 +67,10 @@ export const RULES = [
   { value: (F) => money2(F.eqCo - 0.05), files: [GUIDE], pattern: /id="dgLowPrice">\$(\d\.\d\d)</g },
   { value: (F) => (1.5 * 10 * (F.eqCo - 0.05)).toFixed(2), files: [GUIDE], pattern: /id="dgLowEquity">\$(\d+\.\d\d)M</g },
   { fig: 'eq9', files: [GUIDE], pattern: /Purchase Price @ \$(\d\.\d\d)</g },
+  // Example sources table: $14.0M of equity at the national 9% price, so the credit amount follows the price.
+  { fig: 'eq9', files: [GUIDE], pattern: /M credits @ \$(\d\.\d\d) pricing/g },
+  { value: (F) => (14.0 / F.eq9).toFixed(1), files: [GUIDE], pattern: /<td>\$(\d+\.\d)M credits @ \$/g },
+  { fig: 'quarter', files: [GUIDE], pattern: /pricing \(Novogradac's (\d{4}-Q\d) national 9% average/g },
   { value: (F) => thousands(F.eq9 * 1e6), files: [GUIDE], pattern: /<td>\(\$([\d,]+)\)<\/td>\s*<td>Paid in Years 1-2/g },
   { fig: 'quarter', files: [GUIDE], pattern: /\(Novogradac (\d{4}-Q\d) average for 9% credits/g },
   // Script defaults and fallbacks.
