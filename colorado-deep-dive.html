@@ -1418,14 +1418,26 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title">Market Dynamics Shift</h3>
-<p class="chart-subtitle">2025 vs 2026 outlook · <span style="color:var(--warn);font-weight:700;">QUAL</span> · interpretation of <a href="https://www.apartmentlist.com/research/category/data-rent-estimates" target="_blank" rel="noopener">Apartment List</a> + <a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a> data</p>
+<p class="chart-subtitle">Four Colorado metros, 2024 against the latest release, then our 2026 outlook · <span style="color:var(--good);font-weight:700;">DATA</span> for the table · FHFA, Realtor.com and BLS series on FRED</p>
 </div>
 <div style="padding: 2rem 0;">
 <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-border);">
-<div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--color-primary);">2025 Recap</div>
-<ul style="font-size: 0.9375rem; line-height: 1.7; margin: 0; padding-left: 1.5rem;">
-<li>Sellers competing more aggressively</li>
-</ul>
+<div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--color-primary);">Prices and time on market, by metro</div>
+<p style="font-size:.85rem;color:var(--color-text-muted);margin:0 0 .6rem;">Columns marked <strong>2024 (dated)</strong> are kept for comparison and do not change; the <strong>latest</strong> columns update when each source releases new data.</p>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Market signals by metro table">
+<table id="cddMetroSignals" aria-describedby="cddMetroSignalsSource">
+<thead><tr>
+<th data-tip="The metropolitan area, as the Census Bureau defines it.">Metro</th>
+<th data-tip="Change in FHFA's all-transactions house price index from Q4 2023 to Q4 2024. Kept as a dated comparison.">Prices, Q4 2023 to Q4 2024 (dated)</th>
+<th data-tip="Change in FHFA's all-transactions house price index over the year to the latest quarter released."><span id="cddHpiLatestHead">Prices, latest year</span></th>
+<th data-tip="Realtor.com median days a listing stayed on the market in December 2024. Kept as a dated comparison.">Days on market, Dec 2024 (dated)</th>
+<th data-tip="Realtor.com median days on market in the latest month released, with the same month a year earlier."><span id="cddDomLatestHead">Days on market, latest</span></th>
+</tr></thead>
+<tbody id="cddMetroSignalsBody"><tr><td colspan="5">Loading…</td></tr></tbody>
+</table>
+</div>
+<p id="cddDenverRent" style="font-size:.9rem;margin:.6rem 0 0;"></p>
+<p class="data-source" id="cddMetroSignalsSource" style="font-size:.8rem;color:var(--color-text-muted);margin:.5rem 0 0;">Sources: <a href="https://fred.stlouisfed.org/series/ATNHPIUS19740Q" target="_blank" rel="noopener">FHFA all-transactions house price index</a> (quarterly), <a href="https://fred.stlouisfed.org/series/MEDDAYONMAR19740" target="_blank" rel="noopener">Realtor.com median days on market</a> (monthly) and <a href="https://fred.stlouisfed.org/series/CUUSA433SEHA" target="_blank" rel="noopener">BLS CPI rent of primary residence, Denver</a> (annual average, all renters), via FRED; <span id="cddMetroSignalsAsOf">dates shown in each column</span>.</p>
 </div>
 <div>
 <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--color-success);">2026 Outlook</div>
