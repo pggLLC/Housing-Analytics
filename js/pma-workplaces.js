@@ -36,7 +36,6 @@
    * tracts: [{ geoid, share }] (share 0–1, missing = 1).
    * Returns null when the file or every tract is missing, else
    * { workers, otherStates, noTown, top: [{ geoid, name, workers, share }], year, tractsMissing }.
-   * A town's count is a floor: a tract lists only its top towns, so smaller flows are not added.
    */
   function summarize(data, tracts) {
     if (!data || !data.tracts) return null;

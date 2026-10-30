@@ -15,7 +15,7 @@ ok(D.meta.lodes_year === 2023 && /JT01/.test(D.meta.sources.flows), 'primary job
 ok(Object.keys(D.tracts).length > 1300, 'every Colorado tract with working residents');
 for (const [t, r] of Object.entries(D.tracts)) {
   const named = r.to.reduce((s, p) => s + p[1], 0);
-  ok(/^08\d{9}$/.test(t) && r.workers >= named + r.no_town + r.other_states, `${t}: listed towns, no-town and other-state workers fit inside the total`);
+  ok(/^08\d{9}$/.test(t) && r.workers === named + r.no_town + r.other_states, `${t}: every destination is kept, so the parts add up to the total`);
   for (const [g] of r.to) ok(D.names[g], `${t}: ${g} has a name`);
 }
 
@@ -35,6 +35,14 @@ for (const p of s.top) ok(line.includes(Math.round(p.share * 100) + '%') && line
 ok(line.includes(pctOf(s.otherStates)), 'the line prints the other-state share');
 ok(line.includes(String(D.meta.lodes_year)), 'the line prints the LODES year');
 ok(s.top.every((p, i) => i === 0 || p.workers <= s.top[i - 1].workers), 'places are listed largest first');
+
+// A town that is never a tract's leader can still lead the market area (ranked after weighting).
+{
+  const mk = (own) => ({ workers: 69, other_states: 0, no_town: 0, to: [[own + '1', 10], [own + '2', 10], [own + '3', 10], [own + '4', 10], [own + '5', 10], [own + '6', 10], ['S', 9]] });
+  const fx = { meta: { lodes_year: 2023 }, names: {}, tracts: { '08000000001': mk('A'), '08000000002': mk('B') } };
+  const r = W.summarize(fx, [{ geoid: '08000000001' }, { geoid: '08000000002' }]);
+  ok(r.top[0].geoid === 'S' && r.top[0].workers === 18, 'a town shared by two tracts leads once the tracts are added');
+}
 
 // ---- Missing data is said, not guessed.
 ok(W.summarize(null, [{ geoid: t1 }]) === null, 'no file, no figure');

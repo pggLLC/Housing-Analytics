@@ -9,7 +9,8 @@ so each worker counts once; home block to work block):
   in another state (read from every other state's "aux" file).
 - other_states: those whose primary job is in another state.
 - no_town: those whose job is in Colorado but outside any town or Census community.
-- to: the named Colorado places employing the most of them, with counts.
+- to: every named Colorado place employing any of them, with counts, largest first.
+  All are kept so the page can rank places after weighting tracts, not before.
 
 The page adds tracts up, weighted by the share of each tract inside the market
 area, so the line describes the market area's residents, not one town's.
@@ -33,7 +34,6 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 OUT = os.path.join(ROOT, 'data', 'market', 'tract-workplaces.json')
 
 YEAR = 2023
-TOP = 6
 LODES = 'https://lehd.ces.census.gov/data/lodes/LODES8/'
 OD = f'co/od/co_od_main_JT01_{YEAR}.csv.gz'
 XWALK = 'co/co_xwalk.csv.gz'
@@ -100,7 +100,7 @@ def build(cache):
 
     tracts, used = {}, set()
     for t in sorted(set(to) | set(no_town) | set(other)):
-        top = to[t].most_common(TOP)
+        top = to[t].most_common()
         used.update(g for g, _ in top)
         tracts[t] = {
             'workers': sum(to[t].values()) + no_town[t] + other[t],
@@ -114,15 +114,14 @@ def build(cache):
             'generator': 'scripts/market/build_tract_workplaces.py',
             'generated': datetime.date.today().isoformat(),
             'lodes_year': YEAR,
-            'top': TOP,
             'sources': {
                 'flows': LODES + OD,
                 'crosswalk': LODES + XWALK,
                 'flows_other_states': f'LODES8 <state>/od/<state>_od_aux_JT01_{YEAR}.csv.gz for: ' + ', '.join(read),
             },
             'note': ('Primary jobs only (JT01), so each worker counts once. Workers include residents whose primary job '
-                     'is in another state. "to" lists the Colorado towns and Census communities employing the most of a '
-                     'tract\'s residents; the rest work elsewhere in Colorado, outside any town, or in another state.'),
+                     'is in another state. "to" lists every Colorado town and Census community employing a tract\'s '
+                     'residents, so workers = the "to" counts + no_town + other_states.'),
         },
         'names': {g: names.get(g, g) for g in sorted(used)},
         'tracts': tracts,
