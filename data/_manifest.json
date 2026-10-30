@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-29T20:04:36.550Z",
+    "generated_at": "2026-10-30T01:47:35.792Z",
     "root": "data/",
     "file_count": 2000,
-    "total_size_bytes": 206727956,
+    "total_size_bytes": 206728203,
     "kinds": {
       "json": 1952,
       "geojson": 34,
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-29T20:04:32.140Z",
+      "mtime": "2026-10-30T01:47:31.381Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6638,8 +6638,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1261037,
-      "mtime": "2026-10-29T11:41:05.917Z",
+      "size_bytes": 1261284,
+      "mtime": "2026-10-30T01:46:29.561Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -38102,7 +38102,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 254220,
-      "mtime": "2026-10-29T20:03:33.686Z",
+      "mtime": "2026-10-30T01:46:29.853Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39796,7 +39796,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-29T20:04:34.300Z",
+      "mtime": "2026-10-30T01:47:33.467Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39820,7 +39820,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-29T20:04:33.771Z",
+      "mtime": "2026-10-30T01:47:32.961Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
