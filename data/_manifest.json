@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-30T04:35:33.289Z",
+    "generated_at": "2026-10-30T10:14:15.063Z",
     "root": "data/",
     "file_count": 2003,
-    "total_size_bytes": 208915287,
+    "total_size_bytes": 209006836,
     "kinds": {
       "json": 1955,
       "geojson": 34,
@@ -316,8 +316,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 1079998,
-      "mtime": "2026-10-29T10:11:31.850Z",
+      "size_bytes": 1157440,
+      "mtime": "2026-10-30T10:13:41.302Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -325,7 +325,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 1669,
+      "primary_array_length": 1789,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -339,8 +339,8 @@
     {
       "path": "alerts/brief-news-queue.json",
       "kind": "json",
-      "size_bytes": 31203,
-      "mtime": "2026-10-29T10:12:11.002Z",
+      "size_bytes": 32897,
+      "mtime": "2026-10-30T10:14:12.355Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -363,7 +363,7 @@
       "path": "alerts/owner-news.json",
       "kind": "json",
       "size_bytes": 324,
-      "mtime": "2026-10-29T10:11:32.784Z",
+      "mtime": "2026-10-30T10:13:42.175Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42277,8 +42277,8 @@
     {
       "path": "policy/housing-events.json",
       "kind": "json",
-      "size_bytes": 178935,
-      "mtime": "2026-10-29T10:12:10.938Z",
+      "size_bytes": 178072,
+      "mtime": "2026-10-30T10:14:12.268Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42288,7 +42288,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "past",
-      "primary_array_length": 351,
+      "primary_array_length": 350,
       "primary_array_first_keys": [
         "title",
         "start",
@@ -43104,8 +43104,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 442612,
-      "mtime": "2026-10-29T10:12:00.226Z",
+      "size_bytes": 455888,
+      "mtime": "2026-10-30T10:14:03.270Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43115,7 +43115,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "stories",
-      "primary_array_length": 359,
+      "primary_array_length": 372,
       "primary_array_first_keys": [
         "title",
         "source",
