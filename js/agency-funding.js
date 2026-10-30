@@ -120,12 +120,26 @@
     "    <span class=\"hm-label\">Rows</span>",
     "    <span class=\"hm-seg\">",
     "      <button type=\"button\" data-hm-mrows=\"county\" aria-pressed=\"true\">Counties</button>",
+    "      <button type=\"button\" data-hm-mrows=\"town\" aria-pressed=\"false\">Towns</button>",
     "      <button type=\"button\" data-hm-mrows=\"developer\" aria-pressed=\"false\">Developers</button>",
     "    </span>",
     "  </div>",
     "  <div data-hm-matrix-note style=\"margin-top:var(--sp2);\"></div>",
     "  <div class=\"hm-scroll\" data-hm-matrix></div>",
     "  <p class=\"hm-muted hm-source\" data-hm-source style=\"font-size:var(--small);\"></p>",
+    "</section>",
+    "",
+    "<section class=\"hm-projects\" aria-labelledby=\"hm-proj-h\" data-hm-projects hidden>",
+    "  <h2 id=\"hm-proj-h\" tabindex=\"-1\" style=\"font-size:1.15rem;\" data-hm-proj-title>Projects funded</h2>",
+    "  <div data-hm-proj-note></div>",
+    "  <div class=\"hm-tiles\" data-hm-proj-tiles></div>",
+    "  <div class=\"hm-proj-main\">",
+    "    <div class=\"hm-proj-side\">",
+    "      <svg class=\"hm-proj-map\" data-hm-proj-map role=\"group\" aria-label=\"Counties with these projects. Select a county to list only its projects.\"></svg>",
+    "      <p class=\"hm-muted\" style=\"font-size:var(--small);margin:var(--sp1) 0 0;\" data-hm-proj-maphint></p>",
+    "    </div>",
+    "    <div class=\"hm-scroll hm-proj-box\" data-hm-proj></div>",
+    "  </div>",
     "</section>",
     "",
     "<section aria-labelledby=\"hm-table-h\" style=\"margin:var(--sp5) 0;\">",
@@ -159,7 +173,7 @@
     "  <div data-hm-about-body>",
     "    <ul>",
     "      <li><strong>CHFA tax credits</strong> come from CHFA\'s award reports for 2016 to 2026; <strong>OEDIT Prop 123</strong> awards come from the Affordable Housing Financing Fund\'s selection lists for FY23-24 to FY25-26. Both are read from the PDFs by <code>scripts/funding/build_funding_awards.py</code> and checked against the total each PDF prints (<code>data/policy/funding-awards/ledger.json</code>). An award whose PDF does not print a total, or whose rows did not add up, is marked <em>not checked against a total</em>.</li>",
-    "      <li><strong>DOLA Division of Housing</strong> awards were read by hand from DOLA\'s State Housing Board and Prop 123 announcements (<code>data/policy/funding-awards/dola-awards.json</code>), each with the sentence it rests on. DOLA does not publish a complete award list, so this part is partial: an announcement that names fewer projects than its total is marked incomplete.</li>",
+    "      <li><strong>DOLA Division of Housing</strong> awards were read by hand from DOLA\'s State Housing Board and Prop 123 announcements (<code>data/policy/funding-awards/dola-awards.json</code>), each with the sentence it rests on. DOLA does not publish a complete award list, so this part is partial: an announcement that names fewer projects than its total is marked incomplete. DOLA\'s Division of Local Government grants to towns and counties for a named housing project (incentive grants under HB21-1271, More Housing Now) are listed under DOLA as \"DLG\"; its planning and staffing grants are not projects and are left out.</li>",
     "      <li><strong>Tax credits are not dollars.</strong> CHFA prints the credit each project can claim per year (the federal credit runs ten years). Developers sell credits to investors, usually for less than a dollar each. So credits are shown on their own and never added to grants and loans. \"All three\" is measured in homes, the one thing every agency reports.</li>",
     "      <li><strong>Credits are not CHFA lending.</strong> CHFA\'s 4% award reports also print each project\'s tax-exempt bond amount (from 2018; the 2016 and 2017 reports do not). Bonds are a loan to the project, sold to bond buyers, and the issuer can be CHFA or a city, county or housing authority, so the bonds column is not a total of CHFA\'s own loans. Bonds are added from each award line, not from a report\'s printed total: CHFA\'s 2021 Round 2 report prints a bond total of $155,370,000, but its 17 bond amounts add up to $237,670,000 (the printed total leaves out four awards, $82,300,000 together, without saying why). CHFA\'s own mortgage loans are not in any award list this page reads, so they are not shown.</li>",
     "      <li><strong>Prop 123 money is split by program</strong> as the fund\'s selection lists name it: Concessionary Debt (loans), Equity, Land Banking and Modular Finance (factories, not housing sites). The four are shown in separate columns in \"Who funded whom\".</li>",
@@ -180,6 +194,7 @@
     agency: 'ALL', from: null, to: null, norm: 'per',
     place: null,      // { type: 'county'|'town'|'developer', key, label }
     groupBy: 'county', sort: { key: 'measure', dir: -1 }, open: {}, matrixRows: 'county',
+    projSort: { key: 'year', dir: -1 }, projCounty: null,
     flowPick: null,   // a program or region key picked on the flow
   };
   var data = { awards: [], counties: {}, geo: null, years: [] };
@@ -461,7 +476,7 @@
     renderFlowPick(f, byL, byR);
 
     var agencies = ['CHFA', 'OEDIT', 'DOLA'].filter(function (a) { return f.left.some(function (n) { return n.agency === a; }); });
-    var legendText = { CHFA: 'CHFA tax credits', OEDIT: 'OEDIT Prop 123 fund', DOLA: 'DOLA Division of Housing' };
+    var legendText = { CHFA: 'CHFA tax credits', OEDIT: 'OEDIT Prop 123 fund', DOLA: 'DOLA grants and loans' };
     $('[data-hm-flow-legend]').innerHTML = agencies.map(function (a) {
       return '<li><i class="' + FLOW_CLASS[a] + '"></i>' + esc(legendText[a]) + '</li>';
     }).join('');
@@ -524,7 +539,7 @@
       var f = {}; f[state.place.type] = state.place.key;
       awards = M.filter(awards, f);
     }
-    var by = state.matrixRows === 'developer' ? 'developer' : 'county';
+    var by = state.matrixRows === 'developer' || state.matrixRows === 'town' ? state.matrixRows : 'county';
     var groups = M.group(awards, by);
     var perOk = by === 'county' && state.norm === 'per';
     var cols = [
@@ -534,14 +549,17 @@
       var o = M.OEDIT_KINDS[kind];
       return { k: 'OEDIT', head: o.head, tip: o.tip + ' Awarded by the Colorado Office of Economic Development and International Trade (OEDIT).', val: function (b) { return b && b.byKind[kind] !== undefined ? b.byKind[kind] : null; }, fmt: money };
     })).concat([
-      { k: 'DOLA', head: 'DOLA $', tip: 'Grants and loans, in dollars, awarded by the Colorado Department of Local Affairs (DOLA).', val: function (b) { return b && b.dollars; }, fmt: money },
+      { k: 'DOLA', head: 'DOLA $', tip: 'Grants and loans, in dollars, awarded by the Colorado Department of Local Affairs (DOLA): its Division of Housing, plus Division of Local Government grants for housing projects.', val: function (b) { return b && b.dollars; }, fmt: money },
     ]);
     groups.forEach(function (g) {
       g.population = by === 'county' ? (data.counties[g.key] || {}).population : null;
       g.sortValue = g.summary.homes || 0;
     });
     groups.sort(function (a, b) { return (a.key === '_none') - (b.key === '_none') || b.sortValue - a.sortValue; });
-    var head = '<tr><th scope="col" data-tip="' + (by === 'county' ? 'The county the awarded project is in.' : 'The developer named on the award.') + '">' + (by === 'county' ? 'County' : 'Developer') + '</th>' +
+    var rowHead = { county: ['County', 'The county the awarded project is in. Select one to list every project funded there.'],
+      town: ['Town', 'The town or city printed on the award. Select one to list every project funded there.'],
+      developer: ['Developer', 'The developer named on the award. Select one to list every project it was funded for.'] }[by];
+    var head = '<tr><th scope="col" data-tip="' + esc(rowHead[1]) + '">' + rowHead[0] + '</th>' +
       cols.map(function (c) { return '<th scope="col" class="num" data-tip="' + esc(c.tip) + '">' + esc(c.head) + '</th>'; }).join('') +
       '<th scope="col" class="num" data-tip="Homes in the awarded projects; per 1,000 residents when shown per resident.">Homes</th>' +
       '<th scope="col" class="num" data-tip="How many awards are counted, from all three agencies.">Awards</th></tr>';
@@ -564,7 +582,7 @@
     }).join('');
     var note = '<p class="hm-muted" style="font-size:var(--small);margin:0 0 var(--sp2);">' + (perOk
       ? 'Per county resident: dollars, or tax credits a year; homes per 1,000 residents. n/a: no single county, so no population.'
-      : 'Totals: tax credits a year, bonds, Prop 123 money by program, DOLA grants and loans, and homes. No column is added to another.') + ' Sorted by homes. All three agencies are shown whatever "Who paid" is set to.</p>';
+      : 'Totals: tax credits a year, bonds, Prop 123 money by program, DOLA grants and loans, and homes. No column is added to another.') + ' Sorted by homes. All three agencies are shown whatever "Who paid" is set to. Select a name to list every project funded for it.</p>';
     var more = groups.length > LIMIT
       ? '<button type="button" class="btn" style="margin-top:var(--sp2);" data-hm-matrix-all>' + (state.matrixAll ? 'Show the top ' + LIMIT : 'Show all ' + groups.length) + '</button>' : '';
     // The note sits outside the sideways-scrolling box so it never slides off the screen.
@@ -573,6 +591,160 @@
       ? '<table class="hm-table hm-matrix"><caption class="sr-only">Awards by ' + by + ' and agency, ' + esc(yearsText()) +
         '. Every agency is shown here whatever "Who paid" is set to.</caption><thead>' + head + '</thead><tbody>' + body + '</tbody></table>' + more
       : '<p class="hm-muted">No awards for these years.</p>';
+  }
+
+  // ── projects funded for the picked county, town or developer ─────────────
+  // One row per award, so a reader can sort by project, year, source or amount.
+  // Grants and loans and tax credits sit in separate columns: they are never
+  // added or sorted together. Blank amounts sort last either way.
+  var PCOLS = [
+    { key: 'name', head: 'Project', num: false, tip: 'The project as the award list prints it. A Deal summary link opens the researched summary where one exists.' },
+    { key: 'year', head: 'Year awarded', num: true, tip: 'CHFA awards by award year; Prop 123 awards by the fiscal year they were made in (FY24-25 counts as 2024); DOLA by announcement date.' },
+    { key: 'source', head: 'Funding source', num: false, tip: 'The agency and program that made the award.' },
+    { key: 'dollars', head: 'Grants and loans', num: true, tip: 'Dollars from OEDIT\'s Prop 123 fund or DOLA. "requested" means a preliminary selection that prints only the amount asked for.' },
+    { key: 'credits', head: 'Tax credits a year', num: true, tip: 'Housing tax credits a year from CHFA (the federal credit runs ten years). Not dollars, so never added to grants and loans. 4% bonds, a loan to the project, are shown under the credit.' },
+    { key: 'homes', head: 'Homes', num: true, tip: 'Income-restricted homes the award prints, or all homes where it prints only that. est. means the list prints an estimate.' },
+  ];
+
+  function sourceText(a) { return a.agency + ' ' + shortProgram(a.program); }
+
+  function placeLinks(a) {
+    var t = a.town ? '<a href="#" data-hm-pick-town="' + esc(a.town.toLowerCase()) + '">' + esc(a.town) + '</a>' : '';
+    var c = a.countyFips ? '<a href="#" data-hm-pick-county="' + esc(a.countyFips) + '">' + esc(a.county) + ' County</a>' : (a.county ? esc(a.county) : '');
+    return [t, c].filter(Boolean).join(', ');
+  }
+
+  // Totals for the pick, one tile per agency and unit, never added together.
+  function renderProjTiles(awards) {
+    var s = M.summarise(awards);
+    var b = s.byAgency || {};
+    var tiles = [];
+    function tile(cls, k, big, small) { tiles.push('<div class="hm-tile ' + cls + '"><span class="hm-tile-k">' + esc(k) + '</span><b>' + esc(big) + '</b><span>' + esc(small) + '</span></div>'); }
+    function n(x) { return x.awards + ' award' + (x.awards === 1 ? '' : 's'); }
+    if (b.CHFA) {
+      tile('is-chfa', 'CHFA tax credits', b.CHFA.credits === null ? 'Value unavailable' : money(b.CHFA.credits) + ' a year', n(b.CHFA) + ', ' + count(b.CHFA.homes) + ' homes');
+      if (b.CHFA.bonds) tile('is-chfa', 'CHFA 4% bonds', money(b.CHFA.bonds), 'A loan to the project, not a grant');
+    }
+    // Preliminary selections print only the amount asked for; the tile says how much of its total that is.
+    function dollarTile(agency, cls, k) {
+      var x = b[agency];
+      if (!x) return;
+      var req = null;
+      awards.forEach(function (a) { if (a.agency === agency && a.dollarsBasis === 'requested' && a.dollars) req = (req || 0) + a.dollars; });
+      var all = req !== null && req === x.dollars;
+      tile(cls, k, money(x.dollars) + (all ? ' requested' : ''), n(x) + ', ' + count(x.homes) + ' homes' +
+        (req === null ? '' : all ? '. Requested, not yet awarded' : '. Includes ' + money(req) + ' requested, not yet awarded'));
+    }
+    dollarTile('OEDIT', 'is-oedit', 'OEDIT Prop 123');
+    dollarTile('DOLA', 'is-dola', 'DOLA grants and loans');
+    tile('is-homes', 'Homes in these awards', count(s.homes), 'A project funded twice is counted twice');
+    $('[data-hm-proj-tiles]').innerHTML = tiles.join('');
+  }
+
+  // A small county map beside the list: shaded by homes in the pick's awards,
+  // the picked county or the town's county outlined. A county selects its projects.
+  function renderProjMap(awards) {
+    var svg = $('[data-hm-proj-map]');
+    if (!data.geo || !global.d3) { svg.style.display = 'none'; return; }
+    var d3 = global.d3;
+    var W = 360, H = 260;
+    var path = d3.geoPath(d3.geoMercator().fitSize([W, H], data.geo));
+    // Homes stay null for a county whose awards print no home count, so it never reads as zero.
+    var homes = {}, n = {}, noCount = {};
+    awards.forEach(function (a) {
+      if (!a.countyFips) return;
+      n[a.countyFips] = (n[a.countyFips] || 0) + 1;
+      if (!(a.countyFips in homes)) homes[a.countyFips] = null;
+      if (a.homes === null || a.homes === undefined) noCount[a.countyFips] = (noCount[a.countyFips] || 0) + 1;
+      else homes[a.countyFips] = (homes[a.countyFips] || 0) + a.homes;
+    });
+    var max = d3.max(Object.keys(homes).map(function (k) { return homes[k] || 0; })) || 0;
+    function colour(fips) {
+      if (!n[fips]) return NONE;
+      if (!max || homes[fips] === null) return RAMP[1];
+      return RAMP[Math.max(1, Math.min(RAMP.length - 1, Math.floor(Math.sqrt(homes[fips] / max) * RAMP.length)))];
+    }
+    var ring = state.projCounty || (state.place.type === 'county' ? state.place.key : null);
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.innerHTML = data.geo.features.map(function (f) {
+      var fips = f.properties.GEOID;
+      var name = (data.counties[fips] || {}).name ? data.counties[fips].name + ' County' : f.properties.NAMELSAD;
+      if (!n[fips]) return '<path d="' + path(f) + '" fill="' + NONE + '" aria-hidden="true"></path>';
+      var nc = noCount[fips] || 0;
+      var label = name + ': ' + n[fips] + ' award' + (n[fips] === 1 ? '' : 's') + ', ' +
+        (homes[fips] === null ? 'home count not printed' : count(homes[fips]) + ' homes' + (nc ? ' (' + nc + ' award' + (nc === 1 ? ' prints' : 's print') + ' no home count)' : ''));
+      return '<path d="' + path(f) + '" fill="' + colour(fips) + '" data-hm-pcounty="' + fips + '" tabindex="0" role="button" aria-pressed="' + (state.projCounty === fips) +
+        '" aria-label="' + esc(label + '. Select to list only these.') + '" data-hm-tiptext="' + esc(label) + '"' + (ring === fips ? ' class="is-picked"' : '') + '></path>';
+    }).join('');
+    var counties = Object.keys(n).length;
+    var unmapped = awards.filter(function (a) { return !a.countyFips; }).length;
+    $('[data-hm-proj-maphint]').textContent = counties
+      ? (counties === 1 ? 'All mapped awards are in one county.' : 'Darker counties hold more of these homes; the lightest shade also marks awards that print no home count. Select a county to list only its projects.') +
+        (unmapped ? ' ' + unmapped + ' award' + (unmapped === 1 ? ' prints' : 's print') + ' no single county and ' + (unmapped === 1 ? 'is' : 'are') + ' listed, not mapped.' : '')
+      : 'No award here prints a single county, so nothing is mapped.';
+  }
+
+  function renderProjects() {
+    var sec = $('[data-hm-projects]');
+    if (!state.place) { sec.hidden = true; return; }
+    sec.hidden = false;
+    var all = scoped();
+    if (state.projCounty && !all.some(function (a) { return a.countyFips === state.projCounty; })) state.projCounty = null;
+    var awards = state.projCounty ? all.filter(function (a) { return a.countyFips === state.projCounty; }) : all.slice();
+    renderProjTiles(all);
+    renderProjMap(all);
+    var sk = state.projSort.key, dir = state.projSort.dir;
+    function val(a) {
+      if (sk === 'name') return (a.name || '').toLowerCase();
+      if (sk === 'source') return sourceText(a).toLowerCase();
+      if (sk === 'year') return a.year;
+      return a[sk];
+    }
+    awards.sort(function (a, b) {
+      var x = val(a), y = val(b);
+      var nx = x === null || x === undefined || x === '', ny = y === null || y === undefined || y === '';
+      if (nx || ny) return nx === ny ? 0 : (nx ? 1 : -1);
+      if (x < y) return -1 * dir;
+      if (x > y) return 1 * dir;
+      // Ties keep the newest award first, then A to Z.
+      return (b.year || 0) - (a.year || 0) || String(a.name || '').localeCompare(String(b.name || ''));
+    });
+    var label = state.place.label;
+    var isDev = state.place.type === 'developer';
+    $('[data-hm-proj-title]').textContent = 'Projects funded ' + (isDev ? 'for ' : 'in ') + label;
+    var who = state.agency === 'ALL' ? 'CHFA, OEDIT and DOLA' : M.AGENCIES[state.agency].label;
+    var hna = state.place.type === 'county'
+      ? ' <a href="housing-needs-assessment.html?auto=1&amp;geoType=county&amp;geoid=' + esc(state.place.key) + '">Housing needs in ' + esc(label) + '</a>.' : '';
+    $('[data-hm-proj-note]').innerHTML = '<p class="hm-muted" style="font-size:var(--small);margin:0 0 var(--sp2);">' +
+      esc(all.length + ' award' + (all.length === 1 ? '' : 's') + ' from ' + who + ', ' + yearsText() + '.') +
+      (state.projCounty ? ' Listing the ' + awards.length + ' in ' + esc((data.counties[state.projCounty] || {}).name || '') + ' County. <button type="button" class="btn hm-inline-btn" data-hm-pcounty="">Every county</button>' : '') +
+      ' The <a href="#hm-flow-h">money-flow diagram</a> above now shows only ' + esc(label) + '.' + hna +
+      ' Select a heading to sort. <button type="button" class="btn hm-inline-btn" data-hm-clear>All of Colorado</button></p>';
+    var head = '<tr>' + PCOLS.map(function (c) {
+      var sorted = sk === c.key;
+      return '<th scope="col" class="' + (c.num ? 'num' : '') + '" aria-sort="' + (sorted ? (dir > 0 ? 'ascending' : 'descending') : 'none') + '" data-tip="' + esc(c.tip) + '">' +
+        '<button type="button" data-hm-psort="' + c.key + '">' + esc(c.head) + (sorted ? (dir > 0 ? ' ▲' : ' ▼') : '') + '</button></th>';
+    }).join('') + '</tr>';
+    var body = awards.map(function (a) {
+      var deal = dealFor(a);
+      var sub = isDev ? placeLinks(a)
+        : (a.developerKey ? (a.developerRole === 'owner' ? 'owner: ' : '') + '<a href="#" data-hm-pick-developer="' + esc(a.developerKey) + '">' + esc(a.developer) + '</a>' : 'developer not printed') +
+          (state.place.type === 'county' && a.town ? ' · ' + placeLinks({ town: a.town }) : '');
+      var dollars = a.agency === 'CHFA' || a.dollars === null || a.dollars === undefined ? '—' : esc(money(a.dollars)) + (a.dollarsBasis === 'requested' ? ' <span class="hm-tag">requested</span>' : '');
+      var credits = a.agency !== 'CHFA' ? '—' : (a.credits === null || a.credits === undefined ? 'Value unavailable' : esc(money(a.credits))) +
+        (a.bonds ? '<div class="hm-muted">+ ' + esc(money(a.bonds)) + ' bonds</div>' : '');
+      var src = a.sourceUrl ? '<a href="' + esc(a.sourceUrl) + '" rel="noopener" target="_blank">' + esc(sourceText(a)) + '</a>' : esc(sourceText(a));
+      return '<tr><th scope="row"><strong>' + esc(a.name || 'Project name not printed') + '</strong>' +
+        (deal ? ' <a class="hm-deal-link" href="deal-summary.html?d=' + esc(deal.slug) + '">Deal summary</a>' : '') +
+        '<div class="hm-muted">' + sub + '</div></th>' +
+        '<td class="num">' + esc(a.yearLabel || a.year || '—') + '</td><td>' + src + (a.confirmed ? '' : ' <span class="hm-tag">not checked against a total</span>') + '</td>' +
+        '<td class="num">' + dollars + '</td><td class="num">' + credits + '</td>' +
+        '<td class="num">' + (a.homes === null || a.homes === undefined ? '—' : esc(count(a.homes)) + (a.homesEstimated ? ' est.' : '')) + '</td></tr>';
+    }).join('');
+    $('[data-hm-proj]').innerHTML = awards.length
+      ? '<table class="hm-table hm-proj" data-no-sort><caption class="sr-only">Every award ' + (isDev ? 'for ' : 'in ') + esc(label) + ', ' + esc(yearsText()) +
+        '. Select a column heading to sort.</caption><thead>' + head + '</thead><tbody>' + body + '</tbody></table>'
+      : '<p class="hm-muted">No awards match. Try more years or "All three" under Who paid.</p>';
   }
 
   // ── grouped table ─────────────────────────────────────────────────────────
@@ -674,7 +846,7 @@
     $all('[data-hm-norm]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-hm-norm') === state.norm)); });
     $all('[data-hm-mrows]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-hm-mrows') === state.matrixRows)); });
     $('[data-hm-def]').innerHTML = state.agency === 'ALL'
-      ? 'Colorado\'s three state housing funders: <strong>CHFA</strong> (LIHTC, the federal and state Low-Income Housing Tax Credits), <strong>OEDIT</strong> (the Prop 123 fund) and <strong>DOLA</strong> (Division of Housing grants and loans). Credits and dollars are different things, so together they are counted in homes.'
+      ? 'Colorado\'s three state housing funders: <strong>CHFA</strong> (LIHTC, the federal and state Low-Income Housing Tax Credits), <strong>OEDIT</strong> (the Prop 123 fund) and <strong>DOLA</strong> (Division of Housing grants and loans, plus local government housing grants). Credits and dollars are different things, so together they are counted in homes.'
       : '<strong>' + esc(M.AGENCIES[state.agency].label) + '</strong> (' + esc(M.AGENCIES[state.agency].name) + '). ' + esc(M.AGENCIES[state.agency].plain.replace(/^\S+ is /, 'It is '));
     $('[data-hm-clear]').hidden = !state.place;
     $('[data-hm-q]').value = state.place ? state.place.label : '';
@@ -686,11 +858,13 @@
     renderFlow();
     renderMap();
     renderMatrix();
+    renderProjects();
     renderTable();
   }
 
   function pick(place) {
     state.place = place;
+    state.projCounty = null;
     state.open = {};
     if (place && place.type === 'county') state.groupBy = 'town';
     else if (place && place.type === 'developer') state.groupBy = 'county';
@@ -699,6 +873,14 @@
     $('[data-hm-group]').value = state.groupBy;
     writeHash();
     render();
+  }
+
+  // A name picked in the matrix or the project list brings its projects into view.
+  function showProjects() {
+    var h = $('[data-hm-proj-title]');
+    if (!h || $('[data-hm-projects]').hidden) return;
+    if (h.scrollIntoView) h.scrollIntoView({ block: 'start' });
+    h.focus({ preventScroll: true });
   }
 
   function options() {
@@ -774,7 +956,7 @@
       if (!t || !root.contains(t)) return;
       if (t.hasAttribute('data-hm-agency')) { state.agency = t.getAttribute('data-hm-agency'); writeHash(); render(); }
       else if (t.hasAttribute('data-hm-norm')) { state.norm = t.getAttribute('data-hm-norm'); render(); }
-      else if (t.hasAttribute('data-hm-mrows')) { state.matrixRows = t.getAttribute('data-hm-mrows') === 'developer' ? 'developer' : 'county'; renderControls(); renderMatrix(); }
+      else if (t.hasAttribute('data-hm-mrows')) { var mr = t.getAttribute('data-hm-mrows'); state.matrixRows = mr === 'developer' || mr === 'town' ? mr : 'county'; renderControls(); renderMatrix(); }
       else if (t.hasAttribute('data-hm-clear')) { pick(null); }
       else if (t.hasAttribute('data-hm-flow-clear')) {
         var was = state.flowPick;
@@ -783,6 +965,18 @@
         var again2 = was && root.querySelector('.hm-flow-hit[data-hm-flow-key="' + (global.CSS && CSS.escape ? CSS.escape(was) : was) + '"]');
         if (again2) again2.focus();
         if (typeof global.__announceUpdate === 'function') global.__announceUpdate('Showing every program.');
+      }
+      else if (t.hasAttribute('data-hm-pcounty')) {
+        var pc = t.getAttribute('data-hm-pcounty') || null;
+        state.projCounty = state.projCounty === pc ? null : pc;
+        renderProjects();
+        var pback = pc && root.querySelector('[data-hm-pcounty="' + pc + '"]'); if (pback && e.detail === 0) pback.focus();
+      }
+      else if (t.hasAttribute('data-hm-psort')) {
+        var pk = t.getAttribute('data-hm-psort');
+        state.projSort = state.projSort.key === pk ? { key: pk, dir: -state.projSort.dir } : { key: pk, dir: pk === 'name' || pk === 'source' ? 1 : -1 };
+        renderProjects();
+        var pagain = root.querySelector('[data-hm-psort="' + pk + '"]'); if (pagain) pagain.focus();
       }
       else if (t.hasAttribute('data-hm-matrix-all')) { state.matrixAll = !state.matrixAll; renderMatrix(); }
       else if (t.hasAttribute('data-hm-sort')) {
@@ -807,12 +1001,13 @@
         e.preventDefault();
         var fips = t.getAttribute('data-fips') || t.getAttribute('data-hm-pick-county');
         var c = data.counties[fips];
-        if (c) pick({ type: 'county', key: fips, label: c.name + ' County' });
-      } else if (t.hasAttribute('data-hm-pick-developer')) {
+        if (c) { pick({ type: 'county', key: fips, label: c.name + ' County' }); if (t.hasAttribute('data-hm-pick-county')) showProjects(); }
+      } else if (t.hasAttribute('data-hm-pick-developer') || t.hasAttribute('data-hm-pick-town')) {
         e.preventDefault();
-        var key = t.getAttribute('data-hm-pick-developer');
-        var o = data.options.find(function (x) { return x.type === 'developer' && x.key === key; });
-        if (o) pick(o);
+        var ptype = t.hasAttribute('data-hm-pick-town') ? 'town' : 'developer';
+        var key = t.getAttribute('data-hm-pick-' + ptype);
+        var o = data.options.find(function (x) { return x.type === ptype && x.key === key; });
+        if (o) { pick(o); showProjects(); }
       }
     });
     root.addEventListener('pointermove', function (e) {
@@ -836,7 +1031,7 @@
     });
     root.addEventListener('focusout', hideTip);
     root.addEventListener('keydown', function (e) {
-      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('path[data-fips], .hm-flow-hit')) {
+      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('path[data-fips], path[data-hm-pcounty], .hm-flow-hit')) {
         e.preventDefault();
         e.target.dispatchEvent(new MouseEvent('click', { bubbles: true }));
       }
@@ -887,7 +1082,12 @@
     if (!svg) return;
     if (!data.geo || !global.d3) { svg.style.display = 'none'; return; }
     var d3 = global.d3;
-    var W = Math.min(560, parseFloat(svg.parentNode.clientWidth) || 560);
+    // The parent's own padding comes off, as in the flow above: drawn at the
+    // full clientWidth, the map was scaled down to fit and its 13px region
+    // labels shrank to about 11.6px on a phone.
+    var pcs = global.getComputedStyle ? global.getComputedStyle(svg.parentNode) : null;
+    var ppad = pcs ? (parseFloat(pcs.paddingLeft) || 0) + (parseFloat(pcs.paddingRight) || 0) : 0;
+    var W = Math.min(560, Math.floor((parseFloat(svg.parentNode.clientWidth) || 560) - ppad));
     var H = Math.round(W * 0.74);
     var projection = d3.geoMercator().fitExtent([[4, 4], [W - 4, H - 4]], data.geo);
     var path = d3.geoPath(projection);
@@ -950,7 +1150,7 @@
     var link = function (href, text) { return '<a href="' + href + '" target="_blank" rel="noopener">' + text + '</a>'; };
     var html = 'Sources: ' + link('https://www.chfainfo.com/rental-housing/housing-credit/awards', 'CHFA tax credit award reports') +
       ' and ' + link('https://coloradoaffordablehousingfinancingfund.com/about/selected-applicants/', 'the Prop 123 fund\'s selected applicants') + day(ledgerRead) +
-      '; DOLA Division of Housing ' + link('https://doh.colorado.gov/application-schedule-and-awards', 'awards') + ' and State Housing Board announcements' + day(dolaRead) + '.';
+      '; DOLA Division of Housing ' + link('https://doh.colorado.gov/application-schedule-and-awards', 'awards') + ' and State Housing Board announcements' + day(dolaRead) + '; DOLA Division of Local Government ' + link('https://dlg.colorado.gov/incentive-grant-program-awards', 'incentive grants') + '.';
     Array.prototype.forEach.call(root.querySelectorAll('[data-hm-source]'), function (el) { el.innerHTML = html; });
   }
 

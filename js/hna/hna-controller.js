@@ -896,6 +896,8 @@
       window.HNARenderers.updateLihtcInfoPanel();
     }
     window.HNAState.map.on('moveend', updateLihtcInfoPanel);
+    // Property links arrive in their own small file; redraw the list once they land.
+    window.addEventListener('property-websites:ready', updateLihtcInfoPanel);
   }
 
   // Boundary style tokens keyed by geoType — counties use a thinner/lighter stroke
@@ -4341,6 +4343,14 @@
       else await updateCombined(null);
       return;
     }
+    // No place picked yet: keep the "pick a place" state and compute nothing.
+    // Until 2026-10-26 an empty pick loaded Colorado statewide with no label,
+    // so a first visit read statewide figures as if they were the user's.
+    if (!geoid) {
+      if (ws) ws.style.display = '';
+      window.HNARenderers.hideChartLoading();
+      return;
+    }
     if (window.HNARenderers.clearCombinedUnavailable) window.HNARenderers.clearCombinedUnavailable();
     try {
       const url = new URL(window.location.href);
@@ -5282,6 +5292,28 @@
       if (wsText) wsText.textContent = 'No Colorado geography has the ID ' + unknownGeoid + '. Choose a county, city, town or CDP above to load housing data.';
       console.warn('[HNA] unknown geography in address: ' + unknownGeoid);
     }
+    // A first visit with no address and no saved place starts on "pick a
+    // place": a blank first option, no figures. Choosing State of Colorado
+    // from the list loads the statewide figures, named as such.
+    const nothingChosen = !restoredGeoType && !_combined && !unknownGeoid;
+    if (nothingChosen) {
+      const pick = document.createElement('option');
+      pick.value = '';
+      pick.textContent = 'Pick a place';
+      window.HNAState.els.geoSelect.insertBefore(pick, window.HNAState.els.geoSelect.firstChild);
+      window.HNAState.els.geoSelect.value = '';
+      // Once a place is picked the blank option goes, so the page cannot go
+      // back to "no place" while still showing the last place's figures.
+      // Registered before the select's update listener, so it runs first.
+      window.HNAState.els.geoSelect.addEventListener('change', function dropPick() {
+        if (!window.HNAState.els.geoSelect.value) return;
+        if (pick.parentNode) pick.parentNode.removeChild(pick);
+        window.HNAState.els.geoSelect.removeEventListener('change', dropPick);
+      });
+      const wsText = document.querySelector('#hnaWaitingState .hna-waiting-text');
+      if (wsText) wsText.textContent = 'Pick a county, city, town or CDP above to see its housing needs. State of Colorado is in the list too.';
+      if (window.HNAState.els.geoContextPill) window.HNAState.els.geoContextPill.textContent = 'No place picked';
+    }
     _syncCombinedPanel();
     if (urlCombinedMode === 'regional') {
       const regionalMode = document.querySelector('input[name="combinedGeoMode"][value="regional"]');
@@ -5497,8 +5529,9 @@
     });
 
     ensureMap();
-    // Nothing to load for an unknown geography; the waiting state says why.
-    if (!unknownGeoid) update();
+    // Nothing to load for an unknown geography, or when nothing was picked
+    // (no address, no saved place); the waiting state says what to do.
+    if (!unknownGeoid && !nothingChosen) update();
   }
 
 

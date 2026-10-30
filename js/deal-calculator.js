@@ -23,6 +23,7 @@
   var _homeRentTable = null;    // data/hud-home-rent-limits-co-2026.json
   var _prop123Rules = null;     // data/policy/prop123-rental-rules.json
   var _costRules = null;        // data/policy/lihtc-underwriting-rules.json (#2160)
+  var _chfaTables = null;       // data/policy/chfa-common-app-tables.json (CHFA's 2027 workbook limits)
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var _equityPricingDefaults = {
@@ -1635,7 +1636,10 @@
     var text = blockedReason ? 'Rent revenue unavailable: ' + message
       : allowance.applied ? 'Utility allowance applied from ' + (allowance.basis.reference || 'Owner pays all utilities') +
         (allowance.basis.effectiveDate ? ' · effective ' + allowance.basis.effectiveDate : '')
-      : 'Upper bound — utility allowance not applied: ' + message + '. Set it in Market Analysis → Subject project.';
+      : 'Upper bound — utility allowance not applied: ' + message + '.';
+    // Where the allowance is set, as a link rather than directions to follow.
+    var setLink = !blockedReason && !allowance.applied && !(_resolvedDealMix && _resolvedDealMix.available)
+      && !(allowance.source === 'shared' && allowance.applied);
     if (_resolvedDealMix && _resolvedDealMix.available) text = 'Schedule contract rents already include utility allowances and fees — no second deduction.';
     if (allowance.source === 'shared' && allowance.applied) {
       text = 'Utility allowance from shared scenario: ' + (allowance.basis.reference || 'Owner pays all utilities') +
@@ -1656,6 +1660,16 @@
       el.dataset.allowanceSource = allowance.source || 'local';
       el.dataset.unavailableReason = reason || '';
       el.textContent = el.hidden ? '' : text;
+      if (!el.hidden && setLink) {
+        var a = document.createElement('a');
+        var j = window.WorkflowState && window.WorkflowState.getJurisdiction ? window.WorkflowState.getJurisdiction() : null;
+        var place = new URLSearchParams(window.location.search).get('geoid') || (j && j.geoid) || '';
+        a.href = 'market-analysis.html' + (/^08\d{3}(\d{2})?$/.test(place) ? '?geoid=' + place : '')
+          + '#subjectProjectMount';
+        a.textContent = 'Set the utility allowance in Market Analysis \u2192';
+        el.appendChild(document.createTextNode(' '));
+        el.appendChild(a);
+      }
       var basis = _resolvedDealMix && _resolvedDealMix.available
         ? _resolvedDealMix.sourceMeta.allowanceBasis : allowance.basis;
       markSource(el, countySource({ source: basis && (basis.reference || basis.method),
@@ -2182,8 +2196,23 @@
           <p id="dc-boost-help" style="font-size:var(--tiny);color:var(--muted);margin:0.35rem 0 0;line-height:1.45;">
             A QCT, DDA or SADDA boost raises eligible basis by 30% once; a CHFA boost raises it once by the percentage in CHFA's letter, up to 30%. It needs a designation and the evidence for it, never applies to buying an existing building, and the CHFA boost cannot be combined with a QCT, DDA or SADDA.
           </p>
+          <p id="dc-dda-2027" style="font-size:var(--tiny);color:var(--muted);margin:0.35rem 0 0;line-height:1.45;">
+            HUD's 2027 lists apply to 9% credits allocated after December 31, 2026, which is every 2027 round. A 4% bond deal uses them only if, after that date, its bonds are issued and its buildings placed in service. They add Archuleta and Chaffee counties and ZIP 80433 as DDAs, and drop San Miguel County and ZIPs 80129, 80249, 80465 and 80913. This site's maps show the 2026 lists until January.
+            <a href="https://www.huduser.gov/portal/Datasets/qct/DDA2027NM.PDF" target="_blank" rel="noopener">HUD 2027 county list</a> ·
+            <a href="https://www.huduser.gov/portal/Datasets/qct/DDA2027M.PDF" target="_blank" rel="noopener">HUD 2027 ZIP list</a> ·
+            <a href="https://www.federalregister.gov/documents/2026/10/06/2026-20390/statutorily-mandated-designation-of-difficult-development-areas-and-qualified-census-tracts-for-2027" target="_blank" rel="noopener">Federal Register, October 6, 2026</a>
+          </p>
           <p id="dc-qct-dda-note" role="status" style="display:none;font-size:var(--tiny);color:var(--accent);margin:0.3rem 0 0;font-weight:600;"></p>
         </div>
+        <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Building type, for CHFA's cost basis limits</span>
+          <select id="dc-building-type"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+            <option value="" selected>Not chosen</option>
+            <option value="elevator">Elevator</option>
+            <option value="walk_up">Walk-up</option>
+          </select>
+        </label>
         <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Floor area of the units counted as LIHTC units (SF)
             <span style="color:var(--muted)">&mdash; needed only when some units are unrestricted</span></span>
@@ -2652,7 +2681,7 @@
              on each tranche row. Now they're discoverable + documented. -->
         <details id="dc-soft-funding-ref" style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--bg2);">
           <summary style="cursor:pointer;font-weight:700;font-size:var(--small);color:var(--accent);">
-            ▸ Soft-funding program reference (14 sources, with descriptions + links)
+            ▸ Soft-funding program reference (descriptions + links)
           </summary>
           <div id="dc-soft-funding-ref-list" style="margin-top:var(--sp2);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(360px, 100%),1fr));gap:var(--sp2) var(--sp3);font-size:var(--small);"></div>
         </details>
@@ -3135,6 +3164,10 @@
         <p id="dc-dscr-manual-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);margin-bottom:0;display:none;">
           Stress scenarios require auto-compute NOI to be enabled — they need the underlying rent / vacancy / opex breakdown, not just a total NOI.
         </p>
+        <p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);margin-bottom:0;">
+          Each stress row lowers NOI and keeps every must-pay loan payment at its base amount, so the coverage
+          shown is what the committed loans would face. A lender resizing the loan to the stressed NOI would lend less instead.
+        </p>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
           ⚠ Banker / syndicator rule of thumb: conservative lenders want DSCR ≥ 1.15 under a moderate stress scenario
           and DSCR ≥ 1.10 under combined stress. A deal that falls below 1.00 under the combined case may need
@@ -3406,10 +3439,11 @@
            at hold-period end, remaining debt balances, net sale proceeds,
            deferred-fee payback timing, return on the deferred fee. -->
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
-        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Year-15 Exit Analysis</legend>
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Exit Analysis at the End of the Hold Period</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
-          Projects sale or refinance at hold-period end. NOI growth and expense inflation use the same
-          rates as the 30-yr pro forma. Resale value capitalizes stabilized NOI at the exit cap rate.
+          Projects a sale at the end of the hold period you enter below (15 years unless changed). NOI growth
+          and expense inflation use the same rates as the pro forma. Resale value capitalizes the final hold
+          year's NOI, not the next year's, at the exit cap rate, before selling costs.
         </p>
         <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:var(--sp2);margin-bottom:var(--sp2);">
           <label style="font-size:var(--small);color:var(--muted);">
@@ -3509,7 +3543,7 @@
 
     // Attach event listeners
     document.getElementById('dc-edit-unit-mix').addEventListener('click', editMixHere);
-    const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-boost-pct', 'dc-units', 'dc-sale-target-ami',
+    const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-boost-pct', 'dc-building-type', 'dc-units', 'dc-sale-target-ami',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-pf-cap-rate', 'dc-pf-cap-lvr', 'dc-pf-appraised', 'dc-pf-appraised-lvr',
       'dc-asset-mgmt-fee', 'dc-asset-mgmt-growth', 'dc-bridge-ds', 'dc-bridge-years',
@@ -3633,11 +3667,13 @@
     // We persist to an array and re-render on add/remove; per-row inputs fire
     // recalculate() on change so the pro forma + sources/uses stay live.
     var SOFT_PROGRAMS = [
-      { v: 'chfa_htf',         l: 'CHFA HTF' },
+      // Retired labels (2026-10-26 source check): no official page names these
+      // programs. Kept so saved deals still load, listed apart, never the default.
+      { v: 'chfa_htf',         l: 'CHFA HTF (retired label; use CHFA HOF or CMF)', retired: true },
       { v: 'prop123',          l: 'Prop 123' },
       { v: 'local_pha',        l: 'Local PHA / Housing Trust' },
       { v: 'chfa_cmf',         l: 'CHFA Capital Magnet Fund' },
-      { v: 'dola_htf',         l: 'DOLA HTF' },
+      { v: 'dola_htf',         l: 'DOLA HTF (retired label; use DOH HDG or HDLF)', retired: true },
       { v: 'home',             l: 'HOME' },
       { v: 'cdbg',             l: 'CDBG' },
       { v: 'nhtf',             l: 'NHTF' },
@@ -3677,9 +3713,12 @@
 
     function _trancheRowHtml(t) {
       var idSuffix = t.id;
-      var opts = SOFT_PROGRAMS.map(function (p) {
+      function opt(p) {
         return '<option value="' + p.v + '"' + (p.v === t.program ? ' selected' : '') + '>' + p.l + '</option>';
-      }).join('');
+      }
+      var opts = SOFT_PROGRAMS.filter(function (p) { return !p.retired; }).map(opt).join('') +
+        '<optgroup label="Retired labels (no current program)">' +
+        SOFT_PROGRAMS.filter(function (p) { return p.retired; }).map(opt).join('') + '</optgroup>';
       var inputCss = 'padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);width:100%;min-height:44px;';
       var labelCss = 'font-size:var(--tiny);color:var(--muted);display:block;margin-bottom:0.15rem;';
       return ''
@@ -3747,7 +3786,7 @@
       if (_softTranches.length === 0) {
         // Seed with a default empty tranche so the UI isn't empty on first load.
         // F194: also seed cashflowPayPct, accrueMode, priority defaults
-        _softTranches.push({ id: ++_trancheCounter, program: 'chfa_htf', amount: 0, mode: 'loan', rate: 3.0, term: 30, maturity: 30, ioYears: 2, loanType: 'amortizing', cashflowPayPct: 100, priority: 5 });
+        _softTranches.push({ id: ++_trancheCounter, program: 'other', amount: 0, mode: 'loan', rate: 3.0, term: 30, maturity: 30, ioYears: 2, loanType: 'amortizing', cashflowPayPct: 100, priority: 5 });
       }
       var provenance = window.InputProvenance;
       var previousOrigins = {};
@@ -4244,7 +4283,7 @@
       manualMarket: _resolvedDealMix.available ? null : readManualMarketInputs(),
       hasUnitMixWarning: !!document.getElementById('dc-units-sync-warn'),
       tranches: typeof window.DealCalcSoftTranches === 'function' ? (window.DealCalcSoftTranches() || []) : [],
-      costLines: readCostLines(), costRules: _costRules,
+      costLines: readCostLines(), costRules: _costRules, chfaCommonAppTables: _chfaTables,
       operatingLines: operating ? operating.lines : null, otherIncomeLines: operating ? operating.income : null,
       fmrData: window.HudFmr && _countyFips ? window.HudFmr.getFmrByFips(_countyFips) : null };
   }
@@ -4613,8 +4652,11 @@
       row('CHFA per-project limit', basis.cap.applied ? fmt(basis.cap.amount) : 'Not applied', (basis.cap.reason || basis.cap.citation || '') + (basis.cap.applied ? ' ' + costBasisModule().APPLICANT_LIMIT_NOTE : ''));
       row('Method Two: gap calculation', basis.gapMethod.applied ? fmt(basis.gapMethod.credit) : 'Not calculated',
         basis.gapMethod.applied ? (basis.gapMethod.binding ? basis.gapMethod.reason : 'Uses not covered by sources other than federal and state credit equity: ' + fmt(Math.max(0, basis.gapMethod.gap)) + ', divided by the credit price and 10 years (' + basis.gapMethod.citation + ').') : basis.gapMethod.reason);
-      row('Method Three: cost basis limits', 'Not checked', basis.costLimitMethod.reason);
-      row('Credit capacity', money(basis.capacity, 'Not available'), basis.capacity == null && basis.reasons.capacity ? basis.reasons.capacity : 'The smaller of Method One and Method Two. Method Three is not checked.');
+      var m3 = basis.costLimitMethod || {};
+      row('Method Three: cost basis limits (draft)', m3.checked ? fmt(m3.credit) : 'Not checked',
+        m3.checked ? (m3.lower ? 'Lower than the capacity below: CHFA would reserve no more than ' + fmt(m3.credit) + ' if these limits are adopted. ' : '') + m3.reason : m3.reason);
+      row('Credit capacity', money(basis.capacity, 'Not available'), basis.capacity == null && basis.reasons.capacity ? basis.reasons.capacity
+        : 'The smaller of Method One and Method Two. Method Three uses limits from CHFA\'s 2027 workbook under a draft QAP, so it is shown above but not applied.');
     }
 
     heading('Cost per unit and per square foot');
@@ -6146,6 +6188,7 @@
     loadJson('data/hud-home-rent-limits-co-2026.json').then(function (t) { setProgramRentTables(t, undefined); });
     loadJson('data/policy/prop123-rental-rules.json').then(function (t) { setProgramRentTables(undefined, t); });
     loadJson('data/policy/lihtc-underwriting-rules.json').then(function (t) { _costRules = t; recalculate(); });
+    loadJson('data/policy/chfa-common-app-tables.json').then(function (t) { _chfaTables = t; recalculate(); });
 
     // Phase-4 follow-up — re-scan for <abbr data-glossary> tags now that the
     // output panel HTML has been injected. The inline-glossary boot fires on
@@ -6907,6 +6950,22 @@
         impact('dc-stress-leaseup-impact', 'year1Loss', function (v) {
           return 'Year-1 NOI loss estimate: ' + _fmtMoney(v.year1Loss) + ' (linear ramp; covered by lease-up reserve if funded)';
         });
+        // The floor is a test of the base case's coverage, not a resize: the
+        // loan stays as sized or entered above.
+        var floorEl = document.getElementById('dc-stress-dscr-impact');
+        if (floorEl) {
+          var floor = _read('dc-stress-dscr-floor') || 1.15;
+          var base = result && result.baseDSCR;
+          if (typeof base === 'number' && isFinite(base)) {
+            delete floorEl.dataset.unavailableReason;
+            floorEl.textContent = 'Base coverage ' + base.toFixed(2) + 'x '
+              + (base >= floor ? 'meets' : 'falls short of') + ' a ' + floor.toFixed(2) + 'x floor (loan not resized).';
+          } else {
+            var dscrReason = (result && result.unavailable && result.unavailable.baseDSCR) || 'Enter NOI and mortgage terms to see coverage.';
+            floorEl.dataset.unavailableReason = dscrReason;
+            floorEl.textContent = 'Unavailable — ' + dscrReason;
+          }
+        }
         // Summary panel — combined worst-case visualization
         var summaryEl = document.getElementById('dcStressSummary');
         if (summaryEl) {
@@ -6920,6 +6979,7 @@
             leaseupMonths + 'mo lease-up · ' +
             'DSCR ≥ ' + dscrFloor.toFixed(2) + 'x. ' +
             '<br><span style="color:var(--muted);font-size:.8125rem">' +
+            'Every stress here keeps the loans at their base amounts; nothing is resized. The deep-tier rent setting is not yet applied to any figure. ' +
             'Read each impact row above for line-item deltas. Per-tranche soft-debt controls (CF-pay %, accrue mode, priority) live in the "Soft Funding Stack" panel above; ' +
             'full capital event waterfall (GP/LP split, preferred return, catch-up) renders below the Tornado Chart.' +
             '</span>';
@@ -7168,7 +7228,13 @@
     if (!listEl) return;
     var esc = _referenceEscape;
     var programs = _softFundingStatus && _softFundingStatus.programs || {};
-    listEl.innerHTML = SOFT_REFERENCE.map(function (ref) {
+    // A retired label names no current program, so it is not offered as a reference.
+    // Prop 123 stays: its umbrella record is retired as a source, but the card shows
+    // the shared policy-timeline description of the real program.
+    listEl.innerHTML = SOFT_REFERENCE.filter(function (ref) {
+      var rp = ref.id && programs[ref.id];
+      return ref.k === 'prop123' || !(rp && rp.status === 'retired');
+    }).map(function (ref) {
       var p = programs[ref.id];
       var timeline = ref.k === 'prop123' && _softFundingTimelineEvent;
       var description = timeline ? timeline.detail : p && p.description;

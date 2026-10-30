@@ -25,7 +25,7 @@
  * INSIGHTS, in three groups (2026-09-28):
  *   Current: Housing News, Policy & Legislation, Colorado Elections
  *   Research: Research & Analysis, Tax Credit Equity Markets, the papers
- *   Guides: Help for Homebuyers
+ *   Guides: If You Need Housing Now, Help for Homebuyers
  *   It was 11 ungrouped items that overflowed a 1280x720 screen. About and
  *   Sitemap are in the footer. Each label matches the <h1> of the page it
  *   opens (test/insights-nav-labels.test.mjs).
@@ -69,8 +69,9 @@
         { label: "Where Colorado's Housing Money Goes", href: "where-housing-money-goes.html", desc: "Every CHFA, OEDIT and DOLA award by county, town and developer", isNew: true },
         { label: "Deal Summaries",        href: "deal-summary.html",              desc: "Sourced write-ups of CHFA tax credit awards: mix, money, status", isNew: true },
         { label: "Prop 123 Land Banking Awards", href: "land-banking-awards.html", desc: "Every Prop 123 land banking award, mapped", isNew: true },
+        { label: "Commuting and Jobs",    href: "commuting.html",                 desc: "Who drives in to work, what it costs, largest employers", isNew: true },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
-        { label: "Preservation Tracking", href: "preservation.html",              desc: "NHPD subsidy expiry risk" },
+        { label: "Preservation Tracking", href: "preservation.html",              desc: "Properties on CHFA's preservation map" },
       ]
     },
     {
@@ -117,6 +118,7 @@
         { label: "Working Paper",         href: "working-paper.html",             desc: "Why the system works the way it does" },
         { label: "Methods",               href: "methods.html",                   desc: "Every formula, to check a number" },
         { label: "— Guides —", isHeader: true },
+        { label: "If You Need Housing Now", href: "housing-help.html",              desc: "Rent help, eviction help, vouchers. English y español", isNew: true },
         { label: "Help for Homebuyers",     href: "help-for-homebuyers.html",       desc: "Down-payment help, credits" },
         { label: "Who Does What in a Colorado Affordable Deal", href: "affordable-deal-team.html", desc: "Bankers, syndicators, lawyers, community work, CRA" },
         { label: "Green Building in a Colorado Deal", href: "green-building-guide.html", desc: "CHFA rules, utility allowances, programs" },
@@ -171,6 +173,43 @@
     if (onMemberHost()) return `<a class="${cls}" href="/">\u2190 Member site</a>`; // the member site's / opens its home
     return `<a class="${cls}" href="${MEMBER_SITE_URL}">Member sign in</a>`;
   }
+
+  // Español: the renter help page has its own Spanish, written by hand; every
+  // other page opens in Google's machine translation. Only the parameters
+  // that name a jurisdiction travel with it, as with the feedback link: a
+  // shared Deal Calculator URL carries a whole project and must not be sent
+  // to Google. The member site is never sent there.
+  const LANG_CONTEXT_PARAMS = ['geoid', 'geoType', 'fips', 'place', 'region', 'geos', 'combinedMode', 'town'];
+  function spanishHref() {
+    const page = (location.pathname.split('/').pop() || 'index.html');
+    if (page === 'housing-help.html') return '#es';
+    const u = new URL(location.href);
+    const keep = new URLSearchParams();
+    LANG_CONTEXT_PARAMS.forEach(function (k) { if (u.searchParams.has(k)) keep.set(k, u.searchParams.get(k)); });
+    u.search = keep.toString() ? '?' + keep.toString() : '';
+    u.hash = '';
+    return 'https://translate.google.com/translate?sl=en&tl=es&hl=es&u={page}'.replace('{page}', function () { return encodeURIComponent(u.toString()); });
+  }
+  // The header shows "ES" (named "Español" for screen readers): the full word
+  // wrapped the menu to two rows at 1366px. The drawer and footer spell it out.
+  function spanishLink(cls, short) {
+    if (onMemberHost()) return '';
+    const page = (location.pathname.split('/').pop() || '');
+    const own = page === 'housing-help.html';
+    return `<a class="${cls}" href="${spanishHref()}" lang="es" hreflang="es" data-lang-link` +
+      (short ? ' aria-label="Español"' : '') +
+      (own ? ' title="Español"' : ' target="_blank" rel="noopener" title="Español: traducción automática de Google"') +
+      `>${short ? 'ES' : 'Español'}</a>`;
+  }
+  // HNA views rewrite the query string as the place changes, so the link is
+  // rebuilt as it is used.
+  function refreshSpanishHref(e) {
+    const link = e.target && e.target.closest && e.target.closest('a[data-lang-link]');
+    if (link) link.href = spanishHref();
+  }
+  ['pointerdown', 'focusin', 'keydown', 'click'].forEach(function (t) {
+    document.addEventListener(t, refreshSpanishHref, true);
+  });
 
   function relToRoot() {
     // If a page lives in a subfolder, back out to the repo root.
@@ -336,7 +375,11 @@
 
     // Header
     const header = document.createElement('header');
-    header.className = 'site-header';
+    // Member pages (developer*.html) have their own menu under the header and no
+    // use for the public site's jurisdiction chip; on a phone the chip only
+    // pushes that menu down (10-26 rehearsal on paul's iPhone).
+    const memberPage = /^developer/.test(location.pathname.split('/').pop() || '');
+    header.className = 'site-header' + (memberPage ? ' site-header--member' : '');
     header.setAttribute('role', 'banner');
     header.innerHTML = `
       <div class="nav-wrap">
@@ -400,6 +443,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           </button>
         </form>
+        ${spanishLink('nav-lang-link', true)}
         ${memberLink('nav-member-signin')}
         <button id="mobileNavToggle" class="mobile-menu-btn" type="button"
           aria-label="Open navigation menu"
@@ -424,6 +468,7 @@
         <button type="button" id="mobileNavClose" class="mobile-nav-close" aria-label="Close menu">&#x2715;</button>
       </div>
       <nav class="mobile-nav-links">
+        ${spanishLink('mobile-nav-lang-link')}
         ${GROUPS.map(g => `
           <div class="mobile-nav-section">
             <button class="mobile-nav-section-btn" type="button" aria-expanded="false">
@@ -492,6 +537,7 @@
             <a href="${normalizeHref('sitemap.html')}">Sitemap</a>
             <a href="${feedbackFormHref()}" target="_blank" rel="noopener" data-feedback-link>Questions or feedback</a>
             <a href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a>
+            ${spanishLink('footer-lang-link')}
             ${memberLink('footer-member-signin')}
           </p>
         </div>
@@ -522,6 +568,7 @@
           <a href="${normalizeHref('policy-briefs.html')}">Housing News</a>
           <a href="${normalizeHref('insights.html')}">Research &amp; Analysis</a>
           <a href="${normalizeHref('methods.html')}">Methods</a>
+          <a href="${normalizeHref('housing-help.html')}">If You Need Housing Now</a>
         </div>
         <!-- On phones, js/dark-mode-toggle.js and js/components/watchlist.js
              move their corner buttons into this row so they never sit over

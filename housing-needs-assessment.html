@@ -139,6 +139,8 @@
   <script src="js/components/tax-abatement.js"></script>
   <script src="js/components/chfa-award-history.js"></script>
   <script defer src="js/components/place-deals-limits.js"></script>
+  <script defer src="js/hna/hna-market-call.js"></script>
+  <script defer src="js/components/state-housing-laws.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
   <script src="js/components/second-homes-panel.js"></script>
@@ -151,7 +153,7 @@
   <!-- chart-fix: re-renders charts when <details> sections open or containers become visible -->
   <script defer src="js/chart-fix.js"></script>
   <!-- PDF export (client-side) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script defer src="js/vendor/html2canvas-pro.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <!-- F168 — ExcelJS for native Excel chart export (Download Excel button). -->
   <script defer src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
@@ -598,6 +600,9 @@
              prevents the "the chat answer said $95K but the HNA shows $80K"
              confusion. Hydrated alongside the snapshot. -->
         <div id="hnaMhiAmiMount" style="margin:.4rem 0 .65rem"></div>
+
+        <!-- State housing laws for the picked place, led by the SB24-174 HNA deadline (js/components/state-housing-laws.js). -->
+        <div id="stateLawsMount" data-state-laws></div>
 
         <div class="stats" aria-label="Headline indicators">
           <div class="stat"><div class="k">Population</div><div class="v" id="statPop">—</div><div id="statPopYoy" class="yoy"></div><div class="s" id="statPopSrc">—</div></div>
@@ -1876,7 +1881,7 @@
               <figure class="dg-btype__photo"><img src="assets/building-types/courtyard-denver.jpg" width="480" height="320" loading="lazy" decoding="async" alt="A three-story apartment building in Denver with two wings around a planted entry court."><figcaption>Montgomery Court, Denver. Photo: <a href="https://commons.wikimedia.org/wiki/File:Montgomery_Court.JPG" target="_blank" rel="noopener">Jeffrey Beall</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>, via Wikimedia Commons, cropped.</figcaption></figure>
             </li>
           </ul>
-          <ul class="dg-btypes__legend"><li><i class="dg-range__keymark"></i><strong>15 homes per acre</strong>: the least a housing component can have in the state&rsquo;s Transit Oriented Communities infrastructure grant</li><li><i class="dg-range__keymark"></i><strong>40 homes per acre</strong>: the average zoned density HB24-1313 sets as the goal in transit areas</li></ul>
+          <ul class="dg-btypes__legend"><li><i class="dg-range__keymark"></i><strong>15 homes per acre</strong>: the least net density a transit center&rsquo;s zoning must allow under HB24-1313 (C.R.S. 29-37-205)</li><li><i class="dg-range__keymark"></i><strong>40 homes per acre</strong>: the average zoned density HB24-1313 sets as the goal in transit areas</li></ul>
           <figcaption>Ranges are net density (homes per acre of lot) from Opticos Design&rsquo;s <a href="https://missingmiddlehousing.com/types" target="_blank" rel="noopener">Missing Middle Housing</a> type pages, covering lots with and without alleys. Colorado marks: <a href="https://leg.colorado.gov/bills/hb24-1313" target="_blank" rel="noopener">HB24-1313</a> and the Department of Local Affairs&rsquo; Transit Oriented Communities infrastructure grant guidelines. Local zoning sets what is allowed on any one site.</figcaption>
         </figure>
         <div id="htfContainer">
@@ -1892,6 +1897,8 @@
       <!-- ── Colorado Market Conditions ── -->
       <section id="co-market-conditions" class="chart-card span-12">
         <h2>Colorado Market Conditions</h2>
+        <!-- The market call for the geography on screen (js/hna/hna-market-call.js). -->
+        <p id="hnaMarketCall" class="hna-market-call" data-market-call role="note" style="margin:0 0 .75rem;padding:.6rem .8rem;border-left:4px solid var(--accent);background:var(--card2, var(--bg2));border-radius:4px" hidden></p>
         <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
           Market conditions by region — from Bridge MLS data or Colorado Association of REALTORS (CAR) reports. Supports early-stage LIHTC site feasibility screening.
         </p>

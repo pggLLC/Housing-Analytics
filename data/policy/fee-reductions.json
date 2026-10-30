@@ -2,7 +2,7 @@
   "schema": "fee-reductions/v1",
   "meta": {
     "title": "Colorado local fee reductions and land-use incentives for affordable housing",
-    "as_of": "2026-10-10",
+    "as_of": "2026-10-29",
     "method": "Curated, not a feed. Each entry was read from the jurisdiction's (or its utility's or district's) own code, resolution, fee schedule, council record or program page, saved, and every evidence quote was checked by exact substring match against the saved text (whitespace normalised). verification.level \"primary\" means checked against that primary document; \"reported\" means taken from a named reproduction or outlet without the primary document. Every dollar amount and percentage an entry states appears in its own evidence quotes (tests/test_fee_reductions.py). An amount the source does not publish is null, never 0. Measures are kept separate: waived (not owed), reduced (partly owed), reimbursed (paid, then paid back), deferred (still owed, paid later — not a cost reduction), and rate_discount (a recurring utility bill discount, not a development cost). backfill records how a waived amount is paid for only when the source says so; otherwise not_specified. kind says whether an entry is a standing program, a one-off project_award (an example of what a jurisdiction has done, not an offer), or repealed (kept for the record). A county entry may apply only outside town limits. This is screening context, not a study: it lists what a jurisdiction offers, not what any project will receive.",
     "legal_basis": [
       {
@@ -8375,6 +8375,64 @@
       "notes": "Companion to the existing capital expansion fee and utility PIF deferrals (d-fortcollins-cef-deferral, d-fortcollins-utility-pif-deferral), which cite the same Ord. No. 100, 2025; no use_tax entry existed for Fort Collins. adopted = date of Ord. No. 191, 1999. by_right=true meaning deferral is granted upon request for qualifying developments.",
       "last_verified": "2026-10-10",
       "review_by": "2027-04-10"
+    },
+    {
+      "id": "bayfield-affordable-building-permit-waiver",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "0805265",
+      "jurisdiction": "Town of Bayfield",
+      "county": "La Plata County",
+      "provider": "Town of Bayfield",
+      "provider_type": "city",
+      "fee_category": "building_permit",
+      "recurrence": "one_time",
+      "measure": "waived",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "Building permit and deposit fees for deed restricted or subsidized affordable or workforce housing projects, at the Town's discretion; park impact fees and plant investment (tap) fees are not eligible",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": false
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Resolution 533; fee schedule Resolution 566",
+      "adopted": "2023-06-20",
+      "summary": "Bayfield may waive building permit and deposit fees for deed restricted or subsidized affordable and workforce housing; park impact fees and tap fees cannot be waived.",
+      "source": {
+        "label": "Town of Bayfield, Building Permit Fee Schedule, Resolution 566, adopted 20 Jun 2023 (copy from the Town of Bayfield; document link not recorded)",
+        "url": "https://www.bayfieldgov.org/"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Town of Bayfield Building Permit Fee Schedule (Resolution 566), copy saved from the Town site in a browser because the site blocks automated reads",
+        "checked": "2026-10-29"
+      },
+      "evidence": [
+        {
+          "section": "Affordable/Workforce Housing Permit Fee Waivers",
+          "quote": "Deed Restricted or Subsidized Affordable/Workforce Housing Projects May be Eligible to Receive Building Permit & Deposit Fee Waivers based on the Type of Application and Support Materials Provided. Park Impact Fees and PIFs are NOT Eligible to be Waived."
+        },
+        {
+          "section": "Header",
+          "quote": "BUILDING PERMIT FEE SCHEDULE Resolution 566, Adopted June 20, 2023"
+        }
+      ],
+      "not_in_source": [
+        "which applications qualify",
+        "who decides a waiver"
+      ],
+      "notes": "Discretionary (\"May be Eligible\"), so by_right is false. The Town site (bayfieldgov.org) blocks automated reads; the fee schedule was saved from it in a browser on 29 Oct 2026.",
+      "last_verified": "2026-10-29",
+      "review_by": "2027-04-28"
     }
   ],
   "land_use": [

@@ -35,6 +35,28 @@
     return /\d/.test(t);
   }
 
+  // A quoted figure carries the source line of the card it was quoted from,
+  // but only when that line names a year: an undated copy would add a second
+  // undated figure, not a sourced one.
+  var YEAR = /(?<!\d)(19|20)\d{2}(?!\d)/;
+  function quoteSource(li, src) {
+    var old = li.querySelector('.hna-handoff__src');
+    if (old) old.parentNode.removeChild(old);
+    var card = src.closest('.metric-card, .stat-card, .stat');
+    var line = card && card.querySelector('.mc-sub, .stat-source, .stat-src');
+    var links = line ? line.querySelectorAll('a[href]') : [];
+    if (!links.length || !YEAR.test(line.textContent)) return;
+    var small = document.createElement('small');
+    small.className = 'hna-handoff__src';
+    small.appendChild(document.createTextNode(' ('));
+    for (var i = 0; i < links.length; i++) {
+      if (i) small.appendChild(document.createTextNode(', '));
+      small.appendChild(links[i].cloneNode(true));
+    }
+    small.appendChild(document.createTextNode(')'));
+    li.appendChild(small);
+  }
+
   function fill() {
     var host = document.getElementById('hnaChapterHandoff');
     if (!host) return 0;
@@ -47,6 +69,7 @@
       if (!usable(value)) { li.hidden = true; continue; }
       var slot = li.querySelector('.hna-handoff__n');
       if (slot) slot.textContent = value.trim();
+      quoteSource(li, src);
       li.hidden = false;
       shown += 1;
     }

@@ -64,6 +64,8 @@ const SEARCHES = [
   ['land banking map', 'land-banking-awards.html'],
   ['prop 123', 'land-banking-awards.html'],
   ['prop123', 'land-banking-awards.html'],
+  ['commuting', 'commuting.html'],
+  ['largest employers', 'commuting.html'],
   ['deal calculator', 'deal-calculator.html'],
   ['market analysis', 'market-analysis.html'],
   ['housing needs assessment', 'housing-needs-assessment.html'],

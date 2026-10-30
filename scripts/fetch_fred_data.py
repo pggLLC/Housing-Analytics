@@ -38,11 +38,11 @@ SERIES = {
     "TLRESCONS": ("Total Construction Spending: Residential", None), "USCONS": ("Construction Employment (National)", None),
     "CSUSHPISA": ("Case-Shiller Home Price Index", None), "MSPUS": ("Median Sales Price of Houses Sold", None),
     "RHORUSQ156N": ("Homeownership Rate", None), "RRVRUSQ156N": ("Rental Vacancy Rate", None),
-    "DRSFRMACBS": ("Delinquency Rate on Single-Family Mortgages", None), "WPUFD49207": ("PPI: Inputs to construction", None),
-    "WPUFD4111": ("PPI: Final Demand Construction (Nonresidential Building)", None),
+    "DRSFRMACBS": ("Delinquency Rate on Single-Family Mortgages", None), "WPUIP2310001": ("PPI: Net inputs to new construction, goods", None),
+    "WPUIP2312001": ("PPI: Net inputs to nonresidential construction, goods", None),
     "WPUIP231120": ("PPI: Net Inputs to Multifamily Residential Construction", "PCU236200236200"),
     "ECIALLCIV": ("Employment Cost Index (Total comp)", None), "CES2000000008": ("Construction Avg Hourly Earnings", None),
-    "WPUSI012011": ("PPI: Lumber & wood products", None), "PCU331110331110": ("PPI: Iron and Steel Mills", None),
+    "WPUSI012011": ("PPI: Construction materials (special index)", None), "PCU331110331110": ("PPI: Iron and Steel Mills", None),
     "PCU331420331420A": ("Copper Wire & Cable PPI", "PCU33142033142012"),
     "WPU10260306": ("Building Wire and Cable", "WPU10210301"), "PCU331315331315": ("PPI: Aluminum", None),
     "PCU327310327310": ("PPI: Cement and Concrete Product Manufacturing", None),
@@ -55,6 +55,16 @@ SERIES = {
     "COUR": ("CO Unemployment Rate (Colorado, SA)", None), "COCONS": ("CO Construction Employment", None),
     "COPOP": ("CO Population", None), "MEHOINUSCOA646N": ("CO Median Household Income", None),
     "COSTHPI": ("CO Home Price Index (FHFA)", "ATNHPIUS08"), "COBPPRIV": ("CO Building Permits", None),
+    # Colorado metro market signals for the Deep Dive's dated market card.
+    "ATNHPIUS19740Q": ("Denver metro Home Price Index (FHFA)", None),
+    "ATNHPIUS17820Q": ("Colorado Springs metro Home Price Index (FHFA)", None),
+    "ATNHPIUS22660Q": ("Fort Collins metro Home Price Index (FHFA)", None),
+    "ATNHPIUS24300Q": ("Grand Junction metro Home Price Index (FHFA)", None),
+    "MEDDAYONMAR19740": ("Denver metro Median Days on Market (Realtor.com)", None),
+    "MEDDAYONMAR17820": ("Colorado Springs metro Median Days on Market (Realtor.com)", None),
+    "MEDDAYONMAR22660": ("Fort Collins metro Median Days on Market (Realtor.com)", None),
+    "MEDDAYONMAR24300": ("Grand Junction metro Median Days on Market (Realtor.com)", None),
+    "CUUSA433SEHA": ("Denver CPI: Rent of Primary Residence (BLS)", None),
 }
 
 

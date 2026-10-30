@@ -192,8 +192,8 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
 
     <div class="place-tools">
       <h2>Continue your analysis</h2>
-      <a href="../market-analysis.html?lat={{LAT}}&lon={{LON}}">Run PMA analysis →</a>
-      <a href="../deal-calculator.html">Open Deal Calculator →</a>
+      <a href="../market-analysis.html?fips={{PLACE_GEOID}}&geoType=place&auto=1">Run PMA analysis →</a>
+      <a href="../deal-calculator.html?geoid={{PLACE_GEOID}}">Open Deal Calculator →</a>
       <a href="../housing-needs-assessment.html?type={{PLACE_TYPE}}&geoid={{PLACE_GEOID}}">View full HNA dashboard →</a>
     </div>
 

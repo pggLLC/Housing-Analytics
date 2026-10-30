@@ -83,6 +83,7 @@
     'dc-restricted-sf': 'Floor area of the units counted as LIHTC units, for the floor-space fraction. Leave out restricted units that are not LIHTC units.',
     'dc-boost-designation': 'The QCT, DDA, SADDA or CHFA designation claimed for the basis boost (30% for QCT, DDA or SADDA; up to 30% for CHFA).',
     'dc-boost-evidence': 'Evidence supporting the basis-boost designation.',
+    'dc-building-type': 'Elevator or walk-up building, which sets CHFA\'s per-unit cost basis limit (Method Three).',
     'dc-boost-pct': 'Basis boost percentage in CHFA\'s letter (CHFA state designation only, up to 30%).',
     'dc-credit-requested': 'Annual federal credit requested in the application.',
     'dc-credit-awarded': 'Annual federal credit awarded by CHFA.',

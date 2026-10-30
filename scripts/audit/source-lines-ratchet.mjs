@@ -31,6 +31,7 @@ import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { arriveUrl } from './lib/arrive-with.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -184,7 +185,7 @@ async function main() {
       // A page that keeps a request open (map tiles, a slow outside feed) may
       // never go network-idle; scan it once it has loaded rather than failing.
       // A page that never loads still fails.
-      await page.goto(`${BASE_URL}/${p}`, { waitUntil: 'load', timeout: 60000 });
+      await page.goto(`${BASE_URL}/${arriveUrl(p)}`, { waitUntil: 'load', timeout: 60000 });
       await page.waitForLoadState('networkidle', { timeout: 60000 }).catch((e) => {
         if (e.name !== 'TimeoutError') throw e;
       });

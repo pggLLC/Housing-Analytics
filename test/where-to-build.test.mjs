@@ -22,7 +22,9 @@ const docs = {
   fees: json('data/policy/fee-reductions.json'),
   funds: json('data/policy/local-housing-funds.json'),
   coverage: json('data/policy/incentive-coverage.json'),
-  commitment: json('data/policy/local-commitment.json')
+  commitment: json('data/policy/local-commitment.json'),
+  jobs: json('data/policy/job-access.json'),
+  commute: json('data/market/commute-strength.json')
 };
 const model = W.build(docs, TODAY);
 
@@ -200,13 +202,20 @@ ok(model.places.some((p) => p.type === 'cdp' && /\(through /.test(p.factors.loca
 ok(page.includes('meta.parks_generated') && docs.context.meta.parks_generated, 'parks show the OpenStreetMap file date, not the vote date');
 
 // ---- 6d. A file that fails to load leaves its factors unchecked, never a zero for every place.
-for (const [key, ids] of [['prop123', ['prop123']], ['awards', ['landBank']], ['lbStatus', ['landBank']], ['support', ['approvals']], ['context', ['parks', 'prop123Vote', 'presVote']], ['funds', ['localFund']], ['commitment', ['hna', 'planGoal', 'authority']]]) {
+for (const [key, ids] of [['prop123', ['prop123']], ['awards', ['landBank']], ['lbStatus', ['landBank']], ['support', ['approvals']], ['context', ['parks', 'prop123Vote', 'presVote']], ['funds', ['localFund']], ['commitment', ['hna', 'planGoal', 'authority']], ['jobs', ['jobAccess']]]) {
   const m = W.build({ ...docs, [key]: null }, TODAY);
   ok(m.missing.length === 1, `${key} missing is reported (${m.missing})`);
   ok(m.places.every((p) => ids.every((id) => p.factors[id].points === null && /did not load/.test(p.factors[id].value))), `${key} missing: ${ids.join(', ')} show as not checked`);
   const i = model.places.findIndex((p) => ids.some((id) => p.factors[id].points != null && W.defaultWeights()[W.GROUPS.find((g) => g.factors.includes(id)).id] > 0));
   const before = W.score(model.places[i]), after = W.score(m.places[i]);
   ok(after.checkedShare < before.checkedShare, `${key} missing lowers confidence instead of scoring zero`);
+}
+{
+  // Workforce commuting in ships at 0, so a missing file leaves it unchecked and moves no default score.
+  const m = W.build({ ...docs, commute: null }, TODAY);
+  ok(m.missing.length === 1 && m.missing[0] === 'commute-strength.json', 'commute missing is reported');
+  ok(m.places.every((p) => p.factors.commuteIn.points === null && /did not load/.test(p.factors.commuteIn.value)), 'commute missing: not checked');
+  ok(m.places.every((p, i) => W.score(p).score === W.score(model.places[i]).score), 'commute missing leaves every default score alone');
 }
 ok(model.missing.length === 0, 'every file loads in the test set');
 ok(page.includes('model.missing'), 'the page says which files did not load');
@@ -313,5 +322,82 @@ ok(model.places.some((p) => p.flags.length), 'recorded denials show as red flags
   // A DOLA approval of the place's own HNA in the last 12 months is a dated signal.
   ok(model.places.some((p) => p.signals.some((g) => /approved by DOLA/.test(g.text))), 'a recent DOLA HNA approval is a signal');
   ok(page.includes('data/policy/local-commitment.json'), 'the page loads the local commitment file');
+}
+
+// ---- Job access (paul 2026-10-29): a fact about the place, on a log scale, off in the smaller-town preset.
+{
+  const byName = (nm) => model.places.find((p) => p.name === nm);
+  const bay = byName('Bayfield (town)'), dur = byName('Durango (city)'), nuc = byName('Nucla (town)');
+  ok(bay && bay.factors.jobAccess.points >= 6 && bay.factors.jobAccess.points <= 7.5, `Bayfield reaches a job centre (${bay.factors.jobAccess.points})`);
+  ok(/work in Durango \(city\)/.test(bay.factors.jobAccess.value), `Bayfield's row says where its residents work: ${bay.factors.jobAccess.value}`);
+  ok(!/working residents work in/.test(dur.factors.jobAccess.value), 'Durango shows no commute line: no other town employs 20% of its residents');
+  ok(nuc && nuc.factors.jobAccess.points <= 1, `Nucla has few jobs within reach (${nuc.factors.jobAccess.points})`);
+  // Points follow the printed rule exactly.
+  for (const p of model.places) {
+    const j = p.type === 'county' ? docs.jobs.counties[p.geoid] : docs.jobs.places[p.geoid];
+    const f = p.factors.jobAccess;
+    if (!j) { ok(f.points === null, `${p.name}: no job figure is not checked`); continue; }
+    const want = Math.round(Math.max(0, Math.min(10, (Math.log10(Math.max(j.jobs_30min, 1)) - 3) * 5)) * 10) / 10;
+    ok(f.points === want, `${p.name}: job access ${f.points} follows the rule (${want})`);
+  }
+  ok(model.places.filter((p) => p.factors.jobAccess.points != null).length === model.places.length, 'every ranked place has a job figure');
+  ok(W.PRESETS.rural9.weights.jobs === 0, 'job access is off in the smaller-town 9% preset');
+  ok(!W.score(nuc, W.PRESETS.rural9.weights).parts.some((x) => x.id === 'jobAccess' && x.weight > 0), '... so it leaves a remote town\'s score alone');
+  // No double count: the need factor still reads the HNA need score, which puts commuters where they work.
+  const bayNeed = docs.ranking.rankings.find((r) => r.geoid === bay.geoid).metrics.overall_need_score;
+  ok(Math.abs(bay.factors.need.points - bayNeed / 10) < 0.06, 'Bayfield\'s need is its own, with no borrowed Durango need');
+  ok(page.includes('data/policy/job-access.json'), 'the page loads the job-access file');
+  // A link shared before job access existed keeps it off, so the old view scores as it did and still matches its preset.
+  const old = W.weightsFromQuery('build.3,money.3,land.4,need.4,rents.2,rec.1,commit.3,vote.1,lean.0');
+  ok(old.jobs === 0 && Object.keys(W.PRESETS.rural9.weights).every((k) => old[k] === W.PRESETS.rural9.weights[k]), 'an old smaller-town link still opens the smaller-town preset');
+  ok(W.weightsFromQuery('build.4,money.4,land.3,need.3,rents.2,rec.2,commit.3,vote.2,lean.0').jobs === 0, 'an old Balanced link keeps job access off');
+  ok(W.weightsFromQuery('jobs.3').jobs === 3 && W.weightsFromQuery(null).jobs === 1 && W.weightsFromQuery('').jobs === 1, 'a new link or no link uses the slider or the default');
+  ok(page.includes('W.weightsFromQuery('), 'the page reads its link through weightsFromQuery');
+}
+// ---- Workforce commuting in (paul 2026-10-30: slider, off by default).
+{
+  const g = W.GROUPS.find((x) => x.id === 'commute');
+  ok(g && g.weight === 0 && g.factors.join() === 'commuteIn', 'the commute group exists and defaults to 0');
+  ok(['mix', 'rural9', 'metro4'].every((k) => W.PRESETS[k].weights.commute === 0), 'every preset keeps it at 0');
+  const off = W.defaultWeights();
+  const noCommute = W.build({ ...docs, commute: { places: {}, counties: {} } }, TODAY);
+  ok(model.places.every((p, i) => W.score(p, off).score === W.score(noCommute.places[i], off).score), 'shipped rankings do not move');
+  for (const p of model.places) {
+    const c = p.type === 'county' ? docs.commute.counties[p.geoid] : docs.commute.places[p.geoid];
+    const f = p.factors.commuteIn;
+    if (!c || c.jobs < 500) { ok(f.points === null, `${p.name}: no commute figure is not checked`); continue; }
+    const want = Math.round(Math.max(0, Math.min(10, (c.far_low / c.jobs - 0.02) / 0.18 * 10)) * 10) / 10;
+    ok(f.points === want, `${p.name}: commute ${f.points} follows the rule (${want})`);
+  }
+  const byName = (nm) => model.places.find((p) => p.name === nm);
+  const wp = byName('Winter Park (town)'), bay = byName('Bayfield (town)');
+  ok(wp && wp.factors.commuteIn.points === 10, `Winter Park, a job town workers drive into, scores 10 (${wp && wp.factors.commuteIn.points})`);
+  // The reading carries the figures from the source file, whatever its wording.
+  for (const p of model.places) {
+    const c = p.type === 'county' ? docs.commute.counties[p.geoid] : docs.commute.places[p.geoid];
+    if (!c || c.jobs < 500) continue;
+    const v = p.factors.commuteIn.value;
+    const share = Math.round(c.far_low / c.jobs * 100) + '%', jobs = c.jobs.toLocaleString('en-US');
+    ok(v.includes(share) && v.includes(jobs), `${p.name}: the reading shows ${share} of ${jobs} jobs (${v})`);
+  }
+  ok(model.places.filter((p) => p.factors.commuteIn.points != null).length > 200, 'more than 200 places have a figure');
+  const up = { ...off, commute: 3 };
+  ok(W.score(wp, up).parts.some((x) => x.id === 'commuteIn' && x.weight > 0), 'turning the slider up counts it');
+  ok(W.weightsFromQuery('build.4,money.4,land.3,need.3,rents.2,rec.2,jobs.1,commit.3,vote.2,lean.0').commute === 0, 'an older link keeps it off');
+  ok(W.weightsFromQuery('commute.2').commute === 2, 'a link can turn it up');
+  ok(page.includes('data/market/commute-strength.json') && page.includes('data-commute-reading'), 'the page loads the file and shows the reading at weight 0');
+  ok(bay.factors.commuteIn.points != null, 'Bayfield has a figure');
+}
+// ---- The developer Methodology page's weight table matches the code, group by group.
+{
+  const html = readFileSync('developer-methods.html', 'utf8');
+  const rows = [...html.matchAll(/<tr data-group="(\w+)"><td>([^<]+)<\/td><td>(\d+)<\/td><td>(\d+)<\/td><td>(\d+)<\/td><\/tr>/g)];
+  ok(rows.length === W.GROUPS.length, 'developer-methods.html lists every group (' + rows.length + ' of ' + W.GROUPS.length + ')');
+  rows.forEach(([, id, label, mix, rural9, metro4]) => {
+    const g = W.GROUPS.find((x) => x.id === id);
+    ok(g && g.label === label, 'developer-methods.html group ' + id + ' is labelled as in the code');
+    ok(W.PRESETS.mix.weights[id] === +mix && W.PRESETS.rural9.weights[id] === +rural9 && W.PRESETS.metro4.weights[id] === +metro4,
+      'developer-methods.html weights for ' + id + ' match the presets');
+  });
 }
 console.log(`where-to-build: ${n} checks passed`);

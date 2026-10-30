@@ -27,6 +27,7 @@ import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { arriveUrl } from './lib/arrive-with.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -193,7 +194,7 @@ async function exercise(page, pageName, note) {
 }
 
 async function auditPage(browser, pageConfig) {
-  const url = BASE_URL + pageConfig.path;
+  const url = BASE_URL + arriveUrl(pageConfig.path);
   /** @type {Array<{level:string, text:string, location:object|null}>} */
   const messages = [];
   let loadError = null;

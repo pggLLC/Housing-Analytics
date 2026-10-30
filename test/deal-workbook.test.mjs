@@ -499,6 +499,9 @@ const flagged = mut0((s) => { const b = s.result.costBasis.basis; b.requested = 
 ok(/warn: Credit: The request is more than the credit capacity\./.test(texts(flagged)) && /warn: Credit: The award is more than the request\./.test(texts(flagged)) && WB.render(flagged).includes('Credit awarded'), 'the engine\'s credit request and award flags become warnings');
 const noMethod3 = mut0((s) => { s.result.costBasis.basis.costLimitMethod = { checked: false, reason: 'CHFA lists its cost basis limits (Method Three) only in the Excel application, so the calculator does not check them.' }; });
 ok(/warn: CHFA's cost basis limit \(Method Three\) was not checked: CHFA lists/.test(texts(noMethod3)) && WB.render(noMethod3).includes('Not checked: CHFA lists'), 'the unchecked cost basis limit is disclosed');
+const draftMethod3 = mut0((s) => { s.result.costBasis.basis.costLimitMethod = { checked: true, draft: true, credit: 812345, lower: true, reason: 'From the draft 2027-28 QAP; not adopted, so it does not change the capacity.' }; });
+ok(texts(draftMethod3).includes('allows $812,345 a year, less than the credit capacity. It is not applied') && WB.render(draftMethod3).includes('not applied: $812,345'),
+  'a checked Method Three keeps its amount and its not-applied status in the workbook');
 const ungroupedBlank = mut0((s) => { s.permanentFinancing.unclassified = [{ id: 'u2', program: null, label: 'Bank loan', amount: null, reason: "Choose where this source counts in DOH's layout." }]; });
 ok(ungroupedBlank.sources.rows.some((x) => x.amount === null && x.label === "Bank loan: not known, enter the amount; not yet grouped, Choose where this source counts in DOH's layout."), 'an ungrouped source with no amount gives both reasons');
 const noCapacity = mut0((s) => { s.result.costBasis.basis.reasons = { capacity: "Credit capacity needs CHFA's gap calculation, which cannot run yet: Enter the first mortgage." }; });
@@ -825,6 +828,38 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   ok((await memberBar('', listed)).getElementById('mcDeal').value === '', 'opened on its own, the bar starts a new deal');
   ok((await memberBar('#save-to=not-mine-123456', listed)).getElementById('mcDeal').value === '', 'a deal that is not on this sign-in is ignored');
   ok(/calcUrl\(query, doc\.baseURI\) \+ \(ctx && ctx\.deal \? '#save-to=' \+ encodeURIComponent\(ctx\.deal\)/.test(read('js/whitepaper/deal-workbook.js')), 'the workbook sends a saved deal back to the calculator with its id');
+  // The save dock: the calculator's own gap record decides the line, so it can't disagree with Sources & Uses.
+  ok(MC.gapLine({ value: 1558277 }, 'rental').kind === 'gap' && MC.gapLine({ value: 1558277 }, 'rental').text.includes('$1,558,277'), 'the dock shows the calculator\'s funding gap');
+  ok(MC.gapLine({ value: 0 }, 'rental').kind === 'zero', 'a $0 gap is its own case, not a blank');
+  const why = 'the developer fee could not be tested';
+  ok(MC.gapLine({ value: null, unavailableReason: why }, 'rental').kind === 'blank' && MC.gapLine({ value: null, unavailableReason: why }, 'rental').text.includes(why), 'a blank gap carries the calculator\'s own reason');
+  ok(MC.gapLine({ value: null }, 'rental').kind === 'blank' && MC.gapLine(null, 'rental').kind === 'wait' && MC.gapLine({ value: 5 }, 'ownership').kind === 'sale', 'no reason, no result yet, and for-sale mode are each told apart');
+  {
+    const dom = new JSDOM('<!doctype html><body><main id="main-content"></main></body>', { url: 'https://example.com/deal-calculator.html' });
+    const w = dom.window, posts = [];
+    let rec = { value: null, unavailableReason: why };
+    w.__DealCalc = { getOutputRecords: () => ({ fundingGap: rec }) };
+    w.__DealCalcShare = { buildSnapshot: () => exp('units=40&units-60=40&rate-9=0.09', { 'rate-9': '0.09' }) };
+    w.SubmittalReview = SR;
+    w.fetch = (u, o) => { if (o && o.method === 'POST') posts.push(JSON.parse(o.body)); return Promise.resolve({ ok: true, json: () => Promise.resolve(u === MC.API ? { deals: [] } : {}) }); };
+    MC.mount(w.document, w);
+    const d = w.document, dockEl = d.getElementById('mcDock');
+    ok(dockEl && dockEl.parentNode === d.body && dockEl.contains(d.getElementById('mcSave')) && !d.getElementById('mcBar').contains(d.getElementById('mcSave')), 'Save sits in the dock at the bottom, not only at the top of the page');
+    ok(d.getElementById('mcGap').textContent === MC.gapLine(rec, 'rental').text, 'the dock\'s gap line is the calculator\'s current gap');
+    d.getElementById('mcName').value = 'Invented Silt';
+    d.getElementById('mcSave').click();
+    await new Promise((r) => setTimeout(r, 0));
+    ok(posts.length === 0 && d.getElementById('mcStatus').textContent.trim() !== '' && d.getElementById('mcGap').textContent.includes(why) && d.getElementById('mcSave').textContent !== MC.saveLabel, 'a save with no gap warns first, with the reason in view');
+    d.getElementById('mcSave').click();
+    await new Promise((r) => setTimeout(r, 0));
+    ok(posts.length === 1, 'clicking again saves anyway');
+    rec = { value: 2229877 };
+    d.dispatchEvent(new w.CustomEvent('deal-calc:updated'));
+    ok(d.getElementById('mcGap').textContent.includes('$2,229,877') && d.getElementById('mcGap').getAttribute('data-kind') === 'gap', 'the gap line follows each recalculation');
+    d.getElementById('mcSave').click();
+    await new Promise((r) => setTimeout(r, 0));
+    ok(posts.length === 2, 'with a gap, one click saves');
+  }
   const nav = read('js/navigation.js');
   ok(/onMemberHost\(\)\) return;[\s\S]*?window\.top !== window[\s\S]*?member-calculator\.js/.test(nav), 'the member bar loads only on the member site, never in the workbook\'s hidden frame');
 }

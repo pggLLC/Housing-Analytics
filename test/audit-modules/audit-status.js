@@ -21,6 +21,7 @@ function summarizeChecks(checks, workflowRunUrl = '') {
         totalChecks: list.length,
         passed: count('passed'),
         failed: count('failed'),
+        warnings: count('warning'),
         skipped: count('skipped'),
         unavailable: count('unavailable'),
         criticalFailures: list.filter(check =>
@@ -63,6 +64,19 @@ function overallStatus({ summary, auditHealth, repoHealth }) {
     return { key: 'healthy', count: 0 };
 }
 
+const FAILING_SEVERITIES = new Set(['critical', 'high']);
+
+/**
+ * A check's status from its findings. "failed" only for a high or critical
+ * finding; low or medium findings are a "warning". Before this, one low
+ * broken link marked a whole check "Failed" beside the real failures.
+ */
+function statusFromFindings(issues) {
+    const list = issues || [];
+    if (list.length === 0) return 'passed';
+    return list.some(issue => FAILING_SEVERITIES.has(issue && issue.severity)) ? 'failed' : 'warning';
+}
+
 /**
  * Should the workflow step exit non-zero? A critical finding (the pre-PR rule)
  * or a critical local check that crashed — the audit silently not running is
@@ -79,5 +93,6 @@ module.exports = {
     auditExitCode,
     isDeployBlocked,
     overallStatus,
+    statusFromFindings,
     summarizeChecks,
 };

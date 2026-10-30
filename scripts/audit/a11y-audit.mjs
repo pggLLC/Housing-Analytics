@@ -38,6 +38,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { serveRoot } from './lib/serve-root.mjs';
 import { checkA11yBudget } from './lib/audit-budget.mjs';
+import { arriveUrl } from './lib/arrive-with.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT      = path.resolve(__dirname, '..', '..');
@@ -165,7 +166,8 @@ async function auditPage(browser, origin, pagePath, axeScript) {
   page.on('console',   () => {});
 
   // A '#tab-…' suffix opens that tab of the page; it is not part of the file name.
-  const url = origin + '/' + pagePath;
+  // HNA pages open on Colorado statewide (lib/arrive-with.mjs).
+  const url = origin + '/' + arriveUrl(pagePath);
   try {
     const response = await page.goto(url, { waitUntil: 'load', timeout: 30_000 });
     // file:// threw on a missing page; HTTP answers 404 and renders an empty

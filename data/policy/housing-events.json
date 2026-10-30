@@ -1,19 +1,21 @@
 {
   "meta": {
-    "generated": "2026-10-26T09:08:55Z",
-    "as_of": "2026-10-26",
+    "generated": "2026-10-30T10:14:12Z",
+    "as_of": "2026-10-30",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
       "conference": "Conferences",
+      "deadline": "Deadlines & funding notices",
       "developer": "Developer & finance",
+      "release": "Data & rate releases",
       "compliance": "Compliance training",
       "board": "Board meetings",
       "homebuyer": "Homebuyer & lender",
       "networking": "Networking",
       "other": "Other"
     },
-    "method": "Read daily from CHFA's calendar feed and Housing Colorado's events page, plus events checked by hand in data/policy/housing-events-curated.json. Ended events move to `past` and are kept for a year. A source that cannot be read contributes nothing and is marked unreachable; its earlier upcoming events are not kept."
+    "method": "Read daily from CHFA's calendar feed, Housing Colorado's events page, DOLA's Division of Housing and Proposition 123 public calendars, APA Colorado's event calendar (housing items), the Federal Reserve's FOMC calendar, the Census Bureau's ACS release schedule and FRED's release calendar, plus events checked by hand in data/policy/housing-events-curated.json. Ended events move to `past` and are kept for a year. A source that cannot be read contributes nothing and is marked unreachable; its earlier upcoming events are not kept."
   },
   "sources": [
     {
@@ -22,73 +24,122 @@
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
       "listed": 1346,
-      "upcoming": 35
+      "upcoming": 32
     },
     {
       "id": "housing_colorado",
       "name": "Housing Colorado upcoming events",
       "url": "https://housingcolorado.org/events/",
       "status": "ok",
-      "listed": 1,
-      "upcoming": 1
+      "listed": 0,
+      "upcoming": 0
+    },
+    {
+      "id": "doh",
+      "name": "Colorado Division of Housing (DOLA) public calendar",
+      "url": "https://cdola.colorado.gov/calendar",
+      "status": "ok",
+      "listed": 188,
+      "upcoming": 10
+    },
+    {
+      "id": "prop123",
+      "name": "Proposition 123 public calendar (DOLA)",
+      "url": "https://cdola.colorado.gov/calendar",
+      "status": "ok",
+      "listed": 44,
+      "upcoming": 2
+    },
+    {
+      "id": "apa_colorado",
+      "name": "APA Colorado event calendar (housing items)",
+      "url": "https://colorado.planning.org/conferences-and-meetings/event-calendar",
+      "status": "ok",
+      "listed": 31,
+      "upcoming": 3
+    },
+    {
+      "id": "fomc",
+      "name": "Federal Reserve FOMC meeting calendar",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "status": "ok",
+      "listed": 57,
+      "upcoming": 2
+    },
+    {
+      "id": "acs",
+      "name": "Census Bureau ACS release schedules",
+      "url": "https://www.census.gov/programs-surveys/acs/news/data-releases/2025/release-schedule.html",
+      "status": "ok",
+      "listed": 3,
+      "upcoming": 0
+    },
+    {
+      "id": "fred",
+      "name": "FRED release calendar: CPI, jobs report, housing starts",
+      "url": "https://fred.stlouisfed.org/",
+      "status": "ok",
+      "listed": 8,
+      "upcoming": 8
     },
     {
       "id": "curated",
       "name": "Events checked by hand",
       "url": null,
       "status": "ok",
-      "listed": 2,
-      "upcoming": 0
+      "listed": 4,
+      "upcoming": 2
     }
   ],
   "events": [
     {
-      "title": "chfareach: New to chfareach? New Participant Orientation, Online Meeting",
-      "start": "2026-10-26",
-      "end": null,
-      "time": "13:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-new-to-chfareach-new-participant-orientation-online-meeting-10-26-2026",
-      "source": "chfa",
-      "category": "compliance"
+      "title": "Notice of Funding: Division of Housing CDBG Abatement and Demolition Program Draft Notice of Funding Availability",
+      "start": "2026-10-01",
+      "end": "2026-12-01",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
+      "source": "doh",
+      "category": "deadline"
     },
     {
-      "title": "Training Webinar: Final Documents",
-      "start": "2026-10-27",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/2e3133c2-3a41-42b5-9d1d-05d44f46097a@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
+      "title": "2026 Colorado Planning Conference: Keystone",
+      "start": "2026-10-28",
+      "end": "2026-10-30",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://colorado.planning.org/conferences-and-meetings/event-calendar",
+      "source": "apa_colorado",
+      "category": "conference"
     },
     {
-      "title": "chfareach: Building a Successful Community and Productively Engaging Seniors, Webinar",
-      "start": "2026-10-27",
+      "title": "OEDIT publishes the Transit and Housing Investment Zones map (HB26-1065)",
+      "start": "2026-10-30",
       "end": null,
-      "time": "12:55",
-      "location": "Online",
+      "time": null,
+      "location": null,
       "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-building-a-successful-community-and-productively-engaging-seniors-webinar-10-27-2026",
-      "source": "chfa",
-      "category": "compliance"
+      "organizer": "OEDIT",
+      "url": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
+      "source": "curated",
+      "category": "release",
+      "checked": "2026-10-26"
     },
     {
-      "title": "Spooky Bingo",
-      "start": "2026-10-29",
+      "title": "Proposition 123 Commitment Filing Deadline",
+      "start": "2026-11-01",
       "end": null,
       "time": null,
       "location": null,
       "online": false,
-      "organizer": "Housing Colorado",
-      "url": "https://members.housingcolorado.org/event-details?id=210bb7eb-60b0-f111-aad2-7c1e52a4cdac",
-      "source": "housing_colorado",
-      "category": "networking"
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/how-to-file-a-commitment",
+      "source": "prop123",
+      "category": "deadline"
     },
     {
       "title": "chfareach: Protecting Personally Identifiable Information (PII) on Property, Webinar",
@@ -103,6 +154,18 @@
       "category": "compliance"
     },
     {
+      "title": "Colorado Emergency Rental Assistance Pre-Application Period (November)",
+      "start": "2026-11-04",
+      "end": "2026-11-06",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
       "title": "chfareach: CHFA NSPIRE Inspections, Denver",
       "start": "2026-11-05",
       "end": null,
@@ -115,6 +178,18 @@
       "category": "compliance"
     },
     {
+      "title": "Jobs report (Employment Situation) released",
+      "start": "2026-11-06",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Bureau of Labor Statistics",
+      "url": "http://www.bls.gov/ces/",
+      "source": "fred",
+      "category": "release"
+    },
+    {
       "title": "chfareach: New to chfareach? New Participant Orientation, Online Meeting",
       "start": "2026-11-09",
       "end": null,
@@ -125,6 +200,18 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-new-to-chfareach-new-participant-orientation-online-meeting-11-09-2026",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "Consumer Price Index (inflation) released",
+      "start": "2026-11-10",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Bureau of Labor Statistics",
+      "url": "http://www.bls.gov/cpi/",
+      "source": "fred",
+      "category": "release"
     },
     {
       "title": "Training Webinar: CHFA Guidelines Training for Underwriters and Processors",
@@ -223,6 +310,18 @@
       "category": "compliance"
     },
     {
+      "title": "Housing starts and permits (New Residential Construction) released",
+      "start": "2026-11-18",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "http://www.census.gov/construction/nrc/",
+      "source": "fred",
+      "category": "release"
+    },
+    {
       "title": "November 2026 CHFA Board of Directors Meeting",
       "start": "2026-11-19",
       "end": null,
@@ -233,6 +332,18 @@
       "url": "https://www.chfainfo.com/about-chfa/leadership/board/november-2026-chfa-board-of-directors-meeting",
       "source": "chfa",
       "category": "board"
+    },
+    {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2026-11-19",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
+      "source": "apa_colorado",
+      "category": "other"
     },
     {
       "title": "Training Webinar: CHFA Loan Purchase Training",
@@ -295,6 +406,30 @@
       "category": "homebuyer"
     },
     {
+      "title": "State Housing Board Meeting",
+      "start": "2026-11-24",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
+    {
+      "title": "Housing starts and permits (New Residential Construction) released",
+      "start": "2026-11-25",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "http://www.census.gov/construction/nrc/",
+      "source": "fred",
+      "category": "release"
+    },
+    {
       "title": "chfareach: 2026 Legal Updates for Colorado, Webinar",
       "start": "2026-12-03",
       "end": null,
@@ -305,6 +440,42 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-2026-legal-updates-for-colorado-webinar-12-03-2026",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "Jobs report (Employment Situation) released",
+      "start": "2026-12-04",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Bureau of Labor Statistics",
+      "url": "http://www.bls.gov/ces/",
+      "source": "fred",
+      "category": "release"
+    },
+    {
+      "title": "Colorado Emergency Rental Assistance Pre-Application Period (December)",
+      "start": "2026-12-07",
+      "end": "2026-12-09",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
+      "title": "Federal Reserve rate decision (FOMC meeting, with economic projections)",
+      "start": "2026-12-08",
+      "end": "2026-12-09",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
     },
     {
       "title": "Training Webinar: CHFA Guidelines Training for Underwriters and Processors",
@@ -343,6 +514,30 @@
       "category": "compliance"
     },
     {
+      "title": "State Housing Board Meeting",
+      "start": "2026-12-08",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
+    {
+      "title": "OHFS Webinar Series",
+      "start": "2026-12-09",
+      "end": null,
+      "time": "10:00",
+      "location": null,
+      "online": true,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "other"
+    },
+    {
       "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
       "start": "2026-12-09",
       "end": null,
@@ -365,6 +560,18 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-fair-housing-rights-and-responsibilities-webinar-12-09-2026",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "Consumer Price Index (inflation) released",
+      "start": "2026-12-10",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Bureau of Labor Statistics",
+      "url": "http://www.bls.gov/cpi/",
+      "source": "fred",
+      "category": "release"
     },
     {
       "title": "Training Webinar: CHFA Income Calculation Training for Underwriters and Processors",
@@ -439,6 +646,30 @@
       "category": "board"
     },
     {
+      "title": "Housing starts and permits (New Residential Construction) released",
+      "start": "2026-12-17",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "http://www.census.gov/construction/nrc/",
+      "source": "fred",
+      "category": "release"
+    },
+    {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2026-12-17",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
       "title": "chfareach: Resident Services in Neuro-inclusive Housing, Webinar",
       "start": "2026-12-17",
       "end": null,
@@ -463,6 +694,18 @@
       "category": "compliance"
     },
     {
+      "title": "State Housing Board Meeting",
+      "start": "2026-12-22",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
+    {
       "title": "Training Webinar: Final Documents",
       "start": "2026-12-22",
       "end": null,
@@ -473,9 +716,166 @@
       "url": "https://events.teams.microsoft.com/event/9e0ce3cf-c0bd-4a1c-9ed5-4ae001e71d0c@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
       "source": "chfa",
       "category": "homebuyer"
+    },
+    {
+      "title": "Housing starts and permits (New Residential Construction) released",
+      "start": "2026-12-23",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "http://www.census.gov/construction/nrc/",
+      "source": "fred",
+      "category": "release"
+    },
+    {
+      "title": "Deadline for Proposition 123 Compliance Submissions",
+      "start": "2026-12-31",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/compliance-information",
+      "source": "prop123",
+      "category": "deadline"
+    },
+    {
+      "title": "Colorado Emergency Rental Assistance Pre-Application Period (January)",
+      "start": "2027-01-11",
+      "end": "2027-01-13",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
+      "title": "Federal Reserve rate decision (FOMC meeting)",
+      "start": "2027-01-26",
+      "end": "2027-01-27",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
+    },
+    {
+      "title": "Colorado Emergency Rental Assistance Pre-Application Period (February)",
+      "start": "2027-02-08",
+      "end": "2027-02-10",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
+      "title": "State Housing Board Meeting",
+      "start": "2027-02-09",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
+    {
+      "title": "Transit and Housing Investment Zones: pre-applications close (OEDIT)",
+      "start": "2027-02-26",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "OEDIT",
+      "url": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
+      "source": "curated",
+      "category": "deadline",
+      "checked": "2026-10-26"
     }
   ],
   "past": [
+    {
+      "title": "Census ACS 2025 1-Year estimates released",
+      "start": "2026-10-29",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "https://www.census.gov/programs-surveys/acs/news/data-releases/2025/release-schedule.html",
+      "source": "acs",
+      "category": "release"
+    },
+    {
+      "title": "Federal Reserve rate decision (FOMC meeting)",
+      "start": "2026-10-27",
+      "end": "2026-10-28",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
+    },
+    {
+      "title": "chfareach: Building a Successful Community and Productively Engaging Seniors, Webinar",
+      "start": "2026-10-27",
+      "end": null,
+      "time": "12:55",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-building-a-successful-community-and-productively-engaging-seniors-webinar-10-27-2026",
+      "source": "chfa",
+      "category": "compliance"
+    },
+    {
+      "title": "Training Webinar: Final Documents",
+      "start": "2026-10-27",
+      "end": null,
+      "time": "10:00",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://events.teams.microsoft.com/event/2e3133c2-3a41-42b5-9d1d-05d44f46097a@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
+      "source": "chfa",
+      "category": "homebuyer"
+    },
+    {
+      "title": "Housing starts and permits (New Residential Construction) released",
+      "start": "2026-10-27",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "http://www.census.gov/construction/nrc/",
+      "source": "fred",
+      "category": "release"
+    },
+    {
+      "title": "chfareach: New to chfareach? New Participant Orientation, Online Meeting",
+      "start": "2026-10-26",
+      "end": null,
+      "time": "13:00",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-new-to-chfareach-new-participant-orientation-online-meeting-10-26-2026",
+      "source": "chfa",
+      "category": "compliance"
+    },
     {
       "title": "chfareach: HOTMA for Tax Credit Properties, Online Workshop, October 22-23, 2026",
       "start": "2026-10-22",
@@ -599,6 +999,30 @@
       "checked": "2026-10-14"
     },
     {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2026-10-15",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
+      "title": "Colorado Emergency Rental Assistance Pre-Application Period (October)",
+      "start": "2026-10-13",
+      "end": "2026-10-15",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
       "title": "chfareach: Mental Health First Aid, Online Workshop, October 13-14, 2026",
       "start": "2026-10-13",
       "end": "2026-10-14",
@@ -671,6 +1095,18 @@
       "category": "homebuyer"
     },
     {
+      "title": "State Housing Board Meeting",
+      "start": "2026-10-06",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
+    {
       "title": "hpi: From Me to We: Expanding Beyond the Capacity of Self, Online Workshop",
       "start": "2026-10-06",
       "end": null,
@@ -707,6 +1143,18 @@
       "category": "compliance"
     },
     {
+      "title": "Informational Webinar - Notice of Funds Available: Division of Housing CDBG Abatement and Demolition Program",
+      "start": "2026-10-01",
+      "end": null,
+      "time": "10:00",
+      "location": null,
+      "online": true,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
       "title": "chfareach: Fair Housing Rights and Responsibilities, Grand Junction",
       "start": "2026-09-29",
       "end": null,
@@ -741,6 +1189,18 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-chfa-nspire-inspections-durango-09242026",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "Notice of Public Hearing and Comment: Division of Housing CDBG Abatement and Demolition Program Draft Notice of Funding Availability",
+      "start": "2026-08-24",
+      "end": "2026-09-24",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://doh.colorado.gov/news-article/notice-of-public-hearing-and-comment-division-of-housing-cdbg-abatement-and-demolition",
+      "source": "doh",
+      "category": "deadline"
     },
     {
       "title": "Training Webinar: Final Documents",
@@ -851,6 +1311,18 @@
       "category": "homebuyer"
     },
     {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2026-09-17",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
       "title": "Training Webinar: CHFA Guidelines Training for Underwriters and Processors",
       "start": "2026-09-16",
       "end": null,
@@ -875,6 +1347,18 @@
       "category": "other"
     },
     {
+      "title": "Federal Reserve rate decision (FOMC meeting, with economic projections)",
+      "start": "2026-09-15",
+      "end": "2026-09-16",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
+    },
+    {
       "title": "hpi: Making Decisions Under Pressure, Online Workshop",
       "start": "2026-09-15",
       "end": null,
@@ -885,6 +1369,18 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/hpi-making-decisions-under-pressure-online-workshop-09-15-2026-sep-15-2026",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "FAA Airport Compatible Land Use Advisory Circular Webcast",
+      "start": "2026-09-11",
+      "end": null,
+      "time": "11:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/webinar/register/WN_rYtPCt7iSdK8klTkMVX_BA#/registration",
+      "source": "apa_colorado",
+      "category": "other"
     },
     {
       "title": "chfareach: CHFA NSPIRE Inspections, Grand Junction",
@@ -923,6 +1419,18 @@
       "category": "developer"
     },
     {
+      "title": "Colorado Emergency Rental Assistance Pre-Application Period (September)",
+      "start": "2026-09-08",
+      "end": "2026-09-10",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
       "title": "Training Webinar: CHFA Income Calculation Training for Underwriters and Processors",
       "start": "2026-09-09",
       "end": null,
@@ -957,6 +1465,30 @@
       "url": "https://events.teams.microsoft.com/event/f56ecae4-acb7-4ccc-a83e-7c190c79fab3@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
       "source": "chfa",
       "category": "homebuyer"
+    },
+    {
+      "title": "State Housing Board Meeting CANCELLED",
+      "start": "2026-09-08",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
+    {
+      "title": "Public Comment Period and Public Hearing-Community Development Block Grant Abatement and Demolition Program Draft Notice of Funding Availability",
+      "start": "2026-09-02",
+      "end": null,
+      "time": "10:00",
+      "location": "1570 Grant St, Blue Spruce Conference Room 1005, Denver, CO 80203",
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://doh.colorado.gov/news-article/notice-of-public-hearing-and-comment-division-of-housing-cdbg-abatement-and-demolition",
+      "source": "doh",
+      "category": "deadline"
     },
     {
       "title": "chfareach: Mandatory Reporting and Child/Elder Abuse (Human Services Network of Colorado), Webinar",
@@ -1067,6 +1599,30 @@
       "category": "homebuyer"
     },
     {
+      "title": "Land Conservation & Land Use Planning – Complementary Tools for Water Resources Protection",
+      "start": "2026-08-20",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/webinar/register/WN_wSwf3PmKQFG3PiumOHxm4A#/registration",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2026-08-20",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
       "title": "Training Webinar: CHFA FHA Streamline Refinance Training for Operations Staff",
       "start": "2026-08-19",
       "end": null,
@@ -1137,6 +1693,42 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-assisted-housing-manager-ahm-certification-multiday-workshop-denver-08-11-2026-to-08-13-20",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "Colorado Emergency Rental Assistance Pre-Application Period (August)",
+      "start": "2026-08-10",
+      "end": "2026-08-12",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
+      "title": "State Housing Board Meeting",
+      "start": "2026-08-11",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
+    {
+      "title": "LPC grant webinar",
+      "start": "2026-08-11",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://us02web.zoom.us/meeting/register/YexESRU1Sbm3iZh5YFwNIA#/registration",
+      "source": "prop123",
+      "category": "other"
     },
     {
       "title": "Training Webinar: CHFA Income Calculation Training for Underwriters and Processors",
@@ -1245,6 +1837,18 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-combo-registration-motivational-interviewing-and-service-coordinator-conference-denver-07",
       "source": "chfa",
       "category": "conference"
+    },
+    {
+      "title": "Federal Reserve rate decision (FOMC meeting)",
+      "start": "2026-07-28",
+      "end": "2026-07-29",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
     },
     {
       "title": "chfareach: HUD’s Retreat from Fair Housing Enforcement: Why Compliance Still Matters, Webinar",
@@ -1379,6 +1983,30 @@
       "category": "homebuyer"
     },
     {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2026-07-16",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
+      "title": "Colorado Emergency Rental Assistance Pre-Application Period (July)",
+      "start": "2026-07-13",
+      "end": "2026-07-15",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
       "title": "Training Webinar: CHFA Income Calculation Training for Underwriters and Processors",
       "start": "2026-07-14",
       "end": null,
@@ -1439,6 +2067,18 @@
       "category": "other"
     },
     {
+      "title": "Informational Session: DOLA Housing Planning Grant Program (HPLN)",
+      "start": "2026-07-09",
+      "end": null,
+      "time": "10:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us02web.zoom.us/meeting/register/qBGxT1e4RDyFatd3nPiqvA",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
       "title": "hpi: Take Charge of Your Career, Online Workshop",
       "start": "2026-07-08",
       "end": null,
@@ -1449,6 +2089,30 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/hpi-take-charge-of-your-career-online-workshop-07-08-2026-jul-08-2026",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "OHFS Webinar Series: 2025-2026 Landlord/Tenant Legislation",
+      "start": "2026-07-08",
+      "end": null,
+      "time": "10:00",
+      "location": null,
+      "online": true,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "other"
+    },
+    {
+      "title": "State Housing Board Meeting",
+      "start": "2026-07-07",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
     },
     {
       "title": "chfareach: Advanced Fair Housing: Reasonable Accommodation Requests for Assistance Animals, Webinar",
@@ -1559,6 +2223,18 @@
       "category": "other"
     },
     {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2026-06-18",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
       "title": "chfareach: OSHA Requirements for Workplace Safety, In-person Certification Workshop, Colorado Springs",
       "start": "2026-06-18",
       "end": null,
@@ -1569,6 +2245,18 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-osha-requirements-for-workplace-safety-in-person-certification-workshop-colorado-springs-0",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "Federal Reserve rate decision (FOMC meeting, with economic projections)",
+      "start": "2026-06-16",
+      "end": "2026-06-17",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
     },
     {
       "title": "hpi: Living in the Gap: A Mid-Year Check-in, Online Workshop",
@@ -1607,6 +2295,18 @@
       "category": "other"
     },
     {
+      "title": "2026 Scattered Site NOFA Information Session",
+      "start": "2026-06-12",
+      "end": null,
+      "time": "11:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
       "title": "chfareach: Two-part Supportive Housing Staff Retreat: Bridging the Gap to Wholeness and Understanding, Metro Denver 06.12.2026 and 10.02.2026",
       "start": "2026-06-12",
       "end": null,
@@ -1629,6 +2329,18 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-supportive-housing-staff-retreat-part-1-bridging-the-gap-to-wholeness-and-understanding-me",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "Proposition 123 Webinar: Commitment Filings for the 2027-2029 Cycle",
+      "start": "2026-06-11",
+      "end": null,
+      "time": "11:00",
+      "location": null,
+      "online": true,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "prop123",
+      "category": "deadline"
     },
     {
       "title": "Training Webinar: CHFA HomeAccess Training for Operations Staff",
@@ -1691,6 +2403,30 @@
       "category": "homebuyer"
     },
     {
+      "title": "June: Colorado Emergency Rental Assistance Pre-Application Period",
+      "start": "2026-06-08",
+      "end": "2026-06-10",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
+      "title": "State Housing Board Meeting",
+      "start": "2026-06-09",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
+    {
       "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
       "start": "2026-06-09",
       "end": null,
@@ -1701,6 +2437,18 @@
       "url": "https://events.teams.microsoft.com/event/f947794b-f6bf-4252-9606-01412aadfa04@de029520-7a0e-4208-bc91-86b9369ad432",
       "source": "chfa",
       "category": "homebuyer"
+    },
+    {
+      "title": "Proposition 123 Webinar: Legislative Updates",
+      "start": "2026-06-04",
+      "end": null,
+      "time": "11:00",
+      "location": null,
+      "online": true,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "prop123",
+      "category": "developer"
     },
     {
       "title": "chfareach: NSPIRE REAC Prep and HCV (HQS) Made Simple, Denver (USIG)",
@@ -1823,6 +2571,18 @@
       "category": "compliance"
     },
     {
+      "title": "Proposition 123 Webinar: Unit Counting for the 2023-2026 Cycle",
+      "start": "2026-05-28",
+      "end": null,
+      "time": "11:00",
+      "location": null,
+      "online": true,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "prop123",
+      "category": "developer"
+    },
+    {
       "title": "May 2026 CHFA Board of Directors Meeting",
       "start": "2026-05-28",
       "end": null,
@@ -1871,6 +2631,18 @@
       "category": "homebuyer"
     },
     {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2026-05-21",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
       "title": "chfareach: Understanding and Supporting LGBTQIA+ Clients and Coworkers (Human Services Network of Colorado), Webinar",
       "start": "2026-05-20",
       "end": null,
@@ -1893,6 +2665,18 @@
       "url": "https://events.teams.microsoft.com/event/96a9ce74-dd43-4556-a9ba-34a620f12f44@de029520-7a0e-4208-bc91-86b9369ad432",
       "source": "chfa",
       "category": "homebuyer"
+    },
+    {
+      "title": "DOLA Info Session on Accessory Dwelling Unit Grant Program (ADUG)",
+      "start": "2026-05-19",
+      "end": null,
+      "time": "15:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://dlg.colorado.gov/accessory-dwelling-unit-grant-program",
+      "source": "apa_colorado",
+      "category": "other"
     },
     {
       "title": "chfareach: Move-in and Asset Certification for Housing Tax Credit Properties Implementing HOTMA, Webinar",
@@ -2015,6 +2799,18 @@
       "category": "other"
     },
     {
+      "title": "May: Colorado Emergency Rental Assistance Pre-Application Period",
+      "start": "2026-05-11",
+      "end": "2026-05-13",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
       "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
       "start": "2026-05-12",
       "end": null,
@@ -2063,6 +2859,18 @@
       "category": "compliance"
     },
     {
+      "title": "State Housing Board Meeting",
+      "start": "2026-05-05",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://doh.colorado.gov/state-housing-board",
+      "source": "doh",
+      "category": "board"
+    },
+    {
       "title": "Training Webinar: CHFA Lender Basic Training",
       "start": "2026-05-05",
       "end": null,
@@ -2099,6 +2907,18 @@
       "category": "compliance"
     },
     {
+      "title": "OHFS Webinar Series: Housing Preferences",
+      "start": "2026-04-29",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": true,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "other"
+    },
+    {
       "title": "chfareach: Making Section 504 Work on the Ground: Design, Policy, and Operations, Webinar",
       "start": "2026-04-29",
       "end": null,
@@ -2123,6 +2943,30 @@
       "category": "homebuyer"
     },
     {
+      "title": "DOH/HOST Funding Opportunity for 2026 CHFA Round Two Applicants",
+      "start": "2026-04-29",
+      "end": null,
+      "time": "10:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://doh.colorado.gov/doh-housing-development-scoring-criteria",
+      "source": "doh",
+      "category": "developer"
+    },
+    {
+      "title": "Federal Reserve rate decision (FOMC meeting)",
+      "start": "2026-04-28",
+      "end": "2026-04-29",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
+    },
+    {
       "title": "chfareach: OSHA Requirements for Workplace Safety, In-person Certification Workshop, Grand Junction",
       "start": "2026-04-28",
       "end": null,
@@ -2133,6 +2977,18 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-osha-requirements-for-workplace-safety-in-person-certification-workshop-grand-junction-04",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "DOLA Monthly Land Use and Housing Legislation Implementation Webinar",
+      "start": "2026-04-24",
+      "end": null,
+      "time": "10:30",
+      "location": null,
+      "online": true,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/webinar/register/WN_8Vb91n93RzK5WnPqtrYw7g",
+      "source": "apa_colorado",
+      "category": "other"
     },
     {
       "title": "Training Webinar: CHFA HomeAccess Training for Operations Staff",
@@ -2219,6 +3075,18 @@
       "category": "compliance"
     },
     {
+      "title": "Stakeholder Engagement Session for Prop 123 Guidelines",
+      "start": "2026-04-17",
+      "end": null,
+      "time": "13:30",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "developer"
+    },
+    {
       "title": "Training Webinar: CHFA Lender Basic Training",
       "start": "2026-04-16",
       "end": null,
@@ -2243,6 +3111,18 @@
       "category": "compliance"
     },
     {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2026-04-16",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
       "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
       "start": "2026-04-15",
       "end": null,
@@ -2253,6 +3133,30 @@
       "url": "https://events.teams.microsoft.com/event/b820e865-fb14-4eff-9318-084d33844c88@de029520-7a0e-4208-bc91-86b9369ad432",
       "source": "chfa",
       "category": "homebuyer"
+    },
+    {
+      "title": "April: Colorado Emergency Rental Assistance Pre-Application Period",
+      "start": "2026-04-13",
+      "end": "2026-04-15",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
+      "title": "State Housing Board Meeting",
+      "start": "2026-04-14",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
     },
     {
       "title": "Training Webinar: CHFA FirstStep and CHFA FirstGeneration Webinar",
@@ -2387,6 +3291,18 @@
       "category": "other"
     },
     {
+      "title": "Stakeholder Engagement Session for Prop 123 Guidelines",
+      "start": "2026-04-03",
+      "end": null,
+      "time": "11:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "developer"
+    },
+    {
       "title": "chfareach: Denver’s Prioritization Program, Webinar",
       "start": "2026-04-02",
       "end": null,
@@ -2409,6 +3325,30 @@
       "url": "https://events.teams.microsoft.com/event/20755e67-2532-44cb-ab7a-62a0c7044e3c@de029520-7a0e-4208-bc91-86b9369ad432",
       "source": "chfa",
       "category": "homebuyer"
+    },
+    {
+      "title": "Stake holder Engagement Session for Prop 123 Guidelines",
+      "start": "2026-03-27",
+      "end": null,
+      "time": "11:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "developer"
+    },
+    {
+      "title": "DOLA Land Use and Housing Legislation Monthly Engagement Meeting",
+      "start": "2026-03-27",
+      "end": null,
+      "time": "10:30",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://dlg.colorado.gov/engagement-opportunities#:~:text=Monthly%20Engagement%20Meetings",
+      "source": "apa_colorado",
+      "category": "other"
     },
     {
       "title": "Training Webinar: CHFA HomeAccess Training for Operations Staff",
@@ -2471,6 +3411,18 @@
       "category": "homebuyer"
     },
     {
+      "title": "State Housing Board Meeting",
+      "start": "2026-03-24",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
+    {
       "title": "Training Webinar: CHFA Lender Basic Training",
       "start": "2026-03-24",
       "end": null,
@@ -2519,6 +3471,30 @@
       "category": "other"
     },
     {
+      "title": "DOLA Housing Strategies Peer Exchange Webinar",
+      "start": "2026-03-19",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": true,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU#/registration",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
+      "title": "Federal Reserve rate decision (FOMC meeting, with economic projections)",
+      "start": "2026-03-17",
+      "end": "2026-03-18",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
+    },
+    {
       "title": "chfareach: Making Housing Home: Culturally Competent Service in Occupied Units, Webinar",
       "start": "2026-03-17",
       "end": null,
@@ -2541,6 +3517,18 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-healing-vicarious-trauma-online-workshop-human-services-network-of-colorado-03-17-2026",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "Prop 123 Stakeholder Briefing",
+      "start": "2026-03-13",
+      "end": null,
+      "time": "15:00",
+      "location": null,
+      "online": true,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "prop123",
+      "category": "developer"
     },
     {
       "title": "chfareach: Understanding Post-traumatic stress disorder (PTSD), Webinar",
@@ -2577,6 +3565,18 @@
       "url": "https://events.teams.microsoft.com/event/657029fc-9374-4f50-ba6d-b5cb96bcb1e9@de029520-7a0e-4208-bc91-86b9369ad432",
       "source": "chfa",
       "category": "developer"
+    },
+    {
+      "title": "March: Colorado Emergency Rental Assistance Pre-Application Period",
+      "start": "2026-03-09",
+      "end": "2026-03-11",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
     },
     {
       "title": "Virtual: Public Hearing For the Draft Amended 2026 Middle-income Housing Tax Credit Allocation Plan",
@@ -2855,6 +3855,18 @@
       "category": "homebuyer"
     },
     {
+      "title": "DOLA Housing Strategies Peer Exchange",
+      "start": "2026-02-19",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://cdola.colorado.gov/prop123fasttrack",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
       "title": "hpi: Enneagram and Leadership: A Practical Framework for Stronger Teams, Online Workshop",
       "start": "2026-02-18",
       "end": null,
@@ -2901,6 +3913,30 @@
       "url": "https://events.teams.microsoft.com/event/0dbf7d28-e49a-4936-84ee-7e6cc58a51f2@de029520-7a0e-4208-bc91-86b9369ad432",
       "source": "chfa",
       "category": "other"
+    },
+    {
+      "title": "OHFS Webinar Series: Section 3 and MBE/WBE",
+      "start": "2026-02-11",
+      "end": null,
+      "time": "10:00",
+      "location": null,
+      "online": true,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "other"
+    },
+    {
+      "title": "February: Colorado Emergency Rental Assistance Pre-Application Period",
+      "start": "2026-02-09",
+      "end": "2026-02-11",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
     },
     {
       "title": "Training Webinar: CHFA FHA Streamline Refinance Training for Operations Staff",
@@ -2987,6 +4023,30 @@
       "category": "other"
     },
     {
+      "title": "Census ACS 2024 5-Year estimates released",
+      "start": "2026-01-29",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "https://www.census.gov/programs-surveys/acs/news/data-releases/2024/release-schedule.html",
+      "source": "acs",
+      "category": "release"
+    },
+    {
+      "title": "Federal Reserve rate decision (FOMC meeting)",
+      "start": "2026-01-27",
+      "end": "2026-01-28",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
+    },
+    {
       "title": "hpi: All-access HPI Cohort Kickoff, Online Meeting",
       "start": "2026-01-27",
       "end": null,
@@ -3071,6 +4131,18 @@
       "category": "homebuyer"
     },
     {
+      "title": "State Housing Board Meeting",
+      "start": "2026-01-20",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
+    {
       "title": "hpi: Growth Mindset and Goal Setting: New Year, New You, Online Workshop",
       "start": "2026-01-20",
       "end": null,
@@ -3107,6 +4179,18 @@
       "category": "compliance"
     },
     {
+      "title": "DOLA Housing Strategies Peer Exchange",
+      "start": "2026-01-15",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://dlg.colorado.gov/community-development-and-planning-training-opportunities",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
       "title": "chfareach: Management of Waiting Lists for Affordable Housing, Webinar",
       "start": "2026-01-14",
       "end": null,
@@ -3129,6 +4213,18 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-professional-certification-in-community-hoarding-intervention-pcchi-jan-22-apr30-2026",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "January: Colorado Emergency Rental Assistance Pre-Application Period",
+      "start": "2026-01-12",
+      "end": "2026-01-14",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://doh.colorado.gov/emergency-rental-assistance",
+      "source": "doh",
+      "category": "deadline"
     },
     {
       "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
@@ -3239,6 +4335,30 @@
       "category": "other"
     },
     {
+      "title": "2025-2030 Consolidated Plan - Public Comment Period and Public Hearing Information",
+      "start": "2026-01-05",
+      "end": null,
+      "time": "10:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://forms.gle/EMJbbnyaKpAo3uNr5",
+      "source": "doh",
+      "category": "other"
+    },
+    {
+      "title": "Proposition 123 Community Support Team Office Hours: Southwestern Region",
+      "start": "2025-12-23",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://dlg.colorado.gov/regional-managers-and-regional-assistants",
+      "source": "prop123",
+      "category": "developer"
+    },
+    {
       "title": "Training Webinar: Final Documents",
       "start": "2025-12-18",
       "end": null,
@@ -3249,6 +4369,18 @@
       "url": "https://attendee.gotowebinar.com/register/6751891350040789344",
       "source": "chfa",
       "category": "homebuyer"
+    },
+    {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2025-12-18",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
+      "source": "apa_colorado",
+      "category": "other"
     },
     {
       "title": "chfareach: Fair Housing 101, Webinar",
@@ -3284,6 +4416,18 @@
       "organizer": "CHFA",
       "url": "https://attendee.gotowebinar.com/register/7899121782461961309",
       "source": "chfa",
+      "category": "developer"
+    },
+    {
+      "title": "Proposition 123 Community Support Team Office Hours: Southeastern Region",
+      "start": "2025-12-17",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://dlg.colorado.gov/regional-managers-and-regional-assistants",
+      "source": "prop123",
       "category": "developer"
     },
     {
@@ -3347,6 +4491,18 @@
       "category": "homebuyer"
     },
     {
+      "title": "Proposition 123 Community Support Team Office Hours: South Central Region",
+      "start": "2025-12-10",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://dlg.colorado.gov/regional-managers-and-regional-assistants",
+      "source": "prop123",
+      "category": "developer"
+    },
+    {
       "title": "chfareach: Safe Vape Disposal and Cessation in Multifamily Housing, Webinar",
       "start": "2025-12-10",
       "end": null,
@@ -3357,6 +4513,42 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-safe-vape-disposal-and-cessation-in-multifamily-housing-webinar-12-04-2025",
       "source": "chfa",
       "category": "compliance"
+    },
+    {
+      "title": "Federal Reserve rate decision (FOMC meeting, with economic projections)",
+      "start": "2025-12-09",
+      "end": "2025-12-10",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
+    },
+    {
+      "title": "December: Colorado Emergency Rental Assistance Pre-Application Period",
+      "start": "2025-12-08",
+      "end": "2025-12-10",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://doh.colorado.gov/emergency-rental-assistance",
+      "source": "doh",
+      "category": "deadline"
+    },
+    {
+      "title": "State Housing Board Meeting",
+      "start": "2025-12-09",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
     },
     {
       "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
@@ -3443,6 +4635,18 @@
       "category": "developer"
     },
     {
+      "title": "Proposition 123 Community Support Team Office Hours: Northwestern Region",
+      "start": "2025-12-03",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://dlg.colorado.gov/regional-managers-and-regional-assistants",
+      "source": "prop123",
+      "category": "developer"
+    },
+    {
       "title": "Training Webinar: CHFA Lender Basic Training",
       "start": "2025-12-03",
       "end": null,
@@ -3513,6 +4717,18 @@
       "url": "https://www.chfainfo.com/about-chfa/leadership/board/november-2025-chfa-board-of-directors-meeting",
       "source": "chfa",
       "category": "board"
+    },
+    {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2025-11-19",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
+      "source": "apa_colorado",
+      "category": "other"
     },
     {
       "title": "chfareach: Dignified Building Design: Innovative Research and Practical Applications, Webinar",
@@ -3587,6 +4803,18 @@
       "category": "compliance"
     },
     {
+      "title": "Accelerating Housing Supply: State Chapters Take the Lead",
+      "start": "2025-11-14",
+      "end": null,
+      "time": "11:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/webinar/register/WN_l_UDxTkURL-3K_sIrJPGaA",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
       "title": "Training Webinar: CHFA FirstStep and CHFA FirstGeneration Webinar",
       "start": "2025-11-14",
       "end": null,
@@ -3597,6 +4825,18 @@
       "url": "https://events.teams.microsoft.com/event/f5905c78-38a6-404a-b666-141a10fa728e@de029520-7a0e-4208-bc91-86b9369ad432",
       "source": "chfa",
       "category": "other"
+    },
+    {
+      "title": "November: Colorado Emergency Rental Assistance Pre-Application Period",
+      "start": "2025-11-12",
+      "end": "2025-11-14",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://doh.colorado.gov/emergency-rental-assistance",
+      "source": "doh",
+      "category": "deadline"
     },
     {
       "title": "Training Webinar: CHFA Lender Basic Training",
@@ -3683,6 +4923,18 @@
       "category": "other"
     },
     {
+      "title": "State Housing Board Meeting",
+      "start": "2025-11-04",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
+    {
       "title": "Training Webinar: CHFA Guidelines Training for Underwriters and Processors",
       "start": "2025-11-04",
       "end": null,
@@ -3719,6 +4971,30 @@
       "category": "compliance"
     },
     {
+      "title": "3rd Year Proposition 123 Commitment Filing Deadline",
+      "start": "2025-11-01",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "prop123",
+      "category": "deadline"
+    },
+    {
+      "title": "Zoning for our Future: Solar, Windfarms, EV, and Manufactured/Modular Homes",
+      "start": "2025-10-31",
+      "end": null,
+      "time": "11:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": "https://us06web.zoom.us/webinar/register/WN_CHhxqJ4qSwOV6ZOjXXY4MQ",
+      "source": "apa_colorado",
+      "category": "other"
+    },
+    {
       "title": "chfareach: Advanced Fair Housing: Fair Housing and Mental Health, Online Workshop",
       "start": "2025-10-30",
       "end": null,
@@ -3727,30 +5003,6 @@
       "online": true,
       "organizer": "CHFA",
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-advanced-fair-housing-fair-housing-and-mental-health-online-workshop-10-30-2025",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "chfareach: Transitioning into Affordable Housing from Market Rate Housing, Webinar",
-      "start": "2025-10-29",
-      "end": null,
-      "time": "08:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-transitioning-into-affordable-housing-from-market-rate-housing-webinar-10-29-2025",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "chfareach: Deep Work and Hyperfocus: Next-level Thought for Next-level Leaders, Online Workshop",
-      "start": "2025-10-28",
-      "end": null,
-      "time": "09:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-deep-work-and-hyperfocus-next-level-thought-for-next-level-leaders-online-workshop-10-28-2",
       "source": "chfa",
       "category": "compliance"
     }

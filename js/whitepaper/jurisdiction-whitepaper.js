@@ -58,6 +58,13 @@
     progress: { path: 'data/policy/jurisdiction-housing-progress.json', optional: true },
     underwritingRules: { path: 'data/policy/lihtc-underwriting-rules.json', optional: true },
     qapScoring: { path: 'data/policy/chfa-2027-r1-scoring.json', optional: true },
+    // Who works here and who drives in (public), the largest employers (public), and who to
+    // call at them and at local housing partners (private: served by the gated site only).
+    commute: { path: 'data/market/commute-strength.json', optional: true },
+    // Where a town's working residents work, with residents who work in another state in the total.
+    jobAccess: { path: 'data/policy/job-access.json', optional: true },
+    employers: { path: 'data/market/principal-employers.json', optional: true },
+    employerContacts: { path: 'data/jurisdiction-briefs/_employer-contacts.json', optional: true },
     // The private question bank: served by the gated site only (coho-backend gated/).
     townQuestions: { path: 'data/jurisdiction-briefs/_town-questions.json', optional: true }
   };
@@ -938,6 +945,46 @@
     };
   }
 
+  // Workers and employers: the commute reading for the place (or its county), the largest
+  // employers printed for the county, and researched employer and housing partnership contacts.
+  // The commute line prints once one other town employs this share of a town's working residents,
+  // the same threshold Where Should I Build uses.
+  var TOP_WORKPLACE_SHOWN = 0.2;
+
+  function workforceSection(row, src, countyFips) {
+    var C = src.commute || null;
+    var rec = C ? ((C.places || {})[row.geoid] || (C.counties || {})[row.geoid] || null) : null;
+    var fips = row.type === 'county' ? row.geoid : countyFips;
+    var areas = ((src.employers || {}).areas || []).filter(function (a) { return (a.county_fips || []).indexOf(fips) !== -1; });
+    var EC = src.employerContacts || null;
+    var researched = [];
+    areas.forEach(function (a) {
+      var r = EC && EC.areas ? EC.areas[a.id] : null;
+      if (!r) return;
+      (r.employers || []).concat(r.partnerships || []).forEach(function (e) {
+        var contacts = (e.contacts || []).filter(function (c) { return c && c.name && safeHref(c.source_url) && c.source_quote; });
+        researched.push({ name: e.employer || e.org, kind: e.employer ? 'employer' : 'partner', what: e.housing_action || e.what || '',
+          url: safeHref(e.source_url), quote: e.source_quote || null, contacts: contacts });
+      });
+    });
+    // The one other town that employs the most of the place's working residents (towns only).
+    var ja = src.jobAccess && row.type !== 'county' ? (src.jobAccess.places || {})[row.geoid] : null;
+    var top = ja && ja.top_workplace && ja.workers ? { name: ja.top_workplace.name, workers: ja.top_workplace.workers, of: ja.workers,
+      otherStates: ja.workers_other_states || 0, year: (src.jobAccess.meta || {}).lodes_year || null } : null;
+    // A town too small for a commute record still gets its line when one other town employs a fifth or more.
+    if (!rec && !areas.length && !(top && top.workers / top.of >= TOP_WORKPLACE_SHOWN)) return null;
+    return {
+      topWorkplace: top,
+      commute: rec ? { name: rec.name, jobs: rec.jobs, inCommuters: rec.in_commuters, far: rec.far, farLow: rec.far_low, long: rec.long,
+        medianFar: rec.median_far_miles, residents: rec.residents, outCommuters: rec.out_commuters, from: rec.from || [], to: rec.to || [],
+        county: !!(C.counties || {})[row.geoid] || !(C.places || {})[row.geoid], year: (C.meta || {}).lodes_year || null } : null,
+      areas: areas.map(function (a) { return { area: a.area, asOf: a.as_of, rows: a.rows || [], filer: (a.source || {}).filer, url: safeHref((a.source || {}).url), page: (a.source || {}).pdf_page || null }; }),
+      researched: researched,
+      checked: EC ? EC.checked || null : null,
+      contactsMissing: !EC
+    };
+  }
+
   function nextDates(src, today) {
     var ev = ((src.qapCalendar || {}).events) || [];
     return ev.filter(function (e) { return e.date && e.date >= today && /LIHTC|R1|R2|Letter of Intent/i.test(e.name || ''); })
@@ -983,6 +1030,7 @@
       deal: dealShape(need, rents, lihtc, src.fundingGuide, marketRents(row, src), opts.MixCheck || null, src.underwritingRules || null),
       landscape: landscape,
       dynamics: dealDynamics(row, src, need, lihtc, policy),
+      workforce: workforceSection(row, src, countyRow ? countyRow.geoid : null),
       contacts: contactsSection(row, src, opts.contacts || null, opts.localResources || null, opts.relatedContacts || [], !!opts.contactsFailed),
       dates: nextDates(src, today),
       brief: brief ? {
@@ -1607,6 +1655,55 @@
     return h + srcLine([contactsPath(m.geoid) + ' (researched contacts)'].concat((C.related || []).map(function (f) { return contactsPath(f.geoid); }), ['data/hna/local-resources.json (organisations, offices, plans and partners; search links omitted)']));
   }
 
+  function renderWorkforce(m) {
+    var W = m.workforce;
+    if (!W) return '';
+    var h = '<h2 id="workforce">Workers and employers</h2>';
+    var c = W.commute;
+    if (c) {
+      var pct = function (a, b) { return b ? Math.round(100 * a / b) + '%' : NA; };
+      h += (c.name !== m.name ? '<p class="wp-note">Figures for ' + esc(c.name) + '.</p>' : '') +
+        '<table><tbody>' +
+        row2('Primary jobs located here', fmtInt(c.jobs)) +
+        row2('Held by people who live elsewhere', fmtInt(c.inCommuters) + ' (' + pct(c.inCommuters, c.jobs) + ')') +
+        row2('Driving in from 20 to 60 miles', fmtInt(c.far) + ', of whom ' + fmtInt(c.farLow) + ' earn $3,333 a month or less' + (c.medianFar ? '; typical ' + c.medianFar + ' straight-line miles' : '')) +
+        row2('Recorded 60+ miles away (many not daily)', fmtInt(c.long)) +
+        row2(c.county ? 'Working residents who work in another Colorado county' : 'Working residents who work in another town', fmtInt(c.outCommuters) + ' of ' + fmtInt(c.residents)) +
+        row2('Where in-commuters live', c.from.map(function (f) { return esc(f[0]) + ' ' + fmtInt(f[1]); }).join('; ') || NA) +
+        (c.county ? '' : row2('Where working residents work', c.to.map(function (f) { return esc(f[0]) + ' ' + fmtInt(f[1]); }).join('; ') || NA)) +
+        '</tbody></table>' +
+        '<p class="wp-meta">In-commuters are the pool a new workforce property can draw from if some move closer. Count them as demand only with comparable-property evidence of tenants moving in (CHFA QAP).</p>' +
+        srcLine('data/market/commute-strength.json (LEHD LODES ' + (c.year || NA) + ' primary jobs, home block to work block, straight-line miles)');
+    }
+    var t = W.topWorkplace;
+    // Printed once one other town employs a fifth or more, the same line Where Should I Build shows.
+    if (t && t.of && t.workers / t.of >= TOP_WORKPLACE_SHOWN) {
+      // The commuting line a market study documents (NCHMA v3.1, III.F.8). Context only: no demand is added.
+      h += '<p data-commute-line>' + Math.round(100 * t.workers / t.of) + '% of ' + esc(m.name) + '\'s ' + fmtInt(t.of) + ' working residents (' + fmtInt(t.workers) + ') work in ' + esc(t.name) + '.' +
+        (t.otherStates ? ' The total includes ' + fmtInt(t.otherStates) + ' who work in another state.' : '') + '</p>' +
+        srcLine('data/policy/job-access.json (LEHD LODES ' + (t.year || NA) + ' primary jobs, including jobs in other states)');
+    }
+    W.areas.forEach(function (a) {
+      h += '<h3>Largest employers: ' + esc(a.area) + ' (' + esc(a.asOf) + ')</h3><div class="wp-scroll"><table><thead><tr><th>Rank</th><th>Employer</th><th>Employees</th></tr></thead><tbody>' +
+        a.rows.map(function (r) { return '<tr><td>' + (r.rank == null ? '' : esc(r.rank)) + '</td><td>' + esc(r.employer) + '</td><td>' + esc(r.employees) + '</td></tr>'; }).join('') +
+        '</tbody></table></div>' + '<p class="wp-src">Source: ' + esc(a.filer || NA) + ', annual financial report, "Principal Employers"' + (a.url ? ' (' + link('PDF', a.url) + (a.page ? ', page ' + esc(a.page) : '') + ')' : '') + '</p>';
+    });
+    if (W.areas.length) {
+      if (W.contactsMissing) {
+        h += '<p class="wp-note">Employer and housing partnership contacts are not in this copy of the data.</p>';
+      } else if (!W.researched.length) {
+        h += '<p class="wp-note">No employer or housing partnership contacts have been researched for this area yet.</p>';
+      } else {
+        W.researched.forEach(function (e) {
+          h += '<h3>' + (e.kind === 'employer' ? 'Employer housing: ' : 'Housing partner: ') + esc(e.name) + '</h3>' +
+            (e.what ? '<p>' + esc(e.what) + (e.url ? ' ' + link('Source', e.url) : '') + '</p>' : '') +
+            (e.contacts.length ? contactTable(e.contacts, W.checked) : '');
+        });
+      }
+    }
+    return h;
+  }
+
   function renderDates(m) {
     if (!m.dates.length) return '';
     return '<h2 id="dates">Next CHFA dates</h2><ul>' + m.dates.map(function (e) {
@@ -1632,7 +1729,7 @@
       '<p class="wp-meta">GEOID ' + esc(m.geoid) + (m.region ? ' · ' + esc(m.region) : '') + ' · built ' + esc(m.generated) +
       ' from public data in the COHO Analytics repository. Screening analysis: not a CHFA market study, underwriting, or legal advice.</p>' +
       renderGlance(m) + renderSummary(m) + renderCommunity(m) + renderNeed(m) + renderRents(m) + renderLihtc(m) + renderProp123(m) + renderPolicy(m) +
-      renderLandscape(m) + renderBrief(m) + renderFunding(m) + renderDeal(m) + renderQuestions(m) + renderDynamics(m) + renderContacts(m) + renderDates(m);
+      renderLandscape(m) + renderBrief(m) + renderFunding(m) + renderDeal(m) + renderQuestions(m) + renderDynamics(m) + renderWorkforce(m) + renderContacts(m) + renderDates(m);
     // Number the sections in the order they print.
     var n = 0;
     body = body.replace(/<h2 id="(\w+)">/g, function (all, id) { return id === 'summary' ? all : '<h2 id="' + id + '">' + (++n) + '. '; });

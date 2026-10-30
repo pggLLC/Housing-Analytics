@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-10-25T12:32:42.470Z",
-  "totalScanned": 1994,
-  "newSourceCount": 1963,
+  "scanTimestamp": "2026-10-30T14:04:32.122Z",
+  "totalScanned": 2009,
+  "newSourceCount": 1978,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1013848,
+      "sizeBytes": 1021280,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7710,
+      "sizeBytes": 7713,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -26,7 +26,7 @@
     },
     {
       "path": "data/affordable-housing/lihtc/chfa-properties.json",
-      "sizeBytes": 837046,
+      "sizeBytes": 990102,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -61,6 +61,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/affordable-housing/preservation/doh-mobile-home-parks.json",
+      "sizeBytes": 418597,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/affordable-housing/preservation/hud-multifamily-assisted.json",
       "sizeBytes": 195665,
       "inDataManifest": false,
@@ -91,6 +97,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/affordable-housing/property-websites.json",
+      "sizeBytes": 31932,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/affordable-housing/regrid-parcels-by-place.json",
       "sizeBytes": 4086,
       "inDataManifest": false,
@@ -98,13 +110,13 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 773120,
+      "sizeBytes": 1157440,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 23809,
+      "sizeBytes": 32897,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -134,13 +146,13 @@
     },
     {
       "path": "data/audit/chfa-qap-watch.json",
-      "sizeBytes": 2971688,
+      "sizeBytes": 2973693,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 651019,
+      "sizeBytes": 662992,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -291,6 +303,12 @@
     {
       "path": "data/cra/co-bank-branches.json",
       "sizeBytes": 228641,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/deadlines.json",
+      "sizeBytes": 4522,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1232,7 +1250,13 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 304642,
+      "sizeBytes": 305724,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/entitled-land/findings.json",
+      "sizeBytes": 2178,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1748,7 +1772,7 @@
     },
     {
       "path": "data/hna/hna-views.json",
-      "sizeBytes": 14139,
+      "sizeBytes": 14153,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5432,25 +5456,25 @@
     },
     {
       "path": "data/hna/lihtc/08001.json",
-      "sizeBytes": 65368,
+      "sizeBytes": 76332,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08003.json",
-      "sizeBytes": 6475,
+      "sizeBytes": 7548,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08005.json",
-      "sizeBytes": 63015,
+      "sizeBytes": 74298,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08007.json",
-      "sizeBytes": 3000,
+      "sizeBytes": 3420,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5462,25 +5486,25 @@
     },
     {
       "path": "data/hna/lihtc/08011.json",
-      "sizeBytes": 1152,
+      "sizeBytes": 1354,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08013.json",
-      "sizeBytes": 80458,
+      "sizeBytes": 94259,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08014.json",
-      "sizeBytes": 8399,
+      "sizeBytes": 9900,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08015.json",
-      "sizeBytes": 5703,
+      "sizeBytes": 6952,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5492,13 +5516,13 @@
     },
     {
       "path": "data/hna/lihtc/08019.json",
-      "sizeBytes": 1158,
+      "sizeBytes": 1356,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08021.json",
-      "sizeBytes": 2079,
+      "sizeBytes": 2490,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5516,19 +5540,19 @@
     },
     {
       "path": "data/hna/lihtc/08027.json",
-      "sizeBytes": 2061,
+      "sizeBytes": 2289,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08029.json",
-      "sizeBytes": 5612,
+      "sizeBytes": 6635,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08031.json",
-      "sizeBytes": 216580,
+      "sizeBytes": 257049,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5540,13 +5564,13 @@
     },
     {
       "path": "data/hna/lihtc/08035.json",
-      "sizeBytes": 19236,
+      "sizeBytes": 22629,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08037.json",
-      "sizeBytes": 8374,
+      "sizeBytes": 9888,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5558,37 +5582,37 @@
     },
     {
       "path": "data/hna/lihtc/08041.json",
-      "sizeBytes": 50685,
+      "sizeBytes": 59621,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08043.json",
-      "sizeBytes": 12113,
+      "sizeBytes": 14484,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08045.json",
-      "sizeBytes": 11028,
+      "sizeBytes": 12762,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08047.json",
-      "sizeBytes": 1156,
+      "sizeBytes": 1377,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08049.json",
-      "sizeBytes": 3846,
+      "sizeBytes": 4289,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08051.json",
-      "sizeBytes": 2961,
+      "sizeBytes": 3388,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5600,7 +5624,7 @@
     },
     {
       "path": "data/hna/lihtc/08055.json",
-      "sizeBytes": 1170,
+      "sizeBytes": 1375,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5612,7 +5636,7 @@
     },
     {
       "path": "data/hna/lihtc/08059.json",
-      "sizeBytes": 61083,
+      "sizeBytes": 72416,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5624,49 +5648,49 @@
     },
     {
       "path": "data/hna/lihtc/08063.json",
-      "sizeBytes": 1154,
+      "sizeBytes": 1174,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08065.json",
-      "sizeBytes": 1151,
+      "sizeBytes": 1360,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08067.json",
-      "sizeBytes": 13828,
+      "sizeBytes": 16389,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08069.json",
-      "sizeBytes": 58080,
+      "sizeBytes": 68452,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08071.json",
-      "sizeBytes": 3849,
+      "sizeBytes": 4107,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08073.json",
-      "sizeBytes": 1178,
+      "sizeBytes": 1198,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08075.json",
-      "sizeBytes": 3820,
+      "sizeBytes": 4293,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08077.json",
-      "sizeBytes": 15439,
+      "sizeBytes": 18578,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5684,37 +5708,37 @@
     },
     {
       "path": "data/hna/lihtc/08083.json",
-      "sizeBytes": 8332,
+      "sizeBytes": 10258,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08085.json",
-      "sizeBytes": 9316,
+      "sizeBytes": 11217,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08087.json",
-      "sizeBytes": 4740,
+      "sizeBytes": 5584,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08089.json",
-      "sizeBytes": 2920,
+      "sizeBytes": 3363,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08091.json",
-      "sizeBytes": 1147,
+      "sizeBytes": 1357,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08093.json",
-      "sizeBytes": 1123,
+      "sizeBytes": 1143,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5726,19 +5750,19 @@
     },
     {
       "path": "data/hna/lihtc/08097.json",
-      "sizeBytes": 5684,
+      "sizeBytes": 6719,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08099.json",
-      "sizeBytes": 1149,
+      "sizeBytes": 1361,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08101.json",
-      "sizeBytes": 29602,
+      "sizeBytes": 36066,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5750,19 +5774,19 @@
     },
     {
       "path": "data/hna/lihtc/08105.json",
-      "sizeBytes": 3931,
+      "sizeBytes": 4564,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08107.json",
-      "sizeBytes": 4871,
+      "sizeBytes": 5713,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08109.json",
-      "sizeBytes": 4752,
+      "sizeBytes": 5595,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5774,7 +5798,7 @@
     },
     {
       "path": "data/hna/lihtc/08113.json",
-      "sizeBytes": 2062,
+      "sizeBytes": 2286,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5786,13 +5810,13 @@
     },
     {
       "path": "data/hna/lihtc/08117.json",
-      "sizeBytes": 7518,
+      "sizeBytes": 8800,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08119.json",
-      "sizeBytes": 2956,
+      "sizeBytes": 3397,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5804,13 +5828,13 @@
     },
     {
       "path": "data/hna/lihtc/08123.json",
-      "sizeBytes": 26306,
+      "sizeBytes": 31379,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/lihtc/08125.json",
-      "sizeBytes": 1119,
+      "sizeBytes": 1331,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5870,7 +5894,7 @@
     },
     {
       "path": "data/hna/place-lehd.json",
-      "sizeBytes": 1875787,
+      "sizeBytes": 1886391,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10153,6 +10177,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/hud-lihtc-co-match.json",
+      "sizeBytes": 231162,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/insights/catalog.json",
       "sizeBytes": 12767,
       "inDataManifest": false,
@@ -10549,6 +10579,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/commute-strength.json",
+      "sizeBytes": 144494,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/commuting_co.geojson",
       "sizeBytes": 582520,
       "inDataManifest": false,
@@ -10568,7 +10604,7 @@
     },
     {
       "path": "data/market/development-activity.json",
-      "sizeBytes": 1173862,
+      "sizeBytes": 1185097,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10617,6 +10653,12 @@
     {
       "path": "data/market/fhfa_hpi_subcounty_co.json",
       "sizeBytes": 579148,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/finder-place-demand.json",
+      "sizeBytes": 21726,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10675,6 +10717,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/hud_s8_contracts_co.json",
+      "sizeBytes": 192632,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/hud_zip_tract_crosswalk_co.json",
       "sizeBytes": 794427,
       "inDataManifest": false,
@@ -10688,7 +10736,7 @@
     },
     {
       "path": "data/market/landuse_zoning_proxy_co.geojson",
-      "sizeBytes": 12598874,
+      "sizeBytes": 4989760,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10718,7 +10766,7 @@
     },
     {
       "path": "data/market/market-direction.json",
-      "sizeBytes": 774483,
+      "sizeBytes": 774573,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10742,7 +10790,7 @@
     },
     {
       "path": "data/market/opportunity_zones_co.geojson",
-      "sizeBytes": 851407,
+      "sizeBytes": 851949,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10755,6 +10803,12 @@
     {
       "path": "data/market/pma_tract_display_geometry.geojson",
       "sizeBytes": 1054446,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/principal-employers.json",
+      "sizeBytes": 22141,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10789,6 +10843,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/relocation-comparables.json",
+      "sizeBytes": 4495,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/schools_co.geojson",
       "sizeBytes": 1243277,
       "inDataManifest": false,
@@ -10803,6 +10863,12 @@
     {
       "path": "data/market/tax-credit-transfer-pricing.json",
       "sizeBytes": 5491,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/tract-workplaces.json",
+      "sizeBytes": 1952269,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10892,7 +10958,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 16091,
+      "sizeBytes": 16088,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11318,13 +11384,25 @@
     },
     {
       "path": "data/policy/chfa-2027-r1-scoring.json",
-      "sizeBytes": 19625,
+      "sizeBytes": 19661,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/chfa-2027-r2-scoring.json",
+      "sizeBytes": 21365,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/chfa-awards-historical.json",
       "sizeBytes": 10935,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/chfa-common-app-tables.json",
+      "sizeBytes": 14284,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11336,7 +11414,7 @@
     },
     {
       "path": "data/policy/co-developer-funding-guide.json",
-      "sizeBytes": 434900,
+      "sizeBytes": 436001,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11360,13 +11438,13 @@
     },
     {
       "path": "data/policy/developer-ownership-funding.json",
-      "sizeBytes": 21833,
+      "sizeBytes": 22136,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/fee-reductions.json",
-      "sizeBytes": 580886,
+      "sizeBytes": 583576,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11390,7 +11468,7 @@
     },
     {
       "path": "data/policy/funding-awards/dola-awards.json",
-      "sizeBytes": 331326,
+      "sizeBytes": 340402,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11432,19 +11510,19 @@
     },
     {
       "path": "data/policy/homeownership-programs.json",
-      "sizeBytes": 17614,
+      "sizeBytes": 31502,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/housing-events-curated.json",
-      "sizeBytes": 1726,
+      "sizeBytes": 2982,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 139276,
+      "sizeBytes": 178072,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11475,6 +11553,12 @@
     {
       "path": "data/policy/jchs-state-of-nations-housing.json",
       "sizeBytes": 4353,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/job-access.json",
+      "sizeBytes": 106756,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11516,7 +11600,7 @@
     },
     {
       "path": "data/policy/local-commitment.json",
-      "sizeBytes": 64941,
+      "sizeBytes": 65588,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11528,13 +11612,13 @@
     },
     {
       "path": "data/policy/local-support.json",
-      "sizeBytes": 150073,
+      "sizeBytes": 158569,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/methodology-version.json",
-      "sizeBytes": 6455,
+      "sizeBytes": 6534,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11552,7 +11636,7 @@
     },
     {
       "path": "data/policy/policy-watch.json",
-      "sizeBytes": 51662,
+      "sizeBytes": 54186,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11594,7 +11678,13 @@
     },
     {
       "path": "data/policy/soft-funding-status.json",
-      "sizeBytes": 46545,
+      "sizeBytes": 46589,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/state-housing-laws.json",
+      "sizeBytes": 199674,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11636,7 +11726,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 388452,
+      "sizeBytes": 455888,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11654,13 +11744,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20925,
+      "sizeBytes": 20449,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 180714,
+      "sizeBytes": 192152,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11714,7 +11804,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 21196,
+      "sizeBytes": 21189,
       "inDataManifest": false,
       "inFilesManifest": true
     },

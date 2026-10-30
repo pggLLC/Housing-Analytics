@@ -87,6 +87,9 @@
     sourceMeta = meta || {};
     inventory = [];
     loaded = false;
+    // null is how a page says "no verified NHPD source, leave it unavailable"
+    // (market-analysis.js). That is a state, not a fault, so it doesn't warn.
+    if (data === null) return;
     if (!Array.isArray(data)) {
       console.warn('[Nhpd] loadInventory: expected an array, got ' + typeof data);
       return;

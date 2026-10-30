@@ -178,6 +178,9 @@
           b.cap && b.cap.applied ? APPLICANT_LIMIT_NOTE : null].filter(Boolean),
         // CHFA's third reservation test is published only in its Excel application, so the engine never runs it.
         costLimit: b.costLimitMethod && !b.costLimitMethod.checked ? (b.costLimitMethod.reason || 'CHFA\'s cost basis limits were not checked.') : null,
+        // Checked against the limits in CHFA's draft 2027 workbook: shown with that status, never applied.
+        costLimitDraft: b.costLimitMethod && b.costLimitMethod.checked
+          ? { credit: num(b.costLimitMethod.credit), lower: !!b.costLimitMethod.lower, reason: b.costLimitMethod.reason || null } : null,
         // Where the basis calculation stopped; an entered award can still carry the credit past it.
         stopReason: ['eligibleBasis', 'afterGrant', 'applicableFraction', 'acquisitionRate'].map(function (k) { return (b.reasons || {})[k]; }).filter(Boolean)[0] || null
       };
@@ -420,6 +423,9 @@
     (m.basis.unchecked || []).forEach(function (n) { if (m.basis.calculated != null || m.basis.credit != null) out.push({ level: 'warn', text: 'Not checked: ' + n }); });
     (m.basis.flags || []).forEach(function (f) { out.push({ level: 'warn', text: 'Credit: ' + f }); });
     if (m.basis.costLimit && m.basis.calculated != null) out.push({ level: 'warn', text: 'CHFA\'s cost basis limit (Method Three) was not checked: ' + m.basis.costLimit.replace(/\.$/, '') + '. Check the credit against it in CHFA\'s application.' });
+    var m3d = m.basis.costLimitDraft;
+    if (m3d && m.basis.calculated != null) out.push({ level: 'warn', text: 'CHFA\'s cost basis limit (Method Three), at the draft 2027 limits, allows ' + money(m3d.credit) + ' a year'
+      + (m3d.lower ? ', less than the credit capacity' : '') + '. It is not applied: the 2027-28 QAP is not adopted. Check the credit against it in CHFA\'s application.' });
     // No designation, or one that does not apply to this credit type, is a settled answer; a designation left
     // without its evidence, award or rule is an open input that took the boost out of the credit.
     var bst = m.basis.boost;
@@ -542,6 +548,8 @@
       br.push(['Credit equity (10 years of credit × price)', money(b.equity)]);
       h += table(['Line', 'Amount'], br.map(function (x) { return { cells: [esc(x[0]), esc(x[1])] }; }), { num: [1], fixed: true });
       if (b.costLimit) h += '<p class="sr-muted">Not checked: ' + esc(b.costLimit) + '</p>';
+      if (b.costLimitDraft) h += '<p class="sr-muted">Method Three at CHFA\'s draft 2027 limits, not applied: ' + esc(money(b.costLimitDraft.credit))
+        + (b.costLimitDraft.lower ? ', less than the credit capacity' : '') + '. ' + esc(b.costLimitDraft.reason || '') + '</p>';
       (b.unchecked || []).forEach(function (n) { h += '<p class="sr-muted">' + esc(n) + '</p>'; });
     }
     h += '</section>';
@@ -1307,7 +1315,7 @@
     function open(query, title, reserved, ctx) {
       var my = reserved != null ? reserved : take();
       if (my !== tok) return;
-      if (!query) { status('That has no Deal Calculator settings in it. Use a share link or an Export JSON file from the Deal Calculator.'); return; }
+      if (!query) { status('That has no Deal Calculator settings in it. Use a share link or a deal file from the Deal Calculator.'); return; }
       status('Running the Deal Calculator for this deal…');
       // A saved deal goes back with its id, so the member bar saves the change as that deal's next version.
       $('wbOpenCalc').href = calcUrl(query, doc.baseURI) + (ctx && ctx.deal ? '#save-to=' + encodeURIComponent(ctx.deal) : '');
@@ -1378,7 +1386,7 @@
       settleWithin(api('?deal=' + encodeURIComponent(deal) + '&v=' + encodeURIComponent(v)), wait).then(function (x) {
         // Another deal was opened, or the choice changed, while this one loaded.
         if (gen !== tok || $('wbDeals').value !== deal || $('wbVersions').value !== v) return;
-        if (x == null) { status('That version did not load. Try again, or use a share link or Export JSON file.'); return; }
+        if (x == null) { status('That version did not load. Try again, or use a share link or a deal file.'); return; }
         var q = queryFrom(x);
         if (!q) { status('That version was saved without a Deal Calculator export. Open it in Submittal review, load an export, and save again.'); return; }
         var dl = (x.data && x.data.deal) || x.deal || {};
@@ -1394,7 +1402,7 @@
         if ($('wbFile').files[0] !== file || gen !== tok) return;
         var j; try { j = JSON.parse(t); } catch (e) { status('That file is not a Deal Calculator export.'); return; }
         if (j && j.dealMode === 'ownership') { status('That export is a for-sale deal. The workbook covers rental tax credit deals.'); return; }
-        open(queryFrom(j), file.name.replace(/\.json$/i, ''), gen);
+        open(queryFrom(j), file.name.replace(/(\.coho)?\.json$/i, ''), gen);
       });
     });
     $('wbPrint').addEventListener('click', function () { window.print(); });

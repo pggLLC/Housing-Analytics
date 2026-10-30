@@ -319,6 +319,8 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   ok(listed.every((h) => existsSync(join(ROOT, h))), 'every menu entry exists');
   ok(/aria-current="page"[^>]*>Jurisdiction reports/.test(Nav.html('/developer-whitepaper.html')), 'the old white paper address marks the reports entry');
   ok(Nav.html('/developer.html').includes('<a href="dossiers/">Dossiers</a>'), 'the menu links the private dossier list');
+  ok(Nav.html('/developer.html').includes('<a href="developer-entitled-land.html">Entitled land</a>'), 'the menu links the private entitled land page');
+  ok(/aria-current="page"[^>]*>Entitled land/.test(Nav.html('/developer-entitled-land.html')), 'the entitled land page marks its own entry');
 }
 
 // ---- 10. Codex review of #2232: multi-county cities, income universes, blank cells.
@@ -467,6 +469,50 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   const noRules = clone(src); delete noRules.underwritingRules;
   const nr = WP.buildModel(noRules, '0833640', { FundingFit, MixCheck, today: '2026-10-18' });
   ok(!nr.deal.pencil.ok && /not on file/.test(WP.renderHtml(nr)), 'without the CHFA underwriting rules the pencil table must say why it is missing, not print zeros');
+}
+
+// ---- Workers and employers: commute reading, the county's largest employers, and researched
+// employer and housing partnership contacts (private file, from coho-backend, so a fixture here).
+{
+  ok(!existsSync(join(ROOT, 'data/jurisdiction-briefs/_employer-contacts.json')), 'employer contacts stay out of the public repo (they live in coho-backend)');
+  const bay = WP.buildModel(src, '0805265', { FundingFit, today: '2026-10-29' });
+  const W = bay.workforce;
+  const rec = src.commute.places['0805265'];
+  ok(W && W.commute && W.commute.jobs === rec.jobs && W.commute.far === rec.far, 'Bayfield shows its own commute record');
+  ok(W.areas.length === 1 && /La Plata/.test(W.areas[0].area), 'a town gets its county\'s employer table');
+  let h = WP.renderHtml(bay);
+  ok(/Workers and employers/.test(h) && h.includes('Southern Ute Tribe') && /not in this copy of the data/.test(h), 'employers print; missing contacts file is said, not hidden');
+  ok(/comparable-property evidence/.test(h), 'the paper says in-commuters count as demand only with comparable evidence');
+  const withC = clone(src);
+  withC.employerContacts = { checked: '2026-10-29', areas: { 'la-plata': {
+    employers: [{ employer: 'Durango School District 9R', housing_action: 'Bought 35 units for staff.', source_url: 'https://example.org/a', source_quote: 'a quote long enough to pass',
+      contacts: [{ name: 'A Person', role: 'COO', source_url: 'https://example.org/a', source_quote: 'a quote long enough to pass' }, { name: 'No Source', role: 'x' }] }],
+    partnerships: [{ org: 'Regional Housing Alliance', what: 'County housing partnership.', contacts: [] }] } } };
+  const bc = WP.buildModel(withC, '0805265', { FundingFit, today: '2026-10-29' });
+  h = WP.renderHtml(bc);
+  ok(h.includes('Employer housing: Durango School District 9R') && h.includes('A Person') && h.includes('Housing partner: Regional Housing Alliance'), 'researched employer and partner contacts print');
+  ok(!h.includes('No Source'), 'sabotage: a contact without a source never prints');
+  const mesa = WP.renderHtml(WP.buildModel(src, '08077', { FundingFit, today: '2026-10-29' }));
+  ok(/work in another Colorado county/.test(mesa) && !/work in another town/.test(mesa), 'a county record says county, not town');
+  ok(/work in another town/.test(WP.renderHtml(bay)), 'a town record says town');
+  const den = WP.buildModel(src, '08031', { FundingFit, today: '2026-10-29' });
+  ok(den.workforce && den.workforce.commute && den.workforce.areas.length === 0 && !/Largest employers:/.test(WP.renderHtml(den)), 'an area without an employer table shows the commute reading only');
+  // The commuting line a market study documents (paul 2026-10-29, "add the commute line"): context only, never demand.
+  const ja = src.jobAccess.places['0805265'];
+  // The line agrees with the file (share, place, counts), whatever its wording.
+  const line = (h.match(/<p data-commute-line>[^<]*<\/p>/) || [''])[0];
+  ok(line.includes(Math.round(100 * ja.top_workplace.workers / ja.workers) + '%') && line.includes(ja.top_workplace.name), `Bayfield's report says where its residents work: ${line}`);
+  ok(line.includes(ja.workers.toLocaleString('en-US')) && line.includes(ja.top_workplace.workers.toLocaleString('en-US')) && line.includes(String(ja.workers_other_states)), 'the line prints the counts behind the share, other-state workers included');
+  const to = src.commute.places['0805265'].to.map((f) => f[0] + ' ' + f[1].toLocaleString('en-US')).join('; ');
+  ok(h.includes(to), 'a town lists where its residents work, with the counts from the file');
+  const mesaTo = (src.commute.counties['08077'].to || []).map((f) => f[0] + ' ' + f[1].toLocaleString('en-US')).join('; ');
+  ok(!mesaTo || !mesa.includes(mesaTo), 'a county does not list workplace towns');
+  // A town too small for a commute record still gets the line (Blue River: 45% work in Breckenridge).
+  const small = Object.entries(src.jobAccess.places).find(([g, j]) => !src.commute.places[g] && j.top_workplace && j.top_workplace.workers / j.workers >= 0.2);
+  ok(small && /data-commute-line/.test(WP.renderHtml(WP.buildModel(src, small[0], { FundingFit, today: '2026-10-29' }))), `a town without a commute record still gets the line (${small && small[0]})`);
+  ok(!/data-commute-line/.test(WP.renderHtml(WP.buildModel(src, '0822035', { FundingFit, today: '2026-10-29' }))), 'Durango has no line: no other town employs a fifth of its residents');
+  const noJa = clone(src); delete noJa.jobAccess;
+  ok(!/data-commute-line/.test(WP.renderHtml(WP.buildModel(noJa, '0805265', { FundingFit, today: '2026-10-29' }))), 'without the file the line is left out, not guessed');
 }
 
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);

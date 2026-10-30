@@ -469,6 +469,67 @@
     return out;
   }
 
+  /**
+   * CHFA Method Three (QAP 3.M.1), from the limits in CHFA's 2027 Common
+   * Application workbook (data/policy/chfa-common-app-tables.json; the tables
+   * exist nowhere else). As the workbook calculates it (Calculations rows
+   * 497-516): limit per unit = TRUNC(zone factor x base limit for the bedroom
+   * count and building type); adjusted eligible basis = the sum over units;
+   * x 1.3 for a QCT or DDA, x applicable fraction, x the credit rate.
+   * The workbook follows a draft QAP, so the result is a check shown beside
+   * the capacity, never a change to it.
+   */
+  var BEDROOM_ROWS = { efficiency: '0 bedroom', '0BR': '0 bedroom', '1BR': '1 bedroom', '2BR': '2 bedroom',
+    '3BR': '3 bedroom', '4BR': '4 bedroom', '5BR': '5 bedroom' };
+  function costBasisLimitCheck(args) {
+    var t = args.tables;
+    var out = { checked: false, draft: true, credit: null, adjustedEligibleBasis: null, zone: null, factor: null,
+      perUnit: null, lower: false, reason: null, source: null };
+    if (!t || !t.basis_limit_per_unit_base || !t.counties) { out.reason = 'CHFA\'s 2027 workbook limits did not load.'; return out; }
+    out.source = (t.source && t.source.title ? t.source.title.replace(/ Instructions$/, '') : 'CHFA Common Application') + ', draft 2027-28 QAP';
+    var county = args.countyFips && t.counties[String(args.countyFips).padStart(5, '0')];
+    if (!county) { out.reason = 'Select a county: CHFA\'s limits depend on the county\'s zone.'; return out; }
+    var column = args.buildingType === 'elevator' ? 'elevator' : args.buildingType === 'walk_up' ? 'walk_up' : null;
+    if (!column) { out.reason = 'Choose elevator or walk-up: CHFA\'s limits differ by building type.'; return out; }
+    var units = num(args.units);
+    var byRow = {}, counted = 0;
+    (args.rows || []).forEach(function (r) {
+      var key = BEDROOM_ROWS[r && r.bedrooms];
+      var n = num(r && r.units);
+      if (!key || n === null || !(n > 0)) return;
+      byRow[key] = (byRow[key] || 0) + n;
+      counted += n;
+    });
+    if (!(units > 0) || Math.abs(counted - units) > 0.5) {
+      out.reason = 'CHFA\'s limits are per unit by bedroom count; ' + Math.round(counted) + ' of ' + (units > 0 ? Math.round(units) : 0) + ' units have a bedroom count.';
+      return out;
+    }
+    if (!Number.isFinite(args.applicableFraction) || !Number.isFinite(args.creditRate)) {
+      out.reason = 'Method Three needs the applicable fraction and the credit rate.'; return out;
+    }
+    out.zone = county.zone;
+    out.factor = t.zone_factor && t.zone_factor[String(county.zone)];
+    if (!Number.isFinite(out.factor)) { out.reason = 'CHFA\'s zone factor for ' + county.name + ' County is missing.'; return out; }
+    out.perUnit = {};
+    var adjusted = 0;
+    Object.keys(byRow).forEach(function (key) {
+      var base = t.basis_limit_per_unit_base[key] && t.basis_limit_per_unit_base[key][column];
+      var limit = Math.trunc(out.factor * base);
+      out.perUnit[key] = limit;
+      adjusted += limit * byRow[key];
+    });
+    out.adjustedEligibleBasis = adjusted;
+    var boost = args.hudBoost ? 1.3 : 1;
+    out.credit = adjusted * boost * args.applicableFraction * args.creditRate;
+    out.checked = true;
+    out.lower = Number.isFinite(args.capacity) && out.credit < args.capacity - 0.5;
+    out.reason = county.name + ' County is CHFA zone ' + county.zone + ' (factor ' + out.factor + '). '
+      + Object.keys(out.perUnit).map(function (k) { return k.replace(' bedroom', ' BR') + ' ' + money(out.perUnit[k]); }).join(', ')
+      + ' per unit, ' + (column === 'elevator' ? 'elevator' : 'walk-up') + (args.hudBoost ? ', x 1.3 for the QCT or DDA' : '')
+      + '. From ' + out.source + '; not adopted, so it does not change the capacity.';
+    return out;
+  }
+
   /** Eligible basis to annual credit, with the boost, applicable fraction and CHFA limits. */
   function basisAndCredit(args) {
     var rules = args.rules;
@@ -919,7 +980,7 @@
     summarizeCosts: summarizeCosts, grantBasisReduction: grantBasisReduction,
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,
     feeExcessInBasis: feeExcessInBasis, gapCredit: gapCredit, STATE_CREDIT_PATHS: STATE_CREDIT_PATHS,
-    basisAndCredit: basisAndCredit, underwritingCheck: underwritingCheck, stateCredit: stateCredit, addedCredit: addedCredit, ADDED_CREDIT_KINDS: ADDED_CREDIT_KINDS,
+    basisAndCredit: basisAndCredit, costBasisLimitCheck: costBasisLimitCheck, underwritingCheck: underwritingCheck, stateCredit: stateCredit, addedCredit: addedCredit, ADDED_CREDIT_KINDS: ADDED_CREDIT_KINDS,
     payIn: payIn, costPerSf: costPerSf, dohDeveloperFeeShare: dohDeveloperFeeShare, legacyCostFields: legacyCostFields,
     LEGACY_LINES: LEGACY_LINES, CONTRACTOR_FEE_IDS: CONTRACTOR_FEE_IDS, CONTRACTOR_BASE_IDS: CONTRACTOR_BASE_IDS,
     DEVELOPER_FEE_IDS: DEVELOPER_FEE_IDS, DOH_FEE_IDS: DOH_FEE_IDS, PRE_DOH_IDS: PRE_DOH_IDS, LEGACY_COMBINED_LINES: LEGACY_COMBINED_LINES, RESERVE_IDS: RESERVE_IDS, CONTRACT_IDS: CONTRACT_IDS, HARD_COST_IDS: HARD_COST_IDS, sumIds: sumIds

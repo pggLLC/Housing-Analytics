@@ -71,6 +71,13 @@
     .sr-claim { grid-template-columns: 1fr; }
     .sr-row > label, .sr-field { flex: 1 1 100%; }
     .sr-row input, .sr-row select { width: 100%; }
+    /* Saved versions as stacked cards, so each version's buttons, Delete included, are on screen. */
+    .sr-versions thead { display: none; }
+    .sr-versions tr { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 .5rem; padding: .5rem 0; border-bottom: 1px solid var(--border); }
+    .sr-versions td { border: 0; padding: .15rem .25rem; text-align: left !important; }
+    .sr-versions td:nth-child(n+3) { grid-column: 2; }
+    .sr-versions td[data-label]::before { content: attr(data-label) ": "; color: var(--muted); font-size: .85rem; }
+    .sr-versions .sr-acts { display: flex; flex-wrap: wrap; gap: .4rem; }
   }
 </style>
   <script defer src="js/components/table-header-tips.js"></script>
@@ -83,7 +90,8 @@
   <nav id="devNav" class="ib-section-nav"></nav>
 
   <h1>Submittal review</h1>
-  <p class="dv-lede">Check a draft 2027 Round One (9%) application against CHFA's scoring, its required items, and the DOH or OEDIT gap-fund test before it goes in. Rules: <span id="srAsOf">…</span>. Letter of intent due 1 Dec 2026; application due 1 Feb 2027.</p>
+  <p id="srRoundNav" class="sr-muted"><strong aria-current="page">Round One (9%)</strong> · <a href="?round=r2">Round Two (4% with state credit)</a></p>
+  <p class="dv-lede"><span id="srLedeWhat">Check a draft 2027 Round One (9%) application against CHFA's scoring, its required items, and the DOH or OEDIT gap-fund test before it goes in.</span> Rules: <span id="srAsOf">…</span>. <span id="srLedeDates">Letter of intent due 1 Dec 2026; application due 1 Feb 2027.</span></p>
 
   <div id="srMain">
     <div id="srStats" class="rw-stats" aria-live="polite"></div>
@@ -99,6 +107,7 @@
       <div class="sr-row">
         <label for="sr-deal">Deal<select id="sr-deal"><option value="">New deal</option></select></label>
         <label for="sr-name">Deal name<input type="text" id="sr-name" maxlength="120" placeholder="Site name and town"></label>
+        <button type="button" class="sr-btn" id="sr-delete-deal" hidden>Delete this deal</button>
       </div>
       <p><label class="sr-field" for="sr-file">Add files: a Deal Calculator export (.json) fills the unit mix and model results. A PDF, Word or Excel file is recorded by name and fingerprint only; type its figures and pages below.
         <input type="file" id="sr-file" multiple accept=".json,.pdf,.doc,.docx,.xls,.xlsx,application/json,application/pdf"></label></p>
@@ -106,7 +115,7 @@
       <p id="srFlash" role="status"></p>
       <h3>Files recorded</h3>
       <ul id="sr-docs"></ul>
-      <p class="sr-muted">Export a deal from the <a href="deal-calculator.html">Deal Calculator</a> with "Export JSON".</p>
+      <p class="sr-muted">Export a deal from the <a href="deal-calculator.html">Deal Calculator</a> with "Download deal file".</p>
     </section>
 
     <form id="srForm" onsubmit="return false">
@@ -133,6 +142,7 @@
           <label for="sr-election">Minimum set-aside election<select id="sr-election"><option value="20-50">20-50</option><option value="40-60" selected>40-60</option><option value="average-income">Average Income</option></select></label>
           <label for="sr-credits">Annual federal credit requested<input type="number" min="0" step="1000" inputmode="numeric" id="sr-credits"></label>
           <label for="sr-state-credits">Annual standard state credit requested (blank if none)<input type="number" min="0" step="1000" inputmode="numeric" id="sr-state-credits"></label>
+          <label for="sr-state-standard" hidden>Annual paired standard state credit (blank if none)<input type="number" min="0" step="1000" inputmode="numeric" id="sr-state-standard"></label>
           <label for="sr-other-credits">Federal credit in your other active applications (0 if none)<input type="number" min="0" step="1000" inputmode="numeric" id="sr-other-credits"></label>
         </div>
         <label class="sr-check"><input type="checkbox" id="sr-supportive"> Supportive housing application</label>

@@ -61,6 +61,12 @@
       color: var(--text-muted); font-weight: 700; margin-bottom: .6rem; display: block;
       font-family: inherit; white-space: normal;
     }
+    /* On a phone a long formula wraps onto a second line instead of
+       needing a sideways swipe. */
+    @media (max-width: 600px) {
+      .mx-eq { padding: .85rem .9rem; }
+      .mx-eq code, .mx-eq pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8rem; }
+    }
     .mx-where { font-size: .86rem; color: var(--text-secondary); margin: .6rem 0 0; }
     .mx-where dl { margin: .4rem 0 0; display: grid; grid-template-columns: auto 1fr; gap: .25rem .9rem; }
     .mx-where dt { font-family: ui-monospace, Menlo, monospace; font-size: .82rem; color: var(--accent); font-weight: 600; }
@@ -126,7 +132,7 @@
         <p class="mx-byline">
           <span>Paul Glasgow &mdash; <a href="https://pggllc.org">pggLLC</a>, working with AI</span>
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
-          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">a67757b1a</code></span>
+          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">ad41bb388</code></span>
           <span>Companion to the <a href="working-paper.html">working paper</a></span>
           <span>Every section last read against its code on <time data-spec-reviewed>2026-10-10</time></span>
         </p>
@@ -193,10 +199,13 @@
           cannot change shape in the program while the page keeps the old one.
         </p>
         <p>
-          This page specifies the housing needs ranking and ownership affordability, and nothing
-          else. The <a href="deal-calculator.html">Deal Calculator</a> (including LIHTC equity
+          This page specifies the housing needs ranking, the 20-year need figure (§09) and ownership
+          affordability, and nothing else. The <a href="deal-calculator.html">Deal Calculator</a> (including LIHTC equity
           pricing), the <a href="market-analysis.html">market</a> and
-          <a href="for-sale-market-study.html">for-sale</a> studies, and the labor and construction
+          <a href="for-sale-market-study.html">for-sale</a> studies, the
+          <a href="lihtc-opportunity-finder.html#lof-methodology">Opportunity Finder</a>, the
+          <a href="hna-scenario-builder.html">Scenario Builder</a>&rsquo;s projection
+          (<a href="docs/PROJECTION-METHODOLOGY.md">its method</a>), and the labor and construction
           cost analysis on the <a href="colorado-deep-dive.html">Colorado page</a> state their
           methods and sources on their own pages.
         </p>
@@ -968,8 +977,16 @@ weighted_avg(F)  =  ───────────────       F* = { f
             file, so they are added from it; without them the counties on the New Mexico, Utah and Wyoming
             lines read low. The microdata are a sample, so the HNA page prints a 90% margin from the
             survey&rsquo;s replicate weights beside the figure; it is under a tenth of the figure wherever
-            the figure is ten homes or more. No statewide source measures the share who would move. Local
-            employer surveys do, so the figure counts a quarter and the HNA page also shows a half. Summed over the
+            the figure is ten homes or more. No statewide source measures the share who would move. Colorado
+            surveys do: 61% of Summit County in-commuters would make a trade-off to live in the county
+            (<a href="https://www.friscogov.com/wp-content/uploads/2026/04/Attachment-1_2023-Summit-County-Housing-Needs-Assessment.pdf">Root
+            Policy Research, Summit County Housing Needs Assessment, September 2023</a>, Section V, p. 59), and
+            70% of Eagle County in-commuters said they would prefer to live there in the 2007 survey
+            (<a href="https://files.vailvalleypartnership.com/sites/2/2016/07/2016-Housing-Needs-Assessment-upated_FINAL.pdf">Venturoni
+            Surveys &amp; Research, Eagle County Housing Needs Assessment Update, June 2016</a>). Saying so is not
+            moving, and Summit&rsquo;s own model counts 50% of in-commuting renters and 25% of owners
+            (Section III, p. 26). So the figure counts a quarter and the HNA page also shows a half. Both
+            surveys are from resort counties; none yet covers the Front Range or the Plains. Summed over the
             <span data-figure="methods_data.incommuter_need_counties">64</span> counties it is
             <span data-figure="methods_data.incommuter_need_25_counties" data-figure-format="comma">132,511</span> to
             <span data-figure="methods_data.incommuter_need_50_counties" data-figure-format="comma">265,019</span> homes.

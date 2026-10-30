@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-26T10:08:09.874Z",
+    "generated_at": "2026-10-30T13:29:24.590Z",
     "root": "data/",
-    "file_count": 1990,
-    "total_size_bytes": 204795482,
+    "file_count": 2004,
+    "total_size_bytes": 209070686,
     "kinds": {
-      "json": 1942,
+      "json": 1956,
       "geojson": 34,
       "csv": 14
     }
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7710,
-      "mtime": "2026-10-25T16:59:29.944Z",
+      "size_bytes": 7713,
+      "mtime": "2026-10-29T16:18:48.752Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -60,8 +60,8 @@
     {
       "path": "affordable-housing/lihtc/chfa-properties.json",
       "kind": "json",
-      "size_bytes": 837046,
-      "mtime": "2026-10-25T10:43:41.644Z",
+      "size_bytes": 990102,
+      "mtime": "2026-10-26T12:47:04.955Z",
       "shape": "object",
       "keys": [
         "type",
@@ -239,7 +239,7 @@
       "path": "affordable-housing/properties-manifest.json",
       "kind": "json",
       "size_bytes": 118,
-      "mtime": "2026-10-25T10:43:41.646Z",
+      "mtime": "2026-10-26T12:47:04.958Z",
       "shape": "object",
       "keys": [
         "v",
@@ -256,7 +256,7 @@
       "path": "affordable-housing/properties.json",
       "kind": "json",
       "size_bytes": 1522540,
-      "mtime": "2026-10-25T10:43:41.646Z",
+      "mtime": "2026-10-26T12:47:04.960Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -299,6 +299,21 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "affordable-housing/property-websites.json",
+      "kind": "json",
+      "size_bytes": 31932,
+      "mtime": "2026-10-30T12:51:35.016Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "entries"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "affordable-housing/regrid-parcels-by-place.json",
       "kind": "json",
       "size_bytes": 4086,
@@ -316,8 +331,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 814057,
-      "mtime": "2026-10-26T09:08:20.314Z",
+      "size_bytes": 1157440,
+      "mtime": "2026-10-30T10:13:41.302Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -325,7 +340,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 1250,
+      "primary_array_length": 1789,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -339,8 +354,8 @@
     {
       "path": "alerts/brief-news-queue.json",
       "kind": "json",
-      "size_bytes": 24341,
-      "mtime": "2026-10-26T09:08:55.885Z",
+      "size_bytes": 32897,
+      "mtime": "2026-10-30T10:14:12.355Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -363,7 +378,7 @@
       "path": "alerts/owner-news.json",
       "kind": "json",
       "size_bytes": 324,
-      "mtime": "2026-10-26T09:08:21.156Z",
+      "mtime": "2026-10-30T10:13:42.175Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -519,8 +534,8 @@
     {
       "path": "audit/chfa-qap-watch.json",
       "kind": "json",
-      "size_bytes": 2971688,
-      "mtime": "2026-10-07T11:49:28.102Z",
+      "size_bytes": 2973693,
+      "mtime": "2026-10-28T11:22:29.624Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -556,8 +571,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 651019,
-      "mtime": "2026-10-25T10:07:20.396Z",
+      "size_bytes": 662992,
+      "mtime": "2026-10-30T11:35:59.657Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -577,7 +592,7 @@
       ],
       "key_count": 16,
       "primary_array_key": "federal_notices",
-      "primary_array_length": 605,
+      "primary_array_length": 619,
       "primary_array_first_keys": [
         "key",
         "source",
@@ -595,7 +610,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-26T10:08:05.460Z",
+      "mtime": "2026-10-30T13:29:20.340Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -996,7 +1011,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-10-25T11:39:29.578Z",
+      "mtime": "2026-10-30T13:04:05.772Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1044,8 +1059,8 @@
     {
       "path": "chfa-lihtc.json",
       "kind": "json",
-      "size_bytes": 837046,
-      "mtime": "2026-10-25T10:43:41.650Z",
+      "size_bytes": 990102,
+      "mtime": "2026-10-26T12:47:05.003Z",
       "shape": "object",
       "keys": [
         "type",
@@ -1112,7 +1127,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 40183,
-      "mtime": "2026-10-25T11:39:26.214Z",
+      "mtime": "2026-10-30T13:04:03.402Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1175,8 +1190,8 @@
     {
       "path": "co-historical-allocations.json",
       "kind": "json",
-      "size_bytes": 14222,
-      "mtime": "2026-10-25T10:43:41.652Z",
+      "size_bytes": 14224,
+      "mtime": "2026-10-26T12:47:05.003Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1436,6 +1451,26 @@
         "id",
         "geometry",
         "properties"
+      ]
+    },
+    {
+      "path": "deadlines.json",
+      "kind": "json",
+      "size_bytes": 4522,
+      "mtime": "2026-10-26T14:02:26.651Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "deadlines"
+      ],
+      "key_count": 2,
+      "primary_array_key": "deadlines",
+      "primary_array_length": 13,
+      "primary_array_first_keys": [
+        "date",
+        "title",
+        "source",
+        "from"
       ]
     },
     {
@@ -6402,8 +6437,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 304643,
-      "mtime": "2026-10-25T16:59:30.046Z",
+      "size_bytes": 305724,
+      "mtime": "2026-10-29T16:18:48.837Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -6418,12 +6453,35 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1963,
+      "primary_array_length": 1970,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
         "inDataManifest",
         "inFilesManifest"
+      ]
+    },
+    {
+      "path": "entitled-land/findings.json",
+      "kind": "json",
+      "size_bytes": 2178,
+      "mtime": "2026-10-29T06:44:55.216Z",
+      "shape": "object",
+      "keys": [
+        "about",
+        "checked",
+        "member_page",
+        "regions",
+        "findings"
+      ],
+      "key_count": 5,
+      "primary_array_key": "regions",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "region",
+        "tier1",
+        "tier2",
+        "tier3"
       ]
     },
     {
@@ -6595,8 +6653,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1259964,
-      "mtime": "2026-10-25T09:51:49.767Z",
+      "size_bytes": 1289346,
+      "mtime": "2026-10-30T13:26:22.010Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -8249,8 +8307,8 @@
     {
       "path": "hna/hna-views.json",
       "kind": "json",
-      "size_bytes": 14139,
-      "mtime": "2026-10-23T01:35:40.895Z",
+      "size_bytes": 14153,
+      "mtime": "2026-10-29T07:40:26.123Z",
       "shape": "object",
       "keys": [
         "_comment",
@@ -20750,8 +20808,8 @@
     {
       "path": "hna/lihtc/08001.json",
       "kind": "json",
-      "size_bytes": 65368,
-      "mtime": "2026-10-25T10:43:41.652Z",
+      "size_bytes": 76332,
+      "mtime": "2026-10-26T12:47:05.114Z",
       "shape": "object",
       "keys": [
         "type",
@@ -20772,8 +20830,8 @@
     {
       "path": "hna/lihtc/08003.json",
       "kind": "json",
-      "size_bytes": 6475,
-      "mtime": "2026-10-25T10:43:41.652Z",
+      "size_bytes": 7548,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -20794,8 +20852,8 @@
     {
       "path": "hna/lihtc/08005.json",
       "kind": "json",
-      "size_bytes": 63015,
-      "mtime": "2026-10-25T10:43:41.652Z",
+      "size_bytes": 74298,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -20816,8 +20874,8 @@
     {
       "path": "hna/lihtc/08007.json",
       "kind": "json",
-      "size_bytes": 3000,
-      "mtime": "2026-10-25T10:43:41.652Z",
+      "size_bytes": 3420,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -20856,8 +20914,8 @@
     {
       "path": "hna/lihtc/08011.json",
       "kind": "json",
-      "size_bytes": 1152,
-      "mtime": "2026-10-25T10:43:41.652Z",
+      "size_bytes": 1354,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -20878,8 +20936,8 @@
     {
       "path": "hna/lihtc/08013.json",
       "kind": "json",
-      "size_bytes": 80458,
-      "mtime": "2026-10-25T10:43:41.652Z",
+      "size_bytes": 94259,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -20900,8 +20958,8 @@
     {
       "path": "hna/lihtc/08014.json",
       "kind": "json",
-      "size_bytes": 8399,
-      "mtime": "2026-10-25T10:43:41.652Z",
+      "size_bytes": 9900,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -20922,8 +20980,8 @@
     {
       "path": "hna/lihtc/08015.json",
       "kind": "json",
-      "size_bytes": 5703,
-      "mtime": "2026-10-25T10:43:41.652Z",
+      "size_bytes": 6952,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -20962,8 +21020,8 @@
     {
       "path": "hna/lihtc/08019.json",
       "kind": "json",
-      "size_bytes": 1158,
-      "mtime": "2026-10-25T10:43:41.653Z",
+      "size_bytes": 1356,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -20984,8 +21042,8 @@
     {
       "path": "hna/lihtc/08021.json",
       "kind": "json",
-      "size_bytes": 2079,
-      "mtime": "2026-10-25T10:43:41.653Z",
+      "size_bytes": 2490,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21042,8 +21100,8 @@
     {
       "path": "hna/lihtc/08027.json",
       "kind": "json",
-      "size_bytes": 2061,
-      "mtime": "2026-10-25T10:43:41.653Z",
+      "size_bytes": 2289,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21064,8 +21122,8 @@
     {
       "path": "hna/lihtc/08029.json",
       "kind": "json",
-      "size_bytes": 5612,
-      "mtime": "2026-10-25T10:43:41.653Z",
+      "size_bytes": 6635,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21086,8 +21144,8 @@
     {
       "path": "hna/lihtc/08031.json",
       "kind": "json",
-      "size_bytes": 216580,
-      "mtime": "2026-10-25T10:43:41.653Z",
+      "size_bytes": 257049,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21126,8 +21184,8 @@
     {
       "path": "hna/lihtc/08035.json",
       "kind": "json",
-      "size_bytes": 19236,
-      "mtime": "2026-10-25T10:43:41.653Z",
+      "size_bytes": 22629,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21148,8 +21206,8 @@
     {
       "path": "hna/lihtc/08037.json",
       "kind": "json",
-      "size_bytes": 8374,
-      "mtime": "2026-10-25T10:43:41.653Z",
+      "size_bytes": 9888,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21188,8 +21246,8 @@
     {
       "path": "hna/lihtc/08041.json",
       "kind": "json",
-      "size_bytes": 50685,
-      "mtime": "2026-10-25T10:43:41.653Z",
+      "size_bytes": 59621,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21210,8 +21268,8 @@
     {
       "path": "hna/lihtc/08043.json",
       "kind": "json",
-      "size_bytes": 12113,
-      "mtime": "2026-10-25T10:43:41.653Z",
+      "size_bytes": 14484,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21232,8 +21290,8 @@
     {
       "path": "hna/lihtc/08045.json",
       "kind": "json",
-      "size_bytes": 11028,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 12762,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21254,8 +21312,8 @@
     {
       "path": "hna/lihtc/08047.json",
       "kind": "json",
-      "size_bytes": 1156,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 1377,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21276,8 +21334,8 @@
     {
       "path": "hna/lihtc/08049.json",
       "kind": "json",
-      "size_bytes": 3846,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 4289,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21298,8 +21356,8 @@
     {
       "path": "hna/lihtc/08051.json",
       "kind": "json",
-      "size_bytes": 2961,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 3388,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21338,8 +21396,8 @@
     {
       "path": "hna/lihtc/08055.json",
       "kind": "json",
-      "size_bytes": 1170,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 1375,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21378,8 +21436,8 @@
     {
       "path": "hna/lihtc/08059.json",
       "kind": "json",
-      "size_bytes": 61083,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 72416,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21418,8 +21476,8 @@
     {
       "path": "hna/lihtc/08063.json",
       "kind": "json",
-      "size_bytes": 1154,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 1174,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21440,8 +21498,8 @@
     {
       "path": "hna/lihtc/08065.json",
       "kind": "json",
-      "size_bytes": 1151,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 1360,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21462,8 +21520,8 @@
     {
       "path": "hna/lihtc/08067.json",
       "kind": "json",
-      "size_bytes": 13828,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 16389,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21484,8 +21542,8 @@
     {
       "path": "hna/lihtc/08069.json",
       "kind": "json",
-      "size_bytes": 58080,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 68452,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21506,8 +21564,8 @@
     {
       "path": "hna/lihtc/08071.json",
       "kind": "json",
-      "size_bytes": 3849,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 4107,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21528,8 +21586,8 @@
     {
       "path": "hna/lihtc/08073.json",
       "kind": "json",
-      "size_bytes": 1178,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 1198,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21550,8 +21608,8 @@
     {
       "path": "hna/lihtc/08075.json",
       "kind": "json",
-      "size_bytes": 3820,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 4293,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21572,8 +21630,8 @@
     {
       "path": "hna/lihtc/08077.json",
       "kind": "json",
-      "size_bytes": 15439,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 18578,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21630,8 +21688,8 @@
     {
       "path": "hna/lihtc/08083.json",
       "kind": "json",
-      "size_bytes": 8332,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 10258,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21652,8 +21710,8 @@
     {
       "path": "hna/lihtc/08085.json",
       "kind": "json",
-      "size_bytes": 9316,
-      "mtime": "2026-10-25T10:43:41.654Z",
+      "size_bytes": 11217,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21674,8 +21732,8 @@
     {
       "path": "hna/lihtc/08087.json",
       "kind": "json",
-      "size_bytes": 4740,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 5584,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21696,8 +21754,8 @@
     {
       "path": "hna/lihtc/08089.json",
       "kind": "json",
-      "size_bytes": 2920,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 3363,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21718,8 +21776,8 @@
     {
       "path": "hna/lihtc/08091.json",
       "kind": "json",
-      "size_bytes": 1147,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 1357,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21740,8 +21798,8 @@
     {
       "path": "hna/lihtc/08093.json",
       "kind": "json",
-      "size_bytes": 1123,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 1143,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21780,8 +21838,8 @@
     {
       "path": "hna/lihtc/08097.json",
       "kind": "json",
-      "size_bytes": 5684,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 6719,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21802,8 +21860,8 @@
     {
       "path": "hna/lihtc/08099.json",
       "kind": "json",
-      "size_bytes": 1149,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 1361,
+      "mtime": "2026-10-26T12:47:05.116Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21824,8 +21882,8 @@
     {
       "path": "hna/lihtc/08101.json",
       "kind": "json",
-      "size_bytes": 29602,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 36066,
+      "mtime": "2026-10-26T12:47:05.117Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21864,8 +21922,8 @@
     {
       "path": "hna/lihtc/08105.json",
       "kind": "json",
-      "size_bytes": 3931,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 4564,
+      "mtime": "2026-10-26T12:47:05.117Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21886,8 +21944,8 @@
     {
       "path": "hna/lihtc/08107.json",
       "kind": "json",
-      "size_bytes": 4871,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 5713,
+      "mtime": "2026-10-26T12:47:05.117Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21908,8 +21966,8 @@
     {
       "path": "hna/lihtc/08109.json",
       "kind": "json",
-      "size_bytes": 4752,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 5595,
+      "mtime": "2026-10-26T12:47:05.117Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21948,8 +22006,8 @@
     {
       "path": "hna/lihtc/08113.json",
       "kind": "json",
-      "size_bytes": 2062,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 2286,
+      "mtime": "2026-10-26T12:47:05.117Z",
       "shape": "object",
       "keys": [
         "type",
@@ -21988,8 +22046,8 @@
     {
       "path": "hna/lihtc/08117.json",
       "kind": "json",
-      "size_bytes": 7518,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 8800,
+      "mtime": "2026-10-26T12:47:05.117Z",
       "shape": "object",
       "keys": [
         "type",
@@ -22010,8 +22068,8 @@
     {
       "path": "hna/lihtc/08119.json",
       "kind": "json",
-      "size_bytes": 2956,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 3397,
+      "mtime": "2026-10-26T12:47:05.117Z",
       "shape": "object",
       "keys": [
         "type",
@@ -22050,8 +22108,8 @@
     {
       "path": "hna/lihtc/08123.json",
       "kind": "json",
-      "size_bytes": 26306,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 31379,
+      "mtime": "2026-10-26T12:47:05.117Z",
       "shape": "object",
       "keys": [
         "type",
@@ -22072,8 +22130,8 @@
     {
       "path": "hna/lihtc/08125.json",
       "kind": "json",
-      "size_bytes": 1119,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 1331,
+      "mtime": "2026-10-26T12:47:05.117Z",
       "shape": "object",
       "keys": [
         "type",
@@ -22260,8 +22318,8 @@
     {
       "path": "hna/place-lehd.json",
       "kind": "json",
-      "size_bytes": 1875787,
-      "mtime": "2026-10-24T12:43:21.892Z",
+      "size_bytes": 1886391,
+      "mtime": "2026-10-29T07:40:26.225Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -36761,6 +36819,24 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "hud-lihtc-co-match.json",
+      "kind": "json",
+      "size_bytes": 231162,
+      "mtime": "2026-10-26T12:47:05.219Z",
+      "shape": "object",
+      "keys": [
+        "source",
+        "note",
+        "chfa_records",
+        "matched",
+        "records"
+      ],
+      "key_count": 5,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "insights-meta.json",
       "kind": "json",
       "size_bytes": 970,
@@ -36807,7 +36883,7 @@
       "path": "jurisdiction-briefs/0803620.json",
       "kind": "json",
       "size_bytes": 37972,
-      "mtime": "2026-10-25T10:47:37.860Z",
+      "mtime": "2026-10-29T14:08:00.929Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -36836,7 +36912,7 @@
       "path": "jurisdiction-briefs/08045.json",
       "kind": "json",
       "size_bytes": 36684,
-      "mtime": "2026-10-25T10:47:37.864Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -36866,7 +36942,7 @@
       "path": "jurisdiction-briefs/08097.json",
       "kind": "json",
       "size_bytes": 37748,
-      "mtime": "2026-10-25T10:47:37.869Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -36895,7 +36971,7 @@
       "path": "jurisdiction-briefs/0810105.json",
       "kind": "json",
       "size_bytes": 22833,
-      "mtime": "2026-10-25T10:47:37.874Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -36924,7 +37000,7 @@
       "path": "jurisdiction-briefs/0812045.json",
       "kind": "json",
       "size_bytes": 34323,
-      "mtime": "2026-10-25T10:47:37.879Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -36953,7 +37029,7 @@
       "path": "jurisdiction-briefs/0816000.json",
       "kind": "json",
       "size_bytes": 32545,
-      "mtime": "2026-10-25T10:47:37.884Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -36982,7 +37058,7 @@
       "path": "jurisdiction-briefs/0817375.json",
       "kind": "json",
       "size_bytes": 28017,
-      "mtime": "2026-10-25T10:47:37.889Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37011,7 +37087,7 @@
       "path": "jurisdiction-briefs/0818310.json",
       "kind": "json",
       "size_bytes": 22697,
-      "mtime": "2026-10-25T10:47:37.893Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37040,7 +37116,7 @@
       "path": "jurisdiction-briefs/0820000.json",
       "kind": "json",
       "size_bytes": 45399,
-      "mtime": "2026-10-25T10:47:37.898Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37069,7 +37145,7 @@
       "path": "jurisdiction-briefs/0822035.json",
       "kind": "json",
       "size_bytes": 28718,
-      "mtime": "2026-10-25T10:47:37.903Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37099,7 +37175,7 @@
       "path": "jurisdiction-briefs/0827425.json",
       "kind": "json",
       "size_bytes": 34397,
-      "mtime": "2026-10-25T10:47:37.907Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37128,7 +37204,7 @@
       "path": "jurisdiction-briefs/0828745.json",
       "kind": "json",
       "size_bytes": 22013,
-      "mtime": "2026-10-25T10:47:37.912Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37157,7 +37233,7 @@
       "path": "jurisdiction-briefs/0830780.json",
       "kind": "json",
       "size_bytes": 39565,
-      "mtime": "2026-10-25T10:47:37.916Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37186,7 +37262,7 @@
       "path": "jurisdiction-briefs/0864255.json",
       "kind": "json",
       "size_bytes": 24304,
-      "mtime": "2026-10-25T10:47:37.921Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37214,7 +37290,7 @@
       "path": "jurisdiction-briefs/0867280.json",
       "kind": "json",
       "size_bytes": 32667,
-      "mtime": "2026-10-25T10:47:37.925Z",
+      "mtime": "2026-10-29T14:08:00.930Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37243,7 +37319,7 @@
       "path": "jurisdiction-briefs/0870195.json",
       "kind": "json",
       "size_bytes": 34678,
-      "mtime": "2026-10-25T10:47:37.930Z",
+      "mtime": "2026-10-29T14:08:00.931Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37272,7 +37348,7 @@
       "path": "jurisdiction-briefs/0873825.json",
       "kind": "json",
       "size_bytes": 25342,
-      "mtime": "2026-10-25T10:47:37.934Z",
+      "mtime": "2026-10-29T14:08:00.931Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37301,7 +37377,7 @@
       "path": "jurisdiction-briefs/0876795.json",
       "kind": "json",
       "size_bytes": 21341,
-      "mtime": "2026-10-25T10:47:37.939Z",
+      "mtime": "2026-10-29T14:08:00.931Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37423,7 +37499,7 @@
       "path": "jurisdiction-briefs/_round-watch.json",
       "kind": "json",
       "size_bytes": 304383,
-      "mtime": "2026-10-25T10:47:42.455Z",
+      "mtime": "2026-10-30T02:46:32.652Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38040,8 +38116,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 252979,
-      "mtime": "2026-10-26T05:00:05.868Z",
+      "size_bytes": 254739,
+      "mtime": "2026-10-30T13:28:42.532Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -38454,6 +38530,22 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "market/commute-strength.json",
+      "kind": "json",
+      "size_bytes": 144494,
+      "mtime": "2026-10-29T17:37:42.064Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "places",
+        "counties"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/commuting_co.geojson",
       "kind": "geojson",
       "size_bytes": 582520,
@@ -38518,8 +38610,8 @@
     {
       "path": "market/development-activity.json",
       "kind": "json",
-      "size_bytes": 1173862,
-      "mtime": "2026-10-25T10:47:42.067Z",
+      "size_bytes": 1185097,
+      "mtime": "2026-10-30T02:46:32.676Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38528,7 +38620,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "projects",
-      "primary_array_length": 719,
+      "primary_array_length": 725,
       "primary_array_first_keys": [
         "id",
         "name",
@@ -38677,6 +38769,21 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "market/finder-place-demand.json",
+      "kind": "json",
+      "size_bytes": 21726,
+      "mtime": "2026-10-26T14:26:51.455Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "places"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/flood_zones_co.geojson",
       "kind": "geojson",
       "size_bytes": 6136866,
@@ -38799,7 +38906,7 @@
       "path": "market/housing_policy_jurisdictions_co.geojson",
       "kind": "geojson",
       "size_bytes": 1230019,
-      "mtime": "2026-10-24T12:43:21.982Z",
+      "mtime": "2026-10-29T08:36:09.476Z",
       "shape": "geojson",
       "feature_count": 336,
       "property_keys": [
@@ -38847,8 +38954,8 @@
     {
       "path": "market/hud_lihtc_co.geojson",
       "kind": "geojson",
-      "size_bytes": 1529920,
-      "mtime": "2026-10-25T10:43:41.655Z",
+      "size_bytes": 1815872,
+      "mtime": "2026-10-26T12:47:05.268Z",
       "shape": "geojson",
       "feature_count": 926,
       "property_keys": [
@@ -38868,6 +38975,34 @@
         "NON_PROF"
       ],
       "geometry_type": "Point"
+    },
+    {
+      "path": "market/hud_s8_contracts_co.json",
+      "kind": "json",
+      "size_bytes": 192632,
+      "mtime": "2026-10-30T02:28:40.742Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "contracts"
+      ],
+      "key_count": 2,
+      "primary_array_key": "contracts",
+      "primary_array_length": 348,
+      "primary_array_first_keys": [
+        "property_id",
+        "property_name",
+        "address",
+        "city",
+        "zip",
+        "county_fips",
+        "county_name",
+        "property_units",
+        "category",
+        "contract_number",
+        "status",
+        "program_group"
+      ]
     },
     {
       "path": "market/hud_zip_tract_crosswalk_co.json",
@@ -39024,8 +39159,8 @@
     {
       "path": "market/market-direction.json",
       "kind": "json",
-      "size_bytes": 774483,
-      "mtime": "2026-10-25T10:47:42.775Z",
+      "size_bytes": 774573,
+      "mtime": "2026-10-30T02:46:32.756Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39115,8 +39250,8 @@
     {
       "path": "market/opportunity_zones_co.geojson",
       "kind": "geojson",
-      "size_bytes": 851407,
-      "mtime": "2026-09-25T12:55:18.973Z",
+      "size_bytes": 851949,
+      "mtime": "2026-10-29T08:36:09.594Z",
       "shape": "geojson",
       "feature_count": 126,
       "property_keys": [
@@ -39165,6 +39300,30 @@
         "point_on_surface"
       ],
       "geometry_type": "Polygon"
+    },
+    {
+      "path": "market/principal-employers.json",
+      "kind": "json",
+      "size_bytes": 22141,
+      "mtime": "2026-10-29T17:37:42.180Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "areas"
+      ],
+      "key_count": 2,
+      "primary_array_key": "areas",
+      "primary_array_length": 15,
+      "primary_array_first_keys": [
+        "id",
+        "area",
+        "county_fips",
+        "as_of",
+        "share_of",
+        "stated_source",
+        "rows",
+        "source"
+      ]
     },
     {
       "path": "market/qct_dda_designations_co.json",
@@ -39272,6 +39431,34 @@
       ]
     },
     {
+      "path": "market/relocation-comparables.json",
+      "kind": "json",
+      "size_bytes": 4495,
+      "mtime": "2026-10-29T19:46:20.358Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "comparables"
+      ],
+      "key_count": 2,
+      "primary_array_key": "comparables",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "id",
+        "county_fips",
+        "county",
+        "property",
+        "round",
+        "measure",
+        "share_low",
+        "share_high",
+        "basis",
+        "quote",
+        "source_title",
+        "source_url"
+      ]
+    },
+    {
       "path": "market/schools_co.geojson",
       "kind": "geojson",
       "size_bytes": 1243277,
@@ -39338,6 +39525,22 @@
         "last_verified",
         "review_by"
       ]
+    },
+    {
+      "path": "market/tract-workplaces.json",
+      "kind": "json",
+      "size_bytes": 1952269,
+      "mtime": "2026-10-30T03:32:34.237Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "names",
+        "tracts"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "market/tract_boundaries_co.geojson",
@@ -39616,7 +39819,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-10-25T11:39:29.669Z",
+      "mtime": "2026-10-30T13:04:05.827Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39651,8 +39854,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16091,
-      "mtime": "2026-10-26T10:08:07.503Z",
+      "size_bytes": 16088,
+      "mtime": "2026-10-30T13:29:22.426Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39676,7 +39879,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-26T10:08:06.959Z",
+      "mtime": "2026-10-30T13:29:21.906Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41498,8 +41701,8 @@
     {
       "path": "policy/chfa-2027-r1-scoring.json",
       "kind": "json",
-      "size_bytes": 19625,
-      "mtime": "2026-10-21T23:17:20.143Z",
+      "size_bytes": 19661,
+      "mtime": "2026-10-30T02:56:59.596Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41532,6 +41735,46 @@
       ]
     },
     {
+      "path": "policy/chfa-2027-r2-scoring.json",
+      "kind": "json",
+      "size_bytes": 21365,
+      "mtime": "2026-10-30T02:56:59.596Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "id",
+        "title",
+        "status",
+        "status_note",
+        "checked_at",
+        "review_by",
+        "source",
+        "round",
+        "minimum_score",
+        "primary_rule",
+        "discretion",
+        "targeting",
+        "eli_targeting"
+      ],
+      "key_count": 21,
+      "primary_array_key": "lines",
+      "primary_array_length": 17,
+      "primary_array_first_keys": [
+        "id",
+        "group",
+        "label",
+        "points",
+        "section",
+        "page",
+        "quote",
+        "auto",
+        "options",
+        "default",
+        "unconfirmed",
+        "quote_minimum"
+      ]
+    },
+    {
       "path": "policy/chfa-awards-historical.json",
       "kind": "json",
       "size_bytes": 10935,
@@ -41558,6 +41801,32 @@
         "execution",
         "_note"
       ]
+    },
+    {
+      "path": "policy/chfa-common-app-tables.json",
+      "kind": "json",
+      "size_bytes": 14284,
+      "mtime": "2026-10-29T09:59:11.286Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "status",
+        "status_note",
+        "source",
+        "basis_limit_note",
+        "basis_limit_per_unit_base",
+        "zone_factor",
+        "building_type_column",
+        "method_three",
+        "counties",
+        "lowest_ami_points_line",
+        "city_cost_burden_points",
+        "city_cost_burden_note"
+      ],
+      "key_count": 13,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "policy/chfa-watchlist.json",
@@ -41590,8 +41859,8 @@
     {
       "path": "policy/co-developer-funding-guide.json",
       "kind": "json",
-      "size_bytes": 434900,
-      "mtime": "2026-10-24T00:16:04.598Z",
+      "size_bytes": 436001,
+      "mtime": "2026-10-26T13:53:54.698Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -41685,8 +41954,8 @@
     {
       "path": "policy/developer-ownership-funding.json",
       "kind": "json",
-      "size_bytes": 21833,
-      "mtime": "2026-10-21T11:12:41.455Z",
+      "size_bytes": 22136,
+      "mtime": "2026-10-26T13:53:54.699Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41714,8 +41983,8 @@
     {
       "path": "policy/fee-reductions.json",
       "kind": "json",
-      "size_bytes": 580886,
-      "mtime": "2026-10-10T20:58:58.854Z",
+      "size_bytes": 583576,
+      "mtime": "2026-10-29T14:08:01.107Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41725,7 +41994,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "entries",
-      "primary_array_length": 117,
+      "primary_array_length": 118,
       "primary_array_first_keys": [
         "id",
         "state",
@@ -41811,8 +42080,8 @@
     {
       "path": "policy/funding-awards/dola-awards.json",
       "kind": "json",
-      "size_bytes": 331326,
-      "mtime": "2026-10-16T15:30:49.105Z",
+      "size_bytes": 340402,
+      "mtime": "2026-10-30T02:46:32.831Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -41820,7 +42089,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "awards",
-      "primary_array_length": 283,
+      "primary_array_length": 291,
       "primary_array_first_keys": [
         "name",
         "grantee",
@@ -41969,37 +42238,38 @@
     {
       "path": "policy/homeownership-programs.json",
       "kind": "json",
-      "size_bytes": 17614,
-      "mtime": "2026-10-20T11:11:41.603Z",
+      "size_bytes": 31502,
+      "mtime": "2026-10-26T15:43:50.409Z",
       "shape": "object",
       "keys": [
         "schema",
         "meta",
-        "programs"
+        "programs",
+        "local_help",
+        "local_help_meta"
       ],
-      "key_count": 3,
-      "primary_array_key": "programs",
-      "primary_array_length": 14,
+      "key_count": 5,
+      "primary_array_key": "local_help",
+      "primary_array_length": 20,
       "primary_array_first_keys": [
         "id",
         "name",
-        "level",
-        "kind",
-        "status",
-        "plain_summary",
-        "who_its_for",
-        "what_its_worth",
-        "benefit_amount",
-        "benefit_unit",
-        "how_to_start",
-        "source_url"
+        "area",
+        "region",
+        "offers",
+        "phone",
+        "url",
+        "source_url",
+        "source_note",
+        "last_verified",
+        "review_by"
       ]
     },
     {
       "path": "policy/housing-events-curated.json",
       "kind": "json",
-      "size_bytes": 1726,
-      "mtime": "2026-10-14T09:05:42.008Z",
+      "size_bytes": 2982,
+      "mtime": "2026-10-26T15:06:44.209Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42007,7 +42277,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "events",
-      "primary_array_length": 2,
+      "primary_array_length": 4,
       "primary_array_first_keys": [
         "title",
         "start",
@@ -42022,8 +42292,8 @@
     {
       "path": "policy/housing-events.json",
       "kind": "json",
-      "size_bytes": 139276,
-      "mtime": "2026-10-26T09:08:55.775Z",
+      "size_bytes": 178072,
+      "mtime": "2026-10-30T10:14:12.268Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42033,7 +42303,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "past",
-      "primary_array_length": 273,
+      "primary_array_length": 350,
       "primary_array_first_keys": [
         "title",
         "start",
@@ -42051,7 +42321,7 @@
       "path": "policy/housing-policy-scorecard.json",
       "kind": "json",
       "size_bytes": 183105,
-      "mtime": "2026-10-24T12:43:21.982Z",
+      "mtime": "2026-10-29T08:36:09.655Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -42151,6 +42421,22 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "policy/job-access.json",
+      "kind": "json",
+      "size_bytes": 106756,
+      "mtime": "2026-10-29T16:18:49.282Z",
+      "shape": "object",
+      "keys": [
+        "counties",
+        "meta",
+        "places"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "policy/jurisdiction-housing-progress.json",
       "kind": "json",
       "size_bytes": 40575,
@@ -42237,8 +42523,8 @@
     {
       "path": "policy/local-commitment.json",
       "kind": "json",
-      "size_bytes": 64941,
-      "mtime": "2026-10-23T18:16:39.794Z",
+      "size_bytes": 65588,
+      "mtime": "2026-10-29T14:08:01.111Z",
       "shape": "object",
       "keys": [
         "generated_by",
@@ -42336,8 +42622,8 @@
     {
       "path": "policy/local-support.json",
       "kind": "json",
-      "size_bytes": 150073,
-      "mtime": "2026-10-11T03:45:54.242Z",
+      "size_bytes": 158569,
+      "mtime": "2026-10-29T14:08:01.112Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42346,7 +42632,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "jurisdictions",
-      "primary_array_length": 18,
+      "primary_array_length": 19,
       "primary_array_first_keys": [
         "geoid",
         "jurisdiction",
@@ -42361,8 +42647,8 @@
     {
       "path": "policy/methodology-version.json",
       "kind": "json",
-      "size_bytes": 6455,
-      "mtime": "2026-09-25T12:55:19.120Z",
+      "size_bytes": 6534,
+      "mtime": "2026-10-29T17:09:49.508Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42518,8 +42804,8 @@
     {
       "path": "policy/prop123_jurisdictions.json",
       "kind": "json",
-      "size_bytes": 133084,
-      "mtime": "2026-10-11T10:13:22.916Z",
+      "size_bytes": 143647,
+      "mtime": "2026-10-29T08:36:09.658Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -42637,20 +42923,41 @@
     {
       "path": "policy/soft-funding-status.json",
       "kind": "json",
-      "size_bytes": 46545,
-      "mtime": "2026-10-21T11:12:41.460Z",
+      "size_bytes": 46589,
+      "mtime": "2026-10-26T13:53:54.699Z",
       "shape": "object",
       "keys": [
         "lastUpdated",
         "vintage",
         "note",
-        "programs",
-        "pabVolumeCap"
+        "programs"
       ],
-      "key_count": 5,
+      "key_count": 4,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
+    },
+    {
+      "path": "policy/state-housing-laws.json",
+      "kind": "json",
+      "size_bytes": 199674,
+      "mtime": "2026-10-29T08:36:09.659Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "laws",
+        "jurisdictions"
+      ],
+      "key_count": 3,
+      "primary_array_key": "laws",
+      "primary_array_length": 11,
+      "primary_array_first_keys": [
+        "id",
+        "bill",
+        "name",
+        "plain",
+        "url"
+      ]
     },
     {
       "path": "policy/stewardship-providers.json",
@@ -42812,8 +43119,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 393991,
-      "mtime": "2026-10-26T09:08:46.332Z",
+      "size_bytes": 455888,
+      "mtime": "2026-10-30T10:14:03.270Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42823,7 +43130,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "stories",
-      "primary_array_length": 311,
+      "primary_array_length": 372,
       "primary_array_first_keys": [
         "title",
         "source",
@@ -42840,7 +43147,7 @@
       "path": "policy_briefs_curated.json",
       "kind": "json",
       "size_bytes": 181243,
-      "mtime": "2026-10-24T00:16:04.600Z",
+      "mtime": "2026-10-29T14:08:01.115Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42892,8 +43199,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 20925,
-      "mtime": "2026-10-25T10:16:44.496Z",
+      "size_bytes": 20449,
+      "mtime": "2026-10-30T11:33:26.444Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -42905,15 +43212,15 @@
         "events"
       ],
       "key_count": 7,
-      "primary_array_key": null,
-      "primary_array_length": null,
+      "primary_array_key": "dropped_settled",
+      "primary_array_length": 1,
       "primary_array_first_keys": null
     },
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 180714,
-      "mtime": "2026-10-25T10:16:44.496Z",
+      "size_bytes": 192152,
+      "mtime": "2026-10-30T11:33:26.478Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42921,7 +43228,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 192,
+      "primary_array_length": 197,
       "primary_array_first_keys": [
         "date",
         "events"
@@ -43139,8 +43446,8 @@
     {
       "path": "reports/developer-url-health.json",
       "kind": "json",
-      "size_bytes": 21196,
-      "mtime": "2026-10-23T13:12:08.269Z",
+      "size_bytes": 21189,
+      "mtime": "2026-10-30T13:27:45.309Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43149,8 +43456,8 @@
         "ok_count"
       ],
       "key_count": 4,
-      "primary_array_key": "warnings",
-      "primary_array_length": 48,
+      "primary_array_key": "broken",
+      "primary_array_length": 50,
       "primary_array_first_keys": [
         "url",
         "status",

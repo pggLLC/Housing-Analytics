@@ -3,6 +3,16 @@
 const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
+const { collectPrProgress } = require('./pr-progress');
+const { statusFromFindings } = require('./audit-status');
+const {
+    collectAccuracy,
+    collectDataWorkflows,
+    collectDeadlines,
+    collectEntitledLand,
+    collectMemberSite,
+    collectReviewFollowups,
+} = require('./operations-status');
 
 const ROOT = path.join(__dirname, '..', '..');
 const WORKFLOWS_DIR = path.join(ROOT, '.github', 'workflows');
@@ -140,7 +150,15 @@ function createGithubClient({ token, fetchImpl = fetch, env = process.env, timeo
         return data.data;
     }
 
-    return { json, paginate, graphql };
+    /**
+     * A JSON document outside the GitHub API, read without the token (it must
+     * never leave GitHub). Same timeout and retry policy as every other call.
+     */
+    async function external(url) {
+        return requestWithRetry(fetchImpl, url, { headers: { 'Accept': 'application/json', 'User-Agent': 'housing-analytics-daily-audit' } }, url, timeoutMs);
+    }
+
+    return { json, paginate, graphql, external };
 }
 
 function parseScheduledWorkflows() {
@@ -258,9 +276,6 @@ function isScheduleOverdue(lastRunAt, intervalMs, nowMs) {
     return nowMs > new Date(lastRunAt).getTime() + intervalMs + overdueGraceMs(intervalMs);
 }
 
-function checkStatus(hasFindings) {
-    return hasFindings ? 'failed' : 'passed';
-}
 
 function repoIssue(severity, type, file, description, actual, recommendation, extra = {}) {
     return {
@@ -285,14 +300,25 @@ function newestFirst(runs) {
  * Main-branch workflows whose LATEST completed run in the window failed.
  * A failure already followed by a success of the same workflow is resolved;
  * reporting it would turn every flaky-then-green cron into a daily alarm.
+ *
+ * A cancelled latest run counts only when no newer run of that workflow
+ * exists, in progress or finished — the same rule as deployState below. A
+ * run that `concurrency` cancelled while its successor is still going is
+ * superseded, not failed.
  */
 function failingLatestRuns(runs) {
     const latest = new Map();
+    const newest = new Map();
     for (const run of newestFirst(runs)) {
+        if (!newest.has(run.workflow_id)) newest.set(run.workflow_id, run);
         if (run.status && run.status !== 'completed') continue;
         if (!latest.has(run.workflow_id)) latest.set(run.workflow_id, run);
     }
-    return [...latest.values()].filter(run => FAILED_CONCLUSIONS.has(run.conclusion));
+    return [...latest.values()].filter(run => {
+        if (!FAILED_CONCLUSIONS.has(run.conclusion)) return false;
+        if (run.conclusion === 'cancelled') return newest.get(run.workflow_id) === run;
+        return true;
+    });
 }
 
 /**
@@ -457,7 +483,9 @@ async function collectActionsHealth(owner, repo, client, nowMs) {
         check: {
             name: 'GitHub Actions Health',
             critical: false,
-            status: checkStatus(failingRuns.length > 0 || overdue.length > 0 || neverRun.length > 0 || deploy.deployBlocked),
+            // Every condition below files at least one finding, so the
+            // findings' severities decide failed versus warning.
+            status: statusFromFindings(issues),
             summary: `${recent.complete ? failingRuns.length : 'unknown number of'} failing main workflows, ${overdue.length} overdue schedules, ${neverRun.length} never run`,
         },
     };
@@ -544,7 +572,7 @@ async function collectPullRequestHealth(owner, repo, client, nowMs) {
         check: {
             name: 'Pull Request Triage',
             critical: false,
-            status: checkStatus(failingChecks.length > 0 || staleReviews.length > 0 || conflicts.length > 0 || inactive.length > 0),
+            status: statusFromFindings(issues),
             summary: `${totalCount === null ? 'unknown number of' : totalCount} open PRs`,
         },
     };
@@ -600,7 +628,7 @@ async function collectIssueHealth(owner, repo, client, nowMs) {
         check: {
             name: 'Issues Inventory',
             critical: false,
-            status: checkStatus(highPriority.length > 0 || blockers.length > 0 || longstanding.length > 0),
+            status: statusFromFindings(issues),
             summary: `${open.complete ? openIssues.length : 'unknown number of'} open issues`,
         },
     };
@@ -620,7 +648,32 @@ function unavailableCheck(name, summary, details) {
 async function collectRepoHealth({ env = process.env, fetchImpl = fetch, now = Date.now(), timeoutMs = REQUEST_TIMEOUT_MS } = {}) {
     const repoSlug = parseRepositorySlug(env);
     const token = env.GITHUB_TOKEN || '';
-    const empty = { issues: [], actions: null, pullRequests: null, issueInventory: null };
+    const empty = {
+        issues: [],
+        actions: null,
+        pullRequests: null,
+        prProgress: null,
+        dataWorkflows: null,
+        memberSite: null,
+        reviewFollowups: null,
+        accuracy: null,
+        issueInventory: null,
+        deadlines: null,
+        entitledLand: null,
+    };
+    // Deadlines are a file in the checkout, so they are read with or without
+    // a token; a malformed file is unavailable like any other section.
+    const localChecks = [];
+    try {
+        empty.deadlines = collectDeadlines(now);
+    } catch (err) {
+        localChecks.push(unavailableCheck('Upcoming Deadlines', 'data/deadlines.json unreadable', err && err.message ? err.message : String(err)));
+    }
+    try {
+        empty.entitledLand = collectEntitledLand(now);
+    } catch (err) {
+        localChecks.push(unavailableCheck('Entitled Land', 'data/entitled-land/findings.json unreadable', err && err.message ? err.message : String(err)));
+    }
 
     if (!repoSlug) {
         return {
@@ -631,30 +684,38 @@ async function collectRepoHealth({ env = process.env, fetchImpl = fetch, now = D
                 status: 'skipped',
                 summary: 'GITHUB_REPOSITORY not set',
                 details: 'Repository context was unavailable outside GitHub Actions.',
-            }],
+            }, ...localChecks],
         };
     }
 
     if (!token) {
         return {
             ...empty,
-            checks: [unavailableCheck('Repository Health Summary', 'GitHub API token missing', 'GITHUB_TOKEN was not set.')],
+            checks: [unavailableCheck('Repository Health Summary', 'GitHub API token missing', 'GITHUB_TOKEN was not set.'), ...localChecks],
         };
     }
 
     const { owner, repo } = repoSlug;
     const client = createGithubClient({ token, fetchImpl, env, timeoutMs });
-    const result = { ...empty, checks: [] };
+    const result = { ...empty, checks: [...localChecks] };
+    const ctx = { env };
+    // A section whose check is null is informational: it shows in the email
+    // but adds no row to Audit Health unless it could not be read.
     const sections = [
         { key: 'actions', name: 'GitHub Actions Health', collect: collectActionsHealth },
         { key: 'pullRequests', name: 'Pull Request Triage', collect: collectPullRequestHealth },
+        { key: 'prProgress', name: 'Pull Request Progress', collect: collectPrProgress },
+        { key: 'dataWorkflows', name: 'Scheduled Data Workflows', collect: collectDataWorkflows },
+        { key: 'memberSite', name: 'Member Site Deploy', collect: collectMemberSite },
+        { key: 'reviewFollowups', name: 'Review Follow-ups', collect: collectReviewFollowups },
+        { key: 'accuracy', name: 'Source & Figure Accuracy', collect: collectAccuracy },
         { key: 'issueInventory', name: 'Issues Inventory', collect: collectIssueHealth },
     ];
     for (const section of sections) {
         try {
-            const out = await section.collect(owner, repo, client, now);
+            const out = await section.collect(owner, repo, client, now, ctx);
             result.issues = result.issues.concat(out.issues);
-            result.checks.push(out.check);
+            if (out.check) result.checks.push(out.check);
             result[section.key] = out.summary;
         } catch (err) {
             const message = err && err.message ? err.message : String(err);

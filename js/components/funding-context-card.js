@@ -46,8 +46,8 @@
 
   function statusClass(program) {
     var status = statusLabel(program).toLowerCase();
-    if (status === 'verify' || status.indexOf('watch') >= 0) return 'pill warn';
-    if (status === 'closed') return 'pill bad';
+    if (status === 'verify' || status === 'not yet verified' || status.indexOf('watch') >= 0) return 'pill warn';
+    if (status === 'closed' || status === 'ended' || status === 'paused') return 'pill bad';
     return 'pill accent';
   }
 
@@ -104,6 +104,9 @@
       return normalizeProgram(id, doc.programs[id]);
     }).filter(function (program) {
       if (program.isMarketSource) return false;
+      // A retired label names no current program (2026-10-26 source check);
+      // its record stays only so older saved deals still resolve.
+      if (program.status === 'retired') return false;
       if (!matchesCounty(program, countyFips)) return false;
       if (!matchesExecution(program, executionType)) return false;
       if (!matchesUseCase(program, useCase)) return false;
@@ -125,10 +128,16 @@
   }
 
   function programSummary(program) {
+    // Statuses read from the program's own page: none of these is money a deal can count on,
+    // so they win over any dollar figure left in the record.
+    if (program.status === 'ended') return 'Ended. No funding is available from it.';
+    if (program.status === 'paused') return 'Paused. No funding is available while it is on hold.';
     var amount = fmtDollars(program.available);
     if (amount) return amount + ' currently tracked';
     if (program.isVolumeCap) return 'Volume-cap posture; verify current allocation before closing.';
     if (program.status === 'VERIFY') return 'Not yet verified; no confirmed current dollar amount.';
+    if (program.status === 'closed') return 'Closed: no open round.';
+    if (program.status === 'watch') return 'No open round posted; watch for the next one.';
     if (program.maxPerProject) return 'Max per project ' + fmtDollars(program.maxPerProject) + ' listed; verify current availability.';
     return 'Program name and source only; no verified dollar amount in this data file.';
   }
@@ -147,6 +156,7 @@
       '<p style="margin:.45rem 0 0;color:var(--muted);font-size:var(--tiny);line-height:1.45;">' + esc(programSummary(program)) + '</p>' +
       '<p style="margin:.35rem 0 0;color:var(--muted);font-size:var(--tiny);line-height:1.45;">' + esc(program.description || program.warning || '') + '</p>' +
       '<div style="margin-top:.45rem;font-size:var(--tiny);display:flex;flex-wrap:wrap;gap:.5rem;color:var(--muted);">' +
+        '<span class="' + statusClass(program) + '" data-funding-context-status>' + esc(statusLabel(program)) + '</span>' +
         '<span>CONTEXT only</span>' +
         link +
       '</div>' +

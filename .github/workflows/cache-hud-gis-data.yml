@@ -78,6 +78,8 @@ jobs:
         run: |
           node - <<'EOF'
           const fs    = require('fs');
+          const { resolveDesignationYear, cachedDesignationYear, featureKey } = require(require('path').resolve('scripts/hud/designation-year.js'));
+          const cachedDoc = (() => { try { return JSON.parse(fs.readFileSync('data/qct-colorado.json', 'utf8')); } catch (_) { return null; } })();
 
           // HUD publishes a new layer for each designation year. The coming
           // year's lists are posted each autumn (the 2027 lists on 2026-10-06,
@@ -130,9 +132,18 @@ jobs:
               try {
                 const gj = await fetchAll(where);
                 if (gj.features.length) {
-                  const out = { ...gj, fetchedAt: new Date().toISOString(), designationYear: year, source: `HUD ArcGIS Qualified_Census_Tracts_${year} FeatureServer — services.arcgis.com` };
+                  // The layer name is not the year: HUD loaded the 2027 lists into
+                  // the layers named 2026 (scripts/hud/designation-year.js).
+                  const r = resolveDesignationYear({
+                    layerYear: year, thisYear: THIS_YEAR,
+                    cachedYear: cachedDesignationYear(cachedDoc), cachedKeys: cachedDoc && (cachedDoc.features || []).map(featureKey),
+                    fetchedKeys: gj.features.map(featureKey),
+                  });
+                  console.log(`QCT layer ${year}: ${r.reason}`);
+                  if (!r.write) return;
+                  const out = { ...gj, fetchedAt: new Date().toISOString(), designationYear: r.year, source: `HUD ArcGIS Qualified_Census_Tracts_${year} FeatureServer — services.arcgis.com` };
                   fs.writeFileSync('data/qct-colorado.json', JSON.stringify(out));
-                  console.log(`Wrote ${out.features.length} QCT features to data/qct-colorado.json (where: ${where})`);
+                  console.log(`Wrote ${out.features.length} QCT features (${r.year} designations) to data/qct-colorado.json (where: ${where})`);
                   return;
                 }
                 console.warn(`QCT where="${where}" returned 0 features, trying next filter`);
@@ -162,9 +173,12 @@ jobs:
           EOF
 
       - name: Fetch HUD DDA data (Colorado only — pre-filtered to FIPS 08)
+        id: fetch_dda
         run: |
           node - <<'EOF'
           const fs    = require('fs');
+          const { resolveDesignationYear, cachedDesignationYear, featureKey } = require(require('path').resolve('scripts/hud/designation-year.js'));
+          const cachedDoc = (() => { try { return JSON.parse(fs.readFileSync('data/dda-colorado.json', 'utf8')); } catch (_) { return null; } })();
 
           // HUD publishes a new layer for each designation year. The coming
           // year's lists are posted each autumn (the 2027 lists on 2026-10-06,
@@ -227,8 +241,19 @@ jobs:
                 // Always apply client-side filter to guarantee only Colorado features are written.
                 const coFeats = gj.features.filter(isColorado);
                 if (coFeats.length) {
-                  const out = { ...gj, features: coFeats, fetchedAt: new Date().toISOString(), designationYear: year, source: `HUD ArcGIS Difficult_Development_Areas_${year} FeatureServer — services.arcgis.com` };
+                  // The layer name is not the year: HUD loaded the 2027 lists into
+                  // the layers named 2026 (scripts/hud/designation-year.js).
+                  const r = resolveDesignationYear({
+                    layerYear: year, thisYear: THIS_YEAR,
+                    cachedYear: cachedDesignationYear(cachedDoc), cachedKeys: cachedDoc && (cachedDoc.features || []).map(featureKey),
+                    fetchedKeys: coFeats.map(featureKey),
+                  });
+                  console.log(`DDA layer ${year}: ${r.reason}`);
+                  if (!r.write) return;
+                  const out = { ...gj, features: coFeats, fetchedAt: new Date().toISOString(), designationYear: r.year, source: `HUD ArcGIS Difficult_Development_Areas_${year} FeatureServer — services.arcgis.com` };
                   fs.writeFileSync('data/dda-colorado.json', JSON.stringify(out));
+                  // Only a real write is normalized; a refused or failed fetch keeps the cached file byte for byte.
+                  fs.appendFileSync(process.env.GITHUB_OUTPUT || '/dev/null', 'written=true\n');
                   const nCounty = coFeats.filter((f) => String((f.properties || {}).DDA_CODE || '').startsWith('NCNTY08')).length;
                   console.log(`Wrote ${coFeats.length} Colorado DDA features (${nCounty} nonmetro counties, ${coFeats.length - nCounty} Small Area ZIP rows) to data/dda-colorado.json (where: ${where}, total fetched: ${gj.features.length})`);
                   return;
@@ -260,6 +285,7 @@ jobs:
           EOF
 
       - name: Normalize DDA data (map HUD field names to front-end schema)
+        if: steps.fetch_dda.outputs.written == 'true'
         run: node scripts/normalize-dda.js
 
       - name: Build Colorado county boundaries

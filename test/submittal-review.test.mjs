@@ -123,7 +123,7 @@ ok(SR.creditCheck(rules, 1000000).applicantKnown === false && /other active appl
 // Codex review on 93a02299b: the paired state credit is a fixed amount; failed Versions-table opens are reported.
 ok(SR.stateCreditCheck(rules, 650000).status === 'depends' && SR.stateCreditCheck(rules, 650000).basis === 'pilot' && SR.stateCreditCheck(rules, 600000).status === 'depends' && SR.stateCreditCheck(rules, 700000).status === 'off' && SR.stateCreditCheck(rules, null).status === 'none', 'the paired state credit is checked against the fixed amounts');
 ok(/Standard state credit \$700,000 is not the fixed amount/.test(SR.review(rules, prop123, { deal: { mix: { 60: 50 }, place: '', stateCredits: 700000 }, claims: {}, thresholds: {}, engine: {} }).risks.map((x) => x.text).join(' ')), 'an off-amount state credit request is flagged');
-ok(/openLatest\(v\)\.then\(function \(ok\) \{ if \(!ok\) flash/.test(read('js/whitepaper/submittal-review.js')), 'a Versions-table open that fails says so');
+ok(/openLatest\(v\)\.then\(function \(ok\) \{ if \(!ok(?: && !state\.gone\[[^\]]+\])?\) flash/.test(read('js/whitepaper/submittal-review.js')), 'a Versions-table open that fails says so');
 // Codex review on 758e670d4: the cap uses the request, not modeled capacity; state-credit thresholds are conditional.
 {
   const reqBase = { url: 'http://127.0.0.1:8799/d?rate-9=0.09', outputs: { annualCredits: { value: 1900000 } }, inputs: { units: '10', 'units-60': '10' } };
@@ -142,7 +142,7 @@ ok(/openLatest\(v\)\.then\(function \(ok\) \{ if \(!ok\) flash/.test(read('js/wh
 // Codex review on 0d0ddd308: a replacing 4% or non-CHFA export drops the earlier model's credits; failed comparison reads say so.
 {
   const src = read('js/whitepaper/submittal-review.js');
-  ok(/if \(hadCalc\) \{ v\.deal\.creditRequested = null; v\.deal\.stateCredits = null; \}/.test(src), 'credits from a replaced 9% export are cleared');
+  ok(/if \(hadCalc\) \{ v\.deal\.creditRequested = null; v\.deal\.stateCredits = null;(?: v\.deal\.stateStandard = null;)? \}/.test(src), 'credits from a replaced 9% export are cleared');
   ok(/if \(vs\.some\(function \(x\) \{ return !x; \}\)\) \{ \$\('srCompare'\)\.innerHTML = failed/.test(src) && /function \(\) \{ if \(tok === compareTok\) \$\('srCompare'\)\.innerHTML = failed; \}/.test(src), 'a comparison with an unreadable version shows that instead of a partial table');
 }
 // The Third Draft strikes the 60% cap on the 40% row (red strikethrough, printed pp. 41-42), so it is not applied.
@@ -446,7 +446,7 @@ ok(/if \(state\.loading \|\| state\.opening\) \{ flash\('Wait for the deal to fi
   ok(!frac.mix.market, 'a fractional total-home count does not invent a market-rate home');
 }
 const srcJs6 = read('js/whitepaper/submittal-review.js');
-ok(/v\.deal\.calcRegime = c\.nine && !c\.chfa/.test(srcJs6) && /if \(c\.nine && c\.chfa\)/.test(srcJs6), 'only a 9% CHFA-rent export brings engine results and stress tests');
+ok(/var rateFits = four \? !c\.nine : c\.nine;/.test(srcJs6) && /v\.deal\.calcRegime = rateFits && !c\.chfa/.test(srcJs6) && /if \(rateFits && c\.chfa\)/.test(srcJs6), 'only a CHFA-rent export at the round\'s credit rate (9% Round One, 4% Round Two) brings engine results and stress tests');
 ok(/\.catch\(function \(e\) \{\s*if \(state\.deal !== deal\) return;\s*clearForm\(\)/.test(srcJs6), 'a failed deal open clears the form before saving is allowed again');
 ok(/if \(tok !== compareTok\) return;/.test(srcJs6), 'a superseded comparison read is dropped');
 ok(/d\.creditRequested = ac != null && ac >= 0 \? ac : null/.test(srcJs6), 'a negative annual credit entry is not stored');

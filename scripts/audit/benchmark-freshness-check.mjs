@@ -95,7 +95,7 @@ const BENCHMARK_FILES = [
   {
     file: 'data/policy/homeownership-programs.json',
     label: 'Homeownership programs watchlist',
-    reviewByPaths: ['meta.review_by', 'programs[].review_by'],
+    reviewByPaths: ['meta.review_by', 'programs[].review_by', 'local_help[].review_by'],
     // Reviewed quarterly; policy-review-reminders.yml opens the issue before each review_by.
     staleAfterDays: 90,
   },

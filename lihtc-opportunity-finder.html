@@ -1646,7 +1646,7 @@
                           <li><strong>Need</strong> — Housing-needs composite (cost burden + ≤30% AMI gap + overcrowding + HNA ranking). Higher = more demand for affordable units. Source: HUD CHAS + ACS.</li>
                           <li><strong>Recency</strong> — Years since the last CHFA award in this jurisdiction. A higher score reflects a longer interval since the last award, which is one signal CHFA's PMA framework considers when balancing geographic distribution. Caps at 4 years (anything 4+ yrs = 100). See "Recency signal source" below to pick which credit type counts.</li>
                           <li><strong>Basis</strong> — Whether the place sits in a Qualified Census Tract (QCT) or Difficult Development Area (DDA), unlocking IRC §42(d)(5)(B) <em>30% eligible-basis boost</em> on construction cost. Both = strongest case. Affects deal economics, not CHFA scoring.</li>
-                          <li><strong>Pop</strong> — Population size. Bigger places can absorb more units; small towns may not have the rental pool to lease up a 60-unit deal. 4% Bond defaults weight this heavily because bond cap rarely binds — the binding constraint is whether the deal will fill.</li>
+                          <li><strong>Pop</strong> — Population size. Bigger places can absorb more units; small towns may not have the rental pool to lease up a 60-unit deal. 4% Bond defaults weight this heavily because a bond deal has to be large enough to carry its bond costs and still fill.</li>
                           <li><strong>Civic</strong> — Policy-readiness composite (Prop 123 commitment, Strategic Housing Plan, inclusionary zoning, fee waivers, dedicated revenue, staff capacity). Higher = jurisdiction will move fast through approvals + bring local money.</li>
                         </ul>
                         <p class="lof-sb-help" style="margin-top:.4rem;"><strong>What changing weights does:</strong></p>
@@ -1813,6 +1813,19 @@
                 <p class="lof-filter-help">
                   <strong>ON by default</strong> — hides jurisdictions where LIHTC 60% AMI 2BR ≥ 2BR FMR.
                   Uncheck to see all 482 places including rural rent-too-low jurisdictions.
+                </p>
+              </div>
+
+              <div class="lof-filter" data-mobile-collapse="true">
+                <label class="lof-check lof-check--standalone">
+                  <input type="checkbox" id="lofRequireDemand" checked>
+                  <span>9%: enough qualifying renters for 24 homes</span>
+                </label>
+                <p class="lof-filter-help">
+                  <strong>ON by default</strong> for the 9% target. Hides places where a 24-home building would need more than 85% of the
+                  qualifying renter households within 15 miles, the capture rate
+                  <a href="https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf" target="_blank" rel="noopener">CHFA's 2027–28 QAP</a>
+                  will not accept without more data (Section 2.B).
                 </p>
               </div>
             </div>
@@ -2181,9 +2194,9 @@
               <p style="margin:.4rem 0 0;">
                 <strong>Bottom line:</strong> negative capture is a warning, not a no-go.
                 CHFA still wants a project to lease up at the LIHTC ceiling — they require
-                a Project Market Analysis (PMA) by an approved analyst to verify achievable
-                rent. Use Capture as a screen; verify with a real market study (CHFA-approved
-                PMAs run ~$15K-40K) before committing to a deal in a low-FMR market.
+                a third-party market study with every application to verify achievable
+                rent. Use Capture as a screen; verify with a real market study before
+                committing to a deal in a low-FMR market.
               </p>
             </div>
           </div>
@@ -2213,15 +2226,17 @@
 
             <h4 style="margin:14px 0 4px;">4% Bond — population scale is the differentiator</h4>
             <p>
-              4% bond deals are non-competitive (you "buy your way in" via private-activity bonds),
-              so saturation matters less. The usual problem for a 4% deal is <strong>too few units to carry
+              4% bond deals skip CHFA's 9% scoring round, so saturation matters less, but bond cap is
+              still rationed: CHFA's 2026 4% PAB fund held $125 million, took one project per applicant
+              and capped the bond share of each deal
+              (<a href="https://www.chfainfo.com/getattachment/2794e07d-d166-446c-b37d-56d7ed3cb5e2/CHFA-2026-PAB-StakeholderOutreachSession-12042025.pdf" target="_blank" rel="noopener">CHFA, Dec 2025</a>). The usual problem for a 4% deal is <strong>too few units to carry
               the bond costs.</strong> Bonds carry fixed costs (issuance fees, trustees, legal,
               ongoing compliance) that only pencil at 100+ units; smaller deals can't carry that
               overhead. A 60-unit 4% bond deal in a 1,500-person town typically doesn't work; the
               same project on 9% credits often does. Population is therefore the dominant factor.
-              Civic readiness matters more than for 9% because the local jurisdiction has to
-              <em>issue</em> the private-activity bonds — they need an active housing finance
-              authority or a willing partner.
+              Civic readiness matters more than for 9% because local bond cap often fills the gap:
+              CHFA's fund is limited, and a town or county with its own allocation (or a housing
+              authority willing to issue) can commit or transfer cap to the deal.
               <br><strong>Heaviest: Population (30%) + Need (25%) + Civic (18%)</strong>
             </p>
 
@@ -2257,8 +2272,9 @@
             <h4 style="margin:14px 0 4px;">Prop 123 Local — civic readiness IS the gate</h4>
             <p>
               Proposition 123 (approved by voters in 2022; C.R.S. 29-32) created two state-funded affordable-housing programs that
-              require local jurisdictions to <em>commit</em> to a 3% annual baseline expansion of
-              affordable housing stock before they can access state dollars. Without the
+              require local jurisdictions to <em>commit</em> to growing their affordable housing stock
+              before they can access state dollars: 3% a year in the first cycle, and from 2027 a target
+              tied to recent housing permits and job growth (HB26-1313). Without the
               commitment, no Prop 123 deal happens — full stop. So the differentiator isn't need or
               market size, it's <strong>"has this jurisdiction done the local-policy work to
               unlock the state funding stack?"</strong> Prop 123 ✓, comp plan ✓, housing lead ✓,

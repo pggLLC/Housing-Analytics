@@ -184,7 +184,7 @@ function dom(url) {
   const capture = lof.marketCaptureFacts({ lihtc60ami2br: 1669, fmr2br: 1437, captureAdvantage: -232, tableYear: 2026 });
   ok(/deeper units lease but carry less debt/.test(capture), 'capture facts point to the 15-year check');
   const src = read('js/lihtc-opportunity-finder.js');
-  ok(/loadSoft\('data\/policy\/lihtc-underwriting-rules\.json'\)\s*\n\s*\]\)\.then/.test(src) && /rules: parts\[31\]/.test(src), 'the rules file is the last load and is read as parts[31]');
+  ok(/loadSoft\('data\/policy\/lihtc-underwriting-rules\.json'\),\s*\n(?:\s*\/\/[^\n]*\n)*\s*loadSoft\('data\/policy\/chfa-common-app-tables\.json'\)\s*\n\s*\]\)\.then/.test(src) && /rules: parts\[31\]/.test(src) && /_chfaLocationIndex\(parts\[32\]\)/.test(src), 'the rules file is load 31, read as parts[31]; the CHFA tables follow as parts[32]');
 }
 
 // ------------------------------------------------------------------ 6. dev-context

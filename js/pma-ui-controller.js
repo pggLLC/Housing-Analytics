@@ -280,6 +280,16 @@
           if (_sc && _sc.fips) countyFips = _sc.fips;
         } catch (_) {}
       }
+      // Last resort: the county most of the market area's tracts sit in.
+      if (!countyFips && pmaResult) {
+        var _ids = pmaResult._tractIds || pmaResult.tractGeoids || [];
+        var _n = {};
+        _ids.forEach(function (g) {
+          var f = String(g || '').slice(0, 5);
+          if (/^08\d{3}$/.test(f)) _n[f] = (_n[f] || 0) + 1;
+        });
+        Object.keys(_n).forEach(function (f) { if (!countyFips || _n[f] > _n[countyFips]) countyFips = f; });
+      }
     }
     if (countyFips) {
       dealInputs.geoid = countyFips;

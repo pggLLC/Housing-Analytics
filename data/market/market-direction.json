@@ -548,15 +548,15 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 4,
+    "projects": 5,
     "homes": 121,
-    "projects_without_homes": 0,
+    "projects_without_homes": 1,
     "multi_county_projects": 0,
     "by_stage": {
      "funded": {
-      "projects": 3,
+      "projects": 4,
       "homes": 110,
-      "projects_without_homes": 0
+      "projects_without_homes": 1
      },
      "land_funded": {
       "projects": 1,
@@ -3409,15 +3409,15 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 5,
-    "homes": 143,
-    "projects_without_homes": 0,
+    "projects": 8,
+    "homes": 263,
+    "projects_without_homes": 2,
     "multi_county_projects": 0,
     "by_stage": {
      "funded": {
-      "projects": 4,
-      "homes": 116,
-      "projects_without_homes": 0
+      "projects": 7,
+      "homes": 236,
+      "projects_without_homes": 2
      },
      "land_funded": {
       "projects": 1,
@@ -4164,14 +4164,14 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 4,
-    "homes": 97,
+    "projects": 5,
+    "homes": 100,
     "projects_without_homes": 0,
     "multi_county_projects": 0,
     "by_stage": {
      "funded": {
-      "projects": 3,
-      "homes": 27,
+      "projects": 4,
+      "homes": 30,
       "projects_without_homes": 0
      },
      "applied": {
@@ -12409,9 +12409,9 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 2,
-    "homes": 85,
-    "projects_without_homes": 0
+    "projects": 4,
+    "homes": 205,
+    "projects_without_homes": 1
    }
   },
   "0822145": {
@@ -17323,9 +17323,9 @@
    },
    "affordable_activity": {
     "since": 2023,
-    "projects": 1,
+    "projects": 2,
     "homes": 6,
-    "projects_without_homes": 0
+    "projects_without_homes": 1
    }
   },
   "0838590": {
@@ -20187,7 +20187,12 @@
     "change_pct": null,
     "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
    },
-   "affordable_activity": null
+   "affordable_activity": {
+    "since": 2023,
+    "projects": 1,
+    "homes": 3,
+    "projects_without_homes": 0
+   }
   },
   "0848445": {
    "name": "Manitou Springs (city)",

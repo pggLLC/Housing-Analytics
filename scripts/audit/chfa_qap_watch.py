@@ -89,6 +89,10 @@ PAGES = [
     ('qap', 'https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan'),
     ('dates', 'https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192'),
     ('hearing', 'https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing'),
+    # The application files: the Common Application workbook (2027 V9 carries the
+    # credit caps, cost basis limits, DDA flags and location-scoring tables), the
+    # narratives and the checklists. A new version is a new or changed document.
+    ('application', 'https://www.chfainfo.com/rental-housing/housing-credit/application'),
 ]
 
 USER_AGENT = 'HousingAnalytics/1.0 (+https://cohoanalytics.com) chfa_qap_watch.py'
@@ -293,6 +297,9 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
     prev_pages = {p['id']: p for p in previous.get('source_pages', [])}
     prev_docs = {d['url']: d for d in previous.get('documents', [])}
     baseline = not prev_docs
+    # A page watched for the first time lists documents that are new to this file,
+    # not new on CHFA's site: record them as that page's baseline, unreported.
+    new_page_ids = {page_id for page_id, _ in pages if page_id not in prev_pages}
 
     failures, page_out, docs_seen = [], [], {}
     for page_id, url in pages:
@@ -374,6 +381,8 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         if retry:
             if 'key_lines' in doc:
                 now_readable.append({'url': url, 'title': doc['title'], 'key_lines': doc['key_lines'][:MAX_DIFF_LINES]})
+            continue
+        if not prev and all(p in new_page_ids for p in found_on):
             continue
         if not prev:
             new_docs.append({'url': url, 'title': doc['title'], 'key_lines': doc.get('key_lines', [])[:MAX_DIFF_LINES],

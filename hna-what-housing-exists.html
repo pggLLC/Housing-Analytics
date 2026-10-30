@@ -139,6 +139,8 @@
   <script src="js/components/tax-abatement.js"></script>
   <script src="js/components/chfa-award-history.js"></script>
   <script defer src="js/components/place-deals-limits.js"></script>
+  <script defer src="js/hna/hna-market-call.js"></script>
+  <script defer src="js/components/state-housing-laws.js"></script>
   <script src="js/components/qap-calendar.js"></script>
   <script src="js/components/resort-wfh.js"></script>
   <script src="js/components/second-homes-panel.js"></script>
@@ -151,7 +153,7 @@
   <!-- chart-fix: re-renders charts when <details> sections open or containers become visible -->
   <script defer src="js/chart-fix.js"></script>
   <!-- PDF export (client-side) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script defer src="js/vendor/html2canvas-pro.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <!-- F168 — ExcelJS for native Excel chart export (Download Excel button). -->
   <script defer src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
@@ -578,6 +580,9 @@
              prevents the "the chat answer said $95K but the HNA shows $80K"
              confusion. Hydrated alongside the snapshot. -->
         <div id="hnaMhiAmiMount" style="margin:.4rem 0 .65rem"></div>
+
+        <!-- State housing laws for the picked place, led by the SB24-174 HNA deadline (js/components/state-housing-laws.js). -->
+        <div id="stateLawsMount" data-state-laws></div>
 
         <div class="stats" aria-label="Headline indicators">
           <div class="stat"><div class="k">Population</div><div class="v" id="statPop">—</div><div id="statPopYoy" class="yoy"></div><div class="s" id="statPopSrc">—</div></div>

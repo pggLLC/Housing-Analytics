@@ -343,11 +343,12 @@
               + 'nothing to show until you pick one. You\'ll come straight back here.';
       actionUrl   = STEP_URLS[priorKey];
       var here = STEP_URLS[currentStep];
-      // The needs assessment opens on statewide figures, so "nothing to show"
-      // is false there: say what is on screen instead.
+      // The needs assessment waits for a pick (#2536) and also offers State of
+      // Colorado, so name that choice rather than a statewide view it no longer shows.
       if (currentStep === 'hsa') {
-        heading = 'Showing statewide figures';
-        body    = 'Pick a county or town to see its own numbers. You\'ll come straight back here.';
+        heading = 'Pick a place to see its numbers';
+        body    = 'Choose a county, a town, or State of Colorado and this page fills in. '
+                + 'You\'ll come straight back here.';
       }
       if (priorKey === 'jurisdiction' && here) {
         actionUrl += (actionUrl.indexOf('?') === -1 ? '?' : '&')

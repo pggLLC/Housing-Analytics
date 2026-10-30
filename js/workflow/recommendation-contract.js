@@ -501,7 +501,10 @@
     { key: 'hsa', label: 'Housing needs assessment', href: 'hna-what-housing-exists.html',
       fields: [['population', 'Population'], ['medianRent', 'Median rent'], ['costBurden', 'Cost burden']] },
     { key: 'market', label: 'Market analysis', href: 'market-analysis.html',
-      fields: [['score', 'Site score'], ['label', 'Tier']] },
+      // Market Analysis saves the PMA score as pmaScore and its tier word as
+      // pmaTier. This step once read score/label, which no page writes, so a
+      // run analysis was quoted with no figures.
+      fields: [['pmaScore', 'PMA score'], ['pmaTier', 'Tier']] },
     { key: 'scenario', label: 'Scenarios', href: 'hna-scenario-builder.html',
       fields: [['county', 'County']] },
     // Rental and ownership saves carry different fields, and each is quoted
@@ -532,6 +535,15 @@
     }, source);
   }
 
+  // A project step saved under another jurisdiction describes that place, not
+  // this one. Steps saved before the stamp existed carry no savedForGeoid and
+  // are read as before, since nothing says where they were saved.
+  function savedElsewhere(project, step, data) {
+    if (PROJECT_STEPS.indexOf(step.key) === -1 || !data.savedForGeoid) return false;
+    var current = project && project.jurisdiction && project.jurisdiction.geoid;
+    return !!current && String(current) !== String(data.savedForGeoid);
+  }
+
   function projectRecord(project) {
     return STEPS.map(function (step) {
       var data = project && (project[step.key] || (project.steps && project.steps[step.key]));
@@ -544,6 +556,7 @@
       var mode = null;
       var note = null;
       var pairs = step.fields || [];
+      var stale = savedElsewhere(project, step, data);
       if (step.fieldsByMode) {
         mode = data.dealMode === 'ownership' || data.dealMode === 'rental' ? data.dealMode : null;
         if (mode) {
@@ -556,6 +569,12 @@
           note = 'Saved before the calculator recorded whether this was a rental or an '
             + 'ownership deal, so its figures are not quoted. Reopen the step and save again.';
         }
+      }
+      if (stale) {
+        pairs = [];
+        note = 'Saved for ' + (data.savedForName || 'another jurisdiction')
+          + ', before the jurisdiction changed, so its figures are not quoted here. '
+          + 'Reopen the step and save it for this place.';
       }
       var fields = pairs.map(function (pair) {
         var value = dig(data, pair[0]);
@@ -571,8 +590,9 @@
       if (step.fieldsByMode) {
         record.mode = mode;
         if (mode) record.label = step.label + ' \u2014 ' + MODE_LABEL[mode];
-        if (note) record.note = note;
       }
+      if (note) record.note = note;
+      if (stale) record.savedElsewhere = true;
       return record;
     });
   }
@@ -630,7 +650,8 @@
       .concat([transitConclusion(tz, deal && deal.mode)]);
     var head = headline(conclusions, digest.geography.name);
     var notRun = project.filter(function (step) {
-      return PROJECT_STEPS.indexOf(step.key) !== -1 && step.status === 'not_run';
+      // A step saved for another place does not cover this project either.
+      return PROJECT_STEPS.indexOf(step.key) !== -1 && (step.status === 'not_run' || step.savedElsewhere);
     }).map(function (step) { return step.label; });
     if (notRun.length) {
       var list = notRun.join(', ');

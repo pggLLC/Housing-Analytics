@@ -195,6 +195,7 @@
     var links;
     if (door === 'rent') {
       links = [
+        { label: 'Rent help, eviction help and vouchers (English y español)', href: 'housing-help.html' },
         { label: 'Free housing help line: Colorado Housing Connects, 1-844-926-6632', href: 'https://coloradohousingconnects.org/', external: true },
         { label: 'Search income-restricted rentals: ColoradoHousingSearch.com', href: 'https://www.coloradohousingsearch.com/', external: true },
         { label: 'Thinking about buying? Help for homebuyers', href: 'help-for-homebuyers.html' }
@@ -204,7 +205,7 @@
     } else if (door === 'build') {
       links = [
         { label: 'Where tax-credit housing scores well: Opportunity Finder', href: 'lihtc-opportunity-finder.html' },
-        { label: 'Test a project: Deal Calculator', href: 'deal-calculator.html' + (isPlace ? '?geoid=' + entry.geoid : '') },
+        { label: 'Test a project: Deal Calculator', href: 'deal-calculator.html' + (entry && /^08\d{3}(\d{2})?$/.test(entry.geoid || '') ? '?geoid=' + entry.geoid : '') },
         { label: 'Funding programs that fit', href: 'colorado-deep-dive.html#tab-funding' },
         report
       ];

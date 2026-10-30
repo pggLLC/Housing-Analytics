@@ -88,6 +88,7 @@ const JS_FILES = [
     'js/vendor/leaflet.js',
     'js/vendor/leaflet.css',
     'js/vendor/topojson.v3.min.js',
+    'js/vendor/html2canvas-pro.min.js',
 ];
 
 for (const f of JS_FILES) {

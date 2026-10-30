@@ -2,7 +2,7 @@
   "schema": "local-support/v1",
   "meta": {
     "title": "Colorado local support for affordable housing: adopted plans and council / planning commission record",
-    "as_of": "2026-10-10",
+    "as_of": "2026-10-29",
     "method": "Curated, not a feed. One row per jurisdiction whose official sources were read for two scopes: plans (an adopted housing needs assessment, housing plan or strategy, or comprehensive-plan housing goals that set affordable-housing goals or targets) and council (recorded votes by the governing body or planning commission specifically on income-restricted, affordable or workforce housing: project approvals, rezonings, land contributions, funding awards, fee waivers, policy adoptions, and denials). Each item was read from the jurisdiction's own site, agenda/minutes system, code or DOLA, the text saved, and every evidence quote checked by exact substring match against the saved text (whitespace collapsed). A date the source gives only as a month or year is kept at that precision and scored as its earliest possible day. A vote count the source does not state is null. result_by_scope is records, none_found (the named sources were read and hold nothing in scope) or unreadable (blocked, a scan with no text, or a dead link). A jurisdiction with no row has not been checked, which is not the same as having nothing.",
     "scoring": "js/local-support-data.js turns this file, data/policy/fee-reductions.json and data/policy/local-housing-funds.json into the Opportunity Finder's local support bonus: +2 for an adopted plan within 5 years, +2 for a standing fee reduction, land-use incentive (other than inclusionary zoning) or dedicated fund, +2 for a recorded approval within 36 months; at most +6. Unchecked adds 0 and so changes nothing. Denials are shown in the briefs and not scored. A row past review_by stops counting until it is re-checked.",
     "known_gaps": [
@@ -250,6 +250,152 @@
         }
       ],
       "review_by": "2027-04-10"
+    },
+    {
+      "geoid": "0805265",
+      "jurisdiction": "Town of Bayfield",
+      "checked": "2026-10-29",
+      "result_by_scope": {
+        "plans": "records",
+        "council": "records"
+      },
+      "sources_checked": [
+        "Town of Bayfield, Plan Bayfield: 2023 Comprehensive Plan Update (copy from the Town of Bayfield)",
+        "Town of Bayfield, Resolution 608 (20 Feb 2024) (copy from the Town of Bayfield)",
+        "Town of Bayfield, Resolution 674 (2 Jun 2026) (copy from the Town of Bayfield)",
+        "Town of Bayfield, Resolution 640 (Year 2025 Utility Relief Fund) (copy from the Town of Bayfield)",
+        "Town of Bayfield, Building Permit Fee Schedule, Resolution 566 (copy from the Town of Bayfield)",
+        "Town of Bayfield, Resolution 639 Exhibit B fee schedule (copy from the Town of Bayfield; a scan with no readable text)",
+        "Regional Housing Alliance of La Plata County, board packet of 12 Mar 2026 (copy provided to us)",
+        "bayfieldgov.org (HTTP 403, Cloudflare challenge to automated reads; documents obtained from the Town site in a browser)"
+      ],
+      "note": "The Town's website blocks automated reads, so these documents were saved from the Town of Bayfield's site in a browser and their links were not recorded; each source names the Town document and points to the Town site. Only the resolutions and plan named here were read, not every Board agenda since 2023. Resolutions 608 and 674 are signed scans with no text layer; their quotes are from a transcription of the scan. Resolution 640 is utility-bill relief for LEAP households, not a development measure, and is not recorded. The DOLA Prop 123 fast-track (Ordinance 512) is not recorded here: the commitment factor scores it.",
+      "items": [
+        {
+          "id": "ls-bayfield-comp-plan-2023",
+          "kind": "plan",
+          "type": "comp_plan_housing",
+          "body": "Board of Trustees",
+          "title": "Plan Bayfield: 2023 Comprehensive Plan Update (ratified by Resolution 598)",
+          "date": "2023-11-21",
+          "outcome": "adopted",
+          "vote": null,
+          "affordable_detail": "Its Goal 6 asks the Town to create an Affordable and Workforce Housing Incentive Program; the plan states the Town needs 14 more affordable units by the end of 2026, from a baseline of 157.",
+          "source": {
+            "label": "Town of Bayfield, Plan Bayfield: 2023 Comprehensive Plan Update (copy from the Town of Bayfield; document link not recorded)",
+            "url": "https://www.bayfieldgov.org/"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-29"
+          },
+          "evidence": [
+            {
+              "section": "Page footer",
+              "quote": "2023 Bayfield Comprehensive Plan Update",
+              "source_file": "approved_2023_comprehensive_plan_update.pdf.txt"
+            },
+            {
+              "section": "Cover",
+              "quote": "Ratified by the Bayfield Board of Trustees on 11/21/23 through Resolution 598",
+              "source_file": "approved_2023_comprehensive_plan_update.pdf.txt"
+            },
+            {
+              "section": "p. 22",
+              "quote": "At the time the commitment was due, the Town of Bayfield had 157 affordable units. Therefore, the Town needs to provide 14 additional affordable units by the end of 2026.",
+              "source_file": "approved_2023_comprehensive_plan_update.pdf.txt"
+            },
+            {
+              "section": "Goal 6",
+              "quote": "Create an Affordable and Workforce Housing Incentive Program to encourage developers to build",
+              "source_file": "approved_2023_comprehensive_plan_update.pdf.txt"
+            },
+            {
+              "section": "Goal 6",
+              "quote": "GOAL 6: DEVELOP HOUSING OPTIONS FOR ALL INCOME LEVELS.",
+              "source_file": "approved_2023_comprehensive_plan_update.pdf.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-bayfield-res608-pine-river-commons",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "Board of Trustees",
+          "title": "Resolution 608 supporting the More Housing Now (EIAF) infrastructure grant request for the Pine River Commons deed restricted housing project",
+          "date": "2024-02-20",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "The Town applies for and manages a state infrastructure grant for Pine River Commons, a planned 66 deed restricted homes.",
+          "source": {
+            "label": "Town of Bayfield, Resolution 608 (20 Feb 2024) (copy from the Town of Bayfield; document link not recorded)",
+            "url": "https://www.bayfieldgov.org/"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-29"
+          },
+          "evidence": [
+            {
+              "section": "Heading",
+              "quote": "RESOLUTION 608 A RESOLUTION OF THE BOARD OF TRUSTEES FOR THE TOWN OF BAYFIELD SUPPORTING THE MORE HOUSING NOW PUBLIC INFRASTRUCTURE GRANT REQUEST",
+              "source_file": "resolution_608_more_housing_now_grant_infrastruture_eiaf_for_pine_river_commons.txt"
+            },
+            {
+              "section": "Section 1",
+              "quote": "to submit the grant application, and gives her the authority to sign all contracts moving forward for the More Housing Now Grant for the Pine River Commons deed restricted project.",
+              "source_file": "resolution_608_more_housing_now_grant_infrastruture_eiaf_for_pine_river_commons.txt"
+            },
+            {
+              "section": "Recitals",
+              "quote": "is supportive of the planned unit development project that will include 66 deed restricted housing units and commercial uses for the Town.",
+              "source_file": "resolution_608_more_housing_now_grant_infrastruture_eiaf_for_pine_river_commons.txt"
+            },
+            {
+              "section": "Adoption",
+              "quote": "PASSED, APPROVED, and ADOPTED this 20th day of February 2024",
+              "source_file": "resolution_608_more_housing_now_grant_infrastruture_eiaf_for_pine_river_commons.txt"
+            }
+          ]
+        },
+        {
+          "id": "ls-bayfield-res674-cinnamon-heights",
+          "kind": "action",
+          "type": "funding_award",
+          "body": "Board of Trustees",
+          "title": "Resolution 674 granting signatory authority for the $2,000,000 Transformational Affordable Housing grant for the Cinnamon Heights deed-restricted housing project",
+          "date": "2026-06-02",
+          "outcome": "approved",
+          "vote": null,
+          "affordable_detail": "State grant of $2,000,000 to the Town for infrastructure, driveways, landscaping and part of the tap fees for the Cinnamon Heights deed-restricted homes.",
+          "source": {
+            "label": "Town of Bayfield, Resolution 674 (2 Jun 2026) (copy from the Town of Bayfield; document link not recorded)",
+            "url": "https://www.bayfieldgov.org/"
+          },
+          "verification": {
+            "level": "primary",
+            "checked": "2026-10-29"
+          },
+          "evidence": [
+            {
+              "section": "Heading",
+              "quote": "RESOLUTION 674 A RESOLUTION OF THE BOARD OF TRUSTEES FOR THE TOWN OF BAYFIELD GRANTING SIGNATORY AUTHORITY TO THE TOWN MANAGER",
+              "source_file": "resolution_674_a_resolution_granting_signatory_authority_to_town_manager_for_cinnamon_heights.txt"
+            },
+            {
+              "section": "Recitals",
+              "quote": "Town staff received $2,000,000 of funding to install the infrastructure, driveways, landscaping and cover a portion of the Plant Investment Fees (PIFs/Tap Fees) for the Cinnamon Heights Deed-Restricted housing project",
+              "source_file": "resolution_674_a_resolution_granting_signatory_authority_to_town_manager_for_cinnamon_heights.txt"
+            },
+            {
+              "section": "Adoption",
+              "quote": "INTRODUCED, READ AND PASSED AS A RESOLUTION at a meeting of the Town of Bayfield Board of Trustees on the 2nd day of June, 2026.",
+              "source_file": "resolution_674_a_resolution_granting_signatory_authority_to_town_manager_for_cinnamon_heights.txt"
+            }
+          ]
+        }
+      ],
+      "review_by": "2027-04-28"
     },
     {
       "geoid": "08097",

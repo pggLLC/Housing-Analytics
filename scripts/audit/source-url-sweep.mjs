@@ -112,6 +112,10 @@ const ALLOW_LIST = new Set([
   "https://cdola.colorado.gov/commitment-filings",
   "https://cdola.colorado.gov/housing",
   "https://cdola.colorado.gov/prop123",
+  // DOLA releases cited by southwest awards in dola-awards.json. cdola.colorado.gov
+  // answers CI with 404; both read live through a web reader 2026-10-30.
+  "https://cdola.colorado.gov/press-release/more-than-17-million-has-been-granted-by-the-department-of-local-affairs-to-support",
+  "https://cdola.colorado.gov/press-release/the-department-of-local-affairs-awards-over-31m-in-second-round-of-the",
   // DOLA's Prop 123 law and fast-track guidance pages, cited by the HNA
   // compliance section. Same cdola.colorado.gov CI blocking as the entries
   // above; both returned 200 to the 2026-10-18 Prop 123 legal check.
@@ -178,6 +182,15 @@ const ALLOW_LIST = new Set([
   // user-agents (Akamai bot protection). Real browsers reach the home
   // page fine — verified manually 2026-05-15.
   "https://www.jchs.harvard.edu/",
+  // Town of Bayfield serves a Cloudflare challenge to every non-browser
+  // client (403, cf-mitigated: challenge), from CI and from a home Mac alike.
+  // Its documents are cited to the Town site; verified in a browser 2026-10-29.
+  "https://www.bayfieldgov.org/",
+  // SAGE (AERA Open) and the LODES 2023 primary-jobs file answer 403 to non-browser clients;
+  // both verified in a browser 2026-10-29 (cited on commuting.html and in commute-strength.json).
+  "https://doi.org/10.1177/23328584241287792",
+  "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT01_2023.csv.gz",
+  "https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz",
   // Novoco LIHTC mapping tool subpath — same 403 bot-protection as
   // other novoco.com pages already in the list above.
   "https://www.novoco.com/resource-centers/low-income-housing-tax-credits/lihtc-mapping-tool",
