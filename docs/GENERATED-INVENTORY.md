@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T13:28:42.582Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T17:18:43.710Z. Do not edit by hand.
 
 ---
 
@@ -315,7 +315,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 298.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 299.8 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -2091,7 +2091,7 @@
 | `test/audit-modules/audit-status.js` | 4.1 KB |
 | `test/audit-modules/data-integrity.js` | 20.4 KB |
 | `test/audit-modules/link-check.js` | 3.4 KB |
-| `test/audit-modules/logic-validation.js` | 14.2 KB |
+| `test/audit-modules/logic-validation.js` | 15.7 KB |
 | `test/audit-modules/operations-status.js` | 21.3 KB |
 | `test/audit-modules/pr-progress.js` | 11.2 KB |
 | `test/audit-modules/repo-health.js` | 31.0 KB |
@@ -2152,7 +2152,7 @@
 | `test/daily-audit-operations.test.js` | 26.1 KB |
 | `test/daily-audit-pr-progress.test.js` | 15.0 KB |
 | `test/daily-audit-repo-health.test.js` | 37.7 KB |
-| `test/daily-audit-signal.test.js` | 17.4 KB |
+| `test/daily-audit-signal.test.js` | 18.2 KB |
 | `test/daily-audit-system.js` | 20.7 KB |
 | `test/data-commits-queue.test.js` | 12.9 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
