@@ -2867,7 +2867,7 @@
    * @param {GeoJSON.FeatureCollection} data - with `unavailableReason` set (or
    *   null) when the tracts could not be loaded; membership is then unknown.
    */
-  function renderQctLayer(data) {
+  function renderQctLayer(data, placeCtx) {
     if (S().qctLayer) { S().qctLayer.remove(); S().qctLayer = null; }
 
     const unavailableReason = !data ? 'no QCT data returned' : (data.unavailableReason || null);
@@ -2875,7 +2875,22 @@
     const countEl  = S().els && S().els.statQctCount;
     // Unknown is not zero: a count of 0 would tell a developer the county has
     // no basis-boost tracts.
-    if (countEl) countEl.textContent = unavailableReason ? 'Unavailable' : features.length;
+    const subEl = countEl && countEl.parentElement && countEl.parentElement.querySelector('.s');
+    const isPlace = placeCtx && (placeCtx.type === 'place' || placeCtx.type === 'cdp');
+    if (countEl && unavailableReason) {
+      countEl.textContent = 'Unavailable';
+      if (subEl) subEl.textContent = 'HUD annual list';
+    } else if (countEl && isPlace && placeCtx.tracts) {
+      // A town's count is the QCTs among its own tracts; the county total
+      // goes in the note so the two are never confused.
+      const own = features.filter(f => placeCtx.tracts.has(String((f.properties || {}).GEOID || ''))).length;
+      const placeLabel = String(placeCtx.name || 'this place').replace(/\s*\((?:town|city|CDP)\)\s*$/i, '').trim();
+      countEl.textContent = own;
+      if (subEl) subEl.textContent = 'in ' + placeLabel + ' · ' + features.length + ' county-wide';
+    } else if (countEl) {
+      countEl.textContent = features.length;
+      if (subEl) subEl.textContent = isPlace ? 'county-wide (tract match unavailable)' : 'HUD annual list';
+    }
     _markOverlayToggle(S().els && S().els.layerQct, 'QCT boundaries', unavailableReason);
     if (unavailableReason) {
       console.warn('[HNA] QCT boundaries unavailable:', unavailableReason);

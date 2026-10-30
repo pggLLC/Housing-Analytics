@@ -1262,7 +1262,27 @@
     HUD: 'HUD LIHTC database (ArcGIS)',
   };
 
-  async function updateLihtcOverlays(countyFips5, geoType, geoLabel){
+  // Tracts that meaningfully overlap a place, by the same rule the LIHTC
+  // opportunity finder uses (over 5% of the place or 20% of the tract), so a
+  // sliver of a neighbouring tract does not claim its QCT. Null when unknown.
+  let _placeMembership = null;
+  async function placeQctTracts(geoid){
+    try {
+      if (!_placeMembership) _placeMembership = loadJson('data/hna/place-tract-membership.json');
+      const m = await _placeMembership;
+      const entry = m && m.places && m.places[geoid];
+      if (!entry || !Array.isArray(entry.tracts)) return null;
+      return new Set(entry.tracts
+        .filter(t => (+t.share_of_place_area || 0) > 0.05 || (+t.share_of_tract_area || 0) > 0.20)
+        .map(t => t.tract_geoid));
+    } catch (e) {
+      _placeMembership = null;
+      console.warn('[HNA] place tract membership unavailable', e);
+      return null;
+    }
+  }
+
+  async function updateLihtcOverlays(countyFips5, geoType, geoLabel, geoid){
     // Increment the sequence counter. Any in-flight request for an older county
     // will see that its requestSeq no longer matches and will discard its result.
     const requestSeq = ++window.HNAState._lihtcRequestSeq;
@@ -1309,7 +1329,14 @@
       const qctData = await fetchQctTracts(countyFips5);
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
       if (qctData) {
-        window.HNARenderers.renderQctLayer(qctData);
+        // A town is credited only with QCTs among its own tracts, not the
+        // county's whole list (Fruita has none; Mesa County has 5).
+        let placeTracts = null;
+        if ((geoType === 'place' || geoType === 'cdp') && geoid) {
+          placeTracts = await placeQctTracts(geoid);
+          if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
+        }
+        window.HNARenderers.renderQctLayer(qctData, { type: geoType, name: geoLabel, tracts: placeTracts });
       } else {
         if (window.HNAState.els.statQctCount) window.HNAState.els.statQctCount.textContent = '—';
       }
@@ -5052,7 +5079,7 @@
     });
 
     // LIHTC / QCT / DDA overlays (non-blocking; state FIPS '08' for statewide, county FIPS otherwise)
-    updateLihtcOverlays(geoType === 'state' ? '08' : contextCounty, geoType, label).catch(e => console.warn('[HNA] LIHTC overlay error', e));
+    updateLihtcOverlays(geoType === 'state' ? '08' : contextCounty, geoType, label, geoid).catch(e => console.warn('[HNA] LIHTC overlay error', e));
 
     // HUD FMR & Income Limits panel (non-blocking)
     // For county, place, and CDP show county-level FMR; for state-level show a prompt.

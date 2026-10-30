@@ -180,6 +180,16 @@ function checkRenderers() {
   assert.strictEqual($('statQctCount').textContent, '0', 'a loaded county with no QCTs shows 0');
   assert.strictEqual(toggleNote($, 'layerQct'), null, 'the unavailable note must clear once QCT data loads');
 
+  // A town counts only the QCTs among its own tracts, never the county's list
+  // (Fruita has none of Mesa County's 5).
+  const mesa = { type: 'FeatureCollection', features: ['08077000500', '08077001706'].map(g => ({ type: 'Feature', properties: { GEOID: g }, geometry: null })) };
+  R.renderQctLayer(mesa, { type: 'place', name: 'Fruita (city)', tracts: new Set(['08077001504', '08077001503']) });
+  assert.strictEqual($('statQctCount').textContent, '0', "a town is not credited with the county's QCTs");
+  R.renderQctLayer(mesa, { type: 'place', name: 'Grand Junction (city)', tracts: new Set(['08077000500']) });
+  assert.strictEqual($('statQctCount').textContent, '1', "a town counts the QCTs among its own tracts");
+  R.renderQctLayer(mesa, { type: 'county', name: 'Mesa County' });
+  assert.strictEqual($('statQctCount').textContent, '2', 'a county counts all its QCTs');
+
   R.renderDdaLayer('08031', none, { type: 'county', name: 'Denver County' });
   assert.strictEqual($('statDdaStatus').textContent, 'Non-DDA', 'a loaded county with no DDA shows Non-DDA');
   assert.strictEqual(toggleNote($, 'layerDda'), null, 'the unavailable note must clear once DDA data loads');
