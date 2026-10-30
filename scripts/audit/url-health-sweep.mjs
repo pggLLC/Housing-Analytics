@@ -97,6 +97,8 @@ const ALLOW_LIST = new Set([
   // Same CBS 406 to CI; verified live 2026-10-21 (200 with a browser UA);
   // cited by data/deals/grove-at-cottonwood-broomfield.json.
   'https://www.cbsnews.com/colorado/news/new-neuro-diverse-affordable-housing-broomfield',
+  // CBS 406 to CI; verified live 2026-10-30; cited by the neuro-inclusive housing brief.
+  'https://www.cbsnews.com/colorado/news/nonprofit-castle-rock-hotel-housing-adults-intellectual-developmental-disabilities',
   // cited by data/deals/harvest-hill-broomfield.json; verified live 2026-10-21.
   'https://www.cbsnews.com/colorado/news/harvest-hill-broomfield-groundbreaking-affordable-housing/',
   // Kittle Property Group answers non-browser clients with a 307 loop; verified
