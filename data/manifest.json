@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-30T13:04:10.404397Z",
+  "generated": "2026-10-30T13:26:07.950329Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -1164,7 +1164,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1261543
+      "bytes": 1289346
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -9909,7 +9909,7 @@
     "data/reports/developer-url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21196
+      "bytes": 21189
     },
     "data/reports/repo-link-audit.json": {
       "featureCount": 0,
