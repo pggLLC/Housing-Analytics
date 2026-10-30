@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-30T02:05:03.578553Z",
+  "generated": "2026-10-30T02:30:46.092863Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1019035
+      "bytes": 1019676
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8980,6 +8980,11 @@
       "featureCount": 926,
       "placeholder": false,
       "bytes": 1815872
+    },
+    "data/market/hud_s8_contracts_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 192632
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,

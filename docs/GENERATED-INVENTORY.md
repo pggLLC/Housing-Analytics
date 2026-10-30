@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T02:04:33.487Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T02:29:59.700Z. Do not edit by hand.
 
 ---
 
@@ -79,7 +79,7 @@
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 48.7 KB |
-| `preservation.html` | Preservation Inventory | COHO Analytics | 16.3 KB |
+| `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
 | `regional.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
@@ -96,7 +96,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1953 JSON files found.
+1954 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1875,6 +1875,7 @@
 | `data/market/fmr_co.json` | 22.2 KB | ✅ | — |
 | `data/market/fmr_tract_map_co.json` | 101.1 KB | ✅ | — |
 | `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
+| `data/market/hud_s8_contracts_co.json` | 188.1 KB | ✅ | — |
 | `data/market/hud_zip_tract_crosswalk_co.json` | 775.8 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lihtc-equity-pricing-history.json` | 5.4 KB | ✅ | — |
@@ -2058,7 +2059,7 @@
 
 ## Test Files
 
-737 test files found.
+738 test files found.
 
 | File | Size |
 |------|------|
@@ -2388,6 +2389,7 @@
 | `test/hud-fetch-hardening.test.py` | 2.8 KB |
 | `test/hud-home-rent-limits.test.js` | 3.2 KB |
 | `test/hud-lihtc-match.test.js` | 3.9 KB |
+| `test/hud-s8-contracts.test.js` | 5.0 KB |
 | `test/hud-vintage-labels-sync.test.mjs` | 5.1 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
 | `test/input-provenance.test.js` | 6.4 KB |

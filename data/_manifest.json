@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-30T02:05:00.779Z",
+    "generated_at": "2026-10-30T02:30:41.688Z",
     "root": "data/",
-    "file_count": 2000,
-    "total_size_bytes": 206728203,
+    "file_count": 2001,
+    "total_size_bytes": 206920835,
     "kinds": {
-      "json": 1952,
+      "json": 1953,
       "geojson": 34,
       "csv": 14
     }
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-30T02:04:57.929Z",
+      "mtime": "2026-10-30T02:30:37.376Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38962,6 +38962,34 @@
       "geometry_type": "Point"
     },
     {
+      "path": "market/hud_s8_contracts_co.json",
+      "kind": "json",
+      "size_bytes": 192632,
+      "mtime": "2026-10-30T02:28:40.742Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "contracts"
+      ],
+      "key_count": 2,
+      "primary_array_key": "contracts",
+      "primary_array_length": 348,
+      "primary_array_first_keys": [
+        "property_id",
+        "property_name",
+        "address",
+        "city",
+        "zip",
+        "county_fips",
+        "county_name",
+        "property_units",
+        "category",
+        "contract_number",
+        "status",
+        "program_group"
+      ]
+    },
+    {
       "path": "market/hud_zip_tract_crosswalk_co.json",
       "kind": "json",
       "size_bytes": 794427,
@@ -39796,7 +39824,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16091,
-      "mtime": "2026-10-30T02:04:59.310Z",
+      "mtime": "2026-10-30T02:30:39.520Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39820,7 +39848,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-30T02:04:58.950Z",
+      "mtime": "2026-10-30T02:30:38.967Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
