@@ -133,7 +133,7 @@
     <h1>Where Should I Build?</h1>
     <p>
       Every Colorado town, Census community and county, scored on what you care about: easy to build, incentives, land, need, rents,
-      recreation, jobs within reach, local commitment (a housing needs assessment, a written goal, a housing authority) and how local voters lean. Move a slider to change how much each one counts.
+      recreation, jobs within reach, workers commuting in (off unless you turn it up), local commitment (a housing needs assessment, a written goal, a housing authority) and how local voters lean. Move a slider to change how much each one counts.
     </p>
     <p>
       Each row says in one sentence why it scored what it did, and opens to show every factor, its points and its source.
@@ -273,10 +273,11 @@
     getJSON('data/policy/local-housing-funds.json'),
     getJSON('data/policy/incentive-coverage.json'),
     getJSON('data/policy/local-commitment.json'),
-    getJSON('data/policy/job-access.json')
+    getJSON('data/policy/job-access.json'),
+    getJSON('data/market/commute-strength.json')
   ]).then(function (d) {
     var docs = { ranking: d[0], prop123: d[1], awards: d[2], lbStatus: d[3], hud: d[4], context: d[5],
-      support: d[6], fees: d[7], funds: d[8], coverage: d[9], commitment: d[10], jobs: d[11] };
+      support: d[6], fees: d[7], funds: d[8], coverage: d[9], commitment: d[10], jobs: d[11], commute: d[12] };
     if (!docs.ranking) throw new Error('the HNA ranking could not be loaded');
     var model = W.build(docs, TODAY);
     var trackerLoad = null; // one Deal Tracker load per page view, shared by every render
@@ -443,11 +444,15 @@
       var flg = p.flags.length ? '<p><strong>Red flags</strong></p><ul>' + p.flags.map(function (g) {
         return '<li>' + esc(g.date) + ': ' + (g.url ? '<a href="' + esc(g.url) + '" target="_blank" rel="noopener">' + esc(g.text) + '</a>' : esc(g.text)) + ' (−15)</li>';
       }).join('') + '</ul>' : '';
+      // The commute figure is a reading on every row, even while its slider is at 0.
+      var cin = p.factors.commuteIn;
+      var cinOff = s.parts.some(function (x) { return x.id === 'commuteIn' && x.weight === 0; });
+      var cinLine = cinOff && cin && cin.points != null ? '<p class="ib-sub" data-commute-reading>Workforce commuting in (not counted until you turn it up): ' + esc(cin.value) + '.</p>' : '';
       return '<details class="ib-why"><summary>Show the ' + s.nFactors + ' factors</summary>' +
         '<table data-no-sort><thead><tr><th data-tip="What is measured, linked to its source">Factor</th><th data-tip="The figure or record behind the points">What we found</th>' +
         '<th class="num" data-tip="Points by the rule in How the score works">Points</th><th class="num" data-tip="Your slider for the group, split evenly across its factors">Weight</th></tr></thead><tbody>' + rows + '</tbody></table>' +
         '<p class="ib-sub">' + s.base + ' from factors' + (s.signalPoints ? ' + ' + s.signalPoints + ' signals' : '') + (s.flagPoints ? ' − ' + s.flagPoints + ' red flags' : '') + ' = ' + s.exact + (s.exact !== s.score ? ', shown as ' + s.score : '') + '.</p>' +
-        sig + flg + '</details>';
+        cinLine + sig + flg + '</details>';
     }
 
     function renderMethods(docs) {
@@ -468,6 +473,7 @@
         presVote: 'certified 2024 results, read ' + asOf(docs.context && docs.context.meta && docs.context.meta.votes_retrieved),
         hna: commitSrc('dola') + '; town and county documents read ' + commitSrc('research'),
         planGoal: 'plans read ' + commitSrc('research'),
+        commuteIn: 'LODES ' + (docs.commute && docs.commute.meta ? docs.commute.meta.lodes_year + ', built ' + asOf(docs.commute.meta.generated) : 'file not loaded'),
         jobAccess: 'LODES ' + (docs.jobs && docs.jobs.meta ? docs.jobs.meta.lodes_year + ', drive times ' + asOf(docs.jobs.meta.generated) : 'file not loaded'),
         authority: 'HUD file as of ' + commitSrc('hud') + '; ' + (cms.deals ? cms.deals.count + ' CHFA award summaries' : 'award summaries not loaded')
       };

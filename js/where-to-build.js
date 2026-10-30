@@ -24,6 +24,7 @@
  *   context   data/policy/where-to-build-context.json (county votes, parks)
  *   commitment data/policy/local-commitment.json (HNAs, written goals, housing authorities)
  *   jobs      data/policy/job-access.json (jobs within a 30-minute drive, where residents work)
+ *   commute   data/market/commute-strength.json (lower-paid workers driving 20-60 miles in)
  *   support, fees, funds, coverage   read through js/local-support-data.js
  *
  * No DOM, no fetch, no clock: the caller passes `today`, so the page and the
@@ -68,6 +69,9 @@
     // Job access is a fact about the place itself. Commuters stay in the need score of the town where they work.
     { id: 'jobs', label: 'Jobs within reach', weight: 1, factors: ['jobAccess'],
       tip: 'Jobs within a 30-minute drive, the town\'s own included. Off in the smaller-town preset, so remote towns are not marked down.' },
+    // The mirror of job access: it rewards the town where workers drive in to, so it ships at 0 (paul 2026-10-30).
+    { id: 'commute', label: 'Workforce commuting in', weight: 0, factors: ['commuteIn'],
+      tip: 'The share of a town\'s jobs held by lower-paid workers who drive 20 to 60 miles in. Off unless you turn it up, because it pulls against jobs within reach.' },
     { id: 'commit', label: 'Local commitment', weight: 3, factors: ['hna', 'planGoal', 'authority'],
       tip: 'A current housing needs assessment, a written affordable-housing goal in an adopted plan, and a housing authority with a record of partnering on deals.' },
     { id: 'vote', label: 'Voters backed housing money', weight: 2, factors: ['prop123Vote'],
@@ -77,9 +81,9 @@
   ];
 
   var PRESETS = {
-    mix: { label: 'Balanced', weights: { build: 4, money: 4, land: 3, need: 3, rents: 2, rec: 2, jobs: 1, commit: 3, vote: 2, lean: 0 } },
-    rural9: { label: '9% in a smaller town', weights: { build: 3, money: 3, land: 4, need: 4, rents: 2, rec: 1, jobs: 0, commit: 3, vote: 1, lean: 0 } },
-    metro4: { label: '4% bond deal in a metro', weights: { build: 3, money: 5, land: 2, need: 3, rents: 4, rec: 2, jobs: 1, commit: 3, vote: 1, lean: 0 } }
+    mix: { label: 'Balanced', weights: { build: 4, money: 4, land: 3, need: 3, rents: 2, rec: 2, jobs: 1, commute: 0, commit: 3, vote: 2, lean: 0 } },
+    rural9: { label: '9% in a smaller town', weights: { build: 3, money: 3, land: 4, need: 4, rents: 2, rec: 1, jobs: 0, commute: 0, commit: 3, vote: 1, lean: 0 } },
+    metro4: { label: '4% bond deal in a metro', weights: { build: 3, money: 5, land: 2, need: 3, rents: 4, rec: 2, jobs: 1, commute: 0, commit: 3, vote: 1, lean: 0 } }
   };
 
   var SRC = {
@@ -94,6 +98,7 @@
     hnaList: { label: 'DOLA approved housing needs assessments (SB24-174), and town and county documents read for top places', url: 'https://dlg.colorado.gov/housing-plans' },
     plans: { label: 'Adopted comprehensive, housing and strategic plans, read for top places (local-commitment.json)', url: 'data/policy/local-commitment.json' },
     jobs: { label: 'LEHD LODES 2023 jobs and commutes, with OSRM drive times on OpenStreetMap roads (job-access.json)', url: 'data/policy/job-access.json' },
+    commute: { label: 'LEHD LODES 2023 primary jobs, home block to work block (commute-strength.json)', url: 'data/market/commute-strength.json' },
     authorities: { label: 'HUD Picture of Subsidized Households (PHA file, 31 Dec 2025) and CHFA award party lists, 2022–2026', url: 'https://www.huduser.gov/portal/datasets/assthsg.html' }
   };
 
@@ -121,6 +126,8 @@
       rule: 'The HNA amenity access score (grocery, health care, schools, transit), 0 to 100, divided by 10.' },
     jobAccess: { label: 'Jobs within a 30-minute drive', source: SRC.jobs,
       rule: 'All jobs in Colorado (primary and secondary) within a 30-minute free-flow drive of where the town\'s working residents live, its own jobs included. 1,000 or fewer: 0; 100,000 or more: 10; each tenfold step adds 5 points (log scale). Counties: the population-weighted average of their towns. Where one other town employs 20% or more of its working residents (primary jobs, counting those who work in another state), the row says so, for context only (no points).' },
+    commuteIn: { label: 'Workforce commuting in', source: SRC.commute,
+      rule: 'Of the primary jobs in the place, the share held by workers paid $3,333 a month or less who live 20 to 60 straight-line miles away. 2% or less: 0; 20% or more: 10; straight line between. Trips of 60 miles or more are left out, because LODES puts some workers at a head office they do not drive to. Places with fewer than 500 primary jobs: not checked.' },
     hna: { label: 'Housing needs assessment', source: SRC.hnaList,
       rule: 'Its own assessment, dated within 5 years (DOLA-approved, or found on its website): 10. Covered only by a county or regional one: 6. One under way: 3. Its latest is older than 5 years: 2. A town or Census community inherits its county\'s assessment as a regional one. Not on DOLA\'s list and not read yet: not checked.' },
     planGoal: { label: 'Written affordable-housing goal', source: SRC.plans,
@@ -167,10 +174,10 @@
   // Files each factor rests on (the HNA ranking is required for any score at all).
   var NEEDS = { prop123: ['prop123'], approvals: ['support'], incentives: ['fees', 'coverage'], localFund: ['funds', 'coverage'],
     landBank: ['awards', 'lbStatus'], rentCushion: ['hud'], parks: ['context'], prop123Vote: ['context'], presVote: ['context'],
-    hna: ['commitment'], planGoal: ['commitment'], authority: ['commitment'], jobAccess: ['jobs'] };
+    hna: ['commitment'], planGoal: ['commitment'], authority: ['commitment'], jobAccess: ['jobs'], commuteIn: ['commute'] };
   var DOC_FILES = { prop123: 'prop123_jurisdictions.json', support: 'local-support.json', fees: 'fee-reductions.json', funds: 'local-housing-funds.json',
     coverage: 'incentive-coverage.json', awards: 'prop123-land-banking-awards.json', lbStatus: 'prop123-land-banking-status.json', hud: 'hud-fmr-income-limits.json', context: 'where-to-build-context.json',
-    commitment: 'local-commitment.json', jobs: 'job-access.json' };
+    commitment: 'local-commitment.json', jobs: 'job-access.json', commute: 'commute-strength.json' };
   // Status dates may be YYYY or YYYY-MM; read them as the earliest day they allow, so a signal never looks newer than its source.
   function fullDate(d) {
     d = String(d || '');
@@ -251,6 +258,7 @@
     });
 
     var jobs = docs.jobs || { places: {}, counties: {} };
+    var commute = docs.commute || { places: {}, counties: {} };
 
     var local = LSD ? LSD.build({ support: docs.support, fees: docs.fees, funds: docs.funds, coverage: docs.coverage }) : null;
     var coverage = {};
@@ -416,6 +424,7 @@
 
       // ---- Jobs within reach
       f.jobAccess = jobAccessFactor(r.type === 'county' ? (jobs.counties || {})[r.geoid] : (jobs.places || {})[r.geoid]);
+      f.commuteIn = commuteInFactor(r.type === 'county' ? (commute.counties || {})[r.geoid] : (commute.places || {})[r.geoid]);
 
       // ---- County votes
       var v1 = p123Votes[countyGeoid];
@@ -540,6 +549,16 @@
       good: 'many jobs within a 30-minute drive', weak: 'few jobs within a 30-minute drive' };
   }
 
+  var COMMUTE_MIN_JOBS = 500;
+
+  function commuteInFactor(c) {
+    if (!c || c.far_low == null || !(c.jobs >= COMMUTE_MIN_JOBS)) return { points: null, value: c ? 'Fewer than 500 primary jobs' : 'No figure' };
+    var share = c.far_low / c.jobs;
+    var pts = round1(clamp((share - 0.02) / 0.18 * 10, 0, 10));
+    return { points: pts, value: pct(share) + ' of ' + fmt(c.jobs) + ' jobs held by lower-paid workers driving 20 to 60 miles in',
+      good: 'many lower-paid workers driving in', weak: 'few lower-paid workers driving in' };
+  }
+
   function metricFactor(v, text, good, weak) {
     if (v == null || !Number.isFinite(Number(v))) return { points: null, value: 'No figure' };
     return { points: round1(clamp(Number(v) / 10, 0, 10)), value: text(Number(v)), good: good, weak: weak };
@@ -568,7 +587,7 @@
 
   // Groups added after shared links were already in circulation. A ?w= link that predates one
   // keeps that group at 0, so an old view scores as it did when it was shared.
-  var ADDED_LATER = ['jobs'];
+  var ADDED_LATER = ['jobs', 'commute'];
 
   /** Weights from a page link's ?w=build.4,money.4,... value (null or empty: the defaults). */
   function weightsFromQuery(q) {
