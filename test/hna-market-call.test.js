@@ -47,8 +47,9 @@ function load(src) {
   dom.window.eval(src);
   return dom.window.HnaMarketCall;
 }
-// The visible text: tags dropped, the five escapes the script writes decoded.
-const text = (html) => html.replace(/<[^>]*>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+// The visible text, as a browser reads it; one parser reused for every line.
+const textHost = new JSDOM('<!doctype html><body><p></p></body>').window.document.querySelector('p');
+const text = (html) => { textHost.innerHTML = html; return textHost.textContent; };
 const fmt = (n) => n.toLocaleString('en-US');
 
 function checks(api) {
