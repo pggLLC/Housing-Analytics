@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-30T02:47:14.254Z",
+    "generated_at": "2026-10-30T02:57:45.269Z",
     "root": "data/",
-    "file_count": 2001,
-    "total_size_bytes": 206941364,
+    "file_count": 2002,
+    "total_size_bytes": 206962763,
     "kinds": {
-      "json": 1953,
+      "json": 1954,
       "geojson": 34,
       "csv": 14
     }
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-30T02:47:11.610Z",
+      "mtime": "2026-10-30T02:57:42.240Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39823,8 +39823,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16091,
-      "mtime": "2026-10-30T02:47:12.969Z",
+      "size_bytes": 16089,
+      "mtime": "2026-10-30T02:57:43.574Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39848,7 +39848,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-30T02:47:12.631Z",
+      "mtime": "2026-10-30T02:57:43.220Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41670,8 +41670,8 @@
     {
       "path": "policy/chfa-2027-r1-scoring.json",
       "kind": "json",
-      "size_bytes": 19625,
-      "mtime": "2026-10-21T23:17:20.143Z",
+      "size_bytes": 19661,
+      "mtime": "2026-10-30T02:56:59.596Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41701,6 +41701,46 @@
         "page",
         "quote",
         "auto"
+      ]
+    },
+    {
+      "path": "policy/chfa-2027-r2-scoring.json",
+      "kind": "json",
+      "size_bytes": 21365,
+      "mtime": "2026-10-30T02:56:59.596Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "id",
+        "title",
+        "status",
+        "status_note",
+        "checked_at",
+        "review_by",
+        "source",
+        "round",
+        "minimum_score",
+        "primary_rule",
+        "discretion",
+        "targeting",
+        "eli_targeting"
+      ],
+      "key_count": 21,
+      "primary_array_key": "lines",
+      "primary_array_length": 17,
+      "primary_array_first_keys": [
+        "id",
+        "group",
+        "label",
+        "points",
+        "section",
+        "page",
+        "quote",
+        "auto",
+        "options",
+        "default",
+        "unconfirmed",
+        "quote_minimum"
       ]
     },
     {
