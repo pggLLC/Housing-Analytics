@@ -372,7 +372,14 @@ ok(model.places.some((p) => p.flags.length), 'recorded denials show as red flags
   const byName = (nm) => model.places.find((p) => p.name === nm);
   const wp = byName('Winter Park (town)'), bay = byName('Bayfield (town)');
   ok(wp && wp.factors.commuteIn.points === 10, `Winter Park, a job town workers drive into, scores 10 (${wp && wp.factors.commuteIn.points})`);
-  ok(/of [\d,]+ jobs held by lower-paid workers driving 20 to 60 miles in/.test(wp.factors.commuteIn.value), 'the row states the share and the job count');
+  // The reading carries the figures from the source file, whatever its wording.
+  for (const p of model.places) {
+    const c = p.type === 'county' ? docs.commute.counties[p.geoid] : docs.commute.places[p.geoid];
+    if (!c || c.jobs < 500) continue;
+    const v = p.factors.commuteIn.value;
+    const share = Math.round(c.far_low / c.jobs * 100) + '%', jobs = c.jobs.toLocaleString('en-US');
+    ok(v.includes(share) && v.includes(jobs), `${p.name}: the reading shows ${share} of ${jobs} jobs (${v})`);
+  }
   ok(model.places.filter((p) => p.factors.commuteIn.points != null).length > 200, 'more than 200 places have a figure');
   const up = { ...off, commute: 3 };
   ok(W.score(wp, up).parts.some((x) => x.id === 'commuteIn' && x.weight > 0), 'turning the slider up counts it');
