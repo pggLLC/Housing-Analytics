@@ -1331,12 +1331,17 @@
       if (qctData) {
         // A town is credited only with QCTs among its own tracts, not the
         // county's whole list (Fruita has none; Mesa County has 5).
-        let placeTracts = null;
+        // A town can reach into a second county (Aurora: Arapahoe and Adams),
+        // so its own count is taken from the statewide list, not the county's.
+        let placeTracts = null, stateQct = null;
         if ((geoType === 'place' || geoType === 'cdp') && geoid) {
           placeTracts = await placeQctTracts(geoid);
+          if (placeTracts) stateQct = await fetchQctTracts('08').catch(() => null);
           if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
+          if (!stateQct || stateQct.unavailableReason) placeTracts = null;
         }
-        window.HNARenderers.renderQctLayer(qctData, { type: geoType, name: geoLabel, tracts: placeTracts });
+        window.HNARenderers.renderQctLayer(qctData, { type: geoType, name: geoLabel, tracts: placeTracts,
+          allFeatures: stateQct && Array.isArray(stateQct.features) ? stateQct.features : null });
       } else {
         if (window.HNAState.els.statQctCount) window.HNAState.els.statQctCount.textContent = '—';
       }

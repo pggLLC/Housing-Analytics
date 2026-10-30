@@ -2883,7 +2883,7 @@
     } else if (countEl && isPlace && placeCtx.tracts) {
       // A town's count is the QCTs among its own tracts; the county total
       // goes in the note so the two are never confused.
-      const own = features.filter(f => placeCtx.tracts.has(String((f.properties || {}).GEOID || ''))).length;
+      const own = (placeCtx.allFeatures || features).filter(f => placeCtx.tracts.has(String((f.properties || {}).GEOID || ''))).length;
       const placeLabel = String(placeCtx.name || 'this place').replace(/\s*\((?:town|city|CDP)\)\s*$/i, '').trim();
       countEl.textContent = own;
       if (subEl) subEl.textContent = 'in ' + placeLabel + ' · ' + features.length + ' county-wide';
