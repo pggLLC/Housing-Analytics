@@ -85,3 +85,30 @@
 .hm-region.rg-6 { fill: var(--chart-6); }
 .hm-region.rg-7 { fill: var(--chart-7); }
 .hm-deal-link { font-size: var(--small); margin-left: var(--sp2); white-space: nowrap; }
+
+/* Projects funded for a picked county, town or developer: agency tiles, then a
+   small county map beside a sortable list of every award (stacks on phones). */
+.hm-projects { margin: var(--sp5) 0; scroll-margin-top: 80px; }
+.hm-projects h2:focus { outline: none; }
+.hm-inline-btn { min-height: 44px; margin-left: var(--sp1); }
+.hm-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--sp2); margin: var(--sp2) 0 var(--sp3); }
+.hm-tile { display: grid; gap: 2px; padding: 10px 12px; background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--tile-c, var(--accent)); border-radius: var(--radius-sm); }
+.hm-tile b { font-size: 1.1rem; font-variant-numeric: tabular-nums; color: var(--text-strong); }
+.hm-tile span { font-size: var(--tiny); color: var(--muted); }
+.hm-tile .hm-tile-k { font-weight: 700; color: var(--text-strong); font-size: var(--small); }
+.hm-tile.is-chfa { --tile-c: var(--chart-3); }
+.hm-tile.is-oedit { --tile-c: var(--chart-4); }
+.hm-tile.is-dola { --tile-c: var(--chart-1); }
+.hm-tile.is-homes { --tile-c: var(--text-strong); }
+.hm-proj-main { display: grid; grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); gap: var(--sp3); align-items: start; }
+.hm-proj-side { position: sticky; top: 80px; }
+.hm-proj-map { display: block; width: 100%; height: auto; }
+.hm-proj-map path { stroke: var(--card); stroke-width: 0.8; }
+.hm-proj-map path[data-hm-pcounty] { cursor: pointer; }
+.hm-proj-map path[aria-pressed="true"], .hm-proj-map path.is-picked, .hm-proj-map path:focus { outline: none; stroke: var(--text-strong); stroke-width: 2.5; }
+.hm-proj th[scope="row"] { font-weight: 400; min-width: 11em; }
+.hm-proj th[scope="row"] a, .hm-proj td a { color: var(--link, var(--accent)); }
+@media (max-width: 860px) {
+  .hm-proj-main { grid-template-columns: 1fr; }
+  .hm-proj-side { position: static; max-width: 420px; }
+}
