@@ -32,6 +32,7 @@
   <script defer src="js/home-jurisdiction-search.js"></script>
   <script defer src="js/components/jurisdiction-select-search.js"></script>
   <script defer src="js/preservation.js"></script>
+  <script defer src="js/components/hud-contract-expiry.js"></script>
   <style>
     /* ── Layout ──────────────────────────────────────────────── */
     .pres-header {
@@ -238,6 +239,7 @@
         the City and County of Denver, USDA and HUD.
         <span id="presDataTimestamp">Copy of the CHFA map layer retrieved September 2026. CHFA updates its own portfolio annually and partner data at staggered intervals.</span>
         <strong>The map layer lists each property's name, address, city, ZIP code and total units. It does not list subsidy type or expiration dates; verify current affordability restrictions with CHFA.</strong>
+        HUD's end dates for federal rent subsidy contracts are <a href="#hudContracts">further down this page</a>.
       </p>
       <p id="presCoverage" role="status">Loading the CHFA preservation inventory…</p>
     </div>
@@ -356,9 +358,14 @@
       </table>
     </div>
 
+    <section id="hudContracts" class="pres-chart-section" aria-labelledby="hudContractsHeading">
+      <h2 id="hudContractsHeading">Federal rent subsidy contracts ending soon</h2>
+      <p>Loading HUD's contract list…</p>
+    </section>
+
     <p class="pres-footnote">
       Source: <a href="https://www.chfainfo.com/rental-housing/preservation" target="_blank" rel="noopener">Colorado Housing and Finance Authority, preservation map</a>.
-      For subsidy types and expiration dates, see the
+      HUD contract end dates above come from HUD's own database. For other subsidy types and expiration dates, see the
       <a href="https://preservationdatabase.org/" target="_blank" rel="noopener">National Housing Preservation Database (NHPD)</a>,
       a joint project of the National Low Income Housing Coalition and the Public and Affordable Housing Research Corporation (PAHRC),
       which requires registration, and HUD's
