@@ -1291,10 +1291,34 @@
     window._dcReadDealState = readDealState;
 
     /* ── Save to project ─────────────────────────────────────────────── */
+    // The calculator analyzes the county in its picker (and the URL's place
+    // for HUD inputs), which can differ from the workflow's place, e.g. after
+    // a Scenario Builder link for another county. The deal counts as this
+    // place's when both match the place or its county; otherwise it is
+    // recorded as saved for the geography actually analyzed.
+    function dealSaveGeography(j, urlGeoid, county, countyName) {
+      if (!j || !j.geoid) return null;
+      var here = [String(j.geoid)];
+      if (j.countyFips) here.push(String(j.countyFips));
+      var isState = String(j.geoid).length === 2;
+      var urlHere = !urlGeoid || here.indexOf(String(urlGeoid)) !== -1;
+      var countyHere = !county || isState || (!j.countyFips && String(j.geoid).length !== 5) || here.indexOf(String(county)) !== -1;
+      if (urlHere && countyHere) return { savedForGeoid: j.geoid, savedForName: j.displayName || j.name || null };
+      if (!urlHere) return { savedForGeoid: String(urlGeoid), savedForName: String(urlGeoid) === String(county) ? countyName || null : null };
+      return { savedForGeoid: String(county), savedForName: countyName || null };
+    }
+
     function saveDealToProject() {
       if (!window.WorkflowState) return false;
       try {
         var snapshot = readDealState();
+        var urlGeoid = null;
+        try { urlGeoid = new URLSearchParams(window.location.search).get('geoid'); } catch (_) {}
+        var countySel = document.getElementById('dc-county-select');
+        var countyName = countySel && countySel.selectedIndex >= 0 && countySel.options[countySel.selectedIndex] ? countySel.options[countySel.selectedIndex].text : null;
+        var where = dealSaveGeography(WorkflowState.getJurisdiction ? WorkflowState.getJurisdiction() : null,
+          urlGeoid, countySel ? countySel.value || null : null, countyName);
+        if (where) { snapshot.savedForGeoid = where.savedForGeoid; snapshot.savedForName = where.savedForName; }
         WorkflowState.setStep('deal', snapshot);
         // The Housing Outcome Score reads the saved deal step, so it is drawn again with this save's gap.
         if (window.HOSRenderer && typeof window.HOSRenderer.render === 'function') window.HOSRenderer.render();

@@ -535,6 +535,24 @@ test('no jurisdiction gives a usable page rather than an empty one', () => {
   assert.strictEqual(contract.conclusions.length, 0, 'conclusions were invented with no jurisdiction');
 });
 
+test('a deal saved for another county is stamped with the county the calculator analyzed', () => {
+  const html = read('deal-calculator.html');
+  const m = html.match(/function dealSaveGeography\([\s\S]*?\n    \}\n/);
+  assert.ok(m, 'deal-calculator.html has no dealSaveGeography');
+  assert.ok(/dealSaveGeography\(WorkflowState\.getJurisdiction/.test(html), 'saveDealToProject does not stamp its geography');
+  const geo = new Function(m[0] + '; return dealSaveGeography;')();
+  const denver = { geoid: '08031', countyFips: '08031', displayName: 'Denver County' };
+  const louisville = { geoid: '0846355', countyFips: '08013', displayName: 'Louisville' };
+  assert.deepStrictEqual(geo(denver, null, '08031', 'Denver County'), { savedForGeoid: '08031', savedForName: 'Denver County' });
+  assert.deepStrictEqual(geo(louisville, '0846355', '08013', 'Boulder County'), { savedForGeoid: '0846355', savedForName: 'Louisville' });
+  assert.deepStrictEqual(geo(denver, '08077', '08077', 'Mesa County'), { savedForGeoid: '08077', savedForName: 'Mesa County' },
+    'a Scenario Builder link for Mesa County was stamped as the Denver project');
+  assert.deepStrictEqual(geo(denver, null, '08077', 'Mesa County'), { savedForGeoid: '08077', savedForName: 'Mesa County' },
+    'a county picked in the calculator was stamped as the workflow place');
+  assert.strictEqual(geo({ geoid: '08', displayName: 'State of Colorado' }, null, '08077', 'Mesa County').savedForGeoid, '08');
+  assert.strictEqual(geo(null, '08077', '08077', 'Mesa County'), null);
+});
+
 console.log(failures === 0
   ? '  recommendation-leads-with-the-conclusion: PASS'
   : `  recommendation-leads-with-the-conclusion: FAIL (${failures})`);
