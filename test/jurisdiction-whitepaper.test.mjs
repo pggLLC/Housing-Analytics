@@ -497,6 +497,22 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   ok(/work in another town/.test(WP.renderHtml(bay)), 'a town record says town');
   const den = WP.buildModel(src, '08031', { FundingFit, today: '2026-10-29' });
   ok(den.workforce && den.workforce.commute && den.workforce.areas.length === 0 && !/Largest employers:/.test(WP.renderHtml(den)), 'an area without an employer table shows the commute reading only');
+  // The commuting line a market study documents (paul 2026-10-29, "add the commute line"): context only, never demand.
+  const ja = src.jobAccess.places['0805265'];
+  // The line agrees with the file (share, place, counts), whatever its wording.
+  const line = (h.match(/<p data-commute-line>[^<]*<\/p>/) || [''])[0];
+  ok(line.includes(Math.round(100 * ja.top_workplace.workers / ja.workers) + '%') && line.includes(ja.top_workplace.name), `Bayfield's report says where its residents work: ${line}`);
+  ok(line.includes(ja.workers.toLocaleString('en-US')) && line.includes(ja.top_workplace.workers.toLocaleString('en-US')) && line.includes(String(ja.workers_other_states)), 'the line prints the counts behind the share, other-state workers included');
+  const to = src.commute.places['0805265'].to.map((f) => f[0] + ' ' + f[1].toLocaleString('en-US')).join('; ');
+  ok(h.includes(to), 'a town lists where its residents work, with the counts from the file');
+  const mesaTo = (src.commute.counties['08077'].to || []).map((f) => f[0] + ' ' + f[1].toLocaleString('en-US')).join('; ');
+  ok(!mesaTo || !mesa.includes(mesaTo), 'a county does not list workplace towns');
+  // A town too small for a commute record still gets the line (Blue River: 45% work in Breckenridge).
+  const small = Object.entries(src.jobAccess.places).find(([g, j]) => !src.commute.places[g] && j.top_workplace && j.top_workplace.workers / j.workers >= 0.2);
+  ok(small && /data-commute-line/.test(WP.renderHtml(WP.buildModel(src, small[0], { FundingFit, today: '2026-10-29' }))), `a town without a commute record still gets the line (${small && small[0]})`);
+  ok(!/data-commute-line/.test(WP.renderHtml(WP.buildModel(src, '0822035', { FundingFit, today: '2026-10-29' }))), 'Durango has no line: no other town employs a fifth of its residents');
+  const noJa = clone(src); delete noJa.jobAccess;
+  ok(!/data-commute-line/.test(WP.renderHtml(WP.buildModel(noJa, '0805265', { FundingFit, today: '2026-10-29' }))), 'without the file the line is left out, not guessed');
 }
 
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);
