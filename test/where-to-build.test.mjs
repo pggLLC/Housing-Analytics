@@ -23,7 +23,8 @@ const docs = {
   funds: json('data/policy/local-housing-funds.json'),
   coverage: json('data/policy/incentive-coverage.json'),
   commitment: json('data/policy/local-commitment.json'),
-  jobs: json('data/policy/job-access.json')
+  jobs: json('data/policy/job-access.json'),
+  commute: json('data/market/commute-strength.json')
 };
 const model = W.build(docs, TODAY);
 
@@ -209,6 +210,13 @@ for (const [key, ids] of [['prop123', ['prop123']], ['awards', ['landBank']], ['
   const before = W.score(model.places[i]), after = W.score(m.places[i]);
   ok(after.checkedShare < before.checkedShare, `${key} missing lowers confidence instead of scoring zero`);
 }
+{
+  // Workforce commuting in ships at 0, so a missing file leaves it unchecked and moves no default score.
+  const m = W.build({ ...docs, commute: null }, TODAY);
+  ok(m.missing.length === 1 && m.missing[0] === 'commute-strength.json', 'commute missing is reported');
+  ok(m.places.every((p) => p.factors.commuteIn.points === null && /did not load/.test(p.factors.commuteIn.value)), 'commute missing: not checked');
+  ok(m.places.every((p, i) => W.score(p).score === W.score(model.places[i]).score), 'commute missing leaves every default score alone');
+}
 ok(model.missing.length === 0, 'every file loads in the test set');
 ok(page.includes('model.missing'), 'the page says which files did not load');
 
@@ -345,6 +353,33 @@ ok(model.places.some((p) => p.flags.length), 'recorded denials show as red flags
   ok(W.weightsFromQuery('build.4,money.4,land.3,need.3,rents.2,rec.2,commit.3,vote.2,lean.0').jobs === 0, 'an old Balanced link keeps job access off');
   ok(W.weightsFromQuery('jobs.3').jobs === 3 && W.weightsFromQuery(null).jobs === 1 && W.weightsFromQuery('').jobs === 1, 'a new link or no link uses the slider or the default');
   ok(page.includes('W.weightsFromQuery('), 'the page reads its link through weightsFromQuery');
+}
+// ---- Workforce commuting in (paul 2026-10-30: slider, off by default).
+{
+  const g = W.GROUPS.find((x) => x.id === 'commute');
+  ok(g && g.weight === 0 && g.factors.join() === 'commuteIn', 'the commute group exists and defaults to 0');
+  ok(['mix', 'rural9', 'metro4'].every((k) => W.PRESETS[k].weights.commute === 0), 'every preset keeps it at 0');
+  const off = W.defaultWeights();
+  const noCommute = W.build({ ...docs, commute: { places: {}, counties: {} } }, TODAY);
+  ok(model.places.every((p, i) => W.score(p, off).score === W.score(noCommute.places[i], off).score), 'shipped rankings do not move');
+  for (const p of model.places) {
+    const c = p.type === 'county' ? docs.commute.counties[p.geoid] : docs.commute.places[p.geoid];
+    const f = p.factors.commuteIn;
+    if (!c || c.jobs < 500) { ok(f.points === null, `${p.name}: no commute figure is not checked`); continue; }
+    const want = Math.round(Math.max(0, Math.min(10, (c.far_low / c.jobs - 0.02) / 0.18 * 10)) * 10) / 10;
+    ok(f.points === want, `${p.name}: commute ${f.points} follows the rule (${want})`);
+  }
+  const byName = (nm) => model.places.find((p) => p.name === nm);
+  const wp = byName('Winter Park (town)'), bay = byName('Bayfield (town)');
+  ok(wp && wp.factors.commuteIn.points === 10, `Winter Park, a job town workers drive into, scores 10 (${wp && wp.factors.commuteIn.points})`);
+  ok(/of [\d,]+ jobs held by lower-paid workers driving 20 to 60 miles in/.test(wp.factors.commuteIn.value), 'the row states the share and the job count');
+  ok(model.places.filter((p) => p.factors.commuteIn.points != null).length > 200, 'more than 200 places have a figure');
+  const up = { ...off, commute: 3 };
+  ok(W.score(wp, up).parts.some((x) => x.id === 'commuteIn' && x.weight > 0), 'turning the slider up counts it');
+  ok(W.weightsFromQuery('build.4,money.4,land.3,need.3,rents.2,rec.2,jobs.1,commit.3,vote.2,lean.0').commute === 0, 'an older link keeps it off');
+  ok(W.weightsFromQuery('commute.2').commute === 2, 'a link can turn it up');
+  ok(page.includes('data/market/commute-strength.json') && page.includes('data-commute-reading'), 'the page loads the file and shows the reading at weight 0');
+  ok(bay.factors.commuteIn.points != null, 'Bayfield has a figure');
 }
 // ---- The developer Methodology page's weight table matches the code, group by group.
 {
