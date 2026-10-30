@@ -27,8 +27,14 @@ ok(s.workers === Math.round(a.workers + 0.5 * b.workers), 'workers are weighted 
 const dur = (r) => (r.to.find((p) => p[0] === '0822035') || [0, 0])[1];
 ok(s.top[0].name === 'Durango (city)' && s.top[0].workers === Math.round(dur(a) + 0.5 * dur(b)), 'Durango leads for the Bayfield area');
 ok(s.otherStates === Math.round(a.other_states + 0.5 * b.other_states), 'other-state workers are weighted the same way');
+// The printed line agrees with the figures behind it (counts, places, shares, vintage), whatever its wording.
 const line = W.sentence(s);
-ok(/^About [\d,]+ working residents live in the market area: \d+% work in Durango \(city\), /.test(line) && /in another state/.test(line) && /LODES 2023, primary jobs/.test(line), `the line reads plainly: ${line}`);
+const pctOf = (x) => Math.round(x / s.workers * 100) + '%';
+ok(line.includes(s.workers.toLocaleString('en-US')), `the line prints the market area's working residents: ${line}`);
+for (const p of s.top) ok(line.includes(Math.round(p.share * 100) + '%') && line.includes(p.name) && line.indexOf(p.name) > line.indexOf(Math.round(p.share * 100) + '%'), `the line prints ${p.name} with its share`);
+ok(line.includes(pctOf(s.otherStates)), 'the line prints the other-state share');
+ok(line.includes(String(D.meta.lodes_year)), 'the line prints the LODES year');
+ok(s.top.every((p, i) => i === 0 || p.workers <= s.top[i - 1].workers), 'places are listed largest first');
 
 // ---- Missing data is said, not guessed.
 ok(W.summarize(null, [{ geoid: t1 }]) === null, 'no file, no figure');

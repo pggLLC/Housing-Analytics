@@ -947,6 +947,10 @@
 
   // Workers and employers: the commute reading for the place (or its county), the largest
   // employers printed for the county, and researched employer and housing partnership contacts.
+  // The commute line prints once one other town employs this share of a town's working residents,
+  // the same threshold Where Should I Build uses.
+  var TOP_WORKPLACE_SHOWN = 0.2;
+
   function workforceSection(row, src, countyFips) {
     var C = src.commute || null;
     var rec = C ? ((C.places || {})[row.geoid] || (C.counties || {})[row.geoid] || null) : null;
@@ -963,11 +967,12 @@
           url: safeHref(e.source_url), quote: e.source_quote || null, contacts: contacts });
       });
     });
-    if (!rec && !areas.length) return null;
     // The one other town that employs the most of the place's working residents (towns only).
     var ja = src.jobAccess && row.type !== 'county' ? (src.jobAccess.places || {})[row.geoid] : null;
     var top = ja && ja.top_workplace && ja.workers ? { name: ja.top_workplace.name, workers: ja.top_workplace.workers, of: ja.workers,
       otherStates: ja.workers_other_states || 0, year: (src.jobAccess.meta || {}).lodes_year || null } : null;
+    // A town too small for a commute record still gets its line when one other town employs a fifth or more.
+    if (!rec && !areas.length && !(top && top.workers / top.of >= TOP_WORKPLACE_SHOWN)) return null;
     return {
       topWorkplace: top,
       commute: rec ? { name: rec.name, jobs: rec.jobs, inCommuters: rec.in_commuters, far: rec.far, farLow: rec.far_low, long: rec.long,
@@ -1672,7 +1677,7 @@
     }
     var t = W.topWorkplace;
     // Printed once one other town employs a fifth or more, the same line Where Should I Build shows.
-    if (t && t.of && t.workers / t.of >= 0.2) {
+    if (t && t.of && t.workers / t.of >= TOP_WORKPLACE_SHOWN) {
       // The commuting line a market study documents (NCHMA v3.1, III.F.8). Context only: no demand is added.
       h += '<p data-commute-line>' + Math.round(100 * t.workers / t.of) + '% of ' + esc(m.name) + '\'s ' + fmtInt(t.of) + ' working residents (' + fmtInt(t.workers) + ') work in ' + esc(t.name) + '.' +
         (t.otherStates ? ' The total includes ' + fmtInt(t.otherStates) + ' who work in another state.' : '') + '</p>' +
