@@ -1006,7 +1006,7 @@
       "verified": "2026-10-30",
       "takeaway": "Housing for adults with intellectual and developmental disabilities (I/DD) works best as ordinary affordable homes with a share set aside and services paid separately by Medicaid. The building is the easier part. The hard part is the money for services, and Colorado is slowing new enrollments in its main disability waiver.",
       "summary": "CHFA calls this housing neuro-inclusive: designed for people with I/DD but open to everyone. In Colorado it is built in a few ways: a set-aside of homes in a tax-credit building, a group home, a community with staff on site around the clock, or a home a family buys. In every model the rent and the services are paid from different pots. Medicaid waivers pay for support but not for rent, and in provider-run homes the state caps what a resident can be charged for room and board at $810 a month in 2026. CHFA's draft 2027-28 plan gives fifteen points for setting aside at least 25 percent of homes for Special Populations, which include people with developmental and intellectual impairments.",
-      "implications": "Line up the service provider before the site. CHFA wants signed agreements with providers that have at least three years of experience, a services budget and a source of residents. Keep the I/DD homes to about a quarter of the building and spread them through it: federal Section 811 rental assistance allows no more than 25% of homes to serve people with disabilities, and Medicaid treats a setting that isolates people as institutional. Plan for transport, because most adults with I/DD do not drive. Use the developer-fee increase CHFA allows for Special Populations to fund services, because no Colorado program pays for a building-wide support desk.",
+      "implications": "Line up the service provider before the site. CHFA wants signed agreements with providers that have at least three years of experience, a services budget and a source of residents. Keep the I/DD homes to about a quarter of the building and spread them through it: in a building with federal Section 811 rental assistance, no more than 25% of homes may be set aside for, or give preference to, people with disabilities, and Medicaid treats a setting that isolates people as institutional. Plan for transport, because most adults with I/DD do not drive. Use the developer-fee increase CHFA allows for Special Populations to fund services, because no Colorado program pays for a building-wide support desk.",
       "related_data": "data/audit/chfa-qap-watch.json",
       "qap_document": "2027-28 QAP - Third Draft (PDF)",
       "qap_quotes": [
@@ -1037,6 +1037,10 @@
         {
           "section": "Developer fee",
           "quote": "The increase in developer fee must be committed to provide supportive services or a rental subsidy for such tenants"
+        },
+        {
+          "section": "Developer fee",
+          "quote": "A minimum of 15 percent of the total units in the project must be at or below 30 percent AMI"
         }
       ],
       "sections": [
@@ -1058,7 +1062,7 @@
           "items": [
             "At least 127,000 Coloradans with I/DD have asked for services, and 73% live with aging family caregivers (CHFA white paper, 2022).",
             "At least 20,000 live with a caregiver over 60. When that parent dies or falls ill, the adult child often has nowhere planned to go.",
-            "2,749 people are on the waiting list for the comprehensive (DD) waiver, the one that pays for support around the clock (HCPF, 2026).",
+            "2,749 people were waiting \"as soon as available\" for the comprehensive (DD) waiver, the one that pays for support around the clock, as of September 2025 (Joint Budget Committee staff, March 2026).",
             "Most rely on Supplemental Security Income, which pays at most $994 a month in 2026, so rent has to be deeply subsidized."
           ]
         },
@@ -1151,7 +1155,7 @@
           "items": [
             "Fifteen points for setting aside at least 25% of homes for Special Populations. CHFA may accept a smaller share where a federal or state rule limits the number of special needs homes, such as Section 811.",
             "To earn the points: a services plan, a services budget showing enough staff, signed agreements with providers that have at least three years of experience, evidence of where residents will come from, and design suited to the people served.",
-            "The developer fee can rise by up to 5%, pro-rated by the share of homes for Special Populations at or below 30% of area income. The extra fee must pay for services or rent help.",
+            "The developer fee can rise by up to 5%, pro-rated by the share of homes for Special Populations at or below 30% of area income, and only if at least 15% of all homes are at or below 30% of area income. The extra fee must pay for services or rent help.",
             "These are draft 2027-28 rules. They are not final until CHFA adopts the plan."
           ],
           "see_also": {
@@ -1166,7 +1170,7 @@
             "Grove at Cottonwood, Broomfield, held its grand opening in September 2026. Denver7 reported 10 residents moved in, 10 more preparing to move in and 20 homes still available.",
             "In Indiana, a quarter of the homes at SouthPointe Village in Fishers were set aside for residents with disabilities. Pre-leased homes were full before the grand opening, with a call list of more than 400 people (2021).",
             "Diamond View in South Bend, Indiana, has 60 homes, including 12 three-bedroom homes set aside for adults with I/DD, and space in the building for The Logan Center, a local disability agency (2024).",
-            "Indiana sets aside 10% of its tax credits each year for developments serving people with I/DD and brain injuries. Since 2018 that has produced 362 homes in 32 developments. Colorado has no such set-aside."
+            "Indiana's 2024 award entry reports that its then-current plan set aside 10% of its tax credits for developments serving people with I/DD and brain injuries, and that in the six years since 2018 the set-aside produced 362 homes in 32 developments. Colorado has no such set-aside."
           ],
           "see_also": {
             "text": "Read the Grove at Cottonwood deal summary.",
@@ -1184,7 +1188,7 @@
             "A tax-credit building's recorded agreement must forbid refusing a voucher holder because they hold a voucher (26 U.S.C. 42(h)(6)(B)(iv)).",
             "A set-aside is still allowed. Federal tax law says a tax-credit project keeps its general public use status when it favors tenants with special needs (26 U.S.C. 42(g)(9)).",
             "With project-based vouchers, the owner may prefer people who qualify for voluntary services offered at the building, including disability-specific services. The owner may advertise services for a particular disability, but may not limit the preference to a specific disability, and services must stay voluntary (24 CFR 983.251(d)).",
-            "Section 811 rental assistance may serve no more than 25% of a building's homes, and those homes must be spread through the building.",
+            "In a building with Section 811 rental assistance, no more than 25% of homes may be set aside for people with disabilities or carry a disability preference, counting other programs too. The homes must be spread through the building, and people with disabilities may still apply for every other home.",
             "Vouchers in group homes: federal rules allow a voucher in a state-approved group home of up to 12 residents. But a housing authority is not required to permit this unless a resident needs it as a reasonable accommodation (24 CFR 982.601 and 982.610)."
           ]
         },
@@ -1244,10 +1248,10 @@
           "date": "2026"
         },
         {
-          "title": "Developmental Disabilities Waiver waiting list: 2026 Joint Health and Human Services Committee hearing",
-          "source": "Colorado Department of Health Care Policy and Financing",
-          "link": "https://hcpf.colorado.gov/sites/hcpf/files/2026%20Joint%20House%20and%20Senate%20Health%20and%20Human%20Services%20Committee%20Hearing%20-%20DD%20WL.pdf",
-          "date": "2026"
+          "title": "Staff figure setting FY 2026-27: Health Care Policy and Financing, Office of Community Living",
+          "source": "Colorado Joint Budget Committee staff",
+          "link": "https://content.leg.colorado.gov/sites/default/files/FY2026-27_hcpfig3_0.pdf",
+          "date": "2026-03-12"
         },
         {
           "title": "IM 25-030: 2026 Room and Board and Personal Needs Allowance Changes",
@@ -1418,8 +1422,8 @@
           "quote": "Family created an LLC to purchase and renovate home. Up to three housemates pay below-market rent to LLC."
         },
         {
-          "link": "https://hcpf.colorado.gov/sites/hcpf/files/2026%20Joint%20House%20and%20Senate%20Health%20and%20Human%20Services%20Committee%20Hearing%20-%20DD%20WL.pdf",
-          "quote": "“As Soon As Available” DD Waiting List 2,749"
+          "link": "https://content.leg.colorado.gov/sites/default/files/FY2026-27_hcpfig3_0.pdf",
+          "quote": "As of September 2025, 2,749 individuals were identified as needing DD services as soon as available."
         },
         {
           "link": "https://hcpf.colorado.gov/sites/hcpf/files/HCPF%20IM%2025-030%202026%20Room%20and%20Board%20and%20Personal%20Needs%20Allowance%20Changes_0.pdf",
@@ -1511,7 +1515,7 @@
         },
         {
           "link": "https://www.ncsha.org/wp-content/uploads/Indiana-Special-Needs-Housing-Housing-for-Persons-with-Special-Needs-2024.pdf",
-          "quote": "10% of available annual Rental Housing Tax Credits (RHTC) were set aside for developments that commit to serving individuals with IDD and traumatic brain injuries ... IHCDA has seen 362 units established in 32 developments"
+          "quote": "10% of available annual Rental Housing Tax Credits (RHTC) were set aside for developments that commit to serving individuals with IDD and traumatic brain injuries ... Over the six years the set-aside has included IDD developments, IHCDA has seen 362 units established in 32 developments"
         },
         {
           "link": "https://www.ibj.com/articles/demand-swamps-units-at-new-disabled-housing-projects",
