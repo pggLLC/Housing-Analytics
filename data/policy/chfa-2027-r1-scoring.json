@@ -14,6 +14,8 @@
     "reading_note": "The draft is a redline. Quotes below are the clean reading: struck text removed, inserted text kept, read from the rendered PDF pages, not machine text."
   },
   "round": {
+    "id": "r1",
+    "federal": "9",
     "name": "2027 Round One",
     "credit": "federal 9% plus standard state credit",
     "loi_due": "2026-12-01",

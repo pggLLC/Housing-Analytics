@@ -90,7 +90,8 @@
   <nav id="devNav" class="ib-section-nav"></nav>
 
   <h1>Submittal review</h1>
-  <p class="dv-lede">Check a draft 2027 Round One (9%) application against CHFA's scoring, its required items, and the DOH or OEDIT gap-fund test before it goes in. Rules: <span id="srAsOf">…</span>. Letter of intent due 1 Dec 2026; application due 1 Feb 2027.</p>
+  <p id="srRoundNav" class="sr-muted"><strong aria-current="page">Round One (9%)</strong> · <a href="?round=r2">Round Two (4% with state credit)</a></p>
+  <p class="dv-lede"><span id="srLedeWhat">Check a draft 2027 Round One (9%) application against CHFA's scoring, its required items, and the DOH or OEDIT gap-fund test before it goes in.</span> Rules: <span id="srAsOf">…</span>. <span id="srLedeDates">Letter of intent due 1 Dec 2026; application due 1 Feb 2027.</span></p>
 
   <div id="srMain">
     <div id="srStats" class="rw-stats" aria-live="polite"></div>
@@ -141,6 +142,7 @@
           <label for="sr-election">Minimum set-aside election<select id="sr-election"><option value="20-50">20-50</option><option value="40-60" selected>40-60</option><option value="average-income">Average Income</option></select></label>
           <label for="sr-credits">Annual federal credit requested<input type="number" min="0" step="1000" inputmode="numeric" id="sr-credits"></label>
           <label for="sr-state-credits">Annual standard state credit requested (blank if none)<input type="number" min="0" step="1000" inputmode="numeric" id="sr-state-credits"></label>
+          <label for="sr-state-standard" hidden>Annual paired standard state credit (blank if none)<input type="number" min="0" step="1000" inputmode="numeric" id="sr-state-standard"></label>
           <label for="sr-other-credits">Federal credit in your other active applications (0 if none)<input type="number" min="0" step="1000" inputmode="numeric" id="sr-other-credits"></label>
         </div>
         <label class="sr-check"><input type="checkbox" id="sr-supportive"> Supportive housing application</label>
