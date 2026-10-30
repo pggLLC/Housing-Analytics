@@ -104,6 +104,16 @@ jobs:
           COHO_REQUIRE_PAGE_DATES: '1'
         run: node scripts/build-public-site.mjs
 
+      # Which commit the live site is serving, at cohoanalytics.com/version.json.
+      # A walkthrough or tester round records it, so feedback can be tied to the
+      # exact version people saw (docs/walkthroughs/TEMPLATE.md). The repo is
+      # public, so the commit id is not a secret.
+      - name: Write site version
+        run: |
+          printf '{\n  "commit": "%s",\n  "short": "%s",\n  "built_at": "%s"\n}\n' \
+            "$GITHUB_SHA" "${GITHUB_SHA:0:7}" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > dist/version.json
+          cat dist/version.json
+
       - name: Guard public site artifact
         run: node scripts/audit/public-artifact-guard.mjs dist
 
