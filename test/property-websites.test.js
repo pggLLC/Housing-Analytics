@@ -64,12 +64,14 @@ function dom(html, files) {
   assert.equal(ready, 1, 'announces the links once loaded');
   const PL = w.PropertyLookup;
   const usda = byId.get('usda-rd:0');
+  // Read the bar's hrefs as parsed links and compare whole URLs.
+  const hrefs = html => { const el = w.document.createElement('div'); el.innerHTML = html; return [...el.querySelectorAll('a')].map(a => a.href); };
   const bar = PL.htmlFor(usda);
-  assert.ok(bar.includes(sites.entries['usda-rd:0'].url.replace(/&/g, '&amp;')), 'USDA record links to its county list');
+  assert.ok(hrefs(bar).includes(sites.entries['usda-rd:0'].url), 'USDA record links to its county list');
   assert.match(bar, /USDA listing/);
   assert.doesNotMatch(bar, />Website</, 'a USDA list is not called the property website');
   const girard = byId.get('hud-mf:800222637');
-  assert.ok(PL.htmlFor(girard).includes('https://www.voacolorado.org/locations/girard-place-apartments/'), 'confirmed page shows');
+  assert.ok(hrefs(PL.htmlFor(girard)).includes(sites.entries['hud-mf:800222637'].url), 'confirmed page shows');
   assert.match(PL.htmlFor(girard), />Website</);
   // A renumbered record with another name never borrows the link.
   assert.equal(PL.websiteFor(Object.assign({}, girard, { property_name: 'Some Other Place' })), null);
