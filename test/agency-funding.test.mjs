@@ -160,6 +160,7 @@ ok(fl.left.every((n) => n.agency in M.AGENCIES), 'every program node belongs to 
 ok(drawn.every((a) => M.programOf(a) !== null), 'every drawn award falls in a program group');
 ok(M.programOf({ agency: 'DOLA', program: 'HOME (federal)' }).key === 'dola-federal', 'HOME (federal) is a federal grant, not a homeownership program');
 ok(M.programOf({ agency: 'DOLA', program: 'Prop 123 homeownership (AHOP)' }).key === 'dola-123', 'AHOP is the Prop 123 support fund');
+ok(M.programOf({ agency: 'DOLA', program: 'DLG incentive grant (HB21-1271)' }).key === 'dola-local', 'a Division of Local Government grant is not a Division of Housing program');
 const boulder = M.flows([{ agency: 'CHFA', program: 'LIHTC 9% + state', homes: 10, countyFips: '08013' }, { agency: 'OEDIT', program: 'Prop 123 Modular Finance', homes: 5, countyFips: null }], regionOf);
 ok(boulder.right.map((r) => r.key).join() === 'Front Range,_none', 'a county lands in its region and no county lands in "No single county printed", last');
 

@@ -112,6 +112,10 @@ const ALLOW_LIST = new Set([
   "https://cdola.colorado.gov/commitment-filings",
   "https://cdola.colorado.gov/housing",
   "https://cdola.colorado.gov/prop123",
+  // DOLA releases cited by southwest awards in dola-awards.json. cdola.colorado.gov
+  // answers CI with 404; both read live through a web reader 2026-10-30.
+  "https://cdola.colorado.gov/press-release/more-than-17-million-has-been-granted-by-the-department-of-local-affairs-to-support",
+  "https://cdola.colorado.gov/press-release/the-department-of-local-affairs-awards-over-31m-in-second-round-of-the",
   // DOLA's Prop 123 law and fast-track guidance pages, cited by the HNA
   // compliance section. Same cdola.colorado.gov CI blocking as the entries
   // above; both returned 200 to the 2026-10-18 Prop 123 legal check.
