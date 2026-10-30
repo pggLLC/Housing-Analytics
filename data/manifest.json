@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-30T14:01:07.099016Z",
+  "generated": "2026-10-30T14:04:37.356132Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -1124,7 +1124,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 305724
+      "bytes": 306959
     },
     "data/entitled-land/findings.json": {
       "featureCount": 0,

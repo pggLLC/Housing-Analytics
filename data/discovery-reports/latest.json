@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-10-29T14:13:21.751Z",
-  "totalScanned": 2001,
-  "newSourceCount": 1970,
+  "scanTimestamp": "2026-10-30T14:04:32.122Z",
+  "totalScanned": 2009,
+  "newSourceCount": 1978,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1017133,
+      "sizeBytes": 1021280,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -97,6 +97,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/affordable-housing/property-websites.json",
+      "sizeBytes": 31932,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/affordable-housing/regrid-parcels-by-place.json",
       "sizeBytes": 4086,
       "inDataManifest": false,
@@ -104,13 +110,13 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 1079998,
+      "sizeBytes": 1157440,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 31203,
+      "sizeBytes": 32897,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -146,7 +152,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 661447,
+      "sizeBytes": 662992,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1244,7 +1250,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 305264,
+      "sizeBytes": 305724,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10573,6 +10579,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/commute-strength.json",
+      "sizeBytes": 144494,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/commuting_co.geojson",
       "sizeBytes": 582520,
       "inDataManifest": false,
@@ -10592,7 +10604,7 @@
     },
     {
       "path": "data/market/development-activity.json",
-      "sizeBytes": 1173862,
+      "sizeBytes": 1185097,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10705,6 +10717,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/hud_s8_contracts_co.json",
+      "sizeBytes": 192632,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/hud_zip_tract_crosswalk_co.json",
       "sizeBytes": 794427,
       "inDataManifest": false,
@@ -10748,7 +10766,7 @@
     },
     {
       "path": "data/market/market-direction.json",
-      "sizeBytes": 774483,
+      "sizeBytes": 774573,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10789,6 +10807,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/principal-employers.json",
+      "sizeBytes": 22141,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/qct_dda_designations_co.json",
       "sizeBytes": 480,
       "inDataManifest": false,
@@ -10819,6 +10843,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/relocation-comparables.json",
+      "sizeBytes": 4495,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/schools_co.geojson",
       "sizeBytes": 1243277,
       "inDataManifest": false,
@@ -10833,6 +10863,12 @@
     {
       "path": "data/market/tax-credit-transfer-pricing.json",
       "sizeBytes": 5491,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/tract-workplaces.json",
+      "sizeBytes": 1952269,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10922,7 +10958,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 16091,
+      "sizeBytes": 16088,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11348,7 +11384,13 @@
     },
     {
       "path": "data/policy/chfa-2027-r1-scoring.json",
-      "sizeBytes": 19625,
+      "sizeBytes": 19661,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/chfa-2027-r2-scoring.json",
+      "sizeBytes": 21365,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11426,7 +11468,7 @@
     },
     {
       "path": "data/policy/funding-awards/dola-awards.json",
-      "sizeBytes": 331326,
+      "sizeBytes": 340402,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11480,7 +11522,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 178935,
+      "sizeBytes": 178072,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11511,6 +11553,12 @@
     {
       "path": "data/policy/jchs-state-of-nations-housing.json",
       "sizeBytes": 4353,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/job-access.json",
+      "sizeBytes": 106756,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11570,7 +11618,7 @@
     },
     {
       "path": "data/policy/methodology-version.json",
-      "sizeBytes": 6455,
+      "sizeBytes": 6534,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11678,7 +11726,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 442612,
+      "sizeBytes": 455888,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11696,13 +11744,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20487,
+      "sizeBytes": 20449,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 189931,
+      "sizeBytes": 192152,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11756,7 +11804,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 21196,
+      "sizeBytes": 21189,
       "inDataManifest": false,
       "inFilesManifest": true
     },
