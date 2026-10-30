@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T04:05:47.179Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T04:34:58.296Z. Do not edit by hand.
 
 ---
 
@@ -56,7 +56,7 @@
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.3 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.7 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 139.4 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 177.0 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 176.9 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.6 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 138.0 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
@@ -70,10 +70,10 @@
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.3 KB |
 | `lihtc-allocations.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | COHO Analytics | 17.3 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 75.0 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.1 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 75.2 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 153.8 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 153.9 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 81.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
