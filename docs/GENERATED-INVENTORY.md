@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T11:14:34.851Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T12:52:28.926Z. Do not edit by hand.
 
 ---
 
@@ -96,7 +96,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1956 JSON files found.
+1957 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -115,13 +115,14 @@
 | `data/affordable-housing/properties-manifest.json` | 118 B | ✅ | — |
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
+| `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 1.10 MB | ✅ | — |
 | `data/alerts/brief-news-queue.json` | 32.1 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.84 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 645.9 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 647.5 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 545 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -2038,7 +2039,7 @@
 | `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 185.5 KB | ✅ | — |
+| `data/polymarket-history.json` | 187.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2061,7 +2062,7 @@
 
 ## Test Files
 
-741 test files found.
+742 test files found.
 
 | File | Size |
 |------|------|
@@ -2561,6 +2562,7 @@
 | `test/prop123-legal-claims.test.js` | 9.4 KB |
 | `test/prop123-rental-rules.test.js` | 7.0 KB |
 | `test/prop123.test.js` | 12.9 KB |
+| `test/property-websites.test.js` | 5.6 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
 | `test/public-build-metadata.test.mjs` | 9.3 KB |
 | `test/public-config-no-secrets.test.js` | 4.8 KB |

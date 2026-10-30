@@ -1,55 +1,55 @@
 {
-  "generated_from_commit": "4b9a2c2d9",
+  "generated_from_commit": "8da514763",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-30",
-    "total_commits": 9054,
+    "total_commits": 9061,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
         "month": "2026-02",
         "commits": 482,
-        "pct_of_peak": 33.1
+        "pct_of_peak": 32.9
       },
       {
         "month": "2026-03",
         "commits": 1365,
-        "pct_of_peak": 93.7
+        "pct_of_peak": 93.2
       },
       {
         "month": "2026-04",
         "commits": 1074,
-        "pct_of_peak": 73.7
+        "pct_of_peak": 73.4
       },
       {
         "month": "2026-05",
         "commits": 665,
-        "pct_of_peak": 45.6
+        "pct_of_peak": 45.4
       },
       {
         "month": "2026-06",
         "commits": 1175,
-        "pct_of_peak": 80.6
+        "pct_of_peak": 80.3
       },
       {
         "month": "2026-07",
         "commits": 824,
-        "pct_of_peak": 56.6
+        "pct_of_peak": 56.3
       },
       {
         "month": "2026-08",
         "commits": 583,
-        "pct_of_peak": 40
+        "pct_of_peak": 39.8
       },
       {
         "month": "2026-09",
         "commits": 1429,
-        "pct_of_peak": 98.1
+        "pct_of_peak": 97.6
       },
       {
         "month": "2026-10",
-        "commits": 1457,
+        "commits": 1464,
         "pct_of_peak": 100
       }
     ]
@@ -61,14 +61,14 @@
     "workflows": 82,
     "scripts": 367,
     "docs": 504,
-    "data_files": 2043,
+    "data_files": 2044,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 69,
-    "test_files": 660,
+    "test_files": 661,
     "absence_test_cases": 306,
     "absence_tests": 122,
     "lihtc_features": 926
@@ -246,7 +246,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 507695,
+    "hand_written_lines": 507878,
     "generated_place_page_lines": 229724,
     "top_level_pages": 81,
     "html_nonblank_lines": 50494,
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "4b9a2c2d9",
+    "extracted_at_commit": "8da514763",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
