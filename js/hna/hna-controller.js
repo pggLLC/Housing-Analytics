@@ -896,6 +896,8 @@
       window.HNARenderers.updateLihtcInfoPanel();
     }
     window.HNAState.map.on('moveend', updateLihtcInfoPanel);
+    // Property links arrive in their own small file; redraw the list once they land.
+    window.addEventListener('property-websites:ready', updateLihtcInfoPanel);
   }
 
   // Boundary style tokens keyed by geoType — counties use a thinner/lighter stroke
