@@ -1,7 +1,7 @@
 {
   "meta": {
-    "updated": "2026-10-23T00:00:00Z",
-    "brief_count": 11,
+    "updated": "2026-10-30T00:00:00Z",
+    "brief_count": 12,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
@@ -510,7 +510,11 @@
             "Even, glare-free lighting that residents can dim, with daylight and no flickering or buzzing fixtures, and colors and signs used the same way on every floor.",
             "One obvious route from entry to mail to elevator to home, with a place to pause at the building entry and at each front door.",
             "A small quiet room or alcove off a busy shared space, where someone can step away without leaving."
-          ]
+          ],
+          "see_also": {
+            "text": "For how this housing is financed, staffed and filled in Colorado, see the neuro-inclusive housing brief.",
+            "href": "research-brief.html?id=neuro-inclusive-housing-colorado-2026"
+          }
         },
         {
           "id": "supportive-housing",
@@ -984,6 +988,570 @@
           "source": "Colorado Public Radio",
           "link": "https://www.cpr.org/news/story/trauma-informed-design-denver-apartment",
           "date": "2017-11-27"
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "Colorado",
+        "Statewide"
+      ]
+    },
+    {
+      "id": "neuro-inclusive-housing-colorado-2026",
+      "title": "Neuro-inclusive housing in Colorado: how it gets built, paid for and filled",
+      "policy_topic": "Special Populations & Supportive Housing",
+      "is_curated": true,
+      "source_reviewed": true,
+      "generated": "2026-10-30T00:00:00Z",
+      "verified": "2026-10-30",
+      "takeaway": "Housing for adults with intellectual and developmental disabilities (I/DD) works best as ordinary affordable homes with a share set aside and services paid separately by Medicaid. The building is the easier part. The hard part is the money for services, and Colorado is slowing new enrollments in its main disability waiver.",
+      "summary": "CHFA calls this housing neuro-inclusive: designed for people with I/DD but open to everyone. In Colorado it is built in a few ways: a set-aside of homes in a tax-credit building, a group home, a community with staff on site around the clock, or a home a family buys. In every model the rent and the services are paid from different pots. Medicaid waivers pay for support but not for rent, and in provider-run homes the state caps what a resident can be charged for room and board at $810 a month in 2026. CHFA's draft 2027-28 plan gives fifteen points for setting aside at least 25 percent of homes for Special Populations, which include people with developmental and intellectual impairments.",
+      "implications": "Line up the service provider before the site. CHFA wants signed agreements with providers that have at least three years of experience, a services budget and a source of residents. Keep the I/DD homes to about a quarter of the building and spread them through it: federal Section 811 rental assistance allows no more than 25% of homes to serve people with disabilities, and Medicaid treats a setting that isolates people as institutional. Plan for transport, because most adults with I/DD do not drive. Use the developer-fee increase CHFA allows for Special Populations to fund services, because no Colorado program pays for a building-wide support desk.",
+      "related_data": "data/audit/chfa-qap-watch.json",
+      "qap_document": "2027-28 QAP - Third Draft (PDF)",
+      "qap_quotes": [
+        {
+          "section": "Definitions",
+          "quote": "This includes behavioral (mental health/substance use), physical, developmental, intellectual, visual, and auditory impairments"
+        },
+        {
+          "section": "5.B.5",
+          "quote": "Fifteen points may be earned for the set-aside of at least 25 percent of the units for Persons experiencing Homelessness or Special Populations"
+        },
+        {
+          "section": "5.B.5",
+          "quote": "The minimum set-aside of 25 percent may be reduced if any federal or state regulations restrict the number of special needs units in a project"
+        },
+        {
+          "section": "5.B.5",
+          "quote": "A funding budget for services and demonstration of an adequate level of staffing"
+        },
+        {
+          "section": "5.B.5",
+          "quote": "Memoranda of Understanding (MOUs) from service providers"
+        },
+        {
+          "section": "Developer fee",
+          "quote": "An increase of the percent allowed, up to 5 percent, may be requested for projects serving Persons experiencing Homelessness or Special Populations with incomes at or below 30 percent AMI"
+        },
+        {
+          "section": "Developer fee",
+          "quote": "The increase in developer fee must be committed to provide supportive services or a rental subsidy for such tenants"
+        }
+      ],
+      "sections": [
+        {
+          "id": "terms",
+          "heading": "What the words mean",
+          "paragraphs": [
+            "Intellectual and developmental disabilities (I/DD) begin in childhood and limit learning, everyday living skills or both. Colorado's definition (C.R.S. 25.5-10-202) names cerebral palsy, epilepsy, autism and Prader-Willi syndrome among the related conditions. A diagnosis of I/DD is what opens the door to Colorado's disability waivers, which pay for support at home.",
+            "Neurodivergent describes a person. Neuro-inclusive describes housing. In CHFA's words, neuro-inclusive housing \"considers the physical and cognitive accessibility needs of individuals with I/DD, but is not exclusively for this population.\""
+          ],
+          "see_also": {
+            "text": "For calm, easy-to-read building design, see the neuro-inclusive design section of the livability brief.",
+            "href": "research-brief.html?id=livability-universal-design-2026#brief-section-neuro-inclusive"
+          }
+        },
+        {
+          "id": "need",
+          "heading": "How many Coloradans need it",
+          "items": [
+            "At least 127,000 Coloradans with I/DD have asked for services, and 73% live with aging family caregivers (CHFA white paper, 2022).",
+            "At least 20,000 live with a caregiver over 60. When that parent dies or falls ill, the adult child often has nowhere planned to go.",
+            "2,749 people are on the waiting list for the comprehensive (DD) waiver, the one that pays for support around the clock (HCPF, 2026).",
+            "Most rely on Supplemental Security Income, which pays at most $994 a month in 2026, so rent has to be deeply subsidized."
+          ]
+        },
+        {
+          "id": "models",
+          "heading": "Five ways it gets built in Colorado",
+          "paragraphs": [
+            "Every model answers two questions: who pays the rent, and who pays for support. CHFA's white paper urges separating the two, so a resident can change service provider without losing their home. CHFA calls that a consumer-controlled setting."
+          ],
+          "table": {
+            "caption": "Neuro-inclusive housing models in Colorado",
+            "columns": [
+              "Model",
+              "Who pays the rent",
+              "Who pays for support",
+              "Colorado example",
+              "Main risk"
+            ],
+            "rows": [
+              [
+                "Set-aside in a tax-credit building",
+                "Resident at 30% of area income, often with Section 811 or a project-based voucher",
+                "Medicaid waiver, through a provider the resident chooses; the property funds resident services",
+                "Grove at Cottonwood, Broomfield; Cedar Creek Commons, Montrose",
+                "Enough service providers nearby"
+              ],
+              [
+                "Group home (four to eight residents)",
+                "Room and board, capped at $810 a month in 2026",
+                "Comprehensive (DD) waiver residential support",
+                "Provider-run homes statewide",
+                "The provider is also the landlord, and the capped rent rarely covers cost"
+              ],
+              [
+                "Community with staff on site around the clock",
+                "Affordable rent",
+                "Medicaid for each person's support; the property or a grant pays for the building-wide staff",
+                "Wellspring Community, Castle Rock: 42 apartments with a 24/7 support staff inside the building",
+                "Paying for the staff, and Medicaid's isolation test"
+              ],
+              [
+                "Family-owned home, ADU or duplex",
+                "Family, trust or family LLC",
+                "Supported Living Services or DD waiver, sometimes a live-in caregiver",
+                "Yellow House, Carbondale: a house and ADU owned by a family LLC",
+                "Family money and long-term housemate fit"
+              ],
+              [
+                "Small homes licensed for 24-hour care",
+                "Included in the Medicaid daily rate",
+                "Included in the Medicaid daily rate",
+                "Mirasol Green House homes, Loveland (built for elders)",
+                "For I/DD the matching license is an institutional one; see below"
+              ]
+            ]
+          },
+          "note": "Families who want to pool money sometimes look at a housing cooperative. This review found no Colorado I/DD cooperative. A housing choice voucher can be used in a co-op only where the housing authority allows it."
+        },
+        {
+          "id": "mirasol",
+          "heading": "The Mirasol model: small homes with care around the clock",
+          "paragraphs": [
+            "The Green House Homes at Mirasol in Loveland are six homes for elders, each for 10-12 residents, licensed together as one skilled nursing facility. They opened in 2014, built by the Loveland Housing Authority with a nursing-home operator. The financing stack: a total project cost of $16,784,326, $10,340,000 of New Markets Tax Credit allocation, $2.6 million from the Colorado Division of Housing, $584,000 in fee waivers from the city of Loveland and a $2 million foundation grant.",
+            "It works because a nursing home is paid one Medicaid daily rate that covers care, the room and the food. Federal rules let Medicaid pay for room and board in institutions but not in community settings, where a waiver may not pay for room and board. So a Mirasol-style building is funded once, through the care rate.",
+            "For adults with I/DD, the matching license is an intermediate care facility (ICF/IID), which federal rules count as an institution, not a home and community-based setting. Colorado's waivers instead pay for support while the resident pays rent. The comprehensive waiver \"provides access to 24-hour, seven days a week supervision\", but the resident still pays room and board from Supplemental Security Income, capped at $810 a month."
+          ],
+          "items_heading": "What carries over to I/DD housing",
+          "items": [
+            "Small homes with private rooms and the same few staff every day. This is the design lesson, and it works with any license.",
+            "Pay for the building with grants and tax credits, not debt. Capped rent cannot carry a mortgage.",
+            "Keep the landlord and the care provider separate, so residents keep their home if they change provider.",
+            "Do not cluster homes in a way that cuts residents off from neighbors. Medicaid presumes such a setting is institutional unless it passes a federal review."
+          ],
+          "note": "COHO arithmetic, not from a source: one post staffed around the clock is 8,760 hours a year, about 4.2 full-time staff. A six-person group home collects at most $4,860 a month in room and board at the 2026 cap, for rent, utilities, food and upkeep together."
+        },
+        {
+          "id": "gap",
+          "heading": "The real gap: money for support",
+          "items": [
+            "Colorado is slowing new enrollments. The governor's January 2026 budget request proposed \"reducing by half the number of individuals automatically enrolled from the waitlist\" for the DD waiver, and ending automatic enrollment of young people who age out of children's services. A news report says the Joint Budget Committee approved a rule of one new enrollment for every two people who leave (news report, not yet checked against the final budget bill).",
+            "Group-home rent is capped. Providers may charge at most $810 a month for room and board in 2026, and residents keep a personal needs allowance of at least $184.",
+            "Residential rates are being reset. The same budget request proposed \"a lower rate for settings with a primary live in caregiver\" and \"a higher rate for settings with rotating staff\". It noted these rates had risen about 36% over five years.",
+            "Case management changed in 2024. One case management agency now serves all waivers in each area, to meet the federal conflict-free rule.",
+            "Transport is thin. RTD declined to extend Access-a-Ride paratransit to Grove at Cottonwood (news report, March 2026)."
+          ]
+        },
+        {
+          "id": "chfa",
+          "heading": "What CHFA scores",
+          "items": [
+            "Fifteen points for setting aside at least 25% of homes for Special Populations. CHFA may accept a smaller share where a federal or state rule limits the number of special needs homes, such as Section 811.",
+            "To earn the points: a services plan, a services budget showing enough staff, signed agreements with providers that have at least three years of experience, evidence of where residents will come from, and design suited to the people served.",
+            "The developer fee can rise by up to 5%, pro-rated by the share of homes for Special Populations at or below 30% of area income. The extra fee must pay for services or rent help.",
+            "These are draft 2027-28 rules. They are not final until CHFA adopts the plan."
+          ],
+          "see_also": {
+            "text": "Cedar Creek Commons in Montrose sets aside 9 of 36 homes for people with I/DD.",
+            "href": "deal-summary.html?d=cedar-creek-commons-montrose"
+          }
+        },
+        {
+          "id": "leaseup",
+          "heading": "Filling the homes",
+          "items": [
+            "Grove at Cottonwood, Broomfield, held its grand opening in September 2026. Denver7 reported 10 residents moved in, 10 more preparing to move in and 20 homes still available.",
+            "In Indiana, a quarter of the homes at SouthPointe Village in Fishers were set aside for residents with disabilities. Pre-leased homes were full before the grand opening, with a call list of more than 400 people (2021).",
+            "Diamond View in South Bend, Indiana, has 60 homes, including 12 three-bedroom homes set aside for adults with I/DD, and space in the building for The Logan Center, a local disability agency (2024).",
+            "Indiana sets aside 10% of its tax credits each year for developments serving people with I/DD and brain injuries. Since 2018 that has produced 362 homes in 32 developments. Colorado has no such set-aside."
+          ],
+          "see_also": {
+            "text": "Read the Grove at Cottonwood deal summary.",
+            "href": "deal-summary.html?d=grove-at-cottonwood-broomfield"
+          }
+        },
+        {
+          "id": "vouchers",
+          "heading": "Vouchers, preferences and fair housing",
+          "paragraphs": [
+            "In short: you cannot turn away a voucher holder. You can favor people with disabilities, or people who qualify for the services you offer. You cannot favor one diagnosis."
+          ],
+          "items": [
+            "Colorado law (C.R.S. 24-34-502) has barred refusing to rent because of source of income since January 2021, including government rental assistance. Very small landlords are exempt.",
+            "A tax-credit building's recorded agreement must forbid refusing a voucher holder because they hold a voucher (26 U.S.C. 42(h)(6)(B)(iv)).",
+            "A set-aside is still allowed. Federal tax law says a tax-credit project keeps its general public use status when it favors tenants with special needs (26 U.S.C. 42(g)(9)).",
+            "With project-based vouchers, the owner may prefer people who qualify for voluntary services offered at the building, including disability-specific services. The owner may advertise services for a particular disability, but may not limit the preference to a specific disability, and services must stay voluntary (24 CFR 983.251(d)).",
+            "Section 811 rental assistance may serve no more than 25% of a building's homes, and those homes must be spread through the building.",
+            "Vouchers in group homes: federal rules allow a voucher in a state-approved group home of up to 12 residents. But a housing authority is not required to permit this unless a resident needs it as a reasonable accommodation (24 CFR 982.601 and 982.610)."
+          ]
+        },
+        {
+          "id": "who",
+          "heading": "Who builds and supports this housing in Colorado",
+          "items": [
+            "State agencies: CHFA (research, financing and the tax-credit plan); the Division of Housing (Section 811, state vouchers and supportive housing funding); the Department of Health Care Policy and Financing (disability waivers and case management agencies).",
+            "Advocacy and research: Inclusive Housing Coalition; Root Policy Research, CHFA's research partner on 2026 statewide neuro-inclusive open houses; Neuro-Inclusive Housing Solutions, which wrote CHFA's white paper; Alliance, the association of community centered boards and providers; Parent to Parent of Colorado.",
+            "Builders and owners: Broomfield Housing Alliance with BlueLine Development (Grove at Cottonwood); RealAmerica with Community Options (Cedar Creek Commons); Boulder Housing Partners (30PRL); Wellspring Community; Trailhead Community; Tall Tales Ranch; Loveland Housing Authority (Mirasol).",
+            "Service and support partners named at the 2024 Neuro-Inclusive Housing Summit: Imagine!, Bayaud Enterprises (housing navigation), Firefly Autism, Blue Star Recyclers (jobs), Ascendigo (Yellow House) and Shopworks Architecture (design)."
+          ]
+        },
+        {
+          "id": "watch",
+          "heading": "What to watch",
+          "items": [
+            "Root Policy Research's report to CHFA from the 2026 neuro-inclusive open houses.",
+            "CHFA's final 2027-28 plan, including the Special Populations points and the developer-fee increase.",
+            "The final state budget rule on DD waiver enrollments, and the residential rate reset.",
+            "Full lease-up at Grove at Cottonwood, and the start of construction at Cedar Creek Commons."
+          ]
+        },
+        {
+          "id": "limits",
+          "heading": "Limits of this brief",
+          "items": [
+            "The need figures come from CHFA's 2022 white paper and are not updated each year.",
+            "Lease-up figures are from news reports, not owner records.",
+            "No study found measures how residents with I/DD fare in one model against another in Colorado."
+          ]
+        }
+      ],
+      "sources": [
+        "Colorado Housing and Finance Authority",
+        "Colorado Department of Health Care Policy and Financing",
+        "Colorado Office of State Planning and Budgeting",
+        "Electronic Code of Federal Regulations",
+        "Legal Information Institute (Cornell Law School)",
+        "Colorado Division of Real Estate",
+        "MACPAC",
+        "Indiana Housing and Community Development Authority",
+        "Capital Impact Partners",
+        "News reports"
+      ],
+      "articles": [
+        {
+          "title": "Neuro-Inclusive Housing White Paper (June 2022)",
+          "source": "Colorado Housing and Finance Authority",
+          "link": "https://www.chfainfo.com/getattachment/76f4c2c6-df9e-43af-8a76-c7823de487c8/Neuro-InclusiveHousingWhitepaper.pdf",
+          "date": "2022-06"
+        },
+        {
+          "title": "2027-28 QAP - Third Draft",
+          "source": "Colorado Housing and Finance Authority",
+          "link": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
+          "date": "2026"
+        },
+        {
+          "title": "Developmental Disabilities Waiver waiting list: 2026 Joint Health and Human Services Committee hearing",
+          "source": "Colorado Department of Health Care Policy and Financing",
+          "link": "https://hcpf.colorado.gov/sites/hcpf/files/2026%20Joint%20House%20and%20Senate%20Health%20and%20Human%20Services%20Committee%20Hearing%20-%20DD%20WL.pdf",
+          "date": "2026"
+        },
+        {
+          "title": "IM 25-030: 2026 Room and Board and Personal Needs Allowance Changes",
+          "source": "Colorado Department of Health Care Policy and Financing",
+          "link": "https://hcpf.colorado.gov/sites/hcpf/files/HCPF%20IM%2025-030%202026%20Room%20and%20Board%20and%20Personal%20Needs%20Allowance%20Changes_0.pdf",
+          "date": "2025-12-04"
+        },
+        {
+          "title": "Developmental Disabilities Waiver (DD)",
+          "source": "Colorado Department of Health Care Policy and Financing",
+          "link": "https://hcpf.colorado.gov/developmental-disabilities-waiver-dd"
+        },
+        {
+          "title": "Case Management Redesign",
+          "source": "Colorado Department of Health Care Policy and Financing",
+          "link": "https://hcpf.colorado.gov/case-management-redesign"
+        },
+        {
+          "title": "Department of Health Care Policy and Financing supplemental requests (FY 2025-26)",
+          "source": "Colorado Office of State Planning and Budgeting",
+          "link": "https://content.leg.colorado.gov/sites/default/files/OSPB%20HCPF%20SuppCbs-01-29-26_0.pdf",
+          "date": "2026-01-29"
+        },
+        {
+          "title": "Colorado is about to double its 7-year waitlist for disability services (news report)",
+          "source": "SpecialNeeds.com",
+          "link": "https://www.specialneeds.com/articles/legal/government-benefits/colorado-is-about-to-double-its-7-year-waitlist-for-disability-services-heres-what-families-can-do",
+          "date": "2026-03-29"
+        },
+        {
+          "title": "42 CFR 441.301: home and community-based settings",
+          "source": "Electronic Code of Federal Regulations",
+          "link": "https://www.ecfr.gov/current/title-42/section-441.301"
+        },
+        {
+          "title": "42 CFR 441.310: limits on federal payment, including room and board",
+          "source": "Electronic Code of Federal Regulations",
+          "link": "https://www.ecfr.gov/current/title-42/section-441.310"
+        },
+        {
+          "title": "The Role of Residential Care Settings in Delivering Long-Term Services and Supports",
+          "source": "MACPAC",
+          "link": "https://macpac.gov/wp-content/uploads/2016/09/The-Role-of-Residential-Care-Settings-in-Delivering-Long-Term-Services-and-Supports.pdf",
+          "date": "2016-09-15"
+        },
+        {
+          "title": "The Green House Homes at Mirasol: delivering dignity to Colorado's elders",
+          "source": "Capital Impact Partners",
+          "link": "https://capitalimpact.org/blog/delivering-dignity-to-colorados-elders",
+          "date": "2015-12-02"
+        },
+        {
+          "title": "The Green House Homes at Mirasol (project profile)",
+          "source": "New Markets Tax Credit Coalition",
+          "link": "https://nmtccoalition.org/project/the-green-house-homes-at-mirasol/"
+        },
+        {
+          "title": "Financing and collaboration brings Green House homes to Colorado",
+          "source": "The Green House Project",
+          "link": "https://thegreenhouseproject.org/?p=11013",
+          "date": "2013-11-26"
+        },
+        {
+          "title": "Nonprofit to turn hotel into housing for adults with I/DD (Wellspring Community, Castle Rock)",
+          "source": "CBS News Colorado",
+          "link": "https://www.cbsnews.com/colorado/news/nonprofit-castle-rock-hotel-housing-adults-intellectual-developmental-disabilities",
+          "date": "2023-03-10"
+        },
+        {
+          "title": "Broomfield opens its first housing complex for adults with I/DD",
+          "source": "Denver7",
+          "link": "https://www.denver7.com/news/local-news/in-your-community/north-metro/broomfield-opens-its-first-housing-complex-for-adults-with-intellectual-and-developmental-disabilities",
+          "date": "2026-09-02"
+        },
+        {
+          "title": "RTD declines paratransit extension to Broomfield disability housing (news report)",
+          "source": "Hoodline",
+          "link": "https://hoodline.com/2026/03/rtd-snubs-broomfield-disability-housing-new-residents-left-in-transit-lurch/",
+          "date": "2026-03-26"
+        },
+        {
+          "title": "811 Project Rental Assistance availability and tenant selection policy",
+          "source": "Indiana Housing and Community Development Authority",
+          "link": "https://in.gov/ihcda/files/24-38-811-Project-Rental-Assistance-Availability-for-2025-9-Tax-Credit-Round.pdf",
+          "date": "2024-07-02"
+        },
+        {
+          "title": "Community Integration via Supportive Housing (2024 award entry)",
+          "source": "Indiana Housing and Community Development Authority (NCSHA)",
+          "link": "https://www.ncsha.org/wp-content/uploads/Indiana-Special-Needs-Housing-Housing-for-Persons-with-Special-Needs-2024.pdf",
+          "date": "2024"
+        },
+        {
+          "title": "Demand swamps units at new disabled housing projects",
+          "source": "Indianapolis Business Journal",
+          "link": "https://www.ibj.com/articles/demand-swamps-units-at-new-disabled-housing-projects",
+          "date": "2021-10-22"
+        },
+        {
+          "title": "Ground breaks on Diamond View Apartments, offering space for tenants with disabilities",
+          "source": "ABC57",
+          "link": "https://www.abc57.com/news/ground-breaks-on-diamond-view-apartments-offering-space-for-tenants-with-disabilities",
+          "date": "2024-07-11"
+        },
+        {
+          "title": "Legislative update: new requirements for landlords (HB20-1332, source of income)",
+          "source": "Colorado Division of Real Estate",
+          "link": "https://dre.colorado.gov/division-notifications/legislative-update-new-requirements-for-landlords-and-property-managers-on"
+        },
+        {
+          "title": "26 U.S.C. 42: low-income housing credit",
+          "source": "Legal Information Institute (Cornell Law School)",
+          "link": "https://www.law.cornell.edu/uscode/text/26/42"
+        },
+        {
+          "title": "24 CFR 983.251: project-based voucher tenant selection",
+          "source": "Legal Information Institute (Cornell Law School)",
+          "link": "https://www.law.cornell.edu/cfr/text/24/983.251"
+        },
+        {
+          "title": "24 CFR 982.207: waiting list preferences",
+          "source": "Electronic Code of Federal Regulations",
+          "link": "https://www.ecfr.gov/current/title-24/section-982.207"
+        },
+        {
+          "title": "24 CFR 982.601: special housing types",
+          "source": "Electronic Code of Federal Regulations",
+          "link": "https://www.ecfr.gov/current/title-24/section-982.601"
+        },
+        {
+          "title": "24 CFR 982.610: group homes",
+          "source": "Electronic Code of Federal Regulations",
+          "link": "https://www.ecfr.gov/current/title-24/section-982.610"
+        },
+        {
+          "title": "2024 Neuro-Inclusive Housing Summit sessions",
+          "source": "Boulder County",
+          "link": "https://assets.bouldercounty.gov/wp-content/uploads/2026/03/neuro-inclusive-housing-summit.pdf"
+        }
+      ],
+      "source_quotes": [
+        {
+          "link": "https://www.chfainfo.com/getattachment/76f4c2c6-df9e-43af-8a76-c7823de487c8/Neuro-InclusiveHousingWhitepaper.pdf",
+          "quote": "At least 127,000 people with I/DD have requested services in Colorado, but many more are uncounted."
+        },
+        {
+          "link": "https://www.chfainfo.com/getattachment/76f4c2c6-df9e-43af-8a76-c7823de487c8/Neuro-InclusiveHousingWhitepaper.pdf",
+          "quote": "73% live with aging family caregivers. At least 20,000 live with a caregiver over the age of 60 and are at risk of involuntary displacement or homelessness."
+        },
+        {
+          "link": "https://www.chfainfo.com/getattachment/76f4c2c6-df9e-43af-8a76-c7823de487c8/Neuro-InclusiveHousingWhitepaper.pdf",
+          "quote": "Neuro-inclusive housing considers the physical and cognitive accessibility needs of individuals with I/DD, but is not exclusively for this population."
+        },
+        {
+          "link": "https://www.chfainfo.com/getattachment/76f4c2c6-df9e-43af-8a76-c7823de487c8/Neuro-InclusiveHousingWhitepaper.pdf",
+          "quote": "The separation of one's service provider from their housing is called a consumer-controlled setting, versus a provider-controlled setting."
+        },
+        {
+          "link": "https://www.chfainfo.com/getattachment/76f4c2c6-df9e-43af-8a76-c7823de487c8/Neuro-InclusiveHousingWhitepaper.pdf",
+          "quote": "Medicaid HCBS waiver funding is restricted from being used for housing."
+        },
+        {
+          "link": "https://www.chfainfo.com/getattachment/76f4c2c6-df9e-43af-8a76-c7823de487c8/Neuro-InclusiveHousingWhitepaper.pdf",
+          "quote": "The majority of adults with I/DD do not drive."
+        },
+        {
+          "link": "https://www.chfainfo.com/getattachment/76f4c2c6-df9e-43af-8a76-c7823de487c8/Neuro-InclusiveHousingWhitepaper.pdf",
+          "quote": "Family created an LLC to purchase and renovate home. Up to three housemates pay below-market rent to LLC."
+        },
+        {
+          "link": "https://hcpf.colorado.gov/sites/hcpf/files/2026%20Joint%20House%20and%20Senate%20Health%20and%20Human%20Services%20Committee%20Hearing%20-%20DD%20WL.pdf",
+          "quote": "“As Soon As Available” DD Waiting List 2,749"
+        },
+        {
+          "link": "https://hcpf.colorado.gov/sites/hcpf/files/HCPF%20IM%2025-030%202026%20Room%20and%20Board%20and%20Personal%20Needs%20Allowance%20Changes_0.pdf",
+          "quote": "The maximum SSI monthly payment an individual may receive will increase to $994.00 per month."
+        },
+        {
+          "link": "https://hcpf.colorado.gov/sites/hcpf/files/HCPF%20IM%2025-030%202026%20Room%20and%20Board%20and%20Personal%20Needs%20Allowance%20Changes_0.pdf",
+          "quote": "will increase to $810.00 beginning Jan. 1, 2026"
+        },
+        {
+          "link": "https://hcpf.colorado.gov/sites/hcpf/files/HCPF%20IM%2025-030%202026%20Room%20and%20Board%20and%20Personal%20Needs%20Allowance%20Changes_0.pdf",
+          "quote": "The minimum amount Members may receive for PNA will increase to $184.00 per month."
+        },
+        {
+          "link": "https://hcpf.colorado.gov/developmental-disabilities-waiver-dd",
+          "quote": "provides access to 24-hour, seven days a week supervision through Residential Habilitation and Day Habilitation Services and Supports"
+        },
+        {
+          "link": "https://content.leg.colorado.gov/sites/default/files/OSPB%20HCPF%20SuppCbs-01-29-26_0.pdf",
+          "quote": "reducing by half the number of individuals automatically enrolled from the waitlist"
+        },
+        {
+          "link": "https://content.leg.colorado.gov/sites/default/files/OSPB%20HCPF%20SuppCbs-01-29-26_0.pdf",
+          "quote": "a lower rate for settings with a primary live in caregiver"
+        },
+        {
+          "link": "https://content.leg.colorado.gov/sites/default/files/OSPB%20HCPF%20SuppCbs-01-29-26_0.pdf",
+          "quote": "a higher rate for settings with rotating staff"
+        },
+        {
+          "link": "https://content.leg.colorado.gov/sites/default/files/OSPB%20HCPF%20SuppCbs-01-29-26_0.pdf",
+          "quote": "IRSS rates have increased by approximately 36 percent"
+        },
+        {
+          "link": "https://www.specialneeds.com/articles/legal/government-benefits/colorado-is-about-to-double-its-7-year-waitlist-for-disability-services-heres-what-families-can-do",
+          "quote": "only one new person can enroll in the waiver for every two people who exit the program"
+        },
+        {
+          "link": "https://hcpf.colorado.gov/case-management-redesign",
+          "quote": "one case management agency to provide case management services for all waiver programs"
+        },
+        {
+          "link": "https://www.ecfr.gov/current/title-42/section-441.301",
+          "quote": "any other setting that has the effect of isolating individuals receiving Medicaid HCBS from the broader community of individuals not receiving Medicaid HCBS will be presumed to be a setting that has the qualities of an institution"
+        },
+        {
+          "link": "https://www.ecfr.gov/current/title-42/section-441.301",
+          "quote": "(iii) An intermediate care facility for individuals with intellectual disabilities"
+        },
+        {
+          "link": "https://www.ecfr.gov/current/title-42/section-441.310",
+          "quote": "FFP for home and community-based services listed in § 440.180 of this chapter is not available in expenditures for the following: ... (2) The cost of room and board"
+        },
+        {
+          "link": "https://macpac.gov/wp-content/uploads/2016/09/The-Role-of-Residential-Care-Settings-in-Delivering-Long-Term-Services-and-Supports.pdf",
+          "quote": "Medicaid pays for room and board in institutions, but not for RCSs or private homes"
+        },
+        {
+          "link": "https://capitalimpact.org/blog/delivering-dignity-to-colorados-elders",
+          "quote": "features six separate 7,500 sq. foot homes with private rooms and bathrooms ... a real home for 10-12 elders ... uniquely licensed together as one skilled nursing facility ... In 2014, Capital Impact Partners worked in partnership with the Loveland Housing Authority to open"
+        },
+        {
+          "link": "https://nmtccoalition.org/project/the-green-house-homes-at-mirasol/",
+          "quote": "Total Project Cost: $16,784,326 NMTC Amount: $10,340,000"
+        },
+        {
+          "link": "https://thegreenhouseproject.org/?p=11013",
+          "quote": "$584,000 in fee waivers from the city of Loveland ... $2.6 million from the Colorado State Division of Housing ... $2 million grant from Maryland-based nonprofit The Harry and Jeanette Weinberg Foundation"
+        },
+        {
+          "link": "https://www.cbsnews.com/colorado/news/nonprofit-castle-rock-hotel-housing-adults-intellectual-developmental-disabilities",
+          "quote": "Wellspring housing will convert it from a 63-unit hotel into a 42-unit apartment complex ... affordable, independent living with a 24/7 support staff inside the building"
+        },
+        {
+          "link": "https://www.denver7.com/news/local-news/in-your-community/north-metro/broomfield-opens-its-first-housing-complex-for-adults-with-intellectual-and-developmental-disabilities",
+          "quote": "As of this week, 10 residents have already moved in, with 10 more preparing to move in soon. Hyser said 20 units remain available."
+        },
+        {
+          "link": "https://hoodline.com/2026/03/rtd-snubs-broomfield-disability-housing-new-residents-left-in-transit-lurch/",
+          "quote": "formally asked RTD to expand its Access-a-Ride coverage ... to include the Grove at Cottonwood ... turned the request down"
+        },
+        {
+          "link": "https://in.gov/ihcda/files/24-38-811-Project-Rental-Assistance-Availability-for-2025-9-Tax-Credit-Round.pdf",
+          "quote": "No more than 25% of the total units in an 811 PRA project may be used for supportive housing for persons with disabilities under 811 PRA or any other federal or state program"
+        },
+        {
+          "link": "https://in.gov/ihcda/files/24-38-811-Project-Rental-Assistance-Availability-for-2025-9-Tax-Credit-Round.pdf",
+          "quote": "811 PRA units must be dispersed throughout the property and may not be segregated into one area such as a particular floor, building, or wing."
+        },
+        {
+          "link": "https://www.ncsha.org/wp-content/uploads/Indiana-Special-Needs-Housing-Housing-for-Persons-with-Special-Needs-2024.pdf",
+          "quote": "10% of available annual Rental Housing Tax Credits (RHTC) were set aside for developments that commit to serving individuals with IDD and traumatic brain injuries ... IHCDA has seen 362 units established in 32 developments"
+        },
+        {
+          "link": "https://www.ibj.com/articles/demand-swamps-units-at-new-disabled-housing-projects",
+          "quote": "a quarter of its units are set aside for residents with disabilities ... the 54 units RealAmerica pre-leased were full before the grand opening ... The call list of interested potential tenants was over 400 people long"
+        },
+        {
+          "link": "https://www.abc57.com/news/ground-breaks-on-diamond-view-apartments-offering-space-for-tenants-with-disabilities",
+          "quote": "The 60-unit apartment building was developed by RealAmerica ... 12 three-bedroom units will be set aside for adults with intellectual and developmental disabilities ... There will also be space for The Logan Center's operations inside the building."
+        },
+        {
+          "link": "https://dre.colorado.gov/division-notifications/legislative-update-new-requirements-for-landlords-and-property-managers-on",
+          "quote": "Refusing to rent, lease, show for rent or lease, or transmit an offer to rent or lease ... income or rental payments from any government or private assistance, grant, or loan program"
+        },
+        {
+          "link": "https://www.law.cornell.edu/uscode/text/26/42",
+          "quote": "which prohibits the refusal to lease to a holder of a voucher or certificate of eligibility under section 8 of the United States Housing Act of 1937 because of the status of the prospective tenant as such a holder"
+        },
+        {
+          "link": "https://www.law.cornell.edu/uscode/text/26/42",
+          "quote": "A project does not fail to meet the general public use requirement solely because of occupancy restrictions or preferences that favor tenants— (A) with special needs"
+        },
+        {
+          "link": "https://www.law.cornell.edu/cfr/text/24/983.251",
+          "quote": "may give preference to families who qualify for voluntary services, including disability-specific services, offered at a particular project"
+        },
+        {
+          "link": "https://www.law.cornell.edu/cfr/text/24/983.251",
+          "quote": "In advertising the project, the owner may advertise the project as offering services for a particular type of disability; however, the preference must be provided to all applicants who qualify for the voluntary services"
+        },
+        {
+          "link": "https://www.ecfr.gov/current/title-24/section-982.207",
+          "quote": "However, the PHA may not adopt a preference for admission of persons with a specific disability."
+        },
+        {
+          "link": "https://www.ecfr.gov/current/title-24/section-982.601",
+          "quote": "In general, the PHA is not required to permit families ... to use any of these special housing types ... The PHA must permit use of any special housing type if needed as a reasonable accommodation"
+        },
+        {
+          "link": "https://www.ecfr.gov/current/title-24/section-982.610",
+          "quote": "No more than 12 persons may reside in a group home."
         }
       ],
       "alert_count": 0,
