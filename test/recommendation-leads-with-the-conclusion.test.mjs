@@ -567,6 +567,8 @@ test('a deal saved for another county is stamped with the county the calculator 
     'a Scenario Builder link for Mesa County was stamped as the Denver project');
   assert.deepStrictEqual(geo(denver, null, '08077', 'Mesa County'), { savedForGeoid: '08077', savedForName: 'Mesa County' },
     'a county picked in the calculator was stamped as the workflow place');
+  assert.deepStrictEqual(geo(denver, '08077', '08031', 'Denver County'), { savedForGeoid: '08031', savedForName: 'Denver County' },
+    'Denver picked after a Mesa link was stamped as Mesa');
   assert.strictEqual(geo({ geoid: '08', displayName: 'State of Colorado' }, null, '08077', 'Mesa County').savedForGeoid, '08');
   assert.strictEqual(geo(null, '08077', '08077', 'Mesa County'), null);
 });

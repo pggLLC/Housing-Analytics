@@ -1291,21 +1291,27 @@
     window._dcReadDealState = readDealState;
 
     /* ── Save to project ─────────────────────────────────────────────── */
-    // The calculator analyzes the county in its picker (and the URL's place
-    // for HUD inputs), which can differ from the workflow's place, e.g. after
-    // a Scenario Builder link for another county. The deal counts as this
-    // place's when both match the place or its county; otherwise it is
-    // recorded as saved for the geography actually analyzed.
+    // The calculator analyzes the county in its picker, which can differ from
+    // the workflow's place, e.g. after a Scenario Builder link for another
+    // county. The picker is the truth: the URL only seeds it, and a county
+    // picked afterwards wins. The deal counts as this place's when the picked
+    // county is the place or its county; otherwise it is recorded as saved for
+    // the URL's place (when the picker still holds the URL's county context)
+    // or for the picked county. With no county picked, the URL decides.
     function dealSaveGeography(j, urlGeoid, county, countyName) {
       if (!j || !j.geoid) return null;
       var here = [String(j.geoid)];
       if (j.countyFips) here.push(String(j.countyFips));
-      var isState = String(j.geoid).length === 2;
-      var urlHere = !urlGeoid || here.indexOf(String(urlGeoid)) !== -1;
-      var countyHere = !county || isState || (!j.countyFips && String(j.geoid).length !== 5) || here.indexOf(String(county)) !== -1;
-      if (urlHere && countyHere) return { savedForGeoid: j.geoid, savedForName: j.displayName || j.name || null };
-      if (!urlHere) return { savedForGeoid: String(urlGeoid), savedForName: String(urlGeoid) === String(county) ? countyName || null : null };
-      return { savedForGeoid: String(county), savedForName: countyName || null };
+      var mine = { savedForGeoid: j.geoid, savedForName: j.displayName || j.name || null };
+      var countyKnown = county && String(j.geoid).length !== 2 && (j.countyFips || String(j.geoid).length === 5);
+      if (countyKnown) {
+        if (here.indexOf(String(county)) !== -1) return mine;
+        var urlPlace = urlGeoid && String(urlGeoid).length > 5 && here.indexOf(String(urlGeoid)) === -1;
+        return urlPlace ? { savedForGeoid: String(urlGeoid), savedForName: null }
+                        : { savedForGeoid: String(county), savedForName: countyName || null };
+      }
+      if (!urlGeoid || here.indexOf(String(urlGeoid)) !== -1) return mine;
+      return { savedForGeoid: String(urlGeoid), savedForName: String(urlGeoid) === String(county) ? countyName || null : null };
     }
 
     function saveDealToProject() {
