@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-30T13:04:07.668Z",
+    "generated_at": "2026-10-30T13:29:24.590Z",
     "root": "data/",
     "file_count": 2004,
-    "total_size_bytes": 209042892,
+    "total_size_bytes": 209070686,
     "kinds": {
       "json": 1956,
       "geojson": 34,
@@ -610,7 +610,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-30T12:52:55.091Z",
+      "mtime": "2026-10-30T13:29:20.340Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6653,8 +6653,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1261543,
-      "mtime": "2026-10-30T11:33:24.169Z",
+      "size_bytes": 1289346,
+      "mtime": "2026-10-30T13:26:22.010Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -38117,7 +38117,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 254739,
-      "mtime": "2026-10-30T13:04:06.298Z",
+      "mtime": "2026-10-30T13:28:42.532Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39854,8 +39854,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16090,
-      "mtime": "2026-10-30T12:52:56.529Z",
+      "size_bytes": 16088,
+      "mtime": "2026-10-30T13:29:22.426Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39879,7 +39879,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-30T12:52:56.162Z",
+      "mtime": "2026-10-30T13:29:21.906Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -43446,8 +43446,8 @@
     {
       "path": "reports/developer-url-health.json",
       "kind": "json",
-      "size_bytes": 21196,
-      "mtime": "2026-10-23T13:12:08.269Z",
+      "size_bytes": 21189,
+      "mtime": "2026-10-30T13:27:45.309Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43456,8 +43456,8 @@
         "ok_count"
       ],
       "key_count": 4,
-      "primary_array_key": "warnings",
-      "primary_array_length": 48,
+      "primary_array_key": "broken",
+      "primary_array_length": 50,
       "primary_array_first_keys": [
         "url",
         "status",
