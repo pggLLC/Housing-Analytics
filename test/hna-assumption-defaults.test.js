@@ -170,6 +170,23 @@ async function twentyYear(page, selection, projFips) {
     assert.strictEqual(document.getElementById('statUnitsNeed').textContent, '—', 'a figure was written with nothing picked');
     assert.strictEqual(document.getElementById('geoContextPill').textContent, 'No place picked');
     assert.strictEqual(fetched, 0, 'update() fetched data with nothing picked');
+    // The workflow banner on an HNA chapter rests on this state: it asks for a
+    // place and names the statewide choice rather than "Showing statewide
+    // figures". Both halves are checked against behaviour, not wording: the
+    // banner against the absent figures above, the statewide choice against
+    // the picker the controller actually builds.
+    document.getElementById('geoType').value = 'state';
+    window.HNAController.buildSelectForTest();
+    const values = Array.from(document.getElementById('geoSelect').options).map((o) => o.value);
+    assert.ok(values.includes('08'), 'the HNA picker no longer offers the statewide choice the banner names');
+    const bdom = new JSDOM('<!doctype html><main><section class="hero"><h1>Page</h1></section></main>',
+      { url: 'https://cohoanalytics.com/hna-what-housing-exists.html', runScripts: 'outside-only' });
+    bdom.window.WorkflowState = { getProgress: () => ({ completedSteps: ['hsa'] }) };
+    bdom.window.eval(read('js/components/workflow-next-action.js'));
+    bdom.window.WorkflowNextAction.render();
+    const banner = bdom.window.document.querySelector('#workflowNextAction').textContent.replace(/\s+/g, ' ');
+    assert.ok(!/Showing statewide figures/.test(banner), 'the banner claims statewide figures the page does not show: ' + banner);
+    assert.match(banner, /State of Colorado/, 'the banner no longer names the statewide choice: ' + banner);
   });
 
   await test('init() starts on pick-a-place when no address or saved place names one', () => {

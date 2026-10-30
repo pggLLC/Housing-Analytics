@@ -108,6 +108,8 @@
     return payload;
   }
 
+  var STAMPED_STEPS = ['market', 'scenario', 'deal'];
+
   // One invalidation path for API callers and the jurisdiction picker.
   function _clearMarketOnJurisdictionChange(previous, next) {
     if (previous.geoid === next.geoid) return;
@@ -271,6 +273,25 @@
       if (!ap[key]) {
         // Initialise from defaults if somehow missing
         ap[key] = _defaultSteps()[key] || {};
+      }
+      // A project step saved with a result records the jurisdiction it was
+      // saved under, so a later place change can tell an old deal or
+      // scenario from one made for the current place (recommendation-contract.js).
+      // A caller whose result is for a geography it loaded itself (the Scenario
+      // Builder) passes savedForGeoid, and that wins. Otherwise a page opened
+      // with ?geoid for another place (Market Analysis resolves and shows the
+      // URL's geography without changing the workflow's) is stamped with that
+      // geoid rather than the workflow place.
+      if (STAMPED_STEPS.indexOf(key) !== -1 && data && data.completedAt && ap.jurisdiction
+          && data.savedForGeoid === undefined) {
+        var j = ap.jurisdiction;
+        var urlGeoid = null;
+        try { urlGeoid = new global.URLSearchParams(global.location.search).get('geoid'); } catch (_) {}
+        var urlElsewhere = urlGeoid && String(urlGeoid) !== String(j.geoid || '')
+          && String(urlGeoid) !== String(j.countyFips || '');
+        data = _deepMerge(data, urlElsewhere
+          ? { savedForGeoid: String(urlGeoid), savedForName: null }
+          : { savedForGeoid: j.geoid || null, savedForName: j.displayName || j.name || null });
       }
       ap[key]         = _deepMerge(ap[key], data);
       ap._meta.savedAt = new Date().toISOString();
