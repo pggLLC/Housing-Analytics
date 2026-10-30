@@ -119,11 +119,15 @@ function checkProjectionOutputs() {
  * @param {number} nullCount
  * @param {number} total
  * @param {string} relPath
+ * @param {number} [sourceGapCount] nulls the upstream source also leaves blank
  * @returns {object|null} an issue, or null when the field is fully populated
  */
-function classifyNullField(field, nullCount, total, relPath) {
+function classifyNullField(field, nullCount, total, relPath, sourceGapCount = 0) {
     if (!nullCount || !total) return null;
-    if (nullCount === total) {
+    // Nulls the upstream source also leaves blank are gaps in the source, not
+    // values lost on the way in. Only the remainder is a defect to trace.
+    const lostCount = Math.max(0, nullCount - sourceGapCount);
+    if (nullCount === total && lostCount === nullCount) {
         return {
             severity: 'medium',
             type: 'logic',
@@ -134,14 +138,25 @@ function classifyNullField(field, nullCount, total, relPath) {
             recommendation: `Do NOT backfill. Either source ${field} from HUD's LIHTC database, or make every display of it say "not published" rather than rendering the absence as a negative.`,
         };
     }
+    if (lostCount === 0) {
+        return {
+            severity: 'medium',
+            type: 'logic',
+            file: relPath,
+            description: `${field} is null on ${nullCount} of ${total} LIHTC records — HUD's LIHTC database does not report it for those properties`,
+            expected: `${field} shown as "not reported" wherever the source has no value`,
+            actual: `${nullCount} of ${total} null, all of them blank or unmatched in HUD's database`,
+            recommendation: `Leave the ${nullCount} as null and make every display of ${field} say "not reported" for them.`,
+        };
+    }
     return {
         severity: 'high',
         type: 'logic',
         file: relPath,
-        description: `${field} is null on ${nullCount} of ${total} LIHTC records`,
+        description: `${field} is null on ${lostCount} of ${total} LIHTC records`,
         expected: `${field} populated on every record the source covers`,
-        actual: `${nullCount} of ${total} null`,
-        recommendation: `Trace the ${nullCount} records back to the source feed. Do NOT backfill a placeholder — a filled-in value is indistinguishable from a measured one.`,
+        actual: `${lostCount} of ${total} null`,
+        recommendation: `Trace the ${lostCount} records back to the source feed. Do NOT backfill a placeholder — a filled-in value is indistinguishable from a measured one.`,
     };
 }
 
@@ -176,6 +191,7 @@ function checkLihtcCompliance() {
     const TRACKED_FIELDS = ['CREDIT', 'NON_PROF', 'DDA', 'QCT'];
     const nullCounts = Object.create(null);
     TRACKED_FIELDS.forEach(f => { nullCounts[f] = 0; });
+    const sourceGaps = { NON_PROF: 0 };
 
     for (const feature of features) {
         const props = feature.properties || feature;
@@ -191,6 +207,13 @@ function checkLihtcCompliance() {
             if (props[field] === null || props[field] === undefined) {
                 nullCounts[field]++;
             }
+        }
+        // NON_PROF comes from HUD's LIHTC database (scripts/hud/build_hud_lihtc_match.py).
+        // A record HUD does not match, or matches with a blank flag, is a gap
+        // in HUD's data, not a value this pipeline dropped.
+        if ((props.NON_PROF === null || props.NON_PROF === undefined)
+            && (!props.HUD || props.HUD.non_prof === null || props.HUD.non_prof === undefined)) {
+            sourceGaps.NON_PROF++;
         }
     }
 
@@ -218,7 +241,7 @@ function checkLihtcCompliance() {
     const total = features.length;
     const relPath = filePath.replace(ROOT + '/', '');
     for (const field of TRACKED_FIELDS) {
-        const issue = classifyNullField(field, nullCounts[field], total, relPath);
+        const issue = classifyNullField(field, nullCounts[field], total, relPath, sourceGaps[field] || 0);
         if (issue) issues.push(issue);
     }
     return issues;

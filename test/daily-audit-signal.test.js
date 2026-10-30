@@ -108,6 +108,22 @@ run('a field null on only some records keeps its per-record count and severity',
     'a partial gap is a real defect and must keep its count');
 });
 
+run('nulls the source also leaves blank are reported as a source gap, not a defect', () => {
+  // NON_PROF comes from HUD's LIHTC database; 263 of 926 CHFA records have no
+  // HUD match or a blank HUD flag. That is HUD's coverage, not lost values.
+  const issue = classifyNullField('NON_PROF', 263, 926, 'data/chfa-lihtc.json', 263);
+  assert.equal(issue.severity, 'medium');
+  assert.match(issue.description, /263 of 926/);
+  assert.match(issue.description, /does not report it/);
+});
+
+run('only nulls the source does report keep the high severity', () => {
+  const issue = classifyNullField('NON_PROF', 263, 926, 'data/chfa-lihtc.json', 250);
+  assert.equal(issue.severity, 'high');
+  assert.match(issue.description, /13 of 926/,
+    'the count must be the values lost, not the source gaps');
+});
+
 run('a fully populated field produces no issue', () => {
   assert.equal(classifyNullField('CREDIT', 0, 926, 'data/chfa-lihtc.json'), null);
 });
