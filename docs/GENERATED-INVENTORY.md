@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T17:30:12.665Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T17:38:45.087Z. Do not edit by hand.
 
 ---
 
@@ -84,7 +84,7 @@
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
 | `regional.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `research-brief.html` | Research Brief | COHO Analytics | 24.7 KB |
-| `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.5 KB |
+| `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.7 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 13.6 KB |
@@ -2036,7 +2036,7 @@
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
 | `data/policy_briefs.json` | 445.2 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 215.9 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 187.6 KB | ✅ | — |
@@ -2062,7 +2062,7 @@
 
 ## Test Files
 
-742 test files found.
+743 test files found.
 
 | File | Size |
 |------|------|
@@ -2464,6 +2464,7 @@
 | `test/navigation-pill-label.test.js` | 2.7 KB |
 | `test/navigation-reaches-every-page.test.mjs` | 5.9 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
+| `test/neuro-inclusive-brief.test.mjs` | 5.6 KB |
 | `test/next-step-link.test.js` | 8.7 KB |
 | `test/nhpd-coverage.test.js` | 14.1 KB |
 | `test/nlihc-out-of-reach.test.mjs` | 4.7 KB |
