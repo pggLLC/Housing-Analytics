@@ -243,7 +243,7 @@
         var byKey = {};
         window.WorkflowProgress.STEPS.forEach(function (step) { byKey[step.key] = step.num; });
         var done = contract.project
-          .filter(function (step) { return step.status === 'recorded'; })
+          .filter(function (step) { return step.status === 'recorded' && !step.savedElsewhere; })
           .map(function (step) { return byKey[step.key]; })
           .filter(function (num) { return !!num; });
         try {

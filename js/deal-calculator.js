@@ -1636,7 +1636,10 @@
     var text = blockedReason ? 'Rent revenue unavailable: ' + message
       : allowance.applied ? 'Utility allowance applied from ' + (allowance.basis.reference || 'Owner pays all utilities') +
         (allowance.basis.effectiveDate ? ' · effective ' + allowance.basis.effectiveDate : '')
-      : 'Upper bound — utility allowance not applied: ' + message + '. Set it in Market Analysis → Subject project.';
+      : 'Upper bound — utility allowance not applied: ' + message + '.';
+    // Where the allowance is set, as a link rather than directions to follow.
+    var setLink = !blockedReason && !allowance.applied && !(_resolvedDealMix && _resolvedDealMix.available)
+      && !(allowance.source === 'shared' && allowance.applied);
     if (_resolvedDealMix && _resolvedDealMix.available) text = 'Schedule contract rents already include utility allowances and fees — no second deduction.';
     if (allowance.source === 'shared' && allowance.applied) {
       text = 'Utility allowance from shared scenario: ' + (allowance.basis.reference || 'Owner pays all utilities') +
@@ -1657,6 +1660,16 @@
       el.dataset.allowanceSource = allowance.source || 'local';
       el.dataset.unavailableReason = reason || '';
       el.textContent = el.hidden ? '' : text;
+      if (!el.hidden && setLink) {
+        var a = document.createElement('a');
+        var j = window.WorkflowState && window.WorkflowState.getJurisdiction ? window.WorkflowState.getJurisdiction() : null;
+        var place = new URLSearchParams(window.location.search).get('geoid') || (j && j.geoid) || '';
+        a.href = 'market-analysis.html' + (/^08\d{3}(\d{2})?$/.test(place) ? '?geoid=' + place : '')
+          + '#subjectProjectMount';
+        a.textContent = 'Set the utility allowance in Market Analysis \u2192';
+        el.appendChild(document.createTextNode(' '));
+        el.appendChild(a);
+      }
       var basis = _resolvedDealMix && _resolvedDealMix.available
         ? _resolvedDealMix.sourceMeta.allowanceBasis : allowance.basis;
       markSource(el, countySource({ source: basis && (basis.reference || basis.method),
@@ -3151,6 +3164,10 @@
         <p id="dc-dscr-manual-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);margin-bottom:0;display:none;">
           Stress scenarios require auto-compute NOI to be enabled — they need the underlying rent / vacancy / opex breakdown, not just a total NOI.
         </p>
+        <p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);margin-bottom:0;">
+          Each stress row lowers NOI and keeps every must-pay loan payment at its base amount, so the coverage
+          shown is what the committed loans would face. A lender resizing the loan to the stressed NOI would lend less instead.
+        </p>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
           ⚠ Banker / syndicator rule of thumb: conservative lenders want DSCR ≥ 1.15 under a moderate stress scenario
           and DSCR ≥ 1.10 under combined stress. A deal that falls below 1.00 under the combined case may need
@@ -3422,10 +3439,11 @@
            at hold-period end, remaining debt balances, net sale proceeds,
            deferred-fee payback timing, return on the deferred fee. -->
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
-        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Year-15 Exit Analysis</legend>
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Exit Analysis at the End of the Hold Period</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
-          Projects sale or refinance at hold-period end. NOI growth and expense inflation use the same
-          rates as the 30-yr pro forma. Resale value capitalizes stabilized NOI at the exit cap rate.
+          Projects a sale at the end of the hold period you enter below (15 years unless changed). NOI growth
+          and expense inflation use the same rates as the pro forma. Resale value capitalizes the final hold
+          year's NOI, not the next year's, at the exit cap rate, before selling costs.
         </p>
         <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:var(--sp2);margin-bottom:var(--sp2);">
           <label style="font-size:var(--small);color:var(--muted);">
@@ -6932,6 +6950,22 @@
         impact('dc-stress-leaseup-impact', 'year1Loss', function (v) {
           return 'Year-1 NOI loss estimate: ' + _fmtMoney(v.year1Loss) + ' (linear ramp; covered by lease-up reserve if funded)';
         });
+        // The floor is a test of the base case's coverage, not a resize: the
+        // loan stays as sized or entered above.
+        var floorEl = document.getElementById('dc-stress-dscr-impact');
+        if (floorEl) {
+          var floor = _read('dc-stress-dscr-floor') || 1.15;
+          var base = result && result.baseDSCR;
+          if (typeof base === 'number' && isFinite(base)) {
+            delete floorEl.dataset.unavailableReason;
+            floorEl.textContent = 'Base coverage ' + base.toFixed(2) + 'x '
+              + (base >= floor ? 'meets' : 'falls short of') + ' a ' + floor.toFixed(2) + 'x floor (loan not resized).';
+          } else {
+            var dscrReason = (result && result.unavailable && result.unavailable.baseDSCR) || 'Enter NOI and mortgage terms to see coverage.';
+            floorEl.dataset.unavailableReason = dscrReason;
+            floorEl.textContent = 'Unavailable — ' + dscrReason;
+          }
+        }
         // Summary panel — combined worst-case visualization
         var summaryEl = document.getElementById('dcStressSummary');
         if (summaryEl) {
@@ -6945,6 +6979,7 @@
             leaseupMonths + 'mo lease-up · ' +
             'DSCR ≥ ' + dscrFloor.toFixed(2) + 'x. ' +
             '<br><span style="color:var(--muted);font-size:.8125rem">' +
+            'Every stress here keeps the loans at their base amounts; nothing is resized. The deep-tier rent setting is not yet applied to any figure. ' +
             'Read each impact row above for line-item deltas. Per-tranche soft-debt controls (CF-pay %, accrue mode, priority) live in the "Soft Funding Stack" panel above; ' +
             'full capital event waterfall (GP/LP split, preferred return, catch-up) renders below the Tornado Chart.' +
             '</span>';

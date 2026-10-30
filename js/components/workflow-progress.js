@@ -305,7 +305,11 @@
     for (i = 0; i < keys.length; i++) {
       var k = keys[i];
       var stepData = proj[k] || (proj.steps && proj.steps[k]);
-      if (stepData && stepData.completedAt) {
+      // A step saved under another jurisdiction (savedForGeoid, set by
+      // WorkflowState.setStep) is not done for the current one.
+      var here = proj.jurisdiction && proj.jurisdiction.geoid;
+      var elsewhere = stepData && stepData.savedForGeoid && here && String(stepData.savedForGeoid) !== String(here);
+      if (stepData && stepData.completedAt && !elsewhere) {
         done.push(map[k]);
       }
     }

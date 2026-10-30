@@ -516,6 +516,7 @@
               </label>
               <input id="dc-stress-rent-low" type="range" min="0" max="20" step="1" value="0" style="width:100%;">
               <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">% haircut on rents at deep-income tiers (most subject to subsidy cliffs).</div>
+              <div id="dc-stress-rent-low-impact" style="font-size:.8125rem;color:var(--muted);margin-top:2px;">Not in the figures yet: this setting is listed in the combined line below but changes no result.</div>
             </div>
             <!-- 4. Lease-up ramp -->
             <div>
@@ -530,10 +531,11 @@
             <div>
               <label for="dc-stress-dscr-floor" style="display:block;font-weight:600;margin-bottom:2px;">
                 Required DSCR floor:
-                <strong id="dc-stress-dscr-floor-label" style="color:var(--accent);">1.15</strong>x
+                <strong id="dc-stress-dscr-floor-label" style="color:var(--accent);">1.15x</strong>
               </label>
               <input id="dc-stress-dscr-floor" type="range" min="1.10" max="1.40" step="0.05" value="1.15" style="width:100%;">
               <div style="font-size:.8125rem;color:var(--muted);margin-top:2px;">Lender's minimum debt service coverage. CHFA = 1.15; conventional 4% bond = 1.20–1.25.</div>
+              <div id="dc-stress-dscr-impact" style="font-size:.8125rem;color:var(--muted);margin-top:2px;">—</div>
             </div>
           </div>
           <div id="dcStressSummary" style="margin-top:.8rem;padding:.65rem .8rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.84rem;color:var(--text);"></div>
@@ -1289,10 +1291,40 @@
     window._dcReadDealState = readDealState;
 
     /* ── Save to project ─────────────────────────────────────────────── */
+    // The calculator analyzes the county in its picker, which can differ from
+    // the workflow's place, e.g. after a Scenario Builder link for another
+    // county. The picker is the truth: the URL only seeds it, and a county
+    // picked afterwards wins. The deal counts as this place's when the picked
+    // county is the place or its county; otherwise it is recorded as saved for
+    // the URL's place (when the picker still holds the URL's county context)
+    // or for the picked county. With no county picked, the URL decides.
+    function dealSaveGeography(j, urlGeoid, county, countyName) {
+      if (!j || !j.geoid) return null;
+      var here = [String(j.geoid)];
+      if (j.countyFips) here.push(String(j.countyFips));
+      var mine = { savedForGeoid: j.geoid, savedForName: j.displayName || j.name || null };
+      var countyKnown = county && String(j.geoid).length !== 2 && (j.countyFips || String(j.geoid).length === 5);
+      if (countyKnown) {
+        if (here.indexOf(String(county)) !== -1) return mine;
+        var urlPlace = urlGeoid && String(urlGeoid).length > 5 && here.indexOf(String(urlGeoid)) === -1;
+        return urlPlace ? { savedForGeoid: String(urlGeoid), savedForName: null }
+                        : { savedForGeoid: String(county), savedForName: countyName || null };
+      }
+      if (!urlGeoid || here.indexOf(String(urlGeoid)) !== -1) return mine;
+      return { savedForGeoid: String(urlGeoid), savedForName: String(urlGeoid) === String(county) ? countyName || null : null };
+    }
+
     function saveDealToProject() {
       if (!window.WorkflowState) return false;
       try {
         var snapshot = readDealState();
+        var urlGeoid = null;
+        try { urlGeoid = new URLSearchParams(window.location.search).get('geoid'); } catch (_) {}
+        var countySel = document.getElementById('dc-county-select');
+        var countyName = countySel && countySel.selectedIndex >= 0 && countySel.options[countySel.selectedIndex] ? countySel.options[countySel.selectedIndex].text : null;
+        var where = dealSaveGeography(WorkflowState.getJurisdiction ? WorkflowState.getJurisdiction() : null,
+          urlGeoid, countySel ? countySel.value || null : null, countyName);
+        if (where) { snapshot.savedForGeoid = where.savedForGeoid; snapshot.savedForName = where.savedForName; }
         WorkflowState.setStep('deal', snapshot);
         // The Housing Outcome Score reads the saved deal step, so it is drawn again with this save's gap.
         if (window.HOSRenderer && typeof window.HOSRenderer.render === 'function') window.HOSRenderer.render();

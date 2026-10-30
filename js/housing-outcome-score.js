@@ -318,6 +318,9 @@
       d.scenarioUnits = _n(scenario.totalUnits, null);
 
       var deal = WS.getStep('deal') || {};
+      // A deal saved under another jurisdiction is that place's gap, not this one's.
+      var juris = typeof WS.getJurisdiction === 'function' ? WS.getJurisdiction() : null;
+      if (deal.savedForGeoid && juris && juris.geoid && String(juris.geoid) !== String(deal.savedForGeoid)) deal = {};
       d.dealConfidence = deal.confidence || null;
       d.gapPct         = deal.results ? _n(deal.results.gapPct, null) : null;
     }
