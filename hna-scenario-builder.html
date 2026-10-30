@@ -723,9 +723,16 @@
     // #14 Enable save only while a geography's own data is loaded. Until
     // 2026-10-17 a timer enabled it 1.2 s after any click, loaded or not.
     document.addEventListener('scenario-builder:state', function (e) {
+      var geo = e.detail && e.detail.geography;
+      // The "model the deal" links carry the projected place, as the place
+      // profiles' links do (#2553). They carry no unit count: this page projects
+      // a community's homes needed, which is not a project size.
+      document.querySelectorAll('.sb-decide__next a, .hna-continue-btn').forEach(function (a) {
+        a.setAttribute('href', 'deal-calculator.html'
+          + (geo && /^08\d{3}(\d{2})?$/.test(geo.geoid || '') ? '?geoid=' + geo.geoid : ''));
+      });
       var sb = document.getElementById('sbSaveBtn');
       if (!sb) return;
-      var geo = e.detail && e.detail.geography;
       sb.disabled = !geo;
       if (geo) sb.removeAttribute('title');
       else sb.setAttribute('title', 'Load a geography above to enable saving');
