@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T17:18:43.710Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T17:30:12.665Z. Do not edit by hand.
 
 ---
 
@@ -2351,7 +2351,7 @@
 | `test/hna-projection-integrity.test.js` | 58.0 KB |
 | `test/hna-prop123-relationship.test.js` | 14.3 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
-| `test/hna-qct-dda-unavailable.test.js` | 9.7 KB |
+| `test/hna-qct-dda-unavailable.test.js` | 11.0 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 4.4 KB |
 | `test/hna-ranking-index.test.js` | 23.5 KB |
 | `test/hna-ranking-low-evidence-badge.test.js` | 6.4 KB |
