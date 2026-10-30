@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-30T02:57:45.269Z",
+    "generated_at": "2026-10-30T03:33:27.205Z",
     "root": "data/",
-    "file_count": 2002,
-    "total_size_bytes": 206962763,
+    "file_count": 2003,
+    "total_size_bytes": 208915160,
     "kinds": {
-      "json": 1954,
+      "json": 1955,
       "geojson": 34,
       "csv": 14
     }
@@ -595,7 +595,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-30T02:57:42.240Z",
+      "mtime": "2026-10-30T03:33:23.339Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38101,8 +38101,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 254348,
-      "mtime": "2026-10-30T02:46:32.655Z",
+      "size_bytes": 254476,
+      "mtime": "2026-10-30T03:32:34.078Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39512,6 +39512,22 @@
       ]
     },
     {
+      "path": "market/tract-workplaces.json",
+      "kind": "json",
+      "size_bytes": 1952269,
+      "mtime": "2026-10-30T03:32:34.237Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "names",
+        "tracts"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/tract_boundaries_co.geojson",
       "kind": "geojson",
       "size_bytes": 3505527,
@@ -39824,7 +39840,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16089,
-      "mtime": "2026-10-30T02:57:43.574Z",
+      "mtime": "2026-10-30T03:33:25.101Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39848,7 +39864,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-30T02:57:43.220Z",
+      "mtime": "2026-10-30T03:33:24.667Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
