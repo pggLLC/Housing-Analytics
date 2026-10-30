@@ -1,55 +1,55 @@
 {
-  "generated_from_commit": "4112d2389",
+  "generated_from_commit": "3ddc3256a",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-30",
-    "total_commits": 9073,
+    "total_commits": 9080,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
         "month": "2026-02",
         "commits": 482,
-        "pct_of_peak": 32.7
+        "pct_of_peak": 32.5
       },
       {
         "month": "2026-03",
         "commits": 1365,
-        "pct_of_peak": 92.5
+        "pct_of_peak": 92
       },
       {
         "month": "2026-04",
         "commits": 1074,
-        "pct_of_peak": 72.8
+        "pct_of_peak": 72.4
       },
       {
         "month": "2026-05",
         "commits": 665,
-        "pct_of_peak": 45.1
+        "pct_of_peak": 44.8
       },
       {
         "month": "2026-06",
         "commits": 1175,
-        "pct_of_peak": 79.6
+        "pct_of_peak": 79.2
       },
       {
         "month": "2026-07",
         "commits": 824,
-        "pct_of_peak": 55.8
+        "pct_of_peak": 55.6
       },
       {
         "month": "2026-08",
         "commits": 583,
-        "pct_of_peak": 39.5
+        "pct_of_peak": 39.3
       },
       {
         "month": "2026-09",
         "commits": 1429,
-        "pct_of_peak": 96.8
+        "pct_of_peak": 96.4
       },
       {
         "month": "2026-10",
-        "commits": 1476,
+        "commits": 1483,
         "pct_of_peak": 100
       }
     ]
@@ -68,7 +68,7 @@
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 69,
-    "test_files": 661,
+    "test_files": 662,
     "absence_test_cases": 306,
     "absence_tests": 122,
     "lihtc_features": 926
@@ -246,11 +246,11 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 508085,
+    "hand_written_lines": 508203,
     "generated_place_page_lines": 229724,
     "top_level_pages": 81,
-    "html_nonblank_lines": 50506,
-    "html_distinct_lines": 21201,
+    "html_nonblank_lines": 50507,
+    "html_distinct_lines": 21202,
     "html_distinct_share": 0.42,
     "substantial_tools": 25,
     "declared_data_sources": 86,
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "4112d2389",
+    "extracted_at_commit": "3ddc3256a",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
