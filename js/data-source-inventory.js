@@ -244,7 +244,7 @@
       maxAgeDays: 35,
       geoUnit: 'State / National',
       coverage: 'Colorado + National',
-      features: 62,
+      features: 71,
       description: '62 FRED economic series: CPI, unemployment, wage indices, housing starts, mortgage rates, and construction inputs.',
       tags: ['fred', 'economic', 'cpi', 'unemployment'],
       apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations',
