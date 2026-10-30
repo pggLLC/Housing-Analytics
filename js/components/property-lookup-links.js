@@ -78,6 +78,7 @@
   function _normalize(p) {
     if (!p) return null;
     return {
+      id:      p.property_id   || '',
       name:    p.property_name || p.PROJECT || p.PROJ_NM || p.project || '',
       address: p.address       || p.STD_ADDR || p.PROJ_ADD || '',
       city:    p.city          || p.STD_CITY || p.PROJ_CTY || '',
@@ -92,6 +93,47 @@
     };
   }
 
+  // ─────────────────────────────────────────────────────────────────────
+  // Confirmed property links (data/affordable-housing/property-websites.json),
+  // keyed by property_id. A link shows only when the record's name and
+  // address still match the entry, so a rebuild that renumbers ids drops
+  // the link rather than pointing it at the wrong property.
+  // ─────────────────────────────────────────────────────────────────────
+  var WEBSITES_DATA = 'data/affordable-housing/property-websites.json';
+  var _websites = null;
+  var _websitesPromise = null;
+
+  function _sameText(a, b) {
+    return String(a || '').replace(/\s+/g, ' ').trim().toUpperCase() ===
+           String(b || '').replace(/\s+/g, ' ').trim().toUpperCase();
+  }
+
+  function websiteFor(p) {
+    if (!_websites || !p) return null;
+    var n = p.name !== undefined && p.id !== undefined ? p : _normalize(p);
+    var e = n && n.id ? _websites[n.id] : null;
+    if (!e || !/^https:\/\//.test(e.url)) return null;
+    if (!_sameText(e.name, n.name) || !_sameText(e.address, n.address)) return null;
+    return e;
+  }
+
+  function loadWebsites() {
+    if (_websitesPromise) return _websitesPromise;
+    if (typeof fetch !== 'function') return (_websitesPromise = Promise.resolve(null));
+    var url = global.resolveAssetUrl ? global.resolveAssetUrl(WEBSITES_DATA) : WEBSITES_DATA;
+    _websitesPromise = fetch(url).then(function (r) {
+      if (!r.ok) throw new Error(WEBSITES_DATA + ' returned ' + r.status);
+      return r.json();
+    }).then(function (doc) {
+      _websites = (doc && doc.entries) || {};
+      if (typeof global.dispatchEvent === 'function' && typeof CustomEvent === 'function') {
+        global.dispatchEvent(new CustomEvent('property-websites:ready'));
+      }
+      return _websites;
+    }).catch(function () { _websites = {}; return _websites; });
+    return _websitesPromise;
+  }
+
   function _enc(s) { return encodeURIComponent(String(s || '')); }
   function _esc(s) {
     return String(s == null ? '' : s)
@@ -104,6 +146,16 @@
   // ─────────────────────────────────────────────────────────────────────
   function _buildLinks(n) {
     var links = [];
+    var site = websiteFor(n);
+    if (site && site.kind === 'property') {
+      links.push({
+        key:   'website',
+        label: 'Website',
+        title: 'This property\'s own page (opens a site outside COHO)',
+        url:   site.url,
+        icon:  '🔗'
+      });
+    }
     var fullAddr = [n.address, n.city, n.state, n.zip].filter(Boolean).join(', ');
 
     // 1. Google Maps — works for any property with address OR coordinates.
@@ -192,7 +244,15 @@
     // 5. USDA RD reporter — for rural development properties.
     var isUsda = n.programs.indexOf('usda-rural-development') !== -1 ||
                  /USDA/i.test(n.source);
-    if (isUsda) {
+    if (site && site.kind === 'usda-listing') {
+      links.push({
+        key:   'usda',
+        label: 'USDA listing',
+        title: 'USDA\'s rental list for this county. Pick "' + site.listed_there_as + '" for its units, phone and manager.',
+        url:   site.url,
+        icon:  '🌾'
+      });
+    } else if (isUsda) {
       links.push({
         key:   'usda',
         label: 'USDA RD',
@@ -383,8 +443,12 @@
     }
   }
 
+  if (typeof document !== 'undefined') loadWebsites();
+
   global.PropertyLookup = {
     htmlFor: htmlFor,
+    websiteFor: websiteFor,
+    loadWebsites: loadWebsites,
     creditTypeTip: creditTypeTip,
     creditTypeTagHtml: creditTypeTagHtml,
     CREDIT_TIPS: CREDIT_TIPS,
