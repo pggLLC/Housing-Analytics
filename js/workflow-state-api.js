@@ -277,7 +277,10 @@
       // A project step saved with a result records the jurisdiction it was
       // saved under, so a later place change can tell an old deal or
       // scenario from one made for the current place (recommendation-contract.js).
-      if (STAMPED_STEPS.indexOf(key) !== -1 && data && data.completedAt && ap.jurisdiction) {
+      // A caller whose result is for a geography it loaded itself (the Scenario
+      // Builder) passes savedForGeoid, and that wins.
+      if (STAMPED_STEPS.indexOf(key) !== -1 && data && data.completedAt && ap.jurisdiction
+          && data.savedForGeoid === undefined) {
         data = _deepMerge(data, { savedForGeoid: ap.jurisdiction.geoid || null,
           savedForName: ap.jurisdiction.displayName || ap.jurisdiction.name || null });
       }

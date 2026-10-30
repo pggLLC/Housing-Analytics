@@ -76,6 +76,14 @@ run('the needs assessment asks for a place and names the statewide choice', () =
   // Since #2536 the HNA computes nothing until a place is picked, so the old
   // "Showing statewide figures" banner described figures that were not there
   // (live check 2026-10-30). State of Colorado stays a choice in its picker.
+  // The banner's wording rests on those two behaviours in the HNA controller:
+  // if either goes, this branch is no longer true. (test/hna-assumption-defaults
+  // drives the no-pick render itself.)
+  const ctrl = fs.readFileSync(path.join(ROOT, 'js', 'hna', 'hna-controller.js'), 'utf8');
+  assert.match(ctrl, /const nothingChosen = [^;]+;\s*if \(nothingChosen\) \{[\s\S]{0,400}?pick\.textContent = 'Pick a place'/,
+    'the HNA no longer starts on "Pick a place" with no figures; revisit the banner branch');
+  assert.match(ctrl, /opt\.textContent = 'State of Colorado'/,
+    'the HNA picker no longer offers State of Colorado; revisit the banner branch');
   const r = render('hna-what-housing-exists.html', ['hsa']);
   assert.ok(!/Showing statewide figures/.test(r.text), r.text);
   assert.match(r.text, /State of Colorado/, r.text);

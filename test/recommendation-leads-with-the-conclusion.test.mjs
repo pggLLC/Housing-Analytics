@@ -286,6 +286,10 @@ test('a project step save records the jurisdiction it was saved under', () => {
   assert.strictEqual(WS.getStep('deal').completedAt, '2026-10-30T01:00:00Z', 'a place change erased the saved deal');
   // A step written without a result (the market clear on a place change) is not stamped.
   assert.ok(!WS.getStep('market').savedForGeoid);
+  // A caller that names the geography its result is for keeps it: the Scenario
+  // Builder can project Mesa County while Denver is the workflow's place.
+  WS.setStep('scenario', { completedAt: '2026-10-30T02:00:00Z', geoid: '08077', savedForGeoid: '08077' });
+  assert.strictEqual(WS.getStep('scenario').savedForGeoid, '08077');
 });
 
 /* ── What the reader sees ───────────────────────────────────────────────── */
