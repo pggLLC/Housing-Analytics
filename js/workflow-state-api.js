@@ -108,6 +108,8 @@
     return payload;
   }
 
+  var STAMPED_STEPS = ['market', 'scenario', 'deal'];
+
   // One invalidation path for API callers and the jurisdiction picker.
   function _clearMarketOnJurisdictionChange(previous, next) {
     if (previous.geoid === next.geoid) return;
@@ -271,6 +273,13 @@
       if (!ap[key]) {
         // Initialise from defaults if somehow missing
         ap[key] = _defaultSteps()[key] || {};
+      }
+      // A project step saved with a result records the jurisdiction it was
+      // saved under, so a later place change can tell an old deal or
+      // scenario from one made for the current place (recommendation-contract.js).
+      if (STAMPED_STEPS.indexOf(key) !== -1 && data && data.completedAt && ap.jurisdiction) {
+        data = _deepMerge(data, { savedForGeoid: ap.jurisdiction.geoid || null,
+          savedForName: ap.jurisdiction.displayName || ap.jurisdiction.name || null });
       }
       ap[key]         = _deepMerge(ap[key], data);
       ap._meta.savedAt = new Date().toISOString();

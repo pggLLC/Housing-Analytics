@@ -2025,6 +2025,10 @@
         transitEvidence: site.transitEvidence || null,
         bufferMiles: site.bufferMiles,
         pmaScore:    site.pmaScore,
+        // The tier word the score circle shows, so the Recommendation can
+        // quote it without restating the thresholds.
+        pmaTier:     Number.isFinite(site.pmaScore) && window.PMAMarketScoring
+          ? window.PMAMarketScoring.scoreTier(site.pmaScore).label : null,
         qctFlag:     site.qctFlag,
         ddaFlag:     site.ddaFlag,
         // The QCT/DDA evidence behind the Subsidy card (matched tract GEOID,

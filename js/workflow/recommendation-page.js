@@ -143,7 +143,7 @@
         : (first
           ? '<span class="dg-tile__value">' + esc(first.value) + '</span>'
             + '<span class="dg-tile__what">' + esc(first.label) + '</span>'
-          : '<span class="dg-tile__value">Recorded</span>')
+          : '<span class="dg-tile__value">' + (step.savedElsewhere ? 'Saved for another place' : 'Recorded') + '</span>')
           + '<span class="dg-tile__state">recorded ' + esc(String(step.recordedAt).slice(0, 10)) + '</span>';
       return '<li class="dg-tile" data-path-key="' + esc(step.key) + '" data-status="' + esc(step.status) + '">'
         + '<span class="dg-tile__step">' + esc(step.label) + '</span>'

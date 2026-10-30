@@ -238,6 +238,56 @@ test('a recorded step is quoted verbatim, with its date', () => {
   assert.strictEqual(market.status, 'not_run', 'a step with no data was reported as recorded');
 });
 
+test('a run market analysis is quoted with the score and tier it saved', () => {
+  // Market Analysis saves pmaScore and pmaTier (market-analysis.html). This
+  // step used to read score/label, which nothing writes, so a run analysis was
+  // quoted with no figures (lead L1, 2026-10-26).
+  const project = { market: { completedAt: '2026-10-30T01:00:00Z', pmaScore: 72, pmaTier: 'Moderate' } };
+  const contract = Contract.build({ digest: digest('0820000'), project, generatedAt: 'x' });
+  const market = contract.project.find((s) => s.key === 'market');
+  assert.deepStrictEqual(market.fields.map((f) => f.value), ['72', 'Moderate']);
+  const src = read('market-analysis.html');
+  assert.ok(/pmaScore:\s*site\.pmaScore/.test(src) && /pmaTier:/.test(src),
+    'Market Analysis no longer saves the fields this step quotes');
+});
+
+test('a deal or scenario saved for another place is not quoted as this one', () => {
+  // A place change kept the old deal and scenario on the Recommendation (L3).
+  // Saves now carry savedForGeoid (workflow-state-api.js setStep).
+  const project = {
+    jurisdiction: { geoid: '0820000', completedAt: '2026-10-30T02:00:00Z' },
+    scenario: { completedAt: '2026-10-29T10:00:00Z', county: 'Mesa County', savedForGeoid: '0828745', savedForName: 'Fruita' },
+    deal: { completedAt: '2026-10-29T11:00:00Z', dealMode: 'rental', outputs: { gap: '$4,200,000' },
+      savedForGeoid: '0828745', savedForName: 'Fruita' }
+  };
+  const contract = Contract.build({ digest: digest('0820000'), project, generatedAt: 'x' });
+  for (const key of ['scenario', 'deal']) {
+    const step = contract.project.find((s) => s.key === key);
+    assert.strictEqual(step.fields.length, 0, key + ' quoted another place\'s figures');
+    assert.ok(step.savedElsewhere && /Saved for Fruita/.test(step.note), key + ' did not say where it was saved');
+  }
+  assert.ok(contract.projectStepsNotRun.some((l) => l.startsWith('Deal test')), 'a deal for another place was counted as covering this one');
+  // The same place, or a save from before the stamp existed, is quoted as before.
+  project.deal.savedForGeoid = '0820000';
+  delete project.scenario.savedForGeoid;
+  const again = Contract.build({ digest: digest('0820000'), project, generatedAt: 'x' });
+  assert.ok(again.project.find((s) => s.key === 'deal').fields.some((f) => f.value === '$4,200,000'));
+  assert.ok(again.project.find((s) => s.key === 'scenario').fields.some((f) => f.value === 'Mesa County'));
+});
+
+test('a project step save records the jurisdiction it was saved under', () => {
+  const w = new JSDOM('<body></body>', { url: 'https://example.org/', runScripts: 'outside-only' }).window;
+  ['js/workflow-state-core.js', 'js/workflow-state-api.js'].forEach((p) => w.eval(read(p)));
+  const WS = w.WorkflowState;
+  WS.setJurisdiction({ geoid: '0828745', name: 'Fruita', geoType: 'place', countyFips: '08077' });
+  WS.setStep('deal', { completedAt: '2026-10-30T01:00:00Z', dealMode: 'rental' });
+  WS.setJurisdiction({ geoid: '0820000', name: 'Denver', geoType: 'place', countyFips: '08031' });
+  assert.strictEqual(WS.getStep('deal').savedForGeoid, '0828745', 'the deal save did not record its place');
+  assert.strictEqual(WS.getStep('deal').completedAt, '2026-10-30T01:00:00Z', 'a place change erased the saved deal');
+  // A step written without a result (the market clear on a place change) is not stamped.
+  assert.ok(!WS.getStep('market').savedForGeoid);
+});
+
 /* ── What the reader sees ───────────────────────────────────────────────── */
 
 function renderFor(geoid, project) {
