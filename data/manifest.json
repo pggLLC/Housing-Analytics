@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-30T02:30:46.092863Z",
+  "generated": "2026-10-30T02:47:17.143723Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8884,7 +8884,7 @@
     "data/market/development-activity.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1173862
+      "bytes": 1185097
     },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
@@ -9024,7 +9024,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 774483
+      "bytes": 774573
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -9614,7 +9614,7 @@
     "data/policy/funding-awards/dola-awards.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 331326
+      "bytes": 340402
     },
     "data/policy/funding-awards/land-banking-corrections.json": {
       "featureCount": 0,
