@@ -345,6 +345,8 @@ for d in idx:
         cat, phase = classify(m["source"], m["amount"])
         amt = None if re.match(r"\s*(not public|not stated|none|n/a|unknown)", m["amount"], re.I) else money_total(m["amount"])
         s0 = srcs.get((m.get("src") or [None])[0]) or {}
+        # a total cost for several properties or phases is not this project's total; it is listed as a cost
+        if cat == "tdc" and re.search(r"\bcombined\b|both (properties|buildings|phases)|all phases|whole (project|campus)|campus", m["source"] + " " + m["amount"], re.I): cat, phase = "cost", "summary"
         if cat == "tdc":
             if amt and not tdc: tdc = {"amount": amt, "text": m["amount"], "source_title": s0.get("title", "COHO deal summary"), "source_url": s0.get("url", "")}
             continue
@@ -365,13 +367,13 @@ for d in idx:
         pd = re.search(r"paid down to (\$[\d,.]+\s*(?:million|m\b|k\b)?) at (permanent )?conversion", note, re.I)
         if phase == "perm" and pd and money(pd.group(1)): amt = money(pd.group(1))
         # a per-home figure is not the project's total, so it is shown but never added
-        if re.search(r"per (unit|home|door|apartment)|/\s*(unit|home)\b", m["amount"], re.I): phase = "perunit"
+        if re.search(r"per (\w+ ){0,2}(unit|home|door|apartment)s?\b|/\s*(unit|home)\b", m["amount"], re.I): phase = "perunit"
         rows.append({"label": m["source"], "category": cat, "amount": amt, "amount_text": m["amount"], "phase": phase,
                      "note": m.get("note") or "", "source_title": s0.get("title", "COHO deal summary"), "source_url": s0.get("url", "")})
     if not tdc:
         for k in full.get("key_numbers", []):
             v = k["value"]
-            if re.search(r"per (unit|home)", v, re.I): continue
+            if re.search(r"per (\w+ ){0,2}(unit|home)|\bcombined\b|both (properties|buildings|phases)|all phases|campus", k.get("label", "") + " " + v, re.I): continue
             m2 = re.search(r"(\$[\d,.]+\s*(?:million|m\b|k\b)?)(?:\s*to\s*\$[\d,.]+\s*(?:million|m\b)?)?\s*(?:projected\s+)?(?:total (?:development )?(?:cost|budget)|project)", v, re.I)
             if m2 and money(m2.group(1)):
                 s0 = srcs.get((k.get("src") or [None])[0]) or {}
