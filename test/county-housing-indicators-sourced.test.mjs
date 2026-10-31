@@ -64,7 +64,7 @@ test('an unpublished value stays null, never zero', () => {
       assert.ok(p[key] == null || p[key] > 0, `${p.NAME} ${key} is null or positive (saw ${p[key]})`);
     }
     if (p.renters_burdened_30_plus != null) {
-      assert.ok(Math.abs(p.renters_burdened_30_plus / p.renter_households - p.rent_burden_30_plus) < 0.00051,
+      assert.ok(Math.abs(p.renters_burdened_30_plus / p.rent_burden_universe - p.rent_burden_30_plus) < 0.00051,
         `${p.NAME} rent burden share follows from its counts`);
     }
     if (p.bps_permits_per_1k_5yr_avg != null) assert.ok(p.population > 0, `${p.NAME} permit rate has a population`);
@@ -106,6 +106,7 @@ test('the article states the statewide figures its sources give', () => {
   const st = GEO.meta.statewide;
   assert.equal(st.renter_households, props.reduce((t, p) => t + p.renter_households, 0), 'statewide renters are the county sum');
   assert.equal(st.renters_burdened_30_plus, props.reduce((t, p) => t + p.renters_burdened_30_plus, 0), 'statewide burdened renters are the county sum');
+  assert.equal(st.rent_burden_universe, props.reduce((t, p) => t + p.rent_burden_universe, 0), 'statewide computed-burden renters are the county sum');
   const acsState = json('data/census-acs-state.json').data.find((r) => r.state_fips === '08');
   if (acsState.year === GEO.meta.vintages.acs) {
     assert.equal(st.renter_households, acsState.renter_occupied, 'county renters sum to the state table');
@@ -125,8 +126,14 @@ test('the article states the statewide figures its sources give', () => {
   assert.ok(rbPct && rbCounts.length === 2, 'the rent-burden finding states its share and both counts');
   assert.equal(rbPct[1], (st.rent_burden_30_plus * 100).toFixed(1), 'stated share equals the map statewide share');
   assert.equal(Math.min(...rbCounts), st.renters_burdened_30_plus, 'burdened count equals the map');
-  assert.equal(Math.max(...rbCounts), st.renter_households, 'renter count equals the map');
-  if (DEMO.statewide.acs_year === GEO.meta.vintages.acs) {
+  assert.equal(Math.max(...rbCounts), st.rent_burden_universe, 'renter count is the computed-burden universe on the map');
+  // The Census API file's statewide share is checked once it is summed from
+  // counts. Its older form averaged county rates by all households (owners
+  // too) and read 53.1% against the state's 52.9%; the next county refresh
+  // rewrites it with counts, and from then on both must agree exactly.
+  if (DEMO.statewide.acs_year === GEO.meta.vintages.acs && DEMO.statewide.rent_burden_universe != null) {
+    assert.equal(DEMO.statewide.rent_burden_universe, st.rent_burden_universe, 'the Census API file sums the same universe');
+    assert.equal(DEMO.statewide.renters_burdened_30_plus, st.renters_burdened_30_plus, 'and the same burdened renters');
     assert.equal(rbPct[1], (DEMO.statewide.cost_burden_share * 100).toFixed(1), 'and the Census API file statewide share');
   }
 
