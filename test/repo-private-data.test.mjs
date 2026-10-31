@@ -23,8 +23,23 @@ const PRIVATE_PATHS = [
   { label: 'readiness readings built from dossiers (coho-backend build)', re: /^data\/ripeness\.json$/ },
   { label: 'dossier, partnership terms or call sheet', re: /(^|\/)[^/]*(dossier|partnership-terms|call-sheet|seller-ask|term-sheet)[^/]*\.(md|json|csv|docx|pdf|html|txt)$/i },
   { label: 'saved deal or uploaded draft', re: /(^|\/)(saved-deals|deal-versions|submittal-uploads|uploads)\// },
-  { label: 'office document (keep drafts and dossiers in coho-backend)', re: /\.(docx|doc|pptx|xlsm)$/i }
+  { label: 'office document (keep drafts and dossiers in coho-backend)', re: /\.(docx|doc|pptx|xlsm)$/i },
+  { label: 'negotiation, LOI, MOU, RFQ or land price file (coho-backend only)', re: { test: dealFileName } }
 ];
+// File names that only deal and partner work carries: negotiations, briefs to
+// partners, letters of intent, MOUs, RFQ responses, land price and offer terms.
+// Words are matched whole, so "loi" never hits "exploit". CHFA's public 4%
+// LOI applicant report is the one public file that names an LOI.
+const DEAL_WORDS = new Set(['negotiation', 'negotiations', 'negotiating', 'mou', 'loi', 'rfq', 'loa']);
+const DEAL_PAIRS = ['land price', 'letter of intent', 'offer letter', 'partner brief', 'partner ask', 'option agreement', 'purchase agreement', 'counter offer'];
+const PUBLIC_DEAL_FILES = new Set(['tests/fixtures/lihtc-applications/Federal-4-percent-Credit-LOI-and-Applicant-Report.json']);
+function dealFileName(f) {
+  if (PUBLIC_DEAL_FILES.has(f)) return false;
+  const w = f.toLowerCase().split('/').pop().split(/[^a-z0-9]+/).filter(Boolean);
+  if (w.some((x) => DEAL_WORDS.has(x))) return true;
+  const joined = ' ' + w.join(' ') + ' ';
+  return DEAL_PAIRS.some((p) => joined.includes(' ' + p + ' '));
+}
 // Text that only private material carries.
 const PRIVATE_TEXT = [
   { label: 'contact CSV header', re: /^\W*name\W*,[^\n]*\bemail\b[^\n]*\bphone\b/im },
@@ -156,11 +171,14 @@ const mustCatch = [
   ['docs/x.md', 'Fruita Mews Phase II pro forma'], ['docs/y.md', '# Fruita Mews Phase II\n\n## Market Study\n'],
   ['data/z.txt', 'Fruita Mews Phase II\napplication narrative'],
   ['docs/notes.md', `call ${CANARY.toUpperCase().replace(' ', '-')} first`], ['test/x.test.mjs', `// ask ${CANARY}`],
+  ['docs/negotiation-notes.md'], ['data/Example-LOI.pdf'], ['notes/example_mou_draft.txt'], ['docs/rfq-response.md'],
+  ['docs/Example-Land-Price-Option.pdf'], ['notes/letter-of-intent.md'], ['docs/partner-brief-2026.md'], ['data/offer.letter.json'],
   ['test/repo-private-data.test.mjs', CANARY], ['scripts/lib/public-sensitive-patterns.mjs', CANARY], ['scripts/audit/public-artifact-guard.mjs', CANARY]
 ];
 for (const [f, t = ''] of mustCatch) if (!scanFile(f, () => t, true).length) { console.error('guard misses ' + f); process.exit(1); }
 const mustPass = [['js/components/pipeline-store.js', 'relationship_tier'], ['developer-pipeline.html', 'last_talked'], ['js/x.js', '// zz guard only, canary later'], [PRIVATE_TERMS_FILE, `// ${CANARY}`], ['data/hna/x.json', '{"a":1}'],
-  ['docs/api/js__components__pipeline-store.md', 'next_action'],
+  ['docs/api/js__components__pipeline-store.md', 'next_action'], ['js/exploit-check.js', ''], ['docs/landprice-index.md', ''],
+  ['tests/fixtures/lihtc-applications/Federal-4-percent-Credit-LOI-and-Applicant-Report.json', '{}'], ['data/policy_briefs.json', '{}'],
   ['data/awards.json', '"name": "Fruita Mews", "Total Units: 50", "Credit Amount Awarded: $1,330,877"']];
 for (const [f, t] of mustPass) if (scanFile(f, () => t, true).length) { console.error('guard wrongly flags ' + f); process.exit(1); }
 console.log(`repo-private-data: ${files.length} tracked files checked, none private.`);
