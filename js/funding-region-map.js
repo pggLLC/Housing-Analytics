@@ -167,7 +167,7 @@
     regionL = L.geoJSON({ type: 'FeatureCollection', features: feats }, {
       style: function (f) {
         var me = f.properties.region === region;
-        return { weight: me ? 3 : 1.4, color: cssVar('--frm-region'), opacity: me || region === 0 ? 0.9 : 0.45, fill: true, fillOpacity: me || region === 0 ? 0 : 0.12, fillColor: '#888' };
+        return { weight: me ? 3 : 1.4, color: cssVar('--frm-region'), opacity: me || region === 0 ? 0.9 : 0.45, fill: true, fillOpacity: me || region === 0 ? 0 : 0.12, fillColor: cssVar('--muted') || '#888' };
       },
       onEachFeature: function (f, l) {
         l.on('click', function () { if (region === 0 || map.getZoom() < 8) pick(f.properties.region, null, true); })

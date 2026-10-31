@@ -1,16 +1,14 @@
 /* Region and town map on where-housing-money-goes.html (js/funding-region-map.js). */
 .frm{
-  --frm-chfa:#2a62b8; --frm-oedit:#9a5f06; --frm-doh:#1f8a5b; --frm-dola:#8a46a8;
-  --frm-k-state:#2a78d6; --frm-k-equity:#eb6834; --frm-k-federal:#1baf7a; --frm-k-local:#eda100;
-  --frm-k-gift:#e87ba4; --frm-k-owner:#008300; --frm-k-otherstate:#6250d6; --frm-k-debt:#e34948; --frm-k-other:#7c8682;
-  --frm-region:#33413c;
+  /* Bound to the approved chart tokens (css/site-theme.css), which switch for dark mode themselves.
+     Hatched fills tell apart the categories that share a hue. */
+  --frm-chfa:var(--chart-1); --frm-oedit:var(--chart-6); --frm-doh:var(--chart-5); --frm-dola:var(--chart-3);
+  --frm-hatch:45deg, transparent 0 2px, var(--card) 2px 4px;
+  --frm-k-state:var(--chart-1); --frm-k-equity:var(--chart-6); --frm-k-federal:var(--chart-5); --frm-k-local:var(--chart-3);
+  --frm-k-gift:repeating-linear-gradient(var(--frm-hatch)) var(--chart-7); --frm-k-owner:repeating-linear-gradient(var(--frm-hatch)) var(--chart-4);
+  --frm-k-otherstate:repeating-linear-gradient(var(--frm-hatch)) var(--chart-1); --frm-k-debt:var(--chart-7); --frm-k-other:var(--muted);
+  --frm-region:var(--text);
   display:grid; gap:16px; margin-top:var(--sp5, 40px); min-width:0;
-}
-html.dark-mode .frm{
-  --frm-chfa:#6f9ee8; --frm-oedit:#e0a240; --frm-doh:#4fc08b; --frm-dola:#c08ae0;
-  --frm-k-state:#3987e5; --frm-k-equity:#d95926; --frm-k-federal:#199e70; --frm-k-local:#c98500;
-  --frm-k-gift:#d55181; --frm-k-owner:#008300; --frm-k-otherstate:#9085e9; --frm-k-debt:#e66767; --frm-k-other:#8f9995;
-  --frm-region:#c9d4cf;
 }
 .frm > *, .frm section > *{min-width:0}
 .frm h2{margin:0}
