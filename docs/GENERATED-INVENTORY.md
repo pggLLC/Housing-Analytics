@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T17:38:45.087Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T02:03:37.129Z. Do not edit by hand.
 
 ---
 
@@ -64,7 +64,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 255.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 51.9 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 52.2 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.1 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 13.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.3 KB |
@@ -2377,7 +2377,7 @@
 | `test/home-step-cards-match-destinations.test.js` | 3.3 KB |
 | `test/home-value-integrity.test.mjs` | 19.1 KB |
 | `test/homeownership-programs.test.js` | 8.7 KB |
-| `test/homepage-claims.test.js` | 15.9 KB |
+| `test/homepage-claims.test.js` | 16.9 KB |
 | `test/homepage-job-routing.test.js` | 10.5 KB |
 | `test/homepage-snapshot.test.js` | 16.0 KB |
 | `test/homes-short-agreement.test.js` | 4.2 KB |
