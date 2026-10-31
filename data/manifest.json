@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-31T13:53:10.442821Z",
+  "generated": "2026-10-31T14:34:32.897116Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7594,7 +7594,7 @@
     "data/hna/summary/0852075.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4175
+      "bytes": 4172
     },
     "data/hna/summary/0852210.json": {
       "featureCount": 0,
@@ -7609,12 +7609,12 @@
     "data/hna/summary/0852550.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4157
+      "bytes": 4274
     },
     "data/hna/summary/0852570.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4229
+      "bytes": 4228
     },
     "data/hna/summary/0852820.json": {
       "featureCount": 0,
@@ -7749,7 +7749,7 @@
     "data/hna/summary/0856860.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4265
+      "bytes": 4266
     },
     "data/hna/summary/0856970.json": {
       "featureCount": 0,
@@ -7919,7 +7919,7 @@
     "data/hna/summary/0863375.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4271
+      "bytes": 4273
     },
     "data/hna/summary/0863650.json": {
       "featureCount": 0,
@@ -7999,7 +7999,7 @@
     "data/hna/summary/0867142.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4027
+      "bytes": 4028
     },
     "data/hna/summary/0867280.json": {
       "featureCount": 0,
@@ -8169,7 +8169,7 @@
     "data/hna/summary/0873925.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4182
+      "bytes": 4183
     },
     "data/hna/summary/0873935.json": {
       "featureCount": 0,
@@ -8199,7 +8199,7 @@
     "data/hna/summary/0874430.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4299
+      "bytes": 4295
     },
     "data/hna/summary/0874485.json": {
       "featureCount": 0,
@@ -9209,7 +9209,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16090
+      "bytes": 16086
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,

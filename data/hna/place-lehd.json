@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-31T13:03:22.292060+00:00",
+    "generated_at": "2026-10-31T14:01:35.581668+00:00",
     "source_tract_metrics": "data/market/acs_tract_metrics_co.json",
     "source_membership": "data/hna/place-tract-membership.json",
     "source_place_summary": "data/hna/summary/{place_geoid}.json",
