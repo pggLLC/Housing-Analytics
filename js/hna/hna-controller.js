@@ -5596,7 +5596,10 @@
     // Nothing to load for an unknown geography, or when nothing was picked
     // (no address, no saved place); the waiting state says what to do.
     if (!unknownGeoid && !nothingChosen) update();
-    else if (window.HNARenderers.clearDecisionStrip) window.HNARenderers.clearDecisionStrip();
+    else {
+      if (window.HNARenderers.clearDecisionStrip) window.HNARenderers.clearDecisionStrip();
+      if (window.HNARenderers.settleJurisdictionBanner) window.HNARenderers.settleJurisdictionBanner();
+    }
   }
 
 
