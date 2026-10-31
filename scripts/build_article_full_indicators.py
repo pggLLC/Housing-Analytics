@@ -60,7 +60,7 @@ DEMOGRAPHICS_FIELD = {"median_gross_rent": "median_gross_rent",
 
 COLUMNS = ["county_fips", "county_name", "acs_year",
            "median_gross_rent", "median_hh_income", "vacancy_rate",
-           "rent_burden_30_plus", "renter_households", "renters_burdened_30_plus",
+           "rent_burden_30_plus", "renter_households", "rent_burden_universe", "renters_burdened_30_plus",
            "population",
            "fhfa_hpi_change_10y", "fhfa_base_year", "fhfa_latest_year",
            "qcew_avg_annual_wage", "qcew_year",
@@ -105,12 +105,16 @@ def _acs(acs: pd.DataFrame) -> pd.DataFrame:
     acs["renters_burdened_30_plus"] = burdened.sum(axis=1, min_count=len(BURDEN_BANDS)).where(
         burdened.notna().all(axis=1))
     acs["renter_households"] = acs["rent_burden_total"].where(acs["rent_burden_total"] > 0)
+    # B25070's share leaves out renters whose burden Census cannot compute
+    # (no or negative income, or no cash rent): its universe is 001 minus 011.
+    universe = acs["rent_burden_total"] - acs["rent_burden_not_computed"]
+    acs["rent_burden_universe"] = universe.where(universe > 0)
     for col in ("median_gross_rent", "median_hh_income"):
         acs[col] = acs[col].map(_positive)
     return acs[["county_fips", "county_name", "acs_year",
                 "median_gross_rent", "median_hh_income",
                 "vacancy_rate", "rent_burden_30_plus",
-                "renter_households", "renters_burdened_30_plus"]]
+                "renter_households", "rent_burden_universe", "renters_burdened_30_plus"]]
 
 
 def _fhfa_change(fhfa: pd.DataFrame) -> tuple[pd.DataFrame, int, int]:
@@ -238,7 +242,7 @@ def build() -> pd.DataFrame:
 def main() -> None:
     base = build()
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    int_cols = ["acs_year", "median_gross_rent", "median_hh_income", "renter_households", "renters_burdened_30_plus", "population",
+    int_cols = ["acs_year", "median_gross_rent", "median_hh_income", "renter_households", "rent_burden_universe", "renters_burdened_30_plus", "population",
                 "fhfa_base_year", "fhfa_latest_year", "qcew_avg_annual_wage", "qcew_year",
                 "bps_first_year", "bps_last_year"]
     for col in int_cols:

@@ -132,6 +132,11 @@ function parseCountyRows(rows) {
       median_home_value: medHomeValue && medHomeValue > 0 ? medHomeValue : null,
       median_hh_income: medIncome && medIncome > 0 ? medIncome : null,
       population: population && population > 0 ? population : null,
+      // B25070 counts behind the shares, so the statewide rate can be summed
+      // from them instead of averaging county rates.
+      rent_burden_universe: totalRenter > 0 ? totalRenter : null,
+      renters_burdened_30_plus: totalRenter > 0 ? burdened30 : null,
+      renters_burdened_50_plus: totalRenter > 0 && severe50 != null ? severe50 : null,
 
       // Legacy names, still read by js/market-intelligence.js and
       // js/housing-need-projector.js. The live fetch had been dormant for
@@ -174,10 +179,9 @@ function buildStatewideAggregate(counties) {
   var totalOvercrowded = 0;
   var totalVacant = 0;
   var rentSum = 0, incomeSum = 0, homeValueSum = 0;
-  var costBurdenSum = 0, severeBurdenSum = 0;
+  var burdenUniverse = 0, burdened30Sum = 0, burdened50Sum = 0, burdenCountsComplete = true;
   var vacancySum = 0;
   var popWeightTotal = 0;
-  var hhWeightTotal = 0;
 
   Object.values(counties).forEach(function (c) {
     var pop = c.population || 0;
@@ -202,17 +206,24 @@ function buildStatewideAggregate(counties) {
       if (c.median_home_value !== null)         homeValueSum += c.median_home_value * pop;
       popWeightTotal += pop;
     }
-    if (hh > 0) {
-      if (c.cost_burden_share !== null)   costBurdenSum   += c.cost_burden_share * hh;
-      if (c.severe_burden_share !== null) severeBurdenSum += c.severe_burden_share * hh;
-      hhWeightTotal += hh;
+    // Burden rates come from the summed B25070 counts. Weighting county
+    // rates by all households (owners too) read 53.1% where the state's
+    // own B25070 figure is 52.9%.
+    if (c.rent_burden_universe != null && c.renters_burdened_30_plus != null && c.renters_burdened_50_plus != null) {
+      burdenUniverse += c.rent_burden_universe;
+      burdened30Sum  += c.renters_burdened_30_plus;
+      burdened50Sum  += c.renters_burdened_50_plus;
+    } else {
+      burdenCountsComplete = false;
     }
   });
 
   return {
     fips: '08',
-    cost_burden_share:   hhWeightTotal > 0 ? parseFloat((costBurdenSum / hhWeightTotal).toFixed(4)) : null,
-    severe_burden_share: hhWeightTotal > 0 ? parseFloat((severeBurdenSum / hhWeightTotal).toFixed(4)) : null,
+    cost_burden_share:   burdenCountsComplete && burdenUniverse > 0 ? parseFloat((burdened30Sum / burdenUniverse).toFixed(4)) : null,
+    severe_burden_share: burdenCountsComplete && burdenUniverse > 0 ? parseFloat((burdened50Sum / burdenUniverse).toFixed(4)) : null,
+    rent_burden_universe:     burdenCountsComplete ? burdenUniverse : null,
+    renters_burdened_30_plus: burdenCountsComplete ? burdened30Sum : null,
     household_count:     totalHH,
     overcrowding_rate:   totalHU > 0 ? parseFloat((totalOvercrowded / totalHU).toFixed(4)) : null,
     vacancy_rate:        totalHU > 0 ? parseFloat((totalVacant / totalHU).toFixed(4)) : null,
@@ -222,7 +233,7 @@ function buildStatewideAggregate(counties) {
     population:          totalPop,
     fips:                '08',
     acs_year:            ACS_YEAR,
-    derivation:          'population-weighted medians; household-weighted rates; counts summed over ' +
+    derivation:          'population-weighted medians; burden rates and counts summed over ' +
                          Object.keys(counties).length + ' counties'
   };
 }
