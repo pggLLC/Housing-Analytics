@@ -10,10 +10,8 @@ county and state planning region, and adds region outlines for the map.
 
 Needs shapely (pip install shapely). Rerun after any of those inputs change.
 """
-import json, re, collections, math, os
-try:
-    import shapely
-except ImportError:  # the derived chain runs in workflows that only install what they fetch with
+import json, re, collections, math, os, importlib.util
+if importlib.util.find_spec("shapely") is None:  # the derived chain runs in workflows that only install what they fetch with
     import subprocess, sys
     subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", "shapely==2.1.1"], check=True)
 from shapely.geometry import shape, Point, mapping
