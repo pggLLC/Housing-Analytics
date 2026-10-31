@@ -52,6 +52,7 @@ DECISIONS = ('checked', 'weak', 'blocked')  # least to most severe
 BOX_LABELS = {'checked': 'Checked outlet', 'weak': 'Weak sourcing', 'blocked': 'Block'}
 SHOWN_SCOPES = ('colorado', 'federal', 'national')
 TIMEOUT = 20
+WEEKLY_GAP = timedelta(days=6, hours=12)
 
 
 def outlet_id(name: str) -> str:
@@ -214,7 +215,7 @@ def needs_weekly(comments: list[dict], now: datetime) -> bool:
                 at = datetime.strptime(c['created_at'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
             except (KeyError, ValueError):
                 continue
-            if now - at < timedelta(days=6, hours=12):
+            if now - at < WEEKLY_GAP:
                 return False
     return True
 
@@ -234,8 +235,18 @@ def sync_issue(token: str, repo: str, today: date) -> int:
             gh(token, f'/repos/{repo}/issues/{issue["number"]}', 'PATCH', {'body': body})
     else:
         issue = gh(token, f'/repos/{repo}/issues', 'POST', {'title': TITLE, 'body': body, 'labels': [LABEL]})
-    comments = gh(token, f'/repos/{repo}/issues/{issue["number"]}/comments?per_page=100') or []
-    if needs_weekly(comments, datetime.now(timezone.utc)):
+    # Only comments since the de-duplication cutoff: the list is oldest first,
+    # so a long-lived issue's first page would miss last week's comment
+    # (Codex review of #2607).
+    now = datetime.now(timezone.utc)
+    since = (now - WEEKLY_GAP).strftime('%Y-%m-%dT%H:%M:%SZ')
+    comments: list[dict] = []
+    for page in range(1, 6):
+        batch = gh(token, f'/repos/{repo}/issues/{issue["number"]}/comments?since={since}&per_page=100&page={page}') or []
+        comments += batch
+        if len(batch) < 100:
+            break
+    if needs_weekly(comments, now):
         gh(token, f'/repos/{repo}/issues/{issue["number"]}/comments', 'POST', {'body': weekly_comment(review, today)})
     return 0
 

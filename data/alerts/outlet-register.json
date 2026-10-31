@@ -749,11 +749,6 @@
       "checked": "2026-10-31"
     },
     {
-      "name": "Lincoln County Record",
-      "tier": "newsroom",
-      "checked": "2026-10-31"
-    },
-    {
       "name": "Colorado Community Media",
       "tier": "newsroom",
       "domains": [
@@ -1475,6 +1470,9 @@
     {
       "name": "Denver City Wire",
       "tier": "blocked",
+      "domains": [
+        "denvercitywire.com"
+      ],
       "note": "Metric Media site. Media Bias/Fact Check rates the network Questionable: imposter sites designed to look like local news.",
       "evidence": "https://mediabiasfactcheck.com/denver-city-wire/",
       "checked": "2026-10-31",
@@ -1483,6 +1481,9 @@
     {
       "name": "Boulder Leader",
       "tier": "blocked",
+      "domains": [
+        "boulderleader.com"
+      ],
       "note": "Metric Media site. Media Bias/Fact Check rates the network Questionable: imposter sites designed to look like local news.",
       "evidence": "https://mediabiasfactcheck.com/boulder-leader/",
       "checked": "2026-10-31",
@@ -1491,6 +1492,9 @@
     {
       "name": "SE Denver News",
       "tier": "blocked",
+      "domains": [
+        "sedenvernews.com"
+      ],
       "note": "Metric Media site. Media Bias/Fact Check rates the network Questionable: imposter sites designed to look like local news.",
       "evidence": "https://mediabiasfactcheck.com/se-denver-news/",
       "checked": "2026-10-31",
@@ -1499,6 +1503,9 @@
     {
       "name": "NE Colorado News",
       "tier": "blocked",
+      "domains": [
+        "necoloradonews.com"
+      ],
       "note": "Metric Media site. Media Bias/Fact Check rates the network Questionable: imposter sites designed to look like local news.",
       "evidence": "https://mediabiasfactcheck.com/ne-colorado-news/",
       "checked": "2026-10-31",

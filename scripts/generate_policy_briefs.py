@@ -550,7 +550,9 @@ def is_housing_headline(title: str, source: str = '') -> bool:
 def story_scope(title: str, source: str, distinct_place: bool, trusted_outlet: bool = True) -> str | None:
     """'colorado', 'federal', 'national' (a trend story from a listed outlet), or None."""
     title = COLORADO_STREET_RE.sub(' ', title or '')
-    hay = f'{title} {source}'
+    # An unchecked outlet's name says nothing about where a story is: "Colorado
+    # Mystery Outlet" is not Colorado context (Codex review of #2607).
+    hay = f'{title} {source}' if trusted_outlet else title
     # A headline that says Colorado outright is Colorado news even when it names
     # another state ("Colorado lawmakers borrow Oregon zoning reforms"). Only the
     # headline counts here: a bare town name ("Aurora, Illinois") or a Colorado

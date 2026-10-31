@@ -100,9 +100,11 @@ class Register:
                 entry = next((e for d, e in self.by_domain.items() if dm.endswith('.' + d)), None)
         if not entry:
             named = self.by_name.get(norm_name(source))
-            # The name is known but the feed gives another address: someone
-            # else using the name. Unverified, never the outlet it claims.
-            if named and dm and named['domains'] and dm not in named['domains']:
+            # The name is known but the feed gives another address, or the
+            # entry has no address to compare: someone could be using the
+            # name. Unverified, never the outlet it claims. A blocked name
+            # stays blocked whatever address it comes from.
+            if named and dm and named['tier'] != 'blocked' and dm not in named['domains']:
                 named = None
             entry = named
         if not entry and (source or '').rstrip().endswith('(.gov)'):
