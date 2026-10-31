@@ -33,7 +33,9 @@
       : n >= 1e6 ? '$' + (n / 1e6).toFixed(n >= 1e7 ? 1 : 2).replace(/\.0+$/, '') + 'M'
       : n >= 1e3 ? '$' + Math.round(n / 1e3) + 'K' : '$' + Math.round(n);
   }
-  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  // Links from the data: only web addresses and the site's own relative pages
+  function safeUrl(u) { u = String(u || ''); return /^https?:\/\//i.test(u) || /^[a-z0-9][a-z0-9._\/-]*(\?[a-z0-9=&._-]*)?$/i.test(u) ? u : ''; }
   function $(id) { return document.getElementById(id); }
   function vis(a) { return on[a.agency]; }
   function inSel(a) { return (region === 0 || a.region === region) && (!town || a.town === town); }
@@ -102,7 +104,8 @@
       '<b>Matching.</b> Awards are joined to projects by name and county. Different spellings of one project can show up as two sites, and two phases with one name can merge.',
       '<b>Not an official record.</b> Compiled ' + dateTxt(D.compiled) + ' from public documents that can change. Check the linked record before citing an amount.'
     ];
-    LIMITS_TXT = LIMITS.map(function (x) { return x.replace(/<[^>]+>/g, ''); });
+    // Plain-text copies for the CSV notes: drop the leading <b>…</b> label markup
+    LIMITS_TXT = LIMITS.map(function (x) { return x.split('<b>').join('').split('</b>').join(''); });
     $('frm-limits').innerHTML = LIMITS.map(function (x) { return '<li>' + x + '</li>'; }).join('');
   }
 
@@ -187,7 +190,7 @@
   function awardLi(a) {
     return '<li><b style="color:var(' + AG[a.agency].v + ')">' + AG[a.agency].label + '</b>, ' + esc(a.year_label) + ': ' + esc(a.program) +
       (a.recipient ? ', to ' + esc(a.recipient) : '') + '. ' + amtHtml(a) +
-      (a.source_url ? ' <a href="' + esc(a.source_url) + '" target="_blank" rel="noopener">source</a>' : '') + '</li>';
+      (safeUrl(a.source_url) ? ' <a href="' + esc(safeUrl(a.source_url)) + '" target="_blank" rel="noopener">source</a>' : '') + '</li>';
   }
   function popupHtml(id) {
     var s = SITE[id], list = siteAwards(id).sort(function (a, b) { return a.year - b.year; });
@@ -286,12 +289,12 @@
     var li = st.rows.map(function (r) {
       return '<li><span class="frm-sw" style="--c:' + srcColor(r) + '" title="' + esc(r.cat === 'state' && r.ag ? AG[r.ag].label : KL[r.cat] || r.cat) + '"></span>' +
         '<span>' + esc(r.label) + (r.tag ? '<span class="frm-tag">' + esc(r.tag) + '</span>' : '') + '</span><span class="frm-amt">' + esc(r.text) + '</span>' +
-        '<span class="frm-why">' + (r.note ? esc(r.note) + ' ' : '') + (r.src_url ? '<a href="' + esc(r.src_url) + '" target="_blank" rel="noopener">' + esc(r.src_title) + '</a>' : esc(r.src_title)) + '</span></li>';
+        '<span class="frm-why">' + (r.note ? esc(r.note) + ' ' : '') + (safeUrl(r.src_url) ? '<a href="' + esc(safeUrl(r.src_url)) + '" target="_blank" rel="noopener">' + esc(r.src_title) + '</a>' : esc(r.src_title)) + '</span></li>';
     }).join('');
     return '<article class="frm-stk" id="frm-stk-' + id + '"><h4><button class="frm-name" type="button" data-s="' + id + '">' + esc(s.name) + '</button></h4>' +
       '<span class="frm-sub">' + esc(T[s.town].name) + (s.homes ? ' · ' + s.homes + ' homes' : '') + '</span>' + sbar(st) + sumLine(st) +
       '<ul class="frm-srows">' + li + '</ul>' + (st.c.note ? '<span class="frm-sub">' + esc(st.c.note) + '</span>' : '') +
-      '<span class="frm-sub">Sorted automatically from the deal summary. <a href="' + esc(st.c.deal_url) + '">Read the summary</a>.</span></article>';
+      '<span class="frm-sub">Sorted automatically from the deal summary. <a href="' + esc(safeUrl(st.c.deal_url)) + '">Read the summary</a>.</span></article>';
   }
   function stackIds() {
     return Object.keys(D.stacks).filter(function (id) { return (region === 0 || T[SITE[id].town].region === region) && (!town || SITE[id].town === town); })
@@ -349,9 +352,9 @@
     }).sort(function (a, b) { return b.sum - a.sum || b.cr - a.cr; });
   }
   function reportHtml() {
-    var list = D.awards.filter(inSel), Tt = totals(list), ids = stackIds(), base = location.href.replace(/[#?].*$/, '').replace(/[^/]*$/, '');
+    var list = D.awards.filter(inSel), Tt = totals(list), ids = stackIds(), base = 'https://cohoanalytics.com/';
     function row(cells) { return '<tr>' + cells.map(function (x) { return '<td' + (/^\$/.test(String(x)) ? ' class="n"' : '') + '>' + x + '</td>'; }).join('') + '</tr>'; }
-    function abs(u) { return /^https?:/.test(u || '') ? u : base + (u || ''); }
+    function abs(u) { u = safeUrl(u); return !u || /^https?:/i.test(u) ? u : base + u; }
     return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>State housing awards: ' + esc(selName()) + '</title>' +
       '<style>body{font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d2422;max-width:960px;margin:24px auto;padding:0 16px}h1{font-size:26px;margin:0}h2{font-size:18px;margin:24px 0 6px;border-bottom:2px solid #1d2422}h3{font-size:15px;margin:14px 0 4px}table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{border-bottom:1px solid #d9dedb;padding:5px 6px;text-align:left;vertical-align:top}th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#5b6662}.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}.box{border-left:4px solid #9a5f06;padding:6px 12px;background:#faf7f0}.box li{margin:4px 0}a{color:#0f5c8a}.k{display:flex;flex-wrap:wrap;gap:8px 24px}.k div b{display:block;font-size:18px}@media print{a{color:inherit}h2{break-after:avoid}tr{break-inside:avoid}}</style></head><body>' +
       '<h1>State housing awards: ' + esc(selName()) + '</h1><p>CHFA, OEDIT, Division of Housing and DOLA local government awards with public records, from COHO Analytics (' + esc(base) + 'where-housing-money-goes.html). Compiled ' + dateTxt(D.compiled) + '. Print this page to save it as a PDF.</p>' +
