@@ -269,8 +269,12 @@ STK = {}
 def money(s):
     m = re.search(r"\$\s?([\d,]+(?:\.\d+)?)\s*(million|m\b|k\b|thousand|billion)?", s, re.I)
     if not m: return None
-    v = float(m.group(1).replace(",", "")); u = (m.group(2) or "").lower()
-    if u in ("million", "m"): v *= 1e6
+    # malformed thousands grouping ("$725,00") is ambiguous, so it is left uncounted
+    g = m.group(1).rstrip(",")
+    if "," in g and not re.fullmatch(r"\d{1,3}(,\d{3})+(\.\d+)?", g): return None
+    v = float(g.replace(",", "")); u = (m.group(2) or "").lower()
+    if u == "billion": v *= 1e9
+    elif u in ("million", "m"): v *= 1e6
     elif u in ("k", "thousand"): v *= 1e3
     return round(v)
 FIG = r"\$\s?[\d,]+(?:\.\d+)?\s*(?:million|m\b|k\b|thousand|billion)?"
@@ -289,10 +293,13 @@ def money_total(s):
     figs = list(re.finditer(FIG + r"([^$;,/+]*)", s, re.I))
     if len(figs) < 2: return money(s)
     perm = [f for f in figs if re.match(r"\s*\(?permanent", f.group(1), re.I)]
-    if perm: return sum(money(f.group(0)) for f in perm)
+    if perm: return add_all(perm)
     keep = [f for f in figs if not re.match(r"\s*(construction|pab|bonds?)\b", f.group(1), re.I)]
     if ALT.search(s) or not keep: return money(s)
-    return sum(money(f.group(0)) for f in keep)
+    return add_all(keep)
+def add_all(figs):
+    vals = [money(f.group(0)) for f in figs]
+    return None if None in vals else sum(vals)
 def classify(src, amt):
     s = src.lower(); a = amt.lower()
     if re.search(r"total (development )?cost|^tdc|development budget|total budget", s): return "tdc", "perm"
