@@ -352,12 +352,12 @@ def classify(src, amt):
     if "equity" in s and not inkind and "deferred develop" not in s and (re.search(r"credit|lihtc|45l|syndicat|investor", s) or not re.search(r"developer|owner|sponsor|private|city|town|county|land", s)): return "equity", "perm"
     # a developer fee is a project cost; only a deferred or contributed fee is money into the deal
     if re.search(r"developer fee", s) and not re.search(r"defer|contribut|loan|equity", s): return "cost", "summary"
-    if re.search(r"deferred develop|developer fee|sponsor loan|seller|owner|general partner|sponsor equity|developer equity|private equity", s): cat = "owner"
+    if re.search(r"deferred (develop|fee)|developer fee|sponsor loan|seller|owner|general partner|sponsor equity|developer equity|private equity", s): cat = "owner"
     # a named federal program keeps its federal origin even when a state agency passes it through
     elif re.search(r"home investment partnerships?|\bhome (funds?|loan|program|grant)\b|\bcdbg\b|community development block grant|\barpa\b|american rescue plan|national housing trust fund|\bhtf\b|neighborhood stabilization|\bhud\b|section (8|811)\b|capital magnet|\busda\b|rural development|\bfhlb\b", s) and "risk share" not in s: cat = "federal"
     elif re.search(r"chfa|division of housing|\bdoh\b|dola|oedit|prop(osition)? 123|state housing board|colorado department|state of colorado|colorado energy|history colorado|transit oriented communities infrastructure|\btoci\b", s): cat = "state"
     elif re.search(r"\b(hud|home|cdbg|arpa|usda|epa|fhlb)\b|federal|environmental protection|section 8|congression|treasury|capital magnet|community development block grant|home investment partnerships?|national housing trust fund|neighborhood stabilization|american rescue plan|department of housing and urban development|rural development", s): cat = "federal"
-    elif re.search(r"foundation|philanthrop|donor|gift|church|community fund|impact fund|(?<!housing )\btrust\b(?! fund)", s): cat = "gift"
+    elif re.search(r"foundation|philanthrop|donor|gift|fundrais|capital campaign|church|community fund|impact fund|(?<!housing )\btrust\b(?! fund)", s): cat = "gift"
     # a land bank holds land for a city or housing authority; it is not a bank loan
     elif re.search(r"city|county|town|housing authority|housing partners|\bbhp\b|land bank|district|denver|metro|authority|tribe|tribal|linkage|host\b", s): cat = "local"
     elif re.search(r"loan|mortgage|bank|debt|lender", s): cat = "debt"
@@ -387,6 +387,11 @@ for d in idx:
         # "X, Y and Z" with one amount for each part, where some parts are in-kind: split so the cash parts still count
         # (or "X plus Y", or "X and Y" with amounts set apart by semicolons, where the parts come from different kinds of funder)
         # separators inside parentheses, as in "(AHIF, Division of Housing funds)", do not split the label
+        # "X / Y / Z" with "$A / $B / $C": one row for each part
+        sl, sa = re.split(r"\s+/\s+", m["source"]), re.split(r"\s+/\s+", m["amount"])
+        if len(sl) >= 2 and len(sl) == len(sa) and all(re.search(r"\$\s?[\d,.]+", a) for a in sa):
+            for x, a in zip(sl, sa): money_rows.append(dict(m, source=x, amount=a))
+            continue
         lp = [x.replace("\0", ",").replace("\1", " and ") for x in re.split(r",\s*(?:and\s+)?|\s+(?:and|plus)\s+", re.sub(r"\([^)]*\)", lambda p: p.group(0).replace(",", "\0").replace(" and ", "\1"), m["source"]))]; ap = re.split(r"\s+(?:and|plus)\s+|;\s*", m["amount"])
         if len(lp) >= 2 and len(lp) == len(ap) and all(re.search(r"\$\s?[\d,.]+", a) for a in ap):
             kinds = [classify(x, a)[1] == "inkind" for x, a in zip(lp, ap)]
