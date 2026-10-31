@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T21:02:44.990Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T21:46:40.611Z. Do not edit by hand.
 
 ---
 
@@ -1851,7 +1851,7 @@
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
 | `data/market/acs_renter_household_size_co.json` | 158.8 KB | ✅ | — |
-| `data/market/acs_tract_metrics_co.json` | 1.29 MB | ✅ | — |
+| `data/market/acs_tract_metrics_co.json` | 1.33 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
 | `data/market/bps_monthly_ytd.json` | 93.4 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 575 B | ✅ | — |
