@@ -1,0 +1,428 @@
+{
+  "meta": {
+    "generated": "2026-10-31T12:24:21Z",
+    "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
+    "week": {
+      "since": "2026-10-25",
+      "checked": 59,
+      "unverified": 4,
+      "weak": 2
+    }
+  },
+  "outlets": [
+    {
+      "id": "545a53e448",
+      "name": "Common Sense Institute",
+      "domains": [],
+      "stories": 6,
+      "first_seen": "2026-08-10",
+      "last_seen": "2026-10-28",
+      "headlines": [
+        {
+          "title": "Colorado’s Hot Housing Market May be Cooling",
+          "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNNUtWTmFmZGZveThOTTNNNExURU1Pb2pOWXpMZ1VSTkp1V05SSE53eGVQUEsyYmpOOVExOHQ5QXVjZE51Z3VMbWo4c1FCRHdIcmJHRUVBTkpvVk9oeFNmaVRIRUROWTk1Q0xrdDRTd05NQ3ltbVpvY0FvaVpMbzJacW5VODFHQV9BZnBPblpQMXJXdw?oc=5",
+          "date": "2026-10-28"
+        },
+        {
+          "title": "What Colorado’s Health Plans Cover: Medicaid and Private Insurance",
+          "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOeUNvTGR5NF85cXJWUjROVUR4V2JRU2tBVm54UVgyZ2RYTk9QOG9hVl95SFhxZnN6cVJIN0dRMGVnWmtWVWx6dHhVRFRlZ21JVEJUTDBuRTNsTVhjNzBLbWhzZ1VQX3lNQmp6OEg4ckkyWG0tc0JKUlRtVXhsVHU3eEhCQkxfZWVDMDlENmZkaHAzVnVoRlJhN0Q4ZFd5WjlhZUlZWjVBNV9VdEZZNkE?oc=5",
+          "date": "2026-10-26"
+        },
+        {
+          "title": "The Cost of Homebuilding in Colorado Cities: How the Regulatory Environment Impacts the Price of New Homes",
+          "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxNT2Ntb2dVZWFBVzd1dXBPQS1WaTVHYlp2a1FsOS1pUlUwZF9KNDAzT3kzV2tYOG5rTEdaTjc0Ukxmbml0S2g0cFpjRzEybnBRZ19nRzFWamVmaU9KcjZJRGhqNEZmUmt4eG1vaG1pYzR3d1BaZzh5ZWJPS25lWklHZEpMRkpnREZheHM2ZEJiZUpBZ0tKSzVTNndRSkdvRlBnSlFvV2xqU3o2aUJoSnU2SmdacFMzV1ZRcW9KSmM2NFFEcmgycU9iWEgtQVJBSWo1YW9PaUVHNHh3Zk9WZ3VNNU9GRlc?oc=5",
+          "date": "2026-09-23"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "c6be2856b8",
+      "name": "Niskanen Center",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-10-28",
+      "last_seen": "2026-10-28",
+      "headlines": [
+        {
+          "title": "Linking housing affordability to successful transit: Lessons from Colorado's Transit Oriented Communities law",
+          "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPdUFFUkpYQUxzZU81WVJKWGRhUnppT2FzSXk2ZmV4RkJFbkFYY3ByMENXd2pSUnVVRktJanJ0MUNhVDZTMGlIeEpzMGFaaFJVMTFfQk1YN3hwWFhkcDdHMlBzNEJHMzJRaXJtRHJQeFlfaVRXUHY5QlFRUFpFS0o5VnVKVmRpclVSRDRERXlJRDdRUUstX0dFS0tQMl9sbzBidTdKWXB4RmlOSlhQdjdpX05aNjl3ZTk2OU40cGZucUhNSDUtTURpRzZnR1FEbWp4U0Y1RXdn?oc=5",
+          "date": "2026-10-28"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "2731aff857",
+      "name": "The Korea Daily",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-10-27",
+      "last_seen": "2026-10-27",
+      "headlines": [
+        {
+          "title": "Manufactured Housing — Federal Push Meets Local Zoning Hurdles",
+          "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOXzFEbjNaOC00WFgtdGN5TzZnMEFCbkowVG03ZDRNakJpeU1WRlBkdTIyRXpuRXkwYmxEMFFQejEtZVRma080ZElXQUYtc21TM3NIWWI4UU9lRE5SZUxkRzlJWVNNbzF2WjhhVXdRV3puRUZGLUJyejhQd2stb3Jua1JpR0NsV1Z5ZHU4RVlXRHI?oc=5",
+          "date": "2026-10-27"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "5b33154f8c",
+      "name": "coyotegulch.blog",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-10-23",
+      "last_seen": "2026-10-23",
+      "headlines": [
+        {
+          "title": "LaJunta gets nearly $30 million in federal funding to filter ‘forever chemicals’ from wastewater — #Colorado Public Radio #PFAS",
+          "link": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPSUQxbjBIbEpUcEtVbi1ueW53MWR0RF9DU2FsaFc2MTdqUzhtb1ZHOEJ1cElheEFCVEFycWN2OEdIU0Vqcm1rLTVRNDFwRkRUXzctc2I1TG45SHc4eElMRFpnT2duMVNWZThmWmEzcmtJNkNsNWc5ajJaTjN2Ni1neTdxbS1xM0hkX2xzSzRlVFZyaDFfMUVhWkwtdFpmVG5vS0wwY3EyNlRmY1JCb202TDNNUGE5QnpnbzhlU25FbkNCd2FUYUMwazBTaF9EYUxjVXFKSW5OUVAzRnl4UGZEZmZiYThkalpJZEdLc2dR?oc=5",
+          "date": "2026-10-23"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "784eec053d",
+      "name": "Senior Living News",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-10-22",
+      "last_seen": "2026-10-22",
+      "headlines": [
+        {
+          "title": "MGL Partners Opens Affordable Senior Housing Community in Denver",
+          "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPaDZuMXlubVQycXE1eVVwMkpZNGQ4bktuUHFEN290Y0xwTUpvaW5jcDJXVU1oYVJITnNPdkc3WVZKV0Q0OXRDMVA3YXZLZHhUNFRGQTRMNE1oeWtLME1pVTdQc1dTelZVeWFBOWRmR0tpYkhiQ3QwbnJwV3V4QUNuXzZyTUQ0WEdvNmN5b0pON3pobktyczh6TVBZc2Zoa0E?oc=5",
+          "date": "2026-10-22"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "bc703dfda7",
+      "name": "Greater Greater Washington",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-10-21",
+      "last_seen": "2026-10-21",
+      "headlines": [
+        {
+          "title": "How one federal housing program has survived",
+          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQX29rUlNUaUlnUFRZVGh4aXR0TmJmYXZPQ1BOZjZWTC0tb2pmSm9VRWh2SlB2bUQxbm9xQnluS1VqNnlvZHVrRVVEaVA5QVJ3WE81MXlsZFNvMmZZd2NEa0FiWEQ4NVE2X1NwN0djQ2dzbXNPb3N1TTJwTWdYc012UzF5QWlBaFNia180RXFScVZsajjSAUpBVV95cUxNaklhN0hwSGxGMF9vZE9aaGtidWp6NXk4VUg4MzdfZGw0T19TeDdjbG9SZUVTdE1zNGtDeURwTmtNNjI3R3lVbGE5Zw?oc=5",
+          "date": "2026-10-21"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "f42343e885",
+      "name": "Yahoo",
+      "domains": [],
+      "stories": 3,
+      "first_seen": "2026-08-16",
+      "last_seen": "2026-10-20",
+      "headlines": [
+        {
+          "title": "Pueblo celebrates significant housing progress",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQMkdvdkFCQ1JQQXZnUUZ1Zmt4bThYRHdTV3lNYlNsTlc4UzVzdEhYcjNmVjBLTWJTSm1zMTc1X2xqdHFKQWNfSGs2YmFzazBZLWc0U1EwOXIyVklhcEFUd3JiNWJmaG51THl6UXhVN1NXZEVHcnN6WHdHTEZ0ZG9HWFNRWjJOWFg5ZmFFcVRWb1JWNFRGXzV4M1JjVzJ3QQ?oc=5",
+          "date": "2026-10-20"
+        },
+        {
+          "title": "New affordable housing coming to southeast Colorado Springs",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTmxocEhyeUtOVkdQeGFOckFSM2xCQnNkWTlucjJCelFDQ3lPb2o3MGo2aXk3WkxTMklnd2FzRVFxZDN4WHdSc3RiQ2FRSzVjSGZ3MHVNUWI5WVdxRS10dnpzM2UxNGNBRjVYUS1ETExxN2FJaXl5dlhqZkQxd0ctb3QzNXNKZlBWNkxHQmY3WnVkMnZTeUVIZw?oc=5",
+          "date": "2026-09-22"
+        },
+        {
+          "title": "Mystery buyer offers full $42.5 million for Colorado mobile home park as residents race to match",
+          "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOVWotQUJBcmFFLU1rLUJJNG0tTUdRVHVpNWlfMkF2X0pHR2JfdWd2aXF0aGU0cUlGT2JtRVl4UXdyQlhubElGQmdReGJlRW5hYWhGbDdkblJvcUtaeUlpaldZRnY3TUlQdW1PZUFZMDI2TV80WXFhbnBaeEg2MXhEdlJ5RnJXLXNQTGc?oc=5",
+          "date": "2026-08-16"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "f4c7f4ab8b",
+      "name": "Building Salt Lake",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-10-19",
+      "last_seen": "2026-10-19",
+      "headlines": [
+        {
+          "title": "LIHTC still pencils despite shaky conditions. ‘We’re so overbuilt in Salt Lake City.’",
+          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPVWkyUl92MWdzOEZpV056ZGVxZ21Ma1lteUJlLWhrRjRmNUJiYzRlNUcwdWpYQ01CclJzdlZmbTI2RW1ySXlJa0V0bVNsSEVOeVA0Tk4wNnhSZjBvTW1EN28xS0x3U2p1NDByS0dFZVJlLW1NNnlFQmJQUUdmR1BfUlRyWElQT2VGNWVJblFrZ3d6d1dWcDNPVEVBa2pGeUtjOUJ3WENsWHd0MlZpbGJJ?oc=5",
+          "date": "2026-10-19"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "844138f128",
+      "name": "State Affairs Pro",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-10-09",
+      "last_seen": "2026-10-09",
+      "headlines": [
+        {
+          "title": "Denver's Javier Mabrey eyes Colorado House leadership",
+          "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOS1hVbGE4Mi1ERWN5Sk80ZnI0enlMNVRXOUlYV3k2d3FRRmw1dG51aVVLUEJSTTZUcXZ4VlFpNjh0bjlOWDlmLWhMSWxPSHFDcHNxU3pobUJxWURjT09GNFZJRExfcjNuZnZkV3lUZHJ3QU5XSXZ4QjktNWRoVHIxcGdHYUxBanMxeDd2Mk1MNWNvdE5Lam4zRU5NQmwwTmNjd1Q5Nzh3M0tMTXVYR0ZMOWtFaFFsSDlMTmZpOXFJSEFtNUtjWkdyRWxTb1JZZ0JQSUUwdzJUOHo1dlpMZE1YNw?oc=5",
+          "date": "2026-10-09"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "a4e8c3ce26",
+      "name": "Legis1",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-10-06",
+      "last_seen": "2026-10-06",
+      "headlines": [
+        {
+          "title": "A Congressional Report Examines Housing Affordability",
+          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1CYTk3M0R6V2tGa0Z6QkdIc2F3NUo1cHhXTTJUZ1RqaVhiV3NfWmhsRHVWWnoxb0NDTWRlNFlSYlhWWDFJR3REcVRsUWIzdTVSSlkwbXZ4YzQxTTNzSGREdlh3RUlzazdHZVlvTWN6ZkRpaFdKejNv?oc=5",
+          "date": "2026-10-06"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "787d737cf2",
+      "name": "Rocky Mountain Voice",
+      "domains": [],
+      "stories": 2,
+      "first_seen": "2026-08-07",
+      "last_seen": "2026-09-30",
+      "headlines": [
+        {
+          "title": "Colorado homebuilding fees: Same house, $77,000 apart",
+          "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOZFh0Y3Nxa1dGZk5TUVRBZ1FxR3M0M0RTMkRxSHJxRWJqYWtybU1XVHBfOUFoaEgyWXhObXJmdWhyRmRlaFJLb2EtTEdxMHpTNlM1THBuT0lMUzBQakhCY0tqR1A1SWRXUTF1bUNsbk5tM0p0eHJ6WWwyTFVJVDQxTEVUNThEZE5xVXlYZWZOZllNZlFMdW00?oc=5",
+          "date": "2026-09-30"
+        },
+        {
+          "title": "Colorado teacher home loan program puts school fund money at risk in foreclosures",
+          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPcHBoSEFaTFRhQlA2VFdSWWppME11c2YxUkZEZWdGMmh0X3dIdmtNWGRtazJsZl94X1BhM0h0OEJXQ2ZHelVBZzlQTThNM2Vfc0F1NzdpRmtoNEszOHQ1S3Z3V09lZjFPV25NY0V2cWVmSm5od09vN2VIaGVvNE1TR0FYQ1RhVEVKOUNkaTVVSE5SV2hveDNNYUVYT3YzSV9aVEtEc3dKcG8zbDVIQjNjeGxJdFpKN2ZiUF9YbENCUHowQQ?oc=5",
+          "date": "2026-08-07"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "ac244dd674",
+      "name": "Mansion Global",
+      "domains": [],
+      "stories": 2,
+      "first_seen": "2026-08-08",
+      "last_seen": "2026-09-29",
+      "headlines": [
+        {
+          "title": "An Investor’s Ski-in, Ski-out Retreat in Steamboat Springs, Colorado, Lists for $20 Million",
+          "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNS2wtcU9DNnQwckl5SW1JQ1dtekx2RUNVUHVWd2tZeUViN0Z0dnRYYXNnLXNVRm0wR3c4elhSZlZ6NTBWY3o1RGo0ZkRaX3hkSi1FMkFGd3d6UlRjUkRrWUhoT3JGcWdncWVsVjhCX1dqNW5Ua0JsNkw0eGtFOWJoOHVmT1ZuTkk4WXpJWTB5eEJ4MEJnQmplTTBBcHpYOURJSnk2WExpWUd6LW5tLW5hMTZIT09sR3ZHdnd4R0NSd0tXMVUwakNvU2pKQzRYVE3SAdQBQVVfeXFMT2ZOeGpyeV9hZjNwUkRoSUFlMGJMazNCWkdwYmtOaHhWdld6a1Ixd0V2LUFpWXhTWmNuOGJtR2lhVVIzVlV5ZTA0RDNLd2tkWGY0VFNMNmh1dXIxcGFPdE1HOEVhNGEtRlFSZ1dNRUdFeU10SzZzWXhGNnI4UWZMc3hrd2V1dmFxai14RUxydXJvQnJWaXFnLWx2S2xhZl9oV3VJMUxNRV9SaVFUNVFDSHd1UHRXdVhRbkkwMnV4Nll4ODZjVGZFMUZWNDloeG92MmhTQzc?oc=5",
+          "date": "2026-09-29"
+        },
+        {
+          "title": "Change Is Afoot in Steamboat Springs, Colorado, a Ski Town Drawing Texans in ‘Fur Coats’ and Brett Favre",
+          "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNTkg3M0xja1ZqcUJ2RFUxWGFJc1BTZFQtbjEweThFbHJKV2hzSW4wMThvbU5jV2pxMTAza0dXNEE5T2oxZHdibGtVdXRTNG5wbXVndTI4bnR0dHNFNjBiTDJXbnBXMEJjakZMaWJjbTQ0MXR5N3U4dHFGOWt2a3JIOEp1Tm9lVzNWZEpIS1hlUDJib1l5ZzJlYWpDSVp4aDdvcXhaYUZjSnNJdTM0QUZiNVgyeHVxVU92T2llMVlsamhOMzZxakY0MHBWbTdaS1FSRHNvN1NyRjU3RGVzbDNSQWd3?oc=5",
+          "date": "2026-08-08"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "b43610fd65",
+      "name": "citybiz",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-09-17",
+      "last_seen": "2026-09-17",
+      "headlines": [
+        {
+          "title": "Thompson Thrift Opens 276-Unit Switch Apartments in Colorado Springs",
+          "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPOG9nclRUMlhCVjNtZ3k0Uk04OGxaaTVvQXU3cUxBNTl3SVlmWHMxWXRwU0czT3M0ZTlFcFBjQk0wT3k4OTgxU2xld09tYzNXbDFERmQ5ajNhM040R3VSdUpUVEl4MHNrYVdFQlp4MS1Cd3MwYk51NUNiQ1Z3UGVuQU5kOGdyTjhJcFdLWk9pUVFSMjRFRS1aRG0wQ2VZdjk0U0Y4dmVKUUV0Nms?oc=5",
+          "date": "2026-09-17"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "eafb5a9e48",
+      "name": "Snow Industry News",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-09-07",
+      "last_seen": "2026-09-07",
+      "headlines": [
+        {
+          "title": "The NHP Foundation Closes Financing on The Bella, Expanding Affordable Housing in Frisco, Colorado",
+          "link": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxORFZjSmU1SXFzYXQ0YXdKTDR4NTJqN0FFXzloNDNZSDZtLTV4dDlrc2pzcDAycm1yWEQxN0VTWnBpZy1NM1Q2ZGItbWV3dWJZVFBjMkp0NkVEWTQ5WUlLWTJiNmllN0FSMmt0Wm9OUGlINW4xcFlTdEFUb0o4TlF3MWpRLWloX2x0Tm8zZkdSRWVrOG1mSWtKR3hBLVF4Q2F3azJ6X2R2NWRiamRBa3RyaDE3d2xXQlRtcjl1ZmN6MGZSOTlXekh0aXYwUEwzNWNXR0I2MVRtbXVyTlFQbGVrUi1NYVpMS0RLNzlaU2JyUFVGUQ?oc=5",
+          "date": "2026-09-07"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "87afe1637f",
+      "name": "The Independent",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-09-04",
+      "last_seen": "2026-09-04",
+      "headlines": [
+        {
+          "title": "Ski town Vail is building a $189 million housing complex just to give workers an affordable place to live",
+          "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxObzUyakpfQ2lGM0pGeW9vQWpWRzhLN2d0ZVZISVJySFFESmRJTzZFTEp3MVpIVnJfN3I5SDZVQk1OTGZUaG8yc2RfRk5HaVlrN0VGRzFualhNeXF2eDQ3YjRfbkl4cnlQMC12VkF3LU5XZTgwUkxmTVRralJBLTF4TUNSWmZDZXpJYWRSdHBnLWtwZ1p0QnNGZlRxcGN5VF95ekEtaXJQR0lZaHM?oc=5",
+          "date": "2026-09-04"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "4a973533c8",
+      "name": "Slow Boring",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-08-26",
+      "last_seen": "2026-08-26",
+      "headlines": [
+        {
+          "title": "As one housing reform works in Texas, another in Colorado hits a budgetary hitch",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5PQ0xXSHRPeU1zVGgxZnlucDZPRzU3ZFc1eWFmb0FwQ2t0OF82TFNTSzVzdzdCVUdoMWFZa3pqRHBTYjdJdXFoUV9kQTQ4ZWlyTFRtcUIwc3dFQk96MEk5WFFYVHZNUEc0dTVPOGEtNTFEcXM?oc=5",
+          "date": "2026-08-26"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "bb29b61216",
+      "name": "Federation of American Scientists",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-08-25",
+      "last_seen": "2026-08-25",
+      "headlines": [
+        {
+          "title": "It's time to update Colorado's permitting system. Here's how.",
+          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQUmlpU3RCa3kyYkh6a1lZMG1kS05wX3ZkRzMxOTQyQXhKVmV4Y1V3aGwtbkJSWkdjNlBKQXZBUXVRUmV6SURjVzFxVFNRNklwRHdPa3hENzJRakg0RWxpcTR5Y1pzU0plZHNaVW1GNlp5TEl0eW5PMUp6VWZ5VXVHUUczcHdGTmFGMllMSWlKb1ZKdlRxZWc?oc=5",
+          "date": "2026-08-25"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "9dd15260fc",
+      "name": "AMI Sun",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-08-25",
+      "last_seen": "2026-08-25",
+      "headlines": [
+        {
+          "title": "Tailgatin’ Sports Tavern opens in Cortez",
+          "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE4wWUxzbnhSVW50M1k4TzlYVE5mZ1VmZjZxYk9zMy1GYmpiYlNtbDVuRXktNDNhTW0xdlhwa0FfVnIwTzIxQUg2Zk1mZDFfNW9oMzRNU09rNVV6aHR3WEtrVjY0N01KMVpkR1JF?oc=5",
+          "date": "2026-08-25"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "ab4b16819d",
+      "name": "The Fulcrum",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-08-24",
+      "last_seen": "2026-08-24",
+      "headlines": [
+        {
+          "title": "Congress Just Passed a Housing Law That Rewards States for Reform — Here’s Why Colorado Has a Head Start",
+          "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQUF9od0NCaUxqYjJLZzFlN3RtUVdWd2F1TlpnWUtMME53OWxpSGtrVXQ5dEctc2I3T2N2TWs5QVhEbWUxaTJmUmlXTFd6WjR3ZTcwWHdqdUMwMTBZZjZheGFKc0stV1MwYzVkY0RDQ3hNQ1QxN3hFajRadGR4Y0xpdzU1OA?oc=5",
+          "date": "2026-08-24"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "6eff21e7dc",
+      "name": "Condé Nast Traveler",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "headlines": [
+        {
+          "title": "This Quirky Colorado Earthship Airbnb Is Pure Magic",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQRVRXaGhYLThNd19IMXMxQ05CNDBJRjd4aTlfXzdIakltTW5Ca0RCQUM1bmVCdWZIX0VjTG92ajk3Wnh4WGZkQ3hSZ2lHb2ItM3ZLNVFPQUVxdmwzYVpzUWdHcGc3LUxlX3pLczRRaEo0eGw5al9HXzhVQmlWNGlteHdwNWs3b3VrWkpvMA?oc=5",
+          "date": "2026-08-19"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "82fe1946c7",
+      "name": "3D Printing Industry",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-08-15",
+      "last_seen": "2026-08-15",
+      "headlines": [
+        {
+          "title": "RIC Robotics printers build out Colorado’s first 3D printed metro district",
+          "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOU3hOQ0pBa2I0UEJ4SzhGV21rRnNCalJOemJEODZYbHRmX3JaN1JlMHpOZER2dGZLb0ZrckRuWEVUVFB5cThteGlyTFY1MVFSWFU1dkxsNzk2RktLX1R2NU8yWllxSWkxck9HV2NjRDA1cDN5dU96WFpFS01BYjdrWFRrQmhRTGVHSm14ek9UT2Y1WXE2YTZha0VzcGxFVDM5czBUU2x1YXJCemdRX05BWWY4WlFneUpD?oc=5",
+          "date": "2026-08-15"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "65a2faa56e",
+      "name": "Global Student Living",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-08-11",
+      "last_seen": "2026-08-11",
+      "headlines": [
+        {
+          "title": "Landmark Properties and Partners Complete The Mark Fort Collins",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPbHZNbzFjWnFVNWtTRjBZYU5HTWZNUGFJV0lPVkNjSXphNUx2R0NOVTRzWER4S01vcnF5UkpSNnVyS2U1VUV5SkR4cU5aUUtVUEJLd1lDSW9nUi0tNEhCZkZjejZQOF9GSXNqMzlXcGU1WWZfU3BpN05EQW1OZEhCOTVDcDBabUxCam9xZFhzS1MwMGd1LUpCWGJmOU1rZw?oc=5",
+          "date": "2026-08-11"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "3b88625d18",
+      "name": "Landmark Properties",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-08-10",
+      "last_seen": "2026-08-10",
+      "headlines": [
+        {
+          "title": "Landmark Properties & Partners Deliver The Mark Fort Collins",
+          "link": "https://news.google.com/rss/articles/CBMihAJBVV95cUxQNzZrM09TcHhMTUxRR0VGSXNfSnM1SWhpUTgtS0dCTGtnWF9EcHJLNUJnQzRiRlo1bnRkWE9INi1RZXZ6dFlzM0dtWm5Da09EVTI5dldySXZKZDlGZl9hREN0d1NjT3N1RDRzNE56WEhQRGVkSWY2UXk2SVhIa2pWNHVuTjFWX000aUZvRFFYNHRMWjFOUThHRmlpOHBiVktNMlBrWERWYnhCNGNCa2VaV2lRejZTZGNsNFZnTDRqVDNPSmxDWWd6OHlERzRqMXFKZUdOYjV3X3lxNlllU2JlQlB1SUE4R3ozUzd4Yk5aQk91TzdLN1ZZbVRBWjI4a1BNOC1oYw?oc=5",
+          "date": "2026-08-10"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    },
+    {
+      "id": "ec79eb22f8",
+      "name": "Bozeman Daily Chronicle",
+      "domains": [],
+      "stories": 1,
+      "first_seen": "2026-08-06",
+      "last_seen": "2026-08-06",
+      "headlines": [
+        {
+          "title": "‘Pathways to stability’: City receives federal housing grant amidst high housing costs",
+          "link": "https://news.google.com/rss/articles/CBMijwJBVV95cUxNZThsX09ucTY0N2VwUlN6TXh3cEZxLXFhNFllSWRMbC1SandwQXBXdVlBRDkyTTNFZjl6eGlfb2JkcDhjNVdiaDdadlk4U01yb29SM1RlWkZyd3FfbS1EMEhoRkJkazVaQl96OTZoWDBzbTlQZ2hYaVJtS2xfN2tfYWEzNEdlZWREanhvVnVyYXgtbnNWcXNZZU9DaURmbmpSSUttaXZFeUtZYmJuaWNRR3JkTHoyMUlLZnZHaHVCdXBQblgxZjFlZmZJYy1icUlXOTluSXBsUW1yTVAwdnI3Y1hicERXekgtdHQwMnpoZWhDeFBpckxEZ3RVU3c1N2VwMDNlVEhHRFZEQXdsLWtN?oc=5",
+          "date": "2026-08-06"
+        }
+      ],
+      "first_listed": "2026-10-31"
+    }
+  ]
+}
