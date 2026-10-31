@@ -445,6 +445,9 @@ for d in idx:
         # a note that splits the amount into waived fees or in-kind help plus a stated cash part counts only the cash
         cm = re.search(r"(\$[\d,.]+\s*(?:million|m\b|k\b)?) cash\b", note, re.I)
         if phase == "perm" and cm and money(cm.group(1)) and re.search(r"waiv|fee (relief|reduction|rebate)|in-kind|donat", note, re.I): amt = money(cm.group(1))
+        # an amount whose note lists it as cash mixed with fee waivers or tax exemptions, with no cash part stated, is shown, not added
+        n1 = re.split(r"(?<=[a-z)])\.\s", note, maxsplit=1)[0]
+        if phase == "perm" and not cm and "," in n1 and re.search(r"\b(funds?|grants?|loans?|cash)\b", n1, re.I) and re.search(r"fee waivers?|waived fees|tax exemptions?", n1, re.I) and not re.search(r"^\s*plus\b|\b(also|possible|possibly)\b", n1, re.I): phase = "summary"
         # a per-home figure is not the project's total, so it is shown but never added
         if re.search(r"per (\w+ ){0,2}(unit|home|door|apartment)s?\b|/\s*(unit|home)\b", m["amount"], re.I): phase = "perunit"
         rows.append({"label": m["source"], "category": cat, "amount": amt, "amount_text": m["amount"], "phase": phase,
