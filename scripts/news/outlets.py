@@ -107,8 +107,10 @@ class Register:
             if named and dm and named['tier'] != 'blocked' and dm not in named['domains']:
                 named = None
             entry = named
-        if not entry and (source or '').rstrip().endswith('(.gov)'):
-            # Google News marks government sites "(.gov)".
+        # Google News marks government sites "(.gov)". Anyone can write that
+        # into a name, so it counts only when there is no address to check
+        # (Codex review of #2607); an address must itself be .gov.
+        if not entry and not dm and (source or '').rstrip().endswith('(.gov)'):
             return {'status': 'checked', 'label': '', 'tier': 'primary'}
         if not entry and dm.endswith('.gov'):
             return {'status': 'checked', 'label': '', 'tier': 'primary'}

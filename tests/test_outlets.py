@@ -183,3 +183,9 @@ def test_a_name_only_entry_is_not_trusted_from_an_unknown_address():
 def test_every_checked_register_entry_has_an_address():
     data = json.loads(outlets.REGISTER_FILE.read_text(encoding='utf-8'))
     assert [o['name'] for o in data['outlets'] if not o.get('domains')] == []
+
+
+def test_a_gov_suffix_does_not_override_a_non_gov_address(reg):
+    assert reg.lookup('Fake Department (.gov)', 'fake.localhost')['status'] == 'unverified'
+    assert reg.lookup('Real Department (.gov)', 'dola.colorado.gov')['status'] == 'checked'
+    assert reg.lookup('Real Department (.gov)')['status'] == 'checked'
