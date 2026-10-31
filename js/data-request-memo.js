@@ -74,6 +74,20 @@
       if (sharedInit) delete sharedInit.signal;
       shared = memo[key] = innerFetch.call(this, input, sharedInit).then(function (res) {
         if (!res || !res.ok) { if (memo[key] === shared) delete memo[key]; }
+        else if (typeof res.clone === 'function') {
+          // fetch() resolves once the headers arrive. If the body then fails
+          // (a connection dropped mid-download), every later clone would
+          // fail the same way for the rest of the page view, so a retry
+          // could never recover. Read one copy through; on failure, forget
+          // it so the next caller goes back to the network.
+          try {
+            res.clone().arrayBuffer().then(null, function () {
+              if (memo[key] === shared) delete memo[key];
+            });
+          } catch (e) {
+            if (memo[key] === shared) delete memo[key];
+          }
+        }
         return res;
       }, function (err) {
         if (memo[key] === shared) delete memo[key];

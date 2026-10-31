@@ -41,12 +41,14 @@ async function check(name, fn) {
 function loadMemo() {
   const calls = [];
   let nextStatus = 200;
-  function makeResponse(url, status) {
+  let nextBodyFails = false;
+  function makeResponse(url, status, bodyFails) {
     let used = false;
     const res = {
       url, status, ok: status >= 200 && status < 300,
-      clone() { if (used) throw new Error('clone of a used body'); return makeResponse(url, status); },
-      json() { used = true; return Promise.resolve({ url }); },
+      clone() { if (used) throw new Error('clone of a used body'); return makeResponse(url, status, bodyFails); },
+      json() { used = true; return bodyFails ? Promise.reject(new TypeError('network error')) : Promise.resolve({ url }); },
+      arrayBuffer() { used = true; return bodyFails ? Promise.reject(new TypeError('network error')) : Promise.resolve(new ArrayBuffer(1)); },
     };
     return res;
   }
@@ -54,13 +56,13 @@ function loadMemo() {
     location: { href: 'https://cohoanalytics.com/housing-needs-assessment.html?geoid=0828745', origin: 'https://cohoanalytics.com' },
     fetch(input, init) {
       calls.push({ input: String(input), init });
-      return Promise.resolve(makeResponse(String(input), nextStatus));
+      return Promise.resolve(makeResponse(String(input), nextStatus, nextBodyFails));
     },
   };
   const ctx = { window, URL, Object, Promise, Error, setTimeout };
   vm.createContext(ctx);
   vm.runInContext(read('js/data-request-memo.js'), ctx);
-  return { window, calls, setStatus(s) { nextStatus = s; } };
+  return { window, calls, setStatus(s) { nextStatus = s; }, setBodyFails(b) { nextBodyFails = b; } };
 }
 
 (async () => {
@@ -99,6 +101,18 @@ function loadMemo() {
     const second = await m.window.fetch('data/chfa-lihtc.json');
     assert.equal(second.ok, true);
     assert.equal(m.calls.length, 2);
+  });
+
+  await check('a body that fails mid-download is not kept (Codex review on #2609)', async () => {
+    const m = loadMemo();
+    m.setBodyFails(true);
+    const first = await m.window.fetch('data/hna/place-chas.json');
+    await assert.rejects(first.json());
+    await new Promise((r) => setTimeout(r, 0));
+    m.setBodyFails(false);
+    const second = await m.window.fetch('data/hna/place-chas.json');
+    assert.deepEqual(await second.json(), { url: 'data/hna/place-chas.json' });
+    assert.equal(m.calls.length, 2, 'the retry after a dropped body must reach the network');
   });
 
   await check('a caller that aborts is rejected, and its retry starts a new request', async () => {
