@@ -302,6 +302,8 @@ def classify(src, amt):
     if not operating and ("per year" in a or ("credit" in s and "equity" not in s) or re.search(r"\b(toc|mihtc)\b", s)): return "credits", "summary"
     if "bond" in s or re.search(r"volume cap|\bpab\b|revenue notes?|tax-exempt (multifamily )?(housing )?notes?", s) and not re.search(r"\bhome\b", s): return "bonds", "summary"
     # costs (uses of money), not sources: shown, never added
+    # money the project pays out (to a transit service, a fund, a district) is a cost, not a source
+    if re.search(r"^(contribution|payment|donation) to\b", s): return "cost", "summary"
     if re.search(r"acquisition (price|cost)|purchase price|sale price|construction contract|hard cost|soft cost|rehab(ilitation)? (cost|budget|contract)|cost of|proposed budget", s): return "cost", "summary"
     inkind = re.search(r"waiver|exemption|abatement|saved|savings|donat|land lease|ground lease|in-kind|fee reduction|rebate|discount|price concession|price (cut|reduction)|^land$|land contribution", s + " " + a)
     # infrastructure built for the project is in-kind; a grant, loan or capital payment for it is cash
@@ -352,6 +354,8 @@ for d in idx:
         # temporary money retired at permanent conversion is short-term; a balance paid down at conversion counts at the kept amount
         note = m.get("note") or ""
         if phase == "perm" and re.search(r"(paid|repaid) off at (permanent )?conversion|repaid at (permanent )?conversion", note, re.I): phase = "construction"
+        # one award shared with another property, with no published split, is shown, not added
+        if phase == "perm" and re.search(r"shared with|split (is )?not (public|stated|published)|split between", m["amount"] + " " + note, re.I): phase = "summary"
         # an amount whose note says it bundles land or other in-kind support with cash is shown, not added
         if phase == "perm" and re.search(r"^\s*(land contribution|land donation|donated land|in-kind)", note, re.I): phase = "summary"
         pd = re.search(r"paid down to (\$[\d,.]+\s*(?:million|m\b|k\b)?) at (permanent )?conversion", note, re.I)
