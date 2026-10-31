@@ -3479,7 +3479,7 @@
         const cur = (S().state && S().state.current) || {};
         const isPlace = cur.geoType === 'place';
         let maaPlaceGeoid = null, maaCountyFips = null, maaPlaceName = null, maaCountyName = null;
-        let maaMhi = null;
+        let maaMhi = null, maaMhiVintage = '';
         if (isPlace) {
           maaPlaceGeoid = cur.geoid;
           maaPlaceName  = jurisName;
@@ -3491,14 +3491,21 @@
         }
         try {
           const p = cur.profile || {};
-          if (p.DP03_0062E) maaMhi = p.DP03_0062E;
+          if (p.DP03_0062E) {
+            maaMhi = p.DP03_0062E;
+            // Label the series actually loaded (1-yr vs 5-yr) and its geography.
+            const yr = p._acsYear || '';
+            const series = p._acsSeries === 'acs1' ? 'ACS 1-yr' : (p._acsSeries === 'acs5' ? 'ACS 5-yr' : 'ACS');
+            maaMhiVintage = (series + ' ' + yr).trim() + (isPlace ? ' · place' : (cur.geoType === 'county' ? ' · county' : ''));
+          }
         } catch (_) {}
         window.MhiAmiClarifier.attach(maaMount, {
           placeGeoid: maaPlaceGeoid,
           placeName:  maaPlaceName,
           countyFips: maaCountyFips,
           countyName: maaCountyName,
-          placeMhi:   maaMhi
+          placeMhi:   maaMhi,
+          mhiVintage: maaMhiVintage
         });
       }
     }

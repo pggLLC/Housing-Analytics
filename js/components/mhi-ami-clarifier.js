@@ -119,7 +119,7 @@
 
       // Pull MHI: prefer passed-in value, else ACS profile DP03_0062E
       var mhi = passedMhi;
-      var mhiVintage = '';
+      var mhiVintage = opts.mhiVintage || '';
       if (mhi == null && acs && acs.acsProfile) {
         mhi = acs.acsProfile.DP03_0062E || null;
         mhiVintage = acs.acsProfile._acsSeries === 'acs1'
@@ -159,7 +159,7 @@
         var direction = delta > 0 ? 'above' : 'below';
         deltaHtml = '<p style="margin:0 0 .35rem;font-size:1.133rem;color:var(--text)">' +
           'HUD 4-person AMI is <strong>' + _fmtMoney(Math.abs(delta)) + ' (' + Math.abs(deltaPct) + '%) ' +
-          direction + '</strong> the local median household income. These two are easy to mix up: income limits for affordable housing are set from the HUD figure, while the median describes what households here actually earn. Use the HUD figure when you are checking who qualifies.' +
+          direction + '</strong> the local median household income. These two are easy to mix up: income limits for affordable housing start from the HUD figure (with HUD\'s published adjustments), while the median describes what households here actually earn. Use the HUD figure when you are checking who qualifies.' +
           '</p>';
       }
 
@@ -168,7 +168,7 @@
       cards += '<div class="maa-card">' +
         '<div class="maa-card__label">Median Household Income · <em>' + _esc(jurisLabel) + '</em></div>' +
         '<div class="maa-card__value">' + _fmtMoney(mhi) + '</div>' +
-        '<div class="maa-card__source">Census ACS B19013 / DP03_0062E · ' + _esc(mhiVintage || 'place-level') + '</div>' +
+        '<div class="maa-card__source">Census ACS B19013 / DP03_0062E · ' + _esc(mhiVintage || (placeGeoid ? 'place' : (countyFips5 ? 'county' : 'ACS'))) + '</div>' +
         '<div class="maa-card__desc">What the typical household here actually earns. Use this for ' +
         'cost-burden math, council memos, and questions about local affordability stress.</div>' +
         '</div>';
@@ -177,8 +177,10 @@
         '<div class="maa-card__label">HUD Area Median Income · 4-person · <em>' + _esc(countyName || amiByCounty && amiByCounty.county_name || 'county') + '</em></div>' +
         '<div class="maa-card__value">' + _fmtMoney(ami4) + '</div>' +
         '<div class="maa-card__source">HUD published income limit · ' + _esc(fmrFy) + '</div>' +
-        '<div class="maa-card__desc">Federal program eligibility benchmark. Always county-level by federal definition. ' +
-        'LIHTC, HOME, voucher, and CDBG eligibility tiers (30% / 50% / 60% / 80% AMI) are all percentages of <em>this</em> number, not the local median.</div>' +
+        '<div class="maa-card__desc">Federal program eligibility benchmark, set for the county or HUD metro area, not the town. ' +
+        'Program income limits (30% / 50% / 60% / 80% AMI) start from <em>this</em> figure, not the local median, but they are not always a flat percentage of it: ' +
+        'HUD adjusts the published limits for household size, high housing costs, caps and floors, and LIHTC also has hold-harmless and HERA rules. ' +
+        'Check the published limit table for the program and year rather than multiplying.</div>' +
         '</div>';
 
       cards += '</div>';
