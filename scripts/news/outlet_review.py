@@ -152,16 +152,16 @@ def issue_body(review: dict, keep: dict[str, str] | None = None) -> str:
     keep = keep or {}
     week = review.get('meta', {}).get('week', {})
     lines = [MARKER, '',
-             'Housing News publishers COHO has not checked yet. Their stories are on the page with an '
-             '**Unverified outlet** tag. For each outlet, tick one box and the next news run applies it:', '',
+             ('Housing News publishers COHO has not checked yet. Their stories are on the page with an '
+              '**Unverified outlet** tag. For each outlet, tick one box and the next news run applies it:'), '',
              '- **Checked outlet**: a real newsroom, trade publication, research center or government source. The tag comes off.',
              '- **Weak sourcing**: real but weak (marketing, press releases, partisan, AI-written). Stories show a "Weak sourcing" tag.',
              '- **Block**: an imposter or fake local-news site. Its stories leave the page.', '',
-             'Before ticking, open the outlet\'s About page: is there a named editor and staff, a street address, '
-             'and a stated owner? A site with none of these, or one that belongs to a political group, is not a newsroom.', '']
+             ('Before ticking, open the outlet\'s About page: is there a named editor and staff, a street address, '
+              'and a stated owner? A site with none of these, or one that belongs to a political group, is not a newsroom.'), '']
     if week:
-        lines += [f"This week on Housing News (since {week.get('since', '')}): {week.get('checked', 0)} stories from "
-                  f"checked outlets, {week.get('unverified', 0)} unverified, {week.get('weak', 0)} weak sourcing.", '']
+        lines += [(f"This week on Housing News (since {week.get('since', '')}): {week.get('checked', 0)} stories from "
+                   f"checked outlets, {week.get('unverified', 0)} unverified, {week.get('weak', 0)} weak sourcing."), '']
     items = review.get('outlets', [])
     if not items:
         lines.append('Nothing to review right now.')
