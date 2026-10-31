@@ -97,3 +97,23 @@ test('a region and a JS function are bounded where they should be', () => {
   assert.deepEqual(extract(reg, 'm.py', { region: 'r' }).lines, ['b', 'c']);
   assert.ok(extract(reg, 'm.py', { region: 'missing' }).error);
 });
+
+test('the weekly mortgage-rate refresh does not demand a review', async () => {
+  // The Saturday HNA build rewrites MORTGAGE_RATE's value and week. §05 names
+  // the source and the one-rate rule, not a value, so that rewrite must leave
+  // every fingerprint §05 pins unchanged; on 10-31 it turned main red.
+  const { rewrite } = await import('../scripts/hna/sync-mortgage-rate.mjs');
+  const engineFile = 'js/hna/ownership-finance.js';
+  const engine = fs.readFileSync(path.join(ROOT, engineFile), 'utf8');
+  const kernel = fs.readFileSync(path.join(ROOT, 'js/hna/hna-ownership-need.js'), 'utf8');
+  const next = rewrite(engine, kernel, { week: '2099-01-01', rateAnnual: 0.0599 }).engine;
+  assert.notEqual(next, engine, 'the simulated refresh changed the file');
+  const pinned = registry.sections.flatMap((s) => s.sources).filter((s) => s.file === engineFile);
+  assert.ok(pinned.length > 0);
+  for (const sel of pinned) {
+    const label = sel.function || sel.region;
+    assert.equal(fingerprint(extract(next, engineFile, sel).lines, engineFile),
+      fingerprint(extract(engine, engineFile, sel).lines, engineFile),
+      `${label} fingerprint moved with the weekly rate`);
+  }
+});
