@@ -341,7 +341,20 @@ for d in idx:
         if not sk: continue
     srcs = {s["id"]: s for s in full.get("sources", [])}
     rows, tdc = [], None
+    money_rows = []
     for m in full.get("money", []):
+        # "X and Y" with one amount for each part, where only one part is in-kind: split so the cash part still counts
+        lp = re.split(r"\s+and\s+", m["source"]); ap = re.split(r"\s+and\s+|;\s*", m["amount"])
+        if len(lp) == 2 and len(ap) == 2 and all(re.search(r"\$\s?[\d,.]+", a) for a in ap):
+            kinds = [classify(x, "")[1] == "inkind" for x in lp]
+            if kinds[0] != kinds[1]:
+                head = re.match(r"^((?:city|town|county)(?: of \w+)?)\s", lp[0], re.I)
+                for x, a in zip(lp, ap):
+                    if head and not x.lower().startswith(head.group(1).lower()): x = head.group(1) + " " + x
+                    money_rows.append(dict(m, source=x, amount=a))
+                continue
+        money_rows.append(m)
+    for m in money_rows:
         cat, phase = classify(m["source"], m["amount"])
         amt = None if re.match(r"\s*(not public|not stated|none|n/a|unknown)", m["amount"], re.I) else money_total(m["amount"])
         s0 = srcs.get((m.get("src") or [None])[0]) or {}
