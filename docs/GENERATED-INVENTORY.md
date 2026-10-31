@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T18:33:21.913Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T21:02:44.990Z. Do not edit by hand.
 
 ---
 
@@ -2606,7 +2606,7 @@
 | `test/rent-schedule.test.js` | 25.5 KB |
 | `test/rent-vs-buy-breakeven.test.js` | 4.1 KB |
 | `test/renter-household-size.test.js` | 2.1 KB |
-| `test/repo-private-data.test.mjs` | 12.0 KB |
+| `test/repo-private-data.test.mjs` | 13.5 KB |
 | `test/report-text-cleanup.test.js` | 3.1 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
