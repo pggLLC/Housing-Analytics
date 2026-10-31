@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-31T12:41:27.855316Z",
+  "generated": "2026-10-31T12:48:19.182741Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1022028
+      "bytes": 1022031
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -234,7 +234,7 @@
     "data/census-acs-state.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 26768
+      "bytes": 26927
     },
     "data/census-multifamily-co.json": {
       "featureCount": 64,
