@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-31T11:39:38.924193Z",
+  "generated": "2026-10-31T12:15:36.145584Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9209,7 +9209,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16088
+      "bytes": 16090
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -9564,12 +9564,12 @@
     "data/policy/chfa-2027-r1-scoring.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 19661
+      "bytes": 21139
     },
     "data/policy/chfa-2027-r2-scoring.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21365
+      "bytes": 22843
     },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
@@ -9919,7 +9919,7 @@
     "data/reports/repo-link-audit.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2051626
+      "bytes": 2012353
     },
     "data/resort-workforce-housing-programs.json": {
       "featureCount": 0,

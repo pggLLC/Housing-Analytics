@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-31T11:39:34.302Z",
+    "generated_at": "2026-10-31T12:15:31.807Z",
     "root": "data/",
     "file_count": 2005,
-    "total_size_bytes": 210711006,
+    "total_size_bytes": 210674691,
     "kinds": {
       "json": 1957,
       "geojson": 34,
@@ -610,7 +610,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-31T11:39:29.868Z",
+      "mtime": "2026-10-31T12:15:26.873Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39890,8 +39890,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16088,
-      "mtime": "2026-10-31T11:39:32.008Z",
+      "size_bytes": 16090,
+      "mtime": "2026-10-31T12:15:29.043Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39915,7 +39915,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-31T11:39:31.485Z",
+      "mtime": "2026-10-31T12:15:28.506Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41737,8 +41737,8 @@
     {
       "path": "policy/chfa-2027-r1-scoring.json",
       "kind": "json",
-      "size_bytes": 19661,
-      "mtime": "2026-10-30T02:56:59.596Z",
+      "size_bytes": 21139,
+      "mtime": "2026-10-31T12:14:29.443Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41756,7 +41756,7 @@
         "targeting",
         "eli_targeting"
       ],
-      "key_count": 19,
+      "key_count": 20,
       "primary_array_key": "lines",
       "primary_array_length": 17,
       "primary_array_first_keys": [
@@ -41773,8 +41773,8 @@
     {
       "path": "policy/chfa-2027-r2-scoring.json",
       "kind": "json",
-      "size_bytes": 21365,
-      "mtime": "2026-10-30T02:56:59.596Z",
+      "size_bytes": 22843,
+      "mtime": "2026-10-31T12:14:29.443Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41792,7 +41792,7 @@
         "targeting",
         "eli_targeting"
       ],
-      "key_count": 21,
+      "key_count": 22,
       "primary_array_key": "lines",
       "primary_array_length": 17,
       "primary_array_first_keys": [
@@ -43504,8 +43504,8 @@
     {
       "path": "reports/repo-link-audit.json",
       "kind": "json",
-      "size_bytes": 2051626,
-      "mtime": "2026-09-25T12:55:19.130Z",
+      "size_bytes": 2012353,
+      "mtime": "2026-10-31T12:14:29.464Z",
       "shape": "object",
       "keys": [
         "generatedAt",
