@@ -367,7 +367,7 @@
       provider: 'Census Bureau ACS',
       url: 'https://api.census.gov/',
       localFile: 'data/census-acs-state.json',
-      lastUpdated: '2026-10-24',
+      lastUpdated: '2026-10-31',
       updateFrequency: 'Annual',
       maxAgeDays: 400,
       geoUnit: 'State',

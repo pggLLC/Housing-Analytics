@@ -10,7 +10,7 @@
     "acs_year": 2024,
     "notes": "Each row is the published median for that geography. Suppressed or missing estimates stay null with a reason; no county or tract value is substituted.",
     "scope": "Colorado: 64 counties, 482 places and CDPs (including unavailable rows)",
-    "generated_at_utc": "2026-10-24T12:43:22Z"
+    "generated_at_utc": "2026-10-31T13:25:14Z"
   },
   "counties": {
     "08001": {
@@ -2001,11 +2001,11 @@
     },
     "0854935": {
       "name": "Nucla (town)",
-      "median_gross_rent": null,
-      "total_renter_hh": null,
+      "median_gross_rent": 929,
+      "total_renter_hh": 98.0,
       "county_fips": "08085",
       "source_file": "data/hna/summary/0854935.json",
-      "unavailable_reason": "acs5_2024_not_in_summary"
+      "unavailable_reason": null
     },
     "0855045": {
       "name": "Nunn (town)",
@@ -2017,19 +2017,19 @@
     },
     "0855155": {
       "name": "Oak Creek (town)",
-      "median_gross_rent": null,
-      "total_renter_hh": null,
+      "median_gross_rent": 1455,
+      "total_renter_hh": 88.0,
       "county_fips": "08107",
       "source_file": "data/hna/summary/0855155.json",
-      "unavailable_reason": "acs5_2024_not_in_summary"
+      "unavailable_reason": null
     },
     "0855540": {
       "name": "Olathe (town)",
-      "median_gross_rent": null,
-      "total_renter_hh": null,
+      "median_gross_rent": 967,
+      "total_renter_hh": 184.0,
       "county_fips": "08085",
       "source_file": "data/hna/summary/0855540.json",
-      "unavailable_reason": "acs5_2024_not_in_summary"
+      "unavailable_reason": null
     },
     "0855705": {
       "name": "Olney Springs (town)",
@@ -3962,10 +3962,10 @@
     "0863650": {
       "name": "Redstone (CDP)",
       "median_gross_rent": null,
-      "total_renter_hh": null,
+      "total_renter_hh": 0.0,
       "county_fips": "08097",
       "source_file": "data/hna/summary/0863650.json",
-      "unavailable_reason": "acs5_2024_not_in_summary"
+      "unavailable_reason": "acs_median_gross_rent_unavailable"
     },
     "0863705": {
       "name": "Redvale (CDP)",
@@ -3993,11 +3993,11 @@
     },
     "0866197": {
       "name": "Roxborough Park (CDP)",
-      "median_gross_rent": null,
-      "total_renter_hh": null,
+      "median_gross_rent": 3244,
+      "total_renter_hh": 76.0,
       "county_fips": "08035",
       "source_file": "data/hna/summary/0866197.json",
-      "unavailable_reason": "acs5_2024_not_in_summary"
+      "unavailable_reason": null
     },
     "0866995": {
       "name": "Saddle Ridge (CDP)",
