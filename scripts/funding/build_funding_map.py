@@ -379,12 +379,13 @@ for d in idx:
     money_rows = []
     for m in full.get("money", []):
         # "X, Y and Z" with one amount for each part, where some parts are in-kind: split so the cash parts still count
-        # (or "X plus Y" where the parts come from different kinds of funder, such as a state grant plus a city match)
-        lp = re.split(r",\s*(?:and\s+)?|\s+(?:and|plus)\s+", m["source"]); ap = re.split(r"\s+(?:and|plus)\s+|;\s*", m["amount"])
+        # (or "X plus Y", or "X and Y" with amounts set apart by semicolons, where the parts come from different kinds of funder)
+        # separators inside parentheses, as in "(AHIF, Division of Housing funds)", do not split the label
+        lp = [x.replace("\0", ",").replace("\1", " and ") for x in re.split(r",\s*(?:and\s+)?|\s+(?:and|plus)\s+", re.sub(r"\([^)]*\)", lambda p: p.group(0).replace(",", "\0").replace(" and ", "\1"), m["source"]))]; ap = re.split(r"\s+(?:and|plus)\s+|;\s*", m["amount"])
         if len(lp) >= 2 and len(lp) == len(ap) and all(re.search(r"\$\s?[\d,.]+", a) for a in ap):
             kinds = [classify(x, a)[1] == "inkind" for x, a in zip(lp, ap)]
             cats = {classify(x, a)[0] for x, a in zip(lp, ap)}
-            if (any(kinds) and not all(kinds)) or (len(cats) > 1 and re.search(r"\splus\s", m["source"]) and not re.search(r"\s(and)\s|,", m["source"])):
+            if (any(kinds) and not all(kinds)) or (len(cats) > 1 and ((re.search(r"\splus\s", m["source"]) and not re.search(r"\s(and)\s|,", m["source"])) or (";" in m["amount"] and "," not in re.sub(r"\([^)]*\)", "", m["source"]) and not re.search(r"construction and permanent", m["source"], re.I)))):
                 head = re.match(r"^((?:city|town|county)(?: of \w+)?)\s", lp[0], re.I)
                 for x, a in zip(lp, ap):
                     if head and not x.lower().startswith(head.group(1).lower()): x = head.group(1) + " " + x
