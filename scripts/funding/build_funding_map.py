@@ -240,6 +240,24 @@ def money(s):
     if u in ("million", "m"): v *= 1e6
     elif u in ("k", "thousand"): v *= 1e3
     return round(v)
+FIG = r"\$\s?[\d,]+(?:\.\d+)?\s*(?:million|m\b|k\b|thousand|billion)?"
+# a second figure that is another report, a cap, a range or an estimate: keep the first figure only
+ALT = re.compile(r"\bor\b|\bto\b|up to|not to exceed|\bper (?!unit|home|door)|\((?:chfa|award|bond|presentation|trade|budget|council)|award report|bond counsel|"
+                 r"says|narrative|as printed|estimated|valued|value\b|applied for|assumed|inferred|sold|placed|allows|preliminary award|recital|table|at acquisition|"
+                 r"a year|per year|\$[\d.,]+\s*[mk]?\s*[-\u2013]\s*\$", re.I)
+def money_total(s):
+    """Amount for a stack row. Joined parts ("$800,000 loan and $190,000 grant") are added; for a
+    construction/permanent split only the permanent part counts; anything else keeps the first figure."""
+    s = re.sub(r"of an? " + FIG, "", s, flags=re.I)  # "$800,000 of a $1.6M loan": the whole loan is not this row's
+    tot = re.search(r"\((?:about|total) (" + FIG + r")\)", s, re.I)  # "$63M and $33.7M (about $96.7M)"
+    if tot: return money(tot.group(1))
+    figs = list(re.finditer(FIG + r"([^$;,/+]*)", s, re.I))
+    if len(figs) < 2: return money(s)
+    perm = [f for f in figs if re.match(r"\s*\(?permanent", f.group(1), re.I)]
+    if perm: return sum(money(f.group(0)) for f in perm)
+    keep = [f for f in figs if not re.match(r"\s*(construction|pab|bonds?)\b", f.group(1), re.I)]
+    if ALT.search(s) or not keep: return money(s)
+    return sum(money(f.group(0)) for f in keep)
 def classify(src, amt):
     s = src.lower(); a = amt.lower()
     if re.search(r"total (development )?cost|^tdc|development budget|total budget", s): return "tdc", "perm"
@@ -249,7 +267,7 @@ def classify(src, amt):
     if not operating and ("per year" in a or ("credit" in s and "equity" not in s) or re.search(r"\b(toc|mihtc)\b", s)): return "credits", "summary"
     if "bond" in s: return "bonds", "summary"
     # costs (uses of money), not sources: shown, never added
-    if re.search(r"acquisition (price|cost)|purchase price|sale price|construction contract|hard cost|soft cost|rehab(ilitation)? (cost|budget|contract)|cost of", s): return "cost", "summary"
+    if re.search(r"acquisition (price|cost)|purchase price|sale price|construction contract|hard cost|soft cost|rehab(ilitation)? (cost|budget|contract)|cost of|proposed budget", s): return "cost", "summary"
     if "equity" in s: return "equity", "perm"
     inkind = re.search(r"waiver|exemption|abatement|saved|savings|donat|land lease|ground lease|in-kind|fee reduction|rebate|discount|^land$|land contribution|infrastructure", s + " " + a)
     if re.search(r"deferred develop|developer fee|sponsor loan|seller|owner|general partner|sponsor equity", s): cat = "owner"
@@ -281,12 +299,12 @@ for d in idx:
     rows, tdc = [], None
     for m in full.get("money", []):
         cat, phase = classify(m["source"], m["amount"])
-        amt = None if re.match(r"\s*(not public|not stated|none|n/a|unknown)", m["amount"], re.I) else money(m["amount"])
+        amt = None if re.match(r"\s*(not public|not stated|none|n/a|unknown)", m["amount"], re.I) else money_total(m["amount"])
         s0 = srcs.get((m.get("src") or [None])[0]) or {}
         if cat == "tdc":
             if amt and not tdc: tdc = {"amount": amt, "text": m["amount"], "source_title": s0.get("title", "COHO deal summary"), "source_url": s0.get("url", "")}
             continue
-        if re.search(r"requested|none awarded|not awarded", m["amount"], re.I): phase = "summary"
+        if re.search(r"requested|none awarded|not awarded", m["amount"], re.I) or re.search(r"\bcombined\b", m["source"], re.I): phase = "summary"
         # a per-home figure is not the project's total, so it is shown but never added
         if re.search(r"per (unit|home|door|apartment)|/\s*(unit|home)\b", m["amount"], re.I): phase = "perunit"
         rows.append({"label": m["source"], "category": cat, "amount": amt, "amount_text": m["amount"], "phase": phase,
