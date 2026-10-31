@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T04:16:45.586Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T06:48:42.635Z. Do not edit by hand.
 
 ---
 
@@ -2759,7 +2759,7 @@
 | `tests/test_chfa_qap_trust_label.py` | 7.1 KB |
 | `tests/test_chfa_qap_watch.py` | 24.7 KB |
 | `tests/test_co_construction_labor_cost.py` | 10.0 KB |
-| `tests/test_data_plausibility.py` | 23.4 KB |
+| `tests/test_data_plausibility.py` | 23.8 KB |
 | `tests/test_deal_summaries.py` | 4.7 KB |
 | `tests/test_development_activity.py` | 45.2 KB |
 | `tests/test_epa_sld_walk_index.py` | 2.1 KB |
