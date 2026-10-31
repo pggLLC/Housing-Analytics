@@ -33,7 +33,8 @@ v2 switches the demand side to renter households from ACS B25118
 (Tenure × Household Income). For each AMI tier T in
 {30, 40, 50, 60, 70, 80, 100}:
 
-  threshold_income = ami_4person × (T / 100)
+  threshold_income = ami_4person × (T / 100), where ami_4person is twice
+                     HUD's published 4-person very-low-income (50%) limit
   threshold_rent   = threshold_income × 0.30 / 12       # max affordable
 
   households_le_T  = renter households ≤ threshold_income
@@ -220,8 +221,11 @@ METHODOLOGY_NOTES = [
     "rental units). v1 used ALL households (B19001, owners included) "
     "against renter-only supply, which structurally inflated gaps ~2.5-4x. "
     "The v1 all-tenure series is retained as all_households_le_ami_pct.",
-    f"Income thresholds use HUD FY{COUNTY_AMI_YEAR} 4-person AMI for the "
-    "geography's county; the statewide record uses HUD's "
+    f"Income thresholds use HUD FY{COUNTY_AMI_YEAR} published 4-person "
+    "income limits for the geography's county: each tier is the very-low-"
+    "income (50%) limit scaled by T/50, the HUD/CHFA rule, so HUD's state "
+    "non-metro floor and high-cost adjustments carry through (ami_4person "
+    "is twice that limit). The statewide record uses HUD's "
     f"FY{STATEWIDE_AMI_YEAR} Colorado state median family income "
     f"(${STATEWIDE_AMI_4PERSON:,}).",
     "Priced-affordable units come from ACS table B25063 (gross rent, "
@@ -415,15 +419,30 @@ def cumulative_count_le_threshold(
     return total
 
 
+def county_ami_basis(income_limits: dict[str, Any]) -> int:
+    """The 4-person income at 100% AMI that the tiers scale from.
+
+    HUD and CHFA set every percentage limit from the published very-low-income
+    (50%) limit, T% = VLI x T/50, not from the county median: the VLI carries
+    HUD's state non-metro floor and high-cost adjustments. Pueblo's median is
+    $87,700 but its VLI is $48,700, so 60% is $58,440, not $52,620. Falls back
+    to the median only when the published VLI is missing.
+    """
+    vli = int(income_limits.get("il50_4person", 0) or 0)
+    if vli > 0:
+        return vli * 2
+    return int(income_limits.get("ami_4person", 0) or 0)
+
+
 def load_county_ami_lookup() -> dict[str, int]:
-    """Return a {county_fips5: ami_4person} dict from HUD income limits."""
+    """Return a {county_fips5: 100% AMI 4-person basis} dict from HUD income limits."""
     with open(HUD_FILE, "r", encoding="utf-8") as f:
         d = json.load(f)
     counties = d.get("counties", [])
     out: dict[str, int] = {}
     for c in counties:
         fips = str(c.get("fips", "")).zfill(5)
-        ami = int(c.get("income_limits", {}).get("ami_4person", 0) or 0)
+        ami = county_ami_basis(c.get("income_limits", {}) or {})
         if fips and ami > 0:
             out[fips] = ami
     return out

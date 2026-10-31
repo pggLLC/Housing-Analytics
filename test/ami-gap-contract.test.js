@@ -223,6 +223,20 @@ function combinedExport() {
     console.log('PASS combined export and ownership: matching positive marginal-band shortfalls, explicit labels and formula note');
   } finally { w.close(); }
 }
+// Tier incomes follow HUD's published very-low-income limit (T% = VLI x T/50,
+// the HUD/CHFA rule), not the county median: Pueblo's median is $87,700 but its
+// 60% limit is $58,440 because of the state non-metro floor.
+{
+  const hud = json('data/hud-fmr-income-limits.json');
+  const vli = new Map(hud.counties.map(c => [String(c.fips).padStart(5, '0'), c.income_limits && c.income_limits.il50_4person]));
+  for (const rec of county.counties) {
+    const v = vli.get(rec.fips);
+    if (v > 0) assert.equal(rec.ami_4person, v * 2, `${rec.fips}: 100% AMI basis is twice the published 50% limit`);
+  }
+  const pueblo = county.counties.find(c => c.fips === '08101');
+  assert.equal(Math.round(pueblo.ami_4person * 0.6), 58440, 'Pueblo 60% 4-person matches HUD/CHFA');
+  console.log('PASS county tiers scale from HUD published limits');
+}
 (async () => {
   await serverlessEndpoints();
   await endpoint(county, true);

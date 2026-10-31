@@ -95,5 +95,30 @@ for st in (400, 404):
     check(count_attempts(http(st), 3) == 1,
           'HTTP %s returns on the first attempt (no build slowdown)' % st)
 
+# 2026-10-24: "Network is unreachable" on a 2024 profile request sent five
+# small places to their 2022/2023 profile. The profile fetch re-asks the same
+# year when the last request failed in transit, and only then falls back.
+print('\nTransient failure vs "no row for this year"')
+for st in (0, 429, 503):
+    check(bhd._is_transient_status(st), 'status %s re-asks the same year' % st)
+for st in (200, 204, 400, 404):
+    check(not bhd._is_transient_status(st), 'status %s moves on (no re-ask)' % st)
+
+def last_status(raiser):
+    urllib.request.urlopen = lambda req, timeout=None: raiser(req)
+    try:
+        bhd.http_get_json('http://127.0.0.1/acs-retry-fixture', timeout=1)
+    finally:
+        urllib.request.urlopen = _real
+    return bhd._HTTP_LAST.status
+_sleep = bhd.time.sleep
+bhd.time.sleep = lambda s: None
+try:
+    check(last_status(lambda req: (_ for _ in ()).throw(OSError('Network is unreachable'))) == 0,
+          'a transport error is recorded as status 0')
+    check(last_status(http(404)) == 404, 'a 404 is recorded as 404')
+finally:
+    bhd.time.sleep = _sleep
+
 print('\nResults: %d passed, %d failed' % (passed, failed))
 sys.exit(1 if failed else 0)
