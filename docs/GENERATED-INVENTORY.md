@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T03:48:43.575Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T04:16:45.586Z. Do not edit by hand.
 
 ---
 
@@ -1792,7 +1792,7 @@
 | `data/hna/workforce-need.json` | 350.4 KB | ✅ | — |
 | `data/hna/zhvi-place-crosswalk.json` | 46.1 KB | ✅ | — |
 | `data/home-snapshot.json` | 2.1 KB | ✅ | — |
-| `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
+| `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
 | `data/hud-home-rent-limits-co-2026.json` | 60.4 KB | ✅ | — |
 | `data/hud-lihtc-co-match.json` | 225.7 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
@@ -1874,7 +1874,7 @@
 | `data/market/finder-place-demand.json` | 21.2 KB | ✅ | — |
 | `data/market/flood_zones_co.json` | 605.2 KB | ✅ | — |
 | `data/market/fmr_co.json` | 22.2 KB | ✅ | — |
-| `data/market/fmr_tract_map_co.json` | 101.1 KB | ✅ | — |
+| `data/market/fmr_tract_map_co.json` | 101.2 KB | ✅ | — |
 | `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
 | `data/market/hud_s8_contracts_co.json` | 188.1 KB | ✅ | — |
 | `data/market/hud_zip_tract_crosswalk_co.json` | 775.8 KB | ✅ | — |
@@ -2381,7 +2381,7 @@
 | `test/homeownership-programs.test.js` | 8.7 KB |
 | `test/homepage-claims.test.js` | 16.9 KB |
 | `test/homepage-job-routing.test.js` | 10.5 KB |
-| `test/homepage-snapshot.test.js` | 16.0 KB |
+| `test/homepage-snapshot.test.js` | 16.8 KB |
 | `test/homes-short-agreement.test.js` | 4.2 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
 | `test/housing-events-and-brief-news.test.mjs` | 15.1 KB |
