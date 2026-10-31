@@ -168,11 +168,37 @@
     return out;
   }
 
+  /** An expense target someone hands you, set beside the expenses the calculator uses.
+   * The target never replaces the expenses: a target below them is reported as its own
+   * line, with the year-1 coverage it would show, so a plug cannot hide in the total.
+   * args: targetPerUnitYear, usedAnnual (operating expenses used, a year), units, noi,
+   * mustPayDebtService (year 1). */
+  function expenseTargetCheck(args) {
+    var out = { entered: false, target: null, used: null, difference: null, below: null, coverageAtTarget: null, coverageUsed: null, reason: null };
+    var target = num(args.targetPerUnitYear);
+    if (target === null) { out.reason = 'No expense target entered.'; return out; }
+    out.entered = true;
+    if (!Number.isFinite(target) || target < 0) { out.reason = 'Enter an expense target of $0 or more per unit per year.'; return out; }
+    var units = num(args.units), used = num(args.usedAnnual);
+    if (units === null || !Number.isFinite(units) || units <= 0) { out.reason = 'Enter the number of units.'; return out; }
+    if (used === null || !Number.isFinite(used)) { out.reason = 'Operating expenses are unavailable.'; return out; }
+    out.target = target; out.used = used / units;
+    out.difference = out.used - target;
+    out.below = out.difference > 0.5;
+    var noi = num(args.noi), ds = num(args.mustPayDebtService);
+    if (noi !== null && Number.isFinite(noi) && ds !== null && Number.isFinite(ds) && ds > 0) {
+      out.coverageUsed = noi / ds;
+      out.coverageAtTarget = (noi + out.difference * units) / ds;
+    }
+    return out;
+  }
+
   return {
     GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE, INCOME_TEMPLATE: INCOME_TEMPLATE, SEPARATE_LINES: SEPARATE_LINES,
     EXAMPLE_BUDGET: EXAMPLE_BUDGET, EXAMPLE_INCOME: EXAMPLE_INCOME,
     exampleLines: exampleLines, exampleIncome: exampleIncome,
     summarizeOperating: summarizeOperating, pupaExpenses: pupaExpenses,
-    legacyOperatingFields: legacyOperatingFields, legacyOperatingProvenance: legacyOperatingProvenance
+    legacyOperatingFields: legacyOperatingFields, legacyOperatingProvenance: legacyOperatingProvenance,
+    expenseTargetCheck: expenseTargetCheck
   };
 });
