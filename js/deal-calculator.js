@@ -7063,8 +7063,9 @@
           '<td style="padding:3px 6px;color:var(--muted);font-size:.8125rem;">' + _escHtml(t.recipient) + '</td>' +
         '</tr>';
       }).join('');
+      // tabindex lets keyboard users scroll it when it overflows at phone width.
       // Tier order is the payout order, so this table never sorts.
-      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
+      return '<table data-no-sort tabindex="0" aria-label="Exit sale waterfall by tier" style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
         '<thead><tr style="border-bottom:1px solid var(--border);">' +
         '<th style="text-align:left;padding:3px 6px;color:var(--muted);font-weight:600;">Waterfall tier</th>' +
         '<th style="text-align:right;padding:3px 6px;color:var(--muted);font-weight:600;">Amount</th>' +
@@ -7121,7 +7122,7 @@
           '</tr>';
       });
       // Year-by-year schedule: kept in year order like the other statements.
-      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.8125rem;">' +
+      return '<table data-no-sort tabindex="0" aria-label="Year-by-year LP and GP cash" style="width:100%;border-collapse:collapse;font-size:.8125rem;">' +
         '<thead><tr style="position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--border);">' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">Year</th>' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">LP cash</th>' +

@@ -109,7 +109,7 @@
       '}',
       '.rt-table td:last-child, .rt-table th:last-child { text-align: right; }',
       '.rt-source { font-weight: 700; }',
-      '.rt-vintage { font-size: .8125rem; opacity: .65; margin-left: .35rem; font-weight: 400; }',
+      '.rt-vintage { font-size: .8125rem; color: var(--muted); margin-left: .35rem; font-weight: 400; }',
       '.rt-measures { color: var(--muted); font-size: .8125rem; line-height: 1.4; }',
       '.rt-value { font-weight: 700; font-size: .92rem; white-space: nowrap; }',
       '.rt-explainer {',

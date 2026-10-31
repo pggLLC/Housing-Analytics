@@ -4740,7 +4740,10 @@
       if (vacancyHost && vacancyCard) {
         var bufferGeoids = result.bufferTractsDetail.map(function (d) { return d.geoid; });
         var weights = {};
-        result.bufferTractsDetail.forEach(function (d) { weights[d.geoid] = d.share || 1; });
+        // A real zero overlap stays zero; only a missing share counts as whole.
+        result.bufferTractsDetail.forEach(function (d) {
+          weights[d.geoid] = (typeof d.share === 'number' && isFinite(d.share)) ? d.share : 1;
+        });
         vacancyCard.style.display = '';
         window.VacancyContext.render(vacancyHost, {
           bufferTracts: bufferGeoids, weightsByTract: weights
