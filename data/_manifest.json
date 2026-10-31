@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-31T18:03:57.345Z",
+    "generated_at": "2026-10-31T18:34:04.405Z",
     "root": "data/",
     "file_count": 2008,
-    "total_size_bytes": 210795466,
+    "total_size_bytes": 210798466,
     "kinds": {
       "json": 1960,
       "geojson": 34,
@@ -670,7 +670,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-31T18:03:52.346Z",
+      "mtime": "2026-10-31T18:34:00.118Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39950,8 +39950,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16091,
-      "mtime": "2026-10-31T18:03:54.602Z",
+      "size_bytes": 16087,
+      "mtime": "2026-10-31T18:34:02.217Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39975,7 +39975,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-31T18:03:54.048Z",
+      "mtime": "2026-10-31T18:34:01.714Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42601,8 +42601,8 @@
     {
       "path": "policy/lihtc-underwriting-rules.json",
       "kind": "json",
-      "size_bytes": 14793,
-      "mtime": "2026-10-18T23:45:59.277Z",
+      "size_bytes": 17797,
+      "mtime": "2026-10-31T18:32:02.576Z",
       "shape": "object",
       "keys": [
         "schema",
