@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-31T15:10:27.950Z",
+    "generated_at": "2026-10-31T15:48:16.750Z",
     "root": "data/",
-    "file_count": 2005,
-    "total_size_bytes": 210742779,
+    "file_count": 2008,
+    "total_size_bytes": 210795098,
     "kinds": {
-      "json": 1957,
+      "json": 1960,
       "geojson": 34,
       "csv": 14
     }
@@ -375,6 +375,66 @@
       ]
     },
     {
+      "path": "alerts/outlet-decisions.json",
+      "kind": "json",
+      "size_bytes": 183,
+      "mtime": "2026-10-31T15:46:52.471Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "decisions"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "alerts/outlet-register.json",
+      "kind": "json",
+      "size_bytes": 31759,
+      "mtime": "2026-10-31T15:46:52.471Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "outlets"
+      ],
+      "key_count": 2,
+      "primary_array_key": "outlets",
+      "primary_array_length": 152,
+      "primary_array_first_keys": [
+        "name",
+        "tier",
+        "aliases",
+        "domains",
+        "checked"
+      ]
+    },
+    {
+      "path": "alerts/outlet-review.json",
+      "kind": "json",
+      "size_bytes": 20375,
+      "mtime": "2026-10-31T15:46:52.472Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "outlets"
+      ],
+      "key_count": 2,
+      "primary_array_key": "outlets",
+      "primary_array_length": 24,
+      "primary_array_first_keys": [
+        "id",
+        "name",
+        "domains",
+        "stories",
+        "first_seen",
+        "last_seen",
+        "headlines",
+        "first_listed"
+      ]
+    },
+    {
       "path": "alerts/owner-news.json",
       "kind": "json",
       "size_bytes": 324,
@@ -610,7 +670,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-31T15:10:23.919Z",
+      "mtime": "2026-10-31T15:48:13.941Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39890,8 +39950,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16087,
-      "mtime": "2026-10-31T15:10:25.653Z",
+      "size_bytes": 16089,
+      "mtime": "2026-10-31T15:48:15.384Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39915,7 +39975,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-31T15:10:25.228Z",
+      "mtime": "2026-10-31T15:48:15.034Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
