@@ -7,7 +7,8 @@
  *
  *   1. Repeat downloads. Independent loaders asked for the same data file up
  *      to five times (ranking-index.json, qct-colorado.json, ...), about 3 MB
- *      of an 8 MB page. js/data-request-memo.js keeps one copy per page view.
+ *      of an 8 MB page. An inline script (id="data-request-memo") in the HNA
+ *      head keeps one copy per page view.
  *   2. A second full load. The page's own deep-link helper re-fires the
  *      place select's change event after the controller has already loaded
  *      that place, so every figure was blanked and drawn again. The
@@ -61,7 +62,10 @@ function loadMemo() {
   };
   const ctx = { window, URL, Object, Promise, Error, setTimeout };
   vm.createContext(ctx);
-  vm.runInContext(read('js/data-request-memo.js'), ctx);
+  const html = read('housing-needs-assessment.html');
+  const m = /<script id="data-request-memo">([\s\S]*?)<\/script>/.exec(html);
+  assert.ok(m, 'the data request memo script is gone from the HNA head; this guard is checking nothing');
+  vm.runInContext(m[1], ctx);
   return { window, calls, setStatus(s) { nextStatus = s; }, setBodyFails(b) { nextBodyFails = b; } };
 }
 
@@ -167,7 +171,7 @@ function loadMemo() {
       const html = read(p);
       assert.match(html, /<link rel="stylesheet" id="nav-injected-styles" href="css\/navigation\.css">/, p);
       assert.match(html, /<link rel="stylesheet" id="mobile-nav-styles-link" href="css\/mobile-nav\.css">/, p);
-      const memo = html.indexOf('js/data-request-memo.js');
+      const memo = html.indexOf('<script id="data-request-memo">');
       assert.ok(memo > 0, p + ' must load the data request memo');
       assert.ok(memo < html.indexOf('js/fetch-helper.js'), p + ': the memo must load before the data loaders');
     });
