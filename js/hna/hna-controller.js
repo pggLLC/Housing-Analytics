@@ -4348,8 +4348,12 @@
   // read update()'s body from source to check what it calls.
   let _updateGate = Promise.resolve();
 
-  // The place init loaded, until the first select change after it (see the
-  // geoSelect change listener in init).
+  // The place init loaded, until the first select change after it. The
+  // page's deep-link helper re-announces that place (so the project, the
+  // county and the projection pill sync); the geoSelect listener in init
+  // skips that one echo instead of running the whole load again, which on a
+  // phone blanked and redrew every figure (Codex audit F9, 31 Oct 2026).
+  // Any later change loads as before.
   let _initialLoadKey = null;
   function _currentSelectKey() {
     const els = window.HNAState && window.HNAState.els;
@@ -5467,11 +5471,7 @@
     window.HNAState.els.geoSelect.addEventListener('change', () => {
       _syncJurisdictionToWorkflowState();
       _syncJurisdictionToUrl();
-      // The page's deep-link helper re-announces the place this init already
-      // loaded (so the project, the county and the projection pill sync).
-      // That first echo must not run the whole load a second time: on a
-      // phone it blanked and redrew every figure (Codex audit F9, 31 Oct
-      // 2026). Only that one echo is skipped; any later change loads.
+      // Skip only the deep-link helper's echo of the place init loaded (F9).
       const echo = _initialLoadKey !== null && _currentSelectKey() === _initialLoadKey;
       _initialLoadKey = null;
       if (echo) return;
