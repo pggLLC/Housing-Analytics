@@ -182,6 +182,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/news/owner_news_picks.py
 
+      # Outlets ticked in the "Outlets to review" issue, before the stories
+      # are built, so a tick takes effect in this run. Reads the issue only.
+      - name: Apply outlet review ticks
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/news/outlet_review.py --apply
+
       - name: Generate policy briefs
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -208,6 +215,10 @@ jobs:
 
       - name: Build the brief news queue
         run: python3 scripts/news/build_brief_news_queue.py
+
+      # paul, 2026-10-31: unverified outlets are reviewed on every news run.
+      - name: List outlets to review
+        run: python3 scripts/news/outlet_review.py
 
       # F161 — Removed the "Build weekly brief" step entirely. It was calling
       # private/weekly-brief/scripts/build_weekly_brief.py, which was deleted
@@ -236,6 +247,7 @@ jobs:
           git add data/policy/housing-events.json
           git add data/alerts/brief-news-queue.json
           git add data/alerts/owner-news.json
+          git add data/alerts/outlet-review.json data/alerts/outlet-decisions.json
           git add robots.txt || true
 
           if git diff --cached --quiet; then
@@ -303,3 +315,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/news/owner_news_picks.py --sync-issues
+
+      # After the push. Rewrites the issue every run; once a week it adds a
+      # comment with the week's sourcing, so the review is asked for weekly.
+      - name: Rewrite "Outlets to review"
+        if: github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/news/outlet_review.py --sync-issue

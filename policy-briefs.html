@@ -74,6 +74,13 @@
     .story__meta > * { white-space: nowrap; }
     .story__meta > .story__pub { white-space: normal; overflow-wrap: anywhere; font-weight: 600; color: var(--text); }
     .story__meta > *:not(:last-child):not(.no-sep)::after { content: "·"; padding-inline: .45rem; color: var(--faint); }
+    /* Outlet check (data/alerts/outlet-register.json): a tag only when the
+       outlet is not a checked newsroom, trade, research or government source. */
+    .story__meta > .story__check { white-space: normal; }
+    .story__src { font-size: .75rem; font-weight: 700; letter-spacing: .02em; border-radius: 4px; padding: 0 .35rem; border: 1px solid currentColor; }
+    .story__src--unverified { color: var(--muted); }
+    .story__src--weak { color: var(--warn, #9a5b00); }
+    .news-sourcing { font-size: .8125rem; color: var(--muted); }
     .story__date { font-family: var(--font-mono); font-size: .8125rem; color: var(--faint); }
     .story__prog { font-family: var(--font-mono); font-size: .8125rem; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
     .story__alt::before { content: "·"; padding-inline: .45rem; color: var(--faint); }
@@ -163,6 +170,7 @@
       </div>
       <div class="news-head__meta">
         <span id="newsCount" aria-live="polite"></span>
+        <span id="newsSourcing" class="news-sourcing" hidden></span>
         <span id="alertPipelineStatus" aria-live="polite" aria-atomic="true">Checking the feed…</span>
       </div>
     </header>
@@ -176,6 +184,7 @@
       <p><strong>Places and local numbers.</strong> A headline that names a Colorado city, town, CDP or county is tagged with that place and its region, the same ones the Housing Needs Assessment uses, and shows one line of that place's own numbers with their survey vintage. A number the data does not have is left out, not shown as zero. The line describes the place, not the project in the story.</p>
       <p><strong>Upcoming events</strong> come from CHFA's public calendar (chfareach trainings, board meetings, lender and homebuyer classes) and Housing Colorado's events page, read daily, plus a short list checked by hand against each organizer's own page (conferences no feed lists). Ended events move to Past events, newest first, and stay there for a year. If a calendar cannot be read, the panel says so instead of showing an old list.</p>
       <p><strong>Policy watch</strong> is curated by hand, not pulled from a feed. Each entry says how it was checked: against the primary document, with the exact wording it rests on kept in the data, or as reported by a named outlet. Topics nobody has checked yet are listed as not covered, rather than filled in from search results. This page shows a summary; each row opens the page that lists those entries in full.</p>
+      <p><strong>Who published it.</strong> Every outlet is checked against COHO's outlet list by its web address. Stories from newsrooms, trade press, research centers and government sources carry no tag. An outlet not checked yet is tagged <em>Unverified outlet</em> and reviewed every week. <em>Weak sourcing</em> marks marketing, press releases, partisan outlets, AI-written sites, ranking lists and videos, with the reason. Known imposter local-news sites are left out.</p>
       <p><strong>Before you quote it.</strong> Open the original article. If a link is blocked, "Alt. link" searches Google News for the same headline.</p>
       <p><strong>Research briefs</strong> marked source-reviewed have been checked against the sources they link. They are analytical summaries, not substitutes for the original research. Each opens in a reader that lists its sources.</p>
     </details>
@@ -199,6 +208,9 @@
         </div>
         <div class="news-facet" id="programChips" role="group" aria-label="Filter by program">
           <span class="news-facet__label">Program</span>
+        </div>
+        <div class="news-facet" id="sourcingChips" role="group" aria-label="Filter by outlet check">
+          <span class="news-facet__label">Outlet</span>
         </div>
       </div>
     </div>
@@ -290,7 +302,8 @@
     var LATEST_COUNT = 5;
 
     var $ = function (id) { return document.getElementById(id); };
-    var state = { q: '', programs: [], place: '', shown: PAGE };
+    var state = { q: '', programs: [], place: '', sourcing: '', shown: PAGE };
+    var SOURCING = [['checked', 'Checked'], ['unverified', 'Unverified outlet'], ['weak', 'Weak sourcing']];
     var stories = [];
 
     function escapeHtml(s) {
@@ -334,7 +347,10 @@
             programs: Array.isArray(s.programs) ? s.programs : [],
             places: Array.isArray(s.places) ? s.places.filter(function (p) { return p && p.geoid && p.name; }) : [],
             regions: Array.isArray(s.regions) ? s.regions : [],
-            also: Array.isArray(s.also) ? s.also : []
+            also: Array.isArray(s.also) ? s.also : [],
+            // Stories written before the outlet check have no `sourcing`.
+            sourcing: s.sourcing === 'weak' || s.sourcing === 'unverified' ? s.sourcing : 'checked',
+            sourcingLabel: String(s.sourcing_label || '')
           };
         })
         .sort(function (a, b) { return storyTime(b) - storyTime(a); });
@@ -435,6 +451,12 @@
       var tag = lead ? 'h2' : 'h3';
       var meta = [];
       meta.push('<span class="story__pub">' + highlight(s.source) + '</span>');
+      if (s.sourcing === 'unverified') {
+        meta.push('<span class="story__check"><span class="story__src story__src--unverified" title="COHO has not checked this outlet yet">Unverified outlet</span></span>');
+      } else if (s.sourcing === 'weak') {
+        meta.push('<span class="story__check"><span class="story__src story__src--weak" title="Weak sourcing: ' + escapeHtml(s.sourcingLabel) + '">Weak sourcing' +
+          (s.sourcingLabel ? ': ' + escapeHtml(s.sourcingLabel) : '') + '</span></span>');
+      }
       meta.push('<span>' + escapeHtml(placeLabel(s)) + '</span>');
       var t = storyTime(s);
       meta.push('<span class="story__date">' + (t ? shortDate(t) : 'Undated') + '</span>');
@@ -469,6 +491,7 @@
       if (skip !== 'program' && state.programs.length &&
           !s.programs.some(function (p) { return state.programs.indexOf(p) !== -1; })) return false;
       if (skip !== 'place' && state.place && placeValues(s).indexOf(state.place) === -1) return false;
+      if (skip !== 'sourcing' && state.sourcing && s.sourcing !== state.sourcing) return false;
       if (state.q) {
         var hay = (s.title + ' ' + s.source + ' ' + s.also.map(function (a) { return a.source; }).join(' ') + ' ' +
           s.places.map(function (p) { return p.name; }).join(' ')).toLowerCase();
@@ -476,7 +499,7 @@
       }
       return true;
     }
-    function filtering() { return !!(state.q || state.programs.length || state.place); }
+    function filtering() { return !!(state.q || state.programs.length || state.place || state.sourcing); }
 
     function renderWeeks(list, now) {
       var html = '', groups = [], cur = null;
@@ -515,6 +538,23 @@
         b.setAttribute('aria-pressed', state.programs.indexOf(name) !== -1 ? 'true' : 'false');
         b.querySelector('.n').textContent = n;
       });
+      document.querySelectorAll('#sourcingChips .news-chip').forEach(function (b) {
+        var key = b.getAttribute('data-sourcing');
+        var n = stories.filter(function (s) { return matches(s, 'sourcing') && s.sourcing === key; }).length;
+        b.setAttribute('aria-pressed', state.sourcing === key ? 'true' : 'false');
+        b.querySelector('.n').textContent = n;
+      });
+    }
+
+    // This week's sourcing, in the header: how many of the last seven days'
+    // stories come from checked outlets.
+    function renderSourcing(now) {
+      var since = now - 7 * 864e5, n = { checked: 0, unverified: 0, weak: 0 };
+      stories.forEach(function (s) { if (storyTime(s) >= since) n[s.sourcing] += 1; });
+      var total = n.checked + n.unverified + n.weak, el = $('newsSourcing');
+      if (!total) return;
+      el.textContent = 'This week: ' + n.checked + ' from checked outlets · ' + n.unverified + ' unverified · ' + n.weak + ' weak sourcing';
+      el.hidden = false;
     }
 
     function render() {
@@ -549,7 +589,7 @@
     }
 
     function clearAll() {
-      state.q = ''; state.programs = []; state.place = ''; state.shown = PAGE;
+      state.q = ''; state.programs = []; state.place = ''; state.sourcing = ''; state.shown = PAGE;
       $('briefSearch').value = '';
       var sel = $('regionFilter'); sel.value = ''; sel.dispatchEvent(new Event('change'));
       render();
@@ -573,6 +613,24 @@
         chipHost.appendChild(b);
       });
       if (!chipHost.querySelector('.news-chip')) chipHost.hidden = true;
+
+      var srcHost = $('sourcingChips');
+      SOURCING.forEach(function (pair) {
+        if (pair[0] !== 'checked' && !stories.some(function (s) { return s.sourcing === pair[0]; })) return;
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'news-chip';
+        b.setAttribute('data-sourcing', pair[0]);
+        b.setAttribute('aria-pressed', 'false');
+        b.innerHTML = escapeHtml(pair[1]) + '<span class="n"></span>';
+        b.addEventListener('click', function () {
+          state.sourcing = state.sourcing === pair[0] ? '' : pair[0];
+          state.shown = PAGE; render();
+        });
+        srcHost.appendChild(b);
+      });
+      if (srcHost.querySelectorAll('.news-chip').length < 2) srcHost.hidden = true;
+      renderSourcing(Date.now());
 
       var counts = {}, regionNames = [], placeNames = {};
       stories.forEach(function (s) {

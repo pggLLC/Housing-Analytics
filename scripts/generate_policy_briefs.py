@@ -35,6 +35,8 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / 'scripts' / 'news'))
+import outlets as outlet_register  # noqa: E402  (scripts/news/outlets.py)
 ALERTS_FILE = REPO_ROOT / 'data' / 'alerts' / 'alerts_archive.json'
 TOOL_WATCH_FILE = REPO_ROOT / 'data' / 'policy' / 'tool-watch.json'
 OUT_FILE = REPO_ROOT / 'data' / 'policy_briefs.json'
@@ -351,16 +353,19 @@ NAME_CONTINUATION_RE = re.compile(
     r'Corp|Rule|Opportunity|Age)\b')
 
 
-def find_places(title: str, geos: dict, source: str = '') -> tuple[list[dict], bool]:
+def find_places(title: str, geos: dict, source: str = '',
+                trusted_outlet: bool = True) -> tuple[list[dict], bool]:
     """Colorado geographies named in a headline.
 
     Returns (geographies, distinct) where distinct is True when at least one
     of them could only be in Colorado, so the headline is Colorado news even
-    without the word "Colorado".
+    without the word "Colorado". An outlet the register has not checked gets
+    no Colorado context from its name (see story_scope).
     """
     found: list[dict] = []
     distinct = False
-    colorado_context = bool(COLORADO_RE.search(title) or COLORADO_SOURCE_RE.search(source or ''))
+    colorado_context = bool(COLORADO_RE.search(title) or
+                            (trusted_outlet and COLORADO_SOURCE_RE.search(source or '')))
     for m in _place_pattern(geos).finditer(title):
         text = m.group(1)
         after = title[m.end():m.end() + 12]
@@ -542,7 +547,7 @@ def is_housing_headline(title: str, source: str = '') -> bool:
     return strong or not OFF_TOPIC_RE.search(title)
 
 
-def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
+def story_scope(title: str, source: str, distinct_place: bool, trusted_outlet: bool = True) -> str | None:
     """'colorado', 'federal', 'national' (a trend story from a listed outlet), or None."""
     title = COLORADO_STREET_RE.sub(' ', title or '')
     hay = f'{title} {source}'
@@ -561,7 +566,11 @@ def story_scope(title: str, source: str, distinct_place: bool) -> str | None:
     if distinct_place or COLORADO_RE.search(hay):
         return 'colorado'
     # A Colorado outlet ("Sterling Journal-Advocate", "The Durango Herald").
-    if COLORADO_SOURCE_RE.search(source or ''):
+    # Only a checked one: an imposter site picks a name like "Denver City
+    # Wire" so that it reads as local (outlet register, 2026-10-31). An
+    # unchecked outlet's story counts as Colorado news only when the headline
+    # itself names Colorado or a Colorado place.
+    if trusted_outlet and COLORADO_SOURCE_RE.search(source or ''):
         return 'colorado'
     # The national outlets publish everything; only their housing-trend
     # stories count, as federal news when they name a federal body.
@@ -599,6 +608,23 @@ LISTING_SOURCE_RE = re.compile(
 LISTING_TITLE_RE = re.compile(r'^\d+\s+\S.*,\s*CO\s+8\d{4}\b')
 
 
+_REGISTER = None
+
+
+def outlet_register_now():
+    """data/alerts/outlet-register.json plus the review issue's decisions, read once."""
+    global _REGISTER
+    if _REGISTER is None:
+        _REGISTER = outlet_register.load_register()
+    return _REGISTER
+
+
+def alert_outlet(a: dict) -> dict:
+    """{'status': checked|weak|blocked|unverified, 'label', 'tier'} for an alert's publisher."""
+    _, source = split_title(a.get('title', ''), a.get('source', ''))
+    return outlet_register_now().lookup(source, a.get('source_domain', ''))
+
+
 def alert_scope(a: dict, geos: dict) -> tuple[str | None, str, str, list[dict]]:
     """(scope, headline, publisher, places) for one alert; scope None means out of scope.
 
@@ -608,8 +634,12 @@ def alert_scope(a: dict, geos: dict) -> tuple[str | None, str, str, list[dict]]:
     title, source = split_title(a.get('title', ''), a.get('source', ''))
     if not title:
         return None, title, source, []
-    places, distinct = find_places(title, geos, source)
-    scope = story_scope(title, source, distinct)
+    outlet = alert_outlet(a)
+    if outlet['status'] == 'blocked':
+        return None, title, source, []
+    trusted = outlet['status'] == 'checked'
+    places, distinct = find_places(title, geos, source, trusted)
+    scope = story_scope(title, source, distinct, trusted)
     if LISTING_SOURCE_RE.search(source or '') or LISTING_TITLE_RE.search(title):
         scope = None
     if not is_housing_headline(title, source):
@@ -722,6 +752,18 @@ def same_national_story(s: dict, kept: list[dict]) -> dict | None:
     return None
 
 
+def sourcing_fields(outlet: dict, domain: str = '') -> dict:
+    """The story's outlet check, as the page reads it: `sourcing` is checked,
+    weak or unverified; `sourcing_label` says why when it is not checked."""
+    out = {'sourcing': outlet['status']}
+    if outlet['status'] != 'checked':
+        out['sourcing_label'] = outlet['label']
+    d = outlet_register.norm_domain(domain)
+    if d:
+        out['source_domain'] = d
+    return out
+
+
 def build_stories(alerts: list[dict], geos: dict | None = None) -> tuple[list[dict], dict]:
     """Every in-scope alert as a story, newest first, same headlines merged.
 
@@ -730,7 +772,7 @@ def build_stories(alerts: list[dict], geos: dict | None = None) -> tuple[list[di
     if geos is None:
         geos = load_geographies()
     raw: list[dict] = []
-    counts = {'alerts': 0, 'out_of_scope': 0, 'merged': 0}
+    counts = {'alerts': 0, 'out_of_scope': 0, 'merged': 0, 'blocked': 0}
     for a in alerts:
         if a.get('topic') == 'tool_watch':
             continue
@@ -740,14 +782,18 @@ def build_stories(alerts: list[dict], geos: dict | None = None) -> tuple[list[di
             continue
         if scope is None:
             counts['out_of_scope'] += 1
+            if alert_outlet(a)['status'] == 'blocked':
+                counts['blocked'] += 1
             continue
         regions: list[str] = []
         for g in places:
             if g.get('region') and g['region'] not in regions:
                 regions.append(g['region'])
+        outlet = alert_outlet(a)
         raw.append({
             'title': title,
             'source': source or 'Unknown publisher',
+            **sourcing_fields(outlet, a.get('source_domain', '')),
             'link': a.get('url') or a.get('link') or '',
             'date': (a.get('date') or '')[:10],
             'scope': scope,
@@ -868,10 +914,13 @@ def stories_meta(counts: dict) -> dict:
         'source_alerts': counts['alerts'],
         'out_of_scope': counts['out_of_scope'],
         'merged_duplicates': counts['merged'],
+        'blocked_outlets': counts.get('blocked', 0),
         'method': (
             'One story per headline, newest first. Other-state news is left out. Places are '
             'matched against the 546 geographies in data/hna/geo-config.json; regions follow '
-            'the county map in scripts/hna/build_ranking_index.py.'
+            'the county map in scripts/hna/build_ranking_index.py. Each publisher is looked up '
+            'in data/alerts/outlet-register.json: checked outlets carry no tag, others are '
+            'tagged "Unverified outlet" or "Weak sourcing", and documented imposter sites are left out.'
         ),
     }
 
@@ -917,7 +966,11 @@ def with_owner_picks(stories: list[dict], geos: dict, path: str | None = None) -
         if same:
             same['picked'] = True
             continue
-        places, distinct = find_places(it['title'], geos, it.get('source', ''))
+        outlet = outlet_register_now().lookup(it.get('source', ''), it.get('link', '') and urllib.parse.urlsplit(it['link']).netloc)
+        if outlet['status'] == 'blocked':
+            continue
+        trusted = outlet['status'] == 'checked'
+        places, distinct = find_places(it['title'], geos, it.get('source', ''), trusted)
         regions: list[str] = []
         for g in places:
             if g.get('region') and g['region'] not in regions:
@@ -925,9 +978,10 @@ def with_owner_picks(stories: list[dict], geos: dict, path: str | None = None) -
         story = {
             'title': it['title'],
             'source': it.get('source') or 'Unknown publisher',
+            **sourcing_fields(outlet, urllib.parse.urlsplit(it.get('link') or '').netloc),
             'link': it.get('link') or '',
             'date': (it.get('date') or '')[:10],
-            'scope': story_scope(it['title'], it.get('source', ''), distinct) or 'national',
+            'scope': story_scope(it['title'], it.get('source', ''), distinct, trusted) or 'national',
             'programs': [name for name, rx in PROGRAMS if rx.search(it['title'])],
             'places': [{'geoid': g['geoid'], 'name': g['name'], 'type': g['type']} for g in places],
             'regions': regions,
