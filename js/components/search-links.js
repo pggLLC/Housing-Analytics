@@ -122,7 +122,7 @@
 
   // F227 — Broader fallback search. Used when buildNews returns 0 results.
   // Drops the quote on the place name (catches partial matches like
-  // "Fruita Mews Phase II") and broadens vocabulary beyond LIHTC-specific
+  // "Riverside Commons Phase II") and broadens vocabulary beyond LIHTC-specific
   // terms to include any housing / residential / planning coverage.
   function buildNewsBroad(jur) {
     var d = isoMonthsAgo(24);  // 24-month window — small jurisdictions need wider net

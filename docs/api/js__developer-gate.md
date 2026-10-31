@@ -18,13 +18,13 @@ SECURITY
     (a) read the hash and brute-force it, OR
     (b) just set sessionStorage manually to bypass.
   It WILL keep casual visitors out. It will NOT keep a competitor out.
-  Replace with Cloudflare Access for real auth (docs/CLOUDFLARE-SETUP.md).
+  Replace with Cloudflare Access for real auth (set up in the private coho-backend repo).
 
 TO CHANGE THE PASSWORD
   1. Pick a new password.
   2. Run:  node -e "console.log(require('crypto').createHash('sha256').update('YOUR-PASSWORD').digest('hex'))"
   3. Replace PASSWORD_HASH below with the new hash.
   4. Commit + push.
-Real fix: replace this UI-only gate with Cloudflare Access; see docs/CLOUDFLARE-SETUP.md.
+Real fix: replace this UI-only gate with Cloudflare Access (set up in the private coho-backend repo).
 
 _No documented symbols — module has a file-header comment only._

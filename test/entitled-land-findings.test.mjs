@@ -3,6 +3,7 @@
 // no site, address, person, phone or email. Run: node test/entitled-land-findings.test.mjs
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { findPrivateTerms } from '../scripts/lib/private-terms.mjs';
 
 const raw = await readFile(new URL('../data/entitled-land/findings.json', import.meta.url), 'utf8');
 const d = JSON.parse(raw);
@@ -25,5 +26,5 @@ for (const f of d.findings) {
 // Member value stays on the member site: nothing that names or reaches a site or a person.
 ok(!/\(\d{3}\)\s?\d{3}-\d{4}|\b\d{3}[-.]\d{3}[-.]\d{4}\b|[\w.+-]+@[\w-]+\.\w/.test(raw), 'no phone numbers or emails');
 ok(!/\b\d{2,5} [NSEW]?\.? ?[A-Z][a-z]+ (St|Ave|Dr|Rd|Ln|Blvd|Way|Ct)\b/.test(raw), 'no street addresses');
-ok(!/indibuild|[private]|fruita/i.test(raw), 'no private-only material');
+ok(!/indibuild|fruita/i.test(raw) && findPrivateTerms(raw).length === 0, 'no private-only material');
 console.log(`entitled-land-findings: ${checks} checks passed`);
