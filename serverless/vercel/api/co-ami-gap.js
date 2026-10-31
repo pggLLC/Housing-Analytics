@@ -108,10 +108,19 @@ function pickCounts(row, table, from, to) {
   return counts;
 }
 
+// HUD and CHFA set every percentage limit from the published very-low-income
+// (50%) limit, T% = VLI x T/50, not from the median: the VLI carries HUD's
+// state non-metro floor (Pueblo: median $87,700, VLI $48,700, 60% = $58,440).
+// The median is used only when the record has no published VLI.
+function amiBasis(il) {
+  const vli = Number(il?.data?.very_low?.il50_p4);
+  return vli > 0 ? vli * 2 : Number(il?.data?.median_income);
+}
+
 function buildMethodology(hudYear, acsYear) {
   return [
     `Methodology v2 (2026-07): the gap's demand side is RENTER households (ACS ${acsYear} 5-year table B25118, Tenure × Household Income) at or below each income threshold — matching professional HNA practice. v1 used ALL households (B19001, owners included) against renter-only supply, which structurally inflated gaps ~2.5-4x. The all-tenure series is retained as all_households_le_ami_pct.`,
-    `Income thresholds use HUD Income Limits year ${hudYear} AMI ("median_income") for 4-person households, per county.`,
+    `Income thresholds use HUD Income Limits year ${hudYear} published 4-person limits per county: each tier is the very-low-income (50%) limit scaled by T/50, the HUD/CHFA rule (ami_4person is twice that limit; HUD's median_income only when no limit is published).`,
     `Priced-affordable units come from ACS ${acsYear} 5-year table B25063 (cash rent only); rent bins are prorated at each threshold (30% of income / 12).`,
     `Gap = units minus renter households at each threshold (negative = deficit). Bins are prorated assuming uniform distribution within each bin.`,
     `These are priced-affordable units, not guaranteed vacant/available, and do not incorporate concessions.`
@@ -123,7 +132,7 @@ async function computeCounty(county, hudYear, acsYear, hudToken, censusKey) {
   const countyCode = entityid.slice(2,5);
 
   const il = await hudFetch(`il/data/${entityid}?year=${hudYear}`, hudToken);
-  const ami = Number(il?.data?.median_income);
+  const ami = amiBasis(il);
   if (!ami || Number.isNaN(ami)) throw new Error(`Missing AMI for ${county.county_name}`);
 
   const b251 = parseRow(await censusFetchAcs5(acsYear, seqVars("B25118", 14, 25), countyCode, censusKey));

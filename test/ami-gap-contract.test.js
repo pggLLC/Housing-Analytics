@@ -93,7 +93,9 @@ async function serverlessEndpoints() {
         else {
           const match = fixtures.find(row => url.pathname.endsWith('/il/data/' + row.fips_code));
           assert(match, 'known HUD fixture: ' + url.pathname);
-          data = {data: {median_income: match.ami}};
+          // A median that is not twice the VLI, as in HUD's floored rural
+          // counties: the endpoint must scale from the published limit.
+          data = {data: {median_income: match.ami - 7000, very_low: {il50_p4: match.ami / 2}}};
         }
       } else {
         assert.equal(url.hostname, 'api.census.gov', 'no live or unexpected fetch');
@@ -133,6 +135,7 @@ async function serverlessEndpoints() {
     assert.equal(payload.counties.length, fixtures.length, 'every fixture county was computed');
     assert.equal(requests.length, 1 + fixtures.length * 4, 'both HUD and all three Census tables were read');
     assert.equal(payload.bands.length, county.bands.length);
+    for (const [i, rec] of payload.counties.entries()) assert.equal(rec.ami_4person, fixtures[i].ami, file + ': tiers scale from twice the published 50% limit, not the median');
     let checked = 0;
     for (const row of [...payload.counties, payload.statewide]) {
       checkRecord(row, payload.bands, payload.meta.gap_sign);
