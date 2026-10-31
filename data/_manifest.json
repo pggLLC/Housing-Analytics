@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-31T14:34:28.440Z",
+    "generated_at": "2026-10-31T14:39:20.622Z",
     "root": "data/",
     "file_count": 2005,
-    "total_size_bytes": 210732943,
+    "total_size_bytes": 210735403,
     "kinds": {
       "json": 1957,
       "geojson": 34,
@@ -610,7 +610,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-31T12:56:43.497Z",
+      "mtime": "2026-10-31T14:39:16.226Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -983,7 +983,7 @@
       "path": "census-acs-state.json",
       "kind": "json",
       "size_bytes": 26927,
-      "mtime": "2026-10-31T12:47:08.723Z",
+      "mtime": "2026-10-31T14:37:16.745Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1241,8 +1241,8 @@
     {
       "path": "co-housing-costs/drivers_ranking.csv",
       "kind": "csv",
-      "size_bytes": 240,
-      "mtime": "2026-09-25T12:55:18.607Z",
+      "size_bytes": 242,
+      "mtime": "2026-10-31T14:37:16.749Z",
       "shape": "csv",
       "row_count": 5,
       "columns": [
@@ -38153,7 +38153,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 254862,
-      "mtime": "2026-10-31T14:34:18.445Z",
+      "mtime": "2026-10-31T14:38:37.397Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39890,8 +39890,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16086,
-      "mtime": "2026-10-31T14:34:26.106Z",
+      "size_bytes": 16090,
+      "mtime": "2026-10-31T14:39:18.389Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39915,7 +39915,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-31T14:34:25.591Z",
+      "mtime": "2026-10-31T14:39:17.869Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -43274,8 +43274,8 @@
     {
       "path": "processed/co_county_housing_indicators.geojson",
       "kind": "geojson",
-      "size_bytes": 455664,
-      "mtime": "2026-10-19T13:40:55.031Z",
+      "size_bytes": 458118,
+      "mtime": "2026-10-31T14:37:17.291Z",
       "shape": "geojson",
       "feature_count": 64,
       "property_keys": [
