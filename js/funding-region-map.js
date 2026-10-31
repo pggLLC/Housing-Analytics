@@ -215,16 +215,21 @@
       var list = D.awards.filter(function (a) { return a.town === k && vis(a); }), show = list.length && (region === 0 || t.region === region) && (!town || k === town);
       if (!show) { if (townMarkers[k]) { townMarkers[k].remove(); delete townMarkers[k]; } return; }
       var lab = region === 0 ? '' : esc(t.kind === 'county' ? t.name.split(',')[0] : t.name);
-      var icon = L.divIcon({ className: '', html: '<div class="frm-tpin' + (region === 0 ? ' frm-dot' : '') + '"><b style="background:conic-gradient(' + grad(list) + ')">' + list.length + '</b>' + lab + '</div>', iconSize: [0, 0] });
-      if (!townMarkers[k]) townMarkers[k] = L.marker([t.lat, t.lng], { icon: icon, title: t.name, keyboard: true }).on('click', function () { pick(t.region, k, true); });
-      else townMarkers[k].setIcon(icon);
+      var tIcon = function (l) { return L.divIcon({ className: '', html: '<div class="frm-tpin' + (region === 0 ? ' frm-dot' : '') + '"><b style="background:conic-gradient(' + grad(l) + ')">' + l.length + '</b>' + lab + '</div>', iconSize: [0, 0] }); };
+      // awards with no project pin (a town-wide grant, say) keep a town marker when zoomed in to the project pins
+      var loose = list.filter(function (a) { return !a.site || !markers[a.site]; });
+      if (!townMarkers[k]) townMarkers[k] = L.marker([t.lat, t.lng], { icon: tIcon(list), title: t.name, keyboard: true }).on('click', function () { pick(t.region, k, true); });
+      townMarkers[k]._frmFull = tIcon(list); townMarkers[k]._frmLoose = loose.length ? tIcon(loose) : null;
     });
     syncZoom();
   }
   function syncZoom() {
     var siteMode = map.getZoom() >= SITE_ZOOM;
     Object.keys(markers).forEach(function (k) { var m = markers[k]; if (siteMode) { if (!map.hasLayer(m)) m.addTo(map); } else if (map.hasLayer(m)) { m.closePopup(); m.remove(); } });
-    Object.keys(townMarkers).forEach(function (k) { var m = townMarkers[k]; if (!siteMode) { if (!map.hasLayer(m)) m.addTo(map); } else if (map.hasLayer(m)) m.remove(); });
+    Object.keys(townMarkers).forEach(function (k) {
+      var m = townMarkers[k], icon = siteMode ? m._frmLoose : m._frmFull;
+      if (icon) { m.setIcon(icon); if (!map.hasLayer(m)) m.addTo(map); } else if (map.hasLayer(m)) m.remove();
+    });
   }
 
   function drawDetail() {
