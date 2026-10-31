@@ -335,6 +335,8 @@ def classify(src, amt):
     # costs (uses of money), not sources: shown, never added
     # money the project pays out (to a transit service, a fund, a district) is a cost, not a source
     if re.search(r"^(contribution|payment|donation) to\b", s): return "cost", "summary"
+    # a services, operating or replacement reserve is money the project sets aside (a use), not a source
+    if re.search(r"\b(tenant |supportive )?(services?|operating|replacement|lease-?up|capitalized) reserves?\b", s): return "cost", "summary"
     if re.search(r"acquisition (price|cost)|purchase price|sale price|construction contract|hard cost|soft cost|rehab(ilitation)? (cost|budget|contract)|cost of|proposed budget", s): return "cost", "summary"
     inkind = re.search(r"waiver|exemption|abatement|saved|savings|donat|land lease|ground lease|in-kind|fee reduction|rebate|discount|price concession|price (cut|reduction)|^land$|land contribution", s + " " + a)
     # infrastructure or public works (a sidewalk, a road or utility extension) built for the project is in-kind; a grant, loan or capital payment for it is cash
@@ -421,6 +423,10 @@ for d in idx:
         if re.search(r"per (\w+ ){0,2}(unit|home|door|apartment)s?\b|/\s*(unit|home)\b", m["amount"], re.I): phase = "perunit"
         rows.append({"label": m["source"], "category": cat, "amount": amt, "amount_text": m["amount"], "phase": phase,
                      "note": m.get("note") or "", "source_title": s0.get("title", "COHO deal summary"), "source_url": s0.get("url", "")})
+        # a construction loan whose note says part of it converts to a permanent loan keeps that part as a permanent source
+        cv = re.search(r"converts to an? (\$[\d,.]+\s*(?:million|m\b|k\b)?)[^.;]*?permanent loan", note, re.I)
+        if phase == "construction" and cv and money(cv.group(1)):
+            rows.append(dict(rows[-1], label=m["source"] + ", permanent portion", amount=money(cv.group(1)), amount_text=cv.group(1), phase="perm"))
     if not tdc:
         for k in full.get("key_numbers", []):
             v = k["value"]
