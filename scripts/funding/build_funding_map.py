@@ -352,11 +352,11 @@ for d in idx:
     rows, tdc = [], None
     money_rows = []
     for m in full.get("money", []):
-        # "X and Y" with one amount for each part, where only one part is in-kind: split so the cash part still counts
-        lp = re.split(r"\s+and\s+", m["source"]); ap = re.split(r"\s+and\s+|;\s*", m["amount"])
-        if len(lp) == 2 and len(ap) == 2 and all(re.search(r"\$\s?[\d,.]+", a) for a in ap):
-            kinds = [classify(x, "")[1] == "inkind" for x in lp]
-            if kinds[0] != kinds[1]:
+        # "X, Y and Z" with one amount for each part, where some parts are in-kind: split so the cash parts still count
+        lp = re.split(r",\s*(?:and\s+)?|\s+and\s+", m["source"]); ap = re.split(r"\s+and\s+|;\s*", m["amount"])
+        if len(lp) >= 2 and len(lp) == len(ap) and all(re.search(r"\$\s?[\d,.]+", a) for a in ap):
+            kinds = [classify(x, a)[1] == "inkind" for x, a in zip(lp, ap)]
+            if any(kinds) and not all(kinds):
                 head = re.match(r"^((?:city|town|county)(?: of \w+)?)\s", lp[0], re.I)
                 for x, a in zip(lp, ap):
                     if head and not x.lower().startswith(head.group(1).lower()): x = head.group(1) + " " + x
