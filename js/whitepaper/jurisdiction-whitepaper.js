@@ -146,12 +146,14 @@
     // Rows held back from public lists by a standing data rule. The two name
     // words are matched by hash so the rule names nothing; otherwise this is
     // the same test as an unanchored, case-blind "A\s+B\s+(phase\s+)?(ii|2)\b".
-    var t = String(text || '').toLowerCase().split(/\s+/);
+    // Only A-Z fold to lower case, as in a non-Unicode /i pattern.
+    var t = String(text || '').split(/\s+/);
+    var low = function (x) { return x.replace(/[A-Z]/g, function (c) { return c.toLowerCase(); }); };
     var a = HELD_BACK[0], b = HELD_BACK[1];
-    var tail = /^(ii|2)(?![a-z0-9_])/;
+    var tail = /^(ii|2)(?![a-z0-9_])/i;
     for (var i = 0; i + 2 < t.length; i++) {
-      if (t[i].length < 6 || heldBackHash(t[i].slice(-6)) !== a || heldBackHash(t[i + 1]) !== b) continue;
-      if (tail.test(t[i + 2]) || (t[i + 2] === 'phase' && i + 3 < t.length && tail.test(t[i + 3]))) return true;
+      if (t[i].length < 6 || heldBackHash(low(t[i].slice(-6))) !== a || heldBackHash(low(t[i + 1])) !== b) continue;
+      if (tail.test(t[i + 2]) || (/^phase$/i.test(t[i + 2]) && i + 3 < t.length && tail.test(t[i + 3]))) return true;
     }
     return false;
   }
