@@ -47,7 +47,7 @@ const CANDIDATE_YEARS = [];
 const CENSUS_KEY = process.env.CENSUS_API_KEY || '';
 function acsUrl(year) {
   return 'https://api.census.gov/data/' + year + '/acs/acs5' +
-    '?get=NAME,B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E' +
+    '?get=NAME,B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E,B25070_011E' +
     ',B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E' +
     ',B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E' +
     ',B25064_001E,B19013_001E,B25077_001E,B01003_001E' +
@@ -94,7 +94,9 @@ function parseCountyRows(rows) {
     var countyFips3 = (row[headers.indexOf('county')] || '').padStart(3, '0');
     var fips = stateFips.padStart(2, '0') + countyFips3;
 
-    var totalRenter = getVal(row, 'B25070_001E');
+    // Burden universe excludes "not computed" renters (no cash rent or zero
+    // income, B25070_011), as Census and HUD do.
+    var totalRenter = (getVal(row, 'B25070_001E') || 0) - (getVal(row, 'B25070_011E') || 0);
     var burdened30 =
       (getVal(row, 'B25070_007E') || 0) +
       (getVal(row, 'B25070_008E') || 0) +
