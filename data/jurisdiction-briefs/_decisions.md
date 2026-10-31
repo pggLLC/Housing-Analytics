@@ -45,7 +45,7 @@ available at the time the question was asked).
 
 **Effect:** I initially built a separate `?dev=1` / localStorage gate
 on the brief component. **This was the wrong reading** — the right
-"login" was the existing configured password on `indibuild-brief.html`
+"login" was the existing configured password on `developer-brief.html`
 (the Developer Tools section). Superseded by the 2026-06-12 decision
 below.
 
@@ -57,13 +57,13 @@ below.
 
 **Question:** Where should the briefs render?
 
-**Picked:** *"Only on indibuild-brief.html (Developer Tools, configured
+**Picked:** *"Only on developer-brief.html (Developer Tools, configured
 gate)."*
 
 **Effect:** Reverted the `?dev=1` localStorage flag and the brief
 mounts I had added to the HNA Local Resources panel + the PMA tool.
-The brief component is now loaded only from `indibuild-brief.html`,
-which is already password-gated by `js/indibuild-gate.js`. Public
+The brief component is now loaded only from `developer-brief.html`,
+which is already password-gated by `js/developer-gate.js`. Public
 HNA/PMA stay public.
 
 ### Watchlist trigger

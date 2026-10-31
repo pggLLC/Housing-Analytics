@@ -128,8 +128,8 @@ jobs:
 
       # ── F246 / F258 — Per-pipeline-jurisdiction Regrid parcel scan ────
       # F246 wired this step against the Regrid v2 API to pre-fetch ~3-mi
-      # parcel data for every IndiBuild pipeline jurisdiction so the
-      # IndiBuild Brief's "Scan parcels" UI worked without a per-browser
+      # parcel data for every private pipeline jurisdiction so the
+      # developer brief's "Scan parcels" UI worked without a per-browser
       # API key.
       #
       # F258 / #1612: Regrid is an optional paid licensed source and access

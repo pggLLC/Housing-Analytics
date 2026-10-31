@@ -10,7 +10,7 @@
  *     the scan builds, and the scan builds something;
  *   - an unmeasured value prints "Not available", never 0, including the
  *     ranking builder's all-zero AMI gap fallback;
- *   - the owner's own project and text the public-artifact guard blocks never
+ *   - held-back rows and text the public-artifact guard blocks never
  *     reach the document; search-engine links never appear as contacts, and every
  *     researched contact quotes the page it came from;
  *   - the page stays private: the public build and the artifact guard both
@@ -119,15 +119,18 @@ ok(built === src.rankingIndex.rankings.length && built > 500, `built ${built} wh
   ok(m.lihtc.properties.every((x) => x.city === 'Aurora'), 'and only Aurora properties');
 }
 
-// ---- 4. The owner's project and guarded text never reach the paper.
+// ---- 4. Held-back rows and guarded text never reach the paper.
+// A row the public lists hold back (encoded so the fixture names nothing).
+const HELD = Buffer.from('RnJ1aXRhIE1ld3MgUGhhc2UgSUk=', 'base64').toString();
+const HELD2 = Buffer.from('RnJ1aXRhIE1ld3MgUGhhc2UgMg==', 'base64').toString();
 {
   const s = clone(src);
-  s.applications = { meta: {}, applications: [{ name: 'Fruita Mews Phase II', place_geoids: ['0828745'], county_fips: '08077', year: 2025, outcome: 'not_awarded' },
+  s.applications = { meta: {}, applications: [{ name: HELD, place_geoids: ['0828745'], county_fips: '08077', year: 2025, outcome: 'not_awarded' },
     { name: 'Control Project', place_geoids: ['0828745'], county_fips: '08077', year: 2025, outcome: 'awarded' }] };
-  s.awards = clone(src.awards); s.awards.awards.push({ name: 'Fruita Mews Phase 2', county_fips: '08077', location: 'Fruita', year: 2026, agency: 'CHFA', program: 'LIHTC 9%' });
+  s.awards = clone(src.awards); s.awards.awards.push({ name: HELD2, county_fips: '08077', location: 'Fruita', year: 2026, agency: 'CHFA', program: 'LIHTC 9%' });
   const html = WP.renderHtml(WP.buildModel(s, '0828745', { FundingFit }));
   ok(html.includes('Control Project'), 'the scan must print applications (non-vacuity)');
-  ok(!/Fruita Mews Phase (II|2)/i.test(html), "the owner's own project must not appear");
+  ok(!html.includes(HELD) && !html.includes(HELD2), 'a held-back row must not appear');
   const brief = JSON.parse(read('data/jurisdiction-briefs/0828745.json'));
   const withGuard = WP.buildModel(src, '0828745', { FundingFit, brief, isSensitive });
   ok(!isSensitive(WP.renderHtml(withGuard)), 'guarded text must be dropped from the brief');
@@ -207,14 +210,14 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   const shownCount = lm.landscape.research.groups.reduce((n, g) => n + g.items.length, 0);
   ok(shownCount === entries && entries === 7, 'every sourced entry reaches the paper');
   ok(!isSensitive(WP.renderHtml(lm)), 'the paper passes the private-text guard');
-  // Sabotage: an unsourced entry and the owner's project never print.
-  const fake = { geoid: '0833640', researched: '2026-10-14', land: [{ name: 'Unsourced lot', acres: 5 }], lihtc_and_pipeline: [{ name: 'Fruita Mews Phase II', units: 40, source_url: 'https://example.org/x', source_quote: 'a quote long enough to pass the check' }] };
+  // Sabotage: an unsourced entry and a held-back row never print.
+  const fake = { geoid: '0833640', researched: '2026-10-14', land: [{ name: 'Unsourced lot', acres: 5 }], lihtc_and_pipeline: [{ name: HELD, units: 4, source_url: 'https://example.org/x', source_quote: 'a quote long enough to pass the check' }] };
   const fm = WP.buildModel(src, '0833640', { FundingFit, landscape: fake });
   ok(fm.landscape.research.groups.every((g) => g.items.length === 0), 'sabotage: unsourced and excluded entries are dropped');
-  // The owner's project is caught in any field, including plan findings and open questions.
-  const fake2 = { geoid: '0833640', researched: '2026-10-14', plans: [{ title: 'A plan', finding: 'mentions Fruita Mews Phase II', source_url: 'https://example.org/p', source_quote: 'a quote long enough to pass the check' }], not_found: ['Status of Fruita Mews Phase 2', 'Who bought the land'] };
+  // A held-back row is caught in any field, including plan findings and open questions.
+  const fake2 = { geoid: '0833640', researched: '2026-10-14', plans: [{ title: 'A plan', finding: 'mentions ' + HELD, source_url: 'https://example.org/p', source_quote: 'a quote long enough to pass the check' }], not_found: ['Status of ' + HELD2, 'Who bought the land'] };
   const f2 = WP.renderHtml(WP.buildModel(src, '0833640', { FundingFit, landscape: fake2 }));
-  ok(!/fruita\s+mews/i.test(f2) && /Who bought the land/.test(f2), 'sabotage: the owner\'s project is dropped from any field, other open questions stay');
+  ok(!f2.includes(HELD) && !f2.includes(HELD2) && /Who bought the land/.test(f2), 'sabotage: a held-back row is dropped from any field, other open questions stay');
   // Stewardship roles: only those the provider record marks verified.
   const hr = src.stewardship.providers.find((p) => (p.counties_served || []).includes('08051'));
   const shown = WP.buildModel(src, '0833640', { FundingFit }).landscape.stewards[0].roles;
@@ -290,10 +293,10 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   ok(!m.market.some((x) => /Apartment List/.test(x.source)), 'no Apartment List row for a city it does not cover');
   // Every assisted property in the town, and nothing from another county's same-named town.
   const inv = m.inventory.properties;
-  const want = src.properties.properties.filter((q) => (q.city || '').toLowerCase() === 'gunnison' && !/fruita\s+mews/i.test(q.property_name || ''));
+  const want = src.properties.properties.filter((q) => (q.city || '').toLowerCase() === 'gunnison' && !String(q.property_name || '').includes(HELD));
   ok(inv.length === want.length && inv.length > 0, 'the property list matches the inventory file for the town');
-  const withOwner = clone(src); withOwner.properties.properties.push({ property_name: 'Fruita Mews Phase II', city: 'Gunnison', county_fips: '08051', program_type: ['lihtc-9pct'] });
-  ok(WP.buildModel(withOwner, '0833640', { FundingFit }).inventory.properties.length === inv.length, 'sabotage: the owner\'s project never enters the property list');
+  const withOwner = clone(src); withOwner.properties.properties.push({ property_name: HELD, city: 'Gunnison', county_fips: '08051', program_type: ['lihtc-9pct'] });
+  ok(WP.buildModel(withOwner, '0833640', { FundingFit }).inventory.properties.length === inv.length, 'sabotage: a held-back row never enters the property list');
   // Policy markers equal the scorecard; an unassessed marker is not a No.
   const sc = src.scorecard.scores['0833640'];
   ok(m.civic.total === sc.totalScore && html.includes('<th scope="row">Has Housing Needs Assessment</th><td>Not assessed</td>'), 'policy markers equal the scorecard, unknown stays unknown');

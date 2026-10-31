@@ -536,7 +536,7 @@ function main() {
       console.log('      then remove the soft-load + tagging blocks marked F116/F105 across:');
       console.log('        - js/lihtc-opportunity-finder.js');
       console.log('        - js/compare.js');
-      console.log('        - indibuild-brief.html');
+      console.log('        - developer-brief.html');
       console.log('        - chfa-portfolio.html');
     } else {
       console.log('      (bridge already removed — clean-up complete)');

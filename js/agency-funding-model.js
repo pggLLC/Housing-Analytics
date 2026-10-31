@@ -40,11 +40,22 @@
     },
   };
 
-  // The owner's own project never appears (project rule), under any spelling.
-  var EXCLUDED = /fruita\s+mews\s+(phase\s+)?(ii|2)\b/i;
+  var HELD_BACK = { '47325c66': true };
+  function heldBack(text) {
+    // Rows held back from public lists by a standing data rule, matched by a
+    // hash of the normalised name so the rule names nothing.
+    var w = String(text || '').toLowerCase().split(/[^a-z0-9]+/).filter(function (x) { return x && x !== 'phase'; })
+      .map(function (x) { return x === 'ii' ? '2' : x; });
+    for (var i = 0; i + 3 <= w.length; i++) {
+      var s = w.slice(i, i + 3).join(' '), h = 0x811c9dc5;
+      for (var j = 0; j < s.length; j++) { h ^= s.charCodeAt(j); h = Math.imul(h, 0x01000193) >>> 0; }
+      if (HELD_BACK[h.toString(16)]) return true;
+    }
+    return false;
+  }
 
   function isExcluded(name) {
-    return EXCLUDED.test(String(name || ''));
+    return heldBack(name);
   }
 
   function agencyOf(raw) {
