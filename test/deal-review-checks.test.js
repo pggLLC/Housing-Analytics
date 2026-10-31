@@ -50,9 +50,12 @@ test('bond test: an unknown issue date passes only on the 50% route', () => {
   assert.equal(high.passes, true); assert.equal(high.threshold, 0.5);
 });
 
-test('bond test: post-2025 bonds under 5% of basis cannot use the 25% route', () => {
+test('bond test: post-2025 bonds under 5% of basis fail, and need only the 25% route to pass', () => {
   const r = cb.bondTest({ ...base, bondAmount: 900000, issuedAfter2025: 'yes' }); // 4.5%
-  assert.equal(r.threshold, 0.5); assert.equal(r.passes, false);
+  assert.equal(r.passes, false);
+  // Raising the same post-2025 bonds to 25% also clears the 5% floor (Codex review).
+  assert.equal(r.threshold, 0.25); near(r.minimumBonds, 5000000); // 25% x $20M
+  assert.equal(cb.bondTest({ ...base, bondAmount: 5000000, issuedAfter2025: 'yes' }).passes, true);
 });
 
 test('bond test: bonds above the construction loan, or no loan, are flagged', () => {

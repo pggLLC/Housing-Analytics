@@ -976,7 +976,9 @@
         return out;
       }
     } else {
-      out.threshold = issued && out.ratio >= floor ? low : high;
+      // A post-2025 issue reaching 25% also clears the 5% floor, so 25% is the attainable route
+      // (and the bonds needed) whatever the amount entered today.
+      out.threshold = issued && low >= floor ? low : high;
       out.passes = out.ratio >= out.threshold;
     }
     out.checked = true;
