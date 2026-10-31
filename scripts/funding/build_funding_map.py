@@ -12,8 +12,14 @@ Needs shapely (pip install shapely). Rerun after any of those inputs change.
 """
 import json, re, collections, math, os, importlib.util
 if importlib.util.find_spec("shapely") is None:  # the derived chain runs in workflows that only install what they fetch with
-    import subprocess, sys
+    import subprocess, sys, site
     subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", "shapely==2.1.1"], check=True)
+    # pip falls back to a user install on the runner's system Python, into a
+    # site-packages that did not exist when this interpreter started, so it is
+    # not on sys.path yet (build-hna-data 2026-10-31: ModuleNotFoundError right
+    # after a successful install).
+    site.addsitedir(site.getusersitepackages())
+    importlib.invalidate_caches()
 from shapely.geometry import shape, Point, mapping
 from shapely.ops import unary_union
 
