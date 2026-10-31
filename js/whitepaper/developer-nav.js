@@ -24,7 +24,7 @@
     { href: 'developer-about.html', label: 'About' }
   ];
   // Served only by the private site (coho-backend gated/), so there are no files for them here.
-  var PRIVATE = [{ href: 'developer-entitled-land.html', label: 'Entitled land' }, { href: 'dossiers/', label: 'Dossiers' }];
+  var PRIVATE = [{ href: 'developer-entitled-land.html', label: 'Entitled land' }, { href: 'developer-parcel-sales.html', label: 'Parcel sales' }, { href: 'dossiers/', label: 'Dossiers' }];
   var BACK = { href: 'lihtc-opportunity-finder.html', label: '← Opportunity Finder' };
   // /logout (coho-backend) clears the password cookie and ends the Cloudflare
   // sign-in, so the next visit asks for a code again.
