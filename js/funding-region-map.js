@@ -443,6 +443,8 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · Regions: U.S. Census Bureau counties' }).addTo(map);
     map.fitBounds(CO_BOUNDS);
     map.on('zoomend', syncZoom);
+    // Redraw tiles when the map's box changes size (phone rotation, layout shifts)
+    if ('ResizeObserver' in window) new ResizeObserver(function () { map.invalidateSize(); }).observe($('frm-map'));
     drawRegions();
     fillTowns(); drawAll();
   }
