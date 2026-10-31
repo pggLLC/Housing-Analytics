@@ -306,6 +306,8 @@ def classify(src, amt):
     inkind = re.search(r"waiver|exemption|abatement|saved|savings|donat|land lease|ground lease|in-kind|fee reduction|rebate|discount|price concession|price (cut|reduction)|^land$|land contribution", s + " " + a)
     # infrastructure built for the project is in-kind; a grant, loan or capital payment for it is cash
     inkind = inkind or re.search(r"paid separately", s) or (re.search(r"infrastructure", s + " " + a) and not re.search(r"grant|loan|capital|cash|fund|\$", s))
+    # a loan or grant that pays for a lease or land payment is cash, not an in-kind contribution
+    if inkind and re.search(r"\b(loan|grant) (refunding|for|to pay|paying|covering)\b", s): inkind = None
     # tax credit equity only; owner, city or in-kind land equity falls through to its own category
     if "equity" in s and not inkind and "deferred develop" not in s and (re.search(r"credit|lihtc|45l|syndicat|investor", s) or not re.search(r"developer|owner|sponsor|private|city|town|county|land", s)): return "equity", "perm"
     # a developer fee is a project cost; only a deferred or contributed fee is money into the deal
