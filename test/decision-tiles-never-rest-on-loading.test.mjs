@@ -75,6 +75,9 @@ function fakeDom(keys) {
   });
   const strip = {
     hidden: true,
+    _attrs: {},
+    setAttribute(n, v) { this._attrs[n] = v; },
+    removeAttribute(n) { delete this._attrs[n]; },
     querySelector(sel) {
       const m = /\[data-decision-key="([^"]+)"\]/.exec(sel);
       return (m && tiles[m[1]]) || null;
@@ -86,7 +89,7 @@ function fakeDom(keys) {
   return { strip, tiles, texts, document };
 }
 
-function paint(patch) {
+function paint(patch, opts = {}) {
   const defaults = new Function(`${DEFAULTS_SRC}; return DECISION_STRIP_DEFAULTS;`)();
   const keys = Object.keys(defaults);
   const dom = fakeDom(keys);
@@ -100,6 +103,8 @@ function paint(patch) {
      function _decisionState() { return __state; }
      function _decisionTone() { return ''; }
      function _resolveAnchor(h) { return h; }
+     let _stripArmed = ${opts.armed ? 'true' : 'false'};
+     const _stripReported = ${JSON.stringify(Object.fromEntries(Object.keys(patch).map((k) => [k, true])))};
      ${extract('_paintDecisionStrip')}
      return _paintDecisionStrip;`
   );
@@ -143,3 +148,41 @@ test('an explicit absence verdict is still shown when it carries text', () => {
   assert.equal(dom.tiles.need.hidden, false,
     'absence stated in words is information; only an empty placeholder is hidden');
 });
+
+// 31 Oct 2026 (Codex audit F9): while a place loads, the controller arms the
+// strip so it holds its space instead of growing one tile at a time above the
+// hero (most of the HNA's phone layout shift). A tile not yet reported may then
+// be on screen, but only as a placeholder bar (data-pending, text transparent,
+// strip aria-busy), never as a "— Loading" card; and once the load settles the
+// old rule above holds again.
+test('during a load, an unreported tile shows only as a placeholder bar', () => {
+  const dom = paint({ affordability: { value: '43.6%', read: 'Elevated' } }, { armed: true });
+  assert.equal(dom.strip.hidden, false);
+  Object.entries(dom.tiles).forEach(([key, tile]) => {
+    const cap = key.charAt(0).toUpperCase() + key.slice(1);
+    const value = dom.texts['decision' + cap + 'Value'].textContent;
+    if (!tile.hidden && EMPTY(value)) {
+      assert.ok('data-pending' in tile._attrs,
+        `tile "${key}" is visible and empty during a load without the placeholder style`);
+    }
+  });
+  assert.ok(!('data-pending' in dom.tiles.affordability._attrs),
+    'a tile with a real value is never drawn as a placeholder');
+});
+
+test('a tile its renderer reported empty is hidden even during a load', () => {
+  const dom = paint({ production: { value: '—', read: 'Unavailable' } }, { armed: true });
+  assert.equal(dom.tiles.production.hidden, true,
+    'a reported-empty tile is an answer, not a pending one; it must not sit as a bar');
+});
+
+test('with every tile still pending at the start of a load, the strip holds its space', () => {
+  const dom = paint({}, { armed: true });
+  assert.equal(dom.strip.hidden, false, 'the strip must keep its space while the place loads');
+  Object.values(dom.tiles).forEach((tile) => {
+    assert.equal(tile.hidden, false);
+    assert.ok('data-pending' in tile._attrs);
+  });
+  assert.equal(dom.strip._attrs && dom.strip._attrs['aria-busy'], 'true', 'the strip says it is busy');
+});
+

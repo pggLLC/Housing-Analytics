@@ -126,12 +126,34 @@
     return where && where.page ? where.page + href : href;
   }
 
+  // While a place is loading, the strip holds its place on the page: every
+  // tile no renderer has reported on yet shows a quiet placeholder instead of
+  // being left out. Tiles used to appear one at a time above the hero, each
+  // pushing the page down (on a phone, most of the layout shift Codex measured
+  // in the 31 Oct 2026 audit, F9). Armed by the controller when a load
+  // starts, settled when it ends; a tile still unreported then is dropped,
+  // as before.
+  let _stripArmed = false;
+  const _stripReported = Object.create(null);
+
+  function armDecisionStrip() {
+    _stripArmed = true;
+    Object.keys(_stripReported).forEach(function (k) { delete _stripReported[k]; });
+    _paintDecisionStrip();
+  }
+
+  function settleDecisionStrip() {
+    _stripArmed = false;
+    _paintDecisionStrip();
+  }
+
   function _paintDecisionStrip() {
     const strip = document.getElementById('hnaDecisionStrip');
     if (!strip) return;
     const state = _decisionState();
     if (!state) return;
     let hasValue = false;
+    let hasPending = false;
     Object.keys(DECISION_STRIP_DEFAULTS).forEach(function (key) {
       const tile = strip.querySelector('[data-decision-key="' + key + '"]');
       const data = Object.assign({}, DECISION_STRIP_DEFAULTS[key], state[key] || {});
@@ -164,7 +186,15 @@
       // and one that may sit there for as long as its renderer takes.
       // Measured on production 2026-09-19: the strip appeared at 738ms and
       // 'production' read "— Loading" until 17.6s.
-      tile.hidden = empty;
+      // Since 2026-10-31 (F9) the one exception is a load in progress: a tile
+      // no renderer has reported on yet shows as a placeholder bar
+      // (data-pending; its text is not drawn), so the strip keeps its size
+      // instead of pushing the page down tile by tile. When the load settles,
+      // the rule above applies again.
+      const pending = empty && _stripArmed && !_stripReported[key];
+      tile.hidden = empty && !pending;
+      if (pending) { tile.setAttribute('data-pending', ''); hasPending = true; }
+      else tile.removeAttribute('data-pending');
       if (href !== rawHref && !empty && readEl) {
         const where = (window.HNA_VIEW_ANCHORS || {})[rawHref.slice(1)];
         if (where && where.label) readEl.title = 'Shown in full on ' + where.label;
@@ -174,7 +204,9 @@
       else tile.removeAttribute('data-tone');
       if (data.value && data.value !== '—' && data.value !== 'Loading') hasValue = true;
     });
-    strip.hidden = !hasValue;
+    strip.hidden = !hasValue && !hasPending;
+    if (hasPending) strip.setAttribute('aria-busy', 'true');
+    else strip.removeAttribute('aria-busy');
   }
 
   function updateDecisionStrip(patch) {
@@ -183,6 +215,7 @@
     Object.keys(patch).forEach(function (key) {
       if (!DECISION_STRIP_DEFAULTS[key]) return;
       state[key] = Object.assign({}, state[key] || DECISION_STRIP_DEFAULTS[key], patch[key] || {});
+      _stripReported[key] = true;
     });
     _paintDecisionStrip();
   }
@@ -190,6 +223,8 @@
   function clearDecisionStrip() {
     const state = S() && S().state;
     if (state) state.decisionStrip = null;
+    _stripArmed = false;
+    Object.keys(_stripReported).forEach(function (k) { delete _stripReported[k]; });
     _paintDecisionStrip();
   }
 
@@ -10140,6 +10175,8 @@
     clearStats,
     updateDecisionStrip,
     clearDecisionStrip,
+    armDecisionStrip,
+    settleDecisionStrip,
     // Map
     renderBoundary,
     // Snapshot

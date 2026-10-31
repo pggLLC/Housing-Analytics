@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-31T14:35:03.456757Z",
+  "generated": "2026-10-31T14:42:15.172353Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -264,7 +264,7 @@
     "data/co-county-demographics.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 41683
+      "bytes": 49062
     },
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,
@@ -9209,7 +9209,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16086
+      "bytes": 16090
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -9869,7 +9869,7 @@
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 455664
+      "bytes": 458118
     },
     "data/processed/rent_burden_crosscheck.json": {
       "featureCount": 0,
