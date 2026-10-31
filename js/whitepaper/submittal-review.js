@@ -10,6 +10,7 @@
  *   data/policy/chfa-2027-r2-scoring.json   (one file per round; public CHFA text only;
  *                                           status "draft" until CHFA adopts the 2027-28 QAP)
  *   data/policy/prop123_jurisdictions.json  DOLA Prop 123 commitment filings
+ *   js/whitepaper/submittal-tieout.js       the application tie-out (window.SubmittalTieOut)
  *   /api/deals                              saved deals and versions, served only by
  *                                           the private backend (coho-backend). Deal
  *                                           figures never go to this repository.
@@ -26,6 +27,10 @@
   else root.SubmittalReview = factory();
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
+
+  // The application tie-out: application figures beside the model's, with flags.
+  var TieOut = typeof module === 'object' && module.exports ? require('./submittal-tieout.js')
+    : (typeof self !== 'undefined' ? self.SubmittalTieOut : null) || null;
 
   var ROUNDS = { r1: 'data/policy/chfa-2027-r1-scoring.json', r2: 'data/policy/chfa-2027-r2-scoring.json' };
   var RULES_URL = ROUNDS.r1;
@@ -529,13 +534,15 @@
     if (credit.status === 'over') risks.push({ level: 'red', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap (QAP 3.L, not adopted).' });
     if (credit.status === 'depends') risks.push({ level: 'yellow', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap that applies with the 3.B.9 gap-fund pilot but within the ' + money(credit.altCap) + ' cap if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
     if (!four && credit.status !== 'unknown' && credit.status !== 'over' && !credit.applicantKnown) risks.push({ level: 'yellow', text: 'The credit cap also counts other active applications by the same applicant, affiliate or turn-key developer (QAP 3.L). Enter their requested credit, or 0 if none, to check it.' });
+    var tie = TieOut ? TieOut.check(rules, v, eng) : null;
+    if (tie) risks = risks.concat(TieOut.risks(tie));
     if (num(eng.fundingGap) > 0) risks.push({ level: 'yellow', text: 'Funding gap of ' + money(num(eng.fundingGap)) + ' after the modeled sources.' });
     lane.flags.forEach(function (f) { risks.push({ level: 'yellow', text: f }); });
     if (!s.needEntered) risks.push({ level: 'yellow', text: 'Housing need points are not entered; the score leaves them out.' });
     if (s.total >= s.minimum && s.margin < 5) risks.push({ level: 'yellow', text: 'Only ' + pts(s.margin) + ' points over the minimum.' });
     if (th.unchecked) risks.push({ level: 'yellow', text: th.unchecked + ' threshold items not checked yet.' });
     var next = s.total < s.minimum && s.addable.length ? s.addable[0] : null;
-    return { four: four, round: rid, score: s, prop123: p, lane: lane, thresholds: th, credit: credit, stateCredit: stateCr, engine: eng, risks: risks,
+    return { four: four, round: rid, score: s, prop123: p, lane: lane, thresholds: th, credit: credit, stateCredit: stateCr, engine: eng, tieout: tie, risks: risks,
       next: next ? '+' + next.points + ' point' + (next.points === 1 ? '' : 's') + ': ' + next.how
         : (risks.length ? risks[0].text : 'No red flags. Confirm the unconfirmed items with CHFA.') };
   }
@@ -570,6 +577,7 @@
     ['Weakest must-pay debt coverage', function (v, r) { var d = num(r.engine.dscr); return d == null ? '—' : d.toFixed(2) + 'x'; }],
     ['Deferred developer fee', function (v, r) { return money(num(r.engine.deferredDeveloperFee)); }],
     ['Threshold items missing', function (v, r) { return String(r.thresholds.missing); }],
+    ['Application tie-out', function (v, r) { return r.tieout ? TieOut.countsText(r.tieout) : '—'; }],
     ['Stress tests failed', function (v) {
       if (!v.stress) return 'not run';
       var ran = v.stress.filter(function (t) { return !t.skipped; }), skipped = v.stress.length - ran.length;
@@ -641,7 +649,7 @@
       var r = review(rules, prop123, v), e = r.engine || {};
       return { n: v.n, label: v.label || v.name || 'Untitled', at: v.at || '', by: v.by || '', baseline: !!v.baseline, hidden: !!v.hidden,
         stale: !!(v.calculator && v.calculator.stale), totalCost: num(e.totalDevelopmentCost), credit: v.calculator ? num(e.annualCredits) : null,
-        creditEquity: num(e.creditEquity), gap: num(e.fundingGap), score: r.score.total, lane: r.lane.lane || '',
+        creditEquity: num(e.creditEquity), gap: num(e.fundingGap), score: r.score.total, lane: r.lane.lane || '', tieout: r.tieout ? TieOut.countsText(r.tieout) : '',
         change: i ? changeLines([versions[i - 1], v])[0] : '' };
     });
     var overall = versions.length > 1 ? changeLines([versions[0], versions[versions.length - 1]])[0] : '';
@@ -657,7 +665,7 @@
           (r.baseline ? ' <span class="rw-band">Baseline</span>' : '') + (r.hidden ? ' <span class="sr-muted">(hidden)</span>' : '') +
           '<div class="sr-muted">' + esc(r.at.slice(0, 16).replace('T', ' ')) + (r.by ? ' · ' + esc(r.by) : '') + '</div></div>' +
           '<dl class="sr-hist-figs">' + fig('Total cost', money(r.totalCost)) + fig('Modeled credit', money(r.credit)) + fig('Credit equity', money(r.creditEquity)) +
-          fig('Funding gap', money(r.gap)) + fig('CHFA score', pts(r.score)) + fig('Gap-fund lane', r.lane || '—') + '</dl>' +
+          fig('Funding gap', money(r.gap)) + fig('CHFA score', pts(r.score)) + fig('Gap-fund lane', r.lane || '—') + fig('Application tie-out', r.tieout || '—') + '</dl>' +
           (r.change ? '<p class="sr-hist-change">' + esc(r.change) + '</p>' : '<p class="sr-muted">First version.</p>') +
           (r.stale ? '<p class="sr-flag">The unit mix or election changed after the Deal Calculator export, so its model results are not shown.</p>' : '') + '</li>';
       }).join('') + '</ol>';
@@ -671,9 +679,9 @@
     return /[",\n\r]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
   }
   function historyCsv(m) {
-    var head = ['Version', 'Label', 'Saved', 'Saved by', 'Total cost', 'Modeled annual credit', 'Credit equity', 'Funding gap', 'CHFA score', 'Gap-fund lane', 'What changed from the version before'];
+    var head = ['Version', 'Label', 'Saved', 'Saved by', 'Total cost', 'Modeled annual credit', 'Credit equity', 'Funding gap', 'CHFA score', 'Gap-fund lane', 'Application tie-out', 'What changed from the version before'];
     return [head].concat(m.rows.map(function (r) {
-      return ['v' + r.n, r.label, r.at, r.by, r.totalCost, r.credit, r.creditEquity, r.gap, r.score, r.lane, r.change];
+      return ['v' + r.n, r.label, r.at, r.by, r.totalCost, r.credit, r.creditEquity, r.gap, r.score, r.lane, r.tieout, r.change];
     })).map(function (row) { return row.map(csvCell).join(','); }).join('\r\n') + '\r\n';
   }
 
@@ -722,13 +730,16 @@
     if (!fromSchedule && units != null && units > restricted) mix.market = units - restricted;
     var o = snap.outputs || {};
     var engine = {};
-    ['fundingGap', 'dscr', 'deferredDeveloperFee', 'annualCredits', 'creditEquity', 'totalDevelopmentCost', 'stateCreditEquity', 'firstMortgage'].forEach(function (k) {
+    ['fundingGap', 'dscr', 'deferredDeveloperFee', 'annualCredits', 'creditEquity', 'totalDevelopmentCost', 'stateCreditEquity', 'firstMortgage',
+      'eligibleBasis', 'developerFee', 'annualDebtService', 'annualRents', 'annualOperatingExpenses', 'annualReserves'].forEach(function (k) {
       engine[k] = o[k] && typeof o[k].value === 'number' ? o[k].value : null;
       if (o[k] && o[k].value == null && o[k].unavailableReason) engine[k + 'Reason'] = o[k].unavailableReason;
     });
     var cov = mustPayCoverage(function (k) { return o[k] && typeof o[k].value === 'number' ? o[k].value : null; }, snap.debtCoverage);
     engine.dscr = cov.dscr; engine.dscrYear = cov.dscrYear;
     if (cov.dscr != null) delete engine.dscrReason; else engine.dscrReason = cov.dscrReason;
+    // The equity price is an input, not an output; the tie-out compares it to the application's.
+    var price = num(inp['equity-price']); engine.equityPrice = price != null && price > 0 ? price : null;
     var q = String(snap.url).indexOf('?'), query = q === -1 ? '' : String(snap.url).slice(q + 1);
     var param = function (k) { var m = query.match(new RegExp('(?:^|&)' + k + '=([^&]*)')); return m ? decodeURIComponent(m[1]) : null; };
     // The credit-rate radios share one key: rate-9=0.09 is 9%, rate-9=0.04 is 4%.
@@ -740,6 +751,11 @@
     var REGIME_LABEL = { home_high: 'High HOME', home_low: 'Low HOME', prop123: 'Prop 123', ami_formula: 'other AMI-formula', market: 'market-rate' };
     // A blank request stays unknown: the calculator fills its output with modeled capacity, which is not a request.
     var req = num(inp['credit-requested'] != null ? inp['credit-requested'] : param('credit-requested'));
+    // The model's credit is the lesser of capacity and any entered request, or an entered award. The tie-out
+    // needs both inputs to tell whether the model figure is capacity before it calls a higher request a deal breaker.
+    var award = num(inp['credit-awarded'] != null ? inp['credit-awarded'] : param('credit-awarded'));
+    engine.creditRequestInput = req != null && req >= 0 ? req : null;
+    engine.creditAwardInput = award != null && award >= 0 ? award : null;
     var st = num(inp['state-annual'] != null ? inp['state-annual'] : param('state-annual'));
     // Round Two pairs a separate standard state credit with the accelerated amount above.
     var ss = num(inp['state-standard-annual'] != null ? inp['state-standard-annual'] : param('state-standard-annual'));
@@ -1045,7 +1061,7 @@
     var four = fourPct(rules), rid = roundId(rules);
     var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '', gone: {} };
 
-    function blankVersion() { return { round: rid, deal: { mix: {}, place: '', election: '40-60', applicant: '', gpRole: '', supportive: false, rehab: false, existingCredit: false, subsidyExpiring: false, otherActiveCredits: null, stateCredits: null, stateStandard: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
+    function blankVersion() { return { round: rid, deal: { mix: {}, place: '', election: '40-60', applicant: '', gpRole: '', supportive: false, rehab: false, existingCredit: false, subsidyExpiring: false, otherActiveCredits: null, stateCredits: null, stateStandard: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null, tieout: { app: {}, ref: {} } }; }
 
     // Form → state
     function readForm() {
@@ -1078,6 +1094,10 @@
         v.thresholds[tid] = el.value;
         var ref = doc.querySelector('[data-tref="' + el.getAttribute('data-threshold') + '"]'); if (ref) v.thresholds[el.getAttribute('data-threshold') + ':ref'] = ref.value.slice(0, 200);
       });
+      // Versions saved before the tie-out have none.
+      var t = v.tieout = v.tieout || { app: {}, ref: {} }; t.app = t.app || {}; t.ref = t.ref || {};
+      doc.querySelectorAll('[data-tie]').forEach(function (el) { var n = num(el.value); t.app[el.getAttribute('data-tie')] = n; });
+      doc.querySelectorAll('[data-tieref]').forEach(function (el) { t.ref[el.getAttribute('data-tieref')] = el.value.slice(0, 200); });
     }
     function extraTierNote(mix) {
       var extra = tiersOf(mix).filter(function (t) { return TIERS.indexOf(t) === -1 && num(mix[t]) > 0; });
@@ -1107,6 +1127,9 @@
         var id = el.getAttribute('data-threshold'); el.value = v.thresholds[id] || '';
         var ref = doc.querySelector('[data-tref="' + id + '"]'); if (ref) ref.value = v.thresholds[id + ':ref'] || '';
       });
+      var t = v.tieout || {};
+      doc.querySelectorAll('[data-tie]').forEach(function (el) { var n = (t.app || {})[el.getAttribute('data-tie')]; el.value = n != null ? n : ''; });
+      doc.querySelectorAll('[data-tieref]').forEach(function (el) { el.value = (t.ref || {})[el.getAttribute('data-tieref')] || ''; });
       $('sr-docs').innerHTML = v.documents.length ? v.documents.map(function (f) { return '<li>' + esc(f.name) + ' <span class="sr-muted">(' + Math.round(f.size / 1024) + ' KB, fingerprint ' + esc(f.sha256.slice(0, 12)) + '…, not stored)</span></li>'; }).join('') : '<li class="sr-muted">None yet.</li>';
       $('sr-calc-status').textContent = v.calculator ? 'Deal Calculator export loaded' + (v.calculator.exportedAt ? ' (exported ' + v.calculator.exportedAt.slice(0, 10) + ')' : '') + '. Unit mix and model results come from it.' + extraTierNote(d.mix) : 'No Deal Calculator export loaded. Type the unit mix below; stress tests need an export.';
       setStressButton();
@@ -1136,6 +1159,16 @@
       else $('srCredit').textContent = cr.status === 'unknown' ? 'Annual federal credit not entered.' : (cr.status === 'depends' ? 'Annual federal credit ' + money(cr.total) + (cr.other ? ' with other active applications' : '') + ': over the ' + money(cr.cap) + ' pilot cap, within the ' + money(cr.altCap) + ' cap if pilot gap funds are not available.'
         : 'Annual federal credit ' + money(cr.total) + (cr.other ? ' with other active applications' : '') + ' against the ' + money(cr.cap) + ' cap: ' + (cr.status === 'over' ? 'over the cap.' : 'within it.')) +
         (cr.status !== 'unknown' && !cr.applicantKnown ? ' Other active applications not entered yet.' : '');
+      if (r.tieout && $('srTieSummary')) {
+        r.tieout.rows.forEach(function (row) {
+          var out = $('sr-tie-out-' + row.id), box = $('sr-tie-row-' + row.id);
+          if (out) out.innerHTML = TieOut.outHtml(row);
+          if (box) box.setAttribute('data-flag', row.flag);
+        });
+        var c = r.tieout.counts;
+        $('srTieSummary').textContent = c.entered ? c.red + ' deal breaker' + (c.red === 1 ? '' : 's') + ', ' + c.yellow + ' that differ' + (c.yellow === 1 ? 's' : '') + ', ' + c.green + ' that match.' : 'No application figures entered yet.';
+        state.tieout = r.tieout;
+      }
       $('srSummary').innerHTML = summaryLines(r).map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
       var shown = state.stress ? { base: state.stress.base, tests: state.stress.tests.filter(function (t) { return t.id !== 'ami1'; }) } : null;
       var ami = state.stress ? amiStress(rules, prop123, state.version) : null;
@@ -1352,7 +1385,7 @@
     function openVersion(rec) {
       if (!rec) return;
       var v = blankVersion();
-      ['deal', 'claims', 'thresholds', 'documents', 'engine', 'calculator'].forEach(function (k) { if (rec[k] != null) v[k] = JSON.parse(JSON.stringify(rec[k])); });
+      ['deal', 'claims', 'thresholds', 'documents', 'engine', 'calculator', 'tieout'].forEach(function (k) { if (rec[k] != null) v[k] = JSON.parse(JSON.stringify(rec[k])); });
       state.version = v; state.stress = rec.stress ? { base: rec.stressBase || {}, tests: rec.stress } : null; state.parent = rec.v;
       $('sr-label').value = '';
       writeForm(); draw();
@@ -1452,6 +1485,12 @@
         .then(function () { btn.disabled = false; });
     });
 
+    if ($('sr-tie-csv')) $('sr-tie-csv').addEventListener('click', function () {
+      if (!state.tieout) return;
+      var name = $('sr-name').value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'deal';
+      download('tie-out-' + name + '.csv', 'text/csv;charset=utf-8', TieOut.csv(state.tieout));
+    });
+
     var flashTimer;
     function flash(msg) { var el = $('srFlash'); el.textContent = msg; clearTimeout(flashTimer); flashTimer = setTimeout(function () { el.textContent = ''; }, 9000); }
 
@@ -1518,6 +1557,7 @@
       var f = formHtml(res[0]);
       doc.getElementById('srClaims').innerHTML = f.claims;
       doc.getElementById('srThresholds').innerHTML = f.thresholds;
+      if (TieOut && doc.getElementById('srTie')) doc.getElementById('srTie').innerHTML = TieOut.formHtml();
       // Blocked storage: reads find nothing and writes throw, so a device save reports "Not saved".
       var storage; try { storage = window.localStorage; } catch (e) { storage = { getItem: function () { return null; }, setItem: function () { throw new Error('storage blocked'); } }; }
       mount(doc, res[0], res[1], makeStore(fetch.bind(window), storage));

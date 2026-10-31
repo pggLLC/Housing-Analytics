@@ -210,7 +210,6 @@ function externalSkipReason(url) {
   if (/\$\{|\$[A-Z_]+|%24[A-Z_]+|{{|}}|\{[a-z_][a-z0-9_-]*\}|%7B|%7D|%E2%80%A6|YOUR[-_]|your[-_]|custom-domain\.com|\*\*/i.test(url)) return 'template/dev placeholder';
   if (/\bexample\.(com|org|net)\b|\.example\//i.test(url)) return 'example domain';
   if (/^https?:\/\/(?:user\.github\.io|user\.github\.io\/RepoName|missing\.com)(\/|$)/i.test(url)) return 'test fixture domain';
-  if (/^https?:\/\/coho\.indibuild\.com\//i.test(url)) return 'example deployment domain';
   if (/^https?:\/\/[ab]\.com\/?$/i.test(url)) return 'test fixture domain';
   if (/^https?:\/\/api\.github\.com\/repos\/pggLLC\/Housing-Analytics\/actions\/workflows\/[^/]+\/dispatches$/i.test(url)) return 'GitHub Actions POST-only API reference';
   if (/^https?:\/\/(?:fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.jsdelivr\.net|unpkg\.com|cdnjs\.cloudflare\.com)\//i.test(url)) return 'third-party static CDN';

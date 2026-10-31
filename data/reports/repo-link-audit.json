@@ -2,18 +2,18 @@
   "generatedAt": "2026-06-13T12:43:40.763Z",
   "probeExternal": true,
   "filesScanned": 2598,
-  "localLinkCount": 4744,
-  "externalUrlCount": 2376,
+  "localLinkCount": 4743,
+  "externalUrlCount": 2354,
   "summary": {
     "local": {
       "ok": 4614,
-      "skipped": 130
+      "skipped": 129
     },
     "external": {
-      "skipped": 262,
-      "ok": 1651,
-      "client_error": 198,
-      "auth": 150,
+      "skipped": 254,
+      "ok": 1647,
+      "client_error": 194,
+      "auth": 144,
       "other": 86,
       "timeout": 25,
       "server_error": 4
@@ -753,14 +753,6 @@
         "resolved": null
       },
       {
-        "file": "indibuild-pipeline-public.html",
-        "line": 32,
-        "link": "#main-content",
-        "status": "skipped",
-        "reason": "same-page-anchor",
-        "resolved": null
-      },
-      {
         "file": "insights.html",
         "line": 29,
         "link": "#main-content",
@@ -1210,11 +1202,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 12,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/augment-local-resources.js",
             "line": 57,
             "kind": "text-url"
@@ -1286,11 +1273,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 837,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 19,
             "kind": "text-url"
           },
           {
@@ -1853,11 +1835,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 26,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-local-resources-expansion.js",
             "line": 84,
             "kind": "text-url"
@@ -2336,11 +2313,6 @@
             "file": "data/hna/local-resources.json",
             "line": 3829,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 34,
-            "kind": "text-url"
           }
         ],
         "status": "client_error",
@@ -2389,11 +2361,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3871,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 41,
             "kind": "text-url"
           },
           {
@@ -2507,11 +2474,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2560,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 50,
             "kind": "text-url"
           }
         ],
@@ -2661,11 +2623,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3997,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 59,
             "kind": "text-url"
           },
           {
@@ -2986,11 +2943,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 66,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 330,
             "kind": "text-url"
@@ -3015,11 +2967,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 119,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 75,
             "kind": "text-url"
           },
           {
@@ -3052,11 +2999,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5532,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 82,
             "kind": "text-url"
           },
           {
@@ -3223,11 +3165,6 @@
             "file": "data/hna/local-resources.json",
             "line": 317,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 91,
-            "kind": "text-url"
           }
         ],
         "status": "other",
@@ -3239,11 +3176,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 365,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 99,
             "kind": "text-url"
           },
           {
@@ -3262,11 +3194,6 @@
             "file": "data/hna/local-resources.json",
             "line": 330,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 106,
-            "kind": "text-url"
           }
         ],
         "status": "client_error",
@@ -3279,11 +3206,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 324,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 113,
             "kind": "text-url"
           }
         ],
@@ -3559,11 +3481,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 120,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 56,
             "kind": "text-url"
@@ -3650,11 +3567,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3576,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 128,
             "kind": "text-url"
           },
           {
@@ -3774,11 +3686,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 138,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 238,
             "kind": "text-url"
@@ -3807,11 +3714,6 @@
             "file": "data/hna/local-resources.json",
             "line": 1967,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 145,
-            "kind": "text-url"
           }
         ],
         "status": "other",
@@ -3823,19 +3725,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5084,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://www.carbondalegov.org/,Funding,Council",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 3,
             "kind": "text-url"
           }
         ],
@@ -3950,11 +3839,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4981,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 152,
             "kind": "text-url"
           },
           {
@@ -4384,11 +4268,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 159,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 139,
             "kind": "text-url"
@@ -4431,19 +4310,6 @@
           {
             "file": "docs/WORKFORCE_DIMENSIONS_EXPANSION.md",
             "line": 100,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://www.cogs.us/,RFP,Workforce",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 5,
             "kind": "text-url"
           }
         ],
@@ -4688,11 +4554,6 @@
             "file": "data/hna/local-resources.json",
             "line": 3924,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 453,
-            "kind": "text-url"
           }
         ],
         "status": "client_error",
@@ -4810,11 +4671,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 166,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/augment-local-resources.js",
             "line": 38,
             "kind": "text-url"
@@ -4836,29 +4692,11 @@
             "file": "data/hna/local-resources.json",
             "line": 1207,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 173,
-            "kind": "text-url"
           }
         ],
         "status": "client_error",
         "httpStatus": 404,
         "finalUrl": "https://www.douglasco.gov/departments/community-development/housing-services/"
-      },
-      {
-        "url": "https://www.durangoco.gov/,Personnel,New",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 6,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
       },
       {
         "url": "https://www.durangoco.gov/247/Community-Development",
@@ -4871,11 +4709,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4044,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 181,
             "kind": "text-url"
           }
         ],
@@ -4968,11 +4801,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5590,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 189,
             "kind": "text-url"
           },
           {
@@ -5150,11 +4978,6 @@
             "file": "data/hna/local-resources.json",
             "line": 1665,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 197,
-            "kind": "text-url"
           }
         ],
         "status": "timeout",
@@ -5166,11 +4989,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 1657,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 204,
             "kind": "text-url"
           }
         ],
@@ -5197,11 +5015,6 @@
             "file": "data/hna/local-resources.json",
             "line": 4025,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 211,
-            "kind": "text-url"
           }
         ],
         "status": "client_error",
@@ -5219,11 +5032,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3976,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 218,
             "kind": "text-url"
           },
           {
@@ -5475,11 +5283,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 226,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 208,
             "kind": "text-url"
@@ -5632,11 +5435,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2353,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 235,
             "kind": "text-url"
           }
         ],
@@ -5824,11 +5622,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2506,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 243,
-            "kind": "text-url"
           }
         ],
         "status": "other",
@@ -5979,11 +5772,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 251,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 244,
             "kind": "text-url"
@@ -6032,11 +5820,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 258,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 206,
             "kind": "text-url"
@@ -6061,11 +5844,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3674,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 266,
             "kind": "text-url"
           },
           {
@@ -6101,11 +5879,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3735,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 274,
             "kind": "text-url"
           },
           {
@@ -6149,11 +5922,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2758,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 282,
-            "kind": "text-url"
           }
         ],
         "status": "other",
@@ -6166,11 +5934,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2807,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 289,
-            "kind": "text-url"
           }
         ],
         "status": "other",
@@ -6182,11 +5945,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2793,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 296,
             "kind": "text-url"
           }
         ],
@@ -6274,11 +6032,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 311,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 343,
             "kind": "text-url"
@@ -6316,11 +6069,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 320,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 108,
             "kind": "text-url"
@@ -6355,11 +6103,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4788,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 329,
             "kind": "text-url"
           },
           {
@@ -6429,11 +6172,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 338,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-local-resources-expansion.js",
             "line": 55,
             "kind": "text-url"
@@ -6487,11 +6225,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 347,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 370,
             "kind": "text-url"
@@ -6528,11 +6261,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5565,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 355,
             "kind": "text-url"
           },
           {
@@ -6586,11 +6314,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4546,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 363,
             "kind": "text-url"
           },
           {
@@ -6660,11 +6383,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4547,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 371,
             "kind": "text-url"
           },
           {
@@ -6768,11 +6486,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 388,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-local-resources-expansion.js",
             "line": 533,
             "kind": "text-url"
@@ -6787,11 +6500,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2964,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 395,
             "kind": "text-url"
           },
           {
@@ -6884,19 +6592,6 @@
         ],
         "status": "other",
         "error": "fetch failed"
-      },
-      {
-        "url": "https://yvha.org/,Land,Brown",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 4,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
       }
     ],
     "auth": [
@@ -7277,19 +6972,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://cdola.colorado.gov/commitment-filings,Funding,Carbondale",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 9,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
         "url": "https://cdola.colorado.gov/division-housing",
         "sources": [
           {
@@ -7504,19 +7186,6 @@
           {
             "file": "docs/codex-audits/0830780.md",
             "line": 1113,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://cdola.colorado.gov/private-activity-bonds",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 1089,
             "kind": "text-url"
           }
         ],
@@ -7745,11 +7414,6 @@
             "kind": "text-url"
           },
           {
-            "file": "indibuild-brief.html",
-            "line": 794,
-            "kind": "text-url"
-          },
-          {
             "file": "js/hna/hna-renderers.js",
             "line": 2617,
             "kind": "text-url"
@@ -7772,19 +7436,6 @@
           {
             "file": "scripts/audit/url-health-sweep.mjs",
             "line": 79,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://cdola.colorado.gov/proposition-123,HNA,Salida",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 2,
             "kind": "text-url"
           }
         ],
@@ -7832,24 +7483,6 @@
             "file": "docs/codex-audits/0816000.md",
             "line": 990,
             "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://dash.cloudflare.com/",
-        "sources": [
-          {
-            "file": "docs/CLOUDFLARE-SETUP.md",
-            "line": 25,
-            "kind": "text-url"
-          },
-          {
-            "file": "docs/CLOUDFLARE-SETUP.md",
-            "line": 25,
-            "kind": "markdown-link"
           }
         ],
         "status": "auth",
@@ -7987,19 +7620,6 @@
           {
             "file": "test/hna-functionality-check.js",
             "line": 943,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://dlg.colorado.gov/housing-plans",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 1420,
             "kind": "text-url"
           }
         ],
@@ -8385,11 +8005,6 @@
             "kind": "html-attr"
           },
           {
-            "file": "data/indibuild/pipeline-content.json",
-            "line": 105,
-            "kind": "text-url"
-          },
-          {
             "file": "housing-needs-assessment.html",
             "line": 1277,
             "kind": "text-url"
@@ -8755,11 +8370,6 @@
             "file": "data/hna/local-resources.json",
             "line": 3596,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 411,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -8831,11 +8441,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5477,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 445,
             "kind": "text-url"
           },
           {
@@ -9295,11 +8900,6 @@
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 199,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 468,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -9466,11 +9066,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 522,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 250,
             "kind": "text-url"
@@ -9487,11 +9082,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2148,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 529,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -9505,11 +9095,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2186,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 536,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -9522,11 +9107,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2166,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 543,
             "kind": "text-url"
           }
         ],
@@ -9553,11 +9133,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3942,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 559,
             "kind": "text-url"
           },
           {
@@ -9594,11 +9169,6 @@
           {
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 124,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 566,
             "kind": "text-url"
           }
         ],
@@ -9653,11 +9223,6 @@
           {
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 127,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 573,
             "kind": "text-url"
           }
         ],
@@ -9716,11 +9281,6 @@
             "file": "data/hna/local-resources.json",
             "line": 4168,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 589,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -9746,11 +9306,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4117,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 596,
             "kind": "text-url"
           }
         ],
@@ -10399,24 +9954,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://www.rd.usda.gov/data-sets/multi-family-housing-rentals",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 791,
-            "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 1026,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
         "url": "https://www.rd.usda.gov/programs-services/multifamily-housing-programs/",
         "sources": [
           {
@@ -10453,11 +9990,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2883,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 303,
             "kind": "text-url"
           }
         ],
@@ -10553,11 +10085,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2726,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 603,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -10588,11 +10115,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5096,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 621,
             "kind": "text-url"
           },
           {
@@ -10634,11 +10156,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4663,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 629,
             "kind": "text-url"
           },
           {
@@ -10704,11 +10221,6 @@
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 263,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 644,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -10721,11 +10233,6 @@
           {
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 261,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 653,
             "kind": "text-url"
           }
         ],
@@ -10775,11 +10282,6 @@
           {
             "file": "docs/api/scripts__fetch-zillow.md",
             "line": 27,
-            "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 712,
             "kind": "text-url"
           },
           {
@@ -11133,18 +10635,6 @@
           {
             "file": "scripts/contrast-audit.js",
             "line": 24,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "localhost/dev URL"
-      },
-      {
-        "url": "http://localhost:8765/indibuild-brief.html?geoid=0812045",
-        "sources": [
-          {
-            "file": "docs/codex-audits/PASTE-INTO-CODEX.md",
-            "line": 70,
             "kind": "text-url"
           }
         ],
@@ -14611,66 +14101,6 @@
         "reason": "third-party static CDN"
       },
       {
-        "url": "https://coho.indibuild.com/compare.html?jurisdictions=",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 154,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "example deployment domain"
-      },
-      {
-        "url": "https://coho.indibuild.com/deal-calculator.html?fips=",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 153,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "example deployment domain"
-      },
-      {
-        "url": "https://coho.indibuild.com/housing-needs-assessment.html?fips=",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 151,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "example deployment domain"
-      },
-      {
-        "url": "https://coho.indibuild.com/indibuild-pipeline.html",
-        "sources": [
-          {
-            "file": "docs/CLOUDFLARE-SETUP.md",
-            "line": 84,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "example deployment domain"
-      },
-      {
-        "url": "https://coho.indibuild.com/lihtc-opportunity-finder.html",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 152,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "example deployment domain"
-      },
-      {
         "url": "https://coloradorealtors.com/market-trends/**",
         "sources": [
           {
@@ -15734,18 +15164,6 @@
         "reason": "analytics POST-only API reference"
       },
       {
-        "url": "https://regrid.com/us/co/$%7Bpr.parcelId",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 1247,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "template/dev placeholder"
-      },
-      {
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/%7Bz%7D/%7By%7D/%7Bx%7D",
         "sources": [
           {
@@ -16122,18 +15540,6 @@
           {
             "file": "scripts/discover-local-resources.mjs",
             "line": 80,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "template/dev placeholder"
-      },
-      {
-        "url": "https://www.google.com/maps?q=${p.lat},${p.lng}",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 854,
             "kind": "text-url"
           }
         ],
@@ -16792,18 +16198,6 @@
           {
             "file": "scripts/contrast-audit.js",
             "line": 24,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "localhost/dev URL"
-      },
-      {
-        "url": "http://localhost:8765/indibuild-brief.html?geoid=0812045",
-        "sources": [
-          {
-            "file": "docs/codex-audits/PASTE-INTO-CODEX.md",
-            "line": 70,
             "kind": "text-url"
           }
         ],
@@ -20694,11 +20088,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 12,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/augment-local-resources.js",
             "line": 57,
             "kind": "text-url"
@@ -22540,19 +21929,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://cdola.colorado.gov/commitment-filings,Funding,Carbondale",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 9,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
         "url": "https://cdola.colorado.gov/division-housing",
         "sources": [
           {
@@ -22767,19 +22143,6 @@
           {
             "file": "docs/codex-audits/0830780.md",
             "line": 1113,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://cdola.colorado.gov/private-activity-bonds",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 1089,
             "kind": "text-url"
           }
         ],
@@ -23008,11 +22371,6 @@
             "kind": "text-url"
           },
           {
-            "file": "indibuild-brief.html",
-            "line": 794,
-            "kind": "text-url"
-          },
-          {
             "file": "js/hna/hna-renderers.js",
             "line": 2617,
             "kind": "text-url"
@@ -23035,19 +22393,6 @@
           {
             "file": "scripts/audit/url-health-sweep.mjs",
             "line": 79,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://cdola.colorado.gov/proposition-123,HNA,Salida",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 2,
             "kind": "text-url"
           }
         ],
@@ -23117,11 +22462,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 837,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 19,
             "kind": "text-url"
           },
           {
@@ -23478,66 +22818,6 @@
         "status": "ok",
         "httpStatus": 200,
         "finalUrl": null
-      },
-      {
-        "url": "https://coho.indibuild.com/compare.html?jurisdictions=",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 154,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "example deployment domain"
-      },
-      {
-        "url": "https://coho.indibuild.com/deal-calculator.html?fips=",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 153,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "example deployment domain"
-      },
-      {
-        "url": "https://coho.indibuild.com/housing-needs-assessment.html?fips=",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 151,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "example deployment domain"
-      },
-      {
-        "url": "https://coho.indibuild.com/indibuild-pipeline.html",
-        "sources": [
-          {
-            "file": "docs/CLOUDFLARE-SETUP.md",
-            "line": 84,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "example deployment domain"
-      },
-      {
-        "url": "https://coho.indibuild.com/lihtc-opportunity-finder.html",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 152,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "example deployment domain"
       },
       {
         "url": "https://collegian.com/articles/news/2024/04/category-news-u2-ended-as-gov-polis-signs-bill-banning-occupancy-limits/",
@@ -24476,24 +23756,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://dash.cloudflare.com/",
-        "sources": [
-          {
-            "file": "docs/CLOUDFLARE-SETUP.md",
-            "line": 25,
-            "kind": "text-url"
-          },
-          {
-            "file": "docs/CLOUDFLARE-SETUP.md",
-            "line": 25,
-            "kind": "markdown-link"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
         "url": "https://data-cdphe.opendata.arcgis.com/",
         "sources": [
           {
@@ -24598,11 +23860,6 @@
           {
             "file": "docs/PROJECTION-METHODOLOGY.md",
             "line": 161,
-            "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 643,
             "kind": "text-url"
           },
           {
@@ -25191,11 +24448,6 @@
           {
             "file": "data/core/educational-content.json",
             "line": 181,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/indibuild/pipeline-content.json",
-            "line": 104,
             "kind": "text-url"
           },
           {
@@ -25796,19 +25048,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://dlg.colorado.gov/housing-plans",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 1420,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
         "url": "https://dlg.colorado.gov/local-planning-capacity-grant-awards",
         "sources": [
           {
@@ -26252,11 +25491,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5433,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 26,
             "kind": "text-url"
           },
           {
@@ -29824,11 +29058,6 @@
             "file": "data/hna/local-resources.json",
             "line": 3829,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 34,
-            "kind": "text-url"
           }
         ],
         "status": "client_error",
@@ -29877,11 +29106,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3871,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 41,
             "kind": "text-url"
           },
           {
@@ -30733,11 +29957,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2560,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 50,
             "kind": "text-url"
           }
         ],
@@ -32255,11 +31474,6 @@
             "kind": "html-attr"
           },
           {
-            "file": "indibuild-brief.html",
-            "line": 793,
-            "kind": "text-url"
-          },
-          {
             "file": "js/data-source-inventory.js",
             "line": 70,
             "kind": "text-url"
@@ -32396,11 +31610,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3947,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 404,
             "kind": "text-url"
           },
           {
@@ -32777,11 +31986,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3997,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 59,
             "kind": "text-url"
           },
           {
@@ -38171,16 +37375,6 @@
         "url": "https://nhpd.preservationdatabase.org/",
         "sources": [
           {
-            "file": "indibuild-brief.html",
-            "line": 790,
-            "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 1024,
-            "kind": "text-url"
-          },
-          {
             "file": "js/data-source-inventory.js",
             "line": 780,
             "kind": "text-url"
@@ -40058,16 +39252,6 @@
             "kind": "text-url"
           },
           {
-            "file": "indibuild-brief.html",
-            "line": 1167,
-            "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 1223,
-            "kind": "text-url"
-          },
-          {
             "file": "js/data-connectors/regrid-parcels.js",
             "line": 13,
             "kind": "text-url"
@@ -40089,18 +39273,6 @@
         "status": "ok",
         "httpStatus": 200,
         "finalUrl": "https://app.regrid.com/plans"
-      },
-      {
-        "url": "https://regrid.com/us/co/$%7Bpr.parcelId",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 1247,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "template/dev placeholder"
       },
       {
         "url": "https://renewdenver.org/",
@@ -40704,24 +39876,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://sheets.google.com/",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 27,
-            "kind": "text-url"
-          },
-          {
-            "file": "docs/indibuild-pipeline-prototype/README.md",
-            "line": 27,
-            "kind": "markdown-link"
-          }
-        ],
-        "status": "ok",
-        "httpStatus": 200,
-        "finalUrl": "https://workspace.google.com/products/sheets/"
-      },
-      {
         "url": "https://sites.google.com/slvhc.com/slvhc",
         "sources": [
           {
@@ -40755,11 +39909,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4957,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 66,
             "kind": "text-url"
           },
           {
@@ -41070,11 +40219,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 119,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 75,
             "kind": "text-url"
           },
           {
@@ -41519,11 +40663,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5532,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 82,
             "kind": "text-url"
           },
           {
@@ -42921,11 +42060,6 @@
             "file": "data/hna/local-resources.json",
             "line": 317,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 91,
-            "kind": "text-url"
           }
         ],
         "status": "other",
@@ -42937,11 +42071,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 365,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 99,
             "kind": "text-url"
           },
           {
@@ -42991,11 +42120,6 @@
             "file": "data/hna/local-resources.json",
             "line": 330,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 106,
-            "kind": "text-url"
           }
         ],
         "status": "client_error",
@@ -43008,11 +42132,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 324,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 113,
             "kind": "text-url"
           }
         ],
@@ -43569,19 +42688,6 @@
           {
             "file": "docs/MARKET-RENT-AND-KALSHI.md",
             "line": 60,
-            "kind": "text-url"
-          }
-        ],
-        "status": "ok",
-        "httpStatus": 200,
-        "finalUrl": null
-      },
-      {
-        "url": "https://www.apartmentlist.com/research/national-rent-data",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 713,
             "kind": "text-url"
           }
         ],
@@ -44560,11 +43666,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 120,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 56,
             "kind": "text-url"
@@ -45266,11 +44367,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 128,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/augment-local-resources.js",
             "line": 76,
             "kind": "text-url"
@@ -45727,11 +44823,6 @@
             "file": "article-co-housing-costs.html",
             "line": 476,
             "kind": "html-attr"
-          },
-          {
-            "file": "data/indibuild/pipeline-content.json",
-            "line": 105,
-            "kind": "text-url"
           },
           {
             "file": "housing-needs-assessment.html",
@@ -46240,11 +45331,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 138,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 238,
             "kind": "text-url"
@@ -46464,11 +45550,6 @@
             "file": "data/hna/local-resources.json",
             "line": 3596,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 411,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -46512,11 +45593,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 1967,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 145,
             "kind": "text-url"
           }
         ],
@@ -46638,11 +45714,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 418,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-local-resources-expansion.js",
             "line": 417,
             "kind": "text-url"
@@ -46687,11 +45758,6 @@
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 159,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 425,
-            "kind": "text-url"
           }
         ],
         "status": "ok",
@@ -46732,19 +45798,6 @@
         ],
         "status": "ok",
         "httpStatus": 200,
-        "finalUrl": null
-      },
-      {
-        "url": "https://www.carbondalegov.org/,Funding,Council",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 3,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
         "finalUrl": null
       },
       {
@@ -47730,19 +46783,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://www.census.gov/programs-surveys/acs/data/data-via-api.html",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 711,
-            "kind": "text-url"
-          }
-        ],
-        "status": "ok",
-        "httpStatus": 200,
-        "finalUrl": null
-      },
-      {
         "url": "https://www.census.gov/quickfacts/CO",
         "sources": [
           {
@@ -47794,11 +46834,6 @@
           {
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 103,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 435,
             "kind": "text-url"
           }
         ],
@@ -47963,11 +46998,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4981,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 152,
             "kind": "text-url"
           },
           {
@@ -48757,24 +47787,6 @@
         ],
         "status": "client_error",
         "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://www.chfainfo.com/chfa-news",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 1001,
-            "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 1023,
-            "kind": "text-url"
-          }
-        ],
-        "status": "ok",
-        "httpStatus": 200,
         "finalUrl": null
       },
       {
@@ -49862,21 +48874,6 @@
             "kind": "html-attr"
           },
           {
-            "file": "indibuild-brief.html",
-            "line": 789,
-            "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 958,
-            "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 1022,
-            "kind": "text-url"
-          },
-          {
             "file": "js/chfa-award-predictor.js",
             "line": 16,
             "kind": "text-url"
@@ -50123,11 +49120,6 @@
             "file": "historical-trends.html",
             "line": 85,
             "kind": "html-attr"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 1090,
-            "kind": "text-url"
           },
           {
             "file": "lihtc-guide-for-stakeholders.html",
@@ -50708,11 +49700,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 445,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-local-resources-expansion.js",
             "line": 570,
             "kind": "text-url"
@@ -51029,11 +50016,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 159,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 139,
             "kind": "text-url"
@@ -51135,19 +50117,6 @@
           {
             "file": "docs/WORKFORCE_DIMENSIONS_EXPANSION.md",
             "line": 100,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
-        "url": "https://www.cogs.us/,RFP,Workforce",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 5,
             "kind": "text-url"
           }
         ],
@@ -52464,11 +51433,6 @@
             "file": "data/hna/local-resources.json",
             "line": 3924,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 453,
-            "kind": "text-url"
           }
         ],
         "status": "client_error",
@@ -53292,11 +52256,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 166,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/augment-local-resources.js",
             "line": 38,
             "kind": "text-url"
@@ -53363,11 +52322,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3415,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 460,
             "kind": "text-url"
           },
           {
@@ -53675,11 +52629,6 @@
             "file": "data/hna/local-resources.json",
             "line": 1207,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 173,
-            "kind": "text-url"
           }
         ],
         "status": "client_error",
@@ -53785,11 +52734,6 @@
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 19,
             "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 1421,
-            "kind": "text-url"
           }
         ],
         "status": "ok",
@@ -53820,19 +52764,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://www.durangoco.gov/,Personnel,New",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 6,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
-        "finalUrl": null
-      },
-      {
         "url": "https://www.durangoco.gov/247/Community-Development",
         "sources": [
           {
@@ -53843,11 +52774,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4044,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 181,
             "kind": "text-url"
           }
         ],
@@ -54198,11 +53124,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 189,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-local-resources-expansion.js",
             "line": 66,
             "kind": "text-url"
@@ -54338,11 +53259,6 @@
           {
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 199,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 468,
             "kind": "text-url"
           }
         ],
@@ -54814,11 +53730,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 477,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/augment-local-resources.js",
             "line": 87,
             "kind": "text-url"
@@ -54882,11 +53793,6 @@
           {
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 55,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 485,
             "kind": "text-url"
           },
           {
@@ -55429,11 +54335,6 @@
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 53,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 493,
-            "kind": "text-url"
           }
         ],
         "status": "ok",
@@ -55937,11 +54838,6 @@
             "file": "data/hna/local-resources.json",
             "line": 1665,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 197,
-            "kind": "text-url"
           }
         ],
         "status": "timeout",
@@ -55953,11 +54849,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 1657,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 204,
             "kind": "text-url"
           }
         ],
@@ -56191,18 +55082,6 @@
         "finalUrl": null
       },
       {
-        "url": "https://www.google.com/maps?q=${p.lat},${p.lng}",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 854,
-            "kind": "text-url"
-          }
-        ],
-        "status": "skipped",
-        "reason": "template/dev placeholder"
-      },
-      {
         "url": "https://www.google.com/maps/search/?api=1&query=",
         "sources": [
           {
@@ -56228,11 +55107,6 @@
       {
         "url": "https://www.google.com/search?q=",
         "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 812,
-            "kind": "text-url"
-          },
           {
             "file": "js/components/agenda-search-links.js",
             "line": 50,
@@ -59068,11 +57942,6 @@
             "file": "data/hna/local-resources.json",
             "line": 4025,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 211,
-            "kind": "text-url"
           }
         ],
         "status": "client_error",
@@ -59317,11 +58186,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 501,
-            "kind": "text-url"
-          },
-          {
             "file": "housing-needs-assessment.html",
             "line": 2347,
             "kind": "text-url"
@@ -59409,11 +58273,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3976,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 218,
             "kind": "text-url"
           },
           {
@@ -60314,11 +59173,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/indibuild/pipeline-content.json",
-            "line": 106,
-            "kind": "text-url"
-          },
-          {
             "file": "data/market/chas_co.json",
             "line": 1,
             "kind": "text-url"
@@ -60556,11 +59410,6 @@
             "kind": "html-attr"
           },
           {
-            "file": "indibuild-brief.html",
-            "line": 714,
-            "kind": "text-url"
-          },
-          {
             "file": "js/data-source-inventory.js",
             "line": 486,
             "kind": "text-url"
@@ -60705,11 +59554,6 @@
             "file": "housing-needs-assessment.html",
             "line": 434,
             "kind": "html-attr"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 764,
-            "kind": "text-url"
           },
           {
             "file": "js/data-source-inventory.js",
@@ -60863,16 +59707,6 @@
             "file": "housing-legislation-2026.html",
             "line": 137,
             "kind": "html-attr"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 795,
-            "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 1025,
-            "kind": "text-url"
           }
         ],
         "status": "ok",
@@ -61107,11 +59941,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5126,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 226,
             "kind": "text-url"
           },
           {
@@ -61532,11 +60361,6 @@
             "file": "data/hna/local-resources.json",
             "line": 4030,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 508,
-            "kind": "text-url"
           }
         ],
         "status": "ok",
@@ -61575,11 +60399,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3992,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 515,
             "kind": "text-url"
           },
           {
@@ -61642,11 +60461,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 522,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 250,
             "kind": "text-url"
@@ -61663,11 +60477,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2148,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 529,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -61681,11 +60490,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2186,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 536,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -61698,11 +60502,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2166,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 543,
             "kind": "text-url"
           }
         ],
@@ -61903,11 +60702,6 @@
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 175,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 550,
-            "kind": "text-url"
           }
         ],
         "status": "ok",
@@ -62100,11 +60894,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 559,
-            "kind": "text-url"
-          },
-          {
             "file": "data/tax-abatement-inventory.json",
             "line": 435,
             "kind": "text-url"
@@ -62138,11 +60927,6 @@
           {
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 124,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 566,
             "kind": "text-url"
           }
         ],
@@ -62197,11 +60981,6 @@
           {
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 127,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 573,
             "kind": "text-url"
           }
         ],
@@ -62546,11 +61325,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2353,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 235,
-            "kind": "text-url"
           }
         ],
         "status": "timeout",
@@ -62641,11 +61415,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2380,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 582,
             "kind": "text-url"
           }
         ],
@@ -62889,11 +61658,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2506,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 243,
             "kind": "text-url"
           }
         ],
@@ -63324,11 +62088,6 @@
             "file": "data/hna/local-resources.json",
             "line": 4168,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 589,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -63355,11 +62114,6 @@
             "file": "data/hna/local-resources.json",
             "line": 4117,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 596,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -63385,11 +62139,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2226,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 251,
             "kind": "text-url"
           },
           {
@@ -64109,11 +62858,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 258,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 206,
             "kind": "text-url"
@@ -64291,11 +63035,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3674,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 266,
             "kind": "text-url"
           },
           {
@@ -64492,11 +63231,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3735,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 274,
             "kind": "text-url"
           },
           {
@@ -65693,11 +64427,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2758,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 282,
-            "kind": "text-url"
           }
         ],
         "status": "other",
@@ -65710,11 +64439,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2807,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 289,
-            "kind": "text-url"
           }
         ],
         "status": "other",
@@ -65726,11 +64450,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 2793,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 296,
             "kind": "text-url"
           }
         ],
@@ -65887,24 +64606,6 @@
           {
             "file": "docs/codex-audits/0817375.md",
             "line": 979,
-            "kind": "text-url"
-          }
-        ],
-        "status": "auth",
-        "httpStatus": 403,
-        "finalUrl": null
-      },
-      {
-        "url": "https://www.rd.usda.gov/data-sets/multi-family-housing-rentals",
-        "sources": [
-          {
-            "file": "indibuild-brief.html",
-            "line": 791,
-            "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 1026,
             "kind": "text-url"
           }
         ],
@@ -66132,11 +64833,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2883,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 303,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -66213,11 +64909,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5473,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 311,
             "kind": "text-url"
           },
           {
@@ -66414,11 +65105,6 @@
             "file": "data/hna/local-resources.json",
             "line": 2726,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 603,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -66585,11 +65271,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4727,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 320,
             "kind": "text-url"
           },
           {
@@ -66844,11 +65525,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 621,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 194,
             "kind": "text-url"
@@ -67060,11 +65736,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 329,
-            "kind": "text-url"
-          },
-          {
             "file": "data/tax-abatement-inventory.json",
             "line": 274,
             "kind": "text-url"
@@ -67128,11 +65799,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4804,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 338,
             "kind": "text-url"
           },
           {
@@ -67571,11 +66237,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 629,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 97,
             "kind": "text-url"
@@ -67653,11 +66314,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4841,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 347,
             "kind": "text-url"
           },
           {
@@ -67746,11 +66402,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5565,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 355,
             "kind": "text-url"
           },
           {
@@ -68113,11 +66764,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 637,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 260,
             "kind": "text-url"
@@ -68310,11 +66956,6 @@
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 263,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 644,
-            "kind": "text-url"
           }
         ],
         "status": "auth",
@@ -68327,11 +66968,6 @@
           {
             "file": "data/policy/jurisdiction-housing-progress.json",
             "line": 261,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 653,
             "kind": "text-url"
           }
         ],
@@ -68363,11 +66999,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4546,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 363,
             "kind": "text-url"
           },
           {
@@ -68437,11 +67068,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 4547,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 371,
             "kind": "text-url"
           },
           {
@@ -68832,11 +67458,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 660,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 267,
             "kind": "text-url"
@@ -68866,11 +67487,6 @@
             "file": "data/hna/local-resources.json",
             "line": 3323,
             "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 667,
-            "kind": "text-url"
           }
         ],
         "status": "ok",
@@ -68883,11 +67499,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 3309,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 674,
             "kind": "text-url"
           }
         ],
@@ -68968,11 +67579,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 380,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-local-resources-expansion.js",
             "line": 36,
             "kind": "text-url"
@@ -69049,11 +67655,6 @@
           {
             "file": "data/hna/local-resources.json",
             "line": 5401,
-            "kind": "text-url"
-          },
-          {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 388,
             "kind": "text-url"
           },
           {
@@ -69379,11 +67980,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 395,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/seed-county-employers.js",
             "line": 103,
             "kind": "text-url"
@@ -69495,11 +68091,6 @@
           {
             "file": "docs/api/scripts__fetch-zillow.md",
             "line": 27,
-            "kind": "text-url"
-          },
-          {
-            "file": "indibuild-brief.html",
-            "line": 712,
             "kind": "text-url"
           },
           {
@@ -69998,11 +68589,6 @@
             "kind": "text-url"
           },
           {
-            "file": "data/reports/indibuild-url-health.json",
-            "line": 681,
-            "kind": "text-url"
-          },
-          {
             "file": "scripts/augment-local-resources.js",
             "line": 197,
             "kind": "text-url"
@@ -70015,19 +68601,6 @@
         ],
         "status": "ok",
         "httpStatus": 200,
-        "finalUrl": null
-      },
-      {
-        "url": "https://yvha.org/,Land,Brown",
-        "sources": [
-          {
-            "file": "docs/indibuild-pipeline-prototype/01-signal-log.csv",
-            "line": 4,
-            "kind": "text-url"
-          }
-        ],
-        "status": "client_error",
-        "httpStatus": 404,
         "finalUrl": null
       }
     ]
