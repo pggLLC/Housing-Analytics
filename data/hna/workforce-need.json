@@ -1795,7 +1795,7 @@
  },
  "meta": {
   "baseYear": 2024,
-  "generated_at": "2026-10-31T13:03:22Z",
+  "generated_at": "2026-10-31T14:01:35Z",
   "generated_by": "scripts/hna/build_workforce_need.py",
   "horizonYear": 2044,
   "income_cut": "le120",
