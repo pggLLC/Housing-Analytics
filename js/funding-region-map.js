@@ -253,7 +253,7 @@
     var rows = c.rows.map(function (r) {
       var ag = r.category === 'state' ? (/CHFA/.test(r.label) ? 'CHFA' : /Division of Housing|\bDOH\b/.test(r.label) ? 'DOH' : /OEDIT|Prop 123/.test(r.label) ? 'OEDIT' : /DOLA/.test(r.label) ? 'DOLA' : null) : null;
       return { label: r.label, cat: r.category, ag: ag, amount: r.amount, text: r.amount_text, phase: r.phase,
-        tag: r.phase === 'construction' ? 'short-term, not added' : r.phase === 'inkind' ? 'in-kind, not added'
+        tag: r.phase === 'perunit' ? 'per home, not added' : r.phase === 'construction' ? 'short-term, not added' : r.phase === 'inkind' ? 'in-kind, not added'
           : r.phase === 'summary' ? (r.category === 'cost' ? 'a cost, not a source' : r.category === 'credits' ? 'credits, shown apart' : r.category === 'bonds' ? 'bonds, not added' : 'not added') : '',
         note: r.note, src_title: r.source_title, src_url: r.source_url };
     });
