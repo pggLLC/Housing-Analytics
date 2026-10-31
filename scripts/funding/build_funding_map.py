@@ -303,13 +303,14 @@ def classify(src, amt):
     if "bond" in s or re.search(r"volume cap|\bpab\b|revenue notes?|tax-exempt (multifamily )?(housing )?notes?", s) and not re.search(r"\bhome\b", s): return "bonds", "summary"
     # costs (uses of money), not sources: shown, never added
     if re.search(r"acquisition (price|cost)|purchase price|sale price|construction contract|hard cost|soft cost|rehab(ilitation)? (cost|budget|contract)|cost of|proposed budget", s): return "cost", "summary"
-    if "equity" in s: return "equity", "perm"
     inkind = re.search(r"waiver|exemption|abatement|saved|savings|donat|land lease|ground lease|in-kind|fee reduction|rebate|discount|price concession|price (cut|reduction)|^land$|land contribution", s + " " + a)
     # infrastructure built for the project is in-kind; a grant, loan or capital payment for it is cash
     inkind = inkind or re.search(r"paid separately", s) or (re.search(r"infrastructure", s + " " + a) and not re.search(r"grant|loan|capital|cash|fund|\$", s))
+    # tax credit equity only; owner, city or in-kind land equity falls through to its own category
+    if "equity" in s and not inkind and "deferred develop" not in s and (re.search(r"credit|lihtc|45l|syndicat|investor", s) or not re.search(r"developer|owner|sponsor|private|city|town|county|land", s)): return "equity", "perm"
     # a developer fee is a project cost; only a deferred or contributed fee is money into the deal
     if re.search(r"developer fee", s) and not re.search(r"defer|contribut|loan|equity", s): return "cost", "summary"
-    if re.search(r"deferred develop|developer fee|sponsor loan|seller|owner|general partner|sponsor equity", s): cat = "owner"
+    if re.search(r"deferred develop|developer fee|sponsor loan|seller|owner|general partner|sponsor equity|developer equity|private equity", s): cat = "owner"
     elif re.search(r"chfa|division of housing|\bdoh\b|dola|oedit|prop(osition)? 123|state housing board|colorado department|state of colorado|colorado energy|history colorado|transit oriented communities infrastructure|\btoci\b", s): cat = "state"
     elif re.search(r"\b(hud|home|cdbg|arpa|usda|epa|fhlb)\b|federal|environmental protection|section 8|congression|treasury|capital magnet", s): cat = "federal"
     elif re.search(r"foundation|philanthrop|donor|gift|church|community fund|impact fund|(?<!housing )\btrust\b(?! fund)", s): cat = "gift"
