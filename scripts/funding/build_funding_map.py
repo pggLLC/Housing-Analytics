@@ -279,7 +279,7 @@ def classify(src, amt):
     # operating support (vouchers, rent subsidies, services contracts) pays after opening, so it is shown, never added
     operating = re.search(r"voucher|services funding|operating|rent(al)? subsid|subsidy agreement|services agreement|supportive services|rent(al)? assistance", s)
     if not operating and ("per year" in a or ("credit" in s and "equity" not in s) or re.search(r"\b(toc|mihtc)\b", s)): return "credits", "summary"
-    if "bond" in s: return "bonds", "summary"
+    if "bond" in s or re.search(r"volume cap|\bpab\b", s) and not re.search(r"\bhome\b", s): return "bonds", "summary"
     # costs (uses of money), not sources: shown, never added
     if re.search(r"acquisition (price|cost)|purchase price|sale price|construction contract|hard cost|soft cost|rehab(ilitation)? (cost|budget|contract)|cost of|proposed budget", s): return "cost", "summary"
     if "equity" in s: return "equity", "perm"
