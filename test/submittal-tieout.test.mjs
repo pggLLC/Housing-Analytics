@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+import { JSDOM } from 'jsdom';
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -80,6 +81,8 @@ ok(rehab.fee.status === 'open' && /building acquisition/.test(row(rehab, 'fee').
 const acq = T.check(r1, v({ ...app, acquisition: 2000000 }, { deal: { ...base.deal, rehab: true } }), engine);
 ok(acq.fee.acquisitionOff === 1000000 && acq.fee.base === clean.fee.base - 1000000, 'half of acquisition comes off the fee base');
 ok(T.check(r1, v({ ...app, land: null }), engine).fee.status === 'open', 'no land, no fee test');
+const noConsultant = T.check(r1, v({ ...app, fee: 1800000, consultant: null }), engine);
+ok(noConsultant.fee.status === 'open' && /consultant fee/.test(row(noConsultant, 'fee').notes.join(' ')), 'a blank consultant fee is not taken as $0: the fee test waits for it');
 
 // No export, or a stale one: no model figures, rules still apply
 const none = T.check(r1, v({ ...app, dscr: 1.1 }, { calculator: null }), {});
@@ -115,5 +118,22 @@ ok(/id="srTieCard"/.test(html) && html.indexOf('id="srTieCard"') < html.indexOf(
 const f = T.formHtml();
 ok(T.ROWS.every((r) => f.includes('data-tie="' + r.id + '"') && f.includes('data-tieref="' + r.id + '"') && f.includes('for="sr-tie-' + r.id + '"')), 'every row has a labelled input and a reference field');
 ok(/Deal breaker/.test(T.outHtml(row(T.check(r1, v({ ...app, gap: 5 }), engine), 'gap'))), 'a flag is written in words, not color alone');
+
+// Saved and opened again: the figures and references come back (real page markup in jsdom, device store).
+{
+  const dom = new JSDOM(read('developer-submittal-review.html'), { url: 'http://127.0.0.1/developer-submittal-review.html' });
+  const d = dom.window.document;
+  const fh = SR.formHtml(r1);
+  d.getElementById('srClaims').innerHTML = fh.claims; d.getElementById('srThresholds').innerHTML = fh.thresholds; d.getElementById('srTie').innerHTML = T.formHtml();
+  const mem = {};
+  const store = SR.makeStore(() => Promise.reject(new Error('offline')), { getItem: (k) => mem[k] || null, setItem: (k, val) => { mem[k] = val; } });
+  const saved = await store.save({ name: 'Invented Site', label: 'with tie-out', data: { deal: { mix: { 60: 40 } }, tieout: { app: { tdc: 16000000, dscr: 1.1 }, ref: { dscr: 'Proforma, row 40' } } } });
+  SR.mount(d, r1, prop123, store);
+  const tick = () => new Promise((res) => setTimeout(res, 20));
+  await tick();
+  d.getElementById('sr-deal').value = saved.deal; d.getElementById('sr-deal').dispatchEvent(new dom.window.Event('change')); await tick(); await tick();
+  ok(d.getElementById('sr-tie-tdc').value === '16000000' && d.getElementById('sr-tie-dscr').value === '1.1' && d.querySelector('[data-tieref="dscr"]').value === 'Proforma, row 40', 'opening a saved version restores its tie-out figures and references');
+  ok(/Deal breaker/.test(d.getElementById('sr-tie-out-dscr').textContent) && /1 deal breaker/.test(d.getElementById('srTieSummary').textContent), 'and flags them again');
+}
 
 console.log('submittal-tieout: ' + checks + ' checks passed');

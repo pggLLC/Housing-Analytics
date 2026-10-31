@@ -77,11 +77,12 @@
   function feeLimit(rules, app, units, deal) {
     var r = rules.tie_out && rules.tie_out.developer_fee;
     if (!r) return { status: 'none' };
-    var need = ['tdc', 'fee', 'land', 'reserves'].filter(function (k) { return app[k] == null; });
+    // An unknown fee or cost is never taken as $0: the consultant fee is entered as 0 when there is none.
+    var need = ['tdc', 'fee', 'consultant', 'land', 'reserves'].filter(function (k) { return app[k] == null; });
     if (need.length) return { status: 'open', need: need };
     if (deal.rehab && app.acquisition == null) return { status: 'open', need: ['acquisition'] };
     if (units == null || units <= 0) return { status: 'open', need: ['homes'] };
-    var fee = app.fee + (app.consultant || 0);
+    var fee = app.fee + app.consultant;
     var acqOff = deal.supportive ? 0 : 0.5 * (app.acquisition || 0);
     var base = app.tdc - app.land - acqOff - fee - app.reserves;
     var tier = r.tiers.filter(function (t) { return units >= t.min_units && (t.max_units == null || units <= t.max_units); })[0];

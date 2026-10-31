@@ -1380,7 +1380,7 @@
     function openVersion(rec) {
       if (!rec) return;
       var v = blankVersion();
-      ['deal', 'claims', 'thresholds', 'documents', 'engine', 'calculator'].forEach(function (k) { if (rec[k] != null) v[k] = JSON.parse(JSON.stringify(rec[k])); });
+      ['deal', 'claims', 'thresholds', 'documents', 'engine', 'calculator', 'tieout'].forEach(function (k) { if (rec[k] != null) v[k] = JSON.parse(JSON.stringify(rec[k])); });
       state.version = v; state.stress = rec.stress ? { base: rec.stressBase || {}, tests: rec.stress } : null; state.parent = rec.v;
       $('sr-label').value = '';
       writeForm(); draw();
