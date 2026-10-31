@@ -14,12 +14,12 @@
   var AG = { CHFA: { label: 'CHFA', v: '--frm-chfa' }, OEDIT: { label: 'OEDIT', v: '--frm-oedit' },
     DOH: { label: 'Division of Housing', v: '--frm-doh' }, DOLA: { label: 'DOLA local government', v: '--frm-dola' } };
   var AGS = ['CHFA', 'DOH', 'DOLA', 'OEDIT'];
-  var KORDER = ['state', 'equity', 'federal', 'local', 'gift', 'owner', 'otherstate', 'debt'];
+  var KORDER = ['state', 'equity', 'federal', 'local', 'gift', 'owner', 'otherstate', 'debt', 'other'];
   var KV = { state: '--frm-k-state', equity: '--frm-k-equity', federal: '--frm-k-federal', local: '--frm-k-local',
-    gift: '--frm-k-gift', owner: '--frm-k-owner', otherstate: '--frm-k-otherstate', debt: '--frm-k-debt' };
+    gift: '--frm-k-gift', owner: '--frm-k-owner', otherstate: '--frm-k-otherstate', debt: '--frm-k-debt', other: '--frm-k-other' };
   var KL = { state: 'State awards', equity: 'Tax credit equity', federal: 'Federal', local: 'Local government and tribes',
     gift: 'Foundations and community', owner: 'Owner and developer', otherstate: 'Other state agencies', debt: 'Bank and private loans',
-    other: 'Other', cost: 'Project cost (not a source)', credits: 'Tax credits', bonds: 'Bonds', summary: 'Summary' };
+    other: 'Other or not stated', cost: 'Project cost (not a source)', credits: 'Tax credits', bonds: 'Bonds', summary: 'Summary' };
 
   var root = document.querySelector('[data-funding-region-map]');
   if (!root) return;
@@ -263,7 +263,7 @@
         note: r.note, src_title: r.source_title, src_url: r.source_url };
     });
     var by = {};
-    rows.forEach(function (r) { if (r.phase === 'perm' && r.amount) { var k = KORDER.indexOf(r.cat) >= 0 ? r.cat : 'debt'; by[k] = (by[k] || 0) + r.amount; } });
+    rows.forEach(function (r) { if (r.phase === 'perm' && r.amount) { var k = KORDER.indexOf(r.cat) >= 0 ? r.cat : 'other'; by[k] = (by[k] || 0) + r.amount; } });
     var known = 0; Object.keys(by).forEach(function (k) { known += by[k]; });
     var cr = D.awards.filter(function (a) { return a.site === id && a.amount_unit === 'usd_per_year_tax_credit' && a.amount; }).reduce(function (x, a) { return x + a.amount; }, 0);
     return { c: c, rows: rows, by: by, known: known, tdc: c.tdc, cr: cr };

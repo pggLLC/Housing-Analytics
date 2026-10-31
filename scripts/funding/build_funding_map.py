@@ -312,7 +312,7 @@ def classify(src, amt):
     if re.search(r"deferred develop|developer fee|sponsor loan|seller|owner|general partner|sponsor equity", s): cat = "owner"
     elif re.search(r"chfa|division of housing|\bdoh\b|dola|oedit|prop(osition)? 123|state housing board|colorado department|state of colorado|colorado energy|history colorado|transit oriented communities infrastructure|\btoci\b", s): cat = "state"
     elif re.search(r"\b(hud|home|cdbg|arpa|usda|epa|fhlb)\b|federal|environmental protection|section 8|congression|treasury|capital magnet", s): cat = "federal"
-    elif re.search(r"foundation|philanthrop|donor|gift|church|community fund|impact fund", s): cat = "gift"
+    elif re.search(r"foundation|philanthrop|donor|gift|church|community fund|impact fund|(?<!housing )\btrust\b(?! fund)", s): cat = "gift"
     elif re.search(r"city|county|town|housing authority|district|denver|metro|authority|tribe|tribal|linkage|host\b", s): cat = "local"
     elif re.search(r"loan|mortgage|bank|debt|lender", s): cat = "debt"
     else: cat = "other"

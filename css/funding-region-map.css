@@ -2,14 +2,14 @@
 .frm{
   --frm-chfa:#2a62b8; --frm-oedit:#9a5f06; --frm-doh:#1f8a5b; --frm-dola:#8a46a8;
   --frm-k-state:#2a78d6; --frm-k-equity:#eb6834; --frm-k-federal:#1baf7a; --frm-k-local:#eda100;
-  --frm-k-gift:#e87ba4; --frm-k-owner:#008300; --frm-k-otherstate:#6250d6; --frm-k-debt:#e34948;
+  --frm-k-gift:#e87ba4; --frm-k-owner:#008300; --frm-k-otherstate:#6250d6; --frm-k-debt:#e34948; --frm-k-other:#7c8682;
   --frm-region:#33413c;
   display:grid; gap:16px; margin-top:var(--sp5, 40px); min-width:0;
 }
 html.dark-mode .frm{
   --frm-chfa:#6f9ee8; --frm-oedit:#e0a240; --frm-doh:#4fc08b; --frm-dola:#c08ae0;
   --frm-k-state:#3987e5; --frm-k-equity:#d95926; --frm-k-federal:#199e70; --frm-k-local:#c98500;
-  --frm-k-gift:#d55181; --frm-k-owner:#008300; --frm-k-otherstate:#9085e9; --frm-k-debt:#e66767;
+  --frm-k-gift:#d55181; --frm-k-owner:#008300; --frm-k-otherstate:#9085e9; --frm-k-debt:#e66767; --frm-k-other:#8f9995;
   --frm-region:#c9d4cf;
 }
 .frm > *, .frm section > *{min-width:0}
@@ -63,9 +63,11 @@ html.dark-mode .frm{
 .frm-map .leaflet-popup-content{margin:12px 14px; font-size:.82rem; line-height:1.45; min-width:220px}
 .frm-map .leaflet-popup-content h4{margin:0 0 2px; font-size:1rem}
 .frm-map .leaflet-popup-content ul, .frm-detail ul{margin:6px 0 0; padding-left:16px}
-.frm-pin{width:22px; height:22px; border-radius:50%; border:2px solid #fff; box-shadow:0 0 0 1px #1d2422; display:grid; place-items:center; font:600 10px/1 var(--font-mono); color:#fff}
+.frm-pin{position:relative; width:22px; height:22px; border-radius:50%; border:2px solid #fff; box-shadow:0 0 0 1px #1d2422; display:grid; place-items:center; font:600 10px/1 var(--font-mono); color:#fff}
+/* 44px touch targets around the small visual markers */
+.frm-pin::before, .frm-tpin::before{content:''; position:absolute; inset:-11px}
 .frm-pin.frm-approx{border-style:dashed}
-.frm-tpin{display:inline-flex; align-items:center; gap:6px; white-space:nowrap; background:#fff; color:#1d2422; border:1px solid #1d2422; border-radius:14px; padding:3px 9px 3px 4px; font:600 12px/1.2 var(--font-sans); box-shadow:0 1px 3px rgba(0,0,0,.25); transform:translate(-50%,-50%); width:max-content}
+.frm-tpin{position:relative; display:inline-flex; align-items:center; gap:6px; white-space:nowrap; background:#fff; color:#1d2422; border:1px solid #1d2422; border-radius:14px; padding:3px 9px 3px 4px; font:600 12px/1.2 var(--font-sans); box-shadow:0 1px 3px rgba(0,0,0,.25); transform:translate(-50%,-50%); width:max-content}
 .frm-tpin.frm-dot{padding:2px}
 .frm-tpin b{display:grid; place-items:center; min-width:20px; height:20px; border-radius:10px; color:#fff; font:600 11px/1 var(--font-mono)}
 
