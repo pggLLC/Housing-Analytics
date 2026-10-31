@@ -157,7 +157,7 @@ function loadMemo() {
 
   await check('the header placeholder holds the finished header height', () => {
     const css = read('css/site-theme.css');
-    assert.match(css, /header\.site-header:not\(:has\(\.nav-wrap\)\)\s*\{\s*min-height:\s*75px/);
+    assert.match(css, /header\.site-header:not\(:has\(\.nav-wrap\)\)\s*\{\s*min-height:\s*77px/);
     assert.match(css, /@media \(min-width: 769px\)\s*\{\s*header\.site-header:not\(:has\(\.nav-wrap\)\)\s*\{\s*min-height:\s*61px/);
   });
 
@@ -175,6 +175,27 @@ function loadMemo() {
       assert.ok(memo > 0, p + ' must load the data request memo');
       assert.ok(memo < html.indexOf('js/fetch-helper.js'), p + ': the memo must load before the data loaders');
     });
+  });
+
+  await check('a phone header is one height whether or not a place is chosen', () => {
+    // "+ Choose jurisdiction" is two lines on a phone, a chosen place one; the
+    // pill fills after load on a linked page, so the page jumped (live, 0.11).
+    const css = read('css/site-theme.css');
+    assert.match(css, /header\.site-header:not\(\.site-header--member\) \.nav-wrap \.jurisdiction-pill-wrap \{ min-height: 52px;/);
+  });
+
+  await check('the "Analyzing <place>" banner holds its space on a linked page and gives it back if unfilled', () => {
+    const html = read('housing-needs-assessment.html');
+    assert.match(html, /\.hna-jurisdiction-banner\[data-pending\] \.hna-jurisdiction-banner__inner \{\s*visibility: hidden;/);
+    assert.match(html, /if \(banner && banner\.hidden\) \{ banner\.setAttribute\('data-pending', ''\); banner\.hidden = false; \}/);
+    assert.match(html, /banner\.removeAttribute\('hidden'\);\s*banner\.removeAttribute\('data-pending'\);/, 'filling the banner ends the placeholder');
+    const r = read('js/hna/hna-renderers.js');
+    const settle = r.slice(r.indexOf('function settleDecisionStrip()'), r.indexOf('function _paintDecisionStrip()'));
+    assert.match(settle, /_settleJurisdictionBanner\(\);/, 'the end of a load gives back an unfilled banner');
+    const clear = r.slice(r.indexOf('function clearDecisionStrip()'), r.indexOf('}', r.indexOf('function clearDecisionStrip()')) + 1);
+    assert.doesNotMatch(clear, /_settleJurisdictionBanner/, 'clearDecisionStrip runs at the start of every load, before the banner can fill');
+    const c = read('js/hna/hna-controller.js');
+    assert.match(c, /settleJurisdictionBanner\(\);/, 'an unknown or missing place gives the space back at once');
   });
 
   if (failures) { console.log(failures + ' failed'); process.exit(1); }

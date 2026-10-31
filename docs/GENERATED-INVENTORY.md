@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T15:09:52.194Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T16:22:12.040Z. Do not edit by hand.
 
 ---
 
@@ -54,15 +54,15 @@
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 37.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.3 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 145.9 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 146.6 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 184.2 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 176.9 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 145.2 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 146.4 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 147.1 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 184.7 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 177.4 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 145.7 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
 | `housing-help.html` | If You Need Housing Now | COHO Analytics | 17.2 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 262.4 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 262.9 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 52.2 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.1 KB |
@@ -78,7 +78,7 @@
 | `methods.html` | Computational Methods | COHO Analytics | 81.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 48.7 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 52.7 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
@@ -96,11 +96,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1958 JSON files found.
+1961 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 998.1 KB | ✅ | — |
+| `data/_manifest.json` | 999.4 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -119,6 +119,9 @@
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 1.17 MB | ✅ | — |
 | `data/alerts/brief-news-queue.json` | 34.0 KB | ✅ | — |
+| `data/alerts/outlet-decisions.json` | 183 B | ✅ | — |
+| `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 19.9 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.84 MB | ✅ | — |
@@ -1843,7 +1846,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 11.0 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 248.9 KB | ✅ | — |
+| `data/manifest.json` | 249.2 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -2063,7 +2066,7 @@
 
 ## Test Files
 
-750 test files found.
+751 test files found.
 
 | File | Size |
 |------|------|
@@ -2351,7 +2354,7 @@
 | `test/hna-ownership-need.test.js` | 23.3 KB |
 | `test/hna-ownership-strategy.test.js` | 14.5 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 6.9 KB |
-| `test/hna-phone-speed-f9.test.js` | 9.8 KB |
+| `test/hna-phone-speed-f9.test.js` | 11.5 KB |
 | `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
 | `test/hna-projection-integrity.test.js` | 58.0 KB |
 | `test/hna-prop123-relationship.test.js` | 14.3 KB |
@@ -2457,7 +2460,7 @@
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/member-phone-header.test.mjs` | 8.5 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
-| `test/methods-spec-sources.test.mjs` | 5.1 KB |
+| `test/methods-spec-sources.test.mjs` | 6.3 KB |
 | `test/metric-semantics-wording.test.js` | 5.4 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
@@ -2794,6 +2797,7 @@
 | `tests/test_neighborhood_access_builder.py` | 6.0 KB |
 | `tests/test_news_stories.py` | 25.7 KB |
 | `tests/test_osm_landuse_thinning.py` | 4.2 KB |
+| `tests/test_outlets.py` | 9.4 KB |
 | `tests/test_owner_news_picks.py` | 10.7 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
 | `tests/test_place_chas_coverage.py` | 4.5 KB |
@@ -2904,7 +2908,7 @@
 | `.github/workflows/upstream-vintage-watch.yml` | 8.8 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.3 KB |
 | `.github/workflows/ux-pass.yml` | 2.2 KB |
-| `.github/workflows/weekly_housing_brief.yml` | 15.1 KB |
+| `.github/workflows/weekly_housing_brief.yml` | 16.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.4 KB |
 | `.github/workflows/workflow-outcome-monitor.yml` | 7.2 KB |
 | `.github/workflows/zillow-data-sync.yml` | 20.8 KB |

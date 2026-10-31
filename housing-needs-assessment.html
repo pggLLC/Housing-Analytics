@@ -110,6 +110,11 @@
     .hna-decision-tile[data-pending] span:last-child {
       width: 6ch;
     }
+    /* The "Analyzing <place>" banner holds its space the same way while a
+       linked place loads; it fills in when the place is known. */
+    .hna-jurisdiction-banner[data-pending] .hna-jurisdiction-banner__inner {
+      visibility: hidden;
+    }
     @media (max-width: 980px) {
       .hna-decision-strip {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -499,7 +504,7 @@
       </a>
     </section>
     <script>
-      // A link that names a place will fill the decision tiles, so they hold
+      // A link that names a place will fill the banner and the decision tiles, so they hold
       // their space from the first paint instead of pushing the page down as
       // each arrives (Codex audit F9). The HNA controller takes over from
       // here; an unknown place clears the strip again.
@@ -507,6 +512,8 @@
         try {
           var sp = new URLSearchParams(window.location.search);
           if (!(sp.get('geoid') || sp.get('fips'))) return;
+          var banner = document.getElementById('hnaJurisdictionBanner');
+          if (banner && banner.hidden) { banner.setAttribute('data-pending', ''); banner.hidden = false; }
           var strip = document.getElementById('hnaDecisionStrip');
           if (!strip) return;
           strip.querySelectorAll('.hna-decision-tile').forEach(function (t) { t.setAttribute('data-pending', ''); });
@@ -3822,6 +3829,7 @@
         if (subEl) subEl.textContent = cityName ? '· ' + cityName : '';
       }
       banner.removeAttribute('hidden');
+      banner.removeAttribute('data-pending');
     }
 
     // Wire the "Export IC summary →" link to the currently-selected geo. Prefer

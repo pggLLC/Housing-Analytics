@@ -144,7 +144,19 @@
 
   function settleDecisionStrip() {
     _stripArmed = false;
+    _settleJurisdictionBanner();
     _paintDecisionStrip();
+  }
+
+  // The page pre-arms the "Analyzing <place>" banner for a linked place (F9).
+  // If the load ends (or never starts: unknown place) and nothing filled it,
+  // give the space back. Not called from clearDecisionStrip(): that runs at
+  // the start of every load, before the banner can fill.
+  function _settleJurisdictionBanner() {
+    const banner = document.getElementById('hnaJurisdictionBanner');
+    if (!banner || !banner.hasAttribute('data-pending')) return;
+    banner.removeAttribute('data-pending');
+    banner.hidden = true;
   }
 
   function _paintDecisionStrip() {
@@ -10175,6 +10187,7 @@
     clearStats,
     updateDecisionStrip,
     clearDecisionStrip,
+    settleJurisdictionBanner: _settleJurisdictionBanner,
     armDecisionStrip,
     settleDecisionStrip,
     // Map

@@ -644,9 +644,9 @@ header.site-header .nav-wrap { min-height: 52px; }
    the header is an empty placeholder about 1px tall, and on a phone the
    whole page dropped about 75px when the nav arrived (Codex audit F9,
    31 Oct 2026: much of the HNA's layout shift). Hold the finished height
-   (75px at phone width, 61px from 769px up, measured on four pages) until
+   (77px at phone width, 61px from 769px up, measured on four pages) until
    the nav is in. */
-header.site-header:not(:has(.nav-wrap)) { min-height: 75px; box-sizing: border-box; }
+header.site-header:not(:has(.nav-wrap)) { min-height: 77px; box-sizing: border-box; }
 @media (min-width: 769px) {
   header.site-header:not(:has(.nav-wrap)) { min-height: 61px; }
 }
@@ -656,6 +656,12 @@ header.site-header:not(:has(.nav-wrap)) { min-height: 75px; box-sizing: border-b
 @media (max-width: 768px) {
   header.site-header .nav-wrap { flex-wrap: nowrap; min-height: 52px; }
   header.site-header .jurisdiction-pill__name { max-width: 92px; }
+  /* "+ Choose jurisdiction" wraps to two lines on a phone (52px); a chosen
+     place is one line (32px). On a page opened with a place in the address,
+     the pill starts empty and fills once the place loads, so the whole page
+     jumped up 6-8px (live Fruita HNA, CLS 0.11 of 0.12 after #2609). Hold the
+     taller height either way. */
+  header.site-header:not(.site-header--member) .nav-wrap .jurisdiction-pill-wrap { min-height: 52px; display: flex; align-items: center; }
 }
 /* F29: the WCAG 44px touch-target min-heights (responsive.css) inflate the
    desktop header — but only on pages that load responsive.css (index.html
