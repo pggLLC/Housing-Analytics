@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-31T06:49:24.350Z",
+    "generated_at": "2026-10-31T08:51:34.907Z",
     "root": "data/",
-    "file_count": 2004,
-    "total_size_bytes": 209121615,
+    "file_count": 2005,
+    "total_size_bytes": 210603982,
     "kinds": {
-      "json": 1956,
+      "json": 1957,
       "geojson": 34,
       "csv": 14
     }
@@ -610,7 +610,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-31T06:49:19.362Z",
+      "mtime": "2026-10-31T08:51:30.582Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6325,6 +6325,42 @@
         "publisher",
         "date",
         "url"
+      ]
+    },
+    {
+      "path": "derived/funding-map.json",
+      "kind": "json",
+      "size_bytes": 1482365,
+      "mtime": "2026-10-31T08:49:31.966Z",
+      "shape": "object",
+      "keys": [
+        "title",
+        "compiled",
+        "agencies",
+        "regions",
+        "counties",
+        "towns",
+        "sites",
+        "awards",
+        "unmapped",
+        "stacks"
+      ],
+      "key_count": 10,
+      "primary_array_key": "awards",
+      "primary_array_length": 1521,
+      "primary_array_first_keys": [
+        "id",
+        "site",
+        "town",
+        "county",
+        "region",
+        "year",
+        "year_label",
+        "agency",
+        "program",
+        "recipient",
+        "amount",
+        "amount_unit"
       ]
     },
     {
@@ -39854,8 +39890,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16088,
-      "mtime": "2026-10-31T06:49:21.478Z",
+      "size_bytes": 16090,
+      "mtime": "2026-10-31T08:51:32.739Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39879,7 +39915,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-31T06:49:20.974Z",
+      "mtime": "2026-10-31T08:51:32.197Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

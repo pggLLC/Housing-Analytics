@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T06:48:42.635Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T08:50:52.296Z. Do not edit by hand.
 
 ---
 
@@ -89,14 +89,14 @@
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 13.6 KB |
 | `state-allocation-map.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
-| `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 3.0 KB |
+| `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 3.3 KB |
 | `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.1 KB |
 
 ---
 
 ## Data Files (`data/**/*.json`)
 
-1957 JSON files found.
+1958 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -310,6 +310,7 @@
 | `data/deals/willoughby-corner-phase-ia-senior-lafayette.json` | 15.0 KB | ✅ | — |
 | `data/deals/willoughby-corner-phase-ib-family-lafayette.json` | 15.4 KB | ✅ | — |
 | `data/deals/windtrail-park-fort-collins.json` | 19.6 KB | ✅ | — |
+| `data/derived/funding-map.json` | 1.41 MB | ✅ | — |
 | `data/derived/funding-vs-need.json` | 91.3 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
@@ -2317,7 +2318,7 @@
 | `test/hna-age-and-growth-labels.test.js` | 9.2 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
 | `test/hna-assumption-defaults.test.js` | 10.7 KB |
-| `test/hna-build-rebase-recovery.test.js` | 8.0 KB |
+| `test/hna-build-rebase-recovery.test.js` | 8.1 KB |
 | `test/hna-car-loader.test.js` | 5.5 KB |
 | `test/hna-cdp-deep-link.test.js` | 4.9 KB |
 | `test/hna-chapter-handoff.test.mjs` | 9.0 KB |
@@ -2830,7 +2831,7 @@
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
 | `.github/workflows/build-acs-reliability.yml` | 3.5 KB |
-| `.github/workflows/build-hna-data.yml` | 37.9 KB |
+| `.github/workflows/build-hna-data.yml` | 38.1 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 16.5 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
