@@ -1,7 +1,7 @@
 {
-  "generated": "2026-10-31T04:03:46.422Z",
+  "generated": "2026-10-31T10:53:36.591Z",
   "values": {
-    "renter_cost_burden_pct": 50.5,
+    "renter_cost_burden_pct": 50.4,
     "lihtc_property_count": 926,
     "average_lihtc_units_per_year": 3735,
     "average_lihtc_new_construction_units_per_year": 2935,
@@ -35,7 +35,7 @@
   },
   "source_vintages": {
     "data/hna/ranking-index.json": {
-      "updated": "2026-10-31T03:59:44Z",
+      "updated": "2026-10-31T10:22:10Z",
       "source": "metadata.generatedAt"
     },
     "data/market/acs_tract_metrics_co.json": {
@@ -51,7 +51,7 @@
       "source": "updated"
     },
     "data/co_ami_gap_by_county.json": {
-      "updated": "2026-10-14T13:10:58Z",
+      "updated": "2026-10-31T10:18:11Z",
       "source": "meta.generated_at"
     },
     "data/hna/summary/08.json": {
