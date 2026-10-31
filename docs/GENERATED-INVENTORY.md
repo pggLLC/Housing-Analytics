@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T16:22:12.040Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T18:03:12.024Z. Do not edit by hand.
 
 ---
 
@@ -2066,7 +2066,7 @@
 
 ## Test Files
 
-751 test files found.
+752 test files found.
 
 | File | Size |
 |------|------|
@@ -2326,6 +2326,7 @@
 | `test/hna-car-loader.test.js` | 5.5 KB |
 | `test/hna-cdp-deep-link.test.js` | 4.9 KB |
 | `test/hna-chapter-handoff.test.mjs` | 9.0 KB |
+| `test/hna-chas-rerender.test.js` | 2.3 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
 | `test/hna-county-comparison.test.js` | 9.4 KB |
