@@ -324,17 +324,26 @@ def test_hud_ami_4person_realistic_range(hud_limits):
 
 
 def test_hud_ami_4person_above_30pct_thresholds(hud_limits):
-    """For each HUD county, the 4-person AMI must be >= the 30%-AMI 4-person threshold."""
+    """Each county's 4-person 30% limit must sit at or below its 50% limit and its AMI.
+
+    It is not checked against 30% of AMI. HUD sets the extremely-low-income limit
+    at the greater of 30% of median and the federal poverty guideline, capped at
+    the 50% limit, so in low-income counties it can sit well above 30% of AMI
+    (10-31: $33,000 in 37 counties, against a $52,800 AMI in Costilla).
+    """
     counties = hud_limits.get('counties', [])
     inconsistent = []
     for c in counties:
         lim = c.get('income_limits', {})
         ami = int(lim.get('ami_4person', 0) or 0)
         thresh30 = int(lim.get('il30_4person', 0) or 0)
-        if ami and thresh30 and thresh30 > ami * 0.5:  # 30% AMI threshold > half of AMI is wrong
-            inconsistent.append((c.get('fips'), ami, thresh30))
+        thresh50 = int(lim.get('il50_4person', 0) or 0)
+        if not thresh30:
+            continue
+        if (thresh50 and thresh30 > thresh50) or (ami and thresh30 > ami):
+            inconsistent.append((c.get('fips'), ami, thresh30, thresh50))
     assert not inconsistent, (
-        f'HUD 30% AMI threshold inconsistent with AMI for {len(inconsistent)} counties: '
+        f'HUD 30% AMI threshold inconsistent with AMI or the 50% limit for {len(inconsistent)} counties: '
         f'{inconsistent[:3]}'
     )
 
