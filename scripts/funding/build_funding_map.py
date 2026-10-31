@@ -254,6 +254,8 @@ for a in sorted(DA, key=_rank):
 DA = [a for a in DA if not a.get("_dup")]
 for a in DA:
     fips = a["county_fips"]; town = a["town"]
+    # a statewide program is not a local award, whatever office address the record carries
+    if re.search(r"\bstate-?wide\b", a["name"] or "", re.I): fips = town = None
     if not town and a.get("grantee"):
         m = re.match(r"(?:City|Town) of ([A-Z][\w .]+?)(?:,|$| and )", a["grantee"])
         if m: town = m.group(1)
