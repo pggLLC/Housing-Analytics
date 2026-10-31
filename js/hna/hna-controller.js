@@ -5590,10 +5590,11 @@
       });
     });
 
+    // Record the place init is about to load, so its deep-link echo is skipped (F9).
+    if (!unknownGeoid && !nothingChosen) _initialLoadKey = _currentSelectKey();
     ensureMap();
     // Nothing to load for an unknown geography, or when nothing was picked
     // (no address, no saved place); the waiting state says what to do.
-    if (!unknownGeoid && !nothingChosen) _initialLoadKey = _currentSelectKey();
     if (!unknownGeoid && !nothingChosen) update();
     else if (window.HNARenderers.clearDecisionStrip) window.HNARenderers.clearDecisionStrip();
   }
