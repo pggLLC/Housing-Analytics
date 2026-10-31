@@ -14,7 +14,7 @@ to `main` between 2026-06-10 18:00 UTC and 2026-06-11 02:00 UTC.
 | 1 | Homepage "COHO" branding in title/meta/eyebrow | Applied (F254) |
 | 2 | Second-person "you/your" + "deal cockpit" framing on homepage | Applied (F254) |
 | 3 | "Awards points" wording on QAP scoring rubric | Applied (F254) |
-| 4 | "Target/deal cockpit" copy in indibuild-pipeline-public | Applied (F254) |
+| 4 | "Target/deal cockpit" copy in pipeline-public | Applied (F254) |
 | 5 | "We/our/us" voice in HNA narrative | Applied (F254) |
 | 6 | Methodology doc voice — "we" → reference voice | Applied (F254) |
 | 7 | Methodology + opportunity finder weight-table consistency | Applied (F254) |

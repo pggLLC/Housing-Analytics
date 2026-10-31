@@ -175,7 +175,7 @@ MATCH = {
     'retreat-at-brighton-ridge-homes-brighton': {'agency': 'CHFA', 'year': 2022, 'names': ['Retreat at Brighton Ridge Homes', 'Retreat at Brighton Ridge']},
     'sable-station-aurora': {'agency': 'CHFA', 'year': 2022, 'names': ['Sable Station']},
     'spine-road-apartments-boulder': {'agency': 'CHFA', 'year': 2022, 'names': ['Spine Road Apartments']},
-    # The owner's own 2022 award, built only from CHFA's published records (paul, 2026-10-23); see CHFA_RECORD_ONLY.
+    # This 2022 award is built only from CHFA's published records (paul, 2026-10-23); see CHFA_RECORD_ONLY.
     'fruita-mews-fruita': {'agency': 'CHFA', 'year': 2022, 'names': ['Fruita Mews']},
 }
 
@@ -190,7 +190,7 @@ CHFA_RECORD_ONLY = {
 }
 
 REQUIRED = ['slug', 'name', 'city', 'award', 'researched_on', 'headline', 'status', 'key_numbers', 'sources']
-# Text that never goes on the public site: staff contact details, and the owner's own deals.
+# Text that never goes on the public site: staff contact details, and held-back deals.
 FORBIDDEN = [
     (re.compile(r'[\w.+-]+@[\w-]+\.[\w.]+'), 'an email address'),
     (re.compile(r'\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}[-.]\d{3}[-.]\d{4}\b'), 'a phone number'),
