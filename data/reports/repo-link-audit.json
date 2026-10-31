@@ -2,12 +2,12 @@
   "generatedAt": "2026-06-13T12:43:40.763Z",
   "probeExternal": true,
   "filesScanned": 2598,
-  "localLinkCount": 4744,
+  "localLinkCount": 4743,
   "externalUrlCount": 2354,
   "summary": {
     "local": {
       "ok": 4614,
-      "skipped": 130
+      "skipped": 129
     },
     "external": {
       "skipped": 254,

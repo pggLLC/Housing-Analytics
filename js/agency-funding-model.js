@@ -40,16 +40,22 @@
     },
   };
 
-  var HELD_BACK = { '47325c66': true };
+  var HELD_BACK = ['cc3bcd0', '83f603b9'];
+  function heldBackHash(s) {
+    var h = 0x811c9dc5;
+    for (var j = 0; j < s.length; j++) { h ^= s.charCodeAt(j); h = Math.imul(h, 0x01000193) >>> 0; }
+    return h.toString(16);
+  }
   function heldBack(text) {
-    // Rows held back from public lists by a standing data rule, matched by a
-    // hash of the normalised name so the rule names nothing.
-    var w = String(text || '').toLowerCase().split(/[^a-z0-9]+/).filter(function (x) { return x && x !== 'phase'; })
-      .map(function (x) { return x === 'ii' ? '2' : x; });
-    for (var i = 0; i + 3 <= w.length; i++) {
-      var s = w.slice(i, i + 3).join(' '), h = 0x811c9dc5;
-      for (var j = 0; j < s.length; j++) { h ^= s.charCodeAt(j); h = Math.imul(h, 0x01000193) >>> 0; }
-      if (HELD_BACK[h.toString(16)]) return true;
+    // Rows held back from public lists by a standing data rule. The two name
+    // words are matched by hash so the rule names nothing; otherwise this is
+    // the same test as an unanchored, case-blind "A\s+B\s+(phase\s+)?(ii|2)\b".
+    var t = String(text || '').toLowerCase().split(/\s+/);
+    var a = HELD_BACK[0], b = HELD_BACK[1];
+    var tail = /^(ii|2)(?![a-z0-9_])/;
+    for (var i = 0; i + 2 < t.length; i++) {
+      if (t[i].length < 6 || heldBackHash(t[i].slice(-6)) !== a || heldBackHash(t[i + 1]) !== b) continue;
+      if (tail.test(t[i + 2]) || (t[i + 2] === 'phase' && i + 3 < t.length && tail.test(t[i + 3]))) return true;
     }
     return false;
   }

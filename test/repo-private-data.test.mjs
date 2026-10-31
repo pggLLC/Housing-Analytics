@@ -47,12 +47,15 @@ const PRIVATE_TEXT = [
   // stay out. CHFA's public award and applicant records may still name it.
   { label: 'Fruita Mews private study or application text', re: /\bMews\b[\s\S]{0,200}?(clarification response|application narrative|pro ?forma|wait ?list|market stud)|(clarification response|application narrative|pro ?forma|wait ?list|market stud)[\s\S]{0,200}?\bMews\b/i }
 ];
+// The hash list: it holds hashes, never a name.
+const PRIVATE_TERMS_FILE = 'scripts/lib/private-terms.mjs';
+// The hash list's canary phrase, built backwards so this file never spells it.
+const CANARY = ['canary', 'guard', 'zz'].reverse().join(' ');
 // Files that name these patterns in order to block them.
 const ALLOWED = new Set([
   'test/repo-private-data.test.mjs',
   'scripts/lib/public-sensitive-patterns.mjs',
   'scripts/audit/public-artifact-guard.mjs',
-  'scripts/lib/private-terms.mjs',
   'docs/_external-references/HUD-CHAS-data-dictionary-2018-2022.xlsx'
 ]);
 // Code that reads or blocks these field names, never data. Data-like files in
@@ -82,18 +85,21 @@ function decode(buf) {
 
 // One file: what makes it private, if anything. readText is called only when
 // the content needs checking. The real scan and the self-test both use this.
-function scanFile(f, readText) {
-  if (ALLOWED.has(f)) return [];
+function scanFile(f, readText, selfTest = false) {
+  const allowed = ALLOWED.has(f);
   const out = [];
-  for (const { label, re } of PRIVATE_PATHS) if (re.test(f)) out.push(`${f}: ${label}`);
+  if (!allowed) for (const { label, re } of PRIVATE_PATHS) if (re.test(f)) out.push(`${f}: ${label}`);
   const code = CODE_FILE.test(f);
   if (!TEXT_EXT.test(f) && !code) return out;
   const text = decode(readText());
   if (text == null) return out;
   if (text.length > MAX_TEXT) return out.concat(`${f}: too large to check (${Math.round(text.length / 1048576)} MB); keep exports out of the public repo`);
-  // Private names and phrases, held as hashes, in any text file, code and tests included.
-  for (const label of findPrivateTerms(text)) out.push(`${f}: ${label}`);
-  if (code) return out;
+  // Private names and phrases, held as hashes, in any text file, code and tests
+  // included. Only the hash list itself is exempt; ALLOWED covers the patterns below.
+  // The canary is not private: it counts only in the self-test below, so an
+  // older blob that spelled it (this PR's first commit) never fails a real scan.
+  if (f !== PRIVATE_TERMS_FILE) for (const label of findPrivateTerms(text)) if (selfTest || label !== 'the guard canary') out.push(`${f}: ${label}`);
+  if (code || allowed) return out;
   for (const { label, re, ext } of PRIVATE_TEXT) if ((!ext || ext.test(f)) && re.test(text)) out.push(`${f}: ${label}`);
   return out;
 }
@@ -149,11 +155,12 @@ const mustCatch = [
   ['docs/benchmarks/pma.md', 'Market Study of The Fruita Mews II'], ['data/brief.json', '"note": "the clarification response to CHFA on the Fruita Mews II application"'],
   ['docs/x.md', 'Fruita Mews Phase II pro forma'], ['docs/y.md', '# Fruita Mews Phase II\n\n## Market Study\n'],
   ['data/z.txt', 'Fruita Mews Phase II\napplication narrative'],
-  ['docs/notes.md', 'call ZZ Guard-Canary first'], ['test/x.test.mjs', '// ask zz guard canary']
+  ['docs/notes.md', `call ${CANARY.toUpperCase().replace(' ', '-')} first`], ['test/x.test.mjs', `// ask ${CANARY}`],
+  ['test/repo-private-data.test.mjs', CANARY], ['scripts/lib/public-sensitive-patterns.mjs', CANARY], ['scripts/audit/public-artifact-guard.mjs', CANARY]
 ];
-for (const [f, t = ''] of mustCatch) if (!scanFile(f, () => t).length) { console.error('guard misses ' + f); process.exit(1); }
-const mustPass = [['js/components/pipeline-store.js', 'relationship_tier'], ['developer-pipeline.html', 'last_talked'], ['js/x.js', '// zz guard only, canary later'], ['data/hna/x.json', '{"a":1}'],
+for (const [f, t = ''] of mustCatch) if (!scanFile(f, () => t, true).length) { console.error('guard misses ' + f); process.exit(1); }
+const mustPass = [['js/components/pipeline-store.js', 'relationship_tier'], ['developer-pipeline.html', 'last_talked'], ['js/x.js', '// zz guard only, canary later'], [PRIVATE_TERMS_FILE, `// ${CANARY}`], ['data/hna/x.json', '{"a":1}'],
   ['docs/api/js__components__pipeline-store.md', 'next_action'],
   ['data/awards.json', '"name": "Fruita Mews", "Total Units: 50", "Credit Amount Awarded: $1,330,877"']];
-for (const [f, t] of mustPass) if (scanFile(f, () => t).length) { console.error('guard wrongly flags ' + f); process.exit(1); }
+for (const [f, t] of mustPass) if (scanFile(f, () => t, true).length) { console.error('guard wrongly flags ' + f); process.exit(1); }
 console.log(`repo-private-data: ${files.length} tracked files checked, none private.`);
