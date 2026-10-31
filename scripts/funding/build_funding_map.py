@@ -399,6 +399,9 @@ for d in idx:
         if phase == "perm" and re.search(r"^\s*(land contribution|land donation|donated land|in-kind)", note, re.I): phase = "summary"
         pd = re.search(r"paid down to (\$[\d,.]+\s*(?:million|m\b|k\b)?) at (permanent )?conversion", note, re.I)
         if phase == "perm" and pd and money(pd.group(1)): amt = money(pd.group(1))
+        # a note that splits the amount into waived fees or in-kind help plus a stated cash part counts only the cash
+        cm = re.search(r"(\$[\d,.]+\s*(?:million|m\b|k\b)?) cash\b", note, re.I)
+        if phase == "perm" and cm and money(cm.group(1)) and re.search(r"waiv|fee (relief|reduction|rebate)|in-kind|donat", note, re.I): amt = money(cm.group(1))
         # a per-home figure is not the project's total, so it is shown but never added
         if re.search(r"per (\w+ ){0,2}(unit|home|door|apartment)s?\b|/\s*(unit|home)\b", m["amount"], re.I): phase = "perunit"
         rows.append({"label": m["source"], "category": cat, "amount": amt, "amount_text": m["amount"], "phase": phase,
