@@ -4299,9 +4299,67 @@
     var inputs = readDealInputs();
     _lastResult = dealEngine().computeDeal(inputs);
     renderDealResult(_lastResult, inputs);
+    // After the panels that wrap recalculate() have rendered too.
+    setTimeout(quietPreCountyAbsence, 0);
     saveManualMix();
     try { document.dispatchEvent(new CustomEvent('deal-calc:updated', { detail: { result: getResult() } })); } catch(_) {}
   }
+
+  // Before any county is chosen, every rent-dependent cell would repeat the
+  // same "Unavailable — Select a county…" sentence (~25 times on a fresh
+  // page; site audit F12). Keep the absence honest but say it once: each such
+  // cell shows a dash, with the reason kept for hover and screen readers. Runs
+  // only while the county picker is empty, so a chosen county is untouched.
+  var PRE_COUNTY_REASON = 'Unavailable — Select a county to load AMI rent limits.';
+  function quietPreCountyAbsence() {
+    // Display-only tidy-up: skip quietly where the DOM lacks tree walking
+    // (lightweight test documents), and never let it break a calculation.
+    if (typeof document === 'undefined' || typeof document.createTreeWalker !== 'function' ||
+        typeof document.querySelector !== 'function') return;
+    try { _quietPreCountyAbsence(); } catch (_) { /* cosmetic only */ }
+  }
+  function _quietPreCountyAbsence() {
+    var sel = document.getElementById('dc-county-select');
+    if (!sel) return;
+    var mount = document.querySelector('main') || document.body;
+    if (sel.value) {
+      // County chosen: drop the hover note from cells the renderers refilled.
+      Array.prototype.forEach.call(mount.querySelectorAll('[data-pre-county]'), function (el) {
+        el.removeAttribute('data-pre-county');
+        if (el.title === 'Unavailable until a county is selected') el.removeAttribute('title');
+      });
+      return;
+    }
+    var walker = document.createTreeWalker(mount, 4 /* NodeFilter.SHOW_TEXT */);
+    var hits = [];
+    while (walker.nextNode()) {
+      var n = walker.currentNode;
+      if (n.nodeValue.trim() === PRE_COUNTY_REASON && n.parentNode && n.parentNode.childNodes.length === 1) hits.push(n.parentNode);
+    }
+    hits.forEach(function (el) {
+      // The quick-estimate answer panel states the reason once; it and the
+      // headline figures it mirrors must keep showing the same text.
+      if (el.id && (el.id.indexOf('dq-out-') === 0 || document.getElementById('dq-out-' + el.id))) return;
+      el.textContent = '—';
+      el.title = 'Unavailable until a county is selected';
+      var sr = document.createElement('span');
+      sr.className = 'sr-only';
+      sr.textContent = ' unavailable until a county is selected';
+      el.appendChild(sr);
+      el.setAttribute('data-pre-county', '');
+    });
+    // Panels that render later (stress, waterfall) are caught as they appear.
+    if (!_preCountyObserver && typeof MutationObserver === 'function') {
+      var queued = false;
+      _preCountyObserver = new MutationObserver(function () {
+        if (queued) return;
+        queued = true;
+        setTimeout(function () { queued = false; quietPreCountyAbsence(); }, 0);
+      });
+      _preCountyObserver.observe(mount, { childList: true, subtree: true, characterData: true });
+    }
+  }
+  var _preCountyObserver = null;
 
   // #2160: itemized costs, basis, credit figures and the CHFA tests. Every
   // absent figure shows its reason; nothing falls back to a typical share.
@@ -7063,8 +7121,9 @@
           '<td style="padding:3px 6px;color:var(--muted);font-size:.8125rem;">' + _escHtml(t.recipient) + '</td>' +
         '</tr>';
       }).join('');
+      // tabindex lets keyboard users scroll it when it overflows at phone width.
       // Tier order is the payout order, so this table never sorts.
-      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
+      return '<table data-no-sort tabindex="0" aria-label="Exit sale waterfall by tier" style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
         '<thead><tr style="border-bottom:1px solid var(--border);">' +
         '<th style="text-align:left;padding:3px 6px;color:var(--muted);font-weight:600;">Waterfall tier</th>' +
         '<th style="text-align:right;padding:3px 6px;color:var(--muted);font-weight:600;">Amount</th>' +
@@ -7121,7 +7180,7 @@
           '</tr>';
       });
       // Year-by-year schedule: kept in year order like the other statements.
-      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.8125rem;">' +
+      return '<table data-no-sort tabindex="0" aria-label="Year-by-year LP and GP cash" style="width:100%;border-collapse:collapse;font-size:.8125rem;">' +
         '<thead><tr style="position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--border);">' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">Year</th>' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">LP cash</th>' +
