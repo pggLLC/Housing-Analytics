@@ -120,7 +120,20 @@ test('exports print scope words, not codes', () => {
     && /drawNarrative\(_pdfPlain\('LEHD source: ' \+ \(data\.employment\.sourceLabel/.test(js),
     'the PDF prints the codes, or puts the long wording in a table cell that cuts it off');
   assert.ok(!/'Approximation Basis'/.test(js), 'the misleading approximation-basis code is printed again');
-  assert.ok(/county_proportional: 'Apportioned/.test(js), 'apportioned jobs figures are not called apportioned');
+  // Agreement with the producer, not a pinned word: when the build scales the
+  // county inflow by population share, the export must say it was scaled.
+  const py = read('scripts/hna/build_ranking_index.py');
+  const pIdx = py.indexOf('lehd_source = "county_proportional"');
+  assert.ok(pIdx > 0, 'the build no longer sets county_proportional; recheck the LEHD wording');
+  const scaled = /in_commuters = int\(raw_inflow \* share\)/.test(py.slice(Math.max(0, pIdx - 400), pIdx));
+  const lehd = new Function(js.slice(js.indexOf('  var LEHD_SOURCE_WORDS'), js.indexOf('  function _sourceWords')) + '; return LEHD_SOURCE_WORDS;')();
+  const cp = lehd.county_proportional;
+  if (scaled) {
+    assert.ok(/share|scaled|proportion/i.test(cp) && !/unchanged|as (it|they) (is|are)|directly/i.test(cp),
+      'the build scales county inflow by population share, but the export says: ' + cp);
+  } else {
+    assert.ok(!/share|scaled|proportion/i.test(cp), 'the build no longer scales county inflow, but the export still says: ' + cp);
+  }
   // A county's own CHAS record also carries the code 'county'; only a place
   // using it is a fallback.
   const f = js.slice(js.indexOf('  var CHAS_SOURCE_WORDS'), js.indexOf('  /* The ranking index flags'));
