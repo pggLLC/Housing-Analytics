@@ -92,7 +92,7 @@
   // the whole tract (Codex site audit F1, 2026-10-31).
   function _weightFor(weightsByTract, geoid) {
     var raw = weightsByTract ? weightsByTract[geoid] : undefined;
-    return (typeof raw === 'number' && isFinite(raw)) ? Math.max(0, raw) : 1;
+    return Number.isFinite(raw) ? Math.max(0, raw) : 1;
   }
 
   // Housing-stock-weighted vacancy across tracts, each scaled by its overlap.

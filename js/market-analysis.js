@@ -4742,7 +4742,7 @@
         var weights = {};
         // A real zero overlap stays zero; only a missing share counts as whole.
         result.bufferTractsDetail.forEach(function (d) {
-          weights[d.geoid] = (typeof d.share === 'number' && isFinite(d.share)) ? d.share : 1;
+          weights[d.geoid] = Number.isFinite(d.share) ? d.share : 1;
         });
         vacancyCard.style.display = '';
         window.VacancyContext.render(vacancyHost, {

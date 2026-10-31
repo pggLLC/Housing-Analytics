@@ -586,7 +586,7 @@
     "test:renter-household-size": "node test/renter-household-size.test.js",
     "test:soft-funding-terms": "node test/soft-funding-terms.test.js",
     "test:predictor-policy": "node test/predictor-policy.test.js && node test/predictor-policy-browser.test.js",
-    "test:site-audit-f1-f7": "node test/pma-vacancy-zero-overlap.test.js && node test/census-acs-state-tenure-field.test.js",
+    "test:site-audit-f1-f7": "node test/pma-vacancy-zero-overlap.test.js && node test/census-acs-state-tenure-field.test.js && node test/housing-outcome-score-site-only-label.test.js",
     "test:loan-obligations": "node test/loan-obligations.test.js && node test/loan-obligations-page.test.js",
     "test:deal-engine": "node test/deal-engine.test.js && node test/deal-engine-golden.test.js",
     "test:deal-engine-surfaces": "node test/deal-surface-dom-guard.test.mjs && node test/deal-engine-surfaces.test.js",
