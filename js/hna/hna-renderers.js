@@ -25,6 +25,7 @@
   function chasTierSourceLabel(source) {
     if (source === 'place-chas') return 'TIGER place-CHAS';
     if (source === 'county-chas') return 'County CHAS Table 7';
+    if (source === 'statewide-chas') return 'Colorado CHAS, all counties';
     return 'CO statewide baseline — low confidence';
   }
 
@@ -1669,24 +1670,57 @@
 
   /**
    * renderModeShare — render commute mode share chart (chartMode).
-   * @param {object|null} s0801 - ACS S0801 commute table
+   * Prefers the B08301 worker counts (every mode, as shares of all workers);
+   * falls back to the S0801 shares. A mode the source does not carry is left
+   * off the chart, never drawn as 0%.
+   * @param {object|null} s0801  - ACS S0801 commute table
+   * @param {object|null} counts - ACS B08301 counts {total, drive, carpool, transit, walk, bike, other, work_from_home}
    */
-  function renderModeShare(s0801) {
+  function renderModeShare(s0801, counts) {
     const canvas = document.getElementById('chartMode');
     if (!canvas) return;
     const t = chartTheme();
     const safeNum = U().safeNum;
-    const safe = (k) => safeNum(s0801 && s0801[k]) || 0;
     const modeYear = s0801 && s0801._acsYear ? s0801._acsYear : '';
     const seriesLabel = s0801 && s0801._acsSeries === 'acs1' ? 'ACS 1-year' : 'ACS 5-year';
-    const modes = [
-      { label: 'Drive alone', v: safe('S0801_C01_003E') },
-      { label: 'Carpool',     v: safe('S0801_C01_004E') },
-      { label: 'Transit',     v: safe('S0801_C01_009E') },
-      { label: 'Walk',        v: safe('S0801_C01_011E') },
-      { label: 'WFH',         v: safe('S0801_C01_047E') },
-      { label: 'Other',       v: safe('S0801_C01_012E') },
-    ];
+    const total = counts ? safeNum(counts.total) : null;
+    let modes, subtitle;
+    if (total && total > 0) {
+      const share = (k) => { const n = safeNum(counts[k]); return n === null ? null : Math.round(n / total * 1000) / 10; };
+      // Summaries built before taxi and motorcycle were added to 'other' leave
+      // them out of every mode; the workers no mode counts are those, so Other
+      // is the remainder of the total when that is larger.
+      const named = ['drive', 'carpool', 'transit', 'walk', 'bike', 'work_from_home'].map(k => safeNum(counts[k]));
+      const rest = named.every(n => n !== null) ? total - named.reduce((a, n) => a + n, 0) : null;
+      const otherCount = safeNum(counts.other);
+      const otherShare = rest !== null && (otherCount === null || rest > otherCount)
+        ? Math.round(rest / total * 1000) / 10 : share('other');
+      modes = [
+        { label: 'Drive alone', v: share('drive') },
+        { label: 'Carpool',     v: share('carpool') },
+        { label: 'Transit',     v: share('transit') },
+        { label: 'Walk',        v: share('walk') },
+        { label: 'Bicycle',     v: share('bike') },
+        { label: 'WFH',         v: share('work_from_home') },
+        { label: 'Other',       v: otherShare },
+      ];
+      subtitle = `ACS B08301: ${Math.round(total).toLocaleString('en-US')} workers 16+ (% of workers)`;
+    } else {
+      const pct = (k) => safeNum(s0801 && s0801[k]);
+      modes = [
+        { label: 'Drive alone', v: pct('S0801_C01_003E') },
+        { label: 'Carpool',     v: pct('S0801_C01_004E') },
+        { label: 'Transit',     v: pct('S0801_C01_009E') },
+        { label: 'Walk',        v: pct('S0801_C01_010E') },
+        { label: 'Bicycle',     v: pct('S0801_C01_011E') },
+        { label: 'WFH',         v: pct('S0801_C01_013E') },
+        { label: 'Other',       v: pct('S0801_C01_012E') },
+      ];
+      subtitle = `${seriesLabel}${modeYear ? ' ' + modeYear : ''} mode shares (% of workers 16+)`;
+    }
+    const missing = modes.filter(m => m.v === null).map(m => m.label);
+    modes = modes.filter(m => m.v !== null);
+    if (missing.length) subtitle += ` · not in the data: ${missing.join(', ')}`;
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -1700,7 +1734,7 @@
           legend: { display: false },
           subtitle: {
             display: true,
-            text: `${seriesLabel}${modeYear ? ' ' + modeYear : ''} mode shares (% of workers 16+)`,
+            text: subtitle,
             color: t.muted,
           },
         },
@@ -4528,8 +4562,14 @@
       const geoType = selectedGeoType;
       const geoid   = S().els && S().els.geoSelect ? S().els.geoSelect.value : '';
       const tierColors = [t.c5, t.c3, t.c4, t.c7, t.c6];
-      const tierMeta = (window.ChasTierShares
-        ? window.ChasTierShares.getRenterSharesWithFallback(geoid, geoType, countyFips5)
+      // The series counts all households (renters and owners), so the tier
+      // mix is of all households too; renter-only shares would put every
+      // owner household in a renter's tier.
+      const fromChas = window.ChasTierShares && typeof window.ChasTierShares.getHouseholdSharesWithFallback === 'function'
+        ? window.ChasTierShares.getHouseholdSharesWithFallback(geoid, geoType, countyFips5)
+        : null;
+      const tierMeta = (fromChas
+        ? fromChas
         : { source: 'statewide-heuristic', tiers: [
             { label: '30% AMI or less', share: 0.20 }, { label: '31-50% AMI', share: 0.16 },
             { label: '51-80% AMI', share: 0.20 }, { label: '81-100% AMI', share: 0.11 },

@@ -927,8 +927,8 @@
 
       <div class="chart-card span-6">
         <h2>Commuting: mode share</h2>
-        <p>Travel mode split (ACS S0801).</p>
-        <div class="chart-box" data-source="ACS S0801 Commuting" data-source-url="https://data.census.gov/table/ACSST5Y2024.S0801" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartMode" role="img" aria-label="Commuting mode share chart"></canvas></div>
+        <p>How workers who live here get to work (ACS B08301 counts; S0801 shares where counts are not published).</p>
+        <div class="chart-box" data-source="ACS B08301 Means of Transportation to Work" data-source-url="https://data.census.gov/table/ACSDT5Y2024.B08301" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartMode" role="img" aria-label="Commuting mode share chart"></canvas></div>
       </div>
 
       <div id="lehdCommuteCard" class="chart-card span-6">
@@ -1360,9 +1360,9 @@
         <!-- Housing demand view -->
         <div id="projViewDemand" hidden style="margin-top:12px">
           <div class="chart-card" style="margin:0">
-            <h3 style="margin:0 0 4px;">Projected housing demand by affordability tier (renter households)</h3>
-            <p id="demandTierDesc" style="font-size:1.133rem;color:var(--muted);margin:0 0 8px">Estimated renter households by AMI tier over the 10-year horizon. Used to identify missing AMI tiers for LIHTC applications. Based on statewide CO income distributions (ACS CHAS).</p>
-            <div class="chart-box tall" data-source="DOLA Households + HUD CHAS AMI Tier Shares" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="DOLA 2024 · CHAS 2018–2022" data-source-type="modeled"><canvas id="chartHouseholdDemand" role="img" aria-label="Housing demand by AMI affordability tier chart showing projected renter households at each income tier"></canvas></div>
+            <h3 style="margin:0 0 4px;">Projected housing demand by affordability tier (all households)</h3>
+            <p id="demandTierDesc" style="font-size:1.133rem;color:var(--muted);margin:0 0 8px">Projected households by AMI tier over the 10-year horizon, at today's income mix of renters and owners together (HUD CHAS). Used to identify missing AMI tiers for LIHTC applications.</p>
+            <div class="chart-box tall" data-source="DOLA Households + HUD CHAS AMI Tier Shares" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="DOLA 2024 · CHAS 2018–2022" data-source-type="modeled"><canvas id="chartHouseholdDemand" role="img" aria-label="Housing demand by AMI affordability tier chart showing projected households at each income tier"></canvas></div>
             <p id="householdDemandScopeCaption" style="font-size:1rem;color:var(--muted);margin:6px 0 0" aria-live="polite">—</p>
           </div>
         </div>
