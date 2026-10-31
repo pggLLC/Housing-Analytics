@@ -937,6 +937,119 @@
     return out;
   }
 
+  function pctText(r) { return (Math.round(r * 1000) / 10).toFixed(1) + '%'; }
+
+  // The aggregate basis the bond test uses is the building's whole basis plus its land.
+  var AGGREGATE_BASIS_NOTE = 'Aggregate basis here is the cost in eligible basis, before any boost or grant reduction, plus land: a screening estimate. Bond counsel measures the building\'s full basis and its land.';
+
+  /** The tax-exempt bond aggregate basis test for 4% credits (26 U.S.C. 42(h)(4)(B)).
+   * args: creditType, bondAmount, issuedAfter2025 ('yes' | 'no' | ''), eligibleCost,
+   * land, costReason, constructionLoan, rules. The bonds must finance the building
+   * and land, so an amount above the construction loan entered is flagged. */
+  function bondTest(args) {
+    var out = { applies: String(args.creditType) === '4', checked: false, bondAmount: null, aggregateBasis: null, ratio: null,
+      threshold: null, passes: null, minimumBonds: null, basisCushion: null, citation: null, reason: null, flags: [], note: AGGREGATE_BASIS_NOTE };
+    if (!out.applies) { out.reason = 'Only 4% credits with tax-exempt bonds need the bond test.'; return out; }
+    var bonds = num(args.bondAmount);
+    if (bonds === null) { out.reason = BOND_TEST_NOTE; return out; }
+    if (!Number.isFinite(bonds) || bonds < 0) { out.reason = 'Enter the tax-exempt bond amount, $0 or more.'; return out; }
+    out.bondAmount = bonds;
+    var rule = ruleStatus(args.rules, 'bond_aggregate_basis_test');
+    if (!rule.applied) { out.reason = 'Bond test: ' + rule.reason + '.'; return out; }
+    out.citation = rule.citation;
+    if (args.costReason) { out.reason = 'The bond test needs itemized costs: ' + args.costReason; return out; }
+    var eligible = num(args.eligibleCost), land = num(args.land);
+    if (eligible === null || !Number.isFinite(eligible) || eligible <= 0) { out.reason = 'Itemize the development costs in eligible basis; the bond test is measured on them and the land.'; return out; }
+    // Land is part of the test's denominator: unknown land is unknown, never $0.
+    if (land === null || !Number.isFinite(land) || land < 0) { out.reason = 'Itemize the Land line (enter 0 for donated land); the bond test is measured on building plus land.'; return out; }
+    out.aggregateBasis = eligible + land;
+    out.ratio = bonds / out.aggregateBasis;
+    var issued = args.issuedAfter2025 === 'yes' ? true : args.issuedAfter2025 === 'no' ? false : null;
+    var high = rule.rule.threshold_pct / 100, low = rule.rule.post_2025_threshold_pct / 100, floor = rule.rule.post_2025_issue_min_pct / 100;
+    if (issued === null) {
+      // Without the issue date only the 50% route is known; the 25% route needs a post-2025 issue.
+      if (out.ratio >= high) { out.threshold = high; out.passes = true; }
+      else {
+        out.reason = 'Say whether the bonds are from an issue dated after December 31, 2025. The test is 50% of aggregate basis, or 25% when post-2025 bonds finance at least 5% of it (' + rule.citation + '). At ' + pctText(out.ratio)
+          + ' the bonds ' + (out.ratio >= low ? 'pass only the 25% route.' : 'pass neither route.');
+        out.checked = true;
+        return out;
+      }
+    } else {
+      // A post-2025 issue reaching 25% also clears the 5% floor, so 25% is the attainable route
+      // (and the bonds needed) whatever the amount entered today.
+      out.threshold = issued && low >= floor ? low : high;
+      out.passes = out.ratio >= out.threshold;
+    }
+    out.checked = true;
+    out.minimumBonds = out.threshold * out.aggregateBasis;
+    // How much more basis the bonds entered could carry before the test fails (negative: short).
+    out.basisCushion = bonds / out.threshold - out.aggregateBasis;
+    var loan = num(args.constructionLoan);
+    if (loan === null) out.flags.push('Enter the construction loan: the bond proceeds have to finance the building and land, so they belong in the construction financing.');
+    else if (Number.isFinite(loan) && bonds > loan + 0.5) out.flags.push('The bonds (' + money(bonds) + ') are more than the construction loan entered (' + money(loan) + '); bond proceeds have to finance the building and land.');
+    return out;
+  }
+
+  /** Construction interest cross-check: loan x rate x months x average share drawn,
+   * against the budgeted construction interest line. */
+  function constructionInterestCheck(args) {
+    var out = { estimate: null, budget: null, shortfall: null, passes: null, reason: null };
+    var loan = num(args.loan), rate = num(args.ratePct), months = num(args.months), draw = num(args.drawPct);
+    if ([loan, rate, months, draw].every(function (v) { return v === null; })) { out.reason = 'Enter the construction loan, rate, months and average share drawn to check the interest budget.'; return out; }
+    if (loan === null || !Number.isFinite(loan) || loan <= 0) { out.reason = 'Enter the construction loan amount.'; return out; }
+    if (rate === null || !Number.isFinite(rate) || rate < 0 || rate > 20) { out.reason = 'Enter a construction loan rate from 0% to 20%.'; return out; }
+    if (months === null || !Number.isInteger(months) || months < 1 || months > 60) { out.reason = 'Enter construction loan months from 1 to 60.'; return out; }
+    if (draw === null || !Number.isFinite(draw) || draw <= 0 || draw > 100) { out.reason = 'Enter the average share of the loan drawn, above 0% and up to 100%.'; return out; }
+    out.estimate = loan * rate / 100 * months / 12 * draw / 100;
+    var budget = num(args.budget);
+    if (budget === null) { out.reason = 'Itemize the Construction interest line to compare it with the estimate.'; return out; }
+    out.budget = budget;
+    out.shortfall = Math.max(0, out.estimate - budget);
+    out.passes = budget >= out.estimate - 0.5;
+    return out;
+  }
+
+  /** CHFA's minimum operating reserve (QAP 4.A): months of operating expenses plus months of debt service. */
+  function operatingReserveCheck(args) {
+    var rule = ruleStatus(args.rules, 'operating_reserve_minimum');
+    var out = { reserve: null, minimum: null, months: null, passes: null, citation: rule.citation || null, reason: null };
+    if (!rule.applied) { out.reason = 'Operating reserve minimum: ' + rule.reason + '.'; return out; }
+    var reserve = num(args.reserve), expenses = num(args.annualExpenses), ds = num(args.annualDebtService);
+    if (reserve === null) { out.reason = 'Itemize the Operating reserve line to check CHFA\'s minimum.'; return out; }
+    if (expenses === null || !Number.isFinite(expenses) || ds === null || !Number.isFinite(ds)) { out.reason = 'Operating expenses or debt service for year 1 are unavailable.'; return out; }
+    out.reserve = reserve;
+    out.minimum = expenses * rule.rule.expense_months / 12 + ds * rule.rule.debt_service_months / 12;
+    var monthly = (expenses + ds) / 12;
+    out.months = monthly > 0 ? reserve / monthly : null;
+    out.passes = reserve >= out.minimum - 0.5;
+    return out;
+  }
+
+  /** CHFA reviews whether cash flow repays the deferred developer fee within its
+   * 15-year pro forma (QAP 2.B). rows: the projection's deferredFeePaid by year. */
+  function deferredFeeRepayment(args) {
+    var rule = ruleStatus(args.rules, 'deferred_fee_repayment_review');
+    var out = { fee: null, paid: null, owed: null, yearRepaid: null, years: null, passes: null, citation: rule.citation || null, reason: null };
+    if (!rule.applied) { out.reason = 'Deferred fee review: ' + rule.reason + '.'; return out; }
+    var fee = num(args.deferredFee);
+    if (fee === null || !Number.isFinite(fee)) { out.reason = 'The deferred developer fee is unavailable.'; return out; }
+    out.fee = Math.max(0, fee); out.years = rule.rule.forecast_years;
+    if (out.fee === 0) { out.paid = 0; out.owed = 0; out.passes = true; return out; }
+    var rows = (args.rows || []).slice(0, out.years);
+    if (rows.length < out.years) { out.reason = 'The cash flow forecast has ' + rows.length + ' years; CHFA reviews ' + out.years + '.'; return out; }
+    var paid = 0;
+    for (var i = 0; i < rows.length; i++) {
+      var p = rows[i] && rows[i].deferredFeePaid;
+      if (!Number.isFinite(p)) { out.reason = 'Cash flow for year ' + (i + 1) + ' is unavailable, so the fee repayment is unknown.'; return out; }
+      paid += p;
+      if (out.yearRepaid === null && paid >= out.fee - 0.5) out.yearRepaid = i + 1;
+    }
+    out.paid = paid; out.owed = Math.max(0, out.fee - paid);
+    out.passes = out.owed < 0.5;
+    return out;
+  }
+
   /** Cost per SF for the contractor contract and the total, each with its scope. */
   function costPerSf(args) {
     var gross = num(args.grossSf), residential = num(args.residentialSf);
@@ -981,7 +1094,8 @@
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,
     feeExcessInBasis: feeExcessInBasis, gapCredit: gapCredit, STATE_CREDIT_PATHS: STATE_CREDIT_PATHS,
     basisAndCredit: basisAndCredit, costBasisLimitCheck: costBasisLimitCheck, underwritingCheck: underwritingCheck, stateCredit: stateCredit, addedCredit: addedCredit, ADDED_CREDIT_KINDS: ADDED_CREDIT_KINDS,
-    payIn: payIn, costPerSf: costPerSf, dohDeveloperFeeShare: dohDeveloperFeeShare, legacyCostFields: legacyCostFields,
+    payIn: payIn, costPerSf: costPerSf, bondTest: bondTest, constructionInterestCheck: constructionInterestCheck,
+    operatingReserveCheck: operatingReserveCheck, deferredFeeRepayment: deferredFeeRepayment, AGGREGATE_BASIS_NOTE: AGGREGATE_BASIS_NOTE, dohDeveloperFeeShare: dohDeveloperFeeShare, legacyCostFields: legacyCostFields,
     LEGACY_LINES: LEGACY_LINES, CONTRACTOR_FEE_IDS: CONTRACTOR_FEE_IDS, CONTRACTOR_BASE_IDS: CONTRACTOR_BASE_IDS,
     DEVELOPER_FEE_IDS: DEVELOPER_FEE_IDS, DOH_FEE_IDS: DOH_FEE_IDS, PRE_DOH_IDS: PRE_DOH_IDS, LEGACY_COMBINED_LINES: LEGACY_COMBINED_LINES, RESERVE_IDS: RESERVE_IDS, CONTRACT_IDS: CONTRACT_IDS, HARD_COST_IDS: HARD_COST_IDS, sumIds: sumIds
   };
