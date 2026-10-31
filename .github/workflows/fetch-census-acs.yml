@@ -57,7 +57,7 @@ jobs:
             "B19013_001E": "median_household_income",
             "B25064_001E": "median_gross_rent",
             "B25077_001E": "median_home_value",
-            "B25003_001E": "housing_units_total",
+            "B25003_001E": "occupied_housing_units",  # B25003 tenure universe = occupied units, not all housing units
             "B25003_002E": "owner_occupied",
             "B25003_003E": "renter_occupied",
             "B25034_001E": "housing_units_year_built_total",
@@ -124,7 +124,7 @@ jobs:
             for k, friendly in VARS.items():
               rec[friendly] = to_int(r[idx[k]]) if k in idx else None
             # Derived: renter share (if denominators exist)
-            hu = rec.get("housing_units_total") or 0
+            hu = rec.get("occupied_housing_units") or 0  # renter share of OCCUPIED units
             renters = rec.get("renter_occupied") or 0
             rec["renter_share"] = (renters / hu) if hu else None
             out_rows.append(rec)

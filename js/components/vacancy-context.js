@@ -88,6 +88,25 @@
    * @param {Array<string>} opts.bufferTracts - GEOIDs in the PMA buffer
    * @param {Object} [opts.weightsByTract] - optional polygon-clip share per tract
    */
+  // A real zero overlap contributes nothing; only a missing weight means
+  // the whole tract (Codex site audit F1, 2026-10-31).
+  function _weightFor(weightsByTract, geoid) {
+    var raw = weightsByTract ? weightsByTract[geoid] : undefined;
+    return Number.isFinite(raw) ? Math.max(0, raw) : 1;
+  }
+
+  // Housing-stock-weighted vacancy across tracts, each scaled by its overlap.
+  function _weightedRate(rows) {
+    var num = 0, den = 0;
+    rows.forEach(function (r) {
+      var stock = (+r.total_hh || 0) + (+r.vacant || 0);
+      if (stock <= 0 || r.rate == null) return;
+      num += r.rate * stock * r.weight;
+      den += stock * r.weight;
+    });
+    return den > 0 ? (num / den) : null;
+  }
+
   function render(container, opts) {
     if (!container) return;
     opts = opts || {};
@@ -109,7 +128,7 @@
       var rows = bufferTracts.map(function (g) {
         var t = byGeoid[g];
         if (!t) return null;
-        var w = (opts.weightsByTract && opts.weightsByTract[g]) || 1;
+        var w = _weightFor(opts.weightsByTract, g);
         return { geoid: g, rate: t.vacancy_rate, total_hh: t.total_hh, vacant: t.vacant, weight: w };
       }).filter(Boolean);
 
@@ -120,14 +139,7 @@
       }
 
       // Compute weighted vacancy — weight by (total_hh + vacant) × buffer share
-      var num = 0, den = 0;
-      rows.forEach(function (r) {
-        var stock = (+r.total_hh || 0) + (+r.vacant || 0);
-        if (stock <= 0 || r.rate == null) return;
-        num += r.rate * stock * r.weight;
-        den += stock * r.weight;
-      });
-      var weightedRate = den > 0 ? (num / den) : null;
+      var weightedRate = _weightedRate(rows);
       var v = _verdict(weightedRate);
 
       container.innerHTML = '';
@@ -212,5 +224,5 @@
     });
   }
 
-  global.VacancyContext = { render: render, load: _load };
+  global.VacancyContext = { render: render, load: _load, _weightFor: _weightFor, _weightedRate: _weightedRate };
 })(window);

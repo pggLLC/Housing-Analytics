@@ -65,7 +65,7 @@
       scoreEl.style.color = _gradeColor(result.grade);
 
       // Grade
-      gradeEl.textContent = 'Grade ' + result.grade;
+      gradeEl.textContent = 'Grade ' + result.grade + (result.provisional ? ' · provisional, no deal run yet' : '');
       gradeEl.style.color = _gradeColor(result.grade);
     }
 
@@ -99,7 +99,8 @@
         var pct = unavail ? 0 : dim.score;
         var weight = Math.round(dim.weight * 100);
         html += '<div class="' + cls + '"' + why + '>' +
-          '<div class="hos-dim__label">' + (DIM_LABELS[key] || key) + ' (' + weight + '%)</div>' +
+          '<div class="hos-dim__label">' + (DIM_LABELS[key] || key) + ' (' + weight + '%)' +
+            (dim.evidence === 'site-only' ? ' · site evidence only, no deal run' : '') + '</div>' +
           '<div class="hos-dim__score">' + score + '</div>' +
           '<div class="hos-dim__bar">' +
             '<div class="hos-dim__fill" style="width:' + pct + '%;background:' + _fillColor(pct) + ';"></div>' +
