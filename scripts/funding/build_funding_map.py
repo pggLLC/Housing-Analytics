@@ -224,7 +224,7 @@ for x in LIHTC:
     if not x["year"] or x["year"] >= 2016: continue
     sk = site_for(x["name"], x["city"], x["fips"], x["lat"], x["lng"], x["addr"], x["homes"], False)
     add(sk, None, x["year"], str(x["year"]), "CHFA", f"{x['credit'] or 'Housing tax credits'} (amount not published)", None, None, "usd_per_year_tax_credit", None,
-        "CHFA Housing Tax Credit property list", "https://www.chfainfo.com/rental-housing/housing-credit/housing-tax-credit-properties")
+        "CHFA Housing Tax Credit property list", "https://www.chfainfo.com/rental-housing/housing-credit")
 
 # ---------- capital stacks
 STK = {}
