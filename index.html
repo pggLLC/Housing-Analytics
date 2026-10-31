@@ -240,14 +240,19 @@
           <span data-measure-text="build_pace_vs_need" hidden>Homes permitted each year against the homes needed each year</span>
           <a href="hna-comparative-analysis.html">Explore all 546 Colorado jurisdictions →</a>
           <a href="data-map-browser.html">More county measures on the data map →</a>
-          <!-- Inputs named here are the five sub-scores that make up
-               community_need_core in scripts/hna/build_ranking_index.py
-               (gap, cost burden, affordability, future pressure,
-               overcrowding) — keep this sentence in step with that list. -->
+          <!-- overall_need_score in scripts/hna/build_ranking_index.py is
+               AXIS_WEIGHTS: 55% community need (COMMUNITY_NEED_WEIGHTS: gap,
+               cost burden, affordability, future pressure, overcrowding) and
+               45% opportunity (OPPORTUNITY_WEIGHTS: economic mobility,
+               walkability, amenity access, QCT/DDA). Keep this sentence in
+               step with both lists; test/homepage-claims.test.js checks the
+               two shares. -->
           <span class="home-opening__map-explainer" data-measure-text="need">
-            One 0–100 score per county, combining how many affordable homes it is short, how many
-            households pay more than they can afford, how rents and prices compare to local incomes,
-            expected growth pressure, and overcrowding. Darker means more need. The same score ranks all 546 Colorado
+            One 0–100 score per county. Just over half (55%) is need: how many affordable homes it is
+            short, how many households pay more than they can afford, how rents and prices compare to
+            local incomes, expected growth pressure, and overcrowding. The rest (45%) is opportunity:
+            economic mobility, walkability, nearby services, and federal tax credit target areas
+            (QCTs and DDAs). Darker means a higher score. The same score ranks all 546 Colorado
             geographies (counties, places, and CDPs) on the comparison page. Click any county to
             open its full assessment.
           </span>
