@@ -2380,6 +2380,18 @@
             <span>CHFA has awarded this state credit (a proposed amount does not count: CHFA sizes it with a three-test calculation this calculator does not model)</span>
           </label>
           <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0;line-height:1.45;">State credit equity is a separate source from federal equity: each annual amount, within CHFA's limit for the application, over the six-year allocation. CHFA's limits apply per project and per applicant, with its affiliates, so other active applications leave less; these figures assume there are none.</p>
+          <div role="group" aria-labelledby="dc-bond-h" style="margin-top:var(--sp2);">
+            <p id="dc-bond-h" style="margin:0;font-size:var(--small);font-weight:600;">Tax-exempt bonds and construction loan (4% deals)</p>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:.2rem 0 .35rem;line-height:1.45;">A 4% deal gets its credits only if tax-exempt bonds pay for enough of the building and land. Enter the bonds and the construction loan to check that test and the construction interest budget.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:.4rem;">
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Tax-exempt bonds ($)</span><input id="dc-bond-amount" type="number" min="0" step="1000" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Bonds from an issue dated after 2025?</span><select id="dc-bond-post2025" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"><option value="">Not known</option><option value="yes">Yes</option><option value="no">No</option></select></label>
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Construction loan ($)</span><input id="dc-constr-loan" type="number" min="0" step="1000" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Construction loan rate (%)</span><input id="dc-constr-rate" type="number" min="0" max="20" step="0.05" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Loan months, closing to payoff</span><input id="dc-constr-months" type="number" min="1" max="60" step="1" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Average share drawn (%)</span><input id="dc-constr-draw" type="number" min="1" max="100" step="1" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            </div>
+          </div>
           <div role="group" aria-labelledby="dc-fed-payin-h" style="margin-top:var(--sp2);">
             <p id="dc-fed-payin-h" style="margin:0;font-size:var(--small);font-weight:600;">Federal equity pay-in (% of federal equity)</p>
             <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;">
@@ -2499,6 +2511,11 @@
             <dt>Other income, per unit per year</dt><dd id="dc-op-income-total" style="margin:0;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
           </dl>
           <p id="dc-op-reason" role="status" hidden style="margin:0 0 var(--sp1);font-size:var(--small);color:var(--warn,#b45309);"></p>
+          <label style="display:block;margin:0 0 var(--sp1);">
+            <span style="font-size:var(--small);color:var(--muted);">Expense target someone gave you ($ per unit per year, optional; checked against the line items, never used in place of them)</span>
+            <input id="dc-opex-target" type="number" min="0" step="50" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+          </label>
+          <p id="dc-op-target-check" role="status" style="margin:0 0 var(--sp1);font-size:var(--small);line-height:1.45;"></p>
           <p id="dc-op-utilities-note" style="margin:0 0 var(--sp1);font-size:var(--tiny);color:var(--muted);line-height:1.45;"></p>
           <div id="dc-op-lines">${operatingBudgetHtml({ real_estate_taxes: `
           <label style="display:block;margin-bottom:var(--sp2);">
@@ -3575,7 +3592,8 @@
     if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
     ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-grant-acq', 'dc-grant-outside', 'dc-state-awarded', 'dc-state-path', 'dc-state-fees',
       'dc-add-kind', 'dc-add-evidence', 'dc-add-annual', 'dc-add-years', 'dc-add-price', 'dc-add-fees', 'dc-add-program-year',
-      'dc-add-mode', 'dc-add-displaces', 'dc-add-displaced-annual', 'dc-add-fed-cut']
+      'dc-add-mode', 'dc-add-displaces', 'dc-add-displaced-annual', 'dc-add-fed-cut',
+      'dc-bond-amount', 'dc-constr-loan', 'dc-constr-rate', 'dc-constr-months', 'dc-constr-draw', 'dc-opex-target']
       .concat(['fed', 'state', 'add'].reduce(function (acc, src) {
         return acc.concat(['closing', 'completion', 'stabilization'].map(function (st) { return 'dc-' + src + '-payin-' + st; }));
       }, [])).forEach(function (id) { ids.push(id); });
@@ -3583,7 +3601,7 @@
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
-    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path', 'dc-add-kind', 'dc-add-mode', 'dc-add-displaces'].forEach(function (id) {
+    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path', 'dc-add-kind', 'dc-add-mode', 'dc-add-displaces', 'dc-bond-post2025'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', recalculate);
     });
@@ -4576,6 +4594,16 @@
     var pupa = ob.pupaExpenses(sum, netTax,
       document.getElementById('dc-rep-reserve') && document.getElementById('dc-rep-reserve').value);
     setText('dc-op-pupa', pupa.value == null ? pupa.reason : fmt(pupa.value));
+    // An expense target is checked against the expenses used; it never replaces them.
+    var tgEl = document.getElementById('dc-op-target-check'), tg = result.expenseTarget;
+    if (tgEl) {
+      var tgText = !tg || !tg.entered ? '' : tg.reason ? tg.reason
+        : tg.below ? 'The target is ' + fmt(tg.difference) + ' a unit a year below the expenses used (' + fmt(tg.used) + '). The calculator keeps the expenses'
+          + (tg.coverageAtTarget != null ? ': year-1 coverage is ' + tg.coverageUsed.toFixed(2) + 'x on them, and would read ' + tg.coverageAtTarget.toFixed(2) + 'x at the target.' : '.')
+        : 'The target is at or above the expenses used (' + fmt(tg.used) + ' a unit a year).';
+      tgEl.textContent = tgText;
+      tgEl.style.color = tg && tg.below ? 'var(--warn,#b45309)' : '';
+    }
     document.querySelectorAll('[data-op-subtotal]').forEach(function (span) {
       var g = span.getAttribute('data-op-subtotal');
       var v = g === 'income' ? sum.otherIncomePerUnitYear : sum.groups && sum.groups[g];
@@ -4706,7 +4734,15 @@
         basis.acquisitionCitation ? 'Acquisition basis earns CHFA\'s 4% acquisition floor, not 9% (' + basis.acquisitionCitation + '). The calculator has no input for a higher applicable percentage.' : 'Acquisition basis earns the same rate on a 4% deal.');
       if (basis.acquisitionQualified > 0) row('CHFA minimum rehabilitation', 'Not checked', costBasisModule().REHAB_MINIMUM_NOTE);
       row('Method One: qualified basis credit', money(basis.calculatedCredit, basis.reasons.acquisitionRate || 'Not available'),
-        String(result.creditType) === '4' ? costBasisModule().BOND_TEST_NOTE : null);
+        String(result.creditType) === '4' && !(cbr.bondTest && cbr.bondTest.bondAmount !== null) ? costBasisModule().BOND_TEST_NOTE : null);
+      var bt = cbr.bondTest;
+      if (bt && bt.applies && bt.bondAmount !== null) {
+        row('Bond test: bonds / (basis + land)', bt.ratio == null ? bt.reason : (Math.round(bt.ratio * 1000) / 10).toFixed(1) + '%'
+          + (bt.passes == null ? '' : bt.passes ? ' · meets the ' + Math.round(bt.threshold * 100) + '% test' : ' · below the ' + Math.round(bt.threshold * 100) + '% test'),
+          [bt.passes == null ? bt.reason : null, bt.aggregateBasis != null ? 'Aggregate basis ' + fmt(bt.aggregateBasis) + '. ' + bt.note : null,
+            bt.minimumBonds != null ? 'Bonds needed: ' + fmt(bt.minimumBonds) + '. ' + (bt.basisCushion >= 0 ? 'Basis could grow ' + fmt(bt.basisCushion) + ' before the test fails.' : 'Short by ' + fmt(-bt.basisCushion) + ' of basis at this bond amount.') : null,
+            bt.flags.join(' ') || null, bt.citation].filter(Boolean).join(' '));
+      }
       row('CHFA per-project limit', basis.cap.applied ? fmt(basis.cap.amount) : 'Not applied', (basis.cap.reason || basis.cap.citation || '') + (basis.cap.applied ? ' ' + costBasisModule().APPLICANT_LIMIT_NOTE : ''));
       row('Method Two: gap calculation', basis.gapMethod.applied ? fmt(basis.gapMethod.credit) : 'Not calculated',
         basis.gapMethod.applied ? (basis.gapMethod.binding ? basis.gapMethod.reason : 'Uses not covered by sources other than federal and state credit equity: ' + fmt(Math.max(0, basis.gapMethod.gap)) + ', divided by the credit price and 10 years (' + basis.gapMethod.citation + ').') : basis.gapMethod.reason);
@@ -4744,6 +4780,18 @@
       uw.minimum.status.citation || null);
     row('Coverage in year 1', uw.high.firstYear == null ? uw.high.reason : uw.high.firstYear.toFixed(2) + 'x' + (uw.high.exceeds ? ' · above 1.30x, CHFA may award less credit' : ''),
       uw.high.status.citation || null);
+
+    heading('Budget checks');
+    var ci = cbr.constructionInterest;
+    if (ci) row('Construction interest budget', ci.passes == null ? ci.reason : fmt(ci.budget) + (ci.passes ? ' · covers the estimate' : ' · ' + fmt(ci.shortfall) + ' below the estimate'),
+      ci.estimate != null ? 'Estimate: loan x rate x months x average share drawn = ' + fmt(ci.estimate) + '. A draw schedule from the lender replaces this estimate.' : null);
+    var orc = cbr.operatingReserve;
+    if (orc) row('Operating reserve', orc.passes == null ? orc.reason : fmt(orc.reserve) + (orc.months != null ? ' · ' + orc.months.toFixed(1) + ' months of expenses and debt service' : '') + (orc.passes ? ' · meets CHFA\'s minimum' : ' · below CHFA\'s minimum of ' + fmt(orc.minimum)),
+      orc.citation ? 'CHFA requires at least four months of operating expenses plus four months of debt service (' + orc.citation + '). Expenses here include property taxes.' : null);
+    var dfr = cbr.deferredFee;
+    if (dfr) row('Deferred developer fee repaid by year ' + (dfr.years || 15), dfr.passes == null ? dfr.reason
+      : dfr.fee === 0 ? 'No fee deferred' : dfr.passes ? 'Yes, in year ' + dfr.yearRepaid : 'No: ' + fmt(dfr.owed) + ' still owed',
+      dfr.citation ? 'CHFA reviews whether cash flow can pay the deferred fee over its 15-year pro forma (' + dfr.citation + '). A deferred fee that cash flow cannot repay may not count in eligible basis.' : null);
 
     var pay = cbr.payIn;
     // Credit equity is $0 outside CHFA LIHTC, so there is nothing to pay in.

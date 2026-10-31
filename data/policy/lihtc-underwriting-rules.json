@@ -1,19 +1,19 @@
 {
   "schema": "lihtc-underwriting-rules/v1",
-  "version": "2026-10-15",
+  "version": "2026-10-31",
   "meta": {
     "title": "Housing tax credit basis, fee, credit-limit and underwriting rules",
-    "as_of": "2026-10-15",
-    "last_verified": "2026-10-15",
+    "as_of": "2026-10-31",
+    "last_verified": "2026-10-31",
     "review_by": "2027-01-15",
     "review_reason": "CHFA adopts a new Qualified Allocation Plan every two years; the 2027-2028 plan replaces S1 for applications from 2027.",
-    "scope": "Rules the Deal Calculator applies to itemized development costs: grant treatment, the 30% basis boost, the applicable fraction, CHFA's contractor and developer fee limits, CHFA's per-project credit limits, and CHFA's minimum and high debt-coverage thresholds.",
+    "scope": "Rules the Deal Calculator applies to itemized development costs: grant treatment, the 30% basis boost, the applicable fraction, CHFA's contractor and developer fee limits, CHFA's per-project credit limits, CHFA's minimum and high debt-coverage thresholds, the tax-exempt bond aggregate basis test for 4% credits, CHFA's minimum operating reserve, and CHFA's review of deferred developer fee repayment from cash flow.",
     "methodology": "Every value is copied from the statute, regulation or CHFA plan it cites, with a verbatim quote and its location. A rule whose status is adopted and whose source exists is applied. A draft value is shown beside the adopted one and never applied. A rule with no source is shown as rule not sourced and is not applied.",
     "status_values": {
       "adopted": "In force for the stated period; the calculator applies it.",
       "draft": "Proposed but not adopted; shown separately and not applied."
     },
-    "not_included": "CHFA's cost basis limits (Method Three, published only in the Excel application), the state credit three-test calculation, HUD subsidy layering limits, CHFA's discretionary developer-fee increase for special populations, the tax-exempt bond aggregate basis test for 4% credits, CHFA's minimum rehabilitation hard costs, and CHFA's discretion to award less credit than the calculated amount."
+    "not_included": "CHFA's cost basis limits (Method Three, published only in the Excel application), the state credit three-test calculation, HUD subsidy layering limits, CHFA's discretionary developer-fee increase for special populations, CHFA's minimum rehabilitation hard costs, and CHFA's discretion to award less credit than the calculated amount."
   },
   "sources": {
     "S1": {
@@ -33,6 +33,12 @@
       "url": "https://www.law.cornell.edu/cfr/text/26/1.42-16",
       "version": "Current Code of Federal Regulations",
       "kind": "regulation"
+    },
+    "S4": {
+      "title": "Public Law 119-21, section 70422(b), amending 26 U.S.C. 42(h)(4)(B)",
+      "url": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+      "version": "Approved 2025-07-04; text re-read 2026-10-31",
+      "kind": "statute"
     }
   },
   "rules": {
@@ -308,6 +314,45 @@
       "quote": "Minimum replacement reserves must equal $300/unit annually for senior projects and $350/unit annually for family projects.",
       "family_per_unit_annual": 350,
       "senior_per_unit_annual": 300
+    },
+    "bond_aggregate_basis_test": {
+      "status": "adopted",
+      "source": "S4",
+      "location": "Section 70422(b)(1), 139 Stat. 234-235",
+      "quote": "25 percent or more of the aggregate basis of such building and the land on which the building is located is financed by 1 or more obligations described in subparagraph (A)",
+      "also_quote": {
+        "source": "S4",
+        "location": "Section 70422(b)(1), new 42(h)(4)(B)(i)",
+        "quote": "50 percent or more of the aggregate basis of such building and the land on which the building is located is financed by 1 or more obligations described in subparagraph (A)"
+      },
+      "post_2025_quote": "are part of an issue the issue date of which is after December 31, 2025, and provide the financing for not less than 5 percent of the aggregate basis of such building and the land on which the building is located",
+      "effective_quote": "The amendment made by this subsection shall apply to buildings placed in service in taxable years beginning after December 31, 2025.",
+      "chfa_quote": {
+        "source": "S1",
+        "location": "Section 7, PDF page 54",
+        "quote": "Housing Tax Credits are allowed for that portion of a project’s eligible basis that is financed with the tax-exempt bonds. The project may be entitled to Housing Tax Credits for up to the full amount of qualified basis when meeting the aggregate basis test."
+      },
+      "threshold_pct": 50,
+      "post_2025_threshold_pct": 25,
+      "post_2025_issue_min_pct": 5,
+      "issue_date_after": "2025-12-31",
+      "basis": "aggregate basis of the building and the land on which it is located"
+    },
+    "operating_reserve_minimum": {
+      "status": "adopted",
+      "source": "S1",
+      "location": "Section 4.A, PDF page 42",
+      "quote": "The total project budget must include minimum operating reserves equal to at least four months of projected annual operating expenses and four months of debt service payments, although CHFA may require an increased operating reserve based on lease-up projections contained in the Market Study.",
+      "expense_months": 4,
+      "debt_service_months": 4
+    },
+    "deferred_fee_repayment_review": {
+      "status": "adopted",
+      "source": "S1",
+      "location": "Section 2.B, PDF page 14",
+      "quote": "Throughout the 15-year pro forma period, CHFA will also consider such items as debt coverage ratios, the ability to pay deferred developer fees from cash flows, operating reserve amounts, and annual operating expenses.",
+      "forecast_years": 15,
+      "kind": "review item, not a numeric limit"
     }
   },
   "drafts": {}

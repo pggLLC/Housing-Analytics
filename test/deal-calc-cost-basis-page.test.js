@@ -293,6 +293,41 @@ async function test(name, fn) {
     assert.deepEqual(p.errors, []);
   });
 
+  await test('a 4% deal checks the bond test, construction interest and expense target from the page', async () => {
+    const p = await openPage('');
+    setField(p, 'dc-rate-4', true);
+    const r = () => p.w.__DealCalc.getResult();
+    const cbr = () => r().costBasis;
+    assert.equal(cbr().bondTest.reason, cb.BOND_TEST_NOTE, 'no bonds entered: the note stays');
+    const summary = cb.summarizeCosts(cb.exampleLines(), +p.d.getElementById('dc-tdc').value);
+    const agg = summary.eligible + (summary.byId.land || 0);
+    // INVENTED: bonds at 30% of aggregate basis, from a post-2025 issue.
+    setField(p, 'dc-bond-amount', Math.round(agg * 0.30));
+    setField(p, 'dc-bond-post2025', 'yes');
+    setField(p, 'dc-constr-loan', Math.round(agg * 0.6));
+    assert.equal(cbr().bondTest.passes, true);
+    assert.equal(cbr().bondTest.threshold, rules.rules.bond_aggregate_basis_test.post_2025_threshold_pct / 100);
+    assert.match(text(p, 'dc-cb-detail'), /meets the 25% test/);
+    assert(!text(p, 'dc-cb-detail').includes(cb.BOND_TEST_NOTE), 'the assumed-not-checked note goes once the test runs');
+    setField(p, 'dc-bond-post2025', 'no');
+    assert.match(text(p, 'dc-cb-detail'), /below the 50% test/);
+    // Construction interest: the estimate follows the inputs, the budget is the itemized line.
+    setField(p, 'dc-constr-rate', 7); setField(p, 'dc-constr-months', 24); setField(p, 'dc-constr-draw', 50);
+    const ci = cbr().constructionInterest;
+    assert(Math.abs(ci.estimate - Math.round(agg * 0.6) * 0.07 * 2 * 0.5) < 1);
+    assert.equal(ci.budget, summary.byId.construction_interest);
+    assert.match(text(p, 'dc-cb-detail'), /Construction interest budget/);
+    assert.match(text(p, 'dc-cb-detail'), /Operating reserve/);
+    assert.match(text(p, 'dc-cb-detail'), /Deferred developer fee repaid by year 15/);
+    // An expense target below the line items is reported, and NOI does not move.
+    const noi = r().noi;
+    setField(p, 'dc-opex-target', 1000);
+    assert.equal(r().noi, noi, 'the target never replaces the expenses');
+    assert.equal(r().expenseTarget.below, true);
+    assert.match(text(p, 'dc-op-target-check'), /below the expenses used/);
+    assert.deepEqual(p.errors, []);
+  });
+
   await test('a link saved before the DOH layout opens with the budget it saved', async () => {
     // The pre-DOH example budget as that page's share link carried it, with profit taken out of basis.
     const saved = { land: 1000000, building_acquisition: '', site_work: 1000000, structures: 10400000, general_requirements: 600000,
