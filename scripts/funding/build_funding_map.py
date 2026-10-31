@@ -344,7 +344,7 @@ for d in idx:
             if amt and not tdc: tdc = {"amount": amt, "text": m["amount"], "source_title": s0.get("title", "COHO deal summary"), "source_url": s0.get("url", "")}
             continue
         # asked for but not confirmed: shown, never added
-        if re.search(r"requested|request amount|applied for|none awarded|not awarded", m["amount"], re.I) or re.search(r"not verified|unverified", m.get("note") or "", re.I) or re.search(r"\bcombined\b|whole project|funding plan|overall", m["source"], re.I) or \
+        if re.search(r"requested|request amount|applied for|none awarded|not awarded|\bgap\b(?! (loan|financ|fund))|shortfall|unfunded|still to (be )?raise|not yet raised|to be raised", m["amount"], re.I) or re.search(r"not verified|unverified", m.get("note") or "", re.I) or re.search(r"\bcombined\b|whole project|funding plan|overall", m["source"], re.I) or \
            re.search(r"whole (first )?phase|whole project|campus|all phases|entire (site|project|neighborhood)|whole neighborhood", m["amount"], re.I): phase = "summary"
         # a per-home figure is not the project's total, so it is shown but never added
         if re.search(r"per (unit|home|door|apartment)|/\s*(unit|home)\b", m["amount"], re.I): phase = "perunit"
