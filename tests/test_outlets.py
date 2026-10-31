@@ -160,3 +160,26 @@ def test_weekly_comment_once_a_week():
     assert outlet_review.needs_weekly(old, now)
     assert outlet_review.needs_weekly(spoof, now)
     assert outlet_review.needs_weekly([], now)
+
+
+# ── Codex review of #2607 ────────────────────────────────────────────────────
+
+def test_an_unchecked_name_containing_colorado_is_not_colorado_context(geos):
+    assert gpb.alert_scope(alert('Council approves affordable housing', 'Colorado Mystery Outlet'), geos)[0] is None
+
+
+@pytest.mark.parametrize('domain', ['denvercitywire.com', 'boulderleader.com', 'sedenvernews.com', 'necoloradonews.com'])
+def test_imposter_sites_are_blocked_by_address_too(reg, domain):
+    assert reg.lookup('Some Other Name', domain)['status'] == 'blocked'
+    assert reg.lookup('Denver City Wire', 'elsewhere.localhost')['status'] == 'blocked'
+
+
+def test_a_name_only_entry_is_not_trusted_from_an_unknown_address():
+    r = outlets.Register([{'name': 'Name Only Weekly', 'tier': 'newsroom'}])
+    assert r.lookup('Name Only Weekly')['status'] == 'checked'
+    assert r.lookup('Name Only Weekly', 'fake.localhost')['status'] == 'unverified'
+
+
+def test_every_checked_register_entry_has_an_address():
+    data = json.loads(outlets.REGISTER_FILE.read_text(encoding='utf-8'))
+    assert [o['name'] for o in data['outlets'] if not o.get('domains')] == []
