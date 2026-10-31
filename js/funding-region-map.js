@@ -15,6 +15,8 @@
     DOH: { label: 'Division of Housing', v: '--frm-doh' }, DOLA: { label: 'DOLA local government', v: '--frm-dola' } };
   var AGS = ['CHFA', 'DOH', 'DOLA', 'OEDIT'];
   var KORDER = ['state', 'equity', 'federal', 'local', 'gift', 'owner', 'otherstate', 'debt'];
+  var KV = { state: '--frm-k-state', equity: '--frm-k-equity', federal: '--frm-k-federal', local: '--frm-k-local',
+    gift: '--frm-k-gift', owner: '--frm-k-owner', otherstate: '--frm-k-otherstate', debt: '--frm-k-debt' };
   var KL = { state: 'State awards', equity: 'Tax credit equity', federal: 'Federal', local: 'Local government and tribes',
     gift: 'Foundations and community', owner: 'Owner and developer', otherstate: 'Other state agencies', debt: 'Bank and private loans',
     other: 'Other', cost: 'Project cost (not a source)', credits: 'Tax credits', bonds: 'Bonds', summary: 'Summary' };
@@ -269,7 +271,7 @@
   function sbar(st) {
     var base = Math.max(st.tdc ? st.tdc.amount : 0, st.known); if (!base) return '';
     var segs = KORDER.filter(function (k) { return st.by[k]; }).map(function (k) {
-      return '<i style="--c:var(--frm-k-' + k + ');width:' + (st.by[k] / base * 100).toFixed(2) + '%" title="' + KL[k] + ' ' + fmt(st.by[k]) + '"></i>';
+      return '<i style="--c:var(' + KV[k] + ');width:' + (st.by[k] / base * 100).toFixed(2) + '%" title="' + KL[k] + ' ' + fmt(st.by[k]) + '"></i>';
     });
     if (st.tdc && st.tdc.amount > st.known) segs.push('<i class="frm-gap" style="width:' + ((st.tdc.amount - st.known) / base * 100).toFixed(2) + '%" title="Not accounted for by public sources ' + fmt(st.tdc.amount - st.known) + '"></i>');
     return '<div class="frm-sbar" role="img" aria-label="' + esc(KORDER.filter(function (k) { return st.by[k]; }).map(function (k) { return KL[k] + ' ' + fmt(st.by[k]); }).join(', ')) + '">' + segs.join('') + '</div>';
@@ -283,7 +285,7 @@
     var st = stackOf(id); if (!st) return '';
     return '<div class="frm-srcsum"><b>Capital stack</b>' + sbar(st) + sumLine(st) + '<a href="#frm-stk-' + id + '">See every source</a></div>';
   }
-  function srcColor(r) { return r.cat === 'state' && r.ag ? 'var(' + AG[r.ag].v + ')' : KORDER.indexOf(r.cat) >= 0 ? 'var(--frm-k-' + r.cat + ')' : 'var(--border-strong)'; }
+  function srcColor(r) { return r.cat === 'state' && r.ag ? 'var(' + AG[r.ag].v + ')' : KORDER.indexOf(r.cat) >= 0 ? 'var(' + KV[r.cat] + ')' : 'var(--border-strong)'; }
   function stackCard(id) {
     var st = stackOf(id), s = SITE[id];
     var li = st.rows.map(function (r) {
@@ -427,7 +429,7 @@
     });
     $('frm-stacks').addEventListener('click', function (e) { var b = e.target.closest('button[data-s]'); if (b) focusSite(b.dataset.s); });
     $('frm-stk-more').addEventListener('click', function () { stacksAll = !stacksAll; drawStacks(); });
-    $('frm-klegend').innerHTML = KORDER.map(function (k) { return '<span><i style="--c:var(--frm-k-' + k + ')"></i>' + KL[k] + '</span>'; }).join('') +
+    $('frm-klegend').innerHTML = KORDER.map(function (k) { return '<span><i style="--c:var(' + KV[k] + ')"></i>' + KL[k] + '</span>'; }).join('') +
       '<span><i class="frm-gap"></i>Not accounted for</span><span>State rows keep their agency colour.</span>';
     root.querySelectorAll('[data-dl]').forEach(function (b) {
       b.addEventListener('click', function () {
