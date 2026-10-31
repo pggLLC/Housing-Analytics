@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T15:51:02.942Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T16:22:12.040Z. Do not edit by hand.
 
 ---
 
@@ -54,15 +54,15 @@
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 37.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.3 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 145.9 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 146.6 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 184.2 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 176.9 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 145.2 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 146.4 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 147.1 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 184.7 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 177.4 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 145.7 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
 | `housing-help.html` | If You Need Housing Now | COHO Analytics | 17.2 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 262.4 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 262.9 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 52.2 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.1 KB |
@@ -2354,7 +2354,7 @@
 | `test/hna-ownership-need.test.js` | 23.3 KB |
 | `test/hna-ownership-strategy.test.js` | 14.5 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 6.9 KB |
-| `test/hna-phone-speed-f9.test.js` | 9.8 KB |
+| `test/hna-phone-speed-f9.test.js` | 11.5 KB |
 | `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
 | `test/hna-projection-integrity.test.js` | 58.0 KB |
 | `test/hna-prop123-relationship.test.js` | 14.3 KB |
