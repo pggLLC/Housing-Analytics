@@ -63,6 +63,10 @@ test('bond test: bonds above the construction loan, or no loan, are flagged', ()
 test('bond test: no bonds entered keeps the old note; a 9% deal has no test; unknowns are null', () => {
   assert.equal(cb.bondTest({ ...base, bondAmount: '' }).reason, cb.BOND_TEST_NOTE);
   assert.equal(cb.bondTest({ ...base, creditType: '9', bondAmount: 6000000 }).applies, false);
+  // Unknown land is not $0: $9M on $18M would pass with land at $0 and fail with $2M (Codex, #2614).
+  const noLand = cb.bondTest({ ...base, bondAmount: 9000000, issuedAfter2025: 'no', land: null });
+  assert.equal(noLand.passes, null); assert.equal(noLand.ratio, null); assert.match(noLand.reason, /Land line/);
+  assert.equal(cb.bondTest({ ...base, bondAmount: 9000000, issuedAfter2025: 'no', land: 0 }).passes, true, 'an entered $0 counts');
   const r = cb.bondTest({ ...base, bondAmount: 6000000, eligibleCost: null });
   assert.equal(r.ratio, null); assert.match(r.reason, /Itemize/);
   const noRule = cb.bondTest({ ...base, bondAmount: 6000000, rules: { ...rules, rules: {} } });

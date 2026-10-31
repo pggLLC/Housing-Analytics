@@ -960,7 +960,8 @@
     if (args.costReason) { out.reason = 'The bond test needs itemized costs: ' + args.costReason; return out; }
     var eligible = num(args.eligibleCost), land = num(args.land);
     if (eligible === null || !Number.isFinite(eligible) || eligible <= 0) { out.reason = 'Itemize the development costs in eligible basis; the bond test is measured on them and the land.'; return out; }
-    if (land === null || !Number.isFinite(land) || land < 0) land = 0;
+    // Land is part of the test's denominator: unknown land is unknown, never $0.
+    if (land === null || !Number.isFinite(land) || land < 0) { out.reason = 'Itemize the Land line (enter 0 for donated land); the bond test is measured on building plus land.'; return out; }
     out.aggregateBasis = eligible + land;
     out.ratio = bonds / out.aggregateBasis;
     var issued = args.issuedAfter2025 === 'yes' ? true : args.issuedAfter2025 === 'no' ? false : null;

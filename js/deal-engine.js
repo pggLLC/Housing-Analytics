@@ -1627,7 +1627,7 @@
       // Checks from a review of an outside pro forma (#2160 follow-up): the bond test,
       // the construction interest budget, CHFA's operating reserve and deferred fee review.
       bondTest: cbm.bondTest({ creditType: result.creditType, bondAmount: fields['dc-bond-amount'], issuedAfter2025: fields['dc-bond-post2025'],
-        eligibleCost: costSummary.reason ? null : costSummary.eligible, land: costSummary.reason ? null : (costSummary.byId.land || 0),
+        eligibleCost: costSummary.reason ? null : costSummary.eligible, land: costSummary.reason || !Object.prototype.hasOwnProperty.call(costSummary.byId, 'land') ? null : costSummary.byId.land,
         costReason: costSummary.reason, constructionLoan: fields['dc-constr-loan'], rules: costRules }),
       constructionInterest: cbm.constructionInterestCheck({ loan: fields['dc-constr-loan'], ratePct: fields['dc-constr-rate'],
         months: fields['dc-constr-months'], drawPct: fields['dc-constr-draw'],
