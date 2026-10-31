@@ -101,7 +101,7 @@ for f in LI:
 LBYKEY = collections.defaultdict(list)
 for x in LIHTC: LBYKEY[x["key"]].append(x)
 
-def lihtc_match(name, fips, town=None):
+def lihtc_match(name, fips, town=None, homes=None):
     k = norm(name); c = LBYKEY.get(k, [])
     # never borrow a same-named property in another county, unless it is in the same named town (towns that cross county lines)
     if fips: c = [x for x in c if x["fips"] == fips] or [x for x in c if town and norm(x["city"]) == norm(re.sub(r"^(city|town) of ", "", town, flags=re.I))]
@@ -109,7 +109,8 @@ def lihtc_match(name, fips, town=None):
     # loose: one name contains the other, same county
     if fips and len(k) >= 8:
         c = [x for x in LIHTC if x["fips"] == fips and (k in x["key"] or x["key"] in k) and len(x["key"]) >= 8]
-        if len(c) == 1: return c[0]
+        # a partial name match is rejected when both home counts are known and one is over twice the other (a different project)
+        if len(c) == 1 and not (homes and c[0]["homes"] and not 0.5 <= homes / c[0]["homes"] <= 2): return c[0]
     return None
 
 # ---------- sites, towns, awards
@@ -133,7 +134,7 @@ def site_for(name, town, fips, lat=None, lng=None, addr=None, homes=None, approx
     if not name:
         name = "Project not named in the record"; m = None; key = f"unnamed{len(SITES)}|{fips}"
     else:
-        m = lihtc_match(name, fips, town)
+        m = lihtc_match(name, fips, town, homes)
         key = norm(m["name"] if m else name) + "|" + (fips or "")
     if key in SITES:
         s = SITES[key]
@@ -374,7 +375,7 @@ for d in idx:
     for nm in [d["name"]] + d["match"].get("names", []):
         k = norm(nm) + "|" + (fips or "")
         if k in SITES: sk = k; break
-        m = lihtc_match(nm, fips, d["city"])
+        m = lihtc_match(nm, fips, d["city"], d.get("units"))
         if m and norm(m["name"]) + "|" + fips in SITES: sk = norm(m["name"]) + "|" + fips; break
     if not sk:
         sk = site_for(d["name"], d["city"], fips, homes=d.get("units"))
