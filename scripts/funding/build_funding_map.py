@@ -235,6 +235,21 @@ def HINTS(s):
 
 # 2. Division of Housing and Division of Local Government awards
 DA = load_json(f"{HA}/policy/funding-awards/dola-awards.json")["awards"]
+# one award reported in two documents (a board vote summary and the press release, or a vote and the annual report)
+# is counted once: same recipient and amount, a year or less apart, different documents. The fuller record is kept and
+# the other document is named beside its source.
+def _rank(a):
+    t = a["source_type"].lower()
+    return 0 if "annual report" in t else 1 if "vote" in t else 2 if "press" in t else 3
+_seen = {}
+for a in sorted(DA, key=_rank):
+    if a["amount"] is None: continue
+    k = (norm(re.sub(r"\d", "", a["grantee"] or ""))[:24], a["amount"])
+    first = next((b for b in _seen.get(k, []) if abs(b["year"] - a["year"]) <= 1 and b["source_title"] != a["source_title"]), None)
+    if first:
+        a["_dup"] = True; first["source_title"] += "; also reported in " + a["source_title"]
+    else: _seen.setdefault(k, []).append(a)
+DA = [a for a in DA if not a.get("_dup")]
 for a in DA:
     fips = a["county_fips"]; town = a["town"]
     if not town and a.get("grantee"):
@@ -384,7 +399,7 @@ for d in idx:
             if amt and not tdc: tdc = {"amount": amt, "text": m["amount"], "source_title": s0.get("title", "COHO deal summary"), "source_url": s0.get("url", "")}
             continue
         # asked for but not confirmed: shown, never added
-        if re.search(r"requested|request amount|applied for|none awarded|not awarded|\bgap\b(?! (loan|financ|fund))|shortfall|unfunded|still to (be )?raise|not yet raised|to be raised", m["amount"], re.I) or re.search(r"not verified|unverified|not confirmed|unconfirmed", m.get("note") or "", re.I) or re.search(r"\bcombined\b|whole project|funding plan|overall", m["source"], re.I) or \
+        if re.search(r"requested|request amount|applied for|none awarded|not awarded|\bgap\b(?! (loan|financ|fund))|shortfall|unfunded|still to (be )?raise|not yet raised|to be raised", m["amount"], re.I) or re.search(r"not verified|unverified|not confirmed|unconfirmed|not (yet )?committed|uncommitted|under consideration", (m.get("note") or "") + " " + m["source"], re.I) or re.search(r"\bcombined\b|whole project|funding plan|overall", m["source"], re.I) or \
            re.search(r"whole (first )?phase|whole project|campus|all phases|entire (site|project|neighborhood)|whole neighborhood", m["amount"], re.I): phase = "summary"
         # temporary money retired at permanent conversion is short-term; a balance paid down at conversion counts at the kept amount
         note = m.get("note") or ""
