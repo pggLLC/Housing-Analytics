@@ -2062,10 +2062,12 @@
       'S0801_C01_002E', // car, truck, or van — total (parent; drove-alone + carpooled)
       'S0801_C01_003E', // drove alone (%)
       'S0801_C01_004E', // carpooled (%)
-      'S0801_C01_005E', // public transportation (%)
-      'S0801_C01_006E', // walked (%)
-      'S0801_C01_007E', // taxicab, motorcycle, bicycle, or other means (%)
-      'S0801_C01_008E', // worked at home (%)
+      // 005–008 are carpool sizes and workers per vehicle, not other modes.
+      'S0801_C01_009E', // public transportation (%)
+      'S0801_C01_010E', // walked (%)
+      'S0801_C01_011E', // bicycle (%)
+      'S0801_C01_012E', // taxi or ride-hailing, motorcycle, or other means (%)
+      'S0801_C01_013E', // worked from home (%)
       'S0801_C01_046E', // mean travel time to work (minutes)
     ];
 
@@ -4445,7 +4447,7 @@
     }
 
     // Load cached summary (if present) else live ACS
-    let profile=null, s0801=null;
+    let profile=null, s0801=null, modeCounts=null;
     const cacheFlags = { summary:false, lehd:false, dola:false, projections:false, derived:false };
 
     try{
@@ -4453,6 +4455,7 @@
         if (sum && sum.acsProfile) {
           profile = sum.acsProfile;
           s0801 = sum.acsS0801;
+          modeCounts = sum.acsB08301 || null;
           cacheFlags.summary = true;
           // Extract year and series from cached source endpoint URL if available
           const endpointMeta = (url) => {
@@ -4634,7 +4637,8 @@
     }
 
     if (s0801){
-      window.HNARenderers.renderModeShare(s0801);
+      // B08301 counts, from the cached summary, carry every mode; S0801 is the fallback.
+      window.HNARenderers.renderModeShare(s0801, modeCounts);
     }
 
     // LEHD (cached) — contextCounty declared above the if(profile) block.

@@ -1289,10 +1289,12 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
         'S0801_C01_002E',  # Car/truck/van total parent (drove-alone + carpooled, %)
         'S0801_C01_003E',  # Drove alone (%)
         'S0801_C01_004E',  # Carpooled (%)
-        'S0801_C01_005E',  # Public transit (%)
-        'S0801_C01_006E',  # Walked (%)
-        'S0801_C01_007E',  # Taxicab, motorcycle, bicycle, or other means (%)
-        'S0801_C01_008E',  # Worked at home (%)
+        # 005-008 are carpool sizes and workers per vehicle, not other modes.
+        'S0801_C01_009E',  # Public transportation (%)
+        'S0801_C01_010E',  # Walked (%)
+        'S0801_C01_011E',  # Bicycle (%)
+        'S0801_C01_012E',  # Taxi or ride-hailing, motorcycle, or other means (%)
+        'S0801_C01_013E',  # Worked from home (%)
         'S0801_C01_046E',  # Mean travel time to work (minutes)
         'NAME'
     ]

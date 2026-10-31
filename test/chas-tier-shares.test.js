@@ -85,12 +85,39 @@ const denverLte30Share = denver.renter_hh_by_ami.lte30.total / denverTotal;
 assert(denverLte30Share > 0.20 && denverLte30Share < 0.26,
   'Denver real ≤30% share is in [20%, 26%]; differs from heuristic 13%');
 
+console.log('\n[test] All-household tier shares (the demand chart multiplies a total-household series)');
+(function () {
+  const vm = require('vm');
+  const placeDoc = JSON.parse(readRel('data/hna/place-chas.json'));
+  const files = { 'hna/place-chas.json': placeDoc, 'market/chas_co.json': countyDoc };
+  const win = {};
+  const ctx = { window: win, fetch: url => Promise.resolve({ json: () => Promise.resolve(files[Object.keys(files).find(k => String(url).endsWith(k))]) }), Promise, Number, Object, String, Math };
+  vm.runInNewContext(src, ctx);
+  return win.ChasTierShares.init().then(() => {
+    const T = win.ChasTierShares;
+    const K = ['lte30','31to50','51to80','81to100','100plus'];
+    const fruita = placeDoc.places['0828745'];
+    const all = K.reduce((s, k) => s + fruita.renter_hh_by_ami[k].total + fruita.owner_hh_by_ami[k].total, 0);
+    const r = T.getHouseholdSharesWithFallback('0828745', 'place', '08077');
+    assert(r && r.source === 'place-chas', 'Fruita resolves to place CHAS');
+    assert(r && Math.abs(r.tiers[0].share - (fruita.renter_hh_by_ami.lte30.total + fruita.owner_hh_by_ami.lte30.total) / all) < 1e-9,
+      'Fruita ≤30% share counts renters and owners at ≤30% over all households');
+    assert(r && Math.abs(r.tiers.reduce((s, t) => s + t.share, 0) - 1) < 1e-9, 'shares add to 1, so tiers sum to the household series');
+    const renterOnly = T.getRenterSharesWithFallback('0828745', 'place', '08077');
+    assert(r && r.tiers[0].share < renterOnly.tiers[0].share,
+      'the all-household ≤30% share is below the renter-only share (owners skew to higher tiers)');
+    const c = T.getHouseholdSharesWithFallback('08077', 'county');
+    assert(c && c.source === 'county-chas', 'Mesa County resolves to county CHAS');
+    const s = T.getHouseholdSharesWithFallback('0899999', 'place', null);
+    assert(s && s.source === 'statewide-chas', 'an unknown place falls back to all Colorado counties');
+  });
+})().then(() => {
 console.log('\n[test] hna-renderers wires ChasTierShares into chartHouseholdDemand');
 const renderersSrc = readRel('js/hna/hna-renderers.js');
 assert(/window\.ChasTierShares/.test(renderersSrc),
   'hna-renderers references window.ChasTierShares');
-assert(/getRenterSharesWithFallback/.test(renderersSrc),
-  'hna-renderers calls getRenterSharesWithFallback for fallback chain');
+assert(/getHouseholdSharesWithFallback/.test(renderersSrc),
+  'hna-renderers applies the all-household tier mix to the household series');
 assert(/source.*===.*['"]place-chas['"]|source: ['"]place-chas['"]/.test(renderersSrc) ||
        /tierMeta\.source/.test(renderersSrc),
   'hna-renderers surfaces the source attribution');
@@ -116,3 +143,4 @@ if (fmrMatch) {
 console.log('\n=========================================');
 console.log('Results: ' + passed + ' passed, ' + failed + ' failed');
 process.exit(failed === 0 ? 0 : 1);
+});
