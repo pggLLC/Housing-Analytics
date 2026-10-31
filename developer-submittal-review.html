@@ -55,6 +55,14 @@
   .sr-mix label { display: flex; flex-direction: column; gap: .2rem; font-size: .85rem; font-weight: 600; }
   input[type="text"], input[type="number"], select { min-height: 44px; padding: .35rem .5rem; border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); background: var(--card); color: var(--text); font: inherit; box-sizing: border-box; max-width: 100%; }
   .sr-small { width: 6rem; }
+  .sr-tie { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 10rem) minmax(0, 12rem); gap: .25rem .75rem; align-items: center; padding: .4rem 0; border-bottom: 1px solid var(--border); }
+  .sr-tie label { font-weight: 600; font-size: .9rem; }
+  .sr-tie input { min-height: 44px; min-width: 0; }
+  .sr-tie-out { grid-column: 1 / -1; margin: 0; font-size: .85rem; overflow-wrap: anywhere; }
+  .sr-tie-flag { font-weight: 700; padding-left: .45rem; border-left: 4px solid var(--border); }
+  .sr-tie-red { color: var(--bad); border-left-color: var(--bad); }
+  .sr-tie-yellow { border-left-color: var(--warn); }
+  .sr-tie-green { border-left-color: var(--good); }
   .sr-claim { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 14rem); gap: .25rem .75rem; align-items: center; padding: .35rem 0; border-bottom: 1px solid var(--border); }
   .sr-claim label { display: flex; gap: .5rem; align-items: center; min-height: 44px; line-height: 1.35; }
   .sr-claim input[type="checkbox"] { width: 22px; height: 22px; flex: none; }
@@ -68,7 +76,7 @@
   #srFlash { min-height: 1.4em; font-weight: 600; color: var(--accent); }
   details.dv-card > summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
   @media (max-width: 640px) {
-    .sr-claim { grid-template-columns: 1fr; }
+    .sr-claim, .sr-tie { grid-template-columns: 1fr; }
     .sr-row > label, .sr-field { flex: 1 1 100%; }
     .sr-row input, .sr-row select { width: 100%; }
     /* Saved versions as stacked cards, so each version's buttons, Delete included, are on screen. */
@@ -174,6 +182,14 @@
         <p class="sr-muted">A missing threshold item stops an application. QAP 3.B.4: "All threshold items must be met and provided by the applicable Preliminary Application deadline to compete in a round or to proceed in the review process."</p>
         <div id="srThresholds"></div>
       </details>
+
+      <details class="dv-card" id="srTieCard">
+        <summary>Application tie-out</summary>
+        <p class="sr-muted">Type each figure as the application states it, with the tab and cell or page it is on. Each one is checked against the Deal Calculator export and CHFA's limits: "Matches" is within tolerance, "Differs" means fix the application or re-run the model, and "Deal breaker" means the application figure breaks a QAP rule. Land, acquisition, consultant fee and reserves are only used to test the developer fee limit.</p>
+        <p id="srTieSummary" role="status"></p>
+        <div id="srTie"></div>
+        <button type="button" class="sr-btn" id="sr-tie-csv">Download tie-out CSV</button>
+      </details>
     </form>
 
     <details class="dv-card">
@@ -224,6 +240,7 @@
 <footer id="site-footer"></footer>
 <script src="js/navigation.js"></script>
 <script src="js/whitepaper/developer-nav.js"></script>
+<script src="js/whitepaper/submittal-tieout.js"></script>
 <script src="js/whitepaper/submittal-review.js"></script>
 </body>
 </html>

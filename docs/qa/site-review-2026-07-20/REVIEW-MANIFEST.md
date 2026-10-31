@@ -50,7 +50,7 @@
 |---|---|
 | select-jurisdiction.html, search.html, sitemap.html, insights nav | Nav truth: **parked decision — Help for Homebuyers in top nav yes/no is still undecided; decide during this walk** |
 | help-for-homebuyers.html | Content shipped + verified in #1220s arc; only the nav-placement decision remains |
-| developer.html, developer-brief.html, developer-where.html, pipeline.html, indibuild-pipeline-public.html | Walk normally |
+| developer.html, developer-brief.html, developer-where.html, pipeline.html, pipeline-public.html | Walk normally |
 | developer-pipeline.html | **Docs-only by design since #1217** — do not flag the missing kanban/CSV wiring |
 | data-explorer.html, data-map-browser.html, dashboard-data-quality.html, dashboard-data-sources-ui.html, data-status.html, dashboard.html | M2 hits data-map-browser (3 leaflet controls); legacy diagnostic pages carry public-facing labels since #1098 |
 | ic-summary.html, colorado-elections.html, og-card.html, about.html, privacy-policy.html | about.html has an M4 contrast hit; og-card is a share-card template (not user-facing nav) |

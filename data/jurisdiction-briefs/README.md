@@ -90,7 +90,7 @@ deep-linked primary, secondary, or press source.
 ## Rendering surface (where briefs live)
 
 Briefs are internal underwriting context and only render on
-[`indibuild-brief.html`](../../indibuild-brief.html) — the Jurisdiction
+[`developer-brief.html`](../../developer-brief.html) — the Jurisdiction
 Briefs page in the Developer Tools section of the navigation. That page
 is gated by [`js/developer-gate.js`](../../js/developer-gate.js) (a
 configured password prompt, `sessionStorage['ib-auth-v1']`, 12-hour

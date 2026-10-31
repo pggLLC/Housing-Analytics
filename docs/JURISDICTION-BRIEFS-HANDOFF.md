@@ -15,7 +15,7 @@ preserved in git history (see commit log under `data/jurisdiction-briefs/`).
 - **The feature:** curated narrative briefs about each Colorado
   jurisdiction's affordable-housing history (LIHTC, local funding,
   coalition memberships, recent ordinances). Surface: the
-  password-gated [`indibuild-brief.html`](../indibuild-brief.html)
+  password-gated [`developer-brief.html`](../developer-brief.html)
   page in Developer Tools.
 - **Authoring discipline (mandatory):** every claim in a published
   brief must be backed by a verbatim WebFetch quote logged in
@@ -184,9 +184,9 @@ row is `unsupported` or `inaccessible`.
 - **Brief content:** `data/jurisdiction-briefs/<geoid>.json` —
   schema in `_schema.json`, curation rules in `README.md`.
 - **Renderer:** `js/components/jurisdiction-brief.js`. No auth gate on
-  the component itself; the host page (`indibuild-brief.html`) provides
-  the password gate via `js/indibuild-gate.js`.
-- **Mount:** only `indibuild-brief.html` loads the brief component
+  the component itself; the host page (`developer-brief.html`) provides
+  the password gate via `js/developer-gate.js`.
+- **Mount:** only `developer-brief.html` loads the brief component
   and mounts it in the curated card section. HNA + PMA do **not**
   surface briefs.
 - **Validator:** `scripts/validate-jurisdiction-briefs.py`. Enforces
@@ -326,7 +326,7 @@ downstream effects. Read it before changing scope or methodology.
 Scope reviewed:
 
 - `scripts/validate-jurisdiction-briefs.py`
-- `js/indibuild-gate.js`
+- `js/developer-gate.js`
 - `scripts/build-codex-audit-package.py`
 - `scripts/verify-brief-sources.py`
 - `data/jurisdiction-briefs/README.md`
@@ -336,7 +336,7 @@ Findings:
 - **Fixed inline - stale or skeletal verification reports could pass the publish gate.** The validator already required `audit_method` to contain `direct WebFetch` or `direct URL fetch` and required non-empty `supporting_quote` values for `supported` rows, but it did not verify that the report covered every current cited `(section, paragraph, source)` pair in the brief. A stale report with no blocking rows could therefore miss a newly added cite-pair. Fixed in `scripts/validate-jurisdiction-briefs.py:214` by deriving expected cite-pairs from the live brief and rejecting reports with missing pairs.
 - **Fixed inline - invalid verdict strings were not rejected.** Rule 8 blocked only `unsupported` and `inaccessible`, so a typo such as `supportedd` would not be caught as a blocking row. Fixed in `scripts/validate-jurisdiction-briefs.py:239` by requiring verdicts to be exactly one of `supported`, `partial`, `unsupported`, or `inaccessible`.
 - **Fixed inline - quarantine heuristic lagged validator wording.** The validator accepts either `direct WebFetch` or `direct URL fetch`, but `scripts/build-codex-audit-package.py:64` trusted only `direct WebFetch`. Fixed so direct URL fetch reports are treated consistently with the validator.
-- **No code change - password gate threat model is documented honestly.** `js/indibuild-gate.js:1` documents the gate as a temporary bridge until Cloudflare Access, and `js/indibuild-gate.js:14` explicitly says it is security through obscurity, bypassable via DevTools/sessionStorage, and suitable only for casual visitors. This matches the 2026-06-12 decision to keep plain JSON and UI gating.
+- **No code change - password gate threat model is documented honestly.** `js/developer-gate.js:1` documents the gate as a temporary bridge until Cloudflare Access, and `js/developer-gate.js:14` explicitly says it is security through obscurity, bypassable via DevTools/sessionStorage, and suitable only for casual visitors. This matches the 2026-06-12 decision to keep plain JSON and UI gating.
 - **No code change - verification-plan enumeration covers current cite-pair shape.** `scripts/verify-brief-sources.py:54` walks every paragraph and emits one row for each source id in `cites`; it also emits `needs_source` rows when an unsourced paragraph is explicitly flagged. The validator already catches malformed or missing cites before publish.
 - **No code change - README blocks WebSearch substitution.** `data/jurisdiction-briefs/README.md:77` documents that the JSON is plain and the password gate is UI-level. `data/jurisdiction-briefs/README.md:96` requires WebFetch first, verbatim quotes, and a verification report before publish; `data/jurisdiction-briefs/README.md:111` states that WebSearch is not an acceptable substitute.
 
@@ -348,13 +348,13 @@ Issues filed: none. The actionable gaps found in this pass were small enough to 
 
 Scope reviewed:
 
-- `indibuild-brief.html?geoid=0812045` (Town of Carbondale)
-- `indibuild-brief.html?geoid=08123` (Weld County missing-brief path)
+- `developer-brief.html?geoid=0812045` (Town of Carbondale)
+- `developer-brief.html?geoid=08123` (Weld County missing-brief path)
 - `js/components/jurisdiction-brief.js`
 
 Findings:
 
-- **Fixed inline - mobile brief pages could become wider than the viewport.** At a 380px viewport, the market-rent table pushed the page to `scrollWidth=559` against a `clientWidth=372`, and the `INTERNAL` nav badge also rendered outside the nav bounds. Fixed in `indibuild-brief.html` with a narrow-screen rule that wraps the internal nav and lets wide rent tables scroll inside their card. Cache-busted browser recheck showed the document back to `scrollWidth=372` / `clientWidth=372`; the table keeps its data columns but scrolls locally inside the card.
+- **Fixed inline - mobile brief pages could become wider than the viewport.** At a 380px viewport, the market-rent table pushed the page to `scrollWidth=559` against a `clientWidth=372`, and the `INTERNAL` nav badge also rendered outside the nav bounds. Fixed in `developer-brief.html` with a narrow-screen rule that wraps the internal nav and lets wide rent tables scroll inside their card. Cache-busted browser recheck showed the document back to `scrollWidth=372` / `clientWidth=372`; the table keeps its data columns but scrolls locally inside the card.
 - **Verified - header affordances render and link correctly in light mode.** The freshness chip, `Update brief`, `Report inaccuracy`, and as-of disclaimer rendered on the live Carbondale brief. The report link prefills a GitHub issue titled `briefs: inaccuracy in Town of Carbondale brief (0812045)` with jurisdiction, GEOID, `last_curated`, checklist items, and labels `briefs,inaccuracy`. The update link remains prefilled with labels `briefs,refresh`.
 - **Verified - missing-brief path is actionable.** Weld County (`08123`) shows the "No curated brief yet" affordance, a prefilled `briefs,curation` GitHub issue link, and a `Copy command` button. Browser clipboard verification returned `python3 scripts/draft-jurisdiction-brief.py --geoid 08123`.
 - **Verified - mobile brief controls remain readable after the fix.** At 380px, the Carbondale H1, as-of disclaimer, `Update brief`, `Report inaccuracy`, and sources list stayed within the viewport. The global page no longer horizontally scrolls.
@@ -371,16 +371,16 @@ Scope reviewed:
 - `data/hna/local-resources.json`
 - `data/co-place-centroids.json`
 - `js/components/watchlist.js`
-- `indibuild.html`
-- `indibuild-where.html`
-- `indibuild-pipeline.html`
+- `developer.html`
+- `developer-where.html`
+- `developer-pipeline.html`
 
 Findings:
 
 - **Fixed inline - Aspen brief was stored under Arvada's canonical GEOID.** `data/co-place-centroids.json` identifies `0803455` as Arvada city and `0803620` as Aspen city, while the published Aspen brief and verification report were stored as `0803455`. Reconciled by moving the brief and verification report to `data/jurisdiction-briefs/0803620.json` and `data/jurisdiction-briefs/_verified/0803620.json`, updating their embedded GEOID fields, and regenerating `data/jurisdiction-briefs/_verification-plan.json`. The candidate backlog now correctly shows Arvada (`0803455`) as unbriefed and no longer lists Aspen (`0803620`) as missing.
 - **Fixed inline - Arvada local resources carried Aspen-only housing fields.** `data/hna/local-resources.json` key `place:0803455` had Arvada school/employer fields mixed with APCHA, Joint APCHA Strategic Plan, and Aspen workforce-housing notes. Reconciled by keeping Arvada fields under `place:0803455`, replacing the housing lead with Arvada Housing Authority, and removing the Aspen/APCHA plan and notes. Aspen-specific local-resource content remains under canonical `place:0803620`.
 - **No code change - Watchlist remains per-device localStorage only.** `js/components/watchlist.js:40` stores under `__cohoWatchlist`, `js/components/watchlist.js:69` adds only the saved jurisdiction object, and `js/components/watchlist.js:224` reads URL `?geoid=` / `?fips=` only to prefill a save action. A text scan found no `jurisdiction-brief`, `JurisdictionBrief`, or `data/jurisdiction-briefs` references in the file, so saving a jurisdiction does not auto-trigger brief fetching or rendering.
-- **No code change - other IndiBuild pages link to briefs but do not render brief content.** `indibuild.html:366`, `indibuild-where.html:383`, `indibuild-where.html:439`, and `indibuild-pipeline.html:1332` / `1340` / `1358` build links to `indibuild-brief.html?geoid=...`. None of `indibuild.html`, `indibuild-where.html`, or `indibuild-pipeline.html` import `js/components/jurisdiction-brief.js` or read `data/jurisdiction-briefs/` directly.
+- **No code change - other developer pages link to briefs but do not render brief content.** `developer.html:366`, `developer-where.html:383`, `developer-where.html:439`, and `developer-pipeline.html:1332` / `1340` / `1358` build links to `developer-brief.html?geoid=...`. None of `developer.html`, `developer-where.html`, or `developer-pipeline.html` import `js/components/jurisdiction-brief.js` or read `data/jurisdiction-briefs/` directly.
 
 Issues filed: none. The data inconsistencies found in this pass were fixed inline.
 
@@ -416,7 +416,7 @@ Renderer affordances:
 
 Usability bugs:
 
-- Fixed mobile overflow on `indibuild-brief.html`: narrow viewports now wrap the internal nav and scroll wide rent tables inside their cards.
+- Fixed mobile overflow on `developer-brief.html`: narrow viewports now wrap the internal nav and scroll wide rent tables inside their cards.
 - Verified Carbondale live brief ordering, source readability, update/report issue URLs, missing-brief affordance, copy command behavior, and mobile legibility.
 - Dark-mode live screenshot verification was limited by the in-app Browser policy and by the lack of a visible theme toggle on this standalone page; the shipped dark selectors were audited statically.
 
@@ -425,14 +425,14 @@ Cross-system inconsistencies:
 - Fixed Aspen/Arvada GEOID collision by moving the Aspen brief and verifier report to `0803620`.
 - Cleaned `data/hna/local-resources.json` so `place:0803455` no longer mixes Arvada fields with APCHA/Aspen housing-plan content.
 - Confirmed Watchlist remains per-device localStorage only and does not auto-trigger brief fetch/render.
-- Confirmed `indibuild.html`, `indibuild-where.html`, and `indibuild-pipeline.html` link to `indibuild-brief.html` but do not render brief content outside the gated page.
+- Confirmed `developer.html`, `developer-where.html`, and `developer-pipeline.html` link to `developer-brief.html` but do not render brief content outside the gated page.
 
 Recommended follow-ups:
 
 1. Re-research and rebuild Garfield County from source-first evidence rather than salvaging the old mostly-broken draft.
 2. Add a validator check that each place brief GEOID matches the canonical place index name closely enough to catch future Aspen/Arvada-style collisions.
 3. Replace remaining `google.com/search` local-resource URLs with direct primary URLs when those resources are next curated.
-4. Add a first-class dark-mode toggle or documented test hook for `indibuild-brief.html` so future usability passes can verify dark mode live.
+4. Add a first-class dark-mode toggle or documented test hook for `developer-brief.html` so future usability passes can verify dark mode live.
 5. Let the weekly liveness PRs run for several cycles and triage persistent 4xx / `other` statuses into source-refresh work.
 
 Token / time cost:
