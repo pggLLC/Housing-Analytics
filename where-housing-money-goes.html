@@ -15,6 +15,8 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/agency-funding.css">
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+  <link rel="stylesheet" href="css/funding-region-map.css">
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/fetch-helper.js"></script>
@@ -27,6 +29,8 @@
   <script defer src="js/vendor/d3.v7.min.js"></script>
   <script defer src="js/agency-funding-model.js"></script>
   <script defer src="js/agency-funding.js"></script>
+  <script defer src="js/vendor/leaflet.js"></script>
+  <script defer src="js/funding-region-map.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -45,6 +49,8 @@
       </header>
 
       <div data-agency-funding-view><p>Loading every state housing award…</p></div>
+
+      <section class="frm" id="map-by-region" data-funding-region-map aria-label="Map by region and town"><p>Loading the region map…</p></section>
     </article>
   </main>
 
