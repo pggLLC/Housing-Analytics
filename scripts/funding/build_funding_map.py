@@ -150,6 +150,10 @@ def add(site_key, town_k, year, ylab, agency, program, recipient, amount, unit, 
                    year=year, year_label=ylab, agency=agency, program=program, recipient=recipient, amount=amount, amount_unit=unit,
                    counts_in_totals=counts, flag=flag, source_title=st, source_url=su))
 
+UNMAPPED = []  # awards with no county or known place: kept for the statewide downloads, never pinned
+def unmapped(year, agency, program, name, recipient, amount, unit, flag, st, su):
+    UNMAPPED.append(dict(year=year, agency=agency, program=program, name=name, recipient=recipient, amount=amount, amount_unit=unit, flag=flag, source_title=st, source_url=su))
+
 # 1. CHFA and OEDIT ledger
 L = load_json(f"{HA}/policy/funding-awards/ledger.json")["awards"]
 FIXNAME = {"Adams County Housing Authority N,S Crossing Pointe Phase I": "Crossing Pointe Phase I", "Community Housing Development Association N,S Cornell Senior Apartments": "Cornell Senior Apartments",
@@ -163,7 +167,18 @@ for a in L:
     fips = a["county_fips"]
     if not fips:
         pid = place_for(a["location"]); fips = PLACES[pid]["county"] if pid else None
-    if not fips: continue
+    if not fips:
+        st = f"{'CHFA' if a['agency']=='CHFA' else 'OEDIT/CHFA'} award report: {a['source_file']}"
+        if a["agency"] == "CHFA":
+            for fld, lab, unit in (("federal_credit", "Federal housing tax credits", "usd_per_year_tax_credit"), ("state_credit", "State housing tax credits", "usd_per_year_tax_credit"),
+                                   ("toc_credit", "Transit-oriented communities credits", "usd_per_year_tax_credit"), ("mihtc_credit", "Middle-income housing tax credits", "usd_per_year_tax_credit"),
+                                   ("bond_amount", "Private activity bonds", "usd_bonds")):
+                if a.get(fld): unmapped(a["year"], "CHFA", lab, a["name"], a["sponsor"], a[fld], unit, None, st, a["source_url"])
+        else:
+            amt = a["amount_awarded"]; flag = None
+            if amt is None and a["amount_requested"]: amt, flag = a["amount_requested"], "requested"
+            unmapped(a["year"], "OEDIT", a["program"] + (f" ({a['detail']})" if a.get("detail") else ""), a["name"], a["sponsor"], amt, "usd", flag, st, a["source_url"])
+        continue
     if not a["name"] and a["sponsor"]:
         # the PDF reader sometimes folds the project name into the owner column
         sp = norm(a["sponsor"]); cand = [x["name"] for x in LIHTC if x["fips"] == fips] + [v["name"] for v in SITES.values() if v["name"]]
@@ -198,7 +213,6 @@ def HINTS(s):
 
 # 2. Division of Housing and Division of Local Government awards
 DA = load_json(f"{HA}/policy/funding-awards/dola-awards.json")["awards"]
-UNMAPPED = []
 for a in DA:
     fips = a["county_fips"]; town = a["town"]
     if not town and a.get("grantee"):
@@ -216,7 +230,7 @@ for a in DA:
         fips = hint
         if not town and fips == NAME2FIPS["Denver"]: town = "Denver"
     if not fips:
-        UNMAPPED.append(dict(year=a["year"], agency=agency, program=a["program"], name=a["name"], recipient=a["grantee"], amount=a["amount"], flag=flag, source_title=a["source_title"], source_url=a["source_url"]))
+        unmapped(a["year"], agency, a["program"], a["name"], a["grantee"], a["amount"], "usd", flag, a["source_title"], a["source_url"])
         continue
     proj = a["name"]
     is_site = bool(proj) and not re.search(r"(DPA|down payment|program|funding recommendations|capacity|planning|rehab program|homeowner)", proj, re.I)

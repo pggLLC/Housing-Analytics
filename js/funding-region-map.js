@@ -95,7 +95,7 @@
   }
 
   function setLimits() {
-    var unm = D.unmapped.length, unmSum = D.unmapped.reduce(function (x, a) { return x + (a.flag ? 0 : (a.amount || 0)); }, 0);
+    var unm = D.unmapped.length, unmSum = D.unmapped.reduce(function (x, a) { return x + (a.flag || a.amount_unit !== 'usd' ? 0 : (a.amount || 0)); }, 0);
     var approx = D.sites.filter(function (s) { return s.approximate; }).length;
     LIMITS = [
       '<b>Sources.</b> CHFA housing tax credits come from CHFA\'s award reports, 2016 to 2026. Older credit properties come from CHFA\'s property list, which gives the year and homes but no credit amount. OEDIT\'s Prop 123 awards cover 2023 to 2026. Division of Housing awards come from State Housing Board votes, Division of Housing award tables and its annual reports.',
@@ -331,7 +331,8 @@
         a.counts_in_totals ? 'yes' : 'no', a.flag || '', a.source_title, a.source_url];
     });
     if (region === 0) rows = rows.concat(D.unmapped.map(function (a) {
-      return ['', 'No place printed', '', '', '', '', a.year, String(a.year), a.agency, a.program, a.recipient, a.amount, 'dollars', 'no', a.flag || '', a.source_title, a.source_url];
+      return ['', 'No place printed', '', '', '', '', a.year, String(a.year), a.agency, a.program, a.recipient, a.amount,
+        a.amount_unit === 'usd_bonds' ? 'bond cap dollars' : a.amount_unit === 'usd_per_year_tax_credit' ? 'tax credit dollars per year' : 'dollars', 'no', a.flag || '', a.source_title, a.source_url];
     }));
     return notesBlock() + csv(['award_id', 'region', 'county', 'town', 'project', 'location_approximate', 'year', 'year_label', 'agency', 'program', 'recipient', 'amount',
       'amount_unit', 'counts_in_state_dollars', 'flag', 'source_title', 'source_url'], rows);
@@ -383,7 +384,7 @@
       }).join('') + '</table>' +
       (region === 0 ? '<h2>Awards with no place printed</h2><table><tr><th>Year</th><th>Award</th><th>Recipient</th><th>Program</th><th>Amount</th><th>Record</th></tr>' +
         D.unmapped.map(function (a) {
-          return row([a.year, esc(a.name), esc(a.recipient || '—'), a.agency + ': ' + esc(a.program), fmt(a.amount) + (a.flag ? ' (' + a.flag + ')' : ''), '<a href="' + esc(abs(a.source_url)) + '">' + esc(a.source_title) + '</a>']);
+          return row([a.year, esc(a.name), esc(a.recipient || '—'), a.agency + ': ' + esc(a.program), fmt(a.amount) + unitTxt(a) + (a.flag ? ' (' + a.flag + ')' : ''), '<a href="' + esc(abs(a.source_url)) + '">' + esc(a.source_title) + '</a>']);
         }).join('') + '</table>' : '') + '</body></html>';
   }
 
