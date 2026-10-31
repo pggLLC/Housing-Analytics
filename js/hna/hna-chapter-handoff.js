@@ -57,6 +57,27 @@
     li.appendChild(small);
   }
 
+  // A count the card scopes ("in Fruita · 5 county-wide", "county-wide (tract
+  // match unavailable)") keeps that scope here. Without it a county fallback
+  // count reads as the town's own. Plain source notes ("HUD annual list") are
+  // not scope and are left on the card.
+  var SCOPE = /county|^in\s/i;
+  function quoteScope(li, src) {
+    var old = li.querySelector('.hna-handoff__scope');
+    if (old) old.parentNode.removeChild(old);
+    var card = src.closest('.stat');
+    var note = card && card.querySelector('.s');
+    var t = note ? note.textContent.replace(/\s+/g, ' ').trim() : '';
+    if (!t || !SCOPE.test(t)) return;
+    var small = document.createElement('small');
+    small.className = 'hna-handoff__scope';
+    small.textContent = ' (' + t + ')';
+    // Inside the label: the list item is a flex row, so a sibling would
+    // become a third column.
+    var label = li.querySelector('span');
+    (label || li).appendChild(small);
+  }
+
   function fill() {
     var host = document.getElementById('hnaChapterHandoff');
     if (!host) return 0;
@@ -69,6 +90,7 @@
       if (!usable(value)) { li.hidden = true; continue; }
       var slot = li.querySelector('.hna-handoff__n');
       if (slot) slot.textContent = value.trim();
+      quoteScope(li, src);
       quoteSource(li, src);
       li.hidden = false;
       shown += 1;

@@ -252,6 +252,48 @@
     return s ? s.textContent.replace(/\s+/g, ' ').trim() : '';
   }
 
+  /* What the downloads do not carry. The page has about 60 sections; the
+   * files carry the summary figures above. Saying so lets a reader of the file
+   * alone know where to look, rather than assume an absent section is empty.
+   * A fuller export is a separate decision. */
+  var NOT_IN_FILE = 'This file carries the summary figures only. These page sections are on the page and not in this file: '
+    + 'the maps, HUD and CHFA rent and income limits, rent triangulation, second homes and short-term rentals, '
+    + 'home values and homeownership affordability, income distribution, permits, age of stock, bedroom mix, '
+    + 'special needs housing, demographic and population projections, the labor market and wage charts, '
+    + 'Proposition 123 compliance, PMA delineation, renter need by bedroom count, affordable ownership need, '
+    + 'housing type feasibility, Colorado market conditions and the housing action plan checklist. '
+    + 'Open the page for those.';
+
+  /* Where a figure was measured, in words a reader can act on. The raw codes
+   * ('county_proportional', 'county_value_used_directly') stay in the JSON
+   * for anyone scripting against it; the CSV and PDF print these. */
+  var CHAS_SOURCE_WORDS = {
+    place: 'Measured for this place (tract CHAS apportioned to the place boundary)',
+    county: 'County rates used: CHAS is not published for this place, so the containing county\u2019s rates stand in',
+    combined: 'Combined from the selected places',
+    none: 'Not available for this geography',
+    unavailable: 'Not available for this geography'
+  };
+  var LEHD_SOURCE_WORDS = {
+    place: 'Measured for this place',
+    county_direct: 'County figure: this geography is a county',
+    county_proportional: 'Apportioned: the county figure scaled by this place\u2019s share of county population',
+    none: 'Not available for this geography',
+    unavailable: 'Not available for this geography'
+  };
+  function _sourceWords(table, code) {
+    if (code == null || code === '') return '';
+    return table[code] || String(code);
+  }
+  /* The ranking index flags fields it estimated from the county. Every place
+   * projection is scaled from the county DOLA projection by population share
+   * (build_ranking_index.py), so 'county_value_used_directly' misdescribes it. */
+  function _approximationWords(dq) {
+    var fields = (dq && dq.approximatedFields) || [];
+    if (!fields.length) return '';
+    return 'Estimated from the containing county, scaled by this place\u2019s share of county population';
+  }
+
   /** The reason a map overlay did not load, as the page states it on the
    *  overlay toggle (hna-renderers.js _markOverlayToggle). */
   function _overlayReason(toggleId) {
@@ -345,7 +387,7 @@
     return [
       { key: 'projectCount', label: 'LIHTC projects', value: l.projectCount, sub: l.projectCountScope || 'Active compliance', reason: l.lihtcUnavailableReason },
       { key: 'totalUnits',   label: 'LIHTC units',    value: l.totalUnits,   sub: l.totalUnitsScope || 'Affordable',          reason: l.lihtcUnavailableReason },
-      { key: 'qctTracts',    label: 'QCT tracts',     value: l.qctTracts,    sub: 'IRC §42(d)(5)(B)',                   reason: l.qctUnavailableReason },
+      { key: 'qctTracts',    label: 'QCT tracts',     value: l.qctTracts,    sub: l.qctScope || 'IRC §42(d)(5)(B)',     reason: l.qctUnavailableReason },
       { key: 'ddaStatus',    label: 'DDA status',     value: l.ddaStatus,    sub: '130% basis boost',                        reason: l.ddaUnavailableReason },
     ].map(function (r) {
       var text = _isBlankText(r.value) ? '' : String(r.value).trim();
@@ -661,6 +703,7 @@
     return {
       exportedAt:    new Date().toISOString(),
       generatedBy:   'COHO Analytics HNA Export',
+      notInThisFile: NOT_IN_FILE,
       disclaimer:    'Screening tool only. Public-data screening output, not a substitute for a CHFA-required market study, professional underwriting, or independent investor analysis. See docs/METHODOLOGY-GAPS-2026-05-21.md for known limitations.',
       vintages: {
         acs:          'ACS 5-Year 2020-2024',
@@ -713,6 +756,7 @@
       },
       chasCostBurden: {
         source:         m._chas_source || 'unavailable',  // 'place' | 'county' | 'none'
+        sourceLabel:    _sourceWords(CHAS_SOURCE_WORDS, m._chas_source || 'unavailable'),
         renterPctBurdened: {
           lte30:    _numOrNull(m.pct_burdened_lte30),
           tier31to50: _numOrNull(m.pct_burdened_31to50),
@@ -738,6 +782,7 @@
         inCommuters:        _numOrNull(m.in_commuters),
         commuteRatioPct:    _numOrNull(m.commute_ratio),
         source:             m._lehd_source || 'unavailable',  // 'place' | 'county_direct' | 'county_proportional' | 'none'
+        sourceLabel:        _sourceWords(LEHD_SOURCE_WORDS, m._lehd_source || 'unavailable'),
       },
       lihtc: {
         projectCount: lihtcCountText,
@@ -745,6 +790,9 @@
         projectCountScope: _cardSub('statLihtcCount'),
         totalUnitsScope:   _cardSub('statLihtcUnits'),
         qctTracts:    qctText,
+        // "in Fruita · 5 in Mesa County" or "county-wide count": the card's
+        // own scope note, so a fallback county count is never read as the town's.
+        qctScope:     _cardSub('statQctCount'),
         ddaStatus:    ddaText,
         // Why a card reads Unavailable, in the page's own words.
         lihtcUnavailableReason: /unavailable/i.test(lihtcStatus) ? lihtcStatus : null,
@@ -757,6 +805,7 @@
       dataQuality: idxRec ? {
         approximatedFields:  (idxRec.dataQuality && idxRec.dataQuality.approximated_fields) || [],
         approximationBasis:  (idxRec.dataQuality && idxRec.dataQuality.approximation_basis) || null,
+        approximationNote:   _approximationWords({ approximatedFields: (idxRec.dataQuality && idxRec.dataQuality.approximated_fields) || [] }),
         hasIncompleteData:   idxRec.hasIncompleteData || false,
         nullCriticalMetrics: idxRec.nullCriticalMetrics || 0,
       } : null,
@@ -943,6 +992,7 @@
       ['Generated By',                  d.generatedBy || ''],
       ['Exported At',                   d.exportedAt || ''],
       ['Disclaimer',                    d.disclaimer || ''],
+      ['Not in this file',              d.notInThisFile || ''],
       ['', ''],
 
       // \u2500\u2500 Geography \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
@@ -1001,7 +1051,7 @@
 
       // \u2500\u2500 HUD CHAS Cost Burden (all 5 AMI tiers) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
       ['SECTION', 'HUD CHAS Cost Burden'],
-      ['CHAS Data Source',                       chas.source || ''],
+      ['CHAS Data Source',                       chas.sourceLabel || chas.source || ''],
       ['Renter Cost-Burdened: \u226430% AMI',         fmtPct(burden.lte30)],
       ['Renter Cost-Burdened: 31-50% AMI',       fmtPct(burden.tier31to50)],
       ['Renter Cost-Burdened: 51-80% AMI',       fmtPct(burden.tier51to80)],
@@ -1025,7 +1075,7 @@
       ['SECTION', 'LEHD Employment'],
       ['In-Commuters',                           fmtNum(emp.inCommuters)],
       ['Commute Ratio (inflow / total)',         fmtPct(emp.commuteRatioPct)],
-      ['LEHD Source',                            emp.source || ''],
+      ['LEHD Source',                            emp.sourceLabel || emp.source || ''],
       ['', ''],
 
       // \u2500\u2500 LIHTC \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
@@ -1041,9 +1091,9 @@
       ['', ''],
 
       // \u2500\u2500 Data Quality flags \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-      ['SECTION', 'Data Quality'],
-      ['Approximated Fields',                    (dq.approximatedFields || []).join(', ')],
-      ['Approximation Basis',                    dq.approximationBasis || ''],
+      ['SECTION', 'Data Quality (ranking index)'],
+      ['Ranking index: fields estimated from the county', (dq.approximatedFields || []).join(', ')],
+      ['Ranking index: how they were estimated', dq.approximationNote || ''],
       ['Has Incomplete Data',                    String(dq.hasIncompleteData)],
       ['Null Critical Metrics (count)',          String(dq.nullCriticalMetrics)],
     ]);
@@ -1433,7 +1483,7 @@
       drawTableSimple(gapRows.map(function (r) {
         return { label: _pdfPlain(r.label), value: r.display };
       }).concat([
-        { label: 'CHAS data source',           value: data.chasCostBurden.source },
+        { label: 'CHAS data source',           value: data.chasCostBurden.sourceLabel || data.chasCostBurden.source },
         { label: 'AMI gap source',             value: data.amiGap.source },
       ]));
       gapRows.forEach(function (r) { if (r.reason) drawNarrative(_pdfPlain(r.label + ': ' + r.reason)); });
@@ -1444,7 +1494,7 @@
       drawTableSimple([
         { label: 'Inbound commuters', value: data.employment.inCommuters },
         { label: 'Commute ratio',     value: data.employment.commuteRatioPct != null ? data.employment.commuteRatioPct + '%' : null },
-        { label: 'LEHD source',       value: data.employment.source },
+        { label: 'LEHD source',       value: data.employment.sourceLabel || data.employment.source },
       ]);
 
       // ── 8. LIHTC + opportunity factors ──
@@ -1485,6 +1535,12 @@
       pdf.setFont('helvetica', 'italic');
       pdf.setFontSize(8);
       pdf.setTextColor.apply(pdf, COLOR_MUTED);
+      if (data.notInThisFile) {
+        const notIn = pdf.splitTextToSize('Not in this file: ' + data.notInThisFile.replace(/^This file/, 'This PDF'), CONTENT_W);
+        newPageIfNeeded((notIn.length * 10) + 6);
+        pdf.text(notIn, MARGIN, y);
+        y += (notIn.length * 10) + 6;
+      }
       const disclaimer = pdf.splitTextToSize(data.disclaimer, CONTENT_W);
       newPageIfNeeded((disclaimer.length * 10) + 6);
       pdf.text(disclaimer, MARGIN, y);
@@ -1784,7 +1840,7 @@
           return sh;
         };
         addTable('Sources', meta.sources, [34, 30, 40, 40, 60, 24, 16, 14, 60]);
-        addTable('About', meta.about.concat([['Chart sheets', chartNote]]), [26, 110]);
+        addTable('About', meta.about.concat([['Chart sheets', chartNote], ['Not in this file', NOT_IN_FILE]]), [26, 110]);
       } else {
         var notes = wb.addWorksheet('Notes & sources');
         notes.columns = [{ header: 'Notes', key: 'n', width: 110 }];
