@@ -4799,6 +4799,17 @@
     if (window.ChasTierShares && typeof window.ChasTierShares.init === 'function') {
       try { await window.ChasTierShares.init(); } catch (_) { /* soft-fail */ }
     }
+    // The housing gap summary and the housing-type ranking were drawn above,
+    // before county and place CHAS were loaded, so they scored without them:
+    // the "flags N renter households" line never printed, and Fruita's deeply
+    // affordable rental read 69 with 2 of 5 indicators instead of 76 with 4.
+    // Draw both again now that CHAS is in.
+    if (window.HNARenderers.renderHousingGapSummary) {
+      try { window.HNARenderers.renderHousingGapSummary(profile, geoType); } catch (_) { /* soft-fail */ }
+    }
+    if (window.HNARenderers.tryRenderHousingTypeNeedFromState) {
+      try { window.HNARenderers.tryRenderHousingTypeNeedFromState(profile); } catch (_) { /* soft-fail */ }
+    }
     // Affordable Ownership Need uses the home-value cascade for place/CDP and
     // county selections. Start it early but do not block the core CHAS and
     // AMI-gap panels on this optional ownership-only input.
