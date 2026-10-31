@@ -387,8 +387,53 @@
       "accessed": "2026-07-07"
     },
     {
+      "id": "ls1",
+      "label": "Local support record for City of Cortez, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0817375",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Cortez Housing Action Plan (City of Cortez Housing Action Plan page and plan PDF)",
+      "url": "https://www.cortezco.gov/DocumentCenter/View/3298/Action-Plan-FINAL",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-cortez-2023-hap",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Contract for an Affordable and Workforce Housing Coordinator (Prop 123 commitment of 89 units) (Cortez City Council minutes, October 8, 2024)",
+      "url": "https://public.destinyhosted.com/cortedocs/2024/CC/20241008_170/170_10082024.doc",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-cortez-2024-housing-coordinator",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Ordinance 1352, Series 2025: Land Use Code incentives for affordable housing projects (Prop 123 fast track) (Cortez City Council minutes, November 25, 2025)",
+      "url": "https://public.destinyhosted.com/cortedocs/2025/CC/20251125_243/243_MinutesNovember252025.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-cortez-2025-ord-1352",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "MOU with developer Evergreen Redevelopment West for affordable multifamily rental housing on City-owned West 7th Street land (Cortez City Council minutes, June 9, 2026)",
+      "url": "https://public.destinyhosted.com/cortedocs/2026/CC/20260609_273/273_MinutesJune92026.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-cortez-2026-evergreen-7th-street",
+      "accessed": "2026-10-10"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-31T03:59:44Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -397,7 +442,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-31T03:59:44Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -532,7 +577,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-31T03:59:44Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -541,7 +586,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-31T03:59:44Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -550,7 +595,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-31T03:59:44Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -601,51 +646,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "ls1",
-      "label": "Local support record for City of Cortez, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0817375",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "Cortez Housing Action Plan (City of Cortez Housing Action Plan page and plan PDF)",
-      "url": "https://www.cortezco.gov/DocumentCenter/View/3298/Action-Plan-FINAL",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-cortez-2023-hap",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "Contract for an Affordable and Workforce Housing Coordinator (Prop 123 commitment of 89 units) (Cortez City Council minutes, October 8, 2024)",
-      "url": "https://public.destinyhosted.com/cortedocs/2024/CC/20241008_170/170_10082024.doc",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-cortez-2024-housing-coordinator",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls4",
-      "label": "Ordinance 1352, Series 2025: Land Use Code incentives for affordable housing projects (Prop 123 fast track) (Cortez City Council minutes, November 25, 2025)",
-      "url": "https://public.destinyhosted.com/cortedocs/2025/CC/20251125_243/243_MinutesNovember252025.pdf",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-cortez-2025-ord-1352",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls5",
-      "label": "MOU with developer Evergreen Redevelopment West for affordable multifamily rental housing on City-owned West 7th Street land (Cortez City Council minutes, June 9, 2026)",
-      "url": "https://public.destinyhosted.com/cortedocs/2026/CC/20260609_273/273_MinutesJune92026.pdf",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-cortez-2026-evergreen-7th-street",
-      "accessed": "2026-10-10"
     }
   ]
 }
