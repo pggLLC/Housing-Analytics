@@ -171,7 +171,12 @@ test('each download says what it leaves out', () => {
 test('the IC summary names the county when the QCT count is county-wide', () => {
   const js = read('js/ic-summary.js');
   assert.ok(/isPlace \? countyName : ''/.test(js), 'the town summary no longer passes the county');
-  assert.ok(/' county-wide \(' \+ countyScope \+ '\)'/.test(js), 'the QCT row no longer says county-wide');
+  // Agreement with the HNA card: the IC row must use the same scope word the
+  // card uses for a county-wide count, so the two surfaces read the same.
+  const card = read('js/hna/hna-renderers.js').match(/features\.length \+ ' ([a-z-]+)'/);
+  assert.ok(card, 'the HNA card no longer labels its county-wide count; recheck the IC summary');
+  assert.ok(new RegExp("' " + card[1] + " \\(' \\+ countyScope").test(js),
+    'the HNA card calls the count "' + card[1] + '" but the IC summary does not');
 });
 
 console.log(failures === 0 ? '  hna-one-next-and-scope-words: PASS' : '  hna-one-next-and-scope-words: FAIL (' + failures + ')');
