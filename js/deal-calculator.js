@@ -4312,6 +4312,13 @@
   // only while the county picker is empty, so a chosen county is untouched.
   var PRE_COUNTY_REASON = 'Unavailable — Select a county to load AMI rent limits.';
   function quietPreCountyAbsence() {
+    // Display-only tidy-up: skip quietly where the DOM lacks tree walking
+    // (lightweight test documents), and never let it break a calculation.
+    if (typeof document === 'undefined' || typeof document.createTreeWalker !== 'function' ||
+        typeof document.querySelector !== 'function') return;
+    try { _quietPreCountyAbsence(); } catch (_) { /* cosmetic only */ }
+  }
+  function _quietPreCountyAbsence() {
     var sel = document.getElementById('dc-county-select');
     if (!sel) return;
     var mount = document.querySelector('main') || document.body;
@@ -4323,7 +4330,7 @@
       });
       return;
     }
-    var walker = document.createTreeWalker(mount, NodeFilter.SHOW_TEXT);
+    var walker = document.createTreeWalker(mount, 4 /* NodeFilter.SHOW_TEXT */);
     var hits = [];
     while (walker.nextNode()) {
       var n = walker.currentNode;
