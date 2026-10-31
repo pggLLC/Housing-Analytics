@@ -46,9 +46,13 @@ REGIONS = {
 }
 
 def norm(s):
-    s = (s or "").lower().replace("&", " and ")
+    s = (s or "").lower().replace("&", " and ").replace("@", " at ")
+    s = re.sub(r"\bmhp\b", "mobile home park", s)
     s = re.sub(r"[^a-z0-9 ]", " ", s)
+    # program tags in award reports (THLF, TAHG, PSH) and "Phase" are not part of the project's name
     w = [x for x in s.split() if x not in ("the", "apartments", "apartment", "apts", "apt")]
+    t = [x for x in w if x not in ("thlf", "tahg", "psh", "phase")]
+    if len(t) >= 2: w = t
     return " ".join(w)
 
 # ---------- geography
@@ -76,6 +80,9 @@ def place_for(town, fips=None):
     t = norm(re.sub(r"^(city|town) of ", "", town.strip(), flags=re.I))
     t = {"denver city and county": "denver", "unincorporated": ""}.get(t, t)
     ids = PNAME.get(t, [])
+    # "Robins Way Montrose": a street printed before the town; use the town after the street word
+    sm = None if ids else re.search(r"\b(street|st|avenue|ave|way|road|rd|drive|dr|boulevard|blvd|lane|ln|court|ct|parkway|pkwy)\b\.?\s+(.+)$", town.strip(), re.I)
+    if sm: ids = PNAME.get(norm(sm.group(2)), [])
     if fips: ids = [i for i in ids if PLACES[i]["county"] == fips] or ids
     if len(ids) > 1: ids = [i for i in ids if not PLACES[i]["cdp"]] or ids
     return ids[0] if ids else None
@@ -234,6 +241,9 @@ for a in DA:
     if not town and a.get("grantee"):
         m = re.match(r"(?:City|Town) of ([A-Z][\w .]+?)(?:,|$| and )", a["grantee"])
         if m: town = m.group(1)
+    # a street address with a mailing town ("th Avenue Denver") yields to a city grantee named in the award ("City of Aurora")
+    gm = re.match(r"(?:City|Town) of ([A-Z][\w .]+?)(?:,|$| and )", a.get("grantee") or "")
+    if town and gm and not PNAME.get(norm(town)) and place_for(gm.group(1)) and place_for(town) != place_for(gm.group(1)): town = gm.group(1)
     if not fips and town:
         pid = place_for(town); fips = PLACES[pid]["county"] if pid else None
     agency = "DOLA" if a["program"].startswith("DLG") else "DOH"
