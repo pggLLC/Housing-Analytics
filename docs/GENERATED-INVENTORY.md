@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T12:20:32.762Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T12:56:04.682Z. Do not edit by hand.
 
 ---
 
@@ -62,7 +62,7 @@
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
 | `housing-help.html` | If You Need Housing Now | COHO Analytics | 17.2 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 255.2 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 255.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 52.2 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.1 KB |
@@ -138,7 +138,7 @@
 | `data/car-market-report-2026-10.json` | 3.0 KB | ✅ | — |
 | `data/car-market-reports.json` | 467 B | ✅ | — |
 | `data/car-market.json` | 734 B | ✅ | — |
-| `data/census-acs-state.json` | 26.1 KB | ✅ | — |
+| `data/census-acs-state.json` | 26.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
 | `data/chfa-income-rent-limits-2026.json` | 499.7 KB | ✅ | — |
 | `data/chfa-lihtc.json` | 966.9 KB | ✅ | 926 features |
@@ -2063,7 +2063,7 @@
 
 ## Test Files
 
-746 test files found.
+749 test files found.
 
 | File | Size |
 |------|------|
@@ -2113,6 +2113,7 @@
 | `test/car-estimate-disclosure.test.js` | 5.3 KB |
 | `test/car-report-index.test.js` | 5.2 KB |
 | `test/car-showingtime-fetcher.test.mjs` | 8.4 KB |
+| `test/census-acs-state-tenure-field.test.js` | 1.2 KB |
 | `test/census-dashboard-scope.test.js` | 2.3 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
 | `test/chas-affordable-available.test.js` | 6.0 KB |
@@ -2390,6 +2391,7 @@
 | `test/housing-need-face-validity.test.mjs` | 25.3 KB |
 | `test/housing-news-leads-with-the-newest.test.mjs` | 24.0 KB |
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
+| `test/housing-outcome-score-site-only-label.test.js` | 2.4 KB |
 | `test/housing-type-need-middle-income.test.js` | 6.0 KB |
 | `test/hud-designation-year.test.js` | 5.5 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
@@ -2542,6 +2544,7 @@
 | `test/pma-transit-stops.test.js` | 30.4 KB |
 | `test/pma-transit.test.js` | 15.9 KB |
 | `test/pma-utility-not-measured.test.js` | 2.3 KB |
+| `test/pma-vacancy-zero-overlap.test.js` | 2.2 KB |
 | `test/pma-workplaces.test.mjs` | 4.3 KB |
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
 | `test/policy-briefs-curated.test.js` | 70.7 KB |
@@ -2861,7 +2864,7 @@
 | `.github/workflows/external-references-check.yml` | 6.1 KB |
 | `.github/workflows/fetch-bps-monthly.yml` | 4.6 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 3.9 KB |
-| `.github/workflows/fetch-census-acs.yml` | 6.9 KB |
+| `.github/workflows/fetch-census-acs.yml` | 7.0 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.6 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.1 KB |
 | `.github/workflows/fetch-co-construction-labor-cost.yml` | 5.5 KB |

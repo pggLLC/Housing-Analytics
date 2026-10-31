@@ -1,6 +1,6 @@
 feature,coefficient,source
-Vacancy rate,0.071,ACS B25002
-Rent burden ≥30% share,0.0693,ACS B25070
-Permits per capita (5yr avg),-0.052,Census BPS
-Median income growth (10y),0.0381,ACS B19013
-Avg construction wages,0.0128,BLS QCEW NAICS 23
+Vacancy rate,0.0679,ACS B25002
+Rent burden ≥30% share,0.0493,ACS B25070
+Permits per capita (5yr avg),-0.0326,Census BPS
+Median income growth (10y),0.0314,ACS B19013
+Avg construction wages,0.0079,BLS QCEW NAICS 23
