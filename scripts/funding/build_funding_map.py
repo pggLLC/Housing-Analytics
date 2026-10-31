@@ -354,6 +354,10 @@ for d in idx:
         # temporary money retired at permanent conversion is short-term; a balance paid down at conversion counts at the kept amount
         note = m.get("note") or ""
         if phase == "perm" and re.search(r"(paid|repaid) off at (permanent )?conversion|repaid at (permanent )?conversion", note, re.I): phase = "construction"
+        # an unattributed row whose note says the project buys or pays for something is a cost (a use), not a source
+        if phase == "perm" and cat == "other" and re.search(r"\b(buys|pays|purchases)\b", note) and not re.search(r"grant|loan|fund|note|carryback", m["source"], re.I): cat, phase = "cost", "summary"
+        # earlier money for a prior deal on the site, and nominal land prices, are shown, not added
+        if phase == "perm" and (re.search(r"^earlier\b|\(history\)", m["source"], re.I) or re.search(r"\bnominal\b", m["amount"], re.I)): phase = "summary"
         # one award shared with another property, with no published split, is shown, not added
         if phase == "perm" and re.search(r"shared with|split (is )?not (public|stated|published)|split between", m["amount"] + " " + note, re.I): phase = "summary"
         # an amount whose note says it bundles land or other in-kind support with cash is shown, not added
