@@ -331,7 +331,7 @@
         a.counts_in_totals ? 'yes' : 'no', a.flag || '', a.source_title, a.source_url];
     });
     if (region === 0) rows = rows.concat(D.unmapped.map(function (a) {
-      return ['', 'No place printed', '', '', '', '', a.year, String(a.year), a.agency, a.program, a.recipient, a.amount,
+      return ['', 'No place printed', '', '', a.name || '', '', a.year, String(a.year), a.agency, a.program, a.recipient, a.amount,
         a.amount_unit === 'usd_bonds' ? 'bond cap dollars' : a.amount_unit === 'usd_per_year_tax_credit' ? 'tax credit dollars per year' : 'dollars', 'no', a.flag || '', a.source_title, a.source_url];
     }));
     return notesBlock() + csv(['award_id', 'region', 'county', 'town', 'project', 'location_approximate', 'year', 'year_label', 'agency', 'program', 'recipient', 'amount',
