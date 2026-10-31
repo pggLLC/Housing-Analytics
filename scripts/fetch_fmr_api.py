@@ -313,14 +313,15 @@ def _expand_metroareas_to_counties(metroareas: list, il_index: dict) -> list:
                 if ami_4person <= 0:
                     ami_4person = _CO_STATEWIDE_DEFAULT_AMI
 
+                limits = calc_income_limits(ami_4person, il_row)
                 counties.append({
                     'fips':                    fips,
                     'county_name':             county_name,
                     'fmr_area_name':           area_name,
                     'fmr_area_code':           area_code,
                     'fmr':                     fmr,
-                    'income_limits':           calc_income_limits(ami_4person),
-                    'affordable_rents_60pct':  calc_affordable_rents_60pct(ami_4person, fmr),
+                    'income_limits':           limits,
+                    'affordable_rents_60pct':  calc_affordable_rents_60pct(ami_4person, fmr, limits),
                 })
             continue
 
@@ -347,14 +348,15 @@ def _expand_metroareas_to_counties(metroareas: list, il_index: dict) -> list:
         if ami_4person <= 0:
             ami_4person = _CO_STATEWIDE_DEFAULT_AMI
 
+        limits = calc_income_limits(ami_4person, il_row)
         counties.append({
             'fips':                    fips,
             'county_name':             county_name,
             'fmr_area_name':           county_name + ' FMR Area',
             'fmr_area_code':           hud_code or ('NCNTY' + fips + 'CO'),
             'fmr':                     fmr,
-            'income_limits':           calc_income_limits(ami_4person),
-            'affordable_rents_60pct':  calc_affordable_rents_60pct(ami_4person, fmr),
+            'income_limits':           limits,
+            'affordable_rents_60pct':  calc_affordable_rents_60pct(ami_4person, fmr, limits),
         })
 
     return counties
@@ -600,17 +602,51 @@ def assert_distinct_county_amis(counties: list) -> None:
         )
 
 
-def calc_income_limits(ami_4person: int) -> dict:
-    """Derive income limits at 30/50/60/80% AMI for household sizes 1-4."""
+def _published_limit(record: dict, band: str, pct: int, size: int) -> int:
+    """HUD's own limit for one band and household size, or 0 when absent.
+
+    The HUD User /il/data response nests them as
+    {'very_low': {'il50_p1': ...}, 'extremely_low': {'il30_p1': ...},
+     'low': {'il80_p1': ...}}.
+    """
+    table = (record or {}).get(band)
+    if not isinstance(table, dict):
+        return 0
+    try:
+        return int(float(table.get(f'il{pct}_p{size}') or 0))
+    except (TypeError, ValueError):
+        return 0
+
+
+def calc_income_limits(ami_4person: int, record: dict | None = None) -> dict:
+    """Income limits at 30/50/60/80% AMI for household sizes 1-4.
+
+    HUD's published limits are used whenever the record carries them. They are
+    not the median times the percentage: HUD floors them at the state
+    non-metro median and adjusts for high housing cost and low income, so a
+    straight multiplication understated 38 of 64 counties (Pueblo 60%, four
+    people: $52,600 against HUD-based $58,440). 60% is 120% of the very-low
+    (50%) limit, the rule HUD and CHFA use for tax-credit limits. The median
+    multiplication is kept only as a fallback for a record without limits.
+    """
     result: dict = {'ami_4person': ami_4person}
+    bands = {30: 'extremely_low', 50: 'very_low', 80: 'low'}
     for pct in (30, 50, 60, 80):
         for size in (1, 2, 3, 4):
-            raw = ami_4person * (pct / 100) * _SIZE_FACTORS[size]
-            result[f'il{pct}_{size}person'] = int(round(raw / 50) * 50)
+            if pct == 60:
+                vli = _published_limit(record, 'very_low', 50, size)
+                published = int(round(vli * 1.2)) if vli else 0
+            else:
+                published = _published_limit(record, bands[pct], pct, size)
+            if published > 0:
+                result[f'il{pct}_{size}person'] = published
+            else:
+                raw = ami_4person * (pct / 100) * _SIZE_FACTORS[size]
+                result[f'il{pct}_{size}person'] = int(round(raw / 50) * 50)
     return result
 
 
-def calc_affordable_rents_60pct(ami_4person: int, fmr: dict) -> dict:
+def calc_affordable_rents_60pct(ami_4person: int, fmr: dict, limits: dict | None = None) -> dict:
     """
     Calculate affordable gross rent thresholds at 60% AMI (standard LIHTC limit)
     for household sizes 1–4, cross-referenced against FMR for market context.
@@ -620,7 +656,9 @@ def calc_affordable_rents_60pct(ami_4person: int, fmr: dict) -> dict:
     """
     result: dict = {}
     for size in (1, 2, 3, 4):
-        monthly_income_60pct = ami_4person * 0.60 * _SIZE_FACTORS[size] / 12
+        il60 = int((limits or {}).get(f'il60_{size}person') or 0)
+        annual_60pct = il60 if il60 > 0 else ami_4person * 0.60 * _SIZE_FACTORS[size]
+        monthly_income_60pct = annual_60pct / 12
         affordable_gross = int(round(monthly_income_60pct * 0.30 / 10) * 10)
         # Cross-reference: affordable rent as % of FMR for that bedroom size
         br_map = {1: 'efficiency', 2: 'one_br', 3: 'two_br', 4: 'three_br'}
@@ -767,8 +805,8 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
         if il_ami <= 0:
             il_ami = _CO_STATEWIDE_DEFAULT_AMI
 
-        income_limits = calc_income_limits(il_ami)
-        affordable_rents = calc_affordable_rents_60pct(il_ami, fmr)
+        income_limits = calc_income_limits(il_ami, il_row)
+        affordable_rents = calc_affordable_rents_60pct(il_ami, fmr, income_limits)
 
         counties.append({
             'fips':                    fips,
