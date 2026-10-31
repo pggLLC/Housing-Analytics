@@ -50,10 +50,10 @@
   // test/mortgage-rate-one-source.test.js checks it against the FRED
   // MORTGAGE30US reading for the same week in data/fred-data.json.
   var MORTGAGE_RATE = {
-    rateAnnual: 0.074,
-    week: '2026-10-15',
+    rateAnnual: 0.0724,
+    week: '2026-10-29',
     series: 'MORTGAGE30US',
-    source: 'Freddie Mac PMMS 30-year fixed average, week of October 15, 2026',
+    source: 'Freddie Mac PMMS 30-year fixed average, week of October 29, 2026',
   };
   // Identical to hna-ownership-need.js CONSTANTS.affordabilityAssumptions
   // (drift is guarded by an explicit field-by-field test).
