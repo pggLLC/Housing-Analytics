@@ -1,7 +1,7 @@
 {
-  "generated": "2026-10-31T04:03:46.422Z",
+  "generated": "2026-10-31T11:16:42.303Z",
   "values": {
-    "renter_cost_burden_pct": 50.5,
+    "renter_cost_burden_pct": 53,
     "lihtc_property_count": 926,
     "average_lihtc_units_per_year": 3735,
     "average_lihtc_new_construction_units_per_year": 2935,
@@ -35,11 +35,11 @@
   },
   "source_vintages": {
     "data/hna/ranking-index.json": {
-      "updated": "2026-10-31T03:59:44Z",
+      "updated": "2026-10-31T11:11:12Z",
       "source": "metadata.generatedAt"
     },
     "data/market/acs_tract_metrics_co.json": {
-      "updated": "2026-10-18T12:59:49.037197+00:00",
+      "updated": "2026-10-31T11:02:00.209181+00:00",
       "source": "meta.generated"
     },
     "data/chfa-lihtc.json": {
