@@ -70,6 +70,7 @@ PATHS=(
   data/derived/funding-vs-need.json
   data/market/development-activity.json
   data/policy/prop123-land-banking-status.json
+  data/derived/funding-map.json
   data/market/market-direction.json
   data/paper
   working-paper.html
