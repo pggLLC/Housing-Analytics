@@ -297,13 +297,27 @@
     if (code == null || code === '') return '';
     return table[code] || String(code);
   }
-  /* The ranking index flags fields it estimated from the county. Every place
-   * projection is scaled from the county DOLA projection by population share
-   * (build_ranking_index.py), so 'county_value_used_directly' misdescribes it. */
+  /* The ranking index flags fields it estimated from the county. Each group
+   * is estimated its own way (scripts/hna/build_ranking_index.py), so the
+   * note names the method per group; the raw basis code
+   * ('county_value_used_directly') misdescribed the projection. */
+  var APPROX_METHODS = [
+    { test: /^(ami_gap_|missing_ami_tiers$)/, words: 'AMI gap: the county gap scaled by this place\u2019s share of county population' },
+    { test: /^pct_(owner_)?burdened_/, words: 'Cost burden (CHAS): the county\u2019s rates used as they are' },
+    { test: /^in_commuters$/, words: 'In-commuters (LEHD): the county inflow scaled by this place\u2019s share of county population' },
+    { test: /^vacancy_rate_pct$/, words: 'Rental vacancy: the county\u2019s active-market rate, because the place\u2019s renter base is small' },
+    { test: /^population_projection_20yr$/, words: '20-year population: the county DOLA growth allocated to this place by its share of county households and recent permits (its population share where that is not available)' }
+  ];
   function _approximationWords(dq) {
     var fields = (dq && dq.approximatedFields) || [];
-    if (!fields.length) return '';
-    return 'Estimated from the containing county, scaled by this place\u2019s share of county population';
+    var out = [];
+    APPROX_METHODS.forEach(function (m) {
+      if (fields.some(function (f) { return m.test.test(f); })) out.push(m.words);
+    });
+    fields.forEach(function (f) {
+      if (!APPROX_METHODS.some(function (m) { return m.test.test(f); })) out.push(f + ': estimated from the containing county');
+    });
+    return out.join('; ');
   }
 
   /** The reason a map overlay did not load, as the page states it on the

@@ -123,6 +123,23 @@ test('exports print scope words, not codes', () => {
   assert.ok(/county_proportional: 'Apportioned/.test(js), 'apportioned jobs figures are not called apportioned');
 });
 
+// Agreement with the build: every field build_ranking_index.py can flag as
+// approximated must have its own method sentence in the export, so a new
+// flagged field cannot fall through to a generic (or wrong) description.
+test('every field the ranking index can flag has its own method in the export', () => {
+  const py = read('scripts/hna/build_ranking_index.py');
+  const a = py.indexOf('approximated_fields: list[str] = []');
+  const block = py.slice(a, py.indexOf('opportunity_aggregated_fields = ', a));
+  const flagged = [...new Set((block.match(/"([a-z0-9_]+)"/g) || []).map((x) => x.slice(1, -1))
+    .filter((f) => !/^(county|place|place_acs_direct|county_active_market_small_renter_base)$/.test(f)))];
+  assert.ok(flagged.length >= 10, 'the scan found only ' + flagged.length + ' flagged fields');
+  const js = read('js/hna/hna-export.js');
+  const m = js.slice(js.indexOf('  var APPROX_METHODS'), js.indexOf('  function _approximationWords'));
+  const APPROX_METHODS = new Function(m + '; return APPROX_METHODS;')();
+  const uncovered = flagged.filter((f) => !APPROX_METHODS.some((x) => x.test.test(f)));
+  assert.deepStrictEqual(uncovered, [], 'flagged by the build with no method sentence in the export: ' + uncovered.join(', '));
+});
+
 test('each download says what it leaves out', () => {
   const js = read('js/hna/hna-export.js');
   assert.ok(/notInThisFile: NOT_IN_FILE\.csv/.test(js), 'the JSON does not carry the coverage note');
