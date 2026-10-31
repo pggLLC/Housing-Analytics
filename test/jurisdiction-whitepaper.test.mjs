@@ -447,9 +447,10 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
     const n = m.need.need20yr;
     ok(n === null || m.deal.notes.some((x) => x.includes('20-year need (' + fmt(n) + ' homes) is one total')), `${g}: the 20-year need must be named as unsplit by income`);
   }
-  // Gunnison: 0 short at 60% AMI but most 31–50% renters burdened, rural resort county.
+  // Gunnison: few homes counted short at 50% AMI (29 since the tiers follow
+  // HUD's published limits) but most 31–50% renters burdened (233), rural resort county.
   const gm = WP.buildModel(src, '0833640', { FundingFit, MixCheck, today: '2026-10-18' });
-  ok(gm.deal.mix.le60 === 0 && gm.deal.notes.some((x) => /at 31–50% AMI .* pay more than 30% of income, though only/.test(x)),
+  ok(gm.deal.mix.le50 < gm.deal.burden['31to50'].burdened && gm.deal.notes.some((x) => /at 31–50% AMI .* pay more than 30% of income, though only/.test(x)),
     'a band counted 0 short whose renters are burdened must be called real need');
   ok(gm.deal.workforce && gm.deal.workforce.ruralResort && /Middle-income Housing Tax Credit/.test(gm.deal.notes.join(' ')),
     'a rural resort county must get the middle-income (80–120% AMI) lane');
