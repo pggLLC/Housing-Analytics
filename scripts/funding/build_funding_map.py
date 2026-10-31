@@ -361,10 +361,12 @@ for d in idx:
     money_rows = []
     for m in full.get("money", []):
         # "X, Y and Z" with one amount for each part, where some parts are in-kind: split so the cash parts still count
-        lp = re.split(r",\s*(?:and\s+)?|\s+and\s+", m["source"]); ap = re.split(r"\s+and\s+|;\s*", m["amount"])
+        # (or "X plus Y" where the parts come from different kinds of funder, such as a state grant plus a city match)
+        lp = re.split(r",\s*(?:and\s+)?|\s+(?:and|plus)\s+", m["source"]); ap = re.split(r"\s+(?:and|plus)\s+|;\s*", m["amount"])
         if len(lp) >= 2 and len(lp) == len(ap) and all(re.search(r"\$\s?[\d,.]+", a) for a in ap):
             kinds = [classify(x, a)[1] == "inkind" for x, a in zip(lp, ap)]
-            if any(kinds) and not all(kinds):
+            cats = {classify(x, a)[0] for x, a in zip(lp, ap)}
+            if (any(kinds) and not all(kinds)) or (len(cats) > 1 and re.search(r"\splus\s", m["source"]) and not re.search(r"\s(and)\s|,", m["source"])):
                 head = re.match(r"^((?:city|town|county)(?: of \w+)?)\s", lp[0], re.I)
                 for x, a in zip(lp, ap):
                     if head and not x.lower().startswith(head.group(1).lower()): x = head.group(1) + " " + x
@@ -381,7 +383,7 @@ for d in idx:
             if amt and not tdc: tdc = {"amount": amt, "text": m["amount"], "source_title": s0.get("title", "COHO deal summary"), "source_url": s0.get("url", "")}
             continue
         # asked for but not confirmed: shown, never added
-        if re.search(r"requested|request amount|applied for|none awarded|not awarded|\bgap\b(?! (loan|financ|fund))|shortfall|unfunded|still to (be )?raise|not yet raised|to be raised", m["amount"], re.I) or re.search(r"not verified|unverified", m.get("note") or "", re.I) or re.search(r"\bcombined\b|whole project|funding plan|overall", m["source"], re.I) or \
+        if re.search(r"requested|request amount|applied for|none awarded|not awarded|\bgap\b(?! (loan|financ|fund))|shortfall|unfunded|still to (be )?raise|not yet raised|to be raised", m["amount"], re.I) or re.search(r"not verified|unverified|not confirmed|unconfirmed", m.get("note") or "", re.I) or re.search(r"\bcombined\b|whole project|funding plan|overall", m["source"], re.I) or \
            re.search(r"whole (first )?phase|whole project|campus|all phases|entire (site|project|neighborhood)|whole neighborhood", m["amount"], re.I): phase = "summary"
         # temporary money retired at permanent conversion is short-term; a balance paid down at conversion counts at the kept amount
         note = m.get("note") or ""
