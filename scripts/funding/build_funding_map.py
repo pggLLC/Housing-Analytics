@@ -352,6 +352,8 @@ for d in idx:
         # temporary money retired at permanent conversion is short-term; a balance paid down at conversion counts at the kept amount
         note = m.get("note") or ""
         if phase == "perm" and re.search(r"(paid|repaid) off at (permanent )?conversion|repaid at (permanent )?conversion", note, re.I): phase = "construction"
+        # an amount whose note says it bundles land or other in-kind support with cash is shown, not added
+        if phase == "perm" and re.search(r"^\s*(land contribution|land donation|donated land|in-kind)", note, re.I): phase = "summary"
         pd = re.search(r"paid down to (\$[\d,.]+\s*(?:million|m\b|k\b)?) at (permanent )?conversion", note, re.I)
         if phase == "perm" and pd and money(pd.group(1)): amt = money(pd.group(1))
         # a per-home figure is not the project's total, so it is shown but never added
