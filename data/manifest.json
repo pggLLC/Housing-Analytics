@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-31T18:04:02.033217Z",
+  "generated": "2026-10-31T18:34:08.807855Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9224,7 +9224,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16091
+      "bytes": 16087
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -9744,7 +9744,7 @@
     "data/policy/lihtc-underwriting-rules.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14793
+      "bytes": 17797
     },
     "data/policy/local-commitment.json": {
       "featureCount": 0,
