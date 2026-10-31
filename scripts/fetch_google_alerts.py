@@ -131,11 +131,19 @@ def parse_feed(url: str) -> list[dict]:
                 desc = strip_html(item.findtext('description', ''))
                 pub_date = parse_rss_date(item.findtext('pubDate'))
                 source = item.findtext('source', '') or urllib.parse.urlparse(url).netloc
+                # Google News gives the publisher's own address in
+                # <source url="...">. The display name is whatever a site
+                # calls itself; the address is what the outlet register
+                # (scripts/news/outlets.py) checks.
+                source_el = item.find('source')
+                source_url = source_el.get('url', '') if source_el is not None else ''
+                source_domain = urllib.parse.urlparse(source_url).netloc.lower().removeprefix('www.')
                 full_text = f'{title} {desc}'
                 items.append({
                     'title': title,
                     'date': pub_date,
                     'source': strip_html(source) or url,
+                    **({'source_domain': source_domain} if source_domain else {}),
                     'url': link,
                     'topic': detect_topic(full_text),
                     'region': detect_region(full_text),
@@ -204,6 +212,12 @@ def main() -> int:
             if item.get('url') and item['url'] not in existing_urls:
                 new_items.append(item)
                 existing_urls.add(item['url'])
+            elif item.get('source_domain') and item.get('url'):
+                # An item archived before the publisher's address was kept
+                # gets it when a feed returns the item again.
+                for old in existing:
+                    if old.get('url') == item['url'] and not old.get('source_domain'):
+                        old['source_domain'] = item['source_domain']
     print(f'  Found {len(new_items)} new item(s)')
 
     # Merge and prune by age
