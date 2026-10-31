@@ -25,7 +25,7 @@ work.
 
 **The problem.** The same jurisdiction returns slightly different scores
 on the Opportunity Finder, the Compare page, the Housing Needs
-Assessment, and the IndiBuild internal Where-Should-I-Build view.
+Assessment, and the internal Where-Should-I-Build view.
 Each consumer computes its own score from its own copy of the inputs.
 The numbers are close but they don't tie, and a user who notices loses
 trust.

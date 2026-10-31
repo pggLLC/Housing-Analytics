@@ -74,6 +74,9 @@ OUT = {
 
 _HTTP_NO_CONTENT_COUNT = 0
 _HTTP_NO_CONTENT_LOCK = threading.Lock()
+# Status of this thread's last http_get_json call, so a caller can tell "the
+# vintage has no row" (204/400/404) from "the request never got through".
+_HTTP_LAST = threading.local()
 
 DEFAULT_ACS_FETCH_WORKERS = 8
 DEFAULT_ACS_HTTP_TIMEOUT_SECONDS = 8
@@ -158,6 +161,16 @@ def _is_expected_acs1_no_content(url: str, status: int) -> bool:
     )
 
 
+# Pauses before re-asking a year whose request failed in transit.
+TRANSIENT_RETRY_PAUSES = (5, 20, 60)
+
+
+def _is_transient_status(status: int) -> bool:
+    """True for a request that never got an answer (transport error) or got a
+    retryable one, as opposed to Census saying the row does not exist."""
+    return status == 0 or status in (408, 429, 500, 502, 503, 504)
+
+
 def utc_now_z() -> str:
     """Return ISO 8601 UTC timestamp string ending with 'Z'."""
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -240,6 +253,7 @@ def http_get_json(url: str, timeout: int | None = None) -> dict | list | None:
     if timeout is None:
         timeout = acs_http_timeout_seconds()
     status, text = http_get_text(url, timeout=timeout, retries=acs_http_retries())
+    _HTTP_LAST.status = status
     if _is_expected_acs1_no_content(url, status):
         return None
     if status != 200:
@@ -1163,7 +1177,19 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         return f"{base}?{qs}"
 
     def _fetch_from(year: int, series: str, batch_vars: list[str]) -> dict | None:
-        result = http_get_json(build_url(year, 'profile', series, batch_vars))
+        url = build_url(year, 'profile', series, batch_vars)
+        result = http_get_json(url)
+        # A transport error or 408/429/5xx is not "this year has no row": on
+        # 2026-10-24 five small places (Olathe, Oak Creek, Nucla, Redstone,
+        # Roxborough Park) lost a 2024 request to "Network is unreachable" and
+        # were silently stamped with the 2022/2023 profile. Wait and ask the
+        # same year again before the caller moves to an older vintage.
+        for pause in TRANSIENT_RETRY_PAUSES:
+            if result is not None or not _is_transient_status(getattr(_HTTP_LAST, 'status', 200)):
+                break
+            print(f"ℹ ACS profile {geo_type}:{geoid} {series} {year}: transient failure, retrying in {pause}s", file=sys.stderr)
+            time.sleep(pause)
+            result = http_get_json(url)
         if not (result and len(result) > 1):
             return None
         # Key by the canonical name so the cache shape — and every client

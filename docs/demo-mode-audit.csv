@@ -37,10 +37,10 @@ LIHTC-dashboard.html,sam-* stat cards,live (id-driven by js/lihtc-allocations.js
 lihtc-allocations.html,sam-* stat cards,live,LIVE,y,Novogradac state-by-state,[F118-5 SHIPPED commit 0e4d6157] LIVE badges added
 chfa-portfolio.html,kpi* cells (5),live (id-driven),LIVE,y,chfa-properties.json,[F118-5 SHIPPED commit 0e4d6157] LIVE badges added
 article-pricing.html,prose pricing figures ($0.84 etc),Q1 2026 article snapshot,STATIC,y,Novogradac pricing update,[F118-5 SHIPPED commit 0e4d6157] STATIC notice added under header
-indibuild-brief.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
-indibuild.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
-indibuild-pipeline.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
-indibuild-where.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
+developer-brief.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
+developer.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
+developer-pipeline.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
+developer-where.html,N/A — intentionally internal/manual,SKIP,N/A,N/A,SKIPPED per task instructions
 # F119 — post-F118 residual gap sweep (2026-06-05). Three pages slipped through.
 colorado-deep-dive.html,Market Overview > canvas#mo-pricing-forecast subtitle,'Projected 9% credit pricing with 95% confidence intervals',FAKE,partial,Modeled — chart data is fabricated forecast,[F119 SHIPPED] subtitle gets QUAL badge + Novogradac source link (data stays modeled but framing is honest)
 colorado-deep-dive.html,Market Overview > canvas#mo-starts-forecast subtitle,'Quarterly multifamily housing starts projection',FAKE,partial,Modeled — chart data is fabricated forecast,[F119 SHIPPED] subtitle gets QUAL badge + Census BPS / DOLA source links

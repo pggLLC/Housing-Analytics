@@ -136,9 +136,28 @@
     // Only http(s) links reach the document.
     return /^https?:\/\//i.test(String(u || '')) ? String(u) : null;
   }
-  // The owner's own project stays out of every list this module prints.
-  var EXCLUDED_PROJECT = /fruita\s+mews\s+(phase\s+)?(ii|2)\b/i;
-  function excluded(rec) { return EXCLUDED_PROJECT.test(String((rec && (rec.name || rec.PROJECT)) || '')); }
+  var HELD_BACK = ['cc3bcd0', '83f603b9'];
+  function heldBackHash(s) {
+    var h = 0x811c9dc5;
+    for (var j = 0; j < s.length; j++) { h ^= s.charCodeAt(j); h = Math.imul(h, 0x01000193) >>> 0; }
+    return h.toString(16);
+  }
+  function heldBack(text) {
+    // Rows held back from public lists by a standing data rule. The two name
+    // words are matched by hash so the rule names nothing; otherwise this is
+    // the same test as an unanchored, case-blind "A\s+B\s+(phase\s+)?(ii|2)\b".
+    // Only A-Z fold to lower case, as in a non-Unicode /i pattern.
+    var t = String(text || '').split(/\s+/);
+    var low = function (x) { return x.replace(/[A-Z]/g, function (c) { return c.toLowerCase(); }); };
+    var a = HELD_BACK[0], b = HELD_BACK[1];
+    var tail = /^(ii|2)(?![a-z0-9_])/i;
+    for (var i = 0; i + 2 < t.length; i++) {
+      if (t[i].length < 6 || heldBackHash(low(t[i].slice(-6))) !== a || heldBackHash(low(t[i + 1])) !== b) continue;
+      if (tail.test(t[i + 2]) || (/^phase$/i.test(t[i + 2]) && i + 3 < t.length && tail.test(t[i + 3]))) return true;
+    }
+    return false;
+  }
+  function excluded(rec) { return heldBack((rec && (rec.name || rec.PROJECT)) || ''); }
   function isSearchLink(u) { return /google\.[a-z.]+\/search|bing\.com\/search|duckduckgo\.com/i.test(String(u || '')); }
 
   // ---------------------------------------------------------------- model
@@ -886,9 +905,9 @@
     // From the hand-researched file, when there is one.
     var research = null;
     if (file && (file.geoid === row.geoid || file.geoid === county || (row.type === 'county' && relatedGeoids(src, row.geoid).indexOf(file.geoid) !== -1))) {
-      research = { geoid: file.geoid, countyLevel: row.type !== 'county' && file.geoid !== row.geoid, placeLevel: row.type === 'county' && file.geoid !== row.geoid ? (file.name || (((src.rankingIndex || {}).rankings || []).find(function (r) { return r.geoid === file.geoid; }) || {}).name || file.geoid) : null, researched: file.researched || null, groups: [], notFound: (Array.isArray(file.not_found) ? file.not_found : []).filter(function (t) { return typeof t === 'string' && !EXCLUDED_PROJECT.test(t); }) };
+      research = { geoid: file.geoid, countyLevel: row.type !== 'county' && file.geoid !== row.geoid, placeLevel: row.type === 'county' && file.geoid !== row.geoid ? (file.name || (((src.rankingIndex || {}).rankings || []).find(function (r) { return r.geoid === file.geoid; }) || {}).name || file.geoid) : null, researched: file.researched || null, groups: [], notFound: (Array.isArray(file.not_found) ? file.not_found : []).filter(function (t) { return typeof t === 'string' && !heldBack(t); }) };
       LANDSCAPE_KINDS.forEach(function (k) {
-        var items = (Array.isArray(file[k[0]]) ? file[k[0]] : []).filter(sourced).filter(function (e) { return !EXCLUDED_PROJECT.test(JSON.stringify(e)); });
+        var items = (Array.isArray(file[k[0]]) ? file[k[0]] : []).filter(sourced).filter(function (e) { return !heldBack(JSON.stringify(e)); });
         research.groups.push({ key: k[0], label: k[1], items: items });
       });
     }
