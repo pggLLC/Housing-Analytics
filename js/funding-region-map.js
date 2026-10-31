@@ -404,9 +404,11 @@
     if (!fly) return;
     announce();
     if (t && T[t].lat != null) {
-      var pts = D.sites.filter(function (s) { return s.town === t; }).map(function (s) { return [s.lat, s.lng]; });
+      // frame the town's project pins, plus the town center when it keeps a marker for awards with no pin
+      var pts = D.sites.filter(function (s) { return s.town === t && markers[s.id]; }).map(function (s) { return [s.lat, s.lng]; });
+      if (!pts.length || (townMarkers[t] && townMarkers[t]._frmLoose)) pts.push([T[t].lat, T[t].lng]);
       if (pts.length > 1) map.flyToBounds(L.latLngBounds(pts).pad(0.3), { duration: 0.6, maxZoom: 14 });
-      else map.flyTo([T[t].lat, T[t].lng], 12.5, { duration: 0.6 });
+      else map.flyTo(pts[0], 12.5, { duration: 0.6 });
       return;
     }
     if (r === 0) { map.flyToBounds(CO_BOUNDS, { duration: 0.6 }); return; }
