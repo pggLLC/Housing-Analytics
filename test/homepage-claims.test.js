@@ -24,6 +24,21 @@ function htmlBlock(startNeedle, endNeedle) {
 
 assert(!index.includes('Educational Guide'), 'homepage must not describe itself as an Educational Guide');
 
+// The need-score explainer names both halves of overall_need_score with the
+// shares the ranking builder uses (AXIS_WEIGHTS), not the need half alone.
+{
+  const builder = fs.readFileSync(path.join(ROOT, 'scripts', 'hna', 'build_ranking_index.py'), 'utf8');
+  const axis = builder.match(/AXIS_WEIGHTS = \{\s*"community_need": ([0-9.]+),\s*"opportunity": ([0-9.]+),/);
+  assert(axis, 'AXIS_WEIGHTS not found in scripts/hna/build_ranking_index.py');
+  const needPct = Math.round(Number(axis[1]) * 100);
+  const oppPct = Math.round(Number(axis[2]) * 100);
+  const m = index.match(/home-opening__map-explainer" data-measure-text="need">([\s\S]*?)<\/span>/);
+  assert(m, 'index.html must keep the need-score explainer');
+  const text = m[1].replace(/\s+/g, ' ');
+  assert(text.includes(`(${needPct}%) is need`), `need-score explainer must give the need share as ${needPct}%`);
+  assert(text.includes(`(${oppPct}%) is opportunity`), `need-score explainer must give the opportunity share as ${oppPct}%`);
+}
+
 for (const banned of [
   'quarter-million',
   'quarter\u2011million',

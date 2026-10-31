@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-30T13:28:42.582Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T02:03:37.129Z. Do not edit by hand.
 
 ---
 
@@ -64,7 +64,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 255.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 51.9 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 52.2 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.1 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 13.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.3 KB |
@@ -84,7 +84,7 @@
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
 | `regional.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `research-brief.html` | Research Brief | COHO Analytics | 24.7 KB |
-| `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.5 KB |
+| `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.7 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 13.6 KB |
@@ -315,7 +315,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 298.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 299.8 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -2036,7 +2036,7 @@
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
 | `data/policy_briefs.json` | 445.2 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 177.0 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 215.9 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 187.6 KB | ✅ | — |
@@ -2062,7 +2062,7 @@
 
 ## Test Files
 
-742 test files found.
+743 test files found.
 
 | File | Size |
 |------|------|
@@ -2091,7 +2091,7 @@
 | `test/audit-modules/audit-status.js` | 4.1 KB |
 | `test/audit-modules/data-integrity.js` | 20.4 KB |
 | `test/audit-modules/link-check.js` | 3.4 KB |
-| `test/audit-modules/logic-validation.js` | 14.2 KB |
+| `test/audit-modules/logic-validation.js` | 15.7 KB |
 | `test/audit-modules/operations-status.js` | 21.3 KB |
 | `test/audit-modules/pr-progress.js` | 11.2 KB |
 | `test/audit-modules/repo-health.js` | 31.0 KB |
@@ -2152,7 +2152,7 @@
 | `test/daily-audit-operations.test.js` | 26.1 KB |
 | `test/daily-audit-pr-progress.test.js` | 15.0 KB |
 | `test/daily-audit-repo-health.test.js` | 37.7 KB |
-| `test/daily-audit-signal.test.js` | 17.4 KB |
+| `test/daily-audit-signal.test.js` | 18.2 KB |
 | `test/daily-audit-system.js` | 20.7 KB |
 | `test/data-commits-queue.test.js` | 12.9 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
@@ -2351,7 +2351,7 @@
 | `test/hna-projection-integrity.test.js` | 58.0 KB |
 | `test/hna-prop123-relationship.test.js` | 14.3 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
-| `test/hna-qct-dda-unavailable.test.js` | 9.7 KB |
+| `test/hna-qct-dda-unavailable.test.js` | 11.0 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 4.4 KB |
 | `test/hna-ranking-index.test.js` | 23.5 KB |
 | `test/hna-ranking-low-evidence-badge.test.js` | 6.4 KB |
@@ -2377,7 +2377,7 @@
 | `test/home-step-cards-match-destinations.test.js` | 3.3 KB |
 | `test/home-value-integrity.test.mjs` | 19.1 KB |
 | `test/homeownership-programs.test.js` | 8.7 KB |
-| `test/homepage-claims.test.js` | 15.9 KB |
+| `test/homepage-claims.test.js` | 16.9 KB |
 | `test/homepage-job-routing.test.js` | 10.5 KB |
 | `test/homepage-snapshot.test.js` | 16.0 KB |
 | `test/homes-short-agreement.test.js` | 4.2 KB |
@@ -2464,6 +2464,7 @@
 | `test/navigation-pill-label.test.js` | 2.7 KB |
 | `test/navigation-reaches-every-page.test.mjs` | 5.9 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
+| `test/neuro-inclusive-brief.test.mjs` | 5.6 KB |
 | `test/next-step-link.test.js` | 8.7 KB |
 | `test/nhpd-coverage.test.js` | 14.1 KB |
 | `test/nlihc-out-of-reach.test.mjs` | 4.7 KB |

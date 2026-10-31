@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-30T13:29:24.590Z",
+    "generated_at": "2026-10-31T02:04:20.041Z",
     "root": "data/",
     "file_count": 2004,
-    "total_size_bytes": 209070686,
+    "total_size_bytes": 209111765,
     "kinds": {
       "json": 1956,
       "geojson": 34,
@@ -15,7 +15,7 @@
       "path": "_qa-status.json",
       "kind": "json",
       "size_bytes": 7713,
-      "mtime": "2026-10-29T16:18:48.752Z",
+      "mtime": "2026-10-30T17:18:22.865Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -610,7 +610,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-30T13:29:20.340Z",
+      "mtime": "2026-10-31T02:04:15.033Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6437,8 +6437,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 305724,
-      "mtime": "2026-10-29T16:18:48.837Z",
+      "size_bytes": 306959,
+      "mtime": "2026-10-30T17:18:22.975Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -6453,7 +6453,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1970,
+      "primary_array_length": 1978,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -22167,7 +22167,7 @@
       "path": "hna/local-resources-candidates.json",
       "kind": "json",
       "size_bytes": 6696,
-      "mtime": "2026-10-23T13:12:07.928Z",
+      "mtime": "2026-10-30T17:18:23.103Z",
       "shape": "object",
       "keys": [
         "generatedAt",
@@ -38117,7 +38117,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 254739,
-      "mtime": "2026-10-30T13:28:42.532Z",
+      "mtime": "2026-10-30T17:18:23.269Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39854,8 +39854,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16088,
-      "mtime": "2026-10-30T13:29:22.426Z",
+      "size_bytes": 16090,
+      "mtime": "2026-10-31T02:04:17.185Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39879,7 +39879,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-30T13:29:21.906Z",
+      "mtime": "2026-10-31T02:04:16.656Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -43146,8 +43146,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 181243,
-      "mtime": "2026-10-29T14:08:01.115Z",
+      "size_bytes": 221085,
+      "mtime": "2026-10-30T17:37:42.508Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43155,7 +43155,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 11,
+      "primary_array_length": 12,
       "primary_array_first_keys": [
         "id",
         "title",
