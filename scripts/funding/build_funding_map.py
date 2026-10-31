@@ -287,9 +287,11 @@ def classify(src, amt):
     # costs (uses of money), not sources: shown, never added
     if re.search(r"acquisition (price|cost)|purchase price|sale price|construction contract|hard cost|soft cost|rehab(ilitation)? (cost|budget|contract)|cost of|proposed budget", s): return "cost", "summary"
     if "equity" in s: return "equity", "perm"
-    inkind = re.search(r"waiver|exemption|abatement|saved|savings|donat|land lease|ground lease|in-kind|fee reduction|rebate|discount|^land$|land contribution|infrastructure", s + " " + a)
+    inkind = re.search(r"waiver|exemption|abatement|saved|savings|donat|land lease|ground lease|in-kind|fee reduction|rebate|discount|^land$|land contribution", s + " " + a)
+    # infrastructure built for the project is in-kind; a grant, loan or capital payment for it is cash
+    inkind = inkind or re.search(r"paid separately", s) or (re.search(r"infrastructure", s + " " + a) and not re.search(r"grant|loan|capital|cash|fund|\$", s))
     if re.search(r"deferred develop|developer fee|sponsor loan|seller|owner|general partner|sponsor equity", s): cat = "owner"
-    elif re.search(r"chfa|division of housing|\bdoh\b|dola|oedit|prop 123|state housing board|colorado department|state of colorado|colorado energy|history colorado", s): cat = "state"
+    elif re.search(r"chfa|division of housing|\bdoh\b|dola|oedit|prop 123|state housing board|colorado department|state of colorado|colorado energy|history colorado|transit oriented communities infrastructure|\btoci\b", s): cat = "state"
     elif re.search(r"\b(hud|home|cdbg|arpa|usda|epa|fhlb)\b|federal|environmental protection|section 8|congression|treasury|capital magnet", s): cat = "federal"
     elif re.search(r"foundation|philanthrop|donor|gift|church|community fund|impact fund", s): cat = "gift"
     elif re.search(r"city|county|town|housing authority|district|denver|metro|authority|tribe|tribal|linkage|host\b", s): cat = "local"
