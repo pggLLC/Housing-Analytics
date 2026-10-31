@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-31T12:41:23.108Z",
+    "generated_at": "2026-10-31T12:48:14.620Z",
     "root": "data/",
     "file_count": 2005,
-    "total_size_bytes": 210674696,
+    "total_size_bytes": 210674855,
     "kinds": {
       "json": 1957,
       "geojson": 34,
@@ -610,7 +610,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-31T12:21:10.665Z",
+      "mtime": "2026-10-31T12:48:09.808Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -982,8 +982,8 @@
     {
       "path": "census-acs-state.json",
       "kind": "json",
-      "size_bytes": 26768,
-      "mtime": "2026-10-24T13:17:57.105Z",
+      "size_bytes": 26927,
+      "mtime": "2026-10-31T12:47:08.723Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1000,7 +1000,7 @@
         "median_household_income",
         "median_gross_rent",
         "median_home_value",
-        "housing_units_total",
+        "occupied_housing_units",
         "owner_occupied",
         "renter_occupied",
         "housing_units_year_built_total",
@@ -39891,7 +39891,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16090,
-      "mtime": "2026-10-31T12:21:12.788Z",
+      "mtime": "2026-10-31T12:48:11.976Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39915,7 +39915,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-31T12:21:12.271Z",
+      "mtime": "2026-10-31T12:48:11.444Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
