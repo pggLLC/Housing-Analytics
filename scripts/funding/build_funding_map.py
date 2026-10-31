@@ -347,6 +347,11 @@ for d in idx:
         # asked for but not confirmed: shown, never added
         if re.search(r"requested|request amount|applied for|none awarded|not awarded|\bgap\b(?! (loan|financ|fund))|shortfall|unfunded|still to (be )?raise|not yet raised|to be raised", m["amount"], re.I) or re.search(r"not verified|unverified", m.get("note") or "", re.I) or re.search(r"\bcombined\b|whole project|funding plan|overall", m["source"], re.I) or \
            re.search(r"whole (first )?phase|whole project|campus|all phases|entire (site|project|neighborhood)|whole neighborhood", m["amount"], re.I): phase = "summary"
+        # temporary money retired at permanent conversion is short-term; a balance paid down at conversion counts at the kept amount
+        note = m.get("note") or ""
+        if phase == "perm" and re.search(r"(paid|repaid) off at (permanent )?conversion|repaid at (permanent )?conversion", note, re.I): phase = "construction"
+        pd = re.search(r"paid down to (\$[\d,.]+\s*(?:million|m\b|k\b)?) at (permanent )?conversion", note, re.I)
+        if phase == "perm" and pd and money(pd.group(1)): amt = money(pd.group(1))
         # a per-home figure is not the project's total, so it is shown but never added
         if re.search(r"per (unit|home|door|apartment)|/\s*(unit|home)\b", m["amount"], re.I): phase = "perunit"
         rows.append({"label": m["source"], "category": cat, "amount": amt, "amount_text": m["amount"], "phase": phase,
