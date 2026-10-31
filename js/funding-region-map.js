@@ -202,7 +202,7 @@
   }
   function drawMarkers() {
     D.sites.forEach(function (s) {
-      var list = siteAwards(s.id), show = list.length && (region === 0 || T[s.town].region === region);
+      var list = siteAwards(s.id), show = list.length && (region === 0 || T[s.town].region === region) && (!town || s.town === town);
       if (!show) { if (markers[s.id]) { markers[s.id].remove(); delete markers[s.id]; } return; }
       var icon = L.divIcon({ className: '', html: '<div class="frm-pin' + (s.approximate ? ' frm-approx' : '') + '" style="background:conic-gradient(' + grad(list) + ')">' + list.length + '</div>',
         iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -10] });
@@ -211,7 +211,7 @@
     });
     Object.keys(T).forEach(function (k) {
       var t = T[k]; if (t.lat == null) return;
-      var list = D.awards.filter(function (a) { return a.town === k && vis(a); }), show = list.length && (region === 0 || t.region === region);
+      var list = D.awards.filter(function (a) { return a.town === k && vis(a); }), show = list.length && (region === 0 || t.region === region) && (!town || k === town);
       if (!show) { if (townMarkers[k]) { townMarkers[k].remove(); delete townMarkers[k]; } return; }
       var lab = region === 0 ? '' : esc(t.kind === 'county' ? t.name.split(',')[0] : t.name);
       var icon = L.divIcon({ className: '', html: '<div class="frm-tpin' + (region === 0 ? ' frm-dot' : '') + '"><b style="background:conic-gradient(' + grad(list) + ')">' + list.length + '</b>' + lab + '</div>', iconSize: [0, 0] });

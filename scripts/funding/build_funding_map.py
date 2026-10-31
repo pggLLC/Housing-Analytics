@@ -304,7 +304,7 @@ def classify(src, amt):
     # costs (uses of money), not sources: shown, never added
     if re.search(r"acquisition (price|cost)|purchase price|sale price|construction contract|hard cost|soft cost|rehab(ilitation)? (cost|budget|contract)|cost of|proposed budget", s): return "cost", "summary"
     if "equity" in s: return "equity", "perm"
-    inkind = re.search(r"waiver|exemption|abatement|saved|savings|donat|land lease|ground lease|in-kind|fee reduction|rebate|discount|^land$|land contribution", s + " " + a)
+    inkind = re.search(r"waiver|exemption|abatement|saved|savings|donat|land lease|ground lease|in-kind|fee reduction|rebate|discount|price concession|price (cut|reduction)|^land$|land contribution", s + " " + a)
     # infrastructure built for the project is in-kind; a grant, loan or capital payment for it is cash
     inkind = inkind or re.search(r"paid separately", s) or (re.search(r"infrastructure", s + " " + a) and not re.search(r"grant|loan|capital|cash|fund|\$", s))
     if re.search(r"deferred develop|developer fee|sponsor loan|seller|owner|general partner|sponsor equity", s): cat = "owner"
