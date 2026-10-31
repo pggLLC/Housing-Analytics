@@ -298,7 +298,7 @@ def classify(src, amt):
     if re.search(r"total (development )?cost|^tdc|development budget|total budget", s): return "tdc", "perm"
     if re.search(r"^(total|planned permanent sources|permanent sources|sources|closing)|sources, closing|procured sources", s): return "summary", "summary"
     # operating support (vouchers, rent subsidies, services contracts) pays after opening, so it is shown, never added
-    operating = re.search(r"voucher|services funding|operating|rent(al)? subsid|subsidy agreement|services agreement|supportive services|rent(al)? assistance", s)
+    operating = re.search(r"voucher|services funding|operating|rent(al)? subsid|subsidy agreement|services agreement|supportive services|rent(al)? assistance|tenan(cy|t) support|support(ive)? services|services (grant|contract)", s)
     if not operating and ("per year" in a or ("credit" in s and "equity" not in s) or re.search(r"\b(toc|mihtc)\b", s)): return "credits", "summary"
     if "bond" in s or re.search(r"volume cap|\bpab\b|revenue notes?|tax-exempt (multifamily )?(housing )?notes?", s) and not re.search(r"\bhome\b", s): return "bonds", "summary"
     # costs (uses of money), not sources: shown, never added
@@ -316,7 +316,7 @@ def classify(src, amt):
     if re.search(r"developer fee", s) and not re.search(r"defer|contribut|loan|equity", s): return "cost", "summary"
     if re.search(r"deferred develop|developer fee|sponsor loan|seller|owner|general partner|sponsor equity|developer equity|private equity", s): cat = "owner"
     elif re.search(r"chfa|division of housing|\bdoh\b|dola|oedit|prop(osition)? 123|state housing board|colorado department|state of colorado|colorado energy|history colorado|transit oriented communities infrastructure|\btoci\b", s): cat = "state"
-    elif re.search(r"\b(hud|home|cdbg|arpa|usda|epa|fhlb)\b|federal|environmental protection|section 8|congression|treasury|capital magnet", s): cat = "federal"
+    elif re.search(r"\b(hud|home|cdbg|arpa|usda|epa|fhlb)\b|federal|environmental protection|section 8|congression|treasury|capital magnet|community development block grant|home investment partnerships?|national housing trust fund|neighborhood stabilization|american rescue plan|department of housing and urban development|rural development", s): cat = "federal"
     elif re.search(r"foundation|philanthrop|donor|gift|church|community fund|impact fund|(?<!housing )\btrust\b(?! fund)", s): cat = "gift"
     elif re.search(r"city|county|town|housing authority|district|denver|metro|authority|tribe|tribal|linkage|host\b", s): cat = "local"
     elif re.search(r"loan|mortgage|bank|debt|lender", s): cat = "debt"
