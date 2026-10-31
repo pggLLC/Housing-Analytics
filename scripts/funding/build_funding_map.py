@@ -18,6 +18,11 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 HA = os.path.join(ROOT, "data")
 OUT = os.path.join(HA, "derived", "funding-map.json")
 
+
+def load_json(path):
+    with open(path) as fh:
+        return json.load(fh)
+
 REGIONS = {
   1: ("Northeast", ["Logan", "Morgan", "Phillips", "Sedgwick", "Washington", "Yuma"]),
   2: ("Larimer and Weld", ["Larimer", "Weld"]),
@@ -42,7 +47,7 @@ def norm(s):
     return " ".join(w)
 
 # ---------- geography
-cf = json.load(open(f"{HA}/boundaries/counties_co.geojson"))["features"]
+cf = load_json(f"{HA}/boundaries/counties_co.geojson")["features"]
 CNTY = {f["properties"]["GEOID"]: {"name": f["properties"]["NAME"], "geom": shape(f["geometry"])} for f in cf}
 NAME2FIPS = {v["name"]: k for k, v in CNTY.items()}
 REG_OF = {}
@@ -50,7 +55,7 @@ for r, (_, cs) in REGIONS.items():
     for c in cs: REG_OF[NAME2FIPS[c]] = r
 assert len(REG_OF) == 64
 
-pf = json.load(open(f"{HA}/co-place-boundaries.geojson"))["features"]
+pf = load_json(f"{HA}/co-place-boundaries.geojson")["features"]
 PLACES = {}
 PNAME = collections.defaultdict(list)
 for f in pf:
@@ -77,7 +82,7 @@ def place_at(lat, lng):
     return None
 
 # ---------- CHFA property list (points)
-LI = json.load(open(f"{HA}/chfa-lihtc.json"))["features"]
+LI = load_json(f"{HA}/chfa-lihtc.json")["features"]
 LIHTC = []
 for f in LI:
     p = f["properties"]; lng, lat = f["geometry"]["coordinates"]
@@ -146,7 +151,7 @@ def add(site_key, town_k, year, ylab, agency, program, recipient, amount, unit, 
                    counts_in_totals=counts, flag=flag, source_title=st, source_url=su))
 
 # 1. CHFA and OEDIT ledger
-L = json.load(open(f"{HA}/policy/funding-awards/ledger.json"))["awards"]
+L = load_json(f"{HA}/policy/funding-awards/ledger.json")["awards"]
 FIXNAME = {"Adams County Housing Authority N,S Crossing Pointe Phase I": "Crossing Pointe Phase I", "Community Housing Development Association N,S Cornell Senior Apartments": "Cornell Senior Apartments",
   "Four Corners Development, LLC N,S Woodgate Trails Apartments": "Woodgate Trails Apartments", "Grand Junction Housing Authority N,S Highlands 2": "Highlands 2",
   "N,F Aria Apartments Phase II Rose LLC": "Aria Apartments Phase II", "N,F Trinidad Artspace Lofts Artspace Projects, Inc.": "Trinidad Artspace Lofts",
@@ -162,7 +167,7 @@ for a in L:
     if not a["name"] and a["sponsor"]:
         # the PDF reader sometimes folds the project name into the owner column
         sp = norm(a["sponsor"]); cand = [x["name"] for x in LIHTC if x["fips"] == fips] + [v["name"] for v in SITES.values() if v["name"]]
-        cand += [d["name"] for d in json.load(open(f"{HA}/deals/index.json"))["deals"]]
+        cand += [d["name"] for d in load_json(f"{HA}/deals/index.json")["deals"]]
         hit = sorted([c for c in cand if len(norm(c)) >= 6 and norm(c) in sp], key=len, reverse=True)
         if hit: a["name"] = hit[0]
     sk = site_for(a["name"], a["location"], fips, homes=a["restricted_units"] or a["total_units"])
@@ -192,7 +197,7 @@ def HINTS(s):
     return None
 
 # 2. Division of Housing and Division of Local Government awards
-DA = json.load(open(f"{HA}/policy/funding-awards/dola-awards.json"))["awards"]
+DA = load_json(f"{HA}/policy/funding-awards/dola-awards.json")["awards"]
 UNMAPPED = []
 for a in DA:
     fips = a["county_fips"]; town = a["town"]
@@ -257,9 +262,9 @@ def classify(src, amt):
     if inkind: return cat, "inkind"
     return cat, "perm"
 
-idx = json.load(open(f"{HA}/deals/index.json"))["deals"]
+idx = load_json(f"{HA}/deals/index.json")["deals"]
 for d in idx:
-    full = json.load(open(f"{HA}/deals/{d['slug']}.json"))
+    full = load_json(f"{HA}/deals/{d['slug']}.json")
     fips = NAME2FIPS.get((d.get("county") or "").replace(" County", ""))
     sk = None
     for nm in [d["name"]] + d["match"].get("names", []):
