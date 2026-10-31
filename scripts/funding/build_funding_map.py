@@ -391,6 +391,12 @@ for d in idx:
                     if head and not x.lower().startswith(head.group(1).lower()): x = head.group(1) + " " + x
                     money_rows.append(dict(m, source=x, amount=a))
                 continue
+        # "$5M and $3.4M" whose note says "the $3.4M is HOME funds": each part takes its own funder
+        if len(ap) >= 2 and all(re.fullmatch(r"\$[\d,.]+\s*(?:million|m|k)?", x.strip(), re.I) for x in ap):
+            said = {money(x.group(1)): x.group(2) for x in re.finditer(r"\bthe (\$[\d,.]+\s*(?:million|m\b|k\b)?) (?:is|are|was|were) ([^.;,(]+)", m.get("note") or "", re.I)}
+            if any(money(x) in said for x in ap):
+                for x in ap: money_rows.append(dict(m, source=m["source"] + (" (" + said[money(x)].strip() + ")" if money(x) in said else ""), amount=x.strip()))
+                continue
         money_rows.append(m)
     for m in money_rows:
         cat, phase = classify(m["source"], m["amount"])
