@@ -1628,7 +1628,10 @@
       // the construction interest budget, CHFA's operating reserve and deferred fee review.
       bondTest: cbm.bondTest({ creditType: result.creditType, bondAmount: fields['dc-bond-amount'], issuedAfter2025: fields['dc-bond-post2025'],
         eligibleCost: costSummary.reason ? null : costSummary.eligible, land: costSummary.reason || !Object.prototype.hasOwnProperty.call(costSummary.byId, 'land') ? null : costSummary.byId.land,
-        costReason: costSummary.reason, constructionLoan: fields['dc-constr-loan'], rules: costRules }),
+        // Unitemized cost could be eligible basis, so a pass on a partial denominator is withheld.
+        costReason: costSummary.reason || (costSummary.notItemized > 0.5 ? 'Itemize the remaining $' + Math.round(costSummary.notItemized).toLocaleString('en-US')
+          + ' of Total Development Cost; the bond test is measured on all of building plus land.' : null),
+        constructionLoan: fields['dc-constr-loan'], rules: costRules }),
       constructionInterest: cbm.constructionInterestCheck({ loan: fields['dc-constr-loan'], ratePct: fields['dc-constr-rate'],
         months: fields['dc-constr-months'], drawPct: fields['dc-constr-draw'],
         budget: costSummary.reason || !Object.prototype.hasOwnProperty.call(costSummary.byId, 'construction_interest') ? null : costSummary.byId.construction_interest }),

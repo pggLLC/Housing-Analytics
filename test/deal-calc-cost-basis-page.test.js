@@ -311,6 +311,15 @@ async function test(name, fn) {
     assert(!text(p, 'dc-cb-detail').includes(cb.BOND_TEST_NOTE), 'the assumed-not-checked note goes once the test runs');
     setField(p, 'dc-bond-post2025', 'no');
     assert.match(text(p, 'dc-cb-detail'), /below the 50% test/);
+    // Unitemized cost could be basis: no pass on a partial denominator (Codex review).
+    setField(p, 'dc-bond-post2025', 'yes');
+    const tdc0 = +p.d.getElementById('dc-tdc').value;
+    setField(p, 'dc-tdc', tdc0 + 4000000);
+    assert.equal(cbr().bondTest.passes, null, 'no pass while $4,000,000 is unitemized');
+    assert.match(cbr().bondTest.reason, /Itemize the remaining \$4,000,000/);
+    setField(p, 'dc-tdc', tdc0);
+    assert.equal(cbr().bondTest.passes, true, 'the pass returns once every dollar is itemized');
+    setField(p, 'dc-bond-post2025', 'no');
     // Construction interest: the estimate follows the inputs, the budget is the itemized line.
     setField(p, 'dc-constr-rate', 7); setField(p, 'dc-constr-months', 24); setField(p, 'dc-constr-draw', 50);
     const ci = cbr().constructionInterest;
