@@ -86,9 +86,9 @@ const PASS = 'PASS', OPEN = 'OPEN', UNMEASURED = 'UNMEASURED';
  * two packages pointing at one script means one of them is not held.
  */
 export const DEAL_PACKAGES = [
-  { id: 'L1', issue: 2159, title: 'loan obligations', guard: null },
-  { id: 'B1', issue: 2160, title: 'itemized basis, fees and credit limits', guard: null },
-  { id: 'K1', issue: 2161, title: 'credit stacking and net new equity', guard: null },
+  { id: 'L1', issue: 2159, title: 'loan obligations', guard: 'test:loan-obligations' }, // #2228
+  { id: 'B1', issue: 2160, title: 'itemized basis, fees and credit limits', guard: 'test:deal-cost-basis' }, // #2251
+  { id: 'K1', issue: 2161, title: 'credit stacking and net new equity', guard: 'test:deal-credit-stack' }, // #2346
   { id: 'R1', issue: 2163, title: 'funding evidence and source status', guard: null },
   { id: 'O1', issue: 2164, title: 'operating budget and reserves', guard: null },
   { id: 'W1', issue: 2165, title: 'annual payment order', guard: null },
