@@ -87,7 +87,8 @@
         '<div class="frm-cards" id="frm-cards"></div><button class="frm-btn frm-link" type="button" id="frm-cards-more" hidden></button></section>' +
       '<div class="frm-row" role="group" aria-label="Show agencies" id="frm-chips"></div>' +
       '<div class="frm-main"><div class="frm-map" id="frm-map" role="region" aria-label="Map of funded sites in Colorado"></div>' +
-        '<div class="frm-detail" id="frm-detail" aria-live="polite"></div></div>' +
+        '<div class="frm-detail" id="frm-detail"></div></div>' +
+      '<p class="sr-only" id="frm-status" aria-live="polite" aria-atomic="true"></p>' +
       '<section aria-labelledby="frm-stk-h" class="frm-sec"><div class="frm-row"><h3 id="frm-stk-h">Capital stacks: every public source per project</h3><span class="frm-sub" id="frm-stk-note"></span></div>' +
         '<p class="frm-lede">Sources beyond the state award (tax credit equity and federal, local, foundation, owner and bank money), as named in the deal records. The bar is scaled to the project\'s total cost where one is printed; the hatched part is money no public source accounts for. Construction loans, bonds, credits and in-kind help are listed but not added.</p>' +
         '<div class="frm-klegend" id="frm-klegend"></div><div class="frm-stacks" id="frm-stacks"></div>' +
@@ -396,6 +397,7 @@
     if (changed) drawRegions();
     drawAll();
     if (!fly) return;
+    announce();
     if (t && T[t].lat != null) {
       var pts = D.sites.filter(function (s) { return s.town === t; }).map(function (s) { return [s.lat, s.lng]; });
       if (pts.length > 1) map.flyToBounds(L.latLngBounds(pts).pad(0.3), { duration: 0.6, maxZoom: 14 });
@@ -406,6 +408,18 @@
     map.flyToBounds(L.geoJSON(R[r].shape).getBounds().pad(0.05), { duration: 0.6 });
   }
   function drawAll() { drawCards(); drawMarkers(); drawDetail(); drawStacks(); }
+  // one short status line for screen readers after a filter change, through the site's shared helper
+  function announce() {
+    if (typeof window.__announceUpdate !== 'function') {
+      window.__announceUpdate = function (msg) {
+        var el = document.getElementById('aria-live-region') || $('frm-status'); if (!el) return;
+        el.textContent = ''; requestAnimationFrame(function () { el.textContent = msg; });
+      };
+    }
+    var list = selAwards(), Tt = totals(list), off = AGS.filter(function (g) { return !on[g]; });
+    window.__announceUpdate('Showing ' + selName() + ': ' + list.length + ' awards, ' + short(Tt.sum) + ' in state dollars' +
+      (off.length ? ', hiding ' + off.map(function (g) { return AG[g].label; }).join(' and ') : '') + '.');
+  }
 
   function start(data) {
     D = data; T = D.towns; R = D.regions; SITE = {};
@@ -422,7 +436,7 @@
     $('frm-chips').innerHTML = AGS.map(function (g) { return '<button class="frm-chip" type="button" aria-pressed="true" data-g="' + g + '" style="--c:var(' + AG[g].v + ')"><i></i>' + AG[g].label + '</button>'; }).join('');
     $('frm-chips').addEventListener('click', function (e) {
       var c = e.target.closest('.frm-chip'); if (!c) return; var g = c.dataset.g;
-      on[g] = !on[g]; c.setAttribute('aria-pressed', String(on[g])); drawAll();
+      on[g] = !on[g]; c.setAttribute('aria-pressed', String(on[g])); drawAll(); announce();
     });
     $('frm-detail').addEventListener('click', function (e) {
       var b = e.target.closest('button[data-s]'); if (b) focusSite(b.dataset.s);

@@ -310,7 +310,7 @@ def add_all(figs):
     return None if None in vals else sum(vals)
 def classify(src, amt):
     s = src.lower(); a = amt.lower()
-    if re.search(r"total (development )?cost|^tdc|development budget|total budget", s): return "tdc", "perm"
+    if re.search(r"total (estimated |projected )?(development |project )?cost|^tdc|development budget|total budget", s): return "tdc", "perm"
     if re.search(r"^(total|planned permanent sources|permanent sources|sources|closing)|sources, closing|procured sources", s): return "summary", "summary"
     # operating support (vouchers, rent subsidies, services contracts) pays after opening, so it is shown, never added
     operating = re.search(r"voucher|services funding|operating|rent(al)? subsid|subsidy agreement|services agreement|supportive services|rent(al)? assistance|tenan(cy|t) support|support(ive)? services|services (grant|contract)", s)
