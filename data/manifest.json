@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-31T15:10:31.495091Z",
+  "generated": "2026-10-31T15:48:19.902945Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1022031
+      "bytes": 1023382
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -95,6 +95,21 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 34787
+    },
+    "data/alerts/outlet-decisions.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 183
+    },
+    "data/alerts/outlet-register.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 31759
+    },
+    "data/alerts/outlet-review.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 20375
     },
     "data/alerts/owner-news.json": {
       "featureCount": 0,
@@ -9209,7 +9224,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16087
+      "bytes": 16089
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,

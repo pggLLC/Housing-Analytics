@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T15:09:52.194Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T15:47:47.331Z. Do not edit by hand.
 
 ---
 
@@ -78,7 +78,7 @@
 | `methods.html` | Computational Methods | COHO Analytics | 81.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 48.7 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 52.7 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
@@ -96,7 +96,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1958 JSON files found.
+1961 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -119,6 +119,9 @@
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 1.17 MB | ✅ | — |
 | `data/alerts/brief-news-queue.json` | 34.0 KB | ✅ | — |
+| `data/alerts/outlet-decisions.json` | 183 B | ✅ | — |
+| `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 19.9 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.84 MB | ✅ | — |
@@ -2063,7 +2066,7 @@
 
 ## Test Files
 
-750 test files found.
+751 test files found.
 
 | File | Size |
 |------|------|
@@ -2457,7 +2460,7 @@
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/member-phone-header.test.mjs` | 8.5 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
-| `test/methods-spec-sources.test.mjs` | 5.1 KB |
+| `test/methods-spec-sources.test.mjs` | 6.3 KB |
 | `test/metric-semantics-wording.test.js` | 5.4 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
@@ -2794,6 +2797,7 @@
 | `tests/test_neighborhood_access_builder.py` | 6.0 KB |
 | `tests/test_news_stories.py` | 25.7 KB |
 | `tests/test_osm_landuse_thinning.py` | 4.2 KB |
+| `tests/test_outlets.py` | 9.4 KB |
 | `tests/test_owner_news_picks.py` | 10.7 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
 | `tests/test_place_chas_coverage.py` | 4.5 KB |
@@ -2904,7 +2908,7 @@
 | `.github/workflows/upstream-vintage-watch.yml` | 8.8 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.3 KB |
 | `.github/workflows/ux-pass.yml` | 2.2 KB |
-| `.github/workflows/weekly_housing_brief.yml` | 15.1 KB |
+| `.github/workflows/weekly_housing_brief.yml` | 16.0 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.4 KB |
 | `.github/workflows/workflow-outcome-monitor.yml` | 7.2 KB |
 | `.github/workflows/zillow-data-sync.yml` | 20.8 KB |
