@@ -146,7 +146,11 @@ def add(site_key, town_k, year, ylab, agency, program, recipient, amount, unit, 
         s = SITES[site_key]; town_k = s["town"]
     t = TOWNS[town_k]
     counts = unit == "usd" and amount is not None and flag not in ("requested", "unconfirmed")
-    AW.append(dict(id=f"a{len(AW)+1:04d}", site=SITES[site_key]["id"] if site_key else None, town=town_k, county=t["county"], region=t["region"],
+    # a town that spans counties is grouped once, but each award keeps the county its record prints,
+    # as long as the town actually reaches into that county (otherwise the record's county is a typo)
+    if county != t["county"] and not (county and town_k.startswith("p") and PLACES[town_k[1:]]["geom"].intersection(CNTY[county]["geom"]).area > 0):
+        county = t["county"]
+    AW.append(dict(id=f"a{len(AW)+1:04d}", site=SITES[site_key]["id"] if site_key else None, town=town_k, county=county, region=t["region"],
                    year=year, year_label=ylab, agency=agency, program=program, recipient=recipient, amount=amount, amount_unit=unit,
                    counts_in_totals=counts, flag=flag, source_title=st, source_url=su))
 
@@ -190,17 +194,17 @@ for a in L:
     st = f"{'CHFA' if a['agency']=='CHFA' else 'OEDIT/CHFA'} award report: {a['source_file']}"
     if a["agency"] == "CHFA":
         typ = (a.get("federal_credit_type") or a["program"].replace(" + state", "")).replace("LIHTC", "housing tax credits")
-        if a["federal_credit"]: add(sk, None, a["year"], yl, "CHFA", f"Federal {typ.replace('housing tax credits','').strip()} housing tax credits".replace("  ", " "), a["sponsor"], a["federal_credit"], "usd_per_year_tax_credit", None, st, a["source_url"])
+        if a["federal_credit"]: add(sk, None, a["year"], yl, "CHFA", f"Federal {typ.replace('housing tax credits','').strip()} housing tax credits".replace("  ", " "), a["sponsor"], a["federal_credit"], "usd_per_year_tax_credit", None, st, a["source_url"], county=fips)
         for fld, lab in (("state_credit", "State housing tax credits"), ("toc_credit", "Transit-oriented communities credits"), ("mihtc_credit", "Middle-income housing tax credits")):
-            if a.get(fld): add(sk, None, a["year"], yl, "CHFA", lab, a["sponsor"], a[fld], "usd_per_year_tax_credit", None, st, a["source_url"])
-        if a.get("bond_amount"): add(sk, None, a["year"], yl, "CHFA", "Private activity bonds", a["sponsor"], a["bond_amount"], "usd_bonds", None, st, a["source_url"])
+            if a.get(fld): add(sk, None, a["year"], yl, "CHFA", lab, a["sponsor"], a[fld], "usd_per_year_tax_credit", None, st, a["source_url"], county=fips)
+        if a.get("bond_amount"): add(sk, None, a["year"], yl, "CHFA", "Private activity bonds", a["sponsor"], a["bond_amount"], "usd_bonds", None, st, a["source_url"], county=fips)
         if not (a["federal_credit"] or a.get("state_credit") or a.get("mihtc_credit")):
-            add(sk, None, a["year"], yl, "CHFA", a["program"].replace("LIHTC", "Housing tax credits"), a["sponsor"], None, "usd_per_year_tax_credit", None, st, a["source_url"])
+            add(sk, None, a["year"], yl, "CHFA", a["program"].replace("LIHTC", "Housing tax credits"), a["sponsor"], None, "usd_per_year_tax_credit", None, st, a["source_url"], county=fips)
     else:
         amt = a["amount_awarded"]; flag = None
         if amt is None and a["amount_requested"]: amt, flag = a["amount_requested"], "requested"
         prog = a["program"] + (f" ({a['detail']})" if a.get("detail") else "")
-        add(sk, None, a["year"], str(a["year"]), "OEDIT", prog, a["sponsor"], amt, "usd", flag, st, a["source_url"])
+        add(sk, None, a["year"], str(a["year"]), "OEDIT", prog, a["sponsor"], amt, "usd", flag, st, a["source_url"], county=fips)
 
 def HINTS(s):
     """Region or county for awards that print no town, from the recipient's own service area."""
@@ -236,14 +240,14 @@ for a in DA:
     is_site = bool(proj) and not re.search(r"(DPA|down payment|program|funding recommendations|capacity|planning|rehab program|homeowner)", proj, re.I)
     sk = site_for(proj, town, fips, homes=a["homes"]) if is_site else None
     tk = None if sk else town_key(place_for(town, fips) if town else None, fips)
-    add(sk, tk, a["year"], a.get("announced") or str(a["year"]), agency, a["program_as_printed"] or a["program"], a["grantee"], a["amount"], "usd", flag, a["source_title"], a["source_url"])
+    add(sk, tk, a["year"], a.get("announced") or str(a["year"]), agency, a["program_as_printed"] or a["program"], a["grantee"], a["amount"], "usd", flag, a["source_title"], a["source_url"], county=fips)
 
 # 3. Credit properties awarded before 2016 (CHFA list gives year and homes, no amount)
 for x in LIHTC:
     if not x["year"] or x["year"] >= 2016: continue
     sk = site_for(x["name"], x["city"], x["fips"], x["lat"], x["lng"], x["addr"], x["homes"], False)
     add(sk, None, x["year"], str(x["year"]), "CHFA", f"{x['credit'] or 'Housing tax credits'} (amount not published)", None, None, "usd_per_year_tax_credit", None,
-        "CHFA Housing Tax Credit property list", "https://www.chfainfo.com/rental-housing/housing-credit")
+        "CHFA Housing Tax Credit property list", "https://www.chfainfo.com/rental-housing/housing-credit", county=x["fips"])
 
 # ---------- capital stacks
 STK = {}
@@ -318,7 +322,8 @@ for d in idx:
         if cat == "tdc":
             if amt and not tdc: tdc = {"amount": amt, "text": m["amount"], "source_title": s0.get("title", "COHO deal summary"), "source_url": s0.get("url", "")}
             continue
-        if re.search(r"requested|none awarded|not awarded", m["amount"], re.I) or re.search(r"\bcombined\b", m["source"], re.I): phase = "summary"
+        # asked for but not confirmed: shown, never added
+        if re.search(r"requested|request amount|applied for|none awarded|not awarded", m["amount"], re.I) or re.search(r"not verified|unverified", m.get("note") or "", re.I) or re.search(r"\bcombined\b", m["source"], re.I): phase = "summary"
         # a per-home figure is not the project's total, so it is shown but never added
         if re.search(r"per (unit|home|door|apartment)|/\s*(unit|home)\b", m["amount"], re.I): phase = "perunit"
         rows.append({"label": m["source"], "category": cat, "amount": amt, "amount_text": m["amount"], "phase": phase,
