@@ -751,6 +751,11 @@
     var REGIME_LABEL = { home_high: 'High HOME', home_low: 'Low HOME', prop123: 'Prop 123', ami_formula: 'other AMI-formula', market: 'market-rate' };
     // A blank request stays unknown: the calculator fills its output with modeled capacity, which is not a request.
     var req = num(inp['credit-requested'] != null ? inp['credit-requested'] : param('credit-requested'));
+    // The model's credit is the lesser of capacity and any entered request, or an entered award. The tie-out
+    // needs both inputs to tell whether the model figure is capacity before it calls a higher request a deal breaker.
+    var award = num(inp['credit-awarded'] != null ? inp['credit-awarded'] : param('credit-awarded'));
+    engine.creditRequestInput = req != null && req >= 0 ? req : null;
+    engine.creditAwardInput = award != null && award >= 0 ? award : null;
     var st = num(inp['state-annual'] != null ? inp['state-annual'] : param('state-annual'));
     // Round Two pairs a separate standard state credit with the accelerated amount above.
     var ss = num(inp['state-standard-annual'] != null ? inp['state-standard-annual'] : param('state-standard-annual'));

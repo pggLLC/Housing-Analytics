@@ -121,7 +121,15 @@
         out.flag = within(a, m, row.tol) ? 'green' : 'yellow';
         out.notes.push(out.flag === 'green' ? 'Matches the model.' : differs(row, a, m));
       }
-      if (row.rule === 'credit' && m != null && a > m && !within(a, m, row.tol)) {
+      // The model's credit is capacity only when no award was entered and any entered request did not bind.
+      var capReq = eng && eng.creditRequestInput != null ? eng.creditRequestInput : null;
+      var capAward = eng && eng.creditAwardInput != null ? eng.creditAwardInput : null;
+      var isCapacity = capAward == null && (capReq == null || m < capReq - 0.5);
+      if (row.rule === 'credit' && m != null && a > m && !within(a, m, row.tol) && !isCapacity) {
+        out.notes = ['The application asks for ' + money(a - m) + ' a year more than the model, which used the ' + (capAward != null ? 'award' : 'request') + ' entered in the Deal Calculator (' + money(m) + '), not its credit capacity. ' +
+          (capAward != null ? 'Check the application against the award.' : 'Enter the application\'s request in the Deal Calculator and export again; the deal breaker test needs the model\'s capacity.')];
+      }
+      if (row.rule === 'credit' && m != null && a > m && !within(a, m, row.tol) && isCapacity) {
         out.flag = 'red';
         out.notes = ['The application asks for ' + money(a - m) + ' a year more than the model supports. CHFA reserves the smallest of its three credit calculations (QAP ' + credit.section.split(',')[0] + ', p. ' + credit.page + '), so plan on the lower amount and close the rest of the gap another way.'];
       }

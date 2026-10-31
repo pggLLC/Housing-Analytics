@@ -61,6 +61,15 @@ ok(row(T.check(r1, v({ ...app, opex: 244000 }), engine), 'opex').flag === 'green
 const credit = row(T.check(r1, v({ ...app, credit: 1300000 }), engine), 'credit');
 ok(credit.flag === 'red' && /\$100,000 a year more than the model supports/.test(credit.notes[0]) && /QAP 3\.M\.1, p\. 33/.test(credit.notes[0]), 'asking for more credit than the model supports is a deal breaker');
 ok(row(T.check(r1, v({ ...app, credit: 1100000 }), engine), 'credit').flag === 'yellow', 'asking for less only differs');
+// The model's credit is the lesser of capacity and an entered request: above a binding-free request is not a deal breaker.
+{
+  const atReq = row(T.check(r1, v({ ...app, credit: 1300000 }), { ...engine, creditRequestInput: 1200000 }), 'credit');
+  ok(atReq.flag === 'yellow' && /used the request entered in the Deal Calculator/.test(atReq.notes[0]), 'above a model request that did not bind only differs: capacity may be higher');
+  const binding = row(T.check(r1, v({ ...app, credit: 1300000 }), { ...engine, creditRequestInput: 1500000 }), 'credit');
+  ok(binding.flag === 'red', 'when capacity cut the entered request, the model figure is capacity and a higher ask is a deal breaker');
+  const award = row(T.check(r1, v({ ...app, credit: 1300000 }), { ...engine, creditAwardInput: 1200000 }), 'credit');
+  ok(award.flag === 'yellow' && /used the award/.test(award.notes[0]), 'an entered award is not capacity either');
+}
 const low = row(T.check(r1, v({ ...app, dscr: 1.12 }), engine), 'dscr');
 ok(low.flag === 'red' && /Under CHFA's 1\.15 minimum \(QAP 3\.D, p\. 40\)/.test(low.notes[0]), 'coverage under 1.15 is a deal breaker');
 const gap = row(T.check(r1, v({ ...app, gap: 250000 }), engine), 'gap');
@@ -105,9 +114,9 @@ ok(hist.rows[0].tieout === '0 red, 0 yellow, 15 green' && /Application tie-out/.
 ok(SR.review(r2, prop123, Object.assign(v({ ...app, fee: 2200000 }), { round: 'r2' })).risks.some((x) => /over the 15% limit/.test(x.text)), 'Round Two applies the same fee limit');
 
 // Export and CSV
-const exp = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?rate-9=0.09', inputs: { units: '40', 'units-60': '40', 'equity-price': '0.86' },
+const exp = SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?rate-9=0.09', inputs: { units: '40', 'units-60': '40', 'equity-price': '0.86', 'credit-requested': '900000' },
   outputs: { eligibleBasis: { value: 1 }, developerFee: { value: 2 }, annualDebtService: { value: 3 }, annualRents: { value: 4 }, annualOperatingExpenses: { value: 5 }, annualReserves: { value: 6 } } });
-ok(exp.engine.equityPrice === 0.86 && exp.engine.eligibleBasis === 1 && exp.engine.developerFee === 2 && exp.engine.annualDebtService === 3 && exp.engine.annualRents === 4 && exp.engine.annualOperatingExpenses === 5 && exp.engine.annualReserves === 6, 'the export brings the figures the tie-out compares');
+ok(exp.engine.equityPrice === 0.86 && exp.engine.eligibleBasis === 1 && exp.engine.developerFee === 2 && exp.engine.annualDebtService === 3 && exp.engine.annualRents === 4 && exp.engine.annualOperatingExpenses === 5 && exp.engine.annualReserves === 6 && exp.engine.creditRequestInput === 900000 && exp.engine.creditAwardInput === null, 'the export brings the figures the tie-out compares');
 const csv = T.csv(T.check(r1, { ...v(app), tieout: { app, ref: { tdc: '=Dev Budget!F12' } } }, engine));
 ok(csv.startsWith('Figure,Application,Where in the application,Model,Flag,Note') && /'=Dev Budget!F12/.test(csv), 'the CSV has a header, and a reference starting with = is not a formula');
 
