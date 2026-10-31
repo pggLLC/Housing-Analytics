@@ -101,7 +101,10 @@ export function buildSnapshot({ ranking, acs, chfa, projections, amiGap, summary
   let burdenSum = 0;
   let renterHouseholds = 0;
   for (const tract of tracts) {
-    const renters = Number(tract && tract.renter_hh) || 0;
+    // Weight by the renters Census scores for burden (cost_burden_universe:
+    // B25070 total less "not computed"); renter_hh is the fallback for tract
+    // files built before that field existed.
+    const renters = Number(tract && (tract.cost_burden_universe ?? tract.renter_hh)) || 0;
     const burdenRate = Number(tract && tract.cost_burden_rate) || 0;
     if (renters > 0 && burdenRate > 0) {
       burdenSum += burdenRate * renters;

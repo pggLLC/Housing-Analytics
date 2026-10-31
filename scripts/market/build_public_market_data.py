@@ -613,6 +613,7 @@ ACS_VARIABLES = [
     "B25070_009E",  # 40-49.9%
     "B25070_010E",  # 50%+
     "B25070_001E",  # total renter HUs w/ rent
+    "B25070_011E",  # not computed (no cash rent or zero income): out of the burden universe
     "B17001_001E",  # poverty universe (population for whom poverty status is determined)
     "B17001_002E",  # below poverty level
     "B23025_003E",  # in labor force
@@ -733,7 +734,10 @@ def build_acs_metrics(centroids: dict) -> dict:
         # Cost-burden rate = (30-34.9% + 35-39.9% + 40-49.9% + 50%+) / total w/ rent
         cb_num    = sum(safe_int(row[idx.get(v, -1)]) for v in [
                         "B25070_007E","B25070_008E","B25070_009E","B25070_010E"])
-        cb_den    = safe_int(row[idx.get("B25070_001E", -1)])
+        # Census, HUD and JCHS leave "not computed" renters (no cash rent or
+        # zero income, B25070_011) out of the denominator; counting them
+        # understated the statewide rate by 2.4 points (50.5% vs 52.9%).
+        cb_den    = safe_int(row[idx.get("B25070_001E", -1)]) - safe_int(row[idx.get("B25070_011E", -1)])
         cb_rate   = round(cb_num / cb_den, 4) if cb_den > 0 else 0.0
 
         universe  = total_hh + vacant
@@ -814,6 +818,7 @@ def build_acs_metrics(centroids: dict) -> dict:
             "median_gross_rent":    safe_median(row[idx.get("B25064_001E", -1)]),
             "median_hh_income":     safe_median(row[idx.get("B19013_001E", -1)]),
             "cost_burden_rate":     cb_rate,
+            "cost_burden_universe": cb_den,
             "severe_cost_burden_rate": severe_rate,
             "poverty_rate":         pov_rate,
             "unemployment_rate":    unemp_rate,
