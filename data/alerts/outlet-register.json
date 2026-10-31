@@ -1,0 +1,1515 @@
+{
+  "meta": {
+    "updated": "2026-10-31",
+    "method": "Every Housing News publisher is looked up here by its web address (from the feed) or, until the feed gives one, by its name. checked = newsroom, trade press, research center or government source: shown with no tag. weak = shown with a \"Weak sourcing\" tag and the reason. blocked = documented imposter local-news site: left out. Any outlet not listed is shown with an \"Unverified outlet\" tag and goes on the \"Outlets to review\" issue, rebuilt on every news run. Ticks in that issue are kept in data/alerts/outlet-decisions.json.",
+    "note": "Seeded 2026-10-31 from outlets already on Housing News; Codex to spot-check.",
+    "tiers": {
+      "newsroom": "checked",
+      "trade": "checked",
+      "research": "checked",
+      "primary": "checked",
+      "weak": "weak",
+      "blocked": "blocked"
+    }
+  },
+  "outlets": [
+    {
+      "name": "The Denver Post",
+      "tier": "newsroom",
+      "aliases": [
+        "denverpost.com",
+        "Denver Post"
+      ],
+      "domains": [
+        "denverpost.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Colorado Sun",
+      "tier": "newsroom",
+      "aliases": [
+        "Colorado Sun"
+      ],
+      "domains": [
+        "coloradosun.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Colorado Springs Gazette",
+      "tier": "newsroom",
+      "aliases": [
+        "The Gazette",
+        "gazette.com"
+      ],
+      "domains": [
+        "gazette.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Denver Gazette",
+      "tier": "newsroom",
+      "domains": [
+        "denvergazette.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Colorado Politics",
+      "tier": "newsroom",
+      "domains": [
+        "coloradopolitics.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Post Independent",
+      "tier": "newsroom",
+      "aliases": [
+        "PostIndependent.com",
+        "postindependent.com",
+        "Glenwood Springs Post Independent"
+      ],
+      "domains": [
+        "postindependent.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Aspen Times",
+      "tier": "newsroom",
+      "aliases": [
+        "Aspen Times",
+        "AspenTimes.com"
+      ],
+      "domains": [
+        "aspentimes.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Aspen Daily News",
+      "tier": "newsroom",
+      "domains": [
+        "aspendailynews.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Aspen Public Radio",
+      "tier": "newsroom",
+      "domains": [
+        "aspenpublicradio.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Ark Valley Voice",
+      "tier": "newsroom",
+      "domains": [
+        "arkvalleyvoice.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KOAA News 5",
+      "tier": "newsroom",
+      "aliases": [
+        "KOAA"
+      ],
+      "domains": [
+        "koaa.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KKTV",
+      "tier": "newsroom",
+      "aliases": [
+        "KKTV 11 News"
+      ],
+      "domains": [
+        "kktv.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KRDO",
+      "tier": "newsroom",
+      "aliases": [
+        "KRDO NewsChannel 13"
+      ],
+      "domains": [
+        "krdo.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "FOX21 News Colorado",
+      "tier": "newsroom",
+      "domains": [
+        "fox21news.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Denver7",
+      "tier": "newsroom",
+      "aliases": [
+        "Denver7 – The Denver Channel",
+        "KMGH"
+      ],
+      "domains": [
+        "denver7.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "9News",
+      "tier": "newsroom",
+      "aliases": [
+        "9news.com",
+        "KUSA"
+      ],
+      "domains": [
+        "9news.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KDVR",
+      "tier": "newsroom",
+      "aliases": [
+        "FOX31 Denver",
+        "FOX31"
+      ],
+      "domains": [
+        "kdvr.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KJCT",
+      "tier": "newsroom",
+      "aliases": [
+        "KJCT8",
+        "KJCT 8 News"
+      ],
+      "domains": [
+        "kjct8.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KREX",
+      "tier": "newsroom",
+      "aliases": [
+        "WesternSlopeNow"
+      ],
+      "domains": [
+        "westernslopenow.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Colorado Public Radio",
+      "tier": "newsroom",
+      "aliases": [
+        "CPR News"
+      ],
+      "domains": [
+        "cpr.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KUNC",
+      "tier": "newsroom",
+      "domains": [
+        "kunc.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KGNU",
+      "tier": "newsroom",
+      "domains": [
+        "kgnu.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Rocky Mountain PBS",
+      "tier": "newsroom",
+      "aliases": [
+        "RMPBS"
+      ],
+      "domains": [
+        "rmpbs.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Grand Junction Daily Sentinel",
+      "tier": "newsroom",
+      "aliases": [
+        "Daily Sentinel",
+        "The Daily Sentinel"
+      ],
+      "domains": [
+        "gjsentinel.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Pueblo Chieftain",
+      "tier": "newsroom",
+      "aliases": [
+        "The Pueblo Chieftain"
+      ],
+      "domains": [
+        "chieftain.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Colorado Newsline",
+      "tier": "newsroom",
+      "domains": [
+        "coloradonewsline.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "ColoradoBiz",
+      "tier": "newsroom",
+      "aliases": [
+        "coloradobiz.com",
+        "ColoradoBiz Magazine"
+      ],
+      "domains": [
+        "cobizmag.com",
+        "coloradobiz.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "BizWest",
+      "tier": "newsroom",
+      "domains": [
+        "bizwest.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Denverite",
+      "tier": "newsroom",
+      "domains": [
+        "denverite.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Westword",
+      "tier": "newsroom",
+      "aliases": [
+        "Denver Westword"
+      ],
+      "domains": [
+        "westword.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Axios",
+      "tier": "newsroom",
+      "aliases": [
+        "Axios Denver"
+      ],
+      "domains": [
+        "axios.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Steamboat Pilot & Today",
+      "tier": "newsroom",
+      "aliases": [
+        "SteamboatToday.com",
+        "Steamboat Pilot"
+      ],
+      "domains": [
+        "steamboatpilot.com",
+        "steamboattoday.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Summit Daily",
+      "tier": "newsroom",
+      "aliases": [
+        "SummitDaily.com"
+      ],
+      "domains": [
+        "summitdaily.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Sky-Hi News",
+      "tier": "newsroom",
+      "aliases": [
+        "SkyHiNews.com"
+      ],
+      "domains": [
+        "skyhinews.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Vail Daily",
+      "tier": "newsroom",
+      "aliases": [
+        "VailDaily.com"
+      ],
+      "domains": [
+        "vaildaily.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Telluride Times",
+      "tier": "newsroom",
+      "domains": [
+        "telluridenews.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Gunnison Country Times",
+      "tier": "newsroom",
+      "domains": [
+        "gunnisontimes.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Crested Butte News",
+      "tier": "newsroom",
+      "domains": [
+        "crestedbuttenews.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Pagosa Springs Sun",
+      "tier": "newsroom",
+      "aliases": [
+        "Pagosa Springs Sun"
+      ],
+      "domains": [
+        "pagosasun.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Durango Herald",
+      "tier": "newsroom",
+      "aliases": [
+        "The Durango Herald"
+      ],
+      "domains": [
+        "durangoherald.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Journal",
+      "tier": "newsroom",
+      "aliases": [
+        "the-journal.com",
+        "The Cortez Journal"
+      ],
+      "domains": [
+        "the-journal.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Sentinel Colorado",
+      "tier": "newsroom",
+      "aliases": [
+        "Aurora Sentinel"
+      ],
+      "domains": [
+        "sentinelcolorado.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Reporter-Herald",
+      "tier": "newsroom",
+      "aliases": [
+        "Loveland Reporter-Herald"
+      ],
+      "domains": [
+        "reporterherald.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Daily Camera",
+      "tier": "newsroom",
+      "aliases": [
+        "Boulder Daily Camera"
+      ],
+      "domains": [
+        "dailycamera.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Times-Call",
+      "tier": "newsroom",
+      "aliases": [
+        "Longmont Times-Call"
+      ],
+      "domains": [
+        "timescall.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Broomfield Enterprise",
+      "tier": "newsroom",
+      "domains": [
+        "broomfieldenterprise.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Greeley Tribune",
+      "tier": "newsroom",
+      "domains": [
+        "greeleytribune.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Canon City Daily Record",
+      "tier": "newsroom",
+      "domains": [
+        "canoncitydailyrecord.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Coloradoan",
+      "tier": "newsroom",
+      "aliases": [
+        "Coloradoan",
+        "Fort Collins Coloradoan"
+      ],
+      "domains": [
+        "coloradoan.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Yellow Scene Magazine",
+      "tier": "newsroom",
+      "aliases": [
+        "Yellow Scene"
+      ],
+      "domains": [
+        "yellowscene.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "North Forty News",
+      "tier": "newsroom",
+      "domains": [
+        "northfortynews.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Arvada Press",
+      "tier": "newsroom",
+      "domains": [
+        "coloradocommunitymedia.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Parker Chronicle",
+      "tier": "newsroom",
+      "domains": [
+        "coloradocommunitymedia.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Golden Transcript",
+      "tier": "newsroom",
+      "domains": [
+        "coloradocommunitymedia.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Clear Creek Courant",
+      "tier": "newsroom",
+      "domains": [
+        "coloradocommunitymedia.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Littleton Independent",
+      "tier": "newsroom",
+      "domains": [
+        "coloradocommunitymedia.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Lakewood Sentinel",
+      "tier": "newsroom",
+      "domains": [
+        "coloradocommunitymedia.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Castle Rock News-Press",
+      "tier": "newsroom",
+      "domains": [
+        "coloradocommunitymedia.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Canyon Courier",
+      "tier": "newsroom",
+      "domains": [
+        "coloradocommunitymedia.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Leadville Herald",
+      "tier": "newsroom",
+      "aliases": [
+        "Leadville Herald Democrat",
+        "Herald Democrat"
+      ],
+      "domains": [
+        "leadvilleherald.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Mountain Mail",
+      "tier": "newsroom",
+      "aliases": [
+        "Mountain Mail"
+      ],
+      "domains": [
+        "themountainmail.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Chaffee County Times",
+      "tier": "newsroom",
+      "domains": [
+        "chaffeecountytimes.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Sopris Sun",
+      "tier": "newsroom",
+      "aliases": [
+        "Sopris Sun"
+      ],
+      "domains": [
+        "soprissun.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Aspen Journalism",
+      "tier": "newsroom",
+      "domains": [
+        "aspenjournalism.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Estes Park Trail-Gazette",
+      "tier": "newsroom",
+      "domains": [
+        "eptrail.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Estes Valley Voice",
+      "tier": "newsroom",
+      "domains": [
+        "estesvalleyvoice.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Montrose Daily Press",
+      "tier": "newsroom",
+      "aliases": [
+        "Montrose Press"
+      ],
+      "domains": [
+        "montrosepress.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KVNF",
+      "tier": "newsroom",
+      "domains": [
+        "kvnf.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KSUT",
+      "tier": "newsroom",
+      "domains": [
+        "ksut.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KKCO 11 News",
+      "tier": "newsroom",
+      "aliases": [
+        "KKCO"
+      ],
+      "domains": [
+        "kkco11news.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Sterling Journal-Advocate",
+      "tier": "newsroom",
+      "aliases": [
+        "Journal-Advocate"
+      ],
+      "domains": [
+        "journal-advocate.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "La Voz Colorado",
+      "tier": "newsroom",
+      "aliases": [
+        "La Voz"
+      ],
+      "domains": [
+        "lavozcolorado.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "SoCo Digest",
+      "tier": "newsroom",
+      "aliases": [
+        "SoCo Business Digest"
+      ],
+      "domains": [
+        "socodigest.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Chalkbeat",
+      "tier": "newsroom",
+      "aliases": [
+        "Chalkbeat Colorado"
+      ],
+      "domains": [
+        "chalkbeat.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Colorado Community Media",
+      "tier": "newsroom",
+      "domains": [
+        "coloradocommunitymedia.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "AP News",
+      "tier": "newsroom",
+      "aliases": [
+        "Associated Press",
+        "The Associated Press"
+      ],
+      "domains": [
+        "apnews.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "CBS News",
+      "tier": "newsroom",
+      "aliases": [
+        "CBS Colorado",
+        "CBS News Colorado"
+      ],
+      "domains": [
+        "cbsnews.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "NPR",
+      "tier": "newsroom",
+      "domains": [
+        "npr.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Reuters",
+      "tier": "newsroom",
+      "domains": [
+        "reuters.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "WSJ",
+      "tier": "newsroom",
+      "aliases": [
+        "The Wall Street Journal",
+        "Wall Street Journal"
+      ],
+      "domains": [
+        "wsj.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The New York Times",
+      "tier": "newsroom",
+      "aliases": [
+        "New York Times"
+      ],
+      "domains": [
+        "nytimes.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Washington Post",
+      "tier": "newsroom",
+      "aliases": [
+        "Washington Post"
+      ],
+      "domains": [
+        "washingtonpost.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Bloomberg",
+      "tier": "newsroom",
+      "aliases": [
+        "Bloomberg.com",
+        "Bloomberg CityLab"
+      ],
+      "domains": [
+        "bloomberg.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Financial Times",
+      "tier": "newsroom",
+      "domains": [
+        "ft.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Economist",
+      "tier": "newsroom",
+      "domains": [
+        "economist.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Marketplace",
+      "tier": "newsroom",
+      "aliases": [
+        "marketplace.org"
+      ],
+      "domains": [
+        "marketplace.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Conversation",
+      "tier": "newsroom",
+      "domains": [
+        "theconversation.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Governing",
+      "tier": "newsroom",
+      "domains": [
+        "governing.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Next City",
+      "tier": "newsroom",
+      "domains": [
+        "nextcity.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Planetizen",
+      "tier": "newsroom",
+      "domains": [
+        "planetizen.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Shelterforce",
+      "tier": "newsroom",
+      "domains": [
+        "shelterforce.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Affordable Housing Finance",
+      "tier": "trade",
+      "domains": [
+        "housingfinance.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Eye On Housing",
+      "tier": "trade",
+      "aliases": [
+        "NAHB"
+      ],
+      "domains": [
+        "eyeonhousing.org",
+        "nahb.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Yield PRO",
+      "tier": "trade",
+      "aliases": [
+        "yieldpro.com"
+      ],
+      "domains": [
+        "yieldpro.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Tax Credit Advisor",
+      "tier": "trade",
+      "aliases": [
+        "taxcreditadvisor.com"
+      ],
+      "domains": [
+        "taxcreditadvisor.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Multifamily & Affordable Housing Business",
+      "tier": "trade",
+      "domains": [
+        "mfahbusiness.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Bisnow",
+      "tier": "trade",
+      "domains": [
+        "bisnow.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "MultifamilyBiz",
+      "tier": "trade",
+      "domains": [
+        "multifamilybiz.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "HousingWire",
+      "tier": "trade",
+      "domains": [
+        "housingwire.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Multifamily Housing News",
+      "tier": "trade",
+      "aliases": [
+        "Multi-Housing News"
+      ],
+      "domains": [
+        "multihousingnews.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Multifamily Executive",
+      "tier": "trade",
+      "domains": [
+        "multifamilyexecutive.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Commercial Observer",
+      "tier": "trade",
+      "domains": [
+        "commercialobserver.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Globest",
+      "tier": "trade",
+      "aliases": [
+        "GlobeSt"
+      ],
+      "domains": [
+        "globest.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Business Journals",
+      "tier": "trade",
+      "domains": [
+        "bizjournals.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Inman Real Estate News",
+      "tier": "trade",
+      "aliases": [
+        "Inman"
+      ],
+      "domains": [
+        "inman.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Real Deal",
+      "tier": "trade",
+      "domains": [
+        "therealdeal.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "CoStar",
+      "tier": "trade",
+      "domains": [
+        "costar.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Mile High CRE",
+      "tier": "trade",
+      "domains": [
+        "milehighcre.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Novogradac",
+      "tier": "trade",
+      "domains": [
+        "novoco.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "REBusinessOnline",
+      "tier": "trade",
+      "domains": [
+        "rebusinessonline.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Construction Owners",
+      "tier": "trade",
+      "domains": [
+        "constructionowners.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Joint Center for Housing Studies",
+      "tier": "research",
+      "aliases": [
+        "Harvard Joint Center for Housing Studies"
+      ],
+      "domains": [
+        "jchs.harvard.edu"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Urban Institute",
+      "tier": "research",
+      "aliases": [
+        "urban.org"
+      ],
+      "domains": [
+        "urban.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Brookings",
+      "tier": "research",
+      "domains": [
+        "brookings.edu"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Terner Center",
+      "tier": "research",
+      "aliases": [
+        "Terner Center for Housing Innovation"
+      ],
+      "domains": [
+        "ternercenter.berkeley.edu"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "National Low Income Housing Coalition",
+      "tier": "research",
+      "aliases": [
+        "NLIHC"
+      ],
+      "domains": [
+        "nlihc.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "The Pew Charitable Trusts",
+      "tier": "research",
+      "aliases": [
+        "Pew Research Center"
+      ],
+      "domains": [
+        "pewtrusts.org",
+        "pewresearch.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Freddie Mac",
+      "tier": "research",
+      "aliases": [
+        "Freddie Mac Multifamily"
+      ],
+      "domains": [
+        "freddiemac.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Fannie Mae",
+      "tier": "research",
+      "domains": [
+        "fanniemae.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Enterprise Community Partners",
+      "tier": "research",
+      "domains": [
+        "enterprisecommunity.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "KFF",
+      "tier": "research",
+      "domains": [
+        "kff.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Federal Reserve",
+      "tier": "research",
+      "aliases": [
+        "Federal Reserve Board",
+        "Atlanta Federal Reserve Bank"
+      ],
+      "domains": [
+        "federalreserve.gov",
+        "atlantafed.org",
+        "kansascityfed.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "HUD USER (.gov)",
+      "tier": "research",
+      "aliases": [
+        "HUD USER"
+      ],
+      "domains": [
+        "huduser.gov"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "University of Colorado Boulder",
+      "tier": "research",
+      "domains": [
+        "colorado.edu"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "University of Denver",
+      "tier": "research",
+      "domains": [
+        "du.edu"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "NCSHA",
+      "tier": "research",
+      "aliases": [
+        "National Council of State Housing Agencies"
+      ],
+      "domains": [
+        "ncsha.org"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Pitkin County",
+      "tier": "primary",
+      "domains": [
+        "pitkincounty.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Jefferson County",
+      "tier": "primary",
+      "domains": [
+        "jeffco.us"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "www.cityofsalida.com",
+      "tier": "primary",
+      "domains": [
+        "cityofsalida.com"
+      ],
+      "checked": "2026-10-31"
+    },
+    {
+      "name": "Hoodline",
+      "tier": "weak",
+      "domains": [
+        "hoodline.com"
+      ],
+      "note": "Nieman Lab (June 2024): most bylines were AI personas, AI labels added only after press questions, factual errors, no masthead.",
+      "evidence": "https://www.niemanlab.org/2024/06/whats-in-a-byline-for-hoodlines-ai-generated-local-news-everything-and-nothing/",
+      "checked": "2026-10-31",
+      "label": "AI-written outlet"
+    },
+    {
+      "name": "Forth.News",
+      "tier": "weak",
+      "aliases": [
+        "Forth News"
+      ],
+      "domains": [
+        "forth.news"
+      ],
+      "note": "Its headlines in our archive are politicians' own social posts and advisories (e.g. 'I am honored to accept…'), not reporting.",
+      "checked": "2026-10-31",
+      "label": "Politicians' posts"
+    },
+    {
+      "name": "Norada Real Estate Investments",
+      "tier": "weak",
+      "aliases": [
+        "Norada"
+      ],
+      "domains": [
+        "noradarealestate.com"
+      ],
+      "note": "Market forecasts published by a property-investment seller.",
+      "checked": "2026-10-31",
+      "label": "Marketing"
+    },
+    {
+      "name": "Stacker",
+      "tier": "weak",
+      "domains": [
+        "stacker.com"
+      ],
+      "note": "Syndicated data rankings, not reporting.",
+      "checked": "2026-10-31",
+      "label": "Ranking list"
+    },
+    {
+      "name": "WorldAtlas",
+      "tier": "weak",
+      "domains": [
+        "worldatlas.com"
+      ],
+      "note": "General-interest list site.",
+      "checked": "2026-10-31",
+      "label": "Ranking list"
+    },
+    {
+      "name": "The Cool Down",
+      "tier": "weak",
+      "domains": [
+        "thecooldown.com"
+      ],
+      "note": "Rewrites other outlets’ stories.",
+      "checked": "2026-10-31",
+      "label": "Lifestyle site"
+    },
+    {
+      "name": "YouTube",
+      "tier": "weak",
+      "domains": [
+        "youtube.com"
+      ],
+      "note": "Publisher of a video is not shown in the feed.",
+      "checked": "2026-10-31",
+      "label": "Video"
+    },
+    {
+      "name": "Facebook",
+      "tier": "weak",
+      "domains": [
+        "facebook.com"
+      ],
+      "note": "A social post, not a news outlet.",
+      "checked": "2026-10-31",
+      "label": "Social post"
+    },
+    {
+      "name": "PR Newswire",
+      "tier": "weak",
+      "domains": [
+        "prnewswire.com"
+      ],
+      "note": "Paid press-release wire.",
+      "checked": "2026-10-31",
+      "label": "Press release"
+    },
+    {
+      "name": "GlobeNewswire",
+      "tier": "weak",
+      "domains": [
+        "globenewswire.com"
+      ],
+      "note": "Paid press-release wire.",
+      "checked": "2026-10-31",
+      "label": "Press release"
+    },
+    {
+      "name": "PR.com",
+      "tier": "weak",
+      "domains": [
+        "pr.com"
+      ],
+      "note": "Paid press-release wire.",
+      "checked": "2026-10-31",
+      "label": "Press release"
+    },
+    {
+      "name": "24-7 Press Release",
+      "tier": "weak",
+      "domains": [
+        "24-7pressrelease.com"
+      ],
+      "note": "Paid press-release wire.",
+      "checked": "2026-10-31",
+      "label": "Press release"
+    },
+    {
+      "name": "Lelezard",
+      "tier": "weak",
+      "domains": [
+        "lelezard.com"
+      ],
+      "note": "Republishes press releases.",
+      "checked": "2026-10-31",
+      "label": "Press release"
+    },
+    {
+      "name": "StreetInsider",
+      "tier": "weak",
+      "domains": [
+        "streetinsider.com"
+      ],
+      "note": "Republishes press releases and filings.",
+      "checked": "2026-10-31",
+      "label": "Press release"
+    },
+    {
+      "name": "Stock Titan",
+      "tier": "weak",
+      "domains": [
+        "stocktitan.net"
+      ],
+      "note": "Republishes press releases.",
+      "checked": "2026-10-31",
+      "label": "Press release"
+    },
+    {
+      "name": "freebeacon.com",
+      "tier": "weak",
+      "aliases": [
+        "Washington Free Beacon",
+        "The Washington Free Beacon"
+      ],
+      "domains": [
+        "freebeacon.com"
+      ],
+      "note": "Openly partisan political outlet.",
+      "checked": "2026-10-31",
+      "label": "Partisan outlet"
+    },
+    {
+      "name": "Colorado Times Recorder",
+      "tier": "weak",
+      "domains": [
+        "coloradotimesrecorder.com"
+      ],
+      "note": "Openly partisan political outlet.",
+      "checked": "2026-10-31",
+      "label": "Partisan outlet"
+    },
+    {
+      "name": "Jacobin",
+      "tier": "weak",
+      "domains": [
+        "jacobin.com"
+      ],
+      "note": "Openly partisan political magazine.",
+      "checked": "2026-10-31",
+      "label": "Partisan outlet"
+    },
+    {
+      "name": "RESIDENT™ | A Luxury Lifestyle Magazine",
+      "tier": "weak",
+      "aliases": [
+        "RESIDENT"
+      ],
+      "domains": [
+        "resident.com"
+      ],
+      "note": "Lifestyle and promotional content.",
+      "checked": "2026-10-31",
+      "label": "Marketing"
+    },
+    {
+      "name": "Denver City Wire",
+      "tier": "blocked",
+      "domains": [
+        "denvercitywire.com"
+      ],
+      "note": "Metric Media site. Media Bias/Fact Check rates the network Questionable: imposter sites designed to look like local news.",
+      "evidence": "https://mediabiasfactcheck.com/denver-city-wire/",
+      "checked": "2026-10-31",
+      "label": "Imposter local-news site"
+    },
+    {
+      "name": "Boulder Leader",
+      "tier": "blocked",
+      "domains": [
+        "boulderleader.com"
+      ],
+      "note": "Metric Media site. Media Bias/Fact Check rates the network Questionable: imposter sites designed to look like local news.",
+      "evidence": "https://mediabiasfactcheck.com/boulder-leader/",
+      "checked": "2026-10-31",
+      "label": "Imposter local-news site"
+    },
+    {
+      "name": "SE Denver News",
+      "tier": "blocked",
+      "domains": [
+        "sedenvernews.com"
+      ],
+      "note": "Metric Media site. Media Bias/Fact Check rates the network Questionable: imposter sites designed to look like local news.",
+      "evidence": "https://mediabiasfactcheck.com/se-denver-news/",
+      "checked": "2026-10-31",
+      "label": "Imposter local-news site"
+    },
+    {
+      "name": "NE Colorado News",
+      "tier": "blocked",
+      "domains": [
+        "necoloradonews.com"
+      ],
+      "note": "Metric Media site. Media Bias/Fact Check rates the network Questionable: imposter sites designed to look like local news.",
+      "evidence": "https://mediabiasfactcheck.com/ne-colorado-news/",
+      "checked": "2026-10-31",
+      "label": "Imposter local-news site"
+    }
+  ]
+}
