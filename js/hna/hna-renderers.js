@@ -1687,6 +1687,14 @@
     let modes, subtitle;
     if (total && total > 0) {
       const share = (k) => { const n = safeNum(counts[k]); return n === null ? null : Math.round(n / total * 1000) / 10; };
+      // Summaries built before taxi and motorcycle were added to 'other' leave
+      // them out of every mode; the workers no mode counts are those, so Other
+      // is the remainder of the total when that is larger.
+      const named = ['drive', 'carpool', 'transit', 'walk', 'bike', 'work_from_home'].map(k => safeNum(counts[k]));
+      const rest = named.every(n => n !== null) ? total - named.reduce((a, n) => a + n, 0) : null;
+      const otherCount = safeNum(counts.other);
+      const otherShare = rest !== null && (otherCount === null || rest > otherCount)
+        ? Math.round(rest / total * 1000) / 10 : share('other');
       modes = [
         { label: 'Drive alone', v: share('drive') },
         { label: 'Carpool',     v: share('carpool') },
@@ -1694,7 +1702,7 @@
         { label: 'Walk',        v: share('walk') },
         { label: 'Bicycle',     v: share('bike') },
         { label: 'WFH',         v: share('work_from_home') },
-        { label: 'Other',       v: share('other') },
+        { label: 'Other',       v: otherShare },
       ];
       subtitle = `ACS B08301: ${Math.round(total).toLocaleString('en-US')} workers 16+ (% of workers)`;
     } else {
