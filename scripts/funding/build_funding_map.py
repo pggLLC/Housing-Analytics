@@ -244,8 +244,9 @@ def classify(src, amt):
     s = src.lower(); a = amt.lower()
     if re.search(r"total (development )?cost|^tdc|development budget|total budget", s): return "tdc", "perm"
     if re.search(r"^(total|planned permanent sources|permanent sources|sources|closing)|sources, closing|procured sources", s): return "summary", "summary"
-    if re.search(r"voucher|services funding|operating", s): return "federal" if re.search(r"voucher|hud", s) else "other", "summary"
-    if "per year" in a or ("credit" in s and "equity" not in s) or re.search(r"\b(toc|mihtc)\b", s): return "credits", "summary"
+    # operating support (vouchers, rent subsidies, services contracts) pays after opening, so it is shown, never added
+    operating = re.search(r"voucher|services funding|operating|rent(al)? subsid|subsidy agreement|services agreement|supportive services|rent(al)? assistance", s)
+    if not operating and ("per year" in a or ("credit" in s and "equity" not in s) or re.search(r"\b(toc|mihtc)\b", s)): return "credits", "summary"
     if "bond" in s: return "bonds", "summary"
     # costs (uses of money), not sources: shown, never added
     if re.search(r"acquisition (price|cost)|purchase price|sale price|construction contract|hard cost|soft cost|rehab(ilitation)? (cost|budget|contract)|cost of", s): return "cost", "summary"
@@ -258,6 +259,7 @@ def classify(src, amt):
     elif re.search(r"city|county|town|housing authority|district|denver|metro|authority|tribe|tribal|linkage|host\b", s): cat = "local"
     elif re.search(r"loan|mortgage|bank|debt|lender", s): cat = "debt"
     else: cat = "other"
+    if operating: return ("federal" if re.search(r"voucher|hud|section (8|811)|rental assistance", s) else cat), "summary"
     if re.search(r"construction loan|bridge", s): return cat if cat != "other" else "debt", "construction"
     if inkind: return cat, "inkind"
     return cat, "perm"
