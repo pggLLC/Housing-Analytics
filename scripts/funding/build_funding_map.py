@@ -10,7 +10,12 @@ county and state planning region, and adds region outlines for the map.
 
 Needs shapely (pip install shapely). Rerun after any of those inputs change.
 """
-import json, re, collections, math, datetime, os
+import json, re, collections, math, os
+try:
+    import shapely
+except ImportError:  # the derived chain runs in workflows that only install what they fetch with
+    import subprocess, sys
+    subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", "shapely==2.1.1"], check=True)
 from shapely.geometry import shape, Point, mapping
 from shapely.ops import unary_union
 
@@ -256,6 +261,9 @@ for x in LIHTC:
     add(sk, None, x["year"], str(x["year"]), "CHFA", f"{x['credit'] or 'Housing tax credits'} (amount not published)", None, None, "usd_per_year_tax_credit", None,
         "CHFA Housing Tax Credit property list", "https://www.chfainfo.com/rental-housing/housing-credit", county=x["fips"])
 
+INPUT_DATE = max(load_json(f"{HA}/policy/funding-awards/ledger.json")["meta"]["generated_at"][:10],
+                 load_json(f"{HA}/policy/funding-awards/dola-awards.json")["meta"]["captured"][:10])
+
 # ---------- capital stacks
 STK = {}
 def money(s):
@@ -274,6 +282,8 @@ def money_total(s):
     """Amount for a stack row. Joined parts ("$800,000 loan and $190,000 grant") are added; for a
     construction/permanent split only the permanent part counts; anything else keeps the first figure."""
     s = re.sub(r"of an? " + FIG, "", s, flags=re.I)  # "$800,000 of a $1.6M loan": the whole loan is not this row's
+    pct = re.search(r"(\d+(?:\.\d+)?)\s*%\s+of\s+(?:the\s+|an?\s+)?(" + FIG + r")", s, re.I)  # "80% of the $3.8M land price"
+    if pct: return round(float(pct.group(1)) / 100 * money(pct.group(2)))
     tot = re.search(r"\((?:about|total) (" + FIG + r")\)", s, re.I)  # "$63M and $33.7M (about $96.7M)"
     if tot: return money(tot.group(1))
     figs = list(re.finditer(FIG + r"([^$;,/+]*)", s, re.I))
@@ -332,7 +342,7 @@ for d in idx:
             if amt and not tdc: tdc = {"amount": amt, "text": m["amount"], "source_title": s0.get("title", "COHO deal summary"), "source_url": s0.get("url", "")}
             continue
         # asked for but not confirmed: shown, never added
-        if re.search(r"requested|request amount|applied for|none awarded|not awarded", m["amount"], re.I) or re.search(r"not verified|unverified", m.get("note") or "", re.I) or re.search(r"\bcombined\b", m["source"], re.I): phase = "summary"
+        if re.search(r"requested|request amount|applied for|none awarded|not awarded", m["amount"], re.I) or re.search(r"not verified|unverified", m.get("note") or "", re.I) or re.search(r"\bcombined\b|whole project|funding plan|overall", m["source"], re.I): phase = "summary"
         # a per-home figure is not the project's total, so it is shown but never added
         if re.search(r"per (unit|home|door|apartment)|/\s*(unit|home)\b", m["amount"], re.I): phase = "perunit"
         rows.append({"label": m["source"], "category": cat, "amount": amt, "amount_text": m["amount"], "phase": phase,
@@ -374,7 +384,7 @@ def gj(g, tol):
     m = mapping(g); return {"type": m["type"], "coordinates": r(m["coordinates"])}
 regions = {r: {"name": n, "counties": [NAME2FIPS[c] for c in cs],
                "shape": gj(unary_union([CNTY[NAME2FIPS[c]]["geom"] for c in cs]).buffer(0), 0.004)} for r, (n, cs) in REGIONS.items()}
-out = {"title": "State housing awards in Colorado by region and town", "compiled": datetime.date.today().isoformat(),
+out = {"title": "State housing awards in Colorado by region and town", "compiled": INPUT_DATE,
        "agencies": {"CHFA": "Colorado Housing and Finance Authority", "OEDIT": "Office of Economic Development and International Trade (Prop 123 fund, run with CHFA)",
                     "DOH": "DOLA Division of Housing", "DOLA": "DOLA Division of Local Government"},
        "regions": regions, "counties": {k: {"name": v["name"], "region": REG_OF[k]} for k, v in CNTY.items()},

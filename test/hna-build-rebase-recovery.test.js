@@ -43,6 +43,7 @@ const DERIVED = [
   'data/market/development-activity.json', // scripts/market/build_development_activity.py (reads geo-config)
   'data/jurisdiction-briefs/_round-watch.json', // scripts/funding/build_round_watch.py (reads applications, ledger, awards)
   'data/policy/prop123-land-banking-status.json', // scripts/funding/build_land_banking_status.py (reads awards, ledger, research notes)
+  'data/derived/funding-map.json',  // scripts/funding/build_funding_map.py (reads the ledger, DOLA awards, deal records)
   'data/market/market-direction.json', // scripts/market/build_market_direction.py (reads permits, projections, LEHD)
   'data/paper/figures.json',        // npm run paper:build
   'data/paper/model-parameters.json',
