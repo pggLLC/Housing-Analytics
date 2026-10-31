@@ -139,7 +139,7 @@ function loadMemo() {
       'the project jurisdiction must still sync on the echo (the header pill reads it)');
     assert.match(body, /const echo = _initialLoadKey !== null && _currentSelectKey\(\) === _initialLoadKey;\s*_initialLoadKey = null;\s*if \(echo\) return;\s*update\(\);/,
       'only one echo is skipped, and the key is cleared either way');
-    assert.match(src, /_initialLoadKey = _currentSelectKey\(\);\s*update\(\);/,
+    assert.match(src, /_initialLoadKey = _currentSelectKey\(\);\s*if \(!unknownGeoid && !nothingChosen\) update\(\);/,
       'init records the place it loads just before loading it');
     assert.match(src, /geoType\.addEventListener\('change', \(\)=>\{\s*_initialLoadKey = null;/,
       'a type change ends the echo window');
