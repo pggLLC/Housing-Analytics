@@ -409,9 +409,10 @@ for d in idx:
     if not tdc:
         for k in full.get("key_numbers", []):
             v = k["value"]
-            if re.search(r"per (\w+ ){0,2}(unit|home)|\bcombined\b|both (properties|buildings|phases)|all phases|campus", k.get("label", "") + " " + v, re.I): continue
+            if re.search(r"\bcombined\b|both (properties|buildings|phases)|all phases|campus", k.get("label", "") + " " + v, re.I) or re.search(r"per (\w+ ){0,2}(unit|home)", k.get("label", ""), re.I): continue
             m2 = re.search(r"(\$[\d,.]+\s*(?:million|m\b|k\b)?)(?:\s*to\s*\$[\d,.]+\s*(?:million|m\b)?)?\s*(?:projected\s+)?(?:total (?:development )?(?:cost|budget)|project)", v, re.I)
-            if m2 and money(m2.group(1)):
+            # a per-unit figure beside the total is fine; only a matched amount that is itself per unit is skipped
+            if m2 and money(m2.group(1)) and not re.match(r"\s*(per (\w+ ){0,2}(unit|home)|/\s*(unit|home))", v[m2.end():], re.I):
                 s0 = srcs.get((k.get("src") or [None])[0]) or {}
                 tdc = {"amount": money(m2.group(1)), "text": v, "source_title": s0.get("title", "COHO deal summary"), "source_url": s0.get("url", "")}
                 break
