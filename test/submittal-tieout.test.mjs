@@ -116,6 +116,7 @@ const html = read('developer-submittal-review.html');
 ok(/id="srTie"/.test(html) && /id="sr-tie-csv"/.test(html) && html.indexOf('submittal-tieout.js') < html.indexOf('submittal-review.js"'), 'the page has the tie-out and loads it first');
 ok(/id="srTieCard"/.test(html) && html.indexOf('id="srTieCard"') < html.indexOf('</form>'), 'the tie-out inputs are inside the form, so typing re-checks them');
 const f = T.formHtml();
+ok(/^Qualified basis/.test(T.ROWS.find((r) => r.id === 'basis').label) && /basis\.qualifiedBasis/.test(read('js/deal-engine.js').match(/var eligibleBasis\s*=.*$/m)[0]), 'the basis row is qualified basis, which is what the export calls eligibleBasis');
 ok(T.ROWS.every((r) => f.includes('data-tie="' + r.id + '"') && f.includes('data-tieref="' + r.id + '"') && f.includes('for="sr-tie-' + r.id + '"')), 'every row has a labelled input and a reference field');
 ok(/Deal breaker/.test(T.outHtml(row(T.check(r1, v({ ...app, gap: 5 }), engine), 'gap'))), 'a flag is written in words, not color alone');
 

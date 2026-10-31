@@ -41,7 +41,8 @@
   var ROWS = [
     { id: 'homes', label: 'Total homes', kind: 'count', model: 'units', tol: { abs: 0 } },
     { id: 'tdc', label: 'Total development cost', kind: 'money', model: 'totalDevelopmentCost', tol: { pct: 0.01 } },
-    { id: 'basis', label: 'Eligible basis', kind: 'money', model: 'eligibleBasis', tol: { pct: 0.01 } },
+    // The export's "eligibleBasis" is the engine's qualified basis (after any boost, times the applicable fraction).
+    { id: 'basis', label: 'Qualified basis (eligible basis after any boost, times the applicable fraction)', kind: 'money', model: 'eligibleBasis', tol: { pct: 0.01 } },
     { id: 'credit', label: 'Annual federal credit requested', kind: 'money', model: 'annualCredits', tol: { pct: 0.01 }, rule: 'credit' },
     { id: 'price', label: 'Equity price per credit dollar', kind: 'price', model: 'equityPrice', tol: { abs: 0.01 } },
     { id: 'equity', label: 'Federal credit equity', kind: 'money', model: 'creditEquity', tol: { pct: 0.01 } },
