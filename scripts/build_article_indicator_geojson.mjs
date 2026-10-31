@@ -130,6 +130,7 @@ async function main() {
     props.bps_first_year              = num(row.bps_first_year);
     props.bps_last_year               = num(row.bps_last_year);
     props.renter_households           = num(row.renter_households);
+    props.rent_burden_universe        = num(row.rent_burden_universe);
     props.renters_burdened_30_plus    = num(row.renters_burdened_30_plus);
     props.population                  = num(row.population);
     return { ...f, properties: props };
@@ -153,7 +154,10 @@ async function main() {
   // Statewide renter burden from the county counts. ACS county counts sum to
   // the state's, so this is the state figure, not an average of rates.
   const sum = (key) => rows.reduce((t, r) => (t == null || num(r[key]) == null ? null : t + num(r[key])), 0);
+  // The share's denominator is B25070's computed universe (001 minus 011),
+  // not every renter household.
   const renters = sum("renter_households"), burdened = sum("renters_burdened_30_plus");
+  const universe = sum("rent_burden_universe");
 
   const out = {
     type: "FeatureCollection",
@@ -169,8 +173,9 @@ async function main() {
       },
       statewide: {
         renter_households: renters,
+        rent_burden_universe: universe,
         renters_burdened_30_plus: burdened,
-        rent_burden_30_plus: renters && burdened != null ? Math.round(burdened / renters * 10000) / 10000 : null,
+        rent_burden_30_plus: universe && burdened != null ? Math.round(burdened / universe * 10000) / 10000 : null,
       },
       indicators: [
         { key: "median_gross_rent",          label: "Median gross rent ($/mo)",            source: `${acsLabel}, B25064`, format: "currency" },
