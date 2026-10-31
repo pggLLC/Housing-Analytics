@@ -458,8 +458,35 @@
       "accessed": "2026-07-07"
     },
     {
+      "id": "ls1",
+      "label": "Local support record for Town of Silt, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0870195",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Silt Housing Needs Assessment (ECOnorthwest), accepted and placed on file (Silt Board of Trustees draft minutes of April 14, 2025 (in April 28, 2025 packet); March 24, 2025 minutes (in April 14, 2025 packet))",
+      "url": "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2025%20BOT%20Packets/April_28__2025_BOT_packet_PDF_amended.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-silt-2025-hna",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Resolution No. 19, Series 2026 approving the Subdivision Improvement Agreement for the Flattops Cowboy Church / Western Slope Veterans Coalition property (Silt Board of Trustees June 8, 2026 packet (SIA) and draft minutes of June 8, 2026 (in June 22, 2026 packet))",
+      "url": "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2026%20BOT%20Packets/June_22__2026_BOT_packet_PDF.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-silt-2026-wsvc-veterans-sia",
+      "accessed": "2026-10-10"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-31T03:59:44Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -468,7 +495,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-31T03:59:44Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -603,7 +630,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-31T03:59:44Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -612,7 +639,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-31T03:59:44Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -621,7 +648,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-31T03:59:44Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -672,33 +699,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "ls1",
-      "label": "Local support record for Town of Silt, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0870195",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "Silt Housing Needs Assessment (ECOnorthwest), accepted and placed on file (Silt Board of Trustees draft minutes of April 14, 2025 (in April 28, 2025 packet); March 24, 2025 minutes (in April 14, 2025 packet))",
-      "url": "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2025%20BOT%20Packets/April_28__2025_BOT_packet_PDF_amended.pdf",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-silt-2025-hna",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "Resolution No. 19, Series 2026 approving the Subdivision Improvement Agreement for the Flattops Cowboy Church / Western Slope Veterans Coalition property (Silt Board of Trustees June 8, 2026 packet (SIA) and draft minutes of June 8, 2026 (in June 22, 2026 packet))",
-      "url": "https://townofsilt.org/i/u/2017580/f/BOT%20Packets/2026%20BOT%20Packets/June_22__2026_BOT_packet_PDF.pdf",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-silt-2026-wsvc-veterans-sia",
-      "accessed": "2026-10-10"
     }
   ]
 }

@@ -65,6 +65,8 @@ SERIES = {
     "MEDDAYONMAR22660": ("Fort Collins metro Median Days on Market (Realtor.com)", None),
     "MEDDAYONMAR24300": ("Grand Junction metro Median Days on Market (Realtor.com)", None),
     "CUUSA433SEHA": ("Denver CPI: Rent of Primary Residence (BLS)", None),
+    "ACTLISCOUCO": ("Colorado Active Listings (Realtor.com)", None),
+    "PRIREDCOUCO": ("Colorado Listings with a Price Cut (Realtor.com)", None),
 }
 
 

@@ -182,7 +182,9 @@
       if (t.median_gross_rent > 0) { rentSum += t.median_gross_rent; rentN++; }
       if (t.median_hh_income > 0)  { incSum  += t.median_hh_income;  incN++;  }
       // Weighted cost-burden aggregation
-      var tRenterHh = t.renter_hh || 0;
+      // Weight by the renters Census scores for burden; renter_hh is the
+      // fallback for tract files built before cost_burden_universe existed.
+      var tRenterHh = (t.cost_burden_universe != null ? t.cost_burden_universe : t.renter_hh) || 0;
       var tBurdenRate = t.cost_burden_rate;
       if (tBurdenRate > 0 && tRenterHh > 0) {
         burdenWeightedSum += tBurdenRate * tRenterHh;

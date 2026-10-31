@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T02:03:37.129Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-10-31T04:16:45.586Z. Do not edit by hand.
 
 ---
 
@@ -20,7 +20,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 17.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 41.5 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 218.0 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 218.4 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `commuting.html` | Commuting and Jobs | COHO Analytics | 9.4 KB |
@@ -54,15 +54,15 @@
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 37.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.3 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.7 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 139.4 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 176.9 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.6 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 138.0 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.8 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 139.5 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 177.1 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.8 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 138.1 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
 | `housing-help.html` | If You Need Housing Now | COHO Analytics | 17.2 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 255.0 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 255.2 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 52.2 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.1 KB |
@@ -322,7 +322,7 @@
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
 | `data/fixtures/fruita-commons-family.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.8 KB | ✅ | — |
-| `data/fred-data.json` | 1.23 MB | ✅ | — |
+| `data/fred-data.json` | 1.24 MB | ✅ | — |
 | `data/glossary.json` | 70.7 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 274.3 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 4.1 KB | ✅ | — |
@@ -1792,7 +1792,7 @@
 | `data/hna/workforce-need.json` | 350.4 KB | ✅ | — |
 | `data/hna/zhvi-place-crosswalk.json` | 46.1 KB | ✅ | — |
 | `data/home-snapshot.json` | 2.1 KB | ✅ | — |
-| `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
+| `data/hud-fmr-income-limits.json` | 100.3 KB | ✅ | — |
 | `data/hud-home-rent-limits-co-2026.json` | 60.4 KB | ✅ | — |
 | `data/hud-lihtc-co-match.json` | 225.7 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
@@ -1874,7 +1874,7 @@
 | `data/market/finder-place-demand.json` | 21.2 KB | ✅ | — |
 | `data/market/flood_zones_co.json` | 605.2 KB | ✅ | — |
 | `data/market/fmr_co.json` | 22.2 KB | ✅ | — |
-| `data/market/fmr_tract_map_co.json` | 101.1 KB | ✅ | — |
+| `data/market/fmr_tract_map_co.json` | 101.2 KB | ✅ | — |
 | `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
 | `data/market/hud_s8_contracts_co.json` | 188.1 KB | ✅ | — |
 | `data/market/hud_zip_tract_crosswalk_co.json` | 775.8 KB | ✅ | — |
@@ -2062,7 +2062,7 @@
 
 ## Test Files
 
-743 test files found.
+745 test files found.
 
 | File | Size |
 |------|------|
@@ -2115,7 +2115,7 @@
 | `test/census-dashboard-scope.test.js` | 2.3 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
 | `test/chas-affordable-available.test.js` | 6.0 KB |
-| `test/chas-tier-shares.test.js` | 4.9 KB |
+| `test/chas-tier-shares.test.js` | 6.9 KB |
 | `test/chfa-award-coverage.test.mjs` | 5.0 KB |
 | `test/chfa-cost-basis-limits.test.js` | 4.1 KB |
 | `test/chfa-dda-qct-absence.test.js` | 13.4 KB |
@@ -2342,7 +2342,9 @@
 | `test/hna-like-for-like-comparisons.test.js` | 7.1 KB |
 | `test/hna-live-region-and-load-order.test.js` | 3.6 KB |
 | `test/hna-market-call.test.js` | 8.9 KB |
+| `test/hna-mode-share.test.js` | 3.6 KB |
 | `test/hna-need-reconciliation.test.js` | 28.7 KB |
+| `test/hna-one-next-and-scope-words.test.js` | 10.3 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.4 KB |
 | `test/hna-ownership-need.test.js` | 23.3 KB |
 | `test/hna-ownership-strategy.test.js` | 14.5 KB |
@@ -2379,7 +2381,7 @@
 | `test/homeownership-programs.test.js` | 8.7 KB |
 | `test/homepage-claims.test.js` | 16.9 KB |
 | `test/homepage-job-routing.test.js` | 10.5 KB |
-| `test/homepage-snapshot.test.js` | 16.0 KB |
+| `test/homepage-snapshot.test.js` | 16.8 KB |
 | `test/homes-short-agreement.test.js` | 4.2 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
 | `test/housing-events-and-brief-news.test.mjs` | 15.1 KB |
@@ -2404,7 +2406,7 @@
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
 | `test/integration/hna-ranking.test.js` | 12.4 KB |
-| `test/integration/housing-needs-assessment.test.js` | 34.4 KB |
+| `test/integration/housing-needs-assessment.test.js` | 34.7 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
 | `test/inventory-mtime-sync.test.js` | 26.5 KB |
@@ -2662,7 +2664,7 @@
 | `test/test_environmental_screening.js` | 19.7 KB |
 | `test/test_fetch_epa_environmental.py` | 7.3 KB |
 | `test/test_fetch_fred_data.py` | 4.2 KB |
-| `test/test_fmr_flatten_guard.py` | 10.1 KB |
+| `test/test_fmr_flatten_guard.py` | 11.2 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
 | `test/test_legislative_tracker.js` | 10.7 KB |

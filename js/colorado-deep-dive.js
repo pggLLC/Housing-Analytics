@@ -833,6 +833,42 @@ function initPolicyPanel(panelId) {
     return (v >= 0 ? '+' : '\u2212') + Math.abs(v).toFixed(1) + '%';
   }
 
+  /* Statewide lines under the metro table. Each line names its own period
+     and reads only Colorado series (no national comparisons). */
+  function renderStatewide(series) {
+    var list = document.getElementById('cddOutlookList');
+    if (!list) return;
+    var items = [];
+    var hpi = seriesObs(series, 'COSTHPI');
+    var h = hpi[hpi.length - 1];
+    var hp = h ? pct(+h.value, valueAt(hpi, yearBefore(h.date))) : null;
+    if (hp) items.push('Prices statewide: ' + hp + ', ' + quarterLabel(yearBefore(h.date)) + ' to ' + quarterLabel(h.date) + '.');
+    var bp = seriesObs(series, 'COBPPRIV');
+    if (bp.length >= 24) {
+      var sum = function (a) { return a.reduce(function (t, o) { return t + (+o.value); }, 0); };
+      var last12 = sum(bp.slice(-12)), prev12 = sum(bp.slice(-24, -12));
+      var peak = null;
+      var byYear = {};
+      bp.forEach(function (o) { var y = o.date.slice(0, 4); byYear[y] = (byYear[y] || 0) + (+o.value); });
+      Object.keys(byYear).forEach(function (y) {
+        if (bp.filter(function (o) { return o.date.slice(0, 4) === y; }).length === 12 && (!peak || byYear[y] > byYear[peak])) peak = y;
+      });
+      var lastDate = bp[bp.length - 1].date;
+      items.push('Homes permitted, 12 months to ' + monthLabel(lastDate) + ': ' + last12.toLocaleString('en-US') +
+        ', ' + pct(last12, prev12) + ' on the 12 months before' +
+        (peak ? ' and ' + Math.round((1 - last12 / byYear[peak]) * 100) + '% below the ' + peak + ' peak of ' + byYear[peak].toLocaleString('en-US') : '') + '.');
+    }
+    var act = seriesObs(series, 'ACTLISCOUCO'), cut = seriesObs(series, 'PRIREDCOUCO');
+    var a = act[act.length - 1];
+    if (a) {
+      var aPrev = valueAt(act, yearBefore(a.date));
+      var c = valueAt(cut, a.date), cPrev = valueAt(cut, yearBefore(a.date));
+      if (aPrev) items.push('Homes for sale, ' + monthLabel(a.date) + ': ' + (+a.value).toLocaleString('en-US') + ' listings, ' + pct(+a.value, aPrev) + ' on a year earlier.');
+      if (c != null && cPrev != null && aPrev) items.push('Listings with a price cut, ' + monthLabel(a.date) + ': ' + Math.round(c / a.value * 100) + '%, against ' + Math.round(cPrev / aPrev * 100) + '% a year earlier.');
+    }
+    list.innerHTML = items.length ? items.map(function (t) { return '<li>' + escapeHtml(t) + '</li>'; }).join('') : '<li>Colorado market figures did not load.</li>';
+  }
+
   function renderMetroSignals() {
     var body = document.getElementById('cddMetroSignalsBody');
     if (!body) return;
@@ -882,6 +918,7 @@ function initPolicyPanel(panelId) {
           (rLatest && last.date !== '2024-01-01' ? '; ' + rLatest + ' in ' + last.date.slice(0, 4) : '') +
           ', annual average against the year before. BLS publishes this index for the Denver area only.';
       }
+      renderStatewide(series);
     }).catch(function (e) {
       body.innerHTML = '<tr><td colspan="5">Market data did not load.</td></tr>';
       handleDataError('metro-signals', e);

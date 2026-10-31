@@ -86,8 +86,8 @@
     },
     'tier-shares': {
       title: 'AMI tier-share apportionment',
-      what: 'When projecting household demand by AMI tier (HousingDemand chart), each year\'s HH growth is split into 5 tiers using real CHAS-derived renter shares for the selected geography.',
-      how: 'Priority: TIGER place-CHAS → county CHAS Table 7 → CO statewide baseline. Source label appears in chart tooltip footer.',
+      what: 'When projecting household demand by AMI tier (HousingDemand chart), each year\'s households are split into 5 tiers using the CHAS income mix of all households, renters and owners together, for the selected geography.',
+      how: 'Priority: TIGER place-CHAS → county CHAS Table 7 → all Colorado counties combined. Source label appears in chart tooltip footer.',
       caveats: 'Assumes the tier mix stays constant over the projection horizon. Real mix shifts with income growth + migration.',
       source: 'js/chas-tier-shares.js',
     },

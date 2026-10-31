@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-31T02:04:24.479921Z",
+  "generated": "2026-10-31T04:17:31.195567Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -1164,7 +1164,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1289346
+      "bytes": 1298990
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -8514,7 +8514,7 @@
     "data/hud-fmr-income-limits.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 102600
+      "bytes": 102706
     },
     "data/hud-home-rent-limits-co-2026.json": {
       "featureCount": 64,
@@ -8954,7 +8954,7 @@
     "data/market/fmr_tract_map_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 103488
+      "bytes": 103594
     },
     "data/market/food_access_co.json": {
       "featureCount": 0,
@@ -9029,7 +9029,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 774573
+      "bytes": 774569
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -9204,7 +9204,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16090
+      "bytes": 16088
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
