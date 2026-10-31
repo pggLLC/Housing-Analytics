@@ -410,6 +410,8 @@ for d in idx:
         money_rows.append(m)
     for m in money_rows:
         cat, phase = classify(m["source"], m["amount"])
+        # a fund named for the project's own town ("Fort Collins Affordable Housing Capital Fund") is local money
+        if cat == "other" and d.get("city") and re.search(r"\b" + re.escape(norm(d["city"])) + r"\b", norm(m["source"])): cat = "local"
         amt = None if re.match(r"\s*(not public|not stated|none|n/a|unknown)", m["amount"], re.I) else money_total(m["amount"])
         s0 = srcs.get((m.get("src") or [None])[0]) or {}
         # a total cost for several properties or phases is not this project's total; it is listed as a cost

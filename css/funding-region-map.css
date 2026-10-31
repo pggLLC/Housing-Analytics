@@ -74,7 +74,7 @@
 .frm-site{display:grid; gap:2px; padding-bottom:10px; border-bottom:1px solid var(--border); font-size:.86rem}
 .frm-site:last-child{border-bottom:0}
 .frm-site h4{margin:0; font-size:.95rem}
-.frm-name{all:unset; cursor:pointer; font-weight:600; text-decoration:underline; text-decoration-color:var(--border-strong); text-underline-offset:3px}
+.frm-name{all:unset; cursor:pointer; display:inline-flex; align-items:center; min-height:44px; min-width:44px; font-weight:600; text-decoration:underline; text-decoration-color:var(--border-strong); text-underline-offset:3px}
 .frm-detail li{margin:2px 0}
 .frm-detail li a, .frm-map li a{font-size:.75rem}
 .frm-flag{color:var(--frm-oedit); font-size:.75rem; font-weight:600}
