@@ -342,7 +342,7 @@ def classify(src, amt):
     # a services, operating or replacement reserve is money the project sets aside (a use), not a source
     if re.search(r"\b(tenant |supportive )?(services?|operating|replacement|lease-?up|capitalized) reserves?\b", s): return "cost", "summary"
     if re.search(r"acquisition (price|cost)|purchase price|sale price|construction contract|hard cost|soft cost|rehab(ilitation)? (cost|budget|contract)|cost of|proposed budget", s): return "cost", "summary"
-    inkind = re.search(r"waiver|exemption|abatement|saved|savings|donat|land lease|ground lease|in-kind|fee reduction|rebate|discount|price concession|price (cut|reduction)|^land$|land contribution", s + " " + a)
+    inkind = re.search(r"waiver|exemption|abatement|saved|savings|donat|land lease|ground lease|in-kind|fee reduction|(fee|tax|permit|tap|impact|use tax|sales tax)( \w+)? rebate|rebate of (\w+ )?(fees?|tax)|discount|price concession|price (cut|reduction)|^land$|land contribution", s + " " + a)
     # infrastructure or public works (a sidewalk, a road or utility extension) built for the project is in-kind; a grant, loan or capital payment for it is cash
     inkind = inkind or re.search(r"paid separately", s) or (re.search(r"infrastructure|sidewalk|streetscape|curb and gutter|public works|(road|street|utility|sewer|water) (improvements?|extension|line)", s + " " + a) and not re.search(r"grant|loan|capital|cash|fund|\$", s))
     # a loan or grant that pays for a lease or land payment is cash, not an in-kind contribution
