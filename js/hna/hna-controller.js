@@ -4347,10 +4347,29 @@
   // Serialized inside update() itself (not a wrapper) because other guards
   // read update()'s body from source to check what it calls.
   let _updateGate = Promise.resolve();
+
+  // The place init loaded, until the first select change after it. The
+  // page's deep-link helper re-announces that place (so the project, the
+  // county and the projection pill sync); the geoSelect listener in init
+  // skips that one echo instead of running the whole load again, which on a
+  // phone blanked and redrew every figure (Codex audit F9, 31 Oct 2026).
+  // Any later change loads as before.
+  let _initialLoadKey = null;
+  function _currentSelectKey() {
+    const els = window.HNAState && window.HNAState.els;
+    if (!els || !els.geoType || !els.geoSelect) return null;
+    const combined = !!(els.combineGeosToggle && els.combineGeosToggle.checked);
+    return els.geoType.value + ':' + els.geoSelect.value + (combined ? ':combined' : '');
+  }
   async function update(){
     const previous = _updateGate;
     let release;
     _updateGate = new Promise(function (r) { release = r; });
+    // However this load ends, the decision tiles stop holding space for
+    // tiles that never reported (they were armed when the load began).
+    _updateGate.then(function () {
+      if (window.HNARenderers && window.HNARenderers.settleDecisionStrip) window.HNARenderers.settleDecisionStrip();
+    });
     await previous;
     try {
     var ws = document.getElementById('hnaWaitingState');
@@ -4424,6 +4443,8 @@
     // Clear stat cards immediately so users never see stale data from a previous geography.
     // Cards will be repopulated once the new profile data arrives.
     window.HNARenderers.clearStats();
+    // Hold the decision tiles' place while this place loads (settled below).
+    if (window.HNARenderers.armDecisionStrip) window.HNARenderers.armDecisionStrip();
 
     // Store geo label in state so CSV export can use it.
     window.HNAState.state.lastGeoLabel = label;
@@ -5440,6 +5461,7 @@
     }
 
     window.HNAState.els.geoType.addEventListener('change', ()=>{
+      _initialLoadKey = null;
       buildSelect();
       _syncCombinedPanel();
       _syncJurisdictionToWorkflowState();
@@ -5449,6 +5471,10 @@
     window.HNAState.els.geoSelect.addEventListener('change', () => {
       _syncJurisdictionToWorkflowState();
       _syncJurisdictionToUrl();
+      // Skip only the deep-link helper's echo of the place init loaded (F9).
+      const echo = _initialLoadKey !== null && _currentSelectKey() === _initialLoadKey;
+      _initialLoadKey = null;
+      if (echo) return;
       update();
     });
     window.HNAState.els.btnRefresh.addEventListener('click', update);
@@ -5564,10 +5590,13 @@
       });
     });
 
+    // Record the place init is about to load, so its deep-link echo is skipped (F9).
+    if (!unknownGeoid && !nothingChosen) _initialLoadKey = _currentSelectKey();
     ensureMap();
     // Nothing to load for an unknown geography, or when nothing was picked
     // (no address, no saved place); the waiting state says what to do.
     if (!unknownGeoid && !nothingChosen) update();
+    else if (window.HNARenderers.clearDecisionStrip) window.HNARenderers.clearDecisionStrip();
   }
 
 
