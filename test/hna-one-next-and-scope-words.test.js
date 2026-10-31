@@ -121,6 +121,13 @@ test('exports print scope words, not codes', () => {
     'the PDF prints the codes, or puts the long wording in a table cell that cuts it off');
   assert.ok(!/'Approximation Basis'/.test(js), 'the misleading approximation-basis code is printed again');
   assert.ok(/county_proportional: 'Apportioned/.test(js), 'apportioned jobs figures are not called apportioned');
+  // A county's own CHAS record also carries the code 'county'; only a place
+  // using it is a fallback.
+  const f = js.slice(js.indexOf('  var CHAS_SOURCE_WORDS'), js.indexOf('  /* The ranking index flags'));
+  const words = new Function(f.replace(/  var LEHD_SOURCE_WORDS[\s\S]*?\};\n/, '') + '; return _chasSourceWords;')();
+  assert.ok(!/stand in|used:/i.test(words('county', 'county')), 'a county\'s own CHAS is described as a fallback: ' + words('county', 'county'));
+  assert.ok(/county/i.test(words('county', 'place')) && words('county', 'place') !== words('county', 'county'),
+    'a place using county CHAS rates is not told so');
 });
 
 // Agreement with the build: every field build_ranking_index.py can flag as

@@ -297,6 +297,12 @@
     if (code == null || code === '') return '';
     return table[code] || String(code);
   }
+  // 'county' is also the code on a county's own CHAS record, which is
+  // measured, not a stand-in: the fallback wording is only for a place.
+  function _chasSourceWords(code, geoType) {
+    if (code === 'county' && geoType === 'county') return 'Measured for this county';
+    return _sourceWords(CHAS_SOURCE_WORDS, code);
+  }
   /* The ranking index flags fields it estimated from the county. Each group
    * is estimated its own way (scripts/hna/build_ranking_index.py), so the
    * note names the method per group; the raw basis code
@@ -782,7 +788,7 @@
       },
       chasCostBurden: {
         source:         m._chas_source || 'unavailable',  // 'place' | 'county' | 'none'
-        sourceLabel:    _sourceWords(CHAS_SOURCE_WORDS, m._chas_source || 'unavailable'),
+        sourceLabel:    _chasSourceWords(m._chas_source || 'unavailable', geoType),
         renterPctBurdened: {
           lte30:    _numOrNull(m.pct_burdened_lte30),
           tier31to50: _numOrNull(m.pct_burdened_31to50),
