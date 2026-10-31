@@ -256,13 +256,25 @@
    * files carry the summary figures above. Saying so lets a reader of the file
    * alone know where to look, rather than assume an absent section is empty.
    * A fuller export is a separate decision. */
-  var NOT_IN_FILE = 'This file carries the summary figures only. These page sections are on the page and not in this file: '
-    + 'the maps, HUD and CHFA rent and income limits, rent triangulation, second homes and short-term rentals, '
-    + 'home values and homeownership affordability, income distribution, permits, age of stock, bedroom mix, '
-    + 'special needs housing, demographic and population projections, the labor market and wage charts, '
-    + 'Proposition 123 compliance, PMA delineation, renter need by bedroom count, affordable ownership need, '
-    + 'housing type feasibility, Colorado market conditions and the housing action plan checklist. '
-    + 'Open the page for those.';
+  // Sections no download carries: tables and text with no exporter.
+  var NOT_IN_ANY = 'the maps, HUD and CHFA rent and income limit tables, rent triangulation, '
+    + 'second homes and short-term rentals, special needs housing, Proposition 123 compliance, '
+    + 'PMA delineation, renter need by bedroom count, affordable ownership need, housing type feasibility, '
+    + 'Colorado market conditions and the housing action plan checklist';
+  // What each format leaves out, from what its exporter actually writes:
+  // CSV and JSON carry figures and no charts; the PDF draws the household,
+  // occupation, race, education, rent and owner burden and home value charts
+  // and the need reconciliation; Excel gives every chart on the page a sheet.
+  var NOT_IN_FILE = {
+    csv: 'This file carries the summary figures only, and no charts. Not in this file: '
+      + 'the page\u2019s charts (home values, income distribution, permits, age of stock, bedroom mix, '
+      + 'demographic and population projections, labor market and wages), ' + NOT_IN_ANY + '. Open the page for those.',
+    pdf: 'This PDF carries the summary figures and the charts it shows. Not in this PDF: '
+      + 'the income distribution, age of stock, bedroom mix, projection, labor market and wage charts, '
+      + NOT_IN_ANY + '. Open the page for those.',
+    xlsx: 'This workbook carries the summary figures and a sheet for each chart that had loaded on the page. '
+      + 'Not in this workbook: ' + NOT_IN_ANY + '. Open the page for those.'
+  };
 
   /* Where a figure was measured, in words a reader can act on. The raw codes
    * ('county_proportional', 'county_value_used_directly') stay in the JSON
@@ -703,7 +715,7 @@
     return {
       exportedAt:    new Date().toISOString(),
       generatedBy:   'COHO Analytics HNA Export',
-      notInThisFile: NOT_IN_FILE,
+      notInThisFile: NOT_IN_FILE.csv,
       disclaimer:    'Screening tool only. Public-data screening output, not a substitute for a CHFA-required market study, professional underwriting, or independent investor analysis. See docs/METHODOLOGY-GAPS-2026-05-21.md for known limitations.',
       vintages: {
         acs:          'ACS 5-Year 2020-2024',
@@ -1483,9 +1495,10 @@
       drawTableSimple(gapRows.map(function (r) {
         return { label: _pdfPlain(r.label), value: r.display };
       }).concat([
-        { label: 'CHAS data source',           value: data.chasCostBurden.sourceLabel || data.chasCostBurden.source },
         { label: 'AMI gap source',             value: data.amiGap.source },
       ]));
+      // A sentence, not a table cell: the value column is too narrow for it.
+      drawNarrative(_pdfPlain('CHAS data source: ' + (data.chasCostBurden.sourceLabel || data.chasCostBurden.source)));
       gapRows.forEach(function (r) { if (r.reason) drawNarrative(_pdfPlain(r.label + ': ' + r.reason)); });
       if (data.amiGap.note) drawNarrative(_pdfPlain(data.amiGap.note));
 
@@ -1494,8 +1507,8 @@
       drawTableSimple([
         { label: 'Inbound commuters', value: data.employment.inCommuters },
         { label: 'Commute ratio',     value: data.employment.commuteRatioPct != null ? data.employment.commuteRatioPct + '%' : null },
-        { label: 'LEHD source',       value: data.employment.sourceLabel || data.employment.source },
       ]);
+      drawNarrative(_pdfPlain('LEHD source: ' + (data.employment.sourceLabel || data.employment.source)));
 
       // ── 8. LIHTC + opportunity factors ──
       drawSectionHeader('8. LIHTC properties & opportunity factors', 'Existing LIHTC supply and HUD basis-boost designations (QCT / DDA) that improve credit pricing.');
@@ -1536,7 +1549,7 @@
       pdf.setFontSize(8);
       pdf.setTextColor.apply(pdf, COLOR_MUTED);
       if (data.notInThisFile) {
-        const notIn = pdf.splitTextToSize('Not in this file: ' + data.notInThisFile.replace(/^This file/, 'This PDF'), CONTENT_W);
+        const notIn = pdf.splitTextToSize(_pdfPlain(NOT_IN_FILE.pdf), CONTENT_W);
         newPageIfNeeded((notIn.length * 10) + 6);
         pdf.text(notIn, MARGIN, y);
         y += (notIn.length * 10) + 6;
@@ -1840,7 +1853,7 @@
           return sh;
         };
         addTable('Sources', meta.sources, [34, 30, 40, 40, 60, 24, 16, 14, 60]);
-        addTable('About', meta.about.concat([['Chart sheets', chartNote], ['Not in this file', NOT_IN_FILE]]), [26, 110]);
+        addTable('About', meta.about.concat([['Chart sheets', chartNote], ['Not in this file', NOT_IN_FILE.xlsx]]), [26, 110]);
       } else {
         var notes = wb.addWorksheet('Notes & sources');
         notes.columns = [{ header: 'Notes', key: 'n', width: 110 }];

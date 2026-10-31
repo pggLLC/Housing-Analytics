@@ -53,12 +53,55 @@ test('only the last part leads to Market Analysis, and it carries the place', ()
   }
 });
 
-test('the banner on parts 1-4 points where the handoff does', () => {
-  const js = read('js/components/workflow-next-action.js');
-  assert.ok(/function _nextHnaPart\(\)/.test(js), 'the banner no longer reads the next part');
-  assert.ok(/#hnaChapterHandoff \.hna-handoff__actions a\[href\]/.test(js), 'the banner reads the next part from somewhere other than the handoff');
-  assert.ok(/'Next part: ' \+ part\.label/.test(js), 'the banner label for the next part is gone');
-  assert.ok(/a\[data-carry-place\]/.test(js) && /getActiveJurisdiction/.test(js), 'Market links no longer pick up the place');
+// Agreement, not wording (AGENTS.md): render the banner on each generated
+// part and compare where it goes with where the part's own handoff goes.
+const { JSDOM } = require('jsdom');
+const BANNER = read('js/components/workflow-next-action.js');
+function partDom(slug, completedSteps) {
+  const src = read(slug);
+  const i = src.indexOf('<section class="hna-handoff"');
+  const handoff = src.slice(i, src.indexOf('</section>', i) + '</section>'.length);
+  const dom = new JSDOM('<!doctype html><main><div class="hna-jurisdiction-banner"></div>' + handoff + '</main>',
+    { url: 'https://cohoanalytics.com/' + slug, runScripts: 'outside-only' });
+  dom.window.WorkflowState = { getProgress: () => ({ completedSteps }) };
+  dom.window.NextActionCTA = { getActiveJurisdiction: () => ({ fips: '0828745', geoType: 'place' }) };
+  dom.window.eval(BANNER);
+  dom.window.WorkflowNextAction.render();
+  const doc = dom.window.document;
+  return {
+    dom,
+    banner: doc.querySelector('#workflowNextAction .wf-next-action__cta'),
+    handoff: doc.querySelector('#hnaChapterHandoff .hna-handoff__actions a'),
+  };
+}
+
+test('the banner on each part goes where the part\'s handoff goes', () => {
+  let checked = 0;
+  for (const v of VIEWS) {
+    for (const done of [['opportunity', 'jurisdiction'], ['opportunity', 'jurisdiction', 'hsa']]) {
+      const { banner, handoff } = partDom(v.slug, done);
+      assert.ok(banner && handoff, v.slug + ': banner or handoff link missing');
+      assert.strictEqual(banner.getAttribute('href'), handoff.getAttribute('href'),
+        v.slug + ' (' + done.join(',') + '): banner opens ' + banner.getAttribute('href') + ' but the handoff opens ' + handoff.getAttribute('href'));
+      // The banner names the same destination the handoff names.
+      const dest = handoff.textContent.replace(/^\s*(Next:|Continue to)\s*/, '').replace(/\s*\u2192\s*$/, '').trim();
+      assert.ok(banner.textContent.includes(dest), v.slug + ': the banner does not name "' + dest + '"');
+      checked += 1;
+    }
+  }
+  assert.ok(checked >= 10, 'the scan checked only ' + checked + ' banners');
+});
+
+test('following a Market link opens Market Analysis on the selected place', () => {
+  const last = VIEWS.find((v) => !v.handoff.next);
+  const { dom, banner, handoff } = partDom(last.slug, ['opportunity', 'jurisdiction', 'hsa']);
+  for (const a of [banner, handoff]) {
+    a.dispatchEvent(new dom.window.MouseEvent('mousedown', { bubbles: true }));
+    const u = new URL(a.getAttribute('href'), 'https://cohoanalytics.com/');
+    assert.strictEqual(u.pathname, '/market-analysis.html');
+    assert.strictEqual(u.searchParams.get('fips'), '0828745', 'the place was not carried: ' + a.getAttribute('href'));
+    assert.strictEqual(u.searchParams.get('geoType'), 'place');
+  }
 });
 
 test('the handoff keeps the card\'s scope note', () => {
@@ -73,17 +116,19 @@ test('exports print scope words, not codes', () => {
   assert.ok(/qctScope:\s+_cardSub\('statQctCount'\)/.test(js), 'the QCT scope is not read from the card');
   assert.ok(/'CHAS Data Source',\s+chas\.sourceLabel/.test(js), 'the CSV prints the CHAS code');
   assert.ok(/'LEHD Source',\s+emp\.sourceLabel/.test(js), 'the CSV prints the LEHD code');
-  assert.ok(/chasCostBurden\.sourceLabel/.test(js) && /employment\.sourceLabel/.test(js), 'the PDF prints the codes');
+  assert.ok(/drawNarrative\(_pdfPlain\('CHAS data source: ' \+ \(data\.chasCostBurden\.sourceLabel/.test(js)
+    && /drawNarrative\(_pdfPlain\('LEHD source: ' \+ \(data\.employment\.sourceLabel/.test(js),
+    'the PDF prints the codes, or puts the long wording in a table cell that cuts it off');
   assert.ok(!/'Approximation Basis'/.test(js), 'the misleading approximation-basis code is printed again');
   assert.ok(/county_proportional: 'Apportioned/.test(js), 'apportioned jobs figures are not called apportioned');
 });
 
 test('each download says what it leaves out', () => {
   const js = read('js/hna/hna-export.js');
-  assert.ok(/notInThisFile: NOT_IN_FILE/.test(js), 'the JSON does not carry the coverage note');
+  assert.ok(/notInThisFile: NOT_IN_FILE\.csv/.test(js), 'the JSON does not carry the coverage note');
   assert.ok(/\['Not in this file',\s+d\.notInThisFile/.test(js), 'the CSV does not carry the coverage note');
-  assert.ok(/data\.notInThisFile/.test(js), 'the PDF does not carry the coverage note');
-  assert.ok(/\['Not in this file', NOT_IN_FILE\]/.test(js), 'the Excel About sheet does not carry the coverage note');
+  assert.ok(/NOT_IN_FILE\.pdf/.test(js), 'the PDF does not carry its own coverage note');
+  assert.ok(/\['Not in this file', NOT_IN_FILE\.xlsx\]/.test(js), 'the Excel About sheet does not carry its own coverage note');
 });
 
 test('the IC summary names the county when the QCT count is county-wide', () => {

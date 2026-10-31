@@ -473,11 +473,6 @@
 
   function init() {
     _render();
-    // mousedown and keydown run before the browser follows the link, so a
-    // middle-click or Enter opens the carried URL too.
-    ['mousedown', 'keydown', 'click'].forEach(function (t) {
-      document.addEventListener(t, _carryPlace, true);
-    });
 
     // Re-render when workflow state updates
     document.addEventListener('workflow:step-updated', _render);
@@ -489,6 +484,13 @@
     // The page switched mode (the Deal Calculator's rental/ownership toggle).
     document.addEventListener('workflow:page-changed', _render);
   }
+
+  // mousedown and keydown run before the browser follows the link, so a
+  // middle-click or Enter opens the carried URL too. Registered at load, not
+  // in init(), so a link is never followed before the listener exists.
+  ['mousedown', 'keydown', 'click'].forEach(function (t) {
+    document.addEventListener(t, _carryPlace, true);
+  });
 
   // Run after DOM ready
   if (document.readyState === 'loading') {
