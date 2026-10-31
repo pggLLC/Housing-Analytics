@@ -322,6 +322,8 @@ def classify(src, amt):
     # a developer fee is a project cost; only a deferred or contributed fee is money into the deal
     if re.search(r"developer fee", s) and not re.search(r"defer|contribut|loan|equity", s): return "cost", "summary"
     if re.search(r"deferred develop|developer fee|sponsor loan|seller|owner|general partner|sponsor equity|developer equity|private equity", s): cat = "owner"
+    # a named federal program keeps its federal origin even when a state agency passes it through
+    elif re.search(r"home investment partnerships?|\bhome (funds?|loan|program|grant)\b|\bcdbg\b|community development block grant|\barpa\b|american rescue plan|national housing trust fund|\bhtf\b|neighborhood stabilization|\bhud\b|section (8|811)\b|capital magnet|\busda\b|rural development|\bfhlb\b", s) and "risk share" not in s: cat = "federal"
     elif re.search(r"chfa|division of housing|\bdoh\b|dola|oedit|prop(osition)? 123|state housing board|colorado department|state of colorado|colorado energy|history colorado|transit oriented communities infrastructure|\btoci\b", s): cat = "state"
     elif re.search(r"\b(hud|home|cdbg|arpa|usda|epa|fhlb)\b|federal|environmental protection|section 8|congression|treasury|capital magnet|community development block grant|home investment partnerships?|national housing trust fund|neighborhood stabilization|american rescue plan|department of housing and urban development|rural development", s): cat = "federal"
     elif re.search(r"foundation|philanthrop|donor|gift|church|community fund|impact fund|(?<!housing )\btrust\b(?! fund)", s): cat = "gift"
