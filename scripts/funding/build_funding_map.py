@@ -248,6 +248,8 @@ for a in sorted(DA, key=_rank):
     first = next((b for b in _seen.get(k, []) if abs(b["year"] - a["year"]) <= 1 and b["source_title"] != a["source_title"]), None)
     if first:
         a["_dup"] = True; first["source_title"] += "; also reported in " + a["source_title"]
+        # the kept record takes a town or county from the other document when it has none
+        if not first.get("town") and not first.get("county_fips"): first["town"], first["county_fips"] = a.get("town"), a.get("county_fips")
     else: _seen.setdefault(k, []).append(a)
 DA = [a for a in DA if not a.get("_dup")]
 for a in DA:
@@ -417,6 +419,12 @@ for d in idx:
         if phase == "perm" and cat == "other" and re.search(r"\b(buys|pays|purchases)\b", note) and not re.search(r"grant|loan|fund|note|carryback", m["source"], re.I): cat, phase = "cost", "summary"
         # earlier money for a prior deal on the site, and nominal land prices, are shown, not added
         if phase == "perm" and (re.search(r"^earlier\b|\(history\)", m["source"], re.I) or re.search(r"\bnominal\b", m["amount"], re.I)): phase = "summary"
+        # money labeled for another phase or closing of the same project ("closing A" on a Phase B deal) is shown, not added
+        dp = re.search(r"\bphase\s+([a-z0-9]+)\b", d["name"], re.I)
+        lp_ = [x.lower() for x in re.findall(r"\b(?:phase|closing)\s+([a-z0-9]+)\b", m["source"], re.I)]
+        # roman numerals read as numbers, and a sub-phase ("IA") belongs to its phase ("1")
+        _ph = lambda t: re.sub(r"^(iii|ii|i)(?=[a-z]?$)", lambda r: str(len(r.group(1))), t.lower())
+        if phase == "perm" and dp and lp_ and not any(_ph(dp.group(1)).startswith(_ph(x)) for x in lp_): phase = "summary"
         # one award shared with another property, with no published split, is shown, not added
         if phase == "perm" and re.search(r"shared with|split (is )?not (public|stated|published)|split between", m["amount"] + " " + note, re.I): phase = "summary"
         # an amount whose note says it bundles land or other in-kind support with cash is shown, not added
