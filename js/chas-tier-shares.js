@@ -184,10 +184,58 @@
     return primary;
   }
 
+  // All households (renters and owners) in each tier, as shares of all
+  // households. The HNA's demand chart multiplies a total-household series,
+  // so it needs this mix: renter-only shares applied to all households count
+  // every owner as a renter in that renter's tier.
+  function _householdShares(rec, base) {
+    if (!rec || !rec.renter_hh_by_ami || !rec.owner_hh_by_ami) return null;
+    var all = 0;
+    var tiers = TIER_ORDER.map(function (tier) {
+      var n = (Number((rec.renter_hh_by_ami[tier.key] || {}).total) || 0) +
+              (Number((rec.owner_hh_by_ami[tier.key] || {}).total) || 0);
+      all += n;
+      return { key: tier.key, label: tier.label, count: n };
+    });
+    if (!all) return null;
+    tiers.forEach(function (t) { t.share = t.count / all; });
+    return { source: base.source, geoid: base.geoid, name: base.name, totalHouseholds: all, tiers: tiers };
+  }
+  function _statewideHouseholdShares() {
+    var sum = { renter_hh_by_ami: {}, owner_hh_by_ami: {} };
+    ((_countyData && _countyData.records) || []).forEach(function (r) {
+      ['renter_hh_by_ami', 'owner_hh_by_ami'].forEach(function (side) {
+        TIER_ORDER.forEach(function (tier) {
+          var o = sum[side][tier.key] = sum[side][tier.key] || { total: 0 };
+          o.total += Number(((r[side] || {})[tier.key] || {}).total) || 0;
+        });
+      });
+    });
+    return _householdShares(sum, { source: 'statewide-chas', geoid: '08', name: 'Colorado' });
+  }
+
+  /** All-household AMI tier shares (renters and owners together), in the same
+   *  place → county → statewide order as getRenterSharesWithFallback.
+   *  Returns null when the CHAS files have not loaded. */
+  function getHouseholdSharesWithFallback(geoid, geoType, containingCountyFips5) {
+    if (!_placeData || !_countyData) return null;
+    var g = _normGeoid(geoid);
+    if (g.length === 7 && (geoType === 'place' || geoType === 'cdp')) {
+      var p = _placeData.places && _placeData.places[g];
+      var pr = p && _householdShares(p, { source: 'place-chas', geoid: g, name: p.name || g });
+      if (pr) return pr;
+    }
+    var cf = (g.length === 5 || geoType === 'county') ? g.slice(0, 5) : containingCountyFips5;
+    var c = cf && (_countyData.records || []).find(function (r) { return r.fips === cf; });
+    var cr = c && _householdShares(c, { source: 'county-chas', geoid: cf, name: c.name || cf });
+    return cr || _statewideHouseholdShares();
+  }
+
   window.ChasTierShares = {
     init: init,
     getRenterShares: getRenterShares,
     getRenterSharesWithFallback: getRenterSharesWithFallback,
+    getHouseholdSharesWithFallback: getHouseholdSharesWithFallback,
     TIER_ORDER: TIER_ORDER,
     STATEWIDE_HEURISTIC: STATEWIDE_HEURISTIC,
   };

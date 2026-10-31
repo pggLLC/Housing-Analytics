@@ -1289,10 +1289,12 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
         'S0801_C01_002E',  # Car/truck/van total parent (drove-alone + carpooled, %)
         'S0801_C01_003E',  # Drove alone (%)
         'S0801_C01_004E',  # Carpooled (%)
-        'S0801_C01_005E',  # Public transit (%)
-        'S0801_C01_006E',  # Walked (%)
-        'S0801_C01_007E',  # Taxicab, motorcycle, bicycle, or other means (%)
-        'S0801_C01_008E',  # Worked at home (%)
+        # 005-008 are carpool sizes and workers per vehicle, not other modes.
+        'S0801_C01_009E',  # Public transportation (%)
+        'S0801_C01_010E',  # Walked (%)
+        'S0801_C01_011E',  # Bicycle (%)
+        'S0801_C01_012E',  # Taxi or ride-hailing, motorcycle, or other means (%)
+        'S0801_C01_013E',  # Worked from home (%)
         'S0801_C01_046E',  # Mean travel time to work (minutes)
         'NAME'
     ]
@@ -1360,7 +1362,9 @@ def fetch_acs_b08301(geo_type: str, geoid: str) -> dict | None:
     #   B08301_010E – Public transit (excl. taxicab)
     #   B08301_018E – Bicycle
     #   B08301_019E – Walked
-    #   B08301_020E – Taxicab / motorcycle / other means
+    #   B08301_016E – Taxi or ride-hailing services
+    #   B08301_017E – Motorcycle
+    #   B08301_020E – Other means
     #   B08301_021E – Worked from home
     vars_ = [
         'B08301_001E',  # Total
@@ -1369,7 +1373,9 @@ def fetch_acs_b08301(geo_type: str, geoid: str) -> dict | None:
         'B08301_010E',  # Public transit
         'B08301_018E',  # Bicycle
         'B08301_019E',  # Walked
-        'B08301_020E',  # Taxicab / motorcycle / other
+        'B08301_016E',  # Taxi or ride-hailing
+        'B08301_017E',  # Motorcycle
+        'B08301_020E',  # Other means
         'B08301_021E',  # Worked from home
         'NAME',
     ]
@@ -1426,7 +1432,9 @@ def fetch_acs_b08301(geo_type: str, geoid: str) -> dict | None:
         'transit':        _int('B08301_010E'),
         'bike':           _int('B08301_018E'),
         'walk':           _int('B08301_019E'),
-        'other':          _int('B08301_020E'),
+        # Taxi and motorcycle are their own B08301 lines; 'other' carries them
+        # with other means so the seven modes add to the total.
+        'other':          _int('B08301_016E') + _int('B08301_017E') + _int('B08301_020E'),
         'work_from_home': _int('B08301_021E'),
     }
 

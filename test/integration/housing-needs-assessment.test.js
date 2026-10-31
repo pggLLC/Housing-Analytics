@@ -260,10 +260,13 @@ test('ACS S0801: all required mode-share fields requested', () => {
   assert(hnaSrc.includes('S0801_C01_001E'), 'S0801_C01_001E (total workers) in fetch');
   assert(hnaSrc.includes('S0801_C01_002E'), 'S0801_C01_002E (drove alone) in fetch');
   assert(hnaSrc.includes('S0801_C01_003E'), 'S0801_C01_003E (carpool) in fetch');
-  assert(hnaSrc.includes('S0801_C01_004E'), 'S0801_C01_004E (transit) in fetch');
-  assert(hnaSrc.includes('S0801_C01_005E'), 'S0801_C01_005E (walked) in fetch');
-  assert(hnaSrc.includes('S0801_C01_006E'), 'S0801_C01_006E (other means) in fetch');
-  assert(hnaSrc.includes('S0801_C01_007E'), 'S0801_C01_007E (work from home) in fetch');
+  assert(hnaSrc.includes('S0801_C01_004E'), 'S0801_C01_004E (carpooled) in fetch');
+  // ACS 2019+ layout: 005-008 are carpool sizes and workers per vehicle.
+  assert(hnaSrc.includes('S0801_C01_009E'), 'S0801_C01_009E (public transportation) in fetch');
+  assert(hnaSrc.includes('S0801_C01_010E'), 'S0801_C01_010E (walked) in fetch');
+  assert(hnaSrc.includes('S0801_C01_011E'), 'S0801_C01_011E (bicycle) in fetch');
+  assert(hnaSrc.includes('S0801_C01_012E'), 'S0801_C01_012E (other means) in fetch');
+  assert(hnaSrc.includes('S0801_C01_013E'), 'S0801_C01_013E (worked from home) in fetch');
   assert(hnaSrc.includes('S0801_C01_046E'), 'S0801_C01_046E (mean commute time) in fetch');
 });
 
@@ -273,8 +276,8 @@ test('ACS S0801: renderModeShare function is defined', () => {
 });
 
 test('ACS S0801: renderModeShare is called in update() pipeline', () => {
-  assert(hnaSrc.includes('renderModeShare(s0801)'),
-    'renderModeShare(s0801) is called in the update pipeline');
+  assert(hnaSrc.includes('renderModeShare(s0801, modeCounts)'),
+    'renderModeShare(s0801, modeCounts) is called in the update pipeline');
 });
 
 test('ACS S0801: renderModeShare has a null/missing-data guard', () => {
@@ -283,7 +286,7 @@ test('ACS S0801: renderModeShare has a null/missing-data guard', () => {
     hnaSrc.includes('s0801.S0801_C01_001E'),
     'renderModeShare guards against null/missing S0801 data');
   // The outer caller also guards
-  assert(hnaSrc.includes('if (s0801)') && hnaSrc.includes('renderModeShare(s0801)'),
+  assert(hnaSrc.includes('if (s0801)') && hnaSrc.includes('renderModeShare(s0801, modeCounts)'),
     'update() guards renderModeShare call with if (s0801)');
 });
 
