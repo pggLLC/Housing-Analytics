@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-31T14:39:20.622Z",
+    "generated_at": "2026-10-31T15:10:27.950Z",
     "root": "data/",
     "file_count": 2005,
-    "total_size_bytes": 210735403,
+    "total_size_bytes": 210742779,
     "kinds": {
       "json": 1957,
       "geojson": 34,
@@ -610,7 +610,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-10-31T14:39:16.226Z",
+      "mtime": "2026-10-31T15:10:23.919Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1126,8 +1126,8 @@
     {
       "path": "co-county-demographics.json",
       "kind": "json",
-      "size_bytes": 41683,
-      "mtime": "2026-10-31T13:50:39.233Z",
+      "size_bytes": 49062,
+      "mtime": "2026-10-31T15:09:35.179Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -38153,7 +38153,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 254862,
-      "mtime": "2026-10-31T14:38:37.397Z",
+      "mtime": "2026-10-31T15:09:35.431Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39890,8 +39890,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16090,
-      "mtime": "2026-10-31T14:39:18.389Z",
+      "size_bytes": 16087,
+      "mtime": "2026-10-31T15:10:25.653Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39915,7 +39915,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-10-31T14:39:17.869Z",
+      "mtime": "2026-10-31T15:10:25.228Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
