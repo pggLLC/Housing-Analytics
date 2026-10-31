@@ -46,14 +46,14 @@
   function nameOf(a) { return a.site ? SITE[a.site].name : (T[a.town].kind === 'place' ? T[a.town].name + ': town-wide programs' : T[a.town].name); }
   function unitTxt(a) { return a.amount_unit === 'usd_per_year_tax_credit' && a.amount != null ? ' a year' : a.amount_unit === 'usd_bonds' ? ' in bonds' : ''; }
   function amtHtml(a) {
-    return fmt(a.amount) + unitTxt(a) + (a.flag === 'unconfirmed' ? ' <span class="frm-flag">unconfirmed</span>' : a.flag === 'requested' ? ' <span class="frm-flag">requested</span>' : '');
+    return fmt(a.amount) + unitTxt(a) + (a.flag === 'unconfirmed' ? ' <span class="frm-flag">unconfirmed</span>' : a.flag === 'requested' ? ' <span class="frm-flag">requested</span>' : a.flag === 'shared' ? ' <span class="frm-flag">one issue shared with another project here</span>' : '');
   }
   function totals(list) {
-    var t = { CHFA: 0, OEDIT: 0, DOH: 0, DOLA: 0 }, cr = 0, crn = 0, bonds = 0;
+    var t = { CHFA: 0, OEDIT: 0, DOH: 0, DOLA: 0 }, cr = 0, crn = 0, bonds = 0, seenB = {};
     list.forEach(function (a) {
       if (a.counts_in_totals) t[a.agency] += a.amount;
       if (a.amount_unit === 'usd_per_year_tax_credit') { crn++; if (a.amount) cr += a.amount; }
-      if (a.amount_unit === 'usd_bonds' && a.amount) bonds += a.amount;
+      if (a.amount_unit === 'usd_bonds' && a.amount) { var bk = a.year + '|' + a.town + '|' + a.amount; if (!seenB[bk]) bonds += a.amount; seenB[bk] = 1; }
     });
     return { t: t, cr: cr, crn: crn, bonds: bonds, sum: t.CHFA + t.OEDIT + t.DOH + t.DOLA };
   }
@@ -101,7 +101,7 @@
     LIMITS = [
       '<b>Sources.</b> CHFA housing tax credits come from CHFA\'s award reports, 2016 to 2026. Older credit properties come from CHFA\'s property list, which gives the year and homes but no credit amount. OEDIT\'s Prop 123 awards cover 2023 to 2026. Division of Housing awards come from State Housing Board votes, Division of Housing award tables and its annual reports.',
       '<b>Big gaps.</b> Division of Housing awards before mid-2023 are mostly missing, because older board packets are offline and several DOLA releases were deleted. DOLA local government grants (incentive grants, More Housing Now) are listed for only a few counties. CHFA\'s own loans and homebuyer lending are not published by project, so they appear only where a deal record names them. Treat a thin region as less documented, not necessarily less funded.',
-      '<b>Units are never mixed.</b> "State dollars" adds grants and loans with printed amounts. Tax credits are annual amounts, claimed for 10 years (federal), and are shown apart. Private activity bonds are tax-exempt debt under the state\'s bond cap, not state money, so they are shown apart too. Amounts printed only as a request, or only in the news, are listed but not added.',
+      '<b>Units are never mixed.</b> "State dollars" adds grants and loans with printed amounts. Tax credits are annual amounts, claimed for 10 years (federal), and are shown apart. Private activity bonds are tax-exempt debt under the state\'s bond cap, not state money, so they are shown apart too. When CHFA prints one bond issue on two projects in the same town, it is counted once (the second row is marked shared). Amounts printed only as a request, or only in the news, are listed but not added.',
       '<b>Places.</b> ' + approx + ' sites have no matched address and sit at the town or county center (dashed pins). ' + unm + ' awards (' + short(unmSum) + ') print no town or county, such as statewide down payment and loan funds. They are in the all-Colorado download but not on the map or in any region\'s totals.',
       '<b>Capital stacks are partial.</b> They come from COHO\'s deal summaries of recent awards, sorted into source types automatically, so check the linked summary before relying on a figure. Equity amounts are rarely published. A stack that adds up to more than the printed cost probably counts a loan and its refinance twice.',
       '<b>Matching.</b> Awards are joined to projects by name and county. Different spellings of one project can show up as two sites, and two phases with one name can merge. A Division of Housing award reported in two documents (a board vote and a press release, say) is counted once, with both documents named.',

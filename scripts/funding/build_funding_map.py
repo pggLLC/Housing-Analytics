@@ -234,6 +234,15 @@ def HINTS(s):
         if re.search(pat, s): return NAME2FIPS[v] if isinstance(v, str) else v
     return None
 
+# one bond issue that CHFA prints on two rows of the same town and year (one note for two properties) keeps both
+# rows, but the second and later are marked shared so bond totals count the issue once
+_seen = set()
+for a in AW:
+    if a["agency"] == "CHFA" and a["amount_unit"] == "usd_bonds" and a["amount"]:
+        k = (a["year"], a["town"], a["amount"])
+        if k in _seen: a["flag"] = "shared"
+        _seen.add(k)
+
 # 2. Division of Housing and Division of Local Government awards
 DA = load_json(f"{HA}/policy/funding-awards/dola-awards.json")["awards"]
 # one award reported in two documents (a board vote summary and the press release, or a vote and the annual report)
