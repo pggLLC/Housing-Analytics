@@ -640,6 +640,16 @@ header.site-header .nav-wrap { min-height: 52px; }
 @media (min-width: 769px) {
   header.site-header .nav-wrap { height: 60px; }
 }
+/* The rules above size .nav-wrap, which navigation.js injects; until it does,
+   the header is an empty placeholder about 1px tall, and on a phone the
+   whole page dropped about 75px when the nav arrived (Codex audit F9,
+   31 Oct 2026: much of the HNA's layout shift). Hold the finished height
+   (75px at phone width, 61px from 769px up, measured on four pages) until
+   the nav is in. */
+header.site-header:not(:has(.nav-wrap)) { min-height: 75px; box-sizing: border-box; }
+@media (min-width: 769px) {
+  header.site-header:not(:has(.nav-wrap)) { min-height: 61px; }
+}
 /* Mobile: keep brand + jurisdiction pill + hamburger on ONE row (don't let
    the pill wrap to a second row, which made the header 118px on pages with a
    selected jurisdiction vs ~52px without). Pill name truncates if needed. */
