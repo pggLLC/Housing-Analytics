@@ -283,7 +283,7 @@
   }
   function stackPopup(id) {
     var st = stackOf(id); if (!st) return '';
-    return '<div class="frm-srcsum"><b>Capital stack</b>' + sbar(st) + sumLine(st) + '<a href="#frm-stk-' + id + '">See every source</a></div>';
+    return '<div class="frm-srcsum"><b>Capital stack</b>' + sbar(st) + sumLine(st) + '<a href="#frm-stk-' + id + '" data-stk="' + id + '">See every source</a></div>';
   }
   function srcColor(r) { return r.cat === 'state' && r.ag ? 'var(' + AG[r.ag].v + ')' : KORDER.indexOf(r.cat) >= 0 ? 'var(' + KV[r.cat] + ')' : 'var(--border-strong)'; }
   function stackCard(id) {
@@ -430,6 +430,14 @@
     });
     $('frm-stacks').addEventListener('click', function (e) { var b = e.target.closest('button[data-s]'); if (b) focusSite(b.dataset.s); });
     $('frm-stk-more').addEventListener('click', function () { stacksAll = !stacksAll; drawStacks(); });
+    // a stack outside the largest 12 is not drawn yet: draw them all, then go to it
+    root.addEventListener('click', function (e) {
+      var a = e.target.closest('a[data-stk]'); if (!a) return;
+      var id = a.dataset.stk;
+      if (!document.getElementById('frm-stk-' + id)) { stacksAll = true; drawStacks(); }
+      var el = document.getElementById('frm-stk-' + id); if (!el) return;
+      e.preventDefault(); el.scrollIntoView({ block: 'start' }); el.setAttribute('tabindex', '-1'); el.focus({ preventScroll: true });
+    });
     $('frm-klegend').innerHTML = KORDER.map(function (k) { return '<span><i style="--c:var(' + KV[k] + ')"></i>' + KL[k] + '</span>'; }).join('') +
       '<span><i class="frm-gap"></i>Not accounted for</span><span>State rows keep their agency colour.</span>';
     root.querySelectorAll('[data-dl]').forEach(function (b) {

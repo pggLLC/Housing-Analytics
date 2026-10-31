@@ -165,8 +165,15 @@ FIXNAME = {"Adams County Housing Authority N,S Crossing Pointe Phase I": "Crossi
   "N,F Aria Apartments Phase II Rose LLC": "Aria Apartments Phase II", "N,F Trinidad Artspace Lofts Artspace Projects, Inc.": "Trinidad Artspace Lofts",
   "N,F Walnut Street Lofts Medici Development LLC": "Walnut Street Lofts", "N,F Wintergreen Apartments Gorman & Company, Inc.": "Wintergreen Apartments",
   "N,H Freedom Springs Vecino Bond Group, LLC": "Freedom Springs", "N,H Providence at the Heights Blueline Development": "Providence at the Heights"}
+# wrapped-cell fixes for the Prop 123 Land Banking rows (the same file build_land_banking_awards.py applies)
+LBFIX = load_json(f"{HA}/policy/funding-awards/land-banking-corrections.json")["corrections"]
 for a in L:
-    a = dict(a); a["name"] = FIXNAME.get(a["name"], a["name"])
+    a = dict(a)
+    fix = LBFIX.get(f"{a.get('fiscal_year')}|{a['name']}") if a["program"] == "Prop 123 Land Banking" else None
+    if fix:
+        a.update({k: fix[k] for k in ("name", "sponsor", "location", "county_fips") if fix.get(k)})
+        if fix.get("show_project"): a["name"] = fix["show_project"]
+    a["name"] = FIXNAME.get(a["name"], a["name"])
     if a["sponsor"] and re.fullmatch(r"[\d ,.]+", a["sponsor"]): a["sponsor"] = None
     fips = a["county_fips"]
     if not fips:
