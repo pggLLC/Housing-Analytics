@@ -37,3 +37,17 @@ assert.ok(Math.abs(l12.sliderImpacts.year1Loss - l12.noi * 0.5) < 1e-6);
 assert.ok(Math.abs(l24.sliderImpacts.year1Loss - l24.noi * 0.75) < 1e-6);
 assert.ok(l36.sliderImpacts.year1Loss > l24.sliderImpacts.year1Loss);
 console.log('PASS lease-up ramp past 12 months');
+// An interest-only senior loan: at the floor it was sized to, with no cut, the
+// loan carried equals the loan as sized (Codex review on #2628).
+{
+  const i = inputsFor('A');
+  i.fields = Object.assign({}, i.fields, { 'dc-senior-type': 'interest_only', 'dc-stress-rent-low': '0' });
+  let r = computeDeal(i);
+  const floorAtSizing = r.noi / r.annualDebtService;
+  i.fields['dc-stress-dscr-floor'] = String(floorAtSizing);
+  r = computeDeal(i);
+  const io = r.sliderImpacts.rentCut;
+  assert.ok(io && Math.abs(io.supportedLoan - r.mortgage) < 1, 'interest-only loan at its own coverage is carried in full');
+  assert.ok(Math.abs(io.loanRoom) < 1);
+}
+console.log('PASS interest-only senior loan at the floor');

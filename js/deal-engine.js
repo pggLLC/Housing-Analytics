@@ -613,7 +613,7 @@
   // contract rents on the 30% to 50% AMI units; vacancy applies to what is
   // left, and other income is not cut. The floor then asks how much yearly
   // first-mortgage payment that NOI carries at the floor, and the loan that
-  // payment repays at this loan's own constant. Nothing is resized: the deal's
+  // payment repays on this loan's own terms. Nothing is resized: the deal's
   // loan stays as sized, and the gap between the two is shown, not applied.
   var DEEP_TIER_MAX = 50;
   function rentCutImpact(result, fields) {
@@ -631,7 +631,10 @@
     var ds = result.annualDebtService;
     var hasDebt = known(ds) && ds > 0;
     var supportedDs = Math.max(0, noi) / floor;
-    var supportedLoan = known(result.mc) && result.mc > 0 ? supportedDs / result.mc : null;
+    // Payment scales with principal under either repayment type (amortizing or
+    // interest-only), so the loan carried is the loan as sized times the ratio
+    // of payments; the amortizing constant alone would misprice an interest-only loan.
+    var supportedLoan = hasDebt && known(result.mortgage) && result.mortgage > 0 ? result.mortgage * supportedDs / ds : null;
     return { pct: cut, floor: floor, deepUnits: deepUnits, deepRents: deepRents, noiLoss: noiLoss,
       baseNoi: result.noi, noi: noi,
       baseCoverage: hasDebt ? result.noi / ds : null, coverage: hasDebt ? noi / ds : null,
