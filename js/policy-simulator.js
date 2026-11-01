@@ -44,7 +44,7 @@
     {
       id: 'perCapita',
       label: 'Increased Per-Capita Allocation',
-      description: 'Increase Colorado per-capita LIHTC allocation from $2.75 to $4.00 (matching highest-performing state programs).',
+      description: 'Increase Colorado per-capita LIHTC allocation from the 2026 federal amount of $3.416 per resident (IRS Rev. Proc. 2025-32) to $4.00 (matching highest-performing state programs).',
       color: '#43a047',
       unitsProduced: 3800,
       totalPublicCostM: 472,
