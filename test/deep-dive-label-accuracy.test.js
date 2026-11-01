@@ -46,13 +46,21 @@ const page = read('colorado-deep-dive.html'), sim = read('js/policy-simulator.js
 const found = problems(page, sim, mi);
 assert.deepStrictEqual(found, [], found.join('\n'));
 
-// Sabotage both ways. Each mutation must change the text; a broken claim fails, a coordinated rewording passes.
+// Sabotage both ways, with every mutation built from the current source text (no live label is pinned here).
+// Each mutation must change the text; a broken claim fails, a coordinated rewording passes.
 const mut = (s, a, b) => { const t = s.split(a).join(b); assert.notStrictEqual(t, s, 'mutation did not apply: ' + a); return t; };
+const once = (s, a, b) => { const i = s.indexOf(a); assert(i > -1, 'mutation did not apply: ' + a); return s.slice(0, i) + b + s.slice(i + a.length); };
 const fail = (p, s, m, what) => assert(problems(p, s, m).length > 0, 'guard missed: ' + what);
 const pass = (p, s, m, what) => assert.deepStrictEqual(problems(p, s, m), [], 'guard blocked a harmless edit: ' + what);
-fail(mut(page, 'data-source="CBRE Multifamily Outlook 2025"', 'data-source="AAMD Q4 2025"'), sim, mi, 'concession data-source changed alone');
-pass(mut(page, 'CBRE Multifamily Outlook 2025', 'CBRE U.S. Multifamily Outlook 2025'), sim, mi, 'concession source renamed everywhere');
-fail(page, mut(sim, 'from the 2026 federal amount of $3.416', 'from $2.75'), mi, 'stale per-capita start');
-fail(page, sim, mut(mi, "' projects/1k HH'", "' permits/1k units'"), 'pipeline unit changed without its label');
-fail(mut(page, '(BLS LAUS, simple average of county rates)', '(BLS LAUS statewide avg)'), sim, mi, 'unemployment called statewide');
+const block = page.match(/<p class="chart-subtitle">Average monthly concession value[\s\S]*?<p class="chart-source">[\s\S]*?<\/p>/)[0];
+const srcName = block.match(/data-source="([^"]+)"/)[1];
+fail(once(page, 'data-source="' + srcName + '"', 'data-source="' + srcName + ' (other)"'), sim, mi, 'concession data-source changed alone');
+pass(mut(page, srcName, srcName + ' (renamed)'), sim, mi, 'concession source renamed everywhere');
+const desc = sim.match(/id: 'perCapita'[\s\S]*?description: '([^']*)'/)[1];
+const fromFig = desc.match(/from [^$]*(\$\d+\.\d+)/)[1];
+fail(page, once(sim, fromFig, '$2.75'), mi, 'stale per-capita start');
+const unit = mi.match(/pipelineRate \+ ' ([^']+)'/)[1];
+fail(page, sim, once(mi, "' " + unit + "'", "' permits/1k units'"), 'pipeline unit changed without its label');
+const unLabel = page.match(/average of county rates/i)[0];
+fail(once(page, unLabel, 'statewide rate'), sim, mi, 'unemployment called statewide');
 console.log('deep dive label accuracy: PASS (4 agreements, 5 sabotage checks)');
