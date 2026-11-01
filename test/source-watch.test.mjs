@@ -24,7 +24,7 @@ test('page text drops scripts, navigation and footers', () => {
 });
 
 test('key lines keep dates, amounts and status words, and drop stamps', () => {
-  const kl = keyLines('Governor Signed 05/26/2026\nAwards of $2.5 million\nJust a sentence\nPage last updated October 31, 2026\nhttps://x.gov/a — printed November 1, 2026');
+  const kl = keyLines('Governor Signed 05/26/2026\nAwards of $2.5 million\nJust a sentence\nPage last updated October 31, 2026\nhttps://example.com/a — printed November 1, 2026');
   assert.deepEqual(kl, ['Governor Signed 05/26/2026', 'Awards of $2.5 million']);
   assert.equal(hashedText('a\nPage last updated October 31, 2026'), 'a');
 });
@@ -33,12 +33,12 @@ test('targets: one per URL, notes after the address dropped, legislation tagged'
   const docs = { 'f.json': { entries: [
     { id: 'a', title: 'A', url: 'https://leg.colorado.gov/bills/hb26-1313', review_by: '2026-11-09' },
     { id: 'b', title: 'B', url: 'https://leg.colorado.gov/bills/hb26-1313#history' },
-    { id: 'c', title: 'C', url: 'https://town.gov/fees (redirects to home)' },
-    { id: 'd', title: 'D', url: 'http://insecure.gov/x' },
-    { id: 'e', title: 'E', url: 'https://skip.gov/x' },
+    { id: 'c', title: 'C', url: 'https://example.org/fees (redirects to home)' },
+    { id: 'd', title: 'D', url: 'http://example.net/x' },
+    { id: 'e', title: 'E', url: 'https://example.net/skip' },
   ] } };
-  const t = buildTargets(docs, { specs: [SPEC], skipUrls: new Set(['https://skip.gov/x']) });
-  assert.deepEqual(t.map((x) => x.url), ['https://leg.colorado.gov/bills/hb26-1313', 'https://town.gov/fees']);
+  const t = buildTargets(docs, { specs: [SPEC], skipUrls: new Set(['https://example.net/skip']) });
+  assert.deepEqual(t.map((x) => x.url), ['https://leg.colorado.gov/bills/hb26-1313', 'https://example.org/fees']);
   assert.equal(t[0].kind, 'legislation');
   assert.equal(t[0].records.length, 2);
   assert.deepEqual(t[0].urgent, ['2026-11-09']);
@@ -58,7 +58,7 @@ test('cadence: bills daily in session, weekly after; near deadlines daily', () =
 });
 
 test('three steps: baseline, unchanged text, cosmetic, changed', async () => {
-  const t = { url: 'https://x.gov/p', kind: 'agency', document: false, urgent: [] };
+  const t = { url: 'https://example.com/p', kind: 'agency', document: false, urgent: [] };
   let body = page('<p>Applications due March 5, 2027</p><p>Welcome</p>');
   const f = fakeFetch({ [t.url]: () => ({ body }) });
   const a = await checkSource(t, {}, f, NOW);
@@ -77,7 +77,7 @@ test('three steps: baseline, unchanged text, cosmetic, changed', async () => {
 });
 
 test('a 304 to a conditional request is unchanged; the validators are sent', async () => {
-  const t = { url: 'https://x.gov/p', kind: 'agency', document: false, urgent: [] };
+  const t = { url: 'https://example.com/p', kind: 'agency', document: false, urgent: [] };
   let sent;
   const f = fakeFetch({ [t.url]: (o) => { sent = o.headers; return { status: 304 }; } });
   const r = await checkSource(t, { checked_at: NOW, ok: true, etag: '"v1"', text_sha256: 'h', key_lines: [] }, f, NOW);
@@ -87,7 +87,7 @@ test('a 304 to a conditional request is unchanged; the validators are sent', asy
 });
 
 test('documents are only asked for headers, never downloaded', async () => {
-  const t = { url: 'https://x.gov/plan.pdf', kind: 'agency', document: true, urgent: [] };
+  const t = { url: 'https://example.com/plan.pdf', kind: 'agency', document: true, urgent: [] };
   const methods = [];
   let len = '100';
   const f = fakeFetch({ [t.url]: (o) => { methods.push(o.method); return { headers: { 'content-length': len } }; } });
@@ -100,7 +100,7 @@ test('documents are only asked for headers, never downloaded', async () => {
 });
 
 test('a failure keeps the last snapshot and turns unverifiable after 3 days', async () => {
-  const t = { url: 'https://x.gov/p', kind: 'agency', document: false, urgent: [] };
+  const t = { url: 'https://example.com/p', kind: 'agency', document: false, urgent: [] };
   const prev = { checked_at: '2026-10-30T13:00:00Z', ok: false, first_failed_at: '2026-10-30T13:00:00Z', text_sha256: 'h', key_lines: ['x 2026-01-01'] };
   const r = await checkSource(t, prev, fakeFetch({ [t.url]: { status: 403 } }), NOW);
   assert.equal(r.outcome, 'failed');
@@ -114,17 +114,17 @@ test('run: hand-check hosts and home pages are never fetched; report is report-o
   const host = Object.keys(HAND_CHECK_HOSTS)[0];
   const docs = { 'f.json': { entries: [
     { id: 'a', title: 'A', url: `https://${host}/co/town/codes` },
-    { id: 'b', title: 'B', url: 'https://town.gov/' },
-    { id: 'c', title: 'C', url: 'https://town.gov/fees' },
+    { id: 'b', title: 'B', url: 'https://example.org/' },
+    { id: 'c', title: 'C', url: 'https://example.org/fees' },
   ] } };
   const fetched = [];
   const fetcher = async (url) => { fetched.push(url); return { status: 200, headers: {}, body: page('<p>Fee waived 2026-01-01</p>') }; };
   const { report, state } = await run({ docs, fetcher, now: NOW, specsOverride: [SPEC] });
-  assert.deepEqual(fetched, ['https://town.gov/fees']);
+  assert.deepEqual(fetched, ['https://example.org/fees']);
   assert.equal(report.mode, 'report-only');
   assert.equal(report.counts['hand-check'], 2);
   assert.equal(report.counts.baseline, 1);
-  assert.ok(state.sources['https://town.gov/fees'].text_sha256);
+  assert.ok(state.sources['https://example.org/fees'].text_sha256);
   assert.match(summaryMarkdown(report), /Nothing was opened, committed or edited/);
 });
 
@@ -135,7 +135,7 @@ test('only the main content is read when the page marks one', () => {
 });
 
 test('a Last-Modified stamped at request time is ignored', async () => {
-  const t = { url: 'https://town.gov/DocumentCenter/View/1/Plan', kind: 'agency', document: true, urgent: [] };
+  const t = { url: 'https://example.org/DocumentCenter/View/1/Plan', kind: 'agency', document: true, urgent: [] };
   const f = fakeFetch({ [t.url]: { headers: { 'last-modified': new Date(Date.parse(NOW) - 60_000).toUTCString(), 'content-length': '5' } } });
   const a = await checkSource(t, {}, f, NOW);
   assert.equal(a.entry.last_modified, null);
@@ -145,10 +145,10 @@ test('a Last-Modified stamped at request time is ignored', async () => {
 });
 
 test('news stories are listed as needing a primary source, not fetched', async () => {
-  const docs = { 'f.json': { entries: [{ id: 'n', title: 'N', url: 'https://www.vaildaily.com/news/story/' }] } };
+  const docs = { 'f.json': { entries: [{ id: 'n', title: 'N', url: 'https://example.net/news/story/' }] } };
   let fetched = 0;
   const { report } = await run({ docs, fetcher: async () => { fetched++; return { status: 200, headers: {}, body: '' }; },
-    now: NOW, specsOverride: [SPEC], newsDomains: new Set(['vaildaily.com']) });
+    now: NOW, specsOverride: [SPEC], newsDomains: new Set(['example.net']) });
   assert.equal(fetched, 0);
   assert.equal(report.hand_check.length, 1);
   assert.match(report.hand_check[0].reason, /primary source/);
