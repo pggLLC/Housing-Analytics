@@ -1,11 +1,11 @@
 {
-  "generated_from_commit": "90fcfb017",
+  "generated_from_commit": "b7f0211a5",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-31",
-    "total_commits": 9114,
-    "partial_month": "2026-10",
+    "total_commits": 9116,
+    "partial_month": "2026-11",
     "commits_by_month": [
       {
         "month": "2026-02",
@@ -30,7 +30,7 @@
       {
         "month": "2026-06",
         "commits": 1157,
-        "pct_of_peak": 74.2
+        "pct_of_peak": 74.1
       },
       {
         "month": "2026-07",
@@ -40,17 +40,22 @@
       {
         "month": "2026-08",
         "commits": 575,
-        "pct_of_peak": 36.9
+        "pct_of_peak": 36.8
       },
       {
         "month": "2026-09",
         "commits": 1429,
-        "pct_of_peak": 91.6
+        "pct_of_peak": 91.5
       },
       {
         "month": "2026-10",
-        "commits": 1560,
+        "commits": 1561,
         "pct_of_peak": 100
+      },
+      {
+        "month": "2026-11",
+        "commits": 1,
+        "pct_of_peak": 0.1
       }
     ]
   },
@@ -246,7 +251,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 513475,
+    "hand_written_lines": 513476,
     "generated_place_page_lines": 229724,
     "top_level_pages": 81,
     "html_nonblank_lines": 51498,
@@ -315,7 +320,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "90fcfb017",
+    "extracted_at_commit": "b7f0211a5",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
