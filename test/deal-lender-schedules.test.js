@@ -293,6 +293,14 @@ test('engine: an added credit the sources do not count adds nothing to the credi
   near(r.schedules.conversion.cases.find(c => /credits delivered/.test(c.label)).equityAdjuster, base.equityAdjuster, 0.01);
 });
 
+test('engine: an uncounted added credit with no pay-in schedule does not block the draw', () => {
+  const i = full(); Object.assign(i.fields, { 'dc-add-kind': 'other', 'dc-add-annual': '100000', 'dc-add-years': '10', 'dc-add-price': '0.85' });
+  const r = computeDeal(i);
+  assert.equal(r.creditStack.counted, false, 'non-vacuous: not counted');
+  assert.equal(r.schedules.draw.reason, null, r.schedules.draw.reason);
+  assert.equal(r.schedules.conversion.reason, null);
+});
+
 test('engine: a budget assumption out of range withholds the reserves with the reason, never the engine fallback', () => {
   const i = full(); i.fields['dc-pf-reserve-growth'] = '11';
   const s = computeDeal(i).schedules;

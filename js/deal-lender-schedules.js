@@ -87,7 +87,9 @@
     else if (!summary.groups) reasons.push('Itemize development costs to time the draws.');
     else if (known(summary.notItemized) && summary.notItemized > 0.5) reasons.push('Itemize the remaining $' + Math.round(summary.notItemized).toLocaleString('en-US') + ' of Total Development Cost to time every draw.');
     var payIn = cb.payIn || {};
-    var equityParts = [['Federal credit equity', payIn.federal], ['State credit equity', payIn.state], ['Added credit equity', payIn.added]]
+    // An added credit the sources do not count supplies nothing, so its pay-in is not needed.
+    var addedCounted = !!(result.creditStack && result.creditStack.counted);
+    var equityParts = [['Federal credit equity', payIn.federal], ['State credit equity', payIn.state], ['Added credit equity', addedCounted ? payIn.added : null]]
       .filter(function (p) { return p[1]; });
     equityParts.forEach(function (p) {
       if (!p[1].installments) reasons.push(p[0] + ': ' + (p[1].reason === 'Pay-in schedule not entered.' ? 'enter the pay-in schedule (closing, completion, stabilization).' : p[1].reason));
@@ -129,12 +131,11 @@
     // The added credit's pay-in is gross; its investor fees come out of the first
     // installments, so only the net the sources count reaches the project. An
     // added credit not counted in the sources supplies nothing here either.
-    var added = cb.addedCredit, addedCounted = !!(result.creditStack && result.creditStack.counted);
+    var added = cb.addedCredit;
     var addedFees = added && addedCounted && known(added.fees) ? Math.max(0, added.fees) : 0;
     out.investorFeesWithheld = addedFees;
     equityParts.forEach(function (p) {
-      var isAdded = p[1] === payIn.added, feesLeft = isAdded ? addedFees : 0;
-      if (isAdded && !addedCounted) return;
+      var feesLeft = p[1] === payIn.added ? addedFees : 0;
       p[1].installments.forEach(function (inst) {
         var take = Math.min(feesLeft, inst.amount); feesLeft -= take;
         rows[stageMonth[inst.stage]].equity += inst.amount - take;
