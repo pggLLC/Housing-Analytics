@@ -282,6 +282,25 @@ test('engine: the operating reserve covers must-pay payments income cannot meet,
   assert.equal(st.reserves.operating.totalDrawn, 0, 'a lower surplus defers the fee instead of drawing the reserve');
 });
 
+test('engine: an added credit the sources do not count adds nothing to the credit-delivery adjuster', () => {
+  const add = { 'dc-add-kind': 'other', 'dc-add-annual': '100000', 'dc-add-years': '10', 'dc-add-price': '0.85',
+    'dc-add-payin-closing': '50', 'dc-add-payin-completion': '25', 'dc-add-payin-stabilization': '25' };
+  const base = computeDeal(full()).schedules.conversion.cases.find(c => /credits delivered/.test(c.label));
+  const i = full(); Object.assign(i.fields, add);
+  const r = computeDeal(i);
+  assert.equal(r.creditStack.counted, false, 'non-vacuous: no supplement or substitute choice, so not counted');
+  assert(r.costBasis.payIn.added && r.costBasis.payIn.added.total > 0, 'non-vacuous: its pay-in exists');
+  near(r.schedules.conversion.cases.find(c => /credits delivered/.test(c.label)).equityAdjuster, base.equityAdjuster, 0.01);
+});
+
+test('engine: a budget assumption out of range withholds the reserves with the reason, never the engine fallback', () => {
+  const i = full(); i.fields['dc-pf-reserve-growth'] = '11';
+  const s = computeDeal(i).schedules;
+  assert(s.budget.reason, 'non-vacuous: the budget is blocked');
+  assert.equal(s.reserves.replacement, null); assert.equal(s.reserves.operating, null);
+  assert.match(s.reserves.reason, /reserve growth/);
+});
+
 test('engine: a blank operating budget leaves every schedule with a reason, no NaN', () => {
   const c = inputsFor('C'); Object.assign(c.fields, extra);
   const s = computeDeal(c).schedules;

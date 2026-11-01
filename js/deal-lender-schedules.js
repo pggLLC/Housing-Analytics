@@ -195,7 +195,9 @@
     out.dscrAtConversion = result.baseDSCR; out.requiredDscr = result.dcr;
     var sized = result.seniorMode === 'sized';
     var base = draw.conversion.shortfall - draw.conversion.surplus; // positive: money short
-    var equity = sum((['federal', 'state', 'added']).map(function (k) { var p = (result.costBasis.payIn || {})[k]; return p && known(p.total) ? p.total : 0; }));
+    // Only the equity the draw actually receives: net of investor fees, and
+    // without an added credit the sources do not count.
+    var equity = sum(draw.rows.map(function (r) { return r.equity; }));
     function permAfterRate() {
       if (!bp || !sized) return result.mortgage;
       var f = Object.assign({}, fields, { 'dc-rate': String(num(fields['dc-rate']) + bp / 100) });
@@ -368,6 +370,9 @@
     var out = { replacement: null, operating: null, reason: null };
     var proj = result.projection;
     if (!proj || !proj.rows) { out.reason = (result.unavailable && result.unavailable.projection) || 'The operating projection is not available.'; return out; }
+    // The reserves follow the line-by-line budget; one it cannot build is not
+    // replaced by the engine's own projection.
+    if (!budget || budget.reason || !budget.rows) { out.reason = 'The reserves follow the operating budget above. ' + ((budget && budget.reason) || 'The budget is not available.'); return out; }
     var by = (result.costBasis && result.costBasis.summary && result.costBasis.summary.byId) || {};
     var yieldPct = num(fields['dc-pf-reserve-yield']);
     var needs = parseCapitalNeeds(fields['dc-pf-capital-needs']);
@@ -379,7 +384,7 @@
       rep.yieldPct = yieldPct === null ? 0 : yieldPct;
       var bal = rep.start, rows = [];
       // Deposits follow the line-by-line budget, so a reserve growth entered there carries here.
-      var deposits = budget && budget.rows ? budget.rows : proj.rows.slice(0, proj.years);
+      var deposits = budget.rows;
       deposits.forEach(function (r) {
         var interest = Math.max(0, bal) * rep.yieldPct / 100;
         var spend = sum(needs.items.filter(function (n) { return n.year === r.year; }).map(function (n) { return n.amount; }));
@@ -398,8 +403,8 @@
       // loan payments (including any NOI cannot meet) and bridge-loan payments.
       // Cash-flow loan payments, the asset management fee and the deferred
       // developer fee are paid only from surplus, so they never draw on it.
-      var b = budget && budget.rows ? budget.rows[i] : null;
-      var noi = b && known(b.noi) ? b.noi : r.noi;
+      var b = budget.rows[i];
+      var noi = b ? b.noi : null;
       var due = known(r.debtService) && known(r.bridgeDebtService) ? r.debtService + r.bridgeDebtService : null;
       var draw = !known(noi) || due === null ? null : Math.max(0, due - noi);
       if (draw === null) { op.reason = op.reason || 'A year of the projection is not measured, so the operating reserve is not followed.'; return; }
@@ -506,7 +511,7 @@
       conversion: conversionTest(result, fields, draw, rerun),
       budget: budget,
       stress: fifteenYearStress(result, fields),
-      reserves: reserveAccounts(result, fields, budget.reason ? null : budget),
+      reserves: reserveAccounts(result, fields, budget),
       softLoans: softLoanBalances(result),
       exit: exitPaths(result, fields, args.rules)
     };
