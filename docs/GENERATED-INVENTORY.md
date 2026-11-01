@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T10:37:37.822Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T11:08:54.842Z. Do not edit by hand.
 
 ---
 
@@ -20,7 +20,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 17.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 41.5 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 218.4 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 218.6 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `commuting.html` | Commuting and Jobs | COHO Analytics | 9.4 KB |
@@ -100,7 +100,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 999.4 KB | ✅ | — |
+| `data/_manifest.json` | 999.5 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -117,11 +117,11 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 1.17 MB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 34.0 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 1.23 MB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 34.5 KB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 183 B | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 19.9 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 22.4 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.84 MB | ✅ | — |
@@ -2006,7 +2006,7 @@
 | `data/policy/green-building.json` | 58.0 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 30.8 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 173.4 KB | ✅ | — |
+| `data/policy/housing-events.json` | 173.0 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
 | `data/policy/incentive-alternatives.json` | 56.7 KB | ✅ | — |
@@ -2039,7 +2039,7 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 463.4 KB | ✅ | — |
+| `data/policy_briefs.json` | 486.9 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 215.9 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
@@ -2066,7 +2066,7 @@
 
 ## Test Files
 
-758 test files found.
+759 test files found.
 
 | File | Size |
 |------|------|
@@ -2225,6 +2225,7 @@
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 8.2 KB |
 | `test/deep-dive-aamd-vacancy.test.mjs` | 4.4 KB |
 | `test/deep-dive-hmda-loads-on-page-load.test.js` | 3.3 KB |
+| `test/deep-dive-label-accuracy.test.js` | 5.8 KB |
 | `test/denver-income-limits.test.js` | 2.6 KB |
 | `test/dependency-overrides-hold.test.mjs` | 4.6 KB |
 | `test/derived-commit-rebase.test.mjs` | 6.8 KB |

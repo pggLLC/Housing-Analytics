@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T10:37:37.822Z",
+  "generated_at": "2026-11-01T11:08:54.842Z",
   "generator": "scripts/sync-docs.mjs",
   "policy": "report-only — files are never moved or deleted automatically. To clear an entry: delete the file deliberately, or reference it from a workflow/doc/npm script if it is actually used.",
   "heuristic": "basename appears in no .html/.js/.mjs/.css/.md/.yml/.yaml/.py file under docs/, test(s)/, .github/, or the repo root, and not in package.json.",

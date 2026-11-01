@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-01T10:39:19.392Z",
+    "generated_at": "2026-11-01T11:09:21.773Z",
     "root": "data/",
     "file_count": 2008,
-    "total_size_bytes": 210273354,
+    "total_size_bytes": 210273352,
     "kinds": {
       "json": 1960,
       "geojson": 34,
@@ -671,7 +671,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-01T10:38:06.589Z",
+      "mtime": "2026-11-01T11:09:18.948Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38214,7 +38214,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 255228,
-      "mtime": "2026-11-01T10:37:22.984Z",
+      "mtime": "2026-11-01T11:08:42.220Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -38370,7 +38370,7 @@
       "path": "market/cdphe_county_boundaries_co.geojson",
       "kind": "geojson",
       "size_bytes": 1186881,
-      "mtime": "2026-09-25T12:55:18.832Z",
+      "mtime": "2026-11-01T11:08:42.228Z",
       "shape": "geojson",
       "feature_count": 64,
       "property_keys": [
@@ -39951,8 +39951,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16184,
-      "mtime": "2026-11-01T10:38:08.493Z",
+      "size_bytes": 16182,
+      "mtime": "2026-11-01T11:09:20.213Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39976,7 +39976,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-01T10:38:08.094Z",
+      "mtime": "2026-11-01T11:09:19.911Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
