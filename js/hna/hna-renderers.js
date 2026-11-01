@@ -1308,20 +1308,32 @@
                                the female mirror — roommates, adult
                                children with parents, unrelated adults
                                sharing a unit. ── */
-    const married     = safe('DP02_0002E');
-    const cohabiting  = safe('DP02_0004E');
-    const singleParent = safe('DP02_0007E') + safe('DP02_0011E');
-    const livingAlone = safe('DP02_0008E') + safe('DP02_0012E');
-    const otherHh     = Math.max(0, totalHh - married - cohabiting - singleParent - livingAlone);
-
-    const typeBins = [
-      { label: 'Married couple',      value: married },
-      { label: 'Cohabiting couple',   value: cohabiting },
-      { label: 'Single parent',       value: singleParent },
-      { label: 'Living alone',        value: livingAlone },
-      { label: 'Other (shared, etc.)', value: otherHh },
+    /* A component the Census table does not publish stays missing: it is
+       not drawn as 0, and "Other" (the remainder) is left out, since the
+       unknown households would otherwise land in it. A published 0 is
+       kept as a real count. */
+    const sumKnown = (keys) => keys.reduce((acc, k) => {
+      const v = rawNum(k);
+      return (acc == null || v == null) ? null : acc + v;
+    }, 0);
+    const typeParts = [
+      { label: 'Married couple',    value: sumKnown(['DP02_0002E']),               name: 'married couples' },
+      { label: 'Cohabiting couple', value: sumKnown(['DP02_0004E']),               name: 'cohabiting couples' },
+      { label: 'Single parent',     value: sumKnown(['DP02_0007E', 'DP02_0011E']), name: 'single parents' },
+      { label: 'Living alone',      value: sumKnown(['DP02_0008E', 'DP02_0012E']), name: 'people living alone' },
     ];
-    const typeTotal = typeBins.reduce((a, b) => a + b.value, 0);
+    const typeMissing = typeParts.filter(b => b.value == null).map(b => b.name);
+    const typeComplete = totalHh != null && typeMissing.length === 0;
+    const typeBins = typeParts.filter(b => b.value != null).map(b => ({ label: b.label, value: b.value }));
+    if (typeComplete) {
+      const known = typeBins.reduce((a, b) => a + b.value, 0);
+      typeBins.push({ label: 'Other (shared, etc.)', value: Math.max(0, totalHh - known) });
+    }
+    // Shares are of all households when the total is published.
+    const typeTotal = totalHh != null ? totalHh : typeBins.reduce((a, b) => a + b.value, 0);
+    setChartScopeNote('chartHouseholdSize', typeMissing.length
+      ? 'No published count for ' + typeMissing.join(', ') + ', so that group and "Other (shared, etc.)" are left out of this chart.'
+      : (totalHh == null ? 'No published household total, so "Other (shared, etc.)" is left out of this chart.' : null));
     const sizeCanvas = document.getElementById('chartHouseholdSize');
     if (sizeCanvas && typeTotal > 0) {
       makeChart(sizeCanvas.getContext('2d'), {
