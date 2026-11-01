@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T15:38:31.082Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T15:45:49.232Z. Do not edit by hand.
 
 ---
 
@@ -2147,7 +2147,7 @@
 | `test/contrast-audit-settle.test.mjs` | 9.2 KB |
 | `test/contrast-audit-summary.test.js` | 8.3 KB |
 | `test/cost-per-sf-absence.test.js` | 7.0 KB |
-| `test/county-demographics-contract.test.js` | 19.4 KB |
+| `test/county-demographics-contract.test.js` | 20.4 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/county-housing-indicators-sourced.test.mjs` | 12.9 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
