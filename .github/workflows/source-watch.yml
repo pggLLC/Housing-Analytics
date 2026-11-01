@@ -1,0 +1,92 @@
+name: Source watch (report only)
+
+# Checks the official sources behind the policy, legislation, incentive and
+# research records (scripts/audit/source-watch.mjs) and reports which ones say
+# something new: a date, an amount, a status or an edition line that moved.
+#
+# Report only, for now: it writes the run summary and a report artifact. It
+# opens no issue, makes no commit and edits no record. The state it compares
+# against (one entry per source: headers, text hash, key lines) is carried
+# from the last successful scheduled run as an artifact, so nothing lands in
+# data/ and the manifests are never touched.
+#
+# Daily; each run checks only the sources due (bills daily in session, most
+# sources weekly, anything with a deadline in the next 14 days daily).
+# Off :00 and off every minute other crons use.
+
+on:
+  schedule:
+    - cron: '52 12 * * *'   # daily 12:52 UTC (~6:52 MT, before the 7:45 MT daily PR check)
+  workflow_dispatch:
+    inputs:
+      all:
+        description: Check every source, not only those due
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - '.github/workflows/source-watch.yml'
+      - 'scripts/audit/source-watch.mjs'
+      - 'test/source-watch.test.mjs'
+
+permissions:
+  contents: read
+  actions: read   # to fetch the previous run's state artifact
+
+concurrency:
+  group: source-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - name: Unit tests
+        run: node --test test/source-watch.test.mjs
+      - name: Fetch the last state
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/state"
+          prev=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow source-watch.yml --branch main \
+                   --status success --limit 1 --json databaseId --jq '.[0].databaseId // empty')
+          if [ -n "$prev" ]; then
+            gh run download "$prev" --repo "$GITHUB_REPOSITORY" --name source-watch-state --dir "$RUNNER_TEMP/state" \
+              || echo "No state artifact on run $prev; this run records a baseline."
+          else
+            echo "No earlier run; this run records a baseline."
+          fi
+      - name: Check sources
+        if: github.event_name != 'pull_request'
+        env:
+          ALL: ${{ inputs.all == true }}
+        run: |
+          args=(--repo-root . --state "$RUNNER_TEMP/state/source-watch-state.json"
+                --report "$RUNNER_TEMP/source-watch-report.json" --summary-md "$RUNNER_TEMP/source-watch-summary.md")
+          if [ "$ALL" = "true" ]; then args+=(--all); fi
+          node scripts/audit/source-watch.mjs "${args[@]}"
+          cat "$RUNNER_TEMP/source-watch-summary.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Keep the state for the next run
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: source-watch-state
+          path: ${{ runner.temp }}/state/source-watch-state.json
+          retention-days: 30
+      - name: Keep the report
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: source-watch-report
+          path: |
+            ${{ runner.temp }}/source-watch-report.json
+            ${{ runner.temp }}/source-watch-summary.md
+          retention-days: 30
