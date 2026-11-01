@@ -60,7 +60,7 @@ const FREDCommodities = {
         },
         concreteProducts: {
             id: 'PCU327310327310',
-            name: 'Ready-Mix Concrete PPI',
+            name: 'Cement Manufacturing PPI',
             category: 'Concrete & Masonry',
             impact: 'Foundation, structural',
             share: '10-15%'

@@ -11,7 +11,7 @@ class FREDCommodityPrices {
             // Producer Price Index - Construction Materials
             'ppi_steel': 'PCU331110331110',           // Iron and Steel Mills
             'ppi_lumber': 'PCU3211133211133',        // Lumber and Wood Products
-            'ppi_concrete': 'PCU327310327310',        // Ready-Mix Concrete
+            'ppi_concrete': 'PCU327310327310',        // Cement Manufacturing
             'ppi_copper': 'PCU331420331420A',        // Copper Wire & Cable
             'ppi_aluminum': 'PCU331315331315',        // Aluminum Sheet/Plate/Foil
             'ppi_gypsum': 'PCU327420327420',        // Gypsum Products
