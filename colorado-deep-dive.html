@@ -1239,7 +1239,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title">Denver Metro Concession Trends</h3>
-<p class="chart-subtitle">Average monthly concession value 2022-2025 · <span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.aamdhq.org/" target="_blank" rel="noopener">AAMD Q4 2025</a> series</p>
+<p class="chart-subtitle">Average monthly concession value 2022-2025 · <span style="color:var(--warn);font-weight:700;">STATIC</span> · <a href="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" target="_blank" rel="noopener">CBRE Multifamily Outlook 2025</a> series</p>
 </div>
 <div style="height: 300px; position: relative;">
 <canvas id="concessions-chart" role="img" aria-label="Line chart: Denver Metro average monthly rental concession value 2022–2025" data-source="CBRE Multifamily Outlook 2025" data-source-url="https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily" data-vintage="CBRE 2022–2025" data-source-type="raw"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
@@ -1373,7 +1373,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 <div style="margin-bottom: 1.5rem;">
 <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-success);">✓ Employment</div>
-<div style="font-size: 0.875rem; color: var(--color-text-light);">Unemployment at <span id="cddUnemploymentInline">3.7%</span> (BLS LAUS statewide avg)</div>
+<div style="font-size: 0.875rem; color: var(--color-text-light);">Unemployment at <span id="cddUnemploymentInline">3.7%</span> (BLS LAUS, simple average of county rates)</div>
 </div>
 <div>
 <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-warning);">⚠ Lead Indicator</div>
@@ -1548,7 +1548,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
 <div style="font-size: .8125rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">Unemployment Rate</div>
 <div style="font-size: 1.4rem; font-weight: 700; color: var(--color-success); margin-bottom: 0.15rem;" id="cddUnemploymentStat">—</div>
-<div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a> · CO statewide</div>
+<div style="font-size: .8125rem; color: var(--color-text-muted); line-height: 1.25;"><span style="color:var(--good);font-weight:700;">LIVE</span> · <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a> · simple average of county rates</div>
 </div>
 <!-- Foreclosure Risk — FHFA NMDB statewide mortgage-performance file carries the numeric trend -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
@@ -1990,7 +1990,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       <div class="risk-card">
         <div class="risk-label">Pipeline Pressure</div>
         <div class="risk-value" id="riskPipeline">—</div>
-        <div style="font-size:.8125rem;color:var(--faint);margin-top:.25rem;">Permits issued / existing units</div>
+        <div style="font-size:.8125rem;color:var(--faint);margin-top:.25rem;">Tax credit projects per 1,000 households</div>
       </div>
       <div class="risk-card">
         <div class="risk-label">Affordability Gap</div>

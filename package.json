@@ -95,7 +95,7 @@
     "test:briefs": "python3 scripts/validate-jurisdiction-briefs.py",
     "test:policy-data-currency": "node test/policy-data-currency.test.js",
     "test:policy-page-currency": "node test/policy-page-currency.test.mjs",
-    "test:lihtc-guide-accuracy": "node test/lihtc-guide-accuracy.test.js",
+    "test:lihtc-guide-accuracy": "node test/lihtc-guide-accuracy.test.js && node test/deep-dive-label-accuracy.test.js",
     "test:lihtc-practice-claims": "node test/lihtc-practice-claims.test.js",
     "test:nlihc-out-of-reach": "node --test test/nlihc-out-of-reach.test.mjs",
     "test:pbv-by-pha": "node --test test/pbv-by-pha.test.mjs",
