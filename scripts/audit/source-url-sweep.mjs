@@ -70,6 +70,10 @@ const ALLOW_LIST = new Set([
   'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Transportation/MapServer/2/query',
   'https://pagosasprings.co.gov/AgendaCenter',
   "https://overpass-api.de/api/interpreter", // POST-only API
+  // MCDC Geocorr: Node fetch from CI fails before any HTTP status on every try
+  // since 2026-10-24, and curl fails certificate verification. Cited by
+  // methods.html as an example block-weighted crosswalk; recheck in a browser.
+  "https://mcdc.missouri.edu/applications/geocorr.html",
   // CFPB HMDA Data Browser API — returns 400 to bare GET (requires query
   // params like states/counties/years/actions_taken). The endpoint is
   // healthy; the URL sweep just doesn't pass query params.

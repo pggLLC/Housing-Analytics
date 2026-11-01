@@ -117,6 +117,10 @@ const ALLOW_LIST = new Set([
   'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Transportation/MapServer/2/query',
   'https://pagosasprings.co.gov/AgendaCenter',
   'https://overpass-api.de/api/interpreter',
+  // MCDC Geocorr: Node fetch from CI fails before any HTTP status on every try
+  // since 2026-10-24, and curl fails certificate verification. Cited by
+  // methods.html as an example block-weighted crosswalk; recheck in a browser.
+  "https://mcdc.missouri.edu/applications/geocorr.html",
   'https://ffiec.cfpb.gov/v2/data-browser-api/view/aggregations',
   'https://www.novoco.com/',
   'https://www.ncsha.org/',

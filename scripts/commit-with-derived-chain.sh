@@ -62,6 +62,7 @@ PATHS=(
   data/hna/ranking-index.json
   data/hna/ranking-scenarios
   data/hna/jurisdiction-metrics-digest
+  docs/qa/metric-digest-coverage-2026-06-30.md
   data/hna/ownership-need.json
   data/jurisdiction-briefs
   data/home-snapshot.json
