@@ -217,9 +217,9 @@
   function renderExit(e) {
     if (e.reason) return reason(e.reason);
     var out = '<h4 style="font-size:var(--small);margin:.3rem 0 .2rem;">Value at year ' + e.holdYear + ' across cap rates</h4>'
-      + cards((e.capRange || []).map(function (c) {
+      + (e.valueReason ? reason(e.valueReason) : cards((e.capRange || []).map(function (c) {
         return { title: pct(c.cap, 2) + ' cap', note: c.reason, pairs: [['Value', money(c.value)], ['Per home', money(c.perHome)], ['After paying all debt', money(c.afterDebt)]] };
-      }));
+      })));
     var mp = e.minimumPrice;
     out += '<h4 style="font-size:var(--small);margin:var(--sp2) 0 .2rem;">Nonprofit or tenant purchase at the minimum price</h4>'
       + (mp.reason ? reason(mp.reason) : dl([['Debt outstanding', money(mp.debt)], ['Exit taxes', money(mp.exitTaxes)], ['Minimum price', money(mp.price)], ['Market value at the planned cap', money(mp.marketValue)]]))

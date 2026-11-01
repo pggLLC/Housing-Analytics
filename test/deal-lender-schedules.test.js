@@ -222,14 +222,27 @@ test('engine: exit paths — cap range, minimum price, refinance, resyndication,
   const r = computeDeal(full()), e = r.schedules.exit;
   assert.equal(e.capRange.length, 5); near(e.capRange[2].value, r.exit.resale);
   near(e.minimumPrice.price, r.exit.firstMortBal + r.exit.softBal + 500000);
-  const k = 0.06 / (1 - Math.pow(1.06, -35));
+  // Monthly amortization, the engine's own loan constant.
+  const k = require(path.join(ROOT, 'js', 'deal-calculator-math.js')).mortgageConstant(0.06, 35);
   near(e.refinance.newLoan, r.exit.nNoi / (1.2 * k), 0.01);
+  near(e.refinance.annualPayment * 1.2, r.exit.nNoi, 0.01);
   near(e.resyndication.annualCredit, r.exit.resale * 0.9 * 0.04 + 60000 * 60 * 0.04, 0.01);
   near(e.resyndication.equity, e.resyndication.annualCredit * 10 * 0.85, 0.01);
   assert.equal(e.hold.fromYear, 16); assert.equal(e.hold.toYear, 30);
   const noTax = inputsFor('A'); Object.assign(noTax.fields, extra); delete noTax.fields['dc-after-taxes'];
   const m = computeDeal(noTax).schedules.exit.minimumPrice;
   assert.equal(m.price, null); assert(m.reason.includes('exit taxes'));
+});
+
+test('engine: exit-year NOI at or below zero shows no value and no refinance, with the reason', () => {
+  const i = full(); Object.assign(i.fields, { 'pf-rent-growth': '0', 'pf-exp-growth': '6', 'dc-exit-hold': '30', 'pf-years': '30' });
+  const r = computeDeal(i), e = r.schedules.exit;
+  assert(r.exit.nNoi <= 0, 'non-vacuous: exit NOI is negative');
+  assert.equal(e.capRange, null);
+  assert.match(e.valueReason, /zero or negative/);
+  assert.equal(e.refinance.newLoan, undefined);
+  assert.match(e.refinance.reason, /zero or negative/);
+  assert(e.resyndication.reason, 'resyndication has no value to buy at');
 });
 
 test('engine: a blank operating budget leaves every schedule with a reason, no NaN', () => {

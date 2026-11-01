@@ -409,9 +409,13 @@
     }), reason: null };
   }
 
+  // Annual payment per dollar with monthly amortization, the same constant the
+  // engine sizes the permanent loan with (deal-calculator-math.js).
   function loanConstant(ratePct, years) {
-    var r = ratePct / 100;
-    return r === 0 ? 1 / years : r / (1 - Math.pow(1 + r, -years));
+    var m = ratePct / 100 / 12, n = years * 12;
+    if (m === 0) return 1 / years;
+    var f = Math.pow(1 + m, n);
+    return m * f / (f - 1) * 12;
   }
 
   /** After year 15: the value at a range of cap rates, the minimum purchase price
@@ -424,7 +428,10 @@
     var debt = known(ex.firstMortBal) && known(ex.softBal) ? ex.firstMortBal + ex.softBal : null;
     out.holdYear = hold;
     var cap = ex.exitCap;
-    out.capRange = known(cap) ? [-0.01, -0.005, 0, 0.005, 0.01].map(function (d) {
+    // Exit-year NOI at or below zero has no value and supports no loan, as in the engine.
+    var noNoi = ex.nNoi <= 0 ? 'Exit-year NOI is zero or negative, so there is no value to show and no loan it could support.' : null;
+    out.valueReason = noNoi;
+    out.capRange = noNoi ? null : known(cap) ? [-0.01, -0.005, 0, 0.005, 0.01].map(function (d) {
       var c = cap + d;
       if (c <= 0) return { cap: c, value: null, afterDebt: null, perHome: null, reason: 'A cap rate must be above 0%.' };
       var v = ex.nNoi / c;
@@ -440,7 +447,7 @@
     };
     var rRate = num(fields['dc-after-refi-rate']), rTerm = num(fields['dc-after-refi-term']), rDcr = num(fields['dc-after-refi-dcr']), rCost = num(fields['dc-after-refi-cost']);
     var refiReason = !inRange(rRate, 0, 15) ? 'Enter the refinance rate from 0% to 15%.' : !(Number.isInteger(rTerm) && rTerm >= 5 && rTerm <= 40) ? 'Enter the refinance amortization from 5 to 40 years.'
-      : !inRange(rDcr, 1, 2) ? 'Enter the refinance coverage from 1.00 to 2.00.' : !inRange(rCost, 0, 10) ? 'Enter refinance costs from 0% to 10% of the new loan.' : !known(debt) ? 'Loan balances at the exit are not available.' : null;
+      : !inRange(rDcr, 1, 2) ? 'Enter the refinance coverage from 1.00 to 2.00.' : !inRange(rCost, 0, 10) ? 'Enter refinance costs from 0% to 10% of the new loan.' : !known(debt) ? 'Loan balances at the exit are not available.' : noNoi;
     if (refiReason) out.refinance = { reason: refiReason };
     else {
       var newLoan = ex.nNoi / (rDcr * loanConstant(rRate, rTerm));
