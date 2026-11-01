@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-01T10:38:13.628371Z",
+  "generated": "2026-11-01T10:39:23.415747Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1023385
+      "bytes": 1023455
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -89,12 +89,12 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1230997
+      "bytes": 1292218
     },
     "data/alerts/brief-news-queue.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 34787
+      "bytes": 35297
     },
     "data/alerts/outlet-decisions.json": {
       "featureCount": 0,
@@ -109,7 +109,7 @@
     "data/alerts/outlet-review.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20375
+      "bytes": 22955
     },
     "data/alerts/owner-news.json": {
       "featureCount": 0,
@@ -9694,7 +9694,7 @@
     "data/policy/housing-events.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 177581
+      "bytes": 177180
     },
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,
@@ -9859,7 +9859,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 474541
+      "bytes": 498580
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,

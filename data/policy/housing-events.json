@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-10-31T09:49:05Z",
-    "as_of": "2026-10-31",
+    "generated": "2026-11-01T10:39:17Z",
+    "as_of": "2026-11-01",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -4981,18 +4981,6 @@
       "url": "https://cdola.colorado.gov/calendar",
       "source": "prop123",
       "category": "deadline"
-    },
-    {
-      "title": "Zoning for our Future: Solar, Windfarms, EV, and Manufactured/Modular Homes",
-      "start": "2025-10-31",
-      "end": null,
-      "time": "11:00",
-      "location": null,
-      "online": false,
-      "organizer": "APA Colorado",
-      "url": "https://us06web.zoom.us/webinar/register/WN_CHhxqJ4qSwOV6ZOjXXY4MQ",
-      "source": "apa_colorado",
-      "category": "other"
     }
   ]
 }

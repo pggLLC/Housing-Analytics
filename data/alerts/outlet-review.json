@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated": "2026-10-31T12:24:21Z",
+    "generated": "2026-11-01T10:39:17Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-10-25",
-      "checked": 59,
+      "since": "2026-10-26",
+      "checked": 58,
       "unverified": 4,
       "weak": 2
     }
@@ -13,7 +13,9 @@
     {
       "id": "545a53e448",
       "name": "Common Sense Institute",
-      "domains": [],
+      "domains": [
+        "commonsenseinstituteus.org"
+      ],
       "stories": 6,
       "first_seen": "2026-08-10",
       "last_seen": "2026-10-28",
@@ -39,7 +41,9 @@
     {
       "id": "c6be2856b8",
       "name": "Niskanen Center",
-      "domains": [],
+      "domains": [
+        "niskanencenter.org"
+      ],
       "stories": 1,
       "first_seen": "2026-10-28",
       "last_seen": "2026-10-28",
@@ -103,7 +107,9 @@
     {
       "id": "bc703dfda7",
       "name": "Greater Greater Washington",
-      "domains": [],
+      "domains": [
+        "ggwash.org"
+      ],
       "stories": 1,
       "first_seen": "2026-10-21",
       "last_seen": "2026-10-21",
@@ -175,6 +181,34 @@
       "first_listed": "2026-10-31"
     },
     {
+      "id": "3ccd88aed5",
+      "name": "Multifamily & Affordable Housing Business",
+      "domains": [
+        "multifamilyaffordablehousing.com"
+      ],
+      "stories": 3,
+      "first_seen": "2026-09-09",
+      "last_seen": "2026-10-08",
+      "headlines": [
+        {
+          "title": "Colorado Investor Buys Whisper Hollow in Metro St. Louis",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxNQ1ppVmlxakx5U091enZMUlo5R0ItbjIwSTU3WHBycnZJcm9VWnhFNmhrM1BCQ0VxZTRxalY2eEJYazBVcTdPTDUxNWtpX1VPSUVZT1RMUDFhZGFfbk9XYlBOZTRuemFIbDhabS0xei1MaXItdGlXaUJNRkZqbVQ3Vl9KZXNyODRxRFZfY1BlOHR6VTdLTEppaWYzVGtrZw?oc=5",
+          "date": "2026-10-08"
+        },
+        {
+          "title": "JB Matteson Acquires Vantage at Loveland in Colorado for $72.3M",
+          "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNcUNiNmRqRE9NTjVWc0Z1VDE0RW5XbFJJS3hyQXlyQXZJNUltV2NFejlsb1pkT1hNMnFiVzJZZ21iM18wU3ROVDZ2UGk1ZGozaV94Z1ZRdktkbTh2WC16V1ZWSjFNR0tTNjhKSi1sNjBUbjdQRXF6S3VIV2xoYWNDQjJxT0hwQXFqN21KLXpvY29fTXozcDJPVWZlaXFGTUhUOTBYNFc0UQ?oc=5",
+          "date": "2026-09-15"
+        },
+        {
+          "title": "Developers Awarded Tax Credits for Colorado Affordable Housing Project",
+          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxORzhoUk9EdU1VNzR5LUVVVzZHdlByLVVOOVBRdWYyeERTY1hxZFg2Nk5aWFJwT1oybjVweXQ1YUJ5YTduUnI4MHBSRkFQUHFLQ2JiZW9xazNLdUNpR0hXNWRkbGg0UG1wWDFUY0RsN1BNeVZsRlJtVXl5My05VmR6S2x1dC1ObjVmTTIzMHFLbkwzU2pyLV91V0VoeDFmUjhkUkVISUpZYTBiWUJHamR1QXpR?oc=5",
+          "date": "2026-09-09"
+        }
+      ],
+      "first_listed": "2026-11-01"
+    },
+    {
       "id": "a4e8c3ce26",
       "name": "Legis1",
       "domains": [],
@@ -191,9 +225,29 @@
       "first_listed": "2026-10-31"
     },
     {
+      "id": "2f66127b5a",
+      "name": "Arvada Press",
+      "domains": [
+        "arvadapress.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-10-04",
+      "last_seen": "2026-10-04",
+      "headlines": [
+        {
+          "title": "Arvada awarded $100,000 grant for Suburban Studios homelessness program",
+          "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxONjRhNmp3b25TQ3prbXZEbVFvaFI4Yjc4TGxpb2x1eThJaVQ5Y0Z1Ykw0dkp5cU0yNFZSRDItZTZTeXlVM0JFV2Z0TDhIcGtRZjFPZ0tOaFpJdF9SVENPWlgwb0czQTJDRVpYYlBrdGxWd1FKZnh3QzR6ZHdlRTA4Y3Zld2ltTm52Vnc?oc=5",
+          "date": "2026-10-04"
+        }
+      ],
+      "first_listed": "2026-11-01"
+    },
+    {
       "id": "787d737cf2",
       "name": "Rocky Mountain Voice",
-      "domains": [],
+      "domains": [
+        "rockymountainvoice.com"
+      ],
       "stories": 2,
       "first_seen": "2026-08-07",
       "last_seen": "2026-09-30",
@@ -235,7 +289,9 @@
     {
       "id": "b43610fd65",
       "name": "citybiz",
-      "domains": [],
+      "domains": [
+        "citybiz.co"
+      ],
       "stories": 1,
       "first_seen": "2026-09-17",
       "last_seen": "2026-09-17",
@@ -331,7 +387,9 @@
     {
       "id": "ab4b16819d",
       "name": "The Fulcrum",
-      "domains": [],
+      "domains": [
+        "thefulcrum.us"
+      ],
       "stories": 1,
       "first_seen": "2026-08-24",
       "last_seen": "2026-08-24",
@@ -363,7 +421,9 @@
     {
       "id": "82fe1946c7",
       "name": "3D Printing Industry",
-      "domains": [],
+      "domains": [
+        "3dprintingindustry.com"
+      ],
       "stories": 1,
       "first_seen": "2026-08-15",
       "last_seen": "2026-08-15",
@@ -395,7 +455,9 @@
     {
       "id": "3b88625d18",
       "name": "Landmark Properties",
-      "domains": [],
+      "domains": [
+        "landmarkproperties.com"
+      ],
       "stories": 1,
       "first_seen": "2026-08-10",
       "last_seen": "2026-08-10",
