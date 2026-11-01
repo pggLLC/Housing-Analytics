@@ -84,7 +84,6 @@ A lightweight manual verification guide to run after every deployment. Each chec
 
 **Common failure modes:**
 - `data/co-county-economic-indicators.json` missing → wage charts blank
-- `js/fred-cards.js` error → FRED card section missing
 
 ---
 
