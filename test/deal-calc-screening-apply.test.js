@@ -44,7 +44,8 @@ assert.equal(dc.computeDeveloperOwnershipFundingStack(fixtureGap, { units: 1, pr
 const mesaStack = dc.computeDeveloperOwnershipFundingStack(fixtureGap, { units: 1, programs: funding, countyFips: '08077' });
 assert.deepEqual(mesaStack.appliedSources.map((item) => [item.id, item.appliedAmountPerUnit]), [['chfa-dpa-layering', 25000]]);
 assert.equal(mesaStack.residualGapPerUnit, 275000);
-assert.deepEqual(mesaStack.outsideSources.map((item) => [item.id, item.reason]), [['wmrhc-good-deeds-buydown', 'Not available in this county']]);
+const wmrhc = funding.programs.find((item) => item.id === 'wmrhc-good-deeds-buydown');
+assert.deepEqual(mesaStack.outsideSources.map((item) => [item.id, item.jurisdictionScope]), [[wmrhc.id, wmrhc.jurisdiction_scope]]);
 
 // With no county the buy-down's area cannot be confirmed, so it is not counted either.
 const noCountyStack = dc.computeDeveloperOwnershipFundingStack(fixtureGap, { units: 1, programs: funding });
@@ -106,8 +107,11 @@ const rendered = document.getElementById('dc-own-funding-stack').textContent;
 mesaStack.appliedSources.forEach((item) => {
   assert(rendered.includes(item.name + ' (potential — not committed)'));
 });
-assert(rendered.includes('WMRHC Good Deeds buy-down: Not available in this county (Garfield and Pitkin counties only); not counted'), rendered);
-assert(!rendered.includes('WMRHC Good Deeds buy-down (potential'), 'the buy-down is not counted in Denver');
+// The buy-down is named in its own row with the area its funding record gives, and is not among the counted sources.
+const outsideRow = document.querySelector('#dc-own-funding-stack [data-outside-county="' + wmrhc.id + '"]');
+assert(outsideRow, 'the buy-down outside its counties is named');
+assert(outsideRow.textContent.includes(wmrhc.name) && outsideRow.textContent.includes(wmrhc.jurisdiction_scope), outsideRow.textContent);
+assert(!mesaStack.appliedSources.some((item) => item.id === wmrhc.id));
 assert(rendered.includes('no unconfirmed amount is counted'));
 
 console.log('deal-calc-screening-apply: PASS');
