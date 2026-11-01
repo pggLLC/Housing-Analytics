@@ -1,10 +1,10 @@
 {
  "meta": {
   "boundary_search_miles": 10.0,
-  "generated": "2026-10-25T10:10:55Z",
+  "generated": "2026-11-01T12:07:52Z",
   "source": "scripts/market/build_transit_zone_by_geography.py (#1937)",
   "stops_file": "data/amenities/transit_stops_statewide_co.geojson",
-  "stops_generated": "2026-10-25T10:05:19Z",
+  "stops_generated": "2026-11-01T12:02:16Z",
   "radius_miles": 2,
   "radius_source": "data/policy/thiz-map-status.json",
   "qap_tod_miles": 0.5,
