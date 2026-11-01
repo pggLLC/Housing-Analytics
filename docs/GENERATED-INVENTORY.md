@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T16:06:16.839Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T16:32:47.869Z. Do not edit by hand.
 
 ---
 
@@ -1992,7 +1992,7 @@
 | `data/policy/colorado-deal-rules.json` | 2.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
-| `data/policy/developer-ownership-funding.json` | 21.6 KB | ✅ | — |
+| `data/policy/developer-ownership-funding.json` | 21.9 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 569.9 KB | ✅ | — |
 | `data/policy/funding-awards/award-rows.json` | 254.7 KB | ✅ | — |
 | `data/policy/funding-awards/developer-aliases.json` | 7.4 KB | ✅ | — |
@@ -2197,7 +2197,7 @@
 | `test/deal-calc-rent-programs.test.js` | 11.1 KB |
 | `test/deal-calc-report-meta.test.js` | 14.6 KB |
 | `test/deal-calc-schedule.test.js` | 25.2 KB |
-| `test/deal-calc-screening-apply.test.js` | 3.6 KB |
+| `test/deal-calc-screening-apply.test.js` | 6.0 KB |
 | `test/deal-calc-share-roundtrip.test.js` | 23.8 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.8 KB |
 | `test/deal-calc-studio-units.test.js` | 3.2 KB |

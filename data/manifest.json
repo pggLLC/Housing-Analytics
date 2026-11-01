@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-01T16:06:50.203707Z",
+  "generated": "2026-11-01T16:33:35.603241Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9624,7 +9624,7 @@
     "data/policy/developer-ownership-funding.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 22136
+      "bytes": 22403
     },
     "data/policy/fee-reductions.json": {
       "featureCount": 0,
