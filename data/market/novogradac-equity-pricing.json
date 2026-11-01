@@ -251,7 +251,7 @@
         "price_high": null,
         "price_assumed": null,
         "quote": "CHFA will select, at least annually, an equity factor based on market conditions. At the time of the Preliminary Application, the equity factor to be used for this calculation is listed in the Preliminary Application. If there is a Letter of Interest or a firm equity commitment in place at this time, use the equity factor contained in the Letter of Interest or commitment.",
-        "note": "The 2026 Housing Tax Credit Application (V8.2, May 2026) leaves the federal, state and TOC equity factors as blank applicant inputs with no minimum or maximum; the 2027-2028 QAP third draft keeps the same text but changes 'will select' to 'may select'. No state AHTC price is stated."
+        "note": "The 2026 Housing Tax Credit Application (V8.2, May 2026) leaves the federal, state and TOC equity factors as blank applicant inputs with no minimum or maximum; the adopted 2027-2028 QAP keeps the same text but changes 'will select' to 'may select'. No state AHTC price is stated."
       },
       {
         "state": "NM",

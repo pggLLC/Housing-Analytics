@@ -4,12 +4,12 @@
     "purpose": "Reference unit sizes by bedroom count, used by the deal calculator to ESTIMATE gross building area from a unit mix on request. Nothing here auto-fills: the user picks a reference standard, sees the working, and clicks to apply. Every figure below is from a jurisdiction other than Colorado and is labelled as such on screen.",
     "colorado": {
       "has_statewide_minimum": false,
-      "note": "Colorado CHFA's Housing Tax Credit Qualified Allocation Plan sets no minimum unit size by bedroom count. Unit sizes appear in the QAP only as applicant-supplied fields (unit mix and size worksheet, market study review). Verified by full-text search of the 2025-2026 QAP and the 2027-2028 QAP third draft for 'square feet', 'unit size' and 'minimum'.",
+      "note": "Colorado CHFA's Housing Tax Credit Qualified Allocation Plan sets no minimum unit size by bedroom count. Unit sizes appear in the QAP only as applicant-supplied fields (unit mix and size worksheet, market study review). Verified by full-text search of the 2025-2026 QAP and the 2027-2028 QAP third draft (and the adopted 2027-2028 QAP, checked 2026-11-01) for 'square feet', 'unit size' and 'minimum'.",
       "last_verified": "2026-09-24",
       "review_by": "2027-03-31",
       "sources": [
         { "title": "CHFA Housing Tax Credit Qualified Allocation Plan 2025-2026", "url": "https://www.chfainfo.com/getattachment/02ccecd8-bca7-4045-b9bb-9fa5723628dc/2025-2026-QAP.pdf" },
-        { "title": "CHFA Housing Tax Credit Qualified Allocation Plan 2027-2028, third draft", "url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf" },
+        { "title": "CHFA Housing Tax Credit Qualified Allocation Plan 2027-2028 (adopted)", "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" },
         { "title": "CHFA QAP index page", "url": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" }
       ]
     },

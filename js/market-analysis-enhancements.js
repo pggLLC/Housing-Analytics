@@ -257,7 +257,7 @@
    * @param {Function} [scorer] - units -> computePma result with the
    *   headline's inputs (market-analysis.js _scenarioScorer).
    * @param {number} [penetrationDenominator] - renters qualified for any
-   *   tax-credit tier, for the 85% check (CHFA 2027-28 draft QAP) on existing + proposed units;
+   *   tax-credit tier, for the 85% check (CHFA 2027-28 QAP) on existing + proposed units;
    *   the capture denominator when absent.
    * @param {number} [checkExistingUnits] - existing tax-credit units for that
    *   check (CHFA's table counts tax-credit units only); existingUnits when

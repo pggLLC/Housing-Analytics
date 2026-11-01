@@ -39,7 +39,7 @@ ok(cc.without_pilot.accelerated_fixed_annual === 1100000 && cc.without_pilot.sta
 const g = r2.gap_pilot;
 ok(g.doh.per_unit === 35000 && g.doh.max === 3200000 && /\$35,000 per unit and a maximum of \$3\.2 million/.test(g.doh.quote), 'DOH Round Two amounts match the quote');
 ok(g.oedit.per_unit === 30000 && g.oedit.max === 2600000 && /\$30,000 per unit and a maximum of \$2\.6 million/.test(g.oedit.quote), 'OEDIT Round Two amounts match the quote');
-ok(g.doh.midpoint_max === 52 && /52% or below for Round Two/.test(g.doh.eligibility_quote), 'the Round Two DOH midpoint line matches the quote');
+ok(g.doh.midpoint_max === 52 && /52 percent or below for Round Two/.test(g.doh.eligibility_quote), 'the Round Two DOH midpoint line matches the quote');
 ok(JSON.stringify(r2.targeting) === JSON.stringify(r1.targeting) && JSON.stringify(r2.eli_targeting) === JSON.stringify(r1.eli_targeting), 'targeting is scored the same in both rounds');
 
 // ── Scoring ─────────────────────────────────────────────────────────────────

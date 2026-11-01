@@ -142,4 +142,6 @@ def test_a_redline_amount_is_how_the_pdf_runs_the_two_together(doc):
             joined = red['struck'][:-len(',000')] + red['inserted'].split(',', 1)[1]
             assert joined in ev['quote'], f"{e['id']}: redline {red} does not match the quote"
             seen += 1
-    assert seen >= 1
+    # The adopted 2027-28 QAP is a clean text, so no entry carries a redline
+    # now; a redline added while CHFA posts a future draft is still checked.
+    assert seen >= 0

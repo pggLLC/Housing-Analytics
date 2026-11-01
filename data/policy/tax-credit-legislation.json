@@ -515,9 +515,9 @@
       "sunset_date": "2063-12-31",
       "pricing_impact": "State income tax credit for housing in OEDIT-designated transit/housing zones. CHFA may allocate up to $8.33M annually in 2027-2033, claimable for each of six credit years (seven cohorts; $350M total through 2038), to governmental/quasi-governmental owners that may sell credits.",
       "tz_credit_pairing": {
-        "status": "draft",
-        "source": "CHFA 2027-28 QAP Third Draft, Section 3.L Maximum Credit Award (not yet adopted); amounts confirmed against its Summary of Changes",
-        "source_url": "https://www.chfainfo.com/getattachment/452dbf9f-b714-44f7-8a75-f3adf9c1c16f/2027-2028-QAP-Third-Draft-Summary-of-Changes.pdf",
+        "status": "adopted",
+        "source": "CHFA 2027-28 QAP, Sections 3.L and 3.L.1 Maximum Credit Award (adopted by the CHFA Board September 25, 2026; approved by the Governor October 23, 2026); amounts unchanged from the Third Draft",
+        "source_url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
         "in_lieu_of_standard_state_credit": true,
         "unit": "annual",
         "note": "Standard annual state credit OR TZ credit where eligible, paired if requested; one allowance, not additive. Amounts are annual state credit per project.",

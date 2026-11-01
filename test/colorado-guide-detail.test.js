@@ -24,9 +24,10 @@ for (const [name, page] of [['guide', guide], ['ROAD page', road]]) {
 }
 assert.ok(guide.includes(co.population.toLocaleString('en-US') + ' residents'), 'guide states the IRS population');
 
-// CHFA 2027 draft figures in the guide match the scoring record.
+// CHFA 2027 figures in the guide match the scoring record (adopted 2027-28 QAP).
 const sc = json('data/policy/chfa-2027-r1-scoring.json');
-assert.equal(sc.status, 'draft', 'guide labels the 2027 figures draft; update the guide when CHFA adopts');
+assert.equal(sc.status, 'adopted', 'the scoring record follows the adopted 2027-28 QAP');
+assert.ok(!/2027 draft|the draft does not say/.test(guide), 'guide no longer calls the adopted 2027-28 figures draft');
 assert.ok(guide.includes(`${sc.minimum_score.points} points for any 9% application`), 'minimum score');
 assert.ok(guide.includes(usd(sc.credit_caps.federal_9pct_annual)) && guide.includes(usd(sc.credit_caps.state_standard_with_9pct_annual)), 'per-project caps');
 assert.ok(guide.includes(usd(sc.credit_caps.without_pilot.federal_9pct_annual)) && guide.includes(usd(sc.credit_caps.without_pilot.state_standard_with_9pct_annual)), '3.L.1 caps');
@@ -109,7 +110,7 @@ assert.equal(p123.filing_deadline, '2026-11-01');
 assert.ok(guide.includes('due November 1, 2026') && fair.includes('due 1 November 2026'), 'Prop 123 filing deadline');
 
 // The ROFR warning names the resyndication exemption the record carries, and
-// the preservation row carries both routes the draft prints.
+// the preservation row carries both routes the plan prints.
 assert.ok(guide.includes('29-4-1205(1)(f)'), 'ROFR exemption named');
 const pres = sc.lines.find((l) => l.id === '5B3d-preservation').quote;
 assert.ok(/within three years of expiration/.test(pres) && guide.includes('expires within three years'), 'preservation subsidy route');
@@ -159,4 +160,4 @@ assert.ok(/CHFA may accept less, case by case/.test(guide), 'sub-25% set-aside e
 // Codex round 6: the 20-at-50 election has no 60% row, as the record's rule says.
 assert.ok(/20-50 table has no 60% row/.test(sc.targeting.rule) && /20-at-50 minimum set-aside election the table has no 60% row/.test(guide), '20-at-50 exception kept');
 
-console.log(`colorado-guide-detail: PASS (Colorado 2026 ceiling ${usd(co.allocation)}; CHFA draft status ${sc.status})`);
+console.log(`colorado-guide-detail: PASS (Colorado 2026 ceiling ${usd(co.allocation)}; CHFA status ${sc.status})`);

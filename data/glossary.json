@@ -698,7 +698,7 @@
       "term": "TOD",
       "full": "Transit-Oriented Development",
       "definition": "Housing built near frequent public transit.",
-      "short": "Transit-Oriented Development — projects within a ½-mile walk of transit. Earns 3 CHFA QAP points under the 2025–26 QAP (§5.B.2.b); the 2027–28 Third Draft proposes 5 and adds TOC sites."
+      "short": "Transit-Oriented Development — projects within a ½-mile walk of transit. Earns 5 CHFA QAP points under the adopted 2027–28 QAP (§5.B.2.b), which also counts TOC sites; the 2025–26 QAP gave 3."
     },
     {
       "term": "NEPA",
@@ -783,9 +783,9 @@
     },
     {
       "term": "capture rate",
-      "definition": "The share of income-qualified renters in a market area a proposed project needs to lease its units. CHFA counts renters whose income fits the unit's AMI limit and who would pay no more than 40% of income in rent, and its 2027-28 draft QAP would not accept capture above 85% without more demand data.",
+      "definition": "The share of income-qualified renters in a market area a proposed project needs to lease its units. CHFA counts renters whose income fits the unit's AMI limit and who would pay no more than 40% of income in rent, and its 2027-28 QAP will not accept capture above 85% without more demand data.",
       "autolink": false,
-      "short": "The share of income-qualified renters in a market area a proposed project needs to lease its units. CHFA counts renters whose income fits the unit's AMI limit and who would pay no more than 40% of income in rent, and its 2027-28 draft QAP would not accept capture above 85% without more demand data."
+      "short": "The share of income-qualified renters in a market area a proposed project needs to lease its units. CHFA counts renters whose income fits the unit's AMI limit and who would pay no more than 40% of income in rent, and its 2027-28 QAP will not accept capture above 85% without more demand data."
     },
     {
       "term": "GEOID",

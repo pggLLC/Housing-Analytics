@@ -4758,9 +4758,9 @@
         basis.gapMethod.applied ? (basis.gapMethod.binding ? basis.gapMethod.reason : 'Uses not covered by sources other than federal and state credit equity: ' + fmt(Math.max(0, basis.gapMethod.gap)) + ', divided by the credit price and 10 years (' + basis.gapMethod.citation + ').') : basis.gapMethod.reason);
       var m3 = basis.costLimitMethod || {};
       row('Method Three: cost basis limits (draft)', m3.checked ? fmt(m3.credit) : 'Not checked',
-        m3.checked ? (m3.lower ? 'Lower than the capacity below: CHFA would reserve no more than ' + fmt(m3.credit) + ' if these limits are adopted. ' : '') + m3.reason : m3.reason);
+        m3.checked ? (m3.lower ? 'Lower than the capacity below: CHFA would reserve no more than ' + fmt(m3.credit) + ' under these limits. ' : '') + m3.reason : m3.reason);
       row('Credit capacity', money(basis.capacity, 'Not available'), basis.capacity == null && basis.reasons.capacity ? basis.reasons.capacity
-        : 'The smaller of Method One and Method Two. Method Three uses limits from CHFA\'s 2027 workbook under a draft QAP, so it is shown above but not applied.');
+        : 'The smaller of Method One and Method Two. Method Three uses limits from CHFA\'s 2027 workbook; it is shown above as a check and not applied here.');
     }
 
     heading('Cost per unit and per square foot');
