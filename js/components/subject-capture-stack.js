@@ -20,7 +20,7 @@
  *
  * The pool here is county renters at or under each tier, without CHFA's
  * rent floor or household-size fit, so the card shows the share with no
- * CHFA verdict. The 85% line from CHFA's 2027-28 draft QAP is applied in
+ * CHFA verdict. The 85% line from CHFA's 2027-28 QAP is applied in
  * the Market Analysis simulator to the CHFA-rule count.
  *
  * This is screening-grade, not study-grade. The card surfaces what
@@ -153,7 +153,7 @@
     if (rate == null) return { color: 'var(--muted)', label: '—' };
     // County renters at or under the tier, with no rent floor or size fit:
     // not CHFA's qualified pool, so no CHFA verdict here. The simulator
-    // applies the 85% check (CHFA 2027-28 draft QAP) to the CHFA-rule count.
+    // applies the 85% check (CHFA 2027-28 QAP) to the CHFA-rule count.
     return { color: 'var(--muted)', label: 'County share, not the CHFA check' };
   }
 
@@ -304,7 +304,7 @@
         $h('div', { style: { marginTop: '.2rem', color: 'var(--muted)', fontSize: '.74rem' } }, [
           'Inputs: ' + grandSubject + ' Subject units against ' + $fmt(grandHh) +
           ' qualifying renter HHs (county-level, in-migration ' + inMig + '%). ' +
-          'This share uses county renters at or under each tier, not CHFA\'s qualified pool; the capture simulator applies the 85% check from CHFA\'s 2027-28 draft QAP.'
+          'This share uses county renters at or under each tier, not CHFA\'s qualified pool; the capture simulator applies the 85% check from CHFA\'s 2027-28 QAP.'
         ])
       ]));
 

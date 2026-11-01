@@ -36,7 +36,7 @@ rules.lines.filter((l) => typeof l.points === 'number').forEach((l) => {
 });
 ok(rules.gap_pilot.doh.per_unit === 45000 && /\$45,000 per unit and a maximum of \$2\.5 million/.test(rules.gap_pilot.doh.quote), 'DOH Round One amounts match the quote');
 ok(rules.gap_pilot.oedit.per_unit === 40000 && /\$40,000 per unit and a maximum of \$2\.25 million/.test(rules.gap_pilot.oedit.quote), 'OEDIT Round One amounts match the quote');
-ok(/48% or below for Round One/.test(rules.gap_pilot.doh.eligibility_quote) && rules.gap_pilot.doh.midpoint_max === 48, 'DOH midpoint line matches the quote');
+ok(/48 percent or below for Round One/.test(rules.gap_pilot.doh.eligibility_quote) && rules.gap_pilot.doh.midpoint_max === 48, 'DOH midpoint line matches the quote');
 ok(!/confidential|trade secret/i.test(JSON.stringify(rules)), 'nothing marked confidential is cited');
 if (rules.status === 'draft') ok(/not adopted/i.test(rules.status_note), 'draft rules say "not adopted"');
 
@@ -106,7 +106,7 @@ ok(b.from === 50 && b.to === 60 && b.mix[50] === 17 && b.mix[60] === 25, 'the st
 
 const as = SR.amiStress(rules, prop123, { deal: { mix: { 40: 10, 50: 40 } }, claims: {} });
 ok(as && as.laneBefore === 'DOH' && as.laneAfter !== 'DOH' && /lane flips/.test(as.fails), 'the AMI test reports a lane flip');
-ok(rules.underwriting.dcr_min === 1.15 && /1\.15 to 1\.0/.test(rules.underwriting.quote), 'the coverage minimum is CHFA\'s, quoted');
+ok(rules.underwriting.dcr_min === 1.15 && /Minimum 1\.15 for all amortized debt/.test(rules.underwriting.quote), 'the coverage minimum is CHFA\'s, quoted');
 ok(/under CHFA's 1\.15x minimum/.test(SR.stressFails(rules, { engine: { dscr: 1.1 } }, {})), 'coverage under 1.15x fails');
 ok(SR.stressFails(rules, { scoreBefore: 120, scoreAfter: 119 }, {}) === '', 'a score already under 130 is not a new failure');
 

@@ -425,7 +425,7 @@
     if (m.basis.costLimit && m.basis.calculated != null) out.push({ level: 'warn', text: 'CHFA\'s cost basis limit (Method Three) was not checked: ' + m.basis.costLimit.replace(/\.$/, '') + '. Check the credit against it in CHFA\'s application.' });
     var m3d = m.basis.costLimitDraft;
     if (m3d && m.basis.calculated != null) out.push({ level: 'warn', text: 'CHFA\'s cost basis limit (Method Three), at the draft 2027 limits, allows ' + money(m3d.credit) + ' a year'
-      + (m3d.lower ? ', less than the credit capacity' : '') + '. It is not applied: the 2027-28 QAP is not adopted. Check the credit against it in CHFA\'s application.' });
+      + (m3d.lower ? ', less than the credit capacity' : '') + '. It is not applied here: it is a check. Check the credit against it in CHFA\'s application.' });
     // No designation, or one that does not apply to this credit type, is a settled answer; a designation left
     // without its evidence, award or rule is an open input that took the boost out of the credit.
     var bst = m.basis.boost;

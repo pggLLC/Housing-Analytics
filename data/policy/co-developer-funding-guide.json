@@ -98,7 +98,7 @@
     {
       "id": "affordability-period",
       "title": "How long units stay affordable",
-      "body": "Federal law: 15-year compliance period plus at least 15 more years of extended use. CHFA (adopted 2025-26 QAP and unchanged in the 2027-28 third draft): minimum 15 years of extended use for 4% (with or without state credit) and 25 years for 9% and competitive state credit. The LURA runs at least 30 years. Most state gap sources (Prop 123 and DOH) also require 30 years; see each program below.",
+      "body": "Federal law: 15-year compliance period plus at least 15 more years of extended use. CHFA (adopted 2025-26 QAP and unchanged in the adopted 2027-28 QAP): minimum 15 years of extended use for 4% (with or without state credit) and 25 years for 9% and competitive state credit. The LURA runs at least 30 years. Most state gap sources (Prop 123 and DOH) also require 30 years; see each program below.",
       "sources": [
         {
           "label": "govinfo.gov/content/pkg/USCODE-2023-title26/html/USCODE-2023-title26...",
@@ -109,8 +109,8 @@
           "url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf"
         },
         {
-          "label": "chfainfo.com: 2027-2028-QAP-ThirdDraft.pdf (PDF)",
-          "url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf"
+          "label": "chfainfo.com: 2027-2028-QAP.pdf (PDF, adopted)",
+          "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf"
         }
       ],
       "last_checked": "2026-10-10"
@@ -118,7 +118,7 @@
     {
       "id": "qap-status",
       "title": "Which CHFA allocation plan applies",
-      "body": "The adopted plan is the 2025-26 QAP Second Amendment (CHFA Board September 26, 2025; Governor November 13, 2025). The 2027-28 QAP was at its Third Draft (posted September 11, 2026) with Board then Governor approval scheduled for September to October; CHFA's QAP page had not posted an adopted 2027-28 plan as of 2026-10-10. Adopted 2025-26 QAP: $1,800,000 annual 9% credit per project or applicant; $500,000 fixed standard state credit with 9%; Round Two up to $1,300,000 accelerated plus $600,000 standard state credit. 2027-28 third draft (not adopted): 9% cap $1,700,000 (2027) and $1,750,000 (2028), rising to $1,800,000 if state gap funds are unavailable.",
+      "body": "The 2025-26 QAP Second Amendment (CHFA Board September 26, 2025; Governor November 13, 2025) governs 2026 rounds. The 2027-28 QAP was adopted by the CHFA Board on September 25, 2026 and approved by the Governor on October 23, 2026; it governs the 2027 and 2028 rounds. 2025-26 QAP: $1,800,000 annual 9% credit per project or applicant; $500,000 fixed standard state credit with 9%; Round Two up to $1,300,000 accelerated plus $600,000 standard state credit. Adopted 2027-28 QAP: 9% cap $1,700,000 (2027) and $1,750,000 (2028), rising to $1,800,000 if state gap funds are unavailable.",
       "sources": [
         {
           "label": "chfainfo.com: 2025-2026-QAP-Second-Amendment.pdf (PDF)",
@@ -182,11 +182,11 @@
     {
       "id": "coordinated-gap-pilot",
       "title": "Draft 2027-28 plan pairs credits with state gap money",
-      "body": "The 2027-28 third draft adds a pilot where 9% and Round Two awardees that request it get a conditional gap award from OEDIT (Prop 123 concessionary debt) or DOH. For 2027 Round One: OEDIT $25 million at $40,000 per unit up to $2.25 million per application; DOH $12 million at $45,000 per unit up to $2.5 million. Draft only. FY2027 AHFF money is reduced: HB26-1360 moved $130M to the General Fund and HB26-1313 advances $80M back, a net $50M cut; about $159M is projected for AHFF programs and $142M for DOLA's Support Fund. Statutory program percentage ranges are waived for FY27 to prioritize tax credit gap funding. The $80M is repaid from FY2028-2029 AHFF allocations.",
+      "body": "The adopted 2027-28 QAP adds a pilot where 9% and Round Two awardees that request it get a conditional gap award from OEDIT (Prop 123 concessionary debt) or DOH. For 2027 Round One: OEDIT $25 million at $40,000 per unit up to $2.25 million per application; DOH $12 million at $45,000 per unit up to $2.5 million. FY2027 AHFF money is reduced: HB26-1360 moved $130M to the General Fund and HB26-1313 advances $80M back, a net $50M cut; about $159M is projected for AHFF programs and $142M for DOLA's Support Fund. Statutory program percentage ranges are waived for FY27 to prioritize tax credit gap funding. The $80M is repaid from FY2028-2029 AHFF allocations.",
       "sources": [
         {
-          "label": "chfainfo.com: 2027-2028-QAP-ThirdDraft.pdf (PDF)",
-          "url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf"
+          "label": "chfainfo.com: 2027-2028-QAP.pdf (PDF, adopted)",
+          "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf"
         },
         {
           "label": "coloradoaffordablehousingfinancingfund.com: Prop123-CO-AHFF-FiscalYear2027FundingPlan.pdf (PDF)",
@@ -374,21 +374,21 @@
       "funding_type": "tax_credit",
       "status": "annual",
       "what_it_funds": "Equity for new construction, acquisition and rehabilitation of affordable rental housing. Investors buy the 10-year federal credit; CHFA awards it competitively under its Qualified Allocation Plan (QAP).",
-      "award_size": "Up to $1,800,000 of annual federal 9% credit per project or applicant (adopted 2025-26 QAP). The 2027-28 QAP third draft (not yet adopted) proposes $1,700,000 in 2027 and $1,750,000 in 2028, or $1,800,000 if the state gap-funding pilot money is not available.",
+      "award_size": "Up to $1,800,000 of annual federal 9% credit per project or applicant under the 2025-26 QAP. The adopted 2027-28 QAP sets $1,700,000 in 2027 and $1,750,000 in 2028, or $1,800,000 if the state gap-funding pilot money is not available.",
       "rate": "9% applicable percentage floor for new construction and rehabilitation; credit is claimed annually for 10 years.",
       "term": "10-year credit period; 15-year compliance period plus extended use (see affordability_period).",
       "ami_restriction": "Owner elects one federal minimum set-aside: 20% of units at or below 50% AMI, 40% at or below 60% AMI, or Average Income (designated limits from 20% to 80% AMI, averaging no more than 60% AMI). CHFA scoring rewards deeper targeting, but no more than 60% of low-income units can count at 40% AMI or below unless the project has rental assistance or operating subsidy.",
       "affordability_period": "Adopted 2025-26 QAP: 15-year compliance period plus a minimum 25-year extended-use period for 9% and competitive state credit (40 years total). The LURA runs at least 30 years.",
       "eligible_applicants": "An entity that controls the project owner and is not a single purpose entity; consultants cannot be the applicant. At least 10% of the annual federal ceiling is reserved for qualified nonprofit projects (federal law).",
       "eligible_projects": "Rental housing that meets QAP threshold criteria; rehabilitation hard costs must exceed the greater of 20% of adjusted basis or $20,000 per unit.",
-      "application_cycle": "One competitive round per year (Round One, 9% plus standard state credit). The 2026 round closed February 2, 2026. Next: 2027 Round One letter of intent due December 1, 2026 and application due February 1, 2027 by 5:00pm MT, per the 2027-28 QAP third draft, which is not yet adopted.",
+      "application_cycle": "One competitive round per year (Round One, 9% plus standard state credit). The 2026 round closed February 2, 2026. Next: 2027 Round One letter of intent due December 1, 2026 and application due February 1, 2027 by 5:00pm MT, per section 3.B.2 of the adopted 2027-28 QAP.",
       "key_considerations": [
         "A letter of intent, a market analyst engagement letter and (if needed) a parking study engagement are due by the LOI deadline, about two months before the application.",
         "A preliminary reservation lasts 13 months; you must spend more than 10% of total project costs to get a carryover allocation, then place in service within two calendar years.",
         "CHFA requires 25 years of extended use for 9% deals, 10 more than the federal minimum, and awards scoring points for the extended-use election.",
         "Developer and consultant fees are capped at 12% (51 or more units) or 15% (50 or fewer units) of certain project costs, and cannot increase after the preliminary award.",
         "A CHFA discretionary basis boost of up to 30% is available only to 9% deals that are not already in a QCT, DDA or SADDA.",
-        "The 2027-28 QAP is still a draft (third draft posted September 11, 2026); per-project caps and dates may change before CHFA Board and Governor approval."
+        "The 2027-28 QAP was adopted (CHFA Board September 25, 2026; Governor October 23, 2026); its per-project caps and dates match the third draft."
       ],
       "sources": [
         {
@@ -525,10 +525,6 @@
         }
       ],
       "unverified": [
-        {
-          "field": "application_cycle",
-          "reason": "The 2027 Round One dates (LOI December 1, 2026; application February 1, 2027) are read from the 2027-28 QAP Third Draft redline, section 3.B.2, where inserted and deleted digits are both shown in red (for example 'December 12, 20264'). The reading is consistent with CHFA's pattern and the repo's earlier verified calendar, but CHFA has not posted an adopted 2027-28 QAP or a 2027 dates page as of 2026-10-10. Confirm before publishing as final."
-        },
         {
           "field": "award_size",
           "reason": "The 2026 round's actual credit totals and awards were not re-verified from CHFA's award report in this pass."
@@ -726,16 +722,12 @@
       ],
       "unverified": [
         {
-          "field": "application_cycle",
-          "reason": "The 2027-28 QAP third draft changes the 4% LOI to 60 days before application with a 120-day LOI expiry; this is draft language and was taken from the Summary of Changes, not an adopted plan."
-        },
-        {
           "field": "award_size",
           "reason": "No 2027 CHFA PAB Fund guidelines were posted as of 2026-10-10."
         },
         {
           "field": "key_considerations",
-          "reason": "Whether CHFA will apply the new 25% bond test (P.L. 119-21) in its own sizing for 2027 is not stated in the adopted QAP or the 2027-28 third draft; the draft only refers to 'the aggregate basis test'."
+          "reason": "Whether CHFA will apply the new 25% bond test (P.L. 119-21) in its own sizing for 2027 is not stated in the adopted 2027-28 QAP, which only refers to 'the aggregate basis test'."
         },
         {
           "field": "term",
@@ -770,7 +762,7 @@
       "funding_type": "tax_credit",
       "status": "annual",
       "what_it_funds": "A Colorado income tax credit, claimed over six years and paired with a federal housing tax credit, that adds equity to LIHTC rental projects. Standard credit goes with 9% deals in Round One; accelerated credit goes with 4% bond deals in Round Two.",
-      "award_size": "Adopted 2025-26 QAP: a fixed $500,000 of standard annual state credit paired with a 9% application; in Round Two up to $1,300,000 of accelerated plus up to $600,000 of standard annual state credit per project or applicant; $10,000 per unit up to $700,000 for 4% bond deals applying in September to November 2025 and 2026. The 2027-28 third draft (not adopted) proposes different fixed amounts (see key considerations).",
+      "award_size": "Adopted 2025-26 QAP: a fixed $500,000 of standard annual state credit paired with a 9% application; in Round Two up to $1,300,000 of accelerated plus up to $600,000 of standard annual state credit per project or applicant; $10,000 per unit up to $700,000 for 4% bond deals applying in September to November 2025 and 2026. The adopted 2027-28 QAP sets different fixed amounts (see key considerations).",
       "rate": "Six-year credit. Accelerated credit is claimed 70% in year 1 and 6% in years 2 to 6; standard credit is claimed ratably over six years. QAP states the APR for the total six-year state credit allocation is 30% of qualified basis.",
       "term": "6-year credit period",
       "ami_restriction": null,
@@ -782,7 +774,7 @@
         "HB24-1434 added accelerated state credit authority of $12 million in 2026 and 2027, $16 million in 2028 and $20 million a year in 2029 to 2031, on top of $10 million a year of standard credit through 2031.",
         "Accelerated credit lets investors claim 70% in year one, which usually raises pricing for 4% deals.",
         "Round Two state credit awards have a milestone: documents are due the first business day of the 18th month after the reservation letter, or the reservation can be revoked.",
-        "The 2027-28 third draft proposes, in 2027, a fixed $650,000 of standard credit with 9% and $1.0 million accelerated plus up to $675,000 standard in Round Two; in 2028, $675,000 with 9% and $1.2 million accelerated plus up to $600,000 standard. It also allows Transit Zone credit in place of standard credit where eligible.",
+        "The adopted 2027-28 QAP sets, in 2027, a fixed $650,000 of standard credit with 9% and $1.0 million accelerated plus up to $675,000 standard in Round Two; in 2028, $675,000 with 9% and $1.2 million accelerated plus up to $600,000 standard. It also allows Transit Zone credit in place of standard credit where eligible.",
         "Requesting state credit puts the project in CHFA's competitive quiet period from the LOI date to the award announcement."
       ],
       "sources": [
@@ -807,8 +799,8 @@
           "url": "https://www.chfainfo.com/getattachment/452dbf9f-b714-44f7-8a75-f3adf9c1c16f/2027-2028-QAP-Third-Draft-Summary-of-Changes.pdf"
         },
         {
-          "label": "chfainfo.com: 2027-2028-QAP-ThirdDraft.pdf (PDF)",
-          "url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf"
+          "label": "chfainfo.com: 2027-2028-QAP.pdf (PDF, adopted)",
+          "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf"
         }
       ],
       "evidence": [
@@ -900,7 +892,7 @@
         {
           "field": "key_considerations",
           "quote": "The Quiet Period for each competitive round begins on the date Letters of Intent are due",
-          "url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf"
+          "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf"
         }
       ],
       "unverified": [

@@ -74,7 +74,7 @@
     adoptedPoints: 3,
     adoptedPlan:   '2025–26 QAP',
     draftPoints:   5,
-    draftPlan:     '2027–28 QAP Third Draft',
+    draftPlan:     '2027–28 QAP (adopted)',
     ruralSection:  '§5.B.3.b'
   };
   var QAP_TOD_POINTS_LABEL = QAP_TOD.adoptedPoints + ' CHFA pts (' +
@@ -1505,7 +1505,7 @@
           ? 'Existing affordable units divided by renter households that qualify for a tax-credit unit at 20-80% AMI under CHFA market-study rules ' +
             '(income limit by household size, rent no more than 40% of income, household fits a 1-3 bedroom unit). ' +
             'Tract counts from HUD CHAS ' + _chfaMeta('chas') + '; size and income mix from ACS ' + _chfaMeta('pums') + ' PUMS. ' +
-            'Scored against 85%, the capture line in CHFA\'s 2027-28 draft QAP (the 2025-26 QAP sets no number).'
+            'Scored against 85%, the capture line in CHFA\'s 2027-28 QAP (the 2025-26 QAP sets no number).'
           : captureObj.denominatorSource === 'chas_lihtc_eligible'
           ? 'Ratio of total affordable units to LIHTC-eligible renter HH (≤80% AMI from CHAS ' +
             (chasData && chasData.meta && chasData.meta.vintage ? chasData.meta.vintage : '?') +
@@ -1576,7 +1576,7 @@
     var captureRate = Math.round(capture * 1000) / 10; // pct, 1 decimal
     // CHFA's check is penetration: existing + planned + proposed tax-credit
     // units over qualified renters (Appendix A demand table). 85% is the line
-    // in CHFA's 2027-28 draft QAP above which it asks for more demand data;
+    // in CHFA's 2027-28 QAP above which it asks for more demand data;
     // the 2025-26 QAP sets no number, and neither sets a middle band. The pool is the
     // penetration pool when the page has one, else the capture pool.
     // A measured zero penetration pool (no renter qualifies at 20-80% AMI)
@@ -2831,7 +2831,7 @@
           '<th style="text-align:left;padding:0.2rem 0.5rem;color:var(--faint)">Scenario</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">PMA Score</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">' + MEASURE_NAMES.capture + ' rate</th>' +
-          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">85% check (CHFA 2027-28 draft QAP)</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">85% check (CHFA 2027-28 QAP)</th>' +
         '</tr></thead><tbody>' + rows + '</tbody></table>' +
       '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">' + '<span data-methodology-key="project-capture">' + MEASURE_NAMES.capture + ' methodology</span>. Demand pool: ' + (scenDen ? scenDen.label : 'unavailable') + '. Not the ' + MEASURE_NAMES.penetration.toLowerCase() + ' above, which divides existing units.</p>';
   }

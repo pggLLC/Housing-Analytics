@@ -27,8 +27,8 @@ How the workbook uses them (Calculations tab, rows 497-516 and 312, 316):
   Method Three annual credit. The city score is looked up by the exact city
   name; a city not in the table scores 0 ("CITY MISSING").
 
-The workbook follows the 2027-28 QAP Third Draft. The plan is not adopted, so
-the output carries status "draft" and every consumer must say so.
+The workbook was built on the 2027-28 QAP Third Draft. CHFA adopted the plan
+(Board 2026-09-25, Governor 2026-10-23), so the output carries status "adopted".
 
 Run by hand when CHFA posts a new workbook (chfa-qap-watch opens an issue):
   python3 scripts/policy/build_chfa_common_app_tables.py path/to/workbook.xlsx
@@ -86,9 +86,10 @@ def main(path: str) -> int:
     cities = {r['City']: r['Score'] for r in table(wb, 'City_Table') if r.get('City')}
     out = {
         'schema': 'chfa-common-app-tables/1',
-        'status': 'draft',
-        'status_note': ('Copied from CHFA\'s 2027 Common Application workbook, which follows the 2027-28 QAP '
-                        'Third Draft (posted 2026-09-11). Not adopted: label every figure draft.'),
+        'status': 'adopted',
+        'status_note': ('Copied from CHFA\'s 2027 Common Application workbook. It was built on the 2027-28 QAP '
+                        'Third Draft (posted 2026-09-11); CHFA adopted the plan (Board 2026-09-25, Governor 2026-10-23) '
+                        'with the same Method Three text. Rebuild if CHFA posts a new workbook version.'),
         'source': {'title': title, 'url': SOURCE_URL, 'page_url': PAGE_URL,
                    'sha256': hashlib.sha256(data).hexdigest(), 'tab': 'Admin (hidden)'},
         'basis_limit_note': admin['C91'].value,

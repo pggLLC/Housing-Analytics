@@ -39,7 +39,7 @@ test('Method Three follows the workbook: TRUNC(zone factor x base) per unit, sum
   assert.equal(Math.round(r.credit), Math.round((10 * 358957 + 20 * 433748) * 0.09));
   assert.equal(r.lower, true);
   assert.match(r.reason, /Mesa County is CHFA zone 3 \(factor 3\.6\)/);
-  assert.match(r.reason, /not adopted, so it does not change the capacity/);
+  assert.match(r.reason, /shown as a check, it does not change the capacity here/);
 });
 
 test('a QCT or DDA multiplies the limit basis by 1.3; elevator uses the elevator column', () => {

@@ -476,8 +476,8 @@
    * 497-516): limit per unit = TRUNC(zone factor x base limit for the bedroom
    * count and building type); adjusted eligible basis = the sum over units;
    * x 1.3 for a QCT or DDA, x applicable fraction, x the credit rate.
-   * The workbook follows a draft QAP, so the result is a check shown beside
-   * the capacity, never a change to it.
+   * The result is a check shown beside the capacity, never a change to it:
+   * applying it to the credit is a separate engine change (QAP adopted 2026-10-23).
    */
   var BEDROOM_ROWS = { efficiency: '0 bedroom', '0BR': '0 bedroom', '1BR': '1 bedroom', '2BR': '2 bedroom',
     '3BR': '3 bedroom', '4BR': '4 bedroom', '5BR': '5 bedroom' };
@@ -486,7 +486,7 @@
     var out = { checked: false, draft: true, credit: null, adjustedEligibleBasis: null, zone: null, factor: null,
       perUnit: null, lower: false, reason: null, source: null };
     if (!t || !t.basis_limit_per_unit_base || !t.counties) { out.reason = 'CHFA\'s 2027 workbook limits did not load.'; return out; }
-    out.source = (t.source && t.source.title ? t.source.title.replace(/ Instructions$/, '') : 'CHFA Common Application') + ', draft 2027-28 QAP';
+    out.source = (t.source && t.source.title ? t.source.title.replace(/ Instructions$/, '') : 'CHFA Common Application') + ', 2027-28 QAP';
     var county = args.countyFips && t.counties[String(args.countyFips).padStart(5, '0')];
     if (!county) { out.reason = 'Select a county: CHFA\'s limits depend on the county\'s zone.'; return out; }
     var column = args.buildingType === 'elevator' ? 'elevator' : args.buildingType === 'walk_up' ? 'walk_up' : null;
@@ -526,7 +526,7 @@
     out.reason = county.name + ' County is CHFA zone ' + county.zone + ' (factor ' + out.factor + '). '
       + Object.keys(out.perUnit).map(function (k) { return k.replace(' bedroom', ' BR') + ' ' + money(out.perUnit[k]); }).join(', ')
       + ' per unit, ' + (column === 'elevator' ? 'elevator' : 'walk-up') + (args.hudBoost ? ', x 1.3 for the QCT or DDA' : '')
-      + '. From ' + out.source + '; not adopted, so it does not change the capacity.';
+      + '. From ' + out.source + '; shown as a check, it does not change the capacity here.';
     return out;
   }
 
