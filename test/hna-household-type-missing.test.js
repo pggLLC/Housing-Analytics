@@ -72,5 +72,71 @@ test('measured 0 stays a real 0 and Other still computes', () => {
   assert(r.note === '', 'unexpected note: ' + r.note);
 });
 
+// Labor force and occupation, in the same panel: the same rule. Invented counts only.
+function renderLabor(profile) {
+  const ids = ['statLfEmployed', 'statLfUnemployed', 'statRetireeProxy', 'statNotInLfUnder65'];
+  const dom = new JSDOM('<!doctype html><div><div class="chart-box"><canvas id="chartOccupationMix"></canvas></div></div>' +
+    ids.map(id => '<div id="' + id + '">stale</div>').join('') + '<div id="laborForceRetireeNote">—</div>', { runScripts: 'outside-only' });
+  const w = dom.window;
+  const drawn = [];
+  w.HTMLCanvasElement.prototype.getContext = function () { return { canvas: this }; };
+  w.Chart = function (ctx, config) { drawn.push({ id: ctx.canvas.id, config }); this.destroy = () => {}; };
+  w.HNAState = { charts: {}, state: {} };
+  w.eval(read('js/utils/format-money.js'));
+  w.eval(read('js/hna/hna-utils.js'));
+  w.eval(read('js/hna/hna-renderers.js'));
+  w.HNARenderers.renderHouseholdCompositionPanel(Object.assign({}, BASE, profile));
+  const chart = drawn.find(d => d.id === 'chartOccupationMix');
+  const note = w.document.querySelector('[data-hna-chart-scope-note="chartOccupationMix"]');
+  const text = (id) => w.document.getElementById(id).textContent;
+  return {
+    stat: Object.fromEntries(ids.map(id => [id, text(id)])), retNote: text('laborForceRetireeNote'),
+    bars: chart ? Object.fromEntries(chart.config.data.labels.map((l, i) => [l, chart.config.data.datasets[0].data[i]])) : null,
+    tip: chart ? (v) => chart.config.options.plugins.tooltip.callbacks.label({ parsed: { x: v } }) : null,
+    note: note ? note.textContent : ''
+  };
+}
+const LF = { DP03_0002E: 600, DP03_0005E: 30, DP03_0007E: 400, DP05_0024E: 200 };
+const OCC = { DP03_0027E: 300, DP03_0028E: 200, DP03_0029E: 150, DP03_0030E: 100, DP03_0031E: 50 };
+
+for (const [name, v] of [['null', null], ['blank', ''], ['absent', undefined]]) {
+  test('unemployed ' + name + ': unemployed and employed show a dash, not 0 and 600', () => {
+    const p = Object.assign({}, LF, { DP03_0005E: v }); if (v === undefined) delete p.DP03_0005E;
+    const r = renderLabor(p);
+    assert(r.stat.statLfUnemployed === '—' && r.stat.statLfEmployed === '—', JSON.stringify(r.stat));
+  });
+}
+test('unemployed a published 0: kept, and employed is the whole labor force', () => {
+  const r = renderLabor(Object.assign({}, LF, { DP03_0005E: 0 }));
+  assert(r.stat.statLfUnemployed === '0' && r.stat.statLfEmployed === '600', JSON.stringify(r.stat));
+});
+test('not in labor force missing: retiree split not worked out', () => {
+  const r = renderLabor(Object.assign({}, LF, { DP03_0007E: null }));
+  assert(r.stat.statRetireeProxy === '—' && r.stat.statNotInLfUnder65 === '—', JSON.stringify(r.stat));
+  assert(/not available/.test(r.retNote), r.retNote);
+});
+test('complete labor counts: figures and the retiree note', () => {
+  const r = renderLabor(LF);
+  assert(r.stat.statLfEmployed === '570' && r.stat.statRetireeProxy === '170' && r.stat.statNotInLfUnder65 === '230', JSON.stringify(r.stat));
+});
+test('occupations complete: every group drawn with shares', () => {
+  const r = renderLabor(OCC);
+  assert(Object.keys(r.bars).length === 5 && /\(37\.5%\)/.test(r.tip(300)) && r.note === '', JSON.stringify(r.bars) + r.note);
+});
+test('one occupation missing: not drawn as 0, no shares, the gap is named', () => {
+  const r = renderLabor(Object.assign({}, OCC, { DP03_0028E: null }));
+  assert(!('Service' in r.bars) && Object.keys(r.bars).length === 4, JSON.stringify(r.bars));
+  assert(!/%/.test(r.tip(300)), 'share from incomplete counts: ' + r.tip(300));
+  assert(/No published count for service/.test(r.note), r.note);
+});
+test('an occupation count of 0 is real: drawn with shares', () => {
+  const r = renderLabor(Object.assign({}, OCC, { DP03_0031E: 0 }));
+  assert(r.bars['Production / transportation / material moving'] === 0 && /%/.test(r.tip(300)) && r.note === '', JSON.stringify(r.bars));
+});
+test('every occupation missing: no chart, and the note says why', () => {
+  const r = renderLabor({ DP03_0027E: null, DP03_0028E: null, DP03_0029E: null, DP03_0030E: null, DP03_0031E: null });
+  assert(r.bars === null && /no published occupation counts/.test(r.note), r.note);
+});
+
 if (failures) { console.log(failures + ' failing'); process.exit(1); }
 console.log('hna-household-type-missing: all passed');
