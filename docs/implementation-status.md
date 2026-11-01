@@ -79,7 +79,6 @@
 | `js/audit-hook.js` | ✅ Implemented | Optional diagnostics panel (activates with `?audit=1`) |
 | `js/geo-search.js` | ✅ Implemented | Nominatim geocoding for Colorado Deep Dive map |
 | `js/regional.js` | ✅ Implemented | Regional analysis Leaflet map + charts |
-| `js/fred-cards.js` | ✅ Implemented | FRED KPI card rendering |
 | `js/fred-commodities.js` | ✅ Implemented | Commodity price charts |
 | `js/housing-data-integration.js` | ✅ Implemented | Housing market data integration layer |
 | `js/housing-predictions.js` | ✅ Implemented | National forecasting models |

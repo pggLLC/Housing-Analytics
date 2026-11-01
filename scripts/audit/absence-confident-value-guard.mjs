@@ -35,12 +35,6 @@ export const ALLOWLIST = Object.freeze([
   },
   {
     rule: 'A',
-    file: 'js/fred-cards.js',
-    expression: 'isFinite(o.value)',
-    reason: 'The observation value is null-filtered and converted with Number() immediately before this numeric NaN filter.',
-  },
-  {
-    rule: 'A',
     file: 'js/market-analysis.js',
     expression: 'isFinite(t.score)',
     reason: 'The same predicate explicitly rejects null and undefined before checking the already-computed score.',

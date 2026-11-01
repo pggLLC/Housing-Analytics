@@ -47,7 +47,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`economic-section-callouts.js`](./js__economic-section-callouts.md) | economic-section-callouts. | 0 |
 | [`environmental-screening.js`](./js__environmental-screening.md) | js/environmental-screening. | 9 |
 | [`fetch-helper.js`](./js__fetch-helper.md) | js/fetch-helper. | 7 |
-| [`fred-cards.js`](./js__fred-cards.md) | FRED KPI cards for economic-dashboard. | 0 |
 | [`fred-kpi-cards.js`](./js__fred-kpi-cards.md) | Live FRED KPI cards for economic-dashboard. | 0 |
 | [`geo-search.js`](./js__geo-search.md) | geo-search. | 0 |
 | [`glossary.js`](./js__glossary.md) | glossary. | 1 |

@@ -160,11 +160,8 @@ assertContrast('census multifamily stat value', cssProp(census, '.mf-stat__value
 assert.doesNotMatch(census, /\.mf-stat__(?:label|sub)\s*\{[^}]*opacity\s*:/s, 'census multifamily stat text no longer relies on opacity-thinned inherited color');
 
 const economic = read('economic-dashboard.html');
-assert.doesNotMatch(economic, /id="yardiNational"[^>]*color:var\(--muted\)/, 'Yardi national callout is not muted in light mode');
-assertContrast('Yardi national callout', inlineStyleProp(economic, 'yardiNational', 'color'), inlineStyleProp(economic, 'yardiNational', 'background'));
-const yardiLowGrowth = economic.match(/asking_rent_yoy_pct\s*<\s*1\s*\?\s*'([^']+)'/);
-assert.ok(yardiLowGrowth, 'Yardi low-growth warning color branch is present');
-assertContrast('Yardi low-growth warning value', yardiLowGrowth[1], 'var(--surface-2)', { modes: ['light'] });
+// The Yardi panel was removed on 2026-11-01 (test/econ-dash-accuracy.test.js).
+assert.doesNotMatch(economic, /id="yardiNational"/, 'Yardi panel stays removed');
 
 
 // The compliance-dashboard KPI contrast assertions were removed with
