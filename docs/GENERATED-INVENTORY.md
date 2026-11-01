@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T11:08:54.842Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T14:20:53.383Z. Do not edit by hand.
 
 ---
 
@@ -35,7 +35,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.1 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.7 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.0 KB |
@@ -100,7 +100,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 999.5 KB | ✅ | — |
+| `data/_manifest.json` | 999.4 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -125,7 +125,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.84 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 655.6 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 649.0 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 545 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -147,7 +147,7 @@
 | `data/chfa-lihtc.json` | 966.9 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 21.0 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 47.9 KB | ✅ | — |
+| `data/co-county-demographics.json` | 39.3 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
@@ -319,7 +319,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 299.9 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 300.3 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -1853,7 +1853,7 @@
 | `data/market/acs_renter_household_size_co.json` | 158.8 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.33 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
-| `data/market/bps_monthly_ytd.json` | 93.4 KB | ✅ | — |
+| `data/market/bps_monthly_ytd.json` | 92.9 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 575 B | ✅ | — |
 | `data/market/census2020-place-tract-housing-co.json` | 350.3 KB | ✅ | — |
 | `data/market/chas_co.json` | 159.0 KB | ✅ | — |
@@ -1886,7 +1886,7 @@
 | `data/market/lihtc-equity-pricing-history.json` | 5.4 KB | ✅ | — |
 | `data/market/lodes_co.json` | 663.9 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
-| `data/market/market-direction.json` | 756.4 KB | ✅ | — |
+| `data/market/market-direction.json` | 755.9 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
@@ -2043,7 +2043,7 @@
 | `data/policy_briefs_curated.json` | 215.9 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 189.8 KB | ✅ | — |
+| `data/polymarket-history.json` | 192.0 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2066,7 +2066,7 @@
 
 ## Test Files
 
-759 test files found.
+760 test files found.
 
 | File | Size |
 |------|------|
@@ -2208,6 +2208,7 @@
 | `test/deal-credit-stack.test.js` | 8.5 KB |
 | `test/deal-doh-schedules.test.js` | 27.4 KB |
 | `test/deal-engine-golden.test.js` | 8.3 KB |
+| `test/deal-engine-rent-cut-floor.test.js` | 3.2 KB |
 | `test/deal-engine-signed-rent-growth.test.js` | 3.5 KB |
 | `test/deal-engine-surfaces.test.js` | 14.0 KB |
 | `test/deal-engine.test.js` | 8.0 KB |
