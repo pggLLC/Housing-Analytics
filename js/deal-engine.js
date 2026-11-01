@@ -9,16 +9,18 @@
   if (typeof module === 'object' && module.exports) {
     module.exports = factory(require('./deal-calculator-math.js'), require('./chfa-rent-limits.js'),
       function () { return require('./deal-cost-basis.js'); },
-      function () { return require('./deal-operating-budget.js'); });
+      function () { return require('./deal-operating-budget.js'); },
+      function () { return require('./deal-lender-schedules.js'); });
   } else {
     // Late binding preserves the PMA page's existing script order.
     root.DealEngine = factory(root.DealCalculatorMath, {
       maxContractRent: function (input) { return root.ChfaRentLimits.maxContractRent(input); },
       unavailableMessage: function (reason) { return root.ChfaRentLimits.unavailableMessage(reason); },
       prop123ProjectAverage: function (input) { return root.ChfaRentLimits.prop123ProjectAverage(input); }
-    }, function () { return root.DealCostBasis; }, function () { return root.DealOperatingBudget; });
+    }, function () { return root.DealCostBasis; }, function () { return root.DealOperatingBudget; },
+    function () { return root.DealLenderSchedules; });
   }
-}(typeof globalThis !== 'undefined' ? globalThis : this, function (math, rentLimits, costBasisModule, operatingBudgetModule) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (math, rentLimits, costBasisModule, operatingBudgetModule, lenderSchedulesModule) {
   'use strict';
   var DEAL_AMI_BANDS = [20, 30, 40, 50, 60, 70, 80, 100, 110, 120];
   var DEFAULT_MINIMUM_SET_ASIDE_ELECTION = '40-60';
@@ -1613,12 +1615,17 @@
     var ruleKeys = ['grant_basis_treatment', 'applicable_fraction', 'basis_boost', 'contractor_fee_limit', 'developer_fee_limit',
       'credit_cap_federal_9pct', 'credit_cap_state_with_9pct', 'credit_cap_state_round_two_accelerated', 'credit_cap_state_round_two_standard',
         'credit_cap_state_with_4pct', 'acquisition_credit_rate', 'credit_reservation_methods', 'min_debt_coverage', 'high_coverage_credit_reduction',
-        'bond_aggregate_basis_test', 'operating_reserve_minimum', 'deferred_fee_repayment_review'];
+        'bond_aggregate_basis_test', 'operating_reserve_minimum', 'deferred_fee_repayment_review',
+        'pro_forma_vacancy', 'pupa_minimum', 'replacement_reserve_minimum', 'pro_forma_rent_growth', 'pro_forma_expense_growth'];
     var federalEquity = basis.creditForEquity === null ? null : creditStack.federal;
     result.costBasis = {
       summary: costSummary, grants: grantTreatment, basis: basis, contractorFee: contractorFee,
       feeBase: feeBase, developerFee: developerFee, feeExcess: feeExcess, stateCredit: stateCredit, addedCredit: addedCredit,
       underwriting: cbm.underwritingCheck({ years: result.coverage ? result.coverage.years : [], rules: costRules }),
+      // CHFA's minimum pro forma assumptions (QAP 4.B, 4.C), checked against what this deal uses.
+      chfaMinimums: cbm.chfaMinimumsCheck({ vacancyRate: result.vacancyRate, annualOpex: autoNoi ? result.annualOpex : null,
+        netPropTax: autoNoi ? result.netPropTax : null, annualRepReserve: autoNoi ? result.annualRepReserve : null, units: units,
+        rentGrowth: exit.rentGrowth, expGrowth: exit.expGrowth, fullSection8: fields['dc-chfa-sec8-full'], senior: fields['dc-chfa-senior'], rules: costRules }),
       payIn: {
         federal: cbm.payIn(federalEquity, { closing: fields['dc-fed-payin-closing'], completion: fields['dc-fed-payin-completion'], stabilization: fields['dc-fed-payin-stabilization'] }),
         state: stateCredit.entered ? cbm.payIn(stateCredit.equity === null ? null : creditStack.state, { closing: fields['dc-state-payin-closing'], completion: fields['dc-state-payin-completion'], stabilization: fields['dc-state-payin-stabilization'] }) : null,
@@ -1741,6 +1748,11 @@
     }
     var cleaned = clean(result, '');
     cleaned.unavailable = unavailable;
+    // Lender schedules read the finished result; the stress cases run this same
+    // engine again with one input changed (and no schedules of their own).
+    var lsm = inputs.skipSchedules ? null : lenderSchedulesModule ? lenderSchedulesModule() : null;
+    if (lsm) cleaned.schedules = lsm.compute({ result: cleaned, fields: fields, rules: costRules,
+      rerun: function (changed) { return computeDeal(Object.assign({}, inputs, { fields: changed, skipSchedules: true })); } });
     return cleaned;
   }
 
