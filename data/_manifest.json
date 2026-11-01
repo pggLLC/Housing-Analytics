@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-01T09:38:19.506Z",
+    "generated_at": "2026-11-01T10:38:10.382Z",
     "root": "data/",
     "file_count": 2008,
-    "total_size_bytes": 210183093,
+    "total_size_bytes": 210185405,
     "kinds": {
       "json": 1960,
       "geojson": 34,
@@ -670,7 +670,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-01T09:38:15.992Z",
+      "mtime": "2026-11-01T10:38:06.589Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38169,8 +38169,8 @@
     {
       "path": "kalshi/prediction-market.json",
       "kind": "json",
-      "size_bytes": 11233,
-      "mtime": "2026-10-25T08:33:39.516Z",
+      "size_bytes": 13544,
+      "mtime": "2026-11-01T10:37:22.983Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -38213,7 +38213,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 255228,
-      "mtime": "2026-10-31T15:50:40.790Z",
+      "mtime": "2026-11-01T10:37:22.984Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39950,8 +39950,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16183,
-      "mtime": "2026-11-01T09:38:17.472Z",
+      "size_bytes": 16184,
+      "mtime": "2026-11-01T10:38:08.493Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39975,7 +39975,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-01T09:38:17.109Z",
+      "mtime": "2026-11-01T10:38:08.094Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

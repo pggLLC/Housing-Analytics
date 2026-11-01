@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T09:37:47.457Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T10:37:37.822Z. Do not edit by hand.
 
 ---
 
@@ -35,7 +35,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.1 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.7 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.0 KB |
@@ -73,7 +73,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 75.2 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 153.9 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 154.1 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 81.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -1844,7 +1844,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0873825.json` | 1.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
-| `data/kalshi/prediction-market.json` | 11.0 KB | ✅ | — |
+| `data/kalshi/prediction-market.json` | 13.2 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 249.2 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
@@ -2066,7 +2066,7 @@
 
 ## Test Files
 
-756 test files found.
+758 test files found.
 
 | File | Size |
 |------|------|
@@ -2181,6 +2181,7 @@
 | `test/deal-calc-doh-schedules-page.test.js` | 11.7 KB |
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.6 KB |
+| `test/deal-calc-lender-schedules-page.test.js` | 3.9 KB |
 | `test/deal-calc-manual-market-rent.test.js` | 17.5 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 7.2 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
@@ -2212,6 +2213,7 @@
 | `test/deal-engine.test.js` | 8.0 KB |
 | `test/deal-file.test.mjs` | 10.6 KB |
 | `test/deal-gap-handoff.test.js` | 6.0 KB |
+| `test/deal-lender-schedules.test.js` | 21.0 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-permanent-financing.test.js` | 14.0 KB |
 | `test/deal-quick-estimate.test.mjs` | 12.8 KB |
