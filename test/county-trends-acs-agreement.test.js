@@ -12,8 +12,8 @@
 // years differ (one refresh has landed before the other) it says so and checks
 // nothing, rather than comparing two vintages.
 //
-// Sabotage cases, built from the current files, show a single changed county
-// fails and a matching change in both files passes.
+// Sabotage cases use a matched one-county fixture: a single changed value
+// fails, a matching change in both files passes, and a vintage gap is skipped.
 'use strict';
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -51,17 +51,32 @@ if (live.skipped) console.warn(`county-trends ACS agreement: ${live.skipped} cou
 else assert.ok(live.compared >= 64, `expected to compare all 64 counties, compared ${live.compared}`);
 
 const clone = o => JSON.parse(JSON.stringify(o));
+// Sabotage fixtures use one county set to the same vintage and values in both files, so they do not
+// depend on whether the live files are on the same ACS year today.
+function matched() {
+  const t = clone(trends), d = clone(demo);
+  const fips = Object.keys(t.counties)[0];
+  const name = String(t.counties[fips].county_name).replace(/( County)?, Colorado$/, '');
+  assert.ok(d.counties[name], 'sabotage setup: county name did not map');
+  const c = t.counties[fips].acs_cohorts; const latest = c[c.length - 1];
+  d.counties = { [name]: d.counties[name] };
+  d.counties[name].acs_year = latest.year;
+  for (const [tk, dk] of FIELDS) d.counties[name][dk] = latest[tk];
+  assert.deepEqual(problems(t, d).out, [], 'sabotage setup: matched fixture should agree');
+  return { t, d, latest, name };
+}
 let sabotage = 0;
 {
-  const t = clone(trends); const f = Object.keys(t.counties)[0]; const c = t.counties[f].acs_cohorts; c[c.length - 1].median_gross_rent += 100;
-  assert.ok(problems(t, demo).out.length > 0, 'sabotage not caught: one county rent changed in county-trends only'); sabotage++;
+  const { t, d, latest } = matched(); latest.median_gross_rent += 100;
+  assert.ok(problems(t, d).out.length > 0, 'sabotage not caught: one county rent changed in county-trends only'); sabotage++;
 }
 {
-  const t = clone(trends), d = clone(demo); const f = Object.keys(t.counties)[0]; const c = t.counties[f].acs_cohorts;
-  const name = String(t.counties[f].county_name).replace(/( County)?, Colorado$/, '');
-  assert.ok(d.counties[name], 'sabotage setup: county name did not map');
-  c[c.length - 1].median_hh_income += 1000; d.counties[name].median_hh_income += 1000;
+  const { t, d, latest, name } = matched(); latest.median_hh_income += 1000; d.counties[name].median_hh_income += 1000;
   assert.deepEqual(problems(t, d).out, [], 'sabotage wrongly failed: matching change in both files'); sabotage++;
+}
+{
+  const { t, d, latest, name } = matched(); d.counties[name].acs_year = latest.year + 1; latest.median_gross_rent += 100;
+  assert.deepEqual(problems(t, d).out, [], 'sabotage wrongly failed: different vintages should not be compared'); sabotage++;
 }
 
 console.log(`county-trends ACS agreement: PASS (${live.compared} counties compared, ${sabotage} sabotage checks)`);
