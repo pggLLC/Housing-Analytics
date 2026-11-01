@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T20:06:00.427Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T22:07:14.642Z. Do not edit by hand.
 
 ---
 
@@ -23,7 +23,7 @@
 | `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 218.6 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
-| `commuting.html` | Commuting and Jobs | COHO Analytics | 9.4 KB |
+| `commuting.html` | Commuting and Jobs | COHO Analytics | 9.5 KB |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.5 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.5 KB |
