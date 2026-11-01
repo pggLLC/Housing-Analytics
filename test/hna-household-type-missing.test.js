@@ -115,6 +115,10 @@ test('not in labor force missing: retiree split not worked out', () => {
   assert(r.stat.statRetireeProxy === '—' && r.stat.statNotInLfUnder65 === '—', JSON.stringify(r.stat));
   assert(/not available/.test(r.retNote), r.retNote);
 });
+test('unemployed published but not-in-labor-force missing: the unemployed count still shows', () => {
+  const r = renderLabor(Object.assign({}, LF, { DP03_0007E: null }));
+  assert(r.stat.statLfUnemployed === '30' && r.stat.statLfEmployed === '570', JSON.stringify(r.stat));
+});
 test('complete labor counts: figures and the retiree note', () => {
   const r = renderLabor(LF);
   assert(r.stat.statLfEmployed === '570' && r.stat.statRetireeProxy === '170' && r.stat.statNotInLfUnder65 === '230', JSON.stringify(r.stat));

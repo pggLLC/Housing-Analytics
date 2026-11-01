@@ -1441,7 +1441,6 @@
     const inLf      = rawNum('DP03_0002E');
     const unemployed = rawNum('DP03_0005E');
     const notInLf   = rawNum('DP03_0007E');
-    const pop16Plus = (inLf != null && notInLf != null) ? inLf + notInLf : null;
     const employed  = (inLf != null && unemployed != null) ? inLf - unemployed : null;
     const pop65Plus = rawNum('DP05_0024E') != null ? rawNum('DP05_0024E') : rawNum('DP05_0029E');
     const retireeProxy = (pop65Plus != null && notInLf != null)
@@ -1454,7 +1453,8 @@
     // A missing figure shows "—", also replacing the previous geography's value.
     const statOrDash = (v) => (v != null ? fmtNum(v) : '—');
     setText('statLfEmployed',     statOrDash(employed));
-    setText('statLfUnemployed',   statOrDash(unemployed != null && pop16Plus > 0 ? unemployed : null));
+    // A published unemployment count is a direct count: it shows whatever else is missing.
+    setText('statLfUnemployed',   statOrDash(unemployed));
     setText('statRetireeProxy',   statOrDash(retireeProxy));
     setText('statNotInLfUnder65', statOrDash(notInLfUnder65));
 

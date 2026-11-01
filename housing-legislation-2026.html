@@ -315,7 +315,8 @@
             '</div>';
         }).join('');
         if (window.ReviewStatus) {
-          container.insertAdjacentHTML('afterbegin', window.ReviewStatus.summaryHtml(bills.map(function (b) {
+          // Before the list, not inside it: a role="list" may only hold listitems (axe aria-required-children).
+          container.insertAdjacentHTML('beforebegin', window.ReviewStatus.summaryHtml(bills.map(function (b) {
             return { review_by: b.reviewBy, last_verified: b.lastVerified };
           }), null, 'watchlist entries'));
         }
