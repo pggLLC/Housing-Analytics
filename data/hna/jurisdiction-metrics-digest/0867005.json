@@ -1223,7 +1223,7 @@
       "measure_type": "level"
     },
     "county_trend_rent_change_2009_2024_pct": {
-      "value": 64.3,
+      "value": 43.8,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -1231,7 +1231,7 @@
       "measure_type": "trend"
     },
     "county_trend_income_change_2009_2024_pct": {
-      "value": 47.1,
+      "value": 69.6,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -1239,7 +1239,7 @@
       "measure_type": "trend"
     },
     "county_trend_rent_burden_2024_pct": {
-      "value": 53,
+      "value": 48,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -1247,7 +1247,7 @@
       "measure_type": "level"
     },
     "county_trend_vacancy_rate_2024_pct": {
-      "value": 17.5,
+      "value": 12.9,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
@@ -1255,7 +1255,7 @@
       "measure_type": "level"
     },
     "county_trend_total_housing_units_2024": {
-      "value": 2940,
+      "value": 3902,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "county-housing-cost-trends-acs-cohorts",
