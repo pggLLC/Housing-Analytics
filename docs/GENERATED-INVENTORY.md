@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T01:30:35.355Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T03:44:36.151Z. Do not edit by hand.
 
 ---
 
@@ -47,7 +47,7 @@
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 35.5 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 19.6 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 100.1 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 94.4 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.1 KB |
 | `green-building-guide.html` | Green Building in a Colorado Deal | COHO Analytics | 16.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
@@ -90,7 +90,7 @@
 | `sitemap.html` | Sitemap | COHO Analytics | 13.6 KB |
 | `state-allocation-map.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 3.3 KB |
-| `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.1 KB |
+| `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.2 KB |
 
 ---
 
@@ -1912,7 +1912,7 @@
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
-| `data/paper/figures.json` | 15.7 KB | ✅ | — |
+| `data/paper/figures.json` | 15.8 KB | ✅ | — |
 | `data/paper/model-parameters.json` | 6.1 KB | ✅ | — |
 | `data/pipeline/content.json` | 41.3 KB | ✅ | — |
 | `data/policy/affordability-models.json` | 14.6 KB | ✅ | — |
@@ -2066,7 +2066,7 @@
 
 ## Test Files
 
-753 test files found.
+754 test files found.
 
 | File | Size |
 |------|------|
@@ -2232,6 +2232,7 @@
 | `test/developer-geoids.test.js` | 6.6 KB |
 | `test/discover-local-resources-cdp.test.js` | 5.1 KB |
 | `test/document-guide.test.mjs` | 4.2 KB |
+| `test/econ-dash-accuracy.test.js` | 4.1 KB |
 | `test/econ-dash-co-unemployment.test.js` | 1021 B |
 | `test/econ-dash-series-labels.test.js` | 975 B |
 | `test/econ-dash-yoy-change.test.js` | 4.3 KB |
@@ -2636,7 +2637,7 @@
 | `test/site-figures-sync.test.mjs` | 5.8 KB |
 | `test/site-name-agreement.test.js` | 2.5 KB |
 | `test/site-qct-dda-evidence.test.js` | 19.1 KB |
-| `test/site-review-build-pause-regressions.test.js` | 10.7 KB |
+| `test/site-review-build-pause-regressions.test.js` | 10.3 KB |
 | `test/site-search.test.mjs` | 5.1 KB |
 | `test/site-transit-evidence.test.js` | 14.7 KB |
 | `test/smoke-f139.test.js` | 14.8 KB |
