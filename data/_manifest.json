@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-01T13:40:19.120Z",
+    "generated_at": "2026-11-01T13:40:48.062Z",
     "root": "data/",
     "file_count": 2008,
-    "total_size_bytes": 210934796,
+    "total_size_bytes": 210925989,
     "kinds": {
       "json": 1960,
       "geojson": 34,
@@ -1072,7 +1072,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-10-31T12:41:19.710Z",
+      "mtime": "2026-11-01T13:40:45.958Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1187,8 +1187,8 @@
     {
       "path": "co-county-demographics.json",
       "kind": "json",
-      "size_bytes": 49062,
-      "mtime": "2026-10-31T15:09:35.179Z",
+      "size_bytes": 40255,
+      "mtime": "2026-11-01T13:40:45.958Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -39914,7 +39914,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-11-01T12:43:12.164Z",
+      "mtime": "2026-11-01T13:40:45.959Z",
       "shape": "object",
       "keys": [
         "meta",
