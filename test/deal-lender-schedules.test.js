@@ -245,6 +245,31 @@ test('engine: exit-year NOI at or below zero shows no value and no refinance, wi
   assert(e.resyndication.reason, 'resyndication has no value to buy at');
 });
 
+test('engine: added-credit investor fees come out of its pay-in, so the draw counts only the net', () => {
+  const add = { 'dc-add-kind': 'other', 'dc-add-annual': '100000', 'dc-add-years': '10', 'dc-add-price': '0.85', 'dc-add-fees': '100000',
+    'dc-add-mode': 'supplement', 'dc-add-payin-closing': '50', 'dc-add-payin-completion': '25', 'dc-add-payin-stabilization': '25' };
+  const base = computeDeal(full()).schedules.draw;
+  const i = full(); Object.assign(i.fields, add);
+  const r = computeDeal(i), d = r.schedules.draw;
+  assert(r.creditStack.counted, 'non-vacuous: the added credit is counted'); near(r.creditStack.added, 750000, 0.01);
+  assert.equal(d.reason, null, d.reason);
+  near(d.investorFeesWithheld, 100000, 0.01);
+  const eq = rows => rows.reduce((a, x) => a + x.equity, 0);
+  near(eq(d.rows) - eq(base.rows), r.creditStack.federal + r.creditStack.state + 750000 - (computeDeal(full()).creditStack.federal + computeDeal(full()).creditStack.state), 0.01, 'equity in equals the net the sources count');
+  near(d.rows[0].equity - base.rows[0].equity, 425000 - 100000, 0.01, 'fees come out of the closing installment');
+});
+
+test('engine: lower income first cuts a cash-flow loan payment before drawing the operating reserve', () => {
+  const i = full(); i.fields['dc-pf-tax-growth'] = '10';
+  i.tranches = [{ id: 1, program: 'other', amount: 3000000, mode: 'loan', loanType: 'cash_flow', rate: 3, term: 40, maturity: 40, cashflowPayPct: 100, priority: 5 }];
+  const s = computeDeal(i).schedules;
+  const minMargin = Math.min(...s.budget.rows.map(b => b.noi - b.debtService));
+  assert(minMargin > 0, 'non-vacuous: budget income covers must-pay debt every year');
+  assert(computeDeal(i).projection.rows.some(r => r.contingentPaid > 0), 'non-vacuous: the cash-flow loan is paid from surplus');
+  assert.equal(s.reserves.operating.totalDrawn, 0, 'no reserve draw while income covers the fixed payments');
+  assert.equal(s.reserves.operating.firstShort, null);
+});
+
 test('engine: a blank operating budget leaves every schedule with a reason, no NaN', () => {
   const c = inputsFor('C'); Object.assign(c.fields, extra);
   const s = computeDeal(c).schedules;

@@ -126,8 +126,19 @@
     rows[last].conversionCosts = atConversion;
     // Equity installments at closing, completion and stabilization (conversion).
     var stageMonth = { closing: 0, completion: months, stabilization: last };
+    // The added credit's pay-in is gross; its investor fees come out of the first
+    // installments, so only the net the sources count reaches the project. An
+    // added credit not counted in the sources supplies nothing here either.
+    var added = cb.addedCredit, addedCounted = !!(result.creditStack && result.creditStack.counted);
+    var addedFees = added && addedCounted && known(added.fees) ? Math.max(0, added.fees) : 0;
+    out.investorFeesWithheld = addedFees;
     equityParts.forEach(function (p) {
-      p[1].installments.forEach(function (inst) { rows[stageMonth[inst.stage]].equity += inst.amount; });
+      var isAdded = p[1] === payIn.added, feesLeft = isAdded ? addedFees : 0;
+      if (isAdded && !addedCounted) return;
+      p[1].installments.forEach(function (inst) {
+        var take = Math.min(feesLeft, inst.amount); feesLeft -= take;
+        rows[stageMonth[inst.stage]].equity += inst.amount - take;
+      });
     });
     var softTotal = (known(result.totalGrant) ? result.totalGrant : 0) + (known(result.totalLoanPrincipal) ? result.totalLoanPrincipal : 0);
     rows[softTiming === 'closing' ? 0 : last].softSources = softTotal;
@@ -384,10 +395,13 @@
     var obal = op.start, orows = [];
     proj.rows.slice(0, proj.years).forEach(function (r, i) {
       // The engine's shortfall, moved by any difference between the budget's NOI and the engine's.
+      // Cash-flow loan payments come only from surplus, so they are added back
+      // before the shift: lower income first cuts those payments, and only a
+      // shortfall in the fixed payments draws on the reserve.
       var b = budget && budget.rows ? budget.rows[i] : null;
       var shift = b && known(b.noi) && known(r.noi) ? b.noi - r.noi : 0;
-      var draw = !known(r.deficitFunded) ? null : r.deficitFunded > 0 ? Math.max(0, r.deficitFunded - shift)
-        : known(r.cashFlow) ? Math.max(0, -(r.cashFlow + (r.mustPayUnpaid || 0) + shift)) : null;
+      var afterFee = known(r.cashFlow) && known(r.deferredFeePaid) && known(r.mustPayUnpaid) ? r.cashFlow - r.deferredFeePaid + r.mustPayUnpaid : null;
+      var draw = afterFee === null ? null : Math.max(0, -(afterFee + (known(r.contingentPaid) ? r.contingentPaid : 0) + shift));
       if (draw === null) { op.reason = op.reason || 'A year of the projection is not measured, so the operating reserve is not followed.'; return; }
       obal -= draw; op.totalDrawn += draw;
       orows.push({ year: r.year, draw: draw, balance: obal });
