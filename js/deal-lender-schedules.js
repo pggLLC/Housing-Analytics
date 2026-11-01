@@ -286,9 +286,9 @@
     return out;
   }
 
-  /** Each stress case is the same engine run again with one input changed, so the
-   * 15-year coverage shows the year it would first fall below CHFA's 1.15x. */
-  function fifteenYearStress(result, fields, rerun) {
+  /** Each stress case changes one input over 15 years with the closed loan held,
+   * so the coverage shows the year it would first fall below CHFA's 1.15x. */
+  function fifteenYearStress(result, fields) {
     var out = { cases: null, reason: null };
     if (!result.projection) { out.reason = (result.unavailable && result.unavailable.projection) || 'The operating projection is not available.'; return out; }
     var rg = num(fields['pf-rent-growth']), eg = num(fields['pf-exp-growth']), vac = num(fields['dc-vacancy']);
@@ -300,21 +300,35 @@
       var below = ys.filter(function (y) { return y.allMustPayCoverage < 1.15 - 0.00005; })[0];
       return { lowest: low.allMustPayCoverage, year: low.year, firstBelow: below ? below.year : null, reason: null };
     }
-    // The permanent loan is already closed, so each case holds it at the planned amount.
-    var held = known(result.mortgage) ? { 'dc-senior-mode': 'entered', 'dc-senior-amount': String(result.mortgage) } : {};
+    // The permanent loan is already closed, so each case holds it, and its must-pay
+    // payments, at the planned amounts; only income and costs change. That is the
+    // engine's own projection arithmetic with one input changed (the tests check it
+    // against a full re-run), without running the whole engine again on every keystroke.
+    var ys = result.obligations && result.obligations.years;
+    function series(rentG, expG, vacRate) {
+      if (!ys) return null;
+      var other = known(result.annualOtherIncome) ? result.annualOtherIncome : 0;
+      return ys.slice(0, 15).map(function (o, i) {
+        var rm = Math.pow(1 + rentG, i), em = Math.pow(1 + expG, i);
+        var noi = (result.annualRents + other) * rm * (1 - vacRate) - (result.annualOpex + result.annualRepReserve + result.netPropTax) * em;
+        if (i === 0 && rentG === result.exit.rentGrowth && expG === result.exit.expGrowth && vacRate === result.vacancyRate) noi = result.noi;
+        return { year: i + 1, allMustPayCoverage: known(o.mustPayDebtService) && o.mustPayDebtService > 0 ? noi / o.mustPayDebtService : null };
+      });
+    }
     function run(label, change, explain) {
-      var f = Object.assign({}, fields, held, change);
-      var res = Object.keys(change).length ? rerun(f) : result;
-      var l = lowest(res);
+      var rows = change ? series(change.rent, change.exp, change.vac) : (result.coverage ? result.coverage.years : null);
+      var l = lowest(rows ? { coverage: { years: rows } } : null);
       return { label: label, explain: explain, lowestDscr: l.lowest, lowestYear: l.year, firstBelowMinimum: l.firstBelow, reason: l.reason };
     }
-    var cases = [run('As planned', {}, 'The growth rates and vacancy entered.')];
+    var g0 = result.exit.rentGrowth, e0 = result.exit.expGrowth, v0 = result.vacancyRate;
+    var cases = [run('As planned', null, 'The growth rates and vacancy entered.')];
     if (known(rg) && known(eg)) {
-      cases.push(run('Rents grow 1 point slower', { 'pf-rent-growth': String(Math.max(-3, rg - 1)) }, 'Rent growth ' + Math.max(-3, rg - 1) + '% a year.'));
-      cases.push(run('Costs grow 1 point faster', { 'pf-exp-growth': String(Math.min(6, eg + 1)) }, 'Expense growth ' + Math.min(6, eg + 1) + '% a year.'));
-      cases.push(run('Flat rents, costs at 4%', { 'pf-rent-growth': '0', 'pf-exp-growth': '4' }, 'No rent increases for 15 years while costs rise 4% a year.'));
+      var rgLow = Math.max(-3, rg - 1), egHigh = Math.min(6, eg + 1);
+      cases.push(run('Rents grow 1 point slower', { rent: rgLow / 100, exp: e0, vac: v0 }, 'Rent growth ' + rgLow + '% a year.'));
+      cases.push(run('Costs grow 1 point faster', { rent: g0, exp: egHigh / 100, vac: v0 }, 'Expense growth ' + egHigh + '% a year.'));
+      cases.push(run('Flat rents, costs at 4%', { rent: 0, exp: 0.04, vac: v0 }, 'No rent increases for 15 years while costs rise 4% a year.'));
     }
-    if (!result.scheduleMode && known(vac)) cases.push(run('Vacancy 3 points higher', { 'dc-vacancy': String(Math.min(30, vac + 3)) }, 'Vacancy ' + Math.min(30, vac + 3) + '% every year.'));
+    if (!result.scheduleMode && known(vac)) cases.push(run('Vacancy 3 points higher', { rent: g0, exp: e0, vac: Math.min(30, vac + 3) / 100 }, 'Vacancy ' + Math.min(30, vac + 3) + '% every year.'));
     else cases.push({ label: 'Vacancy 3 points higher', explain: 'Vacancy comes from the rent schedule here, so the case is not run.', lowestDscr: null, lowestYear: null, firstBelowMinimum: null, reason: 'Vacancy is set by the unit schedule.' });
     out.cases = cases;
     return out;
@@ -446,7 +460,7 @@
       draw: draw,
       conversion: conversionTest(result, fields, draw, rerun),
       budget: lineBudget(result, fields),
-      stress: fifteenYearStress(result, fields, rerun),
+      stress: fifteenYearStress(result, fields),
       reserves: reserveAccounts(result, fields),
       softLoans: softLoanBalances(result),
       exit: exitPaths(result, fields, args.rules)

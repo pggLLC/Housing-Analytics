@@ -157,6 +157,13 @@ test('engine: 15-year stress holds the closed loan and finds the first year belo
   assert.equal(s.cases[0].lowestDscr.toFixed(2), '1.20');
   const vac = s.cases.find(c => c.label.startsWith('Vacancy'));
   assert(vac.lowestDscr < 1.2, 'higher vacancy lowers coverage on the same loan');
+  // Each case equals a full engine re-run with the loan held at the planned amount.
+  const planned = computeDeal(full());
+  for (const [label, change] of [['Rents grow 1 point slower', { 'pf-rent-growth': '1' }], ['Flat rents, costs at 4%', { 'pf-rent-growth': '0', 'pf-exp-growth': '4' }], ['Vacancy 3 points higher', { 'dc-vacancy': '10' }]]) {
+    const i = full(); Object.assign(i.fields, { 'dc-senior-mode': 'entered', 'dc-senior-amount': String(planned.mortgage) }, change);
+    const ys = computeDeal(Object.assign(i, { skipSchedules: true })).coverage.years.slice(0, 15).map(y => y.allMustPayCoverage);
+    near(s.cases.find(c => c.label === label).lowestDscr, Math.min(...ys), 1e-9, label + ' matches a full re-run');
+  }
   const flat = s.cases.find(c => c.label.startsWith('Flat'));
   assert(flat.firstBelowMinimum >= 1 && flat.firstBelowMinimum <= 15);
 });
