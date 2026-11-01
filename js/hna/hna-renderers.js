@@ -1241,7 +1241,6 @@
     const safeNum = U().safeNum;
     const fmtNum  = U().fmtNum;
 
-    const safe = (k) => safeNum(profile[k]) || 0;
 
     /* ── Headline stats ── F171: use raw safeNum (which returns null
        when the var is genuinely missing, NOT 0) so 0-valued counts in
@@ -1374,18 +1373,29 @@
       { label: 'Natural resources / construction / maintenance', key: 'DP03_0030E' },
       { label: 'Production / transportation / material moving',  key: 'DP03_0031E' },
     ];
-    const occValues = occBins.map(b => safe(b.key));
-    const occTotal  = occValues.reduce((a, b) => a + b, 0);
+    /* A count the Census table does not publish stays missing: it is not
+       drawn as 0, the other groups' shares are not worked out without it
+       (they would grow to fill the gap), and the chart note names it. A
+       published 0 is a real count and is kept. */
+    const occAll    = occBins.map(b => rawNum(b.key));
+    const occMissing = occBins.filter((b, i) => occAll[i] == null).map(b => b.label.toLowerCase());
+    const occShown  = occBins.filter((b, i) => occAll[i] != null);
+    const occValues = occAll.filter(v => v != null);
+    const occTotal  = occMissing.length ? 0 : occValues.reduce((a, b) => a + b, 0);
     const occCanvas = document.getElementById('chartOccupationMix');
-    if (occCanvas && occTotal > 0) {
+    setChartScopeNote('chartOccupationMix', !occMissing.length ? '' :
+      occValues.length
+        ? 'No published count for ' + occMissing.join(', ') + '. Counts only: shares are left out because they would leave those groups out.'
+        : 'The Census table has no published occupation counts for this geography.');
+    if (occCanvas && occValues.length && occValues.some(v => v > 0)) {
       // 5-color palette so each occupation is visually distinct in the
       // doughnut/bar — matches the theme accent + complementary fills.
       const palette = [t.c1, t.c2, t.c3, t.c4, t.c5];
       makeChart(occCanvas.getContext('2d'), {
         type: 'bar',
         data: {
-          labels: occBins.map(b => b.label),
-          datasets: [{ data: occValues, backgroundColor: palette }],
+          labels: occShown.map(b => b.label),
+          datasets: [{ data: occValues, backgroundColor: occBins.map((b, i) => palette[i]).filter((c, i) => occAll[i] != null) }],
         },
         options: {
           indexAxis: 'y',
@@ -1397,7 +1407,8 @@
               callbacks: {
                 label: function (ctx) {
                   const v = ctx.parsed.x;
-                  const pct = occTotal > 0 ? (v / occTotal * 100).toFixed(1) : '0';
+                  if (!(occTotal > 0)) return fmtNum(v) + ' workers';
+                  const pct = (v / occTotal * 100).toFixed(1);
                   return fmtNum(v) + ' workers (' + pct + '%)';
                 },
               },
@@ -1424,24 +1435,28 @@
        small upward adjustment for rural Colorado where 65+ tend to be
        even more retired. If the place-level 65+ count is missing, we
        leave the stat blank rather than show a fabricated number. */
-    const pop16Plus = safe('DP03_0002E') + safe('DP03_0007E');
-    const employed  = safe('DP03_0002E') - safe('DP03_0005E');
-    const unemployed = safe('DP03_0005E');
-    const notInLf   = safe('DP03_0007E');
-    const pop65Plus = safe('DP05_0024E') || safe('DP05_0029E');
-    const retireeProxy = pop65Plus
+    /* An unpublished count stays missing (null), and so does every figure
+       worked out from it: a missing unemployment count is not 0 and does
+       not make "employed" the whole labor force. A published 0 is kept. */
+    const inLf      = rawNum('DP03_0002E');
+    const unemployed = rawNum('DP03_0005E');
+    const notInLf   = rawNum('DP03_0007E');
+    const employed  = (inLf != null && unemployed != null) ? inLf - unemployed : null;
+    const pop65Plus = rawNum('DP05_0024E') != null ? rawNum('DP05_0024E') : rawNum('DP05_0029E');
+    const retireeProxy = (pop65Plus != null && notInLf != null)
       ? Math.min(notInLf, Math.round(pop65Plus * 0.85))
       : null;
     const notInLfUnder65 = (retireeProxy != null)
       ? Math.max(0, notInLf - retireeProxy)
       : null;
 
-    if (employed > 0)        setText('statLfEmployed',    fmtNum(employed));
-    if (unemployed >= 0 && pop16Plus > 0)
-                              setText('statLfUnemployed',  fmtNum(unemployed));
-    if (retireeProxy != null) setText('statRetireeProxy',  fmtNum(retireeProxy));
-    if (notInLfUnder65 != null)
-                              setText('statNotInLfUnder65', fmtNum(notInLfUnder65));
+    // A missing figure shows "—", also replacing the previous geography's value.
+    const statOrDash = (v) => (v != null ? fmtNum(v) : '—');
+    setText('statLfEmployed',     statOrDash(employed));
+    // A published unemployment count is a direct count: it shows whatever else is missing.
+    setText('statLfUnemployed',   statOrDash(unemployed));
+    setText('statRetireeProxy',   statOrDash(retireeProxy));
+    setText('statNotInLfUnder65', statOrDash(notInLfUnder65));
 
     const noteEl = document.getElementById('laborForceRetireeNote');
     if (noteEl) {
