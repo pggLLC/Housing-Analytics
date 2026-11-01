@@ -83,6 +83,7 @@
       targetAmiPct: targetAmiPct,
       maxAffordablePrice: maxAffordablePrice,
       developerFundingPrograms: options.developerFundingDoc || options.developerFundingPrograms,
+      countyFips: options.countyFips,
       resaleConventions: options.resaleConventionsDoc || options.resaleConventions,
       resalePurchasePrice: options.resalePurchasePrice,
       resaleHoldingYears: options.resaleHoldingYears == null ? 5 : options.resaleHoldingYears,

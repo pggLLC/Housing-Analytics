@@ -256,7 +256,8 @@
     };
     result.developerFundingStack = computeDeveloperOwnershipFundingStack(result, {
       units: units,
-      programs: input.developerFundingPrograms
+      programs: input.developerFundingPrograms,
+      countyFips: input.countyFips
     });
     result.ownershipResale = input.ownershipResale || null;
     return result;
@@ -288,6 +289,17 @@
     return null;
   }
 
+  // A program whose eligible_geography lists county FIPS codes (e.g. "08045") applies only in those counties.
+  // Region names and "statewide" keep the earlier behavior. With no county picked, a county-limited program
+  // cannot be confirmed, so it is not counted either.
+  var STATEWIDE_GEOGRAPHY = ['statewide', 'CO'];
+  function _programOutsideCounty(program, countyFips) {
+    var list = Array.isArray(program && program.eligible_geography) ? program.eligible_geography : [];
+    var counties = list.filter(function (g) { return /^08\d{3}$/.test(String(g)); });
+    if (!counties.length || list.some(function (g) { return STATEWIDE_GEOGRAPHY.indexOf(g) !== -1; })) return false;
+    return counties.indexOf(String(countyFips || '')) === -1;
+  }
+
   function computeDeveloperOwnershipFundingStack(feasibility, options) {
     var opts = options || {};
     var units = +opts.units;
@@ -298,9 +310,26 @@
     var programs = _developerFundingPrograms(opts.programs);
     var appliedSources = [];
     var verifySources = [];
+    var outsideSources = [];
 
     programs.forEach(function (program) {
       if (!program || String(program.status || '').toLowerCase() !== 'active') return;
+      if (_programOutsideCounty(program, opts.countyFips)) {
+        outsideSources.push({
+          id: program.id || '',
+          name: program.name || program.id || 'Program',
+          jurisdictionScope: program.jurisdiction_scope || '',
+          sourceUrl: program.source_url || '',
+          note: program.screening_note || '',
+          classification: program.classification,
+          observationClass: program.observation_class,
+          evidenceBasis: program.evidence_basis,
+          sourceNote: program.source_note,
+          lastVerified: program.last_verified,
+          reason: opts.countyFips ? 'Not available in this county' : 'Pick a county to check this program\u2019s area'
+        });
+        return;
+      }
       var amount = _developerFundingAmountPerUnit(program, feasibility || {});
       if (!isFinite(amount) || amount <= 0) {
         verifySources.push({
@@ -347,6 +376,7 @@
       residualTotalGap: remaining * units,
       appliedSources: appliedSources,
       verifySources: verifySources,
+      outsideSources: outsideSources,
       sourceCount: programs.length
     };
   }
@@ -1543,7 +1573,7 @@
     var achResult = (_amiLimits && inputs.fmrData) ? computeRentAchievability({ amiLimits: _amiLimits, fmr: inputs.fmrData }) : null;
     var simpleGap = tdc - equity;
     var totalSoftSourceAmt = totalGrant + totalLoanPrincipal;
-    var forSale = inputs.ownership ? computeForSaleFeasibility(Object.assign({}, inputs.ownership, {
+    var forSale = inputs.ownership ? computeForSaleFeasibility(Object.assign({ countyFips: inputs.countyFips }, inputs.ownership, {
       tdc: tdc, units: units, grossSf: safeVal('dc-gross-sf')
     })) : null;
     var result = {

@@ -456,6 +456,14 @@
       addProvenance(li, source);
       list.appendChild(li);
     });
+    // A county-limited program outside the selected county is named, not counted.
+    (stack.outsideSources || []).forEach(function (source) {
+      var li = document.createElement('li');
+      li.setAttribute('data-outside-county', source.id);
+      li.appendChild(document.createTextNode(source.name + ': ' + source.reason + (source.jurisdictionScope ? ' (' + source.jurisdictionScope + ' only)' : '') + '; not counted · '));
+      addProvenance(li, source);
+      list.appendChild(li);
+    });
     mount.appendChild(list);
 
     var residual = document.createElement('p');
