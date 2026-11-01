@@ -4,57 +4,57 @@
   "source_url": "https://www2.census.gov/econ/bps/County/",
   "place_source_url": "https://www2.census.gov/econ/bps/Place/West%20Region/",
   "source_files": [
-   "co2608y.txt",
-   "co2508y.txt",
-   "we2608y.txt",
-   "we2508y.txt"
+   "co2609y.txt",
+   "co2509y.txt",
+   "we2609y.txt",
+   "we2509y.txt"
   ],
-  "through": "2026-08",
-  "months": 8,
+  "through": "2026-09",
+  "months": 9,
   "year": 2026,
-  "generated_at": "2026-08-01T00:00:00Z",
+  "generated_at": "2026-09-01T00:00:00Z",
   "generated_at_note": "the month the figures run through, not the time this ran, so a refetch of the same month writes the same bytes",
-  "measure": "housing units permitted January–August 2026 against the same months of 2025; total includes Census estimates for offices that did not report, reported is the reported-only part; multifamily is 2 or more units",
+  "measure": "housing units permitted January–September 2026 against the same months of 2025; total includes Census estimates for offices that did not report, reported is the reported-only part; multifamily is 2 or more units",
   "place_rule": "a town is shown only when its permit office reported every month this year and all but at most 1 last year (a month filed late shows as missing in the file Census published then); otherwise its figure is a Census estimate and is null",
   "change_floor": 50,
   "change_rule": "change_pct is read only when each period has at least 50 homes",
   "state": {
-   "ytd": 21795,
-   "prior_ytd": 21665,
-   "change_pct": 0.6
+   "ytd": 23746,
+   "prior_ytd": 24121,
+   "change_pct": -1.6
   },
   "county_count": 64,
   "place_count": 214,
-  "places_with_counts": 65
+  "places_with_counts": 62
  },
  "counties": {
   "08001": {
    "name": "Adams County",
    "ytd": {
-    "total": 1571,
-    "single_family": 1351,
-    "multifamily": 220,
-    "reported": 1458
+    "total": 1729,
+    "single_family": 1495,
+    "multifamily": 234,
+    "reported": 1607
    },
    "prior_ytd": {
-    "total": 1673,
-    "single_family": 1361,
-    "multifamily": 312,
-    "reported": 1583
+    "total": 2145,
+    "single_family": 1493,
+    "multifamily": 652,
+    "reported": 2032
    },
-   "change_pct": -6.1
+   "change_pct": -19.4
   },
   "08003": {
    "name": "Alamosa County",
    "ytd": {
-    "total": 85,
-    "single_family": 33,
+    "total": 88,
+    "single_family": 36,
     "multifamily": 52,
     "reported": 52
    },
    "prior_ytd": {
-    "total": 40,
-    "single_family": 30,
+    "total": 42,
+    "single_family": 32,
     "multifamily": 10,
     "reported": 20
    },
@@ -64,34 +64,34 @@
   "08005": {
    "name": "Arapahoe County",
    "ytd": {
-    "total": 2260,
-    "single_family": 1169,
+    "total": 2345,
+    "single_family": 1254,
     "multifamily": 1091,
-    "reported": 2230
+    "reported": 2301
    },
    "prior_ytd": {
-    "total": 2938,
-    "single_family": 1305,
-    "multifamily": 1633,
-    "reported": 2821
+    "total": 3179,
+    "single_family": 1468,
+    "multifamily": 1711,
+    "reported": 3062
    },
-   "change_pct": -23.1
+   "change_pct": -26.2
   },
   "08007": {
    "name": "Archuleta County",
    "ytd": {
-    "total": 92,
-    "single_family": 80,
+    "total": 102,
+    "single_family": 90,
     "multifamily": 12,
     "reported": 18
    },
    "prior_ytd": {
-    "total": 76,
-    "single_family": 76,
+    "total": 83,
+    "single_family": 83,
     "multifamily": 0,
-    "reported": 2
+    "reported": 6
    },
-   "change_pct": 21.1
+   "change_pct": 22.9
   },
   "08009": {
    "name": "Baca County",
@@ -130,50 +130,50 @@
   "08013": {
    "name": "Boulder County",
    "ytd": {
-    "total": 1130,
-    "single_family": 325,
+    "total": 1182,
+    "single_family": 377,
     "multifamily": 805,
-    "reported": 1125
+    "reported": 1176
    },
    "prior_ytd": {
-    "total": 1239,
-    "single_family": 321,
-    "multifamily": 918,
-    "reported": 1114
+    "total": 1269,
+    "single_family": 340,
+    "multifamily": 929,
+    "reported": 1134
    },
-   "change_pct": -8.8
+   "change_pct": -6.9
   },
   "08014": {
    "name": "Broomfield County",
    "ytd": {
-    "total": 113,
-    "single_family": 60,
-    "multifamily": 53,
-    "reported": 113
+    "total": 123,
+    "single_family": 67,
+    "multifamily": 56,
+    "reported": 123
    },
    "prior_ytd": {
-    "total": 597,
-    "single_family": 56,
+    "total": 600,
+    "single_family": 59,
     "multifamily": 541,
-    "reported": 597
+    "reported": 600
    },
-   "change_pct": -81.1
+   "change_pct": -79.5
   },
   "08015": {
    "name": "Chaffee County",
    "ytd": {
-    "total": 117,
-    "single_family": 115,
-    "multifamily": 2,
-    "reported": 117
+    "total": 137,
+    "single_family": 132,
+    "multifamily": 5,
+    "reported": 137
    },
    "prior_ytd": {
-    "total": 126,
-    "single_family": 118,
+    "total": 142,
+    "single_family": 134,
     "multifamily": 8,
-    "reported": 126
+    "reported": 142
    },
-   "change_pct": -7.1
+   "change_pct": -3.5
   },
   "08017": {
    "name": "Cheyenne County",
@@ -195,14 +195,14 @@
   "08019": {
    "name": "Clear Creek County",
    "ytd": {
-    "total": 13,
-    "single_family": 13,
+    "total": 14,
+    "single_family": 14,
     "multifamily": 0,
     "reported": 0
    },
    "prior_ytd": {
-    "total": 13,
-    "single_family": 11,
+    "total": 15,
+    "single_family": 13,
     "multifamily": 2,
     "reported": 3
    },
@@ -212,16 +212,16 @@
   "08021": {
    "name": "Conejos County",
    "ytd": {
-    "total": 16,
-    "single_family": 16,
+    "total": 18,
+    "single_family": 18,
     "multifamily": 0,
-    "reported": 14
+    "reported": 16
    },
    "prior_ytd": {
-    "total": 14,
-    "single_family": 14,
+    "total": 15,
+    "single_family": 15,
     "multifamily": 0,
-    "reported": 14
+    "reported": 15
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -229,18 +229,18 @@
   "08023": {
    "name": "Costilla County",
    "ytd": {
-    "total": 71,
-    "single_family": 71,
+    "total": 79,
+    "single_family": 79,
     "multifamily": 0,
     "reported": 3
    },
    "prior_ytd": {
-    "total": 54,
-    "single_family": 54,
+    "total": 63,
+    "single_family": 63,
     "multifamily": 0,
     "reported": 0
    },
-   "change_pct": 31.5
+   "change_pct": 25.4
   },
   "08025": {
    "name": "Crowley County",
@@ -262,32 +262,32 @@
   "08027": {
    "name": "Custer County",
    "ytd": {
-    "total": 53,
-    "single_family": 53,
+    "total": 60,
+    "single_family": 60,
     "multifamily": 0,
-    "reported": 53
+    "reported": 60
    },
    "prior_ytd": {
-    "total": 57,
-    "single_family": 57,
+    "total": 66,
+    "single_family": 66,
     "multifamily": 0,
-    "reported": 57
+    "reported": 66
    },
-   "change_pct": -7.0
+   "change_pct": -9.1
   },
   "08029": {
    "name": "Delta County",
    "ytd": {
-    "total": 37,
-    "single_family": 37,
+    "total": 43,
+    "single_family": 43,
     "multifamily": 0,
-    "reported": 12
+    "reported": 15
    },
    "prior_ytd": {
-    "total": 48,
-    "single_family": 46,
+    "total": 55,
+    "single_family": 53,
     "multifamily": 2,
-    "reported": 22
+    "reported": 23
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -295,18 +295,18 @@
   "08031": {
    "name": "Denver County",
    "ytd": {
-    "total": 3995,
-    "single_family": 554,
-    "multifamily": 3441,
-    "reported": 3995
+    "total": 4311,
+    "single_family": 605,
+    "multifamily": 3706,
+    "reported": 4311
    },
    "prior_ytd": {
-    "total": 2503,
-    "single_family": 671,
-    "multifamily": 1832,
+    "total": 2829,
+    "single_family": 726,
+    "multifamily": 2103,
     "reported": 2503
    },
-   "change_pct": 59.6
+   "change_pct": 52.4
   },
   "08033": {
    "name": "Dolores County",
@@ -317,8 +317,8 @@
     "reported": 0
    },
    "prior_ytd": {
-    "total": 6,
-    "single_family": 6,
+    "total": 7,
+    "single_family": 7,
     "multifamily": 0,
     "reported": 0
    },
@@ -328,110 +328,110 @@
   "08035": {
    "name": "Douglas County",
    "ytd": {
-    "total": 1619,
-    "single_family": 1120,
+    "total": 1761,
+    "single_family": 1262,
     "multifamily": 499,
-    "reported": 1619
+    "reported": 1761
    },
    "prior_ytd": {
-    "total": 1830,
-    "single_family": 1092,
-    "multifamily": 738,
-    "reported": 1830
+    "total": 2083,
+    "single_family": 1186,
+    "multifamily": 897,
+    "reported": 2083
    },
-   "change_pct": -11.5
+   "change_pct": -15.5
   },
   "08037": {
    "name": "Eagle County",
    "ytd": {
-    "total": 307,
-    "single_family": 104,
-    "multifamily": 203,
-    "reported": 273
+    "total": 484,
+    "single_family": 112,
+    "multifamily": 372,
+    "reported": 443
    },
    "prior_ytd": {
-    "total": 110,
-    "single_family": 89,
-    "multifamily": 21,
-    "reported": 80
+    "total": 141,
+    "single_family": 116,
+    "multifamily": 25,
+    "reported": 109
    },
-   "change_pct": 179.1
+   "change_pct": 243.3
   },
   "08039": {
    "name": "Elbert County",
    "ytd": {
-    "total": 220,
-    "single_family": 220,
+    "total": 251,
+    "single_family": 251,
     "multifamily": 0,
-    "reported": 220
+    "reported": 250
    },
    "prior_ytd": {
-    "total": 241,
-    "single_family": 217,
+    "total": 258,
+    "single_family": 234,
     "multifamily": 24,
-    "reported": 240
+    "reported": 257
    },
-   "change_pct": -8.7
+   "change_pct": -2.7
   },
   "08041": {
    "name": "El Paso County",
    "ytd": {
-    "total": 3013,
-    "single_family": 1977,
-    "multifamily": 1036,
-    "reported": 3012
+    "total": 3186,
+    "single_family": 2070,
+    "multifamily": 1116,
+    "reported": 3185
    },
    "prior_ytd": {
-    "total": 2974,
-    "single_family": 1950,
-    "multifamily": 1024,
-    "reported": 2974
+    "total": 3187,
+    "single_family": 2135,
+    "multifamily": 1052,
+    "reported": 3187
    },
-   "change_pct": 1.3
+   "change_pct": -0.0
   },
   "08043": {
    "name": "Fremont County",
    "ytd": {
-    "total": 87,
-    "single_family": 83,
-    "multifamily": 4,
-    "reported": 82
+    "total": 99,
+    "single_family": 89,
+    "multifamily": 10,
+    "reported": 94
    },
    "prior_ytd": {
-    "total": 75,
-    "single_family": 73,
+    "total": 85,
+    "single_family": 83,
     "multifamily": 2,
-    "reported": 72
+    "reported": 82
    },
-   "change_pct": 16.0
+   "change_pct": 16.5
   },
   "08045": {
    "name": "Garfield County",
    "ytd": {
-    "total": 112,
-    "single_family": 73,
-    "multifamily": 39,
-    "reported": 75
+    "total": 132,
+    "single_family": 88,
+    "multifamily": 44,
+    "reported": 84
    },
    "prior_ytd": {
-    "total": 106,
-    "single_family": 102,
-    "multifamily": 4,
-    "reported": 98
+    "total": 143,
+    "single_family": 134,
+    "multifamily": 9,
+    "reported": 134
    },
-   "change_pct": 5.7
+   "change_pct": -7.7
   },
   "08047": {
    "name": "Gilpin County",
    "ytd": {
-    "total": 14,
-    "single_family": 14,
+    "total": 15,
+    "single_family": 15,
     "multifamily": 0,
     "reported": 0
    },
    "prior_ytd": {
-    "total": 20,
-    "single_family": 20,
+    "total": 22,
+    "single_family": 22,
     "multifamily": 0,
     "reported": 16
    },
@@ -441,46 +441,46 @@
   "08049": {
    "name": "Grand County",
    "ytd": {
-    "total": 163,
-    "single_family": 146,
+    "total": 177,
+    "single_family": 160,
     "multifamily": 17,
-    "reported": 92
+    "reported": 98
    },
    "prior_ytd": {
-    "total": 217,
-    "single_family": 152,
-    "multifamily": 65,
-    "reported": 146
+    "total": 253,
+    "single_family": 174,
+    "multifamily": 79,
+    "reported": 168
    },
-   "change_pct": -24.9
+   "change_pct": -30.0
   },
   "08051": {
    "name": "Gunnison County",
    "ytd": {
-    "total": 52,
-    "single_family": 52,
+    "total": 63,
+    "single_family": 63,
     "multifamily": 0,
-    "reported": 51
+    "reported": 62
    },
    "prior_ytd": {
-    "total": 117,
-    "single_family": 115,
+    "total": 128,
+    "single_family": 126,
     "multifamily": 2,
-    "reported": 116
+    "reported": 127
    },
-   "change_pct": -55.6
+   "change_pct": -50.8
   },
   "08053": {
    "name": "Hinsdale County",
    "ytd": {
-    "total": 8,
-    "single_family": 8,
+    "total": 9,
+    "single_family": 9,
     "multifamily": 0,
     "reported": 0
    },
    "prior_ytd": {
-    "total": 11,
-    "single_family": 11,
+    "total": 13,
+    "single_family": 13,
     "multifamily": 0,
     "reported": 0
    },
@@ -490,14 +490,14 @@
   "08055": {
    "name": "Huerfano County",
    "ytd": {
-    "total": 39,
-    "single_family": 34,
+    "total": 43,
+    "single_family": 38,
     "multifamily": 5,
     "reported": 0
    },
    "prior_ytd": {
-    "total": 43,
-    "single_family": 33,
+    "total": 47,
+    "single_family": 37,
     "multifamily": 10,
     "reported": 0
    },
@@ -507,8 +507,8 @@
   "08057": {
    "name": "Jackson County",
    "ytd": {
-    "total": 1,
-    "single_family": 1,
+    "total": 2,
+    "single_family": 2,
     "multifamily": 0,
     "reported": 0
    },
@@ -524,18 +524,18 @@
   "08059": {
    "name": "Jefferson County",
    "ytd": {
-    "total": 754,
-    "single_family": 621,
-    "multifamily": 133,
-    "reported": 639
+    "total": 841,
+    "single_family": 703,
+    "multifamily": 138,
+    "reported": 711
    },
    "prior_ytd": {
-    "total": 821,
-    "single_family": 572,
-    "multifamily": 249,
-    "reported": 725
+    "total": 898,
+    "single_family": 642,
+    "multifamily": 256,
+    "reported": 789
    },
-   "change_pct": -8.2
+   "change_pct": -6.3
   },
   "08061": {
    "name": "Kiowa County",
@@ -563,8 +563,8 @@
     "reported": 0
    },
    "prior_ytd": {
-    "total": 3,
-    "single_family": 3,
+    "total": 4,
+    "single_family": 4,
     "multifamily": 0,
     "reported": 0
    },
@@ -574,14 +574,14 @@
   "08065": {
    "name": "Lake County",
    "ytd": {
-    "total": 30,
-    "single_family": 30,
+    "total": 33,
+    "single_family": 33,
     "multifamily": 0,
     "reported": 0
    },
    "prior_ytd": {
-    "total": 33,
-    "single_family": 33,
+    "total": 36,
+    "single_family": 36,
     "multifamily": 0,
     "reported": 0
    },
@@ -591,48 +591,48 @@
   "08067": {
    "name": "La Plata County",
    "ytd": {
-    "total": 137,
-    "single_family": 124,
+    "total": 144,
+    "single_family": 131,
     "multifamily": 13,
-    "reported": 131
+    "reported": 137
    },
    "prior_ytd": {
-    "total": 299,
-    "single_family": 127,
-    "multifamily": 172,
-    "reported": 281
+    "total": 319,
+    "single_family": 137,
+    "multifamily": 182,
+    "reported": 301
    },
-   "change_pct": -54.2
+   "change_pct": -54.9
   },
   "08069": {
    "name": "Larimer County",
    "ytd": {
-    "total": 1551,
-    "single_family": 722,
+    "total": 1620,
+    "single_family": 791,
     "multifamily": 829,
-    "reported": 1494
+    "reported": 1563
    },
    "prior_ytd": {
-    "total": 1519,
-    "single_family": 694,
-    "multifamily": 825,
-    "reported": 1519
+    "total": 1611,
+    "single_family": 768,
+    "multifamily": 843,
+    "reported": 1561
    },
-   "change_pct": 2.1
+   "change_pct": 0.6
   },
   "08071": {
    "name": "Las Animas County",
    "ytd": {
-    "total": 22,
-    "single_family": 22,
+    "total": 24,
+    "single_family": 24,
     "multifamily": 0,
     "reported": 0
    },
    "prior_ytd": {
-    "total": 17,
-    "single_family": 17,
+    "total": 20,
+    "single_family": 20,
     "multifamily": 0,
-    "reported": 6
+    "reported": 9
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -640,14 +640,14 @@
   "08073": {
    "name": "Lincoln County",
    "ytd": {
-    "total": 6,
-    "single_family": 6,
+    "total": 7,
+    "single_family": 7,
     "multifamily": 0,
     "reported": 0
    },
    "prior_ytd": {
-    "total": 6,
-    "single_family": 6,
+    "total": 7,
+    "single_family": 7,
     "multifamily": 0,
     "reported": 0
    },
@@ -657,14 +657,14 @@
   "08075": {
    "name": "Logan County",
    "ytd": {
-    "total": 11,
-    "single_family": 9,
+    "total": 13,
+    "single_family": 11,
     "multifamily": 2,
-    "reported": 10
+    "reported": 12
    },
    "prior_ytd": {
-    "total": 5,
-    "single_family": 5,
+    "total": 6,
+    "single_family": 6,
     "multifamily": 0,
     "reported": 4
    },
@@ -674,18 +674,18 @@
   "08077": {
    "name": "Mesa County",
    "ytd": {
-    "total": 557,
-    "single_family": 426,
+    "total": 606,
+    "single_family": 475,
     "multifamily": 131,
-    "reported": 557
+    "reported": 606
    },
    "prior_ytd": {
-    "total": 502,
-    "single_family": 437,
-    "multifamily": 65,
-    "reported": 502
+    "total": 569,
+    "single_family": 501,
+    "multifamily": 68,
+    "reported": 560
    },
-   "change_pct": 11.0
+   "change_pct": 6.5
   },
   "08079": {
    "name": "Mineral County",
@@ -724,14 +724,14 @@
   "08083": {
    "name": "Montezuma County",
    "ytd": {
-    "total": 17,
-    "single_family": 17,
+    "total": 20,
+    "single_family": 20,
     "multifamily": 0,
     "reported": 0
    },
    "prior_ytd": {
-    "total": 12,
-    "single_family": 12,
+    "total": 13,
+    "single_family": 13,
     "multifamily": 0,
     "reported": 0
    },
@@ -741,32 +741,32 @@
   "08085": {
    "name": "Montrose County",
    "ytd": {
-    "total": 173,
-    "single_family": 157,
-    "multifamily": 16,
-    "reported": 172
+    "total": 344,
+    "single_family": 168,
+    "multifamily": 176,
+    "reported": 343
    },
    "prior_ytd": {
-    "total": 159,
-    "single_family": 147,
+    "total": 173,
+    "single_family": 161,
     "multifamily": 12,
-    "reported": 158
+    "reported": 172
    },
-   "change_pct": 8.8
+   "change_pct": 98.8
   },
   "08087": {
    "name": "Morgan County",
    "ytd": {
-    "total": 16,
-    "single_family": 16,
+    "total": 18,
+    "single_family": 18,
     "multifamily": 0,
-    "reported": 13
+    "reported": 15
    },
    "prior_ytd": {
-    "total": 52,
-    "single_family": 37,
-    "multifamily": 15,
-    "reported": 33
+    "total": 44,
+    "single_family": 42,
+    "multifamily": 2,
+    "reported": 41
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -780,9 +780,9 @@
     "reported": 0
    },
    "prior_ytd": {
-    "total": 35,
-    "single_family": 8,
-    "multifamily": 27,
+    "total": 41,
+    "single_family": 9,
+    "multifamily": 32,
     "reported": 0
    },
    "change_pct": null,
@@ -791,35 +791,34 @@
   "08091": {
    "name": "Ouray County",
    "ytd": {
-    "total": 48,
-    "single_family": 48,
+    "total": 50,
+    "single_family": 50,
     "multifamily": 0,
     "reported": 33
    },
    "prior_ytd": {
-    "total": 49,
-    "single_family": 49,
+    "total": 53,
+    "single_family": 53,
     "multifamily": 0,
-    "reported": 36
+    "reported": 38
    },
-   "change_pct": null,
-   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+   "change_pct": -5.7
   },
   "08093": {
    "name": "Park County",
    "ytd": {
-    "total": 135,
-    "single_family": 135,
+    "total": 143,
+    "single_family": 143,
     "multifamily": 0,
-    "reported": 135
+    "reported": 143
    },
    "prior_ytd": {
-    "total": 96,
-    "single_family": 96,
+    "total": 113,
+    "single_family": 113,
     "multifamily": 0,
-    "reported": 95
+    "reported": 112
    },
-   "change_pct": 40.6
+   "change_pct": 26.5
   },
   "08095": {
    "name": "Phillips County",
@@ -847,10 +846,10 @@
     "reported": 28
    },
    "prior_ytd": {
-    "total": 24,
-    "single_family": 24,
+    "total": 30,
+    "single_family": 30,
     "multifamily": 0,
-    "reported": 24
+    "reported": 30
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -858,14 +857,14 @@
   "08099": {
    "name": "Prowers County",
    "ytd": {
-    "total": 7,
-    "single_family": 7,
+    "total": 8,
+    "single_family": 8,
     "multifamily": 0,
-    "reported": 3
+    "reported": 4
    },
    "prior_ytd": {
-    "total": 6,
-    "single_family": 6,
+    "total": 7,
+    "single_family": 7,
     "multifamily": 0,
     "reported": 2
    },
@@ -875,16 +874,16 @@
   "08101": {
    "name": "Pueblo County",
    "ytd": {
-    "total": 46,
-    "single_family": 46,
+    "total": 47,
+    "single_family": 47,
     "multifamily": 0,
-    "reported": 46
+    "reported": 47
    },
    "prior_ytd": {
-    "total": 174,
-    "single_family": 174,
+    "total": 189,
+    "single_family": 189,
     "multifamily": 0,
-    "reported": 174
+    "reported": 189
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -892,14 +891,14 @@
   "08103": {
    "name": "Rio Blanco County",
    "ytd": {
-    "total": 11,
-    "single_family": 11,
+    "total": 13,
+    "single_family": 13,
     "multifamily": 0,
-    "reported": 8
+    "reported": 10
    },
    "prior_ytd": {
-    "total": 7,
-    "single_family": 7,
+    "total": 8,
+    "single_family": 8,
     "multifamily": 0,
     "reported": 6
    },
@@ -909,16 +908,16 @@
   "08105": {
    "name": "Rio Grande County",
    "ytd": {
-    "total": 25,
-    "single_family": 21,
+    "total": 29,
+    "single_family": 25,
     "multifamily": 4,
-    "reported": 25
+    "reported": 29
    },
    "prior_ytd": {
-    "total": 23,
-    "single_family": 15,
+    "total": 28,
+    "single_family": 20,
     "multifamily": 8,
-    "reported": 23
+    "reported": 28
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -926,46 +925,46 @@
   "08107": {
    "name": "Routt County",
    "ytd": {
-    "total": 184,
-    "single_family": 112,
-    "multifamily": 72,
-    "reported": 184
+    "total": 218,
+    "single_family": 126,
+    "multifamily": 92,
+    "reported": 218
    },
    "prior_ytd": {
-    "total": 147,
-    "single_family": 147,
-    "multifamily": 0,
-    "reported": 147
+    "total": 186,
+    "single_family": 164,
+    "multifamily": 22,
+    "reported": 186
    },
-   "change_pct": 25.2
+   "change_pct": 17.2
   },
   "08109": {
    "name": "Saguache County",
    "ytd": {
-    "total": 51,
-    "single_family": 46,
+    "total": 56,
+    "single_family": 51,
     "multifamily": 5,
-    "reported": 46
+    "reported": 51
    },
    "prior_ytd": {
-    "total": 61,
-    "single_family": 46,
+    "total": 67,
+    "single_family": 52,
     "multifamily": 15,
-    "reported": 45
+    "reported": 51
    },
    "change_pct": -16.4
   },
   "08111": {
    "name": "San Juan County",
    "ytd": {
-    "total": 11,
-    "single_family": 9,
+    "total": 13,
+    "single_family": 11,
     "multifamily": 2,
     "reported": 0
    },
    "prior_ytd": {
-    "total": 11,
-    "single_family": 7,
+    "total": 12,
+    "single_family": 8,
     "multifamily": 4,
     "reported": 0
    },
@@ -975,16 +974,16 @@
   "08113": {
    "name": "San Miguel County",
    "ytd": {
-    "total": 25,
-    "single_family": 25,
-    "multifamily": 0,
-    "reported": 10
-   },
-   "prior_ytd": {
-    "total": 36,
-    "single_family": 36,
+    "total": 38,
+    "single_family": 38,
     "multifamily": 0,
     "reported": 22
+   },
+   "prior_ytd": {
+    "total": 42,
+    "single_family": 42,
+    "multifamily": 0,
+    "reported": 27
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -1009,41 +1008,41 @@
   "08117": {
    "name": "Summit County",
    "ytd": {
-    "total": 244,
-    "single_family": 88,
-    "multifamily": 156,
-    "reported": 175
+    "total": 275,
+    "single_family": 114,
+    "multifamily": 161,
+    "reported": 198
    },
    "prior_ytd": {
-    "total": 192,
-    "single_family": 101,
-    "multifamily": 91,
-    "reported": 119
+    "total": 201,
+    "single_family": 105,
+    "multifamily": 96,
+    "reported": 120
    },
-   "change_pct": 27.1
+   "change_pct": 36.8
   },
   "08119": {
    "name": "Teller County",
    "ytd": {
-    "total": 66,
-    "single_family": 66,
+    "total": 73,
+    "single_family": 73,
     "multifamily": 0,
     "reported": 1
    },
    "prior_ytd": {
-    "total": 75,
-    "single_family": 75,
+    "total": 82,
+    "single_family": 82,
     "multifamily": 0,
     "reported": 10
    },
-   "change_pct": -12.0
+   "change_pct": -11.0
   },
   "08121": {
    "name": "Washington County",
    "ytd": {
-    "total": 1,
+    "total": 3,
     "single_family": 1,
-    "multifamily": 0,
+    "multifamily": 2,
     "reported": 0
    },
    "prior_ytd": {
@@ -1058,18 +1057,18 @@
   "08123": {
    "name": "Weld County",
    "ytd": {
-    "total": 2395,
-    "single_family": 1614,
-    "multifamily": 781,
-    "reported": 2132
+    "total": 2573,
+    "single_family": 1774,
+    "multifamily": 799,
+    "reported": 2261
    },
    "prior_ytd": {
-    "total": 2131,
-    "single_family": 1806,
-    "multifamily": 325,
-    "reported": 1324
+    "total": 2449,
+    "single_family": 2029,
+    "multifamily": 420,
+    "reported": 1560
    },
-   "change_pct": 12.4
+   "change_pct": 5.1
   },
   "08125": {
    "name": "Yuma County",
@@ -1080,8 +1079,8 @@
     "reported": 0
    },
    "prior_ytd": {
-    "total": 7,
-    "single_family": 7,
+    "total": 8,
+    "single_family": 8,
     "multifamily": 0,
     "reported": 0
    },
@@ -1116,7 +1115,7 @@
    "name": "Alamosa",
    "months_reported": {
     "this_year": 3,
-    "last_year": 8
+    "last_year": 9
    },
    "ytd": null,
    "prior_ytd": null,
@@ -1148,49 +1147,39 @@
   "0803455": {
    "name": "Arvada",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 261,
-    "single_family": 188,
+    "total": 297,
+    "single_family": 224,
     "multifamily": 73,
-    "reported": 261
+    "reported": 297
    },
    "prior_ytd": {
-    "total": 134,
-    "single_family": 134,
+    "total": 141,
+    "single_family": 141,
     "multifamily": 0,
-    "reported": 134
+    "reported": 141
    },
-   "change_pct": 94.8
+   "change_pct": 110.6
   },
   "0803620": {
    "name": "Aspen",
    "months_reported": {
     "this_year": 8,
-    "last_year": 8
+    "last_year": 9
    },
-   "ytd": {
-    "total": 8,
-    "single_family": 8,
-    "multifamily": 0,
-    "reported": 8
-   },
-   "prior_ytd": {
-    "total": 6,
-    "single_family": 6,
-    "multifamily": 0,
-    "reported": 6
-   },
+   "ytd": null,
+   "prior_ytd": null,
    "change_pct": null,
-   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
   },
   "0803950": {
    "name": "Ault town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 40,
@@ -1210,40 +1199,40 @@
   "0804000": {
    "name": "Aurora",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 1145,
-    "single_family": 859,
+    "total": 1202,
+    "single_family": 916,
     "multifamily": 286,
-    "reported": 1145
+    "reported": 1202
    },
    "prior_ytd": {
-    "total": 1269,
-    "single_family": 864,
+    "total": 1349,
+    "single_family": 944,
     "multifamily": 405,
-    "reported": 1269
+    "reported": 1349
    },
-   "change_pct": -9.8
+   "change_pct": -10.9
   },
   "0804110": {
    "name": "Avon town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 125,
+    "total": 289,
     "single_family": 3,
-    "multifamily": 122,
-    "reported": 125
+    "multifamily": 286,
+    "reported": 289
    },
    "prior_ytd": {
-    "total": 11,
-    "single_family": 11,
+    "total": 14,
+    "single_family": 14,
     "multifamily": 0,
-    "reported": 11
+    "reported": 14
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -1262,8 +1251,8 @@
   "0805265": {
    "name": "Bayfield town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 0
+    "this_year": 9,
+    "last_year": 1
    },
    "ytd": null,
    "prior_ytd": null,
@@ -1274,41 +1263,32 @@
    "name": "Bennett town",
    "months_reported": {
     "this_year": 8,
-    "last_year": 8
+    "last_year": 9
    },
-   "ytd": {
-    "total": 116,
-    "single_family": 116,
-    "multifamily": 0,
-    "reported": 116
-   },
-   "prior_ytd": {
-    "total": 74,
-    "single_family": 70,
-    "multifamily": 4,
-    "reported": 74
-   },
-   "change_pct": 56.8
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
   },
   "0806255": {
    "name": "Berthoud town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 80,
-    "single_family": 80,
+    "total": 92,
+    "single_family": 92,
     "multifamily": 0,
-    "reported": 80
+    "reported": 92
    },
    "prior_ytd": {
-    "total": 103,
-    "single_family": 103,
+    "total": 119,
+    "single_family": 119,
     "multifamily": 0,
-    "reported": 103
+    "reported": 119
    },
-   "change_pct": -22.3
+   "change_pct": -22.7
   },
   "0806530": {
    "name": "Bethune town",
@@ -1347,7 +1327,7 @@
    "name": "Blue River town",
    "months_reported": {
     "this_year": 3,
-    "last_year": 8
+    "last_year": 9
    },
    "ytd": null,
    "prior_ytd": null,
@@ -1357,13 +1337,22 @@
   "0807850": {
    "name": "Boulder",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 6
+    "this_year": 9,
+    "last_year": 9
    },
-   "ytd": null,
-   "prior_ytd": null,
-   "change_pct": null,
-   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
+   "ytd": {
+    "total": 158,
+    "single_family": 152,
+    "multifamily": 6,
+    "reported": 158
+   },
+   "prior_ytd": {
+    "total": 334,
+    "single_family": 29,
+    "multifamily": 305,
+    "reported": 334
+   },
+   "change_pct": -52.7
   },
   "0808070": {
    "name": "Bow Mar town",
@@ -1379,20 +1368,20 @@
   "0808400": {
    "name": "Breckenridge town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 68,
-    "single_family": 28,
+    "total": 89,
+    "single_family": 49,
     "multifamily": 40,
-    "reported": 68
+    "reported": 89
    },
    "prior_ytd": {
-    "total": 43,
-    "single_family": 43,
+    "total": 44,
+    "single_family": 44,
     "multifamily": 0,
-    "reported": 43
+    "reported": 44
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -1400,22 +1389,22 @@
   "0808675": {
    "name": "Brighton",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 116,
-    "single_family": 116,
+    "total": 135,
+    "single_family": 135,
     "multifamily": 0,
-    "reported": 116
+    "reported": 135
    },
    "prior_ytd": {
-    "total": 314,
-    "single_family": 314,
+    "total": 349,
+    "single_family": 349,
     "multifamily": 0,
-    "reported": 314
+    "reported": 349
    },
-   "change_pct": -63.1
+   "change_pct": -61.3
   },
   "0809115": {
    "name": "Brookside town",
@@ -1431,22 +1420,22 @@
   "0809280": {
    "name": "Broomfield",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 113,
-    "single_family": 60,
-    "multifamily": 53,
-    "reported": 113
+    "total": 123,
+    "single_family": 67,
+    "multifamily": 56,
+    "reported": 123
    },
    "prior_ytd": {
-    "total": 597,
-    "single_family": 56,
+    "total": 600,
+    "single_family": 59,
     "multifamily": 541,
-    "reported": 597
+    "reported": 600
    },
-   "change_pct": -81.1
+   "change_pct": -79.5
   },
   "0809555": {
    "name": "Brush",
@@ -1474,7 +1463,7 @@
    "name": "Calhan town",
    "months_reported": {
     "this_year": 5,
-    "last_year": 6
+    "last_year": 8
    },
    "ytd": null,
    "prior_ytd": null,
@@ -1484,20 +1473,20 @@
   "0811810": {
    "name": "Canon City",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 10,
-    "single_family": 10,
+    "total": 11,
+    "single_family": 11,
     "multifamily": 0,
-    "reported": 10
+    "reported": 11
    },
    "prior_ytd": {
-    "total": 15,
-    "single_family": 13,
+    "total": 17,
+    "single_family": 15,
     "multifamily": 2,
-    "reported": 15
+    "reported": 17
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -1506,62 +1495,52 @@
    "name": "Carbondale town",
    "months_reported": {
     "this_year": 8,
-    "last_year": 8
+    "last_year": 9
    },
-   "ytd": {
-    "total": 15,
-    "single_family": 5,
-    "multifamily": 10,
-    "reported": 15
-   },
-   "prior_ytd": {
-    "total": 4,
-    "single_family": 4,
-    "multifamily": 0,
-    "reported": 4
-   },
+   "ytd": null,
+   "prior_ytd": null,
    "change_pct": null,
-   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
   },
   "0812387": {
    "name": "Castle Pines",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 309,
-    "single_family": 88,
+    "total": 319,
+    "single_family": 98,
     "multifamily": 221,
-    "reported": 309
+    "reported": 319
    },
    "prior_ytd": {
-    "total": 59,
-    "single_family": 59,
-    "multifamily": 0,
-    "reported": 59
+    "total": 71,
+    "single_family": 64,
+    "multifamily": 7,
+    "reported": 71
    },
-   "change_pct": 423.7
+   "change_pct": 349.3
   },
   "0812415": {
    "name": "Castle Rock town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 119,
-    "single_family": 119,
+    "total": 121,
+    "single_family": 121,
     "multifamily": 0,
-    "reported": 119
+    "reported": 121
    },
    "prior_ytd": {
-    "total": 201,
-    "single_family": 201,
+    "total": 219,
+    "single_family": 219,
     "multifamily": 0,
-    "reported": 201
+    "reported": 219
    },
-   "change_pct": -40.8
+   "change_pct": -44.7
   },
   "0812635": {
    "name": "Cedaredge town",
@@ -1578,7 +1557,7 @@
    "name": "Centennial",
    "months_reported": {
     "this_year": 5,
-    "last_year": 6
+    "last_year": 8
    },
    "ytd": null,
    "prior_ytd": null,
@@ -1621,8 +1600,8 @@
   "0813845": {
    "name": "Cherry Hills Village",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 6,
@@ -1631,10 +1610,10 @@
     "reported": 6
    },
    "prior_ytd": {
-    "total": 2,
-    "single_family": 2,
+    "total": 4,
+    "single_family": 4,
     "multifamily": 0,
-    "reported": 2
+    "reported": 4
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -1675,7 +1654,7 @@
   "0816385": {
    "name": "Columbine Valley town",
    "months_reported": {
-    "this_year": 8,
+    "this_year": 9,
     "last_year": 5
    },
    "ytd": null,
@@ -1686,22 +1665,22 @@
   "0816495": {
    "name": "Commerce City",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 462,
-    "single_family": 459,
-    "multifamily": 3,
-    "reported": 462
+    "total": 512,
+    "single_family": 495,
+    "multifamily": 17,
+    "reported": 512
    },
    "prior_ytd": {
-    "total": 462,
-    "single_family": 343,
-    "multifamily": 119,
-    "reported": 462
+    "total": 820,
+    "single_family": 377,
+    "multifamily": 443,
+    "reported": 820
    },
-   "change_pct": 0.0
+   "change_pct": -37.6
   },
   "0817375": {
    "name": "Cortez",
@@ -1739,8 +1718,8 @@
   "0818310": {
    "name": "Crested Butte town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 5,
@@ -1804,14 +1783,14 @@
   "0819080": {
    "name": "Dacono",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 37,
-    "single_family": 37,
+    "total": 40,
+    "single_family": 40,
     "multifamily": 0,
-    "reported": 37
+    "reported": 40
    },
    "prior_ytd": {
     "total": 8,
@@ -1836,20 +1815,20 @@
   "0819850": {
    "name": "Delta",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 12,
-    "single_family": 12,
+    "total": 15,
+    "single_family": 15,
     "multifamily": 0,
-    "reported": 12
+    "reported": 15
    },
    "prior_ytd": {
-    "total": 22,
-    "single_family": 20,
+    "total": 23,
+    "single_family": 21,
     "multifamily": 2,
-    "reported": 22
+    "reported": 23
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -1857,22 +1836,22 @@
   "0820000": {
    "name": "Denver",
    "months_reported": {
-    "this_year": 8,
+    "this_year": 9,
     "last_year": 8
    },
    "ytd": {
-    "total": 3995,
-    "single_family": 554,
-    "multifamily": 3441,
-    "reported": 3995
+    "total": 4311,
+    "single_family": 605,
+    "multifamily": 3706,
+    "reported": 4311
    },
    "prior_ytd": {
-    "total": 2503,
-    "single_family": 671,
-    "multifamily": 1832,
+    "total": 2829,
+    "single_family": 726,
+    "multifamily": 2103,
     "reported": 2503
    },
-   "change_pct": 59.6
+   "change_pct": 52.4
   },
   "0820495": {
    "name": "Dinosaur town",
@@ -1899,20 +1878,20 @@
   "0822035": {
    "name": "Durango",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 29,
-    "single_family": 25,
+    "total": 30,
+    "single_family": 26,
     "multifamily": 4,
-    "reported": 29
+    "reported": 30
    },
    "prior_ytd": {
-    "total": 190,
-    "single_family": 18,
-    "multifamily": 172,
-    "reported": 190
+    "total": 203,
+    "single_family": 21,
+    "multifamily": 182,
+    "reported": 203
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -1931,8 +1910,8 @@
   "0822200": {
    "name": "Eagle town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 6,
@@ -1941,10 +1920,10 @@
     "reported": 6
    },
    "prior_ytd": {
-    "total": 14,
-    "single_family": 11,
-    "multifamily": 3,
-    "reported": 14
+    "total": 20,
+    "single_family": 13,
+    "multifamily": 7,
+    "reported": 20
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -1952,8 +1931,8 @@
   "0822860": {
    "name": "Eaton town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 3,
@@ -1995,8 +1974,8 @@
   "0823740": {
    "name": "Elizabeth town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 0,
@@ -2016,20 +1995,20 @@
   "0824785": {
    "name": "Englewood",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 7
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 16,
-    "single_family": 13,
+    "total": 17,
+    "single_family": 14,
     "multifamily": 3,
-    "reported": 16
+    "reported": 17
    },
    "prior_ytd": {
-    "total": 12,
-    "single_family": 12,
-    "multifamily": 0,
-    "reported": 11
+    "total": 52,
+    "single_family": 22,
+    "multifamily": 30,
+    "reported": 52
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -2037,7 +2016,7 @@
   "0824950": {
    "name": "Erie town",
    "months_reported": {
-    "this_year": 8,
+    "this_year": 9,
     "last_year": 0
    },
    "ytd": null,
@@ -2048,8 +2027,8 @@
   "0825115": {
    "name": "Estes Park town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 4,
@@ -2058,10 +2037,10 @@
     "reported": 4
    },
    "prior_ytd": {
-    "total": 4,
-    "single_family": 4,
+    "total": 5,
+    "single_family": 5,
     "multifamily": 0,
-    "reported": 4
+    "reported": 5
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -2080,8 +2059,8 @@
   "0825610": {
    "name": "Fairplay town",
    "months_reported": {
-    "this_year": 7,
-    "last_year": 8
+    "this_year": 8,
+    "last_year": 9
    },
    "ytd": null,
    "prior_ytd": null,
@@ -2102,22 +2081,22 @@
   "0826600": {
    "name": "Firestone town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 150,
-    "single_family": 108,
+    "total": 174,
+    "single_family": 132,
     "multifamily": 42,
-    "reported": 150
+    "reported": 174
    },
    "prior_ytd": {
-    "total": 73,
-    "single_family": 73,
+    "total": 92,
+    "single_family": 92,
     "multifamily": 0,
-    "reported": 73
+    "reported": 92
    },
-   "change_pct": 105.5
+   "change_pct": 89.1
   },
   "0826765": {
    "name": "Flagler town",
@@ -2144,14 +2123,14 @@
   "0827040": {
    "name": "Florence",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 18,
-    "single_family": 14,
-    "multifamily": 4,
-    "reported": 18
+    "total": 25,
+    "single_family": 15,
+    "multifamily": 10,
+    "reported": 25
    },
    "prior_ytd": {
     "total": 9,
@@ -2165,48 +2144,48 @@
   "0827425": {
    "name": "Fort Collins",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 1130,
-    "single_family": 336,
+    "total": 1157,
+    "single_family": 363,
     "multifamily": 794,
-    "reported": 1130
+    "reported": 1157
    },
    "prior_ytd": {
-    "total": 741,
-    "single_family": 225,
-    "multifamily": 516,
-    "reported": 741
+    "total": 755,
+    "single_family": 231,
+    "multifamily": 524,
+    "reported": 755
    },
-   "change_pct": 52.5
+   "change_pct": 53.2
   },
   "0827700": {
    "name": "Fort Lupton",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 163,
-    "single_family": 163,
+    "total": 171,
+    "single_family": 171,
     "multifamily": 0,
-    "reported": 163
+    "reported": 171
    },
    "prior_ytd": {
-    "total": 157,
-    "single_family": 157,
+    "total": 171,
+    "single_family": 171,
     "multifamily": 0,
-    "reported": 157
+    "reported": 171
    },
-   "change_pct": 3.8
+   "change_pct": 0.0
   },
   "0827810": {
    "name": "Fort Morgan",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 7
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 1,
@@ -2215,10 +2194,10 @@
     "reported": 1
    },
    "prior_ytd": {
-    "total": 25,
-    "single_family": 10,
-    "multifamily": 15,
-    "reported": 9
+    "total": 14,
+    "single_family": 12,
+    "multifamily": 2,
+    "reported": 14
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -2237,8 +2216,8 @@
   "0828105": {
    "name": "Foxfield town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 0,
@@ -2247,10 +2226,10 @@
     "reported": 0
    },
    "prior_ytd": {
-    "total": 0,
-    "single_family": 0,
+    "total": 12,
+    "single_family": 12,
     "multifamily": 0,
-    "reported": 0
+    "reported": 12
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -2259,7 +2238,7 @@
    "name": "Frederick town",
    "months_reported": {
     "this_year": 6,
-    "last_year": 8
+    "last_year": 9
    },
    "ytd": null,
    "prior_ytd": null,
@@ -2269,42 +2248,42 @@
   "0828690": {
    "name": "Frisco town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 7
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 53,
-    "single_family": 1,
+    "total": 55,
+    "single_family": 3,
     "multifamily": 52,
-    "reported": 53
+    "reported": 55
    },
    "prior_ytd": {
-    "total": 65,
-    "single_family": 11,
+    "total": 64,
+    "single_family": 10,
     "multifamily": 54,
     "reported": 64
    },
-   "change_pct": -18.5
+   "change_pct": -14.1
   },
   "0828745": {
    "name": "Fruita",
    "months_reported": {
-    "this_year": 8,
+    "this_year": 9,
     "last_year": 8
    },
    "ytd": {
-    "total": 52,
-    "single_family": 52,
+    "total": 56,
+    "single_family": 56,
     "multifamily": 0,
-    "reported": 52
+    "reported": 56
    },
    "prior_ytd": {
-    "total": 59,
-    "single_family": 45,
-    "multifamily": 14,
+    "total": 68,
+    "single_family": 51,
+    "multifamily": 17,
     "reported": 59
    },
-   "change_pct": -11.9
+   "change_pct": -17.6
   },
   "0829185": {
    "name": "Garden City town",
@@ -2353,8 +2332,8 @@
   "0830780": {
    "name": "Glenwood Springs",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 3,
@@ -2363,10 +2342,10 @@
     "reported": 3
    },
    "prior_ytd": {
-    "total": 8,
-    "single_family": 4,
-    "multifamily": 4,
-    "reported": 8
+    "total": 19,
+    "single_family": 10,
+    "multifamily": 9,
+    "reported": 19
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -2375,22 +2354,12 @@
    "name": "Golden",
    "months_reported": {
     "this_year": 8,
-    "last_year": 8
+    "last_year": 9
    },
-   "ytd": {
-    "total": 8,
-    "single_family": 8,
-    "multifamily": 0,
-    "reported": 8
-   },
-   "prior_ytd": {
-    "total": 35,
-    "single_family": 35,
-    "multifamily": 0,
-    "reported": 35
-   },
+   "ytd": null,
+   "prior_ytd": null,
    "change_pct": null,
-   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
   },
   "0831550": {
    "name": "Granada town",
@@ -2406,28 +2375,28 @@
   "0832155": {
    "name": "Greeley",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 7
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 742,
-    "single_family": 162,
+    "total": 754,
+    "single_family": 174,
     "multifamily": 580,
-    "reported": 742
+    "reported": 754
    },
    "prior_ytd": {
-    "total": 236,
-    "single_family": 110,
-    "multifamily": 126,
-    "reported": 220
+    "total": 348,
+    "single_family": 132,
+    "multifamily": 216,
+    "reported": 348
    },
-   "change_pct": 214.4
+   "change_pct": 116.7
   },
   "0833035": {
    "name": "Greenwood Village",
    "months_reported": {
     "this_year": 7,
-    "last_year": 8
+    "last_year": 9
    },
    "ytd": null,
    "prior_ytd": null,
@@ -2448,20 +2417,20 @@
   "0833640": {
    "name": "Gunnison",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 2,
-    "single_family": 2,
+    "total": 4,
+    "single_family": 4,
     "multifamily": 0,
-    "reported": 2
+    "reported": 4
    },
    "prior_ytd": {
-    "total": 7,
-    "single_family": 5,
+    "total": 8,
+    "single_family": 6,
     "multifamily": 2,
-    "reported": 7
+    "reported": 8
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -2469,20 +2438,20 @@
   "0833695": {
    "name": "Gypsum town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 127,
-    "single_family": 67,
+    "total": 128,
+    "single_family": 68,
     "multifamily": 60,
-    "reported": 127
+    "reported": 128
    },
    "prior_ytd": {
-    "total": 33,
-    "single_family": 33,
+    "total": 45,
+    "single_family": 45,
     "multifamily": 0,
-    "reported": 33
+    "reported": 45
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -2611,22 +2580,22 @@
   "0839855": {
    "name": "Johnstown town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 342,
-    "single_family": 340,
+    "total": 364,
+    "single_family": 362,
     "multifamily": 2,
-    "reported": 342
+    "reported": 364
    },
    "prior_ytd": {
-    "total": 378,
-    "single_family": 378,
+    "total": 418,
+    "single_family": 418,
     "multifamily": 0,
-    "reported": 378
+    "reported": 418
    },
-   "change_pct": -9.5
+   "change_pct": -12.9
   },
   "0839965": {
    "name": "Julesburg town",
@@ -2643,7 +2612,7 @@
    "name": "Keenesburg town",
    "months_reported": {
     "this_year": 5,
-    "last_year": 8
+    "last_year": 9
    },
    "ytd": null,
    "prior_ytd": null,
@@ -2697,8 +2666,8 @@
   "0841835": {
    "name": "Lafayette",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 6,
@@ -2707,10 +2676,10 @@
     "reported": 6
    },
    "prior_ytd": {
-    "total": 8,
-    "single_family": 8,
+    "total": 10,
+    "single_family": 10,
     "multifamily": 0,
-    "reported": 8
+    "reported": 10
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -2740,20 +2709,20 @@
   "0843000": {
    "name": "Lakewood",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 12,
-    "single_family": 12,
+    "total": 13,
+    "single_family": 13,
     "multifamily": 0,
-    "reported": 12
+    "reported": 13
    },
    "prior_ytd": {
-    "total": 44,
-    "single_family": 44,
+    "total": 48,
+    "single_family": 48,
     "multifamily": 0,
-    "reported": 44
+    "reported": 48
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -2761,14 +2730,14 @@
   "0843110": {
    "name": "Lamar",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 3,
-    "single_family": 3,
+    "total": 4,
+    "single_family": 4,
     "multifamily": 0,
-    "reported": 3
+    "reported": 4
    },
    "prior_ytd": {
     "total": 2,
@@ -2826,43 +2795,42 @@
   "0845255": {
    "name": "Littleton",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 460,
-    "single_family": 38,
+    "total": 467,
+    "single_family": 45,
     "multifamily": 422,
-    "reported": 460
+    "reported": 467
    },
    "prior_ytd": {
-    "total": 882,
-    "single_family": 48,
-    "multifamily": 834,
-    "reported": 882
+    "total": 942,
+    "single_family": 60,
+    "multifamily": 882,
+    "reported": 942
    },
-   "change_pct": -47.8
+   "change_pct": -50.4
   },
   "0845530": {
    "name": "Lochbuie town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 94,
-    "single_family": 94,
+    "total": 96,
+    "single_family": 96,
     "multifamily": 0,
-    "reported": 94
+    "reported": 96
    },
    "prior_ytd": {
-    "total": 48,
-    "single_family": 48,
+    "total": 51,
+    "single_family": 51,
     "multifamily": 0,
-    "reported": 48
+    "reported": 51
    },
-   "change_pct": null,
-   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+   "change_pct": 88.2
   },
   "0845695": {
    "name": "Log Lane Village town",
@@ -2878,60 +2846,51 @@
   "0845955": {
    "name": "Lone Tree",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 158,
-    "single_family": 120,
+    "total": 160,
+    "single_family": 122,
     "multifamily": 38,
-    "reported": 158
+    "reported": 160
    },
    "prior_ytd": {
-    "total": 171,
-    "single_family": 141,
+    "total": 188,
+    "single_family": 158,
     "multifamily": 30,
-    "reported": 171
+    "reported": 188
    },
-   "change_pct": -7.6
+   "change_pct": -14.9
   },
   "0845970": {
    "name": "Longmont",
    "months_reported": {
-    "this_year": 8,
+    "this_year": 9,
     "last_year": 7
    },
-   "ytd": {
-    "total": 635,
-    "single_family": 87,
-    "multifamily": 548,
-    "reported": 635
-   },
-   "prior_ytd": {
-    "total": 441,
-    "single_family": 151,
-    "multifamily": 290,
-    "reported": 394
-   },
-   "change_pct": 44.0
+   "ytd": null,
+   "prior_ytd": null,
+   "change_pct": null,
+   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
   },
   "0846355": {
    "name": "Louisville",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 15,
-    "single_family": 15,
+    "total": 19,
+    "single_family": 19,
     "multifamily": 0,
-    "reported": 15
+    "reported": 19
    },
    "prior_ytd": {
-    "total": 28,
-    "single_family": 28,
+    "total": 31,
+    "single_family": 31,
     "multifamily": 0,
-    "reported": 28
+    "reported": 31
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -2939,7 +2898,7 @@
   "0846465": {
    "name": "Loveland",
    "months_reported": {
-    "this_year": 6,
+    "this_year": 7,
     "last_year": 8
    },
    "ytd": null,
@@ -2994,8 +2953,8 @@
   "0849600": {
    "name": "Mead town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 53,
@@ -3004,12 +2963,12 @@
     "reported": 53
    },
    "prior_ytd": {
-    "total": 61,
-    "single_family": 61,
+    "total": 65,
+    "single_family": 65,
     "multifamily": 0,
-    "reported": 61
+    "reported": 65
    },
-   "change_pct": -13.1
+   "change_pct": -18.5
   },
   "0849875": {
    "name": "Meeker town",
@@ -3037,7 +2996,7 @@
    "name": "Milliken town",
    "months_reported": {
     "this_year": 7,
-    "last_year": 8
+    "last_year": 9
    },
    "ytd": null,
    "prior_ytd": null,
@@ -3069,22 +3028,22 @@
   "0851745": {
    "name": "Montrose",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 90,
-    "single_family": 74,
-    "multifamily": 16,
-    "reported": 90
+    "total": 253,
+    "single_family": 77,
+    "multifamily": 176,
+    "reported": 253
    },
    "prior_ytd": {
-    "total": 78,
-    "single_family": 66,
+    "total": 82,
+    "single_family": 70,
     "multifamily": 12,
-    "reported": 78
+    "reported": 82
    },
-   "change_pct": 15.4
+   "change_pct": 208.5
   },
   "0852075": {
    "name": "Morrison town",
@@ -3111,20 +3070,20 @@
   "0852550": {
    "name": "Mountain Village town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
+    "total": 9,
+    "single_family": 9,
+    "multifamily": 0,
+    "reported": 9
+   },
+   "prior_ytd": {
     "total": 7,
     "single_family": 7,
     "multifamily": 0,
     "reported": 7
-   },
-   "prior_ytd": {
-    "total": 6,
-    "single_family": 6,
-    "multifamily": 0,
-    "reported": 6
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -3132,8 +3091,8 @@
   "0852570": {
    "name": "Mount Crested Butte town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 5,
@@ -3186,7 +3145,7 @@
   "0854330": {
    "name": "Northglenn",
    "months_reported": {
-    "this_year": 8,
+    "this_year": 9,
     "last_year": 5
    },
    "ytd": null,
@@ -3308,7 +3267,7 @@
    "name": "Pagosa Springs town",
    "months_reported": {
     "this_year": 7,
-    "last_year": 6
+    "last_year": 9
    },
    "ytd": null,
    "prior_ytd": null,
@@ -3351,22 +3310,22 @@
   "0857630": {
    "name": "Parker town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 379,
-    "single_family": 379,
+    "total": 477,
+    "single_family": 477,
     "multifamily": 0,
-    "reported": 379
+    "reported": 477
    },
    "prior_ytd": {
-    "total": 878,
-    "single_family": 217,
-    "multifamily": 661,
-    "reported": 878
+    "total": 1049,
+    "single_family": 236,
+    "multifamily": 813,
+    "reported": 1049
    },
-   "change_pct": -56.8
+   "change_pct": -54.5
   },
   "0858235": {
    "name": "Peetz town",
@@ -3459,8 +3418,8 @@
   "0864200": {
    "name": "Ridgway town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 6,
@@ -3469,10 +3428,10 @@
     "reported": 6
    },
    "prior_ytd": {
-    "total": 4,
-    "single_family": 4,
+    "total": 5,
+    "single_family": 5,
     "multifamily": 0,
-    "reported": 4
+    "reported": 5
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -3481,7 +3440,7 @@
    "name": "Rifle",
    "months_reported": {
     "this_year": 8,
-    "last_year": 6
+    "last_year": 7
    },
    "ytd": null,
    "prior_ytd": null,
@@ -3568,20 +3527,20 @@
   "0869150": {
    "name": "Severance town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 36,
-    "single_family": 36,
+    "total": 43,
+    "single_family": 43,
     "multifamily": 0,
-    "reported": 36
+    "reported": 43
    },
    "prior_ytd": {
-    "total": 54,
-    "single_family": 54,
+    "total": 61,
+    "single_family": 61,
     "multifamily": 0,
-    "reported": 54
+    "reported": 61
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -3600,19 +3559,8 @@
   "0870195": {
    "name": "Silt town",
    "months_reported": {
-    "this_year": 7,
-    "last_year": 8
-   },
-   "ytd": null,
-   "prior_ytd": null,
-   "change_pct": null,
-   "unavailable_reason": "the permit office does not report every month, so this year's figure is a Census estimate, not a count"
-  },
-  "0870250": {
-   "name": "Silver Cliff town",
-   "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 4,
@@ -3621,10 +3569,31 @@
     "reported": 4
    },
    "prior_ytd": {
-    "total": 3,
-    "single_family": 3,
+    "total": 1,
+    "single_family": 1,
     "multifamily": 0,
-    "reported": 3
+    "reported": 1
+   },
+   "change_pct": null,
+   "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
+  },
+  "0870250": {
+   "name": "Silver Cliff town",
+   "months_reported": {
+    "this_year": 9,
+    "last_year": 9
+   },
+   "ytd": {
+    "total": 4,
+    "single_family": 4,
+    "multifamily": 0,
+    "reported": 4
+   },
+   "prior_ytd": {
+    "total": 5,
+    "single_family": 5,
+    "multifamily": 0,
+    "reported": 5
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -3643,8 +3612,8 @@
   "0870525": {
    "name": "Silverthorne town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 52,
@@ -3686,8 +3655,8 @@
   "0871755": {
    "name": "Snowmass Village town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 2,
@@ -3696,10 +3665,10 @@
     "reported": 2
    },
    "prior_ytd": {
-    "total": 2,
-    "single_family": 2,
+    "total": 5,
+    "single_family": 5,
     "multifamily": 0,
-    "reported": 2
+    "reported": 5
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -3751,22 +3720,22 @@
   "0875640": {
    "name": "Superior town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 298,
-    "single_family": 47,
+    "total": 313,
+    "single_family": 62,
     "multifamily": 251,
-    "reported": 298
+    "reported": 313
    },
    "prior_ytd": {
-    "total": 314,
-    "single_family": 58,
-    "multifamily": 256,
-    "reported": 314
+    "total": 322,
+    "single_family": 60,
+    "multifamily": 262,
+    "reported": 322
    },
-   "change_pct": -5.1
+   "change_pct": -2.8
   },
   "0875970": {
    "name": "Swink town",
@@ -3783,7 +3752,7 @@
    "name": "Telluride town",
    "months_reported": {
     "this_year": 7,
-    "last_year": 8
+    "last_year": 9
    },
    "ytd": null,
    "prior_ytd": null,
@@ -3793,42 +3762,42 @@
   "0877290": {
    "name": "Thornton",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 7
+    "this_year": 9,
+    "last_year": 8
    },
    "ytd": {
-    "total": 290,
-    "single_family": 286,
+    "total": 320,
+    "single_family": 316,
     "multifamily": 4,
-    "reported": 290
+    "reported": 320
    },
    "prior_ytd": {
-    "total": 301,
-    "single_family": 287,
+    "total": 342,
+    "single_family": 328,
     "multifamily": 14,
-    "reported": 280
+    "reported": 321
    },
-   "change_pct": -3.7
+   "change_pct": -6.4
   },
   "0877510": {
    "name": "Timnath town",
    "months_reported": {
-    "this_year": 8,
+    "this_year": 9,
     "last_year": 8
    },
    "ytd": {
-    "total": 86,
-    "single_family": 86,
+    "total": 96,
+    "single_family": 96,
     "multifamily": 0,
-    "reported": 86
+    "reported": 96
    },
    "prior_ytd": {
-    "total": 390,
-    "single_family": 142,
-    "multifamily": 248,
+    "total": 413,
+    "single_family": 160,
+    "multifamily": 253,
     "reported": 390
    },
-   "change_pct": -77.9
+   "change_pct": -76.8
   },
   "0878610": {
    "name": "Trinidad",
@@ -3910,20 +3879,20 @@
   "0883230": {
    "name": "Wellington town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
-    "total": 31,
-    "single_family": 11,
+    "total": 34,
+    "single_family": 14,
     "multifamily": 20,
-    "reported": 31
+    "reported": 34
    },
    "prior_ytd": {
-    "total": 18,
-    "single_family": 18,
+    "total": 22,
+    "single_family": 22,
     "multifamily": 0,
-    "reported": 18
+    "reported": 22
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -3931,8 +3900,8 @@
   "0883450": {
    "name": "Westcliffe town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 1,
@@ -3941,10 +3910,10 @@
     "reported": 1
    },
    "prior_ytd": {
-    "total": 3,
-    "single_family": 3,
+    "total": 4,
+    "single_family": 4,
     "multifamily": 0,
-    "reported": 3
+    "reported": 4
    },
    "change_pct": null,
    "unavailable_reason": "fewer than 50 homes permitted in one of the two periods, too few to read a change"
@@ -3952,7 +3921,7 @@
   "0883835": {
    "name": "Westminster",
    "months_reported": {
-    "this_year": 7,
+    "this_year": 8,
     "last_year": 8
    },
    "ytd": null,
@@ -3974,8 +3943,8 @@
   "0884770": {
    "name": "Wiggins town",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 1,
@@ -4028,8 +3997,8 @@
   "0886090": {
    "name": "Woodland Park",
    "months_reported": {
-    "this_year": 8,
-    "last_year": 8
+    "this_year": 9,
+    "last_year": 9
    },
    "ytd": {
     "total": 1,

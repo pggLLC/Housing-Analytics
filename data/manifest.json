@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-01T12:53:04.439411Z",
+  "generated": "2026-11-01T13:40:22.760235Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8814,7 +8814,7 @@
     "data/market/bps_monthly_ytd.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 95643
+      "bytes": 95130
     },
     "data/market/bridge_co_market_summary.json": {
       "featureCount": 0,
@@ -9049,7 +9049,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 774573
+      "bytes": 774025
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
