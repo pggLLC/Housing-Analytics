@@ -8,8 +8,8 @@ synchronously to chart decade-long affordability + housing-type pace.
 
 Inputs:
   data/co-housing-costs/acs_county_latest.parquet       (3 cohorts: 2009, 2014, 2024)
-  data/co-housing-costs/fhfa_hpi_county_raw.parquet     (latest + 10y + 15y indices)
-  data/co-housing-costs/permits_county.parquet          (annual unit permits 2020-2024)
+  data/co-housing-costs/fhfa_hpi_county_raw.parquet     (annual county index, long form)
+  data/co-housing-costs/permits_county.parquet          (annual unit permits)
 
 Output:
   data/co-housing-costs/county-trends.json
@@ -25,7 +25,7 @@ Schema:
           { "year": 2014, ... },
           { "year": 2024, ... }
         ],
-        "hpi": { "latest": 340.0, "10y_base": 165.0, "15y_base": 115.0, "change_10y": 1.06, "change_15y": 1.96 },
+        "hpi": { "year": 2025, "latest": 340.0, "base_10y": 165.0, "base_15y": 115.0, "change_10y_pct": 1.06, "change_15y_pct": 1.96 },
         "permits": [ { "year": 2020, "total_units": 3995 }, ... ]
       },
       ...
@@ -88,16 +88,28 @@ def main():
         rec['acs_cohorts'].sort(key=lambda r: r['year'])
 
     # ── FHFA HPI ────────────────────────────────────────────────────
-    for _, row in hpi.iterrows():
-        fips = _normalize_fips(row['county_fips'])
+    # fhfa_hpi_county_raw.parquet is the long FHFA county series (one row per
+    # county and year, refreshed monthly by update-co-housing-costs.yml).
+    # The latest year and the values 10 and 15 years earlier give the same
+    # block the file always carried; change_*_pct stays a fraction (1.0 = +100%).
+    for fips_raw, grp in hpi.groupby('county_fips'):
+        fips = _normalize_fips(fips_raw)
         if fips not in counties:
             counties[fips] = {'county_name': '', 'acs_cohorts': [], 'hpi': None, 'permits': []}
+        by_year = {int(r.hpi_year): float(r.hpi_value) for r in grp.itertuples() if pd.notna(r.hpi_value)}
+        if not by_year:
+            continue
+        latest_year = max(by_year)
+        latest = by_year[latest_year]
+        b10 = by_year.get(latest_year - 10)
+        b15 = by_year.get(latest_year - 15)
         counties[fips]['hpi'] = {
-            'latest': float(row['hpi_latest']) if pd.notna(row['hpi_latest']) else None,
-            'base_10y': float(row['hpi_10y_base']) if pd.notna(row['hpi_10y_base']) else None,
-            'base_15y': float(row['hpi_15y_base']) if pd.notna(row['hpi_15y_base']) else None,
-            'change_10y_pct': float(row['hpi_change_10y']) if pd.notna(row['hpi_change_10y']) else None,
-            'change_15y_pct': float(row['hpi_change_15y']) if pd.notna(row['hpi_change_15y']) else None,
+            'year': latest_year,
+            'latest': latest,
+            'base_10y': b10,
+            'base_15y': b15,
+            'change_10y_pct': (latest / b10 - 1) if b10 else None,
+            'change_15y_pct': (latest / b15 - 1) if b15 else None,
         }
 
     # ── Permits ─────────────────────────────────────────────────────
@@ -112,16 +124,24 @@ def main():
     for fips, rec in counties.items():
         rec['permits'].sort(key=lambda r: r['year'])
 
+    acs_years = sorted({int(y) for y in acs['acs_year']})
+    permit_years = sorted({int(y) for y in permits['bps_year']})
     out = {
         'meta': {
             'generated': datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            'vintage': '2024',
+            'vintage': str(acs_years[-1]),
+            'built_from': [
+                'data/co-housing-costs/acs_county_latest.parquet',
+                'data/co-housing-costs/fhfa_hpi_county_raw.parquet',
+                'data/co-housing-costs/permits_county.parquet',
+            ],
             'sources': [
-                'Census ACS 5-yr 2009/2014/2024 (B25064 median gross rent, B19013 median HH income, B25070 rent burden)',
+                'Census ACS 5-yr ' + '/'.join(str(y) for y in acs_years) + ' (B25064 median gross rent, B19013 median HH income, B25070 rent burden)',
                 'FHFA House Price Index (county-level, annual)',
                 'Census Building Permits Survey (BPS) — annual unit permits',
             ],
-            'note': 'ACS cohorts are 3 snapshots (2009, 2014, 2024), not continuous annual series. FHFA HPI is annual continuous. Permits are annual 2020-2024.',
+            'note': 'ACS cohorts are ' + str(len(acs_years)) + ' snapshots (' + ', '.join(str(y) for y in acs_years) + '), not continuous annual series. '
+                    'FHFA HPI is annual continuous. Permits are annual ' + str(permit_years[0]) + '-' + str(permit_years[-1]) + '.',
         },
         'counties': counties,
     }
