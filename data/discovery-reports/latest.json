@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-10-31T13:37:04.722Z",
-  "totalScanned": 2010,
-  "newSourceCount": 1979,
+  "scanTimestamp": "2026-11-01T14:14:46.298Z",
+  "totalScanned": 2013,
+  "newSourceCount": 1982,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1022031,
+      "sizeBytes": 1023421,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7713,
+      "sizeBytes": 7708,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -110,13 +110,31 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 1230997,
+      "sizeBytes": 1292218,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 34787,
+      "sizeBytes": 35297,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/alerts/outlet-decisions.json",
+      "sizeBytes": 183,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/alerts/outlet-register.json",
+      "sizeBytes": 31759,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/alerts/outlet-review.json",
+      "sizeBytes": 22955,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -152,7 +170,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 671295,
+      "sizeBytes": 664573,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -254,7 +272,7 @@
     },
     {
       "path": "data/co-housing-costs/drivers_ranking.csv",
-      "sizeBytes": 240,
+      "sizeBytes": 242,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -1256,7 +1274,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 306959,
+      "sizeBytes": 307108,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1322,7 +1340,7 @@
     },
     {
       "path": "data/hna/acs-reliability.json",
-      "sizeBytes": 698324,
+      "sizeBytes": 698320,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4100,7 +4118,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0854880.json",
-      "sizeBytes": 43184,
+      "sizeBytes": 43186,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4460,7 +4478,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0866197.json",
-      "sizeBytes": 41798,
+      "sizeBytes": 41797,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4712,7 +4730,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0874080.json",
-      "sizeBytes": 41808,
+      "sizeBytes": 41806,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -6314,13 +6332,13 @@
     },
     {
       "path": "data/hna/projections/places.json",
-      "sizeBytes": 848599,
+      "sizeBytes": 848596,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-index.json",
-      "sizeBytes": 3417517,
+      "sizeBytes": 3417516,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9068,7 +9086,7 @@
     },
     {
       "path": "data/hna/summary/0852075.json",
-      "sizeBytes": 4175,
+      "sizeBytes": 4172,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9086,13 +9104,13 @@
     },
     {
       "path": "data/hna/summary/0852550.json",
-      "sizeBytes": 4157,
+      "sizeBytes": 4274,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/summary/0852570.json",
-      "sizeBytes": 4229,
+      "sizeBytes": 4228,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9254,7 +9272,7 @@
     },
     {
       "path": "data/hna/summary/0856860.json",
-      "sizeBytes": 4265,
+      "sizeBytes": 4266,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9458,7 +9476,7 @@
     },
     {
       "path": "data/hna/summary/0863375.json",
-      "sizeBytes": 4271,
+      "sizeBytes": 4273,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9554,7 +9572,7 @@
     },
     {
       "path": "data/hna/summary/0867142.json",
-      "sizeBytes": 4027,
+      "sizeBytes": 4028,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9758,7 +9776,7 @@
     },
     {
       "path": "data/hna/summary/0873925.json",
-      "sizeBytes": 4182,
+      "sizeBytes": 4183,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9794,7 +9812,7 @@
     },
     {
       "path": "data/hna/summary/0874430.json",
-      "sizeBytes": 4299,
+      "sizeBytes": 4295,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10460,7 +10478,7 @@
     },
     {
       "path": "data/kalshi/prediction-market.json",
-      "sizeBytes": 11233,
+      "sizeBytes": 13544,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10496,7 +10514,7 @@
     },
     {
       "path": "data/market/bps_monthly_ytd.json",
-      "sizeBytes": 95643,
+      "sizeBytes": 95130,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10742,7 +10760,7 @@
     },
     {
       "path": "data/market/landuse_zoning_proxy_co.geojson",
-      "sizeBytes": 4989760,
+      "sizeBytes": 4990529,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10772,7 +10790,7 @@
     },
     {
       "path": "data/market/market-direction.json",
-      "sizeBytes": 774569,
+      "sizeBytes": 774025,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10964,7 +10982,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 16090,
+      "sizeBytes": 16184,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11528,7 +11546,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 177581,
+      "sizeBytes": 177180,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11588,7 +11606,7 @@
     },
     {
       "path": "data/policy/lihtc-underwriting-rules.json",
-      "sizeBytes": 14793,
+      "sizeBytes": 17797,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11732,7 +11750,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 474541,
+      "sizeBytes": 498580,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11750,19 +11768,19 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20457,
+      "sizeBytes": 20459,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 194370,
+      "sizeBytes": 196600,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/processed/co_county_housing_indicators.geojson",
-      "sizeBytes": 455664,
+      "sizeBytes": 458118,
       "inDataManifest": false,
       "inFilesManifest": true
     },
