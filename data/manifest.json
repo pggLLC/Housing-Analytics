@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-01T12:08:41.307242Z",
+  "generated": "2026-11-01T12:32:36.099225Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -1204,7 +1204,7 @@
     "data/hna/acs-reliability.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 698324
+      "bytes": 698320
     },
     "data/hna/benchmarks.json": {
       "featureCount": 0,
@@ -9224,7 +9224,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16182
+      "bytes": 16184
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
