@@ -71,14 +71,13 @@
   // data/audit/chfa-qap-watch.json — guarded by test/qap-tod-points.test.js.
   var QAP_TOD = {
     section:       '§5.B.2.b',
-    adoptedPoints: 3,
-    adoptedPlan:   '2025–26 QAP',
+    adoptedPoints: 5,
+    adoptedPlan:   'adopted 2027–28 QAP',
     draftPoints:   5,
-    draftPlan:     '2027–28 QAP (adopted)',
+    draftPlan:     'adopted 2027–28 QAP',
     ruralSection:  '§5.B.3.b'
   };
-  var QAP_TOD_POINTS_LABEL = QAP_TOD.adoptedPoints + ' CHFA pts (' +
-    QAP_TOD.draftPoints + ' proposed)';
+  var QAP_TOD_POINTS_LABEL = QAP_TOD.adoptedPoints + ' CHFA pts';
 
   // Walking + biking ring radii (miles). The ½-mile walking ring is the
   // canonical CHFA TOD-scoring ring drawn separately as `todCircle` — skipped
@@ -5183,8 +5182,7 @@
       var ruralFips = _siteCountyFips(lat, lon);
       var isRural = isRuralCountyFips(ruralFips);
       var pointsNote = QAP_TOD.adoptedPoints + ' points under the ' + QAP_TOD.adoptedPlan +
-                       ' (' + QAP_TOD.section + '); the ' + QAP_TOD.draftPlan + ' proposes ' +
-                       QAP_TOD.draftPoints + ' and adds TOC sites.';
+                       ' (' + QAP_TOD.section + '), which also counts TOC sites; the 2025–26 QAP gave 3.';
       var iconColor, iconSym, headline, detail;
       var within = tod ? ' within ' + tod.label : '';
       var disclosure = tod ? ' <span data-tod-disclosure>' + String(tod.disclosure).replace(/[&<>"']/g, function (c) {

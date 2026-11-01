@@ -105,7 +105,7 @@
     'CDOT': 'Colorado Department of Transportation — state agency publishing traffic counts and transit data used in site-suitability analysis.',
     'TIGER': 'Topologically Integrated Geographic Encoding and Referencing — the Census Bureau\'s geographic boundary files (states, counties, tracts, places).',
     'CDBG': 'Community Development Block Grant — a flexible annual HUD formula grant to states and large cities for affordable-housing rehab, homebuyer assistance, infrastructure and other community development.',
-    'TOD': 'Transit-Oriented Development — projects within a ½-mile walk of transit. Earns 3 CHFA QAP points under the 2025–26 QAP (§5.B.2.b); the adopted 2027–28 QAP gives 5 and adds TOC sites.',
+    'TOD': 'Transit-Oriented Development — projects within a ½-mile walk of transit. Earns 5 CHFA QAP points under the adopted 2027–28 QAP (§5.B.2.b), which also counts TOC sites; the 2025–26 QAP gave 3.',
     'HOME': 'HOME Investment Partnerships Program — annual HUD formula grant funding affordable-housing acquisition, new construction, rehab, and tenant rental assistance.',
     '9% LIHTC': '9% LIHTC — the competitive federal credit. Worth about 70% of a building\'s eligible cost in present value, but states only get a limited annual allocation, so projects compete through a scored CHFA application.',
     '4% LIHTC': '4% LIHTC — the non-competitive federal credit, paired with tax-exempt bonds. Worth about 30% of a building\'s eligible cost in present value. Available year-round subject to a state bond cap.',

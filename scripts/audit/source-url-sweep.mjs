@@ -536,6 +536,15 @@ async function readUrlsFromExplicitPaths(pathsArg) {
   return urls;
 }
 
+// Files that hold text copied out of someone else's PDF by a watcher, not
+// links the site publishes. PDF extraction breaks URLs at line wraps
+// ("https://coloradowaterwise.org/Conservation\n-Information"), so their
+// added lines always carry truncated URLs that 404. The watcher records the
+// source document URL separately; that one is in normal data files.
+const CAPTURED_TEXT_FILES = new Set([
+  "data/audit/chfa-qap-watch.json",
+]);
+
 async function readUrlsFromAddedDiff(baseRef, headRef) {
   const urls = [];
   const child = spawn(
@@ -555,7 +564,15 @@ async function readUrlsFromAddedDiff(baseRef, headRef) {
     crlfDelay: Infinity,
   });
 
+  // Track which file each added line belongs to, so captured third-party
+  // text (see CAPTURED_TEXT_FILES) is not swept as if it were our own links.
+  let file = "";
   for await (const line of rl) {
+    if (line.startsWith("+++ ")) {
+      file = line.replace(/^\+\+\+ (?:b\/)?/, "");
+      continue;
+    }
+    if (CAPTURED_TEXT_FILES.has(file)) continue;
     urls.push(...extractUrlsFromAddedDiffLine(line));
   }
 
