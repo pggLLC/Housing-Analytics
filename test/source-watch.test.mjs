@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   pageText, keyLines, hashedText, buildTargets, intervalDays, isDue, checkSource, run, summaryMarkdown,
-  KEY_LINES_VERSION, HAND_CHECK_HOSTS,
+  KEY_LINES_VERSION, HAND_CHECK_HOSTS, mainHtml,
 } from '../scripts/audit/source-watch.mjs';
 
 const NOW = '2026-11-02T13:00:00Z';
@@ -126,4 +126,30 @@ test('run: hand-check hosts and home pages are never fetched; report is report-o
   assert.equal(report.counts.baseline, 1);
   assert.ok(state.sources['https://town.gov/fees'].text_sha256);
   assert.match(summaryMarkdown(report), /Nothing was opened, committed or edited/);
+});
+
+test('only the main content is read when the page marks one', () => {
+  const html = '<body><aside>Related: Oct 30, 2026 story</aside><main><p>Fee waived 2026-01-01</p></main><aside>Oct 29, 2026</aside></body>';
+  assert.match(mainHtml(html), /^<main>/);
+  assert.deepEqual(keyLines(pageText(html)), ['Fee waived 2026-01-01']);
+});
+
+test('a Last-Modified stamped at request time is ignored', async () => {
+  const t = { url: 'https://town.gov/DocumentCenter/View/1/Plan', kind: 'agency', document: true, urgent: [] };
+  const f = fakeFetch({ [t.url]: { headers: { 'last-modified': new Date(Date.parse(NOW) - 60_000).toUTCString(), 'content-length': '5' } } });
+  const a = await checkSource(t, {}, f, NOW);
+  assert.equal(a.entry.last_modified, null);
+  const later = '2026-11-03T13:00:00Z';
+  const f2 = fakeFetch({ [t.url]: { headers: { 'last-modified': new Date(Date.parse(later) - 60_000).toUTCString(), 'content-length': '5' } } });
+  assert.equal((await checkSource(t, a.entry, f2, later)).outcome, 'unchanged-headers');
+});
+
+test('news stories are listed as needing a primary source, not fetched', async () => {
+  const docs = { 'f.json': { entries: [{ id: 'n', title: 'N', url: 'https://www.vaildaily.com/news/story/' }] } };
+  let fetched = 0;
+  const { report } = await run({ docs, fetcher: async () => { fetched++; return { status: 200, headers: {}, body: '' }; },
+    now: NOW, specsOverride: [SPEC], newsDomains: new Set(['vaildaily.com']) });
+  assert.equal(fetched, 0);
+  assert.equal(report.hand_check.length, 1);
+  assert.match(report.hand_check[0].reason, /primary source/);
 });

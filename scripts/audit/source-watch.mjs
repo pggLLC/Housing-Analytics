@@ -103,11 +103,29 @@ export const HAND_CHECK_HOSTS = {
 };
 // A home page churns with news and states nothing record-specific (the funding watch skips them too).
 const isBareHomepage = (u) => { try { return ['', '/'].includes(new URL(u).pathname); } catch { return false; } };
+// A news outlet in data/alerts/outlet-register.json. A dated story does not change
+// when the fact does, so it is listed as needing a primary source, not watched.
+export const isNewsHost = (u, domains) => {
+  const h = hostOf(u).replace(/^www\./, '');
+  return [...domains].some((d) => h === d || h.endsWith(`.${d}`));
+};
 const hostOf = (u) => { try { return new URL(u).hostname.toLowerCase(); } catch { return ''; } };
+
+/** The page's main content when it marks one (<main>, else <article>), so rotating
+ *  sidebars, related-story lists and menus outside it never read as a change. */
+export function mainHtml(html) {
+  const s = String(html || '');
+  for (const tag of ['main', 'article']) {
+    const open = s.search(new RegExp(`<${tag}\\b`, 'i'));
+    const close = s.toLowerCase().lastIndexOf(`</${tag}>`);
+    if (open >= 0 && close > open) return s.slice(open, close + tag.length + 3);
+  }
+  return s;
+}
 
 /** Readable text of an HTML page, one block per line. */
 export function pageText(html) {
-  let s = String(html || '');
+  let s = mainHtml(html);
   s = s.replace(/<!--[\s\S]*?-->/g, ' ')
     .replace(/<(script|style|noscript|svg|template|iframe)\b[\s\S]*?<\/\1\s*>/gi, ' ')
     .replace(/<(head|nav|header|footer)\b[\s\S]*?<\/\1\s*>/gi, ' ')
@@ -165,7 +183,7 @@ export function urgentDates(record) {
 }
 
 /** Every source to watch, one per URL, naming the records it stands for. */
-export function buildTargets(docs, { skipUrls = new Set(), specs = [...FILES, ...EXTRA] } = {}) {
+export function buildTargets(docs, { skipUrls = new Set(), specs = [...FILES, ...EXTRA], newsDomains = new Set() } = {}) {
   const byUrl = new Map();
   for (const spec of specs) {
     for (const r of recordsOf(spec, docs[spec.file])) {
@@ -174,6 +192,7 @@ export function buildTargets(docs, { skipUrls = new Set(), specs = [...FILES, ..
       const t = byUrl.get(url) || { url, kind: 'agency', document: DOC_RE.test(url), records: [], urgent: [] };
       if (spec.kind === 'research' && !t.records.length) t.kind = 'research';
       if (/^https:\/\/leg\.colorado\.gov\//i.test(url)) t.kind = 'legislation';
+      if (isNewsHost(url, newsDomains)) t.kind = 'news';
       t.records.push({ file: spec.file, id: r.id ?? null, name: String(spec.name(r) || '').slice(0, 160), page: spec.page,
         last_checked: isoDay(spec.single ? r.last_verified : checkedOf(spec, r)), review_by: isoDay(r.review_by) });
       t.urgent.push(...urgentDates(r));
@@ -248,7 +267,11 @@ export async function checkSource(target, prev = {}, fetcher, now) {
     return fail(`${e.name || 'Error'}: ${e.message}`);
   }
   if (res.status >= 400) return fail(`HTTP ${res.status}`);
-  const headerBits = { etag: res.headers.etag || null, last_modified: res.headers['last-modified'] || null,
+  // Some servers (CivicPlus DocumentCenter) stamp Last-Modified with the time of the
+  // request, so it changes on every read; a stamp within an hour of now is ignored.
+  const lm = res.headers['last-modified'] || null;
+  const dynamicLm = lm && Math.abs(Date.parse(lm) - Date.parse(now)) < 3_600_000;
+  const headerBits = { etag: res.headers.etag || null, last_modified: dynamicLm ? null : lm,
     content_length: res.headers['content-length'] || null };
   const okEntry = (extra) => ({ ...base, ...carried, ok: true, unverifiable: false, http_status: res.status, ...extra });
 
@@ -285,15 +308,16 @@ export async function checkSource(target, prev = {}, fetcher, now) {
 }
 
 export async function run({ docs, state = {}, fetcher = httpFetch, now = new Date().toISOString(),
-  skipUrls = new Set(), all = false, budgetMs = RUN_BUDGET_MS, log = () => {}, specsOverride = null }) {
+  skipUrls = new Set(), newsDomains = new Set(), all = false, budgetMs = RUN_BUDGET_MS, log = () => {}, specsOverride = null }) {
   const today = new Date(Date.parse(now) - 7 * 3_600_000).toISOString().slice(0, 10); // Mountain time, close enough for a due date
-  const targets = buildTargets(docs, specsOverride ? { skipUrls, specs: specsOverride } : { skipUrls });
+  const targets = buildTargets(docs, specsOverride ? { skipUrls, newsDomains, specs: specsOverride } : { skipUrls, newsDomains });
   const prevSources = (state && state.sources) || {};
   const sources = {};
   const results = [];
   const started = Date.now();
   for (const t of targets) {
     const prev = prevSources[t.url];
+    if (t.kind === 'news') { results.push({ url: t.url, outcome: 'hand-check', target: t, detail: { reason: 'news story, not a primary source; a dated story does not change when the fact does' } }); continue; }
     if (isBareHomepage(t.url)) { results.push({ url: t.url, outcome: 'hand-check', target: t, detail: { reason: 'source is a home page, not the page that states the fact' } }); continue; }
     if (HAND_CHECK_HOSTS[hostOf(t.url)]) { results.push({ url: t.url, outcome: 'hand-check', target: t, detail: { reason: HAND_CHECK_HOSTS[hostOf(t.url)] } }); continue; }
     if (!all && !isDue(t, prev, now, today)) { sources[t.url] = prev; continue; }
@@ -312,6 +336,8 @@ export async function run({ docs, state = {}, fetcher = httpFetch, now = new Dat
       changed: results.filter((r) => r.outcome === 'changed'),
       failed: results.filter((r) => r.outcome === 'failed'),
       cosmetic: results.filter((r) => r.outcome === 'cosmetic').map((r) => r.url),
+      hand_check: results.filter((r) => r.outcome === 'hand-check').map((r) => ({ url: r.url, reason: r.detail.reason,
+        records: r.target.records.map((x) => `${x.file}#${x.id}`) })),
       unverified_after_full_compare: results.filter((r) => r.outcome === 'unchanged-text').length },
   };
 }
@@ -347,6 +373,13 @@ export function summaryMarkdown(report) {
     }
     lines.push('');
   }
+  if (report.hand_check && report.hand_check.length) {
+    const byReason = {};
+    for (const r of report.hand_check) (byReason[r.reason] ||= []).push(r.url);
+    lines.push('## Check by hand', '');
+    for (const [reason, urls] of Object.entries(byReason)) lines.push(`- ${urls.length} source${urls.length === 1 ? '' : 's'}: ${md(reason)}`);
+    lines.push('');
+  }
   const unver = report.failed.filter((r) => r.unverifiable);
   if (unver.length) {
     lines.push(`## Failing for ${UNREACHABLE_AFTER_DAYS}+ days (would be flagged for a check by hand)`, '');
@@ -359,6 +392,13 @@ export function summaryMarkdown(report) {
 export function readDocs(root) {
   const files = [...new Set([...FILES, ...EXTRA].map((s) => s.file))];
   return Object.fromEntries(files.map((f) => [f, JSON.parse(readFileSync(resolve(root, f), 'utf8'))]));
+}
+
+export function newsDomainsOf(root) {
+  const p = resolve(root, 'data/alerts/outlet-register.json');
+  if (!existsSync(p)) return new Set();
+  const j = JSON.parse(readFileSync(p, 'utf8'));
+  return new Set((j.outlets || []).flatMap((o) => o.domains || []).map((d) => String(d).toLowerCase().replace(/^www\./, '')));
 }
 
 export function fundingWatchUrls(root) {
@@ -380,7 +420,7 @@ async function main(argv) {
     if (state.schema !== SCHEMA) state = {};
   }
   const { state: next, report } = await run({ docs: readDocs(root), state, now: arg('--now', new Date().toISOString()),
-    skipUrls: fundingWatchUrls(root), all: argv.includes('--all'), log: (s) => console.log(s) });
+    skipUrls: fundingWatchUrls(root), newsDomains: newsDomainsOf(root), all: argv.includes('--all'), log: (s) => console.log(s) });
   if (statePath) writeFileSync(statePath, `${JSON.stringify(next)}\n`);
   if (reportPath) writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
   const summary = summaryMarkdown(report);
