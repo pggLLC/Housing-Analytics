@@ -135,7 +135,7 @@ test('engine: draw schedule ties and conversion cases resize the loan', () => {
   const c = s.conversion.cases;
   assert.equal(c.length, 5); assert.equal(c[0].loanChange, 0);
   assert(c[1].permanent < c[0].permanent, 'a higher rate sizes a smaller loan');
-  near(c[2].permanent, c[0].permanent * 0.95, 0.01, '5% less income, 5% smaller sized loan');
+  near(c[2].permanent, c[0].permanent * 0.95, 0.01, 'with no soft debt, 5% less income sizes a 5% smaller loan');
   assert(c[3].equityAdjuster > 0 && c[3].permanent === c[0].permanent);
   assert(c[4].netShort > c[1].netShort && c[4].netShort > c[3].netShort, 'all three together is the worst case');
 });
@@ -158,14 +158,34 @@ test('engine: 15-year stress holds the closed loan and finds the first year belo
   const vac = s.cases.find(c => c.label.startsWith('Vacancy'));
   assert(vac.lowestDscr < 1.2, 'higher vacancy lowers coverage on the same loan');
   // Each case equals a full engine re-run with the loan held at the planned amount.
-  const planned = computeDeal(full());
-  for (const [label, change] of [['Rents grow 1 point slower', { 'pf-rent-growth': '1' }], ['Flat rents, costs at 4%', { 'pf-rent-growth': '0', 'pf-exp-growth': '4' }], ['Vacancy 3 points higher', { 'dc-vacancy': '10' }]]) {
-    const i = full(); Object.assign(i.fields, { 'dc-senior-mode': 'entered', 'dc-senior-amount': String(planned.mortgage) }, change);
+  const noMgmt = () => { const i = full(); delete i.fields['dc-pf-mgmt-pct']; return i; };
+  const planned = computeDeal(noMgmt());
+  const sPlain = planned.schedules.stress;
+  for (const [label, change] of [['Rents grow 1 point slower', { 'pf-rent-growth': '1' }], ['Flat rents', { 'pf-rent-growth': '0', 'pf-exp-growth': '4' }], ['Vacancy 3 points higher', { 'dc-vacancy': '10' }]]) {
+    const i = noMgmt(); Object.assign(i.fields, { 'dc-senior-mode': 'entered', 'dc-senior-amount': String(planned.mortgage) }, change);
     const ys = computeDeal(Object.assign(i, { skipSchedules: true })).coverage.years.slice(0, 15).map(y => y.allMustPayCoverage);
-    near(s.cases.find(c => c.label === label).lowestDscr, Math.min(...ys), 1e-9, label + ' matches a full re-run');
+    near(sPlain.cases.find(c => c.label.startsWith(label)).lowestDscr, Math.min(...ys), 1e-9, label + ' matches a full re-run');
   }
   const flat = s.cases.find(c => c.label.startsWith('Flat'));
   assert(flat.firstBelowMinimum >= 1 && flat.firstBelowMinimum <= 15);
+});
+
+test('engine: budget assumptions carry into the stress cases and the reserve account', () => {
+  const i = full(); Object.assign(i.fields, { 'dc-pf-reserve-growth': '10', 'dc-pf-tax-growth': '10' });
+  const s = computeDeal(i).schedules;
+  near(s.reserves.replacement.rows[14].deposit, s.budget.rows[14].repReserve, 0.01, 'reserve deposits follow the budget');
+  near(s.stress.cases[0].lowestDscr, s.budget.lowestDscr, 1e-9, 'as planned equals the budget');
+  assert(s.budget.lowestDscr < 1.2, 'non-vacuous: faster tax and reserve growth lowers coverage');
+});
+
+test('engine: an income cut keeps the soft loan payment fixed when the loan is resized', () => {
+  const i = full(); i.tranches = [{ id: 1, program: 'other', amount: 1000000, mode: 'loan', rate: 3, term: 30, cashflowPayPct: 100, accrueMode: 'current', priority: 5 }];
+  const r = computeDeal(i);
+  assert(r.totalSoftDebtService > 0, 'non-vacuous: the soft loan has a regular payment');
+  const c = r.schedules.conversion.cases[2];
+  const expected = Math.max(0, r.noi * 0.95 / r.dcr - r.totalSoftDebtService) / ((r.noi / r.dcr - r.totalSoftDebtService) / r.mortgage);
+  near(c.permanent, expected, 0.01, 'sized on the lower income with the same soft payment');
+  assert(c.permanent < r.mortgage * 0.95, 'shrinks by more than the income cut');
 });
 
 test('engine: reserve account follows deposits, interest and capital needs', () => {

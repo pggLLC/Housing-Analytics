@@ -193,7 +193,18 @@
     }
     var permRate = permAfterRate();
     // A sized loan moves in step with operating income; an entered loan does not resize.
-    var permNoi = sized ? result.mortgage * (1 - noiCut / 100) : result.mortgage;
+    // The engine sizes principal from max(0, NOI / DCR - soft debt service) / loan constant,
+    // so the soft payments stay fixed while income falls. Recover the constant from a
+    // sized amount and size again on the lower income.
+    var soft = known(result.totalSoftDebtService) ? result.totalSoftDebtService : 0;
+    var room = known(result.noi) && known(result.dcr) ? result.noi / result.dcr - soft : null;
+    function resize(perm) {
+      if (!sized) return result.mortgage;
+      if (!known(perm) || !known(room)) return null;
+      if (perm <= 0 || room <= 0) return 0;
+      return Math.max(0, result.noi * (1 - noiCut / 100) / result.dcr - soft) / (room / perm);
+    }
+    var permNoi = resize(result.mortgage);
     var adjuster = equity * (1 - delivered / 100);
     function row(label, perm, adj, explain) {
       if (!known(perm)) return { label: label, permanent: null, loanChange: null, equityAdjuster: adj, netShort: null, reason: 'The permanent loan could not be resized for this case.', explain: explain };
@@ -201,11 +212,11 @@
       var net = base - change + adj;
       return { label: label, permanent: perm, loanChange: change, equityAdjuster: adj, netShort: net > 0.5 ? net : 0, netSpare: net < -0.5 ? -net : 0, explain: explain };
     }
-    var permBoth = known(permRate) ? permRate * (sized ? 1 - noiCut / 100 : 1) : null;
+    var permBoth = known(permRate) ? resize(permRate) : null;
     out.cases = [
       row('As planned', result.mortgage, 0, 'The schedule above.'),
       row('Rate up ' + bp + ' basis points', permRate, 0, sized ? 'The lender sizes a smaller loan at the higher rate.' : 'An entered loan amount does not resize; the payment rises instead.'),
-      row('Income ' + noiCut + '% below plan', permNoi, 0, sized ? 'A loan sized on coverage shrinks in step with income.' : 'An entered loan amount does not resize; coverage falls instead.'),
+      row('Income ' + noiCut + '% below plan', permNoi, 0, sized ? 'A loan sized on coverage shrinks as income falls; soft loan payments stay the same.' : 'An entered loan amount does not resize; coverage falls instead.'),
       row(delivered + '% of credits delivered', result.mortgage, adjuster, 'The investor pays less equity at stabilization (a downward adjuster).'),
       row('All three together', permBoth, adjuster, 'The rate, income and credit cases at once.')
     ];
@@ -228,7 +239,7 @@
   /** The line-by-line 15-year budget. Year 1 equals the engine's year 1 exactly;
    * later years grow each line at its own rate. The management fee, when entered
    * as a share of income, follows income instead of expense growth. */
-  function lineBudget(result, fields) {
+  function lineBudget(result, fields, change) {
     var out = { years: null, rows: null, growth: null, lowestDscr: null, lowestYear: null, firstBelowMinimum: null,
       firstBelowOne: null, lowestCushion: null, reason: null, notes: [] };
     var proj = result.projection;
@@ -245,24 +256,33 @@
     var units = result.units;
     if (!known(units) || units <= 0) reasons.push('Enter the number of homes.');
     if (reasons.length) { out.reason = reasons[0]; return out; }
+    // A stress case changes rent growth, expense growth (every cost line moves by
+    // the same points) or vacancy, and always runs 15 years.
+    var expDelta = 0, vac = result.vacancyRate;
+    if (change) {
+      expDelta = change.exp - g.opex; g.rent = change.rent; g.other = change.rent;
+      g.opex += expDelta; g.tax += expDelta; g.reserve += expDelta; vac = change.vac;
+    }
     var y1 = proj.rows[0];
     var mgmt1 = mgmtPct === null ? null : y1.egi * mgmtPct / 100;
     if (mgmt1 !== null && mgmt1 > y1.opex + 0.5) { out.reason = 'A ' + mgmtPct + '% management fee is more than the whole operating budget; lower it or raise the operating cost.'; return out; }
-    var years = proj.years, minDscr = 1.15, dsSeries = result.obligations && result.obligations.years;
+    var dsSeries = result.obligations && result.obligations.years;
+    var years = change ? Math.min(15, dsSeries ? dsSeries.length : 0) : proj.years, minDscr = 1.15;
+    var unchanged = !change || (change.rent === result.exit.rentGrowth && expDelta === 0 && change.vac === result.vacancyRate);
     var rows = [];
     for (var y = 1; y <= years; y++) {
-      var pr = proj.rows[y - 1], step = y - 1;
+      var step = y - 1, ob = dsSeries ? dsSeries[y - 1] : null;
       var rents = result.annualRents * Math.pow(1 + g.rent, step);
       var other = (known(result.annualOtherIncome) ? result.annualOtherIncome : 0) * Math.pow(1 + g.other, step);
-      var vacancy = (rents + other) * result.vacancyRate, egi = rents + other - vacancy;
+      var vacancy = (rents + other) * vac, egi = rents + other - vacancy;
       var mgmt = mgmt1 === null ? null : egi * mgmtPct / 100;
       var otherOpex = (mgmt1 === null ? result.annualOpex : result.annualOpex - mgmt1) * Math.pow(1 + g.opex, step);
       var tax = result.netPropTax * Math.pow(1 + g.tax, step), reserve = result.annualRepReserve * Math.pow(1 + g.reserve, step);
-      var noi = y === 1 ? result.noi : egi - (mgmt || 0) - otherOpex - tax - reserve;
-      var ds = pr.debtService, row = dsSeries && dsSeries[y - 1];
+      var noi = y === 1 && unchanged ? result.noi : egi - (mgmt || 0) - otherOpex - tax - reserve;
+      var ds = ob ? ob.mustPayDebtService : null, row = ob;
       var dscr = known(ds) && ds > 0 ? noi / ds : null;
       // Rent cushion: how far rent per home a month can fall before coverage drops to 1.15x, and to 1.00x.
-      var perHomeMonth = function (target) { return known(ds) && ds > 0 ? (noi - target * ds) / (units * 12 * (1 - result.vacancyRate) * (1 - (mgmtPct || 0) / 100)) : null; };
+      var perHomeMonth = function (target) { return known(ds) && ds > 0 ? (noi - target * ds) / (units * 12 * (1 - vac) * (1 - (mgmtPct || 0) / 100)) : null; };
       var gross = rents + other, breakEvenVac = known(ds) && gross > 0 ? Math.min(1, Math.max(0, 1 - ((mgmt || 0) + otherOpex + tax + reserve + ds) / gross)) : null;
       if (mgmt !== null) breakEvenVac = known(ds) && gross > 0 ? Math.min(1, Math.max(0, (gross * (1 - mgmtPct / 100) - otherOpex - tax - reserve - ds) / (gross * (1 - mgmtPct / 100)))) : null;
       rows.push({ year: y, grossRents: rents, otherIncome: other, vacancyLoss: vacancy, egi: egi, managementFee: mgmt,
@@ -301,32 +321,22 @@
       return { lowest: low.allMustPayCoverage, year: low.year, firstBelow: below ? below.year : null, reason: null };
     }
     // The permanent loan is already closed, so each case holds it, and its must-pay
-    // payments, at the planned amounts; only income and costs change. That is the
-    // engine's own projection arithmetic with one input changed (the tests check it
-    // against a full re-run), without running the whole engine again on every keystroke.
-    var ys = result.obligations && result.obligations.years;
-    function series(rentG, expG, vacRate) {
-      if (!ys) return null;
-      var other = known(result.annualOtherIncome) ? result.annualOtherIncome : 0;
-      return ys.slice(0, 15).map(function (o, i) {
-        var rm = Math.pow(1 + rentG, i), em = Math.pow(1 + expG, i);
-        var noi = (result.annualRents + other) * rm * (1 - vacRate) - (result.annualOpex + result.annualRepReserve + result.netPropTax) * em;
-        if (i === 0 && rentG === result.exit.rentGrowth && expG === result.exit.expGrowth && vacRate === result.vacancyRate) noi = result.noi;
-        return { year: i + 1, allMustPayCoverage: known(o.mustPayDebtService) && o.mustPayDebtService > 0 ? noi / o.mustPayDebtService : null };
-      });
-    }
+    // payments, at the planned amounts; only income and costs change. Each case is
+    // the line-by-line budget above (management fee, tax and reserve growth as
+    // entered) with one input changed, over 15 years.
     function run(label, change, explain) {
-      var rows = change ? series(change.rent, change.exp, change.vac) : (result.coverage ? result.coverage.years : null);
-      var l = lowest(rows ? { coverage: { years: rows } } : null);
+      var b = lineBudget(result, fields, change);
+      if (b.reason) return { label: label, explain: explain, lowestDscr: null, lowestYear: null, firstBelowMinimum: null, reason: b.reason };
+      var l = lowest({ coverage: { years: b.rows.map(function (r) { return { year: r.year, allMustPayCoverage: r.dscr }; }) } });
       return { label: label, explain: explain, lowestDscr: l.lowest, lowestYear: l.year, firstBelowMinimum: l.firstBelow, reason: l.reason };
     }
     var g0 = result.exit.rentGrowth, e0 = result.exit.expGrowth, v0 = result.vacancyRate;
-    var cases = [run('As planned', null, 'The growth rates and vacancy entered.')];
+    var cases = [run('As planned', { rent: g0, exp: e0, vac: v0 }, 'The growth rates, vacancy and budget lines entered.')];
     if (known(rg) && known(eg)) {
       var rgLow = Math.max(-3, rg - 1), egHigh = Math.min(6, eg + 1);
       cases.push(run('Rents grow 1 point slower', { rent: rgLow / 100, exp: e0, vac: v0 }, 'Rent growth ' + rgLow + '% a year.'));
       cases.push(run('Costs grow 1 point faster', { rent: g0, exp: egHigh / 100, vac: v0 }, 'Expense growth ' + egHigh + '% a year.'));
-      cases.push(run('Flat rents, costs at 4%', { rent: 0, exp: 0.04, vac: v0 }, 'No rent increases for 15 years while costs rise 4% a year.'));
+      cases.push(run('Flat rents, costs 1 point above 3%', { rent: 0, exp: 0.04, vac: v0 }, 'No rent increases for 15 years while operating costs rise 4% a year and taxes and reserves 1 point faster than entered.'));
     }
     if (!result.scheduleMode && known(vac)) cases.push(run('Vacancy 3 points higher', { rent: g0, exp: e0, vac: Math.min(30, vac + 3) / 100 }, 'Vacancy ' + Math.min(30, vac + 3) + '% every year.'));
     else cases.push({ label: 'Vacancy 3 points higher', explain: 'Vacancy comes from the rent schedule here, so the case is not run.', lowestDscr: null, lowestYear: null, firstBelowMinimum: null, reason: 'Vacancy is set by the unit schedule.' });
@@ -336,7 +346,7 @@
 
   /** The replacement reserve account (deposits, interest, capital needs) and the
    * operating reserve covering any year the property runs short. */
-  function reserveAccounts(result, fields) {
+  function reserveAccounts(result, fields, budget) {
     var out = { replacement: null, operating: null, reason: null };
     var proj = result.projection;
     if (!proj || !proj.rows) { out.reason = (result.unavailable && result.unavailable.projection) || 'The operating projection is not available.'; return out; }
@@ -350,7 +360,9 @@
     else {
       rep.yieldPct = yieldPct === null ? 0 : yieldPct;
       var bal = rep.start, rows = [];
-      proj.rows.slice(0, proj.years).forEach(function (r) {
+      // Deposits follow the line-by-line budget, so a reserve growth entered there carries here.
+      var deposits = budget && budget.rows ? budget.rows : proj.rows.slice(0, proj.years);
+      deposits.forEach(function (r) {
         var interest = Math.max(0, bal) * rep.yieldPct / 100;
         var spend = sum(needs.items.filter(function (n) { return n.year === r.year; }).map(function (n) { return n.amount; }));
         bal = bal + r.repReserve + interest - spend;
@@ -363,8 +375,12 @@
     }
     var op = { start: by.reserves || 0, rows: null, firstShort: null, totalDrawn: 0, reason: null };
     var obal = op.start, orows = [];
-    proj.rows.slice(0, proj.years).forEach(function (r) {
-      var draw = known(r.deficitFunded) ? r.deficitFunded : null;
+    proj.rows.slice(0, proj.years).forEach(function (r, i) {
+      // The engine's shortfall, moved by any difference between the budget's NOI and the engine's.
+      var b = budget && budget.rows ? budget.rows[i] : null;
+      var shift = b && known(b.noi) && known(r.noi) ? b.noi - r.noi : 0;
+      var draw = !known(r.deficitFunded) ? null : r.deficitFunded > 0 ? Math.max(0, r.deficitFunded - shift)
+        : known(r.cashFlow) ? Math.max(0, -(r.cashFlow + (r.mustPayUnpaid || 0) + shift)) : null;
       if (draw === null) { op.reason = op.reason || 'A year of the projection is not measured, so the operating reserve is not followed.'; return; }
       obal -= draw; op.totalDrawn += draw;
       orows.push({ year: r.year, draw: draw, balance: obal });
@@ -456,12 +472,13 @@
   function compute(args) {
     var result = args.result, fields = args.fields || {}, rerun = args.rerun || function () { return null; };
     var draw = constructionDraw(result, fields);
+    var budget = lineBudget(result, fields);
     return {
       draw: draw,
       conversion: conversionTest(result, fields, draw, rerun),
-      budget: lineBudget(result, fields),
+      budget: budget,
       stress: fifteenYearStress(result, fields),
-      reserves: reserveAccounts(result, fields),
+      reserves: reserveAccounts(result, fields, budget.reason ? null : budget),
       softLoans: softLoanBalances(result),
       exit: exitPaths(result, fields, args.rules)
     };
