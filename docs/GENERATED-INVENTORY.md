@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T07:18:53.477Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T09:37:47.457Z. Do not edit by hand.
 
 ---
 
@@ -2066,7 +2066,7 @@
 
 ## Test Files
 
-755 test files found.
+756 test files found.
 
 | File | Size |
 |------|------|
@@ -2653,6 +2653,7 @@
 | `test/source-maintenance-declarations.test.js` | 8.9 KB |
 | `test/source-url-sweep-retry.test.js` | 5.5 KB |
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
+| `test/source-watch.test.mjs` | 10.4 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/state-allocations-abbr.test.js` | 3.2 KB |
 | `test/state-housing-laws.test.js` | 6.0 KB |
@@ -2830,7 +2831,7 @@
 
 ## GitHub Actions Workflows
 
-82 workflow files found.
+83 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2905,6 +2906,7 @@
 | `.github/workflows/site-audit.yml` | 4.1 KB |
 | `.github/workflows/source-liveness-weekly.yml` | 3.6 KB |
 | `.github/workflows/source-url-sweep.yml` | 2.4 KB |
+| `.github/workflows/source-watch.yml` | 3.5 KB |
 | `.github/workflows/sync-data-mtimes.yml` | 7.7 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.9 KB |
