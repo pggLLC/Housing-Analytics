@@ -20,17 +20,43 @@ assert.match(html, /function yearAgoIndex\(/, 'headline CPI uses the date-matche
 assert.match(html, /els\.statCpi\.textContent = isFinite\(yoy\)/, 'headline CPI is written by the page script');
 
 assert.doesNotMatch(html, />LIVE</, 'no tile calls a daily saved copy "LIVE"');
-const strip = html.slice(html.indexOf('aria-label="Key economic indicators"'), html.indexOf('Indicator source:'));
-const tags = strip.match(/<div class="kpi-source"><span>Daily copy<\/span>/g) || [];
-assert.equal(tags.length, 8, 'each of the 8 headline tiles starts as "Daily copy"');
-assert.match(html, /tag\.textContent = 'Latest ' \+ obs\[0\]\.date/, 'tiles replace the tag with the date of the latest figure');
+
+// Run the page's own badge updater against data/fred-data.json and check that
+// every headline tile ends up dated with its own series' latest observation.
+const { JSDOM } = require('jsdom');
+const fred = JSON.parse(fs.readFileSync(path.join(root, 'data/fred-data.json'), 'utf8'));
+const stripStart = html.lastIndexOf('<div', html.indexOf('aria-label="Key economic indicators"'));
+const stripEnd = html.indexOf('Indicator source:');
+const fetchSrc = html.slice(html.indexOf('async function fetchFRED('), html.indexOf('return sliced;', html.indexOf('async function fetchFRED(')) + 'return sliced;'.length) + '\n}';
+const updStart = html.indexOf("document.querySelectorAll('.kpi-strip-item .kpi-source a[href*=\"fred.stlouisfed.org/series/\"]')");
+assert.ok(updStart > 0, 'badge updater found');
+const updEnd = html.indexOf('});\n    });', updStart) + '});\n    });'.length;
+const updaterSrc = html.slice(updStart, updEnd);
+
+(async () => {
+  const dom = new JSDOM('<!doctype html><body>' + html.slice(stripStart, stripEnd) + '</div></body>');
+  const doc = dom.window.document;
+  const tiles = [...doc.querySelectorAll('.kpi-strip-item')];
+  assert.equal(tiles.length, 8, 'eight headline tiles');
+  const pending = [];
+  const make = new Function('document', '_loadFredData', 'apiKey', 'pending',
+    fetchSrc + '\nconst _orig = fetchFRED; fetchFRED = function(){ const p = _orig.apply(null, arguments); pending.push(p.catch(()=>{})); return p; };\n' + updaterSrc);
+  make(doc, async () => fred, true, pending);
+  await Promise.all(pending);
+  await new Promise(r => setTimeout(r, 0));
+  for (const tile of tiles) {
+    const a = tile.querySelector('.kpi-source a');
+    const id = a.getAttribute('href').split('/series/')[1];
+    const obs = fred.series[id].observations.filter(o => o && o.value !== '.' && o.value !== null && o.date && isFinite(Number(o.value)));
+    const want = 'Latest ' + obs[obs.length - 1].date;
+    assert.equal(tile.querySelector('.kpi-source span').textContent, want, id + ' tile shows its own latest date');
+  }
 
 assert.ok(!html.includes('yardi-matrix-national-multifamily.json'), 'Yardi estimates are not shown');
 assert.ok(!/id="yardi/.test(html), 'Yardi panel stays removed');
-assert.match(html, /href="colorado-deep-dive\.html"/, 'rent pointer links to the Colorado Deep Dive');
+assert.match(html, /href="colorado-deep-dive\.html#tab-need"/, 'rent pointer opens the Deep Dive tab with the county rent chart');
 
 // The year-ago lookup must skip the missing October 2025 CPI month.
-const fred = JSON.parse(fs.readFileSync(path.join(root, 'data/fred-data.json'), 'utf8'));
 const cpi = fred.series.CPIAUCSL.observations.filter(o => o.value !== '.' && o.value != null);
 const last = cpi[cpi.length - 1];
 const target = new Date(last.date); target.setUTCFullYear(target.getUTCFullYear() - 1);
@@ -38,3 +64,4 @@ const yearAgo = cpi.filter(o => new Date(o.date) <= target).pop();
 assert.equal(yearAgo.date.slice(5, 7), last.date.slice(5, 7), 'year-ago CPI is the same calendar month');
 
 console.log('Economic dashboard accuracy guards passed.');
+})().catch(e => { console.error(e); process.exit(1); });
