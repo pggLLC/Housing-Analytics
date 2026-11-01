@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T16:32:47.869Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T20:06:00.427Z. Do not edit by hand.
 
 ---
 
@@ -2184,7 +2184,7 @@
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.6 KB |
 | `test/deal-calc-lender-schedules-page.test.js` | 3.9 KB |
 | `test/deal-calc-manual-market-rent.test.js` | 17.5 KB |
-| `test/deal-calc-minimum-set-aside.test.js` | 7.2 KB |
+| `test/deal-calc-minimum-set-aside.test.js` | 7.4 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-net-rent.test.js` | 25.2 KB |
 | `test/deal-calc-operating-page.test.js` | 7.6 KB |
