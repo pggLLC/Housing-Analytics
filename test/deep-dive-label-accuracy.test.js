@@ -1,22 +1,58 @@
 'use strict';
-// Colorado deep dive: labels and figures must match what the code computes and the cited source.
+// Colorado deep dive: each label must agree with what it labels (AGENTS.md "pin the agreement, not the copy").
+//   - the policy simulator's per-capita starting point = the per-capita amount the page itself shows from IRS Rev. Proc. 2025-32;
+//   - the Pipeline pressure label names the unit js/market-intelligence.js computes;
+//   - the unemployment labels describe how the page's script averages the county rates;
+//   - the concession chart's subtitle, canvas metadata and source line name the same source and URL.
 const fs = require('fs'), path = require('path'), assert = require('assert');
 const root = path.join(__dirname, '..');
-const page = fs.readFileSync(path.join(root, 'colorado-deep-dive.html'), 'utf8');
-const sim = fs.readFileSync(path.join(root, 'js/policy-simulator.js'), 'utf8');
-const mi = fs.readFileSync(path.join(root, 'js/market-intelligence.js'), 'utf8');
-let n = 0; const ok = (c, m) => { assert(c, m); n++; };
+const read = f => fs.readFileSync(path.join(root, f), 'utf8');
 
-// 2026 per-capita housing credit: $3.416 (IRS Rev. Proc. 2025-32), not the old $2.75.
-ok(!/\$2\.75/.test(sim), 'policy simulator still cites the stale $2.75 per-capita figure');
-ok(/\$3\.42 \(IRS Rev\. Proc\. 2025-32\)/.test(sim), 'policy simulator per-capita scenario names the 2026 amount and its source');
-// Pipeline pressure is computed as tax credit projects per 1,000 households.
-ok(/projects\/1k HH/.test(mi), 'market-intelligence.js no longer computes projects per 1,000 households; update this test and the label');
-ok(page.includes('Tax credit projects per 1,000 households') && !page.includes('Permits issued / existing units'), 'Pipeline pressure label does not match its calculation');
-// Unemployment is the simple average of county rates, not a statewide rate.
-ok(/var avg = vals\.reduce\(function \(s, v\) \{ return s \+ v; \}, 0\) \/ vals\.length;/.test(page), 'unemployment average changed; update its label');
-ok(!page.includes('BLS LAUS statewide avg') && !/BLS LAUS<\/a> · CO statewide/.test(page), 'unemployment is labelled statewide but is an average of county rates');
-// The concession chart's subtitle names the same source as its data-source and source line.
-const sub = page.match(/Average monthly concession value 2022-2025[^\n]*/)[0];
-ok(/CBRE Multifamily Outlook 2025/.test(sub) && !/AAMD Q4 2025/.test(sub), 'concession chart subtitle names a different source than its data');
-console.log('deep dive label accuracy: PASS (' + n + ' checks)');
+function problems(page, sim, mi) {
+  const out = [];
+  // 1. Per-capita: the page's own figure ("$3.416 per resident"), rounded to cents, is the simulator's starting point.
+  const shown = [...page.matchAll(/\$(\d+\.\d+) per resident/g)].map(m => +m[1]);
+  if (!shown.length) out.push('no "$x per resident" figure found on the page to compare with');
+  const desc = (sim.match(/id: 'perCapita'[\s\S]*?description: '([^']*)'/) || [])[1];
+  if (!desc) out.push('policy simulator perCapita scenario not found');
+  else {
+    const from = (desc.match(/from [^$]*\$(\d+\.\d+)/) || [])[1];
+    if (!from || shown.some(v => Math.abs(v - +from) > 0.005)) out.push('simulator per-capita start ($' + from + ') does not match the page figure ($' + shown.join(', $') + ')');
+    if (!/Rev\. Proc\. 2025-32/.test(desc) || !/Rev\. Proc\. 2025-32/.test(page)) out.push('simulator per-capita start does not name the same IRS source as the page');
+  }
+  // 2. Pipeline pressure: the label's unit is the unit the script writes.
+  const unit = (mi.match(/pipelineRate \+ ' ([^']+)'/) || [])[1];
+  const label = (page.match(/Pipeline Pressure<\/div>[\s\S]*?id="riskPipeline"[\s\S]*?<div[^>]*>([^<]*)<\/div>/) || [])[1];
+  if (!unit || !label) out.push('Pipeline pressure value or label not found');
+  else if (unit === 'projects/1k HH' ? !/projects per 1,000 households/i.test(label) : true) out.push('Pipeline pressure label "' + label + '" does not match the computed unit "' + unit + '"');
+  // 3. Unemployment: if the script takes a simple mean of county rates, no label may call it a statewide rate.
+  const simpleMean = /\.map\(function \(c\) \{ return c\.unemployment_rate; \}\)[\s\S]{0,200}\/ vals\.length/.test(page);
+  const labels = ['Inline', 'Stat'].map(k => { const i = page.indexOf('id="cddUnemployment' + k + '"'); return i < 0 ? null : page.slice(i, i + 400).split('</div>').slice(0, k === 'Stat' ? 2 : 1).join(' '); }).filter(Boolean);
+  if (!labels.length) out.push('unemployment figures not found');
+  if (simpleMean && labels.some(l => /statewide/i.test(l) || !/average of county rates/i.test(l))) out.push('unemployment is a simple average of county rates but a label says otherwise');
+  // 4. Concession chart: subtitle, canvas data-source and source caption agree.
+  const block = (page.match(/<p class="chart-subtitle">Average monthly concession value[\s\S]*?<p class="chart-source">[\s\S]*?<\/p>/) || [])[0];
+  if (!block) out.push('concession chart not found');
+  else {
+    const sub = (block.match(/<p class="chart-subtitle">[\s\S]*?<a href="([^"]+)"[^>]*>([^<]+)<\/a>/) || []).slice(1);
+    const cv = [(block.match(/data-source-url="([^"]+)"/) || [])[1], (block.match(/data-source="([^"]+)"/) || [])[1]];
+    const cap = (block.match(/<p class="chart-source">[\s\S]*?<a href="([^"]+)"[^>]*>([^<]+)<\/a>/) || []).slice(1);
+    if (!(sub[1] && sub[1] === cv[1] && cv[1] === cap[1] && sub[0] === cv[0] && cv[0] === cap[0])) out.push('concession chart names different sources: subtitle "' + sub[1] + '", data-source "' + cv[1] + '", caption "' + cap[1] + '"');
+  }
+  return out;
+}
+
+const page = read('colorado-deep-dive.html'), sim = read('js/policy-simulator.js'), mi = read('js/market-intelligence.js');
+const found = problems(page, sim, mi);
+assert.deepStrictEqual(found, [], found.join('\n'));
+
+// Sabotage both ways. Each mutation must change the text; a broken claim fails, a coordinated rewording passes.
+const mut = (s, a, b) => { const t = s.split(a).join(b); assert.notStrictEqual(t, s, 'mutation did not apply: ' + a); return t; };
+const fail = (p, s, m, what) => assert(problems(p, s, m).length > 0, 'guard missed: ' + what);
+const pass = (p, s, m, what) => assert.deepStrictEqual(problems(p, s, m), [], 'guard blocked a harmless edit: ' + what);
+fail(mut(page, 'data-source="CBRE Multifamily Outlook 2025"', 'data-source="AAMD Q4 2025"'), sim, mi, 'concession data-source changed alone');
+pass(mut(page, 'CBRE Multifamily Outlook 2025', 'CBRE U.S. Multifamily Outlook 2025'), sim, mi, 'concession source renamed everywhere');
+fail(page, mut(sim, 'from the 2026 federal amount of $3.42', 'from $2.75'), mi, 'stale per-capita start');
+fail(page, sim, mut(mi, "' projects/1k HH'", "' permits/1k units'"), 'pipeline unit changed without its label');
+fail(mut(page, '(BLS LAUS, simple average of county rates)', '(BLS LAUS statewide avg)'), sim, mi, 'unemployment called statewide');
+console.log('deep dive label accuracy: PASS (4 agreements, 5 sabotage checks)');
