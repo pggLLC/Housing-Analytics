@@ -1,16 +1,16 @@
 {
-  "generated_from_commit": "6226667a1",
+  "generated_from_commit": "e5e786aaa",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-10-31",
-    "total_commits": 9118,
+    "total_commits": 9120,
     "partial_month": "2026-11",
     "commits_by_month": [
       {
         "month": "2026-02",
         "commits": 482,
-        "pct_of_peak": 30.9
+        "pct_of_peak": 30.8
       },
       {
         "month": "2026-03",
@@ -30,12 +30,12 @@
       {
         "month": "2026-06",
         "commits": 1157,
-        "pct_of_peak": 74.1
+        "pct_of_peak": 74
       },
       {
         "month": "2026-07",
         "commits": 824,
-        "pct_of_peak": 52.8
+        "pct_of_peak": 52.7
       },
       {
         "month": "2026-08",
@@ -45,17 +45,17 @@
       {
         "month": "2026-09",
         "commits": 1429,
-        "pct_of_peak": 91.5
+        "pct_of_peak": 91.4
       },
       {
         "month": "2026-10",
-        "commits": 1562,
+        "commits": 1563,
         "pct_of_peak": 100
       },
       {
         "month": "2026-11",
-        "commits": 2,
-        "pct_of_peak": 0.1
+        "commits": 3,
+        "pct_of_peak": 0.2
       }
     ]
   },
@@ -73,9 +73,9 @@
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 69,
-    "test_files": 673,
-    "absence_test_cases": 310,
-    "absence_tests": 124,
+    "test_files": 674,
+    "absence_test_cases": 312,
+    "absence_tests": 125,
     "lihtc_features": 926
   },
   "case": {
@@ -251,7 +251,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 513377,
+    "hand_written_lines": 513466,
     "generated_place_page_lines": 229724,
     "top_level_pages": 81,
     "html_nonblank_lines": 51414,
@@ -320,7 +320,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "6226667a1",
+    "extracted_at_commit": "e5e786aaa",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
