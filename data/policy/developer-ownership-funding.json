@@ -18,17 +18,17 @@
     {
       "id": "wmrhc-good-deeds-buydown", "name": "WMRHC Good Deeds buy-down",
       "program_type": "deed-restriction-buydown", "stack_role": "direct_gap_source", "status": "active",
-      "jurisdiction_scope": "Western Mountain region", "amount_type": "percent_purchase_price",
+      "jurisdiction_scope": "Garfield and Pitkin counties", "amount_type": "percent_purchase_price",
       "max_percent": 0.3, "max_amount": null, "basis": "development_cost_per_unit", "apply_to_gap": false, "screening_apply": true,
       "render_value": null, "capability_summary": "Buy-down model that can reduce the for-sale price in exchange for a deed restriction.",
       "screening_note": "Confirm buyer, unit, deed-restriction eligibility, and a project award before underwriting.",
       "benchmark_note": "EPS Phase II Table 12 identifies deed restriction/buy-down as a developer-side affordability tool.",
       "funding_type": "grant", "side": "project", "capital_stack_category": "B_project_gap",
       "eligible_applicant": ["developer", "housing_authority"], "eligible_buyer_ami_max": null,
-      "eligible_geography": ["western_mountain_region"], "max_per_household": null, "max_per_project": null,
+      "eligible_geography": ["08045", "08097"], "max_per_household": null, "max_per_project": null,
       "affordability_period_years": null, "lien_or_recapture": {"type": "retention", "terms": "VERIFY"},
       "application_cycle": "rolling", "commitment_status": "available", "stacking_constraints": ["VERIFY"],
-      "source_url": "https://www.wmrhousing.org/gooddeeds", "source_note": "WMRHC Good Deeds page read 2026-10-21: \"The WMRHC will contribute 30% of the contracted purchase price to the purchase of a price-capped deed restriction on that property.\" The program buys a perpetual deed restriction from an eligible buyer household (an average of 1,400 work hours a year, at least 75% of them for a business located in Pitkin, West Eagle or Garfield County). The page caps the purchase price at $1,200,000 in Garfield County up valley of Glenwood Springs and $800,000 in the rest of Garfield County; its Pitkin County cap is printed as \"$1,500,00\" and needs confirming with WMRHC. The 30% is of the contract price; this screening applies 30% to development cost per unit, which is a modeling choice, not the program's basis. Project availability is not an award.",
+      "source_url": "https://www.wmrhousing.org/gooddeeds", "source_note": "WMRHC Good Deeds page read 2026-10-21: \"The WMRHC will contribute 30% of the contracted purchase price to the purchase of a price-capped deed restriction on that property.\" The program buys a perpetual deed restriction from an eligible buyer household (an average of 1,400 work hours a year, at least 75% of them for a business located in Pitkin, West Eagle or Garfield County). The page caps the purchase price at $1,200,000 in Garfield County up valley of Glenwood Springs and $800,000 in the rest of Garfield County; its Pitkin County cap is printed as \"$1,500,00\" and needs confirming with WMRHC. The 30% is of the contract price; this screening applies 30% to development cost per unit, which is a modeling choice, not the program's basis. Project availability is not an award. Page re-read 2026-11-01: \"Available for use on properties located anywhere in Pitkin and Garfield Counties\"; West Eagle County is served by the Eagle County Housing Authority's own program, so the screen counts the buy-down only in Garfield (08045) and Pitkin (08097).",
       "last_verified": "2026-10-21", "review_by": "2027-01-21", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
     },
     {

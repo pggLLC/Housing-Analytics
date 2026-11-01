@@ -6052,6 +6052,8 @@
     if (window.OwnershipDecisionChain && typeof window.OwnershipDecisionChain.render === 'function') {
       window.OwnershipDecisionChain.render(document.getElementById('hnaOwnershipDecisionChain'), result, {
         dealCalculator: window.__DealCalc,
+        // County-limited funding programs count only in their own counties (developer-ownership-funding.json).
+        countyFips: context && context.countyFips,
       });
     }
   }
@@ -6175,7 +6177,8 @@
           source: 'HNAUtils.AFFORD',
         } : null,
       });
-      renderAffordableOwnershipNeed(result, { permitContext: permitContext, homeValueReview: homeValueEntry && homeValueEntry.review_flag });
+      renderAffordableOwnershipNeed(result, { permitContext: permitContext, homeValueReview: homeValueEntry && homeValueEntry.review_flag,
+        countyFips: geoType === 'county' ? String(geoid) : (contextCounty ? String(contextCounty) : null) });
       _renderOwnershipStrategyFromState(result, geoType, geoid, label, contextCounty);
     } catch (e) {
       console.warn('[HNA] tryRenderAffordableOwnershipNeedFromState failed', e);
