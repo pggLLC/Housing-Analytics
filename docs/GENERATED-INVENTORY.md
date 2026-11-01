@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T04:34:20.476Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T07:18:53.477Z. Do not edit by hand.
 
 ---
 
@@ -61,7 +61,7 @@
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 145.7 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
 | `housing-help.html` | If You Need Housing Now | COHO Analytics | 17.2 KB |
-| `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.4 KB |
+| `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.5 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 262.9 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 52.2 KB |
@@ -2345,7 +2345,7 @@
 | `test/hna-home-value-absence.test.js` | 4.8 KB |
 | `test/hna-home-value-cascade.test.js` | 17.5 KB |
 | `test/hna-household-demand-place-scaling.test.js` | 7.7 KB |
-| `test/hna-household-type-missing.test.js` | 3.9 KB |
+| `test/hna-household-type-missing.test.js` | 8.3 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-like-for-like-comparisons.test.js` | 7.1 KB |
