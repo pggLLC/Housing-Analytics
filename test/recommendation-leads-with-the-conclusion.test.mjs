@@ -238,6 +238,78 @@ test('a recorded step is quoted verbatim, with its date', () => {
   assert.strictEqual(market.status, 'not_run', 'a step with no data was reported as recorded');
 });
 
+test('a run market analysis is quoted with the score and tier it saved', () => {
+  // Market Analysis saves pmaScore and pmaTier (market-analysis.html). This
+  // step used to read score/label, which nothing writes, so a run analysis was
+  // quoted with no figures (lead L1, 2026-10-26).
+  const project = { market: { completedAt: '2026-10-30T01:00:00Z', pmaScore: 72, pmaTier: 'Moderate' } };
+  const contract = Contract.build({ digest: digest('0820000'), project, generatedAt: 'x' });
+  const market = contract.project.find((s) => s.key === 'market');
+  assert.deepStrictEqual(market.fields.map((f) => f.value), ['72', 'Moderate']);
+  const src = read('market-analysis.html');
+  assert.ok(/pmaScore:\s*site\.pmaScore/.test(src) && /pmaTier:/.test(src),
+    'Market Analysis no longer saves the fields this step quotes');
+});
+
+test('a deal or scenario saved for another place is not quoted as this one', () => {
+  // A place change kept the old deal and scenario on the Recommendation (L3).
+  // Saves now carry savedForGeoid (workflow-state-api.js setStep).
+  const project = {
+    jurisdiction: { geoid: '0820000', completedAt: '2026-10-30T02:00:00Z' },
+    scenario: { completedAt: '2026-10-29T10:00:00Z', county: 'Mesa County', savedForGeoid: '0828745', savedForName: 'Fruita' },
+    deal: { completedAt: '2026-10-29T11:00:00Z', dealMode: 'rental', outputs: { gap: '$4,200,000' },
+      savedForGeoid: '0828745', savedForName: 'Fruita' }
+  };
+  const contract = Contract.build({ digest: digest('0820000'), project, generatedAt: 'x' });
+  for (const key of ['scenario', 'deal']) {
+    const step = contract.project.find((s) => s.key === key);
+    assert.strictEqual(step.fields.length, 0, key + ' quoted another place\'s figures');
+    assert.ok(step.savedElsewhere && /Saved for Fruita/.test(step.note), key + ' did not say where it was saved');
+  }
+  assert.ok(contract.projectStepsNotRun.some((l) => l.startsWith('Deal test')), 'a deal for another place was counted as covering this one');
+  // The same place, or a save from before the stamp existed, is quoted as before.
+  project.deal.savedForGeoid = '0820000';
+  delete project.scenario.savedForGeoid;
+  const again = Contract.build({ digest: digest('0820000'), project, generatedAt: 'x' });
+  assert.ok(again.project.find((s) => s.key === 'deal').fields.some((f) => f.value === '$4,200,000'));
+  assert.ok(again.project.find((s) => s.key === 'scenario').fields.some((f) => f.value === 'Mesa County'));
+});
+
+test('a project step save records the jurisdiction it was saved under', () => {
+  const w = new JSDOM('<body></body>', { url: 'https://example.org/', runScripts: 'outside-only' }).window;
+  ['js/workflow-state-core.js', 'js/workflow-state-api.js'].forEach((p) => w.eval(read(p)));
+  const WS = w.WorkflowState;
+  WS.setJurisdiction({ geoid: '0828745', name: 'Fruita', geoType: 'place', countyFips: '08077' });
+  WS.setStep('deal', { completedAt: '2026-10-30T01:00:00Z', dealMode: 'rental' });
+  WS.setJurisdiction({ geoid: '0820000', name: 'Denver', geoType: 'place', countyFips: '08031' });
+  assert.strictEqual(WS.getStep('deal').savedForGeoid, '0828745', 'the deal save did not record its place');
+  assert.strictEqual(WS.getStep('deal').completedAt, '2026-10-30T01:00:00Z', 'a place change erased the saved deal');
+  assert.ok(!WS.isStepComplete('deal'), 'a deal saved for Fruita still counts as done for Denver');
+  assert.ok(!WS.getProgress().completedSteps.includes('deal'), 'project progress still lists the other place\'s deal');
+  // A step written without a result (the market clear on a place change) is not stamped.
+  assert.ok(!WS.getStep('market').savedForGeoid);
+  // A caller that names the geography its result is for keeps it: the Scenario
+  // Builder can project Mesa County while Denver is the workflow's place.
+  WS.setStep('scenario', { completedAt: '2026-10-30T02:00:00Z', geoid: '08077', savedForGeoid: '08077' });
+  assert.strictEqual(WS.getStep('scenario').savedForGeoid, '08077');
+});
+
+test('a save on a page opened for another place is stamped with that place', () => {
+  // Market Analysis opened at ?geoid=08077 shows Mesa County while Denver is
+  // the workflow's place; its save must not be recorded as Denver's.
+  const load = (url) => {
+    const w = new JSDOM('<body></body>', { url, runScripts: 'outside-only' }).window;
+    ['js/workflow-state-core.js', 'js/workflow-state-api.js'].forEach((p) => w.eval(read(p)));
+    w.WorkflowState.setJurisdiction({ geoid: '08031', name: 'Denver County', geoType: 'county' });
+    w.WorkflowState.setStep('market', { completedAt: '2026-10-30T03:00:00Z', pmaScore: 61 });
+    return w.WorkflowState.getStep('market');
+  };
+  assert.strictEqual(load('https://example.org/market-analysis.html?geoid=08077').savedForGeoid, '08077',
+    'a Mesa County market save was stamped as the Denver project');
+  assert.strictEqual(load('https://example.org/market-analysis.html?geoid=08031').savedForGeoid, '08031');
+  assert.strictEqual(load('https://example.org/market-analysis.html').savedForGeoid, '08031');
+});
+
 /* ── What the reader sees ───────────────────────────────────────────────── */
 
 function renderFor(geoid, project) {
@@ -479,6 +551,26 @@ test('no jurisdiction gives a usable page rather than an empty one', () => {
   assert.ok(/No jurisdiction selected/.test(text), 'the empty state says nothing');
   assert.ok(/Choose a jurisdiction/.test(text), 'the empty state offers no way forward');
   assert.strictEqual(contract.conclusions.length, 0, 'conclusions were invented with no jurisdiction');
+});
+
+test('a deal saved for another county is stamped with the county the calculator analyzed', () => {
+  const html = read('deal-calculator.html');
+  const m = html.match(/function dealSaveGeography\([\s\S]*?\n    \}\n/);
+  assert.ok(m, 'deal-calculator.html has no dealSaveGeography');
+  assert.ok(/dealSaveGeography\(WorkflowState\.getJurisdiction/.test(html), 'saveDealToProject does not stamp its geography');
+  const geo = new Function(m[0] + '; return dealSaveGeography;')();
+  const denver = { geoid: '08031', countyFips: '08031', displayName: 'Denver County' };
+  const louisville = { geoid: '0846355', countyFips: '08013', displayName: 'Louisville' };
+  assert.deepStrictEqual(geo(denver, null, '08031', 'Denver County'), { savedForGeoid: '08031', savedForName: 'Denver County' });
+  assert.deepStrictEqual(geo(louisville, '0846355', '08013', 'Boulder County'), { savedForGeoid: '0846355', savedForName: 'Louisville' });
+  assert.deepStrictEqual(geo(denver, '08077', '08077', 'Mesa County'), { savedForGeoid: '08077', savedForName: 'Mesa County' },
+    'a Scenario Builder link for Mesa County was stamped as the Denver project');
+  assert.deepStrictEqual(geo(denver, null, '08077', 'Mesa County'), { savedForGeoid: '08077', savedForName: 'Mesa County' },
+    'a county picked in the calculator was stamped as the workflow place');
+  assert.deepStrictEqual(geo(denver, '08077', '08031', 'Denver County'), { savedForGeoid: '08031', savedForName: 'Denver County' },
+    'Denver picked after a Mesa link was stamped as Mesa');
+  assert.strictEqual(geo({ geoid: '08', displayName: 'State of Colorado' }, null, '08077', 'Mesa County').savedForGeoid, '08');
+  assert.strictEqual(geo(null, '08077', '08077', 'Mesa County'), null);
 });
 
 console.log(failures === 0

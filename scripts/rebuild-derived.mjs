@@ -131,6 +131,13 @@ export const CHAIN = [
        + 'from later events on the same project in the development ledger; it runs after the ledger it reads',
   },
   {
+    id: 'funding-map',
+    argv: ['python3', 'scripts/funding/build_funding_map.py'],
+    why: 'data/derived/funding-map.json (the region and town map on Where housing money goes) '
+       + 'reads the award ledger, DOLA awards, land banking corrections and the deal records; '
+       + 'it runs after the ledger so the map and the award view above it show the same awards',
+  },
+  {
     id: 'market-direction',
     argv: ['python3', 'scripts/market/build_market_direction.py'],
     why: 'data/market/market-direction.json reads permits, DOLA projections, LEHD jobs, '
@@ -189,6 +196,7 @@ export const NOT_DERIVED = {
   'scripts/build_rent_burden_crosscheck.mjs': 'fetches ACS B25070 from the Census API',
   'scripts/fetch-pab-allocations.mjs': 'fetches PAB allocations from the network',
   'scripts/market/build_commute_strength.py': 'downloads the LEHD LODES 2023 origin-destination file and crosswalk over the network',
+  'scripts/market/build_tract_workplaces.py': 'downloads LODES origin-destination files from the network; reads the index only for place names',
   'scripts/policy/build_job_access.py': 'routes drive times through OSRM over the network; reads the index only for the geography list and populations',
 
   // Deploy artifact rather than a data derivation.

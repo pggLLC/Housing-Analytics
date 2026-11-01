@@ -183,10 +183,19 @@ function pickCounts(row, table, from, to) {
   return counts;
 }
 
+// HUD and CHFA set every percentage limit from the published very-low-income
+// (50%) limit, T% = VLI x T/50, not from the median: the VLI carries HUD's
+// state non-metro floor (Pueblo: median $87,700, VLI $48,700, 60% = $58,440).
+// The median is used only when the record has no published VLI.
+function amiBasis(il) {
+  const vli = Number(il?.data?.very_low?.il50_p4);
+  return vli > 0 ? vli * 2 : Number(il?.data?.median_income);
+}
+
 function buildMethodology(hudYear, acsYear) {
   return [
     `Methodology v2 (2026-07): the gap's demand side is RENTER households (ACS ${acsYear} 5-year table B25118, Tenure × Household Income) at or below each income threshold — matching professional HNA practice (renter households vs rental units). v1 used ALL households (B19001, owners included) against renter-only supply, which structurally inflated gaps ~2.5-4x. The all-tenure series is retained as all_households_le_ami_pct.`,
-    `Income thresholds use HUD Income Limits year ${hudYear} Area Median Income (AMI / "median_income") for 4-person households (county entity). Thresholds: 30/40/50/60/70/80/100% of AMI. Affordable monthly rent at each threshold assumes 30% of income spent on gross rent: rent = (AMI × pct × 0.30) / 12.`,
+    `Income thresholds use HUD Income Limits year ${hudYear} published 4-person limits per county: each tier is the very-low-income (50%) limit scaled by T/50, the HUD/CHFA rule, so the state non-metro floor carries through (ami_4person is twice that limit; HUD's median_income only when no limit is published). Thresholds: 30/40/50/60/70/80/100%. Affordable monthly rent = (ami_4person × pct × 0.30) / 12.`,
     `Priced-affordable units come from ACS ${acsYear} 5-year table B25063 (gross rent for renter-occupied units paying cash rent). Rent bins are prorated at the threshold assuming uniform distribution within each rent bin.`,
     `Gap = units minus renter households at each threshold (negative = deficit).`,
     `These are "priced-affordable" units, not guaranteed vacant/available units, and do not incorporate concessions, quality, or eligibility restrictions.`
@@ -196,7 +205,7 @@ function buildMethodology(hudYear, acsYear) {
 async function computeCounty(county, hudYear, acsYear, hudToken, censusKey) {
   const entityid = county.fips_code; // HUD "fips_code" includes trailing 99999; use as entityid.
   const il = await hudFetch(`il/data/${entityid}?year=${hudYear}`, hudToken);
-  const ami = Number(il?.data?.median_income);
+  const ami = amiBasis(il);
   if (!ami || Number.isNaN(ami)) throw new Error(`Missing AMI for ${county.county_name}`);
 
   // Note: HUD fips_code is 10 digits like 0800199999. For CO it's "08" + county(3) + "99999".

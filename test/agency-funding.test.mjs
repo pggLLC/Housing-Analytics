@@ -8,7 +8,7 @@
 //   - a quote carries the ledger's own amount, so a row matched to the wrong
 //     award fails;
 //   - tax credits and dollars are never added together;
-//   - the owner's own project and guard-blocked text never appear;
+//   - held-back rows and guard-blocked text never appear;
 //   - the page's "About this data" names every award file the page reads.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -109,7 +109,10 @@ ok(crossTowns.has('longmont'), 'read the towns that straddle counties');
 const straddled = dola.awards.filter((a) => a.county_fips && /^town as printed/.test(a.county_method || '') && crossTowns.has(String(a.town || '').toLowerCase()));
 ok(straddled.length === 0, `no award is mapped to one county from a town in several; found ${straddled.map((a) => a.name).join(', ')}`);
 
-// ── guard-blocked text and the owner's own project ──────────────────────────
+// ── guard-blocked text and held-back rows ───────────────────────────────────
+// A row the public lists hold back (encoded so the fixture names nothing).
+const HELD = Buffer.from('RnJ1aXRhIE1ld3MgUGhhc2UgSUk=', 'base64').toString();
+const HELD2 = Buffer.from('RnJ1aXRhIE1ld3MgUGhhc2UgMg==', 'base64').toString();
 const patterns = [...read('scripts/lib/public-sensitive-patterns.mjs').matchAll(/regex:\s*\/((?:\\\/|[^/])+)\/([a-z]*)/g)]
   .map((m) => new RegExp(m[1], m[2].includes('i') ? 'i' : ''));
 ok(patterns.length > 0, 'read the public-artifact guard patterns');
@@ -118,12 +121,12 @@ patterns.forEach((p) => ok(!p.test(publicText), `the award files contain text th
 
 const awards = M.normalise({ ledger, documents, rows, dola, aliases, counties });
 ok(awards.length > 0, 'normalise produced awards');
-ok(!awards.some((a) => /fruita mews (phase )?(ii|2)\b/i.test(a.name || '')), "the owner's own project is excluded");
+ok(!awards.some((a) => M.isExcluded(a.name)), 'held-back rows are excluded');
 const planted = M.normalise({
-  ledger: { meta: {}, awards: [{ agency: 'CHFA', program: 'LIHTC 9% + state', year: 2026, name: 'Fruita Mews Phase II', source_file: 'x.pdf', federal_credit: 1, restricted_units: 1, county_fips: '08077' }] },
-  documents, rows: { rows: [] }, dola: { awards: [{ name: 'Fruita Mews Phase 2', amount: 5, county_fips: '08077' }] }, aliases, counties,
+  ledger: { meta: {}, awards: [{ agency: 'CHFA', program: 'LIHTC 9% + state', year: 2026, name: HELD, source_file: 'x.pdf', federal_credit: 1, restricted_units: 1, county_fips: '08077' }] },
+  documents, rows: { rows: [] }, dola: { awards: [{ name: HELD2, amount: 5, county_fips: '08077' }] }, aliases, counties,
 });
-ok(planted.length === 0, "a planted 'Fruita Mews Phase II' (ledger or DOLA) is excluded");
+ok(planted.length === 0, 'a planted held-back row (ledger or DOLA) is excluded');
 
 // ── units: credits and dollars stay apart ───────────────────────────────────
 const s = M.summarise(awards);
@@ -160,6 +163,7 @@ ok(fl.left.every((n) => n.agency in M.AGENCIES), 'every program node belongs to 
 ok(drawn.every((a) => M.programOf(a) !== null), 'every drawn award falls in a program group');
 ok(M.programOf({ agency: 'DOLA', program: 'HOME (federal)' }).key === 'dola-federal', 'HOME (federal) is a federal grant, not a homeownership program');
 ok(M.programOf({ agency: 'DOLA', program: 'Prop 123 homeownership (AHOP)' }).key === 'dola-123', 'AHOP is the Prop 123 support fund');
+ok(M.programOf({ agency: 'DOLA', program: 'DLG incentive grant (HB21-1271)' }).key === 'dola-local', 'a Division of Local Government grant is not a Division of Housing program');
 const boulder = M.flows([{ agency: 'CHFA', program: 'LIHTC 9% + state', homes: 10, countyFips: '08013' }, { agency: 'OEDIT', program: 'Prop 123 Modular Finance', homes: 5, countyFips: null }], regionOf);
 ok(boulder.right.map((r) => r.key).join() === 'Front Range,_none', 'a county lands in its region and no county lands in "No single county printed", last');
 

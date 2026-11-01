@@ -42,6 +42,22 @@ async function testSnapshotFidelity() {
   });
   assert.deepEqual(committed.values, recomputed.values, 'every homepage value equals a fresh recomputation from the source files');
   assert.deepEqual(committed.deficit_growth_basis, recomputed.deficit_growth_basis, 'the deficit-growth basis reproduces from the source files');
+  // Burden is weighted by the renters Census scores (B25070 total less "not
+  // computed"), not every renter household, once the tract file carries it.
+  const weighted = generator.buildSnapshot({
+    ranking: require('../data/hna/ranking-index.json'),
+    acs: { meta: require('../data/market/acs_tract_metrics_co.json').meta, tracts: [
+      { renter_hh: 100, cost_burden_universe: 90, cost_burden_rate: 0.6 },
+      { renter_hh: 100, cost_burden_universe: 10, cost_burden_rate: 0.2 },
+      // A 0% tract stays in the denominator; a missing rate is left out.
+      { renter_hh: 50, cost_burden_universe: 25, cost_burden_rate: 0 },
+      { renter_hh: 50, cost_burden_universe: 40, cost_burden_rate: null },
+    ] },
+    chfa: require('../data/chfa-lihtc.json'),
+    projections, amiGap, summary,
+    now: new Date(committed.generated),
+  });
+  assert.equal(weighted.values.renter_cost_burden_pct, 44.8, 'burden weights by cost_burden_universe, 0% tracts included, missing rates out: (0.6x90 + 0.2x10 + 0x25) / 125');
   // The ≤60%-AMI household-growth figure must agree with the files it is
   // derived from, re-derived here independently of the generator: DOLA
   // statewide household growth per year × HUD CHAS share of ALL households

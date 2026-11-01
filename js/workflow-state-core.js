@@ -82,10 +82,12 @@
       market: {
         completedAt: null, siteAddress: null, siteLat: null, siteLon: null, siteSource: null,
         transitEvidence: null, // exact-site THIZ program result and separate stop accessibility evidence
-        bufferMiles: 3, pmaScore: null, dimensions: null,
+        bufferMiles: 3, pmaScore: null, pmaTier: null, dimensions: null,
         qctFlag: null, ddaFlag: null, fmrRents: null,  // null = designation unknown (not checked), never "not in a QCT"
         qctDdaEvidence: null,  // tract GEOID, DDA name/code and HUD year behind the flags; null until checked
-        bridgeLandContext: null, exportReady: false
+        bridgeLandContext: null, exportReady: false,
+        // The jurisdiction a project step's result was saved for (WorkflowState.setStep).
+        savedForGeoid: null, savedForName: null
       },
       scenario: {
         completedAt: null, totalUnits: null, amiMix: [],
@@ -275,6 +277,12 @@
   function _isStepCompleteForProject(key, project) {
     var step = project[key];
     if (!step) { return false; }
+    // A project step saved for another place (savedForGeoid, stamped by
+    // setStep) is not done for this one, so the banner, project progress and
+    // rail agree with the Recommendation that the new place still needs it.
+    var here = project.jurisdiction && project.jurisdiction.geoid;
+    if ((key === 'market' || key === 'scenario' || key === 'deal') && step.savedForGeoid && here
+        && String(step.savedForGeoid) !== String(here)) { return false; }
     switch (key) {
       case 'jurisdiction':
         return !!(step.fips && step.completedAt);

@@ -93,7 +93,9 @@ async function serverlessEndpoints() {
         else {
           const match = fixtures.find(row => url.pathname.endsWith('/il/data/' + row.fips_code));
           assert(match, 'known HUD fixture: ' + url.pathname);
-          data = {data: {median_income: match.ami}};
+          // A median that is not twice the VLI, as in HUD's floored rural
+          // counties: the endpoint must scale from the published limit.
+          data = {data: {median_income: match.ami - 7000, very_low: {il50_p4: match.ami / 2}}};
         }
       } else {
         assert.equal(url.hostname, 'api.census.gov', 'no live or unexpected fetch');
@@ -133,6 +135,7 @@ async function serverlessEndpoints() {
     assert.equal(payload.counties.length, fixtures.length, 'every fixture county was computed');
     assert.equal(requests.length, 1 + fixtures.length * 4, 'both HUD and all three Census tables were read');
     assert.equal(payload.bands.length, county.bands.length);
+    for (const [i, rec] of payload.counties.entries()) assert.equal(rec.ami_4person, fixtures[i].ami, file + ': tiers scale from twice the published 50% limit, not the median');
     let checked = 0;
     for (const row of [...payload.counties, payload.statewide]) {
       checkRecord(row, payload.bands, payload.meta.gap_sign);
@@ -222,6 +225,20 @@ function combinedExport() {
     }
     console.log('PASS combined export and ownership: matching positive marginal-band shortfalls, explicit labels and formula note');
   } finally { w.close(); }
+}
+// Tier incomes follow HUD's published very-low-income limit (T% = VLI x T/50,
+// the HUD/CHFA rule), not the county median: Pueblo's median is $87,700 but its
+// 60% limit is $58,440 because of the state non-metro floor.
+{
+  const hud = json('data/hud-fmr-income-limits.json');
+  const vli = new Map(hud.counties.map(c => [String(c.fips).padStart(5, '0'), c.income_limits && c.income_limits.il50_4person]));
+  for (const rec of county.counties) {
+    const v = vli.get(rec.fips);
+    if (v > 0) assert.equal(rec.ami_4person, v * 2, `${rec.fips}: 100% AMI basis is twice the published 50% limit`);
+  }
+  const pueblo = county.counties.find(c => c.fips === '08101');
+  assert.equal(Math.round(pueblo.ami_4person * 0.6), 58440, 'Pueblo 60% 4-person matches HUD/CHFA');
+  console.log('PASS county tiers scale from HUD published limits');
 }
 (async () => {
   await serverlessEndpoints();

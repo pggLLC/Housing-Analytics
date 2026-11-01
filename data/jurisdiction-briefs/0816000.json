@@ -218,7 +218,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Colorado Springs at #55 with an overall housing-need score of 74.6. It identifies 14,701 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 72.5% of <=30% AMI households. 54.6% of renter households are cost burdened, and 2.1% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Colorado Springs at #56 with an overall housing-need score of 74.6. It identifies 14,701 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 72.5% of <=30% AMI households. 54.6% of renter households are cost burdened, and 2.1% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -451,8 +451,80 @@
       "accessed": "2026-10-18"
     },
     {
+      "id": "ls1",
+      "label": "Local support record for City of Colorado Springs, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0816000",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "2025-2029 Consolidated Plan and 2025 Annual Action Plan (Colorado Springs Legistar file 24-662 and attached Consolidated Plan)",
+      "url": "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=12165",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-colorado-springs-consolidated-plan-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "City of Colorado Springs: Construction Contractor (sales tax) page",
+      "url": "https://coloradosprings.gov/new-construction-contractor",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "colorado-springs-construction-use-tax-refund",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "City of Colorado Springs Program Rules: Multi-Family Affordable and Attainable Rental Housing Fee Rebate",
+      "url": "https://coloradosprings.gov/system/files/2023-07/program_rules_affordable_and_attainable_multi-family_rental_housing_fee_rebate_program.pdf",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "colorado-springs-fee-rebate-city-development-fees",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "City of Colorado Springs Program Rules: Multi-Family Affordable and Attainable Rental Housing Fee Rebate",
+      "url": "https://coloradosprings.gov/system/files/2023-07/program_rules_affordable_and_attainable_multi-family_rental_housing_fee_rebate_program.pdf",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "colorado-springs-fee-rebate-csu-utility-fees",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Colorado Springs UDC Article 7.4 (eCode)",
+      "url": "https://online.encodeplus.com/regs/coloradosprings-co/doc-view.aspx?pn=0&ajax=0&secid=1369",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "colorado-springs-affordable-parking-reduction",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "Ordinance authorizing up to $76,832,222.72 in private activity bonds for Bradley Ridge Apartments (Colorado Springs Legistar file 25-380 and attached presentation)",
+      "url": "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=12648",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-colorado-springs-bradley-ridge-bonds",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls8",
+      "label": "Development standards adjustment for a 49-unit affordable multifamily building at 2126 North Weber Street (Colorado Springs Legistar file DVSA-25-0009)",
+      "url": "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=13039",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-colorado-springs-weber-dvsa",
+      "accessed": "2026-10-10"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -461,7 +533,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -596,7 +668,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -605,7 +677,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -614,7 +686,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -665,78 +737,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "ls1",
-      "label": "Local support record for City of Colorado Springs, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0816000",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "2025-2029 Consolidated Plan and 2025 Annual Action Plan (Colorado Springs Legistar file 24-662 and attached Consolidated Plan)",
-      "url": "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=12165",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-colorado-springs-consolidated-plan-2025",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "City of Colorado Springs: Construction Contractor (sales tax) page",
-      "url": "https://coloradosprings.gov/new-construction-contractor",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "colorado-springs-construction-use-tax-refund",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls4",
-      "label": "City of Colorado Springs Program Rules: Multi-Family Affordable and Attainable Rental Housing Fee Rebate",
-      "url": "https://coloradosprings.gov/system/files/2023-07/program_rules_affordable_and_attainable_multi-family_rental_housing_fee_rebate_program.pdf",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "colorado-springs-fee-rebate-city-development-fees",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls5",
-      "label": "City of Colorado Springs Program Rules: Multi-Family Affordable and Attainable Rental Housing Fee Rebate",
-      "url": "https://coloradosprings.gov/system/files/2023-07/program_rules_affordable_and_attainable_multi-family_rental_housing_fee_rebate_program.pdf",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "colorado-springs-fee-rebate-csu-utility-fees",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls6",
-      "label": "Colorado Springs UDC Article 7.4 (eCode)",
-      "url": "https://online.encodeplus.com/regs/coloradosprings-co/doc-view.aspx?pn=0&ajax=0&secid=1369",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "colorado-springs-affordable-parking-reduction",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls7",
-      "label": "Ordinance authorizing up to $76,832,222.72 in private activity bonds for Bradley Ridge Apartments (Colorado Springs Legistar file 25-380 and attached presentation)",
-      "url": "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=12648",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-colorado-springs-bradley-ridge-bonds",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls8",
-      "label": "Development standards adjustment for a 49-unit affordable multifamily building at 2126 North Weber Street (Colorado Springs Legistar file DVSA-25-0009)",
-      "url": "https://coloradosprings.legistar.com/gateway.aspx?M=L&ID=13039",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-colorado-springs-weber-dvsa",
-      "accessed": "2026-10-10"
     }
   ]
 }

@@ -55,6 +55,18 @@ SERIES = {
     "COUR": ("CO Unemployment Rate (Colorado, SA)", None), "COCONS": ("CO Construction Employment", None),
     "COPOP": ("CO Population", None), "MEHOINUSCOA646N": ("CO Median Household Income", None),
     "COSTHPI": ("CO Home Price Index (FHFA)", "ATNHPIUS08"), "COBPPRIV": ("CO Building Permits", None),
+    # Colorado metro market signals for the Deep Dive's dated market card.
+    "ATNHPIUS19740Q": ("Denver metro Home Price Index (FHFA)", None),
+    "ATNHPIUS17820Q": ("Colorado Springs metro Home Price Index (FHFA)", None),
+    "ATNHPIUS22660Q": ("Fort Collins metro Home Price Index (FHFA)", None),
+    "ATNHPIUS24300Q": ("Grand Junction metro Home Price Index (FHFA)", None),
+    "MEDDAYONMAR19740": ("Denver metro Median Days on Market (Realtor.com)", None),
+    "MEDDAYONMAR17820": ("Colorado Springs metro Median Days on Market (Realtor.com)", None),
+    "MEDDAYONMAR22660": ("Fort Collins metro Median Days on Market (Realtor.com)", None),
+    "MEDDAYONMAR24300": ("Grand Junction metro Median Days on Market (Realtor.com)", None),
+    "CUUSA433SEHA": ("Denver CPI: Rent of Primary Residence (BLS)", None),
+    "ACTLISCOUCO": ("Colorado Active Listings (Realtor.com)", None),
+    "PRIREDCOUCO": ("Colorado Listings with a Price Cut (Realtor.com)", None),
 }
 
 

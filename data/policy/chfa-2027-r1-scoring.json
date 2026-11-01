@@ -14,6 +14,8 @@
     "reading_note": "The draft is a redline. Quotes below are the clean reading: struck text removed, inserted text kept, read from the rendered PDF pages, not machine text."
   },
   "round": {
+    "id": "r1",
+    "federal": "9",
     "name": "2027 Round One",
     "credit": "federal 9% plus standard state credit",
     "loi_due": "2026-12-01",
@@ -419,5 +421,34 @@
       "unconfirmed": "The draft does not say whether this fallback loan uses DOH's $45,000 per unit and $2.5 million cap. The page shows DOH's amounts and labels them unconfirmed."
     },
     "prop123_source": "data/policy/prop123_jurisdictions.json (DOLA commitment filings; 2027-2029 filings due 2026-11-01)"
+  },
+  "tie_out": {
+    "note": "Limits the application tie-out on the Submittal review page applies to the application's own figures.",
+    "credit_amount": {
+      "section": "3.M.1, Calculation of Housing Tax Credit Amount",
+      "page": 33,
+      "quote": "The amount of Housing Tax Credits reserved will be based on the smallest of the amounts resulting from these calculation methods."
+    },
+    "developer_fee": {
+      "section": "3.M.3, Contractor and Developer Fee Limits",
+      "page": 36,
+      "quote": "Aggregate Developer Fee and Consultant Fee* Limits as a Percent of Certain Project Costs",
+      "base_quote": "Certain project costs: Total cost to complete the project, minus the cost of land, developer fees, consultant fees, and project reserves.",
+      "acquisition_quote": "Fifty percent of Acquisition cost (excluding projects serving Persons experiencing Homelessness or Special Populations)",
+      "tiers": [
+        {
+          "min_units": 51,
+          "pct": 0.12
+        },
+        {
+          "min_units": 0,
+          "max_units": 50,
+          "pct": 0.15
+        }
+      ],
+      "tiers_text": "Substantial Rehabilitation and New Construction: 51 units or more, 12%; 50 units or less, 15%.",
+      "boost_max_pct": 0.05,
+      "boost_quote": "An increase of the percent allowed, up to 5 percent, may be requested for projects serving Persons experiencing Homelessness or Special Populations with incomes at or below 30 percent AMI."
+    }
   }
 }

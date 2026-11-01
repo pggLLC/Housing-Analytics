@@ -1,14 +1,16 @@
 /**
  * submittal-review.js — the gated "Submittal review" page: a draft 2027 Round One
- * (federal 9%) application scored against CHFA's QAP, the DOH or OEDIT gap-fund
+ * (federal 9%) or Round Two (federal 4% with accelerated and standard state credit,
+ * ?round=r2) application scored against CHFA's QAP, the DOH or OEDIT gap-fund
  * lane under QAP 3.B.9, threshold items, stress tests run through the Deal
  * Calculator itself, and saved versions compared side by side.
  *
  * Reads:
  *   data/policy/chfa-2027-r1-scoring.json   QAP lines, points, pages and quotes
- *                                           (public CHFA text only; status "draft"
- *                                           until CHFA adopts the 2027-28 QAP)
+ *   data/policy/chfa-2027-r2-scoring.json   (one file per round; public CHFA text only;
+ *                                           status "draft" until CHFA adopts the 2027-28 QAP)
  *   data/policy/prop123_jurisdictions.json  DOLA Prop 123 commitment filings
+ *   js/whitepaper/submittal-tieout.js       the application tie-out (window.SubmittalTieOut)
  *   /api/deals                              saved deals and versions, served only by
  *                                           the private backend (coho-backend). Deal
  *                                           figures never go to this repository.
@@ -26,7 +28,16 @@
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
-  var RULES_URL = 'data/policy/chfa-2027-r1-scoring.json';
+  // The application tie-out: application figures beside the model's, with flags.
+  var TieOut = typeof module === 'object' && module.exports ? require('./submittal-tieout.js')
+    : (typeof self !== 'undefined' ? self.SubmittalTieOut : null) || null;
+
+  var ROUNDS = { r1: 'data/policy/chfa-2027-r1-scoring.json', r2: 'data/policy/chfa-2027-r2-scoring.json' };
+  var RULES_URL = ROUNDS.r1;
+  var ROUND_LABEL = { r1: 'Round One (9%)', r2: 'Round Two (4% with state credit)' };
+  // A rules file names its round and federal rate; files written before Round Two existed are Round One, 9%.
+  function roundId(rules) { return (rules && rules.round && rules.round.id) || 'r1'; }
+  function fourPct(rules) { return !!(rules && rules.round && rules.round.federal === '4'); }
   var PROP123_URL = 'data/policy/prop123_jurisdictions.json';
   var PLACES_URL = 'data/co-place-centroids.json'; // 2024 Census Gazetteer: Colorado cities, towns and CDPs
   // Colorado's 64 counties, to tell a county that is not on DOLA's list from a misspelling.
@@ -42,6 +53,7 @@
     '5B3e-nosmoking': { rank: 1, how: 'Adopt a whole-property no-smoking policy and attach it.' },
     '5B3h-pets': { rank: 1, how: 'Adopt a pet-inclusive policy within CRS 24-32-735.' },
     '5B6-waitlist': { rank: 1, how: 'Add the housing authority waitlist question to the rental application.' },
+    '5A2-extended-use': { rank: 2, how: 'Elect 25 years of extended use instead of 15 (40 points instead of 25).' },
     '5B3g-universal': { rank: 2, how: 'Design at least 5% of units as Type A (ANSI A117.1 or UFAS).' },
     '5B2a-priority': { rank: 2, how: 'Cite the local housing needs assessment or plan that names this need.' },
     '5A1d-eli': { rank: 3, how: 'Move units to 30% AMI and line up supportive services at no cost to residents.' },
@@ -210,6 +222,15 @@
         if (thresholds && thresholds.T14 === 'missing') { line.status = 'missing'; line.note = 'Threshold #14 (the 25-year extended-use election) is marked missing, so these points are not counted.'; }
         else { line.points = l.points; line.status = 'counted'; line.note = 'Required for 9% (Threshold #14).'; }
       }
+      else if (l.auto === 'extended_use_choice') {
+        // Round Two: 15 or 25 years of extended use, chosen on the form (15, the 4% minimum, until chosen).
+        var yrs = String(claims[l.id] || l.default);
+        if (l.options[yrs] == null) yrs = l.default;
+        line.auto = true; line.years = yrs;
+        line.possible = Math.max.apply(null, Object.keys(l.options).map(function (k) { return l.options[k]; }));
+        if (thresholds && thresholds.T14 === 'missing') { line.status = 'missing'; line.note = 'Threshold #14 (the extended-use election) is marked missing, so these points are not counted.'; }
+        else { line.points = l.options[yrs]; line.status = 'counted'; line.note = yrs + ' years of extended use elected.'; }
+      }
       else if (l.auto === 'mixed_income') {
         var t = mixTotals(mix, deal.election), share = t.total ? t.restricted / t.total : 1;
         line.auto = true; line.note = Math.round(share * 1000) / 10 + '% of units are tax credit units.';
@@ -254,8 +275,10 @@
     var min = rules.minimum_score.points;
     var addable = lines.filter(function (l) { return (l.status === 'not claimed' || (l.status === 'missing' && EFFORT[l.id])) && l.possible; })
       .filter(function (l) { return EFFORT[l.id] && EFFORT[l.id].rank < 9; })
-      .map(function (l) { return { id: l.id, label: l.label, points: l.possible, how: EFFORT[l.id].how, rank: EFFORT[l.id].rank }; })
-      .sort(function (a, b) { return a.rank - b.rank || b.points - a.points; });
+      .map(function (l) { return { id: l.id, label: l.label, points: l.possible, how: EFFORT[l.id].how, rank: EFFORT[l.id].rank }; });
+    // A counted extended-use line can still gain the difference by electing the longer term.
+    if (eu && eu.status === 'counted' && eu.years && eu.points < eu.possible) addable.push({ id: eu.id, label: eu.label, points: eu.possible - eu.points, how: EFFORT[eu.id].how, rank: EFFORT[eu.id].rank });
+    addable.sort(function (a, b) { return a.rank - b.rank || b.points - a.points; });
     return { lines: lines, total: total, minimum: min, margin: total - min, meets: primaryOk && total >= min, primaryOk: primaryOk, setAside: sa,
       addable: addable, needEntered: lines.some(function (l) { return l.id === '5B1-need' && l.status === 'counted'; }) };
   }
@@ -449,6 +472,33 @@
     return { status: basis ? 'depends' : 'off', basis: basis, fixed: fixed, altFixed: alt, value: amount };
   }
 
+  // Round Two (3.L): a fixed amount of accelerated state credit and up to a set amount of paired standard credit, both
+  // per year. With the 3.B.9 pilot: $1,000,000 and up to $675,000 in 2027; under 3.L.1, without pilot gap funds:
+  // $1,100,000 and up to $800,000. Which applies is not known until CHFA says, so either fixed amount is 'depends'.
+  function roundTwoStateCheck(rules, accelerated, standard) {
+    var cc = rules.credit_caps, alt = cc.without_pilot || {};
+    var out = { fixed: cc.accelerated_fixed_annual, altFixed: alt.accelerated_fixed_annual, stdMax: cc.standard_max_annual, altStdMax: alt.standard_max_annual,
+      value: accelerated, standard: standard };
+    out.status = accelerated == null || accelerated === 0 ? 'none'
+      : accelerated === out.fixed ? 'depends' : accelerated === out.altFixed ? 'depends' : 'off';
+    out.basis = accelerated === out.fixed ? 'pilot' : accelerated === out.altFixed ? 'no_pilot' : null;
+    out.standardStatus = standard == null || standard === 0 ? 'none' : standard <= out.stdMax ? 'ok' : standard <= out.altStdMax ? 'depends' : 'over';
+    return out;
+  }
+  function roundTwoStateRisks(sc) {
+    var risks = [], where = ' (QAP 3.L and 3.L.1, not adopted)';
+    if (sc.status === 'none') risks.push(sc.standardStatus === 'none'
+      ? { level: 'yellow', text: 'No accelerated state credit entered. Round Two is the state credit round: enter the amount requested.' }
+      : { level: 'red', text: 'Standard state credit is entered without accelerated state credit; CHFA pairs standard credit with an accelerated award' + where + '.' });
+    if (sc.status === 'off') risks.push({ level: 'red', text: 'Accelerated state credit ' + money(sc.value) + ' is not the fixed amount CHFA accepts in Round Two: ' + money(sc.fixed) + ' a year with the 3.B.9 pilot, or ' + money(sc.altFixed) + ' if pilot gap funds are not available' + where + '.' });
+    if (sc.status === 'depends') risks.push({ level: 'yellow', text: sc.basis === 'pilot'
+      ? 'Accelerated state credit ' + money(sc.value) + ' is the Round Two amount with the 3.B.9 pilot; if pilot gap funds are not available it is ' + money(sc.altFixed) + where + '. Confirm with CHFA which applies.'
+      : 'Accelerated state credit ' + money(sc.value) + ' is the amount under 3.L.1, which applies only if pilot gap funds are not available; with the pilot it is ' + money(sc.fixed) + where + '. Confirm with CHFA which applies.' });
+    if (sc.standardStatus === 'over') risks.push({ level: 'red', text: 'Paired standard state credit ' + money(sc.standard) + ' is over the Round Two limit: up to ' + money(sc.stdMax) + ' with the pilot, ' + money(sc.altStdMax) + ' without it' + where + '.' });
+    if (sc.standardStatus === 'depends') risks.push({ level: 'yellow', text: 'Paired standard state credit ' + money(sc.standard) + ' is over the ' + money(sc.stdMax) + ' limit with the 3.B.9 pilot but within ' + money(sc.altStdMax) + ' if pilot gap funds are not available' + where + '.' });
+    return risks;
+  }
+
   // ── Whole review and summary ──────────────────────────────────────────────
   function review(rules, prop123, v) {
     var deal = v.deal || {};
@@ -462,31 +512,37 @@
     // The cap applies to the credit requested, not the calculator's modeled capacity. Versions saved before the request
     // had its own field kept a typed request in engine.annualCredits.
     var requested = deal.creditRequested !== undefined ? deal.creditRequested : (v.calculator ? null : (v.engine || {}).annualCredits);
-    var credit = creditCheck(rules, num(requested), num(deal.otherActiveCredits));
+    var four = fourPct(rules), rid = roundId(rules), saved = v.round || 'r1';
+    // Round Two has no federal credit cap (bond deals); the request is still shown.
+    var credit = four ? { status: 'na', value: num(requested) } : creditCheck(rules, num(requested), num(deal.otherActiveCredits));
     var risks = [];
+    if (saved !== rid) risks.push({ level: 'yellow', text: 'This version was saved on the ' + ROUND_LABEL[saved] + ' review and is scored here under ' + ROUND_LABEL[rid] + '. Open it on its own review, or save it again here.' });
     if (deal.calcRegime) risks.push({ level: 'yellow', text: 'The Deal Calculator export used ' + deal.calcRegime + ' rent limits, not CHFA LIHTC, so only its unit mix is used here. Set rent limits to CHFA LIHTC and export again for gap, coverage, credit and stress results.' });
-    if (deal.calc4) risks.push({ level: 'yellow', text: 'The Deal Calculator export was set to 4%, so only its unit mix is used here. Export the deal at 9% for gap, coverage, credit and stress results.' });
+    if (four ? deal.calc9 : deal.calc4) risks.push({ level: 'yellow', text: 'The Deal Calculator export was set to ' + (four ? '9%' : '4%') + ', so only its unit mix is used here. Export the deal at ' + (four ? '4%' : '9%') + ' for gap, coverage, credit and stress results.' });
     if (stale) risks.push({ level: 'yellow', text: 'The unit mix or set-aside election differs from the Deal Calculator export, so its gap, coverage, credit and stress results are not shown. Change the deal in the Deal Calculator and export it again.' });
     if (!s.setAside.qualifies) risks.push({ level: 'red', text: 'The unit mix does not meet the ' + ELECTION_LABEL[s.setAside.election] + ': ' + s.setAside.reasons.join('; ') + '. The deal is not eligible for credits.' });
     else if (!s.primaryOk) risks.push({ level: 'red', text: 'No points in a primary criterion, so the deal is not eligible.' });
     if (s.total < s.minimum) risks.push({ level: 'red', text: 'Score ' + pts(s.total) + ' is ' + pts(s.minimum - s.total) + ' points under the ' + s.minimum + ' minimum.' });
     if (th.missing) risks.push({ level: 'red', text: th.missing + ' threshold item' + (th.missing > 1 ? 's are' : ' is') + ' missing; a missing threshold item stops the application.' });
-    var stateCr = stateCreditCheck(rules, num(deal.stateCredits));
-    if (stateCr.status === 'off') risks.push({ level: 'red', text: 'Standard state credit ' + money(stateCr.value) + ' is not the fixed amount CHFA pairs with a 9% application: ' + money(stateCr.fixed) + ' with the 3.B.9 pilot, or ' + money(stateCr.altFixed) + ' if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
-    if (stateCr.status === 'depends') risks.push({ level: 'yellow', text: stateCr.basis === 'pilot'
+    var stateCr = four ? roundTwoStateCheck(rules, num(deal.stateCredits), num(deal.stateStandard)) : stateCreditCheck(rules, num(deal.stateCredits));
+    if (four) risks = risks.concat(roundTwoStateRisks(stateCr));
+    else if (stateCr.status === 'off') risks.push({ level: 'red', text: 'Standard state credit ' + money(stateCr.value) + ' is not the fixed amount CHFA pairs with a 9% application: ' + money(stateCr.fixed) + ' with the 3.B.9 pilot, or ' + money(stateCr.altFixed) + ' if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
+    if (!four && stateCr.status === 'depends') risks.push({ level: 'yellow', text: stateCr.basis === 'pilot'
       ? 'Standard state credit ' + money(stateCr.value) + ' is the amount paired with the 3.B.9 pilot; if pilot gap funds are not available it is ' + money(stateCr.altFixed) + ' (QAP 3.L and 3.L.1, not adopted). Confirm with CHFA which applies.'
       : 'Standard state credit ' + money(stateCr.value) + ' is the amount under 3.L.1, which applies only if pilot gap funds are not available; with the pilot it is ' + money(stateCr.fixed) + ' (QAP 3.L, not adopted). Confirm with CHFA which applies.' });
     var creditWhat = credit.other ? 'Annual federal credit ' + money(credit.value) + ' plus ' + money(credit.other) + ' in other active applications (' + money(credit.total) + ')' : 'Annual federal credit ' + money(credit.value);
     if (credit.status === 'over') risks.push({ level: 'red', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap (QAP 3.L, not adopted).' });
     if (credit.status === 'depends') risks.push({ level: 'yellow', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap that applies with the 3.B.9 gap-fund pilot but within the ' + money(credit.altCap) + ' cap if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
-    if (credit.status !== 'unknown' && credit.status !== 'over' && !credit.applicantKnown) risks.push({ level: 'yellow', text: 'The credit cap also counts other active applications by the same applicant, affiliate or turn-key developer (QAP 3.L). Enter their requested credit, or 0 if none, to check it.' });
+    if (!four && credit.status !== 'unknown' && credit.status !== 'over' && !credit.applicantKnown) risks.push({ level: 'yellow', text: 'The credit cap also counts other active applications by the same applicant, affiliate or turn-key developer (QAP 3.L). Enter their requested credit, or 0 if none, to check it.' });
+    var tie = TieOut ? TieOut.check(rules, v, eng) : null;
+    if (tie) risks = risks.concat(TieOut.risks(tie));
     if (num(eng.fundingGap) > 0) risks.push({ level: 'yellow', text: 'Funding gap of ' + money(num(eng.fundingGap)) + ' after the modeled sources.' });
     lane.flags.forEach(function (f) { risks.push({ level: 'yellow', text: f }); });
     if (!s.needEntered) risks.push({ level: 'yellow', text: 'Housing need points are not entered; the score leaves them out.' });
     if (s.total >= s.minimum && s.margin < 5) risks.push({ level: 'yellow', text: 'Only ' + pts(s.margin) + ' points over the minimum.' });
     if (th.unchecked) risks.push({ level: 'yellow', text: th.unchecked + ' threshold items not checked yet.' });
     var next = s.total < s.minimum && s.addable.length ? s.addable[0] : null;
-    return { score: s, prop123: p, lane: lane, thresholds: th, credit: credit, stateCredit: stateCr, engine: eng, risks: risks,
+    return { four: four, round: rid, score: s, prop123: p, lane: lane, thresholds: th, credit: credit, stateCredit: stateCr, engine: eng, tieout: tie, risks: risks,
       next: next ? '+' + next.points + ' point' + (next.points === 1 ? '' : 's') + ': ' + next.how
         : (risks.length ? risks[0].text : 'No red flags. Confirm the unconfirmed items with CHFA.') };
   }
@@ -507,19 +563,21 @@
     ['Homes', function (v, r) { return r.lane.units || '—'; }],
     ['AMI midpoint', function (v, r) { return r.lane.midpoint == null ? '—' : r.lane.midpoint.toFixed(2) + '%'; }],
     ['CHFA score', function (v, r) { return pts(r.score.total); }],
-    ['Points over or under 130', function (v, r) { return (r.score.margin >= 0 ? '+' : '') + pts(r.score.margin); }],
+    ['Points over or under the minimum', function (v, r) { return (r.score.margin >= 0 ? '+' : '') + pts(r.score.margin); }],
     ['Gap-fund lane', function (v, r) { return r.lane.lane || '—'; }],
     ['Gap-fund amount', function (v, r) { return money(r.lane.amount); }],
     ['Total cost', function (v, r) { return money(num(r.engine.totalDevelopmentCost)); }],
     ['Cost per home', function (v, r) { var t = num(r.engine.totalDevelopmentCost); return t != null && r.lane.units ? money(t / r.lane.units) : '—'; }],
     // The request, not the calculator's modeled capacity; a blank request shows as a dash.
     ['Annual federal credit requested', function (v, r) { return money(r.credit.value); }],
+    ['Annual state credit requested', function (v, r) { var d = v.deal || {}, a = num(d.stateCredits), b = r.four ? num(d.stateStandard) : null; return a == null && b == null ? '—' : money((a || 0) + (b || 0)); }],
     ['Modeled credit capacity', function (v, r) { return v.calculator ? money(num(r.engine.annualCredits)) : '—'; }],
     ['Credit equity', function (v, r) { return money(num(r.engine.creditEquity)); }],
     ['Funding gap', function (v, r) { return money(num(r.engine.fundingGap)); }],
     ['Weakest must-pay debt coverage', function (v, r) { var d = num(r.engine.dscr); return d == null ? '—' : d.toFixed(2) + 'x'; }],
     ['Deferred developer fee', function (v, r) { return money(num(r.engine.deferredDeveloperFee)); }],
     ['Threshold items missing', function (v, r) { return String(r.thresholds.missing); }],
+    ['Application tie-out', function (v, r) { return r.tieout ? TieOut.countsText(r.tieout) : '—'; }],
     ['Stress tests failed', function (v) {
       if (!v.stress) return 'not run';
       var ran = v.stress.filter(function (t) { return !t.skipped; }), skipped = v.stress.length - ran.length;
@@ -591,7 +649,7 @@
       var r = review(rules, prop123, v), e = r.engine || {};
       return { n: v.n, label: v.label || v.name || 'Untitled', at: v.at || '', by: v.by || '', baseline: !!v.baseline, hidden: !!v.hidden,
         stale: !!(v.calculator && v.calculator.stale), totalCost: num(e.totalDevelopmentCost), credit: v.calculator ? num(e.annualCredits) : null,
-        creditEquity: num(e.creditEquity), gap: num(e.fundingGap), score: r.score.total, lane: r.lane.lane || '',
+        creditEquity: num(e.creditEquity), gap: num(e.fundingGap), score: r.score.total, lane: r.lane.lane || '', tieout: r.tieout ? TieOut.countsText(r.tieout) : '',
         change: i ? changeLines([versions[i - 1], v])[0] : '' };
     });
     var overall = versions.length > 1 ? changeLines([versions[0], versions[versions.length - 1]])[0] : '';
@@ -607,7 +665,7 @@
           (r.baseline ? ' <span class="rw-band">Baseline</span>' : '') + (r.hidden ? ' <span class="sr-muted">(hidden)</span>' : '') +
           '<div class="sr-muted">' + esc(r.at.slice(0, 16).replace('T', ' ')) + (r.by ? ' · ' + esc(r.by) : '') + '</div></div>' +
           '<dl class="sr-hist-figs">' + fig('Total cost', money(r.totalCost)) + fig('Modeled credit', money(r.credit)) + fig('Credit equity', money(r.creditEquity)) +
-          fig('Funding gap', money(r.gap)) + fig('CHFA score', pts(r.score)) + fig('Gap-fund lane', r.lane || '—') + '</dl>' +
+          fig('Funding gap', money(r.gap)) + fig('CHFA score', pts(r.score)) + fig('Gap-fund lane', r.lane || '—') + fig('Application tie-out', r.tieout || '—') + '</dl>' +
           (r.change ? '<p class="sr-hist-change">' + esc(r.change) + '</p>' : '<p class="sr-muted">First version.</p>') +
           (r.stale ? '<p class="sr-flag">The unit mix or election changed after the Deal Calculator export, so its model results are not shown.</p>' : '') + '</li>';
       }).join('') + '</ol>';
@@ -621,9 +679,9 @@
     return /[",\n\r]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
   }
   function historyCsv(m) {
-    var head = ['Version', 'Label', 'Saved', 'Saved by', 'Total cost', 'Modeled annual credit', 'Credit equity', 'Funding gap', 'CHFA score', 'Gap-fund lane', 'What changed from the version before'];
+    var head = ['Version', 'Label', 'Saved', 'Saved by', 'Total cost', 'Modeled annual credit', 'Credit equity', 'Funding gap', 'CHFA score', 'Gap-fund lane', 'Application tie-out', 'What changed from the version before'];
     return [head].concat(m.rows.map(function (r) {
-      return ['v' + r.n, r.label, r.at, r.by, r.totalCost, r.credit, r.creditEquity, r.gap, r.score, r.lane, r.change];
+      return ['v' + r.n, r.label, r.at, r.by, r.totalCost, r.credit, r.creditEquity, r.gap, r.score, r.lane, r.tieout, r.change];
     })).map(function (row) { return row.map(csvCell).join(','); }).join('\r\n') + '\r\n';
   }
 
@@ -672,13 +730,16 @@
     if (!fromSchedule && units != null && units > restricted) mix.market = units - restricted;
     var o = snap.outputs || {};
     var engine = {};
-    ['fundingGap', 'dscr', 'deferredDeveloperFee', 'annualCredits', 'creditEquity', 'totalDevelopmentCost', 'stateCreditEquity', 'firstMortgage'].forEach(function (k) {
+    ['fundingGap', 'dscr', 'deferredDeveloperFee', 'annualCredits', 'creditEquity', 'totalDevelopmentCost', 'stateCreditEquity', 'firstMortgage',
+      'eligibleBasis', 'developerFee', 'annualDebtService', 'annualRents', 'annualOperatingExpenses', 'annualReserves'].forEach(function (k) {
       engine[k] = o[k] && typeof o[k].value === 'number' ? o[k].value : null;
       if (o[k] && o[k].value == null && o[k].unavailableReason) engine[k + 'Reason'] = o[k].unavailableReason;
     });
     var cov = mustPayCoverage(function (k) { return o[k] && typeof o[k].value === 'number' ? o[k].value : null; }, snap.debtCoverage);
     engine.dscr = cov.dscr; engine.dscrYear = cov.dscrYear;
     if (cov.dscr != null) delete engine.dscrReason; else engine.dscrReason = cov.dscrReason;
+    // The equity price is an input, not an output; the tie-out compares it to the application's.
+    var price = num(inp['equity-price']); engine.equityPrice = price != null && price > 0 ? price : null;
     var q = String(snap.url).indexOf('?'), query = q === -1 ? '' : String(snap.url).slice(q + 1);
     var param = function (k) { var m = query.match(new RegExp('(?:^|&)' + k + '=([^&]*)')); return m ? decodeURIComponent(m[1]) : null; };
     // The credit-rate radios share one key: rate-9=0.09 is 9%, rate-9=0.04 is 4%.
@@ -690,8 +751,15 @@
     var REGIME_LABEL = { home_high: 'High HOME', home_low: 'Low HOME', prop123: 'Prop 123', ami_formula: 'other AMI-formula', market: 'market-rate' };
     // A blank request stays unknown: the calculator fills its output with modeled capacity, which is not a request.
     var req = num(inp['credit-requested'] != null ? inp['credit-requested'] : param('credit-requested'));
+    // The model's credit is the lesser of capacity and any entered request, or an entered award. The tie-out
+    // needs both inputs to tell whether the model figure is capacity before it calls a higher request a deal breaker.
+    var award = num(inp['credit-awarded'] != null ? inp['credit-awarded'] : param('credit-awarded'));
+    engine.creditRequestInput = req != null && req >= 0 ? req : null;
+    engine.creditAwardInput = award != null && award >= 0 ? award : null;
     var st = num(inp['state-annual'] != null ? inp['state-annual'] : param('state-annual'));
-    return { mix: mix, engine: engine, requested: req != null && req >= 0 ? req : null, stateAnnual: st != null && st >= 0 ? st : null, query: query, nine: rate != null && rate > 0.06, chfa: regime === 'chfa_lihtc', regime: REGIME_LABEL[regime] || 'non-CHFA', election: election, exportedAt: snap.exportedAt || null };
+    // Round Two pairs a separate standard state credit with the accelerated amount above.
+    var ss = num(inp['state-standard-annual'] != null ? inp['state-standard-annual'] : param('state-standard-annual'));
+    return { mix: mix, engine: engine, requested: req != null && req >= 0 ? req : null, stateAnnual: st != null && st >= 0 ? st : null, stateStandard: ss != null && ss >= 0 ? ss : null, query: query, nine: rate != null && rate > 0.06, chfa: regime === 'chfa_lihtc', regime: REGIME_LABEL[regime] || 'non-CHFA', election: election, exportedAt: snap.exportedAt || null };
   }
 
   // ── Stress tests (browser only) ───────────────────────────────────────────
@@ -947,7 +1015,7 @@
   function statHtml(r) {
     var s = r.score, l = r.lane, th = r.thresholds, g = num(r.engine.fundingGap);
     var tile = function (v, label, cls) { return '<div class="rw-stat' + (cls ? ' ' + cls : '') + '"><div class="rw-stat-v">' + v + '</div>' + label + '</div>'; };
-    return tile(esc(pts(s.total)) + '<span class="sr-of"> / ' + s.minimum + '</span>', s.meets ? 'CHFA points: clears the 9% minimum.' : (s.primaryOk ? 'CHFA points: ' + esc(pts(-s.margin)) + ' short of the 9% minimum.' : (s.setAside.qualifies ? 'CHFA points: no primary criterion points yet.' : 'CHFA points: the unit mix misses its set-aside election.')), s.meets ? 'sr-ok' : 'sr-bad') +
+    return tile(esc(pts(s.total)) + '<span class="sr-of"> / ' + s.minimum + '</span>', s.meets ? 'CHFA points: clears the ' + (r.four ? 'Round Two' : '9%') + ' minimum.' : (s.primaryOk ? 'CHFA points: ' + esc(pts(-s.margin)) + ' short of the ' + (r.four ? 'Round Two' : '9%') + ' minimum.' : (s.setAside.qualifies ? 'CHFA points: no primary criterion points yet.' : 'CHFA points: the unit mix misses its set-aside election.')), s.meets ? 'sr-ok' : 'sr-bad') +
       tile(esc(l.lane === 'unknown' ? '—' : money(l.amount)), esc(l.lane === 'unknown' ? l.text : 'Gap funds: ' + l.lane + ' ' + l.kind + '.'), l.flags.length ? 'sr-warn' : '') +
       tile(String(th.missing) + '<span class="sr-of"> missing</span>', 'Threshold items: ' + th.ready + ' ready, ' + th.unchecked + ' not checked' + (th.na ? ', ' + th.na + ' do not apply' : '') + '.', th.missing ? 'sr-bad' : (th.unchecked ? 'sr-warn' : 'sr-ok')) +
       tile(g == null ? '—' : esc(money(g)), g == null ? 'Funding gap: load a Deal Calculator export to see it.' : 'Funding gap after modeled sources.', g > 0 ? 'sr-warn' : '');
@@ -973,7 +1041,7 @@
     var ratio = function (x) { return x.toFixed(2) + 'x'; };
     return '<p class="sr-muted">Base run: gap ' + esc(cell(b.fundingGap, money)) + (b.fundingGap == null && b.fundingGapReason ? ' (' + esc(b.fundingGapReason) + ')' : '') +
       ', coverage ' + esc(cell(b.dscr, ratio)) + ', deferred fee ' + esc(cell(b.deferredDeveloperFee, money)) + '.</p>' +
-      '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="What changes in the Deal Calculator for this run">Test</th><th scope="col" class="sr-num" data-tip="Sources still needed after the modeled loan, equity and soft funds">Funding gap</th><th scope="col" class="sr-num" data-tip="Weakest debt coverage in years 1 to 15: net operating income over all must-pay debt service">Coverage</th><th scope="col" class="sr-num" data-tip="Developer fee paid later from cash flow">Deferred fee</th><th scope="col" data-tip="Fails when the gap grows, coverage drops under the CHFA 1.15 minimum, the score falls under 130, or the gap-fund lane changes">Result</th></tr></thead><tbody>' +
+      '<div class="sr-scroll"><table class="sr-table"><thead><tr><th scope="col" data-tip="What changes in the Deal Calculator for this run">Test</th><th scope="col" class="sr-num" data-tip="Sources still needed after the modeled loan, equity and soft funds">Funding gap</th><th scope="col" class="sr-num" data-tip="Weakest debt coverage in years 1 to 15: net operating income over all must-pay debt service">Coverage</th><th scope="col" class="sr-num" data-tip="Developer fee paid later from cash flow">Deferred fee</th><th scope="col" data-tip="Fails when the gap grows, coverage drops under the CHFA ' + rules.underwriting.dcr_min.toFixed(2) + ' minimum, the score falls under ' + rules.minimum_score.points + ', or the gap-fund lane changes">Result</th></tr></thead><tbody>' +
       st.tests.map(function (t) {
         var e = t.engine || {};
         return '<tr><td><strong>' + esc(t.label) + '</strong><div class="sr-muted">' + esc(t.why) + (t.note ? ' ' + esc(t.note) : '') + '</div></td>' +
@@ -990,9 +1058,10 @@
 
   function mount(doc, rules, prop123, store) {
     var $ = function (id) { return doc.getElementById(id); };
+    var four = fourPct(rules), rid = roundId(rules);
     var state = { nav: 0, deal: null, name: '', parent: '', version: blankVersion(), stress: null, versions: [], picked: {}, cache: {}, hidden: [], baseline: '', gone: {} };
 
-    function blankVersion() { return { deal: { mix: {}, place: '', election: '40-60', applicant: '', gpRole: '', supportive: false, rehab: false, existingCredit: false, subsidyExpiring: false, otherActiveCredits: null, stateCredits: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null }; }
+    function blankVersion() { return { round: rid, deal: { mix: {}, place: '', election: '40-60', applicant: '', gpRole: '', supportive: false, rehab: false, existingCredit: false, subsidyExpiring: false, otherActiveCredits: null, stateCredits: null, stateStandard: null, creditRequested: null }, claims: {}, thresholds: {}, documents: [], engine: {}, calculator: null, tieout: { app: {}, ref: {} } }; }
 
     // Form → state
     function readForm() {
@@ -1010,6 +1079,7 @@
       if (!v.calculator) {
         var ac = num($('sr-credits').value); d.creditRequested = ac != null && ac >= 0 ? ac : null;
         var sc = num($('sr-state-credits').value); d.stateCredits = sc != null && sc >= 0 ? sc : null;
+        if (four) { var ss = num($('sr-state-standard').value); d.stateStandard = ss != null && ss >= 0 ? ss : null; }
       }
       doc.querySelectorAll('[data-claim]').forEach(function (el) {
         var id = el.getAttribute('data-claim');
@@ -1024,6 +1094,10 @@
         v.thresholds[tid] = el.value;
         var ref = doc.querySelector('[data-tref="' + el.getAttribute('data-threshold') + '"]'); if (ref) v.thresholds[el.getAttribute('data-threshold') + ':ref'] = ref.value.slice(0, 200);
       });
+      // Versions saved before the tie-out have none.
+      var t = v.tieout = v.tieout || { app: {}, ref: {} }; t.app = t.app || {}; t.ref = t.ref || {};
+      doc.querySelectorAll('[data-tie]').forEach(function (el) { var n = num(el.value); t.app[el.getAttribute('data-tie')] = n; });
+      doc.querySelectorAll('[data-tieref]').forEach(function (el) { t.ref[el.getAttribute('data-tieref')] = el.value.slice(0, 200); });
     }
     function extraTierNote(mix) {
       var extra = tiersOf(mix).filter(function (t) { return TIERS.indexOf(t) === -1 && num(mix[t]) > 0; });
@@ -1039,18 +1113,23 @@
       $('sr-supportive').checked = !!d.supportive; $('sr-rehab').checked = !!d.rehab; $('sr-existing').checked = !!d.existingCredit; $('sr-subsidy-expiring').checked = !!d.subsidyExpiring;
       $('sr-other-credits').value = d.otherActiveCredits != null ? d.otherActiveCredits : '';
       $('sr-state-credits').value = d.stateCredits != null ? d.stateCredits : '';
+      $('sr-state-standard').value = d.stateStandard != null ? d.stateStandard : '';
+      $('sr-state-standard').disabled = !!v.calculator;
       var req = d.creditRequested !== undefined ? d.creditRequested : (v.calculator ? null : v.engine.annualCredits);
       $('sr-credits').value = req != null ? req : '';
       $('sr-credits').disabled = !!v.calculator; $('sr-state-credits').disabled = !!v.calculator; // both come from the export
       doc.querySelectorAll('[data-claim]').forEach(function (el) {
         var id = el.getAttribute('data-claim'), c = v.claims[id];
-        if (el.type === 'checkbox') el.checked = !!c; else el.value = c == null ? '' : c;
+        if (el.type === 'checkbox') el.checked = !!c; else el.value = c == null ? (el.getAttribute('data-default') || '') : c;
         var ref = doc.querySelector('[data-ref="' + id + '"]'); if (ref) ref.value = v.claims[id + ':ref'] || '';
       });
       doc.querySelectorAll('[data-threshold]').forEach(function (el) {
         var id = el.getAttribute('data-threshold'); el.value = v.thresholds[id] || '';
         var ref = doc.querySelector('[data-tref="' + id + '"]'); if (ref) ref.value = v.thresholds[id + ':ref'] || '';
       });
+      var t = v.tieout || {};
+      doc.querySelectorAll('[data-tie]').forEach(function (el) { var n = (t.app || {})[el.getAttribute('data-tie')]; el.value = n != null ? n : ''; });
+      doc.querySelectorAll('[data-tieref]').forEach(function (el) { el.value = (t.ref || {})[el.getAttribute('data-tieref')] || ''; });
       $('sr-docs').innerHTML = v.documents.length ? v.documents.map(function (f) { return '<li>' + esc(f.name) + ' <span class="sr-muted">(' + Math.round(f.size / 1024) + ' KB, fingerprint ' + esc(f.sha256.slice(0, 12)) + '…, not stored)</span></li>'; }).join('') : '<li class="sr-muted">None yet.</li>';
       $('sr-calc-status').textContent = v.calculator ? 'Deal Calculator export loaded' + (v.calculator.exportedAt ? ' (exported ' + v.calculator.exportedAt.slice(0, 10) + ')' : '') + '. Unit mix and model results come from it.' + extraTierNote(d.mix) : 'No Deal Calculator export loaded. Type the unit mix below; stress tests need an export.';
       setStressButton();
@@ -1073,10 +1152,23 @@
         (l.flags.length ? '<ul>' + l.flags.map(function (f) { return '<li class="sr-flag">' + esc(f) + '</li>'; }).join('') + '</ul>' : '') +
         l.quotes.map(function (q) { return '<div class="rw-quote">"' + esc(q) + '" (QAP 3.B.9, p. ' + rules.gap_pilot.page + ')</div>'; }).join('') +
         (l.mustPay ? '<p class="sr-muted">This lane is a must-pay loan, so it reduces debt coverage. Put it in the Deal Calculator as a must-pay tranche to see the effect.</p>' : '');
-      var cr = r.credit;
-      $('srCredit').textContent = cr.status === 'unknown' ? 'Annual federal credit not entered.' : (cr.status === 'depends' ? 'Annual federal credit ' + money(cr.total) + (cr.other ? ' with other active applications' : '') + ': over the ' + money(cr.cap) + ' pilot cap, within the ' + money(cr.altCap) + ' cap if pilot gap funds are not available.'
+      var cr = r.credit, sc = r.stateCredit;
+      if (four) $('srCredit').textContent = (cr.value == null ? 'Annual federal 4% credit not entered (Round Two has no federal credit cap). ' : 'Annual federal 4% credit ' + money(cr.value) + ' (no federal credit cap in Round Two). ') +
+        (sc.status === 'none' ? 'Accelerated state credit not entered.' : 'Accelerated state credit ' + money(sc.value) + (sc.status === 'off' ? ': not a fixed Round Two amount (' + money(sc.fixed) + ' with the pilot, ' + money(sc.altFixed) + ' without).' : sc.basis === 'pilot' ? ': the fixed amount with the 3.B.9 pilot.' : ': the fixed amount if pilot gap funds are not available.')) +
+        (sc.standardStatus === 'none' ? '' : ' Paired standard ' + money(sc.standard) + (sc.standardStatus === 'ok' ? ': within the ' + money(sc.stdMax) + ' limit.' : sc.standardStatus === 'depends' ? ': within ' + money(sc.altStdMax) + ' only if pilot gap funds are not available.' : ': over the limit.'));
+      else $('srCredit').textContent = cr.status === 'unknown' ? 'Annual federal credit not entered.' : (cr.status === 'depends' ? 'Annual federal credit ' + money(cr.total) + (cr.other ? ' with other active applications' : '') + ': over the ' + money(cr.cap) + ' pilot cap, within the ' + money(cr.altCap) + ' cap if pilot gap funds are not available.'
         : 'Annual federal credit ' + money(cr.total) + (cr.other ? ' with other active applications' : '') + ' against the ' + money(cr.cap) + ' cap: ' + (cr.status === 'over' ? 'over the cap.' : 'within it.')) +
         (cr.status !== 'unknown' && !cr.applicantKnown ? ' Other active applications not entered yet.' : '');
+      if (r.tieout && $('srTieSummary')) {
+        r.tieout.rows.forEach(function (row) {
+          var out = $('sr-tie-out-' + row.id), box = $('sr-tie-row-' + row.id);
+          if (out) out.innerHTML = TieOut.outHtml(row);
+          if (box) box.setAttribute('data-flag', row.flag);
+        });
+        var c = r.tieout.counts;
+        $('srTieSummary').textContent = c.entered ? c.red + ' deal breaker' + (c.red === 1 ? '' : 's') + ', ' + c.yellow + ' that differ' + (c.yellow === 1 ? 's' : '') + ', ' + c.green + ' that match.' : 'No application figures entered yet.';
+        state.tieout = r.tieout;
+      }
       $('srSummary').innerHTML = summaryLines(r).map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
       var shown = state.stress ? { base: state.stress.base, tests: state.stress.tests.filter(function (t) { return t.id !== 'ami1'; }) } : null;
       var ami = state.stress ? amiStress(rules, prop123, state.version) : null;
@@ -1112,19 +1204,22 @@
             if (!c) { flash('That JSON is not a Deal Calculator export.'); return; }
             if (c.error) { flash(c.error); return; }
             var v = started, hadCalc = !!v.calculator;
-            v.deal.mix = c.mix; v.deal.election = c.election; v.deal.calc4 = !c.nine;
-            v.deal.calcRegime = c.nine && !c.chfa ? c.regime : null;
-            if (c.nine && c.chfa) {
-              v.calculator = { query: c.query, exportedAt: c.exportedAt, nine: true, election: c.election, mix: Object.assign({}, c.mix), stale: false };
+            // The export's credit rate has to match the round: 9% for Round One, 4% for Round Two.
+            var rateFits = four ? !c.nine : c.nine;
+            v.deal.mix = c.mix; v.deal.election = c.election; v.deal.calc4 = !c.nine; v.deal.calc9 = c.nine;
+            v.deal.calcRegime = rateFits && !c.chfa ? c.regime : null;
+            if (rateFits && c.chfa) {
+              v.calculator = { query: c.query, exportedAt: c.exportedAt, nine: c.nine, election: c.election, mix: Object.assign({}, c.mix), stale: false };
               v.engine = c.engine;
               v.deal.creditRequested = c.requested; v.deal.stateCredits = c.stateAnnual;
+              v.deal.stateStandard = four ? c.stateStandard : null;
             } else {
-              // A 4% model's credits and financing do not belong beside a 9% score: keep only the unit mix.
-              // Credits imported with an earlier 9% export described that model; typed ones stay.
-              if (hadCalc) { v.deal.creditRequested = null; v.deal.stateCredits = null; }
+              // A model at the other credit rate does not belong beside this round's score: keep only the unit mix.
+              // Credits imported with an earlier export described that model; typed ones stay.
+              if (hadCalc) { v.deal.creditRequested = null; v.deal.stateCredits = null; v.deal.stateStandard = null; }
               v.calculator = null; v.engine = {};
-              flash(c.nine ? 'This export uses ' + c.regime + ' rent limits, not CHFA LIHTC, so only its unit mix was used. Set rent limits to CHFA LIHTC and export again for gap, coverage, credit and stress results.'
-                : 'This export is set to 4%, so only its unit mix was used. Export the deal at 9% for gap, coverage, credit and stress results.');
+              flash(rateFits ? 'This export uses ' + c.regime + ' rent limits, not CHFA LIHTC, so only its unit mix was used. Set rent limits to CHFA LIHTC and export again for gap, coverage, credit and stress results.'
+                : 'This export is set to ' + (c.nine ? '9%' : '4%') + ', so only its unit mix was used. Export the deal at ' + (four ? '4%' : '9%') + ' for gap, coverage, credit and stress results.');
             }
             writeForm(); state.stress = null; draw();
           });
@@ -1290,7 +1385,7 @@
     function openVersion(rec) {
       if (!rec) return;
       var v = blankVersion();
-      ['deal', 'claims', 'thresholds', 'documents', 'engine', 'calculator'].forEach(function (k) { if (rec[k] != null) v[k] = JSON.parse(JSON.stringify(rec[k])); });
+      ['deal', 'claims', 'thresholds', 'documents', 'engine', 'calculator', 'tieout'].forEach(function (k) { if (rec[k] != null) v[k] = JSON.parse(JSON.stringify(rec[k])); });
       state.version = v; state.stress = rec.stress ? { base: rec.stressBase || {}, tests: rec.stress } : null; state.parent = rec.v;
       $('sr-label').value = '';
       writeForm(); draw();
@@ -1364,6 +1459,7 @@
       if (!name) { flash('Give the deal a name first.'); $('sr-name').focus(); return; }
       var r = draw();
       var data = JSON.parse(JSON.stringify(state.version));
+      data.round = rid; // a version is scored, and saved, under the round of the review it was saved on
       if (state.shownStress) { data.stress = state.shownStress.tests; data.stressBase = state.shownStress.base; }
       data.review = { score: r.score.total, meets: r.score.meets, lane: r.lane.lane, laneAmount: r.lane.amount, midpoint: r.lane.midpoint, summary: summaryLines(r), rules: rules.id, rulesStatus: rules.status, rulesChecked: rules.checked_at };
       var btn = $('sr-save'); btn.disabled = true;
@@ -1389,12 +1485,37 @@
         .then(function () { btn.disabled = false; });
     });
 
+    if ($('sr-tie-csv')) $('sr-tie-csv').addEventListener('click', function () {
+      if (!state.tieout) return;
+      var name = $('sr-name').value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'deal';
+      download('tie-out-' + name + '.csv', 'text/csv;charset=utf-8', TieOut.csv(state.tieout));
+    });
+
     var flashTimer;
     function flash(msg) { var el = $('srFlash'); el.textContent = msg; clearTimeout(flashTimer); flashTimer = setTimeout(function () { el.textContent = ''; }, 9000); }
 
     if ($('sr-mix-note')) $('sr-mix-note').textContent = taxCreditNote();
     $('srAsOf').textContent = 'QAP 2027-28 Third Draft (not adopted), checked ' + rules.checked_at;
+    roundPage(doc, rules);
     writeForm(); draw(); refreshDeals(); refreshVersions(); drawCompare();
+  }
+
+  // The round switch, the lede and the credit fields follow the round's rules file.
+  function roundPage(doc, rules) {
+    var $ = function (id) { return doc.getElementById(id); }, rid = roundId(rules), four = fourPct(rules);
+    var day = function (iso) { var d = new Date(iso + 'T12:00:00Z'); return d.getUTCDate() + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getUTCMonth()] + ' ' + d.getUTCFullYear(); };
+    if ($('srRoundNav')) $('srRoundNav').innerHTML = Object.keys(ROUND_LABEL).map(function (k) {
+      return k === rid ? '<strong aria-current="page">' + esc(ROUND_LABEL[k]) + '</strong>' : '<a href="?round=' + k + '">' + esc(ROUND_LABEL[k]) + '</a>';
+    }).join(' · ');
+    if ($('srLedeWhat')) $('srLedeWhat').textContent = 'Check a draft ' + rules.round.name + ' (' + (four ? '4% with state credit' : '9%') + ') application against CHFA\'s scoring, its required items, and the DOH or OEDIT gap-fund test before it goes in.';
+    if ($('srLedeDates')) $('srLedeDates').textContent = 'Letter of intent due ' + day(rules.round.loi_due) + '; application due ' + day(rules.round.application_due) + '.';
+    var label = function (id, text) { var el = doc.querySelector('label[for="' + id + '"]'); if (el && el.firstChild && el.firstChild.nodeType === 3) el.firstChild.nodeValue = text; };
+    if (four) {
+      label('sr-credits', 'Annual federal 4% credit (no CHFA cap)');
+      label('sr-state-credits', 'Annual accelerated state credit requested');
+      var oc = doc.querySelector('label[for="sr-other-credits"]'); if (oc) oc.hidden = true; // the federal 9% cap does not apply
+      var ss = doc.querySelector('label[for="sr-state-standard"]'); if (ss) ss.hidden = false; // Round Two only
+    }
   }
 
   // Builds the claim and threshold inputs from the rules file, so the form cannot drift from it.
@@ -1406,6 +1527,12 @@
     var html = claim(rules.targeting.lowest_ami_bonus.id, rules.targeting.lowest_ami_bonus.label, '+' + rules.targeting.lowest_ami_bonus.points) +
       claim(rules.eli_targeting.id, rules.eli_targeting.label + ', with services', '5 to 15, from the unit mix');
     rules.lines.forEach(function (l) {
+      if (l.auto === 'extended_use_choice') {
+        html += '<div class="sr-claim"><label>' + esc(l.label) + ' <select data-claim="' + esc(l.id) + '" data-default="' + esc(l.default) + '" aria-label="Years of extended use">' +
+          Object.keys(l.options).map(function (k) { return '<option value="' + esc(k) + '"' + (k === l.default ? ' selected' : '') + '>' + esc(k) + ' years (' + l.options[k] + ' points)</option>'; }).join('') + '</select></label>' +
+          '<input type="text" class="sr-ref" data-ref="' + esc(l.id) + '" placeholder="Document and page" aria-label="Document and page for ' + esc(l.label) + '"></div>';
+        return;
+      }
       if (l.auto) return;
       if (l.points == null) {
         html += '<div class="sr-claim"><label>' + esc(l.label) + ' <input type="number" min="0" step="1" inputmode="numeric" data-claim="' + esc(l.id) + '" class="sr-small" aria-label="Points for ' + esc(l.label) + '"> <span class="sr-muted">points from CHFA\'s tier list</span></label>' +
@@ -1423,12 +1550,14 @@
   function start(doc) {
     if (!doc.getElementById('srMain')) return; // loaded on another page for fromCalculatorExport (member-calculator.js)
     var get = function (u) { return fetch(u).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
-    Promise.all([get(RULES_URL), get(PROP123_URL), get(PLACES_URL)]).then(function (res) {
+    var rid = /(?:^|[?&])round=r2(?:&|$)/.test((doc.defaultView && doc.defaultView.location && doc.defaultView.location.search) || '') ? 'r2' : 'r1';
+    Promise.all([get(ROUNDS[rid]), get(PROP123_URL), get(PLACES_URL)]).then(function (res) {
       if (res[1] && res[2] && res[2].byGeoid) res[1].places = Object.keys(res[2].byGeoid).map(function (k) { return res[2].byGeoid[k].name; });
       if (!res[0]) { doc.getElementById('srMain').innerHTML = '<p>The scoring rules did not load.</p>'; return; }
       var f = formHtml(res[0]);
       doc.getElementById('srClaims').innerHTML = f.claims;
       doc.getElementById('srThresholds').innerHTML = f.thresholds;
+      if (TieOut && doc.getElementById('srTie')) doc.getElementById('srTie').innerHTML = TieOut.formHtml();
       // Blocked storage: reads find nothing and writes throw, so a device save reports "Not saved".
       var storage; try { storage = window.localStorage; } catch (e) { storage = { getItem: function () { return null; }, setItem: function () { throw new Error('storage blocked'); } }; }
       mount(doc, res[0], res[1], makeStore(fetch.bind(window), storage));
@@ -1443,5 +1572,6 @@
   return { esc: esc, mixTotals: mixTotals, amiMidpoint: amiMidpoint, targetingPoints: targetingPoints, eliPoints: eliPoints, score: score,
     findJurisdiction: findJurisdiction, prop123Status: prop123Status, gapLane: gapLane, bumpOneUnit: bumpOneUnit, thresholdStatus: thresholdStatus,
     mustPayCoverage: mustPayCoverage, creditCheck: creditCheck, stateCreditCheck: stateCreditCheck, review: review, summaryLines: summaryLines, compareTable: compareTable, changeLines: changeLines, historyModel: historyModel, historyHtml: historyHtml, historyCsv: historyCsv, historyPage: historyPage, fromCalculatorExport: fromCalculatorExport, sameDeal: sameDeal, setAsideCheck: setAsideCheck, taxCreditNote: taxCreditNote, SET_ASIDE: SET_ASIDE, HARD_COST_IDS: HARD_COST_IDS,
-    stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, mount: mount, STRESS: STRESS, RULES_URL: RULES_URL, API: API };
+    stressFails: stressFails, amiStress: amiStress, makeStore: makeStore, formHtml: formHtml, mount: mount, STRESS: STRESS, RULES_URL: RULES_URL, ROUNDS: ROUNDS, API: API,
+    roundTwoStateCheck: roundTwoStateCheck, roundTwoStateRisks: roundTwoStateRisks, roundPage: roundPage };
 });

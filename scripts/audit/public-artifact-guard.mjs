@@ -3,6 +3,7 @@ import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SENSITIVE_PATTERNS } from '../lib/public-sensitive-patterns.mjs';
+import { findPrivateTerms } from '../lib/private-terms.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const DIST = path.resolve(ROOT, process.argv[2] || 'dist');
@@ -214,6 +215,7 @@ async function main() {
         findings.push(`${file.rel}: contains ${pattern.label}`);
       }
     }
+    for (const label of findPrivateTerms(content)) findings.push(`${file.rel}: contains ${label}`);
   }
 
   if (findings.length) {

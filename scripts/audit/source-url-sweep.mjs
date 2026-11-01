@@ -49,6 +49,9 @@ const ALLOW_LIST = new Set([
   // Same CBS 406 to CI; verified live 2026-10-21 (200 with a browser UA);
   // cited by data/deals/grove-at-cottonwood-broomfield.json.
   "https://www.cbsnews.com/colorado/news/new-neuro-diverse-affordable-housing-broomfield",
+  // Same CBS 406 to CI; verified live 2026-10-30; cited by the neuro-inclusive housing brief
+  // (data/policy_briefs_curated.json, Wellspring Community, Castle Rock).
+  "https://www.cbsnews.com/colorado/news/nonprofit-castle-rock-hotel-housing-adults-intellectual-developmental-disabilities",
   // cited by data/deals/harvest-hill-broomfield.json; verified live 2026-10-21.
   "https://www.cbsnews.com/colorado/news/harvest-hill-broomfield-groundbreaking-affordable-housing/",
   // Kittle Property Group answers non-browser clients with a 307 loop; verified
@@ -112,6 +115,10 @@ const ALLOW_LIST = new Set([
   "https://cdola.colorado.gov/commitment-filings",
   "https://cdola.colorado.gov/housing",
   "https://cdola.colorado.gov/prop123",
+  // DOLA releases cited by southwest awards in dola-awards.json. cdola.colorado.gov
+  // answers CI with 404; both read live through a web reader 2026-10-30.
+  "https://cdola.colorado.gov/press-release/more-than-17-million-has-been-granted-by-the-department-of-local-affairs-to-support",
+  "https://cdola.colorado.gov/press-release/the-department-of-local-affairs-awards-over-31m-in-second-round-of-the",
   // DOLA's Prop 123 law and fast-track guidance pages, cited by the HNA
   // compliance section. Same cdola.colorado.gov CI blocking as the entries
   // above; both returned 200 to the 2026-10-18 Prop 123 legal check.

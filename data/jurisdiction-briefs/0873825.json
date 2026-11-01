@@ -122,7 +122,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Steamboat Springs at #5 with an overall housing-need score of 87.4. It identifies 372 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 67.5% of <=30% AMI households. 61.4% of renter households are cost burdened, and 0.8% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Steamboat Springs at #4 with an overall housing-need score of 87.6. It identifies 372 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 67.5% of <=30% AMI households. 61.4% of renter households are cost burdened, and 0.8% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -254,8 +254,98 @@
       "accessed": "2026-10-18"
     },
     {
+      "id": "ls1",
+      "label": "Local support record for City of Steamboat Springs, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0873825",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Housing Strategy and Action Plan (2024-2025) (Steamboat Springs City Council minutes, Aug 6, 2024)",
+      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2005_Minutes_8_6_2024_5_00_00_PM.pdf?documentType=2&meetingId=2005",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-steamboat-housing-strategy-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Steamboat Springs Community Plan (Community Canvas) (Steamboat Springs Community Plan PDF; City Council minutes, Oct 21, 2025)",
+      "url": "https://www.steamboatsprings.net/DocumentCenter/View/42270",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-steamboat-community-plan-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "City of Steamboat Springs 2026 Budget Letter",
+      "url": "https://www.steamboatsprings.net/DocumentCenter/View/41217/2026-Budget-Letter-Retreat-Remediated",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-steamboat-springs-str-tax",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "City of Steamboat Springs 2026 Budget Letter",
+      "url": "https://www.steamboatsprings.net/DocumentCenter/View/41217/2026-Budget-Letter-Retreat-Remediated",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-steamboat-springs-community-housing-fund",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Ordinance approving an STR-tax grant agreement with the regional housing authority (YVHA) for Cottonwoods at Mid-Valley (Steamboat Springs City Council minutes, Jan 21, 2025)",
+      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2052_Minutes_1_21_2025_5_00_00_PM.pdf?documentType=2&meetingId=2052",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-steamboat-cottonwoods-yvha-grant",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "Resolution approving STR-tax grant agreement with FV Basecamp, LLC (Lofts at Steamboat Basecamp) (Steamboat Springs City Council minutes, Aug 19, 2025)",
+      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2277_Minutes_8_19_2025_5_00_00_PM.pdf?documentType=2&meetingId=2277",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-steamboat-lofts-basecamp-subsidy",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls8",
+      "label": "Ordinances approving purchase of the Campbell property with Short-Term Rental tax funds for affordable housing (Steamboat Springs City Council minutes, Nov 25, 2025)",
+      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2341_Minutes_11_25_2025_5_00_00_PM.pdf?documentType=2&meetingId=2341",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-steamboat-campbell-property",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls9",
+      "label": "Resolution adopting the City of Steamboat Springs Affordable Housing Guidelines (Steamboat Springs City Council minutes, Feb 3, 2026)",
+      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2381_Minutes_2_3_2026_5_00_00_PM.pdf?documentType=2&meetingId=2381",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-steamboat-affordable-housing-guidelines-2026",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls10",
+      "label": "Ordinance approving Deed Restriction Purchase Program Agreements (Steamboat Springs City Council minutes, Feb 17, 2026)",
+      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2421_Minutes_2_17_2026_5_00_00_PM.pdf?documentType=2&meetingId=2421",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-steamboat-deed-restriction-purchase-program",
+      "accessed": "2026-10-10"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -264,7 +354,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -399,7 +489,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -408,7 +498,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -417,7 +507,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -468,96 +558,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "ls1",
-      "label": "Local support record for City of Steamboat Springs, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0873825",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "Housing Strategy and Action Plan (2024-2025) (Steamboat Springs City Council minutes, Aug 6, 2024)",
-      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2005_Minutes_8_6_2024_5_00_00_PM.pdf?documentType=2&meetingId=2005",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-steamboat-housing-strategy-2024",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "Steamboat Springs Community Plan (Community Canvas) (Steamboat Springs Community Plan PDF; City Council minutes, Oct 21, 2025)",
-      "url": "https://www.steamboatsprings.net/DocumentCenter/View/42270",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-steamboat-community-plan-2025",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls4",
-      "label": "City of Steamboat Springs 2026 Budget Letter",
-      "url": "https://www.steamboatsprings.net/DocumentCenter/View/41217/2026-Budget-Letter-Retreat-Remediated",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-steamboat-springs-str-tax",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls5",
-      "label": "City of Steamboat Springs 2026 Budget Letter",
-      "url": "https://www.steamboatsprings.net/DocumentCenter/View/41217/2026-Budget-Letter-Retreat-Remediated",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-steamboat-springs-community-housing-fund",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls6",
-      "label": "Ordinance approving an STR-tax grant agreement with the regional housing authority (YVHA) for Cottonwoods at Mid-Valley (Steamboat Springs City Council minutes, Jan 21, 2025)",
-      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2052_Minutes_1_21_2025_5_00_00_PM.pdf?documentType=2&meetingId=2052",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-steamboat-cottonwoods-yvha-grant",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls7",
-      "label": "Resolution approving STR-tax grant agreement with FV Basecamp, LLC (Lofts at Steamboat Basecamp) (Steamboat Springs City Council minutes, Aug 19, 2025)",
-      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2277_Minutes_8_19_2025_5_00_00_PM.pdf?documentType=2&meetingId=2277",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-steamboat-lofts-basecamp-subsidy",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls8",
-      "label": "Ordinances approving purchase of the Campbell property with Short-Term Rental tax funds for affordable housing (Steamboat Springs City Council minutes, Nov 25, 2025)",
-      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2341_Minutes_11_25_2025_5_00_00_PM.pdf?documentType=2&meetingId=2341",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-steamboat-campbell-property",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls9",
-      "label": "Resolution adopting the City of Steamboat Springs Affordable Housing Guidelines (Steamboat Springs City Council minutes, Feb 3, 2026)",
-      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2381_Minutes_2_3_2026_5_00_00_PM.pdf?documentType=2&meetingId=2381",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-steamboat-affordable-housing-guidelines-2026",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls10",
-      "label": "Ordinance approving Deed Restriction Purchase Program Agreements (Steamboat Springs City Council minutes, Feb 17, 2026)",
-      "url": "https://docs.steamboatsprings.net/OnBaseAgendaOnline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_2421_Minutes_2_17_2026_5_00_00_PM.pdf?documentType=2&meetingId=2421",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-steamboat-deed-restriction-purchase-program",
-      "accessed": "2026-10-10"
     }
   ],
   "_meta_population_at_draft": 13433

@@ -1,0 +1,757 @@
+{
+  "meta": {
+    "what": "Confirmed links for properties whose affordability restriction or HUD rent contract has ended. Keyed by property_id in data/affordable-housing/properties.json; HUD entries also match property_id in data/market/hud_s8_contracts_co.json.",
+    "scope": "The 77 USDA properties whose restrictive-use end date has passed (data/affordable-housing/preservation/usda-rural-housing.json) and the 6 contracts HUD lists as expired (data/market/hud_s8_contracts_co.json).",
+    "kinds": {
+      "property": "The property's own page, from its owner or manager, naming the property and its address.",
+      "usda-listing": "USDA Rural Development's MFH Rentals list for the property's county. It names the property, which opens USDA's page with units, phone and manager. USDA's property pages only open from that list, so the link goes to the list."
+    },
+    "rule": "Rental listing and ad sites (Apartments.com, Zillow, senior directories) are never used. No entry means no confirmed page was found.",
+    "method": "Opened each property's page on USDA MFH Rentals and read its Website field; USDA gives a working website for none of the 77 (most say Unavailable or give an e-mail address). Searched the web for each HUD property and opened every candidate page to confirm name and address. Each USDA county list was then reopened in a fresh browser to confirm it loads and names the property.",
+    "not_linked": {
+      "not_on_usda_list": [
+        "TOTTEN MANOR (Alamosa)",
+        "VALLEY SENIOR HSG (Parachute)",
+        "COLUMBINE COMPLEX (Johnstown)",
+        "GOVERNOR'S FARM (Windsor)"
+      ],
+      "no_matching_record_in_properties_json": [
+        "CORTEZ APARTMENTS (Cortez)",
+        "MONTROSE APARTMENTS (Montrose)"
+      ],
+      "hud_no_confirmed_page": [
+        "ARAPAHOE MENTAL HEALTH (Littleton)",
+        "Imagine formerly called Next Step (Broomfield)",
+        "Prairie Rose Plaza (Commerce City)",
+        "Harmony Road Apts. (Fort Collins)",
+        "FOOTHILLS GROUP HOME (Boulder)"
+      ]
+    },
+    "checked": "2026-10-30",
+    "review_by": "2027-04-28",
+    "count": 72,
+    "sources": {
+      "usda": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/select_county.jsp?st=CO&state_name=Colorado&st_cd=08"
+    }
+  },
+  "entries": {
+    "hud-mf:800003219": {
+      "name": "UNITY VILLAGE",
+      "address": "1201 SLATER ST",
+      "usda_name": "UNITY VILLAGE",
+      "usda_address": "1201 SLATER",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=061&propertytype=",
+      "listed_there_as": "Unity Village",
+      "checked": "2026-10-30"
+    },
+    "hud-mf:800222637": {
+      "name": "Denver Volunteers of America Living Center",
+      "address": "9900 E Girard Ave",
+      "kind": "property",
+      "url": "https://www.voacolorado.org/locations/girard-place-apartments/",
+      "listed_there_as": "Girard Place Apartments, 9900 East Girard Avenue",
+      "checked": "2026-10-30"
+    },
+    "lihtc:323": {
+      "name": "Mountain Vista of Canon City",
+      "address": "3304 North 5th Street",
+      "usda_name": "MOUNTAIN VISTA OF CANON CITY APTS.",
+      "usda_address": "3304 N 5TH STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=043&propertytype=",
+      "listed_there_as": "Mountain Vista Of Canon City Apartmen",
+      "checked": "2026-10-30"
+    },
+    "lihtc:398": {
+      "name": "Pioneer Apartments",
+      "address": "105 Gateway",
+      "usda_name": "PIONEER APARTMENTS",
+      "usda_address": "105 E GATEWAY AVENUE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=087&propertytype=",
+      "listed_there_as": "Pioneer Apartments",
+      "checked": "2026-10-30"
+    },
+    "lihtc:592": {
+      "name": "Mountain Vista Apartments",
+      "address": "1580 Florida Rd.",
+      "usda_name": "MOUNTAIN VISTA APTS",
+      "usda_address": "1580 FLORIDA RD",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=067&propertytype=",
+      "listed_there_as": "Mountain Vista Apts",
+      "checked": "2026-10-30"
+    },
+    "lihtc:629": {
+      "name": "Casita de la Luna",
+      "address": "1410 11th St.",
+      "usda_name": "CASITA DE LA LUNA",
+      "usda_address": "1410 WEST 11 STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=003&propertytype=",
+      "listed_there_as": "Casita De La Luna",
+      "checked": "2026-10-30"
+    },
+    "lihtc:836": {
+      "name": "Mesa Park Apartments",
+      "address": "880 S. Chestnut St.",
+      "usda_name": "MESA PARK APTS",
+      "usda_address": "880 S CHESTNUT",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=083&propertytype=",
+      "listed_there_as": "Mesa Park Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:0": {
+      "name": "VERNON PARK APTS I",
+      "address": "230 S 25TH AVE",
+      "usda_name": "VERNON PARK APTS I",
+      "usda_address": "230 S 25TH AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=001&propertytype=",
+      "listed_there_as": "Vernon Park Apts I",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:1": {
+      "name": "VERNON PARK II",
+      "address": "235 S 25TH AVE",
+      "usda_name": "VERNON PARK II",
+      "usda_address": "235 S 25TH AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=001&propertytype=",
+      "listed_there_as": "Vernon Park II",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:3": {
+      "name": "PINE CONE VILLAGE",
+      "address": "731 S MILLER AVE",
+      "usda_name": "PINE CONE VILLAGE",
+      "usda_address": "731 S MILLER AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=001&propertytype=",
+      "listed_there_as": "Pine Cone Village",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:7": {
+      "name": "BIJOU MANOR",
+      "address": "548 4TH AVE",
+      "usda_name": "BIJOU MANOR",
+      "usda_address": "548 4TH AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=005&propertytype=",
+      "listed_there_as": "Bijou Manor",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:8": {
+      "name": "OLA B HOLT MANOR",
+      "address": "105 W MAPLEWOOD STREET",
+      "usda_name": "OLA B HOLT MANOR",
+      "usda_address": "105 W MAPLEWOOD STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=009&propertytype=",
+      "listed_there_as": "Ola B Holt Manor",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:10": {
+      "name": "PRIME HAVEN",
+      "address": "170 E 2ND STREET",
+      "usda_name": "PRIME HAVEN",
+      "usda_address": "170 E 2ND STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=013&propertytype=",
+      "listed_there_as": "Prime Haven",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:11": {
+      "name": "SALIDA APTS",
+      "address": "520 TELLER STREET",
+      "usda_name": "SALIDA APTS",
+      "usda_address": "520 TELLER STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=015&propertytype=",
+      "listed_there_as": "Salida Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:12": {
+      "name": "CEDAR SQUARE APTS",
+      "address": "150 S GRAND MESA DR",
+      "usda_name": "CEDAR SQUARE APTS",
+      "usda_address": "150 S GRAND MESA DR",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=029&propertytype=",
+      "listed_there_as": "Cedar Square Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:13": {
+      "name": "GRAND MANOR",
+      "address": "321 GRAND AVE",
+      "usda_name": "GRAND MANOR",
+      "usda_address": "321 GRAND AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=029&propertytype=",
+      "listed_there_as": "Grand Manor",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:14": {
+      "name": "COLUMBIA APARTMENTS",
+      "address": "775 COLUMBIA STREET",
+      "usda_name": "COLUMBIA APARTMENTS",
+      "usda_address": "775 COLUMBIA STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=029&propertytype=",
+      "listed_there_as": "Columbia Apartments",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:16": {
+      "name": "CASTLE ROCK I",
+      "address": "446 S GILBERT ST",
+      "usda_name": "CASTLE ROCK I",
+      "usda_address": "446 S GILBERT ST",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=035&propertytype=",
+      "listed_there_as": "Castle Rock I",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:17": {
+      "name": "SAN JUAN APTS I",
+      "address": "1101 EAST MAIN STREET",
+      "usda_name": "SAN JUAN APTS I",
+      "usda_address": "1101 EAST MAIN STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=043&propertytype=",
+      "listed_there_as": "San Juan Apts I",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:18": {
+      "name": "SAN JUAN APTS III",
+      "address": "1101 EAST MAIN STREET",
+      "usda_name": "SAN JUAN APTS III",
+      "usda_address": "1101 EAST MAIN STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=043&propertytype=",
+      "listed_there_as": "San Juan Apts III",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:19": {
+      "name": "SAN JUAN APTS II",
+      "address": "1101 E MAIN STREET",
+      "usda_name": "SAN JUAN APTS II",
+      "usda_address": "1101 E MAIN STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=043&propertytype=",
+      "listed_there_as": "San Juan Apts II",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:21": {
+      "name": "CRYSTAL MEADOWS",
+      "address": "1250 HENDRICK DRIVE",
+      "usda_name": "CRYSTAL MEADOWS",
+      "usda_address": "1250 HENDRICK DRIVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=045&propertytype=",
+      "listed_there_as": "Crystal Meadows",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:22": {
+      "name": "GRAND LIVING SOLAR SENIOR HOMES",
+      "address": "925 E AGATE AVE",
+      "usda_name": "GRAND LIVING SOLAR SENIOR HOMES",
+      "usda_address": "925 E AGATE AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=049&propertytype=",
+      "listed_there_as": "Grand Living Solar Senior Homes",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:23": {
+      "name": "ANIMAS VILLAGE JL GRAY MANAGEMENT",
+      "address": "34237 HIGHWAY 550",
+      "usda_name": "ANIMAS VILLAGE JL GRAY MANAGEMENT",
+      "usda_address": "34237 HIGHWAY 550",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=067&propertytype=",
+      "listed_there_as": "Animas Village",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:24": {
+      "name": "MOUNTAIN OAKS APTS",
+      "address": "1759 FLORIDA ROAD",
+      "usda_name": "MOUNTAIN OAKS APTS",
+      "usda_address": "1759 FLORIDA ROAD",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=067&propertytype=",
+      "listed_there_as": "Mountain Oaks Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:26": {
+      "name": "HAMILTON PARK APTS",
+      "address": "1300 N 4TH STREET",
+      "usda_name": "HAMILTON PARK APTS",
+      "usda_address": "1300 N 4TH STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=069&propertytype=",
+      "listed_there_as": "Hamilton Park Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:27": {
+      "name": "HAMILTON PARK II",
+      "address": "1400 N 4TH STREET",
+      "usda_name": "HAMILTON PARK II",
+      "usda_address": "1400 N 4TH STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=069&propertytype=",
+      "listed_there_as": "Hamilton Park II",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:30": {
+      "name": "CASA VILLAGE I",
+      "address": "712 E GODDING AVE",
+      "usda_name": "CASA VILLAGE I",
+      "usda_address": "712 E GODDING AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=071&propertytype=",
+      "listed_there_as": "Casa Village I",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:31": {
+      "name": "NORTH AVE APTS",
+      "address": "421 E NORTH AVENUE",
+      "usda_name": "NORTH AVE APTS",
+      "usda_address": "421 E NORTH AVENUE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=071&propertytype=",
+      "listed_there_as": "North Ave Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:32": {
+      "name": "STERLING APTS",
+      "address": "1510 FILLMORE ST",
+      "usda_name": "STERLING APTS",
+      "usda_address": "1510 FILLMORE ST",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=075&propertytype=",
+      "listed_there_as": "Sterling Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:34": {
+      "name": "CORTEZ PARK APTS C/O LANDMARK GROUP",
+      "address": "23 W 7TH STREET",
+      "usda_name": "CORTEZ PARK APTS C/O LANDMARK GROUP",
+      "usda_address": "23 W 7TH STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=083&propertytype=",
+      "listed_there_as": "Cortez Park Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:36": {
+      "name": "NUCLA HOUSING C/O LANDMARK",
+      "address": "300 EAST THIRD",
+      "usda_name": "NUCLA HOUSING C/O LANDMARK",
+      "usda_address": "300 EAST THIRD",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=085&propertytype=",
+      "listed_there_as": "Nucla Housing",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:37": {
+      "name": "MONTROSE FAMILY HSG",
+      "address": "1685 ENCANTO PLACE",
+      "usda_name": "MONTROSE FAMILY HSG",
+      "usda_address": "1685 ENCANTO PLACE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=085&propertytype=",
+      "listed_there_as": "Montrose Family HSG",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:38": {
+      "name": "PINON WAY APTS",
+      "address": "35 CEDAR AVE",
+      "usda_name": "PINON WAY APTS",
+      "usda_address": "35 CEDAR AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=085&propertytype=",
+      "listed_there_as": "Pinon Way Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:39": {
+      "name": "RIVERVIEW APTS C/O LANDMARK MGMT",
+      "address": "1605 E 9TH STREET",
+      "usda_name": "RIVERVIEW APTS C/O LANDMARK MGMT",
+      "usda_address": "1605 E 9TH STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=087&propertytype=",
+      "listed_there_as": "Riverview Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:40": {
+      "name": "FREMONT APARTMENTS",
+      "address": "1100 LINDA STREET",
+      "usda_name": "FREMONT APARTMENTS",
+      "usda_address": "1100 LINDA STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=087&propertytype=",
+      "listed_there_as": "Fremont Apartments",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:43": {
+      "name": "OTERO VILLAS C/O LANDMARK",
+      "address": "1612 CARSON AVENUE",
+      "usda_name": "OTERO VILLAS C/O LANDMARK",
+      "usda_address": "1612 CARSON AVENUE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=089&propertytype=",
+      "listed_there_as": "Otero Villas",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:45": {
+      "name": "MANZANOLA FAMILY",
+      "address": "402 N GRAND",
+      "usda_name": "MANZANOLA FAMILY",
+      "usda_address": "402 N GRAND",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=089&propertytype=",
+      "listed_there_as": "Manzanola Family",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:46": {
+      "name": "SUNBURST APARTMENTS",
+      "address": "704 MULLEN ST",
+      "usda_name": "SUNBURST APARTMENTS",
+      "usda_address": "704 MULLEN ST",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=099&propertytype=",
+      "listed_there_as": "Sunburst Apartments",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:48": {
+      "name": "GATEWAY VILLA APTS",
+      "address": "929 SPRUCE STREET",
+      "usda_name": "GATEWAY VILLA APTS",
+      "usda_address": "929 SPRUCE STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=105&propertytype=",
+      "listed_there_as": "Gateway Villa Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:51": {
+      "name": "SANGRE DE CRISTO APARTMENTS",
+      "address": "273 WILLS STREET",
+      "usda_name": "SANGRE DE CRISTO APARTMENTS",
+      "usda_address": "273 WILLS STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=109&propertytype=",
+      "listed_there_as": "Sangre De Cristo",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:52": {
+      "name": "BLUE WATER HACIENDA",
+      "address": "630 1/2 PITKIN AVE",
+      "usda_name": "BLUE WATER HACIENDA",
+      "usda_address": "630 1/2 PITKIN AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=109&propertytype=",
+      "listed_there_as": "Blue Water Hacienda",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:53": {
+      "name": "MOUNTAIN CREEK C/O LANDMARK",
+      "address": "740 W ANEMONE TRAIL",
+      "usda_name": "MOUNTAIN CREEK C/O LANDMARK",
+      "usda_address": "740 W ANEMONE TRAIL",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=117&propertytype=",
+      "listed_there_as": "Mountain Creek",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:54": {
+      "name": "BURLWOOD APARTMENTS",
+      "address": "140 W GOLDEN AVENUE",
+      "usda_name": "BURLWOOD APARTMENTS",
+      "usda_address": "140 W GOLDEN AVENUE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=119&propertytype=",
+      "listed_there_as": "Burlwood Apartments",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:56": {
+      "name": "AULT APARTMENTS",
+      "address": "260 EAST B STREET",
+      "usda_name": "AULT APARTMENTS",
+      "usda_address": "260 EAST B STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=123&propertytype=",
+      "listed_there_as": "Ault Apartments",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:57": {
+      "name": "CEDAR APTS",
+      "address": "1108 VASQUEZ",
+      "usda_name": "CEDAR APTS",
+      "usda_address": "1108 VASQUEZ",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=123&propertytype=",
+      "listed_there_as": "Cedar Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:59": {
+      "name": "CENTURY THREE APTS",
+      "address": "1027 WALNUT STREET",
+      "usda_name": "CENTURY THREE APTS",
+      "usda_address": "1027 WALNUT STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=123&propertytype=",
+      "listed_there_as": "Century Three Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:65": {
+      "name": "LAKEVIEW ESTATES",
+      "address": "857 N PAGOSA BLVD",
+      "usda_name": "LAKEVIEW ESTATES",
+      "usda_address": "857 N PAGOSA BLVD",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=007&propertytype=",
+      "listed_there_as": "Lakeview Estates",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:66": {
+      "name": "HERITAGE VILLAGE C/O LANDMARK GROUP",
+      "address": "1920 FLORIDA RD",
+      "usda_name": "HERITAGE VILLAGE C/O LANDMARK GROUP",
+      "usda_address": "1920 FLORIDA RD",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=067&propertytype=",
+      "listed_there_as": "Heritage Village",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:69": {
+      "name": "MONUMENT VIEW APTS",
+      "address": "450 N BEACON LITE RD",
+      "usda_name": "MONUMENT VIEW APTS",
+      "usda_address": "450 N BEACON LITE RD",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=041&propertytype=",
+      "listed_there_as": "Monument View Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:70": {
+      "name": "BARBARA COURT APTS",
+      "address": "MONTROSE COUNTY HOUSING AUTH",
+      "usda_name": "BARBARA COURT APTS",
+      "usda_address": "MONTROSE COUNTY HOUSING AUTH",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=085&propertytype=",
+      "listed_there_as": "Barbara Court Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:72": {
+      "name": "CASTLE ROCK II",
+      "address": "446 S GILBERT STREET",
+      "usda_name": "CASTLE ROCK II",
+      "usda_address": "446 S GILBERT STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=035&propertytype=",
+      "listed_there_as": "Castle Rock II",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:73": {
+      "name": "FOUNTAIN VIEW APTS",
+      "address": "909 GRINDE DRIVE",
+      "usda_name": "FOUNTAIN VIEW APTS",
+      "usda_address": "909 GRINDE DRIVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=041&propertytype=",
+      "listed_there_as": "Fountain View Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:74": {
+      "name": "CASA VILLAGE II",
+      "address": "712 E GODDING AVENUE",
+      "usda_name": "CASA VILLAGE II",
+      "usda_address": "712 E GODDING AVENUE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=071&propertytype=",
+      "listed_there_as": "Casa Village II",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:75": {
+      "name": "LIMON APARTMENTS",
+      "address": "440 1ST AVE",
+      "usda_name": "LIMON APARTMENTS",
+      "usda_address": "440 1ST AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=073&propertytype=",
+      "listed_there_as": "Limon Apartments",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:77": {
+      "name": "ADAMS PARK APTS",
+      "address": "451 ROLLIE AVE",
+      "usda_name": "ADAMS PARK APTS",
+      "usda_address": "451 ROLLIE AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=123&propertytype=",
+      "listed_there_as": "Adams Park Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:78": {
+      "name": "SPRINGTREE VILLAGE C/O LANDMARK",
+      "address": "950 E 2ND STREET",
+      "usda_name": "SPRINGTREE VILLAGE C/O LANDMARK",
+      "usda_address": "950 E 2ND STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=067&propertytype=",
+      "listed_there_as": "Springtree Village",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:79": {
+      "name": "TRINIDAD APTS",
+      "address": "301 E NORTH AVENUE",
+      "usda_name": "TRINIDAD APTS",
+      "usda_address": "301 E NORTH AVENUE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=071&propertytype=",
+      "listed_there_as": "Trinidad Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:83": {
+      "name": "PLEASANT VIEW APTS",
+      "address": "300 PINKERTON RD",
+      "usda_name": "PLEASANT VIEW APTS",
+      "usda_address": "300 PINKERTON RD",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=055&propertytype=",
+      "listed_there_as": "Pleasant View Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:86": {
+      "name": "FORT MORGAN TOWNHOM",
+      "address": "801 S WEST ST",
+      "usda_name": "FORT MORGAN TOWNHOM",
+      "usda_address": "801 S WEST ST",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=087&propertytype=",
+      "listed_there_as": "Fort Morgan Townhom",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:87": {
+      "name": "SUNNYSIDE APTS",
+      "address": "601 21ST ST",
+      "usda_name": "SUNNYSIDE APTS",
+      "usda_address": "601 21ST ST",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=045&propertytype=",
+      "listed_there_as": "Sunnyside Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:90": {
+      "name": "THE MEADOWS APTS",
+      "address": "501 E 6TH STREET",
+      "usda_name": "THE MEADOWS APTS",
+      "usda_address": "501 E 6TH STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=025&propertytype=",
+      "listed_there_as": "The Meadows Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:91": {
+      "name": "DELTA VILLAGE APTS",
+      "address": "289 STAFFORD LANE",
+      "usda_name": "DELTA VILLAGE APTS",
+      "usda_address": "289 STAFFORD LANE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=029&propertytype=",
+      "listed_there_as": "Delta Village Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:92": {
+      "name": "PARK RIDGE APTS",
+      "address": "1250 ACACIA DRIVE",
+      "usda_name": "PARK RIDGE APTS",
+      "usda_address": "1250 ACACIA DRIVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=069&propertytype=",
+      "listed_there_as": "Park Ridge Apartments",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:94": {
+      "name": "CENTENNIAL SW FAM",
+      "address": "111 S COLORADO AVE",
+      "usda_name": "CENTENNIAL SW FAM",
+      "usda_address": "111 S COLORADO AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=087&propertytype=",
+      "listed_there_as": "Centennial Sw Fam",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:97": {
+      "name": "SANGRE DE CRISTO",
+      "address": "420 TRINCHERA STREET",
+      "usda_name": "SANGRE DE CRISTO",
+      "usda_address": "420 TRINCHERA STREET",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=023&propertytype=",
+      "listed_there_as": "Sangre De Cristo",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:98": {
+      "name": "PINE RIVER VLY MNR",
+      "address": "251 S CLOVER DR",
+      "usda_name": "PINE RIVER VLY MNR",
+      "usda_address": "251 S CLOVER DR",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=067&propertytype=",
+      "listed_there_as": "Pine River Vly Mnr",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:99": {
+      "name": "VALLE VISTA APTS",
+      "address": "58 E CENTRAL",
+      "usda_name": "VALLE VISTA APTS",
+      "usda_address": "58 E CENTRAL",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=109&propertytype=",
+      "listed_there_as": "Valle Vista",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:100": {
+      "name": "WHITE RIVER VILLAGE APTS",
+      "address": "410 N WHITE AVE",
+      "usda_name": "WHITE RIVER VILLAGE APTS",
+      "usda_address": "410 N WHITE AVE",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=103&propertytype=",
+      "listed_there_as": "White River Village Apts",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:103": {
+      "name": "WILLOWGROVE GILBERT MANOR, COTTONWOOD APARTMENTS",
+      "address": "SCATTERED SITES IN FT. GARLAND ",
+      "usda_name": "WILLOWGROVE GILBERT MANOR, COTTONWOOD APARTMENTS",
+      "usda_address": "SCATTERED SITES IN FT. GARLAND ",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=023&propertytype=",
+      "listed_there_as": "Willowgrove Gilbert Manor, Cottonwood Apartments",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:104": {
+      "name": "MONTE VISTA HOUSING COMPLEX",
+      "address": "SCATTERED SITES IN MONTE VISTA",
+      "usda_name": "MONTE VISTA HOUSING COMPLEX",
+      "usda_address": "SCATTERED SITES IN MONTE VISTA",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=105&propertytype=",
+      "listed_there_as": "Monte Vista Housing Complex",
+      "checked": "2026-10-30"
+    },
+    "usda-rd:105": {
+      "name": "SELBE APARTMENTS",
+      "address": "550 ROLLINGSTONE DR",
+      "usda_name": "SELBE APARTMENTS",
+      "usda_address": "550 ROLLINGSTONE DR",
+      "kind": "usda-listing",
+      "url": "https://rdmfhrentals.sc.egov.usda.gov/RDMFHRentals/projectservlet?state=CO&st=08&cnty=107&propertytype=",
+      "listed_there_as": "Selbe Apartments",
+      "checked": "2026-10-30"
+    }
+  }
+}

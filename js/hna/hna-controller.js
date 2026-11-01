@@ -896,6 +896,8 @@
       window.HNARenderers.updateLihtcInfoPanel();
     }
     window.HNAState.map.on('moveend', updateLihtcInfoPanel);
+    // Property links arrive in their own small file; redraw the list once they land.
+    window.addEventListener('property-websites:ready', updateLihtcInfoPanel);
   }
 
   // Boundary style tokens keyed by geoType — counties use a thinner/lighter stroke
@@ -1260,7 +1262,27 @@
     HUD: 'HUD LIHTC database (ArcGIS)',
   };
 
-  async function updateLihtcOverlays(countyFips5, geoType, geoLabel){
+  // Tracts that meaningfully overlap a place, by the same rule the LIHTC
+  // opportunity finder uses (over 5% of the place or 20% of the tract), so a
+  // sliver of a neighbouring tract does not claim its QCT. Null when unknown.
+  let _placeMembership = null;
+  async function placeQctTracts(geoid){
+    try {
+      if (!_placeMembership) _placeMembership = loadJson('data/hna/place-tract-membership.json');
+      const m = await _placeMembership;
+      const entry = m && m.places && m.places[geoid];
+      if (!entry || !Array.isArray(entry.tracts)) return null;
+      return new Set(entry.tracts
+        .filter(t => (+t.share_of_place_area || 0) > 0.05 || (+t.share_of_tract_area || 0) > 0.20)
+        .map(t => t.tract_geoid));
+    } catch (e) {
+      _placeMembership = null;
+      console.warn('[HNA] place tract membership unavailable', e);
+      return null;
+    }
+  }
+
+  async function updateLihtcOverlays(countyFips5, geoType, geoLabel, geoid){
     // Increment the sequence counter. Any in-flight request for an older county
     // will see that its requestSeq no longer matches and will discard its result.
     const requestSeq = ++window.HNAState._lihtcRequestSeq;
@@ -1307,7 +1329,19 @@
       const qctData = await fetchQctTracts(countyFips5);
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
       if (qctData) {
-        window.HNARenderers.renderQctLayer(qctData);
+        // A town is credited only with QCTs among its own tracts, not the
+        // county's whole list (Fruita has none; Mesa County has 5).
+        // A town can reach into a second county (Aurora: Arapahoe and Adams),
+        // so its own count is taken from the statewide list, not the county's.
+        let placeTracts = null, stateQct = null;
+        if ((geoType === 'place' || geoType === 'cdp') && geoid) {
+          placeTracts = await placeQctTracts(geoid);
+          if (placeTracts) stateQct = await fetchQctTracts('08').catch(() => null);
+          if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
+          if (!stateQct || stateQct.unavailableReason) placeTracts = null;
+        }
+        window.HNARenderers.renderQctLayer(qctData, { type: geoType, name: geoLabel, tracts: placeTracts,
+          allFeatures: stateQct && Array.isArray(stateQct.features) ? stateQct.features : null });
       } else {
         if (window.HNAState.els.statQctCount) window.HNAState.els.statQctCount.textContent = '—';
       }
@@ -2028,10 +2062,12 @@
       'S0801_C01_002E', // car, truck, or van — total (parent; drove-alone + carpooled)
       'S0801_C01_003E', // drove alone (%)
       'S0801_C01_004E', // carpooled (%)
-      'S0801_C01_005E', // public transportation (%)
-      'S0801_C01_006E', // walked (%)
-      'S0801_C01_007E', // taxicab, motorcycle, bicycle, or other means (%)
-      'S0801_C01_008E', // worked at home (%)
+      // 005–008 are carpool sizes and workers per vehicle, not other modes.
+      'S0801_C01_009E', // public transportation (%)
+      'S0801_C01_010E', // walked (%)
+      'S0801_C01_011E', // bicycle (%)
+      'S0801_C01_012E', // taxi or ride-hailing, motorcycle, or other means (%)
+      'S0801_C01_013E', // worked from home (%)
       'S0801_C01_046E', // mean travel time to work (minutes)
     ];
 
@@ -4311,10 +4347,29 @@
   // Serialized inside update() itself (not a wrapper) because other guards
   // read update()'s body from source to check what it calls.
   let _updateGate = Promise.resolve();
+
+  // The place init loaded, until the first select change after it. The
+  // page's deep-link helper re-announces that place (so the project, the
+  // county and the projection pill sync); the geoSelect listener in init
+  // skips that one echo instead of running the whole load again, which on a
+  // phone blanked and redrew every figure (Codex audit F9, 31 Oct 2026).
+  // Any later change loads as before.
+  let _initialLoadKey = null;
+  function _currentSelectKey() {
+    const els = window.HNAState && window.HNAState.els;
+    if (!els || !els.geoType || !els.geoSelect) return null;
+    const combined = !!(els.combineGeosToggle && els.combineGeosToggle.checked);
+    return els.geoType.value + ':' + els.geoSelect.value + (combined ? ':combined' : '');
+  }
   async function update(){
     const previous = _updateGate;
     let release;
     _updateGate = new Promise(function (r) { release = r; });
+    // However this load ends, the decision tiles stop holding space for
+    // tiles that never reported (they were armed when the load began).
+    _updateGate.then(function () {
+      if (window.HNARenderers && window.HNARenderers.settleDecisionStrip) window.HNARenderers.settleDecisionStrip();
+    });
     await previous;
     try {
     var ws = document.getElementById('hnaWaitingState');
@@ -4388,6 +4443,8 @@
     // Clear stat cards immediately so users never see stale data from a previous geography.
     // Cards will be repopulated once the new profile data arrives.
     window.HNARenderers.clearStats();
+    // Hold the decision tiles' place while this place loads (settled below).
+    if (window.HNARenderers.armDecisionStrip) window.HNARenderers.armDecisionStrip();
 
     // Store geo label in state so CSV export can use it.
     window.HNAState.state.lastGeoLabel = label;
@@ -4411,7 +4468,7 @@
     }
 
     // Load cached summary (if present) else live ACS
-    let profile=null, s0801=null;
+    let profile=null, s0801=null, modeCounts=null;
     const cacheFlags = { summary:false, lehd:false, dola:false, projections:false, derived:false };
 
     try{
@@ -4419,6 +4476,7 @@
         if (sum && sum.acsProfile) {
           profile = sum.acsProfile;
           s0801 = sum.acsS0801;
+          modeCounts = sum.acsB08301 || null;
           cacheFlags.summary = true;
           // Extract year and series from cached source endpoint URL if available
           const endpointMeta = (url) => {
@@ -4600,7 +4658,8 @@
     }
 
     if (s0801){
-      window.HNARenderers.renderModeShare(s0801);
+      // B08301 counts, from the cached summary, carry every mode; S0801 is the fallback.
+      window.HNARenderers.renderModeShare(s0801, modeCounts);
     }
 
     // LEHD (cached) — contextCounty declared above the if(profile) block.
@@ -4739,6 +4798,17 @@
     // AMI tier shares (replacing the statewide heuristic from PR #798).
     if (window.ChasTierShares && typeof window.ChasTierShares.init === 'function') {
       try { await window.ChasTierShares.init(); } catch (_) { /* soft-fail */ }
+    }
+    // The housing gap summary and the housing-type ranking were drawn above,
+    // before county and place CHAS were loaded, so they scored without them:
+    // the "flags N renter households" line never printed, and Fruita's deeply
+    // affordable rental read 69 with 2 of 5 indicators instead of 76 with 4.
+    // Draw both again now that CHAS is in.
+    if (window.HNARenderers.renderHousingGapSummary) {
+      try { window.HNARenderers.renderHousingGapSummary(profile, geoType); } catch (_) { /* soft-fail */ }
+    }
+    if (window.HNARenderers.tryRenderHousingTypeNeedFromState) {
+      try { window.HNARenderers.tryRenderHousingTypeNeedFromState(profile); } catch (_) { /* soft-fail */ }
     }
     // Affordable Ownership Need uses the home-value cascade for place/CDP and
     // county selections. Start it early but do not block the core CHAS and
@@ -5050,7 +5120,7 @@
     });
 
     // LIHTC / QCT / DDA overlays (non-blocking; state FIPS '08' for statewide, county FIPS otherwise)
-    updateLihtcOverlays(geoType === 'state' ? '08' : contextCounty, geoType, label).catch(e => console.warn('[HNA] LIHTC overlay error', e));
+    updateLihtcOverlays(geoType === 'state' ? '08' : contextCounty, geoType, label, geoid).catch(e => console.warn('[HNA] LIHTC overlay error', e));
 
     // HUD FMR & Income Limits panel (non-blocking)
     // For county, place, and CDP show county-level FMR; for state-level show a prompt.
@@ -5402,6 +5472,7 @@
     }
 
     window.HNAState.els.geoType.addEventListener('change', ()=>{
+      _initialLoadKey = null;
       buildSelect();
       _syncCombinedPanel();
       _syncJurisdictionToWorkflowState();
@@ -5411,6 +5482,10 @@
     window.HNAState.els.geoSelect.addEventListener('change', () => {
       _syncJurisdictionToWorkflowState();
       _syncJurisdictionToUrl();
+      // Skip only the deep-link helper's echo of the place init loaded (F9).
+      const echo = _initialLoadKey !== null && _currentSelectKey() === _initialLoadKey;
+      _initialLoadKey = null;
+      if (echo) return;
       update();
     });
     window.HNAState.els.btnRefresh.addEventListener('click', update);
@@ -5526,10 +5601,16 @@
       });
     });
 
+    // Record the place init is about to load, so its deep-link echo is skipped (F9).
+    if (!unknownGeoid && !nothingChosen) _initialLoadKey = _currentSelectKey();
     ensureMap();
     // Nothing to load for an unknown geography, or when nothing was picked
     // (no address, no saved place); the waiting state says what to do.
     if (!unknownGeoid && !nothingChosen) update();
+    else {
+      if (window.HNARenderers.clearDecisionStrip) window.HNARenderers.clearDecisionStrip();
+      if (window.HNARenderers.settleJurisdictionBanner) window.HNARenderers.settleJurisdictionBanner();
+    }
   }
 
 

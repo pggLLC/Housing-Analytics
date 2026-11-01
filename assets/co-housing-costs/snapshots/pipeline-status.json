@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-02T14:09:25.246761+00:00",
+  "generated": "2026-10-31T20:36:41.308278+00:00",
   "maps_generated": 8,
   "maps_total": 8,
   "maps_complete": true,
@@ -26,7 +26,7 @@
     },
     "bls_ppi": {
       "status": "ok",
-      "rows": 944,
+      "rows": 948,
       "vintage": 2026
     },
     "qcew": {

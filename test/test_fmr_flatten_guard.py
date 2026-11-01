@@ -279,9 +279,29 @@ def main() -> int:
     print("  PASS: missing county AMI fails fast with its FIPS and reason")
     test_committed_county_names_match_canonical_map(module)
     print("  PASS: all 64 committed county names match the canonical map")
+    test_published_limits_beat_median_multiplication(module)
+    print("  PASS: HUD published limits used; 60% = 120% of very-low limit")
 
     print("fmr-flatten-guard: PASS")
     return 0
+
+
+def test_published_limits_beat_median_multiplication(module) -> None:
+    """Pueblo FY2026: HUD's published limits, not median x percent (CHFA 2026 table)."""
+    record = {
+        "very_low": {"il50_p1": 34100, "il50_p2": 38950, "il50_p3": 43800, "il50_p4": 48700},
+        "extremely_low": {"il30_p1": 20450, "il30_p2": 23400, "il30_p3": 26300, "il30_p4": 29200},
+        "low": {"il80_p1": 54550, "il80_p2": 62350, "il80_p3": 70150, "il80_p4": 77900},
+    }
+    limits = module.calc_income_limits(87700, record)
+    assert limits["il60_1person"] == 40920, limits
+    assert limits["il60_4person"] == 58440, limits
+    assert limits["il50_4person"] == 48700, limits
+    assert limits["il80_4person"] == 77900, limits
+    rents = module.calc_affordable_rents_60pct(87700, {"two_br": 1263}, limits)
+    assert rents["rent_60pct_4person"]["gross_rent"] == 1460, rents
+    # Without published limits the median formula still answers.
+    assert module.calc_income_limits(87700)["il60_4person"] == 52600
 
 
 if __name__ == "__main__":

@@ -564,6 +564,8 @@ jobs:
           python3 scripts/funding/build_round_watch.py
           echo "── Rebuilding land banking status (reads the ledger) ──"
           python3 scripts/funding/build_land_banking_status.py
+          echo "── Rebuilding the region funding map (reads the ledger) ──"
+          python3 scripts/funding/build_funding_map.py
           echo "── Rebuilding county market direction (reads permits, projections, LEHD) ──"
           python3 scripts/market/build_market_direction.py
           echo "── Rebuilding paper figures ──"
@@ -588,7 +590,7 @@ jobs:
           # test:place-pages-fresh / test:paper-fresh / the inventory check
           # until the next human PR inherited the failure.
           git add data/hna data/policy/housing-policy-scorecard.json data/home-snapshot.json data/_manifest.json data/manifest.json data/jurisdiction-briefs docs/qa \
-                  data/market/acs_median_rent_co.json data/derived/funding-vs-need.json data/market/development-activity.json data/jurisdiction-briefs/_round-watch.json data/policy/prop123-land-banking-status.json data/market/market-direction.json data/market/housing_policy_jurisdictions_co.geojson places README.md AGENTS.md data/paper working-paper.html methods.html js/hna/ownership-finance.js js/hna/hna-ownership-need.js 2>/dev/null || true
+                  data/market/acs_median_rent_co.json data/derived/funding-vs-need.json data/market/development-activity.json data/jurisdiction-briefs/_round-watch.json data/policy/prop123-land-banking-status.json data/derived/funding-map.json data/market/market-direction.json data/market/housing_policy_jurisdictions_co.geojson places README.md AGENTS.md data/paper working-paper.html methods.html js/hna/ownership-finance.js js/hna/hna-ownership-need.js 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
           # F119 — was `git merge --strategy=ours origin/main` which is git's
           # most destructive merge: it accepts the merge commit but DISCARDS
@@ -631,7 +633,7 @@ jobs:
               # regenerate" commit does), and the 2026-09-22 morning run
               # aborted on exactly that. `places` is a directory: any
               # conflicted path under it is derived.
-              derived_artifacts=(data/home-snapshot.json data/_manifest.json data/manifest.json data/market/acs_median_rent_co.json data/derived/funding-vs-need.json data/market/development-activity.json data/jurisdiction-briefs/_round-watch.json data/policy/prop123-land-banking-status.json data/market/market-direction.json places README.md AGENTS.md data/paper/figures.json data/paper/model-parameters.json working-paper.html methods.html)
+              derived_artifacts=(data/home-snapshot.json data/_manifest.json data/manifest.json data/market/acs_median_rent_co.json data/derived/funding-vs-need.json data/market/development-activity.json data/jurisdiction-briefs/_round-watch.json data/policy/prop123-land-banking-status.json data/derived/funding-map.json data/market/market-direction.json places README.md AGENTS.md data/paper/figures.json data/paper/model-parameters.json working-paper.html methods.html)
               for conflicted in "${conflicted_paths[@]}"; do
                 is_derived=0
                 for derived in "${derived_artifacts[@]}"; do
@@ -663,6 +665,7 @@ jobs:
               python3 scripts/market/build_development_activity.py
               python3 scripts/funding/build_round_watch.py
               python3 scripts/funding/build_land_banking_status.py
+              python3 scripts/funding/build_funding_map.py
               python3 scripts/market/build_market_direction.py
               npm run paper:build
               node scripts/compute-inventory.mjs --write

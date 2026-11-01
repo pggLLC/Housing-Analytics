@@ -1636,7 +1636,10 @@
     var text = blockedReason ? 'Rent revenue unavailable: ' + message
       : allowance.applied ? 'Utility allowance applied from ' + (allowance.basis.reference || 'Owner pays all utilities') +
         (allowance.basis.effectiveDate ? ' · effective ' + allowance.basis.effectiveDate : '')
-      : 'Upper bound — utility allowance not applied: ' + message + '. Set it in Market Analysis → Subject project.';
+      : 'Upper bound — utility allowance not applied: ' + message + '.';
+    // Where the allowance is set, as a link rather than directions to follow.
+    var setLink = !blockedReason && !allowance.applied && !(_resolvedDealMix && _resolvedDealMix.available)
+      && !(allowance.source === 'shared' && allowance.applied);
     if (_resolvedDealMix && _resolvedDealMix.available) text = 'Schedule contract rents already include utility allowances and fees — no second deduction.';
     if (allowance.source === 'shared' && allowance.applied) {
       text = 'Utility allowance from shared scenario: ' + (allowance.basis.reference || 'Owner pays all utilities') +
@@ -1657,6 +1660,16 @@
       el.dataset.allowanceSource = allowance.source || 'local';
       el.dataset.unavailableReason = reason || '';
       el.textContent = el.hidden ? '' : text;
+      if (!el.hidden && setLink) {
+        var a = document.createElement('a');
+        var j = window.WorkflowState && window.WorkflowState.getJurisdiction ? window.WorkflowState.getJurisdiction() : null;
+        var place = new URLSearchParams(window.location.search).get('geoid') || (j && j.geoid) || '';
+        a.href = 'market-analysis.html' + (/^08\d{3}(\d{2})?$/.test(place) ? '?geoid=' + place : '')
+          + '#subjectProjectMount';
+        a.textContent = 'Set the utility allowance in Market Analysis \u2192';
+        el.appendChild(document.createTextNode(' '));
+        el.appendChild(a);
+      }
       var basis = _resolvedDealMix && _resolvedDealMix.available
         ? _resolvedDealMix.sourceMeta.allowanceBasis : allowance.basis;
       markSource(el, countySource({ source: basis && (basis.reference || basis.method),
@@ -2367,6 +2380,18 @@
             <span>CHFA has awarded this state credit (a proposed amount does not count: CHFA sizes it with a three-test calculation this calculator does not model)</span>
           </label>
           <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0;line-height:1.45;">State credit equity is a separate source from federal equity: each annual amount, within CHFA's limit for the application, over the six-year allocation. CHFA's limits apply per project and per applicant, with its affiliates, so other active applications leave less; these figures assume there are none.</p>
+          <div role="group" aria-labelledby="dc-bond-h" style="margin-top:var(--sp2);">
+            <p id="dc-bond-h" style="margin:0;font-size:var(--small);font-weight:600;">Tax-exempt bonds and construction loan (4% deals)</p>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:.2rem 0 .35rem;line-height:1.45;">A 4% deal gets its credits only if tax-exempt bonds pay for enough of the building and land. Enter the bonds and the construction loan to check that test and the construction interest budget.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:.4rem;">
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Tax-exempt bonds ($)</span><input id="dc-bond-amount" type="number" min="0" step="1000" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Bonds from an issue dated after 2025?</span><select id="dc-bond-post2025" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"><option value="">Not known</option><option value="yes">Yes</option><option value="no">No</option></select></label>
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Construction loan ($)</span><input id="dc-constr-loan" type="number" min="0" step="1000" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Construction loan rate (%)</span><input id="dc-constr-rate" type="number" min="0" max="20" step="0.05" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Loan months, closing to payoff</span><input id="dc-constr-months" type="number" min="1" max="60" step="1" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+              <label style="display:block;font-size:var(--tiny);color:var(--muted);"><span style="display:block;">Average share drawn (%)</span><input id="dc-constr-draw" type="number" min="1" max="100" step="1" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
+            </div>
+          </div>
           <div role="group" aria-labelledby="dc-fed-payin-h" style="margin-top:var(--sp2);">
             <p id="dc-fed-payin-h" style="margin:0;font-size:var(--small);font-weight:600;">Federal equity pay-in (% of federal equity)</p>
             <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;">
@@ -2486,6 +2511,11 @@
             <dt>Other income, per unit per year</dt><dd id="dc-op-income-total" style="margin:0;font-weight:700;font-variant-numeric:tabular-nums;">—</dd>
           </dl>
           <p id="dc-op-reason" role="status" hidden style="margin:0 0 var(--sp1);font-size:var(--small);color:var(--warn,#b45309);"></p>
+          <label style="display:block;margin:0 0 var(--sp1);">
+            <span style="font-size:var(--small);color:var(--muted);">Expense target someone gave you ($ per unit per year, optional; checked against the line items, never used in place of them)</span>
+            <input id="dc-opex-target" type="number" min="0" step="50" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+          </label>
+          <p id="dc-op-target-check" role="status" style="margin:0 0 var(--sp1);font-size:var(--small);line-height:1.45;"></p>
           <p id="dc-op-utilities-note" style="margin:0 0 var(--sp1);font-size:var(--tiny);color:var(--muted);line-height:1.45;"></p>
           <div id="dc-op-lines">${operatingBudgetHtml({ real_estate_taxes: `
           <label style="display:block;margin-bottom:var(--sp2);">
@@ -3151,6 +3181,10 @@
         <p id="dc-dscr-manual-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);margin-bottom:0;display:none;">
           Stress scenarios require auto-compute NOI to be enabled — they need the underlying rent / vacancy / opex breakdown, not just a total NOI.
         </p>
+        <p style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);margin-bottom:0;">
+          Each stress row lowers NOI and keeps every must-pay loan payment at its base amount, so the coverage
+          shown is what the committed loans would face. A lender resizing the loan to the stressed NOI would lend less instead.
+        </p>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
           ⚠ Banker / syndicator rule of thumb: conservative lenders want DSCR ≥ 1.15 under a moderate stress scenario
           and DSCR ≥ 1.10 under combined stress. A deal that falls below 1.00 under the combined case may need
@@ -3422,10 +3456,11 @@
            at hold-period end, remaining debt balances, net sale proceeds,
            deferred-fee payback timing, return on the deferred fee. -->
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
-        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Year-15 Exit Analysis</legend>
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Exit Analysis at the End of the Hold Period</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
-          Projects sale or refinance at hold-period end. NOI growth and expense inflation use the same
-          rates as the 30-yr pro forma. Resale value capitalizes stabilized NOI at the exit cap rate.
+          Projects a sale at the end of the hold period you enter below (15 years unless changed). NOI growth
+          and expense inflation use the same rates as the pro forma. Resale value capitalizes the final hold
+          year's NOI, not the next year's, at the exit cap rate, before selling costs.
         </p>
         <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:var(--sp2);margin-bottom:var(--sp2);">
           <label style="font-size:var(--small);color:var(--muted);">
@@ -3557,7 +3592,8 @@
     if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
     ['dc-credit-requested', 'dc-credit-awarded', 'dc-state-annual', 'dc-state-standard-annual', 'dc-state-price', 'dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-grant-acq', 'dc-grant-outside', 'dc-state-awarded', 'dc-state-path', 'dc-state-fees',
       'dc-add-kind', 'dc-add-evidence', 'dc-add-annual', 'dc-add-years', 'dc-add-price', 'dc-add-fees', 'dc-add-program-year',
-      'dc-add-mode', 'dc-add-displaces', 'dc-add-displaced-annual', 'dc-add-fed-cut']
+      'dc-add-mode', 'dc-add-displaces', 'dc-add-displaced-annual', 'dc-add-fed-cut',
+      'dc-bond-amount', 'dc-constr-loan', 'dc-constr-rate', 'dc-constr-months', 'dc-constr-draw', 'dc-opex-target']
       .concat(['fed', 'state', 'add'].reduce(function (acc, src) {
         return acc.concat(['closing', 'completion', 'stabilization'].map(function (st) { return 'dc-' + src + '-payin-' + st; }));
       }, [])).forEach(function (id) { ids.push(id); });
@@ -3565,7 +3601,7 @@
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
-    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path', 'dc-add-kind', 'dc-add-mode', 'dc-add-displaces'].forEach(function (id) {
+    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path', 'dc-add-kind', 'dc-add-mode', 'dc-add-displaces', 'dc-bond-post2025'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', recalculate);
     });
@@ -4281,9 +4317,67 @@
     var inputs = readDealInputs();
     _lastResult = dealEngine().computeDeal(inputs);
     renderDealResult(_lastResult, inputs);
+    // After the panels that wrap recalculate() have rendered too.
+    setTimeout(quietPreCountyAbsence, 0);
     saveManualMix();
     try { document.dispatchEvent(new CustomEvent('deal-calc:updated', { detail: { result: getResult() } })); } catch(_) {}
   }
+
+  // Before any county is chosen, every rent-dependent cell would repeat the
+  // same "Unavailable — Select a county…" sentence (~25 times on a fresh
+  // page; site audit F12). Keep the absence honest but say it once: each such
+  // cell shows a dash, with the reason kept for hover and screen readers. Runs
+  // only while the county picker is empty, so a chosen county is untouched.
+  var PRE_COUNTY_REASON = 'Unavailable — Select a county to load AMI rent limits.';
+  function quietPreCountyAbsence() {
+    // Display-only tidy-up: skip quietly where the DOM lacks tree walking
+    // (lightweight test documents), and never let it break a calculation.
+    if (typeof document === 'undefined' || typeof document.createTreeWalker !== 'function' ||
+        typeof document.querySelector !== 'function') return;
+    try { _quietPreCountyAbsence(); } catch (_) { /* cosmetic only */ }
+  }
+  function _quietPreCountyAbsence() {
+    var sel = document.getElementById('dc-county-select');
+    if (!sel) return;
+    var mount = document.querySelector('main') || document.body;
+    if (sel.value) {
+      // County chosen: drop the hover note from cells the renderers refilled.
+      Array.prototype.forEach.call(mount.querySelectorAll('[data-pre-county]'), function (el) {
+        el.removeAttribute('data-pre-county');
+        if (el.title === 'Unavailable until a county is selected') el.removeAttribute('title');
+      });
+      return;
+    }
+    var walker = document.createTreeWalker(mount, 4 /* NodeFilter.SHOW_TEXT */);
+    var hits = [];
+    while (walker.nextNode()) {
+      var n = walker.currentNode;
+      if (n.nodeValue.trim() === PRE_COUNTY_REASON && n.parentNode && n.parentNode.childNodes.length === 1) hits.push(n.parentNode);
+    }
+    hits.forEach(function (el) {
+      // The quick-estimate answer panel states the reason once; it and the
+      // headline figures it mirrors must keep showing the same text.
+      if (el.id && (el.id.indexOf('dq-out-') === 0 || document.getElementById('dq-out-' + el.id))) return;
+      el.textContent = '—';
+      el.title = 'Unavailable until a county is selected';
+      var sr = document.createElement('span');
+      sr.className = 'sr-only';
+      sr.textContent = ' unavailable until a county is selected';
+      el.appendChild(sr);
+      el.setAttribute('data-pre-county', '');
+    });
+    // Panels that render later (stress, waterfall) are caught as they appear.
+    if (!_preCountyObserver && typeof MutationObserver === 'function') {
+      var queued = false;
+      _preCountyObserver = new MutationObserver(function () {
+        if (queued) return;
+        queued = true;
+        setTimeout(function () { queued = false; quietPreCountyAbsence(); }, 0);
+      });
+      _preCountyObserver.observe(mount, { childList: true, subtree: true, characterData: true });
+    }
+  }
+  var _preCountyObserver = null;
 
   // #2160: itemized costs, basis, credit figures and the CHFA tests. Every
   // absent figure shows its reason; nothing falls back to a typical share.
@@ -4500,6 +4594,16 @@
     var pupa = ob.pupaExpenses(sum, netTax,
       document.getElementById('dc-rep-reserve') && document.getElementById('dc-rep-reserve').value);
     setText('dc-op-pupa', pupa.value == null ? pupa.reason : fmt(pupa.value));
+    // An expense target is checked against the expenses used; it never replaces them.
+    var tgEl = document.getElementById('dc-op-target-check'), tg = result.expenseTarget;
+    if (tgEl) {
+      var tgText = !tg || !tg.entered ? '' : tg.reason ? tg.reason
+        : tg.below ? 'The target is ' + fmt(tg.difference) + ' a unit a year below the expenses used (' + fmt(tg.used) + '). The calculator keeps the expenses'
+          + (tg.coverageAtTarget != null ? ': year-1 coverage is ' + tg.coverageUsed.toFixed(2) + 'x on them, and would read ' + tg.coverageAtTarget.toFixed(2) + 'x at the target.' : '.')
+        : 'The target is at or above the expenses used (' + fmt(tg.used) + ' a unit a year).';
+      tgEl.textContent = tgText;
+      tgEl.style.color = tg && tg.below ? 'var(--warn,#b45309)' : '';
+    }
     document.querySelectorAll('[data-op-subtotal]').forEach(function (span) {
       var g = span.getAttribute('data-op-subtotal');
       var v = g === 'income' ? sum.otherIncomePerUnitYear : sum.groups && sum.groups[g];
@@ -4630,7 +4734,15 @@
         basis.acquisitionCitation ? 'Acquisition basis earns CHFA\'s 4% acquisition floor, not 9% (' + basis.acquisitionCitation + '). The calculator has no input for a higher applicable percentage.' : 'Acquisition basis earns the same rate on a 4% deal.');
       if (basis.acquisitionQualified > 0) row('CHFA minimum rehabilitation', 'Not checked', costBasisModule().REHAB_MINIMUM_NOTE);
       row('Method One: qualified basis credit', money(basis.calculatedCredit, basis.reasons.acquisitionRate || 'Not available'),
-        String(result.creditType) === '4' ? costBasisModule().BOND_TEST_NOTE : null);
+        String(result.creditType) === '4' && !(cbr.bondTest && cbr.bondTest.bondAmount !== null) ? costBasisModule().BOND_TEST_NOTE : null);
+      var bt = cbr.bondTest;
+      if (bt && bt.applies && bt.bondAmount !== null) {
+        row('Bond test: bonds / (basis + land)', bt.ratio == null ? bt.reason : (Math.round(bt.ratio * 1000) / 10).toFixed(1) + '%'
+          + (bt.passes == null ? '' : bt.passes ? ' · meets the ' + Math.round(bt.threshold * 100) + '% test' : ' · below the ' + Math.round(bt.threshold * 100) + '% test'),
+          [bt.passes == null ? bt.reason : null, bt.aggregateBasis != null ? 'Aggregate basis ' + fmt(bt.aggregateBasis) + '. ' + bt.note : null,
+            bt.minimumBonds != null ? 'Bonds needed: ' + fmt(bt.minimumBonds) + '. ' + (bt.basisCushion >= 0 ? 'Basis could grow ' + fmt(bt.basisCushion) + ' before the test fails.' : 'Short by ' + fmt(-bt.basisCushion) + ' of basis at this bond amount.') : null,
+            bt.flags.join(' ') || null, bt.citation].filter(Boolean).join(' '));
+      }
       row('CHFA per-project limit', basis.cap.applied ? fmt(basis.cap.amount) : 'Not applied', (basis.cap.reason || basis.cap.citation || '') + (basis.cap.applied ? ' ' + costBasisModule().APPLICANT_LIMIT_NOTE : ''));
       row('Method Two: gap calculation', basis.gapMethod.applied ? fmt(basis.gapMethod.credit) : 'Not calculated',
         basis.gapMethod.applied ? (basis.gapMethod.binding ? basis.gapMethod.reason : 'Uses not covered by sources other than federal and state credit equity: ' + fmt(Math.max(0, basis.gapMethod.gap)) + ', divided by the credit price and 10 years (' + basis.gapMethod.citation + ').') : basis.gapMethod.reason);
@@ -4668,6 +4780,18 @@
       uw.minimum.status.citation || null);
     row('Coverage in year 1', uw.high.firstYear == null ? uw.high.reason : uw.high.firstYear.toFixed(2) + 'x' + (uw.high.exceeds ? ' · above 1.30x, CHFA may award less credit' : ''),
       uw.high.status.citation || null);
+
+    heading('Budget checks');
+    var ci = cbr.constructionInterest;
+    if (ci) row('Construction interest budget', ci.passes == null ? ci.reason : fmt(ci.budget) + (ci.passes ? ' · covers the estimate' : ' · ' + fmt(ci.shortfall) + ' below the estimate'),
+      ci.estimate != null ? 'Estimate: loan x rate x months x average share drawn = ' + fmt(ci.estimate) + '. A draw schedule from the lender replaces this estimate.' : null);
+    var orc = cbr.operatingReserve;
+    if (orc) row('Operating reserve', orc.passes == null ? orc.reason : fmt(orc.reserve) + (orc.months != null ? ' · ' + orc.months.toFixed(1) + ' months of expenses and debt service' : '') + (orc.passes ? ' · meets CHFA\'s minimum' : ' · below CHFA\'s minimum of ' + fmt(orc.minimum)),
+      orc.citation ? 'CHFA requires at least four months of operating expenses plus four months of debt service (' + orc.citation + '). Expenses here include property taxes.' : null);
+    var dfr = cbr.deferredFee;
+    if (dfr) row('Deferred developer fee repaid by year ' + (dfr.years || 15), dfr.passes == null ? dfr.reason
+      : dfr.fee === 0 ? 'No fee deferred' : dfr.passes ? 'Yes, in year ' + dfr.yearRepaid : 'No: ' + fmt(dfr.owed) + ' still owed',
+      dfr.citation ? 'CHFA reviews whether cash flow can pay the deferred fee over its 15-year pro forma (' + dfr.citation + '). A deferred fee that cash flow cannot repay may not count in eligible basis.' : null);
 
     var pay = cbr.payIn;
     // Credit equity is $0 outside CHFA LIHTC, so there is nothing to pay in.
@@ -6932,6 +7056,22 @@
         impact('dc-stress-leaseup-impact', 'year1Loss', function (v) {
           return 'Year-1 NOI loss estimate: ' + _fmtMoney(v.year1Loss) + ' (linear ramp; covered by lease-up reserve if funded)';
         });
+        // The floor is a test of the base case's coverage, not a resize: the
+        // loan stays as sized or entered above.
+        var floorEl = document.getElementById('dc-stress-dscr-impact');
+        if (floorEl) {
+          var floor = _read('dc-stress-dscr-floor') || 1.15;
+          var base = result && result.baseDSCR;
+          if (typeof base === 'number' && isFinite(base)) {
+            delete floorEl.dataset.unavailableReason;
+            floorEl.textContent = 'Base coverage ' + base.toFixed(2) + 'x '
+              + (base >= floor ? 'meets' : 'falls short of') + ' a ' + floor.toFixed(2) + 'x floor (loan not resized).';
+          } else {
+            var dscrReason = (result && result.unavailable && result.unavailable.baseDSCR) || 'Enter NOI and mortgage terms to see coverage.';
+            floorEl.dataset.unavailableReason = dscrReason;
+            floorEl.textContent = 'Unavailable — ' + dscrReason;
+          }
+        }
         // Summary panel — combined worst-case visualization
         var summaryEl = document.getElementById('dcStressSummary');
         if (summaryEl) {
@@ -6945,6 +7085,7 @@
             leaseupMonths + 'mo lease-up · ' +
             'DSCR ≥ ' + dscrFloor.toFixed(2) + 'x. ' +
             '<br><span style="color:var(--muted);font-size:.8125rem">' +
+            'Every stress here keeps the loans at their base amounts; nothing is resized. The deep-tier rent setting is not yet applied to any figure. ' +
             'Read each impact row above for line-item deltas. Per-tranche soft-debt controls (CF-pay %, accrue mode, priority) live in the "Soft Funding Stack" panel above; ' +
             'full capital event waterfall (GP/LP split, preferred return, catch-up) renders below the Tornado Chart.' +
             '</span>';
@@ -7028,8 +7169,9 @@
           '<td style="padding:3px 6px;color:var(--muted);font-size:.8125rem;">' + _escHtml(t.recipient) + '</td>' +
         '</tr>';
       }).join('');
+      // tabindex lets keyboard users scroll it when it overflows at phone width.
       // Tier order is the payout order, so this table never sorts.
-      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
+      return '<table data-no-sort tabindex="0" aria-label="Exit sale waterfall by tier" style="width:100%;border-collapse:collapse;font-size:.82rem;">' +
         '<thead><tr style="border-bottom:1px solid var(--border);">' +
         '<th style="text-align:left;padding:3px 6px;color:var(--muted);font-weight:600;">Waterfall tier</th>' +
         '<th style="text-align:right;padding:3px 6px;color:var(--muted);font-weight:600;">Amount</th>' +
@@ -7086,7 +7228,7 @@
           '</tr>';
       });
       // Year-by-year schedule: kept in year order like the other statements.
-      return '<table data-no-sort style="width:100%;border-collapse:collapse;font-size:.8125rem;">' +
+      return '<table data-no-sort tabindex="0" aria-label="Year-by-year LP and GP cash" style="width:100%;border-collapse:collapse;font-size:.8125rem;">' +
         '<thead><tr style="position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--border);">' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">Year</th>' +
         '<th style="text-align:right;padding:4px 6px;color:var(--muted);">LP cash</th>' +

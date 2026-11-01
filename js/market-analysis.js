@@ -4587,6 +4587,27 @@
     }
     setSum('pmaSumSevereBurden',  fmtPctRate(acs.severe_cost_burden_rate));
     setSum('pmaSumPoverty',       fmtPctRate(acs.poverty_rate));
+
+    // Where the market area's working residents work: LODES primary jobs by home tract,
+    // weighted by each tract's share in the market area. Context only, no score effect.
+    var wpEl = document.getElementById('pmaSumWorkplaces');
+    if (wpEl) {
+      var wpTok = {};
+      wpEl._tok = wpTok;
+      result.workplaces = null;
+      if (!window.PMAWorkplaces) {
+        wpEl.textContent = '—';
+      } else {
+        wpEl.textContent = 'Loading…';
+        var wpTracts = (result.bufferTractsDetail || []).map(function (t) { return { geoid: t.geoid, share: t.share }; });
+        window.PMAWorkplaces.load().then(function (data) {
+          if (wpEl._tok !== wpTok) return;
+          var s = window.PMAWorkplaces.summarize(data, wpTracts);
+          result.workplaces = s;
+          wpEl.textContent = window.PMAWorkplaces.sentence(s) || 'No commuting figures for these tracts';
+        });
+      }
+    }
     setSum('pmaSumUnemployment',  fmtPctRate(acs.unemployment_rate));
 
     // Amenity distances — already in straight-line miles when available
@@ -4719,7 +4740,10 @@
       if (vacancyHost && vacancyCard) {
         var bufferGeoids = result.bufferTractsDetail.map(function (d) { return d.geoid; });
         var weights = {};
-        result.bufferTractsDetail.forEach(function (d) { weights[d.geoid] = d.share || 1; });
+        // A real zero overlap stays zero; only a missing share counts as whole.
+        result.bufferTractsDetail.forEach(function (d) {
+          weights[d.geoid] = Number.isFinite(d.share) ? d.share : 1;
+        });
         vacancyCard.style.display = '';
         window.VacancyContext.render(vacancyHost, {
           bufferTracts: bufferGeoids, weightsByTract: weights
@@ -5515,9 +5539,13 @@
           grocery:    sumGet('pmaSumGrocery'),
           healthcare: sumGet('pmaSumHealthcare'),
           school:     sumGet('pmaSumSchool'),
-          park:       sumGet('pmaSumPark')
+          park:       sumGet('pmaSumPark'),
+          workplaces: sumGet('pmaSumWorkplaces')
         };
-      })()
+      })(),
+      // Where the market area's working residents work (LODES primary jobs). Context only:
+      // it adds no demand and changes no score.
+      workplaces: lastResult.workplaces || null
     };
   }
 
@@ -5662,6 +5690,7 @@
       ['Nearest Clinic or Hospital', sc.healthcare],
       ['Nearest School',     sc.school],
       ['Nearest Park',       sc.park],
+      ['Where Residents Work (context, no score effect)', sc.workplaces],
       ['', ''],
       ['SECTION', 'Data Coverage Diagnostic (per dimension)'],
       ['Demand',           dq.demand || ''],

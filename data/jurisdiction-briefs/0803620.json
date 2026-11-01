@@ -510,8 +510,143 @@
       "accessed": "2026-10-18"
     },
     {
+      "id": "ls1",
+      "label": "Local support record for City of Aspen, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0803620",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "2022-2026 Affordable Housing Strategic Plan (later updated and extended to 2028) (City of Aspen, 2022-2028 Affordable Housing Strategic Plan, 2024 Update)",
+      "url": "https://aspen.gov/DocumentCenter/View/14164/Strategic-Housing-Plan---COA-2024",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-aspen-ahsp-2022",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Aspen Daily News, 'Aspen explores fee deferrals for locals redeveloping free-market homes' (June 29, 2026)",
+      "url": "https://www.aspendailynews.com/news/article_cc648124-1429-457f-8d1b-269a6bc2dde0-985c5050",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-building-permit-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Aspen Municipal Code §25.12.160 (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT25UT_CH25.12UTCO_S25.12.160WAEXUTINCHCEEMHOPR",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-category-water-charge-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "Aspen Land Use Code §26.610.100 Waiver of fees (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT600IMFEDE_CH26.610IMFE_S26.610.100WAFE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-impact-parks-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Aspen Land Use Code §26.610.100 Waiver of fees (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT600IMFEDE_CH26.610IMFE_S26.610.100WAFE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-impact-transportation-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "Aspen Land Use Code §26.104.070 Land use application fees (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT100GEPR_CH26.104GEPR_S26.104.070LAUSAPFE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-planning-fee-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls8",
+      "label": "Aspen Municipal Code §25.12.160 (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT25UT_CH25.12UTCO_S25.12.160WAEXUTINCHCEEMHOPR",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-qualified-employee-housing-water-charge-exemption",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls9",
+      "label": "Aspen Land Use Code §26.580.050 (Municode)",
+      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT500SURE_CH26.580DE_S26.580.050EX",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "aspen-affordable-demolition-exemption",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls10",
+      "label": "City of Aspen - Real Estate Transfer Taxes",
+      "url": "https://aspen.gov/1428/Real-Estate-Transfer-Taxes",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-aspen-housing-rett",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls11",
+      "label": "City of Aspen - State, County and Local Sales and Use Taxes",
+      "url": "https://www.aspen.gov/1389/State-County-and-Local-Tax-Information",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-aspen-housing-sales-tax",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls12",
+      "label": "City of Aspen - Lodging and Short Term Rental Taxes",
+      "url": "https://aspen.gov/1427/Lodging-and-Short-Term-Rental-Taxes",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-aspen-str-excise-tax",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls13",
+      "label": "$3 million Gould Construction contract for Lumberyard affordable housing site preparation (City of Aspen press release, Nov. 22, 2024)",
+      "url": "https://aspen.gov/CivicAlerts.aspx?AID=793",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-aspen-lumberyard-gould-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls14",
+      "label": "Lumberyard development agreement and ground lease with Gorman & Company (City of Aspen press release, July 15, 2025)",
+      "url": "https://www.aspen.gov/CivicAlerts.asp?AID=863",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-aspen-lumberyard-gorman-2025",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls15",
+      "label": "Lumberyard Phase A approval (104 deed-restricted rental units) (City of Aspen press release, Apr. 20, 2026)",
+      "url": "https://aspen.gov/CivicAlerts.aspx?AID=933",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-aspen-lumberyard-phase-a-2026",
+      "accessed": "2026-10-10"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -520,7 +655,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -655,7 +790,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -664,7 +799,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -673,7 +808,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -724,141 +859,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "ls1",
-      "label": "Local support record for City of Aspen, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0803620",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "2022-2026 Affordable Housing Strategic Plan (later updated and extended to 2028) (City of Aspen, 2022-2028 Affordable Housing Strategic Plan, 2024 Update)",
-      "url": "https://aspen.gov/DocumentCenter/View/14164/Strategic-Housing-Plan---COA-2024",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-aspen-ahsp-2022",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "Aspen Daily News, 'Aspen explores fee deferrals for locals redeveloping free-market homes' (June 29, 2026)",
-      "url": "https://www.aspendailynews.com/news/article_cc648124-1429-457f-8d1b-269a6bc2dde0-985c5050",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "aspen-affordable-building-permit-waiver",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls4",
-      "label": "Aspen Municipal Code §25.12.160 (Municode)",
-      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT25UT_CH25.12UTCO_S25.12.160WAEXUTINCHCEEMHOPR",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "aspen-affordable-category-water-charge-waiver",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls5",
-      "label": "Aspen Land Use Code §26.610.100 Waiver of fees (Municode)",
-      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT600IMFEDE_CH26.610IMFE_S26.610.100WAFE",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "aspen-affordable-impact-parks-waiver",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls6",
-      "label": "Aspen Land Use Code §26.610.100 Waiver of fees (Municode)",
-      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT600IMFEDE_CH26.610IMFE_S26.610.100WAFE",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "aspen-affordable-impact-transportation-waiver",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls7",
-      "label": "Aspen Land Use Code §26.104.070 Land use application fees (Municode)",
-      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT100GEPR_CH26.104GEPR_S26.104.070LAUSAPFE",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "aspen-affordable-planning-fee-waiver",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls8",
-      "label": "Aspen Municipal Code §25.12.160 (Municode)",
-      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT25UT_CH25.12UTCO_S25.12.160WAEXUTINCHCEEMHOPR",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "aspen-qualified-employee-housing-water-charge-exemption",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls9",
-      "label": "Aspen Land Use Code §26.580.050 (Municode)",
-      "url": "https://library.municode.com/co/aspen/codes/municipal_code?nodeId=TIT26LAUSRE_PT500SURE_CH26.580DE_S26.580.050EX",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "aspen-affordable-demolition-exemption",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls10",
-      "label": "City of Aspen - Real Estate Transfer Taxes",
-      "url": "https://aspen.gov/1428/Real-Estate-Transfer-Taxes",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-aspen-housing-rett",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls11",
-      "label": "City of Aspen - State, County and Local Sales and Use Taxes",
-      "url": "https://www.aspen.gov/1389/State-County-and-Local-Tax-Information",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-aspen-housing-sales-tax",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls12",
-      "label": "City of Aspen - Lodging and Short Term Rental Taxes",
-      "url": "https://aspen.gov/1427/Lodging-and-Short-Term-Rental-Taxes",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-aspen-str-excise-tax",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls13",
-      "label": "$3 million Gould Construction contract for Lumberyard affordable housing site preparation (City of Aspen press release, Nov. 22, 2024)",
-      "url": "https://aspen.gov/CivicAlerts.aspx?AID=793",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-aspen-lumberyard-gould-2024",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls14",
-      "label": "Lumberyard development agreement and ground lease with Gorman & Company (City of Aspen press release, July 15, 2025)",
-      "url": "https://www.aspen.gov/CivicAlerts.asp?AID=863",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-aspen-lumberyard-gorman-2025",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls15",
-      "label": "Lumberyard Phase A approval (104 deed-restricted rental units) (City of Aspen press release, Apr. 20, 2026)",
-      "url": "https://aspen.gov/CivicAlerts.aspx?AID=933",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-aspen-lumberyard-phase-a-2026",
-      "accessed": "2026-10-10"
     }
   ]
 }

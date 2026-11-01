@@ -119,7 +119,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Town of Crested Butte at #180 with an overall housing-need score of 55.4. It identifies 68 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 100% of <=30% AMI households. 53.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Town of Crested Butte at #186 with an overall housing-need score of 54.6. It identifies 58 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 100% of <=30% AMI households. 53.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -251,8 +251,71 @@
       "accessed": "2026-10-18"
     },
     {
+      "id": "ls1",
+      "label": "Local support record for Town of Crested Butte, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0818310",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Crested Butte 5-Year Housing Strategy (Crested Butte 5-Year Housing Strategy (adopted May 18, 2026); May 18, 2026 draft minutes in June 1, 2026 packet)",
+      "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-crested-butte-2026-5yr-housing-strategy",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Crested Butte Municipal Code §13-1-110 System development fee (Municode)",
+      "url": "https://library.municode.com/co/crested_butte/codes/municipal_code?nodeId=CH13MUUT_ART1WASESY_S13-1-110SYDEFE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "crested-butte-affordable-sdf-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Crested Butte Municipal Code §18-13-30 Application fees (Municode)",
+      "url": "https://library.municode.com/co/crested_butte/codes/municipal_code?nodeId=CH18BURE_ART13BUINBUPE_S18-13-30APFE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "crested-butte-roah-building-permit-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "Town of Crested Butte - Tax Information",
+      "url": "https://townofcrestedbutte.colorado.gov/government/tax-information",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-crested-butte-str-excise-tax",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Ordinance No. 1, Series 2026 authorizing sale of deed-restricted unit 828 Gothic Avenue #1A with new income and asset limits (Crested Butte January 20, 2026 packet (staff report) and draft minutes of January 20, 2026 (in February 2, 2026 packet))",
+      "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Comprehensive%20E-Packet%2002-02-2026.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-crested-butte-2026-828-gothic",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "Resolution No. 13, Series 2026 approving the 2026 Amended Affordable Housing Guidelines (Draft minutes of June 15, 2026 (in July 6, 2026 packet); Affordable Housing Guidelines amended June 15, 2026)",
+      "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Comprehensive%20E-Packet%2007-06-2026.pdf",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-crested-butte-2026-ah-guidelines",
+      "accessed": "2026-10-10"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -261,7 +324,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -396,7 +459,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -405,7 +468,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -414,7 +477,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -465,69 +528,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "ls1",
-      "label": "Local support record for Town of Crested Butte, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0818310",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "Crested Butte 5-Year Housing Strategy (Crested Butte 5-Year Housing Strategy (adopted May 18, 2026); May 18, 2026 draft minutes in June 1, 2026 packet)",
-      "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/ToCB%205Y%20Housing%20Strategy%20Adopted%20May18%2C%202026.pdf",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-crested-butte-2026-5yr-housing-strategy",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "Crested Butte Municipal Code §13-1-110 System development fee (Municode)",
-      "url": "https://library.municode.com/co/crested_butte/codes/municipal_code?nodeId=CH13MUUT_ART1WASESY_S13-1-110SYDEFE",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "crested-butte-affordable-sdf-waiver",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls4",
-      "label": "Crested Butte Municipal Code §18-13-30 Application fees (Municode)",
-      "url": "https://library.municode.com/co/crested_butte/codes/municipal_code?nodeId=CH18BURE_ART13BUINBUPE_S18-13-30APFE",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "crested-butte-roah-building-permit-waiver",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls5",
-      "label": "Town of Crested Butte - Tax Information",
-      "url": "https://townofcrestedbutte.colorado.gov/government/tax-information",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-crested-butte-str-excise-tax",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls6",
-      "label": "Ordinance No. 1, Series 2026 authorizing sale of deed-restricted unit 828 Gothic Avenue #1A with new income and asset limits (Crested Butte January 20, 2026 packet (staff report) and draft minutes of January 20, 2026 (in February 2, 2026 packet))",
-      "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Comprehensive%20E-Packet%2002-02-2026.pdf",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-crested-butte-2026-828-gothic",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls7",
-      "label": "Resolution No. 13, Series 2026 approving the 2026 Amended Affordable Housing Guidelines (Draft minutes of June 15, 2026 (in July 6, 2026 packet); Affordable Housing Guidelines amended June 15, 2026)",
-      "url": "https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Comprehensive%20E-Packet%2007-06-2026.pdf",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-crested-butte-2026-ah-guidelines",
-      "accessed": "2026-10-10"
     }
   ],
   "_meta_population_at_draft": 1229

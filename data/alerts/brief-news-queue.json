@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-10-29T10:12:11Z",
-    "as_of": "2026-10-29",
+    "generated": "2026-10-31T09:49:05Z",
+    "as_of": "2026-10-31",
     "stale_days": 30,
-    "events_as_of": "2026-10-29",
+    "events_as_of": "2026-10-31",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,8 +14,16 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [
+        {
+          "title": "New documentary tries to identify Colorado Springs Mad Pooper",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxObDNpTVBsbmVOdmxVYjJlbG9RM2dKTHZVRWwzR1pyU1MyQUp3NFpLMU9qR1lZbjlhQzA1SThjcFlDYTNtWFdCWXBzTGpaZUt4NkkyaTJubGFZSkdoVHFYQjFhUFJhcl9weUtWSm1DaTM0SWZIQURyd1pqVHhYUHZGTi01Q1dzT1haU1lTbUJqNWxtdjNueWM1VA?oc=5",
+          "date": "2026-10-27",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "New documentary aims to unmask Colorado Springs’ serial ‘poop bandit’",
           "source": "The Denver Post",
@@ -126,7 +134,7 @@
       ],
       "events": [],
       "reasons": [
-        "9 new stories naming it",
+        "10 new stories naming it",
         "1 new story about its county",
         "3 older stories not read yet"
       ]
@@ -138,8 +146,24 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [
+        {
+          "title": "Denver metro area shopping center housing Casa Bonita under new ownership",
+          "source": "CBS News",
+          "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQOGl2OUhfTm9CWTl0cGtDeXNQSnNleHZrMkNtUE5HMHB6VG5pa0FwcW1DRmNmSFpmQmstS0ljLWk3RTBUSF9sb2UxR2lHc2xkUF9TOWlCZlVPM1JJRkpFV0pIeEU3UnNNOUQ4SExUUXF3MDZBNWc5Umo2UUEybHp0QXo4ek15OVE4V09JYVcydjZYejZkNTY4VzB0VUZidXc3ZndpNDR3THByN3ZHN0ZPdkZ6bw?oc=5",
+          "date": "2026-10-31",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver developer debuts affordable senior housing community in University Hills neighborhood",
+          "source": "The Business Journals",
+          "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQdkVibTY2YlBMektINEZzNW92T0NCTTNlTVFCMkl0OUg3ZDBROFhSNUt1X1pRMURybVIwU0hIVG5QaktuXzI0Ni1ZNzlRbVdrZFIwTlprUk9tX3YyQlJLOUFDYlNoZ1RZX210RDdWRENpV3BZclpYanpSZms2UGNfdHB5MkRPMHhieEszQWdOX1NDNnNya3hvTGlUZkQzSjBFUEtyMDY2NDJQUQ?oc=5",
+          "date": "2026-10-29",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Denver Development Brings Housing Opportunities to Older Adults",
           "source": "Affordable Housing Finance",
@@ -244,7 +268,7 @@
         }
       ],
       "reasons": [
-        "5 new stories naming it",
+        "7 new stories naming it",
         "4 older stories not read yet"
       ]
     },
@@ -255,8 +279,16 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [
+        {
+          "title": "The Town of Mt. Crested Butte is accepting applications for a deed-restricted workforce housing unit in Three Seasons. This 2-bedroom, 2-bathroom condominium is available to qualified applicants. Monthly rent is based on household size and the Town's Wor",
+          "source": "Gunnison Country Times",
+          "link": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQVm15SWFKeDA4cTR1bDc4WFY1ZjVMWTZpSGZmam1KckhsRGMzUTduTFBtejFTN0s4cUFCcFo2MXc5eE1Hb1p6RjhLcTVZaDBJQnNPbXExNmpjUTNsclAwQ2FXZ2g3UUFfMXZBdWRtLXY5S0RRNE9icS1kS29zU3JnQnRQWTBhVWx2dDlWd28ydDBud2Q1Y1VsVUFwOFRSX0lwd3pPemxnUWpMakNBQnNiQkU2Ykk1SEVZaTNsR2dEZk5EbjlPa0QzT0JjWDR4ODVmdy1VYjJFMVV1aFAyU2I0VXk0akw3cXByaUE?oc=5",
+          "date": "2026-10-29",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "TWG Development Brings Affordable Homes to Crested Butte, Colorado",
           "source": "Affordable Housing Finance",
@@ -278,8 +310,42 @@
       ],
       "events": [],
       "reasons": [
+        "1 new story naming it",
         "2 older stories not read yet",
         "draft, not shown on the site"
+      ]
+    },
+    {
+      "geoid": "0830780",
+      "jurisdiction": "City of Glenwood Springs",
+      "scope": "place",
+      "county_fips": "08045",
+      "published": true,
+      "last_curated": "2026-10-18",
+      "days_since_review": 13,
+      "stories": [
+        {
+          "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPbGllY1M5dTc4bGVOQ1puc3U0Yk0xV3E1Q2pjTk5xVlVLVDB0SEx0Ukhadm4wSWFtV0kzazU5bG8wOTBSTENhbHBtalhpRlM5N1RhUEQwOEg0dk5ZdG92TXlWcnhZMDZqVk1WOXllbkFFWXctb1I4cFV6dHl3ZTJoNDI3MXNYSjdOWFdUMGZLdVFmRDc5Q2dQWDQzYV9fb1FUTWZLYU04ckVSSkpsMHlEZ01jNFcxOFZSZFE?oc=5",
+          "date": "2026-10-29",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Garfield County commissioners approve rezoning for nearly 100 homes west of Glenwood Springs",
+          "source": "AspenTimes.com",
+          "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNQldMM3BWOF9DOC1rWHV3S1FRWFFNcThJUzNEUG1aN2ExUkNmMlJLUEtYMlBkMEpUOS1oSGFiUjE3aFVQaExBWm4tR1hnV1A3UGgtbzUzZUdPQlY3eExOUDc1Z3N6U1dGbHdNZGNtTHFVUy1CSVhuOFF6b0hDcGpKR3V2RkhwUlhXVUhtczJiMjdoVEp2eVgtVTRYbmlaY0ZidTBVZHhvV001bkVkMWRHeTlPeWpGUnNUa3VMcUhDaFFYbVk?oc=5",
+          "date": "2026-10-23",
+          "match": "place",
+          "also": [
+            "PostIndependent.com"
+          ]
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories naming it"
       ]
     },
     {
@@ -289,7 +355,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [
         {
           "title": "Judge rules Ridgway hotel can’t house workers building Telluride’s Four Seasons resort",
@@ -323,7 +389,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -342,38 +408,13 @@
       ]
     },
     {
-      "geoid": "0830780",
-      "jurisdiction": "City of Glenwood Springs",
-      "scope": "place",
-      "county_fips": "08045",
-      "published": true,
-      "last_curated": "2026-10-18",
-      "days_since_review": 11,
-      "stories": [
-        {
-          "title": "Garfield County commissioners approve rezoning for nearly 100 homes west of Glenwood Springs",
-          "source": "AspenTimes.com",
-          "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNQldMM3BWOF9DOC1rWHV3S1FRWFFNcThJUzNEUG1aN2ExUkNmMlJLUEtYMlBkMEpUOS1oSGFiUjE3aFVQaExBWm4tR1hnV1A3UGgtbzUzZUdPQlY3eExOUDc1Z3N6U1dGbHdNZGNtTHFVUy1CSVhuOFF6b0hDcGpKR3V2RkhwUlhXVUhtczJiMjdoVEp2eVgtVTRYbmlaY0ZidTBVZHhvV001bkVkMWRHeTlPeWpGUnNUa3VMcUhDaFFYbVk?oc=5",
-          "date": "2026-10-23",
-          "match": "place",
-          "also": [
-            "PostIndependent.com"
-          ]
-        }
-      ],
-      "events": [],
-      "reasons": [
-        "1 new story naming it"
-      ]
-    },
-    {
       "geoid": "0864255",
       "jurisdiction": "City of Rifle",
       "scope": "place",
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [
         {
           "title": "Rifle City Council approves ADU code changes, water system improvements",
@@ -396,7 +437,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -420,8 +461,16 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [
+        {
+          "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
+          "source": "Post Independent",
+          "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPbGllY1M5dTc4bGVOQ1puc3U0Yk0xV3E1Q2pjTk5xVlVLVDB0SEx0Ukhadm4wSWFtV0kzazU5bG8wOTBSTENhbHBtalhpRlM5N1RhUEQwOEg0dk5ZdG92TXlWcnhZMDZqVk1WOXllbkFFWXctb1I4cFV6dHl3ZTJoNDI3MXNYSjdOWFdUMGZLdVFmRDc5Q2dQWDQzYV9fb1FUTWZLYU04ckVSSkpsMHlEZ01jNFcxOFZSZFE?oc=5",
+          "date": "2026-10-29",
+          "match": "in_county",
+          "also": []
+        },
         {
           "title": "Rifle City Council approves ADU code changes, water system improvements",
           "source": "Post Independent",
@@ -443,7 +492,7 @@
       ],
       "events": [],
       "reasons": [
-        "2 new stories about its towns",
+        "3 new stories about its towns",
         "draft, not shown on the site"
       ]
     },
@@ -454,7 +503,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -479,7 +528,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [],
       "events": [],
       "reasons": []
@@ -491,7 +540,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [],
       "events": [],
       "reasons": [
@@ -505,7 +554,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [],
       "events": [],
       "reasons": []
@@ -517,7 +566,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [],
       "events": [],
       "reasons": []
@@ -529,7 +578,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [],
       "events": [],
       "reasons": []
@@ -541,7 +590,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [],
       "events": [],
       "reasons": [
@@ -555,7 +604,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [],
       "events": [],
       "reasons": []
@@ -567,7 +616,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 11,
+      "days_since_review": 13,
       "stories": [],
       "events": [],
       "reasons": []

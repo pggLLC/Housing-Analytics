@@ -101,9 +101,15 @@ export function buildSnapshot({ ranking, acs, chfa, projections, amiGap, summary
   let burdenSum = 0;
   let renterHouseholds = 0;
   for (const tract of tracts) {
-    const renters = Number(tract && tract.renter_hh) || 0;
-    const burdenRate = Number(tract && tract.cost_burden_rate) || 0;
-    if (renters > 0 && burdenRate > 0) {
+    // Weight by the renters Census scores for burden (cost_burden_universe:
+    // B25070 total less "not computed"); renter_hh is the fallback for tract
+    // files built before that field existed.
+    // A tract whose rate is 0 is in the statewide denominator; only a missing
+    // rate is left out (dropping 0% tracts read 53.0% against Census's 52.9%).
+    const renters = Number(tract && (tract.cost_burden_universe ?? tract.renter_hh)) || 0;
+    const rawRate = tract && tract.cost_burden_rate;
+    const burdenRate = rawRate == null || rawRate === '' ? NaN : Number(rawRate);
+    if (renters > 0 && Number.isFinite(burdenRate)) {
       burdenSum += burdenRate * renters;
       renterHouseholds += renters;
     }

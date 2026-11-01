@@ -40,8 +40,6 @@
 
   var REGISTRY_PATH = 'data/policy/affordability-models.json';
 
-  // methods-spec:begin affordability-defaults  (methods.html §05; see
-  // test/methods-spec-sources.test.mjs)
   // The one mortgage rate every homeownership affordability figure uses:
   // the HNA headline card and narrative (HNAUtils.AFFORD), the ownership-need
   // kernel (hna-ownership-need.js), every registry model and the jurisdiction
@@ -50,11 +48,17 @@
   // test/mortgage-rate-one-source.test.js checks it against the FRED
   // MORTGAGE30US reading for the same week in data/fred-data.json.
   var MORTGAGE_RATE = {
-    rateAnnual: 0.074,
-    week: '2026-10-15',
+    rateAnnual: 0.0724,
+    week: '2026-10-29',
     series: 'MORTGAGE30US',
-    source: 'Freddie Mac PMMS 30-year fixed average, week of October 15, 2026',
+    source: 'Freddie Mac PMMS 30-year fixed average, week of October 29, 2026',
   };
+  // methods-spec:begin affordability-defaults  (methods.html §05; see
+  // test/methods-spec-sources.test.mjs). MORTGAGE_RATE sits above this
+  // marker: the Saturday HNA build rewrites its value and week
+  // (scripts/hna/sync-mortgage-rate.mjs), and methods.html names the source
+  // and the one-rate rule, never a value, so a weekly refresh is not a
+  // change the section has to be re-read against.
   // Identical to hna-ownership-need.js CONSTANTS.affordabilityAssumptions
   // (drift is guarded by an explicit field-by-field test).
   var DEFAULTS = {

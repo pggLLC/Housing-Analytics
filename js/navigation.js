@@ -71,7 +71,7 @@
         { label: "Prop 123 Land Banking Awards", href: "land-banking-awards.html", desc: "Every Prop 123 land banking award, mapped", isNew: true },
         { label: "Commuting and Jobs",    href: "commuting.html",                 desc: "Who drives in to work, what it costs, largest employers", isNew: true },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
-        { label: "Preservation Tracking", href: "preservation.html",              desc: "NHPD subsidy expiry risk" },
+        { label: "Preservation Tracking", href: "preservation.html",              desc: "Properties on CHFA's preservation map" },
       ]
     },
     {

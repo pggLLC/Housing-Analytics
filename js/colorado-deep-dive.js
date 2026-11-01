@@ -804,6 +804,127 @@ function initPolicyPanel(panelId) {
     });
   }
 
+  /* ── Market signals by metro (FHFA, Realtor.com, BLS via FRED) ──
+     paul 2026-10-30: keep the 2024 figures as a dated comparison and show
+     the latest release beside them, each with its date. */
+  var METROS = [
+    { name: 'Denver', hpi: 'ATNHPIUS19740Q', dom: 'MEDDAYONMAR19740' },
+    { name: 'Colorado Springs', hpi: 'ATNHPIUS17820Q', dom: 'MEDDAYONMAR17820' },
+    { name: 'Fort Collins', hpi: 'ATNHPIUS22660Q', dom: 'MEDDAYONMAR22660' },
+    { name: 'Grand Junction', hpi: 'ATNHPIUS24300Q', dom: 'MEDDAYONMAR24300' }
+  ];
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function seriesObs(series, id) {
+    var s = series && series[id];
+    if (!s || !s.observations) return [];
+    return s.observations.filter(function (o) { return o.value !== '.' && o.value !== '' && !isNaN(+o.value); });
+  }
+  function valueAt(obs, date) {
+    for (var i = 0; i < obs.length; i++) if (obs[i].date === date) return +obs[i].value;
+    return null;
+  }
+  function yearBefore(date) { return (+date.slice(0, 4) - 1) + date.slice(4); }
+  function quarterLabel(date) { return 'Q' + (Math.floor((+date.slice(5, 7) - 1) / 3) + 1) + ' ' + date.slice(0, 4); }
+  function monthLabel(date) { return MONTHS[+date.slice(5, 7) - 1] + ' ' + date.slice(0, 4); }
+  function pct(a, b) {
+    if (a == null || b == null || !b) return null;
+    var v = (a / b - 1) * 100;
+    return (v >= 0 ? '+' : '\u2212') + Math.abs(v).toFixed(1) + '%';
+  }
+
+  /* Statewide lines under the metro table. Each line names its own period
+     and reads only Colorado series (no national comparisons). */
+  function renderStatewide(series) {
+    var list = document.getElementById('cddOutlookList');
+    if (!list) return;
+    var items = [];
+    var hpi = seriesObs(series, 'COSTHPI');
+    var h = hpi[hpi.length - 1];
+    var hp = h ? pct(+h.value, valueAt(hpi, yearBefore(h.date))) : null;
+    if (hp) items.push('Prices statewide: ' + hp + ', ' + quarterLabel(yearBefore(h.date)) + ' to ' + quarterLabel(h.date) + '.');
+    var bp = seriesObs(series, 'COBPPRIV');
+    if (bp.length >= 24) {
+      var sum = function (a) { return a.reduce(function (t, o) { return t + (+o.value); }, 0); };
+      var last12 = sum(bp.slice(-12)), prev12 = sum(bp.slice(-24, -12));
+      var peak = null;
+      var byYear = {};
+      bp.forEach(function (o) { var y = o.date.slice(0, 4); byYear[y] = (byYear[y] || 0) + (+o.value); });
+      Object.keys(byYear).forEach(function (y) {
+        if (bp.filter(function (o) { return o.date.slice(0, 4) === y; }).length === 12 && (!peak || byYear[y] > byYear[peak])) peak = y;
+      });
+      var lastDate = bp[bp.length - 1].date;
+      items.push('Homes permitted, 12 months to ' + monthLabel(lastDate) + ': ' + last12.toLocaleString('en-US') +
+        ', ' + pct(last12, prev12) + ' on the 12 months before' +
+        (peak ? ' and ' + Math.round((1 - last12 / byYear[peak]) * 100) + '% below the ' + peak + ' peak of ' + byYear[peak].toLocaleString('en-US') : '') + '.');
+    }
+    var act = seriesObs(series, 'ACTLISCOUCO'), cut = seriesObs(series, 'PRIREDCOUCO');
+    var a = act[act.length - 1];
+    if (a) {
+      var aPrev = valueAt(act, yearBefore(a.date));
+      var c = valueAt(cut, a.date), cPrev = valueAt(cut, yearBefore(a.date));
+      if (aPrev) items.push('Homes for sale, ' + monthLabel(a.date) + ': ' + (+a.value).toLocaleString('en-US') + ' listings, ' + pct(+a.value, aPrev) + ' on a year earlier.');
+      if (c != null && cPrev != null && aPrev) items.push('Listings with a price cut, ' + monthLabel(a.date) + ': ' + Math.round(c / a.value * 100) + '%, against ' + Math.round(cPrev / aPrev * 100) + '% a year earlier.');
+    }
+    list.innerHTML = items.length ? items.map(function (t) { return '<li>' + escapeHtml(t) + '</li>'; }).join('') : '<li>Colorado market figures did not load.</li>';
+  }
+
+  function renderMetroSignals() {
+    var body = document.getElementById('cddMetroSignalsBody');
+    if (!body) return;
+    DataService.getJSON('data/fred-data.json').then(function (data) {
+      var series = (data && data.series) || {};
+      /* One period for every row: the latest one all four metros have
+         published, so a metro whose update failed never sits under a newer
+         heading than its own value. */
+      function commonLast(key) {
+        var c = null;
+        METROS.forEach(function (m) {
+          var o = seriesObs(series, m[key]);
+          var last = o.length ? o[o.length - 1].date : null;
+          if (last && (!c || last < c)) c = last;
+        });
+        return c;
+      }
+      var lastH = commonLast('hpi'), lastD = commonLast('dom');
+      var rows = METROS.map(function (m) {
+        var hpi = seriesObs(series, m.hpi);
+        var dom = seriesObs(series, m.dom);
+        var dated = pct(valueAt(hpi, '2024-10-01'), valueAt(hpi, '2023-10-01'));
+        var latest = lastH ? pct(valueAt(hpi, lastH), valueAt(hpi, yearBefore(lastH))) : null;
+        var dec24 = valueAt(dom, '2024-12-01');
+        var dNow = lastD ? valueAt(dom, lastD) : null;
+        var prevD = lastD ? valueAt(dom, yearBefore(lastD)) : null;
+        return '<tr><td>' + escapeHtml(m.name) + '</td>' +
+          '<td>' + (dated || '\u2014') + '</td>' +
+          '<td>' + (latest || '\u2014') + '</td>' +
+          '<td>' + (dec24 != null ? dec24 : '\u2014') + '</td>' +
+          '<td>' + (dNow != null ? dNow + (prevD != null ? ' (' + prevD + ' a year earlier)' : '') : '\u2014') + '</td></tr>';
+      });
+      var hHead = document.getElementById('cddHpiLatestHead');
+      if (hHead && lastH) hHead.textContent = 'Prices, ' + quarterLabel(yearBefore(lastH)) + ' to ' + quarterLabel(lastH);
+      var dHead = document.getElementById('cddDomLatestHead');
+      if (dHead && lastD) dHead.textContent = 'Days on market, ' + monthLabel(lastD);
+      body.innerHTML = rows.join('');
+
+      var rentEl = document.getElementById('cddDenverRent');
+      var rent = seriesObs(series, 'CUUSA433SEHA');
+      if (rentEl && rent.length > 1) {
+        var last = rent[rent.length - 1];
+        var r24 = pct(valueAt(rent, '2024-01-01'), valueAt(rent, '2023-01-01'));
+        var rLatest = pct(+last.value, valueAt(rent, yearBefore(last.date)));
+        rentEl.innerHTML = '<strong>Denver rents, all renters (BLS):</strong> ' +
+          (r24 ? r24 + ' in 2024 (dated)' : '') +
+          (rLatest && last.date !== '2024-01-01' ? '; ' + rLatest + ' in ' + last.date.slice(0, 4) : '') +
+          ', annual average against the year before. BLS publishes this index for the Denver area only.';
+      }
+      renderStatewide(series);
+    }).catch(function (e) {
+      body.innerHTML = '<tr><td colspan="5">Market data did not load.</td></tr>';
+      handleDataError('metro-signals', e);
+    });
+  }
+
   /* ── Init ──────────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     try {
@@ -811,6 +932,7 @@ function initPolicyPanel(panelId) {
     } catch (e) { /* ignore */ }
     stampFreshness();
     setupTabs();
+    try { renderMetroSignals(); } catch (e) { handleDataError('metro-signals', e); }
     /* HMDA credit-access cards are visible on every tab, so load them now. */
     try { loadHmdaKpis(); } catch (e) { handleDataError('hmda', e); }
     /* Bootstrap Prop 123 section on DOMContentLoaded whenever the table is present. */

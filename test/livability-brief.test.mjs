@@ -128,7 +128,8 @@ test('the reader renders every section, list and table the feed carries', async 
     if (item.see_also) {
       const a = node.querySelector('p.brief-note a');
       assert.ok(a, `${item.id}: see-also link not rendered`);
-      assert.equal(new URL(a.href).pathname.split('/').pop(), item.see_also.href.split('#')[0]);
+      const url = new URL(a.href);
+      assert.equal(url.pathname.split('/').pop() + url.search, item.see_also.href.split('#')[0]);
     }
     if (item.table) {
       const rows = node.querySelectorAll(`table[data-table="${item.id}"] tbody tr`);

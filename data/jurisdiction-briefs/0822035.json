@@ -154,7 +154,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Durango at #25 with an overall housing-need score of 79.3. It identifies 819 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 59.6% of <=30% AMI households. 53.3% of renter households are cost burdened, and 1.5% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Durango at #25 with an overall housing-need score of 79.5. It identifies 819 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 59.6% of <=30% AMI households. 53.3% of renter households are cost burdened, and 1.5% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -310,8 +310,116 @@
       "accessed": "2026-10-18"
     },
     {
+      "id": "ls1",
+      "label": "Local support record for City of Durango, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0822035",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "City of Durango Fair Share Housing Administrative Procedures Manual (December 4, 2025)",
+      "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-durango-fairshare-fee-offset-forsale",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "City of Durango Fair Share Housing Administrative Procedures Manual (December 4, 2025)",
+      "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-durango-fairshare-fee-offset-rental",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "City of Durango, Food Tax Rebate and Utility Refund",
+      "url": "https://durangoco.gov/734/Utility-Refund-Food-Sales-Tax-Rebate",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-durango-utility-refund",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "City of Durango Fair Share Housing Administrative Procedures Manual (December 4, 2025)",
+      "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-lu-durango-admin-approval",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "City of Durango Fair Share Housing Administrative Procedures Manual (December 4, 2025)",
+      "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-lu-durango-density-bonus",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls7",
+      "label": "City of Durango Fair Share Housing Administrative Procedures Manual (December 4, 2025)",
+      "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "b-lu-durango-parking",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls8",
+      "label": "City of Durango - 2022 election (ballot language)",
+      "url": "https://www.durangoco.gov/1630/2022-election",
+      "kind": "data",
+      "dataset": "local-housing-funds",
+      "field": "f-durango-lodgers-tax-excess-housing",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls9",
+      "label": "Durango Crossings Partnership annexation, initial zoning and conceptual planned development (Durango City Council minutes, February 6, 2024)",
+      "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_6939_Minutes_2_6_2024_5_30_00_PM.pdf?documentType=2&meetingId=6939",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-durango-2024-durango-crossings",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls10",
+      "label": "Ordinance authorizing acquisition of Lot 4 Rivergate Subdivision for future affordable housing (first consideration) (Durango City Council minutes, November 19, 2024)",
+      "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7246_Minutes_11_19_2024_5_30_00_PM.pdf?documentType=2&meetingId=7246",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-durango-2024-rivergate-land",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls11",
+      "label": "Resolution authorizing an MOU with the Colorado Department of Personnel and Administration for the North Main Housing Project (Durango City Council minutes, March 3, 2026)",
+      "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7889_Minutes_3_3_2026_5_30_00_PM.pdf?documentType=2&meetingId=7889",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-durango-2026-north-main-mou",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls12",
+      "label": "Ordinance amending the Land Use and Development Code regarding Fair Share (inclusionary) housing (Durango City Council minutes, March 3, 2026)",
+      "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7889_Minutes_3_3_2026_5_30_00_PM.pdf?documentType=2&meetingId=7889",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-durango-2026-fair-share-amendments",
+      "accessed": "2026-10-10"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -320,7 +428,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -455,7 +563,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -464,7 +572,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -473,7 +581,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -524,114 +632,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "ls1",
-      "label": "Local support record for City of Durango, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0822035",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "City of Durango Fair Share Housing Administrative Procedures Manual (December 4, 2025)",
-      "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "b-durango-fairshare-fee-offset-forsale",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "City of Durango Fair Share Housing Administrative Procedures Manual (December 4, 2025)",
-      "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "b-durango-fairshare-fee-offset-rental",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls4",
-      "label": "City of Durango, Food Tax Rebate and Utility Refund",
-      "url": "https://durangoco.gov/734/Utility-Refund-Food-Sales-Tax-Rebate",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "b-durango-utility-refund",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls5",
-      "label": "City of Durango Fair Share Housing Administrative Procedures Manual (December 4, 2025)",
-      "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "b-lu-durango-admin-approval",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls6",
-      "label": "City of Durango Fair Share Housing Administrative Procedures Manual (December 4, 2025)",
-      "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "b-lu-durango-density-bonus",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls7",
-      "label": "City of Durango Fair Share Housing Administrative Procedures Manual (December 4, 2025)",
-      "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "b-lu-durango-parking",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls8",
-      "label": "City of Durango - 2022 election (ballot language)",
-      "url": "https://www.durangoco.gov/1630/2022-election",
-      "kind": "data",
-      "dataset": "local-housing-funds",
-      "field": "f-durango-lodgers-tax-excess-housing",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls9",
-      "label": "Durango Crossings Partnership annexation, initial zoning and conceptual planned development (Durango City Council minutes, February 6, 2024)",
-      "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_6939_Minutes_2_6_2024_5_30_00_PM.pdf?documentType=2&meetingId=6939",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-durango-2024-durango-crossings",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls10",
-      "label": "Ordinance authorizing acquisition of Lot 4 Rivergate Subdivision for future affordable housing (first consideration) (Durango City Council minutes, November 19, 2024)",
-      "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7246_Minutes_11_19_2024_5_30_00_PM.pdf?documentType=2&meetingId=7246",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-durango-2024-rivergate-land",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls11",
-      "label": "Resolution authorizing an MOU with the Colorado Department of Personnel and Administration for the North Main Housing Project (Durango City Council minutes, March 3, 2026)",
-      "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7889_Minutes_3_3_2026_5_30_00_PM.pdf?documentType=2&meetingId=7889",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-durango-2026-north-main-mou",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls12",
-      "label": "Ordinance amending the Land Use and Development Code regarding Fair Share (inclusionary) housing (Durango City Council minutes, March 3, 2026)",
-      "url": "https://durangogov.hylandcloud.com/251agendaonline/Documents/DownloadFileBytes/City_Council_Regular_Meeting_7889_Minutes_3_3_2026_5_30_00_PM.pdf?documentType=2&meetingId=7889",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-durango-2026-fair-share-amendments",
-      "accessed": "2026-10-10"
     }
   ],
   "_meta_population_at_draft": 19411

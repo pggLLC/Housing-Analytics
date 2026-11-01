@@ -237,6 +237,11 @@
     if (!result.available) {
       result.unavailableReason = 'No financial input (site selection score, deal confidence, capital stack gap) is available.';
     }
+    // Site evidence alone is not a financial result (site audit F2, paul
+    // 2026-10-31: relabel only, no number change). The score is kept; the
+    // label says what it rests on.
+    result.evidence = !result.available ? null
+      : (result.inputs.dealConfidence || result.inputs.gapPct != null) ? 'deal' : 'site-only';
     return result;
   }
 
@@ -318,6 +323,9 @@
       d.scenarioUnits = _n(scenario.totalUnits, null);
 
       var deal = WS.getStep('deal') || {};
+      // A deal saved under another jurisdiction is that place's gap, not this one's.
+      var juris = typeof WS.getJurisdiction === 'function' ? WS.getJurisdiction() : null;
+      if (deal.savedForGeoid && juris && juris.geoid && String(juris.geoid) !== String(deal.savedForGeoid)) deal = {};
       d.dealConfidence = deal.confidence || null;
       d.gapPct         = deal.results ? _n(deal.results.gapPct, null) : null;
     }
@@ -391,7 +399,7 @@
     var dims = {
       needCoverage:         { score: need.score,    weight: WEIGHTS.needCoverage,         available: need.available,    inputs: need.inputs,    unavailableReason: need.unavailableReason || null },
       policyAlignment:      { score: policy.score,  weight: WEIGHTS.policyAlignment,      available: policy.available,  inputs: policy.inputs,  unavailableReason: policy.unavailableReason || null },
-      financialFeasibility: { score: finance.score, weight: WEIGHTS.financialFeasibility, available: finance.available, inputs: finance.inputs, unavailableReason: finance.unavailableReason || null },
+      financialFeasibility: { score: finance.score, weight: WEIGHTS.financialFeasibility, available: finance.available, inputs: finance.inputs, unavailableReason: finance.unavailableReason || null, evidence: finance.evidence },
       siteQuality:          { score: site.score,    weight: WEIGHTS.siteQuality,          available: site.available,    inputs: site.inputs,    unavailableReason: site.unavailableReason || null }
     };
     var scored = [need, policy, finance, site];
@@ -464,8 +472,12 @@
     else if (compositeScore >= 40) grade = 'D';
     else grade = 'F';
 
+    // Without a deal run the grade is provisional: nothing in it has tested
+    // whether the deal pencils.
+    var provisional = finance.evidence !== 'deal';
+
     // Summary narrative
-    var summary = _buildSummary(compositeScore, grade, confidence, dims);
+    var summary = _buildSummary(compositeScore, grade, confidence, dims, provisional);
     if (missingInputs.length) {
       summary += ' Not measured, excluded from the score: ' + missingInputs.join(', ') + '.';
     }
@@ -476,6 +488,7 @@
       available:    true,
       unavailableReason: null,
       confidence:   confidence,
+      provisional:  provisional,
       dimensions:   dims,
       dataComplete: dataComplete,
       missingInputs: missingInputs,
@@ -483,9 +496,11 @@
     };
   }
 
-  function _buildSummary(score, grade, confidence, dims) {
+  function _buildSummary(score, grade, confidence, dims, provisional) {
     var parts = [];
-    parts.push('Housing Outcome Score: ' + score + '/100 (Grade ' + grade + ').');
+    parts.push('Housing Outcome Score: ' + score + '/100 (Grade ' + grade +
+      (provisional ? ', provisional: no deal run yet' : '') + ').');
+    var siteOnlyFinance = dims.financialFeasibility && dims.financialFeasibility.evidence === 'site-only';
 
     // Highlight strongest/weakest
     var strongest = null, weakest = null;
@@ -499,6 +514,8 @@
 
     for (var key in dims) {
       if (dims[key].available) {
+        // Site evidence cannot be named the strongest financial result.
+        if (key === 'financialFeasibility' && siteOnlyFinance) continue;
         if (dims[key].score > strongVal) { strongVal = dims[key].score; strongest = key; }
         if (dims[key].score < weakVal)   { weakVal = dims[key].score;   weakest = key; }
       }
@@ -507,6 +524,9 @@
     if (strongest) parts.push('Strongest: ' + labels[strongest] + ' (' + dims[strongest].score + ').');
     if (weakest && weakest !== strongest) parts.push('Needs attention: ' + labels[weakest] + ' (' + dims[weakest].score + ').');
 
+    if (siteOnlyFinance) {
+      parts.push('Financial feasibility here is site evidence only, no deal run (' + dims.financialFeasibility.score + '); run the Deal Calculator to test it.');
+    }
     if (confidence === 'low') {
       parts.push('Complete more workflow steps to improve score confidence.');
     }

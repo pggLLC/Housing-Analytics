@@ -235,7 +235,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Salida at #148 with an overall housing-need score of 59.9. It identifies 180 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 59.6% of <=30% AMI households. 58% of renter households are cost burdened, and 0.4% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Salida at #146 with an overall housing-need score of 60.5. It identifies 180 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 59.6% of <=30% AMI households. 58% of renter households are cost burdened, and 0.4% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -503,8 +503,35 @@
       "accessed": "2026-10-18"
     },
     {
+      "id": "ls1",
+      "label": "Local support record for City of Salida, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:0867280",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Salida Land Use Code §16-9-90 (Municode)",
+      "url": "https://library.municode.com/co/salida/codes/code_of_ordinances?nodeId=CH16LAUSCOLU_ARTIXINHO_S16-9-20GEINHORE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "salida-exemplary-affordable-expedited-review",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Salida Land Use Code §16-9-50 (Municode)",
+      "url": "https://library.municode.com/co/salida/codes/code_of_ordinances?nodeId=CH16LAUSCOLU_ARTIXINHO_S16-9-20GEINHORE",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "salida-inclusionary-density-parking-incentives",
+      "accessed": "2026-10-10"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -513,7 +540,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -648,7 +675,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -657,7 +684,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -666,7 +693,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-25T10:43:55Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-10-31T21:21:15Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -717,33 +744,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "ls1",
-      "label": "Local support record for City of Salida, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:0867280",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "Salida Land Use Code §16-9-90 (Municode)",
-      "url": "https://library.municode.com/co/salida/codes/code_of_ordinances?nodeId=CH16LAUSCOLU_ARTIXINHO_S16-9-20GEINHORE",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "salida-exemplary-affordable-expedited-review",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "Salida Land Use Code §16-9-50 (Municode)",
-      "url": "https://library.municode.com/co/salida/codes/code_of_ordinances?nodeId=CH16LAUSCOLU_ARTIXINHO_S16-9-20GEINHORE",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "salida-inclusionary-density-parking-incentives",
-      "accessed": "2026-10-10"
     }
   ]
 }

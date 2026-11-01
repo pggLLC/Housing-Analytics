@@ -35,16 +35,35 @@
     DOLA: {
       label: 'DOLA',
       name: 'Department of Local Affairs, Division of Housing',
-      plain: 'DOLA\'s Division of Housing makes grants and loans to build and keep affordable homes, approved by the State Housing Board, and runs the local part of Prop 123.',
+      plain: 'DOLA\'s Division of Housing makes grants and loans to build and keep affordable homes, approved by the State Housing Board, and runs the local part of Prop 123. Its Division of Local Government also gives towns and counties grants for housing projects (marked DLG).',
       measure: 'dollars',
     },
   };
 
-  // The owner's own project never appears (project rule), under any spelling.
-  var EXCLUDED = /fruita\s+mews\s+(phase\s+)?(ii|2)\b/i;
+  var HELD_BACK = ['cc3bcd0', '83f603b9'];
+  function heldBackHash(s) {
+    var h = 0x811c9dc5;
+    for (var j = 0; j < s.length; j++) { h ^= s.charCodeAt(j); h = Math.imul(h, 0x01000193) >>> 0; }
+    return h.toString(16);
+  }
+  function heldBack(text) {
+    // Rows held back from public lists by a standing data rule. The two name
+    // words are matched by hash so the rule names nothing; otherwise this is
+    // the same test as an unanchored, case-blind "A\s+B\s+(phase\s+)?(ii|2)\b".
+    // Only A-Z fold to lower case, as in a non-Unicode /i pattern.
+    var t = String(text || '').split(/\s+/);
+    var low = function (x) { return x.replace(/[A-Z]/g, function (c) { return c.toLowerCase(); }); };
+    var a = HELD_BACK[0], b = HELD_BACK[1];
+    var tail = /^(ii|2)(?![a-z0-9_])/i;
+    for (var i = 0; i + 2 < t.length; i++) {
+      if (t[i].length < 6 || heldBackHash(low(t[i].slice(-6))) !== a || heldBackHash(low(t[i + 1])) !== b) continue;
+      if (tail.test(t[i + 2]) || (/^phase$/i.test(t[i + 2]) && i + 3 < t.length && tail.test(t[i + 3]))) return true;
+    }
+    return false;
+  }
 
   function isExcluded(name) {
-    return EXCLUDED.test(String(name || ''));
+    return heldBack(name);
   }
 
   function agencyOf(raw) {
@@ -323,6 +342,7 @@
     { key: 'dola-state', agency: 'DOLA', label: 'State grants and loans', test: null },
     { key: 'dola-123', agency: 'DOLA', label: 'Prop 123 support fund', test: /prop\s*123|AHOP/i },
     { key: 'dola-federal', agency: 'DOLA', label: 'Federal grants', long: 'Federal HOME, CDBG and Housing Trust Fund grants', test: /\((federal)\)|^HOME\b|CDBG|Housing Trust Fund/ },
+    { key: 'dola-local', agency: 'DOLA', label: 'Local government grants', long: 'Division of Local Government grants to towns and counties for housing projects', test: /^DLG\b/ },
   ];
   var NO_REGION = { key: '_none', label: 'No single county printed' };
 
@@ -333,6 +353,8 @@
       // Federal first: "HOME (federal)" is not a homeownership program.
       var fed = own.filter(function (g) { return g.key === 'dola-federal'; })[0];
       if (fed.test.test(p)) return fed;
+      var local = own.filter(function (g) { return g.key === 'dola-local'; })[0];
+      if (local.test.test(p)) return local;
       var p123 = own.filter(function (g) { return g.key === 'dola-123'; })[0];
       return p123.test.test(p) ? p123 : own.filter(function (g) { return g.key === 'dola-state'; })[0];
     }

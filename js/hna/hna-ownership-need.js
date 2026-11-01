@@ -67,9 +67,9 @@
       // which every page loads before this file. The literal is only for
       // engine-less vm contexts; test/mortgage-rate-one-source.test.js pins it
       // to MORTGAGE_RATE so the two cannot drift.
-      pmms30YearRate: MORTGAGE_RATE ? MORTGAGE_RATE.rateAnnual : 0.074,
-      pmmsDate: MORTGAGE_RATE ? MORTGAGE_RATE.week : '2026-10-15',
-      pmmsSource: MORTGAGE_RATE ? MORTGAGE_RATE.source : 'Freddie Mac PMMS 30-year fixed average, week of October 15, 2026',
+      pmms30YearRate: MORTGAGE_RATE ? MORTGAGE_RATE.rateAnnual : 0.0724,
+      pmmsDate: MORTGAGE_RATE ? MORTGAGE_RATE.week : '2026-10-29',
+      pmmsSource: MORTGAGE_RATE ? MORTGAGE_RATE.source : 'Freddie Mac PMMS 30-year fixed average, week of October 29, 2026',
       termYears: 30,
       frontEndRatio: 0.30,
       downPaymentRate: 0.10,

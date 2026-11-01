@@ -25,6 +25,7 @@
   function chasTierSourceLabel(source) {
     if (source === 'place-chas') return 'TIGER place-CHAS';
     if (source === 'county-chas') return 'County CHAS Table 7';
+    if (source === 'statewide-chas') return 'Colorado CHAS, all counties';
     return 'CO statewide baseline — low confidence';
   }
 
@@ -125,12 +126,46 @@
     return where && where.page ? where.page + href : href;
   }
 
+  // While a place is loading, the strip holds its place on the page: every
+  // tile no renderer has reported on yet shows a quiet placeholder instead of
+  // being left out. Tiles used to appear one at a time above the hero, each
+  // pushing the page down (on a phone, most of the layout shift Codex measured
+  // in the 31 Oct 2026 audit, F9). Armed by the controller when a load
+  // starts, settled when it ends; a tile still unreported then is dropped,
+  // as before.
+  let _stripArmed = false;
+  const _stripReported = Object.create(null);
+
+  function armDecisionStrip() {
+    _stripArmed = true;
+    Object.keys(_stripReported).forEach(function (k) { delete _stripReported[k]; });
+    _paintDecisionStrip();
+  }
+
+  function settleDecisionStrip() {
+    _stripArmed = false;
+    _settleJurisdictionBanner();
+    _paintDecisionStrip();
+  }
+
+  // The page pre-arms the "Analyzing <place>" banner for a linked place (F9).
+  // If the load ends (or never starts: unknown place) and nothing filled it,
+  // give the space back. Not called from clearDecisionStrip(): that runs at
+  // the start of every load, before the banner can fill.
+  function _settleJurisdictionBanner() {
+    const banner = document.getElementById('hnaJurisdictionBanner');
+    if (!banner || !banner.hasAttribute('data-pending')) return;
+    banner.removeAttribute('data-pending');
+    banner.hidden = true;
+  }
+
   function _paintDecisionStrip() {
     const strip = document.getElementById('hnaDecisionStrip');
     if (!strip) return;
     const state = _decisionState();
     if (!state) return;
     let hasValue = false;
+    let hasPending = false;
     Object.keys(DECISION_STRIP_DEFAULTS).forEach(function (key) {
       const tile = strip.querySelector('[data-decision-key="' + key + '"]');
       const data = Object.assign({}, DECISION_STRIP_DEFAULTS[key], state[key] || {});
@@ -163,7 +198,15 @@
       // and one that may sit there for as long as its renderer takes.
       // Measured on production 2026-09-19: the strip appeared at 738ms and
       // 'production' read "— Loading" until 17.6s.
-      tile.hidden = empty;
+      // Since 2026-10-31 (F9) the one exception is a load in progress: a tile
+      // no renderer has reported on yet shows as a placeholder bar
+      // (data-pending; its text is not drawn), so the strip keeps its size
+      // instead of pushing the page down tile by tile. When the load settles,
+      // the rule above applies again.
+      const pending = empty && _stripArmed && !_stripReported[key];
+      tile.hidden = empty && !pending;
+      if (pending) { tile.setAttribute('data-pending', ''); hasPending = true; }
+      else tile.removeAttribute('data-pending');
       if (href !== rawHref && !empty && readEl) {
         const where = (window.HNA_VIEW_ANCHORS || {})[rawHref.slice(1)];
         if (where && where.label) readEl.title = 'Shown in full on ' + where.label;
@@ -173,7 +216,9 @@
       else tile.removeAttribute('data-tone');
       if (data.value && data.value !== '—' && data.value !== 'Loading') hasValue = true;
     });
-    strip.hidden = !hasValue;
+    strip.hidden = !hasValue && !hasPending;
+    if (hasPending) strip.setAttribute('aria-busy', 'true');
+    else strip.removeAttribute('aria-busy');
   }
 
   function updateDecisionStrip(patch) {
@@ -182,6 +227,7 @@
     Object.keys(patch).forEach(function (key) {
       if (!DECISION_STRIP_DEFAULTS[key]) return;
       state[key] = Object.assign({}, state[key] || DECISION_STRIP_DEFAULTS[key], patch[key] || {});
+      _stripReported[key] = true;
     });
     _paintDecisionStrip();
   }
@@ -189,6 +235,8 @@
   function clearDecisionStrip() {
     const state = S() && S().state;
     if (state) state.decisionStrip = null;
+    _stripArmed = false;
+    Object.keys(_stripReported).forEach(function (k) { delete _stripReported[k]; });
     _paintDecisionStrip();
   }
 
@@ -1669,24 +1717,57 @@
 
   /**
    * renderModeShare — render commute mode share chart (chartMode).
-   * @param {object|null} s0801 - ACS S0801 commute table
+   * Prefers the B08301 worker counts (every mode, as shares of all workers);
+   * falls back to the S0801 shares. A mode the source does not carry is left
+   * off the chart, never drawn as 0%.
+   * @param {object|null} s0801  - ACS S0801 commute table
+   * @param {object|null} counts - ACS B08301 counts {total, drive, carpool, transit, walk, bike, other, work_from_home}
    */
-  function renderModeShare(s0801) {
+  function renderModeShare(s0801, counts) {
     const canvas = document.getElementById('chartMode');
     if (!canvas) return;
     const t = chartTheme();
     const safeNum = U().safeNum;
-    const safe = (k) => safeNum(s0801 && s0801[k]) || 0;
     const modeYear = s0801 && s0801._acsYear ? s0801._acsYear : '';
     const seriesLabel = s0801 && s0801._acsSeries === 'acs1' ? 'ACS 1-year' : 'ACS 5-year';
-    const modes = [
-      { label: 'Drive alone', v: safe('S0801_C01_003E') },
-      { label: 'Carpool',     v: safe('S0801_C01_004E') },
-      { label: 'Transit',     v: safe('S0801_C01_009E') },
-      { label: 'Walk',        v: safe('S0801_C01_011E') },
-      { label: 'WFH',         v: safe('S0801_C01_047E') },
-      { label: 'Other',       v: safe('S0801_C01_012E') },
-    ];
+    const total = counts ? safeNum(counts.total) : null;
+    let modes, subtitle;
+    if (total && total > 0) {
+      const share = (k) => { const n = safeNum(counts[k]); return n === null ? null : Math.round(n / total * 1000) / 10; };
+      // Summaries built before taxi and motorcycle were added to 'other' leave
+      // them out of every mode; the workers no mode counts are those, so Other
+      // is the remainder of the total when that is larger.
+      const named = ['drive', 'carpool', 'transit', 'walk', 'bike', 'work_from_home'].map(k => safeNum(counts[k]));
+      const rest = named.every(n => n !== null) ? total - named.reduce((a, n) => a + n, 0) : null;
+      const otherCount = safeNum(counts.other);
+      const otherShare = rest !== null && (otherCount === null || rest > otherCount)
+        ? Math.round(rest / total * 1000) / 10 : share('other');
+      modes = [
+        { label: 'Drive alone', v: share('drive') },
+        { label: 'Carpool',     v: share('carpool') },
+        { label: 'Transit',     v: share('transit') },
+        { label: 'Walk',        v: share('walk') },
+        { label: 'Bicycle',     v: share('bike') },
+        { label: 'WFH',         v: share('work_from_home') },
+        { label: 'Other',       v: otherShare },
+      ];
+      subtitle = `ACS B08301: ${Math.round(total).toLocaleString('en-US')} workers 16+ (% of workers)`;
+    } else {
+      const pct = (k) => safeNum(s0801 && s0801[k]);
+      modes = [
+        { label: 'Drive alone', v: pct('S0801_C01_003E') },
+        { label: 'Carpool',     v: pct('S0801_C01_004E') },
+        { label: 'Transit',     v: pct('S0801_C01_009E') },
+        { label: 'Walk',        v: pct('S0801_C01_010E') },
+        { label: 'Bicycle',     v: pct('S0801_C01_011E') },
+        { label: 'WFH',         v: pct('S0801_C01_013E') },
+        { label: 'Other',       v: pct('S0801_C01_012E') },
+      ];
+      subtitle = `${seriesLabel}${modeYear ? ' ' + modeYear : ''} mode shares (% of workers 16+)`;
+    }
+    const missing = modes.filter(m => m.v === null).map(m => m.label);
+    modes = modes.filter(m => m.v !== null);
+    if (missing.length) subtitle += ` · not in the data: ${missing.join(', ')}`;
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -1700,7 +1781,7 @@
           legend: { display: false },
           subtitle: {
             display: true,
-            text: `${seriesLabel}${modeYear ? ' ' + modeYear : ''} mode shares (% of workers 16+)`,
+            text: subtitle,
             color: t.muted,
           },
         },
@@ -2867,7 +2948,7 @@
    * @param {GeoJSON.FeatureCollection} data - with `unavailableReason` set (or
    *   null) when the tracts could not be loaded; membership is then unknown.
    */
-  function renderQctLayer(data) {
+  function renderQctLayer(data, placeCtx) {
     if (S().qctLayer) { S().qctLayer.remove(); S().qctLayer = null; }
 
     const unavailableReason = !data ? 'no QCT data returned' : (data.unavailableReason || null);
@@ -2875,7 +2956,22 @@
     const countEl  = S().els && S().els.statQctCount;
     // Unknown is not zero: a count of 0 would tell a developer the county has
     // no basis-boost tracts.
-    if (countEl) countEl.textContent = unavailableReason ? 'Unavailable' : features.length;
+    const subEl = countEl && countEl.parentElement && countEl.parentElement.querySelector('.s');
+    const isPlace = placeCtx && (placeCtx.type === 'place' || placeCtx.type === 'cdp');
+    if (countEl && unavailableReason) {
+      countEl.textContent = 'Unavailable';
+      if (subEl) subEl.textContent = 'HUD annual list';
+    } else if (countEl && isPlace && placeCtx.tracts) {
+      // A town's count is the QCTs among its own tracts; the county total
+      // goes in the note so the two are never confused.
+      const own = (placeCtx.allFeatures || features).filter(f => placeCtx.tracts.has(String((f.properties || {}).GEOID || ''))).length;
+      const placeLabel = String(placeCtx.name || 'this place').replace(/\s*\((?:town|city|CDP)\)\s*$/i, '').trim();
+      countEl.textContent = own;
+      if (subEl) subEl.textContent = 'in ' + placeLabel + ' · ' + features.length + ' county-wide';
+    } else if (countEl) {
+      countEl.textContent = features.length;
+      if (subEl) subEl.textContent = isPlace ? 'county-wide (tract match unavailable)' : 'HUD annual list';
+    }
     _markOverlayToggle(S().els && S().els.layerQct, 'QCT boundaries', unavailableReason);
     if (unavailableReason) {
       console.warn('[HNA] QCT boundaries unavailable:', unavailableReason);
@@ -3430,7 +3526,7 @@
         const cur = (S().state && S().state.current) || {};
         const isPlace = cur.geoType === 'place';
         let maaPlaceGeoid = null, maaCountyFips = null, maaPlaceName = null, maaCountyName = null;
-        let maaMhi = null;
+        let maaMhi = null, maaMhiVintage = '';
         if (isPlace) {
           maaPlaceGeoid = cur.geoid;
           maaPlaceName  = jurisName;
@@ -3442,14 +3538,21 @@
         }
         try {
           const p = cur.profile || {};
-          if (p.DP03_0062E) maaMhi = p.DP03_0062E;
+          if (p.DP03_0062E) {
+            maaMhi = p.DP03_0062E;
+            // Label the series actually loaded (1-yr vs 5-yr) and its geography.
+            const yr = p._acsYear || '';
+            const series = p._acsSeries === 'acs1' ? 'ACS 1-yr' : (p._acsSeries === 'acs5' ? 'ACS 5-yr' : 'ACS');
+            maaMhiVintage = (series + ' ' + yr).trim() + (isPlace ? ' · place' : (cur.geoType === 'county' ? ' · county' : ''));
+          }
         } catch (_) {}
         window.MhiAmiClarifier.attach(maaMount, {
           placeGeoid: maaPlaceGeoid,
           placeName:  maaPlaceName,
           countyFips: maaCountyFips,
           countyName: maaCountyName,
-          placeMhi:   maaMhi
+          placeMhi:   maaMhi,
+          mhiVintage: maaMhiVintage
         });
       }
     }
@@ -4513,8 +4616,14 @@
       const geoType = selectedGeoType;
       const geoid   = S().els && S().els.geoSelect ? S().els.geoSelect.value : '';
       const tierColors = [t.c5, t.c3, t.c4, t.c7, t.c6];
-      const tierMeta = (window.ChasTierShares
-        ? window.ChasTierShares.getRenterSharesWithFallback(geoid, geoType, countyFips5)
+      // The series counts all households (renters and owners), so the tier
+      // mix is of all households too; renter-only shares would put every
+      // owner household in a renter's tier.
+      const fromChas = window.ChasTierShares && typeof window.ChasTierShares.getHouseholdSharesWithFallback === 'function'
+        ? window.ChasTierShares.getHouseholdSharesWithFallback(geoid, geoType, countyFips5)
+        : null;
+      const tierMeta = (fromChas
+        ? fromChas
         : { source: 'statewide-heuristic', tiers: [
             { label: '30% AMI or less', share: 0.20 }, { label: '31-50% AMI', share: 0.16 },
             { label: '51-80% AMI', share: 0.20 }, { label: '81-100% AMI', share: 0.11 },
@@ -10078,6 +10187,9 @@
     clearStats,
     updateDecisionStrip,
     clearDecisionStrip,
+    settleJurisdictionBanner: _settleJurisdictionBanner,
+    armDecisionStrip,
+    settleDecisionStrip,
     // Map
     renderBoundary,
     // Snapshot

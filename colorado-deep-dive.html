@@ -1418,26 +1418,33 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title">Market Dynamics Shift</h3>
-<p class="chart-subtitle">2025 vs 2026 outlook · <span style="color:var(--warn);font-weight:700;">QUAL</span> · interpretation of <a href="https://www.apartmentlist.com/research/category/data-rent-estimates" target="_blank" rel="noopener">Apartment List</a> + <a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR</a> data</p>
+<p class="chart-subtitle">Four Colorado metros, 2024 against the latest release, then statewide readings · <span style="color:var(--good);font-weight:700;">DATA</span> · FHFA, Census, Realtor.com and BLS series on FRED</p>
 </div>
 <div style="padding: 2rem 0;">
 <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-border);">
-<div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--color-primary);">2025 Recap</div>
-<ul style="font-size: 0.9375rem; line-height: 1.7; margin: 0; padding-left: 1.5rem;">
-<li>Prices fell ~5% in Colorado Springs (<a href="https://coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR YoY</a>)</li>
-<li>Denver rents down ~5% YoY (<a href="https://www.apartmentlist.com/research/category/data-rent-estimates" target="_blank" rel="noopener">Apartment List</a>)</li>
-<li>Days on market increased significantly</li>
-<li>Sellers competing more aggressively</li>
-</ul>
+<div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--color-primary);">Prices and time on market, by metro</div>
+<p style="font-size:.85rem;color:var(--color-text-muted);margin:0 0 .6rem;">Columns marked <strong>2024 (dated)</strong> are kept for comparison and do not change; the <strong>latest</strong> columns update when each source releases new data.</p>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Market signals by metro table">
+<table id="cddMetroSignals" aria-describedby="cddMetroSignalsSource">
+<thead><tr>
+<th data-tip="The metropolitan area, as the Census Bureau defines it.">Metro</th>
+<th data-tip="Change in FHFA's all-transactions house price index from Q4 2023 to Q4 2024. Kept as a dated comparison.">Prices, Q4 2023 to Q4 2024 (dated)</th>
+<th data-tip="Change in FHFA's all-transactions house price index over the year to the latest quarter released."><span id="cddHpiLatestHead">Prices, latest year</span></th>
+<th data-tip="Realtor.com median days a listing stayed on the market in December 2024. Kept as a dated comparison.">Days on market, Dec 2024 (dated)</th>
+<th data-tip="Realtor.com median days on market in the latest month released, with the same month a year earlier."><span id="cddDomLatestHead">Days on market, latest</span></th>
+</tr></thead>
+<tbody id="cddMetroSignalsBody"><tr><td colspan="5">Loading…</td></tr></tbody>
+</table>
+</div>
+<p id="cddDenverRent" style="font-size:.9rem;margin:.6rem 0 0;"></p>
+<p class="data-source" id="cddMetroSignalsSource" style="font-size:.8rem;color:var(--color-text-muted);margin:.5rem 0 0;">Sources: <a href="https://fred.stlouisfed.org/series/ATNHPIUS19740Q" target="_blank" rel="noopener">FHFA all-transactions house price index</a> (quarterly), <a href="https://fred.stlouisfed.org/series/MEDDAYONMAR19740" target="_blank" rel="noopener">Realtor.com median days on market</a> (monthly) and <a href="https://fred.stlouisfed.org/series/CUUSA433SEHA" target="_blank" rel="noopener">BLS CPI rent of primary residence, Denver</a> (annual average, all renters), via FRED; <span id="cddMetroSignalsAsOf">dates shown in each column</span>.</p>
 </div>
 <div>
-<div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--color-success);">2026 Outlook</div>
-<ul style="font-size: 0.9375rem; line-height: 1.7; margin: 0; padding-left: 1.5rem;">
-<li>Balanced market continuing (low NAHB HMI signals constrained new builds)</li>
-<li>New construction down materially (<a href="https://www.census.gov/construction/bps/" target="_blank" rel="noopener">Census BPS</a> permits)</li>
-<li>Modest price appreciation expected as supply absorbs</li>
-<li>Buyers retain negotiating power while concessions stay elevated</li>
+<div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--color-success);">Latest statewide readings</div>
+<ul id="cddOutlookList" style="font-size: 0.9375rem; line-height: 1.7; margin: 0; padding-left: 1.5rem;">
+<li>Colorado market figures are loading.</li>
 </ul>
+<p class="data-source" id="cddOutlookSource" style="font-size:.8rem;color:var(--color-text-muted);margin:.5rem 0 0;">Sources: <a href="https://fred.stlouisfed.org/series/COSTHPI" target="_blank" rel="noopener">FHFA all-transactions house price index, Colorado</a> (quarterly), <a href="https://fred.stlouisfed.org/series/COBPPRIV" target="_blank" rel="noopener">Census Building Permits Survey, Colorado</a> (monthly), <a href="https://fred.stlouisfed.org/series/ACTLISCOUCO" target="_blank" rel="noopener">Realtor.com active listings</a> and <a href="https://fred.stlouisfed.org/series/PRIREDCOUCO" target="_blank" rel="noopener">price-cut counts, Colorado</a> (monthly), via FRED; each line names its own period.</p>
 </div>
 </div>
 </div>
@@ -2288,8 +2295,8 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <h2 id="htCHFAHeading">Awards per Year, by Credit Type</h2>
     <p class="ht-intro">
       Every Colorado LIHTC project in CHFA&rsquo;s live property feed, counted by the year its
-      credits were reserved. 9% credits are competitive and capped; 4% credits come with
-      tax-exempt bond financing and are not. Switch to <strong>Units</strong> to see how much
+      credits were reserved. 9% credits are capped and won in CHFA&rsquo;s scoring round; 4% credits come with
+      tax-exempt bond financing and skip that round, though the bond cap behind them is limited too. Switch to <strong>Units</strong> to see how much
       housing each year&rsquo;s awards represent &mdash; 4% deals are typically about twice the size.
     </p>
     <div class="ht-chart-head">
@@ -2487,13 +2494,12 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     </div>
 
     <h2>CHFA 2026 Priorities</h2>
-    <p style="font-size:.85rem;color:var(--color-text-muted);margin:.25rem 0 .75rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · summary of the <a href="https://www.chfainfo.com/rental-housing/housing-credit/" target="_blank" rel="noopener">CHFA 2026 QAP</a>; refer to the PDF for exact dollar set-asides each cycle</p>
-    <p>The Colorado Housing and Finance Authority's 2026 QAP highlights:</p>
+    <p style="font-size:.85rem;color:var(--color-text-muted);margin:.25rem 0 .75rem;"><span style="color:var(--warn);font-weight:700;">STATIC</span> · summary of the <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener">CHFA 2025-26 QAP</a>, the plan in force for 2026; refer to the PDF for exact scoring each cycle</p>
+    <p>The 2025-26 QAP (&sect;2.A) names three priorities, and one threshold every project must meet:</p>
     <ol>
-      <li><strong>Transit-Oriented Development:</strong> Projects within ½ mile of light rail or rapid bus transit receive a scoring advantage</li>
-      <li><strong>Rural Housing:</strong> Dedicated rural set-aside with priority for towns under 20,000 population</li>
-      <li><strong>Extremely Low Income Targeting:</strong> Bonus for projects serving 30% AMI households</li>
-      <li><strong>Preservation:</strong> Set-aside reserved for acquisition/rehab of at-risk properties</li>
+      <li><strong>Homelessness:</strong> housing for people experiencing homelessness</li>
+      <li><strong>Special populations:</strong> housing with services for groups the QAP names as special populations</li>
+      <li><strong>Non-metro counties:</strong> projects in non-metro counties of 180,000 people or fewer</li>
       <li><strong>Green Building:</strong> every project must earn a green building certification, and the applicant picks Enterprise Green Communities, LEED or NGBS. Annual energy reporting is also required, and so is EV-ready parking, except on acquisition/rehab projects and projects that are 100% for people experiencing homelessness or Special Populations. This is a threshold, not points. All-electric or higher-level certification makes an application &ldquo;more competitive&rdquo; under a Guiding Principle (<a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener">2025-26 QAP</a>, Section 8: &ldquo;CHFA requires all projects to obtain green building certification and accepts several certification programs&rdquo;)</li>
     </ol>
 

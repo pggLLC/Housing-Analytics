@@ -1,55 +1,55 @@
 {
-  "generated_from_commit": "7d2f41978",
+  "generated_from_commit": "90fcfb017",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
-    "last_commit": "2026-10-30",
-    "total_commits": 9032,
+    "last_commit": "2026-10-31",
+    "total_commits": 9114,
     "partial_month": "2026-10",
     "commits_by_month": [
       {
         "month": "2026-02",
         "commits": 482,
-        "pct_of_peak": 33.6
+        "pct_of_peak": 30.9
       },
       {
         "month": "2026-03",
-        "commits": 1365,
-        "pct_of_peak": 95.1
+        "commits": 1356,
+        "pct_of_peak": 86.9
       },
       {
         "month": "2026-04",
-        "commits": 1074,
-        "pct_of_peak": 74.8
+        "commits": 1072,
+        "pct_of_peak": 68.7
       },
       {
         "month": "2026-05",
-        "commits": 665,
-        "pct_of_peak": 46.3
+        "commits": 659,
+        "pct_of_peak": 42.2
       },
       {
         "month": "2026-06",
-        "commits": 1175,
-        "pct_of_peak": 81.9
+        "commits": 1157,
+        "pct_of_peak": 74.2
       },
       {
         "month": "2026-07",
         "commits": 824,
-        "pct_of_peak": 57.4
+        "pct_of_peak": 52.8
       },
       {
         "month": "2026-08",
-        "commits": 583,
-        "pct_of_peak": 40.6
+        "commits": 575,
+        "pct_of_peak": 36.9
       },
       {
         "month": "2026-09",
         "commits": 1429,
-        "pct_of_peak": 99.6
+        "pct_of_peak": 91.6
       },
       {
         "month": "2026-10",
-        "commits": 1435,
+        "commits": 1560,
         "pct_of_peak": 100
       }
     ]
@@ -59,18 +59,18 @@
     "html_pages_toplevel": 81,
     "html_pages_total": 575,
     "workflows": 82,
-    "scripts": 365,
-    "docs": 504,
-    "data_files": 2040,
+    "scripts": 371,
+    "docs": 502,
+    "data_files": 2048,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 69,
-    "test_files": 656,
-    "absence_test_cases": 306,
-    "absence_tests": 122,
+    "test_files": 672,
+    "absence_test_cases": 310,
+    "absence_tests": 124,
     "lihtc_features": 926
   },
   "case": {
@@ -246,12 +246,12 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 506119,
+    "hand_written_lines": 513475,
     "generated_place_page_lines": 229724,
     "top_level_pages": 81,
-    "html_nonblank_lines": 50420,
-    "html_distinct_lines": 21131,
-    "html_distinct_share": 0.419,
+    "html_nonblank_lines": 51498,
+    "html_distinct_lines": 21255,
+    "html_distinct_share": 0.413,
     "substantial_tools": 25,
     "declared_data_sources": 86,
     "estimate": {
@@ -315,7 +315,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "7d2f41978",
+    "extracted_at_commit": "90fcfb017",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -538,12 +538,12 @@
     "anchor_places_total": 482,
     "anchor_places_applied": 405,
     "anchor_places_unmeasured": 77,
-    "anchor_overcount_places": 147,
-    "anchor_overcount_share": 0.363,
+    "anchor_overcount_places": 148,
+    "anchor_overcount_share": 0.365,
     "ranked_geographies": 546,
-    "workforce_gap_wins": 240,
+    "workforce_gap_wins": 236,
     "future_units_with_incommuters": 536,
-    "workforce_reading_counties_sum": 186093,
+    "workforce_reading_counties_sum": 184145,
     "replacement_rate_min_pct": 0.02,
     "replacement_rate_max_pct": 0.6,
     "replacement_counties": 64,
@@ -553,7 +553,7 @@
     "incommuter_need_counties": 64,
     "incommuter_need_25_counties": 132511,
     "incommuter_need_50_counties": 265019,
-    "gap30_priced_units_statewide": 85210,
+    "gap30_priced_units_statewide": 89371,
     "gap30_aa_homes_statewide": 45794,
     "gap30_aa_occupied_statewide": 42707,
     "gap30_aa_vacant_statewide": 3087,

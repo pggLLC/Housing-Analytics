@@ -207,7 +207,7 @@
     renderCompetition(lihtcFeats, centroids, countyFips);
 
     /* ── DDA / QCT ── */
-    renderBasisBoost(ddaFeats, qctFeats, countyFips, name);
+    renderBasisBoost(ddaFeats, qctFeats, countyFips, name, isPlace ? countyName : '');
 
     /* ── Civic / local resources ── */
     renderCivic(lrAll, geoid, countyFips, isPlace);
@@ -409,14 +409,18 @@
     }
   }
 
-  function renderBasisBoost(ddaFeats, qctFeats, countyFips, jurisdictionName) {
+  // countyScope: the containing county's name when the summary is for a town.
+  // The count is county-wide (this summary does not match tracts to the town),
+  // so it says so rather than reading as the town's own QCTs.
+  function renderBasisBoost(ddaFeats, qctFeats, countyFips, jurisdictionName, countyScope) {
     var qctCount = 0;
     var countyTarget = String(countyFips || '').padStart(5, '0');
     qctFeats.forEach(function (f) {
       var p = f.properties || {};
       if ((p.GEOID || '').slice(0, 5) === countyTarget) qctCount++;
     });
-    $('icQct').textContent = fmtN(qctCount) + ' tract' + (qctCount === 1 ? '' : 's');
+    $('icQct').textContent = fmtN(qctCount) + ' tract' + (qctCount === 1 ? '' : 's')
+      + (countyScope ? ' county-wide (' + countyScope + ')' : '');
 
     var ddaRec = ddaFeats.find(function (f) {
       var p = f.properties || {};
