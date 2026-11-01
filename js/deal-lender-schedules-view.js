@@ -177,11 +177,11 @@
     var out = '';
     if (b.reason) out += reason(b.reason);
     else {
-      out += dl([
+      out += (b.coverageReason ? reason(b.coverageReason) : dl([
         ['Lowest coverage, years 1-15', x(b.lowestDscr) + ' in year ' + b.lowestYear, b.firstBelowMinimum ? 'color:var(--bad,#b91c1c);' : ''],
         ['First year below 1.15x', b.firstBelowMinimum ? 'Year ' + b.firstBelowMinimum : 'None', b.firstBelowMinimum ? 'color:var(--bad,#b91c1c);' : 'color:var(--good,#047857);'],
         ['Rent cushion to 1.15x (lowest year)', known(b.lowestCushion) ? money(b.lowestCushion) + ' a home a month' : '—']
-      ]) + note('The rent cushion is how far rent could fall, per home per month, before coverage drops to 1.15x. CHFA\'s stress sheet asks the same question.')
+      ])) + note('The rent cushion is how far rent could fall, per home per month, before coverage drops to 1.15x. CHFA\'s stress sheet asks the same question.')
         + b.notes.map(function (n) { return note(n); }).join('')
         + more('Year-by-year budget (' + b.rows.length + ' years)', table(['Year', 'Rents', 'Vacancy', 'Management', 'Other operating', 'Property tax', 'Reserve', 'NOI', 'Debt service', 'Coverage', 'Break-even vacancy'],
           b.rows.map(function (r) {

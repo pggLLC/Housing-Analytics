@@ -239,9 +239,24 @@
   /** The line-by-line 15-year budget. Year 1 equals the engine's year 1 exactly;
    * later years grow each line at its own rate. The management fee, when entered
    * as a share of income, follows income instead of expense growth. */
+  /** The 15-year coverage test needs every year. A year with no must-pay debt
+   * (a loan paid off) needs no coverage; a year whose payments are unknown, such
+   * as a loan past maturity with no refinancing, makes the whole test unknown
+   * rather than a shorter test that looks like a pass. */
+  function coverageWindow(rows) {
+    if (rows.length < 15) return { tested: [], reason: 'The projection runs ' + rows.length + ' years; CHFA tests coverage over 15, so set the projection to at least 15 years.' };
+    var win = rows.slice(0, 15), tested = [];
+    for (var i = 0; i < win.length; i++) {
+      var r = win[i];
+      if (!known(r.debtService)) return { tested: [], reason: 'Coverage is not known in year ' + r.year + (r.unavailableReason ? ': ' + r.unavailableReason : '.') + ' The 15-year test needs every year.' };
+      if (r.debtService > 0 && known(r.dscr)) tested.push(r);
+    }
+    return { tested: tested, reason: tested.length ? null : 'No must-pay debt in years 1-15, so there is no coverage to test.' };
+  }
+
   function lineBudget(result, fields, change) {
     var out = { years: null, rows: null, growth: null, lowestDscr: null, lowestYear: null, firstBelowMinimum: null,
-      firstBelowOne: null, lowestCushion: null, reason: null, notes: [] };
+      firstBelowOne: null, lowestCushion: null, coverageReason: null, reason: null, notes: [] };
     var proj = result.projection;
     if (!proj || !proj.rows) { out.reason = (result.unavailable && result.unavailable.projection) || 'The operating projection is not available.'; return out; }
     var reasons = [];
@@ -291,8 +306,10 @@
         unavailableReason: row ? row.unavailableReason : null });
     }
     out.years = years; out.rows = rows; out.growth = g; out.managementPct = mgmtPct;
-    var tested = rows.slice(0, 15).filter(function (r) { return known(r.dscr); });
-    if (tested.length) {
+    var win = coverageWindow(rows);
+    out.coverageReason = win.reason;
+    if (!win.reason && win.tested.length) {
+      var tested = win.tested;
       var low = tested.reduce(function (a, b) { return b.dscr < a.dscr ? b : a; });
       out.lowestDscr = low.dscr; out.lowestYear = low.year;
       var below = tested.filter(function (r) { return r.dscr < minDscr - 0.00005; })[0];
@@ -302,7 +319,6 @@
       out.lowestCushion = Math.min.apply(null, tested.map(function (r) { return r.cushionTo115; }));
     }
     if (mgmt1 === null) out.notes.push('Management fee not split out, so it grows with the other operating costs.');
-    if (years < 15) out.notes.push('The projection runs ' + years + ' years; CHFA tests coverage over 15.');
     return out;
   }
 
@@ -312,13 +328,6 @@
     var out = { cases: null, reason: null };
     if (!result.projection) { out.reason = (result.unavailable && result.unavailable.projection) || 'The operating projection is not available.'; return out; }
     var rg = num(fields['pf-rent-growth']), eg = num(fields['pf-exp-growth']), vac = num(fields['dc-vacancy']);
-    function lowest(rows) {
-      var ys = rows.slice(0, 15).filter(function (y) { return known(y.allMustPayCoverage); });
-      if (!ys.length) return { lowest: null, year: null, firstBelow: null, reason: 'Coverage is not available for this case.' };
-      var low = ys.reduce(function (a, b) { return b.allMustPayCoverage < a.allMustPayCoverage ? b : a; });
-      var below = ys.filter(function (y) { return y.allMustPayCoverage < 1.15 - 0.00005; })[0];
-      return { lowest: low.allMustPayCoverage, year: low.year, firstBelow: below ? below.year : null, reason: null };
-    }
     // The permanent loan is already closed, so each case holds it, and its must-pay
     // payments, at the planned amounts; only income and costs change. Each case is
     // the line-by-line budget above (management fee, tax and reserve growth as
@@ -326,8 +335,7 @@
     function run(label, change, explain) {
       var b = lineBudget(result, fields, change);
       if (b.reason) return { label: label, explain: explain, lowestDscr: null, lowestYear: null, firstBelowMinimum: null, reason: b.reason };
-      var l = lowest(b.rows.map(function (r) { return { year: r.year, allMustPayCoverage: r.dscr }; }));
-      return { label: label, explain: explain, lowestDscr: l.lowest, lowestYear: l.year, firstBelowMinimum: l.firstBelow, reason: l.reason };
+      return { label: label, explain: explain, lowestDscr: b.lowestDscr, lowestYear: b.lowestYear, firstBelowMinimum: b.firstBelowMinimum, reason: b.coverageReason };
     }
     var g0 = result.exit.rentGrowth, e0 = result.exit.expGrowth, v0 = result.vacancyRate;
     var cases = [run('As planned', { rent: g0, exp: e0, vac: v0 }, 'The growth rates, vacancy and budget lines entered.')];

@@ -170,6 +170,27 @@ test('engine: 15-year stress holds the closed loan and finds the first year belo
   assert(flat.firstBelowMinimum >= 1 && flat.firstBelowMinimum <= 15);
 });
 
+test('engine: a loan maturing before year 15 with no refinancing makes the 15-year test unknown, not a pass', () => {
+  const i = full(); i.fields['dc-senior-maturity'] = '10';
+  const s = computeDeal(i).schedules;
+  assert.equal(s.stress.cases.length, 5);
+  for (const c of s.stress.cases) {
+    assert.equal(c.lowestDscr, null, c.label + ' reports no lowest coverage');
+    assert.equal(c.firstBelowMinimum, null);
+    assert.match(c.reason, /year 11.*maturity/i, c.label + ' carries the maturity reason');
+  }
+  assert.equal(s.budget.lowestDscr, null);
+  assert.match(s.budget.coverageReason, /year 11.*maturity/i);
+  assert.equal(s.budget.rows.length, 15, 'the year-by-year rows are still shown');
+});
+
+test('engine: a projection shorter than 15 years is named, not tested as if complete', () => {
+  const i = full(); i.fields['pf-years'] = '10';
+  const b = computeDeal(i).schedules.budget;
+  assert.equal(b.lowestDscr, null);
+  assert.match(b.coverageReason, /runs 10 years/);
+});
+
 test('engine: budget assumptions carry into the stress cases and the reserve account', () => {
   const i = full(); Object.assign(i.fields, { 'dc-pf-reserve-growth': '10', 'dc-pf-tax-growth': '10' });
   const s = computeDeal(i).schedules;
