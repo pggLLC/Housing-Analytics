@@ -1,6 +1,6 @@
 'use strict';
 // Colorado deep dive: each label must agree with what it labels (AGENTS.md "pin the agreement, not the copy").
-//   - the policy simulator's per-capita starting point = the per-capita amount the page itself shows from IRS Rev. Proc. 2025-32;
+//   - the policy simulator's per-capita start is a synced figure (scripts/sync-site-figures.mjs SIM rules, checked by site-figures-sync);
 //   - the Pipeline pressure label names the unit js/market-intelligence.js computes;
 //   - the unemployment labels describe how the page's script averages the county rates;
 //   - the concession chart's subtitle, canvas metadata and source line name the same source and URL.
@@ -8,21 +8,12 @@ const fs = require('fs'), path = require('path'), assert = require('assert');
 const root = path.join(__dirname, '..');
 const read = f => fs.readFileSync(path.join(root, f), 'utf8');
 
-function problems(page, sim, mi) {
+function problems(page, sim, mi, sync) {
   const out = [];
-  // 1. Per-capita: the page's own figure ("$3.416 per resident"), rounded to cents, is the simulator's starting point.
-  const shown = [...page.matchAll(/\$(\d+\.\d+) per resident/g)].map(m => +m[1]);
-  if (!shown.length) out.push('no "$x per resident" figure found on the page to compare with');
-  const desc = (sim.match(/id: 'perCapita'[\s\S]*?description: '([^']*)'/) || [])[1];
-  if (!desc) out.push('policy simulator perCapita scenario not found');
-  else {
-    const from = (desc.match(/from [^$]*\$(\d+\.\d+)/) || [])[1];
-    if (!from || shown.some(v => Math.abs(v - +from) > 0.005)) out.push('simulator per-capita start ($' + from + ') does not match the page figure ($' + shown.join(', $') + ')');
-    // The revenue procedure the simulator cites must be the one the page cites for its per-capita figure.
-    const simRef = (desc.match(/Rev\. Proc\. (\d{4}-\d+)/) || [])[1];
-    const pageRefs = [...new Set([...page.matchAll(/Rev\. Proc\. (\d{4}-\d+)/g)].map(m => m[1]))];
-    if (!simRef || pageRefs.length !== 1 || pageRefs[0] !== simRef) out.push('simulator per-capita start cites Rev. Proc. ' + simRef + ' but the page cites ' + (pageRefs.join(', ') || 'none'));
-  }
+  // 1. Per-capita start: kept in step with the page and the federal ceiling file by scripts/sync-site-figures.mjs
+  //    (its SIM rules) and checked by test/site-figures-sync.test.mjs; here we only require that those rules exist.
+  if (!/const SIM = 'js\/policy-simulator\.js'/.test(sync) || !['year', 'perCapita', 'revProc'].every(f => new RegExp("fig: '" + f + "', files: \\[SIM\\]").test(sync)))
+    out.push('scripts/sync-site-figures.mjs no longer syncs the policy simulator per-capita start (year, amount, Rev. Proc.)');
   // 2. Pipeline pressure: the label's unit is the unit the script writes.
   const unit = (mi.match(/pipelineRate \+ ' ([^']+)'/) || [])[1];
   const label = (page.match(/Pipeline Pressure<\/div>[\s\S]*?id="riskPipeline"[\s\S]*?<div[^>]*>([^<]*)<\/div>/) || [])[1];
@@ -52,28 +43,23 @@ function problems(page, sim, mi) {
   return out;
 }
 
-const page = read('colorado-deep-dive.html'), sim = read('js/policy-simulator.js'), mi = read('js/market-intelligence.js');
-const found = problems(page, sim, mi);
+const page = read('colorado-deep-dive.html'), sim = read('js/policy-simulator.js'), mi = read('js/market-intelligence.js'), sync = read('scripts/sync-site-figures.mjs');
+const found = problems(page, sim, mi, sync);
 assert.deepStrictEqual(found, [], found.join('\n'));
 
 // Sabotage both ways, with every mutation built from the current source text (no live label is pinned here).
 // Each mutation must change the text; a broken claim fails, a coordinated rewording passes.
 const mut = (s, a, b) => { const t = s.split(a).join(b); assert.notStrictEqual(t, s, 'mutation did not apply: ' + a); return t; };
 const once = (s, a, b) => { const i = s.indexOf(a); assert(i > -1, 'mutation did not apply: ' + a); return s.slice(0, i) + b + s.slice(i + a.length); };
-const fail = (p, s, m, what) => assert(problems(p, s, m).length > 0, 'guard missed: ' + what);
-const pass = (p, s, m, what) => assert.deepStrictEqual(problems(p, s, m), [], 'guard blocked a harmless edit: ' + what);
+const fail = (p, s, m, what, y = sync) => assert(problems(p, s, m, y).length > 0, 'guard missed: ' + what);
+const pass = (p, s, m, what, y = sync) => assert.deepStrictEqual(problems(p, s, m, y), [], 'guard blocked a harmless edit: ' + what);
 const block = page.match(/<p class="chart-subtitle">Average monthly concession value[\s\S]*?<p class="chart-source">[\s\S]*?<\/p>/)[0];
 const srcName = block.match(/data-source="([^"]+)"/)[1];
 fail(once(page, 'data-source="' + srcName + '"', 'data-source="' + srcName + ' (other)"'), sim, mi, 'concession data-source changed alone');
 pass(mut(page, srcName, srcName + ' (renamed)'), sim, mi, 'concession source renamed everywhere');
-const desc = sim.match(/id: 'perCapita'[\s\S]*?description: '([^']*)'/)[1];
-const fromFig = desc.match(/from [^$]*(\$\d+\.\d+)/)[1];
-fail(page, once(sim, fromFig, '$2.75'), mi, 'stale per-capita start');
-const simRef = desc.match(/Rev\. Proc\. (\d{4}-\d+)/)[1];
-fail(page, once(sim, 'Rev. Proc. ' + simRef, 'Rev. Proc. 1999-1'), mi, 'simulator cites a different revenue procedure');
-pass(mut(page, 'Rev. Proc. ' + simRef, 'Rev. Proc. 2099-9'), mut(sim, 'Rev. Proc. ' + simRef, 'Rev. Proc. 2099-9'), mi, 'revenue procedure refreshed on both');
+fail(page, sim, mi, 'simulator per-capita start dropped from the figure sync', sync.replace(/fig: 'perCapita', files: \[SIM\]/, "fig: 'perCapita', files: [DEEP]"));
 const unit = mi.match(/pipelineRate \+ ' ([^']+)'/)[1];
 fail(page, sim, once(mi, "' " + unit + "'", "' permits/1k units'"), 'pipeline unit changed without its label');
 const unLabel = page.match(/average of county rates/i)[0];
 fail(once(page, unLabel, 'statewide rate'), sim, mi, 'unemployment called statewide');
-console.log('deep dive label accuracy: PASS (4 agreements, 7 sabotage checks)');
+console.log('deep dive label accuracy: PASS (4 agreements, 5 sabotage checks)');
