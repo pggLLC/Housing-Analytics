@@ -152,6 +152,25 @@ if (!statewide || typeof statewide !== 'object') {
   }
 }
 
+// Statewide medians are Census's own state figures, never an average of
+// county medians (which read $1,727 rent against the published $1,761).
+if (statewide) {
+  const acsStatePath = path.join(ROOT, 'data/census-acs-state.json');
+  if (fs.existsSync(acsStatePath)) {
+    const co = (JSON.parse(fs.readFileSync(acsStatePath, 'utf8')).data || []).find((r) => r.state_fips === '08');
+    if (co && co.year === statewide.acs_year) {
+      for (const [mine, theirs] of [['median_gross_rent_current', 'median_gross_rent'],
+                                    ['median_hh_income', 'median_household_income'],
+                                    ['median_home_value', 'median_home_value']]) {
+        if (statewide[mine] != null && statewide[mine] !== co[theirs]) {
+          fail(`statewide.${mine}=${statewide[mine]} is not Census's state median ${co[theirs]} `
+             + `(census-acs-state.json, ${co.year}); a median of the state is not an average of county medians`);
+        }
+      }
+    }
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Vintage coherence. The two producers resolved different ACS years (one pinned
 // 2023, the other probed to 2024) and only one of them wrote `meta`, so the file

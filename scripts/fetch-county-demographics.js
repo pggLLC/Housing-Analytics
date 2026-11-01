@@ -54,6 +54,36 @@ function acsUrl(year) {
     '&for=county:*&in=state:08' + (CENSUS_KEY ? '&key=' + CENSUS_KEY : '');
 }
 
+// Colorado's own ACS medians. A median of the state is not any average of
+// county medians: the population-weighted one read $1,727 / $550,696 /
+// $97,503 where Census publishes $1,761 / $539,400 / $95,470 (2020-24).
+function stateMediansUrl(year) {
+  return 'https://api.census.gov/data/' + year + '/acs/acs5' +
+    '?get=B25064_001E,B19013_001E,B25077_001E&for=state:08' +
+    (CENSUS_KEY ? '&key=' + CENSUS_KEY : '');
+}
+
+function positiveOrNull(v) {
+  var n = Number(v);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+/** [rent, income, home value] for the state, or nulls if Census has none. */
+function fetchStateMedians(year) {
+  return fetchJSON(stateMediansUrl(year))
+    .then(function (rows) {
+      var r = Array.isArray(rows) && rows[1];
+      if (!r) throw new Error('empty response');
+      return { median_gross_rent_current: positiveOrNull(r[0]),
+               median_hh_income: positiveOrNull(r[1]),
+               median_home_value: positiveOrNull(r[2]) };
+    })
+    .catch(function (err) {
+      console.log('  State medians for ' + year + ' unavailable (' + err.message + ') — left null');
+      return { median_gross_rent_current: null, median_hh_income: null, median_home_value: null };
+    });
+}
+
 function fetchJSON(url) {
   // Support both node-fetch v2 (CommonJS) and native fetch (Node 18+)
   if (typeof fetch !== 'undefined') {
@@ -172,16 +202,15 @@ function parseCountyRows(rows) {
  * This row is stored under `counties.Colorado` (FIPS "08") so downstream code
  * can reference state totals without re-summing 64 counties.
  */
-function buildStatewideAggregate(counties) {
+function buildStatewideAggregate(counties, stateMedians) {
+  stateMedians = stateMedians || {};
   var totalPop = 0;
   var totalHH = 0;
   var totalHU = 0;
   var totalOvercrowded = 0;
   var totalVacant = 0;
-  var rentSum = 0, incomeSum = 0, homeValueSum = 0;
   var burdenUniverse = 0, burdened30Sum = 0, burdened50Sum = 0, burdenCountsComplete = true;
   var vacancySum = 0;
-  var popWeightTotal = 0;
 
   Object.values(counties).forEach(function (c) {
     var pop = c.population || 0;
@@ -199,12 +228,6 @@ function buildStatewideAggregate(counties) {
     }
     if (c.vacancy_rate !== null && estimatedTotalHU > 0) {
       totalVacant += Math.round((c.vacancy_rate || 0) * estimatedTotalHU);
-    }
-    if (pop > 0) {
-      if (c.median_gross_rent_current !== null) rentSum      += c.median_gross_rent_current * pop;
-      if (c.median_hh_income !== null)          incomeSum   += c.median_hh_income * pop;
-      if (c.median_home_value !== null)         homeValueSum += c.median_home_value * pop;
-      popWeightTotal += pop;
     }
     // Burden rates come from the summed B25070 counts. Weighting county
     // rates by all households (owners too) read 53.1% where the state's
@@ -227,13 +250,13 @@ function buildStatewideAggregate(counties) {
     household_count:     totalHH,
     overcrowding_rate:   totalHU > 0 ? parseFloat((totalOvercrowded / totalHU).toFixed(4)) : null,
     vacancy_rate:        totalHU > 0 ? parseFloat((totalVacant / totalHU).toFixed(4)) : null,
-    median_gross_rent_current: popWeightTotal > 0 ? Math.round(rentSum / popWeightTotal) : null,
-    median_home_value:   popWeightTotal > 0 ? Math.round(homeValueSum / popWeightTotal) : null,
-    median_hh_income:    popWeightTotal > 0 ? Math.round(incomeSum / popWeightTotal) : null,
+    median_gross_rent_current: stateMedians.median_gross_rent_current != null ? stateMedians.median_gross_rent_current : null,
+    median_home_value:   stateMedians.median_home_value != null ? stateMedians.median_home_value : null,
+    median_hh_income:    stateMedians.median_hh_income != null ? stateMedians.median_hh_income : null,
     population:          totalPop,
     fips:                '08',
     acs_year:            ACS_YEAR,
-    derivation:          'population-weighted medians; burden rates and counts summed over ' +
+    derivation:          'medians are Census\'s own state figures (ACS state:08); burden rates and counts summed over ' +
                          Object.keys(counties).length + ' counties'
   };
 }
@@ -276,7 +299,13 @@ function run() {
       // replaces `counties` wholesale. A top-level key survives that (the daily
       // producer's Object.assign preserves keys it does not write) and carries
       // its own schema. See issue #1658.
-      var statewide = buildStatewideAggregate(counties);
+      return fetchStateMedians(ACS_YEAR).then(function (stateMedians) {
+        return { counties: counties, statewide: buildStatewideAggregate(counties, stateMedians) };
+      });
+    })
+    .then(function (built) {
+      var counties = built.counties;
+      var statewide = built.statewide;
       var existing = {};
       try {
         existing = JSON.parse(fs.readFileSync(OUT_FILE, 'utf8'));
