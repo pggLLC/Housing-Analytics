@@ -270,6 +270,18 @@ test('engine: lower income first cuts a cash-flow loan payment before drawing th
   assert.equal(s.reserves.operating.firstShort, null);
 });
 
+test('engine: the operating reserve covers must-pay payments income cannot meet, and nothing paid only from surplus', () => {
+  const i = full(); Object.assign(i.fields, { 'dc-senior-mode': 'entered', 'dc-senior-amount': '12000000' });
+  const s = computeDeal(i).schedules, b = s.budget.rows[0];
+  assert(b.debtService > b.noi, 'non-vacuous: year-one income is below must-pay debt service');
+  near(s.reserves.operating.rows[0].draw, b.debtService - b.noi, 0.01, 'year one draws the whole shortfall');
+  const t = full(); t.fields['dc-pf-tax-growth'] = '10';
+  const st = computeDeal(t).schedules;
+  assert(Math.min(...st.budget.rows.map(r => r.noi - r.debtService)) > 0, 'non-vacuous: income covers must-pay every year');
+  assert(computeDeal(t).projection.rows.some(r => r.deferredFeePaid > 0), 'non-vacuous: a deferred fee is being paid');
+  assert.equal(st.reserves.operating.totalDrawn, 0, 'a lower surplus defers the fee instead of drawing the reserve');
+});
+
 test('engine: a blank operating budget leaves every schedule with a reason, no NaN', () => {
   const c = inputsFor('C'); Object.assign(c.fields, extra);
   const s = computeDeal(c).schedules;

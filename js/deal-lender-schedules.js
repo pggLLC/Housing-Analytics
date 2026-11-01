@@ -394,14 +394,14 @@
     var op = { start: by.reserves || 0, rows: null, firstShort: null, totalDrawn: 0, reason: null };
     var obal = op.start, orows = [];
     proj.rows.slice(0, proj.years).forEach(function (r, i) {
-      // The engine's shortfall, moved by any difference between the budget's NOI and the engine's.
-      // Cash-flow loan payments come only from surplus, so they are added back
-      // before the shift: lower income first cuts those payments, and only a
-      // shortfall in the fixed payments draws on the reserve.
+      // The reserve covers the payments that are due whatever the income: must-pay
+      // loan payments (including any NOI cannot meet) and bridge-loan payments.
+      // Cash-flow loan payments, the asset management fee and the deferred
+      // developer fee are paid only from surplus, so they never draw on it.
       var b = budget && budget.rows ? budget.rows[i] : null;
-      var shift = b && known(b.noi) && known(r.noi) ? b.noi - r.noi : 0;
-      var afterFee = known(r.cashFlow) && known(r.deferredFeePaid) && known(r.mustPayUnpaid) ? r.cashFlow - r.deferredFeePaid + r.mustPayUnpaid : null;
-      var draw = afterFee === null ? null : Math.max(0, -(afterFee + (known(r.contingentPaid) ? r.contingentPaid : 0) + shift));
+      var noi = b && known(b.noi) ? b.noi : r.noi;
+      var due = known(r.debtService) && known(r.bridgeDebtService) ? r.debtService + r.bridgeDebtService : null;
+      var draw = !known(noi) || due === null ? null : Math.max(0, due - noi);
       if (draw === null) { op.reason = op.reason || 'A year of the projection is not measured, so the operating reserve is not followed.'; return; }
       obal -= draw; op.totalDrawn += draw;
       orows.push({ year: r.year, draw: draw, balance: obal });

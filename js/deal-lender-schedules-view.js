@@ -68,7 +68,7 @@
         + field(['dc-pf-tax-growth', 'Property tax growth (%/yr)', 'Blank uses the expense growth rate.', 'number', 'min="0" max="10" step="0.5"', ''])
         + field(['dc-pf-reserve-growth', 'Replacement reserve growth (%/yr)', 'Blank uses the expense growth rate.', 'number', 'min="0" max="10" step="0.5"', ''])
         + '</div><div id="dc-ls-budget-out" role="status" aria-live="polite"></div>')
-      + section('dc-ls-reserves', 'Reserve accounts', 'The replacement reserve starts with the Replacement reserve cost line, takes the yearly deposits and pays for the capital needs you list. The operating reserve covers any year the property cannot pay its bills.',
+      + section('dc-ls-reserves', 'Reserve accounts', 'The replacement reserve starts with the Replacement reserve cost line, takes the yearly deposits and pays for the capital needs you list. The operating reserve covers any year income falls short of the must-pay loan and bridge payments; cash-flow loans and the deferred fee wait for surplus.',
         '<div style="' + GRID + '">'
         + field(['dc-pf-capital-needs', 'Capital needs (year:amount; …)', 'From a capital needs assessment, such as 12:180000; 15:95000.', 'text', 'inputmode="text" autocomplete="off"', ''])
         + field(['dc-pf-reserve-yield', 'Interest on the reserve (%/yr)', 'Blank earns nothing.', 'number', 'min="0" max="8" step="0.25"', ''])
