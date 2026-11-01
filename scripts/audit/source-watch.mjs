@@ -71,7 +71,10 @@ export const EXTRA = [
     page: 'research-brief.html', kind: 'research', name: (r) => r.title || r.source || 'JCHS', source: (r) => r.source_url },
 ];
 
-const DOC_RE = /\.(pdf|docx?|xlsx?|xlsm|pptx?|csv|zip)(?:$|[?#])|\/getattachment\/|\/DocumentCenter\/View\/|\/download(?:$|[/?#])/i;
+const DOC_RE = /\.(pdf|docx?|xlsx?|xlsm|pptx?|csv|zip)(?:$|[?#])|\/getattachment\/|\/DocumentCenter\/View\/|\/download(?:$|[/?#])|[/_-](pdf|docx?|xlsx?)(?:$|[?#])|\/(api\/)?\w*download\w*\//i;
+// A response that is not a web page (a PDF served from an address with no file
+// extension) is compared by its headers, like a document, and remembered as one.
+const PAGE_TYPE_RE = /^(text\/html|application\/xhtml\+xml|text\/plain)\b/i;
 
 export const KEY_LINE_RE = new RegExp([
   String.raw`\$\s?\d`,
@@ -131,8 +134,13 @@ export function pageText(html) {
     .replace(/<(head|nav|header|footer)\b[\s\S]*?<\/\1\s*>/gi, ' ')
     .replace(/<(br|\/?(p|div|li|tr|h[1-6]|td|th|section|article|main|dd|dt|ul|ol|table|body))\b[^>]*>/gi, '\n')
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;|&#160;/gi, ' ').replace(/&amp;/gi, '&').replace(/&lt;/gi, '<').replace(/&gt;/gi, '>')
-    .replace(/&quot;/gi, '"').replace(/&#39;|&apos;/gi, "'").replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)));
+    // One pass, so "&amp;lt;" becomes "&lt;" and is not decoded twice.
+    .replace(/&(nbsp|amp|lt|gt|quot|apos|#\d+|#x[0-9a-f]+);/gi, (m, e) => {
+      const named = { nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" }[e.toLowerCase()];
+      if (named !== undefined) return named;
+      const n = e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : Number(e.slice(1));
+      return n === 160 ? ' ' : (Number.isFinite(n) && n > 0 && n <= 0x10ffff ? String.fromCodePoint(n) : m);
+    });
   return s.split('\n').map((l) => l.replace(/\s+/g, ' ').trim()).filter(Boolean).join('\n');
 }
 
@@ -243,7 +251,7 @@ const CHALLENGE_RE = /just a moment|attention required|access denied|are you a r
  *  unchanged-headers, unchanged-text, cosmetic, changed, failed. */
 export async function checkSource(target, prev = {}, fetcher, now) {
   const base = { url: target.url, kind: target.kind, document: target.document, checked_at: now };
-  const keep = ['etag', 'last_modified', 'content_length', 'text_sha256', 'key_lines', 'key_lines_version', 'last_changed_at', 'title'];
+  const keep = ['etag', 'last_modified', 'content_length', 'text_sha256', 'key_lines', 'key_lines_version', 'last_changed_at', 'title', 'served_as_document'];
   const carried = Object.fromEntries(keep.filter((k) => prev[k] !== undefined).map((k) => [k, prev[k]]));
   const fail = (error) => {
     const first = (prev.ok === false && prev.first_failed_at) || now;
@@ -254,7 +262,7 @@ export async function checkSource(target, prev = {}, fetcher, now) {
   const firstSight = !prev.checked_at || (!prev.text_sha256 && !prev.etag && !prev.last_modified && !prev.content_length);
   let res;
   try {
-    if (target.document) {
+    if (target.document || prev.served_as_document) {
       res = await fetcher(target.url, { method: 'HEAD' });
       if (res.status === 405 || res.status === 501) return fail(`HEAD not allowed (HTTP ${res.status}); documents are never downloaded`);
     } else {
@@ -278,7 +286,10 @@ export async function checkSource(target, prev = {}, fetcher, now) {
   if (res.status === 304) {
     return { entry: okEntry({}), outcome: 'unchanged-headers', detail: {} };
   }
-  if (target.document) {
+  const ctype = res.headers['content-type'] || '';
+  const servedAsDocument = !target.document && (prev.served_as_document || (ctype && !PAGE_TYPE_RE.test(ctype)));
+  if (target.document || servedAsDocument) {
+    if (servedAsDocument) headerBits.served_as_document = true;
     const sig = [headerBits.etag, headerBits.last_modified, headerBits.content_length];
     if (!sig.some(Boolean)) return fail('document answers HEAD with no ETag, Last-Modified or length; check by hand');
     const entry = okEntry(headerBits);
@@ -315,6 +326,10 @@ export async function run({ docs, state = {}, fetcher = httpFetch, now = new Dat
   const sources = {};
   const results = [];
   const started = Date.now();
+  // Never-checked sources first, then the longest unchecked, and failing sources
+  // last, so failures that eat the run time cannot keep the rest unchecked.
+  const rank = (t) => { const p = prevSources[t.url]; return !p || !p.checked_at ? [0, ''] : [p.ok === false ? 2 : 1, p.checked_at]; };
+  targets.sort((a, b) => { const x = rank(a); const y = rank(b); return x[0] - y[0] || x[1].localeCompare(y[1]); });
   for (const t of targets) {
     const prev = prevSources[t.url];
     if (t.kind === 'news') { results.push({ url: t.url, outcome: 'hand-check', target: t, detail: { reason: 'news story, not a primary source; a dated story does not change when the fact does' } }); continue; }

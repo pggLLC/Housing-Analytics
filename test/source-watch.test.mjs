@@ -153,3 +153,34 @@ test('news stories are listed as needing a primary source, not fetched', async (
   assert.equal(report.hand_check.length, 1);
   assert.match(report.hand_check[0].reason, /primary source/);
 });
+
+test('entities are decoded once', () => {
+  assert.equal(pageText('<main><p>a &amp;lt; b &amp; c &#36;5 &#x24;6</p></main>'), 'a &lt; b & c $5 $6');
+});
+
+test('a document at an address with no extension is never read as a page', async () => {
+  const docs = { 'f.json': { entries: [{ id: 'g', title: 'G', url: 'https://example.org/api/ordinanceDownload/1/2/pdf' }] } };
+  const [t] = buildTargets(docs, { specs: [SPEC] });
+  assert.equal(t.document, true);
+  const p = { url: 'https://example.org/fees', kind: 'agency', document: false, urgent: [] };
+  const methods = [];
+  const f = fakeFetch({ [p.url]: (o) => { methods.push(o.method || 'GET'); return { headers: { 'content-type': 'application/pdf', 'content-length': '9' }, body: '%PDF-1.7' }; } });
+  const a = await checkSource(p, {}, f, NOW);
+  assert.equal(a.outcome, 'baseline');
+  assert.equal(a.entry.served_as_document, true);
+  assert.equal(a.entry.text_sha256, undefined);
+  assert.equal((await checkSource(p, a.entry, f, NOW)).outcome, 'unchanged-headers');
+  assert.deepEqual(methods, ['GET', 'HEAD']);
+});
+
+test('failing sources go last, so the run time cannot starve the rest', async () => {
+  const docs = { 'f.json': { entries: [
+    { id: 'a', title: 'A', url: 'https://example.com/fail' },
+    { id: 'b', title: 'B', url: 'https://example.com/new' },
+  ] } };
+  const state = { sources: { 'https://example.com/fail': { checked_at: '2026-11-01T13:00:00Z', ok: false, first_failed_at: '2026-11-01T13:00:00Z' } } };
+  const order = [];
+  await run({ docs, state, now: NOW, specsOverride: [SPEC],
+    fetcher: async (url) => { order.push(url); return { status: 200, headers: {}, body: page('<p>x 2026-01-01</p>') }; } });
+  assert.deepEqual(order, ['https://example.com/new', 'https://example.com/fail']);
+});
