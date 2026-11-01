@@ -160,7 +160,7 @@
       "status": "adopted",
       "date": null,
       "title": "The adopted plan lowers the federal 9% per-project maximum: $1.8M to $1.7M in 2027, then $1.75M in 2028",
-      "detail": "Section 3.L, Maximum Credit Award. The cap applies to any one project, applicant or affiliate; projects financed with private activity bonds are excluded. The 2025–26 plan's cap was $1.8M. A $1.85M figure that circulated does not appear in the adopted plan.",
+      "detail": "Section 3.L, Maximum Credit Award. The cap applies to any one project, applicant or affiliate; projects financed with private activity bonds are excluded. The 2025–26 plan's cap was $1.8M, and section 3.L.1 keeps $1.8M in 2027 and 2028 if the 3.B.9 state gap funds are not available. A $1.85M figure that circulated does not appear in the adopted plan.",
       "programs": [
         "LIHTC",
         "CHFA"
@@ -179,6 +179,10 @@
         {
           "section": "3.L",
           "quote": "CHFA will accept Applications for no more than $1,700,000 in 2027 and $1,750,000 in 2028 of the annual federal 9 percent Housing Tax Credit for any one project or any one Applicant"
+        },
+        {
+          "section": "3.L.1",
+          "quote": "No more than $1,800,000 of annual federal 9 percent Housing Tax Credit in 2027 and 2028."
         }
       ],
       "not_in_source": [
@@ -345,6 +349,10 @@
         {
           "section": "3.B.9",
           "quote": "DOH loans for for-profit applicants will have 2 percent interest and a term commensurate with senior debt in the application plus six months and will be a cash flow loan. DOH will provide grant funds to nonprofit or public housing authority applicants."
+        },
+        {
+          "section": "3.B.9",
+          "quote": "DOH cash flow loans or grants will be eligible for applications with an average Area Median Income (AMI) midpoint of 48 percent or below for Round One and 52 percent or below for Round Two, or that are a Supportive Housing application."
         }
       ]
     },
