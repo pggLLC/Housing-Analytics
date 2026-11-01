@@ -28,12 +28,12 @@ require('../js/deal-calculator.js');
 const dc = window.__DealCalc;
 
 assert.equal(dc.DEFAULT_MINIMUM_SET_ASIDE_ELECTION, '40-60', '40-60 remains the default election');
-for (const election of ['20-50', '40-60']) {
+for (const [election, ceiling] of [['20-50', 50], ['40-60', 60]]) {
   for (const pct of bands) {
     assert.equal(
       dc.isLihtcCreditEligiblePct(pct, election),
-      pct <= 60,
-      `${election}: ${pct}% eligibility follows the federal credit ceiling`,
+      pct <= ceiling,
+      `${election}: ${pct}% eligibility follows the election's income limit (26 U.S.C. 42(g)(1), 42(i)(3)(A))`,
     );
   }
 }
@@ -52,7 +52,8 @@ for (const pct of [100, 110, 120]) {
 
 const twentyFifty = dc.evaluateMinimumSetAside('20-50', 100, { 50: 20, 60: 80 });
 assert.equal(twentyFifty.qualifies, true, '20-50 election tests its minimum using units at 50% or below');
-assert.equal(twentyFifty.countedLihtcUnits, 100, '20-50 can still count designated units through 60% toward basis');
+assert.equal(twentyFifty.countedLihtcUnits, 20, '20-50 counts only units at 50% AMI or below toward basis (26 U.S.C. 42(i)(3)(A))');
+assert.equal(dc.evaluateMinimumSetAside('40-60', 100, { 50: 20, 60: 80 }).countedLihtcUnits, 100, '40-60 counts the same mix through 60%');
 
 const aitPass = dc.evaluateMinimumSetAside('average-income', 40, { 40: 20, 80: 20 });
 assert.equal(aitPass.averageAmiPct, 60, 'AIT average is unit-weighted across the designated group');
