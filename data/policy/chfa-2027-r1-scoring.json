@@ -55,7 +55,7 @@
           50,
           40
         ],
-        "page": 41,
+        "page": 42,
         "quote": "(a) Threshold 20 percent at 50 percent AMI"
       },
       "40-60": {
@@ -64,7 +64,7 @@
           50,
           40
         ],
-        "page": 41,
+        "page": 42,
         "quote": "(b) Threshold 40 percent at 60 percent AMI"
       },
       "average-income": {
@@ -73,7 +73,7 @@
           50,
           40
         ],
-        "page": 41,
+        "page": 42,
         "quote": "(c) Threshold Average Income"
       }
     },
@@ -379,7 +379,7 @@
   ],
   "credit_caps": {
     "section": "3.L",
-    "page": 30,
+    "page": 31,
     "federal_9pct_annual": 1700000,
     "state_standard_with_9pct_annual": 650000,
     "quote": "CHFA will accept Applications for no more than $1,700,000 in 2027 ... of the annual federal 9 percent Housing Tax Credit for any one project ... CHFA will pair, if requested, a fixed amount of $650,000 in 2027 ... of standard annual state credit",

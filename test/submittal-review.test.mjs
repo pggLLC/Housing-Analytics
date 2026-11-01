@@ -205,7 +205,7 @@ ok(SR.fromCalculatorExport({ url: 'http://127.0.0.1:8799/d?units=1', inputs: { '
 const t2050 = SR.targetingPoints(rules, { 50: 20, 60: 80 }, '20-50'), t4060 = SR.targetingPoints(rules, { 50: 20, 60: 80 }, '40-60');
 near(t2050.points, 0.2 * 72.5, '20-50: 60% units have no row in the table');
 near(t4060.points, 0.2 * 72.5 + 0.8 * 50, '40-60 keeps the 60% row');
-ok(rules.targeting.tables['20-50'].rows.indexOf(60) === -1 && rules.targeting.tables['20-50'].page === 41, '20-50 table is sourced and has no 60% row');
+ok(rules.targeting.tables['20-50'].rows.indexOf(60) === -1 && rules.targeting.tables['20-50'].page === 42, '20-50 table is sourced and has no 60% row');
 ok(SR.score(rules, { mix: { 50: 20, 60: 80 }, election: '20-50' }, {}).lines[0].points < SR.score(rules, { mix: { 50: 20, 60: 80 } }, {}).lines[0].points, 'score uses the election');
 const basis = require(path.join(ROOT, 'js/deal-cost-basis.js'));
 ok(basis.HARD_COST_IDS.every((id) => SR.HARD_COST_IDS.indexOf(id) !== -1), 'the +10% test covers every canonical hard-cost line');

@@ -137,8 +137,6 @@ export const RULES = [
   { value: (F) => longDate(F.r1Loi), files: [GUIDE], pattern: /Round One dates:<\/strong> letter of intent ([A-Z][a-z]+ \d{1,2}, \d{4});/g },
   { value: (F) => longDate(F.r1App), files: [GUIDE], pattern: /Round One dates:<\/strong> letter of intent [^;]+; application ([A-Z][a-z]+ \d{1,2}, \d{4})\./g },  { value: (F) => longDate(F.r1Loi), files: [FUNDING], pattern: /2027 Round One letter of intent due ([A-Z][a-z]+ \d{1,2}, \d{4}) and/g },
   { value: (F) => longDate(F.r1App), files: [FUNDING], pattern: /2027 Round One letter of intent due [^"]+? and application due ([A-Z][a-z]+ \d{1,2}, \d{4}) by/g },
-  { value: (F) => longDate(F.r1Loi), files: [FUNDING], pattern: /The 2027 Round One dates \(LOI ([A-Z][a-z]+ \d{1,2}, \d{4});/g },
-  { value: (F) => longDate(F.r1App), files: [FUNDING], pattern: /The 2027 Round One dates \(LOI [^;]+; application ([A-Z][a-z]+ \d{1,2}, \d{4})\)/g },
   { value: (F) => longDate(F.r1Loi), files: [FUNDING], pattern: /2027 Round One \(LOI ([A-Z][a-z]+ \d{1,2}, \d{4}), per/g },
 
   // ── Ceiling sentences in JSON that pages render ───────────────────────────

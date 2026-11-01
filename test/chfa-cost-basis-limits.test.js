@@ -10,8 +10,8 @@ const cbm = require('../js/deal-cost-basis.js');
 const ROOT = path.join(__dirname, '..');
 const tables = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/policy/chfa-common-app-tables.json'), 'utf8'));
 
-test('the tables are the workbook\'s, labeled draft', () => {
-  assert.equal(tables.status, 'draft');
+test('the tables are the workbook\'s, labeled adopted', () => {
+  assert.equal(tables.status, 'adopted');
   assert.match(tables.source.url, /^https:\/\/www\.chfainfo\.com\/getattachment\/.+Common-Application.+\.xlsx$/);
   assert.match(tables.source.sha256, /^[0-9a-f]{64}$/);
   assert.equal(Object.keys(tables.counties).length, 64);

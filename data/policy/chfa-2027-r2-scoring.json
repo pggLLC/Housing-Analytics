@@ -21,7 +21,7 @@
     "credit": "federal 4% (tax-exempt bonds) plus accelerated and paired standard state credit",
     "loi_due": "2027-06-01",
     "application_due": "2027-08-02",
-    "page": 16,
+    "page": 15,
     "quote": "Round Two 2027: state credit Applications with federal 4 percent Housing Tax Credit ... Letter of Intent Deadline June 1, 2027, by 5:00pm MT ... Application Deadline August 2, 2027, by 5:00pm MT",
     "dates_source": "adopted QAP 3.B.2"
   },
@@ -57,7 +57,7 @@
           50,
           40
         ],
-        "page": 41,
+        "page": 42,
         "quote": "(a) Threshold 20 percent at 50 percent AMI"
       },
       "40-60": {
@@ -66,7 +66,7 @@
           50,
           40
         ],
-        "page": 41,
+        "page": 42,
         "quote": "(b) Threshold 40 percent at 60 percent AMI"
       },
       "average-income": {
@@ -75,7 +75,7 @@
           50,
           40
         ],
-        "page": 41,
+        "page": 42,
         "quote": "(c) Threshold Average Income"
       }
     },
@@ -387,7 +387,7 @@
   "credit_caps": {
     "kind": "round_two",
     "section": "3.L",
-    "page": 32,
+    "page": 31,
     "accelerated_fixed_annual": 1000000,
     "standard_max_annual": 675000,
     "quote": "CHFA will accept Applications for a fixed amount of $1,000,000 in 2027 and $1,200,000 in 2028 of accelerated annual state credit and will pair up to $675,000 in 2027 and $600,000 in 2028 of standard annual state credit or TZ credit where eligible, for any one project or any one Applicant, or Affiliate of such Applicant, or Turn-key Project Developer of such Applicant in Round Two.",

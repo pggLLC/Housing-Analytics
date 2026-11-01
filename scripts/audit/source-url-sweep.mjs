@@ -538,7 +538,7 @@ async function readUrlsFromExplicitPaths(pathsArg) {
 
 // Files that hold text copied out of someone else's PDF by a watcher, not
 // links the site publishes. PDF extraction breaks URLs at line wraps
-// ("https://coloradowaterwise.org/Conservation\n-Information"), so their
+// (a link split by a newline in the middle of its path), so their
 // added lines always carry truncated URLs that 404. The watcher records the
 // source document URL separately; that one is in normal data files.
 const CAPTURED_TEXT_FILES = new Set([

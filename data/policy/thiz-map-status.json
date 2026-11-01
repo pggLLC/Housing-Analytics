@@ -30,7 +30,7 @@
     "miles": 0.5,
     "method": "straight_line",
     "qap_method": "walking",
-    "qap_citation": "2027–28 QAP §5.B.2.b (adopted)",
+    "qap_citation": "2027–28 QAP §5.B.2.b",
     "qap_quote": "within a half-mile walk distance of transit corridors",
     "qap_source_url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
     "qap_archive": "data/audit/chfa-qap-watch.json",

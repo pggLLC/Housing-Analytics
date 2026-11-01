@@ -21,7 +21,7 @@
   };
 
   var RISK = {
-    // 85 percent: CHFA's 2027-28 QAP (adopted October 2026; criteria for
+    // 85 percent: CHFA's 2027-28 draft QAP (third draft, criteria for
     // approval) says capture rates above it "will not be accepted without
     // additional data to support demand". The 2025-26 QAP, in force through
     // 2026, sets no number. Same number as CHFA_CAPTURE_LIMIT below.
@@ -73,7 +73,7 @@
     }
 
     var capture = (existingUnits + proposedUnits) / qualRenters;
-    // 100 with no units; 0 at the 85 percent line (CHFA 2027-28 QAP).
+    // 100 with no units; 0 at the 85 percent line (CHFA 2027-28 draft QAP).
     var score = Math.max(0, Math.min(100, (1 - capture / RISK.captureHigh) * 100));
     return {
       score: Math.round(score),
@@ -176,7 +176,7 @@
    * the unit's AMI limit, the maximum Housing Tax Credit gross rent is no
    * more than 40 percent of its income, and it is no larger than the unit
    * allows (all in the 2025-26 QAP's Appendix A). The 85 percent line is
-   * from the 2027-28 QAP: capture rates above it "will not be accepted
+   * from the 2027-28 draft QAP: capture rates above it "will not be accepted
    * without additional data to support demand".
    */
   var CHFA_RENT_SHARE_OF_INCOME = 0.40;
