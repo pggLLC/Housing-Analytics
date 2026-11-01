@@ -38,6 +38,7 @@ const DC = 'deal-calculator.html';
 const DEEP = 'colorado-deep-dive.html';
 const FUNDING = 'data/policy/co-developer-funding-guide.json';
 const BRIEFS = 'data/policy_briefs_curated.json';
+const SIM = 'js/policy-simulator.js';
 
 // Each rule: files, a pattern with one capture group, and the figure (key of
 // readFigures()) or a function of the figures that the group must equal.
@@ -101,6 +102,9 @@ export const RULES = [
   { fig: 'perCapita', files: [DEEP], pattern: /ceiling: \$(\d\.\d{3}) per resident times/g },
   { fig: 'perCapita', files: [DEEP], pattern: /">\$(\d\.\d{3}) per resident · <a/g },
   { fig: 'year', files: [DEEP], pattern: /credit ceiling for (\d{4}) is about/g },
+  { fig: 'year', files: [SIM], pattern: /from the (\d{4}) federal amount of \$/g },
+  { fig: 'perCapita', files: [SIM], pattern: /federal amount of \$(\d\.\d{3}) per resident/g },
+  { fig: 'revProc', files: [SIM], pattern: /\d per resident \((IRS Rev\. Proc\. \d{4}-\d+)\)/g },
   { fig: 'coM', files: [DEEP], pattern: /is about \$(\d+\.\d) million a year, and CHFA/g },
   { fig: 'year', files: [GUIDE], pattern: /residents at \$[\d.]+ per person\. [^<]*?minimum \(\$[\d,]+ for (\d{4})\)/g },
   { fig: 'perCapita', files: [GUIDE], pattern: /residents at \$(\d\.\d{3}) per person\./g },

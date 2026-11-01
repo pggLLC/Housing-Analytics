@@ -52,7 +52,7 @@ const fail = (p, s, m, what) => assert(problems(p, s, m).length > 0, 'guard miss
 const pass = (p, s, m, what) => assert.deepStrictEqual(problems(p, s, m), [], 'guard blocked a harmless edit: ' + what);
 fail(mut(page, 'data-source="CBRE Multifamily Outlook 2025"', 'data-source="AAMD Q4 2025"'), sim, mi, 'concession data-source changed alone');
 pass(mut(page, 'CBRE Multifamily Outlook 2025', 'CBRE U.S. Multifamily Outlook 2025'), sim, mi, 'concession source renamed everywhere');
-fail(page, mut(sim, 'from the 2026 federal amount of $3.42', 'from $2.75'), mi, 'stale per-capita start');
+fail(page, mut(sim, 'from the 2026 federal amount of $3.416', 'from $2.75'), mi, 'stale per-capita start');
 fail(page, sim, mut(mi, "' projects/1k HH'", "' permits/1k units'"), 'pipeline unit changed without its label');
 fail(mut(page, '(BLS LAUS, simple average of county rates)', '(BLS LAUS statewide avg)'), sim, mi, 'unemployment called statewide');
 console.log('deep dive label accuracy: PASS (4 agreements, 5 sabotage checks)');
