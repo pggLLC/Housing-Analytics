@@ -598,7 +598,47 @@
     return { baseEquity: result.equity, equity: equity,
       equityDelta: known(equity) && known(result.equity) ? equity - result.equity : null,
       baseTdc: result.tdc, tdc: cost, overrun: known(cost) ? cost - result.tdc : null,
-      baseNoi: result.noi, year1Loss: known(result.noi) && known(leaseup) ? result.noi * 0.5 * Math.min(1, leaseup / 12) : null };
+      baseNoi: result.noi, year1Loss: known(result.noi) && known(leaseup) ? result.noi * leaseupYear1Share(leaseup) : null,
+      rentCut: rentCutImpact(result, fields) };
+  }
+  // Share of a stabilized year's NOI lost in year 1 when occupancy ramps
+  // straight from empty to full over the lease-up months. A ramp of 12 months
+  // or less averages half-full for its own length; a longer ramp is still
+  // only 12/months full at the end of year 1.
+  function leaseupYear1Share(months) {
+    if (!(months > 0)) return 0;
+    return months <= 12 ? 0.5 * months / 12 : 1 - 6 / months;
+  }
+  // L7: the deep-tier rent cut and the lender's coverage floor. The cut lowers
+  // contract rents on the 30% to 50% AMI units; vacancy applies to what is
+  // left, and other income is not cut. The floor then asks how much yearly
+  // first-mortgage payment that NOI carries at the floor, and the loan that
+  // payment repays at this loan's own constant. Nothing is resized: the deal's
+  // loan stays as sized, and the gap between the two is shown, not applied.
+  var DEEP_TIER_MAX = 50;
+  function rentCutImpact(result, fields) {
+    var cut = fieldNumber(fields, 'dc-stress-rent-low', 0);
+    var floor = fieldNumber(fields, 'dc-stress-dscr-floor', 1.15);
+    var rows = result.pricedRows || [];
+    if (!result.dscrAutoMode || !known(cut) || cut < 0 || cut > 100 || !known(floor) || floor <= 0
+        || !known(result.noi) || !known(result.vacancyRate)) return null;
+    var deep = rows.filter(function (r) { return typeof r.tier === 'number' && r.tier <= DEEP_TIER_MAX; });
+    if (deep.some(function (r) { return !known(r.contractRent) || !known(r.units); })) return null;
+    var deepUnits = deep.reduce(function (sum, r) { return sum + r.units; }, 0);
+    var deepRents = deep.reduce(function (sum, r) { return sum + r.contractRent * r.units * 12; }, 0);
+    var noiLoss = deepRents * (cut / 100) * (1 - result.vacancyRate);
+    var noi = result.noi - noiLoss;
+    var ds = result.annualDebtService;
+    var hasDebt = known(ds) && ds > 0;
+    var supportedDs = Math.max(0, noi) / floor;
+    var supportedLoan = known(result.mc) && result.mc > 0 ? supportedDs / result.mc : null;
+    return { pct: cut, floor: floor, deepUnits: deepUnits, deepRents: deepRents, noiLoss: noiLoss,
+      baseNoi: result.noi, noi: noi,
+      baseCoverage: hasDebt ? result.noi / ds : null, coverage: hasDebt ? noi / ds : null,
+      meetsFloor: hasDebt ? noi / ds >= floor : null,
+      debtService: hasDebt ? ds : null, supportedDebtService: supportedDs,
+      loan: known(result.mortgage) ? result.mortgage : null, supportedLoan: supportedLoan,
+      loanRoom: known(supportedLoan) && known(result.mortgage) ? supportedLoan - result.mortgage : null };
   }
   // Federal, state and any counted added credit equity, as the sources count them.
   function creditStackTotal(result) {
@@ -1756,7 +1796,7 @@
     return cleaned;
   }
 
-  return { computeDeal: computeDeal, creditStackTotal: creditStackTotal, investorCapital: investorCapital, costPerGrossSf: costPerGrossSf,
+  return { computeDeal: computeDeal, rentCutImpact: rentCutImpact, creditStackTotal: creditStackTotal, investorCapital: investorCapital, costPerGrossSf: costPerGrossSf,
     computeForSaleFeasibility: computeForSaleFeasibility, computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack, computeDscrStressScenarios: computeDscrStressScenarios,
     computeRentAchievability: computeRentAchievability, evaluateMinimumSetAside: evaluateMinimumSetAside,
     isLihtcCreditEligiblePct: isLihtcCreditEligiblePct, loanObligations: loanObligations, loanTerms: loanTerms, LOAN_TYPES: LOAN_TYPES };

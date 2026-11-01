@@ -4274,8 +4274,9 @@
 
   function readDealInputs() {
     var fields = {};
-    // The partnership terms sit in their own panel below the mount; the split reads them too.
-    document.querySelectorAll('#dealCalcMount input[id], #dealCalcMount select[id], [id^="pf-"], input[id^="dc-wf-"], select[id^="dc-wf-"]').forEach(function (el) {
+    // The partnership terms and the stress sliders sit in their own panels below
+    // the mount; the split and the stress readouts read them too (L7).
+    document.querySelectorAll('#dealCalcMount input[id], #dealCalcMount select[id], [id^="pf-"], input[id^="dc-wf-"], select[id^="dc-wf-"], input[id^="dc-stress-"]').forEach(function (el) {
       fields[el.id] = el.type === 'checkbox' || el.type === 'radio' ? el.checked : el.value;
     });
     // Whether Market Analysis placed the site in a Transit Zone. Read from the last
@@ -7057,20 +7058,51 @@
         impact('dc-stress-leaseup-impact', 'year1Loss', function (v) {
           return 'Year-1 NOI loss estimate: ' + _fmtMoney(v.year1Loss) + ' (linear ramp; covered by lease-up reserve if funded)';
         });
-        // The floor is a test of the base case's coverage, not a resize: the
-        // loan stays as sized or entered above.
+        // L7: the rent cut and the coverage floor read the engine's
+        // sliderImpacts.rentCut. The loan is never resized; the floor shows the
+        // loan this NOI would carry beside the loan as sized.
+        var cutView = impacts && impacts.rentCut;
+        var cutReason = (result && result.unavailable && result.unavailable['sliderImpacts.rentCut'])
+          || (result && !result.dscrAutoMode ? 'Turn on auto-compute NOI: a typed NOI has no rents to cut.' : 'Enter the rents and loan terms to see this.');
+        var rentEl = document.getElementById('dc-stress-rent-low-impact');
+        if (rentEl) {
+          if (!cutView) {
+            rentEl.dataset.unavailableReason = cutReason;
+            rentEl.textContent = 'Unavailable — ' + cutReason;
+          } else {
+            delete rentEl.dataset.unavailableReason;
+            rentEl.textContent = !cutView.deepUnits ? 'No units at 30–50% AMI, so this cut changes nothing.'
+              : cutView.deepUnits + ' units at 30–50% AMI bring ' + _fmtMoney(cutView.deepRents) + ' a year. '
+                + (cutView.pct > 0 ? 'A ' + cutView.pct.toFixed(0) + '% cut lowers NOI by ' + _fmtMoney(cutView.noiLoss)
+                  + ' to ' + _fmtMoney(cutView.noi)
+                  + (typeof cutView.coverage === 'number' ? '; first-mortgage coverage ' + cutView.baseCoverage.toFixed(2) + 'x → ' + cutView.coverage.toFixed(2) + 'x.' : '.')
+                  : 'Move the slider to cut them.');
+          }
+        }
         var floorEl = document.getElementById('dc-stress-dscr-impact');
         if (floorEl) {
-          var floor = _read('dc-stress-dscr-floor') || 1.15;
-          var base = result && result.baseDSCR;
-          if (typeof base === 'number' && isFinite(base)) {
+          if (cutView && typeof cutView.coverage === 'number') {
             delete floorEl.dataset.unavailableReason;
-            floorEl.textContent = 'Base coverage ' + base.toFixed(2) + 'x '
-              + (base >= floor ? 'meets' : 'falls short of') + ' a ' + floor.toFixed(2) + 'x floor (loan not resized).';
+            var after = cutView.pct > 0 ? ' after the rent cut' : '';
+            floorEl.textContent = 'Coverage ' + cutView.coverage.toFixed(2) + 'x' + after + ' '
+              + (cutView.meetsFloor ? 'meets' : 'falls short of') + ' a ' + cutView.floor.toFixed(2) + 'x floor. '
+              + 'At that floor NOI carries ' + _fmtMoney(cutView.supportedDebtService) + ' a year of first-mortgage payments'
+              + (typeof cutView.supportedLoan === 'number' && typeof cutView.loanRoom === 'number'
+                ? ', about a ' + _fmtMoney(cutView.supportedLoan) + ' loan vs. ' + _fmtMoney(cutView.loan) + ' as sized ('
+                  + (cutView.loanRoom >= 0 ? _fmtMoney(cutView.loanRoom) + ' of room' : _fmtMoney(-cutView.loanRoom) + ' too large') + '; not resized).'
+                : ' (loan not resized).');
           } else {
-            var dscrReason = (result && result.unavailable && result.unavailable.baseDSCR) || 'Enter NOI and mortgage terms to see coverage.';
-            floorEl.dataset.unavailableReason = dscrReason;
-            floorEl.textContent = 'Unavailable — ' + dscrReason;
+            var floor = _read('dc-stress-dscr-floor') || 1.15;
+            var base = result && result.baseDSCR;
+            if (typeof base === 'number' && isFinite(base)) {
+              delete floorEl.dataset.unavailableReason;
+              floorEl.textContent = 'Base coverage ' + base.toFixed(2) + 'x '
+                + (base >= floor ? 'meets' : 'falls short of') + ' a ' + floor.toFixed(2) + 'x floor (loan not resized).';
+            } else {
+              var dscrReason = (result && result.unavailable && result.unavailable.baseDSCR) || 'Enter NOI and mortgage terms to see coverage.';
+              floorEl.dataset.unavailableReason = dscrReason;
+              floorEl.textContent = 'Unavailable — ' + dscrReason;
+            }
           }
         }
         // Summary panel — combined worst-case visualization
@@ -7086,7 +7118,7 @@
             leaseupMonths + 'mo lease-up · ' +
             'DSCR ≥ ' + dscrFloor.toFixed(2) + 'x. ' +
             '<br><span style="color:var(--muted);font-size:.8125rem">' +
-            'Every stress here keeps the loans at their base amounts; nothing is resized. The deep-tier rent setting is not yet applied to any figure. ' +
+            'Every stress here keeps the loans at their base amounts; nothing is resized. The rent cut and the coverage floor work together; the equity, cost and lease-up rows each move one figure on their own. ' +
             'Read each impact row above for line-item deltas. Per-tranche soft-debt controls (CF-pay %, accrue mode, priority) live in the "Soft Funding Stack" panel above; ' +
             'full capital event waterfall (GP/LP split, preferred return, catch-up) renders below the Tornado Chart.' +
             '</span>';
