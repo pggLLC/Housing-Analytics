@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-01T11:09:24.403192Z",
+  "generated": "2026-11-01T11:35:57.227362Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -3524,7 +3524,7 @@
     "data/hna/jurisdiction-metrics-digest/0854880.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 43184
+      "bytes": 43186
     },
     "data/hna/jurisdiction-metrics-digest/0854935.json": {
       "featureCount": 0,
@@ -3824,7 +3824,7 @@
     "data/hna/jurisdiction-metrics-digest/0866197.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41798
+      "bytes": 41797
     },
     "data/hna/jurisdiction-metrics-digest/0866895.json": {
       "featureCount": 0,
@@ -4034,7 +4034,7 @@
     "data/hna/jurisdiction-metrics-digest/0874080.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41808
+      "bytes": 41806
     },
     "data/hna/jurisdiction-metrics-digest/0874275.json": {
       "featureCount": 0,
@@ -5369,12 +5369,12 @@
     "data/hna/projections/places.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 848599
+      "bytes": 848596
     },
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3417517
+      "bytes": 3417516
     },
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
