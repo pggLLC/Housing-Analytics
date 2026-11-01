@@ -18,13 +18,23 @@ function problems(page, sim, mi) {
   else {
     const from = (desc.match(/from [^$]*\$(\d+\.\d+)/) || [])[1];
     if (!from || shown.some(v => Math.abs(v - +from) > 0.005)) out.push('simulator per-capita start ($' + from + ') does not match the page figure ($' + shown.join(', $') + ')');
-    if (!/Rev\. Proc\. 2025-32/.test(desc) || !/Rev\. Proc\. 2025-32/.test(page)) out.push('simulator per-capita start does not name the same IRS source as the page');
+    // The revenue procedure the simulator cites must be the one the page cites for its per-capita figure.
+    const simRef = (desc.match(/Rev\. Proc\. (\d{4}-\d+)/) || [])[1];
+    const pageRefs = [...new Set([...page.matchAll(/Rev\. Proc\. (\d{4}-\d+)/g)].map(m => m[1]))];
+    if (!simRef || pageRefs.length !== 1 || pageRefs[0] !== simRef) out.push('simulator per-capita start cites Rev. Proc. ' + simRef + ' but the page cites ' + (pageRefs.join(', ') || 'none'));
   }
   // 2. Pipeline pressure: the label's unit is the unit the script writes.
   const unit = (mi.match(/pipelineRate \+ ' ([^']+)'/) || [])[1];
   const label = (page.match(/Pipeline Pressure<\/div>[\s\S]*?id="riskPipeline"[\s\S]*?<div[^>]*>([^<]*)<\/div>/) || [])[1];
   if (!unit || !label) out.push('Pipeline pressure value or label not found');
-  else if (unit === 'projects/1k HH' ? !/projects per 1,000 households/i.test(label) : true) out.push('Pipeline pressure label "' + label + '" does not match the computed unit "' + unit + '"');
+  else {
+    // What the script divides: tax credit projects (lihtc.length) by thousands of households (hh / 1000).
+    const perKhh = /pipelineRate = \(lihtc\.length \/ \(hh \/ 1000\)\)/.test(mi);
+    const unitSays = /projects/i.test(unit) && /1k HH|1,000 households/i.test(unit);
+    const labelSays = /projects/i.test(label) && /1,000 households/i.test(label);
+    if (!perKhh) out.push('Pipeline pressure is no longer computed as projects per 1,000 households; recheck its label and unit');
+    else if (!unitSays || !labelSays) out.push('Pipeline pressure label "' + label + '" or unit "' + unit + '" does not say projects per 1,000 households');
+  }
   // 3. Unemployment: if the script takes a simple mean of county rates, no label may call it a statewide rate.
   const simpleMean = /\.map\(function \(c\) \{ return c\.unemployment_rate; \}\)[\s\S]{0,200}\/ vals\.length/.test(page);
   const labels = ['Inline', 'Stat'].map(k => { const i = page.indexOf('id="cddUnemployment' + k + '"'); return i < 0 ? null : page.slice(i, i + 400).split('</div>').slice(0, k === 'Stat' ? 2 : 1).join(' '); }).filter(Boolean);
@@ -59,8 +69,11 @@ pass(mut(page, srcName, srcName + ' (renamed)'), sim, mi, 'concession source ren
 const desc = sim.match(/id: 'perCapita'[\s\S]*?description: '([^']*)'/)[1];
 const fromFig = desc.match(/from [^$]*(\$\d+\.\d+)/)[1];
 fail(page, once(sim, fromFig, '$2.75'), mi, 'stale per-capita start');
+const simRef = desc.match(/Rev\. Proc\. (\d{4}-\d+)/)[1];
+fail(page, once(sim, 'Rev. Proc. ' + simRef, 'Rev. Proc. 1999-1'), mi, 'simulator cites a different revenue procedure');
+pass(mut(page, 'Rev. Proc. ' + simRef, 'Rev. Proc. 2099-9'), mut(sim, 'Rev. Proc. ' + simRef, 'Rev. Proc. 2099-9'), mi, 'revenue procedure refreshed on both');
 const unit = mi.match(/pipelineRate \+ ' ([^']+)'/)[1];
 fail(page, sim, once(mi, "' " + unit + "'", "' permits/1k units'"), 'pipeline unit changed without its label');
 const unLabel = page.match(/average of county rates/i)[0];
 fail(once(page, unLabel, 'statewide rate'), sim, mi, 'unemployment called statewide');
-console.log('deep dive label accuracy: PASS (4 agreements, 5 sabotage checks)');
+console.log('deep dive label accuracy: PASS (4 agreements, 7 sabotage checks)');
