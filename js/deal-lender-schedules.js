@@ -312,9 +312,8 @@
     var out = { cases: null, reason: null };
     if (!result.projection) { out.reason = (result.unavailable && result.unavailable.projection) || 'The operating projection is not available.'; return out; }
     var rg = num(fields['pf-rent-growth']), eg = num(fields['pf-exp-growth']), vac = num(fields['dc-vacancy']);
-    function lowest(r) {
-      if (!r || !r.coverage || !r.coverage.years) return { lowest: null, year: null, firstBelow: null, reason: 'Coverage is not available for this case.' };
-      var ys = r.coverage.years.slice(0, 15).filter(function (y) { return known(y.allMustPayCoverage); });
+    function lowest(rows) {
+      var ys = rows.slice(0, 15).filter(function (y) { return known(y.allMustPayCoverage); });
       if (!ys.length) return { lowest: null, year: null, firstBelow: null, reason: 'Coverage is not available for this case.' };
       var low = ys.reduce(function (a, b) { return b.allMustPayCoverage < a.allMustPayCoverage ? b : a; });
       var below = ys.filter(function (y) { return y.allMustPayCoverage < 1.15 - 0.00005; })[0];
@@ -327,7 +326,7 @@
     function run(label, change, explain) {
       var b = lineBudget(result, fields, change);
       if (b.reason) return { label: label, explain: explain, lowestDscr: null, lowestYear: null, firstBelowMinimum: null, reason: b.reason };
-      var l = lowest({ coverage: { years: b.rows.map(function (r) { return { year: r.year, allMustPayCoverage: r.dscr }; }) } });
+      var l = lowest(b.rows.map(function (r) { return { year: r.year, allMustPayCoverage: r.dscr }; }));
       return { label: label, explain: explain, lowestDscr: l.lowest, lowestYear: l.year, firstBelowMinimum: l.firstBelow, reason: l.reason };
     }
     var g0 = result.exit.rentGrowth, e0 = result.exit.expGrowth, v0 = result.vacancyRate;
