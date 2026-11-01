@@ -3494,6 +3494,7 @@
         </dl>
         <p id="dc-exit-notes" style="font-size:var(--tiny);color:var(--muted);margin:var(--sp2) 0 0;line-height:1.5;"></p>
       </fieldset>
+      ${window.DealLenderSchedulesView && window.DealLenderSchedulesView.panelHtml ? window.DealLenderSchedulesView.panelHtml() : ''}
     </div><!-- /#dc-capital-stack-col -->
   </div><!-- /#dc-calc-grid -->
 

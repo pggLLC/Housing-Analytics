@@ -760,6 +760,54 @@
     return out;
   }
 
+  /** CHFA's minimum pro forma assumptions (QAP 4.B and 4.C): vacancy, the
+   * operating cost floor per home, the replacement reserve, and rent and expense
+   * trending. Each line names its rule; an unanswered Section 8 or senior
+   * question uses the general minimum and says so. Commercial income has no
+   * separate line in the calculator, so its 10% vacancy is named, not tested.
+   * args: vacancyRate (fraction), annualOpex, netPropTax, annualRepReserve, units,
+   * rentGrowth, expGrowth (fractions), fullSection8, senior ('yes' | 'no' | ''), rules. */
+  function chfaMinimumsCheck(args) {
+    var units = num(args.units);
+    var sec8 = String(args.fullSection8 || ''), senior = String(args.senior || '');
+    var out = { items: [], tested: 0, below: 0, notes: [], reason: null };
+    function item(key, label, entered, minimum, direction, rule, extra) {
+      var row = { key: key, label: label, entered: entered, minimum: minimum, direction: direction,
+        passes: null, citation: rule.citation || null, quote: rule.rule ? rule.rule.quote : null, reason: null };
+      if (!rule.applied) row.reason = label + ': ' + rule.reason + '.';
+      else if (extra) row.reason = extra;
+      else if (entered === null || !Number.isFinite(entered)) row.reason = label + ': not available for these inputs.';
+      else {
+        // Half a cent of tolerance on money, a hundredth of a point on rates.
+        var tol = direction === 'at most' || minimum < 1 ? 0.00005 : 0.5;
+        row.passes = direction === 'at least' ? entered >= minimum - tol : entered <= minimum + tol;
+        out.tested++; if (!row.passes) out.below++;
+      }
+      out.items.push(row);
+    }
+    if (units === null || !Number.isFinite(units) || units <= 0) { out.reason = 'Enter the number of homes to check CHFA\'s minimums.'; return out; }
+    var vac = ruleStatus(args.rules, 'pro_forma_vacancy');
+    var vacMin = vac.applied ? (sec8 === 'yes' ? vac.rule.rate_full_section8 : vac.rule.rate) : null;
+    item('pro_forma_vacancy', 'Vacancy', num(args.vacancyRate), vacMin, 'at least', vac);
+    var pupa = ruleStatus(args.rules, 'pupa_minimum');
+    var opex = num(args.annualOpex), tax = num(args.netPropTax);
+    var perHome = opex !== null && tax !== null && Number.isFinite(opex) && Number.isFinite(tax) ? (opex + tax) / units : null;
+    item('pupa_minimum', 'Operating cost per home a year, before reserves', perHome,
+      pupa.applied ? (sec8 === 'yes' ? pupa.rule.per_unit_annual_section8 : pupa.rule.per_unit_annual) : null, 'at least', pupa);
+    var rep = ruleStatus(args.rules, 'replacement_reserve_minimum');
+    var reserve = num(args.annualRepReserve);
+    item('replacement_reserve_minimum', 'Replacement reserve per home a year', reserve === null || !Number.isFinite(reserve) ? null : reserve / units,
+      rep.applied ? (senior === 'yes' ? rep.rule.senior_per_unit_annual : rep.rule.family_per_unit_annual) : null, 'at least', rep);
+    var rg = ruleStatus(args.rules, 'pro_forma_rent_growth');
+    item('pro_forma_rent_growth', 'Rent growth a year', num(args.rentGrowth), rg.applied ? rg.rule.rate : null, 'at most', rg);
+    var eg = ruleStatus(args.rules, 'pro_forma_expense_growth');
+    item('pro_forma_expense_growth', 'Expense growth a year', num(args.expGrowth), eg.applied ? eg.rule.rate : null, 'at least', eg);
+    if (sec8 !== 'yes' && sec8 !== 'no') out.notes.push('Section 8 on every home not answered, so the general vacancy and cost minimums are used.');
+    if (senior !== 'yes' && senior !== 'no') out.notes.push('Senior housing not answered, so the family reserve minimum is used.');
+    out.notes.push('CHFA also asks 10% vacancy on retail or commercial income; the calculator has no separate commercial income line.');
+    return out;
+  }
+
   // Each CHFA state credit application and the capped streams it allows (QAP 3.L).
   // Round Two accepts accelerated credit and pairs standard credit with it.
   var STATE_CREDIT_PATHS = Object.freeze({
@@ -1093,7 +1141,7 @@
     summarizeCosts: summarizeCosts, grantBasisReduction: grantBasisReduction,
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,
     feeExcessInBasis: feeExcessInBasis, gapCredit: gapCredit, STATE_CREDIT_PATHS: STATE_CREDIT_PATHS,
-    basisAndCredit: basisAndCredit, costBasisLimitCheck: costBasisLimitCheck, underwritingCheck: underwritingCheck, stateCredit: stateCredit, addedCredit: addedCredit, ADDED_CREDIT_KINDS: ADDED_CREDIT_KINDS,
+    basisAndCredit: basisAndCredit, costBasisLimitCheck: costBasisLimitCheck, underwritingCheck: underwritingCheck, chfaMinimumsCheck: chfaMinimumsCheck, stateCredit: stateCredit, addedCredit: addedCredit, ADDED_CREDIT_KINDS: ADDED_CREDIT_KINDS,
     payIn: payIn, costPerSf: costPerSf, bondTest: bondTest, constructionInterestCheck: constructionInterestCheck,
     operatingReserveCheck: operatingReserveCheck, deferredFeeRepayment: deferredFeeRepayment, AGGREGATE_BASIS_NOTE: AGGREGATE_BASIS_NOTE, dohDeveloperFeeShare: dohDeveloperFeeShare, legacyCostFields: legacyCostFields,
     LEGACY_LINES: LEGACY_LINES, CONTRACTOR_FEE_IDS: CONTRACTOR_FEE_IDS, CONTRACTOR_BASE_IDS: CONTRACTOR_BASE_IDS,
