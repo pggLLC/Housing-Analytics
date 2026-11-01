@@ -1294,12 +1294,12 @@
     "household_count": 2374218,
     "overcrowding_rate": 0.0239,
     "vacancy_rate": 0.083,
-    "median_gross_rent_current": 1727,
-    "median_home_value": 550696,
-    "median_hh_income": 97503,
+    "median_gross_rent_current": 1761,
+    "median_home_value": 539400,
+    "median_hh_income": 95470,
     "population": 5862189,
     "acs_year": 2024,
-    "derivation": "population-weighted medians; burden rates and counts summed over 64 counties"
+    "derivation": "medians are Census's own state figures (ACS state:08); burden rates and counts summed over 64 counties"
   },
   "meta": {
     "source": "U.S. Census Bureau API (ACS 5-year)",
