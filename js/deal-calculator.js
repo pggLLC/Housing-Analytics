@@ -47,7 +47,8 @@
   var MIDDLE_INCOME_AMI_BANDS = { 110: true, 120: true };
   var DEFAULT_MINIMUM_SET_ASIDE_ELECTION = '40-60';
   var MINIMUM_SET_ASIDE_ELECTIONS = {
-    '20-50': { minimumShare: 0.20, setAsideCeiling: 50, creditCeiling: 60 },
+    // Under 20-50 only units at 50% AMI or below are low-income units (26 U.S.C. 42(g)(1)(A), 42(i)(3)(A)).
+    '20-50': { minimumShare: 0.20, setAsideCeiling: 50, creditCeiling: 50 },
     '40-60': { minimumShare: 0.40, setAsideCeiling: 60, creditCeiling: 60 },
     'average-income': { minimumShare: 0.40, setAsideCeiling: 80, creditCeiling: 80 }
   };
@@ -872,6 +873,9 @@
     if (MIDDLE_INCOME_AMI_BANDS[pct]) {
       return pct + '% AMI <span style="font-size:.8125rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(middle-income: Colorado Middle Income Housing Tax Credit (MIHTC) + Prop 123; not LIHTC-credit-eligible)</span>';
     }
+    if (normalized === '20-50' && Number(pct) <= 60) {
+      return pct + '% AMI <span style="font-size:.8125rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(not a low-income unit under the 20-50 election; choose 40-60 to count it)</span>';
+    }
     return pct + '% AMI <span style="font-size:.8125rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(market/workforce; not counted under this election — select Average Income Test to designate 70/80% units)</span>';
   }
 
@@ -892,7 +896,7 @@
     }
     if (help) {
       if (result.election === '20-50') {
-        help.textContent = 'The 20-50 election requires at least 20% of residential units at 50% AMI or below. Units up to 60% AMI can still contribute to qualified basis.';
+        help.textContent = 'The 20-50 election requires at least 20% of residential units at 50% AMI or below. Only units at 50% AMI or below are low-income units under it, so 60% units do not count toward qualified basis (26 U.S.C. 42(i)(3)(A)).';
       } else if (result.election === 'average-income') {
         help.textContent = 'The Average Income Test permits 20%-80% designations when at least 40% of units are in the group and their designated average is no more than 60% AMI. CHFA currently requires every residential unit in a Colorado AIT project to be designated low-income.';
       } else {

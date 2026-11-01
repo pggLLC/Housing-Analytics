@@ -25,7 +25,8 @@
   var DEAL_AMI_BANDS = [20, 30, 40, 50, 60, 70, 80, 100, 110, 120];
   var DEFAULT_MINIMUM_SET_ASIDE_ELECTION = '40-60';
   var MINIMUM_SET_ASIDE_ELECTIONS = {
-    '20-50': { minimumShare: 0.20, setAsideCeiling: 50, creditCeiling: 60 },
+    // Under 20-50 only units at 50% AMI or below are low-income units (26 U.S.C. 42(g)(1)(A), 42(i)(3)(A)).
+    '20-50': { minimumShare: 0.20, setAsideCeiling: 50, creditCeiling: 50 },
     '40-60': { minimumShare: 0.40, setAsideCeiling: 60, creditCeiling: 60 },
     'average-income': { minimumShare: 0.40, setAsideCeiling: 80, creditCeiling: 80 }
   };
