@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T14:20:53.383Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-01T15:38:31.082Z. Do not edit by hand.
 
 ---
 
@@ -2066,7 +2066,7 @@
 
 ## Test Files
 
-760 test files found.
+761 test files found.
 
 | File | Size |
 |------|------|
@@ -2289,6 +2289,7 @@
 | `test/foreclosure-performance.test.js` | 6.8 KB |
 | `test/forsale-capture.test.js` | 11.1 KB |
 | `test/fred-commodities-config.test.js` | 4.8 KB |
+| `test/fred-series-label-agreement.test.js` | 5.2 KB |
 | `test/freshness-gates-run-first.test.mjs` | 7.3 KB |
 | `test/freshness-guard-dirty-tree.test.js` | 12.5 KB |
 | `test/funding-context-card.test.js` | 10.9 KB |
