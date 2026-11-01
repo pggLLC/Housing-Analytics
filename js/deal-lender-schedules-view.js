@@ -117,7 +117,6 @@
     return '<details style="margin-top:.3rem;"><summary style="cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:var(--small);">' + esc(summary) + '</summary>' + inner + '</details>';
   }
   function reason(r) { return '<p style="margin:.3rem 0;font-size:var(--small);color:var(--muted);">' + esc(r) + '</p>'; }
-  function verdict(ok, yes, no) { return ok === true ? '✓ ' + yes : ok === false ? '✗ ' + no : '—'; }
 
   // Loan balance by month as bars, so the peak and the payoff read at a glance.
   function balanceChart(d) {
