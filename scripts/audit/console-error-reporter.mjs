@@ -83,6 +83,7 @@ const PAGES = [
   { name: 'article-co-housing-costs',   path: '/article-co-housing-costs.html' },
   { name: 'about',                      path: '/about.html' },
   { name: 'privacy-policy',             path: '/privacy-policy.html' },
+  { name: 'terms-of-use',               path: '/terms-of-use.html' },
 ];
 
 // ── Noise filters ───────────────────────────────────────────────────────────

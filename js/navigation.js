@@ -575,7 +575,8 @@
              the page's text. -->
         <div class="footer-tools"></div>
         <div class="footer-disclaimer">
-          <small>This site is a public-data reference. Data comes from public sources, including the Census Bureau, HUD, CHFA, DOLA, BLS and FRED. Not financial or legal advice. <a href="${normalizeHref('methods.html')}#how-we-check">How we check our figures</a></small>
+          <small>Free, and worth every penny. COHO Analytics is offered as-is, with no warranty, from public sources including the Census Bureau, HUD, CHFA, DOLA, BLS and FRED. It isn’t legal, tax or financial advice, and pggLLC isn’t liable for what you do with it. Using the site means you accept the terms.</small>
+          <span class="footer-disclaimer-links"><a href="${normalizeHref('terms-of-use.html')}">Terms of use</a> <a href="${normalizeHref('methods.html')}#how-we-check">How we check our figures</a></span>
         </div>
       </div>
     `;

@@ -42,7 +42,7 @@ const SETTLE_MS = Number.parseInt(process.env.SETTLE_MS || '3500', 10);
 const SLACK = Number.parseInt(process.env.SOURCE_LINES_SLACK || '2', 10);
 
 // Pages not served on the public site, or that are not content pages.
-const SKIP = new Set(['404.html', 'og-card.html', 'privacy-policy.html', 'sitemap.html', 'search.html']);
+const SKIP = new Set(['404.html', 'og-card.html', 'privacy-policy.html', 'terms-of-use.html', 'sitemap.html', 'search.html']);
 
 // The 480-odd place profiles come from one generator
 // (scripts/hna/build_place_pages.py), so a large city and a small town stand
