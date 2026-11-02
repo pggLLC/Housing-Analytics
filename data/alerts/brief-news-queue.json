@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-11-01T10:39:17Z",
-    "as_of": "2026-11-01",
+    "generated": "2026-11-02T11:26:33Z",
+    "as_of": "2026-11-02",
     "stale_days": 30,
-    "events_as_of": "2026-11-01",
+    "events_as_of": "2026-11-02",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,7 +14,7 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [
         {
           "title": "New documentary tries to identify Colorado Springs Mad Pooper",
@@ -146,7 +146,7 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [
         {
           "title": "Denver mayor, council at odds over how much temporary rental assistance to fund",
@@ -287,7 +287,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [
         {
           "title": "The Town of Mt. Crested Butte is accepting applications for a deed-restricted workforce housing unit in Three Seasons. This 2-bedroom, 2-bathroom condominium is available to qualified applicants. Monthly rent is based on household size and the Town's Wor",
@@ -330,7 +330,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -363,7 +363,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [
         {
           "title": "Judge rules Ridgway hotel can’t house workers building Telluride’s Four Seasons resort",
@@ -397,7 +397,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -422,7 +422,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [
         {
           "title": "Rifle City Council approves ADU code changes, water system improvements",
@@ -445,7 +445,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -469,7 +469,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -511,7 +511,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -536,7 +536,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [],
       "events": [],
       "reasons": []
@@ -548,7 +548,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [],
       "events": [],
       "reasons": [
@@ -562,7 +562,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [],
       "events": [],
       "reasons": []
@@ -574,7 +574,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [],
       "events": [],
       "reasons": []
@@ -586,7 +586,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [],
       "events": [],
       "reasons": []
@@ -598,7 +598,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [],
       "events": [],
       "reasons": [
@@ -612,7 +612,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [],
       "events": [],
       "reasons": []
@@ -624,7 +624,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 14,
+      "days_since_review": 15,
       "stories": [],
       "events": [],
       "reasons": []

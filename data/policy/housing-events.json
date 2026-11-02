@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-01T10:39:17Z",
-    "as_of": "2026-11-01",
+    "generated": "2026-11-02T11:26:33Z",
+    "as_of": "2026-11-02",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -48,7 +48,7 @@
       "url": "https://cdola.colorado.gov/calendar",
       "status": "ok",
       "listed": 44,
-      "upcoming": 2
+      "upcoming": 1
     },
     {
       "id": "apa_colorado",
@@ -102,18 +102,6 @@
       "organizer": "Colorado Division of Housing",
       "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
       "source": "doh",
-      "category": "deadline"
-    },
-    {
-      "title": "Proposition 123 Commitment Filing Deadline",
-      "start": "2026-11-01",
-      "end": null,
-      "time": null,
-      "location": null,
-      "online": false,
-      "organizer": "DOLA Proposition 123",
-      "url": "https://cdola.colorado.gov/how-to-file-a-commitment",
-      "source": "prop123",
       "category": "deadline"
     },
     {
@@ -779,6 +767,18 @@
     }
   ],
   "past": [
+    {
+      "title": "Proposition 123 Commitment Filing Deadline",
+      "start": "2026-11-01",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/how-to-file-a-commitment",
+      "source": "prop123",
+      "category": "deadline"
+    },
     {
       "title": "OEDIT publishes the Transit and Housing Investment Zones map (HB26-1065)",
       "start": "2026-10-30",
@@ -4957,30 +4957,6 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-identifying-assessing-and-addressing-hoarding-online-workshop-11-04-2025",
       "source": "chfa",
       "category": "compliance"
-    },
-    {
-      "title": "chfareach: Resident Program: Stress Less! Register by November 1, 2025",
-      "start": "2025-11-01",
-      "end": null,
-      "time": "08:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-resident-program-stress-less-register-by-november-1-2025",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "3rd Year Proposition 123 Commitment Filing Deadline",
-      "start": "2025-11-01",
-      "end": null,
-      "time": null,
-      "location": null,
-      "online": false,
-      "organizer": "DOLA Proposition 123",
-      "url": "https://cdola.colorado.gov/calendar",
-      "source": "prop123",
-      "category": "deadline"
     }
   ]
 }

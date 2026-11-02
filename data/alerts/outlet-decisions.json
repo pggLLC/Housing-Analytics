@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated": "2026-10-31",
+    "updated": "2026-11-02",
     "method": "Outlets ticked in the \"Outlets to review\" issue. They override data/alerts/outlet-register.json."
   },
   "decisions": []

@@ -1,15 +1,33 @@
 {
   "meta": {
-    "generated": "2026-11-01T10:39:17Z",
+    "generated": "2026-11-02T11:26:33Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-10-26",
-      "checked": 58,
+      "since": "2026-10-27",
+      "checked": 48,
       "unverified": 4,
       "weak": 2
     }
   },
   "outlets": [
+    {
+      "id": "de1eb5b94a",
+      "name": "https://www.moneydigest.com/",
+      "domains": [
+        "moneydigest.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-01",
+      "last_seen": "2026-11-01",
+      "headlines": [
+        {
+          "title": "9 Budget-Friendly And Scenic Colorado Destinations To Retire",
+          "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPYXJQcmhwUW5YY3R0Q2F6R3plMWRUMHdXWUEtekVtNWQ4LTJxRXg0TU9FTjk1SDd6NTFFQ1ItV08yLXQwQVdOZUo0cHdSaWQ0ZmU1ZE1GU1Mtd3prOVFtQXdRWFZWMEdDVHlsclF5Ql9fblU4VTB2Q1doUTlwNU83WjY5NWFaajBzVmhxT2x5bDBrQQ?oc=5",
+          "date": "2026-11-01"
+        }
+      ],
+      "first_listed": "2026-11-02"
+    },
     {
       "id": "545a53e448",
       "name": "Common Sense Institute",
@@ -439,7 +457,9 @@
     {
       "id": "65a2faa56e",
       "name": "Global Student Living",
-      "domains": [],
+      "domains": [
+        "gslglobal.com"
+      ],
       "stories": 1,
       "first_seen": "2026-08-11",
       "last_seen": "2026-08-11",
