@@ -116,7 +116,6 @@ const fmtHna = (v) => typeof v === 'number' ? (v < 1 ? Math.round(100 * v) + '%'
 const escHtml = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 const section = (html) => { const i = html.indexOf('id="hna-compare"'); if (i < 0) return null; const j = html.indexOf('<h2', i + 1); return html.slice(i, j < 0 ? undefined : j); };
 const hnaFor = (geoid) => H.hnas.find((x) => (x.applies_to || []).includes(geoid));
-const rowsFor = (hna, geoid) => hna.rows.filter((r) => !r.geography || r.geography === geoid || r.geography === hna.county_fips || r.geography.length === 5);
 function agrees(html, geoid) {
   const hna = hnaFor(geoid), sec = section(html);
   ok(hna && sec, `${geoid}: an HNA on file prints a comparison section`);
