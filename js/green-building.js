@@ -52,7 +52,7 @@
     if (r.published) bits.push('published ' + esc(longDate(r.published) || r.published));
     if (r.also_in_draft) {
       var d = doc && doc.meta && doc.meta.qap_documents && doc.meta.qap_documents.draft;
-      if (d) bits.push('same in the ' + link(d.url, 'Third Draft'));
+      if (d) bits.push('same in the ' + link(d.url, 'adopted 2027-28 plan'));
     }
     if (r.also_see) bits.push('see also ' + link(r.also_see.url, r.also_see.title));
     var checked = longDate(r.last_verified);

@@ -271,7 +271,7 @@ test('the statewide cap and QAP section agree with the repo\'s sources', () => {
   assert(note.textContent.includes(pairing.source), 'the displayed QAP citation comes from its record');
 });
 
-// ── The draft QAP's per-project pairing (#1973) ────────────────────────────
+// ── The QAP's per-project pairing (#1973) ────────────────────────────
 // The amounts live only in the HB26-1065 entry's tz_credit_pairing. The note
 // must show exactly those amounts for the selected credit type, and the data
 // must agree with the QAP text the repo archived.
@@ -279,35 +279,24 @@ const LEG = readJson('data/policy/tax-credit-legislation.json');
 const PAIR = LEG.entries.find((x) => /^hb26-1065/i.test(x.id)).tz_credit_pairing;
 const money = (n) => '$' + n.toLocaleString('en-US');
 
-test('the pairing data agrees with the QAP Third Draft and its summary of changes', () => {
+test('the pairing data agrees with the adopted 2027-28 QAP text', () => {
   const docs = readJson('data/audit/chfa-qap-watch.json').documents;
-  const flat = (d) => (d.text || '').replace(/\s+/g, ' ');
-  const draft = flat(docs.find((d) => /Third Draft \(PDF\)$/.test(d.title)));
-  const summary = flat(docs.find((d) => /Third Draft - Summary of Changes/.test(d.title)));
-  assert.ok(draft.length > 100000 && summary.length > 1000, 'QAP texts not found in chfa-qap-watch.json');
-  // The summary lists 2027 then 2028 under "Maximum Credit Award".
-  const start = summary.indexOf('Maximum Credit Award 2027');
-  const mid = summary.indexOf(' 2028 ', start);
-  const end = summary.indexOf('Maximum Credit Award if state gap funds', mid);
-  assert.ok(start >= 0 && mid > start && end > mid, 'summary of changes no longer has the Maximum Credit Award years');
-  const y27 = summary.slice(start, mid), y28 = summary.slice(mid, end);
-  for (const [y, sec] of [['2027', y27], ['2028', y28]]) {
-    assert.ok(sec.includes('Federal 9 Percent Housing Tax Credit Applications to ' + money(PAIR.nine_percent[y])),
-      `9% ${y}: ${money(PAIR.nine_percent[y])} is not in the QAP summary`);
-    assert.ok(sec.includes('amount optional to pair up to ' + money(PAIR.four_percent_round_two[y])),
-      `4% ${y}: ${money(PAIR.four_percent_round_two[y])} is not in the QAP summary`);
-  }
+  const flat = (d) => ((d && d.text) || '').replace(/\s+/g, ' ');
+  const qap = flat(docs.find((d) => d.url === PAIR.source_url));
+  assert.ok(qap.length > 100000, 'the adopted QAP text is not in chfa-qap-watch.json');
+  assert.ok(qap.includes(`fixed amount of ${money(PAIR.nine_percent['2027'])} in 2027 and ${money(PAIR.nine_percent['2028'])} in 2028 of standard annual state credit or Transit Zone (TZ) credit where eligible, with federal 9 percent`),
+    '§3.L 9% pairing is not in the adopted QAP');
+  assert.ok(qap.includes(`will pair up to ${money(PAIR.four_percent_round_two['2027'])} in 2027 and ${money(PAIR.four_percent_round_two['2028'])} in 2028 of standard annual state credit or TZ credit where eligible`),
+    '§3.L Round Two pairing is not in the adopted QAP');
   const alt = PAIR.if_no_state_gap_funds;
-  assert.ok(draft.includes(`A fixed amount of ${money(alt.nine_percent['2027'])} in 2027 and ${money(alt.nine_percent['2028'])} in 2028 of standard State Credit or TZ Credit, where eligible, with federal 9 percent`),
-    '§3.L.1 9% alternative is not in the QAP draft');
-  assert.ok(draft.includes(`up to ${money(alt.four_percent_round_two['2027'])} in 2027 and ${money(alt.four_percent_round_two['2028'])} in 2028 of standard State Credit or TZ Credit, where eligible, to pair in Round Two`),
-    '§3.L.1 4% alternative is not in the QAP draft');
-  assert.equal(PAIR.status, 'draft');
+  assert.ok(qap.includes(`A fixed amount of ${money(alt.nine_percent['2027'])} in 2027 and ${money(alt.nine_percent['2028'])} in 2028 of standard State Credit or TZ Credit, where eligible, with federal 9 percent`),
+    '§3.L.1 9% alternative is not in the adopted QAP');
+  assert.ok(qap.includes(`up to ${money(alt.four_percent_round_two['2027'])} in 2027 and ${money(alt.four_percent_round_two['2028'])} in 2028 of standard State Credit or TZ Credit, where eligible, to pair in Round Two`),
+    '§3.L.1 4% alternative is not in the adopted QAP');
+  assert.equal(PAIR.status, 'adopted');
   // The unit is a claim that must match the QAP, not a wording choice: the
-  // draft pairs "standard annual state credit".
+  // plan pairs "standard annual state credit".
   assert.equal(PAIR.unit, 'annual');
-  assert.ok(draft.includes('in 2028 of standard annual state credit or Transit Zone (TZ) credit where eligible, with federal 9 percent'),
-    'the QAP no longer describes the 9% pairing as annual state credit');
   assert.equal(PAIR.in_lieu_of_standard_state_credit, true);
 });
 
@@ -322,7 +311,7 @@ test('a 9% deal shows the fixed pairing from the data, one allowance, not added 
   assert.ok(t.includes(`${money(PAIR.if_no_state_gap_funds.nine_percent['2027'])} a year (2027) and ${money(PAIR.if_no_state_gap_funds.nine_percent['2028'])} a year (2028) instead`), t);
   // The unit shown agrees with the data's unit (#1976 review).
   assert.match(t, /annual amounts, claimed in each credit year, not a project total/);
-  assert.match(t, /§3\.L, not yet adopted/);
+  assert.match(t, /adopted QAP \(§3\.L\)/);
   assert.match(t, /replaces standard state credit, it does not add to it/);
   assert.match(t, /not in this stack unless entered as an added credit/);
   assert.doesNotMatch(t, /round two/i, 'a 9% deal was shown the 4% pairing');

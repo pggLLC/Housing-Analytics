@@ -94,7 +94,7 @@
     // line can drop them when the live feed catches up.
     chfa2026R1ByCity: {},           // _cityKey(city) → [award records]
     chfa2026R1Meta: null,           // bridge-file metadata (round, announcement date, totals)
-    chfaLocation: null,             // draft 2027 Common Application location points (counties, cities by _cityKey)
+    chfaLocation: null,             // 2027 Common Application location points (counties, cities by _cityKey)
     opportunities: [],
     map: null,
     layers: { jurisdiction: null, dda: null, qct: null, oz: null, highlight: null },
@@ -704,8 +704,8 @@
   }
 
   // A typical 9% building and CHFA's capture line: "A project with capture rates that exceed 85
-  // percent will not be accepted without additional data to support demand" (2027-28 QAP Third
-  // Draft, 2.B). Capture = proposed homes / qualifying renter households in the market area.
+  // percent will not be accepted without additional data to support demand" (2027-28 QAP as
+  // adopted, 2.B). Capture = proposed homes / qualifying renter households in the market area.
   var TYPICAL_9PCT_HOMES = 24;
   var CHFA_CAPTURE_LIMIT = 0.85;
   function placeDemandFor(placeGeoid) {
@@ -924,7 +924,7 @@
       // parts[31]: CHFA's minimum pro forma assumptions for the detail panel's
       // 15-year rent check (js/mix-check.js). Soft load: missing hides the check.
       loadSoft('data/policy/lihtc-underwriting-rules.json'),
-      // parts[32]: location points from CHFA's draft 2027 Common Application
+      // parts[32]: location points from CHFA's 2027 Common Application
       // (county lowest-AMI points, city renter cost-burden tiers). Detail panel
       // only; no score uses it. Soft load: missing hides the row.
       loadSoft('data/policy/chfa-common-app-tables.json')
@@ -2057,7 +2057,7 @@
     return html;
   }
 
-  // Location points a place would claim on CHFA's draft 2027 Common
+  // Location points a place would claim on CHFA's 2027 Common
   // Application. The workbook looks the city up by its exact name and gives 0
   // when the name is not listed; _cityKey only absorbs accents and spelling
   // ("Canon City" / "Cañon City"), so a listed place still matches.
@@ -2082,9 +2082,9 @@
       ? 'Renter cost burden: <strong>' + city.points + '</strong> (' + escHtml(city.name) + ')'
       : 'Renter cost burden: <strong>0</strong> (' + escHtml(op.name) + ' is not on CHFA\'s city list, so the workbook gives 0)');
     return parts.join(' · ') +
-      '<br><span style="color:var(--muted);font-size:.8125rem">Draft, October 2026: from CHFA\'s <a href="' +
+      '<br><span style="color:var(--muted);font-size:.8125rem">October 2026: from CHFA\'s <a href="' +
       escHtml(idx.source.page_url || 'https://www.chfainfo.com/rental-housing/housing-credit/application') +
-      '" target="_blank" rel="noopener">2027 Common Application V9 ↗</a>. It follows the 2027-28 QAP Third Draft (posted 2026-09-11, not adopted). Each table tops out at 20 points. Not part of any score here.</span>';
+      '" target="_blank" rel="noopener">2027 Common Application V9 ↗</a>. It follows the 2027-28 QAP (adopted; Governor 2026-10-23). Each table tops out at 20 points. Not part of any score here.</span>';
   }
 
   // 15-year rent check for the selected place's county: what one unit at each
@@ -4009,7 +4009,7 @@
       })() +
       (function () {
         var lp = _chfaLocationFacts(op, state.chfaLocation);
-        return lp ? '<dt>CHFA location points (draft 2027)</dt><dd>' + lp + '</dd>' : '';
+        return lp ? '<dt>CHFA location points (2027)</dt><dd>' + lp + '</dd>' : '';
       })() +
       '<dt>3 nearest LIHTC properties (for PMA scoping)</dt><dd>' +
         (op.nearestLihtc.length === 0

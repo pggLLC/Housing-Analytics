@@ -9,9 +9,9 @@
         "label": "2025-26 QAP, Second Amendment (in force)"
       },
       "draft": {
-        "url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
-        "title": "2027-28 QAP - Third Draft (PDF)",
-        "label": "2027-28 QAP, Third Draft (posted September 11, 2026; not adopted)"
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+        "title": "2027-28 QAP (PDF)",
+        "label": "2027-28 QAP (adopted; CHFA Board September 25, 2026, Governor October 23, 2026)"
       }
     },
     "last_verified": "2026-10-21",
@@ -163,7 +163,7 @@
       "section": "requirements",
       "kind": "qap",
       "qap_doc": "current",
-      "also_in_draft": true,
+      "also_in_draft": false,
       "qap_section": "Section 8",
       "title": "No points, but more competitive",
       "finding": "Green building earns no scoring points. Going beyond the required certification, or building Electrification-Ready, is “considered more competitive” under a Guiding Principle. CHFA names an efficient, all-electric, net-zero-carbon project as the strongest answer.",
@@ -183,16 +183,16 @@
       "section": "requirements",
       "kind": "qap",
       "qap_doc": "draft",
-      "qap_section": "Section 8.A (Third Draft)",
+      "qap_section": "Section 8.A (2027-28 QAP)",
       "review_by": "2026-12-15",
       "title": "Higher programs CHFA names",
-      "finding": "DOE Efficient New Homes, Phius or PHI Passive House, and, new in the Third Draft, Enterprise Green Communities Plus (EGC+).",
+      "finding": "DOE Efficient New Homes, Phius or PHI Passive House, and, new in the adopted plan, Enterprise Green Communities Plus (EGC+).",
       "quotes": [
         "To achieve a higher level of energy performance, the project must obtain certification under programs such as DOE Efficient New Homes, PHIUS/PHI or EGC+."
       ],
       "last_verified": "2026-10-23",
-      "source_url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
-      "source_title": "2027-28 QAP, Third Draft (posted September 11, 2026; not adopted)",
+      "source_url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+      "source_title": "2027-28 QAP (adopted; CHFA Board September 25, 2026, Governor October 23, 2026)",
       "publisher": "CHFA"
     },
     {
@@ -481,7 +481,7 @@
       "qap_doc": "current",
       "qap_section": "Section 11.J",
       "title": "Start the allowance model early",
-      "finding": "Under the plan in force, an engineer's Energy Consumption Model or HUD's model needs CHFA's preliminary approval at least 45 days before the tax credit application. The drafts of the next plan lengthen that lead time in their redline, so start the model earlier and check the adopted plan.",
+      "finding": "Under the plan in force, an engineer's Energy Consumption Model or HUD's model needs CHFA's preliminary approval at least 45 days before the tax credit application. The next plan, now adopted, lengthens that lead time, so start the model earlier.",
       "quotes": [
         "Applicants relying on the HUD Utility Schedule Model or the Energy Consumption Model must submit a request for preliminary approval, including all required documents and fees, to CHFA’s Multifamily Program Compliance department at least 45 days prior to the Housing Tax Credit Application submission date."
       ],

@@ -71,7 +71,7 @@ ok(row(T.check(r1, v({ ...app, credit: 1100000 }), engine), 'credit').flag === '
   ok(award.flag === 'yellow' && /used the award/.test(award.notes[0]), 'an entered award is not capacity either');
 }
 const low = row(T.check(r1, v({ ...app, dscr: 1.12 }), engine), 'dscr');
-ok(low.flag === 'red' && /Under CHFA's 1\.15 minimum \(QAP 3\.D, p\. 40\)/.test(low.notes[0]), 'coverage under 1.15 is a deal breaker');
+ok(low.flag === 'red' && /Under CHFA's 1\.15 minimum \(QAP 4\.C\.5, p\. 40\)/.test(low.notes[0]), 'coverage under 1.15 is a deal breaker');
 const gap = row(T.check(r1, v({ ...app, gap: 250000 }), engine), 'gap');
 ok(gap.flag === 'red' && /\$250,000 short/.test(gap.notes[0]), 'an unbalanced sources and uses is a deal breaker');
 ok(row(T.check(r1, v(app), { ...engine, fundingGap: 400000 }), 'gap').flag === 'yellow', 'a balanced application over a model gap differs');

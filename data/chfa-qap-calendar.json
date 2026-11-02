@@ -4,11 +4,11 @@
     "vintage":     "Confirmed from CHFA's official Dates and Deadlines page (chfainfo.com/rental-housing/housing-credit/dates-and-deadlines) on 2026-06-03; 2027 dates, QAP hearings and comment deadline re-verified 2026-09-24 against CHFA's QAP page (chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan), its hearing notice (chfainfo.com/rental-housing/housing-credit/qap-hearing), the 2027-28 QAP Third Draft (section 3.B.2) and Third Draft Summary of Changes dated 2026-09-11, and the August 26, 2026 hearing presentation. On 2026-10-24 CHFA's QAP page still listed the Third Draft as the latest 2027-28 document (no adopted plan posted), and its hearing page (chfainfo.com/rental-housing/housing-credit/qap-hearing) announced the October 29 MIHTC and November 2 TOC and TZ Credit allocation plan hearings; that page no longer shows the July-August QAP hearings, which are kept here from the 2026-09-24 check. CHFA's published cycle: R1 = 9% + State Credit (Feb deadline); R2 = 4% + State Credit (Aug deadline). Pure 4% deals are rolling; R2 specifically targets 4%-with-State-Credit projects. MIHTC has its own annual deadline.",
     "source_url":  "https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192",
     "qap_sources": {
-      "2027-28-qap-third-draft": {
-        "status":   "draft",
-        "title":    "CHFA 2027-28 QAP Third Draft, section 3.B.2 (posted September 11, 2026; not yet adopted)",
-        "url":      "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
-        "verified": "2026-10-24"
+      "2027-28-qap-adopted": {
+        "status":   "adopted",
+        "title":    "CHFA 2027-28 QAP, section 3.B.2 (adopted by the CHFA Board September 25, 2026; approved by the Governor October 23, 2026)",
+        "url":      "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+        "verified": "2026-11-01"
       },
       "chfa-dates-and-deadlines-2026": {
         "status":   "adopted",
@@ -24,7 +24,7 @@
       "Every CHFA round requires a Letter of Intent (LOI) 60+ days before the application — LOI deadlines are the real first gate",
       "Prop 123's State Affordable Housing Fund is split: 60% is overseen by OEDIT and managed by CHFA (the Affordable Housing Financing Fund: land banking, equity, concessionary debt including LIHTC gap finance), and 40% goes to DOLA (the Affordable Housing Support Fund: homeownership, homelessness, local planning capacity). Each program has its own cycle, separate from CHFA's tax-credit rounds — see cdola.colorado.gov/prop123.",
       "The QAP covers two years (2027-2028) and is the plan that sets cycle dates, credit maximums and scoring; it is drafted January-June, taken to public hearings and written comment in July-August, then goes to the CHFA Board and the Governor in September-October (CHFA's own timeline, August 26, 2026 hearing presentation).",
-      "2027 and 2028 round dates come from the 2027-28 QAP Third Draft, which is not yet adopted. They are CHFA's published dates, so they are marked exact, but they can change until the Board and Governor approve the plan. That adoption status is carried separately from date_precision: each round event has qap_status (\"draft\" or \"adopted\") and qap_source, a key into metadata.qap_sources, which names the document and the date it was verified. When CHFA adopts the plan, set that source's status and the events' qap_status to \"adopted\".",
+      "2027 and 2028 round dates come from the 2027-28 QAP, adopted by the CHFA Board on September 25, 2026 and approved by the Governor on October 23, 2026 (posted October 30, 2026); its dates match the Third Draft. That adoption status is carried separately from date_precision: each round event has qap_status (\"draft\" or \"adopted\") and qap_source, a key into metadata.qap_sources, which names the document and the date it was verified. When CHFA adopts the plan, set that source's status and the events' qap_status to \"adopted\".",
       "status is a snapshot as of metadata.generated. js/components/qap-calendar.js also compares each event's date (or date_end, when present) with today, so an event whose date has passed renders as past even if this field has not been refreshed."
     ]
   },
@@ -157,13 +157,13 @@
     {
       "id":         "2027-28-qap-adoption",
       "name":       "2027-28 QAP — CHFA Board approval, then Governor approval",
-      "date":       "2026-09-01",
-      "date_precision": "estimated",
-      "date_end":   "2026-10-31",
+      "date":       "2026-09-25",
+      "date_precision": "exact",
+      "date_end":   "2026-10-23",
       "category":   "qap-adoption",
-      "status":     "upcoming",
-      "details":    "CHFA's timeline (August 26, 2026 hearing presentation) puts the final draft before the CHFA Board, then the Board-approved plan before the Governor, in September-October 2026. CHFA has not published a specific date. As of 2026-10-24 CHFA's QAP page still lists the Third Draft (September 11, 2026) as the latest 2027-28 document, so the plan is not yet final. For comparison, the 2025-26 QAP Second Amendment was adopted by the Board on September 26, 2025 and approved by the Governor on November 13, 2025.",
-      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+      "status":     "past",
+      "details":    "The CHFA Board adopted the 2027-2028 QAP on September 25, 2026 and the Governor approved it on October 23, 2026 (cover page of the adopted plan). CHFA posted it on October 30, 2026. Checked 2026-11-01 against the adopted PDF: the round dates in section 3.B.2, the credit maximums in 3.L and 3.L.1, and the 3.B.9 gap pilot match the Third Draft.",
+      "url":        "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf"
     },
     {
       "id":         "2027-mihtc-plan-hearing",
@@ -197,26 +197,26 @@
     },
     {
       "id":          "2027-r1-loi",
-      "qap_status":  "draft",
-      "qap_source":  "2027-28-qap-third-draft",
+      "qap_status":  "adopted",
+      "qap_source":  "2027-28-qap-adopted",
       "name":        "2027 R1 (9% + State) — Letter of Intent due",
       "date":        "2026-12-01",
       "date_precision": "exact",
       "category":    "9pct-r1-loi",
       "status":      "upcoming",
-      "details":     "December 1, 2026 by 5pm MT, per section 3.B.2 of the 2027-28 QAP Third Draft (not yet adopted). LOI is the operative gate — without it on file, you cannot submit the R1 application. CHFA's Dates and Deadlines page still lists 2026 dates only.",
+      "details":     "December 1, 2026 by 5pm MT, per section 3.B.2 of the adopted 2027-28 QAP. LOI is the operative gate — without it on file, you cannot submit the R1 application. CHFA's Dates and Deadlines page still lists 2026 dates only.",
       "url":         "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "id":          "2027-r1-deadline",
-      "qap_status":  "draft",
-      "qap_source":  "2027-28-qap-third-draft",
+      "qap_status":  "adopted",
+      "qap_source":  "2027-28-qap-adopted",
       "name":        "2027 R1 9% LIHTC + State Credit — application deadline",
       "date":        "2027-02-01",
       "date_precision": "exact",
       "category":    "9pct-r1-deadline",
       "status":      "upcoming",
-      "details":     "February 1, 2027 by 5pm MT, per section 3.B.2 of the 2027-28 QAP Third Draft (not yet adopted). R1 = 9% + State Credit. LOI prerequisite is due Dec 1, 2026 — see the LOI event. 2027 is the first round of the proposed DOH/OEDIT coordinated gap-funding pilot.",
+      "details":     "February 1, 2027 by 5pm MT, per section 3.B.2 of the adopted 2027-28 QAP. R1 = 9% + State Credit. LOI prerequisite is due Dec 1, 2026 — see the LOI event. 2027 is the first round of the proposed DOH/OEDIT coordinated gap-funding pilot.",
       "url":         "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
@@ -231,74 +231,74 @@
     },
     {
       "id":         "2027-r2-loi",
-      "qap_status":  "draft",
-      "qap_source":  "2027-28-qap-third-draft",
+      "qap_status":  "adopted",
+      "qap_source":  "2027-28-qap-adopted",
       "name":       "2027 R2 (4% + State) — Letter of Intent due",
       "date":       "2027-06-01",
       "date_precision": "exact",
       "category":   "4pct-r2-loi",
       "status":     "upcoming",
-      "details":    "June 1, 2027 by 5pm MT, per section 3.B.2 of the 2027-28 QAP Third Draft (not yet adopted).",
+      "details":    "June 1, 2027 by 5pm MT, per section 3.B.2 of the adopted 2027-28 QAP.",
       "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "id":         "2027-r2-deadline",
-      "qap_status":  "draft",
-      "qap_source":  "2027-28-qap-third-draft",
+      "qap_status":  "adopted",
+      "qap_source":  "2027-28-qap-adopted",
       "name":       "2027 R2 4% LIHTC + State Credit — application deadline",
       "date":       "2027-08-02",
       "date_precision": "exact",
       "category":   "4pct-r2-deadline",
       "status":     "upcoming",
-      "details":    "August 2, 2027 by 5pm MT, per section 3.B.2 of the 2027-28 QAP Third Draft (not yet adopted). R2 pairs federal 4% credit with accelerated State Credit.",
+      "details":    "August 2, 2027 by 5pm MT, per section 3.B.2 of the adopted 2027-28 QAP. R2 pairs federal 4% credit with accelerated State Credit.",
       "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "id":         "2028-r1-loi",
-      "qap_status":  "draft",
-      "qap_source":  "2027-28-qap-third-draft",
+      "qap_status":  "adopted",
+      "qap_source":  "2027-28-qap-adopted",
       "name":       "2028 R1 (9% + State) — Letter of Intent due",
       "date":       "2027-12-01",
       "date_precision": "exact",
       "category":   "9pct-r1-loi",
       "status":     "upcoming",
-      "details":    "December 1, 2027 by 5pm MT, per section 3.B.2 (p. 16) of the 2027-28 QAP Third Draft (not yet adopted).",
+      "details":    "December 1, 2027 by 5pm MT, per section 3.B.2 (p. 16) of the adopted 2027-28 QAP.",
       "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "id":         "2028-r1-deadline",
-      "qap_status":  "draft",
-      "qap_source":  "2027-28-qap-third-draft",
+      "qap_status":  "adopted",
+      "qap_source":  "2027-28-qap-adopted",
       "name":       "2028 R1 9% LIHTC + State Credit — application deadline",
       "date":       "2028-02-01",
       "date_precision": "exact",
       "category":   "9pct-r1-deadline",
       "status":     "upcoming",
-      "details":    "February 1, 2028 by 5pm MT, per section 3.B.2 (p. 16) of the 2027-28 QAP Third Draft (not yet adopted).",
+      "details":    "February 1, 2028 by 5pm MT, per section 3.B.2 (p. 16) of the adopted 2027-28 QAP.",
       "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "id":         "2028-r2-loi",
-      "qap_status":  "draft",
-      "qap_source":  "2027-28-qap-third-draft",
+      "qap_status":  "adopted",
+      "qap_source":  "2027-28-qap-adopted",
       "name":       "2028 R2 (4% + State) — Letter of Intent due",
       "date":       "2028-06-01",
       "date_precision": "exact",
       "category":   "4pct-r2-loi",
       "status":     "upcoming",
-      "details":    "June 1, 2028 by 5pm MT, per section 3.B.2 (p. 16) of the 2027-28 QAP Third Draft (not yet adopted).",
+      "details":    "June 1, 2028 by 5pm MT, per section 3.B.2 (p. 16) of the adopted 2027-28 QAP.",
       "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "id":         "2028-r2-deadline",
-      "qap_status":  "draft",
-      "qap_source":  "2027-28-qap-third-draft",
+      "qap_status":  "adopted",
+      "qap_source":  "2027-28-qap-adopted",
       "name":       "2028 R2 4% LIHTC + State Credit — application deadline",
       "date":       "2028-08-01",
       "date_precision": "exact",
       "category":   "4pct-r2-deadline",
       "status":     "upcoming",
-      "details":    "August 1, 2028 by 5pm MT, per section 3.B.2 (p. 16) of the 2027-28 QAP Third Draft (not yet adopted).",
+      "details":    "August 1, 2028 by 5pm MT, per section 3.B.2 (p. 16) of the adopted 2027-28 QAP.",
       "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     }
   ],
@@ -307,7 +307,7 @@
       "name":      "4% LIHTC + PAB (Private Activity Bond)",
       "category":  "4pct-rolling",
       "closed_months": [2, 8, 12],
-      "description":"4% Tax-Exempt Bond financing is reviewed on a rolling basis: preliminary applications are accepted all year except February, August and December (2027-28 QAP Third Draft, section 3.B.2, p. 16). Limited by annual PAB allocation — see data/pab-allocations.json for current year's available cap.",
+      "description":"4% Tax-Exempt Bond financing is reviewed on a rolling basis: preliminary applications are accepted all year except February, August and December (2027-28 QAP, section 3.B.2, p. 16). Limited by annual PAB allocation — see data/pab-allocations.json for current year's available cap.",
       "url":       "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
@@ -319,7 +319,7 @@
     {
       "name":      "Colorado State LIHTC",
       "category":  "state-paired",
-      "description":"State tax credit MUST be paired with federal 9% or 4%. Same cycles as federal. Roughly doubles equity yield on stacked deals. Transit Zone (TZ) credit (HB26-1065) may be awarded in lieu of standard state credit under a separate TZ Credit Allocation Plan, within the same fixed state-credit amounts (2027-28 QAP Third Draft, pp. 17, 31-32).",
+      "description":"State tax credit MUST be paired with federal 9% or 4%. Same cycles as federal. Roughly doubles equity yield on stacked deals. Transit Zone (TZ) credit (HB26-1065) may be awarded in lieu of standard state credit under a separate TZ Credit Allocation Plan, within the same fixed state-credit amounts (2027-28 QAP as adopted, sections 3.B.2 and 3.L).",
       "url":       "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {

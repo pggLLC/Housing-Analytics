@@ -2,16 +2,17 @@
   "schema": "chfa-round-scoring/1",
   "id": "chfa-2027-r2-4pct-state",
   "title": "CHFA 2027 Round Two (federal 4% with accelerated and standard state credit) scoring, thresholds and state gap funds",
-  "status": "draft",
-  "status_note": "Copied from the CHFA 2027-28 QAP Third Draft (posted September 11, 2026). CHFA's QAP page listed only the First, Second and Third Drafts on 2026-10-21; the plan is not adopted. Every figure here is labelled 'Not adopted' until it is. When CHFA adopts the plan, re-copy each line from the adopted PDF and set status to 'adopted'.",
-  "checked_at": "2026-10-30",
+  "status": "adopted",
+  "status_note": "Copied from the CHFA 2027-28 QAP as adopted (CHFA Board September 25, 2026; Governor October 23, 2026; posted October 30, 2026). Every quote here was re-checked against the adopted PDF on 2026-11-01; pages are the adopted plan's printed pages. Where the adopted wording differs from the Third Draft, the quote was re-copied.",
+  "checked_at": "2026-11-01",
   "review_by": "2027-01-15",
   "source": {
-    "title": "CHFA 2027-28 Qualified Allocation Plan, Third Draft",
-    "url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
+    "title": "CHFA 2027-28 Qualified Allocation Plan (adopted)",
+    "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
     "page_url": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
-    "posted": "2026-09-11",
-    "reading_note": "The draft is a redline. Quotes below are the clean reading: struck text removed, inserted text kept, read from the rendered PDF pages, not machine text."
+    "posted": "2026-10-30",
+    "reading_note": "Quotes are copied from the adopted PDF. The Third Draft (posted 2026-09-11) was a redline; the adopted plan is clean text.",
+    "adopted": "Board 2026-09-25; Governor 2026-10-23"
   },
   "round": {
     "id": "r2",
@@ -20,9 +21,9 @@
     "credit": "federal 4% (tax-exempt bonds) plus accelerated and paired standard state credit",
     "loi_due": "2027-06-01",
     "application_due": "2027-08-02",
-    "page": 16,
+    "page": 15,
     "quote": "Round Two 2027: state credit Applications with federal 4 percent Housing Tax Credit ... Letter of Intent Deadline June 1, 2027, by 5:00pm MT ... Application Deadline August 2, 2027, by 5:00pm MT",
-    "dates_source": "QAP Third Draft 3.B.2, read from the rendered page (the machine text runs struck and inserted digits together)"
+    "dates_source": "adopted QAP 3.B.2"
   },
   "minimum_score": {
     "points": 115,
@@ -56,7 +57,7 @@
           50,
           40
         ],
-        "page": 41,
+        "page": 42,
         "quote": "(a) Threshold 20 percent at 50 percent AMI"
       },
       "40-60": {
@@ -65,7 +66,7 @@
           50,
           40
         ],
-        "page": 41,
+        "page": 42,
         "quote": "(b) Threshold 40 percent at 60 percent AMI"
       },
       "average-income": {
@@ -80,7 +81,7 @@
     },
     "rule": "Points = for each tier, (rent-restricted units at that tier / total rent-restricted units) x weight, summed. Units below 40% AMI count in the 40% row. Units above 60% AMI earn no targeting points. The table follows the minimum set-aside election: the 20-50 table has no 60% row, so 60% units earn no points under it.",
     "quote": "projects located in all counties will be allowed to use the weight factor of 50 for selecting the 60 percent AMI threshold, a weight factor of 72.5 for selecting the 50 percent AMI threshold, and a weight factor of 92.5 for selecting the 40 percent AMI threshold.",
-    "change_note": "The Third Draft strikes the note that capped the 40% row at 60 percent of low-income units.",
+    "change_note": "The adopted plan, like the Third Draft, drops the note that capped the 40% row at 60 percent of low-income units.",
     "lowest_ami_bonus": {
       "id": "5A1-lowest-ami",
       "label": "Counties with lowest AMI",
@@ -112,7 +113,7 @@
     "quote": "Up to 10% of total units at or below 30% AMI 5 Points ... Up to 20% of total units at or below 30% AMI 10 Points ... Up to 30% of total units at or below 30% AMI 15 Points",
     "excludes": "5B5-homeless",
     "needs": "a range of supportive services to the residents, at no cost to the residents",
-    "unconfirmed": "The Third Draft adds 'Up to' to each band. Read as 'at least' (the adopted 2025-26 wording), a share between bands earns the lower band; read as 'up to', it earns the next band. The page counts the lower reading and shows the other. Ask CHFA."
+    "unconfirmed": "The adopted plan words each band 'Up to' (as the Third Draft did). Read as 'at least' (the 2025-26 wording), a share between bands earns the lower band; read as 'up to', it earns the next band. The page counts the lower reading and shows the other. Ask CHFA."
   },
   "lines": [
     {
@@ -121,7 +122,7 @@
       "label": "Extended low-income use (15 or 25 years of extended use)",
       "points": 40,
       "section": "5.A.2; Threshold #14",
-      "page": 44,
+      "page": 43,
       "quote": "15 Years of Compliance + 15 Years of Extended Use - 25 points ... 15 Years of Compliance + 25 Years of Extended Use - 40 points",
       "auto": "extended_use_choice",
       "options": {
@@ -138,7 +139,7 @@
       "label": "Community revitalization plan (in a QCT)",
       "points": 1,
       "section": "5.A.3",
-      "page": 44,
+      "page": 43,
       "quote": "CHFA will award one point for projects located in a qualified census tract that contribute to a Community Revitalization Plan"
     },
     {
@@ -157,7 +158,7 @@
       "label": "Community affordable housing priority",
       "points": 3,
       "section": "5.B.2.a",
-      "page": 45,
+      "page": 44,
       "quote": "Three points may be earned for proposed projects to be located in a community that has an identified community affordable housing priority."
     },
     {
@@ -166,7 +167,7 @@
       "label": "Transit-oriented (TOC or TOD) site",
       "points": 5,
       "section": "5.B.2.b",
-      "page": 45,
+      "page": 44,
       "quote": "Five points may be earned for proposed projects located at an existing or planned TOC or TOD site.",
       "change_note": "Up from three points."
     },
@@ -176,7 +177,7 @@
       "label": "Mixed income (no more than 80% tax credit units)",
       "points": 5,
       "section": "5.B.3.a",
-      "page": 45,
+      "page": 44,
       "quote": "(Five points) Project that provides housing for mixed income (i.e., that have no more than 80 percent Tax Credit-eligible total units)",
       "auto": "mixed_income"
     },
@@ -186,7 +187,7 @@
       "label": "Non-metro county of 180,000 or fewer people",
       "points": 5,
       "section": "5.B.3.b",
-      "page": 45,
+      "page": 44,
       "quote": "(Five points) Projects located in non-metro counties that have a population of 180,000 or less."
     },
     {
@@ -195,7 +196,7 @@
       "label": "Rehab of blighted or historic buildings",
       "points": 5,
       "section": "5.B.3.c",
-      "page": 45,
+      "page": 44,
       "quote": "(Five points) Rehabilitation of blighted buildings or locally or federally designated historic structures."
     },
     {
@@ -204,7 +205,7 @@
       "label": "Preservation",
       "points": 15,
       "section": "5.B.3.d",
-      "page": 45,
+      "page": 44,
       "quote": "(Fifteen points) Preservation projects which are defined as existing Tax Credit projects in year 25 or later of their Extended Use period, or developments with project-based rental assistance or other operating subsidies guaranteed through a rental assistance contract (e.g. HUD Section 8, Rural Development Section 521, etc.) that is within three years of expiration"
     },
     {
@@ -213,7 +214,7 @@
       "label": "No-smoking policy (whole property)",
       "points": 1,
       "section": "5.B.3.e",
-      "page": 45,
+      "page": 44,
       "quote": "(One point) No-smoking policy, defined as projects that will institute a no-smoking policy for 100 percent of the project"
     },
     {
@@ -246,11 +247,12 @@
     {
       "id": "5B4a-nonprofit",
       "group": "secondary",
-      "label": "Nonprofit or Colorado housing authority as sole general partner",
+      "label": "Nonprofit as sole general partner",
       "points": 5,
       "section": "5.B.4.a",
-      "page": 46,
-      "quote": "(Five points) Applicant is an approved 501(c)3 or 501(c) 4 tax-exempt organization, having an express purpose of fostering low-income housing, or a Colorado public housing authority; is the sole general partner"
+      "page": 45,
+      "quote": "(Five points) Applicant is an approved 501(c)3 or 501(c)4 tax-exempt organization, having an express purpose of fostering low-income housing, will be the sole general partner",
+      "change_note": "The adopted plan limits this line to nonprofits; a Colorado housing authority earns 5.B.4.b instead."
     },
     {
       "id": "5B4b-pha",
@@ -258,7 +260,7 @@
       "label": "Colorado housing authority as sole or majority co-general partner",
       "points": 7,
       "section": "5.B.4.b",
-      "page": 46,
+      "page": 45,
       "quote": "(Seven points) Applicant is a Colorado public housing authority, will be a sole or majority interest co-general partner"
     },
     {
@@ -267,7 +269,7 @@
       "label": "25%+ of units for people experiencing homelessness or special populations",
       "points": 15,
       "section": "5.B.5",
-      "page": 46,
+      "page": 45,
       "quote": "Fifteen points may be earned for the set-aside of at least 25 percent of the units for Persons experiencing Homelessness or Special Populations.",
       "excludes": "5A1d-eli"
     },
@@ -277,7 +279,7 @@
       "label": "Housing authority waitlist question on the rental application",
       "points": 1,
       "section": "5.B.6",
-      "page": 47,
+      "page": 46,
       "quote": "One point may be earned by Applicants who commit to collecting information on their rental application about whether a resident applicant is on a housing authority waitlist.",
       "change_note": "Down from two points, with a new requirement."
     }
@@ -385,7 +387,7 @@
   "credit_caps": {
     "kind": "round_two",
     "section": "3.L",
-    "page": 32,
+    "page": 31,
     "accelerated_fixed_annual": 1000000,
     "standard_max_annual": 675000,
     "quote": "CHFA will accept Applications for a fixed amount of $1,000,000 in 2027 and $1,200,000 in 2028 of accelerated annual state credit and will pair up to $675,000 in 2027 and $600,000 in 2028 of standard annual state credit or TZ credit where eligible, for any one project or any one Applicant, or Affiliate of such Applicant, or Turn-key Project Developer of such Applicant in Round Two.",
@@ -399,10 +401,10 @@
     }
   },
   "underwriting": {
-    "section": "3.D, Underwriting Criteria",
+    "section": "4.C.5, Debt Coverage Ratio",
     "page": 40,
     "dcr_min": 1.15,
-    "quote": "Minimum 1.15 to 1.0 for all amortized debt throughout the initial 15-year pro forma period."
+    "quote": "Minimum 1.15 for all amortized debt throughout the initial 15-year pro forma period."
   },
   "gap_pilot": {
     "section": "3.B.9",
@@ -414,21 +416,21 @@
       "pool": 18000000,
       "midpoint_max": 52,
       "quote": "DOH will pilot a commitment of $18 million for Round Two with a fixed loan or grant amount of $35,000 per unit and a maximum of $3.2 million per application.",
-      "eligibility_quote": "DOH cash flow loans or grants will be eligible for applications with an average area median income (AMI) midpoint of 48% or below for Round One and 52% or below for Round Two, or that are a Supportive Housing application.",
+      "eligibility_quote": "DOH cash flow loans or grants will be eligible for applications with an average Area Median Income (AMI) midpoint of 48 percent or below for Round One and 52 percent or below for Round Two, or that are a Supportive Housing application.",
       "midpoint_quote": "The AMI midpoint is the sum of the project's units multiplied by the AMI for each unit divided by the total units.",
-      "terms_quote": "DOH loans for for-profit applicants will have 2% interest and a term commensurate with senior debt in the application plus six months and will be a cash flow loan. DOH will provide grant funds to nonprofit or public housing authority applicants.",
-      "unconfirmed": "CHFA's October 1, 2026 webinar said 'Below' where the Third Draft says 'or below'. A deal within half a point of the line is flagged."
+      "terms_quote": "DOH loans for for-profit applicants will have 2 percent interest and a term commensurate with senior debt in the application plus six months and will be a cash flow loan. DOH will provide grant funds to nonprofit or public housing authority applicants.",
+      "unconfirmed": "CHFA's October 1, 2026 webinar said 'Below' where the adopted plan says 'or below'. A deal within half a point of the line is flagged."
     },
     "oedit": {
       "per_unit": 30000,
       "max": 2600000,
       "pool": 19000000,
       "quote": "OEDIT will pilot a commitment of $19 million for Round Two with a fixed loan amount of $30,000 per unit and a maximum of $2.6 million per application.",
-      "eligibility_quote": "OEDIT funding will be Proposition 123 Concessionary Debt for applications that do not meet DOH gap funding eligibility described below, and are in a Proposition 123 eligible jurisdiction. Loans will have a 2.5% interest and a 40-year amortization schedule in either first or subordinate must-pay position."
+      "eligibility_quote": "OEDIT funding will be Proposition 123 Concessionary Debt. Loans will be eligible for applications that do not meet DOH gap funding eligibility described below, and are in a Proposition 123 eligible jurisdiction. Loans will have 2.5 percent interest and a 40-year amortization schedule in either first or subordinate must-pay position."
     },
     "doh_fallback": {
-      "quote": "If an application is outside of a Proposition 123 eligible jurisdiction and does not meet DOH gap funding eligibility described below, or if there are insufficient Proposition 123 gap funds, DOH will provide a loan with a 2.5% interest and 40-year amortization schedule in either first or subordinate must-pay position.",
-      "unconfirmed": "The draft does not say whether this fallback loan uses DOH's Round Two $35,000 per unit and $3.2 million cap. The page shows DOH's amounts and labels them unconfirmed."
+      "quote": "If an application is outside of a Proposition 123 eligible jurisdiction and does not meet DOH gap funding eligibility described below, or if there are insufficient Proposition 123 gap funds, DOH will provide a loan with 2.5 percent interest and a 40-year amortization schedule in either first or subordinate must-pay position.",
+      "unconfirmed": "The adopted plan does not say whether this fallback loan uses DOH's Round Two $35,000 per unit and $3.2 million cap. The page shows DOH's amounts and labels them unconfirmed."
     },
     "prop123_source": "data/policy/prop123_jurisdictions.json (DOLA commitment filings; 2027-2029 filings due 2026-11-01)"
   },

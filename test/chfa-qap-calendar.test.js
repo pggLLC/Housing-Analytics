@@ -100,7 +100,9 @@ for (const e of events) {
   assert.match(src.verified, ISO, `${e.id}: its QAP source must carry a verified ISO date`);
   if (e.qap_status === 'draft') draftEvents++; else adoptedEvents++;
 }
-assert.ok(draftEvents > 0 && adoptedEvents > 0, 'qap_status check must exercise both draft and adopted events');
+// Since the 2027-28 QAP was adopted (Governor, 2026-10-23) the real data may hold
+// no draft events; the fixtures below still exercise the draft badge.
+assert.ok(adoptedEvents > 0, 'qap_status check must exercise adopted events');
 
 // ── component: past/current is decided by the end of a window ───────
 async function renderWith(fixture, mode) {

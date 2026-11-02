@@ -88,7 +88,8 @@ for (const [key, ref] of Object.entries(DOC.meta.qap_documents)) {
   assert(doc, `${key}: ${ref.url} is not a document in data/audit/chfa-qap-watch.json`);
   assert(doc.fetch_ok && doc.text && doc.text.length > 100000, `${key}: the QAP watch holds no usable text`);
   assert.equal(norm(doc.title), norm(ref.title), `${key}: title must be the watch title`);
-  qapText[key] = norm(doc.text);
+  // A word broken at a line end extracts as "208/240- volt"; join it back.
+  qapText[key] = norm(doc.text).replace(/(\w)- (?=\w)/g, '$1-');
 }
 // The PDF text renders ™ as "TM"; quotes keep the symbol.
 const qnorm = (q) => norm(q).replace(/™/g, 'TM');

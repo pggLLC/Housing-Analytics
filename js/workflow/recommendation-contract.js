@@ -376,7 +376,7 @@
      PC-2: the Transit Zone credit is a rental-housing credit. For a project
      recorded as ownership, the conclusion names it only as a reason to add a
      rental component — never as a source for the project. No amount is shown
-     here: the draft QAP's per-project pairing depends on the deal's credit
+     here: the QAP's per-project pairing depends on the deal's credit
      type, so it is stated in the deal calculator (#1973), not at area level. */
   var TRANSIT_SOURCE = 'transit-stops-statewide-co';
 

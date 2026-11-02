@@ -94,9 +94,9 @@ const cal = JSON.parse(read('data/chfa-qap-calendar.json'));
 const r1dates = RW.roundDates({ round: '2027 Round One' }, cal);
 ok(r1dates.length === 2 && r1dates[0].date === '2026-12-01' && r1dates[1].date === '2027-02-01', 'Round One shows CHFA\'s letter of intent and application dates');
 const dh = RW.datesHtml({ round: '2027 Round One' }, cal, '2026-11-21');
-ok(r1dates[0].url === cal.metadata.qap_sources['2027-28-qap-third-draft'].url && dh.includes('href="' + r1dates[0].url + '"'),
+ok(r1dates[0].url === cal.metadata.qap_sources['2027-28-qap-adopted'].url && dh.includes('href="' + r1dates[0].url + '"'),
   'the countdown links the plan its dates come from');
-ok(dh.includes('10 days to go') && dh.includes('rw-soon') && dh.includes('not yet adopted'), 'the countdown counts days, flags the last 30, and says the plan is a draft');
+ok(dh.includes('10 days to go') && dh.includes('rw-soon') && !dh.includes('not yet adopted'), 'the countdown counts days, flags the last 30, and no longer calls the adopted plan a draft');
 ok(RW.roundDates({ round: '2027 Round Two' }, cal)[0].date === '2027-06-01' && RW.roundDates({ round: 'x' }, cal).length === 0, 'Round Two has its own dates; an unknown round shows none');
 ok(RW.localDate(new Date(2026, 10, 30, 19, 30)) === '2026-11-30', 'the countdown counts from the viewer\'s own date, not UTC');
 ok(RW.summaryText([R[0], R[2]], 72, { region: 'Front Range' }) === 'Showing 2 of 72 deals: 1 High, 1 Medium, Front Range.' &&

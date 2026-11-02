@@ -58,7 +58,7 @@
     '5B2a-priority': { rank: 2, how: 'Cite the local housing needs assessment or plan that names this need.' },
     '5A1d-eli': { rank: 3, how: 'Move units to 30% AMI and line up supportive services at no cost to residents.' },
     '5B4b-pha': { rank: 3, how: 'Make a Colorado housing authority the Applicant, as sole or majority co-general partner.' },
-    '5B4a-nonprofit': { rank: 3, how: 'Make a qualifying nonprofit or housing authority the Applicant, as sole general partner.' },
+    '5B4a-nonprofit': { rank: 3, how: 'Make a qualifying nonprofit the Applicant, as sole general partner.' },
     '5B3f-modular': { rank: 4, how: 'Modular or factory-built construction, with box and delivery detail.' },
     '5B5-homeless': { rank: 4, how: 'Set aside 25% of units for people experiencing homelessness, with services and MOUs.' },
     '5B2b-toc': { rank: 5, how: 'Only if the site is at an existing or planned transit-oriented site.' },
@@ -87,7 +87,7 @@
   // 5.B.4 points only for the general partner the line names.
   // 5.B.4 asks both that the QAP-defined Applicant qualify and that it hold the general partner role.
   // Line id -> [Applicant types that qualify, Applicant general partner roles that qualify, how the QAP says the role].
-  var SPONSOR_LINES = { '5B4a-nonprofit': [['nonprofit', 'pha'], ['sole'], 'the sole general partner'], '5B4b-pha': [['pha'], ['sole', 'majority'], 'a sole or majority-interest co-general partner'] };
+  var SPONSOR_LINES = { '5B4a-nonprofit': [['nonprofit'], ['sole'], 'the sole general partner'], '5B4b-pha': [['pha'], ['sole', 'majority'], 'a sole or majority-interest co-general partner'] };
   // Lines that only exist for a rehab or an existing tax credit project.
   // Line id -> [deal flags, any one of which qualifies; what to tick].
   var CONDITION_LINES = { '5B3c-rehab': [['rehab'], 'acquisition/rehab'], '5B3d-preservation': [['existingCredit', 'subsidyExpiring'], 'existing tax credit project or rental assistance within three years of expiring'] };
@@ -486,7 +486,7 @@
     return out;
   }
   function roundTwoStateRisks(sc) {
-    var risks = [], where = ' (QAP 3.L and 3.L.1, not adopted)';
+    var risks = [], where = ' (QAP 3.L and 3.L.1)';
     if (sc.status === 'none') risks.push(sc.standardStatus === 'none'
       ? { level: 'yellow', text: 'No accelerated state credit entered. Round Two is the state credit round: enter the amount requested.' }
       : { level: 'red', text: 'Standard state credit is entered without accelerated state credit; CHFA pairs standard credit with an accelerated award' + where + '.' });
@@ -528,10 +528,10 @@
     if (four) risks = risks.concat(roundTwoStateRisks(stateCr));
     else if (stateCr.status === 'off') risks.push({ level: 'red', text: 'Standard state credit ' + money(stateCr.value) + ' is not the fixed amount CHFA pairs with a 9% application: ' + money(stateCr.fixed) + ' with the 3.B.9 pilot, or ' + money(stateCr.altFixed) + ' if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
     if (!four && stateCr.status === 'depends') risks.push({ level: 'yellow', text: stateCr.basis === 'pilot'
-      ? 'Standard state credit ' + money(stateCr.value) + ' is the amount paired with the 3.B.9 pilot; if pilot gap funds are not available it is ' + money(stateCr.altFixed) + ' (QAP 3.L and 3.L.1, not adopted). Confirm with CHFA which applies.'
-      : 'Standard state credit ' + money(stateCr.value) + ' is the amount under 3.L.1, which applies only if pilot gap funds are not available; with the pilot it is ' + money(stateCr.fixed) + ' (QAP 3.L, not adopted). Confirm with CHFA which applies.' });
+      ? 'Standard state credit ' + money(stateCr.value) + ' is the amount paired with the 3.B.9 pilot; if pilot gap funds are not available it is ' + money(stateCr.altFixed) + ' (QAP 3.L and 3.L.1). Confirm with CHFA which applies.'
+      : 'Standard state credit ' + money(stateCr.value) + ' is the amount under 3.L.1, which applies only if pilot gap funds are not available; with the pilot it is ' + money(stateCr.fixed) + ' (QAP 3.L). Confirm with CHFA which applies.' });
     var creditWhat = credit.other ? 'Annual federal credit ' + money(credit.value) + ' plus ' + money(credit.other) + ' in other active applications (' + money(credit.total) + ')' : 'Annual federal credit ' + money(credit.value);
-    if (credit.status === 'over') risks.push({ level: 'red', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap (QAP 3.L, not adopted).' });
+    if (credit.status === 'over') risks.push({ level: 'red', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap (QAP 3.L).' });
     if (credit.status === 'depends') risks.push({ level: 'yellow', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap that applies with the 3.B.9 gap-fund pilot but within the ' + money(credit.altCap) + ' cap if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
     if (!four && credit.status !== 'unknown' && credit.status !== 'over' && !credit.applicantKnown) risks.push({ level: 'yellow', text: 'The credit cap also counts other active applications by the same applicant, affiliate or turn-key developer (QAP 3.L). Enter their requested credit, or 0 if none, to check it.' });
     var tie = TieOut ? TieOut.check(rules, v, eng) : null;
@@ -911,7 +911,7 @@
     var why = [], min = rules.minimum_score.points;
     var e = t.engine || {};
     if (e.fundingGap != null && base.fundingGap != null && e.fundingGap > Math.max(0, base.fundingGap)) why.push('gap opens to ' + money(e.fundingGap));
-    var dcr = rules.underwriting.dcr_min; // QAP: "Minimum 1.15 to 1.0 for all amortized debt"
+    var dcr = rules.underwriting.dcr_min; // QAP: "Minimum 1.15 for all amortized debt" (4.C.5)
     if (e.dscr != null && e.dscr < dcr) why.push('coverage ' + e.dscr.toFixed(2) + 'x is under CHFA\'s ' + dcr.toFixed(2) + 'x minimum');
     if (t.scoreAfter != null && t.scoreBefore >= min && t.scoreAfter < min) why.push('score falls under ' + min);
     if (t.laneAfter && t.laneAfter !== t.laneBefore) why.push('lane flips to ' + t.laneAfter);
@@ -1495,7 +1495,7 @@
     function flash(msg) { var el = $('srFlash'); el.textContent = msg; clearTimeout(flashTimer); flashTimer = setTimeout(function () { el.textContent = ''; }, 9000); }
 
     if ($('sr-mix-note')) $('sr-mix-note').textContent = taxCreditNote();
-    $('srAsOf').textContent = 'QAP 2027-28 Third Draft (not adopted), checked ' + rules.checked_at;
+    $('srAsOf').textContent = 'QAP 2027-28 (' + (rules.status === 'adopted' ? 'adopted' : 'Third Draft, not adopted') + '), checked ' + rules.checked_at;
     roundPage(doc, rules);
     writeForm(); draw(); refreshDeals(); refreshVersions(); drawCompare();
   }

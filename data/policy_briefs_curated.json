@@ -93,12 +93,12 @@
     },
     {
       "id": "hb26-1065-thiz-qap-2026",
-      "title": "HB26-1065 and Colorado’s Transit Zone credit: what the law establishes, what the draft QAP proposes, and what remains unknown",
+      "title": "HB26-1065 and Colorado’s Transit Zone credit: what the law establishes, what the adopted QAP sets, and what remains unknown",
       "policy_topic": "Colorado Housing Policy & LIHTC",
       "is_curated": true,
       "source_reviewed": true,
-      "summary": "Colorado HB26-1065 became law on May 27, 2026 and created Transit and Housing Investment Zones (THIZ), a state affordable-housing income-tax credit, and a separate sales-tax-increment mechanism for qualifying transit investment projects. The housing credit may be allocated by CHFA from 2027 through 2033, up to $8,333,333 annually, and is claimed over six credit years. Geographic eligibility depends on the official OEDIT THIZ map: the statute uses a two-mile zone around transportation facilities identified on that map. COHO’s tracked source was last checked October 22, 2026 and still recorded the map as not published, with publication due October 30, 2026. Transit-stop proximity therefore remains a screen, not an eligibility determination. CHFA’s 2027–2028 QAP Third Draft calls the housing credit the Transit Zone (TZ) credit. The draft says it may be awarded under a separate TZ Credit Allocation Plan in lieu of standard state credit, not in addition to it. Under the draft maximum-credit schedule, a 9% award may pair with a fixed $650,000 annual state or TZ credit in 2027 and $675,000 in 2028; a Round Two 4% award may pair with up to $675,000 annually in 2027 and $600,000 in 2028. Alternative amounts apply if the proposed state gap-funding pilot is unavailable. These are annual credit amounts, not total project proceeds, and the QAP terms are not final until adopted.",
-      "implications": "The law, the OEDIT map and the QAP answer different questions. HB26-1065 creates the programs and statutory limits. OEDIT’s map determines whether an exact site is inside an eligible THIZ. CHFA’s QAP and separate allocation plan govern how an eligible rental project competes for and pairs the TZ credit. The draft QAP’s ordinary TOD/TOC location criterion is separate: it proposes five points for a qualifying site within a half-mile walk of transit, but those points do not themselves establish THIZ eligibility and are not TZ-credit-specific. The enacted bill and fiscal note do not create a distinct rural credit set-aside, bonus or enhanced rural amount; statewide geographic equity is a consideration for transit investment projects, not a substitute for zone eligibility. Until OEDIT publishes the authoritative map and CHFA adopts final rules, a project should record the exact site, retain the screen as preliminary, show TZ funding as unavailable rather than zero, and avoid adding draft credit proceeds to a development budget. The Deal Calculator reads the same canonical legislation record and displays the applicable 9% or 4% draft pairing only after supported map eligibility; it does not silently add the amount to the capital stack.",
+      "summary": "Colorado HB26-1065 became law on May 27, 2026 and created Transit and Housing Investment Zones (THIZ), a state affordable-housing income-tax credit, and a separate sales-tax-increment mechanism for qualifying transit investment projects. The housing credit may be allocated by CHFA from 2027 through 2033, up to $8,333,333 annually, and is claimed over six credit years. Geographic eligibility depends on the official OEDIT THIZ map: the statute uses a two-mile zone around transportation facilities identified on that map. COHO’s tracked source was last checked October 22, 2026 and still recorded the map as not published, with publication due October 30, 2026. Transit-stop proximity therefore remains a screen, not an eligibility determination. CHFA’s 2027–2028 QAP, adopted by the CHFA Board on September 25, 2026 and approved by the Governor on October 23, 2026, calls the housing credit the Transit Zone (TZ) credit. The plan says it may be awarded under a separate TZ Credit Allocation Plan in lieu of standard state credit, not in addition to it. Under the adopted maximum-credit schedule, a 9% award may pair with a fixed $650,000 annual state or TZ credit in 2027 and $675,000 in 2028; a Round Two 4% award may pair with up to $675,000 annually in 2027 and $600,000 in 2028. Alternative amounts apply if the state gap-funding pilot is unavailable. These are annual credit amounts, not total project proceeds, and the separate TZ Credit Allocation Plan's terms are not final until adopted.",
+      "implications": "The law, the OEDIT map and the QAP answer different questions. HB26-1065 creates the programs and statutory limits. OEDIT’s map determines whether an exact site is inside an eligible THIZ. CHFA’s QAP and separate allocation plan govern how an eligible rental project competes for and pairs the TZ credit. The adopted QAP’s ordinary TOD/TOC location criterion is separate: it gives five points for a qualifying site within a half-mile walk of transit, but those points do not themselves establish THIZ eligibility and are not TZ-credit-specific. The enacted bill and fiscal note do not create a distinct rural credit set-aside, bonus or enhanced rural amount; statewide geographic equity is a consideration for transit investment projects, not a substitute for zone eligibility. Until OEDIT publishes the authoritative map and CHFA adopts its TZ Credit Allocation Plan, a project should record the exact site, retain the screen as preliminary, show TZ funding as unavailable rather than zero, and avoid adding unawarded credit proceeds to a development budget. The Deal Calculator reads the same canonical legislation record and displays the applicable 9% or 4% pairing only after supported map eligibility; it does not silently add the amount to the capital stack.",
       "related_data": "data/policy/tax-credit-legislation.json",
       "sources": [
         "Colorado General Assembly",
@@ -119,10 +119,10 @@
           "date": "2026-05-27"
         },
         {
-          "title": "2027–2028 Qualified Allocation Plan Third Draft",
+          "title": "2027–2028 Qualified Allocation Plan (adopted)",
           "source": "Colorado Housing and Finance Authority",
-          "link": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
-          "date": "2026-09-18"
+          "link": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+          "date": "2026-10-30"
         },
         {
           "title": "2027–2028 QAP Third Draft Summary of Changes",
@@ -377,7 +377,7 @@
       "summary": "Colorado sets its own accessibility floor. The law covers housing built with public money and privately funded buildings of seven or more homes (C.R.S. 9-5-103). Under its point schedule (C.R.S. 9-5-105), a project needs 6 accessibility points for 7 to 14 homes and 6 more for every further 14 homes or part of 14. A Type A home counts 6 points and a Type B home 4, so a 60-home building needs 30 points, for example five Type A homes. Since SB26-109 (signed May 5, 2026), a project of 50 or more homes must also make at least 2% of its homes accessible units; smaller projects may use any mix. Projects with HUD money also carry Section 504: 5% of homes for people with mobility impairments and another 2% for people with hearing or vision impairments. The State Demography Office's forecast has Coloradans aged 65 and older growing from about 870,000 in 2020 to about 1.14 million in 2030, 18.2% of residents. A building financed today will house many of them over its compliance period and the years after it. The best-tested part of this brief is supportive housing itself: in Denver's randomized trial, 77% of the people it housed, not counting those who died, were still housed three years later. Design for supportive housing is much less tested. Trauma-informed design came out of Denver work by Shopworks Architecture and the University of Denver, and the one comparison study so far, at five sites, found mixed results. Evidence on green space is stronger than evidence on building layout. A randomized trial in Philadelphia found that greening vacant lots cut shootings and that nearby residents reported feeling depressed less often. Evidence on shared rooms, porches and privacy comes mostly from surveys and interviews. CHFA's 2027-28 QAP Third Draft, not yet adopted, would require green building certification, water-wise landscaping and the same unit design for every income tier, and would award two points for universal design or accessible Type A units in at least 5% of units.",
       "implications": "Count the accessibility points on the first site plan. The mix of Type A and Type B homes, the step-free route from parking and the bus stop to each entrance, door widths and grab-bar blocking are cheap at schematic design and expensive after construction drawings. If the project is going after CHFA's two universal design points, decide at the same time whether Type A homes will be at least 5% of the total. Use CHFA's rules as the design brief: the same finishes and square footage at every income tier, affordable homes spread through each building, no locked laundry closets, green building certification and no non-functional turf. Plant shade trees and water-wise beds where residents will sit, and put the community room on the way to the mailboxes and laundry. For supportive housing, decide before the floor plans where residents first meet staff, how they control who comes to their door, and how people who have been homeless will review the plans. Sanderson Apartments in Denver, 60 homes opened in 2017, put its community, dining and exercise rooms by the front desk and used open cabinets and wide, windowed corridors so residents can see who is around. Leave design out of the deal model's numbers, because no study gives a dollar figure for it. Use this brief for design priorities and the QAP narrative, and the Deal Calculator for costs and financing.",
       "related_data": "data/audit/chfa-qap-watch.json",
-      "qap_document": "2027-28 QAP - Third Draft (PDF)",
+      "qap_document": "2027-28 QAP (PDF)",
       "qap_quotes": [
         {
           "section": "8",
@@ -426,12 +426,12 @@
         },
         {
           "section": "5.B.3.g",
-          "quote": "(Two points) Projects utilizing Universal Design or providing accessible Type A units",
+          "quote": "(Two points) Projects utilizing Universal Design or providing Type A units",
           "row": 5
         },
         {
           "section": "5.B.3.g",
-          "quote": "units which total at least five percent of the project’s total units",
+          "quote": "which total at least five percent of the project’s total units",
           "row": 5
         },
         {
@@ -456,7 +456,7 @@
         },
         {
           "section": "5.B.3.g",
-          "quote": "accessible Type A units under technical accessibility standard options of either American National Standards Institute (ANSI) A117.1 or Uniform Federal Accessibility Standards (UFAS)",
+          "quote": "Type A units under technical accessibility standard options of either American National Standards Institute (ANSI) A117.1 or Uniform Federal Accessibility Standards (UFAS)",
           "row": 5
         },
         {
@@ -523,7 +523,7 @@
             "Permanent supportive housing pairs a standard lease with services residents choose to use, for people leaving long-term homelessness who live with a disability. Most follows Housing First, which does not require sobriety or treatment to get or keep the home. The model is well tested. In Denver's Supportive Housing Social Impact Bond, a randomized trial of 724 people, 77% of those it housed, not counting those who died, were still in stable housing three years later, and the supportive housing group had 40% fewer arrests and 27% fewer days in jail than people who received usual services (Urban Institute, 2021). In Canada's At Home/Chez Soi trial in five cities, 62% of Housing First participants were housed all of the time in the study's last six months, against 31% of those who received usual services.",
             "Design for supportive housing is newer and less proven. The most developed approach comes from Colorado: trauma-informed design, built by Shopworks Architecture, Group14 Engineering and the University of Denver's Center for Housing and Homelessness Research, with research funders that include CHFA. It puts safety, real and perceived, first, followed by comfort, choice and connection, and its authors say it is not a checklist. A 2022 scoping review of 13 studies found that the evidence lines up with these principles but is limited, mostly qualitative and from few places (Owen and Crane). The first quasi-experimental test, at five supportive housing sites, three designed this way and two not, found mixed results: some measures of relationships improved at the trauma-informed sites, while measures of psychological safety fell and reported conflict rose over the study. The authors conclude that safety, conflict and relationships change together as residents settle in (Brisson and colleagues, 2025).",
             "Two Denver buildings show what this looks like. Sanderson Apartments, 60 furnished homes of about 440 square feet for people who had been chronically homeless, opened in 2017 and is run by the Mental Health Center of Denver. Its community, dining and exercise rooms sit by the front desk, corridors are wider and lined with windows, and kitchen cabinets and closets have no doors, so residents can see what is there and who is around. Arroyo Village, designed by Shopworks and opened in March 2019, combines a shelter, supportive housing and workforce housing, with no intake desk, lockers, and privacy walls between shelter beds. Neither has been studied; the descriptions come from news reports.",
-            "CHFA asks for this design. Points for homelessness and special-population set-asides under QAP 5.B.5 require design suited to the population served, such as trauma-informed design, services residents can choose at no cost, and tenant selection that follows Housing First practices such as pet-friendly policies. The third draft also bars locked laundry closets as a minimum amenity, unless CHFA allows an exception in its sole discretion."
+            "CHFA asks for this design. Points for homelessness and special-population set-asides under QAP 5.B.5 require design suited to the population served, such as trauma-informed design, services residents can choose at no cost, and tenant selection that follows Housing First practices such as pet-friendly policies. The adopted 2027-28 plan also bars locked laundry closets as a minimum amenity, unless CHFA allows an exception in its sole discretion."
           ],
           "items_heading": "Questions to settle before the floor plans",
           "items": [
@@ -603,10 +603,10 @@
           "id": "qap",
           "heading": "What CHFA requires, scores and rewards",
           "paragraphs": [
-            "From the 2027-28 QAP Third Draft, which is not final until CHFA adopts it. Read amounts and dates from CHFA's PDF."
+            "From the 2027-28 QAP, adopted by CHFA's Board on September 25, 2026 and approved by the Governor on October 23, 2026. Read amounts and dates from CHFA's PDF."
           ],
           "table": {
-            "caption": "CHFA 2027-28 QAP Third Draft: design and livability items",
+            "caption": "CHFA 2027-28 QAP (adopted): design and livability items",
             "columns": [
               "Item",
               "Status",
@@ -771,9 +771,9 @@
       ],
       "articles": [
         {
-          "title": "2027-28 QAP - Third Draft",
+          "title": "2027-28 QAP (adopted)",
           "source": "Colorado Housing and Finance Authority",
-          "link": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
+          "link": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
           "date": "2026"
         },
         {
@@ -1008,7 +1008,7 @@
       "summary": "CHFA calls this housing neuro-inclusive: designed for people with I/DD but open to everyone. In Colorado it is built in a few ways: a set-aside of homes in a tax-credit building, a group home, a community with staff on site around the clock, or a home a family buys. In every model the rent and the services are paid from different pots. Medicaid waivers pay for support but not for rent, and in provider-run homes the state caps what a resident can be charged for room and board at $810 a month in 2026. CHFA's draft 2027-28 plan gives fifteen points for setting aside at least 25 percent of homes for Special Populations, which include people with developmental and intellectual impairments.",
       "implications": "Line up the service provider before the site. CHFA wants signed agreements with providers that have at least three years of experience, a services budget and a source of residents. Keep the I/DD homes to about a quarter of the building and spread them through it: in a building with federal Section 811 rental assistance, no more than 25% of homes may be set aside for, or give preference to, people with disabilities, and Medicaid treats a setting that isolates people as institutional. Plan for transport, because most adults with I/DD do not drive. Use the developer-fee increase CHFA allows for Special Populations to fund services, because no Colorado program pays for a building-wide support desk.",
       "related_data": "data/audit/chfa-qap-watch.json",
-      "qap_document": "2027-28 QAP - Third Draft (PDF)",
+      "qap_document": "2027-28 QAP (PDF)",
       "qap_quotes": [
         {
           "section": "Definitions",
@@ -1242,9 +1242,9 @@
           "date": "2022-06"
         },
         {
-          "title": "2027-28 QAP - Third Draft",
+          "title": "2027-28 QAP (adopted)",
           "source": "Colorado Housing and Finance Authority",
-          "link": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf",
+          "link": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
           "date": "2026"
         },
         {
