@@ -509,7 +509,7 @@
       "dda": 0,
       "hudDataStatus": "incomplete",
       "irsPerCapita": 2.52,
-      "policyNote": "COVID-19: IRS extensions granted for placed-in-service deadlines. Consolidated Appropriations Act, 2021 (P.L. 116-260, Dec 2020) sets a permanent 4% floor for bond-financed buildings placed in service after 2020"
+      "policyNote": "COVID-19: IRS extensions granted for placed-in-service deadlines. Consolidated Appropriations Act, 2021 (P.L. 116-260, Dec 2020) sets a permanent 4% floor for buildings placed in service after 2020; for bond-financed buildings, only where the bonds are issued after 2020 (div. EE, sec. 201(b))"
     },
     {
       "year": 2021,
@@ -524,7 +524,7 @@
       "dda": 0,
       "hudDataStatus": "incomplete",
       "irsPerCapita": 2.58,
-      "policyNote": "First allocations under the permanent 4% floor set by P.L. 116-260 (Dec 2020); American Rescue Plan Act housing funds (P.L. 117-2)"
+      "policyNote": "First bond issues eligible for the permanent 4% floor set by P.L. 116-260 (Dec 2020); American Rescue Plan Act housing funds (P.L. 117-2)"
     },
     {
       "year": 2022,
