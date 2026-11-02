@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-02T15:08:51.851Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-02T15:13:23.302Z. Do not edit by hand.
 
 ---
 
@@ -23,7 +23,7 @@
 | `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 218.6 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
-| `commuting.html` | Commuting and Jobs | COHO Analytics | 9.5 KB |
+| `commuting.html` | Commuting and Jobs | COHO Analytics | 10.0 KB |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.5 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.5 KB |
@@ -96,7 +96,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1961 JSON files found.
+1963 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1085,6 +1085,7 @@
 | `data/hna/lihtc/08121.json` | 249 B | ✅ | 0 features |
 | `data/hna/lihtc/08123.json` | 30.6 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 1.3 KB | ✅ | 1 features |
+| `data/hna/local-hna-comparisons.json` | 6.5 KB | ✅ | — |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 6.5 KB | ✅ | — |
 | `data/hna/local-resources.json` | 180.6 KB | ✅ | — |
@@ -1900,6 +1901,7 @@
 | `data/market/relocation-comparables.json` | 4.4 KB | ✅ | — |
 | `data/market/state-trend-analysis.json` | 6.8 KB | ✅ | — |
 | `data/market/tax-credit-transfer-pricing.json` | 5.4 KB | ✅ | — |
+| `data/market/through-commuters.json` | 166.2 KB | ✅ | — |
 | `data/market/tract-workplaces.json` | 1.86 MB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
 | `data/market/transit_stops_coverage_co.json` | 230.7 KB | ✅ | — |
@@ -2066,7 +2068,7 @@
 
 ## Test Files
 
-762 test files found.
+763 test files found.
 
 | File | Size |
 |------|------|
@@ -2693,6 +2695,7 @@
 | `test/test_qcew_annual_slice.py` | 8.9 KB |
 | `test/test_realtor_inventory_co.py` | 6.3 KB |
 | `test/test_soft_funding_tracker.js` | 13.5 KB |
+| `test/through-commuters.test.mjs` | 9.7 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.6 KB |
 | `test/town-questions.test.mjs` | 41.7 KB |

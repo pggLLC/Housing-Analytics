@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-02T15:09:31.960Z",
+    "generated_at": "2026-11-02T15:14:06.249Z",
     "root": "data/",
-    "file_count": 2008,
-    "total_size_bytes": 211634349,
+    "file_count": 2010,
+    "total_size_bytes": 211811247,
     "kinds": {
-      "json": 1960,
+      "json": 1962,
       "geojson": 34,
       "csv": 14
     }
@@ -671,7 +671,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-02T15:09:27.572Z",
+      "mtime": "2026-11-02T15:14:01.925Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -22247,6 +22247,33 @@
       ]
     },
     {
+      "path": "hna/local-hna-comparisons.json",
+      "kind": "json",
+      "size_bytes": 6674,
+      "mtime": "2026-11-02T15:12:02.987Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "hnas"
+      ],
+      "key_count": 2,
+      "primary_array_key": "hnas",
+      "primary_array_length": 1,
+      "primary_array_first_keys": [
+        "id",
+        "county_fips",
+        "applies_to",
+        "title",
+        "author",
+        "client",
+        "date",
+        "url",
+        "summary_url",
+        "checked",
+        "rows"
+      ]
+    },
+    {
       "path": "hna/local-notes.json",
       "kind": "json",
       "size_bytes": 751,
@@ -39622,6 +39649,21 @@
       ]
     },
     {
+      "path": "market/through-commuters.json",
+      "kind": "json",
+      "size_bytes": 170224,
+      "mtime": "2026-11-02T15:12:03.331Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "places"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/tract-workplaces.json",
       "kind": "json",
       "size_bytes": 1952269,
@@ -39950,7 +39992,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-02T15:09:29.725Z",
+      "mtime": "2026-11-02T15:14:04.086Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39974,7 +40016,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-02T15:09:29.204Z",
+      "mtime": "2026-11-02T15:14:03.580Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
