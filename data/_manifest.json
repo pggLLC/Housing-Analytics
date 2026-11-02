@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-02T15:14:06.249Z",
+    "generated_at": "2026-11-02T15:41:19.136Z",
     "root": "data/",
     "file_count": 2010,
-    "total_size_bytes": 211811247,
+    "total_size_bytes": 211811498,
     "kinds": {
       "json": 1962,
       "geojson": 34,
@@ -38240,8 +38240,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 255228,
-      "mtime": "2026-11-01T15:38:10.048Z",
+      "size_bytes": 255479,
+      "mtime": "2026-11-02T15:41:12.821Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39992,7 +39992,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-02T15:14:04.086Z",
+      "mtime": "2026-11-02T15:41:17.677Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40016,7 +40016,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-02T15:14:03.580Z",
+      "mtime": "2026-11-02T15:41:17.325Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
