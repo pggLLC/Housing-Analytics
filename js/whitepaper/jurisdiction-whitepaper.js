@@ -64,6 +64,11 @@
     // Where a town's working residents work, with residents who work in another state in the total.
     jobAccess: { path: 'data/policy/job-access.json', optional: true },
     employers: { path: 'data/market/principal-employers.json', optional: true },
+    // Workers who drive through the town to a job centre, the comparable-property evidence that
+    // lets a market study count some of them, and recent local HNAs to compare against.
+    through: { path: 'data/market/through-commuters.json', optional: true },
+    relocationComps: { path: 'data/market/relocation-comparables.json', optional: true },
+    localHnas: { path: 'data/hna/local-hna-comparisons.json', optional: true },
     employerContacts: { path: 'data/jurisdiction-briefs/_employer-contacts.json', optional: true },
     // The private question bank: served by the gated site only (coho-backend gated/).
     townQuestions: { path: 'data/jurisdiction-briefs/_town-questions.json', optional: true }
@@ -1004,6 +1009,47 @@
     };
   }
 
+  // Relocation potential: workers who drive through the town on the way to a job centre. A pool,
+  // never demand by itself: CHFA's 2027-28 QAP (Market Study Guide, In-migration) lets a study add
+  // in-migration only when comparable projects demonstrate it.
+  function relocationSection(row, src, countyFips) {
+    var T = src.through || null;
+    var t = T && row.type !== 'county' ? (T.places || {})[row.geoid] : null;
+    if (!t || t.through == null) return null;
+    var fips = countyFips || null;
+    var comps = ((src.relocationComps || {}).comparables || []).filter(function (c) { return c.county_fips === fips; });
+    var countyLine = comps.filter(function (c) { return c.measure === 'outside_county'; });
+    var low = (t.earnings || {}).le_1250 + (t.earnings || {})['1251_3333'];
+    var renters = t.renter_share_at_home != null && Number.isFinite(low) ? Math.round(low * t.renter_share_at_home) : null;
+    var lowest = countyLine.length ? countyLine.reduce(function (a, b) { return +b.share_low < +a.share_low ? b : a; }) : null;
+    return {
+      through: t.through, to: t.to || [], fromCounties: t.from_counties || [], earnings: t.earnings || {}, age: t.age || {},
+      miles: t.avg_route_miles, minutes: t.avg_drive_minutes, lowPaid: Number.isFinite(low) ? low : null,
+      renterShare: t.renter_share_at_home, renters: renters,
+      comparable: lowest ? { property: lowest.property, low: lowest.share_low, high: lowest.share_high, url: safeHref(lowest.source_url), title: lowest.source_title } : null,
+      pmaOnly: !lowest && comps.length ? comps.map(function (c) { return c.property; }) : [],
+      year: (T.meta || {}).lodes_year || null, definition: (T.meta || {}).definition || '', limits: (T.meta || {}).limits || ''
+    };
+  }
+
+  // How COHO's figures compare with a recent local HNA (curated, page-cited). A town uses its county's HNA.
+  function hnaCompareSection(row, src) {
+    var H = ((src.localHnas || {}).hnas) || [];
+    var hna = H.find(function (h) { return (h.applies_to || []).indexOf(row.geoid) !== -1; });
+    if (!hna) return null;
+    var through = src.through && (src.through.places || {})[row.geoid];
+    var rows = (hna.rows || []).filter(function (r) { return r.geography === row.geoid || r.geography === hna.county_fips; }).map(function (r) {
+      var coho = r.coho_text;
+      if (r.id === 'bayfield-relocation' || /through-commuters\.json/.test(r.coho_source || '')) {
+        if (r.geography !== row.geoid) return null;
+        coho = through && through.through != null ? fmtInt(through.through) + ' drive through on the way to work; shown as relocation potential, outside the need count' : null;
+        if (!coho) return null;
+      }
+      return { measure: r.measure, hna: r.hna_text || (r.hna_value == null ? NA : r.hna_value), hnaPage: r.hna_page, quote: r.hna_quote, coho: coho, why: r.why, kind: r.kind };
+    }).filter(Boolean);
+    return { title: hna.title, author: hna.author, client: hna.client, date: hna.date, url: safeHref(hna.url), rows: rows, checked: hna.checked };
+  }
+
   function nextDates(src, today) {
     var ev = ((src.qapCalendar || {}).events) || [];
     return ev.filter(function (e) { return e.date && e.date >= today && /LIHTC|R1|R2|Letter of Intent/i.test(e.name || ''); })
@@ -1050,6 +1096,8 @@
       landscape: landscape,
       dynamics: dealDynamics(row, src, need, lihtc, policy),
       workforce: workforceSection(row, src, countyRow ? countyRow.geoid : null),
+      relocation: relocationSection(row, src, countyRow ? countyRow.geoid : null),
+      hnaCompare: hnaCompareSection(row, src),
       contacts: contactsSection(row, src, opts.contacts || null, opts.localResources || null, opts.relatedContacts || [], !!opts.contactsFailed),
       dates: nextDates(src, today),
       brief: brief ? {
@@ -1723,6 +1771,46 @@
     return h;
   }
 
+  function renderRelocation(m) {
+    var R = m.relocation;
+    if (!R) return '';
+    var e = R.earnings, a = R.age;
+    var h = '<h2 id="relocation">Relocation potential: workers who drive through</h2>' +
+      '<p data-relocation-potential>About ' + fmtInt(R.through) + ' people live farther out and drive through ' + esc(m.name) + ' on the way to work' +
+      (R.to.length ? ', most to ' + esc(plainName(R.to[0][0])) : '') + ', about ' + fmtInt(R.minutes) + ' minutes each way. Some might move closer if homes were here.</p>' +
+      '<table><tbody>' +
+      row2('1. Drive through to work', fmtInt(R.through) + ' (LODES ' + esc(R.year || NA) + ' primary jobs; ' + esc(R.miles) + ' route miles on average)') +
+      row2('Where they work', R.to.map(function (f) { return esc(plainName(f[0])) + ' ' + fmtInt(f[1]); }).join('; ') || NA) +
+      row2('Where they live', R.fromCounties.map(function (f) { return esc(f[0]) + ' ' + fmtInt(f[1]); }).join('; ') || NA) +
+      row2('2. Earn $3,333 a month or less', (R.lowPaid == null ? NA : fmtInt(R.lowPaid)) + ' (' + fmtInt(e.le_1250) + ' at $1,250 or less; ' + fmtInt(e['1251_3333']) + ' at $1,251 to $3,333; ' + fmtInt(e.gt_3333) + ' above). Per job, not household income.') +
+      row2('3. Likely renters', R.renters == null ? NA : 'About ' + fmtInt(R.renters) + ' (renter share where they live now, ' + Math.round(100 * R.renterShare) + '%, ACS 5-year)') +
+      row2('Age', fmtInt(a.under_30) + ' under 30; ' + fmtInt(a['30_54']) + ' aged 30 to 54; ' + fmtInt(a['55_plus']) + ' aged 55 or older') +
+      row2('4. Share who would move (CHFA test)', R.comparable
+        ? 'Lowest documented share in this county: ' + esc(R.comparable.low) + '% of tenants from outside the county at ' + link(R.comparable.property, R.comparable.url) + '. A market study adds outside demand of base \u00d7 share \u00f7 (1 \u2212 share), never more than step 3.'
+        : 'No comparable-property evidence of tenants moving in is on file for this county, so no number is added to demand.' + (R.pmaOnly.length ? ' On file, measured at a market-area line only: ' + esc(R.pmaOnly.join(', ')) + '.' : '') + ' The evidence a market analyst would gather: prior addresses of current tenants at nearby tax credit properties.') +
+      '</tbody></table>' +
+      '<p class="wp-meta">CHFA 2027-28 QAP, Market Study Guide, In-migration: "In-migration can be used when it is demonstrated from other comparable projects ... An allowance based on anecdotal evidence is not permitted." ' +
+      'So the study shows capture without relocation first, then with it. Through-commuters whose home tract is inside the market area are already in the base renter count and are not added again.</p>' +
+      '<p class="wp-meta">' + esc(R.definition) + ' ' + esc(R.limits) + '</p>' +
+      srcLine(['data/market/through-commuters.json (LEHD LODES ' + (R.year || NA) + ' primary jobs; TIGER/Line roads and town boundaries)', 'data/market/relocation-comparables.json']);
+    return h;
+  }
+
+  function renderHnaCompare(m) {
+    var H = m.hnaCompare;
+    if (!H || !H.rows.length) return '';
+    function val(v) { return typeof v === 'number' ? (v < 1 ? Math.round(100 * v) + '%' : fmtInt(v)) : esc(v); }
+    return '<h2 id="hna-compare">How this compares with the ' + esc(String(H.date).slice(0, 4)) + ' HNA</h2>' +
+      '<p>' + link(H.title, H.url) + ', ' + esc(H.author) + ' for the ' + esc(H.client) + ', dated ' + esc(H.date) + '.</p>' +
+      // Three columns plus a full-width "why" row, so it reads on a phone without side-scrolling.
+      '<div class="wp-scroll"><table><thead><tr><th>Measure</th><th>HNA</th><th>COHO</th></tr></thead><tbody>' +
+      H.rows.map(function (r) {
+        return '<tr><td>' + esc(r.measure) + '</td><td>' + val(r.hna) + ' <span class="wp-meta">(' + esc(r.hnaPage) + ')</span></td><td>' + esc(r.coho) + '</td></tr>' +
+          '<tr><td colspan="3"><strong>Why they differ:</strong> ' + esc(r.why) + '</td></tr>';
+      }).join('') + '</tbody></table></div>' +
+      srcLine(['data/hna/local-hna-comparisons.json (HNA figures copied by hand with page and quote, checked ' + (H.checked || NA) + ')']);
+  }
+
   function renderDates(m) {
     if (!m.dates.length) return '';
     return '<h2 id="dates">Next CHFA dates</h2><ul>' + m.dates.map(function (e) {
@@ -1748,7 +1836,7 @@
       '<p class="wp-meta">GEOID ' + esc(m.geoid) + (m.region ? ' · ' + esc(m.region) : '') + ' · built ' + esc(m.generated) +
       ' from public data in the COHO Analytics repository. Screening analysis: not a CHFA market study, underwriting, or legal advice.</p>' +
       renderGlance(m) + renderSummary(m) + renderCommunity(m) + renderNeed(m) + renderRents(m) + renderLihtc(m) + renderProp123(m) + renderPolicy(m) +
-      renderLandscape(m) + renderBrief(m) + renderFunding(m) + renderDeal(m) + renderQuestions(m) + renderDynamics(m) + renderWorkforce(m) + renderContacts(m) + renderDates(m);
+      renderLandscape(m) + renderBrief(m) + renderFunding(m) + renderDeal(m) + renderQuestions(m) + renderDynamics(m) + renderWorkforce(m) + renderRelocation(m) + renderHnaCompare(m) + renderContacts(m) + renderDates(m);
     // Number the sections in the order they print.
     var n = 0;
     body = body.replace(/<h2 id="(\w+)">/g, function (all, id) { return id === 'summary' ? all : '<h2 id="' + id + '">' + (++n) + '. '; });

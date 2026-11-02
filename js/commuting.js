@@ -13,6 +13,9 @@
 
   var COMMUTE = 'data/market/commute-strength.json';
   var EMPLOYERS = 'data/market/principal-employers.json';
+  // Workers who drive past the town on the way to a job centre (scripts/market/build_through_commuters.py).
+  var THROUGH = 'data/market/through-commuters.json';
+  var through = null;
   var COUNTIES = 'data/co-county-boundaries.json';
   var CO_BOUNDS = [[36.99, -109.06], [41.0, -102.04]];
 
@@ -62,11 +65,24 @@
       (cost ? '<li><b>' + cost + '</b>a year for a typical 20 to 60 mile commuter (' + p.median_far_miles + ' miles each way, straight line, 240 days, IRS rate)</li>' : '') +
       '<li><b>' + int(p.long) + '</b>recorded 60+ miles away; many are not daily trips, so they are not costed</li>' +
       '<li><b>' + pct(p.out_commuters, p.residents) + '</b>of working residents work in another Colorado town (' + int(p.out_commuters) + ' of ' + int(p.residents) + ')</li>' +
+      throughItem(p) +
       '</ul><div class="cj-flows">' +
       '<div><h4>Where its in-commuters live</h4><ol>' + p.from.map(function (f) { return '<li>' + esc(f[0]) + ': ' + int(f[1]) + '</li>'; }).join('') + '</ol></div>' +
       '<div><h4>Where its residents work</h4><ol>' + p.to.map(function (f) { return '<li>' + esc(f[0]) + ': ' + int(f[1]) + '</li>'; }).join('') + '</ol></div>' +
       '</div>';
     return h;
+  }
+
+  /** The drive-through line: people who live farther out and pass the town on the way to work. */
+  function throughItem(p) {
+    if (!through || !through.places) return '';
+    var t = through.places[p.geoid];
+    if (!t) return '';
+    if (t.through == null) return '';
+    var to = t.to && t.to.length ? t.to[0][0].replace(/\s*\([^)]*\)$/, '') : null;
+    return '<li data-cj-through><b>' + int(t.through) + '</b>drive through ' + esc(p.name.replace(/\s*\([^)]*\)$/, '')) +
+      ' on the way to work' + (to ? ', most to ' + esc(to) : '') + '. They live farther out; some might move closer if homes were here.' +
+      ' <span class="cj-note">(LODES ' + esc(through.meta.lodes_year) + ', modelled road route, about ' + int(t.avg_drive_minutes) + ' minutes each way)</span></li>';
   }
 
   function sourceLine(meta) {
@@ -176,7 +192,9 @@
 
   function start() {
     if (!$('[data-commuting]')) return;
-    getJSON(COMMUTE).then(boot).catch(function (e) {
+    // The drive-through line is extra: the page works without it.
+    getJSON(THROUGH).then(function (d) { through = d; }).catch(function () { through = null; })
+      .then(function () { return getJSON(COMMUTE); }).then(boot).catch(function (e) {
       $('[data-cj-answer]').textContent = 'The commute data did not load. Reload the page to try again.';
       if (global.console) global.console.warn(e);
     });
@@ -185,7 +203,7 @@
     });
   }
 
-  if (typeof module === 'object' && module.exports) module.exports = { answer: answer, binFor: binFor, IRS_RATE: IRS_RATE, WORKDAYS: WORKDAYS };
+  if (typeof module === 'object' && module.exports) module.exports = { answer: answer, binFor: binFor, throughItem: throughItem, _setThrough: function (d) { through = d; }, IRS_RATE: IRS_RATE, WORKDAYS: WORKDAYS };
   if (doc) {
     if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', start); else start();
   }
