@@ -37,7 +37,6 @@ import csv
 import datetime
 import gzip
 import heapq
-import io
 import json
 import math
 import os
@@ -63,6 +62,7 @@ MIN_CENTER_JOBS = 1000
 MIN_MILES = 5.0
 MAX_MILES = 75.0
 PASS_METERS = 200.0
+SAMPLE_METERS = 300.0  # below 2 x PASS_METERS; see Graph.add_line
 MIN_SHOWN = 25          # a town's total under this is published as null (too small to read)
 # Front Range metro areas (2023 CBSA codes in the LODES crosswalk).
 METRO_CBSA = {
@@ -234,8 +234,18 @@ class Graph:
         return n
 
     def add_line(self, pts, mph):
-        prev = self.node(pts[0])
-        for pt in pts[1:]:
+        # Long segments get interior points every SAMPLE_METERS or less. A route that crosses a town's
+        # boundary then has a node within SAMPLE_METERS / 2 of the crossing, inside the PASS_METERS
+        # buffer, so the node test cannot miss a passage because TIGER stored few vertices.
+        dense = [pts[0]]
+        for a, b in zip(pts, pts[1:]):
+            k = int(math.ceil(miles(a, b) * 1609.344 / SAMPLE_METERS))
+            for i in range(1, k):
+                t = i / k
+                dense.append((a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t))
+            dense.append(b)
+        prev = self.node(dense[0])
+        for pt in dense[1:]:
             cur = self.node(pt)
             if cur == prev:
                 continue
@@ -362,7 +372,8 @@ def main():
     for b, v in blk.items():
         if v[0]:
             metro_place[v[0]] = metro_place.get(v[0], False) or v[2]
-    centers = [p for p, n in jobs.items() if n >= MIN_CENTER_JOBS]
+    # Job centres in the metro areas are left out too, as meta.metro_note says.
+    centers = [p for p, n in jobs.items() if n >= MIN_CENTER_JOBS and not metro_place.get(p)]
     centers.sort(key=lambda p: -jobs[p])
     log(f'job centres: {len(centers)}')
 
@@ -393,7 +404,7 @@ def main():
     # Home blocks to route, grouped by job centre.
     by_center = collections.defaultdict(list)
     for (hb, wp), c in flows.items():
-        if wp not in jobs or jobs[wp] < MIN_CENTER_JOBS:
+        if wp not in jobs or jobs[wp] < MIN_CENTER_JOBS or metro_place.get(wp):
             continue
         h = blk[hb]
         if h[2] or h[0] == wp:

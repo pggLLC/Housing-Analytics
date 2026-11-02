@@ -91,7 +91,7 @@
    },
    "avg_route_miles": 59.7,
    "renter_share_at_home": 0.288,
-   "avg_drive_minutes": 75
+   "avg_drive_minutes": 74
   },
   "0801090": {
    "name": "Alamosa (city)",
@@ -233,11 +233,11 @@
    "name": "Antonito (town)",
    "county": "Conejos County",
    "county_fips": "08021",
-   "through": 52,
+   "through": 50,
    "to": [
     [
      "Alamosa (city)",
-     49
+     47
     ],
     [
      "Monte Vista (city)",
@@ -247,20 +247,20 @@
    "from_counties": [
     [
      "Conejos County",
-     52
+     50
     ]
    ],
    "earnings": {
-    "le_1250": 12,
+    "le_1250": 11,
     "1251_3333": 18,
-    "gt_3333": 22
+    "gt_3333": 21
    },
    "age": {
-    "under_30": 17,
+    "under_30": 16,
     "30_54": 19,
-    "55_plus": 16
+    "55_plus": 15
    },
-   "avg_route_miles": 41.0,
+   "avg_route_miles": 41.3,
    "renter_share_at_home": 0.235,
    "avg_drive_minutes": 53
   },
@@ -384,7 +384,7 @@
    "name": "Atwood (CDP)",
    "county": "Logan County",
    "county_fips": "08075",
-   "through": 182,
+   "through": 181,
    "to": [
     [
      "Sterling (city)",
@@ -403,14 +403,14 @@
      2
     ],
     [
-     "Greeley (city)",
+     "Yuma (city)",
      1
     ]
    ],
    "from_counties": [
     [
      "Logan County",
-     181
+     180
     ],
     [
      "Washington County",
@@ -420,22 +420,22 @@
    "earnings": {
     "le_1250": 33,
     "1251_3333": 53,
-    "gt_3333": 96
+    "gt_3333": 95
    },
    "age": {
-    "under_30": 26,
+    "under_30": 25,
     "30_54": 101,
     "55_plus": 55
    },
-   "avg_route_miles": 27.2,
+   "avg_route_miles": 26.8,
    "renter_share_at_home": 0.337,
-   "avg_drive_minutes": 31
+   "avg_drive_minutes": 30
   },
   "0804110": {
    "name": "Avon (town)",
    "county": "Eagle County",
    "county_fips": "08037",
-   "through": 4175,
+   "through": 4127,
    "to": [
     [
      "Vail (town)",
@@ -461,7 +461,7 @@
    "from_counties": [
     [
      "Eagle County",
-     3116
+     3068
     ],
     [
      "Garfield County",
@@ -481,24 +481,24 @@
     ]
    ],
    "earnings": {
-    "le_1250": 728,
-    "1251_3333": 837,
-    "gt_3333": 2610
+    "le_1250": 723,
+    "1251_3333": 827,
+    "gt_3333": 2577
    },
    "age": {
-    "under_30": 895,
-    "30_54": 2339,
-    "55_plus": 941
+    "under_30": 885,
+    "30_54": 2317,
+    "55_plus": 925
    },
-   "avg_route_miles": 48.5,
+   "avg_route_miles": 47.8,
    "renter_share_at_home": 0.327,
-   "avg_drive_minutes": 51
+   "avg_drive_minutes": 50
   },
   "0804165": {
    "name": "Avondale (CDP)",
    "county": "Pueblo County",
    "county_fips": "08101",
-   "through": 63,
+   "through": 59,
    "to": [
     [
      "La Junta (city)",
@@ -509,37 +509,29 @@
      16
     ],
     [
-     "Colorado Springs (city)",
-     3
-    ],
-    [
      "Pueblo West (CDP)",
      3
-    ],
-    [
-     "Fountain (city)",
-     1
     ]
    ],
    "from_counties": [
     [
      "Pueblo County",
-     63
+     59
     ]
    ],
    "earnings": {
     "le_1250": 9,
     "1251_3333": 25,
-    "gt_3333": 29
+    "gt_3333": 25
    },
    "age": {
-    "under_30": 16,
-    "30_54": 32,
+    "under_30": 15,
+    "30_54": 29,
     "55_plus": 15
    },
-   "avg_route_miles": 52.8,
+   "avg_route_miles": 52.2,
    "renter_share_at_home": 0.291,
-   "avg_drive_minutes": 65
+   "avg_drive_minutes": 64
   },
   "0804935": {
    "name": "Basalt (town)",
@@ -799,15 +791,11 @@
    "name": "Blende (CDP)",
    "county": "Pueblo County",
    "county_fips": "08101",
-   "through": 1669,
+   "through": 1240,
    "to": [
     [
      "Pueblo (city)",
      1062
-    ],
-    [
-     "Colorado Springs (city)",
-     380
     ],
     [
      "Pueblo West (CDP)",
@@ -818,47 +806,43 @@
      33
     ],
     [
-     "Fountain (city)",
-     19
+     "Ca\u00f1on City (city)",
+     15
+    ],
+    [
+     "Trinidad (city)",
+     5
     ]
    ],
    "from_counties": [
     [
      "Pueblo County",
-     1669
+     1240
     ]
    ],
    "earnings": {
-    "le_1250": 189,
-    "1251_3333": 491,
-    "gt_3333": 989
+    "le_1250": 135,
+    "1251_3333": 385,
+    "gt_3333": 720
    },
    "age": {
-    "under_30": 349,
-    "30_54": 849,
-    "55_plus": 471
+    "under_30": 247,
+    "30_54": 624,
+    "55_plus": 369
    },
-   "avg_route_miles": 23.8,
+   "avg_route_miles": 12.8,
    "renter_share_at_home": 0.291,
-   "avg_drive_minutes": 28
+   "avg_drive_minutes": 17
   },
   "0807410": {
    "name": "Blue River (town)",
    "county": "Summit County",
    "county_fips": "08117",
-   "through": 236,
+   "through": 169,
    "to": [
     [
      "Breckenridge (town)",
      117
-    ],
-    [
-     "Woodland Park (city)",
-     14
-    ],
-    [
-     "Denver (city)",
-     13
     ],
     [
      "Frisco (town)",
@@ -867,12 +851,20 @@
     [
      "Keystone (CDP)",
      7
+    ],
+    [
+     "Avon (town)",
+     6
+    ],
+    [
+     "Salida (city)",
+     6
     ]
    ],
    "from_counties": [
     [
      "Summit County",
-     152
+     85
     ],
     [
      "Chaffee County",
@@ -884,18 +876,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 39,
-    "1251_3333": 68,
-    "gt_3333": 129
+    "le_1250": 26,
+    "1251_3333": 48,
+    "gt_3333": 95
    },
    "age": {
-    "under_30": 49,
-    "30_54": 134,
-    "55_plus": 53
+    "under_30": 26,
+    "30_54": 102,
+    "55_plus": 41
    },
-   "avg_route_miles": 62.1,
-   "renter_share_at_home": 0.272,
-   "avg_drive_minutes": 72
+   "avg_route_miles": 49.4,
+   "renter_share_at_home": 0.269,
+   "avg_drive_minutes": 61
   },
   "0807420": {
    "name": "Blue Sky (CDP)",
@@ -915,37 +907,29 @@
    "name": "Boone (town)",
    "county": "Pueblo County",
    "county_fips": "08101",
-   "through": 256,
+   "through": 137,
    "to": [
     [
      "Pueblo (city)",
      118
     ],
     [
-     "Colorado Springs (city)",
-     107
-    ],
-    [
      "Pueblo West (CDP)",
      18
     ],
     [
-     "Security-Widefield (CDP)",
-     5
-    ],
-    [
-     "Fountain (city)",
-     4
+     "Ca\u00f1on City (city)",
+     1
     ]
    ],
    "from_counties": [
     [
      "Crowley County",
-     227
+     112
     ],
     [
      "Pueblo County",
-     24
+     20
     ],
     [
      "Lincoln County",
@@ -957,18 +941,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 51,
-    "1251_3333": 79,
-    "gt_3333": 126
+    "le_1250": 30,
+    "1251_3333": 40,
+    "gt_3333": 67
    },
    "age": {
-    "under_30": 77,
-    "30_54": 124,
-    "55_plus": 55
+    "under_30": 45,
+    "30_54": 60,
+    "55_plus": 32
    },
-   "avg_route_miles": 67.2,
+   "avg_route_miles": 47.1,
    "renter_share_at_home": 0.303,
-   "avg_drive_minutes": 78
+   "avg_drive_minutes": 59
   },
   "0808290": {
    "name": "Brandon (CDP)",
@@ -988,12 +972,8 @@
    "name": "Breckenridge (town)",
    "county": "Summit County",
    "county_fips": "08117",
-   "through": 862,
+   "through": 343,
    "to": [
-    [
-     "Denver (city)",
-     142
-    ],
     [
      "Frisco (town)",
      75
@@ -1009,12 +989,16 @@
     [
      "Silverthorne (town)",
      41
+    ],
+    [
+     "Vail (town)",
+     33
     ]
    ],
    "from_counties": [
     [
      "Summit County",
-     854
+     335
     ],
     [
      "Chaffee County",
@@ -1022,32 +1006,28 @@
     ]
    ],
    "earnings": {
-    "le_1250": 161,
-    "1251_3333": 182,
-    "gt_3333": 519
+    "le_1250": 79,
+    "1251_3333": 86,
+    "gt_3333": 178
    },
    "age": {
-    "under_30": 230,
-    "30_54": 443,
-    "55_plus": 189
+    "under_30": 84,
+    "30_54": 170,
+    "55_plus": 89
    },
-   "avg_route_miles": 65.9,
+   "avg_route_miles": 32.4,
    "renter_share_at_home": 0.279,
-   "avg_drive_minutes": 69
+   "avg_drive_minutes": 39
   },
   "0809115": {
    "name": "Brookside (town)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 735,
+   "through": 569,
    "to": [
     [
      "Ca\u00f1on City (city)",
      488
-    ],
-    [
-     "Colorado Springs (city)",
-     132
     ],
     [
      "Pueblo (city)",
@@ -1058,14 +1038,18 @@
      15
     ],
     [
-     "Cimarron Hills (CDP)",
-     12
+     "Pueblo West (CDP)",
+     11
+    ],
+    [
+     "Buena Vista (town)",
+     7
     ]
    ],
    "from_counties": [
     [
      "Fremont County",
-     687
+     521
     ],
     [
      "Custer County",
@@ -1085,24 +1069,24 @@
     ]
    ],
    "earnings": {
-    "le_1250": 115,
-    "1251_3333": 265,
-    "gt_3333": 355
+    "le_1250": 94,
+    "1251_3333": 208,
+    "gt_3333": 267
    },
    "age": {
-    "under_30": 146,
-    "30_54": 369,
-    "55_plus": 220
+    "under_30": 121,
+    "30_54": 279,
+    "55_plus": 169
    },
-   "avg_route_miles": 26.9,
-   "renter_share_at_home": 0.24,
-   "avg_drive_minutes": 35
+   "avg_route_miles": 19.1,
+   "renter_share_at_home": 0.239,
+   "avg_drive_minutes": 25
   },
   "0809555": {
    "name": "Brush (city)",
    "county": "Morgan County",
    "county_fips": "08087",
-   "through": 910,
+   "through": 791,
    "to": [
     [
      "Fort Morgan (city)",
@@ -1113,14 +1097,6 @@
      142
     ],
     [
-     "Greeley (city)",
-     82
-    ],
-    [
-     "Aurora (city)",
-     16
-    ],
-    [
      "Yuma (city)",
      16
     ]
@@ -1128,15 +1104,15 @@
    "from_counties": [
     [
      "Morgan County",
-     502
+     413
     ],
     [
      "Logan County",
-     262
+     246
     ],
     [
      "Washington County",
-     102
+     88
     ],
     [
      "Yuma County",
@@ -1148,24 +1124,24 @@
     ]
    ],
    "earnings": {
-    "le_1250": 111,
-    "1251_3333": 230,
-    "gt_3333": 569
+    "le_1250": 99,
+    "1251_3333": 202,
+    "gt_3333": 490
    },
    "age": {
-    "under_30": 177,
-    "30_54": 456,
-    "55_plus": 277
+    "under_30": 140,
+    "30_54": 402,
+    "55_plus": 249
    },
-   "avg_route_miles": 44.2,
+   "avg_route_miles": 39.0,
    "renter_share_at_home": 0.322,
-   "avg_drive_minutes": 48
+   "avg_drive_minutes": 43
   },
   "0810105": {
    "name": "Buena Vista (town)",
    "county": "Chaffee County",
    "county_fips": "08015",
-   "through": 386,
+   "through": 346,
    "to": [
     [
      "Salida (city)",
@@ -1176,22 +1152,22 @@
      66
     ],
     [
-     "Colorado Springs (city)",
-     33
-    ],
-    [
      "Breckenridge (town)",
      22
     ],
     [
      "Aspen (city)",
      17
+    ],
+    [
+     "Keystone (CDP)",
+     15
     ]
    ],
    "from_counties": [
     [
      "Chaffee County",
-     322
+     282
     ],
     [
      "Lake County",
@@ -1211,18 +1187,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 54,
-    "1251_3333": 92,
-    "gt_3333": 240
+    "le_1250": 48,
+    "1251_3333": 82,
+    "gt_3333": 216
    },
    "age": {
-    "under_30": 65,
-    "30_54": 227,
-    "55_plus": 94
+    "under_30": 58,
+    "30_54": 204,
+    "55_plus": 84
    },
-   "avg_route_miles": 64.2,
+   "avg_route_miles": 60.2,
    "renter_share_at_home": 0.261,
-   "avg_drive_minutes": 80
+   "avg_drive_minutes": 75
   },
   "0810600": {
    "name": "Burlington (city)",
@@ -1242,12 +1218,8 @@
    "name": "Ca\u00f1on City (city)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 1014,
+   "through": 334,
    "to": [
-    [
-     "Colorado Springs (city)",
-     562
-    ],
     [
      "Pueblo (city)",
      224
@@ -1261,45 +1233,41 @@
      35
     ],
     [
-     "Cripple Creek (city)",
-     26
+     "Buena Vista (town)",
+     24
     ]
    ],
    "from_counties": [
     [
      "Fremont County",
-     776
-    ],
-    [
-     "Chaffee County",
-     216
+     315
     ],
     [
      "Pueblo County",
-     10
-    ],
-    [
-     "Custer County",
-     7
+     9
     ],
     [
      "Saguache County",
      5
+    ],
+    [
+     "Chaffee County",
+     5
     ]
    ],
    "earnings": {
-    "le_1250": 132,
-    "1251_3333": 327,
-    "gt_3333": 555
+    "le_1250": 43,
+    "1251_3333": 106,
+    "gt_3333": 185
    },
    "age": {
-    "under_30": 247,
-    "30_54": 508,
-    "55_plus": 259
+    "under_30": 70,
+    "30_54": 175,
+    "55_plus": 89
    },
-   "avg_route_miles": 70.2,
-   "renter_share_at_home": 0.247,
-   "avg_drive_minutes": 89
+   "avg_route_miles": 55.5,
+   "renter_share_at_home": 0.245,
+   "avg_drive_minutes": 70
   },
   "0811975": {
    "name": "Capulin (CDP)",
@@ -1319,7 +1287,7 @@
    "name": "Carbondale (town)",
    "county": "Garfield County",
    "county_fips": "08045",
-   "through": 4493,
+   "through": 4492,
    "to": [
     [
      "Aspen (city)",
@@ -1349,7 +1317,7 @@
     ],
     [
      "Eagle County",
-     807
+     806
     ],
     [
      "Pitkin County",
@@ -1367,12 +1335,12 @@
    "earnings": {
     "le_1250": 799,
     "1251_3333": 941,
-    "gt_3333": 2753
+    "gt_3333": 2752
    },
    "age": {
     "under_30": 1116,
     "30_54": 2391,
-    "55_plus": 986
+    "55_plus": 985
    },
    "avg_route_miles": 55.4,
    "renter_share_at_home": 0.319,
@@ -1389,7 +1357,7 @@
    "name": "Catherine (CDP)",
    "county": "Garfield County",
    "county_fips": "08045",
-   "through": 5557,
+   "through": 5556,
    "to": [
     [
      "Aspen (city)",
@@ -1419,7 +1387,7 @@
     ],
     [
      "Eagle County",
-     952
+     951
     ],
     [
      "Pitkin County",
@@ -1437,12 +1405,12 @@
    "earnings": {
     "le_1250": 1003,
     "1251_3333": 1174,
-    "gt_3333": 3380
+    "gt_3333": 3379
    },
    "age": {
     "under_30": 1339,
     "30_54": 2960,
-    "55_plus": 1258
+    "55_plus": 1257
    },
    "avg_route_miles": 45.6,
    "renter_share_at_home": 0.319,
@@ -1452,7 +1420,7 @@
    "name": "Cattle Creek (CDP)",
    "county": "Garfield County",
    "county_fips": "08045",
-   "through": 5535,
+   "through": 5534,
    "to": [
     [
      "Aspen (city)",
@@ -1482,7 +1450,7 @@
     ],
     [
      "Eagle County",
-     838
+     837
     ],
     [
      "Pitkin County",
@@ -1500,12 +1468,12 @@
    "earnings": {
     "le_1250": 872,
     "1251_3333": 1105,
-    "gt_3333": 3558
+    "gt_3333": 3557
    },
    "age": {
     "under_30": 1351,
     "30_54": 2987,
-    "55_plus": 1197
+    "55_plus": 1196
    },
    "avg_route_miles": 48.1,
    "renter_share_at_home": 0.314,
@@ -1752,62 +1720,18 @@
    "name": "Coal Creek (town)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 42,
-   "to": [
-    [
-     "Colorado Springs (city)",
-     20
-    ],
-    [
-     "Pueblo (city)",
-     12
-    ],
-    [
-     "Ca\u00f1on City (city)",
-     6
-    ],
-    [
-     "Castle Rock (town)",
-     1
-    ],
-    [
-     "Fountain (city)",
-     1
-    ]
-   ],
-   "from_counties": [
-    [
-     "Fremont County",
-     42
-    ]
-   ],
-   "earnings": {
-    "le_1250": 4,
-    "1251_3333": 14,
-    "gt_3333": 24
-   },
-   "age": {
-    "under_30": 13,
-    "30_54": 18,
-    "55_plus": 11
-   },
-   "avg_route_miles": 40.4,
-   "renter_share_at_home": 0.244,
-   "avg_drive_minutes": 53
+   "through": null,
+   "under_min": true
   },
   "0815440": {
    "name": "Coaldale (CDP)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 671,
+   "through": 438,
    "to": [
     [
      "Salida (city)",
      221
-    ],
-    [
-     "Colorado Springs (city)",
-     212
     ],
     [
      "Ca\u00f1on City (city)",
@@ -1820,16 +1744,20 @@
     [
      "Pueblo (city)",
      18
+    ],
+    [
+     "Pueblo West (CDP)",
+     8
     ]
    ],
    "from_counties": [
     [
-     "Chaffee County",
-     289
+     "Fremont County",
+     264
     ],
     [
-     "Fremont County",
-     286
+     "Chaffee County",
+     78
     ],
     [
      "Custer County",
@@ -1845,18 +1773,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 92,
-    "1251_3333": 193,
-    "gt_3333": 386
+    "le_1250": 56,
+    "1251_3333": 117,
+    "gt_3333": 265
    },
    "age": {
-    "under_30": 145,
-    "30_54": 332,
-    "55_plus": 194
+    "under_30": 81,
+    "30_54": 225,
+    "55_plus": 132
    },
-   "avg_route_miles": 81.9,
-   "renter_share_at_home": 0.244,
-   "avg_drive_minutes": 103
+   "avg_route_miles": 67.8,
+   "renter_share_at_home": 0.237,
+   "avg_drive_minutes": 87
   },
   "0815550": {
    "name": "Cokedale (town)",
@@ -2015,15 +1943,11 @@
    "name": "Colorado City (CDP)",
    "county": "Pueblo County",
    "county_fips": "08101",
-   "through": 476,
+   "through": 418,
    "to": [
     [
      "Pueblo (city)",
      321
-    ],
-    [
-     "Colorado Springs (city)",
-     49
     ],
     [
      "Pueblo West (CDP)",
@@ -2036,16 +1960,20 @@
     [
      "Ca\u00f1on City (city)",
      16
+    ],
+    [
+     "Alamosa (city)",
+     3
     ]
    ],
    "from_counties": [
     [
      "Huerfano County",
-     223
+     210
     ],
     [
      "Pueblo County",
-     174
+     129
     ],
     [
      "Las Animas County",
@@ -2061,28 +1989,28 @@
     ]
    ],
    "earnings": {
-    "le_1250": 80,
-    "1251_3333": 143,
-    "gt_3333": 253
+    "le_1250": 75,
+    "1251_3333": 121,
+    "gt_3333": 222
    },
    "age": {
-    "under_30": 114,
-    "30_54": 210,
-    "55_plus": 152
+    "under_30": 101,
+    "30_54": 179,
+    "55_plus": 138
    },
-   "avg_route_miles": 63.7,
-   "renter_share_at_home": 0.273,
-   "avg_drive_minutes": 66
+   "avg_route_miles": 61.3,
+   "renter_share_at_home": 0.271,
+   "avg_drive_minutes": 64
   },
   "0816715": {
    "name": "Conejos (CDP)",
    "county": "Conejos County",
    "county_fips": "08021",
-   "through": 97,
+   "through": 94,
    "to": [
     [
      "Alamosa (city)",
-     91
+     88
     ],
     [
      "Monte Vista (city)",
@@ -2096,28 +2024,28 @@
    "from_counties": [
     [
      "Conejos County",
-     97
+     94
     ]
    ],
    "earnings": {
-    "le_1250": 19,
-    "1251_3333": 39,
-    "gt_3333": 39
+    "le_1250": 18,
+    "1251_3333": 38,
+    "gt_3333": 38
    },
    "age": {
     "under_30": 26,
-    "30_54": 46,
+    "30_54": 43,
     "55_plus": 25
    },
-   "avg_route_miles": 37.4,
+   "avg_route_miles": 37.6,
    "renter_share_at_home": 0.235,
-   "avg_drive_minutes": 47
+   "avg_drive_minutes": 48
   },
   "0817100": {
    "name": "Cope (CDP)",
    "county": "Washington County",
    "county_fips": "08121",
-   "through": 28,
+   "through": 27,
    "to": [
     [
      "Yuma (city)",
@@ -2134,16 +2062,12 @@
     [
      "Fort Morgan (city)",
      1
-    ],
-    [
-     "Sterling (city)",
-     1
     ]
    ],
    "from_counties": [
     [
      "Washington County",
-     17
+     16
     ],
     [
      "Kit Carson County",
@@ -2159,24 +2083,24 @@
     ]
    ],
    "earnings": {
-    "le_1250": 4,
+    "le_1250": 3,
     "1251_3333": 13,
     "gt_3333": 11
    },
    "age": {
     "under_30": 4,
     "30_54": 12,
-    "55_plus": 12
+    "55_plus": 11
    },
-   "avg_route_miles": 71.1,
+   "avg_route_miles": 70.1,
    "renter_share_at_home": 0.27,
-   "avg_drive_minutes": 86
+   "avg_drive_minutes": 85
   },
   "0817150": {
    "name": "Copper Mountain (CDP)",
    "county": "Summit County",
    "county_fips": "08117",
-   "through": 3277,
+   "through": 2641,
    "to": [
     [
      "Breckenridge (town)",
@@ -2201,16 +2125,16 @@
    ],
    "from_counties": [
     [
-     "Eagle County",
-     1278
-    ],
-    [
      "Summit County",
      1078
     ],
     [
+     "Eagle County",
+     821
+    ],
+    [
      "Lake County",
-     571
+     395
     ],
     [
      "Grand County",
@@ -2222,18 +2146,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 722,
-    "1251_3333": 803,
-    "gt_3333": 1752
+    "le_1250": 623,
+    "1251_3333": 659,
+    "gt_3333": 1359
    },
    "age": {
-    "under_30": 850,
-    "30_54": 1667,
-    "55_plus": 760
+    "under_30": 692,
+    "30_54": 1354,
+    "55_plus": 595
    },
-   "avg_route_miles": 64.9,
-   "renter_share_at_home": 0.299,
-   "avg_drive_minutes": 68
+   "avg_route_miles": 56.7,
+   "renter_share_at_home": 0.296,
+   "avg_drive_minutes": 60
   },
   "0817375": {
    "name": "Cortez (city)",
@@ -2282,12 +2206,8 @@
    "name": "Cotopaxi (CDP)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 703,
+   "through": 460,
    "to": [
-    [
-     "Colorado Springs (city)",
-     218
-    ],
     [
      "Salida (city)",
      217
@@ -2303,16 +2223,20 @@
     [
      "Pueblo (city)",
      23
+    ],
+    [
+     "Pueblo West (CDP)",
+     10
     ]
    ],
    "from_counties": [
     [
      "Fremont County",
-     318
+     286
     ],
     [
      "Chaffee County",
-     289
+     78
     ],
     [
      "Custer County",
@@ -2328,18 +2252,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 100,
-    "1251_3333": 202,
-    "gt_3333": 401
+    "le_1250": 63,
+    "1251_3333": 122,
+    "gt_3333": 275
    },
    "age": {
-    "under_30": 152,
-    "30_54": 339,
-    "55_plus": 212
+    "under_30": 85,
+    "30_54": 230,
+    "55_plus": 145
    },
-   "avg_route_miles": 81.2,
-   "renter_share_at_home": 0.244,
-   "avg_drive_minutes": 102
+   "avg_route_miles": 67.2,
+   "renter_share_at_home": 0.238,
+   "avg_drive_minutes": 86
   },
   "0817760": {
    "name": "Craig (city)",
@@ -2528,15 +2452,11 @@
    "name": "Crowley (town)",
    "county": "Crowley County",
    "county_fips": "08025",
-   "through": 180,
+   "through": 108,
    "to": [
     [
      "Pueblo (city)",
      69
-    ],
-    [
-     "Colorado Springs (city)",
-     63
     ],
     [
      "La Junta (city)",
@@ -2547,14 +2467,14 @@
      11
     ],
     [
-     "Security-Widefield (CDP)",
-     4
+     "Lamar (city)",
+     3
     ]
    ],
    "from_counties": [
     [
      "Crowley County",
-     175
+     103
     ],
     [
      "Lincoln County",
@@ -2566,18 +2486,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 41,
-    "1251_3333": 47,
-    "gt_3333": 92
+    "le_1250": 24,
+    "1251_3333": 31,
+    "gt_3333": 53
    },
    "age": {
-    "under_30": 54,
-    "30_54": 87,
-    "55_plus": 39
+    "under_30": 33,
+    "30_54": 47,
+    "55_plus": 28
    },
-   "avg_route_miles": 66.6,
+   "avg_route_miles": 48.5,
    "renter_share_at_home": 0.305,
-   "avg_drive_minutes": 77
+   "avg_drive_minutes": 59
   },
   "0819355": {
    "name": "De Beque (town)",
@@ -2646,11 +2566,11 @@
    "name": "Del Norte (town)",
    "county": "Rio Grande County",
    "county_fips": "08105",
-   "through": 213,
+   "through": 211,
    "to": [
     [
      "Pagosa Springs (town)",
-     112
+     110
     ],
     [
      "Alamosa (city)",
@@ -2668,7 +2588,7 @@
    "from_counties": [
     [
      "Rio Grande County",
-     135
+     133
     ],
     [
      "Alamosa County",
@@ -2689,15 +2609,15 @@
    ],
    "earnings": {
     "le_1250": 70,
-    "1251_3333": 65,
-    "gt_3333": 78
+    "1251_3333": 64,
+    "gt_3333": 77
    },
    "age": {
     "under_30": 66,
-    "30_54": 99,
+    "30_54": 97,
     "55_plus": 48
    },
-   "avg_route_miles": 65.8,
+   "avg_route_miles": 65.9,
    "renter_share_at_home": 0.333,
    "avg_drive_minutes": 82
   },
@@ -2768,64 +2688,64 @@
    "name": "Dillon (town)",
    "county": "Summit County",
    "county_fips": "08117",
-   "through": 5522,
+   "through": 1340,
    "to": [
-    [
-     "Denver (city)",
-     1081
-    ],
     [
      "Keystone (CDP)",
      474
     ],
     [
-     "Lakewood (city)",
-     377
+     "Breckenridge (town)",
+     160
     ],
     [
-     "Boulder (city)",
-     328
+     "Vail (town)",
+     135
     ],
     [
-     "Aurora (city)",
-     255
+     "Avon (town)",
+     135
+    ],
+    [
+     "Copper Mountain (CDP)",
+     108
     ]
    ],
    "from_counties": [
     [
      "Summit County",
-     4389
+     949
     ],
     [
      "Eagle County",
-     683
-    ],
-    [
-     "Lake County",
-     215
+     226
     ],
     [
      "Grand County",
-     196
+     91
+    ],
+    [
+     "Lake County",
+     38
     ],
     [
      "Chaffee County",
-     20
+     17
     ]
    ],
    "earnings": {
-    "le_1250": 942,
-    "1251_3333": 1174,
-    "gt_3333": 3406
+    "le_1250": 350,
+    "1251_3333": 355,
+    "gt_3333": 635
    },
    "age": {
-    "under_30": 1393,
-    "30_54": 2874,
-    "55_plus": 1255
+    "under_30": 373,
+    "30_54": 678,
+    "55_plus": 289
    },
-   "avg_route_miles": 72.8,
-   "renter_share_at_home": 0.285,
-   "avg_drive_minutes": 73
+   "avg_route_miles": 40.6,
+   "renter_share_at_home": 0.288,
+   "avg_drive_minutes": 44
   },
   "0820495": {
    "name": "Dinosaur (town)",
@@ -2893,7 +2813,7 @@
    "name": "Dotsero (CDP)",
    "county": "Eagle County",
    "county_fips": "08037",
-   "through": 2928,
+   "through": 2927,
    "to": [
     [
      "Eagle (town)",
@@ -2923,7 +2843,7 @@
     ],
     [
      "Eagle County",
-     850
+     849
     ],
     [
      "Pitkin County",
@@ -2941,12 +2861,12 @@
    "earnings": {
     "le_1250": 476,
     "1251_3333": 619,
-    "gt_3333": 1833
+    "gt_3333": 1832
    },
    "age": {
     "under_30": 788,
     "30_54": 1488,
-    "55_plus": 652
+    "55_plus": 651
    },
    "avg_route_miles": 73.4,
    "renter_share_at_home": 0.317,
@@ -3077,7 +2997,7 @@
    "name": "Eagle (town)",
    "county": "Eagle County",
    "county_fips": "08037",
-   "through": 3329,
+   "through": 3326,
    "to": [
     [
      "Vail (town)",
@@ -3103,7 +3023,7 @@
    "from_counties": [
     [
      "Eagle County",
-     1892
+     1889
     ],
     [
      "Garfield County",
@@ -3123,14 +3043,14 @@
     ]
    ],
    "earnings": {
-    "le_1250": 617,
+    "le_1250": 615,
     "1251_3333": 739,
-    "gt_3333": 1973
+    "gt_3333": 1972
    },
    "age": {
     "under_30": 893,
-    "30_54": 1723,
-    "55_plus": 713
+    "30_54": 1722,
+    "55_plus": 711
    },
    "avg_route_miles": 66.6,
    "renter_share_at_home": 0.325,
@@ -3140,7 +3060,7 @@
    "name": "Eckley (town)",
    "county": "Yuma County",
    "county_fips": "08125",
-   "through": 293,
+   "through": 294,
    "to": [
     [
      "Wray (city)",
@@ -3152,7 +3072,7 @@
     ],
     [
      "Burlington (city)",
-     30
+     31
     ],
     [
      "Sterling (city)",
@@ -3166,7 +3086,7 @@
    "from_counties": [
     [
      "Yuma County",
-     230
+     231
     ],
     [
      "Logan County",
@@ -3187,15 +3107,15 @@
    ],
    "earnings": {
     "le_1250": 50,
-    "1251_3333": 93,
+    "1251_3333": 94,
     "gt_3333": 150
    },
    "age": {
     "under_30": 64,
-    "30_54": 144,
+    "30_54": 145,
     "55_plus": 85
    },
-   "avg_route_miles": 46.8,
+   "avg_route_miles": 47.0,
    "renter_share_at_home": 0.309,
    "avg_drive_minutes": 58
   },
@@ -3203,7 +3123,7 @@
    "name": "Edwards (CDP)",
    "county": "Eagle County",
    "county_fips": "08037",
-   "through": 3927,
+   "through": 3917,
    "to": [
     [
      "Vail (town)",
@@ -3229,7 +3149,7 @@
    "from_counties": [
     [
      "Eagle County",
-     2617
+     2607
     ],
     [
      "Garfield County",
@@ -3249,16 +3169,16 @@
     ]
    ],
    "earnings": {
-    "le_1250": 805,
-    "1251_3333": 859,
-    "gt_3333": 2263
+    "le_1250": 802,
+    "1251_3333": 858,
+    "gt_3333": 2257
    },
    "age": {
-    "under_30": 983,
-    "30_54": 2081,
-    "55_plus": 863
+    "under_30": 980,
+    "30_54": 2078,
+    "55_plus": 859
    },
-   "avg_route_miles": 57.3,
+   "avg_route_miles": 57.2,
    "renter_share_at_home": 0.327,
    "avg_drive_minutes": 60
   },
@@ -3266,7 +3186,7 @@
    "name": "El Jebel (CDP)",
    "county": "Eagle County",
    "county_fips": "08037",
-   "through": 5676,
+   "through": 5675,
    "to": [
     [
      "Aspen (city)",
@@ -3296,7 +3216,7 @@
     ],
     [
      "Eagle County",
-     1092
+     1091
     ],
     [
      "Pitkin County",
@@ -3314,12 +3234,12 @@
    "earnings": {
     "le_1250": 1050,
     "1251_3333": 1179,
-    "gt_3333": 3447
+    "gt_3333": 3446
    },
    "age": {
     "under_30": 1390,
     "30_54": 3001,
-    "55_plus": 1285
+    "55_plus": 1284
    },
    "avg_route_miles": 44.2,
    "renter_share_at_home": 0.319,
@@ -3364,9 +3284,9 @@
     "30_54": 106,
     "55_plus": 62
    },
-   "avg_route_miles": 37.2,
+   "avg_route_miles": 37.4,
    "renter_share_at_home": 0.314,
-   "avg_drive_minutes": 46
+   "avg_drive_minutes": 47
   },
   "0826765": {
    "name": "Flagler (town)",
@@ -3379,11 +3299,11 @@
    "name": "Fleming (town)",
    "county": "Logan County",
    "county_fips": "08075",
-   "through": 122,
+   "through": 123,
    "to": [
     [
      "Sterling (city)",
-     104
+     105
     ],
     [
      "Fort Morgan (city)",
@@ -3409,7 +3329,7 @@
     ],
     [
      "Logan County",
-     19
+     20
     ],
     [
      "Yuma County",
@@ -3419,27 +3339,23 @@
    "earnings": {
     "le_1250": 25,
     "1251_3333": 20,
-    "gt_3333": 77
+    "gt_3333": 78
    },
    "age": {
     "under_30": 23,
     "30_54": 80,
-    "55_plus": 19
+    "55_plus": 20
    },
-   "avg_route_miles": 44.9,
+   "avg_route_miles": 44.7,
    "renter_share_at_home": 0.292,
-   "avg_drive_minutes": 55
+   "avg_drive_minutes": 54
   },
   "0827040": {
    "name": "Florence (city)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 3986,
+   "through": 1891,
    "to": [
-    [
-     "Colorado Springs (city)",
-     1741
-    ],
     [
      "Ca\u00f1on City (city)",
      979
@@ -3453,45 +3369,49 @@
      95
     ],
     [
-     "Fountain (city)",
-     74
+     "Salida (city)",
+     20
+    ],
+    [
+     "Buena Vista (town)",
+     6
     ]
    ],
    "from_counties": [
     [
      "Fremont County",
-     2993
+     1262
     ],
     [
      "Pueblo County",
-     557
-    ],
-    [
-     "Chaffee County",
-     216
+     556
     ],
     [
      "Custer County",
-     190
+     38
     ],
     [
      "Huerfano County",
      14
+    ],
+    [
+     "Saguache County",
+     5
     ]
    ],
    "earnings": {
-    "le_1250": 573,
-    "1251_3333": 1233,
-    "gt_3333": 2180
+    "le_1250": 289,
+    "1251_3333": 592,
+    "gt_3333": 1010
    },
    "age": {
-    "under_30": 964,
-    "30_54": 1960,
-    "55_plus": 1062
+    "under_30": 466,
+    "30_54": 925,
+    "55_plus": 500
    },
-   "avg_route_miles": 50.4,
-   "renter_share_at_home": 0.247,
-   "avg_drive_minutes": 63
+   "avg_route_miles": 35.8,
+   "renter_share_at_home": 0.256,
+   "avg_drive_minutes": 45
   },
   "0827535": {
    "name": "Fort Garland (CDP)",
@@ -3554,68 +3474,52 @@
    },
    "avg_route_miles": 65.4,
    "renter_share_at_home": 0.245,
-   "avg_drive_minutes": 82
+   "avg_drive_minutes": 81
   },
   "0827810": {
    "name": "Fort Morgan (city)",
    "county": "Morgan County",
    "county_fips": "08087",
-   "through": 1061,
+   "through": 189,
    "to": [
-    [
-     "Greeley (city)",
-     275
-    ],
     [
      "Brush (city)",
      127
     ],
     [
-     "Aurora (city)",
-     113
+     "Sterling (city)",
+     53
     ],
     [
-     "Denver (city)",
-     91
-    ],
-    [
-     "Commerce City (city)",
-     55
+     "Yuma (city)",
+     9
     ]
    ],
    "from_counties": [
     [
      "Morgan County",
-     1031
-    ],
-    [
-     "Logan County",
-     16
-    ],
-    [
-     "Washington County",
-     14
+     189
     ]
    ],
    "earnings": {
-    "le_1250": 158,
-    "1251_3333": 301,
-    "gt_3333": 602
+    "le_1250": 35,
+    "1251_3333": 56,
+    "gt_3333": 98
    },
    "age": {
-    "under_30": 301,
-    "30_54": 517,
-    "55_plus": 243
+    "under_30": 45,
+    "30_54": 96,
+    "55_plus": 48
    },
-   "avg_route_miles": 68.6,
-   "renter_share_at_home": 0.326,
-   "avg_drive_minutes": 73
+   "avg_route_miles": 31.1,
+   "renter_share_at_home": 0.327,
+   "avg_drive_minutes": 34
   },
   "0827975": {
    "name": "Fowler (town)",
    "county": "Otero County",
    "county_fips": "08089",
-   "through": 602,
+   "through": 543,
    "to": [
     [
      "Pueblo (city)",
@@ -3630,18 +3534,14 @@
      43
     ],
     [
-     "Colorado Springs (city)",
-     32
-    ],
-    [
-     "Fountain (city)",
-     20
+     "Trinidad (city)",
+     3
     ]
    ],
    "from_counties": [
     [
      "Otero County",
-     479
+     420
     ],
     [
      "Pueblo County",
@@ -3657,58 +3557,54 @@
     ]
    ],
    "earnings": {
-    "le_1250": 99,
-    "1251_3333": 202,
-    "gt_3333": 301
+    "le_1250": 84,
+    "1251_3333": 178,
+    "gt_3333": 281
    },
    "age": {
-    "under_30": 145,
-    "30_54": 298,
-    "55_plus": 159
+    "under_30": 136,
+    "30_54": 266,
+    "55_plus": 141
    },
-   "avg_route_miles": 63.1,
+   "avg_route_miles": 60.7,
    "renter_share_at_home": 0.307,
-   "avg_drive_minutes": 76
+   "avg_drive_minutes": 74
   },
   "0828305": {
    "name": "Fraser (town)",
    "county": "Grand County",
    "county_fips": "08049",
-   "through": 1260,
+   "through": 409,
    "to": [
     [
      "Winter Park (town)",
      352
     ],
     [
-     "Denver (city)",
-     289
+     "Vail (town)",
+     16
     ],
     [
-     "Aurora (city)",
-     57
+     "Frisco (town)",
+     9
     ],
     [
-     "Lakewood (city)",
-     42
+     "Breckenridge (town)",
+     8
     ],
     [
-     "Centennial (city)",
-     40
+     "Steamboat Springs (city)",
+     6
     ]
    ],
    "from_counties": [
     [
      "Grand County",
-     1245
+     398
     ],
     [
      "Routt County",
      10
-    ],
-    [
-     "Jackson County",
-     4
     ],
     [
      "Eagle County",
@@ -3716,32 +3612,28 @@
     ]
    ],
    "earnings": {
-    "le_1250": 269,
-    "1251_3333": 291,
-    "gt_3333": 700
+    "le_1250": 146,
+    "1251_3333": 104,
+    "gt_3333": 159
    },
    "age": {
-    "under_30": 354,
-    "30_54": 601,
-    "55_plus": 305
+    "under_30": 142,
+    "30_54": 185,
+    "55_plus": 82
    },
-   "avg_route_miles": 73.3,
+   "avg_route_miles": 32.9,
    "renter_share_at_home": 0.266,
-   "avg_drive_minutes": 83
+   "avg_drive_minutes": 41
   },
   "0828690": {
    "name": "Frisco (town)",
    "county": "Summit County",
    "county_fips": "08117",
-   "through": 5410,
+   "through": 3464,
    "to": [
     [
      "Breckenridge (town)",
      1274
-    ],
-    [
-     "Denver (city)",
-     451
     ],
     [
      "Copper Mountain (CDP)",
@@ -3754,20 +3646,24 @@
     [
      "Avon (town)",
      344
+    ],
+    [
+     "Keystone (CDP)",
+     290
     ]
    ],
    "from_counties": [
     [
      "Summit County",
-     3374
+     2064
     ],
     [
      "Eagle County",
-     1197
+     740
     ],
     [
      "Lake County",
-     441
+     265
     ],
     [
      "Grand County",
@@ -3779,18 +3675,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 1153,
-    "1251_3333": 1248,
-    "gt_3333": 3009
+    "le_1250": 849,
+    "1251_3333": 850,
+    "gt_3333": 1765
    },
    "age": {
-    "under_30": 1375,
-    "30_54": 2804,
-    "55_plus": 1231
+    "under_30": 905,
+    "30_54": 1776,
+    "55_plus": 783
    },
-   "avg_route_miles": 61.0,
+   "avg_route_miles": 44.9,
    "renter_share_at_home": 0.291,
-   "avg_drive_minutes": 63
+   "avg_drive_minutes": 49
   },
   "0828745": {
    "name": "Fruita (city)",
@@ -4057,7 +3953,7 @@
    "name": "Glenwood Springs (city)",
    "county": "Garfield County",
    "county_fips": "08045",
-   "through": 4087,
+   "through": 4086,
    "to": [
     [
      "Aspen (city)",
@@ -4087,7 +3983,7 @@
     ],
     [
      "Eagle County",
-     663
+     662
     ],
     [
      "Pitkin County",
@@ -4105,14 +4001,14 @@
    "earnings": {
     "le_1250": 613,
     "1251_3333": 806,
-    "gt_3333": 2668
+    "gt_3333": 2667
    },
    "age": {
     "under_30": 1048,
     "30_54": 2121,
-    "55_plus": 918
+    "55_plus": 917
    },
-   "avg_route_miles": 65.5,
+   "avg_route_miles": 65.4,
    "renter_share_at_home": 0.313,
    "avg_drive_minutes": 72
   },
@@ -4143,49 +4039,45 @@
     "30_54": 22,
     "55_plus": 12
    },
-   "avg_route_miles": 28.3,
+   "avg_route_miles": 28.4,
    "renter_share_at_home": 0.329,
-   "avg_drive_minutes": 35
+   "avg_drive_minutes": 36
   },
   "0831605": {
    "name": "Granby (town)",
    "county": "Grand County",
    "county_fips": "08049",
-   "through": 652,
+   "through": 244,
    "to": [
     [
      "Winter Park (town)",
      167
     ],
     [
-     "Denver (city)",
-     125
-    ],
-    [
      "Steamboat Springs (city)",
      38
     ],
     [
-     "Aurora (city)",
-     29
+     "Vail (town)",
+     10
     ],
     [
-     "Estes Park (town)",
-     25
+     "Breckenridge (town)",
+     6
+    ],
+    [
+     "Edwards (CDP)",
+     6
     ]
    ],
    "from_counties": [
     [
      "Grand County",
-     619
+     233
     ],
     [
      "Routt County",
-     27
-    ],
-    [
-     "Jackson County",
-     5
+     10
     ],
     [
      "Eagle County",
@@ -4193,18 +4085,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 137,
-    "1251_3333": 169,
-    "gt_3333": 346
+    "le_1250": 86,
+    "1251_3333": 66,
+    "gt_3333": 92
    },
    "age": {
-    "under_30": 179,
-    "30_54": 298,
-    "55_plus": 175
+    "under_30": 75,
+    "30_54": 112,
+    "55_plus": 57
    },
-   "avg_route_miles": 83.8,
+   "avg_route_miles": 53.0,
    "renter_share_at_home": 0.265,
-   "avg_drive_minutes": 97
+   "avg_drive_minutes": 65
   },
   "0831660": {
    "name": "Grand Junction (city)",
@@ -4273,56 +4165,8 @@
    "name": "Grand Lake (town)",
    "county": "Grand County",
    "county_fips": "08049",
-   "through": 160,
-   "to": [
-    [
-     "Fort Collins (city)",
-     31
-    ],
-    [
-     "Estes Park (town)",
-     26
-    ],
-    [
-     "Loveland (city)",
-     20
-    ],
-    [
-     "Boulder (city)",
-     14
-    ],
-    [
-     "Longmont (city)",
-     12
-    ]
-   ],
-   "from_counties": [
-    [
-     "Grand County",
-     142
-    ],
-    [
-     "Routt County",
-     17
-    ],
-    [
-     "Jackson County",
-     1
-    ]
-   ],
-   "earnings": {
-    "le_1250": 25,
-    "1251_3333": 38,
-    "gt_3333": 97
-   },
-   "age": {
-    "under_30": 45,
-    "30_54": 68,
-    "55_plus": 47
-   },
-   "avg_route_miles": 99.1,
-   "renter_share_at_home": 0.263,
-   "avg_drive_minutes": 121
+   "through": null,
+   "under_min": true
   },
   "0833640": {
    "name": "Gunnison (city)",
@@ -4391,7 +4235,7 @@
    "name": "Gypsum (town)",
    "county": "Eagle County",
    "county_fips": "08037",
-   "through": 2844,
+   "through": 2842,
    "to": [
     [
      "Eagle (town)",
@@ -4421,7 +4265,7 @@
     ],
     [
      "Eagle County",
-     1111
+     1109
     ],
     [
      "Pitkin County",
@@ -4437,14 +4281,14 @@
     ]
    ],
    "earnings": {
-    "le_1250": 483,
+    "le_1250": 482,
     "1251_3333": 617,
-    "gt_3333": 1744
+    "gt_3333": 1743
    },
    "age": {
     "under_30": 766,
     "30_54": 1463,
-    "55_plus": 615
+    "55_plus": 613
    },
    "avg_route_miles": 71.5,
    "renter_share_at_home": 0.321,
@@ -4570,7 +4414,7 @@
     "30_54": 53,
     "55_plus": 17
    },
-   "avg_route_miles": 55.5,
+   "avg_route_miles": 55.3,
    "renter_share_at_home": 0.287,
    "avg_drive_minutes": 68
   },
@@ -4648,52 +4492,44 @@
    "name": "Hillrose (town)",
    "county": "Morgan County",
    "county_fips": "08087",
-   "through": 54,
+   "through": 36,
    "to": [
     [
      "Fort Morgan (city)",
-     29
-    ],
-    [
-     "Greeley (city)",
-     11
+     24
     ],
     [
      "Brush (city)",
      11
     ],
     [
-     "Brighton (city)",
-     1
-    ],
-    [
-     "Evans (city)",
+     "Yuma (city)",
      1
     ]
    ],
    "from_counties": [
     [
      "Morgan County",
-     47
+     33
     ],
     [
      "Washington County",
-     7
+     3
     ]
    ],
    "earnings": {
-    "le_1250": 7,
-    "1251_3333": 13,
-    "gt_3333": 34
+    "le_1250": 6,
+    "1251_3333": 10,
+    "gt_3333": 20
    },
    "age": {
-    "under_30": 7,
-    "30_54": 29,
-    "55_plus": 18
+    "under_30": 5,
+    "30_54": 19,
+    "55_plus": 12
    },
-   "avg_route_miles": 31.6,
-   "renter_share_at_home": 0.319,
-   "avg_drive_minutes": 37
+   "avg_route_miles": 18.2,
+   "renter_share_at_home": 0.322,
+   "avg_drive_minutes": 23
   },
   "0836940": {
    "name": "Hoehne (CDP)",
@@ -4762,13 +4598,13 @@
    },
    "avg_route_miles": 59.9,
    "renter_share_at_home": 0.286,
-   "avg_drive_minutes": 73
+   "avg_drive_minutes": 74
   },
   "0837380": {
    "name": "Hooper (town)",
    "county": "Alamosa County",
    "county_fips": "08003",
-   "through": 71,
+   "through": 73,
    "to": [
     [
      "Salida (city)",
@@ -4776,7 +4612,7 @@
     ],
     [
      "Alamosa (city)",
-     26
+     28
     ],
     [
      "Ca\u00f1on City (city)",
@@ -4794,7 +4630,7 @@
    "from_counties": [
     [
      "Alamosa County",
-     41
+     43
     ],
     [
      "Saguache County",
@@ -4816,16 +4652,16 @@
    "earnings": {
     "le_1250": 10,
     "1251_3333": 28,
-    "gt_3333": 33
+    "gt_3333": 35
    },
    "age": {
-    "under_30": 18,
-    "30_54": 31,
+    "under_30": 19,
+    "30_54": 32,
     "55_plus": 22
    },
-   "avg_route_miles": 74.6,
-   "renter_share_at_home": 0.357,
-   "avg_drive_minutes": 95
+   "avg_route_miles": 73.3,
+   "renter_share_at_home": 0.359,
+   "avg_drive_minutes": 93
   },
   "0837545": {
    "name": "Hotchkiss (town)",
@@ -4894,7 +4730,7 @@
    "name": "Hot Sulphur Springs (town)",
    "county": "Grand County",
    "county_fips": "08049",
-   "through": 186,
+   "through": 134,
    "to": [
     [
      "Steamboat Springs (city)",
@@ -4905,26 +4741,26 @@
      23
     ],
     [
-     "Estes Park (town)",
-     19
-    ],
-    [
      "Vail (town)",
      16
     ],
     [
      "Breckenridge (town)",
      13
+    ],
+    [
+     "Edwards (CDP)",
+     10
     ]
    ],
    "from_counties": [
     [
      "Grand County",
-     158
+     123
     ],
     [
      "Routt County",
-     27
+     10
     ],
     [
      "Eagle County",
@@ -4932,32 +4768,28 @@
     ]
    ],
    "earnings": {
-    "le_1250": 36,
-    "1251_3333": 52,
-    "gt_3333": 98
+    "le_1250": 29,
+    "1251_3333": 36,
+    "gt_3333": 69
    },
    "age": {
-    "under_30": 49,
-    "30_54": 88,
-    "55_plus": 49
+    "under_30": 37,
+    "30_54": 64,
+    "55_plus": 33
    },
-   "avg_route_miles": 98.5,
-   "renter_share_at_home": 0.263,
-   "avg_drive_minutes": 118
+   "avg_route_miles": 90.2,
+   "renter_share_at_home": 0.265,
+   "avg_drive_minutes": 108
   },
   "0837655": {
    "name": "Howard (CDP)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 648,
+   "through": 436,
    "to": [
     [
      "Salida (city)",
      253
-    ],
-    [
-     "Colorado Springs (city)",
-     195
     ],
     [
      "Ca\u00f1on City (city)",
@@ -4968,18 +4800,22 @@
      66
     ],
     [
-     "Fountain (city)",
-     7
+     "Pueblo (city)",
+     6
+    ],
+    [
+     "Pueblo West (CDP)",
+     6
     ]
    ],
    "from_counties": [
     [
-     "Chaffee County",
-     289
+     "Fremont County",
+     262
     ],
     [
-     "Fremont County",
-     263
+     "Chaffee County",
+     78
     ],
     [
      "Custer County",
@@ -4995,18 +4831,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 93,
-    "1251_3333": 179,
-    "gt_3333": 376
+    "le_1250": 59,
+    "1251_3333": 109,
+    "gt_3333": 268
    },
    "age": {
-    "under_30": 139,
-    "30_54": 317,
-    "55_plus": 192
+    "under_30": 77,
+    "30_54": 223,
+    "55_plus": 136
    },
-   "avg_route_miles": 80.0,
-   "renter_share_at_home": 0.244,
-   "avg_drive_minutes": 101
+   "avg_route_miles": 65.4,
+   "renter_share_at_home": 0.237,
+   "avg_drive_minutes": 84
   },
   "0837875": {
    "name": "Hugo (town)",
@@ -5050,7 +4886,7 @@
     "30_54": 25,
     "55_plus": 7
    },
-   "avg_route_miles": 45.0,
+   "avg_route_miles": 45.1,
    "renter_share_at_home": 0.307,
    "avg_drive_minutes": 58
   },
@@ -5140,48 +4976,8 @@
    "name": "Jackson Lake (CDP)",
    "county": "Morgan County",
    "county_fips": "08087",
-   "through": 96,
-   "to": [
-    [
-     "Denver (city)",
-     18
-    ],
-    [
-     "Fort Morgan (city)",
-     18
-    ],
-    [
-     "Greeley (city)",
-     14
-    ],
-    [
-     "Evans (city)",
-     5
-    ],
-    [
-     "Lakewood (city)",
-     4
-    ]
-   ],
-   "from_counties": [
-    [
-     "Morgan County",
-     96
-    ]
-   ],
-   "earnings": {
-    "le_1250": 16,
-    "1251_3333": 16,
-    "gt_3333": 64
-   },
-   "age": {
-    "under_30": 17,
-    "30_54": 57,
-    "55_plus": 22
-   },
-   "avg_route_miles": 59.1,
-   "renter_share_at_home": 0.327,
-   "avg_drive_minutes": 68
+   "through": null,
+   "under_min": true
   },
   "0839250": {
    "name": "Jansen (CDP)",
@@ -5269,7 +5065,7 @@
     "30_54": 32,
     "55_plus": 13
    },
-   "avg_route_miles": 46.7,
+   "avg_route_miles": 46.8,
    "renter_share_at_home": 0.308,
    "avg_drive_minutes": 60
   },
@@ -5277,19 +5073,11 @@
    "name": "Johnson Village (CDP)",
    "county": "Chaffee County",
    "county_fips": "08015",
-   "through": 254,
+   "through": 97,
    "to": [
-    [
-     "Colorado Springs (city)",
-     128
-    ],
     [
      "Breckenridge (town)",
      71
-    ],
-    [
-     "Woodland Park (city)",
-     13
     ],
     [
      "Salida (city)",
@@ -5298,12 +5086,20 @@
     [
      "Buena Vista (town)",
      9
+    ],
+    [
+     "Frisco (town)",
+     7
+    ],
+    [
+     "Vail (town)",
+     1
     ]
    ],
    "from_counties": [
     [
      "Chaffee County",
-     243
+     86
     ],
     [
      "Summit County",
@@ -5319,18 +5115,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 41,
-    "1251_3333": 61,
-    "gt_3333": 152
+    "le_1250": 12,
+    "1251_3333": 24,
+    "gt_3333": 61
    },
    "age": {
-    "under_30": 39,
-    "30_54": 151,
-    "55_plus": 64
+    "under_30": 11,
+    "30_54": 65,
+    "55_plus": 21
    },
-   "avg_route_miles": 87.4,
-   "renter_share_at_home": 0.26,
-   "avg_drive_minutes": 108
+   "avg_route_miles": 66.2,
+   "renter_share_at_home": 0.261,
+   "avg_drive_minutes": 82
   },
   "0839965": {
    "name": "Julesburg (town)",
@@ -5343,7 +5139,7 @@
    "name": "Keystone (CDP)",
    "county": "Summit County",
    "county_fips": "08117",
-   "through": 179,
+   "through": 108,
    "to": [
     [
      "Breckenridge (town)",
@@ -5354,37 +5150,37 @@
      13
     ],
     [
-     "Denver (city)",
-     12
-    ],
-    [
      "Vail (town)",
      12
     ],
     [
      "Silverthorne (town)",
      12
+    ],
+    [
+     "Frisco (town)",
+     11
     ]
    ],
    "from_counties": [
     [
      "Summit County",
-     179
+     108
     ]
    ],
    "earnings": {
-    "le_1250": 31,
-    "1251_3333": 37,
-    "gt_3333": 111
+    "le_1250": 18,
+    "1251_3333": 22,
+    "gt_3333": 68
    },
    "age": {
-    "under_30": 40,
-    "30_54": 93,
-    "55_plus": 46
+    "under_30": 22,
+    "30_54": 61,
+    "55_plus": 25
    },
-   "avg_route_miles": 45.5,
+   "avg_route_miles": 23.3,
    "renter_share_at_home": 0.279,
-   "avg_drive_minutes": 50
+   "avg_drive_minutes": 29
   },
   "0840570": {
    "name": "Kim (town)",
@@ -5411,7 +5207,7 @@
    "name": "Kremmling (town)",
    "county": "Grand County",
    "county_fips": "08049",
-   "through": 360,
+   "through": 311,
    "to": [
     [
      "Steamboat Springs (city)",
@@ -5437,15 +5233,15 @@
    "from_counties": [
     [
      "Grand County",
-     234
-    ],
-    [
-     "Routt County",
-     67
+     202
     ],
     [
      "Summit County",
      58
+    ],
+    [
+     "Routt County",
+     50
     ],
     [
      "Eagle County",
@@ -5453,18 +5249,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 72,
-    "1251_3333": 90,
-    "gt_3333": 198
+    "le_1250": 63,
+    "1251_3333": 76,
+    "gt_3333": 172
    },
    "age": {
-    "under_30": 92,
-    "30_54": 191,
-    "55_plus": 77
+    "under_30": 84,
+    "30_54": 165,
+    "55_plus": 62
    },
-   "avg_route_miles": 90.9,
-   "renter_share_at_home": 0.263,
-   "avg_drive_minutes": 109
+   "avg_route_miles": 85.5,
+   "renter_share_at_home": 0.264,
+   "avg_drive_minutes": 103
   },
   "0842000": {
    "name": "Laird (CDP)",
@@ -5477,11 +5273,11 @@
    "name": "La Jara (town)",
    "county": "Conejos County",
    "county_fips": "08021",
-   "through": 364,
+   "through": 361,
    "to": [
     [
      "Alamosa (city)",
-     344
+     341
     ],
     [
      "Monte Vista (city)",
@@ -5495,7 +5291,7 @@
    "from_counties": [
     [
      "Conejos County",
-     351
+     348
     ],
     [
      "Costilla County",
@@ -5504,15 +5300,15 @@
    ],
    "earnings": {
     "le_1250": 77,
-    "1251_3333": 147,
-    "gt_3333": 140
+    "1251_3333": 146,
+    "gt_3333": 138
    },
    "age": {
     "under_30": 101,
-    "30_54": 182,
-    "55_plus": 81
+    "30_54": 181,
+    "55_plus": 79
    },
-   "avg_route_miles": 27.8,
+   "avg_route_miles": 27.9,
    "renter_share_at_home": 0.234,
    "avg_drive_minutes": 35
   },
@@ -5559,7 +5355,7 @@
     "30_54": 28,
     "55_plus": 24
    },
-   "avg_route_miles": 69.7,
+   "avg_route_miles": 69.8,
    "renter_share_at_home": 0.313,
    "avg_drive_minutes": 85
   },
@@ -5653,7 +5449,7 @@
    "name": "Leadville (city)",
    "county": "Lake County",
    "county_fips": "08065",
-   "through": 1019,
+   "through": 926,
    "to": [
     [
      "Copper Mountain (CDP)",
@@ -5679,7 +5475,7 @@
    "from_counties": [
     [
      "Lake County",
-     728
+     638
     ],
     [
      "Summit County",
@@ -5687,7 +5483,7 @@
     ],
     [
      "Chaffee County",
-     92
+     89
     ],
     [
      "Pitkin County",
@@ -5699,24 +5495,24 @@
     ]
    ],
    "earnings": {
-    "le_1250": 153,
-    "1251_3333": 234,
-    "gt_3333": 632
+    "le_1250": 140,
+    "1251_3333": 220,
+    "gt_3333": 566
    },
    "age": {
-    "under_30": 320,
-    "30_54": 499,
-    "55_plus": 200
+    "under_30": 289,
+    "30_54": 458,
+    "55_plus": 179
    },
-   "avg_route_miles": 61.3,
-   "renter_share_at_home": 0.259,
-   "avg_drive_minutes": 72
+   "avg_route_miles": 58.1,
+   "renter_share_at_home": 0.26,
+   "avg_drive_minutes": 70
   },
   "0844375": {
    "name": "Leadville North (CDP)",
    "county": "Lake County",
    "county_fips": "08065",
-   "through": 1189,
+   "through": 1090,
    "to": [
     [
      "Copper Mountain (CDP)",
@@ -5742,7 +5538,7 @@
    "from_counties": [
     [
      "Lake County",
-     844
+     749
     ],
     [
      "Summit County",
@@ -5750,7 +5546,7 @@
     ],
     [
      "Chaffee County",
-     92
+     89
     ],
     [
      "Pitkin County",
@@ -5758,22 +5554,22 @@
     ],
     [
      "Eagle County",
-     45
+     44
     ]
    ],
    "earnings": {
-    "le_1250": 232,
-    "1251_3333": 302,
-    "gt_3333": 655
+    "le_1250": 214,
+    "1251_3333": 285,
+    "gt_3333": 591
    },
    "age": {
-    "under_30": 375,
-    "30_54": 591,
-    "55_plus": 223
+    "under_30": 350,
+    "30_54": 539,
+    "55_plus": 201
    },
-   "avg_route_miles": 57.8,
-   "renter_share_at_home": 0.259,
-   "avg_drive_minutes": 68
+   "avg_route_miles": 54.5,
+   "renter_share_at_home": 0.261,
+   "avg_drive_minutes": 65
   },
   "0844595": {
    "name": "Lewis (CDP)",
@@ -5830,66 +5626,18 @@
    "name": "Limon (town)",
    "county": "Lincoln County",
    "county_fips": "08073",
-   "through": 108,
-   "to": [
-    [
-     "Colorado Springs (city)",
-     53
-    ],
-    [
-     "Aurora (city)",
-     17
-    ],
-    [
-     "Castle Rock (town)",
-     7
-    ],
-    [
-     "Centennial (city)",
-     4
-    ],
-    [
-     "Greenwood Village (city)",
-     4
-    ]
-   ],
-   "from_counties": [
-    [
-     "Lincoln County",
-     107
-    ],
-    [
-     "Kit Carson County",
-     1
-    ]
-   ],
-   "earnings": {
-    "le_1250": 21,
-    "1251_3333": 23,
-    "gt_3333": 64
-   },
-   "age": {
-    "under_30": 37,
-    "30_54": 52,
-    "55_plus": 19
-   },
-   "avg_route_miles": 85.2,
-   "renter_share_at_home": 0.283,
-   "avg_drive_minutes": 99
+   "through": null,
+   "under_min": true
   },
   "0845145": {
    "name": "Lincoln Park (CDP)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 744,
+   "through": 611,
    "to": [
     [
      "Ca\u00f1on City (city)",
      522
-    ],
-    [
-     "Colorado Springs (city)",
-     104
     ],
     [
      "Pueblo (city)",
@@ -5900,14 +5648,18 @@
      18
     ],
     [
-     "Cripple Creek (city)",
-     9
+     "Buena Vista (town)",
+     8
+    ],
+    [
+     "Pueblo West (CDP)",
+     5
     ]
    ],
    "from_counties": [
     [
      "Fremont County",
-     694
+     561
     ],
     [
      "Custer County",
@@ -5927,18 +5679,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 117,
-    "1251_3333": 243,
-    "gt_3333": 384
+    "le_1250": 98,
+    "1251_3333": 211,
+    "gt_3333": 302
    },
    "age": {
-    "under_30": 155,
-    "30_54": 369,
-    "55_plus": 220
+    "under_30": 126,
+    "30_54": 304,
+    "55_plus": 181
    },
-   "avg_route_miles": 25.8,
-   "renter_share_at_home": 0.24,
-   "avg_drive_minutes": 35
+   "avg_route_miles": 19.7,
+   "renter_share_at_home": 0.239,
+   "avg_drive_minutes": 27
   },
   "0845680": {
    "name": "Loghill Village (CDP)",
@@ -5987,66 +5739,54 @@
    "name": "Log Lane Village (town)",
    "county": "Morgan County",
    "county_fips": "08087",
-   "through": 2431,
+   "through": 475,
    "to": [
     [
-     "Greeley (city)",
-     502
-    ],
-    [
      "Fort Morgan (city)",
-     398
+     394
     ],
     [
-     "Denver (city)",
-     341
+     "Brush (city)",
+     52
     ],
     [
-     "Aurora (city)",
-     198
+     "Sterling (city)",
+     24
     ],
     [
-     "Fort Collins (city)",
-     107
+     "Yuma (city)",
+     5
     ]
    ],
    "from_counties": [
     [
      "Morgan County",
-     2401
-    ],
-    [
-     "Logan County",
-     16
-    ],
-    [
-     "Washington County",
-     14
+     475
     ]
    ],
    "earnings": {
-    "le_1250": 345,
-    "1251_3333": 635,
-    "gt_3333": 1451
+    "le_1250": 70,
+    "1251_3333": 107,
+    "gt_3333": 298
    },
    "age": {
-    "under_30": 653,
-    "30_54": 1210,
-    "55_plus": 568
+    "under_30": 102,
+    "30_54": 243,
+    "55_plus": 130
    },
-   "avg_route_miles": 64.8,
+   "avg_route_miles": 22.7,
    "renter_share_at_home": 0.327,
-   "avg_drive_minutes": 69
+   "avg_drive_minutes": 26
   },
   "0845750": {
    "name": "Loma (CDP)",
    "county": "Mesa County",
    "county_fips": "08077",
-   "through": 445,
+   "through": 440,
    "to": [
     [
      "Grand Junction (city)",
-     362
+     358
     ],
     [
      "Fruita (city)",
@@ -6058,7 +5798,7 @@
     ],
     [
      "Montrose (city)",
-     7
+     6
     ],
     [
      "Delta (city)",
@@ -6068,7 +5808,7 @@
    "from_counties": [
     [
      "Mesa County",
-     405
+     400
     ],
     [
      "Rio Blanco County",
@@ -6076,14 +5816,14 @@
     ]
    ],
    "earnings": {
-    "le_1250": 61,
-    "1251_3333": 115,
-    "gt_3333": 269
+    "le_1250": 60,
+    "1251_3333": 114,
+    "gt_3333": 266
    },
    "age": {
     "under_30": 91,
-    "30_54": 234,
-    "55_plus": 120
+    "30_54": 231,
+    "55_plus": 118
    },
    "avg_route_miles": 29.0,
    "renter_share_at_home": 0.252,
@@ -6372,7 +6112,7 @@
    "name": "Manzanola (town)",
    "county": "Otero County",
    "county_fips": "08089",
-   "through": 631,
+   "through": 603,
    "to": [
     [
      "Pueblo (city)",
@@ -6387,18 +6127,18 @@
      33
     ],
     [
-     "Fountain (city)",
-     18
-    ],
-    [
      "Lamar (city)",
      8
+    ],
+    [
+     "Trinidad (city)",
+     1
     ]
    ],
    "from_counties": [
     [
      "Otero County",
-     477
+     449
     ],
     [
      "Pueblo County",
@@ -6414,18 +6154,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 103,
-    "1251_3333": 235,
-    "gt_3333": 293
+    "le_1250": 98,
+    "1251_3333": 217,
+    "gt_3333": 288
    },
    "age": {
-    "under_30": 149,
-    "30_54": 317,
-    "55_plus": 165
+    "under_30": 144,
+    "30_54": 301,
+    "55_plus": 158
    },
-   "avg_route_miles": 58.0,
+   "avg_route_miles": 56.8,
    "renter_share_at_home": 0.307,
-   "avg_drive_minutes": 70
+   "avg_drive_minutes": 69
   },
   "0848555": {
    "name": "Marble (town)",
@@ -6662,7 +6402,7 @@
    "name": "Merino (town)",
    "county": "Logan County",
    "county_fips": "08075",
-   "through": 45,
+   "through": 41,
    "to": [
     [
      "Sterling (city)",
@@ -6671,10 +6411,6 @@
     [
      "Fort Morgan (city)",
      5
-    ],
-    [
-     "Greeley (city)",
-     4
     ],
     [
      "Brush (city)",
@@ -6688,7 +6424,7 @@
    "from_counties": [
     [
      "Logan County",
-     44
+     40
     ],
     [
      "Washington County",
@@ -6696,24 +6432,24 @@
     ]
    ],
    "earnings": {
-    "le_1250": 6,
-    "1251_3333": 18,
-    "gt_3333": 21
+    "le_1250": 5,
+    "1251_3333": 17,
+    "gt_3333": 19
    },
    "age": {
-    "under_30": 9,
-    "30_54": 21,
-    "55_plus": 15
+    "under_30": 8,
+    "30_54": 19,
+    "55_plus": 14
    },
-   "avg_route_miles": 26.1,
+   "avg_route_miles": 20.1,
    "renter_share_at_home": 0.335,
-   "avg_drive_minutes": 33
+   "avg_drive_minutes": 26
   },
   "0850920": {
    "name": "Minturn (town)",
    "county": "Eagle County",
    "county_fips": "08037",
-   "through": 5655,
+   "through": 5551,
    "to": [
     [
      "Vail (town)",
@@ -6739,7 +6475,7 @@
    "from_counties": [
     [
      "Eagle County",
-     3890
+     3786
     ],
     [
      "Summit County",
@@ -6759,24 +6495,24 @@
     ]
    ],
    "earnings": {
-    "le_1250": 1072,
-    "1251_3333": 1226,
-    "gt_3333": 3357
+    "le_1250": 1059,
+    "1251_3333": 1200,
+    "gt_3333": 3292
    },
    "age": {
-    "under_30": 1288,
-    "30_54": 3090,
-    "55_plus": 1277
+    "under_30": 1260,
+    "30_54": 3047,
+    "55_plus": 1244
    },
-   "avg_route_miles": 42.9,
+   "avg_route_miles": 41.7,
    "renter_share_at_home": 0.321,
-   "avg_drive_minutes": 45
+   "avg_drive_minutes": 44
   },
   "0851250": {
    "name": "Moffat (town)",
    "county": "Saguache County",
    "county_fips": "08109",
-   "through": 80,
+   "through": 81,
    "to": [
     [
      "Salida (city)",
@@ -6788,7 +6524,7 @@
     ],
     [
      "Ca\u00f1on City (city)",
-     7
+     8
     ],
     [
      "Gunnison (city)",
@@ -6806,7 +6542,7 @@
     ],
     [
      "Saguache County",
-     33
+     34
     ],
     [
      "Chaffee County",
@@ -6824,16 +6560,16 @@
    "earnings": {
     "le_1250": 9,
     "1251_3333": 36,
-    "gt_3333": 35
+    "gt_3333": 36
    },
    "age": {
     "under_30": 14,
     "30_54": 42,
-    "55_plus": 24
+    "55_plus": 25
    },
-   "avg_route_miles": 82.0,
-   "renter_share_at_home": 0.338,
-   "avg_drive_minutes": 108
+   "avg_route_miles": 82.5,
+   "renter_share_at_home": 0.336,
+   "avg_drive_minutes": 109
   },
   "0851635": {
    "name": "Monte Vista (city)",
@@ -7093,7 +6829,7 @@
    "name": "Mulford (CDP)",
    "county": "Garfield County",
    "county_fips": "08045",
-   "through": 5652,
+   "through": 5651,
    "to": [
     [
      "Aspen (city)",
@@ -7123,7 +6859,7 @@
     ],
     [
      "Eagle County",
-     949
+     948
     ],
     [
      "Pitkin County",
@@ -7141,12 +6877,12 @@
    "earnings": {
     "le_1250": 1016,
     "1251_3333": 1192,
-    "gt_3333": 3444
+    "gt_3333": 3443
    },
    "age": {
     "under_30": 1358,
     "30_54": 3005,
-    "55_plus": 1289
+    "55_plus": 1288
    },
    "avg_route_miles": 45.4,
    "renter_share_at_home": 0.318,
@@ -7156,7 +6892,7 @@
    "name": "Nathrop (CDP)",
    "county": "Chaffee County",
    "county_fips": "08015",
-   "through": 730,
+   "through": 692,
    "to": [
     [
      "Salida (city)",
@@ -7171,18 +6907,18 @@
      46
     ],
     [
-     "Colorado Springs (city)",
+     "Breckenridge (town)",
      26
     ],
     [
-     "Breckenridge (town)",
-     26
+     "Ca\u00f1on City (city)",
+     22
     ]
    ],
    "from_counties": [
     [
      "Chaffee County",
-     580
+     542
     ],
     [
      "Fremont County",
@@ -7202,18 +6938,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 109,
-    "1251_3333": 149,
-    "gt_3333": 472
+    "le_1250": 102,
+    "1251_3333": 140,
+    "gt_3333": 450
    },
    "age": {
-    "under_30": 127,
-    "30_54": 425,
-    "55_plus": 178
+    "under_30": 120,
+    "30_54": 405,
+    "55_plus": 167
    },
-   "avg_route_miles": 51.8,
+   "avg_route_miles": 48.8,
    "renter_share_at_home": 0.259,
-   "avg_drive_minutes": 64
+   "avg_drive_minutes": 61
   },
   "0853120": {
    "name": "Naturita (town)",
@@ -7333,7 +7069,7 @@
    "name": "No Name (CDP)",
    "county": "Garfield County",
    "county_fips": "08045",
-   "through": 2908,
+   "through": 2907,
    "to": [
     [
      "Eagle (town)",
@@ -7363,7 +7099,7 @@
     ],
     [
      "Eagle County",
-     831
+     830
     ],
     [
      "Pitkin County",
@@ -7381,12 +7117,12 @@
    "earnings": {
     "le_1250": 472,
     "1251_3333": 623,
-    "gt_3333": 1813
+    "gt_3333": 1812
    },
    "age": {
     "under_30": 787,
     "30_54": 1471,
-    "55_plus": 650
+    "55_plus": 649
    },
    "avg_route_miles": 73.4,
    "renter_share_at_home": 0.317,
@@ -7630,15 +7366,11 @@
    "name": "Olney Springs (town)",
    "county": "Crowley County",
    "county_fips": "08025",
-   "through": 183,
+   "through": 100,
    "to": [
     [
      "Pueblo (city)",
      76
-    ],
-    [
-     "Colorado Springs (city)",
-     72
     ],
     [
      "Pueblo West (CDP)",
@@ -7649,14 +7381,14 @@
      7
     ],
     [
-     "Security-Widefield (CDP)",
-     5
+     "Lamar (city)",
+     3
     ]
    ],
    "from_counties": [
     [
      "Crowley County",
-     178
+     95
     ],
     [
      "Lincoln County",
@@ -7668,18 +7400,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 39,
-    "1251_3333": 48,
-    "gt_3333": 96
+    "le_1250": 21,
+    "1251_3333": 28,
+    "gt_3333": 51
    },
    "age": {
-    "under_30": 54,
-    "30_54": 95,
-    "55_plus": 34
+    "under_30": 31,
+    "30_54": 48,
+    "55_plus": 21
    },
-   "avg_route_miles": 70.6,
-   "renter_share_at_home": 0.305,
-   "avg_drive_minutes": 82
+   "avg_route_miles": 52.0,
+   "renter_share_at_home": 0.304,
+   "avg_drive_minutes": 63
   },
   "0855870": {
    "name": "Ophir (town)",
@@ -7748,48 +7480,8 @@
    "name": "Orchard (CDP)",
    "county": "Morgan County",
    "county_fips": "08087",
-   "through": 131,
-   "to": [
-    [
-     "Denver (city)",
-     23
-    ],
-    [
-     "Greeley (city)",
-     20
-    ],
-    [
-     "Fort Morgan (city)",
-     14
-    ],
-    [
-     "Aurora (city)",
-     8
-    ],
-    [
-     "Lakewood (city)",
-     8
-    ]
-   ],
-   "from_counties": [
-    [
-     "Morgan County",
-     131
-    ]
-   ],
-   "earnings": {
-    "le_1250": 16,
-    "1251_3333": 35,
-    "gt_3333": 80
-   },
-   "age": {
-    "under_30": 27,
-    "30_54": 73,
-    "55_plus": 31
-   },
-   "avg_route_miles": 64.0,
-   "renter_share_at_home": 0.327,
-   "avg_drive_minutes": 71
+   "through": null,
+   "under_min": true
   },
   "0855980": {
    "name": "Orchard City (town)",
@@ -7858,7 +7550,7 @@
    "name": "Orchard Mesa (CDP)",
    "county": "Mesa County",
    "county_fips": "08077",
-   "through": 3354,
+   "through": 3358,
    "to": [
     [
      "Grand Junction (city)",
@@ -7874,17 +7566,17 @@
     ],
     [
      "Fruita (city)",
-     158
+     161
     ],
     [
      "Clifton (CDP)",
-     16
+     17
     ]
    ],
    "from_counties": [
     [
      "Mesa County",
-     1264
+     1268
     ],
     [
      "Montrose County",
@@ -7905,15 +7597,15 @@
    ],
    "earnings": {
     "le_1250": 550,
-    "1251_3333": 1084,
-    "gt_3333": 1720
+    "1251_3333": 1086,
+    "gt_3333": 1722
    },
    "age": {
-    "under_30": 750,
-    "30_54": 1661,
-    "55_plus": 943
+    "under_30": 751,
+    "30_54": 1662,
+    "55_plus": 945
    },
-   "avg_route_miles": 49.5,
+   "avg_route_miles": 49.4,
    "renter_share_at_home": 0.241,
    "avg_drive_minutes": 62
   },
@@ -7921,15 +7613,11 @@
    "name": "Ordway (town)",
    "county": "Crowley County",
    "county_fips": "08025",
-   "through": 38,
+   "through": 29,
    "to": [
     [
      "Pueblo (city)",
      15
-    ],
-    [
-     "Colorado Springs (city)",
-     9
     ],
     [
      "La Junta (city)",
@@ -7947,7 +7635,7 @@
    "from_counties": [
     [
      "Crowley County",
-     32
+     23
     ],
     [
      "Lincoln County",
@@ -7959,18 +7647,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 8,
-    "1251_3333": 8,
-    "gt_3333": 22
+    "le_1250": 5,
+    "1251_3333": 6,
+    "gt_3333": 18
    },
    "age": {
-    "under_30": 14,
-    "30_54": 16,
-    "55_plus": 8
+    "under_30": 10,
+    "30_54": 12,
+    "55_plus": 7
    },
-   "avg_route_miles": 67.3,
+   "avg_route_miles": 57.8,
    "renter_share_at_home": 0.303,
-   "avg_drive_minutes": 80
+   "avg_drive_minutes": 71
   },
   "0856365": {
    "name": "Otis (town)",
@@ -8230,11 +7918,11 @@
    "name": "Paoli (town)",
    "county": "Phillips County",
    "county_fips": "08095",
-   "through": 49,
+   "through": 46,
    "to": [
     [
      "Sterling (city)",
-     29
+     26
     ],
     [
      "Yuma (city)",
@@ -8252,7 +7940,7 @@
    "from_counties": [
     [
      "Phillips County",
-     46
+     43
     ],
     [
      "Yuma County",
@@ -8264,18 +7952,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 6,
+    "le_1250": 5,
     "1251_3333": 11,
-    "gt_3333": 32
+    "gt_3333": 30
    },
    "age": {
-    "under_30": 7,
-    "30_54": 30,
+    "under_30": 6,
+    "30_54": 28,
     "55_plus": 12
    },
-   "avg_route_miles": 56.3,
-   "renter_share_at_home": 0.283,
-   "avg_drive_minutes": 68
+   "avg_route_miles": 57.2,
+   "renter_share_at_home": 0.284,
+   "avg_drive_minutes": 69
   },
   "0857300": {
    "name": "Paonia (town)",
@@ -8407,62 +8095,50 @@
    "name": "Park Center (CDP)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 141,
+   "through": 34,
    "to": [
-    [
-     "Colorado Springs (city)",
-     50
-    ],
-    [
-     "Cripple Creek (city)",
-     47
-    ],
     [
      "Pueblo (city)",
      28
     ],
     [
-     "Fountain (city)",
+     "Salida (city)",
      3
     ],
     [
-     "Salida (city)",
-     3
+     "Ca\u00f1on City (city)",
+     2
+    ],
+    [
+     "Pueblo West (CDP)",
+     1
     ]
    ],
    "from_counties": [
     [
      "Fremont County",
-     139
-    ],
-    [
-     "Pueblo County",
-     1
-    ],
-    [
-     "Custer County",
-     1
+     34
     ]
    ],
    "earnings": {
-    "le_1250": 15,
-    "1251_3333": 38,
-    "gt_3333": 88
+    "le_1250": 4,
+    "1251_3333": 8,
+    "gt_3333": 22
    },
    "age": {
-    "under_30": 31,
-    "30_54": 67,
-    "55_plus": 43
+    "under_30": 10,
+    "30_54": 15,
+    "55_plus": 9
    },
-   "avg_route_miles": 43.7,
+   "avg_route_miles": 40.6,
    "renter_share_at_home": 0.244,
-   "avg_drive_minutes": 66
+   "avg_drive_minutes": 52
   },
   "0857850": {
    "name": "Parshall (CDP)",
    "county": "Grand County",
    "county_fips": "08049",
-   "through": 200,
+   "through": 155,
    "to": [
     [
      "Steamboat Springs (city)",
@@ -8473,26 +8149,26 @@
      23
     ],
     [
-     "Estes Park (town)",
-     19
-    ],
-    [
      "Vail (town)",
      18
     ],
     [
      "Breckenridge (town)",
      14
+    ],
+    [
+     "Edwards (CDP)",
+     10
     ]
    ],
    "from_counties": [
     [
      "Grand County",
-     172
+     144
     ],
     [
      "Routt County",
-     27
+     10
     ],
     [
      "Eagle County",
@@ -8500,18 +8176,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 36,
-    "1251_3333": 54,
-    "gt_3333": 110
+    "le_1250": 31,
+    "1251_3333": 41,
+    "gt_3333": 83
    },
    "age": {
-    "under_30": 56,
-    "30_54": 95,
-    "55_plus": 49
+    "under_30": 47,
+    "30_54": 72,
+    "55_plus": 36
    },
-   "avg_route_miles": 97.7,
-   "renter_share_at_home": 0.263,
-   "avg_drive_minutes": 118
+   "avg_route_miles": 90.5,
+   "renter_share_at_home": 0.265,
+   "avg_drive_minutes": 108
   },
   "0858235": {
    "name": "Peetz (town)",
@@ -8524,12 +8200,8 @@
    "name": "Penrose (CDP)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 3984,
+   "through": 1634,
    "to": [
-    [
-     "Colorado Springs (city)",
-     1947
-    ],
     [
      "Pueblo (city)",
      902
@@ -8543,45 +8215,45 @@
      120
     ],
     [
-     "Fountain (city)",
-     86
+     "Salida (city)",
+     9
     ]
    ],
    "from_counties": [
     [
      "Fremont County",
-     3039
+     1053
     ],
     [
      "Pueblo County",
-     553
-    ],
-    [
-     "Chaffee County",
-     216
-    ],
-    [
-     "Custer County",
-     151
+     551
     ],
     [
      "Huerfano County",
      14
+    ],
+    [
+     "Saguache County",
+     5
+    ],
+    [
+     "Chaffee County",
+     5
     ]
    ],
    "earnings": {
-    "le_1250": 543,
-    "1251_3333": 1221,
-    "gt_3333": 2220
+    "le_1250": 232,
+    "1251_3333": 504,
+    "gt_3333": 898
    },
    "age": {
-    "under_30": 948,
-    "30_54": 1990,
-    "55_plus": 1046
+    "under_30": 399,
+    "30_54": 808,
+    "55_plus": 427
    },
-   "avg_route_miles": 52.5,
-   "renter_share_at_home": 0.248,
-   "avg_drive_minutes": 66
+   "avg_route_miles": 39.1,
+   "renter_share_at_home": 0.26,
+   "avg_drive_minutes": 49
   },
   "0858785": {
    "name": "Phippsburg (CDP)",
@@ -8723,7 +8395,7 @@
    "name": "Poncha Springs (town)",
    "county": "Chaffee County",
    "county_fips": "08015",
-   "through": 422,
+   "through": 408,
    "to": [
     [
      "Salida (city)",
@@ -8742,14 +8414,14 @@
      22
     ],
     [
-     "Colorado Springs (city)",
+     "Crested Butte (town)",
      12
     ]
    ],
    "from_counties": [
     [
      "Chaffee County",
-     195
+     181
     ],
     [
      "Saguache County",
@@ -8769,18 +8441,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 84,
-    "1251_3333": 136,
-    "gt_3333": 202
+    "le_1250": 82,
+    "1251_3333": 130,
+    "gt_3333": 196
    },
    "age": {
-    "under_30": 87,
-    "30_54": 222,
-    "55_plus": 113
+    "under_30": 82,
+    "30_54": 215,
+    "55_plus": 111
    },
-   "avg_route_miles": 60.5,
-   "renter_share_at_home": 0.28,
-   "avg_drive_minutes": 77
+   "avg_route_miles": 58.7,
+   "renter_share_at_home": 0.281,
+   "avg_drive_minutes": 75
   },
   "0860765": {
    "name": "Portland (CDP)",
@@ -8856,127 +8528,115 @@
    "name": "Pueblo (city)",
    "county": "Pueblo County",
    "county_fips": "08101",
-   "through": 3018,
+   "through": 465,
    "to": [
-    [
-     "Colorado Springs (city)",
-     2145
-    ],
     [
      "Pueblo West (CDP)",
      382
-    ],
-    [
-     "Fountain (city)",
-     183
     ],
     [
      "Ca\u00f1on City (city)",
      50
     ],
     [
-     "Cimarron Hills (CDP)",
-     48
+     "La Junta (city)",
+     28
+    ],
+    [
+     "Trinidad (city)",
+     5
     ]
    ],
    "from_counties": [
     [
      "Pueblo County",
-     2611
+     311
     ],
     [
      "Otero County",
-     186
-    ],
-    [
-     "Crowley County",
-     133
+     64
     ],
     [
      "Huerfano County",
-     54
+     40
+    ],
+    [
+     "Crowley County",
+     18
     ],
     [
      "Custer County",
-     19
+     17
     ]
    ],
    "earnings": {
-    "le_1250": 410,
-    "1251_3333": 853,
-    "gt_3333": 1755
+    "le_1250": 68,
+    "1251_3333": 133,
+    "gt_3333": 264
    },
    "age": {
-    "under_30": 746,
-    "30_54": 1575,
-    "55_plus": 697
+    "under_30": 144,
+    "30_54": 202,
+    "55_plus": 119
    },
-   "avg_route_miles": 56.8,
-   "renter_share_at_home": 0.291,
-   "avg_drive_minutes": 62
+   "avg_route_miles": 41.4,
+   "renter_share_at_home": 0.286,
+   "avg_drive_minutes": 49
   },
   "0862220": {
    "name": "Pueblo West (CDP)",
    "county": "Pueblo County",
    "county_fips": "08101",
-   "through": 7726,
+   "through": 1457,
    "to": [
-    [
-     "Colorado Springs (city)",
-     5288
-    ],
     [
      "Pueblo (city)",
      1071
-    ],
-    [
-     "Fountain (city)",
-     460
     ],
     [
      "Ca\u00f1on City (city)",
      384
     ],
     [
-     "Cimarron Hills (CDP)",
-     151
+     "Salida (city)",
+     2
     ]
    ],
    "from_counties": [
-    [
-     "Pueblo County",
-     6425
-    ],
     [
      "Fremont County",
      1021
     ],
     [
-     "Otero County",
-     125
-    ],
-    [
-     "Crowley County",
-     116
+     "Pueblo County",
+     409
     ],
     [
      "Huerfano County",
-     28
+     14
+    ],
+    [
+     "Saguache County",
+     4
+    ],
+    [
+     "Lincoln County",
+     3
     ]
    ],
    "earnings": {
-    "le_1250": 1069,
-    "1251_3333": 2404,
-    "gt_3333": 4253
+    "le_1250": 200,
+    "1251_3333": 447,
+    "gt_3333": 810
    },
    "age": {
-    "under_30": 1980,
-    "30_54": 3971,
-    "55_plus": 1775
+    "under_30": 340,
+    "30_54": 728,
+    "55_plus": 389
    },
-   "avg_route_miles": 49.9,
-   "renter_share_at_home": 0.285,
-   "avg_drive_minutes": 53
+   "avg_route_miles": 39.6,
+   "renter_share_at_home": 0.257,
+   "avg_drive_minutes": 49
   },
   "0862880": {
    "name": "Rangely (town)",
@@ -8989,7 +8649,7 @@
    "name": "Red Cliff (town)",
    "county": "Eagle County",
    "county_fips": "08037",
-   "through": 634,
+   "through": 633,
    "to": [
     [
      "Vail (town)",
@@ -9019,7 +8679,7 @@
     ],
     [
      "Eagle County",
-     49
+     48
     ],
     [
      "Chaffee County",
@@ -9037,14 +8697,14 @@
    "earnings": {
     "le_1250": 83,
     "1251_3333": 113,
-    "gt_3333": 438
+    "gt_3333": 437
    },
    "age": {
-    "under_30": 130,
+    "under_30": 129,
     "30_54": 359,
     "55_plus": 145
    },
-   "avg_route_miles": 51.6,
+   "avg_route_miles": 51.5,
    "renter_share_at_home": 0.254,
    "avg_drive_minutes": 60
   },
@@ -9410,15 +9070,11 @@
    "name": "Rockvale (town)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 67,
+   "through": 54,
    "to": [
     [
      "Ca\u00f1on City (city)",
      44
-    ],
-    [
-     "Colorado Springs (city)",
-     10
     ],
     [
      "Pueblo (city)",
@@ -9429,35 +9085,35 @@
      2
     ],
     [
-     "Castle Rock (town)",
+     "Salida (city)",
      1
     ]
    ],
    "from_counties": [
     [
      "Fremont County",
-     67
+     54
     ]
    ],
    "earnings": {
-    "le_1250": 9,
-    "1251_3333": 29,
-    "gt_3333": 29
+    "le_1250": 7,
+    "1251_3333": 27,
+    "gt_3333": 20
    },
    "age": {
     "under_30": 12,
-    "30_54": 27,
-    "55_plus": 28
+    "30_54": 21,
+    "55_plus": 21
    },
-   "avg_route_miles": 23.3,
+   "avg_route_miles": 15.8,
    "renter_share_at_home": 0.244,
-   "avg_drive_minutes": 34
+   "avg_drive_minutes": 25
   },
   "0865190": {
    "name": "Rocky Ford (city)",
    "county": "Otero County",
    "county_fips": "08089",
-   "through": 594,
+   "through": 593,
    "to": [
     [
      "La Junta (city)",
@@ -9483,7 +9139,7 @@
    "from_counties": [
     [
      "Otero County",
-     399
+     398
     ],
     [
      "Pueblo County",
@@ -9504,12 +9160,12 @@
    ],
    "earnings": {
     "le_1250": 94,
-    "1251_3333": 229,
+    "1251_3333": 228,
     "gt_3333": 271
    },
    "age": {
     "under_30": 129,
-    "30_54": 312,
+    "30_54": 311,
     "55_plus": 153
    },
    "avg_route_miles": 49.5,
@@ -9546,16 +9202,16 @@
     ]
    ],
    "earnings": {
-    "le_1250": 43,
-    "1251_3333": 77,
+    "le_1250": 42,
+    "1251_3333": 78,
     "gt_3333": 71
    },
    "age": {
-    "under_30": 53,
+    "under_30": 52,
     "30_54": 92,
-    "55_plus": 46
+    "55_plus": 47
    },
-   "avg_route_miles": 34.9,
+   "avg_route_miles": 34.8,
    "renter_share_at_home": 0.233,
    "avg_drive_minutes": 44
   },
@@ -9563,15 +9219,11 @@
    "name": "Rye (town)",
    "county": "Pueblo County",
    "county_fips": "08101",
-   "through": 91,
+   "through": 63,
    "to": [
     [
      "Pueblo (city)",
      53
-    ],
-    [
-     "Colorado Springs (city)",
-     25
     ],
     [
      "Pueblo West (CDP)",
@@ -9582,86 +9234,82 @@
      2
     ],
     [
-     "Fountain (city)",
+     "Alamosa (city)",
+     1
+    ],
+    [
+     "Salida (city)",
      1
     ]
    ],
    "from_counties": [
     [
      "Pueblo County",
-     88
+     61
     ],
     [
      "Huerfano County",
-     3
+     2
     ]
    ],
    "earnings": {
-    "le_1250": 10,
-    "1251_3333": 18,
-    "gt_3333": 63
+    "le_1250": 7,
+    "1251_3333": 7,
+    "gt_3333": 49
    },
    "age": {
-    "under_30": 13,
-    "30_54": 52,
-    "55_plus": 26
+    "under_30": 6,
+    "30_54": 39,
+    "55_plus": 18
    },
-   "avg_route_miles": 52.4,
+   "avg_route_miles": 39.3,
    "renter_share_at_home": 0.29,
-   "avg_drive_minutes": 56
+   "avg_drive_minutes": 43
   },
   "0866995": {
    "name": "Saddle Ridge (CDP)",
    "county": "Morgan County",
    "county_fips": "08087",
-   "through": 89,
+   "through": 45,
    "to": [
     [
      "Fort Morgan (city)",
      37
     ],
     [
-     "Greeley (city)",
-     9
-    ],
-    [
-     "Fort Collins (city)",
-     8
-    ],
-    [
-     "Aurora (city)",
-     6
-    ],
-    [
-     "Denver (city)",
+     "Brush (city)",
      5
+    ],
+    [
+     "Sterling (city)",
+     3
     ]
    ],
    "from_counties": [
     [
      "Morgan County",
-     89
+     45
     ]
    ],
    "earnings": {
-    "le_1250": 8,
-    "1251_3333": 21,
-    "gt_3333": 60
+    "le_1250": 3,
+    "1251_3333": 10,
+    "gt_3333": 32
    },
    "age": {
-    "under_30": 20,
-    "30_54": 45,
-    "55_plus": 24
+    "under_30": 8,
+    "30_54": 25,
+    "55_plus": 12
    },
-   "avg_route_miles": 49.1,
+   "avg_route_miles": 17.1,
    "renter_share_at_home": 0.327,
-   "avg_drive_minutes": 57
+   "avg_drive_minutes": 24
   },
   "0867005": {
    "name": "Saguache (town)",
    "county": "Saguache County",
    "county_fips": "08109",
-   "through": 49,
+   "through": 48,
    "to": [
     [
      "Salida (city)",
@@ -9673,7 +9321,7 @@
     ],
     [
      "Ca\u00f1on City (city)",
-     7
+     6
     ],
     [
      "Alamosa (city)",
@@ -9687,7 +9335,7 @@
    "from_counties": [
     [
      "Saguache County",
-     27
+     26
     ],
     [
      "Rio Grande County",
@@ -9705,27 +9353,23 @@
    "earnings": {
     "le_1250": 14,
     "1251_3333": 17,
-    "gt_3333": 18
+    "gt_3333": 17
    },
    "age": {
     "under_30": 12,
     "30_54": 25,
-    "55_plus": 12
+    "55_plus": 11
    },
-   "avg_route_miles": 86.4,
-   "renter_share_at_home": 0.273,
-   "avg_drive_minutes": 108
+   "avg_route_miles": 85.5,
+   "renter_share_at_home": 0.274,
+   "avg_drive_minutes": 106
   },
   "0867280": {
    "name": "Salida (city)",
    "county": "Chaffee County",
    "county_fips": "08015",
-   "through": 253,
+   "through": 171,
    "to": [
-    [
-     "Colorado Springs (city)",
-     77
-    ],
     [
      "Buena Vista (town)",
      71
@@ -9741,16 +9385,20 @@
     [
      "Leadville (city)",
      5
+    ],
+    [
+     "Pueblo (city)",
+     4
     ]
    ],
    "from_counties": [
     [
-     "Chaffee County",
-     143
-    ],
-    [
      "Fremont County",
      76
+    ],
+    [
+     "Chaffee County",
+     61
     ],
     [
      "Saguache County",
@@ -9766,32 +9414,28 @@
     ]
    ],
    "earnings": {
-    "le_1250": 31,
-    "1251_3333": 67,
-    "gt_3333": 155
+    "le_1250": 21,
+    "1251_3333": 39,
+    "gt_3333": 111
    },
    "age": {
-    "under_30": 58,
-    "30_54": 132,
-    "55_plus": 63
+    "under_30": 33,
+    "30_54": 97,
+    "55_plus": 41
    },
-   "avg_route_miles": 94.3,
-   "renter_share_at_home": 0.255,
-   "avg_drive_minutes": 116
+   "avg_route_miles": 85.8,
+   "renter_share_at_home": 0.253,
+   "avg_drive_minutes": 106
   },
   "0867445": {
    "name": "Salt Creek (CDP)",
    "county": "Pueblo County",
    "county_fips": "08101",
-   "through": 1675,
+   "through": 1239,
    "to": [
     [
      "Pueblo (city)",
      1062
-    ],
-    [
-     "Colorado Springs (city)",
-     386
     ],
     [
      "Pueblo West (CDP)",
@@ -9802,29 +9446,33 @@
      33
     ],
     [
-     "Fountain (city)",
-     18
+     "Ca\u00f1on City (city)",
+     16
+    ],
+    [
+     "Trinidad (city)",
+     5
     ]
    ],
    "from_counties": [
     [
      "Pueblo County",
-     1675
+     1239
     ]
    ],
    "earnings": {
-    "le_1250": 186,
-    "1251_3333": 492,
-    "gt_3333": 997
+    "le_1250": 133,
+    "1251_3333": 384,
+    "gt_3333": 722
    },
    "age": {
-    "under_30": 349,
-    "30_54": 852,
-    "55_plus": 474
+    "under_30": 245,
+    "30_54": 624,
+    "55_plus": 370
    },
-   "avg_route_miles": 23.9,
+   "avg_route_miles": 12.9,
    "renter_share_at_home": 0.291,
-   "avg_drive_minutes": 28
+   "avg_drive_minutes": 17
   },
   "0867500": {
    "name": "San Acacio (CDP)",
@@ -10109,12 +9757,8 @@
    "name": "Silver Cliff (town)",
    "county": "Custer County",
    "county_fips": "08027",
-   "through": 174,
+   "through": 106,
    "to": [
-    [
-     "Colorado Springs (city)",
-     53
-    ],
     [
      "Pueblo (city)",
      39
@@ -10130,16 +9774,20 @@
     [
      "Alamosa (city)",
      11
+    ],
+    [
+     "Buena Vista (town)",
+     7
     ]
    ],
    "from_counties": [
     [
      "Custer County",
-     140
+     78
     ],
     [
      "Fremont County",
-     28
+     22
     ],
     [
      "Alamosa County",
@@ -10155,29 +9803,25 @@
     ]
    ],
    "earnings": {
-    "le_1250": 26,
-    "1251_3333": 35,
-    "gt_3333": 113
+    "le_1250": 17,
+    "1251_3333": 19,
+    "gt_3333": 70
    },
    "age": {
-    "under_30": 24,
-    "30_54": 94,
-    "55_plus": 56
+    "under_30": 14,
+    "30_54": 61,
+    "55_plus": 31
    },
-   "avg_route_miles": 77.1,
-   "renter_share_at_home": 0.169,
-   "avg_drive_minutes": 102
+   "avg_route_miles": 69.3,
+   "renter_share_at_home": 0.178,
+   "avg_drive_minutes": 95
   },
   "0870525": {
    "name": "Silverthorne (town)",
    "county": "Summit County",
    "county_fips": "08117",
-   "through": 5073,
+   "through": 2069,
    "to": [
-    [
-     "Denver (city)",
-     733
-    ],
     [
      "Breckenridge (town)",
      406
@@ -10187,49 +9831,53 @@
      401
     ],
     [
-     "Lakewood (city)",
-     310
+     "Vail (town)",
+     219
     ],
     [
-     "Boulder (city)",
-     226
+     "Avon (town)",
+     196
+    ],
+    [
+     "Copper Mountain (CDP)",
+     196
     ]
    ],
    "from_counties": [
     [
      "Summit County",
-     3645
-    ],
-    [
-     "Eagle County",
-     716
+     1382
     ],
     [
      "Grand County",
-     382
+     277
+    ],
+    [
+     "Eagle County",
+     259
     ],
     [
      "Lake County",
-     237
+     61
     ],
     [
-     "Chaffee County",
-     30
+     "Routt County",
+     29
     ]
    ],
    "earnings": {
-    "le_1250": 937,
-    "1251_3333": 1130,
-    "gt_3333": 3006
+    "le_1250": 488,
+    "1251_3333": 514,
+    "gt_3333": 1067
    },
    "age": {
-    "under_30": 1264,
-    "30_54": 2658,
-    "55_plus": 1151
+    "under_30": 542,
+    "30_54": 1075,
+    "55_plus": 452
    },
-   "avg_route_miles": 69.1,
-   "renter_share_at_home": 0.285,
-   "avg_drive_minutes": 71
+   "avg_route_miles": 44.4,
+   "renter_share_at_home": 0.284,
+   "avg_drive_minutes": 49
   },
   "0870580": {
    "name": "Silverton (town)",
@@ -10298,7 +9946,7 @@
    "name": "Smeltertown (CDP)",
    "county": "Chaffee County",
    "county_fips": "08015",
-   "through": 748,
+   "through": 726,
    "to": [
     [
      "Salida (city)",
@@ -10310,7 +9958,7 @@
     ],
     [
      "Ca\u00f1on City (city)",
-     36
+     33
     ],
     [
      "Leadville (city)",
@@ -10318,13 +9966,13 @@
     ],
     [
      "Breckenridge (town)",
-     15
+     16
     ]
    ],
    "from_counties": [
     [
      "Chaffee County",
-     636
+     614
     ],
     [
      "Fremont County",
@@ -10344,18 +9992,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 103,
-    "1251_3333": 160,
-    "gt_3333": 485
+    "le_1250": 100,
+    "1251_3333": 154,
+    "gt_3333": 472
    },
    "age": {
-    "under_30": 118,
-    "30_54": 435,
-    "55_plus": 195
+    "under_30": 116,
+    "30_54": 424,
+    "55_plus": 186
    },
-   "avg_route_miles": 40.5,
+   "avg_route_miles": 38.7,
    "renter_share_at_home": 0.257,
-   "avg_drive_minutes": 52
+   "avg_drive_minutes": 49
   },
   "0871755": {
    "name": "Snowmass Village (town)",
@@ -10424,33 +10072,25 @@
    "name": "Snyder (CDP)",
    "county": "Morgan County",
    "county_fips": "08087",
-   "through": 71,
+   "through": 60,
    "to": [
     [
      "Fort Morgan (city)",
      52
     ],
     [
-     "Greeley (city)",
-     8
-    ],
-    [
      "Brush (city)",
      7
     ],
     [
-     "Loveland (city)",
-     1
-    ],
-    [
-     "Brighton (city)",
+     "Yuma (city)",
      1
     ]
    ],
    "from_counties": [
     [
      "Morgan County",
-     64
+     53
     ],
     [
      "Logan County",
@@ -10458,18 +10098,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 9,
-    "1251_3333": 16,
-    "gt_3333": 46
+    "le_1250": 7,
+    "1251_3333": 14,
+    "gt_3333": 39
    },
    "age": {
-    "under_30": 11,
-    "30_54": 36,
-    "55_plus": 24
+    "under_30": 7,
+    "30_54": 32,
+    "55_plus": 21
    },
-   "avg_route_miles": 33.4,
+   "avg_route_miles": 25.4,
    "renter_share_at_home": 0.328,
-   "avg_drive_minutes": 41
+   "avg_drive_minutes": 33
   },
   "0871845": {
    "name": "Somerset (CDP)",
@@ -10675,9 +10315,9 @@
     "30_54": 15,
     "55_plus": 8
    },
-   "avg_route_miles": 64.9,
+   "avg_route_miles": 65.0,
    "renter_share_at_home": 0.285,
-   "avg_drive_minutes": 83
+   "avg_drive_minutes": 84
   },
   "0873715": {
    "name": "Starkville (town)",
@@ -10714,7 +10354,7 @@
    "name": "Steamboat Springs (city)",
    "county": "Routt County",
    "county_fips": "08107",
-   "through": 157,
+   "through": 155,
    "to": [
     [
      "Craig (city)",
@@ -10740,7 +10380,7 @@
    "from_counties": [
     [
      "Routt County",
-     108
+     106
     ],
     [
      "Moffat County",
@@ -10760,18 +10400,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 32,
+    "le_1250": 31,
     "1251_3333": 33,
-    "gt_3333": 92
+    "gt_3333": 91
    },
    "age": {
     "under_30": 35,
     "30_54": 81,
-    "55_plus": 41
+    "55_plus": 39
    },
-   "avg_route_miles": 102.6,
+   "avg_route_miles": 102.1,
    "renter_share_at_home": 0.26,
-   "avg_drive_minutes": 125
+   "avg_drive_minutes": 124
   },
   "0873935": {
    "name": "Sterling (city)",
@@ -10866,7 +10506,7 @@
     "30_54": 47,
     "55_plus": 24
    },
-   "avg_route_miles": 45.4,
+   "avg_route_miles": 45.5,
    "renter_share_at_home": 0.275,
    "avg_drive_minutes": 48
   },
@@ -10940,41 +10580,37 @@
    "name": "Tabernash (CDP)",
    "county": "Grand County",
    "county_fips": "08049",
-   "through": 1040,
+   "through": 373,
    "to": [
     [
      "Winter Park (town)",
      321
     ],
     [
-     "Denver (city)",
-     221
+     "Steamboat Springs (city)",
+     18
     ],
     [
-     "Aurora (city)",
-     48
+     "Vail (town)",
+     13
     ],
     [
-     "Centennial (city)",
-     34
+     "Frisco (town)",
+     7
     ],
     [
-     "Lakewood (city)",
-     33
+     "Breckenridge (town)",
+     5
     ]
    ],
    "from_counties": [
     [
      "Grand County",
-     1025
+     362
     ],
     [
      "Routt County",
      10
-    ],
-    [
-     "Jackson County",
-     4
     ],
     [
      "Eagle County",
@@ -10982,18 +10618,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 220,
-    "1251_3333": 259,
-    "gt_3333": 561
+    "le_1250": 135,
+    "1251_3333": 101,
+    "gt_3333": 137
    },
    "age": {
-    "under_30": 290,
-    "30_54": 493,
-    "55_plus": 257
+    "under_30": 127,
+    "30_54": 172,
+    "55_plus": 74
    },
-   "avg_route_miles": 73.4,
+   "avg_route_miles": 34.5,
    "renter_share_at_home": 0.266,
-   "avg_drive_minutes": 84
+   "avg_drive_minutes": 43
   },
   "0876795": {
    "name": "Telluride (town)",
@@ -11076,48 +10712,40 @@
    "name": "Trail Side (CDP)",
    "county": "Morgan County",
    "county_fips": "08087",
-   "through": 447,
+   "through": 26,
    "to": [
     [
-     "Denver (city)",
-     104
-    ],
-    [
-     "Greeley (city)",
-     85
-    ],
-    [
-     "Aurora (city)",
-     36
-    ],
-    [
-     "Fort Collins (city)",
-     26
-    ],
-    [
-     "Commerce City (city)",
+     "Fort Morgan (city)",
      18
+    ],
+    [
+     "Brush (city)",
+     6
+    ],
+    [
+     "Sterling (city)",
+     2
     ]
    ],
    "from_counties": [
     [
      "Morgan County",
-     447
+     26
     ]
    ],
    "earnings": {
-    "le_1250": 44,
-    "1251_3333": 126,
-    "gt_3333": 277
+    "le_1250": 2,
+    "1251_3333": 12,
+    "gt_3333": 12
    },
    "age": {
-    "under_30": 128,
-    "30_54": 234,
-    "55_plus": 85
+    "under_30": 11,
+    "30_54": 10,
+    "55_plus": 5
    },
-   "avg_route_miles": 70.3,
+   "avg_route_miles": 11.4,
    "renter_share_at_home": 0.327,
-   "avg_drive_minutes": 74
+   "avg_drive_minutes": 15
   },
   "0878610": {
    "name": "Trinidad (city)",
@@ -11130,7 +10758,7 @@
    "name": "Twin Lakes (CDP)",
    "county": "Lake County",
    "county_fips": "08065",
-   "through": 551,
+   "through": 548,
    "to": [
     [
      "Aspen (city)",
@@ -11156,7 +10784,7 @@
    "from_counties": [
     [
      "Chaffee County",
-     194
+     191
     ],
     [
      "Lake County",
@@ -11178,14 +10806,14 @@
    "earnings": {
     "le_1250": 106,
     "1251_3333": 140,
-    "gt_3333": 305
+    "gt_3333": 302
    },
    "age": {
     "under_30": 159,
-    "30_54": 266,
-    "55_plus": 126
+    "30_54": 264,
+    "55_plus": 125
    },
-   "avg_route_miles": 76.9,
+   "avg_route_miles": 76.7,
    "renter_share_at_home": 0.28,
    "avg_drive_minutes": 94
   },
@@ -11200,7 +10828,7 @@
    "name": "Vail (town)",
    "county": "Eagle County",
    "county_fips": "08037",
-   "through": 1614,
+   "through": 1471,
    "to": [
     [
      "Avon (town)",
@@ -11225,12 +10853,12 @@
    ],
    "from_counties": [
     [
-     "Eagle County",
-     778
-    ],
-    [
      "Summit County",
      648
+    ],
+    [
+     "Eagle County",
+     635
     ],
     [
      "Garfield County",
@@ -11246,18 +10874,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 398,
-    "1251_3333": 420,
-    "gt_3333": 796
+    "le_1250": 378,
+    "1251_3333": 378,
+    "gt_3333": 715
    },
    "age": {
-    "under_30": 425,
-    "30_54": 799,
-    "55_plus": 390
+    "under_30": 387,
+    "30_54": 739,
+    "55_plus": 345
    },
-   "avg_route_miles": 67.4,
-   "renter_share_at_home": 0.311,
-   "avg_drive_minutes": 68
+   "avg_route_miles": 63.6,
+   "renter_share_at_home": 0.308,
+   "avg_drive_minutes": 64
   },
   "0880095": {
    "name": "Valdez (CDP)",
@@ -11320,15 +10948,11 @@
    "name": "Vineland (CDP)",
    "county": "Pueblo County",
    "county_fips": "08101",
-   "through": 338,
+   "through": 279,
    "to": [
     [
      "Pueblo (city)",
-     223
-    ],
-    [
-     "Colorado Springs (city)",
-     56
+     225
     ],
     [
      "La Junta (city)",
@@ -11341,27 +10965,31 @@
     [
      "Ca\u00f1on City (city)",
      2
+    ],
+    [
+     "Trinidad (city)",
+     1
     ]
    ],
    "from_counties": [
     [
      "Pueblo County",
-     338
+     279
     ]
    ],
    "earnings": {
     "le_1250": 25,
-    "1251_3333": 114,
-    "gt_3333": 199
+    "1251_3333": 93,
+    "gt_3333": 161
    },
    "age": {
-    "under_30": 66,
-    "30_54": 186,
-    "55_plus": 86
+    "under_30": 54,
+    "30_54": 151,
+    "55_plus": 74
    },
-   "avg_route_miles": 30.8,
+   "avg_route_miles": 23.8,
    "renter_share_at_home": 0.291,
-   "avg_drive_minutes": 37
+   "avg_drive_minutes": 30
   },
   "0881690": {
    "name": "Vona (town)",
@@ -11436,7 +11064,7 @@
     "30_54": 100,
     "55_plus": 81
    },
-   "avg_route_miles": 79.8,
+   "avg_route_miles": 79.9,
    "renter_share_at_home": 0.279,
    "avg_drive_minutes": 85
   },
@@ -11451,7 +11079,7 @@
    "name": "Weldona (CDP)",
    "county": "Morgan County",
    "county_fips": "08087",
-   "through": 69,
+   "through": 50,
    "to": [
     [
      "Fort Morgan (city)",
@@ -11462,48 +11090,40 @@
      5
     ],
     [
-     "Denver (city)",
-     4
+     "Sterling (city)",
+     1
     ],
     [
-     "Greeley (city)",
-     4
-    ],
-    [
-     "Fort Collins (city)",
-     3
+     "Yuma (city)",
+     1
     ]
    ],
    "from_counties": [
     [
      "Morgan County",
-     69
+     50
     ]
    ],
    "earnings": {
-    "le_1250": 12,
-    "1251_3333": 12,
-    "gt_3333": 45
+    "le_1250": 11,
+    "1251_3333": 9,
+    "gt_3333": 30
    },
    "age": {
-    "under_30": 10,
-    "30_54": 40,
-    "55_plus": 19
+    "under_30": 6,
+    "30_54": 27,
+    "55_plus": 17
    },
-   "avg_route_miles": 36.2,
+   "avg_route_miles": 24.3,
    "renter_share_at_home": 0.327,
-   "avg_drive_minutes": 46
+   "avg_drive_minutes": 33
   },
   "0883450": {
    "name": "Westcliffe (town)",
    "county": "Custer County",
    "county_fips": "08027",
-   "through": 149,
+   "through": 95,
    "to": [
-    [
-     "Colorado Springs (city)",
-     40
-    ],
     [
      "Salida (city)",
      34
@@ -11519,16 +11139,20 @@
     [
      "Alamosa (city)",
      11
+    ],
+    [
+     "Buena Vista (town)",
+     9
     ]
    ],
    "from_counties": [
     [
      "Custer County",
-     115
+     67
     ],
     [
      "Fremont County",
-     28
+     22
     ],
     [
      "Alamosa County",
@@ -11544,18 +11168,18 @@
     ]
    ],
    "earnings": {
-    "le_1250": 25,
-    "1251_3333": 29,
-    "gt_3333": 95
+    "le_1250": 17,
+    "1251_3333": 17,
+    "gt_3333": 61
    },
    "age": {
-    "under_30": 23,
-    "30_54": 78,
-    "55_plus": 48
+    "under_30": 15,
+    "30_54": 51,
+    "55_plus": 29
    },
-   "avg_route_miles": 78.5,
-   "renter_share_at_home": 0.173,
-   "avg_drive_minutes": 106
+   "avg_route_miles": 71.2,
+   "renter_share_at_home": 0.181,
+   "avg_drive_minutes": 100
   },
   "0884000": {
    "name": "Weston (CDP)",
@@ -11608,66 +11232,54 @@
    "name": "Wiggins (town)",
    "county": "Morgan County",
    "county_fips": "08087",
-   "through": 3215,
+   "through": 173,
    "to": [
     [
-     "Greeley (city)",
-     675
+     "Fort Morgan (city)",
+     143
     ],
     [
-     "Denver (city)",
-     608
+     "Brush (city)",
+     18
     ],
     [
-     "Aurora (city)",
-     294
+     "Sterling (city)",
+     10
     ],
     [
-     "Fort Collins (city)",
-     154
-    ],
-    [
-     "Loveland (city)",
-     149
+     "Yuma (city)",
+     2
     ]
    ],
    "from_counties": [
     [
      "Morgan County",
-     3185
-    ],
-    [
-     "Logan County",
-     16
-    ],
-    [
-     "Washington County",
-     14
+     173
     ]
    ],
    "earnings": {
-    "le_1250": 413,
-    "1251_3333": 852,
-    "gt_3333": 1950
+    "le_1250": 20,
+    "1251_3333": 42,
+    "gt_3333": 111
    },
    "age": {
-    "under_30": 890,
-    "30_54": 1615,
-    "55_plus": 710
+    "under_30": 38,
+    "30_54": 86,
+    "55_plus": 49
    },
-   "avg_route_miles": 71.6,
+   "avg_route_miles": 28.2,
    "renter_share_at_home": 0.327,
-   "avg_drive_minutes": 75
+   "avg_drive_minutes": 32
   },
   "0885045": {
    "name": "Wiley (town)",
    "county": "Prowers County",
    "county_fips": "08099",
-   "through": 51,
+   "through": 50,
    "to": [
     [
      "Lamar (city)",
-     47
+     46
     ],
     [
      "La Junta (city)",
@@ -11681,7 +11293,7 @@
     ],
     [
      "Prowers County",
-     23
+     22
     ],
     [
      "Cheyenne County",
@@ -11695,30 +11307,26 @@
    "earnings": {
     "le_1250": 12,
     "1251_3333": 21,
-    "gt_3333": 18
+    "gt_3333": 17
    },
    "age": {
     "under_30": 15,
-    "30_54": 28,
+    "30_54": 27,
     "55_plus": 8
    },
-   "avg_route_miles": 31.7,
+   "avg_route_miles": 32.2,
    "renter_share_at_home": 0.318,
-   "avg_drive_minutes": 39
+   "avg_drive_minutes": 40
   },
   "0885155": {
    "name": "Williamsburg (town)",
    "county": "Fremont County",
    "county_fips": "08043",
-   "through": 774,
+   "through": 547,
    "to": [
     [
      "Ca\u00f1on City (city)",
      436
-    ],
-    [
-     "Colorado Springs (city)",
-     180
     ],
     [
      "Pueblo (city)",
@@ -11729,18 +11337,22 @@
      17
     ],
     [
-     "Cimarron Hills (CDP)",
+     "Salida (city)",
      14
+    ],
+    [
+     "Buena Vista (town)",
+     6
     ]
    ],
    "from_counties": [
     [
      "Fremont County",
-     725
+     499
     ],
     [
      "Custer County",
-     39
+     38
     ],
     [
      "Pueblo County",
@@ -11756,67 +11368,63 @@
     ]
    ],
    "earnings": {
-    "le_1250": 122,
-    "1251_3333": 266,
-    "gt_3333": 386
+    "le_1250": 93,
+    "1251_3333": 198,
+    "gt_3333": 256
    },
    "age": {
-    "under_30": 157,
-    "30_54": 380,
-    "55_plus": 237
+    "under_30": 122,
+    "30_54": 259,
+    "55_plus": 166
    },
-   "avg_route_miles": 30.7,
-   "renter_share_at_home": 0.24,
-   "avg_drive_minutes": 40
+   "avg_route_miles": 20.8,
+   "renter_share_at_home": 0.239,
+   "avg_drive_minutes": 28
   },
   "0885705": {
    "name": "Winter Park (town)",
    "county": "Grand County",
    "county_fips": "08049",
-   "through": 1103,
+   "through": 77,
    "to": [
     [
-     "Denver (city)",
-     348
+     "Vail (town)",
+     21
     ],
     [
-     "Aurora (city)",
-     70
+     "Breckenridge (town)",
+     10
     ],
     [
-     "Lakewood (city)",
-     48
+     "Frisco (town)",
+     10
     ],
     [
-     "Centennial (city)",
-     46
+     "Aspen (city)",
+     6
     ],
     [
-     "Boulder (city)",
-     39
+     "Avon (town)",
+     5
     ]
    ],
    "from_counties": [
     [
      "Grand County",
-     1099
-    ],
-    [
-     "Jackson County",
-     4
+     77
     ]
    ],
    "earnings": {
-    "le_1250": 175,
-    "1251_3333": 246,
-    "gt_3333": 682
+    "le_1250": 19,
+    "1251_3333": 22,
+    "gt_3333": 36
    },
    "age": {
-    "under_30": 275,
-    "30_54": 534,
-    "55_plus": 294
+    "under_30": 24,
+    "30_54": 35,
+    "55_plus": 18
    },
-   "avg_route_miles": 91.2,
+   "avg_route_miles": 91.4,
    "renter_share_at_home": 0.266,
    "avg_drive_minutes": 101
   },
@@ -11824,7 +11432,7 @@
    "name": "Wolcott (CDP)",
    "county": "Eagle County",
    "county_fips": "08037",
-   "through": 5512,
+   "through": 5509,
    "to": [
     [
      "Vail (town)",
@@ -11850,7 +11458,7 @@
    "from_counties": [
     [
      "Eagle County",
-     3665
+     3662
     ],
     [
      "Garfield County",
@@ -11870,16 +11478,16 @@
     ]
    ],
    "earnings": {
-    "le_1250": 1037,
+    "le_1250": 1035,
     "1251_3333": 1154,
-    "gt_3333": 3321
+    "gt_3333": 3320
    },
    "age": {
     "under_30": 1281,
-    "30_54": 2987,
-    "55_plus": 1244
+    "30_54": 2986,
+    "55_plus": 1242
    },
-   "avg_route_miles": 55.9,
+   "avg_route_miles": 55.8,
    "renter_share_at_home": 0.325,
    "avg_drive_minutes": 60
   },

@@ -111,11 +111,30 @@ for (const hna of H.hnas) {
     if (r.id in coho) ok(Math.abs(r.coho_value - coho[r.id]) < 0.001, `${hna.id}/${r.id}: COHO figure ${r.coho_value} equals its data file (${coho[r.id]})`);
   }
 }
-ok(/How this compares with the 2025 HNA/.test(h) && h.includes('Root Policy Research'), 'Bayfield\'s report prints the HNA comparison');
-ok(/1,550/.test(h) && /III, page 14/.test(h), 'HNA figures print with their page');
-ok(h.includes(bay.through.toLocaleString('en-US') + ' drive through'), 'the relocation row reads the through count from the file');
+// The comparison must agree with the HNA record it is rendered from, not with chosen wording.
+const fmtHna = (v) => typeof v === 'number' ? (v < 1 ? Math.round(100 * v) + '%' : v.toLocaleString('en-US')) : String(v);
+const escHtml = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+const section = (html) => { const i = html.indexOf('id="hna-compare"'); if (i < 0) return null; const j = html.indexOf('<h2', i + 1); return html.slice(i, j < 0 ? undefined : j); };
+const hnaFor = (geoid) => H.hnas.find((x) => (x.applies_to || []).includes(geoid));
+const rowsFor = (hna, geoid) => hna.rows.filter((r) => !r.geography || r.geography === geoid || r.geography === hna.county_fips || r.geography.length === 5);
+function agrees(html, geoid) {
+  const hna = hnaFor(geoid), sec = section(html);
+  ok(hna && sec, `${geoid}: an HNA on file prints a comparison section`);
+  ok(sec.includes(escHtml(hna.date.slice(0, 4))) && sec.includes(escHtml(hna.author)) && sec.includes(escHtml(hna.date)), `${geoid}: the section names the HNA's year, author and date from the record`);
+  const shown = hna.rows.filter((r) => sec.includes(escHtml(r.measure)));
+  ok(shown.length > 0, `${geoid}: the scan found rows to check`);
+  for (const r of shown) {
+    ok(sec.includes(escHtml(r.hna_text || fmtHna(r.hna_value))) && sec.includes(escHtml(r.hna_page)), `${geoid}/${r.id}: HNA figure and page match the record`);
+    ok(sec.includes(escHtml(r.why)), `${geoid}/${r.id}: the reason matches the record`);
+  }
+  return shown.map((r) => r.id);
+}
+const bayRows = agrees(h, '0805265');
+ok(bayRows.length === hnaFor('0805265').rows.length, 'Bayfield shows every row of its HNA');
+ok(section(h).includes(bay.through.toLocaleString('en-US')), 'the relocation row reads the through count from the file');
 const dur = WP.renderHtml(WP.buildModel(src, '0822035', { FundingFit, today: '2026-11-02' }));
-ok(/How this compares with the 2025 HNA/.test(dur) && !/Bayfield median rent/.test(dur), 'Durango gets the county rows, not Bayfield\'s');
-ok(!/How this compares with the/.test(WP.renderHtml(WP.buildModel(src, '08077', { FundingFit, today: '2026-11-02' }))), 'a county without an HNA on file shows no box');
+const durRows = agrees(dur, '0822035');
+ok(durRows.every((id) => { const r = hnaFor('0822035').rows.find((x) => x.id === id); return !r.geography || r.geography.length === 5; }), 'Durango gets the county rows, not Bayfield\'s');
+ok(section(WP.renderHtml(WP.buildModel(src, '08077', { FundingFit, today: '2026-11-02' }))) === null && !hnaFor('08077'), 'a county without an HNA on file shows no comparison section');
 
 console.log(`through-commuters: ${checks} checks passed`);
