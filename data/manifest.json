@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-02T11:26:40.818563Z",
+  "generated": "2026-11-02T12:31:34.186114Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1023428
+      "bytes": 1023440
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -159,7 +159,7 @@
     "data/audit/chfa-qap-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2973693
+      "bytes": 3584799
     },
     "data/audit/funding-watch.json": {
       "featureCount": 0,
@@ -269,7 +269,7 @@
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21488
+      "bytes": 21172
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,
@@ -329,7 +329,7 @@
     "data/core/educational-content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 70580
+      "bytes": 70573
     },
     "data/core/neighborhood-context.json": {
       "featureCount": 64,
@@ -354,7 +354,7 @@
     "data/deadlines.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4522
+      "bytes": 4540
     },
     "data/deals/1001-lincoln-street-denver.json": {
       "featureCount": 0,
@@ -1189,7 +1189,7 @@
     "data/glossary.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 72347
+      "bytes": 72339
     },
     "data/hmda/co-county-aggregates.json": {
       "featureCount": 64,
@@ -8954,7 +8954,7 @@
     "data/market/finder-place-demand.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21726
+      "bytes": 21713
     },
     "data/market/flood_zones_co.geojson": {
       "featureCount": 12537,
@@ -9064,7 +9064,7 @@
     "data/market/novogradac-equity-pricing.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 17899
+      "bytes": 17895
     },
     "data/market/opportunity_insights_co.json": {
       "featureCount": 0,
@@ -9579,12 +9579,12 @@
     "data/policy/chfa-2027-r1-scoring.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21139
+      "bytes": 21300
     },
     "data/policy/chfa-2027-r2-scoring.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 22843
+      "bytes": 22915
     },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
@@ -9594,7 +9594,7 @@
     "data/policy/chfa-common-app-tables.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 14284
+      "bytes": 14390
     },
     "data/policy/chfa-watchlist.json": {
       "featureCount": 0,
@@ -9604,7 +9604,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 436001
+      "bytes": 434964
     },
     "data/policy/colorado-deal-rules.json": {
       "featureCount": 0,
@@ -9679,7 +9679,7 @@
     "data/policy/green-building.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 59431
+      "bytes": 59382
     },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
@@ -9779,7 +9779,7 @@
     "data/policy/policy-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 54186
+      "bytes": 54931
     },
     "data/policy/prop123-land-banking-awards.json": {
       "featureCount": 0,
@@ -9814,7 +9814,7 @@
     "data/policy/resident-services.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35186
+      "bytes": 35185
     },
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
@@ -9834,12 +9834,12 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40798
+      "bytes": 40830
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3786
+      "bytes": 3763
     },
     "data/policy/tool-watch.json": {
       "featureCount": 0,
@@ -9849,7 +9849,7 @@
     "data/policy/unit-size-standards.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4891
+      "bytes": 4929
     },
     "data/policy/where-to-build-context.json": {
       "featureCount": 0,
@@ -9864,7 +9864,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 221085
+      "bytes": 221161
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

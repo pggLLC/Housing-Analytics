@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-02T11:26:36.666Z",
+    "generated_at": "2026-11-02T12:31:29.823Z",
     "root": "data/",
     "file_count": 2008,
-    "total_size_bytes": 211020329,
+    "total_size_bytes": 211631225,
     "kinds": {
       "json": 1960,
       "geojson": 34,
@@ -595,8 +595,8 @@
     {
       "path": "audit/chfa-qap-watch.json",
       "kind": "json",
-      "size_bytes": 2973693,
-      "mtime": "2026-10-28T11:22:29.624Z",
+      "size_bytes": 3584799,
+      "mtime": "2026-11-02T12:29:30.605Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -613,7 +613,7 @@
       ],
       "key_count": 11,
       "primary_array_key": "documents",
-      "primary_array_length": 54,
+      "primary_array_length": 132,
       "primary_array_first_keys": [
         "url",
         "title",
@@ -625,8 +625,8 @@
         "bytes",
         "content_type",
         "last_modified",
-        "pages",
-        "text"
+        "last_changed_at",
+        "pages"
       ]
     },
     {
@@ -671,7 +671,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-01T22:07:47.025Z",
+      "mtime": "2026-11-02T12:31:25.591Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1141,8 +1141,8 @@
     {
       "path": "chfa-qap-calendar.json",
       "kind": "json",
-      "size_bytes": 21488,
-      "mtime": "2026-10-25T02:54:19.067Z",
+      "size_bytes": 21172,
+      "mtime": "2026-11-02T12:29:30.611Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -1415,8 +1415,8 @@
     {
       "path": "core/educational-content.json",
       "kind": "json",
-      "size_bytes": 70580,
-      "mtime": "2026-10-24T06:19:18.622Z",
+      "size_bytes": 70573,
+      "mtime": "2026-11-02T12:29:30.620Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -1517,8 +1517,8 @@
     {
       "path": "deadlines.json",
       "kind": "json",
-      "size_bytes": 4522,
-      "mtime": "2026-10-26T14:02:26.651Z",
+      "size_bytes": 4540,
+      "mtime": "2026-11-02T12:29:30.623Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -6765,8 +6765,8 @@
     {
       "path": "glossary.json",
       "kind": "json",
-      "size_bytes": 72347,
-      "mtime": "2026-10-24T06:19:18.622Z",
+      "size_bytes": 72339,
+      "mtime": "2026-11-02T12:29:30.655Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -38868,8 +38868,8 @@
     {
       "path": "market/finder-place-demand.json",
       "kind": "json",
-      "size_bytes": 21726,
-      "mtime": "2026-10-26T14:26:51.455Z",
+      "size_bytes": 21713,
+      "mtime": "2026-11-02T12:29:30.996Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39312,8 +39312,8 @@
     {
       "path": "market/novogradac-equity-pricing.json",
       "kind": "json",
-      "size_bytes": 17899,
-      "mtime": "2026-10-20T14:15:42.010Z",
+      "size_bytes": 17895,
+      "mtime": "2026-11-02T12:29:31.120Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39950,7 +39950,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-01T22:07:48.775Z",
+      "mtime": "2026-11-02T12:31:27.715Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39974,7 +39974,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-01T22:07:48.362Z",
+      "mtime": "2026-11-02T12:31:27.195Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41796,8 +41796,8 @@
     {
       "path": "policy/chfa-2027-r1-scoring.json",
       "kind": "json",
-      "size_bytes": 21139,
-      "mtime": "2026-10-31T12:14:29.443Z",
+      "size_bytes": 21300,
+      "mtime": "2026-11-02T12:29:31.177Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41832,8 +41832,8 @@
     {
       "path": "policy/chfa-2027-r2-scoring.json",
       "kind": "json",
-      "size_bytes": 22843,
-      "mtime": "2026-10-31T12:14:29.443Z",
+      "size_bytes": 22915,
+      "mtime": "2026-11-02T12:29:31.177Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41900,8 +41900,8 @@
     {
       "path": "policy/chfa-common-app-tables.json",
       "kind": "json",
-      "size_bytes": 14284,
-      "mtime": "2026-10-29T09:59:11.286Z",
+      "size_bytes": 14390,
+      "mtime": "2026-11-02T12:29:31.177Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41954,8 +41954,8 @@
     {
       "path": "policy/co-developer-funding-guide.json",
       "kind": "json",
-      "size_bytes": 436001,
-      "mtime": "2026-10-26T13:53:54.698Z",
+      "size_bytes": 434964,
+      "mtime": "2026-11-02T12:29:31.178Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42304,8 +42304,8 @@
     {
       "path": "policy/green-building.json",
       "kind": "json",
-      "size_bytes": 59431,
-      "mtime": "2026-10-24T00:16:04.599Z",
+      "size_bytes": 59382,
+      "mtime": "2026-11-02T12:29:31.182Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42796,8 +42796,8 @@
     {
       "path": "policy/policy-watch.json",
       "kind": "json",
-      "size_bytes": 54186,
-      "mtime": "2026-10-25T19:40:32.395Z",
+      "size_bytes": 54931,
+      "mtime": "2026-11-02T12:29:31.186Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42988,8 +42988,8 @@
     {
       "path": "policy/resident-services.json",
       "kind": "json",
-      "size_bytes": 35186,
-      "mtime": "2026-10-11T11:05:03.489Z",
+      "size_bytes": 35185,
+      "mtime": "2026-11-02T12:29:31.187Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -43086,8 +43086,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 40798,
-      "mtime": "2026-10-20T14:15:42.020Z",
+      "size_bytes": 40830,
+      "mtime": "2026-11-02T12:29:31.188Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -43115,8 +43115,8 @@
     {
       "path": "policy/thiz-map-status.json",
       "kind": "json",
-      "size_bytes": 3786,
-      "mtime": "2026-10-22T14:51:53.456Z",
+      "size_bytes": 3763,
+      "mtime": "2026-11-02T12:29:31.188Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -43170,8 +43170,8 @@
     {
       "path": "policy/unit-size-standards.json",
       "kind": "json",
-      "size_bytes": 4891,
-      "mtime": "2026-09-25T12:55:19.121Z",
+      "size_bytes": 4929,
+      "mtime": "2026-11-02T12:29:31.188Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -43244,8 +43244,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 221085,
-      "mtime": "2026-10-30T17:37:42.508Z",
+      "size_bytes": 221161,
+      "mtime": "2026-11-02T12:29:31.190Z",
       "shape": "object",
       "keys": [
         "meta",
