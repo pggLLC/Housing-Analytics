@@ -1602,7 +1602,7 @@
       proposedUnits: proposedUnits, captureRate: captureRate,
       penetrationRate: Math.round(penetration * 1000) / 10,
       risk: over ? 'High' : 'Low',
-      riskLabel: over ? 'Over 85% (CHFA draft)' : 'Under 85% (CHFA draft)'
+      riskLabel: over ? 'Over 85% (CHFA 2027–28 QAP)' : 'Under 85% (CHFA 2027–28 QAP)'
     };
   }
 

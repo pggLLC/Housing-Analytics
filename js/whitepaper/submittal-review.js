@@ -526,13 +526,13 @@
     if (th.missing) risks.push({ level: 'red', text: th.missing + ' threshold item' + (th.missing > 1 ? 's are' : ' is') + ' missing; a missing threshold item stops the application.' });
     var stateCr = four ? roundTwoStateCheck(rules, num(deal.stateCredits), num(deal.stateStandard)) : stateCreditCheck(rules, num(deal.stateCredits));
     if (four) risks = risks.concat(roundTwoStateRisks(stateCr));
-    else if (stateCr.status === 'off') risks.push({ level: 'red', text: 'Standard state credit ' + money(stateCr.value) + ' is not the fixed amount CHFA pairs with a 9% application: ' + money(stateCr.fixed) + ' with the 3.B.9 pilot, or ' + money(stateCr.altFixed) + ' if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
+    else if (stateCr.status === 'off') risks.push({ level: 'red', text: 'Standard state credit ' + money(stateCr.value) + ' is not the fixed amount CHFA pairs with a 9% application: ' + money(stateCr.fixed) + ' with the 3.B.9 pilot, or ' + money(stateCr.altFixed) + ' if pilot gap funds are not available (QAP 3.L and 3.L.1).' });
     if (!four && stateCr.status === 'depends') risks.push({ level: 'yellow', text: stateCr.basis === 'pilot'
       ? 'Standard state credit ' + money(stateCr.value) + ' is the amount paired with the 3.B.9 pilot; if pilot gap funds are not available it is ' + money(stateCr.altFixed) + ' (QAP 3.L and 3.L.1). Confirm with CHFA which applies.'
       : 'Standard state credit ' + money(stateCr.value) + ' is the amount under 3.L.1, which applies only if pilot gap funds are not available; with the pilot it is ' + money(stateCr.fixed) + ' (QAP 3.L). Confirm with CHFA which applies.' });
     var creditWhat = credit.other ? 'Annual federal credit ' + money(credit.value) + ' plus ' + money(credit.other) + ' in other active applications (' + money(credit.total) + ')' : 'Annual federal credit ' + money(credit.value);
     if (credit.status === 'over') risks.push({ level: 'red', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap (QAP 3.L).' });
-    if (credit.status === 'depends') risks.push({ level: 'yellow', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap that applies with the 3.B.9 gap-fund pilot but within the ' + money(credit.altCap) + ' cap if pilot gap funds are not available (QAP 3.L and 3.L.1, not adopted).' });
+    if (credit.status === 'depends') risks.push({ level: 'yellow', text: creditWhat + ' is over the ' + money(credit.cap) + ' cap that applies with the 3.B.9 gap-fund pilot but within the ' + money(credit.altCap) + ' cap if pilot gap funds are not available (QAP 3.L and 3.L.1).' });
     if (!four && credit.status !== 'unknown' && credit.status !== 'over' && !credit.applicantKnown) risks.push({ level: 'yellow', text: 'The credit cap also counts other active applications by the same applicant, affiliate or turn-key developer (QAP 3.L). Enter their requested credit, or 0 if none, to check it.' });
     var tie = TieOut ? TieOut.check(rules, v, eng) : null;
     if (tie) risks = risks.concat(TieOut.risks(tie));
