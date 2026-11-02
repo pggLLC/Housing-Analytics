@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-02T15:13:23.302Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-02T17:41:19.857Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-81 pages found.
+82 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -87,8 +87,9 @@
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.7 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 13.6 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 13.7 KB |
 | `state-allocation-map.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
+| `terms-of-use.html` | Terms of Use | COHO Analytics | 5.4 KB |
 | `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 3.3 KB |
 | `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.2 KB |
 
@@ -100,7 +101,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 999.5 KB | ✅ | — |
+| `data/_manifest.json` | 1000.4 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -319,7 +320,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 300.3 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 300.6 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -1847,7 +1848,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 13.2 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 249.2 KB | ✅ | — |
+| `data/manifest.json` | 249.5 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
