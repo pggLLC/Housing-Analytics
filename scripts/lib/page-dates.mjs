@@ -56,6 +56,7 @@ export const ARTICLE_PAGES = new Set([
   'lihtc-guide-for-stakeholders.html',
   'methods.html',
   'privacy-policy.html',
+  'terms-of-use.html',
   'working-paper.html'
 ]);
 

@@ -68,6 +68,7 @@ const PAGES_TO_AUDIT = [
   { name: 'lihtc-enhancement-ahcia',  path: '/lihtc-enhancement-ahcia.html' },
   { name: 'lihtc-guide',              path: '/lihtc-guide-for-stakeholders.html' },
   { name: 'privacy-policy',           path: '/privacy-policy.html' },
+  { name: 'terms-of-use',             path: '/terms-of-use.html' },
 ];
 
 // Patterns that indicate hard failures when a request fails
