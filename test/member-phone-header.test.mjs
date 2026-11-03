@@ -50,6 +50,8 @@ async function look(browser, file, width) {
       curInView: !cur || (cr.left >= nr.left - 1 && cr.right <= nr.right + 1),
       scrolls: !!nav && nav.scrollWidth > nav.clientWidth,
       pageWidth: document.documentElement.scrollWidth,
+      subRows: (() => { const sub = document.getElementById('devSubNav'); return sub ? new Set([...sub.querySelectorAll('a')].map((a) => Math.round(a.getBoundingClientRect().top))).size : 0; })(),
+      subCur: (() => { const sub = document.getElementById('devSubNav'); const c = sub && sub.querySelector('[aria-current="page"]'); if (!c) return null; const r = c.getBoundingClientRect(), n = sub.getBoundingClientRect(); return r.left >= n.left - 1 && r.right <= n.right + 1; })(),
     };
   });
   await ctx.close();
@@ -112,6 +114,7 @@ try {
     ok(!phone.chip, f + ' at 390px: no jurisdiction chip in the header');
     ok(phone.links >= 5 && phone.rows === 1, f + ' at 390px: the member menu is one row (' + phone.links + ' links, ' + phone.rows + ' rows)');
     ok(phone.curInView, f + ' at 390px: the page you are on shows in that row');
+    ok(phone.subRows <= 1 && phone.subCur !== false, f + ' at 390px: the pages of its group are one row with this page in view (' + phone.subRows + ' rows)');
     ok(phone.pageWidth <= 390, f + ' at 390px: the row scrolls by itself, not the page (' + phone.pageWidth + 'px)');
     const desk = await look(browser, f, 1280);
     ok(desk.rows <= 2 && !desk.scrolls, f + ' at 1280px: the menu still wraps as before, with nothing to scroll (' + desk.rows + ' rows)');
