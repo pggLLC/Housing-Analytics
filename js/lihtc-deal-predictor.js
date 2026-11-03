@@ -112,7 +112,7 @@
     // lives in data/policy/lihtc-underwriting-rules.json (credit_cap_federal_9pct,
     // QAP Section 3.L) and replaces this one when it loads; a test pins the two
     // together.
-    nineCreditAnnualCap:      1800000,
+    nineCreditAnnualCap:      1700000,
     deepAffordabilityPct:     0.25
   };
 

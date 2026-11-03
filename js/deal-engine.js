@@ -1100,7 +1100,8 @@
       awardedBoostPct: fields['dc-boost-pct'],
       creditType: creditType, creditRate: _creditRate, units: units, lowIncomeUnits: lihtcUnits,
       residentialSf: fields['dc-res-sf'], lowIncomeSf: fields['dc-restricted-sf'],
-      requested: fields['dc-credit-requested'], awarded: fields['dc-credit-awarded'], feeExcess: feeExcess.total, feeReason: feeExcess.reason, rules: costRules };
+      requested: fields['dc-credit-requested'], awarded: fields['dc-credit-awarded'], feeExcess: feeExcess.total, feeReason: feeExcess.reason, rules: costRules,
+      qapYear: fields['dc-qap-year'], pilotGapFunds: fields['dc-pilot-gap'] };
     var basis = cbm.basisAndCredit(basisArgs);
     var basisUnknownReason = null;
     // Outside CHFA LIHTC there is no basis or credit, so nothing about them is unknown.
@@ -1113,7 +1114,8 @@
     var annualCredits    = !chfaRegime ? 0 : basis.creditForEquity === null ? NaN : basis.creditForEquity;
     var equity           = annualCredits * CREDIT_YEARS * equityPrice;
     var stateCredit = cbm.stateCredit({ annual: fields['dc-state-annual'], standardAnnual: fields['dc-state-standard-annual'],
-      price: fields['dc-state-price'], fees: fields['dc-state-fees'], awarded: !!fields['dc-state-awarded'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules });
+      price: fields['dc-state-price'], fees: fields['dc-state-fees'], awarded: !!fields['dc-state-awarded'], creditType: creditType, path: fields['dc-state-path'] || null, units: units, rules: costRules,
+      qapYear: fields['dc-qap-year'], pilotGapFunds: fields['dc-pilot-gap'] });
     // No state credit entered is no source; an incomplete one is unknown.
     // The state credit pairs with the federal credit, so outside CHFA LIHTC it is no source either.
     var stateCreditApplies = chfaRegime && stateCredit.entered;

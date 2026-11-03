@@ -2361,6 +2361,20 @@
 
       <fieldset id="dc-credit-figures" data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Tax Credits Requested and Awarded</legend>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:var(--sp2);margin-bottom:var(--sp2);">
+          <label style="display:block;font-size:var(--small);color:var(--muted);">CHFA credit year (sets the per-project limits)
+            <select id="dc-qap-year" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+              <option value="2027" selected>2027 (2027-2028 plan)</option>
+              <option value="2028">2028 (2027-2028 plan)</option>
+              <option value="2026">2026 (2025-2026 plan)</option>
+            </select></label>
+          <label style="display:block;font-size:var(--small);color:var(--muted);">State gap funds through CHFA's 3.B.9 pilot
+            <select id="dc-pilot-gap" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
+              <option value="yes" selected>Available: QAP 3.L limits</option>
+              <option value="no">Not available: QAP 3.L.1 limits</option>
+            </select></label>
+        </div>
+        <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 .35rem;line-height:1.45;">2027-2028 plan, 3.L: federal 9% up to $1,700,000 a year in 2027 and $1,750,000 in 2028 ($1,800,000 under 3.L.1). The 2026 choice keeps the 2025-2026 plan's limits.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:var(--sp2);">
           <label style="display:block;font-size:var(--small);color:var(--muted);">Annual federal credit requested ($)
             <input id="dc-credit-requested" type="number" min="0" step="1000" placeholder="not entered" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;"></label>
@@ -2373,9 +2387,9 @@
           <label style="display:block;font-size:var(--small);color:var(--muted);margin-top:.35rem;">CHFA state credit application (each has its own limit)
             <select id="dc-state-path" style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);min-height:44px;">
               <option value="">Not answered (a 9% deal uses the 9% pairing)</option>
-              <option value="with_9pct">Paired with a 9% application: a fixed $500,000 a year</option>
-              <option value="round_two">Round Two with 4%: accelerated up to $1,300,000 plus paired standard up to $600,000 a year</option>
-              <option value="bond_fall">4% bond deal applying Sept to Nov: $10,000 per unit, up to $700,000 a year</option>
+              <option value="with_9pct">Paired with a 9% application: a fixed standard credit ($650,000 in 2027, $675,000 in 2028; $500,000 in 2026)</option>
+              <option value="round_two">Round Two with 4%: accelerated plus paired standard ($1,000,000 and up to $675,000 in 2027; $1,200,000 and up to $600,000 in 2028)</option>
+              <option value="bond_fall">4% bond deal applying Sept to Nov 2025 or 2026 only: $10,000 per unit, up to $700,000 a year</option>
             </select></label>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:var(--sp2);margin-top:.35rem;">
             <label style="display:block;font-size:var(--small);color:var(--muted);">Annual state credit ($)
@@ -3614,7 +3628,7 @@
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
-    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path', 'dc-add-kind', 'dc-add-mode', 'dc-add-displaces', 'dc-bond-post2025'].forEach(function (id) {
+    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path', 'dc-add-kind', 'dc-add-mode', 'dc-add-displaces', 'dc-bond-post2025', 'dc-qap-year', 'dc-pilot-gap'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', recalculate);
     });
