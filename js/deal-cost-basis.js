@@ -512,9 +512,12 @@
   function costBasisLimitCheck(args) {
     var t = args.tables;
     // draft follows the tables file's status: CHFA's 2027 application (V9) is the adopted one.
-    var out = { checked: false, draft: !t || t.status !== 'adopted', status: (t && t.status) || null, credit: null, adjustedEligibleBasis: null, zone: null, factor: null,
+    var out = { checked: false, draft: true, status: null, credit: null, adjustedEligibleBasis: null, zone: null, factor: null,
       perUnit: null, lower: false, reason: null, source: null };
     if (!t || !t.basis_limit_per_unit_base || !t.counties) { out.reason = 'CHFA\'s 2027 workbook limits did not load.'; return out; }
+    // Only tables that loaded can be called adopted.
+    out.draft = t.status !== 'adopted';
+    out.status = t.status || null;
     out.source = (t.source && t.source.title ? t.source.title.replace(/ Instructions$/, '') : 'CHFA Common Application') + ', 2027-28 QAP';
     var county = args.countyFips && t.counties[String(args.countyFips).padStart(5, '0')];
     if (!county) { out.reason = 'Select a county: CHFA\'s limits depend on the county\'s zone.'; return out; }

@@ -53,6 +53,9 @@ test('limits from a file not marked adopted are labelled draft', () => {
   assert.equal(r.draft, true);
   assert.match(r.reason, /, a draft; shown as a check/);
   assert.equal(cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: null })).draft, true, 'no tables: never called adopted');
+  const empty = cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: { status: 'adopted' } }));
+  assert.equal(empty.draft, true, 'adopted label but no tables: never called adopted');
+  assert.equal(empty.status, null);
 });
 
 test('a QCT or DDA multiplies the limit basis by 1.3; elevator uses the elevator column', () => {
