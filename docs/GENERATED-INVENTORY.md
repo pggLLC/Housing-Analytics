@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-03T01:50:41.526Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-03T11:35:09.470Z. Do not edit by hand.
 
 ---
 
@@ -75,7 +75,7 @@
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 154.0 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `methods.html` | Computational Methods | COHO Analytics | 81.8 KB |
+| `methods.html` | Computational Methods | COHO Analytics | 82.2 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 52.7 KB |
@@ -101,7 +101,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1000.4 KB | ✅ | — |
+| `data/_manifest.json` | 1000.3 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -118,11 +118,11 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 1.30 MB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 34.5 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 1.38 MB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 36.0 KB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 183 B | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 23.1 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 24.6 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.42 MB | ✅ | — |
@@ -1165,7 +1165,7 @@
 | `data/hna/projections/08121.json` | 5.3 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 5.4 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 5.3 KB | ✅ | — |
-| `data/hna/projections/places.json` | 828.7 KB | ✅ | — |
+| `data/hna/projections/places.json` | 828.6 KB | ✅ | — |
 | `data/hna/ranking-index.json` | 3.26 MB | ✅ | — |
 | `data/hna/ranking-scenarios/balanced.json` | 48.8 KB | ✅ | — |
 | `data/hna/ranking-scenarios/commuter-pressure.json` | 48.8 KB | ✅ | — |
@@ -1915,7 +1915,7 @@
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
-| `data/paper/figures.json` | 15.8 KB | ✅ | — |
+| `data/paper/figures.json` | 16.3 KB | ✅ | — |
 | `data/paper/model-parameters.json` | 6.1 KB | ✅ | — |
 | `data/pipeline/content.json` | 41.3 KB | ✅ | — |
 | `data/policy/affordability-models.json` | 14.6 KB | ✅ | — |
@@ -2009,7 +2009,7 @@
 | `data/policy/green-building.json` | 58.0 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 30.8 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 172.2 KB | ✅ | — |
+| `data/policy/housing-events.json` | 172.6 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
 | `data/policy/incentive-alternatives.json` | 56.7 KB | ✅ | — |
@@ -2042,7 +2042,7 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 498.0 KB | ✅ | — |
+| `data/policy_briefs.json` | 513.2 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 216.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
@@ -2369,7 +2369,7 @@
 | `test/hna-phase2-stubs-wired.test.js` | 6.9 KB |
 | `test/hna-phone-speed-f9.test.js` | 11.5 KB |
 | `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
-| `test/hna-projection-integrity.test.js` | 58.0 KB |
+| `test/hna-projection-integrity.test.js` | 58.1 KB |
 | `test/hna-prop123-relationship.test.js` | 14.3 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
 | `test/hna-qct-dda-unavailable.test.js` | 11.0 KB |
