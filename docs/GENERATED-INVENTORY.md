@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-03T13:59:48.333Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-03T14:48:41.779Z. Do not edit by hand.
 
 ---
 
@@ -2125,7 +2125,7 @@
 | `test/chas-affordable-available.test.js` | 6.0 KB |
 | `test/chas-tier-shares.test.js` | 6.9 KB |
 | `test/chfa-award-coverage.test.mjs` | 5.0 KB |
-| `test/chfa-cost-basis-limits.test.js` | 4.1 KB |
+| `test/chfa-cost-basis-limits.test.js` | 5.1 KB |
 | `test/chfa-dda-qct-absence.test.js` | 13.4 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/chfa-portfolio-filters.test.js` | 6.3 KB |
@@ -2226,7 +2226,7 @@
 | `test/deal-review-checks.test.js` | 7.7 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
-| `test/deal-workbook.test.mjs` | 101.0 KB |
+| `test/deal-workbook.test.mjs` | 101.8 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 8.2 KB |
 | `test/deep-dive-aamd-vacancy.test.mjs` | 4.4 KB |
 | `test/deep-dive-hmda-loads-on-page-load.test.js` | 3.3 KB |
@@ -2437,7 +2437,7 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
-| `test/jurisdiction-whitepaper.test.mjs` | 43.4 KB |
+| `test/jurisdiction-whitepaper.test.mjs` | 46.0 KB |
 | `test/kalshi-signing-and-write.test.js` | 11.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 39.6 KB |
@@ -2471,7 +2471,7 @@
 | `test/market-study-page.test.js` | 22.9 KB |
 | `test/market-study-report.test.js` | 30.0 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
-| `test/member-phone-header.test.mjs` | 8.5 KB |
+| `test/member-phone-header.test.mjs` | 9.1 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 6.3 KB |
 | `test/metric-semantics-wording.test.js` | 5.4 KB |
