@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-02T17:42:08.164467Z",
+  "generated": "2026-11-03T00:21:00.551348Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -294,7 +294,7 @@
     "data/co-historical-allocations.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14224
+      "bytes": 14797
     },
     "data/co-housing-costs/county-trends.json": {
       "featureCount": 64,
@@ -9234,7 +9234,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16182
+      "bytes": 16184
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,

@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-02T17:41:19.857Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-03T00:20:15.609Z. Do not edit by hand.
 
 ---
 
@@ -151,7 +151,7 @@
 | `data/co-county-demographics.json` | 39.3 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
-| `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
+| `data/co-historical-allocations.json` | 14.5 KB | ✅ | — |
 | `data/co-housing-costs/county-trends.json` | 55.7 KB | ✅ | — |
 | `data/co-housing-costs/qcew_construction_state.json` | 253 B | ✅ | — |
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
