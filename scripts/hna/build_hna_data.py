@@ -1408,7 +1408,10 @@ def fetch_acs_b08301(geo_type: str, geoid: str) -> dict | None:
 
     Returns a normalised dict with keys:
         drive, carpool, transit, walk, bike, work_from_home, other, total
-    All values are integer worker counts.
+    Each value is an integer worker count, or None when the Census response
+    leaves it blank or annotated (a negative value). A missing count is never
+    written as a measured zero. A response with no usable total is skipped so
+    the next vintage or series is tried.
     """
     # B08301 variable mapping:
     #   B08301_001E – Total workers 16+
@@ -1454,12 +1457,27 @@ def fetch_acs_b08301(geo_type: str, geoid: str) -> dict | None:
             qs += f"&key={urllib.parse.quote(key, safe='')}"
         return f"{base}?{qs}"
 
+    def _count(row: dict, key: str) -> int | None:
+        # Census marks unavailable estimates with null or a negative annotation
+        # value (-1, -666666666, ...). Those are unknown, not zero workers.
+        try:
+            v = row.get(key)
+            n = int(v) if v is not None else None
+        except (TypeError, ValueError):
+            return None
+        return n if n is not None and n >= 0 else None
+
     raw = None
     used = None
     for year, series in acs_attempts():
         result = http_get_json(build_url(year, series))
         if result and len(result) > 1:
-            raw = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+            row = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+            if not _count(row, 'B08301_001E'):
+                # No usable worker total: this response cannot give shares, so
+                # try the next vintage or series instead of keeping it.
+                continue
+            raw = row
             used = (year, series)
             break
 
@@ -1467,12 +1485,10 @@ def fetch_acs_b08301(geo_type: str, geoid: str) -> dict | None:
         print(f"⚠ Could not fetch ACS B08301 for {geo_type}:{geoid}", file=sys.stderr)
         return None
 
-    def _int(key: str) -> int:
-        try:
-            v = raw.get(key)
-            return int(v) if v is not None and str(v) != '-1' else 0
-        except (TypeError, ValueError):
-            return 0
+    def _int(key: str) -> int | None:
+        return _count(raw, key)
+
+    other_parts = [_int('B08301_016E'), _int('B08301_017E'), _int('B08301_020E')]
 
     return {
         'total':          _int('B08301_001E'),
@@ -1483,7 +1499,7 @@ def fetch_acs_b08301(geo_type: str, geoid: str) -> dict | None:
         'walk':           _int('B08301_019E'),
         # Taxi and motorcycle are their own B08301 lines; 'other' carries them
         # with other means so the seven modes add to the total.
-        'other':          _int('B08301_016E') + _int('B08301_017E') + _int('B08301_020E'),
+        'other':          None if None in other_parts else sum(other_parts),
         'work_from_home': _int('B08301_021E'),
         '_acsYear': used[0],
         '_acsSeries': used[1],
