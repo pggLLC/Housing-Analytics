@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-03T13:26:06.248081Z",
+  "generated": "2026-11-03T14:00:36.686342Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9754,7 +9754,7 @@
     "data/policy/lihtc-underwriting-rules.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 23994
+      "bytes": 24242
     },
     "data/policy/local-commitment.json": {
       "featureCount": 0,
