@@ -12,19 +12,37 @@
 (function (root) {
   'use strict';
 
-  var PAGES = [
-    { href: 'developer.html', label: 'Home' },
-    { href: 'developer-brief.html', label: 'Jurisdiction reports', also: ['developer-whitepaper.html'] },
-    { href: 'developer-where.html', label: 'Where to build' },
-    { href: 'developer-round-watch.html', label: 'Next round' },
-    { href: 'developer-submittal-review.html', label: 'Submittal review' },
-    { href: 'developer-deal-workbook.html', label: 'Deal workbook' },
-    { href: 'developer-pipeline.html', label: 'Pipeline' },
-    { href: 'developer-methods.html', label: 'Methodology' },
-    { href: 'developer-about.html', label: 'About' }
+  // The menu in groups (paul, 3 Nov: seventeen member tools no longer fit one row).
+  // The top row names the groups; the row below lists the pages in the group you are in.
+  // private: served only by the member site (coho-backend gated/), so no file here.
+  var GROUPS = [
+    { label: 'Home', pages: [{ href: 'developer.html', label: 'Home' }] },
+    { label: 'Find', pages: [
+      { href: 'developer-where.html', label: 'Where to build' },
+      { href: 'developer-finder.html', label: 'Where to look', private: true },
+      { href: 'developer-brief.html', label: 'Jurisdiction reports', also: ['developer-whitepaper.html'] },
+      { href: 'developer-entitled-land.html', label: 'Entitled land', private: true },
+      { href: 'developer-parcel-sales.html', label: 'Parcel sales', private: true }] },
+    { label: 'Check a site', pages: [
+      { href: 'developer-market-screen.html', label: 'Market screen', private: true },
+      { href: 'developer-env-screen.html', label: 'Environmental screen', private: true }] },
+    { label: 'Deal', pages: [
+      { href: 'developer-deal-workbook.html', label: 'Deal workbook' },
+      { href: 'developer-investor-returns.html', label: 'Investor returns', private: true },
+      { href: 'developer-submittal-review.html', label: 'Submittal review' }] },
+    { label: 'Next round', pages: [{ href: 'developer-round-watch.html', label: 'Next round' }] },
+    { label: 'Team', pages: [
+      { href: 'developer-pipeline.html', label: 'Pipeline' },
+      { href: 'dossiers/', label: 'Dossiers', private: true }] },
+    { label: 'About', pages: [
+      { href: 'developer-methods.html', label: 'Methodology' },
+      { href: 'developer-about.html', label: 'About' }] }
   ];
-  // Served only by the private site (coho-backend gated/), so there are no files for them here.
-  var PRIVATE = [{ href: 'developer-entitled-land.html', label: 'Entitled land' }, { href: 'developer-parcel-sales.html', label: 'Parcel sales' }, { href: 'dossiers/', label: 'Dossiers' }];
+  var ALL = [];
+  GROUPS.forEach(function (g) { g.pages.forEach(function (p) { ALL.push(p); }); });
+  // Pages with a file in this repo, and pages only the member site serves.
+  var PAGES = ALL.filter(function (p) { return !p.private; });
+  var PRIVATE = ALL.filter(function (p) { return p.private; });
   var BACK = { href: 'lihtc-opportunity-finder.html', label: '← Opportunity Finder' };
   // /logout (coho-backend) clears the password cookie and ends the Cloudflare
   // sign-in, so the next visit asks for a code again.
@@ -34,6 +52,10 @@
     '.ib-section-nav a{color:var(--muted);text-decoration:none;font-weight:600;display:inline-flex;align-items:center;min-height:44px;min-width:44px;box-sizing:border-box;padding:.35rem .7rem;border-radius:var(--radius-sm,6px)}' +
     '.ib-section-nav a[aria-current="page"]{color:var(--accent);background:color-mix(in oklab,var(--accent) 10%,transparent 90%)}' +
     '.ib-section-nav a:hover{color:var(--accent)}.ib-section-nav .spacer{flex:1}' +
+    // The pages of the group you are in, under the group row.
+    '#devNav a[aria-current="true"]{color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent);border-radius:0}' +
+    '@media print{#devSubNav{display:none !important}}' +
+    '#devNav{margin-bottom:0}#devNav+.dev-sub-nav{margin-top:0;border-bottom:1px solid var(--border);font-weight:500}' +
     '.ib-section-nav .dev-nav-badge{background:var(--warn);color:var(--card);font-size:.8125rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em}' +
     // On a phone the eleven links wrapped to five rows above every page. One row that
     // scrolls sideways instead, with the page you are on scrolled into view.
@@ -42,22 +64,43 @@
     '-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 2.5rem),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 2.5rem),transparent)}' +
     '.ib-section-nav a,.ib-section-nav .dev-nav-badge{flex:0 0 auto;white-space:nowrap}.ib-section-nav .spacer{flex:0 0 .5rem}}';
 
+  function isHere(p, path) {
+    var str = String(path || '');
+    var inDossiers = /\/dossiers\//.test(str);
+    if (p.href === 'dossiers/' || inDossiers) return p.href === 'dossiers/' && inDossiers;
+    var file = str.split('/').pop() || 'developer.html';
+    return p.href === file || (p.also || []).indexOf(file) !== -1;
+  }
   function current(path) {
-    var file = String(path || '').split('/').pop() || 'developer.html';
-    for (var i = 0; i < PAGES.length; i++) {
-      if (PAGES[i].href === file || (PAGES[i].also || []).indexOf(file) !== -1) return PAGES[i].href;
+    for (var i = 0; i < ALL.length; i++) if (isHere(ALL[i], path)) return ALL[i];
+    return null;
+  }
+  function groupOf(path) {
+    for (var i = 0; i < GROUPS.length; i++) {
+      if (GROUPS[i].pages.some(function (p) { return isHere(p, path); })) return GROUPS[i];
     }
     return null;
   }
 
+  // The top row: one link per group, to its first page.
   function html(path) {
-    var here = current(path);
-    return PAGES.map(function (p) {
-      return '<a href="' + p.href + '"' + (p.href === here ? ' aria-current="page" class="active"' : '') + '>' + p.label + '</a>';
-    }).join('') + PRIVATE.map(function (p) {
-      var on = p.href === 'dossiers/' ? /\/dossiers\//.test(String(path || '')) : String(path || '').split('/').pop() === p.href;
-      return '<a href="' + p.href + '"' + (on ? ' aria-current="page" class="active"' : '') + '>' + p.label + '</a>';
+    var g = groupOf(path);
+    return GROUPS.map(function (x) {
+      return '<a href="' + x.pages[0].href + '"' + (x === g ? ' aria-current="true" class="active"' : '') + '>' + x.label + '</a>';
     }).join('') + '<a href="' + BACK.href + '">' + BACK.label + '</a><span class="spacer"></span><span class="dev-nav-badge">INTERNAL</span><a href="/logout">Sign out</a>';
+  }
+
+  // The second row: every page in the group you are in. Empty for a one-page group.
+  function subHtml(path) {
+    var g = groupOf(path), here = current(path);
+    if (!g || g.pages.length < 2) return '';
+    return g.pages.map(function (p) {
+      return '<a href="' + p.href + '"' + (p === here ? ' aria-current="page" class="active"' : '') + '>' + p.label + '</a>';
+    }).join('');
+  }
+
+  function centre(nav, cur) {
+    if (cur && nav.scrollWidth > nav.clientWidth) nav.scrollLeft = Math.max(0, cur.offsetLeft - nav.offsetLeft - (nav.clientWidth - cur.offsetWidth) / 2); // centred, so the links either side show
   }
 
   function mount(doc) {
@@ -70,17 +113,29 @@
       st.textContent = STYLE;
       doc.head.appendChild(st);
     }
-    nav.setAttribute('aria-label', 'Developer pages');
-    nav.innerHTML = html(doc.location ? doc.location.pathname : '');
-    var cur = nav.querySelector('[aria-current="page"]');
-    if (cur && nav.scrollWidth > nav.clientWidth) nav.scrollLeft = Math.max(0, cur.offsetLeft - nav.offsetLeft - (nav.clientWidth - cur.offsetWidth) / 2); // centred, so the links either side show
+    var path = doc.location ? doc.location.pathname : '';
+    nav.setAttribute('aria-label', 'Member site sections');
+    nav.innerHTML = html(path);
+    centre(nav, nav.querySelector('[aria-current]'));
+    var subMarkup = subHtml(path), sub = doc.getElementById('devSubNav');
+    if (subMarkup) {
+      if (!sub) {
+        sub = doc.createElement('nav');
+        sub.id = 'devSubNav';
+        sub.className = 'ib-section-nav dev-sub-nav';
+        nav.parentNode.insertBefore(sub, nav.nextSibling);
+      }
+      sub.setAttribute('aria-label', 'Pages in ' + groupOf(path).label);
+      sub.innerHTML = subMarkup;
+      centre(sub, sub.querySelector('[aria-current="page"]'));
+    } else if (sub) sub.parentNode.removeChild(sub);
         var out = nav.querySelector('a[href="/logout"]');
     if (out) out.addEventListener('click', function () {
       try { root.sessionStorage.removeItem('ib-auth-v1'); } catch (_) { /* storage blocked */ }
     });
   }
 
-  var api = { PAGES: PAGES, PRIVATE: PRIVATE, html: html, mount: mount };
+  var api = { GROUPS: GROUPS, PAGES: PAGES, PRIVATE: PRIVATE, html: html, subHtml: subHtml, mount: mount };
   if (typeof module === 'object' && module.exports) module.exports = api;
   else {
     root.DeveloperNav = api;

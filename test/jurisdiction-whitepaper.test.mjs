@@ -320,11 +320,40 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   const listed = Nav.PAGES.map((p) => p.href);
   ok(gated.every((f) => listed.includes(f)), 'the menu lists every gated page');
   ok(listed.every((h) => existsSync(join(ROOT, h))), 'every menu entry exists');
-  ok(/aria-current="page"[^>]*>Jurisdiction reports/.test(Nav.html('/developer-whitepaper.html')), 'the old white paper address marks the reports entry');
-  ok(Nav.html('/developer.html').includes('<a href="dossiers/">Dossiers</a>'), 'the menu links the private dossier list');
-  ok(Nav.html('/developer.html').includes('<a href="developer-entitled-land.html">Entitled land</a>'), 'the menu links the private entitled land page');
-  ok(/aria-current="page"[^>]*>Entitled land/.test(Nav.html('/developer-entitled-land.html')), 'the entitled land page marks its own entry');
-  ok(Nav.html('/developer.html').includes('<a href="developer-parcel-sales.html">Parcel sales</a>'), 'the menu links the private parcel sales page');
+  // Grouped menu (3 Nov): a row of groups, then the pages of the group you are in.
+  // Labels are read from Nav.GROUPS, so a wording change stays green and wrong
+  // routing or highlighting fails (AGENTS.md: pin the agreement, not the copy).
+  const entry = (href) => { for (const g of Nav.GROUPS) for (const p of g.pages) if (p.href === href) return { group: g, page: p }; return null; };
+  const marked = (markup, attr) => { const m = markup.match(new RegExp('<a href="([^"]+)" aria-current="' + attr + '"[^>]*>([^<]*)</a>')); return m ? { href: m[1], label: m[2] } : null; };
+  const linkTo = (href) => { const e = entry(href); return '<a href="' + href + '">' + e.page.label + '</a>'; };
+  // The page you are on is marked in the second row, and its group in the top row.
+  const cases = [['/developer-whitepaper.html', 'developer-brief.html'], ['/developer-brief.html', 'developer-brief.html'],
+    ['/developer-entitled-land.html', 'developer-entitled-land.html'], ['/developer-investor-returns.html', 'developer-investor-returns.html'],
+    ['/developer-env-screen.html', 'developer-env-screen.html'], ['/dossiers/some-site/', 'dossiers/']];
+  for (const [path, href] of cases) {
+    const e = entry(href);
+    const pg = marked(Nav.subHtml(path), 'page'), grp = marked(Nav.html(path), 'true');
+    ok(pg && pg.href === href && pg.label === e.page.label, `${path}: the second row marks ${href} with its own label`);
+    ok(grp && grp.href === e.group.pages[0].href && grp.label === e.group.label, `${path}: the top row marks the group that holds ${href}`);
+  }
+  ok(cases.length >= 6, 'non-vacuous: the marking scan covers several pages');
+  // Each group's pages share the second row.
+  for (const href of ['dossiers/', 'developer-entitled-land.html', 'developer-parcel-sales.html']) {
+    const e = entry(href);
+    ok(Nav.subHtml(e.group.pages[0].href === 'dossiers/' ? '/dossiers/' : '/' + e.group.pages[0].href).includes(linkTo(href)), `the menu links ${href} from its group's second row`);
+  }
+  // Every member-only page coho-backend serves has a place in the menu (3 Nov audit:
+  // Where to look and Investor returns had no link anywhere on the member site).
+  const priv = Nav.PRIVATE.map((p) => p.href);
+  for (const f of ['developer-finder.html', 'developer-market-screen.html', 'developer-env-screen.html', 'developer-investor-returns.html', 'developer-entitled-land.html', 'developer-parcel-sales.html', 'dossiers/']) {
+    ok(priv.includes(f), `the menu lists the member-only page ${f}`);
+  }
+  const top = Nav.html('/developer.html');
+  ok(Nav.GROUPS.length <= 7 && Nav.GROUPS.every((g) => top.includes('<a href="' + g.pages[0].href + '"') && top.includes('>' + g.label + '</a>')), 'the top row is one link per group, to its first page, seven at most');
+  ok(Nav.GROUPS.every((g) => g.pages.length && (g.pages[0].private || existsSync(join(ROOT, g.pages[0].href)))), 'each group opens on a page that exists');
+  ok(Nav.GROUPS.filter((g) => g.pages.length === 1).every((g) => Nav.subHtml('/' + g.pages[0].href) === ''), 'a one-page group has no second row');
+  ok((top.match(/aria-current/g) || []).length === 1 && !/aria-current="page"/.test(top), 'the top row marks the group, not a page');
+  ok(/@media print\{#devSubNav\{display:none/.test(read('js/whitepaper/developer-nav.js')), 'the second row is left out of printed reports, like the first');
 }
 
 // ---- 10. Codex review of #2232: multi-county cities, income universes, blank cells.
