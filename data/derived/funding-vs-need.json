@@ -13,7 +13,7 @@
    "data/hna/permits.json",
    "data/chfa-income-rent-limits-2026.json"
   ],
-  "need_measure": "housing_gap_units from the ranking index: the deficit of homes affordable at ≤30% AMI (HUD CHAS).",
+  "need_measure": "housing_gap_units from the ranking index: renter households at or below 30% AMI minus rental homes priced affordable to them (ACS 5-year B25118 and B25063, with HUD income limits; data/co_ami_gap_by_county.json). Priced-affordable, not HUD CHAS affordable-and-available.",
   "coverage_measure": "LIHTC units awarded in the window (restricted units where the report prints them, else total units) per 100 households in the ≤30% AMI gap. LIHTC mostly serves 60% AMI, so this is a scale comparison, not a claim that each unit closes a ≤30% gap.",
   "quadrant_split": {
    "gap_per_1000_residents": 15.8,
