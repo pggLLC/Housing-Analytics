@@ -33,10 +33,14 @@ swapped the two columns. Bug S1-04 — `CREDIT`, `NON_PROF`, and `DDA` fields
 were `null` in 47 LIHTC features, rendering compliance-dashboard filters
 inoperative.
 
-**Enforcement:** Required numeric fields (`ami_4person`, `LI_UNITS`, `N_UNITS`,
-`CREDIT`, `NON_PROF`, `DDA`) must never be `null` or omitted. ETL scripts must
-validate and backfill with `0` (integer) or `"U"` (unknown string) before
-writing JSON. Add a null guard in every data-fetch script's normalization pass.
+**Enforcement:** Required fields (`ami_4person`, `LI_UNITS`, `N_UNITS`,
+`CREDIT`, `NON_PROF`, `DDA`) must never be silently `null` or omitted. ETL
+scripts must validate them before writing JSON and either fail loudly, or, when
+the source does not publish the value, write `null` with an unavailable reason
+(see AGENTS.md, "An unmeasurable quantity is `null`, never `0`"). Never backfill
+an unknown number with `0`: a `0` reads as a measured count. A categorical
+flag may use `"U"` (unknown). Consumers guard `null` before any arithmetic and
+show it as unavailable; a published `0` stays `0`.
 
 ---
 
@@ -117,8 +121,11 @@ midpoint explicitly to the JSON file.
 for `boulder` and `pueblo` had `null` in all seven required fields.
 
 **Enforcement:** All eight statewide fields and all seven metro-area fields
-defined in the CAR report schema must be non-null numbers. ETL scripts must
-fail loudly (non-zero exit) if any required field is absent or null.
+defined in the CAR report schema must be numbers in a published report. ETL
+scripts must fail loudly (non-zero exit) if any required field is absent or
+null, so a parser failure never publishes. Never replace a missing CAR value
+with `0` or a carried-forward number to get past this check; if CAR itself
+stops publishing a field, change the schema and record why, as Rule 2 allows.
 
 ---
 
