@@ -1360,7 +1360,7 @@
     // An invalid unit mix leaves no basis figure to show, only its reason.
     basis = cbm.basisAndCredit(Object.assign({}, basisArgs, { gapCredit: gapMethodCredit,
       invalidReason: unitMixError ? 'Fix the unit mix: the AMI-tier units do not add up to Total Units.' : null }));
-    // CHFA Method Three from the 2027 workbook's limits: a draft-QAP check beside
+    // CHFA Method Three from the 2027 application workbook's limits (adopted with the 2027-28 QAP): a check beside
     // the capacity, never a change to it (deal-cost-basis.js costBasisLimitCheck).
     if (cbm.costBasisLimitCheck && inputs.chfaCommonAppTables !== undefined) {
       basis.costLimitMethod = Object.assign({}, basis.costLimitMethod, cbm.costBasisLimitCheck({
