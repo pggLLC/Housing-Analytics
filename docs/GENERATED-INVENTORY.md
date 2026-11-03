@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-03T11:35:09.470Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-03T12:00:15.271Z. Do not edit by hand.
 
 ---
 
@@ -2019,7 +2019,7 @@
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.9 KB | ✅ | — |
-| `data/policy/lihtc-underwriting-rules.json` | 17.4 KB | ✅ | — |
+| `data/policy/lihtc-underwriting-rules.json` | 23.4 KB | ✅ | — |
 | `data/policy/local-commitment.json` | 64.1 KB | ✅ | — |
 | `data/policy/local-housing-funds.json` | 141.5 KB | ✅ | — |
 | `data/policy/local-support.json` | 154.9 KB | ✅ | — |
@@ -2180,7 +2180,7 @@
 | `test/deal-calc-absence-semantics.test.js` | 13.6 KB |
 | `test/deal-calc-ami-bands.test.js` | 7.0 KB |
 | `test/deal-calc-correctness.test.js` | 4.7 KB |
-| `test/deal-calc-cost-basis-page.test.js` | 24.5 KB |
+| `test/deal-calc-cost-basis-page.test.js` | 25.0 KB |
 | `test/deal-calc-credit-stack-page.test.js` | 13.8 KB |
 | `test/deal-calc-doh-schedules-page.test.js` | 11.7 KB |
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
@@ -2208,7 +2208,7 @@
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
-| `test/deal-cost-basis.test.js` | 54.5 KB |
+| `test/deal-cost-basis.test.js` | 57.3 KB |
 | `test/deal-credit-stack.test.js` | 8.5 KB |
 | `test/deal-doh-schedules.test.js` | 27.4 KB |
 | `test/deal-engine-golden.test.js` | 8.3 KB |
