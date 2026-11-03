@@ -1066,7 +1066,7 @@
       if (!/\.workers\.dev$/.test(location.hostname)) return;
       var q = new URLSearchParams(location.search), g = q.get('geoid') || q.get('fips') || '';
       var el = document.getElementById('maCommutersLink');
-      el.innerHTML = '<a href="https://coho-backend.communityplanner.workers.dev/developer-commuters.html' + (/^08\d{3}(\d{5})?$/.test(g) ? '?geoid=' + g : '') + '">Commuters for this place</a>: who drives in, out and through, with sources (members).';
+      el.innerHTML = '<a href="https://coho-backend.communityplanner.workers.dev/developer-commuters.html' + (/^08(\d{3}|\d{5})$/.test(g) ? '?geoid=' + g : '') + '">Commuters for this place</a>: who drives in, out and through, with sources (members).';
       el.hidden = false;
     })();
     </script>
