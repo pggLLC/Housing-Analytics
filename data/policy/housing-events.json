@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-02T11:26:33Z",
-    "as_of": "2026-11-02",
+    "generated": "2026-11-03T11:03:21Z",
+    "as_of": "2026-11-03",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -47,8 +47,8 @@
       "name": "Proposition 123 public calendar (DOLA)",
       "url": "https://cdola.colorado.gov/calendar",
       "status": "ok",
-      "listed": 44,
-      "upcoming": 1
+      "listed": 45,
+      "upcoming": 2
     },
     {
       "id": "apa_colorado",
@@ -223,6 +223,18 @@
       "url": "https://events.teams.microsoft.com/event/2ad089ba-d5ea-4dbb-af9b-24c9767a54a1@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
       "source": "chfa",
       "category": "homebuyer"
+    },
+    {
+      "title": "Proposition 123 Unit Goal and Commitment Office Hours",
+      "start": "2026-11-11",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "prop123",
+      "category": "developer"
     },
     {
       "title": "chfareach: Maintaining Compliance with DOH and CHFA, Online Workshop",

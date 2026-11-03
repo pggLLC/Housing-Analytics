@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated": "2026-11-02T11:26:33Z",
+    "generated": "2026-11-03T11:03:22Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-10-27",
-      "checked": 48,
-      "unverified": 4,
+      "since": "2026-10-28",
+      "checked": 52,
+      "unverified": 3,
       "weak": 2
     }
   },
@@ -353,6 +353,24 @@
         }
       ],
       "first_listed": "2026-10-31"
+    },
+    {
+      "id": "0962719838",
+      "name": "The Times of India",
+      "domains": [
+        "timesofindia.indiatimes.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-08-31",
+      "last_seen": "2026-08-31",
+      "headlines": [
+        {
+          "title": "In 2024, a Colorado county paid $34 million for a 650-acre ranch privately owned for more than a century;",
+          "link": "https://news.google.com/rss/articles/CBMi-AJBVV95cUxNVzNVU2NzVktnMHI2Ump2UDhoY2Nod0FRNzdhM1BFNUt2UTl4YTY5ODZSZDhEUXdKMEFudm16MzJ6WWRXbmVvWHVyYklYVDdXSU11bFlpUkQwQ054WUR1cHZFVEFsM3ZJWGJCVklvdmxTcmZhWndPOEVXT2hyUzdEUjFuZXlTZS1JVDJ3MzNNeG0ySDJ0WmRHQlpmSVlJTm41RW9jM2JFS21RNm10Q3hfekZmTktsX3hxWDAzcGY4QUhBVXVxanVqT19KcFF3QzFKMllTeTZ0YS1UUlhqSERxbTlPT1lEdkVVZ1JXZnNyOTdOdjlqNHZpc0FkOVM0YWpCeUNybkhuVnBMUGJ4UzVvWkNHTXZZb1B0Y0V2bjBTMU5iYWhwSEdMWDI3cEI2VVNtTk1kbUlYa1NLa29uX1pCWDN4SThMQUV4eGhNckpCOXlUaWJCY2FCUmdGX2ZvUGx6UmRpUWtiNGkzdENmOTRpNXFqcjAwZjcy0gH-AkFVX3lxTE92ZEJYTXhtY3FmejdwZ2Y4NWE0Q1dWNzR3Z2JzS0ZJekRhaFVURm0wR3lHMmhoLU9ld3Y0aUpiNmhEbDV5MlBYT3ZScjFBZjhBbFNVRzBUYmRxU1dyM01oZTdSZEJxOGRXZm9aYWhJVEh2NXAyXzMtUjdXZUpPSDE1NFRXOExKY3gybWxOQ04zZzlwQnZFTjBEay04ZHRPaVBQVVV2VGk5NnZuVDFKUmlPYUxIV2ducUdXSF9TY0JwR3BGaGxxbTV2WXFiNGdmTnZTRkdJVjdnTWRjTG1OX3o1TXAyS2FIcU5yWDVkSlRyWVFMS1NWNTJSLWltNVB2UGM2RWNBZzJ6a240T1p6UTcxUTc5VVFiM2dNNmVDLU9HZ0tnT1dGeDRhQjBncTk3TGNIeFpDVjZDa1FaZnE4NTd0SEY1NWlYNk1lNVhMM2U0SDNXMTQwX0p5eFR6UmdYWW1MeFNCaXFtbFV5Y0tMek1HNG1hbGlOTHE4QlRDNlE?oc=5",
+          "date": "2026-08-31"
+        }
+      ],
+      "first_listed": "2026-11-03"
     },
     {
       "id": "4a973533c8",
