@@ -238,7 +238,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 494,744. LEHD-based commuting signals show 105,553 in-commuters and a commute ratio of 45.6%. The digest's 20-year figure is 71,394 homes. Projected resident growth gives 62,180; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 9,214: homes for a quarter of the households, at or below 120% AMI, of the people who commute into City of Colorado Springs, if they moved closer.",
+          "text": "Demographics and demand: the population metric is 494,744. LEHD-based commuting signals show 105,553 in-commuters and a commute ratio of 45.6%. The digest's 20-year figure is 72,042 homes. Projected resident growth gives 62,828; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 9,214: homes for a quarter of the households, at or below 120% AMI, of the people who commute into City of Colorado Springs, if they moved closer.",
           "cites": [
             "d11",
             "d12",
@@ -524,7 +524,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-03T00:59:23Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -533,7 +533,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-03T00:59:23Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -668,7 +668,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-03T00:59:23Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -677,7 +677,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-03T00:59:23Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -686,7 +686,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-03T00:59:23Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

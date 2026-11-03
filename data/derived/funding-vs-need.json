@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-03T00:59:23Z",
+  "generatedAt": "2026-11-03T02:02:08Z",
   "generator": "scripts/funding/build_funding_vs_need.mjs",
   "window": {
    "first_year": 2016,
@@ -148,8 +148,8 @@
     "seasonal_share_of_vacant_pct": 24.8,
     "median_gross_rent_acs": 1945,
     "permits_avg_annual_5yr": 1640.4,
-    "projected_need_annual_10yr": 1407.8,
-    "production_to_need_ratio": 1.17,
+    "projected_need_annual_10yr": 1438.1,
+    "production_to_need_ratio": 1.14,
     "chfa_60ami_max_rent_1br": 1687,
     "chfa_60ami_max_rent_2br": 2025
    },
@@ -193,8 +193,8 @@
     "seasonal_share_of_vacant_pct": 7.9,
     "median_gross_rent_acs": 1956,
     "permits_avg_annual_5yr": 4555.6,
-    "projected_need_annual_10yr": 3736.1,
-    "production_to_need_ratio": 1.22,
+    "projected_need_annual_10yr": 3812.5,
+    "production_to_need_ratio": 1.19,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -289,7 +289,7 @@
     "seasonal_share_of_vacant_pct": 17.9,
     "median_gross_rent_acs": 1905,
     "permits_avg_annual_5yr": 1639.8,
-    "projected_need_annual_10yr": 1556.1,
+    "projected_need_annual_10yr": 1566,
     "production_to_need_ratio": 1.05,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
@@ -487,8 +487,8 @@
     "seasonal_share_of_vacant_pct": 11,
     "median_gross_rent_acs": 1873,
     "permits_avg_annual_5yr": 3058.8,
-    "projected_need_annual_10yr": 3990.2,
-    "production_to_need_ratio": 0.77,
+    "projected_need_annual_10yr": 4037,
+    "production_to_need_ratio": 0.76,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -577,7 +577,7 @@
     "seasonal_share_of_vacant_pct": 11.4,
     "median_gross_rent_acs": 1890,
     "permits_avg_annual_5yr": 6548.4,
-    "projected_need_annual_10yr": 4639.9,
+    "projected_need_annual_10yr": 4649.8,
     "production_to_need_ratio": 1.41,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
@@ -762,8 +762,8 @@
     "seasonal_share_of_vacant_pct": 7.3,
     "median_gross_rent_acs": 1792,
     "permits_avg_annual_5yr": 4304.4,
-    "projected_need_annual_10yr": 3843.4,
-    "production_to_need_ratio": 1.12,
+    "projected_need_annual_10yr": 3893,
+    "production_to_need_ratio": 1.11,
     "chfa_60ami_max_rent_1br": 1405,
     "chfa_60ami_max_rent_2br": 1687
    },
@@ -1047,8 +1047,8 @@
     "seasonal_share_of_vacant_pct": 25.2,
     "median_gross_rent_acs": 1321,
     "permits_avg_annual_5yr": 406.2,
-    "projected_need_annual_10yr": 790,
-    "production_to_need_ratio": 0.51,
+    "projected_need_annual_10yr": 782.5,
+    "production_to_need_ratio": 0.52,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
