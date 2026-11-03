@@ -66,8 +66,12 @@ test('a rewrite changes only the captured year, not equal digits beside it', () 
 
 test('ACS and LODES vintages are read from the data files the pages show', () => {
   const v = readVintages();
-  const summary = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/summary/08.json'), 'utf8'));
-  assert.equal(v.acs5, Number(summary.acsProfile._acsYear));
+  const dir = path.join(ROOT, 'data/hna/summary');
+  const fiveYear = fs.readdirSync(dir).filter((f) => /^\d+\.json$/.test(f))
+    .map((f) => JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')).acsProfile)
+    .filter((p) => p && p._acsSeries !== 'acs1')
+    .map((p) => Number(p._acsYear));
+  assert.equal(v.acs5, Math.max(...fiveYear), 'the 5-year label follows the 5-year summaries');
   const tract = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/market/acs_tract_metrics_co.json'), 'utf8'));
   assert.equal(v.acsTract, Number(tract.meta.vintage));
   const county = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/lehd/08001.json'), 'utf8'));
@@ -86,4 +90,22 @@ test('county LODES files that disagree on a year name no vintage', () => {
   fs.writeFileSync(path.join(dir, 'data/hna/lehd/08003.json'), JSON.stringify({ year: 2023 }));
   assert.equal(readVintages(dir).lodes, 2023);
   assert.equal(readVintages(dir).acs5, null, 'a missing summary is no vintage, not a guess');
+});
+
+test('a 1-year state summary does not move the 5-year labels', () => {
+  // The ACS 1-year ending a year is released before the 5-year ending it, so
+  // the state summary can sit a year ahead of the 5-year the pages name.
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'acs5-vintage-'));
+  fs.mkdirSync(path.join(dir, 'data/hna/summary'), { recursive: true });
+  fs.writeFileSync(path.join(dir, 'data/hud-fmr-income-limits.json'), JSON.stringify({ meta: {} }));
+  fs.writeFileSync(path.join(dir, 'data/qct-colorado.json'), '{}');
+  fs.writeFileSync(path.join(dir, 'data/dda-colorado.json'), '{}');
+  const write = (gid, y, s) => fs.writeFileSync(path.join(dir, `data/hna/summary/${gid}.json`),
+    JSON.stringify({ acsProfile: { _acsYear: y, _acsSeries: s } }));
+  write('08', 2025, 'acs1');
+  write('08001', 2025, 'acs1');
+  write('08003', 2024, 'acs5');
+  assert.equal(readVintages(dir).acs5, 2024);
+  write('08003', 2025, 'acs5');
+  assert.equal(readVintages(dir).acs5, 2025);
 });

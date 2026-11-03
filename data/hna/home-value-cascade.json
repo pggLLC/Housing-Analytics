@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T02:55:41.545Z",
+    "generated_at": "2026-11-03T00:40:12.268Z",
     "schema": "median_home_value = { value, source, as_of, confidence }; counties are display-only affordability inputs and are ignored by rank/score models",
     "sources": {
       "zhvi_city_csv": "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
@@ -21,7 +21,7 @@
         "total": 64
       }
     },
-    "build_note": "Place rows rebuilt from local Zillow city ZHVI CSV."
+    "build_note": "Local Zillow city ZHVI CSV absent; preserved committed place rows and rebuilt county rows from committed ACS summary caches."
   },
   "places": {
     "0800320": {
@@ -3459,21 +3459,21 @@
   },
   "counties": {
     "08001": {
-      "value": 514022,
+      "value": 513600,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 519500,
+      "acs_raw_value": 513600,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 1440.36,
-        "hpi_base": 1455.71,
+        "hpi_base": 1440.36,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 0.989455,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }
@@ -3499,21 +3499,21 @@
       }
     },
     "08005": {
-      "value": 588631,
+      "value": 562400,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 589300,
+      "acs_raw_value": 562400,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 1363.38,
-        "hpi_base": 1364.93,
+        "hpi_base": 1363.38,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 0.998864,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }
@@ -3559,41 +3559,41 @@
       "fhfa_hpi": null
     },
     "08013": {
-      "value": 782215,
+      "value": 770900,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 783000,
+      "acs_raw_value": 770900,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 1772.98,
-        "hpi_base": 1774.76,
+        "hpi_base": 1772.98,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 0.998997,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }
     },
     "08014": {
-      "value": 697449,
+      "value": 682600,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 686200,
+      "acs_raw_value": 682600,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 1084.37,
-        "hpi_base": 1066.88,
+        "hpi_base": 1084.37,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 1.016394,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }
@@ -3719,21 +3719,21 @@
       }
     },
     "08031": {
-      "value": 633691,
+      "value": 643300,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 636400,
+      "acs_raw_value": 643300,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 2077.49,
-        "hpi_base": 2086.37,
+        "hpi_base": 2077.49,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 0.995744,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }
@@ -3749,21 +3749,21 @@
       "fhfa_hpi": null
     },
     "08035": {
-      "value": 755643,
+      "value": 751800,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 742700,
+      "acs_raw_value": 751800,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 1183.39,
-        "hpi_base": 1163.12,
+        "hpi_base": 1183.39,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 1.017427,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }
@@ -3809,21 +3809,21 @@
       }
     },
     "08041": {
-      "value": 488566,
+      "value": 475200,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 486000,
+      "acs_raw_value": 475200,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 1277.58,
-        "hpi_base": 1270.87,
+        "hpi_base": 1277.58,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 1.00528,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }
@@ -3978,21 +3978,21 @@
       "fhfa_hpi": null
     },
     "08059": {
-      "value": 671819,
+      "value": 665100,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 668600,
+      "acs_raw_value": 665100,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 1461.08,
-        "hpi_base": 1454.08,
+        "hpi_base": 1461.08,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 1.004814,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }
@@ -4068,21 +4068,21 @@
       }
     },
     "08069": {
-      "value": 611648,
+      "value": 589300,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 610000,
+      "acs_raw_value": 589300,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 1424.92,
-        "hpi_base": 1421.08,
+        "hpi_base": 1424.92,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 1.002702,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }
@@ -4148,21 +4148,21 @@
       }
     },
     "08077": {
-      "value": 423368,
+      "value": 431300,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 410200,
+      "acs_raw_value": 431300,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 1249.41,
-        "hpi_base": 1210.55,
+        "hpi_base": 1249.41,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 1.032101,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }
@@ -4378,21 +4378,21 @@
       }
     },
     "08101": {
-      "value": 296820,
+      "value": 326300,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 301800,
+      "acs_raw_value": 326300,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 860.63,
-        "hpi_base": 875.07,
+        "hpi_base": 860.63,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 0.983498,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }
@@ -4558,21 +4558,21 @@
       "fhfa_hpi": null
     },
     "08123": {
-      "value": 499761,
+      "value": 507300,
       "source": "fhfa_county_hpi_anchor",
-      "as_of": "ACS 2020-2024 (2024 dollars); FHFA annual HPI through 2025",
-      "method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+      "as_of": "ACS 2021-2025 (2025 dollars); FHFA annual HPI through 2025",
+      "method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
       "confidence": "medium",
       "geography_level": "county",
-      "acs_raw_value": 496100,
+      "acs_raw_value": 507300,
       "fhfa_hpi": {
         "source_level": "fhfa_county_direct",
         "hpi_latest": 1242.27,
-        "hpi_base": 1233.17,
+        "hpi_base": 1242.27,
         "latest_year": 2025,
-        "acs_dollar_year": 2024,
-        "adjustment_factor": 1.007379,
-        "adjustment_method": "ACS 2020-2024 5-year (in 2024 dollars) × FHFA county HPI 2025 / 2024; modeled home value, not an observed sale price",
+        "acs_dollar_year": 2025,
+        "adjustment_factor": 1,
+        "adjustment_method": "ACS 2021-2025 5-year (in 2025 dollars) × FHFA county HPI 2025 / 2025; modeled home value, not an observed sale price",
         "as_of": "2025-12-31",
         "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
       }

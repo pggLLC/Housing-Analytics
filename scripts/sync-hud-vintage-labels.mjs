@@ -104,6 +104,25 @@ function year(v) {
   return v != null && v !== '' && Number.isInteger(n) ? n : null;
 }
 
+// The newest ACS 5-year vintage among the HNA summaries. Large places and the
+// state carry the ACS 1-year (stamped _acsSeries "acs1"), which is released a
+// month or so before the 5-year ending the same year, so the state summary's
+// year is not the 5-year's. Summaries written before the series stamp count
+// as 5-year.
+function acs5Year(root) {
+  const dir = path.join(root, 'data/hna/summary');
+  let files;
+  try { files = fs.readdirSync(dir).filter((f) => /^\d+\.json$/.test(f)); } catch { return null; }
+  let newest = null;
+  for (const f of files) {
+    const profile = readOptional(root, `data/hna/summary/${f}`)?.acsProfile;
+    if (!profile || profile._acsSeries === 'acs1') continue;
+    const y = year(profile._acsYear);
+    if (y != null && (newest == null || y > newest)) newest = y;
+  }
+  return newest;
+}
+
 // Every county file must carry the same OD year, or no label can name one.
 function lodesCountyYear(root) {
   const dir = path.join(root, 'data/hna/lehd');
@@ -132,7 +151,7 @@ export function readVintages(root = ROOT) {
     il: hud.income_limits_fiscal_year ?? null,
     qct: designationYear(readJson(root, 'data/qct-colorado.json')),
     dda: designationYear(readJson(root, 'data/dda-colorado.json')),
-    acs5: year(readOptional(root, 'data/hna/summary/08.json')?.acsProfile?._acsYear),
+    acs5: acs5Year(root),
     acsTract: year(readOptional(root, 'data/market/acs_tract_metrics_co.json')?.meta?.vintage),
     lodes: lodesCountyYear(root),
     lodesTract: year(readOptional(root, 'data/market/lodes_co.json')?.meta?.vintage),
