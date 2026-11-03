@@ -280,7 +280,7 @@
   var COLUMNS = [
     { key: 'name', label: 'County', title: 'Colorado county', get: function (c) { return c.name; }, text: function (c) { return c.name; } },
     { key: 'region', label: 'Region', title: 'Region of Colorado the county is grouped into on this tab', get: function (c) { return c.region; }, text: function (c) { return c.region || ''; } },
-    { key: 'gap30', label: '≤30% AMI gap', title: 'Households at or below 30% AMI without an affordable home (HUD CHAS, via the ranking index)',
+    { key: 'gap30', label: '≤30% AMI gap', title: 'Renter households at or below 30% AMI minus rental homes priced affordable to them (ACS 5-year, via the ranking index)',
       get: function (c) { return c.need.gap_units_30ami; }, text: function (c) { return fmtInt(c.need.gap_units_30ami); } },
     { key: 'gap_per_1000', label: 'Gap per 1,000 residents', title: 'The \u226430% AMI gap per 1,000 county residents', get: function (c) { return c.need.gap_per_1000_residents; }, text: function (c) { return fmtNum(c.need.gap_per_1000_residents); } },
     { key: 'gap_share', label: 'Share of state gap', title: 'The county\u2019s share of the statewide \u226430% AMI gap', get: function (c) { return c.need.share_of_state_gap; }, text: function (c) { return fmtPct(c.need.share_of_state_gap, 2); } },

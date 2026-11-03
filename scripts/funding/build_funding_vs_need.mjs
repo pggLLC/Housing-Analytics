@@ -199,7 +199,7 @@ export function build({ ledger, documents, ranking, permits, limits }) {
       generator: 'scripts/funding/build_funding_vs_need.mjs',
       window: { first_year: firstYear, last_year: lastYear },
       inputs: Object.values(INPUTS).map((p) => path.relative(ROOT, p)),
-      need_measure: 'housing_gap_units from the ranking index: the deficit of homes affordable at ≤30% AMI (HUD CHAS).',
+      need_measure: 'housing_gap_units from the ranking index: renter households at or below 30% AMI minus rental homes priced affordable to them (ACS 5-year B25118 and B25063, with HUD income limits; data/co_ami_gap_by_county.json). Priced-affordable, not HUD CHAS affordable-and-available.',
       coverage_measure: 'LIHTC units awarded in the window (restricted units where the report prints them, else total units) per 100 households in the ≤30% AMI gap. LIHTC mostly serves 60% AMI, so this is a scale comparison, not a claim that each unit closes a ≤30% gap.',
       quadrant_split: { gap_per_1000_residents: round(medNeed), lihtc_units_per_100_gap: round(medCover) },
       quadrant_method: `Counties split at the median of need per 1,000 residents (${round(medNeed)}) and of LIHTC units per 100 gap households (${round(medCover)}).`,
