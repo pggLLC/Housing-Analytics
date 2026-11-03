@@ -126,6 +126,8 @@
     'dc-acq-42d2': 'Whether an existing building purchase meets 26 U.S.C. 42(d)(2), including a rehabilitation that earns its own credit under 42(e), so its price can count in eligible basis.',
     'dc-special-pop': 'Whether the project serves people experiencing homelessness or special populations (CHFA developer fee base).',
     'dc-state-path': 'Which CHFA state credit application the state credit comes from; each has its own limit.',
+    'dc-qap-year': 'The CHFA credit year, which sets the per-project federal and state credit limits (2025-2026 or 2027-2028 Qualified Allocation Plan, 3.L).',
+    'dc-pilot-gap': 'Whether state gap funds are available through CHFA\'s 3.B.9 pilot: 3.L limits apply when they are, 3.L.1 limits when they are not.',
     'dc-state-annual': 'Annual state housing tax credit for the project.',
     'dc-state-standard-annual': 'Annual standard state credit paired with a Round Two accelerated credit.',
     'dc-state-price': 'Dollars of investor equity per dollar of state credit.',

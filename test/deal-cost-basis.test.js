@@ -28,7 +28,7 @@ function runBasisCase(c, ruleFile, overrides) {
     grantReduction: grants.reduction, grantReason: grants.reason, designation: c.designation, evidence: c.evidence,
     creditType: c.creditType, creditRate: c.creditRate, units: c.units, lowIncomeUnits: c.lowIncomeUnits,
     residentialSf: c.residentialSf, lowIncomeSf: c.lowIncomeSf, requested: c.requested, awarded: c.awarded,
-    grantOnAcquisition: c.grantOnAcquisition, rules: ruleFile }) };
+    grantOnAcquisition: c.grantOnAcquisition, qapYear: c.qapYear, pilotGapFunds: c.pilotGapFunds, rules: ruleFile }) };
 }
 
 test('fixtures are marked invented', () => {
@@ -53,13 +53,28 @@ test('acceptance 2: the adopted CHFA cap limits capacity and says why', () => {
   const { result } = runBasisCase(cases.basisCase, rules);
   assert.equal(result.cap.binding, true);
   assert.equal(result.capacity, rules.rules.credit_cap_federal_9pct.annual_cap);
-  assert.match(result.cap.reason, /Capped at \$1,800,000/);
-  assert.match(result.cap.reason, /Qualified Allocation Plan/);
+  assert.match(result.cap.reason, /Capped at \$1,700,000: .* in 2027 \(CHFA 2027-2028 Qualified Allocation Plan, Section 3\.L,/);
+  assert.equal(result.cap.year, 2027, 'a blank credit year is the 2027-2028 plan\'s first year');
+});
+
+test('CHFA\'s 9% limit follows the credit year and the 3.B.9 pilot answer (QAP 3.L, 3.L.1)', () => {
+  const cap = (extra) => runBasisCase(cases.basisCase, rules, extra).result;
+  const cases9 = [[{}, 1700000, /3\.L,/], [{ qapYear: '2027', pilotGapFunds: 'yes' }, 1700000, /3\.L,/], [{ qapYear: '2027', pilotGapFunds: 'no' }, 1800000, /3\.L\.1,/],
+    [{ qapYear: '2028' }, 1750000, /3\.L,/], [{ qapYear: '2028', pilotGapFunds: 'no' }, 1800000, /3\.L\.1,/], [{ qapYear: '2026', pilotGapFunds: 'no' }, 1800000, /2025-2026 .*Second Amendment, Section 3\.L,/]];
+  for (const [extra, amount, cite] of cases9) {
+    const r = cap(extra);
+    assert.equal(r.capacity, amount, JSON.stringify(extra));
+    assert.match(r.cap.citation, cite, JSON.stringify(extra));
+  }
+  // A year the rules file has no limit for is unknown, not uncapped.
+  const later = cap({ qapYear: '2029' });
+  assert.equal(later.capacity, null);
+  assert.match(later.reasons.capacity, /no CHFA limit for 2029/);
 });
 
 test('acceptance 2: a fixture cap below the credit caps it and says why', () => {
   const r = clone(rules);
-  r.rules.credit_cap_federal_9pct.annual_cap = 1500000;
+  r.rules.credit_cap_federal_9pct.by_year['2027'].annual_cap = 1500000;
   const { result } = runBasisCase(cases.basisCase, r);
   assert.equal(result.capacity, 1500000);
   assert.match(result.cap.reason, /Capped at \$1,500,000/);
@@ -88,7 +103,7 @@ test('a draft rule is shown separately and not applied', () => {
   const adopted = cb.ruleStatus(r, 'credit_cap_federal_9pct');
   assert.equal(adopted.applied, true);
   assert.equal(adopted.draft.annual_cap, 100, 'the draft travels with the rule for display');
-  assert.equal(runBasisCase(cases.basisCase, r).result.capacity, 1800000, 'the draft value is never applied');
+  assert.equal(runBasisCase(cases.basisCase, r).result.capacity, 1700000, 'the draft value is never applied');
   r.rules.credit_cap_federal_9pct.status = 'draft';
   const draftOnly = cb.ruleStatus(r, 'credit_cap_federal_9pct');
   assert.equal(draftOnly.applied, false);
@@ -286,13 +301,13 @@ test('capacity, request and award are three figures; equity follows award, then 
   assert.equal(none.creditForEquityBasis, 'capacity');
   assert.equal(none.requested, null);
   assert.match(none.reasons.requested, /No request/);
-  const req = runBasisCase(cases.basisCase, rules, { requested: 1700000 }).result;
-  assert.deepEqual([req.capacity, req.requested, req.awarded, req.creditForEquity], [1800000, 1700000, null, 1700000]);
+  const req = runBasisCase(cases.basisCase, rules, { requested: 1600000 }).result;
+  assert.deepEqual([req.capacity, req.requested, req.awarded, req.creditForEquity], [1700000, 1600000, null, 1600000]);
   const over = runBasisCase(cases.basisCase, rules, { requested: 1900000 }).result;
-  assert.equal(over.creditForEquity, 1800000);
+  assert.equal(over.creditForEquity, 1700000);
   assert(over.flags.some((f) => /more than the credit capacity/.test(f)));
-  const award = runBasisCase(cases.basisCase, rules, { requested: 1700000, awarded: 1600000 }).result;
-  assert.deepEqual([award.creditForEquity, award.creditForEquityBasis], [1600000, 'awarded']);
+  const award = runBasisCase(cases.basisCase, rules, { requested: 1600000, awarded: 1500000 }).result;
+  assert.deepEqual([award.creditForEquity, award.creditForEquityBasis], [1500000, 'awarded']);
 });
 
 test('underwriting thresholds use the rule\'s forecast years', () => {
@@ -309,15 +324,27 @@ test('underwriting thresholds use the rule\'s forecast years', () => {
 });
 
 test('state credits stay a separate source with CHFA\'s limit; pay-in schedules need all three stages', () => {
-  const s = cb.stateCredit({ annual: 500000, price: 0.8, creditType: '9', units: 60, awarded: true, rules });
+  const s = cb.stateCredit({ annual: 650000, price: 0.8, creditType: '9', units: 60, awarded: true, rules });
   assert.equal(s.allowedAnnual, rules.rules.credit_cap_state_with_9pct.fixed_annual);
-  assert.equal(s.equity, 500000 * 6 * 0.8);
+  assert.equal(s.equity, 650000 * 6 * 0.8);
   // The 9% pairing is a fixed amount, so any other amount is unknown, above or below it.
-  for (const other of [100000, 600000]) {
+  for (const other of [100000, 500000, 700000]) {
     const o = cb.stateCredit({ annual: other, price: 0.8, creditType: '9', units: 60, awarded: true, rules });
     assert.equal(o.equity, null, other + ' is not the fixed pairing');
-    assert.match(o.reason, /fixed \$500,000 of standard state credit/);
+    assert.match(o.reason, /fixed \$650,000 of standard state credit/);
   }
+  // The pairing follows the credit year and the 3.B.9 pilot answer.
+  for (const [year, pilot, amount] of [['2027', 'no', 600000], ['2028', '', 675000], ['2028', 'no', 700000], ['2026', '', 500000]]) {
+    const y = cb.stateCredit({ annual: amount, price: 0.8, creditType: '9', units: 60, awarded: true, rules, qapYear: year, pilotGapFunds: pilot });
+    assert.equal(y.allowedAnnual, amount, year + ' ' + pilot);
+  }
+  // Round Two in 2027 without pilot gap funds (3.L.1): $1,100,000 accelerated and up to $800,000 standard.
+  const r2 = cb.stateCredit({ annual: 2000000, standardAnnual: 900000, price: 0.8, creditType: '4', units: 60, path: 'round_two', awarded: true, rules, qapYear: '2027', pilotGapFunds: 'no' });
+  assert.equal(r2.allowedAnnual, 1100000 + 800000);
+  // The September to November bond window is in the 2025-2026 plan only.
+  const fall27 = cb.stateCredit({ annual: 300000, price: 0.8, creditType: '4', units: 60, path: 'bond_fall', awarded: true, rules, qapYear: '2027' });
+  assert.equal(fall27.equity, null);
+  assert.match(fall27.reason, /no CHFA limit for 2027 \(The 2025-2026 plan opened this window/);
   assert.equal(s.years, rules.rules.state_credit_term.years, 'six-year allocation from the rules file');
   // A 4% deal must say which CHFA application it is: each path has its own limit (QAP 3.L).
   const four = (path, units, extra) => cb.stateCredit(Object.assign({ annual: 2000000, price: 0.8, creditType: '4', units, path, awarded: true, rules }, extra));
@@ -360,8 +387,8 @@ test('state credits stay a separate source with CHFA\'s limit; pay-in schedules 
   assert.equal(cb.stateCredit({ annual: 400000, price: '', creditType: '9', rules }).equity, null);
   assert.equal(cb.stateCredit({ annual: null, rules }).entered, false);
   // The state three-test is not modeled, so a proposed amount within the limit is still not a source.
-  const proposed = cb.stateCredit({ annual: 500000, price: 0.8, creditType: '9', units: 60, rules });
-  assert.equal(proposed.allowedAnnual, 500000, 'non-vacuous: the amount passes the application limit');
+  const proposed = cb.stateCredit({ annual: 650000, price: 0.8, creditType: '9', units: 60, rules });
+  assert.equal(proposed.allowedAnnual, 650000, 'non-vacuous: the amount passes the application limit');
   assert.equal(proposed.equity, null, 'a proposed state credit is not equity');
   assert.match(proposed.reason, /three-test/);
   const p = cb.payIn(1000000, { closing: 20, completion: 40, stabilization: 40 });
@@ -557,8 +584,18 @@ test('every rule cites a source that exists, with a location and a quote that st
   assert(R.credit_cap_state_with_4pct.quote.includes('$' + fmt(R.credit_cap_state_with_4pct.annual_cap)));
   assert(R.credit_cap_state_with_4pct.quote.includes('$' + fmt(R.credit_cap_state_with_4pct.annual_cap_per_unit) + ' per unit'));
   assert(R.credit_cap_state_with_4pct.quote.includes('Private Activity Bonds') && R.credit_cap_state_with_4pct.quote.includes('September, October, and November'));
-  assert(R.credit_cap_state_round_two_accelerated.quote.includes('$' + fmt(R.credit_cap_state_round_two_accelerated.annual_cap) + ' of accelerated'));
-  assert(R.credit_cap_state_round_two_standard.quote.includes('$' + fmt(R.credit_cap_state_round_two_standard.annual_cap) + ' of standard'));
+  assert(R.credit_cap_state_round_two_accelerated.quote.includes('a fixed amount of $' + fmt(R.credit_cap_state_round_two_accelerated.annual_cap) + ' in 2027'));
+  assert(R.credit_cap_state_round_two_standard.quote.includes('up to $' + fmt(R.credit_cap_state_round_two_standard.annual_cap) + ' in 2027'));
+  // Every year's amount is stated in the quote it cites: that year's own quote, the 3.L quote, or the 3.L.1 quote.
+  for (const [key, r] of Object.entries(R)) {
+    if (!r.by_year) continue;
+    for (const [year, e] of Object.entries(r.by_year)) {
+      for (const k of ['annual_cap', 'fixed_annual', 'annual_cap_per_unit']) {
+        if (e[k] !== undefined) assert((e.quote || r.quote).includes('$' + fmt(e[k])), key + ' ' + year + ' ' + k);
+        if (e.without_pilot && e.without_pilot[k] !== undefined) assert(r.without_pilot.quote.includes('$' + fmt(e.without_pilot[k])), key + ' ' + year + ' 3.L.1 ' + k);
+      }
+    }
+  }
   assert(R.acquisition_credit_rate.quote.includes('floor is set at ' + R.acquisition_credit_rate.floor * 100 + ' percent'));
   assert(R.state_credit_term.quote.includes('total six-year allocation') && R.state_credit_term.years === 6);
   for (const k of ['credit_cap_state_round_two_accelerated', 'credit_cap_state_round_two_standard', 'credit_cap_state_with_4pct']) {

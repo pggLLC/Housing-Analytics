@@ -183,6 +183,34 @@
       citation: source.title + ', ' + rule.location };
   }
 
+  // CHFA's per-project credit limits change with the plan year, and under the 2027-2028 plan with
+  // whether state gap funds are available through the 3.B.9 pilot (3.L) or not (3.L.1). A rule with
+  // by_year resolves to that year's amount and its own citation; ctx is { year, pilot: 'yes' | 'no' | '' }.
+  // A blank year is the rule's default_year; an unanswered pilot question uses 3.L.
+  var CAP_AMOUNT_KEYS = ['annual_cap', 'fixed_annual', 'annual_cap_per_unit'];
+  function capStatus(rules, key, ctx) {
+    var st = ruleStatus(rules, key);
+    if (!st.applied || !st.rule.by_year) return st;
+    ctx = ctx || {};
+    var year = String(ctx.year === undefined || ctx.year === null || ctx.year === '' ? st.rule.default_year : ctx.year);
+    var entry = Object.prototype.hasOwnProperty.call(st.rule.by_year, year) ? st.rule.by_year[year] : null;
+    if (!entry) return { key: key, applied: false, rule: st.rule, draft: st.draft, year: year,
+      reason: 'no CHFA limit for ' + year + (st.rule.ends_reason ? ' (' + st.rule.ends_reason + ')' : '') };
+    var noPilot = ctx.pilot === 'no' && !!entry.without_pilot;
+    var resolved = {};
+    Object.keys(st.rule).forEach(function (k) { if (CAP_AMOUNT_KEYS.indexOf(k) === -1 && k !== 'by_year' && k !== 'without_pilot') resolved[k] = st.rule[k]; });
+    CAP_AMOUNT_KEYS.forEach(function (k) { if (entry[k] !== undefined) resolved[k] = entry[k]; });
+    if (noPilot) CAP_AMOUNT_KEYS.forEach(function (k) { if (entry.without_pilot[k] !== undefined) resolved[k] = entry.without_pilot[k]; });
+    var sourceKey = entry.source || st.rule.source;
+    var source = rules.sources && rules.sources[sourceKey];
+    if (!source) return { key: key, applied: false, rule: st.rule, draft: st.draft, reason: RULE_NOT_SOURCED };
+    var location = entry.location || (noPilot && st.rule.without_pilot ? st.rule.without_pilot.location : st.rule.location);
+    resolved.source = sourceKey; resolved.location = location; resolved.quote = entry.quote || (noPilot && st.rule.without_pilot ? st.rule.without_pilot.quote : st.rule.quote);
+    resolved.year = Number(year); resolved.withoutPilot = noPilot;
+    return { key: key, applied: true, rule: resolved, draft: st.draft, reason: null, year: Number(year), withoutPilot: noPilot,
+      citation: source.title + ', ' + location };
+  }
+
   /** Totals for itemized lines. tdc is the entered total development cost. */
   function summarizeCosts(lines, tdc) {
     var out = { itemized: 0, eligible: 0, ineligible: 0, acquisitionEligible: 0, contract: 0,
@@ -680,7 +708,7 @@
     out.capacity = out.calculatedCredit;
     if (!capKey) out.cap.reason = 'CHFA sets no per-project federal limit for 4% credits with private activity bonds.';
     else {
-      var cap = ruleStatus(rules, capKey);
+      var cap = capStatus(rules, capKey, { year: args.qapYear, pilot: args.pilotGapFunds });
       if (!cap.applied) {
         // The 9% limit is required; without it the capacity could be overstated.
         out.cap.reason = cap.reason;
@@ -691,10 +719,13 @@
         out.cap.applied = true;
         out.cap.amount = cap.rule.annual_cap;
         out.cap.citation = cap.citation;
+        out.cap.year = cap.year || null;
+        out.cap.withoutPilot = !!cap.withoutPilot;
         if (out.calculatedCredit > cap.rule.annual_cap) {
           out.capacity = cap.rule.annual_cap;
           out.cap.binding = true;
-          out.cap.reason = 'Capped at ' + money(cap.rule.annual_cap) + ': CHFA accepts no more federal 9% credit a year for one project (' + cap.citation + ').';
+          out.cap.reason = 'Capped at ' + money(cap.rule.annual_cap) + ': CHFA accepts no more federal 9% credit a year for one project' +
+            (cap.year ? ' in ' + cap.year : '') + (cap.withoutPilot ? ' when state gap funds are not available' : '') + ' (' + cap.citation + ').';
         }
       }
     }
@@ -847,7 +878,7 @@
       var st = def.streams[i], amount = num(args[st[0]]);
       if (amount === null) continue;
       if (!Number.isFinite(amount) || amount < 0) { out.reason = 'Enter an annual ' + st[2].toLowerCase() + ' of $0 or more.'; return out; }
-      var cap = ruleStatus(args.rules, st[1]);
+      var cap = capStatus(args.rules, st[1], { year: args.qapYear, pilot: args.pilotGapFunds });
       var row = { label: st[2], annual: amount, allowedAnnual: amount, cap: null, capReason: null };
       // Without its sourced limit the allowed amount is unknown, so no equity.
       if (!cap.applied) { out.reason = st[2] + ' limit: ' + cap.reason + '.'; return out; }
@@ -1137,7 +1168,7 @@
 
   return {
     RULE_NOT_SOURCED: RULE_NOT_SOURCED, APPLICANT_LIMIT_NOTE: APPLICANT_LIMIT_NOTE, BOND_TEST_NOTE: BOND_TEST_NOTE, REHAB_MINIMUM_NOTE: REHAB_MINIMUM_NOTE, GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE, NEVER_IN_BASIS: NEVER_IN_BASIS,
-    CONTINGENCY_KINDS: CONTINGENCY_KINDS, exampleLines: exampleLines, ruleStatus: ruleStatus,
+    CONTINGENCY_KINDS: CONTINGENCY_KINDS, exampleLines: exampleLines, ruleStatus: ruleStatus, capStatus: capStatus,
     summarizeCosts: summarizeCosts, grantBasisReduction: grantBasisReduction,
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,
     feeExcessInBasis: feeExcessInBasis, gapCredit: gapCredit, STATE_CREDIT_PATHS: STATE_CREDIT_PATHS,
