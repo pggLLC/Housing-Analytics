@@ -336,3 +336,30 @@ def test_a_geography_that_fell_back_a_year_does_not_stop_the_build():
         mod.vintage_of({**sums, "0800012": {"acsProfile": {"_acsYear": "2019"}}})
     with pytest.raises(SystemExit):
         mod.vintage_of({"0800013": {"acsProfile": {}}})
+
+
+def test_a_fresh_one_year_vintage_does_not_wait_on_its_five_year():
+    # The 2025 1-year is out before the 2021-25 5-year. A geography stamped
+    # 2025 acs1 is checked against the 1-year, and its twin is the 2024
+    # 5-year, stamped 2024, until the 2025 5-year is released.
+    import pytest
+    big, small = "0816000", "08003"
+    tables = {
+        ("acs1", "profile", "place", 2025): {big: {"DP04_0134E": 1650, "DP04_0134M": 40}},
+        ("acs5", "profile", "place", 2024): {big: {"DP04_0134E": 1600, "DP04_0134M": 25}},
+        ("acs5", "profile", "county", 2024): {small: {"DP04_0134E": 900, "DP04_0134M": 80}},
+    }
+    sums = {big: {"acsProfile": {"_acsYear": 2025, "_acsSeries": "acs1", "DP04_0134E": 1650},
+                  "acsS0801": {}},
+            small: {"acsProfile": {"_acsYear": 2024, "_acsSeries": "acs5", "DP04_0134E": 900},
+                    "acsS0801": {}}}
+    getter = fake_getter(tables, missing={(2025, "acs5")})
+    doc = mod.build(sums, 2025, key="", getter=getter)
+    rent = doc["geos"][big]["DP04_0134E"]
+    assert (rent["s"], rent["y"], rent["m"]) == ("acs1", 2025, 40.0)
+    assert (rent["five"]["e"], rent["five"]["y"], rent["five"]["m"]) == (1600, 2024, 25.0)
+    assert doc["geos"][small]["DP04_0134E"]["m"] == 80.0
+    # The stamped 1-year itself missing still stops the build.
+    with pytest.raises(SystemExit):
+        mod.build(sums, 2025, key="",
+                  getter=fake_getter(tables, missing={(2025, "acs5"), (2025, "acs1")}))
