@@ -54,6 +54,7 @@
     '.ib-section-nav a:hover{color:var(--accent)}.ib-section-nav .spacer{flex:1}' +
     // The pages of the group you are in, under the group row.
     '#devNav a[aria-current="true"]{color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent);border-radius:0}' +
+    '@media print{#devSubNav{display:none !important}}' +
     '#devNav{margin-bottom:0}#devNav+.dev-sub-nav{margin-top:0;border-bottom:1px solid var(--border);font-weight:500}' +
     '.ib-section-nav .dev-nav-badge{background:var(--warn);color:var(--card);font-size:.8125rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em}' +
     // On a phone the eleven links wrapped to five rows above every page. One row that
