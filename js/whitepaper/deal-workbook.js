@@ -396,7 +396,10 @@
     // Year-one coverage can be known without projection rows (bad growth inputs), so fall back to the engine's check.
     var y1 = m.cashFlow.rows[0], hc = (r && r.costBasis && r.costBasis.underwriting && r.costBasis.underwriting.high) || {};
     var y1dscr = y1 && y1.dscr != null ? y1.dscr : num(hc.firstYear);
-    if (y1dscr != null && min.high && y1dscr > min.high.value) out.push({ level: 'warn', text: 'Year-one coverage of ' + ratio(y1dscr) + ' is above ' + ratio(min.high.value) + ', so CHFA may award less credit. A larger loan or lower rents would bring it down.', source: min.high });
+    // 2027-28 QAP 4.C.5: above the line in year one and rising over the pro forma.
+    var dscrRows = m.cashFlow.rows.slice(0, 15).filter(function (row) { return row && row.dscr != null; });
+    var rising = dscrRows.length > 1 ? dscrRows[dscrRows.length - 1].dscr > dscrRows[0].dscr : (hc.rising == null ? null : hc.rising);
+    if (y1dscr != null && min.high && y1dscr > min.high.value && rising !== false) out.push({ level: 'warn', text: 'Year-one coverage of ' + ratio(y1dscr) + ' is above ' + ratio(min.high.value) + (rising ? ' and rises over the pro forma' : '') + ', so CHFA may award less credit. A larger loan or lower rents would bring it down.', source: min.high });
 
     m.loans.forEach(function (l) {
       if (!l.amount) return;
