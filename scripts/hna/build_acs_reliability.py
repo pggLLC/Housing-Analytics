@@ -216,12 +216,19 @@ def level_of(geoid: str) -> str:
 
 
 def fallback_years(start):
-    """The years build_hna_data.py tries, newest first: ACS_START_YEAR and
-    ACS_FALLBACK_YEARS - 1 years before it (same env defaults as that file).
+    """The years build_hna_data.py tries, newest first: from *start* back to
+    ACS_FALLBACK_YEARS - 1 years before the older series start (same env
+    defaults as that file).
     Its profile fetch does not stamp the year it settled on, so any of these
     can be the true vintage of a stored figure."""
     n = int(os.environ.get("ACS_FALLBACK_YEARS", "3"))
-    return [start - i for i in range(max(n, 1))]
+    # The 1-year and the 5-year start a year apart (ACS1_START_YEAR 2025,
+    # ACS_START_YEAR 2024), and build_hna_data.acs_attempts() runs each
+    # series' window from its own start, so the window reaches back from the
+    # older of the two.
+    oldest = min(int(os.environ.get("ACS1_START_YEAR", "2025")),
+                 int(os.environ.get("ACS_START_YEAR", "2024"))) - max(n, 1) + 1
+    return list(range(start, min(oldest, start - max(n, 1) + 1) - 1, -1))
 
 
 def match_source(stored, var, cands, geoid, prefer=None, stamped=None):

@@ -845,8 +845,37 @@ def census_key() -> str:
 
 
 def acs_start_year() -> int:
-    """Return the primary ACS data year to target (configurable via ACS_START_YEAR env var)."""
+    """Newest ACS 5-year vintage to ask for (ACS_START_YEAR, default 2024).
+
+    The 5-year and 1-year releases are a year apart for most of the year:
+    the 2025 1-year came out 2026-10-29, the 2021-25 5-year follows in
+    December. One start year for both either asked the 1-year for a stale
+    vintage or the 5-year for one not yet published, so each has its own.
+    """
     return int(os.environ.get('ACS_START_YEAR', '2024'))
+
+
+def acs1_start_year() -> int:
+    """Newest ACS 1-year vintage to ask for (ACS1_START_YEAR, default 2025)."""
+    return int(os.environ.get('ACS1_START_YEAR', '2025'))
+
+
+def acs_attempts(n_fallback: int | None = None) -> list[tuple[int, str]]:
+    """(year, series) pairs to try, newest year first and the 1-year before
+    the 5-year within a year, skipping vintages past each series' start.
+    With the defaults: acs1 2025, acs1 2024, acs5 2024, acs1 2023, acs5 2023,
+    acs1 2022, acs5 2022 -- the 5-year keeps the window it had before."""
+    if n_fallback is None:
+        n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
+    acs1, acs5 = acs1_start_year(), acs_start_year()
+    newest, oldest = max(acs1, acs5), min(acs1, acs5) - n_fallback + 1
+    pairs = []
+    for year in range(newest, oldest - 1, -1):
+        if year <= acs1:
+            pairs.append((year, 'acs1'))
+        if year <= acs5:
+            pairs.append((year, 'acs5'))
+    return pairs
 
 
 def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
@@ -1210,21 +1239,19 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
             values = _fetch_from(first[0], first[1], batch_vars)
             if values is not None:
                 return values, first
-        for year in years_to_try:
-            for series in ('acs1', 'acs5'):
-                values = _fetch_from(year, series, batch_vars)
-                if values is not None:
-                    if year != start_year:
-                        print(f"ℹ ACS profile {geo_type}:{geoid} batch resolved via {series}/profile year={year}", file=sys.stderr)
-                    return values, (year, series)
+        for year, series in attempts:
+            values = _fetch_from(year, series, batch_vars)
+            if values is not None:
+                if (year, series) != attempts[0]:
+                    print(f"ℹ ACS profile {geo_type}:{geoid} batch resolved via {series}/profile year={year}", file=sys.stderr)
+                return values, (year, series)
         return None
 
-    # Try each year from ACS_START_YEAR down, over ACS_FALLBACK_YEARS years;
-    # for each year try ACS1/profile → ACS5/profile in order.
-    # Years and depth are configurable via env vars for easy maintenance.
-    start_year = acs_start_year()
-    n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
-    years_to_try = list(range(start_year, start_year - n_fallback, -1))
+    # Newest 1-year first, then each year's 1-year before its 5-year; see
+    # acs_attempts(). ACS1_START_YEAR, ACS_START_YEAR and ACS_FALLBACK_YEARS
+    # set the window.
+    attempts = acs_attempts()
+    years_to_try = sorted({y for y, _ in attempts}, reverse=True)
 
     # Batch A is the historical mandatory set; without it we can't build a
     # useful summary at all. Batch B is the income / housing-age / bedroom-
@@ -1258,9 +1285,19 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
     if source[1] == 'acs1':
         # The 5-year twin of batch A, same year, so a builder that must compare
         # like with like (scripts/build_acs_rent_co.py) has the 5-year figure.
-        twin = _fetch_from(source[0], 'acs5', vars_a)
+        # The 5-year for the 1-year's own year may not be out yet (the 2025
+        # 1-year lands two months before the 2021-25 5-year), so take the
+        # newest 5-year at or before it and stamp the year it really is.
+        twin, twin_year = None, None
+        for year, series in attempts:
+            if series != 'acs5' or year > source[0]:
+                continue
+            twin = _fetch_from(year, 'acs5', vars_a)
+            if twin is not None:
+                twin_year = year
+                break
         if twin is not None:
-            merged['_acs5Profile'] = {**twin, '_acsYear': str(source[0]), '_acsSeries': 'acs5'}
+            merged['_acs5Profile'] = {**twin, '_acsYear': str(twin_year), '_acsSeries': 'acs5'}
         else:
             print(f"⚠ ACS 5-year twin of batch A for {geo_type}:{geoid} unavailable", file=sys.stderr)
 
@@ -1299,7 +1336,8 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         else:
             print(f"ℹ ACS profile (batch {label}) for {geo_type}:{geoid} unavailable — {description} will fall back to live fetch", file=sys.stderr)
 
-    detail_tenure = _acs5_detail_tenure_for_geo(geo_type, geoid, years_to_try)
+    detail_tenure = _acs5_detail_tenure_for_geo(
+        geo_type, geoid, [y for y, series in attempts if series == 'acs5'])
     if detail_tenure is not None:
         for k, v in detail_tenure.items():
             merged.setdefault(k, v)
@@ -1343,31 +1381,22 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
             qs += f"&key={urllib.parse.quote(key, safe='')}"
         return f"{base}?{qs}"
 
-    # Try ACS1/subject → ACS5/subject for each year
-    # Years are configurable: ACS_START_YEAR (default 2024), ACS_FALLBACK_YEARS (default 3)
-    start_year = acs_start_year()
-    n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
-    years_to_try = list(range(start_year, start_year - n_fallback, -1))
+    # Newest 1-year first, then each year's 1-year before its 5-year; see
+    # acs_attempts().
+    attempts = acs_attempts()
+    years_to_try = sorted({y for y, _ in attempts}, reverse=True)
 
-    for year in years_to_try:
-        url = build_url(year, 'subject', 'acs1')
-        result = http_get_json(url)
+    for year, series in attempts:
+        if series == 'acs5':
+            print(f"ℹ Trying ACS5/subject {year} for {geo_type}:{geoid}", file=sys.stderr)
+        result = http_get_json(build_url(year, 'subject', series))
         if result and len(result) > 1:
-            if year != start_year:
+            if series == 'acs1' and (year, series) != attempts[0]:
                 print(f"ℹ Using ACS1/subject {year} for {geo_type}:{geoid}", file=sys.stderr)
             data = {result[0][i]: result[1][i] for i in range(len(result[0]))}
             # Record which vintage and series were actually used (commuting reliability).
             data['_acsYear'] = year
-            data['_acsSeries'] = 'acs1'
-            return data
-
-        url = build_url(year, 'subject', 'acs5')
-        print(f"ℹ Falling back to ACS5/subject {year} for {geo_type}:{geoid}", file=sys.stderr)
-        result = http_get_json(url)
-        if result and len(result) > 1:
-            data = {result[0][i]: result[1][i] for i in range(len(result[0]))}
-            data['_acsYear'] = year
-            data['_acsSeries'] = 'acs5'
+            data['_acsSeries'] = series
             return data
 
     print(f"⚠ Could not fetch ACS S0801 for {geo_type}:{geoid} (tried years {years_to_try})", file=sys.stderr)
@@ -1425,19 +1454,13 @@ def fetch_acs_b08301(geo_type: str, geoid: str) -> dict | None:
             qs += f"&key={urllib.parse.quote(key, safe='')}"
         return f"{base}?{qs}"
 
-    start_year = acs_start_year()
-    n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
-    years_to_try = list(range(start_year, start_year - n_fallback, -1))
-
     raw = None
-    for year in years_to_try:
-        for series in ('acs1', 'acs5'):
-            url = build_url(year, series)
-            result = http_get_json(url)
-            if result and len(result) > 1:
-                raw = {result[0][i]: result[1][i] for i in range(len(result[0]))}
-                break
-        if raw:
+    used = None
+    for year, series in acs_attempts():
+        result = http_get_json(build_url(year, series))
+        if result and len(result) > 1:
+            raw = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+            used = (year, series)
             break
 
     if not raw:
@@ -1462,6 +1485,8 @@ def fetch_acs_b08301(geo_type: str, geoid: str) -> dict | None:
         # with other means so the seven modes add to the total.
         'other':          _int('B08301_016E') + _int('B08301_017E') + _int('B08301_020E'),
         'work_from_home': _int('B08301_021E'),
+        '_acsYear': used[0],
+        '_acsSeries': used[1],
     }
 
 
@@ -1636,7 +1661,7 @@ def build_summary_cache(max_workers: int | None = None):
     except Exception as e:
         print(f"ℹ build_summary_cache: could not load geo-config ({e}); caching featured geos only", file=sys.stderr)
 
-    start_year = acs_start_year()
+    start_year = acs1_start_year()
     workers = acs_fetch_workers() if max_workers is None else max_workers
     if workers <= 0:
         raise ValueError(f"max_workers must be positive, got {workers}")
@@ -1675,6 +1700,10 @@ def build_summary_cache(max_workers: int | None = None):
                 s0801_year = (acs_s0801 or {}).get('_acsYear', start_year)
                 s0801_series = (acs_s0801 or {}).get('_acsSeries', 'acs1')
                 acs5_twin = (acs_profile or {}).pop('_acs5Profile', None)
+                # The B08301 stamps describe the endpoint; the section itself
+                # stays the seven mode counts and the total.
+                b08301_year = (acs_b08301 or {}).pop('_acsYear', start_year)
+                b08301_series = (acs_b08301 or {}).pop('_acsSeries', 'acs1')
                 profile_year = (acs_profile or {}).get('_acsYear') or start_year
                 profile_series = (acs_profile or {}).get('_acsSeries') or 'acs1'
                 payload = {
@@ -1690,7 +1719,9 @@ def build_summary_cache(max_workers: int | None = None):
                         'acs_s0801_endpoint': (
                             f'https://api.census.gov/data/{s0801_year}/acs/{s0801_series}/subject'
                         ),
-                        'acs_b08301_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1'
+                        'acs_b08301_endpoint': (
+                            f'https://api.census.gov/data/{b08301_year}/acs/{b08301_series}'
+                        ),
                     }
                 }
                 if acs5_twin is not None:

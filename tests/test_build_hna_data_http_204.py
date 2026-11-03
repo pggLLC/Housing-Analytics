@@ -63,12 +63,15 @@ def test_s0801_204_none_falls_back_to_acs5_values():
         ["6300", "20.5", "Fruita city, Colorado"],
     ]
 
-    with mock.patch.object(hna, "http_get_json", side_effect=[None, acs5_result]) as fetch:
+    # The 1-year is asked for 2025 and 2024 before the 2024 5-year (the
+    # 2021-25 5-year is not out when the 2025 1-year is).
+    with mock.patch.object(hna, "http_get_json", side_effect=[None, None, acs5_result]) as fetch:
         result = hna.fetch_acs_s0801("place", "0828745")
 
-    assert fetch.call_count == 2
-    assert "/acs/acs1/subject?" in fetch.call_args_list[0].args[0]
-    assert "/acs/acs5/subject?" in fetch.call_args_list[1].args[0]
+    assert fetch.call_count == 3
+    assert "/2025/acs/acs1/subject?" in fetch.call_args_list[0].args[0]
+    assert "/2024/acs/acs1/subject?" in fetch.call_args_list[1].args[0]
+    assert "/2024/acs/acs5/subject?" in fetch.call_args_list[2].args[0]
     assert result["S0801_C01_001E"] == "6300"
     assert result["S0801_C01_046E"] == "20.5"
     assert result["_acsSeries"] == "acs5"
