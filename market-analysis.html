@@ -1056,6 +1056,18 @@
          (bedroom community vs self-contained), which the buffer-scope analysis
          doesn't capture. -->
     <div id="maJurisdictionLabor" class="ma-labor-card" hidden style="max-width:none;margin:8px auto 0;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card2);"></div>
+    <!-- Members only: the member site (coho-backend) serves a Commuters page for every town and
+         county. Shown only on the member host, so the public page never links a page it lacks. -->
+    <p id="maCommutersLink" hidden style="margin:8px 0 0;font-size:.875rem;"></p>
+    <script>
+    (function () {
+      if (!/\.workers\.dev$/.test(location.hostname)) return;
+      var q = new URLSearchParams(location.search), g = q.get('geoid') || q.get('fips') || '';
+      var el = document.getElementById('maCommutersLink');
+      el.innerHTML = '<a href="developer-commuters.html' + (/^08\d{3}(\d{5})?$/.test(g) ? '?geoid=' + g : '') + '">Commuters for this place</a>: who drives in, out and through, with sources (members).';
+      el.hidden = false;
+    })();
+    </script>
     <!-- F159 — Rent triangulation: HUD FMR vs ACS B25064 vs Zillow ZORI.
          Hydrated from WorkflowState/SiteState; updates on jurisdiction
          change. Same shared component used on HNA. -->
