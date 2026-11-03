@@ -285,11 +285,13 @@ def test_committed_file_covers_every_summary_when_present():
                 assert e.get("why"), f"{gid} {var}: no margin and no reason"
             if e["t"] is not None:
                 assert e["t"] in doc["meta"]["tiers"]
-            # A twin is the 5-year estimate ending the same year as a 1-year one.
+            # A twin is the 5-year estimate ending the same year as a 1-year
+            # one, or, until that 5-year is released, the one a year before.
             five = e.get("five")
             if five is not None:
                 assert e["s"] == "acs1", f"{gid} {var}: a twin on a {e['s']} figure"
-                assert (five["s"], five["y"]) == ("acs5", e["y"]), f"{gid} {var}: twin {five}"
+                assert five["s"] == "acs5" and e["y"] - 1 <= five["y"] <= e["y"], \
+                    f"{gid} {var}: twin {five}"
     assert checked > 0
 
 
