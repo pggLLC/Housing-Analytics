@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-03T12:57:36.242Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-03T13:25:17.256Z. Do not edit by hand.
 
 ---
 
@@ -126,7 +126,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.42 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 650.1 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 659.9 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 545 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -315,7 +315,7 @@
 | `data/deals/willoughby-corner-phase-ib-family-lafayette.json` | 15.4 KB | ✅ | — |
 | `data/deals/windtrail-park-fort-collins.json` | 19.6 KB | ✅ | — |
 | `data/derived/funding-map.json` | 1.41 MB | ✅ | — |
-| `data/derived/funding-vs-need.json` | 91.4 KB | ✅ | — |
+| `data/derived/funding-vs-need.json` | 91.6 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
@@ -2046,7 +2046,7 @@
 | `data/policy_briefs_curated.json` | 216.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 194.2 KB | ✅ | — |
+| `data/polymarket-history.json` | 196.3 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |

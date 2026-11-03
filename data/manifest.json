@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-03T13:00:40.626067Z",
+  "generated": "2026-11-03T13:26:06.248081Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -1119,7 +1119,7 @@
     "data/derived/funding-vs-need.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 93617
+      "bytes": 93788
     },
     "data/derived/market-analysis/market_demand.json": {
       "featureCount": 0,
