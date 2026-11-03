@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-31T14:01:35.581668+00:00",
+    "generated_at": "2026-11-03T00:08:11.975757+00:00",
     "source_tract_metrics": "data/market/acs_tract_metrics_co.json",
     "source_membership": "data/hna/place-tract-membership.json",
     "source_place_summary": "data/hna/summary/{place_geoid}.json",
@@ -2251,43 +2251,43 @@
     "0804000": {
       "name": "Aurora",
       "tract_count": 104,
-      "place_pop": 402452,
+      "place_pop": 409516,
       "counties_spanned": [
         "08001",
         "08005",
         "08035"
       ],
       "place_share_of_counties": {
-        "08001": 0.296398,
-        "08005": 0.363146,
-        "08035": 0.015153
+        "08001": 0.3016,
+        "08005": 0.36952,
+        "08035": 0.015419
       },
       "coverage_share": 1.0001,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 172930,
-        "CE01": 22684,
-        "CE02": 35769,
-        "CE03": 114477,
-        "CNS01": 278,
-        "CNS02": 454,
+        "CE01": 22738,
+        "CE02": 35821,
+        "CE03": 114371,
+        "CNS01": 279,
+        "CNS02": 455,
         "CNS03": 388,
-        "CNS04": 13618,
-        "CNS05": 6446,
-        "CNS06": 9979,
-        "CNS07": 17310,
-        "CNS08": 9596,
-        "CNS09": 6820,
+        "CNS04": 13619,
+        "CNS05": 6445,
+        "CNS06": 9980,
+        "CNS07": 17309,
+        "CNS08": 9597,
+        "CNS09": 6819,
         "CNS10": 9485,
-        "CNS11": 3125,
+        "CNS11": 3126,
         "CNS12": 15237,
         "CNS13": 3416,
         "CNS14": 12750,
         "CNS15": 13797,
-        "CNS16": 23920,
-        "CNS17": 2688,
-        "CNS18": 12738,
-        "CNS19": 5114,
+        "CNS16": 23919,
+        "CNS17": 2689,
+        "CNS18": 12737,
+        "CNS19": 5112,
         "CNS20": 5773,
         "within": 43873,
         "inflow": 127327,
@@ -2296,13 +2296,13 @@
           {
             "naics": "CNS16",
             "label": "Healthcare & Social Assistance",
-            "count": 23920,
+            "count": 23919,
             "pct": 13.8
           },
           {
             "naics": "CNS07",
             "label": "Retail Trade",
-            "count": 17310,
+            "count": 17309,
             "pct": 10.0
           },
           {
@@ -2320,7 +2320,7 @@
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 13618,
+            "count": 13619,
             "pct": 7.9
           },
           {
@@ -2332,19 +2332,19 @@
           {
             "naics": "CNS18",
             "label": "Accommodation & Food Services",
-            "count": 12738,
+            "count": 12737,
             "pct": 7.4
           },
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 9979,
+            "count": 9980,
             "pct": 5.8
           },
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 9596,
+            "count": 9597,
             "pct": 5.5
           },
           {
@@ -2356,13 +2356,13 @@
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 6820,
+            "count": 6819,
             "pct": 3.9
           },
           {
             "naics": "CNS05",
             "label": "Manufacturing",
-            "count": 6446,
+            "count": 6445,
             "pct": 3.7
           },
           {
@@ -2374,7 +2374,7 @@
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 5114,
+            "count": 5112,
             "pct": 3.0
           },
           {
@@ -2386,19 +2386,19 @@
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 3125,
+            "count": 3126,
             "pct": 1.8
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 2688,
+            "count": 2689,
             "pct": 1.6
           },
           {
             "naics": "CNS02",
             "label": "Mining, Quarrying & Oil/Gas",
-            "count": 454,
+            "count": 455,
             "pct": 0.3
           },
           {
@@ -2410,7 +2410,7 @@
           {
             "naics": "CNS01",
             "label": "Agriculture",
-            "count": 278,
+            "count": 279,
             "pct": 0.2
           }
         ],
@@ -2423,29 +2423,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 21216,
-            "medium": 33453,
-            "high": 107067
+            "low": 21266,
+            "medium": 33502,
+            "high": 106968
           },
           "2020": {
-            "low": 20711,
-            "medium": 32657,
-            "high": 104518
+            "low": 20760,
+            "medium": 32705,
+            "high": 104421
           },
           "2021": {
-            "low": 20270,
-            "medium": 31963,
-            "high": 102296
+            "low": 20319,
+            "medium": 32009,
+            "high": 102201
           },
           "2022": {
-            "low": 21837,
-            "medium": 34433,
-            "high": 110204
+            "low": 21889,
+            "medium": 34484,
+            "high": 110101
           },
           "2023": {
-            "low": 22684,
-            "medium": 35769,
-            "high": 114477
+            "low": 22738,
+            "medium": 35821,
+            "high": 114371
           }
         },
         "residentWorkers": 187193,
@@ -2458,39 +2458,39 @@
     "0816495": {
       "name": "Commerce City",
       "tract_count": 18,
-      "place_pop": 70255,
+      "place_pop": 72337,
       "counties_spanned": [
         "08001"
       ],
       "place_share_of_counties": {
-        "08001": 0.1325
+        "08001": 0.136427
       },
       "coverage_share": 1.0,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 37240,
-        "CE01": 3939,
-        "CE02": 6873,
-        "CE03": 26428,
-        "CNS01": 136,
-        "CNS02": 176,
-        "CNS03": 175,
-        "CNS04": 3534,
+        "CE01": 3957,
+        "CE02": 6894,
+        "CE03": 26389,
+        "CNS01": 135,
+        "CNS02": 177,
+        "CNS03": 176,
+        "CNS04": 3535,
         "CNS05": 2123,
-        "CNS06": 3046,
-        "CNS07": 3508,
-        "CNS08": 4519,
-        "CNS09": 429,
-        "CNS10": 541,
-        "CNS11": 536,
+        "CNS06": 3047,
+        "CNS07": 3507,
+        "CNS08": 4520,
+        "CNS09": 428,
+        "CNS10": 542,
+        "CNS11": 537,
         "CNS12": 1506,
-        "CNS13": 305,
+        "CNS13": 304,
         "CNS14": 2756,
         "CNS15": 3745,
-        "CNS16": 4788,
-        "CNS17": 353,
+        "CNS16": 4789,
+        "CNS17": 354,
         "CNS18": 2679,
-        "CNS19": 1171,
+        "CNS19": 1170,
         "CNS20": 1212,
         "within": 3499,
         "inflow": 33222,
@@ -2499,13 +2499,13 @@
           {
             "naics": "CNS16",
             "label": "Healthcare & Social Assistance",
-            "count": 4788,
+            "count": 4789,
             "pct": 12.9
           },
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 4519,
+            "count": 4520,
             "pct": 12.1
           },
           {
@@ -2517,19 +2517,19 @@
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 3534,
+            "count": 3535,
             "pct": 9.5
           },
           {
             "naics": "CNS07",
             "label": "Retail Trade",
-            "count": 3508,
+            "count": 3507,
             "pct": 9.4
           },
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 3046,
+            "count": 3047,
             "pct": 8.2
           },
           {
@@ -2565,55 +2565,55 @@
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 1171,
+            "count": 1170,
             "pct": 3.1
           },
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 541,
+            "count": 542,
             "pct": 1.5
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 536,
+            "count": 537,
             "pct": 1.4
           },
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 429,
-            "pct": 1.2
+            "count": 428,
+            "pct": 1.1
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 353,
-            "pct": 0.9
+            "count": 354,
+            "pct": 1.0
           },
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 305,
+            "count": 304,
             "pct": 0.8
           },
           {
             "naics": "CNS02",
             "label": "Mining, Quarrying & Oil/Gas",
-            "count": 176,
+            "count": 177,
             "pct": 0.5
           },
           {
             "naics": "CNS03",
             "label": "Utilities",
-            "count": 175,
+            "count": 176,
             "pct": 0.5
           },
           {
             "naics": "CNS01",
             "label": "Agriculture",
-            "count": 136,
+            "count": 135,
             "pct": 0.4
           }
         ],
@@ -2626,29 +2626,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 3523,
-            "medium": 6148,
-            "high": 23641
+            "low": 3539,
+            "medium": 6167,
+            "high": 23606
           },
           "2020": {
-            "low": 3465,
-            "medium": 6045,
-            "high": 23248
+            "low": 3480,
+            "medium": 6065,
+            "high": 23213
           },
           "2021": {
-            "low": 3383,
-            "medium": 5902,
-            "high": 22698
+            "low": 3398,
+            "medium": 5921,
+            "high": 22664
           },
           "2022": {
-            "low": 3772,
-            "medium": 6582,
-            "high": 25313
+            "low": 3789,
+            "medium": 6603,
+            "high": 25275
           },
           "2023": {
-            "low": 3939,
-            "medium": 6873,
-            "high": 26428
+            "low": 3957,
+            "medium": 6894,
+            "high": 26389
           }
         },
         "residentWorkers": 34357,
@@ -2864,39 +2864,39 @@
     "0883835": {
       "name": "Westminster",
       "tract_count": 38,
-      "place_pop": 115301,
+      "place_pop": 116187,
       "counties_spanned": [
         "08001",
         "08059"
       ],
       "place_share_of_counties": {
-        "08059": 0.099385,
-        "08001": 0.108815
+        "08059": 0.100149,
+        "08001": 0.109652
       },
       "coverage_share": 0.9998,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 53274,
-        "CE01": 8929,
-        "CE02": 12059,
-        "CE03": 32286,
-        "CNS01": 151,
-        "CNS02": 179,
+        "CE01": 8936,
+        "CE02": 12065,
+        "CE03": 32273,
+        "CNS01": 152,
+        "CNS02": 178,
         "CNS03": 244,
         "CNS04": 4455,
-        "CNS05": 3860,
+        "CNS05": 3859,
         "CNS06": 3132,
         "CNS07": 5739,
-        "CNS08": 3637,
-        "CNS09": 822,
-        "CNS10": 1108,
-        "CNS11": 795,
+        "CNS08": 3636,
+        "CNS09": 823,
+        "CNS10": 1109,
+        "CNS11": 796,
         "CNS12": 4225,
         "CNS13": 560,
-        "CNS14": 3494,
-        "CNS15": 4606,
-        "CNS16": 6789,
-        "CNS17": 775,
+        "CNS14": 3495,
+        "CNS15": 4607,
+        "CNS16": 6788,
+        "CNS17": 776,
         "CNS18": 4335,
         "CNS19": 1687,
         "CNS20": 2679,
@@ -2907,7 +2907,7 @@
           {
             "naics": "CNS16",
             "label": "Healthcare & Social Assistance",
-            "count": 6789,
+            "count": 6788,
             "pct": 12.7
           },
           {
@@ -2919,7 +2919,7 @@
           {
             "naics": "CNS15",
             "label": "Educational Services",
-            "count": 4606,
+            "count": 4607,
             "pct": 8.6
           },
           {
@@ -2943,19 +2943,19 @@
           {
             "naics": "CNS05",
             "label": "Manufacturing",
-            "count": 3860,
+            "count": 3859,
             "pct": 7.2
           },
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 3637,
+            "count": 3636,
             "pct": 6.8
           },
           {
             "naics": "CNS14",
             "label": "Administrative & Support",
-            "count": 3494,
+            "count": 3495,
             "pct": 6.6
           },
           {
@@ -2979,25 +2979,25 @@
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 1108,
+            "count": 1109,
             "pct": 2.1
           },
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 822,
+            "count": 823,
             "pct": 1.5
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 795,
+            "count": 796,
             "pct": 1.5
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 775,
+            "count": 776,
             "pct": 1.5
           },
           {
@@ -3015,13 +3015,13 @@
           {
             "naics": "CNS02",
             "label": "Mining, Quarrying & Oil/Gas",
-            "count": 179,
+            "count": 178,
             "pct": 0.3
           },
           {
             "naics": "CNS01",
             "label": "Agriculture",
-            "count": 151,
+            "count": 152,
             "pct": 0.3
           }
         ],
@@ -3034,29 +3034,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 8346,
-            "medium": 11272,
-            "high": 30177
+            "low": 8352,
+            "medium": 11277,
+            "high": 30166
           },
           "2020": {
-            "low": 8118,
-            "medium": 10963,
-            "high": 29352
+            "low": 8124,
+            "medium": 10969,
+            "high": 29340
           },
           "2021": {
-            "low": 7984,
-            "medium": 10782,
-            "high": 28867
+            "low": 7990,
+            "medium": 10788,
+            "high": 28855
           },
           "2022": {
-            "low": 8569,
-            "medium": 11573,
-            "high": 30982
+            "low": 8575,
+            "medium": 11578,
+            "high": 30971
           },
           "2023": {
-            "low": 8929,
-            "medium": 12059,
-            "high": 32286
+            "low": 8936,
+            "medium": 12065,
+            "high": 32273
           }
         },
         "residentWorkers": 59986,
@@ -3618,40 +3618,40 @@
     "0820000": {
       "name": "Denver",
       "tract_count": 178,
-      "place_pop": 729019,
+      "place_pop": 740613,
       "counties_spanned": [
         "08031"
       ],
       "place_share_of_counties": {
-        "08031": 1.013398
+        "08031": 1.029515
       },
       "coverage_share": 0.9993,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 557853,
-        "CE01": 70642,
-        "CE02": 104392,
-        "CE03": 382819,
+        "CE01": 70653,
+        "CE02": 104378,
+        "CE03": 382822,
         "CNS01": 1796,
         "CNS02": 6074,
         "CNS03": 4288,
-        "CNS04": 23054,
-        "CNS05": 20665,
+        "CNS04": 23053,
+        "CNS05": 20664,
         "CNS06": 30437,
         "CNS07": 35820,
-        "CNS08": 36725,
-        "CNS09": 21804,
-        "CNS10": 33166,
-        "CNS11": 17561,
-        "CNS12": 82261,
-        "CNS13": 16746,
+        "CNS08": 36726,
+        "CNS09": 21805,
+        "CNS10": 33167,
+        "CNS11": 17560,
+        "CNS12": 82260,
+        "CNS13": 16745,
         "CNS14": 36044,
-        "CNS15": 20522,
+        "CNS15": 20521,
         "CNS16": 69948,
-        "CNS17": 12858,
-        "CNS18": 53923,
-        "CNS19": 18796,
-        "CNS20": 15366,
+        "CNS17": 12859,
+        "CNS18": 53924,
+        "CNS19": 18797,
+        "CNS20": 15367,
         "within": 164265,
         "inflow": 384704,
         "outflow": 194784,
@@ -3659,7 +3659,7 @@
           {
             "naics": "CNS12",
             "label": "Professional Services",
-            "count": 82261,
+            "count": 82260,
             "pct": 14.7
           },
           {
@@ -3671,13 +3671,13 @@
           {
             "naics": "CNS18",
             "label": "Accommodation & Food Services",
-            "count": 53923,
+            "count": 53924,
             "pct": 9.7
           },
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 36725,
+            "count": 36726,
             "pct": 6.6
           },
           {
@@ -3695,7 +3695,7 @@
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 33166,
+            "count": 33167,
             "pct": 5.9
           },
           {
@@ -3707,55 +3707,55 @@
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 23054,
+            "count": 23053,
             "pct": 4.1
           },
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 21804,
+            "count": 21805,
             "pct": 3.9
           },
           {
             "naics": "CNS05",
             "label": "Manufacturing",
-            "count": 20665,
+            "count": 20664,
             "pct": 3.7
           },
           {
             "naics": "CNS15",
             "label": "Educational Services",
-            "count": 20522,
+            "count": 20521,
             "pct": 3.7
           },
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 18796,
+            "count": 18797,
             "pct": 3.4
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 17561,
+            "count": 17560,
             "pct": 3.1
           },
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 16746,
+            "count": 16745,
             "pct": 3.0
           },
           {
             "naics": "CNS20",
             "label": "Public Administration",
-            "count": 15366,
+            "count": 15367,
             "pct": 2.8
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 12858,
+            "count": 12859,
             "pct": 2.3
           },
           {
@@ -3786,29 +3786,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 67061,
-            "medium": 99100,
-            "high": 363413
+            "low": 67072,
+            "medium": 99087,
+            "high": 363415
           },
           "2020": {
-            "low": 62196,
-            "medium": 91910,
-            "high": 337045
+            "low": 62205,
+            "medium": 91898,
+            "high": 337048
           },
           "2021": {
-            "low": 63353,
-            "medium": 93620,
-            "high": 343318
+            "low": 63363,
+            "medium": 93608,
+            "high": 343320
           },
           "2022": {
-            "low": 70197,
-            "medium": 103733,
-            "high": 380402
+            "low": 70207,
+            "medium": 103719,
+            "high": 380406
           },
           "2023": {
-            "low": 70642,
-            "medium": 104392,
-            "high": 382819
+            "low": 70653,
+            "medium": 104378,
+            "high": 382822
           }
         },
         "residentWorkers": 359049,
@@ -5803,39 +5803,39 @@
     "0862000": {
       "name": "Pueblo",
       "tract_count": 44,
-      "place_pop": 111156,
+      "place_pop": 110409,
       "counties_spanned": [
         "08101"
       ],
       "place_share_of_counties": {
-        "08101": 0.656345
+        "08101": 0.651934
       },
       "coverage_share": 1.0,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 41895,
-        "CE01": 7644,
-        "CE02": 12489,
-        "CE03": 21762,
+        "CE01": 7643,
+        "CE02": 12487,
+        "CE03": 21765,
         "CNS01": 361,
         "CNS02": 18,
-        "CNS03": 416,
-        "CNS04": 2760,
-        "CNS05": 3840,
+        "CNS03": 414,
+        "CNS04": 2759,
+        "CNS05": 3841,
         "CNS06": 1170,
-        "CNS07": 5501,
-        "CNS08": 1343,
-        "CNS09": 229,
-        "CNS10": 759,
-        "CNS11": 539,
+        "CNS07": 5500,
+        "CNS08": 1342,
+        "CNS09": 230,
+        "CNS10": 758,
+        "CNS11": 540,
         "CNS12": 2016,
-        "CNS13": 154,
-        "CNS14": 2410,
-        "CNS15": 3715,
+        "CNS13": 155,
+        "CNS14": 2409,
+        "CNS15": 3714,
         "CNS16": 7265,
-        "CNS17": 534,
-        "CNS18": 4421,
-        "CNS19": 1102,
+        "CNS17": 536,
+        "CNS18": 4420,
+        "CNS19": 1103,
         "CNS20": 3342,
         "within": 21290,
         "inflow": 20079,
@@ -5850,25 +5850,25 @@
           {
             "naics": "CNS07",
             "label": "Retail Trade",
-            "count": 5501,
+            "count": 5500,
             "pct": 13.1
           },
           {
             "naics": "CNS18",
             "label": "Accommodation & Food Services",
-            "count": 4421,
+            "count": 4420,
             "pct": 10.6
           },
           {
             "naics": "CNS05",
             "label": "Manufacturing",
-            "count": 3840,
+            "count": 3841,
             "pct": 9.2
           },
           {
             "naics": "CNS15",
             "label": "Educational Services",
-            "count": 3715,
+            "count": 3714,
             "pct": 8.9
           },
           {
@@ -5880,13 +5880,13 @@
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 2760,
+            "count": 2759,
             "pct": 6.6
           },
           {
             "naics": "CNS14",
             "label": "Administrative & Support",
-            "count": 2410,
+            "count": 2409,
             "pct": 5.8
           },
           {
@@ -5898,7 +5898,7 @@
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 1343,
+            "count": 1342,
             "pct": 3.2
           },
           {
@@ -5910,31 +5910,31 @@
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 1102,
+            "count": 1103,
             "pct": 2.6
           },
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 759,
+            "count": 758,
             "pct": 1.8
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 539,
+            "count": 540,
             "pct": 1.3
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 534,
+            "count": 536,
             "pct": 1.3
           },
           {
             "naics": "CNS03",
             "label": "Utilities",
-            "count": 416,
+            "count": 414,
             "pct": 1.0
           },
           {
@@ -5946,13 +5946,13 @@
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 229,
+            "count": 230,
             "pct": 0.5
           },
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 154,
+            "count": 155,
             "pct": 0.4
           },
           {
@@ -5972,28 +5972,28 @@
         "annualWages": {
           "2019": {
             "low": 7755,
-            "medium": 12671,
-            "high": 22079
+            "medium": 12669,
+            "high": 22081
           },
           "2020": {
-            "low": 7373,
-            "medium": 12046,
-            "high": 20990
+            "low": 7372,
+            "medium": 12044,
+            "high": 20993
           },
           "2021": {
-            "low": 7221,
-            "medium": 11798,
-            "high": 20558
+            "low": 7220,
+            "medium": 11796,
+            "high": 20561
           },
           "2022": {
-            "low": 7691,
-            "medium": 12565,
-            "high": 21896
+            "low": 7690,
+            "medium": 12564,
+            "high": 21898
           },
           "2023": {
-            "low": 7644,
-            "medium": 12489,
-            "high": 21762
+            "low": 7643,
+            "medium": 12487,
+            "high": 21765
           }
         },
         "residentWorkers": 41564,
@@ -7169,39 +7169,39 @@
     "0843000": {
       "name": "Lakewood",
       "tract_count": 53,
-      "place_pop": 156865,
+      "place_pop": 156920,
       "counties_spanned": [
         "08059"
       ],
       "place_share_of_counties": {
-        "08059": 0.270829
+        "08059": 0.270924
       },
       "coverage_share": 1.0003,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 96160,
-        "CE01": 14708,
-        "CE02": 20101,
-        "CE03": 61351,
+        "CE01": 14709,
+        "CE02": 20102,
+        "CE03": 61349,
         "CNS01": 191,
-        "CNS02": 176,
-        "CNS03": 429,
-        "CNS04": 6876,
-        "CNS05": 8558,
-        "CNS06": 3276,
-        "CNS07": 11755,
-        "CNS08": 1081,
+        "CNS02": 178,
+        "CNS03": 430,
+        "CNS04": 6877,
+        "CNS05": 8557,
+        "CNS06": 3277,
+        "CNS07": 11756,
+        "CNS08": 1082,
         "CNS09": 1892,
-        "CNS10": 2649,
+        "CNS10": 2648,
         "CNS11": 1493,
-        "CNS12": 11641,
-        "CNS13": 1253,
+        "CNS12": 11640,
+        "CNS13": 1251,
         "CNS14": 5437,
         "CNS15": 6859,
-        "CNS16": 12136,
-        "CNS17": 1927,
-        "CNS18": 8798,
-        "CNS19": 3067,
+        "CNS16": 12137,
+        "CNS17": 1925,
+        "CNS18": 8799,
+        "CNS19": 3065,
         "CNS20": 6665,
         "within": 14457,
         "inflow": 81024,
@@ -7210,37 +7210,37 @@
           {
             "naics": "CNS16",
             "label": "Healthcare & Social Assistance",
-            "count": 12136,
+            "count": 12137,
             "pct": 12.6
           },
           {
             "naics": "CNS07",
             "label": "Retail Trade",
-            "count": 11755,
+            "count": 11756,
             "pct": 12.2
           },
           {
             "naics": "CNS12",
             "label": "Professional Services",
-            "count": 11641,
+            "count": 11640,
             "pct": 12.1
           },
           {
             "naics": "CNS18",
             "label": "Accommodation & Food Services",
-            "count": 8798,
-            "pct": 9.1
+            "count": 8799,
+            "pct": 9.2
           },
           {
             "naics": "CNS05",
             "label": "Manufacturing",
-            "count": 8558,
+            "count": 8557,
             "pct": 8.9
           },
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 6876,
+            "count": 6877,
             "pct": 7.2
           },
           {
@@ -7264,25 +7264,25 @@
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 3276,
+            "count": 3277,
             "pct": 3.4
           },
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 3067,
+            "count": 3065,
             "pct": 3.2
           },
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 2649,
+            "count": 2648,
             "pct": 2.8
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 1927,
+            "count": 1925,
             "pct": 2.0
           },
           {
@@ -7300,19 +7300,19 @@
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 1253,
+            "count": 1251,
             "pct": 1.3
           },
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 1081,
+            "count": 1082,
             "pct": 1.1
           },
           {
             "naics": "CNS03",
             "label": "Utilities",
-            "count": 429,
+            "count": 430,
             "pct": 0.4
           },
           {
@@ -7324,7 +7324,7 @@
           {
             "naics": "CNS02",
             "label": "Mining, Quarrying & Oil/Gas",
-            "count": 176,
+            "count": 178,
             "pct": 0.2
           }
         ],
@@ -7337,29 +7337,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 14382,
-            "medium": 19655,
-            "high": 59992
+            "low": 14383,
+            "medium": 19656,
+            "high": 59990
           },
           "2020": {
-            "low": 13837,
+            "low": 13838,
             "medium": 18911,
-            "high": 57718
+            "high": 57717
           },
           "2021": {
-            "low": 13708,
-            "medium": 18734,
-            "high": 57180
+            "low": 13709,
+            "medium": 18735,
+            "high": 57178
           },
           "2022": {
             "low": 14145,
-            "medium": 19330,
-            "high": 58999
+            "medium": 19331,
+            "high": 58998
           },
           "2023": {
-            "low": 14708,
-            "medium": 20101,
-            "high": 61351
+            "low": 14709,
+            "medium": 20102,
+            "high": 61349
           }
         },
         "residentWorkers": 79647,
@@ -15612,40 +15612,40 @@
     "0827425": {
       "name": "Fort Collins",
       "tract_count": 50,
-      "place_pop": 170927,
+      "place_pop": 171503,
       "counties_spanned": [
         "08069"
       ],
       "place_share_of_counties": {
-        "08069": 0.465368
+        "08069": 0.466936
       },
       "coverage_share": 1.0002,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 88432,
         "CE01": 14601,
-        "CE02": 20548,
-        "CE03": 53283,
-        "CNS01": 453,
-        "CNS02": 235,
-        "CNS03": 392,
-        "CNS04": 6046,
-        "CNS05": 7486,
+        "CE02": 20547,
+        "CE03": 53284,
+        "CNS01": 454,
+        "CNS02": 234,
+        "CNS03": 393,
+        "CNS04": 6045,
+        "CNS05": 7485,
         "CNS06": 3558,
         "CNS07": 9489,
         "CNS08": 1896,
-        "CNS09": 1454,
-        "CNS10": 1933,
+        "CNS09": 1453,
+        "CNS10": 1932,
         "CNS11": 1626,
         "CNS12": 7630,
         "CNS13": 626,
         "CNS14": 4178,
-        "CNS15": 7269,
+        "CNS15": 7270,
         "CNS16": 14636,
         "CNS17": 1961,
         "CNS18": 9762,
-        "CNS19": 3049,
-        "CNS20": 4753,
+        "CNS19": 3051,
+        "CNS20": 4754,
         "within": 35530,
         "inflow": 51143,
         "outflow": 37993,
@@ -15677,25 +15677,25 @@
           {
             "naics": "CNS05",
             "label": "Manufacturing",
-            "count": 7486,
+            "count": 7485,
             "pct": 8.5
           },
           {
             "naics": "CNS15",
             "label": "Educational Services",
-            "count": 7269,
+            "count": 7270,
             "pct": 8.2
           },
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 6046,
+            "count": 6045,
             "pct": 6.8
           },
           {
             "naics": "CNS20",
             "label": "Public Administration",
-            "count": 4753,
+            "count": 4754,
             "pct": 5.4
           },
           {
@@ -15713,8 +15713,8 @@
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 3049,
-            "pct": 3.4
+            "count": 3051,
+            "pct": 3.5
           },
           {
             "naics": "CNS17",
@@ -15725,7 +15725,7 @@
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 1933,
+            "count": 1932,
             "pct": 2.2
           },
           {
@@ -15743,7 +15743,7 @@
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 1454,
+            "count": 1453,
             "pct": 1.6
           },
           {
@@ -15755,19 +15755,19 @@
           {
             "naics": "CNS01",
             "label": "Agriculture",
-            "count": 453,
+            "count": 454,
             "pct": 0.5
           },
           {
             "naics": "CNS03",
             "label": "Utilities",
-            "count": 392,
+            "count": 393,
             "pct": 0.4
           },
           {
             "naics": "CNS02",
             "label": "Mining, Quarrying & Oil/Gas",
-            "count": 235,
+            "count": 234,
             "pct": 0.3
           }
         ],
@@ -15781,28 +15781,28 @@
         "annualWages": {
           "2019": {
             "low": 13743,
-            "medium": 19342,
-            "high": 50154
+            "medium": 19340,
+            "high": 50156
           },
           "2020": {
-            "low": 13253,
-            "medium": 18652,
+            "low": 13254,
+            "medium": 18651,
             "high": 48368
           },
           "2021": {
             "low": 13017,
-            "medium": 18320,
-            "high": 47505
+            "medium": 18319,
+            "high": 47506
           },
           "2022": {
             "low": 13907,
-            "medium": 19572,
-            "high": 50750
+            "medium": 19570,
+            "high": 50752
           },
           "2023": {
             "low": 14601,
-            "medium": 20548,
-            "high": 53283
+            "medium": 20547,
+            "high": 53284
           }
         },
         "residentWorkers": 73523,
@@ -18183,39 +18183,39 @@
     "0845970": {
       "name": "Longmont",
       "tract_count": 23,
-      "place_pop": 100764,
+      "place_pop": 100547,
       "counties_spanned": [
         "08013",
         "08123"
       ],
       "place_share_of_counties": {
-        "08123": 0.053488,
-        "08013": 0.249275
+        "08123": 0.053373,
+        "08013": 0.248738
       },
       "coverage_share": 0.9998,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 40313,
-        "CE01": 6241,
+        "CE01": 6240,
         "CE02": 8966,
-        "CE03": 25106,
-        "CNS01": 241,
-        "CNS02": 257,
-        "CNS03": 114,
+        "CE03": 25107,
+        "CNS01": 240,
+        "CNS02": 258,
+        "CNS03": 115,
         "CNS04": 1583,
         "CNS05": 4614,
         "CNS06": 1774,
         "CNS07": 3375,
-        "CNS08": 427,
-        "CNS09": 1902,
-        "CNS10": 868,
-        "CNS11": 556,
+        "CNS08": 426,
+        "CNS09": 1901,
+        "CNS10": 869,
+        "CNS11": 557,
         "CNS12": 7388,
-        "CNS13": 401,
+        "CNS13": 402,
         "CNS14": 1321,
-        "CNS15": 4766,
-        "CNS16": 4435,
-        "CNS17": 812,
+        "CNS15": 4767,
+        "CNS16": 4436,
+        "CNS17": 810,
         "CNS18": 3324,
         "CNS19": 1158,
         "CNS20": 995,
@@ -18232,7 +18232,7 @@
           {
             "naics": "CNS15",
             "label": "Educational Services",
-            "count": 4766,
+            "count": 4767,
             "pct": 11.8
           },
           {
@@ -18244,7 +18244,7 @@
           {
             "naics": "CNS16",
             "label": "Healthcare & Social Assistance",
-            "count": 4435,
+            "count": 4436,
             "pct": 11.0
           },
           {
@@ -18262,7 +18262,7 @@
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 1902,
+            "count": 1901,
             "pct": 4.7
           },
           {
@@ -18298,49 +18298,49 @@
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 868,
+            "count": 869,
             "pct": 2.2
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 812,
+            "count": 810,
             "pct": 2.0
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 556,
+            "count": 557,
             "pct": 1.4
           },
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 427,
+            "count": 426,
             "pct": 1.1
           },
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 401,
+            "count": 402,
             "pct": 1.0
           },
           {
             "naics": "CNS02",
             "label": "Mining, Quarrying & Oil/Gas",
-            "count": 257,
+            "count": 258,
             "pct": 0.6
           },
           {
             "naics": "CNS01",
             "label": "Agriculture",
-            "count": 241,
+            "count": 240,
             "pct": 0.6
           },
           {
             "naics": "CNS03",
             "label": "Utilities",
-            "count": 114,
+            "count": 115,
             "pct": 0.3
           }
         ],
@@ -18353,29 +18353,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 6060,
-            "medium": 8707,
-            "high": 24379
+            "low": 6059,
+            "medium": 8706,
+            "high": 24381
           },
           "2020": {
-            "low": 5523,
+            "low": 5522,
             "medium": 7935,
-            "high": 22220
+            "high": 22221
           },
           "2021": {
-            "low": 5482,
-            "medium": 7876,
-            "high": 22051
+            "low": 5481,
+            "medium": 7875,
+            "high": 22053
           },
           "2022": {
-            "low": 6094,
-            "medium": 8756,
-            "high": 24517
+            "low": 6093,
+            "medium": 8755,
+            "high": 24519
           },
           "2023": {
-            "low": 6241,
+            "low": 6240,
             "medium": 8966,
-            "high": 25106
+            "high": 25107
           }
         },
         "residentWorkers": 46752,
@@ -20816,40 +20816,40 @@
     "0857630": {
       "name": "Parker",
       "tract_count": 18,
-      "place_pop": 65457,
+      "place_pop": 65984,
       "counties_spanned": [
         "08035"
       ],
       "place_share_of_counties": {
-        "08035": 0.173557
+        "08035": 0.174954
       },
       "coverage_share": 1.0,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 23777,
         "CE01": 3640,
-        "CE02": 4865,
-        "CE03": 15272,
+        "CE02": 4866,
+        "CE03": 15271,
         "CNS01": 46,
         "CNS02": 16,
         "CNS03": 100,
         "CNS04": 1694,
         "CNS05": 438,
-        "CNS06": 1063,
-        "CNS07": 3199,
-        "CNS08": 573,
-        "CNS09": 898,
-        "CNS10": 2030,
-        "CNS11": 446,
+        "CNS06": 1062,
+        "CNS07": 3201,
+        "CNS08": 572,
+        "CNS09": 897,
+        "CNS10": 2031,
+        "CNS11": 447,
         "CNS12": 2912,
         "CNS13": 900,
         "CNS14": 946,
-        "CNS15": 1837,
+        "CNS15": 1836,
         "CNS16": 2683,
-        "CNS17": 515,
+        "CNS17": 514,
         "CNS18": 2283,
-        "CNS19": 750,
-        "CNS20": 448,
+        "CNS19": 749,
+        "CNS20": 449,
         "within": 2733,
         "inflow": 20873,
         "outflow": 30139,
@@ -20857,7 +20857,7 @@
           {
             "naics": "CNS07",
             "label": "Retail Trade",
-            "count": 3199,
+            "count": 3201,
             "pct": 13.5
           },
           {
@@ -20881,13 +20881,13 @@
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 2030,
+            "count": 2031,
             "pct": 8.5
           },
           {
             "naics": "CNS15",
             "label": "Educational Services",
-            "count": 1837,
+            "count": 1836,
             "pct": 7.7
           },
           {
@@ -20899,7 +20899,7 @@
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 1063,
+            "count": 1062,
             "pct": 4.5
           },
           {
@@ -20917,37 +20917,37 @@
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 898,
+            "count": 897,
             "pct": 3.8
           },
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 750,
+            "count": 749,
             "pct": 3.2
           },
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 573,
+            "count": 572,
             "pct": 2.4
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 515,
+            "count": 514,
             "pct": 2.2
           },
           {
             "naics": "CNS20",
             "label": "Public Administration",
-            "count": 448,
+            "count": 449,
             "pct": 1.9
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 446,
+            "count": 447,
             "pct": 1.9
           },
           {
@@ -20985,8 +20985,8 @@
         "annualWages": {
           "2019": {
             "low": 3307,
-            "medium": 4420,
-            "high": 13875
+            "medium": 4421,
+            "high": 13874
           },
           "2020": {
             "low": 3222,
@@ -21005,8 +21005,8 @@
           },
           "2023": {
             "low": 3640,
-            "medium": 4865,
-            "high": 15272
+            "medium": 4866,
+            "high": 15271
           }
         },
         "residentWorkers": 32872,
@@ -22010,38 +22010,38 @@
     "0816000": {
       "name": "Colorado Springs",
       "tract_count": 133,
-      "place_pop": 493540,
+      "place_pop": 494744,
       "counties_spanned": [
         "08041"
       ],
       "place_share_of_counties": {
-        "08041": 0.664387
+        "08041": 0.666008
       },
       "coverage_share": 1.0002,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 234623,
-        "CE01": 35037,
-        "CE02": 58985,
-        "CE03": 140601,
+        "CE01": 35040,
+        "CE02": 58991,
+        "CE03": 140592,
         "CNS01": 357,
         "CNS02": 47,
-        "CNS03": 2351,
-        "CNS04": 15098,
+        "CNS03": 2349,
+        "CNS04": 15097,
         "CNS05": 10538,
         "CNS06": 5202,
         "CNS07": 25027,
         "CNS08": 7057,
-        "CNS09": 5985,
-        "CNS10": 11573,
-        "CNS11": 4358,
-        "CNS12": 28024,
-        "CNS13": 1424,
+        "CNS09": 5984,
+        "CNS10": 11572,
+        "CNS11": 4359,
+        "CNS12": 28025,
+        "CNS13": 1425,
         "CNS14": 14203,
         "CNS15": 15611,
-        "CNS16": 39740,
+        "CNS16": 39739,
         "CNS17": 4575,
-        "CNS18": 26490,
+        "CNS18": 26491,
         "CNS19": 9850,
         "CNS20": 7116,
         "within": 126090,
@@ -22051,19 +22051,19 @@
           {
             "naics": "CNS16",
             "label": "Healthcare & Social Assistance",
-            "count": 39740,
+            "count": 39739,
             "pct": 16.9
           },
           {
             "naics": "CNS12",
             "label": "Professional Services",
-            "count": 28024,
+            "count": 28025,
             "pct": 11.9
           },
           {
             "naics": "CNS18",
             "label": "Accommodation & Food Services",
-            "count": 26490,
+            "count": 26491,
             "pct": 11.3
           },
           {
@@ -22081,7 +22081,7 @@
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 15098,
+            "count": 15097,
             "pct": 6.4
           },
           {
@@ -22093,7 +22093,7 @@
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 11573,
+            "count": 11572,
             "pct": 4.9
           },
           {
@@ -22123,7 +22123,7 @@
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 5985,
+            "count": 5984,
             "pct": 2.6
           },
           {
@@ -22141,19 +22141,19 @@
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 4358,
+            "count": 4359,
             "pct": 1.9
           },
           {
             "naics": "CNS03",
             "label": "Utilities",
-            "count": 2351,
+            "count": 2349,
             "pct": 1.0
           },
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 1424,
+            "count": 1425,
             "pct": 0.6
           },
           {
@@ -22178,29 +22178,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 33083,
-            "medium": 55695,
-            "high": 132759
+            "low": 33086,
+            "medium": 55700,
+            "high": 132751
           },
           "2020": {
-            "low": 32244,
-            "medium": 54284,
-            "high": 129395
+            "low": 32247,
+            "medium": 54289,
+            "high": 129387
           },
           "2021": {
-            "low": 32306,
-            "medium": 54388,
-            "high": 129643
+            "low": 32309,
+            "medium": 54393,
+            "high": 129635
           },
           "2022": {
-            "low": 34094,
-            "medium": 57397,
-            "high": 136816
+            "low": 34097,
+            "medium": 57403,
+            "high": 136807
           },
           "2023": {
-            "low": 35037,
-            "medium": 58985,
-            "high": 140601
+            "low": 35040,
+            "medium": 58991,
+            "high": 140592
           }
         },
         "residentWorkers": 197851,
@@ -29978,40 +29978,40 @@
     "0812415": {
       "name": "Castle Rock",
       "tract_count": 16,
-      "place_pop": 83198,
+      "place_pop": 83816,
       "counties_spanned": [
         "08035"
       ],
       "place_share_of_counties": {
-        "08035": 0.220619
+        "08035": 0.222257
       },
       "coverage_share": 1.0001,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 26644,
-        "CE01": 5018,
-        "CE02": 6311,
-        "CE03": 15315,
-        "CNS01": 52,
+        "CE01": 5017,
+        "CE02": 6310,
+        "CE03": 15317,
+        "CNS01": 53,
         "CNS02": 18,
         "CNS03": 112,
         "CNS04": 1899,
         "CNS05": 491,
         "CNS06": 1190,
-        "CNS07": 3586,
-        "CNS08": 641,
+        "CNS07": 3585,
+        "CNS08": 642,
         "CNS09": 1005,
-        "CNS10": 2275,
-        "CNS11": 500,
+        "CNS10": 2276,
+        "CNS11": 501,
         "CNS12": 3263,
-        "CNS13": 1009,
-        "CNS14": 1059,
+        "CNS13": 1008,
+        "CNS14": 1060,
         "CNS15": 2058,
         "CNS16": 3006,
         "CNS17": 577,
         "CNS18": 2558,
-        "CNS19": 840,
-        "CNS20": 504,
+        "CNS19": 839,
+        "CNS20": 503,
         "within": 6741,
         "inflow": 19697,
         "outflow": 34448,
@@ -30019,7 +30019,7 @@
           {
             "naics": "CNS07",
             "label": "Retail Trade",
-            "count": 3586,
+            "count": 3585,
             "pct": 13.5
           },
           {
@@ -30043,7 +30043,7 @@
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 2275,
+            "count": 2276,
             "pct": 8.5
           },
           {
@@ -30067,13 +30067,13 @@
           {
             "naics": "CNS14",
             "label": "Administrative & Support",
-            "count": 1059,
+            "count": 1060,
             "pct": 4.0
           },
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 1009,
+            "count": 1008,
             "pct": 3.8
           },
           {
@@ -30085,13 +30085,13 @@
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 840,
-            "pct": 3.2
+            "count": 839,
+            "pct": 3.1
           },
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 641,
+            "count": 642,
             "pct": 2.4
           },
           {
@@ -30103,13 +30103,13 @@
           {
             "naics": "CNS20",
             "label": "Public Administration",
-            "count": 504,
+            "count": 503,
             "pct": 1.9
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 500,
+            "count": 501,
             "pct": 1.9
           },
           {
@@ -30127,7 +30127,7 @@
           {
             "naics": "CNS01",
             "label": "Agriculture",
-            "count": 52,
+            "count": 53,
             "pct": 0.2
           },
           {
@@ -30147,28 +30147,28 @@
         "annualWages": {
           "2019": {
             "low": 4558,
-            "medium": 5734,
-            "high": 13914
+            "medium": 5733,
+            "high": 13915
           },
           "2020": {
-            "low": 4442,
-            "medium": 5587,
-            "high": 13556
+            "low": 4441,
+            "medium": 5586,
+            "high": 13558
           },
           "2021": {
-            "low": 4560,
+            "low": 4559,
             "medium": 5735,
-            "high": 13918
+            "high": 13919
           },
           "2022": {
             "low": 4825,
-            "medium": 6070,
-            "high": 14729
+            "medium": 6069,
+            "high": 14730
           },
           "2023": {
-            "low": 5018,
-            "medium": 6311,
-            "high": 15315
+            "low": 5017,
+            "medium": 6310,
+            "high": 15317
           }
         },
         "residentWorkers": 41189,
@@ -36294,40 +36294,40 @@
     "0807850": {
       "name": "Boulder",
       "tract_count": 34,
-      "place_pop": 106802,
+      "place_pop": 105688,
       "counties_spanned": [
         "08013"
       ],
       "place_share_of_counties": {
-        "08013": 0.324697
+        "08013": 0.32131
       },
       "coverage_share": 1.0001,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 92307,
-        "CE01": 10386,
-        "CE02": 13886,
-        "CE03": 68035,
+        "CE01": 10378,
+        "CE02": 13876,
+        "CE03": 68053,
         "CNS01": 276,
         "CNS02": 49,
-        "CNS03": 234,
-        "CNS04": 2778,
-        "CNS05": 10368,
-        "CNS06": 4072,
-        "CNS07": 7646,
+        "CNS03": 235,
+        "CNS04": 2779,
+        "CNS05": 10369,
+        "CNS06": 4073,
+        "CNS07": 7645,
         "CNS08": 737,
         "CNS09": 4806,
-        "CNS10": 1938,
-        "CNS11": 1271,
-        "CNS12": 18533,
-        "CNS13": 851,
-        "CNS14": 2803,
-        "CNS15": 11426,
-        "CNS16": 10258,
+        "CNS10": 1939,
+        "CNS11": 1270,
+        "CNS12": 18532,
+        "CNS13": 850,
+        "CNS14": 2804,
+        "CNS15": 11425,
+        "CNS16": 10259,
         "CNS17": 1944,
-        "CNS18": 7669,
-        "CNS19": 2665,
-        "CNS20": 1982,
+        "CNS18": 7667,
+        "CNS19": 2666,
+        "CNS20": 1983,
         "within": 16643,
         "inflow": 74527,
         "outflow": 20291,
@@ -36335,37 +36335,37 @@
           {
             "naics": "CNS12",
             "label": "Professional Services",
-            "count": 18533,
+            "count": 18532,
             "pct": 20.1
           },
           {
             "naics": "CNS15",
             "label": "Educational Services",
-            "count": 11426,
+            "count": 11425,
             "pct": 12.4
           },
           {
             "naics": "CNS05",
             "label": "Manufacturing",
-            "count": 10368,
+            "count": 10369,
             "pct": 11.2
           },
           {
             "naics": "CNS16",
             "label": "Healthcare & Social Assistance",
-            "count": 10258,
+            "count": 10259,
             "pct": 11.1
           },
           {
             "naics": "CNS18",
             "label": "Accommodation & Food Services",
-            "count": 7669,
+            "count": 7667,
             "pct": 8.3
           },
           {
             "naics": "CNS07",
             "label": "Retail Trade",
-            "count": 7646,
+            "count": 7645,
             "pct": 8.3
           },
           {
@@ -36377,31 +36377,31 @@
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 4072,
+            "count": 4073,
             "pct": 4.4
           },
           {
             "naics": "CNS14",
             "label": "Administrative & Support",
-            "count": 2803,
+            "count": 2804,
             "pct": 3.0
           },
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 2778,
+            "count": 2779,
             "pct": 3.0
           },
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 2665,
+            "count": 2666,
             "pct": 2.9
           },
           {
             "naics": "CNS20",
             "label": "Public Administration",
-            "count": 1982,
+            "count": 1983,
             "pct": 2.1
           },
           {
@@ -36413,19 +36413,19 @@
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 1938,
+            "count": 1939,
             "pct": 2.1
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 1271,
+            "count": 1270,
             "pct": 1.4
           },
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 851,
+            "count": 850,
             "pct": 0.9
           },
           {
@@ -36443,7 +36443,7 @@
           {
             "naics": "CNS03",
             "label": "Utilities",
-            "count": 234,
+            "count": 235,
             "pct": 0.3
           },
           {
@@ -36462,29 +36462,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 10036,
-            "medium": 13418,
-            "high": 65737
+            "low": 10027,
+            "medium": 13407,
+            "high": 65757
           },
           "2020": {
-            "low": 9084,
-            "medium": 12145,
-            "high": 59502
+            "low": 9076,
+            "medium": 12135,
+            "high": 59520
           },
           "2021": {
-            "low": 9156,
-            "medium": 12241,
-            "high": 59972
+            "low": 9148,
+            "medium": 12231,
+            "high": 59990
           },
           "2022": {
-            "low": 10154,
-            "medium": 13576,
-            "high": 66514
+            "low": 10146,
+            "medium": 13565,
+            "high": 66533
           },
           "2023": {
-            "low": 10386,
-            "medium": 13886,
-            "high": 68035
+            "low": 10378,
+            "medium": 13876,
+            "high": 68053
           }
         },
         "residentWorkers": 36934,
@@ -39400,40 +39400,40 @@
     "0832155": {
       "name": "Greeley",
       "tract_count": 37,
-      "place_pop": 114366,
+      "place_pop": 115087,
       "counties_spanned": [
         "08123"
       ],
       "place_share_of_counties": {
-        "08123": 0.326391
+        "08123": 0.328448
       },
       "coverage_share": 1.0,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 45371,
-        "CE01": 6526,
-        "CE02": 9796,
-        "CE03": 29049,
-        "CNS01": 1365,
-        "CNS02": 2439,
-        "CNS03": 237,
-        "CNS04": 5146,
+        "CE01": 6534,
+        "CE02": 9804,
+        "CE03": 29033,
+        "CNS01": 1364,
+        "CNS02": 2440,
+        "CNS03": 238,
+        "CNS04": 5145,
         "CNS05": 5977,
-        "CNS06": 1950,
+        "CNS06": 1951,
         "CNS07": 4129,
-        "CNS08": 1434,
-        "CNS09": 342,
+        "CNS08": 1433,
+        "CNS09": 341,
         "CNS10": 1181,
-        "CNS11": 636,
-        "CNS12": 1894,
+        "CNS11": 637,
+        "CNS12": 1896,
         "CNS13": 725,
-        "CNS14": 2370,
-        "CNS15": 3332,
+        "CNS14": 2371,
+        "CNS15": 3331,
         "CNS16": 4577,
-        "CNS17": 560,
-        "CNS18": 3521,
-        "CNS19": 1257,
-        "CNS20": 2298,
+        "CNS17": 561,
+        "CNS18": 3522,
+        "CNS19": 1256,
+        "CNS20": 2297,
         "within": 17940,
         "inflow": 26531,
         "outflow": 35843,
@@ -39447,7 +39447,7 @@
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 5146,
+            "count": 5145,
             "pct": 11.3
           },
           {
@@ -39465,61 +39465,61 @@
           {
             "naics": "CNS18",
             "label": "Accommodation & Food Services",
-            "count": 3521,
+            "count": 3522,
             "pct": 7.8
           },
           {
             "naics": "CNS15",
             "label": "Educational Services",
-            "count": 3332,
+            "count": 3331,
             "pct": 7.3
           },
           {
             "naics": "CNS02",
             "label": "Mining, Quarrying & Oil/Gas",
-            "count": 2439,
+            "count": 2440,
             "pct": 5.4
           },
           {
             "naics": "CNS14",
             "label": "Administrative & Support",
-            "count": 2370,
+            "count": 2371,
             "pct": 5.2
           },
           {
             "naics": "CNS20",
             "label": "Public Administration",
-            "count": 2298,
+            "count": 2297,
             "pct": 5.1
           },
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 1950,
+            "count": 1951,
             "pct": 4.3
           },
           {
             "naics": "CNS12",
             "label": "Professional Services",
-            "count": 1894,
+            "count": 1896,
             "pct": 4.2
           },
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 1434,
+            "count": 1433,
             "pct": 3.2
           },
           {
             "naics": "CNS01",
             "label": "Agriculture",
-            "count": 1365,
+            "count": 1364,
             "pct": 3.0
           },
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 1257,
+            "count": 1256,
             "pct": 2.8
           },
           {
@@ -39537,25 +39537,25 @@
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 636,
+            "count": 637,
             "pct": 1.4
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 560,
+            "count": 561,
             "pct": 1.2
           },
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 342,
+            "count": 341,
             "pct": 0.8
           },
           {
             "naics": "CNS03",
             "label": "Utilities",
-            "count": 237,
+            "count": 238,
             "pct": 0.5
           }
         ],
@@ -39568,29 +39568,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 6591,
-            "medium": 9893,
-            "high": 29336
+            "low": 6598,
+            "medium": 9901,
+            "high": 29321
           },
           "2020": {
-            "low": 6327,
-            "medium": 9498,
-            "high": 28163
+            "low": 6334,
+            "medium": 9505,
+            "high": 28149
           },
           "2021": {
-            "low": 5566,
-            "medium": 8355,
-            "high": 24777
+            "low": 5573,
+            "medium": 8362,
+            "high": 24763
           },
           "2022": {
-            "low": 6314,
-            "medium": 9477,
-            "high": 28102
+            "low": 6321,
+            "medium": 9484,
+            "high": 28088
           },
           "2023": {
-            "low": 6526,
-            "medium": 9796,
-            "high": 29049
+            "low": 6534,
+            "medium": 9804,
+            "high": 29033
           }
         },
         "residentWorkers": 53783,
@@ -39603,39 +39603,39 @@
     "0809280": {
       "name": "Broomfield",
       "tract_count": 24,
-      "place_pop": 78323,
+      "place_pop": 79174,
       "counties_spanned": [
         "08014"
       ],
       "place_share_of_counties": {
-        "08014": 1.026357
+        "08014": 1.037509
       },
       "coverage_share": 0.9999,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 40980,
-        "CE01": 5506,
-        "CE02": 6941,
-        "CE03": 28533,
+        "CE01": 5508,
+        "CE02": 6948,
+        "CE03": 28524,
         "CNS01": 5,
         "CNS02": 9,
         "CNS03": 1,
-        "CNS04": 1909,
-        "CNS05": 2920,
-        "CNS06": 1750,
-        "CNS07": 3985,
+        "CNS04": 1910,
+        "CNS05": 2921,
+        "CNS06": 1751,
+        "CNS07": 3984,
         "CNS08": 797,
-        "CNS09": 3057,
+        "CNS09": 3058,
         "CNS10": 1873,
-        "CNS11": 487,
+        "CNS11": 486,
         "CNS12": 7144,
         "CNS13": 4926,
         "CNS14": 1586,
         "CNS15": 798,
-        "CNS16": 3528,
-        "CNS17": 478,
+        "CNS16": 3527,
+        "CNS17": 477,
         "CNS18": 3316,
-        "CNS19": 865,
+        "CNS19": 864,
         "CNS20": 1546,
         "within": 4631,
         "inflow": 35752,
@@ -39656,13 +39656,13 @@
           {
             "naics": "CNS07",
             "label": "Retail Trade",
-            "count": 3985,
+            "count": 3984,
             "pct": 9.7
           },
           {
             "naics": "CNS16",
             "label": "Healthcare & Social Assistance",
-            "count": 3528,
+            "count": 3527,
             "pct": 8.6
           },
           {
@@ -39674,19 +39674,19 @@
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 3057,
+            "count": 3058,
             "pct": 7.5
           },
           {
             "naics": "CNS05",
             "label": "Manufacturing",
-            "count": 2920,
+            "count": 2921,
             "pct": 7.1
           },
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 1909,
+            "count": 1910,
             "pct": 4.7
           },
           {
@@ -39698,7 +39698,7 @@
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 1750,
+            "count": 1751,
             "pct": 4.3
           },
           {
@@ -39716,7 +39716,7 @@
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 865,
+            "count": 864,
             "pct": 2.1
           },
           {
@@ -39734,13 +39734,13 @@
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 487,
+            "count": 486,
             "pct": 1.2
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 478,
+            "count": 477,
             "pct": 1.2
           },
           {
@@ -39771,29 +39771,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 5258,
-            "medium": 6627,
-            "high": 27245
+            "low": 5259,
+            "medium": 6634,
+            "high": 27237
           },
           "2020": {
-            "low": 5175,
-            "medium": 6523,
-            "high": 26816
+            "low": 5177,
+            "medium": 6530,
+            "high": 26807
           },
           "2021": {
-            "low": 5468,
-            "medium": 6893,
-            "high": 28335
+            "low": 5470,
+            "medium": 6900,
+            "high": 28326
           },
           "2022": {
-            "low": 5645,
-            "medium": 7115,
-            "high": 29248
+            "low": 5646,
+            "medium": 7122,
+            "high": 29240
           },
           "2023": {
-            "low": 5506,
-            "medium": 6941,
-            "high": 28533
+            "low": 5508,
+            "medium": 6948,
+            "high": 28524
           }
         },
         "residentWorkers": 39201,
@@ -41999,37 +41999,37 @@
     "0877290": {
       "name": "Thornton",
       "tract_count": 42,
-      "place_pop": 146689,
+      "place_pop": 147753,
       "counties_spanned": [
         "08001",
         "08123"
       ],
       "place_share_of_counties": {
-        "08001": 0.276544,
-        "08123": 0.000126
+        "08001": 0.278549,
+        "08123": 0.000127
       },
       "coverage_share": 0.9999,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 39563,
-        "CE01": 6483,
+        "CE01": 6482,
         "CE02": 9585,
-        "CE03": 23495,
-        "CNS01": 143,
-        "CNS02": 189,
+        "CE03": 23496,
+        "CNS01": 144,
+        "CNS02": 188,
         "CNS03": 186,
-        "CNS04": 3756,
+        "CNS04": 3755,
         "CNS05": 2256,
-        "CNS06": 3236,
+        "CNS06": 3237,
         "CNS07": 3726,
         "CNS08": 4801,
-        "CNS09": 455,
-        "CNS10": 576,
+        "CNS09": 456,
+        "CNS10": 575,
         "CNS11": 569,
-        "CNS12": 1599,
+        "CNS12": 1600,
         "CNS13": 323,
-        "CNS14": 2929,
-        "CNS15": 3978,
+        "CNS14": 2928,
+        "CNS15": 3979,
         "CNS16": 5087,
         "CNS17": 375,
         "CNS18": 2847,
@@ -42054,13 +42054,13 @@
           {
             "naics": "CNS15",
             "label": "Educational Services",
-            "count": 3978,
+            "count": 3979,
             "pct": 10.1
           },
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 3756,
+            "count": 3755,
             "pct": 9.5
           },
           {
@@ -42072,13 +42072,13 @@
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 3236,
+            "count": 3237,
             "pct": 8.2
           },
           {
             "naics": "CNS14",
             "label": "Administrative & Support",
-            "count": 2929,
+            "count": 2928,
             "pct": 7.4
           },
           {
@@ -42096,7 +42096,7 @@
           {
             "naics": "CNS12",
             "label": "Professional Services",
-            "count": 1599,
+            "count": 1600,
             "pct": 4.0
           },
           {
@@ -42114,7 +42114,7 @@
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 576,
+            "count": 575,
             "pct": 1.5
           },
           {
@@ -42126,7 +42126,7 @@
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 455,
+            "count": 456,
             "pct": 1.2
           },
           {
@@ -42144,7 +42144,7 @@
           {
             "naics": "CNS02",
             "label": "Mining, Quarrying & Oil/Gas",
-            "count": 189,
+            "count": 188,
             "pct": 0.5
           },
           {
@@ -42156,7 +42156,7 @@
           {
             "naics": "CNS01",
             "label": "Agriculture",
-            "count": 143,
+            "count": 144,
             "pct": 0.4
           }
         ],
@@ -42169,29 +42169,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 5800,
+            "low": 5799,
             "medium": 8574,
-            "high": 21017
+            "high": 21018
           },
           "2020": {
-            "low": 5703,
-            "medium": 8432,
-            "high": 20667
+            "low": 5702,
+            "medium": 8431,
+            "high": 20669
           },
           "2021": {
-            "low": 5568,
+            "low": 5567,
             "medium": 8232,
-            "high": 20178
+            "high": 20179
           },
           "2022": {
-            "low": 6209,
+            "low": 6208,
             "medium": 9180,
-            "high": 22502
+            "high": 22503
           },
           "2023": {
-            "low": 6483,
+            "low": 6482,
             "medium": 9585,
-            "high": 23495
+            "high": 23496
           }
         },
         "residentWorkers": 71819,
@@ -42459,40 +42459,40 @@
     "0803455": {
       "name": "Arvada",
       "tract_count": 39,
-      "place_pop": 122529,
+      "place_pop": 122212,
       "counties_spanned": [
         "08001",
         "08059"
       ],
       "place_share_of_counties": {
-        "08059": 0.208375,
-        "08001": 0.00342
+        "08059": 0.207836,
+        "08001": 0.003411
       },
       "coverage_share": 1.0001,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 34966,
-        "CE01": 5263,
-        "CE02": 7331,
-        "CE03": 22372,
+        "CE01": 5262,
+        "CE02": 7329,
+        "CE03": 22375,
         "CNS01": 70,
         "CNS02": 66,
         "CNS03": 156,
         "CNS04": 2513,
         "CNS05": 3094,
-        "CNS06": 1218,
-        "CNS07": 4259,
+        "CNS06": 1217,
+        "CNS07": 4260,
         "CNS08": 455,
-        "CNS09": 683,
+        "CNS09": 684,
         "CNS10": 956,
         "CNS11": 542,
         "CNS12": 4188,
-        "CNS13": 452,
+        "CNS13": 453,
         "CNS14": 1987,
-        "CNS15": 2511,
+        "CNS15": 2510,
         "CNS16": 4414,
-        "CNS17": 695,
-        "CNS18": 3188,
+        "CNS17": 694,
+        "CNS18": 3189,
         "CNS19": 1115,
         "CNS20": 2403,
         "within": 6509,
@@ -42508,7 +42508,7 @@
           {
             "naics": "CNS07",
             "label": "Retail Trade",
-            "count": 4259,
+            "count": 4260,
             "pct": 12.2
           },
           {
@@ -42520,7 +42520,7 @@
           {
             "naics": "CNS18",
             "label": "Accommodation & Food Services",
-            "count": 3188,
+            "count": 3189,
             "pct": 9.1
           },
           {
@@ -42538,7 +42538,7 @@
           {
             "naics": "CNS15",
             "label": "Educational Services",
-            "count": 2511,
+            "count": 2510,
             "pct": 7.2
           },
           {
@@ -42556,7 +42556,7 @@
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 1218,
+            "count": 1217,
             "pct": 3.5
           },
           {
@@ -42574,13 +42574,13 @@
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 695,
+            "count": 694,
             "pct": 2.0
           },
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 683,
+            "count": 684,
             "pct": 2.0
           },
           {
@@ -42598,7 +42598,7 @@
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 452,
+            "count": 453,
             "pct": 1.3
           },
           {
@@ -42629,29 +42629,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 5140,
-            "medium": 7159,
-            "high": 21846
+            "low": 5138,
+            "medium": 7157,
+            "high": 21850
           },
           "2020": {
-            "low": 4946,
-            "medium": 6890,
-            "high": 21026
+            "low": 4945,
+            "medium": 6888,
+            "high": 21029
           },
           "2021": {
-            "low": 4899,
-            "medium": 6824,
-            "high": 20825
+            "low": 4898,
+            "medium": 6822,
+            "high": 20828
           },
           "2022": {
-            "low": 5061,
-            "medium": 7050,
-            "high": 21512
+            "low": 5060,
+            "medium": 7048,
+            "high": 21515
           },
           "2023": {
-            "low": 5263,
-            "medium": 7331,
-            "high": 22372
+            "low": 5262,
+            "medium": 7329,
+            "high": 22375
           }
         },
         "residentWorkers": 63437,
@@ -44007,40 +44007,40 @@
     "0831660": {
       "name": "Grand Junction",
       "tract_count": 27,
-      "place_pop": 70556,
+      "place_pop": 71826,
       "counties_spanned": [
         "08077"
       ],
       "place_share_of_counties": {
-        "08077": 0.444909
+        "08077": 0.452918
       },
       "coverage_share": 1.0001,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 52786,
-        "CE01": 9238,
-        "CE02": 15043,
-        "CE03": 28505,
-        "CNS01": 233,
-        "CNS02": 1040,
-        "CNS03": 240,
+        "CE01": 9236,
+        "CE02": 15047,
+        "CE03": 28503,
+        "CNS01": 232,
+        "CNS02": 1039,
+        "CNS03": 239,
         "CNS04": 4360,
-        "CNS05": 2608,
-        "CNS06": 1929,
-        "CNS07": 6899,
-        "CNS08": 2182,
-        "CNS09": 560,
-        "CNS10": 1584,
-        "CNS11": 812,
-        "CNS12": 2144,
-        "CNS13": 204,
-        "CNS14": 2081,
+        "CNS05": 2607,
+        "CNS06": 1928,
+        "CNS07": 6900,
+        "CNS08": 2184,
+        "CNS09": 561,
+        "CNS10": 1585,
+        "CNS11": 814,
+        "CNS12": 2143,
+        "CNS13": 205,
+        "CNS14": 2082,
         "CNS15": 4786,
         "CNS16": 10669,
-        "CNS17": 1017,
-        "CNS18": 6082,
+        "CNS17": 1015,
+        "CNS18": 6081,
         "CNS19": 1505,
-        "CNS20": 1850,
+        "CNS20": 1849,
         "within": 19379,
         "inflow": 31610,
         "outflow": 9147,
@@ -44054,13 +44054,13 @@
           {
             "naics": "CNS07",
             "label": "Retail Trade",
-            "count": 6899,
+            "count": 6900,
             "pct": 13.1
           },
           {
             "naics": "CNS18",
             "label": "Accommodation & Food Services",
-            "count": 6082,
+            "count": 6081,
             "pct": 11.5
           },
           {
@@ -44078,43 +44078,43 @@
           {
             "naics": "CNS05",
             "label": "Manufacturing",
-            "count": 2608,
+            "count": 2607,
             "pct": 4.9
           },
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 2182,
+            "count": 2184,
             "pct": 4.1
           },
           {
             "naics": "CNS12",
             "label": "Professional Services",
-            "count": 2144,
+            "count": 2143,
             "pct": 4.1
           },
           {
             "naics": "CNS14",
             "label": "Administrative & Support",
-            "count": 2081,
+            "count": 2082,
             "pct": 3.9
           },
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 1929,
+            "count": 1928,
             "pct": 3.7
           },
           {
             "naics": "CNS20",
             "label": "Public Administration",
-            "count": 1850,
+            "count": 1849,
             "pct": 3.5
           },
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 1584,
+            "count": 1585,
             "pct": 3.0
           },
           {
@@ -44126,43 +44126,43 @@
           {
             "naics": "CNS02",
             "label": "Mining, Quarrying & Oil/Gas",
-            "count": 1040,
+            "count": 1039,
             "pct": 2.0
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 1017,
+            "count": 1015,
             "pct": 1.9
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 812,
+            "count": 814,
             "pct": 1.5
           },
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 560,
+            "count": 561,
             "pct": 1.1
           },
           {
             "naics": "CNS03",
             "label": "Utilities",
-            "count": 240,
+            "count": 239,
             "pct": 0.5
           },
           {
             "naics": "CNS01",
             "label": "Agriculture",
-            "count": 233,
+            "count": 232,
             "pct": 0.4
           },
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 204,
+            "count": 205,
             "pct": 0.4
           }
         ],
@@ -44175,29 +44175,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 8867,
-            "medium": 14440,
-            "high": 27363
+            "low": 8866,
+            "medium": 14444,
+            "high": 27360
           },
           "2020": {
-            "low": 8069,
-            "medium": 13140,
-            "high": 24899
+            "low": 8068,
+            "medium": 13143,
+            "high": 24897
           },
           "2021": {
-            "low": 8472,
-            "medium": 13796,
-            "high": 26142
+            "low": 8471,
+            "medium": 13799,
+            "high": 26140
           },
           "2022": {
-            "low": 9010,
-            "medium": 14672,
-            "high": 27800
+            "low": 9008,
+            "medium": 14675,
+            "high": 27799
           },
           "2023": {
-            "low": 9238,
-            "medium": 15043,
-            "high": 28505
+            "low": 9236,
+            "medium": 15047,
+            "high": 28503
           }
         },
         "residentWorkers": 28526,
@@ -48081,39 +48081,39 @@
     "0812815": {
       "name": "Centennial",
       "tract_count": 40,
-      "place_pop": 108860,
+      "place_pop": 108650,
       "counties_spanned": [
         "08005"
       ],
       "place_share_of_counties": {
-        "08005": 0.165011
+        "08005": 0.164693
       },
       "coverage_share": 1.0002,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 75323,
-        "CE01": 9116,
-        "CE02": 11630,
-        "CE03": 54577,
+        "CE01": 9115,
+        "CE02": 11628,
+        "CE03": 54580,
         "CNS01": 31,
-        "CNS02": 106,
+        "CNS02": 105,
         "CNS03": 57,
         "CNS04": 5223,
-        "CNS05": 1953,
+        "CNS05": 1954,
         "CNS06": 3291,
         "CNS07": 7757,
-        "CNS08": 1291,
+        "CNS08": 1292,
         "CNS09": 4214,
-        "CNS10": 5885,
-        "CNS11": 1525,
-        "CNS12": 8713,
+        "CNS10": 5884,
+        "CNS11": 1524,
+        "CNS12": 8712,
         "CNS13": 1979,
         "CNS14": 5585,
-        "CNS15": 5088,
-        "CNS16": 10885,
-        "CNS17": 1433,
-        "CNS18": 5596,
-        "CNS19": 2142,
+        "CNS15": 5089,
+        "CNS16": 10886,
+        "CNS17": 1432,
+        "CNS18": 5595,
+        "CNS19": 2143,
         "CNS20": 2570,
         "within": 5961,
         "inflow": 68587,
@@ -48122,13 +48122,13 @@
           {
             "naics": "CNS16",
             "label": "Healthcare & Social Assistance",
-            "count": 10885,
+            "count": 10886,
             "pct": 14.5
           },
           {
             "naics": "CNS12",
             "label": "Professional Services",
-            "count": 8713,
+            "count": 8712,
             "pct": 11.6
           },
           {
@@ -48140,13 +48140,13 @@
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 5885,
+            "count": 5884,
             "pct": 7.8
           },
           {
             "naics": "CNS18",
             "label": "Accommodation & Food Services",
-            "count": 5596,
+            "count": 5595,
             "pct": 7.4
           },
           {
@@ -48164,7 +48164,7 @@
           {
             "naics": "CNS15",
             "label": "Educational Services",
-            "count": 5088,
+            "count": 5089,
             "pct": 6.8
           },
           {
@@ -48188,7 +48188,7 @@
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 2142,
+            "count": 2143,
             "pct": 2.8
           },
           {
@@ -48200,31 +48200,31 @@
           {
             "naics": "CNS05",
             "label": "Manufacturing",
-            "count": 1953,
+            "count": 1954,
             "pct": 2.6
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 1525,
+            "count": 1524,
             "pct": 2.0
           },
           {
             "naics": "CNS17",
             "label": "Arts & Entertainment",
-            "count": 1433,
+            "count": 1432,
             "pct": 1.9
           },
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 1291,
+            "count": 1292,
             "pct": 1.7
           },
           {
             "naics": "CNS02",
             "label": "Mining, Quarrying & Oil/Gas",
-            "count": 106,
+            "count": 105,
             "pct": 0.1
           },
           {
@@ -48250,28 +48250,28 @@
         "annualWages": {
           "2019": {
             "low": 8749,
-            "medium": 11162,
-            "high": 52382
+            "medium": 11160,
+            "high": 52384
           },
           "2020": {
-            "low": 8507,
-            "medium": 10853,
-            "high": 50930
+            "low": 8506,
+            "medium": 10851,
+            "high": 50933
           },
           "2021": {
-            "low": 8331,
-            "medium": 10628,
-            "high": 49876
+            "low": 8330,
+            "medium": 10627,
+            "high": 49878
           },
           "2022": {
             "low": 8802,
-            "medium": 11230,
-            "high": 52699
+            "medium": 11228,
+            "high": 52701
           },
           "2023": {
-            "low": 9116,
-            "medium": 11630,
-            "high": 54577
+            "low": 9115,
+            "medium": 11628,
+            "high": 54580
           }
         },
         "residentWorkers": 55120,
@@ -49352,39 +49352,39 @@
     "0846465": {
       "name": "Loveland",
       "tract_count": 23,
-      "place_pop": 81103,
+      "place_pop": 81391,
       "counties_spanned": [
         "08069"
       ],
       "place_share_of_counties": {
-        "08069": 0.220746
+        "08069": 0.22153
       },
       "coverage_share": 0.9999,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 39303,
-        "CE01": 6637,
-        "CE02": 9802,
-        "CE03": 22864,
-        "CNS01": 202,
-        "CNS02": 103,
-        "CNS03": 174,
+        "CE01": 6639,
+        "CE02": 9805,
+        "CE03": 22859,
+        "CNS01": 201,
+        "CNS02": 104,
+        "CNS03": 175,
         "CNS04": 2687,
-        "CNS05": 3327,
-        "CNS06": 1581,
-        "CNS07": 4217,
-        "CNS08": 843,
-        "CNS09": 646,
+        "CNS05": 3326,
+        "CNS06": 1582,
+        "CNS07": 4218,
+        "CNS08": 842,
+        "CNS09": 645,
         "CNS10": 858,
-        "CNS11": 723,
+        "CNS11": 722,
         "CNS12": 3391,
-        "CNS13": 279,
-        "CNS14": 1857,
+        "CNS13": 278,
+        "CNS14": 1858,
         "CNS15": 3231,
-        "CNS16": 6504,
+        "CNS16": 6506,
         "CNS17": 872,
         "CNS18": 4339,
-        "CNS19": 1356,
+        "CNS19": 1355,
         "CNS20": 2113,
         "within": 8417,
         "inflow": 30171,
@@ -49393,8 +49393,8 @@
           {
             "naics": "CNS16",
             "label": "Healthcare & Social Assistance",
-            "count": 6504,
-            "pct": 16.5
+            "count": 6506,
+            "pct": 16.6
           },
           {
             "naics": "CNS18",
@@ -49405,7 +49405,7 @@
           {
             "naics": "CNS07",
             "label": "Retail Trade",
-            "count": 4217,
+            "count": 4218,
             "pct": 10.7
           },
           {
@@ -49417,7 +49417,7 @@
           {
             "naics": "CNS05",
             "label": "Manufacturing",
-            "count": 3327,
+            "count": 3326,
             "pct": 8.5
           },
           {
@@ -49441,20 +49441,20 @@
           {
             "naics": "CNS14",
             "label": "Administrative & Support",
-            "count": 1857,
+            "count": 1858,
             "pct": 4.7
           },
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 1581,
+            "count": 1582,
             "pct": 4.0
           },
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 1356,
-            "pct": 3.5
+            "count": 1355,
+            "pct": 3.4
           },
           {
             "naics": "CNS17",
@@ -49471,43 +49471,43 @@
           {
             "naics": "CNS08",
             "label": "Transportation & Warehousing",
-            "count": 843,
+            "count": 842,
             "pct": 2.1
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 723,
+            "count": 722,
             "pct": 1.8
           },
           {
             "naics": "CNS09",
             "label": "Information",
-            "count": 646,
+            "count": 645,
             "pct": 1.6
           },
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 279,
+            "count": 278,
             "pct": 0.7
           },
           {
             "naics": "CNS01",
             "label": "Agriculture",
-            "count": 202,
+            "count": 201,
             "pct": 0.5
           },
           {
             "naics": "CNS03",
             "label": "Utilities",
-            "count": 174,
+            "count": 175,
             "pct": 0.4
           },
           {
             "naics": "CNS02",
             "label": "Mining, Quarrying & Oil/Gas",
-            "count": 103,
+            "count": 104,
             "pct": 0.3
           }
         ],
@@ -49520,29 +49520,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 6247,
-            "medium": 9227,
-            "high": 21521
+            "low": 6249,
+            "medium": 9229,
+            "high": 21517
           },
           "2020": {
-            "low": 6024,
-            "medium": 8898,
-            "high": 20755
+            "low": 6026,
+            "medium": 8900,
+            "high": 20751
           },
           "2021": {
-            "low": 5917,
-            "medium": 8739,
-            "high": 20385
+            "low": 5919,
+            "medium": 8741,
+            "high": 20381
           },
           "2022": {
-            "low": 6321,
-            "medium": 9336,
-            "high": 21778
+            "low": 6323,
+            "medium": 9339,
+            "high": 21773
           },
           "2023": {
-            "low": 6637,
-            "medium": 9802,
-            "high": 22864
+            "low": 6639,
+            "medium": 9805,
+            "high": 22859
           }
         },
         "residentWorkers": 35883,
@@ -63974,40 +63974,40 @@
     "0836410": {
       "name": "Highlands Ranch",
       "tract_count": 24,
-      "place_pop": 99056,
+      "place_pop": 106823,
       "counties_spanned": [
         "08035"
       ],
       "place_share_of_counties": {
-        "08035": 0.26267
+        "08035": 0.283266
       },
       "coverage_share": 1.0001,
       "coverage_confidence": "high",
       "lehd": {
         "C000": 30619,
-        "CE01": 5105,
-        "CE02": 5816,
-        "CE03": 19698,
-        "CNS01": 60,
+        "CE01": 5134,
+        "CE02": 5836,
+        "CE03": 19649,
+        "CNS01": 59,
         "CNS02": 21,
         "CNS03": 129,
-        "CNS04": 2182,
+        "CNS04": 2181,
         "CNS05": 564,
-        "CNS06": 1367,
+        "CNS06": 1368,
         "CNS07": 4121,
         "CNS08": 737,
         "CNS09": 1155,
-        "CNS10": 2615,
-        "CNS11": 576,
-        "CNS12": 3750,
-        "CNS13": 1158,
+        "CNS10": 2616,
+        "CNS11": 575,
+        "CNS12": 3751,
+        "CNS13": 1159,
         "CNS14": 1218,
         "CNS15": 2365,
-        "CNS16": 3456,
+        "CNS16": 3454,
         "CNS17": 663,
         "CNS18": 2940,
-        "CNS19": 964,
-        "CNS20": 579,
+        "CNS19": 965,
+        "CNS20": 578,
         "within": 5195,
         "inflow": 25171,
         "outflow": 49931,
@@ -64021,13 +64021,13 @@
           {
             "naics": "CNS12",
             "label": "Professional Services",
-            "count": 3750,
-            "pct": 12.2
+            "count": 3751,
+            "pct": 12.3
           },
           {
             "naics": "CNS16",
             "label": "Healthcare & Social Assistance",
-            "count": 3456,
+            "count": 3454,
             "pct": 11.3
           },
           {
@@ -64039,7 +64039,7 @@
           {
             "naics": "CNS10",
             "label": "Finance & Insurance",
-            "count": 2615,
+            "count": 2616,
             "pct": 8.5
           },
           {
@@ -64051,13 +64051,13 @@
           {
             "naics": "CNS04",
             "label": "Construction",
-            "count": 2182,
+            "count": 2181,
             "pct": 7.1
           },
           {
             "naics": "CNS06",
             "label": "Wholesale Trade",
-            "count": 1367,
+            "count": 1368,
             "pct": 4.5
           },
           {
@@ -64069,7 +64069,7 @@
           {
             "naics": "CNS13",
             "label": "Management",
-            "count": 1158,
+            "count": 1159,
             "pct": 3.8
           },
           {
@@ -64081,8 +64081,8 @@
           {
             "naics": "CNS19",
             "label": "Other Services",
-            "count": 964,
-            "pct": 3.1
+            "count": 965,
+            "pct": 3.2
           },
           {
             "naics": "CNS08",
@@ -64099,13 +64099,13 @@
           {
             "naics": "CNS20",
             "label": "Public Administration",
-            "count": 579,
+            "count": 578,
             "pct": 1.9
           },
           {
             "naics": "CNS11",
             "label": "Real Estate",
-            "count": 576,
+            "count": 575,
             "pct": 1.9
           },
           {
@@ -64123,7 +64123,7 @@
           {
             "naics": "CNS01",
             "label": "Agriculture",
-            "count": 60,
+            "count": 59,
             "pct": 0.2
           },
           {
@@ -64142,29 +64142,29 @@
         },
         "annualWages": {
           "2019": {
-            "low": 4638,
-            "medium": 5284,
-            "high": 17896
+            "low": 4664,
+            "medium": 5302,
+            "high": 17852
           },
           "2020": {
-            "low": 4519,
-            "medium": 5148,
-            "high": 17437
+            "low": 4544,
+            "medium": 5166,
+            "high": 17394
           },
           "2021": {
-            "low": 4639,
-            "medium": 5285,
-            "high": 17902
+            "low": 4666,
+            "medium": 5304,
+            "high": 17856
           },
           "2022": {
-            "low": 4910,
-            "medium": 5593,
-            "high": 18943
+            "low": 4937,
+            "medium": 5613,
+            "high": 18896
           },
           "2023": {
-            "low": 5105,
-            "medium": 5816,
-            "high": 19698
+            "low": 5134,
+            "medium": 5836,
+            "high": 19649
           }
         },
         "residentWorkers": 55126,
