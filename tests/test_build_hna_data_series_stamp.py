@@ -78,6 +78,26 @@ def test_a_five_year_profile_is_stamped_5_year_with_no_twin():
     assert (profile["_acsYear"], profile["_acsSeries"]) == ("2023", "acs5")
 
 
+def test_the_1_year_and_5_year_each_start_at_their_own_newest_vintage():
+    # The 2025 1-year came out 2026-10-29; the 2021-25 5-year follows in
+    # December, so the 5-year keeps 2024 as its newest year.
+    assert hna.acs_attempts() == [
+        (2025, "acs1"), (2024, "acs1"), (2024, "acs5"),
+        (2023, "acs1"), (2023, "acs5"), (2022, "acs1"), (2022, "acs5"),
+    ]
+
+
+def test_a_2025_1_year_profile_carries_the_newest_5_year_as_its_twin():
+    profile = fetch({(2025, "acs1"): {"DP04_0134E": "1985", "*": "1"},
+                     (2024, "acs5"): {"DP04_0134E": "1781", "*": "5"}})
+    assert (profile["_acsYear"], profile["_acsSeries"]) == ("2025", "acs1")
+    assert profile["DP04_0134E"] == "1985"
+    twin = profile["_acs5Profile"]
+    # Stamped with the year it really is, so a like-for-like builder can tell.
+    assert (twin["_acsYear"], twin["_acsSeries"]) == ("2024", "acs5")
+    assert twin["DP04_0134E"] == "1781"
+
+
 def test_later_batches_come_from_the_stamped_source_first():
     # Batch A's 1-year request fails, so it settles on the 5-year. The other
     # batches would answer from the 1-year if asked in the usual order; they

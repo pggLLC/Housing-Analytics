@@ -480,8 +480,12 @@ test('fetch_census_state_hna.py: acs_s0801_endpoint uses actual series/year', ()
 test('build_hna_data.py: fetch_acs_s0801 records _acsYear and _acsSeries', () => {
   const src = fs.readFileSync(path.join(ROOT, 'scripts/hna/build_hna_data.py'), 'utf8');
   assert(src.includes("data['_acsYear'] = year"),     'stores _acsYear in S0801 dict');
-  assert(src.includes("data['_acsSeries'] = 'acs1'"), "stores 'acs1' as _acsSeries when ACS1 used");
-  assert(src.includes("data['_acsSeries'] = 'acs5'"), "stores 'acs5' as _acsSeries when ACS5 fallback used");
+  // The S0801 fetch walks acs_attempts() (1-year and 5-year, newest first) and
+  // stamps the series of the attempt that answered, whichever it was;
+  // tests/test_build_hna_data_http_204.py checks the order and the stamp.
+  assert(src.includes("data['_acsSeries'] = series"), 'stores the answering series as _acsSeries');
+  assert(/attempts = acs_attempts\(\)[\s\S]{0,800}data\['_acsSeries'\] = series/.test(src),
+    'the series stamped is the one from the acs_attempts() loop');
 });
 
 test('build_hna_data.py: acs_s0801_endpoint uses s0801_year and s0801_series', () => {

@@ -772,7 +772,7 @@
       fmt: function (v) { return v != null ? v + ' programs' : '—'; }, best: 'high' },
 
     { group: 'Demographics' },
-    { label: 'Population', info: 'Total population from the Census American Community Survey (table DP05), 2020-2024 5-year estimates for most places and 2024 1-year estimates for places of 65,000 or more.',
+    { label: 'Population', info: 'Total population from the Census American Community Survey (table DP05), 2020-2024 5-year estimates for most places and 2025 1-year estimates for places of 65,000 or more.',
       fn: function (r) { return r.acsPopulation; }, fmt: function (v) { return v != null ? fmtInt(v) : '—'; }, best: 'high' }
   ];
 

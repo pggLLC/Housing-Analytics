@@ -35,9 +35,9 @@ run('a real place compares against its real containing county', () => {
   assert.equal(r.county.geoid, '08013');
   assert.ok(r.rows.length >= 6, 'expected a useful set of rows, got ' + r.rows.length);
   const burden = r.rows.find((x) => x.key === 'pct_cost_burdened');
-  assert.equal(burden.place.value, 63.4);
-  assert.equal(burden.county.value, 56.8);
-  assert.equal(burden.delta, 6.6);
+  assert.equal(burden.place.value, 66.1);
+  assert.equal(burden.county.value, 57.9);
+  assert.equal(burden.delta, 8.2);
   assert.equal(burden.higher, 'place');
   assert.equal(C.describeDelta(burden), 'worse than the county');
 });

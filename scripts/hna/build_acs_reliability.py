@@ -216,12 +216,19 @@ def level_of(geoid: str) -> str:
 
 
 def fallback_years(start):
-    """The years build_hna_data.py tries, newest first: ACS_START_YEAR and
-    ACS_FALLBACK_YEARS - 1 years before it (same env defaults as that file).
+    """The years build_hna_data.py tries, newest first: from *start* back to
+    ACS_FALLBACK_YEARS - 1 years before the older series start (same env
+    defaults as that file).
     Its profile fetch does not stamp the year it settled on, so any of these
     can be the true vintage of a stored figure."""
     n = int(os.environ.get("ACS_FALLBACK_YEARS", "3"))
-    return [start - i for i in range(max(n, 1))]
+    # The 1-year and the 5-year start a year apart (ACS1_START_YEAR 2025,
+    # ACS_START_YEAR 2024), and build_hna_data.acs_attempts() runs each
+    # series' window from its own start, so the window reaches back from the
+    # older of the two.
+    oldest = min(int(os.environ.get("ACS1_START_YEAR", "2025")),
+                 int(os.environ.get("ACS_START_YEAR", "2024"))) - max(n, 1) + 1
+    return list(range(start, min(oldest, start - max(n, 1) + 1) - 1, -1))
 
 
 def match_source(stored, var, cands, geoid, prefer=None, stamped=None):
@@ -285,12 +292,19 @@ def published_entry(estimate, raw_m, series, y):
 def five_year_twin(var, cands, geoid, y):
     """The ACS 5-year estimate ending in the same year as a 1-year figure, with
     its margin: the series every smaller geography has, so a page can show how
-    far the 1-year figure is from it. None when the 5-year has no estimate."""
-    rec = cands.get((y, "acs5"), {}).get(geoid)
-    estimate = to_number((rec or {}).get(var))
-    if estimate is None:
-        return None
-    return published_entry(estimate, rec.get(moe_name(var)), "acs5", y)
+    far the 1-year figure is from it. The 1-year comes out about a month
+    before the 5-year ending the same year, so until then the twin is the
+    newest 5-year before it, stamped with its own year (the rule
+    build_hna_data.py follows). None when no such 5-year has an estimate."""
+    for y5 in sorted((yy for yy, ser in cands if ser == "acs5" and yy <= y), reverse=True):
+        rec = cands[(y5, "acs5")].get(geoid)
+        if rec is None:
+            continue
+        estimate = to_number(rec.get(var))
+        if estimate is None:
+            return None
+        return published_entry(estimate, rec.get(moe_name(var)), "acs5", y5)
+    return None
 
 
 def matched_entry(stored, var, cands, geoid, prefer, stamped):
@@ -374,11 +388,13 @@ def build_record(geoid, summary, published, year):
         if why:
             entry["why"] = why
         fives = [p.get("five") for p in parts]
-        if ser == "acs1" and all(f and f.get("m") is not None for f in fives):
+        if (ser == "acs1" and all(f and f.get("m") is not None for f in fives)
+                and len({f["y"] for f in fives}) == 1):
+            y5 = fives[0]["y"]
             est5 = round(sum(f["e"] for f in fives), 1)
             moe5 = round(math.sqrt(sum(f["m"] ** 2 for f in fives)), 1)
             cv5, tier5, why5 = tier_for(est5, moe5)
-            entry["five"] = {"e": est5, "m": moe5, "s": "acs5", "y": y, "cv": cv5, "t": tier5}
+            entry["five"] = {"e": est5, "m": moe5, "s": "acs5", "y": y5, "cv": cv5, "t": tier5}
             if why5:
                 entry["five"]["why"] = why5
         rec[name] = entry
@@ -438,15 +454,23 @@ def build(all_summaries, year, key, getter=census_get):
                     print(f"  {table} {y} {series} {level}: {len(lv)} geographies")
                     got.update(lv)
                 published[table][(y, series)] = got
-    # The 5-year tables publish every geography, so a short response at the
-    # stamped year means a truncated or wrong request, not missing data. This
-    # also stops the build when the stamped year itself is not published.
+    # A geography's figures must be published at the year and series it is
+    # stamped with: a short response there means a truncated or wrong request,
+    # not missing data, and this also stops the build when the stamped dataset
+    # itself is not published. A block stamped acs1 is checked against the
+    # 1-year; any other against the 5-year, which publishes every geography.
+    # (The 1-year comes out before the 5-year ending the same year, so a
+    # fresh 1-year vintage must not wait on that 5-year.)
     for table in tables:
         for gid, s in all_summaries.items():
             block = s.get("acsProfile" if table == "profile" else "acsS0801")
             y = stored_year(block) or (year if table == "profile" else None)
-            if y is not None and gid not in published[table].get((y, "acs5"), {}):
-                raise SystemExit(f"ACS {y} 5-year {table} lacks {gid}; writing nothing")
+            if y is None:
+                continue
+            ser = "acs1" if (block or {}).get("_acsSeries") == "acs1" else "acs5"
+            if gid not in published[table].get((y, ser), {}):
+                label = "1-year" if ser == "acs1" else "5-year"
+                raise SystemExit(f"ACS {y} {label} {table} lacks {gid}; writing nothing")
 
     geos = {gid: build_record(gid, s, published, year) for gid, s in all_summaries.items()}
     counts = {}
@@ -489,7 +513,8 @@ def build(all_summaries, year, key, getter=census_get):
                        "s": "ACS series", "y": "ACS year of the estimate", "cv": "coefficient of variation",
                        "t": "tier", "why": "reason when m or t is absent or special",
                        "five": "for a 1-year figure, the ACS 5-year estimate ending the same "
-                               "year, with its own e, m, s, y, cv and t"},
+                               "year (or, before that 5-year is released, the newest one "
+                               "before it), with its own e, m, s, y, cv and t"},
         },
         "geos": geos,
     }

@@ -1,7 +1,7 @@
 {
   "schema": "jurisdiction-metrics-digest/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-11-02T17:27:44Z",
+    "ranking_index_generated_at": "2026-11-03T00:59:23Z",
     "ranking_index_version": "1.0",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
     "economic_bridge": "scripts/hna/economic_housing_bridge.py"
@@ -25,7 +25,7 @@
       "measure_type": "level"
     },
     "local_low_wage_jobs": {
-      "value": 94022,
+      "value": 94031,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "lehd-lodes-wac-place",
@@ -109,14 +109,14 @@
       "denominator_floor_applied": false
     },
     "pct_cost_burdened": {
-      "value": 54.6,
+      "value": 47,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile-dp04-grapi",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level",
       "denominator_key": "renter_households",
-      "denominator": 89885,
+      "denominator": 89805,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
@@ -128,7 +128,7 @@
       "as_of": "HUD CHAS 2018-2022",
       "measure_type": "level",
       "denominator_key": "renter_households",
-      "denominator": 89885,
+      "denominator": 89805,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
@@ -236,7 +236,7 @@
       "as_of": "HUD CHAS 2018-2022",
       "measure_type": "level",
       "denominator_key": "owner_households",
-      "denominator": 119989,
+      "denominator": 122314,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
@@ -257,7 +257,7 @@
       "measure_type": "level"
     },
     "population_projection_20yr": {
-      "value": 612093,
+      "value": 613297,
       "geography_level": "county_context",
       "confidence": "high",
       "source_id": "dola-demographic-projections",
@@ -277,7 +277,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "future_units_reading": {
@@ -285,7 +285,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "future_units_growth_20yr": {
@@ -328,24 +328,24 @@
       "as_of": "ACS 2020-2024 5-year",
       "measure_type": "level",
       "denominator_key": "occupied_households",
-      "denominator": 209874,
+      "denominator": 212119,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
     "population": {
-      "value": 493540,
+      "value": 494744,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "median_hh_income": {
-      "value": 83672,
+      "value": 92770,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "median_home_value": {
@@ -357,7 +357,7 @@
       "measure_type": "level"
     },
     "home_value_to_income": {
-      "value": 5.28,
+      "value": 4.76,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "zillow-zhvi-city-index",
@@ -365,11 +365,11 @@
       "measure_type": "level"
     },
     "rent_to_income": {
-      "value": 24.4,
+      "value": 21.9,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "opportunity_mobility_score": {
@@ -421,31 +421,31 @@
       "measure_type": "level"
     },
     "vacancy_rate_pct": {
-      "value": 2,
+      "value": 1.9,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level",
       "denominator_key": "housing_units",
-      "denominator": 218794,
+      "denominator": 222218,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
     "active_market_vacancy_rate_pct": {
-      "value": 2,
+      "value": 1.9,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "raw_rental_vacancy_rate_pct": {
-      "value": 3,
+      "value": 3.6,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "raw_total_vacancy_rate_pct": {
@@ -453,7 +453,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "seasonal_vacancy_rate_pct": {
@@ -461,7 +461,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "seasonal_share_of_vacant": {
@@ -469,15 +469,15 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "vacancy_renter_base": {
-      "value": 93643,
+      "value": 93998,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "vacancy_adjustment_method": {
@@ -485,63 +485,63 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "pct_renters": {
-      "value": 42.8,
+      "value": 42.3,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level",
       "denominator_key": "occupied_households",
-      "denominator": 209874,
+      "denominator": 212119,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
     "pct_multifamily": {
-      "value": 24,
+      "value": 25.9,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level",
       "denominator_key": "housing_units",
-      "denominator": 218794,
+      "denominator": 222218,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
     "pct_sf_detached": {
-      "value": 59.3,
+      "value": 57.5,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level",
       "denominator_key": "housing_units",
-      "denominator": 218794,
+      "denominator": 222218,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
     "pct_2to4_units": {
-      "value": 7.2,
+      "value": 7.4,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level",
       "denominator_key": "housing_units",
-      "denominator": 218794,
+      "denominator": 222218,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
     "gross_rent_median": {
-      "value": 1699,
+      "value": 1691,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "gap_pressure_score": {
@@ -549,7 +549,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "resident_gap_pressure_score": {
@@ -557,7 +557,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "workforce_gap_pressure_score": {
@@ -565,23 +565,23 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "cost_burden_pressure_score": {
-      "value": 67.3,
+      "value": 58.6,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-grapi-and-hud-chas-blend",
-      "as_of": "ACS 2024 1-year GRAPI with HUD CHAS 2018-2022",
+      "as_of": "ACS 2025 1-year GRAPI with HUD CHAS 2018-2022",
       "measure_type": "derived"
     },
     "affordability_intensity_score": {
-      "value": 59.7,
+      "value": 45.8,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "future_pressure_score": {
@@ -597,7 +597,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "commuter_pressure_score": {
@@ -617,27 +617,27 @@
       "measure_type": "derived"
     },
     "community_need_core_score": {
-      "value": 72.4,
+      "value": 68.2,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "community_need_augmented_raw": {
-      "value": 79.9,
+      "value": 75.2,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level"
     },
     "community_need_score": {
-      "value": 86.7,
+      "value": 79.3,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "opportunity_score": {
@@ -649,11 +649,11 @@
       "measure_type": "derived"
     },
     "overall_need_score_raw": {
-      "value": 75.4,
+      "value": 71.3,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "score_confidence_multiplier": {
@@ -661,15 +661,15 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "overall_need_score": {
-      "value": 74.6,
+      "value": 70.6,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "latest_lihtc_year": {
@@ -709,7 +709,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "recency_basis": {
@@ -789,7 +789,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "recency_score_4pct": {
@@ -797,7 +797,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "recency_score_state_credit": {
@@ -805,7 +805,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "recency_score_competitive": {
@@ -813,7 +813,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "regional_latest_lihtc_year": {
@@ -861,7 +861,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "regional_recency_score_9pct": {
@@ -869,7 +869,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "regional_recency_score_4pct": {
@@ -877,7 +877,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "regional_recency_score_state_credit": {
@@ -885,7 +885,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "regional_recency_score_competitive": {
@@ -893,7 +893,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "regional_pma_miles": {
@@ -993,7 +993,7 @@
       "as_of": "HUD CHAS 2018-2022",
       "measure_type": "level",
       "denominator_key": "chas_households_with_ami",
-      "denominator": 209874,
+      "denominator": 212119.09999999998,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
@@ -1005,7 +1005,7 @@
       "as_of": "HUD CHAS 2018-2022",
       "measure_type": "level",
       "denominator_key": "chas_households_with_ami",
-      "denominator": 209874,
+      "denominator": 212119.09999999998,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
@@ -1017,19 +1017,19 @@
       "as_of": "HUD CHAS 2018-2022",
       "measure_type": "level",
       "denominator_key": "chas_households_with_ami",
-      "denominator": 209874,
+      "denominator": 212119.09999999998,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
     "pct_ami_gt80": {
-      "value": 59.3,
+      "value": 59.5,
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hud-chas-place-apportioned",
       "as_of": "HUD CHAS 2018-2022",
       "measure_type": "level",
       "denominator_key": "chas_households_with_ami",
-      "denominator": 209874,
+      "denominator": 212119.09999999998,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
@@ -1070,62 +1070,62 @@
       "denominator_floor_applied": false
     },
     "pct_housing_built_pre1970": {
-      "value": 21.8,
+      "value": 21.5,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile-dp04",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level",
       "denominator_key": "housing_units",
-      "denominator": 218794,
+      "denominator": 222218,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
     "pct_no_hs_degree_25plus": {
-      "value": 5.1,
+      "value": 4.3,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile-dp02",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level",
       "denominator_key": "population_25plus",
-      "denominator": 341942,
+      "denominator": 339706,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
     "pct_single_parent_households": {
-      "value": 4.7,
+      "value": 5.6,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile-dp02",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level",
       "denominator_key": "households",
-      "denominator": 209874,
+      "denominator": 212119,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
     "pct_age_65_plus": {
-      "value": 16.1,
+      "value": 16.4,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile-dp05",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level",
       "denominator_key": "total_population",
-      "denominator": 493540,
+      "denominator": 494744,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
     "pct_bipoc_population": {
-      "value": 37.1,
+      "value": 37.8,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile-dp05",
-      "as_of": "ACS 2024 1-year",
+      "as_of": "ACS 2025 1-year",
       "measure_type": "level",
       "denominator_key": "total_population",
-      "denominator": 493540,
+      "denominator": 494744,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
@@ -1146,7 +1146,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived",
       "formula_note": "Bounded 0-100 descriptive blend: place home-value pressure (30%), county service-sector share pressure (25%), place commute-ratio pressure (25%), county wage-gap pressure (20%). Not used for ranking."
     },
@@ -1155,7 +1155,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "workforce_housing_commute_pressure": {
@@ -1163,7 +1163,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "workforce_housing_service_sector_pressure": {
@@ -1183,11 +1183,11 @@
       "measure_type": "derived"
     },
     "wage_affordability_rent_gap_dollars": {
-      "value": 12960,
+      "value": 12640,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "wage_affordability_ownership_gap_dollars": {
@@ -1195,15 +1195,15 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "wage_affordability_rent_burden_pct": {
-      "value": 37.1,
+      "value": 36.9,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "rate"
     },
     "county_service_sector_share_pct": {
@@ -1267,7 +1267,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "ownership_need_data_quality": {
@@ -1275,47 +1275,47 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "ownership_need_renter_cost_burdened": {
-      "value": 45358,
+      "value": 45317.8,
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "ownership_need_owner_cost_burdened": {
-      "value": 26004.9,
+      "value": 26508.2,
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "ownership_need_severe_renter_cost_burdened": {
-      "value": 21636.3,
+      "value": 21617.1,
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "ownership_need_moderate_income_renter_households": {
-      "value": 32603.8,
+      "value": 32575,
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "ownership_need_moderate_income_owner_cost_burdened": {
-      "value": 10961.7,
+      "value": 11173.8,
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "ownership_need_existing_rental_gap_lte80": {
@@ -1323,7 +1323,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "ownership_need_rental_pressure_tier": {
@@ -1331,7 +1331,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "ownership_need_ownership_pressure_tier": {
@@ -1339,7 +1339,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "ownership_need_ownership_fit_tier": {
@@ -1347,7 +1347,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     },
     "ownership_need_affordability_classification": {
@@ -1355,15 +1355,15 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "level"
     },
     "rank": {
-      "value": 56,
+      "value": 80,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-11-02T17:27:44Z",
+      "as_of": "2026-11-03T00:59:23Z",
       "measure_type": "derived"
     }
   }

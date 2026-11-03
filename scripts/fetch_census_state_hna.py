@@ -196,6 +196,14 @@ def census_key() -> str | None:
 
 
 def acs_start_year() -> int:
+    """Newest ACS 1-year vintage to ask for. The state is a 1-year geography;
+    the 2025 1-year came out 2026-10-29 (ACS1_START_YEAR, default 2025)."""
+    return int(os.environ.get('ACS1_START_YEAR', '2025').strip() or '2025')
+
+
+def acs5_start_year() -> int:
+    """Newest ACS 5-year vintage, a year behind the 1-year until December
+    (ACS_START_YEAR, default 2024)."""
     return int(os.environ.get('ACS_START_YEAR', '2024').strip() or '2024')
 
 
@@ -261,6 +269,8 @@ def fetch_acs_profile(start_year: int, n_fallback: int) -> dict | None:
     years = range(start_year, start_year - n_fallback, -1)
     for year in years:
         for series, endpoint in [('acs1', 'profile'), ('acs5', 'profile')]:
+            if series == 'acs5' and year > acs5_start_year():
+                continue
             url = _build_profile_url(year, series, endpoint)
             result = http_get_json(url)
             if result and len(result) > 1:
@@ -314,6 +324,8 @@ def fetch_acs_s0801(start_year: int, n_fallback: int) -> dict | None:
     years = range(start_year, start_year - n_fallback, -1)
     for year in years:
         for series in ('acs1', 'acs5'):
+            if series == 'acs5' and year > acs5_start_year():
+                continue
             url = _build_s0801_url(year, series)
             result = http_get_json(url)
             if result and len(result) > 1:
