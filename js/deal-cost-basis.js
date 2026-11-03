@@ -511,9 +511,13 @@
     '3BR': '3 bedroom', '4BR': '4 bedroom', '5BR': '5 bedroom' };
   function costBasisLimitCheck(args) {
     var t = args.tables;
-    var out = { checked: false, draft: true, credit: null, adjustedEligibleBasis: null, zone: null, factor: null,
+    // draft follows the tables file's status: CHFA's 2027 application (V9) is the adopted one.
+    var out = { checked: false, draft: true, status: null, credit: null, adjustedEligibleBasis: null, zone: null, factor: null,
       perUnit: null, lower: false, reason: null, source: null };
     if (!t || !t.basis_limit_per_unit_base || !t.counties) { out.reason = 'CHFA\'s 2027 workbook limits did not load.'; return out; }
+    // Only tables that loaded can be called adopted.
+    out.draft = t.status !== 'adopted';
+    out.status = t.status || null;
     out.source = (t.source && t.source.title ? t.source.title.replace(/ Instructions$/, '') : 'CHFA Common Application') + ', 2027-28 QAP';
     var county = args.countyFips && t.counties[String(args.countyFips).padStart(5, '0')];
     if (!county) { out.reason = 'Select a county: CHFA\'s limits depend on the county\'s zone.'; return out; }
@@ -554,7 +558,7 @@
     out.reason = county.name + ' County is CHFA zone ' + county.zone + ' (factor ' + out.factor + '). '
       + Object.keys(out.perUnit).map(function (k) { return k.replace(' bedroom', ' BR') + ' ' + money(out.perUnit[k]); }).join(', ')
       + ' per unit, ' + (column === 'elevator' ? 'elevator' : 'walk-up') + (args.hudBoost ? ', x 1.3 for the QCT or DDA' : '')
-      + '. From ' + out.source + '; shown as a check, it does not change the capacity here.';
+      + '. From ' + out.source + (out.draft ? ', a draft' : '') + '; shown as a check, it does not change the capacity here.';
     return out;
   }
 

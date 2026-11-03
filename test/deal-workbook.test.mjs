@@ -503,6 +503,10 @@ ok(/warn: CHFA's cost basis limit \(Method Three\) was not checked: CHFA lists/.
 const draftMethod3 = mut0((s) => { s.result.costBasis.basis.costLimitMethod = { checked: true, draft: true, credit: 812345, lower: true, reason: 'From the draft 2027-28 QAP; not adopted, so it does not change the capacity.' }; });
 ok(texts(draftMethod3).includes('allows $812,345 a year, less than the credit capacity. It is not applied') && WB.render(draftMethod3).includes('not applied: $812,345'),
   'a checked Method Three keeps its amount and its not-applied status in the workbook');
+ok(texts(draftMethod3).includes('at the draft 2027 limits') && WB.render(draftMethod3).includes('Method Three at CHFA\'s draft 2027 limits'), 'a Method Three check from limits marked draft says draft');
+const adoptedMethod3 = mut0((s) => { s.result.costBasis.basis.costLimitMethod = { checked: true, draft: false, status: 'adopted', credit: 812345, lower: true, reason: 'From the 2027 Common Application; shown as a check.' }; });
+ok(texts(adoptedMethod3).includes('at the 2027 limits, allows $812,345') && !/draft/.test(texts(adoptedMethod3)) && WB.render(adoptedMethod3).includes('Method Three at CHFA\'s 2027 limits, not applied: $812,345'),
+  'a Method Three check from the adopted 2027 limits does not call them draft, and stays not applied');
 const ungroupedBlank = mut0((s) => { s.permanentFinancing.unclassified = [{ id: 'u2', program: null, label: 'Bank loan', amount: null, reason: "Choose where this source counts in DOH's layout." }]; });
 ok(ungroupedBlank.sources.rows.some((x) => x.amount === null && x.label === "Bank loan: not known, enter the amount; not yet grouped, Choose where this source counts in DOH's layout."), 'an ungrouped source with no amount gives both reasons');
 const noCapacity = mut0((s) => { s.result.costBasis.basis.reasons = { capacity: "Credit capacity needs CHFA's gap calculation, which cannot run yet: Enter the first mortgage." }; });

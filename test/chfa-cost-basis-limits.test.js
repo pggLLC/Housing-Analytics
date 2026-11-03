@@ -33,13 +33,29 @@ const mesa = { tables, countyFips: '08077', buildingType: 'walk_up', units: 30, 
 test('Method Three follows the workbook: TRUNC(zone factor x base) per unit, summed, x fraction x rate', () => {
   const r = cbm.costBasisLimitCheck(Object.assign({}, mesa, { capacity: 1e9 }));
   assert.equal(r.checked, true);
-  assert.equal(r.draft, true);
+  // The draft label follows the tables file's own status (V9 is adopted with the 2027-28 QAP).
+  assert.equal(tables.status, 'adopted');
+  assert.equal(r.draft, false);
+  assert.equal(r.status, tables.status);
+  assert.doesNotMatch(r.reason, /a draft/);
   assert.deepEqual(r.perUnit, { '1 bedroom': Math.trunc(3.6 * 99710.336), '2 bedroom': Math.trunc(3.6 * 120485.684) });
   assert.equal(r.adjustedEligibleBasis, 10 * 358957 + 20 * 433748);
   assert.equal(Math.round(r.credit), Math.round((10 * 358957 + 20 * 433748) * 0.09));
   assert.equal(r.lower, true);
   assert.match(r.reason, /Mesa County is CHFA zone 3 \(factor 3\.6\)/);
   assert.match(r.reason, /shown as a check, it does not change the capacity here/);
+});
+
+test('limits from a file not marked adopted are labelled draft', () => {
+  const draftTables = Object.assign({}, tables, { status: 'draft' });
+  const r = cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: draftTables, capacity: 1e9 }));
+  assert.equal(r.checked, true);
+  assert.equal(r.draft, true);
+  assert.match(r.reason, /, a draft; shown as a check/);
+  assert.equal(cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: null })).draft, true, 'no tables: never called adopted');
+  const empty = cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: { status: 'adopted' } }));
+  assert.equal(empty.draft, true, 'adopted label but no tables: never called adopted');
+  assert.equal(empty.status, null);
 });
 
 test('a QCT or DDA multiplies the limit basis by 1.3; elevator uses the elevator column', () => {
@@ -66,11 +82,11 @@ test('the engine shows Method Three beside the capacity and never changes the cr
   withTables.chfaCommonAppTables = tables;
   withTables.fields['dc-building-type'] = 'walk_up';
   const r = computeDeal(withTables);
-  assert.equal(r.annualCredits, base.annualCredits, 'credit unchanged by a draft-QAP check');
+  assert.equal(r.annualCredits, base.annualCredits, 'credit unchanged by the Method Three check');
   assert.equal(r.equity, base.equity);
   const m3 = r.costBasis.basis.costLimitMethod;
   assert.ok(m3, 'Method Three result travels with the basis');
-  assert.equal(m3.draft, true);
+  assert.equal(m3.draft, tables.status !== 'adopted', 'draft follows the limits file status');
   assert.equal(m3.checked, true, m3.reason);
   assert.ok(Number.isFinite(m3.credit) && m3.credit > 0);
 });
