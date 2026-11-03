@@ -81,8 +81,8 @@
     },
     "acquisition_credit_rate": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 3.M.1, Method One, PDF pages 36-37",
+      "source": "S5",
+      "location": "Section 3.M.1, Method One, PDF page 38",
       "quote": "For competitive acquisition Housing Tax Credits, the APR floor is set at 4 percent.",
       "method_quote": "Qualified acquisition costs multiplied by applicable percentage rate equals annual Housing Tax Credit amount",
       "credit_type": "9",
@@ -91,8 +91,8 @@
     },
     "credit_reservation_methods": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 3.M.1, PDF pages 36-37",
+      "source": "S5",
+      "location": "Section 3.M.1, PDF pages 38-39",
       "quote": "The amount of Housing Tax Credits reserved will be based on the smallest of the amounts resulting from these calculation methods.",
       "gap_quote": "Gap divided by Housing Tax Credit equity factor divided by 10 years equals annual Federal Credit amount",
       "gap_sources_quote": "Total uses of funds minus total sources (excluding equity from the sale of Housing Tax Credits) of funds equals gap (equity needed from Housing Tax Credits)",
@@ -102,8 +102,8 @@
     },
     "basis_boost": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 3.M.2, PDF pages 37-38",
+      "source": "S5",
+      "location": "Section 3.M.2, PDF pages 39-40",
       "quote": "The Code allows for a 30 percent basis boost for projects located in one of the following areas",
       "multiplier": 1.3,
       "designations": {
@@ -149,8 +149,8 @@
     },
     "contractor_fee_limit": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 3.M.3, PDF page 38",
+      "source": "S5",
+      "location": "Section 3.M.3, PDF page 40",
       "quote": "Aggregate Builder's Profit, Overhead* as a Percent of Hard Construction Costs",
       "base": "New structures or rehabilitation, onsite work, contingency and accessory structures",
       "tiers": [
@@ -177,8 +177,8 @@
     },
     "developer_fee_limit": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 3.M.3, PDF page 39",
+      "source": "S5",
+      "location": "Section 3.M.3, PDF page 41",
       "quote": "Aggregate Developer Fee and Consultant Fee* Limits as a Percent of Certain Project Costs",
       "tested_on": "Developer fee plus consultant fee, before any deferral",
       "base_subtracts": [
@@ -378,53 +378,54 @@
     },
     "state_credit_term": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 3.P.1, PDF pages 40-41",
+      "source": "S5",
+      "location": "Section 3.P.1, PDF page 42",
       "quote": "The APR for new construction and rehabilitation with the total six-year allocation of state credits is 30 percent of Qualified Basis.",
       "years": 6
     },
     "min_debt_coverage": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 4.C.5, PDF page 43",
-      "quote": "Minimum 1.15 to 1.0 for all amortized debt throughout the initial 15-year pro forma period.",
+      "source": "S5",
+      "location": "Section 4.C.5, PDF page 45",
+      "quote": "Minimum 1.15 for all amortized debt throughout the initial 15-year pro forma period.",
       "min_coverage": 1.15,
       "forecast_years": 15
     },
     "high_coverage_credit_reduction": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 4.C.5, PDF page 43",
-      "quote": "At the time of application, projects with debt coverage ratios that exceed 1.3 to 1.0 may be eligible for less Housing Tax Credit than the amount calculated",
+      "source": "S5",
+      "location": "Section 4.C.5, PDF page 45",
+      "quote": "At the time of application, projects with debt coverage ratios that exceed 1.30 in year one and increase over the pro forma period may be eligible for less Housing Tax Credit than the amount calculated as per Section 3.M of the QAP.",
       "threshold": 1.3,
-      "effect": "CHFA may award less credit; the amount is at CHFA's discretion, so the calculator flags it and does not reduce the credit."
+      "requires_increase": true,
+      "effect": "CHFA may award less credit when year-one coverage is above the threshold and coverage rises over the pro forma; the amount is at CHFA's discretion, so the calculator flags it and does not reduce the credit."
     },
     "pro_forma_vacancy": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 4.C, Minimum Pro Forma Underwriting Assumptions, item 1",
+      "source": "S5",
+      "location": "Section 4.C, Minimum Pro Forma Underwriting Assumptions, item 1, PDF page 44",
       "quote": "Seven percent on all project income, 10 percent vacancy rate for any retail/commercial income, five percent for any projects receiving a project-based Section 8 subsidy for 100 percent of the units.",
       "rate": 0.07,
       "rate_full_section8": 0.05
     },
     "pro_forma_rent_growth": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 4.C, Minimum Pro Forma Underwriting Assumptions, item 2",
+      "source": "S5",
+      "location": "Section 4.C, Minimum Pro Forma Underwriting Assumptions, item 2, PDF page 45",
       "quote": "Annual Rental Income Growth Two percent",
       "rate": 0.02
     },
     "pro_forma_expense_growth": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 4.C, Minimum Pro Forma Underwriting Assumptions, item 3",
+      "source": "S5",
+      "location": "Section 4.C, Minimum Pro Forma Underwriting Assumptions, item 3, PDF page 45",
       "quote": "Annual Operating Expense Growth Three percent",
       "rate": 0.03
     },
     "pupa_minimum": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 4.C, Minimum Pro Forma Underwriting Assumptions, item 4",
+      "source": "S5",
+      "location": "Section 4.C, Minimum Pro Forma Underwriting Assumptions, item 4, PDF page 45",
       "quote": "$4,500 excluding replacement reserves, higher for projects that are providing additional services, and $5,000 for project-based Section 8 projects.",
       "per_unit_annual": 4500,
       "per_unit_annual_section8": 5000,
@@ -432,9 +433,9 @@
     },
     "replacement_reserve_minimum": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 4.B, Minimum Replacement Reserve Requirements",
-      "quote": "Minimum replacement reserves must equal $300/unit annually for senior projects and $350/unit annually for family projects.",
+      "source": "S5",
+      "location": "Section 4.B, Minimum Replacement Reserve Requirements, PDF page 44",
+      "quote": "Minimum replacement reserves must equal $300/unit annually for older adult projects and $350/unit annually for family projects.",
       "family_per_unit_annual": 350,
       "senior_per_unit_annual": 300
     },
@@ -463,16 +464,16 @@
     },
     "operating_reserve_minimum": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 4.A, PDF page 42",
+      "source": "S5",
+      "location": "Section 4.A, PDF page 44",
       "quote": "The total project budget must include minimum operating reserves equal to at least four months of projected annual operating expenses and four months of debt service payments, although CHFA may require an increased operating reserve based on lease-up projections contained in the Market Study.",
       "expense_months": 4,
       "debt_service_months": 4
     },
     "deferred_fee_repayment_review": {
       "status": "adopted",
-      "source": "S1",
-      "location": "Section 2.B, PDF page 14",
+      "source": "S5",
+      "location": "Section 2.B, PDF page 15",
       "quote": "Throughout the 15-year pro forma period, CHFA will also consider such items as debt coverage ratios, the ability to pay deferred developer fees from cash flows, operating reserve amounts, and annual operating expenses.",
       "forecast_years": 15,
       "kind": "review item, not a numeric limit"

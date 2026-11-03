@@ -4806,7 +4806,7 @@
     row('Lowest coverage, years 1-' + (uw.minimum.status.rule ? uw.minimum.status.rule.forecast_years : 15),
       uw.minimum.lowest == null ? uw.minimum.reason : uw.minimum.lowest.toFixed(2) + 'x · ' + (uw.minimum.passes ? 'meets' : 'below') + ' the 1.15x minimum',
       uw.minimum.status.citation || null);
-    row('Coverage in year 1', uw.high.firstYear == null ? uw.high.reason : uw.high.firstYear.toFixed(2) + 'x' + (uw.high.exceeds ? ' · above 1.30x, CHFA may award less credit' : ''),
+    row('Coverage in year 1', uw.high.firstYear == null ? uw.high.reason : uw.high.firstYear.toFixed(2) + 'x' + (uw.high.exceeds ? ' · above 1.30x and rising, CHFA may award less credit' : (uw.high.reason ? ' · ' + uw.high.reason : '')),
       uw.high.status.citation || null);
 
     heading('Budget checks');

@@ -777,7 +777,7 @@
     var min = ruleStatus(args.rules, 'min_debt_coverage');
     var high = ruleStatus(args.rules, 'high_coverage_credit_reduction');
     var out = { minimum: { status: min, lowest: null, passes: null, reason: null },
-      high: { status: high, firstYear: null, exceeds: null, reason: null } };
+      high: { status: high, firstYear: null, rising: null, exceeds: null, reason: null } };
     if (!min.applied) out.minimum.reason = min.reason;
     else if (years.length < min.rule.forecast_years) {
       out.minimum.reason = 'The forecast measures ' + years.length + ' years of coverage on must-pay debt; CHFA tests ' + min.rule.forecast_years + '.';
@@ -787,7 +787,19 @@
     }
     if (!high.applied) out.high.reason = high.reason;
     else if (!years.length) out.high.reason = 'Coverage on must-pay debt is not available.';
-    else { out.high.firstYear = years[0].allMustPayCoverage; out.high.exceeds = out.high.firstYear > high.rule.threshold; }
+    else {
+      out.high.firstYear = years[0].allMustPayCoverage;
+      var over = out.high.firstYear > high.rule.threshold;
+      if (!high.rule.requires_increase) out.high.exceeds = over;
+      else {
+        // 2027-28 QAP 4.C.5: above the line in year one AND rising over the pro forma.
+        var span = years.slice(0, (min.applied && min.rule.forecast_years) || years.length);
+        out.high.rising = span.length > 1 ? span[span.length - 1].allMustPayCoverage > out.high.firstYear : null;
+        if (!over) out.high.exceeds = false;
+        else if (out.high.rising === null) out.high.reason = 'Year-one coverage is above ' + high.rule.threshold.toFixed(2) + 'x; CHFA also looks at whether it rises over the pro forma, which needs more than one year of coverage.';
+        else out.high.exceeds = out.high.rising;
+      }
+    }
     return out;
   }
 

@@ -121,7 +121,8 @@ const long = mut((s) => { const y = JSON.parse(JSON.stringify(s.result.coverage.
 ok(long.exec.weakest.year <= 15 && !/year 35/.test(texts(long)), 'a weak year 35 does not count against the 15-year coverage test');
 const DS = R.min_debt_coverage.min_coverage, HI = R.high_coverage_credit_reduction.threshold;
 ok(texts(mut((s) => { s.result.coverage.years[2].allMustPayCoverage = DS - 0.05; })).includes(`bad: Debt coverage on all must-pay debt falls to ${x2(DS - 0.05)} in year 3`), 'coverage under CHFA\'s minimum is flagged with its year');
-ok(texts(mut((s) => { s.result.projection.rows[0].dscr = HI + 0.05; })).includes(`warn: Year-one coverage of ${x2(HI + 0.05)}`), 'year-one coverage over CHFA\'s high-coverage line is flagged');
+ok(texts(mut((s) => { s.result.projection.rows.forEach((row, i) => { row.dscr = HI + 0.05 + i * 0.01; }); })).includes(`warn: Year-one coverage of ${x2(HI + 0.05)} is above ${x2(HI)} and rises over the pro forma`), 'year-one coverage over CHFA\'s high-coverage line that keeps rising is flagged (2027-28 QAP 4.C.5)');
+ok(!/Year-one coverage/.test(texts(mut((s) => { s.result.projection.rows.forEach((row, i) => { row.dscr = HI + 0.05 - i * 0.01; }); }))), 'year-one coverage over the line that falls over the pro forma is not flagged');
 ok(!/Year-one coverage/.test(texts(m)), 'year-one coverage of 1.20 is not flagged');
 ok(/bad: 60% AMI 2BR rent of \$1,600 is over its \$1,549 gross limit before any utility allowance, by at least \$51/.test(texts(mut((s) => { s.result.pricedRows.find((x) => x.tier === 60).contractRent = 1600; }))), 'a rent over its gross limit is flagged even with the allowance unset');
 const noPay = mut((s) => { s.result.exit.dfYr = null; s.result.projection.rows.forEach((y) => { y.deferredFeePaid = 10000; }); });
