@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-03T12:09:15.679Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-03T12:57:36.242Z. Do not edit by hand.
 
 ---
 
@@ -2069,7 +2069,7 @@
 
 ## Test Files
 
-763 test files found.
+764 test files found.
 
 | File | Size |
 |------|------|
@@ -2773,6 +2773,7 @@
 | `tests/test_award_rows.py` | 4.3 KB |
 | `tests/test_bps_monthly.py` | 6.4 KB |
 | `tests/test_brief_news_queue.py` | 6.6 KB |
+| `tests/test_build_hna_data_b08301_missing.py` | 1.9 KB |
 | `tests/test_build_hna_data_batch_b.py` | 4.6 KB |
 | `tests/test_build_hna_data_concurrency.py` | 7.9 KB |
 | `tests/test_build_hna_data_http_204.py` | 2.8 KB |
