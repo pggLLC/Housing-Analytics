@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T00:22:58.120Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T01:59:48.626Z. Do not edit by hand.
 
 ---
 
@@ -2069,7 +2069,7 @@
 
 ## Test Files
 
-765 test files found.
+766 test files found.
 
 | File | Size |
 |------|------|
@@ -2370,7 +2370,7 @@
 | `test/hna-phase2-stubs-wired.test.js` | 6.9 KB |
 | `test/hna-phone-speed-f9.test.js` | 11.5 KB |
 | `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
-| `test/hna-projection-integrity.test.js` | 58.1 KB |
+| `test/hna-projection-integrity.test.js` | 59.0 KB |
 | `test/hna-prop123-relationship.test.js` | 14.3 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
 | `test/hna-qct-dda-unavailable.test.js` | 11.0 KB |
@@ -2819,6 +2819,7 @@
 | `tests/test_place_chas.py` | 9.5 KB |
 | `tests/test_place_chas_coverage.py` | 4.5 KB |
 | `tests/test_place_phantom_aliases.py` | 6.3 KB |
+| `tests/test_place_projection_acs_period.py` | 3.2 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
 | `tests/test_policy_foundation.py` | 24.0 KB |
 | `tests/test_policy_timeline.py` | 2.4 KB |
