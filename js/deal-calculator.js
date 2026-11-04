@@ -2138,7 +2138,7 @@
             110% and 120% AMI are middle-income planning bands for Colorado's
             Middle Income Housing Tax Credit (MIHTC) and Prop 123 context only;
             this calculator does not size MIHTC credits. Mixed-income deals use IRC §42(c)(1)(B)
-            applicable fraction — eligible basis is prorated by LIHTC unit share.
+            applicable fraction: the lower of the LIHTC unit share and the floor-space share.
             See live calculation below.
           </div>
 

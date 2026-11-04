@@ -20,7 +20,8 @@
  *   1. any reference to the synthesized file, outside a reasoned allowlist;
  *   2. the constants that carried it (82/74/65 thresholds, the winner/loser
  *      category averages) reappearing in client code;
- *   3. award-likelihood copy reappearing.
+ *   3. award-likelihood copy reappearing;
+ *   4. a page citing the file by name as a source.
  */
 
 const assert = require('assert');
@@ -78,6 +79,14 @@ tracked.forEach((f) => {
 tracked.forEach((f) => {
   assert(!/award likelihood|awardLikelihood|percentile(Rank)? vs historical winners/i.test(read(f)),
     `${f} renders an award-likelihood figure; there is no verified source for one`);
+});
+
+// 4. Citing the file by name as a source. The Deal Calculator's data-quality card listed
+// "CHFA Awards Historical · primary · 110 awards" although the calculator never reads the
+// file, which holds a small synthesized sample, not 110 awards.
+tracked.forEach((f) => {
+  assert(!/CHFA Awards Historical/i.test(read(f)),
+    `${f} cites "CHFA Awards Historical" as a source; that is the synthesized ${SYNTH}.json`);
 });
 
 console.log(`no-synthesized-chfa-awards: PASS (${tracked.length} client files scanned, ${Object.keys(ALLOW).length} reasoned exception)`);

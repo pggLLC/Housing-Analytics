@@ -249,17 +249,19 @@ class DataAPIIntegrations {
 
     // Affordability Gap Calculator — realistic mortgage underwriting model
     // Accounts for down payment, interest rate, property taxes, insurance, PMI, and DTI.
+    // No default rate: nothing calls this, and a fixed rate would go stale unseen.
+    // A caller passes options.interestRate (a dated reading such as data/fred-data.json);
+    // without one there is no answer, so it returns null.
     calculateAffordabilityGap(medianIncome, medianHomePrice, options = {}) {
         const {
-            // Fixed 6.5% planning default, not a dated PMMS reading (FRED MORTGAGE30US
-            // averaged 6.11% in Q1 2026). Callers with a current rate pass interestRate.
-            interestRate = 0.065,      // 6.5% annual (30-yr fixed)
+            interestRate,              // annual 30-yr fixed rate, required
             downPaymentPct = 0.20,     // 20% standard
             propertyTaxRate = 0.0065,  // 0.65% of value/yr (Colorado average)
             insuranceRate = 0.0085,    // 0.85% of value/yr
             hoaMonthly = 0,            // HOA fees (vary by property)
             maxDtiRatio = 0.43,        // 43% back-end DTI maximum (standard underwriting)
         } = options;
+        if (!Number.isFinite(interestRate) || interestRate < 0) return null;
 
         const _monthlyPI = (price, downPct, annualRate) => {
             const loan = price * (1 - downPct);

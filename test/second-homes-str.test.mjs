@@ -129,6 +129,41 @@ test('the panel prints the file\'s numbers and says absence as absence', async (
   assert.ok(/not proof there is none/.test(m.querySelector('[data-shp="tax"]').textContent));
 });
 
+test('a ballot result shows its count stage and the results page, as the ballot record has them', async () => {
+  // Every decided measure in the ballot records must reach the panel with its stage,
+  // so a first count never reads as final.
+  const ballots = [];
+  const walk = (dir) => {
+    for (const f of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) {
+      const rel = path.join(dir, f.name);
+      if (f.isDirectory()) walk(rel);
+      else if (f.name.endsWith('.json')) ballots.push(...(json(rel).entries || []));
+    }
+  };
+  walk('data/policy/ballot-2026');
+  const shown = Object.values(DATA.geographies).flatMap((r) =>
+    [...(r.ballot_measures || []), ...(r.county_ballot_measures || []), ...(r.places_with_ballot_measures || [])]
+      .map((b) => ({ geo: r, b })));
+  const decided = shown.filter(({ b }) => b.status === 'passed' || b.status === 'failed');
+  assert.ok(decided.length > 0, 'no decided ballot measure in the panel data to check');
+  const w = panel();
+  const m = w.document.getElementById('m');
+  for (const { geo, b } of decided) {
+    const src = ballots.find((e) => e.id === b.id);
+    assert.ok(src && src.result, `${b.id}: no result in the ballot record`);
+    assert.equal(b.result_stage, src.result.stage);
+    assert.equal(b.result_as_of, src.result.as_of);
+    assert.equal(b.result_source_url, src.result.source.url);
+    await w.SecondHomesPanel.attach(m, { geoid: geo.geoid, geoType: geo.level });
+    const li = m.querySelector(`[data-shp-ballot="${b.id}"]`);
+    assert.ok(li, `${b.id} not rendered on ${geo.geoid}`);
+    const badge = li.querySelector('.shp-badge').textContent;
+    const stageWord = src.result.stage === 'certified' ? 'certified' : 'unofficial';
+    assert.ok(badge.includes(stageWord) && badge.includes(src.result.as_of), `${b.id} badge "${badge}" lacks its stage or date`);
+    assert.ok(li.querySelector(`a[href="${src.result.source.url}"]`), `${b.id}: no link to the results page`);
+  }
+});
+
 test('the panel is on the "What housing exists" view only, and its brief link opens a curated brief', () => {
   const views = json('data/hna/hna-views.json');
   const holders = views.views.filter((v) => v.sections.some((s) => s.title.startsWith('Second homes')));

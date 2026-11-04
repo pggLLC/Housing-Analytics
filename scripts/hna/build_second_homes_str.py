@@ -125,6 +125,9 @@ def ballot_records() -> dict[str, list[dict]]:
             jur = m.get("jurisdiction") or {}
             srcs = m.get("sources") or {}
             url = next((s.get("url") for s in srcs.values() if isinstance(s, dict) and s.get("url")), None)
+            # schemas/ballot-2026.schema.json: result is null or {outcome, stage, source: {url}, as_of}.
+            # The stage travels with the status so a first count is never shown as final.
+            res = m.get("result") if isinstance(m.get("result"), dict) else {}
             out.setdefault(jur.get("geoid"), []).append({
                 "id": m["id"],
                 "geoid": jur.get("geoid"),
@@ -135,6 +138,9 @@ def ballot_records() -> dict[str, list[dict]]:
                 "status": m.get("status"),
                 "election_date": (m.get("election") or {}).get("date"),
                 "source_url": url,
+                "result_stage": res.get("stage"),
+                "result_as_of": res.get("as_of"),
+                "result_source_url": (res.get("source") or {}).get("url"),
             })
     return out
 

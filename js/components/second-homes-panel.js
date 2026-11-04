@@ -50,10 +50,19 @@
     ballot_failed: 'Failed at the ballot',
     on_ballot: 'On the ballot',
     proposed: 'Proposed',
+    passed: 'Passed',
+    failed: 'Failed',
   };
-  function _status(s, date) {
+  // A ballot result carries its count stage (schemas/ballot-2026.schema.json).
+  // A first count is "unofficial" until the county canvass certifies it, so a
+  // result never reads as final without its stage and date.
+  var STAGE = { unofficial: 'unofficial count', certified: 'certified' };
+  function _status(s, date, stage, asOf) {
     var label = STATUS[s] || String(s || '').replace(/_/g, ' ');
     if ((s === 'on_ballot' || s === 'proposed') && date) label += ' (' + date + ')';
+    if (s === 'passed' || s === 'failed') {
+      label += ' (' + (STAGE[stage] || 'count stage not recorded') + (asOf ? ', as of ' + asOf : '') + ')';
+    }
     return label;
   }
 
@@ -119,10 +128,14 @@
     return '<li class="shp-item" data-shp-ballot="' + _esc(b.id) + '">' +
       '<div class="shp-item__head"><strong>' + _esc(b.jurisdiction) + '</strong>' +
       (b.measure_number && b.measure_number !== 'Unassigned' ? ' · Measure ' + _esc(b.measure_number) : '') +
-      ' <span class="shp-badge">' + _esc(_status(b.status, b.election_date)) + '</span>' +
+      ' <span class="shp-badge">' + _esc(_status(b.status, b.election_date, b.result_stage, b.result_as_of)) + '</span>' +
       (scopeNote ? ' <span class="shp-scope">' + _esc(scopeNote) + '</span>' : '') + '</div>' +
       '<div class="shp-item__body">' + _esc(b.detail || b.title) + '</div>' +
-      (b.source_url ? '<div class="shp-item__src">Source: <a href="' + _esc(b.source_url) + '" target="_blank" rel="noopener">official ballot text</a></div>' : '') +
+      (b.source_url || b.result_source_url ? '<div class="shp-item__src">Source: ' +
+        (b.source_url ? '<a href="' + _esc(b.source_url) + '" target="_blank" rel="noopener">official ballot text</a>' : '') +
+        (b.source_url && b.result_source_url ? '; ' : '') +
+        (b.result_source_url ? '<a href="' + _esc(b.result_source_url) + '" target="_blank" rel="noopener">county results page</a>' : '') +
+        '</div>' : '') +
       '</li>';
   }
 
