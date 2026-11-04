@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T02:15:47.827Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T03:03:44.179Z. Do not edit by hand.
 
 ---
 
@@ -101,7 +101,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1000.3 KB | ✅ | — |
+| `data/_manifest.json` | 1000.7 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -1848,7 +1848,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 13.2 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 249.5 KB | ✅ | — |
+| `data/manifest.json` | 249.6 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -2069,7 +2069,7 @@
 
 ## Test Files
 
-766 test files found.
+767 test files found.
 
 | File | Size |
 |------|------|
@@ -2142,7 +2142,7 @@
 | `test/colorado-elections.test.mjs` | 38.1 KB |
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/colorado-guide-detail.test.js` | 13.3 KB |
-| `test/combined-geo.test.js` | 48.4 KB |
+| `test/combined-geo.test.js` | 50.8 KB |
 | `test/commuting.test.mjs` | 5.1 KB |
 | `test/compliance-checklist.test.js` | 24.4 KB |
 | `test/console-audit-exercises-controls.test.js` | 10.1 KB |
@@ -2347,7 +2347,8 @@
 | `test/hna-deep-dive-batch2.test.js` | 6.6 KB |
 | `test/hna-dev-context-collision.test.js` | 4.6 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
-| `test/hna-export-matches-screen.test.js` | 27.3 KB |
+| `test/hna-export-binding-browser.test.js` | 12.5 KB |
+| `test/hna-export-matches-screen.test.js` | 31.2 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 64.1 KB |
 | `test/hna-geography-provenance.test.js` | 5.4 KB |
@@ -2358,8 +2359,8 @@
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-lehd-partial-flows.test.js` | 2.8 KB |
-| `test/hna-like-for-like-comparisons.test.js` | 7.1 KB |
-| `test/hna-live-region-and-load-order.test.js` | 3.6 KB |
+| `test/hna-like-for-like-comparisons.test.js` | 8.8 KB |
+| `test/hna-live-region-and-load-order.test.js` | 3.7 KB |
 | `test/hna-market-call.test.js` | 8.9 KB |
 | `test/hna-mode-share.test.js` | 3.6 KB |
 | `test/hna-need-reconciliation.test.js` | 28.7 KB |
