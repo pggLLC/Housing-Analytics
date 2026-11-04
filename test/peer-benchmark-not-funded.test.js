@@ -40,16 +40,33 @@ const norm = (s) => String(s || '').toLowerCase().replace(/street/g, 'st').repla
 const pkeys = (a) => [`n|${norm(a.name)}|${norm(a.city)}`].concat(a.address ? [`a|${norm(a.address)}|${norm(a.city)}`] : []);
 const order = (a) => a.year * 10 + (/Round One/.test(a.round_label || '') ? 1 : /Round Two/.test(a.round_label || '') ? 2 : 3);
 const same = (a, b) => pkeys(a).some((k) => pkeys(b).includes(k));
+// One check, used on the real cohort and on synthetic sabotage below.
+const reasons = (p, appList, refList) => {
+  const again = appList.filter((b) => same(p, b) && order(b) >= order(p) && key(b) !== key(p));
+  const won = refList.filter((r) => same(p, r));
+  return again.map((b) => 'applied again ' + b.year + ' ' + b.outcome).concat(won.map((r) => 'funded ' + r.name + ' ' + r.year_alloc));
+};
+let scanned = 0;
 for (const p of kept) {
-  const again = apps.filter((b) => same(p, b) && order(b) >= order(p) && key(b) !== key(p));
-  ok(again.length === 0, `${p.name} ${p.year}: no later application of the same property (${again.map((b) => b.year + ' ' + b.outcome).join(', ')})`);
-  const won = refs.projects.filter((r) => same(p, r));
-  ok(won.length === 0, `${p.name} ${p.year}: not among the funded properties (${won.map((r) => r.name + ' ' + r.year_alloc).join(', ')})`);
+  const why = reasons(p, apps, refs.projects);
+  ok(why.length === 0, `${p.name} ${p.year}: not applied again and not among the funded properties (${why.join(', ')})`);
+  scanned++;
 }
+ok(scanned === kept.length && scanned > 0, `the scan ran over every kept property (${scanned})`);
 ok(new Set(kept.map((p) => pkeys(p)[0])).size === kept.length, 'each property counted once');
-// Sabotage: a property that later won is caught by the same check.
-const atwood = apps.find((a) => a.outcome === 'not_awarded' && refs.projects.some((r) => same(a, r)));
-ok(atwood && refs.projects.some((r) => same(atwood, r)), `the check catches a later winner (${atwood && atwood.name})`);
+// Sabotage, with synthetic records so the test does not depend on a defect staying in the data:
+// a made-up later winner, a made-up later application, and an address-only match are each rejected.
+const probe = kept[0];
+const fakeWin = { name: probe.name, city: probe.city, year_alloc: probe.year + 1 };
+ok(reasons(probe, apps, refs.projects.concat([fakeWin])).some((r) => r.startsWith('funded ')), `a synthetic later winner is rejected (${probe.name})`);
+const fakeAgain = { ...probe, year: probe.year + 1, outcome: 'awarded', round_label: '' };
+ok(reasons(probe, apps.concat([fakeAgain]), refs.projects).some((r) => r.startsWith('applied again ')), `a synthetic later application is rejected (${probe.name})`);
+const withAddr = kept.find((p) => p.address);
+if (withAddr) {
+  const fakeByAddr = { name: 'Renamed ' + withAddr.name, city: withAddr.city, address: withAddr.address.replace(/Street/, 'St'), year_alloc: withAddr.year + 1 };
+  ok(reasons(withAddr, apps, refs.projects.concat([fakeByAddr])).length > 0, `a later winner under a new name but the same address is rejected (${withAddr.name})`);
+}
+ok(reasons(probe, apps, refs.projects).length === 0, 'the real record still passes once the synthetic ones are gone');
 
 for (const p of doc.points) {
   ok(Number.isFinite(p.lat) && Number.isFinite(p.lon) && /^(Exact|Non_Exact)$/.test(p.match), `${p.name}: a geocoded address match`);
