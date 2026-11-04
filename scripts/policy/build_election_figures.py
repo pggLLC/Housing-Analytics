@@ -210,9 +210,12 @@ def map_figure(rows):
         pct = '%.1f%% yes' % r['yes_pct']
         body += '<circle cx="24" cy="%.1f" r="8" fill="%s"/>\n' % (y - 4, COLORS[r['status']])
         body += text(24, y, str(r['_n']), 11, 700, '#ffffff', 'middle')
-        body += text(40, y, r['name'] + ' · ' + status_text(r) + ', ' + pct, 13, 600)
-        body += text(40, y + 16, r['what'], 12, 400, MUTED)
-        y += 38
+        # Three short lines, so no line runs past the 420-unit width with a
+        # wider fallback font.
+        body += text(40, y, r['name'] + ' · ' + pct, 13, 600)
+        body += text(40, y + 16, status_text(r), 12, 600, COLORS[r['status']])
+        body += text(40, y + 31, r['what'], 12, 400, MUTED)
+        y += 52
     src = 'Source: county results pages (SOS Clarity ENR), read ' + as_of(rows) + '; place points from the 2024 Census Gazetteer.'
     body += footer(y, W, src)
     H = y + footer_height(src)
@@ -262,7 +265,7 @@ def money_figure(rows):
     W = 420
     items = sorted([r for r in rows if r['money'] and r['kind'] == 'money'], key=lambda r: -r['money'])
     top = max(r['money'] for r in items)
-    bar_w = 230
+    bar_w = 150  # leaves room for "up to $3.3 million · Too close" at 12px bold
     body = text(16, 24, 'Housing money at stake in the first full year', 16, 700)
     body += text(16, 44, 'Revenue cap in each ballot question. Unofficial, as of ' + as_of(rows) + '.', 12, 400, MUTED)
     y = 62
