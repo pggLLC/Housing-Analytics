@@ -301,7 +301,7 @@
       "status": "cached",
       "fallback_rule": "Hide the funded-against-not-funded line under the peer benchmark",
       "last_update": "2026-11-04T12:30:00Z",
-      "description": "Every application in data/jurisdiction-briefs/_lihtc-applications.json whose outcome is not_awarded (2023 on), with name, address, year, credit and homes as printed. Street addresses geocoded by the U.S. Census Bureau Geocoder (address batch, Public_AR_Current); unmatched addresses are listed with no point. Scored by the Market analysis page at every buffer, as for the funded peer set. Built by scripts/market/geocode_unfunded_applications.py then scripts/market/score_unfunded_applications.mjs."
+      "description": "Every application in data/jurisdiction-briefs/_lihtc-applications.json whose outcome is not_awarded (2023 on), one row per property at its latest application; a property that applied again later (any outcome) or is in the funded reference set is listed under dropped with the reason. Name, address, year, credit and homes as printed. Street addresses geocoded by the U.S. Census Bureau Geocoder (address batch, Public_AR_Current); unmatched addresses are listed with no point. Scored by the Market analysis page at every buffer, as for the funded peer set. Built by scripts/market/geocode_unfunded_applications.py then scripts/market/score_unfunded_applications.mjs."
     },
     {
       "file_path": "data/hna/chas_affordability_gap.json",

@@ -2772,9 +2772,9 @@
       Math.round(all.separation * 100) + '% of the time; 50% is a coin toss).' +
       (nine ? ' For 9% deals alone: ' + nine.notFundedMedian + ' not funded against ' + nine.fundedMedian + ' funded, ' + Math.round(nine.separation * 100) + '%.' : '') +
       ' Read the rank above as where the site sits among past winners, not as its chance of an award.' +
-      '<span style="display:block;color:var(--faint)">Not funded: CHFA Applicant Reports, on no award report within two years; ' +
+      '<span style="display:block;color:var(--faint)">Not funded: CHFA Applicant Reports, each property once at its latest application, and only if it never applied again or won later; ' +
       (m.mapped != null ? m.mapped + ' of ' + m.applications + ' mapped by the Census geocoder' : 'mapped by the Census geocoder') +
-      '. A funded property\'s own homes count in its area\'s existing supply; a not-funded one\'s were never built.</span></p>';
+      '. A funded property\'s own homes count in its area\'s existing supply; a not-funded one\'s were not built with these credits.</span></p>';
   }
 
   /* ── Competitive Pipeline render ─────────────────────────────────── */

@@ -19,17 +19,38 @@ const apps = read('data/jurisdiction-briefs/_lihtc-applications.json').applicati
 let checks = 0;
 const ok = (c, m) => { assert.ok(c, m); checks++; };
 
-// 1. Every point is a real not-funded application, and none is dropped silently.
+// 1. Every not-funded application is kept, or dropped with a reason; none disappears.
 const notAwarded = apps.filter((a) => a.outcome === 'not_awarded');
-ok(doc.meta.applications === notAwarded.length && doc.points.length + doc.unmapped.length === notAwarded.length,
-  `every not-funded application is mapped or listed as unmapped (${doc.points.length} + ${doc.unmapped.length} = ${notAwarded.length})`);
+const kept = doc.points.concat(doc.unmapped);
+ok(doc.meta.applications === kept.length && kept.length + doc.dropped.length === notAwarded.length,
+  `every not-funded application is kept or dropped with a reason (${kept.length} + ${doc.dropped.length} = ${notAwarded.length})`);
+for (const d of doc.dropped) ok(typeof d.why_dropped === 'string' && d.why_dropped.length > 0, `${d.name} ${d.year}: dropped, says why`);
 const key = (a) => [a.year, a.credit_type, a.name, a.city].join('|');
 const src = new Map(notAwarded.map((a) => [key(a), a]));
-for (const p of doc.points.concat(doc.unmapped)) {
+for (const p of kept) {
   const a = src.get(key(p));
   ok(a && a.outcome === 'not_awarded' && p.outcome === 'not_awarded', `${p.name} ${p.year}: a not-funded application in the source`);
   ok(!('sponsor' in p), `${p.name}: no sponsor copied`);
 }
+
+// 1b. The disclosure ("not built with these credits", counted once at its latest application)
+// agrees with the award data: no kept property, matched independently of the build script, ever
+// applied again or appears among the funded properties.
+const norm = (s) => String(s || '').toLowerCase().replace(/street/g, 'st').replace(/avenue/g, 'ave').replace(/[^a-z0-9]/g, '');
+const pkeys = (a) => [`n|${norm(a.name)}|${norm(a.city)}`].concat(a.address ? [`a|${norm(a.address)}|${norm(a.city)}`] : []);
+const order = (a) => a.year * 10 + (/Round One/.test(a.round_label || '') ? 1 : /Round Two/.test(a.round_label || '') ? 2 : 3);
+const same = (a, b) => pkeys(a).some((k) => pkeys(b).includes(k));
+for (const p of kept) {
+  const again = apps.filter((b) => same(p, b) && order(b) >= order(p) && key(b) !== key(p));
+  ok(again.length === 0, `${p.name} ${p.year}: no later application of the same property (${again.map((b) => b.year + ' ' + b.outcome).join(', ')})`);
+  const won = refs.projects.filter((r) => same(p, r));
+  ok(won.length === 0, `${p.name} ${p.year}: not among the funded properties (${won.map((r) => r.name + ' ' + r.year_alloc).join(', ')})`);
+}
+ok(new Set(kept.map((p) => pkeys(p)[0])).size === kept.length, 'each property counted once');
+// Sabotage: a property that later won is caught by the same check.
+const atwood = apps.find((a) => a.outcome === 'not_awarded' && refs.projects.some((r) => same(a, r)));
+ok(atwood && refs.projects.some((r) => same(atwood, r)), `the check catches a later winner (${atwood && atwood.name})`);
+
 for (const p of doc.points) {
   ok(Number.isFinite(p.lat) && Number.isFinite(p.lon) && /^(Exact|Non_Exact)$/.test(p.match), `${p.name}: a geocoded address match`);
   ok(p.lat > 36.9 && p.lat < 41.1 && p.lon > -109.1 && p.lon < -102.0, `${p.name}: inside Colorado`);
@@ -62,5 +83,5 @@ ok(ENH.fundedVsNotFunded(null, refs.projects, doc.points, null) === null, 'no bu
 // 3. The page loads the file and says it in words.
 const page = fs.readFileSync(path.join(ROOT, 'js/market-analysis.js'), 'utf8');
 ok(page.includes("market/unfunded-application-points.json") && /notFundedHtml\(result\.bufferMiles/.test(page), 'the benchmark loads and shows the not-funded line');
-ok(/not as its chance of an award/.test(page) && /never built/.test(page), 'the line says what the rank is not, and names the supply difference');
-console.log(`peer-benchmark-not-funded: ${checks} checks passed (${doc.points.length} mapped of ${doc.meta.applications}; 3-mile: ${JSON.stringify(ENH.fundedVsNotFunded(3, refs.projects, doc.points, null))})`);
+ok(/not as its chance of an award/.test(page) && /latest application/.test(page) && /not built with these credits/.test(page), 'the line says what the rank is not, how the cohort is drawn, and names the supply difference');
+console.log(`peer-benchmark-not-funded: ${checks} checks passed (${doc.points.length} mapped of ${doc.meta.applications}, ${doc.dropped.length} dropped; 3-mile: ${JSON.stringify(ENH.fundedVsNotFunded(3, refs.projects, doc.points, null))})`);
