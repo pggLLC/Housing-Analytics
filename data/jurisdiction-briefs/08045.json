@@ -565,8 +565,62 @@
       "accessed": "2026-10-18"
     },
     {
+      "id": "ls1",
+      "label": "Local support record for Garfield County, checked 2026-10-10",
+      "url": "data/policy/local-support.json",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "row:08045",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls2",
+      "label": "Garfield County Land Use and Development Code, Article 8 (Inclusionary Zoning for Housing), PDF dated 2023-10-24",
+      "url": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/12/Article-8.pdf",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "g-garfield-county-traffic-impact-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls3",
+      "label": "Garfield County Land Use and Development Code, Article 8 (Inclusionary Zoning for Housing), PDF dated 2023-10-24",
+      "url": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/12/Article-8.pdf",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "g-garfield-county-building-permit-waiver",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls4",
+      "label": "Garfield County Land Use and Development Code, Article 8 (Inclusionary Zoning for Housing), PDF dated 2023-10-24",
+      "url": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/12/Article-8.pdf",
+      "kind": "data",
+      "dataset": "fee-reductions",
+      "field": "g-lu-garfield-county-density-bonus",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls5",
+      "label": "Private activity bond allocation recommended for Canyon Vista (Cohen-Esrey), Glenwood Springs (Garfield County press release, Sept. 11, 2025)",
+      "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-garfield-county-canyon-vista-pab-2024",
+      "accessed": "2026-10-10"
+    },
+    {
+      "id": "ls6",
+      "label": "Transfer of nearly $4.1 million in private activity bond authority to CHFA for affordable housing (Garfield County press release, Sept. 11, 2025)",
+      "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
+      "kind": "data",
+      "dataset": "local-support",
+      "field": "ls-garfield-county-chfa-pab-2025",
+      "accessed": "2026-10-10"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -575,7 +629,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -710,7 +764,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -719,7 +773,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -728,7 +782,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -779,60 +833,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "incommuter_need_units",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "ls1",
-      "label": "Local support record for Garfield County, checked 2026-10-10",
-      "url": "data/policy/local-support.json",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "row:08045",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls2",
-      "label": "Garfield County Land Use and Development Code, Article 8 (Inclusionary Zoning for Housing), PDF dated 2023-10-24",
-      "url": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/12/Article-8.pdf",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "g-garfield-county-traffic-impact-waiver",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls3",
-      "label": "Garfield County Land Use and Development Code, Article 8 (Inclusionary Zoning for Housing), PDF dated 2023-10-24",
-      "url": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/12/Article-8.pdf",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "g-garfield-county-building-permit-waiver",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls4",
-      "label": "Garfield County Land Use and Development Code, Article 8 (Inclusionary Zoning for Housing), PDF dated 2023-10-24",
-      "url": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/12/Article-8.pdf",
-      "kind": "data",
-      "dataset": "fee-reductions",
-      "field": "g-lu-garfield-county-density-bonus",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls5",
-      "label": "Private activity bond allocation recommended for Canyon Vista (Cohen-Esrey), Glenwood Springs (Garfield County press release, Sept. 11, 2025)",
-      "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-garfield-county-canyon-vista-pab-2024",
-      "accessed": "2026-10-10"
-    },
-    {
-      "id": "ls6",
-      "label": "Transfer of nearly $4.1 million in private activity bond authority to CHFA for affordable housing (Garfield County press release, Sept. 11, 2025)",
-      "url": "https://www.garfieldcountyco.gov/news/county-authorizes-chfa-to-issue-4-1-million-in-bonds/",
-      "kind": "data",
-      "dataset": "local-support",
-      "field": "ls-garfield-county-chfa-pab-2025",
-      "accessed": "2026-10-10"
     }
   ],
   "_unpublished_reason": "Pending source-verification audit (2026-06-12). The original research-agent batch was found to contain at least one fabricated source-to-claim mapping (Carbondale s9). All briefs in this batch are unpublished until each citation is verified against the source URL."
