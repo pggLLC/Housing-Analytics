@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-04T05:39:51.175Z",
+    "generated_at": "2026-11-04T06:13:35.607Z",
     "root": "data/",
-    "file_count": 2012,
-    "total_size_bytes": 214168070,
+    "file_count": 2013,
+    "total_size_bytes": 214600957,
     "kinds": {
-      "json": 1963,
+      "json": 1964,
       "geojson": 35,
       "csv": 14
     }
@@ -671,7 +671,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-04T05:39:46.311Z",
+      "mtime": "2026-11-04T06:13:31.278Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39295,6 +39295,21 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "market/market-types.json",
+      "kind": "json",
+      "size_bytes": 432887,
+      "mtime": "2026-11-04T06:11:31.586Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "places"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/natural_barriers_co.geojson",
       "kind": "geojson",
       "size_bytes": 10799317,
@@ -39992,7 +40007,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16687,
-      "mtime": "2026-11-04T05:39:48.442Z",
+      "mtime": "2026-11-04T06:13:33.410Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40016,7 +40031,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-04T05:39:47.917Z",
+      "mtime": "2026-11-04T06:13:32.896Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

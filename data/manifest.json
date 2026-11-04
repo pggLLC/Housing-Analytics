@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-04T05:39:54.676864Z",
+  "generated": "2026-11-04T06:13:40.174408Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1025044
+      "bytes": 1025405
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9055,6 +9055,11 @@
       "featureCount": 64,
       "placeholder": false,
       "bytes": 774021
+    },
+    "data/market/market-types.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 432887
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
