@@ -35,7 +35,7 @@
     if (global.DataService && typeof global.DataService.baseData === 'function') return global.DataService.baseData(key);
     return 'data/' + key;
   }
-  function safeUrl(u) { return /^https:\/\//.test(u || '') ? u : ''; }
+  function safeUrl(u) { return String(u || '').indexOf('https:') === 0 ? u : ''; }
   function link(name, url) {
     var u = safeUrl(url);
     return u ? '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(name) + '</a>' : esc(name);
@@ -142,6 +142,19 @@
     });
   }
 
+  // Only the types that have a town in the chosen county, so no pick leads to an empty table.
+  function fillTypes() {
+    var present = {};
+    rows().forEach(function (p) {
+      if (p.level === 'town' && (!filter.county || p.county_fips === filter.county)) present[p.type] = true;
+    });
+    if (filter.type && !present[filter.type]) filter.type = '';
+    el('mtType').innerHTML = '<option value="">Every type</option>' + data.meta.order.filter(function (t) { return present[t]; }).map(function (t) {
+      return '<option value="' + t + '">' + esc(typeLabel(t)) + '</option>';
+    }).join('');
+    el('mtType').value = filter.type;
+  }
+
   function fillSelects() {
     var all = rows();
     var groups = [['county', 'Counties'], ['town', 'Towns'], ['cdp', 'Census-designated places']];
@@ -153,11 +166,9 @@
     el('mtCounty').innerHTML = '<option value="">All counties</option>' + all.filter(function (p) { return p.level === 'county'; })
       .sort(function (a, b) { return a.name.localeCompare(b.name); })
       .map(function (p) { return '<option value="' + esc(p.geoid) + '">' + esc(p.name) + '</option>'; }).join('');
-    el('mtType').innerHTML = '<option value="">Every type</option>' + data.meta.order.map(function (t) {
-      return '<option value="' + t + '">' + esc(typeLabel(t)) + '</option>';
-    }).join('');
+    fillTypes();
     el('mtPick').addEventListener('change', function () { renderPlace(this.value); });
-    el('mtCounty').addEventListener('change', function () { filter.county = this.value; renderTable(); });
+    el('mtCounty').addEventListener('change', function () { filter.county = this.value; fillTypes(); renderTiles(); renderTable(); });
     el('mtType').addEventListener('change', function () { filter.type = this.value; renderTiles(); renderTable(); });
   }
 

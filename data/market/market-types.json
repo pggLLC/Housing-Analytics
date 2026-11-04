@@ -560,12 +560,12 @@
   "menu_note": "Menu items are our reading of what tends to fit each type, not advice for any one site. Each names a program or tool from a cited record; check its own terms before relying on it.",
   "validation": {
    "stability": "Share of 500 redraws of the ACS seasonal share (from its margin of error) in which a place keeps its type.",
-   "stable_80_share": 0.912,
+   "stable_80_share": 0.918,
    "typed_places": 376,
    "cluster_check": {
     "method": "k-means, 5 groups, 20 starts, on standardised seasonal share (log), jobs per working resident (log) and household growth",
     "places": 244,
-    "adjusted_rand": 0.24,
+    "adjusted_rand": 0.293,
     "reading": "Agreement between the written types and groups found without them (0 is chance, 1 is the same grouping)."
    }
   },
@@ -847,7 +847,7 @@
    "level": "county",
    "type": "softening",
    "basis": "The market call is \"softening\".",
-   "stability": 0.932,
+   "stability": 0.966,
    "near_line": [],
    "modifiers": [],
    "readings": {
@@ -868,7 +868,7 @@
    "level": "county",
    "type": "softening",
    "basis": "Household population down 0.6% a year.",
-   "stability": 0.988,
+   "stability": 0.986,
    "near_line": [
     "household growth"
    ],
@@ -894,7 +894,7 @@
    "level": "county",
    "type": "resort",
    "basis": "Seasonal homes are 21% of all homes.",
-   "stability": 0.692,
+   "stability": 0.618,
    "near_line": [
     "seasonal share"
    ],
@@ -1017,7 +1017,7 @@
    "level": "county",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.982,
+   "stability": 0.99,
    "near_line": [],
    "modifiers": [],
    "readings": {
@@ -1326,7 +1326,7 @@
    "level": "county",
    "type": "resort",
    "basis": "Seasonal homes are 29% of all homes.",
-   "stability": 0.998,
+   "stability": 1.0,
    "near_line": [],
    "modifiers": [
     "no_rent_edge"
@@ -1349,7 +1349,7 @@
    "level": "county",
    "type": "resort",
    "basis": "Seasonal homes are 29% of all homes.",
-   "stability": 1.0,
+   "stability": 0.992,
    "near_line": [],
    "modifiers": [
     "no_prop123"
@@ -1438,7 +1438,7 @@
    "level": "county",
    "type": "resort",
    "basis": "Seasonal homes are 21% of all homes.",
-   "stability": 0.612,
+   "stability": 0.596,
    "near_line": [
     "seasonal share"
    ],
@@ -1760,7 +1760,7 @@
    "level": "county",
    "type": "growing",
    "basis": "The market call is \"emerging\".",
-   "stability": 0.6,
+   "stability": 0.608,
    "near_line": [
     "seasonal share"
    ],
@@ -1829,7 +1829,7 @@
    "level": "county",
    "type": "resort",
    "basis": "Seasonal homes are 24% of all homes.",
-   "stability": 0.956,
+   "stability": 0.946,
    "near_line": [
     "household growth"
    ],
@@ -1936,7 +1936,7 @@
    "level": "county",
    "type": "growing",
    "basis": "The market call is \"emerging\".",
-   "stability": 0.978,
+   "stability": 0.98,
    "near_line": [
     "household growth"
    ],
@@ -2315,7 +2315,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 0.9% a year.",
-   "stability": 0.988,
+   "stability": 0.99,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -2477,7 +2477,7 @@
    "level": "town",
    "type": "growing",
    "basis": "Household population up 2.0% a year.",
-   "stability": 0.886,
+   "stability": 0.856,
    "near_line": [
     "household growth"
    ],
@@ -2563,7 +2563,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.796,
+   "stability": 0.836,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -2639,7 +2639,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.608,
+   "stability": 0.662,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -2666,7 +2666,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 34% of all homes.",
-   "stability": 0.996,
+   "stability": 0.992,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -2830,7 +2830,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 1.0,
+   "stability": 0.998,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -2855,7 +2855,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.664,
+   "stability": 0.654,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -3024,7 +3024,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.998,
+   "stability": 1.0,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -3050,7 +3050,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.984,
+   "stability": 0.994,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -3269,7 +3269,7 @@
    "level": "town",
    "type": "softening",
    "basis": "The market call is \"falling demand\".",
-   "stability": 0.924,
+   "stability": 0.954,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -3296,7 +3296,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.534,
+   "stability": 0.54,
    "near_line": [
     "seasonal share"
    ],
@@ -3494,7 +3494,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.576,
+   "stability": 0.642,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -3521,7 +3521,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.93,
+   "stability": 0.938,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -3546,7 +3546,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 3.0% a year.",
-   "stability": 0.784,
+   "stability": 0.774,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -3573,7 +3573,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.696,
+   "stability": 0.758,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -3605,7 +3605,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 1.0,
+   "stability": 0.998,
    "near_line": [
     "household growth"
    ],
@@ -3722,7 +3722,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.494,
+   "stability": 0.5,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -3747,7 +3747,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 2.4% a year.",
-   "stability": 0.814,
+   "stability": 0.848,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -3850,7 +3850,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.946,
+   "stability": 0.93,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -3934,7 +3934,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.686,
+   "stability": 0.672,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -3959,7 +3959,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.996,
+   "stability": 0.998,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -4142,7 +4142,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 1.1% a year.",
-   "stability": 0.934,
+   "stability": 0.926,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -4171,9 +4171,7 @@
    "basis": "No rule above holds.",
    "stability": 1.0,
    "near_line": [],
-   "modifiers": [
-    "no_prop123"
-   ],
+   "modifiers": [],
    "readings": {
     "seasonal_share": 0.0306,
     "seasonal_moe": 0.0235,
@@ -4183,7 +4181,7 @@
     "call": "steady",
     "rent_edge": "thin",
     "population": 17122,
-    "prop123_committed": false
+    "prop123_committed": true
    },
    "here_now": [],
    "county_fips": "08043",
@@ -4194,7 +4192,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.88,
+   "stability": 0.87,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -4270,7 +4268,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.77,
+   "stability": 0.78,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -4367,7 +4365,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 29% of all homes.",
-   "stability": 0.68,
+   "stability": 0.638,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -4392,7 +4390,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.96,
+   "stability": 0.958,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -4519,11 +4517,10 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.762,
+   "stability": 0.72,
    "near_line": [],
    "modifiers": [
-    "small_place",
-    "no_prop123"
+    "small_place"
    ],
    "readings": {
     "seasonal_share": 0.1599,
@@ -4534,7 +4531,7 @@
     "call": "steady",
     "rent_edge": "clear",
     "population": 525,
-    "prop123_committed": false
+    "prop123_committed": true
    },
    "here_now": [],
    "county_fips": "08047",
@@ -4570,7 +4567,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.986,
+   "stability": 0.994,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -4696,7 +4693,7 @@
    "level": "town",
    "type": "resort",
    "basis": "Seasonal homes are 31% of all homes.",
-   "stability": 0.972,
+   "stability": 0.97,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -4797,7 +4794,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 37% of all homes.",
-   "stability": 0.864,
+   "stability": 0.846,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -4823,7 +4820,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.808,
+   "stability": 0.754,
    "near_line": [
     "household growth"
    ],
@@ -4852,7 +4849,7 @@
    "level": "town",
    "type": "softening",
    "basis": "The market call is \"falling demand\".",
-   "stability": 0.98,
+   "stability": 0.984,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -4904,7 +4901,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.878,
+   "stability": 0.874,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -5009,7 +5006,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.966,
+   "stability": 0.972,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -5091,7 +5088,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.712,
+   "stability": 0.742,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -5207,7 +5204,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 31% of all homes.",
-   "stability": 0.664,
+   "stability": 0.66,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -5357,7 +5354,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.978,
+   "stability": 0.986,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -5383,7 +5380,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.992,
+   "stability": 1.0,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -5415,7 +5412,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.81,
+   "stability": 0.806,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -5442,7 +5439,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.974,
+   "stability": 0.976,
    "near_line": [
     "household growth"
    ],
@@ -5811,7 +5808,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.74,
+   "stability": 0.718,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -6145,7 +6142,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 1.0,
+   "stability": 0.998,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -6224,7 +6221,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 23% of all homes.",
-   "stability": 0.888,
+   "stability": 0.88,
    "near_line": [],
    "modifiers": [],
    "readings": {
@@ -6267,7 +6264,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.976,
+   "stability": 0.98,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -6293,7 +6290,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 31% of all homes.",
-   "stability": 0.848,
+   "stability": 0.806,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -6454,7 +6451,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 25% of all homes.",
-   "stability": 0.606,
+   "stability": 0.626,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -6823,7 +6820,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.93,
+   "stability": 0.92,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -6849,7 +6846,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.96,
+   "stability": 0.958,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -6931,7 +6928,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.99,
+   "stability": 0.998,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -7112,7 +7109,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 1.0,
+   "stability": 0.998,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -7365,7 +7362,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 1.0,
+   "stability": 0.998,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -7391,7 +7388,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.728,
+   "stability": 0.7,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -7417,7 +7414,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.586,
+   "stability": 0.584,
    "near_line": [
     "seasonal share"
    ],
@@ -7496,7 +7493,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.852,
+   "stability": 0.86,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -7521,7 +7518,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.914,
+   "stability": 0.93,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -7603,7 +7600,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.714,
+   "stability": 0.686,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -7713,7 +7710,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.982,
+   "stability": 0.998,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -7977,7 +7974,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.98,
+   "stability": 0.964,
    "near_line": [
     "household growth"
    ],
@@ -8137,7 +8134,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.764,
+   "stability": 0.726,
    "near_line": [
     "household growth"
    ],
@@ -8192,7 +8189,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.896,
+   "stability": 0.908,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -8218,7 +8215,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.796,
+   "stability": 0.808,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -8304,7 +8301,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 66% of all homes.",
-   "stability": 0.964,
+   "stability": 0.976,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -8367,7 +8364,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 70% of all homes.",
-   "stability": 0.922,
+   "stability": 0.928,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -8449,7 +8446,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.754,
+   "stability": 0.732,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -8553,7 +8550,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 1.6% a year.",
-   "stability": 0.962,
+   "stability": 0.964,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -8606,7 +8603,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.95,
+   "stability": 0.952,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -8632,7 +8629,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 28% of all homes.",
-   "stability": 0.766,
+   "stability": 0.786,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -8848,7 +8845,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.81,
+   "stability": 0.842,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -8958,7 +8955,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.928,
+   "stability": 0.912,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -8985,7 +8982,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.784,
+   "stability": 0.804,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -9011,7 +9008,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.964,
+   "stability": 0.984,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -9230,7 +9227,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 2.1% a year.",
-   "stability": 0.916,
+   "stability": 0.91,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -9282,7 +9279,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 27% of all homes.",
-   "stability": 0.554,
+   "stability": 0.562,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -9416,7 +9413,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.542,
+   "stability": 0.55,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -9442,7 +9439,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 0.8% a year.",
-   "stability": 0.976,
+   "stability": 0.97,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -9495,7 +9492,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.98,
+   "stability": 0.986,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -9546,7 +9543,7 @@
    "level": "town",
    "type": "growing",
    "basis": "Household population up 3.1% a year.",
-   "stability": 0.582,
+   "stability": 0.594,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -9646,7 +9643,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.952,
+   "stability": 0.962,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -9726,7 +9723,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.79,
+   "stability": 0.838,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -9752,7 +9749,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.964,
+   "stability": 0.972,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -9810,7 +9807,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.504,
+   "stability": 0.49,
    "near_line": [
     "seasonal share"
    ],
@@ -9838,7 +9835,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 24% of all homes.",
-   "stability": 0.62,
+   "stability": 0.662,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -9864,7 +9861,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.984,
+   "stability": 0.97,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -10025,7 +10022,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.806,
+   "stability": 0.826,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -10211,7 +10208,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.946,
+   "stability": 0.968,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -10327,7 +10324,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.902,
+   "stability": 0.918,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -10502,7 +10499,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.998,
+   "stability": 1.0,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -10536,7 +10533,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.85,
+   "stability": 0.856,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -10568,7 +10565,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.716,
+   "stability": 0.764,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -10594,7 +10591,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.666,
+   "stability": 0.632,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -10621,7 +10618,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.708,
+   "stability": 0.754,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -10775,7 +10772,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.592,
+   "stability": 0.546,
    "near_line": [
     "seasonal share"
    ],
@@ -10829,7 +10826,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 0.7% a year.",
-   "stability": 0.848,
+   "stability": 0.86,
    "near_line": [
     "household growth"
    ],
@@ -10876,7 +10873,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 1.1% a year.",
-   "stability": 0.782,
+   "stability": 0.796,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -10931,7 +10928,7 @@
    "level": "town",
    "type": "resort",
    "basis": "Seasonal homes are 35% of all homes.",
-   "stability": 0.916,
+   "stability": 0.928,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -11072,7 +11069,7 @@
    "level": "town",
    "type": "softening",
    "basis": "The market call is \"falling demand\".",
-   "stability": 0.992,
+   "stability": 0.98,
    "near_line": [
     "household growth"
    ],
@@ -11100,7 +11097,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.992,
+   "stability": 1.0,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -11159,7 +11156,7 @@
    "level": "town",
    "type": "resort",
    "basis": "Seasonal homes are 27% of all homes.",
-   "stability": 0.998,
+   "stability": 1.0,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -11225,7 +11222,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 22% of all homes.",
-   "stability": 0.584,
+   "stability": 0.494,
    "near_line": [
     "seasonal share"
    ],
@@ -11252,7 +11249,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 35% of all homes.",
-   "stability": 0.732,
+   "stability": 0.736,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -11395,7 +11392,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.952,
+   "stability": 0.956,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -11636,7 +11633,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.976,
+   "stability": 0.988,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -11721,7 +11718,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 1.1% a year.",
-   "stability": 0.94,
+   "stability": 0.93,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -11755,7 +11752,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.884,
+   "stability": 0.9,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -11913,7 +11910,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 1.2% a year.",
-   "stability": 1.0,
+   "stability": 0.998,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -11939,7 +11936,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.578,
+   "stability": 0.6,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -12042,7 +12039,7 @@
    "level": "town",
    "type": "growing",
    "basis": "Household population up 2.3% a year.",
-   "stability": 0.574,
+   "stability": 0.59,
    "near_line": [
     "seasonal share",
     "household growth"
@@ -12204,7 +12201,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.732,
+   "stability": 0.752,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -12332,7 +12329,7 @@
    "level": "cdp",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.856,
+   "stability": 0.852,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -12391,7 +12388,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 47% of all homes.",
-   "stability": 0.826,
+   "stability": 0.836,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -12534,7 +12531,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.908,
+   "stability": 0.922,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -12644,7 +12641,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 25% of all homes.",
-   "stability": 0.612,
+   "stability": 0.618,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -12797,7 +12794,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.82,
+   "stability": 0.818,
    "near_line": [
     "household growth"
    ],
@@ -12826,7 +12823,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.882,
+   "stability": 0.878,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -12922,7 +12919,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.834,
+   "stability": 0.83,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -12961,7 +12958,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.998,
+   "stability": 1.0,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -12986,7 +12983,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.998,
+   "stability": 0.994,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -13059,7 +13056,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.786,
+   "stability": 0.788,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -13085,7 +13082,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.964,
+   "stability": 0.934,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -13139,7 +13136,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.996,
+   "stability": 1.0,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -13216,7 +13213,7 @@
    "level": "town",
    "type": "resort",
    "basis": "Seasonal homes are 33% of all homes.",
-   "stability": 0.97,
+   "stability": 0.96,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -13243,7 +13240,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.562,
+   "stability": 0.572,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -13330,7 +13327,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 74% of all homes.",
-   "stability": 0.994,
+   "stability": 0.996,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -13355,7 +13352,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 1.0,
+   "stability": 0.998,
    "near_line": [
     "jobs per resident",
     "household growth"
@@ -13407,7 +13404,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.928,
+   "stability": 0.952,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -13460,7 +13457,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.972,
+   "stability": 0.96,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -13486,7 +13483,7 @@
    "level": "town",
    "type": "growing",
    "basis": "Household population up 2.7% a year.",
-   "stability": 0.524,
+   "stability": 0.528,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -13545,7 +13542,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.714,
+   "stability": 0.754,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -13570,7 +13567,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.58,
+   "stability": 0.62,
    "near_line": [
     "seasonal share",
     "household growth"
@@ -13599,7 +13596,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.954,
+   "stability": 0.942,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -13626,7 +13623,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.97,
+   "stability": 0.978,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -13653,7 +13650,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.998,
+   "stability": 0.996,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -13764,7 +13761,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 2.9% a year.",
-   "stability": 0.748,
+   "stability": 0.802,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -13871,7 +13868,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.974,
+   "stability": 0.964,
    "near_line": [
     "household growth"
    ],
@@ -13899,7 +13896,7 @@
    "level": "town",
    "type": "resort",
    "basis": "Seasonal homes are 41% of all homes.",
-   "stability": 1.0,
+   "stability": 0.998,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -13924,7 +13921,7 @@
    "level": "town",
    "type": "resort",
    "basis": "Seasonal homes are 26% of all homes.",
-   "stability": 0.908,
+   "stability": 0.902,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -13987,7 +13984,7 @@
    "level": "town",
    "type": "resort",
    "basis": "Seasonal homes are 25% of all homes.",
-   "stability": 0.854,
+   "stability": 0.836,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -14038,7 +14035,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.996,
+   "stability": 0.998,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -14104,7 +14101,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 70% of all homes.",
-   "stability": 0.852,
+   "stability": 0.83,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -14131,7 +14128,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.816,
+   "stability": 0.81,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -14164,7 +14161,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.718,
+   "stability": 0.734,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -14248,7 +14245,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 1.2% a year.",
-   "stability": 0.972,
+   "stability": 0.954,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -14555,7 +14552,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 30% of all homes.",
-   "stability": 0.694,
+   "stability": 0.73,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -14678,7 +14675,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 27% of all homes.",
-   "stability": 0.738,
+   "stability": 0.79,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -14703,7 +14700,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.998,
+   "stability": 0.996,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -14930,7 +14927,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.636,
+   "stability": 0.632,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -14955,7 +14952,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.638,
+   "stability": 0.624,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -15039,7 +15036,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 26% of all homes.",
-   "stability": 0.7,
+   "stability": 0.732,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -15065,7 +15062,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 1.4% a year.",
-   "stability": 0.634,
+   "stability": 0.656,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -15092,7 +15089,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.918,
+   "stability": 0.896,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -15117,7 +15114,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.664,
+   "stability": 0.698,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -15214,7 +15211,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.634,
+   "stability": 0.608,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -15241,7 +15238,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.672,
+   "stability": 0.68,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -15299,7 +15296,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 0.5% a year.",
-   "stability": 0.708,
+   "stability": 0.706,
    "near_line": [
     "household growth"
    ],
@@ -15327,7 +15324,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.972,
+   "stability": 0.974,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -15380,7 +15377,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 0.8% a year.",
-   "stability": 0.952,
+   "stability": 0.964,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -15435,7 +15432,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.992,
+   "stability": 0.994,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -15489,7 +15486,7 @@
    "level": "town",
    "type": "softening",
    "basis": "Household population down 2.2% a year.",
-   "stability": 0.904,
+   "stability": 0.918,
    "near_line": [],
    "modifiers": [
     "small_place",
@@ -15577,7 +15574,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.742,
+   "stability": 0.732,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -15629,7 +15626,7 @@
    "level": "town",
    "type": "resort",
    "basis": "Seasonal homes are 20% of all homes.",
-   "stability": 0.512,
+   "stability": 0.564,
    "near_line": [
     "seasonal share"
    ],
@@ -15657,7 +15654,7 @@
    "level": "cdp",
    "type": "resort",
    "basis": "Seasonal homes are 25% of all homes.",
-   "stability": 0.69,
+   "stability": 0.596,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -15712,7 +15709,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.716,
+   "stability": 0.69,
    "near_line": [],
    "modifiers": [
     "no_rent_edge",
@@ -16010,7 +16007,7 @@
    "level": "cdp",
    "type": "too_little_data",
    "basis": "No market call and no household population reading.",
-   "stability": 0.948,
+   "stability": 0.946,
    "near_line": [],
    "modifiers": [
     "small_place"
@@ -16075,7 +16072,7 @@
    "level": "town",
    "type": "steady",
    "basis": "No rule above holds.",
-   "stability": 0.986,
+   "stability": 0.978,
    "near_line": [],
    "modifiers": [
     "small_place"

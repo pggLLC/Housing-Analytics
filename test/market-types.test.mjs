@@ -55,6 +55,32 @@ for (const [g, p] of places) {
 }
 assert.deepEqual(counts, M.counts, 'meta counts equal the places'); checks++;
 
+// Prop 123 against the DOLA list itself, with the same name reconciliation as
+// comparableName() in js/prop123-map.js (accents, "City of", Central City).
+const comparable = (s) => String(s || '').replace(/\s+\([^)]*\)$/, '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+  .toLowerCase().replace(/\s+/g, ' ').replace(/[^\w\s\-.&]/g, '').trim()
+  .replace(/^(city and county|city|town|village) of\s+/, '').replace(/\s+county$/, '')
+  .replace(/^mt\.?\s+/, 'mount ').replace(/^central city$/, 'central').trim();
+const P123 = readJson('data/policy/prop123_jurisdictions.json').jurisdictions
+  .filter((j) => /^(committed|commitment met)$/i.test(j.status || ''));
+const townByName = new Map(places.filter(([, p]) => p.level === 'town').map(([, p]) => [comparable(p.name), p]));
+// Keystone incorporated in 2024; the Census still counts it as a CDP.
+const notYetTowns = new Set(['keystone']);
+for (const j of P123.filter((x) => x.kind === 'municipality')) {
+  const key = comparable(j.name);
+  if (notYetTowns.has(key)) continue;
+  ok(townByName.has(key), `${j.name}: filed town is in the file`);
+  ok(townByName.get(key).readings.prop123_committed === true, `${j.name}: filed commitment is counted`);
+}
+for (const [key, p] of townByName) {
+  const own = P123.some((j) => j.kind === 'municipality' && comparable(j.name) === key);
+  const cityCounty = P123.some((j) => /^city and county of/i.test(j.name) && comparable(j.name) === key);
+  ok(p.readings.prop123_committed === (own || cityCounty), `${p.name}: Prop 123 status matches the DOLA list`);
+}
+for (const n of ['Cañon City (city)', 'Central City (city)']) {
+  ok(places.some(([, p]) => p.name === n && p.readings.prop123_committed), `${n}: filing found`);
+}
+
 const files = {
   'data/policy/co-developer-funding-guide.json': (d) => d.programs,
   'data/policy/incentive-alternatives.json': (d) => d.tools,
@@ -100,7 +126,7 @@ if (chromium) {
   await tab.selectOption('#mtPick', pick[0]);
   const card = await tab.$eval('#mtPlace', (e) => ({ text: e.textContent, links: [...e.querySelectorAll('.mt-menu a')].map((a) => a.href) }));
   ok(card.text.includes(pick[1].basis) && card.text.includes(M.types.resort.label), `${pick[1].name}: card shows its type and reason`);
-  ok(card.links.length >= M.menus.resort.length && card.links.every((h) => h.startsWith('https://')), 'menu items are linked');
+  ok(card.links.length >= M.menus.resort.length && card.links.every((h) => h.startsWith('https:')), 'menu items are linked');
 
   const thin = places.find(([, p]) => p.type === 'too_little_data' && p.county_fips);
   await tab.selectOption('#mtPick', thin[0]);

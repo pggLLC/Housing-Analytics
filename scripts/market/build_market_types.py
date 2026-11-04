@@ -43,7 +43,8 @@ import os
 import re
 import sys
 
-import numpy as np
+import random
+import unicodedata
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 OUT = os.path.join(ROOT, 'data', 'market', 'market-types.json')
@@ -170,12 +171,20 @@ def load(*parts):
 
 
 def norm(name):
-    s = (name or '').strip()
-    for pat in (r'^City and County of\s+', r'^City of\s+', r'^Town of\s+'):
-        s = re.sub(pat, '', s, flags=re.I)
-    s = re.sub(r'\s*\((city|town|CDP)\)\s*$', '', s, flags=re.I)
-    s = re.sub(r'\s+County$', '', s, flags=re.I)
-    return s.strip().lower()
+    """Same reconciliation as comparableName() in js/prop123-map.js, so the tab and
+    the Prop 123 map agree on who has filed: accents dropped (Cañon City), a
+    leading "City/Town/Village of" and a trailing "County" or "(city)" removed,
+    "Mt." spelled out, and Central City matched to DOLA's "City of Central"."""
+    s = unicodedata.normalize('NFD', name or '')
+    s = ''.join(ch for ch in s if unicodedata.category(ch) != 'Mn').lower()
+    s = re.sub(r'\s+\([^)]*\)$', '', s.strip())
+    s = re.sub(r'\s+', ' ', s)
+    s = re.sub(r'[^\w\s\-.&]', '', s).strip()
+    s = re.sub(r'^(city and county|city|town|village) of\s+', '', s)
+    s = re.sub(r'\s+county$', '', s)
+    s = re.sub(r'^mt\.?\s+', 'mount ', s)
+    s = re.sub(r'^central city$', 'central', s)
+    return s.strip()
 
 
 def first_quote(evidence):
@@ -286,14 +295,26 @@ def near_line(seasonal, jobs, residents, growth):
 
 
 def kmeans(X, k, rng, iters=100):
-    c = X[rng.choice(len(X), k, replace=False)]
+    """Plain k-means on a list of points (the derived chain is stdlib-only)."""
+    dim = len(X[0])
+    c = [list(X[i]) for i in rng.sample(range(len(X)), k)]
+
+    def nearest(x):
+        return min(range(k), key=lambda j: sum((x[d] - c[j][d]) ** 2 for d in range(dim)))
+
+    lab = [nearest(x) for x in X]
     for _ in range(iters):
-        lab = ((X[:, None, :] - c[None]) ** 2).sum(-1).argmin(1)
-        new = np.array([X[lab == j].mean(0) if (lab == j).any() else c[j] for j in range(k)])
-        if np.allclose(new, c):
-            break
+        new = []
+        for j in range(k):
+            pts = [x for x, l in zip(X, lab) if l == j]
+            new.append([sum(p[d] for p in pts) / len(pts) for d in range(dim)] if pts else c[j])
+        moved = any(abs(new[j][d] - c[j][d]) > 1e-9 for j in range(k) for d in range(dim))
         c = new
-    return lab, ((X - c[lab]) ** 2).sum()
+        lab = [nearest(x) for x in X]
+        if not moved:
+            break
+    inertia = sum(sum((x[d] - c[l][d]) ** 2 for d in range(dim)) for x, l in zip(X, lab))
+    return lab, inertia
 
 
 def adjusted_rand(a, b):
@@ -383,7 +404,7 @@ def main():
                      'prop123': ((norm(p['name']) + '|municipality') in committed) if kind == 'municipality'
                      else ((norm(cty['name']) + '|county') in committed)})
 
-    rng = np.random.RandomState(20261104)
+    rng = random.Random(20261104)
     out_rows = {}
     for r in rows:
         args_ = (r['seasonal'], r['call'], r['jobs'], r['residents'], r['growth'])
@@ -392,7 +413,7 @@ def main():
         keep = draws
         if r['seasonal'] is not None and r['seasonal_moe']:
             se = r['seasonal_moe'] / 1.645
-            sims = r['seasonal'] + se * rng.standard_normal(draws)
+            sims = [r['seasonal'] + se * rng.gauss(0.0, 1.0) for _ in range(draws)]
             keep = sum(type_of(max(0.0, v), *args_[1:]) == t for v in sims)
         mods_on = []
         if r['rent_edge'] == 'no_edge':
@@ -418,9 +439,15 @@ def main():
 
     # Cluster check: do the written rules sit near groups found without them?
     feat_rows = [r for r in rows if r['seasonal'] is not None and r['jobs'] and r['residents'] and r['growth'] is not None]
-    X = np.array([[math.log1p(r['seasonal'] * 100), math.log(r['jobs'] / r['residents']), r['growth']] for r in feat_rows])
-    X = (X - X.mean(0)) / X.std(0)
-    X[:, 2] = np.clip(X[:, 2], -3, 3)
+    X = [[math.log1p(r['seasonal'] * 100), math.log(r['jobs'] / r['residents']), r['growth']] for r in feat_rows]
+    for d in range(3):
+        col = [x[d] for x in X]
+        mu = sum(col) / len(col)
+        sd = math.sqrt(sum((v - mu) ** 2 for v in col) / len(col))
+        for x in X:
+            x[d] = (x[d] - mu) / sd
+    for x in X:
+        x[2] = max(-3.0, min(3.0, x[2]))
     best = None
     for _ in range(20):
         lab, inertia = kmeans(X, 5, rng)
