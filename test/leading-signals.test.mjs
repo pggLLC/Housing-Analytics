@@ -35,6 +35,17 @@ for (const [geoid, rec] of Object.entries(data.places)) {
   }
   assert.equal(rec.land_banked_not_financed, (rec.signals.land_banking || []).filter((r) => !r.financed).length);
 }
+// Every 2027-2029 filing lands on a place of its own kind: "City of Ouray" and
+// "Ouray County" share a name once normalised, and each keeps its own goal.
+const p123 = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/policy/prop123_jurisdictions.json'), 'utf8'));
+for (const f of (p123.next_cycle || {}).filings || []) {
+  const isCounty = /County$/.test(f.name);
+  const hit = Object.values(data.places).some((rec) => /^\d{5}$/.test(rec.geoid) === isCounty
+    && (rec.signals.prop123 || []).some((r) => r.cycle2_submitted === f.submitted && r.cycle2_unit_goal === f.unit_goal));
+  if (!data.meta.unmatched.includes(f.name)) assert.ok(hit, `${f.name}: cycle-2 filing is on a ${isCounty ? 'county' : 'place'}`);
+}
+const ourayCity = Object.values(data.places).find((rec) => rec.name === 'Ouray (city)');
+assert.ok(ourayCity && ourayCity.signals.prop123[0].cycle2_unit_goal != null, 'City of Ouray keeps its own cycle-2 filing');
 assert.ok(rows > 300, `only ${rows} signal rows: the inputs did not load`);
 assert.ok(Object.keys(data.places).length > 150);
 

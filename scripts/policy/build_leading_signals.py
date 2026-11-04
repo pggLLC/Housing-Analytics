@@ -100,10 +100,10 @@ def main():
 
     # Prop 123 commitments, fast track, 2027-2029 filings
     p123 = load(P('data', 'policy', 'prop123_jurisdictions.json'))
-    cycle2 = {norm(f['name']): f for f in (p123.get('next_cycle') or {}).get('filings', [])}
-    c2_kind = {}
-    for f in (p123.get('next_cycle') or {}).get('filings', []):
-        c2_kind[norm(f['name'])] = 'county' if re.search(r'County$', f['name']) else 'place'
+    # Keyed by kind and name: "City of Ouray" and "Ouray County" both normalise to "ouray".
+    def c2_key(name):
+        return ('county' if re.search(r'County$', name) else 'place', norm(name))
+    cycle2 = {c2_key(f['name']): f for f in (p123.get('next_cycle') or {}).get('filings', [])}
     seen_c2 = set()
     for j in p123['jurisdictions']:
         kind = 'county' if j.get('kind') == 'county' else 'place'
@@ -111,9 +111,10 @@ def main():
         if not g:
             unmatched.append(('prop123', j['name']))
             continue
-        f = cycle2.get(norm(j['name'])) if c2_kind.get(norm(j['name'])) == kind else None
+        key = (kind, norm(j['name']))
+        f = cycle2.get(key)
         if f:
-            seen_c2.add(norm(j['name']))
+            seen_c2.add(key)
         add(g, 'prop123', {
             'status': j.get('status'), 'filing_date': j.get('filing_date'),
             'proposed_units': j.get('proposed_units'), 'fast_track': j.get('fast_track'),
@@ -124,7 +125,7 @@ def main():
     for k, f in cycle2.items():
         if k in seen_c2:
             continue
-        g = by_name[c2_kind[k]].get(k)
+        g = by_name[k[0]].get(k[1])
         if not g:
             unmatched.append(('prop123-cycle2', f['name']))
             continue
@@ -164,9 +165,11 @@ def main():
                 'relevance': sorted(rel), 'mechanism': e['measure'].get('fiscal', {}).get('mechanism'),
                 'election_date': e['election']['date'],
                 'result': res.get('outcome') if isinstance(res, dict) else None,
-                'result_status': (res.get('status') if isinstance(res, dict) else None)
+                # schemas/ballot-2026.schema.json: result is null or {outcome, stage, source: {url}, as_of}.
+                'result_status': (res.get('stage') if isinstance(res, dict) else None)
                                  or 'awaiting the county clerk\'s published results',
-                'result_source': res.get('source_url') if isinstance(res, dict) else None,
+                'result_source': ((res.get('source') or {}).get('url') if isinstance(res, dict) else None),
+                'result_as_of': res.get('as_of') if isinstance(res, dict) else None,
                 'source_url': ((e.get('sources') or {}).get('ballot_notice') or {}).get('url')})
 
     # Open pipeline projects
@@ -208,4 +211,4 @@ def main():
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    main()
