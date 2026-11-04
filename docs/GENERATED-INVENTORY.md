@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T05:03:56.845Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T05:37:06.088Z. Do not edit by hand.
 
 ---
 
@@ -73,7 +73,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 75.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 155.0 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 155.4 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 82.2 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -97,7 +97,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1963 JSON files found.
+1964 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1898,7 +1898,7 @@
 | `data/market/realtor_inventory_co.json` | 225.7 KB | ✅ | — |
 | `data/market/redfin-city-observations-co.json` | 1.3 KB | ✅ | — |
 | `data/market/redfin_place_market_tracker_co.json` | 2.22 MB | ✅ | — |
-| `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
+| `data/market/reference-projects.json` | 208.6 KB | ✅ | — |
 | `data/market/relocation-comparables.json` | 4.4 KB | ✅ | — |
 | `data/market/state-trend-analysis.json` | 6.8 KB | ✅ | — |
 | `data/market/tax-credit-transfer-pricing.json` | 5.4 KB | ✅ | — |
@@ -2018,6 +2018,7 @@
 | `data/policy/job-access.json` | 104.3 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
+| `data/policy/leading-signals.json` | 214.3 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.9 KB | ✅ | — |
 | `data/policy/lihtc-underwriting-rules.json` | 23.7 KB | ✅ | — |
 | `data/policy/local-commitment.json` | 64.1 KB | ✅ | — |
@@ -2069,7 +2070,7 @@
 
 ## Test Files
 
-767 test files found.
+769 test files found.
 
 | File | Size |
 |------|------|
@@ -2333,7 +2334,7 @@
 | `test/hna-age-and-growth-labels.test.js` | 9.2 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
 | `test/hna-assumption-defaults.test.js` | 10.7 KB |
-| `test/hna-build-rebase-recovery.test.js` | 8.1 KB |
+| `test/hna-build-rebase-recovery.test.js` | 8.2 KB |
 | `test/hna-car-loader.test.js` | 5.5 KB |
 | `test/hna-cdp-deep-link.test.js` | 4.9 KB |
 | `test/hna-chapter-handoff.test.mjs` | 9.0 KB |
@@ -2444,6 +2445,7 @@
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 39.6 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
+| `test/leading-signals.test.mjs` | 4.8 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-activity-panel.test.mjs` | 4.8 KB |
 | `test/lihtc-award-year-not-pis.test.js` | 10.2 KB |
@@ -2517,6 +2519,7 @@
 | `test/parcel-source-honesty.test.js` | 5.4 KB |
 | `test/past-migration-option.test.js` | 17.9 KB |
 | `test/pbv-by-pha.test.mjs` | 2.4 KB |
+| `test/peer-benchmark-missing-score.test.js` | 4.5 KB |
 | `test/percentile-agrees-with-rank.test.mjs` | 5.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
 | `test/permit-declared-value.test.mjs` | 5.9 KB |
@@ -2859,7 +2862,7 @@
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
 | `.github/workflows/build-acs-reliability.yml` | 3.5 KB |
-| `.github/workflows/build-hna-data.yml` | 38.1 KB |
+| `.github/workflows/build-hna-data.yml` | 38.4 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 16.5 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
@@ -2899,7 +2902,7 @@
 | `.github/workflows/fetch-hmda-data.yml` | 4.3 KB |
 | `.github/workflows/fetch-kalshi.yml` | 5.5 KB |
 | `.github/workflows/fetch-market-rents.yml` | 8.6 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 22.3 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 22.4 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 9.1 KB |
 | `.github/workflows/funding-awards.yml` | 5.8 KB |
 | `.github/workflows/local-incentives-watch.yml` | 1.8 KB |

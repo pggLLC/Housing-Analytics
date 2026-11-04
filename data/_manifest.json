@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-04T05:04:40.093Z",
+    "generated_at": "2026-11-04T05:37:40.544Z",
     "root": "data/",
-    "file_count": 2011,
-    "total_size_bytes": 213760158,
+    "file_count": 2012,
+    "total_size_bytes": 214167945,
     "kinds": {
-      "json": 1962,
+      "json": 1963,
       "geojson": 35,
       "csv": 14
     }
@@ -671,7 +671,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-04T05:04:35.275Z",
+      "mtime": "2026-11-04T05:37:37.058Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39527,8 +39527,8 @@
     {
       "path": "market/reference-projects.json",
       "kind": "json",
-      "size_bytes": 25321,
-      "mtime": "2026-09-25T12:55:18.979Z",
+      "size_bytes": 213626,
+      "mtime": "2026-11-04T05:36:01.616Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39536,10 +39536,11 @@
       ],
       "key_count": 2,
       "primary_array_key": "projects",
-      "primary_array_length": 50,
+      "primary_array_length": 443,
       "primary_array_first_keys": [
         "id",
         "name",
+        "address",
         "city",
         "county",
         "county_fips",
@@ -39548,8 +39549,7 @@
         "total_units",
         "li_units",
         "year_alloc",
-        "ami_mix",
-        "market_type"
+        "credit"
       ]
     },
     {
@@ -39992,7 +39992,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16687,
-      "mtime": "2026-11-04T05:04:37.468Z",
+      "mtime": "2026-11-04T05:37:38.884Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40016,7 +40016,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-04T05:04:36.883Z",
+      "mtime": "2026-11-04T05:37:38.403Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42610,6 +42610,21 @@
         "benefit_basis",
         "assessments"
       ]
+    },
+    {
+      "path": "policy/leading-signals.json",
+      "kind": "json",
+      "size_bytes": 219482,
+      "mtime": "2026-11-04T05:37:06.043Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "places"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "policy/lihtc-assumptions.json",
