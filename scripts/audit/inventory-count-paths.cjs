@@ -68,6 +68,7 @@ const JSON_COUNT_PATHS = {
   'chfa-income-rent-limits': 'counties',
   'funding-vs-need': 'counties',
   'market-direction': ['counties', 'places'],
+  'market-types': 'places',
   'development-activity': 'projects',
   'lihtc-state-allocations': 'states',
   'co-ami-gap-county': 'counties',

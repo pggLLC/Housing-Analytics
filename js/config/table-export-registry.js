@@ -132,6 +132,12 @@
       sources: ['market-direction'],
       selection: { County: '#mdCounty', Call: '#mdTownCall', 'Census-designated places included': '#mdCdps' }
     },
+    'dd-market-types-towns': {
+      title: 'COHO market patterns by town',
+      description: 'One row per incorporated town, for the type and county selected on the page: its COHO market pattern, the reading behind it, and the conditions that add to its menu.',
+      sources: ['market-types'],
+      selection: { County: '#mtCounty', Type: '#mtType' }
+    },
     'dd-market-projects': {
       title: 'Affordable projects in a county',
       description: 'Every affordable-housing project a state agency recorded in the selected county since 2016, newest first.',

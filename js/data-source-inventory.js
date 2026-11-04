@@ -1257,7 +1257,7 @@
       maxAgeDays: 30,
       geoUnit: 'N/A',
       coverage: 'All data files',
-      features: 1998,
+      features: 1999,
       description: 'Auto-generated manifest listing all data files with feature counts and timestamps.',
       tags: ['manifest', 'system', 'metadata'],
       apiEndpoint: null
@@ -1679,6 +1679,24 @@
       features: 546,
       description: 'A market call for every county and town (emerging, steady, softening, falling demand, second-home shift or not enough data) with the household population, jobs, permit, price and rent readings behind it, this year\u2019s permits to date, and the tax-credit rent edge.',
       tags: ['market', 'permits', 'prices', 'rents', 'population', 'derived'],
+      apiEndpoint: null
+    },
+    {
+      id: 'market-types',
+      name: 'Market Types and Strategy Menu (derived)',
+      category: 'Market Analysis',
+      format: 'JSON',
+      provider: 'COHO Analytics, from the market direction calls, ACS seasonal homes, LEHD commuting and the cited program records',
+      url: null,
+      localFile: 'data/market/market-types.json',
+      lastUpdated: '2026-11-03',
+      updateFrequency: 'When market direction rebuilds (the derived chain rebuilds it)',
+      maxAgeDays: 45,
+      geoUnit: 'County and place',
+      coverage: 'All 64 Colorado counties and 482 towns and CDPs',
+      features: 546,
+      description: 'A market type for every county and town (resort and second-home, job centre, fast-growing, softening or shrinking, steady), from written rules, with the Colorado programs and local tools that tend to fit each type, the local funds already in place, and how stable each type is to the ACS margin of error.',
+      tags: ['market', 'policy', 'strategy', 'derived'],
       apiEndpoint: null
     },
     {

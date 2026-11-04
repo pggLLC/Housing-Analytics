@@ -150,6 +150,12 @@ export const CHAIN = [
        + 'the 2026 ballot and open ledger projects per place; it runs after the ledger and land banking status it reads',
   },
   {
+    id: 'market-types',
+    argv: ['python3', 'scripts/market/build_market_types.py'],
+    why: 'data/market/market-types.json types every county and town from the market calls, '
+       + 'seasonal homes and commuting, so it runs after market-direction',
+  },
+  {
     id: 'paper-figures',
     argv: ['npm', 'run', 'paper:build'],
     why: 'the working paper and methods page quote counts measured off the repo',
