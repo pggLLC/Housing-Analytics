@@ -53,6 +53,10 @@ function checkRecord(r, where) {
   if (r.bands) {
     for (const k of ['walk_reach', 'bike_reach', 'transit_reach']) ok(r.bands[k] === band(r[k], m.bands[k]), `${where}: ${k} band follows the cut points`);
   }
+  // Homes off the network are left out of the job medians, so a median is missing only when every home is off it.
+  if (r.off_network_pct != null && r.off_network_pct < 100) {
+    ok(r.jobs_walk15 != null && r.jobs_bike15 != null, `${where}: job medians present when some homes are on the network`);
+  }
   if (r.epa_walk_index != null) ok(r.epa_walk_index >= 1 && r.epa_walk_index <= 20, `${where}: EPA index on its 1-20 scale`);
 }
 

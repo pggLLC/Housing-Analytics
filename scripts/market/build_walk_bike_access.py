@@ -45,8 +45,6 @@ import gzip
 import io
 import json
 import math
-import os
-import statistics
 import sys
 import time
 import urllib.request
@@ -130,7 +128,7 @@ class Net:
         self.lat = []
         self.a = []
         self.b = []
-        self.kind = []  # 0 street, 1 walk trail, 2 walk+bike trail, 3 link
+        self.kind = []  # 0 street, 1 walk-only trail, 2 walk+bike trail, 3 link, 4 bike-only trail
 
     def node(self, lon, lat):
         k = (round(lon, 6), round(lat, 6))
@@ -210,7 +208,7 @@ def read_trails(cache: Path):
         url = (COTREX + '/query?where=1%3D1&outFields=feature_id,name,bike,hiking,type,surface,access&outSR=4326'
                '&geometryPrecision=6&orderByFields=OBJECTID&f=geojson&resultOffset=' + str(off) + '&resultRecordCount=2000')
         fetch(url, p)
-        feats += json.load(open(p))['features']
+        feats += load_json(p)['features']
     if len(feats) != total:
         sys.exit('COTREX returned %d of %d segments' % (len(feats), total))
     edited = meta.get('editingInfo', {}).get('dataLastEditDate')
@@ -237,9 +235,7 @@ def add_trails(net: Net, feats, road_nodes):
         bike = bike_ok(p.get('bike'))
         if not walk and not bike:
             continue
-        kind = 2 if bike else 1
-        if bike and not walk:
-            kind = 2
+        kind = 2 if (walk and bike) else 1 if walk else 4
         g = f['geometry']
         lines = [g['coordinates']] if g['type'] == 'LineString' else g['coordinates']
         for ln in lines:
@@ -286,7 +282,7 @@ def read_csv_gz(path, key, val):
 
 
 def points(path, keep=None):
-    d = json.load(open(path))
+    d = load_json(path)
     pts = []
     for ft in d['features']:
         g = ft.get('geometry')
@@ -334,6 +330,11 @@ def load_services():
     return out, src
 
 
+def load_json(path):
+    with open(path) as fh:
+        return json.load(fh)
+
+
 def snap(tree, ids, lon, lat):
     d, j = tree.query(proj(lon, lat))
     node = ids[j]
@@ -341,8 +342,22 @@ def snap(tree, ids, lon, lat):
     return node, d, ok
 
 
+def with_source(g, lead):
+    """g plus one node (index n) joined to each node in lead by an edge of that length."""
+    n = g.shape[0]
+    cols = np.fromiter(lead.keys(), dtype=np.int64)
+    # A zero-length edge would vanish from a sparse matrix, so a service on the street is 1 cm off it.
+    w = np.maximum(np.fromiter(lead.values(), dtype=float), 0.01)
+    rows = np.full(len(cols), n)
+    extra = coo_matrix((w, (rows, cols)), shape=(n + 1, n + 1))
+    base = coo_matrix(g)
+    return (coo_matrix((base.data, (base.row, base.col)), shape=(n + 1, n + 1)) + extra).tocsr()
+
+
 def wmedian(vals, weights):
-    pairs = sorted((v, w) for v, w in zip(vals, weights) if v is not None and w > 0)
+    """Homes-weighted median of the measured values; homes off the network (NaN or None) are left out."""
+    pairs = sorted((v, w) for v, w in zip(vals, weights)
+                   if v is not None and not (isinstance(v, float) and math.isnan(v)) and w > 0)
     tot = sum(w for _, w in pairs)
     if not tot:
         return None
@@ -357,7 +372,7 @@ def wmedian(vals, weights):
 def build_map(doc, trails, services):
     """Per-town map layers: service points and COTREX trails within about 500 m of the town outline."""
     from shapely.geometry import box as sbox
-    pb = json.load(open(ROOT / 'data' / 'co-place-boundaries.geojson'))
+    pb = load_json(ROOT / 'data' / 'co-place-boundaries.geojson')
     outl = {f['properties']['geoid']: shape(f['geometry']) for f in pb['features'] if f.get('geometry')}
     tgeoms, tkinds = [], []
     for f in trails:
@@ -418,7 +433,7 @@ def main():
     if args.map_only:
         trails, _, _ = read_trails(cache)
         services, _ = load_services()
-        build_map(json.load(open(OUT)), trails, services)
+        build_map(load_json(OUT), trails, services)
         return
 
     net = Net()
@@ -429,7 +444,7 @@ def main():
     log('network nodes', len(net.lon), 'edges', len(net.a), 'by kind', np.bincount(net.kind).tolist())
 
     g_walk, _ = net.graph([0, 1, 2, 3])
-    g_bike, _ = net.graph([0, 2, 3])
+    g_bike, _ = net.graph([0, 2, 3, 4])
     g_road, _ = net.graph([0])
 
     # Snapping index: any node touched by a street (so a home never snaps to a backcountry trail).
@@ -455,11 +470,15 @@ def main():
         plon = np.array([p[0] for p in pts])
         plat = np.array([p[1] for p in pts])
         pnode, psnap, pok = snap(tree, rn, plon, plat)
-        src = np.unique(pnode[pok])
+        # The walk from the street to the service counts: one extra source node joins every
+        # service's street node with an edge as long as that service's snap distance.
+        lead = {}
+        for nd, dd in zip(pnode[pok], psnap[pok]):
+            lead[int(nd)] = min(lead.get(int(nd), np.inf), float(dd))
         out = {}
         for label, g, lim in (('walk', g_walk, WALK_10), ('bike', g_bike, BIKE_15),
                               ('walk_roads', g_road, WALK_10), ('bike_roads', g_road, BIKE_15)):
-            d = dijkstra(g, directed=False, indices=src, min_only=True, limit=lim)
+            d = dijkstra(with_source(g, lead), directed=False, indices=g.shape[0], limit=lim)[:g.shape[0]]
             dist = d[hnode] + hsnap
             out[label] = np.where(hok & (dist <= lim), 1.0, 0.0)
         st = cKDTree(proj(plon, plat))
@@ -475,9 +494,8 @@ def main():
     jlat = np.array([blocks[b][1] for b in jobs_ids])
     jn = np.array([int(wac[b]) for b in jobs_ids], dtype=float)
     jnode, jsnap, jok = snap(tree, rn, jlon, jlat)
-    jobs_at = np.zeros(len(net.lon))
-    np.add.at(jobs_at, jnode[jok], jn[jok])
-    log('jobs', int(jn.sum()), 'on network', int(jobs_at.sum()))
+    jnode, jsnap, jn = jnode[jok], jsnap[jok], jn[jok]
+    log('jobs', int(sum(int(wac[b]) for b in jobs_ids)), 'on network', int(jn.sum()))
 
     jobs_walk = np.full(len(homes_ids), np.nan)
     jobs_bike = np.full(len(homes_ids), np.nan)
@@ -493,7 +511,8 @@ def main():
         sub = np.where((net.lon >= x0) & (net.lon <= x1) & (net.lat >= y0) & (net.lat <= y1))[0]
         pos = -np.ones(len(net.lon), dtype=np.int64)
         pos[sub] = np.arange(len(sub))
-        jv = jobs_at[sub]
+        jin = pos[jnode] >= 0
+        jpos, jlead, jv = pos[jnode[jin]], jsnap[jin], jn[jin]
         for label, g, lim, outarr in (('walk', g_walk, WALK_15, jobs_walk), ('bike', g_bike, BIKE_15, jobs_bike)):
             gs = g[sub][:, sub]
             uniq = np.unique(hnode[rows])
@@ -504,18 +523,20 @@ def main():
                 chunk = uniq[k:k + 48]
                 D = dijkstra(gs, directed=False, indices=pos[chunk], limit=lim)
                 for n, row in zip(chunk, D):
+                    # Route to each job block's street node, plus the walk from the street to the block.
+                    jd = row[jpos] + jlead
                     for i in homes_at[n]:
-                        outarr[i] = float(jv[row + hsnap[i] <= lim].sum())
+                        outarr[i] = float(jv[jd + hsnap[i] <= lim].sum())
         log('jobs county', cty, len(rows), 'blocks', len(sub), 'nodes', round(time.time() - t0), 's')
 
     # 2010 block group for each home block (EPA SLD geography).
-    bgfc = json.load(open(ROOT / 'data' / 'market' / 'epa_sld_bg_geometry_co.geojson'))
+    bgfc = load_json(ROOT / 'data' / 'market' / 'epa_sld_bg_geometry_co.geojson')
     geoms, gids = [], []
     for ft in bgfc['features']:
         geoms.append(shape(ft['geometry']))
         gids.append(ft['properties'].get('geoid') or ft['properties'].get('GEOID10'))
     bgt = STRtree(geoms)
-    sld = json.load(open(ROOT / 'data' / 'market' / 'epa_sld_co.json'))
+    sld = load_json(ROOT / 'data' / 'market' / 'epa_sld_co.json')
     hbg = []
     for lo, la in zip(hlon, hlat):
         p = Point(lo, la)
@@ -566,9 +587,9 @@ def main():
         if hbg[i]:
             bg_rows[hbg[i]].append(i)
 
-    pb = json.load(open(ROOT / 'data' / 'co-place-boundaries.geojson'))
+    pb = load_json(ROOT / 'data' / 'co-place-boundaries.geojson')
     pnames = {f['properties']['geoid']: f['properties']['name'] for f in pb['features']}
-    cf = json.load(open(ROOT / 'data' / 'boundaries' / 'counties_co.geojson'))
+    cf = load_json(ROOT / 'data' / 'boundaries' / 'counties_co.geojson')
     cnames = {f['properties']['GEOID']: f['properties']['NAMELSAD'] for f in cf['features']}
 
     places = {}
