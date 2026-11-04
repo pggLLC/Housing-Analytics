@@ -5026,8 +5026,11 @@
     html += '<div data-tz-designation="' + designation + '">' +
       _tzEscape(p.unavailableReason || (p.qualified ? 'The site is inside the official mapped zone.' : 'The site is outside the complete official mapped zones.')) + '</div>';
     if (p.facilityId) {
+      var facStatus = { concept_design: 'planned (concept/design)', under_construction: 'under construction' }[p.facilityStatus];
       html += '<div>Qualifying facility: ' + _tzEscape(p.facilityName || p.facilityId) +
-        ' (' + _tzEscape(p.facilityType) + '; ID ' + _tzEscape(p.facilityId) + ')' +
+        ' (' + _tzEscape(String(p.facilityType).replace(/_/g, ' ')) +
+        (p.facilityAgency ? ', ' + _tzEscape(p.facilityAgency) : '') +
+        (facStatus ? ', ' + _tzEscape(facStatus) : '') + '; OEDIT ID ' + _tzEscape(p.facilityId) + ')' +
         (p.distanceMiles != null ? ' · ' + _tzEscape(p.distanceMiles.toFixed(2)) + ' mi, straight-line (haversine).' : '.') + '</div>';
     }
     html += '<div>' + _tzEscape(p.programRule) + '</div><div>Source: ' + _tzEscape(p.source) +

@@ -146,8 +146,12 @@ const DUE_WORDS = (() => {
   return `${months[m - 1]} ${d}, ${y}`;
 })();
 
+// The two states before OEDIT published (2026-11-03), from the committed file
+// with only status and zones_file turned back.
+const preMap = Object.assign({}, mapStatus, { status: 'not_published', zones_file: null });
+
 test('before the due date: provisional, naming the due date from the status file', () => {
-  const s = TZ.create({ stops: fewStops, mapStatus, now: NOW }).status(SITE.lat, SITE.lon);
+  const s = TZ.create({ stops: fewStops, mapStatus: preMap, now: NOW }).status(SITE.lat, SITE.lon);
   assert.equal(s.designation, 'provisional');
   assert.match(s.designationNote, /reliability questionable/);
   assert.ok(s.designationNote.includes(`(due ${DUE_WORDS})`), s.designationNote);
@@ -155,7 +159,7 @@ test('before the due date: provisional, naming the due date from the status file
 
 test('after the due date with no map loaded: still provisional, says to check', () => {
   const later = new Date(Date.parse(mapStatus.map_due_date) + 5 * 86400000);
-  const s = TZ.create({ stops: stopsWith(fewStops.features, later.toISOString()), mapStatus, now: later }).status(SITE.lat, SITE.lon);
+  const s = TZ.create({ stops: stopsWith(fewStops.features, later.toISOString()), mapStatus: preMap, now: later }).status(SITE.lat, SITE.lon);
   assert.equal(s.designation, 'provisional');
   assert.match(s.designationNote, /was due/);
   assert.match(s.designationNote, /check whether it has been released/);
@@ -359,13 +363,13 @@ test('every note that is not an official designation says "reliability questiona
   const later = new Date(Date.parse(mapStatus.map_due_date) + 5 * 86400000);
   const badZones = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: null }] };
   const notes = [
-    TZ.create({ stops: fewStops, mapStatus, now: NOW }).status(SITE.lat, SITE.lon),
-    TZ.create({ stops: stopsWith(fewStops.features, later.toISOString()), mapStatus, now: later }).status(SITE.lat, SITE.lon),
+    TZ.create({ stops: fewStops, mapStatus: preMap, now: NOW }).status(SITE.lat, SITE.lon),
+    TZ.create({ stops: stopsWith(fewStops.features, later.toISOString()), mapStatus: preMap, now: later }).status(SITE.lat, SITE.lon),
     TZ.create({ stops: fewStops, mapStatus: null, now: NOW }).status(SITE.lat, SITE.lon),
     TZ.create({ stops: fewStops, mapStatus: pub, zones: null, now: NOW }).status(SITE.lat, SITE.lon),
     TZ.create({ stops: fewStops, mapStatus: pub, zones: badZones, now: NOW }).status(SITE.lat, SITE.lon),
-    TZ.create({ stops: fewStops, mapStatus, now: NOW }).status(0, 0),
-    TZ.designation(mapStatus, NOW), TZ.designation(mapStatus, later), TZ.designation(null, NOW), TZ.designation(pub, NOW),
+    TZ.create({ stops: fewStops, mapStatus: preMap, now: NOW }).status(0, 0),
+    TZ.designation(preMap, NOW), TZ.designation(preMap, later), TZ.designation(null, NOW), TZ.designation(pub, NOW),
   ].map((r) => r.designationNote || r.note);
   // Point and area share three notes; the other seven variants are distinct.
   assert.ok(new Set(notes).size >= 7, `only ${new Set(notes).size} distinct notes scanned`);
@@ -394,7 +398,7 @@ test('the Colorado box agrees with the builder\'s in_colorado_bbox (no tolerance
 test('a published OEDIT map that fails to load or read gives no funding path (#1973)', () => {
   const pub = Object.assign({}, mapStatus, { status: 'published', zones_file: 'data/policy/thiz-zones.geojson' });
   const badZones = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: null }] };
-  const before = TZ.create({ stops: fewStops, mapStatus, now: NOW }).status(SITE.lat, SITE.lon);
+  const before = TZ.create({ stops: fewStops, mapStatus: preMap, now: NOW }).status(SITE.lat, SITE.lon);
   assert.equal(TZ.fundingPath(before), null, 'ordinary stop proximity never opens a program funding path');
   for (const [label, zones] of [['not loaded (fetch failed or zones_file rejected)', null], ['unreadable', badZones]]) {
     const s = TZ.create({ stops: fewStops, mapStatus: pub, zones, now: NOW }).status(SITE.lat, SITE.lon);
@@ -434,30 +438,32 @@ test('the zone-map status file goes stale unless last_checked is refreshed, whil
   const checked = Date.parse(mapStatus.last_checked);
   assert.ok(Number.isFinite(checked), 'thiz-map-status.json has no readable last_checked');
   const day = (n) => new Date(checked + n * 86400000).toISOString().slice(0, 10);
-  const fresh = freshness(day(1));
+  // The rule is exercised on the committed file turned back to unpublished,
+  // so it keeps being tested after OEDIT published (2026-11-03).
+  const fresh = freshness(day(1), preMap);
   assert.equal(fresh.source, 'last_checked');
   assert.equal(fresh.stale, false);
-  assert.equal(freshness(day(fresh.slaDays + 2)).stale, true, 'an old last_checked did not go stale');
-  if (mapStatus.status !== 'published') {
-    const noCheck = Object.assign({}, mapStatus); delete noCheck.last_checked;
-    assert.equal(freshness(day(1), noCheck).stale, true, 'a status file with no last_checked counted as fresh');
-    // The public QA status parses the checker's text output; the undated
-    // row it flags must reach that report as stale, not vanish from it.
-    const report = spawnSync(process.execPath, ['--input-type=module', '-e',
-      "import { parseFreshnessOutput } from './scripts/audit/qa-status-generator.mjs';" +
-      'let s = ""; process.stdin.on("data", (d) => { s += d; }).on("end", () => ' +
-      'process.stdout.write(JSON.stringify(parseFreshnessOutput(s))));'],
-      { cwd: root, encoding: 'utf8', input: freshness(day(1), noCheck, true) });
-    assert.equal(report.status, 0, report.stderr);
-    const rec = JSON.parse(report.stdout).find((x) => x.file === 'data/policy/thiz-map-status.json');
-    assert.ok(rec, 'the QA status report dropped the undated zone-map status row');
-    assert.equal(rec.status, 'STALE');
-    assert.equal(rec.ageDays, null, 'an undated row reached the QA report with an age');
-    const pub = Object.assign({}, mapStatus, { status: 'published' });
-    const p = freshness(day(fresh.slaDays + 30), pub);
-    assert.equal(p.stale, false, 'a published map still ages');
-    assert.equal(p.notApplicable, true);
-  }
+  assert.equal(freshness(day(fresh.slaDays + 2), preMap).stale, true, 'an old last_checked did not go stale');
+  const noCheck = Object.assign({}, preMap); delete noCheck.last_checked;
+  assert.equal(freshness(day(1), noCheck).stale, true, 'a status file with no last_checked counted as fresh');
+  // The public QA status parses the checker's text output; the undated
+  // row it flags must reach that report as stale, not vanish from it.
+  const report = spawnSync(process.execPath, ['--input-type=module', '-e',
+    "import { parseFreshnessOutput } from './scripts/audit/qa-status-generator.mjs';" +
+    'let s = ""; process.stdin.on("data", (d) => { s += d; }).on("end", () => ' +
+    'process.stdout.write(JSON.stringify(parseFreshnessOutput(s))));'],
+    { cwd: root, encoding: 'utf8', input: freshness(day(1), noCheck, true) });
+  assert.equal(report.status, 0, report.stderr);
+  const rec = JSON.parse(report.stdout).find((x) => x.file === 'data/policy/thiz-map-status.json');
+  assert.ok(rec, 'the QA status report dropped the undated zone-map status row');
+  assert.equal(rec.status, 'STALE');
+  assert.equal(rec.ageDays, null, 'an undated row reached the QA report with an age');
+  const pub = Object.assign({}, preMap, { status: 'published' });
+  const p = freshness(day(fresh.slaDays + 30), pub);
+  assert.equal(p.stale, false, 'a published map still ages');
+  assert.equal(p.notApplicable, true);
+  // And the committed file, now published, is that case.
+  if (mapStatus.status === 'published') assert.equal(freshness(day(fresh.slaDays + 30)).notApplicable, true);
 });
 
 // ── 4. the QAP transit-oriented distance (#1961) ─────────────────────────────

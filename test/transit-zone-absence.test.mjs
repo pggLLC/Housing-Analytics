@@ -39,7 +39,9 @@ const STZ = require('../js/project-market-study/study-transit-zone.js');
 
 const stops = json('data/amenities/transit_stops_statewide_co.geojson');
 const byGeo = json('data/hna/transit-zone-by-geography.json');
-const mapStatus = json('data/policy/thiz-map-status.json');
+// The committed file is published (2026-11-03); pre-map cases use this fixture.
+const realMapStatus = json('data/policy/thiz-map-status.json');
+const mapStatus = Object.assign({}, realMapStatus, { status: 'not_published', zones_file: null });
 const DAY = 86400e3;
 const FRESH = new Date(Date.parse(stops.meta.generated) + DAY);
 const STALE = new Date(Date.parse(stops.meta.generated) + 40 * DAY);

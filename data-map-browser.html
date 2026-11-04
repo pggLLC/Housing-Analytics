@@ -270,6 +270,7 @@
 
   // ── Layer catalog ──
   const DATA_MAP_GEOJSON_EXCLUSIONS = {
+    'data/policy/thiz-zones.geojson': 'OEDIT transit zone file read by the site check in js/transit-zone.js (one statewide polygon plus a facility table); the HNA panel and HB26-1065 brief carry the transit zone map.',
     'data/boundaries/counties_co.geojson': 'Duplicate county geometry; Data Map uses data/co-county-boundaries.json as the canonical county boundary layer.',
     'data/amenities/schools_co.geojson': 'Duplicate school point layer; Data Map uses data/market/schools_co.geojson because it carries richer NCES and enrollment fields.',
     'data/amenities/transit_stops_co.geojson': 'OpenStreetMap stop input to data/amenities/transit_stops_statewide_co.geojson, which the Transit stops layer shows; its stops that CDOT and agency feeds lack appear there marked unconfirmed.',

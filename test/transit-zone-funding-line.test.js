@@ -84,7 +84,9 @@ test('the gate never writes the score', () => {
 });
 
 const stops = readJson('data/amenities/transit_stops_statewide_co.geojson');
-const mapStatus = readJson('data/policy/thiz-map-status.json');
+// The committed file is published (2026-11-03); these tests pin the pre-map behavior with a fixture and use `published` for the map.
+const realMapStatus = readJson('data/policy/thiz-map-status.json');
+const mapStatus = Object.assign({}, realMapStatus, { status: 'not_published', zones_file: null });
 function runGate(lat, lon, opts) {
   opts = opts || {};
   const dom = new JSDOM('<!doctype html><div id="pmaTransitZoneGate" hidden></div>');
@@ -195,6 +197,19 @@ test('the gate waits for the published zones before answering, and fetches only 
     assert.equal(r.designation, 'provisional', `zones_file ${bad} was used`);
     assert.match(r.designationNote, /not been loaded/);
   }
+});
+
+test('with the committed OEDIT zones, Union Station is in and the eastern plains are out', () => {
+  const realZones = readJson('data/policy/thiz-zones.geojson');
+  const inside = runGate(UNION[0], UNION[1], { mapStatus: realMapStatus, zones: realZones, zonesState: 'ok' });
+  assert.equal(inside.r.designation, 'official_in');
+  assert.equal(inside.r.program.qualified, true);
+  assert.equal(inside.r.program.facilityStatus, 'existing');
+  assert.match(inside.box.textContent, /OEDIT ID/);
+  const outside = runGate(PLAINS[0], PLAINS[1], { mapStatus: realMapStatus, zones: realZones, zonesState: 'ok' });
+  assert.equal(outside.r.designation, 'official_out');
+  assert.equal(outside.r.program.qualified, false);
+  assert.equal(TZ.fundingPath(outside.r), null);
 });
 
 // ── The deal calculator's funding line ──────────────────────────────────────

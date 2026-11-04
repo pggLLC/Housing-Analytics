@@ -1,24 +1,25 @@
 # Exact-site THIZ evidence (#1931 — Task 3)
 
-## Controlling source and current limitation
+## Controlling source
 
 Verified 2026-09-28 against [HB26-1065 as enacted](https://leg.colorado.gov/bills/HB26-1065)
 and [2026 Session Laws, chapter 157, §4](https://leg.colorado.gov/laws/session-laws/HB26-1065/157/download).
 C.R.S. 24-48.5-136 assigns the **Transit and Housing Investment Zone map**
 to Colorado OEDIT, consulting DOLA and CDOT, with publication due October 30,
 2026. The act became effective May 27, 2026; that is **not a map vintage**.
-The two-mile definition concerns facilities identified on that map. A qualifying
-facility is a transit station (the multimodal definition in §24-46-402(23)) or
-passenger rail station, not an arbitrary bus stop.
+A zone is the area within two miles of a transportation facility identified on
+that map.
 
-The tracked `data/policy/thiz-map-status.json` was last checked September 26,
-2026, says `not_published`, and names no zones file. No authoritative THIZ
-geometry or linked facility dataset exists in this checkout. On September 28,
-the state legislation was accessible, but the tracked OEDIT program URL could
-not be retrieved and targeted state-site searches yielded no usable official
-map. This is a limitation of the available evidence, not proof that no map
-exists elsewhere. Live results therefore remain `qualified: null`. No polygons,
-station classifications, map vintage, or eligibility are invented.
+OEDIT published the map on 2026-11-03 as an
+[ArcGIS Experience](https://experience.arcgis.com/experience/e6147b1935764243814c801b14d6d411)
+(checked 2026-11-03). It identifies 10,980 facilities: existing bus stops (the
+large majority), rail stations, park-and-rides and mobility hubs, plus planned
+facilities marked Concept/Design or Under Construction. The zone is OEDIT's own
+dissolved two-mile layer. `scripts/policy/fetch_thiz_zones.mjs`
+(`npm run fetch:thiz-zones`) writes both to `data/policy/thiz-zones.geojson`
+with each layer's last-edit date; `.github/workflows/thiz-zones-watch.yml`
+reports weekly whether OEDIT has edited them since. Program guidelines are not
+yet posted, and OEDIT's data notice says the data is subject to change.
 
 ## Result and state
 
@@ -48,22 +49,24 @@ eligibility system was added.
 
 ## Official-map ingestion contract
 
-The existing tracked `zones_file` loader remains the entry point. Before enabling
-it, a maintainer must verify and retain the **actual official geometry and its
-facility linkage**, and adapt the published format to:
+The tracked `zones_file` loader is the entry point. The file must have:
 
-- FeatureCollection `meta.sourceUrl` matching `map_source_url`, documented
-  `meta.vintage`, and `meta.complete: true` only for verified complete Colorado
+- FeatureCollection `meta.sourceUrl` matching `map_source_url`, a documented
+  `meta.vintage`, and `meta.complete: true` only for complete Colorado
   coverage. The map status must be `published` and name the tracked file.
-- Valid Polygon/MultiPolygon features with a stable `id`, `facilityId` and
-  `facilityType` (`transit_station` or `passenger_rail_station`) derived from the
-  official map. `facilityName` and `facilityLat`/`facilityLon` are optional,
-  retained only when supplied by that source.
+- Valid Polygon/MultiPolygon zone features with a stable `id`.
+- Facility linkage, either (a) a `facilities` table whose `meta.facilityColumns`
+  are `id, name, type, status, agency, city, county, lat, lon`, whose row count
+  equals `meta.facilityCount`, and whose rows each carry an id, a type, a status
+  (`existing`, `concept_design` or `under_construction`) and Colorado
+  coordinates, with `meta.radiusMiles`; or (b) per-feature `facilityId` and a
+  non-empty `facilityType`. A malformed table makes every answer unknown.
 
-This is an internal ingestion contract, **not a claim about an unpublished
-OEDIT schema**. Synthetic test fixtures exercise the contract, not actual
-Colorado designations. Publication still requires a source review and real-data
-integration tests before changing the tracked status file.
+With a table, a site inside the zone is linked to the nearest listed facility
+within `radiusMiles`, preferring an existing one and falling back to a planned
+one; the result names its type, status and agency. Any type OEDIT lists counts,
+because the published map lists bus stops and the statute defines the zone by that map; the site follows the map until program guidelines say otherwise (owner decision, 2026-11-04). Inside
+the zone with no listed facility in range stays unknown with a reason.
 
 `true` requires the exact point in a valid official polygon with identified
 qualifying facility; `false` requires the point outside all polygons in a

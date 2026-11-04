@@ -13,7 +13,8 @@ const ROOT = path.resolve(__dirname, '..');
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 const json = f => JSON.parse(read(f));
 const plain = x => JSON.parse(JSON.stringify(x));
-const mapStatus = json('data/policy/thiz-map-status.json');
+// The committed file is published (2026-11-03); pre-map cases use this fixture.
+const mapStatus = { ...json('data/policy/thiz-map-status.json'), status: 'not_published', zones_file: null };
 const stops = json('data/amenities/transit_stops_statewide_co.geojson');
 const now = new Date(Date.parse(stops.meta.generated) + 86400e3);
 const A = { lat: 39.7527, lon: -105.0003 };
@@ -86,8 +87,9 @@ test('nearby real ordinary stops provide accessibility but never program eligibi
   assert.equal(TZ.fundingPath(r), null);
   assert.equal(TZ.fundingPath({ status: 'within_2mi', confirmedOnly: true, designation: 'official_in' }), null,
     'legacy saved flags without site evidence cannot open the credit line');
-  // A normal bus stop cannot be passed off as an OEDIT-mapped facility.
-  const z = zonesAt(); z.features[0].properties.facilityType = 'bus_stop';
+  // A zone feature with no OEDIT facility link cannot qualify a site, whatever
+  // stops sit nearby. (Any facility type OEDIT lists counts: it lists bus stops.)
+  const z = zonesAt(); z.features[0].properties.facilityType = '';
   assert.equal(check(A, { zones: z }).program.qualified, null);
   assert.equal(TZ.fundingPath(check(A, { zones: z })), null);
 });

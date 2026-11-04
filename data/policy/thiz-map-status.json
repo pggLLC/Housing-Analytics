@@ -24,7 +24,7 @@
       "quote": "based on the location of transportation facilities as identified in a published transit plan"
     },
     "frequency_test": null,
-    "note": "The act sets a distance (two miles) and a kind of place (a transit station or passenger rail station that OEDIT identifies from a published transit plan). It sets no service-frequency or ridership test. The site's screen draws the two miles around every confirmed fixed-route stop, a wider set than stations, so most zones should be smaller than the shaded area; a planned station named in a transit plan could still add a zone where no stop is published yet. The shading is a screen, not the zone. test/transit-zone-map.test.js holds zone_radius_miles to the 'two miles' in the zone quote."
+    "note": "The act sets a distance (two miles) and a kind of place (a transit station or passenger rail station that OEDIT identifies from a published transit plan). It sets no service-frequency or ridership test. OEDIT's published map (2026-11-03) identifies far more than stations: 10,980 facilities, of which 10,682 are bus stops, plus rail, park-and-rides and 34 planned or under-construction facilities. Because the statute defines the zone by the facilities OEDIT identifies on its map, the site follows the map (owner decision 2026-11-03). The stop screen is kept for transit accessibility only and is close to, not wider than, the official zone: it counted some dial-a-ride, senior and shuttle stops OEDIT left out and missed OEDIT's planned stations and park-and-rides. test/transit-zone-map.test.js holds zone_radius_miles to the 'two miles' in the zone quote."
   },
   "qap_tod_distance": {
     "miles": 0.5,
@@ -38,9 +38,17 @@
   },
   "map_due_date": "2026-10-30",
   "map_publisher": "Colorado Office of Economic Development and International Trade (OEDIT)",
-  "map_source_url": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
-  "status": "not_published",
-  "zones_file": null,
-  "last_checked": "2026-10-22",
-  "note": "Until OEDIT publishes its Transit and Housing Investment Zone map, every zone result on this site is a screen: within two miles of a transit stop in data/amenities/transit_stops_statewide_co.geojson. The act counts only transportation facilities OEDIT identifies on that map, so a stop-based result can overstate eligibility. When the map is published, set status to \"published\", commit the zones as GeoJSON polygons, and name that file in zones_file; js/transit-zone.js then reports the official designation beside the screen result."
+  "map_source_url": "https://experience.arcgis.com/experience/e6147b1935764243814c801b14d6d411",
+  "map_program_page": "https://oedit.colorado.gov/programs-and-funding/transit-and-housing-investment-zone-program",
+  "map_published": "2026-11-03",
+  "program_guidelines": {
+    "status": "not_published",
+    "source": "OEDIT map Home page (map_source_url), read 2026-11-03",
+    "quote": "Location in a Zone is an eligibility requirement for the Transit Zone Credit through Colorado Housing and Finance Authority (CHFA) and for the State sales tax increment financing through the Transit Investment Zone Program",
+    "note": "The map's Home page adds that each program has multiple criteria. OEDIT program guidelines were not posted as of 2026-11-03, so a site inside a zone meets the location requirement only."
+  },
+  "status": "published",
+  "zones_file": "data/policy/thiz-zones.geojson",
+  "last_checked": "2026-11-03",
+  "note": "OEDIT published its Transit and Housing Investment Zone map on 2026-11-03 (map_source_url). zones_file holds its zone layer and facility list, refreshed by scripts/policy/fetch_thiz_zones.mjs; js/transit-zone.js decides a site from the official polygon and names the nearest OEDIT facility within two miles. last_checked advances only on a successful read of the map or its layers. The map's link was due on OEDIT's program page (map_program_page) after a website migration; the transit-stop screen remains for accessibility and is never program evidence."
 }

@@ -1,0 +1,40 @@
+name: THIZ zones watch
+
+# Report-only. Checks whether OEDIT has edited its Transit and Housing
+# Investment Zone layers since the vintage committed in
+# data/policy/thiz-zones.geojson, and writes CHANGED or UNCHANGED to the job
+# summary. Commits nothing and opens nothing; a maintainer refreshes the file
+# with `npm run fetch:thiz-zones` and reviews the diff in a PR.
+# Weekly on Mondays, off :00.
+
+on:
+  schedule:
+    - cron: '37 13 * * 1'   # Mondays, 13:37 UTC
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/thiz-zones-watch.yml'
+      - 'scripts/policy/fetch_thiz_zones.mjs'
+
+permissions: { contents: read }
+
+concurrency:
+  group: thiz-zones-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - name: Compare OEDIT's layer edit dates with the committed vintage
+        run: |
+          out=$(node scripts/policy/fetch_thiz_zones.mjs --check)
+          echo "$out"
+          { echo "### OEDIT THIZ zones"; echo; echo "$out"; } >> "$GITHUB_STEP_SUMMARY"
