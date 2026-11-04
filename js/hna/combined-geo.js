@@ -197,42 +197,65 @@
     return datasets && datasets.amiGapPlace && datasets.amiGapPlace.places && datasets.amiGapPlace.places[member.geoid] || null;
   }
 
+  // A band count as published: a number (0 included) or null when the
+  // record does not carry it.
   function cumulativeValue(record, field, band) {
-    return num(record && record[field] && record[field][band]);
+    var raw = record && record[field] ? record[field][band] : undefined;
+    if (raw === null || raw === undefined || raw === '') return null;
+    var n = Number(raw);
+    return Number.isFinite(n) ? n : null;
   }
 
+  // A member's missing band count is never folded in as zero (evening
+  // practitioner QA, 3 Nov 2026: one missing affordable-unit count turned a
+  // shortfall of 30 into 110, the same as a measured zero). The band's total
+  // becomes null, so every gap that depends on it is unavailable, and
+  // `missing` names the member, band and count.
   function aggregateAmiGap(members, datasets) {
     var cumHouseholds = {};
     var cumUnits = {};
     var available = true;
+    var missing = [];
+    GAP_BANDS.forEach(function (band) { cumHouseholds[band] = 0; cumUnits[band] = 0; });
     members.forEach(function (member) {
       var rec = gapRecordForMember(member, datasets);
+      var who = (rec && (rec.name || rec.place_name || rec.county_name)) || member.label || member.geoid;
       if (!rec) {
         available = false;
+        missing.push({ member: who, geoid: member.geoid, band: null, count: 'record' });
         return;
       }
       GAP_BANDS.forEach(function (band) {
-        cumHouseholds[band] = num(cumHouseholds[band]) + cumulativeValue(rec, 'households_le_ami_pct', band);
-        cumUnits[band] = num(cumUnits[band]) + cumulativeValue(rec, 'units_priced_affordable_le_ami_pct', band);
+        var hh = cumulativeValue(rec, 'households_le_ami_pct', band);
+        var units = cumulativeValue(rec, 'units_priced_affordable_le_ami_pct', band);
+        if (hh === null) missing.push({ member: who, geoid: member.geoid, band: band, count: 'households' });
+        if (units === null) missing.push({ member: who, geoid: member.geoid, band: band, count: 'affordable units' });
+        cumHouseholds[band] = (cumHouseholds[band] === null || hh === null) ? null : cumHouseholds[band] + hh;
+        cumUnits[band] = (cumUnits[band] === null || units === null) ? null : cumUnits[band] + units;
       });
     });
+    if (missing.length) available = false;
     var prevHh = 0;
     var prevUnits = 0;
     var runningGap = 0;
     var perBand = {};
     var cumulativeGap = {};
     GAP_BANDS.forEach(function (band) {
-      var hh = num(cumHouseholds[band]);
-      var units = num(cumUnits[band]);
-      var bandGap = Math.max(0, (hh - prevHh) - (units - prevUnits));
+      var hh = cumHouseholds[band];
+      var units = cumUnits[band];
+      var bandGap = (hh === null || units === null || prevHh === null || prevUnits === null)
+        ? null
+        : Math.max(0, (hh - prevHh) - (units - prevUnits));
       perBand[band] = bandGap;
-      runningGap += bandGap;
+      runningGap = (runningGap === null || bandGap === null) ? null : runningGap + bandGap;
       cumulativeGap[band] = runningGap;
       prevHh = hh;
       prevUnits = units;
     });
     return {
       available: available,
+      missing: missing,
+      unavailableReason: missing.length ? _missingReason(missing) : null,
       households_le_ami_pct: cumHouseholds,
       units_priced_affordable_le_ami_pct: cumUnits,
       per_band_gap: perBand,
@@ -240,6 +263,16 @@
       gap_sign: 'households_minus_units',
       gapSource: 'combined',
     };
+  }
+
+  function _missingReason(missing) {
+    var parts = missing.slice(0, 4).map(function (m) {
+      return m.band === null
+        ? m.member + ' has no AMI-gap record'
+        : m.member + ' has no ' + m.count + ' count at or below ' + m.band + '% AMI';
+    });
+    if (missing.length > 4) parts.push('and ' + (missing.length - 4) + ' more');
+    return 'AMI gap unavailable: ' + parts.join('; ') + '.';
   }
 
   function countySet(members, datasets) {
@@ -347,7 +380,7 @@
     var chas = aggregateChas(validation.members, datasets);
     var gap = aggregateAmiGap(validation.members, datasets);
     var availability = availabilityFor(validation.members, datasets);
-    if (!gap.available) availability.amiGap = { available: false, reason: 'AMI gap unavailable for one or more combined members.' };
+    if (!gap.available) availability.amiGap = { available: false, reason: gap.unavailableReason || 'AMI gap unavailable for one or more combined members.' };
     return {
       valid: true,
       members: validation.members,

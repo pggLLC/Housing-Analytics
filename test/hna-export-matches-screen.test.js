@@ -496,6 +496,30 @@ async function exportAll(c) {
     }
   });
 
+  await test('a projection figure missing from a view prints Unavailable with the reason, in the CSV, PDF and workbook', async () => {
+    // Evening practitioner QA, 3 Nov 2026: on views without the projection
+    // chapter the CSV left baseline units and target vacancy blank.
+    const ids = ['statBaseUnits', 'statTargetVac'];
+    const parked = ids.map((id) => { const el = document.getElementById(id); const ph = document.createComment(id); el.replaceWith(ph); return [el, ph]; });
+    window.HNA_VIEW = { id: 'who-lives-here', nav: 'Who lives here' };
+    try {
+      const r = await exportAll(CASES[0]);
+      const why = /Not part of the .Who lives here. view\. The full Housing Needs Assessment page shows it\./;
+      for (const label of ['Baseline Housing Units', 'Target Vacancy Rate']) {
+        const row = r.csvRows.find((x) => x[0] === label);
+        assert(row && /^Unavailable: /.test(row[1]) && why.test(row[1]), `CSV ${label}: ${row ? JSON.stringify(row[1]) : 'missing'}`);
+      }
+      assert(why.test(r.data.housingStock.unavailableReasons.baselineUnits), 'JSON names the reason');
+      const i = r.pdf.indexOf('Baseline housing units');
+      assert(i !== -1 && r.pdf.slice(i, i + 4).some((t) => why.test(t)), 'PDF gives the reason under the Unavailable card');
+      const xl = summaryRow('Current housing units');
+      assert(xl && xl.v === 'Unavailable' && why.test(xl.n), `Excel: ${xl ? JSON.stringify(xl) : 'missing'}`);
+    } finally {
+      delete window.HNA_VIEW;
+      parked.forEach(([el, ph]) => ph.replaceWith(el));
+    }
+  });
+
   await test('the workbook does not claim drawn charts it cannot write', async () => {
     // ExcelJS 4.4 has no addChart. The stub above has none either, so a call
     // would fail here instead of being swallowed as it was before 3 Nov 2026.

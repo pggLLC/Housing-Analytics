@@ -229,6 +229,18 @@
     return v ? base + ' — ' + v.nav : base;
   }
 
+  /** Why a page figure is blank in a download (evening practitioner QA,
+   *  3 Nov 2026: the CSV left baseline units and target vacancy empty on
+   *  views that do not carry the projection chapter). */
+  function _pageFieldReason(id) {
+    var v = _viewInfo();
+    if (!document.getElementById(id)) {
+      return v ? 'Not part of the \u201c' + v.nav + '\u201d view. The full Housing Needs Assessment page shows it.'
+               : 'Not on this page.';
+    }
+    return 'Not shown on the page for this place when the file was made.';
+  }
+
   /** housing-needs-assessment[-view]-<place>-<geoid>.<ext>: every download
    *  names the place it is for (evening practitioner QA, 3 Nov 2026). */
   function _placeFilename(reportData, ext) {
@@ -454,7 +466,8 @@
     ].map(function (r) {
       var blank = _isBlankText(r.value);
       r.display = blank ? UNAVAILABLE : String(r.value).trim();
-      r.reason = blank ? 'Not shown on the page for this geography when exported.' : null;
+      r.reason = blank ? ((r.key === 'baselineUnits' && hs.unavailableReasons && hs.unavailableReasons.baselineUnits)
+        || 'Not shown on the page for this geography when exported.') : null;
       return r;
     });
   }
@@ -888,6 +901,15 @@
       housingStock: {
         baselineUnits:       _elText('statBaseUnits'),
         targetVacancyRate:   _elText('statTargetVac'),
+        // Field -> reason, for each projection figure the page left blank.
+        unavailableReasons:  (function () {
+          var out = {};
+          [['baselineUnits', 'statBaseUnits'], ['targetVacancyRate', 'statTargetVac'],
+           ['unitsNeeded', 'statUnitsNeed'], ['netMigration', 'statNetMig']].forEach(function (f) {
+            if (_isBlankText(_elText(f[1]))) out[f[0]] = _pageFieldReason(f[1]);
+          });
+          return out;
+        })(),
         unitsNeededLabel:    'Net new units needed (negative = surplus)',
         unitsNeeded:         _elText('statUnitsNeed'),
         netMigration:        _elText('statNetMig'),
@@ -1122,6 +1144,12 @@
 
     var chas = d.chasCostBurden || {};
     var burden = chas.renterPctBurdened || {};
+    var stockReasons = (d.housingStock && d.housingStock.unavailableReasons) || {};
+    function stockText(key) {
+      var v = d.housingStock && d.housingStock[key];
+      if (!_isBlankText(v)) return v;
+      return UNAVAILABLE + ': ' + (stockReasons[key] || 'not shown on the page when the file was made.');
+    }
     var gap = d.amiGap || {};
     var emp = d.employment || {};
     var dq = d.dataQuality || {};
@@ -1181,15 +1209,15 @@
 
       // \u2500\u2500 Housing stock composition \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
       ['SECTION', 'Housing Stock'],
-      ['Baseline Housing Units',                 d.housingStock.baselineUnits],
-      ['Target Vacancy Rate',                    d.housingStock.targetVacancyRate],
+      ['Baseline Housing Units',                 stockText('baselineUnits')],
+      ['Target Vacancy Rate',                    stockText('targetVacancyRate')],
       ['Rental Vacancy Rate (ACS DP04_0005E)',
         (d.housingStock.rentalVacancyRate == null ? '\u2014 (small-N suppressed)' : fmtPct(d.housingStock.rentalVacancyRate))],
       ['% Multifamily (5+ unit structures)',     fmtPct(d.housingStock.pctMultifamily)],
       ['% Single-Family Detached',               fmtPct(d.housingStock.pctSfDetached)],
       ['% 2-4 Unit Structures',                  fmtPct(d.housingStock.pct2to4Units)],
-      ['Net new units needed (negative = surplus)', d.housingStock.unitsNeeded],
-      ['Net Migration (20-year)',                d.housingStock.netMigration],
+      ['Net new units needed (negative = surplus)', stockText('unitsNeeded')],
+      ['Net Migration (20-year)',                stockText('netMigration')],
       ['Projected Population (20-year)',         fmtNum(d.housingStock.population20yr)],
       ['', ''],
 
@@ -1591,11 +1619,18 @@
       drawChart('chartEducation', '7-bucket distribution of highest schooling completed.', 220);
 
       // ── 5. Housing market + cost burden ──
+      // A blank projection figure prints Unavailable with its reason.
+      function pdfStock(label, key, sub) {
+        var v = data.housingStock[key];
+        if (!_isBlankText(v)) return { label: label, value: v, sub: sub };
+        var why = (data.housingStock.unavailableReasons || {})[key] || 'Not shown on the page when the file was made.';
+        return { label: label, value: UNAVAILABLE, sub: why };
+      }
       drawSectionHeader('5. Housing market & cost burden', 'Stock, vacancy, and the share of renters and owners spending more than 30% of income on housing.');
       drawStatGrid([
-        { label: 'Baseline housing units',  value: data.housingStock.baselineUnits || _elText('statBaseUnits'), sub: 'DP04 total' },
-        { label: 'Target vacancy rate',     value: data.housingStock.targetVacancyRate || _elText('statTargetVac'), sub: 'Policy target' },
-        { label: 'Net new units needed',    value: data.housingStock.unitsNeeded || _elText('statUnitsNeed'), sub: _elText('statUnitsNeedBasis') || 'Negative = surplus' },
+        pdfStock('Baseline housing units', 'baselineUnits', 'DP04 total'),
+        pdfStock('Target vacancy rate', 'targetVacancyRate', 'Policy target'),
+        pdfStock('Net new units needed', 'unitsNeeded', _elText('statUnitsNeedBasis') || 'Negative = surplus'),
         { label: '% multifamily',           value: data.housingStock.pctMultifamily != null ? data.housingStock.pctMultifamily + '%' : null, sub: 'DP04 structure' },
         { label: '% single-family detached', value: data.housingStock.pctSfDetached != null ? data.housingStock.pctSfDetached + '%' : null, sub: 'DP04 structure' },
         { label: 'Renters cost-burdened ≥30%', value: data.snapshot.rentBurden30Plus, sub: 'CHAS or DP04' },

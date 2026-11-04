@@ -10041,7 +10041,9 @@
     });
 
     var amiGapAvailable = !!(result.availability && result.availability.amiGap && result.availability.amiGap.available);
-    var amiGapMessage = 'Not available — one or more members missing AMI-gap data';
+    var amiGapMessage = 'Not available — ' + ((result.availability && result.availability.amiGap && result.availability.amiGap.reason)
+      ? String(result.availability.amiGap.reason).replace(/^AMI gap unavailable:\s*/, '')
+      : 'one or more members missing AMI-gap data');
     if (amiGapAvailable) {
       var amiGap = result.amiGapEntry || {};
       var households = amiGap.households_le_ami_pct || {};
