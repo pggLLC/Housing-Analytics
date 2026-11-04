@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import os
 from datetime import datetime, timezone
+from collections import Counter
 from typing import Any
 
 
@@ -76,13 +77,41 @@ def series_sum(values: list[Any], years: list[int], window: list[int]) -> float:
     return total
 
 
-def summary_households(geoid: str) -> float | None:
+def _period(profile: dict[str, Any]) -> str | None:
+    series, year = profile.get("_acsSeries"), profile.get("_acsYear")
+    if series not in ("acs1", "acs5") or not str(year or "").isdigit():
+        return None
+    return f"{series}:{int(year)}"
+
+
+def summary_households_with_period(geoid: str) -> tuple[float | None, str | None]:
+    """Households for the household share, from the ACS 5-year.
+
+    Owner decision 2026-11-03 (paul): the place and its county use the same
+    5-year period, so the share compares like with like (Census guidance on
+    comparing ACS data: compare estimates of the same period length). A
+    geography whose main profile is a 1-year (65,000+ people) reads its
+    5-year twin (`acs5Profile`, written by build_hna_data.py). Until that twin
+    carries DP02_0001E, the 1-year figure is used and its period is recorded,
+    so the output says which rows are still mixed.
+    """
     path = os.path.join(SUMMARY_DIR, f"{geoid}.json")
     if not os.path.exists(path):
-        return None
-    profile = read_json(path).get("acsProfile") or {}
-    hh = num(profile.get("DP02_0001E"))
-    return hh if hh and hh > 0 else None
+        return None, None
+    summary = read_json(path)
+    profile = summary.get("acsProfile") or {}
+    candidates = [profile]
+    if profile.get("_acsSeries") != "acs5":
+        candidates.insert(0, summary.get("acs5Profile") or {})
+    for cand in candidates:
+        hh = num(cand.get("DP02_0001E"))
+        if hh and hh > 0:
+            return hh, _period(cand)
+    return None, None
+
+
+def summary_households(geoid: str) -> float | None:
+    return summary_households_with_period(geoid)[0]
 
 
 def projection_path(fips: str) -> str:
@@ -139,11 +168,12 @@ def main() -> int:
         if g.get("type") in {"place", "cdp"}
     ]
 
-    county_households = {
-        fips: summary_households(fips)
+    county_hh_period = {
+        fips: summary_households_with_period(fips)
         for fips in county_geoids
         if fips
     }
+    county_households = {fips: hp[0] for fips, hp in county_hh_period.items()}
     county_projections = {
         fips: load_county_projection(fips)
         for fips in county_geoids
@@ -160,7 +190,7 @@ def main() -> int:
     for place in places:
         geoid = place.get("geoid")
         containing = place.get("containingCounty")
-        place_hh = summary_households(geoid)
+        place_hh, place_period = summary_households_with_period(geoid) if geoid else (None, None)
         if not geoid or not containing or not place_hh:
             continue
 
@@ -186,6 +216,9 @@ def main() -> int:
         if denominator_hh <= 0:
             continue
         household_share = place_hh / denominator_hh
+        county_periods = sorted({county_hh_period.get(fips, (None, None))[1] or "unknown" for fips in member_counties})
+        periods = sorted(set(county_periods) | {place_period or "unknown"})
+        household_period = periods[0] if len(periods) == 1 else "mixed"
 
         place_permits = series_sum((places_permits.get(geoid) or {}).get("units_total") or [], permit_years, WINDOW_YEARS)
         permit_denominator = sum(county_permit_totals.get(fips) or 0 for fips in member_counties)
@@ -203,6 +236,13 @@ def main() -> int:
             "place": place,
             "member_counties": member_counties,
             "population_split": population_split,
+            "household_inputs": {
+                "place_households": place_hh,
+                "place_period": place_period,
+                "county_households": denominator_hh,
+                "county_periods": county_periods,
+                "period": household_period,
+            },
             "shares": {
                 "household": household_share,
                 "permit": permit_share,
@@ -273,6 +313,7 @@ def main() -> int:
                 "blended": rounded(share),
                 "permit_window": PERMIT_WINDOW_LABEL,
             },
+            "household_inputs": rec["household_inputs"],
             "method": "county_projection_x_blended_share_v1",
         }
 
@@ -287,8 +328,14 @@ def main() -> int:
             "formula": (
                 "blended_share = 0.5 * household_share + 0.5 * permit_share; "
                 "if permit_share is null, blended_share = household_share; clamped to [0.005, 1.0]. "
-                "Permit and household denominators use combined-region math for cross-county places."
+                "Permit and household denominators use combined-region math for cross-county places. "
+                "household_share = place ACS 5-year households / county ACS 5-year households, same period "
+                "(owner decision 2026-11-03); a row whose household_inputs.period is 'mixed' still uses a "
+                "1-year figure because the 5-year count is not stored yet."
             ),
+            "household_period_counts": dict(sorted(Counter(
+                (rec.get("household_inputs") or {}).get("period") or "unknown" for rec in outputs.values()
+            ).items())),
             "sanity_ledger": {
                 fips: {
                     "place_share_sum": rounded(value),

@@ -1292,7 +1292,10 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         for year, series in attempts:
             if series != 'acs5' or year > source[0]:
                 continue
-            twin = _fetch_from(year, 'acs5', vars_a)
+            # DP02_0001E (households) rides along so the place projection
+            # (build_place_projections.py) can divide 5-year households by
+            # 5-year households (owner decision 2026-11-03).
+            twin = _fetch_from(year, 'acs5', vars_a + ['DP02_0001E'])
             if twin is not None:
                 twin_year = year
                 break
