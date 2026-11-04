@@ -235,10 +235,10 @@ try {
   await big.tab.waitForFunction(() => window.__copied, null, { timeout: 5000 });
   const link = await big.tab.evaluate(() => window.__copied);
   ok(/deal-calculator\.html#v=1&/.test(link) && !link.includes('?'), 'Copy link puts the deal in the fragment, which never reaches the server');
+  // A tab already on the calculator: only the fragment changes, and the page
+  // must still open the new deal (it reloads on hashchange).
   const viaLink = await open(browser, 1280);
-  const resp = await viaLink.tab.goto(link, { waitUntil: 'load', timeout: 90000 });
-  ok(resp === null || resp.status() === 200, 'the copied link opens (HTTP ' + (resp && resp.status()) + ')');
-  await viaLink.tab.reload({ waitUntil: 'load' });
+  await Promise.all([viaLink.tab.waitForNavigation({ timeout: 60000 }), viaLink.tab.evaluate((u) => { window.location.href = u; }, link)]);
   await ready(viaLink.tab);
   ok(JSON.stringify(await figures(viaLink.tab)) === JSON.stringify(d1), 'a fresh browser opening the copied link shows the sender\'s gap, NOI and rents');
   const [bigDl] = await Promise.all([big.tab.waitForEvent('download'), big.tab.click('#dc-share-json')]);

@@ -824,6 +824,13 @@
   }
   function _init() {
     _initButtons();
+    // Opening another share link in a tab already on the calculator changes
+    // only the fragment, which does not reload the page: reload so the new
+    // deal opens on a clean page, exactly as a first visit does. (Copy link's
+    // replaceState does not fire hashchange.)
+    window.addEventListener('hashchange', function () {
+      if (String(window.location.hash || '').replace(/^#/, '').indexOf(SHARE_HASH_PREFIX) === 0) window.location.reload();
+    });
     // Hydrate after Deal Calc's own init has populated defaults. Delay long
     // enough for __DealCalc.init() to complete (~200ms typical).
     setTimeout(_hydrate, 350);
