@@ -141,7 +141,11 @@ function assertBound(button, out, to, from) {
 }
 
 (async () => {
-  const browser = await chromium.launch(process.env.PW_CHROMIUM_PATH ? { executablePath: process.env.PW_CHROMIUM_PATH } : {});
+  // The repo's convention (predictor-policy-browser, deal-engine-surfaces):
+  // Playwright's bundled Chromium when installed, else Puppeteer's Chrome.
+  const bundled = chromium.executablePath();
+  const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (fs.existsSync(bundled) ? bundled : await require('puppeteer').executablePath());
+  const browser = await chromium.launch({ headless: true, executablePath, args: ['--no-sandbox'] });
   let checks = 0;
   try {
     const { page, hold } = await open(browser);
