@@ -38,7 +38,7 @@ data/
 │   ├── tract_centroids_co.json      # Colorado census tract centroids
 │   ├── acs_tract_metrics_co.json    # ACS 5-year tract-level metrics
 │   ├── hud_lihtc_co.geojson         # HUD LIHTC Colorado properties
-│   ├── reference-projects.json      # 50 CO benchmark projects for PMA
+│   ├── reference-projects.json      # Real CHFA properties 2015-25, scored today, for PMA peers
 │   └── nhpd_co.geojson              # NHPD preservation tracking
 │
 └── policy/                          # Policy & eligibility layers
