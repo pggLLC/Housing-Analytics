@@ -27,6 +27,6 @@ const mid = ENH.benchmarkVsReference(zero.median, result, refs);
 assert.ok(mid.available && mid.percentile > 0, 'a real score ranks');
 
 const page = fs.readFileSync(path.join(ROOT, 'js/market-analysis.js'), 'utf8');
-assert.match(page, /isFinite\(result\.overall\)/, 'the caller passes null, not a non-finite score');
+assert.match(page, /Number\.isFinite\(result\.overall\)/, 'the caller passes null, not a non-finite score');
 assert.match(page, /CHFA reference properties with similar scores/, 'comparable rows are labelled as similar-score references');
 console.log(`peer-benchmark-missing-score: PASS (${refs.length} reference properties; missing scores unavailable, 0 ranked)`);

@@ -96,7 +96,7 @@
   function benchmarkVsReference(score, result, referenceProjects) {
     // A site with no score is unavailable, never "percentile 0": a measured 0
     // and a missing score must not read the same.
-    if (typeof score !== 'number' || !isFinite(score)) {
+    if (!Number.isFinite(score)) {
       return { available: false, reason: 'This site has no market score yet, so it cannot be compared with CHFA reference properties.' };
     }
     if (!referenceProjects || !referenceProjects.length) {
