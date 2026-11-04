@@ -465,3 +465,19 @@ def test_latin_american_and_other_foreign_housing_stories_stay_out_of_national()
     assert gpb.NATIONAL_SKIP_RE.search('Haiti housing crisis worsens after storm')
     assert gpb.NATIONAL_SKIP_RE.search('Asian housing markets face rising mortgage rates')
     assert gpb.NATIONAL_SKIP_RE.search('Panama City home prices rise amid international demand')
+
+
+def test_a_national_outlet_story_needs_a_housing_word(geos):
+    # A listed national outlet covers everything; a Colorado place name alone
+    # does not make its story housing news (Bloomberg, 2026-11-03).
+    stories, _ = gpb.build_stories([
+        alert('Foie Gras Is at Risk of Disappearing From Menus in DC and Denver', 'Bloomberg.com'),
+        alert('Vail Resorts’ biggest investor backs company in fight with activist Oasis', 'Reuters'),
+        alert('Colorado River States Could Head Back to the Supreme Court', 'WSJ'),
+        alert('Denver rents fall as new apartments open', 'WSJ'),
+        alert('Opinion | Using Denver as a Model to Help the Homeless', 'The New York Times'),
+    ], geos)
+    assert set(by_title(stories)) == {
+        'Denver rents fall as new apartments open',
+        'Opinion | Using Denver as a Model to Help the Homeless',
+    }

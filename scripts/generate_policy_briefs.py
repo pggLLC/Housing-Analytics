@@ -544,6 +544,14 @@ def is_housing_headline(title: str, source: str = '') -> bool:
     if NATIONAL_SOURCE_RE.match((source or '').strip()) and is_national_trend(title, source):
         return True
     strong = any(not WEAK_HOUSING_RE.fullmatch(m.group(0)) for m in HOUSING_TITLE_RE.finditer(title))
+    # The indirect-headline allowance below is for local outlets, whose
+    # housing searches return a nonprofit or a city plan by name ("Hope is at
+    # the core of organization's purpose"). A listed national outlet covers
+    # everything, so its story must say housing outright: "Foie Gras Is at
+    # Risk of Disappearing From Menus in DC and Denver" (Bloomberg, 2026-11-03)
+    # led Housing News on a place name alone.
+    if NATIONAL_SOURCE_RE.match((source or '').strip()):
+        return strong
     return strong or not OFF_TOPIC_RE.search(title)
 
 

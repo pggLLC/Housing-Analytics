@@ -14,18 +14,9 @@
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
         "Ark Valley Voice",
-        "The New York Times",
-        "Reuters",
-        "Hagadone News Network",
-        "Bloomberg.com"
+        "Hagadone News Network"
       ],
       "articles": [
-        {
-          "title": "Foie Gras Is at Risk of Disappearing From Menus in DC and Denver - Bloomberg.com",
-          "source": "Bloomberg.com",
-          "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOX18xN0J1MW91OHRPUk9UR2N2dTlMOTR2ajJYcFBsbzZORkZhOW05a0RuX2RQQjE5anY5NXlfWTlyeFVYQTlDQnZYSS0teHlvaDd1UFJBZFFoWHA2ZHJUSkNrVGlla3RMUi1velcxemkyQjVuODRfNnlQdmxMaWlyeGRuT2M4WmQyRkJjdnRwNGFjV3dGc2tHYmlDWmI1SWctT0RpMlVDc3NvN1V1dGd0RjR1dFdJZw?oc=5",
-          "date": "2026-11-03"
-        },
         {
           "title": "Living in Bayfield Colorado vs Durango: what the price gap buys you - Hagadone News Network",
           "source": "Hagadone News Network",
@@ -45,27 +36,9 @@
           "date": "2026-11-02"
         },
         {
-          "title": "Activist investor Oasis cuts its slate of director nominees at Vail in half - Reuters",
-          "source": "Reuters",
-          "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOUU05WjktbjVoWjJSWjg2aGZWYTY1NnU5UFpDUlo2Z05iakJVeGpKRTZGQjl6Nm10ekt5RHBRS00zQWhDeHU2aGlybVZCQk9ZOHRPTTdrRjl2emxySEZwVTltVzlzajZKTGJDN0ZiOExkcXhRZnJUMGo5dU5RVE9rSXdldGxZS0owSEVPWHFfTUtwLWVySDFXa0FQNUo1bTlEVFpVb3hLVmtzNkR4dUMzM3R4cERnc3pBY1ppMUsxNA?oc=5",
-          "date": "2026-11-02"
-        },
-        {
           "title": "Armed woman allegedly tried to enter several homes: Police - Colorado Springs Gazette",
           "source": "Colorado Springs Gazette",
           "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNUEdwUFU5eUY3bEVRNmR2UlRLamQya3g0UDVoOUFCZFhHS2NXdVljWGE0bkRjaU5vbk1qUm1LVHlrQkI1LUxHWGgtQWdJTVZkMEx4RkY2ZnBXejFvWlVnLTNJNkNINHRibnNWQ09ySlJ4dU9JVGZpcV9fY3diY0FBSEttOGpIRTZfUXYwS29BekEtTWs?oc=5",
-          "date": "2026-11-02"
-        },
-        {
-          "title": "Sterling drifts as BoE rate decision comes into focus - Reuters",
-          "source": "Reuters",
-          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNRUVzQXNVSXVuNmlYMGV0Q1Nuc2pPM0o1UzZJR203eVFfalkwMF9jQ0pGUlA5U0Y4YmV0bUhiRnlSN2hiTnJqekozUDQ1aXNsX1g0WjNqY0ZXMGRwMGZmMVlpdFR0Nl9IUjBxcmh2Sl9NcUVzMmJDcVgwM0lOUjJJdXk2c0NVTUZFOEJ0SEFxb1ZpYlQzM1Q2dGRfYw?oc=5",
-          "date": "2026-11-02"
-        },
-        {
-          "title": "Lamar Jackson\u2019s injury could doom Ravens\u2019 season. Did we just see his last snap in Baltimore? - The New York Times",
-          "source": "The New York Times",
-          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOZzFKdXBtS3A2ZmlyRlZfdUN1RWFzdXRxZDFZSDZvLVB5blhtQjVzSnZ3ZTg5c0g0amJvT19OMzhsTFFuOXRieV9wUXVrbXMtTEg3a1huN3JwMXozZGttczN4d0lnTjlZYmNlaTY3WjFpSUNEcEtvdE1XTzJlaG5SZkRSZHNhcG1Pb01QMkQ2UjNfTDlxRWtwZg?oc=5",
           "date": "2026-11-02"
         },
         {
@@ -93,12 +66,6 @@
           "date": "2026-11-01"
         },
         {
-          "title": "Colorado Votes on Right to Buy Natural Gas in US Climate Fight - Bloomberg",
-          "source": "Bloomberg",
-          "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPVlpkdXV1ZkJYazM5LXAxZGctbmtBWUpEa2Zab1NjTzVGaXJQVHRJb3pRNGQ2VjJESUo3cDBhYkJ2U0RXM1VVMm9YSS1UQW1rdVI3dldqbnZVa0J6eTJVRk0xUEJTQTlSS1g1bFdpNFh0WGgzUEJZSVhkYXM4dFhVN2tkbnFjbFUwQzBFOGNPZWlGaTIyQVZNWEMtdnFsM1lranFzS0RsTllWN0l0ajBNSFlSOA?oc=5",
-          "date": "2026-11-01"
-        },
-        {
           "title": "What\u2019s Working: Pikes Peak economy heads up after some challenging years - The Colorado Sun",
           "source": "The Colorado Sun",
           "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQcDJGNmtVbThhZFVxYUlBYzJ3NlI5TEh4TXhJWVphZ0RLV3NRM2FCN2Q4RV9ObmJQNm53bVlWZFlLcXhvblI5YW1rcE1Zcy1GLUN2NXJxc1JKMHpYaGVxU3poSklCNHpsUWMwckZ1Q1Bmc1RBMEE1b04xUmdVTElmSkF3Yw?oc=5",
@@ -109,12 +76,6 @@
           "source": "CBS News",
           "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQOGl2OUhfTm9CWTl0cGtDeXNQSnNleHZrMkNtUE5HMHB6VG5pa0FwcW1DRmNmSFpmQmstS0ljLWk3RTBUSF9sb2UxR2lHc2xkUF9TOWlCZlVPM1JJRkpFV0pIeEU3UnNNOUQ4SExUUXF3MDZBNWc5Umo2UUEybHp0QXo4ek15OVE4V09JYVcydjZYejZkNTY4VzB0VUZidXc3ZndpNDR3THByN3ZHN0ZPdkZ6bw?oc=5",
           "date": "2026-10-31"
-        },
-        {
-          "title": "Vail Resorts' biggest investor backs company in fight with activist Oasis - Reuters",
-          "source": "Reuters",
-          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxORHhoc3pya2dtOFdjdzI5N0RvYmlIcnVKVWE5VjBtLUh3VTVqMndUZjl5R0xBMVRTdVpyUVlpdGFhZHFmU0pDazhCMlRoOUJZYzhVM2s3Y1lVVnlaT212c3ZXZU80N293QlJMY0ZxUlpncFRfTzVTLXA2SktJUlQ0T3RJM3g0VlJtWTdwV1FWaVZwY3NTYnAwVHlWLTJUZk5LdWZTeHVlOFN3Z3ViZ0dmVjFwaDI?oc=5",
-          "date": "2026-10-30"
         },
         {
           "title": "In Colorado\u2019s legislative elections, deep-minority Republicans face an existential question of relevance - The Denver Post",
@@ -171,12 +132,6 @@
           "date": "2026-10-29"
         },
         {
-          "title": "Dolores Huerta, resolute champion of workers\u2019 rights, dies at 96 - The Washington Post",
-          "source": "The Washington Post",
-          "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQZFcwSkplQm9EY0x2UjdVcVhUMEx2UGdYbUtiQmlkU3JqMWZKXy1abnVreUhDOGhVSFVGTnRpMzVZYXRNdmhWb0Ffek0wa1R1TnVaRDlwT2diN2MtMl9VVU41TlhZNzJ0RmxTdUQ0NC13ZzZFa3lhTFUyNExHSXNQOGpUUXVoLS1XZ3VNei1WUm5ESHN0RmxZak1WTm42Si1xTWM2dktvNEZnSm8?oc=5",
-          "date": "2026-10-29"
-        },
-        {
           "title": "Southwestern Colorado flooding by the numbers: 540 damaged homes, 40 rescue missions and counting - The Colorado Sun",
           "source": "The Colorado Sun",
           "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQSXZaejJDWjRTSnB5WFAyMUhxSE5sSEdaaGJ2M2N4Yjd0NG14aWdEQ3RtdnNhQzRmRDRkR0JJU3lqYnpuNEprRG1hdjFmMGZ5V3dzdm5jT3VCVGxBbjYwUXZiVnhEYUJQNEJGdWV4UlZ0NGJHakJNNzdSS2U5RWl5LUlyM1hpNk11N1E?oc=5",
@@ -216,12 +171,6 @@
           "title": "Prostitutes and blow: Congressional candidate has unique idea to boost Colorado economy - Westword",
           "source": "Westword",
           "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPV0w0RXc4VGd3ZHQ3d1JaSnF3MnlPNTRUeTRUYmYtYTdOdkFFZWh5bjVCRFpGcEoyY1ZXWnJHNjdiZjQxbk1aVXZpazFNa1JtWUVkMUttVnhXb2MzTEF6TldrNHU2dmdnZEM3WngxN3pLMTJkeGp0Z0U0RkdvSko1SVktR0VUZmNFdWJTdVk3RDhvN2tzSlJ1YmtJOA?oc=5",
-          "date": "2026-10-27"
-        },
-        {
-          "title": "Colorado River States Could Head Back to the Supreme Court - WSJ",
-          "source": "WSJ",
-          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPSXZqbmttVVRsREUwNkpEYWlQZHV2cVU5ekFwQ2pId0ZXdjkzaFV2Vm90VTNScDlzazhMVVEtUlB1REpKOHE0V0MxaTJJSHcwUGpSa1BPTGM5bTZkT0FQTFV6aHZ1UGxnWURVeWwxeTloaDRmQzNMV3FabnRkT2dEWFQyNFdheWotLW04NU03ay1qRF8wNjRjRjBHOFJIbEJBZW5ucF9sa3VGNWY2aTlVMWh6cWpRQTUxZ1ZkcWN3?oc=5",
           "date": "2026-10-27"
         },
         {
@@ -276,12 +225,6 @@
           "title": "What Colorado\u2019s Health Plans Cover: Medicaid and Private Insurance - Common Sense Institute",
           "source": "Common Sense Institute",
           "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOeUNvTGR5NF85cXJWUjROVUR4V2JRU2tBVm54UVgyZ2RYTk9QOG9hVl95SFhxZnN6cVJIN0dRMGVnWmtWVWx6dHhVRFRlZ21JVEJUTDBuRTNsTVhjNzBLbWhzZ1VQX3lNQmp6OEg4ckkyWG0tc0JKUlRtVXhsVHU3eEhCQkxfZWVDMDlENmZkaHAzVnVoRlJhN0Q4ZFd5WjlhZUlZWjVBNV9VdEZZNkE?oc=5",
-          "date": "2026-10-26"
-        },
-        {
-          "title": "State of the Flames: Craig Conroy on the rebuild timeline, the new arena and potential trade pieces - The New York Times",
-          "source": "The New York Times",
-          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQQVFhVEpZdENvQWREZWFMRzFjRXU4a1ktMWNxSTFnd19uRi1QMzE0VjNZS0N2bFFteXBEd1otODd4TmxCdUEzOVBZSE9zZkFiYmxVQVowc3NCVm9vUld5YUVWeDBnaGhIeGpoQ3ZTNUNxc0RsRkRGcE90WTBLY1Q5eExJWW1qSTlIRVYtWlRULWVoNDRRdi1CRg?oc=5",
           "date": "2026-10-26"
         },
         {
@@ -789,12 +732,6 @@
           "date": "2026-09-22"
         },
         {
-          "title": "Colorado Auberge Ski Resort Lands $482.5 Million in Financing - Bloomberg",
-          "source": "Bloomberg",
-          "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQS2t2V1NqUlhwWUo1a3J0UFZubGJKTU8taXkxZ29HR2lsZkdsYzZWbVM4cW1IU015c1ZNQ00yMnI5TmdkR0s1NENFLTJhRGFMdThPMF9iQnZueVRYOFgxYUFId1Q4QmVKY0llLTJBdW55UEoxdVQtMTQ1TE5sdFJFWnl5UUlhMlJ5bkVmV2ZYQzRJWTAxMXlGNTE1QVZPTUIyLXMwMzJoelczZjBVeElkUg?oc=5",
-          "date": "2026-09-22"
-        },
-        {
           "title": "Colorado denied additional FEMA aid for Aspen Acres Fire recovery - Pueblo Chieftain",
           "source": "Pueblo Chieftain",
           "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPa0NwU2FVX1FETlQzY1JaZWdjY3cwZ1h3eDNfcno5bUJFSzZmS2JmZFZMVDR2cXZXUGgzbUdOSURpZl9UaXJmb2s5T0tDOWllcENkaXI2ZHlNT1BZSGc5SDdRa3RMX2xEY0Q5UnpqNnJIdlREcGVWYnRBV0l6c1U4WW9LbWtKOU9jaTVKWGRFeGdram9Xd2FEVkZNTXN0WFN6enVFTk1SLTZ1djVZbWkxT3djTU1HQ2RsdGVkcTFhN1ppZ1JDb2w4X3RwZkw3aFlqQ3c?oc=5",
@@ -1014,12 +951,6 @@
           "title": "In 2024, a Colorado county paid $34 million for a 650-acre ranch privately owned for more than a century; - The Times of India",
           "source": "The Times of India",
           "link": "https://news.google.com/rss/articles/CBMi-AJBVV95cUxNVzNVU2NzVktnMHI2Ump2UDhoY2Nod0FRNzdhM1BFNUt2UTl4YTY5ODZSZDhEUXdKMEFudm16MzJ6WWRXbmVvWHVyYklYVDdXSU11bFlpUkQwQ054WUR1cHZFVEFsM3ZJWGJCVklvdmxTcmZhWndPOEVXT2hyUzdEUjFuZXlTZS1JVDJ3MzNNeG0ySDJ0WmRHQlpmSVlJTm41RW9jM2JFS21RNm10Q3hfekZmTktsX3hxWDAzcGY4QUhBVXVxanVqT19KcFF3QzFKMllTeTZ0YS1UUlhqSERxbTlPT1lEdkVVZ1JXZnNyOTdOdjlqNHZpc0FkOVM0YWpCeUNybkhuVnBMUGJ4UzVvWkNHTXZZb1B0Y0V2bjBTMU5iYWhwSEdMWDI3cEI2VVNtTk1kbUlYa1NLa29uX1pCWDN4SThMQUV4eGhNckpCOXlUaWJCY2FCUmdGX2ZvUGx6UmRpUWtiNGkzdENmOTRpNXFqcjAwZjcy0gH-AkFVX3lxTE92ZEJYTXhtY3FmejdwZ2Y4NWE0Q1dWNzR3Z2JzS0ZJekRhaFVURm0wR3lHMmhoLU9ld3Y0aUpiNmhEbDV5MlBYT3ZScjFBZjhBbFNVRzBUYmRxU1dyM01oZTdSZEJxOGRXZm9aYWhJVEh2NXAyXzMtUjdXZUpPSDE1NFRXOExKY3gybWxOQ04zZzlwQnZFTjBEay04ZHRPaVBQVVV2VGk5NnZuVDFKUmlPYUxIV2ducUdXSF9TY0JwR3BGaGxxbTV2WXFiNGdmTnZTRkdJVjdnTWRjTG1OX3o1TXAyS2FIcU5yWDVkSlRyWVFMS1NWNTJSLWltNVB2UGM2RWNBZzJ6a240T1p6UTcxUTc5VVFiM2dNNmVDLU9HZ0tnT1dGeDRhQjBncTk3TGNIeFpDVjZDa1FaZnE4NTd0SEY1NWlYNk1lNVhMM2U0SDNXMTQwX0p5eFR6UmdYWW1MeFNCaXFtbFV5Y0tMek1HNG1hbGlOTHE4QlRDNlE?oc=5",
-          "date": "2026-08-31"
-        },
-        {
-          "title": "Arizona's taps won't run dry, but water bills will go up under federal plan for Colorado River - NPR",
-          "source": "NPR",
-          "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNVFpKbG1tR3ZXNk9LSVR6YVNZWEY3RnhHcDhDaDdvRUNQMEdWOHV4LS1DeTV2eml1RWMxdG9CWV9GWkFyWlEyWF92dXZCekMxaVZnczlIMmhKUUtZNkUySVZmekMzY1RCd3U4V3hUR2prbFVLMnFNN1ZPWElnLV9zTEZNMW1JQzY1UU1iUWhPNzhZYWNhRVlrSGxEWm91d3c5ek9iaHNvQ1ctMlJrRUxadm92SU1VbmJMNGJYVG9OcEY4czYteGRqb3prVlBWcUsydXc?oc=5",
           "date": "2026-08-31"
         },
         {
@@ -2642,27 +2573,6 @@
       "also": []
     },
     {
-      "title": "Foie Gras Is at Risk of Disappearing From Menus in DC and Denver",
-      "source": "Bloomberg.com",
-      "sourcing": "checked",
-      "source_domain": "bloomberg.com",
-      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOX18xN0J1MW91OHRPUk9UR2N2dTlMOTR2ajJYcFBsbzZORkZhOW05a0RuX2RQQjE5anY5NXlfWTlyeFVYQTlDQnZYSS0teHlvaDd1UFJBZFFoWHA2ZHJUSkNrVGlla3RMUi1velcxemkyQjVuODRfNnlQdmxMaWlyeGRuT2M4WmQyRkJjdnRwNGFjV3dGc2tHYmlDWmI1SWctT0RpMlVDc3NvN1V1dGd0RjR1dFdJZw?oc=5",
-      "date": "2026-11-03",
-      "scope": "colorado",
-      "programs": [],
-      "places": [
-        {
-          "geoid": "0820000",
-          "name": "Denver",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Front Range"
-      ],
-      "also": []
-    },
-    {
       "title": "Living in Bayfield Colorado vs Durango: what the price gap buys you",
       "source": "Hagadone News Network",
       "sourcing": "unverified",
@@ -2792,27 +2702,6 @@
       "also": []
     },
     {
-      "title": "Activist investor Oasis cuts its slate of director nominees at Vail in half",
-      "source": "Reuters",
-      "sourcing": "checked",
-      "source_domain": "reuters.com",
-      "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOUU05WjktbjVoWjJSWjg2aGZWYTY1NnU5UFpDUlo2Z05iakJVeGpKRTZGQjl6Nm10ekt5RHBRS00zQWhDeHU2aGlybVZCQk9ZOHRPTTdrRjl2emxySEZwVTltVzlzajZKTGJDN0ZiOExkcXhRZnJUMGo5dU5RVE9rSXdldGxZS0owSEVPWHFfTUtwLWVySDFXa0FQNUo1bTlEVFpVb3hLVmtzNkR4dUMzM3R4cERnc3pBY1ppMUsxNA?oc=5",
-      "date": "2026-11-02",
-      "scope": "colorado",
-      "programs": [],
-      "places": [
-        {
-          "geoid": "0880040",
-          "name": "Vail",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Mountains"
-      ],
-      "also": []
-    },
-    {
       "title": "Armed woman allegedly tried to enter several homes: Police",
       "source": "Colorado Springs Gazette",
       "sourcing": "checked",
@@ -2823,48 +2712,6 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": []
-    },
-    {
-      "title": "Sterling drifts as BoE rate decision comes into focus",
-      "source": "Reuters",
-      "sourcing": "checked",
-      "source_domain": "reuters.com",
-      "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNRUVzQXNVSXVuNmlYMGV0Q1Nuc2pPM0o1UzZJR203eVFfalkwMF9jQ0pGUlA5U0Y4YmV0bUhiRnlSN2hiTnJqekozUDQ1aXNsX1g0WjNqY0ZXMGRwMGZmMVlpdFR0Nl9IUjBxcmh2Sl9NcUVzMmJDcVgwM0lOUjJJdXk2c0NVTUZFOEJ0SEFxb1ZpYlQzM1Q2dGRfYw?oc=5",
-      "date": "2026-11-02",
-      "scope": "colorado",
-      "programs": [],
-      "places": [
-        {
-          "geoid": "0873935",
-          "name": "Sterling",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Eastern Plains"
-      ],
-      "also": []
-    },
-    {
-      "title": "Lamar Jackson\u2019s injury could doom Ravens\u2019 season. Did we just see his last snap in Baltimore?",
-      "source": "The New York Times",
-      "sourcing": "checked",
-      "source_domain": "nytimes.com",
-      "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOZzFKdXBtS3A2ZmlyRlZfdUN1RWFzdXRxZDFZSDZvLVB5blhtQjVzSnZ3ZTg5c0g0amJvT19OMzhsTFFuOXRieV9wUXVrbXMtTEg3a1huN3JwMXozZGttczN4d0lnTjlZYmNlaTY3WjFpSUNEcEtvdE1XTzJlaG5SZkRSZHNhcG1Pb01QMkQ2UjNfTDlxRWtwZg?oc=5",
-      "date": "2026-11-02",
-      "scope": "colorado",
-      "programs": [],
-      "places": [
-        {
-          "geoid": "0843110",
-          "name": "Lamar",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Eastern Plains"
-      ],
       "also": []
     },
     {
@@ -3020,19 +2867,6 @@
       "also": []
     },
     {
-      "title": "Colorado Votes on Right to Buy Natural Gas in US Climate Fight",
-      "source": "Bloomberg",
-      "sourcing": "checked",
-      "source_domain": "bloomberg.com",
-      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPVlpkdXV1ZkJYazM5LXAxZGctbmtBWUpEa2Zab1NjTzVGaXJQVHRJb3pRNGQ2VjJESUo3cDBhYkJ2U0RXM1VVMm9YSS1UQW1rdVI3dldqbnZVa0J6eTJVRk0xUEJTQTlSS1g1bFdpNFh0WGgzUEJZSVhkYXM4dFhVN2tkbnFjbFUwQzBFOGNPZWlGaTIyQVZNWEMtdnFsM1lranFzS0RsTllWN0l0ajBNSFlSOA?oc=5",
-      "date": "2026-11-01",
-      "scope": "colorado",
-      "programs": [],
-      "places": [],
-      "regions": [],
-      "also": []
-    },
-    {
       "title": "Opinion | Using Denver as a Model to Help the Homeless",
       "source": "The New York Times",
       "sourcing": "checked",
@@ -3132,27 +2966,6 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": []
-    },
-    {
-      "title": "Vail Resorts' biggest investor backs company in fight with activist Oasis",
-      "source": "Reuters",
-      "sourcing": "checked",
-      "source_domain": "reuters.com",
-      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxORHhoc3pya2dtOFdjdzI5N0RvYmlIcnVKVWE5VjBtLUh3VTVqMndUZjl5R0xBMVRTdVpyUVlpdGFhZHFmU0pDazhCMlRoOUJZYzhVM2s3Y1lVVnlaT212c3ZXZU80N293QlJMY0ZxUlpncFRfTzVTLXA2SktJUlQ0T3RJM3g0VlJtWTdwV1FWaVZwY3NTYnAwVHlWLTJUZk5LdWZTeHVlOFN3Z3ViZ0dmVjFwaDI?oc=5",
-      "date": "2026-10-30",
-      "scope": "colorado",
-      "programs": [],
-      "places": [
-        {
-          "geoid": "0880040",
-          "name": "Vail",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Mountains"
-      ],
       "also": []
     },
     {
@@ -3457,26 +3270,6 @@
       "also": []
     },
     {
-      "title": "Dolores Huerta, resolute champion of workers\u2019 rights, dies at 96",
-      "source": "The Washington Post",
-      "sourcing": "checked",
-      "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQZFcwSkplQm9EY0x2UjdVcVhUMEx2UGdYbUtiQmlkU3JqMWZKXy1abnVreUhDOGhVSFVGTnRpMzVZYXRNdmhWb0Ffek0wa1R1TnVaRDlwT2diN2MtMl9VVU41TlhZNzJ0RmxTdUQ0NC13ZzZFa3lhTFUyNExHSXNQOGpUUXVoLS1XZ3VNei1WUm5ESHN0RmxZak1WTm42Si1xTWM2dktvNEZnSm8?oc=5",
-      "date": "2026-10-29",
-      "scope": "colorado",
-      "programs": [],
-      "places": [
-        {
-          "geoid": "0820770",
-          "name": "Dolores",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Southwest"
-      ],
-      "also": []
-    },
-    {
       "title": "\u2018Yes In God\u2019s Backyard\u2019: Churches Are Turning Their Land Into Affordable Housing",
       "source": "WSJ",
       "sourcing": "checked",
@@ -3664,18 +3457,6 @@
       "source": "Westword",
       "sourcing": "checked",
       "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPV0w0RXc4VGd3ZHQ3d1JaSnF3MnlPNTRUeTRUYmYtYTdOdkFFZWh5bjVCRFpGcEoyY1ZXWnJHNjdiZjQxbk1aVXZpazFNa1JtWUVkMUttVnhXb2MzTEF6TldrNHU2dmdnZEM3WngxN3pLMTJkeGp0Z0U0RkdvSko1SVktR0VUZmNFdWJTdVk3RDhvN2tzSlJ1YmtJOA?oc=5",
-      "date": "2026-10-27",
-      "scope": "colorado",
-      "programs": [],
-      "places": [],
-      "regions": [],
-      "also": []
-    },
-    {
-      "title": "Colorado River States Could Head Back to the Supreme Court",
-      "source": "WSJ",
-      "sourcing": "checked",
-      "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPSXZqbmttVVRsREUwNkpEYWlQZHV2cVU5ekFwQ2pId0ZXdjkzaFV2Vm90VTNScDlzazhMVVEtUlB1REpKOHE0V0MxaTJJSHcwUGpSa1BPTGM5bTZkT0FQTFV6aHZ1UGxnWURVeWwxeTloaDRmQzNMV3FabnRkT2dEWFQyNFdheWotLW04NU03ay1qRF8wNjRjRjBHOFJIbEJBZW5ucF9sa3VGNWY2aTlVMWh6cWpRQTUxZ1ZkcWN3?oc=5",
       "date": "2026-10-27",
       "scope": "colorado",
       "programs": [],
@@ -3933,26 +3714,6 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": []
-    },
-    {
-      "title": "State of the Flames: Craig Conroy on the rebuild timeline, the new arena and potential trade pieces",
-      "source": "The New York Times",
-      "sourcing": "checked",
-      "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQQVFhVEpZdENvQWREZWFMRzFjRXU4a1ktMWNxSTFnd19uRi1QMzE0VjNZS0N2bFFteXBEd1otODd4TmxCdUEzOVBZSE9zZkFiYmxVQVowc3NCVm9vUld5YUVWeDBnaGhIeGpoQ3ZTNUNxc0RsRkRGcE90WTBLY1Q5eExJWW1qSTlIRVYtWlRULWVoNDRRdi1CRg?oc=5",
-      "date": "2026-10-26",
-      "scope": "colorado",
-      "programs": [],
-      "places": [
-        {
-          "geoid": "0817760",
-          "name": "Craig",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Western Slope"
-      ],
       "also": []
     },
     {
@@ -6811,19 +6572,6 @@
       "also": []
     },
     {
-      "title": "Colorado Auberge Ski Resort Lands $482.5 Million in Financing",
-      "source": "Bloomberg",
-      "sourcing": "checked",
-      "source_domain": "bloomberg.com",
-      "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQS2t2V1NqUlhwWUo1a3J0UFZubGJKTU8taXkxZ29HR2lsZkdsYzZWbVM4cW1IU015c1ZNQ00yMnI5TmdkR0s1NENFLTJhRGFMdThPMF9iQnZueVRYOFgxYUFId1Q4QmVKY0llLTJBdW55UEoxdVQtMTQ1TE5sdFJFWnl5UUlhMlJ5bkVmV2ZYQzRJWTAxMXlGNTE1QVZPTUIyLXMwMzJoelczZjBVeElkUg?oc=5",
-      "date": "2026-09-22",
-      "scope": "colorado",
-      "programs": [],
-      "places": [],
-      "regions": [],
-      "also": []
-    },
-    {
       "title": "Colorado denied additional FEMA aid for Aspen Acres Fire recovery",
       "source": "Pueblo Chieftain",
       "sourcing": "checked",
@@ -8063,19 +7811,6 @@
       "sourcing_label": "Unverified outlet",
       "source_domain": "timesofindia.indiatimes.com",
       "link": "https://news.google.com/rss/articles/CBMi-AJBVV95cUxNVzNVU2NzVktnMHI2Ump2UDhoY2Nod0FRNzdhM1BFNUt2UTl4YTY5ODZSZDhEUXdKMEFudm16MzJ6WWRXbmVvWHVyYklYVDdXSU11bFlpUkQwQ054WUR1cHZFVEFsM3ZJWGJCVklvdmxTcmZhWndPOEVXT2hyUzdEUjFuZXlTZS1JVDJ3MzNNeG0ySDJ0WmRHQlpmSVlJTm41RW9jM2JFS21RNm10Q3hfekZmTktsX3hxWDAzcGY4QUhBVXVxanVqT19KcFF3QzFKMllTeTZ0YS1UUlhqSERxbTlPT1lEdkVVZ1JXZnNyOTdOdjlqNHZpc0FkOVM0YWpCeUNybkhuVnBMUGJ4UzVvWkNHTXZZb1B0Y0V2bjBTMU5iYWhwSEdMWDI3cEI2VVNtTk1kbUlYa1NLa29uX1pCWDN4SThMQUV4eGhNckpCOXlUaWJCY2FCUmdGX2ZvUGx6UmRpUWtiNGkzdENmOTRpNXFqcjAwZjcy0gH-AkFVX3lxTE92ZEJYTXhtY3FmejdwZ2Y4NWE0Q1dWNzR3Z2JzS0ZJekRhaFVURm0wR3lHMmhoLU9ld3Y0aUpiNmhEbDV5MlBYT3ZScjFBZjhBbFNVRzBUYmRxU1dyM01oZTdSZEJxOGRXZm9aYWhJVEh2NXAyXzMtUjdXZUpPSDE1NFRXOExKY3gybWxOQ04zZzlwQnZFTjBEay04ZHRPaVBQVVV2VGk5NnZuVDFKUmlPYUxIV2ducUdXSF9TY0JwR3BGaGxxbTV2WXFiNGdmTnZTRkdJVjdnTWRjTG1OX3o1TXAyS2FIcU5yWDVkSlRyWVFMS1NWNTJSLWltNVB2UGM2RWNBZzJ6a240T1p6UTcxUTc5VVFiM2dNNmVDLU9HZ0tnT1dGeDRhQjBncTk3TGNIeFpDVjZDa1FaZnE4NTd0SEY1NWlYNk1lNVhMM2U0SDNXMTQwX0p5eFR6UmdYWW1MeFNCaXFtbFV5Y0tMek1HNG1hbGlOTHE4QlRDNlE?oc=5",
-      "date": "2026-08-31",
-      "scope": "colorado",
-      "programs": [],
-      "places": [],
-      "regions": [],
-      "also": []
-    },
-    {
-      "title": "Arizona's taps won't run dry, but water bills will go up under federal plan for Colorado River",
-      "source": "NPR",
-      "sourcing": "checked",
-      "source_domain": "npr.org",
-      "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNVFpKbG1tR3ZXNk9LSVR6YVNZWEY3RnhHcDhDaDdvRUNQMEdWOHV4LS1DeTV2eml1RWMxdG9CWV9GWkFyWlEyWF92dXZCekMxaVZnczlIMmhKUUtZNkUySVZmekMzY1RCd3U4V3hUR2prbFVLMnFNN1ZPWElnLV9zTEZNMW1JQzY1UU1iUWhPNzhZYWNhRVlrSGxEWm91d3c5ek9iaHNvQ1ctMlJrRUxadm92SU1VbmJMNGJYVG9OcEY4czYteGRqb3prVlBWcUsydXc?oc=5",
       "date": "2026-08-31",
       "scope": "colorado",
       "programs": [],
@@ -9700,9 +9435,9 @@
     }
   ],
   "stories_meta": {
-    "generated": "2026-11-04T11:11:25Z",
+    "generated": "2026-11-04T13:15:29Z",
     "source_alerts": 2333,
-    "out_of_scope": 1861,
+    "out_of_scope": 1872,
     "merged_duplicates": 49,
     "blocked_outlets": 0,
     "method": "One story per headline, newest first. Other-state news is left out. Places are matched against the 546 geographies in data/hna/geo-config.json; regions follow the county map in scripts/hna/build_ranking_index.py. Each publisher is looked up in data/alerts/outlet-register.json: checked outlets carry no tag, others are tagged \"Unverified outlet\" or \"Weak sourcing\", and documented imposter sites are left out."
