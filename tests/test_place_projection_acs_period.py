@@ -58,12 +58,14 @@ def test_missing_or_zero_households_stay_unknown(tmp_path, monkeypatch):
 
 def test_committed_rows_with_inputs_divide_like_with_like():
     path = os.path.join(ROOT, 'data', 'hna', 'projections', 'places.json')
-    places = json.load(open(path, encoding='utf-8'))['places']
+    with open(path, encoding='utf-8') as f:
+        places = json.load(f)['places']
     for geoid, rec in places.items():
         inputs = rec.get('household_inputs')
         if not inputs:
             continue  # written before the 2026-11-03 rule; the next rebuild adds it
         share = inputs['place_households'] / inputs['county_households']
         assert abs(share - rec['shares']['household']) < 1e-5, geoid
-        periods = set(inputs['county_periods']) | {inputs['place_period']}
-        assert inputs['period'] == (periods.pop() if len(periods) == 1 else 'mixed'), geoid
+        periods = sorted(set(inputs['county_periods']) | {inputs['place_period']})
+        expected = periods[0] if len(periods) == 1 else 'mixed'
+        assert inputs['period'] == expected, geoid
