@@ -5226,10 +5226,18 @@
     }
 
     const bullets = [];
+    // Each source used is named once in the footer, with its own survey and
+    // period. ACS profile tables follow the loaded profile (Mesa and Denver
+    // are 2025 1-year, Fruita 2020-2024 5-year); CHAS appears only when the
+    // CHAS line does.
+    const usedDp = { DP03: false, DP04: false };
+    let usedB25070 = null;
+    let usedChas = false;
 
     // Renter cost-burden — B25070 counts when present, else the DP04 shares.
     if (burdenCounts) {
       const bc = burdenCounts;
+      usedB25070 = bc;
       const period = 'ACS ' + U().acsSeriesText(bc.series, bc.year) + ', table B25070';
       const srcUrl = U().censusSourceUrl(bc.year, bc.series, 'B25070', geoType, profile._geoid);
       bullets.push(
@@ -5243,6 +5251,7 @@
         (srcUrl ? ' · <a href="' + srcUrl + '" target="_blank" rel="noopener noreferrer">[Source]</a>' : '') + '</span>'
       );
     } else if (burden30plus !== null || burden35plus !== null) {
+      usedDp.DP04 = true;
       bullets.push(
         (burden30plus !== null
           ? '<strong>' + fmtPct(burden30plus) + '</strong> of renter households pay <strong>30% or more</strong> of income on rent' +
@@ -5259,18 +5268,24 @@
       const mhi = safeNum(profile.DP03_0062E);
       const incomeNeededRent = (medianRent * 12) / 0.30;
       const gapDollars = incomeNeededRent - mhi;
+      usedDp.DP03 = true;
+      usedDp.DP04 = true;
+      // DP03_0062E is the median income of all households, owners and
+      // renters together. It is not a renter income, so the sentence says so
+      // and draws no conclusion about what renters can afford.
       if (gapDollars > 0) {
         bullets.push(
-          'Median rent of <strong>$' + fmtNum(medianRent) + '/mo</strong> needs ' +
-          '<strong>$' + fmtNum(Math.round(incomeNeededRent)) + '/yr</strong> at the 30%-of-income rule — ' +
-          '<strong>$' + fmtNum(Math.round(gapDollars)) + '</strong> above the median household income (' +
-          '$' + fmtNum(mhi) + '). Median renters cannot comfortably afford the median rent here.'
+          'Median rent of <strong>$' + fmtNum(medianRent) + '/mo</strong> takes an income of ' +
+          '<strong>$' + fmtNum(Math.round(incomeNeededRent)) + '/yr</strong> at 30% of income. ' +
+          'That is <strong>$' + fmtNum(Math.round(gapDollars)) + '</strong> more than the median income of ' +
+          'all households, owners and renters together ($' + fmtNum(mhi) + ').'
         );
       } else {
         bullets.push(
-          'Median rent ($' + fmtNum(medianRent) + '/mo) is within the 30%-of-income window for the median household ' +
-          '(income $' + fmtNum(mhi) + ' vs $' + fmtNum(Math.round(incomeNeededRent)) + ' needed). ' +
-          'Affordability stress is concentrated below the median income.'
+          'Median rent of <strong>$' + fmtNum(medianRent) + '/mo</strong> takes an income of ' +
+          '$' + fmtNum(Math.round(incomeNeededRent)) + '/yr at 30% of income, within the median income of ' +
+          'all households, owners and renters together ($' + fmtNum(mhi) + ').' +
+          (bullets.length ? ' The rent burden line above shows how many renters still pay 30% or more.' : '')
         );
       }
     }
@@ -5285,6 +5300,7 @@
       const t3150Cb = (_rba['31to50'] && Number(_rba['31to50'].cost_burdened_30pct)) || 0;
       const lte50Total = lte30Cb + t3150Cb;
       if (lte50Total > 0) {
+        usedChas = true;
         bullets.push(
           (_cbFromPlace ? 'Place-level HUD CHAS' : 'HUD CHAS county data') +
           ' flags <strong>' + fmtNum(Math.round(lte50Total)) + '</strong> renter households at or below 50% AMI ' +
@@ -5296,12 +5312,13 @@
     }
 
     // Tenure context closer.
+    // The renter share describes tenure only. It does not measure lease-up
+    // or demand for a project, so the line points to the measures that do.
     if (renterPct != null) {
+      usedDp.DP04 = true;
       bullets.push(
-        'Renters make up <strong>' + fmtPct(renterPct) + '</strong> of occupied housing ' +
-        (renterPct >= 40
-          ? '— a meaningful renter base, so rental supply expansion has direct demand.'
-          : '— a smaller renter base; affordable rental projects may face longer absorption timelines.')
+        '<strong>' + fmtPct(renterPct) + '</strong> of occupied homes are rented. ' +
+        'To judge demand for a proposed project, use vacancy, comparable rents and a market study.'
       );
     }
 
@@ -5317,9 +5334,32 @@
         bullets.map(b => '<li style="margin:.35rem 0;">' + b + '</li>').join('') +
       '</ul>' +
       '<p style="margin:.5rem 0 0;font-size:1rem;color:var(--muted);">' +
-        'Source: ACS 5-year DP03/DP04 (vintage 2020–2024) · HUD CHAS Table 7. ' +
-        'See the AMI Tier and Rent Burden charts below for the underlying numbers.' +
+        housingGapSourceLine(profile, usedDp, usedB25070, usedChas ? {
+          vintage: (chasData && chasData.meta && chasData.meta.vintage) || null,
+          place: _cbFromPlace,
+        } : null) +
+        ' See the AMI Tier and Rent Burden charts below for the underlying numbers.' +
       '</p>';
+  }
+
+  // Footer for the housing gap summary: one entry per source actually shown.
+  // ACS profile tables take the loaded profile's survey and period; when the
+  // series is unknown the line names the year only rather than guess.
+  function housingGapSourceLine(profile, usedDp, b25070, chas) {
+    const parts = [];
+    const tables = ['DP03', 'DP04'].filter((t) => usedDp[t]);
+    if (tables.length) {
+      const yr = profile && profile._acsYear;
+      const sr = profile && profile._acsSeries;
+      const period = sr ? U().acsSeriesText(sr, yr) : (yr ? String(yr) : '');
+      parts.push('ACS ' + (period ? period + ' ' : '') + 'profile ' + tables.join(' and '));
+    }
+    if (b25070) parts.push('ACS ' + U().acsSeriesText(b25070.series, b25070.year) + ' table B25070');
+    if (chas) {
+      parts.push('HUD CHAS' + (chas.vintage ? ' ' + chas.vintage : '') +
+        (chas.place ? ', apportioned to this place,' : '') + ' for the 50% AMI line only');
+    }
+    return parts.length ? 'Sources: ' + escHtml(parts.join(' · ')) + '.' : '';
   }
 
   function renderSpecialNeedsPanel(profile) {
