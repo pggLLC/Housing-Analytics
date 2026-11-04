@@ -1,7 +1,7 @@
 /* Where Should I Build? graphics (developer-where.html).
    Five plain-SVG charts drawn from the same scorer and the same weights and filters as the tiers below them,
-   so a slider move redraws them. Site palette only: one teal ramp from --accent (darker = higher tier),
-   --warn for "look here", grey for "not tiered". Every chart has an aria-label and a source line.
+   so a slider move redraws them. Data marks use only the approved --chart-1..7 tokens; "not tiered" is
+   the muted text colour. Every chart has an aria-label and a source line.
    The summaries (group split, rank range, coverage) are pure functions so the test can check them in node. */
 (function (root) {
   'use strict';
@@ -15,13 +15,14 @@
     return out;
   }
 
-  /** For each of the top places, its best and worst rank when any one weighted group is set to 0. */
+  /** For each of the top places, its best and worst rank when any one weighted group is set to 0,
+      ranked as the page ranks (whole-number score, then name). */
   function rankRange(W, places, weights, topGeoids) {
     var ranks = {};
     W.GROUPS.forEach(function (g) {
       if (!(Number(weights[g.id]) > 0)) return;
       var w2 = {}; Object.keys(weights).forEach(function (k) { w2[k] = weights[k]; }); w2[g.id] = 0;
-      places.map(function (p) { return { g: p.geoid, s: W.score(p, w2).exact, n: p.name }; })
+      places.map(function (p) { return { g: p.geoid, s: W.score(p, w2).score, n: p.name }; })
         .sort(function (a, b) { return b.s - a.s || a.n.localeCompare(b.n); })
         .forEach(function (x, i) { (ranks[x.g] = ranks[x.g] || []).push(i + 1); });
     });
@@ -46,19 +47,16 @@
   // ---- Drawing -----------------------------------------------------------------------------------------
 
   var NS = 'http://www.w3.org/2000/svg';
+  // Data marks use only the approved WCAG AA chart tokens (--chart-1 to --chart-7, css/site-theme.css; Rule 10).
   var C = {
-    t4: 'var(--accent)',
-    t3: 'color-mix(in oklab, var(--accent) 68%, var(--card))',
-    t2: 'color-mix(in oklab, var(--accent) 42%, var(--card))',
-    t1: 'color-mix(in oklab, var(--accent) 20%, var(--card))',
-    ring: 'var(--warn)',
-    grey: 'color-mix(in oklab, var(--muted) 28%, var(--card))',
+    target: 'var(--chart-3)', promising: 'var(--chart-1)', monitor: 'var(--chart-4)', none: 'var(--muted)',
+    full: 'var(--chart-3)', partial: 'var(--chart-4)', range: 'var(--chart-1)', now: 'var(--chart-6)',
     line: 'var(--border)', text: 'var(--text)', muted: 'var(--muted)', paper: 'var(--card)'
   };
-  var TIER = { 1: C.t4, 2: C.t3, 3: C.t2 };
-  // Group colours: the teal ramp, then grey and warn tints, so up to 11 groups stay apart in both themes.
-  var GROUP_FILL = [C.t4, C.t3, C.t2, C.t1, 'color-mix(in oklab, var(--warn) 70%, var(--card))', 'color-mix(in oklab, var(--warn) 40%, var(--card))',
-    'color-mix(in oklab, var(--muted) 70%, var(--card))', 'color-mix(in oklab, var(--muted) 45%, var(--card))', C.grey, 'color-mix(in oklab, var(--text) 55%, var(--card))', 'color-mix(in oklab, var(--accent) 85%, var(--text))'];
+  var TIER = { 1: C.target, 2: C.promising, 3: C.monitor };
+  var CHART = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)', 'var(--chart-6)', 'var(--chart-7)'];
+  // Past seven groups the tokens repeat at half opacity, so up to 14 groups stay apart.
+  function groupFill(j) { return { fill: CHART[j % 7], opacity: j >= 7 ? 0.5 : 1 }; }
 
   function el(name, attrs, text) {
     var e = document.createElementNS(NS, name);
@@ -81,7 +79,7 @@
     p.appendChild(el('circle', { cx: x, cy: y, r: r, fill: hollow ? C.paper : fill, stroke: hollow ? fill : C.paper, 'stroke-width': hollow ? 1.6 : 0.6 }));
   }
   function line(p, x1, y1, x2, y2, o) { o = o || {}; p.appendChild(el('line', { x1: x1, y1: y1, x2: x2, y2: y2, stroke: o.color || C.line, 'stroke-width': o.width || 1, 'stroke-dasharray': o.dash, 'stroke-linecap': o.cap })); }
-  function rect(p, x, y, w, h, fill, o) { o = o || {}; p.appendChild(el('rect', { x: x, y: y, width: Math.max(0, w), height: Math.max(0, h), fill: fill, stroke: o.stroke, 'stroke-width': o.strokeWidth })); }
+  function rect(p, x, y, w, h, fill, o) { o = o || {}; p.appendChild(el('rect', { x: x, y: y, width: Math.max(0, w), height: Math.max(0, h), fill: fill, 'fill-opacity': o.opacity, stroke: o.stroke, 'stroke-width': o.strokeWidth })); }
   function legend(p, x, y, items) {
     var cx = x;
     items.forEach(function (it) {
@@ -114,10 +112,10 @@
     });
     pts.slice().sort(function (a, b) { return a.s.score - b.s.score; }).forEach(function (x) {
       var c = cen[x.p.geoid], t = x.s.tier;
-      dot(s, X(c.lng), Y(c.lat), t === 1 ? 5.5 : t === 2 ? 4 : 3, t ? TIER[t] : C.grey, x.s.confidence !== 'High');
+      dot(s, X(c.lng), Y(c.lat), t === 1 ? 5.5 : t === 2 ? 4 : 3, t ? TIER[t] : C.none, x.s.confidence !== 'High');
     });
     noOverlap(s, pts.filter(function (x) { return x.s.tier === 1; }).slice(0, 14).map(function (x) { var c = cen[x.p.geoid]; return { x: X(c.lng) + 8, y: Y(c.lat) + 4, t: short(x.p.name) + ' ' + x.s.score }; }));
-    legend(s, 14, H - 16, [['dot', C.t4, 'Target'], ['dot', C.t3, 'Promising'], ['dot', C.t2, 'Monitor'], ['dot', C.grey, 'Not tiered'], ['hollow', C.t4, 'Hollow: Medium or Low confidence']]);
+    legend(s, 14, H - 16, [['dot', C.target, 'Target'], ['dot', C.promising, 'Promising'], ['dot', C.monitor, 'Monitor'], ['dot', C.none, 'Not tiered'], ['hollow', C.target, 'Hollow: Medium or Low confidence']]);
   }
 
   function scoreVsChecked(rows) {
@@ -125,8 +123,8 @@
     var W = 820, H = 420, L = 50, R = 20, T = 16, B = 44, lo = Math.min(0.4, Math.floor(Math.min.apply(1, pts.map(function (x) { return x.s.checkedShare; }).concat([1])) * 10) / 10);
     var X = function (v) { return L + (v - lo) / (1 - lo) * (W - L - R); }, Y = function (v) { return T + (1 - v / 100) * (H - T - B); };
     var s = svg('wtbChecked', W, H, 'Score against the share of weight on checked factors for ' + pts.length + ' places; top right is ready to pursue, top left needs local records read first');
-    rect(s, X(0.8), Y(100), X(1) - X(0.8), Y(70) - Y(100), C.t1);
-    rect(s, X(lo), Y(100), X(0.8) - X(lo), Y(70) - Y(100), 'color-mix(in oklab, var(--warn) 10%, transparent)');
+    rect(s, X(0.8), Y(100), X(1) - X(0.8), Y(70) - Y(100), C.full, { opacity: 0.12 });
+    rect(s, X(lo), Y(100), X(0.8) - X(lo), Y(70) - Y(100), C.partial, { opacity: 0.1 });
     text(s, X(1) - 6, Y(100) + 14, 'Ready to pursue', { anchor: 'end', bold: true });
     text(s, X(lo) + 6, Y(100) + 14, 'Strong, but check local records first', { bold: true });
     [0, 35, 50, 70, 100].forEach(function (v) { line(s, L, Y(v), W - R, Y(v)); text(s, L - 6, Y(v) + 4, String(v), { anchor: 'end', size: 11, muted: true }); });
@@ -134,7 +132,7 @@
     line(s, X(0.8), T, X(0.8), H - B, { color: C.muted, dash: '3 3' });
     text(s, (L + W) / 2, H - 6, 'Share of your weight resting on checked factors (80%+ is High confidence)', { anchor: 'middle', size: 12 });
     text(s, 14, (T + H - B) / 2, 'Score', { anchor: 'middle', size: 12, rotate: -90 });
-    pts.forEach(function (x) { var j = (parseInt(String(x.p.geoid).slice(-3), 10) % 7 - 3) * 0.003; dot(s, X(Math.max(lo, x.s.checkedShare + j)), Y(x.s.score), 3, x.s.tier ? TIER[x.s.tier] : C.grey); });
+    pts.forEach(function (x) { var j = (parseInt(String(x.p.geoid).slice(-3), 10) % 7 - 3) * 0.003; dot(s, X(Math.max(lo, x.s.checkedShare + j)), Y(x.s.score), 3, x.s.tier ? TIER[x.s.tier] : C.none); });
     noOverlap(s, pts.slice(0, 10).map(function (x) { var right = X(x.s.checkedShare) > W - 160; return { x: X(x.s.checkedShare) + (right ? -7 : 7), y: Y(x.s.score) + 4, t: short(x.p.name), anchor: right ? 'end' : 'start' }; }));
   }
 
@@ -146,11 +144,11 @@
     top.forEach(function (x, i) {
       var y = 4 + i * rh, cx = L, sp = groupSplit(x.s);
       text(s, L - 8, y + 15, short(x.p.name) + ' ' + x.s.score, { anchor: 'end' });
-      G.forEach(function (g, j) { var v = sp[g.id] || 0; if (v <= 0) return; rect(s, cx, y + 3, v * sc, 16, GROUP_FILL[j % GROUP_FILL.length], { stroke: C.paper, strokeWidth: 0.8 }); cx += v * sc; });
+      G.forEach(function (g, j) { var v = sp[g.id] || 0; if (v <= 0) return; var gf = groupFill(j); rect(s, cx, y + 3, v * sc, 16, gf.fill, { opacity: gf.opacity, stroke: C.paper, strokeWidth: 0.8 }); cx += v * sc; });
     });
     G.forEach(function (g, j) {
       var gx = 10 + (j % 4) * 200, gy = top.length * rh + 18 + Math.floor(j / 4) * 18;
-      rect(s, gx, gy - 9, 11, 11, GROUP_FILL[j % GROUP_FILL.length]); text(s, gx + 16, gy, g.label, { size: 10.5 });
+      var gf = groupFill(j); rect(s, gx, gy - 9, 11, 11, gf.fill, { opacity: gf.opacity }); text(s, gx + 16, gy, g.label, { size: 10.5 });
     });
   }
 
@@ -167,8 +165,8 @@
     top.forEach(function (x, i) {
       var y = 14 + i * rh, r = rr[i];
       text(s, L - 8, y + 4, (i + 1) + '. ' + short(x.p.name), { anchor: 'end', size: 11 });
-      if (r.best != null) line(s, X(r.best), y, X(r.worst), y, { color: C.t3, width: 5, cap: 'round' });
-      s.appendChild(el('circle', { cx: X(i + 1), cy: y, r: 4, fill: C.ring }));
+      if (r.best != null) line(s, X(r.best), y, X(r.worst), y, { color: C.range, width: 5, cap: 'round' });
+      s.appendChild(el('circle', { cx: X(i + 1), cy: y, r: 4, fill: C.now }));
     });
     text(s, Wd - 10, H - 26, 'rank (dot = under your weights, line = range)', { anchor: 'end', size: 11, muted: true });
   }
@@ -180,7 +178,7 @@
     rows.forEach(function (r, i) {
       var y = 4 + i * rh;
       text(s, L - 8, y + 13, r.label, { anchor: 'end' });
-      rect(s, L, y + 2, r.checked * sc, 14, r.checked < n ? 'color-mix(in oklab, var(--warn) 65%, var(--card))' : C.t3);
+      rect(s, L, y + 2, r.checked * sc, 14, r.checked < n ? C.partial : C.full);
       text(s, L + r.checked * sc + 6, y + 13, r.checked + ' of ' + n, { size: 11 });
     });
   }

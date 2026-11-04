@@ -53,4 +53,19 @@ for (const id of ['wtbMap', 'wtbChecked', 'wtbGroups', 'wtbRange', 'wtbCoverage'
 const js = readFileSync('js/where-to-build-charts.js', 'utf8');
 ok(/'aria-label': label/.test(js) && /role: 'img'/.test(js), 'every chart is labelled for screen readers');
 ok(!/#[0-9a-f]{6}\b/i.test(js), 'site palette only, no fixed colours');
+ok(!/color-mix|--accent/.test(js) && /var\(--chart-1\)/.test(js), 'data marks use the approved --chart-1..7 tokens (Rule 10)');
+// The rank range ranks each run the way the page does: whole-number score, then name.
+{
+  const g = W.GROUPS.find((x) => Number(weights[x.id]) > 0);
+  const w2 = { ...weights, [g.id]: 0 };
+  const order = model.places.map((p) => ({ p, s: W.score(p, w2).score })).sort((a, b) => b.s - a.s || a.p.name.localeCompare(b.p.name));
+  const one = G.rankRange(W, model.places, { ...w2, ...Object.fromEntries(W.GROUPS.filter((x) => x.id !== g.id).map((x) => [x.id, 0])), [g.id]: 0 }, [order[0].p.geoid]);
+  ok(one[0].runs === 0, 'no weighted group means no runs');
+  const solo = Object.fromEntries(W.GROUPS.map((x) => [x.id, 0])); solo[g.id] = weights[g.id];
+  const other = W.GROUPS.find((x) => x.id !== g.id && Number(weights[x.id]) > 0); solo[other.id] = weights[other.id];
+  const pick = order[5].p.geoid;
+  const rr2 = G.rankRange(W, model.places, solo, [pick]);
+  const byRun = [g.id, other.id].map((z) => { const w3 = { ...solo, [z]: 0 }; return model.places.map((p) => ({ p, s: W.score(p, w3).score })).sort((a, b) => b.s - a.s || a.p.name.localeCompare(b.p.name)).findIndex((x) => x.p.geoid === pick) + 1; });
+  ok(rr2[0].best === Math.min(...byRun) && rr2[0].worst === Math.max(...byRun), 'rank range matches the page comparator');
+}
 console.log(`where-to-build charts: ${n} checks passed`);
