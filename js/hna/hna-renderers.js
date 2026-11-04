@@ -1842,13 +1842,22 @@
     // three grouped bars so the commuter-flow story is readable at a
     // glance. (A future enhancement could plot history if the cache
     // ever starts shipping flows[].)
-    const within  = safeNum(lehd.within)  || 0;
-    const inflow  = safeNum(lehd.inflow)  || 0;
-    const outflow = safeNum(lehd.outflow) || 0;
-    if (within === 0 && inflow === 0 && outflow === 0) {
+    // A missing flow stays null (no bar, named in the note); a published 0 stays 0.
+    const within  = safeNum(lehd.within);
+    const inflow  = safeNum(lehd.inflow);
+    const outflow = safeNum(lehd.outflow);
+    const flowNames = ['live and work here', 'commute in', 'commute out'];
+    const missingFlows = [within, inflow, outflow]
+      .map(function (v, i) { return v == null ? flowNames[i] : null; })
+      .filter(Boolean);
+    if (missingFlows.length === 3 || (within === 0 && inflow === 0 && outflow === 0)) {
       _placeholderInBox(canvas, 'LEHD flow data not available for this geography.');
+      if (noteEl) noteEl.textContent = '';
       return;
     }
+    const missingNote = missingFlows.length
+      ? 'Not available in the LEHD file for this geography: ' + missingFlows.join(', ') + '. No bar is drawn for it.'
+      : '';
     makeChart(canvas.getContext('2d'), {
       type: 'bar',
       data: {
@@ -1873,13 +1882,13 @@
     });
     if (noteEl) {
       var isPlace = geoType === 'place' || geoType === 'cdp';
+      var srcNote = '';
       if (isPlace && lehd.flows_source === 'block-od') {
-        noteEl.textContent = 'Place-level flows from BLOCK-classified LEHD LODES OD — every (home block → work block) pair classified against the place boundary; no intra-place double-counting.';
+        srcNote = 'Place-level flows from BLOCK-classified LEHD LODES OD — every (home block → work block) pair classified against the place boundary; no intra-place double-counting.';
       } else if (isPlace && lehd.flows_source === 'tract-lodes') {
-        noteEl.textContent = 'Place-level flows aggregated from tract-level LEHD LODES, weighted by the place’s population share of each tract — directional where a tract extends past the municipal boundary.';
-      } else {
-        noteEl.textContent = '';
+        srcNote = 'Place-level flows aggregated from tract-level LEHD LODES, weighted by the place’s population share of each tract — directional where a tract extends past the municipal boundary.';
       }
+      noteEl.textContent = [srcNote, missingNote].filter(Boolean).join(' ');
     }
   }
 
