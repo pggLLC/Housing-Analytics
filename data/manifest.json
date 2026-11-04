@@ -1,15 +1,15 @@
 {
-  "generated": "2026-11-04T14:53:03.406904Z",
+  "generated": "2026-11-04T18:37:41.316345Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1025536
+      "bytes": 1026330
     },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7711
+      "bytes": 7517
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -1144,7 +1144,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 307860
+      "bytes": 308312
     },
     "data/entitled-land/findings.json": {
       "featureCount": 0,
@@ -8569,7 +8569,7 @@
     "data/jurisdiction-briefs/08045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36684
+      "bytes": 38020
     },
     "data/jurisdiction-briefs/08097.json": {
       "featureCount": 0,
@@ -9059,7 +9059,7 @@
     "data/market/market-types.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 432887
+      "bytes": 433191
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -9190,6 +9190,16 @@
       "featureCount": 351,
       "placeholder": false,
       "bytes": 182611
+    },
+    "data/market/walk_bike_access_co.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 746912
+    },
+    "data/market/walk_bike_map_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2637592
     },
     "data/market/walkability_co.geojson": {
       "featureCount": 3532,
@@ -9619,7 +9629,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 434964
+      "bytes": 434966
     },
     "data/policy/colorado-deal-rules.json": {
       "featureCount": 0,
@@ -9644,7 +9654,7 @@
     "data/policy/fee-reductions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 583576
+      "bytes": 595555
     },
     "data/policy/funding-awards/award-rows.json": {
       "featureCount": 0,
@@ -9729,7 +9739,7 @@
     "data/policy/incentive-coverage.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 38427
+      "bytes": 40450
     },
     "data/policy/jchs-state-of-nations-housing.json": {
       "featureCount": 0,
@@ -9754,7 +9764,7 @@
     "data/policy/leading-signals.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 219690
+      "bytes": 220317
     },
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
@@ -9774,7 +9784,7 @@
     "data/policy/local-housing-funds.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 144873
+      "bytes": 147449
     },
     "data/policy/local-support.json": {
       "featureCount": 0,
@@ -9819,7 +9829,7 @@
     "data/policy/prop123_jurisdictions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 143647
+      "bytes": 146395
     },
     "data/policy/resale-conventions.json": {
       "featureCount": 0,
@@ -9889,7 +9899,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 234271
+      "bytes": 234286
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

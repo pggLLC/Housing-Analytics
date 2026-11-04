@@ -220,7 +220,7 @@
       provider: 'DOLA / Internal',
       url: 'https://cdola.colorado.gov/prop123',
       localFile: 'data/policy/prop123_jurisdictions.json',
-      lastUpdated: '2026-10-29',
+      lastUpdated: '2026-11-04',
       updateFrequency: 'As-filed',
       maxAgeDays: 180,
       geoUnit: 'Municipality / County',
@@ -1257,7 +1257,7 @@
       maxAgeDays: 30,
       geoUnit: 'N/A',
       coverage: 'All data files',
-      features: 1999,
+      features: 2001,
       description: 'Auto-generated manifest listing all data files with feature counts and timestamps.',
       tags: ['manifest', 'system', 'metadata'],
       apiEndpoint: null

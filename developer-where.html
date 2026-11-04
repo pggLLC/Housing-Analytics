@@ -116,6 +116,14 @@
     .ib-why td.num { text-align:left; display:inline-block; width:auto; margin-right:1rem; }
     .ib-why td[data-label]::before { content:attr(data-label) ": "; color:var(--muted); }
   }
+  .wtb-charts { margin: 1rem 0; }
+  .wtb-charts > summary { cursor: pointer; font-weight: 700; font-size: 1.05rem; min-height: 44px; display: flex; align-items: center; }
+  .wtb-fig { border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); background: var(--card); padding: .8rem; margin: .8rem 0; }
+  .wtb-fig h3 { margin: 0 0 .25rem; font-size: 1rem; }
+  .wtb-fig p { margin: 0 0 .4rem; font-size: .875rem; line-height: 1.5; color: var(--text); max-width: 80ch; }
+  .wtb-fig .wtb-src { font-size: .78rem; color: var(--muted); margin: .3rem 0 0; }
+  .wtb-plot { overflow-x: auto; }
+  .wtb-svg { display: block; width: 100%; min-width: 560px; height: auto; font-family: inherit; }
 </style>
   <link rel="stylesheet" href="js/vendor/leaflet.css">
 <link rel="stylesheet" href="css/land-banking-map.css">
@@ -219,6 +227,25 @@
   </details>
 
   <!-- Tier sections -->
+  <details class="wtb-charts" id="wtbCharts" open>
+    <summary>See the ranking: map, checks behind each score, and how firm each rank is</summary>
+    <div class="wtb-fig"><h3>Tier by place, hollow where we know less</h3>
+      <p>Colour is the tier under your weights. A solid dot is High confidence; a hollow ring means less of your weight rests on checked data.</p>
+      <div class="wtb-plot" id="wtbMap"></div><p class="wtb-src" id="wtbMapSrc"></p></div>
+    <div class="wtb-fig"><h3>Strong and well checked, or strong and still to check</h3>
+      <p>Up is a higher score; right is more of the score resting on checked factors. The top right is ready to pursue. The top left needs local records read before anyone spends money there.</p>
+      <div class="wtb-plot" id="wtbChecked"></div><p class="wtb-src" id="wtbCheckedSrc"></p></div>
+    <div class="wtb-fig"><h3>The score, split by what earned it</h3>
+      <p>Each bar is one place's score for the top 15, split into the groups the sliders control. A group with no segment earned nothing there, or has not been checked yet.</p>
+      <div class="wtb-plot" id="wtbGroups"></div><p class="wtb-src" id="wtbGroupsSrc"></p></div>
+    <div class="wtb-fig"><h3>How firm each rank is</h3>
+      <p>Each line shows the best and worst rank a top-20 place reaches when any single group is switched off. A short line is a robust pick; a long one depends on one group.</p>
+      <div class="wtb-plot" id="wtbRange"></div><p class="wtb-src" id="wtbRangeSrc"></p></div>
+    <div class="wtb-fig"><h3>What we have checked, by factor</h3>
+      <p>Rows with a recorded value for each factor. This is why many places show Medium confidence, and where research would move the ranking most.</p>
+      <div class="wtb-plot" id="wtbCoverage"></div><p class="wtb-src" id="wtbCoverageSrc"></p></div>
+  </details>
+
   <div id="tiers">
     <div class="ib-loading">Loading…</div>
   </div>
@@ -251,6 +278,7 @@
 <script src="js/local-incentives-data.js"></script>
 <script src="js/local-support-data.js"></script>
 <script src="js/where-to-build.js"></script>
+<script src="js/where-to-build-charts.js"></script>
 <script defer src="js/components/table-header-tips.js"></script>
 <script defer src="js/components/table-sort.js"></script>
 <script>
@@ -280,6 +308,12 @@
       support: d[6], fees: d[7], funds: d[8], coverage: d[9], commitment: d[10], jobs: d[11], commute: d[12] };
     if (!docs.ranking) throw new Error('the HNA ranking could not be loaded');
     var model = W.build(docs, TODAY);
+    // Map layers load on their own, so the tiers never wait on them; the charts redraw when they arrive.
+    var mapCen = {}, mapGeo = null, lastShown = [];
+    Promise.all([getJSON('data/co-place-centroids.json'), getJSON('data/co-county-boundaries.json')]).then(function (m) {
+      mapCen = (m[0] && m[0].byGeoid) || {}; mapGeo = m[1]; drawCharts();
+    });
+    function drawCharts() { if (window.WhereToBuildCharts) window.WhereToBuildCharts.draw(W, lastShown, model, weights, mapCen, mapGeo, TODAY); }
     var trackerLoad = null; // one Deal Tracker load per page view, shared by every render
     var weights = readWeights();
 
@@ -385,6 +419,8 @@
         tierBlock(2, 'Tier 2: Promising', tiers[2], maxRows, 'Score 50 to 69 (or 70+ with low confidence). Put a deeper look on the calendar.') +
         tierBlock(3, 'Tier 3: Monitor', tiers[3], maxRows, 'Score 35 to 49. Check back quarterly unless a signal moves it up.');
       wirePipelineButtons();
+      lastShown = shown;
+      drawCharts();
     }
 
     function tierBlock(n, label, rows, maxRows, help) {
