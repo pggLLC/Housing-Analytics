@@ -101,8 +101,11 @@ try { ({ chromium } = await import('playwright')); } catch { /* no browser here 
 if (chromium) {
   const ORIGIN = 'http://example.org';
   const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/json' };
-  // A machine with a preinstalled Chromium names it; CI uses Playwright's own.
-  const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined;
+  // Same browser lookup as table-export-rendered: a named Chromium, else
+  // Playwright's own if downloaded, else the one puppeteer installs (CI).
+  const bundled = chromium.executablePath();
+  const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+    || (fs.existsSync(bundled) ? bundled : await (await import('puppeteer')).default.executablePath());
   const browser = await chromium.launch({ headless: true, executablePath, args: ['--no-sandbox'] });
   const tab = await browser.newPage({ viewport: { width: 390, height: 900 } });
   const errors = [];
