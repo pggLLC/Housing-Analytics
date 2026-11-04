@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-04T22:19:47.805Z",
+    "generated_at": "2026-11-04T23:01:26.627Z",
     "root": "data/",
     "file_count": 2016,
-    "total_size_bytes": 218219708,
+    "total_size_bytes": 220101245,
     "kinds": {
       "json": 1967,
       "geojson": 35,
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-04T22:19:43.554Z",
+      "mtime": "2026-11-04T23:01:22.131Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39819,8 +39819,8 @@
     {
       "path": "market/walk_bike_access_co.json",
       "kind": "json",
-      "size_bytes": 746912,
-      "mtime": "2026-11-04T17:11:56.488Z",
+      "size_bytes": 968140,
+      "mtime": "2026-11-04T22:59:21.529Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39837,8 +39837,8 @@
     {
       "path": "market/walk_bike_map_co.json",
       "kind": "json",
-      "size_bytes": 2637592,
-      "mtime": "2026-11-04T17:11:56.495Z",
+      "size_bytes": 4297901,
+      "mtime": "2026-11-04T22:59:21.544Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -40047,7 +40047,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-04T22:19:45.703Z",
+      "mtime": "2026-11-04T23:01:24.361Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40071,7 +40071,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-04T22:19:45.174Z",
+      "mtime": "2026-11-04T23:01:23.842Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
