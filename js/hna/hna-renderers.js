@@ -4263,6 +4263,10 @@
       }
       rows += row('Result used by the headline', num(trace.incrementalUnits),
         hasIncP ? 'Resident growth + in-commuters moving closer.' : 'Resident growth; no in-commuter figure for this geography.');
+      if (trace.incrementalUnits != null && Number.isFinite(Number(trace.incrementalUnits))) {
+        rows += row('Shown on the headline', num(Math.round(Number(trace.incrementalUnits) / 10) * 10),
+          'Rounded to the nearest ten: a town estimate is not precise to the single home.');
+      }
       rows += row('ACS household share', pct(trace.householdShare, 3), 'ACS DP02 household counts.');
       if (trace.permitShare == null) {
         rows += row('Census BPS permit share', 'not available',

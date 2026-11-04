@@ -125,7 +125,12 @@ async function render(selection, countyFips, headship) {
     const used = r.host.querySelector('.hna-recon-used');
     assert(used, 'the block states no figure used');
     const tile = document.getElementById('statUnitsNeed').textContent;
-    assert.strictEqual(Number(used.dataset.units), intOf(tile), `block uses ${used.dataset.units}; the tile shows ${tile}`);
+    // A town headline is the block's figure rounded to tens; the block says so.
+    assert.strictEqual(Number(used.dataset.headlineUnits), intOf(tile), `block's headline is ${used.dataset.headlineUnits}; the tile shows ${tile}`);
+    assert(Math.abs(Number(used.dataset.units) - intOf(tile)) <= 5, `block uses ${used.dataset.units}; the tile shows ${tile}`);
+    if (Number(used.dataset.units) !== intOf(tile)) {
+      assert(/headline rounds it to/.test(used.textContent), 'the block does not say the headline is rounded');
+    }
     assert.strictEqual(used.dataset.basis, document.getElementById('statUnitsNeedBasis').dataset.basis,
       'the block and the tile declare different bases');
   });
@@ -237,7 +242,7 @@ async function render(selection, countyFips, headship) {
     assert.strictEqual(Number(row.dataset.units), Math.round(src), `row ${row.dataset.units} ≠ source ${src}`);
     assert.notStrictEqual(row.dataset.inFigure, 'true', 'replacement is marked as part of the figure used');
     const tile = intOf(document.getElementById('statUnitsNeed').textContent);
-    assert.strictEqual(tile, Math.round(r.rec.used.units), 'adding the replacement row moved the headline tile');
+    assert.strictEqual(tile, r.rec.used.headlineUnits, 'adding the replacement row moved the headline tile');
     const wr = r.host.querySelector('.hna-recon-with-replacement');
     assert(wr, 'no line adds replacement to the figure used');
     assert.strictEqual(Number(wr.dataset.units), Math.round(r.rec.used.units + src), 'figure used + replacement does not add up');

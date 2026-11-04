@@ -2832,6 +2832,7 @@
   // Kept self-contained: a test evaluates this function on its own.
   function productionRead(incUnits, growthUnits, basis) {
     const num = (v) => (v == null || !Number.isFinite(Number(v)) ? null : Number(v));
+    if (basis === 'too_small') return 'Under 250 households: see the county';
     const total = num(incUnits);
     if (total === null) return 'Unavailable';
     if (total === 0) return 'At target';
@@ -3062,7 +3063,13 @@
     } : null;
     return {
       endYear,
-      used: { units: used, basis, why },
+      used: {
+        units: used, basis, why,
+        // A town estimate's headline is rounded to tens (Bundle C); say so
+        // here, where the working shows the unrounded figure.
+        headlineUnits: (input.usedPlaceProjection && used !== null && basis !== 'too_small')
+          ? Math.round(used / 10) * 10 : (used === null ? null : Math.round(used)),
+      },
       withReplacement,
       rows,
       households: hh === null ? null : {
@@ -3140,6 +3147,13 @@
     used.dataset.basis = rec.used.basis || 'unavailable';
     used.appendChild(el('strong', 'Figure used' + (rec.endYear ? ' for ' + rec.endYear : '') + ': ' + homes(rec.used.units) + '. '));
     used.appendChild(document.createTextNode(rec.used.why));
+    if (rec.used.headlineUnits != null) {
+      used.dataset.headlineUnits = String(rec.used.headlineUnits);
+      if (rec.used.headlineUnits !== Math.round(rec.used.units)) {
+        used.appendChild(document.createTextNode(' The headline rounds it to ' + homes(rec.used.headlineUnits)
+          + ', because a town estimate is not precise to the single home.'));
+      }
+    }
     host.appendChild(used);
 
     if (rec.withReplacement) {
