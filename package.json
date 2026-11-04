@@ -460,7 +460,7 @@
     "test:daily-audit-operations": "node test/daily-audit-operations.test.js",
     "test:hna-reading-path": "node test/hna-reading-path.test.js",
     "test:hna-build-rebase-recovery": "node test/hna-build-rebase-recovery.test.js",
-    "test:peer-benchmark": "node test/peer-benchmark-missing-score.test.js",
+    "test:peer-benchmark": "node test/peer-benchmark-missing-score.test.js && node test/peer-benchmark-not-funded.test.js",
     "test:bridge-token-guidance": "node test/bridge-token-guidance.test.js",
     "paper:figures": "node scripts/paper/build-paper-figures.mjs",
     "paper:build": "node scripts/paper/extract-model-parameters.mjs && node scripts/paper/build-paper-figures.mjs && node scripts/paper/inject-paper-figures.mjs && PAPER_PAGE=methods.html node scripts/paper/inject-paper-figures.mjs",

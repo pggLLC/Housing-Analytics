@@ -294,6 +294,16 @@
       "description": "Every Colorado tax-credit property awarded 2015-2025 in CHFA's Housing Tax Credit Properties feed (443), with name, address, homes, award year, credit, CHFA urban/rural/mountain label and AMI mix as printed, plus the Market analysis page's own score today at every buffer. Built by scripts/market/build_reference_projects.mjs. Replaces an earlier 50-row set whose names matched no CHFA or HUD record."
     },
     {
+      "file_path": "data/market/unfunded-application-points.json",
+      "source_name": "CHFA Applicant Reports — applications not funded, geocoded and scored today",
+      "source_url": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
+      "update_method": "manual",
+      "status": "cached",
+      "fallback_rule": "Hide the funded-against-not-funded line under the peer benchmark",
+      "last_update": "2026-11-04T12:30:00Z",
+      "description": "Every application in data/jurisdiction-briefs/_lihtc-applications.json whose outcome is not_awarded (2023 on), with name, address, year, credit and homes as printed. Street addresses geocoded by the U.S. Census Bureau Geocoder (address batch, Public_AR_Current); unmatched addresses are listed with no point. Scored by the Market analysis page at every buffer, as for the funded peer set. Built by scripts/market/geocode_unfunded_applications.py then scripts/market/score_unfunded_applications.mjs."
+    },
+    {
       "file_path": "data/hna/chas_affordability_gap.json",
       "source_name": "HUD CHAS — Colorado Affordability Gap Analysis (Derived)",
       "source_url": "https://www.huduser.gov/portal/datasets/cp.html",

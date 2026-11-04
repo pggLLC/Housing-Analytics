@@ -165,6 +165,44 @@
     };
   }
 
+  /**
+   * Funded against not funded, in the same years, at the same buffer: does our score tell
+   * CHFA's winners from the applications it turned down? Funded = reference properties awarded
+   * in those years; not funded = mapped applications whose outcome is not_awarded
+   * (data/market/unfunded-application-points.json). Returns null when either side is thin.
+   * `separation` is the chance that a funded property outscores a not-funded application
+   * (0.5 = no better than a coin toss; ties count half).
+   */
+  var CONTRAST_YEARS = [2023, 2025];
+  function creditKind(s) {
+    s = String(s || '');
+    if (/9%/.test(s)) return '9%';
+    if (/4%/.test(s)) return '4%';
+    return s || null;
+  }
+  function fundedVsNotFunded(buffer, referenceProjects, unfundedPoints, kind) {
+    var b = buffer == null ? null : String(buffer);
+    if (b == null || !referenceProjects || !unfundedPoints) return null;
+    function at(p) { var v = p && p.pma_score_by_buffer ? p.pma_score_by_buffer[b] : null; return typeof v === 'number' ? v : null; }
+    function inYears(y) { return y >= CONTRAST_YEARS[0] && y <= CONTRAST_YEARS[1]; }
+    var f = referenceProjects.filter(function (p) { return inYears(p.year_alloc) && (!kind || creditKind(p.credit) === kind); })
+      .map(at).filter(function (v) { return v != null; });
+    var u = unfundedPoints.filter(function (p) { return inYears(p.year) && (!kind || creditKind(p.credit_type) === kind); })
+      .map(at).filter(function (v) { return v != null; });
+    if (f.length < 10 || u.length < 10) return null;
+    var wins = 0;
+    f.forEach(function (x) { u.forEach(function (y) { wins += x > y ? 1 : (x === y ? 0.5 : 0); }); });
+    function med(a) { a = a.slice().sort(function (x, y) { return x - y; }); var n = a.length; return n % 2 ? a[(n - 1) / 2] : (a[n / 2 - 1] + a[n / 2]) / 2; }
+    var sep = Math.round((wins / (f.length * u.length)) * 100) / 100;  // the verdict reads the number shown
+    return {
+      years: CONTRAST_YEARS.slice(), kind: kind || null,
+      funded: f.length, notFunded: u.length,
+      fundedMedian: med(f), notFundedMedian: med(u),
+      separation: sep,
+      verdict: sep >= 0.7 ? 'tells them apart' : (sep >= 0.6 ? 'tells them apart a little' : 'does not tell them apart')
+    };
+  }
+
   function benchmarkTier(percentile) {
     if (percentile >= 75) return { label: 'Top 25%',    color: 'var(--good)' };
     if (percentile >= 50) return { label: 'Top 50%',    color: 'var(--accent)' };
@@ -411,6 +449,7 @@
   /* ── Public API ──────────────────────────────────────────────────── */
   window.PMAEnhancements = {
     benchmarkVsReference:       benchmarkVsReference,
+    fundedVsNotFunded:          fundedVsNotFunded,
     analyzeCompetitivePipeline: analyzeCompetitivePipeline,
     generateScenarios:          generateScenarios,
     defaultScenarios:           defaultScenarios,
