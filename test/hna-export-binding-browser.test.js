@@ -48,7 +48,7 @@ const EXCEL_STUB = `
       var s = { name: name, rows: rows, columns: [], views: [],
         addRow: function (o) { rows.push(o); return row; }, addRows: function (a) { a.forEach(function (o) { rows.push(o); }); },
         getRow: function () { return row; }, getColumn: function () { return { width: 10 }; }, getCell: function () { return cell; },
-        mergeCells: function () {}, addImage: function () {}, addChart: function () {} };
+        mergeCells: function () {}, addImage: function () {} };
       sheets.push(s); return s;
     }
     this.addWorksheet = ws;
@@ -135,6 +135,9 @@ function assertBound(button, out, to, from) {
     assert.ok(t.includes(to.label.split(' ')[0]), `${button} should name ${to.label}: ${t.slice(0, 300)}`);
   }
   assert.ok(!t.includes(from.label), `${button} should not mention ${from.label}`);
+  // The file name names the place and its GEOID too.
+  const slug = to.label.toLowerCase().replace(/\s+/g, '-');
+  assert.ok(out.name.includes(slug) && out.name.includes(to.geoid), `${button} file name should name ${to.label} (${to.geoid}): ${out.name}`);
 }
 
 (async () => {

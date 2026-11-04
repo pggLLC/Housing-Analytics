@@ -404,7 +404,6 @@ async function reportChecks() {
     Ws.prototype.getRow = function () { return { font: {}, fill: {}, values: [] }; };
     Ws.prototype.getColumn = function () { return {}; };
     Ws.prototype.getCell = function () { return { font: {} }; };
-    Ws.prototype.addChart = function () {};
     function Wb() { this.sheets = []; log.push(this); this.xlsx = { writeBuffer: () => Promise.resolve(new Uint8Array([80, 75])) }; }
     Wb.prototype.addWorksheet = function (n) { const ws = new Ws(n); this.sheets.push(ws); return ws; };
     return { Workbook: Wb };

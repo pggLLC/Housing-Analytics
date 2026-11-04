@@ -223,29 +223,24 @@
     return (v && v.nav) ? v : null;
   }
 
-  /** 'housing-needs-assessment.csv' -> 'housing-needs-assessment-who-lives-here.csv' */
-  function _viewFilename(base) {
-    var v = _viewInfo();
-    if (!v) return base;
-    var part = _slugifyFilenamePart(v.id || v.nav);
-    if (!part) return base;
-    var dot = base.lastIndexOf('.');
-    return dot === -1 ? base + '-' + part : base.slice(0, dot) + '-' + part + base.slice(dot);
-  }
-
   /** 'Housing Needs Assessment' -> 'Housing Needs Assessment — Who lives here' */
   function _viewTitle(base) {
     var v = _viewInfo();
     return v ? base + ' — ' + v.nav : base;
   }
 
-  function _defaultStructuredPdfFilename(reportData) {
+  /** housing-needs-assessment[-view]-<place>-<geoid>.<ext>: every download
+   *  names the place it is for (evening practitioner QA, 3 Nov 2026). */
+  function _placeFilename(reportData, ext) {
     var geography = reportData && reportData.geography || {};
     var label = _slugifyFilenamePart(geography.label) || 'jurisdiction';
     var geoid = _slugifyFilenamePart(geography.geoid);
     var v = _viewInfo();
     var view = v ? _slugifyFilenamePart(v.id || v.nav) : '';
-    return ['housing-needs-assessment', view, label, geoid].filter(Boolean).join('-') + '.pdf';
+    return ['housing-needs-assessment', view, label, geoid].filter(Boolean).join('-') + '.' + ext;
+  }
+  function _defaultStructuredPdfFilename(reportData) {
+    return _placeFilename(reportData, 'pdf');
   }
 
   /** Escape a CSV field: wrap in quotes and double any internal quotes. */
@@ -663,6 +658,38 @@
    * profile + chasData) and computes the same analytics-grade fields
    * the ranking-index would expose.
    */
+  /**
+   * The ACS period of the profile on the page for `geoid`, read from the
+   * profile itself (_acsSeries / _acsYear, set by the controller from the
+   * summary file). A combined area says its members' periods.
+   */
+  function _acsPeriodLabel(series, year) {
+    var y = Number(year);
+    if (!series || !Number.isFinite(y)) return null;
+    return series === 'acs1' ? 'ACS 1-Year ' + y : 'ACS 5-Year ' + (y - 4) + '-' + y;
+  }
+  function _acsPeriodOf(current, geoid) {
+    var none = { label: 'ACS (survey period not recorded for this place)', series: null, year: null };
+    if (current && current.geoType === 'combined') {
+      var res = current.combinedResult || {};
+      var seen = {};
+      (res.members || res.memberRows || []).forEach(function (m) {
+        var prof = m && (m.profile || m.acsProfile);
+        var l = prof && _acsPeriodLabel(prof._acsSeries, prof._acsYear);
+        if (l) seen[l] = true;
+      });
+      var labels = Object.keys(seen);
+      if (labels.length === 1) return { label: labels[0], series: null, year: null };
+      if (labels.length > 1) return { label: 'ACS, mixed periods across members: ' + labels.join(' and '), series: 'mixed', year: null };
+      return { label: 'ACS, each member at its own survey period (1-year 2025 or 5-year 2020-2024)', series: 'mixed', year: null };
+    }
+    var st = window.HNAState && window.HNAState.state;
+    var prof = (current && current.profile) || (st && st.lastProfile) || null;
+    if (!prof || (prof._geoid && geoid && String(prof._geoid) !== String(geoid))) return none;
+    var label = _acsPeriodLabel(prof._acsSeries, prof._acsYear);
+    return label ? { label: label, series: prof._acsSeries, year: Number(prof._acsYear) } : none;
+  }
+
   function _metricsFromHnaState(geoid) {
     try {
       var st = window.HNAState && window.HNAState.state;
@@ -803,6 +830,7 @@
     var idxRec = combinedResult ? null : _rankingEntry(geoid);
     var m = combinedResult ? (_metricsFromCombinedResult(combinedResult) || {}) : ((idxRec && idxRec.metrics) || _metricsFromHnaState(geoid) || {});
 
+    var acsPeriod = _acsPeriodOf(current, geoid);
     var lehdYear = _lehdWacYear(geoid, idxRec ? idxRec.containingCounty : null);
     var lihtcCountText = _elText('statLihtcCount');
     var qctText = _elText('statQctCount');
@@ -815,7 +843,14 @@
       notInThisFile: NOT_IN_FILE.csv,
       disclaimer:    'Screening tool only. Public-data screening output, not a substitute for a CHFA-required market study, professional underwriting, or independent investor analysis. See docs/METHODOLOGY-GAPS-2026-05-21.md for known limitations.',
       vintages: {
-        acs:          'ACS 5-Year 2020-2024',
+        // The ACS period of the profile the page loaded for this place: 33
+        // geographies carry the 2025 1-year, the rest the 2020-2024 5-year.
+        // Until 3 Nov 2026 every file said "5-Year 2020-2024", so Mesa's
+        // 2025 1-year population (162,845) was labelled as the 5-year
+        // (158,601).
+        acs:          acsPeriod.label,
+        acsSeries:    acsPeriod.series,
+        acsYear:      acsPeriod.year,
         chas:         'HUD CHAS 2018-2022',
         lehd:         lehdYear !== null ? 'LEHD LODES WAC ' + lehdYear : 'LEHD LODES WAC (year unavailable: no LEHD data loaded for this geography)',
         lehdYear:     lehdYear,
@@ -934,7 +969,7 @@
    * @returns {Promise<void>}
    */
   async function exportPdf(filename) {
-    var outFile = filename || _viewFilename('housing-needs-assessment.pdf');
+    var outFile = filename || _placeFilename(buildReportData(), 'pdf');
     var pdfBtn  = document.getElementById('btnPdf');
     try {
       if (pdfBtn) { pdfBtn.disabled = true; }
@@ -1083,7 +1118,7 @@
 
   function exportCsv(reportData, filename) {
     var d       = reportData || buildReportData();
-    var outFile = filename   || _viewFilename('housing-needs-assessment.csv');
+    var outFile = filename   || _placeFilename(d, 'csv');
 
     var chas = d.chasCostBurden || {};
     var burden = chas.renterPctBurdened || {};
@@ -1231,7 +1266,7 @@
    */
   function exportJson(reportData, filename) {
     var d       = reportData || buildReportData();
-    var outFile = filename   || _viewFilename('housing-needs-assessment.json');
+    var outFile = filename   || _placeFilename(d, 'json');
 
     var blob = new Blob(
       [JSON.stringify(d, null, 2)],
@@ -1510,7 +1545,7 @@
       }
 
       // ── 1. Demographic snapshot ──
-      drawSectionHeader('1. Demographic snapshot', 'Population, household size, and average earner profile drawn from the ACS 5-year profile.');
+      drawSectionHeader('1. Demographic snapshot', 'Population, household size, and average earner profile drawn from the ' + (data.vintages.acs || 'ACS') + ' profile.');
       // Same rows, labels and values as the workbook's Summary sheet.
       drawStatGrid(_snapshotRows(data).filter(function (r) {
         return r.key !== 'rentBurden30Plus' && r.key !== 'baselineUnits';  // shown in section 5
@@ -1715,12 +1750,11 @@
   };
 
   /* ─────────────────────────────────────────────────────────────────
-     F168 — exportExcel — native Excel workbook with data tables AND
-     native Excel chart objects. Each Chart.js instance on the page
-     gets its own worksheet with the underlying labels + series values
-     in a real table, plus a chart object that references that table —
-     so users can edit the numbers and Excel re-draws the chart
-     automatically. Falls back to CSV when ExcelJS isn't loaded.
+     F168 — exportExcel — Excel workbook with the headline tables. Each
+     Chart.js instance on the page gets its own worksheet holding the
+     chart's labels and series values as a table. The workbook has no
+     drawn charts: ExcelJS 4.4 cannot write chart objects. Falls back to
+     CSV when ExcelJS isn't loaded.
      ───────────────────────────────────────────────────────────────── */
 
   function _harvestChartsForExcel() {
@@ -1781,7 +1815,7 @@
 
   async function exportExcel(reportData, filename) {
     var d       = reportData || buildReportData();
-    var outFile = filename   || _viewFilename('housing-needs-assessment.xlsx');
+    var outFile = filename   || _placeFilename(d, 'xlsx');
     var btn     = document.getElementById('btnExcel');
     try {
       if (btn) btn.disabled = true;
@@ -1912,33 +1946,16 @@
           sh.getRow(5 + rowIdx).values = row;
         });
 
-        try {
-          var lastRow = 4 + chart.labels.length;
-          sh.addChart({
-            type:    chart.type === 'line' ? 'line' : 'bar',
-            title:   { text: chart.title },
-            legend:  { position: 'top' },
-            position: {
-              type: 'twoCell',
-              from: { col: chart.series.length + 3, row: 3 },
-              to:   { col: chart.series.length + 13, row: 24 },
-            },
-            categoryAxis: { range: { sheet: name, range: 'A5:A' + lastRow } },
-            series: chart.series.map(function (sr, i) {
-              var col = String.fromCharCode(65 + 1 + i);
-              return { name: sr.name, values: { sheet: name, range: col + '5:' + col + lastRow } };
-            }),
-          });
-        } catch (chartErr) {
-          console.warn('[HNA Excel] addChart unavailable, data-only sheet emitted:', chartErr.message);
-        }
+        // No drawn chart: ExcelJS 4.4 cannot write chart objects (it has no
+        // addChart), so the sheet holds the chart's data only, and the About
+        // sheet says so (evening practitioner QA, 3 Nov 2026).
       });
 
       // ── Sources and About ──
       // The same two sheets every table download on the site carries, read
       // from the source inventory, so maintenance mode and last change are
       // the inventory's, not a sentence typed here.
-      var chartNote = 'Each chart sheet contains the data table the chart reads from. Edit a number and Excel re-draws the chart automatically.';
+      var chartNote = 'Each chart sheet holds the data behind one of the page\u2019s charts, as a table. The charts themselves are not drawn in this file: select a table and use Insert > Chart in Excel to draw one.';
       var meta = await _describeReport(d);
       if (meta) {
         var addTable = function (name, rows, widths) {

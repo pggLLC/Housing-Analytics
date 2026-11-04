@@ -37,6 +37,14 @@
     return ' <span class="hna-takeaway-disclosure" style="color:var(--muted);font-style:italic;font-weight:400">' +
       '(county-level CHAS — place-level cost-burden data unavailable for this jurisdiction)</span>';
   }
+  // The survey period of the loaded ACS profile: 33 geographies carry the
+  // 2025 1-year, the rest the 2020-2024 5-year.
+  function _acsPeriodText(profile) {
+    var y = profile && Number(profile._acsYear);
+    if (!profile || !Number.isFinite(y)) return 'ACS';
+    return profile._acsSeries === 'acs1' ? 'ACS 1-year ' + y : 'ACS ' + (y - 4) + '\u2013' + y;
+  }
+
   function _homeValueInfo(profile) {
     if (window.HNAUtils && typeof window.HNAUtils.homeValueInfo === 'function') {
       return window.HNAUtils.homeValueInfo(profile);
@@ -322,7 +330,7 @@
       // Each share names its source: the overall share is ACS when the
       // ranking index has it, the severe share is always CHAS.
       return '<strong>' + _fmtPct(c.renterCb30) + ' of renters are cost-burdened</strong> (' +
-        (c.renterCb30FromAcs ? 'ACS 2020\u20132024' : 'HUD CHAS 2018\u20132022') + ')' +
+        (c.renterCb30FromAcs ? _acsPeriodText(c.profile) : 'HUD CHAS 2018\u20132022') + ')' +
         (c.renterCb50 != null ? '; ' + _fmtPct(c.renterCb50) + ' pay half their income or more (HUD CHAS 2018\u20132022)' : '') +
         ', with ' + leadFraming + '.' + _chasFallbackNote(c);
     },
