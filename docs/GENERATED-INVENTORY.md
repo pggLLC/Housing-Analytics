@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T13:21:11.456Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T14:52:33.130Z. Do not edit by hand.
 
 ---
 
@@ -119,7 +119,7 @@
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 1.47 MB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 37.6 KB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 37.0 KB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 1.9 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
 | `data/alerts/outlet-review.json` | 17.2 KB | ✅ | — |
@@ -2044,7 +2044,7 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 521.8 KB | ✅ | — |
+| `data/policy_briefs.json` | 508.0 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 228.8 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
@@ -2821,7 +2821,7 @@
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
 | `tests/test_market_direction.py` | 18.9 KB |
 | `tests/test_neighborhood_access_builder.py` | 6.0 KB |
-| `tests/test_news_stories.py` | 25.7 KB |
+| `tests/test_news_stories.py` | 27.5 KB |
 | `tests/test_osm_landuse_thinning.py` | 4.2 KB |
 | `tests/test_outlets.py` | 9.4 KB |
 | `tests/test_owner_news_picks.py` | 10.7 KB |
