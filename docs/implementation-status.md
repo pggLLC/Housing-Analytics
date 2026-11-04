@@ -32,7 +32,7 @@
 | `index.html` | ✅ Implemented | Home page, navigation hub, FRED KPI cards |
 | `housing-needs-assessment.html` | ✅ Implemented | Full HNA page — extensive sections (tenure, burden, projections, LEHD, Prop 123, exports) |
 | `market-analysis.html` | ✅ Implemented | Report-style PMA/site-selection page with scoring, sections, calculator mount |
-| `colorado-deep-dive.html` | ✅ Implemented | Leaflet maps, CHFA projects, QCT/DDA overlays, Prop 123, regional predictions |
+| `colorado-deep-dive.html` | ✅ Implemented | Leaflet maps, CHFA projects, QCT/DDA overlays, Prop 123 |
 | `economic-dashboard.html` | ✅ Implemented | FRED-powered KPI cards, economic indicators |
 | `LIHTC-dashboard.html` | ✅ Implemented | D3 choropleth, allocation data, CHFA integration |
 | `state-allocation-map.html` | ✅ Implemented | D3 SVG map with 2024–2026 allocation data |
@@ -82,7 +82,6 @@
 | `js/fred-commodities.js` | ✅ Implemented | Commodity price charts |
 | `js/housing-data-integration.js` | ✅ Implemented | Housing market data integration layer |
 | `js/housing-predictions.js` | ✅ Implemented | National forecasting models |
-| `js/colorado-regional-predictions.js` | ✅ Implemented | Colorado 5-region predictions |
 | `js/census-geo.js` | ✅ Implemented | Census geographic data utilities |
 | `js/co-ami-gap.js` | ✅ Implemented | Colorado AMI gap analysis |
 | `js/state-allocations-2024.js` | ✅ Implemented | 2024 IRS allocation data |
