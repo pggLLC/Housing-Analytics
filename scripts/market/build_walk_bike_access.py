@@ -58,7 +58,7 @@ import shapefile  # pyshp
 from scipy.sparse import coo_matrix
 from scipy.sparse.csgraph import dijkstra
 from scipy.spatial import cKDTree
-from shapely.geometry import LineString, Point, shape
+from shapely.geometry import Point, shape
 from shapely.strtree import STRtree
 
 ROOT = Path(__file__).resolve().parent.parent.parent
@@ -163,8 +163,16 @@ class Net:
         m = np.isin(self.kind, kinds)
         n = len(self.lon)
         a, b, w = self.a[m], self.b[m], self.w[m]
-        g = coo_matrix((np.concatenate([w, w]), (np.concatenate([a, b]), np.concatenate([b, a]))), shape=(n, n)).tocsr()
-        g.sum_duplicates()
+        r, c, w = np.concatenate([a, b]), np.concatenate([b, a]), np.concatenate([w, w])
+        keep = r != c
+        r, c, w = r[keep], c[keep], w[keep]
+        # Parallel records (a street and a trail on the same line, or a repeated street) keep the
+        # shortest length; building the matrix directly would add their lengths together.
+        o = np.lexsort((w, c, r))
+        r, c, w = r[o], c[o], w[o]
+        first = np.ones(len(r), dtype=bool)
+        first[1:] = (r[1:] != r[:-1]) | (c[1:] != c[:-1])
+        g = coo_matrix((w[first], (r[first], c[first])), shape=(n, n)).tocsr()
         return g, m
 
 
