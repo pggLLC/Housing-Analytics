@@ -1,7 +1,7 @@
 {
   "schema": "incentive-coverage/v1",
   "meta": {
-    "as_of": "2026-10-22",
+    "as_of": "2026-11-04",
     "method": "One row per jurisdiction whose official sources were read for a scope (fees, land_use, funds). \"none_found\" means the named sources were read and hold no such measure; \"unreadable\" means the official source could not be read (blocked, a scan with no text, or a dead link). A scope with a verified record is shown as having records whatever this file says; tests/test_local_incentives.py fails if a row says none_found for a scope that has a record. Jurisdictions not listed here and with no record are \"not yet checked\"."
   },
   "jurisdictions": [
@@ -723,6 +723,51 @@
         "https://www.fruita.org/Archive/ViewFile/Item/64"
       ],
       "note": "Funds: the 6% lodging tax (short-term rentals included) sends 3% to Economic Development and Public Places, whose listed uses include attainable housing; the city used $325,000 of it for The Oaks in 2025. Housing is an allowed use, not a set share. Fee and land-use records were added 2026-09-26 (senior sewer rate, parking)."
+    },
+    {
+      "geoid": "08077",
+      "jurisdiction": "Mesa County",
+      "checked": "2026-11-04",
+      "result_by_scope": {
+        "fees": "none_found",
+        "land_use": "records",
+        "funds": "not_checked"
+      },
+      "sources_checked": [
+        "https://mesacounty.us/sites/default/files/2024-10/Land%20Development%20Code%20-%202020%20%28Amended%2004-23-24%29.pdf",
+        "https://mesacounty.us/sites/default/files/2026-07/mesa_county_2020_land_development_code_proposed_draft_-_revision_7-24-26_0.pdf",
+        "https://www.mesacounty.us/news/community-development/mesa-county-supports-faster-review-affordable-housing-projects"
+      ],
+      "note": "The 2020 Land Development Code (amended 2024-04-23) and the July 2026 proposed rewrite (hearing set for 2026-11-17) contain no fee waiver, reduction or deferral for affordable housing; the code's density bonus rewards preserved open land, not affordability. Planning application fees have been suspended for all applicants since 2017 (not affordable-specific). Funds not yet checked."
+    },
+    {
+      "geoid": "08045",
+      "jurisdiction": "Garfield County",
+      "checked": "2026-11-04",
+      "result_by_scope": {
+        "fees": "records",
+        "land_use": "records",
+        "funds": "not_checked"
+      },
+      "sources_checked": [
+        "https://www.garfieldcountyco.gov/wp-content/uploads/sites/12/Article-8.pdf",
+        "https://www.garfieldcountyco.gov/?p=13228"
+      ],
+      "note": "Article 8 (inclusionary rule) read in full. Funds not yet checked."
+    },
+    {
+      "geoid": "08083",
+      "jurisdiction": "Montezuma County",
+      "checked": "2026-11-04",
+      "result_by_scope": {
+        "fees": "not_checked",
+        "land_use": "records",
+        "funds": "not_checked"
+      },
+      "sources_checked": [
+        "https://montezumacounty.org/wp-content/uploads/2025/12/Resolution_30-2025.pdf"
+      ],
+      "note": "Expedited review resolution read. Fee schedule, land use code and funds not yet checked."
     }
   ]
 }

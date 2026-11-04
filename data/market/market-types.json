@@ -7855,7 +7855,14 @@
     "population": 71826,
     "prop123_committed": true
    },
-   "here_now": [],
+   "here_now": [
+    {
+     "name": "City of Grand Junction: 21.45-acre city site (Salt Flats, 450 28 Road)",
+     "kind": "local fund",
+     "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1142690/File/document",
+     "record": "data/policy/local-housing-funds.json#f-grand-junction-salt-flats-land"
+    }
+   ],
    "county_fips": "08077",
    "county": "Mesa County"
   },

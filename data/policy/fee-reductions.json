@@ -2,7 +2,7 @@
   "schema": "fee-reductions/v1",
   "meta": {
     "title": "Colorado local fee reductions and land-use incentives for affordable housing",
-    "as_of": "2026-10-29",
+    "as_of": "2026-11-04",
     "method": "Curated, not a feed. Each entry was read from the jurisdiction's (or its utility's or district's) own code, resolution, fee schedule, council record or program page, saved, and every evidence quote was checked by exact substring match against the saved text (whitespace normalised). verification.level \"primary\" means checked against that primary document; \"reported\" means taken from a named reproduction or outlet without the primary document. Every dollar amount and percentage an entry states appears in its own evidence quotes (tests/test_fee_reductions.py). An amount the source does not publish is null, never 0. Measures are kept separate: waived (not owed), reduced (partly owed), reimbursed (paid, then paid back), deferred (still owed, paid later — not a cost reduction), and rate_discount (a recurring utility bill discount, not a development cost). backfill records how a waived amount is paid for only when the source says so; otherwise not_specified. kind says whether an entry is a standing program, a one-off project_award (an example of what a jurisdiction has done, not an offer), or repealed (kept for the record). A county entry may apply only outside town limits. This is screening context, not a study: it lists what a jurisdiction offers, not what any project will receive.",
     "legal_basis": [
       {
@@ -8433,6 +8433,130 @@
       "notes": "Discretionary (\"May be Eligible\"), so by_right is false. The Town site (bayfieldgov.org) blocks automated reads; the fee schedule was saved from it in a browser on 29 Oct 2026.",
       "last_verified": "2026-10-29",
       "review_by": "2027-04-28"
+    },
+    {
+      "id": "g-garfield-county-traffic-impact-waiver",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08045",
+      "jurisdiction": "Garfield County",
+      "county": "Garfield County",
+      "provider": "Garfield County",
+      "provider_type": "county",
+      "fee_category": "impact_transportation",
+      "recurrence": "one_time",
+      "measure": "waived",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "county traffic impact fee for a development that constructs Mitigation Units",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Garfield County LUDC section 8-401",
+      "adopted": null,
+      "summary": "Unincorporated Garfield County waives its traffic impact fee for a development that builds the deed-restricted Mitigation Units its inclusionary rule asks for.",
+      "source": {
+        "label": "Garfield County Land Use and Development Code, Article 8 (Inclusionary Zoning for Housing), PDF dated 2023-10-24",
+        "url": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/12/Article-8.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Garfield County LUDC Article 8 PDF (county website; file created 2023-10-24)",
+        "checked": "2026-11-04"
+      },
+      "evidence": [
+        {
+          "section": "LUDC 8-401",
+          "quote": "The County shall waive traffic impact fees for a Development that constructs Mitigation Units."
+        },
+        {
+          "section": "LUDC 8-401 (lead-in)",
+          "quote": "Any Development proposing to create one or more Mitigation Units as part of the Development may be eligible for the following fee waivers and incentives:"
+        },
+        {
+          "section": "LUDC 8-303(A)",
+          "quote": "All Mitigation Units will be subject to a perpetual Deed Restriction."
+        }
+      ],
+      "not_in_source": [
+        "how the waived fees are paid for",
+        "adoption date of section 8-401"
+      ],
+      "notes": "Unincorporated Garfield County only. Mitigation Units are the deed-restricted units Article 8 requires (perpetual deed restriction, sections 8-301 to 8-303). The county press release of 2023-04-19 says Articles 3, 4, 7, 8 and 15 were amended that year; the adoption date of section 8-401 itself was not found, so adopted is null.",
+      "last_verified": "2026-11-04",
+      "review_by": "2027-05-04"
+    },
+    {
+      "id": "g-garfield-county-building-permit-waiver",
+      "state": "CO",
+      "kind": "program",
+      "geoid": "08045",
+      "jurisdiction": "Garfield County",
+      "county": "Garfield County",
+      "provider": "Garfield County",
+      "provider_type": "county",
+      "fee_category": "building_permit",
+      "recurrence": "one_time",
+      "measure": "waived",
+      "reduces_total_cost": true,
+      "amount": null,
+      "percent": null,
+      "value_basis": "building permit review fees for the Mitigation Units themselves",
+      "deferral_trigger": null,
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "backfill": {
+        "method": "not_specified",
+        "source_note": ""
+      },
+      "legal_basis_ids": [],
+      "authorizing_code": "Garfield County LUDC section 8-401",
+      "adopted": null,
+      "summary": "Unincorporated Garfield County waives building permit review fees for building deed-restricted Mitigation Units.",
+      "source": {
+        "label": "Garfield County Land Use and Development Code, Article 8 (Inclusionary Zoning for Housing), PDF dated 2023-10-24",
+        "url": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/12/Article-8.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Garfield County LUDC Article 8 PDF (county website; file created 2023-10-24)",
+        "checked": "2026-11-04"
+      },
+      "evidence": [
+        {
+          "section": "LUDC 8-401",
+          "quote": "The County shall waive the building permit review fees for the construction of Mitigation Units."
+        },
+        {
+          "section": "LUDC 8-401 (lead-in)",
+          "quote": "Any Development proposing to create one or more Mitigation Units as part of the Development may be eligible for the following fee waivers and incentives:"
+        },
+        {
+          "section": "LUDC 8-303(A)",
+          "quote": "All Mitigation Units will be subject to a perpetual Deed Restriction."
+        }
+      ],
+      "not_in_source": [
+        "how the waived fees are paid for",
+        "adoption date of section 8-401"
+      ],
+      "notes": "Unincorporated Garfield County only. Mitigation Units are the deed-restricted units Article 8 requires (perpetual deed restriction, sections 8-301 to 8-303). The county press release of 2023-04-19 says Articles 3, 4, 7, 8 and 15 were amended that year; the adoption date of section 8-401 itself was not found, so adopted is null.",
+      "last_verified": "2026-11-04",
+      "review_by": "2027-05-04"
     }
   ],
   "land_use": [
@@ -11220,6 +11344,133 @@
       "notes": "Narrow legalization tool rather than a production incentive. AMI limits are set in BOCC/BCHA standards, not in the code text.",
       "last_verified": "2026-10-10",
       "review_by": "2027-04-10"
+    },
+    {
+      "id": "g-lu-garfield-county-inclusionary",
+      "state": "CO",
+      "geoid": "08045",
+      "jurisdiction": "Garfield County",
+      "county": "Garfield County",
+      "measure": "inclusionary_zoning",
+      "status": "adopted",
+      "requirement_or_incentive": "both",
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": null
+      },
+      "detail": "Residential land use changes and subdivisions of 15 or more lots or units in unincorporated Garfield County must provide deed-restricted Mitigation Units equal to 10% of the lots or units, offset by traffic impact and building permit fee waivers.",
+      "authorizing_code": "Garfield County LUDC Article 8 (8-102, 8-301, 8-401)",
+      "adopted": null,
+      "source": {
+        "label": "Garfield County Land Use and Development Code, Article 8 (Inclusionary Zoning for Housing), PDF dated 2023-10-24",
+        "url": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/12/Article-8.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Garfield County LUDC Article 8 PDF (county website; file created 2023-10-24)",
+        "checked": "2026-11-04"
+      },
+      "evidence": [
+        {
+          "section": "LUDC 8-102(A)",
+          "quote": "These requirements apply to all residential Land Use Change permits and Subdivisions proposing 15 or more lots, units, or a combination of lots and units located within unincorporated Garfield County."
+        },
+        {
+          "section": "LUDC 8-301(A)",
+          "quote": "In a Development covered by this Article, Applicant shall provide Mitigation Units in an amount equal to 10% of the lots or units in the Development."
+        },
+        {
+          "section": "LUDC 8-303(A)",
+          "quote": "All Mitigation Units will be subject to a perpetual Deed Restriction."
+        }
+      ],
+      "notes": "Unincorporated Garfield County only. Mitigation Units are the deed-restricted units Article 8 requires (perpetual deed restriction, sections 8-301 to 8-303). The county press release of 2023-04-19 says Articles 3, 4, 7, 8 and 15 were amended that year; the adoption date of section 8-401 itself was not found, so adopted is null. Income categories (8-302) run from 70% to 110% AMI pricing; not summarised here.",
+      "last_verified": "2026-11-04",
+      "review_by": "2027-05-04"
+    },
+    {
+      "id": "g-lu-garfield-county-density-bonus",
+      "state": "CO",
+      "geoid": "08045",
+      "jurisdiction": "Garfield County",
+      "county": "Garfield County",
+      "measure": "density_bonus",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": false
+      },
+      "detail": "Garfield County may grant a density bonus in its RS and RU zones inside Urban Growth Areas for developments that build deed-restricted units.",
+      "authorizing_code": "Garfield County LUDC section 8-401(C)",
+      "adopted": null,
+      "source": {
+        "label": "Garfield County Land Use and Development Code, Article 8 (Inclusionary Zoning for Housing), PDF dated 2023-10-24",
+        "url": "https://www.garfieldcountyco.gov/wp-content/uploads/sites/12/Article-8.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Garfield County LUDC Article 8 PDF (county website; file created 2023-10-24)",
+        "checked": "2026-11-04"
+      },
+      "evidence": [
+        {
+          "section": "LUDC 8-401(C)",
+          "quote": "The County may grant a density bonus for any Development in the Residential Suburban (RS) and Residential Urban (RU) Zones that are also within the Urban Growth Areas that construct deed restricted units"
+        }
+      ],
+      "notes": "Unincorporated Garfield County only. Mitigation Units are the deed-restricted units Article 8 requires (perpetual deed restriction, sections 8-301 to 8-303). The county press release of 2023-04-19 says Articles 3, 4, 7, 8 and 15 were amended that year; the adoption date of section 8-401 itself was not found, so adopted is null. Discretionary (\"may grant\"); bonus size is set by Table 3-201 and 7-701(A), not read here.",
+      "last_verified": "2026-11-04",
+      "review_by": "2027-05-04"
+    },
+    {
+      "id": "g-lu-montezuma-county-expedited-review",
+      "state": "CO",
+      "geoid": "08083",
+      "jurisdiction": "Montezuma County",
+      "county": "Montezuma County",
+      "measure": "expedited_review",
+      "status": "adopted",
+      "requirement_or_incentive": "incentive",
+      "eligibility": {
+        "ami_max": null,
+        "tenure": "any",
+        "deed_restriction_years": null,
+        "by_right": true
+      },
+      "detail": "Montezuma County puts a complete application for a project with at least 50% affordable units on the next available agenda and decides it within 90 days, as Proposition 123 requires.",
+      "authorizing_code": "Montezuma County BOCC Resolution 30-2025",
+      "adopted": "2025",
+      "source": {
+        "label": "Montezuma County Resolution 30-2025, Expedited Review Policies for Affordable Housing Projects",
+        "url": "https://montezumacounty.org/wp-content/uploads/2025/12/Resolution_30-2025.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Resolution 30-2025 PDF (scanned; text from its OCR layer)",
+        "checked": "2026-11-04"
+      },
+      "evidence": [
+        {
+          "section": "Resolution 30-2025, resolved clause",
+          "quote": "any complete application received by the County for an affordable housing development will be placed on the next available agenda once proper public notice has been posted and a decision rendered on the application within 90 days"
+        },
+        {
+          "section": "Resolution 30-2025, recital",
+          "quote": "an affordable housing development project which has at least 50% of the units as affordable, as defined in statute (C.R.S. 29-32-101 and C.R.S. 29-32-105(2)) would be eligible for expedited review"
+        },
+        {
+          "section": "Resolution 30-2025, recital (application types)",
+          "quote": "Site Plan, Development Plan, Planned Unit Development Permit, and Special Use Permits."
+        }
+      ],
+      "notes": "The signature date is illegible in the scan; the PDF was posted in December 2025, so adopted is recorded as 2025. Applicants may opt out.",
+      "last_verified": "2026-11-04",
+      "review_by": "2027-05-04"
     }
   ]
 }
