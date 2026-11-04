@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "title": "Recent housing roll calls and lame-duck funding outcomes",
+    "purpose": "Past votes the 2026 midterms brief uses to read how upcoming housing votes are likely to go. Each record names its public source and the date it was read.",
+    "as_of": "2026-11-04",
+    "last_verified": "2026-11-04",
+    "review_by": "2027-01-15",
+    "used_by": ["data/policy_briefs_curated.json#federal-midterms-2026-housing", "scripts/policy/build_election_figures.py"]
+  },
+  "roll_calls": [
+    {
+      "id": "us-house-hr6644-2026-06-23",
+      "body": "U.S. House",
+      "measure": "ROAD to Housing Act (H.R. 6644), final House vote",
+      "date": "2026-06-23",
+      "yes": 358,
+      "no": 32,
+      "by_party": {
+        "Democratic": { "yes": 191, "no": 0 },
+        "Republican": { "yes": 166, "no": 32 },
+        "Independent": { "yes": 1, "no": 0 }
+      },
+      "colorado": { "yes": ["DeGette", "Neguse", "Hurd", "Crank", "Crow", "Evans", "Pettersen"], "no": ["Boebert"] },
+      "threshold": "two-thirds (suspension of the rules)",
+      "source": { "label": "House Clerk, Roll Call 224 (2026)", "url": "https://clerk.house.gov/Votes/2026224", "retrieved": "2026-11-04" }
+    },
+    {
+      "id": "us-senate-hr6644-2026-06-22",
+      "body": "U.S. Senate",
+      "measure": "ROAD to Housing Act (H.R. 6644), Senate passage of the final version",
+      "date": "2026-06-22",
+      "yes": 85,
+      "no": 5,
+      "by_party": null,
+      "colorado": null,
+      "threshold": "majority (cloture needs 60)",
+      "source": { "label": "Washington Times, June 22, 2026", "url": "https://m.washingtontimes.com/news/2026/jun/22/senate-sends-bipartisan-housing-package-back-house-final-approval/", "retrieved": "2026-11-04" }
+    },
+    {
+      "id": "co-house-hb24-1313-2024-04",
+      "body": "Colorado House",
+      "measure": "HB24-1313, housing near transit, House passage",
+      "date": "2024-04",
+      "yes": 37,
+      "no": 24,
+      "by_party": null,
+      "colorado": null,
+      "threshold": "majority (33 of 65)",
+      "source": { "label": "Colorado Newsline, May 7, 2024", "url": "https://coloradonewsline.com/2024/05/07/housing-density-transit-colorado-senate/", "retrieved": "2026-11-04" }
+    },
+    {
+      "id": "co-senate-hb24-1313-2024-05-07",
+      "body": "Colorado Senate",
+      "measure": "HB24-1313, housing near transit, final Senate passage",
+      "date": "2024-05-07",
+      "yes": 19,
+      "no": 15,
+      "by_party": null,
+      "democrats_voting_no": 4,
+      "colorado": null,
+      "threshold": "majority (18 of 35)",
+      "source": { "label": "Colorado Newsline, May 7, 2024", "url": "https://coloradonewsline.com/2024/05/07/housing-density-transit-colorado-senate/", "retrieved": "2026-11-04" }
+    }
+  ],
+  "enactment_notes": [
+    {
+      "id": "hr6644-without-signature",
+      "note": "The ROAD to Housing Act became law without the President's signature after he took no action within the ten-day window.",
+      "source": { "label": "Sen. Hickenlooper release, July 13, 2026", "url": "https://www.hickenlooper.senate.gov/press_releases/hickenlooper-celebrates-long-overdue-housing-bill-becoming-law/", "retrieved": "2026-11-04" }
+    },
+    {
+      "id": "fy26-hud-after-lapse",
+      "note": "Full-year FY2026 HUD funding ($77.3 billion) passed the House 217-214 on February 3, 2026, ending a partial shutdown that began January 31.",
+      "source": { "label": "Ballard Spahr, February 2026", "url": "https://www.ballardspahr.com/insights/alerts-and-articles/2026/02/full-year-hud-funding-signed-into-law-ending-short-partial-government-shutdown", "retrieved": "2026-11-04" }
+    },
+    {
+      "id": "sb25-313",
+      "note": "SB25-313 (signed May 30, 2025) let the Division of Housing spend Prop 123 homelessness money on two state-owned supportive communities and put Prop 123 administration money under annual appropriation.",
+      "source": { "label": "Legislative Council Staff, SB25-313 final fiscal note, August 6, 2025", "url": "https://leg.colorado.gov/bill_files/86091/download", "retrieved": "2026-11-04" }
+    },
+    {
+      "id": "hb26-1360",
+      "note": "HB26-1360 moved $130 million from the state affordable housing fund (Prop 123) to the general fund on June 30, 2026, as part of the 2026 budget package.",
+      "source": { "label": "Colorado Newsline, April 9, 2026", "url": "https://coloradonewsline.com/2026/04/09/colorado-budget-would-cut-money-from-states-affordable-housing-funds/", "retrieved": "2026-11-04" }
+    },
+    {
+      "id": "sb23-213",
+      "note": "SB23-213, the 2023 statewide land-use bill, died in the final hours of the 2023 session when the House and Senate versions were not reconciled.",
+      "source": { "label": "Pagosa Daily Post, May 2023", "url": "https://pagosadailypost.com/?p=102211", "retrieved": "2026-11-04" }
+    }
+  ],
+  "lame_duck_funding": {
+    "source": { "label": "CRS Report R46574, updated August 31, 2026", "url": "https://www.everycrsreport.com/reports/R46574.html", "retrieved": "2026-11-04" },
+    "summary": "Of 15 lame-duck sessions from the 103rd to the 118th Congress, regular appropriations were enacted during 5; work carried into the new Congress 9 times; interim continuing resolutions were enacted in 11.",
+    "sessions": [
+      { "year": 2006, "outcome": "CR to Feb. 15, 2007, then a full-year CR", "lapse": false },
+      { "year": 2010, "outcome": "CR to March 4, 2011, then a full-year CR on April 15, 2011", "lapse": false },
+      { "year": 2014, "outcome": "Omnibus Dec. 16, 2014 (DHS left on a CR)", "lapse": false },
+      { "year": 2018, "outcome": "No deal after Dec. 21; 34-day lapse to Jan. 25, 2019", "lapse": true },
+      { "year": 2022, "outcome": "Omnibus signed Dec. 29, 2022", "lapse": false },
+      { "year": 2024, "outcome": "CR to March 14, 2025, then a full-year CR", "lapse": false }
+    ]
+  }
+}

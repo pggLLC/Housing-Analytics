@@ -40,7 +40,7 @@ See also:
 
 ## Repository inventory
 
-Current tracked inventory: **82 top-level / 576 total HTML pages**, **84 workflows**, **365 JavaScript files under `js/`**, and **546 geographies** (**64 counties / 272 places / 210 CDPs**).
+Current tracked inventory: **82 top-level / 576 total HTML pages**, **84 workflows**, **364 JavaScript files under `js/`**, and **546 geographies** (**64 counties / 272 places / 210 CDPs**).
 
 Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs the same check and fails when this line drifts from the tracked files or geography registry.
 
@@ -50,7 +50,7 @@ Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs
 |------|-------------|
 | `index.html` | Home — overview and navigation hub |
 | `economic-dashboard.html` | FRED-powered economic indicators dashboard with housing prediction markets |
-| `colorado-deep-dive.html` | Colorado housing market deep dive — county-level maps, regional predictions, and market overview (tab) |
+| `colorado-deep-dive.html` | Colorado housing market deep dive — county-level maps and market overview (tab) |
 | `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) — 546 geographies (64 counties, 272 places, 210 CDPs) |
 | `market-analysis.html` | Primary Market Analysis (PMA) tool — site scoring, supply/demand, LIHTC concept recommendation with housing needs alignment |
 | `market-intelligence.html` | Market Intelligence dashboard — CAR data, FRED trends, rental metrics |
@@ -100,8 +100,7 @@ Housing-Analytics/
 │   ├── comparative-analysis.css   # HNA comparison layouts
 │   ├── scenario-builder.css       # HNA scenario builder forms
 │   ├── help-modal.css             # Glossary/help modal overlay
-│   ├── predictions-dashboard.css  # Economic dashboard prediction layout
-│   └── colorado-regional-predictions.css # Regional predictions grid
+│   └── predictions-dashboard.css  # Economic dashboard prediction layout
 │
 ├── js/                            # 257 JavaScript files (ES5 IIFEs, no build step)
 │   ├── config/
@@ -292,13 +291,9 @@ The Housing Prediction Market Dashboard (`economic-dashboard.html`) loads live p
 data from `data/kalshi/prediction-market.json`, fetched weekly by
 `.github/workflows/fetch-kalshi.yml`.
 
-> **Note:** Colorado regional housing predictions (2025 point estimates, forecast ranges, and
-> year-over-year changes across Denver Metro, Western Slope, Colorado Springs/Pueblo,
-> Boulder/Northern Front Range, and Mountains) are displayed in the **Market Trends** tab of
-> `colorado-deep-dive.html` and are rendered by `js/colorado-regional-predictions.js`.
-> Forecasts incorporate CHFA reports, Colorado Division of Housing data, DMAR statistics,
-> CBRE Mountain West outlook, Boulder County Assessor records, Colorado Springs Board of
-> Realtors, and Colorado Ski Country USA resort-market data.
+> **Note:** The "Colorado Regional Housing Predictions (2025)" section was removed from
+> `colorado-deep-dive.html` on 2026-11-04. Its figures were hard-coded and its stated ranges
+> ("10th-90th percentile of published forecasters") had no source data in the repo.
 
 **Required GitHub Actions secrets** (Settings → Secrets and variables → Actions):
 

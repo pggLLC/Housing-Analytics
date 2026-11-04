@@ -24,7 +24,7 @@
  *   context   data/policy/where-to-build-context.json (county votes, parks)
  *   commitment data/policy/local-commitment.json (HNAs, written goals, housing authorities)
  *   jobs      data/policy/job-access.json (jobs within a 30-minute drive, where residents work)
- *   commute   data/market/commute-strength.json (lower-paid workers driving 20-60 miles in)
+ *   commute   data/market/commute-strength.json (lower-paid workers who live 20-60 straight-line miles away)
  *   support, fees, funds, coverage   read through js/local-support-data.js
  *
  * No DOM, no fetch, no clock: the caller passes `today`, so the page and the
@@ -65,13 +65,13 @@
     { id: 'rents', label: 'Rents that carry the deal', weight: 2, factors: ['rentCushion'],
       tip: 'How far HUD\'s Fair Market Rent sits above the 60% AMI rent cap.' },
     { id: 'rec', label: 'Recreation and services', weight: 2, factors: ['parks', 'amenities'],
-      tip: 'Parks nearby, and grocery, health care, schools and transit within reach.' },
+      tip: 'Parks nearby, and grocery, health care, schools and transit within 3 to 10 miles of the town\'s center, in a straight line.' },
     // Job access is a fact about the place itself. Commuters stay in the need score of the town where they work.
     { id: 'jobs', label: 'Jobs within reach', weight: 1, factors: ['jobAccess'],
       tip: 'Jobs within a 30-minute drive, the town\'s own included. Off in the smaller-town preset, so remote towns are not marked down.' },
     // The mirror of job access: it rewards the town where workers drive in to, so it ships at 0 (paul 2026-10-30).
     { id: 'commute', label: 'Workforce commuting in', weight: 0, factors: ['commuteIn'],
-      tip: 'The share of a town\'s jobs held by lower-paid workers who drive 20 to 60 miles in. Off unless you turn it up, because it pulls against jobs within reach.' },
+      tip: 'The share of a town\'s jobs held by lower-paid workers who live 20 to 60 miles away in a straight line. Off unless you turn it up, because it pulls against jobs within reach.' },
     { id: 'commit', label: 'Local commitment', weight: 3, factors: ['hna', 'planGoal', 'authority'],
       tip: 'A current housing needs assessment, a written affordable-housing goal in an adopted plan, and a housing authority with a record of partnering on deals.' },
     { id: 'vote', label: 'Voters backed housing money', weight: 2, factors: ['prop123Vote'],
@@ -122,8 +122,8 @@
       rule: 'The county\'s 60% AMI two-bedroom rent cap as a share of HUD\'s two-bedroom Fair Market Rent: 90% or less: 10; up to 100%: 7; up to 110%: 4; above 110%: 1.' },
     parks: { label: 'Parks nearby', source: SRC.parks,
       rule: 'Towns: 2 points per park within 5 miles, up to 10. Counties: 1 point per 3 parks inside the county line, up to 10. City parks only: trails and public lands are not counted yet.' },
-    amenities: { label: 'Services within reach', source: SRC.hna,
-      rule: 'The HNA amenity access score (grocery, health care, schools, transit), 0 to 100, divided by 10.' },
+    amenities: { label: 'Services nearby', source: SRC.hna,
+      rule: 'The HNA amenity access score, 0 to 100, divided by 10. It counts grocery stores within 8 miles, health care within 10, schools within 6 and transit stops within 3, each measured in a straight line from the town\'s center point, not by road.' },
     jobAccess: { label: 'Jobs within a 30-minute drive', source: SRC.jobs,
       rule: 'All jobs in Colorado (primary and secondary) within a 30-minute free-flow drive of where the town\'s working residents live, its own jobs included. 1,000 or fewer: 0; 100,000 or more: 10; each tenfold step adds 5 points (log scale). Counties: the population-weighted average of their towns. Where one other town employs 20% or more of its working residents (primary jobs, counting those who work in another state), the row says so, for context only (no points).' },
     commuteIn: { label: 'Workforce commuting in', source: SRC.commute,
@@ -360,7 +360,7 @@
         return 'Need score ' + Math.round(v) + (m.workforce_gap_units != null ? '; workforce gap ' + fmt(Math.round(m.workforce_gap_units)) + ' homes' : '');
       }, 'high housing need', 'lower housing need');
       f.amenities = metricFactor(m.amenity_access_score, function (v) { return 'Amenity access score ' + Math.round(v); },
-        'services within reach', 'few services nearby');
+        'services nearby', 'few services nearby');
 
       // ---- Land banking
       var lbAwards = r.type === 'county' ? (lbByCounty[r.geoid] || []) : (lbByPlace[r.geoid] || []);
@@ -555,8 +555,8 @@
     if (!c || c.far_low == null || !(c.jobs >= COMMUTE_MIN_JOBS)) return { points: null, value: c ? 'Fewer than 500 primary jobs' : 'No figure' };
     var share = c.far_low / c.jobs;
     var pts = round1(clamp((share - 0.02) / 0.18 * 10, 0, 10));
-    return { points: pts, value: pct(share) + ' of ' + fmt(c.jobs) + ' jobs held by lower-paid workers driving 20 to 60 miles in',
-      good: 'many lower-paid workers driving in', weak: 'few lower-paid workers driving in' };
+    return { points: pts, value: pct(share) + ' of ' + fmt(c.jobs) + ' jobs held by lower-paid workers who live 20 to 60 miles away (straight line)',
+      good: 'many lower-paid workers commuting in', weak: 'few lower-paid workers commuting in' };
   }
 
   function metricFactor(v, text, good, weak) {

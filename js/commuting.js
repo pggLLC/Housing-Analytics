@@ -5,7 +5,7 @@
  * Reads data/market/commute-strength.json (scripts/market/build_commute_strength.py,
  * LEHD LODES 2023) and data/market/principal-employers.json (curated from audit filings).
  * Towns are dots sized by jobs and shaded by the share of their jobs held by people who
- * drive 20 to 60 straight-line miles in. Tapping a town shows its numbers and draws lines
+ * live 20 to 60 straight-line miles away. Tapping a town shows its numbers and draws lines
  * from the towns that send it the most workers.
  */
 (function (global) {
@@ -24,7 +24,7 @@
   var IRS_RATE = 0.76;
   var WORKDAYS = 240;
 
-  // Share of a town's jobs held by people driving 20-60 miles in. Okabe-Ito order, light to strong.
+  // Share of a town's jobs held by people who live 20-60 straight-line miles away. Okabe-Ito order, light to strong.
   var BINS = [
     { max: 0.05, color: '#cfe8f3', label: 'Under 5%' },
     { max: 0.15, color: '#56b4e9', label: '5 to 15%' },
@@ -61,7 +61,7 @@
     var h = '<h3>' + esc(p.name) + '</h3><ul class="cj-stats">' +
       '<li><b>' + int(p.jobs) + '</b>jobs in town (primary jobs)</li>' +
       '<li><b>' + pct(p.in_commuters, p.jobs) + '</b>held by people who live elsewhere (' + int(p.in_commuters) + ')</li>' +
-      '<li><b>' + int(p.far) + '</b>drive in from 20 to 60 miles; ' + int(p.far_low) + ' of them earn $3,333 a month or less</li>' +
+      '<li><b>' + int(p.far) + '</b>live 20 to 60 miles away (straight line); ' + int(p.far_low) + ' of them earn $3,333 a month or less</li>' +
       (cost ? '<li><b>' + cost + '</b>a year for a typical 20 to 60 mile commuter (' + p.median_far_miles + ' miles each way, straight line, 240 days, IRS rate)</li>' : '') +
       '<li><b>' + int(p.long) + '</b>recorded 60+ miles away; many are not daily trips, so they are not costed</li>' +
       '<li><b>' + pct(p.out_commuters, p.residents) + '</b>of working residents work in another Colorado town (' + int(p.out_commuters) + ' of ' + int(p.residents) + ')</li>' +
@@ -128,7 +128,7 @@
     });
 
     $('[data-cj-source]').innerHTML = sourceLine(data.meta);
-    $('[data-cj-legend]').innerHTML = '<span>Share of jobs held by people driving 20 to 60 miles in:</span>' +
+    $('[data-cj-legend]').innerHTML = '<span>Share of jobs held by people who live 20 to 60 miles away (straight line):</span>' +
       BINS.map(function (b) { return '<span><i style="background:' + b.color + '"></i>' + b.label + '</span>'; }).join('');
     $('#cjTowns').innerHTML = list.map(function (p) { return '<option value="' + esc(p.name) + '">'; }).join('');
     $('[data-cj-answer]').textContent = 'Tap a town, or search for one. ' + int(list.length) + ' towns with 200 or more jobs are shown.';

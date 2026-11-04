@@ -86,7 +86,7 @@
   function renderPlace(geoid) {
     var p = data.places[geoid];
     var box = el('mtPlace');
-    if (!p) { box.innerHTML = '<p class="data-note">Pick a county or town above to see its market pattern and the options that tend to fit.</p>'; return; }
+    if (!p) { box.innerHTML = '<p class="data-note">Pick a county or town above to see its market pattern and the options that may fit.</p>'; return; }
     var m = data.meta;
     var shown = p;
     var lean = '';
@@ -115,7 +115,7 @@
       + '<p>' + pill(t) + ' ' + esc(shown.basis) + '</p>' + lean + stab + near
       + '<p class="mt-plain">' + esc(m.types[t].plain) + '</p>'
       + (mods ? '<p class="mt-chips">' + mods + '</p>' : '')
-      + '<div class="mt-cols"><div><h4>Options that tend to fit</h4><ul class="mt-menu">' + (menu || '<li>No menu for this pattern.</li>') + '</ul></div>'
+      + '<div class="mt-cols"><div><h4>Options that may fit (our reading)</h4><ul class="mt-menu">' + (menu || '<li>No menu for this pattern.</li>') + '</ul></div>'
       + '<div><h4>Already here</h4><ul class="mt-here">' + (here || '<li>No local housing fund or housing authority program in our records.</li>') + '</ul></div></div>'
       + '</div>';
   }
@@ -196,7 +196,7 @@
     // Same count as the tiles and the town table: every town, with the unsorted ones named.
     var all = rows().filter(function (p) { return p.level === 'town'; });
     var thin = all.filter(function (p) { return p.type === 'too_little_data'; }).length;
-    el('mtSummary').textContent = all.length + ' Colorado towns and all 64 counties sorted into five COHO market patterns by written rules, each with the Colorado programs and local tools that tend to fit it'
+    el('mtSummary').textContent = all.length + ' Colorado towns and all 64 counties sorted into five COHO market patterns by written rules, each with the Colorado programs and local tools that may fit it'
       + (thin ? ' (' + thin + (thin === 1 ? ' town has' : ' towns have') + ' too little data to sort).' : '.');
     el('mtGenerated').textContent = m.generated_at ? 'Built from the market calls of ' + m.generated_at.slice(0, 10) + '.' : '';
     fillSelects();

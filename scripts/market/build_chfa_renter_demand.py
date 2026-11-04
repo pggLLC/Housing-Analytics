@@ -132,7 +132,7 @@ def build(pums: Path, tract_puma_path: Path, limits_path: Path) -> dict:
             'method': ('Qualified renters for a unit = sum over CHAS income tiers of (tract CHAS renter households in the tier) '
                        'x (share of PUMS renter households in that tier, in the tract\'s PUMA, whose size fits the unit and whose '
                        'income is between the 40%-of-income rent floor and the AMI limit). Rules from CHFA QAP Appendix A, Market Study Guide.'),
-            'rules_source': 'CHFA Housing Tax Credit Qualified Allocation Plan 2025-2026, second amendment, Appendix A Market Study Guide, section 7 Demand Analysis',
+            'rules_source': 'CHFA Housing Tax Credit Qualified Allocation Plan 2027-2028 (adopted by the CHFA Board 25 September 2026, approved by the Governor 23 October 2026), Appendix A Market Study Guide, section 7 Demand Analysis',
             'sources': {
                 'chas': {'name': 'HUD CHAS 2018-2022, tract renter households by HAMFI tier', 'vintage': chas['meta'].get('vintage'), 'url': chas['meta'].get('url')},
                 'pums': {'name': 'Census ACS 2020-2024 5-year PUMS, Colorado housing file', 'vintage': '2020-2024',

@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-04T21:59:22.509163Z",
+  "generated": "2026-11-04T22:22:19.149621Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1025594
+      "bytes": 1026081
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -5744,7 +5744,7 @@
     "data/hna/second-homes-str.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 261433
+      "bytes": 261971
     },
     "data/hna/source/acs_b08202.json": {
       "featureCount": 0,
@@ -8854,7 +8854,7 @@
     "data/market/chfa_renter_demand_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 147073
+      "bytes": 147143
     },
     "data/market/childcare_co.geojson": {
       "featureCount": 2860,
@@ -9359,7 +9359,7 @@
     "data/policy/ballot-2026/counties/08035.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16259
+      "bytes": 16579
     },
     "data/policy/ballot-2026/counties/08037.json": {
       "featureCount": 0,
@@ -9726,6 +9726,11 @@
       "placeholder": false,
       "bytes": 183105
     },
+    "data/policy/housing-roll-calls.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 5872
+    },
     "data/policy/hud-state-median-family-income.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -9899,7 +9904,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 234286
+      "bytes": 246006
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

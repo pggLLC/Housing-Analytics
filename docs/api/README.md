@@ -20,7 +20,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`chfa-rent-limits.js`](./js__chfa-rent-limits.md) | CHFA published rent/income lookups and contract-rent arithmetic. | 0 |
 | [`co-lihtc-map.js`](./js__co-lihtc-map.md) | co-lihtc-map. | 4 |
 | [`colorado-deep-dive.js`](./js__colorado-deep-dive.md) | colorado-deep-dive. | 0 |
-| [`colorado-regional-predictions.js`](./js__colorado-regional-predictions.md) | colorado-regional-predictions. | 0 |
 | [`compare.js`](./js__compare.md) | js/compare. | 0 |
 | [`compliance-checklist.js`](./js__compliance-checklist.md) | _no header_ | 27 |
 | [`contrast-guard.js`](./js__contrast-guard.md) | contrast-guard. | 0 |
