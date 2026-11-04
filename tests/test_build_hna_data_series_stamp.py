@@ -8,11 +8,18 @@ check of the 11 large counties, then the margins file, found it). A 1-year
 profile also carries its 5-year twin, so a builder that must compare like with
 like has the 5-year figure.
 
+Since 2026-11-04 (owner decision: the ACS 5-year for every geography) the
+1-year is off by default and these tests switch it on with
+HNA_ACS_INCLUDE_1YEAR=1, so the stamping they guard still holds if anyone does.
+tests/test_hna_acs_5year_only.py covers the default.
+
 Run: python3 -m pytest tests/test_build_hna_data_series_stamp.py -q
 """
 
 import json
 import sys
+
+import pytest
 from pathlib import Path
 from unittest import mock
 
@@ -25,6 +32,11 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import fetch_census_state_hna as state  # noqa: E402
 
 FIXED_TIME = "2026-10-18T12:00:00Z"
+
+
+@pytest.fixture(autouse=True)
+def _one_year_on(monkeypatch):
+    monkeypatch.setenv("HNA_ACS_INCLUDE_1YEAR", "1")
 
 
 def answer(value, name):

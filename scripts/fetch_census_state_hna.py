@@ -195,9 +195,23 @@ def census_key() -> str | None:
     return k or None
 
 
+def acs_include_1year() -> bool:
+    """Whether to ask the ACS 1-year at all (HNA_ACS_INCLUDE_1YEAR, default off).
+    Owner decision 2026-11-04: the state uses the ACS 5-year like every county
+    and town, so a state figure and a county figure come from one period."""
+    return os.environ.get('HNA_ACS_INCLUDE_1YEAR', '').strip().lower() in ('1', 'true', 'yes')
+
+
+def acs_series() -> tuple[str, ...]:
+    """Series to try within a year, in order."""
+    return ('acs1', 'acs5') if acs_include_1year() else ('acs5',)
+
+
 def acs_start_year() -> int:
-    """Newest ACS 1-year vintage to ask for. The state is a 1-year geography;
-    the 2025 1-year came out 2026-10-29 (ACS1_START_YEAR, default 2025)."""
+    """Newest ACS vintage to ask for. With the 1-year switched on this is the
+    1-year's start (ACS1_START_YEAR, default 2025); otherwise the 5-year's."""
+    if not acs_include_1year():
+        return acs5_start_year()
     return int(os.environ.get('ACS1_START_YEAR', '2025').strip() or '2025')
 
 
@@ -290,7 +304,7 @@ def fetch_acs_profile(start_year: int, n_fallback: int) -> dict | None:
     """
     years = range(start_year, start_year - n_fallback, -1)
     for year in years:
-        for series, endpoint in [('acs1', 'profile'), ('acs5', 'profile')]:
+        for series, endpoint in [(ser, 'profile') for ser in acs_series()]:
             if series == 'acs5' and year > acs5_start_year():
                 continue
             url = _build_profile_url(year, series, endpoint)
@@ -351,13 +365,13 @@ def fetch_acs_s0801(start_year: int, n_fallback: int) -> dict | None:
     """
     years = range(start_year, start_year - n_fallback, -1)
     for year in years:
-        for series in ('acs1', 'acs5'):
+        for series in acs_series():
             if series == 'acs5' and year > acs5_start_year():
                 continue
             url = _build_s0801_url(year, series)
             result = http_get_json(url)
             if result and len(result) > 1:
-                if year != start_year or series != 'acs1':
+                if year != start_year or series != acs_series()[0]:
                     print(
                         f'ℹ ACS S0801: resolved via {series}/subject year={year}',
                         file=sys.stderr,
@@ -625,9 +639,9 @@ def main(validate_counties: bool = False) -> int:
     # Derive the actually-used series/year from the metadata embedded in the
     # returned S0801 dict (commuting reliability: record what was truly used).
     s0801_year = (acs_s0801 or {}).get('_acsYear', start_year)
-    s0801_series = (acs_s0801 or {}).get('_acsSeries', 'acs1')
+    s0801_series = (acs_s0801 or {}).get('_acsSeries', acs_series()[0])
     profile_year = (merged_profile or {}).get('_acsYear') or start_year
-    profile_series = (merged_profile or {}).get('_acsSeries') or 'acs1'
+    profile_series = (merged_profile or {}).get('_acsSeries') or acs_series()[0]
 
     # Count how many county summary files are already on disk for transparency.
     try:

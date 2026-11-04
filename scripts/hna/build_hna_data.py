@@ -901,14 +901,31 @@ def acs1_start_year() -> int:
     return int(os.environ.get('ACS1_START_YEAR', '2025'))
 
 
+def acs_include_1year() -> bool:
+    """Whether to ask the ACS 1-year at all (HNA_ACS_INCLUDE_1YEAR, default off).
+
+    Owner decision 2026-11-04: every geography, the state, counties and towns
+    alike, uses the ACS 5-year. Mixing a 1-year county with 5-year towns put
+    two periods in one comparison and divided 5-year town households by 1-year
+    county households in the place projection. Set HNA_ACS_INCLUDE_1YEAR=1 only
+    to rebuild the old 1-year-first behaviour on purpose.
+    """
+    return os.environ.get('HNA_ACS_INCLUDE_1YEAR', '').strip().lower() in ('1', 'true', 'yes')
+
+
 def acs_attempts(n_fallback: int | None = None) -> list[tuple[int, str]]:
-    """(year, series) pairs to try, newest year first and the 1-year before
-    the 5-year within a year, skipping vintages past each series' start.
-    With the defaults: acs1 2025, acs1 2024, acs5 2024, acs1 2023, acs5 2023,
-    acs1 2022, acs5 2022 -- the 5-year keeps the window it had before."""
+    """(year, series) pairs to try, newest year first.
+
+    By default the 5-year only: acs5 2024, acs5 2023, acs5 2022 (see
+    acs_include_1year). With the 1-year switched on, each year's 1-year comes
+    before its 5-year, skipping vintages past each series' start: acs1 2025,
+    acs1 2024, acs5 2024, acs1 2023, acs5 2023, acs1 2022, acs5 2022."""
     if n_fallback is None:
         n_fallback = int(os.environ.get('ACS_FALLBACK_YEARS', '3'))
-    acs1, acs5 = acs1_start_year(), acs_start_year()
+    acs5 = acs_start_year()
+    if not acs_include_1year():
+        return [(year, 'acs5') for year in range(acs5, acs5 - n_fallback, -1)]
+    acs1 = acs1_start_year()
     newest, oldest = max(acs1, acs5), min(acs1, acs5) - n_fallback + 1
     pairs = []
     for year in range(newest, oldest - 1, -1):
@@ -1298,8 +1315,8 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
                 return values, (year, series)
         return None
 
-    # Newest 1-year first, then each year's 1-year before its 5-year; see
-    # acs_attempts(). ACS1_START_YEAR, ACS_START_YEAR and ACS_FALLBACK_YEARS
+    # The 5-year only by default, newest first; see acs_attempts() and
+    # acs_include_1year(). ACS1_START_YEAR, ACS_START_YEAR and ACS_FALLBACK_YEARS
     # set the window.
     attempts = acs_attempts()
     years_to_try = sorted({y for y, _ in attempts}, reverse=True)
@@ -1450,8 +1467,7 @@ def fetch_acs_s0801(geo_type: str, geoid: str) -> dict | None:
             qs += f"&key={urllib.parse.quote(key, safe='')}"
         return f"{base}?{qs}"
 
-    # Newest 1-year first, then each year's 1-year before its 5-year; see
-    # acs_attempts().
+    # The 5-year only by default, newest first; see acs_attempts().
     attempts = acs_attempts()
     years_to_try = sorted({y for y, _ in attempts}, reverse=True)
 
@@ -1657,6 +1673,22 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
                 str(old_sec.get('_acsYear')), old_sec.get('_acsSeries')) != (
                 str(new_sec.get('_acsYear')), new_sec.get('_acsSeries')):
             continue
+        # A section that changed series (the 1-year replaced by the 5-year)
+        # keeps nothing this build asked for from the old one: a 1-year value
+        # under a 5-year stamp is the mixed vintage this build exists to
+        # prevent. Fields this build never asks for (absent from the new
+        # section, such as the extended backfill's overcrowding counts) were
+        # written by that 5-year backfill, so they and its stamp carry over.
+        old_series, new_series = old_sec.get('_acsSeries'), new_sec.get('_acsSeries')
+        if old_series and new_series and old_series != new_series:
+            for k, v in old_sec.items():
+                if v is None or k in new_sec:
+                    continue
+                if k.startswith('_') and k != '_acs5BackfillYear':
+                    continue
+                new_sec[k] = v
+                preserved += 1
+            continue
         # Whole-group preservation first, so a partial refresh cannot mix
         # vintages inside a group.
         for group in CONSISTENCY_GROUPS:
@@ -1747,7 +1779,8 @@ def build_summary_cache(max_workers: int | None = None):
     except Exception as e:
         print(f"ℹ build_summary_cache: could not load geo-config ({e}); caching featured geos only", file=sys.stderr)
 
-    start_year = acs1_start_year()
+    start_year = acs1_start_year() if acs_include_1year() else acs_start_year()
+    default_series = 'acs1' if acs_include_1year() else 'acs5'
     workers = acs_fetch_workers() if max_workers is None else max_workers
     if workers <= 0:
         raise ValueError(f"max_workers must be positive, got {workers}")
@@ -1784,14 +1817,14 @@ def build_summary_cache(max_workers: int | None = None):
                 # Derive actually-used series/year for source endpoint accuracy
                 # (commuting reliability: the endpoint should reflect the data truly used).
                 s0801_year = (acs_s0801 or {}).get('_acsYear', start_year)
-                s0801_series = (acs_s0801 or {}).get('_acsSeries', 'acs1')
+                s0801_series = (acs_s0801 or {}).get('_acsSeries', default_series)
                 acs5_twin = (acs_profile or {}).pop('_acs5Profile', None)
                 # The B08301 stamps describe the endpoint; the section itself
                 # stays the seven mode counts and the total.
                 b08301_year = (acs_b08301 or {}).pop('_acsYear', start_year)
-                b08301_series = (acs_b08301 or {}).pop('_acsSeries', 'acs1')
+                b08301_series = (acs_b08301 or {}).pop('_acsSeries', default_series)
                 profile_year = (acs_profile or {}).get('_acsYear') or start_year
-                profile_series = (acs_profile or {}).get('_acsSeries') or 'acs1'
+                profile_series = (acs_profile or {}).get('_acsSeries') or default_series
                 payload = {
                     'updated': utc_now_z(),
                     'geo': g,
