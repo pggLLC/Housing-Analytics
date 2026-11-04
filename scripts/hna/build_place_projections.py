@@ -27,8 +27,12 @@ OUT_PATH = os.path.join(PROJECTIONS_DIR, "places.json")
 
 WINDOW_YEARS = list(range(2020, 2025))
 PERMIT_WINDOW_LABEL = "2020-2024"
-MIN_SHARE = 0.005
 MAX_SHARE = 1.0
+# Integrity review, 4 Nov 2026 (paul chose the hybrid): no share floor. A floor
+# of 0.5% gave a 4-household town 130 homes. Below this many households the
+# share is kept in the file but the page says the town is too small for a
+# reliable forecast and points to the county.
+SMALL_PLACE_HOUSEHOLDS = 250
 
 
 def read_json(path: str) -> dict[str, Any]:
@@ -227,7 +231,7 @@ def main() -> int:
             permit_share = None
 
         blended_share = household_share if permit_share is None else (0.5 * household_share + 0.5 * permit_share)
-        blended_share = min(MAX_SHARE, max(MIN_SHARE, blended_share))
+        blended_share = min(MAX_SHARE, max(0.0, blended_share))
 
         for fips, split in population_split.items():
             ledger[fips] = ledger.get(fips, 0.0) + blended_share * split
@@ -314,7 +318,8 @@ def main() -> int:
                 "permit_window": PERMIT_WINDOW_LABEL,
             },
             "household_inputs": rec["household_inputs"],
-            "method": "county_projection_x_blended_share_v1",
+            "too_small": (num(rec["household_inputs"].get("place_households")) or 0) < SMALL_PLACE_HOUSEHOLDS,
+            "method": "county_projection_x_blended_share_v2",
         }
 
     payload = {
@@ -327,12 +332,17 @@ def main() -> int:
             },
             "formula": (
                 "blended_share = 0.5 * household_share + 0.5 * permit_share; "
-                "if permit_share is null, blended_share = household_share; clamped to [0.005, 1.0]. "
+                "if permit_share is null, blended_share = household_share; clamped to [0, 1.0] (no floor since 2026-11-04). "
                 "Permit and household denominators use combined-region math for cross-county places. "
                 "household_share = place ACS 5-year households / county ACS 5-year households, same period "
                 "(owner decision 2026-11-03); a row whose household_inputs.period is 'mixed' still uses a "
                 "1-year figure because the 5-year count is not stored yet."
             ),
+            "small_place_rule": (
+                f"too_small is true below {SMALL_PLACE_HOUSEHOLDS} ACS households: the series is kept, but the page "
+                "shows no town figure and points to the county forecast. Shown figures are estimates rounded to tens."
+            ),
+            "small_place_households": SMALL_PLACE_HOUSEHOLDS,
             "household_period_counts": dict(sorted(Counter(
                 (rec.get("household_inputs") or {}).get("period") or "unknown" for rec in outputs.values()
             ).items())),

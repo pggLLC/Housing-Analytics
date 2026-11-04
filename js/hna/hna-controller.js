@@ -2845,9 +2845,10 @@
 
   function unitsNeedBasisLabel(basis, usedPlaceProjection) {
     // Kept self-contained: a test evaluates this function on its own.
-    const growth = usedPlaceProjection ? 'Resident growth (place projection)' : 'Resident growth (DOLA household projection)';
+    const growth = usedPlaceProjection ? 'Resident growth (place estimate, nearest ten)' : 'Resident growth (DOLA household projection)';
     if (basis === 'resident_growth_plus_incommuters') return growth + ' + in-commuters moving closer';
     if (basis === 'resident_growth') return growth;
+    if (basis === 'too_small') return 'Fewer than 250 households: see the county';
     return 'Basis unavailable';
   }
 
@@ -3159,17 +3160,20 @@
     host.hidden = false;
   }
 
-  function formatIncrementalUnitsDisplay(incUnits) {
+  function formatIncrementalUnitsDisplay(incUnits, basis) {
+    if (basis === 'too_small') return 'Too small to forecast';
     if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) return '—';
     // || 0 turns a rounded -0 into 0, which fmtNum would print as "-0".
-    const rounded = Math.round(Number(incUnits)) || 0;
+    // A town's share of a county forecast is an estimate: shown to the nearest ten.
+    const rounded = (basis === 'place_estimate' ? Math.round(Number(incUnits) / 10) * 10 : Math.round(Number(incUnits))) || 0;
     if (rounded < 0) {
       return `Estimated surplus of ${window.HNAUtils.fmtNum(Math.abs(rounded))} units (households projected to fall)`;
     }
     return window.HNAUtils.fmtNum(rounded);
   }
 
-  function formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote, basis, growthUnits, incommuterUnits) {
+  function formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote, basis, growthUnits, incommuterUnits, placeEstimate) {
+    if (basis === 'too_small') return String(projectionMethodNote || '').trim();
     if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) {
       return 'Projections loaded, but could not compute housing need (missing households/headship).';
     }
@@ -3184,7 +3188,7 @@
       ? ` Plus ${window.HNAUtils.fmtNum(Math.round(Number(incommuterUnits)))} homes for a quarter of today\u2019s in-commuter households at or below 120% AMI, if they moved closer: `
         + (Number(incUnits) < 0 ? `a surplus of ${window.HNAUtils.fmtNum(Math.abs(Math.round(Number(incUnits))))}` : window.HNAUtils.fmtNum(Math.round(Number(incUnits)))) + ' in all.'
       : '';
-    const display = formatIncrementalUnitsDisplay(part);
+    const display = formatIncrementalUnitsDisplay(part, placeEstimate && !plus ? 'place_estimate' : null);
     const vacancy = window.HNAUtils.fmtPct(targetVac * 100);
     // The rise in homes needed from the base year; no stock is subtracted
     // (see _productionNeed).
@@ -3549,7 +3553,18 @@
     if (placeProjectionRec && Array.isArray(placeProjectionRec.years) && Array.isArray(placeProjectionRec.incremental_units_needed)){
       const placeIdx = placeProjectionRec.years.indexOf(baseYear + horizon);
       const placeInc = placeIdx >= 0 ? window.HNAUtils.safeNum(placeProjectionRec.incremental_units_needed[placeIdx]) : null;
-      if (placeInc !== null){
+      if (placeInc !== null && placeProjectionRec.too_small === true){
+        // Integrity review, 4 Nov 2026: below 250 households a county forecast
+        // split by share is noise, so no town figure is shown; the county's is.
+        incUnits = null;
+        incUnitsBasis = 'too_small';
+        growthUnits = null;
+        usedPlaceProjection = true;
+        const _hh = window.HNAUtils.safeNum((placeProjectionRec.household_inputs || {}).place_households);
+        projectionMethodNote = ' Too small for a reliable town forecast'
+          + (_hh !== null ? ` (${window.HNAUtils.fmtNum(Math.round(_hh))} households; the cut-off is 250)` : '')
+          + `. See ${selection && selection.contextCounty ? selection.contextCounty : 'the county'} for the county forecast.`;
+      } else if (placeInc !== null){
         // The place series is a better RESIDENT-GROWTH reading than the
         // county-scaled one, so it replaces that part — but it is still the
         // resident part, and taking it raw here would drop the in-commuters
@@ -3608,7 +3623,7 @@
       const d = window.HNAState.state.derived?.geos?.[selection.geoid]?.derived || null;
       const placeShare = placeProjectionRec?.shares?.blended;
       const share0 = placeShare != null
-        ? Math.min(1.0, Math.max(0.005, placeShare))
+        ? Math.min(1.0, Math.max(0, placeShare))
         : Math.min(0.98, Math.max(0.02, (d && typeof d.share0 === 'number') ? d.share0 : (basePop / baseCountyPop)));
       net20 = (net20!==null) ? (net20 * share0) : null;
     }
@@ -3629,7 +3644,8 @@
     if (els.statBaseUnits) els.statBaseUnits.textContent = baseUnits !== null ? window.HNAUtils.fmtNum(baseUnits) : '—';
     if (els.statBaseUnitsSrc) els.statBaseUnitsSrc.textContent = baseYear ? 'Current total housing units (DP04)' : 'Current housing stock';
     if (els.statTargetVac) els.statTargetVac.textContent = window.HNAUtils.fmtPct(targetVac * 100);
-    const incUnitsDisplay = formatIncrementalUnitsDisplay(incUnits);
+    const incUnitsDisplay = formatIncrementalUnitsDisplay(incUnits,
+      incUnitsBasis === 'too_small' ? 'too_small' : (usedPlaceProjection ? 'place_estimate' : null));
     if (els.statUnitsNeed) els.statUnitsNeed.textContent = incUnitsDisplay;
     // Name what the figure counts. The subtitle used to read "DOLA forecast"
     // whatever produced it; the figure also counts today's in-commuters,
@@ -3643,6 +3659,7 @@
         const placeShares = placeProjectionRec.shares || {};
         window.HNARenderers.renderProjectionCalculationTrace({
           available: incUnits !== null,
+          message: incUnitsBasis === 'too_small' ? projectionMethodNote.trim() : undefined,
           mode: 'place',
           endYear,
           incrementalUnits: incUnits,
@@ -3761,7 +3778,7 @@
       usedPlaceProjection && window.HNAUtils.safeNum(proj?.housing_need?.target_vacancy) !== null
         ? window.HNAUtils.safeNum(proj.housing_need.target_vacancy) : targetVac,
       projectionMethodNote + countyDolaReconciliationNote, incUnitsBasis,
-      growthUnits, _need ? _need.incommuterUnits : null);
+      growthUnits, _need ? _need.incommuterUnits : null, usedPlaceProjection);
 
     // Update projection chart for selected geography
     const t = window.HNARenderers.chartTheme();
@@ -4133,7 +4150,7 @@
     const selectedBase = window.HNAUtils.safeNum(popSel[0]);
     const isSubCounty = selection && selection.geoType !== 'county' && selection.geoType !== 'state' && !_isMultiJurisdictionSelection(selection);
     const share = !isSubCounty ? 1
-      : (Number.isFinite(placeShare) ? Math.min(1, Math.max(0.005, placeShare))
+      : (Number.isFinite(placeShare) ? Math.min(1, Math.max(0, placeShare))
         : (countyBase && selectedBase ? Math.min(1, Math.max(0.0001, selectedBase / countyBase)) : null));
     if (share == null) {
       setCustomScenarioDisclosure(null);

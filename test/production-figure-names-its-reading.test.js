@@ -117,7 +117,8 @@ async function renderTile(selection, countyFips) {
       profile: { DP02_0001E: 5807, DP04_0001E: 6100, DP05_0001E: 14000 } }, '08077');
     assert.strictEqual(t.basis, reading, `tile declares ${t.basis}; the digest says ${reading}`);
     assert.strictEqual(reading, 'resident_growth_plus_incommuters', `Fruita reads ${reading}; this test expects its in-commuter record`);
-    assert(Math.abs(Number(t.value.replace(/,/g, '')) - (growth + incommuters)) <= 1,
+    // A town's figure is an estimate shown to the nearest ten (4 Nov 2026).
+    assert(Math.abs(Number(t.value.replace(/,/g, '')) - (growth + incommuters)) <= 5,
       `the tile shows ${t.value}; the digest's growth ${growth} plus in-commuters ${incommuters} is ${growth + incommuters}`);
     assert(t.label && t.label !== '—', 'the tile carries no basis label');
   });
