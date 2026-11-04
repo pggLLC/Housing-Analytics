@@ -66,6 +66,6 @@ def test_committed_rows_with_inputs_divide_like_with_like():
             continue  # written before the 2026-11-03 rule; the next rebuild adds it
         share = inputs['place_households'] / inputs['county_households']
         assert abs(share - rec['shares']['household']) < 1e-5, geoid
-        periods = sorted(set(inputs['county_periods']) | {inputs['place_period']})
+        periods = sorted(set(inputs['county_periods']) | {inputs['place_period'] or 'unknown'})
         expected = periods[0] if len(periods) == 1 else 'mixed'
         assert inputs['period'] == expected, geoid
