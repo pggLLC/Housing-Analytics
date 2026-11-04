@@ -39,7 +39,9 @@ LABELS = {
     'ballot-2026-08111-lodging-tax-expansion': ('San Juan County 1A', 'Lodging tax; 45% to housing and child care', 'money'),
     'ballot-2026-0852570-2a': ('Mt. Crested Butte 2A', 'Short-term rental tax for housing', 'money'),
     '2026-11-03-08014-1A': ('Broomfield 1A', 'Lodging tax for the Housing Authority', 'money'),
-    'ballot-2026-0843000-2g': ('Lakewood 2G', 'Sales tax, public safety incl. homelessness', 'money'),
+    # No share of Lakewood's revenue is set aside for homelessness (see the row's
+    # limitations), so it is left off the housing-money chart.
+    'ballot-2026-0843000-2g': ('Lakewood 2G', 'Sales tax, public safety incl. homelessness', 'no_earmark'),
     'ballot-2026-0867280-5-h-llc-r-2-zoning': ('Salida 5-H R-2', 'Rezoning a property to R-2', 'land'),
 }
 # Where a county-wide measure's dot goes: the county seat's Gazetteer point.
@@ -53,6 +55,13 @@ STATUS_TEXT = {'passed': 'Passed', 'failed': 'Failed', 'open': 'Too close to cal
 INK = '#1d2329'
 MUTED = '#55606b'
 FONT = "font-family=\"system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif\""
+
+
+def status_text(r, short=False):
+    t = STATUS_TEXT[r['status']]
+    if short and r['status'] == 'open':
+        t = 'Too close'
+    return t + (' (partial count)' if r.get('partial') else '')
 
 
 def load(path):
@@ -81,6 +90,7 @@ def measures():
                 'geoid': e['jurisdiction']['geoid'],
                 'yes': int(m.group(1).replace(',', '')), 'yes_pct': float(m.group(2)),
                 'no': int(m.group(3).replace(',', '')), 'no_pct': float(m.group(4)),
+                'partial': 'Partial count' in last['note'],
                 'checked': last['checked'], 'source': last['source']['url'] if last.get('source') else None,
                 'money': float(money.group(1).replace(',', '')) if money else None,
             })
@@ -200,14 +210,14 @@ def map_figure(rows):
         pct = '%.1f%% yes' % r['yes_pct']
         body += '<circle cx="24" cy="%.1f" r="8" fill="%s"/>\n' % (y - 4, COLORS[r['status']])
         body += text(24, y, str(r['_n']), 11, 700, '#ffffff', 'middle')
-        body += text(40, y, r['name'] + ' · ' + STATUS_TEXT[r['status']] + ', ' + pct, 13, 600)
+        body += text(40, y, r['name'] + ' · ' + status_text(r) + ', ' + pct, 13, 600)
         body += text(40, y + 16, r['what'], 12, 400, MUTED)
         y += 38
     src = 'Source: county results pages (SOS Clarity ENR), read ' + as_of(rows) + '; place points from the 2024 Census Gazetteer.'
     body += footer(y, W, src)
     H = y + footer_height(src)
     desc = 'Map of Colorado with the eight local housing measures tracked by COHO Analytics. ' + '; '.join(
-        '%d %s, %s, %s, %.1f%% yes' % (r['_n'], r['name'], r['what'], STATUS_TEXT[r['status']].lower(), r['yes_pct']) for r in order
+        '%d %s, %s, %s, %.1f%% yes' % (r['_n'], r['name'], r['what'], status_text(r).lower(), r['yes_pct']) for r in order
     ) + '. Unofficial results as of ' + as_of(rows) + '.'
     return svg(W, int(H), body, 'Local housing measures, Nov. 3, 2026 (unofficial)', desc), order
 
@@ -216,16 +226,17 @@ def map_figure(rows):
 def yes_figure(rows):
     W = 420
     bar_x, bar_w = 16, 260
-    groups = [('money', 'Money for housing or homelessness'), ('land', 'Land use and growth')]
+    groups = [(('money', 'no_earmark'), 'Tax measures'), (('land',), 'Land use and growth')]
     body = text(16, 24, 'Yes share on each local measure', 16, 700)
     body += text(16, 44, 'Unofficial, as of ' + as_of(rows) + '. All need a simple majority.', 12, 400, MUTED)
     y = 70
     for key, title in groups:
         body += text(16, y, title, 13, 700)
         y += 10
-        for r in sorted([r for r in rows if r['kind'] == key], key=lambda r: -r['yes_pct']):
+        for r in sorted([r for r in rows if r['kind'] in key], key=lambda r: -r['yes_pct']):
             y += 18
-            body += text(16, y, r['name'], 12, 600)
+            suffix = ' (partial count)' if r.get('partial') else (' (no share set aside for housing)' if r['kind'] == 'no_earmark' else '')
+            body += text(16, y, r['name'] + suffix, 12, 600)
             y += 6
             w = bar_w * r['yes_pct'] / 100
             body += '<rect x="%d" y="%.1f" width="%d" height="14" fill="#e7ebef"/>\n' % (bar_x, y, bar_w)
@@ -233,7 +244,7 @@ def yes_figure(rows):
             body += '<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="1.5" stroke-dasharray="3 2"/>\n' % (
                 bar_x + bar_w / 2, y - 3, bar_x + bar_w / 2, y + 17, INK)
             body += text(bar_x + bar_w + 8, y + 12, '%.1f%%' % r['yes_pct'], 12, 700)
-            body += text(bar_x + bar_w + 56, y + 12, STATUS_TEXT[r['status']] if r['status'] != 'open' else 'Too close', 11, 400, MUTED)
+            body += text(bar_x + bar_w + 56, y + 12, status_text(r, True).replace(' (partial count)', ''), 11, 400, MUTED)
             y += 16
         y += 18
     body += text(16, y - 4, 'Dashed line: 50%, the share needed to pass.', 11, 400, MUTED)
@@ -242,38 +253,38 @@ def yes_figure(rows):
     body += footer(y, W, src)
     y += footer_height(src) - 14
     desc = 'Bar chart of the yes share on eight Colorado local measures. ' + '; '.join(
-        '%s %.1f%% yes, %s' % (r['name'], r['yes_pct'], STATUS_TEXT[r['status']].lower()) for r in rows) + '.'
+        '%s %.1f%% yes, %s' % (r['name'], r['yes_pct'], status_text(r).lower()) for r in rows) + '.'
     return svg(W, int(y + 14), body, 'Yes share on each local housing measure (unofficial)', desc)
 
 
 # ── Figure 3: money at stake ─────────────────────────────────────────────
 def money_figure(rows):
     W = 420
-    items = sorted([r for r in rows if r['money']], key=lambda r: -r['money'])
+    items = sorted([r for r in rows if r['money'] and r['kind'] == 'money'], key=lambda r: -r['money'])
     top = max(r['money'] for r in items)
     bar_w = 230
-    body = text(16, 24, 'Money at stake in the first full year', 16, 700)
+    body = text(16, 24, 'Housing money at stake in the first full year', 16, 700)
     body += text(16, 44, 'Revenue cap in each ballot question. Unofficial, as of ' + as_of(rows) + '.', 12, 400, MUTED)
     y = 62
     for r in items:
         y += 18
-        body += text(16, y, r['name'] + (' (all uses)' if r['kind'] == 'money' and 'public safety' in r['what'] else ''), 12, 600)
+        body += text(16, y, r['name'], 12, 600)
         y += 6
         w = max(2, bar_w * r['money'] / top)
         body += '<rect x="16" y="%.1f" width="%.1f" height="14" fill="%s"/>\n' % (y, w, COLORS[r['status']])
-        amt = '$%.1f million' % (r['money'] / 1e6) if r['money'] >= 1e6 else '$%s' % format(int(r['money']), ',')
+        amt = 'up to $%.1f million' % (r['money'] / 1e6) if r['money'] >= 1e6 else '$%s' % format(int(r['money']), ',')
         body += text(16 + w + 8, y + 12, amt + ' · ' + (STATUS_TEXT[r['status']] if r['status'] != 'open' else 'Too close'), 12, 700)
         y += 16
     y += 22
-    part, y = note_lines(y, 'San Juan: the full tax increase; 45% of it goes to workforce housing and child care. Lakewood: most of the money was for police and traffic.')
+    part, y = note_lines(y, 'Caps are ceilings, not forecasts. San Juan: the full tax increase; 45% of it goes to workforce housing and child care. Lakewood 2G (failed) is not shown: it set no share aside for housing or homelessness.')
     body += part
     y += 6
     src = 'Source: ballot text in the site’s ballot records; county results pages, read ' + as_of(rows) + '.'
     body += footer(y, W, src)
     y += footer_height(src) - 14
-    desc = 'Bar chart of the first-year revenue cap in each local money measure. ' + '; '.join(
-        '%s $%s, %s' % (r['name'], format(int(r['money']), ','), STATUS_TEXT[r['status']].lower()) for r in items) + '.'
-    return svg(W, int(y + 14), body, 'Money at stake in local housing measures (unofficial)', desc)
+    desc = 'Bar chart of the first-year revenue cap in each local housing money measure. ' + '; '.join(
+        '%s up to $%s, %s' % (r['name'], format(int(r['money']), ','), STATUS_TEXT[r['status']].lower()) for r in items) + '.'
+    return svg(W, int(y + 14), body, 'Housing money at stake in local measures (unofficial)', desc)
 
 
 # ── Figure 4: roll calls ─────────────────────────────────────────────────

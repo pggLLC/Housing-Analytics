@@ -7,7 +7,7 @@
   "briefs": [
     {
       "id": "federal-midterms-2026-housing",
-      "title": "2026 midterms: Democrats win Congress; what it means for affordable housing in Colorado",
+      "title": "2026 midterms: Democrats projected to win Congress (unofficial); what it means for affordable housing in Colorado",
       "policy_topic": "Federal Housing Programs",
       "is_curated": true,
       "source_reviewed": true,
@@ -226,7 +226,7 @@
           ],
           "figure": {
             "src": "assets/briefs/election-2026/local-measures-map.svg",
-            "alt": "Map of Colorado with eight numbered dots. 1 Broomfield 1A, lodging tax for the Housing Authority, too close to call at 50.7% yes. 2 Lakewood 2G, sales tax for public safety including homelessness, failed with 40.4% yes. 3 Cherry Hills Village 2C, local-only zoning in the charter, passed with 84.2% yes. 4 Castle Pines 300, vote required to annex 20 or more acres, passed with 71.6% yes. 5 Castle Pines 301, refer recent annexations to voters, passed with 64.6% yes. 6 Mt. Crested Butte 2A, short-term rental tax for housing, too close to call at 54.6% yes. 7 Salida 5-H R-2 rezoning, failed with 37.5% yes. 8 San Juan County 1A, lodging tax with 45% to housing and child care, passed with 60.0% yes. Unofficial results as of November 4, 2026.",
+            "alt": "Map of Colorado with eight numbered dots. 1 Broomfield 1A, lodging tax for the Housing Authority, too close to call at 50.7% yes. 2 Lakewood 2G, sales tax for public safety including homelessness, failed with 40.4% yes. 3 Cherry Hills Village 2C, local-only zoning in the charter, passed with 84.2% yes. 4 Castle Pines 300, vote required to annex 20 or more acres, passed on a partial count with 71.6% yes. 5 Castle Pines 301, refer recent annexations to voters, passed on a partial count with 64.6% yes. 6 Mt. Crested Butte 2A, short-term rental tax for housing, too close to call at 54.6% yes. 7 Salida 5-H R-2 rezoning, failed with 37.5% yes. 8 San Juan County 1A, lodging tax with 45% to housing and child care, passed with 60.0% yes. Unofficial results as of November 4, 2026.",
             "caption": "Unofficial results. Blue passed, orange failed, grey too close to call.",
             "source": {
               "text": "County results pages (SOS Clarity ENR), read November 4, 2026",
@@ -238,11 +238,11 @@
           "id": "local-measures-yes-share",
           "heading": "How close each local vote was",
           "paragraphs": [
-            "Mountain lodging and short-term rental taxes cleared 50% or are leading. The one Front Range sales tax lost. Voters backed local control of land use by wide margins and turned down the one rezoning on the ballot."
+            "Lodging and short-term rental taxes in San Juan County, Mt. Crested Butte and Broomfield passed or lead. Lakewood's sales tax, which named homelessness among police and traffic uses without setting aside a share for it, lost. Voters backed local control of land use by wide margins and turned down the one rezoning on the ballot. The Castle Pines counts were partial when read."
           ],
           "figure": {
             "src": "assets/briefs/election-2026/local-measures-yes-share.svg",
-            "alt": "Bar chart of the yes share. Money measures: San Juan County 1A 60.0% passed; Mt. Crested Butte 2A 54.6% too close; Broomfield 1A 50.7% too close; Lakewood 2G 40.4% failed. Land use: Cherry Hills Village 2C 84.2% passed; Castle Pines 300 71.6% passed; Castle Pines 301 64.6% passed; Salida 5-H R-2 37.5% failed. A dashed line marks 50%. Unofficial, November 4, 2026.",
+            "alt": "Bar chart of the yes share. Money measures: San Juan County 1A 60.0% passed; Mt. Crested Butte 2A 54.6% too close; Broomfield 1A 50.7% too close; Lakewood 2G 40.4% failed. Land use: Cherry Hills Village 2C 84.2% passed; Castle Pines 300 71.6% passed (partial count); Castle Pines 301 64.6% passed (partial count); Salida 5-H R-2 37.5% failed. A dashed line marks 50%. Unofficial, November 4, 2026.",
             "caption": "Unofficial yes share. Each measure needs a simple majority.",
             "source": {
               "text": "County results pages (SOS Clarity ENR), read November 4, 2026",
@@ -252,13 +252,13 @@
         },
         {
           "id": "local-measures-money",
-          "heading": "Money at stake",
+          "heading": "Housing money at stake",
           "paragraphs": [
-            "Each figure is the first-year revenue cap written into the ballot question. About $5.8 million a year for housing rides on Broomfield and Mt. Crested Butte, both still too close to call."
+            "Each figure is the first-year revenue cap written into the ballot question, a ceiling rather than a forecast. Up to $5.8 million a year for housing rides on Broomfield and Mt. Crested Butte, both still too close to call. Lakewood 2G (up to $17.6 million, failed) is left off the chart because it set no share aside for housing or homelessness."
           ],
           "figure": {
             "src": "assets/briefs/election-2026/local-measures-money.svg",
-            "alt": "Bar chart of first-year revenue caps. Lakewood 2G $17.6 million for all uses, failed. Broomfield 1A $3.3 million, too close. Mt. Crested Butte 2A $2.5 million, too close. San Juan County 1A $84,494, passed, of which 45% goes to workforce housing and child care. Unofficial, November 4, 2026.",
+            "alt": "Bar chart of first-year revenue caps in the local measures that dedicate money to housing. Broomfield 1A up to $3.3 million, too close. Mt. Crested Butte 2A up to $2.5 million, too close. San Juan County 1A $84,494, passed, of which 45% goes to workforce housing and child care. Lakewood 2G is not shown because it set no share aside for housing. Unofficial, November 4, 2026.",
             "caption": "Revenue caps from the ballot text; outcomes unofficial.",
             "source": {
               "text": "County results pages (SOS Clarity ENR), read November 4, 2026",
@@ -298,7 +298,7 @@
             "Bipartisan supply and tax-credit bills (2027). Our read: Good chance if they keep Republican cosponsors; credit changes most likely ride a tax package. Record: The ROAD to Housing Act passed 358-32 and 85-5 and became law without a veto.",
             "Democratic-only bills, such as a voucher expansion or a public housing fund (2027-2028). Our read: Unlikely to become law before 2029. Record: Democrats lack 60 Senate votes, and the President has threatened vetoes.",
             "Colorado's U.S. House members on housing bills (2027). Our read: Expect 7 or 8 of 8 yes on bipartisan bills. Record: 7 of 8 voted yes on the ROAD to Housing Act. The one no, Boebert, trails in CD4 on the unofficial count.",
-            "State land-use bills (parking, lot size, permit deadlines) (2027 session, January to May). Our read: More likely to pass than in 2023 or 2024; the Senate is still the hurdle. Record: HB24-1313 passed the Senate 19-15 with four Democrats voting no; SB23-213 died there in 2023. Democrats lead 16 of the 21 Senate races on the ballot.",
+            "State land-use bills (parking, lot size, permit deadlines) (2027 session, January to May). Our read: Somewhat more likely to pass than in 2023 or 2024; the Senate is still the hurdle. Record: HB24-1313 passed the Senate 19-15 with four Democrats voting no; SB23-213 died there in 2023. Democrats lead 16 of the 21 Senate races on the ballot, but the Senate total is not yet counted with holdover seats, and the hurdle in 2024 was Democrats voting no, not seat count.",
             "Prop 123 money in the 2027 state budget (March 2027 forecast, then the spring budget). Our read: Some risk of another transfer, lower if Amendment 87 holds. Record: The legislature reached into Prop 123 two years running: SB25-313 widened its uses in 2025, and HB26-1360 moved $130 million to the general fund in 2026. Prop NN now limits when cuts can be made."
           ]
         }

@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 471" width="420" height="471" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
 <title id="t">Yes share on each local housing measure (unofficial)</title>
-<desc id="d">Bar chart of the yes share on eight Colorado local measures. Cherry Hills Village 2C 84.2% yes, passed; Broomfield 1A 50.7% yes, too close to call; Salida 5-H R-2 37.5% yes, failed; Castle Pines 300 71.6% yes, passed; Castle Pines 301 64.6% yes, passed; Mt. Crested Butte 2A 54.6% yes, too close to call; Lakewood 2G 40.4% yes, failed; San Juan County 1A 60.0% yes, passed.</desc>
+<desc id="d">Bar chart of the yes share on eight Colorado local measures. Cherry Hills Village 2C 84.2% yes, passed; Broomfield 1A 50.7% yes, too close to call; Salida 5-H R-2 37.5% yes, failed; Castle Pines 300 71.6% yes, passed (partial count); Castle Pines 301 64.6% yes, passed (partial count); Mt. Crested Butte 2A 54.6% yes, too close to call; Lakewood 2G 40.4% yes, failed; San Juan County 1A 60.0% yes, passed.</desc>
 <rect width="100%" height="100%" fill="#ffffff"/>
 <text x="16.0" y="24.0" font-size="16" font-weight="700" fill="#1d2329" text-anchor="start">Yes share on each local measure</text>
 <text x="16.0" y="44.0" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">Unofficial, as of 2026-11-04. All need a simple majority.</text>
-<text x="16.0" y="70.0" font-size="13" font-weight="700" fill="#1d2329" text-anchor="start">Money for housing or homelessness</text>
+<text x="16.0" y="70.0" font-size="13" font-weight="700" fill="#1d2329" text-anchor="start">Tax measures</text>
 <text x="16.0" y="98.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">San Juan County 1A</text>
 <rect x="16" y="104.0" width="260" height="14" fill="#e7ebef"/>
 <rect x="16" y="104.0" width="156.0" height="14" fill="#1f5f99"/>
@@ -23,7 +23,7 @@
 <line x1="146.0" y1="181.0" x2="146.0" y2="201.0" stroke="#1d2329" stroke-width="1.5" stroke-dasharray="3 2"/>
 <text x="284.0" y="196.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">50.7%</text>
 <text x="332.0" y="196.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="start">Too close</text>
-<text x="16.0" y="218.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Lakewood 2G</text>
+<text x="16.0" y="218.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Lakewood 2G (no share set aside for housing)</text>
 <rect x="16" y="224.0" width="260" height="14" fill="#e7ebef"/>
 <rect x="16" y="224.0" width="105.0" height="14" fill="#b3541e"/>
 <line x1="146.0" y1="221.0" x2="146.0" y2="241.0" stroke="#1d2329" stroke-width="1.5" stroke-dasharray="3 2"/>
@@ -36,13 +36,13 @@
 <line x1="146.0" y1="289.0" x2="146.0" y2="309.0" stroke="#1d2329" stroke-width="1.5" stroke-dasharray="3 2"/>
 <text x="284.0" y="304.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">84.2%</text>
 <text x="332.0" y="304.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="start">Passed</text>
-<text x="16.0" y="326.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Castle Pines 300</text>
+<text x="16.0" y="326.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Castle Pines 300 (partial count)</text>
 <rect x="16" y="332.0" width="260" height="14" fill="#e7ebef"/>
 <rect x="16" y="332.0" width="186.2" height="14" fill="#1f5f99"/>
 <line x1="146.0" y1="329.0" x2="146.0" y2="349.0" stroke="#1d2329" stroke-width="1.5" stroke-dasharray="3 2"/>
 <text x="284.0" y="344.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">71.6%</text>
 <text x="332.0" y="344.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="start">Passed</text>
-<text x="16.0" y="366.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Castle Pines 301</text>
+<text x="16.0" y="366.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Castle Pines 301 (partial count)</text>
 <rect x="16" y="372.0" width="260" height="14" fill="#e7ebef"/>
 <rect x="16" y="372.0" width="168.0" height="14" fill="#1f5f99"/>
 <line x1="146.0" y1="369.0" x2="146.0" y2="389.0" stroke="#1d2329" stroke-width="1.5" stroke-dasharray="3 2"/>

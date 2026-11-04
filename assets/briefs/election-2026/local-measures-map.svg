@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 719" width="420" height="719" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
 <title id="t">Local housing measures, Nov. 3, 2026 (unofficial)</title>
-<desc id="d">Map of Colorado with the eight local housing measures tracked by COHO Analytics. 1 Broomfield 1A, Lodging tax for the Housing Authority, too close to call, 50.7% yes; 2 Lakewood 2G, Sales tax, public safety incl. homelessness, failed, 40.4% yes; 3 Cherry Hills Village 2C, Local-only zoning in charter, passed, 84.2% yes; 4 Castle Pines 300, Vote required to annex 20+ acres, passed, 71.6% yes; 5 Castle Pines 301, Refer recent annexations to voters, passed, 64.6% yes; 6 Mt. Crested Butte 2A, Short-term rental tax for housing, too close to call, 54.6% yes; 7 Salida 5-H R-2, Rezoning a property to R-2, failed, 37.5% yes; 8 San Juan County 1A, Lodging tax; 45% to housing and child care, passed, 60.0% yes. Unofficial results as of 2026-11-04.</desc>
+<desc id="d">Map of Colorado with the eight local housing measures tracked by COHO Analytics. 1 Broomfield 1A, Lodging tax for the Housing Authority, too close to call, 50.7% yes; 2 Lakewood 2G, Sales tax, public safety incl. homelessness, failed, 40.4% yes; 3 Cherry Hills Village 2C, Local-only zoning in charter, passed, 84.2% yes; 4 Castle Pines 300, Vote required to annex 20+ acres, passed (partial count), 71.6% yes; 5 Castle Pines 301, Refer recent annexations to voters, passed (partial count), 64.6% yes; 6 Mt. Crested Butte 2A, Short-term rental tax for housing, too close to call, 54.6% yes; 7 Salida 5-H R-2, Rezoning a property to R-2, failed, 37.5% yes; 8 San Juan County 1A, Lodging tax; 45% to housing and child care, passed, 60.0% yes. Unofficial results as of 2026-11-04.</desc>
 <rect width="100%" height="100%" fill="#ffffff"/>
 <text x="16.0" y="24.0" font-size="16" font-weight="700" fill="#1d2329" text-anchor="start">Local housing measures, Nov. 3, 2026</text>
 <text x="16.0" y="44.0" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">Unofficial results as of 2026-11-04. Counts may change until certified.</text>
@@ -47,11 +47,11 @@
 <text x="40.0" y="477.2" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">Local-only zoning in charter</text>
 <circle cx="24" cy="495.2" r="8" fill="#1f5f99"/>
 <text x="24.0" y="499.2" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
-<text x="40.0" y="499.2" font-size="13" font-weight="600" fill="#1d2329" text-anchor="start">Castle Pines 300 · Passed, 71.6% yes</text>
+<text x="40.0" y="499.2" font-size="13" font-weight="600" fill="#1d2329" text-anchor="start">Castle Pines 300 · Passed (partial count), 71.6% yes</text>
 <text x="40.0" y="515.2" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">Vote required to annex 20+ acres</text>
 <circle cx="24" cy="533.2" r="8" fill="#1f5f99"/>
 <text x="24.0" y="537.2" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
-<text x="40.0" y="537.2" font-size="13" font-weight="600" fill="#1d2329" text-anchor="start">Castle Pines 301 · Passed, 64.6% yes</text>
+<text x="40.0" y="537.2" font-size="13" font-weight="600" fill="#1d2329" text-anchor="start">Castle Pines 301 · Passed (partial count), 64.6% yes</text>
 <text x="40.0" y="553.2" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">Refer recent annexations to voters</text>
 <circle cx="24" cy="571.2" r="8" fill="#6b6b6b"/>
 <text x="24.0" y="575.2" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">6</text>
