@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-04T22:19:51.415989Z",
+  "generated": "2026-11-04T23:01:31.429037Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9194,12 +9194,12 @@
     "data/market/walk_bike_access_co.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 746912
+      "bytes": 968140
     },
     "data/market/walk_bike_map_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2637592
+      "bytes": 4297901
     },
     "data/market/walkability_co.geojson": {
       "featureCount": 3532,
