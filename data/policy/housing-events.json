@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-03T11:03:21Z",
-    "as_of": "2026-11-03",
+    "generated": "2026-11-04T11:11:36Z",
+    "as_of": "2026-11-04",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -24,7 +24,7 @@
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
       "listed": 1346,
-      "upcoming": 32
+      "upcoming": 31
     },
     {
       "id": "housing_colorado",
@@ -103,18 +103,6 @@
       "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
       "source": "doh",
       "category": "deadline"
-    },
-    {
-      "title": "chfareach: Protecting Personally Identifiable Information (PII) on Property, Webinar",
-      "start": "2026-11-03",
-      "end": null,
-      "time": "12:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-protecting-personally-identifiable-information-pii-on-property-webinar-11-03-2026",
-      "source": "chfa",
-      "category": "compliance"
     },
     {
       "title": "Colorado Emergency Rental Assistance Pre-Application Period (November)",
@@ -779,6 +767,18 @@
     }
   ],
   "past": [
+    {
+      "title": "chfareach: Protecting Personally Identifiable Information (PII) on Property, Webinar",
+      "start": "2026-11-03",
+      "end": null,
+      "time": "12:55",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-protecting-personally-identifiable-information-pii-on-property-webinar-11-03-2026",
+      "source": "chfa",
+      "category": "compliance"
+    },
     {
       "title": "Proposition 123 Commitment Filing Deadline",
       "start": "2026-11-01",

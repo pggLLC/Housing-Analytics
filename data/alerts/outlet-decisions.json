@@ -1,7 +1,90 @@
 {
   "meta": {
-    "updated": "2026-11-03",
+    "updated": "2026-11-04",
     "method": "Outlets ticked in the \"Outlets to review\" issue. They override data/alerts/outlet-register.json."
   },
-  "decisions": []
+  "decisions": [
+    {
+      "id": "f4c7f4ab8b",
+      "name": "Building Salt Lake",
+      "domains": [],
+      "decision": "checked",
+      "decided": "2026-11-04",
+      "issue": 2625
+    },
+    {
+      "id": "545a53e448",
+      "name": "Common Sense Institute",
+      "domains": [
+        "commonsenseinstituteus.org"
+      ],
+      "decision": "checked",
+      "decided": "2026-11-04",
+      "issue": 2625
+    },
+    {
+      "id": "bc703dfda7",
+      "name": "Greater Greater Washington",
+      "domains": [
+        "ggwash.org"
+      ],
+      "decision": "checked",
+      "decided": "2026-11-04",
+      "issue": 2625
+    },
+    {
+      "id": "de1eb5b94a",
+      "name": "https://www.moneydigest.com/",
+      "domains": [
+        "moneydigest.com"
+      ],
+      "decision": "checked",
+      "decided": "2026-11-04",
+      "issue": 2625
+    },
+    {
+      "id": "3ccd88aed5",
+      "name": "Multifamily & Affordable Housing Business",
+      "domains": [
+        "multifamilyaffordablehousing.com"
+      ],
+      "decision": "checked",
+      "decided": "2026-11-04",
+      "issue": 2625
+    },
+    {
+      "id": "c6be2856b8",
+      "name": "Niskanen Center",
+      "domains": [
+        "niskanencenter.org"
+      ],
+      "decision": "checked",
+      "decided": "2026-11-04",
+      "issue": 2625
+    },
+    {
+      "id": "784eec053d",
+      "name": "Senior Living News",
+      "domains": [],
+      "decision": "checked",
+      "decided": "2026-11-04",
+      "issue": 2625
+    },
+    {
+      "id": "844138f128",
+      "name": "State Affairs Pro",
+      "domains": [],
+      "decision": "checked",
+      "decided": "2026-11-04",
+      "issue": 2625
+    },
+    {
+      "id": "f42343e885",
+      "name": "Yahoo",
+      "domains": [],
+      "decision": "checked",
+      "decided": "2026-11-04",
+      "issue": 2625
+    }
+  ]
 }

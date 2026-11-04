@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-04T07:06:50.314385Z",
+  "generated": "2026-11-04T11:11:44.433327Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1025405
+      "bytes": 1025545
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -89,17 +89,17 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1443526
+      "bytes": 1544953
     },
     "data/alerts/brief-news-queue.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36816
+      "bytes": 38467
     },
     "data/alerts/outlet-decisions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 183
+      "bytes": 1988
     },
     "data/alerts/outlet-register.json": {
       "featureCount": 0,
@@ -109,7 +109,7 @@
     "data/alerts/outlet-review.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25236
+      "bytes": 17576
     },
     "data/alerts/owner-news.json": {
       "featureCount": 0,
@@ -9884,7 +9884,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 525474
+      "bytes": 534310
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,

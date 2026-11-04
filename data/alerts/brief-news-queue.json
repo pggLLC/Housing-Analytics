@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-11-03T11:03:21Z",
-    "as_of": "2026-11-03",
+    "generated": "2026-11-04T11:11:37Z",
+    "as_of": "2026-11-04",
     "stale_days": 30,
-    "events_as_of": "2026-11-03",
+    "events_as_of": "2026-11-04",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,7 +14,7 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [
         {
           "title": "Colorado Springs to hold public meetings on federal affordable housing funds",
@@ -154,8 +154,16 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [
+        {
+          "title": "Foie Gras Is at Risk of Disappearing From Menus in DC and Denver",
+          "source": "Bloomberg.com",
+          "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOX18xN0J1MW91OHRPUk9UR2N2dTlMOTR2ajJYcFBsbzZORkZhOW05a0RuX2RQQjE5anY5NXlfWTlyeFVYQTlDQnZYSS0teHlvaDd1UFJBZFFoWHA2ZHJUSkNrVGlla3RMUi1velcxemkyQjVuODRfNnlQdmxMaWlyeGRuT2M4WmQyRkJjdnRwNGFjV3dGc2tHYmlDWmI1SWctT0RpMlVDc3NvN1V1dGd0RjR1dFdJZw?oc=5",
+          "date": "2026-11-03",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Opinion | Using Denver as a Model to Help the Homeless",
           "source": "The New York Times",
@@ -292,7 +300,7 @@
         }
       ],
       "reasons": [
-        "9 new stories naming it",
+        "10 new stories naming it",
         "4 older stories not read yet"
       ]
     },
@@ -303,7 +311,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [
         {
           "title": "The Town of Mt. Crested Butte is accepting applications for a deed-restricted workforce housing unit in Three Seasons. This 2-bedroom, 2-bathroom condominium is available to qualified applicants. Monthly rent is based on household size and the Town's Wor",
@@ -340,13 +348,45 @@
       ]
     },
     {
+      "geoid": "0822035",
+      "jurisdiction": "City of Durango",
+      "scope": "place",
+      "county_fips": "08067",
+      "published": false,
+      "last_curated": "2026-10-18",
+      "days_since_review": 17,
+      "stories": [
+        {
+          "title": "Living in Bayfield Colorado vs Durango: what the price gap buys you",
+          "source": "Hagadone News Network",
+          "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPTmh2SGZUUFA4TEFVb3ZvbDNaQmRwdzlqRkw1RmhEOUVLVWx3eTlXdkVpMzhmOVctUy1UZ1hfWkw0a3pnRFJkX0xLNHBxTEN6Wm1vZ2ZGSWptN2VMaHFPTUZJdzNaX1VvYVNuTHlPOE9lWEoweGQ5VGkwRHBiOFQxNEVYSC1iRE0tdmMwcjBoNUtsSmdoVDZTVEJMd3JPZVF0eElvWHlCcUtySlRPeDU0OXpmXzdHcjA?oc=5",
+          "date": "2026-11-03",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Floodwaters rush through Durango neighborhoods as southwest Colorado braces for cleanup",
+          "source": "Colorado Public Radio",
+          "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1NTFY2b0pQc0M0WXU0VmpTcmxTWjhHNGNHeTQwT3RZMUMxTW82OFJqbkxHeDh2Y3NxcVJMSjliTWhXMFp6ZmsyT2ZBUHN2cy10cUU1ajVaS0xMczgzTW5INS1PbkNWYlpfS2toNWp1OA?oc=5",
+          "date": "2026-11-02",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories naming it",
+        "draft, not shown on the site"
+      ]
+    },
+    {
       "geoid": "0830780",
       "jurisdiction": "City of Glenwood Springs",
       "scope": "place",
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -379,7 +419,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [
         {
           "title": "Judge rules Ridgway hotel can’t house workers building Telluride’s Four Seasons resort",
@@ -413,7 +453,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -422,6 +462,7 @@
           "date": "2026-10-23",
           "match": "place",
           "also": [
+            "PRWeb",
             "Chinook Observer"
           ]
         }
@@ -438,7 +479,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [
         {
           "title": "Rifle City Council approves ADU code changes, water system improvements",
@@ -461,7 +502,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [
         {
           "title": "Salida City Council Double Header, Regular Session Starts at 6:00 p.m. Tonight - by Merrell Bergin",
@@ -484,7 +525,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -508,7 +549,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -550,7 +591,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -559,6 +600,7 @@
           "date": "2026-10-23",
           "match": "in_county",
           "also": [
+            "PRWeb",
             "Chinook Observer"
           ]
         }
@@ -575,24 +617,10 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [],
       "events": [],
       "reasons": []
-    },
-    {
-      "geoid": "0822035",
-      "jurisdiction": "City of Durango",
-      "scope": "place",
-      "county_fips": "08067",
-      "published": false,
-      "last_curated": "2026-10-18",
-      "days_since_review": 16,
-      "stories": [],
-      "events": [],
-      "reasons": [
-        "draft, not shown on the site"
-      ]
     },
     {
       "geoid": "0827425",
@@ -601,7 +629,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [],
       "events": [],
       "reasons": []
@@ -613,7 +641,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [],
       "events": [],
       "reasons": []
@@ -625,7 +653,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [],
       "events": [],
       "reasons": [
@@ -639,7 +667,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [],
       "events": [],
       "reasons": []
@@ -651,7 +679,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 16,
+      "days_since_review": 17,
       "stories": [],
       "events": [],
       "reasons": []
