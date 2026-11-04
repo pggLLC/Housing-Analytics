@@ -345,7 +345,7 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   // Every member-only page coho-backend serves has a place in the menu (3 Nov audit:
   // Where to look and Investor returns had no link anywhere on the member site).
   const priv = Nav.PRIVATE.map((p) => p.href);
-  for (const f of ['developer-finder.html', 'developer-market-screen.html', 'developer-env-screen.html', 'developer-investor-returns.html', 'developer-entitled-land.html', 'developer-parcel-sales.html', 'developer-commuters.html', 'dossiers/']) {
+  for (const f of ['developer-finder.html', 'developer-market-screen.html', 'developer-env-screen.html', 'developer-investor-returns.html', 'developer-entitled-land.html', 'developer-parcel-sales.html', 'developer-commuters.html', 'developer-next-places.html', 'developer-frontier.html', 'developer-preservation-first.html', 'dossiers/']) {
     ok(priv.includes(f), `the menu lists the member-only page ${f}`);
   }
   const top = Nav.html('/developer.html');
