@@ -176,6 +176,48 @@ function assertBound(button, out, to, from) {
     assert.ok(files[0].text.includes('Hinsdale') && !files[0].text.includes('Mesa County'), 'the workbook that was written is for the place now shown');
     checks += 1;
     console.log('  ok  a place change during a workbook build drops the half-built file and writes one for the place now shown');
+    // Two downloads at once (Codex review, #2663): a PDF pressed while a
+    // workbook is still being built, then a place change. Each file keeps its
+    // own check; both are written once, for the place now shown.
+    await show(page, MESA);
+    await page.evaluate(() => { window.__saved = []; window.__slowWrite = 1500; });
+    const dl2 = [];
+    const onDl2 = (d) => dl2.push(d);
+    page.on('download', onDl2);
+    const wb = page.evaluate(() => window.__HNA_exportExcel());
+    await page.waitForFunction(() => window.__writing === true);
+    const pdfRun = page.evaluate(() => window.__HNA_exportPdf());
+    hold.geoid = HINSDALE.geoid;
+    await page.selectOption('#geoSelect', HINSDALE.geoid);
+    await Promise.all([wb, pdfRun]);
+    hold.geoid = null;
+    await page.evaluate(() => { window.__slowWrite = 0; return window.HNAController.whenSettled(); });
+    await page.waitForTimeout(500);
+    page.off('download', onDl2);
+    assert.equal(dl2.length, 1, 'one workbook');
+    const wbText = fs.readFileSync(await dl2[0].path(), 'utf8');
+    assert.ok(wbText.includes('Hinsdale') && !wbText.includes('Mesa County'), 'the workbook is for the place now shown');
+    const pdfs = await page.evaluate(() => window.__saved);
+    assert.equal(pdfs.length, 1, 'one PDF');
+    assert.ok(pdfs[0].text.includes('Hinsdale') && !pdfs[0].text.includes('Mesa County'), 'the PDF is for the place now shown');
+    checks += 1;
+    console.log('  ok  a PDF pressed during a workbook build, then a place change: one of each, both for the place now shown');
+
+    // A finished side-by-side comparison carries a synthetic GEOID that never
+    // equals the selector's value (Codex review, #2663); it still downloads.
+    await show(page, MESA);
+    await page.evaluate(() => {
+      const cur = window.HNAState.state.current;
+      window.HNAState.state.current = { geoType: 'regional-comparison', geoid: 'regional-comparison', label: 'Regional comparison', members: [cur], regionalComparison: [] };
+    });
+    const cmp = page.waitForEvent('download', { timeout: 15000 });
+    await page.click('#btnJson');
+    const cmpDl = await cmp;
+    const cmpJson = JSON.parse(fs.readFileSync(await cmpDl.path(), 'utf8'));
+    assert.match(cmpJson.vintages.acs, /each member at its own survey period/, 'a comparison does not claim one ACS period');
+    checks += 1;
+    console.log('  ok  a finished side-by-side comparison downloads');
+
     assert.deepEqual(page.__errors || [], [], 'no page errors');
     console.log(`\n${checks} checks passed`);
   } finally {

@@ -58,7 +58,9 @@
     var c = _controller();
     if (c && c.isUpdating && c.isUpdating()) return false;
     var cur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
-    if (!cur || cur.geoType === 'combined') return true;
+    // Combined areas and side-by-side comparisons carry a synthetic GEOID
+    // ('region:…', 'regional-comparison'), never the selector's value.
+    if (!cur || cur.geoType === 'combined' || cur.geoType === 'regional-comparison') return true;
     var sel = document.getElementById('geoSelect');
     if (!sel || !sel.value) return true;
     return String(cur.geoid) === String(sel.value);
@@ -68,6 +70,7 @@
   function _exportStillCurrent() {
     if (!_exportCtx) return true;
     var c = _controller();
+    if (_exportCtx.unchecked) return true;
     if (_exportCtx.stale) return false;
     if ((c && c.updateSeq() !== _exportCtx.seq) || !_pageMatchesSelection()) {
       _exportCtx.stale = true;
@@ -76,16 +79,40 @@
     return true;
   }
 
+  // Downloads run one at a time, so each has its own context: a PDF started
+  // while a workbook is still being built cannot take over the workbook's
+  // context (Codex review, #2663).
+  var _exportChain = Promise.resolve();
+  function _enqueue(task) {
+    var run = _exportChain.then(task);
+    _exportChain = run.catch(function () {});
+    return run;
+  }
+
   function _guardExport(fn, label) {
-    return async function guardedExport() {
+    return function guardedExport() {
       var args = arguments;
-      var c = _controller();
-      if (!c) return fn.apply(this, args);
-      // A caller that hands in its own report data owns that data.
-      if (args[0] && typeof args[0] === 'object' && fn !== exportStructuredPdf && fn !== exportPdf) {
-        return fn.apply(this, args);
-      }
       var self = this;
+      var c = _controller();
+      if (!c) return fn.apply(self, args);
+      // A caller that hands in its own report data owns that data: no
+      // page check. CSV and JSON stay synchronous for such callers.
+      if (args[0] && typeof args[0] === 'object' && fn !== exportStructuredPdf && fn !== exportPdf) {
+        if (fn === exportCsv || fn === exportJson) {
+          var saved = _exportCtx;
+          _exportCtx = null;
+          try { return fn.apply(self, args); } finally { _exportCtx = saved; }
+        }
+        return _enqueue(async function () {
+          var own = { unchecked: true };
+          _exportCtx = own;
+          try { return await fn.apply(self, args); } finally { if (_exportCtx === own) _exportCtx = null; }
+        });
+      }
+      return _enqueue(function () { return guardedRun(self, args); });
+    };
+    async function guardedRun(self, args) {
+      var c = _controller();
       for (var attempt = 0; attempt < 3; attempt++) {
         if (!_pageMatchesSelection()) {
           _showExportToast('Loading the selected place. The ' + label + ' starts when it is ready.', 'info');
@@ -108,7 +135,7 @@
         _showExportToast('The place changed while the ' + label + ' was being made. Making it again for the place now shown.', 'info');
       }
       _showExportToast('The place kept changing, so the ' + label + ' was not made. Try again.', 'warn');
-    };
+    }
   }
 
   /**
@@ -683,6 +710,9 @@
   }
   function _acsPeriodOf(current, geoid) {
     var none = { label: 'ACS (survey period not recorded for this place)', series: null, year: null };
+    if (current && current.geoType === 'regional-comparison') {
+      return { label: 'ACS, each member at its own survey period (1-year 2025 or 5-year 2020-2024)', series: 'mixed', year: null };
+    }
     if (current && current.geoType === 'combined') {
       var res = current.combinedResult || {};
       var seen = {};
