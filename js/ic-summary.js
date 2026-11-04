@@ -82,7 +82,9 @@
   // carries a `dc` param pointing back to the underwriting scenario.
   // Surface a pill at the top so the reader can drill back in.
   // Whitelist: dc must be same-origin to prevent open-redirect XSS.
-  var dcDeepLink = params.get('dc');
+  // The deal link rides in the fragment (deal-calculator-share.js); older
+  // links carried it in the query.
+  var dcDeepLink = new URLSearchParams(String(window.location.hash || '').replace(/^#/, '')).get('dc') || params.get('dc');
   if (dcDeepLink) {
     try {
       var dcUrl = new URL(dcDeepLink, window.location.origin);

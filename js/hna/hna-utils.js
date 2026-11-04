@@ -1196,6 +1196,55 @@
     return { blended: g, householdOnly: at(shares.household), permitOnly: at(shares.permit) };
   }
 
+  // Renter cost burden from Census table B25070 counts, in the profile's own
+  // period. The DP04 profile only carries percentages, and its 35%+ bin is not
+  // HUD's severe line (50%+, B25070_010E). The denominator is renters with a
+  // computed ratio (B25070_001E minus B25070_011E), the one Census uses for
+  // DP04_0141PE/0142PE, so the counts and shares agree with the profile.
+  // Returns null when the counts are missing, suppressed, from a different
+  // ACS release than the profile, or disagree with the profile's 35%+ share.
+  // A measured zero stays zero.
+  function rentBurdenCounts(profile){
+    if (!profile) return null;
+    const count = (k) => {
+      const v = profile[k];
+      if (v === null || v === undefined || v === '') return null;
+      const n = Number(v);
+      return Number.isFinite(n) && n >= 0 ? n : null;
+    };
+    const all = count('B25070_001E');
+    const b30 = count('B25070_007E');
+    const b35 = count('B25070_008E');
+    const b40 = count('B25070_009E');
+    const b50 = count('B25070_010E');
+    const notComputed = count('B25070_011E');
+    if ([all, b30, b35, b40, b50, notComputed].some((n) => n === null)) return null;
+    const year = profile._b25070Year != null ? String(profile._b25070Year) : null;
+    const series = profile._b25070Series || null;
+    if (!year || !series) return null;
+    if (profile._acsYear != null && String(profile._acsYear) !== year) return null;
+    if (profile._acsSeries && profile._acsSeries !== series) return null;
+    const computed = all - notComputed;
+    if (!(computed > 0)) return null;
+    const pct = (n) => Math.round(n / computed * 1000) / 10;
+    const out = {
+      computedHouseholds: computed,
+      atLeast30Households: b30 + b35 + b40 + b50,
+      atLeast50Households: b50,
+      atLeast30Pct: pct(b30 + b35 + b40 + b50),
+      atLeast35Pct: pct(b35 + b40 + b50),
+      atLeast50Pct: pct(b50),
+      year: year,
+      series: series,
+    };
+    // The profile's own 35%+ share is the cross-check that both describe the
+    // same households. Rounding allows a tenth of a point.
+    const dp35 = profile.DP04_0142PE;
+    if (dp35 !== null && dp35 !== undefined && dp35 !== '' && Number.isFinite(Number(dp35))
+        && Math.abs(Number(dp35) - out.atLeast35Pct) > 0.15) return null;
+    return out;
+  }
+
   function rentBurden30Plus(pcts){
     // Current ACS 2023+ codes: DP04_0141PE = 30-34.9%, DP04_0142PE = 35%+.
     // These are what scripts/hna/build_hna_data.py writes into the cached
@@ -1389,6 +1438,7 @@
     placeShareRange,
     computeActiveMarketTargetVacancy,
     rentBurden30Plus,
+    rentBurdenCounts,
     acsBurdenRejected,
     calculateJobMetrics,
     parseIndustries,

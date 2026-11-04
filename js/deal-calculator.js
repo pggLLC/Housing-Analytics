@@ -1,5 +1,16 @@
 (function () {
   'use strict';
+  // The settings a link carries. A share link puts the deal in the fragment,
+  // "#v=1&units=60&..." (js/deal-calculator-share.js), because the fragment
+  // never reaches the server and a full deal in the query drew HTTP 414.
+  // Older links and deep links (?mode=ownership, ?geoid=...) use the query.
+  function linkParams(loc) {
+    loc = loc || window.location;
+    var h = String(loc.hash || '').replace(/^#/, '');
+    return new URLSearchParams(h.indexOf('v=1&') === 0 ? h.slice(4) : (loc.search || ''));
+  }
+  window.DealCalcLinkParams = linkParams;
+  function _linkHasEquityPrice() { return linkParams().has('equity-price'); }
   function loanTypeOptions(selected) {
     return Object.keys(dealEngine().LOAN_TYPES).map(function (key) {
       return '<option value="' + key + '"' + (key === selected ? ' selected' : '') + '>' + dealEngine().LOAN_TYPES[key] + '</option>';
@@ -250,6 +261,12 @@
     return Math.abs(Number(_creditRate) - 0.04) < 0.0001;
   }
 
+  var _equityPriceWritten = false;
+  ['input', 'change'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      if (e.isTrusted && e.target && e.target.id === 'dc-equity-price') _equityPriceWritten = true;
+    }, true);
+  });
   function _setEquityPriceInputToDefault(options) {
     var opts = options || {};
     var input = document.getElementById('dc-equity-price');
@@ -257,6 +274,11 @@
     EQUITY_PRICE_DEFAULT = defaultPrice;
     if (!input) return defaultPrice;
     var current = _numOrNull(input.value);
+    // A price the user typed or a shared deal carried is theirs: the benchmark
+    // load (data/market/novogradac-equity-pricing.json) can land after a share
+    // link hydrates, and its forced default reset a shared price to the benchmark
+    // (2026-11-04 rehearsal: the recipient's gap was $1,190,000 higher).
+    if (_equityPriceWritten && current != null) return defaultPrice;
     var shouldUpdate = opts.force || current == null ||
       Math.abs(current - (_cfg.equityPrice9Pct || 0.82)) < 0.0001 ||
       Math.abs(current - (_cfg.equityPrice4Pct || 0.83)) < 0.0001;
@@ -941,7 +963,7 @@
     // A shared/deep link names the place being analyzed without writing it
     // into the recipient's project. The helper verifies its county binding
     // against the recipient's own ACS geography record before using city ZORI.
-    var linkedGeoid = new URLSearchParams(window.location.search).get('geoid');
+    var linkedGeoid = linkParams().get('geoid');
     if (/^08\d{5}$/.test(linkedGeoid || '')) return { bedroomMix: _renterBedroomMix, geoid: linkedGeoid };
     var jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
       ? window.WorkflowState.getJurisdiction() : null;
@@ -1325,7 +1347,7 @@
   }
 
   function pendingSharedSchedule() {
-    return !_sharedScheduleHydrated && new URLSearchParams(window.location.search).has('rentSchedule');
+    return !_sharedScheduleHydrated && linkParams().has('rentSchedule');
   }
 
   function clearSharedRentSchedule() {
@@ -1404,7 +1426,7 @@
 
   function restoreManualMix() {
     // A URL carries its own inputs and must win over this browser's saved choice.
-    if (window.location.search) return;
+    if (Array.from(linkParams().keys()).length) return;
     try {
       var values = JSON.parse(localStorage.getItem(MANUAL_MIX_KEY));
       if (!values || values['dc-unit-mix-source'] !== 'manual') return;
@@ -1675,7 +1697,7 @@
       if (!el.hidden && setLink) {
         var a = document.createElement('a');
         var j = window.WorkflowState && window.WorkflowState.getJurisdiction ? window.WorkflowState.getJurisdiction() : null;
-        var place = new URLSearchParams(window.location.search).get('geoid') || (j && j.geoid) || '';
+        var place = linkParams().get('geoid') || (j && j.geoid) || '';
         a.href = 'market-analysis.html' + (/^08\d{3}(\d{2})?$/.test(place) ? '?geoid=' + place : '')
           + '#subjectProjectMount';
         a.textContent = 'Set the utility allowance in Market Analysis \u2192';
@@ -3982,7 +4004,8 @@
           var newDefault = _getCreditPricingDefault(is4Pct);
           EQUITY_PRICE_DEFAULT = newDefault;
           var eqInput = document.getElementById('dc-equity-price');
-          if (eqInput) {
+          // A shared deal's own price stays (the radio fires while it hydrates).
+          if (eqInput && !(_hydratingSharedScenario && _linkHasEquityPrice())) {
             eqInput.value = newDefault.toFixed(2);
             if (window.InputProvenance) window.InputProvenance.mark(eqInput, { status: 'assumption' });
           }
@@ -6297,6 +6320,7 @@
    * nav's "For-Sale Feasibility" item and the for-sale route's Deal step both
    * do (docs/DEVELOPER-TRACKS.md). Any other value leaves the default. */
   function applyModeFromUrl() {
+    // A nav deep link (?mode=ownership), never part of a share link's fragment.
     var mode = new URLSearchParams(window.location.search).get('mode');
     if (mode !== 'ownership') return;
     var radio = document.getElementById('dc-mode-ownership');
@@ -8008,7 +8032,7 @@
     getUtilityAllowanceMetadata: getUtilityAllowanceMetadata,
     getRentScheduleMetadata: getRentScheduleMetadata,
     setSharedRentSchedule: setSharedRentSchedule,
-    beginSharedScenario: function () { _hydratingSharedScenario = true; _permRateWritten = true; _manualBaseValues = null; },
+    beginSharedScenario: function () { _hydratingSharedScenario = true; _permRateWritten = true; _manualBaseValues = null; _equityPriceWritten = _linkHasEquityPrice(); },
     endSharedScenario: function () { restoreMarketOverrideDisplay(); _hydratingSharedScenario = false; recalculate(); },
     setSharedUtilityAllowance: setSharedUtilityAllowance,
     getAmiLimitsByBr: function () { return _amiLimitsByBr == null ? null : JSON.parse(JSON.stringify(_amiLimitsByBr)); },

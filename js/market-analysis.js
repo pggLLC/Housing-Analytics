@@ -1597,12 +1597,26 @@
         }, 0)
       : proposedUnits;
     var penetration = penDen > 0 ? ((existingUnits || 0) + taxCreditProposed) / penDen : 0;
-    var over = penetration > RISK.captureHigh;
+    // CHFA's 85% line is on capture rates (2027-28 QAP p. 9), and its demand
+    // table counts existing, planned and proposed tax-credit units against
+    // households at the project's own AMI levels (p. 85). Existing units are
+    // not split by tier here, so two ratios stand in for it, and either one
+    // over 85% is over: the project alone against its own pool (a floor on
+    // CHFA's ratio, which adds existing units), and all tax-credit units
+    // against the 20-80% pool. 2026-11-04 QA: 24 homes at 60% AMI over 17
+    // qualified renters read "Under 85%" from a 33.8% all-tier penetration.
+    // The project ratio counts only when every unit is a tax-credit unit:
+    // workforce units at 90-120% AMI are not in CHFA's table.
+    var projectOver = taxCreditProposed === proposedUnits && proposedUnits > 0 && capture > RISK.captureHigh;
+    var penetrationOver = penetration > RISK.captureHigh;
     return {
       proposedUnits: proposedUnits, captureRate: captureRate,
       penetrationRate: Math.round(penetration * 1000) / 10,
-      risk: over ? 'High' : 'Low',
-      riskLabel: over ? 'Over 85% (CHFA 2027–28 QAP)' : 'Under 85% (CHFA 2027–28 QAP)'
+      projectOver: projectOver, penetrationOver: penetrationOver,
+      risk: (projectOver || penetrationOver) ? 'High' : 'Low',
+      riskLabel: projectOver ? 'Over 85%: the project alone (CHFA 2027–28 QAP)'
+        : penetrationOver ? 'Over 85% with existing units (CHFA 2027–28 QAP)'
+        : 'Under 85% on both ratios (CHFA 2027–28 QAP)'
     };
   }
 
@@ -2671,7 +2685,8 @@
     simEl.innerHTML =
       '<div class="pma-stat-grid">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
-        '<div class="pma-stat"><div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + ' rate</div></div>' +
+        '<div class="pma-stat"><div id="pmaProposedCaptureRate" data-methodology-key="project-capture" data-methodology-placement="after" class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + ' rate: ' +
+          sim.proposedUnits.toLocaleString() + ' proposed units of ' + simDen.value.toLocaleString() + ' renter HH that qualify for them</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : sim.risk ? 'var(--good)' : 'var(--text-muted)') + '">' +
           sim.riskLabel + '</div><div class="pma-stat-label">' +
@@ -2680,7 +2695,11 @@
             : 'Tax-credit units (existing, incl. funded not yet open) + proposed: ' + sim.penetrationRate + '% of ' +
               (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' + penScope : 'the same renters')) + '</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
-      '</div>' + _tierCaptureLine(simDen, amiMix) + brNote;
+      '</div>' + _tierCaptureLine(simDen, amiMix) + brNote +
+      '<p class="pma-sim-note" style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0">' +
+        'CHFA does not accept a project that needs more than 85% of the households that qualify without more data to support demand, and its demand table counts existing, planned and proposed tax-credit units against households at the project\'s own AMI levels ' +
+        '(<a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener noreferrer">2027–28 QAP</a>, pp. 9 and 85). ' +
+        'Existing units here are not split by AMI tier, so both ratios are shown and either one over 85% is over. A whole-market screen, not CHFA\'s finding.</p>';
     explainCapture(result, sim, simDen, null);
   }
 

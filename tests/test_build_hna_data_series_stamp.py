@@ -161,7 +161,7 @@ def state_census(answers, refuse=(), asked=None):
     each requested variable in asked, when given."""
     def get(url, *args, **kwargs):
         year = int(url.split("/data/")[1].split("/")[0])
-        series = "acs1" if "/acs/acs1/" in url else "acs5"
+        series = "acs1" if ("/acs/acs1/" in url or "/acs/acs1?" in url) else "acs5"
         value = answers.get((year, series))
         names = url.split("get=")[1].split("&")[0].split(",")
         if asked is not None:
@@ -215,7 +215,8 @@ def test_the_state_fetch_covers_every_field_the_state_summary_carries():
     # one the extended backfill would fill, is fetched by the state refresh
     # or dropped there as legacy, so none sits under a stamp it did not share.
     import re
-    fetched = set(state.ACS_PROFILE_VARS) | set(state.EXTENDED_PROFILE_VARS)
+    fetched = (set(state.ACS_PROFILE_VARS) | set(state.EXTENDED_PROFILE_VARS)
+               | set(state.B25070_COUNT_VARS))
     dropped = set(state.LEGACY_PROFILE_KEYS)
     stored = json.loads((ROOT / "data" / "hna" / "summary" / "08.json").read_text())["acsProfile"]
     outside = sorted(k for k in stored if not k.startswith("_") and k != "state"

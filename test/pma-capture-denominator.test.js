@@ -150,6 +150,30 @@ test('the CHFA 85% check counts existing + proposed units against the penetratio
   assert.strictEqual(mixed.captureRate, 30, 'the capture rate still counts every proposed unit');
 });
 
+test('the 85% check reads the project alone and the whole market, either one over is over (2026-11-04 QA F4)', () => {
+  // Invented: 24 homes at 60% AMI, 17 renters qualify for them, 71 at 20-80% AMI, no existing units.
+  const s = simulateCapture(17, 24, { ami60: 24 }, 0, 71);
+  assert.strictEqual(s.captureRate, 141.2);
+  assert.strictEqual(s.penetrationRate, 33.8);
+  assert.strictEqual(s.projectOver, true);
+  assert.strictEqual(s.penetrationOver, false);
+  assert.strictEqual(s.risk, 'High');
+  assert(/project alone/.test(s.riskLabel), s.riskLabel);
+  // The same project where it fits on both sides of the line.
+  const fits = simulateCapture(100, 24, { ami60: 24 }, 0, 400);
+  assert.strictEqual(fits.risk, 'Low');
+  assert(/Under 85% on both/.test(fits.riskLabel), fits.riskLabel);
+  // Over on existing units only.
+  const crowded = simulateCapture(100, 24, { ami60: 24 }, 330, 400);
+  assert.strictEqual(crowded.projectOver, false);
+  assert.strictEqual(crowded.risk, 'High');
+  assert(/with existing units/.test(crowded.riskLabel), crowded.riskLabel);
+  // Workforce units are outside CHFA's table: a high mixed capture is not the project check.
+  const mixed = simulateCapture(100, 120, { ami60: 20, ami110: 100 }, 0, 400);
+  assert.strictEqual(mixed.projectOver, false);
+  assert(/proposed units of ' \+ simDen\.value\.toLocaleString\(\) \+ ' renter HH that qualify for them/.test(src), 'the capture card shows its numerator and pool');
+});
+
 test('the CHAS LIHTC-eligible count is the denominator when it exists, and says so', () => {
   const d = captureDenominator({ captureDenominator: { value: 598, source: 'chas_lihtc_eligible' }, acs: { renter_hh: 991 } });
   assert.strictEqual(d.value, 598);

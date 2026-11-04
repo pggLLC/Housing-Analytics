@@ -1959,6 +1959,7 @@
       'B25070_008E', // 35–39.9%
       'B25070_009E', // 40–49.9%
       'B25070_010E', // 50%+
+      'B25070_011E', // not computed (outside the GRAPI denominator)
     ];
 
     // Probe vintages newest-first for ACS 5-year B-series
@@ -1988,7 +1989,11 @@
     const occ = si(raw.B25003_001E);
     const owner = si(raw.B25003_002E);
     const renter = si(raw.B25003_003E);
-    const grapiTot = si(raw.B25070_001E);
+    // Census's GRAPI shares divide by renters with a computed ratio:
+    // B25070_001E minus B25070_011E (not computed).
+    const grapiAll = si(raw.B25070_001E);
+    const grapiNc = si(raw.B25070_011E);
+    const grapiTot = (grapiAll !== null && grapiNc !== null) ? grapiAll - grapiNc : null;
     const pct = (n) => (grapiTot && n!==null) ? String(Math.round(n/grapiTot*10000)/100) : null;
     const burdenLt15 = [raw.B25070_002E,raw.B25070_003E].map(si).filter(n=>n!==null);
     const grapiLt15 = burdenLt15.length ? burdenLt15.reduce((a,b)=>a+b,0) : null;
@@ -2037,6 +2042,12 @@
       DP04_0140PE: pct(si(raw.B25070_006E)),
       DP04_0141PE: pct(si(raw.B25070_007E)),
       DP04_0142PE: pct(burden35),
+      // Raw B25070 counts: burdened household counts and the 50% severe line.
+      B25070_001E: raw.B25070_001E, B25070_007E: raw.B25070_007E,
+      B25070_008E: raw.B25070_008E, B25070_009E: raw.B25070_009E,
+      B25070_010E: raw.B25070_010E, B25070_011E: raw.B25070_011E,
+      _b25070Year: String(bYear),
+      _b25070Series: 'acs5',
       NAME: raw.NAME,
       _acsYear: bYear,
       _acsSeries: 'acs5',

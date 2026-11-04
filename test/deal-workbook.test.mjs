@@ -176,7 +176,9 @@ ok(!/<script/i.test(WB.render(m, '<script>x</script>')), 'a deal name is escaped
 ok(WB.queryFrom('https://cohoanalytics.com/deal-calculator.html?county-select=08067&units=60#x') === 'county-select=08067&units=60', 'a share link gives its settings');
 ok(WB.queryFrom({ url: 'http://localhost/deal-calculator.html?units=60' }) === 'units=60', 'an export file gives its settings');
 ok(WB.queryFrom({ data: { calculator: { query: 'units=12' } } }) === 'units=12', 'a saved Submittal review version gives its settings');
-ok(WB.calcUrl('units=60&county-select=08067', 'http://localhost/a/developer-deal-workbook.html') === 'http://localhost/a/deal-calculator.html?units=60&county-select=08067', 'the calculator link stays on the same folder');
+ok(WB.calcUrl('units=60&county-select=08067', 'http://localhost/a/developer-deal-workbook.html') === 'http://localhost/a/deal-calculator.html#v=1&units=60&county-select=08067', 'the calculator link stays on the same folder, the deal in its fragment');
+ok(WB.queryFrom('https://cohoanalytics.com/deal-calculator.html#v=1&county-select=08067&units=60') === 'county-select=08067&units=60', 'a share link with the deal in its fragment gives its settings');
+ok(WB.queryFrom('https://example.com/other.html#v=1&units=60') === null, 'a fragment deal on another page gives nothing');
 ok(WB.calcUrl('"><script>x</script>&units=1', 'http://localhost/a/p.html').indexOf('<') === -1, 'pasted markup is encoded, never passed through');
 ok(new URL(WB.calcUrl('javascript:alert(1)', 'http://localhost/a/p.html')).protocol === 'http:', 'a pasted script link cannot change where the link goes');
 ok(WB.queryFrom('https://example.com/search?q=housing') === null && WB.queryFrom('https://example.com/a=b') === null, 'a link to another page gives nothing');
@@ -832,7 +834,7 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   ok(back.getElementById('mcDeal').value === 'invented-silt-a1b2c3' && back.getElementById('mcName').value === 'Invented Silt', 'opened from the workbook, the bar saves the change as that deal\'s next version');
   ok((await memberBar('', listed)).getElementById('mcDeal').value === '', 'opened on its own, the bar starts a new deal');
   ok((await memberBar('#save-to=not-mine-123456', listed)).getElementById('mcDeal').value === '', 'a deal that is not on this sign-in is ignored');
-  ok(/calcUrl\(query, doc\.baseURI\) \+ \(ctx && ctx\.deal \? '#save-to=' \+ encodeURIComponent\(ctx\.deal\)/.test(read('js/whitepaper/deal-workbook.js')), 'the workbook sends a saved deal back to the calculator with its id');
+  ok(/calcHref = calcUrl\(query, doc\.baseURI\)[\s\S]{0,400}'save-to=' \+ encodeURIComponent\(ctx\.deal\)/.test(read('js/whitepaper/deal-workbook.js')), 'the workbook sends a saved deal back to the calculator with its id');
   // The save dock: the calculator's own gap record decides the line, so it can't disagree with Sources & Uses.
   ok(MC.gapLine({ value: 1558277 }, 'rental').kind === 'gap' && MC.gapLine({ value: 1558277 }, 'rental').text.includes('$1,558,277'), 'the dock shows the calculator\'s funding gap');
   ok(MC.gapLine({ value: 0 }, 'rental').kind === 'zero', 'a $0 gap is its own case, not a blank');
