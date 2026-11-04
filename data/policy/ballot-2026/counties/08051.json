@@ -191,12 +191,22 @@
         "checked": "2026-09-26"
       },
       "limitations": [
+        "Unofficial count read 2026-11-04 from the Gunnison County election night results page (last updated 11/3/2026 8:14 PM MST): Yes 256 (54.6%), No 213 (45.4%), 469 votes. No outcome is recorded yet because the margin is 43 votes and the county had posted only its first election-night count; ballots still being counted or cured could change it. Status stays on the ballot until a later count or the certified canvass settles it.",
         "The quote is from the sample ballot with line breaks normalized to single spaces.",
         "The referring resolution was not located: the town website (mtcrestedbuttecolorado.gov) could not be opened on 2026-09-26. No TABOR notice was posted as of 2026-09-26.",
         "The question states no duration or sunset."
       ],
       "result": null,
-      "history": [],
+      "history": [
+        {
+          "checked": "2026-11-04",
+          "note": "Unofficial count read 2026-11-04 from the Gunnison County election night results page (last updated 11/3/2026 8:14 PM MST): Yes 256 (54.6%), No 213 (45.4%), 469 votes. No outcome is recorded yet because the margin is 43 votes and the county had posted only its first election-night count; ballots still being counted or cured could change it. Status stays on the ballot until a later count or the certified canvass settles it.",
+          "source": {
+            "url": "https://results.enr.clarityelections.com/CO/Gunnison/127435/",
+            "retrieved": "2026-11-04"
+          }
+        }
+      ],
       "archived": false
     }
   ]

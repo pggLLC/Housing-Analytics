@@ -156,7 +156,7 @@
           "sunset": null
         }
       },
-      "status": "on_ballot",
+      "status": "passed",
       "sources": {
         "certification": null,
         "official_text": {
@@ -188,12 +188,30 @@
         "checked": "2026-09-26"
       },
       "limitations": [
+        "Unofficial result read 2026-11-04 from the Douglas County election night results page (last updated 11/4/2026 12:39 AM MST): Yes 5,624 (71.6%), No 2,235 (28.4%), 7,859 votes. Recorded as passed; the count is not final until the county canvass certifies it.",
         "Resolutions 26-50 and 26-51 set the ballot titles for the two citizen-initiated charter amendments but are scanned PDFs without searchable text; which resolution corresponds to which question was not established, so no resolution source is linked for either question. URLs: https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-50-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf ; https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-51-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf",
         "The city Notice of Election prints the statute citation as \"31-12-104(1)(A)\"; the county ballot prints \"(1)(a)\". The quote follows the county ballot.",
         "Classified under land use as a growth control (voter approval of annexations); the question creates no tax, fee or housing earmark."
       ],
-      "result": null,
-      "history": [],
+      "result": {
+        "outcome": "passed",
+        "stage": "unofficial",
+        "source": {
+          "url": "https://results.enr.clarityelections.com/CO/Douglas/127427/",
+          "retrieved": "2026-11-04"
+        },
+        "as_of": "2026-11-04"
+      },
+      "history": [
+        {
+          "checked": "2026-11-04",
+          "note": "Unofficial result read 2026-11-04 from the Douglas County election night results page (last updated 11/4/2026 12:39 AM MST): Yes 5,624 (71.6%), No 2,235 (28.4%), 7,859 votes. Recorded as passed; the count is not final until the county canvass certifies it.",
+          "source": {
+            "url": "https://results.enr.clarityelections.com/CO/Douglas/127427/",
+            "retrieved": "2026-11-04"
+          }
+        }
+      ],
       "archived": false
     },
     {
@@ -222,7 +240,7 @@
           "sunset": null
         }
       },
-      "status": "on_ballot",
+      "status": "passed",
       "sources": {
         "certification": null,
         "official_text": {
@@ -254,12 +272,30 @@
         "checked": "2026-09-26"
       },
       "limitations": [
+        "Unofficial result read 2026-11-04 from the Douglas County election night results page (last updated 11/4/2026 12:39 AM MST): Yes 5,015 (64.6%), No 2,747 (35.4%), 7,762 votes. Recorded as passed; the count is not final until the county canvass certifies it.",
         "Resolutions 26-50 and 26-51 set the ballot titles for the two citizen-initiated charter amendments but are scanned PDFs without searchable text; which resolution corresponds to which question was not established, so no resolution source is linked for either question. URLs: https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-50-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf ; https://www.castlepinesco.gov/wp-content/uploads/2026/09/Resolution-26-51-Setting-a-Ballot-Title-for-a-Citizen-Initiated-Amendment-to-the-Home-Rule-Charter-for-the-Coordinated-Election-on-Nov.-3.pdf",
         "The city Notice of Election prints the statute citation as \"31-12-104(1)(A)\"; the county ballot prints \"(1)(a)\". The quote follows the county ballot.",
         "Classified under land use as a growth control (voter approval of annexations); the question creates no tax, fee or housing earmark."
       ],
-      "result": null,
-      "history": [],
+      "result": {
+        "outcome": "passed",
+        "stage": "unofficial",
+        "source": {
+          "url": "https://results.enr.clarityelections.com/CO/Douglas/127427/",
+          "retrieved": "2026-11-04"
+        },
+        "as_of": "2026-11-04"
+      },
+      "history": [
+        {
+          "checked": "2026-11-04",
+          "note": "Unofficial result read 2026-11-04 from the Douglas County election night results page (last updated 11/4/2026 12:39 AM MST): Yes 5,015 (64.6%), No 2,747 (35.4%), 7,762 votes. Recorded as passed; the count is not final until the county canvass certifies it.",
+          "source": {
+            "url": "https://results.enr.clarityelections.com/CO/Douglas/127427/",
+            "retrieved": "2026-11-04"
+          }
+        }
+      ],
       "archived": false
     }
   ]

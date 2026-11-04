@@ -123,6 +123,7 @@
         "checked": "2026-09-26"
       },
       "limitations": [
+        "Unofficial count read 2026-11-04 from the Broomfield County election night results page (last updated 11/3/2026 10:55 PM MST): Yes 19,259 (50.7%), No 18,735 (49.3%), 37,994 votes. No outcome is recorded yet because the margin is under five points; ballots still being counted or cured could change it. Status stays on the ballot until a later count or the certified canvass settles it.",
         "The sample ballot prints the question in all capitals; the quote reproduces it as printed. The broomfield.org TABOR Notices page gives the same text in mixed case and states it 'will be in all caps on the ballots'.",
         "Row assignment: the City and County of Broomfield is a consolidated city-county. The sample ballot lists this question under the 'County Ballot Measures' section with a county-series number (1A) and the text refers to 'the City and County of Broomfield'; it is not labelled a city question, so it is attached to the county row (08014), not the Broomfield (city) row (0809280).",
         "Origin 'referred' is not stated on the ballot or TABOR page; the referring ordinance/resolution was not located or read. The TABOR page says the City and County is soliciting TABOR comments on it, and a search result mentions City Council Resolution No. 2026-126 'supporting' Ballot Item 1A (not read, not cited). As of 2026-09-26 the origin is kept as 'referred' provisionally, until the referring ordinance or resolution can be read.",
@@ -130,7 +131,16 @@
         "The sample ballot is hosted on Google Drive (folder linked from the official Broomfield Elections page), not on broomfield.org directly."
       ],
       "result": null,
-      "history": [],
+      "history": [
+        {
+          "checked": "2026-11-04",
+          "note": "Unofficial count read 2026-11-04 from the Broomfield County election night results page (last updated 11/3/2026 10:55 PM MST): Yes 19,259 (50.7%), No 18,735 (49.3%), 37,994 votes. No outcome is recorded yet because the margin is under five points; ballots still being counted or cured could change it. Status stays on the ballot until a later count or the certified canvass settles it.",
+          "source": {
+            "url": "https://results.enr.clarityelections.com/CO/Broomfield/127416/",
+            "retrieved": "2026-11-04"
+          }
+        }
+      ],
       "archived": false
     }
   ]

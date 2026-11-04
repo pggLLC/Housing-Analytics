@@ -117,7 +117,7 @@
           "sunset": null
         }
       },
-      "status": "on_ballot",
+      "status": "passed",
       "sources": {
         "certification": null,
         "official_text": {
@@ -148,13 +148,22 @@
         "checked": "2026-10-10"
       },
       "limitations": [
+        "Unofficial result read 2026-11-04 from the San Juan County election night results page (last updated 11/3/2026 11:18 PM MST): Yes 345 (60.0%), No 230 (40.0%), 575 votes. Recorded as passed; the count is not final until the county canvass certifies it.",
         "Status is on the ballot: the county's final sample ballot, read 2026-10-10, lists the measure as County Ballot Issue 1A under County Ballot Measures. The quoted question text is recorded from the county's draft resolution; no final TABOR notice was posted as of 2026-10-10.",
         "The issue number 1A is taken from the final sample ballot; the draft TABOR notice left the number blank.",
         "Adoption is recorded only in draft minutes: Resolution 2026-10 approved unanimously on Aug 12, 2026 (draft minutes in the Aug 26, 2026 packet at https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-26-26.pdf), and the draft TABOR notice accepted 'as presented' on Sep 9, 2026 (draft minutes in the Sep 23, 2026 packet at https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-23-26.pdf).",
         "Quote is transcribed from scanned page images of the draft resolution. The draft TABOR notice (PDF p.32 of the Sep 9 packet) has the same opening and closing text, but its middle lines are garbled in the scan, and it has a semicolon after '(3%)' where the resolution has a comma.",
         "The draft resolution's heading reads 'RESOLUTION NO. 2016-10'; the agenda and minutes call it Resolution 2026-10."
       ],
-      "result": null,
+      "result": {
+        "outcome": "passed",
+        "stage": "unofficial",
+        "source": {
+          "url": "https://results.enr.clarityelections.com/CO/San_Juan/127464/",
+          "retrieved": "2026-11-04"
+        },
+        "as_of": "2026-11-04"
+      },
       "history": [
         {
           "checked": "2026-10-10",
@@ -162,6 +171,14 @@
           "source": {
             "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/001---FINAL---SAMPLE.pdf",
             "retrieved": "2026-10-10"
+          }
+        },
+        {
+          "checked": "2026-11-04",
+          "note": "Unofficial result read 2026-11-04 from the San Juan County election night results page (last updated 11/3/2026 11:18 PM MST): Yes 345 (60.0%), No 230 (40.0%), 575 votes. Recorded as passed; the count is not final until the county canvass certifies it.",
+          "source": {
+            "url": "https://results.enr.clarityelections.com/CO/San_Juan/127464/",
+            "retrieved": "2026-11-04"
           }
         }
       ],

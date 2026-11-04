@@ -434,7 +434,7 @@
           "sunset": null
         }
       },
-      "status": "on_ballot",
+      "status": "passed",
       "sources": {
         "certification": null,
         "official_text": {
@@ -462,12 +462,30 @@
         "checked": "2026-09-26"
       },
       "limitations": [
+        "Unofficial result read 2026-11-04 from the Arapahoe County election night results page (last updated 11/3/2026 11:29 PM MST): Yes 2,210 (84.2%), No 414 (15.8%), 2,624 votes. Recorded as passed; the count is not final until the county canvass certifies it.",
         "No TABOR notice applies (not a tax/debt issue). Question text also matches the City's Election Information page, which states Council referred it by Ordinance 8, Series 2026 on August 18, 2026.",
         "Ordinance 8, Series 2026 PDF was downloaded but has no extractable text (image-only scan); its content was not read, so it is not cited as the resolution source.",
         "Classified as a land-use measure because it concerns authority over zoning, density and land use in relation to state mandates; the legal effect on state housing/land-use laws is not assessed here. Inclusion confirmed on review (2026-09-26)."
       ],
-      "result": null,
-      "history": [],
+      "result": {
+        "outcome": "passed",
+        "stage": "unofficial",
+        "source": {
+          "url": "https://results.enr.clarityelections.com/CO/Arapahoe/127409/",
+          "retrieved": "2026-11-04"
+        },
+        "as_of": "2026-11-04"
+      },
+      "history": [
+        {
+          "checked": "2026-11-04",
+          "note": "Unofficial result read 2026-11-04 from the Arapahoe County election night results page (last updated 11/3/2026 11:29 PM MST): Yes 2,210 (84.2%), No 414 (15.8%), 2,624 votes. Recorded as passed; the count is not final until the county canvass certifies it.",
+          "source": {
+            "url": "https://results.enr.clarityelections.com/CO/Arapahoe/127409/",
+            "retrieved": "2026-11-04"
+          }
+        }
+      ],
       "archived": false
     }
   ]
