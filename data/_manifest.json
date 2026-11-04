@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-04T16:35:59.400Z",
+    "generated_at": "2026-11-04T16:47:40.723Z",
     "root": "data/",
     "file_count": 2013,
-    "total_size_bytes": 214794711,
+    "total_size_bytes": 214797564,
     "kinds": {
       "json": 1964,
       "geojson": 35,
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-04T16:35:56.312Z",
+      "mtime": "2026-11-04T16:47:36.346Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -40014,7 +40014,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-04T16:35:57.739Z",
+      "mtime": "2026-11-04T16:47:38.495Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40038,7 +40038,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-04T16:35:57.395Z",
+      "mtime": "2026-11-04T16:47:37.980Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42636,8 +42636,8 @@
     {
       "path": "policy/leading-signals.json",
       "kind": "json",
-      "size_bytes": 219690,
-      "mtime": "2026-11-04T13:20:52.716Z",
+      "size_bytes": 219795,
+      "mtime": "2026-11-04T16:45:36.450Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42978,8 +42978,8 @@
     {
       "path": "policy/prop123_jurisdictions.json",
       "kind": "json",
-      "size_bytes": 143647,
-      "mtime": "2026-10-29T08:36:09.658Z",
+      "size_bytes": 146395,
+      "mtime": "2026-11-04T16:45:36.452Z",
       "shape": "object",
       "keys": [
         "updated",

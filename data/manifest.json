@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-04T16:36:02.359364Z",
+  "generated": "2026-11-04T16:47:45.376325Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9754,7 +9754,7 @@
     "data/policy/leading-signals.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 219690
+      "bytes": 219795
     },
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
@@ -9819,7 +9819,7 @@
     "data/policy/prop123_jurisdictions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 143647
+      "bytes": 146395
     },
     "data/policy/resale-conventions.json": {
       "featureCount": 0,
