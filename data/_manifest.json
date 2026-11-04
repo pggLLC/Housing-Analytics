@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-04T17:14:00.764Z",
+    "generated_at": "2026-11-04T18:37:36.658Z",
     "root": "data/",
     "file_count": 2015,
-    "total_size_bytes": 218182068,
+    "total_size_bytes": 218201063,
     "kinds": {
       "json": 1966,
       "geojson": 35,
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-04T17:13:56.302Z",
+      "mtime": "2026-11-04T18:37:32.224Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -37042,8 +37042,8 @@
     {
       "path": "jurisdiction-briefs/08045.json",
       "kind": "json",
-      "size_bytes": 36684,
-      "mtime": "2026-11-03T02:07:34.313Z",
+      "size_bytes": 38020,
+      "mtime": "2026-11-04T18:35:32.828Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -37060,7 +37060,7 @@
       ],
       "key_count": 11,
       "primary_array_key": "sources",
-      "primary_array_length": 61,
+      "primary_array_length": 64,
       "primary_array_first_keys": [
         "id",
         "label",
@@ -38247,8 +38247,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 255851,
-      "mtime": "2026-11-04T16:35:14.123Z",
+      "size_bytes": 256106,
+      "mtime": "2026-11-04T18:36:53.290Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39304,8 +39304,8 @@
     {
       "path": "market/market-types.json",
       "kind": "json",
-      "size_bytes": 432887,
-      "mtime": "2026-11-04T06:11:31.586Z",
+      "size_bytes": 433191,
+      "mtime": "2026-11-04T18:35:32.966Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -40047,7 +40047,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-04T17:13:58.525Z",
+      "mtime": "2026-11-04T18:37:34.431Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40071,7 +40071,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-04T17:13:57.995Z",
+      "mtime": "2026-11-04T18:37:33.886Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42175,8 +42175,8 @@
     {
       "path": "policy/fee-reductions.json",
       "kind": "json",
-      "size_bytes": 583576,
-      "mtime": "2026-10-29T14:08:01.107Z",
+      "size_bytes": 595555,
+      "mtime": "2026-11-04T18:35:33.069Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42186,7 +42186,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "entries",
-      "primary_array_length": 118,
+      "primary_array_length": 120,
       "primary_array_first_keys": [
         "id",
         "state",
@@ -42575,8 +42575,8 @@
     {
       "path": "policy/incentive-coverage.json",
       "kind": "json",
-      "size_bytes": 38427,
-      "mtime": "2026-10-23T03:48:58.760Z",
+      "size_bytes": 40450,
+      "mtime": "2026-11-04T18:35:33.072Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42585,7 +42585,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "jurisdictions",
-      "primary_array_length": 43,
+      "primary_array_length": 46,
       "primary_array_first_keys": [
         "geoid",
         "jurisdiction",
@@ -42669,8 +42669,8 @@
     {
       "path": "policy/leading-signals.json",
       "kind": "json",
-      "size_bytes": 219795,
-      "mtime": "2026-11-04T16:45:36.450Z",
+      "size_bytes": 220317,
+      "mtime": "2026-11-04T18:35:33.074Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42800,8 +42800,8 @@
     {
       "path": "policy/local-housing-funds.json",
       "kind": "json",
-      "size_bytes": 144873,
-      "mtime": "2026-10-23T03:48:58.761Z",
+      "size_bytes": 147449,
+      "mtime": "2026-11-04T18:35:33.075Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42810,7 +42810,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 57,
+      "primary_array_length": 58,
       "primary_array_first_keys": [
         "id",
         "geoid",
@@ -43370,7 +43370,7 @@
       "path": "policy_briefs_curated.json",
       "kind": "json",
       "size_bytes": 234286,
-      "mtime": "2026-11-04T16:35:14.314Z",
+      "mtime": "2026-11-04T18:35:33.085Z",
       "shape": "object",
       "keys": [
         "meta",

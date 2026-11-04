@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T17:13:17.267Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T18:36:53.341Z. Do not edit by hand.
 
 ---
 
@@ -101,7 +101,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1001.5 KB | ✅ | — |
+| `data/_manifest.json` | 1002.3 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -1804,7 +1804,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/insights/catalog.json` | 12.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 37.1 KB | ✅ | — |
-| `data/jurisdiction-briefs/08045.json` | 35.8 KB | ✅ | — |
+| `data/jurisdiction-briefs/08045.json` | 37.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 36.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/0810105.json` | 22.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0812045.json` | 33.5 KB | ✅ | — |
@@ -1848,7 +1848,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 13.2 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 249.9 KB | ✅ | — |
+| `data/manifest.json` | 250.1 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1889,7 +1889,7 @@
 | `data/market/lodes_co.json` | 663.9 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
 | `data/market/market-direction.json` | 755.9 KB | ✅ | — |
-| `data/market/market-types.json` | 422.7 KB | ✅ | — |
+| `data/market/market-types.json` | 423.0 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
@@ -1999,7 +1999,7 @@
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 21.9 KB | ✅ | — |
-| `data/policy/fee-reductions.json` | 569.9 KB | ✅ | — |
+| `data/policy/fee-reductions.json` | 581.6 KB | ✅ | — |
 | `data/policy/funding-awards/award-rows.json` | 254.7 KB | ✅ | — |
 | `data/policy/funding-awards/developer-aliases.json` | 7.4 KB | ✅ | — |
 | `data/policy/funding-awards/documents.json` | 47.7 KB | ✅ | — |
@@ -2016,16 +2016,16 @@
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
 | `data/policy/incentive-alternatives.json` | 56.7 KB | ✅ | — |
-| `data/policy/incentive-coverage.json` | 37.5 KB | ✅ | — |
+| `data/policy/incentive-coverage.json` | 39.5 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 4.3 KB | ✅ | — |
 | `data/policy/job-access.json` | 104.3 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
-| `data/policy/leading-signals.json` | 214.6 KB | ✅ | — |
+| `data/policy/leading-signals.json` | 215.2 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.9 KB | ✅ | — |
 | `data/policy/lihtc-underwriting-rules.json` | 23.7 KB | ✅ | — |
 | `data/policy/local-commitment.json` | 64.1 KB | ✅ | — |
-| `data/policy/local-housing-funds.json` | 141.5 KB | ✅ | — |
+| `data/policy/local-housing-funds.json` | 144.0 KB | ✅ | — |
 | `data/policy/local-support.json` | 154.9 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.4 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 17.4 KB | ✅ | — |
