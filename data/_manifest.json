@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-04T13:16:13.514Z",
+    "generated_at": "2026-11-04T13:21:57.233Z",
     "root": "data/",
     "file_count": 2013,
-    "total_size_bytes": 214787943,
+    "total_size_bytes": 214809044,
     "kinds": {
       "json": 1964,
       "geojson": 35,
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-04T07:06:42.870Z",
+      "mtime": "2026-11-04T13:21:52.773Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -26017,8 +26017,8 @@
     {
       "path": "hna/second-homes-str.json",
       "kind": "json",
-      "size_bytes": 261439,
-      "mtime": "2026-10-23T03:48:58.446Z",
+      "size_bytes": 261433,
+      "mtime": "2026-11-04T13:20:52.332Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -40014,7 +40014,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16687,
-      "mtime": "2026-11-04T07:06:44.593Z",
+      "mtime": "2026-11-04T13:21:55.008Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40038,7 +40038,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-04T07:06:44.175Z",
+      "mtime": "2026-11-04T13:21:54.460Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -40166,8 +40166,8 @@
     {
       "path": "policy/ballot-2026/counties/08005.json",
       "kind": "json",
-      "size_bytes": 26848,
-      "mtime": "2026-10-20T14:15:42.011Z",
+      "size_bytes": 27849,
+      "mtime": "2026-11-04T13:20:52.704Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -40297,8 +40297,8 @@
     {
       "path": "policy/ballot-2026/counties/08014.json",
       "kind": "json",
-      "size_bytes": 9383,
-      "mtime": "2026-10-20T14:15:42.012Z",
+      "size_bytes": 10406,
+      "mtime": "2026-11-04T13:20:52.704Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -40323,8 +40323,8 @@
     {
       "path": "policy/ballot-2026/counties/08015.json",
       "kind": "json",
-      "size_bytes": 8202,
-      "mtime": "2026-10-20T14:15:42.012Z",
+      "size_bytes": 9203,
+      "mtime": "2026-11-04T13:20:52.704Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -40582,8 +40582,8 @@
     {
       "path": "policy/ballot-2026/counties/08035.json",
       "kind": "json",
-      "size_bytes": 14257,
-      "mtime": "2026-10-20T14:15:42.013Z",
+      "size_bytes": 16259,
+      "mtime": "2026-11-04T13:20:52.704Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -40789,8 +40789,8 @@
     {
       "path": "policy/ballot-2026/counties/08051.json",
       "kind": "json",
-      "size_bytes": 9774,
-      "mtime": "2026-10-20T14:15:42.014Z",
+      "size_bytes": 10877,
+      "mtime": "2026-11-04T13:20:52.705Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -40893,8 +40893,8 @@
     {
       "path": "policy/ballot-2026/counties/08059.json",
       "kind": "json",
-      "size_bytes": 15115,
-      "mtime": "2026-10-20T14:15:42.014Z",
+      "size_bytes": 16130,
+      "mtime": "2026-11-04T13:20:52.705Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41568,8 +41568,8 @@
     {
       "path": "policy/ballot-2026/counties/08111.json",
       "kind": "json",
-      "size_bytes": 10312,
-      "mtime": "2026-10-20T14:15:42.018Z",
+      "size_bytes": 11299,
+      "mtime": "2026-11-04T13:20:52.707Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42636,8 +42636,8 @@
     {
       "path": "policy/leading-signals.json",
       "kind": "json",
-      "size_bytes": 219482,
-      "mtime": "2026-11-04T05:37:06.043Z",
+      "size_bytes": 219690,
+      "mtime": "2026-11-04T13:20:52.716Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43336,8 +43336,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 221504,
-      "mtime": "2026-11-04T02:15:28.032Z",
+      "size_bytes": 234271,
+      "mtime": "2026-11-04T13:20:52.729Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43345,7 +43345,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 12,
+      "primary_array_length": 13,
       "primary_array_first_keys": [
         "id",
         "title",

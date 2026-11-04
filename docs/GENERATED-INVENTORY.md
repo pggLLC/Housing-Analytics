@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T07:06:10.494Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T13:21:11.456Z. Do not edit by hand.
 
 ---
 
@@ -101,7 +101,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1001.4 KB | ✅ | — |
+| `data/_manifest.json` | 1001.5 KB | ✅ | — |
 | `data/_qa-status.json` | 7.5 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -118,15 +118,15 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 1.38 MB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 36.0 KB | ✅ | — |
-| `data/alerts/outlet-decisions.json` | 183 B | ✅ | — |
+| `data/alerts/alerts_archive.json` | 1.47 MB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 37.6 KB | ✅ | — |
+| `data/alerts/outlet-decisions.json` | 1.9 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 24.6 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 17.2 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
-| `data/audit/chfa-qap-watch.json` | 3.42 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 659.9 KB | ✅ | — |
+| `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
+| `data/audit/funding-watch.json` | 658.6 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 545 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -1922,13 +1922,13 @@
 | `data/policy/affordability-models.json` | 14.6 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08001.json` | 16.5 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08003.json` | 9.2 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08005.json` | 26.2 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08005.json` | 27.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08007.json` | 3.7 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08009.json` | 20.6 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08011.json` | 6.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08013.json` | 18.2 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08014.json` | 9.2 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08015.json` | 8.0 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08014.json` | 10.2 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08015.json` | 9.0 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08017.json` | 5.5 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08019.json` | 11.8 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08021.json` | 8.7 KB | ✅ | — |
@@ -1938,7 +1938,7 @@
 | `data/policy/ballot-2026/counties/08029.json` | 8.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08031.json` | 4.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08033.json` | 6.0 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08035.json` | 13.9 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08035.json` | 15.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08037.json` | 9.3 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08039.json` | 8.4 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08041.json` | 7.4 KB | ✅ | — |
@@ -1946,11 +1946,11 @@
 | `data/policy/ballot-2026/counties/08045.json` | 9.3 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08047.json` | 4.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08049.json` | 8.9 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08051.json` | 9.5 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08051.json` | 10.6 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08053.json` | 2.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08055.json` | 5.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08057.json` | 5.1 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08059.json` | 14.8 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08059.json` | 15.8 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08061.json` | 10.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08063.json` | 15.6 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08065.json` | 3.6 KB | ✅ | — |
@@ -1976,7 +1976,7 @@
 | `data/policy/ballot-2026/counties/08105.json` | 15.4 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08107.json` | 11.7 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08109.json` | 14.0 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08111.json` | 10.1 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08111.json` | 11.0 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08113.json` | 13.6 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08115.json` | 4.6 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08117.json` | 14.2 KB | ✅ | — |
@@ -2019,7 +2019,7 @@
 | `data/policy/job-access.json` | 104.3 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
-| `data/policy/leading-signals.json` | 214.3 KB | ✅ | — |
+| `data/policy/leading-signals.json` | 214.5 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.9 KB | ✅ | — |
 | `data/policy/lihtc-underwriting-rules.json` | 23.7 KB | ✅ | — |
 | `data/policy/local-commitment.json` | 64.1 KB | ✅ | — |
@@ -2044,11 +2044,11 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 513.2 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 216.3 KB | ✅ | — |
+| `data/policy_briefs.json` | 521.8 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 228.8 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 196.3 KB | ✅ | — |
+| `data/polymarket-history.json` | 198.5 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2141,7 +2141,7 @@
 | `test/co-historical-allocations.test.js` | 12.9 KB |
 | `test/co-lihtc-map.test.js` | 8.8 KB |
 | `test/coho-reminders.test.mjs` | 15.7 KB |
-| `test/colorado-elections.test.mjs` | 38.1 KB |
+| `test/colorado-elections.test.mjs` | 38.5 KB |
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/colorado-guide-detail.test.js` | 13.3 KB |
 | `test/combined-geo.test.js` | 50.8 KB |
