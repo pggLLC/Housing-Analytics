@@ -88,13 +88,21 @@ def main():
 
     # Land banking awards with their status
     lb = load(P('data', 'policy', 'prop123-land-banking-awards.json'))
-    st = load(P('data', 'policy', 'prop123-land-banking-status.json'))['status']
+    lbs = load(P('data', 'policy', 'prop123-land-banking-status.json'))
+    st, st_labels = lbs['status'], lbs['meta'].get('labels', {})
     for a in lb['awards']:
         s = st.get(a['id'], {})
+        # A land award buys land; it is not building money. Only a recorded
+        # later state award for the building counts as one. Every other status
+        # means none was found in the sources checked, which is not proof that
+        # none exists: the label keeps "no later state funding on record" and
+        # "no public next step found" apart.
         row = {'project': a.get('project'), 'sponsor': a.get('sponsor'), 'round': a.get('round'),
                'amount_awarded': a.get('amount_awarded'), 'estimated_units': a.get('estimated_units'),
-               'purpose': a.get('purpose'), 'status': s.get('status'), 'status_text': s.get('text'),
-               'financed': s.get('status') == 'financed', 'source_url': a.get('source_url')}
+               'purpose': a.get('purpose'), 'status': s.get('status'),
+               'status_label': st_labels.get(s.get('status')), 'status_text': s.get('text'),
+               'building_finance': 'award_recorded' if s.get('status') == 'financed' else 'none_found_in_checked_sources',
+               'source_url': a.get('source_url')}
         for pl in a.get('places') or []:
             add(pl['geoid'], 'land_banking', row)
 
@@ -187,7 +195,8 @@ def main():
     for rec in places.values():
         s = rec['signals']
         rec['counts'] = {k: len(v) for k, v in sorted(s.items())}
-        rec['land_banked_not_financed'] = sum(1 for r in s.get('land_banking', []) if not r['financed'])
+        rec['land_banked_no_building_award_found'] = sum(
+            1 for r in s.get('land_banking', []) if r['building_finance'] != 'award_recorded')
 
     meta = {
         'title': 'Leading signals: dated public facts that usually come before an affordable housing application',
@@ -198,6 +207,10 @@ def main():
                    'data/policy/local-housing-funds.json', 'data/policy/ballot-2026/counties/*.json',
                    'data/market/development-activity.json', 'data/hna/geo-config.json'],
         'not_scored': 'Facts only. No signal is weighted or added to another.',
+        'land_banking_note': ('building_finance is "award_recorded" only where a later state award for the building '
+                              'is on record. "none_found_in_checked_sources" means no building-finance award was '
+                              'found in the checked sources (state award records and dated public sources), not '
+                              'that none exists. A land award is not building finance.'),
         'ballot_note': 'Results for the 3 November 2026 measures are null until the county clerk publishes them; '
                        'unofficial results are labelled unofficial until certification.',
         'geographies': len(places),

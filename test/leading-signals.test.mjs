@@ -30,10 +30,15 @@ for (const [geoid, rec] of Object.entries(data.places)) {
         assert.ok(r.result === null || r.result_source, `${r.id}: a result needs its clerk source`);
         assert.ok(r.result_status, `${r.id}: result_status is required`);
       }
-      if (kind === 'land_banking') assert.equal(r.financed, r.status === 'financed');
+      if (kind === 'land_banking') {
+        assert.equal(r.financed, undefined, 'no true/false financed flag: absence of a record is not a "no"');
+        assert.equal(r.building_finance, r.status === 'financed' ? 'award_recorded' : 'none_found_in_checked_sources');
+        assert.ok(r.status == null || r.status_label, `${r.project}: status ${r.status} carries its label`);
+      }
     }
   }
-  assert.equal(rec.land_banked_not_financed, (rec.signals.land_banking || []).filter((r) => !r.financed).length);
+  assert.equal(rec.land_banked_no_building_award_found,
+    (rec.signals.land_banking || []).filter((r) => r.building_finance !== 'award_recorded').length);
 }
 // Every 2027-2029 filing lands on a place of its own kind: "City of Ouray" and
 // "Ouray County" share a name once normalised, and each keeps its own goal.
