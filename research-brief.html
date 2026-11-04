@@ -41,6 +41,9 @@
     .brief-reader .brief-table--text th, .brief-reader .brief-table--text td { text-align: left !important; width: auto !important; font-variant-numeric: normal; }
     .brief-reader .brief-note { color: var(--muted); font-size: var(--small); }
     /* Steps diagram: a row of stages from most public to most private; stacks on phones. */
+    .brief-reader .brief-figure { margin: var(--sp4) 0; }
+    .brief-reader .brief-figure img { display: block; width: 100%; max-width: 640px; height: auto; border: 1px solid var(--border); border-radius: var(--radius); background: #ffffff; }
+    .brief-reader .brief-figure figcaption { font-size: var(--small); color: var(--muted); margin-top: var(--sp2); max-width: 640px; }
     .brief-reader .brief-steps { margin: var(--sp4) 0; }
     .brief-reader .brief-steps figcaption { font-weight: 700; margin-bottom: var(--sp2); }
     .brief-reader .brief-steps ol { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: var(--sp3); counter-reset: step; }
@@ -317,6 +320,24 @@
             el('span', 'More public', ends);
             ends.appendChild(document.createTextNode(' '));
             el('span', 'More private', ends);
+          }
+          // A picture built from the site's own data (an SVG under assets/briefs/). Only
+          // same-site files under that folder load; the alt text carries every number,
+          // and the caption names the source and the date it was read.
+          var fig = item.figure;
+          if (fig && typeof fig.src === 'string' && /^assets\/briefs\/[\w\-\/]+\.svg$/.test(fig.src) && typeof fig.alt === 'string' && fig.alt) {
+            var figure2 = el('figure', undefined, node, 'brief-figure');
+            figure2.dataset.figure = item.id;
+            var img = el('img', undefined, figure2);
+            img.src = fig.src;
+            img.alt = fig.alt;
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            var cap = el('figcaption', fig.caption || '', figure2);
+            if (fig.source && typeof fig.source.url === 'string') {
+              if (fig.caption) cap.appendChild(document.createTextNode(' '));
+              link(cap, fig.source.text || 'Source', fig.source.url);
+            }
           }
           // A pointer to another page on this site. Only same-site pages are linked.
           var see = item.see_also;

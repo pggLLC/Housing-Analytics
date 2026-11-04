@@ -155,6 +155,60 @@
           "source": "Brennan Center for Justice",
           "link": "https://www.brennancenter.org/media/16355/download/2026-colorado-certification-guide_final.pdf",
           "date": ""
+        },
+        {
+          "title": "Appropriations Measures for Fiscal Years Coinciding with Lame Duck Sessions (CRS R46574)",
+          "link": "https://www.everycrsreport.com/reports/R46574.html",
+          "source": "Congressional Research Service",
+          "date": "2026-08-31"
+        },
+        {
+          "title": "Roll Call 224: H.R. 6644, Housing for the 21st Century Act",
+          "link": "https://clerk.house.gov/Votes/2026224",
+          "source": "Clerk of the U.S. House",
+          "date": "2026-06-23"
+        },
+        {
+          "title": "Senate sends bipartisan housing package back to House for final approval",
+          "link": "https://m.washingtontimes.com/news/2026/jun/22/senate-sends-bipartisan-housing-package-back-house-final-approval/",
+          "source": "Washington Times",
+          "date": "2026-06-22"
+        },
+        {
+          "title": "Full-year HUD funding signed into law, ending short partial government shutdown",
+          "link": "https://www.ballardspahr.com/insights/alerts-and-articles/2026/02/full-year-hud-funding-signed-into-law-ending-short-partial-government-shutdown",
+          "source": "Ballard Spahr",
+          "date": "2026-02"
+        },
+        {
+          "title": "Measure that would increase housing density near transit earns final Colorado Senate approval",
+          "link": "https://coloradonewsline.com/2024/05/07/housing-density-transit-colorado-senate/",
+          "source": "Colorado Newsline",
+          "date": "2024-05-07"
+        },
+        {
+          "title": "Major Colorado land use bill dies in final hours of 2023 legislative session",
+          "link": "https://pagosadailypost.com/?p=102211",
+          "source": "Pagosa Daily Post",
+          "date": "2023-05"
+        },
+        {
+          "title": "Colorado budget would cut money from state's affordable housing funds",
+          "link": "https://coloradonewsline.com/2026/04/09/colorado-budget-would-cut-money-from-states-affordable-housing-funds/",
+          "source": "Colorado Newsline",
+          "date": "2026-04-09"
+        },
+        {
+          "title": "SB25-313, Proposition 123 Revenue Uses",
+          "link": "https://open.pluralpolicy.com/co/bills/2025A/SB25-313",
+          "source": "Plural Policy",
+          "date": "2025-05-30"
+        },
+        {
+          "title": "Recent housing roll calls and lame-duck funding outcomes (site data)",
+          "link": "https://cohoanalytics.com/data/policy/housing-roll-calls.json",
+          "source": "COHO Analytics",
+          "date": "2026-11-04"
         }
       ],
       "alert_count": 0,
@@ -162,7 +216,93 @@
         "United States",
         "Colorado"
       ],
-      "generated": "2026-11-04T00:00:00Z"
+      "generated": "2026-11-04T00:00:00Z",
+      "sections": [
+        {
+          "id": "local-measures-map",
+          "heading": "Colorado's local housing measures on one map",
+          "paragraphs": [
+            "These are the eight local measures the site tracks: four that raise money for housing or homelessness and four on land use and growth. All counts are unofficial until each county certifies, by November 25."
+          ],
+          "figure": {
+            "src": "assets/briefs/election-2026/local-measures-map.svg",
+            "alt": "Map of Colorado with eight numbered dots. 1 Broomfield 1A, lodging tax for the Housing Authority, too close to call at 50.7% yes. 2 Lakewood 2G, sales tax for public safety including homelessness, failed with 40.4% yes. 3 Cherry Hills Village 2C, local-only zoning in the charter, passed with 84.2% yes. 4 Castle Pines 300, vote required to annex 20 or more acres, passed with 71.6% yes. 5 Castle Pines 301, refer recent annexations to voters, passed with 64.6% yes. 6 Mt. Crested Butte 2A, short-term rental tax for housing, too close to call at 54.6% yes. 7 Salida 5-H R-2 rezoning, failed with 37.5% yes. 8 San Juan County 1A, lodging tax with 45% to housing and child care, passed with 60.0% yes. Unofficial results as of November 4, 2026.",
+            "caption": "Unofficial results. Blue passed, orange failed, grey too close to call.",
+            "source": {
+              "text": "County results pages (SOS Clarity ENR), read November 4, 2026",
+              "url": "https://results.enr.clarityelections.com/CO/127407/"
+            }
+          }
+        },
+        {
+          "id": "local-measures-yes-share",
+          "heading": "How close each local vote was",
+          "paragraphs": [
+            "Mountain lodging and short-term rental taxes cleared 50% or are leading. The one Front Range sales tax lost. Voters backed local control of land use by wide margins and turned down the one rezoning on the ballot."
+          ],
+          "figure": {
+            "src": "assets/briefs/election-2026/local-measures-yes-share.svg",
+            "alt": "Bar chart of the yes share. Money measures: San Juan County 1A 60.0% passed; Mt. Crested Butte 2A 54.6% too close; Broomfield 1A 50.7% too close; Lakewood 2G 40.4% failed. Land use: Cherry Hills Village 2C 84.2% passed; Castle Pines 300 71.6% passed; Castle Pines 301 64.6% passed; Salida 5-H R-2 37.5% failed. A dashed line marks 50%. Unofficial, November 4, 2026.",
+            "caption": "Unofficial yes share. Each measure needs a simple majority.",
+            "source": {
+              "text": "County results pages (SOS Clarity ENR), read November 4, 2026",
+              "url": "https://results.enr.clarityelections.com/CO/127407/"
+            }
+          }
+        },
+        {
+          "id": "local-measures-money",
+          "heading": "Money at stake",
+          "paragraphs": [
+            "Each figure is the first-year revenue cap written into the ballot question. About $5.8 million a year for housing rides on Broomfield and Mt. Crested Butte, both still too close to call."
+          ],
+          "figure": {
+            "src": "assets/briefs/election-2026/local-measures-money.svg",
+            "alt": "Bar chart of first-year revenue caps. Lakewood 2G $17.6 million for all uses, failed. Broomfield 1A $3.3 million, too close. Mt. Crested Butte 2A $2.5 million, too close. San Juan County 1A $84,494, passed, of which 45% goes to workforce housing and child care. Unofficial, November 4, 2026.",
+            "caption": "Revenue caps from the ballot text; outcomes unofficial.",
+            "source": {
+              "text": "County results pages (SOS Clarity ENR), read November 4, 2026",
+              "url": "https://results.enr.clarityelections.com/CO/127407/"
+            }
+          }
+        },
+        {
+          "id": "past-votes",
+          "heading": "How recent housing bills passed",
+          "paragraphs": [
+            "Past votes are the best guide to the next ones. In Congress, housing supply bills pass with big bipartisan margins: every Democrat and most Republicans voted for the ROAD to Housing Act, and seven of Colorado's eight House members voted yes. It became law without the President's signature. At the Capitol in Denver, the Senate is where land-use bills get tight: the transit-housing bill passed 19 to 15 with four Democrats voting no, and the 2023 land-use bill died there."
+          ],
+          "figure": {
+            "src": "assets/briefs/election-2026/housing-roll-calls.svg",
+            "alt": "Bar chart of four roll calls. U.S. House, ROAD to Housing Act, June 23, 2026: 358 yes, 32 no; Democrats 191 to 0, Republicans 166 to 32; Colorado 7 of 8 yes, Boebert no. U.S. Senate, same act, June 22, 2026: 85 to 5. Colorado House, HB24-1313, April 2024: 37 to 24. Colorado Senate, HB24-1313, May 7, 2024: 19 to 15, with 4 Democrats voting no.",
+            "caption": "Final-passage votes.",
+            "source": {
+              "text": "House Clerk, Roll Call 224, June 23, 2026",
+              "url": "https://clerk.house.gov/Votes/2026224"
+            }
+          },
+          "note": "Senate tally: Washington Times, June 22, 2026. Colorado tallies: Colorado Newsline, May 7, 2024. Became law without signature: Sen. Hickenlooper release, July 13, 2026."
+        },
+        {
+          "id": "outlook",
+          "heading": "What to expect in the next votes",
+          "paragraphs": [
+            "These are our reads, not forecasts with odds. Each one is followed by the past record it rests on. We will check them against the results and say when one was wrong."
+          ],
+          "note": "Sources for the record: CRS Report R46574 (updated August 31, 2026), Ballard Spahr (February 2026), Colorado Newsline (May 7, 2024 and April 9, 2026), Pagosa Daily Post (May 2023), Plural Policy (SB25-313). Each is listed under Sources below.",
+          "items_heading": "Upcoming housing votes: our read, then the record behind it",
+          "items": [
+            "Broomfield 1A and Mt. Crested Butte 2A final counts (county canvass by Nov. 25, 2026). Our read: Toss-ups, with yes ahead in both. Record: Broomfield leads by 524 of 37,994 votes; Mt. Crested Butte by 43 votes on the first count only.",
+            "Federal funding after Dec. 11 (Dec. 11, 2026). Our read: Most likely a stopgap into early 2027, leaving HUD's full-year bill to the new Congress. A shutdown is possible. Record: Since 1994, regular funding bills were finished in only 5 of 15 lame-duck sessions (CRS, Aug. 31, 2026). After the House changed hands in 2006 and 2010, Congress passed stopgaps; in 2018 it ended in a 34-day lapse. FY2026 HUD money came only on Feb. 3, 2026, after a short lapse.",
+            "The House's 8% HUD cut (FY2027 bill). Our read: Unlikely to become law as written. Record: A stopgap holds programs at current levels, and the new Democratic House will write the final bill.",
+            "Bipartisan supply and tax-credit bills (2027). Our read: Good chance if they keep Republican cosponsors; credit changes most likely ride a tax package. Record: The ROAD to Housing Act passed 358-32 and 85-5 and became law without a veto.",
+            "Democratic-only bills, such as a voucher expansion or a public housing fund (2027-2028). Our read: Unlikely to become law before 2029. Record: Democrats lack 60 Senate votes, and the President has threatened vetoes.",
+            "Colorado's U.S. House members on housing bills (2027). Our read: Expect 7 or 8 of 8 yes on bipartisan bills. Record: 7 of 8 voted yes on the ROAD to Housing Act. The one no, Boebert, trails in CD4 on the unofficial count.",
+            "State land-use bills (parking, lot size, permit deadlines) (2027 session, January to May). Our read: More likely to pass than in 2023 or 2024; the Senate is still the hurdle. Record: HB24-1313 passed the Senate 19-15 with four Democrats voting no; SB23-213 died there in 2023. Democrats lead 16 of the 21 Senate races on the ballot.",
+            "Prop 123 money in the 2027 state budget (March 2027 forecast, then the spring budget). Our read: Some risk of another transfer, lower if Amendment 87 holds. Record: The legislature reached into Prop 123 two years running: SB25-313 widened its uses in 2025, and HB26-1360 moved $130 million to the general fund in 2026. Prop NN now limits when cuts can be made."
+          ]
+        }
+      ]
     },
     {
       "id": "minneapolis-fed-hpop-2026",

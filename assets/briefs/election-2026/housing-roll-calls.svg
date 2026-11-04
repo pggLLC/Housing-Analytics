@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 349" width="420" height="349" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title id="t">How recent housing bills passed</title>
+<desc id="d">Bar chart of four housing roll calls. U.S. House, ROAD to Housing Act (H.R. 6644), final House vote, 2026-06-23: 358 yes, 32 no; U.S. Senate, ROAD to Housing Act (H.R. 6644), Senate passage of the final version, 2026-06-22: 85 yes, 5 no; Colorado House, HB24-1313, housing near transit, House passage, 2024-04: 37 yes, 24 no; Colorado Senate, HB24-1313, housing near transit, final Senate passage, 2024-05-07: 19 yes, 15 no.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="16.0" y="24.0" font-size="16" font-weight="700" fill="#1d2329" text-anchor="start">How recent housing bills passed</text>
+<text x="16.0" y="44.0" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">Yes and no votes on final passage.</text>
+<text x="16.0" y="82.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">U.S. House – ROAD to Housing Act (H.R. 6644) (2026-06-23)</text>
+<rect x="16" y="88.0" width="275.4" height="16" fill="#1f5f99"/>
+<rect x="291.4" y="88.0" width="24.6" height="16" fill="#b3541e"/>
+<text x="324.0" y="101.0" font-size="13" font-weight="700" fill="#1d2329" text-anchor="start">358–32</text>
+<text x="16.0" y="120.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="start">Democrats 191–0, Republicans 166–32. Colorado: 7 of 8 yes (no:</text>
+<text x="16.0" y="135.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="start">Boebert).</text>
+<text x="16.0" y="155.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">U.S. Senate – ROAD to Housing Act (H.R. 6644) (2026-06-22)</text>
+<rect x="16" y="161.0" width="283.3" height="16" fill="#1f5f99"/>
+<rect x="299.3" y="161.0" width="16.7" height="16" fill="#b3541e"/>
+<text x="324.0" y="174.0" font-size="13" font-weight="700" fill="#1d2329" text-anchor="start">85–5</text>
+<text x="16.0" y="197.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Colorado House – HB24-1313 (2024-04)</text>
+<rect x="16" y="203.0" width="182.0" height="16" fill="#1f5f99"/>
+<rect x="198.0" y="203.0" width="118.0" height="16" fill="#b3541e"/>
+<text x="324.0" y="216.0" font-size="13" font-weight="700" fill="#1d2329" text-anchor="start">37–24</text>
+<text x="16.0" y="239.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Colorado Senate – HB24-1313 (2024-05-07)</text>
+<rect x="16" y="245.0" width="167.6" height="16" fill="#1f5f99"/>
+<rect x="183.6" y="245.0" width="132.4" height="16" fill="#b3541e"/>
+<text x="324.0" y="258.0" font-size="13" font-weight="700" fill="#1d2329" text-anchor="start">19–15</text>
+<text x="16.0" y="277.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="start">4 Democrats voted no. Two switched votes and it fails.</text>
+<rect x="16" y="289.0" width="12" height="12" fill="#1f5f99"/>
+<text x="34.0" y="299.0" font-size="12" font-weight="400" fill="#1d2329" text-anchor="start">Yes</text>
+<rect x="74" y="289.0" width="12" height="12" fill="#b3541e"/>
+<text x="92.0" y="299.0" font-size="12" font-weight="400" fill="#1d2329" text-anchor="start">No</text>
+<text x="16.0" y="319.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="start">Sources: House Clerk roll call 224 (2026); Washington Times,</text>
+<text x="16.0" y="334.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="start">June 22, 2026; Colorado Newsline, May 7, 2024. Read 2026-11-04.</text>
+</svg>
