@@ -1,10 +1,169 @@
 {
   "meta": {
-    "updated": "2026-10-30T00:00:00Z",
-    "brief_count": 12,
+    "updated": "2026-11-04T00:00:00Z",
+    "brief_count": 13,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
+    {
+      "id": "federal-midterms-2026-housing",
+      "title": "2026 midterms: Democrats win Congress; what it means for affordable housing in Colorado",
+      "policy_topic": "Federal Housing Programs",
+      "is_curated": true,
+      "source_reviewed": true,
+      "summary": "Unofficial results as of November 4, 2026. Democrats are projected to win control of both the U.S. House and Senate, according to AP projections reported by Realtor.com and NBC News; the new majorities take office with the 120th Congress in January 2027. In Colorado, Sen. John Hickenlooper (D) was re-elected with 60.2% on the Secretary of State's election night count (updated 4:02 AM MST, 25 of 64 counties fully reported). CPR News reported that Manny Rutinel (D) flipped the 8th District (55.5% to Rep. Gabe Evans' 40.8%). The 3rd District (Rep. Jeff Hurd 48.6%, Dwayne Romero 48.2%) and 4th District (Eileen Laubacher 49.2%, Rep. Lauren Boebert 47.7%) were uncalled; Jessica Killin (D) led the 5th District 51.6% to Rep. Jeff Crank's 45.3%. Housing positions on record: Hickenlooper says he fought to include in the ROAD to Housing Act a limit on large institutional investors buying more than 350 single-family homes and permanent grants for manufactured housing communities (PRICE Act). Sen. Michael Bennet, not on the ballot, co-leads the More Homes on the Market Act with Sen. John Cornyn (R-Texas), which would double the home-sale capital gains exclusion to $500,000 for single filers and $1 million for joint filers. Killin told KRDO she would lower housing costs \"by creating incentives that will increase supply, especially entry-level housing.\" Rutinel's campaign pledges to \"make housing more affordable\" without a specific federal proposal. No specific housing plan was found in the sources COHO could open for Hurd, Romero, Laubacher or Boebert. Rep. Brittany Pettersen's Housing Supply Frameworks Act (HUD zoning best-practice frameworks), Streamlining Rural Housing Act (one HUD-USDA review) and VALID Act became part of the ROAD to Housing Act. Rep. Joe Neguse reintroduced the Save Affordable Housing Act as H.R. 4572 in 2025; it would end the LIHTC qualified-contract option for future developments and base the purchase price for existing properties on their value as affordable housing. His Housing Fairness for Mountain Communities Act, which would let areas set area median income by ZIP code or region instead of county, was introduced in 2023; COHO has not confirmed a version in the current Congress. Rep. Jeff Crank's office reported on May 20, 2026 that he voted for the House version of the ROAD to Housing package, citing lower regulatory costs for manufactured homes and veterans' access to housing assistance. No housing release was found from Reps. Hurd, Boebert or Evans in the sources COHO checked. The White House says President Trump has been \"laser-focused on making housing more affordable\"; his Executive Order 14376 of January 20, 2026 directs federal agencies and the GSEs not to help large institutional investors buy single-family homes that families could buy, with exceptions for build-to-rent. The administration also signals vetoes of Democratic bills. Nationally, House Democratic Leader Hakeem Jeffries, in line to become Speaker, said on October 21 that Democrats \"need to dramatically build more housing that the American people can afford\" and called to \"enhance and strengthen the Low-Income Housing Tax Credit\"; his affordability agenda includes a housing working group (Reps. Emilia Sykes and Laura Friedman) on rents, homeownership, construction red tape, renter protections and homelessness, which had not released bills. Senate Democratic Leader Chuck Schumer's \"Opportunity Starts at Home\" plan (January 15) would expand Section 8 and emergency vouchers, target rent-setting algorithms, add down-payment help, remove rules that block building, create a public housing fund and use the Defense Production Act for modular homes.",
+      "implications": "What is already law does not change with the election: Public Law 119-21 (July 4, 2025) permanently raised each state's 9% housing credit ceiling by 12% and lowered the tax-exempt bond test from 50% to 25%, and Public Law 119-101, the ROAD to Housing Act (July 11, 2026), reformed HUD and supply programs but authorizes no new appropriations (section 1202). The first money decision belongs to the outgoing Congress. Federal funding runs on a continuing resolution through December 11, 2026. NLIHC reports that the House FY27 HUD bill would cut HUD programs about 8% and that the Senate bill had not been released; Congress returns November 9. Colorado's HOME, CDBG, voucher and Continuum of Care funding for 2027 will be set in that lame-duck session or in another stopgap that carries into the new Congress. Leaning: both parties ran on housing costs, and the federal housing laws of 2025 and 2026 passed with support from both. A Democratic Congress is more likely to resist HUD cuts in FY28 and to move bills still in committee, such as the roughly two dozen unenacted Affordable Housing Credit Improvement Act provisions, the Neighborhood Homes Investment Act and first-time buyer credits (Inman, October 29, 2026). Any bill still needs the President's signature, so bills with Republican cosponsors, such as the housing credit bill and Bennet's capital gains bill, stand the best chance. For Colorado projects: plan 2027 deals on current law (the larger ceiling and the 25% bond test) and not on bills that have not passed. Watch the December 11 funding deadline, Treasury's rules on large investors (the ban on new purchases by investors holding at least 350 homes generally starts January 7, 2027, per Inman), the calls in the 3rd and 4th Districts, and the Secretary of State's certification of congressional results by November 30, 2026.",
+      "related_data": "https://results.enr.clarityelections.com/CO/127407/",
+      "sources": [
+        "Colorado Secretary of State",
+        "National Low Income Housing Coalition",
+        "The White House",
+        "U.S. Senate",
+        "Realtor.com",
+        "NBC News",
+        "CPR News",
+        "KRDO",
+        "Inman",
+        "U.S. House",
+        "Spectrum News",
+        "Colorado Newsline",
+        "Housing Online"
+      ],
+      "articles": [
+        {
+          "title": "2026 General Election unofficial results",
+          "source": "Colorado Secretary of State",
+          "link": "https://results.enr.clarityelections.com/CO/127407/",
+          "date": "2026-11-04"
+        },
+        {
+          "title": "Democrats Regain House and Senate in Midterms Defined by Affordability Concerns",
+          "source": "Realtor.com (via Yahoo News)",
+          "link": "https://www.yahoo.com/news/politics/articles/democrats-regain-house-senate-midterms-052234039.html",
+          "date": "2026-11-04"
+        },
+        {
+          "title": "Live updates: Democrats win control of the House and Senate",
+          "source": "NBC Washington",
+          "link": "https://www.nbcwashington.com/elections/election-day-after-2026-midterms-congress-results-live-updates/4177248/",
+          "date": "2026-11-04"
+        },
+        {
+          "title": "Colorado's 8th Congressional District seat flips, Democrat Manny Rutinel wins",
+          "source": "CPR News",
+          "link": "https://www.cpr.org/2026/11/03/colorado-election-results-congressional-district-8-evans-rutinel/",
+          "date": "2026-11-03"
+        },
+        {
+          "title": "Hickenlooper Celebrates Long-Overdue Housing Bill Becoming Law",
+          "source": "Office of Sen. John Hickenlooper",
+          "link": "https://www.hickenlooper.senate.gov/press_releases/hickenlooper-celebrates-long-overdue-housing-bill-becoming-law/",
+          "date": "2026-07-13"
+        },
+        {
+          "title": "Bennet, Cornyn, Bipartisan Colleagues Introduce Bill to Increase Housing Availability and Affordability",
+          "source": "Office of Sen. Michael Bennet",
+          "link": "https://www.bennet.senate.gov/2025/12/03/bennet-cornyn-bipartisan-colleagues-introduce-bill-to-increase-housing-availability-and-affordability/",
+          "date": "2025-12-03"
+        },
+        {
+          "title": "Jessica Killin (candidate questionnaire)",
+          "source": "KRDO",
+          "link": "https://krdo.com/2026-u-s-house-of-representatives/2026/06/18/jessica-killin/",
+          "date": "2026-06-18"
+        },
+        {
+          "title": "Issues",
+          "source": "Manny for Colorado (campaign)",
+          "link": "https://www.mannyforcolorado.com/issues",
+          "date": ""
+        },
+        {
+          "title": "Leader Jeffries on News 12: \"Dramatic change is necessary\"",
+          "source": "Office of Rep. Hakeem Jeffries",
+          "link": "https://jeffries.house.gov/2026/10/21/leader-jeffries-on-news-12dramatic-change-is-necessary/",
+          "date": "2026-10-21"
+        },
+        {
+          "title": "Reps. Sykes & Friedman Co-Convene First Meeting of House Democrats' Housing Affordability Working Group",
+          "source": "Office of Rep. Emilia Sykes",
+          "link": "https://sykes.house.gov/media/press-releases/reps-sykes-and-friedman-co-convene-first-meeting-of-house-democrats-housing-affordability-working-group",
+          "date": "2026-06-15"
+        },
+        {
+          "title": "Schumer lays out Democrats' housing affordability agenda",
+          "source": "Spectrum News",
+          "link": "https://spectrumlocalnews.com/us/snplus/politics/2026/01/15/opportunity-starts-at-home-democrats-housing-affordability-agenda",
+          "date": "2026-01-15"
+        },
+        {
+          "title": "Rep. Pettersen Delivers Major Housing Affordability Wins for Colorado Families",
+          "source": "Office of Rep. Brittany Pettersen",
+          "link": "https://pettersen.house.gov/news/documentsingle.aspx?DocumentID=1777",
+          "date": "2026-06-23"
+        },
+        {
+          "title": "Save Affordable Housing Act reintroduced (H.R. 4572)",
+          "source": "Housing Online",
+          "link": "https://www.housingonline.com/2025/08/13/save-affordable-housing-act-reintroduced/",
+          "date": "2025-08-13"
+        },
+        {
+          "title": "Affordable housing in Colorado mountain towns could get boost from Neguse proposals",
+          "source": "Colorado Newsline",
+          "link": "https://coloradonewsline.com/briefs/affordable-housing-colorado-neguse/",
+          "date": "2023-06-06"
+        },
+        {
+          "title": "Rep. Crank Votes for Pro-Growth Housing Package (press release list)",
+          "source": "Office of Rep. Jeff Crank",
+          "link": "https://crank.house.gov/media/press-releases?page=1",
+          "date": "2026-05-20"
+        },
+        {
+          "title": "Stopping Wall Street from Competing with Main Street Homebuyers (Executive Order 14376)",
+          "source": "The White House",
+          "link": "https://www.whitehouse.gov/presidential-actions/2026/01/stopping-wall-street-from-competing-with-main-street-homebuyers/",
+          "date": "2026-01-20"
+        },
+        {
+          "title": "Congress in Recess Until November 9: Take Action in October to Fight for HUD Funding in FY27",
+          "source": "National Low Income Housing Coalition",
+          "link": "https://nlihc.org/resource/congress-recess-until-november-9-take-action-october-fight-hud-funding-fy27",
+          "date": "2026-10-05"
+        },
+        {
+          "title": "12 housing bills that could shape affordability after the midterms",
+          "source": "Inman",
+          "link": "https://www.inman.com/2026/10/29/housing-bills-us-congress-federal-affordability-supply/",
+          "date": "2026-10-29"
+        },
+        {
+          "title": "Public Law 119-101 (H.R. 6644), 21st Century ROAD to Housing Act",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm",
+          "date": "2026-07-11"
+        },
+        {
+          "title": "Public Law 119-21 (H.R. 1)",
+          "source": "U.S. Government Publishing Office (GovInfo)",
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+          "date": "2025-07-04"
+        },
+        {
+          "title": "Colorado Certification Guide, 2026 General Election",
+          "source": "Brennan Center for Justice",
+          "link": "https://www.brennancenter.org/media/16355/download/2026-colorado-certification-guide_final.pdf",
+          "date": ""
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "United States",
+        "Colorado"
+      ],
+      "generated": "2026-11-04T00:00:00Z"
+    },
     {
       "id": "minneapolis-fed-hpop-2026",
       "title": "New person-based measure estimates 53% of U.S. adults own their home",

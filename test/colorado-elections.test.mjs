@@ -513,6 +513,8 @@ test('escaping fixtures remain text on every surface and unsafe source URLs neve
   const injection = '<img src=x onerror="window.r5Injected=true"> & <script>window.r5Injected=true</script>';
   const ballots = structuredClone(BALLOTS), candidates = structuredClone(CANDIDATES), watch = structuredClone(WATCH);
   const ballot = allEntries(ballots)[0];
+  // Keep the fixture on the ballot so the on-ballot surface is checked even after real results are recorded.
+  Object.assign(ballot, { status: 'on_ballot', result: null });
   ballot.neutral_title = injection; ballot.evidence[0].quote = injection;
   const sources = Object.values(ballot.sources).filter(Boolean); sources.forEach((s) => { s.url = 'javascript:alert(1)'; });
   ballots[0].coverage[0].name = injection;
@@ -632,10 +634,14 @@ test('rendered research notes carry no tool or workflow wording', async (t) => {
   assert.deepEqual(sourceLeaks, [], 'stored notes must read as plain reader notes');
 });
 
-test('San Juan County Issue 1A is on the ballot with the final sample ballot as its source', () => {
+test('San Juan County Issue 1A keeps the final sample ballot as its source, with any result marked by stage', () => {
   const entry = allEntries(BALLOTS).find((e) => e.id === 'ballot-2026-08111-lodging-tax-expansion');
   assert.ok(entry, 'the San Juan County lodging tax entry must exist');
-  assert.equal(entry.status, 'on_ballot');
+  assert.ok(['on_ballot', 'passed', 'failed'].includes(entry.status));
+  if (entry.status !== 'on_ballot') {
+    assert.equal(entry.result.outcome, entry.status);
+    assert.ok(['unofficial', 'certified'].includes(entry.result.stage));
+  }
   assert.equal(entry.measure.number, '1A');
   assert.match(entry.sources.ballot_notice.url, /FINAL---SAMPLE\.pdf$/);
 });

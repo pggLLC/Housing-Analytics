@@ -143,7 +143,7 @@
           "sunset": null
         }
       },
-      "status": "on_ballot",
+      "status": "failed",
       "sources": {
         "certification": null,
         "official_text": null,
@@ -172,13 +172,31 @@
         "checked": "2026-09-26"
       },
       "limitations": [
+        "Unofficial result read 2026-11-04 from the Chaffee County election night results page (last updated 11/3/2026 11:05 PM MST): Yes 1,314 (37.5%), No 2,193 (62.5%), 3,507 votes. Recorded as failed; the count is not final until the county canvass certifies it.",
         "The sample ballot prints no letter or number for this measure; the measure number shown here repeats its ballot heading.",
         "Origin is recorded as initiated because the measure is a referendum on an adopted ordinance; the City of Salida's referendum petition page could not be opened. The origin still needs to be confirmed.",
         "Ordinance No. 2026-09 itself could not be retrieved (the city website refused access), so no ordinance source is linked for this measure.",
         "The sample ballot does not state the density or unit count of the zoning."
       ],
-      "result": null,
-      "history": [],
+      "result": {
+        "outcome": "failed",
+        "stage": "unofficial",
+        "source": {
+          "url": "https://results.enr.clarityelections.com/CO/Chaffee/127417/",
+          "retrieved": "2026-11-04"
+        },
+        "as_of": "2026-11-04"
+      },
+      "history": [
+        {
+          "checked": "2026-11-04",
+          "note": "Unofficial result read 2026-11-04 from the Chaffee County election night results page (last updated 11/3/2026 11:05 PM MST): Yes 1,314 (37.5%), No 2,193 (62.5%), 3,507 votes. Recorded as failed; the count is not final until the county canvass certifies it.",
+          "source": {
+            "url": "https://results.enr.clarityelections.com/CO/Chaffee/127417/",
+            "retrieved": "2026-11-04"
+          }
+        }
+      ],
       "archived": false
     }
   ]

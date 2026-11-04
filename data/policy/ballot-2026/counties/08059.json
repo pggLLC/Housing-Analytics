@@ -252,7 +252,7 @@
           "sunset": null
         }
       },
-      "status": "on_ballot",
+      "status": "failed",
       "sources": {
         "certification": null,
         "official_text": null,
@@ -277,13 +277,31 @@
         "checked": "2026-09-26"
       },
       "limitations": [
+        "Unofficial result read 2026-11-04 from the Jefferson County election night results page (last updated 11/4/2026 12:30 AM MST): Yes 23,359 (40.4%), No 34,497 (59.6%), 57,856 votes. Recorded as failed; the count is not final until the county canvass certifies it.",
         "Mixed-purpose measure: homelessness response is one named use within public safety purposes, alongside crime prevention and traffic safety improvements. The question does not allocate a share of revenue to homelessness. Included as a homelessness measure after review on 2026-09-26.",
         "The quote is from the TABOR booklet with line breaks normalized to single spaces.",
         "The referring ordinance or resolution was not read: the city website (lakewoodco.gov) could not be opened on 2026-09-26. The county PDF sample ballot was not yet posted.",
         "The question states no duration or sunset."
       ],
-      "result": null,
-      "history": [],
+      "result": {
+        "outcome": "failed",
+        "stage": "unofficial",
+        "source": {
+          "url": "https://results.enr.clarityelections.com/CO/Jefferson/127408/",
+          "retrieved": "2026-11-04"
+        },
+        "as_of": "2026-11-04"
+      },
+      "history": [
+        {
+          "checked": "2026-11-04",
+          "note": "Unofficial result read 2026-11-04 from the Jefferson County election night results page (last updated 11/4/2026 12:30 AM MST): Yes 23,359 (40.4%), No 34,497 (59.6%), 57,856 votes. Recorded as failed; the count is not final until the county canvass certifies it.",
+          "source": {
+            "url": "https://results.enr.clarityelections.com/CO/Jefferson/127408/",
+            "retrieved": "2026-11-04"
+          }
+        }
+      ],
       "archived": false
     }
   ]
