@@ -116,3 +116,23 @@ def test_browser_fallback_asks_the_5_year_unless_opted_in():
     assert "const include1y = window.HNAUtils.ACS_INCLUDE_1YEAR === true;" in js
     assert "include1y ? await fetchMergedProfile(window.HNAUtils.ACS_YEAR_PRIMARY, 'acs/acs1/profile'" in js
     assert "geoType !== 'cdp' && window.HNAUtils.ACS_INCLUDE_1YEAR === true" in js
+
+
+def test_a_failed_batch_does_not_let_1_year_fields_through(tmp_path, monkeypatch):
+    # Batch B failed, so DP03_0052E is absent from the response, not null.
+    monkeypatch.setattr(hna, "PROFILE_REQUESTED_VARS", {"DP02_0001E", "DP03_0052E"})
+    path = tmp_path / "08031.json"
+    path.write_text(json.dumps({"acsProfile": {
+        "_acsYear": "2025", "_acsSeries": "acs1", "DP02_0001E": 330000, "DP03_0052E": 22036,
+        "DP04_0076E": 300000, "_acs5BackfillYear": "2024",
+    }}))
+    fresh = {"_acsYear": "2024", "_acsSeries": "acs5", "DP02_0001E": 320000}
+    prof = hna._merge_preserve_summary(str(path), {"acsProfile": dict(fresh)})[0]["acsProfile"]
+    assert "DP03_0052E" not in prof
+    assert prof["DP04_0076E"] == 300000
+
+
+def test_the_rent_burden_series_stamp_survives_normalization():
+    out = hna.normalize_acs_dict({"_b25070Series": "acs5", "_acsSeries": "acs5", "_b25070Year": "2024", "B25070_001E": "-666666666"})
+    assert out["_b25070Series"] == "acs5" and out["_acsSeries"] == "acs5"
+    assert out["B25070_001E"] is None

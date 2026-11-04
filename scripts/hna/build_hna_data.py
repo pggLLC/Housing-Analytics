@@ -628,7 +628,8 @@ def normalize_acs_dict(d):
         return d
     # The series stamp is text ('acs1' / 'acs5'); as a number it would read as
     # missing, which is how every S0801 stamp was lost before 2026-10-18.
-    return {k: v if k == '_acsSeries' else normalize_acs_value(v) for k, v in d.items()}
+    # Every series stamp is text, _b25070Series included.
+    return {k: v if (k.startswith('_') and k.endswith('Series')) else normalize_acs_value(v) for k, v in d.items()}
 
 
 def safe_float(v):
@@ -1252,6 +1253,9 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
     # Single var_list kept for backward-compat with downstream call sites
     # that still grep "vars_" — concatenated only after all batches run.
     vars_ = vars_a + [v for batch in (vars_b, vars_c, vars_d) for v in batch if v not in vars_a]
+    # Every field this build asks for, so a summary that changes series can
+    # tell this build's fields (never carried across) from a backfill's.
+    PROFILE_REQUESTED_VARS.update(vars_)
 
     def build_url(year: int, endpoint: str, series: str, batch_vars: list[str]) -> str:
         base = f'https://api.census.gov/data/{year}/acs/{series}/{endpoint}'
@@ -1610,6 +1614,10 @@ def _run_diagnostics(geo_type: str, geoid: str) -> None:
         )
 
 
+# Filled by fetch_acs_profile with every profile field it requests.
+PROFILE_REQUESTED_VARS: set[str] = set()
+
+
 def _endpoint_series(url) -> str | None:
     """'acs1' or 'acs5' from a Census API endpoint such as .../2024/acs/acs5."""
     m = re.search(r'/acs/(acs[15])(?:/|$)', str(url or ''))
@@ -1692,8 +1700,15 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
             old_series = _endpoint_series((existing.get('source') or {}).get('acs_b08301_endpoint'))
             new_series = _endpoint_series((payload.get('source') or {}).get('acs_b08301_endpoint'))
         if old_series and new_series and old_series != new_series:
+            # Only the profile has backfilled fields. A field this build asks
+            # for is never carried, even when its batch failed and left it
+            # out of the response; nor are the rent-burden counts.
+            if section != 'acsProfile':
+                continue
             for k, v in old_sec.items():
                 if v is None or k in new_sec:
+                    continue
+                if k in PROFILE_REQUESTED_VARS or k in B25070_COUNT_VARS:
                     continue
                 if k.startswith('_') and k != '_acs5BackfillYear':
                     continue
