@@ -497,12 +497,12 @@ def main():
                                              '(0 is chance, 1 is the same grouping).'},
             },
             'limits': [
-                'Rent edge compares the county HUD 2BR Fair Market Rent with the CHFA 60% AMI rent ceiling. It is a '
-                'benchmark, not an achievable lease rent: use observed rent comps for a site.',
+                ('Rent edge compares the county HUD 2BR Fair Market Rent with the CHFA 60% AMI rent ceiling. It is a '
+                 'benchmark, not an achievable lease rent: use observed rent comps for a site.'),
                 'A COHO market pattern is not CHFA\'s urban, rural or mountain property category.',
                 'Jobs and residents are LODES primary jobs for 2023, inside Colorado only.',
                 'Seasonal homes are ACS 5-year estimates; small places carry wide margins (see stability).',
-                'A type describes the market, not the right answer for a site.',
+                'A pattern describes the market, not the right answer for a site.',
             ],
         },
         'places': out_rows,
