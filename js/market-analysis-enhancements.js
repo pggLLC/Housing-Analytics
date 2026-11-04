@@ -94,39 +94,58 @@
    * @returns {object} benchmarkResult
    */
   function benchmarkVsReference(score, result, referenceProjects) {
+    // A site with no score is unavailable, never "percentile 0": a measured 0
+    // and a missing score must not read the same.
+    if (!Number.isFinite(score)) {
+      return { available: false, reason: 'This site has no market score yet, so it cannot be compared with CHFA reference properties.' };
+    }
     if (!referenceProjects || !referenceProjects.length) {
       return { available: false, reason: 'No reference projects loaded.' };
     }
 
-    var scores = referenceProjects
-      .filter(function (p) { return typeof p.pma_score === 'number'; })
-      .map(function (p) { return p.pma_score; })
-      .sort(function (a, b) { return a - b; });
+    // Each real property was scored at every buffer the page offers
+    // (scripts/market/build_reference_projects.mjs), so a site is compared
+    // only with properties scored at the same buffer.
+    var buffer = result && result.bufferMiles != null ? String(result.bufferMiles) : null;
+    function peerScore(p) {
+      var by = p && p.pma_score_by_buffer;
+      if (!by || buffer == null) return null;
+      var v = by[buffer];
+      return typeof v === 'number' ? v : null;
+    }
+
+    var scored = referenceProjects
+      .map(function (p) { return { p: p, s: peerScore(p) }; })
+      .filter(function (x) { return x.s != null; });
+    var scores = scored.map(function (x) { return x.s; }).sort(function (a, b) { return a - b; });
 
     if (!scores.length) {
-      return { available: false, reason: 'Reference projects have no PMA scores.' };
+      return { available: false, reason: 'No reference property has a score at this buffer.' };
     }
 
     // Percentile rank: fraction of reference scores below this score
     var below = scores.filter(function (s) { return s < score; }).length;
     var percentile = Math.round((below / scores.length) * 100);
 
-    // Find comparable projects (within ±10 points)
-    var comparable = referenceProjects
-      .filter(function (p) {
-        return typeof p.pma_score === 'number' &&
-               Math.abs(p.pma_score - score) <= 10;
-      })
-      .sort(function (a, b) { return Math.abs(a.pma_score - score) - Math.abs(b.pma_score - score); })
-      .slice(0, 5);
+    // Closest real properties (within ±10 points), nearest score first
+    var comparable = scored
+      .filter(function (x) { return Math.abs(x.s - score) <= 10; })
+      .sort(function (a, b) { return Math.abs(a.s - score) - Math.abs(b.s - score); })
+      .slice(0, 5)
+      .map(function (x) {
+        var o = {};
+        Object.keys(x.p).forEach(function (k) { o[k] = x.p[k]; });
+        o.pma_score = x.s;
+        return o;
+      });
 
     var mean = scores.reduce(function (s, v) { return s + v; }, 0) / scores.length;
     var median = scores[Math.floor(scores.length / 2)];
 
     // Identify the market type distribution for context
     var marketTypeCounts = {};
-    referenceProjects.forEach(function (p) {
-      var mt = p.market_type || 'unknown';
+    scored.forEach(function (x) {
+      var mt = x.p.market_type || 'unknown';
       marketTypeCounts[mt] = (marketTypeCounts[mt] || 0) + 1;
     });
 
@@ -141,7 +160,8 @@
       max:            scores[scores.length - 1],
       tier:           benchmarkTier(percentile),
       comparable:     comparable,
-      marketTypes:    marketTypeCounts
+      marketTypes:    marketTypeCounts,
+      buffer:         buffer
     };
   }
 

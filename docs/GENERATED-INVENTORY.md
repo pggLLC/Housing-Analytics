@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T03:03:44.179Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T05:03:56.845Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
-| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.0 KB |
+| `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.1 KB |
 | `developer-deal-workbook.html` | Deal Workbook — COHO Analytics | 10.5 KB |
 | `developer-methods.html` | Methodology — COHO Analytics | 11.1 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.8 KB |
@@ -73,7 +73,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 75.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 154.0 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 155.0 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 82.2 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |

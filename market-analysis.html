@@ -940,18 +940,19 @@
           <details class="info-tooltip">
             <summary title="How are peers selected?" aria-label="Show peer benchmarking methodology">i</summary>
             <div class="info-tooltip-body">
-              <p><strong>What this compares.</strong> Your site's PMA composite score against a curated set of ~50 known Colorado LIHTC projects (the "reference set"). Lets you see where the site lands relative to deals that have already been allocated and underwritten.</p>
+              <p><strong>What this compares.</strong> Your site's score against real Colorado tax-credit properties awarded from 2015 to 2025, each scored by this page today at the same buffer you picked.</p>
               <dl>
-                <dt>Reference set</dt><dd><code>data/market/reference-projects.json</code> — ~50 CO LIHTC projects (2015–2025 vintage) with known PMA score, unit count, credit type, market type</dd>
-                <dt>Primary comparison</dt><dd>percentile rank of this site's PMA score against the full reference set</dd>
-                <dt>Comparable window</dt><dd>reference projects within ±10 PMA points of this site are surfaced as "directly comparable"</dd>
-                <dt>Breakdowns</dt><dd>market-type (urban / suburban / rural / resort), credit-type (4% PAB / 9% competitive), unit-count band</dd>
+                <dt>Reference set</dt><dd><code>data/market/reference-projects.json</code>, built by <code>scripts/market/build_reference_projects.mjs</code> from CHFA's Housing Tax Credit Properties feed. Name, address, homes, award year, credit and CHFA's urban, rural or mountain label are copied as CHFA prints them.</dd>
+                <dt>Scores</dt><dd>Our score today at each property's mapped point, not a score it had when it was funded. Each property's own homes count in its area's existing supply.</dd>
+                <dt>Primary comparison</dt><dd>percentile rank of this site's score among the properties scored at the same buffer</dd>
+                <dt>Comparable window</dt><dd>CHFA reference properties with similar scores: within ±10 points of this site at the same buffer, closest first. They are not matched on deal type, unit mix or location.</dd>
+                <dt>No score</dt><dd>a site without a market score shows this card as unavailable; it is never ranked as 0</dd>
                 <dt>What this is <em>not</em></dt><dd>it's not a predictor of allocation — CHFA scores applications under its own <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">Qualified Allocation Plan</a>. This is a market-positioning benchmark, not a policy-scoring estimate.</dd>
               </dl>
               <p style="margin-top:0.5rem;font-size:.8125rem;color:var(--muted)">Full methodology: <a href="docs/PMA_DATA_ENHANCEMENTS.md" target="_blank" rel="noopener">docs/PMA_DATA_ENHANCEMENTS.md</a></p>
             </div>
           </details>
-          <p style="font-size:var(--tiny);margin-bottom:0.5rem;margin-top:0.5rem">Compare this site to ~50 known Colorado LIHTC projects.</p>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem;margin-top:0.5rem">Compare this site to CHFA reference properties (Colorado tax-credit properties awarded 2015–2025), scored the same way today.</p>
           <div id="pmaBenchmarkResult">
             <div class="pma-empty">Run analysis to see benchmarking.</div>
           </div>
@@ -1056,6 +1057,20 @@
          (bedroom community vs self-contained), which the buffer-scope analysis
          doesn't capture. -->
     <div id="maJurisdictionLabor" class="ma-labor-card" hidden style="max-width:none;margin:8px auto 0;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card2);"></div>
+    <!-- Members only: the member site (coho-backend) serves a Commuters page for every town and
+         county. Shown only on the member host, and written as the member site's full address,
+         so the public build's link check (scripts/build-public-site.mjs) never sees a local link
+         to a page the public site lacks. -->
+    <p id="maCommutersLink" hidden style="margin:8px 0 0;font-size:.875rem;"></p>
+    <script>
+    (function () {
+      if (!/\.workers\.dev$/.test(location.hostname)) return;
+      var q = new URLSearchParams(location.search), g = q.get('geoid') || q.get('fips') || '';
+      var el = document.getElementById('maCommutersLink');
+      el.innerHTML = '<a href="https://coho-backend.communityplanner.workers.dev/developer-commuters.html' + (/^08(\d{3}|\d{5})$/.test(g) ? '?geoid=' + g : '') + '">Commuters for this place</a>: who drives in, out and through, with sources (members).';
+      el.hidden = false;
+    })();
+    </script>
     <!-- F159 — Rent triangulation: HUD FMR vs ACS B25064 vs Zillow ZORI.
          Hydrated from WorkflowState/SiteState; updates on jurisdiction
          change. Same shared component used on HNA. -->

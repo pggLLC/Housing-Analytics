@@ -144,6 +144,12 @@ export const CHAIN = [
        + 'FHFA, Zillow, FMR and the development ledger; it runs after the ledger it summarises',
   },
   {
+    id: 'leading-signals',
+    argv: ['python3', 'scripts/policy/build_leading_signals.py'],
+    why: 'data/policy/leading-signals.json gathers land banking status, Prop 123 filings, HNAs, local funds, '
+       + 'the 2026 ballot and open ledger projects per place; it runs after the ledger and land banking status it reads',
+  },
+  {
     id: 'market-types',
     argv: ['python3', 'scripts/market/build_market_types.py'],
     why: 'data/market/market-types.json types every county and town from the market calls, '
