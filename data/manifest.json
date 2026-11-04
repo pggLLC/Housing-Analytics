@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-04T14:53:03.406904Z",
+  "generated": "2026-11-04T15:03:09.940014Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9619,7 +9619,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 434964
+      "bytes": 434966
     },
     "data/policy/colorado-deal-rules.json": {
       "featureCount": 0,

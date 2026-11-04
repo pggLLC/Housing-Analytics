@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T14:52:33.130Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T15:02:29.323Z. Do not edit by hand.
 
 ---
 
@@ -14,7 +14,7 @@
 | `LIHTC-dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `about.html` | About | COHO Analytics | 19.3 KB |
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.7 KB |
-| `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 47.5 KB |
+| `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 47.6 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.1 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 23.1 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
@@ -2071,7 +2071,7 @@
 
 ## Test Files
 
-773 test files found.
+774 test files found.
 
 | File | Size |
 |------|------|
@@ -2353,6 +2353,7 @@
 | `test/hna-export-matches-screen.test.js` | 31.2 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 64.1 KB |
+| `test/hna-gap-summary-sources.test.js` | 4.9 KB |
 | `test/hna-geography-provenance.test.js` | 5.4 KB |
 | `test/hna-home-value-absence.test.js` | 4.8 KB |
 | `test/hna-home-value-cascade.test.js` | 17.5 KB |
