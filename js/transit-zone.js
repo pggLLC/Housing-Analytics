@@ -162,6 +162,55 @@
   // OEDIT's map is not available in the tracked data as of 2026-09-28.
   // Future ingestion must retain the official polygons and facility linkage;
   // see the source/adapter contract in docs/TRANSIT-SITE-EVIDENCE.md.
+  // OEDIT's facility table, from the published file's `facilities` rows
+  // (meta.facilityColumns). Returns null when the file links each polygon
+  // to its facility instead, false when a table is declared but cannot be
+  // trusted (wrong count, a row without id/type/status or a point outside
+  // Colorado), and the parsed rows otherwise.
+  var FACILITY_STATUSES = ['existing', 'concept_design', 'under_construction'];
+  var FACILITY_COLUMNS = ['id', 'name', 'type', 'status', 'agency', 'city', 'county', 'lat', 'lon'];
+  // Parsed once per table: keyed on the rows array and the meta fields the
+  // parse reads, so a different file or a changed declaration re-parses.
+  var facilityCache = { key: null, rows: null };
+  function officialFacilities(zones, meta) {
+    if (meta.linkage !== 'nearest_listed_facility_within_radius') return null;
+    var key = [zones.facilities, meta.facilityCount, meta.radiusMiles, String(meta.facilityColumns)];
+    var k = facilityCache.key;
+    if (k && k[0] === key[0] && k[1] === key[1] && k[2] === key[2] && k[3] === key[3]) return facilityCache.rows;
+    facilityCache.rows = parseFacilities(zones, meta);
+    facilityCache.key = key;
+    return facilityCache.rows;
+  }
+  function parseFacilities(zones, meta) {
+    var rows = zones.facilities;
+    var cols = meta.facilityColumns;
+    if (!Array.isArray(rows) || !rows.length || rows.length !== meta.facilityCount ||
+        !Array.isArray(cols) || cols.join() !== FACILITY_COLUMNS.join() ||
+        !isNum(meta.radiusMiles) || meta.radiusMiles <= 0) return false;
+    var out = [];
+    for (var i = 0; i < rows.length; i++) {
+      var x = rows[i];
+      if (!Array.isArray(x) || typeof x[0] !== 'string' || !x[0] || typeof x[2] !== 'string' || !x[2] ||
+          FACILITY_STATUSES.indexOf(x[3]) === -1 || !isNum(x[7]) || !isNum(x[8]) || !inColorado(x[7], x[8])) return false;
+      out.push({ id: x[0], name: x[1] || null, type: x[2], status: x[3], agency: x[4] || null, lat: x[7], lon: x[8] });
+    }
+    return out;
+  }
+  // The nearest existing facility within the radius; a planned one
+  // (concept_design, under_construction) only when no existing facility is
+  // in range, so a site served today is never described by a future station.
+  function nearestFacility(table, lat, lon, radiusMiles) {
+    var best = null, bestD = Infinity, plan = null, planD = Infinity;
+    for (var i = 0; i < table.length; i++) {
+      var d = haversineMiles(lat, lon, table[i].lat, table[i].lon);
+      if (table[i].status === 'existing') { if (d < bestD) { bestD = d; best = table[i]; } }
+      else if (d < planD) { planD = d; plan = table[i]; }
+    }
+    if (!best || bestD > radiusMiles) { best = plan; bestD = planD; }
+    if (!best || bestD > radiusMiles) return null;
+    return Object.assign({ distanceMiles: Math.round(bestD * 100) / 100 }, best);
+  }
+
   function isExactSite(source) {
     return ['site', 'map_point', 'geocoded_address', 'parcel', 'manual_coordinates'].indexOf(source) !== -1;
   }
@@ -170,6 +219,7 @@
     var r = {
       qualified: null, siteLat: isNum(lat) ? lat : null, siteLon: isNum(lon) ? lon : null,
       siteSource: siteSource || null, facilityId: null, facilityName: null, facilityType: null,
+      facilityStatus: null, facilityAgency: null,
       facilityLat: null, facilityLon: null, zoneId: null,
       distanceMiles: null, distanceMethod: null, thresholdMiles: 2,
       programRule: 'C.R.S. 24-48.5-136(3): within two miles of a transportation facility identified on OEDIT’s THIZ map. Official mapped geography controls.',
@@ -197,14 +247,22 @@
         !meta.vintage || meta.complete !== true) {
       return unknown('The official THIZ map’s source, vintage or complete Colorado coverage is unresolved.');
     }
-    // A station type alone is insufficient: the linkage must come from the
-    // official map, never from a nearby ordinary stop or a generated buffer.
+    // The qualifying facility must come from the official map, never from a
+    // nearby ordinary stop in our own stop file. Two shapes carry it:
+    //   * the published file (scripts/policy/fetch_thiz_zones.mjs): OEDIT's
+    //     dissolved zone plus its own facility table; a site inside the zone
+    //     is linked to the nearest listed facility within the radius, the
+    //     rule OEDIT drew the zone with;
+    //   * one polygon per facility, each naming its facility.
+    // Whatever kinds of facility OEDIT lists (it lists bus stops, rail,
+    // park-and-rides and planned stations) count, because the statute makes
+    // the zone whatever OEDIT identifies on its map (C.R.S. 24-48.5-136); owner decision 2026-11-04, pending program guidelines.
+    var table = officialFacilities(zones, meta);
     var ambiguous = zones.features.some(function (f) {
       var p = f.properties || {};
-      return f.id == null || !p.facilityId ||
-        ['transit_station', 'passenger_rail_station'].indexOf(p.facilityType) === -1;
+      return f.id == null || (!table && (!p.facilityId || typeof p.facilityType !== 'string' || !p.facilityType));
     });
-    if (ambiguous) return unknown('The official THIZ map’s qualifying-facility linkage is unresolved.');
+    if (table === false || ambiguous) return unknown('The official THIZ map’s qualifying-facility linkage is unresolved.');
     r.vintage = meta.vintage;
     var boundary = zones.features.some(function (f) {
       var g = f.geometry, polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
@@ -213,6 +271,23 @@
     if (boundary) return unknown('The site lies on a mapped THIZ boundary; confirm the site with OEDIT.');
     r.determinationMethod = 'point_in_official_polygon';
     var matched = zoneAt(lon, lat, zones);
+    if (matched && table) {
+      var fac = nearestFacility(table, lat, lon, meta.radiusMiles);
+      if (!fac) return unknown('The site is inside OEDIT’s mapped zone, but no facility on OEDIT’s list is within ' +
+        meta.radiusMiles + ' miles; confirm the site with OEDIT.');
+      r.qualified = true;
+      r.zoneId = matched.id;
+      r.facilityId = fac.id;
+      r.facilityName = fac.name;
+      r.facilityType = fac.type;
+      r.facilityStatus = fac.status;
+      r.facilityAgency = fac.agency;
+      r.facilityLat = fac.lat;
+      r.facilityLon = fac.lon;
+      r.distanceMiles = fac.distanceMiles;
+      r.distanceMethod = 'straight_line_haversine';
+      return r;
+    }
     r.qualified = !!matched;
     if (matched) {
       var p = matched.properties;
@@ -220,6 +295,7 @@
       r.facilityId = p.facilityId;
       r.facilityName = p.facilityName || null;
       r.facilityType = p.facilityType;
+      r.facilityStatus = p.facilityStatus || null;
       if (isNum(p.facilityLat) && isNum(p.facilityLon) && inColorado(p.facilityLat, p.facilityLon)) {
         r.facilityLat = p.facilityLat;
         r.facilityLon = p.facilityLon;

@@ -231,6 +231,7 @@
     "build:jurisdiction-metrics-digest": "node scripts/hna/build_jurisdiction_metrics_digest.mjs",
     "rebuild:derived": "node scripts/rebuild-derived.mjs",
     "fetch:pab-allocations": "node scripts/fetch-pab-allocations.mjs",
+    "fetch:thiz-zones": "node scripts/policy/fetch_thiz_zones.mjs",
     "audit:opportunity-finder:json": "node scripts/audit/verify-opportunity-finder.mjs --json",
     "audit:install": "playwright install chromium --with-deps",
     "generate:car-placeholder": "node scripts/generate-car-placeholder.mjs",
