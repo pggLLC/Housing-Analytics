@@ -146,7 +146,8 @@ COHORT_RULE = ('One row per property, at its latest application; dropped when th
 
 def main():
     if '--refilter' in sys.argv:
-        return refilter()
+        refilter()
+        return
     src = load(SRC)
     apps = src['applications']
     picked, dropped = cohort(apps, load(REFS)['projects'])
