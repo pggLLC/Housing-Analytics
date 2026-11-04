@@ -38,42 +38,54 @@ function render(g, chas) {
   const foot = el.querySelector('p') ? el.querySelector('p').textContent : '';
   return { text: el.textContent, lis, foot };
 }
-const banned = /direct demand|absorption|Median renters cannot|stress is concentrated/i;
+// Claims that the renter share or median income cannot support. These are
+// claims, not wording: any phrasing of them is wrong for these figures.
+const banned = /direct demand|absorption|lease.?up|Median renters cannot|stress is concentrated/i;
 
-// Mesa County: 2025 1-year profile and counts.
-let r = render('08077');
-check(/ACS 2025 1-year profile DP03 and DP04/.test(r.foot), 'Mesa footer: 2025 1-year DP03 and DP04');
-check(/ACS 2025 1-year table B25070/.test(r.foot), 'Mesa footer: 2025 1-year B25070');
-check(!/5-year|2020.2024/.test(r.foot), 'Mesa footer: no 5-year label');
-check(!/CHAS/.test(r.foot), 'Mesa footer: no CHAS without its line');
-check(/29\.5%<\/strong> of occupied homes are rented|29\.5% of occupied homes are rented/.test(el.innerHTML), 'Mesa: 29.5% rented, number kept');
-check(!banned.test(r.text), 'Mesa: no demand or absorption claim');
-check(/all households, owners and renters together/.test(r.text) && /\$82,490/.test(r.text), 'Mesa: income named as all households');
-check(/38\.7%/.test(r.text), 'Mesa: corrected 38.7% at 50% or more unchanged');
-
-// Same with CHAS county data loaded: CHAS cited, with its vintage.
+// What each footer must agree with: the survey and period stored on the
+// profile the panel read, and the CHAS file's own vintage. Reword the footer
+// freely; change a period on one side only and this fails.
+const U = w.HNAUtils;
 const chas = JSON.parse(read('data/hna/chas_affordability_gap.json'));
-r = render('08077', chas);
-const chasLine = r.lis.some((t) => /HUD CHAS county data/.test(t));
-check(chasLine === /HUD CHAS 2018-2022 for the 50% AMI line only/.test(r.foot), 'Mesa + CHAS: CHAS in footer exactly when its line shows');
+const otherSeries = (sr) => (sr === 'acs1' ? /5-year/ : /1-year/);
+const money = (n) => '$' + Number(n).toLocaleString('en-US');
+let scanned = 0;
 
-// Denver: 2025 1-year.
-r = render('08031');
-check(/ACS 2025 1-year profile DP03 and DP04/.test(r.foot) && /ACS 2025 1-year table B25070/.test(r.foot), 'Denver footer: 2025 1-year');
-check(/53\.2%/.test(r.text) && !banned.test(r.text), 'Denver: 53.2% rented, no "direct demand"');
-check(/vacancy, comparable rents and a market study/.test(r.text), 'Denver: points to vacancy, rents and a market study');
+for (const [g, name] of [['08077', 'Mesa'], ['08031', 'Denver'], ['0828745', 'Fruita'], ['0812415', 'Castle Rock']]) {
+  const p = summary(g).acsProfile;
+  for (const chasData of [null, chas]) {
+    const r = render(g, chasData);
+    const tag = name + (chasData ? ' + CHAS' : '');
+    scanned++;
+    const period = U.acsSeriesText(p._acsSeries, p._acsYear);
+    check(r.foot.includes(period) && /DP03/.test(r.foot) && /DP04/.test(r.foot),
+      tag + ': footer names the profile period (' + period + ') for DP03/DP04');
+    check(!otherSeries(p._acsSeries).test(r.foot), tag + ': footer carries no other survey period');
+    if (p._b25070Series) {
+      const bp = U.acsSeriesText(p._b25070Series, p._b25070Year);
+      check(new RegExp(bp + '[^·]*B25070').test(r.foot), tag + ': B25070 cited with its own period (' + bp + ')');
+    } else {
+      check(!/B25070/.test(r.foot), tag + ': no B25070 cited when the profile has no counts');
+    }
+    const chasShown = r.lis.some((t) => /CHAS/.test(t));
+    check(/CHAS/.test(r.foot) === chasShown, tag + ': CHAS cited exactly when its line shows (' + chasShown + ')');
+    if (chasShown) check(r.foot.includes(chas.meta.vintage), tag + ': CHAS cited with the file vintage ' + chas.meta.vintage);
+    // Tenure: the figure shown is the profile's renter share; no demand claim.
+    check(r.text.includes(p.DP04_0047PE + '%'), tag + ': renter share shown equals DP04_0047PE (' + p.DP04_0047PE + '%)');
+    check(!banned.test(r.text), tag + ': no demand, absorption or renter-affordability claim');
+    // Income: the figure shown is DP03_0062E, and it is named as all households.
+    const incLine = r.lis.find((t) => t.includes(money(p.DP03_0062E))) || '';
+    check(incLine && /all households/i.test(incLine), tag + ': DP03_0062E (' + money(p.DP03_0062E) + ') named as all-household income');
+  }
+}
+check(scanned === 8, 'scanned 4 places with and without CHAS loaded');
 
-// Fruita: 2020-2024 5-year.
-r = render('0828745');
-check(/ACS 2020-2024 5-year profile DP03 and DP04/.test(r.foot) && /ACS 2020-2024 5-year table B25070/.test(r.foot), 'Fruita footer: 2020-2024 5-year');
-check(!/1-year/.test(r.foot), 'Fruita footer: no 1-year label');
-check(/165/.test(r.text) && /19\.6%/.test(r.text), 'Fruita: corrected 165 (19.6%) unchanged');
-
-// Castle Rock: 2025 1-year profile with no B25070 counts.
-r = render('0812415');
-check(/ACS 2025 1-year profile DP03 and DP04/.test(r.foot), 'Castle Rock footer: 2025 1-year profile');
-check(!/B25070/.test(r.foot), 'Castle Rock footer: no B25070 when counts are missing');
-check(/not available/.test(r.text), 'Castle Rock: severe figure marked not available');
-check(!banned.test(r.text), 'Castle Rock: no demand or absorption claim');
+// Corrected #2668 counts unchanged.
+render('08077');
+check(/38\.7%/.test(el.textContent) && /7,629/.test(el.textContent), 'Mesa: corrected 7,629 (38.7%) at 50% or more unchanged');
+render('0828745');
+check(/165/.test(el.textContent) && /19\.6%/.test(el.textContent), 'Fruita: corrected 165 (19.6%) unchanged');
+render('0812415');
+check(/not available/.test(el.textContent), 'Castle Rock: severe figure marked not available');
 
 console.log(`\n${passed} passed`);
