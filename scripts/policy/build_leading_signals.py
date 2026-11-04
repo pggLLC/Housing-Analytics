@@ -109,8 +109,10 @@ def main():
     # Prop 123 commitments, fast track, 2027-2029 filings
     p123 = load(P('data', 'policy', 'prop123_jurisdictions.json'))
     # Keyed by kind and name: "City of Ouray" and "Ouray County" both normalise to "ouray".
+    # A consolidated "City and County of" government is a county, as cycle 1 records it.
     def c2_key(name):
-        return ('county' if re.search(r'County$', name) else 'place', norm(name))
+        county = re.search(r'County$', name) or re.match(r'City and County of\s', name, re.I)
+        return ('county' if county else 'place', norm(name))
     cycle2 = {c2_key(f['name']): f for f in (p123.get('next_cycle') or {}).get('filings', [])}
     seen_c2 = set()
     for j in p123['jurisdictions']:

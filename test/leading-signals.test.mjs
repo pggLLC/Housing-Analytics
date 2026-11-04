@@ -43,11 +43,25 @@ for (const [geoid, rec] of Object.entries(data.places)) {
 // Every 2027-2029 filing lands on a place of its own kind: "City of Ouray" and
 // "Ouray County" share a name once normalised, and each keeps its own goal.
 const p123 = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/policy/prop123_jurisdictions.json'), 'utf8'));
+// A filing by a government that also filed in cycle 1 takes that record's kind
+// (a "City and County of" government is a county there), and joins the same
+// row as its existing commitment rather than adding a second one.
+const cycle1 = new Map(p123.jurisdictions.map((j) => [j.name, j]));
+let joined = 0;
 for (const f of (p123.next_cycle || {}).filings || []) {
-  const isCounty = /County$/.test(f.name);
+  const prior = cycle1.get(f.name);
+  const isCounty = prior ? prior.kind === 'county' : /County$/.test(f.name);
   const hit = Object.values(data.places).some((rec) => /^\d{5}$/.test(rec.geoid) === isCounty
-    && (rec.signals.prop123 || []).some((r) => r.cycle2_submitted === f.submitted && r.cycle2_unit_goal === f.unit_goal));
-  if (!data.meta.unmatched.includes(f.name)) assert.ok(hit, `${f.name}: cycle-2 filing is on a ${isCounty ? 'county' : 'place'}`);
+    && (rec.signals.prop123 || []).some((r) => r.cycle2_submitted === f.submitted && r.cycle2_unit_goal === f.unit_goal
+      && (!prior || r.filing_date === prior.filing_date)));
+  if (!data.meta.unmatched.includes(f.name)) {
+    assert.ok(hit, `${f.name}: cycle-2 filing is on a ${isCounty ? 'county' : 'place'}${prior ? ', on its cycle-1 commitment' : ''}`);
+    if (prior) joined++;
+  }
+}
+assert.ok(joined > 0, 'the scan found cycle-2 filings with a cycle-1 commitment to join');
+for (const rec of Object.values(data.places)) {
+  assert.ok((rec.signals.prop123 || []).length <= 1, `${rec.name}: one Prop 123 signal, not a split commitment and filing`);
 }
 const ourayCity = Object.values(data.places).find((rec) => rec.name === 'Ouray (city)');
 assert.ok(ourayCity && ourayCity.signals.prop123[0].cycle2_unit_goal != null, 'City of Ouray keeps its own cycle-2 filing');
