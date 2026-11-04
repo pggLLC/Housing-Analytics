@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-04T03:04:15.875086Z",
+  "generated": "2026-11-04T05:39:54.676864Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1024683
+      "bytes": 1025044
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9124,7 +9124,7 @@
     "data/market/reference-projects.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25321
+      "bytes": 213626
     },
     "data/market/relocation-comparables.json": {
       "featureCount": 0,
@@ -9234,7 +9234,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16685
+      "bytes": 16687
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -9745,6 +9745,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 21043
+    },
+    "data/policy/leading-signals.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 219482
     },
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,

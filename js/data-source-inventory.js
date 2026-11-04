@@ -1040,21 +1040,21 @@
       name: 'Market Reference Projects',
       category: 'Market Analysis',
       format: 'JSON',
-      provider: 'Internal',
+      provider: 'CHFA (properties) + COHO (score today)',
       url: null,
       localFile: 'data/market/reference-projects.json',
-      lastUpdated: '2026-03-08',
-      // Hand-assembled from CHFA/HUD LIHTC public records; no generator
-      // script has ever written this file, so the 'Quarterly' cadence it
-      // used to declare described a refresh that nothing performs.
+      lastUpdated: '2026-11-04',
+      // Built by scripts/market/build_reference_projects.mjs from
+      // data/chfa-lihtc.json. It needs Chromium, so no workflow runs it:
+      // it is rebuilt by hand when its inputs change.
       maintenance: 'curated',
-      maintenanceNote: 'Hand-assembled from CHFA and HUD LIHTC public records as a fixed peer-benchmark set. No script refreshes it, so it carries no cadence — it is updated when the benchmark set is deliberately revised.',
-      updateFrequency: 'Curated \u2014 no automated refresh',
+      maintenanceNote: 'Real CHFA tax-credit properties awarded 2015-2025, copied from data/chfa-lihtc.json, each scored by the Market analysis page today at every buffer. Rebuilt by hand with scripts/market/build_reference_projects.mjs when the CHFA feed or the market engine changes.',
+      updateFrequency: 'Curated \u2014 rebuilt by hand',
       maxAgeDays: null,
       geoUnit: 'Project',
       coverage: 'Colorado statewide',
-      features: 50,
-      description: '50 Colorado LIHTC benchmark projects for PMA comparable analysis.',
+      features: 443,
+      description: '443 Colorado tax-credit properties awarded 2015-2025 (CHFA), scored by the Market analysis page today, for peer comparison.',
       tags: ['market-analysis', 'benchmarks', 'lihtc'],
       apiEndpoint: null
     },
@@ -1257,7 +1257,7 @@
       maxAgeDays: 30,
       geoUnit: 'N/A',
       coverage: 'All data files',
-      features: 1997,
+      features: 1998,
       description: 'Auto-generated manifest listing all data files with feature counts and timestamps.',
       tags: ['manifest', 'system', 'metadata'],
       apiEndpoint: null
