@@ -93,3 +93,26 @@ def test_moving_from_the_1_year_keeps_no_1_year_figures(tmp_path):
     # The backfill's own 5-year field and its stamp carry over.
     assert prof["DP04_0076E"] == 300000 and prof["_acs5BackfillYear"] == "2024"
     assert prof["_acsSeries"] == "acs5"
+
+
+def test_commuting_modes_moving_from_the_1_year_keep_no_1_year_counts(tmp_path):
+    # B08301 has no stamp of its own; its series is read from the source endpoint.
+    path = tmp_path / "08031.json"
+    path.write_text(json.dumps({
+        "acsB08301": {"total": 400000, "transit": 5},
+        "source": {"acs_b08301_endpoint": "https://api.census.gov/data/2025/acs/acs1"},
+    }))
+    payload = {
+        "acsB08301": {"total": 390000, "transit": None},
+        "source": {"acs_b08301_endpoint": "https://api.census.gov/data/2024/acs/acs5"},
+    }
+    merged, _, _ = hna._merge_preserve_summary(str(path), payload)
+    assert merged["acsB08301"]["total"] == 390000
+    assert merged["acsB08301"]["transit"] is None
+
+
+def test_browser_fallback_asks_the_5_year_unless_opted_in():
+    js = (ROOT / "js" / "hna" / "hna-controller.js").read_text(encoding="utf-8")
+    assert "const include1y = window.HNAUtils.ACS_INCLUDE_1YEAR === true;" in js
+    assert "include1y ? await fetchMergedProfile(window.HNAUtils.ACS_YEAR_PRIMARY, 'acs/acs1/profile'" in js
+    assert "geoType !== 'cdp' && window.HNAUtils.ACS_INCLUDE_1YEAR === true" in js

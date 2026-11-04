@@ -21,6 +21,7 @@ import io
 import json
 import os
 import subprocess
+import re
 import sys
 import threading
 import time
@@ -1609,6 +1610,12 @@ def _run_diagnostics(geo_type: str, geoid: str) -> None:
         )
 
 
+def _endpoint_series(url) -> str | None:
+    """'acs1' or 'acs5' from a Census API endpoint such as .../2024/acs/acs5."""
+    m = re.search(r'/acs/(acs[15])(?:/|$)', str(url or ''))
+    return m.group(1) if m else None
+
+
 def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bool]:
     """Never let a rebuild replace good data with nulls.
 
@@ -1680,6 +1687,10 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
         # section, such as the extended backfill's overcrowding counts) were
         # written by that 5-year backfill, so they and its stamp carry over.
         old_series, new_series = old_sec.get('_acsSeries'), new_sec.get('_acsSeries')
+        if section == 'acsB08301':
+            # B08301 carries no stamp of its own; its series is in the source endpoint.
+            old_series = _endpoint_series((existing.get('source') or {}).get('acs_b08301_endpoint'))
+            new_series = _endpoint_series((payload.get('source') or {}).get('acs_b08301_endpoint'))
         if old_series and new_series and old_series != new_series:
             for k, v in old_sec.items():
                 if v is None or k in new_sec:
