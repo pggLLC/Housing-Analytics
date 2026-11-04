@@ -276,7 +276,7 @@
     var current = _numOrNull(input.value);
     // A price the user typed or a shared deal carried is theirs: the benchmark
     // load (data/market/novogradac-equity-pricing.json) can land after a share
-    // link hydrates, and its forced default reset a shared $0.89 to $0.82
+    // link hydrates, and its forced default reset a shared price to the benchmark
     // (2026-11-04 rehearsal: the recipient's gap was $1,190,000 higher).
     if (_equityPriceWritten && current != null) return defaultPrice;
     var shouldUpdate = opts.force || current == null ||
