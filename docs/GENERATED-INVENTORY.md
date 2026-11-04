@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T15:33:54.417Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T16:35:28.370Z. Do not edit by hand.
 
 ---
 
@@ -102,7 +102,7 @@
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
 | `data/_manifest.json` | 1001.5 KB | ✅ | — |
-| `data/_qa-status.json` | 7.5 KB | ✅ | — |
+| `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
 | `data/affordable-housing/local-pha-roster/denver-housing-authority.json` | 919 B | ✅ | — |
