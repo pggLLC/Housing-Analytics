@@ -395,7 +395,7 @@
     "test:capture-relocation": "node test/capture-relocation.test.mjs",
     "test:pma-workplaces": "node test/pma-workplaces.test.mjs",
     "test:leading-signals": "node test/leading-signals.test.mjs",
-    "test:where-to-build": "node test/where-to-build.test.mjs && python3 scripts/policy/build_where_to_build_context.py --check && python3 scripts/policy/build_local_commitment.py --check",
+    "test:where-to-build": "node test/where-to-build.test.mjs && node test/where-to-build-charts.test.mjs && python3 scripts/policy/build_where_to_build_context.py --check && python3 scripts/policy/build_local_commitment.py --check",
     "test:repo-private-data": "node test/repo-private-data.test.mjs",
     "test:policy-briefs-curated": "node test/policy-briefs-curated.test.js",
     "test:fee-reductions-surfaces": "node test/fee-reductions-surfaces.test.js",

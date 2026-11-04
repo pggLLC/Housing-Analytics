@@ -131,6 +131,7 @@ const BLOCKED_PATHS = [
   'js/components/pipeline-store.js',
   'js/components/private-workspace.js',
   'js/where-to-build.js',
+  'js/where-to-build-charts.js',
   'js/whitepaper'
 ];
 
