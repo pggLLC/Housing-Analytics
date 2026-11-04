@@ -26,6 +26,7 @@
 
   /** Trigger a file download for a Blob in browsers that support it. */
   function _triggerDownload(blob, filename) {
+    if (!_exportStillCurrent()) return;
     var url = URL.createObjectURL(blob);
     var a   = document.createElement('a');
     a.href     = url;
@@ -33,6 +34,81 @@
     document.body.appendChild(a);
     a.click();
     setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1500);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Bind each download to one finished page load.
+  //
+  // Changing the place starts an asynchronous load. A download started while
+  // that load runs (or a slow PDF or workbook that is still being built when
+  // the place changes) used to mix the two places: one county's name and
+  // narrative with the other's GEOID and figures. Each download now waits for
+  // the load to finish, records which load it read, and is dropped and rebuilt
+  // if the page changed before the file was saved.
+  // ---------------------------------------------------------------------------
+  var _exportCtx = null;
+
+  function _controller() {
+    var c = window.HNAController;
+    return (c && typeof c.whenSettled === 'function' && typeof c.updateSeq === 'function') ? c : null;
+  }
+
+  /** True when the page shows one finished load for the selected place. */
+  function _pageMatchesSelection() {
+    var c = _controller();
+    if (c && c.isUpdating && c.isUpdating()) return false;
+    var cur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
+    if (!cur || cur.geoType === 'combined') return true;
+    var sel = document.getElementById('geoSelect');
+    if (!sel || !sel.value) return true;
+    return String(cur.geoid) === String(sel.value);
+  }
+
+  /** Called at every file sink: false means the page moved on, so do not save. */
+  function _exportStillCurrent() {
+    if (!_exportCtx) return true;
+    var c = _controller();
+    if (_exportCtx.stale) return false;
+    if ((c && c.updateSeq() !== _exportCtx.seq) || !_pageMatchesSelection()) {
+      _exportCtx.stale = true;
+      return false;
+    }
+    return true;
+  }
+
+  function _guardExport(fn, label) {
+    return async function guardedExport() {
+      var args = arguments;
+      var c = _controller();
+      if (!c) return fn.apply(this, args);
+      // A caller that hands in its own report data owns that data.
+      if (args[0] && typeof args[0] === 'object' && fn !== exportStructuredPdf && fn !== exportPdf) {
+        return fn.apply(this, args);
+      }
+      var self = this;
+      for (var attempt = 0; attempt < 3; attempt++) {
+        if (!_pageMatchesSelection()) {
+          _showExportToast('Loading the selected place. The ' + label + ' starts when it is ready.', 'info');
+        }
+        var seq = await c.whenSettled();
+        if (!_pageMatchesSelection()) {
+          // The load finished but the page does not show the selected place
+          // (the load failed or was cut short). Do not write a mixed file.
+          _showExportToast('This place has not finished loading, so the ' + label + ' was not made. Try again in a moment.', 'warn');
+          return;
+        }
+        var ctx = { seq: seq, stale: false };
+        _exportCtx = ctx;
+        try {
+          await fn.apply(self, args);
+        } finally {
+          if (_exportCtx === ctx) _exportCtx = null;
+        }
+        if (!ctx.stale) return;
+        _showExportToast('The place changed while the ' + label + ' was being made. Making it again for the place now shown.', 'info');
+      }
+      _showExportToast('The place kept changing, so the ' + label + ' was not made. Try again.', 'warn');
+    };
   }
 
   /**
@@ -43,6 +119,7 @@
    * @param {'success'|'info'|'warn'} [type='success'] - Toast colour variant
    */
   function _showExportToast(message, type) {
+    if (_exportCtx && _exportCtx.stale) return;
     var bgMap = {
       success: 'var(--good,#047857)',
       info:    'var(--accent,#2563eb)',
@@ -959,7 +1036,7 @@
         remaining -= pageH;
       }
 
-      pdf.save(outFile);
+      if (_exportStillCurrent()) pdf.save(outFile);
       _showExportToast('PDF downloaded \u2713');
     } catch (e) {
       console.warn('[HNA] PDF export failed; falling back to print()', e);
@@ -1580,7 +1657,7 @@
       y += (disclaimer.length * 10) + 6;
 
       drawPageFooter();
-      pdf.save(outFile);
+      if (_exportStillCurrent()) pdf.save(outFile);
       _showExportToast('PDF downloaded ✓');
     } catch (e) {
       console.warn('[HNA] Structured PDF export failed; falling back to screenshot path', e);
@@ -1599,10 +1676,10 @@
   // F173 — primary PDF entry point routes through the structured builder.
   // The old screenshot exportPdf is kept reachable for fallback (and on
   // explicit consumer call via window.__HNA_exportPdfScreenshot).
-  window.__HNA_exportPdf            = exportStructuredPdf;
-  window.__HNA_exportPdfScreenshot  = exportPdf;
-  window.__HNA_exportCsv       = exportCsv;
-  window.__HNA_exportJson      = exportJson;
+  window.__HNA_exportPdf            = _guardExport(exportStructuredPdf, 'PDF');
+  window.__HNA_exportPdfScreenshot  = _guardExport(exportPdf, 'PDF');
+  window.__HNA_exportCsv       = _guardExport(exportCsv, 'CSV');
+  window.__HNA_exportJson      = _guardExport(exportJson, 'JSON file');
   // The transit-zone rows every export writes, for the panel as it stands
   // for `geoid` (test/transit-zone-absence.test.mjs).
   window.__HNA_transitZoneRows = function (geoid) {
@@ -1890,11 +1967,7 @@
 
       var buf  = await wb.xlsx.writeBuffer();
       var blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      var url  = URL.createObjectURL(blob);
-      var a    = document.createElement('a');
-      a.href = url; a.download = outFile;
-      document.body.appendChild(a); a.click();
-      setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1000);
+      _triggerDownload(blob, outFile);
       _showExportToast('Excel workbook downloaded ✓');
     } catch (e) {
       console.warn('[HNA] Excel export failed:', e);
@@ -1904,6 +1977,6 @@
     }
   }
 
-  window.__HNA_exportExcel = exportExcel;
+  window.__HNA_exportExcel = _guardExport(exportExcel, 'workbook');
 
 })();

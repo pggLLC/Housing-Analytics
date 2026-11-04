@@ -414,11 +414,11 @@ test('HTML: native-print PDF fallback loads the shared print stylesheet', () => 
 test('hna-export.js: structured PDF remains primary and screenshot export remains fallback-only', () => {
     const modularExportJs = fs.readFileSync(path.join(ROOT, 'js', 'hna', 'hna-export.js'), 'utf8');
     assert(
-        /window\.__HNA_exportPdf\s*=\s*exportStructuredPdf\s*;/.test(modularExportJs),
+        /window\.__HNA_exportPdf\s*=\s*_guardExport\(exportStructuredPdf\b/.test(modularExportJs),
         'window.__HNA_exportPdf remains bound to exportStructuredPdf'
     );
     assert(
-        /window\.__HNA_exportPdfScreenshot\s*=\s*exportPdf\s*;/.test(modularExportJs),
+        /window\.__HNA_exportPdfScreenshot\s*=\s*_guardExport\(exportPdf\b/.test(modularExportJs),
         'html2canvas export remains separately bound as the screenshot fallback'
     );
 });
