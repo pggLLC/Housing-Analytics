@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-04T21:49:10.597593Z",
+  "generated": "2026-11-04T22:19:51.415989Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -5744,7 +5744,7 @@
     "data/hna/second-homes-str.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 261433
+      "bytes": 261971
     },
     "data/hna/source/acs_b08202.json": {
       "featureCount": 0,
@@ -8854,7 +8854,7 @@
     "data/market/chfa_renter_demand_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 147073
+      "bytes": 147143
     },
     "data/market/childcare_co.geojson": {
       "featureCount": 2860,

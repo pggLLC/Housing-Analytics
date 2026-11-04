@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-04T21:49:06.637Z",
+    "generated_at": "2026-11-04T22:19:47.805Z",
     "root": "data/",
     "file_count": 2016,
-    "total_size_bytes": 218218975,
+    "total_size_bytes": 218219708,
     "kinds": {
       "json": 1967,
       "geojson": 35,
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-04T21:49:02.978Z",
+      "mtime": "2026-11-04T22:19:43.554Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -26017,8 +26017,8 @@
     {
       "path": "hna/second-homes-str.json",
       "kind": "json",
-      "size_bytes": 261433,
-      "mtime": "2026-11-04T13:20:52.332Z",
+      "size_bytes": 261971,
+      "mtime": "2026-11-04T22:17:51.382Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38247,8 +38247,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 256106,
-      "mtime": "2026-11-04T18:36:53.290Z",
+      "size_bytes": 256231,
+      "mtime": "2026-11-04T22:19:06.446Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -38502,8 +38502,8 @@
     {
       "path": "market/chfa_renter_demand_co.json",
       "kind": "json",
-      "size_bytes": 147073,
-      "mtime": "2026-10-23T13:12:08.073Z",
+      "size_bytes": 147143,
+      "mtime": "2026-11-04T22:17:51.514Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -40047,7 +40047,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-04T21:49:04.829Z",
+      "mtime": "2026-11-04T22:19:45.703Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40071,7 +40071,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-04T21:49:04.370Z",
+      "mtime": "2026-11-04T22:19:45.174Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

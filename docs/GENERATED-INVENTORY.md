@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T21:48:28.796Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T22:19:06.494Z. Do not edit by hand.
 
 ---
 
@@ -20,10 +20,10 @@
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 17.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 41.5 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 224.9 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 224.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
-| `commuting.html` | Commuting and Jobs | COHO Analytics | 10.0 KB |
+| `commuting.html` | Commuting and Jobs | COHO Analytics | 10.1 KB |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.5 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.5 KB |
@@ -35,7 +35,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.3 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.5 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.1 KB |
@@ -87,7 +87,7 @@
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.7 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 13.7 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 13.8 KB |
 | `state-allocation-map.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `terms-of-use.html` | Terms of Use | COHO Analytics | 5.4 KB |
 | `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 3.3 KB |
@@ -101,7 +101,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1002.3 KB | ✅ | — |
+| `data/_manifest.json` | 1002.8 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -1239,7 +1239,7 @@
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
-| `data/hna/second-homes-str.json` | 255.3 KB | ✅ | — |
+| `data/hna/second-homes-str.json` | 255.8 KB | ✅ | — |
 | `data/hna/source/acs_b08202.json` | 423.0 KB | ✅ | — |
 | `data/hna/source/census_age_2010_2020.json` | 170.9 KB | ✅ | — |
 | `data/hna/source/colorado_vital_rates.json` | 4.6 KB | ✅ | — |
@@ -1848,7 +1848,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 13.2 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 250.1 KB | ✅ | — |
+| `data/manifest.json` | 250.2 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1861,7 +1861,7 @@
 | `data/market/chas_co.json` | 159.0 KB | ✅ | — |
 | `data/market/chas_tract_co.json` | 3.43 MB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
-| `data/market/chfa_renter_demand_co.json` | 143.6 KB | ✅ | — |
+| `data/market/chfa_renter_demand_co.json` | 143.7 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
 | `data/market/co-adaptive-reuse-references.json` | 13.7 KB | ✅ | — |
 | `data/market/co-construction-labor-cost.json` | 128.3 KB | ✅ | — |
@@ -2503,7 +2503,7 @@
 | `test/next-step-link.test.js` | 8.7 KB |
 | `test/nhpd-coverage.test.js` | 14.1 KB |
 | `test/nlihc-out-of-reach.test.mjs` | 4.7 KB |
-| `test/no-synthesized-chfa-awards.test.js` | 3.9 KB |
+| `test/no-synthesized-chfa-awards.test.js` | 4.3 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
 | `test/one-canonical-step-sequence.test.mjs` | 6.2 KB |
@@ -2648,7 +2648,7 @@
 | `test/scenario-baseline-reproduces-sdo.test.js` | 12.4 KB |
 | `test/scenario-builder-loaded-geography.test.js` | 11.1 KB |
 | `test/scenario-presets-shared.test.js` | 5.7 KB |
-| `test/second-homes-str.test.mjs` | 7.6 KB |
+| `test/second-homes-str.test.mjs` | 9.5 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
 | `test/shared-equity-brief.test.mjs` | 5.8 KB |
