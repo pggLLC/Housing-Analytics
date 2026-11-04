@@ -58,7 +58,12 @@ async function main() {
   assert.equal(silverton.status, 'Commitment Met', 'non-default status is preserved verbatim');
 
   const mountCrestedButte = api.relationship(DATA, 'place', 'Mount Crested Butte (town)');
-  assert.equal(mountCrestedButte.status, 'Committed', 'DOLA Mt. abbreviation matches the full HNA label');
+  // DOLA writes "Mt. Crested Butte"; the HNA label spells out Mount. Pin the
+  // match, not the town's status, which changes as DOLA verifies it.
+  const mcbRecord = DATA.jurisdictions.find(j => j.name === 'Town of Mount Crested Butte');
+  assert.ok(mcbRecord, 'the data file carries DOLA\'s Mt. Crested Butte record');
+  assert.equal(mountCrestedButte.record, mcbRecord, 'DOLA Mt. abbreviation matches the full HNA label');
+  assert.equal(mountCrestedButte.status, mcbRecord.status, 'its status is the record\'s own');
 
   const absent = api.relationship(DATA, 'cdp', 'Clifton (CDP)');
   assert.equal(absent.record, null, 'an absent geography does not fabricate a record');

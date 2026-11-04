@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29",
+  "updated": "2026-11-04",
   "source_url": "https://cdola.colorado.gov/commitment-filings",
   "sources": {
     "cycle1_filings": {
@@ -12,7 +12,8 @@
       "sheet_last_updated": "2026-10-28"
     },
     "fully_compliant": {
-      "page": "https://cdola.colorado.gov/fully-compliant-jurisdictions-under-proposition-123"
+      "page": "https://cdola.colorado.gov/fully-compliant-jurisdictions-under-proposition-123",
+      "sheet": "https://docs.google.com/spreadsheets/d/1OuAIp8mpoR7GNW0kDWb1Ubl5iuRQLJkfvDkW0OQh-Ug"
     },
     "next_cycle_filings": {
       "page": "https://cdola.colorado.gov/commitment-filings"
@@ -31,7 +32,7 @@
       "fast_track_adopted": "2026-08-12"
     }
   ],
-  "commitment_met_count": 54,
+  "commitment_met_count": 75,
   "next_cycle": {
     "cycle": "2027-2029",
     "filing_deadline": "2026-11-01",
@@ -384,13 +385,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 501,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-09",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-06-23",
       "fast_track_instrument": "Resolution No. 2026-223",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-07-31",
+        "unit_commitment": "2026-10-30",
+        "required_units_met": 422
+      },
       "next_cycle": null
     },
     {
@@ -416,13 +421,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 16,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-17",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": null,
       "fast_track_instrument": "Resolution 2025-79",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2025-12-22",
+        "unit_commitment": "2026-10-29",
+        "required_units_met": 16
+      },
       "next_cycle": null
     },
     {
@@ -762,13 +771,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 502,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-29",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-06-30",
       "fast_track_instrument": "Resolution No. CC26-175 (Board agenda Memo)",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-07-10",
+        "unit_commitment": "2026-10-29",
+        "required_units_met": 327
+      },
       "next_cycle": null
     },
     {
@@ -819,13 +832,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 23,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-08-11",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-12-04",
       "fast_track_instrument": "Resolution 2025-32, Exhibit A",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2025-12-12",
+        "unit_commitment": "2026-10-30",
+        "required_units_met": 15
+      },
       "next_cycle": null
     },
     {
@@ -1376,13 +1393,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 2274,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-06-26",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-12-19",
       "fast_track_instrument": "Administrative Regulation 2025-07 Affordable Housing Fast Track Review Policy",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2025-12-30",
+        "unit_commitment": "2026-10-30",
+        "required_units_met": 2274
+      },
       "next_cycle": null
     },
     {
@@ -1540,13 +1561,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 20,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-09-13",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-05-19",
       "fast_track_instrument": "Resolution No. 2026-09",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-06-15",
+        "unit_commitment": "2026-10-29",
+        "required_units_met": 20
+      },
       "next_cycle": null
     },
     {
@@ -1677,13 +1702,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 64,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-07-14",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-12-04",
       "fast_track_instrument": "Resolution 2025-29A",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2025-12-22",
+        "unit_commitment": "2026-11-03",
+        "required_units_met": 45
+      },
       "next_cycle": null
     },
     {
@@ -1841,13 +1870,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 115,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-07-27",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-10-20",
       "fast_track_instrument": "Resolution No. 2026-26",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-10-27",
+        "unit_commitment": "2026-09-01",
+        "required_units_met": 115
+      },
       "next_cycle": {
         "submitted": "2026-10-23",
         "begins": "2027-01-01",
@@ -1903,13 +1936,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 23,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-08-11",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-12-02",
       "fast_track_instrument": "Ordinance No. 3, Series of 2025\n(See City Council Agenda Packet, Item #7c, pages 36-41)",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2025-12-05",
+        "unit_commitment": "2026-10-28",
+        "required_units_met": 20
+      },
       "next_cycle": null
     },
     {
@@ -2233,13 +2270,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 268,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-17",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-05-26",
       "fast_track_instrument": "Ordinance 3774 CD2026-111 Amending Article II of Chapter 18 of Municipal Code",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-06-25",
+        "unit_commitment": "2026-11-03",
+        "required_units_met": 268
+      },
       "next_cycle": null
     },
     {
@@ -2265,13 +2306,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 4,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-11-01",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-07-31",
       "fast_track_instrument": "Ordinance No. 523",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2025-08-22",
+        "unit_commitment": "2026-11-02",
+        "required_units_met": 4
+      },
       "next_cycle": null
     },
     {
@@ -2313,13 +2358,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 218,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-02",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-10-27",
       "fast_track_instrument": "Resolution No. 54, Series of 2025",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2025-11-14",
+        "unit_commitment": "2026-10-29",
+        "required_units_met": 142
+      },
       "next_cycle": null
     },
     {
@@ -2409,13 +2458,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 34,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-11-01",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-10-27",
       "fast_track_instrument": "Resolution 26-18",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-10-28",
+        "unit_commitment": "2026-10-21",
+        "required_units_met": 34
+      },
       "next_cycle": null
     },
     {
@@ -3081,13 +3134,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 1,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-06-15",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-05-21",
       "fast_track_instrument": "Resolution No. 2026-07",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-07-02",
+        "unit_commitment": "2026-11-03",
+        "required_units_met": 1
+      },
       "next_cycle": null
     },
     {
@@ -3435,13 +3492,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 8,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-27",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-10-07",
       "fast_track_instrument": "Resolution No. 15, Series 2025",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2025-10-10",
+        "unit_commitment": "2026-10-27",
+        "required_units_met": 8
+      },
       "next_cycle": {
         "submitted": "2026-10-27",
         "begins": "2027-01-01",
@@ -3513,13 +3574,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 12,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-09-21",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-05-19",
       "fast_track_instrument": "Ordinance No. 890",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-06-05",
+        "unit_commitment": "2026-11-02",
+        "required_units_met": 3
+      },
       "next_cycle": null
     },
     {
@@ -3645,13 +3710,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 19,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-11",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-12-02",
       "fast_track_instrument": "Resolution 2025-23",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2025-12-19",
+        "unit_commitment": "2026-10-28",
+        "required_units_met": 19
+      },
       "next_cycle": null
     },
     {
@@ -3661,13 +3730,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "1-Year (3%)",
       "proposed_units": 9,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2025-10-29",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-12-09",
       "fast_track_instrument": "Resolution No. 2025-33",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-10-20",
+        "unit_commitment": "2026-10-27",
+        "required_units_met": 9
+      },
       "next_cycle": null
     },
     {
@@ -3693,13 +3766,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 27,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-07-20",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-10-15",
       "fast_track_instrument": "Ordinance No. 837-2026",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2026-10-27",
+        "unit_commitment": "2026-11-02",
+        "required_units_met": 4
+      },
       "next_cycle": null
     },
     {
@@ -4087,13 +4164,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 22,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-10-25",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-12-08",
       "fast_track_instrument": "Resolution Number R-94, Series of 2025",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2025-12-19",
+        "unit_commitment": "2026-10-28",
+        "required_units_met": 22
+      },
       "next_cycle": null
     },
     {
@@ -4103,13 +4184,17 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 12,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-07-10",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2025-12-16",
       "fast_track_instrument": "Resolution No. 36 Series of 2025",
-      "compliance_verified": null,
+      "compliance_verified": {
+        "expedited_review": "2025-12-31",
+        "unit_commitment": "2026-10-27",
+        "required_units_met": 8
+      },
       "next_cycle": {
         "submitted": "2026-10-22",
         "begins": "2027-01-01",
