@@ -2692,7 +2692,7 @@
     if (!ENH) { el2.innerHTML = '<div class="pma-empty">Enhancement module not loaded.</div>'; return; }
 
     var refProjects = referenceProjects && referenceProjects.projects ? referenceProjects.projects : [];
-    var overall = (typeof result.overall === 'number' && isFinite(result.overall)) ? result.overall : null;
+    var overall = Number.isFinite(result.overall) ? result.overall : null;
     var bench = ENH.benchmarkVsReference(overall, result, refProjects);
     lastBenchmark = bench;
 
