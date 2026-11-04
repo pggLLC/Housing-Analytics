@@ -82,10 +82,12 @@ check(scanned === 8, 'scanned 4 places with and without CHAS loaded');
 
 // Corrected #2668 counts unchanged.
 render('08077');
-check(/38\.7%/.test(el.textContent) && /7,629/.test(el.textContent), 'Mesa: corrected 7,629 (38.7%) at 50% or more unchanged');
+// Mesa moved to the 2020-2024 5-year on 4 Nov 2026: 4,111 (25.1%) at 50%+.
+check(/25\.1%/.test(el.textContent) && /4,111/.test(el.textContent), 'Mesa: 4,111 (25.1%) at 50% or more on the 2020-2024 5-year');
 render('0828745');
 check(/165/.test(el.textContent) && /19\.6%/.test(el.textContent), 'Fruita: corrected 165 (19.6%) unchanged');
 render('0812415');
-check(/not available/.test(el.textContent), 'Castle Rock: severe figure marked not available');
+// Its 1-year profile had no B25070 counts; the 5-year has them (4 Nov 2026).
+check(/1,573/.test(el.textContent) && /27\.9%/.test(el.textContent), 'Castle Rock: 1,573 (27.9%) at 50% or more on the 2020-2024 5-year');
 
 console.log(`\n${passed} passed`);

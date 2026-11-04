@@ -11,6 +11,14 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "hna"))
 
 import build_hna_data as hna  # noqa: E402
+import pytest  # noqa: E402
+
+
+@pytest.fixture(autouse=True)
+def _include_1year(monkeypatch):
+    # These tests exercise the 1-year -> 5-year fallback, which since
+    # 4 Nov 2026 runs only when the 1-year is asked for.
+    monkeypatch.setenv("HNA_ACS_INCLUDE_1YEAR", "1")
 
 
 class _NoContentResponse:

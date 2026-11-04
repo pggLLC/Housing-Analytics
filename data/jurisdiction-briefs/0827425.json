@@ -181,7 +181,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Deep affordability priority for City of Fort Collins. It classifies rental pressure as Very High, ownership pressure as Moderate, and counts 11,790 renter households earning 51–100% of area median income: the income range ownership programs usually serve, not a count of ready buyers.",
+          "text": "The Affordable Ownership Need screening module recommends Deep affordability priority for City of Fort Collins. It classifies rental pressure as Very High, ownership pressure as Moderate, and counts 11,742 renter households earning 51–100% of area median income: the income range ownership programs usually serve, not a count of ready buyers.",
           "cites": [
             "own1",
             "own2",
@@ -190,7 +190,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 17,944 renter households and 7,111 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 17,873 renter households and 7,105 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -234,7 +234,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Fort Collins at #18 with an overall housing-need score of 81.4. It identifies 8,113 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 66.7% of <=30% AMI households. 61% of renter households are cost burdened, and 0.9% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Fort Collins at #25 with an overall housing-need score of 79.4. It identifies 8,113 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 66.7% of <=30% AMI households. 57.6% of renter households are cost burdened, and 0.9% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -245,7 +245,7 @@
           ]
         },
         {
-          "text": "Market and supply context: the digest reports a ZHVI market estimate of $560,192 and median gross rent of $1,833. 48.5% of households rent, and 30.7% of the housing stock is multifamily.",
+          "text": "Market and supply context: the digest reports a ZHVI market estimate of $560,192 and median gross rent of $1,690. 48.4% of households rent, and 28.8% of the housing stock is multifamily.",
           "cites": [
             "d7",
             "d8",
@@ -254,7 +254,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 171,503. LEHD-based commuting signals show 51,143 in-commuters and a commute ratio of 59%. The digest's 20-year figure is 20,616 homes. Projected resident growth gives 16,088; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 4,528: homes for a quarter of the households, at or below 120% AMI, of the people who commute into City of Fort Collins, if they moved closer.",
+          "text": "Demographics and demand: the population metric is 170,229. LEHD-based commuting signals show 51,143 in-commuters and a commute ratio of 59%. The digest's 20-year figure is 21,052 homes. Projected resident growth gives 16,524; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 4,528: homes for a quarter of the households, at or below 120% AMI, of the people who commute into City of Fort Collins, if they moved closer.",
           "cites": [
             "d11",
             "d12",
@@ -272,7 +272,7 @@
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 56.6. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $81,574 and a rent affordability gap of $18,320. The county-context service-sector employment share is 38.3%, and county-context ACS cohorts show median gross rent changed 109% from 2009 to 2024 while median household income changed 71.2%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 56.6. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $81,574 and a rent affordability gap of $12,600. The county-context service-sector employment share is 38.3%, and county-context ACS cohorts show median gross rent changed 109% from 2009 to 2024 while median household income changed 71.2%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -565,7 +565,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-04T22:38:18Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -574,7 +574,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-04T22:38:18Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -601,7 +601,7 @@
     },
     {
       "id": "d5",
-      "label": "Renter cost-burden rate - jurisdiction metrics digest (ACS 2025 1-year)",
+      "label": "Renter cost-burden rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -628,7 +628,7 @@
     },
     {
       "id": "d8",
-      "label": "Median gross rent - jurisdiction metrics digest (ACS 2025 1-year)",
+      "label": "Median gross rent - jurisdiction metrics digest (ACS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -637,7 +637,7 @@
     },
     {
       "id": "d9",
-      "label": "Renter household share - jurisdiction metrics digest (ACS 2025 1-year)",
+      "label": "Renter household share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -646,7 +646,7 @@
     },
     {
       "id": "d10",
-      "label": "Multifamily housing-stock share - jurisdiction metrics digest (ACS 2025 1-year)",
+      "label": "Multifamily housing-stock share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -655,7 +655,7 @@
     },
     {
       "id": "d11",
-      "label": "Population - jurisdiction metrics digest (ACS 2025 1-year)",
+      "label": "Population - jurisdiction metrics digest (ACS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -709,7 +709,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-04T22:38:18Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -718,7 +718,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-04T22:38:18Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -727,7 +727,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-03T02:02:08Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-04T22:38:18Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

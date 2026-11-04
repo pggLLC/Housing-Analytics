@@ -261,7 +261,9 @@ const line = (id) => document.getElementById(id);
     assert(checked >= 3500, `only ${checked} cards checked`);
     assert(withMargin >= 2000, `only ${withMargin} margins checked`);
     assert(caution >= 300, `only ${caution} caution figures checked`);
-    for (const k of ['margins', 'caution', 'zillow', 'rawHome', 'oneYear']) assert(PICK[k], `the scan found no ${k} case`);
+    // Since 4 Nov 2026 every summary loads the 5-year, so a real 1-year case is
+    // optional; the 1-year test below makes one up when the data has none.
+    for (const k of ['margins', 'caution', 'zillow', 'rawHome']) assert(PICK[k], `the scan found no ${k} case`);
   });
 
   await test('the label comes from the figure, not from the summary\'s stamp', async () => {
@@ -332,10 +334,12 @@ const line = (id) => document.getElementById(id);
     // paul, 2026-10-18: "show the difference from the 5 and note the margin of
     // error". The twins are made up here, so the case does not wait on a
     // margins build; the scan above checks every real one against the file.
-    const g = PICK.oneYear;
-    const rent = FILE.geos[g].DP04_0134E;
-    const burden = FILE.geos[g].rent_burden_30plus;
-    const pop = FILE.geos[g].DP05_0001E;
+    // With no real 1-year geography (the 5-year rule), a 5-year one is relabelled.
+    const g = PICK.oneYear || PICK.margins;
+    const asOne = (e) => (PICK.oneYear ? e : Object.assign({}, e, { s: 'acs1' }));
+    const rent = asOne(FILE.geos[g].DP04_0134E);
+    const burden = asOne(FILE.geos[g].rent_burden_30plus);
+    const pop = asOne(FILE.geos[g].DP05_0001E);
     // Income is the card with no twin, so a real one from a margins build is dropped.
     const { five: _realTwin, ...income } = FILE.geos[g].DP03_0062E;
     const twins = {

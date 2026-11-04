@@ -1,13 +1,13 @@
 {
-  "generated": "2026-11-03T02:07:34.562Z",
+  "generated": "2026-11-04T22:42:27.213Z",
   "values": {
     "renter_cost_burden_pct": 52.9,
     "lihtc_property_count": 926,
     "average_lihtc_units_per_year": 3735,
     "average_lihtc_new_construction_units_per_year": 2935,
     "average_lihtc_preservation_units_per_year": 800,
-    "annual_le60_renter_household_growth": 5542,
-    "lihtc_new_construction_coverage_of_le60_renter_growth": 0.53
+    "annual_le60_renter_household_growth": 5796,
+    "lihtc_new_construction_coverage_of_le60_renter_growth": 0.506
   },
   "deficit_growth_basis": {
     "dola_household_growth_per_year": 28994,
@@ -16,13 +16,13 @@
       2044
     ],
     "le60_households_renter": 474599,
-    "total_households_acs": 2483142,
-    "le60_renter_share_of_all_households": 0.1911,
+    "total_households_acs": 2374218,
+    "le60_renter_share_of_all_households": 0.1999,
     "tenure": "renter",
     "assumption": "new households are assumed to carry the current CHAS income and tenure mix; DOLA projects households by age, not income",
     "all_tenure_comparison": {
       "le60_households_all_tenure": 956369,
-      "annual_growth_if_all_tenure": 11167,
+      "annual_growth_if_all_tenure": 11679,
       "not_used_because": "rental supply cannot be netted against owner households; see build_place_ami_gap.py v2 rationale"
     }
   },
@@ -35,7 +35,7 @@
   },
   "source_vintages": {
     "data/hna/ranking-index.json": {
-      "updated": "2026-11-03T02:02:08Z",
+      "updated": "2026-11-04T22:38:18Z",
       "source": "metadata.generatedAt"
     },
     "data/market/acs_tract_metrics_co.json": {
@@ -47,7 +47,7 @@
       "source": "fetchedAt"
     },
     "data/hna/projections/08.json": {
-      "updated": "2026-11-03T00:07:39Z",
+      "updated": "2026-11-04T20:49:30Z",
       "source": "updated"
     },
     "data/co_ami_gap_by_county.json": {
@@ -55,7 +55,7 @@
       "source": "meta.generated_at"
     },
     "data/hna/summary/08.json": {
-      "updated": "2026-11-03T00:07:42Z",
+      "updated": "2026-11-04T20:49:35Z",
       "source": "updated"
     }
   }

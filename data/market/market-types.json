@@ -2,7 +2,7 @@
  "meta": {
   "title": "COHO market patterns and a Colorado strategy menu",
   "generator": "scripts/market/build_market_types.py",
-  "generated_at": "2026-11-03T01:51:40Z",
+  "generated_at": "2026-11-04T21:31:12Z",
   "generated_at_note": "the market-direction stamp this was built from, not the time this ran",
   "sources": [
    "data/market/market-direction.json",
@@ -611,7 +611,7 @@
     "household_growth_pct": 1.26,
     "call": "steady",
     "rent_edge": "clear",
-    "population": 554668,
+    "population": 530225,
     "prop123_committed": true
    },
    "here_now": [
@@ -669,7 +669,7 @@
     "household_growth_pct": 0.75,
     "call": "softening",
     "rent_edge": "clear",
-    "population": 673820,
+    "population": 659844,
     "prop123_committed": true
    },
    "here_now": [
@@ -770,7 +770,7 @@
     "household_growth_pct": 0.41,
     "call": "softening",
     "rent_edge": "thin",
-    "population": 328560,
+    "population": 328961,
     "prop123_committed": true
    },
    "here_now": [
@@ -806,7 +806,7 @@
     "household_growth_pct": 2.28,
     "call": "steady",
     "rent_edge": "clear",
-    "population": 79174,
+    "population": 76304,
     "prop123_committed": true
    },
    "here_now": []
@@ -1018,7 +1018,7 @@
     "household_growth_pct": 1.04,
     "call": "softening",
     "rent_edge": "clear",
-    "population": 740613,
+    "population": 718877,
     "prop123_committed": true
    },
    "here_now": [
@@ -1069,7 +1069,7 @@
     "household_growth_pct": 2.27,
     "call": "softening",
     "rent_edge": "clear",
-    "population": 399396,
+    "population": 377150,
     "prop123_committed": true
    },
    "here_now": [
@@ -1179,7 +1179,7 @@
     "household_growth_pct": 1.25,
     "call": "steady",
     "rent_edge": "thin",
-    "population": 757040,
+    "population": 742999,
     "prop123_committed": false
    },
    "here_now": [
@@ -1401,7 +1401,7 @@
     "household_growth_pct": 0.33,
     "call": "steady",
     "rent_edge": "clear",
-    "population": 580451,
+    "population": 579377,
     "prop123_committed": true
    },
    "here_now": []
@@ -1522,7 +1522,7 @@
     "household_growth_pct": 1.42,
     "call": "steady",
     "rent_edge": "no_edge",
-    "population": 377292,
+    "population": 367368,
     "prop123_committed": true
    },
    "here_now": [
@@ -1628,7 +1628,7 @@
     "household_growth_pct": 0.9,
     "call": "emerging",
     "rent_edge": "no_edge",
-    "population": 162845,
+    "population": 158601,
     "prop123_committed": true
    },
    "here_now": []
@@ -1920,7 +1920,7 @@
     "household_growth_pct": 0.58,
     "call": "softening",
     "rent_edge": "no_edge",
-    "population": 169277,
+    "population": 169356,
     "prop123_committed": true
    },
    "here_now": []
@@ -2250,7 +2250,7 @@
     "household_growth_pct": 3.05,
     "call": "steady",
     "rent_edge": "no_edge",
-    "population": 378426,
+    "population": 350396,
     "prop123_committed": false
    },
    "here_now": []
@@ -2774,7 +2774,7 @@
     "household_growth_pct": 0.62,
     "call": "steady",
     "rent_edge": "clear",
-    "population": 122212,
+    "population": 122634,
     "prop123_committed": true
    },
    "here_now": [
@@ -2937,7 +2937,7 @@
     "household_growth_pct": 1.2,
     "call": "softening",
     "rent_edge": "clear",
-    "population": 409516,
+    "population": 394432,
     "prop123_committed": true
    },
    "here_now": [
@@ -3663,7 +3663,7 @@
     "household_growth_pct": -0.05,
     "call": "steady",
     "rent_edge": "thin",
-    "population": 105688,
+    "population": 106433,
     "prop123_committed": true
    },
    "here_now": [
@@ -4016,7 +4016,7 @@
     "household_growth_pct": 2.28,
     "call": "steady",
     "rent_edge": "clear",
-    "population": 79174,
+    "population": 76304,
     "prop123_committed": true
    },
    "here_now": [],
@@ -4371,7 +4371,7 @@
     "household_growth_pct": 3.95,
     "call": "softening",
     "rent_edge": "clear",
-    "population": 83816,
+    "population": 79123,
     "prop123_committed": true
    },
    "here_now": [],
@@ -4497,7 +4497,7 @@
     "household_growth_pct": 0.55,
     "call": "steady",
     "rent_edge": "clear",
-    "population": 108650,
+    "population": 108201,
     "prop123_committed": true
    },
    "here_now": [],
@@ -4956,7 +4956,7 @@
     "household_growth_pct": 1.12,
     "call": "steady",
     "rent_edge": "thin",
-    "population": 494744,
+    "population": 487887,
     "prop123_committed": true
    },
    "here_now": [
@@ -5060,7 +5060,7 @@
     "household_growth_pct": 2.96,
     "call": "steady",
     "rent_edge": "clear",
-    "population": 72337,
+    "population": 66445,
     "prop123_committed": true
    },
    "here_now": [
@@ -5648,7 +5648,7 @@
     "household_growth_pct": 1.04,
     "call": "softening",
     "rent_edge": "clear",
-    "population": 740613,
+    "population": 718877,
     "prop123_committed": true
    },
    "here_now": [
@@ -6927,7 +6927,7 @@
     "household_growth_pct": 1.01,
     "call": "steady",
     "rent_edge": "no_edge",
-    "population": 171503,
+    "population": 170229,
     "prop123_committed": true
    },
    "here_now": [
@@ -7852,7 +7852,7 @@
     "household_growth_pct": 1.52,
     "call": "steady",
     "rent_edge": "no_edge",
-    "population": 71826,
+    "population": 68142,
     "prop123_committed": true
    },
    "here_now": [
@@ -7936,7 +7936,7 @@
     "household_growth_pct": 1.84,
     "call": "softening",
     "rent_edge": "no_edge",
-    "population": 115087,
+    "population": 110806,
     "prop123_committed": true
    },
    "here_now": [],
@@ -8432,7 +8432,7 @@
     "household_growth_pct": null,
     "call": "steady",
     "rent_edge": "clear",
-    "population": 106823,
+    "population": 102257,
     "prop123_committed": true
    },
    "here_now": [],
@@ -9605,7 +9605,7 @@
     "household_growth_pct": 0.45,
     "call": "softening",
     "rent_edge": "clear",
-    "population": 156920,
+    "population": 156583,
     "prop123_committed": true
    },
    "here_now": [],
@@ -10160,7 +10160,7 @@
     "household_growth_pct": 0.97,
     "call": "steady",
     "rent_edge": "thin",
-    "population": 100547,
+    "population": 99406,
     "prop123_committed": true
    },
    "here_now": [
@@ -10271,7 +10271,7 @@
     "household_growth_pct": 1.24,
     "call": "steady",
     "rent_edge": "no_edge",
-    "population": 81391,
+    "population": 78410,
     "prop123_committed": true
    },
    "here_now": [
@@ -12214,7 +12214,7 @@
     "household_growth_pct": 3.02,
     "call": "softening",
     "rent_edge": "clear",
-    "population": 65984,
+    "population": 61783,
     "prop123_committed": true
    },
    "here_now": [],
@@ -12730,7 +12730,7 @@
     "household_growth_pct": 0.51,
     "call": "softening",
     "rent_edge": "no_edge",
-    "population": 110409,
+    "population": 111561,
     "prop123_committed": true
    },
    "here_now": [],
@@ -14851,7 +14851,7 @@
     "household_growth_pct": 1.29,
     "call": "softening",
     "rent_edge": "clear",
-    "population": 147753,
+    "population": 144187,
     "prop123_committed": true
    },
    "here_now": [
@@ -15715,7 +15715,7 @@
     "household_growth_pct": 0.26,
     "call": "softening",
     "rent_edge": "clear",
-    "population": 116187,
+    "population": 115484,
     "prop123_committed": true
    },
    "here_now": [

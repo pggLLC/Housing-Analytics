@@ -1746,10 +1746,13 @@
       return out;
     }
 
-    let out = await fetchMergedProfile(window.HNAUtils.ACS_YEAR_PRIMARY, 'acs/acs1/profile', 'ACS1');
+    // The 5-year for every geography (paul, 4 Nov 2026), matching the stored
+    // summaries; the 1-year is asked for only when ACS_INCLUDE_1YEAR is set.
+    const include1y = window.HNAUtils.ACS_INCLUDE_1YEAR === true;
+    let out = include1y ? await fetchMergedProfile(window.HNAUtils.ACS_YEAR_PRIMARY, 'acs/acs1/profile', 'ACS1') : null;
     let usedYear = window.HNAUtils.ACS_YEAR_PRIMARY;
     let usedSeries = 'acs1';
-    if (!out){
+    if (!out && include1y){
       // Probe vintages newest-first for ACS 1-year
       for (const v of window.HNAUtils.ACS_VINTAGES) {
         const merged = await fetchMergedProfile(v, 'acs/acs1/profile', 'ACS1');
@@ -2110,7 +2113,8 @@
     let usedYear = window.HNAUtils.ACS_YEAR_PRIMARY;
     let usedSeries = 'acs1';
 
-    if (geoType !== 'cdp') {
+    // The 5-year for every geography (4 Nov 2026) unless ACS_INCLUDE_1YEAR is set.
+    if (geoType !== 'cdp' && window.HNAUtils.ACS_INCLUDE_1YEAR === true) {
       const url1 = buildUrl(window.HNAUtils.ACS_YEAR_PRIMARY, 'acs/acs1/subject');
       r = await _fetchCensusUrl(url1, 'ACS1 S0801 ' + geoType + ':' + geoid + ' y=' + window.HNAUtils.ACS_YEAR_PRIMARY);
       if (!r || !r.ok){

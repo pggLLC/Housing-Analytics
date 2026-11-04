@@ -39,10 +39,11 @@ check(fruita.atLeast35Pct === 37.4, 'Fruita: 37.4% pay 35% or more, matching DP0
 check(fruita.atLeast50Households === 165 && fruita.atLeast50Pct === 19.6, 'Fruita: 165 households (19.6%) pay 50% or more');
 check(fruita.year === '2024' && fruita.series === 'acs5', 'Fruita: counts are from the profile\'s own release');
 
-// Mesa County's stored profile is the 2025 1-year; its counts must be too.
+// Mesa County moved from the 2025 1-year to the 2020-2024 5-year (4 Nov 2026);
+// its counts follow the profile, and the stamp must survive the build.
 const mesa = U.rentBurdenCounts(prof('08077'));
-check(mesa && mesa.series === 'acs1' && mesa.year === '2025', 'Mesa: counts follow the 2025 1-year profile');
-check(mesa.atLeast50Pct === 38.7, 'Mesa: 38.7% pay 50% or more (2025 1-year)');
+check(mesa && mesa.series === 'acs5' && mesa.year === '2024', 'Mesa: counts follow the 2020-2024 5-year profile');
+check(mesa.atLeast50Pct === 25.1, 'Mesa: 25.1% pay 50% or more (2020-2024 5-year)');
 
 // Hinsdale: measured zeros stay zero, not missing.
 const hin = U.rentBurdenCounts(prof('08053'));

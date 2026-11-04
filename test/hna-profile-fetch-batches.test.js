@@ -110,7 +110,7 @@ function countExtendedBatchVars(source, batchName) {
   requestedUrls.length = 0;
   const profile = await window.__HNA_fetchAcsProfileForTest('county', '08031');
 
-  assert.strictEqual(requestedUrls.length, 2, 'mocked ACS1 profile path uses two batched requests');
+  assert.strictEqual(requestedUrls.length, 2, 'mocked ACS5 profile path uses two batched requests');
   requestedUrls.forEach((url) => {
     const vars = decodeURIComponent(new URL(url).searchParams.get('get')).split(',').filter(Boolean);
     assert(vars.includes('NAME'), 'each batch includes NAME for Census row shape');
@@ -122,7 +122,7 @@ function countExtendedBatchVars(source, batchName) {
   assert.strictEqual(profile.DP04_0046E, '142000', 'second-batch tenure value is available to downstream stat/render parsing');
   assert.strictEqual(profile.NAME, 'Denver County, Colorado', 'merged profile retains NAME');
   assert.strictEqual(profile._acsYear, 2024, 'merged profile keeps selected vintage metadata');
-  assert.strictEqual(profile._acsSeries, 'acs1', 'merged profile keeps selected ACS series metadata');
+  assert.strictEqual(profile._acsSeries, 'acs5', 'merged profile keeps selected ACS series metadata (the 5-year since 4 Nov 2026)');
 
   console.log('HNA ACS profile fetch batching tests passed.');
 })().catch((err) => {
