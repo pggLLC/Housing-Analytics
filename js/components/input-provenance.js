@@ -116,9 +116,20 @@
     var panel = doc.getElementById(id + '-detail');
     panel.textContent = badge.title;
     var meta = rec.origin.meta;
-    if (meta.sourceUrl && /^(https?:\/\/|(?:\.\.\/)?[a-z][a-z0-9-]*\/)/i.test(meta.sourceUrl)) {
-      var link = doc.createElement('a'); link.href = meta.sourceUrl; link.textContent = ' Source record'; panel.appendChild(link);
+    var sourceHref = safeSourceHref(meta.sourceUrl, doc);
+    if (sourceHref) {
+      var link = doc.createElement('a'); link.href = sourceHref; link.rel = 'noopener noreferrer'; link.textContent = ' Source record'; panel.appendChild(link);
     }
+  }
+  // A source link is an http(s) address or a page on this site, rebuilt from
+  // its parsed parts, so a value that came through a share link can never
+  // become a script or other-scheme link.
+  function safeSourceHref(raw, doc) {
+    if (typeof raw !== 'string' || !/^(https?:\/\/|(?:\.\.\/)?[a-z][a-z0-9-]*\/)/i.test(raw)) return null;
+    var u;
+    try { u = new URL(raw, doc.baseURI); } catch (_) { return null; }
+    if (u.protocol !== 'https:' && u.protocol !== 'http:') return null;
+    return u.protocol + '//' + u.host + u.pathname + u.search + u.hash;
   }
   function ensure(el) {
     identify(el);
