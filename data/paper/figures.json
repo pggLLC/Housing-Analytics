@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "74b90ba7a",
+  "generated_from_commit": "56db929bd4",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-11-04",
-    "total_commits": 9306,
+    "total_commits": 9307,
     "partial_month": "2026-11",
     "commits_by_month": [
       {
@@ -54,8 +54,8 @@
       },
       {
         "month": "2026-11",
-        "commits": 189,
-        "pct_of_peak": 12.1
+        "commits": 190,
+        "pct_of_peak": 12.2
       }
     ]
   },
@@ -73,7 +73,7 @@
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 71,
-    "test_files": 696,
+    "test_files": 697,
     "absence_test_cases": 320,
     "absence_tests": 126,
     "lihtc_features": 926
@@ -251,7 +251,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 521982,
+    "hand_written_lines": 522224,
     "generated_place_page_lines": 229724,
     "top_level_pages": 82,
     "html_nonblank_lines": 51637,
@@ -320,7 +320,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "74b90ba7a",
+    "extracted_at_commit": "56db929bd4",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -543,8 +543,8 @@
     "anchor_places_total": 482,
     "anchor_places_applied": 405,
     "anchor_places_unmeasured": 77,
-    "anchor_overcount_places": 144,
-    "anchor_overcount_share": 0.356,
+    "anchor_overcount_places": 151,
+    "anchor_overcount_share": 0.373,
     "ranked_geographies": 546,
     "workforce_gap_wins": 236,
     "future_units_with_incommuters": 536,
@@ -552,9 +552,9 @@
     "replacement_rate_min_pct": 0.02,
     "replacement_rate_max_pct": 0.6,
     "replacement_counties": 64,
-    "growth_20yr_statewide": 616091,
-    "replacement_20yr_statewide": 83607,
-    "replacement_share_pct": 11.9,
+    "growth_20yr_statewide": 612349,
+    "replacement_20yr_statewide": 84933,
+    "replacement_share_pct": 12.2,
     "incommuter_need_counties": 64,
     "incommuter_need_25_counties": 132511,
     "incommuter_need_50_counties": 265019,
