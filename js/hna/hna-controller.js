@@ -3174,6 +3174,16 @@
     host.hidden = false;
   }
 
+  // contextCounty is a FIPS code; name the county the reader should open.
+  function _smallPlaceCountyName(selection) {
+    const fips = selection && selection.contextCounty ? String(selection.contextCounty) : '';
+    if (!fips) return 'the county';
+    const cfg = window.__HNA_GEO_CONFIG || {};
+    const county = (cfg.counties || []).find((c) => c && (c.geoid === fips || c.fips === fips));
+    const name = county ? (county.label || county.name || '') : '';
+    return name || 'the county';
+  }
+
   function formatIncrementalUnitsDisplay(incUnits, basis) {
     if (basis === 'too_small') return 'Too small to forecast';
     if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) return '—';
@@ -3577,7 +3587,7 @@
         const _hh = window.HNAUtils.safeNum((placeProjectionRec.household_inputs || {}).place_households);
         projectionMethodNote = ' Too small for a reliable town forecast'
           + (_hh !== null ? ` (${window.HNAUtils.fmtNum(Math.round(_hh))} households; the cut-off is 250)` : '')
-          + `. See ${selection && selection.contextCounty ? selection.contextCounty : 'the county'} for the county forecast.`;
+          + `. See ${_smallPlaceCountyName(selection)} for the county forecast.`;
       } else if (placeInc !== null){
         // The place series is a better RESIDENT-GROWTH reading than the
         // county-scaled one, so it replaces that part — but it is still the
