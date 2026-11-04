@@ -210,6 +210,7 @@ def build_catalog():
             p = fg[rid]
             q = first_quote(p.get('evidence'))
             cat[key] = {'name': p['name'], 'kind': 'funding', 'status': p.get('status'),
+                        'status_reason': p.get('application_cycle'),
                         'what': p.get('what_it_funds'), 'url': p['official_url'],
                         'quote': q, 'record': f'data/policy/co-developer-funding-guide.json#{rid}'}
         elif src == 'ia':

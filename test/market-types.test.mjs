@@ -128,6 +128,19 @@ if (chromium) {
   ok(card.text.includes(pick[1].basis) && card.text.includes(M.types.resort.label), `${pick[1].name}: card shows its type and reason`);
   ok(card.links.length >= M.menus.resort.length && card.links.every((h) => h.startsWith('https:')), 'menu items are linked');
 
+  // A funding record that is closed or has no round must say so on the card.
+  const closedKey = Object.keys(M.items).find((k) => M.items[k].status === 'closed');
+  const closedMod = closedKey && Object.keys(M.modifiers).find((k) => M.modifiers[k].items.some((u) => u.item === closedKey));
+  if (closedMod) {
+    const small = places.find(([, p]) => p.level === 'town' && p.modifiers.includes(closedMod));
+    await tab.selectOption('#mtPick', small[0]);
+    const flags = await tab.$$eval('#mtPlace .mt-menu li', (li) => li.map((x) => x.textContent));
+    ok(flags.some((t) => t.includes(M.items[closedKey].name) && t.includes('Closed')), `${M.items[closedKey].name}: shown as Closed`);
+  }
+  for (const it of Object.values(M.items)) {
+    if (it.kind === 'funding' && ['closed', 'watch', 'ended', 'ending'].includes(it.status)) ok(it.status_reason, `${it.name}: availability reason carried`);
+  }
+
   const thin = places.find(([, p]) => p.type === 'too_little_data' && p.county_fips);
   await tab.selectOption('#mtPick', thin[0]);
   const thinText = await tab.$eval('#mtPlace', (e) => e.textContent);

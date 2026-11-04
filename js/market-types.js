@@ -19,7 +19,9 @@
   var STATUS = {
     authorized: '', authorized_with_voter_approval: 'Needs voter approval',
     unclear: 'Colorado authority unclear', prohibited_for_new: 'Not open to new adoption',
-    required_for_subject_jurisdictions: 'Required in some places'
+    required_for_subject_jurisdictions: 'Required in some places',
+    // Funding availability, worded as on the developer funding guide.
+    closed: 'Closed', ended: 'Ended', ending: 'Ending', watch: 'No round announced'
   };
   var started = false;
   var data = null;
