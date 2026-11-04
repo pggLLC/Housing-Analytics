@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-11-04T11:11:37Z",
+    "generated": "2026-11-04T13:47:11Z",
     "as_of": "2026-11-04",
     "stale_days": 30,
     "events_as_of": "2026-11-04",
@@ -157,14 +157,6 @@
       "days_since_review": 17,
       "stories": [
         {
-          "title": "Foie Gras Is at Risk of Disappearing From Menus in DC and Denver",
-          "source": "Bloomberg.com",
-          "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOX18xN0J1MW91OHRPUk9UR2N2dTlMOTR2ajJYcFBsbzZORkZhOW05a0RuX2RQQjE5anY5NXlfWTlyeFVYQTlDQnZYSS0teHlvaDd1UFJBZFFoWHA2ZHJUSkNrVGlla3RMUi1velcxemkyQjVuODRfNnlQdmxMaWlyeGRuT2M4WmQyRkJjdnRwNGFjV3dGc2tHYmlDWmI1SWctT0RpMlVDc3NvN1V1dGd0RjR1dFdJZw?oc=5",
-          "date": "2026-11-03",
-          "match": "place",
-          "also": []
-        },
-        {
           "title": "Opinion | Using Denver as a Model to Help the Homeless",
           "source": "The New York Times",
           "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5oYmlBZEFLaEdtYmRxUnVWV21vRGdHTldCTDhjMkRyZ2xNMDJIeW5CMHNHWWZxZ1hqM1dKc3IzbXZTTm5vTGVEQ2JhTmVIenBwOEdMaFQ2MFlxeEQ4eUhRR0ZBeGVYakxjMGJJTkE3bEV4eUlBR3c?oc=5",
@@ -300,7 +292,7 @@
         }
       ],
       "reasons": [
-        "10 new stories naming it",
+        "9 new stories naming it",
         "4 older stories not read yet"
       ]
     },

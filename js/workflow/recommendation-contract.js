@@ -422,7 +422,7 @@
       var name = tz.name || 'this jurisdiction';
       var credit = dealMode === 'ownership'
         ? ' The Transit Zone credit is for rental housing, so for this for-sale project it matters only if a rental component is added.'
-        : ' A rental project on a site inside an OEDIT-designated zone may be eligible for the Transit Zone state credit (HB26-1065); CHFA\u2019s draft 2027\u201328 QAP sets the per-project amount by credit type (see the deal calculator).';
+        : ' A rental project on a site inside an OEDIT-designated zone may be eligible for the Transit Zone state credit (HB26-1065); CHFA\u2019s adopted 2027\u201328 QAP sets the per-project amount by credit type (see the deal calculator).';
       var verdict;
       var plain;
       if (tz.noneWithinRadius) {
