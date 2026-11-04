@@ -83,9 +83,19 @@ function assertProjectionData() {
 
   const milliken = places['0850480'];
   assert(milliken, 'Milliken positive-permit row should exist');
-  closeEnough(milliken.shares.household, 0.024131, 'Milliken household share remains pinned (ACS 2025 1-year county households)');
+  // Owner decision 2026-11-03: the household share divides 5-year households by
+  // 5-year households. A row written under the rule records its inputs, and its
+  // share is exactly their ratio; an older row keeps its earlier pin until the
+  // next rebuild writes them.
+  if (milliken.household_inputs) {
+    const hi = milliken.household_inputs;
+    closeEnough(milliken.shares.household, Math.round(hi.place_households / hi.county_households * 1e6) / 1e6, 'Milliken household share is its recorded place / county households');
+    assert(hi.period === 'mixed' || /^acs5:/.test(hi.period), `Milliken household period is the 5-year, or marked mixed until the 5-year count is stored (${hi.period})`);
+  } else {
+    closeEnough(milliken.shares.household, 0.024131, 'Milliken household share remains pinned (ACS 2025 1-year county households)');
+  }
   closeEnough(milliken.shares.permit, 0.014352, 'Milliken permit share remains pinned');
-  closeEnough(milliken.shares.blended, 0.019242, 'Milliken blended share remains pinned');
+  closeEnough(milliken.shares.blended, Math.round((0.5 * milliken.shares.household + 0.5 * milliken.shares.permit) * 1e6) / 1e6, 'Milliken blended share is half household, half permit');
 
   const exactZeroPermitCount = Object.values(places).filter((row) => row && row.shares && row.shares.permit === 0).length;
   assert.equal(exactZeroPermitCount, 0, 'No place projection row should retain shares.permit === 0');
@@ -774,9 +784,11 @@ async function assertRealDataReconciliation() {
   const placeHeadline = document.getElementById('statUnitsNeed').textContent;
   const placeTrace = document.getElementById('projectionCalculationTraceBody').textContent;
   assert(placeTrace.includes(placeHeadline), 'Real place trace reconciles to the displayed headline');
-  assert(placeTrace.includes('2.413%') && placeTrace.includes('1.435%'), 'Real place trace displays both stored allocation shares to three decimals');
+  const mShares = placeDoc.places['0850480'].shares;
+  const p3 = (x) => (x * 100).toFixed(3) + '%';
+  assert(placeTrace.includes(p3(mShares.household)) && placeTrace.includes(p3(mShares.permit)), `Real place trace displays both stored allocation shares to three decimals (${p3(mShares.household)}, ${p3(mShares.permit)})`);
   assert(placeTrace.includes('50% ACS household share + 50% BPS permit share'), 'Real place trace labels the 50/50 allocation');
-  assert(placeTrace.includes('Stored blended share used: 1.924%'), 'Real place trace displays the stored blended share to three decimals');
+  assert(placeTrace.includes('Stored blended share used: ' + p3(mShares.blended)), 'Real place trace displays the stored blended share to three decimals');
   return { countyHeadline, placeHeadline };
 }
 
