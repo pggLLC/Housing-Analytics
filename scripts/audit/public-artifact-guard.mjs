@@ -83,6 +83,7 @@ const FORBIDDEN_PATHS = [
   'js/indibuild-gate.js',
   'js/developer-gate.js',
   'js/where-to-build.js',
+  'js/where-to-build-charts.js',
   'docs/indibuild-pipeline-prototype',
   'docs/developer-pipeline-prototype',
   'docs/security',
