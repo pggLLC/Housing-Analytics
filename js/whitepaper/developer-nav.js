@@ -22,7 +22,8 @@
       { href: 'developer-finder.html', label: 'Where to look', private: true },
       { href: 'developer-brief.html', label: 'Jurisdiction reports', also: ['developer-whitepaper.html'] },
       { href: 'developer-entitled-land.html', label: 'Entitled land', private: true },
-      { href: 'developer-parcel-sales.html', label: 'Parcel sales', private: true }] },
+      { href: 'developer-parcel-sales.html', label: 'Parcel sales', private: true },
+      { href: 'developer-preservation-first.html', label: 'Preservation first', private: true }] },
     { label: 'Check a site', pages: [
       { href: 'developer-market-screen.html', label: 'Market screen', private: true },
       { href: 'developer-env-screen.html', label: 'Environmental screen', private: true },
@@ -31,7 +32,10 @@
       { href: 'developer-deal-workbook.html', label: 'Deal workbook' },
       { href: 'developer-investor-returns.html', label: 'Investor returns', private: true },
       { href: 'developer-submittal-review.html', label: 'Submittal review' }] },
-    { label: 'Next round', pages: [{ href: 'developer-round-watch.html', label: 'Next round' }] },
+    { label: 'Next round', pages: [
+      { href: 'developer-round-watch.html', label: 'Next round' },
+      { href: 'developer-next-places.html', label: 'Next places', private: true },
+      { href: 'developer-frontier.html', label: 'Where money goes furthest', private: true }] },
     { label: 'Team', pages: [
       { href: 'developer-pipeline.html', label: 'Pipeline' },
       { href: 'dossiers/', label: 'Dossiers', private: true }] },
