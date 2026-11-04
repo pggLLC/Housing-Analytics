@@ -138,8 +138,9 @@ MENU = {
 }
 MODIFIER_MENU = {
     'no_rent_edge': {
-        'label': 'No rent edge',
-        'rule': 'The county 2-bedroom FMR is at or below the CHFA 60% AMI rent, so a 60% rent is no cheaper than market.',
+        'label': 'No rent edge (benchmark)',
+        'rule': ('Benchmark only: the county HUD 2-bedroom Fair Market Rent is at or below the CHFA 60% AMI rent '
+                 'ceiling. A county FMR is not an achievable local lease rent; check observed rent comps for the site.'),
         'items': [
             ('fg', 'hud-pbv', 'Rental assistance lets homes reach households well below 60% AMI.'),
             ('fg', 'doh-national-housing-trust-fund', 'Pays for homes at 30% AMI, where the real gap is.'),
@@ -464,7 +465,7 @@ def main():
     stamp = md['meta'].get('generated_at')
     out = {
         'meta': {
-            'title': 'Colorado market types and a strategy menu',
+            'title': 'COHO market patterns and a Colorado strategy menu',
             'generator': 'scripts/market/build_market_types.py',
             'generated_at': stamp,
             'generated_at_note': 'the market-direction stamp this was built from, not the time this ran',
@@ -484,8 +485,9 @@ def main():
             'menu_note': 'Menu items are our reading of what tends to fit each type, not advice for any one site. '
                          'Each names a program or tool from a cited record; check its own terms before relying on it.',
             'validation': {
-                'stability': 'Share of 500 redraws of the ACS seasonal share (from its margin of error) in which a '
-                             'place keeps its type.',
+                'stability': 'Stability under seasonal-share uncertainty: the share of 500 redraws of the ACS '
+                             'seasonal share (from its margin of error) in which a place keeps its pattern. Jobs, '
+                             'growth and the market call are not redrawn.',
                 'stable_80_share': round(sum(1 for s in stable if s >= 0.8) / len(stable), 3),
                 'typed_places': len(stable),
                 'cluster_check': {'method': 'k-means, 5 groups, 20 starts, on standardised seasonal share (log), '
@@ -495,7 +497,9 @@ def main():
                                              '(0 is chance, 1 is the same grouping).'},
             },
             'limits': [
-                'Rent edge is read at the county: town rents are thin outside the larger cities.',
+                'Rent edge compares the county HUD 2BR Fair Market Rent with the CHFA 60% AMI rent ceiling. It is a '
+                'benchmark, not an achievable lease rent: use observed rent comps for a site.',
+                'A COHO market pattern is not CHFA\'s urban, rural or mountain property category.',
                 'Jobs and residents are LODES primary jobs for 2023, inside Colorado only.',
                 'Seasonal homes are ACS 5-year estimates; small places carry wide margins (see stability).',
                 'A type describes the market, not the right answer for a site.',

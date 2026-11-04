@@ -86,17 +86,17 @@
   function renderPlace(geoid) {
     var p = data.places[geoid];
     var box = el('mtPlace');
-    if (!p) { box.innerHTML = '<p class="data-note">Pick a county or town above to see its type and the options that tend to fit.</p>'; return; }
+    if (!p) { box.innerHTML = '<p class="data-note">Pick a county or town above to see its market pattern and the options that tend to fit.</p>'; return; }
     var m = data.meta;
     var shown = p;
     var lean = '';
     if (p.type === 'too_little_data' && p.county_fips && data.places[p.county_fips]) {
       shown = data.places[p.county_fips];
-      lean = '<p class="data-note">Public data is too thin to type ' + esc(p.name) + ', so this uses ' + esc(shown.name) + '’s type.</p>';
+      lean = '<p class="data-note">Public data is too thin to set a pattern for ' + esc(p.name) + ', so this uses ' + esc(shown.name) + '’s pattern.</p>';
     }
     var t = shown.type;
     var stab = shown.stability >= 0.8 ? '' :
-      '<p class="mt-caution">Near the line: this type holds in ' + Math.round(shown.stability * 100) + '% of redraws of the ACS seasonal share.</p>';
+      '<p class="mt-caution">Near the line: under seasonal-share uncertainty this pattern holds in ' + Math.round(shown.stability * 100) + '% of redraws of the ACS seasonal share. The other readings are not redrawn.</p>';
     var near = shown.near_line && shown.near_line.length ? '<p class="data-note">Close to a rule threshold on ' + esc(shown.near_line.join(' and ')) + '.</p>' : '';
     var mods = (p.modifiers || []).map(function (k) {
       var mm = m.modifiers[k];
@@ -115,7 +115,7 @@
       + '<p>' + pill(t) + ' ' + esc(shown.basis) + '</p>' + lean + stab + near
       + '<p class="mt-plain">' + esc(m.types[t].plain) + '</p>'
       + (mods ? '<p class="mt-chips">' + mods + '</p>' : '')
-      + '<div class="mt-cols"><div><h4>Options that tend to fit</h4><ul class="mt-menu">' + (menu || '<li>No menu for this type.</li>') + '</ul></div>'
+      + '<div class="mt-cols"><div><h4>Options that tend to fit</h4><ul class="mt-menu">' + (menu || '<li>No menu for this pattern.</li>') + '</ul></div>'
       + '<div><h4>Already here</h4><ul class="mt-here">' + (here || '<li>No local housing fund or housing authority program in our records.</li>') + '</ul></div></div>'
       + '</div>';
   }
@@ -151,7 +151,7 @@
       if (p.level === 'town' && (!filter.county || p.county_fips === filter.county)) present[p.type] = true;
     });
     if (filter.type && !present[filter.type]) filter.type = '';
-    el('mtType').innerHTML = '<option value="">Every type</option>' + data.meta.order.filter(function (t) { return present[t]; }).map(function (t) {
+    el('mtType').innerHTML = '<option value="">Every pattern</option>' + data.meta.order.filter(function (t) { return present[t]; }).map(function (t) {
       return '<option value="' + t + '">' + esc(typeLabel(t)) + '</option>';
     }).join('');
     el('mtType').value = filter.type;
@@ -179,13 +179,13 @@
     el('mtRules').innerHTML = m.order.map(function (t) {
       return '<li>' + pill(t) + ' ' + esc(m.types[t].rule) + '</li>';
     }).join('') + Object.keys(m.modifiers).map(function (k) {
-      return '<li><strong>' + esc(m.modifiers[k].label) + ':</strong> ' + esc(m.modifiers[k].rule) + ' Adds to the menu; does not change the type.</li>';
+      return '<li><strong>' + esc(m.modifiers[k].label) + ':</strong> ' + esc(m.modifiers[k].rule) + ' Adds to the menu; does not change the pattern.</li>';
     }).join('');
     var v = m.validation;
     el('mtChecks').innerHTML =
-      '<li><strong>' + Math.round(v.stable_80_share * 100) + '% of typed places keep their type in at least 80% of redraws.</strong> ' + esc(v.stability) + '</li>'
+      '<li><strong>Stability under seasonal-share uncertainty: ' + Math.round(v.stable_80_share * 100) + '% of places keep their pattern in at least 80% of redraws.</strong> ' + esc(v.stability) + '</li>'
       + '<li><strong>Cluster check: ' + v.cluster_check.adjusted_rand.toFixed(2) + '.</strong> ' + esc(v.cluster_check.reading)
-      + ' Groups found by ' + esc(v.cluster_check.method) + ' (' + v.cluster_check.places + ' places) only partly match the written types, which is why the types are rules you can read rather than clusters.</li>';
+      + ' Groups found by ' + esc(v.cluster_check.method) + ' (' + v.cluster_check.places + ' places) only partly match the written patterns, which is why the patterns are rules you can read rather than clusters.</li>';
     el('mtLimits').innerHTML = m.limits.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('')
       + '<li>' + esc(m.menu_note) + '</li>';
     el('mtSources').innerHTML = m.sources.map(function (s) { return '<li><code>' + esc(s) + '</code></li>'; }).join('');
@@ -194,7 +194,7 @@
   function render() {
     var m = data.meta;
     var towns = rows().filter(function (p) { return p.level === 'town' && p.type !== 'too_little_data'; }).length;
-    el('mtSummary').textContent = towns + ' Colorado towns and all 64 counties sorted into five market types by written rules, each with the Colorado programs and local tools that tend to fit it.';
+    el('mtSummary').textContent = towns + ' Colorado towns and all 64 counties sorted into five COHO market patterns by written rules, each with the Colorado programs and local tools that tend to fit it.';
     el('mtGenerated').textContent = m.generated_at ? 'Built from the market calls of ' + m.generated_at.slice(0, 10) + '.' : '';
     fillSelects();
     renderTiles();
@@ -211,7 +211,7 @@
       return r.json();
     }).then(function (d) { data = d; render(); }).catch(function (e) {
       started = false;
-      el('mtSummary').textContent = 'The market types file could not be loaded (' + e.message + ').';
+      el('mtSummary').textContent = 'The market patterns file could not be loaded (' + e.message + ').';
     });
   }
 

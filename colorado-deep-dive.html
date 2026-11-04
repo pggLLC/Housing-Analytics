@@ -783,7 +783,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <button role="tab" id="btn-market" aria-selected="false" aria-controls="tab-market" class="page-tab-btn">Market Overview</button>
   <button role="tab" id="btn-need" aria-selected="false" aria-controls="tab-need" class="page-tab-btn">Funding vs Need</button>
   <button role="tab" id="btn-direction" aria-selected="false" aria-controls="tab-direction" class="page-tab-btn">Market Direction</button>
-  <button role="tab" id="btn-types" aria-selected="false" aria-controls="tab-types" class="page-tab-btn">Market Types</button>
+  <button role="tab" id="btn-types" aria-selected="false" aria-controls="tab-types" class="page-tab-btn">Market patterns</button>
 </div>
 
 <div role="tabpanel" id="tab-deepdive" aria-labelledby="btn-deepdive">
@@ -2806,10 +2806,10 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
      reads data/market/market-types.json when the tab first opens. -->
 <div role="tabpanel" id="tab-types" aria-labelledby="btn-types" hidden>
   <section class="mi-section" aria-labelledby="mt-heading" style="margin-top:0;">
-    <h2 id="mt-heading">What kind of market is it, and what tends to work there</h2>
-    <p id="mtSummary" class="cc-summary" aria-live="polite">Loading the market types…</p>
-    <p class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;">A type is a written rule, not a score. Select a type to list its towns. <span id="mtGenerated"></span></p>
-    <div class="mt-tiles" id="mtTiles" aria-label="Towns by market type"></div>
+    <h2 id="mt-heading">COHO market pattern: what kind of market is it, and what tends to work there</h2>
+    <p id="mtSummary" class="cc-summary" aria-live="polite">Loading the market patterns…</p>
+    <p class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;">A COHO market pattern is a written rule, not a score, and is not CHFA’s urban, rural or mountain property category. Select a pattern to list its towns. <span id="mtGenerated"></span></p>
+    <div class="mt-tiles" id="mtTiles" aria-label="Towns by market pattern"></div>
   </section>
 
   <section class="mi-section" aria-labelledby="mt-place-heading">
@@ -2819,20 +2819,20 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   </section>
 
   <section class="mi-section" aria-labelledby="mt-town-heading">
-    <h2 id="mt-town-heading">Towns by type</h2>
+    <h2 id="mt-town-heading">Towns by pattern</h2>
     <div class="md-filters">
       <label for="mtCounty">County <select id="mtCounty"><option value="">All counties</option></select></label>
-      <label for="mtType">Type <select id="mtType"><option value="">Every type</option></select></label>
+      <label for="mtType">Pattern <select id="mtType"><option value="">Every pattern</option></select></label>
       <span id="mtTownCount" class="data-note" role="status"></span>
     </div>
     <div class="cc-table-wrap" role="region" aria-label="Town table, scrolls sideways" tabindex="0">
       <table class="cc-table mt-table" id="mtTownTable" data-export="dd-market-types-towns">
-        <caption class="sr-only">The market type of each Colorado town, why it has that type, and the conditions that change its menu.</caption>
+        <caption class="sr-only">The COHO market pattern of each Colorado town, why it has that pattern, and the conditions that change its menu.</caption>
         <thead><tr>
           <th scope="col" title="Select a town to see its menu">Town</th>
-          <th scope="col" title="The first written rule that holds">Type</th>
-          <th scope="col" title="The reading that set the type">Why</th>
-          <th scope="col" title="Conditions that add to the menu without changing the type">Also</th>
+          <th scope="col" title="The first written rule that holds">Pattern</th>
+          <th scope="col" title="The reading that set the pattern">Why</th>
+          <th scope="col" title="Conditions that add to the menu without changing the pattern">Also</th>
         </tr></thead>
         <tbody id="mtTownBody"><tr><td colspan="4">Loading…</td></tr></tbody>
       </table>
@@ -2840,8 +2840,8 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   </section>
 
   <section class="mi-section" aria-labelledby="mt-method-heading">
-    <h2 id="mt-method-heading">How a type is set</h2>
-    <p class="data-note">The rules run in order; the first that holds names the type.</p>
+    <h2 id="mt-method-heading">How a pattern is set</h2>
+    <p class="data-note">The rules run in order; the first that holds names the pattern.</p>
     <ul class="fvn-limits mt-rules" id="mtRules"></ul>
     <h3>Checks</h3>
     <ul class="fvn-limits" id="mtChecks"></ul>
