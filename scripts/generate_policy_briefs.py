@@ -502,6 +502,9 @@ NATIONAL_TREND_RE = re.compile(
 # advice pieces, and other countries' housing news. The searches are global,
 # so the country list is long (Codex review of #2404: "Dutch home prices").
 NATIONAL_SKIP_RE = re.compile(
+    # "Neanderthals Used Wood for Tools, Housing — and Murder?" (NYT, 2026-11-03)
+    # is a science story: prehistory and archaeology are not the housing market.
+    r'\b(?:neanderthals?|prehistor\w*|ancient|archaeolog\w*|fossils?|dinosaurs?|stone age|ice age)\b|'
     r'\bborder wall\b|^(?:opinion|commentary|column|op-ed|editorial|letters?)\b|\b(?:photos?|around the world)\b|\b(?:i|i\'m|i’m|my|we|you|your)\b|'
     r'\b(?:china|chinese|beijing|shanghai|u\.?k\.?|britain|british|england|english|scotland|scottish|'
     r'wales|welsh|london|canada|canadian|toronto|vancouver|montreal|ontario|australia\w*|sydney|'

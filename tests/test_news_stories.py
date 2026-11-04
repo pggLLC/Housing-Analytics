@@ -481,3 +481,11 @@ def test_a_national_outlet_story_needs_a_housing_word(geos):
         'Denver rents fall as new apartments open',
         'Opinion | Using Denver as a Model to Help the Homeless',
     }
+
+
+def test_a_science_story_that_says_housing_is_not_a_national_trend(geos):
+    stories, _ = gpb.build_stories([
+        alert('Neanderthals Used Wood for Tools, Housing — and Murder?', 'The New York Times'),
+        alert('U.S. Housing Starts Dropped Again in September', 'WSJ'),
+    ], geos)
+    assert set(by_title(stories)) == {'U.S. Housing Starts Dropped Again in September'}

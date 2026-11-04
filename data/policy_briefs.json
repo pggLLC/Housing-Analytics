@@ -2634,19 +2634,6 @@
       "also": []
     },
     {
-      "title": "Neanderthals Used Wood for Tools, Housing \u2014 and Murder?",
-      "source": "The New York Times",
-      "sourcing": "checked",
-      "source_domain": "nytimes.com",
-      "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTFAyYWlsazA3YXBILVRjVFVpbWRzbHg3a2d0S0RDcVF4aWM2S0dyVktLRVB1TnduNTFrdmlJSlB0QUR0ZlFxWmZpbkVqMjNMTFNjajRUTFZkT3BlZ0hNbFZxdV83YmNKV0RnYXBrOGpVVHNuU3E3bTM0OWRySQ?oc=5",
-      "date": "2026-11-03",
-      "scope": "national",
-      "programs": [],
-      "places": [],
-      "regions": [],
-      "also": []
-    },
-    {
       "title": "Floodwaters rush through Durango neighborhoods as southwest Colorado braces for cleanup",
       "source": "Colorado Public Radio",
       "sourcing": "checked",
@@ -9435,9 +9422,9 @@
     }
   ],
   "stories_meta": {
-    "generated": "2026-11-04T13:15:29Z",
+    "generated": "2026-11-04T13:47:10Z",
     "source_alerts": 2333,
-    "out_of_scope": 1872,
+    "out_of_scope": 1873,
     "merged_duplicates": 49,
     "blocked_outlets": 0,
     "method": "One story per headline, newest first. Other-state news is left out. Places are matched against the 546 geographies in data/hna/geo-config.json; regions follow the county map in scripts/hna/build_ranking_index.py. Each publisher is looked up in data/alerts/outlet-register.json: checked outlets carry no tag, others are tagged \"Unverified outlet\" or \"Weak sourcing\", and documented imposter sites are left out."
