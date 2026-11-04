@@ -144,6 +144,12 @@ export const CHAIN = [
        + 'FHFA, Zillow, FMR and the development ledger; it runs after the ledger it summarises',
   },
   {
+    id: 'market-types',
+    argv: ['python3', 'scripts/market/build_market_types.py'],
+    why: 'data/market/market-types.json types every county and town from the market calls, '
+       + 'seasonal homes and commuting, so it runs after market-direction',
+  },
+  {
     id: 'paper-figures',
     argv: ['npm', 'run', 'paper:build'],
     why: 'the working paper and methods page quote counts measured off the repo',
