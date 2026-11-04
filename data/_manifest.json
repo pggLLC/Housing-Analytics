@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-04T16:47:40.723Z",
+    "generated_at": "2026-11-04T17:14:00.764Z",
     "root": "data/",
-    "file_count": 2013,
-    "total_size_bytes": 214797564,
+    "file_count": 2015,
+    "total_size_bytes": 218182068,
     "kinds": {
-      "json": 1964,
+      "json": 1966,
       "geojson": 35,
       "csv": 14
     }
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-04T16:47:36.346Z",
+      "mtime": "2026-11-04T17:13:56.302Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39817,6 +39817,39 @@
       "geometry_type": "Point"
     },
     {
+      "path": "market/walk_bike_access_co.json",
+      "kind": "json",
+      "size_bytes": 746912,
+      "mtime": "2026-11-04T17:11:56.488Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "state",
+        "counties",
+        "places",
+        "blockGroups"
+      ],
+      "key_count": 5,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "market/walk_bike_map_co.json",
+      "kind": "json",
+      "size_bytes": 2637592,
+      "mtime": "2026-11-04T17:11:56.495Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "places"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/walkability_co.geojson",
       "kind": "geojson",
       "size_bytes": 572646,
@@ -40014,7 +40047,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-04T16:47:38.495Z",
+      "mtime": "2026-11-04T17:13:58.525Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40038,7 +40071,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-04T16:47:37.980Z",
+      "mtime": "2026-11-04T17:13:57.995Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

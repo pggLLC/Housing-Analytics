@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T16:46:57.302Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T17:13:17.267Z. Do not edit by hand.
 
 ---
 
@@ -97,7 +97,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1965 JSON files found.
+1967 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1908,6 +1908,8 @@
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
 | `data/market/transit_stops_coverage_co.json` | 230.7 KB | ✅ | — |
 | `data/market/travel_time_matrix_co.json` | 4.23 MB | ✅ | — |
+| `data/market/walk_bike_access_co.json` | 729.4 KB | ✅ | — |
+| `data/market/walk_bike_map_co.json` | 2.52 MB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
 | `data/market/zillow_co_metros.json` | 107.1 KB | ✅ | — |
@@ -2071,7 +2073,7 @@
 
 ## Test Files
 
-775 test files found.
+776 test files found.
 
 | File | Size |
 |------|------|
@@ -2742,6 +2744,7 @@
 | `test/validate-site.js` | 9.6 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/vintage-badge-fresh-on-return.test.js` | 3.1 KB |
+| `test/walk-bike-access.test.js` | 5.0 KB |
 | `test/walkability-layer.test.js` | 2.7 KB |
 | `test/walkthrough-record.test.mjs` | 12.1 KB |
 | `test/wcag-pill-contrast.test.js` | 12.4 KB |
