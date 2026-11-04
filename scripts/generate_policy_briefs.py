@@ -502,6 +502,11 @@ NATIONAL_TREND_RE = re.compile(
 # advice pieces, and other countries' housing news. The searches are global,
 # so the country list is long (Codex review of #2404: "Dutch home prices").
 NATIONAL_SKIP_RE = re.compile(
+    # "Neanderthals Used Wood for Tools, Housing — and Murder?" (NYT, 2026-11-03)
+    # is a science story: prehistory and archaeology are not the housing market.
+    # Only words with no market sense: "ancient zoning rules", "fossil-fuel
+    # prices" and "an ice age for home sales" stay (Codex review of #2673).
+    r'\b(?:neanderthals?|prehistor\w*|archaeolog\w*|dinosaurs?|stone age)\b|'
     r'\bborder wall\b|^(?:opinion|commentary|column|op-ed|editorial|letters?)\b|\b(?:photos?|around the world)\b|\b(?:i|i\'m|i’m|my|we|you|your)\b|'
     r'\b(?:china|chinese|beijing|shanghai|u\.?k\.?|britain|british|england|english|scotland|scottish|'
     r'wales|welsh|london|canada|canadian|toronto|vancouver|montreal|ontario|australia\w*|sydney|'
@@ -544,6 +549,14 @@ def is_housing_headline(title: str, source: str = '') -> bool:
     if NATIONAL_SOURCE_RE.match((source or '').strip()) and is_national_trend(title, source):
         return True
     strong = any(not WEAK_HOUSING_RE.fullmatch(m.group(0)) for m in HOUSING_TITLE_RE.finditer(title))
+    # The indirect-headline allowance below is for local outlets, whose
+    # housing searches return a nonprofit or a city plan by name ("Hope is at
+    # the core of organization's purpose"). A listed national outlet covers
+    # everything, so its story must say housing outright: "Foie Gras Is at
+    # Risk of Disappearing From Menus in DC and Denver" (Bloomberg, 2026-11-03)
+    # led Housing News on a place name alone.
+    if NATIONAL_SOURCE_RE.match((source or '').strip()):
+        return strong
     return strong or not OFF_TOPIC_RE.search(title)
 
 
