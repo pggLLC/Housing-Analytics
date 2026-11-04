@@ -24,29 +24,40 @@
   'use strict';
 
   // ── Comparator constants ─────────────────────────────────────────
-  // Colorado renter burden, one anchor per source, so a local figure is only
-  // ever compared with a state figure built the same way:
-  //   ACS: 2020-2024 5-year B25070 rows 007-010 over renter households with
-  //     a computed ratio (001 minus 011), the same basis as DP04_0141PE +
-  //     DP04_0142PE that the score card and ranking index use. Census
-  //     Reporter acs2024_5yr, checked 2026-10-20: 404,262 / 764,414 = 52.89%.
+  // Colorado renter burden, one anchor per source AND per ACS period, so a
+  // local figure is only ever compared with a state figure built the same
+  // way (DP04_0141PE + DP04_0142PE: renters paying 30% or more of income,
+  // the basis the score card and ranking index use).
+  //   ACS 5-year 2020-2024: B25070 rows 007-010 over renter households with
+  //     a computed ratio. Census Reporter acs2024_5yr, checked 2026-10-20:
+  //     404,262 / 764,414 = 52.89%.
+  //   ACS 1-year 2025: DP04_0141PE 9.8 + DP04_0142PE 41.9 = 51.7%
+  //     (data/hna/summary/08.json, Census API acs/acs1/profile 2025).
   //   CHAS: HUD CHAS 2018-2022 state row
   //     (data/hna/chas_affordability_gap.json.state.summary).
-  // Comparing an ACS county share with the CHAS state row put Mesa County's
-  // 51.8% "above the Colorado average" of 47.2%, when the ACS state figure is
-  // 52.9%.
-  var CO_RENTER_CB30_ACS  = 52.9;  // %
+  // Mesa County's figure is the 2025 1-year (56.7%). Against the 2020-2024
+  // state figure it read "in line"; against the 2025 1-year state figure it
+  // is 5.0 points higher (evening practitioner QA, 3 Nov 2026).
+  var CO_RENTER_CB30_ACS_BY_PERIOD = {
+    'acs5:2024': { co: 52.9, label: 'ACS 5-year 2020\u20132024' },
+    'acs1:2025': { co: 51.7, label: 'ACS 1-year 2025' },
+  };
   var CO_RENTER_CB30_CHAS = 47.2;  // %
   var CO_RENTER_CB50      = 23.4;  // % (CHAS; the severe share is CHAS only)
-  var ACS_LABEL  = 'ACS 2020\u20132024';
   var CHAS_LABEL = 'HUD CHAS 2018\u20132022';
 
   // The state anchor and source label for whichever source supplied
-  // ctx.renterCb30.
+  // ctx.renterCb30. An ACS figure from a period with no matching state
+  // anchor gets no comparison (co: null) rather than one across periods.
   function _cb30Basis(ctx) {
-    return ctx.renterCb30FromRanking
-      ? { co: CO_RENTER_CB30_ACS, label: ACS_LABEL }
-      : { co: CO_RENTER_CB30_CHAS, label: CHAS_LABEL };
+    if (!ctx.renterCb30FromRanking) return { co: CO_RENTER_CB30_CHAS, label: CHAS_LABEL };
+    var hit = CO_RENTER_CB30_ACS_BY_PERIOD[ctx.acsPeriod];
+    return hit ? { co: hit.co, label: hit.label } : { co: null, label: _acsPeriodLabel(ctx.acsSeries, ctx.acsYear) };
+  }
+  function _acsPeriodLabel(series, year) {
+    var y = Number(year);
+    if (!Number.isFinite(y)) return 'ACS (period not recorded)';
+    return series === 'acs1' ? 'ACS 1-year ' + y : 'ACS 5-year ' + (y - 4) + '\u2013' + y;
   }
 
   // ── Light HTML escape ─────────────────────────────────────────────
@@ -92,6 +103,11 @@
       label: label || profile.NAME || 'this jurisdiction',
       geoType: profile._geoType || null,
       geoid: profile._geoid || null,
+      // Which ACS period the profile holds: 33 geographies carry the 2025
+      // 1-year, the rest the 2020-2024 5-year (build_hna_data.py).
+      acsSeries: profile._acsSeries || null,
+      acsYear: profile._acsYear != null ? profile._acsYear : null,
+      acsPeriod: (profile._acsSeries && profile._acsYear != null) ? profile._acsSeries + ':' + profile._acsYear : null,
       // ACS core
       pop: safeNum(profile.DP05_0001E),
       medianRent: safeNum(profile.DP04_0134E),
@@ -359,6 +375,10 @@
         'a meaningful share of the community’s renter base navigating tight household budgets.';
     }
     var basis = _cb30Basis(ctx);
+    if (ctx.renterCb30 != null && basis.co == null) {
+      return 'Renter cost burden runs at ' + _fmtPct(ctx.renterCb30) + ' overall (' + basis.label + '), ' +
+        'with the community’s lower income tiers carrying a larger share of that burden.';
+    }
     if (ctx.renterCb30 != null && ctx.renterCb30 >= basis.co + 5) {
       return '<strong>Renter cost burden here runs above the Colorado average — ' +
         _fmtPct(ctx.renterCb30) + ' vs ' + _fmtPct(basis.co) + ' statewide (' + basis.label + ')</strong>, ' +
@@ -407,8 +427,11 @@
       var suffix = ctx.ami30BurdenPct != null && ctx.ami30BurdenPct >= 60
         ? ' — and as the lead finding shows, the burden is most concentrated at the lowest income band.'
         : ', with the lower income bands carrying a larger share of the documented need.';
-      lines.push('Overall renter burden runs at ' + _fmtPct(ctx.renterCb30) +
-        ', ' + coFrag + ' (' + _fmtPct(basis.co) + ', both ' + basis.label + ')' + suffix);
+      lines.push(basis.co == null
+        ? 'Overall renter burden runs at ' + _fmtPct(ctx.renterCb30) + ' (' + basis.label +
+          '; no Colorado figure for the same period is on file, so it is not compared)' + suffix
+        : 'Overall renter burden runs at ' + _fmtPct(ctx.renterCb30) +
+          ', ' + coFrag + ' (' + _fmtPct(basis.co) + ', both ' + basis.label + ')' + suffix);
     }
     if (ctx.renterCb50 != null) {
       // Only add the severe row when the LEAD wasn't the severe-burden

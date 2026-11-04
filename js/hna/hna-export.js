@@ -26,6 +26,7 @@
 
   /** Trigger a file download for a Blob in browsers that support it. */
   function _triggerDownload(blob, filename) {
+    if (!_exportStillCurrent()) return;
     var url = URL.createObjectURL(blob);
     var a   = document.createElement('a');
     a.href     = url;
@@ -33,6 +34,108 @@
     document.body.appendChild(a);
     a.click();
     setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1500);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Bind each download to one finished page load.
+  //
+  // Changing the place starts an asynchronous load. A download started while
+  // that load runs (or a slow PDF or workbook that is still being built when
+  // the place changes) used to mix the two places: one county's name and
+  // narrative with the other's GEOID and figures. Each download now waits for
+  // the load to finish, records which load it read, and is dropped and rebuilt
+  // if the page changed before the file was saved.
+  // ---------------------------------------------------------------------------
+  var _exportCtx = null;
+
+  function _controller() {
+    var c = window.HNAController;
+    return (c && typeof c.whenSettled === 'function' && typeof c.updateSeq === 'function') ? c : null;
+  }
+
+  /** True when the page shows one finished load for the selected place. */
+  function _pageMatchesSelection() {
+    var c = _controller();
+    if (c && c.isUpdating && c.isUpdating()) return false;
+    var cur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
+    // Combined areas and side-by-side comparisons carry a synthetic GEOID
+    // ('region:…', 'regional-comparison'), never the selector's value.
+    if (!cur || cur.geoType === 'combined' || cur.geoType === 'regional-comparison') return true;
+    var sel = document.getElementById('geoSelect');
+    if (!sel || !sel.value) return true;
+    return String(cur.geoid) === String(sel.value);
+  }
+
+  /** Called at every file sink: false means the page moved on, so do not save. */
+  function _exportStillCurrent() {
+    if (!_exportCtx) return true;
+    var c = _controller();
+    if (_exportCtx.unchecked) return true;
+    if (_exportCtx.stale) return false;
+    if ((c && c.updateSeq() !== _exportCtx.seq) || !_pageMatchesSelection()) {
+      _exportCtx.stale = true;
+      return false;
+    }
+    return true;
+  }
+
+  // Downloads run one at a time, so each has its own context: a PDF started
+  // while a workbook is still being built cannot take over the workbook's
+  // context (Codex review, #2663).
+  var _exportChain = Promise.resolve();
+  function _enqueue(task) {
+    var run = _exportChain.then(task);
+    _exportChain = run.catch(function () {});
+    return run;
+  }
+
+  function _guardExport(fn, label) {
+    return function guardedExport() {
+      var args = arguments;
+      var self = this;
+      var c = _controller();
+      if (!c) return fn.apply(self, args);
+      // A caller that hands in its own report data owns that data: no
+      // page check. CSV and JSON stay synchronous for such callers.
+      if (args[0] && typeof args[0] === 'object' && fn !== exportStructuredPdf && fn !== exportPdf) {
+        if (fn === exportCsv || fn === exportJson) {
+          var saved = _exportCtx;
+          _exportCtx = null;
+          try { return fn.apply(self, args); } finally { _exportCtx = saved; }
+        }
+        return _enqueue(async function () {
+          var own = { unchecked: true };
+          _exportCtx = own;
+          try { return await fn.apply(self, args); } finally { if (_exportCtx === own) _exportCtx = null; }
+        });
+      }
+      return _enqueue(function () { return guardedRun(self, args); });
+    };
+    async function guardedRun(self, args) {
+      var c = _controller();
+      for (var attempt = 0; attempt < 3; attempt++) {
+        if (!_pageMatchesSelection()) {
+          _showExportToast('Loading the selected place. The ' + label + ' starts when it is ready.', 'info');
+        }
+        var seq = await c.whenSettled();
+        if (!_pageMatchesSelection()) {
+          // The load finished but the page does not show the selected place
+          // (the load failed or was cut short). Do not write a mixed file.
+          _showExportToast('This place has not finished loading, so the ' + label + ' was not made. Try again in a moment.', 'warn');
+          return;
+        }
+        var ctx = { seq: seq, stale: false };
+        _exportCtx = ctx;
+        try {
+          await fn.apply(self, args);
+        } finally {
+          if (_exportCtx === ctx) _exportCtx = null;
+        }
+        if (!ctx.stale) return;
+        _showExportToast('The place changed while the ' + label + ' was being made. Making it again for the place now shown.', 'info');
+      }
+      _showExportToast('The place kept changing, so the ' + label + ' was not made. Try again.', 'warn');
+    }
   }
 
   /**
@@ -43,6 +146,7 @@
    * @param {'success'|'info'|'warn'} [type='success'] - Toast colour variant
    */
   function _showExportToast(message, type) {
+    if (_exportCtx && _exportCtx.stale) return;
     var bgMap = {
       success: 'var(--good,#047857)',
       info:    'var(--accent,#2563eb)',
@@ -146,29 +250,36 @@
     return (v && v.nav) ? v : null;
   }
 
-  /** 'housing-needs-assessment.csv' -> 'housing-needs-assessment-who-lives-here.csv' */
-  function _viewFilename(base) {
-    var v = _viewInfo();
-    if (!v) return base;
-    var part = _slugifyFilenamePart(v.id || v.nav);
-    if (!part) return base;
-    var dot = base.lastIndexOf('.');
-    return dot === -1 ? base + '-' + part : base.slice(0, dot) + '-' + part + base.slice(dot);
-  }
-
   /** 'Housing Needs Assessment' -> 'Housing Needs Assessment — Who lives here' */
   function _viewTitle(base) {
     var v = _viewInfo();
     return v ? base + ' — ' + v.nav : base;
   }
 
-  function _defaultStructuredPdfFilename(reportData) {
+  /** Why a page figure is blank in a download (evening practitioner QA,
+   *  3 Nov 2026: the CSV left baseline units and target vacancy empty on
+   *  views that do not carry the projection chapter). */
+  function _pageFieldReason(id) {
+    var v = _viewInfo();
+    if (!document.getElementById(id)) {
+      return v ? 'Not part of the \u201c' + v.nav + '\u201d view. The full Housing Needs Assessment page shows it.'
+               : 'Not on this page.';
+    }
+    return 'Not shown on the page for this place when the file was made.';
+  }
+
+  /** housing-needs-assessment[-view]-<place>-<geoid>.<ext>: every download
+   *  names the place it is for (evening practitioner QA, 3 Nov 2026). */
+  function _placeFilename(reportData, ext) {
     var geography = reportData && reportData.geography || {};
     var label = _slugifyFilenamePart(geography.label) || 'jurisdiction';
     var geoid = _slugifyFilenamePart(geography.geoid);
     var v = _viewInfo();
     var view = v ? _slugifyFilenamePart(v.id || v.nav) : '';
-    return ['housing-needs-assessment', view, label, geoid].filter(Boolean).join('-') + '.pdf';
+    return ['housing-needs-assessment', view, label, geoid].filter(Boolean).join('-') + '.' + ext;
+  }
+  function _defaultStructuredPdfFilename(reportData) {
+    return _placeFilename(reportData, 'pdf');
   }
 
   /** Escape a CSV field: wrap in quotes and double any internal quotes. */
@@ -382,7 +493,8 @@
     ].map(function (r) {
       var blank = _isBlankText(r.value);
       r.display = blank ? UNAVAILABLE : String(r.value).trim();
-      r.reason = blank ? 'Not shown on the page for this geography when exported.' : null;
+      r.reason = blank ? ((r.key === 'baselineUnits' && hs.unavailableReasons && hs.unavailableReasons.baselineUnits)
+        || 'Not shown on the page for this geography when exported.') : null;
       return r;
     });
   }
@@ -586,6 +698,41 @@
    * profile + chasData) and computes the same analytics-grade fields
    * the ranking-index would expose.
    */
+  /**
+   * The ACS period of the profile on the page for `geoid`, read from the
+   * profile itself (_acsSeries / _acsYear, set by the controller from the
+   * summary file). A combined area says its members' periods.
+   */
+  function _acsPeriodLabel(series, year) {
+    var y = Number(year);
+    if (!series || !Number.isFinite(y)) return null;
+    return series === 'acs1' ? 'ACS 1-Year ' + y : 'ACS 5-Year ' + (y - 4) + '-' + y;
+  }
+  function _acsPeriodOf(current, geoid) {
+    var none = { label: 'ACS (survey period not recorded for this place)', series: null, year: null };
+    if (current && current.geoType === 'regional-comparison') {
+      return { label: 'ACS, each member at its own survey period (1-year 2025 or 5-year 2020-2024)', series: 'mixed', year: null };
+    }
+    if (current && current.geoType === 'combined') {
+      var res = current.combinedResult || {};
+      var seen = {};
+      (res.members || res.memberRows || []).forEach(function (m) {
+        var prof = m && (m.profile || m.acsProfile);
+        var l = prof && _acsPeriodLabel(prof._acsSeries, prof._acsYear);
+        if (l) seen[l] = true;
+      });
+      var labels = Object.keys(seen);
+      if (labels.length === 1) return { label: labels[0], series: null, year: null };
+      if (labels.length > 1) return { label: 'ACS, mixed periods across members: ' + labels.join(' and '), series: 'mixed', year: null };
+      return { label: 'ACS, each member at its own survey period (1-year 2025 or 5-year 2020-2024)', series: 'mixed', year: null };
+    }
+    var st = window.HNAState && window.HNAState.state;
+    var prof = (current && current.profile) || (st && st.lastProfile) || null;
+    if (!prof || (prof._geoid && geoid && String(prof._geoid) !== String(geoid))) return none;
+    var label = _acsPeriodLabel(prof._acsSeries, prof._acsYear);
+    return label ? { label: label, series: prof._acsSeries, year: Number(prof._acsYear) } : none;
+  }
+
   function _metricsFromHnaState(geoid) {
     try {
       var st = window.HNAState && window.HNAState.state;
@@ -726,6 +873,7 @@
     var idxRec = combinedResult ? null : _rankingEntry(geoid);
     var m = combinedResult ? (_metricsFromCombinedResult(combinedResult) || {}) : ((idxRec && idxRec.metrics) || _metricsFromHnaState(geoid) || {});
 
+    var acsPeriod = _acsPeriodOf(current, geoid);
     var lehdYear = _lehdWacYear(geoid, idxRec ? idxRec.containingCounty : null);
     var lihtcCountText = _elText('statLihtcCount');
     var qctText = _elText('statQctCount');
@@ -738,7 +886,14 @@
       notInThisFile: NOT_IN_FILE.csv,
       disclaimer:    'Screening tool only. Public-data screening output, not a substitute for a CHFA-required market study, professional underwriting, or independent investor analysis. See docs/METHODOLOGY-GAPS-2026-05-21.md for known limitations.',
       vintages: {
-        acs:          'ACS 5-Year 2020-2024',
+        // The ACS period of the profile the page loaded for this place: 33
+        // geographies carry the 2025 1-year, the rest the 2020-2024 5-year.
+        // Until 3 Nov 2026 every file said "5-Year 2020-2024", so Mesa's
+        // 2025 1-year population (162,845) was labelled as the 5-year
+        // (158,601).
+        acs:          acsPeriod.label,
+        acsSeries:    acsPeriod.series,
+        acsYear:      acsPeriod.year,
         chas:         'HUD CHAS 2018-2022',
         lehd:         lehdYear !== null ? 'LEHD LODES WAC ' + lehdYear : 'LEHD LODES WAC (year unavailable: no LEHD data loaded for this geography)',
         lehdYear:     lehdYear,
@@ -776,6 +931,15 @@
       housingStock: {
         baselineUnits:       _elText('statBaseUnits'),
         targetVacancyRate:   _elText('statTargetVac'),
+        // Field -> reason, for each projection figure the page left blank.
+        unavailableReasons:  (function () {
+          var out = {};
+          [['baselineUnits', 'statBaseUnits'], ['targetVacancyRate', 'statTargetVac'],
+           ['unitsNeeded', 'statUnitsNeed'], ['netMigration', 'statNetMig']].forEach(function (f) {
+            if (_isBlankText(_elText(f[1]))) out[f[0]] = _pageFieldReason(f[1]);
+          });
+          return out;
+        })(),
         unitsNeededLabel:    'Net new units needed (negative = surplus)',
         unitsNeeded:         _elText('statUnitsNeed'),
         netMigration:        _elText('statNetMig'),
@@ -857,7 +1021,7 @@
    * @returns {Promise<void>}
    */
   async function exportPdf(filename) {
-    var outFile = filename || _viewFilename('housing-needs-assessment.pdf');
+    var outFile = filename || _placeFilename(buildReportData(), 'pdf');
     var pdfBtn  = document.getElementById('btnPdf');
     try {
       if (pdfBtn) { pdfBtn.disabled = true; }
@@ -959,7 +1123,7 @@
         remaining -= pageH;
       }
 
-      pdf.save(outFile);
+      if (_exportStillCurrent()) pdf.save(outFile);
       _showExportToast('PDF downloaded \u2713');
     } catch (e) {
       console.warn('[HNA] PDF export failed; falling back to print()', e);
@@ -1006,10 +1170,16 @@
 
   function exportCsv(reportData, filename) {
     var d       = reportData || buildReportData();
-    var outFile = filename   || _viewFilename('housing-needs-assessment.csv');
+    var outFile = filename   || _placeFilename(d, 'csv');
 
     var chas = d.chasCostBurden || {};
     var burden = chas.renterPctBurdened || {};
+    var stockReasons = (d.housingStock && d.housingStock.unavailableReasons) || {};
+    function stockText(key) {
+      var v = d.housingStock && d.housingStock[key];
+      if (!_isBlankText(v)) return v;
+      return UNAVAILABLE + ': ' + (stockReasons[key] || 'not shown on the page when the file was made.');
+    }
     var gap = d.amiGap || {};
     var emp = d.employment || {};
     var dq = d.dataQuality || {};
@@ -1069,15 +1239,15 @@
 
       // \u2500\u2500 Housing stock composition \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
       ['SECTION', 'Housing Stock'],
-      ['Baseline Housing Units',                 d.housingStock.baselineUnits],
-      ['Target Vacancy Rate',                    d.housingStock.targetVacancyRate],
+      ['Baseline Housing Units',                 stockText('baselineUnits')],
+      ['Target Vacancy Rate',                    stockText('targetVacancyRate')],
       ['Rental Vacancy Rate (ACS DP04_0005E)',
         (d.housingStock.rentalVacancyRate == null ? '\u2014 (small-N suppressed)' : fmtPct(d.housingStock.rentalVacancyRate))],
       ['% Multifamily (5+ unit structures)',     fmtPct(d.housingStock.pctMultifamily)],
       ['% Single-Family Detached',               fmtPct(d.housingStock.pctSfDetached)],
       ['% 2-4 Unit Structures',                  fmtPct(d.housingStock.pct2to4Units)],
-      ['Net new units needed (negative = surplus)', d.housingStock.unitsNeeded],
-      ['Net Migration (20-year)',                d.housingStock.netMigration],
+      ['Net new units needed (negative = surplus)', stockText('unitsNeeded')],
+      ['Net Migration (20-year)',                stockText('netMigration')],
       ['Projected Population (20-year)',         fmtNum(d.housingStock.population20yr)],
       ['', ''],
 
@@ -1154,7 +1324,7 @@
    */
   function exportJson(reportData, filename) {
     var d       = reportData || buildReportData();
-    var outFile = filename   || _viewFilename('housing-needs-assessment.json');
+    var outFile = filename   || _placeFilename(d, 'json');
 
     var blob = new Blob(
       [JSON.stringify(d, null, 2)],
@@ -1433,7 +1603,7 @@
       }
 
       // ── 1. Demographic snapshot ──
-      drawSectionHeader('1. Demographic snapshot', 'Population, household size, and average earner profile drawn from the ACS 5-year profile.');
+      drawSectionHeader('1. Demographic snapshot', 'Population, household size, and average earner profile drawn from the ' + (data.vintages.acs || 'ACS') + ' profile.');
       // Same rows, labels and values as the workbook's Summary sheet.
       drawStatGrid(_snapshotRows(data).filter(function (r) {
         return r.key !== 'rentBurden30Plus' && r.key !== 'baselineUnits';  // shown in section 5
@@ -1479,11 +1649,18 @@
       drawChart('chartEducation', '7-bucket distribution of highest schooling completed.', 220);
 
       // ── 5. Housing market + cost burden ──
+      // A blank projection figure prints Unavailable with its reason.
+      function pdfStock(label, key, sub) {
+        var v = data.housingStock[key];
+        if (!_isBlankText(v)) return { label: label, value: v, sub: sub };
+        var why = (data.housingStock.unavailableReasons || {})[key] || 'Not shown on the page when the file was made.';
+        return { label: label, value: UNAVAILABLE, sub: why };
+      }
       drawSectionHeader('5. Housing market & cost burden', 'Stock, vacancy, and the share of renters and owners spending more than 30% of income on housing.');
       drawStatGrid([
-        { label: 'Baseline housing units',  value: data.housingStock.baselineUnits || _elText('statBaseUnits'), sub: 'DP04 total' },
-        { label: 'Target vacancy rate',     value: data.housingStock.targetVacancyRate || _elText('statTargetVac'), sub: 'Policy target' },
-        { label: 'Net new units needed',    value: data.housingStock.unitsNeeded || _elText('statUnitsNeed'), sub: _elText('statUnitsNeedBasis') || 'Negative = surplus' },
+        pdfStock('Baseline housing units', 'baselineUnits', 'DP04 total'),
+        pdfStock('Target vacancy rate', 'targetVacancyRate', 'Policy target'),
+        pdfStock('Net new units needed', 'unitsNeeded', _elText('statUnitsNeedBasis') || 'Negative = surplus'),
         { label: '% multifamily',           value: data.housingStock.pctMultifamily != null ? data.housingStock.pctMultifamily + '%' : null, sub: 'DP04 structure' },
         { label: '% single-family detached', value: data.housingStock.pctSfDetached != null ? data.housingStock.pctSfDetached + '%' : null, sub: 'DP04 structure' },
         { label: 'Renters cost-burdened ≥30%', value: data.snapshot.rentBurden30Plus, sub: 'CHAS or DP04' },
@@ -1580,7 +1757,7 @@
       y += (disclaimer.length * 10) + 6;
 
       drawPageFooter();
-      pdf.save(outFile);
+      if (_exportStillCurrent()) pdf.save(outFile);
       _showExportToast('PDF downloaded ✓');
     } catch (e) {
       console.warn('[HNA] Structured PDF export failed; falling back to screenshot path', e);
@@ -1599,10 +1776,10 @@
   // F173 — primary PDF entry point routes through the structured builder.
   // The old screenshot exportPdf is kept reachable for fallback (and on
   // explicit consumer call via window.__HNA_exportPdfScreenshot).
-  window.__HNA_exportPdf            = exportStructuredPdf;
-  window.__HNA_exportPdfScreenshot  = exportPdf;
-  window.__HNA_exportCsv       = exportCsv;
-  window.__HNA_exportJson      = exportJson;
+  window.__HNA_exportPdf            = _guardExport(exportStructuredPdf, 'PDF');
+  window.__HNA_exportPdfScreenshot  = _guardExport(exportPdf, 'PDF');
+  window.__HNA_exportCsv       = _guardExport(exportCsv, 'CSV');
+  window.__HNA_exportJson      = _guardExport(exportJson, 'JSON file');
   // The transit-zone rows every export writes, for the panel as it stands
   // for `geoid` (test/transit-zone-absence.test.mjs).
   window.__HNA_transitZoneRows = function (geoid) {
@@ -1638,12 +1815,11 @@
   };
 
   /* ─────────────────────────────────────────────────────────────────
-     F168 — exportExcel — native Excel workbook with data tables AND
-     native Excel chart objects. Each Chart.js instance on the page
-     gets its own worksheet with the underlying labels + series values
-     in a real table, plus a chart object that references that table —
-     so users can edit the numbers and Excel re-draws the chart
-     automatically. Falls back to CSV when ExcelJS isn't loaded.
+     F168 — exportExcel — Excel workbook with the headline tables. Each
+     Chart.js instance on the page gets its own worksheet holding the
+     chart's labels and series values as a table. The workbook has no
+     drawn charts: ExcelJS 4.4 cannot write chart objects. Falls back to
+     CSV when ExcelJS isn't loaded.
      ───────────────────────────────────────────────────────────────── */
 
   function _harvestChartsForExcel() {
@@ -1704,7 +1880,7 @@
 
   async function exportExcel(reportData, filename) {
     var d       = reportData || buildReportData();
-    var outFile = filename   || _viewFilename('housing-needs-assessment.xlsx');
+    var outFile = filename   || _placeFilename(d, 'xlsx');
     var btn     = document.getElementById('btnExcel');
     try {
       if (btn) btn.disabled = true;
@@ -1835,33 +2011,16 @@
           sh.getRow(5 + rowIdx).values = row;
         });
 
-        try {
-          var lastRow = 4 + chart.labels.length;
-          sh.addChart({
-            type:    chart.type === 'line' ? 'line' : 'bar',
-            title:   { text: chart.title },
-            legend:  { position: 'top' },
-            position: {
-              type: 'twoCell',
-              from: { col: chart.series.length + 3, row: 3 },
-              to:   { col: chart.series.length + 13, row: 24 },
-            },
-            categoryAxis: { range: { sheet: name, range: 'A5:A' + lastRow } },
-            series: chart.series.map(function (sr, i) {
-              var col = String.fromCharCode(65 + 1 + i);
-              return { name: sr.name, values: { sheet: name, range: col + '5:' + col + lastRow } };
-            }),
-          });
-        } catch (chartErr) {
-          console.warn('[HNA Excel] addChart unavailable, data-only sheet emitted:', chartErr.message);
-        }
+        // No drawn chart: ExcelJS 4.4 cannot write chart objects (it has no
+        // addChart), so the sheet holds the chart's data only, and the About
+        // sheet says so (evening practitioner QA, 3 Nov 2026).
       });
 
       // ── Sources and About ──
       // The same two sheets every table download on the site carries, read
       // from the source inventory, so maintenance mode and last change are
       // the inventory's, not a sentence typed here.
-      var chartNote = 'Each chart sheet contains the data table the chart reads from. Edit a number and Excel re-draws the chart automatically.';
+      var chartNote = 'Each chart sheet holds the data behind one of the page\u2019s charts, as a table. The charts themselves are not drawn in this file: select a table and use Insert > Chart in Excel to draw one.';
       var meta = await _describeReport(d);
       if (meta) {
         var addTable = function (name, rows, widths) {
@@ -1890,11 +2049,7 @@
 
       var buf  = await wb.xlsx.writeBuffer();
       var blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      var url  = URL.createObjectURL(blob);
-      var a    = document.createElement('a');
-      a.href = url; a.download = outFile;
-      document.body.appendChild(a); a.click();
-      setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1000);
+      _triggerDownload(blob, outFile);
       _showExportToast('Excel workbook downloaded ✓');
     } catch (e) {
       console.warn('[HNA] Excel export failed:', e);
@@ -1904,6 +2059,6 @@
     }
   }
 
-  window.__HNA_exportExcel = exportExcel;
+  window.__HNA_exportExcel = _guardExport(exportExcel, 'workbook');
 
 })();

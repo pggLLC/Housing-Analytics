@@ -50,11 +50,12 @@ run('HNA loads are serialized: update() waits for the run in flight and releases
   const src = read('js/hna/hna-controller.js');
   const start = src.indexOf('  async function update(){');
   assert.ok(start > -1, 'update() exists under its own name (other guards read its body)');
-  const body = src.slice(start, start + 600);
+  const body = src.slice(start, start + 1000);
   assert.match(body, /const previous = _updateGate;/, 'takes the gate');
   assert.match(body, /_updateGate = new Promise\(function \(r\) \{ release = r; \}\);/, 'installs a new gate for the next caller');
   assert.match(body, /await previous;\s*try \{/, 'waits for the previous run before doing anything, inside try');
-  assert.match(src, /\} finally \{\s*release\(\);\s*\}\s*\n\s*\}/, 'releases the gate in finally, so a failed load cannot block the next');
+  assert.match(body, /_updateSeq\+\+;\s*_updating\+\+;/, 'numbers the load and marks it running, for whenSettled (downloads wait on it)');
+  assert.match(src, /\} finally \{\s*_updating = Math\.max\(0, _updating - 1\);\s*release\(\);\s*\}\s*\n\s*\}/, 'releases the gate in finally, so a failed load cannot block the next');
 });
 
 run('the first-county fallback only fires when nothing was restored', () => {

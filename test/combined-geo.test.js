@@ -246,6 +246,40 @@ test('combined shortfall renderer keeps missing values unavailable and preserves
   } finally { dom.window.close(); }
 });
 
+test('a member missing one band count makes the dependent gaps unavailable and names it; a measured 0 stays 0', () => {
+  // Evening practitioner QA, 3 Nov 2026: a missing affordable-unit count
+  // was folded in as 0, so the shortfall read the same as a measured zero.
+  const pair = [{ geoType: 'place', geoid: '0800001' }, { geoType: 'place', geoid: '0800002' }];
+  const base = Combined.aggregate(pair, fixtureDatasets()).amiGapEntry;
+  assert.equal(base.available, true);
+  assert.deepEqual(base.missing, []);
+
+  const gone = fixtureDatasets();
+  delete gone.amiGapPlace.places['0800002'].units_priced_affordable_le_ami_pct['60'];
+  const out = Combined.aggregate(pair, gone);
+  const g = out.amiGapEntry;
+  assert.equal(g.available, false, 'the gap is not reported as available');
+  assert.equal(out.availability.amiGap.available, false);
+  assert.match(out.availability.amiGap.reason, /0800002 has no affordable units count at or below 60% AMI/);
+  assert.equal(g.units_priced_affordable_le_ami_pct['60'], null, 'the 60% supply total is unknown, not a sum with 0');
+  assert.equal(g.per_band_gap['60'], null);
+  assert.equal(g.per_band_gap['70'], null, 'the next band depends on the 60% total too');
+  for (const b of ['60', '70', '80', '100']) assert.equal(g.shortfall_households_minus_units_le_ami_pct[b], null, 'cumulative gap at ' + b);
+  for (const b of ['30', '40', '50']) assert.equal(g.shortfall_households_minus_units_le_ami_pct[b], base.shortfall_households_minus_units_le_ami_pct[b], 'bands below are unaffected at ' + b);
+
+  const zero = fixtureDatasets();
+  zero.amiGapPlace.places['0800002'].units_priced_affordable_le_ami_pct['60'] = 0;
+  const z = Combined.aggregate(pair, zero).amiGapEntry;
+  assert.equal(z.available, true, 'a measured zero is a count');
+  assert.equal(z.units_priced_affordable_le_ami_pct['60'], 151, 'the zero adds as zero');
+  assert.notDeepEqual(z.shortfall_households_minus_units_le_ami_pct, g.shortfall_households_minus_units_le_ami_pct, 'missing and zero no longer give the same result');
+
+  const dom = loadRenderersDom();
+  dom.window.HNARenderers.renderCombinedAssessment(out);
+  const line = dom.window.document.getElementById('hnaGapNetLine').textContent;
+  assert.match(line, /not available|unavailable/i, 'the page says the gap is unavailable: ' + line);
+});
+
 test('overlap rejection catches place plus containing county', () => {
   const validation = Combined.validateCombo([
     { geoType: 'place', geoid: '0800001' },
@@ -851,7 +885,8 @@ test('regional comparison mode reuses combined picker but fetches member digests
 test('combined AMI-gap rendering gates on availability flag', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
   assert(src.includes('result.availability && result.availability.amiGap && result.availability.amiGap.available'), 'renderCombinedAssessment reads availability.amiGap.available');
-  assert(src.includes('Not available — one or more members missing AMI-gap data'), 'missing AMI gap message is rendered');
+  assert(src.includes("'one or more members missing AMI-gap data'"), 'missing AMI gap fallback message is rendered');
+  assert(src.includes('result.availability.amiGap.reason'), 'the message names the member and band from availability.amiGap.reason');
   assert(src.includes("_combinedSetText('statGap' + band, 'Not available')"), 'statGap fields are masked when unavailable');
   assert(src.includes("_combinedSetText('statTierGap' + band, 'Not available')"), 'statTierGap fields are masked when unavailable');
 });

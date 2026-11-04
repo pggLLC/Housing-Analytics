@@ -75,20 +75,41 @@ function takeaways() {
       const m = t.match(/Overall renter burden runs at ([\d.]+)%[^.]*?\(([\d.]+)%, both ([^)]+)\)/);
       if (!m) continue;
       assert.equal(Number(m[1]), pcb, `${row.geoid}: overall share is not the ranking index's ACS figure`);
-      assert.equal(m[2], '52.9', `${row.geoid}: ACS share compared with ${m[2]}%, not the ACS state figure`);
-      assert(/ACS 2020.2024/.test(m[3]), `${row.geoid}: comparison does not name ACS: ${m[3]}`);
+      // The state figure from the same ACS period as the local share.
+      const want = profile._acsSeries === 'acs1'
+        ? { co: '51.7', label: new RegExp('ACS 1-year ' + profile._acsYear) }
+        : { co: '52.9', label: /ACS 5-year 2020.2024/ };
+      assert.equal(m[2], want.co, `${row.geoid} (${profile._acsSeries} ${profile._acsYear}): compared with ${m[2]}%, not the ${want.co}% state figure for the same period`);
+      assert(want.label.test(m[3]), `${row.geoid}: comparison does not name its ACS period: ${m[3]}`);
       assert(!/U\.S\. average/.test(t), `${row.geoid}: still compares with the U.S.`);
       checked += 1;
     }
     assert(checked > 300, `only ${checked} geographies checked`);
-    const mesa = text(w.HNANarratives.buildExecutiveSummary(Object.assign({}, summaryFor('08077'), { _geoid: '08077', _geoType: 'county' }), 'Mesa County'));
-    assert(!/above the Colorado average/.test(mesa), 'Mesa County 51.8% still reads as above a 52.9% state figure');
+    // Evening practitioner QA, 3 Nov 2026: these 2025 1-year shares were set
+    // against the 2020-2024 state figure (52.9%). Against the 2025 1-year
+    // state figure (9.8 + 41.9 = 51.7%) and the 4-point rule they read:
+    const expected = [
+      ['08077', 'Mesa County', 'county', 'higher than'],
+      ['08005', 'Arapahoe County', 'county', 'higher than'],
+      ['0812415', 'Castle Rock', 'place', 'higher than'],
+      ['0812815', 'Centennial', 'place', 'in line with'],
+      ['0828745', 'Fruita', 'place', 'lower than'],   // 5-year control: 43.6% vs 52.9%
+    ];
+    for (const [g, name, type, word] of expected) {
+      const t = text(w.HNANarratives.buildExecutiveSummary(Object.assign({}, summaryFor(g), { _geoid: g, _geoType: type }), name));
+      assert(new RegExp('Overall renter burden runs at [\\d.]+%, ' + word + ' the Colorado average').test(t), `${name}: expected "${word}": ${t.match(/Overall renter burden[^.]*/)}`);
+    }
+    // A period with no state figure on file is stated, not compared.
+    const odd = text(w.HNANarratives.buildExecutiveSummary(Object.assign({}, summaryFor('08077'), { _geoid: '08077', _geoType: 'county', _acsSeries: 'acs1', _acsYear: 2019 }), 'Mesa County'));
+    assert(/ACS 1-year 2019; no Colorado figure for the same period/.test(odd), odd.match(/Overall renter burden[^.]*/));
   });
 
   await test('the rent-burden takeaway uses the same overall share and names each source', () => {
     const fn = takeaways()['Rent burden distribution'];
-    const line = text(fn({ renterCb30: 51.8, renterCb30FromAcs: true, renterCb50: 22 }));
+    const line = text(fn({ renterCb30: 51.8, renterCb30FromAcs: true, renterCb50: 22, profile: { _acsSeries: 'acs5', _acsYear: 2024 } }));
     assert(/51\.8% of renters are cost-burdened \(ACS 2020.2024\)/.test(line), line);
+    const oneYear = text(fn({ renterCb30: 56.7, renterCb30FromAcs: true, renterCb50: 22, profile: { _acsSeries: 'acs1', _acsYear: 2025 } }));
+    assert(/56\.7% of renters are cost-burdened \(ACS 1-year 2025\)/.test(oneYear), oneYear);
     assert(/22\.0% pay half their income or more \(HUD CHAS 2018.2022\)/.test(line), line);
     const chas = text(fn({ renterCb30: 39.4, renterCb50: 30.3 }));
     assert(/39\.4% of renters are cost-burdened \(HUD CHAS 2018.2022\)/.test(chas), chas);

@@ -196,7 +196,11 @@
     return {
       source: 'ACS B25075',
       sourceLabel: 'ACS B25075 owner-occupied units by value',
-      asOf: options.asOf || (profile._acsYear ? 'ACS ' + profile._acsYear + ' 5-year' : 'ACS 2020-2024 5-year'),
+      // B25075 is a 5-year detail table even where the profile is the 1-year.
+      asOf: options.asOf || (function () {
+        var y = Number(profile._acs5DetailYear || (profile._acsSeries !== 'acs1' && profile._acsYear));
+        return Number.isFinite(y) && y > 0 ? 'ACS ' + (y - 4) + '-' + y + ' 5-year' : 'ACS 5-year (year not recorded)';
+      })(),
       dataQuality: dataQuality,
       totalOwnerOccupiedUnits: round(total, 1),
       summedBandUnits: round(sum, 1),

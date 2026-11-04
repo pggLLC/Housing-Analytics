@@ -111,7 +111,7 @@ window.ExcelJS = global.ExcelJS = { Workbook: class {
   addWorksheet(name) {
     const rows = [];
     const ws = { name, rows, columns: [], addRow: (o) => { rows.push(o); return { font: {} }; },
-      getRow: () => ({ font: {}, fill: {}, values: [] }), getColumn: () => ({}), getCell: () => ({ font: {} }), addChart: () => {} };
+      getRow: () => ({ font: {}, fill: {}, values: [] }), getColumn: () => ({}), getCell: () => ({ font: {} }) };
     sheets[name] = ws;
     return ws;
   }
@@ -166,7 +166,7 @@ async function exportAll(c) {
   const S = window.HNAState;
   R.clearStats();
   S.state.contextCounty = c.county;
-  S.state.current = { geoid: c.geoid, geoType: c.geoType };
+  S.state.current = { geoid: c.geoid, geoType: c.geoType, profile: summary.acsProfile };
   const geoType = document.getElementById('geoType');
   const geoSelect = document.getElementById('geoSelect');
   geoType.innerHTML = `<option value="${c.geoType}" selected>${c.geoType}</option>`;
@@ -310,6 +310,27 @@ async function exportAll(c) {
       const csvRow = r.csvRows.find((x) => x[0] === 'LEHD WAC');
       assert(csvRow && csvRow[1].includes(year), `CSV LEHD ${csvRow ? JSON.stringify(csvRow[1]) : 'missing'}; data wacYear ${year}`);
       assert(!r.pdf.some((t) => /LEHD WAC 2021/.test(t)), 'the PDF still prints the literal LEHD WAC 2021');
+    });
+
+    await test(`${label}: the ACS period is the loaded profile's, in the JSON, CSV, PDF and workbook`, async () => {
+      // Evening practitioner QA, 3 Nov 2026: every file said "ACS 5-Year
+      // 2020-2024", while Mesa's figures are the 2025 1-year (population
+      // 162,845; the 5-year is 158,601). Fruita is the 5-year control.
+      const r = await exportAll(c);
+      const p = r.summary.acsProfile;
+      const want = p._acsSeries === 'acs1' ? 'ACS 1-Year ' + p._acsYear : 'ACS 5-Year ' + (p._acsYear - 4) + '-' + p._acsYear;
+      if (c.geoid === '08077') assert.strictEqual(want, 'ACS 1-Year 2025', 'Mesa\'s summary is no longer the 2025 1-year; update this pin');
+      if (c.geoid === '0828745') assert.strictEqual(want, 'ACS 5-Year 2020-2024', 'Fruita\'s summary is no longer the 2020-2024 5-year; update this pin');
+      assert.strictEqual(r.data.vintages.acs, want, 'JSON vintages.acs');
+      assert.strictEqual(r.data.vintages.acsSeries, p._acsSeries);
+      const csvRow = r.csvRows.find((x) => x[0] === 'ACS');
+      assert(csvRow && csvRow[1] === want, `CSV ACS ${csvRow ? JSON.stringify(csvRow[1]) : 'missing'}`);
+      assert(r.pdf.some((t) => t === 'Vintage: ' + want), 'PDF cover vintage');
+      assert(r.pdf.some((t) => t.includes('drawn from the ' + want + ' profile')), 'PDF section 1 names the period');
+      const xl = summaryRow('ACS profile');
+      assert(xl && xl.v === want, `Excel ACS profile ${xl ? JSON.stringify(xl.v) : 'missing'}`);
+      const other = p._acsSeries === 'acs1' ? '2020-2024' : '1-Year';
+      assert(!r.pdf.some((t) => /ACS/.test(t) && t.includes(other) && /Vintage|profile/.test(t)), `the PDF still names ${other} for the profile`);
     });
 
     await test(`${label}: LIHTC, QCT and DDA rows match the page, with the page's reason when unavailable`, async () => {
@@ -473,6 +494,40 @@ async function exportAll(c) {
     } finally {
       delete FETCH_OVERRIDES[STATUS];
     }
+  });
+
+  await test('a projection figure missing from a view prints Unavailable with the reason, in the CSV, PDF and workbook', async () => {
+    // Evening practitioner QA, 3 Nov 2026: on views without the projection
+    // chapter the CSV left baseline units and target vacancy blank.
+    const ids = ['statBaseUnits', 'statTargetVac'];
+    const parked = ids.map((id) => { const el = document.getElementById(id); const ph = document.createComment(id); el.replaceWith(ph); return [el, ph]; });
+    window.HNA_VIEW = { id: 'who-lives-here', nav: 'Who lives here' };
+    try {
+      const r = await exportAll(CASES[0]);
+      const why = /Not part of the .Who lives here. view\. The full Housing Needs Assessment page shows it\./;
+      for (const label of ['Baseline Housing Units', 'Target Vacancy Rate']) {
+        const row = r.csvRows.find((x) => x[0] === label);
+        assert(row && /^Unavailable: /.test(row[1]) && why.test(row[1]), `CSV ${label}: ${row ? JSON.stringify(row[1]) : 'missing'}`);
+      }
+      assert(why.test(r.data.housingStock.unavailableReasons.baselineUnits), 'JSON names the reason');
+      const i = r.pdf.indexOf('Baseline housing units');
+      assert(i !== -1 && r.pdf.slice(i, i + 4).some((t) => why.test(t)), 'PDF gives the reason under the Unavailable card');
+      const xl = summaryRow('Current housing units');
+      assert(xl && xl.v === 'Unavailable' && why.test(xl.n), `Excel: ${xl ? JSON.stringify(xl) : 'missing'}`);
+    } finally {
+      delete window.HNA_VIEW;
+      parked.forEach(([el, ph]) => ph.replaceWith(el));
+    }
+  });
+
+  await test('the workbook does not claim drawn charts it cannot write', async () => {
+    // ExcelJS 4.4 has no addChart. The stub above has none either, so a call
+    // would fail here instead of being swallowed as it was before 3 Nov 2026.
+    const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-export.js'), 'utf8');
+    assert(!/\.addChart\(/.test(src), 'hna-export.js still calls addChart');
+    assert(!/re-draws the chart/i.test(src), 'the workbook still says Excel re-draws the chart');
+    const btn = document.getElementById('btnExcel').getAttribute('title');
+    assert(!/native Excel chart/i.test(btn), 'the Download Excel button still promises native charts: ' + btn);
   });
 
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {

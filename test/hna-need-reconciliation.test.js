@@ -190,7 +190,7 @@ async function render(selection, countyFips, headship) {
       addWorksheet(name) {
         const rows = [];
         const ws = { name, rows, columns: [], addRow: (o) => { rows.push(o); return { font: {} }; },
-          getRow: () => ({ font: {}, fill: {}, values: [] }), getColumn: () => ({}), getCell: () => ({ font: {} }), addChart: () => {} };
+          getRow: () => ({ font: {}, fill: {}, values: [] }), getColumn: () => ({}), getCell: () => ({ font: {} }) };
         sheets[name] = ws; return ws;
       }
       get xlsx() { return { writeBuffer: async () => new ArrayBuffer(0) }; }

@@ -4347,6 +4347,16 @@
   // Serialized inside update() itself (not a wrapper) because other guards
   // read update()'s body from source to check what it calls.
   let _updateGate = Promise.resolve();
+  let _updateSeq = 0;
+  let _updating = 0;
+  // Resolves once no load is running or queued, with the number of the load
+  // that finished last. A download waits on this, so it never reads half of a
+  // county switch (one county's name and narrative with another's figures).
+  async function whenSettled() {
+    let gate;
+    do { gate = _updateGate; await gate; } while (gate !== _updateGate || _updating > 0);
+    return _updateSeq;
+  }
 
   // The place init loaded, until the first select change after it. The
   // page's deep-link helper re-announces that place (so the project, the
@@ -4362,6 +4372,10 @@
     return els.geoType.value + ':' + els.geoSelect.value + (combined ? ':combined' : '');
   }
   async function update(){
+    // Every load gets a number, so an export can tell whether the page it read
+    // is still the page on screen (whenSettled / updateSeq below).
+    _updateSeq++;
+    _updating++;
     const previous = _updateGate;
     let release;
     _updateGate = new Promise(function (r) { release = r; });
@@ -5156,6 +5170,7 @@
     // Hide all chart loading overlays now that rendering is complete (Recommendation 3.1)
     window.HNARenderers.hideChartLoading();
       } finally {
+      _updating = Math.max(0, _updating - 1);
       release();
     }
   }
@@ -5617,6 +5632,9 @@
   window.HNAController = {
     init,
     update,
+    whenSettled,
+    updateSeq: function () { return _updateSeq; },
+    isUpdating: function () { return _updating > 0; },
     renderProjections,
     applyAssumptions,
     buildNeedReconciliation,
