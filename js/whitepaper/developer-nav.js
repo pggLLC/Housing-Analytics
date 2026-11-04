@@ -25,7 +25,8 @@
       { href: 'developer-parcel-sales.html', label: 'Parcel sales', private: true }] },
     { label: 'Check a site', pages: [
       { href: 'developer-market-screen.html', label: 'Market screen', private: true },
-      { href: 'developer-env-screen.html', label: 'Environmental screen', private: true }] },
+      { href: 'developer-env-screen.html', label: 'Environmental screen', private: true },
+      { href: 'developer-commuters.html', label: 'Commuters', private: true }] },
     { label: 'Deal', pages: [
       { href: 'developer-deal-workbook.html', label: 'Deal workbook' },
       { href: 'developer-investor-returns.html', label: 'Investor returns', private: true },
