@@ -375,7 +375,7 @@
       if (window.PageContext) PageContext.render('pageContext', {
         what: 'Concept-stage LIHTC pro forma: eligible basis estimation, 4% vs 9% credit sizing, equity pricing, supportable first mortgage, developer fee, and gap analysis. Choose published CHFA limits, a non-CHFA AMI formula, or unrestricted market rents for your county.',
         why: 'Financial feasibility is the ultimate test. This calculator helps you determine early whether a concept can close its funding gap before investing $50K+ in predevelopment costs (ESA, survey, architect, legal).',
-        not: 'This does not model construction loan interest, actual eligible basis (uses % proxy), or investor-specific underwriting requirements. It models the applicable fraction using the LIHTC unit share; it does not separately measure the floor-area fraction. Equity pricing is a point-in-time snapshot. Operating expenses use a statewide default. This is not a substitute for lender underwriting, syndicator pre-screening, or legal advice.',
+        not: 'This does not model construction loan interest, actual eligible basis (uses % proxy), or investor-specific underwriting requirements. It models the applicable fraction as the lower of the LIHTC unit share and the floor-space share; on a mixed-income deal it needs both floor areas. Equity pricing is a point-in-time snapshot. Operating expenses use a statewide default. This is not a substitute for lender underwriting, syndicator pre-screening, or legal advice.',
         nextSteps: [
           { label: 'LIHTC Guide', href: 'lihtc-guide-for-stakeholders.html', desc: 'Understanding tax credit fundamentals' },
           { label: 'Housing Needs Assessment', href: 'housing-needs-assessment.html', desc: 'Revisit the community need evidence' }
@@ -393,10 +393,9 @@
           sources: [
             { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2027 · IL FY2026', coverage: 'All CO counties' },
             { name: 'AMI Gap by County', status: 'primary', vintage: '2024', coverage: '64 counties' },
-            { name: 'LIHTC Assumptions', status: 'primary', vintage: 'Q1 2026', coverage: 'Colorado', note: 'Hard costs, equity pricing, soft funding — point-in-time estimates' },
-            { name: 'CHFA Awards Historical', status: 'primary', vintage: '2015-2025', coverage: '110 awards', note: 'Pattern matching, not forward prediction' }
+            { name: 'LIHTC Assumptions', status: 'primary', vintage: 'Q2 2026', coverage: 'Colorado', note: 'Equity pricing is Novogradac Q2 2026. Hard costs and soft funding are COHO screening assumptions. All are point-in-time estimates.' }
           ],
-          limitations: 'Concept-stage estimates only. Does not model construction financing, applicable fraction, or actual eligible basis. Equity pricing is a point-in-time snapshot that changes quarterly. Operating expenses use a single statewide default.'
+          limitations: 'Concept-stage estimates only. Does not model construction financing or actual eligible basis. Equity pricing is a point-in-time snapshot that changes quarterly. Operating expenses use a single statewide default.'
         });
       }
     });
