@@ -5,7 +5,7 @@
  *
  * The comparison exists because a county average hides its own spread: Boulder
  * County reports 31.2% severe renter burden while containing Louisville at
- * 18.7% and Boulder city at 41.0%. Getting that wrong in the other direction —
+ * 18.7% and Boulder city at 40.9%. Getting that wrong in the other direction —
  * showing a comparison that is not really a comparison — would be worse than
  * showing nothing, so most of these tests are about what must NOT be compared.
  */
@@ -36,8 +36,8 @@ run('a real place compares against its real containing county', () => {
   assert.ok(r.rows.length >= 6, 'expected a useful set of rows, got ' + r.rows.length);
   const burden = r.rows.find((x) => x.key === 'pct_cost_burdened');
   assert.equal(burden.place.value, 66.1);
-  assert.equal(burden.county.value, 57.9);
-  assert.equal(burden.delta, 8.2);
+  assert.equal(burden.county.value, 59.9);
+  assert.equal(burden.delta, 6.2);
   assert.equal(burden.higher, 'place');
   assert.equal(C.describeDelta(burden), 'worse than the county');
 });

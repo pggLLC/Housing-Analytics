@@ -313,13 +313,13 @@ async function exportAll(c) {
     });
 
     await test(`${label}: the ACS period is the loaded profile's, in the JSON, CSV, PDF and workbook`, async () => {
-      // Evening practitioner QA, 3 Nov 2026: every file said "ACS 5-Year
-      // 2020-2024", while Mesa's figures are the 2025 1-year (population
-      // 162,845; the 5-year is 158,601). Fruita is the 5-year control.
+      // Evening practitioner QA, 3 Nov 2026: the label must follow the loaded
+      // profile. Since the 4 Nov 2026 decision every county and town loads the
+      // 5-year, so Mesa and Fruita both pin the 2020-2024 5-year.
       const r = await exportAll(c);
       const p = r.summary.acsProfile;
       const want = p._acsSeries === 'acs1' ? 'ACS 1-Year ' + p._acsYear : 'ACS 5-Year ' + (p._acsYear - 4) + '-' + p._acsYear;
-      if (c.geoid === '08077') assert.strictEqual(want, 'ACS 1-Year 2025', 'Mesa\'s summary is no longer the 2025 1-year; update this pin');
+      if (c.geoid === '08077') assert.strictEqual(want, 'ACS 5-Year 2020-2024', 'Mesa\'s summary is no longer the 2020-2024 5-year; update this pin');
       if (c.geoid === '0828745') assert.strictEqual(want, 'ACS 5-Year 2020-2024', 'Fruita\'s summary is no longer the 2020-2024 5-year; update this pin');
       assert.strictEqual(r.data.vintages.acs, want, 'JSON vintages.acs');
       assert.strictEqual(r.data.vintages.acsSeries, p._acsSeries);

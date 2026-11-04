@@ -85,15 +85,16 @@ function takeaways() {
       checked += 1;
     }
     assert(checked > 300, `only ${checked} geographies checked`);
-    // Evening practitioner QA, 3 Nov 2026: these 2025 1-year shares were set
-    // against the 2020-2024 state figure (52.9%). Against the 2025 1-year
-    // state figure (9.8 + 41.9 = 51.7%) and the 4-point rule they read:
+    // Evening practitioner QA, 3 Nov 2026: 2025 1-year shares were set against
+    // the 2020-2024 state figure. Since the 4 Nov 2026 5-year rule every one of
+    // these is the 2020-2024 5-year, read against the 5-year state figure
+    // (52.9%) with the 4-point rule:
     const expected = [
-      ['08077', 'Mesa County', 'county', 'higher than'],
-      ['08005', 'Arapahoe County', 'county', 'higher than'],
-      ['0812415', 'Castle Rock', 'place', 'higher than'],
-      ['0812815', 'Centennial', 'place', 'in line with'],
-      ['0828745', 'Fruita', 'place', 'lower than'],   // 5-year control: 43.6% vs 52.9%
+      ['08077', 'Mesa County', 'county', 'lower than'],      // 48.8%
+      ['08005', 'Arapahoe County', 'county', 'in line with'], // 56.4%
+      ['0812415', 'Castle Rock', 'place', 'higher than'],     // 62.5%
+      ['0812815', 'Centennial', 'place', 'lower than'],       // 47.1%
+      ['0828745', 'Fruita', 'place', 'lower than'],           // 43.6%
     ];
     for (const [g, name, type, word] of expected) {
       const t = text(w.HNANarratives.buildExecutiveSummary(Object.assign({}, summaryFor(g), { _geoid: g, _geoType: type }), name));
