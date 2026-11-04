@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-04T02:00:36.869847Z",
+  "generated": "2026-11-04T02:16:35.255235Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1024347
+      "bytes": 1024683
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9844,12 +9844,17 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40830
+      "bytes": 41001
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3763
+      "bytes": 4779
+    },
+    "data/policy/thiz-zones.geojson": {
+      "featureCount": 1,
+      "placeholder": false,
+      "bytes": 1831517
     },
     "data/policy/tool-watch.json": {
       "featureCount": 0,
@@ -9874,7 +9879,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 221161
+      "bytes": 221504
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

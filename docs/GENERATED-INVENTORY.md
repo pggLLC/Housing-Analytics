@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T01:59:48.626Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T02:15:47.827Z. Do not edit by hand.
 
 ---
 
@@ -32,7 +32,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.2 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.1 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.3 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
@@ -2037,13 +2037,13 @@
 | `data/policy/soft-funding-status.json` | 45.5 KB | ✅ | — |
 | `data/policy/state-housing-laws.json` | 195.0 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 39.9 KB | ✅ | — |
-| `data/policy/thiz-map-status.json` | 3.7 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 40.0 KB | ✅ | — |
+| `data/policy/thiz-map-status.json` | 4.7 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
 | `data/policy_briefs.json` | 513.2 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 216.0 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 216.3 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 196.3 KB | ✅ | — |
@@ -2650,7 +2650,7 @@
 | `test/site-qct-dda-evidence.test.js` | 19.1 KB |
 | `test/site-review-build-pause-regressions.test.js` | 10.3 KB |
 | `test/site-search.test.mjs` | 5.1 KB |
-| `test/site-transit-evidence.test.js` | 14.7 KB |
+| `test/site-transit-evidence.test.js` | 14.9 KB |
 | `test/smoke-f139.test.js` | 14.8 KB |
 | `test/smoke-fmr.test.js` | 10.9 KB |
 | `test/smoke-market-analysis.test.js` | 40.1 KB |
@@ -2704,10 +2704,10 @@
 | `test/tract-geometry-integrity.test.js` | 18.0 KB |
 | `test/tract-point-placement.test.js` | 2.2 KB |
 | `test/transit-stops-consumers.test.js` | 10.5 KB |
-| `test/transit-zone-absence.test.mjs` | 37.4 KB |
-| `test/transit-zone-funding-line.test.js` | 26.2 KB |
+| `test/transit-zone-absence.test.mjs` | 37.6 KB |
+| `test/transit-zone-funding-line.test.js` | 27.1 KB |
 | `test/transit-zone-map.test.js` | 7.2 KB |
-| `test/transit-zone.test.js` | 39.7 KB |
+| `test/transit-zone.test.js` | 40.2 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/ui-audit-clean.test.js` | 4.3 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
@@ -2844,7 +2844,7 @@
 
 ## GitHub Actions Workflows
 
-83 workflow files found.
+84 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2922,6 +2922,7 @@
 | `.github/workflows/source-watch.yml` | 3.5 KB |
 | `.github/workflows/sync-data-mtimes.yml` | 7.7 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
+| `.github/workflows/thiz-zones-watch.yml` | 1.2 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.9 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 7.4 KB |
 | `.github/workflows/upstream-vintage-watch.yml` | 8.8 KB |
