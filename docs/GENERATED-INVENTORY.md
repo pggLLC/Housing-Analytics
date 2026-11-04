@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T15:02:29.323Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T15:33:54.417Z. Do not edit by hand.
 
 ---
 
@@ -44,7 +44,7 @@
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.8 KB |
 | `developer-round-watch.html` | Next Round Watch — COHO Analytics | 10.5 KB |
 | `developer-submittal-review.html` | Submittal Review — COHO Analytics | 18.3 KB |
-| `developer-where.html` | Where Should I Build? — COHO Analytics | 35.5 KB |
+| `developer-where.html` | Where Should I Build? — COHO Analytics | 38.6 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 19.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 94.4 KB |
@@ -320,7 +320,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 300.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 301.1 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -2071,7 +2071,7 @@
 
 ## Test Files
 
-774 test files found.
+775 test files found.
 
 | File | Size |
 |------|------|
@@ -2751,6 +2751,7 @@
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
 | `test/whats-near.test.js` | 5.9 KB |
+| `test/where-to-build-charts.test.mjs` | 5.2 KB |
 | `test/where-to-build.test.mjs` | 29.7 KB |
 | `test/workflow-next-action-prerequisites.test.js` | 8.3 KB |
 | `test/workflow-outcome-monitor.test.js` | 57.9 KB |
