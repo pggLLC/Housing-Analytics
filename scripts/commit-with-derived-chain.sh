@@ -17,10 +17,20 @@
 #      chain writes outside that list fails the job instead of being dropped.
 #   4. the freshness checkers, AFTER the commit — they rebuild their targets and
 #      restore them with `git checkout --`, so they refuse a dirty tree.
-#   5. rebase onto the target branch. On conflict, retry once from its new
-#      tip: re-apply only the input diff and rebuild the whole chain. An input
+#   5. take the repo-wide tail (TAIL below) back out of the commit, then
+#      rebase onto the target branch. On conflict, or when the branch changed
+#      anything besides the tail, retry once from its new tip: re-apply only
+#      the input diff and rebuild the whole chain. An input
 #      diff that cannot apply, or a second rebase conflict, fails without pushing.
-#   6. regenerate manifests from the rebased tree, and push.
+#   6. rebuild the tail from the rebased tree, fold it into the commit, and push.
+#
+# The tail is the paper, methods and working-paper pages, the inventory line and
+# both manifests. They measure the whole repository, so nearly every commit to
+# main rewrites them, and a commit that carries them into a rebase conflicts
+# whenever anything lands during the six-minute chain. On 2026-11-04 the BPS
+# rebuild conflicted on exactly these six files twice, on the first rebase and
+# on the retry, and pushed nothing. Rebuilt after the rebase they describe the
+# tree that is pushed, as scripts/push-data-commit.sh does for the manifests.
 #
 # Usage: scripts/commit-with-derived-chain.sh "<commit subject>" [--no-push] [--validate-critical] -- <input path>...
 #   --validate-critical also runs scripts/validate-critical-data.js (the data
@@ -84,6 +94,18 @@ PATHS=(
   data/manifest.json
 )
 
+# Outputs that measure the whole repository (see step 5). Rebuilt after every
+# rebase, in the chain's own order: paper, inventory, then the two manifests.
+TAIL=(
+  data/paper
+  working-paper.html
+  methods.html
+  AGENTS.md
+  README.md
+  data/_manifest.json
+  data/manifest.json
+)
+
 # Capture the fetcher's changes before rebuilding; include newly created inputs.
 # Generated outputs must never be carried into a conflict retry from the old tip.
 input_patch=$(mktemp)
@@ -129,6 +151,12 @@ rebuild_and_commit() {
   python3 scripts/check-ranking-index-fresh.py
 }
 
+# Take the tail back out of the last commit, so a rebase never meets it.
+drop_tail() {
+  git checkout HEAD~1 -- "${TAIL[@]}"
+  git commit -q --amend --no-edit --allow-empty
+}
+
 rebuild_and_commit
 
 if [ "$push" != true ]; then
@@ -136,11 +164,24 @@ if [ "$push" != true ]; then
   exit 0
 fi
 
+drop_tail
+built_on=$(git rev-parse HEAD~1)
 git fetch origin "$target_branch"
+tail_excludes=()
+for p in "${TAIL[@]}"; do tail_excludes+=(":!$p"); done
+retry=""
 if ! git rebase "origin/$target_branch"; then
   git rebase --abort
+  retry="Rebase conflicted"
+elif [ -n "$(git diff --name-only "$built_on" "origin/$target_branch" -- . "${tail_excludes[@]}")" ]; then
+  # A clean rebase is not enough when the branch changed more than the tail:
+  # a chain input may have moved, so the derived outputs are rebuilt from the
+  # new tip, as the always-conflicting manifests used to force.
+  retry="$target_branch changed more than the tail"
+fi
+if [ -n "$retry" ]; then
   git fetch origin "$target_branch"
-  echo "Rebase conflicted; retrying once from the new tip with inputs only."
+  echo "$retry; retrying once from the new tip with inputs only."
   git reset --hard "origin/$target_branch"
   if ! git apply --3way --index "$input_patch"; then
     git reset --hard "origin/$target_branch"
@@ -148,6 +189,7 @@ if ! git rebase "origin/$target_branch"; then
     exit 1
   fi
   rebuild_and_commit
+  drop_tail
   git fetch origin "$target_branch"
   if ! git rebase "origin/$target_branch"; then
     git rebase --abort
@@ -155,11 +197,13 @@ if ! git rebase "origin/$target_branch"; then
     exit 1
   fi
 fi
-# main may have moved under us; the manifests record byte counts of the tree.
+# Rebuild the tail from the rebased tree; the manifests record its byte counts.
+npm run paper:build
+node scripts/compute-inventory.mjs --write
 npm run audit:file-manifest
 python3 scripts/rebuild_manifest.py
-if ! git diff --quiet -- data/_manifest.json data/manifest.json; then
-  git add data/_manifest.json data/manifest.json
+git add -- "${TAIL[@]}"
+if ! git diff --cached --quiet; then
   git commit -q --amend --no-edit
 fi
 git push origin "HEAD:$target_branch"

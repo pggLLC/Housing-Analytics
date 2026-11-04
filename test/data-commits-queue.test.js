@@ -61,7 +61,6 @@ const MANIFESTS_BEFORE_REBASE = {
   'fetch-parcel-zoning-data.yml': 'Commit updated data files', // rebuilds only data/manifest.json after
   'pab-allocations-annual.yml': 'Commit refreshed allocations',
   'qa-status.yml': 'Commit data/_qa-status.json (cron only)',
-  'rebuild-place-od-flows.yml': 'Commit refreshed flows',
   'upstream-vintage-watch.yml': 'Commit refreshed watch result',
   'url-health-weekly.yml': 'Commit updated url-health.json',
 };

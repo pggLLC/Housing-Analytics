@@ -71,40 +71,18 @@ jobs:
 
       - name: Commit refreshed flows
         id: data-commit
+        # The shared script commits only these two files, rebases, then rebuilds
+        # both manifests from the rebased tree. This step used to build
+        # data/manifest.json first and rebase after, so any commit landing on
+        # main while it ran conflicted on the manifest: the 2026-10-16 and
+        # 2026-11-01 runs failed that way and pushed nothing. Neither file
+        # feeds the derived chain, so the chain is not needed here.
+        env:
+          DATA_COMMIT_BRANCH: ${{ github.ref_name }}
+          YEAR: ${{ inputs.year || '2023' }}
         run: |
-          echo "pushed=false" >> "$GITHUB_OUTPUT"
-          if git diff --quiet data/hna/place-od-flows.json data/market/lodes_tract_od_co.json; then
-            echo "Block-OD flows unchanged — nothing to commit."
-            exit 0
-          fi
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          python3 scripts/rebuild_manifest.py
-          git add data/hna/place-od-flows.json data/market/lodes_tract_od_co.json data/manifest.json
-          # F158 — Same YAML block-scalar bug as F157 on sync-data-mtimes:
-          # the multi-line `git commit -m "…"` quoted string continued
-          # below the `run: |` block's indentation envelope, so YAML treated
-          # line 71 ("Automated by …") as a new top-level key and the
-          # workflow failed to parse on every trigger. Write the commit
-          # message into a tmpfile via a printf HEREDOC inside the block
-          # scalar (no unindented continuations) and `git commit -F`.
-          msg=$(mktemp)
-          {
-            printf 'chore(data): rebuild place-OD flows (block-classified LEHD LODES)\n\n'
-            printf 'Automated by .github/workflows/rebuild-place-od-flows.yml — keeps the\n'
-            printf 'block-OD aggregates that back HNA / OF / PMA / Compare commute panels\n'
-            printf 'and the context-only tract OD artifact fresh against the latest LODES\n'
-            printf 'vintage.\n\n'
-            printf 'Source: LODES OD %s, downloaded by build_place_od_flows.py.\n' "${YEAR:-unknown}"
-          } > "$msg"
-          git commit -F "$msg"
-          rm -f "$msg"
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            git fetch origin main
-            git rebase --autostash origin/main
-          fi
-          git push
-          echo "pushed=true" >> "$GITHUB_OUTPUT"
+          scripts/push-data-commit.sh "chore(data): rebuild place-OD flows (LEHD LODES OD $YEAR)" -- \
+            data/hna/place-od-flows.json data/market/lodes_tract_od_co.json
 
       - name: Trigger Pages deploy
         if: steps.data-commit.outputs.pushed == 'true'
