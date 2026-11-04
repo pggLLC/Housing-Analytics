@@ -806,7 +806,8 @@
       var f = doc.createElement('iframe');
       f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
       f.style.cssText = 'position:absolute;width:1200px;height:900px;left:-10000px;top:0;border:0;visibility:hidden';
-      f.src = 'deal-calculator.html' + (query ? '?' + query : '');
+      // The deal rides in the fragment: in the query a full deal draws HTTP 414.
+      f.src = 'deal-calculator.html' + (query ? '#v=1&' + query : '');
       var t0 = Date.now(), last = '', same = 0;
       function poll() {
         try {

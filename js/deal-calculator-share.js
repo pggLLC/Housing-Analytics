@@ -138,11 +138,27 @@
     return result;
   }
 
+  // A share link carries the deal in the URL fragment, "#v=1&units=60&...".
+  // The fragment never goes to the server: a full deal with its input sources
+  // runs to about 30 KB, and in the query that drew HTTP 414 (URI Too Long)
+  // from the live site on 2026-11-04, for Copy link and Open deal file alike.
+  // Links made before then carry the deal in the query and still open.
+  // window.DealCalcLinkParams (js/deal-calculator.js) reads both.
+  var SHARE_HASH_PREFIX = 'v=1&';
+  function _linkParams() {
+    if (window.DealCalcLinkParams) return window.DealCalcLinkParams(window.location);
+    var h = String(window.location.hash || '').replace(/^#/, '');
+    return new URLSearchParams(h.indexOf(SHARE_HASH_PREFIX) === 0 ? h.slice(SHARE_HASH_PREFIX.length) : window.location.search);
+  }
+  function _shareUrl(params) {
+    return window.location.origin + window.location.pathname + '#' + SHARE_HASH_PREFIX + params.toString();
+  }
+
   // The county a share link carries. deal-calculator.js reads this when the
   // county list finishes loading, so its own jurisdiction auto-select does not
   // overwrite the shared county (the list loads asynchronously, after hydrate).
   try {
-    var _sharedCounty = new URLSearchParams(window.location.search).get('county-select');
+    var _sharedCounty = _linkParams().get('county-select');
     if (_sharedCounty) window.__DealCalcSharedCounty = _sharedCounty;
   } catch (_) {}
 
@@ -390,7 +406,7 @@
     return params;
   }
   function _hydrate() {
-    var params = new URLSearchParams(window.location.search);
+    var params = _linkParams();
     if (!Array.from(params.keys()).length) return;  // no params, nothing to do
     if (window.__DealCalc && window.__DealCalc.beginSharedScenario) window.__DealCalc.beginSharedScenario();
     try { _sharedProvenance = JSON.parse(params.get('inputProvenance')); } catch (_) { _sharedProvenance = null; }
@@ -480,8 +496,7 @@
   // ── Public — Copy share link ──────────────────────────────────────────
   function copyLink() {
     try {
-      var params = _serialize();
-      var url = window.location.origin + window.location.pathname + '?' + params.toString();
+      var url = _shareUrl(_serialize());
       // Update browser bar so the user sees the encoded state too
       try { window.history.replaceState(null, '', url); } catch (_) {}
       // Copy to clipboard
@@ -577,6 +592,9 @@
     return snapshot;
   }
 
+  // The deal file keeps `url` in the query form ("?units=60&..."): it is read
+  // as data by the importers (dealFileQuery, the Deal workbook, Submittal
+  // review), never fetched, so its length costs nothing.
   // The deal file is this snapshot. Its `url` query is the deal: Open deal
   // file, Deal workbook and Submittal review all reload from it, and the
   // results are recomputed on opening, never read back from the file.
@@ -604,7 +622,8 @@
     var u;
     try { u = new URL(snap.url, window.location.href); } catch (_) { return null; }
     if (!/(^|\/)deal-calculator(\.html)?$/.test(u.pathname)) return null;
-    var query = u.search.replace(/^\?/, '');
+    var hash = u.hash.replace(/^#/, '');
+    var query = hash.indexOf(SHARE_HASH_PREFIX) === 0 ? hash.slice(SHARE_HASH_PREFIX.length) : u.search.replace(/^\?/, '');
     return query ? query : null;
   }
   var OPENED_KEY = 'dc-opened-deal-file';
@@ -620,7 +639,11 @@
       var query = dealFileQuery(snap);
       if (!query) { _showShareToast('That file is not a Deal Calculator deal file.', 'warn'); return false; }
       try { sessionStorage.setItem(OPENED_KEY, file.name); } catch (_) { /* toast falls back to the share-link wording */ }
-      window.location.assign(window.location.pathname + '?' + query);
+      // Reload with the deal in the fragment, which the server never sees
+      // (in the query a full deal drew HTTP 414). Only the fragment would
+      // change, which does not reload by itself, so reload explicitly.
+      window.history.replaceState(null, '', window.location.pathname + '#' + SHARE_HASH_PREFIX + query);
+      window.location.reload();
       return true;
     }, function () {
       _showShareToast('That file could not be read.', 'warn');
@@ -768,11 +791,11 @@
       // 2. Encode the current Deal Calc URL (with serialized scenario)
       //    as a `dc` back-link so IC Summary can render a "View deal
       //    underwriting" pill that takes the reader back here.
-      var dcUrl = window.location.origin + window.location.pathname + '?' + _serialize().toString();
-      var icParams = new URLSearchParams();
-      icParams.set('geoid', geoid);
-      icParams.set('dc', dcUrl);
-      var icUrl = window.location.origin + window.location.pathname.replace(/deal-calculator\.html$/, 'ic-summary.html') + '?' + icParams.toString();
+      // Both the deal link and its ride on the summary page sit in fragments,
+      // so neither request carries the deal (see SHARE_HASH_PREFIX).
+      var dcUrl = _shareUrl(_serialize());
+      var icUrl = window.location.origin + window.location.pathname.replace(/deal-calculator\.html$/, 'ic-summary.html') +
+        '?geoid=' + encodeURIComponent(geoid) + '#dc=' + encodeURIComponent(dcUrl);
       // 3. Open in a new tab so the user keeps the Deal Calc state alive.
       window.open(icUrl, '_blank', 'noopener');
     } catch (e) {

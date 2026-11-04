@@ -632,7 +632,10 @@
     var u = new URL('deal-calculator.html', base);
     var clean = new URLSearchParams();
     new URLSearchParams(String(query || '')).forEach(function (v, k) { clean.append(k, v); });
-    u.search = clean.toString();
+    // The deal rides in the fragment, as a share link does: in the query a
+    // full deal is about 30 KB and the server answers HTTP 414.
+    var q = clean.toString();
+    u.hash = q ? 'v=1&' + q : '';
     return u.href;
   }
 
@@ -1041,7 +1044,7 @@
     var per = null;
     try {
       // The same place the calculator uses: a linked geoid first, else the saved jurisdiction in this county.
-      var geoid = w.location ? new URLSearchParams(w.location.search).get('geoid') : null;
+      var geoid = w.location ? (w.DealCalcLinkParams ? w.DealCalcLinkParams(w.location) : new URLSearchParams(w.location.search)).get('geoid') : null;
       if (!/^08\d{5}$/.test(geoid || '')) {
         var j = w.WorkflowState && w.WorkflowState.getJurisdiction ? w.WorkflowState.getJurisdiction() : null;
         geoid = j && String(j.countyFips) === String(fips) ? j.geoid : null;
@@ -1090,7 +1093,14 @@
   function queryFrom(x) {
     if (!x) return null;
     if (typeof x === 'string') {
-      var s = x.trim(), q = s.indexOf('?');
+      var s = x.trim(), h = s.indexOf('#v=1&');
+      // A share link carries the deal in its fragment (deal-calculator-share.js).
+      if (h !== -1) {
+        var before = s.slice(0, h).replace(/\?.*$/, '');
+        if (before && !/(^|\/)deal-calculator(\.html)?$/i.test(before)) return null;
+        return calcQuery(s.slice(h + 5));
+      }
+      var q = s.indexOf('?');
       // A link counts only when it points at the Deal Calculator; a bare query string from an export still works.
       if (q > 0 && !/(^|\/)deal-calculator(\.html)?$/i.test(s.slice(0, q))) return null;
       if (q !== -1) return calcQuery(s.slice(q + 1).replace(/#.*$/, ''));
@@ -1322,7 +1332,9 @@
       if (!query) { status('That has no Deal Calculator settings in it. Use a share link or a deal file from the Deal Calculator.'); return; }
       status('Running the Deal Calculator for this deal…');
       // A saved deal goes back with its id, so the member bar saves the change as that deal's next version.
-      $('wbOpenCalc').href = calcUrl(query, doc.baseURI) + (ctx && ctx.deal ? '#save-to=' + encodeURIComponent(ctx.deal) : '');
+      var calcHref = calcUrl(query, doc.baseURI);
+      // The deal already holds the fragment; member-calculator.js reads save-to after "#" or "&".
+      $('wbOpenCalc').href = calcHref + (ctx && ctx.deal ? (calcHref.indexOf('#') === -1 ? '#' : '&') + 'save-to=' + encodeURIComponent(ctx.deal) : '');
       $('wbOpenCalc').hidden = false;
       // The pro forma does not need the market files, so it renders as soon as the calculator settles. The frame
       // stays (hidden) until the market files settle, for the per-bedroom rent estimate in the market section.

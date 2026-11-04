@@ -5198,12 +5198,14 @@
     const fmtPct  = U().fmtPct;
 
     const totalUnits   = safeNum(profile.DP04_0001E) || 0;
-    const renterTotal  = safeNum(profile.DP04_0047E);
     const renterPct    = safeNum(profile.DP04_0047PE);
-    const burden30_35  = safeNum(profile.DP04_0141PE) || 0;  // 30-34.9%
-    const burden35plus = safeNum(profile.DP04_0142PE) || 0;  // 35%+
-    const burden30plus = burden30_35 + burden35plus;          // cost-burdened
-    const burden50plus = burden35plus * 0.65;                  // rough severe estimate
+    // Missing bins stay missing: a null is not a 0% share.
+    const burden30_35  = safeNum(profile.DP04_0141PE);  // 30-34.9%
+    const burden35plus = safeNum(profile.DP04_0142PE);  // 35% or more (not HUD's severe line)
+    const burden30plus = (burden30_35 !== null && burden35plus !== null) ? burden30_35 + burden35plus : null;
+    // Household counts and the 50% severe line come only from B25070 counts
+    // in the profile's own period (null when absent or mismatched).
+    const burdenCounts = U().rentBurdenCounts ? U().rentBurdenCounts(profile) : null;
     const medianRent   = safeNum(profile.DP04_0134E);
 
     // CHAS aggregates — prefer place-level (TIGER pop-apportioned) for
@@ -5225,15 +5227,28 @@
 
     const bullets = [];
 
-    // Renter cost-burden — from ACS GRAPI bins.
-    if (Number.isFinite(burden30plus) && burden30plus > 0 && Number.isFinite(renterTotal) && renterTotal > 0) {
-      const burdenedHH = Math.round(renterTotal * burden30plus / 100);
+    // Renter cost-burden — B25070 counts when present, else the DP04 shares.
+    if (burdenCounts) {
+      const bc = burdenCounts;
+      const period = 'ACS ' + U().acsSeriesText(bc.series, bc.year) + ', table B25070';
+      const srcUrl = U().censusSourceUrl(bc.year, bc.series, 'B25070', geoType, profile._geoid);
       bullets.push(
-        '<strong>' + fmtPct(burden30plus) + '</strong> of renter households are <strong>cost-burdened</strong> ' +
-        '(paying 30% or more of income on rent) — roughly <strong>' + fmtNum(burdenedHH) + '</strong> households. ' +
-        (burden35plus >= 20
-          ? 'A meaningful share (' + fmtPct(burden35plus) + ') are severely burdened (paying 35% or more), which signals immediate rental-affordability stress.'
-          : 'Severe burden (35% or more of income) is moderate at ' + fmtPct(burden35plus) + '.')
+        '<strong>' + fmtPct(bc.atLeast30Pct) + '</strong> of renter households pay <strong>30% or more</strong> of income on rent: ' +
+        '<strong>' + fmtNum(bc.atLeast30Households) + '</strong> of the ' + fmtNum(bc.computedHouseholds) +
+        ' renter households with a measured rent-to-income ratio. ' +
+        fmtPct(bc.atLeast35Pct) + ' pay 35% or more. ' +
+        '<strong>' + fmtPct(bc.atLeast50Pct) + '</strong> (<strong>' + fmtNum(bc.atLeast50Households) + '</strong> households) ' +
+        'pay <strong>50% or more</strong>, HUD\'s severe cost burden line. ' +
+        '<span style="color:var(--muted)">' + period +
+        (srcUrl ? ' · <a href="' + srcUrl + '" target="_blank" rel="noopener noreferrer">[Source]</a>' : '') + '</span>'
+      );
+    } else if (burden30plus !== null || burden35plus !== null) {
+      bullets.push(
+        (burden30plus !== null
+          ? '<strong>' + fmtPct(burden30plus) + '</strong> of renter households pay <strong>30% or more</strong> of income on rent' +
+            (burden35plus !== null ? ', and ' + fmtPct(burden35plus) + ' pay 35% or more' : '') + '. '
+          : fmtPct(burden35plus) + ' of renter households pay 35% or more of income on rent. ') +
+        'Household counts and the share paying 50% or more (HUD\'s severe line) are not available for this place in this data release.'
       );
     } else if (geoType === 'state') {
       bullets.push('Statewide ACS GRAPI bins suppress at this granularity — pick a county or place for cost-burden detail.');
@@ -8753,10 +8768,18 @@
       blendedBurden = (Number(cb30Renter) * renterHH + Number(cb30Owner) * ownerHH) / totalHH;
     }
     // B — deep-need share (lte30 of the <=100% AMI universe)
-    const lte30Tot = (byAmi.lte30 && Number(byAmi.lte30.total)) || 0;
-    const denomB = ['lte30', '31to50', '51to80', '81to100']
-      .reduce((sum, k) => sum + ((byAmi[k] && Number(byAmi[k].total)) || 0), 0);
-    const deepNeed = denomB > 0 ? lte30Tot / denomB : null;
+    // Every band must be measured: a missing band is not a count of 0, or a
+    // missing lowest band reads as a measured 0% deep need (2026-11-04 QA, F7).
+    // A reported 0 stays 0.
+    const bandTotal = (k) => {
+      const v = byAmi[k] && byAmi[k].total;
+      if (v === null || v === undefined || v === '') return null;
+      const n = Number(v);
+      return Number.isFinite(n) && n >= 0 ? n : null;
+    };
+    const bands = ['lte30', '31to50', '51to80', '81to100'].map(bandTotal);
+    const denomB = bands.some((n) => n === null) ? null : bands.reduce((a, b) => a + b, 0);
+    const deepNeed = denomB > 0 ? bands[0] / denomB : null;
     // D — worst-case need (severely burdened renters)
     const worstCase = (renterHH > 0 && cb50Renter != null) ? Number(cb50Renter) : null;
 

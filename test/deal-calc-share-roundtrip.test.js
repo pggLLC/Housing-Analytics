@@ -157,10 +157,12 @@ async function settledOutputs(page, ms) {
 }
 
 function shareSearch(page) {
-  // The URL the page builds for Copy share link / Export JSON. Read from the
-  // snapshot (public since F202), so this test runs unchanged against main.
+  // The settings the page builds for Copy share link / Export JSON, as Copy
+  // link sends them: in the fragment ("#v=1&..."), which never reaches the
+  // server (a full deal in the query drew HTTP 414 on 2026-11-04). The
+  // snapshot keeps the query form; the old-link case below opens that.
   const snap = page.w.__DealCalcShare.buildSnapshot();
-  return new URL(snap.url).search;
+  return '#v=1&' + new URL(snap.url).search.slice(1);
 }
 
 async function roundTrip(sender, label, savedSubject) {
@@ -213,7 +215,7 @@ async function roundTrip(sender, label, savedSubject) {
     assert.strictEqual(recipient.d.querySelector('[data-resale-subsidy-type]').value, 'home_development_subsidy',
       'recipient resale subsidy type differs');
     // #1874 still holds: an ownership link carries no rental-only input.
-    const params = new URLSearchParams(search);
+    const params = new URLSearchParams(search.replace(/^#v=1&/, ''));
     ['rate-9', 'basis-pct', 'noi', 'dcr', 'equity-price', 'units-60', 'units-60-studio', 'const-rent-burden', 'tr']
       .forEach((k) => assert(!params.has(k), 'ownership share URL carries rental-only ' + k));
   });

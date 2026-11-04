@@ -360,6 +360,47 @@ def _acs5_detail_tenure_for_geo(geo_type: str, geoid: str, years_to_try: list[in
     return lookup.get(geoid)
 
 
+# B25070 (gross rent as a percentage of household income) counts. The DP04
+# profile gives only percentages: DP04_0141PE (30-34.9%) and DP04_0142PE
+# (35% or more). HUD's severe burden line is 50% or more (B25070_010E), and a
+# household count needs the denominator the percentages use: renters with a
+# computed ratio, B25070_001E minus B25070_011E ("not computed"). Stored raw
+# so the page derives shares and counts from the same table and period, and
+# stamped so a reader can refuse a count from another period.
+B25070_COUNT_VARS = ['B25070_001E', 'B25070_007E', 'B25070_008E',
+                     'B25070_009E', 'B25070_010E', 'B25070_011E']
+
+
+def _fetch_rent_burden_counts(geo_type: str, geoid: str, year: int, series: str) -> dict[str, str] | None:
+    """Fetch B25070 burden counts for one geography from the given ACS release."""
+    if geo_type == 'county':
+        for_ = f"county:{geoid[-3:]}"
+        in_ = f"&in=state:{STATE_FIPS_CO}"
+    elif geo_type == 'state':
+        for_ = f"state:{STATE_FIPS_CO}"
+        in_ = ''
+    else:
+        for_ = f"place:{geoid[2:]}"
+        in_ = f"&in=state:{STATE_FIPS_CO}"
+    qs = f"get={','.join(B25070_COUNT_VARS)}&for={for_}{in_}"
+    key = census_key()
+    if key:
+        qs += f"&key={urllib.parse.quote(key, safe='')}"
+    result = http_get_json(f"https://api.census.gov/data/{year}/acs/{series}?{qs}")
+    for pause in TRANSIENT_RETRY_PAUSES:
+        if result is not None or not _is_transient_status(getattr(_HTTP_LAST, 'status', 200)):
+            break
+        time.sleep(pause)
+        result = http_get_json(f"https://api.census.gov/data/{year}/acs/{series}?{qs}")
+    if not (result and len(result) > 1):
+        return None
+    row = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+    out = {k: row.get(k) for k in B25070_COUNT_VARS}
+    out['_b25070Year'] = str(year)
+    out['_b25070Series'] = series
+    return out
+
+
 def read_csv_with_banner_skip(path: str, encoding: str = "utf-8") -> tuple[list[str], list[dict]]:
     """Read CSV, auto-detecting and skipping banner rows.
     
@@ -914,6 +955,7 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
         'B25070_008E',  # 35.0–39.9 percent
         'B25070_009E',  # 40.0–49.9 percent
         'B25070_010E',  # 50.0 percent or more
+        'B25070_011E',  # not computed (excluded from the GRAPI denominator)
         # SMOCAPI owner cost burden (housing units with a mortgage)
         # → mapped to DP04_0111PE–DP04_0115PE for renderOwnerCostBurdenChart.
         # B25091 layout verified against
@@ -982,7 +1024,11 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
             occ = si(raw.get('B25003_001E'))
             owner = si(raw.get('B25003_002E'))
             renter = si(raw.get('B25003_003E'))
-            grapi_tot = si(raw.get('B25070_001E'))
+            # Census's DP04 GRAPI percentages divide by renters with a
+            # computed ratio: B25070_001E minus B25070_011E (not computed).
+            grapi_all = si(raw.get('B25070_001E'))
+            grapi_nc = si(raw.get('B25070_011E'))
+            grapi_tot = (grapi_all - grapi_nc) if (grapi_all is not None and grapi_nc is not None) else None
             burden30 = si(raw.get('B25070_007E'))
             burden35a = si(raw.get('B25070_008E'))
             burden35b = si(raw.get('B25070_009E'))
@@ -1068,6 +1114,11 @@ def _fetch_acs5_b_series(geo_type: str, geoid: str) -> dict | None:
                 'DP04_0113PE': str(smocapi_pct(owner_25_30)) if owner_25_30 is not None else None,  # 25–30%
                 'DP04_0114PE': str(smocapi_pct(owner_30_35)) if owner_30_35 is not None else None,  # 30–35%
                 'DP04_0115PE': str(smocapi_pct(owner_35p))   if owner_35p   is not None else None,  # 35%+
+                # Raw B25070 counts for the rent-burden household counts and
+                # the HUD 50% severe line (see _fetch_rent_burden_counts).
+                **{k: raw.get(k) for k in B25070_COUNT_VARS},
+                '_b25070Year': str(year),
+                '_b25070Series': 'acs5',
                 'NAME': raw.get('NAME'),
                 '_acsYear': str(year),
                 '_acsSeries': 'acs5',
@@ -1339,6 +1390,21 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         else:
             print(f"ℹ ACS profile (batch {label}) for {geo_type}:{geoid} unavailable — {description} will fall back to live fetch", file=sys.stderr)
 
+    # Rent-burden counts from the same release as the stamped profile, so the
+    # ≥50% share and household counts match DP04_0141PE/0142PE's period.
+    burden_counts = _fetch_rent_burden_counts(geo_type, geoid, source[0], source[1])
+    if burden_counts is not None:
+        merged.update(burden_counts)
+    else:
+        print(f"ℹ ACS B25070 rent-burden counts for {geo_type}:{geoid} {source[1]} {source[0]} unavailable — "
+              "the page withholds burdened household counts and the 50% share", file=sys.stderr)
+    twin_profile = merged.get('_acs5Profile')
+    if twin_profile is not None:
+        twin_counts = _fetch_rent_burden_counts(
+            geo_type, geoid, int(twin_profile['_acsYear']), 'acs5')
+        if twin_counts is not None:
+            twin_profile.update(twin_counts)
+
     detail_tenure = _acs5_detail_tenure_for_geo(
         geo_type, geoid, [y for y, series in attempts if series == 'acs5'])
     if detail_tenure is not None:
@@ -1556,6 +1622,7 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
     # snapshot beats a mixed-vintage one.
     CONSISTENCY_GROUPS = (
         ('DP04_0046E', 'DP04_0047E', 'DP04_0046PE', 'DP04_0047PE'),  # housing tenure
+        (*B25070_COUNT_VARS, '_b25070Year', '_b25070Series'),  # rent-burden counts
     )
     if not os.path.exists(out_path):
         return payload, 0, False

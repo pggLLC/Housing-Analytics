@@ -258,6 +258,28 @@ def _build_s0801_url(year: int, series: str) -> str:
     return f"{base}?{qs}"
 
 
+# B25070 counts (gross rent as a percentage of income) from the same release
+# as the profile: household counts and HUD's 50% severe line, which the DP04
+# percentages cannot give. Mirrors build_hna_data._fetch_rent_burden_counts.
+B25070_COUNT_VARS = ['B25070_001E', 'B25070_007E', 'B25070_008E',
+                     'B25070_009E', 'B25070_010E', 'B25070_011E']
+
+
+def fetch_rent_burden_counts(year: int, series: str) -> dict | None:
+    qs = f"get={','.join(B25070_COUNT_VARS)}&for=state:{STATE_FIPS}"
+    key = census_key()
+    if key:
+        qs += f'&key={urllib.parse.quote(key, safe="")}'
+    result = http_get_json(f'https://api.census.gov/data/{year}/acs/{series}?{qs}')
+    if not (result and len(result) > 1):
+        return None
+    row = {result[0][i]: result[1][i] for i in range(len(result[0]))}
+    out = {k: row.get(k) for k in B25070_COUNT_VARS}
+    out['_b25070Year'] = str(year)
+    out['_b25070Series'] = series
+    return out
+
+
 def fetch_acs_profile(start_year: int, n_fallback: int) -> dict | None:
     """Fetch ACS Profile variables for Colorado state level.
 
@@ -306,6 +328,12 @@ def fetch_acs_profile(start_year: int, n_fallback: int) -> dict | None:
                     continue
                 data['_acsYear'] = str(year)
                 data['_acsSeries'] = series
+                counts = fetch_rent_burden_counts(year, series)
+                if counts is not None:
+                    data.update(counts)
+                else:
+                    print(f'ℹ ACS B25070 rent-burden counts not available from {series} {year}; '
+                          'the page withholds burdened household counts', file=sys.stderr)
                 return data
     print(
         f'⚠ Could not fetch ACS profile for state:{STATE_FIPS} (tried years {list(years)})',
