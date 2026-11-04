@@ -2692,7 +2692,8 @@
     if (!ENH) { el2.innerHTML = '<div class="pma-empty">Enhancement module not loaded.</div>'; return; }
 
     var refProjects = referenceProjects && referenceProjects.projects ? referenceProjects.projects : [];
-    var bench = ENH.benchmarkVsReference(result.overall, result, refProjects);
+    var overall = (typeof result.overall === 'number' && isFinite(result.overall)) ? result.overall : null;
+    var bench = ENH.benchmarkVsReference(overall, result, refProjects);
     lastBenchmark = bench;
 
     if (!bench.available) {
@@ -2719,7 +2720,7 @@
       '<div class="pma-benchmark-header">' +
         '<div class="pma-benchmark-percentile" style="color:' + tier.color + '">' + bench.percentile + '<sup>th</sup></div>' +
         '<div class="pma-benchmark-label">' +
-          '<div style="font-weight:700;font-size:var(--small)">' + tier.label + ' of ' + bench.referenceCount + ' Colorado tax-credit properties awarded 2015–2025</div>' +
+          '<div style="font-weight:700;font-size:var(--small)">' + tier.label + ' of ' + bench.referenceCount + ' CHFA reference properties (awarded 2015–2025)</div>' +
           '<div style="font-size:var(--tiny);color:var(--faint)">Each scored by this page today at the same ' + escHtml(bench.buffer || '') + '-mile buffer. Median: ' + bench.median + ' | Mean: ' + bench.mean + ' | Range: ' + bench.min + '–' + bench.max + '</div>' +
         '</div>' +
       '</div>' +
@@ -2728,7 +2729,8 @@
           '<th style="text-align:left;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Property (city · CHFA area)</th>' +
           '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Awarded</th>' +
           '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Score today</th>' +
-        '</tr></thead><tbody>' + rows + '</tbody></table>' : '');
+        '</tr></thead><tbody>' + rows + '</tbody></table>' +
+        '<p style="font-size:var(--tiny);color:var(--faint);margin-top:0.4rem">CHFA reference properties with similar scores: within ±10 points at the same buffer. They are not matched on deal type, unit mix or location.</p>' : '');
   }
 
   /* ── Competitive Pipeline render ─────────────────────────────────── */

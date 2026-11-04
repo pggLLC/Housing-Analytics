@@ -945,13 +945,14 @@
                 <dt>Reference set</dt><dd><code>data/market/reference-projects.json</code>, built by <code>scripts/market/build_reference_projects.mjs</code> from CHFA's Housing Tax Credit Properties feed. Name, address, homes, award year, credit and CHFA's urban, rural or mountain label are copied as CHFA prints them.</dd>
                 <dt>Scores</dt><dd>Our score today at each property's mapped point, not a score it had when it was funded. Each property's own homes count in its area's existing supply.</dd>
                 <dt>Primary comparison</dt><dd>percentile rank of this site's score among the properties scored at the same buffer</dd>
-                <dt>Comparable window</dt><dd>the properties within ±10 points of this site, closest first</dd>
+                <dt>Comparable window</dt><dd>CHFA reference properties with similar scores: within ±10 points of this site at the same buffer, closest first. They are not matched on deal type, unit mix or location.</dd>
+                <dt>No score</dt><dd>a site without a market score shows this card as unavailable; it is never ranked as 0</dd>
                 <dt>What this is <em>not</em></dt><dd>it's not a predictor of allocation — CHFA scores applications under its own <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">Qualified Allocation Plan</a>. This is a market-positioning benchmark, not a policy-scoring estimate.</dd>
               </dl>
               <p style="margin-top:0.5rem;font-size:.8125rem;color:var(--muted)">Full methodology: <a href="docs/PMA_DATA_ENHANCEMENTS.md" target="_blank" rel="noopener">docs/PMA_DATA_ENHANCEMENTS.md</a></p>
             </div>
           </details>
-          <p style="font-size:var(--tiny);margin-bottom:0.5rem;margin-top:0.5rem">Compare this site to real Colorado tax-credit properties awarded 2015–2025, scored the same way today.</p>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem;margin-top:0.5rem">Compare this site to CHFA reference properties (Colorado tax-credit properties awarded 2015–2025), scored the same way today.</p>
           <div id="pmaBenchmarkResult">
             <div class="pma-empty">Run analysis to see benchmarking.</div>
           </div>
