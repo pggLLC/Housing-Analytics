@@ -622,6 +622,38 @@ h3 { font-size: 1.05rem; font-weight: 700; }
 .cc-table.md-projects td:last-child { text-align: left; white-space: normal; }
 .md-none-why { display: block; max-width: 16rem; margin-left: auto; white-space: normal; font-size: .8125rem; color: var(--muted); text-align: right; }
 @media (max-width: 640px) { .md-map { height: 260px; } .md-legend { flex-direction: row; flex-wrap: wrap; } }
+/* Market Types tab */
+.mt-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: .6rem; }
+.mt-tile { text-align: left; display: flex; flex-direction: column; gap: .2rem; padding: .7rem .8rem; min-height: 44px; border: 1px solid var(--border); border-left: 6px solid var(--mt); border-radius: var(--radius); background: var(--bg2); color: var(--text); cursor: pointer; font: inherit; }
+.mt-tile[aria-pressed="true"] { outline: 2px solid var(--mt); outline-offset: 1px; }
+.mt-tile-top { font-size: .8rem; color: var(--muted); }
+.mt-tile-n { font-size: 1.5rem; font-weight: 750; line-height: 1; color: var(--text-strong); }
+.mt-tile-l { font-weight: 700; font-size: .9rem; }
+.mt-tile-p { font-size: .8rem; color: var(--muted); line-height: 1.35; }
+.mt-tile-c { font-size: .75rem; color: var(--muted); }
+.mt-pill { display: inline-block; padding: .1rem .5rem; border-radius: 999px; font-size: .78rem; font-weight: 700; color: #fff; background: var(--mt); white-space: nowrap; }
+.mt-pill[style*="#d1d5db"] { color: #111827; }
+.mt-pick { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-bottom: .75rem; font-weight: 600; }
+.mt-pick select { min-height: 44px; max-width: 100%; }
+.mt-card { border: 1px solid var(--border); border-top: 6px solid var(--mt); border-radius: var(--radius); padding: .9rem 1rem; background: var(--bg2); }
+.mt-name { margin: 0 0 .35rem; font-size: 1.15rem; }
+.mt-county { font-size: .85rem; font-weight: 500; color: var(--muted); }
+.mt-plain { margin: .25rem 0 .5rem; }
+.mt-caution { margin: .25rem 0; font-size: .85rem; color: var(--warn, #92400e); font-weight: 600; }
+.mt-chips { display: flex; flex-wrap: wrap; gap: .35rem; margin: .25rem 0 .5rem; }
+.mt-chip { border: 1px solid var(--border); border-radius: 999px; padding: .1rem .55rem; font-size: .8rem; }
+.mt-cols { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; }
+.mt-cols h4 { margin: .5rem 0 .35rem; font-size: .95rem; }
+.mt-menu, .mt-here { list-style: none; margin: 0; padding: 0; }
+.mt-menu > li, .mt-here > li { padding: .35rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; }
+.mt-menu > li.mt-sub { border-bottom: 0; padding-top: .7rem; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); }
+.mt-why { display: block; color: var(--muted); font-size: .85rem; }
+.mt-flag { display: inline-block; font-size: .72rem; font-weight: 700; padding: 0 .35rem; border-radius: 3px; background: var(--bg3, #fef3c7); color: var(--text); border: 1px solid var(--border); }
+.mt-kind { font-size: .75rem; color: var(--muted); }
+.mt-link { background: none; border: 0; padding: .3rem 0; min-height: 44px; font: inherit; font-weight: 600; color: var(--link, var(--accent)); text-decoration: underline; cursor: pointer; text-align: left; }
+.mt-table td { white-space: normal; text-align: left; }
+.mt-rules .mt-pill { margin-right: .25rem; }
+@media (max-width: 640px) { .mt-cols { grid-template-columns: 1fr; } .mt-tiles { grid-template-columns: repeat(2, 1fr); } }
 /* The source line the chart-source component appends sits below the canvas box. */
 .mi-chart-container.cc-chart { margin-bottom: 3rem; }
 @media (max-width: 640px) {
@@ -751,6 +783,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <button role="tab" id="btn-market" aria-selected="false" aria-controls="tab-market" class="page-tab-btn">Market Overview</button>
   <button role="tab" id="btn-need" aria-selected="false" aria-controls="tab-need" class="page-tab-btn">Funding vs Need</button>
   <button role="tab" id="btn-direction" aria-selected="false" aria-controls="tab-direction" class="page-tab-btn">Market Direction</button>
+  <button role="tab" id="btn-types" aria-selected="false" aria-controls="tab-types" class="page-tab-btn">Market patterns</button>
 </div>
 
 <div role="tabpanel" id="tab-deepdive" aria-labelledby="btn-deepdive">
@@ -2768,6 +2801,57 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   </section>
 </div><!-- /tab-direction -->
 
+<!-- Market Types: what kind of market each county and town is, by written rules,
+     and the Colorado programs and local tools that tend to fit it. js/market-types.js
+     reads data/market/market-types.json when the tab first opens. -->
+<div role="tabpanel" id="tab-types" aria-labelledby="btn-types" hidden>
+  <section class="mi-section" aria-labelledby="mt-heading" style="margin-top:0;">
+    <h2 id="mt-heading">COHO market pattern: what kind of market is it, and what tends to work there</h2>
+    <p id="mtSummary" class="cc-summary" aria-live="polite">Loading the market patterns…</p>
+    <p class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;">A COHO market pattern is a written rule, not a score, and is not CHFA’s urban, rural or mountain property category. Select a pattern to list its towns. <span id="mtGenerated"></span></p>
+    <div class="mt-tiles" id="mtTiles" aria-label="Towns by market pattern"></div>
+  </section>
+
+  <section class="mi-section" aria-labelledby="mt-place-heading">
+    <h2 id="mt-place-heading">One place</h2>
+    <label for="mtPick" class="mt-pick">County or town <select id="mtPick"><option value="">Loading…</option></select></label>
+    <div id="mtPlace" aria-live="polite"></div>
+  </section>
+
+  <section class="mi-section" aria-labelledby="mt-town-heading">
+    <h2 id="mt-town-heading">Towns by pattern</h2>
+    <div class="md-filters">
+      <label for="mtCounty">County <select id="mtCounty"><option value="">All counties</option></select></label>
+      <label for="mtType">Pattern <select id="mtType"><option value="">Every pattern</option></select></label>
+      <span id="mtTownCount" class="data-note" role="status"></span>
+    </div>
+    <div class="cc-table-wrap" role="region" aria-label="Town table, scrolls sideways" tabindex="0">
+      <table class="cc-table mt-table" id="mtTownTable" data-export="dd-market-types-towns">
+        <caption class="sr-only">The COHO market pattern of each Colorado town, why it has that pattern, and the conditions that change its menu.</caption>
+        <thead><tr>
+          <th scope="col" title="Select a town to see its menu">Town</th>
+          <th scope="col" title="The first written rule that holds">Pattern</th>
+          <th scope="col" title="The reading that set the pattern">Why</th>
+          <th scope="col" title="Conditions that add to the menu without changing the pattern">Also</th>
+        </tr></thead>
+        <tbody id="mtTownBody"><tr><td colspan="4">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mi-section" aria-labelledby="mt-method-heading">
+    <h2 id="mt-method-heading">How a pattern is set</h2>
+    <p class="data-note">The rules run in order; the first that holds names the pattern.</p>
+    <ul class="fvn-limits mt-rules" id="mtRules"></ul>
+    <h3>Checks</h3>
+    <ul class="fvn-limits" id="mtChecks"></ul>
+    <h3>What this does not show</h3>
+    <ul class="fvn-limits" id="mtLimits"></ul>
+    <p class="data-note">Sources:</p>
+    <ul class="fvn-limits" id="mtSources"></ul>
+  </section>
+</div><!-- /tab-types -->
+
   <section class="chart-card" aria-labelledby="policyTimelineHeading">
     <h2 id="policyTimelineHeading">Policy and economic milestones</h2>
     <p data-policy-timeline-status role="status" hidden>Policy timeline unavailable</p>
@@ -3266,6 +3350,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 <script defer src="js/co-developer-funding.js"></script>
 <script defer src="js/funding-vs-need.js"></script>
 <script defer src="js/market-direction.js"></script>
+<script defer src="js/market-types.js"></script>
 <script defer src="js/audit-hook.js"></script>
 
 <!-- ── Outer tab toggle: one panel per .page-tabs button ── -->
@@ -3312,6 +3397,9 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       }
       if (targetId === 'tab-direction' && window.MarketDirection) {
         window.MarketDirection.init();
+      }
+      if (targetId === 'tab-types' && window.MarketTypes) {
+        window.MarketTypes.init();
       }
       /* Historical Trends fetches and draws once, on first reveal. */
       if (targetId === 'tab-history' && window.HistoricalTrends && !window.__htRendered) {
