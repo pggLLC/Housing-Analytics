@@ -487,5 +487,13 @@ def test_a_science_story_that_says_housing_is_not_a_national_trend(geos):
     stories, _ = gpb.build_stories([
         alert('Neanderthals Used Wood for Tools, Housing — and Murder?', 'The New York Times'),
         alert('U.S. Housing Starts Dropped Again in September', 'WSJ'),
+        alert('Housing construction costs rise as fossil-fuel prices surge', 'Reuters'),
+        alert('Ancient zoning rules constrain U.S. housing supply', 'Reuters'),
+        alert('U.S. housing market enters an ice age as home sales freeze', 'Reuters'),
     ], geos)
-    assert set(by_title(stories)) == {'U.S. Housing Starts Dropped Again in September'}
+    assert {t: s['scope'] for t, s in by_title(stories).items()} == {
+        'U.S. Housing Starts Dropped Again in September': 'national',
+        'Housing construction costs rise as fossil-fuel prices surge': 'national',
+        'Ancient zoning rules constrain U.S. housing supply': 'national',
+        'U.S. housing market enters an ice age as home sales freeze': 'national',
+    }
