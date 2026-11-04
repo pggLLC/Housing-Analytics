@@ -5349,8 +5349,8 @@
     const parts = [];
     const tables = ['DP03', 'DP04'].filter((t) => usedDp[t]);
     if (tables.length) {
-      const yr = profile && profile._acsYear;
-      const sr = profile && profile._acsSeries;
+      const yr = profile._acsYear;
+      const sr = profile._acsSeries;
       const period = sr ? U().acsSeriesText(sr, yr) : (yr ? String(yr) : '');
       parts.push('ACS ' + (period ? period + ' ' : '') + 'profile ' + tables.join(' and '));
     }
