@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-04T18:37:36.658Z",
+    "generated_at": "2026-11-04T21:49:06.637Z",
     "root": "data/",
-    "file_count": 2015,
-    "total_size_bytes": 218201063,
+    "file_count": 2016,
+    "total_size_bytes": 218218975,
     "kinds": {
-      "json": 1966,
+      "json": 1967,
       "geojson": 35,
       "csv": 14
     }
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-04T18:37:32.224Z",
+      "mtime": "2026-11-04T21:49:02.978Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -40047,7 +40047,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-04T18:37:34.431Z",
+      "mtime": "2026-11-04T21:49:04.829Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40071,7 +40071,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-04T18:37:33.886Z",
+      "mtime": "2026-11-04T21:49:04.370Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -40615,8 +40615,8 @@
     {
       "path": "policy/ballot-2026/counties/08035.json",
       "kind": "json",
-      "size_bytes": 16259,
-      "mtime": "2026-11-04T13:20:52.704Z",
+      "size_bytes": 16579,
+      "mtime": "2026-11-04T21:47:21.044Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42529,6 +42529,27 @@
       ]
     },
     {
+      "path": "policy/housing-roll-calls.json",
+      "kind": "json",
+      "size_bytes": 5872,
+      "mtime": "2026-11-04T21:47:21.052Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "roll_calls",
+        "enactment_notes",
+        "lame_duck_funding"
+      ],
+      "key_count": 4,
+      "primary_array_key": "enactment_notes",
+      "primary_array_length": 5,
+      "primary_array_first_keys": [
+        "id",
+        "note",
+        "source"
+      ]
+    },
+    {
       "path": "policy/hud-state-median-family-income.json",
       "kind": "json",
       "size_bytes": 1044,
@@ -43369,8 +43390,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 234286,
-      "mtime": "2026-11-04T18:35:33.085Z",
+      "size_bytes": 246006,
+      "mtime": "2026-11-04T21:47:21.063Z",
       "shape": "object",
       "keys": [
         "meta",

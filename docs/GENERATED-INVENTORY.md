@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T18:36:53.341Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-04T21:48:28.796Z. Do not edit by hand.
 
 ---
 
@@ -83,7 +83,7 @@
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
 | `regional.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
-| `research-brief.html` | Research Brief | COHO Analytics | 24.7 KB |
+| `research-brief.html` | Research Brief | COHO Analytics | 26.1 KB |
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.7 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
@@ -97,7 +97,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1967 JSON files found.
+1968 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1940,7 +1940,7 @@
 | `data/policy/ballot-2026/counties/08029.json` | 8.9 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08031.json` | 4.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08033.json` | 6.0 KB | ✅ | — |
-| `data/policy/ballot-2026/counties/08035.json` | 15.9 KB | ✅ | — |
+| `data/policy/ballot-2026/counties/08035.json` | 16.2 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08037.json` | 9.3 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08039.json` | 8.4 KB | ✅ | — |
 | `data/policy/ballot-2026/counties/08041.json` | 7.4 KB | ✅ | — |
@@ -2014,6 +2014,7 @@
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
 | `data/policy/housing-events.json` | 172.6 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
+| `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
 | `data/policy/incentive-alternatives.json` | 56.7 KB | ✅ | — |
 | `data/policy/incentive-coverage.json` | 39.5 KB | ✅ | — |
@@ -2047,7 +2048,7 @@
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
 | `data/policy_briefs.json` | 508.0 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 228.8 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 240.2 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 198.5 KB | ✅ | — |
@@ -2073,7 +2074,7 @@
 
 ## Test Files
 
-776 test files found.
+777 test files found.
 
 | File | Size |
 |------|------|
@@ -2249,6 +2250,7 @@
 | `test/econ-dash-series-labels.test.js` | 975 B |
 | `test/econ-dash-yoy-change.test.js` | 4.3 KB |
 | `test/effective-demand.test.js` | 6.8 KB |
+| `test/election-figures.test.mjs` | 2.8 KB |
 | `test/energy-retrofit-funding.test.js` | 5.6 KB |
 | `test/entitled-land-findings.test.mjs` | 2.0 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 16.6 KB |
