@@ -1028,8 +1028,8 @@ def compute_metrics(
 
     Returns a metrics dict with:
       housing_gap_units          int   — rental gap at 30% AMI (renter HH vs affordable units)
-      ami_gap_50pct              int   — unit deficit at 50% AMI (additional beyond 30%)
-      ami_gap_60pct              int   — unit deficit at 60% AMI (additional beyond 50%)
+      ami_gap_50pct              int   — unit deficit at or below 50% AMI (cumulative; includes the ≤30% households)
+      ami_gap_60pct              int   — unit deficit at or below 60% AMI (cumulative; never add the tiers)
       pct_cost_burdened          float — % renters paying ≥30% of income (CHAS or ACS fallback)
       pct_burdened_lte30         float — CHAS: % of ≤30% AMI renters that are cost-burdened
       pct_burdened_31to50        float — CHAS: % of 31–50% AMI renters that are cost-burdened

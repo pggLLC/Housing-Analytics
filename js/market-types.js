@@ -58,10 +58,10 @@
       var towns = (c.town || 0);
       var on = filter.type === t ? ' aria-pressed="true"' : ' aria-pressed="false"';
       return '<button type="button" class="mt-tile" data-type="' + esc(t) + '"' + on + ' style="--mt:' + COLORS[t] + '">'
-        + '<span class="mt-tile-top"><span class="mt-tile-n">' + towns + '</span> towns</span>'
+        + '<span class="mt-tile-top"><span class="mt-tile-n">' + towns + '</span> ' + (towns === 1 ? 'town' : 'towns') + '</span>'
         + '<span class="mt-tile-l">' + esc(m.types[t].label) + '</span>'
         + '<span class="mt-tile-p">' + esc(m.types[t].plain) + '</span>'
-        + '<span class="mt-tile-c">' + (c.county || 0) + ' counties</span></button>';
+        + '<span class="mt-tile-c">' + (c.county || 0) + ' ' + (c.county === 1 ? 'county' : 'counties') + '</span></button>';
     }).join('');
     el('mtTiles').innerHTML = html;
     Array.prototype.forEach.call(el('mtTiles').querySelectorAll('.mt-tile'), function (b) {
@@ -127,7 +127,7 @@
       if (filter.county && p.county_fips !== filter.county) return false;
       return true;
     }).sort(function (a, b) { return a.name.localeCompare(b.name); });
-    el('mtTownCount').textContent = list.length + ' towns';
+    el('mtTownCount').textContent = list.length + ' ' + (list.length === 1 ? 'town' : 'towns');
     el('mtTownBody').innerHTML = list.length ? list.map(function (p) {
       var mods = (p.modifiers || []).map(function (k) { return data.meta.modifiers[k] ? data.meta.modifiers[k].label : k; }).join(', ');
       return '<tr><th scope="row"><button type="button" class="mt-link" data-geoid="' + esc(p.geoid) + '">' + esc(p.name.replace(/ \((city|town)\)$/, '')) + '</button></th>'
@@ -193,8 +193,11 @@
 
   function render() {
     var m = data.meta;
-    var towns = rows().filter(function (p) { return p.level === 'town' && p.type !== 'too_little_data'; }).length;
-    el('mtSummary').textContent = towns + ' Colorado towns and all 64 counties sorted into five COHO market patterns by written rules, each with the Colorado programs and local tools that tend to fit it.';
+    // Same count as the tiles and the town table: every town, with the unsorted ones named.
+    var all = rows().filter(function (p) { return p.level === 'town'; });
+    var thin = all.filter(function (p) { return p.type === 'too_little_data'; }).length;
+    el('mtSummary').textContent = all.length + ' Colorado towns and all 64 counties sorted into five COHO market patterns by written rules, each with the Colorado programs and local tools that tend to fit it'
+      + (thin ? ' (' + thin + (thin === 1 ? ' town has' : ' towns have') + ' too little data to sort).' : '.');
     el('mtGenerated').textContent = m.generated_at ? 'Built from the market calls of ' + m.generated_at.slice(0, 10) + '.' : '';
     fillSelects();
     renderTiles();
