@@ -2692,7 +2692,8 @@
     if (!ENH) { el2.innerHTML = '<div class="pma-empty">Enhancement module not loaded.</div>'; return; }
 
     var refProjects = referenceProjects && referenceProjects.projects ? referenceProjects.projects : [];
-    var bench = ENH.benchmarkVsReference(result.overall, result, refProjects);
+    var overall = Number.isFinite(result.overall) ? result.overall : null;
+    var bench = ENH.benchmarkVsReference(overall, result, refProjects);
     lastBenchmark = bench;
 
     if (!bench.available) {
@@ -2701,12 +2702,17 @@
     }
 
     var tier = bench.tier;
+    function escHtml(v) {
+      return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+      });
+    }
     var rows = bench.comparable.slice(0, 3).map(function (p) {
       return '<tr>' +
-        '<td style="padding:0.25rem 0.4rem">' + (p.name || '—') + '</td>' +
-        '<td style="padding:0.25rem 0.4rem;text-align:center">' + (p.city || '—') + '</td>' +
+        '<td style="padding:0.25rem 0.4rem">' + escHtml(p.name || '—') +
+          '<div style="color:var(--faint)">' + escHtml([p.city, p.market_type].filter(Boolean).join(' · ') || '—') + '</div></td>' +
+        '<td style="padding:0.25rem 0.4rem;text-align:center">' + escHtml(p.year_alloc != null ? String(p.year_alloc) : '—') + '</td>' +
         '<td style="padding:0.25rem 0.4rem;text-align:center;font-weight:600">' + p.pma_score + '</td>' +
-        '<td style="padding:0.25rem 0.4rem;text-align:center;color:var(--faint)">' + (p.market_type || '—') + '</td>' +
         '</tr>';
     }).join('');
 
@@ -2714,17 +2720,17 @@
       '<div class="pma-benchmark-header">' +
         '<div class="pma-benchmark-percentile" style="color:' + tier.color + '">' + bench.percentile + '<sup>th</sup></div>' +
         '<div class="pma-benchmark-label">' +
-          '<div style="font-weight:700;font-size:var(--small)">' + tier.label + ' of ' + bench.referenceCount + ' Colorado projects</div>' +
-          '<div style="font-size:var(--tiny);color:var(--faint)">Median score: ' + bench.median + ' | Mean: ' + bench.mean + ' | Range: ' + bench.min + '–' + bench.max + '</div>' +
+          '<div style="font-weight:700;font-size:var(--small)">' + tier.label + ' of ' + bench.referenceCount + ' CHFA reference properties (awarded 2015–2025)</div>' +
+          '<div style="font-size:var(--tiny);color:var(--faint)">Each scored by this page today at the same ' + escHtml(bench.buffer || '') + '-mile buffer. Median: ' + bench.median + ' | Mean: ' + bench.mean + ' | Range: ' + bench.min + '–' + bench.max + '</div>' +
         '</div>' +
       '</div>' +
       (rows ? '<table class="pma-bench-table" style="width:100%;border-collapse:collapse;font-size:var(--tiny);margin-top:0.6rem">' +
         '<thead><tr>' +
-          '<th style="text-align:left;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Project</th>' +
-          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">City</th>' +
-          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Score</th>' +
-          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Type</th>' +
-        '</tr></thead><tbody>' + rows + '</tbody></table>' : '');
+          '<th style="text-align:left;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Property (city · CHFA area)</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Awarded</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Score today</th>' +
+        '</tr></thead><tbody>' + rows + '</tbody></table>' +
+        '<p style="font-size:var(--tiny);color:var(--faint);margin-top:0.4rem">CHFA reference properties with similar scores: within ±10 points at the same buffer. They are not matched on deal type, unit mix or location.</p>' : '');
   }
 
   /* ── Competitive Pipeline render ─────────────────────────────────── */
