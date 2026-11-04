@@ -150,6 +150,17 @@ if (chromium) {
   const county = D.places[thin[1].county_fips];
   ok(thinText.includes(county.name) && thinText.includes(M.types[county.type].label), `${thin[1].name}: shows its county's type`);
 
+  // One town count everywhere: summary, tiles and table agree, singular is "1 town", cells line up at the top.
+  const counts = await tab.evaluate(() => ({
+    summary: parseInt(document.getElementById('mtSummary').textContent, 10),
+    tiles: [...document.querySelectorAll('#mtTiles .mt-tile-n')].reduce((s, e) => s + Number(e.textContent), 0),
+    table: parseInt(document.getElementById('mtTownCount').textContent, 10),
+    tileText: [...document.querySelectorAll('#mtTiles .mt-tile-top')].map((e) => e.textContent),
+    align: getComputedStyle(document.querySelector('#mtTownBody th')).verticalAlign,
+  }));
+  ok(counts.summary === counts.tiles && counts.tiles === counts.table, `summary, tiles and table count the same towns (${counts.summary}/${counts.tiles}/${counts.table})`);
+  ok(!counts.tileText.some((t) => /^1 towns$/.test(t.trim())), 'one town reads "1 town"');
+  ok(counts.align === 'top', 'town table cells line up at the top');
   await tab.click(`#mtTiles .mt-tile[data-type="job_centre"]`);
   ok((await tab.$$('#mtTownBody tr')).length === M.counts.job_centre.town, 'a tile filters the table');
   const wide = await tab.evaluate(() => document.documentElement.scrollWidth);
