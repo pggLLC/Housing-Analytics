@@ -104,7 +104,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Fruita at #113 with an overall housing-need score of 65.4. It identifies 103 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 34.9% of <=30% AMI households. 43.6% of renter households are cost burdened, and 3.4% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Fruita at #115 with an overall housing-need score of 65.2. It identifies 103 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 34.9% of <=30% AMI households. 43.6% of renter households are cost burdened, and 3.4% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -124,7 +124,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 13,691. LEHD-based commuting signals show 2,120 in-commuters and a commute ratio of 68.7%. The digest's 20-year figure is 1,759 homes. Projected resident growth gives 1,565; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 194: homes for a quarter of the households, at or below 120% AMI, of the people who commute into City of Fruita, if they moved closer.",
+          "text": "Demographics and demand: the population metric is 13,691. LEHD-based commuting signals show 2,120 in-commuters and a commute ratio of 68.7%. The digest's 20-year figure is 1,827 homes. Projected resident growth gives 1,633; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 194: homes for a quarter of the households, at or below 120% AMI, of the people who commute into City of Fruita, if they moved closer.",
           "cites": [
             "d11",
             "d12",
@@ -282,7 +282,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-04T21:37:37Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -291,7 +291,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-04T21:37:37Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -426,7 +426,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-04T21:37:37Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -435,7 +435,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-04T21:37:37Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -444,7 +444,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-04T21:37:37Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

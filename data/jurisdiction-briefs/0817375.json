@@ -182,7 +182,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Cortez at #161 with an overall housing-need score of 57.6. It identifies 383 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 66.7% of <=30% AMI households. 55.9% of renter households are cost burdened, and 1.5% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Cortez at #160 with an overall housing-need score of 57.6. It identifies 383 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 66.7% of <=30% AMI households. 55.9% of renter households are cost burdened, and 1.5% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -433,7 +433,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-04T21:37:37Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -442,7 +442,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-04T21:37:37Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -577,7 +577,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-04T21:37:37Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -586,7 +586,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-04T21:37:37Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -595,7 +595,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-04T21:10:16Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-04T21:37:37Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
