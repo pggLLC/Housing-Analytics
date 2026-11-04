@@ -1689,7 +1689,7 @@
       provider: 'COHO Analytics, from the market direction calls, ACS seasonal homes, LEHD commuting and the cited program records',
       url: null,
       localFile: 'data/market/market-types.json',
-      lastUpdated: '2026-11-04',
+      lastUpdated: '2026-11-03',
       updateFrequency: 'When market direction rebuilds (the derived chain rebuilds it)',
       maxAgeDays: 45,
       geoUnit: 'County and place',
