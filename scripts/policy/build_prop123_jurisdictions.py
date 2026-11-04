@@ -8,8 +8,9 @@ DOLA publishes four lists, and this file joins them by jurisdiction:
   2. Expedited review ("fast track") policies DOLA has verified: a Google
      Sheet linked from https://cdola.colorado.gov/prop123fasttrack
   3. Jurisdictions DOLA has verified as meeting every statutory requirement
-     (fast track plus the unit commitment): the table on
+     (fast track plus the unit commitment): a Google Sheet linked from
      https://cdola.colorado.gov/fully-compliant-jurisdictions-under-proposition-123
+     (until 2026-11 a numbered table on that page)
   4. Second-cycle (2027-2029) commitments filed in 2026: the table on the
      commitment-filings page. It grows until the November 1 deadline.
 
@@ -26,7 +27,7 @@ After writing, it rebuilds data/policy/housing-policy-scorecard.json, which
 derives prop123_committed from this file, and runs validate-schemas.
 
 --from-dir reads saved copies (cycle1.csv, fasttrack.csv, commitment-filings.html,
-fully-compliant.html) instead of fetching. The script refuses to write when a
+compliant.csv) instead of fetching. The script refuses to write when a
 list parses to fewer rows than DOLA states, or when a name in lists 2-4 cannot
 be placed, so a changed page leaves the committed file as it was.
 """
@@ -51,6 +52,9 @@ COMPLIANT_PAGE = 'https://cdola.colorado.gov/fully-compliant-jurisdictions-under
 FAST_TRACK_PAGE = 'https://cdola.colorado.gov/prop123fasttrack'
 CYCLE1_SHEET = 'https://docs.google.com/spreadsheets/d/1xpZFV506S-nws4oSf-nXJDs168calx620FYDiLqwN9o/export?format=csv&gid=0'
 FAST_TRACK_SHEET = 'https://docs.google.com/spreadsheets/d/1MNi6SG8rNaXxVojOAYOMhcz2SmrUCjrjdEhJqgYCSG8/export?format=csv&gid=0'
+COMPLIANT_SHEET = 'https://docs.google.com/spreadsheets/d/1OuAIp8mpoR7GNW0kDWb1Ubl5iuRQLJkfvDkW0OQh-Ug/export?format=csv&gid=1420508288'
+COMPLIANT_HEADER = ['Jurisdiction', 'Date of Expedited Review Compliance',
+                    'Date of Unit Commitment Compliance', 'Required Unit Commitment Met']
 
 # DOLA's page states these for the first cycle; the sheet must agree.
 CYCLE1_FILINGS = 217
@@ -264,32 +268,35 @@ def build(src):
         raise ValueError('fast-track sheet parsed to %d rows; expected 100 or more' % ft_count)
 
     # 3. Fully compliant (unit commitment met and fast track verified).
+    # The sheet has no row numbers, so every row must be whole: a name, both
+    # verification dates and a unit count. A changed header stops the build.
     met = 0
-    items = []
-    for row in table_rows(src['compliant']):
-        if not row or not re.fullmatch(r'\d+', row[0]):
+    items = 0
+    c_rows = list(csv.reader(io.StringIO(src['compliant'])))
+    if not c_rows or [c.strip() for c in c_rows[0][:4]] != COMPLIANT_HEADER:
+        raise ValueError('fully compliant sheet header changed: %r' % (c_rows[0] if c_rows else None))
+    for row in c_rows[1:]:
+        if not row or not row[0].strip():
             continue
-        items.append(int(row[0]))
-        if len(row) < 5:
-            raise ValueError('fully compliant row %s has %d cells, expected 5' % (row[0], len(row)))
-        key = place_key(index, row[1])
+        items += 1
+        if len(row) < 4 or not row[1].strip() or not row[2].strip() or to_int(row[3]) is None:
+            raise ValueError('fully compliant row %r is incomplete' % (row,))
+        key = place_key(index, row[0])
         if key is None:
-            unplaced.append(('fully compliant', row[1]))
+            unplaced.append(('fully compliant', row[0]))
             continue
         rec = index[key]
+        if rec['status'] == 'Commitment Met':
+            raise ValueError('%s is listed twice as fully compliant' % row[0])
         rec['status'] = 'Commitment Met'
         rec['compliance_verified'] = {
-            'expedited_review': iso(row[2]),
-            'unit_commitment': iso(row[3]),
-            'required_units_met': to_int(row[4]),
+            'expedited_review': iso(row[1]),
+            'unit_commitment': iso(row[2]),
+            'required_units_met': to_int(row[3]),
         }
         met += 1
-    # DOLA numbers the rows 1..N; a gap means part of the table did not parse,
-    # and resetting those jurisdictions to Committed would be wrong.
-    if not items or sorted(items) != list(range(1, len(items) + 1)):
-        raise ValueError('fully compliant table rows are not numbered 1..N: %s' % sorted(items)[:10])
-    if met != len(items):
-        raise ValueError('placed %d of %d fully compliant rows' % (met, len(items)))
+    if not items:
+        raise ValueError('no rows parsed from the fully compliant sheet')
 
     # 4. Second-cycle commitments filed in 2026.
     next_cycle = []
@@ -325,7 +332,7 @@ def build(src):
             'cycle1_filings': {'page': FILINGS_PAGE, 'sheet': CYCLE1_SHEET.split('/export')[0]},
             'fast_track': {'page': FAST_TRACK_PAGE, 'sheet': FAST_TRACK_SHEET.split('/export')[0],
                            'sheet_last_updated': ft_updated},
-            'fully_compliant': {'page': COMPLIANT_PAGE},
+            'fully_compliant': {'page': COMPLIANT_PAGE, 'sheet': COMPLIANT_SHEET.split('/export')[0]},
             'next_cycle_filings': {'page': FILINGS_PAGE},
         },
         'note': NOTE,
@@ -353,10 +360,10 @@ def main():
             with open(os.path.join(args.from_dir, name), encoding='utf-8') as fh:
                 return fh.read()
         src = {'cycle1': rd('cycle1.csv'), 'fasttrack': rd('fasttrack.csv'),
-               'filings': rd('commitment-filings.html'), 'compliant': rd('fully-compliant.html')}
+               'filings': rd('commitment-filings.html'), 'compliant': rd('compliant.csv')}
     else:
         src = {'cycle1': fetch(CYCLE1_SHEET), 'fasttrack': fetch(FAST_TRACK_SHEET),
-               'filings': fetch(FILINGS_PAGE), 'compliant': fetch(COMPLIANT_PAGE)}
+               'filings': fetch(FILINGS_PAGE), 'compliant': fetch(COMPLIANT_SHEET)}
     try:
         out = build(src)
         prev = {}
