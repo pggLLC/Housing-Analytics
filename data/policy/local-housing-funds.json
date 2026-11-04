@@ -2,8 +2,8 @@
   "schema": "local-housing-funds/v1",
   "meta": {
     "title": "Colorado local housing funds, dedicated taxes, linkage fees, land and ownership tools",
-    "as_of": "2026-10-22",
-    "last_verified": "2026-10-22",
+    "as_of": "2026-11-04",
+    "last_verified": "2026-11-04",
     "review_by": "2027-01-10",
     "method": "Curated, not a feed. Each record was read from the jurisdiction's own code, ordinance, ballot question or election result, budget or program page, the text saved, and every evidence quote checked by exact substring match against the saved text (whitespace normalised). verification.level \"primary\" means read from that official document; \"reported\" means taken from a named outlet without the primary document, and verification.by names it. Every dollar figure and percentage a record states appears in its own evidence quotes (tests/test_local_incentives.py). A figure the source does not publish is null, never 0. Fee relief and land-use incentives are in data/policy/fee-reductions.json, not here.",
     "review_rule": "review_by is about 90 days out for records that change yearly (fund balances, program pages) and about six months for code- or ballot-backed records. policy-review-reminders.yml opens an issue a week before a record is due; the page shows a warning once it is overdue.",
@@ -2599,6 +2599,54 @@
       ],
       "notes": "Not a dedicated housing tax: housing is one listed use of the economic development half, alongside business incentives and public-private partnerships, and council decides each year. The city's 2024 finance reports still label the line 'Lodging Tax (3%)'. The April 2020 ballot text and Mesa County/city result were not read from an official copy; the vote rests on The Daily Sentinel. Annual revenue not read from an official source.",
       "last_verified": "2026-10-22"
+    },
+    {
+      "id": "f-grand-junction-salt-flats-land",
+      "geoid": "0831660",
+      "jurisdiction": "City of Grand Junction",
+      "county": "Mesa County",
+      "provider_type": "city",
+      "tool": "land_bank_or_public_land",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": "2024-12-18",
+      "sunset": null,
+      "rate_text": "21.45-acre city site (Salt Flats, 450 28 Road)",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "city-owned land for 324 to 550 mixed-income affordable and attainable homes built with nonprofit and for-profit partners",
+      "summary": "Grand Junction is buying the 21.45-acre Salt Flats site for future affordable and attainable housing; the $3.2 million purchase is supported by a $2.2 million state Prop 123 land banking grant.",
+      "authorizing_code": "Grand Junction Resolution 95-24 (purchase contract under Resolution 67-24)",
+      "source": {
+        "label": "City of Grand Junction Resolution 95-24 (CHFA Prop 123 land banking grant contract)",
+        "url": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1142690/File/document"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Resolution 95-24 PDF from the city's records system",
+        "checked": "2026-11-04"
+      },
+      "review_by": "2027-02-04",
+      "evidence": [
+        {
+          "section": "Resolution 95-24, recitals",
+          "quote": "In January 2024, the City was awarded the grant to assist with purchasing a 21.45-acre site located at 450 28 Road, known as the Salt Flats."
+        },
+        {
+          "section": "Resolution 95-24, recitals",
+          "quote": "The project will facilitate future development of between 324 and 550 mixed-income affordable and attainable housing units by the City"
+        },
+        {
+          "section": "Resolution 95-24, recitals",
+          "quote": "The $3.2 million purchase is supported by the $2.2 million CHFA Land Banking Grant, which will be transferred at closing."
+        },
+        {
+          "section": "Resolution 95-24, grant certificate",
+          "quote": "Dated this 18th day of December 2024."
+        }
+      ],
+      "notes": "Closing was anticipated January 2025; whether it closed was not checked. The state grant is not a local fund; the record is the city's own land commitment. Separately, Resolution 22-26 (2026-03-04) gave Housing Resources of Western Colorado a one-time $400,000 award for homeownership land; not recorded as a standing fund.",
+      "last_verified": "2026-11-04"
     }
   ]
 }
