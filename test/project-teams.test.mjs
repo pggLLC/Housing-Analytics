@@ -52,7 +52,9 @@ out = {
      {'outcome': 'pending', 'round': 2, 'credit_type': '4%', 'year': 2026},
      {'outcome': 'awarded', 'round': 2, 'credit_type': '4%', 'year': 2026},
      {'outcome': 'awarded', 'round': None, 'credit_type': '4%', 'year': 2025}]],
-  'excl_known': all(f in b.ARCHITECTS or f in b.CONTRACTORS for _, f in b.EXCLUDE),
+  'excl_known': all(f in b.ARCHITECTS or f in b.CONTRACTORS for _, f, _r in b.EXCLUDE),
+  'excl_scoped': [b.excluded('Canyons Affordable Apartments', 'Palace Construction', 2024, 1), b.excluded('Canyons Affordable Apartments', 'Palace Construction', 2025, 1), b.excluded('Canyons Affordable Apartments', 'Alliance Construction Solutions', 2025, 1), b.excluded('Park Avenue Apartments', 'Shopworks Architecture', 2025, 1)],
+  'brink': [b.find_firms(b.CONTRACTORS, 'estimated by Brinkman Construction'), b.find_firms(b.CONTRACTORS, 'Brinkmann Constructors would build it')],
   'empty_match': [k for t in (b.ARCHITECTS, b.CONTRACTORS) for k, p in t.items() if re.search(p, '')],
   'case_known': sorted(p for p in b.CASE_SENSITIVE if p not in set(b.ARCHITECTS.values()) | set(b.CONTRACTORS.values())),
   'min': b.MIN_TO_RANK,
@@ -73,6 +75,8 @@ ok(r.match_addr === 'Sample Flats Apartments', 'the street address matches befor
 ok(r.match_none === null, 'no match below the threshold');
 assert.deepEqual(r.decided, [true, true, false, false, false]); checks++;
 ok(r.excl_known, 'every EXCLUDE firm is a known firm');
+assert.deepEqual(r.excl_scoped, [true, false, false, true]); checks++;  // an exclusion holds only in its rounds
+assert.deepEqual(r.brink, [['Brinkman Construction'], ['Brinkmann Constructors']]); checks++;  // two different firms
 assert.deepEqual(r.empty_match, []); checks++;
 assert.deepEqual(r.case_known, []); checks++;
 ok(r.min === 3, 'firms need 3 decided applications to be ranked');

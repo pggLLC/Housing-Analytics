@@ -91,7 +91,7 @@ CONTRACTORS = {
     'FCI Constructors': r'\bFCI\b', 'I-Kota': r'i[- ]?kota', 'Taylor Kohrs': r'taylor kohrs', 'Milender White': r'milender',
     'Bryan Construction': r'bryan construction', 'Pinkard Construction': r'pinkard',
     'RealAmerica Construction': r'realamerica construction', 'Calcon Constructors': r'calcon',
-    'Brinkmann Constructors': r'brinkmann?\b', 'Acorn Construction': r'acorn construction', 'Alcon': r'\bAlcon\b',
+    'Brinkmann Constructors': r'brinkmann\b', 'Brinkman Construction': r'brinkman\b', 'Acorn Construction': r'acorn construction', 'Alcon': r'\bAlcon\b',
     'Krische Construction (KCI)': r'[Kk]rische|KRISCHE|\bKCI\b', 'TWG Construction': r'TWG Construction',
     'Shaw Construction': r'shaw (construction|builders)', 'Pavilion Construction': r'pavilion construction',
     'Gilmore Construction': r'gilmore construction', 'Haselden Construction': r'haselden',
@@ -108,17 +108,18 @@ CASE_SENSITIVE = {r'\bRATIO\b', r'\bSTUDIO Architecture', r'\bARCO\b', r'\bAlcon
                   r'CSHQA', r'CSDI', r'\bHGF\b', r'[Kk]rische|KRISCHE|\bKCI\b', r'\bFCI\b', r'\bJHL\b', r'\bFTK\b', r'\bKCG\b',
                   r'\bJLA\b', r'\bHHL\b', r'CFC Construction', r'TWG Construction', r'CSI Construction', r'\bKTGY\b'}
 
-# (start of project name, firm): the narrative names the firm, but not as this project's team.
+# (start of project name, firm, rounds): the narrative names the firm, but not as this
+# project's team. rounds is a set of (year, round), or None for every round the project applied.
 EXCLUDE = [
-    ('Park Avenue', 'Shopworks Architecture'), ('Park Avenue', 'Davis Partnership Architects'),  # a design study
-    ('Link and Pin', 'Shopworks Architecture'), ('Rendezvous', 'Shopworks Architecture'),      # design training or a workshop
-    ('StarRise', 'Shopworks Architecture'), ('Switchgrass', 'Shopworks Architecture'),
-    ('Metro Center', 'Alliance Construction Solutions'), ('Metro Center', 'Deneuve Construction Services'),  # bids
-    ('Canyons', 'Alliance Construction Solutions'), ('Canyons', 'Deneuve Construction Services'), ('Canyons', 'Palace Construction'),
-    ('1001 Lincoln', 'I-Kota'), ('1001 Lincoln', 'Brinkmann Constructors'),  # two contractors priced it; neither named as builder
-    ('Willoughby', 'Galloway & Company'),  # a person's name
-    ('Castleton', 'TWG Construction'), ('123 Manitou', 'TWG Construction'),  # the developer's usual builder; another firm estimated
-    ('Evans Terrace', 'Santulan Architecture'),  # designed a comparable property
+    ('Park Avenue', 'Shopworks Architecture', None), ('Park Avenue', 'Davis Partnership Architects', None),  # a design study
+    ('Link and Pin', 'Shopworks Architecture', None), ('Rendezvous', 'Shopworks Architecture', None),        # design training or a workshop
+    ('StarRise', 'Shopworks Architecture', None), ('Switchgrass', 'Shopworks Architecture', None),
+    ('Metro Center', 'Alliance Construction Solutions', {(2023, 2)}), ('Metro Center', 'Deneuve Construction Services', {(2023, 2)}),  # bids
+    ('Canyons', 'Deneuve Construction Services', {(2024, 1)}), ('Canyons', 'Palace Construction', {(2024, 1)}),  # bids; Alliance was picked
+    ('1001 Lincoln', 'Brinkmann Constructors', None),  # a second price; I-Kota is the named contractor
+    ('Willoughby', 'Galloway & Company', None),  # a person's name
+    ('Castleton', 'TWG Construction', None), ('123 Manitou', 'TWG Construction', None),  # the developer's usual builder; another firm estimated
+    ('Evans Terrace', 'Santulan Architecture', None),  # designed a comparable property
 ]
 
 
@@ -192,6 +193,10 @@ def match(name, addr, pool):
     return best if score >= 0.75 else None
 
 
+def excluded(name, firm, year, rnd):
+    return any(name.startswith(p) and firm == f and (r is None or (year, rnd) in r) for p, f, r in EXCLUDE)
+
+
 def decided(x):
     return x['outcome'] in ('awarded', 'not_awarded') and (
         (x['round'] == 1 and x['credit_type'] == '9%') or (x['round'] == 2 and x['year'] <= 2025))
@@ -212,8 +217,8 @@ def build(cache):
                 continue
             if not keep(a['name'], a.get('city')):
                 continue
-            arch = [f for f in find_firms(ARCHITECTS, body) if not any(a['name'].startswith(p) and f == g for p, g in EXCLUDE)]
-            gc = [f for f in find_firms(CONTRACTORS, body) if not any(a['name'].startswith(p) and f == g for p, g in EXCLUDE)]
+            arch = [f for f in find_firms(ARCHITECTS, body) if not excluded(a['name'], f, year, rnd)]
+            gc = [f for f in find_firms(CONTRACTORS, body) if not excluded(a['name'], f, year, rnd)]
             k = (year, rnd, a['name'])
             r = rows.setdefault(k, {'year': year, 'round': rnd, 'credit': a['credit_type'], 'name': a['name'],
                                     'city': a.get('city'), 'county_fips': a.get('county_fips'), 'sponsor': a.get('sponsor'),
