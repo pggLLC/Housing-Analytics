@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T06:53:53.999Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T07:04:07.547Z. Do not edit by hand.
 
 ---
 
@@ -101,7 +101,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1002.5 KB | ✅ | — |
+| `data/_manifest.json` | 1002.9 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -1848,7 +1848,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 13.2 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 250.4 KB | ✅ | — |
+| `data/manifest.json` | 250.5 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1995,7 +1995,7 @@
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-common-app-tables.json` | 14.1 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
-| `data/policy/co-developer-funding-guide.json` | 424.8 KB | ✅ | — |
+| `data/policy/co-developer-funding-guide.json` | 426.0 KB | ✅ | — |
 | `data/policy/colorado-deal-rules.json` | 2.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
@@ -2004,14 +2004,14 @@
 | `data/policy/funding-awards/award-rows.json` | 254.7 KB | ✅ | — |
 | `data/policy/funding-awards/developer-aliases.json` | 7.4 KB | ✅ | — |
 | `data/policy/funding-awards/documents.json` | 47.7 KB | ✅ | — |
-| `data/policy/funding-awards/dola-awards.json` | 332.4 KB | ✅ | — |
+| `data/policy/funding-awards/dola-awards.json` | 334.1 KB | ✅ | — |
 | `data/policy/funding-awards/land-banking-corrections.json` | 9.4 KB | ✅ | — |
 | `data/policy/funding-awards/land-banking-status-research.json` | 8.2 KB | ✅ | — |
 | `data/policy/funding-awards/ledger.json` | 365.6 KB | ✅ | — |
 | `data/policy/funding-awards/reviewed-documents.json` | 23.0 KB | ✅ | — |
 | `data/policy/funding-watch-sources.json` | 11.8 KB | ✅ | — |
-| `data/policy/green-building.json` | 58.0 KB | ✅ | — |
-| `data/policy/homeownership-programs.json` | 30.8 KB | ✅ | — |
+| `data/policy/green-building.json` | 57.5 KB | ✅ | — |
+| `data/policy/homeownership-programs.json` | 32.6 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
 | `data/policy/housing-events.json` | 172.6 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
@@ -2041,10 +2041,10 @@
 | `data/policy/resale-conventions.json` | 7.6 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
 | `data/policy/resident-services.json` | 34.4 KB | ✅ | — |
-| `data/policy/soft-funding-status.json` | 45.5 KB | ✅ | — |
+| `data/policy/soft-funding-status.json` | 45.6 KB | ✅ | — |
 | `data/policy/state-housing-laws.json` | 195.0 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 40.0 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 40.3 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 4.7 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
@@ -2253,7 +2253,7 @@
 | `test/econ-dash-yoy-change.test.js` | 4.3 KB |
 | `test/effective-demand.test.js` | 6.8 KB |
 | `test/election-figures.test.mjs` | 2.8 KB |
-| `test/energy-retrofit-funding.test.js` | 5.6 KB |
+| `test/energy-retrofit-funding.test.js` | 5.7 KB |
 | `test/entitled-land-findings.test.mjs` | 2.0 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 16.6 KB |
 | `test/epa-sld-local-lookup.test.js` | 13.2 KB |
@@ -2304,7 +2304,7 @@
 | `test/fred-series-label-agreement.test.js` | 5.2 KB |
 | `test/freshness-gates-run-first.test.mjs` | 7.3 KB |
 | `test/freshness-guard-dirty-tree.test.js` | 12.5 KB |
-| `test/funding-context-card.test.js` | 10.9 KB |
+| `test/funding-context-card.test.js` | 14.1 KB |
 | `test/funding-eligibility-claims.test.js` | 12.1 KB |
 | `test/funding-fit.test.js` | 12.5 KB |
 | `test/funding-links-land-on-funding.test.js` | 2.0 KB |

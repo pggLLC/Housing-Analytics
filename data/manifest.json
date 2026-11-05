@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-05T06:54:44.716717Z",
+  "generated": "2026-11-05T07:04:41.502601Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9634,7 +9634,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 434966
+      "bytes": 436191
     },
     "data/policy/colorado-deal-rules.json": {
       "featureCount": 0,
@@ -9679,7 +9679,7 @@
     "data/policy/funding-awards/dola-awards.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 340402
+      "bytes": 342119
     },
     "data/policy/funding-awards/land-banking-corrections.json": {
       "featureCount": 0,
@@ -9709,12 +9709,12 @@
     "data/policy/green-building.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 59382
+      "bytes": 58882
     },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 31502
+      "bytes": 33332
     },
     "data/policy/housing-events-curated.json": {
       "featureCount": 0,
@@ -9864,7 +9864,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 46589
+      "bytes": 46686
     },
     "data/policy/state-housing-laws.json": {
       "featureCount": 0,
@@ -9879,7 +9879,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41001
+      "bytes": 41266
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,

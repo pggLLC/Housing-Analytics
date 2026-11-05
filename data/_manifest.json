@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-05T06:54:39.781Z",
+    "generated_at": "2026-11-05T07:04:38.159Z",
     "root": "data/",
     "file_count": 2018,
-    "total_size_bytes": 220324991,
+    "total_size_bytes": 220329756,
     "kinds": {
       "json": 1969,
       "geojson": 35,
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-05T06:54:34.885Z",
+      "mtime": "2026-11-05T07:04:35.287Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38215,8 +38215,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 256366,
-      "mtime": "2026-11-05T03:31:41.846Z",
+      "size_bytes": 256497,
+      "mtime": "2026-11-05T07:04:07.434Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -40038,7 +40038,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-05T06:54:37.129Z",
+      "mtime": "2026-11-05T07:04:36.789Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40062,7 +40062,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-05T06:54:36.607Z",
+      "mtime": "2026-11-05T07:04:36.418Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42042,8 +42042,8 @@
     {
       "path": "policy/co-developer-funding-guide.json",
       "kind": "json",
-      "size_bytes": 434966,
-      "mtime": "2026-11-04T15:02:02.258Z",
+      "size_bytes": 436191,
+      "mtime": "2026-11-05T07:03:10.975Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42263,8 +42263,8 @@
     {
       "path": "policy/funding-awards/dola-awards.json",
       "kind": "json",
-      "size_bytes": 340402,
-      "mtime": "2026-10-30T02:46:32.831Z",
+      "size_bytes": 342119,
+      "mtime": "2026-11-05T07:03:10.977Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42392,8 +42392,8 @@
     {
       "path": "policy/green-building.json",
       "kind": "json",
-      "size_bytes": 59382,
-      "mtime": "2026-11-02T12:29:31.182Z",
+      "size_bytes": 58882,
+      "mtime": "2026-11-05T07:03:10.978Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42421,8 +42421,8 @@
     {
       "path": "policy/homeownership-programs.json",
       "kind": "json",
-      "size_bytes": 31502,
-      "mtime": "2026-10-26T15:43:50.409Z",
+      "size_bytes": 33332,
+      "mtime": "2026-11-05T07:03:10.978Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -43157,8 +43157,8 @@
     {
       "path": "policy/soft-funding-status.json",
       "kind": "json",
-      "size_bytes": 46589,
-      "mtime": "2026-10-26T13:53:54.699Z",
+      "size_bytes": 46686,
+      "mtime": "2026-11-05T07:03:10.982Z",
       "shape": "object",
       "keys": [
         "lastUpdated",
@@ -43225,8 +43225,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 41001,
-      "mtime": "2026-11-04T02:15:28.024Z",
+      "size_bytes": 41266,
+      "mtime": "2026-11-05T07:03:10.983Z",
       "shape": "object",
       "keys": [
         "schema",
