@@ -65,6 +65,15 @@
   .wb-routes > div { display: flex; flex-direction: column; gap: .5rem; }
   .wb-actions a.sr-btn { display: inline-flex; align-items: center; text-decoration: none; }
   .wb-actions [hidden] { display: none !important; }
+  /* Chart colours (COHO lab palette, checked for colour-blind separation on light and dark cards, 5 Nov 2026). */
+  .wb-fig { --wb-c1: #2F6FB0; --wb-c2: #1A8A63; --wb-c3: #B7841F; --wb-c4: #7A5BA6; --wb-other: #94A3B8; --wb-gap: #C2410C; margin: 0 0 var(--sp3); max-width: 560px; }
+  .wb-fig figcaption { margin-bottom: .35rem; line-height: 1.45; }
+  .wb-fig figcaption .sr-muted { display: block; }
+  .wb-chart { display: block; width: 100%; height: auto; font-family: inherit; font-variant-numeric: tabular-nums; }
+  .wb-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: var(--sp3); }
+  .wb-legend { display: flex; flex-wrap: wrap; gap: .25rem 1rem; list-style: none; padding: 0; margin: .4rem 0 0; font-size: .85rem; color: var(--muted); }
+  .wb-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: .35rem; vertical-align: -1px; }
+  .wb-legend b { color: var(--text); font-variant-numeric: tabular-nums; }
   .wb-map { height: 340px; border-radius: var(--radius); margin-bottom: var(--sp3); z-index: 0; }
   .wb-map .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; font-size: 22px; }
   a.wb-src { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
@@ -78,6 +87,7 @@
     #siteHeader, #devNav, #site-footer, .wb-load, .skip-link, #wbPrint, #wbOpenCalc, .wb-form, #wbResSave, [data-del-comp] { display: none !important; }
     .dv-card { break-inside: avoid; border: 0; padding: 0; }
     .wb-cf .sr-table { font-size: 7pt; }
+    .wb-fig { break-inside: avoid; }
     details { display: block; }
   }
 </style>

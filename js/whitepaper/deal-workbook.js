@@ -320,6 +320,9 @@
     };
     model.supportive = ctx && typeof ctx.supportive === 'boolean' ? ctx.supportive : null;
     model.findings = findings(model, r);
+    // The engine's year-one lender tests (deal-engine.js computeDscrStressScenarios), on all must-pay debt.
+    var stv = r.stress;
+    model.stress = stv && stv.base ? Object.keys(stv).reduce(function (o, k) { o[k] = { dscr: num(stv[k] && stv[k].dscr) }; return o; }, {}) : null;
     return model;
   }
 
@@ -479,6 +482,140 @@
   function tile(v, label, cls) { return '<div class="rw-stat ' + (cls || '') + '"><div class="rw-stat-v">' + v + '</div>' + label + '</div>'; }
   function quote(src) { return src && (src.quote || src.where) ? '<div class="rw-quote">' + (src.quote ? '"' + esc(src.quote) + '" ' : '') + (src.where ? esc(src.where) : '') + '</div>' : ''; }
 
+  // ── Charts: pictures of figures the tables below already show ─────────────
+  // Plain SVG drawn from build()'s model, so nothing is calculated twice. Each chart has an aria-label,
+  // tags its axes (data-axis / data-tick) for the chart-axes audit, and the table under it is its data view.
+  // Text is 15 to 16 units on a 480-wide view box: at 390px it renders at 10px or more, the site's floor.
+  var CW = 480;
+  // Four source colours in a fixed order, checked for colour-blind separation in light and dark (the COHO
+  // lab palette: blue, green, amber, purple); a fifth source and beyond fold into grey "Other sources".
+  // The gap is rust. Values live in developer-deal-workbook.html (--wb-c1 to --wb-c4, --wb-other, --wb-gap).
+  var SERIES = ['var(--wb-c1)', 'var(--wb-c2)', 'var(--wb-c3)', 'var(--wb-c4)'];
+  function svgOpen(h, label) { return '<svg class="wb-chart" viewBox="0 0 ' + CW + ' ' + h + '" role="img" aria-label="' + esc(label) + '">'; }
+  function svgText(x, y, t, o) {
+    o = o || {};
+    return '<text x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" font-size="' + (o.size || 16) + '"' + (o.anchor ? ' text-anchor="' + o.anchor + '"' : '') +
+      (o.bold ? ' font-weight="700"' : '') + ' fill="' + (o.fill || (o.muted ? 'var(--muted)' : 'var(--text)')) + '"' +
+      (o.halo ? ' stroke="var(--card)" stroke-width="4" paint-order="stroke"' : '') + (o.tick ? ' data-tick' : '') + '>' + esc(t) + '</text>';
+  }
+  function short(v) {
+    var a = Math.abs(v);
+    return (v < 0 ? '-$' : '$') + (a >= 1e6 ? (a / 1e6).toFixed(a >= 1e7 ? 1 : 2).replace(/\.?0+$/, '') + 'M' : Math.round(a / 1000) + 'K');
+  }
+  function figure(id, title, note, svg, legend) {
+    return '<figure class="wb-fig" aria-labelledby="' + id + '"><figcaption id="' + id + '"><b>' + esc(title) + '</b>' + (note ? ' <span class="sr-muted">' + esc(note) + '</span>' : '') +
+      '</figcaption>' + svg + (legend || '') + '</figure>';
+  }
+
+  // Sources against total development cost, with the gap (or surplus) named.
+  function chartSources(m) {
+    var s = m.sources || {}, tdc = s.tdc;
+    var rows = (s.rows || []).filter(function (x) { return x.amount != null && x.amount > 0.5; });
+    if (!rows.length || !(tdc > 0) || s.total == null) return '';
+    rows = rows.map(function (r, i) { return { label: r.label, amount: r.amount, fill: SERIES[i] || 'var(--wb-other)' }; });
+    if (rows.length > SERIES.length) {
+      var rest = rows.slice(SERIES.length);
+      rows = rows.slice(0, SERIES.length).concat([{ label: 'Other sources (' + rest.length + ')', amount: rest.reduce(function (a, r) { return a + r.amount; }, 0), fill: 'var(--wb-other)',
+        parts: rest.map(function (r) { return r.label + ' ' + money(r.amount); }).join('; ') }]);
+    }
+    var gap = s.gap != null && s.gap > 0.5 ? s.gap : 0;
+    var top = Math.max(tdc, s.total), L = 8, W = CW - 16, sc = function (v) { return W * v / top; };
+    var label = 'Sources of ' + money(s.total) + ' against total development cost of ' + money(tdc) +
+      (gap ? '; gap of ' + money(gap) : s.gap != null && s.gap < -0.5 ? '; surplus of ' + money(-s.gap) : '') + '.';
+    var h = svgOpen(118, label), x = L;
+    h += svgText(L, 16, 'Sources', { muted: true, size: 15 });
+    rows.forEach(function (r) {
+      var w = sc(r.amount);
+      h += '<rect x="' + x.toFixed(1) + '" y="24" width="' + Math.max(0, w - 2).toFixed(1) + '" height="30" rx="3" fill="' + r.fill + '"><title>' + esc(r.label + ': ' + money(r.amount) + (r.parts ? ' (' + r.parts + ')' : '')) + '</title></rect>';
+      x += w;
+    });
+    if (gap) h += '<rect x="' + x.toFixed(1) + '" y="24" width="' + Math.max(0, sc(gap) - 2).toFixed(1) + '" height="30" rx="3" fill="var(--wb-gap)"><title>' + esc('Gap: ' + money(gap)) + '</title></rect>';
+    h += svgText(L, 80, 'Total development cost', { muted: true, size: 15 });
+    h += '<rect x="' + L + '" y="88" width="' + sc(tdc).toFixed(1) + '" height="24" rx="3" fill="var(--muted)" opacity=".35"><title>' + esc('Total development cost: ' + money(tdc)) + '</title></rect>';
+    h += svgText(L + sc(tdc) - 6, 105, short(tdc), { anchor: 'end', bold: true });
+    h += '</svg>';
+    var legend = '<ul class="wb-legend">' + rows.map(function (r) {
+      return '<li><i style="background:' + r.fill + '"></i>' + esc(r.label) + ' <b>' + esc(short(r.amount)) + '</b></li>';
+    }).join('') + (gap ? '<li><i style="background:var(--wb-gap)"></i>Gap <b>' + esc(short(gap)) + '</b></li>' : '') + '</ul>';
+    return figure('wbChSU', 'Where the money comes from', gap ? 'The rust piece is the gap still to fund.' : s.gap != null && s.gap < -0.5 ? 'Sources cover the cost with ' + short(-s.gap) + ' to spare.' : 'Sources cover the cost.', h, legend);
+  }
+
+  // Debt coverage, all must-pay debt, each year of the forecast, against CHFA's minimum and its high-coverage line.
+  function chartCoverage(m) {
+    var rows = (m.cashFlow.rows || []).filter(function (y) { return y.dscr != null && isFinite(y.dscr); });
+    if (rows.length < 2) return '';
+    var mn = m.operating && m.operating.min || {}, lo = mn.dscr ? mn.dscr.value : null, hi = mn.high ? mn.high.value : null;
+    var vals = rows.map(function (y) { return y.dscr; }).concat([lo, hi].filter(function (v) { return v != null; }));
+    var y0 = Math.floor((Math.min.apply(null, vals) - 0.05) * 10) / 10, y1 = Math.ceil((Math.max.apply(null, vals) + 0.05) * 10) / 10;
+    var H = 220, L = 52, R = 56, T = 24, B = 40, first = rows[0].year, last = rows[rows.length - 1].year;
+    var X = function (yr) { return L + (CW - L - R) * (yr - first) / Math.max(1, last - first); };
+    var Y = function (v) { return T + (H - T - B) * (1 - (v - y0) / (y1 - y0)); };
+    var low = rows.reduce(function (a, b) { return b.dscr < a.dscr ? b : a; });
+    var label = 'Debt coverage on all must-pay debt: ' + ratio(rows[0].dscr) + ' in year ' + first + ', lowest ' + ratio(low.dscr) + ' in year ' + low.year + ', ' + ratio(rows[rows.length - 1].dscr) + ' in year ' + last + '.' +
+      (lo != null ? ' CHFA minimum ' + ratio(lo) + '.' : '');
+    var h = svgOpen(H, label);
+    if (lo != null && hi != null) h += '<rect x="' + L + '" y="' + Y(hi).toFixed(1) + '" width="' + (CW - L - R) + '" height="' + (Y(lo) - Y(hi)).toFixed(1) + '" fill="var(--good)" opacity=".1"/>';
+    var ticks = [], step = (y1 - y0) > 0.8 ? 0.2 : 0.1;
+    for (var t = y0; t <= y1 + 1e-9; t += step) ticks.push(Math.round(t * 100) / 100);
+    h += '<g data-axis="y">' + ticks.map(function (v) {
+      return '<line x1="' + L + '" x2="' + (CW - R) + '" y1="' + Y(v).toFixed(1) + '" y2="' + Y(v).toFixed(1) + '" stroke="var(--border)"/>' + svgText(L - 6, Y(v) + 5, v.toFixed(2), { anchor: 'end', muted: true, size: 15, tick: true });
+    }).join('') + '</g>';
+    var xt = [first, Math.round((first + last) / 2), last].filter(function (v, i, a) { return a.indexOf(v) === i; });
+    h += '<g data-axis="x">' + xt.map(function (yr) { return svgText(X(yr), H - 6, 'Year ' + yr, { anchor: yr === first ? 'start' : yr === last ? 'end' : 'middle', muted: true, size: 15, tick: true }); }).join('') + '</g>';
+    if (lo != null) h += '<line x1="' + L + '" x2="' + (CW - R) + '" y1="' + Y(lo).toFixed(1) + '" y2="' + Y(lo).toFixed(1) + '" stroke="var(--bad)" stroke-width="2" stroke-dasharray="6 4"/>' + svgText(CW - R + 4, Y(lo) + 5, ratio(lo), { fill: 'var(--bad)', size: 15 });
+    if (hi != null) h += svgText(CW - R + 4, Y(hi) + 5, ratio(hi), { muted: true, size: 15 });
+    h += '<polyline fill="none" stroke="var(--accent)" stroke-width="2.5" points="' + rows.map(function (y) { return X(y.year).toFixed(1) + ',' + Y(y.dscr).toFixed(1); }).join(' ') + '"/>';
+    var dots = [rows[0], low, rows[rows.length - 1]].filter(function (y, i, a) { return a.indexOf(y) === i; });
+    dots.forEach(function (y) {
+      var bad = lo != null && y.dscr < lo;
+      h += '<circle cx="' + X(y.year).toFixed(1) + '" cy="' + Y(y.dscr).toFixed(1) + '" r="5.5" fill="' + (bad ? 'var(--bad)' : 'var(--accent)') + '" stroke="var(--card)" stroke-width="2"><title>' + esc('Year ' + y.year + ': ' + ratio(y.dscr)) + '</title></circle>';
+      var anchor = y.year === first ? 'start' : y.year === last ? 'end' : 'middle';
+      h += svgText(X(y.year), Y(y.dscr) + (y === low && y !== rows[0] ? 22 : -11), ratio(y.dscr), { anchor: anchor, bold: true, halo: true, fill: bad ? 'var(--bad)' : null });
+    });
+    h += '</svg>';
+    var note = lo != null ? 'The dashed line is CHFA\'s ' + ratio(lo) + ' minimum' + (hi != null ? '; above ' + ratio(hi) + ' CHFA may award less credit' : '') + '.' : 'CHFA\'s minimum could not be read.';
+    return figure('wbChCov', 'Can it carry its loans for ' + rows.length + ' years?', note, h);
+  }
+
+  // Year-one coverage under the calculator's lender tests, each a dot pair: as entered, then stressed.
+  var STRESS_ROWS = [['rent10', 'Lower rents'], ['vac5', 'Higher vacancy'], ['opex10', 'Higher running costs'], ['combined', 'All three, smaller']];
+  function chartStress(m) {
+    var st = m.stress;
+    if (!st || !st.base || st.base.dscr == null) return '';
+    var rows = STRESS_ROWS.filter(function (k) { return st[k[0]] && st[k[0]].dscr != null && isFinite(st[k[0]].dscr); });
+    if (!rows.length) return '';
+    var mn = m.operating && m.operating.min || {}, lo = mn.dscr ? mn.dscr.value : null, base = st.base.dscr;
+    var vals = rows.map(function (k) { return st[k[0]].dscr; }).concat([base, lo].filter(function (v) { return v != null; }));
+    var x0 = Math.floor((Math.min.apply(null, vals) - 0.12) * 10) / 10, x1 = Math.ceil((Math.max.apply(null, vals) + 0.05) * 10) / 10;
+    var L = 168, R = 62, rh = 34, H = rows.length * rh + 44;
+    var X = function (v) { return L + (CW - L - R) * (v - x0) / (x1 - x0); };
+    var below = rows.filter(function (k) { return lo != null && st[k[0]].dscr < lo; });
+    var label = 'Year-one debt coverage ' + ratio(base) + ' as entered; under the lender tests: ' + rows.map(function (k) { return k[1].toLowerCase() + ' ' + ratio(st[k[0]].dscr); }).join(', ') + '.';
+    var h = svgOpen(H, label);
+    var ticks = [], step = (x1 - x0) > 0.8 ? 0.2 : 0.1;
+    for (var t = x0; t <= x1 + 1e-9; t += step) ticks.push(Math.round(t * 100) / 100);
+    h += '<g data-axis="x">' + ticks.map(function (v) {
+      return '<line x1="' + X(v).toFixed(1) + '" x2="' + X(v).toFixed(1) + '" y1="6" y2="' + (H - 30) + '" stroke="var(--border)"/>' + svgText(X(v), H - 10, v.toFixed(1), { anchor: 'middle', muted: true, size: 15, tick: true });
+    }).join('') + '</g>';
+    if (lo != null) h += '<line x1="' + X(lo).toFixed(1) + '" x2="' + X(lo).toFixed(1) + '" y1="6" y2="' + (H - 30) + '" stroke="var(--bad)" stroke-width="2" stroke-dasharray="6 4"/>';
+    h += '<g data-axis="y">';
+    rows.forEach(function (k, i) {
+      var v = st[k[0]].dscr, y = 22 + i * rh, bad = lo != null && v < lo;
+      h += svgText(L - 10, y + 5, k[1], { anchor: 'end', tick: true });
+      h += '<line x1="' + X(base).toFixed(1) + '" x2="' + X(v).toFixed(1) + '" y1="' + y + '" y2="' + y + '" stroke="var(--muted)" stroke-width="2" opacity=".6"/>';
+      h += '<circle cx="' + X(base).toFixed(1) + '" cy="' + y + '" r="5" fill="var(--muted)"><title>' + esc('As entered: ' + ratio(base)) + '</title></circle>';
+      h += '<circle cx="' + X(v).toFixed(1) + '" cy="' + y + '" r="6" fill="' + (bad ? 'var(--bad)' : 'var(--accent)') + '" stroke="var(--card)" stroke-width="2"><title>' + esc(k[1] + ': ' + ratio(v)) + '</title></circle>';
+      // The value sits beside the stressed dot, on the side away from the grey one.
+      h += v <= base ? svgText(X(v) - 10, y + 5, ratio(v), { anchor: 'end', bold: true, halo: true, fill: bad ? 'var(--bad)' : null })
+        : svgText(X(v) + 10, y + 5, ratio(v), { bold: true, halo: true, fill: bad ? 'var(--bad)' : null });
+    });
+    h += '</g></svg>';
+    var note = 'Grey is year one as entered (' + ratio(base) + ')' + (lo != null ? '; the dashed line is CHFA\'s ' + ratio(lo) + ' minimum' : '') + '. ' +
+      (below.length ? below.length + ' of ' + rows.length + ' tests fall below it.' : lo != null ? 'Every test stays above it.' : '');
+    return figure('wbChStress', 'What breaks it', note, h,
+      '<p class="sr-muted">The Deal Calculator\'s lender tests, set in its Methods panel. Its defaults: rents 10% lower; vacancy 5 points higher; running costs 10% higher; all three together at 5%, 3 points and 5%.</p>');
+  }
+
   function render(m, title) {
     if (!m || m.error) return '<p class="sr-flag">' + esc((m && m.error) || 'Nothing to show.') + '</p>';
     var e = m.exec, h = '';
@@ -506,7 +643,7 @@
 
     // Sources and uses
     var s = m.sources, u = m.uses;
-    h += '<section class="dv-card" aria-labelledby="wbSU"><h2 id="wbSU">Sources and uses</h2><div class="wb-two"><div><h3>Sources</h3>';
+    h += '<section class="dv-card" aria-labelledby="wbSU"><h2 id="wbSU">Sources and uses</h2>' + chartSources(m) + '<div class="wb-two"><div><h3>Sources</h3>';
     h += s.rows.length ? table(['Source', 'Amount', 'Share'], s.rows.map(function (x) {
       return { cells: [esc(x.label), esc(money(x.amount)), esc(s.tdc && x.amount != null ? pct(x.amount / s.tdc) : '—')] };
     }).concat([{ cls: 'sr-total', cells: ['Total sources', esc(money(s.total)), esc(s.tdc && s.total != null ? pct(s.total / s.tdc) : '—')] }])
@@ -597,6 +734,7 @@
     // Cash flow
     var cf = m.cashFlow;
     h += '<section class="dv-card" aria-labelledby="wbCF"><h2 id="wbCF">' + ((cf.rows && cf.rows.length) || 15) + '-year cash flow</h2>';
+    if (cf.rows.length) h += '<div class="wb-figs">' + chartCoverage(m) + chartStress(m) + '</div>';
     if (cf.rows.length) {
       var lines = [
         ['Gross rent', 'grossRents'], ['Other income', 'otherIncome'], ['Less vacancy', 'vacancy', -1], ['Effective gross income', 'egi', 1, true],
@@ -1450,5 +1588,5 @@
     else start(document);
   }
 
-  return { build: build, render: render, research: research, renderResearch: renderResearch, researchEditor: researchEditor, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
+  return { build: build, render: render, chartSources: chartSources, chartCoverage: chartCoverage, chartStress: chartStress, research: research, renderResearch: renderResearch, researchEditor: researchEditor, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
 });
