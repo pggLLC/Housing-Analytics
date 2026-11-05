@@ -216,11 +216,17 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
         el.textContent = v;
         el.className = 'value' + (severityClass ? ' ' + severityClass : '');
       }
+      // Under {{MIN_HH}} households a tract-apportioned rate is noise, so
+      // none is printed (the same floor as the HNA scorecard).
+      var MIN_HH = {{MIN_HH}};
+      var FEW = 'Too few households for a rate';
+      var fewRenters = !(data.summary.total_renter_hh >= MIN_HH);
+      var fewOwners = !(data.summary.total_owner_hh >= MIN_HH);
       var sev30 = data.summary.renter_cb30_share >= 0.5 ? 'bad' : data.summary.renter_cb30_share >= 0.35 ? 'warn' : 'good';
       var sev50 = data.summary.renter_cb50_share >= 0.25 ? 'bad' : data.summary.renter_cb50_share >= 0.15 ? 'warn' : 'good';
-      setVc('psRenterCb30', pct(data.summary.renter_cb30_share), sev30);
-      setVc('psRenterCb50', pct(data.summary.renter_cb50_share), sev50);
-      setV('psOwnerCb30',  pct(data.summary.owner_cb30_share));
+      setVc('psRenterCb30', fewRenters ? FEW : pct(data.summary.renter_cb30_share), fewRenters ? '' : sev30);
+      setVc('psRenterCb50', fewRenters ? FEW : pct(data.summary.renter_cb50_share), fewRenters ? '' : sev50);
+      setV('psOwnerCb30',  fewOwners ? FEW : pct(data.summary.owner_cb30_share));
       setV('psRenterTotal', fmt(data.summary.total_renter_hh));
       setV('psOwnerTotal',  fmt(data.summary.total_owner_hh));
       var tiers = data.renter_hh_by_ami || {};
@@ -350,14 +356,21 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
 '''
 
 
+# Below this many renter (or owner) households a tract-apportioned rate is
+# noise ("Carbonate ~2 households, 40.0%"), so no rate is printed. The HNA
+# scorecard uses the same floor (SCORECARD_MIN_RENTER_HH in hna-renderers.js).
+MIN_HH_FOR_RATE = 50
+
+
 def build_subtitle(place_chas: dict, cross_county: dict | None) -> str:
     rec = place_chas
-    total = (rec['summary']['total_renter_hh'] or 0) + (rec['summary']['total_owner_hh'] or 0)
+    renters = rec['summary']['total_renter_hh'] or 0
+    total = renters + (rec['summary']['total_owner_hh'] or 0)
     cb30 = rec['summary']['renter_cb30_share'] or 0
     parts = []
     if total > 0:
         parts.append(f"~{int(round(total)):,} households")
-    if cb30 > 0:
+    if cb30 > 0 and renters >= MIN_HH_FOR_RATE:
         parts.append(f"renter cost-burden {cb30*100:.1f}%")
     if cross_county and len(cross_county.get('all_counties', [])) > 1:
         parts.append('cross-county jurisdiction')
@@ -484,6 +497,7 @@ def generate_page(
     subtitle = build_subtitle(place_chas, cross_county)
 
     replacements = {
+        '{{MIN_HH}}':         str(MIN_HH_FOR_RATE),
         '{{PLACE_GEOID}}':    geoid,
         '{{PLACE_NAME}}':     html_lib.escape(place_name, quote=True),
         '{{COUNTY_NAME}}':    html_lib.escape(county_name, quote=True),
