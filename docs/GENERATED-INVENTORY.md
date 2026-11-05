@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T15:23:04.829Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T15:37:17.140Z. Do not edit by hand.
 
 ---
 
@@ -321,7 +321,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 301.1 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 302.0 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -2078,7 +2078,7 @@
 
 ## Test Files
 
-783 test files found.
+784 test files found.
 
 | File | Size |
 |------|------|
@@ -2602,6 +2602,7 @@
 | `test/production-need-counts-the-workforce.test.mjs` | 8.8 KB |
 | `test/production-read-names-both-parts.test.js` | 3.9 KB |
 | `test/project-scenario.test.js` | 8.2 KB |
+| `test/project-teams.test.mjs` | 5.6 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-administration.test.js` | 7.9 KB |
 | `test/prop123-historical.test.js` | 15.6 KB |
