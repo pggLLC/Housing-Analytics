@@ -572,7 +572,7 @@ def load_place_projections() -> dict:
 
     data/hna/projections/places.json covers 472 places and splits each county's
     projection by a documented blend — 0.5 x household share + 0.5 x permit
-    share, clamped to [0.005, 1.0]. The permit half is the point: it puts
+    share, clamped to [0, 1.0] (the 0.005 floor was removed 4 Nov 2026). The permit half is the point: it puts
     growth where building is actually happening.
 
     This file already existed and js/hna/hna-renderers.js already read it, so

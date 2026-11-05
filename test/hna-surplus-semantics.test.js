@@ -207,7 +207,8 @@ async function main() {
 
   assert.equal(window.__placeProjectionFetches, 1, 'place projection fixture should be fetched once');
   SURPLUS_TEXT = document.getElementById('statUnitsNeed').textContent;
-  assert(/^Estimated surplus of 65 units\b/.test(SURPLUS_TEXT), 'statUnitsNeed should render surplus wording: ' + SURPLUS_TEXT);
+  // A town headline is rounded to tens (-65 rounds to -60).
+  assert(/^Estimated surplus of 60 units\b/.test(SURPLUS_TEXT), 'statUnitsNeed should render surplus wording: ' + SURPLUS_TEXT);
   // A figure falls below zero only where projected households fall
   // (test/production-need-counts-the-workforce.test.mjs), so that is the reason given.
   assert(/households projected to fall/.test(SURPLUS_TEXT), 'the surplus does not say why: ' + SURPLUS_TEXT);
@@ -261,9 +262,10 @@ async function main() {
     },
   };
   await applyFixture(fruita);
-  assert.equal(document.getElementById('statUnitsNeed').textContent, '819', 'positive fixture should keep numeric stat card');
-  assert.equal(document.getElementById('decisionProductionValue').textContent, '819', 'positive fixture should keep numeric decision value');
-  assert(document.getElementById('needNote').textContent.includes('819 net new total units'), 'positive fixture should keep existing net-new wording');
+  // Fixture growth 819; a town headline is rounded to tens.
+  assert.equal(document.getElementById('statUnitsNeed').textContent, '820', 'positive fixture should keep numeric stat card');
+  assert.equal(document.getElementById('decisionProductionValue').textContent, '820', 'positive fixture should keep numeric decision value');
+  assert(document.getElementById('needNote').textContent.includes('820 net new total units'), 'positive fixture should keep existing net-new wording');
   assert(!document.getElementById('needNote').textContent.includes('Estimated surplus of'), 'positive fixture should not show surplus wording');
   assert(/rise in homes needed from today/.test(document.getElementById('needNote').textContent), 'a place-ledger note should say it is the rise from today');
   assert(!document.getElementById('needNote').textContent.includes('after subtracting the current housing stock'), 'a place-ledger note must not claim it subtracted the housing stock');
