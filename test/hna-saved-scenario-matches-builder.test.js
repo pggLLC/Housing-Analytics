@@ -114,7 +114,7 @@ function builderChange(r) {
 
 (async () => {
   // Every cross-county town, plus a county and a town in one county.
-  const picked = rows.filter((r) => r.type !== 'county' && cross[r.geoid] && ledger[r.geoid]);
+  const picked = rows.filter((r) => r.type !== 'county' && cross[r.geoid] && ledger[r.geoid] && !ledger[r.geoid].too_small);
   const crossCount = picked.length;
   picked.push(rows.find((r) => r.geoid === '08077'), rows.find((r) => r.geoid === '0828745'));
   let compared = 0;

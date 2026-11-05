@@ -97,7 +97,9 @@ for (const r of rows) {
       `index ${m.future_units_growth_20yr} → ${m.future_units_needed_20yr}`);
   }
 }
-assert(checked >= 500, `checked ${checked} jurisdictions against the index (expected most of 546)`);
+// 193 places under 250 households have no town forecast on either surface
+// (the builder's unavailableReason and the index's null), so ~350 remain.
+assert(checked >= 330, `checked ${checked} jurisdictions against the index (expected 546 less the places under 250 households)`);
 assert.deepEqual(mismatched, [], 'builder at 100% differs from the HNA page\'s 20-year figure:\n  ' + mismatched.join('\n  '));
 
 // 3. The two migration presets fall on either side of SDO's forecast. Which
