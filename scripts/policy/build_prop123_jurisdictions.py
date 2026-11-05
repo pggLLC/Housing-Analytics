@@ -11,8 +11,12 @@ DOLA publishes four lists, and this file joins them by jurisdiction:
      (fast track plus the unit commitment): a Google Sheet linked from
      https://cdola.colorado.gov/fully-compliant-jurisdictions-under-proposition-123
      (until 2026-11 a numbered table on that page)
-  4. Second-cycle (2027-2029) commitments filed in 2026: the table on the
-     commitment-filings page. It grows until the November 1 deadline.
+  4. Second-cycle (2027-2029) commitments filed in 2026: DOLA's status sheet
+     (first tab of the fully compliant workbook), with each filing's status
+     (Approved, Contingent Approval, Pending), date and unit goal. The table
+     on the commitment-filings page adds when each commitment begins and its
+     length for the filings it lists; until 2026-11 it was the only source,
+     and it lists 48 of the 155 filings DOLA's sheet holds.
 
 Until 2026-10 the file was typed by hand and had drifted far from DOLA's
 lists: 62 of its 217 names were jurisdictions DOLA does not list (and 62 that
@@ -27,7 +31,7 @@ After writing, it rebuilds data/policy/housing-policy-scorecard.json, which
 derives prop123_committed from this file, and runs validate-schemas.
 
 --from-dir reads saved copies (cycle1.csv, fasttrack.csv, commitment-filings.html,
-compliant.csv) instead of fetching. The script refuses to write when a
+compliant.csv, status.csv) instead of fetching. The script refuses to write when a
 list parses to fewer rows than DOLA states, or when a name in lists 2-4 cannot
 be placed, so a changed page leaves the committed file as it was.
 """
@@ -53,7 +57,11 @@ FAST_TRACK_PAGE = 'https://cdola.colorado.gov/prop123fasttrack'
 CYCLE1_SHEET = 'https://docs.google.com/spreadsheets/d/1xpZFV506S-nws4oSf-nXJDs168calx620FYDiLqwN9o/export?format=csv&gid=0'
 FAST_TRACK_SHEET = 'https://docs.google.com/spreadsheets/d/1MNi6SG8rNaXxVojOAYOMhcz2SmrUCjrjdEhJqgYCSG8/export?format=csv&gid=0'
 COMPLIANT_SHEET = 'https://docs.google.com/spreadsheets/d/1OuAIp8mpoR7GNW0kDWb1Ubl5iuRQLJkfvDkW0OQh-Ug/export?format=csv&gid=1420508288'
-COMPLIANT_HEADER = ['Jurisdiction', 'Date of Expedited Review Compliance',
+# Same workbook, first tab: every 2027-2029 filing with DOLA's status.
+STATUS_SHEET = 'https://docs.google.com/spreadsheets/d/1OuAIp8mpoR7GNW0kDWb1Ubl5iuRQLJkfvDkW0OQh-Ug/export?format=csv&gid=0'
+STATUS_HEADER = ['Status', 'Jurisdiction', 'Commitment Date', 'Affordable Unit Goal']
+STATUSES = ('Approved', 'Contingent Approval', 'Pending')
+COMPLIANT_HEADER = ['Jurisdiction', 'Date of Fast Track Review Compliance',
                     'Date of Unit Commitment Compliance', 'Required Unit Commitment Met']
 
 # DOLA's page states these for the first cycle; the sheet must agree.
@@ -68,6 +76,14 @@ ALIASES = {
     'ridgeway': 'ridgway',
     'plateville': 'platteville',
 }
+
+# The status sheet calls a county's unincorporated area "X County
+# Unincorporated"; the commitment is the county's. One row reads "Archuleta
+# Commitment Unincorporated".
+def status_name(raw):
+    n = re.sub(r'\s+', ' ', raw).strip().replace(' & ', ' and ')
+    n = re.sub(r'\s+Commitment\s+Unincorporated$', ' County', n, flags=re.I)
+    return re.sub(r'\s+Unincorporated$', '', n, flags=re.I)
 
 TRIBES = {
     'southern ute': 'Southern Ute Indian Tribe',
@@ -298,28 +314,72 @@ def build(src):
     if not items:
         raise ValueError('no rows parsed from the fully compliant sheet')
 
-    # 4. Second-cycle commitments filed in 2026.
-    next_cycle = []
+    # 4. Second-cycle commitments filed in 2026. DOLA's status sheet lists
+    # every filing; the commitment-filings page adds begin date and length
+    # for the ones it lists.
+    page = {}
     for row in table_rows(src['filings']):
         if len(row) != 5 or not re.search(r'\d+/\d+/\d{4}', row[1]) or not re.search(r'years?', row[3]):
             continue
-        key, display, kind, typ = parse_name(row[0])
         if to_int(row[4]) is None:
             # A goal DOLA has not stated is unknown, not zero; summing it as 0
             # would understate unit_goal_total.
             raise ValueError('second-cycle filing %s has no numeric unit goal: %r' % (row[0], row[4]))
+        page[parse_name(row[0])[0]] = row
+    s_rows = list(csv.reader(io.StringIO(src['status'])))
+    if not s_rows or [c.strip() for c in s_rows[0][:4]] != STATUS_HEADER:
+        raise ValueError('status sheet header changed: %r' % (s_rows[0] if s_rows else None))
+    next_cycle, seen = [], set()
+    for row in s_rows[1:]:
+        if len(row) < 4 or not row[1].strip():
+            continue
+        status = row[0].strip()
+        if status not in STATUSES:
+            raise ValueError('status sheet row %r has an unknown status' % (row,))
+        name = status_name(row[1])
+        key, display = parse_name(name)[:2]
+        if key in seen:
+            raise ValueError('%s is listed twice in the status sheet' % row[1])
+        seen.add(key)
+        # The page and the sheet spell a few names differently ("City of
+        # Central" / "Central City, City of"), as place_key allows for.
+        on_page = next((page.pop(k) for k in (key, key.replace('central city', 'central'))
+                        if k in page), None)
+        # DOLA writes "N/A" where a filing has no date or goal (a tribe).
+        na = lambda v: '' if v.strip().upper() == 'N/A' else v
+        row = [row[0], row[1], na(row[2]), na(row[3])]
+        goal = to_int(row[3])
+        if row[3].strip() and goal is None:
+            raise ValueError('status sheet row %r has a unit goal that is not a number' % (row,))
+        if goal is None and on_page:
+            goal = to_int(on_page[4])
         entry = {
-            'submitted': iso(row[1]),
-            'begins': iso(row[2]),
-            'length': row[3],
-            'unit_goal': to_int(row[4]),
+            # The page's submission date where it lists the filing; the
+            # sheet's commitment date is a day earlier for a few.
+            'submitted': iso(on_page[1]) if on_page else iso(row[2]),
+            'status': status,
+            'begins': iso(on_page[2]) if on_page else None,
+            'length': on_page[3] if on_page else None,
+            # None when DOLA has not stated it: unknown, never zero.
+            'unit_goal': goal,
         }
-        placed = place_key(index, row[0])
+        # Stricter than place_key: a county and a town of the same name are
+        # different filers (Alamosa County has no 2024-2026 commitment, the
+        # City of Alamosa does), so never cross county and town here.
+        kind, base = key.split(':', 1)
+        placed = next((k for k in (key, 'citycounty:' + base if kind in ('county', 'place') else None,
+                                   'place:' + base.replace('central city', 'central') if kind == 'place' else None)
+                       if k and k in index), None)
         if placed is not None:
+            if index[placed]['next_cycle'] is not None:
+                raise ValueError('two status-sheet rows place on %s' % index[placed]['name'])
             index[placed]['next_cycle'] = entry
         next_cycle.append(dict({'name': index[placed]['name'] if placed else display}, **entry))
+    if page:
+        raise ValueError('filings on the commitment-filings page missing from the status sheet: %s'
+                         % sorted(r[0] for r in page.values()))
     if not next_cycle:
-        raise ValueError('no second-cycle rows parsed from the commitment filings page')
+        raise ValueError('no second-cycle rows parsed from the status sheet')
 
     if unplaced:
         raise ValueError('names DOLA lists that match no cycle-1 filing: %s' % unplaced)
@@ -334,6 +394,7 @@ def build(src):
                            'sheet_last_updated': ft_updated},
             'fully_compliant': {'page': COMPLIANT_PAGE, 'sheet': COMPLIANT_SHEET.split('/export')[0]},
             'next_cycle_filings': {'page': FILINGS_PAGE},
+            'next_cycle_status': {'page': COMPLIANT_PAGE, 'sheet': STATUS_SHEET.split('/export')[0]},
         },
         'note': NOTE,
         'total_projected_units': total,
@@ -344,7 +405,11 @@ def build(src):
             'cycle': '2027-2029',
             'filing_deadline': '2026-11-01',
             'filed_count': len(next_cycle),
-            'unit_goal_total': sum(e['unit_goal'] for e in next_cycle),
+            'status_counts': {st: sum(1 for e in next_cycle if e['status'] == st) for st in STATUSES},
+            # The total of the goals DOLA states; unit_goal_unstated filings
+            # have none yet and are not counted as zero.
+            'unit_goal_total': sum(e['unit_goal'] for e in next_cycle if e['unit_goal'] is not None),
+            'unit_goal_unstated': sum(1 for e in next_cycle if e['unit_goal'] is None),
             'filings': sorted(next_cycle, key=lambda e: e['name'].lower()),
         },
         'jurisdictions': records,
@@ -360,10 +425,12 @@ def main():
             with open(os.path.join(args.from_dir, name), encoding='utf-8') as fh:
                 return fh.read()
         src = {'cycle1': rd('cycle1.csv'), 'fasttrack': rd('fasttrack.csv'),
-               'filings': rd('commitment-filings.html'), 'compliant': rd('compliant.csv')}
+               'filings': rd('commitment-filings.html'), 'compliant': rd('compliant.csv'),
+               'status': rd('status.csv')}
     else:
         src = {'cycle1': fetch(CYCLE1_SHEET), 'fasttrack': fetch(FAST_TRACK_SHEET),
-               'filings': fetch(FILINGS_PAGE), 'compliant': fetch(COMPLIANT_SHEET)}
+               'filings': fetch(FILINGS_PAGE), 'compliant': fetch(COMPLIANT_SHEET),
+               'status': fetch(STATUS_SHEET)}
     try:
         out = build(src)
         prev = {}
