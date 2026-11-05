@@ -283,6 +283,18 @@
         }
       ],
       "reviewed": "2026-11-05"
+    },
+    {
+      "section": "m-footprint",
+      "title": "How the site is built, and its environmental footprint",
+      "sources": [
+        {
+          "file": "scripts/generate_policy_briefs.py",
+          "function": "generate_llm_brief",
+          "sha": "0a74aa53c94b203d"
+        }
+      ],
+      "reviewed": "2026-11-05"
     }
   ]
 }
