@@ -920,4 +920,104 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   ok(/onMemberHost\(\)\) return;[\s\S]*?window\.top !== window[\s\S]*?member-calculator\.js/.test(nav), 'the member bar loads only on the member site, never in the workbook\'s hidden frame');
 }
 
+// ── Charts: pictures of the model, never new figures ────────────────────────
+{
+  const Engine = require(path.join(ROOT, 'js/deal-engine.js'));
+  const withStress = () => {
+    const s = fixture(), y = s.result.projection.rows[0];
+    // The engine's own lender tests on the invented deal's year one, as the calculator stores them in result.stress.
+    s.result.stress = Engine.computeDscrStressScenarios({ annualRents: y.grossRents, annualOtherIncome: y.otherIncome, vacancyPct: s.result.vacancyRate,
+      annualOpex: y.opex, annualRepReserve: y.repReserve, netPropTax: y.propTax, annualDebtService: y.debtService });
+    return s;
+  };
+  const cs = withStress();
+  const cm = WB.build(cs, rules);
+  const texts = (svg) => [...svg.matchAll(/<text[^>]*>([^<]*)<\/text>/g)].map((x) => x[1]);
+  const aria = (svg) => (svg.match(/aria-label="([^"]*)"/) || [])[1] || '';
+
+  // Sources: the bar is the model's sources, its total and its gap.
+  const su = WB.chartSources(cm);
+  ok(/role="img"/.test(su) && aria(su).includes(WB.money(cm.sources.total)) && aria(su).includes(WB.money(cm.sources.tdc)) && aria(su).includes(WB.money(cm.sources.gap)), 'the sources chart names the model\'s total, cost and gap');
+  ok(cm.sources.rows.every((x) => su.includes(x.label.replace(/&/g, '&amp;'))), 'every source is in the sources chart\'s key');
+  ok(texts(su).every((x) => x.trim()), 'no blank text in the sources chart');
+  // A sixth source folds into Other, and the amounts still add up.
+  const six = WB.build(withStress(), rules);
+  const extra = [['A', 100000], ['B', 200000], ['C', 300000]].map(([l, a]) => ({ label: 'Invented source ' + l, amount: a }));
+  six.sources.rows = six.sources.rows.concat(extra);
+  const suSix = WB.chartSources(six);
+  const rects = [...suSix.matchAll(/<title>([^<]*)<\/title><\/rect>/g)].map((x) => x[1]);
+  const folded = six.sources.rows.slice(3);
+  ok(suSix.includes('Other sources (' + folded.length + ')') && !suSix.includes('Invented source A</'), 'past three sources the rest fold into Other sources');
+  ok(rects.some((x) => x.startsWith('Other sources (' + folded.length + '): ' + WB.money(folded.reduce((a, r) => a + r.amount, 0)))), 'Other sources carries the folded total');
+  ok(!/#[0-9a-f]{6}/i.test(su) && /var\(--chart-1\)/.test(su), 'the sources chart uses the site\'s chart tokens, no hard-coded colours');
+  ok(WB.chartSources({ sources: { rows: [], tdc: 1, total: 0 } }) === '', 'no sources, no chart');
+  ok(cm.sources.rows.length === 4 && !/Other sources/.test(su), 'a single fourth source keeps its own name');
+
+  // Coverage: every plotted year is the model's all-must-pay coverage; the dots are year 1, the lowest and the last.
+  const cov = WB.chartCoverage(cm);
+  const rows = cm.cashFlow.rows;
+  const low = rows.reduce((a, b) => (b.dscr < a.dscr ? b : a));
+  const pts = (cov.match(/<polyline[^>]*points="([^"]*)"/) || [])[1].trim().split(' ');
+  ok(pts.length === rows.length, 'the coverage line has one point a year');
+  ok(aria(cov).includes(rows[0].dscr.toFixed(2) + 'x in year 1') && aria(cov).includes('lowest ' + low.dscr.toFixed(2) + 'x in year ' + low.year), 'the coverage chart names year one and the lowest year');
+  ok(low.year === cm.exec.weakest.year && Math.abs(low.dscr - cm.exec.weakest.ratio) < 1e-9, 'the chart\'s lowest year is the executive view\'s weakest year');
+  ok(aria(cov).includes('CHFA minimum ' + cm.operating.min.dscr.value.toFixed(2) + 'x'), 'the dashed line is CHFA\'s minimum from the rules file');
+  ok(/data-axis="x"/.test(cov) && /data-axis="y"/.test(cov) && /data-tick/.test(cov), 'the coverage chart tags its axes for the chart-axes audit');
+  ok(texts(cov).every((x) => x.trim()), 'no blank text in the coverage chart');
+  const noRules = WB.build(withStress(), null);
+  ok(/could not be read/.test(WB.chartCoverage(noRules)) && !/stroke-dasharray/.test(WB.chartCoverage(noRules)), 'with no rules file there is no CHFA line, and the chart says so');
+  const one = WB.build(withStress(), rules); one.cashFlow.rows = one.cashFlow.rows.slice(0, 1);
+  ok(WB.chartCoverage(one) === '', 'one year is not a line');
+
+  // Lender tests: each dot is the engine's result.stress ratio, and the count below CHFA's minimum is honest.
+  const st = WB.chartStress(cm);
+  ['rent10', 'vac5', 'opex10', 'combined'].forEach((k) => {
+    ok(Math.abs(cm.stress[k].dscr - cs.result.stress[k].dscr) < 1e-12, k + ' coverage is the engine\'s');
+    ok(st.includes(cs.result.stress[k].dscr.toFixed(2) + 'x'), k + ' is labelled with its ratio');
+  });
+  const floor = cm.operating.min.dscr.value;
+  const nBelow = ['rent10', 'vac5', 'opex10', 'combined'].filter((k) => cs.result.stress[k].dscr < floor).length;
+  ok(st.includes(nBelow + ' of 4 tests fall below it') || (nBelow === 0 && st.includes('Every test stays above it')), 'the chart counts the tests below CHFA\'s minimum');
+  ok(WB.chartStress(m) === '', 'a run with no lender tests draws no stress chart');
+  // Labels carry the sizes the calculator ran; an unreadable size leaves a plain label, never the default.
+  ok(/Lower rents/.test(st) && /could not be read/.test(st) && !/smaller/.test(st), 'with no sizes read, labels make no size claim');
+  const sized = withStress(); sized.stressSizes = { rent: 1, vac: 1, opex: 1, combRent: 20, combVac: 10, combOpex: 20 };
+  const stSized = WB.chartStress(WB.build(sized, rules));
+  ok(stSized.includes('Rents 1% lower') && stSized.includes('Vacancy +1 points') && stSized.includes('Costs 1% higher') && stSized.includes('All three at once: rents 20% lower, vacancy +10 points, costs 20% higher'), 'labels and note carry the deal\'s own test sizes');
+  const doc = { getElementById: (id) => ({ 'dc-const-rent-stress': { value: '12' }, 'dc-const-vac-stress': { value: 'x' }, 'dc-const-opex-stress': { value: '-1' } })[id] || null };
+  const z = WB.stressSizes(doc);
+  ok(z.rent === 12 && z.vac === null && z.opex === null && z.combRent === null, 'only a number of 0 or more counts as a size, as the calculator\'s own input handler applies them');
+  ok(/data-axis="x"/.test(st) && texts(st).every((x) => x.trim()), 'the stress chart tags its axis and has no blank text');
+
+  // Very high coverage (almost no must-pay debt) still draws a handful of grid lines, not thousands.
+  const huge = WB.build(withStress(), rules);
+  huge.cashFlow.rows = huge.cashFlow.rows.map((y, i) => Object.assign({}, y, { dscr: 5000 + i * 70 }));
+  huge.stress = { base: { dscr: 5000 }, rent10: { dscr: 4500 }, vac5: { dscr: 4700 }, opex10: { dscr: 4900 }, combined: { dscr: 4000 } };
+  const hugeCov = WB.chartCoverage(huge), hugeSt = WB.chartStress(huge);
+  const nLines = (svg, ax) => ((svg.split('data-axis="' + ax + '"')[1] || '').split('</g>')[0].match(/<line /g) || []).length;
+  ok(nLines(hugeCov, 'y') >= 3 && nLines(hugeCov, 'y') <= 25 && hugeCov.length < 40000, 'a 5,000x coverage chart has a bounded number of ticks');
+  ok(nLines(hugeSt, 'x') >= 3 && nLines(hugeSt, 'x') <= 25 && hugeSt.length < 40000, 'a 5,000x lender test chart has a bounded number of ticks');
+  ok(nLines(cov, 'y') >= 3 && nLines(cov, 'y') <= 12, 'an ordinary coverage range keeps its fine ticks');
+
+  // The page places each chart in the section whose table is its data view.
+  const page = WB.render(cm, 'Invented');
+  ok(page.indexOf('id="wbChSU"') > page.indexOf('id="wbSU"') && page.indexOf('id="wbChSU"') < page.indexOf('id="wbBasis"'), 'the sources chart sits in Sources and uses');
+  ok(page.indexOf('id="wbChCov"') > page.indexOf('id="wbCF"') && page.indexOf('id="wbChStress"') > page.indexOf('id="wbCF"'), 'coverage and lender tests sit in the cash flow');
+  ok(page.indexOf('id="wbChFee"') > page.indexOf('id="wbCF"'), 'the deferred fee chart sits in the cash flow');
+
+  // Deferred fee: one bar a year, each the balance the cash-flow table carries; the payoff year is the executive view's.
+  const fee = WB.chartFee(cm);
+  const bars = [...fee.matchAll(/<title>Year (\d+): ([^ ]+) still owed<\/title>/g)];
+  ok(bars.length === cm.cashFlow.rows.length, 'one fee bar a year');
+  bars.forEach(([, yr, amt]) => ok(amt === WB.money(cm.cashFlow.rows[+yr - 1].feeOwed), 'year ' + yr + ' fee bar is the table\'s balance'));
+  ok(cm.exec.paybackYear != null && fee.includes('Paid off in year ' + cm.exec.paybackYear) && aria(fee).includes('paid off in year ' + cm.exec.paybackYear), 'the fee chart names the executive view\'s payoff year');
+  ok(/data-axis="x"/.test(fee) && /data-axis="y"/.test(fee) && texts(fee).every((x) => x.trim()), 'the fee chart tags its axes and has no blank text');
+  const slow = WB.build(withStress(), rules);
+  slow.deferredFee = Object.assign({}, slow.deferredFee, { paybackYear: null, owedAt15: 123456 });
+  ok(WB.chartFee(slow).includes('$123K still owed after year 15') && !WB.chartFee(slow).includes('Paid off'), 'a fee not repaid in 15 years says how much is left');
+  ok(fee.includes('review item, not a fixed deadline') && fee.includes(rules.rules.deferred_fee_repayment_review.location) && !/3\.A/.test(fee), 'the fee note cites CHFA\'s review rule from the rules file, not a deadline');
+  const noFee = WB.build(withStress(), rules); noFee.deferredFee = Object.assign({}, noFee.deferredFee, { amount: 0 });
+  ok(WB.chartFee(noFee) === '', 'no deferred fee, no fee chart');
+}
+
 console.log(`deal-workbook: ${checks} checks passed`);
