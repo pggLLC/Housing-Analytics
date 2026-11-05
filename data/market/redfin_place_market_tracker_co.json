@@ -13,8 +13,9 @@
     "state": "Colorado",
     "state_fips": "08",
     "as_of": "2026-08-31",
-    "last_verified": "2026-10-05",
-    "review_by": "2027-01-03",
+    "last_verified": "2026-11-05",
+    "verification_note": "Re-capture attempted 2026-11-05 for #2645: both bulk files at source_url and city_source_url answered HTTP 403 AccessDenied from Amazon S3, and https://www.redfin.com/news/data-center/ answered HTTP 429 (redirect to ratelimited.redfin.com). No newer figures could be read, so as_of and every figure are unchanged from the 2026-08-31 capture. Retry by review_by.",
+    "review_by": "2026-12-05",
     "latest_redfin_updated": "2026-06-02 14:33:24.470 Z",
     "period_duration_days": {
       "zip_model": 90,

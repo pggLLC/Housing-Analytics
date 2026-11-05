@@ -983,6 +983,7 @@
         return { cls: x.discount < 0.10 ? 'sr-diff' : '', cells: [esc(x.tier + '%'), esc(x.bedrooms), esc(money(x.rent)), esc(money(x.comp) + ' (' + x.n + ')'), esc(pct(x.discount))] };
       }), { num: [2, 3, 4] });
     }
+    if (v.nearbyLoading) h += '<p class="sr-muted">Loading CHFA\'s property list for tax credit properties near the site…</p>';
     if (v.nearbyUnchecked) h += '<p class="sr-yellow">CHFA\'s property list did not load, so tax credit properties near the site were not checked. Reload the page to try again.</p>';
     if (v.nearby.length) h += '<details class="wb-near"><summary>Tax credit properties within ' + NEARBY_MILES + ' miles (' + v.nearby.length + ')</summary>' + table(['Property', 'Town', 'Miles', 'Homes', 'Income-restricted', 'Award', 'Income mix'], v.nearby.map(function (x) {
       return { cells: [esc(x.name), esc(x.city || ''), esc(x.miles.toFixed(1)), esc(x.units == null ? '—' : x.units), esc(x.li == null ? '—' : x.li), esc((x.year || '') + ' ' + x.credit), esc(x.mix || '—')] };
@@ -1131,7 +1132,7 @@
     var box = $('wbResearch');
     var live = function () { return (!isLive || isLive()) && box.isConnected !== false && $('wbResearch') === box; };
     var rec = { site: null, comps: [], waitlist: null, survey: null };
-    var lihtc = null, map = null, layer = null;
+    var lihtc = null, listSettled = false, map = null, layer = null;
     var today = new Date().toISOString().slice(0, 10);
     var field = function (id, label, type, extra) { return '<label class="sr-field" for="' + id + '">' + label + '<input type="' + (type || 'text') + '" id="' + id + '"' + (extra || '') + '></label>'; };
     var numIn = function (id, label, extra) { return field(id, label, 'number', ' inputmode="decimal"' + (extra || '')); };
@@ -1160,6 +1161,12 @@
     var nOrNull = function (x) { return x === '' ? null : num(x); };
     var pctIn = function (x) { var n = nOrNull(x); return n == null ? null : n / 100; };
     var badVac = function (v) { return v != null && !(v >= 0 && v <= 1); };
+    // A coordinate pair is both or neither, and each must be on the globe.
+    var coordProblem = function (lat, lon, what) {
+      if ((lat == null) !== (lon == null)) return 'Enter both latitude and longitude for the ' + what + ', or neither.';
+      if (lat != null && !(lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180)) return 'Latitude for the ' + what + ' must be between -90 and 90, and longitude between -180 and 180.';
+      return null;
+    };
     var surveyLoose = 0, waitNeg = 0;
     function fill() {
       var s = rec.site || {};
@@ -1196,7 +1203,8 @@
     // Checked before a save, so the user fixes the survey instead of losing it to the backend's filter.
     function surveyProblem() {
       if (waitNeg) return 'Waitlist counts must be whole numbers of households, zero or more.';
-      if (rec.site && (rec.site.lat == null) !== (rec.site.lon == null)) return 'Enter both latitude and longitude for the site, or neither.';
+      var siteBad = rec.site && coordProblem(rec.site.lat, rec.site.lon, 'site');
+      if (siteBad) return siteBad;
       if (surveyLoose) return 'A survey row has figures but no unit type. Add the type or clear the row.';
       var sv = rec.survey;
       if (!sv) return null;
@@ -1208,6 +1216,8 @@
     }
     function draw() {
       var v = research(model, rec, lihtc, today);
+      // The property list is still on its way, not missing.
+      if (!listSettled && v.nearbyUnchecked) { v.nearbyUnchecked = false; v.nearbyLoading = true; }
       $('wbResView').innerHTML = renderResearch(v);
       drawMap(v);
     }
@@ -1253,6 +1263,8 @@
       if (!ready) return;
       if (!c.name || !c.checked || !/^https?:\/\//i.test(c.source)) { say('A comparable needs a name, the date you checked it and a source link starting with http.'); return; }
       if (COMP_BEDS.some(function (bd) { return c.rents[bd[0]] != null && !(c.rents[bd[0]] > 0); })) { say('Comparable rents must be more than $0. Leave a size blank if the property does not report it.'); return; }
+      var compBad = coordProblem(c.lat, c.lon, 'comparable');
+      if (compBad) { say(compBad); return; }
       if (badVac(c.vacancy)) { say('Comparable vacancy must be between 0% and 100%.'); return; }
       if (c.units != null && !(c.units >= 0 && c.units === Math.floor(c.units))) { say('Comparable homes must be a whole number, zero or more.'); return; }
       rec.comps.push(c);
@@ -1289,13 +1301,18 @@
     });
 
     var getJson = function (u) { return settleWithin(fetch(u, { credentials: 'same-origin', cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }), 20000); };
-    Promise.all([getJson(MARKET_API + '?deal=' + encodeURIComponent(deal)), getJson(LIHTC_URL)]).then(function (res) {
+    // The editor opens once the saved research answers; CHFA's property list only feeds the nearby layer,
+    // so it is drawn in whenever it arrives.
+    getJson(LIHTC_URL).then(function (j) {
       if (!live()) return;
-      lihtc = res[1];
+      lihtc = j; listSettled = true; draw();
+    });
+    getJson(MARKET_API + '?deal=' + encodeURIComponent(deal)).then(function (saved) {
+      if (!live()) return;
       // A failed load leaves the editor shut: saving an empty form would overwrite research that is there.
-      if (!res[0]) { draw(); say('Saved research did not load. Reload the page to add or change it.'); return; }
+      if (!saved) { draw(); say('Saved research did not load. Reload the page to add or change it.'); return; }
       say('');
-      if (res[0].data) rec = res[0].data;
+      if (saved.data) rec = saved.data;
       fill(); draw(); lock(false);
     }, function (err) { if (live()) onError(err); });
   }
