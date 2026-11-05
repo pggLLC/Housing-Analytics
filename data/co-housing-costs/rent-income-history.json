@@ -1,0 +1,4415 @@
+{
+ "meta": {
+  "generated": "2026-11-05T05:39:58Z",
+  "builder": "scripts/build_rent_income_history.py",
+  "what": "Median gross rent and median household income, Colorado and its counties 1980-2000 (Census long form) plus Colorado 2005-09, 2010-14 and 2020-24 (ACS 5-year), and incorporated places in 2000. County ACS cohorts live in county-trends.json.",
+  "method": "Long-form income is for the calendar year before the census; median_hh_income_rent_year moves it to the rent year with CPI-U annual averages. ACS 5-year medians already state rent and income in the same dollars. Compare rent growth with income growth using median_gross_rent and median_hh_income_rent_year.",
+  "comparability": "Census says decennial long-form and ACS rent and income can be compared with care: ACS income is for the past 12 months and ACS is a rolling five-year sample. https://www.census.gov/programs-surveys/acs/guidance/comparing-acs-data.html",
+  "sources": [
+   {
+    "id": "usa_counties",
+    "title": "U.S. Census Bureau, USA Counties (2011), HSG04 sheet HSG04H and INC01 sheet INC01A",
+    "url": "https://www2.census.gov/library/publications/2011/compendia/usa-counties/excel/",
+    "items": [
+     "HSG860180D",
+     "HSG860190D",
+     "HSG860200D",
+     "HSG860209D",
+     "INC110179D",
+     "INC110189D",
+     "INC110199D",
+     "INC110209D"
+    ]
+   },
+   {
+    "id": "sf3_2000",
+    "title": "U.S. Census Bureau, Census 2000 Summary File 3, Colorado (P053001, H063001)",
+    "url": "https://www2.census.gov/census_2000/datasets/Summary_File_3/Colorado/"
+   },
+   {
+    "id": "acs_2014",
+    "title": "U.S. Census Bureau, ACS 2010-2014 5-year summary file, Colorado (B25064, B19013)",
+    "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2014/data/5_year_by_state/Colorado_All_Geographies_Not_Tracts_Block_Groups.zip"
+   },
+   {
+    "id": "acs_2024",
+    "title": "U.S. Census Bureau, ACS 2020-2024 5-year data profile, Colorado (DP04_0134E, DP03_0062E), via data/hna/summary/08.json",
+    "url": "https://data.census.gov/table/ACSDP5Y2024.DP04?g=040XX00US08"
+   },
+   {
+    "id": "cpi_u",
+    "title": "BLS CPI-U, U.S. city average, all items, annual average (CUUR0000SA0), via FRED CPIAUCNS",
+    "url": "https://fred.stlouisfed.org/series/CPIAUCNS"
+   }
+  ],
+  "cpi_u_annual": {
+   "1979": 72.575,
+   "1980": 82.408,
+   "1989": 123.967,
+   "1990": 130.658,
+   "1999": 166.575,
+   "2000": 172.2,
+   "2009": 214.537,
+   "2014": 236.736,
+   "2024": 313.689
+  }
+ },
+ "colorado": [
+  {
+   "period": "1980",
+   "rent_year": 1980,
+   "income_year": 1979,
+   "median_gross_rent": 252.0,
+   "median_hh_income": 18056.0,
+   "median_hh_income_rent_year": 20502
+  },
+  {
+   "period": "1990",
+   "rent_year": 1990,
+   "income_year": 1989,
+   "median_gross_rent": 418.0,
+   "median_hh_income": 30140.0,
+   "median_hh_income_rent_year": 31767
+  },
+  {
+   "period": "2000",
+   "rent_year": 2000,
+   "income_year": 1999,
+   "median_gross_rent": 671.0,
+   "median_hh_income": 47203.0,
+   "median_hh_income_rent_year": 48797
+  },
+  {
+   "period": "2005-09",
+   "rent_year": 2009,
+   "income_year": 2009,
+   "median_gross_rent": 835.0,
+   "median_hh_income": 56222.0,
+   "median_hh_income_rent_year": 56222.0
+  },
+  {
+   "period": "2010-14",
+   "rent_year": 2014,
+   "income_year": 2014,
+   "median_gross_rent": 969.0,
+   "median_hh_income": 59448.0,
+   "median_hh_income_rent_year": 59448.0
+  },
+  {
+   "period": "2020-24",
+   "rent_year": 2024,
+   "income_year": 2024,
+   "median_gross_rent": 1761.0,
+   "median_hh_income": 95470.0,
+   "median_hh_income_rent_year": 95470.0
+  }
+ ],
+ "counties": {
+  "08001": {
+   "name": "Adams County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 272.0,
+     "median_hh_income": 19511.0,
+     "median_hh_income_rent_year": 22154
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 434.0,
+     "median_hh_income": 30522.0,
+     "median_hh_income_rent_year": 32169
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 705.0,
+     "median_hh_income": 47323.0,
+     "median_hh_income_rent_year": 48921
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 869.0,
+    "median_hh_income": 55258.0
+   },
+   "renter_homes_2020_24": 59315
+  },
+  "08003": {
+   "name": "Alamosa County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 206.0,
+     "median_hh_income": 11945.0,
+     "median_hh_income_rent_year": 13563
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 291.0,
+     "median_hh_income": 20265.0,
+     "median_hh_income_rent_year": 21359
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 408.0,
+     "median_hh_income": 29447.0,
+     "median_hh_income_rent_year": 30441
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 559.0,
+    "median_hh_income": 32362.0
+   },
+   "renter_homes_2020_24": 2929
+  },
+  "08005": {
+   "name": "Arapahoe County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 286.0,
+     "median_hh_income": 23861.0,
+     "median_hh_income_rent_year": 27094
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 463.0,
+     "median_hh_income": 37234.0,
+     "median_hh_income_rent_year": 39244
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 735.0,
+     "median_hh_income": 53570.0,
+     "median_hh_income_rent_year": 55379
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 862.0,
+    "median_hh_income": 58968.0
+   },
+   "renter_homes_2020_24": 90698
+  },
+  "08007": {
+   "name": "Archuleta County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 229.0,
+     "median_hh_income": 13079.0,
+     "median_hh_income_rent_year": 14851
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 385.0,
+     "median_hh_income": 22894.0,
+     "median_hh_income_rent_year": 24130
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 627.0,
+     "median_hh_income": 37901.0,
+     "median_hh_income_rent_year": 39181
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 783.0,
+    "median_hh_income": 54909.0
+   },
+   "renter_homes_2020_24": 1180
+  },
+  "08009": {
+   "name": "Baca County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 150.0,
+     "median_hh_income": 11049.0,
+     "median_hh_income_rent_year": 12546
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 235.0,
+     "median_hh_income": 18602.0,
+     "median_hh_income_rent_year": 19606
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 295.0,
+     "median_hh_income": 28099.0,
+     "median_hh_income_rent_year": 29048
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 414.0,
+    "median_hh_income": 33504.0
+   },
+   "renter_homes_2020_24": 472
+  },
+  "08011": {
+   "name": "Bent County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 167.0,
+     "median_hh_income": 12991.0,
+     "median_hh_income_rent_year": 14751
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 296.0,
+     "median_hh_income": 18977.0,
+     "median_hh_income_rent_year": 20001
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 415.0,
+     "median_hh_income": 28125.0,
+     "median_hh_income_rent_year": 29075
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 572.0,
+    "median_hh_income": 35647.0
+   },
+   "renter_homes_2020_24": 653
+  },
+  "08013": {
+   "name": "Boulder County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 299.0,
+     "median_hh_income": 19774.0,
+     "median_hh_income_rent_year": 22453
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 502.0,
+     "median_hh_income": 35322.0,
+     "median_hh_income_rent_year": 37228
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 825.0,
+     "median_hh_income": 55861.0,
+     "median_hh_income_rent_year": 57747
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 982.0,
+    "median_hh_income": 65040.0
+   },
+   "renter_homes_2020_24": 52108
+  },
+  "08014": {
+   "name": "Broomfield County",
+   "decennial": [],
+   "check_2005_09": {
+    "median_gross_rent": 1004.0,
+    "median_hh_income": 76240.0
+   },
+   "renter_homes_2020_24": 11835,
+   "decennial_missing_reason": "Broomfield became a county on 2001-11-15; the 1980-2000 Census counted its area in Adams, Boulder, Jefferson and Weld."
+  },
+  "08015": {
+   "name": "Chaffee County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 217.0,
+     "median_hh_income": 15204.0,
+     "median_hh_income_rent_year": 17264
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 336.0,
+     "median_hh_income": 21174.0,
+     "median_hh_income_rent_year": 22317
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 517.0,
+     "median_hh_income": 34368.0,
+     "median_hh_income_rent_year": 35529
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 699.0,
+    "median_hh_income": 42808.0
+   },
+   "renter_homes_2020_24": 2552
+  },
+  "08017": {
+   "name": "Cheyenne County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 155.0,
+     "median_hh_income": 11733.0,
+     "median_hh_income_rent_year": 13323
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 297.0,
+     "median_hh_income": 24341.0,
+     "median_hh_income_rent_year": 25655
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 362.0,
+     "median_hh_income": 37054.0,
+     "median_hh_income_rent_year": 38305
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 410.0,
+    "median_hh_income": 46313.0
+   },
+   "renter_homes_2020_24": 215
+  },
+  "08019": {
+   "name": "Clear Creek County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 281.0,
+     "median_hh_income": 21110.0,
+     "median_hh_income_rent_year": 23970
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 407.0,
+     "median_hh_income": 33149.0,
+     "median_hh_income_rent_year": 34938
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 648.0,
+     "median_hh_income": 50997.0,
+     "median_hh_income_rent_year": 52719
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 797.0,
+    "median_hh_income": 62823.0
+   },
+   "renter_homes_2020_24": 860
+  },
+  "08021": {
+   "name": "Conejos County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 147.0,
+     "median_hh_income": 9167.0,
+     "median_hh_income_rent_year": 10409
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 224.0,
+     "median_hh_income": 14188.0,
+     "median_hh_income_rent_year": 14954
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 332.0,
+     "median_hh_income": 24744.0,
+     "median_hh_income_rent_year": 25580
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 481.0,
+    "median_hh_income": 33141.0
+   },
+   "renter_homes_2020_24": 743
+  },
+  "08023": {
+   "name": "Costilla County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 132.0,
+     "median_hh_income": 7358.0,
+     "median_hh_income_rent_year": 8355
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 187.0,
+     "median_hh_income": 13057.0,
+     "median_hh_income_rent_year": 13762
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 316.0,
+     "median_hh_income": 19531.0,
+     "median_hh_income_rent_year": 20191
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 434.0,
+    "median_hh_income": 23041.0
+   },
+   "renter_homes_2020_24": 346
+  },
+  "08025": {
+   "name": "Crowley County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 154.0,
+     "median_hh_income": 9974.0,
+     "median_hh_income_rent_year": 11325
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 272.0,
+     "median_hh_income": 16088.0,
+     "median_hh_income_rent_year": 16956
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 367.0,
+     "median_hh_income": 26803.0,
+     "median_hh_income_rent_year": 27708
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 550.0,
+    "median_hh_income": 35494.0
+   },
+   "renter_homes_2020_24": 408
+  },
+  "08027": {
+   "name": "Custer County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 187.0,
+     "median_hh_income": 12106.0,
+     "median_hh_income_rent_year": 13746
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 332.0,
+     "median_hh_income": 20000.0,
+     "median_hh_income_rent_year": 21079
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 476.0,
+     "median_hh_income": 34731.0,
+     "median_hh_income_rent_year": 35904
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 693.0,
+    "median_hh_income": 44713.0
+   },
+   "renter_homes_2020_24": 392
+  },
+  "08029": {
+   "name": "Delta County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 208.0,
+     "median_hh_income": 11377.0,
+     "median_hh_income_rent_year": 12918
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 305.0,
+     "median_hh_income": 18532.0,
+     "median_hh_income_rent_year": 19532
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 504.0,
+     "median_hh_income": 32785.0,
+     "median_hh_income_rent_year": 33892
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 727.0,
+    "median_hh_income": 40658.0
+   },
+   "renter_homes_2020_24": 2859
+  },
+  "08031": {
+   "name": "Denver County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 242.0,
+     "median_hh_income": 15506.0,
+     "median_hh_income_rent_year": 17607
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 386.0,
+     "median_hh_income": 25106.0,
+     "median_hh_income_rent_year": 26461
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 631.0,
+     "median_hh_income": 39500.0,
+     "median_hh_income_rent_year": 40834
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 779.0,
+    "median_hh_income": 45438.0
+   },
+   "renter_homes_2020_24": 171873
+  },
+  "08033": {
+   "name": "Dolores County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 181.0,
+     "median_hh_income": 13164.0,
+     "median_hh_income_rent_year": 14948
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 312.0,
+     "median_hh_income": 19952.0,
+     "median_hh_income_rent_year": 21029
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 510.0,
+     "median_hh_income": 32196.0,
+     "median_hh_income_rent_year": 33283
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 558.0,
+    "median_hh_income": 41961.0
+   },
+   "renter_homes_2020_24": 234
+  },
+  "08035": {
+   "name": "Douglas County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 342.0,
+     "median_hh_income": 28380.0,
+     "median_hh_income_rent_year": 32225
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 597.0,
+     "median_hh_income": 51718.0,
+     "median_hh_income_rent_year": 54509
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 1053.0,
+     "median_hh_income": 82929.0,
+     "median_hh_income_rent_year": 85729
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 1142.0,
+    "median_hh_income": 99522.0
+   },
+   "renter_homes_2020_24": 31651
+  },
+  "08037": {
+   "name": "Eagle County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 448.0,
+     "median_hh_income": 21336.0,
+     "median_hh_income_rent_year": 24227
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 620.0,
+     "median_hh_income": 36931.0,
+     "median_hh_income_rent_year": 38924
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 1007.0,
+     "median_hh_income": 62682.0,
+     "median_hh_income_rent_year": 64799
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 1254.0,
+    "median_hh_income": 69139.0
+   },
+   "renter_homes_2020_24": 7513
+  },
+  "08039": {
+   "name": "Elbert County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 213.0,
+     "median_hh_income": 18148.0,
+     "median_hh_income_rent_year": 20607
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 434.0,
+     "median_hh_income": 36273.0,
+     "median_hh_income_rent_year": 38231
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 655.0,
+     "median_hh_income": 62480.0,
+     "median_hh_income_rent_year": 64590
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 867.0,
+    "median_hh_income": 74345.0
+   },
+   "renter_homes_2020_24": 497
+  },
+  "08041": {
+   "name": "El Paso County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 225.0,
+     "median_hh_income": 16236.0,
+     "median_hh_income_rent_year": 18436
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 419.0,
+     "median_hh_income": 29604.0,
+     "median_hh_income_rent_year": 31202
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 657.0,
+     "median_hh_income": 46844.0,
+     "median_hh_income_rent_year": 48426
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 801.0,
+    "median_hh_income": 56570.0
+   },
+   "renter_homes_2020_24": 97958
+  },
+  "08043": {
+   "name": "Fremont County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 193.0,
+     "median_hh_income": 12992.0,
+     "median_hh_income_rent_year": 14752
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 330.0,
+     "median_hh_income": 19988.0,
+     "median_hh_income_rent_year": 21067
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 496.0,
+     "median_hh_income": 34150.0,
+     "median_hh_income_rent_year": 35303
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 664.0,
+    "median_hh_income": 37852.0
+   },
+   "renter_homes_2020_24": 4381
+  },
+  "08045": {
+   "name": "Garfield County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 306.0,
+     "median_hh_income": 18692.0,
+     "median_hh_income_rent_year": 21225
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 407.0,
+     "median_hh_income": 29176.0,
+     "median_hh_income_rent_year": 30751
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 657.0,
+     "median_hh_income": 47016.0,
+     "median_hh_income_rent_year": 48604
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 989.0,
+    "median_hh_income": 64837.0
+   },
+   "renter_homes_2020_24": 7112
+  },
+  "08047": {
+   "name": "Gilpin County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 244.0,
+     "median_hh_income": 19436.0,
+     "median_hh_income_rent_year": 22069
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 469.0,
+     "median_hh_income": 31898.0,
+     "median_hh_income_rent_year": 33620
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 842.0,
+     "median_hh_income": 51942.0,
+     "median_hh_income_rent_year": 53696
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 957.0,
+    "median_hh_income": 55455.0
+   },
+   "renter_homes_2020_24": 390
+  },
+  "08049": {
+   "name": "Grand County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 266.0,
+     "median_hh_income": 18538.0,
+     "median_hh_income_rent_year": 21050
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 457.0,
+     "median_hh_income": 29991.0,
+     "median_hh_income_rent_year": 31610
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 655.0,
+     "median_hh_income": 47759.0,
+     "median_hh_income_rent_year": 49372
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 851.0,
+    "median_hh_income": 58981.0
+   },
+   "renter_homes_2020_24": 1986
+  },
+  "08051": {
+   "name": "Gunnison County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 243.0,
+     "median_hh_income": 15313.0,
+     "median_hh_income_rent_year": 17388
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 373.0,
+     "median_hh_income": 23013.0,
+     "median_hh_income_rent_year": 24255
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 593.0,
+     "median_hh_income": 36916.0,
+     "median_hh_income_rent_year": 38163
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 816.0,
+    "median_hh_income": 44577.0
+   },
+   "renter_homes_2020_24": 2821
+  },
+  "08053": {
+   "name": "Hinsdale County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 207.0,
+     "median_hh_income": 15484.0,
+     "median_hh_income_rent_year": 17582
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 335.0,
+     "median_hh_income": 26250.0,
+     "median_hh_income_rent_year": 27667
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 510.0,
+     "median_hh_income": 37279.0,
+     "median_hh_income_rent_year": 38538
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 604.0,
+    "median_hh_income": 53750.0
+   },
+   "renter_homes_2020_24": 122
+  },
+  "08055": {
+   "name": "Huerfano County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 160.0,
+     "median_hh_income": 10285.0,
+     "median_hh_income_rent_year": 11678
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 240.0,
+     "median_hh_income": 14730.0,
+     "median_hh_income_rent_year": 15525
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 419.0,
+     "median_hh_income": 25775.0,
+     "median_hh_income_rent_year": 26645
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 532.0,
+    "median_hh_income": 31136.0
+   },
+   "renter_homes_2020_24": 772
+  },
+  "08057": {
+   "name": "Jackson County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 217.0,
+     "median_hh_income": 16853.0,
+     "median_hh_income_rent_year": 19136
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 292.0,
+     "median_hh_income": 20938.0,
+     "median_hh_income_rent_year": 22068
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 388.0,
+     "median_hh_income": 31821.0,
+     "median_hh_income_rent_year": 32896
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 656.0,
+    "median_hh_income": 32788.0
+   },
+   "renter_homes_2020_24": 190
+  },
+  "08059": {
+   "name": "Jefferson County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 298.0,
+     "median_hh_income": 24044.0,
+     "median_hh_income_rent_year": 27302
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 476.0,
+     "median_hh_income": 39084.0,
+     "median_hh_income_rent_year": 41194
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 760.0,
+     "median_hh_income": 57339.0,
+     "median_hh_income_rent_year": 59275
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 884.0,
+    "median_hh_income": 65891.0
+   },
+   "renter_homes_2020_24": 70766
+  },
+  "08061": {
+   "name": "Kiowa County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 150.0,
+     "median_hh_income": 13596.0,
+     "median_hh_income_rent_year": 15438
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 271.0,
+     "median_hh_income": 21417.0,
+     "median_hh_income_rent_year": 22573
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 366.0,
+     "median_hh_income": 30494.0,
+     "median_hh_income_rent_year": 31524
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 517.0,
+    "median_hh_income": 42422.0
+   },
+   "renter_homes_2020_24": 183
+  },
+  "08063": {
+   "name": "Kit Carson County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 169.0,
+     "median_hh_income": 13707.0,
+     "median_hh_income_rent_year": 15564
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 290.0,
+     "median_hh_income": 23125.0,
+     "median_hh_income_rent_year": 24373
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 420.0,
+     "median_hh_income": 33152.0,
+     "median_hh_income_rent_year": 34271
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 538.0,
+    "median_hh_income": 40754.0
+   },
+   "renter_homes_2020_24": 793
+  },
+  "08065": {
+   "name": "Lake County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 249.0,
+     "median_hh_income": 22204.0,
+     "median_hh_income_rent_year": 25212
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 373.0,
+     "median_hh_income": 24708.0,
+     "median_hh_income_rent_year": 26042
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 558.0,
+     "median_hh_income": 37691.0,
+     "median_hh_income_rent_year": 38964
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 739.0,
+    "median_hh_income": 39147.0
+   },
+   "renter_homes_2020_24": 736
+  },
+  "08067": {
+   "name": "La Plata County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 260.0,
+     "median_hh_income": 15246.0,
+     "median_hh_income_rent_year": 17312
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 425.0,
+     "median_hh_income": 25759.0,
+     "median_hh_income_rent_year": 27149
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 655.0,
+     "median_hh_income": 40159.0,
+     "median_hh_income_rent_year": 41515
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 923.0,
+    "median_hh_income": 53713.0
+   },
+   "renter_homes_2020_24": 7086
+  },
+  "08069": {
+   "name": "Larimer County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 260.0,
+     "median_hh_income": 17169.0,
+     "median_hh_income_rent_year": 19495
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 420.0,
+     "median_hh_income": 29686.0,
+     "median_hh_income_rent_year": 31288
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 678.0,
+     "median_hh_income": 48655.0,
+     "median_hh_income_rent_year": 50298
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 821.0,
+    "median_hh_income": 54755.0
+   },
+   "renter_homes_2020_24": 55495
+  },
+  "08071": {
+   "name": "Las Animas County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 165.0,
+     "median_hh_income": 11229.0,
+     "median_hh_income_rent_year": 12750
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 247.0,
+     "median_hh_income": 16286.0,
+     "median_hh_income_rent_year": 17165
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 397.0,
+     "median_hh_income": 28273.0,
+     "median_hh_income_rent_year": 29228
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 659.0,
+    "median_hh_income": 37587.0
+   },
+   "renter_homes_2020_24": 2047
+  },
+  "08073": {
+   "name": "Lincoln County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 168.0,
+     "median_hh_income": 12808.0,
+     "median_hh_income_rent_year": 14543
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 302.0,
+     "median_hh_income": 20595.0,
+     "median_hh_income_rent_year": 21707
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 447.0,
+     "median_hh_income": 31914.0,
+     "median_hh_income_rent_year": 32992
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 647.0,
+    "median_hh_income": 39572.0
+   },
+   "renter_homes_2020_24": 557
+  },
+  "08075": {
+   "name": "Logan County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 196.0,
+     "median_hh_income": 15289.0,
+     "median_hh_income_rent_year": 17360
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 279.0,
+     "median_hh_income": 22065.0,
+     "median_hh_income_rent_year": 23256
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 451.0,
+     "median_hh_income": 32724.0,
+     "median_hh_income_rent_year": 33829
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 606.0,
+    "median_hh_income": 39992.0
+   },
+   "renter_homes_2020_24": 2764
+  },
+  "08077": {
+   "name": "Mesa County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 257.0,
+     "median_hh_income": 16592.0,
+     "median_hh_income_rent_year": 18840
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 333.0,
+     "median_hh_income": 23698.0,
+     "median_hh_income_rent_year": 24977
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 527.0,
+     "median_hh_income": 35864.0,
+     "median_hh_income_rent_year": 37075
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 788.0,
+    "median_hh_income": 50611.0
+   },
+   "renter_homes_2020_24": 18123
+  },
+  "08079": {
+   "name": "Mineral County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 235.0,
+     "median_hh_income": 15259.0,
+     "median_hh_income_rent_year": 17326
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 293.0,
+     "median_hh_income": 19830.0,
+     "median_hh_income_rent_year": 20900
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 500.0,
+     "median_hh_income": 34844.0,
+     "median_hh_income_rent_year": 36021
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 846.0,
+    "median_hh_income": 52153.0
+   },
+   "renter_homes_2020_24": 117
+  },
+  "08081": {
+   "name": "Moffat County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 332.0,
+     "median_hh_income": 21176.0,
+     "median_hh_income_rent_year": 24045
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 299.0,
+     "median_hh_income": 31615.0,
+     "median_hh_income_rent_year": 33321
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 453.0,
+     "median_hh_income": 41528.0,
+     "median_hh_income_rent_year": 42930
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 728.0,
+    "median_hh_income": 53723.0
+   },
+   "renter_homes_2020_24": 1652
+  },
+  "08083": {
+   "name": "Montezuma County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 237.0,
+     "median_hh_income": 13971.0,
+     "median_hh_income_rent_year": 15864
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 331.0,
+     "median_hh_income": 22491.0,
+     "median_hh_income_rent_year": 23705
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 459.0,
+     "median_hh_income": 32083.0,
+     "median_hh_income_rent_year": 33166
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 631.0,
+    "median_hh_income": 43697.0
+   },
+   "renter_homes_2020_24": 2678
+  },
+  "08085": {
+   "name": "Montrose County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 228.0,
+     "median_hh_income": 15273.0,
+     "median_hh_income_rent_year": 17342
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 338.0,
+     "median_hh_income": 22610.0,
+     "median_hh_income_rent_year": 23830
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 521.0,
+     "median_hh_income": 35234.0,
+     "median_hh_income_rent_year": 36424
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 750.0,
+    "median_hh_income": 44922.0
+   },
+   "renter_homes_2020_24": 4446
+  },
+  "08087": {
+   "name": "Morgan County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 212.0,
+     "median_hh_income": 15004.0,
+     "median_hh_income_rent_year": 17037
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 321.0,
+     "median_hh_income": 22849.0,
+     "median_hh_income_rent_year": 24082
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 482.0,
+     "median_hh_income": 34568.0,
+     "median_hh_income_rent_year": 35735
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 671.0,
+    "median_hh_income": 43317.0
+   },
+   "renter_homes_2020_24": 3616
+  },
+  "08089": {
+   "name": "Otero County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 159.0,
+     "median_hh_income": 11600.0,
+     "median_hh_income_rent_year": 13172
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 288.0,
+     "median_hh_income": 18178.0,
+     "median_hh_income_rent_year": 19159
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 372.0,
+     "median_hh_income": 29738.0,
+     "median_hh_income_rent_year": 30742
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 544.0,
+    "median_hh_income": 32149.0
+   },
+   "renter_homes_2020_24": 2355
+  },
+  "08091": {
+   "name": "Ouray County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 250.0,
+     "median_hh_income": 14229.0,
+     "median_hh_income_rent_year": 16157
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 401.0,
+     "median_hh_income": 27500.0,
+     "median_hh_income_rent_year": 28984
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 696.0,
+     "median_hh_income": 42019.0,
+     "median_hh_income_rent_year": 43438
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 1123.0,
+    "median_hh_income": 58836.0
+   },
+   "renter_homes_2020_24": 458
+  },
+  "08093": {
+   "name": "Park County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 276.0,
+     "median_hh_income": 18051.0,
+     "median_hh_income_rent_year": 20497
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 513.0,
+     "median_hh_income": 32102.0,
+     "median_hh_income_rent_year": 33835
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 806.0,
+     "median_hh_income": 51899.0,
+     "median_hh_income_rent_year": 53652
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 1139.0,
+    "median_hh_income": 60186.0
+   },
+   "renter_homes_2020_24": 1238
+  },
+  "08095": {
+   "name": "Phillips County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 148.0,
+     "median_hh_income": 12531.0,
+     "median_hh_income_rent_year": 14229
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 252.0,
+     "median_hh_income": 21484.0,
+     "median_hh_income_rent_year": 22644
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 388.0,
+     "median_hh_income": 32177.0,
+     "median_hh_income_rent_year": 33264
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 548.0,
+    "median_hh_income": 39830.0
+   },
+   "renter_homes_2020_24": 549
+  },
+  "08097": {
+   "name": "Pitkin County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 439.0,
+     "median_hh_income": 20979.0,
+     "median_hh_income_rent_year": 23821
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 732.0,
+     "median_hh_income": 39991.0,
+     "median_hh_income_rent_year": 42149
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 947.0,
+     "median_hh_income": 59375.0,
+     "median_hh_income_rent_year": 61380
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 1277.0,
+    "median_hh_income": 62318.0
+   },
+   "renter_homes_2020_24": 3425
+  },
+  "08099": {
+   "name": "Prowers County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 171.0,
+     "median_hh_income": 12762.0,
+     "median_hh_income_rent_year": 14491
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 269.0,
+     "median_hh_income": 20625.0,
+     "median_hh_income_rent_year": 21738
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 400.0,
+     "median_hh_income": 29935.0,
+     "median_hh_income_rent_year": 30946
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 515.0,
+    "median_hh_income": 35166.0
+   },
+   "renter_homes_2020_24": 1557
+  },
+  "08101": {
+   "name": "Pueblo County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 201.0,
+     "median_hh_income": 15479.0,
+     "median_hh_income_rent_year": 17576
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 308.0,
+     "median_hh_income": 21553.0,
+     "median_hh_income_rent_year": 22716
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 489.0,
+     "median_hh_income": 32775.0,
+     "median_hh_income_rent_year": 33882
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 649.0,
+    "median_hh_income": 40805.0
+   },
+   "renter_homes_2020_24": 21324
+  },
+  "08103": {
+   "name": "Rio Blanco County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 263.0,
+     "median_hh_income": 20853.0,
+     "median_hh_income_rent_year": 23678
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 329.0,
+     "median_hh_income": 29243.0,
+     "median_hh_income_rent_year": 30821
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 399.0,
+     "median_hh_income": 37711.0,
+     "median_hh_income_rent_year": 38984
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 615.0,
+    "median_hh_income": 54812.0
+   },
+   "renter_homes_2020_24": 721
+  },
+  "08105": {
+   "name": "Rio Grande County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 190.0,
+     "median_hh_income": 13016.0,
+     "median_hh_income_rent_year": 14780
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 291.0,
+     "median_hh_income": 19193.0,
+     "median_hh_income_rent_year": 20229
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 382.0,
+     "median_hh_income": 31836.0,
+     "median_hh_income_rent_year": 32911
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 569.0,
+    "median_hh_income": 39683.0
+   },
+   "renter_homes_2020_24": 1689
+  },
+  "08107": {
+   "name": "Routt County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 369.0,
+     "median_hh_income": 21487.0,
+     "median_hh_income_rent_year": 24398
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 492.0,
+     "median_hh_income": 31409.0,
+     "median_hh_income_rent_year": 33104
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 740.0,
+     "median_hh_income": 53612.0,
+     "median_hh_income_rent_year": 55422
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 1051.0,
+    "median_hh_income": 64046.0
+   },
+   "renter_homes_2020_24": 2708
+  },
+  "08109": {
+   "name": "Saguache County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 157.0,
+     "median_hh_income": 9862.0,
+     "median_hh_income_rent_year": 11198
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 261.0,
+     "median_hh_income": 15853.0,
+     "median_hh_income_rent_year": 16709
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 404.0,
+     "median_hh_income": 25495.0,
+     "median_hh_income_rent_year": 26356
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 576.0,
+    "median_hh_income": 29523.0
+   },
+   "renter_homes_2020_24": 784
+  },
+  "08111": {
+   "name": "San Juan County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 225.0,
+     "median_hh_income": 14688.0,
+     "median_hh_income_rent_year": 16678
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 370.0,
+     "median_hh_income": 26167.0,
+     "median_hh_income_rent_year": 27579
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 561.0,
+     "median_hh_income": 30764.0,
+     "median_hh_income_rent_year": 31803
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 770.0,
+    "median_hh_income": 44336.0
+   },
+   "renter_homes_2020_24": 188
+  },
+  "08113": {
+   "name": "San Miguel County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 272.0,
+     "median_hh_income": 13601.0,
+     "median_hh_income_rent_year": 15444
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 538.0,
+     "median_hh_income": 30578.0,
+     "median_hh_income_rent_year": 32228
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 811.0,
+     "median_hh_income": 48514.0,
+     "median_hh_income_rent_year": 50152
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 909.0,
+    "median_hh_income": 60457.0
+   },
+   "renter_homes_2020_24": 1705
+  },
+  "08115": {
+   "name": "Sedgwick County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 142.0,
+     "median_hh_income": 12867.0,
+     "median_hh_income_rent_year": 14610
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 207.0,
+     "median_hh_income": 19335.0,
+     "median_hh_income_rent_year": 20379
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 301.0,
+     "median_hh_income": 28278.0,
+     "median_hh_income_rent_year": 29233
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 490.0,
+    "median_hh_income": 37792.0
+   },
+   "renter_homes_2020_24": 288
+  },
+  "08117": {
+   "name": "Summit County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 369.0,
+     "median_hh_income": 21410.0,
+     "median_hh_income_rent_year": 24311
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 553.0,
+     "median_hh_income": 35229.0,
+     "median_hh_income_rent_year": 37130
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 874.0,
+     "median_hh_income": 56587.0,
+     "median_hh_income_rent_year": 58498
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 1181.0,
+    "median_hh_income": 67329.0
+   },
+   "renter_homes_2020_24": 3505
+  },
+  "08119": {
+   "name": "Teller County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 246.0,
+     "median_hh_income": 16882.0,
+     "median_hh_income_rent_year": 19169
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 495.0,
+     "median_hh_income": 32209.0,
+     "median_hh_income_rent_year": 33947
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 767.0,
+     "median_hh_income": 50165.0,
+     "median_hh_income_rent_year": 51859
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 830.0,
+    "median_hh_income": 56686.0
+   },
+   "renter_homes_2020_24": 2255
+  },
+  "08121": {
+   "name": "Washington County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 143.0,
+     "median_hh_income": 13648.0,
+     "median_hh_income_rent_year": 15497
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 240.0,
+     "median_hh_income": 20637.0,
+     "median_hh_income_rent_year": 21751
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 341.0,
+     "median_hh_income": 32431.0,
+     "median_hh_income_rent_year": 33526
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 551.0,
+    "median_hh_income": 38818.0
+   },
+   "renter_homes_2020_24": 546
+  },
+  "08123": {
+   "name": "Weld County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 224.0,
+     "median_hh_income": 15805.0,
+     "median_hh_income_rent_year": 17946
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 357.0,
+     "median_hh_income": 25642.0,
+     "median_hh_income_rent_year": 27026
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 564.0,
+     "median_hh_income": 42321.0,
+     "median_hh_income_rent_year": 43750
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 768.0,
+    "median_hh_income": 55795.0
+   },
+   "renter_homes_2020_24": 29797
+  },
+  "08125": {
+   "name": "Yuma County",
+   "decennial": [
+    {
+     "period": "1980",
+     "rent_year": 1980,
+     "income_year": 1979,
+     "median_gross_rent": 167.0,
+     "median_hh_income": 11832.0,
+     "median_hh_income_rent_year": 13435
+    },
+    {
+     "period": "1990",
+     "rent_year": 1990,
+     "income_year": 1989,
+     "median_gross_rent": 302.0,
+     "median_hh_income": 22249.0,
+     "median_hh_income_rent_year": 23450
+    },
+    {
+     "period": "2000",
+     "rent_year": 2000,
+     "income_year": 1999,
+     "median_gross_rent": 375.0,
+     "median_hh_income": 33169.0,
+     "median_hh_income_rent_year": 34289
+    }
+   ],
+   "check_2005_09": {
+    "median_gross_rent": 518.0,
+    "median_hh_income": 39945.0
+   },
+   "renter_homes_2020_24": 1267
+  }
+ },
+ "places_2000": {
+  "0800760": {
+   "name": "Aguilar town",
+   "y2000": {
+    "median_gross_rent": 308.0,
+    "median_hh_income_1999": 23750.0,
+    "median_hh_income_rent_year": 24552
+   }
+  },
+  "0800925": {
+   "name": "Akron town",
+   "y2000": {
+    "median_gross_rent": 340.0,
+    "median_hh_income_1999": 29420.0,
+    "median_hh_income_rent_year": 30413
+   }
+  },
+  "0801090": {
+   "name": "Alamosa city",
+   "y2000": {
+    "median_gross_rent": 395.0,
+    "median_hh_income_1999": 25453.0,
+    "median_hh_income_rent_year": 26313
+   }
+  },
+  "0801530": {
+   "name": "Alma town",
+   "y2000": {
+    "median_gross_rent": 808.0,
+    "median_hh_income_1999": 41563.0,
+    "median_hh_income_rent_year": 42967
+   }
+  },
+  "0802355": {
+   "name": "Antonito town",
+   "y2000": {
+    "median_gross_rent": 246.0,
+    "median_hh_income_1999": 19205.0,
+    "median_hh_income_rent_year": 19854
+   }
+  },
+  "0803235": {
+   "name": "Arriba town",
+   "y2000": {
+    "median_gross_rent": 303.0,
+    "median_hh_income_1999": 25000.0,
+    "median_hh_income_rent_year": 25844
+   }
+  },
+  "0803455": {
+   "name": "Arvada city",
+   "y2000": {
+    "median_gross_rent": 714.0,
+    "median_hh_income_1999": 55541.0,
+    "median_hh_income_rent_year": 57417
+   }
+  },
+  "0803620": {
+   "name": "Aspen city",
+   "y2000": {
+    "median_gross_rent": 944.0,
+    "median_hh_income_1999": 53750.0,
+    "median_hh_income_rent_year": 55565
+   }
+  },
+  "0803950": {
+   "name": "Ault town",
+   "y2000": {
+    "median_gross_rent": 408.0,
+    "median_hh_income_1999": 33846.0,
+    "median_hh_income_rent_year": 34989
+   }
+  },
+  "0804000": {
+   "name": "Aurora city",
+   "y2000": {
+    "median_gross_rent": 700.0,
+    "median_hh_income_1999": 46507.0,
+    "median_hh_income_rent_year": 48077
+   }
+  },
+  "0804110": {
+   "name": "Avon town",
+   "y2000": {
+    "median_gross_rent": 980.0,
+    "median_hh_income_1999": 56921.0,
+    "median_hh_income_rent_year": 58843
+   }
+  },
+  "0804935": {
+   "name": "Basalt town",
+   "y2000": {
+    "median_gross_rent": 1300.0,
+    "median_hh_income_1999": 67200.0,
+    "median_hh_income_rent_year": 69469
+   }
+  },
+  "0805265": {
+   "name": "Bayfield town",
+   "y2000": {
+    "median_gross_rent": 650.0,
+    "median_hh_income_1999": 39336.0,
+    "median_hh_income_rent_year": 40664
+   }
+  },
+  "0806090": {
+   "name": "Bennett town",
+   "y2000": {
+    "median_gross_rent": 667.0,
+    "median_hh_income_1999": 46600.0,
+    "median_hh_income_rent_year": 48174
+   }
+  },
+  "0806255": {
+   "name": "Berthoud town",
+   "y2000": {
+    "median_gross_rent": 666.0,
+    "median_hh_income_1999": 52672.0,
+    "median_hh_income_rent_year": 54451
+   }
+  },
+  "0806530": {
+   "name": "Bethune town",
+   "y2000": {
+    "median_gross_rent": 450.0,
+    "median_hh_income_1999": 28958.0,
+    "median_hh_income_rent_year": 29936
+   }
+  },
+  "0807025": {
+   "name": "Black Hawk city",
+   "y2000": {
+    "median_gross_rent": 925.0,
+    "median_hh_income_1999": 44583.0,
+    "median_hh_income_rent_year": 46089
+   }
+  },
+  "0807190": {
+   "name": "Blanca town",
+   "y2000": {
+    "median_gross_rent": 375.0,
+    "median_hh_income_1999": 22875.0,
+    "median_hh_income_rent_year": 23647
+   }
+  },
+  "0807410": {
+   "name": "Blue River town",
+   "y2000": {
+    "median_gross_rent": 1192.0,
+    "median_hh_income_1999": 61964.0,
+    "median_hh_income_rent_year": 64056
+   }
+  },
+  "0807571": {
+   "name": "Bonanza town",
+   "y2000": {
+    "median_gross_rent": null,
+    "median_hh_income_1999": 63750.0,
+    "median_hh_income_rent_year": 65903
+   }
+  },
+  "0807795": {
+   "name": "Boone town",
+   "y2000": {
+    "median_gross_rent": 527.0,
+    "median_hh_income_1999": 26250.0,
+    "median_hh_income_rent_year": 27136
+   }
+  },
+  "0807850": {
+   "name": "Boulder city",
+   "y2000": {
+    "median_gross_rent": 818.0,
+    "median_hh_income_1999": 44748.0,
+    "median_hh_income_rent_year": 46259
+   }
+  },
+  "0808070": {
+   "name": "Bow Mar town",
+   "y2000": {
+    "median_gross_rent": 1625.0,
+    "median_hh_income_1999": 112300.0,
+    "median_hh_income_rent_year": 116092
+   }
+  },
+  "0808345": {
+   "name": "Branson town",
+   "y2000": {
+    "median_gross_rent": 256.0,
+    "median_hh_income_1999": 24583.0,
+    "median_hh_income_rent_year": 25413
+   }
+  },
+  "0808400": {
+   "name": "Breckenridge town",
+   "y2000": {
+    "median_gross_rent": 858.0,
+    "median_hh_income_1999": 43938.0,
+    "median_hh_income_rent_year": 45422
+   }
+  },
+  "0808675": {
+   "name": "Brighton city",
+   "y2000": {
+    "median_gross_rent": 699.0,
+    "median_hh_income_1999": 46779.0,
+    "median_hh_income_rent_year": 48359
+   }
+  },
+  "0809115": {
+   "name": "Brookside town",
+   "y2000": {
+    "median_gross_rent": 375.0,
+    "median_hh_income_1999": 34688.0,
+    "median_hh_income_rent_year": 35859
+   }
+  },
+  "0809280": {
+   "name": "Broomfield city",
+   "y2000": {
+    "median_gross_rent": 856.0,
+    "median_hh_income_1999": 63903.0,
+    "median_hh_income_rent_year": 66061
+   }
+  },
+  "0809555": {
+   "name": "Brush city",
+   "y2000": {
+    "median_gross_rent": 423.0,
+    "median_hh_income_1999": 31333.0,
+    "median_hh_income_rent_year": 32391
+   }
+  },
+  "0810105": {
+   "name": "Buena Vista town",
+   "y2000": {
+    "median_gross_rent": 594.0,
+    "median_hh_income_1999": 34800.0,
+    "median_hh_income_rent_year": 35975
+   }
+  },
+  "0810600": {
+   "name": "Burlington city",
+   "y2000": {
+    "median_gross_rent": 444.0,
+    "median_hh_income_1999": 33854.0,
+    "median_hh_income_rent_year": 34997
+   }
+  },
+  "0811260": {
+   "name": "Calhan town",
+   "y2000": {
+    "median_gross_rent": 519.0,
+    "median_hh_income_1999": 35735.0,
+    "median_hh_income_rent_year": 36942
+   }
+  },
+  "0811645": {
+   "name": "Campo town",
+   "y2000": {
+    "median_gross_rent": 420.0,
+    "median_hh_income_1999": 20875.0,
+    "median_hh_income_rent_year": 21580
+   }
+  },
+  "0811810": {
+   "name": "Canon City city",
+   "y2000": {
+    "median_gross_rent": 471.0,
+    "median_hh_income_1999": 31736.0,
+    "median_hh_income_rent_year": 32808
+   }
+  },
+  "0812045": {
+   "name": "Carbondale town",
+   "y2000": {
+    "median_gross_rent": 904.0,
+    "median_hh_income_1999": 52429.0,
+    "median_hh_income_rent_year": 54199
+   }
+  },
+  "0812415": {
+   "name": "Castle Rock town",
+   "y2000": {
+    "median_gross_rent": 791.0,
+    "median_hh_income_1999": 64138.0,
+    "median_hh_income_rent_year": 66304
+   }
+  },
+  "0812635": {
+   "name": "Cedaredge town",
+   "y2000": {
+    "median_gross_rent": 504.0,
+    "median_hh_income_1999": 27381.0,
+    "median_hh_income_rent_year": 28306
+   }
+  },
+  "0812855": {
+   "name": "Center town",
+   "y2000": {
+    "median_gross_rent": 332.0,
+    "median_hh_income_1999": 23780.0,
+    "median_hh_income_rent_year": 24583
+   }
+  },
+  "0812910": {
+   "name": "Central City city",
+   "y2000": {
+    "median_gross_rent": 780.0,
+    "median_hh_income_1999": 30921.0,
+    "median_hh_income_rent_year": 31965
+   }
+  },
+  "0813460": {
+   "name": "Cheraw town",
+   "y2000": {
+    "median_gross_rent": 360.0,
+    "median_hh_income_1999": 21250.0,
+    "median_hh_income_rent_year": 21968
+   }
+  },
+  "0813845": {
+   "name": "Cherry Hills Village city",
+   "y2000": {
+    "median_gross_rent": 513.0,
+    "median_hh_income_1999": 190805.0,
+    "median_hh_income_rent_year": 197248
+   }
+  },
+  "0814175": {
+   "name": "Cheyenne Wells town",
+   "y2000": {
+    "median_gross_rent": 378.0,
+    "median_hh_income_1999": 36563.0,
+    "median_hh_income_rent_year": 37798
+   }
+  },
+  "0815330": {
+   "name": "Coal Creek town",
+   "y2000": {
+    "median_gross_rent": 571.0,
+    "median_hh_income_1999": 26563.0,
+    "median_hh_income_rent_year": 27460
+   }
+  },
+  "0815550": {
+   "name": "Cokedale town",
+   "y2000": {
+    "median_gross_rent": 570.0,
+    "median_hh_income_1999": 23958.0,
+    "median_hh_income_rent_year": 24767
+   }
+  },
+  "0815605": {
+   "name": "Collbran town",
+   "y2000": {
+    "median_gross_rent": 450.0,
+    "median_hh_income_1999": 32500.0,
+    "median_hh_income_rent_year": 33597
+   }
+  },
+  "0816000": {
+   "name": "Colorado Springs city",
+   "y2000": {
+    "median_gross_rent": 652.0,
+    "median_hh_income_1999": 45081.0,
+    "median_hh_income_rent_year": 46603
+   }
+  },
+  "0816385": {
+   "name": "Columbine Valley town",
+   "y2000": {
+    "median_gross_rent": 1792.0,
+    "median_hh_income_1999": 118196.0,
+    "median_hh_income_rent_year": 122187
+   }
+  },
+  "0816495": {
+   "name": "Commerce City city",
+   "y2000": {
+    "median_gross_rent": 626.0,
+    "median_hh_income_1999": 33680.0,
+    "median_hh_income_rent_year": 34817
+   }
+  },
+  "0817375": {
+   "name": "Cortez city",
+   "y2000": {
+    "median_gross_rent": 464.0,
+    "median_hh_income_1999": 28776.0,
+    "median_hh_income_rent_year": 29748
+   }
+  },
+  "0817760": {
+   "name": "Craig city",
+   "y2000": {
+    "median_gross_rent": 450.0,
+    "median_hh_income_1999": 41091.0,
+    "median_hh_income_rent_year": 42479
+   }
+  },
+  "0817925": {
+   "name": "Crawford town",
+   "y2000": {
+    "median_gross_rent": 539.0,
+    "median_hh_income_1999": 23281.0,
+    "median_hh_income_rent_year": 24067
+   }
+  },
+  "0817980": {
+   "name": "Creede town",
+   "y2000": {
+    "median_gross_rent": 511.0,
+    "median_hh_income_1999": 30893.0,
+    "median_hh_income_rent_year": 31936
+   }
+  },
+  "0818310": {
+   "name": "Crested Butte town",
+   "y2000": {
+    "median_gross_rent": 841.0,
+    "median_hh_income_1999": 41250.0,
+    "median_hh_income_rent_year": 42643
+   }
+  },
+  "0818420": {
+   "name": "Crestone town",
+   "y2000": {
+    "median_gross_rent": 608.0,
+    "median_hh_income_1999": 31250.0,
+    "median_hh_income_rent_year": 32305
+   }
+  },
+  "0818530": {
+   "name": "Cripple Creek city",
+   "y2000": {
+    "median_gross_rent": 696.0,
+    "median_hh_income_1999": 39261.0,
+    "median_hh_income_rent_year": 40587
+   }
+  },
+  "0818640": {
+   "name": "Crook town",
+   "y2000": {
+    "median_gross_rent": 250.0,
+    "median_hh_income_1999": 32500.0,
+    "median_hh_income_rent_year": 33597
+   }
+  },
+  "0818750": {
+   "name": "Crowley town",
+   "y2000": {
+    "median_gross_rent": 375.0,
+    "median_hh_income_1999": 30313.0,
+    "median_hh_income_rent_year": 31337
+   }
+  },
+  "0819080": {
+   "name": "Dacono city",
+   "y2000": {
+    "median_gross_rent": 731.0,
+    "median_hh_income_1999": 38854.0,
+    "median_hh_income_rent_year": 40166
+   }
+  },
+  "0819355": {
+   "name": "De Beque town",
+   "y2000": {
+    "median_gross_rent": 500.0,
+    "median_hh_income_1999": 29632.0,
+    "median_hh_income_rent_year": 30633
+   }
+  },
+  "0819630": {
+   "name": "Deer Trail town",
+   "y2000": {
+    "median_gross_rent": 496.0,
+    "median_hh_income_1999": 30481.0,
+    "median_hh_income_rent_year": 31510
+   }
+  },
+  "0819795": {
+   "name": "Del Norte town",
+   "y2000": {
+    "median_gross_rent": 362.0,
+    "median_hh_income_1999": 23833.0,
+    "median_hh_income_rent_year": 24638
+   }
+  },
+  "0819850": {
+   "name": "Delta city",
+   "y2000": {
+    "median_gross_rent": 465.0,
+    "median_hh_income_1999": 27415.0,
+    "median_hh_income_rent_year": 28341
+   }
+  },
+  "0820000": {
+   "name": "Denver city",
+   "y2000": {
+    "median_gross_rent": 631.0,
+    "median_hh_income_1999": 39500.0,
+    "median_hh_income_rent_year": 40834
+   }
+  },
+  "0820440": {
+   "name": "Dillon town",
+   "y2000": {
+    "median_gross_rent": 773.0,
+    "median_hh_income_1999": 49821.0,
+    "median_hh_income_rent_year": 51503
+   }
+  },
+  "0820495": {
+   "name": "Dinosaur town",
+   "y2000": {
+    "median_gross_rent": 388.0,
+    "median_hh_income_1999": 31250.0,
+    "median_hh_income_rent_year": 32305
+   }
+  },
+  "0820770": {
+   "name": "Dolores town",
+   "y2000": {
+    "median_gross_rent": 498.0,
+    "median_hh_income_1999": 30417.0,
+    "median_hh_income_rent_year": 31444
+   }
+  },
+  "0821265": {
+   "name": "Dove Creek town",
+   "y2000": {
+    "median_gross_rent": 408.0,
+    "median_hh_income_1999": 27500.0,
+    "median_hh_income_rent_year": 28429
+   }
+  },
+  "0822035": {
+   "name": "Durango city",
+   "y2000": {
+    "median_gross_rent": 682.0,
+    "median_hh_income_1999": 34892.0,
+    "median_hh_income_rent_year": 36070
+   }
+  },
+  "0822145": {
+   "name": "Eads town",
+   "y2000": {
+    "median_gross_rent": 373.0,
+    "median_hh_income_1999": 27024.0,
+    "median_hh_income_rent_year": 27937
+   }
+  },
+  "0822200": {
+   "name": "Eagle town",
+   "y2000": {
+    "median_gross_rent": 814.0,
+    "median_hh_income_1999": 62750.0,
+    "median_hh_income_rent_year": 64869
+   }
+  },
+  "0822860": {
+   "name": "Eaton town",
+   "y2000": {
+    "median_gross_rent": 525.0,
+    "median_hh_income_1999": 47314.0,
+    "median_hh_income_rent_year": 48912
+   }
+  },
+  "0823025": {
+   "name": "Eckley town",
+   "y2000": {
+    "median_gross_rent": 403.0,
+    "median_hh_income_1999": 23500.0,
+    "median_hh_income_rent_year": 24294
+   }
+  },
+  "0823135": {
+   "name": "Edgewater city",
+   "y2000": {
+    "median_gross_rent": 609.0,
+    "median_hh_income_1999": 35023.0,
+    "median_hh_income_rent_year": 36206
+   }
+  },
+  "0823740": {
+   "name": "Elizabeth town",
+   "y2000": {
+    "median_gross_rent": 818.0,
+    "median_hh_income_1999": 49596.0,
+    "median_hh_income_rent_year": 51271
+   }
+  },
+  "0824620": {
+   "name": "Empire town",
+   "y2000": {
+    "median_gross_rent": 523.0,
+    "median_hh_income_1999": 32159.0,
+    "median_hh_income_rent_year": 33245
+   }
+  },
+  "0824785": {
+   "name": "Englewood city",
+   "y2000": {
+    "median_gross_rent": 675.0,
+    "median_hh_income_1999": 38943.0,
+    "median_hh_income_rent_year": 40258
+   }
+  },
+  "0824950": {
+   "name": "Erie town",
+   "y2000": {
+    "median_gross_rent": 850.0,
+    "median_hh_income_1999": 77114.0,
+    "median_hh_income_rent_year": 79718
+   }
+  },
+  "0825115": {
+   "name": "Estes Park town",
+   "y2000": {
+    "median_gross_rent": 572.0,
+    "median_hh_income_1999": 43262.0,
+    "median_hh_income_rent_year": 44723
+   }
+  },
+  "0825280": {
+   "name": "Evans city",
+   "y2000": {
+    "median_gross_rent": 575.0,
+    "median_hh_income_1999": 37158.0,
+    "median_hh_income_rent_year": 38413
+   }
+  },
+  "0825610": {
+   "name": "Fairplay town",
+   "y2000": {
+    "median_gross_rent": 706.0,
+    "median_hh_income_1999": 50385.0,
+    "median_hh_income_rent_year": 52086
+   }
+  },
+  "0826270": {
+   "name": "Federal Heights city",
+   "y2000": {
+    "median_gross_rent": 703.0,
+    "median_hh_income_1999": 33750.0,
+    "median_hh_income_rent_year": 34890
+   }
+  },
+  "0826600": {
+   "name": "Firestone town",
+   "y2000": {
+    "median_gross_rent": 688.0,
+    "median_hh_income_1999": 55313.0,
+    "median_hh_income_rent_year": 57181
+   }
+  },
+  "0826765": {
+   "name": "Flagler town",
+   "y2000": {
+    "median_gross_rent": 355.0,
+    "median_hh_income_1999": 28523.0,
+    "median_hh_income_rent_year": 29486
+   }
+  },
+  "0826875": {
+   "name": "Fleming town",
+   "y2000": {
+    "median_gross_rent": 438.0,
+    "median_hh_income_1999": 26484.0,
+    "median_hh_income_rent_year": 27378
+   }
+  },
+  "0827040": {
+   "name": "Florence city",
+   "y2000": {
+    "median_gross_rent": 487.0,
+    "median_hh_income_1999": 29628.0,
+    "median_hh_income_rent_year": 30628
+   }
+  },
+  "0827425": {
+   "name": "Fort Collins city",
+   "y2000": {
+    "median_gross_rent": 689.0,
+    "median_hh_income_1999": 44459.0,
+    "median_hh_income_rent_year": 45960
+   }
+  },
+  "0827700": {
+   "name": "Fort Lupton city",
+   "y2000": {
+    "median_gross_rent": 616.0,
+    "median_hh_income_1999": 40917.0,
+    "median_hh_income_rent_year": 42299
+   }
+  },
+  "0827810": {
+   "name": "Fort Morgan city",
+   "y2000": {
+    "median_gross_rent": 476.0,
+    "median_hh_income_1999": 33128.0,
+    "median_hh_income_rent_year": 34247
+   }
+  },
+  "0827865": {
+   "name": "Fountain city",
+   "y2000": {
+    "median_gross_rent": 592.0,
+    "median_hh_income_1999": 42121.0,
+    "median_hh_income_rent_year": 43543
+   }
+  },
+  "0827975": {
+   "name": "Fowler town",
+   "y2000": {
+    "median_gross_rent": 390.0,
+    "median_hh_income_1999": 25761.0,
+    "median_hh_income_rent_year": 26631
+   }
+  },
+  "0828105": {
+   "name": "Foxfield town",
+   "y2000": {
+    "median_gross_rent": 1875.0,
+    "median_hh_income_1999": 109507.0,
+    "median_hh_income_rent_year": 113205
+   }
+  },
+  "0828305": {
+   "name": "Fraser town",
+   "y2000": {
+    "median_gross_rent": 639.0,
+    "median_hh_income_1999": 38173.0,
+    "median_hh_income_rent_year": 39462
+   }
+  },
+  "0828360": {
+   "name": "Frederick town",
+   "y2000": {
+    "median_gross_rent": 763.0,
+    "median_hh_income_1999": 55324.0,
+    "median_hh_income_rent_year": 57192
+   }
+  },
+  "0828690": {
+   "name": "Frisco town",
+   "y2000": {
+    "median_gross_rent": 1025.0,
+    "median_hh_income_1999": 62267.0,
+    "median_hh_income_rent_year": 64370
+   }
+  },
+  "0828745": {
+   "name": "Fruita city",
+   "y2000": {
+    "median_gross_rent": 522.0,
+    "median_hh_income_1999": 32929.0,
+    "median_hh_income_rent_year": 34041
+   }
+  },
+  "0829185": {
+   "name": "Garden City town",
+   "y2000": {
+    "median_gross_rent": 559.0,
+    "median_hh_income_1999": 21875.0,
+    "median_hh_income_rent_year": 22614
+   }
+  },
+  "0829680": {
+   "name": "Genoa town",
+   "y2000": {
+    "median_gross_rent": 400.0,
+    "median_hh_income_1999": 27375.0,
+    "median_hh_income_rent_year": 28299
+   }
+  },
+  "0829735": {
+   "name": "Georgetown town",
+   "y2000": {
+    "median_gross_rent": 650.0,
+    "median_hh_income_1999": 42969.0,
+    "median_hh_income_rent_year": 44420
+   }
+  },
+  "0829955": {
+   "name": "Gilcrest town",
+   "y2000": {
+    "median_gross_rent": 493.0,
+    "median_hh_income_1999": 45625.0,
+    "median_hh_income_rent_year": 47166
+   }
+  },
+  "0830340": {
+   "name": "Glendale city",
+   "y2000": {
+    "median_gross_rent": 588.0,
+    "median_hh_income_1999": 29043.0,
+    "median_hh_income_rent_year": 30024
+   }
+  },
+  "0830780": {
+   "name": "Glenwood Springs city",
+   "y2000": {
+    "median_gross_rent": 694.0,
+    "median_hh_income_1999": 43934.0,
+    "median_hh_income_rent_year": 45418
+   }
+  },
+  "0830835": {
+   "name": "Golden city",
+   "y2000": {
+    "median_gross_rent": 649.0,
+    "median_hh_income_1999": 49115.0,
+    "median_hh_income_rent_year": 50774
+   }
+  },
+  "0831550": {
+   "name": "Granada town",
+   "y2000": {
+    "median_gross_rent": 232.0,
+    "median_hh_income_1999": 26042.0,
+    "median_hh_income_rent_year": 26921
+   }
+  },
+  "0831605": {
+   "name": "Granby town",
+   "y2000": {
+    "median_gross_rent": 638.0,
+    "median_hh_income_1999": 46667.0,
+    "median_hh_income_rent_year": 48243
+   }
+  },
+  "0831660": {
+   "name": "Grand Junction city",
+   "y2000": {
+    "median_gross_rent": 496.0,
+    "median_hh_income_1999": 33152.0,
+    "median_hh_income_rent_year": 34271
+   }
+  },
+  "0831715": {
+   "name": "Grand Lake town",
+   "y2000": {
+    "median_gross_rent": 586.0,
+    "median_hh_income_1999": 45096.0,
+    "median_hh_income_rent_year": 46619
+   }
+  },
+  "0832155": {
+   "name": "Greeley city",
+   "y2000": {
+    "median_gross_rent": 548.0,
+    "median_hh_income_1999": 36414.0,
+    "median_hh_income_rent_year": 37644
+   }
+  },
+  "0832650": {
+   "name": "Green Mountain Falls town",
+   "y2000": {
+    "median_gross_rent": 656.0,
+    "median_hh_income_1999": 43816.0,
+    "median_hh_income_rent_year": 45296
+   }
+  },
+  "0833035": {
+   "name": "Greenwood Village city",
+   "y2000": {
+    "median_gross_rent": 1143.0,
+    "median_hh_income_1999": 116147.0,
+    "median_hh_income_rent_year": 120069
+   }
+  },
+  "0833310": {
+   "name": "Grover town",
+   "y2000": {
+    "median_gross_rent": 200.0,
+    "median_hh_income_1999": 17679.0,
+    "median_hh_income_rent_year": 18276
+   }
+  },
+  "0833640": {
+   "name": "Gunnison city",
+   "y2000": {
+    "median_gross_rent": 498.0,
+    "median_hh_income_1999": 25768.0,
+    "median_hh_income_rent_year": 26638
+   }
+  },
+  "0833695": {
+   "name": "Gypsum town",
+   "y2000": {
+    "median_gross_rent": 871.0,
+    "median_hh_income_1999": 59671.0,
+    "median_hh_income_rent_year": 61686
+   }
+  },
+  "0834520": {
+   "name": "Hartman town",
+   "y2000": {
+    "median_gross_rent": 308.0,
+    "median_hh_income_1999": 23750.0,
+    "median_hh_income_rent_year": 24552
+   }
+  },
+  "0834740": {
+   "name": "Haswell town",
+   "y2000": {
+    "median_gross_rent": 99.0,
+    "median_hh_income_1999": 30938.0,
+    "median_hh_income_rent_year": 31983
+   }
+  },
+  "0834960": {
+   "name": "Haxtun town",
+   "y2000": {
+    "median_gross_rent": 380.0,
+    "median_hh_income_1999": 30625.0,
+    "median_hh_income_rent_year": 31659
+   }
+  },
+  "0835070": {
+   "name": "Hayden town",
+   "y2000": {
+    "median_gross_rent": 662.0,
+    "median_hh_income_1999": 42147.0,
+    "median_hh_income_rent_year": 43570
+   }
+  },
+  "0836610": {
+   "name": "Hillrose town",
+   "y2000": {
+    "median_gross_rent": 538.0,
+    "median_hh_income_1999": 29219.0,
+    "median_hh_income_rent_year": 30206
+   }
+  },
+  "0837215": {
+   "name": "Holly town",
+   "y2000": {
+    "median_gross_rent": 296.0,
+    "median_hh_income_1999": 24917.0,
+    "median_hh_income_rent_year": 25758
+   }
+  },
+  "0837270": {
+   "name": "Holyoke city",
+   "y2000": {
+    "median_gross_rent": 392.0,
+    "median_hh_income_1999": 30984.0,
+    "median_hh_income_rent_year": 32030
+   }
+  },
+  "0837380": {
+   "name": "Hooper town",
+   "y2000": {
+    "median_gross_rent": 433.0,
+    "median_hh_income_1999": 31964.0,
+    "median_hh_income_rent_year": 33043
+   }
+  },
+  "0837545": {
+   "name": "Hotchkiss town",
+   "y2000": {
+    "median_gross_rent": 450.0,
+    "median_hh_income_1999": 28056.0,
+    "median_hh_income_rent_year": 29003
+   }
+  },
+  "0837600": {
+   "name": "Hot Sulphur Springs town",
+   "y2000": {
+    "median_gross_rent": 533.0,
+    "median_hh_income_1999": 39306.0,
+    "median_hh_income_rent_year": 40633
+   }
+  },
+  "0837820": {
+   "name": "Hudson town",
+   "y2000": {
+    "median_gross_rent": 629.0,
+    "median_hh_income_1999": 45673.0,
+    "median_hh_income_rent_year": 47215
+   }
+  },
+  "0837875": {
+   "name": "Hugo town",
+   "y2000": {
+    "median_gross_rent": 461.0,
+    "median_hh_income_1999": 30259.0,
+    "median_hh_income_rent_year": 31281
+   }
+  },
+  "0838370": {
+   "name": "Idaho Springs city",
+   "y2000": {
+    "median_gross_rent": 627.0,
+    "median_hh_income_1999": 39643.0,
+    "median_hh_income_rent_year": 40982
+   }
+  },
+  "0838535": {
+   "name": "Ignacio town",
+   "y2000": {
+    "median_gross_rent": 519.0,
+    "median_hh_income_1999": 27917.0,
+    "median_hh_income_rent_year": 28860
+   }
+  },
+  "0838590": {
+   "name": "Iliff town",
+   "y2000": {
+    "median_gross_rent": 575.0,
+    "median_hh_income_1999": 25625.0,
+    "median_hh_income_rent_year": 26490
+   }
+  },
+  "0839195": {
+   "name": "Jamestown town",
+   "y2000": {
+    "median_gross_rent": 957.0,
+    "median_hh_income_1999": 67500.0,
+    "median_hh_income_rent_year": 69779
+   }
+  },
+  "0839855": {
+   "name": "Johnstown town",
+   "y2000": {
+    "median_gross_rent": 593.0,
+    "median_hh_income_1999": 50404.0,
+    "median_hh_income_rent_year": 52106
+   }
+  },
+  "0839965": {
+   "name": "Julesburg town",
+   "y2000": {
+    "median_gross_rent": 294.0,
+    "median_hh_income_1999": 28207.0,
+    "median_hh_income_rent_year": 29160
+   }
+  },
+  "0840185": {
+   "name": "Keenesburg town",
+   "y2000": {
+    "median_gross_rent": 475.0,
+    "median_hh_income_1999": 41417.0,
+    "median_hh_income_rent_year": 42816
+   }
+  },
+  "0840515": {
+   "name": "Kersey town",
+   "y2000": {
+    "median_gross_rent": 327.0,
+    "median_hh_income_1999": 41333.0,
+    "median_hh_income_rent_year": 42729
+   }
+  },
+  "0840570": {
+   "name": "Kim town",
+   "y2000": {
+    "median_gross_rent": 358.0,
+    "median_hh_income_1999": 25938.0,
+    "median_hh_income_rent_year": 26814
+   }
+  },
+  "0840790": {
+   "name": "Kiowa town",
+   "y2000": {
+    "median_gross_rent": 613.0,
+    "median_hh_income_1999": 40809.0,
+    "median_hh_income_rent_year": 42187
+   }
+  },
+  "0841010": {
+   "name": "Kit Carson town",
+   "y2000": {
+    "median_gross_rent": 193.0,
+    "median_hh_income_1999": 19531.0,
+    "median_hh_income_rent_year": 20191
+   }
+  },
+  "0841560": {
+   "name": "Kremmling town",
+   "y2000": {
+    "median_gross_rent": 587.0,
+    "median_hh_income_1999": 45605.0,
+    "median_hh_income_rent_year": 47145
+   }
+  },
+  "0841835": {
+   "name": "Lafayette city",
+   "y2000": {
+    "median_gross_rent": 834.0,
+    "median_hh_income_1999": 56376.0,
+    "median_hh_income_rent_year": 58280
+   }
+  },
+  "0842055": {
+   "name": "La Jara town",
+   "y2000": {
+    "median_gross_rent": 363.0,
+    "median_hh_income_1999": 24167.0,
+    "median_hh_income_rent_year": 24983
+   }
+  },
+  "0842110": {
+   "name": "La Junta city",
+   "y2000": {
+    "median_gross_rent": 360.0,
+    "median_hh_income_1999": 29002.0,
+    "median_hh_income_rent_year": 29981
+   }
+  },
+  "0842330": {
+   "name": "Lake City town",
+   "y2000": {
+    "median_gross_rent": 529.0,
+    "median_hh_income_1999": 38056.0,
+    "median_hh_income_rent_year": 39341
+   }
+  },
+  "0842495": {
+   "name": "Lakeside town",
+   "y2000": {
+    "median_gross_rent": 563.0,
+    "median_hh_income_1999": 34375.0,
+    "median_hh_income_rent_year": 35536
+   }
+  },
+  "0843000": {
+   "name": "Lakewood city",
+   "y2000": {
+    "median_gross_rent": 763.0,
+    "median_hh_income_1999": 48109.0,
+    "median_hh_income_rent_year": 49734
+   }
+  },
+  "0843110": {
+   "name": "Lamar city",
+   "y2000": {
+    "median_gross_rent": 408.0,
+    "median_hh_income_1999": 28660.0,
+    "median_hh_income_rent_year": 29628
+   }
+  },
+  "0843550": {
+   "name": "Larkspur town",
+   "y2000": {
+    "median_gross_rent": 500.0,
+    "median_hh_income_1999": 43750.0,
+    "median_hh_income_rent_year": 45227
+   }
+  },
+  "0843605": {
+   "name": "La Salle town",
+   "y2000": {
+    "median_gross_rent": 586.0,
+    "median_hh_income_1999": 41534.0,
+    "median_hh_income_rent_year": 42937
+   }
+  },
+  "0843660": {
+   "name": "Las Animas city",
+   "y2000": {
+    "median_gross_rent": 410.0,
+    "median_hh_income_1999": 26157.0,
+    "median_hh_income_rent_year": 27040
+   }
+  },
+  "0844100": {
+   "name": "La Veta town",
+   "y2000": {
+    "median_gross_rent": 488.0,
+    "median_hh_income_1999": 29342.0,
+    "median_hh_income_rent_year": 30333
+   }
+  },
+  "0844320": {
+   "name": "Leadville city",
+   "y2000": {
+    "median_gross_rent": 530.0,
+    "median_hh_income_1999": 36714.0,
+    "median_hh_income_rent_year": 37954
+   }
+  },
+  "0844980": {
+   "name": "Limon town",
+   "y2000": {
+    "median_gross_rent": 478.0,
+    "median_hh_income_1999": 33565.0,
+    "median_hh_income_rent_year": 34698
+   }
+  },
+  "0845255": {
+   "name": "Littleton city",
+   "y2000": {
+    "median_gross_rent": 709.0,
+    "median_hh_income_1999": 50583.0,
+    "median_hh_income_rent_year": 52291
+   }
+  },
+  "0845530": {
+   "name": "Lochbuie town",
+   "y2000": {
+    "median_gross_rent": 653.0,
+    "median_hh_income_1999": 38988.0,
+    "median_hh_income_rent_year": 40305
+   }
+  },
+  "0845695": {
+   "name": "Log Lane Village town",
+   "y2000": {
+    "median_gross_rent": 564.0,
+    "median_hh_income_1999": 33947.0,
+    "median_hh_income_rent_year": 35093
+   }
+  },
+  "0845955": {
+   "name": "Lone Tree city",
+   "y2000": {
+    "median_gross_rent": 1087.0,
+    "median_hh_income_1999": 96308.0,
+    "median_hh_income_rent_year": 99560
+   }
+  },
+  "0845970": {
+   "name": "Longmont city",
+   "y2000": {
+    "median_gross_rent": 769.0,
+    "median_hh_income_1999": 51174.0,
+    "median_hh_income_rent_year": 52902
+   }
+  },
+  "0846355": {
+   "name": "Louisville city",
+   "y2000": {
+    "median_gross_rent": 924.0,
+    "median_hh_income_1999": 69945.0,
+    "median_hh_income_rent_year": 72307
+   }
+  },
+  "0846465": {
+   "name": "Loveland city",
+   "y2000": {
+    "median_gross_rent": 636.0,
+    "median_hh_income_1999": 47119.0,
+    "median_hh_income_rent_year": 48710
+   }
+  },
+  "0847070": {
+   "name": "Lyons town",
+   "y2000": {
+    "median_gross_rent": 738.0,
+    "median_hh_income_1999": 50764.0,
+    "median_hh_income_rent_year": 52478
+   }
+  },
+  "0848060": {
+   "name": "Manassa town",
+   "y2000": {
+    "median_gross_rent": 331.0,
+    "median_hh_income_1999": 23092.0,
+    "median_hh_income_rent_year": 23872
+   }
+  },
+  "0848115": {
+   "name": "Mancos town",
+   "y2000": {
+    "median_gross_rent": 447.0,
+    "median_hh_income_1999": 25223.0,
+    "median_hh_income_rent_year": 26075
+   }
+  },
+  "0848445": {
+   "name": "Manitou Springs city",
+   "y2000": {
+    "median_gross_rent": 546.0,
+    "median_hh_income_1999": 40514.0,
+    "median_hh_income_rent_year": 41882
+   }
+  },
+  "0848500": {
+   "name": "Manzanola town",
+   "y2000": {
+    "median_gross_rent": 321.0,
+    "median_hh_income_1999": 19196.0,
+    "median_hh_income_rent_year": 19844
+   }
+  },
+  "0848555": {
+   "name": "Marble town",
+   "y2000": {
+    "median_gross_rent": 840.0,
+    "median_hh_income_1999": 46094.0,
+    "median_hh_income_rent_year": 47651
+   }
+  },
+  "0849600": {
+   "name": "Mead town",
+   "y2000": {
+    "median_gross_rent": 958.0,
+    "median_hh_income_1999": 79298.0,
+    "median_hh_income_rent_year": 81976
+   }
+  },
+  "0849875": {
+   "name": "Meeker town",
+   "y2000": {
+    "median_gross_rent": 382.0,
+    "median_hh_income_1999": 34479.0,
+    "median_hh_income_rent_year": 35643
+   }
+  },
+  "0850040": {
+   "name": "Merino town",
+   "y2000": {
+    "median_gross_rent": 375.0,
+    "median_hh_income_1999": 28750.0,
+    "median_hh_income_rent_year": 29721
+   }
+  },
+  "0850480": {
+   "name": "Milliken town",
+   "y2000": {
+    "median_gross_rent": 594.0,
+    "median_hh_income_1999": 43603.0,
+    "median_hh_income_rent_year": 45075
+   }
+  },
+  "0850920": {
+   "name": "Minturn town",
+   "y2000": {
+    "median_gross_rent": 869.0,
+    "median_hh_income_1999": 51736.0,
+    "median_hh_income_rent_year": 53483
+   }
+  },
+  "0851250": {
+   "name": "Moffat town",
+   "y2000": {
+    "median_gross_rent": 492.0,
+    "median_hh_income_1999": 28906.0,
+    "median_hh_income_rent_year": 29882
+   }
+  },
+  "0851635": {
+   "name": "Monte Vista city",
+   "y2000": {
+    "median_gross_rent": 344.0,
+    "median_hh_income_1999": 28393.0,
+    "median_hh_income_rent_year": 29352
+   }
+  },
+  "0851690": {
+   "name": "Montezuma town",
+   "y2000": {
+    "median_gross_rent": 550.0,
+    "median_hh_income_1999": 38750.0,
+    "median_hh_income_rent_year": 40059
+   }
+  },
+  "0851745": {
+   "name": "Montrose city",
+   "y2000": {
+    "median_gross_rent": 496.0,
+    "median_hh_income_1999": 33750.0,
+    "median_hh_income_rent_year": 34890
+   }
+  },
+  "0851800": {
+   "name": "Monument town",
+   "y2000": {
+    "median_gross_rent": 700.0,
+    "median_hh_income_1999": 50000.0,
+    "median_hh_income_rent_year": 51688
+   }
+  },
+  "0852075": {
+   "name": "Morrison town",
+   "y2000": {
+    "median_gross_rent": 778.0,
+    "median_hh_income_1999": 53438.0,
+    "median_hh_income_rent_year": 55243
+   }
+  },
+  "0852350": {
+   "name": "Mountain View town",
+   "y2000": {
+    "median_gross_rent": 656.0,
+    "median_hh_income_1999": 41364.0,
+    "median_hh_income_rent_year": 42761
+   }
+  },
+  "0852550": {
+   "name": "Mountain Village town",
+   "y2000": {
+    "median_gross_rent": 458.0,
+    "median_hh_income_1999": 30663.0,
+    "median_hh_income_rent_year": 31698
+   }
+  },
+  "0852570": {
+   "name": "Mount Crested Butte town",
+   "y2000": {
+    "median_gross_rent": 916.0,
+    "median_hh_income_1999": 48864.0,
+    "median_hh_income_rent_year": 50514
+   }
+  },
+  "0853120": {
+   "name": "Naturita town",
+   "y2000": {
+    "median_gross_rent": 403.0,
+    "median_hh_income_1999": 28977.0,
+    "median_hh_income_rent_year": 29956
+   }
+  },
+  "0853175": {
+   "name": "Nederland town",
+   "y2000": {
+    "median_gross_rent": 758.0,
+    "median_hh_income_1999": 50588.0,
+    "median_hh_income_rent_year": 52296
+   }
+  },
+  "0853395": {
+   "name": "New Castle town",
+   "y2000": {
+    "median_gross_rent": 805.0,
+    "median_hh_income_1999": 55000.0,
+    "median_hh_income_rent_year": 56857
+   }
+  },
+  "0854330": {
+   "name": "Northglenn city",
+   "y2000": {
+    "median_gross_rent": 692.0,
+    "median_hh_income_1999": 48276.0,
+    "median_hh_income_rent_year": 49906
+   }
+  },
+  "0854880": {
+   "name": "Norwood town",
+   "y2000": {
+    "median_gross_rent": 628.0,
+    "median_hh_income_1999": 39375.0,
+    "median_hh_income_rent_year": 40705
+   }
+  },
+  "0854935": {
+   "name": "Nucla town",
+   "y2000": {
+    "median_gross_rent": 482.0,
+    "median_hh_income_1999": 28466.0,
+    "median_hh_income_rent_year": 29427
+   }
+  },
+  "0855045": {
+   "name": "Nunn town",
+   "y2000": {
+    "median_gross_rent": 519.0,
+    "median_hh_income_1999": 35714.0,
+    "median_hh_income_rent_year": 36920
+   }
+  },
+  "0855155": {
+   "name": "Oak Creek town",
+   "y2000": {
+    "median_gross_rent": 615.0,
+    "median_hh_income_1999": 36500.0,
+    "median_hh_income_rent_year": 37733
+   }
+  },
+  "0855540": {
+   "name": "Olathe town",
+   "y2000": {
+    "median_gross_rent": 493.0,
+    "median_hh_income_1999": 26286.0,
+    "median_hh_income_rent_year": 27174
+   }
+  },
+  "0855705": {
+   "name": "Olney Springs town",
+   "y2000": {
+    "median_gross_rent": 513.0,
+    "median_hh_income_1999": 25536.0,
+    "median_hh_income_rent_year": 26398
+   }
+  },
+  "0855870": {
+   "name": "Ophir town",
+   "y2000": {
+    "median_gross_rent": 942.0,
+    "median_hh_income_1999": 57917.0,
+    "median_hh_income_rent_year": 59873
+   }
+  },
+  "0855980": {
+   "name": "Orchard City town",
+   "y2000": {
+    "median_gross_rent": 545.0,
+    "median_hh_income_1999": 35915.0,
+    "median_hh_income_rent_year": 37128
+   }
+  },
+  "0856145": {
+   "name": "Ordway town",
+   "y2000": {
+    "median_gross_rent": 314.0,
+    "median_hh_income_1999": 23967.0,
+    "median_hh_income_rent_year": 24776
+   }
+  },
+  "0856365": {
+   "name": "Otis town",
+   "y2000": {
+    "median_gross_rent": 400.0,
+    "median_hh_income_1999": 31333.0,
+    "median_hh_income_rent_year": 32391
+   }
+  },
+  "0856420": {
+   "name": "Ouray city",
+   "y2000": {
+    "median_gross_rent": 662.0,
+    "median_hh_income_1999": 36094.0,
+    "median_hh_income_rent_year": 37313
+   }
+  },
+  "0856475": {
+   "name": "Ovid town",
+   "y2000": {
+    "median_gross_rent": 303.0,
+    "median_hh_income_1999": 24205.0,
+    "median_hh_income_rent_year": 25022
+   }
+  },
+  "0856860": {
+   "name": "Pagosa Springs town",
+   "y2000": {
+    "median_gross_rent": 521.0,
+    "median_hh_income_1999": 29469.0,
+    "median_hh_income_rent_year": 30464
+   }
+  },
+  "0856970": {
+   "name": "Palisade town",
+   "y2000": {
+    "median_gross_rent": 510.0,
+    "median_hh_income_1999": 27739.0,
+    "median_hh_income_rent_year": 28676
+   }
+  },
+  "0857025": {
+   "name": "Palmer Lake town",
+   "y2000": {
+    "median_gross_rent": 803.0,
+    "median_hh_income_1999": 52340.0,
+    "median_hh_income_rent_year": 54107
+   }
+  },
+  "0857245": {
+   "name": "Paoli town",
+   "y2000": {
+    "median_gross_rent": null,
+    "median_hh_income_1999": 32500.0,
+    "median_hh_income_rent_year": 33597
+   }
+  },
+  "0857300": {
+   "name": "Paonia town",
+   "y2000": {
+    "median_gross_rent": 560.0,
+    "median_hh_income_1999": 31831.0,
+    "median_hh_income_rent_year": 32906
+   }
+  },
+  "0857400": {
+   "name": "Parachute town",
+   "y2000": {
+    "median_gross_rent": 577.0,
+    "median_hh_income_1999": 31208.0,
+    "median_hh_income_rent_year": 32262
+   }
+  },
+  "0857630": {
+   "name": "Parker town",
+   "y2000": {
+    "median_gross_rent": 1056.0,
+    "median_hh_income_1999": 74116.0,
+    "median_hh_income_rent_year": 76619
+   }
+  },
+  "0858235": {
+   "name": "Peetz town",
+   "y2000": {
+    "median_gross_rent": 442.0,
+    "median_hh_income_1999": 42083.0,
+    "median_hh_income_rent_year": 43504
+   }
+  },
+  "0859005": {
+   "name": "Pierce town",
+   "y2000": {
+    "median_gross_rent": 717.0,
+    "median_hh_income_1999": 36944.0,
+    "median_hh_income_rent_year": 38192
+   }
+  },
+  "0859830": {
+   "name": "Pitkin town",
+   "y2000": {
+    "median_gross_rent": 950.0,
+    "median_hh_income_1999": 49375.0,
+    "median_hh_income_rent_year": 51042
+   }
+  },
+  "0860160": {
+   "name": "Platteville town",
+   "y2000": {
+    "median_gross_rent": 554.0,
+    "median_hh_income_1999": 43472.0,
+    "median_hh_income_rent_year": 44940
+   }
+  },
+  "0860600": {
+   "name": "Poncha Springs town",
+   "y2000": {
+    "median_gross_rent": 481.0,
+    "median_hh_income_1999": 31429.0,
+    "median_hh_income_rent_year": 32490
+   }
+  },
+  "0861315": {
+   "name": "Pritchett town",
+   "y2000": {
+    "median_gross_rent": 200.0,
+    "median_hh_income_1999": 19750.0,
+    "median_hh_income_rent_year": 20417
+   }
+  },
+  "0862000": {
+   "name": "Pueblo city",
+   "y2000": {
+    "median_gross_rent": 475.0,
+    "median_hh_income_1999": 29650.0,
+    "median_hh_income_rent_year": 30651
+   }
+  },
+  "0862660": {
+   "name": "Ramah town",
+   "y2000": {
+    "median_gross_rent": 488.0,
+    "median_hh_income_1999": 29250.0,
+    "median_hh_income_rent_year": 30238
+   }
+  },
+  "0862880": {
+   "name": "Rangely town",
+   "y2000": {
+    "median_gross_rent": 414.0,
+    "median_hh_income_1999": 41276.0,
+    "median_hh_income_rent_year": 42670
+   }
+  },
+  "0863045": {
+   "name": "Raymer town",
+   "y2000": {
+    "median_gross_rent": 625.0,
+    "median_hh_income_1999": 26250.0,
+    "median_hh_income_rent_year": 27136
+   }
+  },
+  "0863265": {
+   "name": "Red Cliff town",
+   "y2000": {
+    "median_gross_rent": 1143.0,
+    "median_hh_income_1999": 50104.0,
+    "median_hh_income_rent_year": 51796
+   }
+  },
+  "0864090": {
+   "name": "Rico town",
+   "y2000": {
+    "median_gross_rent": 625.0,
+    "median_hh_income_1999": 36667.0,
+    "median_hh_income_rent_year": 37905
+   }
+  },
+  "0864200": {
+   "name": "Ridgway town",
+   "y2000": {
+    "median_gross_rent": 699.0,
+    "median_hh_income_1999": 40903.0,
+    "median_hh_income_rent_year": 42284
+   }
+  },
+  "0864255": {
+   "name": "Rifle city",
+   "y2000": {
+    "median_gross_rent": 602.0,
+    "median_hh_income_1999": 42734.0,
+    "median_hh_income_rent_year": 44177
+   }
+  },
+  "0864970": {
+   "name": "Rockvale town",
+   "y2000": {
+    "median_gross_rent": 525.0,
+    "median_hh_income_1999": 30000.0,
+    "median_hh_income_rent_year": 31013
+   }
+  },
+  "0865190": {
+   "name": "Rocky Ford city",
+   "y2000": {
+    "median_gross_rent": 368.0,
+    "median_hh_income_1999": 23359.0,
+    "median_hh_income_rent_year": 24148
+   }
+  },
+  "0865740": {
+   "name": "Romeo town",
+   "y2000": {
+    "median_gross_rent": 400.0,
+    "median_hh_income_1999": 19306.0,
+    "median_hh_income_rent_year": 19958
+   }
+  },
+  "0866895": {
+   "name": "Rye town",
+   "y2000": {
+    "median_gross_rent": 520.0,
+    "median_hh_income_1999": 33750.0,
+    "median_hh_income_rent_year": 34890
+   }
+  },
+  "0867005": {
+   "name": "Saguache town",
+   "y2000": {
+    "median_gross_rent": 454.0,
+    "median_hh_income_1999": 21544.0,
+    "median_hh_income_rent_year": 22272
+   }
+  },
+  "0867280": {
+   "name": "Salida city",
+   "y2000": {
+    "median_gross_rent": 465.0,
+    "median_hh_income_1999": 28790.0,
+    "median_hh_income_rent_year": 29762
+   }
+  },
+  "0867830": {
+   "name": "Sanford town",
+   "y2000": {
+    "median_gross_rent": 416.0,
+    "median_hh_income_1999": 25625.0,
+    "median_hh_income_rent_year": 26490
+   }
+  },
+  "0868105": {
+   "name": "San Luis town",
+   "y2000": {
+    "median_gross_rent": 283.0,
+    "median_hh_income_1999": 14213.0,
+    "median_hh_income_rent_year": 14693
+   }
+  },
+  "0868655": {
+   "name": "Sawpit town",
+   "y2000": {
+    "median_gross_rent": 492.0,
+    "median_hh_income_1999": 26250.0,
+    "median_hh_income_rent_year": 27136
+   }
+  },
+  "0868930": {
+   "name": "Sedgwick town",
+   "y2000": {
+    "median_gross_rent": 313.0,
+    "median_hh_income_1999": 26875.0,
+    "median_hh_income_rent_year": 27783
+   }
+  },
+  "0869040": {
+   "name": "Seibert town",
+   "y2000": {
+    "median_gross_rent": 463.0,
+    "median_hh_income_1999": 24583.0,
+    "median_hh_income_rent_year": 25413
+   }
+  },
+  "0869150": {
+   "name": "Severance town",
+   "y2000": {
+    "median_gross_rent": 590.0,
+    "median_hh_income_1999": 50625.0,
+    "median_hh_income_rent_year": 52335
+   }
+  },
+  "0869645": {
+   "name": "Sheridan city",
+   "y2000": {
+    "median_gross_rent": 534.0,
+    "median_hh_income_1999": 34984.0,
+    "median_hh_income_rent_year": 36165
+   }
+  },
+  "0869700": {
+   "name": "Sheridan Lake town",
+   "y2000": {
+    "median_gross_rent": 263.0,
+    "median_hh_income_1999": 23750.0,
+    "median_hh_income_rent_year": 24552
+   }
+  },
+  "0870195": {
+   "name": "Silt town",
+   "y2000": {
+    "median_gross_rent": 633.0,
+    "median_hh_income_1999": 44632.0,
+    "median_hh_income_rent_year": 46139
+   }
+  },
+  "0870250": {
+   "name": "Silver Cliff town",
+   "y2000": {
+    "median_gross_rent": 504.0,
+    "median_hh_income_1999": 25000.0,
+    "median_hh_income_rent_year": 25844
+   }
+  },
+  "0870360": {
+   "name": "Silver Plume town",
+   "y2000": {
+    "median_gross_rent": 669.0,
+    "median_hh_income_1999": 35208.0,
+    "median_hh_income_rent_year": 36397
+   }
+  },
+  "0870525": {
+   "name": "Silverthorne town",
+   "y2000": {
+    "median_gross_rent": 934.0,
+    "median_hh_income_1999": 58839.0,
+    "median_hh_income_rent_year": 60826
+   }
+  },
+  "0870580": {
+   "name": "Silverton town",
+   "y2000": {
+    "median_gross_rent": 561.0,
+    "median_hh_income_1999": 30486.0,
+    "median_hh_income_rent_year": 31515
+   }
+  },
+  "0870635": {
+   "name": "Simla town",
+   "y2000": {
+    "median_gross_rent": 565.0,
+    "median_hh_income_1999": 31382.0,
+    "median_hh_income_rent_year": 32442
+   }
+  },
+  "0871755": {
+   "name": "Snowmass Village town",
+   "y2000": {
+    "median_gross_rent": 725.0,
+    "median_hh_income_1999": 57059.0,
+    "median_hh_income_rent_year": 58986
+   }
+  },
+  "0872395": {
+   "name": "South Fork town",
+   "y2000": {
+    "median_gross_rent": 433.0,
+    "median_hh_income_1999": 36667.0,
+    "median_hh_income_rent_year": 37905
+   }
+  },
+  "0873330": {
+   "name": "Springfield town",
+   "y2000": {
+    "median_gross_rent": 293.0,
+    "median_hh_income_1999": 24375.0,
+    "median_hh_income_rent_year": 25198
+   }
+  },
+  "0873715": {
+   "name": "Starkville town",
+   "y2000": {
+    "median_gross_rent": 458.0,
+    "median_hh_income_1999": 42708.0,
+    "median_hh_income_rent_year": 44150
+   }
+  },
+  "0873825": {
+   "name": "Steamboat Springs city",
+   "y2000": {
+    "median_gross_rent": 775.0,
+    "median_hh_income_1999": 54647.0,
+    "median_hh_income_rent_year": 56492
+   }
+  },
+  "0873935": {
+   "name": "Sterling city",
+   "y2000": {
+    "median_gross_rent": 452.0,
+    "median_hh_income_1999": 27337.0,
+    "median_hh_income_rent_year": 28260
+   }
+  },
+  "0874485": {
+   "name": "Stratton town",
+   "y2000": {
+    "median_gross_rent": 400.0,
+    "median_hh_income_1999": 32500.0,
+    "median_hh_income_rent_year": 33597
+   }
+  },
+  "0874815": {
+   "name": "Sugar City town",
+   "y2000": {
+    "median_gross_rent": 363.0,
+    "median_hh_income_1999": 25208.0,
+    "median_hh_income_rent_year": 26059
+   }
+  },
+  "0875640": {
+   "name": "Superior town",
+   "y2000": {
+    "median_gross_rent": 1280.0,
+    "median_hh_income_1999": 82079.0,
+    "median_hh_income_rent_year": 84851
+   }
+  },
+  "0875970": {
+   "name": "Swink town",
+   "y2000": {
+    "median_gross_rent": 359.0,
+    "median_hh_income_1999": 36094.0,
+    "median_hh_income_rent_year": 37313
+   }
+  },
+  "0876795": {
+   "name": "Telluride town",
+   "y2000": {
+    "median_gross_rent": 1030.0,
+    "median_hh_income_1999": 51938.0,
+    "median_hh_income_rent_year": 53692
+   }
+  },
+  "0877290": {
+   "name": "Thornton city",
+   "y2000": {
+    "median_gross_rent": 802.0,
+    "median_hh_income_1999": 54445.0,
+    "median_hh_income_rent_year": 56284
+   }
+  },
+  "0877510": {
+   "name": "Timnath town",
+   "y2000": {
+    "median_gross_rent": 617.0,
+    "median_hh_income_1999": 51250.0,
+    "median_hh_income_rent_year": 52981
+   }
+  },
+  "0878610": {
+   "name": "Trinidad city",
+   "y2000": {
+    "median_gross_rent": 388.0,
+    "median_hh_income_1999": 26681.0,
+    "median_hh_income_rent_year": 27582
+   }
+  },
+  "0879270": {
+   "name": "Two Buttes town",
+   "y2000": {
+    "median_gross_rent": 450.0,
+    "median_hh_income_1999": 25000.0,
+    "median_hh_income_rent_year": 25844
+   }
+  },
+  "0880040": {
+   "name": "Vail town",
+   "y2000": {
+    "median_gross_rent": 934.0,
+    "median_hh_income_1999": 56680.0,
+    "median_hh_income_rent_year": 58594
+   }
+  },
+  "0880865": {
+   "name": "Victor city",
+   "y2000": {
+    "median_gross_rent": 492.0,
+    "median_hh_income_1999": 31250.0,
+    "median_hh_income_rent_year": 32305
+   }
+  },
+  "0881030": {
+   "name": "Vilas town",
+   "y2000": {
+    "median_gross_rent": 260.0,
+    "median_hh_income_1999": 34167.0,
+    "median_hh_income_rent_year": 35321
+   }
+  },
+  "0881690": {
+   "name": "Vona town",
+   "y2000": {
+    "median_gross_rent": 575.0,
+    "median_hh_income_1999": 32250.0,
+    "median_hh_income_rent_year": 33339
+   }
+  },
+  "0882130": {
+   "name": "Walden town",
+   "y2000": {
+    "median_gross_rent": 413.0,
+    "median_hh_income_1999": 29313.0,
+    "median_hh_income_rent_year": 30303
+   }
+  },
+  "0882350": {
+   "name": "Walsenburg city",
+   "y2000": {
+    "median_gross_rent": 393.0,
+    "median_hh_income_1999": 22005.0,
+    "median_hh_income_rent_year": 22748
+   }
+  },
+  "0882460": {
+   "name": "Walsh town",
+   "y2000": {
+    "median_gross_rent": 295.0,
+    "median_hh_income_1999": 24911.0,
+    "median_hh_income_rent_year": 25752
+   }
+  },
+  "0882735": {
+   "name": "Ward town",
+   "y2000": {
+    "median_gross_rent": null,
+    "median_hh_income_1999": 33750.0,
+    "median_hh_income_rent_year": 34890
+   }
+  },
+  "0883230": {
+   "name": "Wellington town",
+   "y2000": {
+    "median_gross_rent": 643.0,
+    "median_hh_income_1999": 47917.0,
+    "median_hh_income_rent_year": 49535
+   }
+  },
+  "0883450": {
+   "name": "Westcliffe town",
+   "y2000": {
+    "median_gross_rent": 333.0,
+    "median_hh_income_1999": 23125.0,
+    "median_hh_income_rent_year": 23906
+   }
+  },
+  "0883835": {
+   "name": "Westminster city",
+   "y2000": {
+    "median_gross_rent": 848.0,
+    "median_hh_income_1999": 56323.0,
+    "median_hh_income_rent_year": 58225
+   }
+  },
+  "0884440": {
+   "name": "Wheat Ridge city",
+   "y2000": {
+    "median_gross_rent": 651.0,
+    "median_hh_income_1999": 38983.0,
+    "median_hh_income_rent_year": 40299
+   }
+  },
+  "0884770": {
+   "name": "Wiggins town",
+   "y2000": {
+    "median_gross_rent": 496.0,
+    "median_hh_income_1999": 33438.0,
+    "median_hh_income_rent_year": 34567
+   }
+  },
+  "0885045": {
+   "name": "Wiley town",
+   "y2000": {
+    "median_gross_rent": 525.0,
+    "median_hh_income_1999": 30294.0,
+    "median_hh_income_rent_year": 31317
+   }
+  },
+  "0885155": {
+   "name": "Williamsburg town",
+   "y2000": {
+    "median_gross_rent": 738.0,
+    "median_hh_income_1999": 34792.0,
+    "median_hh_income_rent_year": 35967
+   }
+  },
+  "0885485": {
+   "name": "Windsor town",
+   "y2000": {
+    "median_gross_rent": 562.0,
+    "median_hh_income_1999": 54976.0,
+    "median_hh_income_rent_year": 56832
+   }
+  },
+  "0885705": {
+   "name": "Winter Park town",
+   "y2000": {
+    "median_gross_rent": 794.0,
+    "median_hh_income_1999": 44000.0,
+    "median_hh_income_rent_year": 45486
+   }
+  },
+  "0886090": {
+   "name": "Woodland Park city",
+   "y2000": {
+    "median_gross_rent": 780.0,
+    "median_hh_income_1999": 52279.0,
+    "median_hh_income_rent_year": 54044
+   }
+  },
+  "0886310": {
+   "name": "Wray city",
+   "y2000": {
+    "median_gross_rent": 366.0,
+    "median_hh_income_1999": 29052.0,
+    "median_hh_income_rent_year": 30033
+   }
+  },
+  "0886475": {
+   "name": "Yampa town",
+   "y2000": {
+    "median_gross_rent": 590.0,
+    "median_hh_income_1999": 37500.0,
+    "median_hh_income_rent_year": 38766
+   }
+  },
+  "0886750": {
+   "name": "Yuma city",
+   "y2000": {
+    "median_gross_rent": 375.0,
+    "median_hh_income_1999": 30371.0,
+    "median_hh_income_rent_year": 31397
+   }
+  }
+ }
+}
