@@ -79,7 +79,8 @@ assert(rendered.text.includes('Deal Calculator outputs'), 'render says no Deal C
 // the words its own status calls for, and claims no amount. Which program carries which status
 // is the data's business (CEO-IRA-HOME-ENERGY-REBATES moved from VERIFY to closed, 2026-11-03).
 {
-  const SAYS = { VERIFY: /Not yet verified; no confirmed current dollar amount\./, closed: /Closed: no open round\./ };
+  // Meaning, not sentences: a VERIFY card says it is not verified, a closed card says it is closed.
+  const SAYS = { VERIFY: /not (yet )?verified/i, closed: /closed/i };
   const checkNoMoneyRows = (out, doc, label) => {
     let checked = 0;
     for (const card of out.mount.querySelectorAll('[data-funding-context-program]')) {
@@ -103,7 +104,14 @@ assert(rendered.text.includes('Deal Calculator outputs'), 'render says no Deal C
   withMoney.programs['CEO-IRA-HOME-ENERGY-REBATES'].available = 250000;
   assert.strictEqual(withMoney.programs['CEO-IRA-HOME-ENERGY-REBATES'].available, 250000, 'sabotage applied');
   const moneyOut = render(withMoney, { surface: 'deal-calculator', countyFips: '08031', executionType: 'non-LIHTC', useCase: 'owner-occupied' });
-  assert.throws(() => checkNoMoneyRows(moneyOut, withMoney, 'closed with an amount'), /must say so|must not claim/, 'a closed row showing an amount is caught');
+  // A dollar figure left in a closed record must not reach the card: the program's own page wins.
+  assert.strictEqual(checkNoMoneyRows(moneyOut, withMoney, 'closed with an amount') > 0, true, 'a closed row with a stale amount still reads as closed, with no amount');
+  // A closed card that did show an amount is caught.
+  const fake = new (require('jsdom').JSDOM)('<div><div data-funding-context-program="CEO-IRA-HOME-ENERGY-REBATES">Closed. $250,000 currently tracked</div></div>');
+  assert.throws(() => checkNoMoneyRows({ mount: fake.window.document }, withMoney, 'closed card showing money'), /must not claim/, 'a closed card showing an amount is caught');
+  // Rewording stays green: a closed card in other words still agrees.
+  const reworded = new (require('jsdom').JSDOM)('<div><div data-funding-context-program="CEO-IRA-HOME-ENERGY-REBATES">Closed. No round is open.</div></div>');
+  assert.strictEqual(checkNoMoneyRows({ mount: reworded.window.document }, withMoney, 'reworded'), 1, 'a reworded closed card stays green');
 }
 
 const iraCard = rendered.mount.querySelector('[data-funding-context-program="CEO-IRA-HOME-ENERGY-REBATES"]');
