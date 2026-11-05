@@ -469,7 +469,7 @@
       }).join('');
       // F176 — collapsible header (mobile default-collapsed; persists via sessionStorage)
       div.innerHTML =
-        '<div class="ahl-legend-head" role="button" tabindex="0" aria-label="Toggle map legend" aria-expanded="true">' +
+        '<div class="ahl-legend-head" role="button" tabindex="0" aria-label="Affordable housing (hover for detail): show or hide the legend" aria-expanded="true">' +
           '<span>Affordable housing <span style="opacity:.6;font-weight:400">(hover for detail)</span></span>' +
           '<span class="ahl-legend-caret" aria-hidden="true">▾</span>' +
         '</div>' +
