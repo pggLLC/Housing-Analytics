@@ -488,7 +488,9 @@ test('step 7 is on every rail, and the component agrees', () => {
 
 test('the homepage offers it as the seventh card', () => {
   const src = read('index.html');
-  assert.ok(/aria-label="Step 7: Recommendation"/.test(src), 'no step 7 card on the homepage');
+  const step7 = src.match(/<a href="([^"]+)" aria-label="Step 7:[^"]*"/);
+  assert.ok(step7, 'no step 7 card on the homepage');
+  assert.strictEqual(step7[1], 'recommendation.html', 'step 7 does not open the recommendation');
   assert.ok(/<span class="home-step__num"[^>]*>07<\/span>/.test(src), 'the seventh card is not numbered 07');
 });
 

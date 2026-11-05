@@ -197,7 +197,7 @@
     const page = (location.pathname.split('/').pop() || '');
     const own = page === 'housing-help.html';
     return `<a class="${cls}" href="${spanishHref()}" lang="es" hreflang="es" data-lang-link` +
-      (short ? ' aria-label="Español"' : '') +
+      (short ? ' aria-label="ES, Español"' : '') +
       (own ? ' title="Español"' : ' target="_blank" rel="noopener" title="Español: traducción automática de Google"') +
       `>${short ? 'ES' : 'Español'}</a>`;
   }
