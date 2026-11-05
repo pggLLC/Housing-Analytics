@@ -8,7 +8,8 @@
  *   data/policy/incentive-coverage.json  who was checked and found nothing, or could not be read
  *   data/policy/prop123_jurisdictions.json  Prop 123 commitment filings (DOLA)
  * and data/policy/incentive-alternatives.json, the catalog of tools with their
- * Colorado legal basis.
+ * Colorado legal basis, and data/policy/incentive-peer-profiles.json (market
+ * pattern, region and population) for the similar-places comparison.
  *
  * The rule this module exists to keep: a jurisdiction with no record has NOT
  * been shown to have no program. Every scope of every jurisdiction is in one of
@@ -205,7 +206,7 @@
 
   /**
    * Build the whole model once.
-   * docs: { geoConfig, fees, funds, coverage, prop123, alternatives }
+   * docs: { geoConfig, fees, funds, coverage, prop123, alternatives, peerProfiles }
    */
   function build(docs) {
     var geo = geographies(docs.geoConfig || {});
@@ -297,6 +298,98 @@
       return { profile: p, suggestions: suggestions, ruledOut: ruledOut, required: required };
     }
 
+    /**
+     * Places like this one and the tools they use that it has no record of.
+     *
+     * Peers come from docs.peerProfiles (data/policy/incentive-peer-profiles.json):
+     * counties are compared with counties and municipalities with
+     * municipalities; same market pattern (unless either side has too little
+     * data to type); within four times its population; same region first, then
+     * closest in population. Only
+     * places whose sources have been read for at least one scope can be
+     * peers: an unread place would show "no tools" that nobody looked for.
+     *
+     * A tool counts for a peer only when a record in use matches it. Tools
+     * Colorado law rules out or already requires are left out, as in
+     * alternatives(). Nothing is scored: `tools` is ordered by how many peers
+     * use the tool, then by name.
+     */
+    // Peers are at most four times larger or smaller than the place itself.
+    var MAX_POP_RATIO_LOG = Math.log(4);
+    var profiles = (docs.peerProfiles && docs.peerProfiles.places) || {};
+    var typeLabels = (docs.peerProfiles && docs.peerProfiles.meta && docs.peerProfiles.meta.type_labels) || {};
+
+    function researched(geoid) {
+      var p = profile(geoid);
+      if (!p) return false;
+      return SCOPES.some(function (s) { return p.states[s] !== 'not_checked'; });
+    }
+
+    function peers(geoid, n) {
+      n = n || 5;
+      var p = profile(geoid);
+      if (!p) return null;
+      var subject = p.inheritsFrom || p.geoid;
+      var canonSubject = canonicalGeoid(subject);
+      // A city-and-county is compared as the city it is (CONSOLIDATED).
+      var me = profiles[canonSubject] || profiles[subject];
+      if (!me || !me.population) return { profile: p, subject: subject, basis: null, peers: [], tools: [] };
+      var typed = me.type && me.type !== 'too_little_data';
+      var seen = new Set([canonSubject]);
+      var pool = [];
+      Object.keys(profiles).forEach(function (id) {
+        var canon = canonicalGeoid(id);
+        if (seen.has(canon)) return;
+        var q = profiles[id];
+        if (q.level !== me.level || !q.population) return;
+        // A city-and-county's county geoid stands for the city (CONSOLIDATED):
+        // it is compared with municipalities, never with counties.
+        if (q.level === 'county' && canon !== id) return;
+        if (Math.abs(Math.log(q.population / me.population)) > MAX_POP_RATIO_LOG) return;
+        if (typed && q.type !== me.type && q.type !== 'too_little_data') return;
+        if (!researched(id)) return;
+        seen.add(canon);
+        pool.push({
+          geoid: canon,
+          population: q.population,
+          sameRegion: !!me.region && q.region === me.region,
+          distance: Math.abs(Math.log(q.population / me.population))
+        });
+      });
+      pool.sort(function (a, b) {
+        return (b.sameRegion - a.sameRegion) || (a.distance - b.distance) || a.geoid.localeCompare(b.geoid);
+      });
+      var chosen = pool.slice(0, n);
+      var mine = p.items.filter(inUse);
+      var usable = adoption.filter(function (a) {
+        var s = a.tool.colorado_status;
+        return s !== 'required_for_subject_jurisdictions' && s !== 'prohibited_for_new' && s !== 'not_usable_for_housing';
+      });
+      chosen.forEach(function (c) {
+        var theirs = itemsFor(c.geoid).filter(inUse);
+        c.tools = usable.filter(function (a) {
+          return theirs.some(function (i) { return itemMatchesTool(i, a.tool); });
+        }).map(function (a) { return a.tool.id; });
+      });
+      var tools = [];
+      usable.forEach(function (a) {
+        if (mine.some(function (i) { return itemMatchesTool(i, a.tool); })) return;
+        var users = chosen.filter(function (c) { return c.tools.indexOf(a.tool.id) !== -1; })
+          .map(function (c) { return c.geoid; });
+        if (users.length) tools.push({ tool: a.tool, peers: users });
+      });
+      tools.sort(function (x, y) {
+        return (y.peers.length - x.peers.length) || String(x.tool.label).localeCompare(String(y.tool.label));
+      });
+      return {
+        profile: p,
+        subject: subject,
+        basis: { level: me.level, type: me.type, typeLabel: typed ? (typeLabels[me.type] || me.type) : null, region: me.region, population: me.population },
+        peers: chosen,
+        tools: tools
+      };
+    }
+
     /** Statewide coverage: how many counties and municipalities are in each state per scope. */
     function coverageSummary() {
       var out = { jurisdictions: 0, any_records: 0, by_scope: {} };
@@ -322,6 +415,7 @@
       adoption: adoption,
       profile: profile,
       alternatives: alternatives,
+      peers: peers,
       coverageSummary: coverageSummary
     };
   }

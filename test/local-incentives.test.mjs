@@ -22,6 +22,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
+import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
@@ -40,6 +42,7 @@ const docs = {
   coverage: json('data/policy/incentive-coverage.json'),
   prop123: json('data/policy/prop123_jurisdictions.json'),
   alternatives: json('data/policy/incentive-alternatives.json'),
+  peerProfiles: json('data/policy/incentive-peer-profiles.json'),
 };
 const CONSOLIDATED = { '08031': '0820000', '08014': '0809280' };
 const canon = (g) => CONSOLIDATED[g] || g;
@@ -203,6 +206,63 @@ assert.deepEqual([...p123.unmatched].sort(), Object.keys(NOT_A_MUNICIPALITY).sor
 assert(p123.byGeoid.size >= 200, `only ${p123.byGeoid.size} filings resolved`);
 assert.equal(p123.byGeoid.get('0820000')?.name, 'City and County of Denver');
 
+// 5. Similar places: same level, same market pattern, within four times the
+// population, already researched; the tool list names only what the subject
+// has no record of, and never a tool Colorado law rules out.
+let peersChecked = 0;
+let noPeers = 0;
+{
+  const P = docs.peerProfiles.places;
+  const ruledOut = new Set(docs.alternatives.tools.filter((t) => ['required_for_subject_jurisdictions', 'prohibited_for_new', 'not_usable_for_housing'].includes(t.colorado_status)).map((t) => t.id));
+  const researched = (g) => tally.has(canon(g)) || ['fees', 'land_use', 'funds'].some((s) => {
+    const r = ledger.get(canon(g))?.result_by_scope?.[s];
+    return r && r !== 'not_checked';
+  });
+  const consolidatedCounties = new Set(Object.keys(CONSOLIDATED));
+  for (const geoid of Object.keys(P)) {
+    const res = model.peers(geoid);
+    if (!res.basis) { assert.equal(res.peers.length, 0, `${geoid}: no basis, no peers`); continue; }
+    const me = P[canon(geoid)] || P[geoid];
+    assert(res.peers.length <= 5, `${geoid}: at most five peers`);
+    if (!res.peers.length) noPeers++;
+    for (const peer of res.peers) {
+      peersChecked++;
+      const q = P[peer.geoid];
+      assert(peer.geoid !== geoid && peer.geoid !== canon(geoid), `${geoid}: a place is not its own peer`);
+      assert(!consolidatedCounties.has(peer.geoid), `${geoid}: ${peer.geoid} is a city and county, compared as a city`);
+      assert.equal(q.level, me.level, `${geoid}: ${peer.geoid} is a different level`);
+      const ratio = Math.max(q.population, me.population) / Math.min(q.population, me.population);
+      assert(ratio <= 4 + 1e-9, `${geoid}: ${peer.geoid} is ${ratio.toFixed(1)}x the population`);
+      if (q.type !== 'too_little_data' && me.type !== 'too_little_data') assert.equal(q.type, me.type, `${geoid}: ${peer.geoid} has a different market pattern`);
+      assert(researched(peer.geoid), `${geoid}: ${peer.geoid} has not been researched`);
+    }
+    for (const t of res.tools) {
+      assert(!ruledOut.has(t.tool.id), `${geoid}: suggests ruled-out tool ${t.tool.id}`);
+      const subjectItems = (model.alternatives(geoid).profile.items || []);
+      assert(!subjectItems.some((i) => D.inUse(i) && D.itemMatchesTool(i, t.tool)), `${geoid}: lists ${t.tool.id}, which it already has`);
+      assert(t.peers.length >= 1 && t.peers.every((g) => res.peers.some((p) => p.geoid === g)), `${geoid}: ${t.tool.id} cites a place that is not a peer`);
+    }
+  }
+  assert(peersChecked > 200 && noPeers > 0, `peer scan: ${peersChecked} peers, ${noPeers} places without peers`);
+
+  // The section renders with links to each peer, and says so when there are none.
+  const withPeers = Object.keys(P).find((g) => model.peers(g).peers.length >= 3 && model.peers(g).tools.length);
+  w.LocalIncentivesPage.renderJurisdiction(model, withPeers, panel);
+  const sec = panel.querySelector('[data-li-peers]');
+  assert(sec, `${withPeers}: no similar-places section`);
+  assert.equal(sec.querySelectorAll('ul.li-peers a[data-li-jump]').length, model.peers(withPeers).peers.length, 'one link per peer');
+  assert(sec.querySelectorAll('[data-li-peer-tool]').length === model.peers(withPeers).tools.length, 'one row per tool');
+  assert(/No record. is not .does not have/.test(textOf(sec)), 'caveat present');
+  const lonely = Object.keys(P).find((g) => model.peers(g).basis && !model.peers(g).peers.length);
+  w.LocalIncentivesPage.renderJurisdiction(model, lonely, panel);
+  assert(/No researched place is similar enough yet/.test(textOf(panel.querySelector('[data-li-peers]'))), `${lonely}: no-peers message`);
+  // Fresh: rebuilding the profiles gives the committed file, byte for byte.
+  const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'peers-')), 'out.json');
+  execFileSync('python3', [path.join(ROOT, 'scripts/policy/build_incentive_peer_profiles.py'), '--out', tmp], { stdio: 'pipe' });
+  assert.equal(fs.readFileSync(tmp, 'utf8'), read('data/policy/incentive-peer-profiles.json'),
+    'data/policy/incentive-peer-profiles.json is stale: run python3 scripts/policy/build_incentive_peer_profiles.py');
+}
+
 // 7. The watch issue.
 {
   const ranking = { rankings: [{ geoid: '0804000', metrics: { population: 400000 } }, { geoid: '0877290', metrics: { population: 140000 } }] };
@@ -221,4 +281,4 @@ assert.equal(p123.byGeoid.get('0820000')?.name, 'City and County of Denver');
   assert.equal(monthlyIssue(all, '2026-10-20', [`x ${marker('2026-10-10')}`]), null, 'one issue a month');
 }
 
-console.log(`Local incentives: PASS (${rendered} records rendered across ${tally.size} jurisdictions; ${toolsCounted} tools with adopters; ${suggestionsChecked} suggestions checked)`);
+console.log(`Local incentives: PASS (${rendered} records rendered across ${tally.size} jurisdictions; ${toolsCounted} tools with adopters; ${suggestionsChecked} suggestions checked; ${peersChecked} peers checked)`);
