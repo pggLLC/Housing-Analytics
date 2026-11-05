@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-05T06:47:38.584Z",
+    "generated_at": "2026-11-05T06:54:39.781Z",
     "root": "data/",
-    "file_count": 2017,
-    "total_size_bytes": 220289003,
+    "file_count": 2018,
+    "total_size_bytes": 220324991,
     "kinds": {
-      "json": 1968,
+      "json": 1969,
       "geojson": 35,
       "csv": 14
     }
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-05T06:47:33.615Z",
+      "mtime": "2026-11-05T06:54:34.885Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -40038,7 +40038,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-05T06:47:35.945Z",
+      "mtime": "2026-11-05T06:54:37.129Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40062,7 +40062,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-05T06:47:35.390Z",
+      "mtime": "2026-11-05T06:54:36.607Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42166,8 +42166,8 @@
     {
       "path": "policy/fee-reductions.json",
       "kind": "json",
-      "size_bytes": 595555,
-      "mtime": "2026-11-04T18:35:33.069Z",
+      "size_bytes": 590501,
+      "mtime": "2026-11-05T06:53:34.120Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42177,7 +42177,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "entries",
-      "primary_array_length": 120,
+      "primary_array_length": 118,
       "primary_array_first_keys": [
         "id",
         "state",
@@ -42606,6 +42606,21 @@
         "sources_checked",
         "note"
       ]
+    },
+    {
+      "path": "policy/incentive-peer-profiles.json",
+      "kind": "json",
+      "size_bytes": 41042,
+      "mtime": "2026-11-05T06:53:34.124Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "places"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "policy/jchs-state-of-nations-housing.json",
