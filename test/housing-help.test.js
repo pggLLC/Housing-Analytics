@@ -46,7 +46,7 @@ let d = nav('https://cohoanalytics.com/deal-calculator.html?geoid=08077&tdc=2500
 const links = d.querySelectorAll('a[data-lang-link]');
 assert.ok(links.length >= 2, 'Español is in the header or drawer and the footer');
 for (const a of links) {
-  assert.ok(a.textContent === 'Español' || (a.textContent === 'ES' && a.getAttribute('aria-label') === 'Español'));
+  assert.ok(a.textContent === 'Español' || (a.textContent === 'ES' && a.getAttribute('aria-label') === 'ES, Español'));
   assert.equal(a.getAttribute('lang'), 'es');
   const u = new URL(a.href);
   assert.equal(u.hostname, 'translate.google.com');
