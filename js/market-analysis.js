@@ -4300,7 +4300,7 @@
                       : zp === 'vacant_developable' ? '#f59e0b'
                       : zp === 'commercial' ? '#6b7280'
                       : zp === 'industrial' ? '#dc2626' : '#94a3b8';
-                    ps.radius = (fp.mf_suitability || 50) >= 70 ? 6 : 4;
+                    ps.radius = 5;
                   }
 
                   // Dynamic styling for EJI (red gradient by risk)
@@ -4400,14 +4400,15 @@
                 if (key === 'parcelZoning' && p.zone_proxy) {
                   var zLabel = (p.zone_proxy || '').replace(/_/g, ' ');
                   zLabel = zLabel.charAt(0).toUpperCase() + zLabel.slice(1);
-                  var suit = p.mf_suitability || 0;
-                  var suitColor = suit >= 70 ? '#10b981' : suit >= 40 ? '#f59e0b' : '#ef4444';
+                  // OpenStreetMap tags say what is mapped there today, not
+                  // what zoning allows. The old "MF Suitability" number was a
+                  // fixed value per tag (apartments 90, industrial 20), not a
+                  // measurement, so it is not shown.
                   tip = '<b>' + zLabel + '</b>' +
                     (p.name ? '<br>' + p.name : '') +
-                    '<br>MF Suitability: <span style="color:' + suitColor + ';font-weight:600">' + suit + '/100</span>' +
                     (p.building ? '<br>Building: ' + p.building : '') +
                     (p.count > 1 ? '<br>' + p.count + ' OSM features merged into this point' : '') +
-                    '<br><span style="font-size:0.75em;color:var(--muted)">Source: ' + (p.data_source || 'OSM') + '</span>';
+                    '<br><span style="font-size:0.75em;color:var(--muted)">OpenStreetMap feature, not zoning. Check the town\'s zoning map.</span>';
                   layer.bindTooltip(tip, { sticky: true, className: 'pma-tooltip' });
                   return;
                 }

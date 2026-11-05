@@ -612,15 +612,15 @@
           { k: 'Source', v: p.data_source },
         ];
       } },
-    { key: 'landuse-zoning', name: 'Land-use / zoning proxy (OpenStreetMap buildings and land use)', group: 'Infrastructure',
+    { key: 'landuse-zoning', name: 'Existing buildings by type (OpenStreetMap, not zoning)', group: 'Infrastructure',
       url: 'data/market/landuse_zoning_proxy_co.geojson', color: '#a16207', kind: 'point',
       popupRows: function (p) {
         return [
           { k: 'Name', v: p.name || '(unnamed)' },
-          { k: 'Zone proxy', v: p.zone_proxy },
+          { k: 'Mapped as', v: p.zone_proxy ? String(p.zone_proxy).replace(/_/g, ' ') : null },
           { k: 'Building', v: p.building },
           { k: 'Land use', v: p.landuse },
-          { k: 'MF suitability', v: p.mf_suitability },
+          { k: 'Note', v: 'OpenStreetMap feature, not zoning' },
           { k: 'OSM features here', v: p.count > 1 ? p.count + ' merged into this point' : null },
         ];
       } },
