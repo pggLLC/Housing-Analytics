@@ -48,11 +48,6 @@ jobs:
               fs.readFileSync('data/audit/upstream-vintage-watch.json', 'utf8')
             );
             const attention = (status.sources || []).filter(s => s.is_outdated || s.status === 'unverifiable' || s.error);
-            // A source flagged manual_check in the watch script is blocked on purpose by its
-            // publisher. It is reported, but never keeps the tracker open by itself (#2122).
-            const manual = (status.sources || []).filter(s => s.status === 'manual_check' && !s.is_outdated && !s.error);
-            for (const source of manual) core.notice(`${source.source}: manual check. ${source.notes || ''}`);
-            const manualLines = manual.map(s => `- ${s.source}: ${s.notes || 'verify by hand'}`);
             for (const source of attention) {
               if (source.status === 'unverifiable' || source.error) {
                 core.warning(`${source.source}: ${source.notes || source.error}`);
@@ -77,8 +72,7 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: existing.number,
-                  body: [`No upstream source needs an update or failed its check as of ${status.generated_at}. Closing tracker.`]
-                    .concat(manualLines.length ? ['', 'Still checked by hand only:', ...manualLines] : []).join('\n'),
+                  body: `All upstream sources are within their refresh window as of ${status.generated_at}. Closing tracker.`,
                 });
                 await github.rest.issues.update({
                   owner: context.repo.owner,
@@ -105,7 +99,6 @@ jobs:
               '| --- | --- | --- | --- | --- |',
               rows,
               '',
-              ...(manualLines.length ? ['Checked by hand only (these do not keep this issue open):', '', ...manualLines, ''] : []),
               '## Next steps',
               '',
               '- Review whether the new vintage is materially different from the current one (some annual updates are minor)',
