@@ -1,7 +1,7 @@
 {
   "schema": "incentive-coverage/v1",
   "meta": {
-    "as_of": "2026-11-04",
+    "as_of": "2026-11-05",
     "method": "One row per jurisdiction whose official sources were read for a scope (fees, land_use, funds). \"none_found\" means the named sources were read and hold no such measure; \"unreadable\" means the official source could not be read (blocked, a scan with no text, or a dead link). A scope with a verified record is shown as having records whatever this file says; tests/test_local_incentives.py fails if a row says none_found for a scope that has a record. Jurisdictions not listed here and with no record are \"not yet checked\"."
   },
   "jurisdictions": [
@@ -768,6 +768,22 @@
         "https://montezumacounty.org/wp-content/uploads/2025/12/Resolution_30-2025.pdf"
       ],
       "note": "Expedited review resolution read. Fee schedule, land use code and funds not yet checked."
+    },
+    {
+      "geoid": "0851745",
+      "jurisdiction": "Montrose (city)",
+      "checked": "2026-11-05",
+      "result_by_scope": {
+        "fees": "records",
+        "land_use": "not_checked",
+        "funds": "records"
+      },
+      "sources_checked": [
+        "https://www.cityofmontrose.org/DocumentCenter/View/52650/Ordinance-2671---Amending-5-2-1-and-5-2-5-Increasing-Hotel-Room-Tax",
+        "https://www.cityofmontrose.org/174/2024-Ballot-Issue-2A",
+        "https://electionstats.montrosecounty.net/contests/get_source_documentation/1018/1"
+      ],
+      "note": "Hotel room tax (Ordinance 2671, Ballot Issue 2A) read. Land use code and the city's fast-track ordinance not yet read."
     }
   ]
 }

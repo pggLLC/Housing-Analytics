@@ -134,6 +134,32 @@ if (dataMatch) {
   }
 }
 
+// A place with a handful of renter households prints no cost-burden rate:
+// the rate is apportioned from tracts and is noise below 50 households.
+{
+  const embedded = (html) => JSON.parse((html.match(/<script id="place-data" type="application\/json">([\s\S]*?)<\/script>/) || [])[1]);
+  // The floor the generator applies, read from it, so the two cannot drift.
+  const floorMatch = readRel('scripts/hna/build_place_pages.py').match(/^MIN_HH_FOR_RATE\s*=\s*(\d+)/m);
+  assert(floorMatch != null, 'build_place_pages.py defines MIN_HH_FOR_RATE');
+  const FLOOR = floorMatch ? Number(floorMatch[1]) : 50;
+  let scanned = 0;
+  pageFiles.forEach((f) => {
+    const html = readRel('places/' + f);
+    const d = embedded(html);
+    const sub = (html.match(/<p class="place-sub">([^<]*)<\/p>/) || [])[1] || '';
+    const renters = d.summary.total_renter_hh || 0;
+    scanned += 1;
+    if (renters < FLOOR) {
+      if (/cost-burden/.test(sub)) assert(false, f + ': under ' + FLOOR + ' renter households, yet the subtitle prints a rate');
+    } else if ((d.summary.renter_cb30_share || 0) > 0) {
+      if (!/renter cost-burden \d/.test(sub)) assert(false, f + ': ' + FLOOR + '+ renter households, yet no rate in the subtitle');
+    }
+  });
+  assert(scanned > 0 && scanned === pageFiles.length, `every place page was scanned for the ${FLOOR}-household floor (${scanned})`);
+  assert(/var MIN_HH = Number\('\{\{MIN_HH\}\}'\);/.test(template) && /fewRenters \? FEW/.test(template),
+    'the page script prints no rate under the floor either');
+}
+
 console.log('\n=========================================');
 console.log('Results: ' + passed + ' passed, ' + failed + ' failed');
 process.exit(failed === 0 ? 0 : 1);

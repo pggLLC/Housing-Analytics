@@ -2,7 +2,7 @@
   "meta": {
     "title": "Colorado developer funding resources",
     "as_of": "2026-10-10",
-    "last_checked": "2026-10-26",
+    "last_checked": "2026-10-28",
     "review_by": "2027-01-15",
     "scope": "Programs that finance affordable rental and for-sale housing development in Colorado: federal and state tax credits, CHFA loans, Proposition 123 funds, Division of Housing funds, federal and agency debt and grants, rental assistance, the largest city funds, and the state and federal programs that pay for public infrastructure serving housing sites.",
     "method": "Every term was read from the administrator's own page, the statute, eCFR, IRS, Federal Register (govinfo) or the CHFA QAP on the date in last_checked, and each one carries a verbatim quote and its URL in evidence. A term the official source does not publish is null and listed in unverified with the reason. Nothing is filled from memory or from third-party summaries.",
@@ -6926,19 +6926,19 @@
         "grant",
         "loan"
       ],
-      "status": "watch",
+      "status": "open",
       "what_it_funds": "Public facilities and services for local governments affected by energy and mineral development. For housing, it pays only for the public infrastructure tied to an affordable housing project, such as water and sewer mains, streets, sidewalks, curb and gutter, and the planning and engineering for them.",
-      "award_size": "Administrative planning grants up to $25,000 (total project cost up to $100,000). Tier I, II and III limits are announced with each notice of funding availability. Cycle 26-05 awarded $14,986,703 in total.",
+      "award_size": "Cycle 27-03 offers $15,000,000, funded by the Federal Mineral Lands Leasing Act (FML), and accepts Tier I requests up to $200,000 and Tier II requests of $200,001 to $750,000. Administrative planning grants up to $25,000 (total project cost up to $100,000). Cycle 26-05 awarded $14,986,703 in total.",
       "rate": "Grants carry no rate. Water and wastewater loans: the AA-rated ten-year municipal bond rate averaged over the previous six months, set on the day each cycle opens.",
       "term": "Water and wastewater loans up to 20 years with annual payments.",
       "ami_restriction": null,
       "affordability_period": null,
       "eligible_applicants": "Municipalities, counties, school districts, special districts, other political subdivisions, regional councils of governments and state agencies. Private businesses and nonprofits cannot apply, and a local government cannot pass the money through to them.",
       "eligible_projects": "Publicly owned infrastructure in public rights-of-way or easements that is conveyed to a local government or utility on completion. Service line extensions count as housing construction and are not eligible.",
-      "application_cycle": "No cycle is announced. DOLA says future cycles depend on severance and federal mineral lease revenue; cycles have traditionally closed April 1, August 1 and December 1, and a Regional Manager makes a community eligible about a month before a closing date. Most grants need a dollar-for-dollar match. The latest awarded cycle is 26-05.",
+      "application_cycle": "Cycle 27-03 is open: applications open November 2, 2026 and close December 2, 2026, with final awards in March 2027 (DOLA's EIAF page, change detected October 28, 2026). The town or county must contact its DOLA Regional Manager before applying. Most grants need a dollar-for-dollar match.",
       "key_considerations": [
         "A developer does not apply. The town or county applies, and the money pays for public improvements around the site, not the housing.",
-        "Talk with the DOLA Regional Manager before planning on a cycle; closing dates are set cycle by cycle.",
+        "Cycle 27-03 closes December 2, 2026. Talk with the DOLA Regional Manager first: DOLA accepts an application into a cycle only after that contact.",
         "Most grants need a dollar-for-dollar local match.",
         "The infrastructure must be owned by the local government or housing authority, or carry a deed restriction."
       ],
@@ -6986,13 +6986,18 @@
       "evidence": [
         {
           "field": "status",
-          "quote": "Future cycles will be announced and are dependent on severance and federal mineral lease revenues.",
+          "quote": "Current Cycle: 27-03 - $15,000,000, funded by the Federal Mineral Lands Leasing Act (FML)",
           "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
         },
         {
           "field": "status",
-          "quote": "Traditionally, cycles close on April 1, August 1 and December 1 each calendar year and Regional Managers have the ability to make communities eligible to apply about one month prior to each closing date. Contact your Regional Manager for discretionary grant cycle closing dates as they are subject to change.",
-          "url": "https://dlg.colorado.gov/eiaf-application"
+          "quote": "Application period opens: November 2, 2026",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
+        },
+        {
+          "field": "status",
+          "quote": "Application period closes: December 2, 2026",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
         },
         {
           "field": "status",
@@ -7008,6 +7013,16 @@
           "field": "what_it_funds",
           "quote": "Eligible applications for Tier I grants may be used for the planning, construction and maintenance of public facilities and for the provision of public services.",
           "url": "https://dlg.colorado.gov/eiaf-discretionary-grant-loan-opportunities"
+        },
+        {
+          "field": "award_size",
+          "quote": "Current Cycle: 27-03 - $15,000,000, funded by the Federal Mineral Lands Leasing Act (FML)",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
+        },
+        {
+          "field": "award_size",
+          "quote": "Tier I (up to $200,000) and Tier II ($200,001 to $750,000) applications accepted.",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
         },
         {
           "field": "award_size",
@@ -7081,8 +7096,23 @@
         },
         {
           "field": "application_cycle",
-          "quote": "Traditionally, cycles close on April 1, August 1 and December 1 each calendar year and Regional Managers have the ability to make communities eligible to apply about one month prior to each closing date.",
-          "url": "https://dlg.colorado.gov/eiaf-application"
+          "quote": "Application period opens: November 2, 2026",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Application period closes: December 2, 2026",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "Final awards: March 2027",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
+        },
+        {
+          "field": "application_cycle",
+          "quote": "In order to be accepted into an EIAF grant cycle, applicants must contact their Department of Local Affairs Regional Manager prior to submitting any application and must be \"ready to go.\"",
+          "url": "https://dlg.colorado.gov/energy-mineral-impact-assistance-fund-grant-eiaf"
         },
         {
           "field": "application_cycle",
@@ -7100,7 +7130,7 @@
           "reason": "The administrator's pages state no affordability period; they ask for local government or housing authority ownership and/or \"an appropriate deed restriction\" with no term."
         }
       ],
-      "last_checked": "2026-10-26"
+      "last_checked": "2026-10-28"
     },
     {
       "id": "dola-strong-communities-infrastructure",

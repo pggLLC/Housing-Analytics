@@ -132,7 +132,7 @@
         <p class="mx-byline">
           <span>Paul Glasgow &mdash; <a href="https://pggllc.org">pggLLC</a>, working with AI</span>
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
-          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">6a566c801</code></span>
+          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">a09be84be</code></span>
           <span>Companion to the <a href="working-paper.html">working paper</a></span>
           <span>Every section last read against its code on <time data-spec-reviewed>2026-10-10</time></span>
         </p>
@@ -637,7 +637,7 @@ future_units   = resident_growth_20yr + incommuters_25</code>
               <dt>wf_gap_count, wf_gap_rate</dt><dd><code>workforce_gap_units</code>, <code>workforce_gap_pct</code> &mdash; renter households in the place and the households of everyone who commutes in, both at &le;60% AMI, less rental units affordable at &le;60% AMI; the in-commuters&rsquo; households come from Census microdata (§09)</dd>
               <dt>cb_all, cb_severe, cb_deep</dt><dd><code>pct_cost_burdened</code>, <code>pct_renter_severe_burdened</code>, <code>pct_deep_tier_burdened</code></dd>
               <dt>value/income, rent/income</dt><dd><code>home_value_to_income</code>, <code>rent_to_income</code></dd>
-              <dt>future_units</dt><dd><code>future_units_needed_20yr</code>; its growth-only part is published separately as <code>future_units_growth_20yr</code></dd>
+              <dt>future_units</dt><dd><code>future_units_needed_20yr</code>; its growth-only part is published separately as <code>future_units_growth_20yr</code>. A place under 250 households publishes neither (<code>future_units_reading</code> is <code>too_small</code>), as its page says it is too small for a town forecast; the score still ranks it on the computed figure, held as <code>_future_units_score_input</code> and not published, so hiding the number moves no rank</dd>
               <dt>incommuters_25</dt><dd><code>incommuter_need_units</code> &mdash; homes for a quarter of today&rsquo;s in-commuter households at or below 120% AMI, if they moved closer (§09); <code>incommuter_need_units_high</code> is the half</dd>
               <dt>senior_growth</dt><dd><code>senior_share_growth_pp</code></dd>
               <dt>overcrowding_rate</dt><dd><code>overcrowding_rate_pct</code></dd>
@@ -668,7 +668,7 @@ future_units   = resident_growth_20yr + incommuters_25</code>
             <span data-figure="methods_data.ranked_geographies">546</span> geographies. It does not set
             the 20-year figure, because it counts every in-commuter and is a shortfall today (§09). That figure adds
             today&rsquo;s in-commuters who would move closer to projected resident growth instead, for
-            <span data-figure="methods_data.future_units_with_incommuters">536</span> geographies, and
+            <span data-figure="methods_data.future_units_with_incommuters">343</span> geographies, and
             <code>future_units_reading</code> says which parts each row carries.
           </p>
         </div>

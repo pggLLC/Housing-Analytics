@@ -36,8 +36,8 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | chfa-lihtc-and-2026-r1-awards | 2184 |
 | chfa-lihtc-properties | 10370 |
 | county-housing-cost-trends-acs-cohorts | 2730 |
-| dola-demographic-projections | 2194 |
-| dola-projections-plus-lodes-incommuters | 536 |
+| dola-demographic-projections | 2387 |
+| dola-projections-plus-lodes-incommuters | 343 |
 | economic-housing-bridge | 4368 |
 | hna-affordable-ownership-need | 6552 |
 | hna-ranking-index-derived | 12558 |

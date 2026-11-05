@@ -1572,6 +1572,7 @@ def compute_metrics(
     future_units_needed_20yr = None
     senior_share_growth_pp = None
     projection_basis = None
+    place_too_small = False
     if geo_type == "county" and county_fips5:
         proj = load_projection(county_fips5)
         if proj:
@@ -1599,6 +1600,12 @@ def compute_metrics(
         # the fallback rather than being deleted.
         place_proj = load_place_projections().get(geoid) if geoid else None
         incremental = (place_proj or {}).get("incremental_units_needed") or []
+        # Under 250 households the ledger marks the place too small for a town
+        # forecast (build_place_projections.SMALL_PLACE_HOUSEHOLDS). The page
+        # says so and points to the county. The figure is still computed here,
+        # as the future-pressure score's input, and hidden from the published
+        # fields below; the population-share fallback must not stand in for it.
+        place_too_small = bool((place_proj or {}).get("too_small"))
         if incremental:
             future_units_needed_20yr = round_like_math_round(safe_float(incremental[-1]))
             projection_basis = (place_proj or {}).get("method") or "place_ledger"
@@ -1636,7 +1643,7 @@ def compute_metrics(
                         growth_factor = last_pop / base_pop
                         population_projection_20yr = int(population * growth_factor)
                     future_units = proj.get("housing_need", {}).get("incremental_units_needed_dola", [])
-                    if future_units and future_units_needed_20yr is None:
+                    if future_units and future_units_needed_20yr is None and not place_too_small:
                         share = min(population / base_pop, 1.0)
                         future_units_needed_20yr = round_like_math_round(safe_float(future_units[-1]) * share)
                         projection_basis = "county_population_share"
@@ -1677,6 +1684,16 @@ def compute_metrics(
             future_units_basis_reading = "resident_growth_plus_incommuters"
         else:
             future_units_basis_reading = "resident_growth"
+    # The score keeps ranking a small place on its (low-precision) figure, so
+    # its rank does not move because the number is no longer shown: dropping
+    # the factor would renormalize the score and lift ~500 ranks. What is
+    # published says too small, as the page does.
+    future_units_score_input = future_units_needed_20yr
+    if place_too_small:
+        future_units_needed_20yr = None
+        future_units_growth_20yr = None
+        projection_basis = None  # no figure, so no apportionment to name
+        future_units_basis_reading = "too_small"
 
     # methods-spec:end need-inputs
 
@@ -1753,7 +1770,7 @@ def compute_metrics(
         imputed_score_factors.append("rent_to_income")
     if vacancy_rate is None:
         imputed_score_factors.append("vacancy_rate_pct")
-    if future_units_needed_20yr is None:
+    if future_units_score_input is None:
         imputed_score_factors.append("future_units_needed_20yr")
     if senior_share_growth_pp is None:
         imputed_score_factors.append("senior_share_growth_pp")
@@ -1911,6 +1928,9 @@ def compute_metrics(
         "commute_ratio": commute_ratio,
         "population_projection_20yr": population_projection_20yr,
         "future_units_needed_20yr": future_units_needed_20yr,
+        # Score input only: equals future_units_needed_20yr except for places
+        # under 250 households, where the published figure is null.
+        "_future_units_score_input": future_units_score_input,
         # Which apportionment produced the figure above. Two methods existed
         # for years and nothing on the row said which one you were reading.
         "future_units_basis": projection_basis,
@@ -2270,7 +2290,7 @@ def build(out_path: str | None = None) -> None:
     pct_deep_cb = compute_percentile_ranks(entries, "pct_deep_tier_burdened", within_geo_type=True)
     pct_home_value_income = compute_percentile_ranks(entries, "home_value_to_income", within_geo_type=True)
     pct_rent_income = compute_percentile_ranks(entries, "rent_to_income", within_geo_type=True)
-    pct_future_units = compute_percentile_ranks(entries, "future_units_needed_20yr", within_geo_type=True)
+    pct_future_units = compute_percentile_ranks(entries, "_future_units_score_input", within_geo_type=True)
     pct_senior_growth = compute_percentile_ranks(entries, "senior_share_growth_pp", within_geo_type=True)
     pct_overcrowding = compute_percentile_ranks(entries, "overcrowding_rate_pct", within_geo_type=True)
     pct_mobility = compute_percentile_ranks(entries, "opportunity_mobility_score", within_geo_type=True)
@@ -2845,6 +2865,11 @@ def build(out_path: str | None = None) -> None:
         "metrics": metrics_meta,
         "rankings": entries,
     }
+
+    # The score input is internal: a place under 250 households must not
+    # publish a figure its page calls too small to forecast.
+    for e in entries:
+        (e.get("metrics") or {}).pop("_future_units_score_input", None)
 
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as fh:

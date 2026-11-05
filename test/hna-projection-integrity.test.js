@@ -814,9 +814,19 @@ function assertRankingUsesTheSameLedgerAsThePage() {
 
   const mismatched = [];
   let compared = 0;
+  let tooSmall = 0;
   for (const row of rows) {
     const entry = ledger[row.geoid];
     if (!entry || !Array.isArray(entry.incremental_units_needed) || !entry.incremental_units_needed.length) continue;
+    if (entry.too_small) {
+      // Too small for a town forecast: the index publishes no figure, as the page shows none.
+      tooSmall += 1;
+      const m = row.metrics || {};
+      if (m.future_units_needed_20yr != null || m.future_units_growth_20yr != null || m.future_units_reading !== 'too_small') {
+        mismatched.push(`${row.name}: under 250 households but the ranking publishes ${m.future_units_needed_20yr} (${m.future_units_reading})`);
+      }
+      continue;
+    }
     const expected = Math.round(Number(entry.incremental_units_needed[entry.incremental_units_needed.length - 1]));
     // future_units_needed_20yr is now max(resident growth, workforce), so it
     // is no longer the same quantity the ledger produces. The ledger IS the
@@ -829,7 +839,7 @@ function assertRankingUsesTheSameLedgerAsThePage() {
     compared += 1;
     if (actual !== expected) mismatched.push(`${row.name}: ranking ${actual}, ledger ${expected}`);
   }
-  assert(compared >= 400, `only ${compared} places compared against the ledger`);
+  assert(compared + tooSmall >= 400 && compared >= 250, `only ${compared} places compared against the ledger (${tooSmall} too small)`);
 
   // The published figure must never fall below the growth component it is a
   // max of. Without this, dropping the workforce half entirely would satisfy

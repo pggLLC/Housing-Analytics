@@ -297,7 +297,7 @@
     const exportBtn = el('button', {
       class: 'ps-export-btn',
       type: 'button',
-      'aria-label': 'Export scenario comparison as CSV',
+      'aria-label': 'Export Comparison CSV of the scenarios',
     }, '⬇ Export Comparison CSV');
     // Use onclick (not addEventListener) so re-renders never stack duplicate listeners.
     exportBtn.onclick = downloadCSV;

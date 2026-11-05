@@ -82,8 +82,9 @@ ENERGY_PROGRAM_IDS.forEach((id) => {
   'CEO-BUILDING-ELECTRIFICATION-GRANTS'
 ].forEach((id) => {
   const program = programs[id];
-  // 'paused' and 'ended' are read from the program's own page (2026-10-26); neither is available money.
-  assert(['VERIFY', 'rule-pending', 'paused', 'ended'].includes(program.status), `${id} remains VERIFY/rule-pending (or paused/ended per its page) under volatility rule`);
+  // 'paused' and 'ended' are read from the program's own page (2026-10-26), and 'closed' likewise
+  // (the Energy Office's "Program Status: Closed", 2026-11-03); none of them is available money.
+  assert(['VERIFY', 'rule-pending', 'paused', 'ended', 'closed'].includes(program.status), `${id} remains VERIFY/rule-pending (or paused/ended/closed per its page) under volatility rule`);
   assert.strictEqual(program.available, null, `${id} does not invent available dollars`);
   assert.strictEqual(program.capacity, null, `${id} does not invent capacity`);
   assert(/VERIFY|volatile|rescission|Statutory/.test(program.warning || program.description), `${id} carries volatility/verification warning`);

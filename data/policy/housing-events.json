@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-04T11:11:36Z",
-    "as_of": "2026-11-04",
+    "generated": "2026-11-05T11:11:51Z",
+    "as_of": "2026-11-05",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -4933,42 +4933,6 @@
       "url": "https://events.teams.microsoft.com/event/4dd83353-c438-409e-9bcf-acb77f80f1ab@de029520-7a0e-4208-bc91-86b9369ad432",
       "source": "chfa",
       "category": "other"
-    },
-    {
-      "title": "State Housing Board Meeting",
-      "start": "2025-11-04",
-      "end": null,
-      "time": "13:00",
-      "location": null,
-      "online": false,
-      "organizer": "Colorado Division of Housing",
-      "url": "https://cdola.colorado.gov/calendar",
-      "source": "doh",
-      "category": "board"
-    },
-    {
-      "title": "Training Webinar: CHFA Guidelines Training for Underwriters and Processors",
-      "start": "2025-11-04",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://attendee.gotowebinar.com/register/7804351576728739423",
-      "source": "chfa",
-      "category": "other"
-    },
-    {
-      "title": "chfareach: Identifying, Assessing, and Addressing Hoarding, Online Workshop",
-      "start": "2025-11-04",
-      "end": null,
-      "time": "08:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-identifying-assessing-and-addressing-hoarding-online-workshop-11-04-2025",
-      "source": "chfa",
-      "category": "compliance"
     }
   ]
 }

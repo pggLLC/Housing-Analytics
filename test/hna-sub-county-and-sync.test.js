@@ -42,11 +42,11 @@ assert(/await\s+window\.HNAUtils\.ensureGeographyRegistry\(\)/.test(ctl),
   'controller awaits ensureGeographyRegistry()');
 
 console.log('\n[test] #2 renderProp123BaselineAndFastTrack exists and is wired up');
-assert(/function renderProp123BaselineAndFastTrack\(profile, geoType, geoLabel\)/.test(rend),
+assert(/function renderProp123BaselineAndFastTrack\(profile, geoType, geoLabel, record\)/.test(rend),
   'renderer accepts (profile, geoType, geoLabel)');
 assert(/renderProp123BaselineAndFastTrack,/.test(rend),
   'renderer is exported on HNARenderers');
-assert(/renderProp123BaselineAndFastTrack\(profile, geoType, label\)/.test(ctl),
+assert(/renderProp123BaselineAndFastTrack\(profile, geoType, label,/.test(ctl),
   'controller calls the renderer in the update() flow');
 assert(/prop123BaselineContent/.test(rend),
   'renderer writes #prop123BaselineContent');

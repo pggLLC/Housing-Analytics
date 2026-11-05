@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "6a566c801",
+  "generated_from_commit": "a09be84be",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-11-05",
-    "total_commits": 9336,
+    "total_commits": 9367,
     "partial_month": "2026-11",
     "commits_by_month": [
       {
@@ -54,8 +54,8 @@
       },
       {
         "month": "2026-11",
-        "commits": 219,
-        "pct_of_peak": 14
+        "commits": 250,
+        "pct_of_peak": 16
       }
     ]
   },
@@ -64,16 +64,16 @@
     "html_pages_toplevel": 82,
     "html_pages_total": 576,
     "workflows": 84,
-    "scripts": 381,
+    "scripts": 383,
     "docs": 500,
-    "data_files": 2057,
+    "data_files": 2059,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 71,
-    "test_files": 698,
+    "test_files": 700,
     "absence_test_cases": 320,
     "absence_tests": 126,
     "lihtc_features": 926
@@ -251,11 +251,11 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 523122,
-    "generated_place_page_lines": 229724,
+    "hand_written_lines": 524158,
+    "generated_place_page_lines": 232622,
     "top_level_pages": 82,
-    "html_nonblank_lines": 51639,
-    "html_distinct_lines": 21344,
+    "html_nonblank_lines": 51646,
+    "html_distinct_lines": 21350,
     "html_distinct_share": 0.413,
     "substantial_tools": 25,
     "declared_data_sources": 87,
@@ -320,7 +320,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "6a566c801",
+    "extracted_at_commit": "a09be84be",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -547,7 +547,7 @@
     "anchor_overcount_share": 0.373,
     "ranked_geographies": 546,
     "workforce_gap_wins": 236,
-    "future_units_with_incommuters": 536,
+    "future_units_with_incommuters": 343,
     "workforce_reading_counties_sum": 184145,
     "replacement_rate_min_pct": 0.02,
     "replacement_rate_max_pct": 0.6,

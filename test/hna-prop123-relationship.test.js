@@ -99,7 +99,19 @@ async function main() {
     assert(r.nextCycle && r.nextCycle.filing, `${f.name}: its 2027–2029 filing is found`);
     assert.equal(r.nextCycle.filing.submitted, f.submitted, `${f.name}: the filing date is DOLA's`);
   });
-  assert.equal(api.relationship(DATA, 'place', 'Fruita (city)').nextCycle.filing, null, 'no 2027–2029 filing is invented');
+  // Lamar has a 2024–2026 commitment and no 2027–2029 row in DOLA's status sheet.
+  assert.equal(api.relationship(DATA, 'place', 'Lamar (city)').nextCycle.filing, null, 'no 2027–2029 filing is invented');
+  // DOLA's status sheet carries the filing's status, and a county and a town
+  // of the same name stay apart (Alamosa County has no 2024–2026 commitment).
+  assert.equal(api.relationship(DATA, 'place', 'Fruita (city)').nextCycle.filing.status, 'Contingent Approval', 'Fruita: DOLA\'s status for its 2027–2029 filing');
+  assert.notEqual(api.relationship(DATA, 'county', 'Alamosa County').nextCycle.filing.submitted,
+    api.relationship(DATA, 'place', 'Alamosa (city)').nextCycle.filing.submitted, 'Alamosa County and the City of Alamosa keep their own filings');
+  // A CDP in a county with only a 2027–2029 filing is covered by that filing.
+  const alamosaEast = api.relationship(DATA, 'cdp', 'Alamosa East (CDP)', 'Alamosa County');
+  assert.equal(alamosaEast.coveredBy, null, 'Alamosa County has no 2024–2026 record to cover Alamosa East');
+  assert.ok(alamosaEast.nextCycle && alamosaEast.nextCycle.filing, 'Alamosa East shows its county\u2019s 2027–2029 filing');
+  assert.equal(alamosaEast.nextCycle.filing.submitted, api.relationship(DATA, 'county', 'Alamosa County').nextCycle.filing.submitted,
+    'Alamosa East carries Alamosa County\u2019s filing, not the city\u2019s');
   (DATA.fast_track_without_cycle1_commitment || []).forEach((f) => {
     const r = api.relationship(DATA, 'place', f.name.replace(/^(City|Town) of /, '') + ' (town)');
     assert.equal(r.fastTrack, 'Yes', `${f.name}: a fast-track adoption without a 2024–2026 commitment still shows`);
@@ -174,8 +186,14 @@ async function main() {
   const columbineRendered = relationshipEl.textContent.replace(/\s+/g, ' ').trim();
   assert(columbineRendered.includes('Jefferson County') && columbineRendered.includes('Arapahoe County'), 'a two-county CDP names both counties');
   // 2027–2029 across a county line: one answer only when the counties agree.
-  const jeffFiled = Object.assign({}, DATA, { next_cycle: Object.assign({}, DATA.next_cycle, {
-    filings: DATA.next_cycle.filings.concat([{ name: 'Jefferson County', submitted: '2026-10-15', unit_goal: 100 }]) }) });
+  // Both counties have filed with DOLA, so take Arapahoe's filing out and
+  // give Jefferson a known one.
+  const jeffFiled = Object.assign({}, DATA, {
+    jurisdictions: DATA.jurisdictions.map((j) => (j.name === 'Arapahoe County' ? Object.assign({}, j, { next_cycle: null })
+      : (j.name === 'Jefferson County' ? Object.assign({}, j, { next_cycle: { submitted: '2026-10-15', unit_goal: 100 } }) : j))),
+    next_cycle: Object.assign({}, DATA.next_cycle, {
+      filings: DATA.next_cycle.filings.filter((f) => f.name !== 'Arapahoe County' && f.name !== 'Jefferson County')
+        .concat([{ name: 'Jefferson County', submitted: '2026-10-15', unit_goal: 100 }]) }) });
   const mixed = api.relationship(jeffFiled, 'cdp', 'Columbine (CDP)', ['Jefferson County', 'Arapahoe County']);
   assert.equal(mixed.nextCycle.across, 'mixed', 'one county filed, one not: mixed');
   window.HNARenderers.renderProp123Relationship(mixed, 'Columbine (CDP)', true);

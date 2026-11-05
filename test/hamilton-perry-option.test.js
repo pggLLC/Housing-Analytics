@@ -248,7 +248,7 @@ function choose(value) {
   assert.match($('sbTownShareHelp').textContent,
     /Timnath \(town\) grew from 625 people in 2010 to 6,487 in 2020\. Hamilton-Perry would repeat that every ten years, so shares by age are offered only where the 2020 count was between two-thirds and one and a half times the 2010 count\.$/,
     `Timnath: "${$('sbTownShareHelp').textContent}"`);
-  const newCdp = Object.keys(hp.leftOut).find((g) => hp.leftOut[g].reason === 'new_in_2020' && rankRec(g) && ledger[g]);
+  const newCdp = Object.keys(hp.leftOut).find((g) => hp.leftOut[g].reason === 'new_in_2020' && rankRec(g) && ledger[g] && !ledger[g].too_small);
   if (newCdp) {
     const r = rankRec(newCdp);
     town(newCdp);

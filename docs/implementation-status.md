@@ -1,6 +1,6 @@
 <!-- sync-banner:start -->
 > **⚠️ Superseded** — See [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md) for the current feature status matrix.  
-> *Auto-synced 2026-11-05 by `scripts/sync-docs.mjs` · 82 pages · 1969 data files · 84 workflows*
+> *Auto-synced 2026-11-05 by `scripts/sync-docs.mjs` · 82 pages · 1971 data files · 84 workflows*
 <!-- sync-banner:end -->
 
 > **⚠️ Deprecated:** This document is superseded by [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md), which contains the current feature status matrix.
@@ -332,7 +332,6 @@ The following directories contain additional files that were only partially enum
 
 ## Actionable Recommendations
 
-- Quarantine candidate: `scripts/policy/build_policy_jurisdictions_geojson.py` — no file references its name. Delete it deliberately, or reference it (workflow/doc/npm script) if it is used.
 - Docs and site-audit pipeline are automatically updated after every merge.
 
 ## 

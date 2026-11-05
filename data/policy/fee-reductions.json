@@ -839,8 +839,7 @@
       "Parker, Douglas County (unincorporated), Fountain, Canon City: no affordable-housing fee waiver or land-use incentive found in searches; municode pages not attempted beyond search (JS).",
       "Pueblo (city) fee waivers and Pueblo Water tap-fee reductions: none found; only the Prop 123 expedited review (land_use) verified.",
       "Alamosa: only an AI-generated CitizenPortal summary of Ordinance 23-2025 (codifying expedited affordable-housing review) was found; not recorded as evidence.",
-      "Castle Rock land-use incentives for attainable housing: not researched beyond fee code (time).",
-      "Bellingham land-use incentives: not researched (out-of-state comparison only for utility rates)."
+      "Castle Rock land-use incentives for attainable housing: not researched beyond fee code (time)."
     ]
   },
   "entries": [
@@ -1543,117 +1542,6 @@
       ],
       "not_in_source": [],
       "notes": "Requires water-conservation devices; exemption is repayable if units stop being affordable. A parallel section (§25.04.036) covers Aspen Electric community investment charges; not separately recorded.",
-      "last_verified": "2026-09-26",
-      "review_by": "2027-03-27"
-    },
-    {
-      "id": "bellingham-customer-assistance-program",
-      "state": "WA",
-      "kind": "program",
-      "geoid": null,
-      "jurisdiction": "City of Bellingham, WA",
-      "county": null,
-      "provider": "City of Bellingham (water, sewer and stormwater utilities)",
-      "provider_type": "city",
-      "fee_category": "utility_rate",
-      "recurrence": "recurring",
-      "measure": "rate_discount",
-      "reduces_total_cost": null,
-      "amount": null,
-      "percent": 75,
-      "value_basis": "utility bill discount for single-family/duplex customers: 25% at 51-80% AMI, 50% at 31-50% AMI, 75% at 30% AMI or less",
-      "deferral_trigger": null,
-      "eligibility": {
-        "ami_max": 80,
-        "tenure": "any",
-        "deed_restriction_years": null,
-        "by_right": null
-      },
-      "backfill": {
-        "method": "not_specified",
-        "source_note": "Not stated; general rates rose (13.5% average) in January 2026 at the same time."
-      },
-      "legal_basis_ids": [],
-      "authorizing_code": "City of Bellingham Customer Assistance Program",
-      "adopted": "2026-01-01",
-      "summary": "Bellingham's expanded Customer Assistance Program cuts water/sewer/stormwater bills by 25%, 50% or 75% for single-family and duplex households at or below 80% of AMI.",
-      "source": {
-        "label": "City of Bellingham: Reduced Utility Rates",
-        "url": "https://cob.org/services/utilities/reduced-rates"
-      },
-      "verification": {
-        "level": "primary",
-        "against": "cob.org Reduced Rates page and 2025 rate-increase news release",
-        "checked": "2026-09-26"
-      },
-      "evidence": [
-        {
-          "section": "intro",
-          "quote": "Single family and duplex customers are eligible for a discount on their bill if their household income is at or below 80% of the Area Median Income (AMI)."
-        },
-        {
-          "section": "Rate Reduction",
-          "quote": "51-80% of Area Median Income 25% 31-50% of Area Median Income 50% 30% or less of Area Median Income 75%"
-        },
-        {
-          "section": "News release",
-          "quote": "On average, customers will see a 13.5% increase in their monthly utility bill starting in January, with additional increases planned in future years.",
-          "url": "https://cob.org/news/2025/utility-rates-to-increase-in-2026-to-support-safe-reliable-water-services"
-        }
-      ],
-      "not_in_source": [],
-      "notes": "Out-of-state comparison. Tiered by income; percent field holds the maximum tier. Discounts begin on bills after January 1, 2026.",
-      "last_verified": "2026-09-26",
-      "review_by": "2027-03-27"
-    },
-    {
-      "id": "bellingham-nonprofit-affordable-housing-reduced-utility-rate",
-      "state": "WA",
-      "kind": "program",
-      "geoid": null,
-      "jurisdiction": "City of Bellingham, WA",
-      "county": null,
-      "provider": "City of Bellingham (water, sewer and stormwater utilities)",
-      "provider_type": "city",
-      "fee_category": "utility_rate",
-      "recurrence": "recurring",
-      "measure": "rate_discount",
-      "reduces_total_cost": null,
-      "amount": null,
-      "percent": null,
-      "value_basis": "reduced water/sewer/stormwater rates for nonprofit or Bellingham Housing Authority low-income housing with program-restricted rents below 80% AMI; discount size not stated on page",
-      "deferral_trigger": null,
-      "eligibility": {
-        "ami_max": 80,
-        "tenure": "rental",
-        "deed_restriction_years": null,
-        "by_right": null
-      },
-      "backfill": {
-        "method": "not_specified",
-        "source_note": "Not stated."
-      },
-      "legal_basis_ids": [],
-      "authorizing_code": "Bellingham Municipal Code 15.04.070(C)",
-      "adopted": null,
-      "summary": "Bellingham, WA offers reduced water, sewer and stormwater rates to nonprofit and housing-authority properties whose rents are restricted for households under 80 percent (80%) of AMI.",
-      "source": {
-        "label": "City of Bellingham: Reduced Utility Rates",
-        "url": "https://cob.org/services/utilities/reduced-rates"
-      },
-      "verification": {
-        "level": "primary",
-        "against": "cob.org Reduced Rates page",
-        "checked": "2026-09-26"
-      },
-      "evidence": [
-        {
-          "section": "Nonprofit Agencies Offering Affordable Housing",
-          "quote": "Agencies must be nonprofits or the Bellingham Housing Authority, and the reduced rate is only available for low-income housing where rents are restricted by a federal, state or city housing program for households earning less than 80 percent (80%) of area median income. See BMC 15.04.070(C)."
-        }
-      ],
-      "not_in_source": [],
-      "notes": "Out-of-state comparison. Seed confirmed. Discount magnitude for agency properties not on the page.",
       "last_verified": "2026-09-26",
       "review_by": "2027-03-27"
     },

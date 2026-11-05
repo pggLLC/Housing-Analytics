@@ -3,7 +3,7 @@
   "meta": {
     "title": "Help for Homebuyers Program Watchlist",
     "as_of": "2026-10-20",
-    "last_updated": "2026-10-26",
+    "last_updated": "2026-11-05",
     "last_verified": "2026-10-20",
     "review_by": "2027-01-20",
     "methodology": "Consumer-facing watchlist of homebuyer and homeowner assistance programs. Dollar values are included only when visible on an official program page reviewed this session; otherwise benefit_amount remains null and the page renders VERIFY."
@@ -76,6 +76,26 @@
       "source_note": "CHFA lists home purchase loan programs, grants, and second mortgage loans through participating lenders, with general requirements verified by the lender.",
       "last_verified": "2026-10-09",
       "review_by": "2027-01-07"
+    },
+    {
+      "id": "chfa-preferred-dearfield-fund",
+      "name": "CHFA Preferred with Dearfield Fund Down Payment Assistance",
+      "level": "colorado",
+      "kind": "dpa-loan",
+      "status": "active",
+      "plain_summary": "Buyers with a CHFA Preferred Fannie Mae loan can add down payment help from the Dearfield Fund, which CHFA does not run. It is a subordinate lien, and the buyer shares part of the home's appreciation on sale, refinance or moving out. Buyers must qualify for both programs.",
+      "who_its_for": "Homebuyers using a CHFA Preferred Fannie Mae loan who also meet the Dearfield Fund's own eligibility requirements.",
+      "what_its_worth": "Up to 20% of the purchase price, at most $50,000, for down payment or closing costs. The buyer later pays the lower of 8% or the pro rata share of recognized appreciation.",
+      "benefit_amount": 50000,
+      "benefit_unit": "max_dollars",
+      "how_to_start": "Ask a CHFA participating lender approved for CHFA Preferred Fannie Mae loans. Each program has its own reservation.",
+      "source_url": "https://www.chfainfo.com/chfa-news",
+      "related_source_urls": [
+        "https://myemail.constantcontact.com/chfa-enews--home-finance---10-22-2026---chfa-preferred-fannie-mae-loans-can-now-be-combined-with-the-dearfield-fund.html?soid=1101682993035&aid=zhuys1EYyDY"
+      ],
+      "source_note": "CHFA news, October 22, 2026 (read 2026-11-05): \"CHFA is pleased to announce that CHFA Preferred℠ programs can now be paired with additional down payment assistance of up to $50,000, through the Dearfield Fund.\" The linked CHFA Home Finance eNews lists a \"Dearfield Fund subordinate lien of up to 20% of the purchase price (a maximum of $50,000)\", a shared appreciation payment \"equal to the lower of 8% or the pro rata share of recognized appreciation\", and says \"Borrowers must meet the applicable eligibility requirements of both CHFA and the Dearfield Fund\" and that the Dearfield Fund operates independently of CHFA.",
+      "last_verified": "2026-11-05",
+      "review_by": "2027-02-05"
     },
     {
       "id": "chfa-mcc-current-holders",
@@ -224,19 +244,19 @@
       "level": "colorado",
       "kind": "grant",
       "status": "VERIFY",
-      "plain_summary": "Colorado's single-family appliance rebate (HEAR) is closed in every county. The Colorado Energy Office says rebates for small multifamily buildings, and whole-home rebates for manufactured or mobile homes and large multifamily buildings, are planned for 2026. Do not budget a rebate for a single-family home.",
+      "plain_summary": "The Colorado Energy Office lists its Home Energy Rebates program as closed. Single-family appliance rebates took applications from November 13, 2025 to August 1, 2026 and are no longer available. Do not budget a rebate.",
       "who_its_for": "Colorado homeowners or renters considering eligible energy upgrades, subject to state program rules.",
-      "what_its_worth": "VERIFY: the single-family appliance rebate is closed. For the 2026 phases the Energy Office lists caps of up to $14,000 per unit for appliances and up to $16,000 for a manufactured or mobile home below 80% AMI, but has not confirmed when they open.",
+      "what_its_worth": "VERIFY: the program is closed, and the Energy Office no longer publishes rebate caps or a later phase.",
       "benefit_amount": null,
       "benefit_unit": null,
-      "how_to_start": "Check the Colorado Energy Office Home Energy Rebates page for the multifamily or manufactured-home phase before planning a project.",
+      "how_to_start": "Check the Colorado Energy Office Home Energy Rebates page in case a new phase is announced.",
       "source_url": "https://energyoffice.colorado.gov/home-energy-rebates",
       "related_source_urls": [
         "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
         "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
       ],
-      "source_note": "The Colorado Energy Office page, read 2026-10-20, says: \"The HEAR single-family program is now closed for both Region 1 (the Front Range) and Region 2 (All Other Counties). Rebates for small multifamily buildings will be available in 2026.\" Its August 2026 update says Region 2 applications submitted after August 1, 2026 will be denied. DOE says the rebates are state-administered and available only in select states.",
-      "last_verified": "2026-10-20",
+      "source_note": "The Colorado Energy Office page, as copied by the repo's funding watch on 2026-11-03 (the page answers a direct fetch from here with 403), says: \"Program Status: Closed\" and \"Rebates through the HEAR Program for single-family homes are no longer available. CEO accepted applications for rebates through this program from November 13, 2025 - August 1, 2026.\" DOE says the rebates are state-administered and available only in select states.",
+      "last_verified": "2026-11-03",
       "review_by": "2027-01-20"
     },
     {

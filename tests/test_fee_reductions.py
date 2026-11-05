@@ -255,3 +255,11 @@ def test_reported_entries_are_labelled_as_such(doc):
     for e in doc['entries']:
         if e['verification']['level'] == 'reported':
             assert e['verification'].get('by'), f"{e['id']}: reported by whom?"
+
+
+def test_colorado_records_only(doc):
+    """No national comparisons: every fee and land-use record is a Colorado one."""
+    rows = doc['entries'] + doc['land_use']
+    assert rows
+    for e in rows:
+        assert e.get('state', 'CO') == 'CO', f"{e['id']}: out-of-state record ({e.get('state')})"
