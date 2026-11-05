@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
-import { watchHudChas, watchHudFmr, buildWatchPayload } from '../scripts/audit/upstream-vintage-watch.mjs';
+import { watchHudChas, watchHudFmr, buildWatchPayload, SOURCES } from '../scripts/audit/upstream-vintage-watch.mjs';
 
 const current = fs.readFileSync(new URL('../scripts/fetch_chas.py', import.meta.url), 'utf8')
   .match(/^VINTAGE\s*=\s*['"]([\d-]+)['"]/m)[1];
@@ -29,15 +29,30 @@ function assertUnverifiable(result) {
   assert.doesNotMatch(result.notes, /No newer/i, 'blocked probes cannot claim absence');
 }
 
-test('a 202 current-vintage control is unverifiable, never evidence of absence', async () => {
+test('a 202 current-vintage control is a manual check, never evidence of absence', async () => {
   // HUD returns the same challenge for published and nonexistent archives.
   const mock = { calls: [], fetch: async url => {
     mock.calls.push(url);
     return new Response(null, { status: 202 });
   } };
-  assertUnverifiable(await watchHudChas(mock.fetch));
+  const result = await watchHudChas(mock.fetch);
+  assert.equal(result.status, 'manual_check');
+  assert.equal(result.manual_check, true);
+  assert.equal(result.latest_vintage, null);
+  assert.equal(result.is_outdated, null);
+  assert.equal(result.manual_check_url, SOURCES.hudChas.manual_check_url);
+  assert.ok(result.notes.includes(SOURCES.hudChas.manual_check_reason), 'the note carries the reason recorded on the source entry');
+  assert.doesNotMatch(result.notes, /No newer/i, 'blocked probes cannot claim absence');
+  assert.deepEqual(buildWatchPayload([result]).summary, { checked: 1, outdated: 0, errors: 0, manual: 1 });
   assert.equal(mock.calls.length, 1, 'do not trust candidates when the known archive is blocked');
   assert.ok(mock.calls[0].endsWith(`/${current.replace('-', 'thru')}-140-csv.zip`));
+});
+test('the manual-check outcome comes from the source entry, not the source name', async () => {
+  const noFlag = { ...SOURCES.hudChas, manual_check: false };
+  assertUnverifiable(await watchHudChas(stub([statusResponse(202)]).fetch, noFlag));
+  const otherBlock = { ...SOURCES.hudChas, bot_block_statuses: [429] };
+  assertUnverifiable(await watchHudChas(stub([statusResponse(202)]).fetch, otherBlock));
+  assert.equal((await watchHudChas(stub([statusResponse(429)]).fetch, otherBlock)).status, 'manual_check');
 });
 
 test('only a verified current ZIP and candidate 404s establish no newer vintage', async () => {
@@ -45,7 +60,7 @@ test('only a verified current ZIP and candidate 404s establish no newer vintage'
   const result = await watchHudChas(mock.fetch);
   assert.equal(result.status, 'verified');
   assert.equal(result.is_outdated, false);
-  assert.deepEqual(buildWatchPayload([result]).summary, { checked: 1, outdated: 0, errors: 0 });
+  assert.deepEqual(buildWatchPayload([result]).summary, { checked: 1, outdated: 0, errors: 0, manual: 0 });
   assert.equal(mock.calls.length, 4);
 });
 
@@ -55,7 +70,7 @@ test('verified control and candidate ZIP identify a newer published vintage', as
   assert.equal(result.status, 'verified');
   assert.equal(result.is_outdated, true);
   assert.equal(result.latest_vintage, current.split('-').map(y => +y + 1).join('-'));
-  assert.deepEqual(buildWatchPayload([result]).summary, { checked: 1, outdated: 1, errors: 0 });
+  assert.deepEqual(buildWatchPayload([result]).summary, { checked: 1, outdated: 1, errors: 0, manual: 0 });
 });
 
 const ambiguous = [
@@ -67,6 +82,8 @@ const ambiguous = [
 ];
 for (const [name, response] of ambiguous) {
   for (const atControl of [true, false]) {
+    // A 202 at the control is HUD's known block, covered above; everywhere else it is a failed check.
+    if (name === '202' && atControl) continue;
     test(`${name} at ${atControl ? 'control' : 'candidate'} is unverifiable`, async () => {
       const mock = stub(atControl ? [response] : [zip, response]);
       assertUnverifiable(await watchHudChas(mock.fetch));
@@ -97,7 +114,7 @@ const runIssueStep = new (Object.getPrototypeOf(async function () {}).constructo
 );
 function issueHarness() {
   const issues = Array.from({ length: 101 }, (_, i) => ({ number: i + 1, body: 'unrelated', state: 'open' }));
-  const warnings = [], creates = [], updates = [], comments = [], labelsMade = [], labelled = [];
+  const warnings = [], notices = [], creates = [], updates = [], comments = [], labelsMade = [], labelled = [];
   const repoLabels = new Set(['bug']);
   const api = {
     listForRepo() { throw new Error('must paginate the tracker search'); },
@@ -119,7 +136,7 @@ function issueHarness() {
     },
   };
   return {
-    issues, warnings, creates, updates, comments, labelsMade, labelled, repoLabels,
+    issues, warnings, notices, creates, updates, comments, labelsMade, labelled, repoLabels,
     async run(sources) {
       await runIssueStep(() => ({ readFileSync: () => JSON.stringify(buildWatchPayload(sources)) }), {
         rest: { issues: api },
@@ -128,13 +145,13 @@ function issueHarness() {
           assert.equal(args.state, 'open');
           return issues.filter(i => i.state === 'open');
         },
-      }, { repo: { owner: 'fixture', repo: 'fixture' } }, { warning: message => warnings.push(message) });
+      }, { repo: { owner: 'fixture', repo: 'fixture' } }, { warning: message => warnings.push(message), notice: message => notices.push(message) });
     },
   };
 }
 test('unverifiable CHAS warns and creates/updates one tracker, even beyond page one', async () => {
   const h = issueHarness();
-  const result = await watchHudChas(stub([statusResponse(202)]).fetch);
+  const result = await watchHudChas(stub([statusResponse(403)]).fetch);
   await h.run([result]);
   await h.run([result]);
   assert.equal(h.warnings.length, 2);
@@ -153,6 +170,33 @@ test('unverifiable CHAS warns and creates/updates one tracker, even beyond page 
   await h.run([verified]);
   assert.equal(h.issues[101].state, 'closed');
 });
+test('a manual check alone never opens the tracker and lets an open one close', async () => {
+  const manual = await watchHudChas(stub([statusResponse(202)]).fetch);
+  const h = issueHarness();
+  await h.run([manual]);
+  assert.equal(h.creates.length, 0, 'no tracker for a manual check alone');
+  assert.equal(h.warnings.length, 0);
+  assert.equal(h.notices.length, 1, 'the manual check is still reported');
+  // An open tracker whose only item becomes a manual check is closed.
+  const failed = await watchHudChas(stub([statusResponse(403)]).fetch);
+  await h.run([failed]);
+  assert.equal(h.issues[101].state, 'open');
+  await h.run([manual]);
+  assert.equal(h.issues[101].state, 'closed');
+  assert.ok(h.comments.at(-1).body.includes(manual.notes), 'the closing comment still lists what is checked by hand');
+});
+test('a manual check next to a real failure: the tracker opens for the failure only', async () => {
+  const manual = await watchHudChas(stub([statusResponse(202)]).fetch);
+  const failure = { source: 'HUD FMR', error: 'parse failure' };
+  const h = issueHarness();
+  await h.run([manual, failure]);
+  assert.equal(h.creates.length, 1);
+  const body = h.issues[101].body, rows = body.match(/^\| (?!Source \||--- \|).*$/gm) || [];
+  assert.equal(rows.length, 1, 'only the failure is a status row');
+  assert.ok(rows[0].includes('HUD FMR'));
+  assert.ok(h.creates[0].title.includes('1 source'), 'the count names what keeps the issue open');
+  assert.ok(body.includes(manual.notes), 'the manual check is listed in the body');
+});
 test('CHAS remains dispatch-only and uses the fetcher; completion monitors still cover dispatches', () => {
   const read = file => fs.readFileSync(new URL(`../.github/workflows/${file}`, import.meta.url), 'utf8');
   const fetchWorkflow = read('fetch-chas-data.yml');
@@ -166,7 +210,7 @@ test('CHAS remains dispatch-only and uses the fetcher; completion monitors still
 
 test('the tracker comments only when its status rows change', async () => {
   const h = issueHarness();
-  const blocked = await watchHudChas(stub([statusResponse(202)]).fetch);
+  const blocked = await watchHudChas(stub([statusResponse(503)]).fetch);
   await h.run([blocked]);
   for (let week = 0; week < 3; week++) await h.run([blocked]);
   assert.equal(h.comments.length, 0, 'three identical weeks, no comments');

@@ -4,7 +4,9 @@
  *
  * Watches external data publishers for new vintage releases. Runs weekly
  * on cron and opens or updates one tracking issue for a newer vintage or
- * an unverifiable check that needs human attention.
+ * an unverifiable check that needs human attention. A source whose publisher
+ * is known to block automated requests (SOURCES[...].manual_check) is reported
+ * as a manual check instead, which does not keep the tracker open by itself.
  *
  * Background — why this exists
  * ----------------------------
@@ -58,6 +60,24 @@ const JSON_OUT = process.argv.includes('--json');
 
 const USER_AGENT = 'HousingAnalytics/1.0 upstream-vintage-watch.mjs';
 
+// Per-source policy. A source with manual_check: true is one whose publisher is
+// known to answer automated requests with a block, not an error: when the check
+// sees exactly that block (bot_block_statuses at the known published control),
+// the result is status 'manual_check' with the reason below, and it does not by
+// itself keep the tracker open. Any other failure stays 'unverifiable'.
+export const SOURCES = {
+  hudChas: {
+    source: 'HUD CHAS',
+    manual_check: true,
+    // Recorded on #2122 (manual check 2026-10-11): HUD answers this watch's user
+    // agent with HTTP 202 and an empty body, for published and missing archives
+    // alike, while a browser gets the real page.
+    manual_check_reason: 'HUD blocks automated checks (HTTP 202 to non-browser user agents); verify by hand',
+    manual_check_url: 'https://www.huduser.gov/portal/datasets/cp.html',
+    bot_block_statuses: [202],
+  },
+};
+
 // A status alone cannot distinguish a ZIP from a 200 HTML challenge. Read only
 // the ZIP prefix, then cancel the response; never download the full archive here.
 async function probeHudZip(url, fetchImpl) {
@@ -72,7 +92,7 @@ async function probeHudZip(url, fetchImpl) {
     });
     const http = `HTTP ${response.status}`;
     if (response.status === 404) return { kind: 'not_published', detail: http };
-    if (response.status !== 200) return { kind: 'unverifiable', detail: http };
+    if (response.status !== 200) return { kind: 'unverifiable', detail: http, http_status: response.status };
     if (/html/i.test(response.headers.get('content-type') || '')) {
       return { kind: 'unverifiable', detail: `${http}; HTML response` };
     }
@@ -100,11 +120,11 @@ async function probeHudZip(url, fetchImpl) {
 }
 
 /** Check the known published archive before probing possible newer vintages. */
-export async function watchHudChas(fetchImpl = fetch) {
+export async function watchHudChas(fetchImpl = fetch, policy = SOURCES.hudChas) {
   const fetchScript = await fs.readFile(path.join(ROOT, 'scripts', 'fetch_chas.py'), 'utf8');
   const m = /(^|[^A-Z0-9_])VINTAGE\s*=\s*['"]([\d-]+)['"]/m.exec(fetchScript);
   const currentVintage = m ? m[2] : 'unknown';
-  const base = { source: 'HUD CHAS', current_vintage: currentVintage };
+  const base = { source: policy.source, current_vintage: currentVintage };
   const unverifiable = (notes) => ({
     ...base, latest_vintage: null, is_outdated: null, status: 'unverifiable', notes,
   });
@@ -115,6 +135,15 @@ export async function watchHudChas(fetchImpl = fetch) {
   const archiveUrl = (bump) =>
     `https://www.huduser.gov/portal/datasets/cp/${curStart + bump}thru${curEnd + bump}-140-csv.zip`;
   const control = await probeHudZip(archiveUrl(0), fetchImpl);
+  // Only the publisher's known bot block becomes a manual check; a 403, 503,
+  // HTML challenge or network failure is still a failed check.
+  if (control.kind === 'unverifiable' && policy.manual_check && (policy.bot_block_statuses || []).includes(control.http_status)) {
+    return {
+      ...base, latest_vintage: null, is_outdated: null, status: 'manual_check', manual_check: true,
+      manual_check_url: policy.manual_check_url,
+      notes: `${policy.manual_check_reason} at ${policy.manual_check_url} (${control.detail}); CHAS vintage not checked`,
+    };
+  }
   if (control.kind !== 'published') {
     return unverifiable(`HUD blocks automated requests (${control.detail}); CHAS vintage not checked`);
   }
@@ -307,6 +336,7 @@ export function buildWatchPayload(results) {
       checked: results.length,
       outdated: results.filter(r => r.is_outdated).length,
       errors: results.filter(r => r.error || r.status === 'unverifiable').length,
+      manual: results.filter(r => r.status === 'manual_check').length,
     },
   };
 }
@@ -331,7 +361,7 @@ async function main() {
     console.log(JSON.stringify(payload, null, 2));
   } else {
     for (const r of results) {
-      const flag = r.error || r.status === 'unverifiable' ? '✗' : r.is_outdated ? '⚠' : '✓';
+      const flag = r.error || r.status === 'unverifiable' ? '✗' : r.status === 'manual_check' ? '?' : r.is_outdated ? '⚠' : '✓';
       console.log(`  ${flag} ${r.source.padEnd(22)} current=${(r.current_vintage || '?').padEnd(12)} latest=${(r.latest_vintage || '?')}`);
       if (r.notes) console.log(`     ${r.notes}`);
       if (r.error) console.log(`     error: ${r.error}`);
