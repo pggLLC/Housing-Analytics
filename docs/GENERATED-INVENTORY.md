@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T06:09:12.507Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T06:20:21.977Z. Do not edit by hand.
 
 ---
 
@@ -2075,7 +2075,7 @@
 
 ## Test Files
 
-779 test files found.
+780 test files found.
 
 | File | Size |
 |------|------|
@@ -2513,6 +2513,7 @@
 | `test/orphan-nav-cleanup.test.js` | 4.1 KB |
 | `test/osm-amenities-count-by-type.test.js` | 1.9 KB |
 | `test/osm-amenities-transit-basis.test.js` | 7.8 KB |
+| `test/osm-buildings-not-zoning.test.js` | 2.4 KB |
 | `test/ownership-answer-leads.test.js` | 6.4 KB |
 | `test/ownership-decision-chain.test.js` | 8.2 KB |
 | `test/ownership-finance.test.js` | 23.3 KB |
