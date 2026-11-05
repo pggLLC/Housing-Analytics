@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T10:10:45.563Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T10:49:51.801Z. Do not edit by hand.
 
 ---
 
@@ -101,7 +101,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1002.9 KB | ✅ | — |
+| `data/_manifest.json` | 1003.5 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -127,7 +127,7 @@
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
 | `data/audit/funding-watch.json` | 658.6 KB | ✅ | — |
-| `data/audit/quarantine-candidates.json` | 545 B | ✅ | — |
+| `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
 | `data/capital-partners.json` | 13.2 KB | ✅ | — |
@@ -1849,7 +1849,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 13.2 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 250.5 KB | ✅ | — |
+| `data/manifest.json` | 250.6 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -2234,7 +2234,7 @@
 | `test/deal-review-checks.test.js` | 7.7 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
-| `test/deal-workbook.test.mjs` | 102.1 KB |
+| `test/deal-workbook.test.mjs` | 106.6 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 8.2 KB |
 | `test/deep-dive-aamd-vacancy.test.mjs` | 4.4 KB |
 | `test/deep-dive-hmda-loads-on-page-load.test.js` | 3.3 KB |

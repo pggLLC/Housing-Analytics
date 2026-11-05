@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-05T10:11:31.416Z",
+    "generated_at": "2026-11-05T10:50:38.346Z",
     "root": "data/",
     "file_count": 2019,
-    "total_size_bytes": 220408415,
+    "total_size_bytes": 220408880,
     "kinds": {
       "json": 1970,
       "geojson": 35,
@@ -677,8 +677,8 @@
     {
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
-      "size_bytes": 545,
-      "mtime": "2026-11-05T10:11:26.906Z",
+      "size_bytes": 483,
+      "mtime": "2026-11-05T10:50:33.777Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -689,8 +689,8 @@
         "candidates"
       ],
       "key_count": 6,
-      "primary_array_key": "candidates",
-      "primary_array_length": 1,
+      "primary_array_key": null,
+      "primary_array_length": null,
       "primary_array_first_keys": null
     },
     {
@@ -38239,8 +38239,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 256497,
-      "mtime": "2026-11-05T07:04:07.434Z",
+      "size_bytes": 256636,
+      "mtime": "2026-11-05T10:49:51.748Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39526,8 +39526,8 @@
     {
       "path": "market/redfin_place_market_tracker_co.json",
       "kind": "json",
-      "size_bytes": 2325853,
-      "mtime": "2026-10-11T09:30:42.932Z",
+      "size_bytes": 2326243,
+      "mtime": "2026-11-05T10:48:29.787Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -40061,8 +40061,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16688,
-      "mtime": "2026-11-05T10:11:29.145Z",
+      "size_bytes": 16686,
+      "mtime": "2026-11-05T10:50:36.073Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40086,7 +40086,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-05T10:11:28.634Z",
+      "mtime": "2026-11-05T10:50:35.538Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
