@@ -1877,7 +1877,7 @@
       provider: 'CFPB HMDA Data Browser API',
       url: 'https://ffiec.cfpb.gov/data-browser/',
       localFile: 'data/hmda/co-county-aggregates.json',
-      lastUpdated: '2026-10-14',
+      lastUpdated: '2026-11-05',
       updateFrequency: 'Annual (new HMDA year each spring; fetch workflow re-runs)',
       maxAgeDays: 400,
       geoUnit: 'County',
