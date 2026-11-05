@@ -1572,6 +1572,7 @@ def compute_metrics(
     future_units_needed_20yr = None
     senior_share_growth_pp = None
     projection_basis = None
+    place_too_small = False
     if geo_type == "county" and county_fips5:
         proj = load_projection(county_fips5)
         if proj:
@@ -1599,7 +1600,14 @@ def compute_metrics(
         # the fallback rather than being deleted.
         place_proj = load_place_projections().get(geoid) if geoid else None
         incremental = (place_proj or {}).get("incremental_units_needed") or []
-        if incremental:
+        # Under 250 households the ledger marks the place too small for a town
+        # forecast (build_place_projections.SMALL_PLACE_HOUSEHOLDS). The page
+        # says so and points to the county; the index carries no figure either,
+        # and the population-share fallback below must not fill one in.
+        place_too_small = bool((place_proj or {}).get("too_small"))
+        if place_too_small:
+            projection_basis = (place_proj or {}).get("method") or "place_ledger"
+        elif incremental:
             future_units_needed_20yr = round_like_math_round(safe_float(incremental[-1]))
             projection_basis = (place_proj or {}).get("method") or "place_ledger"
         # population_projection_20yr is independent of the units-needed
@@ -1636,7 +1644,7 @@ def compute_metrics(
                         growth_factor = last_pop / base_pop
                         population_projection_20yr = int(population * growth_factor)
                     future_units = proj.get("housing_need", {}).get("incremental_units_needed_dola", [])
-                    if future_units and future_units_needed_20yr is None:
+                    if future_units and future_units_needed_20yr is None and not place_too_small:
                         share = min(population / base_pop, 1.0)
                         future_units_needed_20yr = round_like_math_round(safe_float(future_units[-1]) * share)
                         projection_basis = "county_population_share"
@@ -1671,7 +1679,9 @@ def compute_metrics(
     future_units_growth_20yr = future_units_needed_20yr
     incommuter_need_units, incommuter_need_units_high = incommuter_need(geoid)
     future_units_basis_reading = None
-    if future_units_growth_20yr is not None:
+    if place_too_small:
+        future_units_basis_reading = "too_small"
+    elif future_units_growth_20yr is not None:
         if incommuter_need_units is not None:
             future_units_needed_20yr = int(future_units_growth_20yr + incommuter_need_units)
             future_units_basis_reading = "resident_growth_plus_incommuters"
