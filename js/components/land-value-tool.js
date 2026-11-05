@@ -154,7 +154,7 @@
     // Without the cost and the sources the most the deal can pay is unknown, not the whole of the sources.
     if (!residual) return { ask: price, net: net, discountPct: Math.round(discount * 100), max: null, room: null, perUnit: null, covered: null, verdict: net <= 0 ? 'free' : 'unknown',
       reason: 'Enter the total development cost and the sources above to check this price.' };
-    var max = residual ? Math.max(0, _n(residual.adjustedResidual)) : 0;
+    var max = Math.max(0, _n(residual.adjustedResidual));
     var room = max - net;
     var units = _n(totalUnits);
     return {
