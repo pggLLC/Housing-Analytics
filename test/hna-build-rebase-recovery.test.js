@@ -47,6 +47,7 @@ const DERIVED = [
   'data/market/market-direction.json', // scripts/market/build_market_direction.py (reads permits, projections, LEHD)
   'data/policy/leading-signals.json', // scripts/policy/build_leading_signals.py (reads Prop 123, funds, ballots, pipeline)
   'data/market/market-types.json',  // scripts/market/build_market_types.py (reads market direction)
+  'data/policy/incentive-peer-profiles.json', // scripts/policy/build_incentive_peer_profiles.py (reads market types)
   'data/paper/figures.json',        // npm run paper:build
   'data/paper/model-parameters.json',
   'working-paper.html',

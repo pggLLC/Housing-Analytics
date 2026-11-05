@@ -15,7 +15,8 @@
     funds: 'data/policy/local-housing-funds.json',
     coverage: 'data/policy/incentive-coverage.json',
     prop123: 'data/policy/prop123_jurisdictions.json',
-    alternatives: 'data/policy/incentive-alternatives.json'
+    alternatives: 'data/policy/incentive-alternatives.json',
+    peerProfiles: 'data/policy/incentive-peer-profiles.json'
   };
 
   var STATE_TEXT = {
@@ -297,6 +298,48 @@
       '<ol class="li-alt">' + top + '</ol>' + out + '</section>';
   }
 
+  // Places like this one, and what they use that it has no record of.
+  // Peers are chosen in LocalIncentivesData.peers(); this only draws them.
+  function renderPeers(model, geoid) {
+    if (!model.peers) return '';
+    var r = model.peers(geoid);
+    if (!r || !r.basis) return '';
+    var p = r.profile;
+    var subject = p.inheritsFrom ? nameOf(model, p.inheritsFrom) : p.name;
+    var b = r.basis;
+    var kindText = b.level === 'county' ? 'counties' : 'cities and towns';
+    var how = 'Compared with up to five ' + kindText + ' whose sources have been read' +
+      (b.typeLabel ? ', with the same <a href="colorado-deep-dive.html#tab-types">market pattern</a> (' + esc(b.typeLabel) + ')' : '') +
+      ', within four times ' + esc(subject) + '\'s population' + (b.region ? ', ' + esc(b.region) + ' first' : '') + '.';
+    var head = '<section class="li-block" aria-labelledby="li-peer-h" data-li-peers><h3 id="li-peer-h">What similar places use</h3><p>' + how + '</p>';
+    if (!r.peers.length) {
+      return head + '<p class="li-muted">No researched place is similar enough yet. Coverage grows in batches; until then, see the tools to consider below.</p></section>';
+    }
+    var chips = '<ul class="li-peers">' + r.peers.map(function (c) {
+      var n = c.tools.length;
+      return '<li><a href="#j=' + esc(c.geoid) + '" data-li-jump="' + esc(c.geoid) + '">' + esc(nameOf(model, c.geoid)) + '</a>' +
+        '<span class="li-muted"> · ' + c.population.toLocaleString('en-US') + ' people · ' +
+        (n ? n + ' tool' + (n === 1 ? '' : 's') + ' on record' : 'no listed tools on record') +
+        (c.sameRegion ? '' : ' · other region') + '</span></li>';
+    }).join('') + '</ul>';
+    var list;
+    if (!r.tools.length) {
+      list = '<p>Every tool these places have on record is already on record for ' + esc(subject) + ' too.</p>';
+    } else {
+      list = '<p><strong>Used by similar places, with no record for ' + esc(subject) + ':</strong></p><ul class="li-alt">' + r.tools.map(function (t) {
+        var scope = scopeOfTool(t.tool);
+        var state = scope ? p.states[scope] : null;
+        var caveat = state && state !== 'records' && state !== 'none_found'
+          ? ' <span class="li-muted">(' + esc(subject) + '\'s ' + esc(SCOPE_TEXT[scope].toLowerCase()) + ': ' + esc(STATE_TEXT[state].toLowerCase()) + ')</span>' : '';
+        return '<li data-li-peer-tool="' + esc(t.tool.id) + '"><strong>' + esc(t.tool.label) + '</strong>' + caveat + '<br>' +
+          t.peers.length + ' of ' + r.peers.length + ': ' + t.peers.map(function (id) {
+            return '<a href="#j=' + esc(id) + '" data-li-jump="' + esc(id) + '">' + esc(nameOf(model, id)) + '</a>';
+          }).join(', ') + '</li>';
+      }).join('') + '</ul>';
+    }
+    return head + chips + list + '<p class="li-muted">A place\'s pattern and size are a starting point, not proof that a tool fits. "No record" is not "does not have".</p></section>';
+  }
+
   function scopeOfTool(tool) {
     var m = tool.maps_to || {};
     if ((m.fee_measure || []).length) return 'fees';
@@ -316,7 +359,7 @@
     target.innerHTML = '<h2 id="li-j-name" style="margin-top:0;">' + esc(p.name) + '</h2>' +
       '<p class="li-meta">' + esc(kind) + (countyName ? ' · ' + esc(countyName) : '') + '</p>' + inherits +
       renderProp123(model, p) + renderFees(p) + renderList(p, 'land_use') + renderList(p, 'funds') +
-      renderRequired(model, geoid) + renderAlternatives(model, geoid) + links;
+      renderRequired(model, geoid) + renderPeers(model, geoid) + renderAlternatives(model, geoid) + links;
   }
 
   function renderSummary(model, target) {

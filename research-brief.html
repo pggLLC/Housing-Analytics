@@ -251,9 +251,13 @@
           'one-time Colorado fee measures require discretionary approval: the benefit is not automatic even when a project meets the stated eligibility rules.');
         metric(snapshot, 'backfill', entries.filter(function (e) { return e.backfill.method === 'not_specified'; }).length,
           entries.length, 'Colorado fee measures do not specify how forgone fee revenue is replaced. This does not mean no replacement funding exists.');
-        var comparison = el('p', 'plus ', snapshot);
-        var others = el('span', String(data.entries.length - entries.length), comparison); others.dataset.count = 'comparison';
-        comparison.appendChild(document.createTextNode(' out-of-state comparison records, not counted above'));
+        // Colorado only: the dataset carries no out-of-state records. Should one
+        // ever appear, say so rather than silently dropping it from the count.
+        if (data.entries.length > entries.length) {
+          var comparison = el('p', 'plus ', snapshot);
+          var others = el('span', String(data.entries.length - entries.length), comparison); others.dataset.count = 'comparison';
+          comparison.appendChild(document.createTextNode(' out-of-state records, not counted above'));
+        }
         var limits = section('brief-limitations', 'Screening limitations');
         el('p', 'What a jurisdiction offers is not what a project has been awarded. A deferral is still owed. A jurisdiction with no entry has not been researched or has no verified entry; that does not mean it has no program.', limits);
         var gaps = data.meta.known_gaps;

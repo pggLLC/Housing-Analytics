@@ -156,6 +156,12 @@ export const CHAIN = [
        + 'seasonal homes and commuting, so it runs after market-direction',
   },
   {
+    id: 'incentive-peer-profiles',
+    argv: ['python3', 'scripts/policy/build_incentive_peer_profiles.py'],
+    why: 'data/policy/incentive-peer-profiles.json copies each county and town\'s market pattern, region and population '
+       + 'for the similar-places list on the Local Housing Incentives page, so it runs after market-types',
+  },
+  {
     id: 'paper-figures',
     argv: ['npm', 'run', 'paper:build'],
     why: 'the working paper and methods page quote counts measured off the repo',

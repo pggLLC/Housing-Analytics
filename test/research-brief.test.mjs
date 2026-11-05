@@ -82,17 +82,13 @@ test('every dataset measure/kind has a definition and its rendered count equals 
   const oneTime = coEntries.filter((entry) => entry.recurrence === 'one_time');
   checkGroups(doc, coEntries, FEES.entries);
   assert.equal(shownCount(doc, 'total'), coEntries.length);
-  assert.equal(shownCount(doc, 'comparison'), FEES.entries.filter((entry) => entry.state !== 'CO').length);
   assert.equal(shownCount(doc, 'discretionary'), oneTime.filter((entry) => entry.eligibility.by_right === false).length);
   assert.equal(shownCount(doc, 'discretionary-total'), oneTime.length);
   assert.equal(shownCount(doc, 'backfill'), coEntries.filter((entry) => entry.backfill.method === 'not_specified').length);
   assert.equal(shownCount(doc, 'backfill-total'), coEntries.length);
-  const comparison = doc.querySelector('[data-count="comparison"]');
-  assert.equal(doc.querySelectorAll('[data-count="comparison"]').length, 1);
-  assert.equal(comparison.parentElement.tagName, 'P');
-  assert.equal(comparison.parentElement.textContent,
-    `plus ${FEES.entries.length - coEntries.length} out-of-state comparison records, not counted above`);
-  assert.equal(comparison.parentElement, doc.getElementById('brief-dataset').lastElementChild);
+  // The committed dataset is Colorado only, so no out-of-state line is shown.
+  assert.equal(FEES.entries.length, coEntries.length, 'fee-reductions.json must hold Colorado records only');
+  assert.equal(doc.querySelectorAll('[data-count="comparison"]').length, 0);
 });
 
 test('reader backfill and discretionary shares agree with the brief and its curated-test counting basis', async (t) => {
@@ -147,7 +143,12 @@ test('counts follow changed data, including by_right null versus false, rather t
   assert.equal(shownCount(doc, 'discretionary-total'), oneTime.length);
   assert.equal(shownCount(doc, 'backfill'), coEntries.filter((entry) => entry.backfill.method === 'not_specified').length);
   assert.equal(shownCount(doc, 'backfill-total'), coEntries.length);
+  // A stray out-of-state record is named, never folded into the Colorado counts.
   assert.equal(shownCount(doc, 'comparison'), fees.entries.filter((entry) => entry.state !== 'CO').length);
+  const comparison = doc.querySelector('[data-count="comparison"]');
+  assert.equal(comparison.parentElement.textContent,
+    `plus ${fees.entries.length - coEntries.length} out-of-state records, not counted above`);
+  assert.equal(comparison.parentElement, doc.getElementById('brief-dataset').lastElementChild);
 });
 
 test('the full brief, published/verified dates, and sections are shown in reading order', async (t) => {

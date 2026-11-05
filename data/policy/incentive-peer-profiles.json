@@ -1,0 +1,2039 @@
+{
+ "meta": {
+  "title": "Peer profiles for the Local Housing Incentives page",
+  "generator": "scripts/policy/build_incentive_peer_profiles.py",
+  "inputs": [
+   "data/hna/geo-config.json",
+   "data/market/market-types.json",
+   "data/hna/ranking-index.json"
+  ],
+  "market_types_generated_at": "2026-11-04T23:13:43Z",
+  "type_labels": {
+   "resort": "Resort and second-home",
+   "job_centre": "Job centre",
+   "growing": "Fast-growing",
+   "softening": "Softening or shrinking",
+   "steady": "Steady",
+   "too_little_data": "Too little data"
+  },
+  "rule": "Similar places are counties compared with counties and municipalities with municipalities, with the same market pattern (unless a place has too little data to type), within four times the population, same region first, then closest in population. Only places whose incentive sources have been read are shown. Chosen on the page from the current records; nothing here is scored."
+ },
+ "places": {
+  "08001": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 530225
+  },
+  "08003": {
+   "level": "county",
+   "region": "San Luis Valley",
+   "type": "steady",
+   "population": 16581
+  },
+  "08005": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 659844
+  },
+  "08007": {
+   "level": "county",
+   "region": "Southwest",
+   "type": "resort",
+   "population": 13900
+  },
+  "0800760": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 401
+  },
+  "08009": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 3428
+  },
+  "0800925": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 1722
+  },
+  "0801090": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "job_centre",
+   "population": 9879
+  },
+  "08011": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 5549
+  },
+  "08013": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 328961
+  },
+  "08014": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 76304
+  },
+  "08015": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "growing",
+   "population": 20178
+  },
+  "0801530": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "growing",
+   "population": 385
+  },
+  "08017": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 1741
+  },
+  "08019": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 9262
+  },
+  "08021": {
+   "level": "county",
+   "region": "San Luis Valley",
+   "type": "softening",
+   "population": 7530
+  },
+  "08023": {
+   "level": "county",
+   "region": "San Luis Valley",
+   "type": "resort",
+   "population": 3607
+  },
+  "0802355": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "softening",
+   "population": 579
+  },
+  "08025": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 5647
+  },
+  "08027": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 5247
+  },
+  "08029": {
+   "level": "county",
+   "region": "Western Slope",
+   "type": "growing",
+   "population": 31598
+  },
+  "08031": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 718877
+  },
+  "0803235": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 307
+  },
+  "08033": {
+   "level": "county",
+   "region": "Southwest",
+   "type": "steady",
+   "population": 2432
+  },
+  "0803455": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 122634
+  },
+  "08035": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 377150
+  },
+  "0803620": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 6756
+  },
+  "08037": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 55135
+  },
+  "08039": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "growing",
+   "population": 27874
+  },
+  "0803950": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 2425
+  },
+  "0804000": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 394432
+  },
+  "08041": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 742999
+  },
+  "0804110": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 5972
+  },
+  "08043": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 49634
+  },
+  "08045": {
+   "level": "county",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 62479
+  },
+  "08047": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "job_centre",
+   "population": 5901
+  },
+  "08049": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 15895
+  },
+  "0804935": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "softening",
+   "population": 4335
+  },
+  "08051": {
+   "level": "county",
+   "region": "Western Slope",
+   "type": "resort",
+   "population": 17241
+  },
+  "0805265": {
+   "level": "municipality",
+   "region": "Southwest",
+   "type": "steady",
+   "population": 2901
+  },
+  "08053": {
+   "level": "county",
+   "region": "Western Slope",
+   "type": "resort",
+   "population": 1005
+  },
+  "08055": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "resort",
+   "population": 6972
+  },
+  "08057": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 1372
+  },
+  "08059": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 579377
+  },
+  "0806090": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 3663
+  },
+  "08061": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 1376
+  },
+  "0806255": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 12411
+  },
+  "08063": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 7023
+  },
+  "08065": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 7380
+  },
+  "0806530": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 218
+  },
+  "08067": {
+   "level": "county",
+   "region": "Southwest",
+   "type": "steady",
+   "population": 56331
+  },
+  "08069": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 367368
+  },
+  "0807025": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "job_centre",
+   "population": 106
+  },
+  "08071": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 14413
+  },
+  "0807190": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "steady",
+   "population": 230
+  },
+  "08073": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 5550
+  },
+  "0807410": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 1410
+  },
+  "08075": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 20892
+  },
+  "0807571": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "softening",
+   "population": 20
+  },
+  "08077": {
+   "level": "county",
+   "region": "Western Slope",
+   "type": "growing",
+   "population": 158601
+  },
+  "0807795": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 262
+  },
+  "0807850": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 106433
+  },
+  "08079": {
+   "level": "county",
+   "region": "San Luis Valley",
+   "type": "resort",
+   "population": 729
+  },
+  "0808070": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 1047
+  },
+  "08081": {
+   "level": "county",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 13207
+  },
+  "08083": {
+   "level": "county",
+   "region": "Southwest",
+   "type": "growing",
+   "population": 26412
+  },
+  "0808345": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 62
+  },
+  "0808400": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 4959
+  },
+  "08085": {
+   "level": "county",
+   "region": "Western Slope",
+   "type": "growing",
+   "population": 43807
+  },
+  "0808675": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 42059
+  },
+  "08087": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 29520
+  },
+  "08089": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 18321
+  },
+  "08091": {
+   "level": "county",
+   "region": "Western Slope",
+   "type": "growing",
+   "population": 5087
+  },
+  "0809115": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 276
+  },
+  "0809280": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 76304
+  },
+  "08093": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 17907
+  },
+  "08095": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 4496
+  },
+  "0809555": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 5306
+  },
+  "08097": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 16985
+  },
+  "08099": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 11910
+  },
+  "08101": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 169356
+  },
+  "0810105": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 3010
+  },
+  "08103": {
+   "level": "county",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 6544
+  },
+  "08105": {
+   "level": "county",
+   "region": "San Luis Valley",
+   "type": "growing",
+   "population": 11321
+  },
+  "0810600": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 3152
+  },
+  "08107": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 25084
+  },
+  "08109": {
+   "level": "county",
+   "region": "San Luis Valley",
+   "type": "steady",
+   "population": 6580
+  },
+  "08111": {
+   "level": "county",
+   "region": "Southwest",
+   "type": "resort",
+   "population": 724
+  },
+  "0811260": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 620
+  },
+  "08113": {
+   "level": "county",
+   "region": "Western Slope",
+   "type": "resort",
+   "population": 7968
+  },
+  "08115": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 2304
+  },
+  "0811645": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 58
+  },
+  "08117": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 31017
+  },
+  "0811810": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 17122
+  },
+  "08119": {
+   "level": "county",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 24825
+  },
+  "0812030": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "too_little_data",
+   "population": null
+  },
+  "0812045": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 6637
+  },
+  "08121": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 4831
+  },
+  "08123": {
+   "level": "county",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 350396
+  },
+  "0812387": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 13388
+  },
+  "0812415": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 79123
+  },
+  "08125": {
+   "level": "county",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 9979
+  },
+  "0812635": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 2398
+  },
+  "0812815": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 108201
+  },
+  "0812855": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "softening",
+   "population": 2120
+  },
+  "0812900": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 525
+  },
+  "0813460": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 188
+  },
+  "0813845": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 6354
+  },
+  "0814175": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 979
+  },
+  "0814765": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "resort",
+   "population": 285
+  },
+  "0815330": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 324
+  },
+  "0815550": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 161
+  },
+  "0815605": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "softening",
+   "population": 356
+  },
+  "0816000": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 487887
+  },
+  "0816385": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 2047
+  },
+  "0816495": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 66445
+  },
+  "0817375": {
+   "level": "municipality",
+   "region": "Southwest",
+   "type": "steady",
+   "population": 8976
+  },
+  "0817760": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 8991
+  },
+  "0817925": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 448
+  },
+  "0818310": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "resort",
+   "population": 1229
+  },
+  "0818420": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "steady",
+   "population": 123
+  },
+  "0818530": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 955
+  },
+  "0818640": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 157
+  },
+  "0818750": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 219
+  },
+  "0819080": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 6530
+  },
+  "0819355": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 458
+  },
+  "0819630": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 1275
+  },
+  "0819795": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "softening",
+   "population": 1653
+  },
+  "0819850": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 9421
+  },
+  "0820000": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 718877
+  },
+  "0820440": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 832
+  },
+  "0820495": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 507
+  },
+  "0820770": {
+   "level": "municipality",
+   "region": "Southwest",
+   "type": "steady",
+   "population": 918
+  },
+  "0821265": {
+   "level": "municipality",
+   "region": "Southwest",
+   "type": "softening",
+   "population": 651
+  },
+  "0822035": {
+   "level": "municipality",
+   "region": "Southwest",
+   "type": "job_centre",
+   "population": 19411
+  },
+  "0822145": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 677
+  },
+  "0822200": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 7442
+  },
+  "0822860": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 5867
+  },
+  "0823025": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 332
+  },
+  "0823135": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 4932
+  },
+  "0823740": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "growing",
+   "population": 2244
+  },
+  "0824620": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 672
+  },
+  "0824785": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 34129
+  },
+  "0824950": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 33808
+  },
+  "0825115": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "resort",
+   "population": 5844
+  },
+  "0825280": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 22396
+  },
+  "0825610": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 1067
+  },
+  "0826270": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 14125
+  },
+  "0826600": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 18049
+  },
+  "0826765": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 635
+  },
+  "0826875": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 614
+  },
+  "0827040": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 3885
+  },
+  "0827425": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 170229
+  },
+  "0827700": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 8897
+  },
+  "0827810": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 11605
+  },
+  "0827865": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 29300
+  },
+  "0827975": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 936
+  },
+  "0828105": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 659
+  },
+  "0828305": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 1405
+  },
+  "0828360": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 16651
+  },
+  "0828690": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 2825
+  },
+  "0828745": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 13691
+  },
+  "0829185": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 401
+  },
+  "0829680": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "growing",
+   "population": 190
+  },
+  "0829735": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 1053
+  },
+  "0829955": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 1026
+  },
+  "0830340": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 4531
+  },
+  "0830780": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "job_centre",
+   "population": 10241
+  },
+  "0830835": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 20417
+  },
+  "0831550": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 447
+  },
+  "0831605": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 2270
+  },
+  "0831660": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "job_centre",
+   "population": 68142
+  },
+  "0831715": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 333
+  },
+  "0832155": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 110806
+  },
+  "0832650": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "resort",
+   "population": 459
+  },
+  "0833035": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 15420
+  },
+  "0833310": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 164
+  },
+  "0833640": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 6766
+  },
+  "0833695": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "growing",
+   "population": 8941
+  },
+  "0834520": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 30
+  },
+  "0834740": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 52
+  },
+  "0834960": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 978
+  },
+  "0835070": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 2057
+  },
+  "0836610": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 285
+  },
+  "0837215": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 665
+  },
+  "0837270": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 2382
+  },
+  "0837380": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "softening",
+   "population": 152
+  },
+  "0837545": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 1224
+  },
+  "0837600": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 1108
+  },
+  "0837820": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 2006
+  },
+  "0837875": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 970
+  },
+  "0838370": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 1986
+  },
+  "0838535": {
+   "level": "municipality",
+   "region": "Southwest",
+   "type": "steady",
+   "population": 1250
+  },
+  "0838590": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 268
+  },
+  "0839195": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 324
+  },
+  "0839855": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 18883
+  },
+  "0839965": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 1181
+  },
+  "0840185": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 2347
+  },
+  "0840515": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 1064
+  },
+  "0840570": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 78
+  },
+  "0840790": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 673
+  },
+  "0841010": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 273
+  },
+  "0841560": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 1807
+  },
+  "0841835": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 30602
+  },
+  "0842055": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "softening",
+   "population": 522
+  },
+  "0842110": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 7140
+  },
+  "0842330": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "resort",
+   "population": 561
+  },
+  "0842495": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 4
+  },
+  "0843000": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 156583
+  },
+  "0843110": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 7611
+  },
+  "0843550": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 131
+  },
+  "0843605": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 3061
+  },
+  "0843660": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 2540
+  },
+  "0844100": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 804
+  },
+  "0844320": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 2620
+  },
+  "0844980": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 1678
+  },
+  "0845255": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 44710
+  },
+  "0845530": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 8609
+  },
+  "0845695": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 964
+  },
+  "0845955": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 14147
+  },
+  "0845970": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 99406
+  },
+  "0846355": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 20786
+  },
+  "0846465": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 78410
+  },
+  "0847070": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 1838
+  },
+  "0848060": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "steady",
+   "population": 932
+  },
+  "0848115": {
+   "level": "municipality",
+   "region": "Southwest",
+   "type": "steady",
+   "population": 1174
+  },
+  "0848445": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 4735
+  },
+  "0848500": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 361
+  },
+  "0848555": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 309
+  },
+  "0849600": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 5919
+  },
+  "0849875": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 2580
+  },
+  "0850040": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 286
+  },
+  "0850480": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 8871
+  },
+  "0850920": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "softening",
+   "population": 993
+  },
+  "0851250": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "softening",
+   "population": 54
+  },
+  "0851635": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "softening",
+   "population": 4141
+  },
+  "0851690": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 120
+  },
+  "0851745": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "job_centre",
+   "population": 21044
+  },
+  "0851800": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 11735
+  },
+  "0852075": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 412
+  },
+  "0852350": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 609
+  },
+  "0852550": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "resort",
+   "population": 2185
+  },
+  "0852570": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "resort",
+   "population": 823
+  },
+  "0853120": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "softening",
+   "population": 589
+  },
+  "0853175": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 1655
+  },
+  "0853395": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 4880
+  },
+  "0854330": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 38014
+  },
+  "0854880": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 381
+  },
+  "0854935": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "softening",
+   "population": 598
+  },
+  "0855045": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 358
+  },
+  "0855155": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 700
+  },
+  "0855540": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "softening",
+   "population": 1793
+  },
+  "0855705": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 557
+  },
+  "0855870": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "softening",
+   "population": 120
+  },
+  "0855980": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 3221
+  },
+  "0856145": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 1528
+  },
+  "0856365": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 521
+  },
+  "0856420": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "resort",
+   "population": 985
+  },
+  "0856475": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 468
+  },
+  "0856860": {
+   "level": "municipality",
+   "region": "Southwest",
+   "type": "resort",
+   "population": 2090
+  },
+  "0856970": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 2584
+  },
+  "0857025": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 2623
+  },
+  "0857245": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "growing",
+   "population": 43
+  },
+  "0857300": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 1661
+  },
+  "0857400": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 1422
+  },
+  "0857630": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 61783
+  },
+  "0858235": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 265
+  },
+  "0859005": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 1201
+  },
+  "0859830": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "resort",
+   "population": 131
+  },
+  "0860160": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 2928
+  },
+  "0860600": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "growing",
+   "population": 959
+  },
+  "0861315": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 142
+  },
+  "0862000": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 111561
+  },
+  "0862660": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 127
+  },
+  "0862880": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "softening",
+   "population": 2466
+  },
+  "0863045": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 78
+  },
+  "0863265": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 308
+  },
+  "0864090": {
+   "level": "municipality",
+   "region": "Southwest",
+   "type": "steady",
+   "population": 414
+  },
+  "0864200": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "growing",
+   "population": 1237
+  },
+  "0864255": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "growing",
+   "population": 10570
+  },
+  "0864970": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 695
+  },
+  "0865190": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 3815
+  },
+  "0865740": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "steady",
+   "population": 387
+  },
+  "0866895": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "resort",
+   "population": 121
+  },
+  "0867005": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "steady",
+   "population": 579
+  },
+  "0867280": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 5861
+  },
+  "0867830": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "steady",
+   "population": 1142
+  },
+  "0868105": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "steady",
+   "population": 560
+  },
+  "0868655": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "growing",
+   "population": 6
+  },
+  "0868930": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 198
+  },
+  "0869040": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 138
+  },
+  "0869150": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 10130
+  },
+  "0869645": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "job_centre",
+   "population": 6005
+  },
+  "0869700": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 61
+  },
+  "0870195": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "steady",
+   "population": 3642
+  },
+  "0870250": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 863
+  },
+  "0870360": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "resort",
+   "population": 127
+  },
+  "0870525": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 4815
+  },
+  "0870580": {
+   "level": "municipality",
+   "region": "Southwest",
+   "type": "resort",
+   "population": 637
+  },
+  "0870635": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 423
+  },
+  "0871755": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 2972
+  },
+  "0872395": {
+   "level": "municipality",
+   "region": "San Luis Valley",
+   "type": "resort",
+   "population": 724
+  },
+  "0873330": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 1384
+  },
+  "0873715": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 102
+  },
+  "0873825": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 13433
+  },
+  "0873935": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 13172
+  },
+  "0874485": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 716
+  },
+  "0874815": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 464
+  },
+  "0875640": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 13305
+  },
+  "0875970": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 422
+  },
+  "0876795": {
+   "level": "municipality",
+   "region": "Western Slope",
+   "type": "resort",
+   "population": 2160
+  },
+  "0877290": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 144187
+  },
+  "0877510": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 8941
+  },
+  "0878610": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 8286
+  },
+  "0879270": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 15
+  },
+  "0880040": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 4613
+  },
+  "0880865": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "softening",
+   "population": 388
+  },
+  "0881030": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 184
+  },
+  "0881690": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "softening",
+   "population": 189
+  },
+  "0882130": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "softening",
+   "population": 573
+  },
+  "0882350": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 3072
+  },
+  "0882460": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 492
+  },
+  "0882735": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 103
+  },
+  "0883230": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 11798
+  },
+  "0883450": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 419
+  },
+  "0883835": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "softening",
+   "population": 115484
+  },
+  "0884440": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "steady",
+   "population": 32070
+  },
+  "0884770": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "growing",
+   "population": 1564
+  },
+  "0885045": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 422
+  },
+  "0885155": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 770
+  },
+  "0885485": {
+   "level": "municipality",
+   "region": "Front Range",
+   "type": "growing",
+   "population": 37914
+  },
+  "0885705": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "resort",
+   "population": 844
+  },
+  "0886090": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 7949
+  },
+  "0886310": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 2114
+  },
+  "0886475": {
+   "level": "municipality",
+   "region": "Mountains",
+   "type": "steady",
+   "population": 296
+  },
+  "0886750": {
+   "level": "municipality",
+   "region": "Eastern Plains",
+   "type": "steady",
+   "population": 3459
+  }
+ }
+}
