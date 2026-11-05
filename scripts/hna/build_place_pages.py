@@ -218,7 +218,7 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
       }
       // Under {{MIN_HH}} households a tract-apportioned rate is noise, so
       // none is printed (the same floor as the HNA scorecard).
-      var MIN_HH = {{MIN_HH}};
+      var MIN_HH = Number('{{MIN_HH}}');
       var FEW = 'Too few households for a rate';
       var fewRenters = !(data.summary.total_renter_hh >= MIN_HH);
       var fewOwners = !(data.summary.total_owner_hh >= MIN_HH);

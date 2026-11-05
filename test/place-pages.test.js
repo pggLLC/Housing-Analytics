@@ -156,7 +156,7 @@ if (dataMatch) {
     }
   });
   assert(scanned > 0 && scanned === pageFiles.length, `every place page was scanned for the ${FLOOR}-household floor (${scanned})`);
-  assert(/var MIN_HH = \{\{MIN_HH\}\};/.test(template) && /fewRenters \? FEW/.test(template),
+  assert(/var MIN_HH = Number\('\{\{MIN_HH\}\}'\);/.test(template) && /fewRenters \? FEW/.test(template),
     'the page script prints no rate under the floor either');
 }
 
