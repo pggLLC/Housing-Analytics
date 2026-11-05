@@ -20,7 +20,7 @@ function run(cmd, args, cwd, env = process.env, success = true) {
 const git = (cwd, ...args) => run('git', args, cwd).stdout.trim();
 const write = (file, value) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, value); };
 try {
-  for (const [label, branch, conflict] of [['manifests', 'main', false], ['derived-conflict', 'main', false], ['selected-ref', 'verify-data', false], ['source-conflict', 'main', true], ['keeps-moving', 'main', false]]) {
+  for (const [label, branch, conflict] of [['manifests', 'main', false], ['tail-conflict', 'main', false], ['derived-conflict', 'main', false], ['selected-ref', 'verify-data', false], ['source-conflict', 'main', true], ['keeps-moving', 'main', false], ['keeps-moving-input', 'main', false]]) {
     const dir = path.join(temp, label); fs.mkdirSync(dir);
     const origin = path.join(dir, 'origin.git'), work = path.join(dir, 'work'), peer = path.join(dir, 'peer'), bin = path.join(dir, 'bin');
     fs.mkdirSync(work); fs.mkdirSync(bin);
@@ -33,8 +33,12 @@ try {
     git(work, 'add', '.'); git(work, 'commit', '-m', 'baseline'); git(work, 'remote', 'add', 'origin', origin); git(work, 'push', '-u', 'origin', branch);
     git(dir, 'clone', '--branch', branch, origin, peer); git(peer, 'config', 'user.name', 'Test'); git(peer, 'config', 'user.email', 'test@example.invalid');
     for (const name of ['data/_manifest.json', 'data/manifest.json']) write(path.join(peer, name), 'concurrent manifest\n');
-    write(path.join(peer, 'data/remote.json'), '{"revision":1}\n');
+    // The tail case moves only the tail, so the chain need not run again.
+    if (label !== 'tail-conflict') write(path.join(peer, 'data/remote.json'), '{"revision":1}\n');
     if (label === 'derived-conflict') write(path.join(peer, 'data/hna/ranking-index.json'), 'concurrent derived output\n');
+    // 2026-11-04: the BPS rebuild conflicted twice on these, which nearly every commit to main rewrites.
+    // data/paper/added.json is new on both sides: an add/add the dropped tail must not carry.
+    if (label === 'tail-conflict') for (const name of ['data/paper/fixture.json', 'data/paper/added.json', 'methods.html', 'working-paper.html', 'AGENTS.md']) write(path.join(peer, name), 'concurrent tail\n');
     if (conflict) write(path.join(peer, 'data/source.json'), '{"value":"remote"}\n');
     git(peer, 'add', '.'); git(peer, 'commit', '-m', 'concurrent source and manifest update'); git(peer, 'push');
     const remoteBefore = git(peer, 'rev-parse', 'HEAD');
@@ -42,10 +46,12 @@ try {
     const counter = path.join(dir, 'build-count');
     const generator = `#!${process.execPath}\nconst fs=require('fs'),path=require('path'),cp=require('child_process');\n` +
       `if(process.argv.includes('rebuild:derived')){const counter=${JSON.stringify(counter)};const n=Number(fs.existsSync(counter)?fs.readFileSync(counter,'utf8'):0)+1;fs.writeFileSync(counter,String(n));` +
-      `if(${JSON.stringify(label)}==='keeps-moving' && n===2){const peer=${JSON.stringify(peer)};fs.writeFileSync(path.join(peer,'data/hna/ranking-index.json'),'newer remote derived output');for(const args of [['add','.'],['commit','-m','another concurrent update'],['push']])cp.execFileSync('git',args,{cwd:peer,stdio:'pipe'});}}\n` +
+      `if(${JSON.stringify(label)}.startsWith('keeps-moving') && n===2){const peer=${JSON.stringify(peer)};fs.writeFileSync(path.join(peer,${JSON.stringify(label)}==='keeps-moving'?'data/hna/ranking-index.json':'data/remote.json'),'newer remote change');for(const args of [['add','.'],['commit','-m','another concurrent update'],['push']])cp.execFileSync('git',args,{cwd:peer,stdio:'pipe'});}}\n` +
       `const write=(p,v)=>{fs.mkdirSync(path.dirname(p),{recursive:true});fs.writeFileSync(p,v)};\n` +
       `const data=fs.readFileSync('data/source.json','utf8')+fs.readFileSync('data/remote.json','utf8');\n` +
       `if(process.argv.includes('rebuild:derived')) for(const p of ${JSON.stringify(outputs.map(p => dirs.has(p) ? p + '/fixture.json' : p))})write(p,'derived:'+data);\n` +
+      `if(process.argv.includes('rebuild:derived'))write('data/paper/added.json','derived:'+data);\n` +
+      `if(process.argv.includes('paper:build'))for(const p of ['data/paper/fixture.json','data/paper/added.json','methods.html','working-paper.html'])write(p,'paper:'+data);\n` +
       `if(process.argv.includes('audit:file-manifest'))write('data/_manifest.json','manifest:'+data);\n` +
       `if(process.argv.includes('scripts/rebuild_manifest.py'))write('data/manifest.json','bytes:'+fs.readFileSync('data/_manifest.json','utf8'));\n`;
     for (const name of ['npm', 'python3']) { write(path.join(bin, name), generator); fs.chmodSync(path.join(bin, name), 0o755); }
@@ -54,20 +60,29 @@ try {
       { ...process.env, PATH: bin + path.delimiter + process.env.PATH, DERIVED_COMMIT_BRANCH: branch, GITHUB_OUTPUT: path.join(dir, 'output') }, false);
     const remoteAfter = git(dir, '--git-dir=' + origin, 'rev-parse', 'refs/heads/' + branch);
     const builds = Number(fs.readFileSync(counter, 'utf8'));
-    if (conflict || label === 'keeps-moving') {
+    if (conflict || label.startsWith('keeps-moving')) {
       assert.notEqual(result.status, 0, 'an input conflict or second rebase conflict must fail');
       assert.equal(remoteAfter, git(peer, 'rev-parse', 'HEAD'), 'a conflict must never push the local refresh');
       assert.equal(builds, conflict ? 1 : 2, 'at most one rebuild retry');
     } else {
       assert.equal(result.status, 0, result.stdout + result.stderr);
-      assert.equal(builds, 2, 'initial chain plus exactly one retry from the new tip');
+      const retried = label !== 'tail-conflict';
+      const rev = retried ? 1 : 0;
+      assert.equal(builds, retried ? 2 : 1, retried
+        ? 'initial chain plus exactly one retry from the new tip'
+        : 'a concurrent paper, inventory or manifest change needs no second chain run');
       assert.equal(git(work, 'rev-parse', 'HEAD^'), remoteBefore, 'one input+derived commit follows the remote head');
       assert.equal(remoteAfter, git(work, 'rev-parse', 'HEAD'));
       const files = git(work, 'diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD').split('\n');
       for (const required of ['data/source.json', 'data/hna/ranking-index.json', 'data/_manifest.json', 'data/manifest.json']) assert(files.includes(required), required);
-      assert(fs.readFileSync(path.join(work, 'data/hna/ranking-index.json'), 'utf8').includes('"revision":1'), 'the ranking index is rebuilt from the new tip, not retained from the failed commit');
-      assert(fs.readFileSync(path.join(work, 'data/_manifest.json'), 'utf8').includes('"revision":1'), 'manifest regenerated from rebased tree');
+      assert(fs.readFileSync(path.join(work, 'data/hna/ranking-index.json'), 'utf8').includes(`"revision":${rev}`), 'the ranking index is rebuilt from the new tip, not retained from the failed commit');
+      assert(fs.readFileSync(path.join(work, 'data/_manifest.json'), 'utf8').includes(`"revision":${rev}`), 'manifest regenerated from rebased tree');
       assert.equal(fs.readFileSync(path.join(work, 'data/manifest.json'), 'utf8'), 'bytes:' + fs.readFileSync(path.join(work, 'data/_manifest.json'), 'utf8'));
+      for (const name of ['data/paper/fixture.json', 'data/paper/added.json', 'methods.html', 'working-paper.html']) {
+        assert.equal(fs.readFileSync(path.join(work, name), 'utf8'), `paper:{"value":"local"}\n{"revision":${rev}}\n`, name + ' rebuilt from the rebased tree');
+        assert(files.includes(name), name + ' is in the pushed commit');
+      }
+      assert.equal(git(work, 'status', '--porcelain'), '', 'nothing left uncommitted');
     }
     console.log(`derived commit: ${label} PASS (real Git; deterministic build fixture)`);
   }
