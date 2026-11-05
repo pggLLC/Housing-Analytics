@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T15:37:17.140Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T16:14:38.912Z. Do not edit by hand.
 
 ---
 
@@ -39,7 +39,7 @@
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.4 KB |
-| `developer-deal-workbook.html` | Deal Workbook — COHO Analytics | 11.3 KB |
+| `developer-deal-workbook.html` | Deal Workbook — COHO Analytics | 12.3 KB |
 | `developer-methods.html` | Methodology — COHO Analytics | 11.1 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.8 KB |
 | `developer-round-watch.html` | Next Round Watch — COHO Analytics | 10.5 KB |
@@ -2078,7 +2078,7 @@
 
 ## Test Files
 
-784 test files found.
+785 test files found.
 
 | File | Size |
 |------|------|
@@ -2236,7 +2236,7 @@
 | `test/deal-review-checks.test.js` | 7.7 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
-| `test/deal-workbook.test.mjs` | 115.7 KB |
+| `test/deal-workbook.test.mjs` | 118.5 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 8.2 KB |
 | `test/deep-dive-aamd-vacancy.test.mjs` | 4.4 KB |
 | `test/deep-dive-hmda-loads-on-page-load.test.js` | 3.3 KB |
@@ -2458,6 +2458,7 @@
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 39.6 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
+| `test/land-value-ask.test.js` | 2.2 KB |
 | `test/leading-signals.test.mjs` | 4.8 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-activity-panel.test.mjs` | 4.8 KB |
