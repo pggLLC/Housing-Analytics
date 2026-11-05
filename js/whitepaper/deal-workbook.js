@@ -545,7 +545,7 @@
 
   // Debt coverage, all must-pay debt, each year of the forecast, against CHFA's minimum and its high-coverage line.
   function chartCoverage(m) {
-    var rows = (m.cashFlow.rows || []).filter(function (y) { return y.dscr != null && isFinite(y.dscr); });
+    var rows = (m.cashFlow.rows || []).filter(function (y) { return Number.isFinite(y.dscr); });
     if (rows.length < 2) return '';
     var mn = m.operating && m.operating.min || {}, lo = mn.dscr ? mn.dscr.value : null, hi = mn.high ? mn.high.value : null;
     var vals = rows.map(function (y) { return y.dscr; }).concat([lo, hi].filter(function (v) { return v != null; }));
@@ -634,7 +634,7 @@
   function chartStress(m) {
     var st = m.stress;
     if (!st || !st.base || st.base.dscr == null) return '';
-    var rows = stressRows(st.sizes).filter(function (k) { return st[k[0]] && st[k[0]].dscr != null && isFinite(st[k[0]].dscr); });
+    var rows = stressRows(st.sizes).filter(function (k) { return st[k[0]] && Number.isFinite(st[k[0]].dscr); });
     if (!rows.length) return '';
     var mn = m.operating && m.operating.min || {}, lo = mn.dscr ? mn.dscr.value : null, base = st.base.dscr;
     var vals = rows.map(function (k) { return st[k[0]].dscr; }).concat([base, lo].filter(function (v) { return v != null; }));
@@ -1249,7 +1249,7 @@
   var STRESS_INPUTS = { rent: 'dc-const-rent-stress', vac: 'dc-const-vac-stress', opex: 'dc-const-opex-stress', combRent: 'dc-const-comb-rent', combVac: 'dc-const-comb-vac', combOpex: 'dc-const-comb-opex' };
   function stressSizes(doc) {
     var o = {};
-    Object.keys(STRESS_INPUTS).forEach(function (k) { var el = doc && typeof doc.getElementById === 'function' ? doc.getElementById(STRESS_INPUTS[k]) : null; var v = el ? parseFloat(el.value) : NaN; o[k] = isFinite(v) && v >= 0 ? v : null; });
+    Object.keys(STRESS_INPUTS).forEach(function (k) { var el = doc && typeof doc.getElementById === 'function' ? doc.getElementById(STRESS_INPUTS[k]) : null; var v = el ? parseFloat(el.value) : NaN; o[k] = Number.isFinite(v) && v >= 0 ? v : null; });
     return o;
   }
   function readCalc(w, mkt) {
