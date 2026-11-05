@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "d833ab453",
+  "generated_from_commit": "2f9a27af0",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-11-05",
-    "total_commits": 9356,
+    "total_commits": 9359,
     "partial_month": "2026-11",
     "commits_by_month": [
       {
@@ -54,8 +54,8 @@
       },
       {
         "month": "2026-11",
-        "commits": 239,
-        "pct_of_peak": 15.3
+        "commits": 242,
+        "pct_of_peak": 15.5
       }
     ]
   },
@@ -251,11 +251,11 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 523668,
+    "hand_written_lines": 523743,
     "generated_place_page_lines": 232622,
     "top_level_pages": 82,
-    "html_nonblank_lines": 51645,
-    "html_distinct_lines": 21349,
+    "html_nonblank_lines": 51646,
+    "html_distinct_lines": 21350,
     "html_distinct_share": 0.413,
     "substantial_tools": 25,
     "declared_data_sources": 87,
@@ -320,7 +320,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "d833ab453",
+    "extracted_at_commit": "2f9a27af0",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -547,7 +547,7 @@
     "anchor_overcount_share": 0.373,
     "ranked_geographies": 546,
     "workforce_gap_wins": 236,
-    "future_units_with_incommuters": 536,
+    "future_units_with_incommuters": 343,
     "workforce_reading_counties_sum": 184145,
     "replacement_rate_min_pct": 0.02,
     "replacement_rate_max_pct": 0.6,
