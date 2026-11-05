@@ -3,7 +3,8 @@
  * the way a lender or partner reads it. Executive view first, then sources and
  * uses, basis and credits, rents by AMI tier against the limits, operating costs
  * against CHFA's minimums, the 15-year cash flow with debt coverage, deferred fee
- * payback, and checks written as findings.
+ * payback, and checks written as findings. An Investor summary puts the same figures
+ * on one page, with what is still owed at year 15.
  *
  * Every figure is the Deal Calculator's own. The page opens deal-calculator.html in
  * a hidden frame with the deal's settings and reads its result, so there is one
@@ -826,6 +827,115 @@
     return h;
   }
 
+  // ── Investor summary: one printed page from the same model ────────────────
+  // The figures an equity investor reads first, in the order a credit memo takes them. Nothing new is
+  // calculated: every number is a field of build()'s model, which repeats the Deal Calculator's engine.
+  var MUST_PAY = { amortizing: true, io_then_amortizing: true, interest_only: true };
+  var EXIT_SOURCES = [
+    ['26 U.S.C. 42(i)(7)', 'https://www.law.cornell.edu/uscode/text/26/42#i_7'],
+    ['26 U.S.C. 42(h)(6)', 'https://www.law.cornell.edu/uscode/text/26/42#h_6'],
+    ['CHFA 2027-28 QAP, Appendix E', 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf']
+  ];
+  function summaryYear15(m) {
+    var loans = m.loans || [];
+    var horizon = m.loansYear;
+    var known = loans.length && loans.every(function (l) { return l.balance15 != null; });
+    var sum = function (pick) { return loans.filter(pick).reduce(function (s, l) { return s + l.balance15; }, 0); };
+    return {
+      horizon: horizon, full: horizon === YEARS,
+      debt: known ? sum(function () { return true; }) : null,
+      mustPay: known ? sum(function (l) { return MUST_PAY[l.type]; }) : null,
+      balloons: loans.filter(function (l) { return l.balloon > 0.5; }).map(function (l) { return { label: l.label, year: l.maturity, amount: l.balloon }; }),
+      // The fee balance at the horizon shown, so a short forecast still reports what it measured.
+      feeOwed: (function () { var row = (m.cashFlow.rows || []).filter(function (r) { return r.year === horizon; })[0]; return row ? row.feeOwed : null; })(),
+      amOwed: m.assetMgmtOwed && !m.assetMgmtOwed.unknownAfter ? m.assetMgmtOwed.amount : null
+    };
+  }
+  function summary(m, title) {
+    if (!m || m.error) return '<p class="sr-flag">' + esc((m && m.error) || 'Nothing to show.') + '</p>';
+    var e = m.exec, b = m.basis || {}, s = m.sources || { rows: [] }, o = m.operating, mn = o.min, cf = m.cashFlow.rows;
+    var tdc = s.tdc != null ? s.tdc : m.uses.tdc;
+    var credit = m.creditType === '4' ? '4%' : '9%';
+    var y1 = cf[0] || null, w = e.weakest, minDscr = mn.dscr ? mn.dscr.value : null;
+    var h = '<section class="dv-card wb-inv" aria-labelledby="wbInv"><h2 id="wbInv">Investor summary' + (title ? ': ' + esc(title) : '') + '</h2>';
+    h += '<p>' + esc([m.units != null ? m.units + ' homes' : null, credit + ' federal credit', tdc != null ? money(tdc) + ' total cost' : null,
+      tdc != null && m.units ? money(tdc / m.units) + ' a home' : null].filter(Boolean).join(' · ')) + '</p>';
+    h += '<div class="rw-stats">' +
+      tile(b.equity == null ? '—' : esc(money(b.equity)), b.equity == null ? 'Credit equity: not available' : 'Federal credit equity at $' + esc(b.price == null ? '—' : b.price.toFixed(3)) + ' a credit') +
+      tile(e.credit == null ? '—' : esc(money(e.credit)), e.credit == null ? 'Yearly credit: ' + esc(e.creditReason || 'not available') : 'Yearly federal credit for 10 years') +
+      tile(e.gap == null ? '—' : esc(money(Math.abs(e.gap))), e.gap == null ? 'Funding gap: ' + esc(e.gapReason || 'not available') : e.gap < -0.5 ? 'Surplus after every source' : e.gap > 0.5 ? 'Funding gap still open' : 'Fully funded',
+        e.gap == null ? '' : e.gap > 0.5 ? 'sr-bad' : 'sr-ok') +
+      tile(w ? esc(ratio(w.ratio)) : '—', w ? 'Lowest debt coverage, years 1 to 15 (year ' + w.year + ')' : 'Debt coverage: ' + esc(e.coverageReason || 'not available'),
+        w && minDscr != null ? (w.ratio < minDscr ? 'sr-bad' : e.coverageFull ? 'sr-ok' : 'sr-warn') : '') +
+      '</div>';
+
+    // Capital stack: each source as a share of cost.
+    h += '<div class="wb-two"><div><h3>Capital stack</h3>';
+    h += s.rows.length ? table(['Source', 'Amount', 'Share'], s.rows.map(function (x) {
+      return { cells: [esc(x.label), esc(money(x.amount)), esc(tdc && x.amount != null ? pct(x.amount / tdc) : '—')] };
+    }).concat(s.gap != null && s.gap > 0.5 ? [{ cls: 'sr-total', cells: ['Gap', esc(money(s.gap)), esc(tdc ? pct(s.gap / tdc) : '—')] }] : [])
+      .concat([{ cls: 'sr-total', cells: ['Total development cost', esc(money(tdc)), ''] }]), { num: [1, 2], fixed: true })
+      : '<p class="sr-muted">' + esc(s.reason || 'No sources.') + '</p>';
+
+    // Credit delivery.
+    h += '</div><div><h3>Credit delivery</h3>';
+    var cr = [];
+    if (b.reason) cr.push(['Basis', b.reason]);
+    else {
+      cr.push(['Qualified basis', money(b.qualified)]);
+      cr.push(['Applicable fraction', pct(b.applicableFraction, 1)]);
+      cr.push(['Basis boost', b.boost && b.boost.applied ? '×' + num(b.boost.multiplier) : 'None']);
+      if (b.cap && b.cap.applied) cr.push(['CHFA per-project limit applied', money(num(b.cap.amount))]);
+      // The gap method is always calculated; only a binding one set the credit.
+      if (b.gapMethod && b.gapMethod.applied) cr.push([b.gapMethod.binding ? 'Held to the gap (CHFA gap method)' : 'CHFA gap method limit (not binding)', money(num(b.gapMethod.credit))]);
+      cr.push(['Yearly credit used', b.credit == null ? '— ' + (b.creditReason || '') : money(b.credit)]);
+    }
+    var sa = m.setAside;
+    cr.push(['Federal minimum set-aside', !sa || !sa.known ? 'Not checked' + (sa && sa.reason ? ': ' + sa.reason : '') : (sa.qualifies ? 'Met' : 'Not met') + (sa.election ? ' (' + sa.election + ')' : '')]);
+    cr.push(['Deferred developer fee', e.deferredFee == null ? '—' : money(e.deferredFee) + (m.deferredFee.share != null ? ' (' + pct(m.deferredFee.share) + ' of the fee)' : '')]);
+    cr.push(['Deferred fee paid off', e.deferredFee == null ? 'Not known' : e.deferredFee === 0 ? 'No deferred fee' : e.paybackYear != null ? 'Year ' + e.paybackYear : e.paidLater != null ? 'Year ' + e.paidLater
+      // A balance measured through year 15 is a shortfall; an unmeasured year leaves the payoff unknown.
+      : e.owedAt15 != null ? 'Not within 15 years' : 'Not known' + (e.payoffReason ? ': ' + e.payoffReason : '')]);
+    h += table(['Line', 'This deal'], cr.map(function (x) { return { cells: [esc(x[0]), esc(x[1])] }; }), { num: [1], fixed: true }) + '</div></div>';
+
+    // Operations against CHFA's underwriting minimums.
+    var opRows = [
+      ['Year-1 net operating income', money(y1 && y1.noi), ''],
+      ['Year-1 debt coverage, all must-pay debt', ratio(y1 && y1.dscr), minDscr != null ? ratio(minDscr) : '—'],
+      ['Lowest coverage, years 1 to 15', w ? ratio(w.ratio) + ' (year ' + w.year + ')' : '—', minDscr != null ? ratio(minDscr) : '—'],
+      ['Operating cost plus tax a home a year', money(o.opexPerUnit != null && o.taxPerUnit != null ? o.opexPerUnit + o.taxPerUnit : null), mn.opex ? money(mn.opex.value) : '—'],
+      ['Replacement reserve a home a year', money(o.reservePerUnit), mn.reserve ? money(mn.reserve.value) + ' family' : '—'],
+      ['Vacancy', pct(o.vacancy, 1), mn.vacancy ? pct(mn.vacancy.value) : '—']
+    ];
+    h += '<h3>Operations</h3>' + table(['Line', 'This deal', 'CHFA minimum'], opRows.map(function (x) { return { cells: [esc(x[0]), esc(x[1]), esc(x[2])] }; }), { num: [1], fixed: true });
+
+    // Year 15: what is still owed when the compliance period ends.
+    var y = summaryYear15(m);
+    var yr = [
+      ['Loans still owed', y.debt == null ? '—' : money(y.debt)],
+      ['of which must-pay', y.mustPay == null ? '—' : money(y.mustPay)],
+      ['Deferred developer fee still owed', y.feeOwed == null ? (e.deferredFee === 0 || e.paybackYear != null ? '$0' : '—') : money(y.feeOwed)]
+    ];
+    if (y.amOwed > 0.5) yr.push(['Asset management fee still owed', money(y.amOwed)]);
+    y.balloons.forEach(function (x) { yr.push([x.label + ' balloon, year ' + x.year, money(x.amount)]); });
+    h += '<h3>At the end of year ' + (y.full ? YEARS : y.horizon) + '</h3>';
+    if (!y.full && y.horizon != null) h += '<p class="sr-muted">The calculator\'s forecast for this deal runs ' + y.horizon + ' years, so these figures are for year ' + y.horizon + '.</p>';
+    h += table(['Line', 'Amount'], yr.map(function (x) { return { cells: [esc(x[0]), esc(x[1])] }; }), { num: [1], fixed: true });
+    h += '<p class="sr-muted">After year 15 the investor usually sells its interest to the sponsor or a nonprofit under a right of first refusal or purchase option. '
+      + 'The minimum price under 26 U.S.C. 42(i)(7)(B) is the debt still owed (less any taken on in the last five years) plus the exit taxes, so the loans above set its floor. '
+      + 'Rent and income limits continue for the extended use period in the recorded LURA. CHFA offers the qualified contract release only for awards made before 2019. '
+      + 'A resyndication with new credit is an option later, not a given: CHFA requires rehab hard costs above the greater of 20% of adjusted basis or $20,000 a home. Sources: '
+      + EXIT_SOURCES.map(function (x) { return '<a href="' + x[1] + '" target="_blank" rel="noopener">' + esc(x[0]) + '</a>'; }).join(', ') + '.</p>';
+
+    // Risks: the workbook's own findings, worst first.
+    var bad = m.findings.filter(function (f) { return f.level === 'bad'; }), warn = m.findings.filter(function (f) { return f.level === 'warn'; });
+    h += '<h3>Risks to clear</h3>';
+    h += bad.length || warn.length ? '<ul>' + bad.concat(warn).map(function (f) { return '<li class="' + (f.level === 'bad' ? 'sr-red' : 'sr-yellow') + '">' + esc(f.text) + '</li>'; }).join('') + '</ul>'
+      : '<p>Nothing in the figures needs a second look.</p>';
+    h += '<p class="sr-muted">Every figure is the Deal Calculator\'s for this deal. This summary is not an offer, a credit decision or an appraisal.</p></section>';
+    return h;
+  }
+
   // A pasted link or file is untrusted text. Rebuild it as parsed name/value pairs
   // on a same-folder deal-calculator.html URL, so nothing else can ride along.
   function calcUrl(query, base) {
@@ -1548,8 +1658,16 @@
     }
     function take() {
       if (shownFrame) { shownFrame.remove(); shownFrame = null; }
-      $('wbOut').innerHTML = ''; $('wbPrint').hidden = true; $('wbOpenCalc').hidden = true;
+      $('wbOut').innerHTML = ''; $('wbPrint').hidden = true; $('wbOpenCalc').hidden = true; $('wbViews').hidden = true;
       return supersede();
+    }
+    function view(which) {
+      var full = $('wbFull'), sum = $('wbSummary');
+      if (!full || !sum) return;
+      full.hidden = which === 'summary'; sum.hidden = which !== 'summary';
+      [['wbViewFull', which !== 'summary'], ['wbViewSummary', which === 'summary']].forEach(function (b) {
+        var btn = $(b[0]); if (btn && btn.setAttribute) btn.setAttribute('aria-pressed', String(b[1]));
+      });
     }
     function open(query, title, reserved, ctx) {
       var my = reserved != null ? reserved : take();
@@ -1569,8 +1687,11 @@
         if (my !== tok) { f.remove(); return; }
         var snap = readCalc(f.contentWindow, null);
         var model = build(snap, rules, ctx);
-        $('wbOut').innerHTML = render(model, title) + '<div id="wbMarket"><p class="sr-muted">Loading market figures…</p></div><div id="wbResearch"></div>';
+        // The full workbook and the one-page Investor summary come from the same model; the toggle shows one.
+        $('wbOut').innerHTML = '<div id="wbFull">' + render(model, title) + '<div id="wbMarket"><p class="sr-muted">Loading market figures…</p></div><div id="wbResearch"></div></div>'
+          + (model.error ? '' : '<div id="wbSummary" hidden>' + summary(model, title) + '</div>');
         status(''); $('wbPrint').hidden = false;
+        if (!model.error) { $('wbViews').hidden = false; view('full'); }
         if ($('wbOut').scrollIntoView) $('wbOut').scrollIntoView({ block: 'start' });
         if (model.error) { f.remove(); $('wbMarket').innerHTML = ''; return; }
         var deal = ctx && ctx.deal;
@@ -1647,6 +1768,8 @@
       });
     });
     $('wbPrint').addEventListener('click', function () { window.print(); });
+    $('wbViewFull').addEventListener('click', function () { view('full'); });
+    $('wbViewSummary').addEventListener('click', function () { view('summary'); });
     // A closed <details> prints empty, so open every one for printing and put them back after.
     var shut = [];
     window.addEventListener('beforeprint', function () { shut = Array.prototype.filter.call(doc.querySelectorAll('details'), function (d) { return !d.open; }); shut.forEach(function (d) { d.open = true; }); });
@@ -1658,5 +1781,5 @@
     else start(document);
   }
 
-  return { build: build, render: render, chartSources: chartSources, chartCoverage: chartCoverage, chartStress: chartStress, chartFee: chartFee, stressSizes: stressSizes, research: research, renderResearch: renderResearch, researchEditor: researchEditor, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
+  return { build: build, render: render, summary: summary, summaryYear15: summaryYear15, chartSources: chartSources, chartCoverage: chartCoverage, chartStress: chartStress, chartFee: chartFee, stressSizes: stressSizes, research: research, renderResearch: renderResearch, researchEditor: researchEditor, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
 });

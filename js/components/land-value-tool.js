@@ -143,6 +143,29 @@
     return band;
   }
 
+  /* ── Asking price check ──────────────────────────────────────────── */
+  // Most sites are bought, not donated. Compares the price on the table (after any public discount) with the
+  // most the deal can pay. Returns null when no price was entered.
+  function evaluateAsk(ask, residual, publicDiscount, totalUnits) {
+    var price = _n(ask);
+    if (!(price > 0)) return null;
+    var discount = Math.min(100, Math.max(0, _n(publicDiscount))) / 100;
+    var net = Math.round(price * (1 - discount));
+    // Without the cost and the sources the most the deal can pay is unknown, not the whole of the sources.
+    if (!residual) return { ask: price, net: net, discountPct: Math.round(discount * 100), max: null, room: null, perUnit: null, covered: null, verdict: net <= 0 ? 'free' : 'unknown',
+      reason: 'Enter the total development cost and the sources above to check this price.' };
+    var max = Math.max(0, _n(residual.adjustedResidual));
+    var room = max - net;
+    var units = _n(totalUnits);
+    return {
+      ask: price, net: net, discountPct: Math.round(discount * 100), max: max, room: room,
+      perUnit: units > 0 ? Math.round(Math.abs(room) / units) : null,
+      // The share of the price the deal can cover; the rest must come off the price or from another source.
+      covered: net > 0 ? Math.min(1, max / net) : 1,
+      verdict: net <= 0 ? 'free' : room >= 0 ? 'fits' : max > 0 ? 'short' : 'none'
+    };
+  }
+
   /* ── Render ──────────────────────────────────────────────────────── */
   function render(containerId) {
     var el = document.getElementById(containerId);
@@ -201,9 +224,13 @@
           '</div>' +
         '</div>' +
 
-        // Public Partnership Discount
+        // Land price and any public discount
         '<div class="lvt-section">' +
-          '<h4 class="lvt-section-title">Public Land / Partnership Discount</h4>' +
+          '<h4 class="lvt-section-title">Land Price and Public Discount</h4>' +
+          '<div class="lvt-row">' +
+            '<label class="lvt-label">Asking price or land value ($)<input type="number" id="lvtAsk" class="lvt-input" step="50000" min="0" placeholder="e.g. 1200000"></label>' +
+            '<div class="lvt-help">The seller\'s price, an appraisal, or your own figure. Leave blank for donated land.</div>' +
+          '</div>' +
           '<div class="lvt-row">' +
             '<label class="lvt-label">Below-market discount (%)<input type="number" id="lvtDiscount" class="lvt-input" min="0" max="100" step="5" placeholder="e.g. 50" value="0"></label>' +
             '<div class="lvt-help">If a public entity offers land at below market value, enter the discount. 100% = donated land. 50% = half market price.</div>' +
@@ -282,7 +309,8 @@
       deferredFee:      _n(document.getElementById('lvtDeferred').value),
       offSiteCosts:     _n(document.getElementById('lvtOffsite').value),
       remediationCosts: _n(document.getElementById('lvtRemediation').value),
-      publicLandDiscount: _n(document.getElementById('lvtDiscount').value)
+      publicLandDiscount: _n(document.getElementById('lvtDiscount').value),
+      askingPrice:      _n((document.getElementById('lvtAsk') || {}).value)
     };
   }
 
@@ -292,11 +320,14 @@
     var compResult = analyzeComps(state.comps, state.siteAcres);
     var residual = computeResidual(state);
     var band = computeNegotiationBand(compResult, residual, state.publicLandDiscount);
+    // A blank cost or no sources reads as zero in the form, so the check waits for both.
+    var residualKnown = state.tdc > 0 && (state.equityAndDebt + state.softSources + state.deferredFee) > 0;
+    var ask = evaluateAsk(state.askingPrice, residualKnown ? residual : null, state.publicLandDiscount, state.totalUnits);
 
-    _renderResults(state, conf, compResult, residual, band);
+    _renderResults(state, conf, compResult, residual, band, ask);
   }
 
-  function _renderResults(state, conf, compResult, residual, band) {
+  function _renderResults(state, conf, compResult, residual, band, ask) {
     var el = document.getElementById('lvtResults');
     if (!el) return;
 
@@ -346,9 +377,28 @@
       '</div>';
     }
 
+    // Asking price check
+    if (ask) {
+      var tone = ask.verdict === 'fits' || ask.verdict === 'free' ? 'var(--good, #059669)' : ask.verdict === 'unknown' ? 'var(--warn, #d97706)' : 'var(--bad, #dc2626)';
+      var say = ask.verdict === 'free' ? 'With the discount the land costs nothing, so the deal can take the site.'
+        : ask.verdict === 'fits' ? 'The deal can pay this price, with ' + _fmt(ask.room) + ' to spare' + (ask.perUnit != null ? ' (' + _fmtUnit(ask.perUnit) + ')' : '') + '.'
+        : ask.verdict === 'short' ? 'The deal is ' + _fmt(-ask.room) + ' short of this price' + (ask.perUnit != null ? ' (' + _fmtUnit(ask.perUnit) + ')' : '') + '. It covers ' + Math.round(ask.covered * 100) + '% of it.'
+        : ask.verdict === 'unknown' ? ask.reason
+        : 'The deal cannot pay anything for land, so the whole price is a gap.';
+      html += '<div class="lvt-result-card" style="border-left:4px solid ' + tone + ';">' +
+        '<h4 class="lvt-result-title">Asking Price Check</h4>' +
+        '<div class="lvt-result-grid">' +
+          '<div class="lvt-metric"><div class="lvt-metric-val">' + _fmt(ask.net) + '</div><div class="lvt-metric-lbl">Price' + (ask.discountPct ? ' after the ' + ask.discountPct + '% discount' : '') + '</div></div>' +
+          '<div class="lvt-metric"><div class="lvt-metric-val">' + (ask.max == null ? '—' : _fmt(ask.max)) + '</div><div class="lvt-metric-lbl">Most the deal can pay</div></div>' +
+          (ask.room == null ? '' : '<div class="lvt-metric"><div class="lvt-metric-val" style="color:' + tone + ';">' + (ask.room >= 0 ? '+' : '-') + _fmt(Math.abs(ask.room)) + '</div><div class="lvt-metric-lbl">' + (ask.room >= 0 ? 'Room under the price' : 'Short') + '</div></div>') +
+        '</div>' +
+        '<p class="lvt-band-note">' + say + (ask.room != null && ask.room < 0 ? ' Ways to close it: a lower price, a public land discount or ground lease, a seller carry-back note, or more soft money. Land is not in eligible basis, so tax credits will not cover it.' : '') + '</p>' +
+      '</div>';
+    }
+
     // Negotiation Band
-    if (band.seller > 0 || band.developer > 0) {
-      var maxVal = Math.max(band.seller, band.market, band.developer, band.publicPartner || 0) || 1;
+    if (band.seller > 0 || band.developer > 0 || ask) {
+      var maxVal = Math.max(band.seller, band.market, band.developer, band.publicPartner || 0, ask ? ask.ask : 0) || 1;
       var _bar = function (val, label, color) {
         var pct = Math.round((val / maxVal) * 100);
         var onColor = color.indexOf('--bad') !== -1 ? 'var(--on-bad)' :
@@ -366,15 +416,17 @@
       html += '<div class="lvt-result-card">' +
         '<h4 class="lvt-result-title">Negotiation Band</h4>' +
         '<div class="lvt-band">' +
-          _bar(band.seller, 'Seller\'s ask (high comp)', 'var(--bad, #dc2626)') +
-          _bar(band.market, 'Market value (median comp)', 'var(--warn, #d97706)') +
+          (ask ? _bar(ask.ask, 'Asking price (entered)', 'var(--bad, #dc2626)') : _bar(band.seller, 'Seller\'s ask (high comp)', 'var(--bad, #dc2626)')) +
+          (band.market > 0 || !ask ? _bar(band.market, 'Market value (median comp)', 'var(--warn, #d97706)') : '') +
           (band.publicPartner > 0 && band.publicPartner < band.market
             ? _bar(band.publicPartner, 'Public partner price (' + _n(state.publicLandDiscount) + '% discount)', 'var(--accent, #0d9488)')
             : '') +
           _bar(band.developer, 'Developer\'s max bid (residual)', 'var(--good, #059669)') +
         '</div>' +
         '<div class="lvt-band-note">' +
-          (band.developer >= band.market
+          (ask && !(band.market > 0)
+            ? (ask.verdict === 'unknown' ? ask.reason : ask.verdict === 'fits' || ask.verdict === 'free' ? 'The deal can pay the price entered. Negotiate for the best price.' : 'The price entered is above what the deal can pay. Add comparable sales above to see where market value sits.')
+            : band.developer >= band.market
             ? 'The project can support market-rate land acquisition. Negotiate for best price.'
             : band.developer >= band.publicPartner && band.publicPartner > 0
               ? 'The project needs a below-market price but may work with a public partnership discount.'
@@ -395,6 +447,7 @@
     computeConfidence:     computeConfidence,
     computeResidual:       computeResidual,
     analyzeComps:          analyzeComps,
-    computeNegotiationBand: computeNegotiationBand
+    computeNegotiationBand: computeNegotiationBand,
+    evaluateAsk:           evaluateAsk
   };
 })();
