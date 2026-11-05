@@ -127,7 +127,7 @@
     'dc-special-pop': 'Whether the project serves people experiencing homelessness or special populations (CHFA developer fee base).',
     'dc-state-path': 'Which CHFA state credit application the state credit comes from; each has its own limit.',
     'dc-qap-year': 'The CHFA credit year, which sets the per-project federal and state credit limits (2025-2026 or 2027-2028 Qualified Allocation Plan, 3.L).',
-    'dc-deferred-repay-cap': 'Whether the deferred developer fee is limited to what cash flow repays in years 1 to 15 (CHFA weighs this under QAP 3.A).',
+    'dc-deferred-repay-cap': 'Whether the deferred developer fee is limited to what cash flow repays in years 1 to 15 (CHFA reviews this under QAP 2.B, Criteria for Approval).',
     'dc-pilot-gap': 'Whether state gap funds are available through CHFA\'s 3.B.9 pilot: 3.L limits apply when they are, 3.L.1 limits when they are not.',
     'dc-state-annual': 'Annual state housing tax credit for the project.',
     'dc-state-standard-annual': 'Annual standard state credit paired with a Round Two accelerated credit.',
