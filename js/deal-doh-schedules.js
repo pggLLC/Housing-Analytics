@@ -11,9 +11,9 @@
  *
  * 15-year pro forma: the engine's projection and loan schedule in DOH's rows.
  * Cash after the must-pay loans and the bridge loan pays the asset management
- * fee (any part cash cannot cover accrues to later years), then cash-flow loans, then the deferred developer fee. The engine
- * allocates all three; the deferred fee is paid from cumulative cash flow, so
- * its payback year is the exit panel's.
+ * fee (any part cash cannot cover accrues to later years), then the deferred developer fee, then cash-flow loans
+ * share what is left, the order of the DOH Proforma tab in CHFA's 2027 Common Application (V9). The engine
+ * allocates all three; a sponsor-funded deficit is made up before the fee, and the fee's payback year is the exit panel's.
  * An unknown figure is null with a reason, never 0.
  */
 (function (root, factory) {
@@ -162,7 +162,7 @@
       var ds = p.debtService, bridge = p.bridgeDebtService;
       var cfAvailable = known(p.noi) && known(ds) && known(bridge) ? p.noi - ds - bridge : null;
       var loanPaid = loans.map(function (l) { var row = l.rows[i]; return row && known(row.paid) ? row.paid : null; });
-      // The engine pays the deferred fee from cumulative cash flow (see its projection).
+      // The engine pays the deferred fee ahead of the cash-flow loans (see loanObligations).
       var deferred = fee === null ? null : known(p.deferredFeePaid) ? p.deferredFeePaid : null;
       return {
         year: p.year, rentIncome: p.grossRents, vacancy: p.vacancyLoss, otherIncome: p.otherIncome, egi: p.egi,

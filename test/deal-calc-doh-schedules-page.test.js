@@ -88,6 +88,11 @@ async function test(name, fn) {
     const before = p.w.__DealCalc.getResult().exit.dfYr;
     setField(p, 'dc-asset-mgmt-fee', '15000');
     setField(p, 'dc-bridge-ds', '30000'); setField(p, 'dc-bridge-years', '2');
+    // With the 15-year limit on (the default), the deferral shrinks to what cash repays.
+    const capped = p.w.__DealCalc.getResult();
+    assert(capped.deferredRepayCap.on && capped.exit.dfYr !== null && capped.exit.dfYr <= 15, 'the limited fee is repaid by year 15: ' + capped.exit.dfYr);
+    // Without it, the same payments leave fee unpaid after year 15.
+    setField(p, 'dc-deferred-repay-cap', false);
     const r = p.w.__DealCalc.getResult();
     assert.equal(before, 14, 'the invented default repays in year 14');
     assert.equal(r.exit.dfYr, null, 'with the payments it is not repaid within 15 years');
