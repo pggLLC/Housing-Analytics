@@ -77,6 +77,11 @@ CPI_YEARS = [1979, 1980, 1989, 1990, 1999, 2000, 2009, 2014, 2024]
 BROOMFIELD = '08014'
 
 
+def read_json(path):
+    with open(path) as f:
+        return json.load(f)
+
+
 def fetch(url, cache, name):
     path = os.path.join(cache, name)
     if not os.path.exists(path):
@@ -102,9 +107,10 @@ def usa_counties(cache):
 
 def cpi(cache):
     vals = {}
-    for row in csv.DictReader(open(fetch(FRED, cache, 'CPIAUCNS-annual.csv'))):
-        if row['CPIAUCNS'] not in ('', '.'):
-            vals[int(row['observation_date'][:4])] = float(row['CPIAUCNS'])
+    with open(fetch(FRED, cache, 'CPIAUCNS-annual.csv')) as f:
+        for row in csv.DictReader(f):
+            if row['CPIAUCNS'] not in ('', '.'):
+                vals[int(row['observation_date'][:4])] = float(row['CPIAUCNS'])
     return {y: vals[y] for y in CPI_YEARS}
 
 
@@ -178,11 +184,11 @@ def main():
     cache = ap.parse_args().cache
     os.makedirs(cache, exist_ok=True)
 
-    trends = json.load(open(TRENDS))
+    trends = read_json(TRENDS)
     uc = usa_counties(cache)
     c = cpi(cache)
     rent14, inc14 = acs2014_state(cache, trends)
-    prof = json.load(open(STATE_SUMMARY))['acsProfile']
+    prof = read_json(STATE_SUMMARY)['acsProfile']
     if int(prof['_acsYear']) != 2024:
         sys.exit('data/hna/summary/08.json is ACS %s, expected 2024' % prof['_acsYear'])
     pq = pd.read_parquet(PARQUET)
