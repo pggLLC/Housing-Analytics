@@ -208,7 +208,7 @@
           Colorado · Prowers County
         </div>
         <h1>Hartman</h1>
-        <p class="place-sub">~22 households · renter cost-burden 78.9%</p>
+        <p class="place-sub">~22 households</p>
       </div>
     </div>
 
@@ -303,11 +303,17 @@
         el.textContent = v;
         el.className = 'value' + (severityClass ? ' ' + severityClass : '');
       }
+      // Under 50 households a tract-apportioned rate is noise, so
+      // none is printed (the same floor as the HNA scorecard).
+      var MIN_HH = Number('50');
+      var FEW = 'Too few households for a rate';
+      var fewRenters = !(data.summary.total_renter_hh >= MIN_HH);
+      var fewOwners = !(data.summary.total_owner_hh >= MIN_HH);
       var sev30 = data.summary.renter_cb30_share >= 0.5 ? 'bad' : data.summary.renter_cb30_share >= 0.35 ? 'warn' : 'good';
       var sev50 = data.summary.renter_cb50_share >= 0.25 ? 'bad' : data.summary.renter_cb50_share >= 0.15 ? 'warn' : 'good';
-      setVc('psRenterCb30', pctChas(data.summary.renter_cb30_share), sev30);
-      setVc('psRenterCb50', pctChas(data.summary.renter_cb50_share), sev50);
-      setV('psOwnerCb30',  pctChas(data.summary.owner_cb30_share));
+      setVc('psRenterCb30', fewRenters ? FEW : pctChas(data.summary.renter_cb30_share), fewRenters ? '' : sev30);
+      setVc('psRenterCb50', fewRenters ? FEW : pctChas(data.summary.renter_cb50_share), fewRenters ? '' : sev50);
+      setV('psOwnerCb30',  fewOwners ? FEW : pctChas(data.summary.owner_cb30_share));
       setV('psRenterTotal', fmt(data.summary.total_renter_hh));
       setV('psOwnerTotal',  fmt(data.summary.total_owner_hh));
       var tiers = data.renter_hh_by_ami || {};
