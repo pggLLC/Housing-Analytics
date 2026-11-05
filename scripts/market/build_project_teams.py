@@ -204,7 +204,8 @@ def decided(x):
 
 def build(cache):
     keep = _private()
-    apps = json.load(open(APPS, encoding='utf-8'))['applications']
+    with open(APPS, encoding='utf-8') as f:
+        apps = json.load(f)['applications']
     rows, unmatched = {}, []
     for year, rnd, label, url in NARRATIVES:
         pool = [x for x in apps if x['year'] == year and x['round'] == rnd]
