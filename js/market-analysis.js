@@ -257,6 +257,7 @@
   var CHFA_PENETRATION_TIERS = [20, 30, 40, 45, 50, 55, 60, 70, 80];
   var CHFA_CAPTURE_TIERS     = [60];
   var referenceProjects   = null;   // benchmark reference set
+  var unfundedApplications = null;  // applications CHFA did not fund, scored the same way
   var lastQuality         = null;   // last data quality assessment
   var lastBenchmark       = null;   // last benchmark result
   var lastPipeline        = null;   // last pipeline result
@@ -2749,7 +2750,31 @@
           '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Awarded</th>' +
           '<th style="text-align:center;padding:0.2rem 0.4rem;color:var(--faint);font-weight:600">Score today</th>' +
         '</tr></thead><tbody>' + rows + '</tbody></table>' +
-        '<p style="font-size:var(--tiny);color:var(--faint);margin-top:0.4rem">CHFA reference properties with similar scores: within ±10 points at the same buffer. They are not matched on deal type, unit mix or location.</p>' : '');
+        '<p style="font-size:var(--tiny);color:var(--faint);margin-top:0.4rem">CHFA reference properties with similar scores: within ±10 points at the same buffer. They are not matched on deal type, unit mix or location.</p>' : '') +
+      notFundedHtml(result.bufferMiles, refProjects, escHtml);
+  }
+
+  // Funded against not funded in the same years: a high rank among winners only means something
+  // if losers score lower. Says so in words, at the site's own buffer.
+  function notFundedHtml(buffer, refProjects, escHtml) {
+    var ENH = window.PMAEnhancements;
+    var pts = unfundedApplications && unfundedApplications.points;
+    if (!ENH || !ENH.fundedVsNotFunded || !pts) return '';
+    var all = ENH.fundedVsNotFunded(buffer, refProjects, pts, null);
+    if (!all) return '';
+    var nine = ENH.fundedVsNotFunded(buffer, refProjects, pts, '9%');
+    var m = unfundedApplications.meta || {};
+    var yrs = all.years[0] + '–' + all.years[1];
+    return '<p class="pma-bench-contrast" style="font-size:var(--tiny);margin-top:0.5rem">' +
+      '<strong>Against applications CHFA did not fund (' + yrs + '):</strong> at this buffer the ' + all.notFunded +
+      ' not funded have a median score of ' + all.notFundedMedian + ', against ' + all.fundedMedian + ' for the ' + all.funded +
+      ' funded in the same years, so our score ' + escHtml(all.verdict) + ' (a funded property outscores a not-funded one ' +
+      Math.round(all.separation * 100) + '% of the time; 50% is a coin toss).' +
+      (nine ? ' For 9% deals alone: ' + nine.notFundedMedian + ' not funded against ' + nine.fundedMedian + ' funded, ' + Math.round(nine.separation * 100) + '%.' : '') +
+      ' Read the rank above as where the site sits among past winners, not as its chance of an award.' +
+      '<span style="display:block;color:var(--faint)">Not funded: CHFA Applicant Reports, each property once at its latest application, and only if it never applied again or won later; ' +
+      (m.mapped != null ? m.mapped + ' of ' + m.applications + ' mapped by the Census geocoder' : 'mapped by the Census geocoder') +
+      '. A funded property\'s own homes count in its area\'s existing supply; a not-funded one\'s were not built with these credits.</span></p>';
   }
 
   /* ── Competitive Pipeline render ─────────────────────────────────── */
@@ -5982,6 +6007,10 @@
     // Load reference projects for benchmarking (non-fatal)
     DS.getJSON(DS.baseData('market/reference-projects.json')).then(function (data) {
       referenceProjects = data || null;
+    }).catch(function () { /* optional — ignore errors */ });
+    // Applications CHFA did not fund, scored the same way, so the peer set is not winners-only (non-fatal)
+    DS.getJSON(DS.baseData('market/unfunded-application-points.json')).then(function (data) {
+      unfundedApplications = data || null;
     }).catch(function () { /* optional — ignore errors */ });
 
     // Load each file individually so we can report specific failures
