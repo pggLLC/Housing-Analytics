@@ -50,6 +50,7 @@ REGISTRY      = os.path.join(REPO_ROOT, 'data', 'hna', 'geography-registry.json'
 PHANTOM_ALIAS = os.path.join(REPO_ROOT, 'data', 'hna', 'place-phantom-aliases.json')
 PERMITS       = os.path.join(REPO_ROOT, 'data', 'hna', 'permits.json')
 OWNERSHIP_NEED = os.path.join(REPO_ROOT, 'data', 'hna', 'ownership-need.json')
+LOCAL_PLAYERS = os.path.join(REPO_ROOT, 'data', 'market', 'local-players.json')
 COUNTY_NAMES_FILE = os.path.join(REPO_ROOT, 'data', 'co-county-boundaries.json')
 PAGES_DIR     = os.path.join(REPO_ROOT, 'places')
 TEMPLATE_FILE = os.path.join(PAGES_DIR, '_template.html')
@@ -443,6 +444,7 @@ def generate_page(
     place_chas_meta: dict | None = None,
     permits_doc: dict | None = None,
     ownership_doc: dict | None = None,
+    players_doc: dict | None = None,
 ) -> str:
     place_name = place_chas.get('name') or geoid
     # Extract county FIPS from underlying tracts if present
@@ -485,6 +487,10 @@ def generate_page(
         if permit_rec:
             data_payload['permits'] = permit_rec
             data_payload['permits_years'] = permits_doc.get('years')
+    if players_doc:
+        players = local_players_payload(geoid, county_fips, players_doc)
+        if players:
+            data_payload['local_players'] = players
     if ownership_doc:
         ownership_rec = (ownership_doc.get('records') or {}).get(geoid)
         if ownership_rec:
@@ -512,6 +518,57 @@ def generate_page(
     for k, v in replacements.items():
         html = html.replace(k, str(v))
     return html
+
+
+# Owner types grouped for the public card (scripts/market/build_local_players.py OWNER_TYPES).
+LAND_GROUPS = [
+    ('public', 'Public bodies', {'federal', 'state', 'tribal', 'county', 'municipal', 'school', 'special_district', 'housing_authority'}),
+    ('companies', 'Companies', {'business', 'utility'}),
+    ('nonprofits', 'Nonprofits, churches and HOAs', {'nonprofit', 'religious', 'hoa'}),
+    ('people', 'People and family trusts', {'individual', 'trust'}),
+    # Records with no owner name, and owners past the largest ones the parcel query
+    # returns: acreage with no owner type. Shown as its own group, never folded into people.
+    ('unsorted', 'Owner not given or not sorted', {'unknown'}),
+]
+
+
+def local_players_payload(geoid: str, county_fips: str | None, doc: dict) -> dict | None:
+    """The basic who-works-here card: the town's own counts where it has them, else its county's."""
+    areas = doc.get('areas') or {}
+    town = areas.get(geoid)
+    county = areas.get(county_fips or '')
+    if not town and not county:
+        return None
+    base = town or county
+    dev_src = town if town and (town.get('developers') or {}).get('organisations') else county or town
+    land_src = town if town and town.get('land') else county
+    land = None
+    if land_src and land_src.get('land'):
+        L = land_src['land']
+        total = (L.get('acres') or 0)
+        if total > 0:
+            groups = []
+            for key, label, types in LAND_GROUPS:
+                acres = sum(t['acres'] for t in L.get('by_type', []) if t['type'] in types)
+                if key == 'unsorted':
+                    acres += L.get('smaller_owners_acres') or 0
+                share = round(100 * acres / total, 1)
+                if share >= 0.5:
+                    groups.append({'key': key, 'label': label, 'share': share})
+            land = {'scope': 'town' if land_src is town else 'county', 'received': L.get('county_record_received'), 'groups': groups}
+    return {
+        'built': (doc.get('meta') or {}).get('built'),
+        'county_name': (county or base).get('name'),
+        'developers': (dev_src or {}).get('developers'),
+        'developers_scope': 'town' if dev_src is town else 'county',
+        'providers': {
+            'housing_authorities': ((county or base).get('providers') or {}).get('housing_authorities') or [],
+            'housing_nonprofits': ((town if town and (town.get('providers') or {}).get('housing_nonprofits') else county or base).get('providers') or {}).get('housing_nonprofits') or 0,
+        },
+        'providers_scope': 'town' if town and (town.get('providers') or {}).get('housing_nonprofits') else 'county',
+        'land': land,
+        'land_unavailable_reason': None if land else (county or base).get('land_unavailable_reason'),
+    }
 
 
 def build_index(places: list[tuple[str, str, str]], template_dir: str) -> str:
@@ -591,6 +648,13 @@ def main() -> int:
     else:
         print(f'WARN: {OWNERSHIP_NEED} not found — pages will show no ownership-need card data. '
               f'Run npm run build:jurisdiction-metrics-digest first.', file=sys.stderr)
+    players_doc = None
+    if os.path.exists(LOCAL_PLAYERS):
+        with open(LOCAL_PLAYERS) as f:
+            players_doc = json.load(f)
+    else:
+        print(f'WARN: {LOCAL_PLAYERS} not found — pages will show no who-works-here card. '
+              f'Run scripts/market/build_local_players.py first.', file=sys.stderr)
     county_names = load_county_names()
     template = load_template()
     os.makedirs(PAGES_DIR, exist_ok=True)
@@ -612,6 +676,7 @@ def main() -> int:
             place_chas_meta=place_chas_doc.get('meta') or {},
             permits_doc=permits_doc,
             ownership_doc=ownership_doc,
+            players_doc=players_doc,
         )
         out_path = os.path.join(PAGES_DIR, f'{geoid}.html')
         with open(out_path, 'w', encoding='utf-8') as f:

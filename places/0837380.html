@@ -227,6 +227,40 @@
     2024,
     2025
   ],
+  "local_players": {
+    "built": "2026-11-05",
+    "county_name": "Alamosa County",
+    "developers": {
+      "organisations": 3,
+      "by_kind": {
+        "company or other": 1,
+        "local government": 1,
+        "nonprofit": 1
+      },
+      "projects_awarded": 2,
+      "homes_awarded": 447,
+      "public_and_nonprofit": [
+        "City of Alamosa",
+        "Community Resources & Housing Development Corp."
+      ],
+      "tax_credit_properties": {
+        "properties": 7,
+        "homes": 236,
+        "nonprofit_properties": 2,
+        "scope": "county"
+      }
+    },
+    "developers_scope": "county",
+    "providers": {
+      "housing_authorities": [
+        "Housing Authority of The City of Alamosa"
+      ],
+      "housing_nonprofits": 2
+    },
+    "providers_scope": "county",
+    "land": null,
+    "land_unavailable_reason": "Alamosa County does not share its parcel records with the state composite, so its land holders are not listed. The county assessor's own site has them."
+  },
   "ownership_need": {
     "geoid": "0837380",
     "name": "Hooper (town)",
@@ -270,6 +304,11 @@
     .place-stat .value.good { color: var(--good, #16a34a); }
     .place-explain { margin-top: .75rem; font-size: .82rem; color: var(--muted); }
     .place-src { margin: .6rem 0 0; font-size: .78rem; color: var(--muted); line-height: 1.4; }
+    .pl-stack { display: flex; height: 14px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border); margin: .6rem 0 .3rem; }
+    .pl-stack span { display: block; height: 100%; }
+    .pl-legend { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .15rem .8rem; font-size: .8rem; color: var(--muted); }
+    .pl-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; }
+    .pl-names { font-size: .85rem; margin: .4rem 0 0; line-height: 1.45; }
     .place-explain summary { cursor: pointer; color: var(--accent, #096e65); font-weight: 600; font-size: .85rem; }
     .place-explain p { margin: .5rem 0; line-height: 1.5; }
     .place-explain ul { margin: .4rem 0; padding-left: 1.1rem; }
@@ -347,6 +386,17 @@
         <div class="place-stat"><span class="label">Renters who might buy</span><span class="value" id="psOwnFitBase">—</span></div>
         <p class="place-explain">Screening estimate only. <a href="../housing-needs-assessment.html?type=place&geoid=0837380#hnaAffordableOwnershipNeed">Full HNA section</a> · <a href="../docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md">Methodology</a></p>
         <p class="place-src">Source: screening built from <a href="https://www.huduser.gov/portal/datasets/cp.html">HUD CHAS 2018-2022</a> renter and owner cost burden (<a href="../data/hna/ownership-need.json">site copy</a>).</p>
+      </div>
+      <div class="place-card" id="psPlayersCard" hidden>
+        <h2>Who works on housing here</h2>
+        <div class="place-stat"><span class="label" id="psPlDevsLabel">Groups that won state housing awards since 2016</span><span class="value" id="psPlDevs">—</span></div>
+        <div class="place-stat"><span class="label">Homes in those awards</span><span class="value" id="psPlHomes">—</span></div>
+        <div class="place-stat"><span class="label">Housing authority</span><span class="value" id="psPlPha">—</span></div>
+        <div class="place-stat"><span class="label">Housing and shelter nonprofits</span><span class="value" id="psPlNp">—</span></div>
+        <p class="pl-names" id="psPlNames" hidden></p>
+        <div id="psPlLand"></div>
+        <p class="place-explain" id="psPlNote"></p>
+        <p class="place-src">Sources: CHFA, OEDIT and DOLA award reports and CHFA applicant reports (<a href="../data/policy/funding-awards/ledger.json">site copy</a>); <a href="https://gis.colorado.gov/public/rest/services/Address_and_Parcel/Colorado_Public_Parcels/FeatureServer/0">Colorado Public Parcels</a>; <a href="https://hudgis-hud.opendata.arcgis.com/datasets/HUD::public-housing-authorities">HUD public housing authorities</a>; <a href="https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmf">IRS exempt organizations list</a> (<a href="../data/market/local-players.json">site copy</a>, built <span id="psPlBuilt">—</span>).</p>
       </div>
       <div class="place-card">
         <h2>Methodology</h2>
@@ -504,6 +554,42 @@
           setV('psNeedRatio', 'n/a');
           say('DOLA projects little or no household growth for this area, so a production-to-need ratio is not meaningful. Recent permitting: ' +
               one(avg.value) + ' units/yr (' + (avg.window || '') + ').');
+        }
+      })();
+      // Who works on housing here: counts by type from data/market/local-players.json
+      // (scripts/market/build_local_players.py). Names only public bodies and nonprofits.
+      (function () {
+        var lp = data.local_players;
+        var card = document.getElementById('psPlayersCard');
+        if (!lp || !card) return;
+        card.hidden = false;
+        if (lp.built) document.getElementById('psPlBuilt').textContent = lp.built;
+        var where = lp.developers_scope === 'county' ? ' in ' + lp.county_name : '';
+        document.getElementById('psPlDevsLabel').textContent = 'Groups that won state housing awards since 2016' + where;
+        var d = lp.developers || {};
+        setV('psPlDevs', d.organisations ? fmt(d.organisations) : 'None on record');
+        setV('psPlHomes', d.homes_awarded ? fmt(d.homes_awarded) : '—');
+        var pr = lp.providers || {};
+        setV('psPlPha', pr.housing_authorities && pr.housing_authorities.length ? pr.housing_authorities.join(', ') : 'None based in the county');
+        setV('psPlNp', fmt(pr.housing_nonprofits || 0) + (lp.providers_scope === 'county' ? ' in the county' : ''));
+        var names = (d.public_and_nonprofit || []).slice(0, 5);
+        if (names.length) {
+          var el = document.getElementById('psPlNames');
+          el.textContent = 'Public and nonprofit builders: ' + names.join(', ') + '.';
+          el.hidden = false;
+        }
+        var land = lp.land;
+        var box = document.getElementById('psPlLand');
+        var note = document.getElementById('psPlNote');
+        if (land && land.groups && land.groups.length) {
+          var colors = { public: '#2f6f9f', companies: '#d68910', nonprofits: '#9b59b6', people: '#c9b79c', unsorted: '#d5d8dc' };
+          var bar = '<div class="pl-stack" role="img" aria-label="Who holds the land: ' + land.groups.map(function (g) { return g.label + ' ' + g.share + '%'; }).join(', ') + '">' +
+            land.groups.map(function (g) { return '<span style="width:' + g.share + '%;background:' + colors[g.key] + '"></span>'; }).join('') + '</div>';
+          var leg = '<ul class="pl-legend">' + land.groups.map(function (g) { return '<li><i style="background:' + colors[g.key] + '"></i>' + g.label + ' ' + g.share + '%</li>'; }).join('') + '</ul>';
+          box.innerHTML = '<div class="place-stat" style="border:0"><span class="label">Who holds the land' + (land.scope === 'county' ? ' in ' + lp.county_name : '') + '</span></div>' + bar + leg;
+          note.textContent = 'Land shares are acres on county parcel records' + (land.received ? ' (received ' + land.received + ')' : '') + '. Members see the named builders and land holders.';
+        } else {
+          note.textContent = (lp.land_unavailable_reason || 'Land holders are not available here.') + ' Members see the named builders.';
         }
       })();
       // Cross-county disclosure

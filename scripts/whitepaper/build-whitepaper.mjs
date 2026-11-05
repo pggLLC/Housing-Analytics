@@ -60,6 +60,8 @@ export function build(query, { today, src = loadSources() } = {}) {
     landscape: readJson(WP.landscapePath(geoid), true),
     relatedContacts: WP.relatedGeoids(src, geoid).map((g) => readJson(WP.contactsPath(g), true)),
     relatedLandscape: WP.relatedGeoids(src, geoid).map((g) => readJson(WP.landscapePath(g), true)),
+    localPlayers: readJson(WP.localPlayersPath(geoid), true),
+    countyLocalPlayers: WP.countyOf(src, geoid) ? readJson(WP.localPlayersPath(WP.countyOf(src, geoid)), true) : null,
     localResources: readJson('data/hna/local-resources.json', true),
     summary: readJson(WP.summaryPath(geoid), true),
   });
