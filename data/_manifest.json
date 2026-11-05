@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-05T13:35:08.174Z",
+    "generated_at": "2026-11-05T13:39:53.825Z",
     "root": "data/",
     "file_count": 2020,
-    "total_size_bytes": 221119723,
+    "total_size_bytes": 221121927,
     "kinds": {
       "json": 1971,
       "geojson": 35,
@@ -6817,7 +6817,7 @@
       "path": "hmda/co-county-aggregates.json",
       "kind": "json",
       "size_bytes": 280908,
-      "mtime": "2026-10-14T08:31:22.382Z",
+      "mtime": "2026-11-05T13:39:45.843Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -6832,7 +6832,7 @@
       "path": "hmda/co-state-trends.json",
       "kind": "json",
       "size_bytes": 4196,
-      "mtime": "2026-10-14T08:31:22.382Z",
+      "mtime": "2026-11-05T13:39:45.843Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38240,7 +38240,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 256758,
-      "mtime": "2026-11-05T13:12:13.264Z",
+      "mtime": "2026-11-05T13:39:45.843Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -43487,8 +43487,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 20474,
-      "mtime": "2026-11-04T13:12:52.450Z",
+      "size_bytes": 20453,
+      "mtime": "2026-11-05T13:39:45.859Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -43507,8 +43507,8 @@
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 203263,
-      "mtime": "2026-11-04T13:12:52.500Z",
+      "size_bytes": 205488,
+      "mtime": "2026-11-05T13:39:45.860Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43516,7 +43516,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 202,
+      "primary_array_length": 203,
       "primary_array_first_keys": [
         "date",
         "events"
