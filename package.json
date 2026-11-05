@@ -232,6 +232,7 @@
     "build:acs-renter-bedrooms": "python3 scripts/market/build_acs_renter_bedrooms.py",
     "build:acs-renter-household-size": "python3 scripts/market/build_acs_renter_household_size.py",
     "build:market-construction": "npm run build:place-tract-housing && npm run build:acs-renter-bedrooms && python3 scripts/build_acs_rent_co.py && python3 scripts/market/build_redfin_place_market_tracker.py",
+    "build:policy-layer": "python3 scripts/policy/build_policy_jurisdictions_geojson.py",
     "build:jurisdiction-metrics-digest": "node scripts/hna/build_jurisdiction_metrics_digest.mjs",
     "rebuild:derived": "node scripts/rebuild-derived.mjs",
     "fetch:pab-allocations": "node scripts/fetch-pab-allocations.mjs",
