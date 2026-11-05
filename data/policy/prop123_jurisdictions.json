@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-04",
+  "updated": "2026-11-05",
   "source_url": "https://cdola.colorado.gov/commitment-filings",
   "sources": {
     "cycle1_filings": {
@@ -17,6 +17,10 @@
     },
     "next_cycle_filings": {
       "page": "https://cdola.colorado.gov/commitment-filings"
+    },
+    "next_cycle_status": {
+      "page": "https://cdola.colorado.gov/fully-compliant-jurisdictions-under-proposition-123",
+      "sheet": "https://docs.google.com/spreadsheets/d/1OuAIp8mpoR7GNW0kDWb1Ubl5iuRQLJkfvDkW0OQh-Ug"
     }
   },
   "note": "Local government Proposition 123 affordable housing commitments, joined from DOLA's own lists: first-cycle (2024-2026) commitment filings, verified expedited review (\"fast track\") policies, jurisdictions verified as meeting every statutory requirement, and second-cycle (2027-2029) commitments filed so far in 2026. Built by scripts/policy/build_prop123_jurisdictions.py. HB26-1313 (signed and effective 2026-05-26 under its safety clause) replaces the 3% annual-growth eligibility requirement with permit-and-job-growth targets beginning the 3-year cycle on 2027-01-01; the required_commitment values below describe the current cycle.",
@@ -32,51 +36,191 @@
       "fast_track_adopted": "2026-08-12"
     }
   ],
-  "commitment_met_count": 75,
+  "commitment_met_count": 76,
   "next_cycle": {
     "cycle": "2027-2029",
     "filing_deadline": "2026-11-01",
-    "filed_count": 48,
-    "unit_goal_total": 4319,
+    "filed_count": 155,
+    "status_counts": {
+      "Approved": 69,
+      "Contingent Approval": 76,
+      "Pending": 10
+    },
+    "unit_goal_total": 12106,
+    "unit_goal_unstated": 12,
     "filings": [
+      {
+        "name": "Adams County",
+        "submitted": "2026-10-29",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 134
+      },
+      {
+        "name": "Alamosa County",
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 10
+      },
+      {
+        "name": "Arapahoe County",
+        "submitted": "2026-10-13",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 231
+      },
+      {
+        "name": "Archuleta County",
+        "submitted": "2026-10-29",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 76
+      },
+      {
+        "name": "Boulder County",
+        "submitted": "2026-10-23",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 22
+      },
       {
         "name": "Chaffee County",
         "submitted": "2026-10-26",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 43
       },
       {
+        "name": "City and County of Broomfield",
+        "submitted": "2026-10-12",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
         "name": "City and County of Denver",
         "submitted": "2026-09-30",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 2167
       },
       {
+        "name": "City of Alamosa",
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 8
+      },
+      {
+        "name": "City of Arvada",
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 284
+      },
+      {
+        "name": "City of Aurora",
+        "submitted": "2026-10-20",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 1381
+      },
+      {
+        "name": "City of Boulder",
+        "submitted": "2026-10-09",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 118
+      },
+      {
         "name": "City of Brighton",
         "submitted": "2026-07-27",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 270
       },
       {
+        "name": "City of Brush",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 10
+      },
+      {
+        "name": "City of Castle Pines",
+        "submitted": "2026-10-23",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 68
+      },
+      {
+        "name": "City of Centennial",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 106
+      },
+      {
         "name": "City of Central",
         "submitted": "2026-10-08",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
       },
       {
+        "name": "City of Colorado Springs",
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 1278
+      },
+      {
+        "name": "City of Commerce City",
+        "submitted": "2026-10-26",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 298
+      },
+      {
         "name": "City of Cortez",
         "submitted": "2026-10-27",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 9
       },
       {
+        "name": "City of Craig",
+        "submitted": "2026-10-20",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 8
+      },
+      {
         "name": "City of Cripple Creek",
         "submitted": "2026-10-02",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 6
@@ -84,6 +228,7 @@
       {
         "name": "City of Delta",
         "submitted": "2026-10-21",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 27
@@ -91,20 +236,87 @@
       {
         "name": "City of Durango",
         "submitted": "2026-08-26",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 99
       },
       {
+        "name": "City of Edgewater",
+        "submitted": "2026-10-15",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "City of Englewood",
+        "submitted": "2026-10-23",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 113
+      },
+      {
+        "name": "City of Firestone",
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 98
+      },
+      {
         "name": "City of Florence",
         "submitted": "2026-10-13",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 7
       },
       {
+        "name": "City of Fort Collins",
+        "submitted": "2026-10-02",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 272
+      },
+      {
+        "name": "City of Fort Lupton",
+        "submitted": "2026-10-23",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 96
+      },
+      {
+        "name": "City of Fort Morgan",
+        "submitted": "2026-11-01",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
+        "name": "City of Fruita",
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 45
+      },
+      {
+        "name": "City of Glenwood Springs",
+        "submitted": "2026-10-28",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
         "name": "City of Golden",
         "submitted": "2026-10-01",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 53
@@ -112,13 +324,31 @@
       {
         "name": "City of Grand Junction",
         "submitted": "2026-08-25",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 347
       },
       {
+        "name": "City of Greeley",
+        "submitted": "2026-10-09",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 249
+      },
+      {
+        "name": "City of Gunnison",
+        "submitted": "2026-10-22",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 15
+      },
+      {
         "name": "City of Idaho Springs",
         "submitted": "2026-09-29",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 13
@@ -126,6 +356,7 @@
       {
         "name": "City of Ignacio",
         "submitted": "2026-10-08",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 4
@@ -133,6 +364,7 @@
       {
         "name": "City of Lafayette",
         "submitted": "2026-10-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 8
@@ -140,13 +372,39 @@
       {
         "name": "City of Lakewood",
         "submitted": "2026-10-27",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 61
       },
       {
+        "name": "City of Leadville",
+        "submitted": "2026-10-27",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 15
+      },
+      {
+        "name": "City of Littleton",
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 258
+      },
+      {
+        "name": "City of Lone Tree",
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 108
+      },
+      {
         "name": "City of Longmont",
         "submitted": "2026-09-29",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 284
@@ -154,20 +412,47 @@
       {
         "name": "City of Loveland",
         "submitted": "2026-10-20",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 167
       },
       {
+        "name": "City of Manitou Springs",
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "City of Monte Vista",
+        "submitted": "2026-10-22",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 5
+      },
+      {
         "name": "City of Montrose",
         "submitted": "2026-10-21",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 126
       },
       {
+        "name": "City of Northglenn",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 88
+      },
+      {
         "name": "City of Ouray",
         "submitted": "2026-09-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 7
@@ -175,27 +460,183 @@
       {
         "name": "City of Pueblo",
         "submitted": "2026-10-06",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 65
       },
       {
+        "name": "City of Rifle",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 34
+      },
+      {
+        "name": "City of Rocky Ford",
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 5
+      },
+      {
+        "name": "City of Salida",
+        "submitted": "2026-09-18",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 42
+      },
+      {
         "name": "City of Sheridan",
         "submitted": "2026-10-21",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 27
       },
       {
+        "name": "City of Steamboat Springs",
+        "submitted": "2026-10-30",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
+        "name": "City of Sterling",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "City of Thornton",
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 225
+      },
+      {
+        "name": "City of Victor",
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "City of Walsenburg",
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "City of Westminster",
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 81
+      },
+      {
+        "name": "City of Wheat Ridge",
+        "submitted": "2026-10-22",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 112
+      },
+      {
+        "name": "City of Wray",
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 5
+      },
+      {
+        "name": "Clear Creek County",
+        "submitted": "2026-10-29",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 4
+      },
+      {
+        "name": "Delta County",
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 29
+      },
+      {
+        "name": "Douglas County",
+        "submitted": "2026-10-22",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 409
+      },
+      {
+        "name": "Eagle County",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 23
+      },
+      {
+        "name": "Gilpin County",
+        "submitted": "2026-11-01",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 14
+      },
+      {
+        "name": "Hinsdale County",
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Jefferson County",
+        "submitted": "2026-07-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 219
+      },
+      {
         "name": "La Plata County",
         "submitted": "2026-09-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 84
       },
       {
+        "name": "Lake County",
+        "submitted": "2026-10-12",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 20
+      },
+      {
         "name": "Larimer County",
         "submitted": "2026-08-28",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 30
@@ -203,20 +644,103 @@
       {
         "name": "Mesa County",
         "submitted": "2026-10-26",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 79
       },
       {
+        "name": "Mineral County",
+        "submitted": "2026-10-30",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
+        "name": "Montrose County",
+        "submitted": "2026-10-13",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 63
+      },
+      {
         "name": "Ouray County",
         "submitted": "2026-10-13",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 17
       },
       {
+        "name": "Phillips County",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Pueblo County",
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 69
+      },
+      {
+        "name": "Saguache County",
+        "submitted": "2026-10-21",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
+        "name": "San Miguel County",
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 8
+      },
+      {
+        "name": "Southern Ute Tribe",
+        "submitted": null,
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
+        "name": "Summit County",
+        "submitted": "2026-09-01",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 49
+      },
+      {
+        "name": "Town of Avon",
+        "submitted": "2026-10-22",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
+        "name": "Town of Basalt",
+        "submitted": "2026-10-28",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 17
+      },
+      {
         "name": "Town of Bayfield",
         "submitted": "2026-08-31",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 9
@@ -224,6 +748,7 @@
       {
         "name": "Town of Bennett",
         "submitted": "2026-10-15",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 61
@@ -231,6 +756,7 @@
       {
         "name": "Town of Berthoud",
         "submitted": "2026-09-09",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 88
@@ -238,6 +764,7 @@
       {
         "name": "Town of Breckenridge",
         "submitted": "2026-07-22",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 27
@@ -245,48 +772,239 @@
       {
         "name": "Town of Buena Vista",
         "submitted": "2026-09-24",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 42
       },
       {
+        "name": "Town of Castle Rock",
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 250
+      },
+      {
+        "name": "Town of Center",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Coal Creek",
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
         "name": "Town of Crested Butte",
         "submitted": "2026-10-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
+      },
+      {
+        "name": "Town of De Beque",
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Dolores",
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Eagle",
+        "submitted": "2026-10-31",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
+        "name": "Town of Eaton",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Empire",
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Erie",
+        "submitted": "2026-10-08",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 66
       },
       {
         "name": "Town of Estes Park",
         "submitted": "2026-08-21",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
       },
       {
+        "name": "Town of Fraser",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 14
+      },
+      {
         "name": "Town of Frisco",
         "submitted": "2026-10-08",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
-        "unit_goal": 10
+        "unit_goal": 18
+      },
+      {
+        "name": "Town of Georgetown",
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 5
+      },
+      {
+        "name": "Town of Gilcrest",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Granby",
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 27
+      },
+      {
+        "name": "Town of Gypsum",
+        "submitted": "2026-10-28",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 22
+      },
+      {
+        "name": "Town of Hayden",
+        "submitted": "2026-10-31",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 30
+      },
+      {
+        "name": "Town of Holyoke",
+        "submitted": "2026-10-22",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Keystone",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 15
       },
       {
         "name": "Town of Kiowa",
         "submitted": "2026-10-06",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Kit Carson",
+        "submitted": "2026-10-26",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Lake City",
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Log Lane Village",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Louisville",
+        "submitted": "2026-10-23",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
         "unit_goal": 3
       },
       {
         "name": "Town of Lyons",
         "submitted": "2026-10-07",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
       },
       {
+        "name": "Town of Manassa",
+        "submitted": "2026-11-01",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Meeker",
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
         "name": "Town of Moffat",
         "submitted": "2026-09-14",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -294,34 +1012,151 @@
       {
         "name": "Town of Mount Crested Butte",
         "submitted": "2026-10-27",
+        "status": "Approved",
+        "begins": "2027-01-01",
+        "length": "3 years",
+        "unit_goal": 5
+      },
+      {
+        "name": "Town of Mountain View",
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Mountain Village",
+        "submitted": "2026-10-29",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 16
+      },
+      {
+        "name": "Town of Naturita",
+        "submitted": "2026-10-14",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
       },
       {
-        "name": "Town of Naturita",
-        "submitted": "2026-10-14",
-        "begins": "2027-01-01",
-        "length": "3 years",
+        "name": "Town of Nederland",
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Norwood",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Nucla",
+        "submitted": "2026-10-28",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Oak Creek",
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Pagosa Springs",
+        "submitted": "2026-10-29",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 15
+      },
+      {
+        "name": "Town of Palisade",
+        "submitted": "2026-10-26",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
+        "name": "Town of Parachute",
+        "submitted": "2026-10-28",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 14
+      },
+      {
+        "name": "Town of Parker",
+        "submitted": "2026-10-27",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
+        "name": "Town of Platteville",
+        "submitted": "2026-10-26",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
         "unit_goal": 3
       },
       {
         "name": "Town of Poncha Springs",
         "submitted": "2026-10-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 8
       },
       {
+        "name": "Town of Red Cliff",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Rico",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
         "name": "Town of Ridgway",
         "submitted": "2026-10-15",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 13
       },
       {
+        "name": "Town of San Luis",
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
         "name": "Town of Silver Cliff",
         "submitted": "2026-10-16",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 4
@@ -329,13 +1164,23 @@
       {
         "name": "Town of Silver Plume",
         "submitted": "2026-09-28",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
       },
       {
+        "name": "Town of Silverthorne",
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 49
+      },
+      {
         "name": "Town of Silverton",
         "submitted": "2026-10-22",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 4
@@ -343,6 +1188,7 @@
       {
         "name": "Town of Snowmass Village",
         "submitted": "2026-10-13",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -350,20 +1196,39 @@
       {
         "name": "Town of Stratton",
         "submitted": "2026-09-22",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
+      },
+      {
+        "name": "Town of Superior",
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 28
       },
       {
         "name": "Town of Telluride",
         "submitted": "2026-10-22",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
-        "unit_goal": 3
+        "unit_goal": 5
+      },
+      {
+        "name": "Town of Vail",
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 12
       },
       {
         "name": "Town of Wellington",
         "submitted": "2026-09-08",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 14
@@ -371,9 +1236,58 @@
       {
         "name": "Town of Westcliffe",
         "submitted": "2026-10-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
+      },
+      {
+        "name": "Town of Wiggins",
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Town of Windsor",
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 254
+      },
+      {
+        "name": "Town of Winter Park",
+        "submitted": "2026-11-01",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 36
+      },
+      {
+        "name": "Ute Mountain Ute Tribe",
+        "submitted": null,
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      },
+      {
+        "name": "Washington County",
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      },
+      {
+        "name": "Yuma County",
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 4
       }
     ]
   },
@@ -396,7 +1310,13 @@
         "unit_commitment": "2026-10-30",
         "required_units_met": 422
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-29",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 134
+      }
     },
     {
       "name": "Arapahoe County",
@@ -412,7 +1332,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-13",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 231
+      }
     },
     {
       "name": "Archuleta County",
@@ -432,7 +1358,13 @@
         "unit_commitment": "2026-10-29",
         "required_units_met": 16
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-29",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 76
+      }
     },
     {
       "name": "Baca County",
@@ -480,7 +1412,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-23",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 22
+      }
     },
     {
       "name": "Chaffee County",
@@ -502,6 +1440,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-26",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 43
@@ -521,7 +1460,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-12",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      }
     },
     {
       "name": "City and County of Denver",
@@ -543,6 +1488,7 @@
       },
       "next_cycle": {
         "submitted": "2026-09-30",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 2167
@@ -566,7 +1512,13 @@
         "unit_commitment": "2026-09-14",
         "required_units_met": 19
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-29",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 4
+      }
     },
     {
       "name": "Costilla County",
@@ -614,7 +1566,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 29
+      }
     },
     {
       "name": "Dolores County",
@@ -646,7 +1604,13 @@
       "fast_track_adopted": "2026-06-09",
       "fast_track_instrument": "Resolution R-026-041",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-22",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 409
+      }
     },
     {
       "name": "Eagle County",
@@ -662,7 +1626,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 23
+      }
     },
     {
       "name": "Garfield County",
@@ -698,7 +1668,13 @@
         "unit_commitment": "2026-09-14",
         "required_units_met": 18
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-11-01",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 14
+      }
     },
     {
       "name": "Grand County",
@@ -746,7 +1722,13 @@
       "fast_track_adopted": "2025-12-10",
       "fast_track_instrument": "Resolution, Series 2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Huerfano County",
@@ -782,7 +1764,13 @@
         "unit_commitment": "2026-10-29",
         "required_units_met": 327
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-07-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 219
+      }
     },
     {
       "name": "Kiowa County",
@@ -820,6 +1808,7 @@
       },
       "next_cycle": {
         "submitted": "2026-09-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 84
@@ -843,7 +1832,13 @@
         "unit_commitment": "2026-10-30",
         "required_units_met": 15
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-12",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 20
+      }
     },
     {
       "name": "Larimer County",
@@ -865,6 +1860,7 @@
       },
       "next_cycle": {
         "submitted": "2026-08-28",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 30
@@ -906,6 +1902,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-26",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 79
@@ -925,7 +1922,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      }
     },
     {
       "name": "Montezuma County",
@@ -957,7 +1960,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-13",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 63
+      }
     },
     {
       "name": "Otero County",
@@ -995,6 +2004,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-13",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 17
@@ -1014,7 +2024,13 @@
       "fast_track_adopted": "2026-02-09",
       "fast_track_instrument": "Resolution 2026-02-09-01",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Pitkin County",
@@ -1062,7 +2078,13 @@
       "fast_track_adopted": "2025-09-11",
       "fast_track_instrument": "Resolution No. 25-204",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 69
+      }
     },
     {
       "name": "Rio Grande County",
@@ -1094,7 +2116,13 @@
       "fast_track_adopted": "2024-04-02",
       "fast_track_instrument": "Resolution LU-24",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-21",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      }
     },
     {
       "name": "San Miguel County",
@@ -1110,7 +2138,13 @@
       "fast_track_adopted": "2026-06-03",
       "fast_track_instrument": "Resolution No. 2026-22",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 8
+      }
     },
     {
       "name": "Sedgwick County",
@@ -1142,7 +2176,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-09-01",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 49
+      }
     },
     {
       "name": "Teller County",
@@ -1174,7 +2214,13 @@
       "fast_track_adopted": "2026-02-10",
       "fast_track_instrument": "Resolution 07-2026",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Yuma County",
@@ -1190,7 +2236,13 @@
       "fast_track_adopted": "2025-11-25",
       "fast_track_instrument": "Resolution 11-25-25D",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 4
+      }
     },
     {
       "name": "City of Alamosa",
@@ -1206,7 +2258,13 @@
       "fast_track_adopted": "2025-11-05",
       "fast_track_instrument": "Ordinance No. 23-2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 8
+      }
     },
     {
       "name": "City of Arvada",
@@ -1222,7 +2280,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 284
+      }
     },
     {
       "name": "City of Aspen",
@@ -1254,7 +2318,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-20",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 1381
+      }
     },
     {
       "name": "City of Boulder",
@@ -1270,7 +2340,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-09",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 118
+      }
     },
     {
       "name": "City of Brighton",
@@ -1292,6 +2368,7 @@
       },
       "next_cycle": {
         "submitted": "2026-07-27",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 270
@@ -1311,7 +2388,13 @@
       "fast_track_adopted": "2024-06-10",
       "fast_track_instrument": "Resolution No. 2024-3",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 10
+      }
     },
     {
       "name": "City of Canon City",
@@ -1343,7 +2426,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-23",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 68
+      }
     },
     {
       "name": "City of Centennial",
@@ -1359,7 +2448,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 106
+      }
     },
     {
       "name": "City of Central",
@@ -1381,6 +2476,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-08",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -1404,7 +2500,13 @@
         "unit_commitment": "2026-10-30",
         "required_units_met": 2274
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 1278
+      }
     },
     {
       "name": "City of Commerce City",
@@ -1420,7 +2522,13 @@
       "fast_track_adopted": "2026-06-15",
       "fast_track_instrument": "Resolution 2026-080",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-26",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 298
+      }
     },
     {
       "name": "City of Cortez",
@@ -1442,6 +2550,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-27",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 9
@@ -1461,7 +2570,13 @@
       "fast_track_adopted": "2026-01-27",
       "fast_track_instrument": "Resolution No. 4 (2026)",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-20",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 8
+      }
     },
     {
       "name": "City of Creede",
@@ -1499,6 +2614,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-02",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 6
@@ -1524,6 +2640,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-21",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 27
@@ -1549,6 +2666,7 @@
       },
       "next_cycle": {
         "submitted": "2026-08-26",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 99
@@ -1572,7 +2690,13 @@
         "unit_commitment": "2026-10-29",
         "required_units_met": 20
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-15",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "City of Englewood",
@@ -1588,7 +2712,13 @@
       "fast_track_adopted": "2026-05-01",
       "fast_track_instrument": "Englewood Proposition 123 Expedited Review Policy Memo",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-23",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 113
+      }
     },
     {
       "name": "City of Firestone",
@@ -1604,7 +2734,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 98
+      }
     },
     {
       "name": "City of Florence",
@@ -1626,6 +2762,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-13",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 7
@@ -1645,7 +2782,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-02",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 272
+      }
     },
     {
       "name": "City of Fort Lupton",
@@ -1661,7 +2804,13 @@
       "fast_track_adopted": "2025-12-02",
       "fast_track_instrument": "Resolution No. 2025R060",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-23",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 96
+      }
     },
     {
       "name": "City of Fort Morgan",
@@ -1677,7 +2826,13 @@
       "fast_track_adopted": "2025-11-04",
       "fast_track_instrument": "Resolution No. 2025-11-01",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-11-01",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      }
     },
     {
       "name": "City of Fruita",
@@ -1693,7 +2848,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 45
+      }
     },
     {
       "name": "City of Glenwood Springs",
@@ -1713,7 +2874,13 @@
         "unit_commitment": "2026-11-03",
         "required_units_met": 45
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      }
     },
     {
       "name": "City of Golden",
@@ -1735,6 +2902,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-01",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 53
@@ -1760,6 +2928,7 @@
       },
       "next_cycle": {
         "submitted": "2026-08-25",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 347
@@ -1779,7 +2948,13 @@
       "fast_track_adopted": "2025-12-16",
       "fast_track_instrument": "Ordinance No. 38, 2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-09",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 249
+      }
     },
     {
       "name": "City of Gunnison",
@@ -1795,7 +2970,13 @@
       "fast_track_adopted": "2025-12-09",
       "fast_track_instrument": "Resolution No. 23, Series of 2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-22",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 15
+      }
     },
     {
       "name": "City of Idaho Springs",
@@ -1817,6 +2998,7 @@
       },
       "next_cycle": {
         "submitted": "2026-09-29",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 13
@@ -1842,6 +3024,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-08",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 4
@@ -1883,6 +3066,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 8
@@ -1908,6 +3092,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-27",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 61
@@ -1947,7 +3132,13 @@
         "unit_commitment": "2026-10-28",
         "required_units_met": 20
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 15
+      }
     },
     {
       "name": "City of Littleton",
@@ -1963,7 +3154,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 258
+      }
     },
     {
       "name": "City of Lone Tree",
@@ -1979,7 +3176,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 108
+      }
     },
     {
       "name": "City of Longmont",
@@ -2001,6 +3204,7 @@
       },
       "next_cycle": {
         "submitted": "2026-09-29",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 284
@@ -2026,6 +3230,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-20",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 167
@@ -2045,7 +3250,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "City of Monte Vista",
@@ -2061,7 +3272,13 @@
       "fast_track_adopted": "2025-04-17",
       "fast_track_instrument": "Resolution 2025-08",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-22",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 5
+      }
     },
     {
       "name": "City of Montrose",
@@ -2083,6 +3300,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-21",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 126
@@ -2108,6 +3326,7 @@
       },
       "next_cycle": {
         "submitted": "2026-09-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 7
@@ -2133,6 +3352,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-06",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 65
@@ -2152,7 +3372,13 @@
       "fast_track_adopted": "2025-11-19",
       "fast_track_instrument": "Ordinance No. 11-2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 34
+      }
     },
     {
       "name": "City of Rocky Ford",
@@ -2168,7 +3394,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 5
+      }
     },
     {
       "name": "City of Salida",
@@ -2184,7 +3416,13 @@
       "fast_track_adopted": "2025-10-07",
       "fast_track_instrument": "Ordinance 2025-17",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-09-18",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 42
+      }
     },
     {
       "name": "City of Sedgwick",
@@ -2222,6 +3460,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-21",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 27
@@ -2245,7 +3484,13 @@
         "unit_commitment": "2026-03-17",
         "required_units_met": 42
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      }
     },
     {
       "name": "City of Sterling",
@@ -2261,7 +3506,13 @@
       "fast_track_adopted": "2024-12-10",
       "fast_track_instrument": "Resolution No. 12-1-24",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "City of Thornton",
@@ -2281,7 +3532,13 @@
         "unit_commitment": "2026-11-03",
         "required_units_met": 268
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 225
+      }
     },
     {
       "name": "City of Trinidad",
@@ -2317,7 +3574,13 @@
         "unit_commitment": "2026-11-02",
         "required_units_met": 4
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "City of Walsenburg",
@@ -2333,7 +3596,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "City of Westminster",
@@ -2349,7 +3618,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 81
+      }
     },
     {
       "name": "City of Wheat Ridge",
@@ -2369,7 +3644,13 @@
         "unit_commitment": "2026-10-29",
         "required_units_met": 142
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-22",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 112
+      }
     },
     {
       "name": "City of Woodland Park",
@@ -2401,7 +3682,13 @@
       "fast_track_adopted": "2025-10-14",
       "fast_track_instrument": "Resolution No. 28-2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 5
+      }
     },
     {
       "name": "City of Yuma",
@@ -2469,7 +3756,13 @@
         "unit_commitment": "2026-10-21",
         "required_units_met": 34
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-22",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      }
     },
     {
       "name": "Town of Basalt",
@@ -2489,7 +3782,13 @@
         "unit_commitment": "2026-10-12",
         "required_units_met": 4
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 17
+      }
     },
     {
       "name": "Town of Bayfield",
@@ -2511,6 +3810,7 @@
       },
       "next_cycle": {
         "submitted": "2026-08-31",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 9
@@ -2536,6 +3836,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-15",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 61
@@ -2561,6 +3862,7 @@
       },
       "next_cycle": {
         "submitted": "2026-09-09",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 88
@@ -2586,6 +3888,7 @@
       },
       "next_cycle": {
         "submitted": "2026-07-22",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 27
@@ -2611,6 +3914,7 @@
       },
       "next_cycle": {
         "submitted": "2026-09-24",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 42
@@ -2646,7 +3950,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 250
+      }
     },
     {
       "name": "Town of Cedaredge",
@@ -2678,7 +3988,13 @@
       "fast_track_adopted": "2025-12-10",
       "fast_track_instrument": "Resolution No. 12-10-25-1",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Cheraw",
@@ -2716,6 +4032,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -2755,7 +4072,13 @@
         "unit_commitment": "2026-05-15",
         "required_units_met": 1
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Del Norte",
@@ -2787,7 +4110,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Dove Creek",
@@ -2835,7 +4164,13 @@
       "fast_track_adopted": "2025-10-28",
       "fast_track_instrument": "Ordinance No. 11, Series 2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-31",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      }
     },
     {
       "name": "Town of Eaton",
@@ -2851,7 +4186,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Empire",
@@ -2871,7 +4212,13 @@
         "unit_commitment": "2026-09-14",
         "required_units_met": 4
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Erie",
@@ -2891,7 +4238,13 @@
         "unit_commitment": "2026-06-17",
         "required_units_met": 17
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-08",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 66
+      }
     },
     {
       "name": "Town of Estes Park",
@@ -2913,6 +4266,7 @@
       },
       "next_cycle": {
         "submitted": "2026-08-21",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -2964,7 +4318,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 14
+      }
     },
     {
       "name": "Town of Frisco",
@@ -2986,9 +4346,10 @@
       },
       "next_cycle": {
         "submitted": "2026-10-08",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
-        "unit_goal": 10
+        "unit_goal": 18
       }
     },
     {
@@ -3025,7 +4386,13 @@
         "unit_commitment": "2026-09-14",
         "required_units_met": 14
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 5
+      }
     },
     {
       "name": "Town of Gilcrest",
@@ -3041,7 +4408,13 @@
       "fast_track_adopted": "2025-11-20",
       "fast_track_instrument": "Resolution No. 2025-8",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Granada",
@@ -3073,7 +4446,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 27
+      }
     },
     {
       "name": "Town of Grand Lake",
@@ -3109,7 +4488,13 @@
         "unit_commitment": "2026-04-14",
         "required_units_met": 15
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 22
+      }
     },
     {
       "name": "Town of Haswell",
@@ -3145,7 +4530,13 @@
         "unit_commitment": "2026-11-03",
         "required_units_met": 1
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-31",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 30
+      }
     },
     {
       "name": "Town of Holly",
@@ -3177,7 +4568,13 @@
       "fast_track_adopted": "2026-01-06",
       "fast_track_instrument": "Resolution No. 4-2026",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-22",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Hotchkiss",
@@ -3241,7 +4638,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 15
+      }
     },
     {
       "name": "Town of Kiowa",
@@ -3263,6 +4666,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-06",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -3282,7 +4686,13 @@
       "fast_track_adopted": "2025-04-21",
       "fast_track_instrument": "Resolution No. 2025-3",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-26",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Kremmling",
@@ -3346,7 +4756,13 @@
       "fast_track_adopted": "2025-12-17",
       "fast_track_instrument": "Resolution 2025-18",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Limon",
@@ -3378,7 +4794,13 @@
       "fast_track_adopted": "2025-12-10",
       "fast_track_instrument": "Resolution No. 2025-04",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Louisville",
@@ -3394,7 +4816,13 @@
       "fast_track_adopted": "2026-10-20",
       "fast_track_instrument": "Resolution No. 99, Series 2026",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-23",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Lyons",
@@ -3416,6 +4844,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-07",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -3467,7 +4896,13 @@
       "fast_track_adopted": "2025-08-05",
       "fast_track_instrument": "Resolution No. 08-2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-21",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Minturn",
@@ -3505,9 +4940,10 @@
       },
       "next_cycle": {
         "submitted": "2026-10-27",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
-        "unit_goal": 3
+        "unit_goal": 5
       }
     },
     {
@@ -3524,7 +4960,13 @@
       "fast_track_adopted": "2026-04-20",
       "fast_track_instrument": "Resolution No. 2026-04-20 B",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Mountain Village",
@@ -3533,14 +4975,24 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 28,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-08-30",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
       "fast_track": true,
       "fast_track_adopted": "2026-06-17",
       "fast_track_instrument": "Resolution No. 2026-0617-12 and Resolution No. 2026-0716-13",
-      "compliance_verified": null,
-      "next_cycle": null
+      "compliance_verified": {
+        "expedited_review": "2026-07-31",
+        "unit_commitment": "2026-11-04",
+        "required_units_met": 8
+      },
+      "next_cycle": {
+        "submitted": "2026-10-29",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 16
+      }
     },
     {
       "name": "Town of Naturita",
@@ -3562,6 +5014,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-14",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -3585,7 +5038,13 @@
         "unit_commitment": "2026-11-02",
         "required_units_met": 3
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of New Castle",
@@ -3617,7 +5076,13 @@
       "fast_track_adopted": "2025-12-10",
       "fast_track_instrument": "Resolution 1210, Series 2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Nucla",
@@ -3637,7 +5102,13 @@
         "unit_commitment": "2026-10-19",
         "required_units_met": 7
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Oak Creek",
@@ -3653,7 +5124,13 @@
       "fast_track_adopted": "2026-02-12",
       "fast_track_instrument": "Resolution No. 2026-008",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Olathe",
@@ -3721,7 +5198,13 @@
         "unit_commitment": "2026-10-28",
         "required_units_met": 19
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-29",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 15
+      }
     },
     {
       "name": "Town of Palisade",
@@ -3741,7 +5224,13 @@
         "unit_commitment": "2026-10-27",
         "required_units_met": 9
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-26",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      }
     },
     {
       "name": "Town of Paonia",
@@ -3777,7 +5266,13 @@
         "unit_commitment": "2026-11-02",
         "required_units_met": 4
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 14
+      }
     },
     {
       "name": "Town of Parker",
@@ -3793,7 +5288,13 @@
       "fast_track_adopted": "2026-10-19",
       "fast_track_instrument": "Resolution 26-066",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      }
     },
     {
       "name": "Town of Platteville",
@@ -3813,7 +5314,13 @@
         "unit_commitment": "2026-10-26",
         "required_units_met": 13
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-26",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Poncha Springs",
@@ -3835,6 +5342,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 8
@@ -3886,7 +5394,13 @@
       "fast_track_adopted": "2026-06-16",
       "fast_track_instrument": "Resolution 13, Series 2026",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Rico",
@@ -3902,7 +5416,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Ridgway",
@@ -3924,6 +5444,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-15",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 13
@@ -3959,7 +5480,13 @@
       "fast_track_adopted": "2026-05-12",
       "fast_track_instrument": "Resolution No. 2026-08",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Sheridan Lake",
@@ -4013,6 +5540,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-16",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 4
@@ -4038,6 +5566,7 @@
       },
       "next_cycle": {
         "submitted": "2026-09-28",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -4057,7 +5586,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-29",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 49
+      }
     },
     {
       "name": "Town of Silverton",
@@ -4079,6 +5614,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-22",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 4
@@ -4104,6 +5640,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-13",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -4175,7 +5712,13 @@
         "unit_commitment": "2026-10-28",
         "required_units_met": 22
       },
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-30",
+        "status": "Approved",
+        "begins": null,
+        "length": null,
+        "unit_goal": 28
+      }
     },
     {
       "name": "Town of Telluride",
@@ -4197,9 +5740,10 @@
       },
       "next_cycle": {
         "submitted": "2026-10-22",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
-        "unit_goal": 3
+        "unit_goal": 5
       }
     },
     {
@@ -4216,7 +5760,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 12
+      }
     },
     {
       "name": "Town of Walsh",
@@ -4254,6 +5804,7 @@
       },
       "next_cycle": {
         "submitted": "2026-09-08",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 14
@@ -4279,6 +5830,7 @@
       },
       "next_cycle": {
         "submitted": "2026-10-23",
+        "status": "Approved",
         "begins": "2027-01-01",
         "length": "3 years",
         "unit_goal": 3
@@ -4298,7 +5850,13 @@
       "fast_track_adopted": "2025-09-10",
       "fast_track_instrument": "Resolution No. 24-2025",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-28",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 3
+      }
     },
     {
       "name": "Town of Wiley",
@@ -4330,7 +5888,13 @@
       "fast_track_adopted": "2025-06-09",
       "fast_track_instrument": "Resolution No. 2025-29",
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-10-27",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 254
+      }
     },
     {
       "name": "Town of Winter Park",
@@ -4346,7 +5910,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": "2026-11-01",
+        "status": "Contingent Approval",
+        "begins": null,
+        "length": null,
+        "unit_goal": 36
+      }
     },
     {
       "name": "Town of Yampa",

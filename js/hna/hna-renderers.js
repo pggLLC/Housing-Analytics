@@ -7911,8 +7911,11 @@
           : (nextCycle.filing ? 'Filed ' + nextCycle.filing.submitted : 'No filing yet')));
     var nextNote = nextValue && !nextCycle.filing && nextCycle.across !== 'all' && nextCycle.across !== 'mixed' && nextCycle.deadline
       ? 'Due ' + new Date(nextCycle.deadline + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-      : (nextCycle && nextCycle.filing && nextCycle.filing.unit_goal != null
-        ? 'Goal: ' + Number(nextCycle.filing.unit_goal).toLocaleString('en-US') + ' homes'
+      : (nextCycle && nextCycle.filing
+        // DOLA's status: Approved, Contingent Approval (approved once the
+        // jurisdiction is fully compliant) or Pending.
+        ? [nextCycle.filing.unit_goal != null ? 'Goal: ' + Number(nextCycle.filing.unit_goal).toLocaleString('en-US') + ' homes' : '',
+           nextCycle.filing.status ? 'DOLA: ' + nextCycle.filing.status.toLowerCase() : ''].filter(Boolean).join('; ')
         : '');
     var source = countyRecords.length && sourceLoaded !== false
       ? 'An unincorporated area does not file its own commitment; the county it sits in covers it ' +
