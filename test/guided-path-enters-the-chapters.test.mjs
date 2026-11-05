@@ -93,7 +93,10 @@ test('choosing a jurisdiction opens part 1, not the full report', () => {
 
 test('the homepage entry opens part 1', () => {
   const src = read('index.html');
-  assert.ok(src.includes(`href="${CHAPTER}" aria-label="Step 3: Housing needs assessment"`),
+  // Find step 3's link by its role in the path, not by its wording.
+  const step3 = src.match(/<a href="([^"]+)" aria-label="Step 3:[^"]*"/);
+  assert.ok(step3, 'the homepage has a step 3 link');
+  assert.equal(step3[1], CHAPTER,
     'the homepage sends a first-time visitor into the full report');
 });
 
