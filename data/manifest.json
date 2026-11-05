@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-05T07:04:41.502601Z",
+  "generated": "2026-11-05T07:35:26.207383Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -5744,7 +5744,7 @@
     "data/hna/second-homes-str.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 261971
+      "bytes": 263729
     },
     "data/hna/source/acs_b08202.json": {
       "featureCount": 0,
@@ -9059,7 +9059,7 @@
     "data/market/market-types.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 433190
+      "bytes": 433576
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -9749,7 +9749,7 @@
     "data/policy/incentive-coverage.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 40450
+      "bytes": 41152
     },
     "data/policy/incentive-peer-profiles.json": {
       "featureCount": 0,
@@ -9779,7 +9779,7 @@
     "data/policy/leading-signals.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 222341
+      "bytes": 222965
     },
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
@@ -9799,7 +9799,7 @@
     "data/policy/local-housing-funds.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 147449
+      "bytes": 150417
     },
     "data/policy/local-support.json": {
       "featureCount": 0,
@@ -9914,7 +9914,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 246006
+      "bytes": 246738
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

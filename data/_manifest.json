@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-05T07:04:38.159Z",
+    "generated_at": "2026-11-05T07:35:21.227Z",
     "root": "data/",
     "file_count": 2018,
-    "total_size_bytes": 220329756,
+    "total_size_bytes": 220336926,
     "kinds": {
       "json": 1969,
       "geojson": 35,
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-05T07:04:35.287Z",
+      "mtime": "2026-11-05T07:35:16.595Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -26017,8 +26017,8 @@
     {
       "path": "hna/second-homes-str.json",
       "kind": "json",
-      "size_bytes": 261971,
-      "mtime": "2026-11-04T22:17:51.382Z",
+      "size_bytes": 263729,
+      "mtime": "2026-11-05T07:33:15.062Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39005,7 +39005,7 @@
       "path": "market/housing_policy_jurisdictions_co.geojson",
       "kind": "geojson",
       "size_bytes": 1230019,
-      "mtime": "2026-11-05T06:08:15.684Z",
+      "mtime": "2026-11-05T07:33:15.249Z",
       "shape": "geojson",
       "feature_count": 336,
       "property_keys": [
@@ -39272,8 +39272,8 @@
     {
       "path": "market/market-types.json",
       "kind": "json",
-      "size_bytes": 433190,
-      "mtime": "2026-11-05T03:30:27.119Z",
+      "size_bytes": 433576,
+      "mtime": "2026-11-05T07:33:15.302Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -40038,7 +40038,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-05T07:04:36.789Z",
+      "mtime": "2026-11-05T07:35:18.943Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40062,7 +40062,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-05T07:04:36.418Z",
+      "mtime": "2026-11-05T07:35:18.385Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42504,7 +42504,7 @@
       "path": "policy/housing-policy-scorecard.json",
       "kind": "json",
       "size_bytes": 183105,
-      "mtime": "2026-11-05T06:08:15.814Z",
+      "mtime": "2026-11-05T07:33:15.420Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -42587,8 +42587,8 @@
     {
       "path": "policy/incentive-coverage.json",
       "kind": "json",
-      "size_bytes": 40450,
-      "mtime": "2026-11-04T18:35:33.072Z",
+      "size_bytes": 41152,
+      "mtime": "2026-11-05T07:33:15.420Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42597,7 +42597,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "jurisdictions",
-      "primary_array_length": 46,
+      "primary_array_length": 47,
       "primary_array_first_keys": [
         "geoid",
         "jurisdiction",
@@ -42696,8 +42696,8 @@
     {
       "path": "policy/leading-signals.json",
       "kind": "json",
-      "size_bytes": 222341,
-      "mtime": "2026-11-05T06:08:15.815Z",
+      "size_bytes": 222965,
+      "mtime": "2026-11-05T07:33:15.421Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42827,8 +42827,8 @@
     {
       "path": "policy/local-housing-funds.json",
       "kind": "json",
-      "size_bytes": 147449,
-      "mtime": "2026-11-04T18:35:33.075Z",
+      "size_bytes": 150417,
+      "mtime": "2026-11-05T07:33:15.423Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42837,7 +42837,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 58,
+      "primary_array_length": 59,
       "primary_array_first_keys": [
         "id",
         "geoid",
@@ -43396,8 +43396,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 246006,
-      "mtime": "2026-11-04T21:47:21.063Z",
+      "size_bytes": 246738,
+      "mtime": "2026-11-05T07:33:15.433Z",
       "shape": "object",
       "keys": [
         "meta",

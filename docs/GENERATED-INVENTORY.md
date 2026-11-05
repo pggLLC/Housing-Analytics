@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T07:04:07.547Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T07:34:35.142Z. Do not edit by hand.
 
 ---
 
@@ -1239,7 +1239,7 @@
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
-| `data/hna/second-homes-str.json` | 255.8 KB | ✅ | — |
+| `data/hna/second-homes-str.json` | 257.5 KB | ✅ | — |
 | `data/hna/source/acs_b08202.json` | 423.0 KB | ✅ | — |
 | `data/hna/source/census_age_2010_2020.json` | 170.9 KB | ✅ | — |
 | `data/hna/source/colorado_vital_rates.json` | 4.6 KB | ✅ | — |
@@ -1889,7 +1889,7 @@
 | `data/market/lodes_co.json` | 663.9 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
 | `data/market/market-direction.json` | 755.9 KB | ✅ | — |
-| `data/market/market-types.json` | 423.0 KB | ✅ | — |
+| `data/market/market-types.json` | 423.4 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
@@ -2018,17 +2018,17 @@
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
 | `data/policy/incentive-alternatives.json` | 56.7 KB | ✅ | — |
-| `data/policy/incentive-coverage.json` | 39.5 KB | ✅ | — |
+| `data/policy/incentive-coverage.json` | 40.2 KB | ✅ | — |
 | `data/policy/incentive-peer-profiles.json` | 40.1 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 4.3 KB | ✅ | — |
 | `data/policy/job-access.json` | 104.3 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
-| `data/policy/leading-signals.json` | 217.1 KB | ✅ | — |
+| `data/policy/leading-signals.json` | 217.7 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.9 KB | ✅ | — |
 | `data/policy/lihtc-underwriting-rules.json` | 23.7 KB | ✅ | — |
 | `data/policy/local-commitment.json` | 64.1 KB | ✅ | — |
-| `data/policy/local-housing-funds.json` | 144.0 KB | ✅ | — |
+| `data/policy/local-housing-funds.json` | 146.9 KB | ✅ | — |
 | `data/policy/local-support.json` | 154.9 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.4 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 17.4 KB | ✅ | — |
@@ -2050,7 +2050,7 @@
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
 | `data/policy_briefs.json` | 508.0 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 240.2 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 198.5 KB | ✅ | — |
