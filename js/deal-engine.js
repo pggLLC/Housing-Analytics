@@ -467,7 +467,7 @@
    * interest compounds annually. Forgiveness occurs at stated maturity.
    * After an unpaid maturity, subsequent years need a refinancing assumption.
    */
-  function loanObligations(inputs, annualNoi, deductions) {
+  function loanObligations(inputs, annualNoi, deductions, deferredFee) {
     var parsed = inputs.map(loanTerms);
     var invalid = parsed.find(function (p) { return p.unavailableReason; });
     if (invalid) return { loans: null, years: null, unavailableReason: invalid.unavailableReason };
@@ -478,11 +478,20 @@
     // An asset management fee that cash cannot cover accrues and is paid first
     // from later years' cash, never dropped (DOH PR 4).
     var assetOwed = 0;
+    // The deferred developer fee is paid next, ahead of the cash-flow loans, as
+    // in the DOH Proforma tab of CHFA's 2027 Common Application (V9): cash after
+    // the must-pay debt and fees pays the deferred fee, and cash-flow lenders
+    // share what is left. No interest accrues on the fee note.
+    var feeOwed = known(deferredFee) ? Math.max(0, deferredFee) : 0;
+    // A year whose cash cannot cover the must-pay debt, bridge loan and asset fee
+    // is funded by the sponsor; later cash repays that first (as the projection
+    // does), then the deferred fee, then the cash-flow loans.
+    var deficitOwed = 0;
     annualNoi.forEach(function (noi, index) {
       var year = index + 1;
       var available = known(noi) ? Math.max(0, noi) : null;
       var seniorDue = 0, mustPayDue = 0, paid = 0, contingentPaid = 0, maturityDue = 0;
-      var bridgeDue = 0, assetDue = 0, assetPaid = 0;
+      var bridgeDue = 0, assetDue = 0, assetPaid = 0, cashBeforeFee = null, feePaid = 0;
       var reason = !known(noi) ? 'NOI is unavailable for this year.' : null;
       // Required payments are allocated before contingent payments. Priority
       // orders lenders within each class; it never makes a residual loan senior.
@@ -503,6 +512,26 @@
         } else if (d) {
           assetOwed = null;
           reason = reason || 'The asset management fee owed from earlier years is unknown.';
+        }
+        if (contingent && !reason && known(available) && known(noi) && known(deficitOwed)) {
+          var signed = noi - paid - bridgeDue - assetPaid;
+          if (signed < 0) deficitOwed += -signed;
+          else {
+            var recovered = Math.min(deficitOwed, available);
+            deficitOwed -= recovered;
+            available -= recovered;
+          }
+        } else if (contingent) deficitOwed = null;
+        if (contingent) {
+          cashBeforeFee = known(available) && !reason ? available : null;
+          if (known(available) && known(feeOwed) && !reason) {
+            feePaid = Math.min(available, feeOwed);
+            available -= feePaid;
+            feeOwed -= feePaid;
+            if (feeOwed < 0.005) feeOwed = 0;
+          } else {
+            feeOwed = null;
+          }
         }
         order.forEach(function (loan) {
           if ((loan.type === 'cash_flow') !== contingent) return;
@@ -556,6 +585,10 @@
         // Owed at year end, carried into next year's fee.
         assetMgmtFee: reason ? null : assetPaid, assetMgmtUnpaid: reason ? null : assetDue - assetPaid,
         cashFlow: reason ? null : noi - mustPayDue - bridgeDue - assetPaid - contingentPaid,
+        // Cash this year could pay toward a deferred fee (after must-pay debt, the
+        // bridge loan and the asset management fee), what it paid, and what is still owed.
+        cashBeforeFee: reason ? null : cashBeforeFee,
+        deferredFeePaid: reason ? null : feePaid, deferredFeeOwed: reason || !known(feeOwed) ? null : feeOwed,
         unavailableReason: reason });
     });
     return { loans: loans, years: years, unavailableReason: null };
@@ -574,11 +607,11 @@
         result.totalSoftDebtService, result.exit.rentGrowth, result.exit.expGrowth].every(known) || !result.obligations.years) return null;
     var years = fieldNumber(fields, 'pf-years', 15);
     if (!known(years)) return null;
-    var rows = [], cumCF = 0, cumCash = 0;
-    // DOH PR 4: the deferred fee is paid from cumulative cash flow. A deficit
-    // year pays nothing and is made up first, so the fee is fully paid in the
-    // first year cumulative cash reaches it (the exit panel's payback year).
-    // Once fully paid, later payments are $0 even where a year is unknown.
+    var rows = [], cumCF = 0;
+    // The deferred fee is paid each year from cash after the must-pay debt, the
+    // bridge loan and the asset management fee, ahead of the cash-flow loans
+    // (loanObligations, Common Application V9 DOH Proforma order). A deficit year
+    // pays nothing. Once fully paid, later payments are $0 even where a year is unknown.
     var fee = known(result.deferredDevFee) ? Math.max(0, result.deferredDevFee) : null, feePaid = 0;
     // Cash after the fee first makes up deficits from earlier years (funded by
     // the sponsor); only what is left is distributable.
@@ -596,10 +629,8 @@
       var cashFlow = obligation.cashFlow;
       cumCF = known(cumCF) && known(cashFlow) ? cumCF + cashFlow : null;
       var mustPayUnpaid = mustPayUnpaidFor(obligation);
-      // The fee is paid from cash actually left after the payments made.
-      cumCash = known(cumCash) && known(cashFlow) && known(mustPayUnpaid) ? cumCash + cashFlow + mustPayUnpaid : null;
-      var feeNow = fee === null ? null : feePaid !== null && feePaid >= fee ? fee
-        : known(feePaid) && known(cumCash) ? Math.min(fee, Math.max(feePaid, cumCash)) : null;
+      var feeNow = fee === null ? null : feePaid !== null && feePaid >= fee - 0.005 ? feePaid
+        : known(feePaid) && known(obligation.deferredFeePaid) ? feePaid + obligation.deferredFeePaid : null;
       var deferredFeePaid = known(feeNow) && known(feePaid) ? feeNow - feePaid : null;
       feePaid = feeNow;
       // Unpaid must-pay debt service is not a shortfall the sponsor funded.
@@ -1270,6 +1301,16 @@
       : cashPayments.reason ? { loans: null, years: null, unavailableReason: cashPayments.reason }
       : loanObligations([seniorInput].concat(loanInputs), loanNoi, cashPayments.years);
     var firstLoanYear = obligations.years && obligations.years[0];
+    // QAP 3.A: CHFA weighs the "ability to pay deferred developer fees from cash
+    // flows". The fee is paid ahead of the cash-flow loans, so what cash can repay
+    // in years 1 to 15 does not depend on the fee itself: it is the sum of each
+    // year's cash after the must-pay debt, the bridge loan and the asset fee.
+    var repayCapOn = fields['dc-deferred-repay-cap'] === true;
+    var repayYears = 15;
+    var repayable = obligations.years ? obligations.years.slice(0, repayYears).reduce(function (a, y) {
+      return known(a) && known(y.cashBeforeFee) ? a + y.cashBeforeFee : null; }, 0) : null;
+    var repayCapReason = !repayCapOn ? null : known(repayable) ? null
+      : 'Cash flow in years 1 to 15 is unknown, so the deferred fee is not limited to what it repays.';
     var allMustPayDebtService = firstLoanYear ? firstLoanYear.mustPayDebtService : null;
     // Why NOI or the rent roll is unknown, carried with it so each message
     // names the fix that applies rather than assuming there is no county.
@@ -1346,7 +1387,11 @@
     //           (mirrors Anthracite $185k pattern: last-resort balancing)
     //   • OFF → defer EXACTLY the slider % of total dev fee, regardless of gap
     //           (legacy behavior — manual deferral)
-    var deferredCap = devFeeTotal * deferredPctSlider;
+    var deferredCapBySlider = devFeeTotal * deferredPctSlider;
+    var deferredCap = repayCapOn && known(repayable) ? Math.min(deferredCapBySlider, Math.max(0, repayable)) : deferredCapBySlider;
+    var deferredRepayCap = { on: repayCapOn, years: repayYears, repayable: known(repayable) ? repayable : null,
+      bySlider: deferredCapBySlider, binds: repayCapOn && known(repayable) && repayable < deferredCapBySlider,
+      citation: 'QAP 3.A', reason: repayCapReason };
     // CHFA Method Two (QAP 3.M.1): credit is reserved for no more than the gap
     // left after every source but equity from the sale of Housing Tax Credits,
     // which the QAP uses for federal and state credit alike, so state credit
@@ -1434,6 +1479,11 @@
     }
     var devFeeAtClosing = devFeeTotal - deferredDevFee;
     var gap = gapBeforeDeferred - deferredDevFee;
+    // Rerun the yearly payments with the deferred fee in its place: after the
+    // must-pay debt, bridge loan and asset fee, before the cash-flow loans.
+    if (obligations.years && known(deferredDevFee) && deferredDevFee > 0) {
+      obligations = loanObligations([seniorInput].concat(loanInputs), loanNoi, cashPayments.years, deferredDevFee);
+    }
 
     var exit = (function () {
       // A blank or out-of-range hold or cap is unknown, not a default: no sale
@@ -1463,18 +1513,15 @@
       var assetMgmtOwed = exitYear && known(exitYear.assetMgmtUnpaid) ? exitYear.assetMgmtUnpaid : NaN;
       var netProceeds = (known(resale) && known(firstMortBal) && known(softBal) && known(assetMgmtOwed)) ? resale - firstMortBal - softBal - assetMgmtOwed : NaN;
 
-      // Deferred fee payback timing. Walk the pro forma yearly, accumulating
-      // cash flow (NOI − total debt service). Find the first year where
-      // cumCF ≥ deferredDevFee, after the loan payments actually made (debt
-      // service NOI could not cover stays in the loan balance, DOH PR 4).
+      // Deferred fee payback timing: the first year the fee note is paid off in the
+      // yearly payments (loanObligations pays it after the must-pay debt, bridge
+      // loan and asset fee, ahead of the cash-flow loans).
       var dfYr = null;
       if (deferredDevFee > 0 && obligations.years && annualRents > 0) {
-        var cumCF = 0;
         for (var y = 1; y <= holdYears; y++) {
           var paymentYear = obligations.years && obligations.years[y - 1];
-          var unpaidNow = mustPayUnpaidFor(paymentYear);
-          cumCF += paymentYear && known(paymentYear.cashFlow) && known(unpaidNow) ? paymentYear.cashFlow + unpaidNow : NaN;
-          if (cumCF >= deferredDevFee) { dfYr = y; break; }
+          if (!paymentYear || !known(paymentYear.deferredFeeOwed)) break;
+          if (paymentYear.deferredFeeOwed === 0) { dfYr = y; break; }
         }
       }
 
@@ -1628,6 +1675,7 @@
       autoBalance: autoBalance,
       deferredDevFeeManual: deferredDevFeeManual,
       deferredDevFee: deferredDevFee,
+      deferredRepayCap: deferredRepayCap,
       noi: noi,
       annualOpex: annualOpex,
       annualRepReserve: annualRepReserve,

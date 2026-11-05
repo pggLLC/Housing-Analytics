@@ -224,8 +224,8 @@ try {
     return JSON.parse(last);
   };
   const d1 = await figures(big.tab);
-  ok(Math.round(d1.gap) === 4294800 && d1.noi === 308544 && d1.rents === 760800,
-    'non-vacuous: the sender shows the D1 gap $4,294,800, NOI $308,544 and rents $760,800: ' + JSON.stringify(d1));
+  ok(Math.round(d1.gap) === 4416400 && d1.noi === 308544 && d1.rents === 760800,
+    'non-vacuous: the sender shows the D1 gap $4,416,400 (deferred fee held to what 15 years of cash flow repays), NOI $308,544 and rents $760,800: ' + JSON.stringify(d1));
   const legacy = await big.tab.evaluate(() => new URL(window.__DealCalcShare.buildSnapshot().url).search.length);
   ok(legacy > 8192, 'non-vacuous: in the query this deal is ' + legacy + ' bytes, past the 8,192 the host accepts');
   await big.tab.evaluate(() => {

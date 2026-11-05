@@ -2637,6 +2637,17 @@
             <em>not</em> cash at closing. CHFA + lenders require a repayment pro forma to verify supportability.
           </span>
         </label>
+        <label style="display:flex;align-items:flex-start;gap:0.55rem;margin-bottom:var(--sp2);font-size:var(--small);cursor:pointer;">
+          <input id="dc-deferred-repay-cap" type="checkbox" checked
+            style="width:1rem;height:1rem;margin-top:0.18rem;flex:0 0 auto;cursor:pointer;"
+            aria-label="Limit the deferred fee to what cash flow repays in 15 years">
+          <span style="flex:1 1 auto;min-width:0;">
+            <strong>Defer no more than 15 years of cash flow repays</strong>
+            <span style="display:block;font-size:var(--tiny);color:var(--muted);line-height:1.45;margin-top:.15rem;">
+              CHFA weighs the ability to pay deferred developer fees from cash flow (2027-2028 QAP section 3.A). Any fee above what years 1 to 15 repay becomes gap.
+            </span>
+          </span>
+        </label>
         <!-- H — Auto-balance: defer enough fee (capped above) to fill the
              remaining gap after equity + mortgage + grants + soft loans.
              Mirrors the Anthracite $185k pattern: deferred fee is the
@@ -3483,7 +3494,7 @@
            projection and loan schedule. -->
       <fieldset id="dc-doh15" data-no-source="calculator output: regroups the inputs and sources above" style="min-width:0;border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">15-year operating pro forma (DOH layout)</legend>
-        <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Cash left after the mortgages and any bridge loan pays the asset management fee first, then cash-flow loans, then the deferred developer fee. Rent and expense growth are the Operating Pro Forma Projection's.</p>
+        <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">Cash left after the mortgages and any bridge loan pays the asset management fee first, then the deferred developer fee, then cash-flow loans share what is left (the DOH Proforma order in CHFA's 2027 Common Application). Rent and expense growth are the Operating Pro Forma Projection's.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--sp2);margin-bottom:var(--sp2);">
           <label style="font-size:var(--small);color:var(--muted);">Asset management fee, year 1 ($/yr)<input id="dc-asset-mgmt-fee" type="number" min="0" step="500" value="0" style="display:block;width:100%;min-height:44px;box-sizing:border-box;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
           <label style="font-size:var(--small);color:var(--muted);">Asset management fee increase (%/yr)<input id="dc-asset-mgmt-growth" type="number" min="0" max="10" step="0.5" value="3" style="display:block;width:100%;min-height:44px;box-sizing:border-box;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);"></label>
@@ -3724,6 +3735,8 @@
     // H — Wire the auto-balance checkbox so toggling it recomputes the gap.
     var autoBalanceChk2 = document.getElementById('dc-deferred-auto-balance');
     if (autoBalanceChk2) autoBalanceChk2.addEventListener('change', recalculate);
+    var repayCapChk = document.getElementById('dc-deferred-repay-cap');
+    if (repayCapChk) repayCapChk.addEventListener('change', recalculate);
     // L6 — Year-15 exit inputs.
     ['dc-exit-hold', 'dc-exit-cap'].forEach(function (id) {
       var el = document.getElementById(id);
@@ -5091,10 +5104,13 @@
         // mortgage, and must not show rental/LIHTC terms (PC-2).
         autoNote.hidden = currentDealMode() === 'ownership';
       } else if (autoBalance) {
+        var repayCap = result.deferredRepayCap;
         if (deferredDevFee >= deferredCap - 1 && gapBeforeDeferred > deferredCap) {
-          autoNote.textContent = 'Hit cap: deferring max ' + fmt(deferredCap) +
-            ' (' + (deferredPctSlider * 100).toFixed(0) + '% of dev fee). Remaining ' + fmt(gap) +
-            ' still needs subordinate debt or additional grants.';
+          autoNote.textContent = (repayCap && repayCap.binds
+            ? 'Hit cap: deferring max ' + fmt(deferredCap) + ', what cash flow repays in years 1 to ' + repayCap.years +
+              ' (the ' + (deferredPctSlider * 100).toFixed(0) + '% slider allows ' + fmt(repayCap.bySlider) + '; QAP 3.A).'
+            : 'Hit cap: deferring max ' + fmt(deferredCap) + ' (' + (deferredPctSlider * 100).toFixed(0) + '% of dev fee).') +
+            ' Remaining ' + fmt(gap) + ' still needs subordinate debt or additional grants.';
           autoNote.hidden = false;
         } else if (deferredDevFee > 1) {
           autoNote.textContent = 'Auto-balanced to ' + fmt(deferredDevFee) +
@@ -5104,6 +5120,10 @@
           autoNote.textContent = 'Deal is balanced without deferring fee — no auto-deferral needed.';
           autoNote.hidden = false;
         }
+      } else if (result.deferredRepayCap && result.deferredRepayCap.binds) {
+        autoNote.textContent = 'Deferring ' + fmt(deferredDevFee) + ', what cash flow repays in years 1 to ' + result.deferredRepayCap.years +
+          '; the ' + (deferredPctSlider * 100).toFixed(0) + '% slider allows ' + fmt(result.deferredRepayCap.bySlider) + ' (QAP 3.A).';
+        autoNote.hidden = currentDealMode() === 'ownership';
       } else {
         autoNote.hidden = true;
       }
