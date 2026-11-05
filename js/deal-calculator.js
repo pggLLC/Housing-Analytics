@@ -2644,7 +2644,7 @@
           <span style="flex:1 1 auto;min-width:0;">
             <strong>Defer no more than 15 years of cash flow repays</strong>
             <span style="display:block;font-size:var(--tiny);color:var(--muted);line-height:1.45;margin-top:.15rem;">
-              CHFA weighs the ability to pay deferred developer fees from cash flow (2027-2028 QAP section 3.A). Any fee above what years 1 to 15 repay becomes gap.
+              CHFA reviews the ability to pay deferred developer fees from cash flow over the 15-year pro forma (2027-2028 QAP section 2.B; a review item, not a set limit). Checked, the calculator defers no more than years 1 to 15 repay, and any fee above that becomes gap.
             </span>
           </span>
         </label>
@@ -5109,7 +5109,7 @@
         if (deferredDevFee >= deferredCap - 1 && gapBeforeDeferred > deferredCap) {
           autoNote.textContent = (repayCap && repayCap.binds
             ? 'Hit cap: deferring max ' + fmt(deferredCap) + ', what cash flow repays in years 1 to ' + repayCap.years +
-              ' (the ' + (deferredPctSlider * 100).toFixed(0) + '% slider allows ' + fmt(repayCap.bySlider) + '; QAP 3.A).'
+              ' (the ' + (deferredPctSlider * 100).toFixed(0) + '% slider allows ' + fmt(repayCap.bySlider) + '; QAP 2.B).'
             : 'Hit cap: deferring max ' + fmt(deferredCap) + ' (' + (deferredPctSlider * 100).toFixed(0) + '% of dev fee).') +
             ' Remaining ' + fmt(gap) + ' still needs subordinate debt or additional grants.' + repayNote;
           autoNote.hidden = false;
@@ -5126,7 +5126,7 @@
         autoNote.hidden = currentDealMode() === 'ownership';
       } else if (result.deferredRepayCap && result.deferredRepayCap.binds) {
         autoNote.textContent = 'Deferring ' + fmt(deferredDevFee) + ', what cash flow repays in years 1 to ' + result.deferredRepayCap.years +
-          '; the ' + (deferredPctSlider * 100).toFixed(0) + '% slider allows ' + fmt(result.deferredRepayCap.bySlider) + ' (QAP 3.A).';
+          '; the ' + (deferredPctSlider * 100).toFixed(0) + '% slider allows ' + fmt(result.deferredRepayCap.bySlider) + ' (QAP 2.B).';
         autoNote.hidden = currentDealMode() === 'ownership';
       } else {
         autoNote.hidden = true;
