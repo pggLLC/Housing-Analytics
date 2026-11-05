@@ -646,7 +646,8 @@
       debt: known ? sum(function () { return true; }) : null,
       mustPay: known ? sum(function (l) { return MUST_PAY[l.type]; }) : null,
       balloons: loans.filter(function (l) { return l.balloon > 0.5; }).map(function (l) { return { label: l.label, year: l.maturity, amount: l.balloon }; }),
-      feeOwed: m.deferredFee ? m.deferredFee.owedAt15 : null,
+      // The fee balance at the horizon shown, so a short forecast still reports what it measured.
+      feeOwed: (function () { var row = (m.cashFlow.rows || []).filter(function (r) { return r.year === horizon; })[0]; return row ? row.feeOwed : null; })(),
       amOwed: m.assetMgmtOwed && !m.assetMgmtOwed.unknownAfter ? m.assetMgmtOwed.amount : null
     };
   }
@@ -691,7 +692,9 @@
     var sa = m.setAside;
     cr.push(['Federal minimum set-aside', !sa || !sa.known ? 'Not checked' + (sa && sa.reason ? ': ' + sa.reason : '') : (sa.qualifies ? 'Met' : 'Not met') + (sa.election ? ' (' + sa.election + ')' : '')]);
     cr.push(['Deferred developer fee', e.deferredFee == null ? '—' : money(e.deferredFee) + (m.deferredFee.share != null ? ' (' + pct(m.deferredFee.share) + ' of the fee)' : '')]);
-    cr.push(['Deferred fee paid off', e.deferredFee === 0 ? 'No deferred fee' : e.paybackYear != null ? 'Year ' + e.paybackYear : e.paidLater != null ? 'Year ' + e.paidLater : 'Not within 15 years']);
+    cr.push(['Deferred fee paid off', e.deferredFee == null ? 'Not known' : e.deferredFee === 0 ? 'No deferred fee' : e.paybackYear != null ? 'Year ' + e.paybackYear : e.paidLater != null ? 'Year ' + e.paidLater
+      // A balance measured through year 15 is a shortfall; an unmeasured year leaves the payoff unknown.
+      : e.owedAt15 != null ? 'Not within 15 years' : 'Not known' + (e.payoffReason ? ': ' + e.payoffReason : '')]);
     h += table(['Line', 'This deal'], cr.map(function (x) { return { cells: [esc(x[0]), esc(x[1])] }; }), { num: [1], fixed: true }) + '</div></div>';
 
     // Operations against CHFA's underwriting minimums.

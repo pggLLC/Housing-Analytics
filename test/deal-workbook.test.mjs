@@ -44,7 +44,9 @@ near(m.cashFlow.rows[0].feeOwed, r.deferredDevFee - r.projection.rows[0].deferre
 // ── Investor summary: one page from the same model, nothing recalculated ──
 {
   const html = WB.summary(m, 'Invented deal');
-  ok(/Investor summary: Invented deal/.test(html) && !/\bIC\b/.test(html), 'the summary is titled Investor summary');
+  // The heading and the view button that opens it say the same thing.
+  const viewLabel = (read('developer-deal-workbook.html').match(/id="wbViewSummary"[^>]*>([^<]+)</) || [])[1];
+  ok(viewLabel && html.includes('>' + viewLabel + ': Invented deal</h2>') && !/\bIC\b/.test(html), 'the summary heading matches its view button');
   ok(html.includes(Math.round(m.basis.equity).toLocaleString('en-US')) && html.includes(Math.round(m.exec.credit).toLocaleString('en-US')), 'equity and yearly credit are the model\'s');
   const y15 = WB.summaryYear15(m);
   const owed = m.loans.reduce((s, l) => s + l.balance15, 0);
@@ -55,6 +57,14 @@ near(m.cashFlow.rows[0].feeOwed, r.deferredDevFee - r.projection.rows[0].deferre
   ok(/sr-flag/.test(WB.summary({ error: 'x' })), 'an unbuildable deal shows its reason, not a summary');
   const noLoan = WB.summaryYear15({ ...m, loans: [{ ...m.loans[0], balance15: null }] });
   ok(noLoan.debt === null, 'an unknown loan balance leaves debt at year 15 unknown, not low');
+  // A 5-year forecast reports the fee balance it measured at year 5.
+  const five = mut0((s) => { s.result.projection.years = 5; });
+  const y5 = WB.summaryYear15(five);
+  ok(y5.horizon === 5 && y5.feeOwed != null && y5.feeOwed === five.cashFlow.rows[4].feeOwed, 'a short forecast shows the fee still owed at its last year');
+  // An unmeasured year leaves the payoff unknown with its reason, never "not within 15 years".
+  const gapFee = mut0((s) => { s.result.projection.rows[4].deferredFeePaid = null; s.result.projection.rows[4].unavailableReason = 'loan matured'; s.result.exit.dfYr = null; });
+  const gh = WB.summary(gapFee);
+  ok(gapFee.exec.paybackYear == null && /Not known: year 5 is not projected/.test(gh) && !/Not within 15 years/.test(gh), 'an unmeasured payoff reads as not known, with the reason');
 }
 
 // Sources add to the engine's total; uses add to total development cost.
