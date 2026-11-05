@@ -36,7 +36,7 @@ for (const p of kept) {
 // 1b. The disclosure ("not built with these credits", counted once at its latest application)
 // agrees with the award data: no kept property, matched independently of the build script, ever
 // applied again or appears among the funded properties.
-const norm = (s) => String(s || '').toLowerCase().replace(/street/g, 'st').replace(/avenue/g, 'ave').replace(/[^a-z0-9]/g, '');
+const norm = (s) => String(s || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/street/g, 'st').replace(/avenue/g, 'ave').replace(/[^a-z0-9]/g, '');
 const pkeys = (a) => [`n|${norm(a.name)}|${norm(a.city)}`].concat(a.address ? [`a|${norm(a.address)}|${norm(a.city)}`] : []);
 const order = (a) => a.year * 10 + (/Round One/.test(a.round_label || '') ? 1 : /Round Two/.test(a.round_label || '') ? 2 : 3);
 const same = (a, b) => pkeys(a).some((k) => pkeys(b).includes(k));
@@ -66,6 +66,11 @@ if (withAddr) {
   const fakeByAddr = { name: 'Renamed ' + withAddr.name, city: withAddr.city, address: withAddr.address.replace(/Street/, 'St'), year_alloc: withAddr.year + 1 };
   ok(reasons(withAddr, apps, refs.projects.concat([fakeByAddr])).length > 0, `a later winner under a new name but the same address is rejected (${withAddr.name})`);
 }
+// Accented and plain spellings are the same place (Cañon City and Canon City).
+const plain = { ...probe, city: 'Cañon City', name: 'Viña Commons', year: probe.year, round_label: '' };
+const plainLater = { ...plain, city: 'Canon City', name: 'Vina Commons', year: probe.year + 1, outcome: 'awarded' };
+ok(reasons(plain, apps.concat([plainLater]), refs.projects).some((r) => r.startsWith('applied again ')), 'an accented and a plain spelling of the same property match');
+ok(!kept.some((p) => /Ca[ñn]on City/i.test(p.city || '') && /GardenWalk/i.test(p.name)), 'GardenWalk of Cañon City (funded 2026) is out of the not-funded cohort');
 ok(reasons(probe, apps, refs.projects).length === 0, 'the real record still passes once the synthetic ones are gone');
 
 for (const p of doc.points) {

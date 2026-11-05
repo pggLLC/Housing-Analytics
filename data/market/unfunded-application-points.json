@@ -7,8 +7,8 @@
   "geocoder": "U.S. Census Bureau Geocoder, address batch, Public_AR_Current (https://geocoding.geo.census.gov/geocoder/locations/addressbatch)",
   "kept": "Address matches only (exact or non-exact). An unmatched address gets no point.",
   "generated": "2026-11-04",
-  "applications": 52,
-  "mapped": 42,
+  "applications": 51,
+  "mapped": 41,
   "unmapped": 10,
   "score_method": "Market analysis engine (js/market-analysis.js) run at the geocoded address with today's data, once for each buffer the page offers, as for the funded reference properties. Our score today. The application's own homes were never built, so they are not in its area's existing supply, while a funded property's homes are.",
   "buffers": [
@@ -22,8 +22,8 @@
   "scored_from": "bd0e9c1d3459fdc5ef40a493c32ac1d68da5b398",
   "points_without_score": 0,
   "cohort_rule": "One row per property, at its latest application; dropped when the same name and city or the same street address and city applied again later (any outcome) or is in the funded reference set.",
-  "dropped": 56,
-  "refiltered": "2026-11-04"
+  "dropped": 57,
+  "refiltered": "2026-11-05"
  },
  "points": [
   {
@@ -802,31 +802,6 @@
    }
   },
   {
-   "name": "GardenWalk of Ca\u00f1on City",
-   "address": "3232 Independence",
-   "city": "Ca\u00f1on City",
-   "county_fips": "08043",
-   "year": 2024,
-   "round_label": "2024 Round One",
-   "credit_type": "9%",
-   "total_units": 42,
-   "restricted_units": 42,
-   "outcome": "not_awarded",
-   "source_url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf",
-   "lat": 38.444173,
-   "lon": -105.184383,
-   "match": "Non_Exact",
-   "matched_address": "3232 INDEPENDENCE RD, CANON CITY, CO, 81212",
-   "pma_score_by_buffer": {
-    "1": 37,
-    "2": 43,
-    "3": 55,
-    "5": 58,
-    "10": 59,
-    "15": 63
-   }
-  },
-  {
    "name": "4995 Washington",
    "address": "4995 Washington Street",
    "city": "Denver",
@@ -1429,6 +1404,13 @@
    "year": 2024,
    "credit_type": "9%",
    "why_dropped": "applied again in 2026 and was again not funded; the later one is kept"
+  },
+  {
+   "name": "GardenWalk of Ca\u00f1on City",
+   "city": "Ca\u00f1on City",
+   "year": 2024,
+   "credit_type": "9%",
+   "why_dropped": "applied again in 2026: awarded"
   },
   {
    "name": "Kite Route Crossing",

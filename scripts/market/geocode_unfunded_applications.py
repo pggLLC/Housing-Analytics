@@ -26,6 +26,7 @@ import io
 import json
 import os
 import sys
+import unicodedata
 import urllib.request
 import uuid
 from datetime import date
@@ -65,7 +66,9 @@ def batch_geocode(rows):
 
 
 def _norm(s):
-    s = (s or '').lower().replace('street', 'st').replace('avenue', 'ave')
+    # Fold accents first (Cañon -> Canon) so accented and plain spellings match.
+    s = unicodedata.normalize('NFKD', s or '').encode('ascii', 'ignore').decode('ascii')
+    s = s.lower().replace('street', 'st').replace('avenue', 'ave')
     return re.sub(r'[^a-z0-9]', '', s)
 
 
