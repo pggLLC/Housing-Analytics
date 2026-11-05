@@ -11033,7 +11033,14 @@
     "population": 21044,
     "prop123_committed": true
    },
-   "here_now": [],
+   "here_now": [
+    {
+     "name": "City of Montrose: 6% hotel room tax (raised from 0.9%); 33% of it for incentives for affordable housing",
+     "kind": "local fund",
+     "url": "https://www.cityofmontrose.org/DocumentCenter/View/52650/Ordinance-2671---Amending-5-2-1-and-5-2-5-Increasing-Hotel-Room-Tax",
+     "record": "data/policy/local-housing-funds.json#f-montrose-hotel-room-tax-2a"
+    }
+   ],
    "county_fips": "08085",
    "county": "Montrose County"
   },
