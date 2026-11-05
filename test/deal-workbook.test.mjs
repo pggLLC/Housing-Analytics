@@ -1005,6 +1005,7 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   const slow = WB.build(withStress(), rules);
   slow.deferredFee = Object.assign({}, slow.deferredFee, { paybackYear: null, owedAt15: 123456 });
   ok(WB.chartFee(slow).includes('$123K still owed after year 15') && !WB.chartFee(slow).includes('Paid off'), 'a fee not repaid in 15 years says how much is left');
+  ok(fee.includes('review item, not a fixed deadline') && fee.includes(rules.rules.deferred_fee_repayment_review.location) && !/3\.A/.test(fee), 'the fee note cites CHFA\'s review rule from the rules file, not a deadline');
   const noFee = WB.build(withStress(), rules); noFee.deferredFee = Object.assign({}, noFee.deferredFee, { amount: 0 });
   ok(WB.chartFee(noFee) === '', 'no deferred fee, no fee chart');
 }

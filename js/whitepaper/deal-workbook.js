@@ -63,7 +63,8 @@
       vacancy: rule('pro_forma_vacancy', 'rate'), vacancySection8: rule('pro_forma_vacancy', 'rate_full_section8'), rentGrowth: rule('pro_forma_rent_growth', 'rate'),
       expGrowth: rule('pro_forma_expense_growth', 'rate'), opex: rule('pupa_minimum', 'per_unit_annual'), opexSection8: rule('pupa_minimum', 'per_unit_annual_section8'),
       reserve: rule('replacement_reserve_minimum', 'family_per_unit_annual'), reserveSenior: rule('replacement_reserve_minimum', 'senior_per_unit_annual'),
-      dscr: rule('min_debt_coverage', 'min_coverage'), high: rule('high_coverage_credit_reduction', 'threshold')
+      dscr: rule('min_debt_coverage', 'min_coverage'), high: rule('high_coverage_credit_reduction', 'threshold'),
+      feeReview: rule('deferred_fee_repayment_review', 'forecast_years')
     };
   }
 
@@ -606,7 +607,10 @@
         svgText(Math.min(px, CW - R - 4), T - 10, 'Paid off in year ' + pay, { anchor: px > CW - 140 ? 'end' : 'middle', bold: true });
     } else if (owedEnd != null) h += svgText(CW - R, T - 10, short(owedEnd) + ' still owed after year ' + last.year, { anchor: 'end', bold: true, fill: 'var(--bad)' });
     h += '</svg>';
-    var note = 'Cash flow repays it ahead of the cash-flow loans. The 2027-28 QAP (3.A) expects it repaid within 15 years.';
+    // CHFA's rule is a review item, not a deadline: it weighs whether cash flow can pay the fee over the pro forma.
+    var fr = m.operating && m.operating.min && m.operating.min.feeReview;
+    var note = 'Cash flow repays it ahead of the cash-flow loans. ' + (fr ? 'CHFA weighs whether cash flow can repay it over the ' + fr.value + '-year pro forma (' + fr.where + '); it is a review item, not a fixed deadline.'
+      : 'CHFA\'s rule on repaying it could not be read.');
     return figure('wbChFee', 'Is the deferred fee paid back in time?', note, h);
   }
 
