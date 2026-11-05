@@ -5052,7 +5052,8 @@
     // shipped with "Select a geography…" placeholders and no renderer —
     // even after the user picked one they sat on the placeholder text.
     if (window.HNARenderers.renderProp123BaselineAndFastTrack) {
-      window.HNARenderers.renderProp123BaselineAndFastTrack(profile, geoType, label);
+      window.HNARenderers.renderProp123BaselineAndFastTrack(profile, geoType, label,
+        typeof prop123Relationship !== 'undefined' && prop123Relationship ? prop123Relationship.record : null);
     }
 
     // Stash profile + contextCounty for Phase 2 panels (scorecard,

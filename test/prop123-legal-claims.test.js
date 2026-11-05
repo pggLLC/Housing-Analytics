@@ -109,7 +109,7 @@ console.log('\n[baseline estimate]');
 const est = rend.match(/safeNum\(profile && profile\.(DP04_\d+E)\)[\s\S]{0,400}?Math\.round\(totalUnits \* (0\.\d+)\)/);
 ok(est && est[1] === 'DP04_0001E', 'the baseline panel estimates from DP04_0001E, total housing units');
 const pct = est ? Math.round(Number(est[2]) * 100) : NaN;
-const panel = (rend.match(/Directional estimate[\s\S]{0,200}/) || [''])[0];
+const panel = (rend.match(/var cohoEstimate = 'COHO’s estimate[\s\S]{0,200}/) || [''])[0];
 ok(panel.includes('~' + pct + '% of') && /total housing units/.test(panel), `the panel describes it as ~${pct}% of total housing units`);
 withSection.forEach((p) => {
   const t = text(section(read(p)));
