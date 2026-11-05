@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-05T09:18:22.644663Z",
+  "generated": "2026-11-05T10:11:36.358457Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1026967
+      "bytes": 1027554
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -305,6 +305,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 253
+    },
+    "data/co-housing-costs/rent-income-history.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 100950
     },
     "data/co-place-boundaries.geojson": {
       "featureCount": 484,

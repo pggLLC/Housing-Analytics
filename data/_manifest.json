@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-05T09:18:17.783Z",
+    "generated_at": "2026-11-05T10:11:31.416Z",
     "root": "data/",
-    "file_count": 2018,
-    "total_size_bytes": 220307465,
+    "file_count": 2019,
+    "total_size_bytes": 220408415,
     "kinds": {
-      "json": 1969,
+      "json": 1970,
       "geojson": 35,
       "csv": 14
     }
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-05T09:18:13.212Z",
+      "mtime": "2026-11-05T10:11:26.906Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1335,6 +1335,30 @@
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
+    },
+    {
+      "path": "co-housing-costs/rent-income-history.json",
+      "kind": "json",
+      "size_bytes": 100950,
+      "mtime": "2026-11-05T10:09:22.264Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "colorado",
+        "counties",
+        "places_2000"
+      ],
+      "key_count": 4,
+      "primary_array_key": "colorado",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "period",
+        "rent_year",
+        "income_year",
+        "median_gross_rent",
+        "median_hh_income",
+        "median_hh_income_rent_year"
+      ]
     },
     {
       "path": "co-place-boundaries.geojson",
@@ -40038,7 +40062,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-05T09:18:15.420Z",
+      "mtime": "2026-11-05T10:11:29.145Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40062,7 +40086,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-05T09:18:14.897Z",
+      "mtime": "2026-11-05T10:11:28.634Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

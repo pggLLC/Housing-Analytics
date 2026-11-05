@@ -1257,7 +1257,7 @@
       maxAgeDays: 30,
       geoUnit: 'N/A',
       coverage: 'All data files',
-      features: 2004,
+      features: 2005,
       description: 'Auto-generated manifest listing all data files with feature counts and timestamps.',
       tags: ['manifest', 'system', 'metadata'],
       apiEndpoint: null

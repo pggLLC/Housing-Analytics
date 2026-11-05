@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T09:17:33.335Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T10:10:45.563Z. Do not edit by hand.
 
 ---
 
@@ -97,7 +97,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1970 JSON files found.
+1971 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -154,6 +154,7 @@
 | `data/co-historical-allocations.json` | 14.5 KB | ✅ | — |
 | `data/co-housing-costs/county-trends.json` | 55.7 KB | ✅ | — |
 | `data/co-housing-costs/qcew_construction_state.json` | 253 B | ✅ | — |
+| `data/co-housing-costs/rent-income-history.json` | 98.6 KB | ✅ | — |
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
 | `data/co_ami_gap_by_county.json` | 100.8 KB | ✅ | — |
 | `data/co_ami_gap_by_place.json` | 730.1 KB | ✅ | — |
@@ -2076,7 +2077,7 @@
 
 ## Test Files
 
-780 test files found.
+781 test files found.
 
 | File | Size |
 |------|------|
@@ -2631,6 +2632,7 @@
 | `test/rent-burden-proxy-movement.test.js` | 6.1 KB |
 | `test/rent-ceiling-regime.test.js` | 18.0 KB |
 | `test/rent-formula-single-source.test.js` | 7.8 KB |
+| `test/rent-income-history.test.js` | 5.4 KB |
 | `test/rent-limit-programs.test.js` | 11.1 KB |
 | `test/rent-schedule.test.js` | 25.5 KB |
 | `test/rent-vs-buy-breakeven.test.js` | 4.1 KB |
