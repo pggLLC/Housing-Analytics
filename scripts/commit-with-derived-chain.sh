@@ -85,6 +85,7 @@ PATHS=(
   data/market/market-direction.json
   data/policy/leading-signals.json
   data/market/market-types.json
+  data/policy/incentive-peer-profiles.json
   data/paper
   working-paper.html
   methods.html
