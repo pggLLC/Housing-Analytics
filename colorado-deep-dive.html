@@ -2644,6 +2644,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <h2 id="fvn-heading">Funding vs need: where Colorado's housing subsidy goes</h2>
     <p id="fvnSummary" class="cc-summary" aria-live="polite">Loading the award ledger…</p>
     <p class="data-note" style="border-top:0;padding-top:0;margin-top:.25rem;">Awards are parsed every week from <a href="https://www.chfainfo.com/rental-housing/housing-credit/awards" target="_blank" rel="noopener">CHFA's Housing Tax Credit award reports</a> and the <a href="https://coloradoaffordablehousingfinancingfund.com/about/selected-applicants/" target="_blank" rel="noopener">Prop 123 financing fund's selected-applicant lists</a>. <span id="fvnGenerated"></span></p>
+    <p class="data-note" id="fvnLedgerNote" style="border-top:0;padding-top:0;margin-top:.25rem;"><strong>What the tax-credit count leaves out.</strong> It counts homes in CHFA's round award reports. Most 4% credits paired with private activity bonds are awarded outside the rounds and are not in those reports, so this counts fewer homes than <a href="chfa-portfolio.html">CHFA's property list</a> for the same years, and the county comparison below sets need against round awards only.</p>
     <div class="mi-kpi-grid" id="fvnKpis" aria-live="polite"></div>
     <p id="fvnReview" class="data-note" hidden></p>
   </section>
@@ -2653,7 +2654,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
 
   <section class="mi-section" aria-labelledby="fvn-scatter-heading">
     <h2 id="fvn-scatter-heading">Need against funding received, by county</h2>
-    <h3>Need: HUD CHAS ≤30% AMI gap (ranking index). Funding: LIHTC units in CHFA award reports since 2016.</h3>
+    <h3>Need: HUD CHAS ≤30% AMI gap (ranking index). Funding: LIHTC units in CHFA round award reports since 2016 (most 4% bond deals are not in them).</h3>
     <div class="mi-chart-container fvn-chart" data-source="CHFA Housing Tax Credit award reports; HUD CHAS via data/hna/ranking-index.json" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit/awards" data-vintage="Awards 2016 to date; CHAS 2018-2022">
       <canvas id="fvnScatter" role="img" aria-label="Scatter chart: each county's affordable-housing gap per 1,000 residents against LIHTC units awarded per 100 gap households"></canvas>
       <p class="sr-only" id="fvnScatterText"></p>

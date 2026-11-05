@@ -111,7 +111,7 @@
     var s = d.statewide || {};
     var w = (d.meta && d.meta.window) || {};
     var items = [
-      [fmtInt(s.lihtc_units), 'LIHTC units awarded', w.first_year + '–' + w.last_year + ', ' + fmtInt(s.tax_credit_awards) + ' credit awards'],
+      [fmtInt(s.lihtc_units), 'LIHTC units in round awards', w.first_year + '–' + w.last_year + ', ' + fmtInt(s.tax_credit_awards) + ' credit awards'],
       [fmtMoney(s.prop123_dollars), 'Prop 123 fund awards', fmtInt(s.prop123_awards) + ' selections since FY23-24'],
       [fmtPct(s.prop123_mixed_income_share_pct), 'Prop 123 dollars to mixed-income', 'A catalyst signal, not a flaw'],
       [fmtInt((s.quadrants || {}).underserved), 'High need, less funding', 'Counties, split at the medians'],

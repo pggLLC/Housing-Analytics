@@ -7709,7 +7709,7 @@
         data: {
           labels: years,
           datasets: [{
-            label: 'Goal: baseline + 3% of baseline per year (2024–2026)',
+            label: 'Goal on COHO’s estimated baseline: + 3% a year (2024–2026)',
             data: required,
             borderColor: t.c1,
             backgroundColor: t.c1 + '22',
@@ -7718,7 +7718,7 @@
             pointRadius: 3,
             tension: 0.25,
           }, {
-            label: 'Baseline (assumed 6% of stock)',
+            label: 'COHO’s estimated baseline (6% of all homes, not a DOLA figure)',
             data: years.map(() => baseline),
             borderColor: t.muted,
             borderWidth: 1,
@@ -7763,7 +7763,7 @@
         data: {
           labels: years,
           datasets: [{
-            label: 'Goal (3% of baseline per year, 2024–2026)',
+            label: 'Goal on COHO’s estimated baseline (3% a year, 2024–2026)',
             data: required,
             borderColor: t.c1,
             backgroundColor: 'transparent',
@@ -7799,7 +7799,7 @@
       // Update the inline status text above the chart
       const statusEl = document.getElementById('prop123HistoricalStatus');
       if (statusEl) {
-        statusEl.textContent = `Estimated baseline: ${fmtNum(baseline)} affordable units. ` +
+        statusEl.textContent = `COHO’s estimated baseline (6% of all homes, not a DOLA figure): ${fmtNum(baseline)} affordable units. ` +
           `Goal by the end of 2026 (3% of baseline per year, 9% in all): ${fmtNum(required[3])} units. ` +
           `From 2027 the goal is set from building permits (HB26-1313). ` +
           `DOLA cycle filings will populate the "Actual" series once aggregated.`;
@@ -7828,7 +7828,8 @@
       : (geoType === 'cdp' || /\(cdp\)/i.test(geoLabel || ''));
   }
 
-  function renderProp123BaselineAndFastTrack(profile, geoType, geoLabel) {
+  // record: this jurisdiction's own DOLA commitment filing, if it has one.
+  function renderProp123BaselineAndFastTrack(profile, geoType, geoLabel, record) {
     var safeNum = U().safeNum;
     var fmtNum  = U().fmtNum;
 
@@ -7843,16 +7844,42 @@
         // matches the estimator used by chartProp123Growth.
         var baseline = Math.round(totalUnits * 0.06);
         var required3yr = U().calculateGrowthTarget(baseline, 3);
-        baselineEl.innerHTML =
-          '<div style="font-size:1.5rem;font-weight:800;color:var(--text);margin:0 0 .25rem">'
-            + fmtNum(baseline) + ' units</div>'
-          + '<p style="margin:0;color:var(--muted);font-size:1.133rem;line-height:1.45">'
-            + '<strong>Directional estimate</strong> (~6% of '
+        // DOLA's own figure is the commitment; COHO's 6% estimate is only
+        // a stand-in where DOLA has none (integrity review #8).
+        var verified = record && record.compliance_verified;
+        var dolaRequired = verified && verified.required_units_met != null ? safeNum(verified.required_units_met) : null;
+        var dolaProposed = record && record.proposed_units != null ? safeNum(record.proposed_units) : null;
+        var cohoEstimate = 'COHO’s estimate (~6% of '
             + fmtNum(totalUnits) + ' total housing units in '
             + escHtml(geoLabel || 'this area')
-            + '). 2024–2026 goal, 3% of baseline per year: <strong style="color:var(--text)">'
-            + fmtNum(required3yr) + ' units</strong>.<br>'
-            + 'Jurisdiction-specific baselines come from CDOLA Prop 123 '
+            + '), not a DOLA figure: a baseline of ' + fmtNum(baseline)
+            + ' affordable homes. 3% of it a year adds <strong style="color:var(--text)">'
+            + fmtNum(required3yr - baseline) + ' homes</strong> by the end of 2026 ('
+            + fmtNum(required3yr) + ' in all).';
+        var head, lead;
+        if (dolaRequired != null) {
+          head = fmtNum(dolaRequired) + ' homes required (DOLA)';
+          lead = 'DOLA counts ' + fmtNum(dolaRequired) + ' homes as '
+            + escHtml(geoLabel || 'this jurisdiction') + '’s required 2024–2026 commitment, verified '
+            + escHtml(verified.unit_commitment || '') + '. That is the commitment; the estimate that follows is not.'
+            + (dolaProposed != null ? ' The filing projected ' + fmtNum(dolaProposed) + ' homes.' : '')
+            + '<br>For comparison, ' + cohoEstimate;
+        } else if (dolaProposed != null) {
+          head = fmtNum(dolaProposed) + ' homes in the filing (DOLA)';
+          lead = escHtml(geoLabel || 'This jurisdiction') + '’s DOLA commitment filing projects '
+            + fmtNum(dolaProposed) + ' homes for 2024–2026'
+            + (record.filing_date ? ' (filed ' + escHtml(record.filing_date) + ')' : '')
+            + '. DOLA has not yet published a verified count.<br>For comparison, ' + cohoEstimate;
+        } else {
+          head = fmtNum(baseline) + ' units (COHO estimate)';
+          lead = '<strong>' + cohoEstimate.slice(0, 15) + '</strong>' + cohoEstimate.slice(15);
+        }
+        baselineEl.innerHTML =
+          '<div style="font-size:1.5rem;font-weight:800;color:var(--text);margin:0 0 .25rem">'
+            + head + '</div>'
+          + '<p style="margin:0;color:var(--muted);font-size:1.133rem;line-height:1.45">'
+            + lead + '<br>'
+            + 'Jurisdiction-specific figures come from CDOLA Prop 123 '
             + 'commitment filings. From 2027 the goal is set from building '
             + 'permits instead (HB26-1313).</p>';
       } else {
