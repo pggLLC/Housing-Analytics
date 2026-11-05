@@ -989,6 +989,16 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   ok(z.rent === 12 && z.vac === null && z.opex === null && z.combRent === null, 'only a number of 0 or more counts as a size, as the calculator\'s own input handler applies them');
   ok(/data-axis="x"/.test(st) && texts(st).every((x) => x.trim()), 'the stress chart tags its axis and has no blank text');
 
+  // Very high coverage (almost no must-pay debt) still draws a handful of grid lines, not thousands.
+  const huge = WB.build(withStress(), rules);
+  huge.cashFlow.rows = huge.cashFlow.rows.map((y, i) => Object.assign({}, y, { dscr: 5000 + i * 70 }));
+  huge.stress = { base: { dscr: 5000 }, rent10: { dscr: 4500 }, vac5: { dscr: 4700 }, opex10: { dscr: 4900 }, combined: { dscr: 4000 } };
+  const hugeCov = WB.chartCoverage(huge), hugeSt = WB.chartStress(huge);
+  const nLines = (svg, ax) => ((svg.split('data-axis="' + ax + '"')[1] || '').split('</g>')[0].match(/<line /g) || []).length;
+  ok(nLines(hugeCov, 'y') >= 3 && nLines(hugeCov, 'y') <= 25 && hugeCov.length < 40000, 'a 5,000x coverage chart has a bounded number of ticks');
+  ok(nLines(hugeSt, 'x') >= 3 && nLines(hugeSt, 'x') <= 25 && hugeSt.length < 40000, 'a 5,000x lender test chart has a bounded number of ticks');
+  ok(nLines(cov, 'y') >= 3 && nLines(cov, 'y') <= 12, 'an ordinary coverage range keeps its fine ticks');
+
   // The page places each chart in the section whose table is its data view.
   const page = WB.render(cm, 'Invented');
   ok(page.indexOf('id="wbChSU"') > page.indexOf('id="wbSU"') && page.indexOf('id="wbChSU"') < page.indexOf('id="wbBasis"'), 'the sources chart sits in Sources and uses');

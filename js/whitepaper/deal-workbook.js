@@ -501,6 +501,18 @@
       (o.bold ? ' font-weight="700"' : '') + ' fill="' + (o.fill || (o.muted ? 'var(--muted)' : 'var(--text)')) + '"' +
       (o.halo ? ' stroke="var(--card)" stroke-width="4" paint-order="stroke"' : '') + (o.tick ? ' data-tick' : '') + '>' + esc(t) + '</text>';
   }
+  // Axis ticks from the range and a bounded target count, so a very high coverage ratio
+  // (a deal with almost no must-pay debt) still draws a handful of lines, not thousands.
+  function axisTicks(a, b, target) {
+    var span = b - a;
+    if (!Number.isFinite(span) || span <= 0) return [];
+    var raw = span / (target || 8), mag = Math.pow(10, Math.floor(Math.log10(raw))), step = 0.1;
+    [1, 2, 5, 10].some(function (f) { step = f * mag; return step >= raw - 1e-12; });
+    step = Math.max(0.1, step);
+    var out = [];
+    for (var t = Math.ceil(a / step - 1e-9) * step; t <= b + 1e-9 && out.length < 25; t += step) out.push(Math.round(t * 100) / 100);
+    return out;
+  }
   function short(v) {
     var a = Math.abs(v);
     return (v < 0 ? '-$' : '$') + (a >= 1e6 ? (a / 1e6).toFixed(a >= 1e7 ? 1 : 2).replace(/\.?0+$/, '') + 'M' : Math.round(a / 1000) + 'K');
@@ -558,8 +570,7 @@
       (lo != null ? ' CHFA minimum ' + ratio(lo) + '.' : '');
     var h = svgOpen(H, label);
     if (lo != null && hi != null) h += '<rect x="' + L + '" y="' + Y(hi).toFixed(1) + '" width="' + (CW - L - R) + '" height="' + (Y(lo) - Y(hi)).toFixed(1) + '" fill="var(--good)" opacity=".1"/>';
-    var ticks = [], step = (y1 - y0) > 0.8 ? 0.2 : 0.1;
-    for (var t = y0; t <= y1 + 1e-9; t += step) ticks.push(Math.round(t * 100) / 100);
+    var ticks = axisTicks(y0, y1);
     h += '<g data-axis="y">' + ticks.map(function (v) {
       return '<line x1="' + L + '" x2="' + (CW - R) + '" y1="' + Y(v).toFixed(1) + '" y2="' + Y(v).toFixed(1) + '" stroke="var(--border)"/>' + svgText(L - 6, Y(v) + 5, v.toFixed(2), { anchor: 'end', muted: true, size: 15, tick: true });
     }).join('') + '</g>';
@@ -644,8 +655,7 @@
     var below = rows.filter(function (k) { return lo != null && st[k[0]].dscr < lo; });
     var label = 'Year-one debt coverage ' + ratio(base) + ' as entered; under the lender tests: ' + rows.map(function (k) { return k[1].toLowerCase() + ' ' + ratio(st[k[0]].dscr); }).join(', ') + '.';
     var h = svgOpen(H, label);
-    var ticks = [], step = (x1 - x0) > 0.8 ? 0.2 : 0.1;
-    for (var t = x0; t <= x1 + 1e-9; t += step) ticks.push(Math.round(t * 100) / 100);
+    var ticks = axisTicks(x0, x1);
     h += '<g data-axis="x">' + ticks.map(function (v) {
       return '<line x1="' + X(v).toFixed(1) + '" x2="' + X(v).toFixed(1) + '" y1="6" y2="' + (H - 30) + '" stroke="var(--border)"/>' + svgText(X(v), H - 10, v.toFixed(1), { anchor: 'middle', muted: true, size: 15, tick: true });
     }).join('') + '</g>';
