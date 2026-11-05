@@ -54,6 +54,9 @@ near(m.cashFlow.rows[0].feeOwed, r.deferredDevFee - r.projection.rows[0].deferre
   ok(y15.mustPay <= y15.debt, 'must-pay debt is part of the debt at year 15');
   ok(/42\(i\)\(7\)\(B\)/.test(html) && /2027-28 QAP/.test(html) && /before 2019/.test(html), 'the year-15 note cites the code and the CHFA plan');
   m.findings.filter((f) => f.level === 'bad').forEach((f) => ok(html.includes(f.text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')), 'a red finding is a risk to clear: ' + f.text.slice(0, 40)));
+  ok(m.basis.gapMethod.applied && !m.basis.gapMethod.binding && /gap method limit \(not binding\)/.test(html) && !/Held to the gap/.test(html), 'a gap limit that does not bind is not shown as what set the credit');
+  const bound = mut0((s) => { s.result.costBasis.basis.gapMethod.binding = true; });
+  ok(/Held to the gap/.test(WB.summary(bound)), 'a binding gap limit is shown as what set the credit');
   ok(/sr-flag/.test(WB.summary({ error: 'x' })), 'an unbuildable deal shows its reason, not a summary');
   const noLoan = WB.summaryYear15({ ...m, loans: [{ ...m.loans[0], balance15: null }] });
   ok(noLoan.debt === null, 'an unknown loan balance leaves debt at year 15 unknown, not low');

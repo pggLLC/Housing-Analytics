@@ -886,7 +886,8 @@
       cr.push(['Applicable fraction', pct(b.applicableFraction, 1)]);
       cr.push(['Basis boost', b.boost && b.boost.applied ? '×' + num(b.boost.multiplier) : 'None']);
       if (b.cap && b.cap.applied) cr.push(['CHFA per-project limit applied', money(num(b.cap.amount))]);
-      if (b.gapMethod && b.gapMethod.applied) cr.push(['Held to the gap (CHFA gap method)', money(num(b.gapMethod.credit))]);
+      // The gap method is always calculated; only a binding one set the credit.
+      if (b.gapMethod && b.gapMethod.applied) cr.push([b.gapMethod.binding ? 'Held to the gap (CHFA gap method)' : 'CHFA gap method limit (not binding)', money(num(b.gapMethod.credit))]);
       cr.push(['Yearly credit used', b.credit == null ? '— ' + (b.creditReason || '') : money(b.credit)]);
     }
     var sa = m.setAside;
