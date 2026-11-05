@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-05T03:08:43.224180Z",
+  "generated": "2026-11-05T03:15:41.426844Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1026081
+      "bytes": 1026596
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9185,6 +9185,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 4435135
+    },
+    "data/market/unfunded-application-points.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 43744
     },
     "data/market/utility_capacity_co.geojson": {
       "featureCount": 351,

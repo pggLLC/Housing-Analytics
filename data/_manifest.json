@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-05T03:08:39.444Z",
+    "generated_at": "2026-11-05T03:15:37.830Z",
     "root": "data/",
-    "file_count": 2016,
-    "total_size_bytes": 220194215,
+    "file_count": 2017,
+    "total_size_bytes": 220237959,
     "kinds": {
-      "json": 1967,
+      "json": 1968,
       "geojson": 35,
       "csv": 14
     }
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-05T03:08:34.901Z",
+      "mtime": "2026-11-05T03:15:33.525Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39765,6 +39765,29 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "market/unfunded-application-points.json",
+      "kind": "json",
+      "size_bytes": 43744,
+      "mtime": "2026-11-05T03:13:38.320Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "points",
+        "unmapped",
+        "dropped"
+      ],
+      "key_count": 4,
+      "primary_array_key": "dropped",
+      "primary_array_length": 57,
+      "primary_array_first_keys": [
+        "name",
+        "city",
+        "year",
+        "credit_type",
+        "why_dropped"
+      ]
+    },
+    {
       "path": "market/utility_capacity_co.geojson",
       "kind": "geojson",
       "size_bytes": 182611,
@@ -40015,7 +40038,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-05T03:08:37.138Z",
+      "mtime": "2026-11-05T03:15:35.772Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40039,7 +40062,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-05T03:08:36.594Z",
+      "mtime": "2026-11-05T03:15:35.188Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

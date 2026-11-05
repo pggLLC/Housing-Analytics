@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T03:07:57.589Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T03:14:54.645Z. Do not edit by hand.
 
 ---
 
@@ -73,7 +73,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 75.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 155.5 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 155.9 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 82.2 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -97,7 +97,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1968 JSON files found.
+1969 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1908,6 +1908,7 @@
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
 | `data/market/transit_stops_coverage_co.json` | 230.7 KB | ✅ | — |
 | `data/market/travel_time_matrix_co.json` | 4.23 MB | ✅ | — |
+| `data/market/unfunded-application-points.json` | 42.7 KB | ✅ | — |
 | `data/market/walk_bike_access_co.json` | 945.4 KB | ✅ | — |
 | `data/market/walk_bike_map_co.json` | 4.10 MB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
@@ -2074,7 +2075,7 @@
 
 ## Test Files
 
-778 test files found.
+779 test files found.
 
 | File | Size |
 |------|------|
@@ -2529,6 +2530,7 @@
 | `test/past-migration-option.test.js` | 17.9 KB |
 | `test/pbv-by-pha.test.mjs` | 2.4 KB |
 | `test/peer-benchmark-missing-score.test.js` | 4.5 KB |
+| `test/peer-benchmark-not-funded.test.js` | 8.6 KB |
 | `test/percentile-agrees-with-rank.test.mjs` | 5.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
 | `test/permit-declared-value.test.mjs` | 5.9 KB |
