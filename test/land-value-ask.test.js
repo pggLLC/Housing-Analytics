@@ -22,4 +22,7 @@ ok(disc.net === 600000 && disc.verdict === 'fits', 'a public discount comes off 
 ok(T.evaluateAsk(1200000, res, 100, 40).verdict === 'free', 'donated land is free');
 const none = T.evaluateAsk(500000, T.computeResidual({ tdc: 20000000, equityAndDebt: 15000000 }), 0, 0);
 ok(none.verdict === 'none' && none.max === 0 && none.perUnit === null, 'a deal with no room for land shows the whole price as a gap');
+const unk = T.evaluateAsk(600000, null, 0, 40);
+ok(unk.verdict === 'unknown' && unk.max === null && unk.room === null && /total development cost/.test(unk.reason), 'with no cost or sources the check is unknown, never a fit');
+ok(T.evaluateAsk(600000, null, 100, 40).verdict === 'free', 'donated land is free even before the deal is entered');
 console.log('land-value-ask: ' + n + ' checks passed');

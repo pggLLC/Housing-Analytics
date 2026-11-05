@@ -151,6 +151,9 @@
     if (!(price > 0)) return null;
     var discount = Math.min(100, Math.max(0, _n(publicDiscount))) / 100;
     var net = Math.round(price * (1 - discount));
+    // Without the cost and the sources the most the deal can pay is unknown, not the whole of the sources.
+    if (!residual) return { ask: price, net: net, discountPct: Math.round(discount * 100), max: null, room: null, perUnit: null, covered: null, verdict: net <= 0 ? 'free' : 'unknown',
+      reason: 'Enter the total development cost and the sources above to check this price.' };
     var max = residual ? Math.max(0, _n(residual.adjustedResidual)) : 0;
     var room = max - net;
     var units = _n(totalUnits);
@@ -317,7 +320,9 @@
     var compResult = analyzeComps(state.comps, state.siteAcres);
     var residual = computeResidual(state);
     var band = computeNegotiationBand(compResult, residual, state.publicLandDiscount);
-    var ask = evaluateAsk(state.askingPrice, residual, state.publicLandDiscount, state.totalUnits);
+    // A blank cost or no sources reads as zero in the form, so the check waits for both.
+    var residualKnown = state.tdc > 0 && (state.equityAndDebt + state.softSources + state.deferredFee) > 0;
+    var ask = evaluateAsk(state.askingPrice, residualKnown ? residual : null, state.publicLandDiscount, state.totalUnits);
 
     _renderResults(state, conf, compResult, residual, band, ask);
   }
@@ -374,19 +379,20 @@
 
     // Asking price check
     if (ask) {
-      var tone = ask.verdict === 'fits' || ask.verdict === 'free' ? 'var(--good, #059669)' : 'var(--bad, #dc2626)';
+      var tone = ask.verdict === 'fits' || ask.verdict === 'free' ? 'var(--good, #059669)' : ask.verdict === 'unknown' ? 'var(--warn, #d97706)' : 'var(--bad, #dc2626)';
       var say = ask.verdict === 'free' ? 'With the discount the land costs nothing, so the deal can take the site.'
         : ask.verdict === 'fits' ? 'The deal can pay this price, with ' + _fmt(ask.room) + ' to spare' + (ask.perUnit != null ? ' (' + _fmtUnit(ask.perUnit) + ')' : '') + '.'
         : ask.verdict === 'short' ? 'The deal is ' + _fmt(-ask.room) + ' short of this price' + (ask.perUnit != null ? ' (' + _fmtUnit(ask.perUnit) + ')' : '') + '. It covers ' + Math.round(ask.covered * 100) + '% of it.'
+        : ask.verdict === 'unknown' ? ask.reason
         : 'The deal cannot pay anything for land, so the whole price is a gap.';
       html += '<div class="lvt-result-card" style="border-left:4px solid ' + tone + ';">' +
         '<h4 class="lvt-result-title">Asking Price Check</h4>' +
         '<div class="lvt-result-grid">' +
           '<div class="lvt-metric"><div class="lvt-metric-val">' + _fmt(ask.net) + '</div><div class="lvt-metric-lbl">Price' + (ask.discountPct ? ' after the ' + ask.discountPct + '% discount' : '') + '</div></div>' +
-          '<div class="lvt-metric"><div class="lvt-metric-val">' + _fmt(ask.max) + '</div><div class="lvt-metric-lbl">Most the deal can pay</div></div>' +
-          '<div class="lvt-metric"><div class="lvt-metric-val" style="color:' + tone + ';">' + (ask.room >= 0 ? '+' : '-') + _fmt(Math.abs(ask.room)) + '</div><div class="lvt-metric-lbl">' + (ask.room >= 0 ? 'Room under the price' : 'Short') + '</div></div>' +
+          '<div class="lvt-metric"><div class="lvt-metric-val">' + (ask.max == null ? '—' : _fmt(ask.max)) + '</div><div class="lvt-metric-lbl">Most the deal can pay</div></div>' +
+          (ask.room == null ? '' : '<div class="lvt-metric"><div class="lvt-metric-val" style="color:' + tone + ';">' + (ask.room >= 0 ? '+' : '-') + _fmt(Math.abs(ask.room)) + '</div><div class="lvt-metric-lbl">' + (ask.room >= 0 ? 'Room under the price' : 'Short') + '</div></div>') +
         '</div>' +
-        '<p class="lvt-band-note">' + say + (ask.room < 0 ? ' Ways to close it: a lower price, a public land discount or ground lease, a seller carry-back note, or more soft money. Land is not in eligible basis, so tax credits will not cover it.' : '') + '</p>' +
+        '<p class="lvt-band-note">' + say + (ask.room != null && ask.room < 0 ? ' Ways to close it: a lower price, a public land discount or ground lease, a seller carry-back note, or more soft money. Land is not in eligible basis, so tax credits will not cover it.' : '') + '</p>' +
       '</div>';
     }
 
@@ -419,7 +425,7 @@
         '</div>' +
         '<div class="lvt-band-note">' +
           (ask && !(band.market > 0)
-            ? (ask.verdict === 'fits' || ask.verdict === 'free' ? 'The deal can pay the price entered. Negotiate for the best price.' : 'The price entered is above what the deal can pay. Add comparable sales above to see where market value sits.')
+            ? (ask.verdict === 'unknown' ? ask.reason : ask.verdict === 'fits' || ask.verdict === 'free' ? 'The deal can pay the price entered. Negotiate for the best price.' : 'The price entered is above what the deal can pay. Add comparable sales above to see where market value sits.')
             : band.developer >= band.market
             ? 'The project can support market-rate land acquisition. Negotiate for best price.'
             : band.developer >= band.publicPartner && band.publicPartner > 0
