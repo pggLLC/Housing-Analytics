@@ -271,6 +271,28 @@
         "note": "Total $1,753,000 across three projects; only one per-project amount printed."
       },
       {
+        "title": "DOH Application Schedule and Awards page: July 2026 Awards - Rental",
+        "date": "2026-07",
+        "period": null,
+        "url": "https://doh.colorado.gov/application-schedule-and-awards",
+        "source_type": "DOH web page table",
+        "stated_total": 13747000,
+        "rows_sum": 0,
+        "complete": false,
+        "note": "Totals only. The funding watch detected these tables on 2026-10-29 (issue #2566); the page answers a direct download with 403, and the watch's copy keeps only lines with a date, an amount or a round word, so project names and rows were not captured and no row is added here. $13,747,000 is the total of the eight amounts printed under the July 2026 'Rental Awards' heading ($220,000, $715,000, $1,862,000, $900,000, $3,250,000, $1,200,000, $2,600,000 and $3,000,000), which sum to it exactly."
+      },
+      {
+        "title": "DOH Application Schedule and Awards page: July 2026 Awards - Homeownership NOFA",
+        "date": "2026-07",
+        "period": null,
+        "url": "https://doh.colorado.gov/application-schedule-and-awards",
+        "source_type": "DOH web page table",
+        "stated_total": 28540000,
+        "rows_sum": 0,
+        "complete": false,
+        "note": "Totals only. The funding watch detected these tables on 2026-10-29 (issue #2566); the page answers a direct download with 403, and the watch's copy keeps only lines with a date, an amount or a round word, so project names and rows were not captured and no row is added here. The page prints 'Total -Homeownership NOFA' $28,540,000 under the 'Homeownership NOFA Awards' heading; the three amounts above it ($15,840,000, $700,000 and $12,000,000) sum to it."
+      },
+      {
         "title": "DOH Application Schedule and Awards page: June 2026 (4% + State) Pre-Application Awards - Rental",
         "date": "2026-06",
         "period": null,

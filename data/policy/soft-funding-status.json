@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-10-26",
+  "lastUpdated": "2026-11-03",
   "vintage": "2026-Q4",
-  "note": "Program terms checked against the cited official pages on 2026-10-09; 18 records rechecked 2026-10-26 (see each last_verified). Status 'retired' marks a legacy label no official page establishes, kept so older saved deals still resolve; 'see' names the real program. Null means unpublished, ambiguous or unverified, as explained by source_note. review_by is an internal quarterly review reminder, not a program deadline. Published caps and historical allocations are not available balances.",
+  "note": "Program terms checked against the cited official pages on 2026-10-09; 18 records rechecked 2026-10-26 and CEO-IRA-HOME-ENERGY-REBATES on 2026-11-03 (see each last_verified). Status 'retired' marks a legacy label no official page establishes, kept so older saved deals still resolve; 'see' names the real program. Null means unpublished, ambiguous or unverified, as explained by source_note. review_by is an internal quarterly review reminder, not a program deadline. Published caps and historical allocations are not available balances.",
   "programs": {
     "CHFA-HTF": {
       "name": "CHFA Housing Trust Fund (retired label: no current CHFA program)",
@@ -600,11 +600,11 @@
     "CEO-IRA-HOME-ENERGY-REBATES": {
       "name": "Colorado Home Energy Rebates (HEAR / HOMES)",
       "county": "All",
-      "status": "VERIFY",
+      "status": "closed",
       "available": null,
       "awarded": null,
       "capacity": null,
-      "deadline": null,
+      "deadline": "2026-08-01",
       "competitiveness": "high",
       "eligibleExecution": [
         "non-LIHTC"
@@ -614,17 +614,17 @@
         "multifamily-retrofit"
       ],
       "maxPerProject": null,
-      "description": "The Colorado Energy Office says the single-family appliance rebate (HEAR) is closed in both regions, rebates for small multifamily buildings will be available in 2026, and whole-home rebates (HER) will open to manufactured or mobile homes and large multifamily buildings in 2026. DOE describes the rebates as state-administered and available only in select states.",
+      "description": "The Colorado Energy Office lists the Home Energy Rebates program as closed. Single-family appliance rebates (HEAR) are no longer available; the Energy Office took applications from November 13, 2025 to August 1, 2026. Its page no longer describes any multifamily or manufactured-home phase, or the rebate caps. DOE describes the rebates as state-administered and available only in select states.",
       "contactUrl": "https://energyoffice.colorado.gov/home-energy-rebates",
       "relatedSourceUrls": [
         "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
         "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
       ],
       "adminEntity": "DOE / Colorado Energy Office",
-      "source_note": "Colorado Energy Office Home Energy Rebates page read 2026-10-20: \"The HEAR single-family program is now closed for both Region 1 (the Front Range) and Region 2 (All Other Counties). Rebates for small multifamily buildings will be available in 2026.\" The Energy Office publishes the caps: appliance rebates (HEAR) up to $14,000 per household or unit; whole-home rebates (HER) for manufactured or mobile homes up to $16,000 below 80% AMI; and for large multifamily buildings up to $8,000 per unit below 80% AMI, or $4,000 per unit up to $400,000 per building at 80% AMI and above. These are per-unit or per-building caps that depend on income and expected energy savings, and the 2026 phases have no confirmed opening, so maximum award per project stays blank. DOE describes rebates rather than one of the loan/equity instruments; funding type, interest rate, loan term and repayment are left blank.",
-      "last_verified": "2026-10-20",
+      "source_note": "Colorado Energy Office Home Energy Rebates page, as copied by the repo's funding watch on 2026-11-03 (closure first detected 2026-10-27, issue #2552; the page answers a direct fetch from here with 403): \"Program Status: Closed\" and \"Rebates through the HEAR Program for single-family homes are no longer available. CEO accepted applications for rebates through this program from November 13, 2025 - August 1, 2026.\" The same change removed the text saying rebates for small multifamily buildings would be available in 2026, and every HEAR and HER rebate cap ($14,000 per household or unit, $16,000 for a manufactured or mobile home, the per-unit and per-building multifamily caps). With the program closed and no later phase published, maximum award per project stays blank. DOE describes rebates rather than one of the loan/equity instruments; funding type, interest rate, loan term and repayment are left blank.",
+      "last_verified": "2026-11-03",
       "review_by": "2027-01-20",
-      "warning": "VERIFY before use. The single-family rebate is closed; the 2026 multifamily and manufactured-home phases have published caps but no confirmed opening.",
+      "warning": "Closed. The Energy Office lists the program as closed and publishes no later phase; VERIFY with the Energy Office before counting on any rebate.",
       "funding_type": null,
       "rate_pct": null,
       "term_years": null,

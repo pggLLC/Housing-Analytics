@@ -132,11 +132,11 @@
     // so they win over any dollar figure left in the record.
     if (program.status === 'ended') return 'Ended. No funding is available from it.';
     if (program.status === 'paused') return 'Paused. No funding is available while it is on hold.';
+    if (program.status === 'closed') return 'Closed: no open round.';
     var amount = fmtDollars(program.available);
     if (amount) return amount + ' currently tracked';
     if (program.isVolumeCap) return 'Volume-cap posture; verify current allocation before closing.';
     if (program.status === 'VERIFY') return 'Not yet verified; no confirmed current dollar amount.';
-    if (program.status === 'closed') return 'Closed: no open round.';
     if (program.status === 'watch') return 'No open round posted; watch for the next one.';
     if (program.maxPerProject) return 'Max per project ' + fmtDollars(program.maxPerProject) + ' listed; verify current availability.';
     return 'Program name and source only; no verified dollar amount in this data file.';

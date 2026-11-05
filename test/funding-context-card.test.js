@@ -75,7 +75,44 @@ const rendered = render(softFunding, {
 assert(rendered.text.includes('CONTEXT'), 'render pins context badge');
 assert(rendered.text.includes('Does not change PMA scores'), 'render says no PMA score change');
 assert(rendered.text.includes('Deal Calculator outputs'), 'render says no Deal Calculator output change');
-assert(rendered.text.includes('Not yet verified; no confirmed current dollar amount.'), 'pending rows do not invent amounts');
+// Agreement, not copy (AGENTS.md "Guards"): each rendered row with no confirmed money says so in
+// the words its own status calls for, and claims no amount. Which program carries which status
+// is the data's business (CEO-IRA-HOME-ENERGY-REBATES moved from VERIFY to closed, 2026-11-03).
+{
+  // Meaning, not sentences: a VERIFY card says it is not verified, a closed card says it is closed.
+  const SAYS = { VERIFY: /not (yet )?verified/i, closed: /closed/i };
+  const checkNoMoneyRows = (out, doc, label) => {
+    let checked = 0;
+    for (const card of out.mount.querySelectorAll('[data-funding-context-program]')) {
+      const p = doc.programs[card.getAttribute('data-funding-context-program')];
+      if (!p || !SAYS[p.status]) continue;
+      checked++;
+      assert(SAYS[p.status].test(card.textContent), `${label}: ${card.getAttribute('data-funding-context-program')} is ${p.status} and its card must say so`);
+      assert(!/currently tracked|\$[0-9]/.test(card.textContent.replace(p.description || '', '')), `${label}: ${card.getAttribute('data-funding-context-program')} is ${p.status} and must not claim an amount`);
+    }
+    return checked;
+  };
+  assert(checkNoMoneyRows(rendered, softFunding, 'published data') > 0, 'the scan found at least one VERIFY or closed row to check');
+  // Sabotage both ways: the same row read as VERIFY still agrees; a closed row given an amount fails.
+  const asVerify = JSON.parse(JSON.stringify(softFunding));
+  asVerify.programs['CEO-IRA-HOME-ENERGY-REBATES'].status = 'VERIFY';
+  assert.strictEqual(asVerify.programs['CEO-IRA-HOME-ENERGY-REBATES'].status, 'VERIFY', 'sabotage applied');
+  const verifyOut = render(asVerify, { surface: 'deal-calculator', countyFips: '08031', executionType: 'non-LIHTC', useCase: 'owner-occupied' });
+  assert(checkNoMoneyRows(verifyOut, asVerify, 'VERIFY copy') > 0, 'the VERIFY copy was checked');
+  const withMoney = JSON.parse(JSON.stringify(softFunding));
+  withMoney.programs['CEO-IRA-HOME-ENERGY-REBATES'].status = 'closed';
+  withMoney.programs['CEO-IRA-HOME-ENERGY-REBATES'].available = 250000;
+  assert.strictEqual(withMoney.programs['CEO-IRA-HOME-ENERGY-REBATES'].available, 250000, 'sabotage applied');
+  const moneyOut = render(withMoney, { surface: 'deal-calculator', countyFips: '08031', executionType: 'non-LIHTC', useCase: 'owner-occupied' });
+  // A dollar figure left in a closed record must not reach the card: the program's own page wins.
+  assert.strictEqual(checkNoMoneyRows(moneyOut, withMoney, 'closed with an amount') > 0, true, 'a closed row with a stale amount still reads as closed, with no amount');
+  // A closed card that did show an amount is caught.
+  const fake = new (require('jsdom').JSDOM)('<div><div data-funding-context-program="CEO-IRA-HOME-ENERGY-REBATES">Closed. $250,000 currently tracked</div></div>');
+  assert.throws(() => checkNoMoneyRows({ mount: fake.window.document }, withMoney, 'closed card showing money'), /must not claim/, 'a closed card showing an amount is caught');
+  // Rewording stays green: a closed card in other words still agrees.
+  const reworded = new (require('jsdom').JSDOM)('<div><div data-funding-context-program="CEO-IRA-HOME-ENERGY-REBATES">Closed. No round is open.</div></div>');
+  assert.strictEqual(checkNoMoneyRows({ mount: reworded.window.document }, withMoney, 'reworded'), 1, 'a reworded closed card stays green');
+}
 
 const iraCard = rendered.mount.querySelector('[data-funding-context-program="CEO-IRA-HOME-ENERGY-REBATES"]');
 assert(iraCard, 'IRA rebate watch card renders');

@@ -3,7 +3,7 @@
   "meta": {
     "title": "Tax Credit Legislation Watchlist",
     "as_of": "2026-10-10",
-    "last_updated": "2026-10-11",
+    "last_updated": "2026-11-05",
     "last_verified": "2026-10-10",
     "review_by": "2026-11-15",
     "methodology": "Curated federal and state tax-credit policy entries. Legislative status source_url fields point to official federal or state legislative sources; market impact text is directional and should be re-reviewed quarterly."
@@ -576,14 +576,14 @@
       "status": "rule-pending",
       "effective_date": null,
       "sunset_date": null,
-      "pricing_impact": "Colorado's HEAR single-family rebates are closed in both regions. Small multifamily HEAR and HER rebates are announced for 2026 but not open. Do not budget a rebate until a program is open.",
+      "pricing_impact": "The Colorado Energy Office lists its Home Energy Rebates program as closed: single-family HEAR rebates took applications from November 13, 2025 to August 1, 2026, and no multifamily or manufactured-home phase is published. Do not budget a rebate.",
       "source_url": "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
       "related_source_urls": [
         "https://energyoffice.colorado.gov/home-energy-rebates",
         "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
       ],
-      "source_note": "Colorado Energy Office home energy rebates page, re-read 2026-10-10: \"Important Program Update (Updated August 2026) The HEAR Single-Family Program for Region 1 and Region 2 is closed.\" and \"Rebates for small multifamily buildings will be available in 2026.\" No launch date is given.",
-      "last_verified": "2026-10-10",
+      "source_note": "Colorado Energy Office home energy rebates page, as copied by the repo's funding watch on 2026-11-03 (issue #2552; the page answers a direct fetch from here with 403): \"Program Status: Closed\" and \"Rebates through the HEAR Program for single-family homes are no longer available. CEO accepted applications for rebates through this program from November 13, 2025 - August 1, 2026.\" The earlier line \"Rebates for small multifamily buildings will be available in 2026.\" is gone from the page.",
+      "last_verified": "2026-11-03",
       "review_by": "2026-12-01"
     },
     {
