@@ -142,12 +142,12 @@
         {
           "file": "scripts/hna/build_ranking_index.py",
           "region": "need-inputs",
-          "sha": "03a05c36627f78e6"
+          "sha": "0dc1150503f6a43f"
         },
         {
           "file": "scripts/hna/build_ranking_index.py",
           "region": "scoring-chain",
-          "sha": "397eab773951a452"
+          "sha": "c573e4a5318cb72c"
         },
         {
           "file": "scripts/hna/build_ranking_index.py",
@@ -155,7 +155,7 @@
           "sha": "8e2aa94c65522627"
         }
       ],
-      "reviewed": "2026-10-22"
+      "reviewed": "2026-11-05"
     },
     {
       "section": "m-absence",
@@ -244,7 +244,7 @@
         {
           "file": "scripts/hna/build_ranking_index.py",
           "region": "scoring-chain",
-          "sha": "397eab773951a452"
+          "sha": "c573e4a5318cb72c"
         },
         {
           "file": "scripts/hna/build_ranking_index.py",
@@ -282,7 +282,7 @@
           "sha": "e16719c5d9a3048a"
         }
       ],
-      "reviewed": "2026-10-18"
+      "reviewed": "2026-11-05"
     }
   ]
 }
