@@ -106,6 +106,12 @@ async function main() {
   assert.equal(api.relationship(DATA, 'place', 'Fruita (city)').nextCycle.filing.status, 'Contingent Approval', 'Fruita: DOLA\'s status for its 2027–2029 filing');
   assert.notEqual(api.relationship(DATA, 'county', 'Alamosa County').nextCycle.filing.submitted,
     api.relationship(DATA, 'place', 'Alamosa (city)').nextCycle.filing.submitted, 'Alamosa County and the City of Alamosa keep their own filings');
+  // A CDP in a county with only a 2027–2029 filing is covered by that filing.
+  const alamosaEast = api.relationship(DATA, 'cdp', 'Alamosa East (CDP)', 'Alamosa County');
+  assert.equal(alamosaEast.coveredBy, null, 'Alamosa County has no 2024–2026 record to cover Alamosa East');
+  assert.ok(alamosaEast.nextCycle && alamosaEast.nextCycle.filing, 'Alamosa East shows its county\u2019s 2027–2029 filing');
+  assert.equal(alamosaEast.nextCycle.filing.submitted, api.relationship(DATA, 'county', 'Alamosa County').nextCycle.filing.submitted,
+    'Alamosa East carries Alamosa County\u2019s filing, not the city\u2019s');
   (DATA.fast_track_without_cycle1_commitment || []).forEach((f) => {
     const r = api.relationship(DATA, 'place', f.name.replace(/^(City|Town) of /, '') + ' (town)');
     assert.equal(r.fastTrack, 'Yes', `${f.name}: a fast-track adoption without a 2024–2026 commitment still shows`);

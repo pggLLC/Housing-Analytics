@@ -201,6 +201,9 @@
       return values.every(function (v) { return v === values[0]; }) ? values[0] : 'Depends on county';
     };
     var coveredBy = countyRecords.length === 1 ? countyRecords[0].record : null;
+    // A county with no first-cycle record can still have filed for 2027–2029
+    // (Alamosa County); its CDPs are covered by that filing.
+    var coveredNext = countyRecords.length === 1 && !coveredBy ? nextCycleOnly(payload, 'county', countyRecords[0].county) : null;
     var status, fastTrack;
     if (record || !countyRecords.length) {
       status = statusOf(record);
@@ -225,7 +228,7 @@
       countyRecords: countyRecords.length > 1 ? countyRecords : [],
       status: status,
       fastTrack: fastTrack,
-      nextCycle: countyRecords.length > 1 ? nextCycleAcross(payload, countyRecords) : nextCycleFor(payload, record || coveredBy || nextCycleOnly(payload, geoType, geoLabel)),
+      nextCycle: countyRecords.length > 1 ? nextCycleAcross(payload, countyRecords) : nextCycleFor(payload, record || coveredBy || coveredNext || nextCycleOnly(payload, geoType, geoLabel)),
       rejectedSameNameRecord: rejectedSameNameRecord
     };
   }
@@ -251,7 +254,7 @@
   // Across a county line: one answer only when every county agrees;
   // perCounty keeps each county's filing for the renderer to list.
   function nextCycleAcross(payload, countyRecords) {
-    var each = countyRecords.map(function (c) { return nextCycleFor(payload, c.record); });
+    var each = countyRecords.map(function (c) { return nextCycleFor(payload, c.record || nextCycleOnly(payload, 'county', c.county)); });
     if (!each[0]) return null;
     var filed = each.filter(function (n) { return n && n.filing; }).length;
     return {
