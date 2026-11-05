@@ -982,8 +982,20 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   const page = WB.render(cm, 'Invented');
   ok(page.indexOf('id="wbChSU"') > page.indexOf('id="wbSU"') && page.indexOf('id="wbChSU"') < page.indexOf('id="wbBasis"'), 'the sources chart sits in Sources and uses');
   ok(page.indexOf('id="wbChCov"') > page.indexOf('id="wbCF"') && page.indexOf('id="wbChStress"') > page.indexOf('id="wbCF"'), 'coverage and lender tests sit in the cash flow');
-  // No deferred fee chart until the calculator pays the fee in the workbooks' order.
-  ok(!/wbChFee/.test(page), 'no deferred fee chart yet');
+  ok(page.indexOf('id="wbChFee"') > page.indexOf('id="wbCF"'), 'the deferred fee chart sits in the cash flow');
+
+  // Deferred fee: one bar a year, each the balance the cash-flow table carries; the payoff year is the executive view's.
+  const fee = WB.chartFee(cm);
+  const bars = [...fee.matchAll(/<title>Year (\d+): ([^ ]+) still owed<\/title>/g)];
+  ok(bars.length === cm.cashFlow.rows.length, 'one fee bar a year');
+  bars.forEach(([, yr, amt]) => ok(amt === WB.money(cm.cashFlow.rows[+yr - 1].feeOwed), 'year ' + yr + ' fee bar is the table\'s balance'));
+  ok(cm.exec.paybackYear != null && fee.includes('Paid off in year ' + cm.exec.paybackYear) && aria(fee).includes('paid off in year ' + cm.exec.paybackYear), 'the fee chart names the executive view\'s payoff year');
+  ok(/data-axis="x"/.test(fee) && /data-axis="y"/.test(fee) && texts(fee).every((x) => x.trim()), 'the fee chart tags its axes and has no blank text');
+  const slow = WB.build(withStress(), rules);
+  slow.deferredFee = Object.assign({}, slow.deferredFee, { paybackYear: null, owedAt15: 123456 });
+  ok(WB.chartFee(slow).includes('$123K still owed after year 15') && !WB.chartFee(slow).includes('Paid off'), 'a fee not repaid in 15 years says how much is left');
+  const noFee = WB.build(withStress(), rules); noFee.deferredFee = Object.assign({}, noFee.deferredFee, { amount: 0 });
+  ok(WB.chartFee(noFee) === '', 'no deferred fee, no fee chart');
 }
 
 console.log(`deal-workbook: ${checks} checks passed`);

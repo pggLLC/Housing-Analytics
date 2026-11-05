@@ -577,6 +577,37 @@
     return figure('wbChCov', 'Can it carry its loans for ' + rows.length + ' years?', note, h);
   }
 
+  // The deferred developer fee still owed at the end of each year: the balance the cash-flow table carries down.
+  function chartFee(m) {
+    var df = m.deferredFee || {}, amt = df.amount;
+    var rows = (m.cashFlow.rows || []).filter(function (y) { return y.feeOwed != null; });
+    if (!(amt > 0.5) || rows.length < 2) return '';
+    var H = 200, L = 64, R = 10, T = 30, B = 30, bw = (CW - L - R) / rows.length;
+    var Y = function (v) { return T + (H - T - B) * (1 - v / amt); };
+    var last = rows[rows.length - 1], pay = df.paybackYear;
+    var label = 'Deferred developer fee of ' + money(amt) + (pay != null ? ', paid off in year ' + pay : df.owedAt15 != null ? ', ' + money(df.owedAt15) + ' still owed after year ' + YEARS : ', ' + money(last.feeOwed) + ' still owed after year ' + last.year) + '.';
+    var h = svgOpen(H, label);
+    h += '<g data-axis="y">' + [0, amt / 2, amt].map(function (v) {
+      return '<line x1="' + L + '" x2="' + (CW - R) + '" y1="' + Y(v).toFixed(1) + '" y2="' + Y(v).toFixed(1) + '" stroke="var(--border)"/>' + svgText(L - 6, Y(v) + 5, v ? short(v) : '$0', { anchor: 'end', muted: true, size: 15, tick: true });
+    }).join('') + '</g>';
+    rows.forEach(function (y, i) {
+      var top = Y(y.feeOwed);
+      h += '<rect x="' + (L + i * bw + 1).toFixed(1) + '" y="' + top.toFixed(1) + '" width="' + Math.max(1, bw - 2).toFixed(1) + '" height="' + Math.max(0, Y(0) - top).toFixed(1) + '" rx="2" fill="var(--wb-c3)"><title>' +
+        esc('Year ' + y.year + ': ' + money(y.feeOwed) + ' still owed') + '</title></rect>';
+    });
+    var xt = [rows[0].year, Math.round((rows[0].year + last.year) / 2), last.year].filter(function (v, i, a) { return a.indexOf(v) === i; });
+    h += '<g data-axis="x">' + xt.map(function (yr) { return svgText(yr === rows[0].year ? L : yr === last.year ? CW - R : L + (yr - rows[0].year + 0.5) * bw, H - 6, 'Year ' + yr, { anchor: yr === rows[0].year ? 'start' : yr === last.year ? 'end' : 'middle', muted: true, size: 15, tick: true }); }).join('') + '</g>';
+    var owedEnd = df.owedAt15 != null ? df.owedAt15 : last.feeOwed > 0.5 ? last.feeOwed : null;
+    if (pay != null) {
+      var px = L + (pay - rows[0].year + 0.5) * bw;
+      h += '<circle cx="' + px.toFixed(1) + '" cy="' + Y(0).toFixed(1) + '" r="6" fill="var(--good)" stroke="var(--card)" stroke-width="2"/>' +
+        svgText(Math.min(px, CW - R - 4), T - 10, 'Paid off in year ' + pay, { anchor: px > CW - 140 ? 'end' : 'middle', bold: true });
+    } else if (owedEnd != null) h += svgText(CW - R, T - 10, short(owedEnd) + ' still owed after year ' + last.year, { anchor: 'end', bold: true, fill: 'var(--bad)' });
+    h += '</svg>';
+    var note = 'Cash flow repays it ahead of the cash-flow loans. The 2027-28 QAP (3.A) expects it repaid within 15 years.';
+    return figure('wbChFee', 'Is the deferred fee paid back in time?', note, h);
+  }
+
   // Year-one coverage under the calculator's lender tests, each a dot pair: as entered, then stressed.
   var STRESS_ROWS = [['rent10', 'Lower rents'], ['vac5', 'Higher vacancy'], ['opex10', 'Higher running costs'], ['combined', 'All three, smaller']];
   function chartStress(m) {
@@ -734,7 +765,7 @@
     // Cash flow
     var cf = m.cashFlow;
     h += '<section class="dv-card" aria-labelledby="wbCF"><h2 id="wbCF">' + ((cf.rows && cf.rows.length) || 15) + '-year cash flow</h2>';
-    if (cf.rows.length) h += '<div class="wb-figs">' + chartCoverage(m) + chartStress(m) + '</div>';
+    if (cf.rows.length) h += '<div class="wb-figs">' + chartCoverage(m) + chartFee(m) + chartStress(m) + '</div>';
     if (cf.rows.length) {
       var lines = [
         ['Gross rent', 'grossRents'], ['Other income', 'otherIncome'], ['Less vacancy', 'vacancy', -1], ['Effective gross income', 'egi', 1, true],
@@ -1588,5 +1619,5 @@
     else start(document);
   }
 
-  return { build: build, render: render, chartSources: chartSources, chartCoverage: chartCoverage, chartStress: chartStress, research: research, renderResearch: renderResearch, researchEditor: researchEditor, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
+  return { build: build, render: render, chartSources: chartSources, chartCoverage: chartCoverage, chartStress: chartStress, chartFee: chartFee, research: research, renderResearch: renderResearch, researchEditor: researchEditor, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
 });
