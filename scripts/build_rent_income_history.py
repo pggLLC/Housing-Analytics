@@ -145,7 +145,16 @@ def sf3_places(cache):
     out = {}
     for lr, (geoid, name) in places.items():
         r, i = float(rent.get(lr) or 0), float(income.get(lr) or 0)
-        out[geoid] = {'name': name, 'y2000': {'median_gross_rent': r if r > 0 else None, 'median_hh_income_1999': i if i > 0 else None}}
+        y = {'median_gross_rent': r if r > 0 else None, 'median_hh_income_1999': i if i > 0 else None}
+        # SF3 writes 0 where it publishes no median; keep null and say which field and why.
+        why = {}
+        if r <= 0:
+            why['median_gross_rent'] = 'Census 2000 SF3 H063001 is 0 for this place: no median gross rent was published.'
+        if i <= 0:
+            why['median_hh_income_1999'] = 'Census 2000 SF3 P053001 is 0 for this place: no median household income was published.'
+        if why:
+            y['unavailable_reason'] = why
+        out[geoid] = {'name': name, 'y2000': y}
     return out
 
 

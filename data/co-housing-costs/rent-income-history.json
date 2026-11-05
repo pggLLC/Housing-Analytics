@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated": "2026-11-05T05:39:58Z",
+  "generated": "2026-11-05T06:41:26Z",
   "builder": "scripts/build_rent_income_history.py",
   "what": "Median gross rent and median household income, Colorado and its counties 1980-2000 (Census long form) plus Colorado 2005-09, 2010-14 and 2020-24 (ACS 5-year), and incorporated places in 2000. County ACS cohorts live in county-trends.json.",
   "method": "Long-form income is for the calendar year before the census; median_hh_income_rent_year moves it to the rent year with CPI-U annual averages. ACS 5-year medians already state rent and income in the same dollars. Compare rent growth with income growth using median_gross_rent and median_hh_income_rent_year.",
@@ -2416,6 +2416,9 @@
    "y2000": {
     "median_gross_rent": null,
     "median_hh_income_1999": 63750.0,
+    "unavailable_reason": {
+     "median_gross_rent": "Census 2000 SF3 H063001 is 0 for this place: no median gross rent was published."
+    },
     "median_hh_income_rent_year": 65903
    }
   },
@@ -3824,6 +3827,9 @@
    "y2000": {
     "median_gross_rent": null,
     "median_hh_income_1999": 32500.0,
+    "unavailable_reason": {
+     "median_gross_rent": "Census 2000 SF3 H063001 is 0 for this place: no median gross rent was published."
+    },
     "median_hh_income_rent_year": 33597
    }
   },
@@ -4304,6 +4310,9 @@
    "y2000": {
     "median_gross_rent": null,
     "median_hh_income_1999": 33750.0,
+    "unavailable_reason": {
+     "median_gross_rent": "Census 2000 SF3 H063001 is 0 for this place: no median gross rent was published."
+    },
     "median_hh_income_rent_year": 34890
    }
   },

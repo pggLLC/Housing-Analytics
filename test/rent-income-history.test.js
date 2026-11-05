@@ -8,7 +8,7 @@
 //   - Colorado 2020-24 equals data/hna/summary/08.json;
 //   - all 64 counties are present, Broomfield with no decennial points and a reason;
 //   - income moved to the rent year equals income x CPI(rent year) / CPI(income year);
-//   - towns are 7-digit Colorado place GEOIDs with no CDPs.
+//   - towns are 7-digit Colorado place GEOIDs with no CDPs, and a missing 2000 value carries its reason.
 // Sabotage: a changed 2005-09 value and a wrong CPI move both fail.
 'use strict';
 const assert = require('node:assert/strict');
@@ -48,6 +48,10 @@ function problems(h, trends, state) {
   for (const [g, p] of Object.entries(h.places_2000)) {
     if (!/^08\d{5}$/.test(g)) out.push(`place ${g}: not a 7-digit Colorado GEOID`);
     if (/ CDP$/.test(p.name)) out.push(`place ${g}: CDPs are left out`);
+    for (const f of ['median_gross_rent', 'median_hh_income_1999']) {
+      if (p.y2000[f] == null && !((p.y2000.unavailable_reason || {})[f])) out.push(`place ${g}: ${f} is null with no unavailable_reason`);
+      if (p.y2000[f] != null && !(p.y2000[f] > 0)) out.push(`place ${g}: ${f} must be positive or null`);
+    }
   }
   return out;
 }
@@ -61,6 +65,9 @@ assert.deepEqual(problems(h, trends, state), [], 'rent-income-history.json probl
 // Sabotage: a changed 2005-09 value fails.
 const bad1 = JSON.parse(JSON.stringify(h)); bad1.counties['08077'].check_2005_09.median_gross_rent += 1;
 assert.ok(problems(bad1, trends, state).some(p => p.startsWith('08077: USA Counties 2005-09')), 'changed 2005-09 rent must fail');
+// Sabotage: a null place rent without a reason fails.
+const bad3 = JSON.parse(JSON.stringify(h)); delete bad3.places_2000['0807571'].y2000.unavailable_reason;
+assert.ok(problems(bad3, trends, state).some(x => x.startsWith('place 0807571: median_gross_rent is null')), 'null rent with no reason must fail');
 // Sabotage: income not moved with CPI fails.
 const bad2 = JSON.parse(JSON.stringify(h)); const p = bad2.counties['08031'].decennial[0]; p.median_hh_income_rent_year = p.median_hh_income;
 assert.ok(problems(bad2, trends, state).some(x => x.startsWith('08031 1980: income in rent-year dollars')), 'unadjusted 1979 income must fail');
