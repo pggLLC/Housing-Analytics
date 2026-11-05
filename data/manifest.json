@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-05T13:23:11.961815Z",
+  "generated": "2026-11-05T15:25:16.036504Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -164,7 +164,7 @@
     "data/audit/funding-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 674402
+      "bytes": 688069
     },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
@@ -1149,7 +1149,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 308312
+      "bytes": 309244
     },
     "data/entitled-land/findings.json": {
       "featureCount": 0,
@@ -9934,12 +9934,12 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20474
+      "bytes": 20453
     },
     "data/polymarket-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 203263
+      "bytes": 205488
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,

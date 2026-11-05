@@ -5,7 +5,8 @@
 //    DOH Proforma tab of CHFA's 2027 Common Application (V9), and the member workbooks.
 // 2. Optional limit (dc-deferred-repay-cap): defer no more than cash flow repays in
 //    years 1 to 15. CHFA weighs "ability to pay deferred developer fees from cash
-//    flows" (2027-2028 QAP section 3.A, adopted 25 September 2026).
+//    flows" over the 15-year pro forma (2027-2028 QAP section 2.B, Criteria for Approval,
+//    PDF page 15, adopted 25 September 2026). It is a review item, not a numeric limit.
 // Invented inputs only.
 const assert = require('node:assert/strict');
 const { computeDeal, loanObligations } = require('../js/deal-engine');

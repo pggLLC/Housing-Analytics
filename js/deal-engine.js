@@ -1301,7 +1301,7 @@
       : cashPayments.reason ? { loans: null, years: null, unavailableReason: cashPayments.reason }
       : loanObligations([seniorInput].concat(loanInputs), loanNoi, cashPayments.years);
     var firstLoanYear = obligations.years && obligations.years[0];
-    // QAP 3.A: CHFA weighs the "ability to pay deferred developer fees from cash
+    // QAP 2.B (Criteria for Approval, a review item, not a numeric limit): CHFA weighs the "ability to pay deferred developer fees from cash
     // flows". The fee is paid ahead of the cash-flow loans, so what cash can repay
     // in years 1 to 15 does not depend on the fee itself: it is the sum of each
     // year's cash after the must-pay debt, the bridge loan and the asset fee.
@@ -1391,7 +1391,7 @@
     var deferredCap = repayCapOn && known(repayable) ? Math.min(deferredCapBySlider, Math.max(0, repayable)) : deferredCapBySlider;
     var deferredRepayCap = { on: repayCapOn, years: repayYears, repayable: known(repayable) ? repayable : null,
       bySlider: deferredCapBySlider, binds: repayCapOn && known(repayable) && repayable < deferredCapBySlider,
-      citation: 'QAP 3.A', reason: repayCapReason };
+      citation: 'QAP 2.B', reason: repayCapReason };
     // CHFA Method Two (QAP 3.M.1): credit is reserved for no more than the gap
     // left after every source but equity from the sale of Housing Tax Credits,
     // which the QAP uses for federal and state credit alike, so state credit

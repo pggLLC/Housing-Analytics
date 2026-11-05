@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-05T13:13:19.276Z",
+    "generated_at": "2026-11-05T15:23:50.595Z",
     "root": "data/",
     "file_count": 2020,
-    "total_size_bytes": 221105696,
+    "total_size_bytes": 221121927,
     "kinds": {
       "json": 1971,
       "geojson": 35,
@@ -639,8 +639,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 674402,
-      "mtime": "2026-11-04T13:16:07.297Z",
+      "size_bytes": 688069,
+      "mtime": "2026-11-05T13:34:53.663Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -660,7 +660,7 @@
       ],
       "key_count": 16,
       "primary_array_key": "federal_notices",
-      "primary_array_length": 641,
+      "primary_array_length": 642,
       "primary_array_first_keys": [
         "key",
         "source",
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-05T13:13:14.060Z",
+      "mtime": "2026-11-05T15:23:45.843Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1079,7 +1079,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-11-04T14:39:19.132Z",
+      "mtime": "2026-11-05T14:44:06.235Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1195,7 +1195,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 40281,
-      "mtime": "2026-11-04T14:39:16.762Z",
+      "mtime": "2026-11-05T14:44:03.996Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -6781,8 +6781,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1301260,
-      "mtime": "2026-11-04T13:00:25.050Z",
+      "size_bytes": 1301620,
+      "mtime": "2026-11-05T13:32:18.246Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -6817,7 +6817,7 @@
       "path": "hmda/co-county-aggregates.json",
       "kind": "json",
       "size_bytes": 280908,
-      "mtime": "2026-10-14T08:31:22.382Z",
+      "mtime": "2026-11-05T13:39:45.843Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -6832,7 +6832,7 @@
       "path": "hmda/co-state-trends.json",
       "kind": "json",
       "size_bytes": 4196,
-      "mtime": "2026-10-14T08:31:22.382Z",
+      "mtime": "2026-11-05T13:39:45.843Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38240,7 +38240,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 256758,
-      "mtime": "2026-11-05T13:12:13.264Z",
+      "mtime": "2026-11-05T13:39:45.843Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -40041,7 +40041,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92895,
-      "mtime": "2026-11-04T14:39:19.218Z",
+      "mtime": "2026-11-05T14:44:06.289Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -40077,7 +40077,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-05T13:13:16.390Z",
+      "mtime": "2026-11-05T15:23:48.106Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40101,7 +40101,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-05T13:13:15.880Z",
+      "mtime": "2026-11-05T15:23:47.582Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -43487,8 +43487,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 20474,
-      "mtime": "2026-11-04T13:12:52.450Z",
+      "size_bytes": 20453,
+      "mtime": "2026-11-05T13:39:45.859Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -43507,8 +43507,8 @@
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 203263,
-      "mtime": "2026-11-04T13:12:52.500Z",
+      "size_bytes": 205488,
+      "mtime": "2026-11-05T13:39:45.860Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43516,7 +43516,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 202,
+      "primary_array_length": 203,
       "primary_array_first_keys": [
         "date",
         "events"

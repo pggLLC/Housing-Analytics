@@ -69,6 +69,14 @@
   .wb-views .sr-btn { min-height: 44px; }
   .wb-views .sr-btn[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
   #wbOut [hidden] { display: none !important; }
+  .wb-fig { margin: 0 0 var(--sp3); max-width: 560px; }
+  .wb-fig figcaption { margin-bottom: .35rem; line-height: 1.45; }
+  .wb-fig figcaption .sr-muted { display: block; }
+  .wb-chart { display: block; width: 100%; height: auto; font-family: inherit; font-variant-numeric: tabular-nums; }
+  .wb-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: var(--sp3); }
+  .wb-legend { display: flex; flex-wrap: wrap; gap: .25rem 1rem; list-style: none; padding: 0; margin: .4rem 0 0; font-size: .85rem; color: var(--muted); }
+  .wb-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: .35rem; vertical-align: -1px; }
+  .wb-legend b { color: var(--text); font-variant-numeric: tabular-nums; }
   .wb-map { height: 340px; border-radius: var(--radius); margin-bottom: var(--sp3); z-index: 0; }
   .wb-map .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; font-size: 22px; }
   a.wb-src { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
@@ -82,6 +90,7 @@
     #siteHeader, #devNav, #site-footer, .wb-load, .skip-link, #wbPrint, #wbOpenCalc, #wbViews, .wb-form, #wbResSave, [data-del-comp] { display: none !important; }
     .dv-card { break-inside: avoid; border: 0; padding: 0; }
     .wb-cf .sr-table { font-size: 7pt; }
+    .wb-fig { break-inside: avoid; }
     details { display: block; }
   }
 </style>

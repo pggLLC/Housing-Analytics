@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T13:12:33.904Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T15:23:04.829Z. Do not edit by hand.
 
 ---
 
@@ -39,7 +39,7 @@
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.4 KB |
-| `developer-deal-workbook.html` | Deal Workbook — COHO Analytics | 10.5 KB |
+| `developer-deal-workbook.html` | Deal Workbook — COHO Analytics | 11.3 KB |
 | `developer-methods.html` | Methodology — COHO Analytics | 11.1 KB |
 | `developer-pipeline.html` | Pipeline — COHO Analytics developer tools | 28.8 KB |
 | `developer-round-watch.html` | Next Round Watch — COHO Analytics | 10.5 KB |
@@ -126,7 +126,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 658.6 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 671.9 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -2055,7 +2055,7 @@
 | `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 198.5 KB | ✅ | — |
+| `data/polymarket-history.json` | 200.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2219,7 +2219,7 @@
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-cost-basis.test.js` | 58.2 KB |
 | `test/deal-credit-stack.test.js` | 8.5 KB |
-| `test/deal-deferred-fee-order.test.js` | 6.7 KB |
+| `test/deal-deferred-fee-order.test.js` | 6.8 KB |
 | `test/deal-doh-schedules.test.js` | 27.4 KB |
 | `test/deal-engine-golden.test.js` | 8.3 KB |
 | `test/deal-engine-rent-cut-floor.test.js` | 3.2 KB |
@@ -2236,7 +2236,7 @@
 | `test/deal-review-checks.test.js` | 7.7 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
-| `test/deal-workbook.test.mjs` | 106.6 KB |
+| `test/deal-workbook.test.mjs` | 115.7 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 8.2 KB |
 | `test/deep-dive-aamd-vacancy.test.mjs` | 4.4 KB |
 | `test/deep-dive-hmda-loads-on-page-load.test.js` | 3.3 KB |
