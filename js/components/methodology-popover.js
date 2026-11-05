@@ -59,9 +59,8 @@
     details.className = 'methodology-popover';
     details.innerHTML =
       '<summary class="methodology-popover__summary" ' +
-        'title="What’s behind this number?" ' +
-        'aria-label="Open methodology disclosure for this metric">' +
-        'ℹ️ Methodology' +
+        'title="What’s behind this number?">' +
+        '<span aria-hidden="true">ℹ️ </span>Methodology' +
       '</summary>' +
       '<dl class="methodology-popover__body">' + rows + '</dl>';
     return details;

@@ -2958,7 +2958,7 @@
           ' <a href="' + escHtml(hnaUrlForPlace(op.placeGeoid)) + '" ' +
             'target="_blank" rel="noopener" class="lof-hna-link" ' +
             'title="Open Housing Needs Assessment for ' + escHtml(op.name) + '" ' +
-            'aria-label="Open Housing Needs Assessment for ' + escHtml(op.name) + ' in new tab" ' +
+            'aria-label="HNA: Housing Needs Assessment for ' + escHtml(op.name) + ' (opens in new tab)" ' +
             'onclick="event.stopPropagation()">→ HNA</a>' +
           jurisSubtitle + '</td>' +
         '<td data-priority="tertiary">' + typeHtml + '</td>' +

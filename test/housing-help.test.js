@@ -46,7 +46,11 @@ let d = nav('https://cohoanalytics.com/deal-calculator.html?geoid=08077&tdc=2500
 const links = d.querySelectorAll('a[data-lang-link]');
 assert.ok(links.length >= 2, 'Español is in the header or drawer and the footer');
 for (const a of links) {
-  assert.ok(a.textContent === 'Español' || (a.textContent === 'ES' && a.getAttribute('aria-label') === 'Español'));
+  // The accessible name must contain the visible text (WCAG 2.5.3) and name
+  // the language; the exact wording is free.
+  const name = a.getAttribute('aria-label') || a.textContent;
+  assert.ok(name.includes(a.textContent.trim()), 'accessible name contains the visible text');
+  assert.ok(/Español/.test(name), 'accessible name names the language');
   assert.equal(a.getAttribute('lang'), 'es');
   const u = new URL(a.href);
   assert.equal(u.hostname, 'translate.google.com');
