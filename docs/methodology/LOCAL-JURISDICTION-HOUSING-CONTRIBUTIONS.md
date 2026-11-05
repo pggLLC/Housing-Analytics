@@ -207,7 +207,6 @@ Rate discounts are recurring and are not a development-cost reduction (`reduces_
 - **Tied to the home (deed restriction):** Telluride bills small deed-restricted in-town homes $91.83 a month for wastewater against $123.03, and $40.14 for the water base fee against $61.74. Mountain Village bills a deed-restricted employee condo 45.55 a month each for water and sewer against 91.10.
 - **Tied to the household (income):** Westminster credits $30 a month ($360 a year) at or below 60% of area median income; Broomfield's Utility Rate Assistance Fund pays up to $240 a year; Fort Collins Utilities gives a 25 percent discount; Longmont rebates the water service charge to low-income residents and to operators of affordable rental buildings; Durango refunds utilities to households at or below 50% of median income.
 - **Senior rate classes:** Fruita's 2026 senior sewer rate is $21.95 against $54.65 for a single-family residence, for residents aged 62+ with income at or below 130% of the federal poverty level; Rifle gives a 20% senior discount; Dolores has an elderly low-income discount (amount not published). These are household programs, not affordable-housing programs.
-- **Out of state, for comparison:** Bellingham, WA gives reduced water, sewer and stormwater rates to nonprofit and housing-authority properties with rents restricted below 80% AMI, and 25%, 50% or 75% bill discounts by household income.
 
 ### 6.6 Land use and zoning that lower cost
 
