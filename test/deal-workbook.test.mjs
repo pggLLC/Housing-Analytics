@@ -41,6 +41,22 @@ const pay = m.exec.paybackYear;
 ok(pay != null && m.cashFlow.rows[pay - 1].feeOwed === 0 && m.cashFlow.rows[pay - 2].feeOwed > 0, 'the fee balance reaches zero in the payback year, not before');
 near(m.cashFlow.rows[0].feeOwed, r.deferredDevFee - r.projection.rows[0].deferredFeePaid, 'year-1 fee balance is the fee less year-1 payment');
 
+// ── Investor summary: one page from the same model, nothing recalculated ──
+{
+  const html = WB.summary(m, 'Invented deal');
+  ok(/Investor summary: Invented deal/.test(html) && !/\bIC\b/.test(html), 'the summary is titled Investor summary');
+  ok(html.includes(Math.round(m.basis.equity).toLocaleString('en-US')) && html.includes(Math.round(m.exec.credit).toLocaleString('en-US')), 'equity and yearly credit are the model\'s');
+  const y15 = WB.summaryYear15(m);
+  const owed = m.loans.reduce((s, l) => s + l.balance15, 0);
+  near(y15.debt, owed, 'debt at year 15 adds the loans\' year-15 balances');
+  ok(y15.mustPay <= y15.debt, 'must-pay debt is part of the debt at year 15');
+  ok(/42\(i\)\(7\)\(B\)/.test(html) && /2027-28 QAP/.test(html) && /before 2019/.test(html), 'the year-15 note cites the code and the CHFA plan');
+  m.findings.filter((f) => f.level === 'bad').forEach((f) => ok(html.includes(f.text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')), 'a red finding is a risk to clear: ' + f.text.slice(0, 40)));
+  ok(/sr-flag/.test(WB.summary({ error: 'x' })), 'an unbuildable deal shows its reason, not a summary');
+  const noLoan = WB.summaryYear15({ ...m, loans: [{ ...m.loans[0], balance15: null }] });
+  ok(noLoan.debt === null, 'an unknown loan balance leaves debt at year 15 unknown, not low');
+}
+
 // Sources add to the engine's total; uses add to total development cost.
 const srcSum = m.sources.rows.reduce((s, x) => s + x.amount, 0);
 near(srcSum, snap.permanentFinancing.totals.totalSources, 'sources add to the engine\'s total sources');
