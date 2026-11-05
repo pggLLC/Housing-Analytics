@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-05T12:47:05.589Z",
+    "generated_at": "2026-11-05T13:13:19.276Z",
     "root": "data/",
-    "file_count": 2019,
-    "total_size_bytes": 220539444,
+    "file_count": 2020,
+    "total_size_bytes": 221105696,
     "kinds": {
-      "json": 1970,
+      "json": 1971,
       "geojson": 35,
       "csv": 14
     }
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-05T12:29:59.317Z",
+      "mtime": "2026-11-05T13:13:14.060Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38239,8 +38239,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 256636,
-      "mtime": "2026-11-05T10:49:51.748Z",
+      "size_bytes": 256758,
+      "mtime": "2026-11-05T13:12:13.264Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39213,6 +39213,21 @@
       ]
     },
     {
+      "path": "market/local-players.json",
+      "kind": "json",
+      "size_bytes": 566130,
+      "mtime": "2026-11-05T13:08:07.013Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "areas"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/lodes_co.json",
       "kind": "json",
       "size_bytes": 679804,
@@ -40062,7 +40077,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-05T12:47:03.445Z",
+      "mtime": "2026-11-05T13:13:16.390Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40086,7 +40101,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-05T12:47:02.898Z",
+      "mtime": "2026-11-05T13:13:15.880Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
