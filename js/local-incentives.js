@@ -319,7 +319,7 @@
       var n = c.tools.length;
       return '<li><a href="#j=' + esc(c.geoid) + '" data-li-jump="' + esc(c.geoid) + '">' + esc(nameOf(model, c.geoid)) + '</a>' +
         '<span class="li-muted"> · ' + c.population.toLocaleString('en-US') + ' people · ' +
-        (n ? n + ' tool' + (n === 1 ? '' : 's') + ' on record' : 'checked, no tools found') +
+        (n ? n + ' tool' + (n === 1 ? '' : 's') + ' on record' : 'no listed tools on record') +
         (c.sameRegion ? '' : ' · other region') + '</span></li>';
     }).join('') + '</ul>';
     var list;

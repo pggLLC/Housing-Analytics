@@ -216,7 +216,7 @@ let noPeers = 0;
   const ruledOut = new Set(docs.alternatives.tools.filter((t) => ['required_for_subject_jurisdictions', 'prohibited_for_new', 'not_usable_for_housing'].includes(t.colorado_status)).map((t) => t.id));
   const researched = (g) => tally.has(canon(g)) || ['fees', 'land_use', 'funds'].some((s) => {
     const r = ledger.get(canon(g))?.result_by_scope?.[s];
-    return r && r !== 'not_checked';
+    return r === 'none_found';
   });
   const consolidatedCounties = new Set(Object.keys(CONSOLIDATED));
   for (const geoid of Object.keys(P)) {
@@ -234,7 +234,7 @@ let noPeers = 0;
       const ratio = Math.max(q.population, me.population) / Math.min(q.population, me.population);
       assert(ratio <= 4 + 1e-9, `${geoid}: ${peer.geoid} is ${ratio.toFixed(1)}x the population`);
       if (q.type !== 'too_little_data' && me.type !== 'too_little_data') assert.equal(q.type, me.type, `${geoid}: ${peer.geoid} has a different market pattern`);
-      assert(researched(peer.geoid), `${geoid}: ${peer.geoid} has not been researched`);
+      assert(researched(peer.geoid), `${geoid}: ${peer.geoid} has not been researched (unreadable sources do not count)`);
     }
     for (const t of res.tools) {
       assert(!ruledOut.has(t.tool.id), `${geoid}: suggests ruled-out tool ${t.tool.id}`);
@@ -243,6 +243,7 @@ let noPeers = 0;
       assert(t.peers.length >= 1 && t.peers.every((g) => res.peers.some((p) => p.geoid === g)), `${geoid}: ${t.tool.id} cites a place that is not a peer`);
     }
   }
+  assert(!model.peers('08005').peers.some((p) => p.geoid === '08101'), 'Pueblo County (every source unreadable) is not a researched peer');
   assert(peersChecked > 200 && noPeers > 0, `peer scan: ${peersChecked} peers, ${noPeers} places without peers`);
 
   // The section renders with links to each peer, and says so when there are none.

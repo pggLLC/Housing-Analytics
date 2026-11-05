@@ -322,7 +322,9 @@
     function researched(geoid) {
       var p = profile(geoid);
       if (!p) return false;
-      return SCOPES.some(function (s) { return p.states[s] !== 'not_checked'; });
+      // A source that could not be read is not research: at least one scope
+      // must have records or have been read and found to have none.
+      return SCOPES.some(function (s) { return p.states[s] === 'records' || p.states[s] === 'none_found'; });
     }
 
     function peers(geoid, n) {
