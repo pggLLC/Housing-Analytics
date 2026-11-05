@@ -394,7 +394,7 @@ const tablesShaped = (html) => { const ts = [...html.matchAll(/(<\/h3>|<\/summar
 ok(/No names or applicant details are kept/.test(rhtml) && /our screens, not CHFA rules/.test(rhtml) && !/NaN|undefined/.test(rhtml), 'the waitlist says counts only; our screens are labelled; no NaN');
 ok(/rel="noopener noreferrer"/.test(rhtml) && !/<script/.test(WB.renderResearch(WB.research(m, { comps: [{ name: '<script>x</script>', kind: 'market', rents: {}, checked: '2026-10-01', source: 'https://example.org/"><script>' }] }, null, '2026-10-22'))), 'names and links are escaped');
 { const src = read('js/whitepaper/deal-workbook.js');
-  ok(/lat != null \|\| lon != null \?/.test(src) && /\(rec\.site\.lat == null\) !== \(rec\.site\.lon == null\)/.test(src), 'a longitude entered alone is kept and the save asks for both coordinates');
+  ok(/lat != null \|\| lon != null \?/.test(src), 'a longitude entered alone is kept with the site (the save then refuses it; see the coordinate checks below)');
   ok(/c\.units != null && !\(c\.units >= 0 && c\.units === Math\.floor\(c\.units\)\)/.test(src), 'a comparable home count must be a whole number, zero or more'); }
 ok(WB.MARKET_API === '/api/deal-market', 'research is saved to the private backend');
 
@@ -745,6 +745,55 @@ ok(sl.balloon == null && sl.balance15 === 3100000 && !/matures in year 10/.test(
     ok(zero.posts === 0 && /more than \$0/.test(zero.msg) && zero.kept === '0', 'a $0 survey rent is refused before saving, with the entry left in place');
     ok(noSrc.posts === 0 && /source link/.test(noSrc.msg) && noSrc.kept === '1400', 'survey figures without a source link are refused before saving, with the entries left in place');
     ok(savedOnce === 1, 'a survey with a positive rent and a source link saves');
+  }
+  // The editor opens once the saved research answers, without waiting on CHFA's property list (#2480).
+  {
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const saved = globalThis.fetch; let release;
+    const held = new Promise((r) => { release = r; });
+    globalThis.fetch = (u) => /deal-market/.test(String(u))
+      ? Promise.resolve({ ok: true, json: () => Promise.resolve({ data: { site: { address: '1 Deal A Way', lat: 37.3, lon: -107.9 }, comps: [] } }) })
+      : held.then(() => ({ ok: true, json: () => Promise.resolve({ features: [{ geometry: { coordinates: [-107.9, 37.31] }, properties: { PROJECT: 'Near Place', LI_UNITS: 40 } }] }) }));
+    WB.researchEditor({ getElementById: el }, 'deal-a', WB.build(fixture(), rules), () => {}, () => true);
+    await new Promise((r) => setTimeout(r, 30));
+    const early = { save: el('wbResSave').disabled, view: el('wbResView').innerHTML };
+    release(); await new Promise((r) => setTimeout(r, 30));
+    globalThis.fetch = saved;
+    const failedView = WB.renderResearch(WB.research(WB.build(fixture(), rules), { site: { address: '1 Deal A Way', lat: 37.3, lon: -107.9 }, comps: [] }, null, new Date().toISOString().slice(0, 10)));
+    ok(early.save === false, 'the research editor opens while the property list is still loading');
+    ok(early.view !== '' && early.view !== failedView, 'a property list still on its way is not shown as one that failed to load');
+    ok(el('wbResView').innerHTML.includes('Near Place'), 'nearby tax credit properties are drawn in when the list arrives');
+  }
+  // Coordinates: both or neither, and on the globe, for the site and each comparable.
+  {
+    const els = {}, el = (id) => els[id] || (els[id] = { id, innerHTML: '', textContent: '', value: '', hidden: true, querySelectorAll: () => [], handlers: {}, addEventListener(t, f) { this.handlers[t] = f; } });
+    const saved = globalThis.fetch; let posts = 0;
+    globalThis.fetch = (u, o) => { if (o && o.method === 'POST') { posts++; return Promise.resolve({ ok: true, json: () => Promise.resolve({ data: {}, at: 0 }) }); }
+      return Promise.resolve({ ok: true, json: () => Promise.resolve(/deal-market/.test(String(u)) ? { data: null } : { features: [] }) }); };
+    WB.researchEditor({ getElementById: el }, 'deal-a', WB.build(fixture(), rules), () => {}, () => true);
+    await new Promise((r) => setTimeout(r, 30));
+    // Add clears the form on success, so a refused comparable is one whose entries are still in place.
+    const comps = () => (el('wbResView').innerHTML.match(/data-del-comp=/g) || []).length;
+    const add = (lat, lon) => {
+      const before = comps();
+      el('wbCName').value = 'Comp'; el('wbCKind').value = 'market'; el('wbCChecked').value = '2026-11-05'; el('wbCSrc').value = ['https:', '', 'example.org', 'c'].join('/');
+      el('wbCLat').value = lat; el('wbCLon').value = lon; el('wbCAdd').handlers.click();
+      return { added: comps() - before, kept: el('wbCLat').value === lat && el('wbCLon').value === lon, said: el('wbResStatus').textContent !== '' };
+    };
+    const refused = (r) => r.added === 0 && r.kept && r.said;
+    ok(refused(add('39.7', '')), 'a comparable with a latitude and no longitude is refused at Add, entries kept');
+    ok(refused(add('', '-104.9')), 'a comparable with a longitude and no latitude is refused at Add, entries kept');
+    ok(refused(add('139.7', '-104.9')), 'a comparable latitude off the globe is refused at Add, entries kept');
+    ok(refused(add('39.7', '-204.9')), 'a comparable longitude off the globe is refused at Add, entries kept');
+    const good = add('39.7', '-104.9');
+    ok(good.added === 1 && el('wbCLat').value === '', 'sabotage check: a comparable with a full, in-range pair is added, so the refusals above are not a broken Add');
+    const trySite = (lat, lon) => { el('wbSiteLat').value = lat; el('wbSiteLon').value = lon; el('wbResSave').handlers.click(); return { posts, kept: el('wbSiteLat').value === lat && el('wbSiteLon').value === lon }; };
+    const s1 = trySite('', '-104.9'), s2 = trySite('95', '-104.9'), s3 = trySite('39.7', '-180.5');
+    await new Promise((r) => setTimeout(r, 30));
+    globalThis.fetch = saved;
+    ok(s1.posts === 0 && s1.kept, 'a site longitude without a latitude is refused before saving, entries kept');
+    ok(s2.posts === 0 && s2.kept, 'a site latitude off the globe is refused before saving, entries kept');
+    ok(s3.posts === 0 && s3.kept, 'a site longitude off the globe is refused before saving, entries kept');
   }
 }
 const highNoRows = mut0((s) => { s.result.projection.rows = []; s.result.costBasis.underwriting = { high: { firstYear: 1.45, exceeds: true } }; });
